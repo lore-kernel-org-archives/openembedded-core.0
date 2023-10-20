@@ -1,191 +1,437 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78545C001DF
-	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 12:53:18 +0000 (UTC)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
- by mx.groups.io with SMTP id smtpd.web11.53585.1697806390096848640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E112CDB474
+	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 12:58:08 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.53501.1697806685328746215
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 05:53:10 -0700
+ Fri, 20 Oct 2023 05:58:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nUpOOs3W;
- spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7a667f3f5c0so27295939f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 05:53:10 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=AdEirlCT;
+ spf=pass (domain: baylibre.com, ip: 209.85.208.51, mailfrom: jstephan@baylibre.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-53e855d7dacso1185217a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 05:58:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697806389; x=1698411189; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1697806683; x=1698411483; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=moavlk6YRHtKspsdtvWRNvgZw9RW3WZhaJrL4DoIz/A=;
-        b=nUpOOs3WfXfoQE6q9I8hjuYZ5zSoe24o9885WKWTX8rIOOlHozz+WDs+j4vT2kAynn
-         rIQjd9C6d+BH4v40F7gkuSqxaMyIs8/7ujDC93hpdXgdbsh0dCIXnNIFVB+NyZ4d3OM5
-         uaZAJRjMT6i3iaCWaj0zOD19CUMayhPqEyq3JtANsixJE81UJukPNXXhSPvDOE4Rq343
-         4XbuNBgnLcOPMPfs5+RtrTV6WN3i49H1WZb9f64wH3pazOx62IvpAjbffGlj55fM4Gtz
-         8WOb65SHeOqwbNdMdkI4jeiGHRYnFlkCQhb6FUpxo8x/lL7d7I5pHBtSJe2IJnZCz5PG
-         Z/ow==
+        bh=Fw2JWCrt+beyHX/Id3mdgM0qb98SsuY82x11GPIPEn4=;
+        b=AdEirlCTBnkFZA4HKOlehwtF8JMPhpRg2Fde0da1d8mMq4+uBkYTkCmeT+DuAeDQMt
+         SEuH1Fyl4oqs2eeB80POacuFOi1vmSGglA9gjEe4++qp/ODWBOnsLWRHwKl034iyISct
+         RJZY6OtOuMpQr2WwilHffUDQdayM1yGAyoaGrZRtleKxSYdQowEXsgvfQBrLZch4+0gD
+         zqeReO+FH+R0IF6j0DCV8qu0ZOT/A9dNlbSLFcY1lfWktSSxSIHod6/4FuWAwxqO39cv
+         VTxyp1ajPB+xFH0HgNjX3PcUacIn+iITZBnYVok4t5mHGUUtJlJceCNIH56yvjlDaynp
+         knjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697806389; x=1698411189;
+        d=1e100.net; s=20230601; t=1697806683; x=1698411483;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=moavlk6YRHtKspsdtvWRNvgZw9RW3WZhaJrL4DoIz/A=;
-        b=YySF2WYMtEbqdlKtI/MDa6QvCtYAik1IxXDjyH4XSnR/5RABrTeElVS7gdP0OZ7DwU
-         AlqrhZ7r0fvM9thKvDR+WBS75fjZ81x9dWVZ+OXdCd7BXvWGIsWq/hiKuAoyen0yqQof
-         7N/asOOBnka+OWKm5Dc+/H1LFynEfu5eQhdqfY+Ca8LF/9vEWsONCfjOzdRArXnomAl6
-         826zvdwPuWq+K8/zanbVt2ghgwrUYcT9BAspeLpAF8ikNm7y/NwNFFTp4bVNdjIrINVK
-         /SW6MVOHwC1hUa6WgMS+AUWTjVmXUa5pp7GH1MxVVBpfY6tTzvfDJu0HHqXzpxHogrOS
-         qi7w==
-X-Gm-Message-State: AOJu0Yxddi6+VmZPY0yewh2e7hDrWaBjJhj/+GMbLMD/vJuDBupN5NGI
-	6RV6cUV0mp+SwCjdf893Cy2ctEoqqYwiElLv+dI=
-X-Google-Smtp-Source: AGHT+IHC7hhXM8iOqszNjYqTZYg7lcL4c1IHbbxTQjC0etd4ppodxXEafU6LHcXyMmW7wjDZJTm/LTzAwlHRCfk+06Y=
-X-Received: by 2002:a05:6602:2c83:b0:790:bc17:1c63 with SMTP id
- i3-20020a0566022c8300b00790bc171c63mr2227093iow.1.1697806389206; Fri, 20 Oct
- 2023 05:53:09 -0700 (PDT)
+        bh=Fw2JWCrt+beyHX/Id3mdgM0qb98SsuY82x11GPIPEn4=;
+        b=gpQGpENt6SOsJJlijrL1J6+JH0hUMgqCk+9/5kOLIe0TRV7L7l/HLeR6ls4IUqbSo2
+         g1Ks2GDJhZiMtcqOD6lHuIUhL87H3VAKTYdHFTbW5IkDftX5e8zRzWp8pOR2tSvvses+
+         kuJHVRtGFo4CJlG5dwWdt4WrrfCupUFVXKNbIfVAtlkW5UXNUIJJrCaxVySmJmNEWL6x
+         mB6mpeua4bK6YdnUE9BKWjZ6R5uFW+T0AiKD7LMywVIDhKkSQx9kzDALSSlHV37G1WWn
+         6WG6SUtqbsd3Fvs3PygLEF2lF7aNpzLkA2uQvUSnUj4EqCuhJtBaZQxkE3h7QHw3SKte
+         7hLQ==
+X-Gm-Message-State: AOJu0YzwVk+5aG3/1yPAsiJupGvApWAhlby0+aQz5VZWLzMfWeE3HM5o
+	90afY3WE55PGLxTPPPxjLfouLYPqUI5VYgKE3DrHsA==
+X-Google-Smtp-Source: AGHT+IGAKyZNsxg4xvKtFuMlclrKmvS8tjhZbFjH4iVDXO3vWPwrfgXmjn/O3P4TvRyi4PTFRyGp1s7M1wdhqIxPUqM=
+X-Received: by 2002:a50:ab4f:0:b0:53e:34c5:fc14 with SMTP id
+ t15-20020a50ab4f000000b0053e34c5fc14mr1375114edc.23.1697806683059; Fri, 20
+ Oct 2023 05:58:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231019123202.2195576-1-rasmus.villemoes@prevas.dk>
- <a56768bd90877ba40e6856e1324e2ded90b62201.camel@linuxfoundation.org>
- <1603003d-f5a4-4293-88f0-4b1ea006404b@prevas.dk> <64a231dc3d22dfd4eb33ac10f107997dfc7477f6.camel@linuxfoundation.org>
- <ed261cdd-e97f-446a-97ee-f19e16d54aa2@prevas.dk> <c7ac9c5d66b59e6dfac098ae236847dd7d625a1c.camel@linuxfoundation.org>
- <ea0f9ae6-a9bd-400e-ae08-953055f4e927@prevas.dk>
-In-Reply-To: <ea0f9ae6-a9bd-400e-ae08-953055f4e927@prevas.dk>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 20 Oct 2023 08:52:58 -0400
-Message-ID: <CADkTA4OBb3Us37Cg3VvpwYDy5dai5Q-_+JAoV7a0KZ-jM8ziOA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] perf: lift TARGET_CC_ARCH modification out of security_flags.inc
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
+References: <20231019073653.1280730-1-jstephan@baylibre.com>
+ <20231019073653.1280730-4-jstephan@baylibre.com> <202310191349040c7271da@mail.local>
+ <CAEHHSvb3xuimjwfStOW84f-L8DJNaV_53dKHK8F4fHSX_OD2FQ@mail.gmail.com> <202310191834102ba91f1a@mail.local>
+In-Reply-To: <202310191834102ba91f1a@mail.local>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Fri, 20 Oct 2023 14:57:52 +0200
+Message-ID: <CAEHHSvbfrH_2AtZP38wKxEWfwiQA6LCbswsKsOtv_R-HvCyihw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 4/4] scripts:recipetool:create_buildsys_python:
+ add PEP517 support
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 12:53:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189524
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 12:58:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189525
 
-On Fri, Oct 20, 2023 at 7:19=E2=80=AFAM Rasmus Villemoes
-<rasmus.villemoes@prevas.dk> wrote:
+Le jeu. 19 oct. 2023 =C3=A0 20:34, Alexandre Belloni
+<alexandre.belloni@bootlin.com> a =C3=A9crit :
 >
-> On 20/10/2023 12.13, Richard Purdie wrote:
-> > On Fri, 2023-10-20 at 12:03 +0200, Rasmus Villemoes wrote:
-> >> On 20/10/2023 11.38, Richard Purdie wrote:
-> >>> On Fri, 2023-10-20 at 10:10 +0200, Rasmus Villemoes wrote:
-> >>>> On 19/10/2023 14.48, Richard Purdie wrote:
-> >>
-> >>>>> The fact this works suggests perf is ignoring TARGET_CFLAGS. Is the=
-re
-> >>>>> anything in the perf build system where we should be passing in cfl=
-ags
-> >>>>> we really want used?
-> >>>>
-> >>>> Well, IIUC, the normal way TARGET_CFLAGS would take effect is via th=
-e
-> >>>> 'export CFLAGS =3D "${TARGET_CFLAGS}'. But in the perf recipe, both
-> >>>> do_compile and do_install start with
-> >>>>
-> >>>>         # Linux kernel build system is expected to do the right thin=
-g
-> >>>>         unset CFLAGS
-> >>>>
-> >>>> And perf's build system does indeed add lots of flags of its own, at
-> >>>> least for most TUs, but nowhere is any -f(macro/debug/file)-prefix b=
-eing
-> >>>> set.
-> >>>>
-> >>>> So I do think that TARGET_CC_ARCH is the best place for flags that w=
-e
-> >>>> really want used. At least as an initial step, because this is known=
- to
-> >>>> work when using the security_flags.inc file. Maybe there's some clea=
-ner
-> >>>> way where we don't unset CFLAGS, but that could be a giant can of wo=
-rms.
-> >>>>
-> >>>> And yes, a comment should be added. Is something like
-> >>>>
-> >>>> # Perf's build system adds its own optimization flags for most TUs,
-> >>>> # overriding the flags included here. But for some, perf does not ad=
-d
-> >>>> # any -O option, so ensure the distro's chosen optimization gets use=
-d
-> >>>> # for those. Since ${SELECTED_OPTIMIZATION} always includes
-> >>>> # ${DEBUG_FLAGS} which in turn includes ${DEBUG_PREFIX_MAP}, this al=
-so
-> >>>> # ensures perf is built with appropriate -f*-prefix-map options,
-> >>>> # avoiding the 'buildpaths' QA warning.
-> >>>>
-> >>>> too verbose?
-> >>>
-> >>> If it were me I'd probably write:
-> >>>
-> >>> # The perf makefile has "unset CFLAGS" as "Linux kernel build system =
-is
-> >>> # expected to do the right thing".
-> >>
-> >> It's not the perf makefile, it's right there in our recipe itself. I
-> >> don't think upstream perf is to blame.
+> On 19/10/2023 20:20:33+0200, Julien Stephan wrote:
+> > Le jeu. 19 oct. 2023 =C3=A0 15:49, Alexandre Belloni
+> > <alexandre.belloni@bootlin.com> a =C3=A9crit :
+> > >
+> > > Hello,
+> > >
+> > > On 19/10/2023 09:36:53+0200, Julien Stephan wrote:
+> > > > add support for PEP517 [1]
+> > > >
+> > > > if a pyproject.toml file is found, use it to create the recipe,
+> > > > otherwise fallback to the old setup.py method.
+> > > >
+> > > > [YOCTO #14737]
+> > > >
+> > > > [1]: https://peps.python.org/pep-0517/
+> > > >
+> > > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > > > ---
+> > > >  .../lib/recipetool/create_buildsys_python.py  | 234 ++++++++++++++=
++++-
+> > > >  1 file changed, 233 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scr=
+ipts/lib/recipetool/create_buildsys_python.py
+> > > > index 69f6f5ca511..0b601d50a4b 100644
+> > > > --- a/scripts/lib/recipetool/create_buildsys_python.py
+> > > > +++ b/scripts/lib/recipetool/create_buildsys_python.py
+> > > > @@ -18,6 +18,7 @@ import os
+> > > >  import re
+> > > >  import sys
+> > > >  import subprocess
+> > > > +import toml
+> > >
+> > > This fails on the autobuilders because we don't have the toml module =
+installed so I guess you need to add a dependency.
+> > >
 > >
-> > Sorry, I misunderstood. I thought this was the perf environment that
-> > was doing this so in that case your comment does make much more sense
-> > than mine.
+> > Hello,
+> >
+> > Sure I 'll do it. Just to confirm, I should add it here:
+> > https://docs.yoctoproject.org/ref-manual/system-requirements.html#requi=
+red-packages-for-the-build-host
+> > ?
 >
-> OK. Bruce, should I resend?
-
-Yes, let's go for a resend with the comment added. If we can avoid even som=
-e of
-the pain wondering about this again .. our future selves will thank us :)
-
->
-> > Out of interest did you see what happens if you allow our CFLAGS in and
-> > remove that unset?
->
-> I don't think I've tried that, but I've tried a few other things that I
-> thought would be cleaner but which then exploded, so in the end I
-> decided that just lifting exactly what the poky distro does should be
-> safest and have the highest likelyhood of being accepted.
-
-This is not directed at Rasmus, but a general comment ..
-
-For pretty much anything kernel, and perf has always strongly been in
-that category, we've always unset everything and allowed the Makefiles
-(and the nested mess of tests, includes and trickery) to set their own
-flags. It has saved subtle runtime issues and this is one area that the
-developers tend to know what they are doing.
-
-When there's a chance to append, they've give us a variable to do so,
-that's why we've always used EXTRA_CFLAGS, and that likely is the
-right place to use here as well. But even then, we shouldn't pass ALL of
-our flags in there, just what we think needs to be in addition to the
-perf generated set of CFLAGS.
-
-Bruce
-
->
-> > I also wondered if EXTRA_CFLAGS in EXTRA_OEMAKE
-> > might be an option?
->
-> Based on quick reading of perf build documentation, yes, EXTRA_CFLAGS
-> seems like a reasonable approach. What I'm a little worried about is the
-> TUs where perf apparently does not by itself add all its cflags (-O6 and
-> whatnot), so I'm not sure if they would be built with what is passed via
-> EXTRA_CFLAGS.
->
-> I will experiment sometime next week if I remember and nothing else
-> preempts that plan.
->
-> > I'm a bit worried that the current situation all feels a little
-> > fragile.
->
-> Agree. But the QA checks do help quite a lot here.
->
-> Rasmus
+> I guess the preferred way would be to depend on python3-toml-native
+> instead of requiring installation on the host.
 >
 
+Hi Alexandre,
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+How am I supposed to do that for a script? Is that even possible? Am I
+missing something obvious?
+
+Cheers
+Julien
+
+> >
+> > Cheers
+> > Julien
+> >
+> > > >  from recipetool.create import RecipeHandler
+> > > >
+> > > >  logger =3D logging.getLogger('recipetool')
+> > > > @@ -656,6 +657,235 @@ class PythonSetupPyRecipeHandler(PythonRecipe=
+Handler):
+> > > >
+> > > >          handled.append('buildsystem')
+> > > >
+> > > > +class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+> > > > +    """Base class to support PEP517 and PEP518
+> > > > +
+> > > > +    PEP517 https://peps.python.org/pep-0517/#source-trees
+> > > > +    PEP518 https://peps.python.org/pep-0518/#build-system-table
+> > > > +    """
+> > > > +
+> > > > +    # PEP621: https://packaging.python.org/en/latest/specification=
+s/declaring-project-metadata/
+> > > > +    # add only the ones that map to a BB var
+> > > > +    # potentially missing: optional-dependencies
+> > > > +    bbvar_map =3D {
+> > > > +        "name": "PN",
+> > > > +        "version": "PV",
+> > > > +        "Homepage": "HOMEPAGE",
+> > > > +        "description": "SUMMARY",
+> > > > +        "license": "LICENSE",
+> > > > +        "dependencies": "RDEPENDS:${PN}",
+> > > > +        "requires": "DEPENDS",
+> > > > +    }
+> > > > +
+> > > > +    replacements =3D [
+> > > > +        ("license", r" +$", ""),
+> > > > +        ("license", r"^ +", ""),
+> > > > +        ("license", r" ", "-"),
+> > > > +        ("license", r"^GNU-", ""),
+> > > > +        ("license", r"-[Ll]icen[cs]e(,?-[Vv]ersion)?", ""),
+> > > > +        ("license", r"^UNKNOWN$", ""),
+> > > > +        # Remove currently unhandled version numbers from these va=
+riables
+> > > > +        ("requires", r"\[[^\]]+\]$", ""),
+> > > > +        ("requires", r"^([^><=3D ]+).*", r"\1"),
+> > > > +        ("dependencies", r"\[[^\]]+\]$", ""),
+> > > > +        ("dependencies", r"^([^><=3D ]+).*", r"\1"),
+> > > > +    ]
+> > > > +
+> > > > +    build_backend_map =3D {
+> > > > +        "setuptools.build_meta": "python_setuptools_build_meta",
+> > > > +        "poetry.core.masonry.api": "python_poetry_core",
+> > > > +        "flit_core.buildapi": "python_flit_core",
+> > > > +    }
+> > > > +
+> > > > +    excluded_native_pkgdeps =3D [
+> > > > +        # already provided by python_setuptools_build_meta.bbclass
+> > > > +        "python3-setuptools-native",
+> > > > +        "python3-wheel-native",
+> > > > +        # already provided by python_poetry_core.bbclass
+> > > > +        "python3-poetry-core-native",
+> > > > +        # already provided by python_flit_core.bbclass
+> > > > +        "python3-flit-core-native",
+> > > > +    ]
+> > > > +
+> > > > +    # add here a list of known and often used packages and the cor=
+responding bitbake package
+> > > > +    known_deps_map =3D {
+> > > > +        "setuptools": "python3-setuptools",
+> > > > +        "wheel": "python3-wheel",
+> > > > +        "poetry-core": "python3-poetry-core",
+> > > > +        "flit_core": "python3-flit-core",
+> > > > +        "setuptools-scm": "python3-setuptools-scm",
+> > > > +    }
+> > > > +
+> > > > +    def __init__(self):
+> > > > +        pass
+> > > > +
+> > > > +    def process(self, srctree, classes, lines_before, lines_after,=
+ handled, extravalues):
+> > > > +        info =3D {}
+> > > > +
+> > > > +        if 'buildsystem' in handled:
+> > > > +            return False
+> > > > +
+> > > > +        # Check for non-zero size setup.py files
+> > > > +        setupfiles =3D RecipeHandler.checkfiles(srctree, ["pyproje=
+ct.toml"])
+> > > > +        for fn in setupfiles:
+> > > > +            if os.path.getsize(fn):
+> > > > +                break
+> > > > +        else:
+> > > > +            return False
+> > > > +
+> > > > +        setupscript =3D os.path.join(srctree, "pyproject.toml")
+> > > > +
+> > > > +        try:
+> > > > +            config =3D self.parse_pyproject_toml(setupscript)
+> > > > +            build_backend =3D config["build-system"]["build-backen=
+d"]
+> > > > +            if build_backend in self.build_backend_map:
+> > > > +                classes.append(self.build_backend_map[build_backen=
+d])
+> > > > +            else:
+> > > > +                logger.error(
+> > > > +                    "Unsupported build-backend: %s, cannot use pyp=
+roject.toml. Will try to use legacy setup.py"
+> > > > +                    % build_backend
+> > > > +                )
+> > > > +                return False
+> > > > +
+> > > > +            licfile =3D ""
+> > > > +            if "project" in config:
+> > > > +                for field, values in config["project"].items():
+> > > > +                    if field =3D=3D "license":
+> > > > +                        value =3D values.get("text", "")
+> > > > +                        if not value:
+> > > > +                            licfile =3D values.get("file", "")
+> > > > +                    elif isinstance(values, dict):
+> > > > +                        for k, v in values.items():
+> > > > +                            info[k] =3D v
+> > > > +                        continue
+> > > > +                    else:
+> > > > +                        value =3D values
+> > > > +
+> > > > +                    info[field] =3D value
+> > > > +
+> > > > +            # Grab the license value before applying replacements
+> > > > +            license_str =3D info.get("license", "").strip()
+> > > > +
+> > > > +            if license_str:
+> > > > +                for i, line in enumerate(lines_before):
+> > > > +                    if line.startswith("##LICENSE_PLACEHOLDER##"):
+> > > > +                        lines_before.insert(
+> > > > +                            i, "# NOTE: License in pyproject.toml =
+is: %s" % license_str
+> > > > +                        )
+> > > > +                        break
+> > > > +
+> > > > +            info["requires"] =3D config["build-system"]["requires"=
+]
+> > > > +
+> > > > +            self.apply_info_replacements(info)
+> > > > +
+> > > > +            if "classifiers" in info:
+> > > > +                license =3D self.handle_classifier_license(
+> > > > +                    info["classifiers"], info.get("license", "")
+> > > > +                )
+> > > > +                if license:
+> > > > +                    if licfile:
+> > > > +                        lines =3D []
+> > > > +                        md5value =3D bb.utils.md5_file(os.path.joi=
+n(srctree, licfile))
+> > > > +                        lines.append('LICENSE =3D "%s"' % license)
+> > > > +                        lines.append(
+> > > > +                            'LIC_FILES_CHKSUM =3D "file://%s;md5=
+=3D%s"'
+> > > > +                            % (licfile, md5value)
+> > > > +                        )
+> > > > +                        lines.append("")
+> > > > +
+> > > > +                        # Replace the placeholder so we get the va=
+lues in the right place in the recipe file
+> > > > +                        try:
+> > > > +                            pos =3D lines_before.index("##LICENSE_=
+PLACEHOLDER##")
+> > > > +                        except ValueError:
+> > > > +                            pos =3D -1
+> > > > +                        if pos =3D=3D -1:
+> > > > +                            lines_before.extend(lines)
+> > > > +                        else:
+> > > > +                            lines_before[pos : pos + 1] =3D lines
+> > > > +
+> > > > +                        handled.append(("license", [license, licfi=
+le, md5value]))
+> > > > +                    else:
+> > > > +                        info["license"] =3D license
+> > > > +
+> > > > +            provided_packages =3D self.parse_pkgdata_for_python_pa=
+ckages()
+> > > > +            provided_packages.update(self.known_deps_map)
+> > > > +            native_mapped_deps, native_unmapped_deps =3D set(), se=
+t()
+> > > > +            mapped_deps, unmapped_deps =3D set(), set()
+> > > > +
+> > > > +            if "requires" in info:
+> > > > +                for require in info["requires"]:
+> > > > +                    mapped =3D provided_packages.get(require)
+> > > > +
+> > > > +                    if mapped:
+> > > > +                        logger.error("Mapped %s to %s" % (require,=
+ mapped))
+> > > > +                        native_mapped_deps.add(mapped)
+> > > > +                    else:
+> > > > +                        logger.error("Could not map %s" % require)
+> > > > +                        native_unmapped_deps.add(require)
+> > > > +
+> > > > +                info.pop("requires")
+> > > > +
+> > > > +                if native_mapped_deps !=3D set():
+> > > > +                    native_mapped_deps =3D {
+> > > > +                        item + "-native" for item in native_mapped=
+_deps
+> > > > +                    }
+> > > > +                    native_mapped_deps -=3D set(self.excluded_nati=
+ve_pkgdeps)
+> > > > +                    if native_mapped_deps !=3D set():
+> > > > +                        info["requires"] =3D " ".join(sorted(nativ=
+e_mapped_deps))
+> > > > +
+> > > > +                if native_unmapped_deps:
+> > > > +                    lines_after.append("")
+> > > > +                    lines_after.append(
+> > > > +                        "# WARNING: We were unable to map the foll=
+owing python package/module"
+> > > > +                    )
+> > > > +                    lines_after.append(
+> > > > +                        "# dependencies to the bitbake packages wh=
+ich include them:"
+> > > > +                    )
+> > > > +                    lines_after.extend(
+> > > > +                        "#    {}".format(d) for d in sorted(native=
+_unmapped_deps)
+> > > > +                    )
+> > > > +
+> > > > +            if "dependencies" in info:
+> > > > +                for dependency in info["dependencies"]:
+> > > > +                    mapped =3D provided_packages.get(dependency)
+> > > > +                    if mapped:
+> > > > +                        logger.error("Mapped %s to %s" % (dependen=
+cy, mapped))
+> > > > +                        mapped_deps.add(mapped)
+> > > > +                    else:
+> > > > +                        logger.error("Could not map %s" % dependen=
+cy)
+> > > > +                        unmapped_deps.add(dependency)
+> > > > +
+> > > > +                info.pop("dependencies")
+> > > > +
+> > > > +                if mapped_deps !=3D set():
+> > > > +                    if mapped_deps !=3D set():
+> > > > +                        info["dependencies"] =3D " ".join(sorted(m=
+apped_deps))
+> > > > +
+> > > > +                if unmapped_deps:
+> > > > +                    lines_after.append("")
+> > > > +                    lines_after.append(
+> > > > +                        "# WARNING: We were unable to map the foll=
+owing python package/module"
+> > > > +                    )
+> > > > +                    lines_after.append(
+> > > > +                        "# runtime dependencies to the bitbake pac=
+kages which include them:"
+> > > > +                    )
+> > > > +                    lines_after.extend(
+> > > > +                        "#    {}".format(d) for d in sorted(unmapp=
+ed_deps)
+> > > > +                    )
+> > > > +
+> > > > +            self.map_info_to_bbvar(info, extravalues)
+> > > > +
+> > > > +            handled.append("buildsystem")
+> > > > +        except Exception:
+> > > > +            logger.exception("Failed to parse pyproject.toml")
+> > > > +            return False
+> > > > +
+> > > > +    def parse_pyproject_toml(self, setupscript):
+> > > > +        with open(setupscript, "r") as f:
+> > > > +            config =3D toml.load(f)
+> > > > +        return config
+> > > > +
+> > > > +
+> > > >  def gather_setup_info(fileobj):
+> > > >      parsed =3D ast.parse(fileobj.read(), fileobj.name)
+> > > >      visitor =3D SetupScriptVisitor()
+> > > > @@ -769,5 +999,7 @@ def has_non_literals(value):
+> > > >
+> > > >
+> > > >  def register_recipe_handlers(handlers):
+> > > > -    # We need to make sure this is ahead of the makefile fallback =
+handler
+> > > > +    # We need to make sure these are ahead of the makefile fallbac=
+k handler
+> > > > +    # and the pyproject.toml handler ahead of the setup.py handler
+> > > > +    handlers.append((PythonPyprojectTomlRecipeHandler(), 75))
+> > > >      handlers.append((PythonSetupPyRecipeHandler(), 70))
+> > > > --
+> > > > 2.42.0
+> > > >
+> > >
+> > > >
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > Links: You receive all messages sent to this group.
+> > > > View/Reply Online (#189431): https://lists.openembedded.org/g/opene=
+mbedded-core/message/189431
+> > > > Mute This Topic: https://lists.openembedded.org/mt/102055999/361717=
+9
+> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/uns=
+ub [alexandre.belloni@bootlin.com]
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > >
+> > >
+> > >
+> > > --
+> > > Alexandre Belloni, co-owner and COO, Bootlin
+> > > Embedded Linux and Kernel engineering
+> > > https://bootlin.com
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
