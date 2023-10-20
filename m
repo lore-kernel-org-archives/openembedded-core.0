@@ -1,392 +1,216 @@
-Return-Path: <sdoshi@mvista.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B68CDB474
-	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 08:10:26 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.49905.1697789416746070531
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C639ACDB474
+	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 08:29:06 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.50098.1697790538721769115
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 01:10:16 -0700
+ Fri, 20 Oct 2023 01:28:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=kaUZ25VO;
- spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: sdoshi@mvista.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1caa371dcd8so4011035ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 01:10:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1697789416; x=1698394216; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UBSJQL6QGR6SYDEIreaLOt8Ri4hu93KUf+5SMh//Mv4=;
-        b=kaUZ25VOu0kqjhy66fv1mIYiu2TxHVwNhk+LHMnp/ZQj3ijq3XJOBlQaUlWpdRo/Sm
-         xDEZCNiOvRnlKNdCnbbwb/SFHiEUC1Qv8IqOsthndatFW40fZ/lU9CMmGpW0yNlbNldw
-         zFXYyT1w2OHAKe+wGJUbcCBu0bWBbFU2wfzbo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697789416; x=1698394216;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UBSJQL6QGR6SYDEIreaLOt8Ri4hu93KUf+5SMh//Mv4=;
-        b=EXhKl6uYK5TfDppncIIy7Ko2+VenJzrTbBSlwYenpTLtAe8kEC69VXrBHVXAGEY+Ap
-         uGUZ9EaZAtsCpvV8udn89xSEgvoEiNTZrOEyXehqMYmUJS+OcazDfDMZCcv76VHl2Ou/
-         6MHDFD3jpdwgRPdYksbxUtCm4LCZzBPKsEMOY6foq1fUlxwU54MoAdSpxmM4A5S5qwBb
-         5a1hv2oor7AEaBomBORz8TgDV9Nzf3MNCb4nP1IVOokFzaH8gEafhJGnhQGrfk+tmUqw
-         JTQD2KLBtJamVTzGpzklO76KSlX2EJbpscxRGkrW12IDtMqqWYxfeCBavCT1YM9S0JVY
-         MhhA==
-X-Gm-Message-State: AOJu0Yz3uTfvGIVrte++rQ9r+2uAtyeCld9Jy8yhjt4cbwaVo/ygaBcb
-	n8UnddJOu7lhM3yYQ2XcVceXEY6s2rqpweA2T4DXSA==
-X-Google-Smtp-Source: AGHT+IGNqICQ0cgOqMl08/gmTC24fgNEmWNl/xt3cmpnq1Z3PzgN3ue0PDfuD+qw58B9E5IyCGzRiw==
-X-Received: by 2002:a17:90a:c257:b0:27d:3260:9142 with SMTP id d23-20020a17090ac25700b0027d32609142mr1145161pjx.45.1697789415350;
-        Fri, 20 Oct 2023 01:10:15 -0700 (PDT)
-Received: from siddharth-latitude-3420.mvista.com ([157.32.46.237])
-        by smtp.gmail.com with ESMTPSA id pd11-20020a17090b1dcb00b0027cf7818fb6sm2774985pjb.37.2023.10.20.01.10.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 01:10:14 -0700 (PDT)
-From: Siddharth <sdoshi@mvista.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=865775a26a=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39K7uCdV019859
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 01:28:58 -0700
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tueut8afp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 01:28:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lvjXtVP+nsIjNqZcoQPpc+r5p4CQLUJeZlQUahKfgLdHDjxKN63auiNTGnXzQoiXJ/sXVyYE7s9f/Vt+3XGqlg9zyoa8yz9fSqy/4UpcD72XXPuLVYLBDZ6g9l1yqdtALxbIfu2+0kyOCsoTURgHr7UoxSywpTAAKyPA6K/WgXikwY4VIVwm2PRXS7xNyDULv+ZKBCC22t+bcPMHkWka80WVj97L5/ntbjvjSa1F+ODUzw2GRjbF00cU9VlNqnazl5zom1mx1MeJL/FbssK8taV1szb3loQNOBN7islCftE5vQMRSmOhnKfLe+KH3Xi1Pt3ODYWIRQU9b0JLbx1sww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=faifjvg45Pk2h1CWa00tlEUx0e4Luw7ldA/0PYqc/2c=;
+ b=gipUqfyGviHf5ULotuqWimBepG1/zFu9YIDegp4bEVrjaUvEinGKOJ6/VJ3XiTPPBPeAp69I3cZ01gmou8HI4hwo2MPqgtpKmqFCboIG9s4VnekJD/oLUPGg1WbKYINvGMeIDmc2OnXht0IDmz964dutBV9sLr2Ek242x0gvOQCrB68h94kOSmiq4XMyNVACin58CVfzWSXWEjhL0ZX42hl+OktDkL89C4jPJJ71EBnjwixVPHZOsVmuUb9Td2rLcjgq80C5U1YVUMC7Fb9RuMqvk9+Ht/rWNrK8HqP/1WspbSY/RwHevfwuoMsvzOhQ2H2JlKw2J3fCwnj5zNBMVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by DM6PR11MB4625.namprd11.prod.outlook.com (2603:10b6:5:2a8::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.25; Fri, 20 Oct
+ 2023 08:28:56 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::4e4:7eee:356e:cfb7]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::4e4:7eee:356e:cfb7%7]) with mapi id 15.20.6907.022; Fri, 20 Oct 2023
+ 08:28:55 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] libx11: Security Fix for CVE-2023-43785, CVE-2023-43786 and CVE-2023-43787
-Date: Fri, 20 Oct 2023 13:40:08 +0530
-Message-Id: <20231020081008.8821-1-sdoshi@mvista.com>
+Subject: [OE-core][master][mickledore][PATCH] grub2: fix CVE-2023-4693
+Date: Fri, 20 Oct 2023 16:28:41 +0800
+Message-Id: <20231020082841.1377923-1-xiangyu.chen@eng.windriver.com>
 X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0048.apcprd02.prod.outlook.com
+ (2603:1096:4:196::23) To MW4PR11MB5824.namprd11.prod.outlook.com
+ (2603:10b6:303:187::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|DM6PR11MB4625:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28967ebc-b3cf-4f1c-e70d-08dbd1469988
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	OoPvXfQHbmJiAAw64I0vBk8wSh6QGneuBbyv66Pr9V75SjXZWpGDk4qfHj4quIpw8PtN0Uy1xFTsgg3giP9025KiZ3lcF6VsLyX3SkSaWh/Wv/ru2DzODzJeEBc3+OeKLiBMlZJXCEZNpnXMxHddcbiLEOlCB8zjrVu3x2si1WSYwPYG3V3wq+q+dzA1/OKpF92hqvXXDD0VUaJBHEWAoPBeZTxW5REFEJKiewkNnk8YevwUAae1yT2pewS26dl7ywitpyy5YNSPMk6CaaD5IuKvVhRfTuFfb+2+4n4etEbyYl1l+WbDsiQTvZ3BPtBzJ92dp4SncdSgDfbEqS12L7vJQYfl9V7+trJm+Oyns5s9YqTic67ei5Rn9JCVwNTRdF+sGSqD2tbsooJ38v39Hej1F5oaPzVLCSPhtmFfvqDlPrKWuAdaOG/j80/8cfH7VolSmGPfBV3AsyWzNVEbUD8+BL1sZOWs9gYfWSpOfh7Oo1dX+2Acglt9JKu6qiReZx1hPD536APZ1SzgiWyD+qRuIJHBpNzJn+lnVd5yAcf2KVuEeNFf7mjPO5yRj/RuizBxJVwyRr1S4FQwBUm2bBaiD8LBGFfHxS+06ApoVIE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(346002)(366004)(39850400004)(396003)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(6512007)(1076003)(2616005)(26005)(38100700002)(52116002)(316002)(6916009)(66556008)(66476007)(38350700005)(6666004)(478600001)(83170400001)(6486002)(83380400001)(6506007)(66946007)(8936002)(8676002)(5660300002)(41300700001)(2906002)(44832011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?IzW+sS3socFpskPqKv1VQsy6PkI67MmCkuFNb3yJ3cXepipJOIzME26DcqQQ?=
+ =?us-ascii?Q?3X8xE+2JGEUCV4s37oc1GOq4mPcT3NXGgm1oi7O7bOOhQ7sudVrErtAkBoAF?=
+ =?us-ascii?Q?X/okwijHnvjmWfhyeshevcbMnGLzRd42PGIme0d5sG5CzUNZj7uOTGLWEMpz?=
+ =?us-ascii?Q?NdWv/tr59O0dffaUqhsWxjZuooGgAW6hJqInZ38ZGuOlx6IF+swZVnISbEM9?=
+ =?us-ascii?Q?4XAsDL/TiG5EnvwbAOZ2b3Kmgm7rjI/3xSIy66FjX+8y5uSFWyl+eFDVJixn?=
+ =?us-ascii?Q?iKP3UdYvXyWvjwayD6u8h3PXA7d2W7fnjjTkU1PK4U+uS2J6LUWuT37CC50g?=
+ =?us-ascii?Q?iuGLsNOeYk7eKrQytL+0t4gSpaYpA1rNDGKhEWNyqo2akZhQp6D1nNBnNdMw?=
+ =?us-ascii?Q?KkEnZbYDukpbxtlU9Oo4uHMzPzVPBFnSvtIE8bijT5HTkmK1VOtJer8FQSvy?=
+ =?us-ascii?Q?GM4QHyvHEqwsMPwEI05A6UFm4t2IHv7BRP6reNxxLGtPRU3VB54ZvMw3YWPQ?=
+ =?us-ascii?Q?01d9D/OLIvk3gWIwJQeh39RP+Gn3nEFLbk3sQMJs/nOPfn0/1N8yBQuifJiA?=
+ =?us-ascii?Q?IA6LtAFwcvoZ6criWn0yCtz3ZvNTLcwBdR12ZGUyaRgydV2U0TLviUpoNkfn?=
+ =?us-ascii?Q?GNPkll0A6T+lGNmrPecHDb6ERtzqK7cykbKjQTB9NoMjdDyu0dMt+t9OQ0KT?=
+ =?us-ascii?Q?BwdvELghhogZpeDamuLZMt2NXnhKg1sYs++K7pnH8pUUjZRsHiBUfMSFqcwd?=
+ =?us-ascii?Q?tFh3/1/uPo8gpGMDLErc2YSWnV43w/JV+Spq78xZhgCGlbYwzoc2EL4Ebg5x?=
+ =?us-ascii?Q?aSrreWJ16vRnZrpGhIhp1ZXYqRoepjWT1v8g3w+5aLuJ4ch/HcBA0DHfwIrN?=
+ =?us-ascii?Q?klgoGfVa+7zcQpLX2zsO1TGy4071azPSDsBLewyq1d/LwijE8GdKYy3UdxmR?=
+ =?us-ascii?Q?+Ig7DA0+z3Yi1g5uXsGZsyhjrovfBajKu2ZgMxl+56JIR+kt9oR0pRUdx+ab?=
+ =?us-ascii?Q?YklU0t9fGJ3IyaR5Cbm4oDHJf2M0fPj08xyXCNE6wwTY6oMXuemRUU11N362?=
+ =?us-ascii?Q?9Qjytf5BIuZQ3Hf4IWTAdcG+NlYGS4ges+baiIHqcnZX2PiL5BzInf10m9fT?=
+ =?us-ascii?Q?XdNqtU7op7yBRcyjQZRmdptIS8jLa3DdJ0Fb2yfQT86DpR23z/1zARMuEE0r?=
+ =?us-ascii?Q?A2OF3oQhFD4FtW6VC6EXxB6l2OD3E1QeMo1jogi7/68KF0oCLayezhQhxZdv?=
+ =?us-ascii?Q?3Z9fa9TWufFCBaCXPBvMA6q21P5lm8Su1Iv+mK4C2PnUGnbLOeXGB3UC7twY?=
+ =?us-ascii?Q?+v/ODykcH7Jh5y87X8WpvsgO619MjJD7bbysudkFuzUR0xg3BBtUanYMdR1S?=
+ =?us-ascii?Q?YT4hhPujm08yhzA4ESIB74jDsfqAUQ80LR/jHKBX1rZVFPsGKqrPbSVEizFe?=
+ =?us-ascii?Q?5J+df2cKMSGSBKpqcfbx5GXMbCCvOgG1kCuLMQH9E0yZZp5UQFuToss71R1O?=
+ =?us-ascii?Q?ubw+UQTMoH58dgewyoO4SwWZIawc/jjJrhzuYESTsUvHVcqt9/0GPlqnxNq2?=
+ =?us-ascii?Q?c7twfhHXisxDQ8Ki6CZqpcWHE0P4ZJq7U64zHFNCi+Qe0bwqJsT3o7Zr7UGJ?=
+ =?us-ascii?Q?TQ=3D=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28967ebc-b3cf-4f1c-e70d-08dbd1469988
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2023 08:28:55.9405
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OmI5ypYzep2Din/XiVNldkXmdp5bXE7yYsxx32WzCdOl1D07J3bI9lRASsbvGwyKOx1ZkwdayJJli1JTUc3SgvXkT0XBKrLOZKUQ0HW9+PQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4625
+X-Proofpoint-GUID: 0smD95pvfz3S834PnLGyOFyPs9mzgJtb
+X-Proofpoint-ORIG-GUID: 0smD95pvfz3S834PnLGyOFyPs9mzgJtb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-20_07,2023-10-19_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 suspectscore=0 priorityscore=1501
+ clxscore=1015 adultscore=0 impostorscore=0 malwarescore=0 mlxscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2310170000 definitions=main-2310200070
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:10:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189507
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:29:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189509
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-CVE's Fixed:
-CVE-2023-43785: libX11: out-of-bounds memory access in _XkbReadKeySyms()
-CVE-2023-43786: libX11: stack exhaustion from infinite recursion in PutSubImage()
-CVE-2023-43787: libX11: integer overflow in XCreateImage() leading to a heap overflow
+There an out-of-bounds read at fs/ntfs.c, a physically present attacker
+may leverage that by presenting a specially crafted NTFS file system
+image to read arbitrary memory locations. A successful attack may allow
+sensitive data cached in memory or EFI variables values to be leaked
+presenting a high Confidentiality risk.
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 ---
- .../xorg-lib/libx11/CVE-2023-43785.patch      | 62 ++++++++++++++++++
- .../xorg-lib/libx11/CVE-2023-43786-0001.patch | 41 ++++++++++++
- .../xorg-lib/libx11/CVE-2023-43786-0002.patch | 45 +++++++++++++
- .../xorg-lib/libx11/CVE-2023-43786-0003.patch | 51 +++++++++++++++
- .../xorg-lib/libx11/CVE-2023-43787.patch      | 63 +++++++++++++++++++
- .../xorg-lib/libx11_1.7.3.1.bb                |  5 ++
- 6 files changed, 267 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0001.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0002.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0003.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787.patch
+ .../grub/files/CVE-2023-4693.patch            | 63 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2023-4693.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch
+diff --git a/meta/recipes-bsp/grub/files/CVE-2023-4693.patch b/meta/recipes-bsp/grub/files/CVE-2023-4693.patch
 new file mode 100644
-index 0000000000..64f8776cc9
+index 0000000000..544226a9aa
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch
-@@ -0,0 +1,62 @@
-+From 6858d468d9ca55fb4c5fd70b223dbc78a3358a7f Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Sun, 17 Sep 2023 14:19:40 -0700
-+Subject: [PATCH] CVE-2023-43785: out-of-bounds memory access in
-+ _XkbReadKeySyms()
-+
-+Make sure we allocate enough memory in the first place, and
-+also handle error returns from _XkbReadBufferCopyKeySyms() when
-+it detects out-of-bounds issues.
-+
-+Reported-by: Gregory James DUCK <gjduck@gmail.com>
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport from [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/6858d468d9ca55fb4c5fd70b223dbc78a3358a7f]
-+CVE: CVE-2023-43785
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ src/xkb/XKBGetMap.c | 14 +++++++++-----
-+ 1 file changed, 9 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/xkb/XKBGetMap.c b/src/xkb/XKBGetMap.c
-+index 2891d21..31199e4 100644
-+--- a/src/xkb/XKBGetMap.c
-++++ b/src/xkb/XKBGetMap.c
-+@@ -182,7 +182,8 @@ _XkbReadKeySyms(XkbReadBufferPtr buf, XkbDescPtr xkb, xkbGetMapReply *rep)
-+             if (offset + newMap->nSyms >= map->size_syms) {
-+                 register int sz;
-+ 
-+-                sz = map->size_syms + 128;
-++                sz = offset + newMap->nSyms;
-++                sz = ((sz + (unsigned) 128) / 128) * 128;
-+                 _XkbResizeArray(map->syms, map->size_syms, sz, KeySym);
-+                 if (map->syms == NULL) {
-+                     map->size_syms = 0;
-+@@ -191,8 +192,9 @@ _XkbReadKeySyms(XkbReadBufferPtr buf, XkbDescPtr xkb, xkbGetMapReply *rep)
-+                 map->size_syms = sz;
-+             }
-+             if (newMap->nSyms > 0) {
-+-                _XkbReadBufferCopyKeySyms(buf, (KeySym *) &map->syms[offset],
-+-                                          newMap->nSyms);
-++                if (_XkbReadBufferCopyKeySyms(buf, (KeySym *) &map->syms[offset],
-++                                              newMap->nSyms) == 0)
-++                    return BadLength;
-+                 offset += newMap->nSyms;
-+             }
-+             else {
-+@@ -222,8 +224,10 @@ _XkbReadKeySyms(XkbReadBufferPtr buf, XkbDescPtr xkb, xkbGetMapReply *rep)
-+             newSyms = XkbResizeKeySyms(xkb, i + rep->firstKeySym, tmp);
-+             if (newSyms == NULL)
-+                 return BadAlloc;
-+-            if (newMap->nSyms > 0)
-+-                _XkbReadBufferCopyKeySyms(buf, newSyms, newMap->nSyms);
-++            if (newMap->nSyms > 0) {
-++                if (_XkbReadBufferCopyKeySyms(buf, newSyms, newMap->nSyms) == 0)
-++                    return BadLength;
-++            }
-+             else
-+                 newSyms[0] = NoSymbol;
-+             oldMap->kt_index[0] = newMap->ktIndex[0];
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0001.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0001.patch
-new file mode 100644
-index 0000000000..db5b7067aa
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0001.patch
-@@ -0,0 +1,41 @@
-+From 204c3393c4c90a29ed6bef64e43849536e863a86 Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Thu, 7 Sep 2023 15:54:30 -0700
-+Subject: [PATCH] CVE-2023-43786: stack exhaustion from infinite recursion in
-+ PutSubImage()
-+
-+When splitting a single line of pixels into chunks to send to the
-+X server, be sure to take into account the number of bits per pixel,
-+so we don't just loop forever trying to send more pixels than fit in
-+the given request size and not breaking them down into a small enough
-+chunk to fix.
-+
-+Fixes: "almost complete rewrite" (Dec. 12, 1987) from X11R2
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport from [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/204c3393c4c90a29ed6bef64e43849536e863a86]
-+CVE: CVE-2023-43786
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ src/PutImage.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/PutImage.c b/src/PutImage.c
-+index 857ee91..a6db7b4 100644
-+--- a/src/PutImage.c
-++++ b/src/PutImage.c
-+@@ -914,8 +914,9 @@ PutSubImage (
-+ 		    req_width, req_height - SubImageHeight,
-+ 		    dest_bits_per_pixel, dest_scanline_pad);
-+     } else {
-+-	int SubImageWidth = (((Available << 3) / dest_scanline_pad)
-+-				* dest_scanline_pad) - left_pad;
-++	int SubImageWidth = ((((Available << 3) / dest_scanline_pad)
-++                              * dest_scanline_pad) - left_pad)
-++                              / dest_bits_per_pixel;
-+ 
-+ 	PutSubImage(dpy, d, gc, image, req_xoffset, req_yoffset, x, y,
-+ 		    (unsigned int) SubImageWidth, 1,
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0002.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0002.patch
-new file mode 100644
-index 0000000000..e46b3a2b24
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0002.patch
-@@ -0,0 +1,45 @@
-+From 73a37d5f2fcadd6540159b432a70d80f442ddf4a Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Thu, 7 Sep 2023 15:55:04 -0700
-+Subject: [PATCH] XPutImage: clip images to maximum height & width allowed by
-+ protocol
-+
-+The PutImage request specifies height & width of the image as CARD16
-+(unsigned 16-bit integer), same as the maximum dimensions of an X11
-+Drawable, which the image is being copied to.
-+
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport from [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/73a37d5f2fcadd6540159b432a70d80f442ddf4a]
-+CVE: CVE-2023-43786
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ src/PutImage.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/src/PutImage.c b/src/PutImage.c
-+index a6db7b4..ba411e3 100644
-+--- a/src/PutImage.c
-++++ b/src/PutImage.c
-+@@ -30,6 +30,7 @@ in this Software without prior written authorization from The Open Group.
-+ #include "Xlibint.h"
-+ #include "Xutil.h"
-+ #include <stdio.h>
-++#include <limits.h>
-+ #include "Cr.h"
-+ #include "ImUtil.h"
-+ #include "reallocarray.h"
-+@@ -962,6 +963,10 @@ XPutImage (
-+ 	height = image->height - req_yoffset;
-+     if ((width <= 0) || (height <= 0))
-+ 	return 0;
-++    if (width > USHRT_MAX)
-++        width = USHRT_MAX;
-++    if (height > USHRT_MAX)
-++        height = USHRT_MAX;
-+ 
-+     if ((image->bits_per_pixel == 1) || (image->format != ZPixmap)) {
-+ 	dest_bits_per_pixel = 1;
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0003.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0003.patch
-new file mode 100644
-index 0000000000..2f47fe0bf2
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0003.patch
-@@ -0,0 +1,51 @@
-+From b4031fc023816aca07fbd592ed97010b9b48784b Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Thu, 7 Sep 2023 16:12:27 -0700
-+Subject: [PATCH] XCreatePixmap: trigger BadValue error for out-of-range
-+ dimensions
-+
-+The CreatePixmap request specifies height & width of the image as CARD16
-+(unsigned 16-bit integer), so if either is larger than that, set it to 0
-+so the X server returns a BadValue error as the protocol requires.
-+
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport from [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/b4031fc023816aca07fbd592ed97010b9b48784b]
-+CVE: CVE-2023-43786
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ src/CrPixmap.c | 11 +++++++++++
-+ 1 file changed, 11 insertions(+)
-+
-+diff --git a/src/CrPixmap.c b/src/CrPixmap.c
-+index cdf3120..3cb2ca6 100644
-+--- a/src/CrPixmap.c
-++++ b/src/CrPixmap.c
-+@@ -28,6 +28,7 @@ in this Software without prior written authorization from The Open Group.
-+ #include <config.h>
-+ #endif
-+ #include "Xlibint.h"
-++#include <limits.h>
-+ 
-+ #ifdef USE_DYNAMIC_XCURSOR
-+ void
-+@@ -47,6 +48,16 @@ Pixmap XCreatePixmap (
-+     Pixmap pid;
-+     register xCreatePixmapReq *req;
-+ 
-++    /*
-++     * Force a BadValue X Error if the requested dimensions are larger
-++     * than the X11 protocol has room for, since that's how callers expect
-++     * to get notified of errors.
-++     */
-++    if (width > USHRT_MAX)
-++        width = 0;
-++    if (height > USHRT_MAX)
-++        height = 0;
-++
-+     LockDisplay(dpy);
-+     GetReq(CreatePixmap, req);
-+     req->drawable = d;
-+-- 
-+2.35.7
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787.patch
-new file mode 100644
-index 0000000000..4b5cd694ab
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787.patch
++++ b/meta/recipes-bsp/grub/files/CVE-2023-4693.patch
 @@ -0,0 +1,63 @@
-+From 7916869d16bdd115ac5be30a67c3749907aea6a0 Mon Sep 17 00:00:00 2001
-+From: Yair Mizrahi <yairm@jfrog.com>
-+Date: Thu, 7 Sep 2023 16:15:32 -0700
-+Subject: [PATCH] CVE-2023-43787: Integer overflow in XCreateImage() leading to
-+ a heap overflow
++From 0ed2458cc4eff6d9a9199527e2a0b6d445802f94 Mon Sep 17 00:00:00 2001
++From: Maxim Suhanov <dfirblog@gmail.com>
++Date: Mon, 28 Aug 2023 16:32:33 +0300
++Subject: fs/ntfs: Fix an OOB read when reading data from the resident $DATA
++ attribute
 +
-+When the format is `Pixmap` it calculates the size of the image data as:
-+    ROUNDUP((bits_per_pixel * width), image->bitmap_pad);
-+There is no validation on the `width` of the image, and so this
-+calculation exceeds the capacity of a 4-byte integer, causing an overflow.
++When reading a file containing resident data, i.e., the file data is stored in
++the $DATA attribute within the NTFS file record, not in external clusters,
++there are no checks that this resident data actually fits the corresponding
++file record segment.
 +
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
++When parsing a specially-crafted file system image, the current NTFS code will
++read the file data from an arbitrary, attacker-chosen memory offset and of
++arbitrary, attacker-chosen length.
 +
-+Upstream-Status: Backport from [https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/7916869d16bdd115ac5be30a67c3749907aea6a0]
-+CVE: CVE-2023-43787
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++This allows an attacker to display arbitrary chunks of memory, which could
++contain sensitive information like password hashes or even plain-text,
++obfuscated passwords from BS EFI variables.
++
++This fix implements a check to ensure that resident data is read from the
++corresponding file record segment only.
++
++Fixes: CVE-2023-4693
++
++Upstream-Status: Backport from 
++[https://git.savannah.gnu.org/cgit/grub.git/commit/?id=0ed2458cc4eff6d9a9199527e2a0b6d445802f94]
++CVE: CVE-2023-4693
++
++Reported-by: Maxim Suhanov <dfirblog@gmail.com>
++Signed-off-by: Maxim Suhanov <dfirblog@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 +---
-+ src/ImUtil.c | 20 +++++++++++++++-----
-+ 1 file changed, 15 insertions(+), 5 deletions(-)
++ grub-core/fs/ntfs.c | 13 ++++++++++++-
++ 1 file changed, 12 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/ImUtil.c b/src/ImUtil.c
-+index 36f08a0..fbfad33 100644
-+--- a/src/ImUtil.c
-++++ b/src/ImUtil.c
-+@@ -30,6 +30,7 @@ in this Software without prior written authorization from The Open Group.
-+ #include <X11/Xlibint.h>
-+ #include <X11/Xutil.h>
-+ #include <stdio.h>
-++#include <limits.h>
-+ #include "ImUtil.h"
++diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
++index c3c4db1..a68e173 100644
++--- a/grub-core/fs/ntfs.c
+++++ b/grub-core/fs/ntfs.c
++@@ -401,7 +401,18 @@ read_data (struct grub_ntfs_attr *at, grub_uint8_t *pa, grub_uint8_t *dest,
++     {
++       if (ofs + len > u32at (pa, 0x10))
++ 	return grub_error (GRUB_ERR_BAD_FS, "read out of range");
++-      grub_memcpy (dest, pa + u32at (pa, 0x14) + ofs, len);
+++
+++      if (u32at (pa, 0x10) > (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR))
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute too large");
+++
+++      if (pa >= at->mft->buf + (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR))
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute out of range");
+++
+++      if (u16at (pa, 0x14) + u32at (pa, 0x10) >
+++	  (grub_addr_t) at->mft->buf + (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR) - (grub_addr_t) pa)
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute out of range");
+++
+++      grub_memcpy (dest, pa + u16at (pa, 0x14) + ofs, len);
++       return 0;
++     }
 + 
-+ static int _XDestroyImage(XImage *);
-+@@ -361,13 +362,22 @@ XImage *XCreateImage (
-+ 	/*
-+ 	 * compute per line accelerator.
-+ 	 */
-+-	{
-+-	if (format == ZPixmap)
-++	if (format == ZPixmap) {
-++	    if ((INT_MAX / bits_per_pixel) < width) {
-++		Xfree(image);
-++		return NULL;
-++	    }
-++
-+ 	    min_bytes_per_line =
-+-	       ROUNDUP((bits_per_pixel * width), image->bitmap_pad);
-+-	else
-++		ROUNDUP((bits_per_pixel * width), image->bitmap_pad);
-++	} else {
-++	    if ((INT_MAX - offset) < width) {
-++		Xfree(image);
-++		return NULL;
-++	    }
-++
-+ 	    min_bytes_per_line =
-+-	        ROUNDUP((width + offset), image->bitmap_pad);
-++		ROUNDUP((width + offset), image->bitmap_pad);
-+ 	}
-+ 	if (image_bytes_per_line == 0) {
-+ 	    image->bytes_per_line = min_bytes_per_line;
 +-- 
-+2.35.7
++cgit v1.1
 +
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-index 19687d546b..d783f60103 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.7.3.1.bb
-@@ -18,6 +18,11 @@ SRC_URI += "file://disable_tests.patch \
-             file://CVE-2022-3554.patch \
-             file://CVE-2022-3555.patch \
-             file://CVE-2023-3138.patch \
-+            file://CVE-2023-43785.patch \
-+            file://CVE-2023-43786-0001.patch \
-+            file://CVE-2023-43786-0002.patch \
-+            file://CVE-2023-43786-0003.patch \
-+            file://CVE-2023-43787.patch \
-            "
- SRC_URI[sha256sum] = "2ffd417266fb875028fdc0ef349694f63dbcd76d0b0cfacfb52e6151f4b60989"
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 5ce8699363..f594e7d3a4 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -43,6 +43,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://0001-risc-v-Handle-R_RISCV_CALL_PLT-reloc.patch \
+            file://0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch \
+            file://CVE-2023-4692.patch \
++           file://CVE-2023-4693.patch \
+ "
  
+ SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
 -- 
 2.34.1
 
