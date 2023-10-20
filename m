@@ -1,113 +1,109 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89583CDB474
-	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 07:59:36 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.49686.1697788766815952314
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB741CDB47E
+	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 08:09:16 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.49891.1697789350256487321
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 00:59:27 -0700
+ Fri, 20 Oct 2023 01:09:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=jXarxCKA;
- spf=pass (domain: linaro.org, ip: 209.85.208.181, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c518a1d83fso8471401fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 00:59:26 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=SFZbXICk;
+ spf=pass (domain: smile.fr, ip: 209.85.218.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-9c3aec5f326so352354666b.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 01:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697788765; x=1698393565; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LRr4uuYp+oeRdUcuo418suSNy/Dp0z21Dd1C0CIVbFE=;
-        b=jXarxCKA48NGeAYDptPRmBkFRPaxpFPvJIXxkp42QyjWQ/4qVq1tFIYh0Ir5rNuH3H
-         P09vZNx6ouBvt+chzD+ZO/gowhfH0fpz67fD0e/Do0JFNSKhAZfeNjg5cRMu69QpU7pA
-         /wn1C8IdyAFbgwMkD498oZ5UTnAeSX938CSi4dLe/5hgX+B+eMfrA8YPgwHx4IA4D+8P
-         QNVrTEdSsYnlB+MsuEmM4xQio1H1qKQjcyZW4thEj2LVB247YhxOC+lQQGdMyW2N75eW
-         wDpLM/BwNWofRBXv0jKIwQ7L/h8y+8/OI7qPkEYchzxI5P1QR2gX5uyCtbmyl0XnIfOr
-         d8og==
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1697789348; x=1698394148; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=hbgeVF0F9E3EbsFjBZM++wTRCYme0oGfVFzSjiHtTr8=;
+        b=SFZbXICkqZBHFn9suGWyxO437gZQzS8jo0jgBZ0JVGpi/pDfvAxBYTNn9Lds+Rh9sq
+         gWExeZ76QOpBEQ+8Yv+uN9ruCKjtu6p1uPOSA4l46HUfqxoqytAglLWeJmcUgR41E/d4
+         ojqpsH3iEDLwZv37BOuVyF0DP4an3WE1R7x62z2uqa0SbCNXlDjLUvHqmfTh/axn5rjy
+         cLo+kzXayJVifoGXhzFdX3WqeomqzVz1yYGnWWvxe7ZKFUyP91DwfMIJ7P/mleNmW855
+         Ox1twYauaeLNQUC7uEEXQUdta8m3o633FQKbcZWqoKhREC+x4/ApTAgSYI5rbCDJ47n3
+         77HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697788765; x=1698393565;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LRr4uuYp+oeRdUcuo418suSNy/Dp0z21Dd1C0CIVbFE=;
-        b=SIe2TW9XtNCsjLJYDYX6JBFVNWOvFWGqxW7oix6/OK7N+S9cP10DaDbiXbgt++P5MX
-         hYTiThawNtqMJTNf27HAc28/khmy6XyHSYfmXC2Li6sbonZiOwSlN6pfgdbkGadwBBxq
-         6Bei8pVkGCB43FPgp0H5y/qmK/nAMgpWW93P3ERhElMPekDCxptTN/CGtry8QcsmAF+9
-         7Ma7ujxD+afnIRAYhB/JO1IS63nwdPzYSxcAEBxmy11fwVLeelwEATsUKchdMnDYCugF
-         qZk10Yw5RKzl3Dm3QiLUfe323TFecwlIcaZjmbzURslDr+GhztB23niAfb4jkWGYVyjG
-         pC2g==
-X-Gm-Message-State: AOJu0YwV6J66yx9xQTbnD496OtBQwyQPRWt3zaAWyi87zbhN9fNw/15E
-	VmdTQ3roXiuE40kX5gZJ7Fsvdg==
-X-Google-Smtp-Source: AGHT+IE1pI4jAtSFb+BwBsfXATncfJf3fqir8E4fTHWjTlfp7KGcP6Qb5VPgkHQ5c+yHZarZoAS1TA==
-X-Received: by 2002:a2e:869a:0:b0:2c5:582:fd8d with SMTP id l26-20020a2e869a000000b002c50582fd8dmr804328lji.30.1697788764848;
-        Fri, 20 Oct 2023 00:59:24 -0700 (PDT)
-Received: from nuoska (dsl-olubng11-54f814-94.dhcp.inet.fi. [84.248.20.94])
-        by smtp.gmail.com with ESMTPSA id i19-20020a2ea233000000b002b6cd89a3fcsm252926ljm.118.2023.10.20.00.59.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 00:59:24 -0700 (PDT)
-Date: Fri, 20 Oct 2023 10:59:22 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Marta Rybczynska <rybczynska@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] cve-check.bbclass: support embedded SW
- components with different version number
-Message-ID: <ZTIzWltUnl_Zm8Hg@nuoska>
-References: <20231016070106.2772303-1-mikko.rapeli@linaro.org>
- <CAApg2=SGxxCJ1yuXoMD6=ySRsL-Z2=rENw6xxn-dpQZ-Ta+4rA@mail.gmail.com>
- <ZTDzOs9PFGJUmIRG@nuoska>
- <CANPvuRn1q0a63ZWyYer8LP0htmo7cBwyX6LTv_=ipZFcJq3j9Q@mail.gmail.com>
- <178F819D833CF586.20272@lists.openembedded.org>
- <ZTElA8Z1bwg4uRwm@nuoska>
- <CANPvuRk8DGf9Labu0bD+2=vPZcb_E3StzBZ9TcS_TusiXM7ZBA@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1697789348; x=1698394148;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hbgeVF0F9E3EbsFjBZM++wTRCYme0oGfVFzSjiHtTr8=;
+        b=OKx7a6Kh42uxEo+n4LzXK0XBNMZycylre3mzpaGYCO9LCUiwzYVBByrMHXbMbr7xwi
+         7Kt43jAwIbxdNKJG6JxPRuQoaHwlebi8RYXJQwUX0IAHWQBhwIS9PkltlC32wbhFiNnk
+         gP7K8qQsf30VZ0F2Eixk+VIqYiR+0ctYjCSm+OX5Qnv+6jklFUB+og9pq1yo2jrd5F8Y
+         1Na5D50EpfAPgckqeAPJf6ACFX9p5D6R+t00orRziRkW2o8UbbZ6oUn3QaooDRIKbi1i
+         Jdl2fHQ/OPhQbKZ1w9WPJ7UI/zNzmRAF2/rvIJvAwMBiycMN4E5EEV6DqqOFo5ku630o
+         gxAg==
+X-Gm-Message-State: AOJu0Yyu54KSTGD9QCQCaz+WrJeQMs0Em7yZrGtutyW0PH3EdjtUS9t8
+	Hkankqu8d9jnttHC6c06lV2pkg==
+X-Google-Smtp-Source: AGHT+IE1lZwslACIGjViQSgsENKN8OGk35Knj6n7+h4YCjaexzzgwd9q4+jmAky9JR6bnt3vbQg2Vg==
+X-Received: by 2002:a17:907:9619:b0:9aa:1794:945b with SMTP id gb25-20020a170907961900b009aa1794945bmr3635484ejc.22.1697789348588;
+        Fri, 20 Oct 2023 01:09:08 -0700 (PDT)
+Received: from [192.168.0.35] ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id 16-20020a170906225000b0098921e1b064sm987075ejr.181.2023.10.20.01.09.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Oct 2023 01:09:08 -0700 (PDT)
+Message-ID: <9cafbdb4-0ba4-7726-bf6b-fbc681dd5549@smile.fr>
+Date: Fri, 20 Oct 2023 10:09:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [OE-core] Detecting unimplemented ptests with heuristics
+Content-Language: en-US
+To: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Cc: =?UTF-8?B?SsOpcsOpbXkgUm9zZW4=?= <jeremy.rosen@smile.fr>,
+ openembedded-core@lists.openembedded.org,
+ openembedded-devel@lists.openembedded.org
+References: <c8b8ee57-7e21-0189-ba71-3e4805725bcc@smile.fr>
+ <f0d794fd-ae24-4999-b564-c608da9f0af7@bootlin.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <f0d794fd-ae24-4999-b564-c608da9f0af7@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANPvuRk8DGf9Labu0bD+2=vPZcb_E3StzBZ9TcS_TusiXM7ZBA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 07:59:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189504
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:09:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189505
 
-On Fri, Oct 20, 2023 at 08:56:43AM +0100, Jose Quaresma wrote:
-> Mikko Rapeli <mikko.rapeli@linaro.org> escreveu no dia quinta, 19/10/2023
-> �(s) 13:45:
+On 10/19/23 17:21, Michael Opdenacker wrote:
+> Hi Yoann
+
+Hi,
+ 
+> On 19.10.23 at 10:00, Yoann Congal wrote:
+>> Hi everyone,
+>>
+>> We recently implemented a way to detect recipes for upstream code that contain unit tests but does not implement ptests.
+>> Those recipes make good candidates for increasing the ptests coverage.
+>>
+>> This is implemented as a QA check. The check is disabled by default since it generates a lot of warning at build.
+>> In order to activate it (in local.conf for exemple) :
+>> WARN_QA += "unimplemented-ptest"
+>>
+>> The warnings looks like:
+>> WARNING: time-1.9-r0 do_patch: QA Issue: time: autotools-based tests detected [unimplemented-ptest]
+>>   I've generated the list for the unimplemented ptests for oe-core and for meta-openembedded:
+>>    329 unimplemented-ptests_oe-core.log: https://gist.github.com/ycongal-smile/dd51b0e450a8f0083e9d5cc10eeeb060#file-unimplemented-ptests_oe-core-log
+>>   1080 unimplemented-ptests_meta-openembedded.log: https://gist.github.com/ycongal-smile/dd51b0e450a8f0083e9d5cc10eeeb060#file-unimplemented-ptests_meta-openembedded-log
 > 
-> > Hi,
-> >
-> > Could something like this work?
-> >
-> > --- a/meta/lib/oe/cve_check.py
-> > +++ b/meta/lib/oe/cve_check.py
-> > @@ -140,15 +140,14 @@ def get_patched_cves(d):
-> >      return patched_cves
-> >
-> >
-> > -def get_cpe_ids(cve_product, version):
-> > +def get_cpe_ids(cve_product, cve_version):
-> >      """
-> >      Get list of CPE identifiers for the given product and version
-> >      """
-> >
-> > -    version = version.split("+git")[0]
-> > -
-> >      cpe_ids = []
-> >      for product in cve_product.split():
-> > +        version = (d.getVar("CVE_VERSION_%s" % product) or
-> > cve_version).split("+git")[0]
-> >
-> 
-> Looks like your patch fixes the remaining issue
-> but don't know if it will be better to get the CVE_VERSION_ after
-> splitting  the vendor from the product
+> Thanks, indeed, I "own" recipes that were flagged :)
+> Maybe, you could find a way to notify the maintainers of such recipes, as in the AUH upgrade status reports (https://lists.openembedded.org/g/openembedded-core/message/188589 for example).
 
-This is now in v2. For the CVE_VERSION_%s, it uses what ever product was defined
-in CVE_PRODUCT space separated list so it is used before vendor and product split.
+Good idea, Thanks!
 
-Cheers,
+I've created a bug to not forget : 
+15249 – Notify the maintainers of unimplemented ptests
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15249
+I've CC'd you :)
 
--Mikko
+Regards,
+-- 
+Yoann Congal
+Smile ECS - Tech Expert
 
