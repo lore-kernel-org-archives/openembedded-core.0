@@ -1,121 +1,236 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A67CCDB474
-	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 16:30:50 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.58993.1697819439985730846
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2754FC001DF
+	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 16:34:50 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web10.59036.1697819684420670056
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 09:30:40 -0700
+ Fri, 20 Oct 2023 09:34:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=l6V4kA/h;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.45, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9a6190af24aso171174966b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 09:30:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SFcYEeyp;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5aa481d53e5so688586a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 09:34:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697819438; x=1698424238; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1697819684; x=1698424484; darn=lists.openembedded.org;
+        h=in-reply-to:autocrypt:from:content-language:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gR2RuLpW2kihGwn3fnD1FNcJxfdlXsAQOcbf8hG8l48=;
-        b=l6V4kA/hKrEoPwb83taosjVsltVtLkgZFH6HtCbpGZQ/sml28gXz19y14KAkOFqVaK
-         oP3fVnkvyP6F2i1NMG+xqpNwIhlmmys+9gk4yYcLfA2Qheutp/Jpa6j7pyB+wrbGIzK2
-         vL9gIgoiy/eO70Hf6MTxns3wKg/9LLHFoWSD7ZgY69O1YFGbQJJjJuy6GKcSnBChbGZ4
-         sSgQ7txSHU9VQBvMIHavzEBpAAzeBXEIPUm0i4Z1JifsvRKD2vH4BUJuvTvzR8U6LllF
-         ncjdkRsJ8UpI0KqLKyI+t9kUiyeuk9dJoj2ddF4H3BRvFsC8xMFfJrnjf88RewBFZ22m
-         KKUw==
+        bh=lf/wtCb9HUdD54jXtcNcw+h4ZaPI1bQchokNF81FfIw=;
+        b=SFcYEeyp0gMf7NBNO2DTcrWadC0iWA5TtTO+GlhyCEFzsF2ytIOAK0c39277+KFXRc
+         lKfgEMeVLqxBMcjiIIioTjTMc6Dj/srItuA4/fAyC28Si6F9dYFulr3jcX9ZAuTnOHWu
+         0f0mL0+joqZXgwcbz4etO48h+Vm/uqOrRkR/xWx7Wxr+erDaxLHOzcAzQygzYdffmDOB
+         5CJKchald5fjXCksYupOvYDUhznXtzXcpjpbgS7H/4U4NdnRjDau1eAI+9tAGxcFq+ai
+         jvxNNZk8hN1GjvnyLPRQa4r8MgegKhJ0ThL5QGrqVa/186+OwGMB94LjHgHCqp3gMFKJ
+         SEIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697819438; x=1698424238;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gR2RuLpW2kihGwn3fnD1FNcJxfdlXsAQOcbf8hG8l48=;
-        b=TwDEm/fW2afoeRoZwf+GHZ40NjDRXz+ImElaNulQx9678zkJDT3+7bocu2eWWfwkuK
-         cpkphj0pDLNtXGwcnuw+ghEkUL7GvW+uO3x2F3DoaFnCa2h53jsIkvQLm4GVWYdY17Ws
-         KczeSFyF+e5WB32nnGhlYmt3LrKw6C7Jwt033FQjD6Uyr5qVXVibcd8d7LoTJQkAkzLY
-         hJWbwG9ngirSKRp5ksBj4XnNU34HGiL871ryxSZc65MWHpOkZ3EvsU1SzHxA0JSSQiAe
-         WxmBVeECmNHMtz61sv65wWu3JT0NCFcdAf5J3L564hpwLoV2WnQMLVo0fDZbY9Fs/k8R
-         e84A==
-X-Gm-Message-State: AOJu0YxexUwpTOx1YQPPqMgrmnyosvdL3O7PvjoE0P3G5TKNCWZldsuE
-	KoJnXqOUAFretzn2NEDtfDHzmUEVIj3hacNw1QhbCA==
-X-Google-Smtp-Source: AGHT+IH6dj0Q3F2dJ7xJwjst6XqMTWYr/4w5XvbwNC+VCplr6Ca3MzPPzU2ap0JgzIPNEbLt5/7f0OITYDzvYo/qQwo=
-X-Received: by 2002:a17:907:268b:b0:9c7:69d4:b264 with SMTP id
- bn11-20020a170907268b00b009c769d4b264mr1500922ejc.77.1697819438355; Fri, 20
- Oct 2023 09:30:38 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697819684; x=1698424484;
+        h=in-reply-to:autocrypt:from:content-language:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lf/wtCb9HUdD54jXtcNcw+h4ZaPI1bQchokNF81FfIw=;
+        b=ZZ+oOnvBPB9OrrfppnOJVmqlxHQuHawKguHRp9R2RkYJy6oRiD1tQw+z3gIHgp7E+p
+         BT4RINmGMI3X0eTAM/kj5JYvrbSwzHJvKhRaQgJPnv61ZNSpjsriy14kuhUsQlUoi0V1
+         Dp4L7+bKQgjQ8ybGo3g9+alNSlrMDJgMJImN6rxxOkrKFibMrQCcZzBDKAmpih960+M1
+         RJU5icTKalzMqKSxSI6pclo1HmC9StXbMsu7GdXNd/3RR1HfeeXfJiEnah1JyRLAAelg
+         uwGox3zl8TDRb33CTyVqVt0Zxbf7M1N23RQQ3KfyJuhLLg71M+ktd6RBy0bU53H6tL71
+         UavA==
+X-Gm-Message-State: AOJu0YwLiEz5CqgwgWF5H4uPOuBkxBaqnlW9e4kMbFLXBKjjhxOm6RlJ
+	31/9BujlgdEIpJb0We1Z238=
+X-Google-Smtp-Source: AGHT+IHtZ+kxGn5G2CHUegahJvsglOZ/1mQCU0RatYNY29km43yUrJ/Y7ogr4JL1hp1Op9wF1ZXQ1g==
+X-Received: by 2002:a05:6a20:3d03:b0:166:6582:a7d5 with SMTP id y3-20020a056a203d0300b001666582a7d5mr2463208pzi.3.1697819683689;
+        Fri, 20 Oct 2023 09:34:43 -0700 (PDT)
+Received: from ?IPV6:2601:646:9100:2cb0:f423:bfba:96f6:f9d8? ([2601:646:9100:2cb0:f423:bfba:96f6:f9d8])
+        by smtp.gmail.com with ESMTPSA id d15-20020a65620f000000b0057e7ae47893sm1462370pgv.47.2023.10.20.09.34.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Oct 2023 09:34:43 -0700 (PDT)
+Message-ID: <6190e445-52d0-441c-b105-809429c23f3a@gmail.com>
+Date: Fri, 20 Oct 2023 09:34:41 -0700
 MIME-Version: 1.0
-References: <20231019132843.2623456-1-sean@geanix.com>
-In-Reply-To: <20231019132843.2623456-1-sean@geanix.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 20 Oct 2023 06:30:27 -1000
-Message-ID: <CAOSpxdbvouz+syXkw7aOwCiui4qz6YUZiNPC0bJaZn2bn4xq_A@mail.gmail.com>
-Subject: Re: [OE-core][mickledore][PATCH] weston: default to launcher-seatd
-To: Sean Nyekjaer <sean@geanix.com>
-Cc: openembedded-core@lists.openembedded.org, kasper@krinvent.dk, 
-	alex@linutronix.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 4/4] package_rpm.bbclass: Support compression
+ override
+To: niko.mauno@vaisala.com,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20231020124450.9736-1-niko.mauno@vaisala.com>
+ <20231020124450.9736-4-niko.mauno@vaisala.com>
+ <d53085e46d3b3af2071bc3c1b4cfdb0f6517b1a5.camel@linuxfoundation.org>
+ <d96313a1-5ed6-4ea5-977f-84c21ba0c37f@vaisala.com>
+Content-Language: en-US
+From: Khem Raj <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ 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
+In-Reply-To: <d96313a1-5ed6-4ea5-977f-84c21ba0c37f@vaisala.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------qFeJPaQa9F36tXDgPD9p5Bh9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 16:30:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189572
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 16:34:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189573
 
-On Thu, Oct 19, 2023 at 3:28=E2=80=AFAM Sean Nyekjaer <sean@geanix.com> wro=
-te:
->
-> Lets use the launcher-seatd as default, launcher-logind is "sometimes"
-> failing to provide input events. Further more is the launcher-logind
-> depricated in newer versions of weston.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------qFeJPaQa9F36tXDgPD9p5Bh9
+Content-Type: multipart/mixed; boundary="------------sSkoNOKKs80L3gx2TMinvt7M";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: niko.mauno@vaisala.com,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Message-ID: <6190e445-52d0-441c-b105-809429c23f3a@gmail.com>
+Subject: Re: [OE-core] [PATCH 4/4] package_rpm.bbclass: Support compression
+ override
+References: <20231020124450.9736-1-niko.mauno@vaisala.com>
+ <20231020124450.9736-4-niko.mauno@vaisala.com>
+ <d53085e46d3b3af2071bc3c1b4cfdb0f6517b1a5.camel@linuxfoundation.org>
+ <d96313a1-5ed6-4ea5-977f-84c21ba0c37f@vaisala.com>
+In-Reply-To: <d96313a1-5ed6-4ea5-977f-84c21ba0c37f@vaisala.com>
 
-Changing behaviour is typically not allowed in stable branches.
+--------------sSkoNOKKs80L3gx2TMinvt7M
+Content-Type: multipart/mixed; boundary="------------7AWYng2dgY0JSZATZd0Pb0d2"
 
-In any event, this change would need to go into the master branch
-before it could be backported to stable branches. So please submit
-this for the master branch!
+--------------7AWYng2dgY0JSZATZd0Pb0d2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Steve
+T24gMTAvMjAvMjMgNjo0MiBBTSwgTmlrbyBNYXVubyB2aWEgbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyB3cm90ZToNCj4gDQo+IA0KPiBPbiAyMC4xMC4yMDIzIDE2LjAwLCBSaWNoYXJkIFB1
+cmRpZSB3cm90ZToNCj4+IElzIGl0IGNvbW1vbiBmb3IgcGVvcGxlIHRvIG5lZWQgdG8gbWFu
+aXB1bGF0ZSBycG1zIG9uIHRhcmdldCB3aXRob3V0DQo+PiBycG0gYmVpbmcgcHJlc2VudCB1
+c2luZyBidXN5Ym94PyBEbyB5b3Uga25vdyBpZiBidXN5Ym94IHBsYW5zIHRvIGFkZA0KPj4g
+enN0ZCBzdXBwb3J0Pw0KPj4NCj4+IEFzIGZhciBhcyBJIGNvdWxkIHRlbGwgd2hlbiB3ZSBs
+b29rZWQgYXQgdGhpcywgdGhlIHJwbSB3b3JsZCB3YXMgbW92aW5nDQo+PiBvdmVyIHRvIHpz
+dGQgc28gYWRkaW5nIGluIGNvbmRpdGlvbmFsIHh6IHN1cHBvcnQgZm9yIGEgbGltaXRlZCB1
+c2UgY2FzZQ0KPj4gcHJvYmFibHkganVzdCBjcmVhdGVzIGEgbWFpbnRlbmFuY2UgaGVhZGFj
+aGUgZ29pbmcgZm9yd2FyZCBhcyBpdCBpc24ndA0KPj4gc29tZXRoaW5nIHdlIHRlc3Qgb3Ig
+cGxhbiB0byB0ZXN0Pw0KPj4NCj4+IEFyZSB5b3UgdXNpbmcgdGhpcyBvbiBhbiBMVFMgcmVs
+ZWFzZSBvciBtYXN0ZXI/DQo+IA0KPiBIaSBSaWNoYXJkLA0KPiANCj4gQWZ0ZXIgbW92aW5n
+IHRvIFlvY3RvIEtpcmtzdG9uZSAoTFRTKSB3aGljaCB3ZSBjdXJyZW50bHkgdXNlLCB3ZSBz
+dGFydGVkDQo+IGdldHRpbmcgZGV2ZWxvcGVyIHJlcG9ydHMgb2YgJ25vIGd6aXAvYnppcDIv
+eHogbWFnaWMnIGVycm9yIGZyb20gQnVzeUJveA0KPiBhcHBsZXQuIEZvciBleGFtcGxlIGRl
+dmVsb3BlciB1cGxvYWRzIGFuIHJwbSBmaWxlIHRvIHRhcmdldCBkZXZpY2UgYW5kDQo+IHRo
+ZW4gdW5wYWNrcyBpdCBpbiBydW50aW1lIHVzaW5nICdycG0yY3BpbyA8c29tZXBrZy5ycG0+
+IHwgY3BpbyAtaWRtdicNCj4gY29tbWFuZC4NCj4gDQo+IFdlIGRvbid0IGluY2x1ZGUgcnBt
+IHBhY2thZ2Ugb24gdGFyZ2V0IGZpbGVzeXN0ZW1zIGFzIHRoYXQgd291bGQNCj4gaW5jcmVh
+c2Ugcm9vdGZzIGZvb3RwcmludCBhcHByb3hpbWF0ZWx5IDUgTUIuIEluY2x1ZGluZyBvbmx5
+IHJwbTJjcGlvDQo+IGZyb20gcnBtIHBhY2thZ2UgbmVlZHMgc3RpbGwgYWNjb21wYW55aW5n
+IGxpYnJhcmllcywgaW5jcmVhc2luZyB0aGUgc2l6ZQ0KPiBieSAyLjUgTUIgYXBwcm94aW1h
+dGVseSB3aGljaCBhbHNvIGZlZWxzIHRvbyBiaWcuDQo+IA0KDQppdCBzZWVtcyB5b3UgYXJl
+IHF1aXRlIHNlbnNpdGl2ZSB0byBzaXplLCBJIHdvbmRlciBpZiBvcGtnIGJhY2tlbmQgaXMg
+DQpiZXR0ZXIgc3VpdGVkIGZvciB5b3VyIHVzZWNhc2UgdGhhbiBycG0uDQoNCj4gSSBjaGVj
+a2VkIHRoZSBkaXNjdXNzaW9ucyBmcm9tIEJ1c3lCb3ggbWFpbGluZyBsaXN0IGFuZCBmb3Vu
+ZCB0aGF0IGluDQo+IDIwMjEgdGhlIG1haW50YWluZXIgc2VlbWVkIHJlbHVjdGFudCB0byBh
+Y2NlcHQgdGhlIHByb3Bvc2VkIHpzdGQgc3VwcG9ydA0KPiBiZWNhdXNlIGl0IHdhcyBub3Qg
+b3B0aW1pemVkIGZvciBlbWJlZGRlZCBzeXN0ZW1zLg0KPiBodHRwOi8vbGlzdHMuYnVzeWJv
+eC5uZXQvcGlwZXJtYWlsL2J1c3lib3gvMjAyMS1TZXB0ZW1iZXIvMDg5MTc5Lmh0bWwNCj4g
+DQo+IEJSLCBOaWtvDQo+IA0KPiANCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlu
+a3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZp
+ZXcvUmVwbHkgT25saW5lICgjMTg5NTMyKTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
+b3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xODk1MzINCj4gTXV0ZSBUaGlzIFRv
+cGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTAyMDgwMTE0LzE5OTc5
+MTQNCj4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1jb3JlK293bmVyQGxpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcNCj4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIFtyYWoua2hlbUBnbWFpbC5jb21dDQo+
+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+IA0K
+--------------7AWYng2dgY0JSZATZd0Pb0d2
+Content-Type: application/pgp-keys; name="OpenPGP_0xBB053355919D3314.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xBB053355919D3314.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
->
-> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> ---
->  meta/recipes-graphics/wayland/weston_11.0.1.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/wayland/weston_11.0.1.bb b/meta/recipe=
-s-graphics/wayland/weston_11.0.1.bb
-> index 0838791a6b..09753e7c51 100644
-> --- a/meta/recipes-graphics/wayland/weston_11.0.1.bb
-> +++ b/meta/recipes-graphics/wayland/weston_11.0.1.bb
-> @@ -37,7 +37,7 @@ PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATU=
-RES', 'wayland', 'kms wayla
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland'=
-, 'xwayland', '', d)} \
->                     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', =
-d)} \
->                     ${@bb.utils.contains_any('DISTRO_FEATURES', 'wayland =
-x11', '', 'headless', d)} \
-> -                   ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager=
-', 'sysvinit', 'launcher-libseat', '', d)} \
-> +                   launcher-libseat \
->                     image-jpeg \
->                     screenshare \
->                     shell-desktop \
-> @@ -71,7 +71,7 @@ PACKAGECONFIG[lcms] =3D "-Dcolor-management-lcms=3Dtrue=
-,-Dcolor-management-lcms=3Dfals
->  # Weston with webp support
->  PACKAGECONFIG[webp] =3D "-Dimage-webp=3Dtrue,-Dimage-webp=3Dfalse,libweb=
-p"
->  # Weston with systemd-login support
-> -PACKAGECONFIG[systemd] =3D "-Dsystemd=3Dtrue -Dlauncher-logind=3Dtrue,-D=
-systemd=3Dfalse -Dlauncher-logind=3Dfalse,systemd dbus"
-> +PACKAGECONFIG[systemd] =3D "-Dsystemd=3Dtrue,-Dsystemd=3Dfalse,systemd d=
-bus"
->  # Weston with Xwayland support (requires X11 and Wayland)
->  PACKAGECONFIG[xwayland] =3D "-Dxwayland=3Dtrue,-Dxwayland=3Dfalse,libxcb=
- libxcursor xwayland"
->  # colord CMS support
-> --
-> 2.42.0
->
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+//VuX4EDPW3CZmbPy6U=3D
+=3D+jUt
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------7AWYng2dgY0JSZATZd0Pb0d2--
+
+--------------sSkoNOKKs80L3gx2TMinvt7M--
+
+--------------qFeJPaQa9F36tXDgPD9p5Bh9
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wmMEABEIACMWIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCZTKsIQUDAAAAAAAKCRC7BTNVkZ0zFKgh
+AJ49XCyw30Mlk+sy19nHGuJPLDR44ACcDV5TYl9pgSJMEAG3TB/3gxN/xiY=
+=N/la
+-----END PGP SIGNATURE-----
+
+--------------qFeJPaQa9F36tXDgPD9p5Bh9--
 
