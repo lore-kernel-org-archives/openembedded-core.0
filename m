@@ -1,100 +1,143 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA6BCDB47E
-	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 08:36:56 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.50037.1697791012645605459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FD00CDB474
+	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 09:39:07 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.50628.1697794740082629574
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 01:36:53 -0700
+ Fri, 20 Oct 2023 02:39:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RdxMgooi;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c509f2c46cso7897881fa.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 01:36:52 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a1FK7oYo;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.173, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c503dbe50dso9637001fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 02:38:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697791011; x=1698395811; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+        d=linuxfoundation.org; s=google; t=1697794738; x=1698399538; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=8EsgUbdH2fTMnOePtLklE+tnGleK7btdqxMMkwNLavo=;
-        b=RdxMgooiq5eBL7G81G9RmczjvkDCbf8bh3ApFgg2GmlqLtn35Asy5pOMFsYbiaIj/x
-         Vj+mM8frQvQ6+hH7Kxe4ECuRRCJ3YSi357CmkCS1hBLcW5BT8ix5jr5IxuT5bwQqnBzF
-         ernxSV3NOnVgsa/BAUHoiTlWPYvjbe6O5xL9zI9+RcAMUUvCi22sOlcsjQ9q3VQsrCEe
-         uUBL3dr6bOP+8Ktl4rOTMrpCgox72sMz4oql50DSX8Cg9OjhkgpHHzRe+cF203SDZjbV
-         VxLPGu7lyF0v75DTwMp7wgGeUlHjZ9CNnNbXajigjADm4/fmycRYFADdsuoGtsp98935
-         D2Pg==
+        bh=tGpqRANSJ9ptJbbdHbpfz2wL8Z+3It2bRENhCXInR7Q=;
+        b=a1FK7oYoqFDLIbeI9p5ovYjsV10K9noket9dW/OAGO5M5gaC+FDcd/cDqZFdbtNxn9
+         5xChd1ubTzJygLd5dqeINmuYKQEDz4d78iVdKJ4bAYCrsKIsSCHK7kaC+xtuRZYMWF3+
+         Or2gRIgeYZ8qTDbKpbhkvK07Jk/yUYDpVomr8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697791011; x=1698395811;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+        d=1e100.net; s=20230601; t=1697794738; x=1698399538;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=8EsgUbdH2fTMnOePtLklE+tnGleK7btdqxMMkwNLavo=;
-        b=AEMyIkdc1oc6Obqvw5foHvUp1x85tyYq9UM6bE5fvK7uc6zkYFFHf+GcbJDzSnrUtm
-         2kVSamW0optxcNUMRu9fKInQhkh4xOVD5V83OyS//HdiqCTIFwuzrX+iLjblBgoxD74K
-         Z/NgSwwggrmqwb12hKU9Xyfi056tf1xQSvCofg+ZR+SffekpxnrgqINgGW5/i5O60Zjb
-         FScAN/SRsAR7niXW3x7Chj4ba2oUcPoMYzMA4gnsGJ+8ZeRYd48xGOxO3pQ28YIQao4k
-         seoKC0deG4O9HW9q+MYFQUu+1ZItL1R6MxssgQG3nSR8EH66MI0dQGs8/LLqmCI2Udqs
-         tw6Q==
-X-Gm-Message-State: AOJu0YxkkQGqDbpJzHky8S7N3XraAKWCdtjnLK4bt2qWLba4KI6qRWT4
-	mDsyKjol2cNPeqB/v2GnFof7ideDsh7JYYIofIrYxhrPDrE=
-X-Google-Smtp-Source: AGHT+IH2G1tn42iHBe1Ys9VpV/U20GNjvSlOo4JwhGKidhPVz7FlkAuPYSrnugGRytEO9CJZ1UCqUXXfPE8uyhMO9pU=
-X-Received: by 2002:a2e:7a10:0:b0:2b6:da88:a2d0 with SMTP id
- v16-20020a2e7a10000000b002b6da88a2d0mr843111ljc.47.1697791010528; Fri, 20 Oct
- 2023 01:36:50 -0700 (PDT)
-MIME-Version: 1.0
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Fri, 20 Oct 2023 10:36:38 +0200
-Message-ID: <CAApg2=QBDi4jOA=N95paA+-0D-ZV7uQwCYuw0YWnkvk2B3DHig@mail.gmail.com>
-Subject: CVE work synchronization proposal
-To: yocto-security@lists.yoctoproject.org, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Steve Sakoman <steve@sakoman.com>, Ross Burton <ross.burton@arm.com>
+        bh=tGpqRANSJ9ptJbbdHbpfz2wL8Z+3It2bRENhCXInR7Q=;
+        b=AnmCbpAQjvSZsTy894pnCzE+PXLwh3D8dPMTqnXD+OMXlzFkc3QY9BfpghRW0cIUR8
+         Kk7NnR6qqHk8wyo8KU3N60/QP7KmIRDdbjIlM4YuRpk1HVZDLMHVn2i33Pp0dsobfV4T
+         UowyxR677X7GsZ7bnMPvbe8r9BnvoLZieS/y3aP1C/BnZwXw4635obSZ9l49J15dXFtE
+         y8oyZH7uwNocJk3YPq1SOujFrVMqGqZvY6kH9bwjl2l608YiXPwlUhEw+CfnZwJF/+B1
+         +oq6oocQFgMmS3zpfWZhkqi+cOaF+6TBwJwWTbZYqYyS+R6Bdr0lzAVJ/B92t7WxGEO3
+         t9tg==
+X-Gm-Message-State: AOJu0Yy2igZfNJgunQpQrd+22ASke8PAqUpmr4Bix3GGtpXNBdd2IxhE
+	zrbG2/V+JUMpfQy1nQcMnbvKbw==
+X-Google-Smtp-Source: AGHT+IFEZFsCTEIfkllfbyzL0ckNTTnmFCOMW4BYOqb+Zu36SfGWFERjC3oPsOzdaX2JvgMfqSwF3Q==
+X-Received: by 2002:a2e:a543:0:b0:2bd:d34:f892 with SMTP id e3-20020a2ea543000000b002bd0d34f892mr1008508ljn.3.1697794737656;
+        Fri, 20 Oct 2023 02:38:57 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e461:a77:598a:10d6? ([2001:8b0:aba:5f3c:e461:a77:598a:10d6])
+        by smtp.gmail.com with ESMTPSA id 6-20020a05600c230600b004083bc9ac90sm1696186wmo.24.2023.10.20.02.38.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Oct 2023 02:38:57 -0700 (PDT)
+Message-ID: <64a231dc3d22dfd4eb33ac10f107997dfc7477f6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] perf: lift TARGET_CC_ARCH modification out of
+ security_flags.inc
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, 
+	openembedded-core@lists.openembedded.org
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 20 Oct 2023 10:38:56 +0100
+In-Reply-To: <1603003d-f5a4-4293-88f0-4b1ea006404b@prevas.dk>
+References: <20231019123202.2195576-1-rasmus.villemoes@prevas.dk>
+	 <a56768bd90877ba40e6856e1324e2ded90b62201.camel@linuxfoundation.org>
+	 <1603003d-f5a4-4293-88f0-4b1ea006404b@prevas.dk>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:36:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189510
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 09:39:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189511
 
-Hello everyone,
-We have a constant flow of work on pending CVEs. During my discussion
-with multiple people, there is a common need for synchronization of
-this work to avoid duplication or forgotten fixes.
+On Fri, 2023-10-20 at 10:10 +0200, Rasmus Villemoes wrote:
+> On 19/10/2023 14.48, Richard Purdie wrote:
+> > On Thu, 2023-10-19 at 14:32 +0200, Rasmus Villemoes via
+> > lists.openembedded.org wrote:
+> > > From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> > >=20
+> > > Building perf without security_flags.inc being included in one's
+> > > distro results in the buildpaths warning
+> > >=20
+> > > WARNING: perf-1.0-r9 do_package_qa: QA Issue: File /usr/bin/trace in
+> > > package perf contains reference to TMPDIR
+> > >=20
+> > > because the ${DEBUG_PREFIX_MAP} does not get used. Most recipes get
+> > > that from CFLAGS, but the perf recipe explicitly unsets that.
+> > >=20
+> > > Now ${SELECTED_OPTIMIZATION} of course contains more than just
+> > > ${DEBUG_FLAGS}/${DEBUG_PREFIX_MAP}. For most TUs, perf's build system
+> > > adds its own optimization flags (-O6 for odd reasons), so for those
+> > > including the -O2 or -Og doesn't change anything. But looking at the
+> > > .o.cmd files show that there are some TUs which currently get built
+> > > without any -O flag. So for those adding the distro's
+> > > SELECTED_OPTIMIZATION seem to be the right thing to do.
+> > >=20
+> > > Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> > > ---
+> > >  meta/conf/distro/include/security_flags.inc | 1 -
+> > >  meta/recipes-kernel/perf/perf.bb            | 1 +
+> > >  2 files changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > The fact this works suggests perf is ignoring TARGET_CFLAGS. Is there
+> > anything in the perf build system where we should be passing in cflags
+> > we really want used?
+>=20
+> Well, IIUC, the normal way TARGET_CFLAGS would take effect is via the
+> 'export CFLAGS =3D "${TARGET_CFLAGS}'. But in the perf recipe, both
+> do_compile and do_install start with
+>=20
+>         # Linux kernel build system is expected to do the right thing
+>         unset CFLAGS
+>=20
+> And perf's build system does indeed add lots of flags of its own, at
+> least for most TUs, but nowhere is any -f(macro/debug/file)-prefix being
+> set.
+>=20
+> So I do think that TARGET_CC_ARCH is the best place for flags that we
+> really want used. At least as an initial step, because this is known to
+> work when using the security_flags.inc file. Maybe there's some cleaner
+> way where we don't unset CFLAGS, but that could be a giant can of worms.
+>=20
+> And yes, a comment should be added. Is something like
+>=20
+> # Perf's build system adds its own optimization flags for most TUs,
+> # overriding the flags included here. But for some, perf does not add
+> # any -O option, so ensure the distro's chosen optimization gets used
+> # for those. Since ${SELECTED_OPTIMIZATION} always includes
+> # ${DEBUG_FLAGS} which in turn includes ${DEBUG_PREFIX_MAP}, this also
+> # ensures perf is built with appropriate -f*-prefix-map options,
+> # avoiding the 'buildpaths' QA warning.
+>=20
+> too verbose?
 
-We have a decision on the tooling to make: do we want to create a
-Bugzilla entry for each new open CVE? An alternative is to use a wiki
-page (this has been prototyped by Ross) with heavy scripting to
-automate the tedious part.
+If it were me I'd probably write:
 
-Today I propose you to use a special wiki page and the following procedure:
+# The perf makefile has "unset CFLAGS" as "Linux kernel build system is
+# expected to do the right thing". It doesn't and we need our prefix=C2=A0
+# map options and security flags amongst other things so force our=C2=A0
+# cflags in.
 
-On the wiki page, always add all additional information after a ; sign
-to allow scripting. The first part of each line (until ";" ) will be
-auto-generated. The second part contains information about the issue,
-like who is investigating or what the situation is.
+Cheers,
 
-There is a separate list for each branch, as we realize that people
-concentrate on various branches.
-
-Workflow:
-
-* Mark name of a person preparing a patch for each branch
-* If you have additional information (like a link to a patch), add it
-to the record
-* If a patch is posted to the mailing list, post a link to it (this
-will be automated)
-* When a patch reaches the "next" branch, mark it too (this will be
-automated too)
-* When the patch reaches the final branch, the line of the CVE is
-automatically removed (this is already automated)
-* The list is (re)generated every day
+Richard
 
 
-Please have a look at the procedure proposal and how the tracking
-might look like:
 
-https://wiki.yoctoproject.org/wiki/Synchronization_CVEs
 
-Kind regards,
-Marta
 
