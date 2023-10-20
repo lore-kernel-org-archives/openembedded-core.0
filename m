@@ -1,97 +1,916 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAB6CC001DF
-	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 04:43:05 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.47851.1697776976777800247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 258EDCDB474
+	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 06:01:26 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.48640.1697781679936728635
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Oct 2023 21:42:56 -0700
+ Thu, 19 Oct 2023 23:01:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=C2EMxs+3;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=86573ca7bc=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39K4aZQE000662
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 04:42:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=uA8vC
-	rvbe8nSznM84dDDfhwrBMLWMTh2/oXzG+3qIP8=; b=C2EMxs+31VhQiM2W+Eb4f
-	vAokNZHUf2w/t+KewR0Bsj/VlwMLB0vNoYiyxzQ+RxOWp6ZYTh4GrlSR/N/7blDS
-	JpjLLTAiNjv1AORZLhy7Pe21quJP9H4BXB++L/6SW8IdktjTi2T58sDwP3PO3dGH
-	nzwN8ezcWPgxCAz9ylzP4+Ry1dVUBCu5D9Z9bUCVQNqtdCEgf3qyIbxVro8U0Xid
-	TqdjPfr84FinP/Jh6nCrYJEilyB9kCjNnw3RSPebpFVApL278up7A0hXlGK6tKSM
-	ov2yZcArjqdRmUoxFCHIyzmEPE0tfqDqmxwspNcUt0jjyYE5/tz2t6715vjYgpQt
-	A==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tuf3a84w8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 04:42:55 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Thu, 19 Oct 2023 21:42:53 -0700
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][mickledore][PATCH 1/1] libxpm: upgrade to 3.5.17
-Date: Fri, 20 Oct 2023 04:42:34 +0000
-Message-ID: <20231020044235.1168292-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=D2LNIr2g;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0AC0BFF809;
+	Fri, 20 Oct 2023 06:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1697781677;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PMxwJpR4FVA13FM8o89MLlfgNTUR/JZDpurbEg9l91E=;
+	b=D2LNIr2gqpmwTvCZgTgwFUNi+uyIG19u8+y9pi2PJemeuXyv6gER4UIUKRQwgXRb0wc8Ep
+	813op5Z1hXNJ2UzWrbse6yMFnXIISxKaPuHrBo3KsYCOezJA53Ojl26MbbAtU4B7NCs9c7
+	XfmOXOQRZIU4UR0YRpNmIcm1VF40RFetEZXPEGLxwedQigjqAtryh23Uu0hnEznjhq2GML
+	irkVVYju8GcsH0Swsh4RnWkZiSrQ1G8DNjDKDPFofdhOTHW2oOyxRv7t0XkrYQbAxgKzJS
+	th3hqM9nxZS5mX39oDXv3WanRqBMeiBu5G1Mc0GH+7y0IjcHzmcKolvEb/SDcQ==
+Date: Fri, 20 Oct 2023 08:01:16 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2 3/4]
+ scripts:recipetool:create_buildsys_python: refactor code for futur PEP517
+ addition
+Message-ID: <20231020060116b6f9ed9b@mail.local>
+References: <20231019073653.1280730-1-jstephan@baylibre.com>
+ <20231019073653.1280730-3-jstephan@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: zWfIBybEy_yT9I6ySiqd8Fbe4p1et1ge
-X-Proofpoint-ORIG-GUID: zWfIBybEy_yT9I6ySiqd8Fbe4p1et1ge
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-20_02,2023-10-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
- clxscore=1015 spamscore=0 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 mlxlogscore=466 phishscore=0 adultscore=0 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2310170000 definitions=main-2310200039
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231019073653.1280730-3-jstephan@baylibre.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 04:43:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189494
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 06:01:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189496
 
-From: Ross Burton <ross.burton@arm.com>
+Hello,
 
-This release fixes the following CVEs:
+On 19/10/2023 09:36:52+0200, Julien Stephan wrote:
+> In order to prepare the support for pyproject.toml (PEP517 [1]) enabled
+> projects, refactor the code and move setup.py specific code into a
+> specific class in order to allow sharing the PythonRecipeHandler class
+> 
+> No functionnal changes expected
+> 
 
-- CVE-2023-43788
-- CVE-2023-43789
+I tested with only the first 3 patches and unfortunately, thre were
+functional changes:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 46dd8ce41756dbc2aa0f9001416f208cced1c8d5)
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
----
- .../xorg-lib/{libxpm_3.5.16.bb => libxpm_3.5.17.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxpm_3.5.16.bb => libxpm_3.5.17.bb} (88%)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5886/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5935/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/5952/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5936/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2296/steps/14/logs/stdio
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.16.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-lib/libxpm_3.5.16.bb
-rename to meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb
-index c3d01f1bb3..8e15ecc0d4 100644
---- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.16.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.17.bb
-@@ -22,6 +22,6 @@ PACKAGES =+ "sxpm cxpm"
- FILES:cxpm = "${bindir}/cxpm"
- FILES:sxpm = "${bindir}/sxpm"
- 
--SRC_URI[sha256sum] = "e6bc5da7a69dbd9bcc67e87c93d4904fe2f5177a0711c56e71fa2f6eff649f51"
-+SRC_URI[sha256sum] = "64b31f81019e7d388c822b0b28af8d51c4622b83f1f0cb6fa3fc95e271226e43"
- 
- BBCLASSEXTEND = "native"
+2023-10-19 07:23:07,712 - oe-selftest - INFO - 1: 20/39 149/543 (20.20s) (0 failed) (recipetool.RecipetoolCreateTests.test_recipetool_create_github)
+2023-10-19 07:23:07,712 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/lib/oeqa/selftest/cases/recipetool.py", line 451, in test_recipetool_create_github
+    self.assertTrue(os.path.isfile(recipefile))
+  File "/usr/lib/python3.11/unittest/case.py", line 715, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true
+
+> [1]: https://peps.python.org/pep-0517/#source-tree
+> 
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  .../lib/recipetool/create_buildsys_python.py  | 748 +++++++++---------
+>  1 file changed, 385 insertions(+), 363 deletions(-)
+> 
+> diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+> index 502e1dfbc3d..69f6f5ca511 100644
+> --- a/scripts/lib/recipetool/create_buildsys_python.py
+> +++ b/scripts/lib/recipetool/create_buildsys_python.py
+> @@ -37,63 +37,8 @@ class PythonRecipeHandler(RecipeHandler):
+>      assume_provided = ['builtins', 'os.path']
+>      # Assumes that the host python3 builtin_module_names is sane for target too
+>      assume_provided = assume_provided + list(sys.builtin_module_names)
+> +    excluded_fields = []
+>  
+> -    bbvar_map = {
+> -        'Name': 'PN',
+> -        'Version': 'PV',
+> -        'Home-page': 'HOMEPAGE',
+> -        'Summary': 'SUMMARY',
+> -        'Description': 'DESCRIPTION',
+> -        'License': 'LICENSE',
+> -        'Requires': 'RDEPENDS:${PN}',
+> -        'Provides': 'RPROVIDES:${PN}',
+> -        'Obsoletes': 'RREPLACES:${PN}',
+> -    }
+> -    # PN/PV are already set by recipetool core & desc can be extremely long
+> -    excluded_fields = [
+> -        'Description',
+> -    ]
+> -    setup_parse_map = {
+> -        'Url': 'Home-page',
+> -        'Classifiers': 'Classifier',
+> -        'Description': 'Summary',
+> -    }
+> -    setuparg_map = {
+> -        'Home-page': 'url',
+> -        'Classifier': 'classifiers',
+> -        'Summary': 'description',
+> -        'Description': 'long-description',
+> -    }
+> -    # Values which are lists, used by the setup.py argument based metadata
+> -    # extraction method, to determine how to process the setup.py output.
+> -    setuparg_list_fields = [
+> -        'Classifier',
+> -        'Requires',
+> -        'Provides',
+> -        'Obsoletes',
+> -        'Platform',
+> -        'Supported-Platform',
+> -    ]
+> -    setuparg_multi_line_values = ['Description']
+> -    replacements = [
+> -        ('License', r' +$', ''),
+> -        ('License', r'^ +', ''),
+> -        ('License', r' ', '-'),
+> -        ('License', r'^GNU-', ''),
+> -        ('License', r'-[Ll]icen[cs]e(,?-[Vv]ersion)?', ''),
+> -        ('License', r'^UNKNOWN$', ''),
+> -
+> -        # Remove currently unhandled version numbers from these variables
+> -        ('Requires', r' *\([^)]*\)', ''),
+> -        ('Provides', r' *\([^)]*\)', ''),
+> -        ('Obsoletes', r' *\([^)]*\)', ''),
+> -        ('Install-requires', r'^([^><= ]+).*', r'\1'),
+> -        ('Extras-require', r'^([^><= ]+).*', r'\1'),
+> -        ('Tests-require', r'^([^><= ]+).*', r'\1'),
+> -
+> -        # Remove unhandled dependency on particular features (e.g. foo[PDF])
+> -        ('Install-requires', r'\[[^\]]+\]$', ''),
+> -    ]
+>  
+>      classifier_license_map = {
+>          'License :: OSI Approved :: Academic Free License (AFL)': 'AFL',
+> @@ -166,122 +111,34 @@ class PythonRecipeHandler(RecipeHandler):
+>      def __init__(self):
+>          pass
+>  
+> -    def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
+> -        if 'buildsystem' in handled:
+> -            return False
+> -
+> -        # Check for non-zero size setup.py files
+> -        setupfiles = RecipeHandler.checkfiles(srctree, ['setup.py'])
+> -        for fn in setupfiles:
+> -            if os.path.getsize(fn):
+> -                break
+> -        else:
+> -            return False
+> -
+> -        # setup.py is always parsed to get at certain required information, such as
+> -        # distutils vs setuptools
+> -        #
+> -        # If egg info is available, we use it for both its PKG-INFO metadata
+> -        # and for its requires.txt for install_requires.
+> -        # If PKG-INFO is available but no egg info is, we use that for metadata in preference to
+> -        # the parsed setup.py, but use the install_requires info from the
+> -        # parsed setup.py.
+> -
+> -        setupscript = os.path.join(srctree, 'setup.py')
+> -        try:
+> -            setup_info, uses_setuptools, setup_non_literals, extensions = self.parse_setup_py(setupscript)
+> -        except Exception:
+> -            logger.exception("Failed to parse setup.py")
+> -            setup_info, uses_setuptools, setup_non_literals, extensions = {}, True, [], []
+> -
+> -        egginfo = glob.glob(os.path.join(srctree, '*.egg-info'))
+> -        if egginfo:
+> -            info = self.get_pkginfo(os.path.join(egginfo[0], 'PKG-INFO'))
+> -            requires_txt = os.path.join(egginfo[0], 'requires.txt')
+> -            if os.path.exists(requires_txt):
+> -                with codecs.open(requires_txt) as f:
+> -                    inst_req = []
+> -                    extras_req = collections.defaultdict(list)
+> -                    current_feature = None
+> -                    for line in f.readlines():
+> -                        line = line.rstrip()
+> -                        if not line:
+> -                            continue
+> -
+> -                        if line.startswith('['):
+> -                            # PACKAGECONFIG must not contain expressions or whitespace
+> -                            line = line.replace(" ", "")
+> -                            line = line.replace(':', "")
+> -                            line = line.replace('.', "-dot-")
+> -                            line = line.replace('"', "")
+> -                            line = line.replace('<', "-smaller-")
+> -                            line = line.replace('>', "-bigger-")
+> -                            line = line.replace('_', "-")
+> -                            line = line.replace('(', "")
+> -                            line = line.replace(')', "")
+> -                            line = line.replace('!', "-not-")
+> -                            line = line.replace('=', "-equals-")
+> -                            current_feature = line[1:-1]
+> -                        elif current_feature:
+> -                            extras_req[current_feature].append(line)
+> -                        else:
+> -                            inst_req.append(line)
+> -                    info['Install-requires'] = inst_req
+> -                    info['Extras-require'] = extras_req
+> -        elif RecipeHandler.checkfiles(srctree, ['PKG-INFO']):
+> -            info = self.get_pkginfo(os.path.join(srctree, 'PKG-INFO'))
+> -
+> -            if setup_info:
+> -                if 'Install-requires' in setup_info:
+> -                    info['Install-requires'] = setup_info['Install-requires']
+> -                if 'Extras-require' in setup_info:
+> -                    info['Extras-require'] = setup_info['Extras-require']
+> -        else:
+> -            if setup_info:
+> -                info = setup_info
+> -            else:
+> -                info = self.get_setup_args_info(setupscript)
+> -
+> -        # Grab the license value before applying replacements
+> -        license_str = info.get('License', '').strip()
+> -
+> -        self.apply_info_replacements(info)
+> -
+> -        if uses_setuptools:
+> -            classes.append('setuptools3')
+> -        else:
+> -            classes.append('distutils3')
+> -
+> -        if license_str:
+> -            for i, line in enumerate(lines_before):
+> -                if line.startswith('##LICENSE_PLACEHOLDER##'):
+> -                    lines_before.insert(i, '# NOTE: License in setup.py/PKGINFO is: %s' % license_str)
+> -                    break
+> -
+> -        if 'Classifier' in info:
+> -            existing_licenses = info.get('License', '')
+> -            licenses = []
+> -            for classifier in info['Classifier']:
+> -                if classifier in self.classifier_license_map:
+> -                    license = self.classifier_license_map[classifier]
+> -                    if license == 'Apache' and 'Apache-2.0' in existing_licenses:
+> -                        license = 'Apache-2.0'
+> -                    elif license == 'GPL':
+> -                        if 'GPL-2.0' in existing_licenses or 'GPLv2' in existing_licenses:
+> -                            license = 'GPL-2.0'
+> -                        elif 'GPL-3.0' in existing_licenses or 'GPLv3' in existing_licenses:
+> -                            license = 'GPL-3.0'
+> -                    elif license == 'LGPL':
+> -                        if 'LGPL-2.1' in existing_licenses or 'LGPLv2.1' in existing_licenses:
+> -                            license = 'LGPL-2.1'
+> -                        elif 'LGPL-2.0' in existing_licenses or 'LGPLv2' in existing_licenses:
+> -                            license = 'LGPL-2.0'
+> -                        elif 'LGPL-3.0' in existing_licenses or 'LGPLv3' in existing_licenses:
+> -                            license = 'LGPL-3.0'
+> -                    licenses.append(license)
+> -
+> -            if licenses:
+> -                info['License'] = ' & '.join(licenses)
+> +    def handle_classifier_license(self, classifiers, existing_licenses=""):
+> +
+> +        licenses = []
+> +        for classifier in classifiers:
+> +            if classifier in self.classifier_license_map:
+> +                license = self.classifier_license_map[classifier]
+> +                if license == 'Apache' and 'Apache-2.0' in existing_licenses:
+> +                    license = 'Apache-2.0'
+> +                elif license == 'GPL':
+> +                    if 'GPL-2.0' in existing_licenses or 'GPLv2' in existing_licenses:
+> +                        license = 'GPL-2.0'
+> +                    elif 'GPL-3.0' in existing_licenses or 'GPLv3' in existing_licenses:
+> +                        license = 'GPL-3.0'
+> +                elif license == 'LGPL':
+> +                    if 'LGPL-2.1' in existing_licenses or 'LGPLv2.1' in existing_licenses:
+> +                        license = 'LGPL-2.1'
+> +                    elif 'LGPL-2.0' in existing_licenses or 'LGPLv2' in existing_licenses:
+> +                        license = 'LGPL-2.0'
+> +                    elif 'LGPL-3.0' in existing_licenses or 'LGPLv3' in existing_licenses:
+> +                        license = 'LGPL-3.0'
+> +                licenses.append(license)
+> +
+> +        if licenses:
+> +            return ' & '.join(licenses)
+> +
+> +        return None
+> +
+> +    def map_info_to_bbvar(self, info, extravalues):
+>  
+>          # Map PKG-INFO & setup.py fields to bitbake variables
+>          for field, values in info.items():
+> @@ -305,85 +162,220 @@ class PythonRecipeHandler(RecipeHandler):
+>              if bbvar not in extravalues and value:
+>                  extravalues[bbvar] = value
+>  
+> -        mapped_deps, unmapped_deps = self.scan_setup_python_deps(srctree, setup_info, setup_non_literals)
+> -
+> -        extras_req = set()
+> -        if 'Extras-require' in info:
+> -            extras_req = info['Extras-require']
+> -            if extras_req:
+> -                lines_after.append('# The following configs & dependencies are from setuptools extras_require.')
+> -                lines_after.append('# These dependencies are optional, hence can be controlled via PACKAGECONFIG.')
+> -                lines_after.append('# The upstream names may not correspond exactly to bitbake package names.')
+> -                lines_after.append('# The configs are might not correct, since PACKAGECONFIG does not support expressions as may used in requires.txt - they are just replaced by text.')
+> -                lines_after.append('#')
+> -                lines_after.append('# Uncomment this line to enable all the optional features.')
+> -                lines_after.append('#PACKAGECONFIG ?= "{}"'.format(' '.join(k.lower() for k in extras_req)))
+> -                for feature, feature_reqs in extras_req.items():
+> -                    unmapped_deps.difference_update(feature_reqs)
+> -
+> -                    feature_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(feature_reqs))
+> -                    lines_after.append('PACKAGECONFIG[{}] = ",,,{}"'.format(feature.lower(), ' '.join(feature_req_deps)))
+> -
+> -        inst_reqs = set()
+> -        if 'Install-requires' in info:
+> -            if extras_req:
+> -                lines_after.append('')
+> -            inst_reqs = info['Install-requires']
+> -            if inst_reqs:
+> -                unmapped_deps.difference_update(inst_reqs)
+> -
+> -                inst_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(inst_reqs))
+> -                lines_after.append('# WARNING: the following rdepends are from setuptools install_requires. These')
+> -                lines_after.append('# upstream names may not correspond exactly to bitbake package names.')
+> -                lines_after.append('RDEPENDS:${{PN}} += "{}"'.format(' '.join(inst_req_deps)))
+> +    def apply_info_replacements(self, info):
+> +        if not self.replacements:
+> +            return
+>  
+> -        if mapped_deps:
+> -            name = info.get('Name')
+> -            if name and name[0] in mapped_deps:
+> -                # Attempt to avoid self-reference
+> -                mapped_deps.remove(name[0])
+> -            mapped_deps -= set(self.excluded_pkgdeps)
+> -            if inst_reqs or extras_req:
+> -                lines_after.append('')
+> -            lines_after.append('# WARNING: the following rdepends are determined through basic analysis of the')
+> -            lines_after.append('# python sources, and might not be 100% accurate.')
+> -            lines_after.append('RDEPENDS:${{PN}} += "{}"'.format(' '.join(sorted(mapped_deps))))
+> +        for variable, search, replace in self.replacements:
+> +            if variable not in info:
+> +                continue
+>  
+> -        unmapped_deps -= set(extensions)
+> -        unmapped_deps -= set(self.assume_provided)
+> -        if unmapped_deps:
+> -            if mapped_deps:
+> -                lines_after.append('')
+> -            lines_after.append('# WARNING: We were unable to map the following python package/module')
+> -            lines_after.append('# dependencies to the bitbake packages which include them:')
+> -            lines_after.extend('#    {}'.format(d) for d in sorted(unmapped_deps))
+> +            def replace_value(search, replace, value):
+> +                if replace is None:
+> +                    if re.search(search, value):
+> +                        return None
+> +                else:
+> +                    new_value = re.sub(search, replace, value)
+> +                    if value != new_value:
+> +                        return new_value
+> +                return value
+>  
+> -        handled.append('buildsystem')
+> +            value = info[variable]
+> +            if isinstance(value, str):
+> +                new_value = replace_value(search, replace, value)
+> +                if new_value is None:
+> +                    del info[variable]
+> +                elif new_value != value:
+> +                    info[variable] = new_value
+> +            elif hasattr(value, 'items'):
+> +                for dkey, dvalue in list(value.items()):
+> +                    new_list = []
+> +                    for pos, a_value in enumerate(dvalue):
+> +                        new_value = replace_value(search, replace, a_value)
+> +                        if new_value is not None and new_value != value:
+> +                            new_list.append(new_value)
+>  
+> -    def get_pkginfo(self, pkginfo_fn):
+> -        msg = email.message_from_file(open(pkginfo_fn, 'r'))
+> -        msginfo = {}
+> -        for field in msg.keys():
+> -            values = msg.get_all(field)
+> -            if len(values) == 1:
+> -                msginfo[field] = values[0]
+> +                    if value != new_list:
+> +                        value[dkey] = new_list
+>              else:
+> -                msginfo[field] = values
+> -        return msginfo
+> +                new_list = []
+> +                for pos, a_value in enumerate(value):
+> +                    new_value = replace_value(search, replace, a_value)
+> +                    if new_value is not None and new_value != value:
+> +                        new_list.append(new_value)
+>  
+> -    def parse_setup_py(self, setupscript='./setup.py'):
+> -        with codecs.open(setupscript) as f:
+> -            info, imported_modules, non_literals, extensions = gather_setup_info(f)
+> +                if value != new_list:
+> +                    info[variable] = new_list
+>  
+> -        def _map(key):
+> -            key = key.replace('_', '-')
+> -            key = key[0].upper() + key[1:]
+> -            if key in self.setup_parse_map:
+> -                key = self.setup_parse_map[key]
+> -            return key
+>  
+> -        # Naive mapping of setup() arguments to PKG-INFO field names
+> -        for d in [info, non_literals]:
+> +    def scan_python_dependencies(self, paths):
+> +        deps = set()
+> +        try:
+> +            dep_output = self.run_command(['pythondeps', '-d'] + paths)
+> +        except (OSError, subprocess.CalledProcessError):
+> +            pass
+> +        else:
+> +            for line in dep_output.splitlines():
+> +                line = line.rstrip()
+> +                dep, filename = line.split('\t', 1)
+> +                if filename.endswith('/setup.py'):
+> +                    continue
+> +                deps.add(dep)
+> +
+> +        try:
+> +            provides_output = self.run_command(['pythondeps', '-p'] + paths)
+> +        except (OSError, subprocess.CalledProcessError):
+> +            pass
+> +        else:
+> +            provides_lines = (l.rstrip() for l in provides_output.splitlines())
+> +            provides = set(l for l in provides_lines if l and l != 'setup')
+> +            deps -= provides
+> +
+> +        return deps
+> +
+> +    def parse_pkgdata_for_python_packages(self):
+> +        pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
+> +
+> +        ldata = tinfoil.config_data.createCopy()
+> +        bb.parse.handle('classes-recipe/python3-dir.bbclass', ldata, True)
+> +        python_sitedir = ldata.getVar('PYTHON_SITEPACKAGES_DIR')
+> +
+> +        dynload_dir = os.path.join(os.path.dirname(python_sitedir), 'lib-dynload')
+> +        python_dirs = [python_sitedir + os.sep,
+> +                       os.path.join(os.path.dirname(python_sitedir), 'dist-packages') + os.sep,
+> +                       os.path.dirname(python_sitedir) + os.sep]
+> +        packages = {}
+> +        for pkgdatafile in glob.glob('{}/runtime/*'.format(pkgdata_dir)):
+> +            files_info = None
+> +            with open(pkgdatafile, 'r') as f:
+> +                for line in f.readlines():
+> +                    field, value = line.split(': ', 1)
+> +                    if field.startswith('FILES_INFO'):
+> +                        files_info = ast.literal_eval(value)
+> +                        break
+> +                else:
+> +                    continue
+> +
+> +            for fn in files_info:
+> +                for suffix in importlib.machinery.all_suffixes():
+> +                    if fn.endswith(suffix):
+> +                        break
+> +                else:
+> +                    continue
+> +
+> +                if fn.startswith(dynload_dir + os.sep):
+> +                    if '/.debug/' in fn:
+> +                        continue
+> +                    base = os.path.basename(fn)
+> +                    provided = base.split('.', 1)[0]
+> +                    packages[provided] = os.path.basename(pkgdatafile)
+> +                    continue
+> +
+> +                for python_dir in python_dirs:
+> +                    if fn.startswith(python_dir):
+> +                        relpath = fn[len(python_dir):]
+> +                        relstart, _, relremaining = relpath.partition(os.sep)
+> +                        if relstart.endswith('.egg'):
+> +                            relpath = relremaining
+> +                        base, _ = os.path.splitext(relpath)
+> +
+> +                        if '/.debug/' in base:
+> +                            continue
+> +                        if os.path.basename(base) == '__init__':
+> +                            base = os.path.dirname(base)
+> +                        base = base.replace(os.sep + os.sep, os.sep)
+> +                        provided = base.replace(os.sep, '.')
+> +                        packages[provided] = os.path.basename(pkgdatafile)
+> +        return packages
+> +
+> +    @classmethod
+> +    def run_command(cls, cmd, **popenargs):
+> +        if 'stderr' not in popenargs:
+> +            popenargs['stderr'] = subprocess.STDOUT
+> +        try:
+> +            return subprocess.check_output(cmd, **popenargs).decode('utf-8')
+> +        except OSError as exc:
+> +            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc)
+> +            raise
+> +        except subprocess.CalledProcessError as exc:
+> +            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc.output)
+> +            raise
+> +
+> +class PythonSetupPyRecipeHandler(PythonRecipeHandler):
+> +    bbvar_map = {
+> +        'Name': 'PN',
+> +        'Version': 'PV',
+> +        'Home-page': 'HOMEPAGE',
+> +        'Summary': 'SUMMARY',
+> +        'Description': 'DESCRIPTION',
+> +        'License': 'LICENSE',
+> +        'Requires': 'RDEPENDS:${PN}',
+> +        'Provides': 'RPROVIDES:${PN}',
+> +        'Obsoletes': 'RREPLACES:${PN}',
+> +    }
+> +    # PN/PV are already set by recipetool core & desc can be extremely long
+> +    excluded_fields = [
+> +        'Description',
+> +    ]
+> +    setup_parse_map = {
+> +        'Url': 'Home-page',
+> +        'Classifiers': 'Classifier',
+> +        'Description': 'Summary',
+> +    }
+> +    setuparg_map = {
+> +        'Home-page': 'url',
+> +        'Classifier': 'classifiers',
+> +        'Summary': 'description',
+> +        'Description': 'long-description',
+> +    }
+> +    # Values which are lists, used by the setup.py argument based metadata
+> +    # extraction method, to determine how to process the setup.py output.
+> +    setuparg_list_fields = [
+> +        'Classifier',
+> +        'Requires',
+> +        'Provides',
+> +        'Obsoletes',
+> +        'Platform',
+> +        'Supported-Platform',
+> +    ]
+> +    setuparg_multi_line_values = ['Description']
+> +
+> +    replacements = [
+> +        ('License', r' +$', ''),
+> +        ('License', r'^ +', ''),
+> +        ('License', r' ', '-'),
+> +        ('License', r'^GNU-', ''),
+> +        ('License', r'-[Ll]icen[cs]e(,?-[Vv]ersion)?', ''),
+> +        ('License', r'^UNKNOWN$', ''),
+> +
+> +        # Remove currently unhandled version numbers from these variables
+> +        ('Requires', r' *\([^)]*\)', ''),
+> +        ('Provides', r' *\([^)]*\)', ''),
+> +        ('Obsoletes', r' *\([^)]*\)', ''),
+> +        ('Install-requires', r'^([^><= ]+).*', r'\1'),
+> +        ('Extras-require', r'^([^><= ]+).*', r'\1'),
+> +        ('Tests-require', r'^([^><= ]+).*', r'\1'),
+> +
+> +        # Remove unhandled dependency on particular features (e.g. foo[PDF])
+> +        ('Install-requires', r'\[[^\]]+\]$', ''),
+> +    ]
+> +
+> +    def __init__(self):
+> +        pass
+> +
+> +    def parse_setup_py(self, setupscript='./setup.py'):
+> +        with codecs.open(setupscript) as f:
+> +            info, imported_modules, non_literals, extensions = gather_setup_info(f)
+> +
+> +        def _map(key):
+> +            key = key.replace('_', '-')
+> +            key = key[0].upper() + key[1:]
+> +            if key in self.setup_parse_map:
+> +                key = self.setup_parse_map[key]
+> +            return key
+> +
+> +        # Naive mapping of setup() arguments to PKG-INFO field names
+> +        for d in [info, non_literals]:
+>              for key, value in list(d.items()):
+>                  if key is None:
+>                      continue
+> @@ -445,47 +437,16 @@ class PythonRecipeHandler(RecipeHandler):
+>                  info[fields[lineno]] = line
+>          return info
+>  
+> -    def apply_info_replacements(self, info):
+> -        for variable, search, replace in self.replacements:
+> -            if variable not in info:
+> -                continue
+> -
+> -            def replace_value(search, replace, value):
+> -                if replace is None:
+> -                    if re.search(search, value):
+> -                        return None
+> -                else:
+> -                    new_value = re.sub(search, replace, value)
+> -                    if value != new_value:
+> -                        return new_value
+> -                return value
+> -
+> -            value = info[variable]
+> -            if isinstance(value, str):
+> -                new_value = replace_value(search, replace, value)
+> -                if new_value is None:
+> -                    del info[variable]
+> -                elif new_value != value:
+> -                    info[variable] = new_value
+> -            elif hasattr(value, 'items'):
+> -                for dkey, dvalue in list(value.items()):
+> -                    new_list = []
+> -                    for pos, a_value in enumerate(dvalue):
+> -                        new_value = replace_value(search, replace, a_value)
+> -                        if new_value is not None and new_value != value:
+> -                            new_list.append(new_value)
+> -
+> -                    if value != new_list:
+> -                        value[dkey] = new_list
+> +    def get_pkginfo(self, pkginfo_fn):
+> +        msg = email.message_from_file(open(pkginfo_fn, 'r'))
+> +        msginfo = {}
+> +        for field in msg.keys():
+> +            values = msg.get_all(field)
+> +            if len(values) == 1:
+> +                msginfo[field] = values[0]
+>              else:
+> -                new_list = []
+> -                for pos, a_value in enumerate(value):
+> -                    new_value = replace_value(search, replace, a_value)
+> -                    if new_value is not None and new_value != value:
+> -                        new_list.append(new_value)
+> -
+> -                if value != new_list:
+> -                    info[variable] = new_list
+> +                msginfo[field] = values
+> +        return msginfo
+>  
+>      def scan_setup_python_deps(self, srctree, setup_info, setup_non_literals):
+>          if 'Package-dir' in setup_info:
+> @@ -540,99 +501,160 @@ class PythonRecipeHandler(RecipeHandler):
+>                  unmapped_deps.add(dep)
+>          return mapped_deps, unmapped_deps
+>  
+> -    def scan_python_dependencies(self, paths):
+> -        deps = set()
+> -        try:
+> -            dep_output = self.run_command(['pythondeps', '-d'] + paths)
+> -        except (OSError, subprocess.CalledProcessError):
+> -            pass
+> +    def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
+> +
+> +        if 'buildsystem' in handled:
+> +            return False
+> +
+> +        # Check for non-zero size setup.py files
+> +        setupfiles = RecipeHandler.checkfiles(srctree, ['setup.py'])
+> +        for fn in setupfiles:
+> +            if os.path.getsize(fn):
+> +                break
+>          else:
+> -            for line in dep_output.splitlines():
+> -                line = line.rstrip()
+> -                dep, filename = line.split('\t', 1)
+> -                if filename.endswith('/setup.py'):
+> -                    continue
+> -                deps.add(dep)
+> +            return False
+> +
+> +        # setup.py is always parsed to get at certain required information, such as
+> +        # distutils vs setuptools
+> +        #
+> +        # If egg info is available, we use it for both its PKG-INFO metadata
+> +        # and for its requires.txt for install_requires.
+> +        # If PKG-INFO is available but no egg info is, we use that for metadata in preference to
+> +        # the parsed setup.py, but use the install_requires info from the
+> +        # parsed setup.py.
+>  
+> +        setupscript = os.path.join(srctree, 'setup.py')
+>          try:
+> -            provides_output = self.run_command(['pythondeps', '-p'] + paths)
+> -        except (OSError, subprocess.CalledProcessError):
+> -            pass
+> +            setup_info, uses_setuptools, setup_non_literals, extensions = self.parse_setup_py(setupscript)
+> +        except Exception:
+> +            logger.exception("Failed to parse setup.py")
+> +            setup_info, uses_setuptools, setup_non_literals, extensions = {}, True, [], []
+> +
+> +        egginfo = glob.glob(os.path.join(srctree, '*.egg-info'))
+> +        if egginfo:
+> +            info = self.get_pkginfo(os.path.join(egginfo[0], 'PKG-INFO'))
+> +            requires_txt = os.path.join(egginfo[0], 'requires.txt')
+> +            if os.path.exists(requires_txt):
+> +                with codecs.open(requires_txt) as f:
+> +                    inst_req = []
+> +                    extras_req = collections.defaultdict(list)
+> +                    current_feature = None
+> +                    for line in f.readlines():
+> +                        line = line.rstrip()
+> +                        if not line:
+> +                            continue
+> +
+> +                        if line.startswith('['):
+> +                            # PACKAGECONFIG must not contain expressions or whitespace
+> +                            line = line.replace(" ", "")
+> +                            line = line.replace(':', "")
+> +                            line = line.replace('.', "-dot-")
+> +                            line = line.replace('"', "")
+> +                            line = line.replace('<', "-smaller-")
+> +                            line = line.replace('>', "-bigger-")
+> +                            line = line.replace('_', "-")
+> +                            line = line.replace('(', "")
+> +                            line = line.replace(')', "")
+> +                            line = line.replace('!', "-not-")
+> +                            line = line.replace('=', "-equals-")
+> +                            current_feature = line[1:-1]
+> +                        elif current_feature:
+> +                            extras_req[current_feature].append(line)
+> +                        else:
+> +                            inst_req.append(line)
+> +                    info['Install-requires'] = inst_req
+> +                    info['Extras-require'] = extras_req
+> +        elif RecipeHandler.checkfiles(srctree, ['PKG-INFO']):
+> +            info = self.get_pkginfo(os.path.join(srctree, 'PKG-INFO'))
+> +
+> +            if setup_info:
+> +                if 'Install-requires' in setup_info:
+> +                    info['Install-requires'] = setup_info['Install-requires']
+> +                if 'Extras-require' in setup_info:
+> +                    info['Extras-require'] = setup_info['Extras-require']
+>          else:
+> -            provides_lines = (l.rstrip() for l in provides_output.splitlines())
+> -            provides = set(l for l in provides_lines if l and l != 'setup')
+> -            deps -= provides
+> +            if setup_info:
+> +                info = setup_info
+> +            else:
+> +                info = self.get_setup_args_info(setupscript)
+>  
+> -        return deps
+> +        # Grab the license value before applying replacements
+> +        license_str = info.get('License', '').strip()
+>  
+> -    def parse_pkgdata_for_python_packages(self):
+> -        pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
+> +        self.apply_info_replacements(info)
+>  
+> -        ldata = tinfoil.config_data.createCopy()
+> -        bb.parse.handle('classes-recipe/python3-dir.bbclass', ldata, True)
+> -        python_sitedir = ldata.getVar('PYTHON_SITEPACKAGES_DIR')
+> +        if uses_setuptools:
+> +            classes.append('setuptools3')
+> +        else:
+> +            classes.append('distutils3')
+>  
+> -        dynload_dir = os.path.join(os.path.dirname(python_sitedir), 'lib-dynload')
+> -        python_dirs = [python_sitedir + os.sep,
+> -                       os.path.join(os.path.dirname(python_sitedir), 'dist-packages') + os.sep,
+> -                       os.path.dirname(python_sitedir) + os.sep]
+> -        packages = {}
+> -        for pkgdatafile in glob.glob('{}/runtime/*'.format(pkgdata_dir)):
+> -            files_info = None
+> -            with open(pkgdatafile, 'r') as f:
+> -                for line in f.readlines():
+> -                    field, value = line.split(': ', 1)
+> -                    if field.startswith('FILES_INFO'):
+> -                        files_info = ast.literal_eval(value)
+> -                        break
+> -                else:
+> -                    continue
+> +        if license_str:
+> +            for i, line in enumerate(lines_before):
+> +                if line.startswith('##LICENSE_PLACEHOLDER##'):
+> +                    lines_before.insert(i, '# NOTE: License in setup.py/PKGINFO is: %s' % license_str)
+> +                    break
+>  
+> -            for fn in files_info:
+> -                for suffix in importlib.machinery.all_suffixes():
+> -                    if fn.endswith(suffix):
+> -                        break
+> -                else:
+> -                    continue
+> +        if 'Classifier' in info:
+> +            license = self.handle_classifier_license(info['Classifier'], info.get('License', ''))
+> +            if license:
+> +                info['License'] = license
+>  
+> -                if fn.startswith(dynload_dir + os.sep):
+> -                    if '/.debug/' in fn:
+> -                        continue
+> -                    base = os.path.basename(fn)
+> -                    provided = base.split('.', 1)[0]
+> -                    packages[provided] = os.path.basename(pkgdatafile)
+> -                    continue
+> +        self.map_info_to_bbvar(info, extravalues)
+>  
+> -                for python_dir in python_dirs:
+> -                    if fn.startswith(python_dir):
+> -                        relpath = fn[len(python_dir):]
+> -                        relstart, _, relremaining = relpath.partition(os.sep)
+> -                        if relstart.endswith('.egg'):
+> -                            relpath = relremaining
+> -                        base, _ = os.path.splitext(relpath)
+> +        mapped_deps, unmapped_deps = self.scan_setup_python_deps(srctree, setup_info, setup_non_literals)
+>  
+> -                        if '/.debug/' in base:
+> -                            continue
+> -                        if os.path.basename(base) == '__init__':
+> -                            base = os.path.dirname(base)
+> -                        base = base.replace(os.sep + os.sep, os.sep)
+> -                        provided = base.replace(os.sep, '.')
+> -                        packages[provided] = os.path.basename(pkgdatafile)
+> -        return packages
+> +        extras_req = set()
+> +        if 'Extras-require' in info:
+> +            extras_req = info['Extras-require']
+> +            if extras_req:
+> +                lines_after.append('# The following configs & dependencies are from setuptools extras_require.')
+> +                lines_after.append('# These dependencies are optional, hence can be controlled via PACKAGECONFIG.')
+> +                lines_after.append('# The upstream names may not correspond exactly to bitbake package names.')
+> +                lines_after.append('# The configs are might not correct, since PACKAGECONFIG does not support expressions as may used in requires.txt - they are just replaced by text.')
+> +                lines_after.append('#')
+> +                lines_after.append('# Uncomment this line to enable all the optional features.')
+> +                lines_after.append('#PACKAGECONFIG ?= "{}"'.format(' '.join(k.lower() for k in extras_req)))
+> +                for feature, feature_reqs in extras_req.items():
+> +                    unmapped_deps.difference_update(feature_reqs)
+>  
+> -    @classmethod
+> -    def run_command(cls, cmd, **popenargs):
+> -        if 'stderr' not in popenargs:
+> -            popenargs['stderr'] = subprocess.STDOUT
+> -        try:
+> -            return subprocess.check_output(cmd, **popenargs).decode('utf-8')
+> -        except OSError as exc:
+> -            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc)
+> -            raise
+> -        except subprocess.CalledProcessError as exc:
+> -            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc.output)
+> -            raise
+> +                    feature_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(feature_reqs))
+> +                    lines_after.append('PACKAGECONFIG[{}] = ",,,{}"'.format(feature.lower(), ' '.join(feature_req_deps)))
+>  
+> +        inst_reqs = set()
+> +        if 'Install-requires' in info:
+> +            if extras_req:
+> +                lines_after.append('')
+> +            inst_reqs = info['Install-requires']
+> +            if inst_reqs:
+> +                unmapped_deps.difference_update(inst_reqs)
+> +
+> +                inst_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(inst_reqs))
+> +                lines_after.append('# WARNING: the following rdepends are from setuptools install_requires. These')
+> +                lines_after.append('# upstream names may not correspond exactly to bitbake package names.')
+> +                lines_after.append('RDEPENDS:${{PN}} += "{}"'.format(' '.join(inst_req_deps)))
+> +
+> +        if mapped_deps:
+> +            name = info.get('Name')
+> +            if name and name[0] in mapped_deps:
+> +                # Attempt to avoid self-reference
+> +                mapped_deps.remove(name[0])
+> +            mapped_deps -= set(self.excluded_pkgdeps)
+> +            if inst_reqs or extras_req:
+> +                lines_after.append('')
+> +            lines_after.append('# WARNING: the following rdepends are determined through basic analysis of the')
+> +            lines_after.append('# python sources, and might not be 100% accurate.')
+> +            lines_after.append('RDEPENDS:${{PN}} += "{}"'.format(' '.join(sorted(mapped_deps))))
+> +
+> +        unmapped_deps -= set(extensions)
+> +        unmapped_deps -= set(self.assume_provided)
+> +        if unmapped_deps:
+> +            if mapped_deps:
+> +                lines_after.append('')
+> +            lines_after.append('# WARNING: We were unable to map the following python package/module')
+> +            lines_after.append('# dependencies to the bitbake packages which include them:')
+> +            lines_after.extend('#    {}'.format(d) for d in sorted(unmapped_deps))
+> +
+> +        handled.append('buildsystem')
+>  
+>  def gather_setup_info(fileobj):
+>      parsed = ast.parse(fileobj.read(), fileobj.name)
+> @@ -748,4 +770,4 @@ def has_non_literals(value):
+>  
+>  def register_recipe_handlers(handlers):
+>      # We need to make sure this is ahead of the makefile fallback handler
+> -    handlers.append((PythonRecipeHandler(), 70))
+> +    handlers.append((PythonSetupPyRecipeHandler(), 70))
+> -- 
+> 2.42.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#189430): https://lists.openembedded.org/g/openembedded-core/message/189430
+> Mute This Topic: https://lists.openembedded.org/mt/102055998/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.40.0
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
