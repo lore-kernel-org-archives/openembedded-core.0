@@ -1,227 +1,139 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44D2BC001DF
-	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 15:07:29 +0000 (UTC)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web11.56844.1697814444015344855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 720EACDB474
+	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 15:51:39 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.57857.1697817095439987829
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 08:07:24 -0700
+ Fri, 20 Oct 2023 08:51:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=i+7+Rpkk;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7a694254684so36055939f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:07:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YgaNvTgp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1c9e06f058bso16053255ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697814443; x=1698419243; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xF/ut8LL+QvGV6W+kxnfN7Tqs+UfRwLSgsCTlx2FxIE=;
-        b=i+7+RpkkBiD64zEOxkaD56n2FRONSHUrxi/Umb3rpLuX2Fx4GQ2/yv9VRR68rjJoCv
-         yccm9KwDePMlLFEjUOgdetVlN4bz6SsiGsSOHfs+CftMooC/p8m4gZvWLuGVQ16yvSfq
-         CiiOCFDUtw3MKn/ST44/i0VXfSq++a5yzlOwdjATl637SbPN+uWfdcoM9avcOcRoIvLX
-         VAhNlsguNWGqezVUgcAE000eqJDnFmCiqDETc8AuSjMO2ZpC7BZmmD1KEJ8nX3kYAilZ
-         jYux8shOH7Uc2Pn0lbcUruaWgzSFEA7kGD/U27a5PCGTY2HFauq3t6rzybI27NDdLOoW
-         riig==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697817094; x=1698421894; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H+W4JhMFZW2E0xdHdsXpdPk4MYX7Vn4+HZG+CrTp+E8=;
+        b=YgaNvTgpk/gi4ZmxCv4Z5rGbywWajLO8W6a0H8vyaB2Qw27Z8kZteJuZluYhP4FG6i
+         GWIifyy4B+NdnFvzlQq2CfQWefx+f23nDNGdtn+/OL3UhrRG3C5L7qYe25EoKLfpG6Sk
+         /fVrG6oorPf1XXW26d2/M3IXHMV6/rA1namBCY0Pl3ON+yeU0Qz+y4MWIpzAPuCjcvp0
+         JR/fcL83Fod3LzJCtPo/5ZSkbKM5a4ZXwZ9edXAyRwCMveHH+An55FHOvpDL41ZxEyTQ
+         ctlHq46BNsyY0oKj+ZJL2RL+xaY+srJyHWc0KsLpyNX03Ba8ngDoIXyXtr/aUTQ7zqU/
+         X+Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697814443; x=1698419243;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1697817094; x=1698421894;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xF/ut8LL+QvGV6W+kxnfN7Tqs+UfRwLSgsCTlx2FxIE=;
-        b=Q71cxEOWHSPH2syjP+G8SB4xpoquFQl0ruq4yBmjk+GWFqNhdXPz7AJAiW2dyhD9LE
-         xhXSIaA43EEnRy8oxvqhYc0ZE8aMEhl64KshCEZATD5wcpoQxanJc0TiEx+YE40Av9GU
-         qNTwM2qRCDh9DmrUHX8kqoa6V7vs4KNmzgsQWZyJmQh4uT9fGqUKAoryzyDLT1pWsXT6
-         I2Nnk37yNLgFCOJ+FSOyxhuQOz+6LGcIKoLg9PciWgmiYufkIPdmT2ySt1r4bJuQmJlB
-         4y+uK6Pwj1Lk0b0DWWGt5yDbdMFXFocl2MI71luSJL/I4BWYor0lhC/reZvA51w7UGup
-         4mAA==
-X-Gm-Message-State: AOJu0YxNJAQHI68RoyHfwbEruZAz6fP2g4Y0m8DV7gqONROT4wKPhDkn
-	7tfTGtkdEAW6zbJGNnfdydW478Mp+w721sPMIJw=
-X-Google-Smtp-Source: AGHT+IHn1HCKHxgn4Ru7jiu/cRgRcl6THJsN1phYMIuLpaKPZ3PoEEsVvqvmyiB7MJaq2VQdeBqwFqV8DvAwIA6rqJM=
-X-Received: by 2002:a05:6602:3fcb:b0:7a6:8369:b79f with SMTP id
- fc11-20020a0566023fcb00b007a68369b79fmr2631393iob.19.1697814442899; Fri, 20
- Oct 2023 08:07:22 -0700 (PDT)
+        bh=H+W4JhMFZW2E0xdHdsXpdPk4MYX7Vn4+HZG+CrTp+E8=;
+        b=D+B77D1jFIAX+G62dtf2zBNMoL5Ad/KiJ+U3RMqmiTVksPsOiDA53YlBlYvN20tCTG
+         8/Bg5kLcoAjA4TaNJmksjXFa8xmgq1Tqhmld5qytWxgOcihmAm79hEbNut2jPvjYoD5Z
+         wP7nz3u7eLmbPDPmqJcVA8SW/Kma8OPHQOAOQl+bkHmVrUrK0q9gQF/08wiZ4yfI38em
+         nJwmSHtaPzCSLajceLVcYJCxspene0xucsv3h8dJkI4dmVBY0zDFpfKpMXILPBrSJi6P
+         chfXRZap+NY4rhJrFJoSUEmTVBTzkbHG0ketXPhk6UoQRp6ZbUjGVDEGrHs6u7zuoRr6
+         XcWg==
+X-Gm-Message-State: AOJu0Yy3z1L/UKTN19gyhUfvuta8OyRr4X0wgh8PS/aWmtakQE8/aWgy
+	y3urp5d+GPUR5nmyRQhQf5mJiaWmLIIKNv/nDyg=
+X-Google-Smtp-Source: AGHT+IFZgPWPBaqfRgQVqtcgZpbpMaIz0OHZilBP3A9rWmKrMobMyAGM7Lxl98OvQy1A7buVRhaIjw==
+X-Received: by 2002:a17:902:cec6:b0:1bd:d510:78fb with SMTP id d6-20020a170902cec600b001bdd51078fbmr8233441plg.3.1697817094484;
+        Fri, 20 Oct 2023 08:51:34 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id q12-20020a170902dacc00b001c71ec1866fsm1679244plx.258.2023.10.20.08.51.33
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Oct 2023 08:51:34 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][mickledore 01/24] cups: fix CVE-2023-4504
+Date: Fri, 20 Oct 2023 05:51:03 -1000
+Message-Id: <a1138dfc1e9394966dcca8f6259767a8ce5ca4cb.1697816789.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1697816789.git.steve@sakoman.com>
+References: <cover.1697816789.git.steve@sakoman.com>
 MIME-Version: 1.0
-References: <20231019123202.2195576-1-rasmus.villemoes@prevas.dk>
- <a56768bd90877ba40e6856e1324e2ded90b62201.camel@linuxfoundation.org>
- <1603003d-f5a4-4293-88f0-4b1ea006404b@prevas.dk> <64a231dc3d22dfd4eb33ac10f107997dfc7477f6.camel@linuxfoundation.org>
- <ed261cdd-e97f-446a-97ee-f19e16d54aa2@prevas.dk> <c7ac9c5d66b59e6dfac098ae236847dd7d625a1c.camel@linuxfoundation.org>
- <ea0f9ae6-a9bd-400e-ae08-953055f4e927@prevas.dk> <CADkTA4OBb3Us37Cg3VvpwYDy5dai5Q-_+JAoV7a0KZ-jM8ziOA@mail.gmail.com>
- <1b7ff0faa06fea9773d155f0dc5499302f494156.camel@linuxfoundation.org>
-In-Reply-To: <1b7ff0faa06fea9773d155f0dc5499302f494156.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 20 Oct 2023 11:07:11 -0400
-Message-ID: <CADkTA4NX2Tbj4roTZMSf=-gnA4FVr0upzOOZ9nZ_W0NTjGCnUA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] perf: lift TARGET_CC_ARCH modification out of security_flags.inc
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 15:07:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189544
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 15:51:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189546
 
-On Fri, Oct 20, 2023 at 10:24=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2023-10-20 at 08:52 -0400, Bruce Ashfield wrote:
-> > On Fri, Oct 20, 2023 at 7:19=E2=80=AFAM Rasmus Villemoes
-> > <rasmus.villemoes@prevas.dk> wrote:
-> > >
-> > > On 20/10/2023 12.13, Richard Purdie wrote:
-> > > > On Fri, 2023-10-20 at 12:03 +0200, Rasmus Villemoes wrote:
-> > > > > On 20/10/2023 11.38, Richard Purdie wrote:
-> > > > > > On Fri, 2023-10-20 at 10:10 +0200, Rasmus Villemoes wrote:
-> > > > > > > On 19/10/2023 14.48, Richard Purdie wrote:
-> > > > >
-> > > > > > > > The fact this works suggests perf is ignoring TARGET_CFLAGS=
-. Is there
-> > > > > > > > anything in the perf build system where we should be passin=
-g in cflags
-> > > > > > > > we really want used?
-> > > > > > >
-> > > > > > > Well, IIUC, the normal way TARGET_CFLAGS would take effect is=
- via the
-> > > > > > > 'export CFLAGS =3D "${TARGET_CFLAGS}'. But in the perf recipe=
-, both
-> > > > > > > do_compile and do_install start with
-> > > > > > >
-> > > > > > >         # Linux kernel build system is expected to do the rig=
-ht thing
-> > > > > > >         unset CFLAGS
-> > > > > > >
-> > > > > > > And perf's build system does indeed add lots of flags of its =
-own, at
-> > > > > > > least for most TUs, but nowhere is any -f(macro/debug/file)-p=
-refix being
-> > > > > > > set.
-> > > > > > >
-> > > > > > > So I do think that TARGET_CC_ARCH is the best place for flags=
- that we
-> > > > > > > really want used. At least as an initial step, because this i=
-s known to
-> > > > > > > work when using the security_flags.inc file. Maybe there's so=
-me cleaner
-> > > > > > > way where we don't unset CFLAGS, but that could be a giant ca=
-n of worms.
-> > > > > > >
-> > > > > > > And yes, a comment should be added. Is something like
-> > > > > > >
-> > > > > > > # Perf's build system adds its own optimization flags for mos=
-t TUs,
-> > > > > > > # overriding the flags included here. But for some, perf does=
- not add
-> > > > > > > # any -O option, so ensure the distro's chosen optimization g=
-ets used
-> > > > > > > # for those. Since ${SELECTED_OPTIMIZATION} always includes
-> > > > > > > # ${DEBUG_FLAGS} which in turn includes ${DEBUG_PREFIX_MAP}, =
-this also
-> > > > > > > # ensures perf is built with appropriate -f*-prefix-map optio=
-ns,
-> > > > > > > # avoiding the 'buildpaths' QA warning.
-> > > > > > >
-> > > > > > > too verbose?
-> > > > > >
-> > > > > > If it were me I'd probably write:
-> > > > > >
-> > > > > > # The perf makefile has "unset CFLAGS" as "Linux kernel build s=
-ystem is
-> > > > > > # expected to do the right thing".
-> > > > >
-> > > > > It's not the perf makefile, it's right there in our recipe itself=
-. I
-> > > > > don't think upstream perf is to blame.
-> > > >
-> > > > Sorry, I misunderstood. I thought this was the perf environment tha=
-t
-> > > > was doing this so in that case your comment does make much more sen=
-se
-> > > > than mine.
-> > >
-> > > OK. Bruce, should I resend?
-> >
-> > Yes, let's go for a resend with the comment added. If we can avoid even=
- some of
-> > the pain wondering about this again .. our future selves will thank us =
-:)
-> >
-> > >
-> > > > Out of interest did you see what happens if you allow our CFLAGS in=
- and
-> > > > remove that unset?
-> > >
-> > > I don't think I've tried that, but I've tried a few other things that=
- I
-> > > thought would be cleaner but which then exploded, so in the end I
-> > > decided that just lifting exactly what the poky distro does should be
-> > > safest and have the highest likelyhood of being accepted.
-> >
-> > This is not directed at Rasmus, but a general comment ..
-> >
-> > For pretty much anything kernel, and perf has always strongly been in
-> > that category, we've always unset everything and allowed the Makefiles
-> > (and the nested mess of tests, includes and trickery) to set their own
-> > flags. It has saved subtle runtime issues and this is one area that the
-> > developers tend to know what they are doing.
->
-> For the kernel itself, yes, they do. For userspace binaries, we do in
-> general have a good idea of how binaries should be being built and
-> we're a bit ahead of the curve on the flags/features that should be
-> configured.
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-And I'm saying that these userspace packages in the kernel are
-almost as opinionated as the kernel. I generally trust their options
-and don't want to control all aspects of the flags. I certainly don't
-want to support them as we climb through the new kernel versions,
-so keeping the defaults is a much better option.
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-extended/cups/cups.inc           |  1 +
+ .../cups/cups/CVE-2023-4504.patch             | 42 +++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2023-4504.patch
 
->
-> > When there's a chance to append, they've give us a variable to do so,
-> > that's why we've always used EXTRA_CFLAGS, and that likely is the
-> > right place to use here as well. But even then, we shouldn't pass ALL o=
-f
-> > our flags in there, just what we think needs to be in addition to the
-> > perf generated set of CFLAGS.
->
-> I'm not entirely convinced of that. Which CFLAGS do we have which would
-> be harmful to userspace binaries?
->
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index c6a676b747..d09ceb203f 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -17,6 +17,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
+            file://cups-volatiles.conf \
+            file://CVE-2023-32324.patch \
+            file://CVE-2023-34241.patch \
++           file://CVE-2023-4504.patch \
+            "
+ 
+ GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
+diff --git a/meta/recipes-extended/cups/cups/CVE-2023-4504.patch b/meta/recipes-extended/cups/cups/CVE-2023-4504.patch
+new file mode 100644
+index 0000000000..e52e43a209
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups/CVE-2023-4504.patch
+@@ -0,0 +1,42 @@
++CVE: CVE-2023-4504
++Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/2431caddb7e6a87f04ac90b5c6366ad268b6ff31 ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++
++From 2431caddb7e6a87f04ac90b5c6366ad268b6ff31 Mon Sep 17 00:00:00 2001
++From: Zdenek Dohnal <zdohnal@redhat.com>
++Date: Wed, 20 Sep 2023 14:45:17 +0200
++Subject: [PATCH] raster-interpret.c: Fix CVE-2023-4504
++
++We didn't check for end of buffer if it looks there is an escaped
++character - check for NULL terminator there and if found, return NULL
++as return value and in `ptr`, because a lone backslash is not
++a valid PostScript character.
++---
++ cups/raster-interpret.c | 14 +++++++++++++-
++ 1 files changed, 13 insertions(+), 1 deletion(-)
++
++diff --git a/cups/raster-interpret.c b/cups/raster-interpret.c
++index 6fcf731b5..b8655c8c6 100644
++--- a/cups/raster-interpret.c
+++++ b/cups/raster-interpret.c
++@@ -1116,7 +1116,19 @@ scan_ps(_cups_ps_stack_t *st,		/* I  - Stack */
++ 
++ 	    cur ++;
++ 
++-            if (*cur == 'b')
+++	   /*
+++	    * Return NULL if we reached NULL terminator, a lone backslash
+++	    * is not a valid character in PostScript.
+++	    */
+++
+++	    if (!*cur)
+++	    {
+++	      *ptr = NULL;
+++
+++	      return (NULL);
+++	    }
+++
+++	    if (*cur == 'b')
++ 	      *valptr++ = '\b';
++ 	    else if (*cur == 'f')
++ 	      *valptr++ = '\f';
+-- 
+2.34.1
 
-Optimization has always been an issue, as have been the include paths
-(which chain into how we sync the kernel headers and perf similar /
-duplicate headers), even some of the security options have caused
-troubles as perf really isn't something you can use in a "secure" way.
-
-Which is why we've always added to the flags, versus controlling
-them completely.
-
-> I'm basically saying we should at least investigate this as I'm not
-> sure which things we have in CFLAGS would be problematic to userspace
-> binaries in general. It may not work and that is fine but I don't think
-> perf userspace should be that sensitive to the things we usually have
-> set.
-
-I don't see a lot of value in looking at it too much, as we are just
-trading one set of issues for another. But I of course can't stop
-anyone from looking and suggesting changes, I'll just be asking them
-for help when I end up crashing into issues during new kernel
-introductions :)
-
-Bruce
-
->
-> Cheers,
->
-> Richard
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
