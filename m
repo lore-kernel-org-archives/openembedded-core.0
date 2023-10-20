@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 660E0CDB474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54CD2C001DF
 	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 15:51:49 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.57861.1697817102448705231
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.57859.1697817099405287313
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 08:51:42 -0700
+ Fri, 20 Oct 2023 08:51:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ciw4yJ2J;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6b20577ef7bso846229b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:51:42 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tFH4nPNJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1c9d922c039so7783645ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 08:51:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697817101; x=1698421901; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697817098; x=1698421898; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MgBHHUNo6p2x9/2KeXvYlyk7ceaNjsjfyo/ABYrk5pU=;
-        b=Ciw4yJ2JKHoRXtz2Q+/s7KfYiXbSzWfi4hZnbheHluxIaR9XSnMN9MYr3yIKVAMoBA
-         iH1Xk1XJ4mQ8znQ5z4pdGVf3P18MDqtFK5s1GjAmqQkBVSz5CliV3DAviP4PQ0Tw7xi6
-         8drnu6/53Yq0bXre7CCGLGxyd2SJD52/Za6xB8gvZKGHfmlXBZbpNuNNY+GMA9c7P8rc
-         98wLtE4DHtAGAB2+zShS/7FOwQrEF9XFnbqnGPjbxsgQg8FiwHVyt2k9LucZh8PbwB+t
-         NM+2v6plsT+q0MBJt7PYzgsZktN5NN+w+LVCN1jeVG+rWmjQ1b+EBdafpqDd14t7KRAN
-         h4nw==
+        bh=e/Grj0ohc8t6pgqsbMApo96uru6LjSPZoujR07AaFcg=;
+        b=tFH4nPNJ3WnMoYrMyq4IMTZDdwF4VjH82j/qjCUgIYd2o6WgCkluvD/pJM+X81mfwu
+         ploZkfuNfiCJQzvvuZZb8xho/xyGPX86q8ljbdURMkBenQjALvGNZt0MkefhCRmoT2GT
+         NLb1372q8fEao76ULklD/0wtZmycrTX5Bz51npDdWlUL2sdFeSUIUHIvnmLyBiUjL10s
+         UeJONkTi4dD7F67h68dzM0W980dOyRG9oTjjlhdl2FsUmBEfnVX/rWGeZWV5utbZ9nUA
+         9K0b/dwa8SkX+SGBZzfmHbwvXW+CllIWNZBmRDV+F/TNgVSPWJY0x9Eggk7Kuf3+XpAI
+         35bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697817101; x=1698421901;
+        d=1e100.net; s=20230601; t=1697817098; x=1698421898;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MgBHHUNo6p2x9/2KeXvYlyk7ceaNjsjfyo/ABYrk5pU=;
-        b=we+8y0vJN3X4oY3cWDbwNogYnoZ3hVci8cKFWVG69Zo/WU+gikmkmaLMplXOP8VY81
-         NpJgLP2TzPOnCTjOb9P/M0ovxWlm3pnZSMQb4Tp1ysvtuDnUq3Hj3mtDVXAc3sKnn/Yz
-         GxHiUknahjN/A4YWOi6UvnjVK6xN4NZ//eV8AQ+81mpQRRYVC6AsA/o/DMMKP8iTXnYG
-         2zQ4jo1Do2UWWHwyVjKtORPWCU+o74HdA+IU6zX5JsvX8QonLNVzo4MXtxi4Y/LlXcmS
-         XzrAVY7tkR/K51R/sJdkBog9fUHZuyBCCpqpjbLtOVK7lnGikN+OYn/Z9Qpd4vNHyBuO
-         knOA==
-X-Gm-Message-State: AOJu0YxR/OD/BmASDK6jb3aWi+eiVrJVdHgH7l7X1lNTMklM2ZztNkDE
-	WC+7CpWwOs+nN6VPeSg6vBfY2RZ27KOAY32hZio=
-X-Google-Smtp-Source: AGHT+IGU0yo1ra5JvSegFmPdsO03H1RoSYZMqiXDCknkqZqUQ8/Bw7vjyiPqfeM/6be/2KZ00ndXwA==
-X-Received: by 2002:a05:6a20:2451:b0:135:4df7:f165 with SMTP id t17-20020a056a20245100b001354df7f165mr2245394pzc.21.1697817101584;
-        Fri, 20 Oct 2023 08:51:41 -0700 (PDT)
+        bh=e/Grj0ohc8t6pgqsbMApo96uru6LjSPZoujR07AaFcg=;
+        b=gBG2kxBE7++VXoS8IrZWSOpD1ls0O4NTk4MhRGGsB4PeFF1FswhfL1ocres4dw+doB
+         u8PFfmLeOmbpAvwJKvOYz65wDFtO4E7UhX4BGOvtKj2dlRlPMSZLNj9BSXvsU75hUOaL
+         ARvuL+nFyCZHIrT/O2u9t9ZkMY5BkVxlrdcinyX7t7yDGPAT2cWJGxFaAzuOwGIsWJlX
+         fCvtSMjCj1WdxwZ+w9F04Zi0I77pcPW31YwlLLWTUYLKMS/4v0TBiulS+oicoiqg7pqE
+         owO8k2dmlja/t2HpOSGawulnS889DeqnvnR2MC5S+W5hkzYWD6GZDdbQOB9wOZQQPFWr
+         FfVA==
+X-Gm-Message-State: AOJu0YzEJpOuGWEA/xDYj/wFeAh296Ueakkrub1Htq5pVz+kcPhd9zog
+	ekiKKBYttriFyydMkTNtzT3EbQDCS46f/wK3A+0=
+X-Google-Smtp-Source: AGHT+IH/c6iFMPj+rXC3nhRzqC61fh9HQdM0nIMEBajI5NgZp5nO4+8D1iXAqa1N5yjGXqtz0T1hkA==
+X-Received: by 2002:a17:902:db12:b0:1c2:218c:3754 with SMTP id m18-20020a170902db1200b001c2218c3754mr2359924plx.53.1697817098081;
+        Fri, 20 Oct 2023 08:51:38 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id q12-20020a170902dacc00b001c71ec1866fsm1679244plx.258.2023.10.20.08.51.40
+        by smtp.gmail.com with ESMTPSA id q12-20020a170902dacc00b001c71ec1866fsm1679244plx.258.2023.10.20.08.51.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 08:51:41 -0700 (PDT)
+        Fri, 20 Oct 2023 08:51:37 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 05/24] python3-urllib3: 1.26.15 -> 1.26.17
-Date: Fri, 20 Oct 2023 05:51:07 -1000
-Message-Id: <7466db00ca2f884cf58504c3910b858a87f33128.1697816789.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 03/24] qemu: ignore RHEL specific CVE-2023-2680
+Date: Fri, 20 Oct 2023 05:51:05 -1000
+Message-Id: <7300254fdb6659c0a7462c64133f893d1a152850.1697816789.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1697816789.git.steve@sakoman.com>
 References: <cover.1697816789.git.steve@sakoman.com>
@@ -61,43 +61,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 15:51:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189550
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189548
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
-
-1.26.17 (2023-10-02)
-Added the Cookie header to the list of headers to strip from requests
-when redirecting to a different host. As before, different headers can
-be set via Retry.remove_headers_on_redirect. (CVE-2023-43804)
-
-1.26.16 (2023-05-23)
-Fixed thread-safety issue where accessing a PoolManager with many
-distinct origins would cause connection pools to be closed while
-requests are in progress (#2954)
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{python3-urllib3_1.26.15.bb => python3-urllib3_1.26.17.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-urllib3_1.26.15.bb => python3-urllib3_1.26.17.bb} (86%)
+ meta/recipes-devtools/qemu/qemu.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-urllib3_1.26.15.bb b/meta/recipes-devtools/python/python3-urllib3_1.26.17.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-urllib3_1.26.15.bb
-rename to meta/recipes-devtools/python/python3-urllib3_1.26.17.bb
-index d2de7c4c02..57b166870a 100644
---- a/meta/recipes-devtools/python/python3-urllib3_1.26.15.bb
-+++ b/meta/recipes-devtools/python/python3-urllib3_1.26.17.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c2823cb995439c984fd62a973d79815c"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 00decc57e5..a7f1099dd5 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -67,6 +67,10 @@ CVE_CHECK_IGNORE += "CVE-2018-18438"
+ # this bug related to windows specific.
+ CVE_CHECK_IGNORE += "CVE-2023-0664"
  
--SRC_URI[sha256sum] = "8a388717b9476f934a21484e8c8e61875ab60644d29b9b39e11e4b9dc1c6b305"
-+SRC_URI[sha256sum] = "24d6a242c28d29af46c3fae832c36db3bbebcc533dd1bb549172cd739c82df21"
- 
- inherit pypi setuptools3
- 
++# As per https://bugzilla.redhat.com/show_bug.cgi?id=2203387
++# RHEL specific issue
++CVE_CHECK_IGNORE += "CVE-2023-2680"
++
+ COMPATIBLE_HOST:mipsarchn32 = "null"
+ COMPATIBLE_HOST:mipsarchn64 = "null"
+ COMPATIBLE_HOST:riscv32 = "null"
 -- 
 2.34.1
 
