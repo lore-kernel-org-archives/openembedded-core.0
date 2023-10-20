@@ -1,188 +1,191 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5824AC0032E
-	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 12:45:58 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.40])
- by mx.groups.io with SMTP id smtpd.web10.53239.1697805955384323293
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78545C001DF
+	for <webhook@archiver.kernel.org>; Fri, 20 Oct 2023 12:53:18 +0000 (UTC)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web11.53585.1697806390096848640
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Oct 2023 05:45:55 -0700
+ Fri, 20 Oct 2023 05:53:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=NHn1WSeW;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 40.107.8.40, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EIdWNSOKGxBFkLnvEc1UjAC4cgQg/EYz0MNPk3bVenDf6bXQ2NKkLRMTaekaMiEc/TvaBrRuipvMQfQ9sKxf1Yl15x+CUefhhwYaezvxeb06H0UACAxgtqai9QZAiCv6GX6hF3+NWR6AqtAJ0pn6V69g5TXTZdfUn6jOOzPs64ath/85hnWZsy6oPDmOIqR5TmCGGhtm0kjyPvLJp5bGJ+paCqQ3K78d0ZeGBkfxJS2fYV21oFOacQWSJU6WhdQIg3UFtRQBqScUKakNABCjiFd0F5rqJn4ZDSayFMWqEqLAjSE7hFG9XdOkRt2hqcqizfMs1bJ+QW8pp80Pk5LMgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8HfaFG1HZbfu/xXcgVfe+Lj2DrxJoDIOB+IIqgOK968=;
- b=UIvyO6PKjmE8vvziEyxbjtidwHWwwHIbbDYppvGs0bkHb5DUohigFUvdtdnx7ic0HdgLsdZpN0i0Q4tsjoq3/p6WpOHuPjNpiEmPQVDTGJAS9MEoWyt7Z22LmUkzeKIVH4JG/UpEehfNGUTvCQwa2JQAXFQrkor+K3/o3ByCVKoCJvDQJYxfAqc2FHlhoktb+RT1+hqGIE9PogXs6L2fwJ+zHAaR2mAk96MyCiZC6jDcPtVFRwPRxfl7uD5dLDPjfOxQad33rv0tlftzIhlmJYfoUk3iC/8nce2su2zB5vrsknevYOT/KGf9CBJ427pqqjAFUgJ2w6jJN/b+b1HVqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8HfaFG1HZbfu/xXcgVfe+Lj2DrxJoDIOB+IIqgOK968=;
- b=NHn1WSeWTDq+ql8MogIJlQNgIi3kcvbxJChaE1/QVZcCPEzHo4qtfHzumsz1JMGf1N1YnDcso5qLNn2kCmx+MFw24uMYfjbnvMWuy/a+NWEnN1gI5wYZSAfqi1tocWYS4G7QjRlBbmRL1o0zT6l5725d9hQ1tDhsDAqkP6+aswjuU796kUVyOV78WTjPwh3d2CueKnVItoYJjqMhRRfQQGs0OtDg0Fq9TLHqsoEeMbGzNfr9dzJA6NOYQFL4rKeOid8JZpNQf5ZPPCBS1zTrsmfxClNR8e+lnlRFkwX22WjMy7mxqWda1d+/jUTDOP3ZOBewMGrw9vuKjTBGpTK4vQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by DB9PR06MB7515.eurprd06.prod.outlook.com (2603:10a6:10:260::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.23; Fri, 20 Oct
- 2023 12:45:52 +0000
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::cf3a:acd1:fc53:af3c]) by AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::cf3a:acd1:fc53:af3c%5]) with mapi id 15.20.6907.021; Fri, 20 Oct 2023
- 12:45:52 +0000
-From: niko.mauno@vaisala.com
-To: openembedded-core@lists.openembedded.org
-CC: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH 4/4] package_rpm.bbclass: Support compression override
-Date: Fri, 20 Oct 2023 12:44:50 +0000
-Message-ID: <20231020124450.9736-4-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231020124450.9736-1-niko.mauno@vaisala.com>
-References: <20231020124450.9736-1-niko.mauno@vaisala.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: AS4P192CA0033.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:658::27) To AS4PR06MB8447.eurprd06.prod.outlook.com
- (2603:10a6:20b:4e2::11)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nUpOOs3W;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7a667f3f5c0so27295939f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 05:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697806389; x=1698411189; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=moavlk6YRHtKspsdtvWRNvgZw9RW3WZhaJrL4DoIz/A=;
+        b=nUpOOs3WfXfoQE6q9I8hjuYZ5zSoe24o9885WKWTX8rIOOlHozz+WDs+j4vT2kAynn
+         rIQjd9C6d+BH4v40F7gkuSqxaMyIs8/7ujDC93hpdXgdbsh0dCIXnNIFVB+NyZ4d3OM5
+         uaZAJRjMT6i3iaCWaj0zOD19CUMayhPqEyq3JtANsixJE81UJukPNXXhSPvDOE4Rq343
+         4XbuNBgnLcOPMPfs5+RtrTV6WN3i49H1WZb9f64wH3pazOx62IvpAjbffGlj55fM4Gtz
+         8WOb65SHeOqwbNdMdkI4jeiGHRYnFlkCQhb6FUpxo8x/lL7d7I5pHBtSJe2IJnZCz5PG
+         Z/ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697806389; x=1698411189;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=moavlk6YRHtKspsdtvWRNvgZw9RW3WZhaJrL4DoIz/A=;
+        b=YySF2WYMtEbqdlKtI/MDa6QvCtYAik1IxXDjyH4XSnR/5RABrTeElVS7gdP0OZ7DwU
+         AlqrhZ7r0fvM9thKvDR+WBS75fjZ81x9dWVZ+OXdCd7BXvWGIsWq/hiKuAoyen0yqQof
+         7N/asOOBnka+OWKm5Dc+/H1LFynEfu5eQhdqfY+Ca8LF/9vEWsONCfjOzdRArXnomAl6
+         826zvdwPuWq+K8/zanbVt2ghgwrUYcT9BAspeLpAF8ikNm7y/NwNFFTp4bVNdjIrINVK
+         /SW6MVOHwC1hUa6WgMS+AUWTjVmXUa5pp7GH1MxVVBpfY6tTzvfDJu0HHqXzpxHogrOS
+         qi7w==
+X-Gm-Message-State: AOJu0Yxddi6+VmZPY0yewh2e7hDrWaBjJhj/+GMbLMD/vJuDBupN5NGI
+	6RV6cUV0mp+SwCjdf893Cy2ctEoqqYwiElLv+dI=
+X-Google-Smtp-Source: AGHT+IHC7hhXM8iOqszNjYqTZYg7lcL4c1IHbbxTQjC0etd4ppodxXEafU6LHcXyMmW7wjDZJTm/LTzAwlHRCfk+06Y=
+X-Received: by 2002:a05:6602:2c83:b0:790:bc17:1c63 with SMTP id
+ i3-20020a0566022c8300b00790bc171c63mr2227093iow.1.1697806389206; Fri, 20 Oct
+ 2023 05:53:09 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|DB9PR06MB7515:EE_
-X-MS-Office365-Filtering-Correlation-Id: 779ea407-d61d-41ce-186e-08dbd16a7e73
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	0SLAEA8Gnmq48H6T0Yn6ytU3asR3nFrE0tJBQFLqf81SJiSUvGtcQijHoe+HnWGNJpHRwsi69ECbC6a42lRFHe7zbqjcedKEmwkJbhCwyu/fj9u30OqDWASO7RlPu50oPj58NFE0kBayoqW+254nHYxrMomJtzH86wlypeIDgGfFpqD99G56T4Tym6Tlb88DaE5XzIMHNuW28UZ8WtfQcNBIc+lDTmAlhdFaAj1fkJq2jP1JRzIj51t1B/9oifjiEw6RkvdIiWnOocSqiVOXLcxT8EzpoXck5nH1I/ej6JaZZsCkXfdGJahWm8bdNYWv8qh2uRQOzhZZrbGg/Ubb0tPZl99O5/qxhZTxJGONNFd3Y0l+s0VcBq5z43tmgv6GJ36Av5j9rWF7/3c8F84h2znE8qQeY+frqy34DV7jT8Bz7meGZvHEpWQe9s2CFfTkgbIM4fJJ7bYTFb+cREQNlZaKa9SrKag5+UhNxxw4imya3KORbQMvQKeDTIc8ZJQ1XKIkd4LIzNdmChljCsY8nknyGmEN6MKK3XMtgnW4q/Bq2HQ5fwNhA9cnNUEGa79a3j647G6GVeiCrcXXV0ScskttP6lwD+xWwTouteQzKHSHa+PgkVdPdWJt75TwDtQm
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(396003)(346002)(136003)(366004)(230922051799003)(451199024)(1800799009)(64100799003)(186009)(41300700001)(83380400001)(38100700002)(107886003)(9686003)(6512007)(2616005)(36756003)(1076003)(2906002)(5660300002)(6916009)(66476007)(86362001)(8936002)(66946007)(8676002)(4326008)(66556008)(316002)(478600001)(52116002)(6506007)(6486002)(26005)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?MgO1ThRvEOE1jph8/YhOHPwY8PiFmyHCIdiAqkHLXYujClnP7sjNV/9+ZRR5?=
- =?us-ascii?Q?NN9+bTwgzJP7I2m+N0C8r5jIoKo1Rv8xWScQQE+KrWNNqo4y0I++1gvP53ee?=
- =?us-ascii?Q?eb5bIJwI/ok5piKTA7gnYwGgNqIyFjCvkyMVTwwbW5kgiBr3XPFgRAEYn/4a?=
- =?us-ascii?Q?C6V5BtPgGwc0EFKS+WhXj/zN3d/gNf00rM3PDGbLFFljvIF0u5ceUEL8L+AE?=
- =?us-ascii?Q?jqYqeq1rXbAb08VwxuNihmZzGC7/fh7+T4A5MHSE3hFbRIvyvn/zTI03GwrC?=
- =?us-ascii?Q?IitbgpSVc2F2qZap356QrvHxYq0redw8/EtfhUz+vzjyrJb2g/C5W9/Fd/eH?=
- =?us-ascii?Q?4dX3rOapXEeO7F6t+OVetyimkUsKYoSy8r4h5tGWklO4g29p9eYn73TE2X93?=
- =?us-ascii?Q?2c5uxpJt1uqTnXu8mlbO6P3mr0bnFyJxMj2Gf/7w3hrBgpFNrh2cotKaZoY1?=
- =?us-ascii?Q?Mq7nmj0yzcx7LD12+iAnVamwIF3OWjHBWo8tCAVKFlGf+z+qB8F0GEZzusCj?=
- =?us-ascii?Q?EqI7yymcgXieYjybMqs+Q7PznF0H8q8SnpzJ/x5DGe8IpZkuou66kjIiUsEX?=
- =?us-ascii?Q?5lQ9uzfMfrcqWCtLdWC8KNB3mTkgHA97TD23DAkhguZYq47SzupCwgw2hJuA?=
- =?us-ascii?Q?8Jyg2qyA4cn4c4h49w8RwAMI9cQHtIhUNkfiYooubAPFZe5OWUMlwCZga3KR?=
- =?us-ascii?Q?5Sn24FFT/nxswsG6diplP1LrDd8O6g+dkj96kiJkYOkkfqi0wUtcXEwS4NEI?=
- =?us-ascii?Q?lNNvsvmuB3TuSwCWxNWwDmoyzCVZVUc6MeuyLUC3+mDfN/wz5TuDqqucLucZ?=
- =?us-ascii?Q?Bw1DO2+ULRKySYTdOgW5p3por3/DLW40I0EVhSk1AkB0yesQkkHv30NtuIng?=
- =?us-ascii?Q?mxUcRQMDi58fKSrS6ZyZEKwT+gaGm1Sxc6SlG0Uch9zF3/0xW3ASvEJxpWvn?=
- =?us-ascii?Q?PYMlZQsFui17kZmaP7W0ELykcpgxkrOO8tG12Si2xmIPNRbocYYmMh8dmVTd?=
- =?us-ascii?Q?a3LemzMuziAJfZ/riyOCdWzrCrwhP93kj6huDTzqxAevpRRKUAfc5kyt6qop?=
- =?us-ascii?Q?GkxB+CYq2BH1zs+RqRKJd7RP+FwKOvKOzXTjS9EuH2T4kgRzAPcwfn7aZ7G0?=
- =?us-ascii?Q?KKT4JhZnZ1jH+BeDNI9c3vDAkxAUtdDGpsd89mTMO3lXQGMTamkL/iWMMB7t?=
- =?us-ascii?Q?Lkm2NitUyeCNIXKXhi3i6QJty3IjdxN7xi7vaOCvY/qKWo6g29KeY3B5c7Da?=
- =?us-ascii?Q?U031oQTrtPj120VcG0eMEADVZfQjH1WlvRpuAOIDwi0tUDeJWbHjlNIFeCka?=
- =?us-ascii?Q?eymc+A+Ub4s7rA3G+jYhhZstRVlOJzQU355Z/e/9mPcO6UJLwvEtSoEEBWNe?=
- =?us-ascii?Q?NrgAX2zxAevSdIViMK8L6O7chjQMVdyePdJZRoR8HvaQ6Ydz5NKj9XqGw2jP?=
- =?us-ascii?Q?KJbUx5k8NVj5p0d3MORasbcPNvWp/8B/P9LgnLkUlfXpP7X4DWSDbYH1HWVG?=
- =?us-ascii?Q?xOwYBlp12y1OsuZv2J/f4WnVGLMEEfrrwebpHhGlEeh96tpOAKcrSayBqCrK?=
- =?us-ascii?Q?myi6nC1kTtFCcMYa8QMjaRcQYEZ7CIOrd1t9ORym7FwDgxW19VPgPyUiKKx5?=
- =?us-ascii?Q?Wg=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 779ea407-d61d-41ce-186e-08dbd16a7e73
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2023 12:45:52.2611
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h1pZDklHjDGrDB1uTbmK7LvbjULPtqyLOD1pfuVkuRC7XePNfaYhExOXgvfWFkFGEFepxZwH9M5DrMjKWLrfuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR06MB7515
+References: <20231019123202.2195576-1-rasmus.villemoes@prevas.dk>
+ <a56768bd90877ba40e6856e1324e2ded90b62201.camel@linuxfoundation.org>
+ <1603003d-f5a4-4293-88f0-4b1ea006404b@prevas.dk> <64a231dc3d22dfd4eb33ac10f107997dfc7477f6.camel@linuxfoundation.org>
+ <ed261cdd-e97f-446a-97ee-f19e16d54aa2@prevas.dk> <c7ac9c5d66b59e6dfac098ae236847dd7d625a1c.camel@linuxfoundation.org>
+ <ea0f9ae6-a9bd-400e-ae08-953055f4e927@prevas.dk>
+In-Reply-To: <ea0f9ae6-a9bd-400e-ae08-953055f4e927@prevas.dk>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 20 Oct 2023 08:52:58 -0400
+Message-ID: <CADkTA4OBb3Us37Cg3VvpwYDy5dai5Q-_+JAoV7a0KZ-jM8ziOA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] perf: lift TARGET_CC_ARCH modification out of security_flags.inc
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 12:45:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189523
+ <openembedded-core@lists.openembedded.org>; Fri, 20 Oct 2023 12:53:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189524
 
-From: Niko Mauno <niko.mauno@vaisala.com>
+On Fri, Oct 20, 2023 at 7:19=E2=80=AFAM Rasmus Villemoes
+<rasmus.villemoes@prevas.dk> wrote:
+>
+> On 20/10/2023 12.13, Richard Purdie wrote:
+> > On Fri, 2023-10-20 at 12:03 +0200, Rasmus Villemoes wrote:
+> >> On 20/10/2023 11.38, Richard Purdie wrote:
+> >>> On Fri, 2023-10-20 at 10:10 +0200, Rasmus Villemoes wrote:
+> >>>> On 19/10/2023 14.48, Richard Purdie wrote:
+> >>
+> >>>>> The fact this works suggests perf is ignoring TARGET_CFLAGS. Is the=
+re
+> >>>>> anything in the perf build system where we should be passing in cfl=
+ags
+> >>>>> we really want used?
+> >>>>
+> >>>> Well, IIUC, the normal way TARGET_CFLAGS would take effect is via th=
+e
+> >>>> 'export CFLAGS =3D "${TARGET_CFLAGS}'. But in the perf recipe, both
+> >>>> do_compile and do_install start with
+> >>>>
+> >>>>         # Linux kernel build system is expected to do the right thin=
+g
+> >>>>         unset CFLAGS
+> >>>>
+> >>>> And perf's build system does indeed add lots of flags of its own, at
+> >>>> least for most TUs, but nowhere is any -f(macro/debug/file)-prefix b=
+eing
+> >>>> set.
+> >>>>
+> >>>> So I do think that TARGET_CC_ARCH is the best place for flags that w=
+e
+> >>>> really want used. At least as an initial step, because this is known=
+ to
+> >>>> work when using the security_flags.inc file. Maybe there's some clea=
+ner
+> >>>> way where we don't unset CFLAGS, but that could be a giant can of wo=
+rms.
+> >>>>
+> >>>> And yes, a comment should be added. Is something like
+> >>>>
+> >>>> # Perf's build system adds its own optimization flags for most TUs,
+> >>>> # overriding the flags included here. But for some, perf does not ad=
+d
+> >>>> # any -O option, so ensure the distro's chosen optimization gets use=
+d
+> >>>> # for those. Since ${SELECTED_OPTIMIZATION} always includes
+> >>>> # ${DEBUG_FLAGS} which in turn includes ${DEBUG_PREFIX_MAP}, this al=
+so
+> >>>> # ensures perf is built with appropriate -f*-prefix-map options,
+> >>>> # avoiding the 'buildpaths' QA warning.
+> >>>>
+> >>>> too verbose?
+> >>>
+> >>> If it were me I'd probably write:
+> >>>
+> >>> # The perf makefile has "unset CFLAGS" as "Linux kernel build system =
+is
+> >>> # expected to do the right thing".
+> >>
+> >> It's not the perf makefile, it's right there in our recipe itself. I
+> >> don't think upstream perf is to blame.
+> >
+> > Sorry, I misunderstood. I thought this was the perf environment that
+> > was doing this so in that case your comment does make much more sense
+> > than mine.
+>
+> OK. Bruce, should I resend?
 
-Commit 4a4d5f78a6962dda5f63e9891825c80a8a87bf66 ("package_rpm: use zstd
-instead of xz") changed the rpm package compressor from 'xz' to 'zstd'
-which results in decompression failure with BusyBox-provided 'rpm2cpio'
-applet and 'rpm' applet when given the '-i' (Install package) option:
+Yes, let's go for a resend with the comment added. If we can avoid even som=
+e of
+the pain wondering about this again .. our future selves will thank us :)
 
-  rpm2cpio: no gzip/bzip2/xz magic
+>
+> > Out of interest did you see what happens if you allow our CFLAGS in and
+> > remove that unset?
+>
+> I don't think I've tried that, but I've tried a few other things that I
+> thought would be cleaner but which then exploded, so in the end I
+> decided that just lifting exactly what the poky distro does should be
+> safest and have the highest likelyhood of being accepted.
 
-In order to maintain compatibility with BusyBox introduce new variable
-which can be overridden like:
+This is not directed at Rasmus, but a general comment ..
 
-  RPM_COMPRESSION =3D "xz"
+For pretty much anything kernel, and perf has always strongly been in
+that category, we've always unset everything and allowed the Makefiles
+(and the nested mess of tests, includes and trickery) to set their own
+flags. It has saved subtle runtime issues and this is one area that the
+developers tend to know what they are doing.
 
-to enable rpm decompression without including the full rpm package in
-the resulting root filesystem.
+When there's a chance to append, they've give us a variable to do so,
+that's why we've always used EXTRA_CFLAGS, and that likely is the
+right place to use here as well. But even then, we shouldn't pass ALL of
+our flags in there, just what we think needs to be in addition to the
+perf generated set of CFLAGS.
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/classes-global/package_rpm.bbclass | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+Bruce
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/=
-package_rpm.bbclass
-index 246106ea4f..da25b7682c 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -13,6 +13,9 @@ RPMBUILD =3D "rpmbuild"
-=20
- PKGWRITEDIRRPM =3D "${WORKDIR}/deploy-rpms"
-=20
-+# Override variable to use alternative 'xz' or 'none' compression
-+RPM_COMPRESSION ?=3D "zstd"
-+
- # Maintaining the perfile dependencies has significant overhead when writi=
-ng the
- # packages. When set, this value merges them for efficiency.
- MERGEPERFILEDEPS =3D "1"
-@@ -659,6 +662,7 @@ python do_package_rpm () {
-=20
-     # Setup the rpmbuild arguments...
-     rpmbuild =3D d.getVar('RPMBUILD')
-+    rpmcomp =3D d.getVar('RPM_COMPRESSION')
-=20
-     # Too many places in dnf stack assume that arch-independent packages a=
-re "noarch".
-     # Let's not fight against this.
-@@ -682,8 +686,16 @@ python do_package_rpm () {
-     cmd =3D cmd + " --define '_use_internal_dependency_generator 0'"
-     cmd =3D cmd + " --define '_binaries_in_noarch_packages_terminate_build=
- 0'"
-     cmd =3D cmd + " --define '_build_id_links none'"
--    cmd =3D cmd + " --define '_binary_payload w19T%d.zstdio'" % int(d.getV=
-ar("ZSTD_THREADS"))
--    cmd =3D cmd + " --define '_source_payload w19T%d.zstdio'" % int(d.getV=
-ar("ZSTD_THREADS"))
-+    if rpmcomp =3D=3D "zstd":
-+        cmd =3D cmd + " --define '_binary_payload w19T%d.zstdio'" % int(d.=
-getVar("ZSTD_THREADS"))
-+        cmd =3D cmd + " --define '_source_payload w19T%d.zstdio'" % int(d.=
-getVar("ZSTD_THREADS"))
-+    elif rpmcomp =3D=3D 'xz':
-+        cmd =3D cmd + " --define '_binary_payload w6T%d.xzdio'" % int(d.ge=
-tVar("XZ_THREADS"))
-+        cmd =3D cmd + " --define '_source_payload w6T%d.xzdio'" % int(d.ge=
-tVar("XZ_THREADS"))
-+    elif rpmcomp =3D=3D 'none':
-+        pass
-+    else:
-+        bb.fatal('unsupported rpm compression method: "%s"' % rpmcomp)
-     cmd =3D cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
-     cmd =3D cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
-     cmd =3D cmd + " --define '_buildhost reproducible'"
+>
+> > I also wondered if EXTRA_CFLAGS in EXTRA_OEMAKE
+> > might be an option?
+>
+> Based on quick reading of perf build documentation, yes, EXTRA_CFLAGS
+> seems like a reasonable approach. What I'm a little worried about is the
+> TUs where perf apparently does not by itself add all its cflags (-O6 and
+> whatnot), so I'm not sure if they would be built with what is passed via
+> EXTRA_CFLAGS.
+>
+> I will experiment sometime next week if I remember and nothing else
+> preempts that plan.
+>
+> > I'm a bit worried that the current situation all feels a little
+> > fragile.
+>
+> Agree. But the QA checks do help quite a lot here.
+>
+> Rasmus
+>
+
+
 --=20
-2.39.2
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
