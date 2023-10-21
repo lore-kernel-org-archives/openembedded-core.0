@@ -2,174 +2,135 @@ Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A280CC001E0
-	for <webhook@archiver.kernel.org>; Sat, 21 Oct 2023 15:52:07 +0000 (UTC)
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.59])
- by mx.groups.io with SMTP id smtpd.web10.81799.1697903524830546583
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1492C004C0
+	for <webhook@archiver.kernel.org>; Sat, 21 Oct 2023 16:10:17 +0000 (UTC)
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.44])
+ by mx.groups.io with SMTP id smtpd.web11.82253.1697904611417948162
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Oct 2023 08:52:05 -0700
+ Sat, 21 Oct 2023 09:10:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=cVF348va;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 40.107.247.59, mailfrom: niko.mauno@vaisala.com)
+ dkim=pass header.i=@vaisala.com header.s=selector1 header.b=CDvN8Gtm;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 40.107.247.44, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jOCuPSFJQKkeWKk/ZEsifPtm8XhbsNCNg8/zQGQQv9uA5CNeoeO8Qx4X8/ZuIxnyrt88+SEnhgtnLmHcW69s++FTxd2dxTcFzbu/DTUPZq91jJ2R7vcvNXUeD4jT1/I2NiKQzWVDFMxeg3ZgGXszY7WMEp+UeKLl0r9E2icjzExX7Hv6R7WIznTqpOePLQhSryRJYETPKtpkNBXCbJqdWiPJf/Pnw85Q6WowYSYaci8ybR5NTnso/b3Yy9UJNn+tu6EoDM+TfbDtMu4pUZYMuhOHEtiNXLsft1czMqqyxDFyc+GWYKD+Eo1E0/RTA18QtMCLlsSxet+qz3yzrW7Myw==
+ b=RGVo5sZ1eComEMSfBywsPHOv/wYuefOpunLIYxU6VhF2yY3bAW+X2N3K8e4nYvyRdxlMINIuQ6fikhXkxPbkBBYc8qSlyZyLXIF+L/8NbuVWjI2bSO939tAzz7epLN0Ajk1aTDkGFLg/eHw8h0dpS6lOz5qj/vaF5ORMHoYvQxFoVKWe9SjkivJlcydnG8enJ8z8C5lHjx2w48KLw+Qx/MbjjZNDitEJesz2SvdD9gZ4z9RM6VOa3clnKrN10Cewvu/sXzN1pybu9VbjjYjuyP6jDnzf+l5Fus0wMbqm+43LPX0rhHWJBUHsuI3jdlyFjv7eNU7b2HhJbZHyYL7W3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q4rRdyxXUetJjpXW/YfchKrxYJmq/37lgSdBesvFC6U=;
- b=kHLWXsA9kJ4hk0NbOneoZZZJZ7vA3keL+2wqa8k8OhQagO9Cjqj8HXLo0yhJPqYtUyq/bzybFXIvg2uR0QxH6+NxdFTpiS0Jmc0K6MjHrMWuSbKnQeKRy1biHvOi4hBCeCKT8SQ2kubh+Gybe0fmdiCzRH3EbranCNLFHiAtPxpCQlKleWtrUOwaZx2IUyzvWkFDwmSR9ZJX7boYbA4+2iHGiY9L7E8yq98d2mm0somchzvOrmJVfZDzaPAgGAXUArVp7V6kL8FdNydFGvJluWegeenkXYBwJuZ/cAGzIUxan81XcC5l/e7xDF+Krp6AkbbgmE7xoBATnuR/poA5Mw==
+ bh=npPeiC8yTl6H+Cc9i7HssmRaNI5MdM9jO/nb5ubAliY=;
+ b=lFzLG05cdsQew5Ua6i96rtK/+nuNieOMzX3bBFHQJbMrzpzpkj3woOaUERbrQTZ2+K8u6V1J/JKAInbhuiq2SD/tftGjHKCoGl8vCjln8BGaEnabinggbN5zQ/k5SQ8T54QldicUa9gu5jvCBw2GGm8qNgnMtQ2rPxDMD7RRzYKeL8sIY+muHGjrUQENtl9ss+xtuInvfmJoR4UW0whDhvg02uUnAXnebd8g7jQyyEZmFZVTXN/iDca0/x5T2PyoZA1pgCAc0xeF7cEjsWIaJruVFx44afPvr052Glv0NgFs58wmd1V4s1zJucYboAs5hQWAFz0+PIU8JGk2FMiEfQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q4rRdyxXUetJjpXW/YfchKrxYJmq/37lgSdBesvFC6U=;
- b=cVF348va2/XHR5rxsdWmnGYvnqB8lRwbMW3fccX6bcqIbTmYlO1laV+xhoIk6UB43m0NxkJw5wQBgS6ePMG0b7wPRN+LdhrWJbbbIfLoZ3IwdXBBlYHbMm6RTbSrxjIf9mEL2tcNEjtFcYxOjAVHDMC7VGehkgTm+ODOi68KRI58V8nT59y8dOVf9Cb5HbzLnUX5hSgv+BC1UlGK4hxD6FvlG8uQ9k7HLwv7qDk9wMi6I6PnjiTUuHKIoUakE/UF5oRHHM63VGikTER5303nGTlds8jCQIf2mL8VY/8WMTcsAx4fridB84CQD/cUl2fuvhA5dWySX4Ay9hxnzcxxyA==
+ bh=npPeiC8yTl6H+Cc9i7HssmRaNI5MdM9jO/nb5ubAliY=;
+ b=CDvN8Gtm6lPQ/eO5t1Oso/ebEgpa/HEtziESPSoDwXKTRAfaxOSGnflidvg0+bi19ftmd3n4vUsjBYAEWEIvs3pAEbOqauWmLn4/MFaBkJYdmsXmTLEMBf2+nzgM0PrszcVk2bggEvR9WvrrGa9xcmKEZfDDAUYY2InT+k6tHZGhPPhE254dJxm7uBFHeKLcIezPB0vjOyDJWuw9Qs8fjuC9x8sIcqyqAGB1KoL9C86tvJJEN2FzLgZonEYKpoyuwecE+Ei6SxCeAJuODIlWqlqodFgn01+UZbLem4hPnXAfnYMiKbn+rgzaj+9TG4vlqj3DxZocI/r5Mtidzz21HA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=vaisala.com;
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by PR3PR06MB6892.eurprd06.prod.outlook.com (2603:10a6:102:8a::22) with
+ by AS8PR06MB7781.eurprd06.prod.outlook.com (2603:10a6:20b:33e::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Sat, 21 Oct
- 2023 15:52:02 +0000
+ 2023 16:10:07 +0000
 Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::746a:49b5:ef81:9ff9]) by AS4PR06MB8447.eurprd06.prod.outlook.com
  ([fe80::746a:49b5:ef81:9ff9%4]) with mapi id 15.20.6907.025; Sat, 21 Oct 2023
- 15:52:02 +0000
-From: niko.mauno@vaisala.com
-To: openembedded-core@lists.openembedded.org
-CC: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCHv2 4/4] package_rpm.bbclass: Allow compression mode override
-Date: Sat, 21 Oct 2023 15:51:14 +0000
-Message-ID: <20231021155114.3979864-4-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231021155114.3979864-1-niko.mauno@vaisala.com>
-References: <20231021155114.3979864-1-niko.mauno@vaisala.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GVX0EPF000013D2.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:144:1::f) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ 16:10:07 +0000
+Message-ID: <64a996e6-af3a-9566-c4c3-16733e503231@vaisala.com>
+Date: Sat, 21 Oct 2023 19:10:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [OE-core] [PATCH 4/4] package_rpm.bbclass: Support compression
+ override
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20231020124450.9736-1-niko.mauno@vaisala.com>
+ <20231020124450.9736-4-niko.mauno@vaisala.com>
+ <d53085e46d3b3af2071bc3c1b4cfdb0f6517b1a5.camel@linuxfoundation.org>
+From: Niko Mauno <niko.mauno@vaisala.com>
+In-Reply-To: <d53085e46d3b3af2071bc3c1b4cfdb0f6517b1a5.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR10CA0063.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::16) To AS4PR06MB8447.eurprd06.prod.outlook.com
  (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PR3PR06MB6892:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ec94cb2-fb88-460f-32ff-08dbd24dab05
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|AS8PR06MB7781:EE_
+X-MS-Office365-Filtering-Correlation-Id: f744e20f-db17-441d-80aa-08dbd25031a4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	ACAgrd/jCUtfMopiuHtJHaNyK4CcTs5GXaV2UMzo9ExTPRsYnEM4iM38pRNeSQUNVe3m7tugz6MdUinWXOaECQRxxGsBKzTKerKJ+f42Nkw07IS2XnPNqyi8eDo6/GWLSsgmCPH6imX6MG4l4qlGLtajuZkwaCSUzPk88ampUKjljbRNcJfatac1qjiKxRaxLYe1VMlPZOcpmBR+13ZS8rj9KP+qwDdqk2yUggbZGDcRRwkoIFvPAiw+FeyPamVClYC62tqi4EUJ/jCSBYx/fxxgir5Wvdis0pAZcpjAolRMvNeeaAOBrGHV9AfJOmPEWvAE7UcI83DhEH1fvsWgMEHJr/R/DGoGeiCUNpSn2yqTi7LxWyPFo9nRA+uavBYWwDW+pYFoKiQez1Djn9cQAiRHndo8p3lzcKb2kbujECmp7bxHrtlOF8fq3fmoYYKdCiqqb89Ymim8E87YmmTbjDpCAtdyl/1PaAuamh0edkY4xPYvgNwwNLOcAuFoa332GFt/WhpEX9435CeXJYgywY5WG+y6gTVQzvsa/7a/cAq8a5kVCDQ1P3mf6NlVD6B/EaUG4uREr/VuFYEM2oPhAsTsvpbv0klvNvdts8AYxcL26sIB5ltZuFxzxuVthFYS
+	qcPPppGsCfzi/IwIZ3ltlANrAgqTufgK301k2fo1vcCVATD35TfYMBG1TxVKzzn1VQS9E8E46PNMCmeYNogu31QfYulNKOe6zUpJ318KmBEbV9Jph+8PEdZWRCy39AbmrEmpPcbFRelBPATQTo7kYLi6qB2GlaGHSeqpM94EodZ4qQ3opSCoCu4uCSeSpuXoMpPP0Qj4tkEytvpw3gTGEBwwrWn6OcuP7v0kQd3mjlWbEhlbK1yb87Wrw/U2Udzg+1o0PWmvkyLNwbREy2R+Yu+8WwhiNpOKu1tNHQHKuQ/5cBH9HfiBh+AhoK73E7uz3Q83Af8t5YZTx+MWZLrcjBJljXq/bX37YTlYUGuVQ+9sn0oVLGGgpK6oJhQ5bCcfKAvE5YpyzO9Rsj7lM/BKTtkUxhNg0n/Mba4qcXLIp6B9BdcwgVXVbGWtDRahWeZP6RyKW2j0DcFYMSoEWKAiAGuT3BzRNaQdbrXnF8xwugz/KisV/HkLJaIT2LMVGPJ72/M4FgGZpxl1wYjABmaTt+diFgnW8ijwJNZnYRSevHewtp1YieY2Kb8ySHY0RPrtxDAb/Ss3EEP3Sh6QIPBEWMORy/ATNZqyVVmdOGQ0PxIktx4DNQ8Fd4LBVCHUPUtlCaToCfcZQxto9AjifEz5aw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(39850400004)(346002)(376002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(1076003)(107886003)(9686003)(6506007)(6666004)(6512007)(52116002)(26005)(2616005)(83380400001)(8936002)(41300700001)(5660300002)(8676002)(4326008)(2906002)(478600001)(6486002)(66946007)(6916009)(66556008)(316002)(66476007)(86362001)(38100700002)(36756003)(38350700005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(366004)(376002)(39850400004)(346002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(4744005)(2906002)(38100700002)(41300700001)(5660300002)(44832011)(8676002)(31686004)(8936002)(31696002)(86362001)(66476007)(316002)(66946007)(66556008)(83380400001)(6486002)(36756003)(26005)(478600001)(6512007)(6506007)(53546011)(2616005)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?QC6U6odyaPQoTyKKGSFYZYYGCPVynXEoci6xTkAChCIYZleB6cDS/0FJf83q?=
- =?us-ascii?Q?UH49P72tBSV6EHoQBdVq3pz04dlCXpovl8R10+tFewq3ke90f48hJLvqh417?=
- =?us-ascii?Q?JNM4MplZPvIAIyO0jc0mfDhnlikPVjQPB4Vl2ZhbK3kduOdeQSSlySIZ3ls+?=
- =?us-ascii?Q?ujrvQDPfN1EN59Z5vLkHFcy4t8elzdvHs8YRHbVk3EBS5kZluDna6MUSCoMk?=
- =?us-ascii?Q?MKIHQ5zy1wUhqFxYGkUQ3mzRELKOqkv1JiMJPeV7504UNorn4R1VAgvShlia?=
- =?us-ascii?Q?RLYSjoADbnusykQ9Cdor+iyUYtdqdz7s0ww8ovNHe7rM5RRh56hC72so4X1x?=
- =?us-ascii?Q?mgflJDRUKyc6BwbmvRkjDTS6OpXyQrVM4jWz/xrnhHItp/j0gR+dg3typcuX?=
- =?us-ascii?Q?nM4pm+6d3e9ztoNpZXyb2fsDB0D5pQjsr/KwmnQluHMxU2egkdfcK+hOcsbz?=
- =?us-ascii?Q?OgRytnCHpQ9B8j1LakdHBU7Lw2wYeMb3clGuOSV0IcnrTcPUvS6gdppTRxT8?=
- =?us-ascii?Q?qpOUgaZFiztQbgD2EGnD8ux7XJx10dLQUaUKJurhCwHVGKOHDOgGIcnu+JYf?=
- =?us-ascii?Q?mlMemOyFzphOuDMB50ynOeooWYFzKsp/G7gW7QIMwGXGfNkTMjkj6mereU8t?=
- =?us-ascii?Q?Ab4w8+grI/u3PXAeH03rDphSg/e1Aiu3SFGuMuI10H2+KEdMOG/6bUZ1Xiio?=
- =?us-ascii?Q?wGfGEjLRRh2VmgD6QhQlMKouzJKyl56rg9lQ4fiH5MBuOQe0TXTfqnQ7Z0+Y?=
- =?us-ascii?Q?yBfD8dbF/UQAh8HjZ6lM3X55O2DBmZj8awhujOm5Au8GCc/ARGkAu2lOiEDf?=
- =?us-ascii?Q?DrST8Ooq9qOUvQNXSCqthvZIltVp7NfoG+Wx9gnV9ivKrhJQXC6+8ub9xaz1?=
- =?us-ascii?Q?tR7gJpK7z7dppGitEPBgFJkc+Fm8pGHeWbC5GSGIDq+cUX3TfA2hSnQdhIaX?=
- =?us-ascii?Q?GdRTnDOf+bBntYjDLeZgOY23MePHEfV2ZpnxCQDNvrmIXJHg7zqmJ0HNARts?=
- =?us-ascii?Q?PYr/7S6lxU4E6sndb/hpRp4D3Gu3DuO4tzJGfmmJzwIK56FvJBxik4ev0WAZ?=
- =?us-ascii?Q?lXQXz8BzWWmz2tpv/t89t9ybfwYDaycCPC3EeHDqsf0N8IsRD4+06RYQKYJw?=
- =?us-ascii?Q?0QeYpLfic63nIltyNvLh3TIMpjke2MCGx6a6xki1HyYXI0O8LfIYBDQozyU6?=
- =?us-ascii?Q?FZOgiI38cVV3oa/8JEJRuZ/9XiT0pWvw/QJ7GKJk2TLVEf0BOzvZENxfkboF?=
- =?us-ascii?Q?tejPBfDfrB+DJJHJCSI3eSQzh6r0rICrYwuY/zqzbXyFo4kZ5G7mFCfc9ltD?=
- =?us-ascii?Q?N/jQRUDOxIew7CegO5CB1Htp8WvE/hm40lgfacWsz13myWOEvxbD9gj6juwD?=
- =?us-ascii?Q?s45tx8FJj1KBn8yeJF2CEjBE3OygZZ3sSM6DMIzYY72OrgepyTvj4DLbkNPa?=
- =?us-ascii?Q?X0quXX6b+JasQt92jneMnulI5JDQla4FjzehCNTTkdU+ElL5RdmyKDXSfJWo?=
- =?us-ascii?Q?azmDHQvZNEaUuoKyVXmdN8V0EpYwe6y77LPghwd3qkKGCnnzoGQa9lXaxsAj?=
- =?us-ascii?Q?tnWX0nZt7fgfNnj4zUF4btP3GEXj9nmTOaCMm4PZfj1Bw0Y7jOvR4oGY2a/L?=
- =?us-ascii?Q?zA=3D=3D?=
+	=?utf-8?B?bkNzRTRDam1VWjVQSUtqK3drM2JlNGo2WGNjWUZnVC9vc1o4TDU1ZStTbU1n?=
+ =?utf-8?B?NXVFODZlN0tkY3pxNDdFbXhYY0FqOXFJZVNhcHhNTldwbmhNc2FDZm50Mmpv?=
+ =?utf-8?B?S0pHRFJBemtHcFlZaFVNNnJwRC9IRmVJTUx0UW9FMEx1MlVyT0E2My9JeGw3?=
+ =?utf-8?B?R2hvVmhsL1JaTkVDbHAraUpYTm40TEhFaFFydnoxWDRQOFlZSFJpODZzOFR4?=
+ =?utf-8?B?dUlvQ3NIL1NsbHRjaVNhb2FOM2JtTEpKbk9ySmtWTERQdkpvbVJpd2pKM2hY?=
+ =?utf-8?B?d1JhSi9JMVp4bUJleHcwS0s2Lzd6eDJIZnFjVWdzL3VPMUtvVUpmUnl2YmhY?=
+ =?utf-8?B?MStsSllsd2xKeDM5RnpGeHphNVVQUjJhK3h4K1YrMld4MXU5Q2ROa2FGUFdp?=
+ =?utf-8?B?U3B4SDlIWmVlMDNxSlQ4Y3BFRDdSSU5pNENJbnlOWm1oWWxxb3h4eGxCUGlt?=
+ =?utf-8?B?UkhMUXhFNlY5K1ZwVkVYTVhObXdaWWh3aDlkRTNOanlTbHRYYTZHN2VyY2dz?=
+ =?utf-8?B?UUhLYWRYb0l5TVN3S1k3Y1AyTXE0Z3ZwYnpFaEU2ZVRSdEhQSU4xeHc2OCs5?=
+ =?utf-8?B?amhOUkVSNkRKMHRCRE1UZk4xcVUzUWE0aVlOSURYbXJmRk45VHpKSnNDeE00?=
+ =?utf-8?B?UUlTeUMrMjJmTWN3NEQyWjI3QlNMcVExSlJIVnlxZ2lhdkxWMm1kdC9hdkN1?=
+ =?utf-8?B?NFRkdlJlMEIyajdxQmI3bE1lU05CRHYrc0c1R1FsdmxEZDhHM3hOZnV2NGtM?=
+ =?utf-8?B?Vzc5RmFUa1RTSVp6d3JCMTJLbGV0aXdiNUNMc1RrTTB0ZW42bXRIdGZYZHkx?=
+ =?utf-8?B?VDEwUEhTMG5idVE2cFJJaEEzTjdDMjh1a2hZY2hQMHo3ZWtoaHBxNFZidDJt?=
+ =?utf-8?B?ZG13SkVkUGlIMGdiZDhDUkRRWlVRYWkyNG1WTU9ya1pzbXlzTys2RWtiY3ZG?=
+ =?utf-8?B?Y2VoWisyWkROK0hEUURLbXB4QkkyUHZTUGU3SHovQ1UweVgvVW5yTlVOVHhx?=
+ =?utf-8?B?YUxYVEgxQlNqeFU1SkNxYTlCK1Q5enJ1OHhyOGpZTlYxYzRnUFNzWUdIUjlu?=
+ =?utf-8?B?Y1VKOWJOS2ZwcW1HanZKWGlZTURxS0NkS0xYTFZwbzZLMmtRa0dkdEp0SjB2?=
+ =?utf-8?B?RnZPVmM1cmlhMEIzL1JVVmRFUk9MdjNFUjZLTEhFNWpkdEJDOEx1QnhUOXAr?=
+ =?utf-8?B?YWdIY24va3haK04welMxWGRablZjUHVHZzhFMHhOYkFBczRST3grbURNVElj?=
+ =?utf-8?B?NzAxRXI1QlZETXdvdzdiR25XMzM0R0NhQ2JZWkdkSm9NK0s0SzNUN3k3OVBa?=
+ =?utf-8?B?aktpamFpTit4emxyNXlXbVc2bVJHV1haQm05L1BUQnNzQUUxL01XOVQvajFF?=
+ =?utf-8?B?UDhJNFI5NVI1eTFNN0k4QVZmUThTdlFoQWdabTFTVDErZkpyUE04cW02dlJW?=
+ =?utf-8?B?b2ppTjFWWWRtcTBVQ3hLWUZVWVNyWjVab1Q3clVmT1J3ck1LQUExWDB3bFBq?=
+ =?utf-8?B?bEE4c0RnZm9PdFlIeFFjYXV2c0RTUEhnYUg2V3ExelpiYXpIaUVORjE0NlR0?=
+ =?utf-8?B?bC9pL1A4cmEwcUUvellJMU1NL01BUExJN0hua1l2RG56cnQ4TzRlYjJ5eGNz?=
+ =?utf-8?B?MlZZWHZTdS9EeHBjbTBqWUpqTElFVzZ6VmxpME5mSlU2OUlNZHZYSm44LzJi?=
+ =?utf-8?B?N2ZqUWptVWpNRVUyWDVYOUFSRVNJTEdIbFRoUU1TeWxvUFVhUGZMenhPaVFK?=
+ =?utf-8?B?bnhLY2t1OUtSc3ZnY2ZJYWNvekhNVDJWaEZPQlpHL2E0TnZjdytvZm42aUlV?=
+ =?utf-8?B?Q0NoV3kyMUpSMmJOaU9lQzdhVU0xcHJ0c1EwdDdVeUViVFAwMEhhODdreDg2?=
+ =?utf-8?B?V1VsWXFBTWdkVFpveWNtNkh3b2NRbitPQiszQllvS3JTa0o5Qm50Ly9Ga2lI?=
+ =?utf-8?B?SE1ZLzJhUjI4UWF5bUhvcXNpZlp1VmdBVmxsUUtxTDB5anpJVmlhMTFnY21K?=
+ =?utf-8?B?Sm5XbTBMaWxUaGErNTZkZDlVd2QzZ0MxZVJTOFR5VS9KemYzc05rdXhIeEFX?=
+ =?utf-8?B?R1dPd1N0ZlFXcDZiZXU2OUV2ckFHdDBGQnFseHBwam1qNnVaallIaSt5N3R0?=
+ =?utf-8?Q?GQxTEjqyCv+AZXWcaT3SgYrH3?=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ec94cb2-fb88-460f-32ff-08dbd24dab05
+X-MS-Exchange-CrossTenant-Network-Message-Id: f744e20f-db17-441d-80aa-08dbd25031a4
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2023 15:52:02.8073
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2023 16:10:07.6369
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zuAq11A9LX9pV9TBHehbbsvaudTd0Rdy9HBIXwF2eXQA/gZnWQHftZNxheT5uFBQOCufUmPqiZhmAmO8q1mQIA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR06MB6892
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4Hot48yneIxtuUuCMio3N2hyiz9NsMmY6xRtw/50YrJqHuDu1C5wCHIo2XcsILKj7453WOiO4zxAAoWzD13GpA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR06MB7781
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Oct 2023 15:52:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189597
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Oct 2023 16:10:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189598
 
-From: Niko Mauno <niko.mauno@vaisala.com>
+On 10/20/23 16:00, Richard Purdie wrote:
+> As far as I could tell when we looked at this, the rpm world was moving
+> over to zstd so adding in conditional xz support for a limited use case
+> probably just creates a maintenance headache going forward as it isn't
+> something we test or plan to test?
 
-Commit 4a4d5f78a6962dda5f63e9891825c80a8a87bf66 ("package_rpm: use zstd
-instead of xz") changed the rpm package compressor from 'xz' to 'zstd'
-which results in decompression failure with BusyBox-provided 'rpm2cpio'
-applet and 'rpm' applet when given the '-i' (Install package) option:
+I now submitted a v2 for your consideration, but assuming it still 
+introduces a maintenance challenge for YP, we will look into other means 
+to work around the issue.
 
-  rpm2cpio: no gzip/bzip2/xz magic
-
-Introduce a variable which makes it possible to use a different
-compression mode, making it possible to override the default value for
-example like
-
-  RPMBUILD_COMPMODE =3D "${@'w6T%d.xzdio' % int(d.getVar('XZ_THREADS'))}"
-
-to enable rpm decompression without including the full rpm package in
-the resulting root filesystem.
-
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/classes-global/package_rpm.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/=
-package_rpm.bbclass
-index 246106ea4f..5d35962aff 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -10,6 +10,7 @@ IMAGE_PKGTYPE ?=3D "rpm"
-=20
- RPM =3D "rpm"
- RPMBUILD =3D "rpmbuild"
-+RPMBUILD_COMPMODE ?=3D "${@'w19T%d.zstdio' % int(d.getVar('ZSTD_THREADS'))=
-}"
-=20
- PKGWRITEDIRRPM =3D "${WORKDIR}/deploy-rpms"
-=20
-@@ -659,6 +660,7 @@ python do_package_rpm () {
-=20
-     # Setup the rpmbuild arguments...
-     rpmbuild =3D d.getVar('RPMBUILD')
-+    rpmbuild_compmode =3D d.getVar('RPMBUILD_COMPMODE')
-=20
-     # Too many places in dnf stack assume that arch-independent packages a=
-re "noarch".
-     # Let's not fight against this.
-@@ -682,8 +684,8 @@ python do_package_rpm () {
-     cmd =3D cmd + " --define '_use_internal_dependency_generator 0'"
-     cmd =3D cmd + " --define '_binaries_in_noarch_packages_terminate_build=
- 0'"
-     cmd =3D cmd + " --define '_build_id_links none'"
--    cmd =3D cmd + " --define '_binary_payload w19T%d.zstdio'" % int(d.getV=
-ar("ZSTD_THREADS"))
--    cmd =3D cmd + " --define '_source_payload w19T%d.zstdio'" % int(d.getV=
-ar("ZSTD_THREADS"))
-+    cmd =3D cmd + " --define '_source_payload %s'" % rpmbuild_compmode
-+    cmd =3D cmd + " --define '_binary_payload %s'" % rpmbuild_compmode
-     cmd =3D cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
-     cmd =3D cmd + " --define 'use_source_date_epoch_as_buildtime 1'"
-     cmd =3D cmd + " --define '_buildhost reproducible'"
---=20
-2.39.2
-
+-Niko
 
