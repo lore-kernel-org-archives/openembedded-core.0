@@ -1,170 +1,121 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5BBFC0032E
-	for <webhook@archiver.kernel.org>; Sat, 21 Oct 2023 12:57:16 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web11.78813.1697893033042914243
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71666C001E0
+	for <webhook@archiver.kernel.org>; Sat, 21 Oct 2023 15:28:47 +0000 (UTC)
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+ by mx.groups.io with SMTP id smtpd.web11.81412.1697902119996006877
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Oct 2023 05:57:13 -0700
+ Sat, 21 Oct 2023 08:28:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bQUaHS7B;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2c504a5e1deso28086531fa.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Oct 2023 05:57:12 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QjxJbME4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.178, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-357ca97e628so1162475ab.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Oct 2023 08:28:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697893031; x=1698497831; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=t1q5Y6KfLHDudRM86ERcMDTIZ8iZL16m+PhEewf8t4Y=;
-        b=bQUaHS7BkCSjb26zFU797LBnnQLI+sOXrmETWAHNUWGrd0tscgAy5hb8BpaPf1zPYj
-         tde1DKFZONzn5JpRwGiGgsgHNChG2iy8GQxSbzi9+TAUmuEVOQ7rxUQ65NsyXH0YkwFP
-         TBkYWoTvEaBRCqbl0mDmjjZV56IiLquEFiKPwovrhc/9HZjjgDqYzjX4PCfJzNRwDmx+
-         r8qDZmWagmIh1V2iuF0tNZuavJwfijvh9XdOfLHmF93W2N4jTy1BRWv5j0Jl6hkiPLJO
-         oszsIYQ9uTdzq6qNoe7mpy9MLoxchkhxpwenc2Gw4ZW/xootT1b1Z8ZfOw+DaO9qfXIn
-         WGgA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1697902119; x=1698506919; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yF9VLmehuWn0dEmkHkcxge45YPUSEBmAIe8SY9CNJ1c=;
+        b=QjxJbME4D8fOrRCXicXJmTxAu2su6hhqSzCtPiuZhnf2hdI4KIaWgdxuxcHQ1B9DlU
+         Mb8hvYBOhVxZZtoagLEhqoo0WqyZDeLDV9rCau+Os8MQsPmlXn8tNtKgftLC7Wpz+7Rv
+         KeFBNzQabxbJzULd9GEb2a4AkqkhCTVKkGPeKRWy4peiCy8ZYOrnMxdzPvUD+u7/lBCm
+         JnzEPQQ9/VYZgcX1TrfqwuPceHRdV6bkEHlfZ5JEAOti7ce5duXlMc+rAOPfSeEU0kMf
+         B2RyOJ7vJYwcPAXlZOb0r87KegvythOe/e3fXTHraZYdr/Nrl2V/GgBQL8twgwqCtCVe
+         oIPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697893031; x=1698497831;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t1q5Y6KfLHDudRM86ERcMDTIZ8iZL16m+PhEewf8t4Y=;
-        b=aCt4rL2OIz4mscybLoHpR/CzKh1y/JNCEQswL1Oc8Ccu2Eofr1lr44HRh+P9e/1Hxf
-         BO5fLlP5Crnat+9lc1cFmbAvHQ3SrL6HHsGhjvFjQAF8hZFmch7Z3q4PKxINZAMT4t3X
-         cGTeeAdGj7tIjK/HmyrIsbEB2hiCBMIev6TREMn4Pnwoou5uIzYhkkJ3pIyReF2LAV5y
-         e4N1nl1c/E+k4cq1vp99RW01IWA3nrCKjbXPUOculqw8eVZkp/raeXFj8yzzZEtV8I3v
-         kRq3enwH+sqBnELpMGsKQXqgFIpahVpru9NS14+euumipHRg2675Hr8Sb5AnG35+uiVN
-         DDkg==
-X-Gm-Message-State: AOJu0YyVKXTG+nXjPSnTizSfhT7kJ60oEhlX3N4+eqIF+OVkMhTS0uYx
-	YNfM3XoWI9EPy1MFctE3Adjjzo12eZeEpC3upAA=
-X-Google-Smtp-Source: AGHT+IGO5LuiXWISt03F7SGbobTOJRaYoL0dwOrE0/HiT91GC0eqTTB4jHEDcnUAxOKmpkcGYfb8DseFLIN+CpwWYSc=
-X-Received: by 2002:a2e:a589:0:b0:2c5:1a40:f26a with SMTP id
- m9-20020a2ea589000000b002c51a40f26amr3090883ljp.13.1697893031095; Sat, 21 Oct
- 2023 05:57:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697902119; x=1698506919;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yF9VLmehuWn0dEmkHkcxge45YPUSEBmAIe8SY9CNJ1c=;
+        b=VI8thBbcKpDzuEwK85s+IE2W6WfLSL45MWAMoZTPt5Pc0hBwREWc7ked4vIF2B3fOq
+         3biXxo49xQhen9naXTmLZ6kIZYmv5OsT8woDq9btMwVIVe+OtjGQ2zfL55iC4bQWsNfI
+         reNY4WR3oYUhLmLHb0TxM8wNnD04y39aot5BaovDewN31HdCH8HFd+TQVqypH9RhaOFN
+         S4Hce6fev6Kk6zC3XHGUlJsay73VaZsNo9a+yGnCijt5Oj4DgvJmgA3B6IupjbQa9cjd
+         owjqDz/KG+LWmA7JmEILZOYtpGLaGVX9Vo+O+/Hr+oLndCMn8iwnycXhK8ErSYQ3/G/v
+         Cbdw==
+X-Gm-Message-State: AOJu0Ywn+Zasom4/fZWqAcXaabqWCl/vJR3RN4ToWiObaxtqjlWbW+YG
+	vijX4v3tS817Pw3I/jaGqt/2rTe12Ph8+kfDSw4=
+X-Google-Smtp-Source: AGHT+IE7tPE4z9slU5FEJVfEsuThu+nthbFZUDb7phtF40xheYnpdeGFmM2ZtPQlRmTw6tSPsEQhQQ==
+X-Received: by 2002:a05:6e02:1a44:b0:34f:ef7:53d0 with SMTP id u4-20020a056e021a4400b0034f0ef753d0mr5514452ilv.26.1697902118615;
+        Sat, 21 Oct 2023 08:28:38 -0700 (PDT)
+Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
+        by smtp.gmail.com with ESMTPSA id by2-20020a056a02058200b0058c1383fa8bsm2876515pgb.0.2023.10.21.08.28.37
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Oct 2023 08:28:38 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/6] Patch review
+Date: Sat, 21 Oct 2023 05:28:26 -1000
+Message-Id: <cover.1697901991.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20231020171232.3072396-1-alex@linutronix.de> <20231020171232.3072396-2-alex@linutronix.de>
- <20231020225853ada76b3a@mail.local>
-In-Reply-To: <20231020225853ada76b3a@mail.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 21 Oct 2023 14:56:59 +0200
-Message-ID: <CANNYZj9ZhOXCVbG=Bvav6rE8ToLW=6bVHTr6WykfGA012ASckg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] selftest/sstatetests: add a test for CDN
- sstate cache
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 21 Oct 2023 12:57:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189586
+ <openembedded-core@lists.openembedded.org>; Sat, 21 Oct 2023 15:28:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189587
 
-Right, I omitted the printdiff tests and that created a conflict with
-master. I resent a version that's rebased directly on that.
+Please review this set of changes for kirkstone and have comments back by
+end of day Tuesday, October 24
 
-Alex
+Passed a-full on autobuilder:
 
-On Sat, 21 Oct 2023 at 00:58, Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> Hello Alex,
->
-> This doesn't apply cleanly, it seems the context is from another series.
->
-> On 20/10/2023 19:12:32+0200, Alexander Kanavin wrote:
-> > Specifically, the test checks that everything needed for building
-> > standard oe-core images for x86_64 and arm64 is available from
-> > the cache (with minor exceptions). Going forward, a complete
-> > world check could be enabled and additional configurations,
-> > but that requires improvements to performance of hash equivalence
-> > server in particular.
-> >
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> > ---
-> >  meta/lib/oeqa/selftest/cases/sstatetests.py | 47 +++++++++++++++++++++
-> >  1 file changed, 47 insertions(+)
-> >
-> > diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-> > index 6ef339897bf..e392d6a1a63 100644
-> > --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-> > +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-> > @@ -14,6 +14,7 @@ import re
-> >
-> >  from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer, get_bb_vars
-> >  from oeqa.selftest.case import OESelftestTestCase
-> > +from oeqa.core.decorator import OETestTag
-> >
-> >  import oe
-> >  import bb.siggen
-> > @@ -879,3 +880,49 @@ expected_sametmp_output, expected_difftmp_output)
-> >  INHERIT += "base-do-configure-modified"
-> >  """,
-> >  expected_sametmp_output, expected_difftmp_output)
-> > +
-> > +@OETestTag("yocto-mirrors")
-> > +class SStateMirrors(SStateBase):
-> > +    def check_bb_output(self, output, exceptions):
-> > +        in_tasks = False
-> > +        missing_objects = []
-> > +        for l in output.splitlines():
-> > +            if "The differences between the current build and any cached tasks start at the following tasks" in l:
-> > +                in_tasks = True
-> > +                continue
-> > +            if "Writing task signature files" in l:
-> > +                in_tasks = False
-> > +                continue
-> > +            if in_tasks:
-> > +                recipe_task = l.split("/")[-1]
-> > +                recipe, task = recipe_task.split(":")
-> > +                for e in exceptions:
-> > +                    if e[0] in recipe and task == e[1]:
-> > +                        break
-> > +                else:
-> > +                    missing_objects.append(recipe_task)
-> > +        self.assertTrue(len(missing_objects) == 0, "Missing objects in the cache:\n{}".format("\n".join(missing_objects)))
-> > +
-> > +
-> > +    def run_test_cdn_mirror(self, machine, targets, exceptions):
-> > +        exceptions = exceptions + [[t, "do_deploy_source_date_epoch"] for t in targets.split()]
-> > +        exceptions = exceptions + [[t, "do_image_qa"] for t in targets.split()]
-> > +        self.config_sstate(True)
-> > +        self.append_config("""
-> > +MACHINE = "{}"
-> > +BB_HASHSERVE_UPSTREAM = "hashserv.yocto.io:8687"
-> > +SSTATE_MIRRORS ?= "file://.* http://cdn.jsdelivr.net/yocto/sstate/all/PATH;downloadfilename=PATH"
-> > +""".format(machine))
-> > +        result = bitbake("-S printdiff {}".format(targets))
-> > +        self.check_bb_output(result.output, exceptions)
-> > +
-> > +    def test_cdn_mirror_qemux86_64(self):
-> > +        # Example:
-> > +        # exceptions = [ ["packagegroup-core-sdk","do_package"] ]
-> > +        exceptions = []
-> > +        self.run_test_cdn_mirror("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-weston core-image-sato-sdk", exceptions)
-> > +
-> > +    def test_cdn_mirror_qemuarm64(self):
-> > +        exceptions = []
-> > +        # core-image-weston isn't produced for arm64 currently
-> > +        self.run_test_cdn_mirror("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
-> > --
-> > 2.39.2
-> >
->
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#189575): https://lists.openembedded.org/g/openembedded-core/message/189575
-> > Mute This Topic: https://lists.openembedded.org/mt/102085736/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6084
+
+The following changes since commit 5570e49791b770271f176a4deeb5f6f1a028cb4a:
+
+  uboot-extlinux-config.bbclass: fix missed override syntax migration (2023-10-17 12:19:37 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Lee Chee Yang (1):
+  qemu: ignore RHEL specific CVE-2023-2680
+
+Meenali Gupta (1):
+  linux-firmware: upgrade 20230625 -> 20230804
+
+Peter Marko (1):
+  zlib: patch CVE-2023-45853
+
+Siddharth Doshi (2):
+  libx11: Security Fix for CVE-2023-43785, CVE-2023-43786 and
+    CVE-2023-43787
+  vim: Upgrade 9.0.2009 -> 9.0.2048
+
+Vijay Anusuri (1):
+  gawk: backport Debian patch to fix CVE-2023-4156
+
+ .../zlib/zlib/CVE-2023-45853.patch            | 42 +++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |  1 +
+ meta/recipes-devtools/qemu/qemu.inc           |  4 ++
+ .../gawk/gawk/CVE-2023-4156.patch             | 28 +++++++++
+ meta/recipes-extended/gawk/gawk_5.1.1.bb      |  1 +
+ .../xorg-lib/libx11/CVE-2023-43785.patch      | 62 ++++++++++++++++++
+ .../xorg-lib/libx11/CVE-2023-43786-0001.patch | 41 ++++++++++++
+ .../xorg-lib/libx11/CVE-2023-43786-0002.patch | 45 +++++++++++++
+ .../xorg-lib/libx11/CVE-2023-43786-0003.patch | 51 +++++++++++++++
+ .../xorg-lib/libx11/CVE-2023-43787.patch      | 63 +++++++++++++++++++
+ .../xorg-lib/libx11_1.7.3.1.bb                |  5 ++
+ ...20230625.bb => linux-firmware_20230804.bb} |  4 +-
+ meta/recipes-support/vim/vim.inc              |  4 +-
+ 13 files changed, 347 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
+ create mode 100644 meta/recipes-extended/gawk/gawk/CVE-2023-4156.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0001.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0002.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-0003.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230625.bb => linux-firmware_20230804.bb} (99%)
+
+-- 
+2.34.1
+
 
