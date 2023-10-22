@@ -1,154 +1,129 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72167C25B42
-	for <webhook@archiver.kernel.org>; Sun, 22 Oct 2023 17:49:05 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.103460.1697996934731249052
- for <Openembedded-core@lists.openembedded.org>;
- Sun, 22 Oct 2023 10:48:55 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF6E4C001DF
+	for <webhook@archiver.kernel.org>; Sun, 22 Oct 2023 18:34:55 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.104386.1697999691038821787
+ for <openembedded-core@lists.openembedded.org>;
+ Sun, 22 Oct 2023 11:34:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=KLavJQr4;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F17A1E0004;
-	Sun, 22 Oct 2023 17:48:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1697996933;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BQdKol0rV2WRIfYQSV58X1fgrx9/ULYzMBwSPZhE9hk=;
-	b=KLavJQr4ErM1mpvK1Zs5/bckKowNOV0uQKswxUQ4Dw9cFipi+8OCv0j/dDh7kP4e+2c918
-	EY1PT3562s3RaO2JoGYQ/Idzgt4W+WIVIv61QHzL6T9o9qGeJU7as5ZtrlO/BtZQsrNtjE
-	ZEQbWVUF3ns6dnBmPGwc1m/ssHT56Yu26dp/fhjMprQLvOWwzGP/RHiCFgMrHWR67tZp8f
-	xLZxhRufrxO/ngAduvvS/gU9WT8tkOaM0Ga5SUc5WX7AM07PFNkeBdhO8vl+QkbM7s8iYu
-	D7jkYkoJlCk0bmccmy18NfG+Suq6nxzV9Ibp9a1TPSnZV3j4vTbzrQ/el2W+wA==
-From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: <Openembedded-core@lists.openembedded.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [OE-Core][PATCH v2 1/4] scripts/resulttool: limit the number of changes displayed per test
-Date: Sun, 22 Oct 2023 19:49:35 +0200
-Message-ID: <20231022174938.7012-2-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231022174938.7012-1-alexis.lothore@bootlin.com>
-References: <20231022174938.7012-1-alexis.lothore@bootlin.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bKFW6PhQ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: uvv.mail@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9be7e3fa1daso378369566b.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 22 Oct 2023 11:34:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697999689; x=1698604489; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IEwj+BqvBR4/3jcwdql5qminfk2iLT+FM0ICRHM4kRg=;
+        b=bKFW6PhQnGWNiq/NodqbPy0qthxdWdqFzHAOTzJXI+v2rpTcjmYbpaa527+7zS/Z34
+         D4Ffv+4prq/i121oRMtxHzhVcmAkyhOTKF3fih1EWslg63iL3JiGnRpu8fBprD/0EKH6
+         sWS07NNXwHu+Zv/TCpAAb7SP+w/qlgI8+kpCQdOxxfNqn/olKiRCjJEPEBbKegdiVTKR
+         PAmR/EKnosANpQN5/XKOdKExsIMrR8DyUFgQRtDSjClzR9nUqqSQyPgDrFGoJJpWR3CC
+         0Nq/wCbaDpVVqUW0Jzs8Pbd+Z+2DCrzqWX8g5EDUiPDuaoFcVeKd1dMSez8aboezEXOj
+         X+HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697999689; x=1698604489;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IEwj+BqvBR4/3jcwdql5qminfk2iLT+FM0ICRHM4kRg=;
+        b=P4O9TtyuEJ8z0LcMkQz/g68614hZmrJ2uTArhvP0hubOxa88nAlPfmHdOneBaTVqr7
+         6oW+N0t0epQSgTKSYMzFluQzcEBci4qLyKzVuRdmcIXE2Nowr4aBKxAJBVIGyFX9gOsO
+         rhazLi2oV2bjRR11coen1SwWoXoVw1KVki6rxRae2yZtssNTdAmQTQ0GHl61OlmCg1HR
+         tD7tKji58+Q7F3FTHAGihXojEAssHpdkp9jwv4MRe7Bih3FNw7G5DW9ZIZFXgE1Ggq91
+         lRIAqA2QgAUydQja4KvX0775RLTXn12HSyGptfYmvACrLb9Zdf5PAQU/pZAty6Mtu/qa
+         wCBw==
+X-Gm-Message-State: AOJu0YxB1wtzkYNJZXEk7yQAuU0yHAT2SbuzMKjy+oEYacRTVdm0z6bX
+	uZohCgQ0WfNXV50cdtvFgxo=
+X-Google-Smtp-Source: AGHT+IGTuM33NZ0A4dal7T+2mLqt60SWe1rnMNOQnll/2yDaj7VL1qhy0VoMgrTjhMGMquUxn8fNKA==
+X-Received: by 2002:a17:907:5c1:b0:9a1:c659:7c56 with SMTP id wg1-20020a17090705c100b009a1c6597c56mr5163924ejb.22.1697999689215;
+        Sun, 22 Oct 2023 11:34:49 -0700 (PDT)
+Received: from [10.134.48.187] ([89.249.73.141])
+        by smtp.gmail.com with ESMTPSA id vg18-20020a170907d31200b009adc77fe164sm5414163ejc.66.2023.10.22.11.34.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Oct 2023 11:34:48 -0700 (PDT)
+Message-ID: <a9389814-affd-4bce-85b9-e3a4555a684e@gmail.com>
+Date: Sun, 22 Oct 2023 20:34:47 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-Core][PATCH v2 0/4] recipetool: Add handler to create go
+ recipes
+Content-Language: en-US
+To: lukas.funke-oss@weidmueller.com, openembedded-core@lists.openembedded.org
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+ Martin Jansa <martin.jansa@gmail.com>,
+ Lukas Funke <lukas.funke@weidmueller.com>
+References: <20231017132647.352938-1-lukas.funke-oss@weidmueller.com>
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <20231017132647.352938-1-lukas.funke-oss@weidmueller.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 22 Oct 2023 17:49:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189608
+ <openembedded-core@lists.openembedded.org>; Sun, 22 Oct 2023 18:34:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189611
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+Hey Lukas,
+Thanks a lot for the patch. A few questions/comments from my initial 
+test below.
 
-Most of the changes list generated in regression reports fall in one
-of the two following categories:
-- there is only a few (<10) changes listed and the info is
-  valuable/relevant
-- the list is huge (> 100 ? 1000 ?) and basically tells us that the whole
-  tests category suffers the same status (test missing, test failing, test
-  skipped, etc)
+- I tried it with a go-based backend I have by providing ssh URL to 
+github. It seems like the GO_IMPORT is set to a module name from go.mod 
+of my project, which of course fails to fetch it like that, because it's 
+not a valid URL. How is it supposed to be used?
+- I've got about 20 lines like:
+INFO: Please add the following line for 
+'vendor/google.golang.org/protobuf/LICENSE' to a 
+'lib/recipetool/licenses.csv' and replace `Unknown` with the license:
+02d4002e9171d41a8fad93aa7faf3956,Unknown
+INFO: Please add the following line for 
+'vendor/gopkg.in/yaml.v3/LICENSE' to a 'lib/recipetool/licenses.csv' and 
+replace `Unknown` with the license:
+3c91c17266710e16afdbb2b6d15c761c,Unknown
 
-Prevent those huge, worthless lists by limiting the output for each test
-group:
-- current default limit is arbitrarily set to 50
-- limit can still be overriden with a new "-l"/"--limit" flag, either with
-  custom value, or with 0 to print the whole lists of changes
-- limit is applied per test family: currently it distinguishes only types
-  of ptests, but it can be adapted to other kind of tests
+I believe I have to go through all of them manually and set a proper 
+license in the recipe. Still the questions arises, what should be a 
+better way to reduce amount of this work? Adding more hashes/licenses to 
+lib/recipetool/licenses.csv would be a way to go? I'm just afraid that 
+file might explode if we use it like that...
 
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
----
-Changes in v2:
-- set the display limit per test category instead of one general limit
-- add a "per group" count, additionally to the general regression count
-- print total regressions count and "per group" regressions count on top of
-  detailed report instead of bottom
-- fix resulttool selftests
----
- scripts/lib/resulttool/regression.py | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
+- Could please clarify where does the version from go.mod hide? Is it 
+taken directly from go.mod? I'm trying to understand what should be the 
+workflow when a module version should be bumped up in the go.mod. Will 
+that be reflected in the recipe in any way?
 
-diff --git a/scripts/lib/resulttool/regression.py b/scripts/lib/resulttool/regression.py
-index 3d64b8f4af7c..d98504f4ced8 100644
---- a/scripts/lib/resulttool/regression.py
-+++ b/scripts/lib/resulttool/regression.py
-@@ -78,6 +78,8 @@ STATUS_STRINGS = {
-     "None": "No matching test result"
- }
- 
-+REGRESSIONS_DISPLAY_LIMIT=50
-+
- def test_has_at_least_one_matching_tag(test, tag_list):
-     return "oetags" in test and any(oetag in tag_list for oetag in test["oetags"])
- 
-@@ -181,11 +183,15 @@ def get_status_str(raw_status):
-     raw_status_lower = raw_status.lower() if raw_status else "None"
-     return STATUS_STRINGS.get(raw_status_lower, raw_status)
- 
--def compare_result(logger, base_name, target_name, base_result, target_result):
-+def compare_result(logger, base_name, target_name, base_result, target_result, display_limit=None):
-     base_result = base_result.get('result')
-     target_result = target_result.get('result')
-     result = {}
-     new_tests = 0
-+    regressions = {}
-+    resultstring = ""
-+
-+    display_limit = int(display_limit) if display_limit else REGRESSIONS_DISPLAY_LIMIT
- 
-     if base_result and target_result:
-         for k in base_result:
-@@ -212,7 +218,17 @@ def compare_result(logger, base_name, target_name, base_result, target_result):
-             resultstring = "Regression:  %s\n             %s\n" % (base_name, target_name)
-             for k in sorted(result):
-                 if not result[k]['target'] or not result[k]['target'].startswith("PASS"):
--                    resultstring += '    %s: %s -> %s\n' % (k, get_status_str(result[k]['base']), get_status_str(result[k]['target']))
-+                    # Differentiate each ptest kind when listing regressions
-+                    key = '.'.join(k.split('.')[:2]) if k.startswith('ptest') else k
-+                    # Append new regression to corresponding test family
-+                    regressions[key] = regressions.setdefault(key, []) + ['        %s: %s -> %s\n' % (k, get_status_str(result[k]['base']), get_status_str(result[k]['target']))]
-+            resultstring += f"    Total: {sum([len(regressions[r]) for r in regressions])} new regression(s):\n"
-+            for k in regressions:
-+                resultstring += f"    {len(regressions[k])} regression(s) for {k}\n"
-+                count_to_print=min([display_limit, len(regressions[k])]) if display_limit > 0 else len(regressions[k])
-+                resultstring += ''.join(regressions[k][:count_to_print])
-+                if count_to_print < len(regressions[k]):
-+                    resultstring+='        [...]\n'
-             if new_pass_count > 0:
-                 resultstring += f'    Additionally, {new_pass_count} previously failing test(s) is/are now passing\n'
-         else:
-@@ -280,7 +296,7 @@ def regression_common(args, logger, base_results, target_results):
-                 for b in target.copy():
-                     if not can_be_compared(logger, base_results[a][c], target_results[a][b]):
-                         continue
--                    res, resstr = compare_result(logger, c, b, base_results[a][c], target_results[a][b])
-+                    res, resstr = compare_result(logger, c, b, base_results[a][c], target_results[a][b], args.limit)
-                     if not res:
-                         matches.append(resstr)
-                         base.remove(c)
-@@ -291,7 +307,7 @@ def regression_common(args, logger, base_results, target_results):
-                 for b in target:
-                     if not can_be_compared(logger, base_results[a][c], target_results[a][b]):
-                         continue
--                    res, resstr = compare_result(logger, c, b, base_results[a][c], target_results[a][b])
-+                    res, resstr = compare_result(logger, c, b, base_results[a][c], target_results[a][b], args.limit)
-                     if res:
-                         regressions.append(resstr)
-         else:
-@@ -403,4 +419,5 @@ def register_commands(subparsers):
-     parser_build.add_argument('--commit-number', help="Revision number to search for, redundant if --commit is specified")
-     parser_build.add_argument('--commit2', help="Revision to compare with")
-     parser_build.add_argument('--commit-number2', help="Revision number to compare with, redundant if --commit2 is specified")
-+    parser_build.add_argument('-l', '--limit', default=REGRESSIONS_DISPLAY_LIMIT, help="Maximum number of changes to display per test. Can be set to 0 to print all changes")
- 
--- 
-2.42.0
+Thanks,
+Slava
+
+On 17.10.2023 15:26, lukas.funke-oss@weidmueller.com wrote:
+> From: Lukas Funke <lukas.funke@weidmueller.com>
+>
+> This patch series adds a recipetool handler in order to create 'go' recipes.
+> Each recipe contains a list of dependencies in their SRC_URI
+> variable which are derived from the projects `go.mod` file. For each
+> dependency the corresponding license file uri/hash is added.
+>
+> The recipe may not work ad-hoc, but is a good starting point to create
+> a working recipe and have a working offline-build.
+>
+> Lukas Funke (4):
+>    classes: go-vendor: Add go-vendor class
+>    selftest: recipetool: Add test for go recipe handler
+>    recipetool: Ignore *.go files while scanning for licenses
+>    recipetool: Add handler to create go recipes
+>
+>   meta/classes/go-vendor.bbclass             | 135 ++++
+>   meta/lib/oeqa/selftest/cases/recipetool.py | 163 +++++
+>   scripts/lib/recipetool/create.py           |   2 +-
+>   scripts/lib/recipetool/create_go.py        | 730 +++++++++++++++++++++
+>   4 files changed, 1029 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/classes/go-vendor.bbclass
+>   create mode 100644 scripts/lib/recipetool/create_go.py
+>
 
 
