@@ -1,115 +1,251 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A88ACDB474
-	for <webhook@archiver.kernel.org>; Mon, 23 Oct 2023 09:32:50 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web10.116605.1698053560305768787
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AF0CDB474
+	for <webhook@archiver.kernel.org>; Mon, 23 Oct 2023 11:06:30 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.118181.1698059182524834625
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Oct 2023 02:32:40 -0700
+ Mon, 23 Oct 2023 04:06:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ite5gmHU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4083dbc43cfso22429945e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 02:32:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BZJ9XRC/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-53d9b94731aso4891461a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 04:06:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1698053559; x=1698658359; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3lbPabf5rcpXx/m2rbjrumZ9qwSB++VUCjI2xbCvPEg=;
-        b=Ite5gmHUrq9KWfonKbE02D2qHW+pE3NcaC1gaPUUr7fFJ4MPhKIu1hbPHITbw4yeJ5
-         lUyK5+9ujDQwV/Zb+MyRuH9yhGWXhAoTzXr4BUBiD2kYJoB3548cV5843PM3g2SbxT29
-         k9D+C/+fMLamPVN9X6Xmx0+oLrUirkVXM6+XY=
+        d=gmail.com; s=20230601; t=1698059181; x=1698663981; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0AyEVz9JomAQTUJENVlgXBWVTR3qxEapwpIiPoNOCXA=;
+        b=BZJ9XRC/wdEzFTW7irI0iatp1837qi0YBwq1ecQOltyttXC8R9oInE+NPsEcZQWLVd
+         HVOL3o2R1YY+bAIRNjm7C+IBwhsI7AndKUqYf+yqlX4I2IZuavt55ZWbRXNqqkK78Yp3
+         +HDiUc4ycRepuxEARx2/2TSV12l319baZ//97nO26K5y/JFvob9RUo51QSRYTU9ZT/fK
+         OzpaR21zKEmzYEfRDX2muy+mbKTPyjkcBPVVdb/8zDeuEYQxNbHwdhMJhnfApiTxjYty
+         ldIFpk1DJFGWnkm7VKFO6eFrLCFPK2qirY+p3BghCKFP0kt5tNIcdHgU7OUiY0YNjuGl
+         4GeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698053559; x=1698658359;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3lbPabf5rcpXx/m2rbjrumZ9qwSB++VUCjI2xbCvPEg=;
-        b=RePveGAj0LfmSkDlroVyixjGND/cEoT6SnKnPIk7ioQnHQ/0kbVmS8L8CEme5cDC/j
-         6+NOZSf/JWL99tB2iZgabgm2viwAyaaMxitcV93+2xI4vKJ4nWyY3aQEW7qFjU8gSCnm
-         xvxPdwRAlFKqQ4I+FfjsF7upUg5eJ6zwmJicpwpsy11DpftASNa5F9hzavR8aCskQAPu
-         zgczxBXLV+GaMe8TZzRCTgRY278o+Es5uhKbhh8Q+SlvzYEFOMAJv25LCaxXA/Wbsd0H
-         doH/U4eUFtYRAZkCOKtJJ4wP9bbsRBiPnqTMXJQbwzhAmKFdb22yCtlAYQ/s+isu+05g
-         G5jw==
-X-Gm-Message-State: AOJu0Yxg5lkXMVPGy7zigkbtmmUsmV6k2NbK/MDBLj55Qc9BNT2bNPE7
-	0Fct2GKyVH/jFyJSOExPmYqzTw==
-X-Google-Smtp-Source: AGHT+IHPb5HXdCsqr80U4sgRb6aU9ia3M0kiBmOl3nSKbXU6PYgRigxt2YRtsIILQQwaFuOrrXdRDQ==
-X-Received: by 2002:a05:600c:468e:b0:408:500b:a476 with SMTP id p14-20020a05600c468e00b00408500ba476mr6799098wmo.20.1698053558589;
-        Mon, 23 Oct 2023 02:32:38 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3e73:a41c:6787:e5d4? ([2001:8b0:aba:5f3c:3e73:a41c:6787:e5d4])
-        by smtp.gmail.com with ESMTPSA id f5-20020a056000128500b0032179c4a46dsm7332802wrx.100.2023.10.23.02.32.37
+        d=1e100.net; s=20230601; t=1698059181; x=1698663981;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0AyEVz9JomAQTUJENVlgXBWVTR3qxEapwpIiPoNOCXA=;
+        b=wh2GcyZSX0tebnSrdu7nzTFojRtSZaCb09ZbzQdogRjJZqAuArjKt9g+QX4unTxFZZ
+         QtdxPkYhcp8LsqR3igXq6iUaJERD1FKCkxGO6qt2rV/GkC6bvJNrRMp6ZJC66EXzLfYF
+         WOxr5sO0l5BVy/9Ps2rPCtXi5Xx4XdknFshGD9rH0H1caajVuCjOgE1iuHZMxTGRwO7r
+         lkZT+GrPadJqZLBQhAGbuQcxZYYtgWs798Yso8Bhx/ipFOxIHKf8LueP8XypGuTscGti
+         vlghSrbFNkD84KugsOyUowe/F3npKqYyfyZzCXRn1rFhapSgrJuvpH22lLwVKPetNNTy
+         eEMg==
+X-Gm-Message-State: AOJu0YxtV7+snbmBiUgqigflhHu+BIySxIuph3asAGgYhR5SnhH4Z0CY
+	Q94nsLI4yy3lt26wReg0XpH2k0n8+4U=
+X-Google-Smtp-Source: AGHT+IHnfRgJ8Z3sT03PsNoWMyZreg/heOo3ozMr9Z7F9a5OYeHRipKp8Yg9NcuBZXvroH5n6GajwQ==
+X-Received: by 2002:a05:6402:11c6:b0:53f:d261:7945 with SMTP id j6-20020a05640211c600b0053fd2617945mr6143689edw.21.1698059180777;
+        Mon, 23 Oct 2023 04:06:20 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id v28-20020a50d59c000000b00536159c6c45sm6234798edi.15.2023.10.23.04.06.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 02:32:38 -0700 (PDT)
-Message-ID: <de71b01ea99f61d3f2474194513ce7c7957f07d7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] selftest/sstatetests: add tests for
- 'bitbake -S printdiff'
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- openembedded-core@lists.openembedded.org, Alexander Kanavin
- <alex@linutronix.de>
-Date: Mon, 23 Oct 2023 10:32:37 +0100
-In-Reply-To: <CANNYZj9ofMU3NF9qZ8nV6-UvvHQ6_J8=+TcBj1MaQKLR2pw5TQ@mail.gmail.com>
-References: <20231018084652.900785-1-alex@linutronix.de>
-	 <20231018193932e6cb99ef@mail.local>
-	 <CANNYZj9X6yi7D6unHuwa3eYkJq61jWJR5aQZ6_oOjGPrOV7ZEQ@mail.gmail.com>
-	 <2c31af449efdd50af8dee1642c614da33595366c.camel@linuxfoundation.org>
-	 <CANNYZj8LdSmPgNh9sXKZcS_dU+GveKTFDSjSWtRxopjJizwLkg@mail.gmail.com>
-	 <5b1e2359d03645983d923ddb6e8ecd6f97b304d8.camel@linuxfoundation.org>
-	 <17906BBEB8B5FFF5.20272@lists.openembedded.org>
-	 <CANNYZj9psB-6JEaKp6HyBbGy2VTHxn8DQ8MsRweGYJYLo+ikfg@mail.gmail.com>
-	 <8614ecbc167a87768f710b5f1b43c26221aa3202.camel@linuxfoundation.org>
-	 <CANNYZj9ofMU3NF9qZ8nV6-UvvHQ6_J8=+TcBj1MaQKLR2pw5TQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Mon, 23 Oct 2023 04:06:20 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/3] selftest/sstatetests: add tests for 'bitbake -S printdiff'
+Date: Mon, 23 Oct 2023 13:06:16 +0200
+Message-Id: <20231023110618.3525311-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 09:32:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189617
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 11:06:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189618
 
-On Mon, 2023-10-23 at 11:17 +0200, Alexander Kanavin wrote:
-> On Sun, 22 Oct 2023 at 13:55, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > > > Seems like that ('auto') had no effect. :-(
-> > >=20
-> > > Hit send too quickly. Should I try with your suggestion?
-> >=20
-> > It is worth a shot, yes. One causes a local hashequiv whereas the other
-> > disables it entirely.
->=20
-> Seems like it worked:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2314/s=
-teps/15/logs/stdio
+'bitbake -S printdiff' is a useful diagnostic facility for finding out
+why sstate is not being reused, but until now it had no tests that would
+ensure it works. This commit adds three basic scenarios:
 
-Great!
+1. make a change in a really basic, common recipe that is at the very root
+of dependency trees (quilt-native), and ensure that change is correctly discovered when
+building an image.
 
-> Should I fold BB_SIGNATURE_HANDLER =3D "OEBasicHash" into this commit,
-> with a FIXME perhaps? Tools should work without special tweaks, so it
-> needs to be addressed.
+2. make a change in gcc-source recipe, which is somewhat special
+(operates in work-shared), and ensure that gcc-runtime builds track
+that down as well.
 
-We should add the workaround into the commit and leave a note, yes.
+3. make a change in base_do_configure() definition from base.bbclass,
+which is not recipe-specific, but affects many basic recipes, and ensure that
+is correctly reported as well.
 
-Hashequiv is 'fun' since it means in a new build of something, the
-build can track onto an older build/hash chain depending on whether it
-matches it or not.
+The test itself actually runs twice:
+- first against a fully populated build directory, where
+the printdiff code is guaranteed to find the correct previous
+stamp that can be compared with in a predictable manner.
 
-I've not looked into the test specifically and you're right, we want
-people to be able to get diffs reliably regardless of whether it is
-enabled or not. Whether the issue is with the test case or the tooling,
-I'm not really sure. I suggested it as it was the most likely source of
-the issues and definitely worth ruling out if it wasn't.
+- then in an empty build directory where the printdiff code
+goes to look in the sstate cache, and so the existence of the
+previous signature can be tested, but not the difference with it
+(what the exact difference would be is unpredictable as the
+sstate cache is indeed shared between many builds).
 
-Note that the armhost case is interesting since the hash equivalence
-mapping can be present but the sstate might not be in the native case
-if it was built only on x86.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ .../base-do-configure-modified.bbclass        |   3 +
+ .../gcc-source/gcc-source_%.bbappend          |   2 +
+ .../quilt-native/quilt-native_%.bbappend      |   2 +
+ meta/lib/oeqa/selftest/cases/sstatetests.py   | 113 ++++++++++++++++++
+ 4 files changed, 120 insertions(+)
+ create mode 100644 meta-selftest/classes/base-do-configure-modified.bbclass
+ create mode 100644 meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend
+ create mode 100644 meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
 
-Cheers,
+diff --git a/meta-selftest/classes/base-do-configure-modified.bbclass b/meta-selftest/classes/base-do-configure-modified.bbclass
+new file mode 100644
+index 00000000000..3f96827a428
+--- /dev/null
++++ b/meta-selftest/classes/base-do-configure-modified.bbclass
+@@ -0,0 +1,3 @@
++base_do_configure:append () {
++	echo "this changes base_do_configure() definiton"
++}
+diff --git a/meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend b/meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend
+new file mode 100644
+index 00000000000..205720982cb
+--- /dev/null
++++ b/meta-selftest/recipes-test/gcc-source/gcc-source_%.bbappend
+@@ -0,0 +1,2 @@
++# This bbappend is used to alter the recipe using the test_recipe.inc file created by tests.
++include test_recipe.inc
+diff --git a/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend b/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
+new file mode 100644
+index 00000000000..205720982cb
+--- /dev/null
++++ b/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
+@@ -0,0 +1,2 @@
++# This bbappend is used to alter the recipe using the test_recipe.inc file created by tests.
++include test_recipe.inc
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index bdad9088d37..b96eacc9ad8 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -773,3 +773,116 @@ addtask tmptask2 before do_tmptask1
+                 latestfiles = sorted(filedates.keys(), key=lambda f: filedates[f])[-2:]
+                 bb.siggen.compare_sigfiles(latestfiles[-2], latestfiles[-1], recursecb)
+                 self.assertEqual(recursecb_count,1)
++
++class SStatePrintdiff(SStateBase):
++    # FIXME: OEBasicHash setting is necessary for now as otherwise the following error can occur:
++    # ERROR: Can't find a task we're supposed to have written out? (hash: e79d70b9c2cc72030c1ce822525510699a1eeb1ddf5986271d3217422244366a)?
++    # The underlying issue should be investigated and addressed.
++    def run_test_printdiff_changerecipe(self, target, change_recipe, change_bbtask, change_content, expected_sametmp_output, expected_difftmp_output):
++        self.write_config("""
++TMPDIR = "${TOPDIR}/tmp-sstateprintdiff"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
++""")
++        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff")
++        bitbake(target)
++        bitbake("-S none {}".format(target))
++        bitbake(change_bbtask)
++        self.write_recipeinc(change_recipe, change_content)
++        result_sametmp = bitbake("-S printdiff {}".format(target))
++
++        self.write_config("""
++TMPDIR = "${TOPDIR}/tmp-sstateprintdiff-2"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
++""")
++        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff-2")
++        result_difftmp = bitbake("-S printdiff {}".format(target))
++
++        self.delete_recipeinc(change_recipe)
++        for item in expected_sametmp_output:
++            self.assertIn(item, result_sametmp.output)
++        for item in expected_difftmp_output:
++            self.assertIn(item, result_difftmp.output)
++
++    def run_test_printdiff_changeconfig(self, target, change_content, expected_sametmp_output, expected_difftmp_output):
++        self.write_config("""
++TMPDIR = "${TOPDIR}/tmp-sstateprintdiff"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
++""")
++        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff")
++        bitbake(target)
++        bitbake("-S none {}".format(target))
++        self.append_config(change_content)
++        result_sametmp = bitbake("-S printdiff {}".format(target))
++
++        self.write_config("""
++TMPDIR = "${TOPDIR}/tmp-sstateprintdiff-2"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
++""")
++        self.append_config(change_content)
++        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff-2")
++        result_difftmp = bitbake("-S printdiff {}".format(target))
++
++        for item in expected_sametmp_output:
++            self.assertIn(item, result_sametmp.output)
++        for item in expected_difftmp_output:
++            self.assertIn(item, result_difftmp.output)
++
++
++    # Check if printdiff walks the full dependency chain from the image target to where the change is in a specific recipe
++    def test_image_minimal_vs_quilt(self):
++        expected_output = ("Task quilt-native:do_install couldn't be used from the cache because:",
++"We need hash",
++"most recent matching task was")
++        expected_sametmp_output = expected_output + ("Variable do_install value changed",'+    echo "this changes the task signature"')
++        expected_difftmp_output = expected_output
++
++        self.run_test_printdiff_changerecipe("core-image-minimal", "quilt-native", "-c do_install quilt-native",
++"""
++do_install:append() {
++    echo "this changes the task signature"
++}
++""",
++expected_sametmp_output, expected_difftmp_output)
++
++    # Check if changes to gcc-source (which uses tmp/work-shared) are correctly discovered
++    def test_gcc_runtime_vs_gcc_source(self):
++        gcc_source_pn = 'gcc-source-%s' % get_bb_vars(['PV'], 'gcc')['PV']
++
++        expected_output = ("Task {}:do_preconfigure couldn't be used from the cache because:".format(gcc_source_pn),
++"We need hash",
++"most recent matching task was")
++        expected_sametmp_output = expected_output + ("Variable do_preconfigure value changed",'+    print("this changes the task signature")')
++        #FIXME: printdiff is supposed to find at least one preconfigure task signature in the sstate cache, but isn't able to
++        #expected_difftmp_output = expected_output
++        expected_difftmp_output = ()
++
++        self.run_test_printdiff_changerecipe("gcc-runtime", "gcc-source", "-c do_preconfigure {}".format(gcc_source_pn),
++"""
++python do_preconfigure:append() {
++    print("this changes the task signature")
++}
++""",
++expected_sametmp_output, expected_difftmp_output)
++
++    # Check if changing a really base task definiton is reported against multiple core recipes using it
++    def test_image_minimal_vs_base_do_configure(self):
++        expected_output = ("Task zstd-native:do_configure couldn't be used from the cache because:",
++"Task texinfo-dummy-native:do_configure couldn't be used from the cache because:",
++"Task ldconfig-native:do_configure couldn't be used from the cache because:",
++"Task gettext-minimal-native:do_configure couldn't be used from the cache because:",
++"Task tzcode-native:do_configure couldn't be used from the cache because:",
++"Task makedevs-native:do_configure couldn't be used from the cache because:",
++"Task pigz-native:do_configure couldn't be used from the cache because:",
++"Task update-rc.d-native:do_configure couldn't be used from the cache because:",
++"Task unzip-native:do_configure couldn't be used from the cache because:",
++"Task gnu-config-native:do_configure couldn't be used from the cache because:",
++"We need hash",
++"most recent matching task was")
++        expected_sametmp_output = expected_output + ("Variable base_do_configure value changed",'+	echo "this changes base_do_configure() definiton"')
++        expected_difftmp_output = expected_output
++
++        self.run_test_printdiff_changeconfig("core-image-minimal",
++"""
++INHERIT += "base-do-configure-modified"
++""",
++expected_sametmp_output, expected_difftmp_output)
+-- 
+2.39.2
 
-Richard
 
