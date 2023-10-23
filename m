@@ -1,340 +1,174 @@
-Return-Path: <qiutt@fujitsu.com>
+Return-Path: <rasmus.villemoes@prevas.dk>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5873CC001E0
-	for <webhook@archiver.kernel.org>; Mon, 23 Oct 2023 06:34:39 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.web11.115250.1698042869292892703
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 969D9C001E0
+	for <webhook@archiver.kernel.org>; Mon, 23 Oct 2023 07:03:49 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.109])
+ by mx.groups.io with SMTP id smtpd.web10.115079.1698044623862224913
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Oct 2023 23:34:29 -0700
+ Mon, 23 Oct 2023 00:03:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: qiutt@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10871"; a="125503084"
-X-IronPort-AV: E=Sophos;i="6.03,244,1694703600"; 
-   d="scan'208";a="125503084"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 15:34:26 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id EE1B9D9DA9
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 15:34:23 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 2C413CFB9B
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 15:34:23 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id BA351E2057
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 15:34:22 +0900 (JST)
-Received: from centos.g08.fujitsu.local (unknown [10.167.219.96])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 596EE1A0072;
-	Mon, 23 Oct 2023 14:34:22 +0800 (CST)
-From: qiutt@fujitsu.com
+ dkim=fail reason="dkim: body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=jl0AFOy6;
+ spf=pass (domain: prevas.dk, ip: 40.107.7.109, mailfrom: rasmus.villemoes@prevas.dk)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m0EVrmuXaHJwY1zCLe0vD0t4GrBBwigpmztk7UaDG0Ph5X+Hx81pLsOwYUOr/9m9NdCTONgsLY6Qo+XVOsT60XAs/BUWEDo1coJDEq2zTNu4TxIX9W2zUcUIj/8ewDVlylUJJBrUwjswLoKtAnWIx0h5nEdfraUD550lNAV9VwGr12ZrA4xwBpHcaTUaGkF/P4OnoPNc+2iIpM8zcjE4EInpSk1Xt+Pv/HjkVExDSMo2Q9ByEaD0EoCEwSGYGRZzJgFLUPmLy+uzLFQm7SIQAZBbGZ+zH7aBmHhPqc23i6URMTxf8KYWpBComk5LjT3ppXv3NFtYBvoWOiNJ6xiCPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LChgNRhgwDNow3sYZXEblmsseZHka2Mfq67iW8o0Dnw=;
+ b=FrstIp6AyneM03mT4BsvfDlbcxHpW3OZPQ9EnfcHYmsDa31INbb7DUT5aM40xjW6Y1LRKb94tQy6Rves5KX9Wis0Hd+F/fWeGad6PLhLH/alV+ZkuvvQDzBjbBu62bxEWVxhb0ivh9YyHaFFfO/TsWaiOV0oSEiK2C2QcUyxF8wL8oPKKkNTXZz9EOA12kP9yo9H+ivIiTcJcANRTTN8e3GeFgD9F51AT6/GVPBJ5jV16FrWK+spLKaBcwCvGRy2GhLopiyPMCnapaXlB8gBjZPKWND1oSDKDjmh0uc+2nygYISIDLBRid7KvGkIhLGDe0RZvlG8w8lCBdQaHWkFHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LChgNRhgwDNow3sYZXEblmsseZHka2Mfq67iW8o0Dnw=;
+ b=jl0AFOy6YfQRpVhY411no1yztVg/kvwwkGtcbymiJ3vllZHsvZZvBf8q0lNMUfkpl1aakjCj+jIqEP2fslwTldQgOTFtrb58+oqoYtNlERtgdJ57B7FDd9+eZzHjaa8wvaCKkiMoDgVJK5BeCSkT95jPk6nATJ7b1Fferwk5MPw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=prevas.dk;
+Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:45a::14)
+ by AS2PR10MB7348.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:604::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Mon, 23 Oct
+ 2023 07:03:39 +0000
+Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::52ba:4d74:6ab:aa5]) by DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::52ba:4d74:6ab:aa5%7]) with mapi id 15.20.6907.030; Mon, 23 Oct 2023
+ 07:03:39 +0000
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 To: openembedded-core@lists.openembedded.org
-Cc: Qiu Tingting <qiutt@fujitsu.com>
-Subject: [PATCH V1] cairo:Add ptest support
-Date: Mon, 23 Oct 2023 14:34:15 +0800
-Message-Id: <1698042855-3883-1-git-send-email-qiutt@fujitsu.com>
-X-Mailer: git-send-email 1.7.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27952.005
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27952.005
-X-TMASE-Result: 10--9.387500-10.000000
-X-TMASE-MatchedRID: SHPZLDJt6hRSuJfEWZSQfBMxKDqgAFSz3hng3KTHeTZM+b8yxBqvA3X2
-	dWwZpMyXzQCB72FLaNpJtskS4r/ddbxTpz2zW+LJpSXVpBS+ilY3l2plwgrtWCD1HdXyqDnEuxW
-	P7AlD8NMppiuzBwGFPv+EMOr9fJmZL/tBTZzO5Q0K3Ma88LL+blK6+0HOVoSoQ9Fx1nQpmTwNle
-	G9Mx1C72vorjl+8pW03Tu5wqq1RK/rGT8oppN8UHV7tdtvoibaQR7lWMXPA1uMJxigKCCiSz3vM
-	QJZlrWjQRQJ+QZ3RDPJLskA7oOiDt592rd90GpVupDIC9422Dqe/UuOBUIY4jMM67DQIVkSigWi
-	i6tzEwNwU8SANxEnQtRK0ILOMd3Uh2EU0vzIu296UiYycCRZXp+PweRdWiCx92wasZo4p03z1Fs
-	ykdoZca6UMTDMbox3UYB7V58oVjgq1U5B3sV3Xi9iVDu7EPf8oZoUnnV928KBAXl9LkPp6WO/fg
-	CP/Sl24vM1YF6AJbbGXyXDzkRpVAtuKBGekqUpI/NGWt0UYPAS87BJtUyaG4pBP+Y2FFna2IfEb
-	C0BbRQY7q+GaB1c/nxK8ruA57Zr
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+CC: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Subject: [PATCH v2] perf: lift TARGET_CC_ARCH modification out of security_flags.inc
+Date: Mon, 23 Oct 2023 09:03:30 +0200
+Message-ID: <20231023070330.6984-1-rasmus.villemoes@prevas.dk>
+X-Mailer: git-send-email 2.40.1.1.g1c60b9335d
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: MM0P280CA0086.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:8::10) To DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:45a::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR10MB7100:EE_|AS2PR10MB7348:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f7841f2-3d4f-4f96-57c5-08dbd3962f04
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	2Vtw3ZN+KeZiZTaIjR50rwU2PwQddQTyrIDmga2Sy9mKBl6QIt7s2lt+YmwdSqFfpwOdTcyfJwm9mjO2lgLyatmM/XTITEAB9XS4c8GnoQxzrFniOnaRfFE+MCrLjhtEZtYqycZ1ynTJEaaDx51WWnEdDUktysixCcb/WQndFuhnT4bgv+klTkQ9vYTNh5273UcfK+QhwPCuZ+6MhtFLqvHjsINZXwXc7mEkeRm7XjldqVlkY+lXDKD+A1HTyk07OFInZppGWUawDFGAXqJnek5KNZngtWmv2YQbyFwH5cm7+shJCQBqVAsUnfi+aDi6M8U5MikssFdAyltOy5w/DNpTx50sb2LN4ot/FYTmKAOn6pojNhkwdYystT5k5yXAu7cnmeIDShIjPlvagSSRlhh/KAwqM1GM/FvkAzg175diPmjZnHnIeMXaqmcJSHPM0TXtnEBHZg+jTksvNbUpvd/OxozTJMerYjXBq7Kq/wu31e+AlxyzTmHWhJq5wIOS8ZtEjvOfSQ0XjUji6EaJZ9aJYByzmGo+rJRcXj/JYkwQNbG3nCdYH3oYSm6AwHRVWtEx2H+o/flZlU3C6z8w76mDKgC7eduAEVPMXQmdwYDG0kKOxbKmRzwfgYnBiP/a
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(39840400004)(136003)(376002)(346002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(52116002)(6506007)(2906002)(6666004)(478600001)(6486002)(8936002)(15650500001)(8976002)(8676002)(4326008)(44832011)(5660300002)(66556008)(66946007)(6916009)(66476007)(54906003)(316002)(41300700001)(26005)(83380400001)(6512007)(38350700005)(36756003)(86362001)(1076003)(107886003)(2616005)(38100700002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Ap83AcOIvyh0mbcMHAd4LsQZbWfQuAT2mrQqMNHWRrs9c+zubyjScFEXQ3+p?=
+ =?us-ascii?Q?VuOeAnm1l/zOYXHR5YIBmHWuOU21aaJh+t1wS4vOmTXRojAjJySiR2B/ZN9v?=
+ =?us-ascii?Q?Xz6jdqgK0K15uzEUV1njSWernlQFesciiXA4CT2+Sa3hrJqanqKzIbG/b9+9?=
+ =?us-ascii?Q?hhFpjCjPfGTlUxQQGWQAAPYq2hPO0/CLfiLqBY/qLmQFLZbgcVu35uccr82b?=
+ =?us-ascii?Q?VZ81idSCjsu1Y/YLOIzIRK+7kKzaQgQ+nG0B0Z9Y0roE80dHCr07lzGY6l9j?=
+ =?us-ascii?Q?MkVN4zFZUMEK4bf8P/1a63jjDwkRCMDKW3qYg7/qPIIwkvPqJrzXUToOMvEI?=
+ =?us-ascii?Q?hf2LmK5kvyuj0incuBqa6H4PYe9U7jyWMg+0d5EPJ+vgBtRQ0BQ8S9cbA5zQ?=
+ =?us-ascii?Q?aEp0b5sDeC6fJ28DXKF6ToMRltqFrGIUJJaD0/HV4geOzXjQGCb3s8QqCjhV?=
+ =?us-ascii?Q?oJ/UAsU1JO1KYW6APGayyRj51t5tc2CLSCnL18GhK7QZmxHS2LL72OL0YqUM?=
+ =?us-ascii?Q?I1wo+FPhbfHL7U8TadfertbTWkCsbQPcmb4C1AQKpHP5qiS7ECj5IfjNVJOo?=
+ =?us-ascii?Q?h4XDMH/0g3xnK/n4xsDAf3aAHrFQ84O3i40Nwhfv/tb1MxUONVO0zIlcy8bX?=
+ =?us-ascii?Q?VGEYHojdAFOK3nLodPxc4JAEeaTHkqOAin/QwH5OSDfGnTMbZPHLNRNv++R4?=
+ =?us-ascii?Q?bCHoZVUFECo8VB1VmrMV3461wvvDaZti7PNT3RXmLxpfkhwQpxCPFWvpmaCi?=
+ =?us-ascii?Q?CBKRNmWNyWlpY1H8bds3IxWffpksPdiK4Jgl96YLvWP6e/zbmqEijZw04hcj?=
+ =?us-ascii?Q?8ufYJDbwqoihDuD6cPZzGVDIpA1sy0VG7iZ5YQXwojgVX30T0f+0icBOMHGi?=
+ =?us-ascii?Q?zIxKTN9grxFT0HphoEkAYpaTCnp0zxOGxrdlBrVLZrFrHtpsAWHF88uuVUXA?=
+ =?us-ascii?Q?o6tYMk4WfZBKd73hpxjF3y2dyckgPl2hIVZmQJj+zJb3citLYEhGrQfzPnDC?=
+ =?us-ascii?Q?/x4RETTuno6VaLZfHtS0uAVzVq2Q4rrHplAYhjFYgFE5rt6eSMtZnYmyOUpO?=
+ =?us-ascii?Q?vsOFHA234y2gxax7sN9xvrVdbFC4H/4hnB/w/AstdzBvgmog7StnXaQvIJQ5?=
+ =?us-ascii?Q?IgabB+tPwMOzoGDJQmHmKvupdE0GMx+w6/cjGAyFboKbc13RPXUdkjhd4VTj?=
+ =?us-ascii?Q?KkZ9/xDQ2NSVBka2nOJO+HCXp5JD939YYo5SrQpJfWMJPm4B+rY86zT/IGTj?=
+ =?us-ascii?Q?1A3NrXOJ71nhdjoHyNBoRVlaYPV+Q5Q3rZ4sXc0EfI36UxOmy23Ii8/ezFtw?=
+ =?us-ascii?Q?l7pD222I9tOgz3K2TsBJAucyqAsYfVDzOILqg234edHKEaf4aYb3+YwQLEMt?=
+ =?us-ascii?Q?NEQ+2AyUt9fR+3SEckXbY5vKhUxsKVTS2XiHbi2rZgplKhCCcyGshaiJysOj?=
+ =?us-ascii?Q?L7LvMDkZmlzgEIPhFYLybnd1BlxYfIceqjRI9Bpj0Lcu+bA/ttVuoevYh5ri?=
+ =?us-ascii?Q?IdhYeCYkTuS1qJRfGOqndFxcSR9iOqjgVN2YjOHeffqaK7NTs8rNgZCY9UX1?=
+ =?us-ascii?Q?GK3K6t5MI2zGLPtFOUOOROYKyj46+l654WV8xEZHFPJU6m2HmXxriX0zs+UM?=
+ =?us-ascii?Q?XQ=3D=3D?=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f7841f2-3d4f-4f96-57c5-08dbd3962f04
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 07:03:39.1459
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: St2WmgePC0l20zCQLuI2gmi7JhWHDQzgTVggcrD7efmYuytLLJyJrxydOIvZb8hQvp7ib+7qZz7ZV/aUCr2rfV6vjpym0I5GoMmmeFepD00=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7348
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 06:34:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189614
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 07:03:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189615
 
-From: Qiu Tingting <qiutt@fujitsu.com>
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 
-Add a ptest for cairo
-- It is taking around 65s to execute with kvm, so added it to PTESTS_SLOW
-- It contains 429 cases
-- Below is parts of the run log:
-  START: ptest-runner
-  2023-10-17T05:56
-  BEGIN: /usr/lib/cairo/ptest
+Building perf without security_flags.inc being included in one's
+distro results in the buildpaths warning
 
-  TESTING cairo-test-suite
-  Compiled against cairo 1.16.0, running on 1.16.0.
-  Compiled against pixman 0.42.2, running on 0.42.2.
+WARNING: perf-1.0-r9 do_package_qa: QA Issue: File /usr/bin/trace in
+package perf contains reference to TMPDIR
 
-  TESTING a1-bug
-  a1-bug.image.argb32 [0x1]:  PASS
+because the ${DEBUG_PREFIX_MAP} does not get used. Most recipes get
+that from CFLAGS, but the perf recipe explicitly unsets that.
 
-  ...
-  TESTING fallback-resolution
-  UNTESTED: fallback-resolution
-  402 Passed, 13 Failed [0 crashed, 13 expected], 14 Skipped
-  DURATION: 65
-  END: /usr/lib/cairo/ptest
-  2023-10-17T05:51
-  STOP: ptest-runner
-  TOTAL: 1 FAIL: 0
+Now ${SELECTED_OPTIMIZATION} of course contains more than just
+${DEBUG_FLAGS}/${DEBUG_PREFIX_MAP}. For most TUs, perf's build system
+adds its own optimization flags (-O6 for odd reasons), so for those
+including the -O2 or -Og doesn't change anything. But looking at the
+.o.cmd files show that there are some TUs which currently get built
+without any -O flag. So for those adding the distro's
+SELECTED_OPTIMIZATION seem to be the right thing to do.
 
-Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-graphics/cairo/cairo/ptest.patch | 58 +++++++++++
- meta/recipes-graphics/cairo/cairo/run-ptest   | 20 ++++
- meta/recipes-graphics/cairo/cairo/skiplist    | 97 +++++++++++++++++++
- meta/recipes-graphics/cairo/cairo_1.16.0.bb   | 24 +++++
- 5 files changed, 200 insertions(+)
- create mode 100644 meta/recipes-graphics/cairo/cairo/ptest.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/run-ptest
- create mode 100644 meta/recipes-graphics/cairo/cairo/skiplist
+v2: add comment
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 680b01b3b5..aa8aeaaa1b 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -89,6 +89,7 @@ PTESTS_PROBLEMS:append:riscv32 = " qemu"
- PTESTS_SLOW = "\
-     apr \
-     bzip2 \
-+    cairo \
-     coreutils \
-     curl \
-     dbus \
-diff --git a/meta/recipes-graphics/cairo/cairo/ptest.patch b/meta/recipes-graphics/cairo/cairo/ptest.patch
-new file mode 100644
-index 0000000000..cbbafb1f0f
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/ptest.patch
-@@ -0,0 +1,58 @@
-+change cairo-test-suite output with ptest formate.
+ meta/conf/distro/include/security_flags.inc | 1 -
+ meta/recipes-kernel/perf/perf.bb            | 9 +++++++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro=
+/include/security_flags.inc
+index 2972f05b4e..d97a6edb0f 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -69,4 +69,3 @@ SECURITY_LDFLAGS:pn-xserver-xorg =3D "${SECURITY_X_LDFLAG=
+S}"
+ TARGET_CC_ARCH:append:pn-binutils =3D " ${SELECTED_OPTIMIZATION}"
+ TARGET_CC_ARCH:append:pn-gcc =3D " ${SELECTED_OPTIMIZATION}"
+ TARGET_CC_ARCH:append:pn-gdb =3D " ${SELECTED_OPTIMIZATION}"
+-TARGET_CC_ARCH:append:pn-perf =3D " ${SELECTED_OPTIMIZATION}"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/pe=
+rf.bb
+index 675acfaf26..a392166e73 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -73,6 +73,15 @@ SPDX_S =3D "${S}/tools/perf"
+ # supported kernel.
+ LDFLAGS=3D"-ldl -lutil"
+=20
++# Perf's build system adds its own optimization flags for most TUs,
++# overriding the flags included here. But for some, perf does not add
++# any -O option, so ensure the distro's chosen optimization gets used
++# for those. Since ${SELECTED_OPTIMIZATION} always includes
++# ${DEBUG_FLAGS} which in turn includes ${DEBUG_PREFIX_MAP}, this also
++# ensures perf is built with appropriate -f*-prefix-map options,
++# avoiding the 'buildpaths' QA warning.
++TARGET_CC_ARCH +=3D "${SELECTED_OPTIMIZATION}"
 +
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
-+
-+diff -rNu a/test/cairo-test-runner.c b/test/cairo-test-runner.c
-+--- a/test/cairo-test-runner.c	2023-10-13 15:51:25.986798896 +0800
-++++ b/test/cairo-test-runner.c	2023-10-16 13:57:41.323640064 +0800
-+@@ -1011,9 +1011,9 @@
-+ 		    }
-+ 		}
-+ 		targets[len-2] = '\0';
-+-		_log (&runner.base, "\n%s: CRASH! (%s)\n", name, targets);
-++		_log (&runner.base, "\nCRASH: %s (%s)\n", name, targets);
-+ 	    } else {
-+-		_log (&runner.base, "\n%s: CRASH!\n", name);
-++		_log (&runner.base, "\nCRASH: %s\n", name);
-+ 	    }
-+ 	    runner.num_crashed++;
-+ 	    runner.passed = FALSE;
-+@@ -1033,9 +1033,9 @@
-+ 		    }
-+ 		}
-+ 		targets[len-2] = '\0';
-+-		_log (&runner.base, "%s: ERROR (%s)\n", name, targets);
-++		_log (&runner.base, "ERROR: %s (%s)\n", name, targets);
-+ 	    } else {
-+-		_log (&runner.base, "%s: ERROR\n", name);
-++		_log (&runner.base, "ERROR: %s\n", name);
-+ 	    }
-+ 	    runner.num_error++;
-+ 	    runner.passed = FALSE;
-+@@ -1055,20 +1055,20 @@
-+ 		    }
-+ 		}
-+ 		targets[len-2] = '\0';
-+-		_log (&runner.base, "%s: FAIL (%s)\n", name, targets);
-++		_log (&runner.base, "FAIL: %s (%s)\n", name, targets);
-+ 	    } else {
-+-		_log (&runner.base, "%s: FAIL\n", name);
-++		_log (&runner.base, "FAIL: %s\n", name);
-+ 	    }
-+ 	    runner.num_failed++;
-+ 	    runner.passed = FALSE;
-+ 	} else if (xfailed) {
-+-	    _log (&runner.base, "%s: XFAIL\n", name);
-++	    _log (&runner.base, "XFAIL: %s\n", name);
-+ 	    runner.num_xfailed++;
-+ 	} else if (skipped) {
-+-	    _log (&runner.base, "%s: UNTESTED\n", name);
-++	    _log (&runner.base, "UNTESTED: %s\n", name);
-+ 	    runner.num_skipped++;
-+ 	} else {
-+-	    _log (&runner.base, "%s: PASS\n", name);
-++	    _log (&runner.base, "PASS: %s\n", name);
-+ 	    runner.num_passed++;
-+ 	}
-+ 	fflush (runner.base.log_file);
-diff --git a/meta/recipes-graphics/cairo/cairo/run-ptest b/meta/recipes-graphics/cairo/cairo/run-ptest
-new file mode 100644
-index 0000000000..7ee3e26954
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/run-ptest
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+
-+# Define tar test work dir
-+WORKDIR=@PTEST_PATH@/tests/
-+
-+# Run test
-+cd ${WORKDIR}
-+
-+# Clean old logs
-+rm -rf cairo-test-suite.log
-+rm -rf output
-+
-+CAIRO_TEST_TARGET=image ./cairo-test-suite -l > caselist
-+for case in `cat skiplist`
-+do
-+    sed -i "s/${case}//g" caselist
-+done
-+
-+CAIRO_TEST_TARGET=image CAIRO_TESTS=`cat caselist` ./cairo-test-suite
-+
-diff --git a/meta/recipes-graphics/cairo/cairo/skiplist b/meta/recipes-graphics/cairo/cairo/skiplist
-new file mode 100644
-index 0000000000..1dabffd88a
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/skiplist
-@@ -0,0 +1,97 @@
-+clear
-+clip-operator
-+clip-text
-+culled-glyphs
-+extended-blend-alpha-mask
-+font-matrix-translation
-+font-variations
-+glyph-cache-pressure
-+get-path-extents
-+halo
-+halo-transform
-+inverse-text
-+large-font
-+mime-data
-+negative-stride-image
-+operator-clear
-+operator-source
-+overlapping-glyphs
-+partial-clip-text-top
-+partial-clip-text-bottom
-+partial-clip-text-left
-+partial-clip-text-right
-+radial-gradient-source
-+raster-source
-+record-select-font-face
-+record1414x-select-font-face
-+record2x-select-font-face
-+record90-select-font-face
-+recordflip-whole-select-font-face
-+recordflip-select-font-face
-+select-font-face
-+show-glyphs-advance
-+show-text-current-point
-+smask
-+smask-text
-+smp-glyph
-+stride-12-image
-+text-antialias-gray
-+text-antialias-none
-+text-antialias-subpixel
-+text-antialias-subpixel-rgb
-+text-antialias-subpixel-bgr
-+text-antialias-subpixel-vrgb
-+text-antialias-subpixel-vbgr
-+text-glyph-range
-+text-pattern
-+text-rotate
-+text-unhinted-metrics
-+unbounded-operator
-+user-font-proxy
-+user-font-rescale
-+pthread-show-text
-+bitmap-font
-+ft-font-create-for-ft-face
-+ft-show-glyphs-positioning
-+ft-show-glyphs-table
-+ft-text-vertical-layout-type1
-+ft-text-vertical-layout-type3
-+ft-text-antialias-none
-+clip-image
-+clipped-surface
-+composite-integer-translate-source
-+composite-integer-translate-over
-+extend-reflect
-+extend-reflect-similar
-+extend-repeat
-+extend-repeat-similar
-+filter-nearest-transformed
-+mask
-+mask-transformed-image
-+mask-transformed-similar
-+subsurface-image-repeat
-+text-transform
-+trap-clip
-+xlib-expose-event
-+pixman-downscale-fast-96
-+pixman-downscale-fast-95
-+pixman-downscale-fast-24
-+pixman-downscale-good-96
-+pixman-downscale-good-95
-+pixman-downscale-good-24
-+pixman-downscale-best-96
-+pixman-downscale-best-95
-+pixman-downscale-best-24
-+pixman-downscale-nearest-96
-+pixman-downscale-nearest-95
-+pixman-downscale-nearest-24
-+pixman-downscale-bilinear-96
-+pixman-downscale-bilinear-95
-+pixman-downscale-bilinear-24
-+record-text-transform
-+record1414x-text-transform
-+record2x-text-transform
-+record90-text-transform
-+recordflip-whole-text-transform
-+recordflip-text-transform
-+
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index ffb813d290..8eedc73717 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -84,6 +84,30 @@ do_install:append () {
- 		rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
- }
- 
-+# add for ptest support
-+SRC_URI += " \
-+    file://ptest.patch \
-+    file://run-ptest \
-+    file://skiplist \
-+"
-+
-+inherit ptest
-+
-+do_compile_ptest() {
-+    oe_runmake -C ${B}/test/
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests/
-+    install --mode=755 ${B}/test/.libs/* ${D}${PTEST_PATH}/tests/
-+    install -d ${D}${PTEST_PATH}/tests/reference/
-+    install --mode=755 ${S}/test/reference/* ${D}${PTEST_PATH}/tests/reference/
-+
-+    install --mode=755 ${WORKDIR}/skiplist ${D}${PTEST_PATH}/tests/
-+    sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/run-ptest
-+
-+}
-+
- PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
- 
- SUMMARY:cairo-gobject = "The Cairo library GObject wrapper library"
--- 
-2.25.1
+ EXTRA_OEMAKE =3D '\
+     V=3D1 \
+     VF=3D1 \
+--=20
+2.40.1.1.g1c60b9335d
 
 
