@@ -1,363 +1,213 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <lukas.funke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE83EC001E0
-	for <webhook@archiver.kernel.org>; Mon, 23 Oct 2023 11:13:40 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.117879.1698059618954042564
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E017EC004C0
+	for <webhook@archiver.kernel.org>; Mon, 23 Oct 2023 12:18:20 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.85])
+ by mx.groups.io with SMTP id smtpd.web11.119333.1698063490086794200
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Oct 2023 04:13:39 -0700
+ Mon, 23 Oct 2023 05:18:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CN9kOkgi;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c509d5ab43so48097021fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 04:13:38 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=q5uyqg8j;
+ spf=pass (domain: weidmueller.com, ip: 40.107.6.85, mailfrom: lukas.funke-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h0IGHfPZdP6NpFP08X4kuf9OwPimHqVqrDeC/szNxQqsrr5/NFAznUU2SkIgyqajf6dD11nWavxnf2/GDyFCXoN3X3MIbImLuQT6TXtPoWYokTDgOuFkAJO79qDmhzygsAresRbj7A8qPdRbh8AEhuVyQx/62FULv7/bnSa8pHrc9R9qBmIWzFZXBsEg8mUCDjOmQxrP2TUbF1o9Svs3lw56FXXFltH9kWRVhuN969dfsHvB0Pd+5jY423VP2MGkrEoKPajlmHpUP50oxHf/l7uB/mxehkAM/bDtF9GedMHVJvFpzvSqH/EUwNTTqmBnzWFi6rJ/E9+0j8Lf+NpXHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XTRco6GNewPIop6qb41meDvp6t13QAw4D1mqGJAmtBM=;
+ b=DErZtAUPCnYyeqZWSNJLyUePZSOpdSbn8vX3HiQx324TwnloumoCPJROAqHcTfZ+WOGoJNf3/j29DAJdVT4WUErF9Hr3yzXCPvo6XVF0B8O0SQKarfEl83H2Jf/P17QpQf0pzzvBHyYyWflGuDhlFLvF2rLnInIYUYPdyyqLVFw1dXpLgwqNOSNA0liFcWxXlN3TlVL56rLe6llLU1cP1Q0EcA6h4zv6XZfkyhkegawGJNa3VPPUGNw3HvjgMionrUgaFr0hoCiizz8Iznf0B7eEeGoqcVVCnh9aDJjjd6TAQbWS3Chz5DLMjG8PvXSrMq7aJCmLH5mbQS7UcqhrzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698059617; x=1698664417; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=C0g/IekIVZo8hHXnMAotnnPt5OB2UuuSV8gw8yknYqU=;
-        b=CN9kOkgikdLNKeR6JaEhqOy6NYB0o1rpsXrd82NvoLcPf8j2HiW+Bnc1ZJhGOwNvxi
-         K5YF343gyx4PrvmlDDhmSpT3lkbhVAEH8jEBOcdmu88shWA8UycdeFygvYKOkoVzknM5
-         g7snm39I5hLowbXcR1nnVt6mD+21yWJTET8kkS3Efggw9IcyVetGm1rrWSx9nZ8bvkbQ
-         i90ChTfWmh41g1HupO2TV/sERDQMEzVu27uKc39Qzc2KhYD+dkQ1+dNXSflZ90eL4yew
-         nwpTowej4ArDqL21KqDSDMWn4emIPOSpemjpNKUU8XvF+321sx+96jk1xkBC0rADs5PP
-         pwyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698059617; x=1698664417;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=C0g/IekIVZo8hHXnMAotnnPt5OB2UuuSV8gw8yknYqU=;
-        b=gPq98mXJywnmvcM8pzGCUQ2eK5/SK/JVgpCL4G0nlr4jaVG3VWwlJroPoMNUOdpuyl
-         Tett9j9RmxJH00O2hvRAC24EjvSTBYuC5vWWETp7O+I78hkQFVel/GbDrSJv5wq6aIQv
-         a0AfYzr7Rm3POXAOz1zZf9/zHycAoJn1ufODghFz89FZXdsSImIfRPy8m1brFTwOtXWn
-         iY16FTGa1Kmb93qKoFdCUiKkSHbfi4bXAV1S3h2khH9pfwEWNlkyLq3uWhjGJUU6SbLn
-         YU6osUMwWEWzpXL1b4DAvu26sen01LZVsZFoU+W3q6ozHFvp7nnYVnStmAs/XBhyUXAj
-         N/OA==
-X-Gm-Message-State: AOJu0Yx3mseFNtlyz84r1RfYCTnFPkrJBpZ/mCIhYO581zY6vxOHhtWh
-	0nH9auElbLxOTFsiyiiysMvJqIOqn8lB2Y9zhasJo8L7
-X-Google-Smtp-Source: AGHT+IHk7R+xZDjYXQD7wN+6w91x3AJEgMSF+N09a8eaEhNkyY3I5sA7P3+MHNvpJ8nLfYn5k0+t6FvkRTgF8LrovVY=
-X-Received: by 2002:a2e:7004:0:b0:2c2:9872:dfc1 with SMTP id
- l4-20020a2e7004000000b002c29872dfc1mr6210239ljc.42.1698059616742; Mon, 23 Oct
- 2023 04:13:36 -0700 (PDT)
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XTRco6GNewPIop6qb41meDvp6t13QAw4D1mqGJAmtBM=;
+ b=q5uyqg8juj2yc6Mt5xYyZYFiUGHLo+r0FloNaGC2P5gF41+OUsQPftWnITbfYM9FKu+5bsBKknBBT1GMN1KIEZgwq90yW9FlZyTvMNPEHzHATXcjU9+CXDFq3LUi0BkX880MCl9CKadu1ShoOt+iBg1wL3GgcwChVbcOhbGI/jc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
+ by DU5PR08MB10578.eurprd08.prod.outlook.com (2603:10a6:10:51c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Mon, 23 Oct
+ 2023 12:18:07 +0000
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::c337:aad3:ff97:b20c]) by AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::c337:aad3:ff97:b20c%6]) with mapi id 15.20.6907.032; Mon, 23 Oct 2023
+ 12:18:06 +0000
+Message-ID: <3ab8f8ee-ce9d-48c1-b802-177f4bec9e3c@weidmueller.com>
+Date: Mon, 23 Oct 2023 14:18:04 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-Core][PATCH v2 0/4] recipetool: Add handler to create go
+ recipes
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
+ openembedded-core@lists.openembedded.org
+CC: Bruce Ashfield <bruce.ashfield@gmail.com>,
+ Martin Jansa <martin.jansa@gmail.com>,
+ Lukas Funke <lukas.funke@weidmueller.com>
+References: <20231017132647.352938-1-lukas.funke-oss@weidmueller.com>
+ <a9389814-affd-4bce-85b9-e3a4555a684e@gmail.com>
+From: Lukas Funke <lukas.funke-oss@weidmueller.com>
+In-Reply-To: <a9389814-affd-4bce-85b9-e3a4555a684e@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR3P281CA0198.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a5::20) To AS2PR08MB8431.eurprd08.prod.outlook.com
+ (2603:10a6:20b:55a::18)
 MIME-Version: 1.0
-References: <1698042855-3883-1-git-send-email-qiutt@fujitsu.com>
-In-Reply-To: <1698042855-3883-1-git-send-email-qiutt@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 23 Oct 2023 13:13:24 +0200
-Message-ID: <CANNYZj-KA6BnqWt4wU+EuqKiXDnLGZRE_1N17JKNxY0VFwivHw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V1] cairo:Add ptest support
-To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|DU5PR08MB10578:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1df844b6-313e-4bfd-9e80-08dbd3c21cf0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	XnJIdGJjj51RpKRBFPVyjeZm9bbPMmJJ+ksZfuwXkT3UIohombG4BrCbRIL1lKVg/P0EjcQk9KLo7jmQGw5FXgn1FikgqpMBZK3U9LU5Cvfkkz5p/xJmC8VW2HgqjIHrqzhVFYvDAF9wAhOsjgvkT9/9aHM+LaYcBNhnAwTwYGwC7OOYLV76hyF2l8Tcc4r5Lb3gp4tOMqp5VKKpnPXbXJQbciqkD0H1ACC5mrOE2lxg+KBoU+VtmFCRcNfoWJYkUHJV5+WKQOSrFQSoqGy7WeLHnXYwcJt4ogqoITBjgpdbViKdQs/dsvcScZseXlxKsqxyAKdiHehjigbK+rUzuMhahyKoVYS6DjoO+o59rtkqmRDRr0o5eMFVombe8mfbcwxWKEQskAYDkRZxgQQsprThZUUhNaoc2hIGP0vQtXn96+1VWz9iK7hWu76RLBn0dBgHgyyNLWVPBXU7BnmYtQLQVwqrfUw49iiz/T0c3scZSEcbl2+QhlSa9XirBo3qP99evxhNnP+4WcQ+ePNKn3C3LyS+Ua06+dwPh0HhhJlcn6MMKz1EbC2tnAqHwK/CdqFtfisTC7bwNt1X5yCdr6fdm7mDn0FWI+n6k5RlJ24uSfBlQUYuPhw8q48vreF+wcq4LXgf0qH/7DqMBOhRSQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(366004)(396003)(136003)(346002)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(2906002)(38100700002)(66556008)(66946007)(316002)(66476007)(54906003)(2616005)(107886003)(478600001)(6506007)(53546011)(6486002)(6512007)(83380400001)(5660300002)(41300700001)(36756003)(86362001)(31696002)(4326008)(8936002)(8676002)(26005)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?NVOVkEOM7C75gOKqOdpIGCYj2/KtnjZMDCYENX/EsEGzQXWsn/xXdnDW63Qa?=
+ =?us-ascii?Q?57yKaT6MewPkiSqhLSeFCTSQiVTuIoSCdz/4IIHqVLIZYj0L8jy/99lxa7e+?=
+ =?us-ascii?Q?7g0qMYpABKwCgpI/Or33j3yPrSWbG9PRyt75Rqs+QC5wKY2YQQg9W4BcwPtv?=
+ =?us-ascii?Q?9vVUw3wZiXXzwoLkbrTdkP8tTK1dZ6Rw+gx2+tnOj7C6oxDjlExOkVu7wfYU?=
+ =?us-ascii?Q?JHkNld/yYoIbVRqqhMrXACOo/8SgtYCX4BYJ3IY3POodP1QL2liE1VBTwzuv?=
+ =?us-ascii?Q?65jBcYMCg6zZWEbPJlkHDuANeRyjr3Qluz4ZWbV2QT5uYFwMlbnNAu7pc7jq?=
+ =?us-ascii?Q?G0mVOPddfEWMcOyBZyUIvhUlKt97UBLxkS6iUMmX0asJltreZSWNAchqqnCo?=
+ =?us-ascii?Q?gCMBKd7yYd91Uy2Cc5On8ylYDrM9d0Uk67mF1itC2sQY+4yB3c/2XPm4VfUS?=
+ =?us-ascii?Q?YlsTtcuLwUM26aMy6Pu16AuzSx8Nhuaw/rxJbSJAnIEWyYt+cbx+BXgy7bxk?=
+ =?us-ascii?Q?x+doZdpUn3lHejjw65QkpzI2JZzEgBV8NLfZbtKiFFjiUkAL8PFJJYNu1dGD?=
+ =?us-ascii?Q?bxMH/Plnlk+3sLGcb5Fafyfzt3odknLtW3QQ9xjPdm6kNg7K8UUgklLh1GRT?=
+ =?us-ascii?Q?JzaQWESrZVHFl7+SKr/Vfi37hYUeRWrPfqOkWDR2oUVHGzZ0V5ifqXBDpblr?=
+ =?us-ascii?Q?boOMCgSSkSVoMNN7tGOVra6k258ZWjPTx7fRiAwkXPgsYWIfvE0TwP61yElN?=
+ =?us-ascii?Q?N5QBPp0cC8LSFt/wHFwYLLmHrcaU/8CdSEZQvNpkCHpA535w/C/vx9lQP3QV?=
+ =?us-ascii?Q?Ab6ICNIhUzE9B8xr0HK+BHuoLQzPd0FwisU4BM5S/gKH2S7BMyiKoXj2V6Kd?=
+ =?us-ascii?Q?RxEAjAmuX5ejnEiURwA8GBVJOCw6ILJ1hC5i0hJvpxAIdyzHZrPdz0KECMca?=
+ =?us-ascii?Q?7rg/g2i8oTA4JM34J7EbrBPsWi8WidJOavomJg2OWIeRwKkjBaG5Ualnilvm?=
+ =?us-ascii?Q?3/T8/AWE2xlRBTaXW5eanTjaK9YVQ0EGMrucbPqrfiwEo40IFTNLIrb+83FY?=
+ =?us-ascii?Q?aCKOp3SdxLwrPmnYMTisUkdGKRCNG/CAmMT8MBv+xYSllbrjzZmll8M5Bysk?=
+ =?us-ascii?Q?MAx1ALOENGDsP0j48nFzJPkpqc2aUXnGexnQY2l2WI/Pgm1J7303nEh71mv1?=
+ =?us-ascii?Q?h23mj402dSN9ZW3JDUqR6opeewijxb9orjDu0B2mEBHJcJhrEHoUVnnIjUkL?=
+ =?us-ascii?Q?U2NLNRngwtSZ83BJ+23EWQcnaUbWiPmVyOy8Hkx5dZH8tTI/VvcKHmDjbBz8?=
+ =?us-ascii?Q?F1JoEqV7XosYIVcmz2J0fC2XNuOJi0jWA6DDlohJeYQJD+kBCGE7fZz7R3K4?=
+ =?us-ascii?Q?k5oz5Ir+P39BvDWSp3LoOTVRPOZDcFQod52Mr3dWiBH+a+T+WQKA6KeZhy1r?=
+ =?us-ascii?Q?xoKp02zofWrPvePh3zcW6uEQgIPI32TtxMxOQyZ3u7VaI1q5aS8EfsweLyLw?=
+ =?us-ascii?Q?Dtm5o1MQ2cDsmZcZog+f9VUytKDz512yIhH+7Pe7JaC+k7lG9bqTVJ5ElBtr?=
+ =?us-ascii?Q?bIwxtJQnBaymUF82QQM/D2mFvmpk9G98Gtuc93+3v7Z8ORarQoJik4aRvl6B?=
+ =?us-ascii?Q?ug=3D=3D?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1df844b6-313e-4bfd-9e80-08dbd3c21cf0
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 12:18:06.6681
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dQWGstQGSjpVK8G4soEuqYz+EgYA7ksHaZtz7qLbxq1nJFdXgiKqthYd+XDfsVhf7prdKqehmMJd7yKXWnfQkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10578
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 11:13:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189622
+ <openembedded-core@lists.openembedded.org>; Mon, 23 Oct 2023 12:18:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189623
 
-Thanks for working on this. I think the ptest support should be held
-until after we update to cairo 1.18.0 though, it's a major upgrade
-with years of development work, and ptest support almost certainly
-needs a bit of forward porting effort.
+Hi Slava,
 
-If you can do the cairo update to 1.18.0 first, I would really appreciate that.
+On 22.10.2023 20:34, Vyacheslav Yurkov wrote:
+> Hey Lukas,
+> Thanks a lot for the patch. A few questions/comments from my initial=20
+> test below.
+>=20
+> - I tried it with a go-based backend I have by providing ssh URL to=20
+> github. It seems like the GO_IMPORT is set to a module name from go.mod=20
+> of my project, which of course fails to fetch it like that, because it's=
+=20
+> not a valid URL. How is it supposed to be used?
 
-Alex
+Your assumption is correct: the GO_IMPORT is taken from the go.mod file.
 
-On Mon, 23 Oct 2023 at 08:34, qiutt@fujitsu.com <qiutt@fujitsu.com> wrote:
->
-> From: Qiu Tingting <qiutt@fujitsu.com>
->
-> Add a ptest for cairo
-> - It is taking around 65s to execute with kvm, so added it to PTESTS_SLOW
-> - It contains 429 cases
-> - Below is parts of the run log:
->   START: ptest-runner
->   2023-10-17T05:56
->   BEGIN: /usr/lib/cairo/ptest
->
->   TESTING cairo-test-suite
->   Compiled against cairo 1.16.0, running on 1.16.0.
->   Compiled against pixman 0.42.2, running on 0.42.2.
->
->   TESTING a1-bug
->   a1-bug.image.argb32 [0x1]:  PASS
->
->   ...
->   TESTING fallback-resolution
->   UNTESTED: fallback-resolution
->   402 Passed, 13 Failed [0 crashed, 13 expected], 14 Skipped
->   DURATION: 65
->   END: /usr/lib/cairo/ptest
->   2023-10-17T05:51
->   STOP: ptest-runner
->   TOTAL: 1 FAIL: 0
->
-> Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
-> ---
->  .../distro/include/ptest-packagelists.inc     |  1 +
->  meta/recipes-graphics/cairo/cairo/ptest.patch | 58 +++++++++++
->  meta/recipes-graphics/cairo/cairo/run-ptest   | 20 ++++
->  meta/recipes-graphics/cairo/cairo/skiplist    | 97 +++++++++++++++++++
->  meta/recipes-graphics/cairo/cairo_1.16.0.bb   | 24 +++++
->  5 files changed, 200 insertions(+)
->  create mode 100644 meta/recipes-graphics/cairo/cairo/ptest.patch
->  create mode 100644 meta/recipes-graphics/cairo/cairo/run-ptest
->  create mode 100644 meta/recipes-graphics/cairo/cairo/skiplist
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> index 680b01b3b5..aa8aeaaa1b 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -89,6 +89,7 @@ PTESTS_PROBLEMS:append:riscv32 = " qemu"
->  PTESTS_SLOW = "\
->      apr \
->      bzip2 \
-> +    cairo \
->      coreutils \
->      curl \
->      dbus \
-> diff --git a/meta/recipes-graphics/cairo/cairo/ptest.patch b/meta/recipes-graphics/cairo/cairo/ptest.patch
-> new file mode 100644
-> index 0000000000..cbbafb1f0f
-> --- /dev/null
-> +++ b/meta/recipes-graphics/cairo/cairo/ptest.patch
-> @@ -0,0 +1,58 @@
-> +change cairo-test-suite output with ptest formate.
-> +
-> +Upstream-Status: Inappropriate [oe-core specific]
-> +Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
-> +
-> +diff -rNu a/test/cairo-test-runner.c b/test/cairo-test-runner.c
-> +--- a/test/cairo-test-runner.c 2023-10-13 15:51:25.986798896 +0800
-> ++++ b/test/cairo-test-runner.c 2023-10-16 13:57:41.323640064 +0800
-> +@@ -1011,9 +1011,9 @@
-> +                   }
-> +               }
-> +               targets[len-2] = '\0';
-> +-              _log (&runner.base, "\n%s: CRASH! (%s)\n", name, targets);
-> ++              _log (&runner.base, "\nCRASH: %s (%s)\n", name, targets);
-> +           } else {
-> +-              _log (&runner.base, "\n%s: CRASH!\n", name);
-> ++              _log (&runner.base, "\nCRASH: %s\n", name);
-> +           }
-> +           runner.num_crashed++;
-> +           runner.passed = FALSE;
-> +@@ -1033,9 +1033,9 @@
-> +                   }
-> +               }
-> +               targets[len-2] = '\0';
-> +-              _log (&runner.base, "%s: ERROR (%s)\n", name, targets);
-> ++              _log (&runner.base, "ERROR: %s (%s)\n", name, targets);
-> +           } else {
-> +-              _log (&runner.base, "%s: ERROR\n", name);
-> ++              _log (&runner.base, "ERROR: %s\n", name);
-> +           }
-> +           runner.num_error++;
-> +           runner.passed = FALSE;
-> +@@ -1055,20 +1055,20 @@
-> +                   }
-> +               }
-> +               targets[len-2] = '\0';
-> +-              _log (&runner.base, "%s: FAIL (%s)\n", name, targets);
-> ++              _log (&runner.base, "FAIL: %s (%s)\n", name, targets);
-> +           } else {
-> +-              _log (&runner.base, "%s: FAIL\n", name);
-> ++              _log (&runner.base, "FAIL: %s\n", name);
-> +           }
-> +           runner.num_failed++;
-> +           runner.passed = FALSE;
-> +       } else if (xfailed) {
-> +-          _log (&runner.base, "%s: XFAIL\n", name);
-> ++          _log (&runner.base, "XFAIL: %s\n", name);
-> +           runner.num_xfailed++;
-> +       } else if (skipped) {
-> +-          _log (&runner.base, "%s: UNTESTED\n", name);
-> ++          _log (&runner.base, "UNTESTED: %s\n", name);
-> +           runner.num_skipped++;
-> +       } else {
-> +-          _log (&runner.base, "%s: PASS\n", name);
-> ++          _log (&runner.base, "PASS: %s\n", name);
-> +           runner.num_passed++;
-> +       }
-> +       fflush (runner.base.log_file);
-> diff --git a/meta/recipes-graphics/cairo/cairo/run-ptest b/meta/recipes-graphics/cairo/cairo/run-ptest
-> new file mode 100644
-> index 0000000000..7ee3e26954
-> --- /dev/null
-> +++ b/meta/recipes-graphics/cairo/cairo/run-ptest
-> @@ -0,0 +1,20 @@
-> +#!/bin/sh
-> +
-> +# Define tar test work dir
-> +WORKDIR=@PTEST_PATH@/tests/
-> +
-> +# Run test
-> +cd ${WORKDIR}
-> +
-> +# Clean old logs
-> +rm -rf cairo-test-suite.log
-> +rm -rf output
-> +
-> +CAIRO_TEST_TARGET=image ./cairo-test-suite -l > caselist
-> +for case in `cat skiplist`
-> +do
-> +    sed -i "s/${case}//g" caselist
-> +done
-> +
-> +CAIRO_TEST_TARGET=image CAIRO_TESTS=`cat caselist` ./cairo-test-suite
-> +
-> diff --git a/meta/recipes-graphics/cairo/cairo/skiplist b/meta/recipes-graphics/cairo/cairo/skiplist
-> new file mode 100644
-> index 0000000000..1dabffd88a
-> --- /dev/null
-> +++ b/meta/recipes-graphics/cairo/cairo/skiplist
-> @@ -0,0 +1,97 @@
-> +clear
-> +clip-operator
-> +clip-text
-> +culled-glyphs
-> +extended-blend-alpha-mask
-> +font-matrix-translation
-> +font-variations
-> +glyph-cache-pressure
-> +get-path-extents
-> +halo
-> +halo-transform
-> +inverse-text
-> +large-font
-> +mime-data
-> +negative-stride-image
-> +operator-clear
-> +operator-source
-> +overlapping-glyphs
-> +partial-clip-text-top
-> +partial-clip-text-bottom
-> +partial-clip-text-left
-> +partial-clip-text-right
-> +radial-gradient-source
-> +raster-source
-> +record-select-font-face
-> +record1414x-select-font-face
-> +record2x-select-font-face
-> +record90-select-font-face
-> +recordflip-whole-select-font-face
-> +recordflip-select-font-face
-> +select-font-face
-> +show-glyphs-advance
-> +show-text-current-point
-> +smask
-> +smask-text
-> +smp-glyph
-> +stride-12-image
-> +text-antialias-gray
-> +text-antialias-none
-> +text-antialias-subpixel
-> +text-antialias-subpixel-rgb
-> +text-antialias-subpixel-bgr
-> +text-antialias-subpixel-vrgb
-> +text-antialias-subpixel-vbgr
-> +text-glyph-range
-> +text-pattern
-> +text-rotate
-> +text-unhinted-metrics
-> +unbounded-operator
-> +user-font-proxy
-> +user-font-rescale
-> +pthread-show-text
-> +bitmap-font
-> +ft-font-create-for-ft-face
-> +ft-show-glyphs-positioning
-> +ft-show-glyphs-table
-> +ft-text-vertical-layout-type1
-> +ft-text-vertical-layout-type3
-> +ft-text-antialias-none
-> +clip-image
-> +clipped-surface
-> +composite-integer-translate-source
-> +composite-integer-translate-over
-> +extend-reflect
-> +extend-reflect-similar
-> +extend-repeat
-> +extend-repeat-similar
-> +filter-nearest-transformed
-> +mask
-> +mask-transformed-image
-> +mask-transformed-similar
-> +subsurface-image-repeat
-> +text-transform
-> +trap-clip
-> +xlib-expose-event
-> +pixman-downscale-fast-96
-> +pixman-downscale-fast-95
-> +pixman-downscale-fast-24
-> +pixman-downscale-good-96
-> +pixman-downscale-good-95
-> +pixman-downscale-good-24
-> +pixman-downscale-best-96
-> +pixman-downscale-best-95
-> +pixman-downscale-best-24
-> +pixman-downscale-nearest-96
-> +pixman-downscale-nearest-95
-> +pixman-downscale-nearest-24
-> +pixman-downscale-bilinear-96
-> +pixman-downscale-bilinear-95
-> +pixman-downscale-bilinear-24
-> +record-text-transform
-> +record1414x-text-transform
-> +record2x-text-transform
-> +record90-text-transform
-> +recordflip-whole-text-transform
-> +recordflip-text-transform
-> +
-> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> index ffb813d290..8eedc73717 100644
-> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> @@ -84,6 +84,30 @@ do_install:append () {
->                 rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
->  }
->
-> +# add for ptest support
-> +SRC_URI += " \
-> +    file://ptest.patch \
-> +    file://run-ptest \
-> +    file://skiplist \
-> +"
-> +
-> +inherit ptest
-> +
-> +do_compile_ptest() {
-> +    oe_runmake -C ${B}/test/
-> +}
-> +
-> +do_install_ptest() {
-> +    install -d ${D}${PTEST_PATH}/tests/
-> +    install --mode=755 ${B}/test/.libs/* ${D}${PTEST_PATH}/tests/
-> +    install -d ${D}${PTEST_PATH}/tests/reference/
-> +    install --mode=755 ${S}/test/reference/* ${D}${PTEST_PATH}/tests/reference/
-> +
-> +    install --mode=755 ${WORKDIR}/skiplist ${D}${PTEST_PATH}/tests/
-> +    sed -i "s#@PTEST_PATH@#${PTEST_PATH}#g" ${D}${PTEST_PATH}/run-ptest
-> +
-> +}
-> +
->  PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
->
->  SUMMARY:cairo-gobject = "The Cairo library GObject wrapper library"
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#189614): https://lists.openembedded.org/g/openembedded-core/message/189614
-> Mute This Topic: https://lists.openembedded.org/mt/102130424/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+I've not considered the case where the repo URL is unequal to the module=20
+path. This may require manual rework of the recipe. Another solution=20
+would be to take the source URL from the recipetool. I think there is no=20
+correct solution to this problem, because probably most people might=20
+want to have the original solution, since they are creating recipes from=20
+oss components (i.e. from github).
+
+> - I've got about 20 lines like:
+> INFO: Please add the following line for=20
+> 'vendor/google.golang.org/protobuf/LICENSE' to a=20
+> 'lib/recipetool/licenses.csv' and replace `Unknown` with the license:
+> 02d4002e9171d41a8fad93aa7faf3956,Unknown
+> INFO: Please add the following line for=20
+> 'vendor/gopkg.in/yaml.v3/LICENSE' to a 'lib/recipetool/licenses.csv' and=
+=20
+> replace `Unknown` with the license:
+> 3c91c17266710e16afdbb2b6d15c761c,Unknown
+>=20
+> I believe I have to go through all of them manually and set a proper=20
+> license in the recipe. Still the questions arises, what should be a=20
+> better way to reduce amount of this work? Adding more hashes/licenses to=
+=20
+> lib/recipetool/licenses.csv would be a way to go? I'm just afraid that=20
+> file might explode if we use it like that...
+
+The file will explode anyway. Thanks 'go'.
+
+Adding more intelligence to the underlying license detection could be an=20
+idea: in your first example, the license file contains actually two=20
+licenses: MIT and Apache. Yocto has no way to detect those cases.
+
+>=20
+> - Could please clarify where does the version from go.mod hide? Is it=20
+> taken directly from go.mod? I'm trying to understand what should be the=20
+> workflow when a module version should be bumped up in the go.mod. Will=20
+> that be reflected in the recipe in any way?
+
+No, currently the go-version doesn't play a role ATM. Except one case=20
+when you have a go.mod file with go < 1.17. These go.mod files don't=20
+include indirect dependencies.
+
+I hope you might find this helpful and thanks for testing!
+
+Cheers,
+Lukas
+
+>=20
+> Thanks,
+> Slava
+>=20
+> On 17.10.2023 15:26, lukas.funke-oss@weidmueller.com wrote:
+>> From: Lukas Funke <lukas.funke@weidmueller.com>
+>>
+>> This patch series adds a recipetool handler in order to create 'go'=20
+>> recipes.
+>> Each recipe contains a list of dependencies in their SRC_URI
+>> variable which are derived from the projects `go.mod` file. For each
+>> dependency the corresponding license file uri/hash is added.
+>>
+>> The recipe may not work ad-hoc, but is a good starting point to create
+>> a working recipe and have a working offline-build.
+>>
+>> Lukas Funke (4):
+>> =C2=A0=C2=A0 classes: go-vendor: Add go-vendor class
+>> =C2=A0=C2=A0 selftest: recipetool: Add test for go recipe handler
+>> =C2=A0=C2=A0 recipetool: Ignore *.go files while scanning for licenses
+>> =C2=A0=C2=A0 recipetool: Add handler to create go recipes
+>>
+>> =C2=A0 meta/classes/go-vendor.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 135 ++++
+>> =C2=A0 meta/lib/oeqa/selftest/cases/recipetool.py | 163 +++++
+>> =C2=A0 scripts/lib/recipetool/create.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+>> =C2=A0 scripts/lib/recipetool/create_go.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 730 +++++++++++++++++++++
+>> =C2=A0 4 files changed, 1029 insertions(+), 1 deletion(-)
+>> =C2=A0 create mode 100644 meta/classes/go-vendor.bbclass
+>> =C2=A0 create mode 100644 scripts/lib/recipetool/create_go.py
+>>
+>=20
+
 
