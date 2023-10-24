@@ -1,897 +1,1065 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <ncaidin@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6F12C00A8F
-	for <webhook@archiver.kernel.org>; Tue, 24 Oct 2023 14:40:30 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.149464.1698158429162630016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B1ACC07545
+	for <webhook@archiver.kernel.org>; Tue, 24 Oct 2023 15:01:21 +0000 (UTC)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+ by mx.groups.io with SMTP id smtpd.web11.20361.1698159671113256546
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Oct 2023 07:40:29 -0700
+ Tue, 24 Oct 2023 08:01:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=C5VsYOQH;
- spf=pass (domain: baylibre.com, ip: 209.85.128.48, mailfrom: jstephan@baylibre.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40806e4106dso26588425e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 07:40:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hixlv9A/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.210.45, mailfrom: ncaidin@linuxfoundation.org)
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6ce2988d62eso2868563a34.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 08:01:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698158427; x=1698763227; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=USMCgTKeXzLAaKbN4c5Kpv5mmnijD+t4SluhNvlO2U4=;
-        b=C5VsYOQHZaSHOSAMS7BELSS7GR3GjGydDMluI+b4By5mshkOkiBKPV7rGVBLtUJb8R
-         JUx3Cryf9vZZ4E3s0/IAtv8cfeQDmhE1IJa82FA/YH1rixvbNVHE+r67uf7qM2CpSY3b
-         fVyYCxFLBzjFXX1+EK91JxgbagkH3y0aVf8iJ2zU+1axW15fPmjdpOJd4xOX6/Ztpcls
-         N7RrbrppWBTlPEiXZGetDRxyhtpWG4EJH/yFvE34y4qQ4fgtOLCwGfNgVWm4Z8jeCpmK
-         iVoLptljBp2k4xjw4C9W+rzv6C1GqBJ0ez7BMHhF4+FXNwKF9pWBrUzcltn1N+NfVElr
-         W/Nw==
+        d=linuxfoundation.org; s=google; t=1698159670; x=1698764470; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=a2NrlET9+ZoOYej/y/WZS46KcYwV67j5jkmWdW+Pdm0=;
+        b=Hixlv9A/LKYWibpCvRWI/RTcalpgWTffFqXb1g+M0vJTdDHmG3rcvb+Jn9XKGA+kvn
+         b+5T5JOdmqRO0Vs4bvYgeKyGkdz1ol6G9ztkOfdPdPMRSfiNFHMe35WkyZ0MW7KJ08z2
+         XQvIYX6Z68CFxl7K+6LG+O0aDQlUDFc306HkM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698158427; x=1698763227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=USMCgTKeXzLAaKbN4c5Kpv5mmnijD+t4SluhNvlO2U4=;
-        b=r4RPjuIupKgrOfWOM2UYp5Ao7iX4t0u18BCsK00HPivBcid+DI3xiNaY6H1AXBwt6O
-         iYThdEG2lgJdvcEoB/rRqlNFyo1PBptjfqc3aUp0MhqgUqDUxrItV7sTClCmbv0pj6d8
-         kibgjbGBF239w7sIJnRpczrn9w0LQARLhueUYDFgCEbV+AuAUR5ZIf/Bes4/q6qLmHfQ
-         CfKH0gKNz0X3bIADpcZKN5QB2k4/Y2PgyfIr/I9ecZUischHYCHTeUqRyFttqTQgNisn
-         RMnX/p8RbfYpOb/nXyXqjsDW+I6t79XgTKqB2X0N60909RDDkN/y7KZSnkmL20VWufnn
-         KIFw==
-X-Gm-Message-State: AOJu0Yx/8qH7jdPISN4R28Z8onMFJEPCGCQb9KvgJpUrIRV5JXWOGyHE
-	QISKxzvq0J2U+cRCODyIdBaKGOY6hDQ23kczPXh1/w==
-X-Google-Smtp-Source: AGHT+IGzzgHuTu/4a3MPS5PQSmt4ymDhDLuRLJCWEJJF2BZ5VGRvEar1bVHRDWm2ZYdfwIrHTRU5lg==
-X-Received: by 2002:a05:600c:2294:b0:405:29ba:9b5c with SMTP id 20-20020a05600c229400b0040529ba9b5cmr15533321wmf.16.1698158427273;
-        Tue, 24 Oct 2023 07:40:27 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id k32-20020a05600c1ca000b00401e32b25adsm12387271wms.4.2023.10.24.07.40.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 07:40:26 -0700 (PDT)
-From: Julien Stephan <jstephan@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v3 2/4] scripts:recipetool:create_buildsys_python: refactor code for futur PEP517 addition
-Date: Tue, 24 Oct 2023 16:40:19 +0200
-Message-ID: <20231024144022.1532605-3-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231024144022.1532605-1-jstephan@baylibre.com>
-References: <20231024144022.1532605-1-jstephan@baylibre.com>
+        d=1e100.net; s=20230601; t=1698159670; x=1698764470;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a2NrlET9+ZoOYej/y/WZS46KcYwV67j5jkmWdW+Pdm0=;
+        b=XmdkPhsuOikicqxQpGxQ9WcoXL0mF1KwpHc/1glfaYWaYMqikyNFZ/W0CFwjvwxgwJ
+         eoOHp79TmEPSEt0D3B3IMKKzm0lglm6ZoQkZFAt6ZtwzSMEzIXGgzp9sBrh35XLdUN+8
+         /vhTsx+q1ONVyEF7t2bDkBEZakN7HFmGSgRGbwO7xSEg7oRxuM/6eEi6Y511HcsQwPmm
+         UdQGXuoqPCXYvZNJMDCZwdzygFNSib6pMVUNcmAOnXfEfCW5B4zxVuJPvtuef5GzGgqd
+         g9TTvhuWoVBjudW4HOm3DQN6UE9xWvBaEO2jwkCD6hW+Q05Z5MGMV/JidD4Z0zsKr9bG
+         q/sg==
+X-Gm-Message-State: AOJu0YyTNcIJxz7vKYttkzX+mL0NmVPx7fGXv0a4vfi3IoaJh6PYKC0i
+	Y4WnQ9wAS+6MeMJq+h0Q4qVmrJu3b54gUtqT4YzUrPHCAr2AC3eQi7EfUw==
+X-Google-Smtp-Source: AGHT+IG3r85C4slOXFExl5dp0pEgs3MqhdIUGMrUFmm0iSYG8187eym+vNCLxHipaQ7ueBIlLXL4yUBniop1wc/P5o8=
+X-Received: by 2002:a05:6871:4909:b0:1e9:a70c:1323 with SMTP id
+ tw9-20020a056871490900b001e9a70c1323mr12316443oab.39.1698159669968; Tue, 24
+ Oct 2023 08:01:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Neal Caidin <ncaidin@linuxfoundation.org>
+Date: Tue, 24 Oct 2023 11:00:53 -0400
+Message-ID: <CAODMxsJswC7y_MH8YOeLD=8sAcF9Bdo0Pz8oEfmNYxOE0gt3Zw@mail.gmail.com>
+Subject: Yocto Project Status 24 October 2023 (WW43)
+To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org
+Cc: Stephen Jolley <sjolley.yp.pm@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000e69f870608779b20"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 14:40:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189650
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 15:01:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189653
 
-In order to prepare the support for pyproject.toml (PEP517 [1]) enabled
-projects, refactor the code and move setup.py specific code into a
-specific class in order to allow sharing the PythonRecipeHandler class
+--000000000000e69f870608779b20
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-No functionnal changes expected
+Current Dev Position: YP 4.3 M4 (Feature Freeze)
 
-[1]: https://peps.python.org/pep-0517/#source-tree
+Next Deadline: 2nd October 2023 YP 4.3 M4 build date
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- .../lib/recipetool/create_buildsys_python.py  | 748 +++++++++---------
- 1 file changed, 385 insertions(+), 363 deletions(-)
+Next Team Meetings:
 
-diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-index 502e1dfbc3d..69f6f5ca511 100644
---- a/scripts/lib/recipetool/create_buildsys_python.py
-+++ b/scripts/lib/recipetool/create_buildsys_python.py
-@@ -37,63 +37,8 @@ class PythonRecipeHandler(RecipeHandler):
-     assume_provided = ['builtins', 'os.path']
-     # Assumes that the host python3 builtin_module_names is sane for target too
-     assume_provided = assume_provided + list(sys.builtin_module_names)
-+    excluded_fields = []
- 
--    bbvar_map = {
--        'Name': 'PN',
--        'Version': 'PV',
--        'Home-page': 'HOMEPAGE',
--        'Summary': 'SUMMARY',
--        'Description': 'DESCRIPTION',
--        'License': 'LICENSE',
--        'Requires': 'RDEPENDS:${PN}',
--        'Provides': 'RPROVIDES:${PN}',
--        'Obsoletes': 'RREPLACES:${PN}',
--    }
--    # PN/PV are already set by recipetool core & desc can be extremely long
--    excluded_fields = [
--        'Description',
--    ]
--    setup_parse_map = {
--        'Url': 'Home-page',
--        'Classifiers': 'Classifier',
--        'Description': 'Summary',
--    }
--    setuparg_map = {
--        'Home-page': 'url',
--        'Classifier': 'classifiers',
--        'Summary': 'description',
--        'Description': 'long-description',
--    }
--    # Values which are lists, used by the setup.py argument based metadata
--    # extraction method, to determine how to process the setup.py output.
--    setuparg_list_fields = [
--        'Classifier',
--        'Requires',
--        'Provides',
--        'Obsoletes',
--        'Platform',
--        'Supported-Platform',
--    ]
--    setuparg_multi_line_values = ['Description']
--    replacements = [
--        ('License', r' +$', ''),
--        ('License', r'^ +', ''),
--        ('License', r' ', '-'),
--        ('License', r'^GNU-', ''),
--        ('License', r'-[Ll]icen[cs]e(,?-[Vv]ersion)?', ''),
--        ('License', r'^UNKNOWN$', ''),
--
--        # Remove currently unhandled version numbers from these variables
--        ('Requires', r' *\([^)]*\)', ''),
--        ('Provides', r' *\([^)]*\)', ''),
--        ('Obsoletes', r' *\([^)]*\)', ''),
--        ('Install-requires', r'^([^><= ]+).*', r'\1'),
--        ('Extras-require', r'^([^><= ]+).*', r'\1'),
--        ('Tests-require', r'^([^><= ]+).*', r'\1'),
--
--        # Remove unhandled dependency on particular features (e.g. foo[PDF])
--        ('Install-requires', r'\[[^\]]+\]$', ''),
--    ]
- 
-     classifier_license_map = {
-         'License :: OSI Approved :: Academic Free License (AFL)': 'AFL',
-@@ -166,122 +111,34 @@ class PythonRecipeHandler(RecipeHandler):
-     def __init__(self):
-         pass
- 
--    def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
--        if 'buildsystem' in handled:
--            return False
--
--        # Check for non-zero size setup.py files
--        setupfiles = RecipeHandler.checkfiles(srctree, ['setup.py'])
--        for fn in setupfiles:
--            if os.path.getsize(fn):
--                break
--        else:
--            return False
--
--        # setup.py is always parsed to get at certain required information, such as
--        # distutils vs setuptools
--        #
--        # If egg info is available, we use it for both its PKG-INFO metadata
--        # and for its requires.txt for install_requires.
--        # If PKG-INFO is available but no egg info is, we use that for metadata in preference to
--        # the parsed setup.py, but use the install_requires info from the
--        # parsed setup.py.
--
--        setupscript = os.path.join(srctree, 'setup.py')
--        try:
--            setup_info, uses_setuptools, setup_non_literals, extensions = self.parse_setup_py(setupscript)
--        except Exception:
--            logger.exception("Failed to parse setup.py")
--            setup_info, uses_setuptools, setup_non_literals, extensions = {}, True, [], []
--
--        egginfo = glob.glob(os.path.join(srctree, '*.egg-info'))
--        if egginfo:
--            info = self.get_pkginfo(os.path.join(egginfo[0], 'PKG-INFO'))
--            requires_txt = os.path.join(egginfo[0], 'requires.txt')
--            if os.path.exists(requires_txt):
--                with codecs.open(requires_txt) as f:
--                    inst_req = []
--                    extras_req = collections.defaultdict(list)
--                    current_feature = None
--                    for line in f.readlines():
--                        line = line.rstrip()
--                        if not line:
--                            continue
--
--                        if line.startswith('['):
--                            # PACKAGECONFIG must not contain expressions or whitespace
--                            line = line.replace(" ", "")
--                            line = line.replace(':', "")
--                            line = line.replace('.', "-dot-")
--                            line = line.replace('"', "")
--                            line = line.replace('<', "-smaller-")
--                            line = line.replace('>', "-bigger-")
--                            line = line.replace('_', "-")
--                            line = line.replace('(', "")
--                            line = line.replace(')', "")
--                            line = line.replace('!', "-not-")
--                            line = line.replace('=', "-equals-")
--                            current_feature = line[1:-1]
--                        elif current_feature:
--                            extras_req[current_feature].append(line)
--                        else:
--                            inst_req.append(line)
--                    info['Install-requires'] = inst_req
--                    info['Extras-require'] = extras_req
--        elif RecipeHandler.checkfiles(srctree, ['PKG-INFO']):
--            info = self.get_pkginfo(os.path.join(srctree, 'PKG-INFO'))
--
--            if setup_info:
--                if 'Install-requires' in setup_info:
--                    info['Install-requires'] = setup_info['Install-requires']
--                if 'Extras-require' in setup_info:
--                    info['Extras-require'] = setup_info['Extras-require']
--        else:
--            if setup_info:
--                info = setup_info
--            else:
--                info = self.get_setup_args_info(setupscript)
--
--        # Grab the license value before applying replacements
--        license_str = info.get('License', '').strip()
--
--        self.apply_info_replacements(info)
--
--        if uses_setuptools:
--            classes.append('setuptools3')
--        else:
--            classes.append('distutils3')
--
--        if license_str:
--            for i, line in enumerate(lines_before):
--                if line.startswith('##LICENSE_PLACEHOLDER##'):
--                    lines_before.insert(i, '# NOTE: License in setup.py/PKGINFO is: %s' % license_str)
--                    break
--
--        if 'Classifier' in info:
--            existing_licenses = info.get('License', '')
--            licenses = []
--            for classifier in info['Classifier']:
--                if classifier in self.classifier_license_map:
--                    license = self.classifier_license_map[classifier]
--                    if license == 'Apache' and 'Apache-2.0' in existing_licenses:
--                        license = 'Apache-2.0'
--                    elif license == 'GPL':
--                        if 'GPL-2.0' in existing_licenses or 'GPLv2' in existing_licenses:
--                            license = 'GPL-2.0'
--                        elif 'GPL-3.0' in existing_licenses or 'GPLv3' in existing_licenses:
--                            license = 'GPL-3.0'
--                    elif license == 'LGPL':
--                        if 'LGPL-2.1' in existing_licenses or 'LGPLv2.1' in existing_licenses:
--                            license = 'LGPL-2.1'
--                        elif 'LGPL-2.0' in existing_licenses or 'LGPLv2' in existing_licenses:
--                            license = 'LGPL-2.0'
--                        elif 'LGPL-3.0' in existing_licenses or 'LGPLv3' in existing_licenses:
--                            license = 'LGPL-3.0'
--                    licenses.append(license)
--
--            if licenses:
--                info['License'] = ' & '.join(licenses)
-+    def handle_classifier_license(self, classifiers, existing_licenses=""):
-+
-+        licenses = []
-+        for classifier in classifiers:
-+            if classifier in self.classifier_license_map:
-+                license = self.classifier_license_map[classifier]
-+                if license == 'Apache' and 'Apache-2.0' in existing_licenses:
-+                    license = 'Apache-2.0'
-+                elif license == 'GPL':
-+                    if 'GPL-2.0' in existing_licenses or 'GPLv2' in existing_licenses:
-+                        license = 'GPL-2.0'
-+                    elif 'GPL-3.0' in existing_licenses or 'GPLv3' in existing_licenses:
-+                        license = 'GPL-3.0'
-+                elif license == 'LGPL':
-+                    if 'LGPL-2.1' in existing_licenses or 'LGPLv2.1' in existing_licenses:
-+                        license = 'LGPL-2.1'
-+                    elif 'LGPL-2.0' in existing_licenses or 'LGPLv2' in existing_licenses:
-+                        license = 'LGPL-2.0'
-+                    elif 'LGPL-3.0' in existing_licenses or 'LGPLv3' in existing_licenses:
-+                        license = 'LGPL-3.0'
-+                licenses.append(license)
-+
-+        if licenses:
-+            return ' & '.join(licenses)
-+
-+        return None
-+
-+    def map_info_to_bbvar(self, info, extravalues):
- 
-         # Map PKG-INFO & setup.py fields to bitbake variables
-         for field, values in info.items():
-@@ -305,85 +162,220 @@ class PythonRecipeHandler(RecipeHandler):
-             if bbvar not in extravalues and value:
-                 extravalues[bbvar] = value
- 
--        mapped_deps, unmapped_deps = self.scan_setup_python_deps(srctree, setup_info, setup_non_literals)
--
--        extras_req = set()
--        if 'Extras-require' in info:
--            extras_req = info['Extras-require']
--            if extras_req:
--                lines_after.append('# The following configs & dependencies are from setuptools extras_require.')
--                lines_after.append('# These dependencies are optional, hence can be controlled via PACKAGECONFIG.')
--                lines_after.append('# The upstream names may not correspond exactly to bitbake package names.')
--                lines_after.append('# The configs are might not correct, since PACKAGECONFIG does not support expressions as may used in requires.txt - they are just replaced by text.')
--                lines_after.append('#')
--                lines_after.append('# Uncomment this line to enable all the optional features.')
--                lines_after.append('#PACKAGECONFIG ?= "{}"'.format(' '.join(k.lower() for k in extras_req)))
--                for feature, feature_reqs in extras_req.items():
--                    unmapped_deps.difference_update(feature_reqs)
--
--                    feature_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(feature_reqs))
--                    lines_after.append('PACKAGECONFIG[{}] = ",,,{}"'.format(feature.lower(), ' '.join(feature_req_deps)))
--
--        inst_reqs = set()
--        if 'Install-requires' in info:
--            if extras_req:
--                lines_after.append('')
--            inst_reqs = info['Install-requires']
--            if inst_reqs:
--                unmapped_deps.difference_update(inst_reqs)
--
--                inst_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(inst_reqs))
--                lines_after.append('# WARNING: the following rdepends are from setuptools install_requires. These')
--                lines_after.append('# upstream names may not correspond exactly to bitbake package names.')
--                lines_after.append('RDEPENDS:${{PN}} += "{}"'.format(' '.join(inst_req_deps)))
-+    def apply_info_replacements(self, info):
-+        if not self.replacements:
-+            return
- 
--        if mapped_deps:
--            name = info.get('Name')
--            if name and name[0] in mapped_deps:
--                # Attempt to avoid self-reference
--                mapped_deps.remove(name[0])
--            mapped_deps -= set(self.excluded_pkgdeps)
--            if inst_reqs or extras_req:
--                lines_after.append('')
--            lines_after.append('# WARNING: the following rdepends are determined through basic analysis of the')
--            lines_after.append('# python sources, and might not be 100% accurate.')
--            lines_after.append('RDEPENDS:${{PN}} += "{}"'.format(' '.join(sorted(mapped_deps))))
-+        for variable, search, replace in self.replacements:
-+            if variable not in info:
-+                continue
- 
--        unmapped_deps -= set(extensions)
--        unmapped_deps -= set(self.assume_provided)
--        if unmapped_deps:
--            if mapped_deps:
--                lines_after.append('')
--            lines_after.append('# WARNING: We were unable to map the following python package/module')
--            lines_after.append('# dependencies to the bitbake packages which include them:')
--            lines_after.extend('#    {}'.format(d) for d in sorted(unmapped_deps))
-+            def replace_value(search, replace, value):
-+                if replace is None:
-+                    if re.search(search, value):
-+                        return None
-+                else:
-+                    new_value = re.sub(search, replace, value)
-+                    if value != new_value:
-+                        return new_value
-+                return value
- 
--        handled.append('buildsystem')
-+            value = info[variable]
-+            if isinstance(value, str):
-+                new_value = replace_value(search, replace, value)
-+                if new_value is None:
-+                    del info[variable]
-+                elif new_value != value:
-+                    info[variable] = new_value
-+            elif hasattr(value, 'items'):
-+                for dkey, dvalue in list(value.items()):
-+                    new_list = []
-+                    for pos, a_value in enumerate(dvalue):
-+                        new_value = replace_value(search, replace, a_value)
-+                        if new_value is not None and new_value != value:
-+                            new_list.append(new_value)
- 
--    def get_pkginfo(self, pkginfo_fn):
--        msg = email.message_from_file(open(pkginfo_fn, 'r'))
--        msginfo = {}
--        for field in msg.keys():
--            values = msg.get_all(field)
--            if len(values) == 1:
--                msginfo[field] = values[0]
-+                    if value != new_list:
-+                        value[dkey] = new_list
-             else:
--                msginfo[field] = values
--        return msginfo
-+                new_list = []
-+                for pos, a_value in enumerate(value):
-+                    new_value = replace_value(search, replace, a_value)
-+                    if new_value is not None and new_value != value:
-+                        new_list.append(new_value)
- 
--    def parse_setup_py(self, setupscript='./setup.py'):
--        with codecs.open(setupscript) as f:
--            info, imported_modules, non_literals, extensions = gather_setup_info(f)
-+                if value != new_list:
-+                    info[variable] = new_list
- 
--        def _map(key):
--            key = key.replace('_', '-')
--            key = key[0].upper() + key[1:]
--            if key in self.setup_parse_map:
--                key = self.setup_parse_map[key]
--            return key
- 
--        # Naive mapping of setup() arguments to PKG-INFO field names
--        for d in [info, non_literals]:
-+    def scan_python_dependencies(self, paths):
-+        deps = set()
-+        try:
-+            dep_output = self.run_command(['pythondeps', '-d'] + paths)
-+        except (OSError, subprocess.CalledProcessError):
-+            pass
-+        else:
-+            for line in dep_output.splitlines():
-+                line = line.rstrip()
-+                dep, filename = line.split('\t', 1)
-+                if filename.endswith('/setup.py'):
-+                    continue
-+                deps.add(dep)
-+
-+        try:
-+            provides_output = self.run_command(['pythondeps', '-p'] + paths)
-+        except (OSError, subprocess.CalledProcessError):
-+            pass
-+        else:
-+            provides_lines = (l.rstrip() for l in provides_output.splitlines())
-+            provides = set(l for l in provides_lines if l and l != 'setup')
-+            deps -= provides
-+
-+        return deps
-+
-+    def parse_pkgdata_for_python_packages(self):
-+        pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
-+
-+        ldata = tinfoil.config_data.createCopy()
-+        bb.parse.handle('classes-recipe/python3-dir.bbclass', ldata, True)
-+        python_sitedir = ldata.getVar('PYTHON_SITEPACKAGES_DIR')
-+
-+        dynload_dir = os.path.join(os.path.dirname(python_sitedir), 'lib-dynload')
-+        python_dirs = [python_sitedir + os.sep,
-+                       os.path.join(os.path.dirname(python_sitedir), 'dist-packages') + os.sep,
-+                       os.path.dirname(python_sitedir) + os.sep]
-+        packages = {}
-+        for pkgdatafile in glob.glob('{}/runtime/*'.format(pkgdata_dir)):
-+            files_info = None
-+            with open(pkgdatafile, 'r') as f:
-+                for line in f.readlines():
-+                    field, value = line.split(': ', 1)
-+                    if field.startswith('FILES_INFO'):
-+                        files_info = ast.literal_eval(value)
-+                        break
-+                else:
-+                    continue
-+
-+            for fn in files_info:
-+                for suffix in importlib.machinery.all_suffixes():
-+                    if fn.endswith(suffix):
-+                        break
-+                else:
-+                    continue
-+
-+                if fn.startswith(dynload_dir + os.sep):
-+                    if '/.debug/' in fn:
-+                        continue
-+                    base = os.path.basename(fn)
-+                    provided = base.split('.', 1)[0]
-+                    packages[provided] = os.path.basename(pkgdatafile)
-+                    continue
-+
-+                for python_dir in python_dirs:
-+                    if fn.startswith(python_dir):
-+                        relpath = fn[len(python_dir):]
-+                        relstart, _, relremaining = relpath.partition(os.sep)
-+                        if relstart.endswith('.egg'):
-+                            relpath = relremaining
-+                        base, _ = os.path.splitext(relpath)
-+
-+                        if '/.debug/' in base:
-+                            continue
-+                        if os.path.basename(base) == '__init__':
-+                            base = os.path.dirname(base)
-+                        base = base.replace(os.sep + os.sep, os.sep)
-+                        provided = base.replace(os.sep, '.')
-+                        packages[provided] = os.path.basename(pkgdatafile)
-+        return packages
-+
-+    @classmethod
-+    def run_command(cls, cmd, **popenargs):
-+        if 'stderr' not in popenargs:
-+            popenargs['stderr'] = subprocess.STDOUT
-+        try:
-+            return subprocess.check_output(cmd, **popenargs).decode('utf-8')
-+        except OSError as exc:
-+            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc)
-+            raise
-+        except subprocess.CalledProcessError as exc:
-+            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc.output)
-+            raise
-+
-+class PythonSetupPyRecipeHandler(PythonRecipeHandler):
-+    bbvar_map = {
-+        'Name': 'PN',
-+        'Version': 'PV',
-+        'Home-page': 'HOMEPAGE',
-+        'Summary': 'SUMMARY',
-+        'Description': 'DESCRIPTION',
-+        'License': 'LICENSE',
-+        'Requires': 'RDEPENDS:${PN}',
-+        'Provides': 'RPROVIDES:${PN}',
-+        'Obsoletes': 'RREPLACES:${PN}',
-+    }
-+    # PN/PV are already set by recipetool core & desc can be extremely long
-+    excluded_fields = [
-+        'Description',
-+    ]
-+    setup_parse_map = {
-+        'Url': 'Home-page',
-+        'Classifiers': 'Classifier',
-+        'Description': 'Summary',
-+    }
-+    setuparg_map = {
-+        'Home-page': 'url',
-+        'Classifier': 'classifiers',
-+        'Summary': 'description',
-+        'Description': 'long-description',
-+    }
-+    # Values which are lists, used by the setup.py argument based metadata
-+    # extraction method, to determine how to process the setup.py output.
-+    setuparg_list_fields = [
-+        'Classifier',
-+        'Requires',
-+        'Provides',
-+        'Obsoletes',
-+        'Platform',
-+        'Supported-Platform',
-+    ]
-+    setuparg_multi_line_values = ['Description']
-+
-+    replacements = [
-+        ('License', r' +$', ''),
-+        ('License', r'^ +', ''),
-+        ('License', r' ', '-'),
-+        ('License', r'^GNU-', ''),
-+        ('License', r'-[Ll]icen[cs]e(,?-[Vv]ersion)?', ''),
-+        ('License', r'^UNKNOWN$', ''),
-+
-+        # Remove currently unhandled version numbers from these variables
-+        ('Requires', r' *\([^)]*\)', ''),
-+        ('Provides', r' *\([^)]*\)', ''),
-+        ('Obsoletes', r' *\([^)]*\)', ''),
-+        ('Install-requires', r'^([^><= ]+).*', r'\1'),
-+        ('Extras-require', r'^([^><= ]+).*', r'\1'),
-+        ('Tests-require', r'^([^><= ]+).*', r'\1'),
-+
-+        # Remove unhandled dependency on particular features (e.g. foo[PDF])
-+        ('Install-requires', r'\[[^\]]+\]$', ''),
-+    ]
-+
-+    def __init__(self):
-+        pass
-+
-+    def parse_setup_py(self, setupscript='./setup.py'):
-+        with codecs.open(setupscript) as f:
-+            info, imported_modules, non_literals, extensions = gather_setup_info(f)
-+
-+        def _map(key):
-+            key = key.replace('_', '-')
-+            key = key[0].upper() + key[1:]
-+            if key in self.setup_parse_map:
-+                key = self.setup_parse_map[key]
-+            return key
-+
-+        # Naive mapping of setup() arguments to PKG-INFO field names
-+        for d in [info, non_literals]:
-             for key, value in list(d.items()):
-                 if key is None:
-                     continue
-@@ -445,47 +437,16 @@ class PythonRecipeHandler(RecipeHandler):
-                 info[fields[lineno]] = line
-         return info
- 
--    def apply_info_replacements(self, info):
--        for variable, search, replace in self.replacements:
--            if variable not in info:
--                continue
--
--            def replace_value(search, replace, value):
--                if replace is None:
--                    if re.search(search, value):
--                        return None
--                else:
--                    new_value = re.sub(search, replace, value)
--                    if value != new_value:
--                        return new_value
--                return value
--
--            value = info[variable]
--            if isinstance(value, str):
--                new_value = replace_value(search, replace, value)
--                if new_value is None:
--                    del info[variable]
--                elif new_value != value:
--                    info[variable] = new_value
--            elif hasattr(value, 'items'):
--                for dkey, dvalue in list(value.items()):
--                    new_list = []
--                    for pos, a_value in enumerate(dvalue):
--                        new_value = replace_value(search, replace, a_value)
--                        if new_value is not None and new_value != value:
--                            new_list.append(new_value)
--
--                    if value != new_list:
--                        value[dkey] = new_list
-+    def get_pkginfo(self, pkginfo_fn):
-+        msg = email.message_from_file(open(pkginfo_fn, 'r'))
-+        msginfo = {}
-+        for field in msg.keys():
-+            values = msg.get_all(field)
-+            if len(values) == 1:
-+                msginfo[field] = values[0]
-             else:
--                new_list = []
--                for pos, a_value in enumerate(value):
--                    new_value = replace_value(search, replace, a_value)
--                    if new_value is not None and new_value != value:
--                        new_list.append(new_value)
--
--                if value != new_list:
--                    info[variable] = new_list
-+                msginfo[field] = values
-+        return msginfo
- 
-     def scan_setup_python_deps(self, srctree, setup_info, setup_non_literals):
-         if 'Package-dir' in setup_info:
-@@ -540,99 +501,160 @@ class PythonRecipeHandler(RecipeHandler):
-                 unmapped_deps.add(dep)
-         return mapped_deps, unmapped_deps
- 
--    def scan_python_dependencies(self, paths):
--        deps = set()
--        try:
--            dep_output = self.run_command(['pythondeps', '-d'] + paths)
--        except (OSError, subprocess.CalledProcessError):
--            pass
-+    def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
-+
-+        if 'buildsystem' in handled:
-+            return False
-+
-+        # Check for non-zero size setup.py files
-+        setupfiles = RecipeHandler.checkfiles(srctree, ['setup.py'])
-+        for fn in setupfiles:
-+            if os.path.getsize(fn):
-+                break
-         else:
--            for line in dep_output.splitlines():
--                line = line.rstrip()
--                dep, filename = line.split('\t', 1)
--                if filename.endswith('/setup.py'):
--                    continue
--                deps.add(dep)
-+            return False
-+
-+        # setup.py is always parsed to get at certain required information, such as
-+        # distutils vs setuptools
-+        #
-+        # If egg info is available, we use it for both its PKG-INFO metadata
-+        # and for its requires.txt for install_requires.
-+        # If PKG-INFO is available but no egg info is, we use that for metadata in preference to
-+        # the parsed setup.py, but use the install_requires info from the
-+        # parsed setup.py.
- 
-+        setupscript = os.path.join(srctree, 'setup.py')
-         try:
--            provides_output = self.run_command(['pythondeps', '-p'] + paths)
--        except (OSError, subprocess.CalledProcessError):
--            pass
-+            setup_info, uses_setuptools, setup_non_literals, extensions = self.parse_setup_py(setupscript)
-+        except Exception:
-+            logger.exception("Failed to parse setup.py")
-+            setup_info, uses_setuptools, setup_non_literals, extensions = {}, True, [], []
-+
-+        egginfo = glob.glob(os.path.join(srctree, '*.egg-info'))
-+        if egginfo:
-+            info = self.get_pkginfo(os.path.join(egginfo[0], 'PKG-INFO'))
-+            requires_txt = os.path.join(egginfo[0], 'requires.txt')
-+            if os.path.exists(requires_txt):
-+                with codecs.open(requires_txt) as f:
-+                    inst_req = []
-+                    extras_req = collections.defaultdict(list)
-+                    current_feature = None
-+                    for line in f.readlines():
-+                        line = line.rstrip()
-+                        if not line:
-+                            continue
-+
-+                        if line.startswith('['):
-+                            # PACKAGECONFIG must not contain expressions or whitespace
-+                            line = line.replace(" ", "")
-+                            line = line.replace(':', "")
-+                            line = line.replace('.', "-dot-")
-+                            line = line.replace('"', "")
-+                            line = line.replace('<', "-smaller-")
-+                            line = line.replace('>', "-bigger-")
-+                            line = line.replace('_', "-")
-+                            line = line.replace('(', "")
-+                            line = line.replace(')', "")
-+                            line = line.replace('!', "-not-")
-+                            line = line.replace('=', "-equals-")
-+                            current_feature = line[1:-1]
-+                        elif current_feature:
-+                            extras_req[current_feature].append(line)
-+                        else:
-+                            inst_req.append(line)
-+                    info['Install-requires'] = inst_req
-+                    info['Extras-require'] = extras_req
-+        elif RecipeHandler.checkfiles(srctree, ['PKG-INFO']):
-+            info = self.get_pkginfo(os.path.join(srctree, 'PKG-INFO'))
-+
-+            if setup_info:
-+                if 'Install-requires' in setup_info:
-+                    info['Install-requires'] = setup_info['Install-requires']
-+                if 'Extras-require' in setup_info:
-+                    info['Extras-require'] = setup_info['Extras-require']
-         else:
--            provides_lines = (l.rstrip() for l in provides_output.splitlines())
--            provides = set(l for l in provides_lines if l and l != 'setup')
--            deps -= provides
-+            if setup_info:
-+                info = setup_info
-+            else:
-+                info = self.get_setup_args_info(setupscript)
- 
--        return deps
-+        # Grab the license value before applying replacements
-+        license_str = info.get('License', '').strip()
- 
--    def parse_pkgdata_for_python_packages(self):
--        pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
-+        self.apply_info_replacements(info)
- 
--        ldata = tinfoil.config_data.createCopy()
--        bb.parse.handle('classes-recipe/python3-dir.bbclass', ldata, True)
--        python_sitedir = ldata.getVar('PYTHON_SITEPACKAGES_DIR')
-+        if uses_setuptools:
-+            classes.append('setuptools3')
-+        else:
-+            classes.append('distutils3')
- 
--        dynload_dir = os.path.join(os.path.dirname(python_sitedir), 'lib-dynload')
--        python_dirs = [python_sitedir + os.sep,
--                       os.path.join(os.path.dirname(python_sitedir), 'dist-packages') + os.sep,
--                       os.path.dirname(python_sitedir) + os.sep]
--        packages = {}
--        for pkgdatafile in glob.glob('{}/runtime/*'.format(pkgdata_dir)):
--            files_info = None
--            with open(pkgdatafile, 'r') as f:
--                for line in f.readlines():
--                    field, value = line.split(': ', 1)
--                    if field.startswith('FILES_INFO'):
--                        files_info = ast.literal_eval(value)
--                        break
--                else:
--                    continue
-+        if license_str:
-+            for i, line in enumerate(lines_before):
-+                if line.startswith('##LICENSE_PLACEHOLDER##'):
-+                    lines_before.insert(i, '# NOTE: License in setup.py/PKGINFO is: %s' % license_str)
-+                    break
- 
--            for fn in files_info:
--                for suffix in importlib.machinery.all_suffixes():
--                    if fn.endswith(suffix):
--                        break
--                else:
--                    continue
-+        if 'Classifier' in info:
-+            license = self.handle_classifier_license(info['Classifier'], info.get('License', ''))
-+            if license:
-+                info['License'] = license
- 
--                if fn.startswith(dynload_dir + os.sep):
--                    if '/.debug/' in fn:
--                        continue
--                    base = os.path.basename(fn)
--                    provided = base.split('.', 1)[0]
--                    packages[provided] = os.path.basename(pkgdatafile)
--                    continue
-+        self.map_info_to_bbvar(info, extravalues)
- 
--                for python_dir in python_dirs:
--                    if fn.startswith(python_dir):
--                        relpath = fn[len(python_dir):]
--                        relstart, _, relremaining = relpath.partition(os.sep)
--                        if relstart.endswith('.egg'):
--                            relpath = relremaining
--                        base, _ = os.path.splitext(relpath)
-+        mapped_deps, unmapped_deps = self.scan_setup_python_deps(srctree, setup_info, setup_non_literals)
- 
--                        if '/.debug/' in base:
--                            continue
--                        if os.path.basename(base) == '__init__':
--                            base = os.path.dirname(base)
--                        base = base.replace(os.sep + os.sep, os.sep)
--                        provided = base.replace(os.sep, '.')
--                        packages[provided] = os.path.basename(pkgdatafile)
--        return packages
-+        extras_req = set()
-+        if 'Extras-require' in info:
-+            extras_req = info['Extras-require']
-+            if extras_req:
-+                lines_after.append('# The following configs & dependencies are from setuptools extras_require.')
-+                lines_after.append('# These dependencies are optional, hence can be controlled via PACKAGECONFIG.')
-+                lines_after.append('# The upstream names may not correspond exactly to bitbake package names.')
-+                lines_after.append('# The configs are might not correct, since PACKAGECONFIG does not support expressions as may used in requires.txt - they are just replaced by text.')
-+                lines_after.append('#')
-+                lines_after.append('# Uncomment this line to enable all the optional features.')
-+                lines_after.append('#PACKAGECONFIG ?= "{}"'.format(' '.join(k.lower() for k in extras_req)))
-+                for feature, feature_reqs in extras_req.items():
-+                    unmapped_deps.difference_update(feature_reqs)
- 
--    @classmethod
--    def run_command(cls, cmd, **popenargs):
--        if 'stderr' not in popenargs:
--            popenargs['stderr'] = subprocess.STDOUT
--        try:
--            return subprocess.check_output(cmd, **popenargs).decode('utf-8')
--        except OSError as exc:
--            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc)
--            raise
--        except subprocess.CalledProcessError as exc:
--            logger.error('Unable to run `{}`: {}', ' '.join(cmd), exc.output)
--            raise
-+                    feature_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(feature_reqs))
-+                    lines_after.append('PACKAGECONFIG[{}] = ",,,{}"'.format(feature.lower(), ' '.join(feature_req_deps)))
- 
-+        inst_reqs = set()
-+        if 'Install-requires' in info:
-+            if extras_req:
-+                lines_after.append('')
-+            inst_reqs = info['Install-requires']
-+            if inst_reqs:
-+                unmapped_deps.difference_update(inst_reqs)
-+
-+                inst_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(inst_reqs))
-+                lines_after.append('# WARNING: the following rdepends are from setuptools install_requires. These')
-+                lines_after.append('# upstream names may not correspond exactly to bitbake package names.')
-+                lines_after.append('RDEPENDS:${{PN}} += "{}"'.format(' '.join(inst_req_deps)))
-+
-+        if mapped_deps:
-+            name = info.get('Name')
-+            if name and name[0] in mapped_deps:
-+                # Attempt to avoid self-reference
-+                mapped_deps.remove(name[0])
-+            mapped_deps -= set(self.excluded_pkgdeps)
-+            if inst_reqs or extras_req:
-+                lines_after.append('')
-+            lines_after.append('# WARNING: the following rdepends are determined through basic analysis of the')
-+            lines_after.append('# python sources, and might not be 100% accurate.')
-+            lines_after.append('RDEPENDS:${{PN}} += "{}"'.format(' '.join(sorted(mapped_deps))))
-+
-+        unmapped_deps -= set(extensions)
-+        unmapped_deps -= set(self.assume_provided)
-+        if unmapped_deps:
-+            if mapped_deps:
-+                lines_after.append('')
-+            lines_after.append('# WARNING: We were unable to map the following python package/module')
-+            lines_after.append('# dependencies to the bitbake packages which include them:')
-+            lines_after.extend('#    {}'.format(d) for d in sorted(unmapped_deps))
-+
-+        handled.append('buildsystem')
- 
- def gather_setup_info(fileobj):
-     parsed = ast.parse(fileobj.read(), fileobj.name)
-@@ -748,4 +770,4 @@ def has_non_literals(value):
- 
- def register_recipe_handlers(handlers):
-     # We need to make sure this is ahead of the makefile fallback handler
--    handlers.append((PythonRecipeHandler(), 70))
-+    handlers.append((PythonSetupPyRecipeHandler(), 70))
--- 
-2.42.0
+   -
 
+   Bug Triage meeting Thursday October 26th 7:30 am PDT (
+   https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
+   -
+
+   Weekly Project Engineering Sync Tuesday October 24th at 8 am PDT (
+   https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
+   <https://zoom.us/j/990892712>
+   -
+
+   Twitch -  See https://www.twitch.tv/theyoctojester
+
+
+Key Status/Updates:
+
+   -
+
+   The YP 4.3 (M4) rc2 is in QA.
+   -
+
+   For the 4.3 release, the 6.5 serial port issues caused the rc1 build to
+   fail. That combined with a serious patchtest behavior meant we rebuilt a=
+nd
+   submitted an rc2 to QA. There were several abandoned builds due to
+   infrastructure issues. We are now using the upstream kernel serial fix.
+   -
+
+   Our release branch (nanbield) and master have now diverged to keep the
+   patch backlog under control so development patches are merging to master=
+.
+   -
+
+   Patchtest work is progressing and we=E2=80=99re nearly at the point wher=
+e it
+   will be replying live to emails on list. Examples of the responses can b=
+e
+   seen on our test mailing list: https://lists.yoctoproject.org/g/test-lis=
+t
+   -
+
+   Source mirroring and reproducibility testing for meta-openembedded are
+   now available on the project autobuilder.
+   -
+
+   The project is now strongly suggesting source code repositories have a
+   SECURITY.md file to ensure users know what to do if they encounter a
+   security issue. We are trying to ensure all key project repositories
+   contain these. Patches are welcome and we=E2=80=99re encouraging all mai=
+ntainers to
+   follow this best practice.
+   -
+
+   The layer index has seen development work to ensure it uses secure
+   components, can handle changes in practice (such as main branches), can
+   illustrate Yocto Project Compatible status and that the errors/warnings
+   generated from builds are under control. Thanks Tim!
+   -
+
+   After consultation and discussions the project is now about to document
+   its security processes to complete the work in this area. Please watch t=
+he
+   mailing lists such as the architecture list if you have an interest in t=
+his
+   area.
+
+
+Ways to contribute:
+
+   -
+
+   As people are likely aware, the project has a number of components which
+   are either unmaintained, or have people with little to no time trying to
+   keep them alive. These components include: patchtest, layerindex, devtoo=
+l,
+   toaster, wic, oeqa, autobuilder, CROPs containers, pseudo and more. Many
+   have open bugs. Help is welcome in trying to better look after these
+   components!
+   -
+
+   There are bugs identified as possible for newcomers to the project:
+   https://wiki.yoctoproject.org/wiki/Newcomers
+   -
+
+   There are bugs that are currently unassigned for YP 4.3. See:
+   https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_4.3_Unassigned_E=
+nhancements.2FBugs
+   -
+
+   We=E2=80=99d welcome new maintainers for recipes in OE-Core. Please see =
+the list
+   at:
+   http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/=
+maintainers.inc
+   and discuss with the existing maintainer, or ask on the OE-Core mailing
+   list. We will likely move a chunk of these to =E2=80=9CUnassigned=E2=80=
+=9D soon to help
+   facilitate this.
+   -
+
+   Help is very much welcome in trying to resolve our autobuilder
+   intermittent issues. You can see the list of failures we=E2=80=99re cont=
+inuing to
+   see by searching for the =E2=80=9CAB-INT=E2=80=9D tag in bugzilla:
+   https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-INT.
+   -
+
+   Help us resolve CVE issues: CVE metrics
+   <https://autobuilder.yocto.io/pub/non-release/patchmetrics/>
+   -
+
+   We have a growing number of bugs in bugzilla, any help with them is
+   appreciated.
+
+
+YP 4.3 Milestone Dates:
+
+   -
+
+   YP 4.3 M3 was released.
+   -
+
+   YP 4.3 M4 build date  2023/10/02
+   -
+
+   YP 4.3 M4 Release date 2023/10/27
+
+
+YP 5.0 Milestone Dates:
+
+   -
+
+   YP 5.0 M1 build date 2023/12/04
+   -
+
+   YP 5.0 M1 Release date 2023/12/15
+   -
+
+   YP 5.0 M2 build date  2024/01/15
+   -
+
+   YP 5.0 M2 Release date 2024/01/24
+   -
+
+   YP 5.0 M3 build date  2024/02/19
+   -
+
+   YP 5.0 M3 Release date 2024/03/01
+   -
+
+   YP 5.0 M4 build date  2024/04/01
+   -
+
+   YP 5.0 M4 Release date 2024/04/30
+
+
+Upcoming dot releases:
+
+   -
+
+   YP 3.1.29 build date 2023/10/30
+   -
+
+   YP 3.1.29 Release date 2023/11/10
+   -
+
+   YP 4.0.14 build date 2023/11/06
+   -
+
+   YP 4.0.14 Release date 2023/11/17
+   -
+
+   YP 4.2.4 build date 2023/11/13
+   -
+
+   YP 4.2.4 Release date 2023/11/24
+   -
+
+   YP 4.3.1 build date 2023/11/27
+   -
+
+   YP 4.3.1 Release date 2023/12/08
+   -
+
+   YP 3.1.30 build date 2023/12/11
+   -
+
+   YP 3.1.30 Release date 2023/12/22
+   -
+
+   YP 4.0.15 build date 2023/12/18
+   -
+
+   YP 4.0.15 Release date 2023/12/29
+   -
+
+   YP 4.3.2 build date 2024/01/08
+   -
+
+   YP 4.3.2 Release date 2024/01/19
+   -
+
+   YP 3.1.31 build date 2024/01/22
+   -
+
+   YP 3.1.31 Release date 2024/02/02
+   -
+
+   YP 4.0.16 build date 2024/01/29
+   -
+
+   YP 4.0.16 Release date 2024/02/09
+   -
+
+   YP 4.3.3 build date 2024/02/12
+   -
+
+   YP 4.3.3 Release date 2024/02/23
+   -
+
+   YP 3.1.32 build date 2024/03/04
+   -
+
+   YP 3.1.32 Release date 2024/03/15
+   -
+
+   YP 4.0.17 build date 2024/03/11
+   -
+
+   YP 4.0.17 Release date 2024/03/22
+   -
+
+   YP 4.3.4 build date 2024/03/25
+   -
+
+   YP 4.3.4 Release date 2024/04/05
+   -
+
+   YP 3.1.33 build date 2024/04/15
+   -
+
+   YP 3.1.33 Release date 2024/04/26
+   -
+
+   YP 4.0.18 build date 2024/04/22
+   -
+
+   YP 4.0.18 Release date 2024/05/03
+   -
+
+   YP 4.0.19 build date 2024/06/03
+   -
+
+   YP 4.0.19 Release date 2024/06/14
+
+
+Tracking Metrics:
+
+   -
+
+   WDD 2475 (last week 2478) (
+   https://wiki.yoctoproject.org/charts/combo.html)
+   -
+
+   OE-Core/Poky Patch Metrics
+   -
+
+      Total patches found: 1174 (last week 1176)
+      -
+
+      Patches in the Pending State: 253 (22%) [last week 254 (21%)]
+      -
+
+   https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+
+
+The Yocto Project=E2=80=99s technical governance is through its Technical S=
+teering
+Committee, more information is available at:
+
+https://wiki.yoctoproject.org/wiki/TSC
+
+The Status reports are now stored on the wiki at:
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+[If anyone has suggestions for other information you=E2=80=99d like to see =
+on this
+weekly status update, let us know!]
+
+--000000000000e69f870608779b20
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div dir=3D"ltr" class=3D"gmail_signature" data-=
+smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><span>=
+<font color=3D"#888888"><div dir=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"=
+ltr"><div><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"lt=
+r"><div style=3D"color:rgb(136,136,136)"><span style=3D"border-collapse:col=
+lapse"><div><span id=3D"gmail-docs-internal-guid-188635be-7fff-9ba4-ad65-60=
+3450394f2c"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-=
+bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;colo=
+r:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-variant-alternates:normal;vertical-align:bas=
+eline">Current Dev Position: YP 4.3 M4 (Feature Freeze)</span></p><p dir=3D=
+"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span sty=
+le=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgrou=
+nd-color:transparent;font-variant-numeric:normal;font-variant-east-asian:no=
+rmal;font-variant-alternates:normal;vertical-align:baseline">Next Deadline:=
+ 2nd October 2023 YP 4.3 M4 build date</span></p><br><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-=
+size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tr=
+ansparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-v=
+ariant-alternates:normal;vertical-align:baseline">Next Team Meetings:</span=
+></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=
+=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:=
+rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
+riant-east-asian:normal;font-variant-alternates:normal;vertical-align:basel=
+ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
+t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;ba=
+ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
+ian:normal;font-variant-alternates:normal;vertical-align:baseline">Bug Tria=
+ge meeting Thursday October 26th 7:30 am PDT (</span><a href=3D"https://zoo=
+m.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" style=3D"text-deco=
+ration-line:none"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;text-decoration-line:underline;vertical-align:baseline">ht=
+tps://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</span></a>=
+<span style=3D"font-size:11pt;background-color:transparent;font-variant-num=
+eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;v=
+ertical-align:baseline">)</span></p></li><li dir=3D"ltr" style=3D"list-styl=
+e-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);ba=
+ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
+ian:normal;font-variant-alternates:normal;vertical-align:baseline;white-spa=
+ce:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bott=
+om:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-colo=
+r:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
+nt-variant-alternates:normal;vertical-align:baseline">Weekly Project Engine=
+ering Sync Tuesday October 24th at 8 am PDT (</span><a href=3D"https://zoom=
+.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09" style=3D"text-decor=
+ation-line:none"><span style=3D"font-size:11pt;background-color:transparent=
+;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-al=
+ternates:normal;text-decoration-line:underline;vertical-align:baseline">htt=
+ps://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</span></a><=
+a href=3D"https://zoom.us/j/990892712" style=3D"text-decoration-line:none">=
+<span style=3D"font-size:11pt;background-color:transparent;font-variant-num=
+eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;t=
+ext-decoration-line:underline;vertical-align:baseline">)</span></a></p></li=
+><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:A=
+rial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-=
+numeric:normal;font-variant-east-asian:normal;font-variant-alternates:norma=
+l;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-hei=
+ght:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span styl=
+e=3D"font-size:11pt;background-color:transparent;font-variant-numeric:norma=
+l;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-al=
+ign:baseline">Twitch -=C2=A0 See </span><a href=3D"https://www.twitch.tv/th=
+eyoctojester" style=3D"text-decoration-line:none"><span style=3D"font-size:=
+11pt;background-color:transparent;font-variant-numeric:normal;font-variant-=
+east-asian:normal;font-variant-alternates:normal;text-decoration-line:under=
+line;vertical-align:baseline">https://www.twitch.tv/theyoctojester</span></=
+a><span style=3D"font-size:11pt;background-color:transparent;font-variant-n=
+umeric:normal;font-variant-east-asian:normal;font-variant-alternates:normal=
+;vertical-align:baseline">=C2=A0</span></p></li></ul><br><p dir=3D"ltr" sty=
+le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"fon=
+t-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
+transparent;font-variant-numeric:normal;font-variant-east-asian:normal;font=
+-variant-alternates:normal;vertical-align:baseline">Key Status/Updates:</sp=
+an></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=
+=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:=
+rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
+riant-east-asian:normal;font-variant-alternates:normal;vertical-align:basel=
+ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
+t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;ba=
+ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
+ian:normal;font-variant-alternates:normal;vertical-align:baseline">The YP 4=
+.3 (M4) rc2 is in QA.</span></p></li><li dir=3D"ltr" style=3D"list-style-ty=
+pe:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgr=
+ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
+normal;font-variant-alternates:normal;vertical-align:baseline;white-space:p=
+re"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
+pt" role=3D"presentation"><span style=3D"font-size:11pt;background-color:tr=
+ansparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-v=
+ariant-alternates:normal;vertical-align:baseline">For the 4.3 release, the =
+6.5 serial port issues caused the rc1 build to fail. That combined with a s=
+erious patchtest behavior meant we rebuilt and submitted an rc2 to QA. Ther=
+e were several abandoned builds due to infrastructure issues. We are now us=
+ing the upstream kernel serial fix.</span></p></li><li dir=3D"ltr" style=3D=
+"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb=
+(0,0,0);background-color:transparent;font-variant-numeric:normal;font-varia=
+nt-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline=
+;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
+argin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backg=
+round-color:transparent;font-variant-numeric:normal;font-variant-east-asian=
+:normal;font-variant-alternates:normal;vertical-align:baseline">Our release=
+ branch (nanbield) and master have now diverged to keep the patch backlog u=
+nder control so development patches are merging to master.</span></p></li><=
+li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Ari=
+al,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-nu=
+meric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;=
+vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heigh=
+t:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline">Patchtest work is progressing and we=E2=80=99re nearly at the =
+point where it will be replying live to emails on list. Examples of the res=
+ponses can be seen on our test mailing list: </span><a href=3D"https://list=
+s.yoctoproject.org/g/test-list" style=3D"text-decoration-line:none"><span s=
+tyle=3D"font-size:11pt;background-color:transparent;font-variant-numeric:no=
+rmal;font-variant-east-asian:normal;font-variant-alternates:normal;text-dec=
+oration-line:underline;vertical-align:baseline">https://lists.yoctoproject.=
+org/g/test-list</span></a></p></li><li dir=3D"ltr" style=3D"list-style-type=
+:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgrou=
+nd-color:transparent;font-variant-numeric:normal;font-variant-east-asian:no=
+rmal;font-variant-alternates:normal;vertical-align:baseline;white-space:pre=
+"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt=
+" role=3D"presentation"><span style=3D"font-size:11pt;background-color:tran=
+sparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-var=
+iant-alternates:normal;vertical-align:baseline">Source mirroring and reprod=
+ucibility testing for meta-openembedded are now available on the project au=
+tobuilder.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;fon=
+t-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
+transparent;font-variant-numeric:normal;font-variant-east-asian:normal;font=
+-variant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=
+=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;vertical-align:baseline">The project is now strongly sugge=
+sting source code repositories have a SECURITY.md file to ensure users know=
+ what to do if they encounter a security issue. We are trying to ensure all=
+ key project repositories contain these. Patches are welcome and we=E2=80=
+=99re encouraging all maintainers to follow this best practice.</span></p><=
+/li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-famil=
+y:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varia=
+nt-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:no=
+rmal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span s=
+tyle=3D"font-size:11pt;background-color:transparent;font-variant-numeric:no=
+rmal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical=
+-align:baseline">The layer index has seen development work to ensure it use=
+s secure components, can handle changes in practice (such as main branches)=
+, can illustrate Yocto Project Compatible status and that the errors/warnin=
+gs generated from builds are under control. Thanks Tim!</span></p></li><li =
+dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,=
+sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numer=
+ic:normal;font-variant-east-asian:normal;font-variant-alternates:normal;ver=
+tical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1=
+.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"=
+font-size:11pt;background-color:transparent;font-variant-numeric:normal;fon=
+t-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:b=
+aseline">After consultation and discussions the project is now about to doc=
+ument its security processes to complete the work in this area. Please watc=
+h the mailing lists such as the architecture list if you have an interest i=
+n this area.</span></p></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.=
+38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-fam=
+ily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-var=
+iant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:=
+normal;vertical-align:baseline">Ways to contribute:</span></p><ul style=3D"=
+margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:=
+disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgroun=
+d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
+mal;font-variant-alternates:normal;vertical-align:baseline;white-space:pre"=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
+ role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
+parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
+ant-alternates:normal;vertical-align:baseline">As people are likely aware, =
+the project has a number of components which are either unmaintained, or ha=
+ve people with little to no time trying to keep them alive. These component=
+s include: patchtest, layerindex, devtool, toaster, wic, oeqa, autobuilder,=
+ CROPs containers, pseudo and more. Many have open bugs. Help is welcome in=
+ trying to better look after these components!</span></p></li><li dir=3D"lt=
+r" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-seri=
+f;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margi=
+n-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size=
+:11pt;background-color:transparent;font-variant-numeric:normal;font-variant=
+-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">=
+There are bugs identified as possible for newcomers to the project: </span>=
+<a href=3D"https://wiki.yoctoproject.org/wiki/Newcomers" style=3D"text-deco=
+ration-line:none"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;text-decoration-line:underline;vertical-align:baseline">ht=
+tps://wiki.yoctoproject.org/wiki/Newcomers</span></a></p></li><li dir=3D"lt=
+r" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-seri=
+f;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margi=
+n-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size=
+:11pt;background-color:transparent;font-variant-numeric:normal;font-variant=
+-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">=
+There are bugs that are currently unassigned for YP 4.3. See: </span><a hre=
+f=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_4.3_Unassigned=
+_Enhancements.2FBugs" style=3D"text-decoration-line:none"><span style=3D"fo=
+nt-size:11pt;background-color:transparent;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-variant-alternates:normal;text-decoration-li=
+ne:underline;vertical-align:baseline">https://wiki.yoctoproject.org/wiki/Bu=
+g_Triage#Medium.2B_4.3_Unassigned_Enhancements.2FBugs</span></a></p></li><l=
+i dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Aria=
+l,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-num=
+eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;v=
+ertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height=
+:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline">We=E2=80=99d welcome new maintainers for recipes in OE-Core. P=
+lease see the list at: </span><a href=3D"http://git.yoctoproject.org/cgit.c=
+gi/poky/tree/meta/conf/distro/include/maintainers.inc" style=3D"text-decora=
+tion-line:none"><span style=3D"font-size:11pt;background-color:transparent;=
+font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alt=
+ernates:normal;text-decoration-line:underline;vertical-align:baseline">http=
+://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/maintai=
+ners.inc</span></a><span style=3D"font-size:11pt;background-color:transpare=
+nt;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-=
+alternates:normal;vertical-align:baseline"> and discuss with the existing m=
+aintainer, or ask on the OE-Core mailing list. We will likely move a chunk =
+of these to =E2=80=9CUnassigned=E2=80=9D soon to help facilitate this.</spa=
+n></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;fon=
+t-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;fon=
+t-variant-numeric:normal;font-variant-east-asian:normal;font-variant-altern=
+ates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
+"><span style=3D"font-size:11pt;background-color:transparent;font-variant-n=
+umeric:normal;font-variant-east-asian:normal;font-variant-alternates:normal=
+;vertical-align:baseline">Help is very much welcome in trying to resolve ou=
+r autobuilder intermittent issues. You can see the list of failures we=E2=
+=80=99re continuing to see by searching for the =E2=80=9CAB-INT=E2=80=9D ta=
+g in bugzilla: </span><a href=3D"https://bugzilla.yoctoproject.org/buglist.=
+cgi?quicksearch=3DAB-INT" style=3D"text-decoration-line:none"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;text-decorat=
+ion-line:underline;vertical-align:baseline">https://bugzilla.yoctoproject.o=
+rg/buglist.cgi?quicksearch=3DAB-INT</span></a><span style=3D"font-size:11pt=
+;background-color:transparent;font-variant-numeric:normal;font-variant-east=
+-asian:normal;font-variant-alternates:normal;vertical-align:baseline">.</sp=
+an></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;fo=
+nt-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;fo=
+nt-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alter=
+nates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
+"><span style=3D"font-size:11pt;background-color:transparent;font-variant-n=
+umeric:normal;font-variant-east-asian:normal;font-variant-alternates:normal=
+;vertical-align:baseline">Help us resolve CVE issues: </span><a href=3D"htt=
+ps://autobuilder.yocto.io/pub/non-release/patchmetrics/" style=3D"text-deco=
+ration-line:none"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;text-decoration-line:underline;vertical-align:baseline">CV=
+E metrics</span></a><span style=3D"font-size:11pt;background-color:transpar=
+ent;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant=
+-alternates:normal;vertical-align:baseline">=C2=A0</span></p></li><li dir=
+=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,san=
+s-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:=
+normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
+al-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38=
+;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fon=
+t-size:11pt;background-color:transparent;font-variant-numeric:normal;font-v=
+ariant-east-asian:normal;font-variant-alternates:normal;vertical-align:base=
+line">We have a growing number of bugs in bugzilla, any help with them is a=
+ppreciated.</span></p></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.3=
+8;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-fami=
+ly:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-vari=
+ant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:n=
+ormal;vertical-align:baseline">YP 4.3 Milestone Dates:</span></p><ul style=
+=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-t=
+ype:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backg=
+round-color:transparent;font-variant-numeric:normal;font-variant-east-asian=
+:normal;font-variant-alternates:normal;vertical-align:baseline;white-space:=
+pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:=
+0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-color:t=
+ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-=
+variant-alternates:normal;vertical-align:baseline">YP 4.3 M3 was released.<=
+/span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt=
+;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent=
+;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-al=
+ternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" sty=
+le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentati=
+on"><span style=3D"font-size:11pt;background-color:transparent;font-variant=
+-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:norm=
+al;vertical-align:baseline">YP 4.3 M4 build date=C2=A0 2023/10/02</span></p=
+></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fam=
+ily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-var=
+iant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:=
+normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"lin=
+e-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span=
+ style=3D"font-size:11pt;background-color:transparent;font-variant-numeric:=
+normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
+al-align:baseline">YP 4.3 M4 Release date 2023/10/27</span></p></li></ul><b=
+r><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt=
+"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,=
+0);background-color:transparent;font-variant-numeric:normal;font-variant-ea=
+st-asian:normal;font-variant-alternates:normal;vertical-align:baseline">YP =
+5.0 Milestone Dates:</span></p><ul style=3D"margin-top:0px;margin-bottom:0p=
+x"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family=
+:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varian=
+t-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:nor=
+mal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span st=
+yle=3D"font-size:11pt;background-color:transparent;font-variant-numeric:nor=
+mal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-=
+align:baseline">YP 5.0 M1 build date 2023/12/04</span></p></li><li dir=3D"l=
+tr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-ser=
+if;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:norma=
+l;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-al=
+ign:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;marg=
+in-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-siz=
+e:11pt;background-color:transparent;font-variant-numeric:normal;font-varian=
+t-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline"=
+>YP 5.0 M1 Release date 2023/12/15</span></p></li><li dir=3D"ltr" style=3D"=
+list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(=
+0,0,0);background-color:transparent;font-variant-numeric:normal;font-varian=
+t-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline;=
+white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
+rgin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgr=
+ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
+normal;font-variant-alternates:normal;vertical-align:baseline">YP 5.0 M2 bu=
+ild date=C2=A0 2024/01/15</span></p></li><li dir=3D"ltr" style=3D"list-styl=
+e-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);ba=
+ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
+ian:normal;font-variant-alternates:normal;vertical-align:baseline;white-spa=
+ce:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bott=
+om:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-colo=
+r:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
+nt-variant-alternates:normal;vertical-align:baseline">YP 5.0 M2 Release dat=
+e 2024/01/24</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;f=
+ont-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-colo=
+r:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
+nt-variant-alternates:normal;vertical-align:baseline;white-space:pre"><p di=
+r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;vertical-align:baseline">YP 5.0 M3 build date=C2=A0 2024/0=
+2/19</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size=
+:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transp=
+arent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
+nt-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr=
+" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"prese=
+ntation"><span style=3D"font-size:11pt;background-color:transparent;font-va=
+riant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates=
+:normal;vertical-align:baseline">YP 5.0 M3 Release date 2024/03/01</span></=
+p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fa=
+mily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-va=
+riant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates=
+:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"li=
+ne-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><spa=
+n style=3D"font-size:11pt;background-color:transparent;font-variant-numeric=
+:normal;font-variant-east-asian:normal;font-variant-alternates:normal;verti=
+cal-align:baseline">YP 5.0 M4 build date=C2=A0 2024/04/01</span></p></li><l=
+i dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Aria=
+l,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-num=
+eric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;v=
+ertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height=
+:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline">YP 5.0 M4 Release date 2024/04/30</span></p></li></ul><br><p d=
+ir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><spa=
+n style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);bac=
+kground-color:transparent;font-variant-numeric:normal;font-variant-east-asi=
+an:normal;font-variant-alternates:normal;vertical-align:baseline">Upcoming =
+dot releases:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li =
+dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,=
+sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numer=
+ic:normal;font-variant-east-asian:normal;font-variant-alternates:normal;ver=
+tical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1=
+.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"=
+font-size:11pt;background-color:transparent;font-variant-numeric:normal;fon=
+t-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:b=
+aseline">YP 3.1.29 build date 2023/10/30</span></p></li><li dir=3D"ltr" sty=
+le=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;colo=
+r:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-=
+variant-east-asian:normal;font-variant-alternates:normal;vertical-align:bas=
+eline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:=
+0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;=
+background-color:transparent;font-variant-numeric:normal;font-variant-east-=
+asian:normal;font-variant-alternates:normal;vertical-align:baseline">YP 3.1=
+.29 Release date 2023/11/10</span></p></li><li dir=3D"ltr" style=3D"list-st=
+yle-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);=
+background-color:transparent;font-variant-numeric:normal;font-variant-east-=
+asian:normal;font-variant-alternates:normal;vertical-align:baseline;white-s=
+pace:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bo=
+ttom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-co=
+lor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;=
+font-variant-alternates:normal;vertical-align:baseline">YP 4.0.14 build dat=
+e 2023/11/06</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;f=
+ont-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-colo=
+r:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
+nt-variant-alternates:normal;vertical-align:baseline;white-space:pre"><p di=
+r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;vertical-align:baseline">YP 4.0.14 Release date 2023/11/17=
+</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11p=
+t;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" st=
+yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentat=
+ion"><span style=3D"font-size:11pt;background-color:transparent;font-varian=
+t-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:nor=
+mal;vertical-align:baseline">YP 4.2.4 build date 2023/11/13</span></p></li>=
+<li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Ar=
+ial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-n=
+umeric:normal;font-variant-east-asian:normal;font-variant-alternates:normal=
+;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
+ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline">YP 4.2.4 Release date 2023/11/24</span></p></li><li dir=3D"ltr=
+" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif=
+;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;=
+font-variant-east-asian:normal;font-variant-alternates:normal;vertical-alig=
+n:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin=
+-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:=
+11pt;background-color:transparent;font-variant-numeric:normal;font-variant-=
+east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">Y=
+P 4.3.1 build date 2023/11/27</span></p></li><li dir=3D"ltr" style=3D"list-=
+style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0=
+);background-color:transparent;font-variant-numeric:normal;font-variant-eas=
+t-asian:normal;font-variant-alternates:normal;vertical-align:baseline;white=
+-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-=
+bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-=
+color:transparent;font-variant-numeric:normal;font-variant-east-asian:norma=
+l;font-variant-alternates:normal;vertical-align:baseline">YP 4.3.1 Release =
+date 2023/12/08</span></p></li><li dir=3D"ltr" style=3D"list-style-type:dis=
+c;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-c=
+olor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal=
+;font-variant-alternates:normal;vertical-align:baseline;white-space:pre"><p=
+ dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" ro=
+le=3D"presentation"><span style=3D"font-size:11pt;background-color:transpar=
+ent;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant=
+-alternates:normal;vertical-align:baseline">YP 3.1.30 build date 2023/12/11=
+</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11p=
+t;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" st=
+yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentat=
+ion"><span style=3D"font-size:11pt;background-color:transparent;font-varian=
+t-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:nor=
+mal;vertical-align:baseline">YP 3.1.30 Release date 2023/12/22</span></p></=
+li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family=
+:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varian=
+t-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:nor=
+mal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span st=
+yle=3D"font-size:11pt;background-color:transparent;font-variant-numeric:nor=
+mal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-=
+align:baseline">YP 4.0.15 build date 2023/12/18</span></p></li><li dir=3D"l=
+tr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-ser=
+if;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:norma=
+l;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-al=
+ign:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;marg=
+in-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-siz=
+e:11pt;background-color:transparent;font-variant-numeric:normal;font-varian=
+t-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline"=
+>YP 4.0.15 Release date 2023/12/29</span></p></li><li dir=3D"ltr" style=3D"=
+list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(=
+0,0,0);background-color:transparent;font-variant-numeric:normal;font-varian=
+t-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline;=
+white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
+rgin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgr=
+ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
+normal;font-variant-alternates:normal;vertical-align:baseline">YP 4.3.2 bui=
+ld date 2024/01/08</span></p></li><li dir=3D"ltr" style=3D"list-style-type:=
+disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgroun=
+d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
+mal;font-variant-alternates:normal;vertical-align:baseline;white-space:pre"=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
+ role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
+parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
+ant-alternates:normal;vertical-align:baseline">YP 4.3.2 Release date 2024/0=
+1/19</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size=
+:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transp=
+arent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
+nt-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr=
+" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"prese=
+ntation"><span style=3D"font-size:11pt;background-color:transparent;font-va=
+riant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates=
+:normal;vertical-align:baseline">YP 3.1.31 build date 2024/01/22</span></p>=
+</li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fami=
+ly:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-vari=
+ant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:n=
+ormal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line=
+-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span =
+style=3D"font-size:11pt;background-color:transparent;font-variant-numeric:n=
+ormal;font-variant-east-asian:normal;font-variant-alternates:normal;vertica=
+l-align:baseline">YP 3.1.31 Release date 2024/02/02</span></p></li><li dir=
+=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,san=
+s-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:=
+normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
+al-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38=
+;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"fon=
+t-size:11pt;background-color:transparent;font-variant-numeric:normal;font-v=
+ariant-east-asian:normal;font-variant-alternates:normal;vertical-align:base=
+line">YP 4.0.16 build date 2024/01/29</span></p></li><li dir=3D"ltr" style=
+=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:=
+rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
+riant-east-asian:normal;font-variant-alternates:normal;vertical-align:basel=
+ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
+t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;ba=
+ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
+ian:normal;font-variant-alternates:normal;vertical-align:baseline">YP 4.0.1=
+6 Release date 2024/02/09</span></p></li><li dir=3D"ltr" style=3D"list-styl=
+e-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);ba=
+ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
+ian:normal;font-variant-alternates:normal;vertical-align:baseline;white-spa=
+ce:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bott=
+om:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-colo=
+r:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
+nt-variant-alternates:normal;vertical-align:baseline">YP 4.3.3 build date 2=
+024/02/12</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font=
+-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:t=
+ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-=
+variant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=
+=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
+=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
+lternates:normal;vertical-align:baseline">YP 4.3.3 Release date 2024/02/23<=
+/span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt=
+;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent=
+;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-al=
+ternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" sty=
+le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentati=
+on"><span style=3D"font-size:11pt;background-color:transparent;font-variant=
+-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:norm=
+al;vertical-align:baseline">YP 3.1.32 build date 2024/03/04</span></p></li>=
+<li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Ar=
+ial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-n=
+umeric:normal;font-variant-east-asian:normal;font-variant-alternates:normal=
+;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heig=
+ht:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline">YP 3.1.32 Release date 2024/03/15</span></p></li><li dir=3D"lt=
+r" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-seri=
+f;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margi=
+n-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size=
+:11pt;background-color:transparent;font-variant-numeric:normal;font-variant=
+-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">=
+YP 4.0.17 build date 2024/03/11</span></p></li><li dir=3D"ltr" style=3D"lis=
+t-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0=
+,0);background-color:transparent;font-variant-numeric:normal;font-variant-e=
+ast-asian:normal;font-variant-alternates:normal;vertical-align:baseline;whi=
+te-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margi=
+n-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgroun=
+d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
+mal;font-variant-alternates:normal;vertical-align:baseline">YP 4.0.17 Relea=
+se date 2024/03/22</span></p></li><li dir=3D"ltr" style=3D"list-style-type:=
+disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgroun=
+d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
+mal;font-variant-alternates:normal;vertical-align:baseline;white-space:pre"=
+><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
+ role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
+parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
+ant-alternates:normal;vertical-align:baseline">YP 4.3.4 build date 2024/03/=
+25</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:1=
+1pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpar=
+ent;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant=
+-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" =
+style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"present=
+ation"><span style=3D"font-size:11pt;background-color:transparent;font-vari=
+ant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:n=
+ormal;vertical-align:baseline">YP 4.3.4 Release date 2024/04/05</span></p><=
+/li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-famil=
+y:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varia=
+nt-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:no=
+rmal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span s=
+tyle=3D"font-size:11pt;background-color:transparent;font-variant-numeric:no=
+rmal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical=
+-align:baseline">YP 3.1.33 build date 2024/04/15</span></p></li><li dir=3D"=
+ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-se=
+rif;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:norm=
+al;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-a=
+lign:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;mar=
+gin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-si=
+ze:11pt;background-color:transparent;font-variant-numeric:normal;font-varia=
+nt-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline=
+">YP 3.1.33 Release date 2024/04/26</span></p></li><li dir=3D"ltr" style=3D=
+"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb=
+(0,0,0);background-color:transparent;font-variant-numeric:normal;font-varia=
+nt-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline=
+;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
+argin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backg=
+round-color:transparent;font-variant-numeric:normal;font-variant-east-asian=
+:normal;font-variant-alternates:normal;vertical-align:baseline">YP 4.0.18 b=
+uild date 2024/04/22</span></p></li><li dir=3D"ltr" style=3D"list-style-typ=
+e:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgro=
+und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
+ormal;font-variant-alternates:normal;vertical-align:baseline;white-space:pr=
+e"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0p=
+t" role=3D"presentation"><span style=3D"font-size:11pt;background-color:tra=
+nsparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-va=
+riant-alternates:normal;vertical-align:baseline">YP 4.0.18 Release date 202=
+4/05/03</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-s=
+ize:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tra=
+nsparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-va=
+riant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"=
+ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pr=
+esentation"><span style=3D"font-size:11pt;background-color:transparent;font=
+-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alterna=
+tes:normal;vertical-align:baseline">YP 4.0.19 build date 2024/06/03</span><=
+/p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-f=
+amily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-v=
+ariant-numeric:normal;font-variant-east-asian:normal;font-variant-alternate=
+s:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"l=
+ine-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><sp=
+an style=3D"font-size:11pt;background-color:transparent;font-variant-numeri=
+c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
+ical-align:baseline">YP 4.0.19 Release date 2024/06/14</span></p></li></ul>=
+<br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
+pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,=
+0,0);background-color:transparent;font-variant-numeric:normal;font-variant-=
+east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">T=
+racking Metrics:</span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><=
+li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Ari=
+al,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-nu=
+meric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;=
+vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-heigh=
+t:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=
+=3D"font-size:11pt;background-color:transparent;font-variant-numeric:normal=
+;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-ali=
+gn:baseline">WDD 2475 (last week 2478) </span><span style=3D"font-size:11pt=
+;font-family:Consolas,sans-serif;background-color:transparent;font-variant-=
+numeric:normal;font-variant-east-asian:normal;font-variant-alternates:norma=
+l;vertical-align:baseline">(</span><a href=3D"https://wiki.yoctoproject.org=
+/charts/combo.html" style=3D"text-decoration-line:none"><span style=3D"font=
+-size:11pt;background-color:transparent;font-variant-numeric:normal;font-va=
+riant-east-asian:normal;font-variant-alternates:normal;text-decoration-line=
+:underline;vertical-align:baseline">https://wiki.yoctoproject.org/charts/co=
+mbo.html</span></a><span style=3D"font-size:11pt;font-family:Consolas,sans-=
+serif;background-color:transparent;font-variant-numeric:normal;font-variant=
+-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">=
+)</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11=
+pt;font-family:Consolas,sans-serif;color:rgb(0,0,0);background-color:transp=
+arent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
+nt-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr=
+" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"prese=
+ntation"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;backgro=
+und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
+ormal;font-variant-alternates:normal;vertical-align:baseline">OE-Core/Poky =
+Patch Metrics</span></p></li><ul style=3D"margin-top:0px;margin-bottom:0px"=
+><li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family=
+:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varian=
+t-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:nor=
+mal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span st=
+yle=3D"font-size:11pt;background-color:transparent;font-variant-numeric:nor=
+mal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-=
+align:baseline">Total patches found: 1174 (last week 1176)</span></p></li><=
+li dir=3D"ltr" style=3D"list-style-type:circle;font-size:11pt;font-family:C=
+onsolas,sans-serif;color:rgb(0,0,0);background-color:transparent;font-varia=
+nt-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:no=
+rmal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span s=
+tyle=3D"font-size:11pt;font-family:Arial,sans-serif;background-color:transp=
+arent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
+nt-alternates:normal;vertical-align:baseline">Patches in the Pending State:=
+ 253 (22%) [last week 254 (21%)]</span></p></li></ul><li dir=3D"ltr" style=
+=3D"list-style-type:disc;font-size:11pt;font-family:Consolas,sans-serif;col=
+or:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font=
+-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:ba=
+seline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
+:0pt;margin-bottom:0pt" role=3D"presentation"><a href=3D"https://autobuilde=
+r.yocto.io/pub/non-release/patchmetrics/" style=3D"text-decoration-line:non=
+e"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;background-co=
+lor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;=
+font-variant-alternates:normal;text-decoration-line:underline;vertical-alig=
+n:baseline">https://autobuilder.yocto.io/pub/non-release/patchmetrics/</spa=
+n></a></p></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
+:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,san=
+s-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:=
+normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
+al-align:baseline">The Yocto Project=E2=80=99s technical governance is thro=
+ugh its Technical Steering Committee, more information is available at:</sp=
+an></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-botto=
+m:0pt"><a href=3D"https://wiki.yoctoproject.org/wiki/TSC" style=3D"text-dec=
+oration-line:none"><span style=3D"font-size:11pt;font-family:Arial,sans-ser=
+if;background-color:transparent;font-variant-numeric:normal;font-variant-ea=
+st-asian:normal;font-variant-alternates:normal;text-decoration-line:underli=
+ne;vertical-align:baseline">https://wiki.yoctoproject.org/wiki/TSC</span></=
+a></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bo=
+ttom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:=
+rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
+riant-east-asian:normal;font-variant-alternates:normal;vertical-align:basel=
+ine">The Status reports are now stored on the wiki at: </span><a href=3D"ht=
+tps://wiki.yoctoproject.org/wiki/Weekly_Status" style=3D"text-decoration-li=
+ne:none"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;backgro=
+und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
+ormal;font-variant-alternates:normal;text-decoration-line:underline;vertica=
+l-align:baseline">https://wiki.yoctoproject.org/wiki/Weekly_Status</span></=
+a></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bo=
+ttom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;color:=
+rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
+riant-east-asian:normal;font-variant-alternates:normal;vertical-align:basel=
+ine">[If anyone has suggestions for other information you=E2=80=99d like to=
+ see on this weekly status update, let us know!]</span></p></span><br class=
+=3D"gmail-Apple-interchange-newline"></div></span></div></div></div></div><=
+/div></div></div></div></div></div></font></span></div></div></div></div></=
+div></div></div>
+
+--000000000000e69f870608779b20--
 
