@@ -1,79 +1,85 @@
-Return-Path: <luca.ceresoli@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7620FC07545
-	for <webhook@archiver.kernel.org>; Tue, 24 Oct 2023 08:33:58 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.143224.1698136429066179145
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 159DFC07545
+	for <webhook@archiver.kernel.org>; Tue, 24 Oct 2023 08:51:08 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web11.13649.1698137459646649013
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Oct 2023 01:33:49 -0700
+ Tue, 24 Oct 2023 01:51:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=HcthG4Q5;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: luca.ceresoli@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A54801C0005;
-	Tue, 24 Oct 2023 08:33:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1698136427;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F4AI+66XfGZ4ne0LaxR2T+ls9exLOOVrynAPWhOWy20=;
-	b=HcthG4Q5zlaPJfoWiXJQBe5d+usQ0nnNBRLbE5ZjCvY948wPApfpz8AG+mbOu2j5nzszUH
-	WCf1pZe03v/SRiFJQVyfTxL40415bZA6LYXkWS68IOof3zB7+Xj1Y4WjLKmEECu7254qaE
-	JF6gZWHNI7Ir49pEY1pVnBg16YmMbSoYL5MXqBRJ7nsrBRpn3kR8ea3GG7aQ6VO5Jz+SFK
-	1meYxOqqD6WVQngtxUUjObYQ5m4vyD5LN6K5Qmh1zvIH/GBrSIaq0dL7955KMleqbLTAIS
-	SRUMpsuz1nAENdogDe8QJDJKxYb3cUbd/ygo93dNc0ZgXV3LZG98kYxXgrCGcg==
-Date: Tue, 24 Oct 2023 10:33:45 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
- <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH 3/3] selftest/sstatetests: add a test for CDN
- sstate cache
-Message-ID: <20231024103345.306b9171@booty>
-In-Reply-To: <20231023110618.3525311-3-alex@linutronix.de>
-References: <20231023110618.3525311-1-alex@linutronix.de>
-	<20231023110618.3525311-3-alex@linutronix.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XsVmSK+z;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2c5210a1515so65339531fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 01:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698137458; x=1698742258; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dtBExe4iY06qSULho55Y3RXWmvHfW41FaO/Jh/Henbc=;
+        b=XsVmSK+zeD/pbtA9MgraTyxdHaQkTd1l4kj++5a7j2IHzzm5tp6NrOmSuDaDDY7HUA
+         amNht4+kWCrRY8DeWiWZuKIe3TkoMJT8aQVP8wUiY8/CEg4zrEuPGn5s9GjExAPF0Q4J
+         EkKBDlEG8xJU9ZQMX05l6O3t0O5FHlwRJJbHyKADesVZYITRnJ/0J8rmNmzZHzxaT9da
+         wn/4MKBGjICzy+p+bB7bMNOIIR9TrPmLgMxU0/Ka6Ustzz/2CCF8SqIyqugECZEhO3K4
+         pY4Nj9o+cZFBhNrehw+8SJ9d1HFPcqpG/i/WmBvu/7jBfFfwMXs0Innf1nFOEV/dWBP2
+         rYWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698137458; x=1698742258;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dtBExe4iY06qSULho55Y3RXWmvHfW41FaO/Jh/Henbc=;
+        b=mwf+qu0qR9k02KaOAk/fqllQ25N0Hgcxfbcha6Scqz2ktC5q86Z/e+TMS2PT2+Gl7A
+         fqj9cnvYNaQnTFfNYOAw3YLal9xGFrTTTj1pZeCQtmAUZyH9zOjLJccWVve6WUPRV/X/
+         ky9rEPTGfRAVzL0wBakjqStkslgvnQCkdabhp9V5RHFFdZLPamnVMgw2yYIcijeU5FH5
+         tIgEvejXFWy4QzxehPh+QfvAckcpSTOF8gh2HkjOSaICcKlIuLesbnK4jmC9+GSKv5Z7
+         9iRslGBuFKzRSzdV/BFCjxPkZlGKmMdgdm2/U5Jhh6gvQRT582j+/RZ80VGIaIyMzIwb
+         G8Og==
+X-Gm-Message-State: AOJu0Yx6BH98d/Ri4dk8AFctFciAwFm1BGqy/r6QENPqWeEDzxfWjgFC
+	8FldfrmzBle15jB73fMDtCFs77Qpp2YGvV57OOU=
+X-Google-Smtp-Source: AGHT+IFBozd5cc9LWmdfJEfvSuJhxcSxzzNxByetYqFOyY2ndNZZnN4zNNGy+aAShmk15Vui/xLn46CFG8dZ5GT7eck=
+X-Received: by 2002:a05:651c:1416:b0:2c5:19aa:ca83 with SMTP id
+ u22-20020a05651c141600b002c519aaca83mr8146595lje.20.1698137457451; Tue, 24
+ Oct 2023 01:50:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+References: <CANNYZj9rnOQ8BugHMLMzEGqFdHtHL+SkFmDjLvgNo8adO4VHVw@mail.gmail.com>
+ <6763.1698120765303220209@lists.openembedded.org>
+In-Reply-To: <6763.1698120765303220209@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 24 Oct 2023 10:50:46 +0200
+Message-ID: <CANNYZj_sBnowv-v7XJed+irmv_hfw+QiipycWdaxmY4ZR1MYZg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V5] kbd:Add ptest support
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 08:33:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189641
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 08:51:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189642
 
-Hello Alex,
+On Tue, 24 Oct 2023 at 06:12, qiutt@fujitsu.com <qiutt@fujitsu.com> wrote:
+>
+> Hi=EF=BC=8CAlex
+>
+> As you said, it is not-that-elegant bit of code.
+> But DATADIR is used as a part of CPPFLAGS for compiling c files in tests,
+> such as libkeymap/libkeymap-test01.c, libkbdfile/libkbdfile-test13.c and =
+others.
+> sample:
+>
+> libkeymap/libkeymap-test01.c: f =3D fopen(DATADIR "/data/libkeymap/charse=
+t-keymap0.map", "r"); libkeymap/libkeymap-test09.c:   setenv("LOADKEYS_INCL=
+UDE_PATH", DATADIR "/data/libkeymap", 1);
 
-On Mon, 23 Oct 2023 13:06:18 +0200
-"Alexander Kanavin" <alex.kanavin@gmail.com> wrote:
+I see, thanks. I would suggest that Makefile.am is patched with a
+dedicated patch that sets DATADIR to ptest directory on target (you
+can mark it Inappropriate), so that the change is robust (sed
+expressions are prone to silent regressions, and), and happens before
+actual build, so no 'make clean' is needed.
 
-> Specifically, the test checks that everything needed for building
-> standard oe-core images for x86_64 and arm64 is available from
-> the cache (with minor exceptions). Going forward, a complete
-> world check could be enabled and additional configurations,
-> but that requires improvements to performance of hash equivalence
-> server in particular.
-> 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-
-This is triggering:
-
-AssertionError: False is not true : Missing objects in the cache:
-weston_12.0.2.bb:do_package_write_ipk
-weston_12.0.2.bb:do_package_write_deb
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6091/steps/23/logs/stdio
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Alex
 
