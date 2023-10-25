@@ -1,119 +1,84 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5122C07545
-	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 14:47:48 +0000 (UTC)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
- by mx.groups.io with SMTP id smtpd.web10.175401.1698245261881332914
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF559C0032E
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 15:01:58 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.45992.1698246113842615468
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Oct 2023 07:47:42 -0700
+ Wed, 25 Oct 2023 08:01:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=uHSP6zVi;
- spf=pass (domain: baylibre.com, ip: 209.85.222.180, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7788f513872so394702785a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 07:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698245261; x=1698850061; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IYhqk+gItDLIZZ9zRmNN64/610jzfXo/jEEzdPxKhik=;
-        b=uHSP6zVi40gSaHscfSFeRhI2U8HtFKFqKecjrXZYWtdN2nuHM8BYodQ4wTILIJyELr
-         52qs34AzAgN1tDfgJqeXBbQnLbJd3tKWeVmMi4ArV+YZCpbFmEVycMnAQEmM+WYqSzIL
-         xWyerGZmCs5Hbk1fZn0lsK/p4K7LBxOYec5mhcetVtSMNfa36AYzlXBtuwz0cg2Eu/Wp
-         Vn/L6T8ycJus6XWTK8lXJFQZ/z648PK/3QFx76fFqectXfIxjLJrgCzcwj6AQdiH6cPq
-         vO9paxy3IT42hv6MMPw2SCNsjRVcz4uWtEH3/8cxgv/4JEqZoIVojlHwX9Wx4rhM++zp
-         vUqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698245261; x=1698850061;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IYhqk+gItDLIZZ9zRmNN64/610jzfXo/jEEzdPxKhik=;
-        b=fKTdfok2ZoaqPCpzU1YyEAOhsQ6Bbvfpxq+Gp4BsetKGMlSOtTM/uc3SsWFyc3qQLr
-         F+nDqPt4/BNgAua2lITTPB7U9erfjFMm5BWJ2vBWJ/Qa+nC6hITDAeLrqmYCcEwLpf/5
-         /H5XHmKOH93Lk+ovr+btJox4Q8lc7rJql3dJXWE2AMAOdcjuRkOWkjwOuPThUnstB/uq
-         4dSgRawrPoUL7GD1gG+wGLgSACVJKwZZLOclTwc/XaWp14CKDwxEpmHdmWgMp4ezqfzj
-         sm+bKEBKbHsf24znuV4rTshjZatpCtpVc5ew+tyRJv7+L+1dpBW5g91c0gYF4SJQGrjt
-         4tsA==
-X-Gm-Message-State: AOJu0YwIqsbYc64Q9m4ouZO7tZtUunCq18xkZegGeQDbP4UQrXF/MPke
-	pQLpbwfFwSBsCVlEdaL9E4TstrRCJstVITlK+AiIHQ==
-X-Google-Smtp-Source: AGHT+IEPGtt4B41K2sxmVgk/lnVFjovu3xwUn4IY2uGXnfC0frrCev6OKCXQzY9+wsom/D+yA1Pg0w==
-X-Received: by 2002:a05:620a:2986:b0:779:d9ee:d35f with SMTP id r6-20020a05620a298600b00779d9eed35fmr10427922qkp.32.1698245260628;
-        Wed, 25 Oct 2023 07:47:40 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id f8-20020a05620a408800b007759e9b0eb8sm4263763qko.99.2023.10.25.07.47.40
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 07:47:40 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] patchtest-send-results: check max line length, simplify responses
-Date: Wed, 25 Oct 2023 10:47:39 -0400
-Message-ID: <20231025144739.78900-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WX56P40R;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: luca.ceresoli@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7426E240016;
+	Wed, 25 Oct 2023 15:01:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1698246111;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gn+uTUG8BlVB22UxFQo7/Pg48uqocxN8J3mjtWNXdMs=;
+	b=WX56P40R6PXI4liLjM02lB0cHcXmOaSgs0k14R6X3Kr6WF1Kp8vB5/WRJTmDVcuDvCMrou
+	9gg0urJp/DijvD2pwZt9D76OR2Cj0qmpzjtTiGrpWV723amRM8Ai85vFd7nMrLEMMDNs++
+	w508R+ufMGL2ugUUFGG/FFKV4oUsAfPGqLqVvP9pL0IEjubGpJZfHkIljJXz0ptolM9B5h
+	4F4sUN4llJOrWtnY1sr0UxUKh/Iy3EZdtPcESPS7O+5gWWnDEYk0S11QcAL5UoPZrMANMG
+	9mKTv60FitCsEOAgtBK3OTsT65CUl5q0T+2L2VKjjSRHboG2MLVF+ujIUqAnkA==
+Date: Wed, 25 Oct 2023 17:01:44 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Julien Stephan" <jstephan@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [RESEND PATCH 2/2] oeqa/selftest/devtool: remove
+ spaces on empty line
+Message-ID: <20231025170144.70459a2d@booty>
+In-Reply-To: <20231024141754.1528786-2-jstephan@baylibre.com>
+References: <20231024141754.1528786-1-jstephan@baylibre.com>
+	<20231024141754.1528786-2-jstephan@baylibre.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 14:47:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189680
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 15:01:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189681
 
-Check that the maximum line length of the testresult file is less than
-220 characters, to help guard against malicious changes being sent in
-email responses. If any line exceeds this length, replace the normal
-testresults used in the response with a line stating that tests failed,
-but the results could not be processed. Also clean up the respone
-substrings slightly to go along with the change.
+Hello Julien,
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- scripts/patchtest-send-results | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+On Tue, 24 Oct 2023 16:17:54 +0200
+"Julien Stephan" <jstephan@baylibre.com> wrote:
 
-diff --git a/scripts/patchtest-send-results b/scripts/patchtest-send-results
-index bb4604aeaf1..078651ec381 100755
---- a/scripts/patchtest-send-results
-+++ b/scripts/patchtest-send-results
-@@ -25,12 +25,8 @@ more information:\n\n---\n"""
- 
- suggestions = """\n---\n\nPlease address the issues identified and
- submit a new revision of the patch, or alternatively, reply to this
--email with an explanation of why the patch format should be accepted.
--Note that patchtest may report failures in the merge-on-head test for
--patches that are part of a series if they rely on changes from
--preceeding entries.
--
--If you believe these results are due to an error in patchtest, please
-+email with an explanation of why the patch format should be accepted. If
-+you believe these results are due to an error in patchtest, please
- submit a bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest'
- category under 'Yocto Project Subprojects'). Thank you!"""
- 
-@@ -52,8 +48,6 @@ testresult = None
- with open(result_file, "r") as f:
-     testresult = f.read()
- 
--reply_contents = greeting + testresult + suggestions
--
- # we know these patch files will only contain a single patch, so only
- # worry about the first element for getting the subject
- mbox = mailbox.mbox(args.patch)
-@@ -61,6 +55,13 @@ mbox_subject = mbox[0]['subject']
- subject_line = f"Patchtest results for {mbox_subject}"
- 
- if "FAIL" in testresult:
-+    reply_contents = None
-+    if len(max(open(result_file, 'r'), key=len)) > 220:
-+        warning = "Tests failed for the patch, but the results log could not be processed due to excessive result line length."
-+        reply_contents = greeting + warning + suggestions
-+    else:
-+        reply_contents = greeting + testresult + suggestions
-+
-     ses_client = boto3.client('ses', region_name='us-west-2')
-     response = ses_client.send_email(
-         Source='patchtest@automation.yoctoproject.org',
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+> index c36b1efa78b..b5c488be8e8 100644
+> --- a/meta/lib/oeqa/selftest/cases/devtool.py
+> +++ b/meta/lib/oeqa/selftest/cases/devtool.py
+> @@ -575,7 +575,7 @@ class DevtoolAddTests(DevtoolBase):
+>          checkvars['S'] = '${WORKDIR}/MarkupSafe-%s' % testver
+>          checkvars['SRC_URI'] = url
+>          self._test_recipe_contents(recipefile, checkvars, [])
+> -
+> +
+
+This patch does not apply due to the '-' line above having no spaces
+after '-'. Perhaps your mailer mangled the content removing training
+whitespace (which, ironically, is what the patch itself aims at doing!).
+
+Using 'git send-email' is usually the best way to send patches without
+this sort of issues.
+
+Luca
+
 -- 
-2.41.0
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
