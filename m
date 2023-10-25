@@ -1,248 +1,56 @@
-Return-Path: <shin.matsunaga@fujitsu.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C1AC0032E
-	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 05:13:56 +0000 (UTC)
-Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
- by mx.groups.io with SMTP id smtpd.web11.37412.1698210832360921391
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17781C25B47
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 05:35:56 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.37590.1698212148221095713
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Oct 2023 22:13:52 -0700
+ Tue, 24 Oct 2023 22:35:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: shin.matsunaga@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="116832222"
-X-IronPort-AV: E=Sophos;i="6.03,249,1694703600"; 
-   d="scan'208";a="116832222"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 14:13:49 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 5AFDDCA1EE
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 14:13:47 +0900 (JST)
-Received: from storage.utsfd.cs.fujitsu.co.jp (storage.utsfd.cs.fujitsu.co.jp [10.118.252.123])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 9056AD5B25
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 14:13:46 +0900 (JST)
-Received: by storage.utsfd.cs.fujitsu.co.jp (Postfix, from userid 1068)
-	id 77FFF5266; Wed, 25 Oct 2023 14:13:46 +0900 (JST)
-From: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
-To: rybczynska@gmail.com,
-	richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org,
-	shin.matsunaga@fujitsu.com,
-	Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
-Subject: [PATCH v2] cve-check: Classify patched CVEs into 3 statuses
-Date: Wed, 25 Oct 2023 14:13:44 +0900
-Message-Id: <20231025051344.24088-1-shin.matsunaga@fujitsu.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230922083400.3157-1-shin.matsunaga@fujitsu.com>
-References: <20230922083400.3157-1-shin.matsunaga@fujitsu.com>
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id D31DD40CC5;
+	Wed, 25 Oct 2023 05:35:46 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZEMMjPhAHGN5; Wed, 25 Oct 2023 05:35:46 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1E3AB40C86;
+	Wed, 25 Oct 2023 05:35:43 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 3DF24163D26; Wed, 25 Oct 2023 01:35:42 -0400 (EDT)
+Date: Wed, 25 Oct 2023 01:35:42 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@lists.yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: OpenEmbedded Happy Hour October 25 9pm/2100 UTC
+Message-ID: <20231025053542.GC2408@denix.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 05:13:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189667
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 05:35:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189668
 
-CVEs that are currently considered "Patched" are classified into the following 3 statuses:
-1. "Patched"      - means that a patch file that fixed the vulnerability has been applied
-2. "Not affected" - means that the package version (PV) is not affected by the vulnerability
-3. "Undecidable"  - means that versions cannot be compared to determine if they are affected by the vulnerability
+All,
 
-Signed-off-by: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
-Signed-off-by: Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
----
+You are cordially invited to the next OpenEmbedded Happy Hour on October 25 
+for Asia/Pacific timezones @ 2100/9pm UTC (5pm ET / 2pm PT):
 
-Changes for v2:
-   - Fix the status "Out of range" to "Not affected"
+https://www.openembedded.org/wiki/Calendar
+https://www.openembedded.org/wiki/Happy_Hours
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+October+25&iso=20231025T21
 
- meta/classes/cve-check.bbclass | 55 +++++++++++++++++++++++-----------
- 1 file changed, 38 insertions(+), 17 deletions(-)
-
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index b55f4299da..502db324df 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -185,10 +185,10 @@ python do_cve_check () {
-                 patched_cves = get_patched_cves(d)
-             except FileNotFoundError:
-                 bb.fatal("Failure in searching patches")
--            ignored, patched, unpatched, status = check_cves(d, patched_cves)
--            if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
--                cve_data = get_cve_info(d, patched + unpatched + ignored)
--                cve_write_data(d, patched, unpatched, ignored, cve_data, status)
-+            ignored, patched, unpatched, not_affected, undecidable, status = check_cves(d, patched_cves)
-+            if patched or unpatched or not_affected or undecidable or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
-+                cve_data = get_cve_info(d, patched + unpatched + ignored + not_affected + undecidable)
-+                cve_write_data(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status)
-         else:
-             bb.note("No CVE database found, skipping CVE check")
- 
-@@ -308,13 +308,13 @@ def check_cves(d, patched_cves):
-     products = d.getVar("CVE_PRODUCT").split()
-     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
-     if not products:
--        return ([], [], [], [])
-+        return ([], [], [], [], [], [])
-     pv = d.getVar("CVE_VERSION").split("+git")[0]
- 
-     # If the recipe has been skipped/ignored we return empty lists
-     if pn in d.getVar("CVE_CHECK_SKIP_RECIPE").split():
-         bb.note("Recipe has been skipped by cve-check")
--        return ([], [], [], [])
-+        return ([], [], [], [], [], [])
- 
-     # Convert CVE_STATUS into ignored CVEs and check validity
-     cve_ignore = []
-@@ -328,6 +328,8 @@ def check_cves(d, patched_cves):
-     conn = sqlite3.connect(db_file, uri=True)
- 
-     # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
-+    cves_not_affected = []
-+    cves_undecidable = []
-     for product in products:
-         cves_in_product = False
-         if ":" in product:
-@@ -355,6 +357,7 @@ def check_cves(d, patched_cves):
- 
-             vulnerable = False
-             ignored = False
-+            undecidable = False
- 
-             product_cursor = conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor))
-             for row in product_cursor:
-@@ -376,7 +379,7 @@ def check_cves(d, patched_cves):
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_start, version_start, cve))
--                            vulnerable_start = False
-+                            undecidable = True
-                     else:
-                         vulnerable_start = False
- 
-@@ -387,10 +390,15 @@ def check_cves(d, patched_cves):
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_end, version_end, cve))
--                            vulnerable_end = False
-+                            undecidable = True
-                     else:
-                         vulnerable_end = False
- 
-+                    if undecidable:
-+                        bb.note("%s-%s is undecidable to %s" % (pn, real_pv, cve))
-+                        cves_undecidable.append(cve)
-+                        break
-+
-                     if operator_start and operator_end:
-                         vulnerable = vulnerable_start and vulnerable_end
-                     else:
-@@ -406,9 +414,9 @@ def check_cves(d, patched_cves):
-                     break
-             product_cursor.close()
- 
--            if not vulnerable:
-+            if not undecidable and not vulnerable:
-                 bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
--                patched_cves.add(cve)
-+                cves_not_affected.append(cve)
-         cve_cursor.close()
- 
-         if not cves_in_product:
-@@ -420,7 +428,7 @@ def check_cves(d, patched_cves):
-     if not cves_in_recipe:
-         bb.note("No CVE records for products in recipe %s" % (pn))
- 
--    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_status)
-+    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_not_affected, cves_undecidable, cves_status)
- 
- def get_cve_info(d, cves):
-     """
-@@ -447,7 +455,7 @@ def get_cve_info(d, cves):
-     conn.close()
-     return cve_data
- 
--def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-+def cve_write_data_text(d, patched, unpatched, ignored, not_affected, undecidable, cve_data):
-     """
-     Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
-     CVE manifest if enabled.
-@@ -471,7 +479,7 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-         return
- 
-     # Early exit, the text format does not report packages without CVEs
--    if not patched+unpatched+ignored:
-+    if not patched+unpatched+ignored+not_affected+undecidable:
-         return
- 
-     nvd_link = "https://nvd.nist.gov/vuln/detail/"
-@@ -482,6 +490,8 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-     for cve in sorted(cve_data):
-         is_patched = cve in patched
-         is_ignored = cve in ignored
-+        is_not_affected = cve in not_affected
-+        is_undecidable = cve in undecidable
- 
-         status = "Unpatched"
-         if (is_patched or is_ignored) and not report_all:
-@@ -490,6 +500,10 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-             status = "Ignored"
-         elif is_patched:
-             status = "Patched"
-+        elif is_not_affected:
-+            status = "Not affected"
-+        elif is_undecidable:
-+            status = "Undecidable"
-         else:
-             # default value of status is Unpatched
-             unpatched_cves.append(cve)
-@@ -561,7 +575,7 @@ def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_fi
-         with open(index_path, "a+") as f:
-             f.write("%s\n" % fragment_path)
- 
--def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-+def cve_write_data_json(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, cve_status):
-     """
-     Prepare CVE data for the JSON format, then write it.
-     """
-@@ -606,6 +620,9 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-     for cve in sorted(cve_data):
-         is_patched = cve in patched
-         is_ignored = cve in ignored
-+        is_not_affected = cve in not_affected
-+        is_undecidable = cve in undecidable
-+
-         status = "Unpatched"
-         if (is_patched or is_ignored) and not report_all:
-             continue
-@@ -613,6 +630,10 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-             status = "Ignored"
-         elif is_patched:
-             status = "Patched"
-+        elif is_not_affected:
-+            status = "Not affected"
-+        elif is_undecidable:
-+            status = "Undecidable"
-         else:
-             # default value of status is Unpatched
-             unpatched_cves.append(cve)
-@@ -645,12 +666,12 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
- 
-     cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file)
- 
--def cve_write_data(d, patched, unpatched, ignored, cve_data, status):
-+def cve_write_data(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status):
-     """
-     Write CVE data in each enabled format.
-     """
- 
-     if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
--        cve_write_data_text(d, patched, unpatched, ignored, cve_data)
-+        cve_write_data_text(d, patched, unpatched, ignored, not_affected, undecidable, cve_data)
-     if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
--        cve_write_data_json(d, patched, unpatched, ignored, cve_data, status)
-+        cve_write_data_json(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status)
--- 
-2.41.0
-
+Best regards,
+Denys Dmytriyenko
+OpenEmbedded Board of Directors
 
