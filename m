@@ -2,46 +2,46 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69FBCC25B6F
-	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 15:47:09 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.47148.1698248828406549875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 702A2C0032E
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 15:47:19 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.47150.1698248829386200673
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Oct 2023 08:47:08 -0700
+ Wed, 25 Oct 2023 08:47:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=iHn1IuGp;
- spf=pass (domain: baylibre.com, ip: 209.85.221.53, mailfrom: jstephan@baylibre.com)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3926933f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 08:47:08 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=sbowIteh;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.54, mailfrom: jstephan@baylibre.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-408425c7c10so47828915e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 08:47:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698248826; x=1698853626; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698248827; x=1698853627; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ItcQgBfUjVT6z9AgtopLXVF802NEDrxnfCNLnj+QcBQ=;
-        b=iHn1IuGp2KFxo2WtA49U/Tyne6outrLE26yihBVnq10bgvGKgxw+pe1ETQL39ZKe8f
-         BjwBRMB6PCkd20c0t6zZiFMqLOgO/0uIAgpBYXO+KPYY4RafN3FBWef8n6RCuj0h4/U2
-         TY1rKkVm8aJSWybkH02ELvyGMUNGb3lS3wOpax0dP8hucJEgSFO+DjZxIpOJe2O3/k8C
-         kR6uJF4MMPmP38O3WyDKcj3P/cTNlA4aaOloVQQr7kJFzRsFN+l33XhaogTorKNwNTGz
-         DRCsJDJ7SPVWdb+5oZFWSNcyyMCH37ep79p5QgN6skcRDsEZf/cQIoeHQLnWBACTST61
-         mtIg==
+        bh=rHdX3Cq9hsw0p513sEHr6CUJF5Qu2IPBlZ8uYt17DKw=;
+        b=sbowItehpLFDywR/bOwg3einft710e/uiynTqcajshwsBFuFR96m/a2qNCc2WTRSDM
+         CtIM90+RbehN8abEsU6FgKSTpUXg1WlcBhxYSwodOy0gz52aIBuI/IAWgdbCUcZ1vr0U
+         S+mCr0xhc2MNoQvXOBOR6kL4+LzLhSFDBx03QvC0QXqgpPlVeUhDrUUBLGTGrmLspckY
+         BPwbrTSax40VIkPoUF0WZsX6P2inORyKVpS2TXM8JSHTaADBkdMM3ysVl6OnGSw7xYf9
+         z9yXu9FGvr67b3vhmBw4YaJYqLJzI02lS5QTidLQccltAeSC5i8X5CKsqktca2UfMtkx
+         H0iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698248826; x=1698853626;
+        d=1e100.net; s=20230601; t=1698248827; x=1698853627;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ItcQgBfUjVT6z9AgtopLXVF802NEDrxnfCNLnj+QcBQ=;
-        b=P1ngL+2Icid57wwnIMP8Ae9olbNLCdp9eHgD1G9YUvVEl3A2JmLjKFBib1RtTC0KJN
-         AU2z5wBlO9elTVn+k4/+KA9YmtE6vaZPsaJ2TWsRy6wO5zqyhAGNLMBRSJgy8+/vFy/h
-         Hgg+sLTxyfMyUSl1uZhFBtvz86uK43aT0pxOvD6gENtC4x6Ke4qWtGrILCIyo3N+qZeb
-         aF22wWSQ1M2KM1Va0tBA+Qqle00dbvb+zI96W/7eBqB4M3jWep/L1V1luXVby1pnnbOG
-         u/BhP7GryE9M+QrD/geSfcW8AHcX649TLZPKGTnDUsvxi44PoxXzMsd4K1EXXHLDjL4K
-         7QtQ==
-X-Gm-Message-State: AOJu0Yz0qKSe7FN6oECzVVc4nAU9OObvZZIvTM5SR+tjgH7/bj9qLHMa
-	b2FEzVS21FIu6/wTfiBvkkWF3Wrj74RqGdGafG/yrg==
-X-Google-Smtp-Source: AGHT+IG9RZhq94rfCeoOanzhxMUXspaDAhR73HX4ARdLt1ljcJZ6Ivt+G+HknPvXtdCX96dpwUeEzg==
-X-Received: by 2002:a5d:453a:0:b0:32d:96e0:8048 with SMTP id j26-20020a5d453a000000b0032d96e08048mr11968557wra.9.1698248826609;
-        Wed, 25 Oct 2023 08:47:06 -0700 (PDT)
+        bh=rHdX3Cq9hsw0p513sEHr6CUJF5Qu2IPBlZ8uYt17DKw=;
+        b=fVPW4RoiaFPbN7vl4MiREDs4fPC8SLYChEDC+w9TYv7PBooXGagmGyTthb4EdGk7Mo
+         KeuAnWjUT9dz3V/3vzkmpS3gcyyUynuQ0sMiiGnNy/dh9kWtjvydwGQOdgFoLfg7NCNI
+         TzMVKDcsgcn9ZlYpZDh1l0dfBfNQ5wzcseTYbHw+cW7q7q5Mhx7rlBUtWrGgWwPE3zGB
+         rTJRHCFqAwjvWJYq8NudE8CSSAwzfRltVrRj3Ox16CwqOYnJbIp8R7UU1H/HrY5SXD+c
+         W774p4gzqsjTKpxntiChyW8l3j+CigPJSENh3SbHqlw9WaBImfJx945x70+Fc7W++2yv
+         W5EQ==
+X-Gm-Message-State: AOJu0YyAqE6aB1woUEQfWznoCYo40welApJexrG5OHHAl4XJVxG3b8Xq
+	CPWLCRjjfpwP3o5Gq0XbqzOFj0CxEFLfJa6nEAMi3w==
+X-Google-Smtp-Source: AGHT+IHodaw+R6nalKullEGPgN7MSMlBCGkn1t3/c60dWYhJun5eaEGtG39z2pk1ut3vzRsO213qMg==
+X-Received: by 2002:adf:e852:0:b0:31f:fdd8:7d56 with SMTP id d18-20020adfe852000000b0031ffdd87d56mr10461791wrn.12.1698248827393;
+        Wed, 25 Oct 2023 08:47:07 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
         by smtp.gmail.com with ESMTPSA id a10-20020adfe5ca000000b0032415213a6fsm12301964wrn.87.2023.10.25.08.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -49,9 +49,9 @@ Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
 From: Julien Stephan <jstephan@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v4 4/5] scripts:recipetool:create_buildsys_python: add PEP517 support
-Date: Wed, 25 Oct 2023 17:46:58 +0200
-Message-ID: <20231025154659.2442373-5-jstephan@baylibre.com>
+Subject: [PATCH v4 5/5]  oeqa/selftest/recipetool: add selftest for PEP-517 recipe creation
+Date: Wed, 25 Oct 2023 17:46:59 +0200
+Message-ID: <20231025154659.2442373-6-jstephan@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231025154659.2442373-1-jstephan@baylibre.com>
 References: <20231025154659.2442373-1-jstephan@baylibre.com>
@@ -60,321 +60,136 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 15:47:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189685
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 15:47:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189687
 
-Add basic support for PEP517 [1] for the 3 following backends that are
-supported by bitbake:
+ Add 3 tests to check the creation of PEP-517 project using the 3
+ backends supported by bitbake:
   - setuptools.build_meta
   - poetry.core.masonry.api
   - flit_core.buildapi
 
-If a pyproject.toml file is found, use it to create the recipe,
-otherwise fallback to the old setup.py method.
-
-Some projects can declare a minimal pyproject.toml file, and put all
-the metadata in setup.py/setup.cfg/requirements.txt .. theses cases
-are not handled. If a pyproject.toml file is found, assumes it has all
-necessary metadata.
-
-As for the old setup.py method, version numbers for dependencies are not
-handled.
-
-Some features may be missing, such as the extra dependencies.
-
-[YOCTO #14737]
-
-[1]: https://peps.python.org/pep-0517/
+Theses tests requires the tomllib python module, so skip theses tests
+if module is not present. tomllib module is part of python starting from 3.11
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- .../lib/recipetool/create_buildsys_python.py  | 268 +++++++++++++++++-
- 1 file changed, 267 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/recipetool.py | 102 +++++++++++++++++++++
+ 1 file changed, 102 insertions(+)
 
-diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-index 69f6f5ca511..9e7f22c0db0 100644
---- a/scripts/lib/recipetool/create_buildsys_python.py
-+++ b/scripts/lib/recipetool/create_buildsys_python.py
-@@ -656,6 +656,270 @@ class PythonSetupPyRecipeHandler(PythonRecipeHandler):
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index d3aea74228f..8e0fc995f7e 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -474,6 +474,108 @@ class RecipetoolCreateTests(RecipetoolBase):
+         inherits = ['setuptools3']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
  
-         handled.append('buildsystem')
- 
-+class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
-+    """Base class to support PEP517 and PEP518
-+
-+    PEP517 https://peps.python.org/pep-0517/#source-trees
-+    PEP518 https://peps.python.org/pep-0518/#build-system-table
-+    """
-+    # bitbake currently support the 3 following backends
-+    build_backend_map = {
-+        "setuptools.build_meta": "python_setuptools_build_meta",
-+        "poetry.core.masonry.api": "python_poetry_core",
-+        "flit_core.buildapi": "python_flit_core",
-+    }
-+
-+    # setuptools.build_meta and flit declare project metadata into the "project" section of pyproject.toml
-+    # according to PEP-621: https://packaging.python.org/en/latest/specifications/declaring-project-metadata/#declaring-project-metadata
-+    # while poetry uses the "tool.poetry" section according to its official documentation: https://python-poetry.org/docs/pyproject/
-+    # keys from "project" and "tool.poetry" sections are almost the same except for the  HOMEPAGE which is "homepage" for tool.poetry
-+    # and "Homepage" for "project" section. So keep both
-+    bbvar_map = {
-+        "name": "PN",
-+        "version": "PV",
-+        "Homepage": "HOMEPAGE",
-+        "homepage": "HOMEPAGE",
-+        "description": "SUMMARY",
-+        "license": "LICENSE",
-+        "dependencies": "RDEPENDS:${PN}",
-+        "requires": "DEPENDS",
-+    }
-+
-+    replacements = [
-+        ("license", r" +$", ""),
-+        ("license", r"^ +", ""),
-+        ("license", r" ", "-"),
-+        ("license", r"^GNU-", ""),
-+        ("license", r"-[Ll]icen[cs]e(,?-[Vv]ersion)?", ""),
-+        ("license", r"^UNKNOWN$", ""),
-+        # Remove currently unhandled version numbers from these variables
-+        ("requires", r"\[[^\]]+\]$", ""),
-+        ("requires", r"^([^><= ]+).*", r"\1"),
-+        ("dependencies", r"\[[^\]]+\]$", ""),
-+        ("dependencies", r"^([^><= ]+).*", r"\1"),
-+    ]
-+
-+    excluded_native_pkgdeps = [
-+        # already provided by python_setuptools_build_meta.bbclass
-+        "python3-setuptools-native",
-+        "python3-wheel-native",
-+        # already provided by python_poetry_core.bbclass
-+        "python3-poetry-core-native",
-+        # already provided by python_flit_core.bbclass
-+        "python3-flit-core-native",
-+    ]
-+
-+    # add here a list of known and often used packages and the corresponding bitbake package
-+    known_deps_map = {
-+        "setuptools": "python3-setuptools",
-+        "wheel": "python3-wheel",
-+        "poetry-core": "python3-poetry-core",
-+        "flit_core": "python3-flit-core",
-+        "setuptools-scm": "python3-setuptools-scm",
-+    }
-+
-+    def __init__(self):
-+        pass
-+
-+    def process(self, srctree, classes, lines_before, lines_after, handled, extravalues):
-+        info = {}
-+
-+        if 'buildsystem' in handled:
-+            return False
-+
-+        # Check for non-zero size setup.py files
-+        setupfiles = RecipeHandler.checkfiles(srctree, ["pyproject.toml"])
-+        for fn in setupfiles:
-+            if os.path.getsize(fn):
-+                break
-+        else:
-+            return False
-+
-+        setupscript = os.path.join(srctree, "pyproject.toml")
-+
++    def test_recipetool_create_python3_pep517_setuptools_build_meta(self):
++        # This test require python 3.11 or above for the tomllib module
++        # or tomli module to be installed
 +        try:
++            import tomllib
++        except ImportError:
 +            try:
-+                import tomllib
++                import tomli
 +            except ImportError:
-+                try:
-+                    import tomli as tomllib
-+                except ImportError:
-+                    logger.exception("Neither 'tomllib' nor 'tomli' could be imported. Please use python3.11 or above or install tomli module")
-+                    return False
-+                except Exception:
-+                    logger.exception("Failed to parse pyproject.toml")
-+                    return False
++                self.skipTest('Test requires python 3.11 or above for tomllib module or tomli module')
 +
-+            with open(setupscript, "rb") as f:
-+                config = tomllib.load(f)
-+            build_backend = config["build-system"]["build-backend"]
-+            if build_backend in self.build_backend_map:
-+                classes.append(self.build_backend_map[build_backend])
-+            else:
-+                logger.error(
-+                    "Unsupported build-backend: %s, cannot use pyproject.toml. Will try to use legacy setup.py"
-+                    % build_backend
-+                )
-+                return False
++        # Test creating python3 package from tarball (using setuptools.build_meta class)
++        temprecipe = os.path.join(self.tempdir, 'recipe')
++        os.makedirs(temprecipe)
++        pn = 'webcolors'
++        pv = '1.13'
++        recipefile = os.path.join(temprecipe, 'python3-%s_%s.bb' % (pn, pv))
++        srcuri = 'https://files.pythonhosted.org/packages/a1/fb/f95560c6a5d4469d9c49e24cf1b5d4d21ffab5608251c6020a965fb7791c/%s-%s.tar.gz' % (pn, pv)
++        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
++        self.assertTrue(os.path.isfile(recipefile))
++        checkvars = {}
++        checkvars['SUMMARY'] = 'A library for working with the color formats defined by HTML and CSS.'
++        checkvars['LICENSE'] = set(['BSD-3-Clause'])
++        checkvars['LIC_FILES_CHKSUM'] = 'file://LICENSE;md5=702b1ef12cf66832a88f24c8f2ee9c19'
++        checkvars['SRC_URI'] = 'https://files.pythonhosted.org/packages/a1/fb/f95560c6a5d4469d9c49e24cf1b5d4d21ffab5608251c6020a965fb7791c/webcolors-${PV}.tar.gz'
++        checkvars['SRC_URI[md5sum]'] = 'c9be30c5b0cf1cad32e4cbacbb2229e9'
++        checkvars['SRC_URI[sha1sum]'] = 'c90b84fb65eed9b4c9dea7f08c657bfac0e820a5'
++        checkvars['SRC_URI[sha256sum]'] = 'c225b674c83fa923be93d235330ce0300373d02885cef23238813b0d5668304a'
++        checkvars['SRC_URI[sha384sum]'] = '45652af349660f19f68d01361dd5bda287789e5ea63608f52a8cea526ac04465614db2ea236103fb8456b1fcaea96ed7'
++        checkvars['SRC_URI[sha512sum]'] = '074aaf135ac6b0025b88b731d1d6dfa4c539b4fff7195658cc58a4326bb9f0449a231685d312b4a1ec48ca535a838bfa5c680787fe0e61473a2a092c448937d0'
++        inherits = ['python_setuptools_build_meta']
 +
-+            licfile = ""
++        self._test_recipe_contents(recipefile, checkvars, inherits)
 +
-+            if build_backend == "poetry.core.masonry.api":
-+                if "tool" in config and "poetry" in config["tool"]:
-+                    metadata = config["tool"]["poetry"]
-+            else:
-+                if "project" in config:
-+                    metadata = config["project"]
++    def test_recipetool_create_python3_pep517_poetry_core_masonry_api(self):
++        # This test require python 3.11 or above for the tomllib module
++        # or tomli module to be installed
++        try:
++            import tomllib
++        except ImportError:
++            try:
++                import tomli
++            except ImportError:
++                self.skipTest('Test requires python 3.11 or above for tomllib module or tomli module')
 +
-+            if metadata:
-+                for field, values in metadata.items():
-+                    if field == "license":
-+                        # For setuptools.build_meta and flit, licence is a table
-+                        # but for poetry licence is a string
-+                        if build_backend == "poetry.core.masonry.api":
-+                            value = values
-+                        else:
-+                            value = values.get("text", "")
-+                            if not value:
-+                                licfile = values.get("file", "")
-+                                continue
-+                    elif field == "dependencies" and build_backend == "poetry.core.masonry.api":
-+                        # For poetry backend, "dependencies" section looks like:
-+                        # [tool.poetry.dependencies]
-+                        # requests = "^2.13.0"
-+                        # requests = { version = "^2.13.0", source = "private" }
-+                        # See https://python-poetry.org/docs/master/pyproject/#dependencies-and-dependency-groups for more details
-+                        # This class doesn't handle versions anyway, so we just get the dependencies name here and construct a list
-+                        value = []
-+                        for k in values.keys():
-+                            value.append(k)
-+                    elif isinstance(values, dict):
-+                        for k, v in values.items():
-+                            info[k] = v
-+                        continue
-+                    else:
-+                        value = values
++        # Test creating python3 package from tarball (using poetry.core.masonry.api class)
++        temprecipe = os.path.join(self.tempdir, 'recipe')
++        os.makedirs(temprecipe)
++        pn = 'iso8601'
++        pv = '2.1.0'
++        recipefile = os.path.join(temprecipe, 'python3-%s_%s.bb' % (pn, pv))
++        srcuri = 'https://files.pythonhosted.org/packages/b9/f3/ef59cee614d5e0accf6fd0cbba025b93b272e626ca89fb70a3e9187c5d15/%s-%s.tar.gz' % (pn, pv)
++        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
++        self.assertTrue(os.path.isfile(recipefile))
++        checkvars = {}
++        checkvars['SUMMARY'] = 'Simple module to parse ISO 8601 dates'
++        checkvars['LICENSE'] = set(['MIT'])
++        checkvars['LIC_FILES_CHKSUM'] = 'file://LICENSE;md5=aab31f2ef7ba214a5a341eaa47a7f367'
++        checkvars['SRC_URI'] = 'https://files.pythonhosted.org/packages/b9/f3/ef59cee614d5e0accf6fd0cbba025b93b272e626ca89fb70a3e9187c5d15/iso8601-${PV}.tar.gz'
++        checkvars['SRC_URI[md5sum]'] = '6e33910eba87066b3be7fcf3d59d16b5'
++        checkvars['SRC_URI[sha1sum]'] = 'efd225b2c9fa7d9e4a1ec6ad94f3295cee982e61'
++        checkvars['SRC_URI[sha256sum]'] = '6b1d3829ee8921c4301998c909f7829fa9ed3cbdac0d3b16af2d743aed1ba8df'
++        checkvars['SRC_URI[sha384sum]'] = '255002433fe65c19adfd6b91494271b613cb25ef6a35ac77436de1e03d60cc07bf89fd716451b917f1435e4384860ef6'
++        checkvars['SRC_URI[sha512sum]'] = 'db57ab2a25ef91e3bc479c8539d27e853cf1fbf60986820b8999ae15d7e566425a1e0cfba47d0f3b23aa703db0576db368e6c110ba2a2f46c9a34e8ee3611fb7'
++        inherits = ['python_poetry_core']
 +
-+                    info[field] = value
++        self._test_recipe_contents(recipefile, checkvars, inherits)
 +
-+            # Grab the license value before applying replacements
-+            license_str = info.get("license", "").strip()
++    def test_recipetool_create_python3_pep517_flit_core_buildapi(self):
++        # This test require python 3.11 or above for the tomllib module
++        # or tomli module to be installed
++        try:
++            import tomllib
++        except ImportError:
++            try:
++                import tomli
++            except ImportError:
++                self.skipTest('Test requires python 3.11 or above for tomllib module or tomli module')
 +
-+            if license_str:
-+                for i, line in enumerate(lines_before):
-+                    if line.startswith("##LICENSE_PLACEHOLDER##"):
-+                        lines_before.insert(
-+                            i, "# NOTE: License in pyproject.toml is: %s" % license_str
-+                        )
-+                        break
++        # Test creating python3 package from tarball (using flit_core.buildapi class)
++        temprecipe = os.path.join(self.tempdir, 'recipe')
++        os.makedirs(temprecipe)
++        pn = 'typing-extensions'
++        pv = '4.8.0'
++        recipefile = os.path.join(temprecipe, 'python3-%s_%s.bb' % (pn, pv))
++        srcuri = 'https://files.pythonhosted.org/packages/1f/7a/8b94bb016069caa12fc9f587b28080ac33b4fbb8ca369b98bc0a4828543e/typing_extensions-%s.tar.gz' % pv
++        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
++        self.assertTrue(os.path.isfile(recipefile))
++        checkvars = {}
++        checkvars['SUMMARY'] = 'Backported and Experimental Type Hints for Python 3.8+'
++        checkvars['LICENSE'] = set(['PSF-2.0'])
++        checkvars['LIC_FILES_CHKSUM'] = 'file://LICENSE;md5=fcf6b249c2641540219a727f35d8d2c2'
++        checkvars['SRC_URI'] = 'https://files.pythonhosted.org/packages/1f/7a/8b94bb016069caa12fc9f587b28080ac33b4fbb8ca369b98bc0a4828543e/typing_extensions-${PV}.tar.gz'
++        checkvars['SRC_URI[md5sum]'] = '74bafe841fbd1c27324afdeb099babdf'
++        checkvars['SRC_URI[sha1sum]'] = 'f8bed69cbad4a57a1a67bf8a31b62b657b47f7a3'
++        checkvars['SRC_URI[sha256sum]'] = 'df8e4339e9cb77357558cbdbceca33c303714cf861d1eef15e1070055ae8b7ef'
++        checkvars['SRC_URI[sha384sum]'] = '0bd0112234134d965c6884f3c1f95d27b6ae49cfb08108101158e31dff33c2dce729331628b69818850f1acb68f6c8d0'
++        checkvars['SRC_URI[sha512sum]'] = '5fbff10e085fbf3ac2e35d08d913608d8c8bca66903435ede91cdc7776d775689a53d64f5f0615fe687c6c228ac854c8651d99eb1cb96ec61c56b7ca01fdd440'
++        inherits = ['python_flit_core']
 +
-+            info["requires"] = config["build-system"]["requires"]
++        self._test_recipe_contents(recipefile, checkvars, inherits)
 +
-+            self.apply_info_replacements(info)
-+
-+            if "classifiers" in info:
-+                license = self.handle_classifier_license(
-+                    info["classifiers"], info.get("license", "")
-+                )
-+                if license:
-+                    if licfile:
-+                        lines = []
-+                        md5value = bb.utils.md5_file(os.path.join(srctree, licfile))
-+                        lines.append('LICENSE = "%s"' % license)
-+                        lines.append(
-+                            'LIC_FILES_CHKSUM = "file://%s;md5=%s"'
-+                            % (licfile, md5value)
-+                        )
-+                        lines.append("")
-+
-+                        # Replace the placeholder so we get the values in the right place in the recipe file
-+                        try:
-+                            pos = lines_before.index("##LICENSE_PLACEHOLDER##")
-+                        except ValueError:
-+                            pos = -1
-+                        if pos == -1:
-+                            lines_before.extend(lines)
-+                        else:
-+                            lines_before[pos : pos + 1] = lines
-+
-+                        handled.append(("license", [license, licfile, md5value]))
-+                    else:
-+                        info["license"] = license
-+
-+            provided_packages = self.parse_pkgdata_for_python_packages()
-+            provided_packages.update(self.known_deps_map)
-+            native_mapped_deps, native_unmapped_deps = set(), set()
-+            mapped_deps, unmapped_deps = set(), set()
-+
-+            if "requires" in info:
-+                for require in info["requires"]:
-+                    mapped = provided_packages.get(require)
-+
-+                    if mapped:
-+                        logger.debug("Mapped %s to %s" % (require, mapped))
-+                        native_mapped_deps.add(mapped)
-+                    else:
-+                        logger.debug("Could not map %s" % require)
-+                        native_unmapped_deps.add(require)
-+
-+                info.pop("requires")
-+
-+                if native_mapped_deps != set():
-+                    native_mapped_deps = {
-+                        item + "-native" for item in native_mapped_deps
-+                    }
-+                    native_mapped_deps -= set(self.excluded_native_pkgdeps)
-+                    if native_mapped_deps != set():
-+                        info["requires"] = " ".join(sorted(native_mapped_deps))
-+
-+                if native_unmapped_deps:
-+                    lines_after.append("")
-+                    lines_after.append(
-+                        "# WARNING: We were unable to map the following python package/module"
-+                    )
-+                    lines_after.append(
-+                        "# dependencies to the bitbake packages which include them:"
-+                    )
-+                    lines_after.extend(
-+                        "#    {}".format(d) for d in sorted(native_unmapped_deps)
-+                    )
-+
-+            if "dependencies" in info:
-+                for dependency in info["dependencies"]:
-+                    mapped = provided_packages.get(dependency)
-+                    if mapped:
-+                        logger.debug("Mapped %s to %s" % (dependency, mapped))
-+                        mapped_deps.add(mapped)
-+                    else:
-+                        logger.debug("Could not map %s" % dependency)
-+                        unmapped_deps.add(dependency)
-+
-+                info.pop("dependencies")
-+
-+                if mapped_deps != set():
-+                    if mapped_deps != set():
-+                        info["dependencies"] = " ".join(sorted(mapped_deps))
-+
-+                if unmapped_deps:
-+                    lines_after.append("")
-+                    lines_after.append(
-+                        "# WARNING: We were unable to map the following python package/module"
-+                    )
-+                    lines_after.append(
-+                        "# runtime dependencies to the bitbake packages which include them:"
-+                    )
-+                    lines_after.extend(
-+                        "#    {}".format(d) for d in sorted(unmapped_deps)
-+                    )
-+
-+            self.map_info_to_bbvar(info, extravalues)
-+
-+            handled.append("buildsystem")
-+        except Exception:
-+            logger.exception("Failed to correctly handle pyproject.toml, falling back to another method")
-+            return False
-+
-+
- def gather_setup_info(fileobj):
-     parsed = ast.parse(fileobj.read(), fileobj.name)
-     visitor = SetupScriptVisitor()
-@@ -769,5 +1033,7 @@ def has_non_literals(value):
- 
- 
- def register_recipe_handlers(handlers):
--    # We need to make sure this is ahead of the makefile fallback handler
-+    # We need to make sure these are ahead of the makefile fallback handler
-+    # and the pyproject.toml handler ahead of the setup.py handler
-+    handlers.append((PythonPyprojectTomlRecipeHandler(), 75))
-     handlers.append((PythonSetupPyRecipeHandler(), 70))
+     def test_recipetool_create_github_tarball(self):
+         # Basic test to ensure github URL mangling doesn't apply to release tarballs
+         temprecipe = os.path.join(self.tempdir, 'recipe')
 -- 
 2.42.0
 
