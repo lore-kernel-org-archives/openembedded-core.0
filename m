@@ -1,126 +1,280 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 417F6C25B47
-	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 05:40:06 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.37617.1698212397830170775
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8939BC0032E
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 06:44:16 +0000 (UTC)
+Received: from h2.cmg1.smtp.forpsi.com (h2.cmg1.smtp.forpsi.com [81.2.195.163])
+ by mx.groups.io with SMTP id smtpd.web10.167892.1698216246450158267
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Oct 2023 22:39:58 -0700
+ Tue, 24 Oct 2023 23:44:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HSYDmU2r;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: rybczynska@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2c594196344so22164111fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 22:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698212396; x=1698817196; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mRImRFOJRZBvUor1FLvlnnHcWhWR/Zdx9rZawoCA7LM=;
-        b=HSYDmU2rMIJ5rZwYDO3VPCkGcGuxJzMh9WCCDPhI3RbB62s0RnyP9SlRVycZYTpcJN
-         1Mjvxc2F75URYOqn0Q3aCcXF/7tKsztaKLhEtLDUfTv4CJrmX76M4aK47MyMQbgQxquH
-         y/07D5vhsONhvDp5zlZOi2S7tfaaSGTycy338GBztjMQncj/6Ius4XxvOH2/MtHJlWXu
-         EDCTviYeiQDFK+qw3b0Gh9Kjk3UPYxEQU4Pl0Y739eKYqbzecdNGVLFl3/7zhnis6+Ww
-         NU80xYaui7ld+SL8Q9MJQR47oWzKrZuBe5dzNSxWZKJXuwS5mGWFl4rmU7CRCIkevXND
-         onQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698212396; x=1698817196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mRImRFOJRZBvUor1FLvlnnHcWhWR/Zdx9rZawoCA7LM=;
-        b=fQcBBeeI5fSsm3UsdmzCPkPOn+smsIgF3W3F8ZrtW8tfzLPLUtuNeTFrQ5226nFy8Z
-         Kl/c4cUreQVp90tdFP8UfhoUyx9T/kN36RqxMkcyhtRyEU1kvVa63LTepR3SgkbUGi/9
-         h4LWL4w5O1SMqVlsNtIyg81gj1k0Si7NGjgrEOIv4id42inJFFNwHDG8TN+xTDWOzwOJ
-         JISvobPJDMQrUmqOekO6I4kFm8I1ziAUEUXZgXsJvkFDrrRrxY3bg6hqCtAPQQpjFO3p
-         otbzzVBW36gBZJU7ccQl5WnbTjolayw9CZFRsqGkinE6BkSHockPEjZWDWkdVd4z8lUm
-         2g5g==
-X-Gm-Message-State: AOJu0YzPuf2nDFx5772IPexoZ+3sKER070wLUsSBfhZ/yVsILGMXn5RI
-	RijW9bXXyu5SuA2m7q7gXyeQZagXn4sd+XNq76rPYmqq
-X-Google-Smtp-Source: AGHT+IFCNegNsXnaaKST9t/1GbPzRms7WroIbUyo3lDGomYpsya/HzaKa/FT5hKb1tgl868SJr1FMZEsQYJgeA5ZYOU=
-X-Received: by 2002:a05:651c:555:b0:2c4:fe0a:dc3a with SMTP id
- q21-20020a05651c055500b002c4fe0adc3amr10270492ljp.47.1698212395801; Tue, 24
- Oct 2023 22:39:55 -0700 (PDT)
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=aLzocD04;
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=aLzocD04;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 81.2.195.163, mailfrom: andrej.v@skyrain.eu)
+Received: from [192.168.112.33] ([20.86.218.51])
+	by cmgsmtp with ESMTPSA
+	id vXcYqEWcOsdmGvXcYqSV6f; Wed, 25 Oct 2023 08:44:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1698216244; bh=I/11N+Nivh4E49Aoh2VGyNdZ1RBYt70fakdskk/Fow8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	b=aLzocD04xYlt4uKZhpe4ZFGJAcEMxpK+YCjemcLXewO28kgscaPmkNTnl8uKsaOj2
+	 PWfNZd4Hs/Gex3g3GAuJ1+uwJlhSA9N6c+SbHQcrbWBRv+hgc+muEhDokJodNupxMH
+	 LZmKrb7sGUHYRUV/Bj+1H/A1XTPWXVBQH9O8DqgYlwN1sSsh1EOAuDMIaoBwDTSVMR
+	 LiX1Sx5u1/bIgCdA2EfIoFFUMn/+im1YCneTdbAuv+u+bj/kxmDC7+xd/i+msDOZ65
+	 5etaZP6RnojzG9NjM/eXn0gujYRXb+B1tfTAgHRQQQXwPwYyqvcsurWcMcmC7Ta5SN
+	 lb/9bKHQcXp9g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1698216244; bh=I/11N+Nivh4E49Aoh2VGyNdZ1RBYt70fakdskk/Fow8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	b=aLzocD04xYlt4uKZhpe4ZFGJAcEMxpK+YCjemcLXewO28kgscaPmkNTnl8uKsaOj2
+	 PWfNZd4Hs/Gex3g3GAuJ1+uwJlhSA9N6c+SbHQcrbWBRv+hgc+muEhDokJodNupxMH
+	 LZmKrb7sGUHYRUV/Bj+1H/A1XTPWXVBQH9O8DqgYlwN1sSsh1EOAuDMIaoBwDTSVMR
+	 LiX1Sx5u1/bIgCdA2EfIoFFUMn/+im1YCneTdbAuv+u+bj/kxmDC7+xd/i+msDOZ65
+	 5etaZP6RnojzG9NjM/eXn0gujYRXb+B1tfTAgHRQQQXwPwYyqvcsurWcMcmC7Ta5SN
+	 lb/9bKHQcXp9g==
+Message-ID: <a69cb061-306a-4895-b0f9-28eb1c9ecc37@skyrain.eu>
+Date: Wed, 25 Oct 2023 08:44:02 +0200
 MIME-Version: 1.0
-References: <CAApg2=QBDi4jOA=N95paA+-0D-ZV7uQwCYuw0YWnkvk2B3DHig@mail.gmail.com>
- <27113695-6855-4b64-a966-34ea524927a0@bootlin.com>
-In-Reply-To: <27113695-6855-4b64-a966-34ea524927a0@bootlin.com>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Wed, 25 Oct 2023 07:39:43 +0200
-Message-ID: <CAApg2=QF6K679i3eBec+45V2FZVON65pD4h8F2j8=-AJQ8kVQg@mail.gmail.com>
-Subject: Re: [OE-core] CVE work synchronization proposal
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: Steve Sakoman <steve@sakoman.com>, Ross Burton <ross.burton@arm.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2] cve-check: Classify patched CVEs into 3
+ statuses
+To: Matsunaga-Shinji <shin.matsunaga@fujitsu.com>, rybczynska@gmail.com,
+ richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org,
+ Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
+References: <20230922083400.3157-1-shin.matsunaga@fujitsu.com>
+ <20231025051344.24088-1-shin.matsunaga@fujitsu.com>
+Content-Language: en-US
+From: Andrej Valek <andrej.v@skyrain.eu>
+In-Reply-To: <20231025051344.24088-1-shin.matsunaga@fujitsu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPe2P9cHWqGqnsggITg61ZY2VJarxv5CRtQcWjLg+bydOjX4VPGVkLNObKTFYEPXH16VKbXk8JN22PEbSFc/vr/o8N5f9mcZD0jrToARevLbTgYYieuS
+ CSgKkPoXmrV5A4VJI+VZtGnQ8QfxC6UaTxVmtSZ71Sw9iwbw9O+NwekVHIHdWPP7NQaLxG+1bYEzTdGpZFgbDpBlZ6zsB0Ynhid6Bm+haJ/KxIaYPW4SNUXk
+ hp18DmGSXGFi51Qa7OLs3qtl930y6Fi/03KLOQzlafA9DTIpI08WsABKZr0Uq/sQgBsE6CvX1zXpUsj+5uzx5eMC9V9RztKdzQOqo8vx2XqkWr8e8uu3ypvH
+ g12WgcF5
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 05:40:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189669
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 06:44:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189670
 
-On Fri, Oct 20, 2023 at 4:18=E2=80=AFPM Michael Opdenacker
-<michael.opdenacker@bootlin.com> wrote:
->
-> Hi Marta
->
-> On 20.10.23 at 10:36, Marta Rybczynska wrote:
-> > Hello everyone,
-> > We have a constant flow of work on pending CVEs. During my discussion
-> > with multiple people, there is a common need for synchronization of
-> > this work to avoid duplication or forgotten fixes.
-> >
-> > We have a decision on the tooling to make: do we want to create a
-> > Bugzilla entry for each new open CVE? An alternative is to use a wiki
-> > page (this has been prototyped by Ross) with heavy scripting to
-> > automate the tedious part.
-> >
-> > Today I propose you to use a special wiki page and the following proced=
-ure:
-> >
-> > On the wiki page, always add all additional information after a ; sign
-> > to allow scripting. The first part of each line (until ";" ) will be
-> > auto-generated. The second part contains information about the issue,
-> > like who is investigating or what the situation is.
-> >
-> > There is a separate list for each branch, as we realize that people
-> > concentrate on various branches.
-> >
-> > Workflow:
-> >
-> > * Mark name of a person preparing a patch for each branch
-> > * If you have additional information (like a link to a patch), add it
-> > to the record
-> > * If a patch is posted to the mailing list, post a link to it (this
-> > will be automated)
-> > * When a patch reaches the "next" branch, mark it too (this will be
-> > automated too)
-> > * When the patch reaches the final branch, the line of the CVE is
-> > automatically removed (this is already automated)
-> > * The list is (re)generated every day
-> >
-> >
-> > Please have a look at the procedure proposal and how the tracking
-> > might look like:
-> >
-> > https://wiki.yoctoproject.org/wiki/Synchronization_CVEs
->
->
-> This looks very useful. Thanks!
-> If I understand correctly, the fact that the beginning of each line is
-> generated automatically is a way to make sure nobody with Wiki write
-> rights can hide a vulnerability by removing it from the list, right?
->
-Hello Michael,
-The auto-generation has multiple benefits:
-* no removing by error or any other reason, while the vulnerability is
-still there -> it will be re-added the next day
-* less time spent to review the list
+Hi all,
+
+Do we really need a new "not_affected" state? I guess the ignore state 
+is exactly designed for those purposes.
 
 Regards,
-Marta
+Andrej
+
+On 25.10.2023 07:13, Matsunaga-Shinji wrote:
+> CVEs that are currently considered "Patched" are classified into the following 3 statuses:
+> 1. "Patched"      - means that a patch file that fixed the vulnerability has been applied
+> 2. "Not affected" - means that the package version (PV) is not affected by the vulnerability
+> 3. "Undecidable"  - means that versions cannot be compared to determine if they are affected by the vulnerability
+>
+> Signed-off-by: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
+> Signed-off-by: Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
+> ---
+>
+> Changes for v2:
+>     - Fix the status "Out of range" to "Not affected"
+>
+>   meta/classes/cve-check.bbclass | 55 +++++++++++++++++++++++-----------
+>   1 file changed, 38 insertions(+), 17 deletions(-)
+>
+> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+> index b55f4299da..502db324df 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -185,10 +185,10 @@ python do_cve_check () {
+>                   patched_cves = get_patched_cves(d)
+>               except FileNotFoundError:
+>                   bb.fatal("Failure in searching patches")
+> -            ignored, patched, unpatched, status = check_cves(d, patched_cves)
+> -            if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
+> -                cve_data = get_cve_info(d, patched + unpatched + ignored)
+> -                cve_write_data(d, patched, unpatched, ignored, cve_data, status)
+> +            ignored, patched, unpatched, not_affected, undecidable, status = check_cves(d, patched_cves)
+> +            if patched or unpatched or not_affected or undecidable or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
+> +                cve_data = get_cve_info(d, patched + unpatched + ignored + not_affected + undecidable)
+> +                cve_write_data(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status)
+>           else:
+>               bb.note("No CVE database found, skipping CVE check")
+>   
+> @@ -308,13 +308,13 @@ def check_cves(d, patched_cves):
+>       products = d.getVar("CVE_PRODUCT").split()
+>       # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
+>       if not products:
+> -        return ([], [], [], [])
+> +        return ([], [], [], [], [], [])
+>       pv = d.getVar("CVE_VERSION").split("+git")[0]
+>   
+>       # If the recipe has been skipped/ignored we return empty lists
+>       if pn in d.getVar("CVE_CHECK_SKIP_RECIPE").split():
+>           bb.note("Recipe has been skipped by cve-check")
+> -        return ([], [], [], [])
+> +        return ([], [], [], [], [], [])
+>   
+>       # Convert CVE_STATUS into ignored CVEs and check validity
+>       cve_ignore = []
+> @@ -328,6 +328,8 @@ def check_cves(d, patched_cves):
+>       conn = sqlite3.connect(db_file, uri=True)
+>   
+>       # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
+> +    cves_not_affected = []
+> +    cves_undecidable = []
+>       for product in products:
+>           cves_in_product = False
+>           if ":" in product:
+> @@ -355,6 +357,7 @@ def check_cves(d, patched_cves):
+>   
+>               vulnerable = False
+>               ignored = False
+> +            undecidable = False
+>   
+>               product_cursor = conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor))
+>               for row in product_cursor:
+> @@ -376,7 +379,7 @@ def check_cves(d, patched_cves):
+>                           except:
+>                               bb.warn("%s: Failed to compare %s %s %s for %s" %
+>                                       (product, pv, operator_start, version_start, cve))
+> -                            vulnerable_start = False
+> +                            undecidable = True
+>                       else:
+>                           vulnerable_start = False
+>   
+> @@ -387,10 +390,15 @@ def check_cves(d, patched_cves):
+>                           except:
+>                               bb.warn("%s: Failed to compare %s %s %s for %s" %
+>                                       (product, pv, operator_end, version_end, cve))
+> -                            vulnerable_end = False
+> +                            undecidable = True
+>                       else:
+>                           vulnerable_end = False
+>   
+> +                    if undecidable:
+> +                        bb.note("%s-%s is undecidable to %s" % (pn, real_pv, cve))
+> +                        cves_undecidable.append(cve)
+> +                        break
+> +
+>                       if operator_start and operator_end:
+>                           vulnerable = vulnerable_start and vulnerable_end
+>                       else:
+> @@ -406,9 +414,9 @@ def check_cves(d, patched_cves):
+>                       break
+>               product_cursor.close()
+>   
+> -            if not vulnerable:
+> +            if not undecidable and not vulnerable:
+>                   bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
+> -                patched_cves.add(cve)
+> +                cves_not_affected.append(cve)
+>           cve_cursor.close()
+>   
+>           if not cves_in_product:
+> @@ -420,7 +428,7 @@ def check_cves(d, patched_cves):
+>       if not cves_in_recipe:
+>           bb.note("No CVE records for products in recipe %s" % (pn))
+>   
+> -    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_status)
+> +    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_not_affected, cves_undecidable, cves_status)
+>   
+>   def get_cve_info(d, cves):
+>       """
+> @@ -447,7 +455,7 @@ def get_cve_info(d, cves):
+>       conn.close()
+>       return cve_data
+>   
+> -def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+> +def cve_write_data_text(d, patched, unpatched, ignored, not_affected, undecidable, cve_data):
+>       """
+>       Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
+>       CVE manifest if enabled.
+> @@ -471,7 +479,7 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+>           return
+>   
+>       # Early exit, the text format does not report packages without CVEs
+> -    if not patched+unpatched+ignored:
+> +    if not patched+unpatched+ignored+not_affected+undecidable:
+>           return
+>   
+>       nvd_link = "https://nvd.nist.gov/vuln/detail/"
+> @@ -482,6 +490,8 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+>       for cve in sorted(cve_data):
+>           is_patched = cve in patched
+>           is_ignored = cve in ignored
+> +        is_not_affected = cve in not_affected
+> +        is_undecidable = cve in undecidable
+>   
+>           status = "Unpatched"
+>           if (is_patched or is_ignored) and not report_all:
+> @@ -490,6 +500,10 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+>               status = "Ignored"
+>           elif is_patched:
+>               status = "Patched"
+> +        elif is_not_affected:
+> +            status = "Not affected"
+> +        elif is_undecidable:
+> +            status = "Undecidable"
+>           else:
+>               # default value of status is Unpatched
+>               unpatched_cves.append(cve)
+> @@ -561,7 +575,7 @@ def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_fi
+>           with open(index_path, "a+") as f:
+>               f.write("%s\n" % fragment_path)
+>   
+> -def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+> +def cve_write_data_json(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, cve_status):
+>       """
+>       Prepare CVE data for the JSON format, then write it.
+>       """
+> @@ -606,6 +620,9 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+>       for cve in sorted(cve_data):
+>           is_patched = cve in patched
+>           is_ignored = cve in ignored
+> +        is_not_affected = cve in not_affected
+> +        is_undecidable = cve in undecidable
+> +
+>           status = "Unpatched"
+>           if (is_patched or is_ignored) and not report_all:
+>               continue
+> @@ -613,6 +630,10 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+>               status = "Ignored"
+>           elif is_patched:
+>               status = "Patched"
+> +        elif is_not_affected:
+> +            status = "Not affected"
+> +        elif is_undecidable:
+> +            status = "Undecidable"
+>           else:
+>               # default value of status is Unpatched
+>               unpatched_cves.append(cve)
+> @@ -645,12 +666,12 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+>   
+>       cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file)
+>   
+> -def cve_write_data(d, patched, unpatched, ignored, cve_data, status):
+> +def cve_write_data(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status):
+>       """
+>       Write CVE data in each enabled format.
+>       """
+>   
+>       if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
+> -        cve_write_data_text(d, patched, unpatched, ignored, cve_data)
+> +        cve_write_data_text(d, patched, unpatched, ignored, not_affected, undecidable, cve_data)
+>       if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
+> -        cve_write_data_json(d, patched, unpatched, ignored, cve_data, status)
+> +        cve_write_data_json(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status)
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#189667): https://lists.openembedded.org/g/openembedded-core/message/189667
+> Mute This Topic: https://lists.openembedded.org/mt/102172913/3619876
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [andrej.v@skyrain.eu]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+
 
