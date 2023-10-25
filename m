@@ -2,114 +2,95 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E88C07545
-	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 15:48:29 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web10.176944.1698248901191920608
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A140AC25B47
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 16:02:59 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.177369.1698249775353401669
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Oct 2023 08:48:21 -0700
+ Wed, 25 Oct 2023 09:02:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=wpPWYScq;
- spf=pass (domain: baylibre.com, ip: 209.85.208.50, mailfrom: jstephan@baylibre.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-53ed4688b9fso8825745a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 08:48:20 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=jWHafu45;
+ spf=pass (domain: baylibre.com, ip: 209.85.167.48, mailfrom: jstephan@baylibre.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-508126afb9bso1937376e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 09:02:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698248899; x=1698853699; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EkF3yBIa3h7dX3ZvL2AQhyHQUTcgQRX9jdVZkk+xKMw=;
-        b=wpPWYScqCMqZXVbcT63XZx8VFmcQoajgdxhBcafoXANPJgmYq2fgdZtCro1/Il/QYq
-         0vX1Y8/4aZo6w5A76aIuM7D70+4zDiXvecN18BhPNPgGmFIcrd8ZQWbOGGUG0R/Py0oR
-         8bSsj3633F1febfuUtfMmCM85G337fozo8BLrt7wfuks0MXFDm4OeWyGyWMqhnr+Tn3s
-         AcXpY88e3gb3M53TgSZC3927ndCzWA10IcJfxRxGyWITBZKjgAjdaVeogsPH6RzK5j21
-         aiOZp0h9ozFjilonVPb3IH4E1iGnxxzXs1ZoKu7f7k4q3PQFqHp61VBQjtsIAjjFnBYb
-         wRfQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698249773; x=1698854573; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ynL7zdGAC20mTB5OyW7aNoAjUj+6tC+J1p/mu7GHXZY=;
+        b=jWHafu455X/CeAwh0wimkwg/jON4jXY9YzLAjeVazxnnMpWWTa0h2EgMlCDtfi8/AX
+         fL7CHJkFybijUqHiyeu5CygPd4vtZe2uQ9JKBWRPyY1g//M06kDV78EhWYFTPNs/Jmvx
+         mmUvTI1FetotEskBEM2UKj0W8FOvnHQHz1We+qWe+ChnZSaM/zANYMrS39Y6d+TpUpRK
+         esJ2P9VLJlyQ/NjEZnSlm6tSJSmXVVBUloia8zUxoLtVwRY2XWxQFyOgb/T390PK6Vnv
+         wMOItdz4Wi0WFCgXFgN/fyEQ3VL7AKit7YLMSBGWig49idwfs5L30A19L5nZ/X+AJX5h
+         bnOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698248899; x=1698853699;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EkF3yBIa3h7dX3ZvL2AQhyHQUTcgQRX9jdVZkk+xKMw=;
-        b=w3A40yGhWwJdFvsQ2sT2VU6H/q8GU8QYUtRg5/ZZsgiAVRuJbK2ojUAKp9RwRcn14f
-         XdLxnI6cDEDrvudvkAEo0dsCET5nMEbqqbIvJaPH3/fMs3Kl3YsnhwFlgxF9U+WT6adI
-         UwrY6jv7anE+wDSAmhPxv3zW6y055tn+4Lq7r3mH9OkjeGbUpEAa/Prznq0rTccvICI3
-         Zu96U2FjJmiOWsuJSb5MZ4POIXzvr8Ll4PK+MbTBj/askKv3P4OOi57KW6dUC2wmbdpt
-         mPwXflPT6osWwiWMSQ5fd/tAcH1WRkl+URad3HMrvz5+J1pb/klPqnWObV7KJurKDtKD
-         OIhw==
-X-Gm-Message-State: AOJu0YxL2kT7/l2Wf4kIryUGSSCoo7nXOZ9hY3xY5sDqpZHUdXbTHUPj
-	565QizKPVp3MmtbrU57Zx/YhuxpRqvg/rZSFnNaCSg==
-X-Google-Smtp-Source: AGHT+IGbwW0USK4dz7hrRNBsOVWJ9atOggno0rCuBA/6M0f6xujiwyfDcXBZsHI8WobNNuH/WBS260eVtrBkTs28jPw=
-X-Received: by 2002:a05:6402:1d48:b0:540:cabb:de70 with SMTP id
- dz8-20020a0564021d4800b00540cabbde70mr2130317edb.38.1698248899608; Wed, 25
- Oct 2023 08:48:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231024144022.1532605-1-jstephan@baylibre.com> <19b88e474d716513f4ed23327f1eb6004241d7ee.camel@linuxfoundation.org>
-In-Reply-To: <19b88e474d716513f4ed23327f1eb6004241d7ee.camel@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1698249773; x=1698854573;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ynL7zdGAC20mTB5OyW7aNoAjUj+6tC+J1p/mu7GHXZY=;
+        b=nNd/1Y/mkJvuvMjQ+HXcRzjTYNGSr3gVzS5/S5puM8ZRl/H/JUPFsNSMlrJ/vl3yg3
+         QAapBd7xHwvHMPAR9tZXGF2ndi3r1qQNCopumKQ0ybLXgSQ8fysIezSlq8BwRXg42xK9
+         /gQNECJtxRL2Qc0P8ow8bfjT07ZRsX3xpsIGvMs8yIQNu2H5zZaNC/gR+y/pj64pVehP
+         upgbrLnRc69Y6VlnzIi5MerEJ5khKd3AfIT4/768gTYO95VlTycu0gF3IlSVND/Oyad0
+         byGNR9JF5adS2gvw+Z88MX6byirkh9uK0IO2fxtdRgf5m+1Qi8io+Wpysb9Jf1mM22Ot
+         I0vg==
+X-Gm-Message-State: AOJu0YykmU+eKVkNsx4ntLbM0FACsxyz+OW/NtCmyNqFtfykCP6uwnB4
+	CjA8sjwocf8recoYKx02wX+EQzxeN/iILxnt6CExyA==
+X-Google-Smtp-Source: AGHT+IF48RbSPb88l3P+Ntzfiilfu28U337zWPkIyJ0dODVpZ6dKTrACpGegoKmDky1Dyfqhb2NFrw==
+X-Received: by 2002:ac2:4312:0:b0:507:ab6b:31ef with SMTP id l18-20020ac24312000000b00507ab6b31efmr8279921lfh.41.1698249773296;
+        Wed, 25 Oct 2023 09:02:53 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
+        by smtp.gmail.com with ESMTPSA id p5-20020a5d4585000000b0032d8034724esm12382786wrq.94.2023.10.25.09.02.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 09:02:53 -0700 (PDT)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 25 Oct 2023 17:48:06 +0200
-Message-ID: <CAEHHSvbKG19=aajPV2dd7CHLC0gJzK-Qb5b9gbd34GG773egmQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 0/4] devtool/recipetool: add support of PEP-517
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [OE-core][RESEND][PATCH 1/2] oeqa/selftest/devtool: abort if a local workspace already exist
+Date: Wed, 25 Oct 2023 18:02:44 +0200
+Message-ID: <20231025160245.2446263-1-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.42.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 15:48:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189688
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 16:02:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189689
 
-Le mer. 25 oct. 2023 =C3=A0 16:11, Richard Purdie
-<richard.purdie@linuxfoundation.org> a =C3=A9crit :
->
-> On Tue, 2023-10-24 at 16:40 +0200, Julien Stephan wrote:
-> > Hello all,
-> >
-> > This series adds basic support for PEP-517 in recipetool/devtool, plus =
-somes
-> > others fixes.
-> >
-> > Recipetool/devtool selftest passed locally
-> >
-> > Missing features:
-> > - extra or optionnal dependencies are not handled
-> > - version number for dependencies are not handled (issue already presen=
-t
-> >   for the legacy setuptool)
-> > - some projects can declare a minimal pyproject.toml file, and put all
-> >   the metadata in setup.py/setup.cfg/requirements.txt .. theses cases
-> >   are not handled. If a pyproject.toml file is found, assumes it has al=
-l
-> >   necessary metadata.
-> >
-> > Changes from v2:
-> > - try to use tomllib from python core (since 3.11) and if not available=
-,
-> >   try to import tomli (instead of toml, as tomllib and tomli have both =
-the
-> >   same api)
-> > - improve support for poetry: poetry looks for metadata into the
-> >   "tools.poetry" section instead of the "project" section
-> > - add the selftests for the 3 supported backends. Skip the tests if
-> >   tomliib (python > 3.11) or tomli is not installed
-> > - fix self test failing with the new "python3-" prefix added to
-> >   recipetool for python recipes
->
-> This patch series still doesn't seem to apply against master. Could you
-> check your rebase is ok or if there is a patch missing or something?
+if user run devtool selftests with a local workspacelayer
+the tests fail with various error such as:
 
-Hi Richard,
+- devtool.DevtoolAddTests.test_devtool_add just hangs
+- devtool.DevtoolModifyTests.* fail with the following error:
 
-Yes, I forgot the first patch of the series. Just sent a v4 fixing this.
+ ERROR: Found duplicated BBFILE_COLLECTIONS 'workspacelayer', check bblayers.conf or layer.conf to fix it.
+ Found duplicated BBFILE_COLLECTIONS 'workspacelayer', check bblayers.conf or layer.conf to fix it.
 
-Thank you
-Cheers
-Julien
+Check if a workspacelayer exists, warn the user and abort the tests
 
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
->
-> Cheers,
->
-> Richard
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index b577f6d62a1..c36b1efa78b 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -27,6 +27,9 @@ def setUpModule():
+     corecopydir = os.path.join(templayerdir, 'core-copy')
+     bblayers_conf = os.path.join(os.environ['BUILDDIR'], 'conf', 'bblayers.conf')
+     edited_layers = []
++    # make sure user doesn't have a local workspace
++    result = runCmd('bitbake-layers show-layers')
++    assert "workspacelayer" not in result.output, "Devtool test suite cannot be run with a local workspace directory"
+ 
+     # We need to take a copy of the meta layer so we can modify it and not
+     # have any races against other tests that might be running in parallel
+-- 
+2.42.0
+
 
