@@ -1,449 +1,248 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <shin.matsunaga@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E40AEC25B48
-	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 02:29:54 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.165471.1698200987385220404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C1AC0032E
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 05:13:56 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web11.37412.1698210832360921391
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Oct 2023 19:29:47 -0700
+ Tue, 24 Oct 2023 22:13:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sLt9Hl7B;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5859a7d6556so4088389a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 19:29:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698200986; x=1698805786; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nHRN8BDQ1+JCMASQrxenQxIe+Yw3YocGqoXCw4Wd0Y8=;
-        b=sLt9Hl7BZbL631ypdh5cZRG0BDqbhZeJ5xsv7G9Oy7FU80MRzzrsO6Rz+5PhcYsA6B
-         azpqy1c76PKiUkrntI9j1CUbuy2VLyB0RcgTKLUSly1a+jvppnZPIGr3VNmUNTVhIwKv
-         +OTp+fQ/pFPSbVK7a6VAWpgRxfaDWXrY7PROZp2+qt3X8Z9YZmgy0i53mh1Pz9oEiI7x
-         6WpZsQQvuNRinhTKcIyVeIUH7HygC2KNG3Iup6RZe0zyV7Umgi5W0I6DFvinmGEHSgpm
-         LMXV+2LSI6HQRzZQWMd3h3sHtrfJxbYBtW61+KDKTST3CKClNHHIQir3foRjTVY0EKRA
-         aSzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698200986; x=1698805786;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nHRN8BDQ1+JCMASQrxenQxIe+Yw3YocGqoXCw4Wd0Y8=;
-        b=HwjfmQogutDGCV9AKlzhkIxTet/sGw3KSBLYg9A/bzR3WCr1AuU6+CTuic+EDF0zbB
-         UILWNzGYppdj4b6DtW8XPs35rE0BVXXo0mx8zfGR4kd4CbAwcv6w6U5vVzFU4clqVOE9
-         aDW7axDi4/OaQ2RwGTdP5WFz5hIXz9EUmJEeXr+Ss/G+TqetIy4HI4wq/yBRn0Ax9wC0
-         5Gd9co76lU/gek2JK9XdoLOhNmoLg09H9ustnPD29TTel3b7REqC1UhZjb4UNMtqh195
-         HHb3uiu9rfqD5CdfzpwkQ9TUPQofRDZTCAjmk59faWtkyExAjYMyTtFr7Ces+ldFmk4w
-         uRgQ==
-X-Gm-Message-State: AOJu0YzDN3REfcmaO/MApvf77JBpx0KrlysTKcbCtqKXYAWn2f2J4iVL
-	I4uTPYDdZmA4nMe8JqIVGGcaGH0DNzBCugvR2h8=
-X-Google-Smtp-Source: AGHT+IH3XR6c77enenWSEvh013UrbiIne5GHUtyT5FyelGvy2Z+7cldMFNxETjW2wHT7CWzwfpz0BA==
-X-Received: by 2002:a17:90a:a38d:b0:27d:3a34:2194 with SMTP id x13-20020a17090aa38d00b0027d3a342194mr13431890pjp.14.1698200986238;
-        Tue, 24 Oct 2023 19:29:46 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id x2-20020a17090a388200b0027d0d4d4128sm8538615pjb.25.2023.10.24.19.29.45
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 19:29:45 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/6] cve-exclusion_5.4.inc: update for 5.4.257
-Date: Tue, 24 Oct 2023 16:29:29 -1000
-Message-Id: <0f75737a408aef19937ee023a5e6b3e881cbd99b.1698200772.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1698200772.git.steve@sakoman.com>
-References: <cover.1698200772.git.steve@sakoman.com>
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: shin.matsunaga@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="116832222"
+X-IronPort-AV: E=Sophos;i="6.03,249,1694703600"; 
+   d="scan'208";a="116832222"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 14:13:49 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 5AFDDCA1EE
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 14:13:47 +0900 (JST)
+Received: from storage.utsfd.cs.fujitsu.co.jp (storage.utsfd.cs.fujitsu.co.jp [10.118.252.123])
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 9056AD5B25
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 14:13:46 +0900 (JST)
+Received: by storage.utsfd.cs.fujitsu.co.jp (Postfix, from userid 1068)
+	id 77FFF5266; Wed, 25 Oct 2023 14:13:46 +0900 (JST)
+From: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
+To: rybczynska@gmail.com,
+	richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org,
+	shin.matsunaga@fujitsu.com,
+	Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
+Subject: [PATCH v2] cve-check: Classify patched CVEs into 3 statuses
+Date: Wed, 25 Oct 2023 14:13:44 +0900
+Message-Id: <20231025051344.24088-1-shin.matsunaga@fujitsu.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20230922083400.3157-1-shin.matsunaga@fujitsu.com>
+References: <20230922083400.3157-1-shin.matsunaga@fujitsu.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 02:29:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189666
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 05:13:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189667
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+CVEs that are currently considered "Patched" are classified into the following 3 statuses:
+1. "Patched"      - means that a patch file that fixed the vulnerability has been applied
+2. "Not affected" - means that the package version (PV) is not affected by the vulnerability
+3. "Undecidable"  - means that versions cannot be compared to determine if they are affected by the vulnerability
+
+Signed-off-by: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
+Signed-off-by: Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
 ---
- .../linux/cve-exclusion_5.4.inc               | 207 +++++++++++++++---
- 1 file changed, 179 insertions(+), 28 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion_5.4.inc b/meta/recipes-kernel/linux/cve-exclusion_5.4.inc
-index 28e66d6f4f..4c17b701df 100644
---- a/meta/recipes-kernel/linux/cve-exclusion_5.4.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion_5.4.inc
-@@ -1,9 +1,9 @@
+Changes for v2:
+   - Fix the status "Out of range" to "Not affected"
+
+ meta/classes/cve-check.bbclass | 55 +++++++++++++++++++++++-----------
+ 1 file changed, 38 insertions(+), 17 deletions(-)
+
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index b55f4299da..502db324df 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -185,10 +185,10 @@ python do_cve_check () {
+                 patched_cves = get_patched_cves(d)
+             except FileNotFoundError:
+                 bb.fatal("Failure in searching patches")
+-            ignored, patched, unpatched, status = check_cves(d, patched_cves)
+-            if patched or unpatched or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
+-                cve_data = get_cve_info(d, patched + unpatched + ignored)
+-                cve_write_data(d, patched, unpatched, ignored, cve_data, status)
++            ignored, patched, unpatched, not_affected, undecidable, status = check_cves(d, patched_cves)
++            if patched or unpatched or not_affected or undecidable or (d.getVar("CVE_CHECK_COVERAGE") == "1" and status):
++                cve_data = get_cve_info(d, patched + unpatched + ignored + not_affected + undecidable)
++                cve_write_data(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status)
+         else:
+             bb.note("No CVE database found, skipping CVE check")
  
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at 2023-08-25 15:56:12.313882 for version 5.4.251
-+# Generated at 2023-10-24 06:03:05.289306 for version 5.4.257
+@@ -308,13 +308,13 @@ def check_cves(d, patched_cves):
+     products = d.getVar("CVE_PRODUCT").split()
+     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
+     if not products:
+-        return ([], [], [], [])
++        return ([], [], [], [], [], [])
+     pv = d.getVar("CVE_VERSION").split("+git")[0]
  
- python check_kernel_cve_status_version() {
--    this_version = "5.4.251"
-+    this_version = "5.4.257"
-     kernel_version = d.getVar("LINUX_VERSION")
-     if kernel_version != this_version:
-         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
-@@ -4832,6 +4832,9 @@ CVE_CHECK_WHITELIST += "CVE-2020-27194"
- # cpe-stable-backport: Backported in 5.4.23
- CVE_CHECK_WHITELIST += "CVE-2020-2732"
+     # If the recipe has been skipped/ignored we return empty lists
+     if pn in d.getVar("CVE_CHECK_SKIP_RECIPE").split():
+         bb.note("Recipe has been skipped by cve-check")
+-        return ([], [], [], [])
++        return ([], [], [], [], [], [])
  
-+# cpe-stable-backport: Backported in 5.4.25
-+CVE_CHECK_WHITELIST += "CVE-2020-27418"
+     # Convert CVE_STATUS into ignored CVEs and check validity
+     cve_ignore = []
+@@ -328,6 +328,8 @@ def check_cves(d, patched_cves):
+     conn = sqlite3.connect(db_file, uri=True)
+ 
+     # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
++    cves_not_affected = []
++    cves_undecidable = []
+     for product in products:
+         cves_in_product = False
+         if ":" in product:
+@@ -355,6 +357,7 @@ def check_cves(d, patched_cves):
+ 
+             vulnerable = False
+             ignored = False
++            undecidable = False
+ 
+             product_cursor = conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor))
+             for row in product_cursor:
+@@ -376,7 +379,7 @@ def check_cves(d, patched_cves):
+                         except:
+                             bb.warn("%s: Failed to compare %s %s %s for %s" %
+                                     (product, pv, operator_start, version_start, cve))
+-                            vulnerable_start = False
++                            undecidable = True
+                     else:
+                         vulnerable_start = False
+ 
+@@ -387,10 +390,15 @@ def check_cves(d, patched_cves):
+                         except:
+                             bb.warn("%s: Failed to compare %s %s %s for %s" %
+                                     (product, pv, operator_end, version_end, cve))
+-                            vulnerable_end = False
++                            undecidable = True
+                     else:
+                         vulnerable_end = False
+ 
++                    if undecidable:
++                        bb.note("%s-%s is undecidable to %s" % (pn, real_pv, cve))
++                        cves_undecidable.append(cve)
++                        break
 +
- # cpe-stable-backport: Backported in 5.4.75
- CVE_CHECK_WHITELIST += "CVE-2020-27673"
+                     if operator_start and operator_end:
+                         vulnerable = vulnerable_start and vulnerable_end
+                     else:
+@@ -406,9 +414,9 @@ def check_cves(d, patched_cves):
+                     break
+             product_cursor.close()
  
-@@ -4966,6 +4969,9 @@ CVE_CHECK_WHITELIST += "CVE-2020-36558"
- # cpe-stable-backport: Backported in 5.4.86
- CVE_CHECK_WHITELIST += "CVE-2020-36694"
+-            if not vulnerable:
++            if not undecidable and not vulnerable:
+                 bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
+-                patched_cves.add(cve)
++                cves_not_affected.append(cve)
+         cve_cursor.close()
  
-+# cpe-stable-backport: Backported in 5.4.62
-+CVE_CHECK_WHITELIST += "CVE-2020-36766"
+         if not cves_in_product:
+@@ -420,7 +428,7 @@ def check_cves(d, patched_cves):
+     if not cves_in_recipe:
+         bb.note("No CVE records for products in recipe %s" % (pn))
+ 
+-    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_status)
++    return (list(cves_ignored), list(patched_cves), cves_unpatched, cves_not_affected, cves_undecidable, cves_status)
+ 
+ def get_cve_info(d, cves):
+     """
+@@ -447,7 +455,7 @@ def get_cve_info(d, cves):
+     conn.close()
+     return cve_data
+ 
+-def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
++def cve_write_data_text(d, patched, unpatched, ignored, not_affected, undecidable, cve_data):
+     """
+     Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
+     CVE manifest if enabled.
+@@ -471,7 +479,7 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+         return
+ 
+     # Early exit, the text format does not report packages without CVEs
+-    if not patched+unpatched+ignored:
++    if not patched+unpatched+ignored+not_affected+undecidable:
+         return
+ 
+     nvd_link = "https://nvd.nist.gov/vuln/detail/"
+@@ -482,6 +490,8 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+     for cve in sorted(cve_data):
+         is_patched = cve in patched
+         is_ignored = cve in ignored
++        is_not_affected = cve in not_affected
++        is_undecidable = cve in undecidable
+ 
+         status = "Unpatched"
+         if (is_patched or is_ignored) and not report_all:
+@@ -490,6 +500,10 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+             status = "Ignored"
+         elif is_patched:
+             status = "Patched"
++        elif is_not_affected:
++            status = "Not affected"
++        elif is_undecidable:
++            status = "Undecidable"
+         else:
+             # default value of status is Unpatched
+             unpatched_cves.append(cve)
+@@ -561,7 +575,7 @@ def cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_fi
+         with open(index_path, "a+") as f:
+             f.write("%s\n" % fragment_path)
+ 
+-def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
++def cve_write_data_json(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, cve_status):
+     """
+     Prepare CVE data for the JSON format, then write it.
+     """
+@@ -606,6 +620,9 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+     for cve in sorted(cve_data):
+         is_patched = cve in patched
+         is_ignored = cve in ignored
++        is_not_affected = cve in not_affected
++        is_undecidable = cve in undecidable
 +
- # cpe-stable-backport: Backported in 5.4.143
- CVE_CHECK_WHITELIST += "CVE-2020-3702"
+         status = "Unpatched"
+         if (is_patched or is_ignored) and not report_all:
+             continue
+@@ -613,6 +630,10 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+             status = "Ignored"
+         elif is_patched:
+             status = "Patched"
++        elif is_not_affected:
++            status = "Not affected"
++        elif is_undecidable:
++            status = "Undecidable"
+         else:
+             # default value of status is Unpatched
+             unpatched_cves.append(cve)
+@@ -645,12 +666,12 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
  
-@@ -6408,7 +6414,8 @@ CVE_CHECK_WHITELIST += "CVE-2022-40768"
- # cpe-stable-backport: Backported in 5.4.213
- CVE_CHECK_WHITELIST += "CVE-2022-4095"
+     cve_check_write_json_output(d, output, direct_file, deploy_file, manifest_file)
  
--# CVE-2022-40982 has no known resolution
-+# cpe-stable-backport: Backported in 5.4.252
-+CVE_CHECK_WHITELIST += "CVE-2022-40982"
+-def cve_write_data(d, patched, unpatched, ignored, cve_data, status):
++def cve_write_data(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status):
+     """
+     Write CVE data in each enabled format.
+     """
  
- # cpe-stable-backport: Backported in 5.4.229
- CVE_CHECK_WHITELIST += "CVE-2022-41218"
-@@ -6489,9 +6496,9 @@ CVE_CHECK_WHITELIST += "CVE-2022-4382"
- # fixed-version: only affects 5.11rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2022-43945"
- 
--# CVE-2022-44032 has no known resolution
-+# CVE-2022-44032 needs backporting (fixed from 6.4rc1)
- 
--# CVE-2022-44033 has no known resolution
-+# CVE-2022-44033 needs backporting (fixed from 6.4rc1)
- 
- # CVE-2022-44034 has no known resolution
- 
-@@ -6504,14 +6511,17 @@ CVE_CHECK_WHITELIST += "CVE-2022-45869"
- 
- # CVE-2022-45885 has no known resolution
- 
--# CVE-2022-45886 has no known resolution
-+# cpe-stable-backport: Backported in 5.4.246
-+CVE_CHECK_WHITELIST += "CVE-2022-45886"
- 
--# CVE-2022-45887 has no known resolution
-+# cpe-stable-backport: Backported in 5.4.246
-+CVE_CHECK_WHITELIST += "CVE-2022-45887"
- 
- # fixed-version: only affects 5.14rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2022-45888"
- 
--# CVE-2022-45919 has no known resolution
-+# cpe-stable-backport: Backported in 5.4.246
-+CVE_CHECK_WHITELIST += "CVE-2022-45919"
- 
- # cpe-stable-backport: Backported in 5.4.229
- CVE_CHECK_WHITELIST += "CVE-2022-45934"
-@@ -6586,7 +6596,8 @@ CVE_CHECK_WHITELIST += "CVE-2023-0047"
- # fixed-version: only affects 6.0rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-0122"
- 
--# CVE-2023-0160 has no known resolution
-+# cpe-stable-backport: Backported in 5.4.243
-+CVE_CHECK_WHITELIST += "CVE-2023-0160"
- 
- # fixed-version: only affects 5.5rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-0179"
-@@ -6661,12 +6672,14 @@ CVE_CHECK_WHITELIST += "CVE-2023-1192"
- 
- # CVE-2023-1193 has no known resolution
- 
--# CVE-2023-1194 has no known resolution
-+# fixed-version: only affects 5.15rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-1194"
- 
- # fixed-version: only affects 5.16rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-1195"
- 
--# CVE-2023-1206 needs backporting (fixed from 6.5rc4)
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-1206"
- 
- # CVE-2023-1249 needs backporting (fixed from 5.18rc1)
- 
-@@ -6695,7 +6708,8 @@ CVE_CHECK_WHITELIST += "CVE-2023-1513"
- # fixed-version: only affects 5.19rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-1583"
- 
--# CVE-2023-1611 needs backporting (fixed from 6.3rc5)
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-1611"
- 
- # cpe-stable-backport: Backported in 5.4.189
- CVE_CHECK_WHITELIST += "CVE-2023-1637"
-@@ -6744,9 +6758,10 @@ CVE_CHECK_WHITELIST += "CVE-2023-2008"
- # fixed-version: only affects 5.12rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-2019"
- 
--# CVE-2023-20569 has no known resolution
-+# cpe-stable-backport: Backported in 5.4.252
-+CVE_CHECK_WHITELIST += "CVE-2023-20569"
- 
--# CVE-2023-20588 has no known resolution
-+# CVE-2023-20588 needs backporting (fixed from 6.5rc6)
- 
- # cpe-stable-backport: Backported in 5.4.250
- CVE_CHECK_WHITELIST += "CVE-2023-20593"
-@@ -6772,7 +6787,8 @@ CVE_CHECK_WHITELIST += "CVE-2023-2124"
- # fixed-version: only affects 5.16rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-21255"
- 
--# CVE-2023-21264 needs backporting (fixed from 6.4rc5)
-+# fixed-version: only affects 5.17rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-21264"
- 
- # CVE-2023-21400 has no known resolution
- 
-@@ -6866,6 +6882,9 @@ CVE_CHECK_WHITELIST += "CVE-2023-25012"
- # cpe-stable-backport: Backported in 5.4.242
- CVE_CHECK_WHITELIST += "CVE-2023-2513"
- 
-+# fixed-version: only affects 5.14rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-25775"
-+
- # fixed-version: only affects 6.3rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-2598"
- 
-@@ -6918,7 +6937,8 @@ CVE_CHECK_WHITELIST += "CVE-2023-2898"
- # cpe-stable-backport: Backported in 5.4.235
- CVE_CHECK_WHITELIST += "CVE-2023-2985"
- 
--# CVE-2023-3006 needs backporting (fixed from 6.1rc1)
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-3006"
- 
- # Skipping CVE-2023-3022, no affected_versions
- 
-@@ -6940,11 +6960,11 @@ CVE_CHECK_WHITELIST += "CVE-2023-3106"
- 
- # CVE-2023-31082 has no known resolution
- 
--# CVE-2023-31083 has no known resolution
-+# CVE-2023-31083 needs backporting (fixed from 6.6rc1)
- 
- # CVE-2023-31084 needs backporting (fixed from 6.4rc3)
- 
--# CVE-2023-31085 has no known resolution
-+# CVE-2023-31085 needs backporting (fixed from 5.4.258)
- 
- # cpe-stable-backport: Backported in 5.4.247
- CVE_CHECK_WHITELIST += "CVE-2023-3111"
-@@ -7017,7 +7037,8 @@ CVE_CHECK_WHITELIST += "CVE-2023-3317"
- # cpe-stable-backport: Backported in 5.4.240
- CVE_CHECK_WHITELIST += "CVE-2023-33203"
- 
--# CVE-2023-33250 has no known resolution
-+# fixed-version: only affects 6.2rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-33250"
- 
- # CVE-2023-33288 needs backporting (fixed from 6.3rc4)
- 
-@@ -7055,7 +7076,10 @@ CVE_CHECK_WHITELIST += "CVE-2023-34255"
- # cpe-stable-backport: Backported in 5.4.243
- CVE_CHECK_WHITELIST += "CVE-2023-34256"
- 
--# CVE-2023-34319 has no known resolution
-+# fixed-version: only affects 6.1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-34319"
-+
-+# CVE-2023-34324 needs backporting (fixed from 5.4.258)
- 
- # fixed-version: only affects 5.15rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-3439"
-@@ -7094,21 +7118,28 @@ CVE_CHECK_WHITELIST += "CVE-2023-3609"
- # fixed-version: only affects 5.9rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-3610"
- 
--# CVE-2023-3611 needs backporting (fixed from 6.5rc2)
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-3611"
- 
- # CVE-2023-3640 has no known resolution
- 
--# CVE-2023-37453 has no known resolution
-+# fixed-version: only affects 6.3rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-37453"
- 
- # CVE-2023-37454 has no known resolution
- 
--# CVE-2023-3772 has no known resolution
-+# cpe-stable-backport: Backported in 5.4.255
-+CVE_CHECK_WHITELIST += "CVE-2023-3772"
- 
--# CVE-2023-3773 has no known resolution
-+# fixed-version: only affects 5.17rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-3773"
- 
- # cpe-stable-backport: Backported in 5.4.251
- CVE_CHECK_WHITELIST += "CVE-2023-3776"
- 
-+# fixed-version: only affects 5.9rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-3777"
-+
- # cpe-stable-backport: Backported in 5.4.224
- CVE_CHECK_WHITELIST += "CVE-2023-3812"
- 
-@@ -7139,12 +7170,44 @@ CVE_CHECK_WHITELIST += "CVE-2023-38432"
- # cpe-stable-backport: Backported in 5.4.251
- CVE_CHECK_WHITELIST += "CVE-2023-3863"
- 
-+# fixed-version: only affects 5.15rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-3865"
-+
-+# fixed-version: only affects 5.15rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-3866"
-+
-+# fixed-version: only affects 5.15rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-3867"
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-39189"
-+
-+# CVE-2023-39191 needs backporting (fixed from 6.3rc1)
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-39192"
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-39193"
-+
-+# cpe-stable-backport: Backported in 5.4.255
-+CVE_CHECK_WHITELIST += "CVE-2023-39194"
-+
- # fixed-version: only affects 5.6rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-4004"
- 
- # CVE-2023-4010 has no known resolution
- 
--# CVE-2023-4128 needs backporting (fixed from 6.5rc5)
-+# fixed-version: only affects 5.9rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4015"
-+
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-40283"
-+
-+# CVE-2023-40791 needs backporting (fixed from 6.5rc6)
-+
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-4128"
- 
- # cpe-stable-backport: Backported in 5.4.251
- CVE_CHECK_WHITELIST += "CVE-2023-4132"
-@@ -7156,9 +7219,97 @@ CVE_CHECK_WHITELIST += "CVE-2023-4132"
- # fixed-version: only affects 5.9rc1 onwards
- CVE_CHECK_WHITELIST += "CVE-2023-4147"
- 
--# CVE-2023-4155 has no known resolution
-+# fixed-version: only affects 5.11rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4155"
-+
-+# fixed-version: only affects 6.3rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4194"
-+
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-4206"
-+
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-4207"
- 
--# CVE-2023-4194 needs backporting (fixed from 6.5rc5)
-+# cpe-stable-backport: Backported in 5.4.253
-+CVE_CHECK_WHITELIST += "CVE-2023-4208"
-+
-+# fixed-version: only affects 5.6rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4244"
- 
--# CVE-2023-4273 needs backporting (fixed from 6.5rc5)
-+# fixed-version: only affects 5.7rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4273"
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-42752"
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-42753"
-+
-+# CVE-2023-42754 needs backporting (fixed from 5.4.258)
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-42755"
-+
-+# fixed-version: only affects 6.4rc6 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-42756"
-+
-+# cpe-stable-backport: Backported in 5.4.198
-+CVE_CHECK_WHITELIST += "CVE-2023-4385"
-+
-+# cpe-stable-backport: Backported in 5.4.196
-+CVE_CHECK_WHITELIST += "CVE-2023-4387"
-+
-+# fixed-version: only affects 5.7rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4389"
-+
-+# fixed-version: only affects 5.16rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4394"
-+
-+# fixed-version: only affects 5.11rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-44466"
-+
-+# cpe-stable-backport: Backported in 5.4.196
-+CVE_CHECK_WHITELIST += "CVE-2023-4459"
-+
-+# fixed-version: only affects 5.6rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4563"
-+
-+# fixed-version: only affects 5.13rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4569"
-+
-+# cpe-stable-backport: Backported in 5.4.235
-+CVE_CHECK_WHITELIST += "CVE-2023-45862"
-+
-+# CVE-2023-45863 needs backporting (fixed from 6.3rc1)
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-45871"
-+
-+# CVE-2023-45898 needs backporting (fixed from 6.6rc1)
-+
-+# CVE-2023-4610 has no known resolution
-+
-+# fixed-version: only affects 6.4rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-4611"
-+
-+# CVE-2023-4622 needs backporting (fixed from 6.5rc1)
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-4623"
-+
-+# CVE-2023-4732 needs backporting (fixed from 5.14rc1)
-+
-+# CVE-2023-4881 needs backporting (fixed from 6.6rc1)
-+
-+# cpe-stable-backport: Backported in 5.4.257
-+CVE_CHECK_WHITELIST += "CVE-2023-4921"
-+
-+# CVE-2023-5158 has no known resolution
-+
-+# fixed-version: only affects 5.9rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-5197"
-+
-+# fixed-version: only affects 6.1rc1 onwards
-+CVE_CHECK_WHITELIST += "CVE-2023-5345"
- 
+     if d.getVar("CVE_CHECK_FORMAT_TEXT") == "1":
+-        cve_write_data_text(d, patched, unpatched, ignored, cve_data)
++        cve_write_data_text(d, patched, unpatched, ignored, not_affected, undecidable, cve_data)
+     if d.getVar("CVE_CHECK_FORMAT_JSON") == "1":
+-        cve_write_data_json(d, patched, unpatched, ignored, cve_data, status)
++        cve_write_data_json(d, patched, unpatched, ignored, not_affected, undecidable, cve_data, status)
 -- 
-2.34.1
+2.41.0
 
 
