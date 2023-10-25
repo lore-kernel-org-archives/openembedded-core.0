@@ -1,119 +1,87 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <wak@google.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9555C0032E
-	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 21:06:01 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.185270.1698267957748246570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76605C25B6B
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 22:37:22 +0000 (UTC)
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+ by mx.groups.io with SMTP id smtpd.web10.187327.1698273434078738076
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Oct 2023 14:05:58 -0700
+ Wed, 25 Oct 2023 15:37:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HfO+L7iY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4081ccf69dcso8007315e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 14:05:57 -0700 (PDT)
+ dkim=pass header.i=@google.com header.s=20230601 header.b=FQvDU8z3;
+ spf=pass (domain: flex--wak.bounces.google.com, ip: 209.85.219.201, mailfrom: 3mzg5zqmkaoaycmiqqing.eqo@flex--wak.bounces.google.com)
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-d9cfec5e73dso204429276.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 15:37:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1698267956; x=1698872756; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+        d=google.com; s=20230601; t=1698273433; x=1698878233; darn=lists.openembedded.org;
+        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=wJUC8jYW4ZR+dGggDltObB7Mr63Ps5uqxvKftzql294=;
-        b=HfO+L7iYlVGbsHONYpNaCtFNTxDkV/yOEbGXnuDIczaFj3AjoFZ/pLF0Cwpr43PxHZ
-         KmsVSamkIKzVbaMvtmM8jmD6+cFCceH78jDnb52jmdfEjVhJnCrRrolYAaPsyUZ0bCVf
-         WXLsMu3xRj5EPdO4WyVz1GVjRdfdC53vNWA98=
+        bh=vjiZrWVV19fBqEIaXsVn3AO0BOrCE8Les9Oooq9jrVM=;
+        b=FQvDU8z37gmQt1Bgi3QzPPOCu5Ojn7WtqzIuCUc3m9F19ARhFgHkqCbk++v0MZRqwE
+         56tatZkuMg5EKX1TUo5dFCyUVvR+dFoSdSIg/cZDryG2zW633gdE8XIu8fOWJ0J3SY+f
+         vtUG+gMjvq3DQBck30oWcI6C3HEJDahoIrWQ4Vx/8skwU49rwyP9A6U0DzSJl3WHWZus
+         OFfL2xyZhmausF8DLNP6LzxsBTz7Xmz+/NxUTylTeaTZXj6Gh6AdfZQhKJqT7oVWGm2E
+         NgqpA1f6m/B+anqq+zijIoMuJbrs7XsmpEUTjDaNlhF9rBJfv7fBwZXACDOs9f/QHa4W
+         LfRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698267956; x=1698872756;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+        d=1e100.net; s=20230601; t=1698273433; x=1698878233;
+        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=wJUC8jYW4ZR+dGggDltObB7Mr63Ps5uqxvKftzql294=;
-        b=v2IEdPkPD1hfiumcXvwJKi2wSF9hAH9lYwaT6jOUulsJXWIXEHdgxKW5QjMDJ/t/gp
-         LFhO86le76IZbE8z8xDWLZXI7u9oJOeqvUJrldMQTIUDAUoEKKec1AoUDuxE7B4W83rD
-         ARvFbrEV7geDXBqmmHCzWxy4d9g37Tcm6VOgbAHDJVNKwJQjb4GoxY97j251ABdRQN3R
-         9pwpycxsEUgLKruOcXzOxPen+8R5EPqn6n0DXKX2ZUvzZ2iB35Kj8nHBdarXkGbxaQxQ
-         FMQzhEKSwqiD84XFg5NOtfmK0ryYsJHePDoONRFBkU5JenrPMM8rMcBgzcQBlw98CA/w
-         rnBA==
-X-Gm-Message-State: AOJu0Yz1iKWgbNzzVg8EMyQkgOFytx+PHT/Qo1Lna+19fsiNHmXrDg9B
-	RQgv7ZgVqBdS5BiYmq8gur9tjg==
-X-Google-Smtp-Source: AGHT+IHz2gtA25LylJfM8pFLOhwwy6pZ5l9081hMxKDkWD6hQYQSeQLdaljhVgyTYqQDkZJfgmkLxQ==
-X-Received: by 2002:a5d:6c63:0:b0:329:6b62:8d18 with SMTP id r3-20020a5d6c63000000b003296b628d18mr806774wrz.0.1698267955839;
-        Wed, 25 Oct 2023 14:05:55 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:aeb5:bfd7:dc1c:82a3? ([2001:8b0:aba:5f3c:aeb5:bfd7:dc1c:82a3])
-        by smtp.gmail.com with ESMTPSA id y10-20020a5d470a000000b0032d9efeccd8sm12806030wrq.51.2023.10.25.14.05.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 14:05:55 -0700 (PDT)
-Message-ID: <00f88dec1f4599e84aa46dbac441aca5b47924a1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: Use strip utility used for
- kernel build in do_package
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Oct 2023 22:05:54 +0100
-In-Reply-To: <CADkTA4Oa6rxshKxTb5aVEnHy0mnqjCeGkWsPWLuoJYe+S5NG5A@mail.gmail.com>
-References: <20231024220735.3011192-1-raj.khem@gmail.com>
-	 <CADkTA4Oa6rxshKxTb5aVEnHy0mnqjCeGkWsPWLuoJYe+S5NG5A@mail.gmail.com>
+        bh=vjiZrWVV19fBqEIaXsVn3AO0BOrCE8Les9Oooq9jrVM=;
+        b=lvkeXuhDoBRfU215PfM0DYJc6KWK4Y4Xu7E7vAZLrg73wTY8vMBml6rpK9bQTsh2cC
+         I5fbB2BERfVIqmU3M7N43qEQoAJBXQ2H6pRunG0ORdvLD7gZirLQKU9TsoA4Byl29Dwq
+         EcYWXaMwRG2pR7z5Lru2Sz4qYkYZlC2iM7vkAq/Vf1Q+VLrICWOplMXJMGSFLOjcL+Yl
+         8ttW4WmvLuNWoD+yTGlkOyGU6VK6vVGA1AuEp/wSCIVnCVbYtQKBMAux7Oc8ttGbQVWz
+         G7Za/kQSxVV7KXangFtyR6P6dLSASkra40dsmqI9/9I1/jJEvoXACxMWkc3w6IDV8CKk
+         UByg==
+X-Gm-Message-State: AOJu0YwlT8ygBe3NWQrAwx7IUJgqC859JV74PokUY9oktmrCAi9cLY7A
+	HhkBt6Bgas9tLoW/n39J/YNSmKtx65B6aiS8V4FP1c6+mMKr+KCDXbOR7hNLnmGBmwt9DGwAr1C
+	0RHu7THjCeazPksUEI7b31wO1B1O8fWeum8nQ1urXe7BXPtKHkAcQTuNVlKjdLpTdjQTcGoM/Vl
+	GcqA==
+X-Google-Smtp-Source: AGHT+IGLJpv/7wCbjGLF1intJRGhyn6+LP/46sOWD8Vjoy5uybGalV4hsJ5l/sSGNex+GeoeBXahByM=
+X-Received: from wak-linux.svl.corp.google.com ([2620:15c:2a3:200:dbce:15f9:6010:6e6d])
+ (user=wak job=sendgmr) by 2002:a25:ef45:0:b0:d9a:58e1:bb52 with SMTP id
+ w5-20020a25ef45000000b00d9a58e1bb52mr331968ybm.6.1698273433191; Wed, 25 Oct
+ 2023 15:37:13 -0700 (PDT)
+Date: Wed, 25 Oct 2023 15:37:10 -0700
+Message-Id: <20231025223710.93502-1-wak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.42.0.820.g83a721a137-goog
+Subject: [PATCH] kernel: Commit without running hooks
+From: "William A. Kennington III" <wak@google.com>
+To: openembedded-core@lists.openembedded.org
+Cc: "William A. Kennington III" <wak@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 21:06:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189693
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 22:37:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189694
 
-On Tue, 2023-10-24 at 19:17 -0400, Bruce Ashfield wrote:
-> On Tue, Oct 24, 2023 at 6:07=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wro=
-te:
-> >=20
-> > os.environ does not pass this down to runstrip() function and in
-> > strip_execs() its using STRIP bitbake variable to find the strip utilit=
-y
-> > to use. Since there might be a trailing whitespace in KERNEL_STRIP
-> > remove that otherwise python is not able to launch it.
-> > e.g.
-> >=20
-> > FileNotFoundError: [Errno 2] No such file or directory: 'riscv64-yoe-li=
-nux-strip '
-> >=20
-> > This is more evident when STRIP and KERNEL_STRIP are different utilitie=
-s
-> > e.g. when using clang as default toolchain but using gcc+binutils only =
-for
-> > kernel build.
-> >=20
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > ---
-> >  meta/classes-recipe/kernel.bbclass | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/k=
-ernel.bbclass
-> > index 2ec9ea2091e..16b85dbca48 100644
-> > --- a/meta/classes-recipe/kernel.bbclass
-> > +++ b/meta/classes-recipe/kernel.bbclass
-> > @@ -336,7 +336,7 @@ kernel_do_transform_bundled_initramfs() {
-> >  do_transform_bundled_initramfs[dirs] =3D "${B}"
-> >=20
-> >  python do_package:prepend () {
-> > -    os.environ['STRIP'] =3D d.getVar('KERNEL_STRIP')
-> > +    d.setVar('STRIP',  d.getVar('KERNEL_STRIP').strip())
->=20
-> Looks fine to me.
->=20
-> I can't say that I know the mechanics if every setVar'd variable makes it=
- into
-> the environment to be available for the build process .. but since it is =
-working
-> for you, I assume it does :)
+The hooks are pulled from the impure environment and are often broken in
+our environments. There is no reason to add extra metadata or verify the
+commit message as its arbitrary to turn the tarball into a git repo.
 
-FWIW, only variables that have their export flag set or which exported
-at some point, which STRIP presumably does or is.
+Signed-off-by: William A. Kennington III <wak@google.com>
+---
+ meta/classes-recipe/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
+index 4ac977b122..cb9cd26b09 100644
+--- a/meta/classes-recipe/kernel-yocto.bbclass
++++ b/meta/classes-recipe/kernel-yocto.bbclass
+@@ -408,7 +408,7 @@ do_kernel_checkout() {
+ 		git init
+ 		check_git_config
+ 		git add .
+-		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
++		git commit -q -n -m "baseline commit: creating repo for ${PN}-${PV}"
+ 		git clean -d -f
+ 	fi
+ 
+-- 
+2.42.0.820.g83a721a137-goog
 
 
