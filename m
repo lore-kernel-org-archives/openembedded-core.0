@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D43FC25B6F
-	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 02:29:45 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.165470.1698200983947442356
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0836C25B6D
+	for <webhook@archiver.kernel.org>; Wed, 25 Oct 2023 02:29:44 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.35674.1698200981261781306
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Oct 2023 19:29:44 -0700
+ Tue, 24 Oct 2023 19:29:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jfvhG45o;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-27d3c886671so4517419a91.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 19:29:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XDlsv7d+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-27dc1e4d8b6so4446067a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Oct 2023 19:29:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698200983; x=1698805783; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698200980; x=1698805780; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4cpfLymLVzyGgNxX4vxTBoNY6rRHH5XQQwCD7Ms1ZMM=;
-        b=jfvhG45oexy8eo1ZCNgOejKeyIPNg6PJD8ccneu5mIgmYQLAj7EG+AhWpEw7nQLlyX
-         hGFkIh2KducAHZme90439VBRIbf3BxouOGvE4LL/aD8SwK1s3tpg7/+dX9ZIv1ZuOhSR
-         Qxre44r7YjjgjtV8rp+wp097taVM0ucVfp9EdO0xMQqTi55JU/kb9Z3xHnLD/5pwJrEB
-         c1ut8yq8PmzlRuZd0A7p9hjjUuaByHoEqi/GQ4wX4CzrvYNTId/z9QzjIabkXs7QIyGP
-         QkGX+AllB5UrQqFuRlGrtxnsz9Pk0QqggogJwui6xb48n+0UF80ChfDMFP6U15bt/hfv
-         SInw==
+        bh=qcqcfvnkdrksrDwIpLDiO7efY006gnbxkbka3WYMKBM=;
+        b=XDlsv7d+8SZEhdKFsrzPjsJ6OL9pIieklt6mXLDlDUZip/QjYulxrnSixcEUSKHqoF
+         EYnEqOttiLCX+kFphcMa8z2sZpVGpLgjK/m4C2fioMDcRYnNozuMAaYvB1bPNeXIpwDa
+         8Oq6sTo1auev6T6W3GW4ufD2BVsDBbKsjeu7q1jAWqLMwcTJ2RD0Al4hVu43xDKQMCrQ
+         ZpTjgzyABvZNHCZff83Bk2BzGgB6/fnRuBwIuNWSXfTbG0f/b7bbHjPsqw907aEB5C44
+         OQZSt7BStFjn7Gi57k6VsxMqoWpzweSiNiUu2a0miUygjnQzBOgy/KTUX5+rqpWSkiJR
+         kyAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698200983; x=1698805783;
+        d=1e100.net; s=20230601; t=1698200980; x=1698805780;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4cpfLymLVzyGgNxX4vxTBoNY6rRHH5XQQwCD7Ms1ZMM=;
-        b=Yv3L26By8P9dpWV9OLZpwvz3CSV2f/NUl3NYsbiLyNq5jjQptD+PU0jwtB/qVrsyzb
-         lYbOmJ3y0AKX48llyE4cBSTb+uEOoTjjc2imGimt1x013J64dkwlikpj6FcOkwHIjwhW
-         5qPTSZ4gfFMrHv5yXa7/uaAdbqvvidAhzM0HdKbSXoCrTcJ7vPNIVmpJFeIQyK3m4fct
-         pqxgjf/2uIsMHEMUIv73luW1MipclOGTz5DZ0IBE/QTaIdc5sHhBtOQm8XDAzhnM9LZX
-         8ghcBNudPCW6F67454/80gBLwI0l27aOfSMT0J1Pr7/5kmOcSDQvZNK6+OkteBR5Iwiu
-         BfUg==
-X-Gm-Message-State: AOJu0YwEYeLTLFNAk5/4EkCj3LG18f4Vnj9FHdfqIB+kvXd4XyxvM+at
-	zgE1hMAzo4b4kWRFRXvDQvaNfpLFjH3y4XAbiNc=
-X-Google-Smtp-Source: AGHT+IEdHTueKBAO2tTpFf2W6Hyqf3vQUqcCP0tr9+dTtJiKfb7ZHeqb/xpXySMveTg9zbiDi3n81Q==
-X-Received: by 2002:a17:90a:aa8d:b0:27e:22b:dce5 with SMTP id l13-20020a17090aaa8d00b0027e022bdce5mr13569720pjq.27.1698200983037;
-        Tue, 24 Oct 2023 19:29:43 -0700 (PDT)
+        bh=qcqcfvnkdrksrDwIpLDiO7efY006gnbxkbka3WYMKBM=;
+        b=YSNZL0chAo5zBVQABeaSyHkLAq00toZBpboeWt0sfuMl4pjqpYGeLS/Zjv7yuDxvdE
+         dEc7ZiQYVUkk7JQD0beNafBCBExnAdpByVrdtZSXw5jonJow0JZiWRnsAASZ58wmitwh
+         8lxp5+LKO8gTRkRjcy2UCKp+e8v/CYvQptKR7hJ8yJVn+p/Ji3th+ynVeu8WNWcoTXcq
+         9+Y2V/k85WMExYACYhqqW/6mZccOErOQMoN5sKTnhTfspk9389Aqfkxc17jItDlBnN52
+         g17sZETGp57ofTNCpl8lHTpJkn+UT0z1DR6dCGzURS1KTyGolVMKAdbkD9ldGRbPNp+p
+         jhBw==
+X-Gm-Message-State: AOJu0YxhROmsFznisIrBV/WdQOXfocFvdosndgVZSQtmRogrsL4A5kIo
+	9L9nNsQkiBR3RA1oM8Yl6OvRJzt+wjuQlJYZBa0=
+X-Google-Smtp-Source: AGHT+IEh5J3gKmmSFbEU8Rpghs8YW8YGnBg1Yo6RuYzTqWQbPpIAcL0HJ6WVYQyqf1TZNBCG+1jo0Q==
+X-Received: by 2002:a17:90a:41:b0:27d:d9d:c54d with SMTP id 1-20020a17090a004100b0027d0d9dc54dmr13041810pjb.34.1698200979980;
+        Tue, 24 Oct 2023 19:29:39 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id x2-20020a17090a388200b0027d0d4d4128sm8538615pjb.25.2023.10.24.19.29.42
+        by smtp.gmail.com with ESMTPSA id x2-20020a17090a388200b0027d0d4d4128sm8538615pjb.25.2023.10.24.19.29.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 19:29:42 -0700 (PDT)
+        Tue, 24 Oct 2023 19:29:39 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/6] resulttool/report: Avoid divide by zero
-Date: Tue, 24 Oct 2023 16:29:27 -1000
-Message-Id: <33d3374a7149ad1afe86d86c0dc2a948f70e26bd.1698200772.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/6] vim: Upgrade 9.0.2009 -> 9.0.2048
+Date: Tue, 24 Oct 2023 16:29:25 -1000
+Message-Id: <35fc341402f38619922dcfc4dc9e58b00be26259.1698200772.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698200772.git.steve@sakoman.com>
 References: <cover.1698200772.git.steve@sakoman.com>
@@ -60,36 +60,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 02:29:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189664
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Oct 2023 02:29:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189662
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Avoid a divide by zero traceback if unfortunate test counts are encountered.
+This includes CVE fix for CVE-2023-5535.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c5aeea53dfacb53dedb8445cb3523dc3a8cb6dca)
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/resulttool/report.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
-index f0ca50ebe2..a349510ab8 100644
---- a/scripts/lib/resulttool/report.py
-+++ b/scripts/lib/resulttool/report.py
-@@ -176,7 +176,10 @@ class ResultsTextReport(object):
-             vals['sort'] = line['testseries'] + "_" + line['result_id']
-             vals['failed_testcases'] = line['failed_testcases']
-             for k in cols:
--                vals[k] = "%d (%s%%)" % (line[k], format(line[k] / total_tested * 100, '.0f'))
-+                if total_tested:
-+                    vals[k] = "%d (%s%%)" % (line[k], format(line[k] / total_tested * 100, '.0f'))
-+                else:
-+                    vals[k] = "0 (0%)"
-             for k in maxlen:
-                 if k in vals and len(vals[k]) > maxlen[k]:
-                     maxlen[k] = len(vals[k])
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 51247cbe0a..d8e88af22e 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
+ 
+-PV .= ".2009"
+-SRCREV = "54844857fd6933fa4f6678e47610c4b9c9f7a091"
++PV .= ".2048"
++SRCREV = "982ef16059bd163a77271107020defde0740bbd6"
+ 
+ # Remove when 8.3 is out
+ UPSTREAM_VERSION_UNKNOWN = "1"
 -- 
 2.34.1
 
