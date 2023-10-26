@@ -2,78 +2,145 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E55DDC25B6B
-	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 10:26:55 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web11.67399.1698316008720768081
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC2BC25B6B
+	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 10:33:35 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web11.67477.1698316406059794294
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Oct 2023 03:26:49 -0700
+ Thu, 26 Oct 2023 03:33:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B8X76zzc;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c54c8934abso10607571fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 03:26:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HowRVFie;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9b1ebc80d0aso112284366b.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 03:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698316007; x=1698920807; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H6XKUZ+ShRTBleOAVM5eiEYm4TXgOQhHtNM5PJQu3Dk=;
-        b=B8X76zzcryRPK7mYsYTx9/x3cEJzbZfrJaCTTW5j40KASKtEwIXlq6gQ8w4KAd7XgK
-         b8CJKt+zIDybKWT6hK6u/5l8rtDyrI+43RgmQXc4dXYm5f74DIzTiDgTnn9suajKNXAM
-         pvO0CQOtW/9ZrtE2XE269ZrOoyOSyI4r5KdDMIUnptdS2ElPueTa7ECnXxcikkt6YCKk
-         MRqRkjA3utpBwIrnbm2OFuWevw7nr40u33BjjcDh4vELR8MU2QPCdFcPtUkLON1JQSGN
-         MZicwfcSRUUlfzCAv7G33EgrIbZ+znfxvSs17PDsM9bkZcufyLHkapqpMS6OGvs9oLpE
-         0zxQ==
+        d=gmail.com; s=20230601; t=1698316404; x=1698921204; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JZKuCm5kWrWiInk4myyLcvqCZGzfwAFVfLBX1mV43cQ=;
+        b=HowRVFiegMF8TmYyx4XHoqtkLL3Il9YGA1A6VAOFNuO1NtdYYjU807q/Il3lZsn9y1
+         uby3YaEX7+iAhkzrsz4xcH7cCJHgTwSMuiQ0y61VJaEOIs1j5JQa5kd382gtPtEdNuo0
+         lOWlA5cyhASYSZ2tbBMXLn5eseVO/IOzdbZsNSVwqqfkVGr3qN8b5KZ7OroutqpZpnFW
+         BtoDfg85BFjhIRk7dAOaipxU3OwzxRrbiWVwkN+hHrbVUHpJzdTXebObChWMiECwBLkl
+         F1aVR65balXymt/5hiJz00wersJSovWBFDh7YPygpBsALQguKoltlonPRqK4hd57LVil
+         jkfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698316007; x=1698920807;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H6XKUZ+ShRTBleOAVM5eiEYm4TXgOQhHtNM5PJQu3Dk=;
-        b=ZXZfEMLtTbl88bq2CG3cChNwiVSyydgTGcAWECdmQ72XPe9hxbb3Qr+uXcTZaec3yO
-         TB+f3pOIYkG1v8EGTbDxrYET4jfTeRgJSNLcqWaB+vKktcaHqA8fBoPuJuslEUFA7y5a
-         IMuvctnXNOtkVmr0tv1AhyDYKCTSlZTgHJC2my3KIQmcisL3ahG4QIp0NhsDoSRCfDuR
-         MtZQ8OXfOnwG6a/NtOi0ViQYoLN4gKl8wu5aeut3YPP06fdqCLYjwMzy5nf3AhOpKK1I
-         T1cULJduC3yiJ9000Jd68tfem7f9LPAheWdwtv9XHon5vsUiKc9MRecDcB8PwGAbY7b9
-         sBAA==
-X-Gm-Message-State: AOJu0YyJ93/VGZXsTzQe7m6FxroD0Q9kjRFsdYblsYCVnOZ50wZw5NLj
-	uAaUPyeZqhwoDpPeMZqe5eBpvgvUuhScHex8Hzg=
-X-Google-Smtp-Source: AGHT+IFzvLiOk6XCAlvyAq79NRM17y2sqQDmYEoUH0D9u7FtflMDvGUCky5mFbdrUB4uh8kaXei7roqI0cGyWuvKyXg=
-X-Received: by 2002:a2e:a543:0:b0:2bc:d5ad:2758 with SMTP id
- e3-20020a2ea543000000b002bcd5ad2758mr14549055ljn.5.1698316006268; Thu, 26 Oct
- 2023 03:26:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231023110618.3525311-1-alex@linutronix.de> <20231023110618.3525311-3-alex@linutronix.de>
- <20231024103345.306b9171@booty>
-In-Reply-To: <20231024103345.306b9171@booty>
+        d=1e100.net; s=20230601; t=1698316404; x=1698921204;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JZKuCm5kWrWiInk4myyLcvqCZGzfwAFVfLBX1mV43cQ=;
+        b=VESa4Z0K4unGqZ/+owSyVrkZaHU+HB8gO4eQ2iEA1wCTNUv6mDy3vJb0HXN2ZkSreI
+         V64Jvp1Bj7eSTUVyq8vLyeJuGoJswFwhcasUX3GFYErSfBb8tCixfwrmRB3HDN+PH395
+         E4KnYriX8dyfR5cVMEHan5pOAtt9jcEKa/vzvRlAcbxeZEqQCp/ZohxxZmLtlhZyD1Kr
+         Ye6DUWXbeTLMV+UZzjXWWg48V96enT2ITAHybg00b//1aIdb04RxwPvosw1GRtEQQ1XO
+         cNACLNnTfE7AamfIvaYS05QSvenO8T9V3H5VMH80ur/ZrhBm1o6SAaK03LFQPQYmEgCo
+         SSng==
+X-Gm-Message-State: AOJu0YzZFl5sfYAaku7LhCXD1ifp6O8A+GwIZsgJsOp1v4vXtTka8wZx
+	GAThrhp9ycbEGG30kB7KFm1TqZ+NwYk=
+X-Google-Smtp-Source: AGHT+IE+iTWsOemdKdqUNd+kSeWbd5yGqV3erx8NcMsRRBpB9ZSQuwQ0JN/wVkugRCgwhqr9BE7UTg==
+X-Received: by 2002:a17:907:2ce2:b0:9bd:d7bd:1a52 with SMTP id hz2-20020a1709072ce200b009bdd7bd1a52mr12996251ejc.20.1698316404231;
+        Thu, 26 Oct 2023 03:33:24 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id u24-20020a170906409800b009bf94de8971sm11444747ejj.70.2023.10.26.03.33.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Oct 2023 03:33:24 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 26 Oct 2023 12:26:34 +0200
-Message-ID: <CANNYZj9NJs2jBKZxhDAAARcdCM+sX=d5Ztt+fzYeCh19dH4wFg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/3] selftest/sstatetests: add a test for CDN
- sstate cache
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/3] lib/oe/sstatesig.py: dump locked.sigs.inc only when explicitly asked via -S lockedsigs
+Date: Thu, 26 Oct 2023 12:33:19 +0200
+Message-Id: <20231026103320.2751277-2-alex@linutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231026103320.2751277-1-alex@linutronix.de>
+References: <20231026103320.2751277-1-alex@linutronix.de>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 10:26:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189705
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 10:33:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189707
 
-On Tue, 24 Oct 2023 at 10:33, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> This is triggering:
->
-> AssertionError: False is not true : Missing objects in the cache:
-> weston_12.0.2.bb:do_package_write_ipk
-> weston_12.0.2.bb:do_package_write_deb
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6091/steps/23/logs/stdio
+This was writing out locked-sigs.inc into cwd with every
+'bitbake -S' invocation. When the intent is only to to get task
+stamps (-S none), or print the difference between them (-S printdiff),
+the file is unnecessary clutter.
 
-This is for qemux86_64 and seems to indicate that world builds (with
-multilib enabled) don't match plain builds (which don't build
-core-image-weston). I'll resubmit with that removed.
+A couple of selftests/scripts were however relying on this, so they're
+adjusted to explicitly request the file.
 
-Alex
+eSDK code calls dump_lockedsigs() separately via
+oe.copy_buildsystem.generate_locked_sigs() and so isn't affected.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/lib/oe/sstatesig.py                 | 7 ++++---
+ meta/lib/oeqa/selftest/cases/archiver.py | 2 +-
+ meta/lib/oeqa/selftest/cases/signing.py  | 2 +-
+ scripts/lib/checklayer/__init__.py       | 2 +-
+ 4 files changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 42e13a8c800..e250f51c124 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -142,9 +142,10 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+         super().set_taskdata(data[3:])
+ 
+     def dump_sigs(self, dataCache, options):
+-        sigfile = os.getcwd() + "/locked-sigs.inc"
+-        bb.plain("Writing locked sigs to %s" % sigfile)
+-        self.dump_lockedsigs(sigfile)
++        if 'lockedsigs' in options:
++            sigfile = os.getcwd() + "/locked-sigs.inc"
++            bb.plain("Writing locked sigs to %s" % sigfile)
++            self.dump_lockedsigs(sigfile)
+         return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
+ 
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
+index 3fa59fff510..3cb888c5067 100644
+--- a/meta/lib/oeqa/selftest/cases/archiver.py
++++ b/meta/lib/oeqa/selftest/cases/archiver.py
+@@ -141,7 +141,7 @@ class Archiver(OESelftestTestCase):
+         pn = 'gcc-source-%s' % get_bb_vars(['PV'], 'gcc')['PV']
+ 
+         # Generate the tasks signatures
+-        bitbake('mc:mc1:%s mc:mc2:%s -c %s -S none' % (pn, pn, task))
++        bitbake('mc:mc1:%s mc:mc2:%s -c %s -S lockedsigs' % (pn, pn, task))
+ 
+         # Check the tasks signatures
+         # To be machine agnostic the tasks needs to generate the same signature for each machine
+diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
+index 322e753ed3b..18cce0ba258 100644
+--- a/meta/lib/oeqa/selftest/cases/signing.py
++++ b/meta/lib/oeqa/selftest/cases/signing.py
+@@ -191,7 +191,7 @@ class LockedSignatures(OESelftestTestCase):
+ 
+         bitbake(test_recipe)
+         # Generate locked sigs include file
+-        bitbake('-S none %s' % test_recipe)
++        bitbake('-S lockedsigs %s' % test_recipe)
+ 
+         feature = 'require %s\n' % locked_sigs_file
+         feature += 'SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = "warn"\n'
+diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+index 0a0db2f02ac..8271ed7fe3b 100644
+--- a/scripts/lib/checklayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -307,7 +307,7 @@ def get_signatures(builddir, failsafe=False, machine=None, extravars=None):
+     cmd += 'bitbake '
+     if failsafe:
+         cmd += '-k '
+-    cmd += '-S none world'
++    cmd += '-S lockedsigs world'
+     sigs_file = os.path.join(builddir, 'locked-sigs.inc')
+     if os.path.exists(sigs_file):
+         os.unlink(sigs_file)
+-- 
+2.39.2
+
 
