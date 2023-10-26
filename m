@@ -1,135 +1,86 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <jester@theyoctojester.info>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4FA9C25B67
-	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 13:03:16 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web10.199476.1698325391489983639
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 037D2C25B67
+	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 13:30:47 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.200184.1698327038292567756
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Oct 2023 06:03:11 -0700
+ Thu, 26 Oct 2023 06:30:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XznrtCmC;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-1e9c9d181d6so495938fac.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 06:03:11 -0700 (PDT)
+ dkim=pass header.i=@theyoctojester-info.20230601.gappssmtp.com header.s=20230601 header.b=cIww20ra;
+ spf=none, err=permanent DNS error (domain: theyoctojester.info, ip: 209.85.208.44, mailfrom: jester@theyoctojester.info)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-53d9f001b35so1398542a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 06:30:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698325390; x=1698930190; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f14rI0+sdigB9Z7wuOK9ivdYT6GY3rYuLgMSVT/3/h8=;
-        b=XznrtCmCu5T2u6e+CeoQ0cD1VKxDXOkyPRn5XH83kePFmVOQ6p5EXBhPTuHnWcC26D
-         P+Kh9xeB8Fj5ysEsSxhQ6Qv57s9s4RGeN4aYN42TjlwyR9YvABPldoLoZLuBLujYBV7O
-         5wzpIY8QMzEF1KyQJf45VmwdYrVi73l8r/ObFA9a6XfSAiJUb8C0EuRZMavKxqX/g1JZ
-         ePBw6BxQIJo2aonf9Tt6t5Hgse6eKhDKEqKS59NUaYz6hAs/4gu9GEe3ZQMCvjdwC07S
-         VvceMyp8zCRW5igVr/2fE14ulr7RiMj8Te1XVe2X3FTd9NJlybmvGPbNH59vStfGlN5c
-         gAvQ==
+        d=theyoctojester-info.20230601.gappssmtp.com; s=20230601; t=1698327037; x=1698931837; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ndO5bUYSzSoIwe0hFBOaUNd1kr3/d/yw7n1CC3H5KNM=;
+        b=cIww20ra+zfVcONjEb6FMbRKsPXOp4IxzoDJoT8SPW1RCq9AJoFIVOmbGUXA1BGHr8
+         w5AGQKchzFh6WS5tXLr89Ifq85Lryxw8toIr8bXi/KuRA+cMldFRZf8W7C2CPL3sfsdE
+         pyNRoj76cpOILQTr1uQBaFeHfLmLzahH6tarLfs7XOqobBBKlcVlL+ls+oopA4xRLOg6
+         k9gGycpyJozXu0y0d5tSaHpKhR3HWWsuZLDtATzom4yK5J93oz64XqcM2dL7wPXbdx8q
+         aBPjGCbcrS/7teO43njbKc0xLyTbVyw3s+CWfKsvSQAMxXotPtY7/L9RKKLLYLBUk9td
+         fCrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698325390; x=1698930190;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f14rI0+sdigB9Z7wuOK9ivdYT6GY3rYuLgMSVT/3/h8=;
-        b=iLU/gFQYSEs4PBCDRCNeQEaB343scsIuwmGmrV69dVwlBpl/QOMDrGOJGkI5NJx739
-         zU2RWH/4sNIANo6puDaokmcdWAIwsOQl8Gkj2iCXOfLvtmnLWVsZCyhvbj6FGNWg+nv6
-         IAiqhF4IVNML6X+3NJnupEqU+KaWuV3hnERjuZ1e7dbi3VNy8Q2dN2wX+A0k6HafxB1a
-         25yzrJACQqJqiIPASZTmnu0wp/UkR1kXGY31GiRj467Lms3WkRwOeW9rkv59svdFQlym
-         aB0t9eYT52ahzAM3FmacB5k9PCpvCVwLiR7swFHdg/swCjSs28mwldVtMf/Dxz26RNMw
-         j/Xg==
-X-Gm-Message-State: AOJu0YzdLdczAXmme98Cza7oOcGD5M3SSZx+90n1JVm3Ft552S7jmhL9
-	/cJLLJ2Yt5fencbGGxGux6ulM4UZfP1ABcvZA+4=
-X-Google-Smtp-Source: AGHT+IEtlFL9D3jkQ6uTV8xSimvo9Ukmi58F2RrVlCsr1UiQzIh9S3yW/gZQH3JFPs8iN6f+YMYSAz1C74LV4P3c6GQ=
-X-Received: by 2002:a05:6870:9d8c:b0:1e9:ba42:76bb with SMTP id
- pv12-20020a0568709d8c00b001e9ba4276bbmr23923839oab.39.1698325390583; Thu, 26
- Oct 2023 06:03:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698327037; x=1698931837;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ndO5bUYSzSoIwe0hFBOaUNd1kr3/d/yw7n1CC3H5KNM=;
+        b=ZnyFfzGd1Wy8eAy8Gyx1h4lj44SEWn8RtE7CG/XbdmO4RPy03qYtaYocQD3vHkS5Xz
+         KcBFEwA0w2PBsDj3PEuK4/hBoABbMUqTQ4wkjClfdoohWKRudOmXTcHRP2GQag9I2WO5
+         0sTZnskJnaxrvIAgoh+Zce8QhBuHUpGCo9Z7W6kiQFH9RUNNfM1iR6Twh3rqGdVdtfJ1
+         J61IbSjGhj/m2Q4KDAx0bd5OTDq+tDMx/LnjR8zbZ/UtexOPp/d3klYIFgyxTKscMjo8
+         9RG7kIGJeZHbaD0olG9zAjJa2SSINVkauXXih2Po9Rvf9MIuXpJLZWlpKA4MgeOPeHJy
+         BFgg==
+X-Gm-Message-State: AOJu0Yx1gf7W6whwEIJdDYUZHcRrDKE/M2UyjnWCTAKKPz05pBc3vmNc
+	NT0GgBdAjvnIoNkZ7WvKr5XVnuUlaOuFi8gSOq6A2Q==
+X-Google-Smtp-Source: AGHT+IHRyKKfDCyQhOdHc/TvKTRID5BVxx9PksY+089e5A7Ee8YD73cZPAU/SSDo5F4ZTC6dFQIBT6+kLZnWWFXfZjY=
+X-Received: by 2002:a05:6402:1d4d:b0:540:c8b7:6023 with SMTP id
+ dz13-20020a0564021d4d00b00540c8b76023mr5264117edb.35.1698327036462; Thu, 26
+ Oct 2023 06:30:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231026063848.3972419-1-xiangyu.chen@eng.windriver.com>
-In-Reply-To: <20231026063848.3972419-1-xiangyu.chen@eng.windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 26 Oct 2023 09:02:59 -0400
-Message-ID: <CADkTA4OAGMezqzKB3AwG9gFJfieA-HJ=9e3-QaNaPc2fdH1F5Q@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] linux-yocto: make sure the pahole-native
- available before do_kernel_configme
-To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Thu, 26 Oct 2023 15:30:10 +0200
+Message-ID: <CAEt6NwrEPS379dzhPKO1rKDk8uc7anzjNNah=GRV+=EDcUdvWg@mail.gmail.com>
+Subject: OpenEmbedded Workshop CFP - February 5th, 2024
+To: openembedded-devel@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-members@lists.openembedded.org, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="000000000000b8a8d406089e93a0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 13:03:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189725
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 13:30:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189726
 
-On Thu, Oct 26, 2023 at 2:39=E2=80=AFAM Xiangyu Chen
-<xiangyu.chen@eng.windriver.com> wrote:
->
-> From: Xiangyu Chen <xiangyu.chen@windriver.com>
->
-> When using debug-btf.scc in a clean workspace, the CONFIG_MODULE_ALLOW_BT=
-F_MISMATCH cannot
-> apply to kernel until clean the kernel code(bitbake linux-yocto -c cleana=
-ll) and rebuild.
->
-> After tracking the code, some options depend on CONFIG_PAHOLE_VERSION, it=
- was generated by
-> scripts/pahole-version.sh in kernel, but during do_kernel_configme step, =
-the pahole-native
-> is not available in sysroot-native, so need to wait pahole-native install=
- to sysroot-native
-> before do_kernel_configme.
->
+--000000000000b8a8d406089e93a0
+Content-Type: text/plain; charset="UTF-8"
 
-No concerns here, since the end result is the same, just available
-earlier in the tasks/build.
+We are hosting a workshop on Monday, February 5th 2024 in Brussels. Yes
+exactly, the day right after FOSDEM. So make sure to extend your stay and
+share your findings or the things you bring. How? By submitting to the OE
+Workshop 2024 CFP. Open now and waiting for you.
 
-Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+https://pretalx.com/oe-ws-2024/cfp
 
-> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto.inc | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-ker=
-nel/linux/linux-yocto.inc
-> index 0cc303c009..0132fcffb3 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto.inc
-> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
-> @@ -65,7 +65,10 @@ KERNEL_DEBUG ?=3D ""
->  DEPENDS +=3D '${@bb.utils.contains_any("ARCH", [ "x86", "arm64", "powerp=
-c" ], "elfutils-native", "", d)}'
->  DEPENDS +=3D "openssl-native util-linux-native"
->  DEPENDS +=3D "gmp-native libmpc-native"
-> -DEPENDS +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "pahole-nativ=
-e", "", d)}'
-> +
-> +# Some options depend on CONFIG_PAHOLE_VERSION, so need to make pahole-n=
-ative available before do_kernel_configme
-> +do_kernel_configme[depends] +=3D '${@bb.utils.contains("KERNEL_DEBUG", "=
-True", "pahole-native:do_populate_sysroot", "", d)}'
-> +
->  EXTRA_OEMAKE +=3D '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "PAH=
-OLE=3Dfalse", d)}'
->
->  do_devshell:prepend() {
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#189698): https://lists.openembedded.org/g/openembedde=
-d-core/message/189698
-> Mute This Topic: https://lists.openembedded.org/mt/102195199/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Josef,
+on behalf of the OpenEmbedded board
 
+--000000000000b8a8d406089e93a0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+<div dir=3D"ltr"><div>We are hosting a workshop on Monday, February 5th 202=
+4 in Brussels. Yes exactly, the day right after FOSDEM. So make sure to ext=
+end your stay and share your findings or the things you bring. How? By subm=
+itting to the OE Workshop 2024 CFP. Open now and waiting for you.</div><div=
+><br><a href=3D"https://pretalx.com/oe-ws-2024/cfp">https://pretalx.com/oe-=
+ws-2024/cfp</a><br></div><br><div>Josef,</div><div>on behalf of the OpenEmb=
+edded board</div></div>
+
+--000000000000b8a8d406089e93a0--
 
