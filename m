@@ -2,58 +2,60 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA96CC25B48
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA2AC25B6B
 	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 10:51:15 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.197282.1698317470445536598
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.67706.1698317474827101844
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Oct 2023 03:51:10 -0700
+ Thu, 26 Oct 2023 03:51:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AhecsJuA;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: rybczynska@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-507a3b8b113so1048523e87.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 03:51:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AUL62sdt;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: rybczynska@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-32caaa1c493so517655f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 03:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698317468; x=1698922268; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1698317473; x=1698922273; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F1weNQUYpAyG6P5aWvJBQH7jJdUNYaPzWCR4tj3G6Cs=;
-        b=AhecsJuAJozVmBFkGSZnykHeSZLOgOWST3m9XwL2sLnHw6O6x7bZhmcidaU9hmrm5f
-         nWDQlg5acbpmUm3aLsDrKyi0pleOkWg+WS4hsaqyY2bMio85sK7rBAu4zjo39G+7twhd
-         RRXDvH0MTDjy/VXoQC/GFTm6KjblRTS3zqodkViAXb2cYwd3Q1jpDMqsiyRRadhGBVAi
-         sN7Bk6IYWHEhQH/UUUT5wsmhpDQew+STqo2vWGmTo+yx7vmId+6eimLprP5XBYjBGobe
-         3crzqyMoZ1/iNjPJQH2ah0OxOw4wQKRjHTv68bKk7Nz92tApEzwbuiUiEdyVLCflWYZR
-         2hug==
+        bh=35/TOKOZbRE3hYp6PBH2WHz7dIEN2p2OxUNNlV5al8g=;
+        b=AUL62sdt6CmiNGiq8f4wJgkTt/MgG2LrN0bY7JsY6JBQRGON7FOylfT8CVM7Izb/F8
+         CWquf6VEKe3oCxlsiNgEE9JTegme4HrTKDAmVrs3OYj8hVPdOC/Tw/eQ0I8LFvs0MMbA
+         GZyK2Is1PhEv9KOj/+zRptgRA/vkkF2pFHxTCaTJF/uVIAI6E8/nK5wGPcU8wqo6Jc5N
+         2hoWHUqnsVOC8VH0RBYYW/Gtf7i5zQbv8bnTP1MKA0xn83u4uW0wTVvYLp8I6iOhlf5O
+         l2R7nooa/xklLoQ2wXgsG11d1siTCtPkcNaR+iMNbGA3X6mysZYeYxq52XXzrqY3rdVO
+         Zb/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698317468; x=1698922268;
+        d=1e100.net; s=20230601; t=1698317473; x=1698922273;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=F1weNQUYpAyG6P5aWvJBQH7jJdUNYaPzWCR4tj3G6Cs=;
-        b=AEUJYLxU/eZ9913O82aJRkrWSPp1mbN/2FDocJXOJN12z/W5s6Rt9jeVzJomMvA2J+
-         R88982UrXo6BDnvRo7hfqL358XI+fytgzrJRmeU33R/Y41CqJGBBU3QtyclQEHDg5iHL
-         8gIGd1yBSrW45aJix+Knm8EtqVMMsoaq1/10mlHBc/w81TR2swOe08VE/HphyRu/UGQj
-         cRHngD5wlpCfwxzSc9IOVmrN5yVpHDJiSZlqhLizxN3Hg73kvOlQb7yWj6eZulyf9Ep8
-         vftp14+kYwkNNZDfx6/T/R7R8OgSUTdOBJaiCFF9OE06p2L0JT4czRUjdVlj884KTG/h
-         LKSw==
-X-Gm-Message-State: AOJu0YzpU53B7qabzUk8/8f12LGpdcZhCpluG80ng0XpJnTZ0bUWYZ2S
-	q6ZJUXwpzEo34dScaAGcoR1SLT5p7txPQQ==
-X-Google-Smtp-Source: AGHT+IEuKKTlyrz78N7H4j3urpoJfYnV5H2JC1DFtgZm48BmH9mJBu0r6V3QGzosAdtP0E4EVOmwHw==
-X-Received: by 2002:a05:6512:314e:b0:507:9a8c:a8fe with SMTP id s14-20020a056512314e00b005079a8ca8femr11554359lfi.53.1698317467691;
-        Thu, 26 Oct 2023 03:51:07 -0700 (PDT)
+        bh=35/TOKOZbRE3hYp6PBH2WHz7dIEN2p2OxUNNlV5al8g=;
+        b=LnpKFVvEHS50vpOK0Nic2X/ndp+JQCeC5kdrGAngRbY88/4LgwpGMDiktNWFbMCKZi
+         H4O4WwI640T+4svk5S3qfUNhPkkgVj1ujSwdCKznyOTawaebg18UuXLJUoCnZTPOA1N1
+         af/kopx+ewH4YYqsgF7gQwKBTdOL2BcI1YhP9LBTctF5FFbvJJBezjbs/4IHAXDaFsD1
+         9vJ7Q3UWhdQioflkZTyFwT0OqBfi+oTckdIDqvS2pVX/w7W7jJDv9cE3nS4vKOw1Yg9m
+         HBWFT1bXFv7y8nVpxHVNSiZvp0+Gm2PZUZxXSBy5vqcQ5+KrCMzzcVAD3vLNIuTz9JkB
+         /BNA==
+X-Gm-Message-State: AOJu0Ywl5/dRJ1a6X7vkRBDSA29IVDignMIAFvnq7axqQb/AFm1ABqti
+	3QmuMdIVoTT0RN29KQjfNUZCNsqyxoE3Uw==
+X-Google-Smtp-Source: AGHT+IH33ATktxahjScTdxhnVniAUEtWr2bmmrTsUgUrbHWiM6P1fSDxgqvMmkqH2FMDpRoE7oVgiQ==
+X-Received: by 2002:adf:f74f:0:b0:32d:90f7:ce50 with SMTP id z15-20020adff74f000000b0032d90f7ce50mr13235139wrp.17.1698317472565;
+        Thu, 26 Oct 2023 03:51:12 -0700 (PDT)
 Received: from localhost.localdomain ([31.32.81.187])
-        by smtp.gmail.com with ESMTPSA id f1-20020adff8c1000000b0032da75af3easm13936004wrq.80.2023.10.26.03.51.06
+        by smtp.gmail.com with ESMTPSA id f1-20020adff8c1000000b0032da75af3easm13936004wrq.80.2023.10.26.03.51.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Oct 2023 03:51:07 -0700 (PDT)
+        Thu, 26 Oct 2023 03:51:11 -0700 (PDT)
 From: Marta Rybczynska <rybczynska@gmail.com>
 X-Google-Original-From: Marta Rybczynska <marta.rybczynska@syslinbit.com>
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org,
-	Louis Rannou <louis.rannou@syslinbit.com>
-Subject: [RFC][OE-core 2/7] oe/spdx: extend spdx.py objects
-Date: Thu, 26 Oct 2023 12:48:42 +0200
-Message-ID: <20231026105033.257971-3-marta.rybczynska@syslinbit.com>
+	Louis Rannou <louis.rannou@syslinbit.com>,
+	Marta Rybczynska <marta.rybczynska@syslinbit.com>,
+	Samantha Jalabert <samantha.jalabert@syslinbit.com>
+Subject: [RFC][OE-core 3/7] oe/sbom: change the write_doc to prepare for spdx3
+Date: Thu, 26 Oct 2023 12:48:43 +0200
+Message-ID: <20231026105033.257971-4-marta.rybczynska@syslinbit.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231026105033.257971-1-marta.rybczynska@syslinbit.com>
 References: <20231026105033.257971-1-marta.rybczynska@syslinbit.com>
@@ -63,89 +65,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 10:51:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189713
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189714
 
 From: Louis Rannou <louis.rannou@syslinbit.com>
 
-Extend objects used to build the spdx scheme:
-
-- add support for inheritance
-- hide all attributes starting by _spdx
-- add methods to list properties and item pairs
-- improve the serializer to match the spdx3 scheme
+This changes the prototype of write_doc as the SPDX3 documentation does not
+specify yet which is the root element.
 
 Signed-off-by: Louis Rannou <louis.rannou@syslinbit.com>
+Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
+Signed-off-by: Samantha Jalabert <samantha.jalabert@syslinbit.com>
 ---
- meta/lib/oe/sbom.py |  2 +-
- meta/lib/oe/spdx.py | 30 +++++++++++++++++++++++-------
- 2 files changed, 24 insertions(+), 8 deletions(-)
+ meta/lib/oe/sbom.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oe/sbom.py b/meta/lib/oe/sbom.py
-index fd4b6895d8..824839378a 100644
+index 824839378a..28db9cf719 100644
 --- a/meta/lib/oe/sbom.py
 +++ b/meta/lib/oe/sbom.py
-@@ -77,7 +77,7 @@ def write_doc(d, spdx_doc, arch, subdir, spdx_deploy=None, indent=None):
+@@ -68,7 +68,8 @@ def doc_path(spdx_deploy, doc_name, arch, subdir):
+     return spdx_deploy / arch / subdir / (doc_name + ".spdx.json")
+ 
+ 
+-def write_doc(d, spdx_doc, arch, subdir, spdx_deploy=None, indent=None):
++# WARNING: Changed for SPDX3
++def write_doc(d, spdx_graph, spdx_doc, arch, subdir, spdx_deploy=None, indent=None):
+     from pathlib import Path
+ 
+     if spdx_deploy is None:
+@@ -77,7 +78,7 @@ def write_doc(d, spdx_doc, arch, subdir, spdx_deploy=None, indent=None):
      dest = doc_path(spdx_deploy, spdx_doc.name, arch, subdir)
      dest.parent.mkdir(exist_ok=True, parents=True)
      with dest.open("wb") as f:
--        doc_sha1 = spdx_doc.to_json(f, sort_keys=True, indent=indent)
-+        doc_sha1 = spdx_doc.to_json(f, sort_keys=False, indent=indent)
+-        doc_sha1 = spdx_doc.to_json(f, sort_keys=False, indent=indent)
++        doc_sha1 = spdx_graph.to_json(f, sort_keys=False, indent=indent)
  
      l = _doc_path_by_namespace(spdx_deploy, arch, spdx_doc.documentNamespace)
      l.parent.mkdir(exist_ok=True, parents=True)
-diff --git a/meta/lib/oe/spdx.py b/meta/lib/oe/spdx.py
-index 7aaf2af5ed..97b9e011ad 100644
---- a/meta/lib/oe/spdx.py
-+++ b/meta/lib/oe/spdx.py
-@@ -145,9 +145,13 @@ class MetaSPDXObject(type):
-     def __new__(mcls, name, bases, attrs):
-         attrs["_properties"] = {}
- 
--        for key in attrs.keys():
--            if isinstance(attrs[key], _Property):
--                prop = attrs[key]
-+        at = {}
-+        for basecls in bases:
-+            at.update(basecls._properties)
-+        at.update(attrs)
-+        for key in at.keys():
-+            if isinstance(at[key], _Property):
-+                prop = at[key]
-                 attrs["_properties"][key] = prop
-                 prop.set_property(attrs, key)
- 
-@@ -166,15 +170,27 @@ class SPDXObject(metaclass=MetaSPDXObject):
-             if name in d:
-                 self._spdx[name] = prop.init(d[name])
- 
--    def serializer(self):
--        return self._spdx
--
-     def __setattr__(self, name, value):
--        if name in self._properties or name == "_spdx":
-+        # All attributes must be in _properties or are hidden variables which
-+        # must be prefixed with _spdx
-+        if name in self._properties or name[:len("_spdx")] == "_spdx":
-             super().__setattr__(name, value)
-             return
-         raise KeyError("%r is not a valid SPDX property" % name)
- 
-+    def properties(self):
-+        return self._properties.keys()
-+
-+    def items(self):
-+        return self._properties.items()
-+
-+    def serializer(self, rootElement):
-+        main = {"type": self.__class__.__name__[len("SPDX3"):]}
-+        for (key, value) in self._spdx.items():
-+            if key[0] == '_':
-+                key = key[1:]
-+            main.update({key: value})
-+        return main
- #
- # These are the SPDX objects implemented from the spec. The *only* properties
- # that can be added to these objects are ones directly specified in the SPDX
 -- 
 2.42.0
 
