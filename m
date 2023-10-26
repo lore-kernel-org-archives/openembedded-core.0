@@ -1,66 +1,98 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD17C25B67
-	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 16:32:18 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web11.75552.1698337927427633926
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC0BC25B6B
+	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 20:02:29 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.210567.1698350545470240151
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Oct 2023 09:32:08 -0700
+ Thu, 26 Oct 2023 13:02:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=RWtcWwi6;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=BZ6xivmttpwMFYO+lAEOkmjzlxTC56TUi73c1ftGwg0=; b=RWtcWwi6xC56ugHx6QEZtqEpWj
-	NdzF6SOFipRjfYwnPq2Zb4wEFCGSrtLGd/92RZEVFVEb3pG0De9Os9Plcm7poH1Mil4ckD4pVtEFA
-	PVkR7D0LxdrBGEMRzfKBvcGZkbO2pfnucuZ2BxCzFdHIhMz/zrimRdvXkvKWNGaTKa8bVQqklt3k4
-	fWKMmhnWbZWWGXd22A5NMlyLOwqDjRuIEnhwyvR2xpBSNaJJLM2fcSjYaxjtp/kUeIfVYj/7ndHGV
-	jfixtYTtOmNLpU3J+iNZRQh6z3EvY8JRUggDLiNO+M38dwxmXqZz2w/4kqlKJ0pNMbaoxBuJHXpRO
-	jCKirYDA==;
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:52320 helo=fedora)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1qw3H9-002XQs-0C
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Oct 2023 12:32:05 -0400
-Date: Thu, 26 Oct 2023 12:31:57 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: is it worth a newbie cleanup task to update "class
- Whatever(object)"?
-Message-ID: <416992c3-78c-c92d-b76-2c3bedf9440@crashcourse.ca>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ERuq+ads;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: luca.ceresoli@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 25D1E40006;
+	Thu, 26 Oct 2023 20:02:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1698350543;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3Fmky6DcEAPmk3CLKFMDUTrmGr3P9CKHQTR/axDOCm4=;
+	b=ERuq+adsjWnRwTHDoXt9FHzMBJ18z+CUDLNrKfgRHAxZdZBZdxwmK9foZvAxZrYTiZp5DT
+	ExiA2pNRMNDtun5W1G3qWvg1ZVlfRRAMCWTbbzWXF3AL1/7h/V5iPn950vUfeoKm6MdJ5y
+	AKwxTsYGXCkx9OvQFNpv9152aKyGibEBwejH/HzRRZv5V4PPXINZ653mrjMG4LXH8/V32q
+	nDa7NLpToLescPNIsxvmTbSF3+kiJv7ZSk0HABlbyc8p4ecJbc3GY/DyeIMK9siXETXkdw
+	KzYrM4SQGgeMHL9+dO6WXWSCpLzN/QQQ/3QM4v9+NawoEukHlQ/TuvbB4qq2Kw==
+Date: Thu, 26 Oct 2023 22:02:21 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
+ <alex@linutronix.de>
+Subject: Re: [OE-core] [PATCH 1/3] selftest/sstatetests: add tests for
+ 'bitbake -S printdiff'
+Message-ID: <20231026220221.23f75433@booty>
+In-Reply-To: <20231026103320.2751277-1-alex@linutronix.de>
+References: <20231026103320.2751277-1-alex@linutronix.de>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 16:32:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189736
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 20:02:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189737
 
+Hello Alex,
 
-  just noticed that there is a lot of "class Something(object):" in
-oe-core, where AIUI, the argument of "object" is a throwback to
-Python2 and shouldn't(?) be necessary.
+On Thu, 26 Oct 2023 12:33:18 +0200
+"Alexander Kanavin" <alex.kanavin@gmail.com> wrote:
 
-  is there any value in letting a newbie loose on a task to clean all
-that up? or is that more churn than it's worth?
+> 'bitbake -S printdiff' is a useful diagnostic facility for finding out
+> why sstate is not being reused, but until now it had no tests that would
+> ensure it works. This commit adds three basic scenarios:
+> 
+> 1. make a change in a really basic, common recipe that is at the very root
+> of dependency trees (quilt-native), and ensure that change is correctly discovered when
+> building an image.
+> 
+> 2. make a change in gcc-source recipe, which is somewhat special
+> (operates in work-shared), and ensure that gcc-runtime builds track
+> that down as well.
+> 
+> 3. make a change in base_do_configure() definition from base.bbclass,
+> which is not recipe-specific, but affects many basic recipes, and ensure that
+> is correctly reported as well.
+> 
+> The test itself actually runs twice:
+> - first against a fully populated build directory, where
+> the printdiff code is guaranteed to find the correct previous
+> stamp that can be compared with in a predictable manner.
+> 
+> - then in an empty build directory where the printdiff code
+> goes to look in the sstate cache, and so the existence of the
+> previous signature can be tested, but not the difference with it
+> (what the exact difference would be is unpredictable as the
+> sstate cache is indeed shared between many builds).
+> 
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  .../base-do-configure-modified.bbclass        |   3 +
+>  .../gcc-source/gcc-source_%.bbappend          |   2 +
+>  .../quilt-native/quilt-native_%.bbappend      |   2 +
+>  meta/lib/oeqa/selftest/cases/sstatetests.py   | 113 ++++++++++++++++++
 
-rday
+Is this different from the series you sent on the 23rd? There is no
+vN tag and no ChangeLog, so it's not obvious.
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
