@@ -1,135 +1,81 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF10C25B48
-	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 07:24:44 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.65117.1698305075182115818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE40BC25B48
+	for <webhook@archiver.kernel.org>; Thu, 26 Oct 2023 07:28:44 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.194731.1698305323326335336
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Oct 2023 00:24:35 -0700
+ Thu, 26 Oct 2023 00:28:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=KdeetJJr;
- spf=pass (domain: linaro.org, ip: 209.85.208.180, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c5071165d5so2166791fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 00:24:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698305073; x=1698909873; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6L4I1b7PKw7eJSias3qEfKbTE4Id6cnLYcVDor4uyyg=;
-        b=KdeetJJrQl2Wd1FyXKqjD0PBl6JEaJ6niJlYE2fvjNZOVi8ECzT7c380f7eHoUT7yY
-         kcZ000wMGmOj0n353Q8BaPrKT1kz6PCQoBfpPdlJupsenA1WhN3phtmx8yYs+jqJQwuW
-         VuzQ3KilwMyi4UBXbocQpi/jm7mLKx7r9BH60KjPYCRYaCWc1xeZ5owkvNSuZvTS/fW9
-         itZoYyqi2bmfbsOfKK/Ft0mXYT7MICldiid6B05H+syOKnTC5fK0Hm1UAiqHpTOHZnJ4
-         WkRZ5nN+0KKXItDih4NznsnO/hvMaoSm4P1hB96OaM9jbNV0W+F8HjxjZLmB2TlOrFuJ
-         KLuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698305073; x=1698909873;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6L4I1b7PKw7eJSias3qEfKbTE4Id6cnLYcVDor4uyyg=;
-        b=o+/Ug0nlj1UgM1/aO+SS//BJeIvzqLpHFN7nrVlAzGLZZEzQNSA5Uuu3UQFJVRZvdO
-         4Hv4YQFyG96lzwL39OTuWnApBrUD8m2eEh9OsDrXBTQKpl7uCF0yV1/I3js103EwnIMc
-         RMxZ9hsjXTkZrcDxujG8WEIoP0npSGNkHAGw+7yx1WTdJ1XVPIsd5yCF+V466+GokTSh
-         PGOQqlUfNqdGdZtuyRLmnd9PNumfEFHCSMiI8FzLL8txlP4vcTa2m7/686QhGjD/W7me
-         pn1PkAWHBSFWTXePRVWLcp0LEAw9BLwF/ZGF0vSNSVarTf4Cck1i+6Jom5IAIiVn4BUu
-         WYcg==
-X-Gm-Message-State: AOJu0YyYz0+CPpdCzh6oOCZ1CB9FjAtxGaR6hvr12palJ22rAtf3sswy
-	opnuNTvL/8S2KZLfiK0HTSNQVg==
-X-Google-Smtp-Source: AGHT+IHB6C+wYuOvX6Ao9s5mEFfoz4S1PNviH4Gbppx96sTM2lzJUjWZzDzRvkkVqWm0wfw6RXSFpw==
-X-Received: by 2002:a05:651c:a06:b0:2c5:1483:fae0 with SMTP id k6-20020a05651c0a0600b002c51483fae0mr15712202ljq.4.1698305073047;
-        Thu, 26 Oct 2023 00:24:33 -0700 (PDT)
-Received: from nuoska (dc7g6tyyyyyyyyyyyyhlt-3.rev.dnainternet.fi. [2001:14ba:16cb:a800::193])
-        by smtp.gmail.com with ESMTPSA id z23-20020a05651c023700b002c5762dcde4sm1826108ljn.102.2023.10.26.00.24.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Oct 2023 00:24:32 -0700 (PDT)
-Date: Thu, 26 Oct 2023 10:24:30 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] cve-check.bbclass: support embedded SW
- components with different version number
-Message-ID: <ZToULixe0QlAqWFb@nuoska>
-References: <20231020074926.230734-1-mikko.rapeli@linaro.org>
- <473e1fb5-60a3-40fb-859d-e8d5e7011b81@gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nnZVBq6k;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: luca.ceresoli@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B322560007;
+	Thu, 26 Oct 2023 07:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1698305321;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qo76xP2FpBCod1YgIos15NmzcDpPPRq2KcA94rQY+3k=;
+	b=nnZVBq6k+sAHbHE6MZ6YWfYKTaRs6U1GPrbVPIGhX+itlo9LDqnbJ550Bm/ZDkfwycM3yF
+	ks3TldbzsPbic4GOAOfvhodMrwfg4H2mcnfrEraPdMmxyXRsaKwdGrygFRbgKWKlraCLxs
+	xVyhe0t/5uaePYlu35vo/DWjvw5i9vXIRd3UvYjFfr8RJPv/NLKl2bRvNi0k+RYAcJmn8q
+	WXdhUru4U/DVnM6U0MBGLuwE3LpbTrMsBvIOsxo2FI+V/uOoqeMtX967o/df/GrR3XxCpX
+	VsazLDbPyrIHLAPMJ72+kDuEsM/9t4y7kAfB00ZO6X7CZ8QYjBvLy2jXQZfdeA==
+Date: Thu, 26 Oct 2023 09:28:39 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: "Matsunaga-Shinji" <shin.matsunaga@fujitsu.com>
+Cc: rybczynska@gmail.com, richard.purdie@linuxfoundation.org,
+ openembedded-core@lists.openembedded.org, Shunsuke Tokumoto
+ <s-tokumoto@fujitsu.com>
+Subject: Re: [OE-core] [PATCH v2] cve-check: Classify patched CVEs into 3
+ statuses
+Message-ID: <20231026092839.7069e7e8@booty>
+In-Reply-To: <20231025051344.24088-1-shin.matsunaga@fujitsu.com>
+References: <20230922083400.3157-1-shin.matsunaga@fujitsu.com>
+	<20231025051344.24088-1-shin.matsunaga@fujitsu.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <473e1fb5-60a3-40fb-859d-e8d5e7011b81@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 07:24:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189700
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Oct 2023 07:28:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189701
 
-Hi,
+Hello Matsunaga-Shinji,
 
-On Fri, Oct 20, 2023 at 08:54:14AM -0700, Khem Raj wrote:
-> On 10/20/23 12:49 AM, Mikko Rapeli wrote:
-> > Many recipes embed other SW components. The name and version of the
-> > embedded SW component differs from the main recipe. To detect CVEs in the
-> > embedded SW component, it needs to be added to CVE_PRODUCT list using
-> > name of the SW product in CVE database or with "vendor:product" syntax.
-> > Then the version of the embedded SW component can be set using
-> > CVE_VERSION_product variable.
-> > 
-> > For example in meta-arm, trusted-firmware-a embeds mbed_tls SW component.
-> > Thus trusted-firmware-a can add CVE_PRODUCT for it since CVE database
-> > uses product name "mbed_tls":
-> > 
-> > CVE_PRODUCT += "mbed_tls"
-> > 
-> > and set the version of mbed_tls:
-> > 
-> > CVE_VERSION_mbed_tls = "2.28.4"
-> > 
-> > (Real patches for both are a bit more complex due to conditional build
-> > enabling mbed_tls support and due to mbed_tls version being set in an
-> > .inc file.)
-> > 
-> > Now trusted-firmware-a CVE check output shows:
-> > 
-> > NOTE: recipe trusted-firmware-a-2.9.0+gitd3e71ead6ea5bc3555ac90a446efec84ef6c6122-r0: task do_cve_check: Started
-> > WARNING: trusted-firmware-a-2.9.0+gitd3e71ead6ea5bc3555ac90a446efec84ef6c6122-r0 do_cve_check: Found unpatched CVE (CVE-2021-36647 CVE-2021-43666 CVE-2021-45451 CVE-2023-43615), for more information check /home/builder/src/base/build/tmp/work/arm64-poky-linux/trusted-firmware-a/2.9.0+gitd3e71ead6ea5bc3555ac90a446efec84ef6c6122/temp/cve.log
-> > NOTE: recipe trusted-firmware-a-2.9.0+gitd3e71ead6ea5bc3555ac90a446efec84ef6c6122-r0: task do_cve_check: Succeeded
-> > 
-> > Here CVE-2023-43615 is a newly added and fixed CVE in version 2.28.5 and the CVEs
-> > from 2021 need to be checked but are likely fixed in 2.28.3 and newer 2.28.y releases.
-> > 
-> > Note that CVE-2023-43615 does not impact trusted-firmware-a since it doesn't use
-> > TLS or null or RC4 ciphers, but I think it's a good idea to extend
-> > CVE checker for this use case. I hope the "CVE_VERSION_vendor:product"
-> > does not cause odd breakages.
-> > 
+On Wed, 25 Oct 2023 14:13:44 +0900
+"Matsunaga-Shinji" <shin.matsunaga@fujitsu.com> wrote:
+
+> CVEs that are currently considered "Patched" are classified into the following 3 statuses:
+> 1. "Patched"      - means that a patch file that fixed the vulnerability has been applied
+> 2. "Not affected" - means that the package version (PV) is not affected by the vulnerability
+> 3. "Undecidable"  - means that versions cannot be compared to determine if they are affected by the vulnerability
 > 
-> This is a good improvement. There is one more kink to it, where the vendored
-> subpackage might be there in source but we might have configured the recipe
-> to use the system version of the package instead, so how do we cater to such
-> situation ?
+> Signed-off-by: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
+> Signed-off-by: Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
 
-Very good point. I think yocto project maintainer should recommend recipe maintainers
-what to do in these cases. I think safest option is to remove/delete such code paths from
-upstream sources in do_patch(). Debian does something similar also due to license compliance
-with their pristine/dfsg source package format
-https://www.debian.org/doc/manuals/developers-reference/best-pkging-practices.html#repackaged-upstream-source
-when they can't distributed certain files inside the source package.
+This patch triggers a selftest failure:
 
-This issue goes way beyond CVE related data though. LICENSE, PN and PV are affected.
-AFAIK, currently recipe maintainers decide on what goes into LICENSE for example,
-based on how they have configured the SW component build and dependencies. These may
-not be correct though and for complex SW components this really is an issue where
-users who create real products need to check a lot of details. High level SW components
-like javascript engines and browser are very eager to build their own versions SW components
-which are already available as recipes in the build environment.
+AssertionError: 'Not affected' != 'Patched'
+- Not affected
++ Patched
 
-At least for CVE scanning, this patch enables telling the tooling "this recipe
-embeds a custom version of tool/lib xyz" so recipe maintainers can fill in the data
-if they know and care about the details. For license compliance, I hope LICENSE is up to date :)
-though I know that the deeper on looks the more problems will pop up...
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2329/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/5912/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5962/steps/14/logs/stdio
 
-Cheers,
+Luca
 
--Mikko
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
