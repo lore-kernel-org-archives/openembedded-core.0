@@ -2,42 +2,41 @@ Return-Path: <luca.ceresoli@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3F0C25B47
-	for <webhook@archiver.kernel.org>; Fri, 27 Oct 2023 07:40:34 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.1972.1698392425957329044
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD8DCC25B67
+	for <webhook@archiver.kernel.org>; Fri, 27 Oct 2023 07:44:04 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.2012.1698392638679467953
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Oct 2023 00:40:26 -0700
+ Fri, 27 Oct 2023 00:43:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eQv5k+gu;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: luca.ceresoli@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1BCF2FF81D;
-	Fri, 27 Oct 2023 07:40:22 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cV3D+HWl;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: luca.ceresoli@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7F5F1C0002;
+	Fri, 27 Oct 2023 07:43:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1698392423;
+	t=1698392637;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8eMvFV5t6zP8+0dKf1utdLXGGFsB+06ooH0+wXW1JJQ=;
-	b=eQv5k+guNn+n7k0sUarAoCsFjVAuCYiLkpEwZtTxF6jipaBIlYAQpaFxUxESO8On2v9AiJ
-	ABEulWyWASORG0PDnP9nUUSCEjZY9cw5uQ1b+XMyoYuqifqAKosRQqg6/5JKchZxrnKVLa
-	df4FJivgFLErBWppZWlnPrdvsqWyMMoLJY33a7qFC6NwR9BrQB6H/rKccEpcxAjg2c7VXk
-	OCMEokrewbaIvAFP1LaYgGWfy7GJaCycX9M2JbM9Oqs/hlsO1oKrjEEZ6bHoQ8gxtnnMpZ
-	Hy13NBCUUDu+qTcuQ8pKnMaUoBReBF8YBLEzZFTxO4gPTD7ALhi6EYn76bn5Mg==
-Date: Fri, 27 Oct 2023 09:40:21 +0200
+	bh=tus2sRQz2TG8RVCHsAn15az9XDUlxmiwv7lpHx4XmNY=;
+	b=cV3D+HWlvcjuQNrcqR1quzeSpTBzG0Nic8Pszo+Lasq7EBgwnXbmnPvVx5jkh3yIzKTVFb
+	W8k867L11X8J5G5ygKWpxHFGUc2qGgFqU6fIjnaYOfSrYWWUmf/okaUnqfbcEdeQvwwd9O
+	3GMh6rOMXQb1l4A8xoaJLRXYcu98++9V3MKeiAy33AP11mnlJuA045FwOvUlWLj+QOBb5X
+	x/68CO2B9cU+oMGIsmrcgRGgPTuu2FNL65gnczOnqhuAoiuWLsCU0k7Ruj+pmMGY1EtYAN
+	ziRhuVVIQBNVCvkh5Gkb8NoaP8cXcJowymatFLV/uXTM31wXkcubsL+3aJHuDA==
+Date: Fri, 27 Oct 2023 09:43:55 +0200
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Luca Ceresoli via lists.openembedded.org"
- <luca.ceresoli=bootlin.com@lists.openembedded.org>
-Cc: luca.ceresoli@bootlin.com, "Marta Rybczynska" <rybczynska@gmail.com>,
- openembedded-core@lists.openembedded.org,
- richard.purdie@linuxfoundation.org, Marta Rybczynska
- <marta.rybczynska@syslinbit.com>
-Subject: Re: [OE-core] [RFC][OE-core 0/7] SPDX3 Proof-of-Concept
-Message-ID: <20231027094021.005d2adc@booty>
-In-Reply-To: <1791E6C172CE81BE.2594@lists.openembedded.org>
-References: <20231026105033.257971-1-marta.rybczynska@syslinbit.com>
-	<1791E6C172CE81BE.2594@lists.openembedded.org>
+To: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
+ <alex@linutronix.de>
+Subject: Re: [OE-core] [PATCH 1/3] selftest/sstatetests: add tests for
+ 'bitbake -S printdiff'
+Message-ID: <20231027094355.1a43f67b@booty>
+In-Reply-To: <CANNYZj_6kh4bXP_bunqy1s178ZtArCgy=ms7+eTTYVY0G1H8jA@mail.gmail.com>
+References: <20231026103320.2751277-1-alex@linutronix.de>
+	<20231026220221.23f75433@booty>
+	<CANNYZj_6kh4bXP_bunqy1s178ZtArCgy=ms7+eTTYVY0G1H8jA@mail.gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -47,54 +46,24 @@ X-GND-Sasl: luca.ceresoli@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Oct 2023 07:40:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189740
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Oct 2023 07:44:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189741
 
-On Fri, 27 Oct 2023 09:37:28 +0200
-"Luca Ceresoli via lists.openembedded.org"
-<luca.ceresoli=bootlin.com@lists.openembedded.org> wrote:
+Hello Alex,
 
-> Hello Marta,
-> 
-> On Thu, 26 Oct 2023 12:48:40 +0200
-> "Marta Rybczynska" <rybczynska@gmail.com> wrote:
-> 
-> > This patch-set adds a proof-of-concept implementation of the upcoming
-> > SPDX3 standard to the SBOM generation of the Yocto Project/OpenEmbedded.
-> > 
-> > The current code delivers an equivalent of what is produced for SPDX2.2.
-> > The standard has not been released yet, and there is some specification
-> > work in progress still. Our questions and open points are available
-> > in the README.SPDX3 file.
-> > 
-> > Also, this first RFC delivery will be followed by another one with
-> > SPDX assembly and the Licensing profile.  
-> 
-> I ran this series on the autobuilders and it's triggering:
-> 
-> 2023-10-26 22:30:42,532 - oe-selftest - INFO - 2: 27/33 214/548 (53.63s) (0 failed) (spdx.SPDXCheck.test_spdx_base_files)
-> 2023-10-26 22:30:42,532 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
->   File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/selftest/cases/spdx.py", line 54, in test_spdx_base_files
->     self.check_recipe_spdx("packages", "base-files.spdx.json", "base-files")
->   File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/selftest/cases/spdx.py", line 51, in check_recipe_spdx
->     result = check_spdx_json(full_file_path)
->              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/selftest/cases/spdx.py", line 44, in check_spdx_json
->     self.assertNotEqual(report["SPDXID"], None)
->                         ~~~~~~^^^^^^^^^^
-> KeyError: 'SPDXID'
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5969/steps/14/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/5969/steps/14/logs/stdio
+On Fri, 27 Oct 2023 07:29:28 +0200
+"Alexander Kanavin" <alex.kanavin@gmail.com> wrote:
 
-And also, noticed after sending the previous e-mail:
+> On Thu, 26 Oct 2023 at 22:02, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> > Is this different from the series you sent on the 23rd? There is no
+> > vN tag and no ChangeLog, so it's not obvious.  
+> 
+> Only the third patch should be different, and it has core-image-weston
+> removed (as it was causing missing objects, as reported by you). I'll
+> try to include changes under --- in each commit going forward.
 
-ERROR: libtool-native-2.4.7-r0 do_create_spdx: Recipe libtool-native is trying to create package libltdl which was already written by recipe libtool. This will cause corruption, please resolve this and only provide the package from one recipe or the other or only build one of the recipes.
-ERROR: quilt-native-0.67-r0 do_create_spdx: Recipe quilt-native is trying to create package guards which was already written by recipe quilt. This will cause corruption, please resolve this and only provide the package from one recipe or the other or only build one of the recipes.
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/7390/steps/16/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5639/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5527/steps/12/logs/stdio
+That will be useful here, thanks! Without it, at least a v<N> in the
+subject would be good to help keeping track of the current iteration.
 
 Luca
 
