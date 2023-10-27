@@ -1,89 +1,159 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90681C25B47
-	for <webhook@archiver.kernel.org>; Fri, 27 Oct 2023 15:43:47 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.10176.1698421421364259566
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E6EC25B47
+	for <webhook@archiver.kernel.org>; Fri, 27 Oct 2023 16:12:27 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.11047.1698423142118739808
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Oct 2023 08:43:41 -0700
+ Fri, 27 Oct 2023 09:12:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=QP/a+SkH;
- spf=pass (domain: baylibre.com, ip: 209.85.219.54, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-66d17fd450aso27489216d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Oct 2023 08:43:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DXHMesez;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1c9daca2b85so16324085ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Oct 2023 09:12:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698421420; x=1699026220; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3nV8mUNitZEgSD7oYwi1KMwuuMBVWn1gdki93Dx3knM=;
-        b=QP/a+SkHhAK8ayhcRXlDuvTv7k/3VWpjsRva3MOD1xElbw99N5mSdF7ElybtAsnD07
-         tkcKpuMnw3Tm5n+w7fpoFhUMw7pfdBzZSX9wqFtc9jVBbUHKQr/BHgsKYHKUbcaxO9s2
-         cSy0zdO0FlfoK6Slp92htPSGOQaDI5wTVWVP56Neq8CAxJdUghIY+RJpq70P/H/bxYQb
-         jt1QHmDl7ZjYjDvG6NK5u1tch83DJemUFFP7kVFZH+aQOAtkGRijVClBrXDvj1LNZx4Z
-         OOmjIvUBot03gpVllZa6nuSe3dUA0SbWUuHhFPQL2xWCcZncAEN2dD+OYq+qIipuyI52
-         iQIg==
+        d=gmail.com; s=20230601; t=1698423141; x=1699027941; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8pEeKz/Xg4ADRqq8ssLxF9L5qGvJXcQvhOCvIhb8a68=;
+        b=DXHMeseznxdyDDQvHuqvUYgEGmvmAxyOPtQ5gVhp99jctXQ84HpUDE2oefp1l17nfJ
+         Xt/lTfKsj5RXHPn1EkMOkK8my9lH3GCcrlfeLCXaZq6ncyleiKD5R3yXAi4zT3i6Au08
+         Y96VWiHbQeRzJehgqvX5P6TV4N9/ahd0ZjjwrDujeOBPgp4rBmjXQv10fykV2ZHaVe/S
+         xr45Xou9foo4aJPCx1dL/7g4UKh8lBflHF8UA4cz/Q5vWGZBf0IlaFHDWWuFW+MaeOL2
+         hhoLP055plS3vyc2uO+7EOfQ3cbsVBUQTGqKBf50Q9bKYs9Gsh70Smtv2fX4klbrsp0n
+         RTFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698421420; x=1699026220;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3nV8mUNitZEgSD7oYwi1KMwuuMBVWn1gdki93Dx3knM=;
-        b=pPCMHiMWr0p57aw7QnlC3XvnX9gLtLQXrWSHKGMlPSm2Yw+ETji+/fJRkCGZYqxUe+
-         Qcb5cv27sYhh13nX5UmKbUiR3/RukhKDjbaBmmBaE26Tq2d0U6JeInce/G87zQkwtNHm
-         HsaapImV6Y7ctE6n5HhtgJQcXELWmg5graetS2ndIJfucQTg5SJ42aoAVfqH+Ad+t+2i
-         KV+H699+WmxYeNhF9rNEZ1Ww8lwwE7UUBe/X8n+RpAoWQkXPCXLezPIxYLW4/+6Z8tAr
-         weB8X9+jN2e8dDcU5JzBhclkbmXioZ+M3icEJnJ+QwnoEfCejTHARVK2aEoRfM3450Rl
-         Likw==
-X-Gm-Message-State: AOJu0YwxojMpiTJeQ45/QJ3YxKFx0FtxGwbcibK5cFKMi0YqUuhuvPDB
-	+k4KOmqTlge7vyttA2X00toJ9edfx+35MB+1XjI5KQ==
-X-Google-Smtp-Source: AGHT+IGqw40s6cPpmk3rzSnOplbEuiVkM6wVQFX66KWDIfGr6eANmKubW7t7gCIHbGccSEOO5lCqnQ==
-X-Received: by 2002:a05:6214:248e:b0:66f:b7ff:1e12 with SMTP id gi14-20020a056214248e00b0066fb7ff1e12mr3246367qvb.20.1698421419798;
-        Fri, 27 Oct 2023 08:43:39 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id c17-20020a0ce651000000b0065b231b2cb4sm684590qvn.105.2023.10.27.08.43.39
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1698423141; x=1699027941;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8pEeKz/Xg4ADRqq8ssLxF9L5qGvJXcQvhOCvIhb8a68=;
+        b=RihuEJD6yqlT0m6BpQvdibMjVVrLXcBQwLBqnuiD0nGaWHb82b9ZFISvEmPnNX0zDb
+         c+SHfepX2X8Q1uXyyCAdhn2G/k6fMBU0YSb2p7rlIaeVSkaC5V0/cIn2eMjesLehlNgF
+         UH+cTURjKxUzKjAoPaOrcXnd5sd0HIHWZJVlr4gskR3WQjtMBrF6bZ5hsgE6yF4fpuL4
+         OoHhjpXJxU+S81fOLFFEjTP2rksNVRzoT79r3aqj2IrjhX8qO1DwEPLG56LqGRM7P125
+         38qKLd55iXDEOYjILdi9mYRtuIcdo2YRIjFBrmBK9JPmCl8mYuItD7vK9ol3sKu3X17C
+         +sRA==
+X-Gm-Message-State: AOJu0YyWC3uDiOMu32vsOOdcumUkVkEvBZ1he01H4iwaXAPcVbqFg3z6
+	93gP6aRYpf8C1H7HEpq+M7AmnJK7Mf2MYw==
+X-Google-Smtp-Source: AGHT+IEITNJvnm0wM5LzJkkGaJypv4quB9kchyj6bX/0FW3eqEw5EI+a6qlVkDT93EJQQ4mi5gq3dw==
+X-Received: by 2002:a17:902:c412:b0:1c9:e77d:62d3 with SMTP id k18-20020a170902c41200b001c9e77d62d3mr4881372plk.10.1698423140912;
+        Fri, 27 Oct 2023 09:12:20 -0700 (PDT)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:86f5:78c8:cb9c:655c])
+        by smtp.gmail.com with ESMTPSA id 12-20020a170902c20c00b001bc675068e2sm1753610pll.111.2023.10.27.09.12.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Oct 2023 08:43:39 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+        Fri, 27 Oct 2023 09:12:20 -0700 (PDT)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] patchtest: reduce checksum test output length
-Date: Fri, 27 Oct 2023 11:43:38 -0400
-Message-ID: <20231027154338.182629-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] recipetool: add python_hatchling support
+Date: Fri, 27 Oct 2023 09:12:12 -0700
+Message-Id: <20231027161212.468295-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Oct 2023 15:43:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189750
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Oct 2023 16:12:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189751
 
-The test_lic_files_chksum_modified_not_mentioned test in TestMetadata is
-outputting very long lines that fail the maximum length check when
-sending email results, preventing the actual errors from being
-displayed. Reduce the length of the failure message by rewording and
-removing redundant information.
+One of the newer PEP-517 backends to be added was python_hatchling.bbclass
+but it was not included in the recent improvements.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Add selftest for 'jsonschema' pypi package.
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/lib/patchtest/tests/test_metadata.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/recipetool.py    | 35 +++++++++++++++++++
+ .../lib/recipetool/create_buildsys_python.py  |  6 +++-
+ 2 files changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchtest/tests/test_metadata.py
-index 34e119174fe..3742760b451 100644
---- a/meta/lib/patchtest/tests/test_metadata.py
-+++ b/meta/lib/patchtest/tests/test_metadata.py
-@@ -116,7 +116,7 @@ class TestMetadata(base.Metadata):
-                     if self.lictag_re.search_string(commit.commit_message):
-                        break
-                 else:
--                    self.fail('LIC_FILES_CHKSUM changed on target %s but there is no "License-Update:" tag in commit message. Include it with a brief description' % pn,
-+                    self.fail('LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message',
-                               data=[('Current checksum', pretest), ('New checksum', test)])
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index 8e0fc995f7e..b64f724b8f0 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -576,6 +576,41 @@ class RecipetoolCreateTests(RecipetoolBase):
  
-     def test_max_line_length(self):
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
++    def test_recipetool_create_python3_pep517_hatchling(self):
++        # This test require python 3.11 or above for the tomllib module
++        # or tomli module to be installed
++        try:
++            import tomllib
++        except ImportError:
++            try:
++                import tomli
++            except ImportError:
++                self.skipTest('Test requires python 3.11 or above for tomllib module or tomli module')
++
++        # Test creating python3 package from tarball (using hatchling class)
++        temprecipe = os.path.join(self.tempdir, 'recipe')
++        os.makedirs(temprecipe)
++        pn = 'jsonschema'
++        pv = '4.19.1'
++        recipefile = os.path.join(temprecipe, 'python3-%s_%s.bb' % (pn, pv))
++        srcuri = 'https://files.pythonhosted.org/packages/e4/43/087b24516db11722c8687e0caf0f66c7785c0b1c51b0ab951dfde924e3f5/jsonschema-%s.tar.gz' % pv
++        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
++        self.assertTrue(os.path.isfile(recipefile))
++        checkvars = {}
++        checkvars['SUMMARY'] = 'An implementation of JSON Schema validation for Python'
++        checkvars['HOMEPAGE'] = 'https://github.com/python-jsonschema/jsonschema'
++        checkvars['LICENSE'] = set(['MIT'])
++        checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING;md5=7a60a81c146ec25599a3e1dabb8610a8 file://json/LICENSE;md5=9d4de43111d33570c8fe49b4cb0e01af'
++        checkvars['SRC_URI'] = 'https://files.pythonhosted.org/packages/e4/43/087b24516db11722c8687e0caf0f66c7785c0b1c51b0ab951dfde924e3f5/jsonschema-${PV}.tar.gz'
++        checkvars['SRC_URI[md5sum]'] = '4d6667ce76f820c35082c2d60a4896ab'
++        checkvars['SRC_URI[sha1sum]'] = '9173714cb88964d07f3a3f4fcaaef638b8ceac0c'
++        checkvars['SRC_URI[sha256sum]'] = 'ec84cc37cfa703ef7cd4928db24f9cb31428a5d0fa77747b8b51a847458e0bbf'
++        checkvars['SRC_URI[sha384sum]'] = '7a53181f0e679aa3dc3eb4d05a420877b7b9bff2d02e81f5c289a37ed1127d6c0cca1f5a5f9e4e166f089ab36bcc2be9'
++        checkvars['SRC_URI[sha512sum]'] = '60fa769faf6e3fc2c14eb9acd189c86e9d366b157230a5681d36552af0c159cb1ad33fd920668a36afdab98bc97253f91501704c5c07b5009fdaf9d29b52060d'
++        inherits = ['python_hatchling']
++
++        self._test_recipe_contents(recipefile, checkvars, inherits)
++
+     def test_recipetool_create_github_tarball(self):
+         # Basic test to ensure github URL mangling doesn't apply to release tarballs
+         temprecipe = os.path.join(self.tempdir, 'recipe')
+diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+index 9e7f22c0db0..9312e4abf13 100644
+--- a/scripts/lib/recipetool/create_buildsys_python.py
++++ b/scripts/lib/recipetool/create_buildsys_python.py
+@@ -662,11 +662,12 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+     PEP517 https://peps.python.org/pep-0517/#source-trees
+     PEP518 https://peps.python.org/pep-0518/#build-system-table
+     """
+-    # bitbake currently support the 3 following backends
++    # bitbake currently supports the 4 following backends
+     build_backend_map = {
+         "setuptools.build_meta": "python_setuptools_build_meta",
+         "poetry.core.masonry.api": "python_poetry_core",
+         "flit_core.buildapi": "python_flit_core",
++        "hatchling.build": "python_hatchling",
+     }
+ 
+     # setuptools.build_meta and flit declare project metadata into the "project" section of pyproject.toml
+@@ -716,6 +717,8 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+         "poetry-core": "python3-poetry-core",
+         "flit_core": "python3-flit-core",
+         "setuptools-scm": "python3-setuptools-scm",
++        "hatchling": "python3-hatchling",
++        "hatch-vcs": "python3-hatch-vcs",
+     }
+ 
+     def __init__(self):
+@@ -776,6 +779,7 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+                     if field == "license":
+                         # For setuptools.build_meta and flit, licence is a table
+                         # but for poetry licence is a string
++                        # for hatchling, both table (jsonschema) and string (iniconfig) have been used
+                         if build_backend == "poetry.core.masonry.api":
+                             value = values
+                         else:
 -- 
-2.41.0
+2.34.1
 
 
