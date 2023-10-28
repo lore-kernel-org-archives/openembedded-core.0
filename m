@@ -2,265 +2,250 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66958C0032E
-	for <webhook@archiver.kernel.org>; Sat, 28 Oct 2023 12:36:07 +0000 (UTC)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
- by mx.groups.io with SMTP id smtpd.web11.16957.1698496558065682087
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C14C0032E
+	for <webhook@archiver.kernel.org>; Sat, 28 Oct 2023 12:56:57 +0000 (UTC)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
+ by mx.groups.io with SMTP id smtpd.web10.17285.1698497812836192051
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Oct 2023 05:35:58 -0700
+ Sat, 28 Oct 2023 05:56:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nitg0Xw4;
- spf=pass (domain: gmail.com, ip: 209.85.166.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-35903f528e8so1167545ab.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Oct 2023 05:35:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=P7sZgy5o;
+ spf=pass (domain: gmail.com, ip: 209.85.166.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f49.google.com with SMTP id ca18e2360f4ac-7a6774da682so103083339f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Oct 2023 05:56:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698496557; x=1699101357; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1698497812; x=1699102612; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bAoXlFqSDv36MxuLkDJc3dBH4BgFvExskNz62vFAMfE=;
-        b=Nitg0Xw4zQDcDfDtNQ+MZbAcU9sXz4rnoXvPSXxEiKQXmFMZQwugTtVo7mXTuunbMO
-         N7v568fnqOnwo0IBCHVxiJDc4YCFg/5+AiS08v598mwBNgxjS3ftOueGuz2q/UaH6ovO
-         6O7aYZ/1IwbRqq0Z2yVQwyMO6BRkWG9Gps8hicht4reL0jDK1i0WcTmaqJSfreoQghNu
-         l4bFnB1dJ/C4KgdFv01rVexwl5NZGTicy5vhHkrSx1xAMg9mvVrikyqHIWaMhepzgEKD
-         nJKiuUvGWkuOrlj4/GR2EpKlV7HH6wsNcvXXMnn9bbAbbPKL7NHC6n/tK2oSEg8fuIM3
-         CEqg==
+        bh=Gc6esDh47OvZbJ3R+INqP7JRqJpVnyIVMJIMoMDTLGo=;
+        b=P7sZgy5oFV6bsDCbs/yaCXBPbX7ps8zq3YMO+haDELbxqNen05hueRhGnb4uUajRKY
+         RMBHR/SEJGuahhxCvxqiLwWp6cVKkLA1DMq6lUyc3f1ZgAxFGAZZJPFfmgtaJ0mAQNT/
+         W5BUMIEkemgvE1+dybSupcu5VY+YTV/SeGDJy7HfKT/5iVP8QFSo4up9mjx3kmMa5JTw
+         t8WlirkI9Vkk7nXmJufVvJ0u9LG9ksSPX4dnAMcGnpQZbo+SvKL4b5AFo0ij9kfCb9ht
+         Jy4jcYnTkBSfhfqUWeTfAGyq8lhz9NcqF51JHF3TfzUi1grd0pWMA/BJtchMAui16fuS
+         mW8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698496557; x=1699101357;
+        d=1e100.net; s=20230601; t=1698497812; x=1699102612;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bAoXlFqSDv36MxuLkDJc3dBH4BgFvExskNz62vFAMfE=;
-        b=p0eoI3UMU2mnR+C8UE/5d/ci52kzoSh7DK0mANBw1HP6bI6OaP8KyBH5pHhXCLoCgp
-         AVGvVbV8cXBhNH5NklJOxn8a7cQ2Oh9KV7mHm2uhLjh0PHFH0Po/qRB9Ch0bbmnJfBMY
-         DNOKQ16JjfhNxSpwSIPrvWjvGtpvs9WHjcInELGRzn2G8MQkR4ZDS0WOlc1SGtyhqDWD
-         1+ZW7bIjjjFNb0d7A6hDmYf7NZPubNIPzYKReMvMM07kFMnk/D1hLEVzjOtMvfrPZS6y
-         LzkM/EPrV40iOyS2Sw4LRHnizB4wgRZSMqfkdJvG6oLScl+K4uopsGhf5u8Omupnb6xa
-         GMbw==
-X-Gm-Message-State: AOJu0YyiLvrOvlsUzJi25HDqxan0dxmKq2bOccZCPBXdcBRHRH4qnIII
-	Nin6aR2k0bYL2mGrXySHWUw7MFAfkWI94WANxx0/mN7vQ8Y=
-X-Google-Smtp-Source: AGHT+IGACF9GuuhvpbHD7UlD2mrjt8yx6Jqh9lIiO5zHA29W8zq3eVd0N06PjsBa8N4B16eerAO+BDiPnCbI2a9sCFs=
-X-Received: by 2002:a92:d5c6:0:b0:357:d136:7218 with SMTP id
- d6-20020a92d5c6000000b00357d1367218mr9764723ilq.7.1698496557210; Sat, 28 Oct
- 2023 05:35:57 -0700 (PDT)
+        bh=Gc6esDh47OvZbJ3R+INqP7JRqJpVnyIVMJIMoMDTLGo=;
+        b=r3A3ksA/TYiYAJp9sdtCnHC4uK4KTUegqXXYJy/kEfk5ajEslItXcIkNwLUxUY1Aup
+         0ljDawz8IT6LPNmkZepb9jb2+U5UZSpJDSXBOGWdAU9/8QO9WEELGRtLw2oSFUM83FPr
+         FGqrA5PXNhF3QCAQODRbIxU3KxuJ5lau2YASSTSrEJEK19I/PkZs/Wfcgiib4YOXnlMs
+         yYuCt5P30pnXqy5h17FSO0PDMuOGMNbVsr7INWaXnAIuWxACYwMUkSTShFPGiV5iwTHm
+         rgJLX6mXko9Sfque7AxTCFOcPj8oTllGZ8JxIC1aghoXGkER3d5map9+2UsFP0ZIghDs
+         vkAg==
+X-Gm-Message-State: AOJu0YwCT9eV0dI53taLzW9m/Z1tGHbtW/anzYaM8+4lqZQdbPswO16V
+	7AZ0hoa5Ct41mtNQgX+fyGteaVKC9fLzELalgNw=
+X-Google-Smtp-Source: AGHT+IFU0jIzc/mdv37yzkiw271rvSIqE9i2+XLV8M46ZXcz5jxOvFVUJN6z+CGA7rXnM8//uuBK0iz26qWiKONam9o=
+X-Received: by 2002:a05:6602:1608:b0:79a:b53c:d758 with SMTP id
+ x8-20020a056602160800b0079ab53cd758mr8479328iow.1.1698497811980; Sat, 28 Oct
+ 2023 05:56:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231028000738.968009-1-bhstalel@gmail.com>
-In-Reply-To: <20231028000738.968009-1-bhstalel@gmail.com>
+References: <20231025223710.93502-1-wak@google.com> <CADkTA4OucgUogtX6tQ21oD6i1qQ+6qq1uJQG3S8NsChATTr3Ww@mail.gmail.com>
+ <CAPnigK=VcgCH_gWUy2j3nXSngNXdc32y8FRKRiPSRU-bh57M5w@mail.gmail.com>
+ <CADkTA4M90k1pt1Jc6SDLFYQyNgYqDoj_poC33t9byssx=HRP3g@mail.gmail.com>
+ <DB5PR02MB10213AA31EED673AFF57264C8EFDCA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <1792457740E31CAD.7262@lists.openembedded.org>
+In-Reply-To: <1792457740E31CAD.7262@lists.openembedded.org>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 28 Oct 2023 08:35:46 -0400
-Message-ID: <CADkTA4PWe7-2GgsiyZMFqppje+hhY_3yUMrENF2DGaKv+pUwEw@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] meta: classes-recipe: A class for simple Kernel modules
-To: BELHADJ SALEM Talel <bhstalel@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+Date: Sat, 28 Oct 2023 08:56:41 -0400
+Message-ID: <CADkTA4MKL2Hqc-JJrmS8aGy3s6rjA-9ZaXj7MpbUEyBCfD7CvA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel: Commit without running hooks
+To: bruce.ashfield@gmail.com
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, William Kennington <wak@google.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 Oct 2023 12:36:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189762
+ <openembedded-core@lists.openembedded.org>; Sat, 28 Oct 2023 12:56:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189763
 
-On Fri, Oct 27, 2023 at 8:07=E2=80=AFPM BELHADJ SALEM Talel <bhstalel@gmail=
-.com> wrote:
+On Sat, Oct 28, 2023 at 8:33=E2=80=AFAM Bruce Ashfield via
+lists.openembedded.org
+<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
 >
-> The module class provides what is needed to compile a Linux Kernel module
-> but since the Makefile is always the same for simple modules that have
-> their sources in one directory level, I thought of creating new class wra=
-pper
-> to automatically prepare the Makefile.
-> Also, using variable flag feature, a recipe can provide multiple modules
-> and can be handled the same way as PACKAGECONFIG is used to enabled/disab=
-le
-> features.
+> On Fri, Oct 27, 2023 at 7:27=E2=80=AFPM Peter Kjellerstedt
+> <peter.kjellerstedt@axis.com> wrote:
+> >
+> > > -----Original Message-----
+> > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > core@lists.openembedded.org> On Behalf Of Bruce Ashfield
+> > > Sent: den 26 oktober 2023 16:26
+> > > To: William Kennington <wak@google.com>; Richard Purdie
+> > > <richard.purdie@linuxfoundation.org>
+> > > Cc: openembedded-core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [PATCH] kernel: Commit without running hooks
+> > >
+> > > On Thu, Oct 26, 2023 at 6:38=E2=80=AFAM William Kennington <wak@googl=
+e.com> wrote:
+> > > >
+> > > > On Wed, Oct 25, 2023 at 7:08=E2=80=AFPM Bruce Ashfield
+> > > <bruce.ashfield@gmail.com> wrote:
+> > > > >
+> > > > > On Wed, Oct 25, 2023 at 6:37=E2=80=AFPM William A. Kennington III=
+ via
+> > > > > lists.openembedded.org <wak=3Dgoogle.com@lists.openembedded.org> =
+wrote:
+> > > > > >
+> > > > > > The hooks are pulled from the impure environment and are often
+> > > broken in
+> > > > > > our environments. There is no reason to add extra metadata or v=
+erify
+> > > the
+> > > > > > commit message as its arbitrary to turn the tarball into a git =
+repo.
+> > > > >
+> > > > > But what about the other uses of git ? If the hooks are broken du=
+ring
+> > > > > the creation step, other uses of git should also be broken.
+> > > >
+> > > > The only time hooks are run is for `git commit`. AFAIK our build
+> > > > process has no other invocations of `git commit`. All other git
+> > > > operations work fine.
+> > >
+> > > Right. There are a few others that you just aren't hitting. There's
+> > > the git option for patching (for any recipe), and also some use in th=
+e
+> > > kern-tools that you wouldn't see unless you are also patching or
+> > > doing merges as part of the kernel patch phase.
+> > >
+> > > It would be nice to fix them all at the same time.
+> > >
+> > > >
+> > > > >
+> > > > > We've had the ability to check the git config for quite some time=
+, we
+> > > > > could take it further an inhibit the use of the host config if we=
+ are
+> > > > > worried about breakage like this.
+> > > >
+> > > > Maybe this would be the best idea overall for our git support insid=
+e
+> > > > the build system, avoiding the build user global git config. That
+> > > > probably solves the issue we generally have. I'm okay either way.
+> > > >
+> > >
+> > > Agreed.
+> > >
+> > > There's some complexity with git versions and the variables that
+> > > are available to inhibit local/host/system configuration, but really,
+> > > if we want to have isolated and reproducible builds, we should
+> > > provide our own configuration.
+> > >
+> > > Richard: Does that sound reasonable to you ? If you want to fix
+> > > this immediate problem, i don't see any harm in the patch, but it
+> > > may just mask things and ensure we don't ever fix it fully.
+> > >
+> > > William: could you raise a bugzilla (and assign it to me) about
+> > > git configuration from the user/system influencing our build ? That
+> > > would ensure we don't forget it completely :)
+> > >
+> > > Bruce
+> >
+> > I would argue that it can be a bad idea to ignore the user's Git
+> > configuration. It may, e.g., contain insteadOf settings, which if
+> > ignored, prevents the build from fetching from the correct sources.
+> > There may be proxy settings that are needed. There may be hooks
+> > that are needed. And the list goes on. Trying to avoid problems
+> > by completely ignoring the user's configuration is likely to open
+> > up another can of problems.
+> >
+>
+> I'd argue that anything critical to the build should be explicitly
+> configured and part of our environment. We don't really want our
+> fetchers to pull sources using locally configured values, why would
+> we let git ?
+>
+> Relying on a builder or an organization putting these settings
+> in a git configuration that is part of the host is error prone as
+> well.
+>
+> I'd much rather flush out dependencies like this and have
+> error reports, than to keep them hidden. I'll definitely be
+> continuing to work on inhibiting the host environment and see
+> what pops up.
 
-I find this method of preparing a kernel module much harder to follow
-(and debug).
+I should also add (for the archive's benefit), that I'm only talking
+about a limited set of places where we'd opt into this isolation
+(for now). In particular for the kernel-yocto bits, and possibly for
+the patch.py portions. So just patching / applying changes, I'm
+not going to muck with devtool or workflows like that.
 
-So Richard is ok with the class, I have no objections, it may serve a class=
- of
-developers, but it isn't something I'd support as a first option.
-
-But please, create a separate example for it, not modifying hello-world, we=
- want
-that simple and explicit example to persist.
+What they are presumably applying has already had a basic
+level of sanity applied.
 
 Bruce
 
 >
-> Signed-off-by: Talel BELHAJSALEM <bhstalel@gmail.com>
-> ---
->  .../recipes-kernel/hello-mod/hello-mod_0.1.bb |  11 +-
->  meta/classes-recipe/simple-module.bbclass     | 116 ++++++++++++++++++
->  2 files changed, 120 insertions(+), 7 deletions(-)
->  create mode 100644 meta/classes-recipe/simple-module.bbclass
+> > That said, specifically ignoring the pre-commit and commit-msg
+> > hooks by specifying -n (or --no-verify as I prefer) to git commit
+> > is probably a good idea. At least if others are like us and have
+> > global Git hooks that verify that the commit message follows our
+> > rules...
+> >
 >
-> diff --git a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb b/me=
-ta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-> index a2fb212a68..f191b08be5 100644
-> --- a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-> +++ b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
-> @@ -3,16 +3,13 @@ DESCRIPTION =3D "${SUMMARY}"
->  LICENSE =3D "GPL-2.0-only"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D12f884d2ae1ff87c09e5b7ccc2c4c=
-a7e"
+> I only see this as a fallback solution.
 >
-> -inherit module
-> +inherit simple-module
+> Bruce
 >
-> -SRC_URI =3D "file://Makefile \
-> -           file://hello.c \
-> +SRC_URI =3D "file://hello.c \
->             file://COPYING \
->            "
+> > //Peter
+> >
+> > > > >
+> > > > > Bruce
+> > > > >
+> > > > > >
+> > > > > > Signed-off-by: William A. Kennington III <wak@google.com>
+> > > > > > ---
+> > > > > >  meta/classes-recipe/kernel-yocto.bbclass | 2 +-
+> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/cl=
+asses-recipe/kernel-yocto.bbclass
+> > > > > > index 4ac977b122..cb9cd26b09 100644
+> > > > > > --- a/meta/classes-recipe/kernel-yocto.bbclass
+> > > > > > +++ b/meta/classes-recipe/kernel-yocto.bbclass
+> > > > > > @@ -408,7 +408,7 @@ do_kernel_checkout() {
+> > > > > >                 git init
+> > > > > >                 check_git_config
+> > > > > >                 git add .
+> > > > > > -               git commit -q -m "baseline commit: creating rep=
+o for ${PN}-${PV}"
+> > > > > > +               git commit -q -n -m "baseline commit: creating =
+repo for ${PN}-${PV}"
+> > > > > >                 git clean -d -f
+> > > > > >         fi
+> > > > > >
+> > > > > > --
+> > > > > > 2.42.0.820.g83a721a137-goog
+> > > > >
+> > > > > --
+> > > > > - Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end
+> > > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > >
+> > > --
+> > > - Thou shalt not follow the NULL pointer, for chaos and madness await=
+ thee at its end
+> > > - "Use the force Harry" - Gandalf, Star Trek II
+> >
 >
->  S =3D "${WORKDIR}"
 >
-> -# The inherit of module.bbclass will automatically name module packages =
-with
-> -# "kernel-module-" prefix as required by the oe-core build environment.
-> -
-> -RPROVIDES:${PN} +=3D "kernel-module-hello"
-> +MODULE_SRC =3D "hello"
-> +MODULE_SRC[hello] =3D ""
-> \ No newline at end of file
-> diff --git a/meta/classes-recipe/simple-module.bbclass b/meta/classes-rec=
-ipe/simple-module.bbclass
-> new file mode 100644
-> index 0000000000..a837dec848
-> --- /dev/null
-> +++ b/meta/classes-recipe/simple-module.bbclass
-> @@ -0,0 +1,116 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +# Class to generate Makefile for Linux Kernel modules
-> +#
-> +# The aim of this class is to provide a way to gain time
-> +# when creating recipes for Linux Kernel modules
-> +#
-> +# Required variable:
-> +#   MODULE_SRC
-> +#
-> +# This variable itself counts on flags to know what files
-> +# to use for .ko generation and their .o dependencies
-> +#
-> +# Usage:
-> +#   If you have the following module structure:
-> +#       |-- module.c
-> +#       |-- dep1.c
-> +#       `-- dep2.c
-> +#   then you set:
-> +#   MODULE_SRC[module] =3D "dep1 dep2"
-> +#
-> +# This will generate:
-> +#   obj-m +=3D module.o
-> +#   module-objs +=3D dep1.o dep2.o
-> +#
-> +# This class supports multiple modules as well
-> +# each module will be added to obj-m and if it has dependencies
-> +# an -objs variable will be created.
-> +#
-> +# A module can be enabled or disabled by adding or removing
-> +# the module name from MODULE_SRC
-> +#
-> +# Limitations:
-> +#   - All modules source files should exist in the same folder level
-> +
-> +inherit module
-> +
-> +python do_prepare_makefile() {
-> +
-> +    if not (d.getVar('MODULE_SRC') or "").split():
-> +        bb.warn("You inherited easy-module but did not set drivers in MO=
-DULE_SRC")
-> +
-> +    kernel_modules =3D (d.getVar('MODULE_SRC') or "").split()
-> +
-> +    if kernel_modules:
-> +        kernel_modules_flags =3D d.getVarFlags('MODULE_SRC') or []
-> +
-> +        objs_data =3D {}
-> +        for k_module in kernel_modules:
-> +
-> +            # Check if all enabled drivers have corresponding flag
-> +            if not k_module in kernel_modules_flags:
-> +                bb.fatal(f"Driver {k_module} is enabled but does not hav=
-e a flag entry")
-> +
-> +            k_module_file =3D f"{k_module}.c"
-> +            if not os.path.isfile(k_module_file):
-> +                bb.fatal(f"Source file {k_module_file} is not found")
-> +
-> +            k_module_o =3D f"{k_module}.o"
-> +            objs_data[k_module] =3D []
-> +
-> +            k_module_deps =3D (d.getVarFlag('MODULE_SRC', k_module) or "=
-").split()
-> +            for dep in k_module_deps:
-> +                dep_file =3D f"{dep}.c"
-> +                dep_o =3D f"{dep}.o"
-> +
-> +                if not os.path.isfile(dep_file):
-> +                    bb.fatal(f"Dependency file {dep_file} for the {k_mod=
-ule_file} is not found")
-> +
-> +                objs_data[k_module].append(dep_o)
-> +
-> +        with open('Makefile', 'w') as mf:
-> +            # Main modules
-> +            mf.write(
-> +                f"""
-> +# This Makefile is generated automatically by easy-module class
-> +obj-m +=3D {' '.join([objm + '.o' for objm in objs_data.keys()])}
-> +""")
-> +
-> +            # Modules dependencies
-> +            for k_module, deps in objs_data.items():
-> +                if deps:
-> +                    mf.write(
-> +                        f"""
-> +{k_module}-objs +=3D {' '.join([dep for dep in deps])}
-> +""")
-> +
-> +            # Rest of Makefile
-> +            mf.write(
-> +                """
-> +SRC :=3D $(shell pwd)
-> +
-> +all:
-> +\t$(MAKE) -C $(KERNEL_SRC) M=3D$(SRC)
-> +
-> +modules_install:
-> +\t$(MAKE) -C $(KERNEL_SRC) M=3D$(SRC) modules_install
-> +
-> +clean:
-> +\trm -f *.o *~ core .depend .*.cmd *.ko *.mod.c
-> +\trm -f Module.markers Module.symvers modules.order
-> +\trm -rf .tmp_versions Modules.symvers
-> +""")
-> +}
-> +
-> +RPROVIDES:${PN} +=3D "kernel-module-${PN}"
-> +
-> +export SRC =3D "${B}"
-> +
-> +do_prepare_makefile[docs] =3D "Automate Makefile preparation for simple =
-Kernel modules"
-> +do_prepare_makefile[dirs] =3D "${B}"
-> +addtask do_prepare_makefile before do_configure after do_patch
-> \ No newline at end of file
 > --
-> 2.25.1
->
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#189756): https://lists.openembedded.org/g/openembedde=
-d-core/message/189756
-> Mute This Topic: https://lists.openembedded.org/mt/102233042/1050810
+> View/Reply Online (#189761): https://lists.openembedded.org/g/openembedde=
+d-core/message/189761
+> Mute This Topic: https://lists.openembedded.org/mt/102189231/1050810
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
 uce.ashfield@gmail.com]
