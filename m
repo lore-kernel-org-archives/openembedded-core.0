@@ -1,221 +1,107 @@
-Return-Path: <bhstalel@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B34D0C27C47
-	for <webhook@archiver.kernel.org>; Sat, 28 Oct 2023 13:48:27 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.18013.1698500901544251000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA970C0032E
+	for <webhook@archiver.kernel.org>; Sat, 28 Oct 2023 13:51:47 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.18151.1698501105354391009
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Oct 2023 06:48:21 -0700
+ Sat, 28 Oct 2023 06:51:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hH4BOP7y;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: bhstalel@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-32dcd3e5f3fso2015237f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Oct 2023 06:48:21 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UHAG2YsC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4084095722aso23448345e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Oct 2023 06:51:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698500899; x=1699105699; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Geto+I6BYDjogapb0tGx22rV1csof5fdinCWVnznfeI=;
-        b=hH4BOP7yKQicWU5SU601mzY1Ui77Yms4v6OAgvSOCMtoNhsqq5qZUDUr8NXaHaUOP8
-         XyxhggUcgR60yuXJpqtNhz1wZU5fdMMODHwET8L+x4qZDrn97AqvnRAjaSEjkPFBR0QN
-         AvRLetSgW7r/lRu/9N1d/euhh0qi/BhpIfAbsNdG/Mnz5CJCTwLBsJ++hm/snoK0vZQG
-         ask9mc8JQI8OrCAXjQdpS6iJoZD/RliKmhfxSyK4SB2I1S3CJk+MSbqLFQ4goGhExRMV
-         xe665mdkBY8sJbWPuv1zJzcv4ZQ5EAMH1qTtzmeAPwLg7NtwZHgwf3xsuiBKQ4kF5nJz
-         YXeA==
+        d=linuxfoundation.org; s=google; t=1698501104; x=1699105904; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=zG6rr/hlcCtYxRuwqXvJskAmInsjMut3zo7QXLwihA0=;
+        b=UHAG2YsCOCGcGVccQE3mftGF7wZm5I8trHDxu6OYiXS38m4IHA8zKwIWkRexYaCFr0
+         SotDDkXsR/k4kO8KQQCwQejtSkqDDSExrAfBcaTQAW+fnlLVG7aY3CMMgq4t2q+0Z22h
+         XU+kZA0z5VIorBm2iYG9nJvMYnVz4i1IsxZxk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698500899; x=1699105699;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Geto+I6BYDjogapb0tGx22rV1csof5fdinCWVnznfeI=;
-        b=qdJ0ORtEz+WbonPzKIdgqr9VnqKhGGZ+XCELN1wr8HqmI+fQSDoHBCCapBoOim9OqG
-         p42W6sWpJ9fgpLwkJmKF9mGE9wD6WxCpVhRE8ARFSYizkGXcl8IFrKqQx3rUdHEBTndd
-         dNx5WLSoy1JQV34BV4S2qgQqgbdDmzfijWboEwDIJ0uZxCyAbjzB4jezrXvRYGgFreZj
-         zNjw3m6PZuCd+5Sm/Fl/+D96brNuS7U5Jkxlm+NqiNvlR5PqzHJCJyWtf4NWSzU7OgJN
-         0sMFLjWfFhr1uSCiDK8TagUp/UMtvC+7CPvYMxsUphoNZy8x7frDrMgSIJJgHSj9zlYN
-         pRlg==
-X-Gm-Message-State: AOJu0Ywc7xKEjy5hyoRnjJUgogkxZRz+ICho88Mi6YhVcoS9hCxj/hkK
-	GzwrjKLHJmd7rBtYSVjQTr6kpxYySH/J5w==
-X-Google-Smtp-Source: AGHT+IE05j38eY+aCYy5SONbe4wByxFSE90T7x1Mr5p1EiJvb2obDtm+FQA+s5sT3F4Yt/RXK5RPhQ==
-X-Received: by 2002:adf:fc49:0:b0:32d:be57:795f with SMTP id e9-20020adffc49000000b0032dbe57795fmr3602367wrs.6.1698500899351;
-        Sat, 28 Oct 2023 06:48:19 -0700 (PDT)
-Received: from localhost.localdomain ([196.229.6.8])
-        by smtp.gmail.com with ESMTPSA id bs27-20020a056000071b00b0032daf848f68sm223414wrb.59.2023.10.28.06.48.18
+        d=1e100.net; s=20230601; t=1698501104; x=1699105904;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zG6rr/hlcCtYxRuwqXvJskAmInsjMut3zo7QXLwihA0=;
+        b=ej6VXbJ1uw+wm8bsdY8Xb0qJSgLEsspTbtAywGiM0pQ8xjbfMTOhWvbjQ6XSzuD33Z
+         6FWm6Hbr/gATxPPZ1jQ0BiWmkYcpJpdoT1cqb+UDCtJBNzO9iuwLNMaKv/jFr+wPZJR7
+         wvlV49Q4xsLsz+R+TAF+MIkqtJqWDCv1OuOZK9B01d4Acd0Q4aYQ2JhG6bJRyDnjdTI+
+         50fWRnUSo0UaxJQc+TLYw8uu/CPVYTTBO6OZqU6yfBDMjHLM76ZnrIKuWhPf/c/KhjmQ
+         YOKQO1vG9ULZUZ1kO4UqiQsB5euPBskIdv3Sa7tqdAlAfWrbt5ArODfhksC9kC4SRDeW
+         Hzjg==
+X-Gm-Message-State: AOJu0Yx8uTlHOEe8KrI45Md+PiWSLGtSlgclLZm3qBGMk8iXoSQZ3zjv
+	mRBIJuRmxmp/0/5s79tp6zZdfA==
+X-Google-Smtp-Source: AGHT+IGOcpG7u3xdmOwkUZSEpa0Q69IZREcEM4HZUM9usSTS1pekTCXgnNez8ivn2mqS9PFa5ETGhw==
+X-Received: by 2002:a05:600c:3b15:b0:405:4a78:a892 with SMTP id m21-20020a05600c3b1500b004054a78a892mr4849020wms.9.1698501103202;
+        Sat, 28 Oct 2023 06:51:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8d0f:be40:40a9:c121? ([2001:8b0:aba:5f3c:8d0f:be40:40a9:c121])
+        by smtp.gmail.com with ESMTPSA id i1-20020a5d6301000000b003176c6e87b1sm3859180wru.81.2023.10.28.06.51.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 06:48:19 -0700 (PDT)
-From: Talel BELHAJSALEM <bhstalel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Talel BELHAJSALEM <bhstalel@gmail.com>
-Subject: [OE-Core][PATCH v2] meta: classes-recipe: A class for simple Kernel modules
-Date: Sat, 28 Oct 2023 14:48:08 +0100
-Message-Id: <20231028134808.984028-1-bhstalel@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sat, 28 Oct 2023 06:51:42 -0700 (PDT)
+Message-ID: <18a7bb5f46d14f2ef31ac06f79e73801399c47d0.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH] meta: classes-recipe: A class for simple
+ Kernel modules
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, BELHADJ SALEM Talel
+	 <bhstalel@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Sat, 28 Oct 2023 14:51:41 +0100
+In-Reply-To: <CADkTA4PWe7-2GgsiyZMFqppje+hhY_3yUMrENF2DGaKv+pUwEw@mail.gmail.com>
+References: <20231028000738.968009-1-bhstalel@gmail.com>
+	 <CADkTA4PWe7-2GgsiyZMFqppje+hhY_3yUMrENF2DGaKv+pUwEw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 Oct 2023 13:48:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189765
+ <openembedded-core@lists.openembedded.org>; Sat, 28 Oct 2023 13:51:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189766
 
-The module class provides what is needed to compile a Linux Kernel module
-but since the Makefile is always the same for simple modules that have
-their sources in one directory level, I thought of creating new class wrapper
-to automatically prepare the Makefile.
-Also, using variable flag feature, a recipe can provide multiple modules
-and can be handled the same way as PACKAGECONFIG is used to enabled/disable
-features.
+On Sat, 2023-10-28 at 08:35 -0400, Bruce Ashfield wrote:
+> On Fri, Oct 27, 2023 at 8:07=E2=80=AFPM BELHADJ SALEM Talel <bhstalel@gma=
+il.com> wrote:
+> >=20
+> > The module class provides what is needed to compile a Linux Kernel modu=
+le
+> > but since the Makefile is always the same for simple modules that have
+> > their sources in one directory level, I thought of creating new class w=
+rapper
+> > to automatically prepare the Makefile.
+> > Also, using variable flag feature, a recipe can provide multiple module=
+s
+> > and can be handled the same way as PACKAGECONFIG is used to enabled/dis=
+able
+> > features.
+>=20
+> I find this method of preparing a kernel module much harder to follow
+> (and debug).
+>=20
+> So Richard is ok with the class, I have no objections, it may serve a cla=
+ss of
+> developers, but it isn't something I'd support as a first option.
+>=20
+> But please, create a separate example for it, not modifying hello-world, =
+we want
+> that simple and explicit example to persist.
 
-Signed-off-by: Talel BELHAJSALEM <bhstalel@gmail.com>
----
- meta/classes-recipe/simple-module.bbclass | 134 ++++++++++++++++++++++
- 1 file changed, 134 insertions(+)
- create mode 100644 meta/classes-recipe/simple-module.bbclass
+Richard isn't convinced.
 
-diff --git a/meta/classes-recipe/simple-module.bbclass b/meta/classes-recipe/simple-module.bbclass
-new file mode 100644
-index 0000000000..855f828a42
---- /dev/null
-+++ b/meta/classes-recipe/simple-module.bbclass
-@@ -0,0 +1,134 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+# Class to generate Makefile for Linux Kernel modules
-+#
-+# The aim of this class is to provide a way to gain time
-+# when creating recipes for Linux Kernel modules
-+#
-+# Required variable:
-+#   MODULE_SRC
-+#
-+# This variable itself counts on flags to know what files
-+# to use for .ko generation and their .o dependencies
-+#
-+# Usage:
-+#   If you have the following module structure:
-+#       |-- module.c
-+#       |-- dep1.c
-+#       `-- dep2.c
-+#   then you set:
-+#   MODULE_SRC = "module"
-+#   MODULE_SRC[module] = "dep1 dep2"
-+#
-+# This will generate:
-+#   obj-m += module.o
-+#   module-objs += dep1.o dep2.o
-+#
-+# This class supports multiple modules as well
-+# each module will be added to obj-m and if it has dependencies
-+# an -objs variable will be created, example:
-+#
-+#   If you have the following module structure:
-+#       |-- module1.c
-+#       |-- dep1.c
-+#       |-- dep2.c
-+#       |-- module2.c
-+#       `-- dep3.c
-+#
-+#   then you set:
-+#   MODULE_SRC = "module1 module2"
-+#   MODULE_SRC[module1] = "dep1 dep2"
-+#   MODULE_SRC[module2] = "dep3"
-+#
-+# This will generate:
-+#   obj-m += module1.o module2.o
-+#   module1-objs += dep1.o dep2.o
-+#   module2-objs += dep3.o
-+#
-+# A module can be enabled or disabled by adding or removing
-+# the module name from MODULE_SRC
-+#
-+# Limitations:
-+#   - All modules source files should exist in the same folder level
-+
-+inherit module
-+
-+python do_prepare_makefile() {
-+
-+    if not (d.getVar('MODULE_SRC') or "").split():
-+        bb.warn("You inherited easy-module but did not set drivers in MODULE_SRC")
-+
-+    kernel_modules = (d.getVar('MODULE_SRC') or "").split()
-+
-+    if kernel_modules:
-+        kernel_modules_flags = d.getVarFlags('MODULE_SRC') or []
-+
-+        objs_data = {}
-+        for k_module in kernel_modules:
-+
-+            # Check if all enabled drivers have corresponding flag
-+            if not k_module in kernel_modules_flags:
-+                bb.fatal(f"Driver {k_module} is enabled but does not have a flag entry")
-+
-+            k_module_file = f"{k_module}.c"
-+            if not os.path.isfile(k_module_file):
-+                bb.fatal(f"Source file {k_module_file} is not found")
-+
-+            k_module_o = f"{k_module}.o"
-+            objs_data[k_module] = []
-+
-+            k_module_deps = (d.getVarFlag('MODULE_SRC', k_module) or "").split()
-+            for dep in k_module_deps:
-+                dep_file = f"{dep}.c"
-+                dep_o = f"{dep}.o"
-+
-+                if not os.path.isfile(dep_file):
-+                    bb.fatal(f"Dependency file {dep_file} for the {k_module_file} is not found")
-+
-+                objs_data[k_module].append(dep_o)
-+
-+        with open('Makefile', 'w') as mf:
-+            # Main modules
-+            mf.write(
-+                f"""
-+# This Makefile is generated automatically by easy-module class
-+obj-m += {' '.join([objm + '.o' for objm in objs_data.keys()])}
-+""")
-+
-+            # Modules dependencies
-+            for k_module, deps in objs_data.items():
-+                if deps:
-+                    mf.write(
-+                        f"""
-+{k_module}-objs += {' '.join([dep for dep in deps])}
-+""")
-+
-+            # Rest of Makefile
-+            mf.write(
-+                """
-+SRC := $(shell pwd)
-+
-+all:
-+\t$(MAKE) -C $(KERNEL_SRC) M=$(SRC)
-+
-+modules_install:
-+\t$(MAKE) -C $(KERNEL_SRC) M=$(SRC) modules_install
-+
-+clean:
-+\trm -f *.o *~ core .depend .*.cmd *.ko *.mod.c
-+\trm -f Module.markers Module.symvers modules.order
-+\trm -rf .tmp_versions Modules.symvers
-+""")
-+}
-+
-+RPROVIDES:${PN} += "kernel-module-${PN}"
-+
-+export SRC = "${B}"
-+
-+do_prepare_makefile[docs] = "Automate Makefile preparation for simple Kernel modules"
-+do_prepare_makefile[dirs] = "${B}"
-+addtask do_prepare_makefile before do_configure after do_patch
-\ No newline at end of file
--- 
-2.25.1
+In most cases a kernel module from a source repository would have some
+form of makefile included with it. yes, if you're creating one from
+scratch, this is helpful but in general you do create a makefile at
+that point and are unlikely to want to keep auto-generating one.
 
+As such I'm not convinced this class matches the siutation most people
+wanting to build software would be in.
+
+Cheers,
+
+Richard
 
