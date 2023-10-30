@@ -2,258 +2,367 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B70B0C4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5078C4332F
 	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 21:32:15 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.171472.1698701532261341572
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.171476.1698701534900977728
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Oct 2023 14:32:12 -0700
+ Mon, 30 Oct 2023 14:32:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JFSINgUB;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40839807e82so29619155e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 14:32:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LwTyNnBb;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40839807e82so29619335e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 14:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698701530; x=1699306330; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sj2JaepTdlcWJnLkaS//pcHi9WQU6sDX+XaJ1s5qWNw=;
-        b=JFSINgUBTGY5sPfEsTrvSR+Z0nkCfp6UzfJbn5kLcSyv/MZvnrZLhd/O+Nm8kb8uV8
-         +O8/zAgWQ9fH542WOhzI24+suaPl3+DUXe7YUs9oYMTKDIzPGSX8MwMXbeDOKTWEs/J9
-         Ff6pX1TQ2j5UG2hYVcUQrsMHcaiXe2XMRCUDGFjht0H80LvZKjfPHoI2KfUXDsZyVQhQ
-         oQlhGIyFM3m1mfPjJqOBPNwClZbxS7GvtujASuteFV+OQR6Iw90Gh0QkVMKORsSKQvcL
-         HBeQtXE9l1G6iUdPhMYMk1mGvAfDjIa1FzXXfeIho0ulR2KLmtjY7T1L6OJuWVVd7CK5
-         Zc6Q==
+        d=gmail.com; s=20230601; t=1698701533; x=1699306333; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zMOkJ4USCozMz4GgWrp5l2yO5esj7tOcKNzaOJUDY8Y=;
+        b=LwTyNnBb89O97E6wu5mIE6l3YzIoZYKtIW3vBM/AmDiyEg6MmzSSbs9nAA1iPxB47S
+         /oM5/zM8v+lxu5h2GqCey30FadPEPQ6oYX1kWiR2EdSB6jxeQafFhEmOdayOmFXvPE1N
+         QrOatjpvxLZZk5YtuslprLMFPtbIMSfQOGnIP+kOWyR0DQ7925TtP8YWgX91ax4gC5yy
+         FxInpgWKVHjP/lbD2j38VScYYBs3ggHRAKfSzaRnbzX3pzfEF0pF8X6J0HVc3YmoeVH2
+         Sdm8GYmFktYwtr/NOIAxjVegqmBUwch1vNbf+bBtED5i6UZ39wzlnCfbWl86ihuy4toU
+         +Qng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698701530; x=1699306330;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Sj2JaepTdlcWJnLkaS//pcHi9WQU6sDX+XaJ1s5qWNw=;
-        b=YXQZMs/mMmzJUdZPr0x7kfu4kVV2SfttIOYszi6TY74moM9K/C+cwrJFvDUohqi/8k
-         10RX6lpIy904Bhib3ZxF2WusvKtdffwbQcVrnUeYTGsBt4werSynuJJfUtSkWrUR3jpS
-         ohWWPWJbMBLKpvr7PyrhHSqNhS4sd5L1oIwpPz9OqaSBDiNy+vWEqU9mzESGpm+uZov6
-         KXqpOBpe5+6Q9zjomT9rRlMlGAX+0hYWFUcaYbu6DvJmyi/ZIiVuJznLYUmuv1PqOO28
-         K9mTNuYNQXyOkqqOzsXtBEDYKBHsi9md9D0pMpZnS7c29gSmd0i3unhmlre1U2sKrTAd
-         HwRw==
-X-Gm-Message-State: AOJu0YytzuM1t2uYsiHbGF2ElPqXu/cU6GguaPGDhpTw2CQPUr25Y8fW
-	NcPUuFsHlmRb7BPeM5EhHg1MR4HMwWQ=
-X-Google-Smtp-Source: AGHT+IFkYB8N4ah8bsrZwo12AKu20Q8ccu0VucT6Cffgr5DZAzMDOEhyDkwlX2tn8o7YNW9k9JWPBA==
-X-Received: by 2002:a05:600c:1987:b0:402:f91e:df80 with SMTP id t7-20020a05600c198700b00402f91edf80mr851661wmq.3.1698701529998;
-        Mon, 30 Oct 2023 14:32:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698701533; x=1699306333;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zMOkJ4USCozMz4GgWrp5l2yO5esj7tOcKNzaOJUDY8Y=;
+        b=ZG/qJ5D2DRqGVPZ8JiQijUhZYY/tplmdGmLZ2pXM2JTgBkdLOYKqN/4CrN+XZqLEKz
+         a5rk8rP3k3zoj2saAQBHu+ZUNtyJoXtf0BqS0Xni5ZOIwJ7Xchi8SAsIlU2z29q0ykUh
+         YCoIYwxkIV4tTYvUf5OUjcgP04Zu84DhqskpAJh3ICB/2QdrfXYbwVZkjOfx79JMyYG8
+         j81SZzTl2ewZLeLoRC9wTY/MhZ2ahmqiDBT8p0dMrCkwzDTD8xxDMaBMjdUF260L0lRP
+         qKRtMBC8cxKrQGWvb7TRnHPiEZIk4tMXeJxx3q7nF/PpbzJJilstd5NcLppx+Zu85gUJ
+         CDuQ==
+X-Gm-Message-State: AOJu0YxEDwwymWkgHIEvKJau/38U+r33KQ39IWBdMEh47ht+41qLhLC6
+	GuS/QvtrJIQAp18LizxKXW//B33NvdA=
+X-Google-Smtp-Source: AGHT+IG2GoVPQL4COdyphQHs2c6vWjOQjw5Q4zrPM+nIXHoQFGC9guSOaYwpoZT/OWcOyJZzfR9nAA==
+X-Received: by 2002:a05:600c:4e05:b0:405:3be0:c78d with SMTP id b5-20020a05600c4e0500b004053be0c78dmr855956wmq.3.1698701533084;
+        Mon, 30 Oct 2023 14:32:13 -0700 (PDT)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id h6-20020a05600c350600b003fc0505be19sm304811wmq.37.2023.10.30.14.32.09
+        by smtp.gmail.com with ESMTPSA id h6-20020a05600c350600b003fc0505be19sm304811wmq.37.2023.10.30.14.32.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 14:32:09 -0700 (PDT)
+        Mon, 30 Oct 2023 14:32:12 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v7 0/8] devtool ide plugin
-Date: Mon, 30 Oct 2023 22:31:57 +0100
-Message-ID: <20231030213205.2824790-1-adrian.freihofer@siemens.com>
+Subject: [PATCH v7 5/8] devtool: refactor deploy-target
+Date: Mon, 30 Oct 2023 22:32:02 +0100
+Message-ID: <20231030213205.2824790-6-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231030213205.2824790-1-adrian.freihofer@siemens.com>
+References: <20231030213205.2824790-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 21:32:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189812
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189817
 
-Changes in comparison to v6:
+Make the deploy function independent from d. This allows to call the
+function also from Python code not running in bitbake.
+This is needed to for the devtool ide plugin which will call the
+do_install task and the code from devtool deploy-target independently
+from a bitbake server. This allows a much quicker workflow.
 
-- Fix findigs: https://lists.openembedded.org/g/openembedded-core/message/188995
-  - Major refactoring to split IDE specific parts into separate files
-  - Use bindir for gdbserver
-  - Remove pontless warning for debuginfod
-  - Simplified searching for debug symbols
-  - Added a new patch that makes the behavior of image-combined-dbg.bbclass the
-    default behavior of rootfs-dbg. I think this solves a whole bunch of problems
-    not only for GDB but also for all the other tools that need the debug symbols.
-- Dropped the workaround for the pseudo breakage with sources in tree
-  After a cleanup and improving the script to better replicate what bitbake does
-  I was no longer able to reproduce the issue.
-- Improve the default behavior for not yet supported build tools. devtool build
-  and devtool deploy-target are called.
-- Improve the tests:
-  - Start Qemu only once (it's expensive)
-  - Test also the ide=none
-- Improve documentation about the no recipe mode (to docs mailing list)
-- Details and bug fixes
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ scripts/lib/devtool/__init__.py |   5 +-
+ scripts/lib/devtool/deploy.py   | 230 +++++++++++++++++---------------
+ 2 files changed, 124 insertions(+), 111 deletions(-)
 
-According to https://www.yoctoproject.org/community/yocto-project-engineering-request-for-quotation/
-one of the proposed areas for development of the Yocto project is "VSCode IDE Integration - New developer tooling".
-One aspect of this larger topic is helping application developers configure the IDE to work on a recipe's source code using Yocto's eSDK. This patchset provides a new devtool plugin (devtool ide) that does this fully automatically for recipes inheriting the cmake or the meson bbclass. Support for more programming languages and build tools may be added in the future.
-
-Let's start with a brief introduction of how it looks like from a user's perspective.
-
-Reference setup
----------------
-
-$ . oe-init-build-env
-
-Add the following layers to bblayers.conf file:
-- meta
-- meta-poky
-- meta-yocto-bsp
-- meta-selftest
-
-Add the following to the local.conf
-
-IMAGE_GEN_DEBUGFS = "1"
-IMAGE_FEATURES += "ssh-server-dropbear debug-tweaks"
-IMAGE_INSTALL:append = "\
-    cmake-example-ptest \
-    meson-example-ptest \
-    gdbserver \
-"
-
-Working on a recipe
--------------------
-
-Note for those who "hate cmake with passion": Replace cmake by meson in the following commands.
-
-1. Add the recipe which should be modified to the workspace
-
-   $ devtool modify cmake-example
-
-2. Build the eSDK. This provides all the host tools as well as an image which can be used on the target device.
-   Since everything is built with one bitbake command also all the debug symbols are expected to be consistent.
-
-   $ devtool ide cmake-example core-image-minimal
-
-3. Install the image on the target device or simply use Qemu
-
-   $ runqemu
-
-4. Start VSCode
-
-   $ code "$BUILDDIR/workspace/sources/cmake-example"
-
-5. Work in VSCode, after installing the proposed plugins
-
-   Ctrl + Shift + p, cmake Select Configure Preset
-   Ctrl + Shift + p, cmake Build
-
-6. Execute the unit tests on the host works with Qemu even for cross compiled test executables.
-
-   Ctrl + Shift + p, cmake Test
-
-7. Remote debugging with GDB
-
-   Ctrl + Shift + p, Run Task --> install && deploy-target cmake-example
-   F5 (Debug configuration might be selected before)
-
-8. Work on the recipes and call bitbake again to get the SDK updated.
-   Building the application by calling cmake (from the IDE) or by calling bitbake or by calling devtool build is expected to produce the exact same results. To make that possible, the devtool ide plugin is designed to configure the IDE to call cmake with the exact same configuration as used by bitbake when building the recipe. Unlike the eSDK, the goal here is clearly that there is no longer a separation between the SDK and the application development process. Regardless of which tool is called, the same source files are edited and the same o-files are generated and re-used.
-
-Working with a SDK without a recipe
------------------------------------
-
-If devtool ide is called for a recipe named none or meta-ide-support the eSDK with its generic environment file gets generated.
-In case of using VSCode and cmake in addition to the well known environment file a cmake-kit
-https://vector-of-bool.github.io/docs/vscode-cmake-tools/kits.html is added to the User-Local Kits.
-This allows to work with cmake calling the cross-toolchain out of VSCode or a shell with the environment file sourced.
-
-Design
-------
-
-The goal of this implementation is to create a configuration for VSCode (or other IDEs) that allows to work on the code of a recipe completely independent from bitbake. bitbake is only called if the configuration or the whole SDK has to be regenerated. But bitbake should not need to be called while working in the IDE. This has two major advantages over calling devtool build from the IDE:
-- The IDE provides plugins for integration with cmake, for example. These features are usable, which would not be the case if bitbake or devtool are called from within the IDE.
-- It is much faster.
-
-Supporting other IDEs
----------------------
-
-Focus is currently VSCode. But a paramter "--ide=none" is already supported.
-With this paramter passed, no VSCode specific config files are generated.
-Instead, simple scripts are generated, which should be suitable for integration with other IDEs.
-
-Testing
--------
-
-Reasonable but not yet complete test coverage is provided by:
-
-$ oe-selftest -r devtool.DevtoolIdeTests
-
-What's next?
-------------
-
-- Support for more build-tools and programming languages
-- Support for more IDEs
-
-Known bugs
-----------
-
-- IntelliSense with meson does not work. meson and ninja generate a compile_commands.json which requires to have the compiler in the PATH. (cmake generates the same file with absolute path.)
-
-Adrian Freihofer (8):
-  vscode: add minimal configuration
-  cmake.bbclass: support qemu
-  image-combined-dbg: make this the default
-  tests: add a C++ example recipe
-  devtool: refactor deploy-target
-  devtool: new ide plugin
-  oe-selftest devtool: ide tests
-  docs: cover devtool ide
-
- .gitignore                                    |    2 +
- .vscode/settings.json                         |   32 +
- documentation/sdk-manual/extensible.rst       |  158 ++-
- meta-selftest/recipes-test/cpp/.gitignore     |    1 +
- .../recipes-test/cpp/autotools-example.bb     |   18 +
- .../cpp/autotools-example/run-ptest           |   10 +
- .../recipes-test/cpp/cmake-example.bb         |   17 +
- .../recipes-test/cpp/cmake-example/run-ptest  |   10 +
- .../recipes-test/cpp/cpp-example.inc          |   24 +
- .../recipes-test/cpp/files/CMakeLists.txt     |   60 +
- .../recipes-test/cpp/files/Makefile.am        |   13 +
- .../recipes-test/cpp/files/configure.ac       |   11 +
- .../cpp/files/cpp-example-lib.cpp             |   17 +
- .../cpp/files/cpp-example-lib.hpp             |   16 +
- .../recipes-test/cpp/files/cpp-example.cpp    |   16 +
- .../recipes-test/cpp/files/meson.build        |   34 +
- .../cpp/files/test-cpp-example.cpp            |   20 +
- .../recipes-test/cpp/meson-example.bb         |   17 +
- .../recipes-test/cpp/meson-example/run-ptest  |   10 +
- meta/classes-recipe/cmake.bbclass             |   20 +
- .../classes-recipe/image-combined-dbg.bbclass |   15 -
- meta/lib/oe/rootfs.py                         |   35 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |  274 ++++
- scripts/crosstap                              |   28 +-
- scripts/lib/devtool/__init__.py               |    5 +-
- scripts/lib/devtool/deploy.py                 |  230 ++--
- scripts/lib/devtool/ide.py                    | 1104 +++++++++++++++++
- scripts/lib/devtool/ide_handlers/__init__.py  |   10 +
- scripts/lib/devtool/ide_handlers/ide_base.py  |   46 +
- scripts/lib/devtool/ide_handlers/ide_code.py  |  420 +++++++
- scripts/lib/devtool/ide_handlers/ide_none.py  |   91 ++
- 31 files changed, 2581 insertions(+), 183 deletions(-)
- create mode 100644 .vscode/settings.json
- create mode 100644 meta-selftest/recipes-test/cpp/.gitignore
- create mode 100644 meta-selftest/recipes-test/cpp/autotools-example.bb
- create mode 100644 meta-selftest/recipes-test/cpp/autotools-example/run-ptest
- create mode 100644 meta-selftest/recipes-test/cpp/cmake-example.bb
- create mode 100644 meta-selftest/recipes-test/cpp/cmake-example/run-ptest
- create mode 100644 meta-selftest/recipes-test/cpp/cpp-example.inc
- create mode 100644 meta-selftest/recipes-test/cpp/files/CMakeLists.txt
- create mode 100644 meta-selftest/recipes-test/cpp/files/Makefile.am
- create mode 100644 meta-selftest/recipes-test/cpp/files/configure.ac
- create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example-lib.cpp
- create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
- create mode 100644 meta-selftest/recipes-test/cpp/files/cpp-example.cpp
- create mode 100644 meta-selftest/recipes-test/cpp/files/meson.build
- create mode 100644 meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
- create mode 100644 meta-selftest/recipes-test/cpp/meson-example.bb
- create mode 100644 meta-selftest/recipes-test/cpp/meson-example/run-ptest
- delete mode 100644 meta/classes-recipe/image-combined-dbg.bbclass
- create mode 100755 scripts/lib/devtool/ide.py
- create mode 100644 scripts/lib/devtool/ide_handlers/__init__.py
- create mode 100644 scripts/lib/devtool/ide_handlers/ide_base.py
- create mode 100644 scripts/lib/devtool/ide_handlers/ide_code.py
- create mode 100644 scripts/lib/devtool/ide_handlers/ide_none.py
-
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
+index 702db669de3..7d64547616e 100644
+--- a/scripts/lib/devtool/__init__.py
++++ b/scripts/lib/devtool/__init__.py
+@@ -78,12 +78,15 @@ def exec_fakeroot(d, cmd, **kwargs):
+     """Run a command under fakeroot (pseudo, in fact) so that it picks up the appropriate file permissions"""
+     # Grab the command and check it actually exists
+     fakerootcmd = d.getVar('FAKEROOTCMD')
++    fakerootenv = d.getVar('FAKEROOTENV')
++    exec_fakeroot_no_d(fakerootcmd, fakerootenv, cmd, kwargs)
++
++def exec_fakeroot_no_d(fakerootcmd, fakerootenv, cmd, **kwargs):
+     if not os.path.exists(fakerootcmd):
+         logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
+         return 2
+     # Set up the appropriate environment
+     newenv = dict(os.environ)
+-    fakerootenv = d.getVar('FAKEROOTENV')
+     for varvalue in fakerootenv.split():
+         if '=' in varvalue:
+             splitval = varvalue.split('=', 1)
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index e14a5874177..ea7e2cb1ae8 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -16,7 +16,7 @@ import bb.utils
+ import argparse_oe
+ import oe.types
+ 
+-from devtool import exec_fakeroot, setup_tinfoil, check_workspace_recipe, DevtoolError
++from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
+ 
+ logger = logging.getLogger('devtool')
+ 
+@@ -133,16 +133,11 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
+ 
+     return '\n'.join(lines)
+ 
+-
+-
+-def deploy(args, config, basepath, workspace):
+-    """Entry point for the devtool 'deploy' subcommand"""
++def deploy_cached(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args):
+     import math
+     import oe.recipeutils
+     import oe.package
+ 
+-    check_workspace_recipe(workspace, args.recipename, checksrc=False)
+-
+     try:
+         host, destdir = args.target.split(':')
+     except ValueError:
+@@ -152,116 +147,131 @@ def deploy(args, config, basepath, workspace):
+     if not destdir.endswith('/'):
+         destdir += '/'
+ 
++    recipe_outdir = srcdir
++    if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
++        raise DevtoolError('No files to deploy - have you built the %s '
++                        'recipe? If so, the install step has not installed '
++                        'any files.' % args.recipename)
++
++    if args.strip and not args.dry_run:
++        # Fakeroot copy to new destination
++        srcdir = recipe_outdir
++        recipe_outdir = os.path.join(workdir, 'devtool-deploy-target-stripped')
++        if os.path.isdir(recipe_outdir):
++            exec_fakeroot_no_d(fakerootcmd, fakerootenv, "rm -rf %s" % recipe_outdir, shell=True)
++        exec_fakeroot_no_d(fakerootcmd, fakerootenv, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
++        os.environ['PATH'] = ':'.join([os.environ['PATH'], path or ''])
++        oe.package.strip_execs(args.recipename, recipe_outdir, strip_cmd, libdir, base_libdir, max_process)
++
++    filelist = []
++    inodes = set({})
++    ftotalsize = 0
++    for root, _, files in os.walk(recipe_outdir):
++        for fn in files:
++            fstat = os.lstat(os.path.join(root, fn))
++            # Get the size in kiB (since we'll be comparing it to the output of du -k)
++            # MUST use lstat() here not stat() or getfilesize() since we don't want to
++            # dereference symlinks
++            if fstat.st_ino in inodes:
++                fsize = 0
++            else:
++                fsize = int(math.ceil(float(fstat.st_size)/1024))
++            inodes.add(fstat.st_ino)
++            ftotalsize += fsize
++            # The path as it would appear on the target
++            fpath = os.path.join(destdir, os.path.relpath(root, recipe_outdir), fn)
++            filelist.append((fpath, fsize))
++
++    if args.dry_run:
++        print('Files to be deployed for %s on target %s:' % (args.recipename, args.target))
++        for item, _ in filelist:
++            print('  %s' % item)
++        return 0
++
++    extraoptions = ''
++    if args.no_host_check:
++        extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
++    if not args.show_status:
++        extraoptions += ' -q'
++
++    scp_sshexec = ''
++    ssh_sshexec = 'ssh'
++    if args.ssh_exec:
++        scp_sshexec = "-S %s" % args.ssh_exec
++        ssh_sshexec = args.ssh_exec
++    scp_port = ''
++    ssh_port = ''
++    if args.port:
++        scp_port = "-P %s" % args.port
++        ssh_port = "-p %s" % args.port
++
++    if args.key:
++        extraoptions += ' -i %s' % args.key
++
++    # In order to delete previously deployed files and have the manifest file on
++    # the target, we write out a shell script and then copy it to the target
++    # so we can then run it (piping tar output to it).
++    # (We cannot use scp here, because it doesn't preserve symlinks.)
++    tmpdir = tempfile.mkdtemp(prefix='devtool')
++    try:
++        tmpscript = '/tmp/devtool_deploy.sh'
++        tmpfilelist = os.path.join(os.path.dirname(tmpscript), 'devtool_deploy.list')
++        shellscript = _prepare_remote_script(deploy=True,
++                                            verbose=args.show_status,
++                                            nopreserve=args.no_preserve,
++                                            nocheckspace=args.no_check_space)
++        # Write out the script to a file
++        with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
++            f.write(shellscript)
++        # Write out the file list
++        with open(os.path.join(tmpdir, os.path.basename(tmpfilelist)), 'w') as f:
++            f.write('%d\n' % ftotalsize)
++            for fpath, fsize in filelist:
++                f.write('%s %d\n' % (fpath, fsize))
++        # Copy them to the target
++        ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
++        if ret != 0:
++            raise DevtoolError('Failed to copy script to %s - rerun with -s to '
++                            'get a complete error message' % args.target)
++    finally:
++        shutil.rmtree(tmpdir)
++
++    # Now run the script
++    ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
++    if ret != 0:
++        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
++                        'error message')
++
++    logger.info('Successfully deployed %s' % recipe_outdir)
++
++    files_list = []
++    for root, _, files in os.walk(recipe_outdir):
++        for filename in files:
++            filename = os.path.relpath(os.path.join(root, filename), recipe_outdir)
++            files_list.append(os.path.join(destdir, filename))
++
++def deploy(args, config, basepath, workspace):
++    """Entry point for the devtool 'deploy' subcommand"""
++    check_workspace_recipe(workspace, args.recipename, checksrc=False)
++
+     tinfoil = setup_tinfoil(basepath=basepath)
+     try:
+         try:
+             rd = tinfoil.parse_recipe(args.recipename)
++
++            srcdir = rd.getVar('D')
++            workdir = rd.getVar('WORKDIR')
++            path = rd.getVar('PATH')
++            strip_cmd = rd.getVar('STRIP')
++            libdir = rd.getVar('libdir'),
++            base_libdir = rd.getVar('base_libdir')
++            max_process = int(rd.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
++            fakerootcmd = rd.getVar('FAKEROOTCMD')
++            fakerootenv = rd.getVar('FAKEROOTENV')
++            deploy_cached(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args)
+         except Exception as e:
+             raise DevtoolError('Exception parsing recipe %s: %s' %
+                             (args.recipename, e))
+-        recipe_outdir = rd.getVar('D')
+-        if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
+-            raise DevtoolError('No files to deploy - have you built the %s '
+-                            'recipe? If so, the install step has not installed '
+-                            'any files.' % args.recipename)
+-
+-        if args.strip and not args.dry_run:
+-            # Fakeroot copy to new destination
+-            srcdir = recipe_outdir
+-            recipe_outdir = os.path.join(rd.getVar('WORKDIR'), 'devtool-deploy-target-stripped')
+-            if os.path.isdir(recipe_outdir):
+-                exec_fakeroot(rd, "rm -rf %s" % recipe_outdir, shell=True)
+-            exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
+-            os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH') or ''])
+-            oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP'), rd.getVar('libdir'),
+-                        rd.getVar('base_libdir'), rd)
+-
+-        filelist = []
+-        inodes = set({})
+-        ftotalsize = 0
+-        for root, _, files in os.walk(recipe_outdir):
+-            for fn in files:
+-                fstat = os.lstat(os.path.join(root, fn))
+-                # Get the size in kiB (since we'll be comparing it to the output of du -k)
+-                # MUST use lstat() here not stat() or getfilesize() since we don't want to
+-                # dereference symlinks
+-                if fstat.st_ino in inodes:
+-                    fsize = 0
+-                else:
+-                    fsize = int(math.ceil(float(fstat.st_size)/1024))
+-                inodes.add(fstat.st_ino)
+-                ftotalsize += fsize
+-                # The path as it would appear on the target
+-                fpath = os.path.join(destdir, os.path.relpath(root, recipe_outdir), fn)
+-                filelist.append((fpath, fsize))
+-
+-        if args.dry_run:
+-            print('Files to be deployed for %s on target %s:' % (args.recipename, args.target))
+-            for item, _ in filelist:
+-                print('  %s' % item)
+-            return 0
+-
+-        extraoptions = ''
+-        if args.no_host_check:
+-            extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+-        if not args.show_status:
+-            extraoptions += ' -q'
+-
+-        scp_sshexec = ''
+-        ssh_sshexec = 'ssh'
+-        if args.ssh_exec:
+-            scp_sshexec = "-S %s" % args.ssh_exec
+-            ssh_sshexec = args.ssh_exec
+-        scp_port = ''
+-        ssh_port = ''
+-        if args.port:
+-            scp_port = "-P %s" % args.port
+-            ssh_port = "-p %s" % args.port
+-
+-        if args.key:
+-            extraoptions += ' -i %s' % args.key
+-
+-        # In order to delete previously deployed files and have the manifest file on
+-        # the target, we write out a shell script and then copy it to the target
+-        # so we can then run it (piping tar output to it).
+-        # (We cannot use scp here, because it doesn't preserve symlinks.)
+-        tmpdir = tempfile.mkdtemp(prefix='devtool')
+-        try:
+-            tmpscript = '/tmp/devtool_deploy.sh'
+-            tmpfilelist = os.path.join(os.path.dirname(tmpscript), 'devtool_deploy.list')
+-            shellscript = _prepare_remote_script(deploy=True,
+-                                                verbose=args.show_status,
+-                                                nopreserve=args.no_preserve,
+-                                                nocheckspace=args.no_check_space)
+-            # Write out the script to a file
+-            with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
+-                f.write(shellscript)
+-            # Write out the file list
+-            with open(os.path.join(tmpdir, os.path.basename(tmpfilelist)), 'w') as f:
+-                f.write('%d\n' % ftotalsize)
+-                for fpath, fsize in filelist:
+-                    f.write('%s %d\n' % (fpath, fsize))
+-            # Copy them to the target
+-            ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
+-            if ret != 0:
+-                raise DevtoolError('Failed to copy script to %s - rerun with -s to '
+-                                'get a complete error message' % args.target)
+-        finally:
+-            shutil.rmtree(tmpdir)
+-
+-        # Now run the script
+-        ret = exec_fakeroot(rd, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
+-        if ret != 0:
+-            raise DevtoolError('Deploy failed - rerun with -s to get a complete '
+-                            'error message')
+-
+-        logger.info('Successfully deployed %s' % recipe_outdir)
+-
+-        files_list = []
+-        for root, _, files in os.walk(recipe_outdir):
+-            for filename in files:
+-                filename = os.path.relpath(os.path.join(root, filename), recipe_outdir)
+-                files_list.append(os.path.join(destdir, filename))
+     finally:
+         tinfoil.shutdown()
+ 
 -- 
 2.41.0
 
