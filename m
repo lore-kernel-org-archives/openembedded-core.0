@@ -1,90 +1,76 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7963C4332F
-	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 18:55:03 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.157878.1698692093364829304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E804DC4167D
+	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 18:58:43 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.157998.1698692318691105348
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Oct 2023 11:54:53 -0700
+ Mon, 30 Oct 2023 11:58:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HugucNq1;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-507b9408c61so6730194e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 11:54:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VCTMIXTc;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: festevam@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5b96c2cfe24so76495a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 11:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698692091; x=1699296891; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2Kq+HQOstmxmUndhqJ2Th4Jb2lTG3BOZvLav+c4b18=;
-        b=HugucNq1WBEn+eyBPvN6vD/agWF4X5vKfaV4tsJsbsIVSa/g5FaYO5gjUrgD0iEEAZ
-         I3zFIQDRFYwzV9vAwWp5D3SR81iXjf2MYSTKjWAXMwpW5x41nUC3cJHxNeEFTzyvbZsn
-         sqs8OSolo8vwh/Xj3i31E+lR8NWW0BG26ex2H6uh1h01uFNJlR6GIui0aEoQO7joLtT7
-         1Mc/0U47UAKIpG8KY2qt+vl7PFaiuPZw1aKNiGVjEqvHEgexjfjm32XO0HkcNJPNpQUO
-         aUwKhVtZxt73ad88c1JDlMsEaLgQjmnmFFvbG8z9U+iLNZRFUsNyiKezyz2Lbu1E9cFa
-         7cuQ==
+        d=gmail.com; s=20230601; t=1698692318; x=1699297118; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sIsqiwOjDNwA1fkfQWT4SW0sHtSkVJyc9PyzmPzGXuM=;
+        b=VCTMIXTcOKT2k6Ti94RAlmrOEJfUldep/K/mSClhU4a7RWWIuhO8lMQR8IuHodHr4M
+         V5AVmXo3m2NwfsdUgnf3Bb9mVDGrAogxlJRCYuSdDBb0+c4Bl+SZktHtEv/GtbhQyDRW
+         +Hj3lJEsNtzJ+Y4bojuV6PNDJjMslJpbrGpv9cED8Tijph7rkydWlyPBhZMRdoS0xKML
+         POmRXULoW8IVjyGCuLqZ+4epK1MfSbu0FkrkKYZ7RtrUAvLDOJFbXzMQZN+Bl9/8wRJU
+         WhKMF9+ONqmG1b9vQ9WSac1P/uuI+cWNJC0MlCUgXQ122xuLoriP/UNx+Kv8nyVqv9En
+         z/Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698692091; x=1699296891;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g2Kq+HQOstmxmUndhqJ2Th4Jb2lTG3BOZvLav+c4b18=;
-        b=Z56lQGSo1Fk0kY2LrznL7+DlEOvzgDi5sG3+SGzc2ovG8dV4+QbiIXp7zT1LtkxSk+
-         4EXIV6FncmUK/YHqKpsYeE4+KJaV4vzC0kJF8Ci2q78ylbdiNYgYuirtccFGlpqt0wwK
-         PvLKeX32UnPgmITRJvUyolkKGC8NuIg1HYmqDiF/Df/HD6orFvLYx4xLL8OPVU4jMcjV
-         Dq+aNXuB+zpSYaizXRyR+29++vPaZ8mh6U/nGWtdkqBt6H1UMa6Fyl1XHolbB2BZBGHN
-         W7UXcH1GjOqH2c+rUiejNZKfvoX4okoMGrupXDHNcZNXIAHEJpfBSxF1J0dryq/hKBzb
-         KP2w==
-X-Gm-Message-State: AOJu0YyqbfRrGDXg7dNW1rnwKsdFGKgA0ZZ6GoODHqBLDrw+EoOs3Xsd
-	D5IZrrvejj+WZuAeLHgbIuqjnpE/lAk=
-X-Google-Smtp-Source: AGHT+IE4heJra5/gskle4C5KhoT7UIOwlgY1c6cGLJAaHYC0qL+jNCFIf0FKQXppU7Gxx5JdFUaIdA==
-X-Received: by 2002:ac2:5216:0:b0:505:79f2:5c6c with SMTP id a22-20020ac25216000000b0050579f25c6cmr7005404lfl.6.1698692091032;
-        Mon, 30 Oct 2023 11:54:51 -0700 (PDT)
-Received: from localhost.localdomain ([2001:8a0:fa50:db00:862f:283e:2d66:4a27])
-        by smtp.gmail.com with ESMTPSA id dq4-20020a0560000cc400b0032326908972sm5384304wrb.17.2023.10.30.11.54.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 11:54:50 -0700 (PDT)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH v2] license.bbclass: prefere plus singnal over append on IMAGE_CLASSES
-Date: Mon, 30 Oct 2023 18:54:22 +0000
-Message-ID: <20231030185421.1950019-2-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.42.0
+        d=1e100.net; s=20230601; t=1698692318; x=1699297118;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sIsqiwOjDNwA1fkfQWT4SW0sHtSkVJyc9PyzmPzGXuM=;
+        b=BMxS+QXGWtMR53YteAQQODQSi1+YpWs9N29qmKKrZL4uwmAM6l/oA8SJHjpUIONI3+
+         FveVauzPBTg8KFW2AWdpG5OcRwD6wBEpNbshy6pRoT+V/YDIseRK9IXd+5RaRslEXw39
+         Kj/iiRiUVt2dKNMerwOJKZIlKaxxTSKbqpYN2LiMfdA14chwETezJqOt+bhTGp1ANvcu
+         OAcgfKNOvk1n2x7TJBw3vKt8JjA37TH7Ptrg8SqYyr5vxd/NLDZlmY1SmKP6+FHmxutY
+         JUtckaE2u9g1yfAjcFtp/TzLCuaNQnYC6hn/U1ry3gxcD7WaiDj4jXh1JHqlSx8i4I0f
+         Vz9g==
+X-Gm-Message-State: AOJu0YyTqYlTpoKY5yLmS+kmafKeT0GBh6eZlg52z+W0eWQmbdNsmwdJ
+	taN87NHNEYw8e/SUFYLyuSPVmwnMn8VDaYPo61c62grlOXE=
+X-Google-Smtp-Source: AGHT+IFhvSnCukTxf7QvHGIXONfzzssmN316+oApJX9Sr5HZrUk05BtKRQIZCNjxdPA+0X3l9S3N0FZUrpQ6dH3CxUM=
+X-Received: by 2002:a05:6a20:5483:b0:17a:d292:25d1 with SMTP id
+ i3-20020a056a20548300b0017ad29225d1mr15486381pzk.6.1698692318104; Mon, 30 Oct
+ 2023 11:58:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231030185421.1950019-2-jose.quaresma@foundries.io>
+In-Reply-To: <20231030185421.1950019-2-jose.quaresma@foundries.io>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 30 Oct 2023 15:58:26 -0300
+Message-ID: <CAOMZO5B2SWWRWOA2YXXOZNZvZRRBW5gvZSrTtVi0nL0_VScBUw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2] license.bbclass: prefere plus singnal over
+ append on IMAGE_CLASSES
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Jose Quaresma <jose.quaresma@foundries.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 18:55:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189807
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 18:58:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189808
 
-The append override is much harder to remove so change that.
+On Mon, Oct 30, 2023 at 3:54=E2=80=AFPM Jose Quaresma <quaresma.jose@gmail.=
+com> wrote:
+>
+> The append override is much harder to remove so change that.
+>
+> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> ---
+>
+>  v2: fix typo in 'change'
 
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
-
- v2: fix typo in 'change'
-
- meta/classes-global/license.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/license.bbclass
-index b2e0d3faba..b915d39acd 100644
---- a/meta/classes-global/license.bbclass
-+++ b/meta/classes-global/license.bbclass
-@@ -418,7 +418,7 @@ SSTATETASKS += "do_populate_lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
- do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
- 
--IMAGE_CLASSES:append = " license_image"
-+IMAGE_CLASSES += "license_image"
- 
- python do_populate_lic_setscene () {
-     sstate_setscene(d)
--- 
-2.42.0
-
+There is another typo in the Subject in the word "signal".
 
