@@ -1,165 +1,92 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D91F3C4167D
-	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 02:21:28 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.140931.1698632482841161142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C731BC00142
+	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 04:58:19 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.142544.1698641891208524179
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Oct 2023 19:21:22 -0700
+ Sun, 29 Oct 2023 21:58:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sblsvaM/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6bd73395bceso2761118b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Oct 2023 19:21:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lFk7hivo;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1cc53d0030fso1853465ad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Oct 2023 21:58:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698632482; x=1699237282; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=08SEeGZfUzbhRA1HHm2Fxax6UvhIDfunszIJZa7foe0=;
-        b=sblsvaM/WHeFoKwM8e3BB3OgCZe8pmeOgUqrHx7s3f12p5KIrAYg+Iz8qztWDkz4Mc
-         Oluff0xIt4DlAB3frPBfZvoVJTyJEfnBCAN6BnBBFcpOZlDvBe+ooaHQuvlyMiOJeb+W
-         RX1R6nX2eSvBW5avZyESCxmorRiBNsIr3IW1HZghuJ3yNidQt6YcgQ+bjWHe1B9aAW77
-         NwL7RraQX9vEP2i4NO0yJUbonIURS1g7a5zUrohA0oWF9KLS7cwvCRN1PuZTX/imOlOr
-         4wIXuLh4ctGrgFRPJesMdrb4VRJ6iLMWfhwcoqei+ZIKIyyRn00AlPySucX/Y0R2dCHZ
-         aJ4Q==
+        d=gmail.com; s=20230601; t=1698641890; x=1699246690; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=B66FUx0laQKk7fMNoZ4FDFYY6jAueJirkWN2EZEDf/4=;
+        b=lFk7hivoFb5qtMcApswriOtKZXgK+yRFcptbt9e5aomZ2b4k6mPcUwhpN2E66f7VUa
+         PKGthu6iayWyymXByuS6YENZ99dI7FeOxrsGAJN4n/GsFe6f5R3hNB24Xl3hwRpDk/l8
+         y4+qq+Mu5aVJJtaYepCIGbg7g2/hzBcDM+k4IYNP9v+PMJrqv4inae7PjbiTUfY07OR9
+         ggtTu5WC7C4LuL16jSc76uMfq1RCSpG5lN0t3k83NeeWRKu7lXvCuqnjd6tNiytpMzrp
+         /hMbrQWzOWCjOtIQBnQPfbZHOtF0HF1rMvyDinK9wFZRw2Hbv4lpPsV4VMBuaBT1vE1o
+         XJHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698632482; x=1699237282;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=08SEeGZfUzbhRA1HHm2Fxax6UvhIDfunszIJZa7foe0=;
-        b=gIsexSoStBXvfy0usPEX1jKJvl5R95mHsID7BzeycJsqr5Vr1DAfHPyNGgIj9EOpow
-         JAUlz2K4bQ3oAXJkaS7XZjE6ryId3LtLPx1PCR9Rm6krlm4J8tI8/w6eS3+4oS+W8BcQ
-         l7fHtdCHban1PKNcjeKKfMF5N34DD/J18JbDHDj7ZlMd+67EUQvW4y5dH+PXgQa5a7LF
-         dq3UcWiSxyFSvly2RBSXcCnLjLCIgideBRlKyDYFfuQlWTqaCwrlW1u4rPp2hBavnJvb
-         0uPNNRJTyqiNl2HpByOGUswcbQ2vNY274JFeWZSbg6cmOJXFvNN2wMcJehD3itBbs3/O
-         x/2Q==
-X-Gm-Message-State: AOJu0YxokJJS4azYodWldH/q2JV0s30EjHpG/7Yb8JNNQMf9Gld5ylzB
-	LDg1n5A+3KtI9MU9t0BiGifPW5rMPluWiNJ9gTQTbg==
-X-Google-Smtp-Source: AGHT+IFE0xsSB1IL+YDKuMwF2qMRQz01r+z2yLGEHSt4UY8QcQOkklqfzoASmCHENabD3CD/b1WwBg==
-X-Received: by 2002:a05:6a00:230d:b0:68c:44ed:fb6 with SMTP id h13-20020a056a00230d00b0068c44ed0fb6mr12193175pfh.16.1698632481865;
-        Sun, 29 Oct 2023 19:21:21 -0700 (PDT)
-Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id k2-20020a637b42000000b0057412d84d25sm3900046pgn.4.2023.10.29.19.21.20
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1698641890; x=1699246690;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=B66FUx0laQKk7fMNoZ4FDFYY6jAueJirkWN2EZEDf/4=;
+        b=sYBJfZx3vpO6aEv7VHqMo1ejtisrRZ0KWkO50yt6GRfxqrU0v1vw4VPeDGSscWqUbt
+         ablpcgBvy90QR5IbAG9Vrwr8894RVM4r4Y7ChJgnfwx5fY7x2TiLImqOR/5z0pY2BTsm
+         t+XWPB0Kt5HRAheW3Az4GWD4FKffTr3K9b6ngpYj1JndzSe/WFISoZJIcH7mxQ2ijDz9
+         WznxTg3M4hZIAimo76OyG0okVRkxC/eQgXYyTR9yXRFdlcBK4ACBTKoR4308Iu5jxwHC
+         E+antGfj2ligAZlQFOtguVSthG7XI4YZPr56LJ6WWEAia1vYUgIL6IV7jXpkhu/G1ntF
+         bo7Q==
+X-Gm-Message-State: AOJu0Yyj5Z4kBwIHT5z6R8FQKPtlaMhQKKNosf6tWhMDi0PCTrZ+VQeT
+	8KkRi23o4uC6eoK3Sq1Nal3EVnVTJeU=
+X-Google-Smtp-Source: AGHT+IEaOzlT0k6C5MVqKwHOkN2xHRsg8r7Or1D8dOcRzNUV9HZiykSLn7zGhhub7hnUZYZHyq8h2g==
+X-Received: by 2002:a17:903:230a:b0:1cc:436f:70c2 with SMTP id d10-20020a170903230a00b001cc436f70c2mr3959434plh.9.1698641890187;
+        Sun, 29 Oct 2023 21:58:10 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::46eb])
+        by smtp.gmail.com with ESMTPSA id x10-20020a1709028eca00b001c9c5a1b477sm5110588plo.169.2023.10.29.21.58.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Oct 2023 19:21:20 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
+        Sun, 29 Oct 2023 21:58:09 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 6/7] linux-firmware: create separate package for cirrus and cnm firmwares
-Date: Sun, 29 Oct 2023 16:20:57 -1000
-Message-Id: <9b556e63ba3e89e83ba6e2647656a1fa6def87a4.1698632320.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1698632320.git.steve@sakoman.com>
-References: <cover.1698632320.git.steve@sakoman.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-urllib3: Upgrade to 2.0.7
+Date: Sun, 29 Oct 2023 21:58:07 -0700
+Message-ID: <20231030045807.591890-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 02:21:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189786
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 04:58:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189788
 
-From: Fahad Arslan <fahad.arslan@siemens.com>
+Addresses CVE-2023-45803 [1]
 
-This is cherry-pick of commit 3ddddfc14f805fe7572bba129605869fb848fed4 from
-poky master.
+[1] https://github.com/urllib3/urllib3/commit/4e98d57809dacab1cbe625fddeec1a290c478ea9
 
-Some licenses only allow usage of corresponding firmwares when a specific
-hardware is present. This requires split of such firmwares from linux-firmware
-package to firmware specific sub package. As this split is based off of
-licensing, it makes sense to group firmware blobs having the same license in the
-same package. This commit is a first step in this direction, and creates
-separate packages for cirrus and cnm firmware.
-
-(From OE-Core rev: 53d9d8789efc701609a5a1e985287344c2209d62)
-
-Signed-off-by: Fahad Arslan <fahad.arslan@siemens.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../linux-firmware/linux-firmware_20230804.bb | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ .../{python3-urllib3_2.0.6.bb => python3-urllib3_2.0.7.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-urllib3_2.0.6.bb => python3-urllib3_2.0.7.bb} (87%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-index 4defab434d..d87f30b8d9 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-@@ -18,6 +18,8 @@ LICENSE = "\
-     & Firmware-ca0132 \
-     & Firmware-cavium \
-     & Firmware-chelsio_firmware \
-+    & Firmware-cirrus \
-+    & Firmware-cnm \
-     & Firmware-cw1200 \
-     & Firmware-cypress \
-     & Firmware-dib0700 \
-@@ -81,6 +83,8 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
-                     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
-                     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
-+                    file://LICENSE.cirrus;md5=bb18d943382abf8e8232a9407bfdafe0 \
-+                    file://LICENCE.cnm;md5=93b67e6bac7f8fec22b96b8ad0a1a9d0 \
-                     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
-                     file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-@@ -151,6 +155,8 @@ NO_GENERIC_LICENSE[Firmware-ca0132] = "LICENCE.ca0132"
- NO_GENERIC_LICENSE[Firmware-cadence] = "LICENCE.cadence"
- NO_GENERIC_LICENSE[Firmware-cavium] = "LICENCE.cavium"
- NO_GENERIC_LICENSE[Firmware-chelsio_firmware] = "LICENCE.chelsio_firmware"
-+NO_GENERIC_LICENSE[Firmware-cirrus] = "LICENSE.cirrus"
-+NO_GENERIC_LICENSE[Firmware-cnm] = "LICENCE.cnm"
- NO_GENERIC_LICENSE[Firmware-cw1200] = "LICENCE.cw1200"
- NO_GENERIC_LICENSE[Firmware-cypress] = "LICENCE.cypress"
- NO_GENERIC_LICENSE[Firmware-dib0700] = "LICENSE.dib0700"
-@@ -277,6 +283,8 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-bcm4373 \
-              ${PN}-bcm43xx \
-              ${PN}-bcm43xx-hdr \
-+             ${PN}-cirrus-license ${PN}-cirrus \
-+             ${PN}-cnm-license ${PN}-cnm \
-              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k ${PN}-ath3k \
-              ${PN}-gplv2-license ${PN}-carl9170 \
-              ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-qca \
-@@ -826,6 +834,24 @@ FILES:${PN}-whence-license = "${nonarch_base_libdir}/firmware/WHENCE"
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.0.6.bb b/meta/recipes-devtools/python/python3-urllib3_2.0.7.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-urllib3_2.0.6.bb
+rename to meta/recipes-devtools/python/python3-urllib3_2.0.7.bb
+index cd2a9dd4ef1..c286838086f 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.0.6.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.0.7.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
  
- RDEPENDS:${PN}-bnx2-mips += "${PN}-whence-license"
+-SRC_URI[sha256sum] = "b19e1a85d206b56d7df1d5e683df4a7725252a964e3993648dd0fb5a1c157564"
++SRC_URI[sha256sum] = "c97dfde1f7bd43a71c8d2a58e369e9b2bf692d1334ea9f9cae55add7d0dd0f84"
  
-+# For cirrus
-+LICENSE:${PN}-cirrus = "Firmware-cirrus"
-+LICENSE:${PN}-cirrus-license = "Firmware-cirrus"
-+
-+FILES:${PN}-cirrus = "${nonarch_base_libdir}/firmware/cirrus/*"
-+FILES:${PN}-cirrus-license = "${nonarch_base_libdir}/firmware/LICENSE.cirrus"
-+
-+RDEPENDS:${PN}-cirrus += "${PN}-cirrus-license"
-+
-+# For cnm
-+LICENSE:${PN}-cnm = "Firmware-cnm"
-+LICENSE:${PN}-cnm-license = "Firmware-cnm"
-+
-+FILES:${PN}-cnm = "${nonarch_base_libdir}/firmware/cnm/wave521c_k3_codec_fw.bin"
-+FILES:${PN}-cnm-license = "${nonarch_base_libdir}/firmware/LICENCE.cnm"
-+
-+RDEPENDS:${PN}-cnm += "${PN}-cnm-license"
-+
- # For imx-sdma
- LICENSE:${PN}-imx-sdma-imx6q       = "Firmware-imx-sdma_firmware"
- LICENSE:${PN}-imx-sdma-imx7d       = "Firmware-imx-sdma_firmware"
-@@ -1111,6 +1137,8 @@ LICENSE:${PN} = "\
-     & Firmware-ca0132 \
-     & Firmware-cavium \
-     & Firmware-chelsio_firmware \
-+    & Firmware-cirrus \
-+    & Firmware-cnm \
-     & Firmware-cw1200 \
-     & Firmware-dib0700 \
-     & Firmware-e100 \
+ inherit pypi python_hatchling
+ 
 -- 
-2.34.1
+2.42.0
 
 
