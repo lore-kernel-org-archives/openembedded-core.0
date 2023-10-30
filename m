@@ -1,103 +1,92 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B833AC00142
-	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 15:02:52 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.151350.1698678171134141849
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D630AC4332F
+	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 15:20:42 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.151818.1698679240467477217
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Oct 2023 08:02:51 -0700
+ Mon, 30 Oct 2023 08:20:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EBykA7JF;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-507a3b8b113so6599832e87.0;
-        Mon, 30 Oct 2023 08:02:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698678169; x=1699282969; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aD/npE6YpdxzX2sMb44p0Q8mPbM8r0ckzFg/agtclX8=;
-        b=EBykA7JF5D9vmrL9outwHlXfT5ogOza0zqAJEKKWPsjkDL8KV8qqWeTa/R6xfvg6qf
-         nrRTyjO//iu3Abej68VrL9NsyLS94koAsPKFlMaBdKMJ5SHaNPSqmoYltTteKgHETod3
-         RBopucWglZV3R85Ji5k+SCij+MWsCcGdJWymFNsAfmpVoAi88uDsKo6mSAPPM1cDb0mY
-         URo1GrjekhGvL1v2vF6B7sYrpn4cNKIzf34Dmu42uT6O+4mR4rvbJxBcJNeF0fN+Ynqn
-         QIDxrJhCZXHW8Jqq+P3MTpqLGlQlHDN504qidvlqgAcWJT8fYIx1TDCQLnNfLKlPsx5p
-         39jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698678169; x=1699282969;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aD/npE6YpdxzX2sMb44p0Q8mPbM8r0ckzFg/agtclX8=;
-        b=v2nImeJHJnYD3fhaFz0HinZ0Jh2eBXMPvDSDkcT32t2oQMSyacHQ1o38vDRrw/WCxx
-         bG0blk3UKhDbKPz2OnCg1Rv5MXIT14chNVdsj4N3aWF9eBsSUIKESRyKuMIPqXBR4Wkk
-         JtMNGyNtMVLv5h07DoUNekswIwwsMWhPdtkFhIb4kjXaK0Mpvrufx//BCHxCZqTMAAwC
-         dtTgpiUdlByQwycpnA5Yy86hVpHwlGhgSjQbus3MVIhlgj/AVnwT6FVoMr4RRFvU7oxd
-         WaIKovBNeMu98PbiJlqacIoNXmaHfaOKvUvuqoOYszsZ70snNyJgxDDMejmfd2SSi65K
-         l04g==
-X-Gm-Message-State: AOJu0YyS932OAJF46kDFK1XGgGS1KhGutZqaPJLSbSLb0K316Q7vVpYC
-	89wtG1rpicImH7WO/sgn28c1gBiGmKqwF0yZYRc=
-X-Google-Smtp-Source: AGHT+IGpWBfo9VTqSvJhX7Re8PfbqWPh8b9CxepTaVDSeJQ0d3086mFR//wSxcx5HM+SoSkccoCE86XFWAZNMwsloYo=
-X-Received: by 2002:a05:6512:39d4:b0:507:b084:d6bb with SMTP id
- k20-20020a05651239d400b00507b084d6bbmr10210581lfu.43.1698678169021; Mon, 30
- Oct 2023 08:02:49 -0700 (PDT)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QIgvdrjk;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=aZ5XkIYB;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b812c33ab-49c76b4f-cb91-4fc7-af72-fcf14b4275a8-000000@automation.yoctoproject.org)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1698679239; i=@automation.yoctoproject.org;
+	h=From:Reply-To:Cc:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:Date;
+	bh=X3V+jmeVZPR1Do9MWnGDIsIyhpFSSsfPOCq+izVYuKc=;
+	b=QIgvdrjkXQLgv/HjYu4XOvNDrUwpW7JEl1QiszVcN1eHZtb7yxYv01lBIae86bcM
+	9TnCQUnI26+S9IA17O584VgEao1f9jb1JSe0fhgdLc8MR5XyNx9d0ccrroSElpON7VS
+	ZsvIWjzStjn1JWxjRaWYDOjOTt89NVG3QIQnaGRM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698679239;
+	h=From:Reply-To:Cc:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:Date:Feedback-ID;
+	bh=X3V+jmeVZPR1Do9MWnGDIsIyhpFSSsfPOCq+izVYuKc=;
+	b=aZ5XkIYBkCrG6U7k9z/0KepPop6vhKQV7FJHD19KtyrlhH+dq6Odmiq0hQy6dl+G
+	eov4cfsPF4bBippR+8JVH/cZnkLgaJC293ccZc2GE5juE7OJ3R+r/e81bZ078/uwXX8
+	uaj3AOZvhBGQmkSWJ/CjIPcwBRvumYkpn2deMBzg=
+From: patchtest@automation.yoctoproject.org
+Reply-To: tgamblin@baylibre.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH] patchtest: shorten test
+ result outputs
 MIME-Version: 1.0
-References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
- <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
- <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
- <CANNYZj-JhGnGFRxaF0+Q_5Sqq76kAg1pSBBMka_xefuhMv6-vQ@mail.gmail.com> <ea84079102bca429a6ae521d218118952a79f111.camel@linuxfoundation.org>
-In-Reply-To: <ea84079102bca429a6ae521d218118952a79f111.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 30 Oct 2023 16:02:37 +0100
-Message-ID: <CANNYZj-SYgOpxFeGXHpWCteyDduXp0eBxnX2YSYHGKRPEzJfvg@mail.gmail.com>
-Subject: Re: Core workflow: sstate for all, bblock/bbunlock, tools for why is
- sstate not being reused?
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Julien STEPHAN <jstephan@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Message-ID: <0101018b812c33ab-49c76b4f-cb91-4fc7-af72-fcf14b4275a8-000000@us-west-2.amazonses.com>
+Date: Mon, 30 Oct 2023 15:20:39 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.10.30-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 15:02:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189798
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 15:20:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189799
 
-On Mon, 30 Oct 2023 at 15:07, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > a) esdk sets a number of variables from its initialization script that
-> > aid with cross-compiling components directly (e.g. the core use case
-> > of SDKs). Normal mode doesn't do that, but recently added
-> > meta-ide-support will generate a similar initialization script that
-> > will set up the same environment from the normal mode. There are tests
-> > and documentation for it.
->
-> In that case, this one is something we can document as how to make the
-> functionality available in the normal build.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-This has been documented in the sdk manual:
-https://docs.yoctoproject.org/sdk-manual/extensible.html#two-ways-to-install-the-extensible-sdk
-https://docs.yoctoproject.org/sdk-manual/extensible.html#installing-additional-items-into-the-extensible-sdk
+---
+Testing patch /home/patchtest/share/mboxes/patchtest-shorten-test-result-outputs.patch
 
-Actually, I have on purpose presented both options in the manual as
-'esdk', the standalone installer option is simply locked down more
-(task signatures and tooling wise) than the direct yocto build.
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
-So here's what could be done:
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
 
-- esdk tools become symlinks in poky/scripts/esdk-tools/. esdk
-environment script puts that in PATH, rather than some custom
-esdk-specific location (the code to generate that can then be
-dropped).
+SKIP: pretest lic files chksum modified not mentioned: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_lic_files_chksum_modified_not_mentioned)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE presence in commit message: No new patches introduced (test_mbox.TestMbox.test_cve_presence_in_commit_message)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
-- esdk tweaks to local.conf move into a dedicated include file, which
-can be static and under version control, except for perhaps
-METADATA_REVISION:poky = "4a1e0b9625729e422fcf24e632ee2a3c79f986d5" -
-I need to check why is it there and how that is used.
+---
 
-Something else perhaps?
-
-Alex
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
