@@ -2,108 +2,230 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2674C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6F54C4167D
 	for <webhook@archiver.kernel.org>; Mon, 30 Oct 2023 02:21:18 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web11.140924.1698632470461841533
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+ by mx.groups.io with SMTP id smtpd.web11.140926.1698632474958144298
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Oct 2023 19:21:10 -0700
+ Sun, 29 Oct 2023 19:21:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xDzuZsM5;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.46, mailfrom: steve@sakoman.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1e10ba12fd3so2683154fac.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Oct 2023 19:21:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XzrSRE0e;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.42, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-586ad15f9aaso2027039eaf.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Oct 2023 19:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698632469; x=1699237269; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6GLNY34wTHZxX3aDUKgHpz5HjzBjdSisczizIVAn8vg=;
-        b=xDzuZsM5+XNN0mcY1HrVuM6/HOVzPl8WosUW4ITNX7a0BPhzADBaQSUZj4sv9IoQKj
-         ERrJEBkGmOO64e7SyjbiPPm2YCJ1R6aj3lNLi4hjjW425x3jXrwPKhjhjjMuCkcC9E2q
-         OTNmRZZrnKmeiL7mFS2hkEeLb6s8wxk7JbZYBi7o9ydNq02LuPzQjeD0xiK+kzedwjVY
-         Uj6dzS5JPq5aSnXEA7ghtgyPvk8IjS7kgByUUuu2Pim/hDCAGfTJPCBR34n9hOO6CPgf
-         OJnhhxSmSzn8cj77SGYgtSkco6rSJDdBuHwjyzrbWNxLkdmv20jp+yawFZJJeDnEuSqI
-         iqXg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698632474; x=1699237274; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2UPhbTkxwEAoiXp5z2+L55ZX+aVu1a/kxnF5S8/Eiqo=;
+        b=XzrSRE0eb3B5jtqEVpxXyzvBYJMhjxQI9cqjmcbvABYoPiGF71NjVw9DRrWqL0u9tX
+         l44Tb7yKmuK14E0ye4AUdyz07KFpWTRVrGM72w7AEEntUBkM7pcNYfpLa249BhbNwzsv
+         Yy0zsJ7sP1wr2uYudgZLKgbZEokhfcFQnxnkIAm+ER8eVxP8rCZV+g/M/mcpWnqLI9df
+         7TbW2hevkY8StqgERZo/qdGJDxmX3ojpktcJFzlBO1iEVOJc+B88Hst/iK2obKYy1TSU
+         HTkMgP0JjlYfhWkr2aw7htmfjhBTfydGHIQU+/05w2igEKB6iscBR6VFVKCVuvfYniE4
+         y9SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698632469; x=1699237269;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6GLNY34wTHZxX3aDUKgHpz5HjzBjdSisczizIVAn8vg=;
-        b=ltqmyTUzzEtcKxgLJEhKUUJeznyDKVIDOAjVtHC3xgCetKmlUWpF18FOEpmf9pC+jB
-         yDlzLLFgXipz28nJq4O0zTmJVGG8aIu5Dd8caX+a3Sef7w644/0YnFPMQ/Bfq/1bqqhe
-         NakZjnigkWLLrMSOT//VHZrvFDpUtdhTlKw2mNJhmkDb/6TJnZZkTH8bNehjD5Z4Qj62
-         JfmvsdJOZmO4GOOsOj39O4SiEVQi4Nc70eDM11aTgkf8qHwgNUa1XSiryuUOIWCV9Lxq
-         hpFCsjPBEwlwEq33bGVZuJnd54zwVaKjoR6XMn2JPo0HDSd32rw46ZM8Xf66zKJ12uE2
-         BQxw==
-X-Gm-Message-State: AOJu0YwcLh3ozN3qmpoJz4CPrBczVshnuwNwjthE6a9toyzYqRmz9crq
-	W6niCrpnkUEUN5es94NbfIOo+QVXqRVDVUuvo8CNiA==
-X-Google-Smtp-Source: AGHT+IEe+V2HhG1zc+CQBW8omIaj1zMC9HoNmdb9n4UHMJS1Vnctdm9+PVr/BE4busR0+qAJwXItEw==
-X-Received: by 2002:a05:6870:4593:b0:1d5:8e6c:1794 with SMTP id y19-20020a056870459300b001d58e6c1794mr9205382oao.58.1698632469222;
-        Sun, 29 Oct 2023 19:21:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698632474; x=1699237274;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2UPhbTkxwEAoiXp5z2+L55ZX+aVu1a/kxnF5S8/Eiqo=;
+        b=Vi5pmyns1zx3yGBP6oOfdkqmgNaDHw2DVBL55sPdT6A1mdsHsHlNaKGQ9fVuFVxY/H
+         s4yRKzwJ+XqNu5E215l58My96SNa7ToZaVEvwQWEW5+4YSG0TIfDys7E9YlHeuNjEG9I
+         rbME2E/BgtmBnqEL6E01kNpUGUFDQ5PTck3w9yP3QYM98LUqJMuvbu2K6AFaEcETgaZb
+         pKZMtEJRBdsI5qGVx+28koZ9TR3gvR3nDmiGrIpOFu3DlercbRHTxAqYupbCyLyUp+Cv
+         3LriNbFKfdMhQ+BMkSF3DghhczMNNIS53KpX+tpy/d4Xac0E6OihRONpSPLBhqC5CLWy
+         l39g==
+X-Gm-Message-State: AOJu0Yyr2FcDKgAQ7dLBrNQ/k4CyECTYDKGC7edlgLQaxcgVxWbEJd0c
+	690c4RWWvnR+nsBM4o8Z6eq1H7zfMGqgN08nAubEjQ==
+X-Google-Smtp-Source: AGHT+IHt++3zhKEgJS3YcwS8A4XvA6jNVzM0RQHbcZNsn2Tk4iNilSCY5x55iLFb2IeZgr03ei8m5A==
+X-Received: by 2002:a05:6359:6c87:b0:168:ea50:fcc6 with SMTP id td7-20020a0563596c8700b00168ea50fcc6mr6509568rwb.16.1698632473663;
+        Sun, 29 Oct 2023 19:21:13 -0700 (PDT)
 Received: from hexa.router0800d9.com (dhcp-72-234-106-30.hawaiiantel.net. [72.234.106.30])
-        by smtp.gmail.com with ESMTPSA id k2-20020a637b42000000b0057412d84d25sm3900046pgn.4.2023.10.29.19.21.08
+        by smtp.gmail.com with ESMTPSA id k2-20020a637b42000000b0057412d84d25sm3900046pgn.4.2023.10.29.19.21.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Oct 2023 19:21:08 -0700 (PDT)
+        Sun, 29 Oct 2023 19:21:13 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/7] Patch review
-Date: Sun, 29 Oct 2023 16:20:51 -1000
-Message-Id: <cover.1698632320.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/7] curl: fix CVE-2023-38545
+Date: Sun, 29 Oct 2023 16:20:53 -1000
+Message-Id: <44971c945a615d07c91100f514377f7247796334.1698632320.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1698632320.git.steve@sakoman.com>
+References: <cover.1698632320.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 02:21:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189780
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189782
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Tuesday, October 31
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Passed a-full on autobuilder:
+This flaw makes curl overflow a heap based buffer in the SOCKS5 proxy handshake.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6115
-
-The following changes since commit 7681436190354b5c5b6c3a82b3094badd81113de:
-
-  vim: Upgrade 9.0.2009 -> 9.0.2048 (2023-10-20 06:38:00 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Archana Polampalli (2):
-  curl: fix CVE-2023-38545
-  curl: fix CVE-2023-38546
-
-Fahad Arslan (2):
-  linux-firmware: create separate package for cirrus and cnm firmwares
-  linux-firmware: create separate packages
-
-Niko Mauno (1):
-  package_rpm: Allow compression mode override
-
-Peter Marko (1):
-  openssl: Upgrade 3.0.11 -> 3.0.12
-
-Steve Sakoman (1):
-  cve-exclusion_5.10.inc: update for 5.10.197
-
- meta/classes/package_rpm.bbclass              |   6 +-
- .../{openssl_3.0.11.bb => openssl_3.0.12.bb}  |   2 +-
- .../linux-firmware/linux-firmware_20230804.bb | 260 +++++++++++++++++-
- .../linux/cve-exclusion_5.10.inc              | 123 +++++++--
- .../curl/curl/CVE-2023-38545.patch            | 133 +++++++++
- .../curl/curl/CVE-2023-38546.patch            | 137 +++++++++
- meta/recipes-support/curl/curl_7.82.0.bb      |   2 +
- 7 files changed, 633 insertions(+), 30 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.0.11.bb => openssl_3.0.12.bb} (99%)
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../curl/curl/CVE-2023-38545.patch            | 133 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
+ 2 files changed, 134 insertions(+)
  create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38545.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38546.patch
 
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-38545.patch b/meta/recipes-support/curl/curl/CVE-2023-38545.patch
+new file mode 100644
+index 0000000000..c198d29c04
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-38545.patch
+@@ -0,0 +1,133 @@
++From fb4415d8aee6c1045be932a34fe6107c2f5ed147 Mon Sep 17 00:00:00 2001
++From: Jay Satiro <raysatiro@yahoo.com>
++Date: Wed, 11 Oct 2023 07:34:19 +0200
++Subject: [PATCH] socks: return error if hostname too long for remote resolve
++
++Prior to this change the state machine attempted to change the remote
++resolve to a local resolve if the hostname was longer than 255
++characters. Unfortunately that did not work as intended and caused a
++security issue.
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/fb4415d8aee6c1045be932a34fe6107c2f5ed147]
++
++CVE: CVE-2023-38545
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ lib/socks.c             |  8 +++---
++ tests/data/Makefile.inc |  2 +-
++ tests/data/test722      | 64 +++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 69 insertions(+), 5 deletions(-)
++ create mode 100644 tests/data/test722
++
++diff --git a/lib/socks.c b/lib/socks.c
++index a014aa6..2215c02 100644
++--- a/lib/socks.c
+++++ b/lib/socks.c
++@@ -536,9 +536,9 @@ CURLproxycode Curl_SOCKS5(const char *proxy_user,
++
++     /* RFC1928 chapter 5 specifies max 255 chars for domain name in packet */
++     if(!socks5_resolve_local && hostname_len > 255) {
++-      infof(data, "SOCKS5: server resolving disabled for hostnames of "
++-            "length > 255 [actual len=%zu]", hostname_len);
++-      socks5_resolve_local = TRUE;
+++      failf(data, "SOCKS5: the destination hostname is too long to be "
+++            "resolved remotely by the proxy.");
+++      return CURLPX_LONG_HOSTNAME;
++     }
++
++     if(auth & ~(CURLAUTH_BASIC | CURLAUTH_GSSAPI))
++@@ -879,7 +879,7 @@ CURLproxycode Curl_SOCKS5(const char *proxy_user,
++       }
++       else {
++         socksreq[len++] = 3;
++-        socksreq[len++] = (char) hostname_len; /* one byte address length */
+++	socksreq[len++] = (unsigned char) hostname_len; /* one byte length */
++         memcpy(&socksreq[len], hostname, hostname_len); /* address w/o NULL */
++         len += hostname_len;
++       }
++diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
++index 3064b39..47117b6 100644
++--- a/tests/data/Makefile.inc
+++++ b/tests/data/Makefile.inc
++@@ -99,7 +99,7 @@ test670 test671 test672 test673 test674 test675 test676 test677 test678 \
++ \
++ test700 test701 test702 test703 test704 test705 test706 test707 test708 \
++ test709 test710 test711 test712 test713 test714 test715 test716 test717 \
++-test718 test719 test720 test721 \
+++test718 test719 test720 test721 test722 \
++ \
++ test800 test801 test802 test803 test804 test805 test806 test807 test808 \
++ test809 test810 test811 test812 test813 test814 test815 test816 test817 \
++diff --git a/tests/data/test722 b/tests/data/test722
++new file mode 100644
++index 0000000..05bcf28
++--- /dev/null
+++++ b/tests/data/test722
++@@ -0,0 +1,64 @@
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++HTTP GET
+++SOCKS5
+++SOCKS5h
+++followlocation
+++</keywords>
+++</info>
+++
+++#
+++# Server-side
+++<reply>
+++# The hostname in this redirect is 256 characters and too long (> 255) for
+++# SOCKS5 remote resolve. curl must return error CURLE_PROXY in this case.
+++<data>
+++HTTP/1.1 301 Moved Permanently
+++Location: http://AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/
+++Content-Length: 0
+++Connection: close
+++
+++</data>
+++</reply>
+++
+++#
+++# Client-side
+++<client>
+++<features>
+++proxy
+++</features>
+++<server>
+++http
+++socks5
+++</server>
+++ <name>
+++SOCKS5h with HTTP redirect to hostname too long
+++ </name>
+++ <command>
+++--no-progress-meter --location --proxy socks5h://%HOSTIP:%SOCKSPORT http://%HOSTIP:%HTTPPORT/%TESTNUMBER
+++</command>
+++</client>
+++
+++#
+++# Verify data after the test has been "shot"
+++<verify>
+++<protocol crlf="yes">
+++GET /%TESTNUMBER HTTP/1.1
+++Host: %HOSTIP:%HTTPPORT
+++User-Agent: curl/%VERSION
+++Accept: */*
+++
+++</protocol>
+++<errorcode>
+++97
+++</errorcode>
+++# the error message is verified because error code CURLE_PROXY (97) may be
+++# returned for any number of reasons and we need to make sure it is
+++# specifically for the reason below so that we know the check is working.
+++<stderr mode="text">
+++curl: (97) SOCKS5: the destination hostname is too long to be resolved remotely by the proxy.
+++</stderr>
+++</verify>
+++</testcase>
++--
++2.40.0
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index af52ecad13..86a3a84332 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -52,6 +52,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2023-28322-1.patch \
+            file://CVE-2023-28322-2.patch \
+            file://CVE-2023-32001.patch \
++           file://CVE-2023-38545.patch \
+            "
+ SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
+ 
 -- 
 2.34.1
 
