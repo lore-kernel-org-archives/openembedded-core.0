@@ -2,245 +2,91 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03ED5C4167D
-	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 15:36:08 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.1813.1698766560725003993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 300B1C4332F
+	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 15:53:48 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.2415.1698767627614689116
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Oct 2023 08:36:00 -0700
+ Tue, 31 Oct 2023 08:53:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JhqbjbJs;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1cc34c3420bso19034635ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 08:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698766559; x=1699371359; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/ZXPBH1TdZvBvF6yAqWgUPZcwHxJsls1R8XCiDe41n0=;
-        b=JhqbjbJscVKd5yA4m8GZRqWvPc6cS8mIzflhNJLoGAklw5nNYnE94r6P7ntdHeQrZD
-         yAr3GmYuEA/bXnCRTiL06o3SSh5T52aEm0APk6tUyV6UfJ5xMOirTdJDi0BNUa/pHNTH
-         u/6htQNvYfAegvOJvJVFAEQNy0TBFjGvzX+UgZbXh5Pq1nBFAr2MQQktagYyW+vSFfbo
-         vKn1eJOEaB2/Bp7V+s1ER6qgb6u+zfPYlatd6HBfB7DLgpvu+YIEMWE0yIs9ylOG512G
-         EVfsClNv678qdzpjeKCjed/TUZdbLUfQfIBV2AAoGVUV/DehNju5x+Xv3+S/M6m/8ZN6
-         XVdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698766559; x=1699371359;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/ZXPBH1TdZvBvF6yAqWgUPZcwHxJsls1R8XCiDe41n0=;
-        b=naGJkJNXwm0Azv/OAbHtId78U7MjhkhG4KzL3ffvjZKEeZEWPrnCIEVZV71hnc3bIA
-         +DsCHxF46fYfcDk0xTZtpEzH70IUUYghWCaqCd0dcbAp9Yx5jrIxymXFj1WyDgD58mKI
-         Gqg8HV2R9F8NRCIKEzTwcxa6zvdn8hXpFbxMhfhe42bpi539ydhPRkTWpd3FfLVFAs18
-         Qr1WvXYkuvV/gXy93KmHnuS7JmYfjWC1lIPjUdr7tDrdQPp5t4YxnyV+b6kOXQ9nJwGi
-         6YvFcXVQGDkaMi3kdi04Bhtf76eyHD+mWjdU+3pVeR7xjEDc98GImxHgQXY+bxiZTH0x
-         r0SA==
-X-Gm-Message-State: AOJu0YwN+mwAJTeeSjayrdySZ0iv68VQja4hg739s+znFoUDvyVWJ8pt
-	TlEgrhvIhlO1ElEGZSYpVlkPO/O8vtFusorsn3EDDA==
-X-Google-Smtp-Source: AGHT+IHXcliywumSnU+aegRA6P4dLpSs9yXW1g4qlXWhwMIc1E9l7l5dWEerUernYPxKxPHe5j6coA==
-X-Received: by 2002:a17:902:bf44:b0:1ca:c490:8537 with SMTP id u4-20020a170902bf4400b001cac4908537mr10185717pls.14.1698766559225;
-        Tue, 31 Oct 2023 08:35:59 -0700 (PDT)
-Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id f10-20020a170902684a00b001ca21e05c69sm1498048pln.109.2023.10.31.08.35.58
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 08:35:58 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 3/5] shadow: Fix CVE-2023-4641
-Date: Tue, 31 Oct 2023 05:35:42 -1000
-Message-Id: <675c393f3d913c873c546cef12944ec6f889c5cd.1698766338.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1698766338.git.steve@sakoman.com>
-References: <cover.1698766338.git.steve@sakoman.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CHZelxwB;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mVP2k2CL;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.45, mailfrom: 0101018b8670e1cc-0d2c4e5b-91f8-4c4d-9145-6bea90f13809-000000@automation.yoctoproject.org)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1698767626; i=@automation.yoctoproject.org;
+	h=From:Reply-To:Cc:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:Date;
+	bh=619qLPhY/boPTeCzXxtIMsP8v7EWd3GX7fAZ8MI0ROU=;
+	b=CHZelxwBZbkiApMj6einxdEQsXAnKixOQupp8oFmYZL6GllaKLcTEtfRS2z00SD5
+	uUGH/nVYfLJ99PmkUg7kYVp51AiU/1J6Kf4uQEuH6L8GyakPKDveP9scLyn/cxaUmOZ
+	Ce/I3HdxlubB6iykztyUItQr0wTThTIKdnMZw0Ds=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698767626;
+	h=From:Reply-To:Cc:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:Date:Feedback-ID;
+	bh=619qLPhY/boPTeCzXxtIMsP8v7EWd3GX7fAZ8MI0ROU=;
+	b=mVP2k2CL0xqLwPvYSKtQpz6+e+xTqBmzKKdfKkX6IeIkcpHbQVPw3/6Hwi0tyY8K
+	ktjwfnUjUOyZyItTS4hY+8obiThmZ9ZfadvtiGOrHojEjUKefebDay0La6A8D7+j1Ou
+	QS07UrtiVDTZufYfbui9XWuyQ8Ij0/0k1ikAtWqw=
+From: patchtest@automation.yoctoproject.org
+Reply-To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][mickledore 1/5] grub2: fix
+ CVE-2023-4692
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Message-ID: <0101018b8670e1cc-0d2c4e5b-91f8-4c4d-9145-6bea90f13809-000000@us-west-2.amazonses.com>
+Date: Tue, 31 Oct 2023 15:53:46 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.10.31-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 15:36:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189855
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 15:53:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189858
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-shadow-utils: possible password leak during passwd(1) change
-
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../shadow/files/CVE-2023-4641.patch          | 147 ++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |   1 +
- 2 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641.patch
+Testing patch /home/patchtest/share/mboxes/mickledore-1-5-grub2-fix-CVE-2023-4692.patch
 
-diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641.patch b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
-new file mode 100644
-index 0000000000..1fabfe928e
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
-@@ -0,0 +1,147 @@
-+From 25dbe2ce166a13322b7536ff2f738786ea2e61e7 Mon Sep 17 00:00:00 2001
-+From: Alejandro Colomar <alx@kernel.org>
-+Date: Sat, 10 Jun 2023 16:20:05 +0200
-+Subject: [PATCH] gpasswd(1): Fix password leak
-+
-+How to trigger this password leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+When gpasswd(1) asks for the new password, it asks twice (as is usual
-+for confirming the new password).  Each of those 2 password prompts
-+uses agetpass() to get the password.  If the second agetpass() fails,
-+the first password, which has been copied into the 'static' buffer
-+'pass' via STRFCPY(), wasn't being zeroed.
-+
-+agetpass() is defined in <./libmisc/agetpass.c> (around line 91), and
-+can fail for any of the following reasons:
-+
-+-  malloc(3) or readpassphrase(3) failure.
-+
-+   These are going to be difficult to trigger.  Maybe getting the system
-+   to the limits of memory utilization at that exact point, so that the
-+   next malloc(3) gets ENOMEM, and possibly even the OOM is triggered.
-+   About readpassphrase(3), ENFILE and EINTR seem the only plausible
-+   ones, and EINTR probably requires privilege or being the same user;
-+   but I wouldn't discard ENFILE so easily, if a process starts opening
-+   files.
-+
-+-  The password is longer than PASS_MAX.
-+
-+   The is plausible with physical access.  However, at that point, a
-+   keylogger will be a much simpler attack.
-+
-+And, the attacker must be able to know when the second password is being
-+introduced, which is not going to be easy.
-+
-+How to read the password after the leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Provoking the leak yourself at the right point by entering a very long
-+password is easy, and inspecting the process stack at that point should
-+be doable.  Try to find some consistent patterns.
-+
-+Then, search for those patterns in free memory, right after the victim
-+leaks their password.
-+
-+Once you get the leak, a program should read all the free memory
-+searching for patterns that gpasswd(1) leaves nearby the leaked
-+password.
-+
-+On 6/10/23 03:14, Seth Arnold wrote:
-+> An attacker process wouldn't be able to use malloc(3) for this task.
-+> There's a handful of tools available for userspace to allocate memory:
-+>
-+> -  brk / sbrk
-+> -  mmap MAP_ANONYMOUS
-+> -  mmap /dev/zero
-+> -  mmap some other file
-+> -  shm_open
-+> -  shmget
-+>
-+> Most of these return only pages of zeros to a process.  Using mmap of an
-+> existing file, you can get some of the contents of the file demand-loaded
-+> into the memory space on the first use.
-+>
-+> The MAP_UNINITIALIZED flag only works if the kernel was compiled with
-+> CONFIG_MMAP_ALLOW_UNINITIALIZED.  This is rare.
-+>
-+> malloc(3) doesn't zero memory, to our collective frustration, but all the
-+> garbage in the allocations is from previous allocations in the current
-+> process.  It isn't leftover from other processes.
-+>
-+> The avenues available for reading the memory:
-+> -  /dev/mem and /dev/kmem (requires root, not available with Secure Boot)
-+> -  /proc/pid/mem (requires ptrace privileges, mediated by YAMA)
-+> -  ptrace (requires ptrace privileges, mediated by YAMA)
-+> -  causing memory to be swapped to disk, and then inspecting the swap
-+>
-+> These all require a certain amount of privileges.
-+
-+How to fix it?
-+~~~~~~~~~~~~~~
-+
-+memzero(), which internally calls explicit_bzero(3), or whatever
-+alternative the system provides with a slightly different name, will
-+make sure that the buffer is zeroed in memory, and optimizations are not
-+allowed to impede this zeroing.
-+
-+This is not really 100% effective, since compilers may place copies of
-+the string somewhere hidden in the stack.  Those copies won't get zeroed
-+by explicit_bzero(3).  However, that's arguably a compiler bug, since
-+compilers should make everything possible to avoid optimizing strings
-+that are later passed to explicit_bzero(3).  But we all know that
-+sometimes it's impossible to have perfect knowledge in the compiler, so
-+this is plausible.  Nevertheless, there's nothing we can do against such
-+issues, except minimizing the time such passwords are stored in plain
-+text.
-+
-+Security concerns
-+~~~~~~~~~~~~~~~~~
-+
-+We believe this isn't easy to exploit.  Nevertheless, and since the fix
-+is trivial, this fix should probably be applied soon, and backported to
-+all supported distributions, to prevent someone else having more
-+imagination than us to find a way.
-+
-+Affected versions
-+~~~~~~~~~~~~~~~~~
-+
-+All.  Bug introduced in shadow 19990709.  That's the second commit in
-+the git history.
-+
-+Fixes: 45c6603cc86c ("[svn-upgrade] Integrating new upstream version, shadow (19990709)")
-+
-+CVE: CVE-2023-4641
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/65c88a43a23c2391dcc90c0abda3e839e9c57904]
-+
-+Reported-by: Alejandro Colomar <alx@kernel.org>
-+Cc: Serge Hallyn <serge@hallyn.com>
-+Cc: Iker Pedrosa <ipedrosa@redhat.com>
-+Cc: Seth Arnold <seth.arnold@canonical.com>
-+Cc: Christian Brauner <christian@brauner.io>
-+Cc: Balint Reczey <rbalint@debian.org>
-+Cc: Sam James <sam@gentoo.org>
-+Cc: David Runge <dvzrv@archlinux.org>
-+Cc: Andreas Jaeger <aj@suse.de>
-+Cc: <~hallyn/shadow@lists.sr.ht>
-+Signed-off-by: Alejandro Colomar <alx@kernel.org>
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+---
-+ src/gpasswd.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/gpasswd.c b/src/gpasswd.c
-+index 5983f787..2d8869ef 100644
-+--- a/src/gpasswd.c
-++++ b/src/gpasswd.c
-+@@ -896,6 +896,7 @@ static void change_passwd (struct group *gr)
-+ 		strzero (cp);
-+ 		cp = getpass (_("Re-enter new password: "));
-+ 		if (NULL == cp) {
-++			memzero (pass, sizeof pass);
-+ 			exit (1);
-+ 		}
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index cf05a3af93..4014baddc1 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -17,6 +17,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
- 	   file://0001-Fix-can-not-print-full-login.patch \
-            file://CVE-2023-29383.patch \
-            file://0001-Overhaul-valid_field.patch \
-+           file://CVE-2023-4641.patch \
-            "
- 
- SRC_URI:append:class-target = " \
--- 
-2.34.1
+FAIL: test CVE presence in commit message: A CVE tag should be provided in the commit message with format: "CVE: CVE-YYYY-XXXX" (test_mbox.TestMbox.test_cve_presence_in_commit_message)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest lic files chksum modified not mentioned: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_lic_files_chksum_modified_not_mentioned)
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
