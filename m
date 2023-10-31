@@ -1,92 +1,107 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <louis.rannou@syslinbit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E124FC4167B
-	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 22:20:04 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.8757.1698790799905320800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E444C4332F
+	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 22:48:05 +0000 (UTC)
+Received: from 15.mo583.mail-out.ovh.net (15.mo583.mail-out.ovh.net [178.33.107.29])
+ by mx.groups.io with SMTP id smtpd.web10.9384.1698792481077858834
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Oct 2023 15:20:00 -0700
+ Tue, 31 Oct 2023 15:48:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Slv7EYtW;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lY6j7peL;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b87d275c6-e3f68aec-61a4-477a-aec6-a2287493a798-000000@automation.yoctoproject.org)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698790799; i=@automation.yoctoproject.org;
-	h=From:Reply-To:Cc:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:Date;
-	bh=4DGl8D7PMM0JiRIxcc93DSe8K6XsPOkYe4FDUoPb4Ig=;
-	b=Slv7EYtWDMfmRj148x5YtWjKVV6m0W2eOd/KICQEPr4D76mK1S+Sy8ceKQvJ65o4
-	kF+7kVRCqH9YOU9erP104C1iKVBwsVRGdiNI/999qk/URCmK4Bv3rWbcS3S4pPkyavy
-	RHPWOuqPtF5iwgiuizSucD54oC/tcFn2WmOFY7P8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698790799;
-	h=From:Reply-To:Cc:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:Date:Feedback-ID;
-	bh=4DGl8D7PMM0JiRIxcc93DSe8K6XsPOkYe4FDUoPb4Ig=;
-	b=lY6j7peLJgwJXMc7XWW+pTcUvX5JiL64AXRFs1N1PDJGztQD5UskQyWVOX9wv3lQ
-	7LK/dNytejLGM5dupbQ8DSS+2O6Tduc7wJwncSkiPr29N3tfKwVThc++BuKJUaORDQk
-	94aV6hke6Wa8c4B05jhgYteRlkzQvorhRYbBSp4U=
-From: patchtest@automation.yoctoproject.org
-Reply-To: steve@sakoman.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone 1/3] libxml2: Patch
- CVE-2023-45322
+ dkim=none (message not signed); spf=softfail (domain: syslinbit.com, ip: 178.33.107.29, mailfrom: louis.rannou@syslinbit.com)
+Received: from director9.ghost.mail-out.ovh.net (unknown [10.108.1.239])
+	by mo583.mail-out.ovh.net (Postfix) with ESMTP id 5BF8B28664
+	for <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 22:47:59 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-nzml2 (unknown [10.110.208.94])
+	by director9.ghost.mail-out.ovh.net (Postfix) with ESMTPS id A5E601FD26;
+	Tue, 31 Oct 2023 22:47:58 +0000 (UTC)
+Received: from syslinbit.com ([37.59.142.108])
+	by ghost-submission-6684bf9d7b-nzml2 with ESMTPSA
+	id FUUJGR6EQWUYnR8APQBgzw
+	(envelope-from <louis.rannou@syslinbit.com>); Tue, 31 Oct 2023 22:47:58 +0000
+Authentication-Results: garm.ovh; auth=pass (GARM-108S002a9a35531-6f63-4f2e-86cd-56fa54de85a4,
+                    E382B8EC8DEDBA5F41C2577A0B4F295D8A9180D4) smtp.auth=louis.rannou@syslinbit.com
+X-OVh-ClientIp: 45.81.62.9
+From: Louis Rannou <louis.rannou@syslinbit.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org,
+	jpewhacker@gmail.com,
+	Louis Rannou <louis.rannou@syslinbit.com>
+Subject: [OE-core][RFC v2 00/12] SPDX3 Proof-of-Concept
+Date: Tue, 31 Oct 2023 23:47:21 +0100
+Message-ID: <20231031224733.367227-1-louis.rannou@syslinbit.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Message-ID: <0101018b87d275c6-e3f68aec-61a4-477a-aec6-a2287493a798-000000@us-west-2.amazonses.com>
-Date: Tue, 31 Oct 2023 22:19:58 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.31-54.240.27.31
+X-Ovh-Tracer-Id: 9520328137492258269
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddtfedgtddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefnohhuihhsucftrghnnhhouhcuoehlohhuihhsrdhrrghnnhhouhesshihshhlihhnsghithdrtghomheqnecuggftrfgrthhtvghrnhephfffuddthfefleefheeijefgfffhleevtdelleefkedtkeeffffggedttefhteegnecukfhppeduvdejrddtrddtrddupdeghedrkedurdeivddrledpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehlohhuihhsrdhrrghnnhhouhesshihshhlihhnsghithdrtghomheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdfovfetjfhoshhtpehmohehkeefpdhmohguvgepshhmthhpohhuth
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 22:20:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189874
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 22:48:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189876
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This patch-set adds a proof-of-concept implementation of the upcoming
+SPDX3 standard to the SBOM generation of the Yocto Project/OpenEmbedded.
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-1-3-libxml2-Patch-CVE-2023-45322.patch
+The current code delivers an equivalent of what is produced for SPDX2.2.
+The standard has not been released yet, and there is some specification
+work in progress still. Our questions and open points are available
+in the README.SPDX3 file.
 
-FAIL: test CVE presence in commit message: A CVE tag should be provided in the commit message with format: "CVE: CVE-YYYY-XXXX" (test_mbox.TestMbox.test_cve_presence_in_commit_message)
+Louis Rannou (7):
+  create-spdx-3.0: copy 2.2 class
+  oe/spdx: extend spdx.py objects
+  oe/sbom: change the write_doc to prepare for spdx3
+  create-spdx-3.0: SPDX3 objects as classes
+  oe/sbom: search into json
+  create-spdx-3.0: draft: remove low value stuff
+  oeqa/selftest/cases/spdx: change test for spdx3
 
-PASS: pretest lic files chksum modified not mentioned (test_metadata.TestMetadata.pretest_lic_files_chksum_modified_not_mentioned)
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+Marta Rybczynska (1):
+  README.SPDX3: add file
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+Samantha Jalabert (4):
+  create-spdx-3.0: support for recipe spdx creation
+  create-spdx-3.0: support for spdx image
+  create-spdx-3.0: Use FQDN spdx ids
+  create-spdx-3.0: support for License profile
 
----
+Louis Rannou (7):
+  create-spdx-3.0: copy 2.2 class
+  oe/spdx: extend spdx.py objects
+  oe/sbom: change the write_doc to prepare for spdx3
+  create-spdx-3.0: SPDX3 objects as classes
+  oe/sbom: search into json
+  create-spdx-3.0: draft: remove low value stuff
+  oeqa/selftest/cases/spdx: change test for spdx3
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Marta Rybczynska (1):
+  README.SPDX3: add file
+
+Samantha Jalabert (4):
+  create-spdx-3.0: support for recipe spdx creation
+  create-spdx-3.0: support for spdx image
+  create-spdx-3.0: Use FQDN spdx ids
+  create-spdx-3.0: support for License profile
+
+ README.SPDX3                         |   45 +
+ meta/classes/create-spdx-2.2.bbclass |    1 -
+ meta/classes/create-spdx-3.0.bbclass | 1223 ++++++++++++++++++++++++++
+ meta/classes/create-spdx.bbclass     |    2 +-
+ meta/lib/oe/sbom.py                  |   38 +-
+ meta/lib/oe/spdx.py                  |   30 +-
+ meta/lib/oe/spdx3.py                 |  384 ++++++++
+ meta/lib/oeqa/selftest/cases/spdx.py |   16 +-
+ 8 files changed, 1723 insertions(+), 16 deletions(-)
+ create mode 100644 README.SPDX3
+ create mode 100644 meta/classes/create-spdx-3.0.bbclass
+ create mode 100644 meta/lib/oe/spdx3.py
+
+--=20
+2.42.0
+
 
