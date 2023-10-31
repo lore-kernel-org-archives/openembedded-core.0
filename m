@@ -1,117 +1,88 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <javier.tia@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB01C4332F
-	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 04:27:48 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web10.179589.1698726465194532730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E75DC4332F
+	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 04:28:08 +0000 (UTC)
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+ by mx.groups.io with SMTP id smtpd.web10.179592.1698726480245473604
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Oct 2023 21:27:45 -0700
+ Mon, 30 Oct 2023 21:28:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=DYRdkHGt;
- spf=pass (domain: mvista.com, ip: 209.85.216.53, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-28035cf6a30so1562491a91.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 21:27:45 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=PT6+V/jF;
+ spf=pass (domain: linaro.org, ip: 209.85.221.179, mailfrom: javier.tia@linaro.org)
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-495eb6e2b80so1676785e0c.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 21:28:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1698726464; x=1699331264; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1698726479; x=1699331279; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fDbGmOjpQWs/MLOVUsVFNaCKX8WpU5JLF861iwieBww=;
-        b=DYRdkHGtakITTuY0wcTV/iIbQzFWltS4ZbtgMBRFBmpjOnLJtmq3Ur+Gt4MpML9BdG
-         /PDJb4boynl9Z5VTzeCfLQyod76kzeZ5tmEZPHq37VCzmh+3+QATCgrt9ER3AwEpTJwr
-         5QPN9C1uJpQ6oaAZLwNk70tbAwZ/z60CmWyq8=
+        bh=xH9gBt1YL89jxymEONXoXExQWK8h1zt5nsQujwesJCw=;
+        b=PT6+V/jFUvXakZVpddrElMD2fXUgHFmclipzR/tz/8Ib2U4WhV5J0G2Sumnmq4mqMp
+         WGpZr1DuiYxJaZFJMLZ683jXX0CSekPlWHMOBS1ee/B5OOo25u7wWEmHCQaM2mYBjHWW
+         6usUoVrZuF9Tho3WUTH47pxxAyOK7C5RU+T8PlW4E3Yk7oPR1WB7nvYjPvLTa5JKTX/I
+         E0mzWBIgzOrCmAit3DW2NMbC5o2w+olSEwrdyd3h68ODgvMW+fHPSHJJbYPybXxT4T7u
+         YVabY/XhYtUCISix7E5s0/AcDH7gf37vy+ZjpjhGehQrS7EKxQiwAsVZY+t2q7dvYL8Y
+         wdpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698726464; x=1699331264;
+        d=1e100.net; s=20230601; t=1698726479; x=1699331279;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fDbGmOjpQWs/MLOVUsVFNaCKX8WpU5JLF861iwieBww=;
-        b=jWZAi1utDVli3yrGp2se0NRJ4QMPHFx6kGE6nHllm2Fyj+qjwZrfvvz68NdhZEF4O9
-         8zD6o0CDL586inZNIc61ZTTny8FXQQohszPChsTKirun/knrkEX9Riv4djQxydfKvwcb
-         xACwBuRGuA5aQu3Hq+1EYio3E1W8g1GCWkrIBpl7as9U6VlT3mJoYBNtuudWslTKCZhD
-         dFx+XaVfSJX8HiiwtFCCdhM1UpBcVzziyoiFPiKeL6X1+MBH3E4cfDfSO+qKxofMgUYT
-         /g2OUaJnPcQJIy86UiAHL9d+3z/6e0eLvIzORmne1YDXGTBz9KeRmT9bJp/QHFJMGfwl
-         UHXg==
-X-Gm-Message-State: AOJu0Yx+lQUq7Y/dt7JTdY9PF+PjsP2W8Dehzzt/6SXHppCbiomwiL/r
-	cl6rm3tFz6cCFXHaX0XjD9qpNn9Y++f1hE08yr8=
-X-Google-Smtp-Source: AGHT+IFHhyR64aQgH83OiTdWW2TwTO4bUGyTdlybgqwXDjX9r9hb028frR5p2j1pzqEAktqsRu9d6Q==
-X-Received: by 2002:a17:90a:f2d7:b0:27d:3439:c141 with SMTP id gt23-20020a17090af2d700b0027d3439c141mr8180162pjb.39.1698726464191;
-        Mon, 30 Oct 2023 21:27:44 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c01c:7c68:c051:396e:dcea:8798])
-        by smtp.gmail.com with ESMTPSA id h16-20020a17090adb9000b0027e289ac436sm266027pjv.8.2023.10.30.21.27.41
+        bh=xH9gBt1YL89jxymEONXoXExQWK8h1zt5nsQujwesJCw=;
+        b=MsTGLOHcYj+vJGk0judQSvRkU9Wk0twhDu0NuRaQEOJJfWdIHdHR0YjFrTPulgrXNV
+         cnbA2kzLa8wmyKaCDStvUkgnSH0zoXKO31Vk5p9GzD5ulHILgR/78Ib3QPRxiFKK320O
+         l0ilijGyAoaEeh+DmfTAq5mm8Pl+wIfNw1dyp0Y8p1LfaERO2KehPyHwAzw2k0KhUt4L
+         WKaCwXTv/bngHTG4p6QHADpz0mzayIzOV73FqAo/01H3UoQRdtSz0PI5JNGzh3vumTRG
+         yyXdmQADwh6K7BqI3i9hKx5+t6GkAkxn5dB8j8Pe0PRw0Ge71zjDaiCdkYQEVtrCrHqc
+         nngQ==
+X-Gm-Message-State: AOJu0Yxa5xeNBzvWbEWxpemu4mY+iAEQuaAD7KluF8r6HgDYd+SQq16H
+	qEU42b2TVlgFv2/Jlm3zYort//n3tM48cgrsxsc=
+X-Google-Smtp-Source: AGHT+IGr6Rf/Mcv9n1+lJt0bU7d/e8znDpgH4uGuVqBblOwmZ1HxSxDQ6dz+krMbUw7kb4bJBuBazw==
+X-Received: by 2002:a05:6102:2092:b0:457:c37d:33c with SMTP id h18-20020a056102209200b00457c37d033cmr7065702vsr.10.1698726479031;
+        Mon, 30 Oct 2023 21:27:59 -0700 (PDT)
+Received: from jetm-rog-x670e-gene.. ([177.93.3.200])
+        by smtp.gmail.com with ESMTPSA id ea13-20020a056130148d00b007b5f4e678d6sm78670uab.0.2023.10.30.21.27.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 21:27:43 -0700 (PDT)
-From: vanusuri@mvista.com
+        Mon, 30 Oct 2023 21:27:58 -0700 (PDT)
+From: Javier Tia <javier.tia@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] tiff: CVE patch correction for CVE-2023-3576
-Date: Tue, 31 Oct 2023 09:57:34 +0530
-Message-Id: <20231031042734.520582-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Javier Tia <javier.tia@linaro.org>
+Subject: [PATCH] package: split strip cmd when ccache is used
+Date: Mon, 30 Oct 2023 22:27:35 -0600
+Message-ID: <20231031042735.3842176-1-javier.tia@linaro.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 04:27:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189824
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 04:28:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189825
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Using ccache stopped to work after 77497dbdca with following error:
 
-- The commit [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
-fixes CVE-2023-3576
-- Hence, renamed the CVE-2023-3618-1.patch to CVE-2023-3576.patch
-- Reference: https://security-tracker.debian.org/tracker/CVE-2023-3576
-             https://security-tracker.debian.org/tracker/CVE-2023-3618
+  FileNotFoundError: [Errno 2] No such file or directory: 'ccache aarch64-trs-linux-strip'
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Javier Tia <javier.tia@linaro.org>
 ---
- .../files/{CVE-2023-3618-1.patch => CVE-2023-3576.patch}      | 3 ++-
- .../files/{CVE-2023-3618-2.patch => CVE-2023-3618.patch}      | 0
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb                 | 4 ++--
- 3 files changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/libtiff/files/{CVE-2023-3618-1.patch => CVE-2023-3576.patch} (93%)
- rename meta/recipes-multimedia/libtiff/files/{CVE-2023-3618-2.patch => CVE-2023-3618.patch} (100%)
+ meta/lib/oe/package.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
-similarity index 93%
-rename from meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
-rename to meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
-index 35ed852519..67837fe142 100644
---- a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
-@@ -4,8 +4,9 @@ Date: Tue, 7 Mar 2023 15:02:08 +0800
- Subject: [PATCH] Fix memory leak in tiffcrop.c
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 1dd20f85eb..2685da0af9 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -39,7 +39,7 @@ def runstrip(arg):
+         newmode = origmode | stat.S_IWRITE | stat.S_IREAD
+         os.chmod(file, newmode)
  
- Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
--CVE: CVE-2023-3618
-+CVE: CVE-2023-3576
- Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
- ---
-  tools/tiffcrop.c | 7 ++++++-
-  1 file changed, 6 insertions(+), 1 deletion(-)
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618.patch
-similarity index 100%
-rename from meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
-rename to meta/recipes-multimedia/libtiff/files/CVE-2023-3618.patch
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-index 6df4244697..d27381b4cd 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-@@ -43,8 +43,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-26966.patch \
-            file://CVE-2023-2908.patch \
-            file://CVE-2023-3316.patch \
--           file://CVE-2023-3618-1.patch \
--           file://CVE-2023-3618-2.patch \
-+           file://CVE-2023-3576.patch \
-+           file://CVE-2023-3618.patch \
-           "
- SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
- SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
+-    stripcmd = [strip]
++    stripcmd = strip.split() if "ccache" in strip else [strip]
+     skip_strip = False
+     # kernel module
+     if elftype & 16:
 -- 
-2.25.1
+2.42.0
 
 
