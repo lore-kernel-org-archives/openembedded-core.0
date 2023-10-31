@@ -1,108 +1,117 @@
-Return-Path: <alistair23@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C55C4332F
-	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 04:00:38 +0000 (UTC)
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
- by mx.groups.io with SMTP id smtpd.web10.179345.1698724829205287808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DB01C4332F
+	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 04:27:48 +0000 (UTC)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web10.179589.1698726465194532730
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Oct 2023 21:00:29 -0700
+ Mon, 30 Oct 2023 21:27:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cNADCzha;
- spf=pass (domain: gmail.com, ip: 209.85.221.172, mailfrom: alistair23@gmail.com)
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-49d0d90a7ddso2000176e0c.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 21:00:29 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=DYRdkHGt;
+ spf=pass (domain: mvista.com, ip: 209.85.216.53, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-28035cf6a30so1562491a91.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Oct 2023 21:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698724828; x=1699329628; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pjqb5EQO7VzYbz7fzACn8ctn0ei6dwBd1Fcs8U+toI4=;
-        b=cNADCzha/PwGadySnDyPaS9VyebRxuGJ3FouNI5b+poJ6WB2W51AY6sEOW35haDqt8
-         D6ayNfPMnaqQREELXsB7ptAqoW2B9ksntRbhf4fHTCVUqDjn8H12B6OPYjAb5GCWjxW3
-         Y0TIFVzCSFFDnqon0CZHAf+Q0aBY7zHtUDTEG9jAVNBhpe1KMd1KcdXTNibaQSUXm/CS
-         9i6BrwHXkkctyympE0fKUQoHRlzI2jPlPocmVxPhsT83DEn6OuzOonnehUktgpQnF6ps
-         +oTeOfKfsmXnaQUYdDxnCT3sYTOLB64gcVrawrtpgrSYAP6e7NfbypwJrMdYOx4kCwYx
-         URgA==
+        d=mvista.com; s=google; t=1698726464; x=1699331264; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fDbGmOjpQWs/MLOVUsVFNaCKX8WpU5JLF861iwieBww=;
+        b=DYRdkHGtakITTuY0wcTV/iIbQzFWltS4ZbtgMBRFBmpjOnLJtmq3Ur+Gt4MpML9BdG
+         /PDJb4boynl9Z5VTzeCfLQyod76kzeZ5tmEZPHq37VCzmh+3+QATCgrt9ER3AwEpTJwr
+         5QPN9C1uJpQ6oaAZLwNk70tbAwZ/z60CmWyq8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698724828; x=1699329628;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Pjqb5EQO7VzYbz7fzACn8ctn0ei6dwBd1Fcs8U+toI4=;
-        b=iVZx9il9Ws+KQPFro3f9mUJ4f8VxA+rvVLWuhA3UvjKNcDqN8bF7AVuU91Q+Wmq949
-         KGsvjt+olrExtlwtR/FEK8YElkDNlkj/rzFAap5Ey+7h/6nxXbF1tFit5zvLjIp9X1rZ
-         udnnRD6AkFxipHwYMf49333X5uiglCgs6oenta7vwLnaHidrqGVl0xENZAK2jkwHh9E9
-         nWisNws1WosqnrQXVe4UuRNFgAQ76qP7drA64Oho1qtCZbytioldvpzogu6sPKRJZxqg
-         pFhYXtrCvJB3yI834Bj51JOYJrja6Kppfyah6+Q0VsdRd65+JQBI8TRBVOSUiZKtF9Kq
-         tQgA==
-X-Gm-Message-State: AOJu0YxJ49wUP/CdZkTE5G6muRcIAb/E/HfCefQP75hrrh+VRNcHI4Pk
-	Ks1cytkdNQeBBH7FRuFTcNsObihwnOi45Dy3sNA=
-X-Google-Smtp-Source: AGHT+IEoVVBGvWNUsCq4UMUW7p0K8yUBYKvku/EfviI2qPM+XmWIUxyFCxYr8V7vIjJxeLF+CbBWrCAKCCJZlpGJTIE=
-X-Received: by 2002:a1f:2d96:0:b0:4a8:f08c:ec2a with SMTP id
- t144-20020a1f2d96000000b004a8f08cec2amr10009148vkt.1.1698724828148; Mon, 30
- Oct 2023 21:00:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698726464; x=1699331264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fDbGmOjpQWs/MLOVUsVFNaCKX8WpU5JLF861iwieBww=;
+        b=jWZAi1utDVli3yrGp2se0NRJ4QMPHFx6kGE6nHllm2Fyj+qjwZrfvvz68NdhZEF4O9
+         8zD6o0CDL586inZNIc61ZTTny8FXQQohszPChsTKirun/knrkEX9Riv4djQxydfKvwcb
+         xACwBuRGuA5aQu3Hq+1EYio3E1W8g1GCWkrIBpl7as9U6VlT3mJoYBNtuudWslTKCZhD
+         dFx+XaVfSJX8HiiwtFCCdhM1UpBcVzziyoiFPiKeL6X1+MBH3E4cfDfSO+qKxofMgUYT
+         /g2OUaJnPcQJIy86UiAHL9d+3z/6e0eLvIzORmne1YDXGTBz9KeRmT9bJp/QHFJMGfwl
+         UHXg==
+X-Gm-Message-State: AOJu0Yx+lQUq7Y/dt7JTdY9PF+PjsP2W8Dehzzt/6SXHppCbiomwiL/r
+	cl6rm3tFz6cCFXHaX0XjD9qpNn9Y++f1hE08yr8=
+X-Google-Smtp-Source: AGHT+IFHhyR64aQgH83OiTdWW2TwTO4bUGyTdlybgqwXDjX9r9hb028frR5p2j1pzqEAktqsRu9d6Q==
+X-Received: by 2002:a17:90a:f2d7:b0:27d:3439:c141 with SMTP id gt23-20020a17090af2d700b0027d3439c141mr8180162pjb.39.1698726464191;
+        Mon, 30 Oct 2023 21:27:44 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c01c:7c68:c051:396e:dcea:8798])
+        by smtp.gmail.com with ESMTPSA id h16-20020a17090adb9000b0027e289ac436sm266027pjv.8.2023.10.30.21.27.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Oct 2023 21:27:43 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] tiff: CVE patch correction for CVE-2023-3576
+Date: Tue, 31 Oct 2023 09:57:34 +0530
+Message-Id: <20231031042734.520582-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20231030191653.65495-1-raj.khem@gmail.com>
-In-Reply-To: <20231030191653.65495-1-raj.khem@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 31 Oct 2023 14:00:01 +1000
-Message-ID: <CAKmqyKO-DChgiad5Wqm1owk06YgCSGd+mOKoaTzTYsuEsYgY+g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] qemuriscv: Add to common MACHINE_FEATURES
- instead of overriding them
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 04:00:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189823
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 04:27:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189824
 
-On Tue, Oct 31, 2023 at 5:16=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> machine features like vfat are needed for ptests to pass ( e..g. parted)
-> This brings it closer to what x86 qemu config looks like as well.
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+- The commit [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
+fixes CVE-2023-3576
+- Hence, renamed the CVE-2023-3618-1.patch to CVE-2023-3576.patch
+- Reference: https://security-tracker.debian.org/tracker/CVE-2023-3576
+             https://security-tracker.debian.org/tracker/CVE-2023-3618
 
-Alistair
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../files/{CVE-2023-3618-1.patch => CVE-2023-3576.patch}      | 3 ++-
+ .../files/{CVE-2023-3618-2.patch => CVE-2023-3618.patch}      | 0
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb                 | 4 ++--
+ 3 files changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/libtiff/files/{CVE-2023-3618-1.patch => CVE-2023-3576.patch} (93%)
+ rename meta/recipes-multimedia/libtiff/files/{CVE-2023-3618-2.patch => CVE-2023-3618.patch} (100%)
 
-> ---
->  meta/conf/machine/include/riscv/qemuriscv.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/ma=
-chine/include/riscv/qemuriscv.inc
-> index 46ae66b9e50..7024bd0a4e6 100644
-> --- a/meta/conf/machine/include/riscv/qemuriscv.inc
-> +++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-> @@ -3,7 +3,7 @@ PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
->  require conf/machine/include/qemu.inc
->  require conf/machine/include/riscv/tune-riscv.inc
->
-> -MACHINE_FEATURES =3D "screen keyboard ext2 ext3 serial"
-> +MACHINE_FEATURES +=3D "keyboard ext2 ext3 serial"
->
->  KERNEL_IMAGETYPE =3D "Image"
->  KERNEL_IMAGETYPES +=3D "uImage"
-> --
-> 2.42.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#189809): https://lists.openembedded.org/g/openembedde=
-d-core/message/189809
-> Mute This Topic: https://lists.openembedded.org/mt/102282740/3619028
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-istair23@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
+similarity index 93%
+rename from meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
+rename to meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
+index 35ed852519..67837fe142 100644
+--- a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
+@@ -4,8 +4,9 @@ Date: Tue, 7 Mar 2023 15:02:08 +0800
+ Subject: [PATCH] Fix memory leak in tiffcrop.c
+ 
+ Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
+-CVE: CVE-2023-3618
++CVE: CVE-2023-3576
+ Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+ ---
+  tools/tiffcrop.c | 7 ++++++-
+  1 file changed, 6 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618.patch
+similarity index 100%
+rename from meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
+rename to meta/recipes-multimedia/libtiff/files/CVE-2023-3618.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index 6df4244697..d27381b4cd 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -43,8 +43,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-26966.patch \
+            file://CVE-2023-2908.patch \
+            file://CVE-2023-3316.patch \
+-           file://CVE-2023-3618-1.patch \
+-           file://CVE-2023-3618-2.patch \
++           file://CVE-2023-3576.patch \
++           file://CVE-2023-3618.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
+-- 
+2.25.1
+
 
