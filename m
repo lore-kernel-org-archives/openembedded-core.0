@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E612BC00142
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBC1C4332F
 	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 15:36:07 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.1817.1698766562731807414
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.1820.1698766564745148467
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Oct 2023 08:36:02 -0700
+ Tue, 31 Oct 2023 08:36:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xqbd7Dux;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1cc2fc281cdso24094265ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 08:36:02 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=m48O4eSG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6b20a48522fso5289851b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 08:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698766561; x=1699371361; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698766563; x=1699371363; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=53bEA/XVQ6hmeKggOPFNw8XtPe8xy9jDqn9ibWbavMg=;
-        b=xqbd7DuxFHWns4q4wODL0CF8NQ+kZAs6nueg1J8QL94zb2N/hc4JKfiX9pNUHaWNxn
-         PAy2zon7pmLh+PUCYCaVtwyegT3w29uhuMEGNlfzX7sOf1nK16hwom8p3+32lpqt5WAw
-         RJPqrTwOrotcdAaiPqllzzvr5SsU4p3G7k0XBRsw0RIavjk0rTWehWw6iYYn64rpfbrh
-         UmxWZzg7bAh3e07Hb+eXClO96D1U+IQogn4sTz7AWdVb0GyKu2EroVlB45FSZLPqPtdw
-         VC+sU0OTMuTq6cZJ0mSeWZEIQv+3J6V4qTcK5BMaDa3UFUKajvOiKnSxnNZymuqT3aOO
-         GV5A==
+        bh=xTal5PGeh/nSVL7GmsMV3CJACIsRXRenqv8bR1NKcUE=;
+        b=m48O4eSG6kF6gM9UwM/QB8pHkrVmaA5qdBLREORFmsfIM3GOg8nN49ZX6RRyHEkyIG
+         9oKAlUUvTp+QrgwyfrayRoblX9mU9HKoXt+BiOZ0//7Qf/2ZN5kdZhPmLHZLYLUCUJfm
+         XE9G4XA5tjXtXSfz/u0VvOyuE96hWOvw0KnKNWhKGlK+8D3OMsQqv8jaJYndcC0dKdMn
+         P80HjhQ80aVE5tp4rBkEihF7hrax+BFIeeUFDjmjzpLAuk3urj757ONtHJSl7l2Zocsh
+         Vc49z68HcLiJ5bOmL0qG+5OSyl1RReC48v9u8H2btAfdcVkJ5/O9tylT/rls+GNlq3b6
+         lazw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698766561; x=1699371361;
+        d=1e100.net; s=20230601; t=1698766563; x=1699371363;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=53bEA/XVQ6hmeKggOPFNw8XtPe8xy9jDqn9ibWbavMg=;
-        b=hx3Utt3SNTD9GRUJwjvXbxvVzaf3krwk0VdK6bMiR2CC4BfRc8N2D/Yf3gKOnuGIv3
-         QdWKgHWSFrD+9a90aSyQIDCf+zi1WNBfexJjQY5cbYbSxfwBlH3VcasbfqCPyLy+i94T
-         sNkzxTTGpM1+OHSibIcBZPmrTYq33RLwY65rj9h75cVpVvfOWMXzZ8aXnQHzapOBsAQE
-         awsd422kev5jauGUyIKfgZ2aGOZW+5K+CTWA8gdowsXDjfNJg4FwBgT/CX2+mg6WEbcC
-         P1FmczDwiiJd07t8D3MpmhLGLqQbFa60UTvdTLhhGsSHfeY22T7DAFRwfVMSQRh+Ft1P
-         I0mg==
-X-Gm-Message-State: AOJu0YyS1KtMPK/GStbIPbye716BOcIk6yIUg8wLsCaW9Qj4huU/i5wS
-	2843F2mTDIYY69iF4WtmwFsOwBihI3D41hm8Z9ZMnw==
-X-Google-Smtp-Source: AGHT+IHhSL8hCRJMNDbgudsVI344cdD/vYF8cCYtV46oUZISJToPVX7DUtTLtypdXZkSScIpUbgLdw==
-X-Received: by 2002:a17:902:e0c5:b0:1ca:8b90:1cbd with SMTP id e5-20020a170902e0c500b001ca8b901cbdmr9767421pla.0.1698766561407;
-        Tue, 31 Oct 2023 08:36:01 -0700 (PDT)
+        bh=xTal5PGeh/nSVL7GmsMV3CJACIsRXRenqv8bR1NKcUE=;
+        b=euVGVaLeoNQiXgkX1U30uPZf/zz+y4j+JHYKhijkMSN7EWdGdq2gkopLFXKb9hi/Hm
+         Vlk83t/h4Pwp9unVgB6UxsFjQ637Kok+EoLjqM6GVVLwk0ZYuRFuaDA76QeqsGEbBpAf
+         Q26syqSZYCOHrf2JilcyBWdkZeITIoc/JMdwb32mJ0HoEuRFNBeJ3+mKe2Bii7xfWcdN
+         iEDODf+8GA4YNWN2dxvMo7VLmtvdudVVHmKTYH23w7+iDlvv/34kxONi4CqIrgfBAY3g
+         AdXaCc+eeMu6h28u9iss1nplKkkIoknb+MuCJxHcB901qs9ab1LS2fHDt3BRJA5IP4Z8
+         mVew==
+X-Gm-Message-State: AOJu0Yznz1+qoTqkT/L3coUR8RiAJb6FTl0aJ5guPkC6MgojpPHWKtnD
+	V89mZdIn2XtrF/il0dJv176SsbJaz/zBBuTKvz/KMA==
+X-Google-Smtp-Source: AGHT+IEwmwlTQipAC8ICoTDhoFBbUgPWIBh4DN2egtgNR1vHYm8jeik3AJrPlBK65uMHYTLs4QTA/w==
+X-Received: by 2002:a05:6a20:914e:b0:172:83b8:67f8 with SMTP id x14-20020a056a20914e00b0017283b867f8mr12453590pzc.29.1698766563409;
+        Tue, 31 Oct 2023 08:36:03 -0700 (PDT)
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id f10-20020a170902684a00b001ca21e05c69sm1498048pln.109.2023.10.31.08.36.00
+        by smtp.gmail.com with ESMTPSA id f10-20020a170902684a00b001ca21e05c69sm1498048pln.109.2023.10.31.08.36.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 08:36:01 -0700 (PDT)
+        Tue, 31 Oct 2023 08:36:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 4/5] openssl: Upgrade 3.1.3 -> 3.1.4
-Date: Tue, 31 Oct 2023 05:35:43 -1000
-Message-Id: <da8e63e4d0075a377c515345602201967e48bfa1.1698766338.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 5/5] linux-yocto: make sure the pahole-native available before do_kernel_configme
+Date: Tue, 31 Oct 2023 05:35:44 -1000
+Message-Id: <a94b29ef5f64c7d71bb6af56458427f347179997.1698766338.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698766338.git.steve@sakoman.com>
 References: <cover.1698766338.git.steve@sakoman.com>
@@ -61,38 +61,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 15:36:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189856
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189857
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-https://github.com/openssl/openssl/blob/openssl-3.1/NEWS.md#major-changes-between-openssl-313-and-openssl-314-24-oct-2023
+When using debug-btf.scc in a clean workspace, the CONFIG_MODULE_ALLOW_BTF_MISMATCH cannot
+apply to kernel until clean the kernel code(bitbake linux-yocto -c cleanall) and rebuild.
 
-Major changes between OpenSSL 3.1.3 and OpenSSL 3.1.4 [24 Oct 2023]
-* Mitigate incorrect resize handling for symmetric cipher keys and IVs. (CVE-2023-5363)
+After tracking the code, some options depend on CONFIG_PAHOLE_VERSION, it was generated by
+scripts/pahole-version.sh in kernel, but during do_kernel_configme step, the pahole-native
+is not available in sysroot-native, so need to wait pahole-native install to sysroot-native
+before do_kernel_configme.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+(cherry picked from commit 217a4db53edbd88001f6390bbff39e5dd3d137af)
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../openssl/{openssl_3.1.3.bb => openssl_3.1.4.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_3.1.3.bb => openssl_3.1.4.bb} (99%)
+ meta/recipes-kernel/linux/linux-yocto.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.1.3.bb b/meta/recipes-connectivity/openssl/openssl_3.1.4.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssl/openssl_3.1.3.bb
-rename to meta/recipes-connectivity/openssl/openssl_3.1.4.bb
-index ff9df693b8..72338b0022 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.1.3.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.1.4.bb
-@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 04a8105e17..461e5684cd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -65,7 +65,10 @@ KERNEL_DEBUG ?= ""
+ DEPENDS += '${@bb.utils.contains_any("ARCH", [ "x86", "arm64" ], "elfutils-native", "", d)}'
+ DEPENDS += "openssl-native util-linux-native"
+ DEPENDS += "gmp-native libmpc-native"
+-DEPENDS += '${@bb.utils.contains("KERNEL_DEBUG", "True", "pahole-native", "", d)}'
++
++# Some options depend on CONFIG_PAHOLE_VERSION, so need to make pahole-native available before do_kernel_configme
++do_kernel_configme[depends] += '${@bb.utils.contains("KERNEL_DEBUG", "True", "pahole-native:do_populate_sysroot", "", d)}'
++
+ EXTRA_OEMAKE += '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "PAHOLE=false", d)}'
  
--SRC_URI[sha256sum] = "f0316a2ebd89e7f2352976445458689f80302093788c466692fb2a188b2eacf6"
-+SRC_URI[sha256sum] = "840af5366ab9b522bde525826be3ef0fb0af81c6a9ebd84caa600fea1731eee3"
- 
- inherit lib_package multilib_header multilib_script ptest perlnative manpages
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ do_devshell:prepend() {
 -- 
 2.34.1
 
