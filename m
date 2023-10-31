@@ -1,111 +1,99 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F05EFC4167B
-	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 12:09:10 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web10.184303.1698754143401912753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A7DC4332F
+	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 12:26:31 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.184916.1698755181045326832
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Oct 2023 05:09:03 -0700
+ Tue, 31 Oct 2023 05:26:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iSD44YZu;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c5028e5b88so77441561fa.3;
-        Tue, 31 Oct 2023 05:09:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fJ4vReC9;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4079ed65582so40614935e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 05:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698754141; x=1699358941; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AghUadyPPGYVGq83Wbg0rKlnCUSd4KXYU/XAmPR8b7s=;
-        b=iSD44YZugHSCpUiJeQ2hxx0AkQyHut07vqdNOiGR2pOM95jUgGzsrCikvn5E5aTfYh
-         rJ6DJeoUDmz/UZ5Bb4YxeeqNNEPL1RvarXmcSwhT8QIgrBNnKiEt4qtuf4MtrrXBfY4x
-         t9ebJ4lA/EVYSPzWsJ4aPemyyHS0FqYlz4ngg+X34uNSBfHMqCy8YKCO28l+7sCn+mUr
-         RPwMZGM6cMG76KFFMoyukkfkyM/vnjPNNsMuQ+BTExqgRCiotGMPLbUH1fUrCcwfWhTp
-         eg8Wac72VsVQdDYj2VPNWgH9Oxuo2tFn6OqyKxCpbDKI8SS7GRZRpNn/Ma/ceD+M/pF9
-         RBtw==
+        d=linuxfoundation.org; s=google; t=1698755179; x=1699359979; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ta6SJX6GAB/zvpw+/BPF4TbALACQJSFDUsmnxlkETWQ=;
+        b=fJ4vReC97NA1WT10TraAYS0O+OhMTaCz/acYyx9bntk/11YRhBnNcS8yqaKtNYnV7o
+         V6oHFMIqBeXcWK7oS7DR4URr8GijGZpuE1YlhRE7WdTK6d5EuIbDG8Jmeb1w41lwAyLP
+         ujMicxqJkG05cW5YgBdERrNFJxxXehe8EDsNw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698754141; x=1699358941;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AghUadyPPGYVGq83Wbg0rKlnCUSd4KXYU/XAmPR8b7s=;
-        b=uTKIUMTwq/IpnvaiboslEwd1oZ7XcYweQYpY9demHXUdOKn22CzilZAj2r7eofPxjl
-         Hs0QwuRaFfHBxxm/tTFRhIakBAS3VM4y89t5OGngtDCnogi5fZG6RvL6T349ZIjUKdA9
-         xz173p94MB5VJlPFAyZRxCg0lt/sBu/J2BatS1R3IEAGewgLJiLh+BwgeYBu0Hghmkn8
-         SIsskvA+TkVvcYR0X88klO0IrxJzCWPPm/7OWco/vAs0fJW3r1Vk9m7AZf66imKZ5MZQ
-         0PZaCwxWqoCCvn5Nf1KSwLptvzqmt63GJ/Aquv0ByjjJM5kXpvKcVQQUvI6mEzWv/tdx
-         BiPg==
-X-Gm-Message-State: AOJu0YzrlY1ci0rpUmXJwrhiR6L+QSJd8IiW/ofd9YJMVjM0XPQWlBIK
-	Pl6UatUCJFGzLA13LfQCLu8bztHtc11sKzfywM8=
-X-Google-Smtp-Source: AGHT+IEBC4ye1BADTvk++EPqMgvPsrZMz9fOF7qgL4irIF0aJOHrBtwXQo813pw9j/G0ZgzAyQBPjzgMaT36S115X8w=
-X-Received: by 2002:a2e:95cf:0:b0:2bf:e596:36f9 with SMTP id
- y15-20020a2e95cf000000b002bfe59636f9mr9118142ljh.13.1698754140991; Tue, 31
- Oct 2023 05:09:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
- <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
- <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
- <CANNYZj-JhGnGFRxaF0+Q_5Sqq76kAg1pSBBMka_xefuhMv6-vQ@mail.gmail.com>
- <ea84079102bca429a6ae521d218118952a79f111.camel@linuxfoundation.org> <1792EACC19CD8046.7262@lists.openembedded.org>
-In-Reply-To: <1792EACC19CD8046.7262@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 31 Oct 2023 13:08:48 +0100
-Message-ID: <CANNYZj_mjbH08rHoo0FzFihcax9zQ1zR6QRoEA3C_JOHG7P9kg@mail.gmail.com>
-Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
- for why is sstate not being reused?
-To: alex.kanavin@gmail.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Julien STEPHAN <jstephan@baylibre.com>
+        d=1e100.net; s=20230601; t=1698755179; x=1699359979;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Ta6SJX6GAB/zvpw+/BPF4TbALACQJSFDUsmnxlkETWQ=;
+        b=PTTLTTj4p/EtGbFLSSWDLdmBn2MvGghuv0334BH+k43Yhkfxrp6+vvW7QyqIdQPjcK
+         ELBP6T/Gyv/O8n7H8EnZBUTK0WDEkzhYrg5D/eOVx2k36m04cswC5hhbjA9+3XrMx4YI
+         L84wdNl1ItbKfqQLZO9jUVAClhmlXrVdC349CBTs0SgBmt7NBVSvbqeGMJoK6zdhAWAX
+         vpYkNNjKpxsCwQaoXTobS/8NF3L2WZ0FlMc6H7ZvMmDLVL24mW5YRwRGdwHf6UqNYrr9
+         XKQ93Avk9ID2eIu4A3fWE0ngzfBSJdYMT0lI7Ml8J9Hw6oOyJ+KoWTagMXQHK9TnRsCe
+         WCjg==
+X-Gm-Message-State: AOJu0YwYiJ0KgvqhJBHFPfcPo4acjo9A6riyDMMnTazymjtClQTbZ0va
+	F3JRJbybeq1GyJX2RyBK02DVkw==
+X-Google-Smtp-Source: AGHT+IGE4OH+PUVxly1Cd3SNxlcJ05ytKdhvx0/EEOoGdAbjzvGXNkx9j/dBOaY9V48Gb6TIebRwZg==
+X-Received: by 2002:a05:600c:3c97:b0:406:eef6:3540 with SMTP id bg23-20020a05600c3c9700b00406eef63540mr10550806wmb.0.1698755179384;
+        Tue, 31 Oct 2023 05:26:19 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9850:4974:d357:58d5? ([2001:8b0:aba:5f3c:9850:4974:d357:58d5])
+        by smtp.gmail.com with ESMTPSA id t11-20020adff04b000000b0032da4f70756sm1420471wro.5.2023.10.31.05.26.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Oct 2023 05:26:18 -0700 (PDT)
+Message-ID: <ba031885caf9dfeee099cbf4748a06f769c9de95.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] package: split strip cmd when ccache is used
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Javier Tia <javier.tia@linaro.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 31 Oct 2023 12:26:18 +0000
+In-Reply-To: <20231031042735.3842176-1-javier.tia@linaro.org>
+References: <20231031042735.3842176-1-javier.tia@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 12:09:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189837
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 12:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189838
 
-On Mon, 30 Oct 2023 at 16:02, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-> So here's what could be done:
->
-> - esdk tools become symlinks in poky/scripts/esdk-tools/. esdk
-> environment script puts that in PATH, rather than some custom
-> esdk-specific location (the code to generate that can then be
-> dropped).
+On Mon, 2023-10-30 at 22:27 -0600, Javier Tia wrote:
+> Using ccache stopped to work after 77497dbdca with following error:
+>=20
+>   FileNotFoundError: [Errno 2] No such file or directory: 'ccache aarch64=
+-trs-linux-strip'
+>=20
+> Signed-off-by: Javier Tia <javier.tia@linaro.org>
+> ---
+>  meta/lib/oe/package.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+> index 1dd20f85eb..2685da0af9 100644
+> --- a/meta/lib/oe/package.py
+> +++ b/meta/lib/oe/package.py
+> @@ -39,7 +39,7 @@ def runstrip(arg):
+>          newmode =3D origmode | stat.S_IWRITE | stat.S_IREAD
+>          os.chmod(file, newmode)
+> =20
+> -    stripcmd =3D [strip]
+> +    stripcmd =3D strip.split() if "ccache" in strip else [strip]
+>      skip_strip =3D False
+>      # kernel module
+>      if elftype & 16:
 
-This is now implemented (needs to be tested on AB).
+That looks very like a hack/workaround rather than a real fix. The
+packaging code shouldn't know/care about ccache.
 
-> - esdk tweaks to local.conf move into a dedicated include file, which
-> can be static and under version control, except for perhaps
-> METADATA_REVISION:poky = "4a1e0b9625729e422fcf24e632ee2a3c79f986d5" -
-> I need to check why is it there and how that is used.
+Should we always be splitting strip?
 
-It's actually more complicated. The code to generate esdk-specific
-local.conf with all the tweaks has too much dynamic stuff in it which
-is subject to what various variables are set to. So I'm thinking of
-extracting that to a dedicated function, then attaching a bitbake task
-to that function.
+Cheers,
 
-Then we can pull all of it together into 'devtool esdk <image>'
-command (or similar), which would enter the esdk environment directly
-via:
-- running 'bitbake <image> meta-ide-support'
-- running the above mentioned bitbake local.conf task to generate the
-esdk-specific local.conf
-- sourcing the environment script produced by meta-ide-support
-- rewriting PATH to provide only the curated esdk tools and not
-everything plus bitbake.
-- writing a custom devtool.conf similar to that of standalone esdk so
-that devtool can find bitbake and bitbake can use the esdk-specific
-local.conf
+Richard
 
-And it would be tested in the same way standalone esdks are.
 
-Thoughts? Anything missing from the above list?
-
-Alex
 
