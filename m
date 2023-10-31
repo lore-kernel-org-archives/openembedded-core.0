@@ -1,70 +1,117 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A07F6C4332F
-	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 18:10:43 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web11.2999.1698775840456372131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B268DC4332F
+	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 18:16:23 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web10.3006.1698776177344316449
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Oct 2023 11:10:41 -0700
+ Tue, 31 Oct 2023 11:16:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=KRRiUH4B;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202310311810373ace985eab983ee325-r7haxr@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202310311810373ace985eab983ee325
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 31 Oct 2023 19:10:37 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=m2DRyAcNaMFeoHw3MU3NS5p1l/LJlFVGR2TDJTrP+Wc=;
- b=KRRiUH4Bj9RwpL3qiLxGc5GxVl00GWzyT55Qm2v3mWjWF0kEAFJj+2t2J034Arfma08pCe
- eSiCjR5GNYzI1FF7UnoJoPXdDIWEGBGHEXq69lXCqTzlOHRFgpJIORPqPQlTey+a5wuUu24I
- atpQTlkgaeB9AuJUqliR0n9hs4Ius=;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=koDWV2zh;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.175, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-77a277eb084so189151085a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 11:16:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698776176; x=1699380976; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=me0dTPas0bnp6MJr9uVXjYUv6Nzr/6GYO87cXJWjLZs=;
+        b=koDWV2zhRUara41Y8U92gAseCitW6HPdT1+pZjteyHV8CXPvhjfOFaikxfe/CzVN9n
+         SVo7/H1Ok6Bc69bnwVOa4WOdbU/wzJ3P4ioofeJPDNZcYayJ1uZxoYTN6dol5KUDrwoR
+         SIGo9ihQ3hAmQNiRPWixfbNUQeE3cbP+SH9oVJQl6eB9BrL7WY+AO2ORiOWVubwKZTyD
+         YutCXmgduccbwMYlUHLbvRR0CCHdMS3bI1p7FXszEQUZRhLQhHBzyoqInrzsmI2H1UYT
+         HRq+lNXNZl1DZeWGKF7yulqyDaXj2pepvHLUGW/2W2WkEI68Z/0p2maRIuRMTp+JRHqI
+         uz6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698776176; x=1699380976;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=me0dTPas0bnp6MJr9uVXjYUv6Nzr/6GYO87cXJWjLZs=;
+        b=JneZ7kdyhlSc4d/25KbNtJFpyetq6xffckvuEJ921AgpfarauYY0gU6lGdwuhiA6PK
+         SPTiYUmXF78Dg8uBrQIxIzWyii6Dr1KLjlEISq6F9rl+f2naKLAYAGGwXNtLINjEE4xm
+         9mH2zjupBESXAwNiPxE39yay700ufZCx2kLXyPTEwSanCXKIa40UEug2AWqi6MrmpijD
+         lrwByyW/KFWBGYYIILR+1dP38r9ECnTqcj48mXaYw0a9F8wb+MkFmQcsFOvnvCKI+Jop
+         oP68/ZpKEUvap/th7TUALZycVq5TVel/P8tV7qdk8TjbfgjzQNlzsuJOtHYtPilaVI5h
+         e1NA==
+X-Gm-Message-State: AOJu0Yz53sXYgz5dPQL9XJJ7Rzf15XeE28Huh3BVDDC9gvDT1XbdRpvV
+	PosnkMQw6hqA6MWB/wuDbDoFy5wsf9rpIGLVsbGkXA==
+X-Google-Smtp-Source: AGHT+IEMVOhlej/N+LagoRe6Hv6qhGWbNueooK/99JqSKoOE0DjWxzoaTstCEY/P0DauOe73wz9Mtw==
+X-Received: by 2002:a05:620a:1662:b0:777:7314:ee19 with SMTP id d2-20020a05620a166200b007777314ee19mr12042416qko.21.1698776175830;
+        Tue, 31 Oct 2023 11:16:15 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id i9-20020ae9ee09000000b007770d47c621sm712436qkg.66.2023.10.31.11.16.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Oct 2023 11:16:15 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][dunfell][PATCH] glibc: ignore CVE-2023-4527
-Date: Tue, 31 Oct 2023 19:09:55 +0100
-Message-Id: <20231031180955.8430-1-peter.marko@siemens.com>
+Subject: [OE-core][PATCH] patchtest: make pylint tests compatible with 3.x
+Date: Tue, 31 Oct 2023 14:16:13 -0400
+Message-ID: <20231031181614.2092124-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 18:10:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189866
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 18:16:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189867
 
-From: Peter Marko <peter.marko@siemens.com>
+pylint 3.x has removed epylint, which is now a separate module. To avoid
+adding another recipe or using outdated modules, modify the
+test_python_pylint tests so that they use the standard pylint API.
 
-This vulnerability was introduced in 2.36, so 2.31 is not vulnerable.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/recipes-core/glibc/glibc_2.31.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/lib/patchtest/tests/test_python_pylint.py | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index 1862586749..8298088323 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -29,6 +29,13 @@ CVE_CHECK_WHITELIST += "CVE-2019-1010025"
- # https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=dunfell&id=e1e89ff7d75c3d2223f9e3bd875b9b0c5e15836b
- CVE_CHECK_WHITELIST += "CVE-2021-35942"
+diff --git a/meta/lib/patchtest/tests/test_python_pylint.py b/meta/lib/patchtest/tests/test_python_pylint.py
+index 304b2d5ee9a..ef315e591ca 100644
+--- a/meta/lib/patchtest/tests/test_python_pylint.py
++++ b/meta/lib/patchtest/tests/test_python_pylint.py
+@@ -5,8 +5,11 @@
+ # SPDX-License-Identifier: GPL-2.0-only
  
-+# glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4527
-+# This vulnerability was introduced in 2.36 by commit
-+# f282cdbe7f436c75864e5640a409a10485e9abb2 resolv: Implement no-aaaa stub resolver option
-+# so our version is not yet vulnerable
-+# See https://sourceware.org/bugzilla/show_bug.cgi?id=30842
-+CVE_CHECK_WHITELIST += "CVE-2023-4527"
+ import base
++from io import StringIO
+ from data import PatchTestInput
+-import pylint.epylint as lint
++from pylint.reporters.text import TextReporter
++import pylint.lint as lint
 +
- DEPENDS += "gperf-native bison-native make-native"
  
- NATIVESDKFIXES ?= ""
+ class PyLint(base.Base):
+     pythonpatches  = []
+@@ -32,8 +35,10 @@ class PyLint(base.Base):
+     def pretest_pylint(self):
+         for pythonpatch in self.pythonpatches:
+             if pythonpatch.is_modified_file:
+-                (pylint_stdout, pylint_stderr) = lint.py_run(command_options = pythonpatch.path + self.pylint_options, return_std=True)
+-                for line in pylint_stdout.readlines():
++                pylint_output = StringIO()
++                reporter = TextReporter(pylint_output)
++                lint.Run([self.pylint_options, pythonpatch.path], reporter=reporter, exit=False)
++                for line in pylint_output.readlines():
+                     if not '*' in line:
+                         if line.strip():
+                             self.pylint_pretest[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
+@@ -46,8 +51,10 @@ class PyLint(base.Base):
+                 path = pythonpatch.target_file[2:]
+             else:
+                 path = pythonpatch.path
+-            (pylint_stdout, pylint_stderr) = lint.py_run(command_options = path + self.pylint_options, return_std=True)
+-            for line in pylint_stdout.readlines():
++            pylint_output = StringIO()
++            reporter = TextReporter(pylint_output)
++            lint.Run([self.pylint_options, pythonpatch.path], reporter=reporter, exit=False)
++            for line in pylint_output.readlines():
+                     if not '*' in line:
+                         if line.strip():
+                             self.pylint_test[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
 -- 
-2.30.2
+2.41.0
 
 
