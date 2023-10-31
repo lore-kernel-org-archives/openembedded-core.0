@@ -1,203 +1,117 @@
-Return-Path: <ncaidin@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 728E4C4332F
-	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 13:50:51 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web11.186862.1698760248478443648
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 756C3C4167B
+	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 13:53:21 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.186496.1698760395816801686
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Oct 2023 06:50:48 -0700
+ Tue, 31 Oct 2023 06:53:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JJmmtjfS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.160.44, mailfrom: ncaidin@linuxfoundation.org)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1efa01323b4so2019203fac.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 06:50:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fFDqiyHS;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-507a3b8b113so8209537e87.0;
+        Tue, 31 Oct 2023 06:53:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1698760248; x=1699365048; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1698760394; x=1699365194; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xr8O6O4ap9gTdEk2pCPB41RQXT3YnQRgx8xZ6XR5N+4=;
-        b=JJmmtjfSDsU5ue/iTmfKAVOAa9rnEBJFF6/D/6pSWvuOGD6xTR++rSB6OaCYSEn05z
-         Y54uOOuRgkNxSUsyv+pAFm7wXADfgexZLtaCs4zgAOaTiYXin9YplhCNkP8dwWOj2DRZ
-         pW6UujPzNGSLBnCEYPMlJfKAZTOv++scNNC8s=
+        bh=Q0Ok1Q89n15vDxQD8csxX6xWaCBQ3z5WqeMHljnYZWo=;
+        b=fFDqiyHS1C3OjWppWn8dzozh5T7LrtNvMk/htvurZw8aKpmgASgSN/IawZ6lye0p+X
+         TGBya7lqaimzSBtmOfJmGIdv9tLe5DdxkrQfGCIBO8Rk+3m7ax2f9vqyrCgzOqIs3N75
+         eE78u7SeZVwY4Is5l9NSDNlbcPaalcvJhokLYFXCOz4+YkDyFKKrcsteB4687ZFMoYr3
+         CbsJBkV88aIi/Mx4wFARd7ByxWPtARmcwKY4ANWzahIAaG43ZJXxk54wL+YuQFzTLp0K
+         2chyuM6uWjKyL1gIDKKIfdHa4PPY0BU7h+WSmKDUpF5yxHwU/4WmGsoQQ0nz0z5MI4M9
+         qZIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698760248; x=1699365048;
+        d=1e100.net; s=20230601; t=1698760394; x=1699365194;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xr8O6O4ap9gTdEk2pCPB41RQXT3YnQRgx8xZ6XR5N+4=;
-        b=eNrVrkzcVTywrW6hSwXet6Iya2A/NoEA+WApkrra9cYSTeYNi36qfj/cfKCDPoNMv6
-         NdqZKpxAzaagddxz4Dkb0rBpKeilsZNGHO0mmDxq2ngVZcA+8VJ1xLGcTLfkcNtdsLv0
-         xIlEwN1RhtS6xHLaaiYh1yKl04E047PivCQoWjJ879CZ/UPTDhXuWK4OsUGbM7iLjCci
-         Q7PRpMMt1VtPA0JghZFNTbRjeAnhqAxWQxu/5UtTo+14eT8f9bcD5J9ZB3OKRU/w4Dc+
-         UjPzuTYppsDDFj7a42sR8iq8KuCoxV3ARS1Y2qO3nYU1llZ47Fw4qBZno0WZAxHh5z1I
-         9i2A==
-X-Gm-Message-State: AOJu0YzBIYRxMn6P0Ht/XnHSgtjtPuGjx6m9m+me0Md476CsRbtKWVXS
-	641EV36tFltuV7HtEcMUjtAyqtKp027Sj52k29DxEQ==
-X-Google-Smtp-Source: AGHT+IFdeO8ahc7Jv2x0LGw5c4gVV8Qrk/K0D/mVYbGY71isgJQh462D6E/45s6vnlJzsQNVrqsk+vozOewCo/1JCoo=
-X-Received: by 2002:a05:6870:1316:b0:1f0:18a0:918a with SMTP id
- 22-20020a056870131600b001f018a0918amr909835oab.0.1698760246784; Tue, 31 Oct
- 2023 06:50:46 -0700 (PDT)
+        bh=Q0Ok1Q89n15vDxQD8csxX6xWaCBQ3z5WqeMHljnYZWo=;
+        b=ECOnmvE0bV0h3/COnF2fHIZao8DN9AMOZtSWQH3ExrUP8fUNZ75pVrOd3HVMffiIaC
+         d0Tk5P+SYtkj1lUNMizWiZPRRywpt5wk/XuCvfi0/9wYV0Zowc9lSVYx8N79iPqzNHuN
+         QxgM5t3/DOXCQWRsKCx0im+t6dNMqzsvEtsaLaDIE0RfCeDTy6d4iFvrEesFGR4/u41X
+         1LRZIrdKytXWz5NhepzSNu99nRpAKwkfPBW6EAX5PRWI2dPivsHZ+A1UgFBuUXWyVyyg
+         3IDpEnsFdwo/z2Loc5fXTmGwOAzr2OrXTqbuf70s8ZJwxs2tZhlw8LVH8QoMaVX8D0c6
+         ZGsg==
+X-Gm-Message-State: AOJu0YyftIeXDOO8M787GKcTm/4tOlWGO58QuQWOJCFBX/o++FUvG37o
+	JXtEmKwpfIoIGzofs5pIC81nr2FW/ps4w1Xh02e6lgUYGZE=
+X-Google-Smtp-Source: AGHT+IHySbkpUPSBda21cVdzcN16+OoOzR3SLFCk63lu/Ng3HUNJsbYCDbgyXBxIJpJiC+MixeVvROocCZOR1EjJK50=
+X-Received: by 2002:a19:c510:0:b0:504:7f2e:9391 with SMTP id
+ w16-20020a19c510000000b005047f2e9391mr9178338lfe.34.1698760393574; Tue, 31
+ Oct 2023 06:53:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAODMxsJ2Wsd6fURK_JLP-YTtOSqVknZnJ87BNN8jVOGQ4J_=Bw@mail.gmail.com>
- <b5624398-79ea-4838-ace2-774fac6f787a@bootlin.com>
-In-Reply-To: <b5624398-79ea-4838-ace2-774fac6f787a@bootlin.com>
-From: Neal Caidin <ncaidin@linuxfoundation.org>
-Date: Tue, 31 Oct 2023 09:50:30 -0400
-Message-ID: <CAODMxsLNugbBbjxkDgmAcW3YjDLKU+Mj=YWvjLDrSiG+g_q2mw@mail.gmail.com>
-Subject: Re: [yocto] Yocto Project Status 31 October 2023 (WW44)
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org, 
-	Stephen Jolley <sjolley.yp.pm@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000001194f106090371a8"
+References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
+ <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
+ <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
+ <CANNYZj-JhGnGFRxaF0+Q_5Sqq76kAg1pSBBMka_xefuhMv6-vQ@mail.gmail.com>
+ <ea84079102bca429a6ae521d218118952a79f111.camel@linuxfoundation.org>
+ <1792EACC19CD8046.7262@lists.openembedded.org> <CANNYZj_mjbH08rHoo0FzFihcax9zQ1zR6QRoEA3C_JOHG7P9kg@mail.gmail.com>
+ <7488045369ecd729ac3df2e526a74ee644fbcf26.camel@linuxfoundation.org>
+In-Reply-To: <7488045369ecd729ac3df2e526a74ee644fbcf26.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 31 Oct 2023 14:53:01 +0100
+Message-ID: <CANNYZj-DTi-P2aM2wYVDWpeEKn4r_bsBkV6QPr3XdfHa=pM_dA@mail.gmail.com>
+Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
+ for why is sstate not being reused?
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Julien STEPHAN <jstephan@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 13:50:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189842
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 13:53:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189843
 
---0000000000001194f106090371a8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 31 Oct 2023 at 13:28, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 
-Yes! You are correct Michael. This is that strange in-between week. Next
-week it goes back to 17:00 CET.
-
-Good catch!
-
--- Neal
-
-*Neal Caidin*
-Program Manager
-The Linux Foundation
-Durham, NC, U.S.A. - Eastern time zone
-+1 (919) 238-9104 (w/h)
-+1 (919) 949-1861 (m)
-ncaidin@linuxfoundation.org
-
-
-
-
-On Tue, Oct 31, 2023 at 9:33=E2=80=AFAM Michael Opdenacker <
-michael.opdenacker@bootlin.com> wrote:
-
-> Greetings,
+> > Then we can pull all of it together into 'devtool esdk <image>'
+> > command (or similar), which would enter the esdk environment directly
+> > via:
+> > - running 'bitbake <image> meta-ide-support'
+> > - running the above mentioned bitbake local.conf task to generate the
+> > esdk-specific local.conf
+> > - sourcing the environment script produced by meta-ide-support
+> > - rewriting PATH to provide only the curated esdk tools and not
+> > everything plus bitbake.
+> > - writing a custom devtool.conf similar to that of standalone esdk so
+> > that devtool can find bitbake and bitbake can use the esdk-specific
+> > local.conf
+> >
+> > And it would be tested in the same way standalone esdks are.
+> >
+> > Thoughts? Anything missing from the above list?
 >
-> On 31.10.23 at 13:29, Neal Caidin wrote:
-> >
-> > Current Dev Position: YP 4.3 M4 (Feature Freeze)
-> >
-> > Next Deadline: 2nd October 2023 YP 4.3 M4 build date
-> >
-> >
-> > Next Team Meetings:
-> >
-> >  *
-> >
-> >     Bug Triage meeting Thursday November 2, 7:30 am PDT
-> >     (https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09
-> >     <https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09=
->)
-> >
-> >  *
-> >
-> >     Weekly Project Engineering Sync Tuesday October 31st at 8 am PDT
-> >     (https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-> >     <https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09=
->)
-> >     <https://zoom.us/j/990892712>
-> >
->
-> Reminder: this week 8:00 PDT translates to 16:00 CET if I understood
-> correctly. That's one hour earlier because daylight saving time changes
-> happen in Europe 1 week earlier than in the USA.
->
-> Michael.
-> --
->
-> Michael Opdenacker, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
+> That sounds like a good way to handle this to me!
 
---0000000000001194f106090371a8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+A couple followup points:
 
-<div dir=3D"ltr">Yes! You are correct Michael. This is that strange in-betw=
-een week. Next week it goes back to 17:00 CET.<div><br></div><div>Good catc=
-h!</div><div><br></div><div>-- Neal</div><div><br clear=3D"all"><div><div d=
-ir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><di=
-v dir=3D"ltr"><div><div dir=3D"ltr"><span><font color=3D"#888888"><div dir=
-=3D"ltr"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div =
-dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><b style=3D"color:rgb(136,136=
-,136)"><font color=3D"#666666"><font color=3D"#888888">Neal Caidin</font></=
-font></b><br><div style=3D"color:rgb(136,136,136)"><span style=3D"border-co=
-llapse:collapse"><div><font color=3D"#666666"><font>Program Manager=C2=A0</=
-font></font></div><div><font color=3D"#666666"><font>The Linux Foundation</=
-font></font></div><div><font color=3D"#666666"><font>Durham, NC, U.S.A. - E=
-astern time zone</font></font></div><div><font color=3D"#666666">+1 (919) 2=
-38-9104 (w/h)<br>+1 (919) 949-1861 (m)</font></div><div><font color=3D"#666=
-666"><a href=3D"mailto:ncaidin@linuxfoundation.org" target=3D"_blank">ncaid=
-in@linuxfoundation.org</a></font></div><div><br></div><div><br></div></span=
-></div></div></div></div></div></div></div></div></div></div></font></span>=
-</div></div></div></div></div><br></div></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 31, 2023 at 9:33=E2=80=
-=AFAM Michael Opdenacker &lt;<a href=3D"mailto:michael.opdenacker@bootlin.c=
-om">michael.opdenacker@bootlin.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">Greetings,<br>
-<br>
-On 31.10.23 at 13:29, Neal Caidin wrote:<br>
-&gt;<br>
-&gt; Current Dev Position: YP 4.3 M4 (Feature Freeze)<br>
-&gt;<br>
-&gt; Next Deadline: 2nd October 2023 YP 4.3 M4 build date<br>
-&gt;<br>
-&gt;<br>
-&gt; Next Team Meetings:<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Bug Triage meeting Thursday November 2, 7:30 am PDT=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(<a href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa=
-2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" rel=3D"noreferrer" target=3D"_blank">https://z=
-oom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://zoom.us/j/454367603?pwd=3DZG=
-xoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" rel=3D"noreferrer" target=3D"_blank">https:=
-//zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</a>&gt;)<br>
-&gt;<br>
-&gt;=C2=A0 *<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Weekly Project Engineering Sync Tuesday October 31s=
-t at 8 am PDT<br>
-&gt;=C2=A0 =C2=A0 =C2=A0(<a href=3D"https://zoom.us/j/990892712?pwd=3DcHU1M=
-jhoM2x6ck81bkcrYjRrcmJsUT09" rel=3D"noreferrer" target=3D"_blank">https://z=
-oom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://zoom.us/j/990892712?pwd=3DcH=
-U1MjhoM2x6ck81bkcrYjRrcmJsUT09" rel=3D"noreferrer" target=3D"_blank">https:=
-//zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a>&gt;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://zoom.us/j/990892712" rel=3D"=
-noreferrer" target=3D"_blank">https://zoom.us/j/990892712</a>&gt;<br>
-&gt;<br>
-<br>
-Reminder: this week 8:00 PDT translates to 16:00 CET if I understood <br>
-correctly. That&#39;s one hour earlier because daylight saving time changes=
- <br>
-happen in Europe 1 week earlier than in the USA.<br>
-<br>
-Michael.<br>
--- <br>
-<br>
-Michael Opdenacker, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-<br>
-</blockquote></div>
+- copy_buildsystem() in populate_sdk_ext class is overly long at 400
+lines and does many different barely related things, writing
+local.conf for esdk one of them:
 
---0000000000001194f106090371a8--
+https://git.yoctoproject.org/poky/tree/meta/classes-recipe/populate_sdk_ext.bbclass#n189
+
+The first step would be to structure it into separate functions each
+doing one thing and hopefully fitting on a single screen. Then these
+functions can be hand-picked into a task designed to provide esdk
+things in a yocto build context, and the code would simply be more
+readable, as right now I can barely understand all the various things
+that function does, and the spaghetti of local variables etc.
+
+- the tool that would set up the esdk environment in a plain yocto
+build could be a shell script in scripts/oe-init-esdk-env perhaps,
+similar to oe-init-build-env. No need to make it a devtool plugin; it
+could use python helpers to program the more tricky bits such as PATH
+manipulations etc. So one would first initialize the yocto
+environment, then transition to an esdk environment from that (there
+would be no way to go back, as one can simply start a new session).
+
+Alex
 
