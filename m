@@ -1,92 +1,122 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A8DC4332F
-	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 08:32:49 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.181552.1698741164989024603
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B31C4332F
+	for <webhook@archiver.kernel.org>; Tue, 31 Oct 2023 09:01:00 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.182193.1698742852872153743
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Oct 2023 01:32:45 -0700
+ Tue, 31 Oct 2023 02:00:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Hz9cYjXs;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=a89G6O++;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.33, mailfrom: 0101018b84dd17b3-3fe9ffc7-0dd0-4ec0-83a2-4d69b977afba-000000@automation.yoctoproject.org)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698741164; i=@automation.yoctoproject.org;
-	h=From:Reply-To:Cc:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:Date;
-	bh=F63JBIYlTIeI5swzuzbzdj9no8NBAsL5SsIenpR+QJ4=;
-	b=Hz9cYjXs8NpJvFv/9oPRourltjnvTXSpyO4g+7oXw91Tv8tSFCUg1fZXX6zF4cnr
-	lK094JZLoKGqzdFeyf05Bu8zqTUxBH4SOU8yHqpLs7TrA/qq+4XHGqpXaVf44azA+Rs
-	58dt50NiDYjMhHeGSo7ggetMQtkT5IFvFyloejZ0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698741164;
-	h=From:Reply-To:Cc:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:Date:Feedback-ID;
-	bh=F63JBIYlTIeI5swzuzbzdj9no8NBAsL5SsIenpR+QJ4=;
-	b=a89G6O++w6R5Kf0sW5RPrMGD9uaPakhRih+sZX+mnxxm+Qa1N+r3S4Gjeh9poHFA
-	KgGgji4CYMAQTpZkiq54GSujwy1oaErGd6ssslMKRgY9yk6hBlhgxsO7L+OZLda/CIT
-	pVo63Xv+i9z8FpJdMZQWN+CINbL+cNCvMWH5S/bg=
-From: patchtest@automation.yoctoproject.org
-Reply-To: soumya.sambu@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH v2 1/1] libwebp:
- Fix CVE-2023-4863
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XhVoOB4Y;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c5b7764016so59319741fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 02:00:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698742851; x=1699347651; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3rCERGgOv2leRqn9TFXyOMaFNVR4tIWyO9ttOnw0sA0=;
+        b=XhVoOB4Y36JNFjidtwbwNKHE7xsboqDx7PGywIvJyHg3PKTkN3oW+14+O+IpUqM5yW
+         7G0rR4QVekuOnyEy6C4FG5gSgXfk+RWcoO1byhNJZmTC2+n/k9qBh29DuDZ+ml/V+uTq
+         sDA9VER6oHfUQEWzwOxmzs49SdwswUj8va4+SfdyaK6eATINJSeQkKwWXMj/x+adk5/r
+         2FxbxDxLr/yvn3pIw/7azQyzq9IusWb/8LZCTU3WSCHCUkDoRNc6qC3gZ84Y1XBTCi6m
+         HXxO9oHkEVYbZZyKumaTt7Z8oyVfNOUwEFHswN9EnADmfaXYKzzdzk+82HNjJhYO4APQ
+         yoaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698742851; x=1699347651;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3rCERGgOv2leRqn9TFXyOMaFNVR4tIWyO9ttOnw0sA0=;
+        b=NdTmzcehzyggo/zOCRiLJyfvFm1z4QTAv/QKxsWtPzqiwb/WJmjqxDloMor72X8UR3
+         /uR9j09vXOGUg+dEWIsLAhY73SnY/cnzdCn/Jo0cjJY6Q4G3niuqEDK3vLPSa5NqpJcV
+         bVKrHdXAiHoSFEgHFAT1IwpmADKlE1ehbOjF97+f+cJZZFxpLbC5o9DppRwFROEzYd7/
+         m4OYLiRLGtu6b4Kr1yiejGZkhaHEXtAdqR2lCKgyhXT7nrLzawllIzOguDdFNZUbvE6R
+         CJeFmjVZ3CfSrtiUMBJqL3lpJkuTjrXXNDLGP8TTys4/a6GZtxygtnv8nqEZSS5BhkTY
+         TCyA==
+X-Gm-Message-State: AOJu0YwDFmZTl+GAdC9wDM+nt7aHXslmOKprKq7tldTQWbNq01OaUu5y
+	icV9BQFizTOdncK0lKlI95HHS2ceH2Vbr1w8Bwc=
+X-Google-Smtp-Source: AGHT+IENRbF0uSacSqSmU60Dum655Z0eKiG+Ex8vo5+9EYxwac2o39GRH01unUlra7R56XIQEDmrP8zdj14UjOBj1Ds=
+X-Received: by 2002:a2e:8643:0:b0:2c5:1553:9129 with SMTP id
+ i3-20020a2e8643000000b002c515539129mr9477558ljj.35.1698742850815; Tue, 31 Oct
+ 2023 02:00:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Message-ID: <0101018b84dd17b3-3fe9ffc7-0dd0-4ec0-83a2-4d69b977afba-000000@us-west-2.amazonses.com>
-Date: Tue, 31 Oct 2023 08:32:43 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.10.31-54.240.27.33
+References: <CANNYZj9rnOQ8BugHMLMzEGqFdHtHL+SkFmDjLvgNo8adO4VHVw@mail.gmail.com>
+ <6763.1698120765303220209@lists.openembedded.org> <CANNYZj_sBnowv-v7XJed+irmv_hfw+QiipycWdaxmY4ZR1MYZg@mail.gmail.com>
+ <OS3PR01MB9515FAF1056124430B410EFABAA0A@OS3PR01MB9515.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS3PR01MB9515FAF1056124430B410EFABAA0A@OS3PR01MB9515.jpnprd01.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 31 Oct 2023 10:00:39 +0100
+Message-ID: <CANNYZj-xuMf4c_fzMBp3_V0RUFUMh+2=fQTpkhatYT6-_4WByQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V5] kbd:Add ptest support
+To: "Tingting Qiu (Fujitsu)" <qiutt@fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 08:32:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189833
+ <openembedded-core@lists.openembedded.org>; Tue, 31 Oct 2023 09:01:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189834
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello Qiu,
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-v2-1-1-libwebp-Fix-CVE-2023-4863.patch
+I think the easiest is to adjust the code so that it first obtains the
+datadir from some environment variable, and if that is not set, falls
+back to the hardcoded default. Then run-ptest can set the variable.
+Such a patch can even be proposed upstream.
 
-FAIL: test CVE presence in commit message: A CVE tag should be provided in the commit message with format: "CVE: CVE-YYYY-XXXX" (test_mbox.TestMbox.test_cve_presence_in_commit_message)
+Alex
 
-PASS: pretest lic files chksum modified not mentioned (test_metadata.TestMetadata.pretest_lic_files_chksum_modified_not_mentioned)
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+On Tue, 31 Oct 2023 at 09:27, Tingting Qiu (Fujitsu) <qiutt@fujitsu.com> wr=
+ote:
+>
+> Hi, Alex
+>
+> I'm afraid DATADIR should be an absolute path.
+> Tried to make a ptest.patch with relative path, but failed.
+> As we know the ptest directory is not a fixed path, so making a patch may=
+ be not suitable.
+> For no 'make clean', we can modify the Makefile.am in do_patch().
+> Any ideas=EF=BC=9F
+>
+> Best Regards,
+> Qiu Tingting
+> > -----Original Message-----
+> > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Sent: Tuesday, October 24, 2023 4:51 PM
+> > To: Qiu, Tingting/=E4=BB=87 =E5=A9=B7=E5=A9=B7 <qiutt@fujitsu.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH V5] kbd:Add ptest support
+> >
+> > On Tue, 24 Oct 2023 at 06:12, qiutt@fujitsu.com <qiutt@fujitsu.com> wro=
+te:
+> > >
+> > > Hi=EF=BC=8CAlex
+> > >
+> > > As you said, it is not-that-elegant bit of code.
+> > > But DATADIR is used as a part of CPPFLAGS for compiling c files in
+> > > tests, such as libkeymap/libkeymap-test01.c, libkbdfile/libkbdfile-te=
+st13.c
+> > and others.
+> > > sample:
+> > >
+> > > libkeymap/libkeymap-test01.c: f =3D fopen(DATADIR
+> > "/data/libkeymap/charset-keymap0.map", "r");
+> > libkeymap/libkeymap-test09.c:   setenv("LOADKEYS_INCLUDE_PATH",
+> > DATADIR "/data/libkeymap", 1);
+> >
+> > I see, thanks. I would suggest that Makefile.am is patched with a dedic=
+ated
+> > patch that sets DATADIR to ptest directory on target (you can mark it
+> > Inappropriate), so that the change is robust (sed expressions are prone=
+ to
+> > silent regressions, and), and happens before actual build, so no 'make =
+clean' is
+> > needed.
+> >
+> > Alex
 
