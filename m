@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5F63C0018A
-	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:13 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.8639.1698848702607659161
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A11CC07EBE
+	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:14 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.8647.1698848703568689614
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Nov 2023 07:25:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dTZCRmj/;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Vubf4hEU;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b8b460c11-420a614c-f0fd-4fab-9869-abc0b1c5b6df-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=f+haSQAu;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Wx0aQBod;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.192, mailfrom: 0101018b8b4608b3-350b986c-118f-4785-b552-0b9d7f4e1ef7-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848705;
+	t=1698848704;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=o0ApfxFlgFNIqKTM2T6+VvqVQ+ZcogusRcdSmohiu4E=;
-	b=dTZCRmj/tEdtJperNzv/OHbSjlxnzbccn0Nb2IttVMno/JEM4XRMvJat1l8aKbkH
-	OkrmaqIPxveQjfcYurl60bFyBOx/youlHiCBWs64Hcc/QcefjD28AKrrGPby7jNDcLE
-	5G+PjWZJpnQznIpGQEnGVkyH3IZVy120PgAmQoNE=
+	bh=yh2vCG73gyJSg0cdJkTNUP95hlPRQdTqW2o0HYWe7sw=;
+	b=f+haSQAu+VKNeZB4bkUgfRAtdgTE3Qu/pMPajrSml8J9/BjUauOnu3s0VWUfSC6j
+	USRrIk3Ofywi5ylMEEIAisp86g8TNHpV70TqiUZnZrAwfiD1C/+ikbHC2AVG2vfyB7q
+	gxTSL+jRZBNk0kto5uWnJw93bSDN9UHq+JJR4LaQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848705;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848704;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=o0ApfxFlgFNIqKTM2T6+VvqVQ+ZcogusRcdSmohiu4E=;
-	b=Vubf4hEUbLmQGM8TB00PKGx37o1o6Rx6OLbrXrm+Tv7WyaUyShezmlIy5Xqe5/J4
-	EkYdqqzvaWEDMQCPv68XpDuyvIqMeCbsFjpgHwKr17MhpZ9Oqpp7dieVEpRK7w5TuBb
-	9Cj/bRnYfyMcsasl5+Na6l2OGZesuXe3y7NQGEzw=
-Content-Type: multipart/mixed; boundary="===============0608108057971028345=="
+	bh=yh2vCG73gyJSg0cdJkTNUP95hlPRQdTqW2o0HYWe7sw=;
+	b=Wx0aQBodv62o/f7Dq7KoiAbQh9xuJuRZm1DZyQ3Q+HcFqjLZcWB88Ed75i4LraeM
+	tNrLNL2bT+S92U1srkU/f3tMOiPNNKUPPENJJbJudzXjFQOcjOOhV70bkCN1kv/Lh7k
+	2AZ74IGh6jAQWmnWIHPZaa8kqaYT9lW02tntE5Ew=
+Content-Type: multipart/mixed; boundary="===============1459951625055196828=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-headers: upgrading to 1.3.268.0 SUCCEEDED
-Message-ID: <0101018b8b460c11-420a614c-f0fd-4fab-9869-abc0b1c5b6df-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:05 +0000
+Subject: [AUH] cronie: upgrading to 1.7.0 SUCCEEDED
+Message-ID: <0101018b8b4608b3-350b986c-118f-4785-b552-0b9d7f4e1ef7-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:04 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.31
+X-SES-Outgoing: 2023.11.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189989
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189985
 
---===============0608108057971028345==
+--===============1459951625055196828==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *spirv-headers* to *1.3.268.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *cronie* to *1.7.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.261.1-1.3.268.0.patch
+    - apply the patch: git am 0001-cronie-upgrade-1.6.1-1.7.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,90 +72,95 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5c4ff96c5906626cc00ba897ca99a4ef50feed7f Mon Sep 17 00:00:00 2001
+From 46dc7d92a8856fd21c80e77a8f98d943128a5e04 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 13:01:08 +0000
-Subject: [PATCH] spirv-headers: upgrade 1.3.261.1 -> 1.3.268.0
+Date: Wed, 1 Nov 2023 11:07:54 +0000
+Subject: [PATCH] cronie: upgrade 1.6.1 -> 1.7.0
 
 ---
- .../{spirv-headers_1.3.261.1.bb => spirv-headers_1.3.268.0.bb}  | 2 +-
+ .../cronie/{cronie_1.6.1.bb => cronie_1.7.0.bb}                 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-headers_1.3.261.1.bb => spirv-headers_1.3.268.0.bb} (92%)
+ rename meta/recipes-extended/cronie/{cronie_1.6.1.bb => cronie_1.7.0.bb} (97%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.261.1.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb
-similarity index 92%
-rename from meta/recipes-graphics/spir/spirv-headers_1.3.261.1.bb
-rename to meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb
-index 945f0879f5..c70845788e 100644
---- a/meta/recipes-graphics/spir/spirv-headers_1.3.261.1.bb
-+++ b/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
+diff --git a/meta/recipes-extended/cronie/cronie_1.6.1.bb b/meta/recipes-extended/cronie/cronie_1.7.0.bb
+similarity index 97%
+rename from meta/recipes-extended/cronie/cronie_1.6.1.bb
+rename to meta/recipes-extended/cronie/cronie_1.7.0.bb
+index 1b31bf0db2..24c419b1c5 100644
+--- a/meta/recipes-extended/cronie/cronie_1.6.1.bb
++++ b/meta/recipes-extended/cronie/cronie_1.7.0.bb
+@@ -25,7 +25,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/cronie-${PV}/cronie-${PV}.tar.gz \
+ PAM_SRC_URI = "file://crond_pam_config.patch"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
  
--SRCREV = "124a9665e464ef98b8b718d572d5f329311061eb"
-+SRCREV = "e867c06631767a2d96424cbec530f9ee5e78180f"
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
- PE = "1"
- # These recipes need to be updated in lockstep with each other:
+-SRC_URI[sha256sum] = "2cd0f0dd1680e6b9c39bf1e3a5e7ad6df76aa940de1ee90a453633aa59984e62"
++SRC_URI[sha256sum] = "6827f5a47760cc64afeef0a60d3cb5376f52569109fc9a73957dd5e9fdae7619"
+ 
+ inherit autotools update-rc.d useradd systemd github-releases
+ UPSTREAM_CHECK_REGEX = "releases/tag/cronie-(?P<pver>\d+(\.\d+)+)"
 -- 
 2.39.2
 
 
---===============0608108057971028345==
+--===============1459951625055196828==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/spirv-headers: PKGV changed from 1.3.261.1 [default] to 1.3.268.0 [default]
-packages/core2-64-poky-linux/spirv-headers: PV changed from "1.3.261.1" to "1.3.268.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.261.1 [default] to 1.3.268.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.261.1" to "1.3.268.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGSIZE changed from 2851522 to 2902543 (+2%)
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.261.1 [default] to 1.3.268.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.261.1" to "1.3.268.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.261.1 [default] to 1.3.268.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.261.1" to "1.3.268.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.261.1 [default] to 1.3.268.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.261.1" to "1.3.268.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.261.1 [default] to 1.3.268.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.261.1" to "1.3.268.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.261.1 [default] to 1.3.268.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.261.1" to "1.3.268.0"
-packages/core2-64-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.261.1 [default] to 1.3.268.0 [default]
-packages/core2-64-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.261.1" to "1.3.268.0"
+packages/core2-64-poky-linux/cronie/cronie-dbg: PV changed from "1.6.1" to "1.7.0"
+packages/core2-64-poky-linux/cronie/cronie-dbg: PKGSIZE changed from 421616 to 430632 (+2%)
+packages/core2-64-poky-linux/cronie/cronie-dbg: PKGV changed from 1.6.1 [default] to 1.7.0 [default]
+packages/core2-64-poky-linux/cronie/cronie-dev: PV changed from "1.6.1" to "1.7.0"
+packages/core2-64-poky-linux/cronie/cronie-dev: PKGV changed from 1.6.1 [default] to 1.7.0 [default]
+packages/core2-64-poky-linux/cronie/cronie-doc: PV changed from "1.6.1" to "1.7.0"
+packages/core2-64-poky-linux/cronie/cronie-doc: PKGSIZE changed from 30759 to 31997 (+4%)
+packages/core2-64-poky-linux/cronie/cronie-doc: PKGV changed from 1.6.1 [default] to 1.7.0 [default]
+packages/core2-64-poky-linux/cronie/cronie-locale: PV changed from "1.6.1" to "1.7.0"
+packages/core2-64-poky-linux/cronie/cronie-locale: PKGV changed from 1.6.1 [default] to 1.7.0 [default]
+packages/core2-64-poky-linux/cronie/cronie-src: PV changed from "1.6.1" to "1.7.0"
+packages/core2-64-poky-linux/cronie/cronie-src: PKGSIZE changed from 183093 to 188710 (+3%)
+packages/core2-64-poky-linux/cronie/cronie-src: PKGV changed from 1.6.1 [default] to 1.7.0 [default]
+packages/core2-64-poky-linux/cronie/cronie-staticdev: PV changed from "1.6.1" to "1.7.0"
+packages/core2-64-poky-linux/cronie/cronie-staticdev: PKGV changed from 1.6.1 [default] to 1.7.0 [default]
+packages/core2-64-poky-linux/cronie/cronie: PV changed from "1.6.1" to "1.7.0"
+packages/core2-64-poky-linux/cronie/cronie: PKGSIZE changed from 166417 to 174609 (+5%)
+packages/core2-64-poky-linux/cronie/cronie: PKGV changed from 1.6.1 [default] to 1.7.0 [default]
+packages/core2-64-poky-linux/cronie: PV changed from "1.6.1" to "1.7.0"
+packages/core2-64-poky-linux/cronie: SRC_URI changed from "https://github.com/cronie-crond/cronie/releases//download/cronie-1.6.1/cronie-1.6.1.tar.gz file://crond.init file://crontab file://crond.service file://crond_pam_config.patch" to "https://github.com/cronie-crond/cronie/releases//download/cronie-1.7.0/cronie-1.7.0.tar.gz file://crond.init file://crontab file://crond.service file://crond_pam_config.patch"
+packages/core2-64-poky-linux/cronie: PKGV changed from 1.6.1 [default] to 1.7.0 [default]
 
---===============0608108057971028345==
+--===============1459951625055196828==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-headers-upgrade-1.3.261.1-1.3.268.0.patch"
+ filename="0001-cronie-upgrade-1.6.1-1.7.0.patch"
 
-RnJvbSA1YzRmZjk2YzU5MDY2MjZjYzAwYmE4OTdjYTk5YTRlZjUwZmVlZDdmIE1vbiBTZXAgMTcg
+RnJvbSA0NmRjN2Q5MmE4ODU2ZmQyMWM4MGU3N2E4Zjk4ZDk0MzEyOGE1ZTA0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMzowMTowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
-aXJ2LWhlYWRlcnM6IHVwZ3JhZGUgMS4zLjI2MS4xIC0+IDEuMy4yNjguMAoKLS0tCiAuLi4ve3Nw
-aXJ2LWhlYWRlcnNfMS4zLjI2MS4xLmJiID0+IHNwaXJ2LWhlYWRlcnNfMS4zLjI2OC4wLmJifSAg
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci97c3BpcnYtaGVhZGVyc18xLjMuMjYxLjEu
-YmIgPT4gc3BpcnYtaGVhZGVyc18xLjMuMjY4LjAuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18xLjMuMjYxLjEuYmIgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1oZWFkZXJzXzEuMy4yNjguMC5iYgpzaW1pbGFy
-aXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGly
-di1oZWFkZXJzXzEuMy4yNjEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Nw
-aXIvc3BpcnYtaGVhZGVyc18xLjMuMjY4LjAuYmIKaW5kZXggOTQ1ZjA4NzlmNS4uYzcwODQ1Nzg4
-ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18x
-LjMuMjYxLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVy
-c18xLjMuMjY4LjAuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vd3d3Lmto
-cm9ub3Mub3JnL3JlZ2lzdHJ5L3NwaXItdiIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NI
-S1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YzkzOGI4NWJjZWI4ZmIyNmMxYTgwN2YyOGE1MmFl
-MmQiCiAKLVNSQ1JFViA9ICIxMjRhOTY2NWU0NjRlZjk4YjhiNzE4ZDU3MmQ1ZjMyOTMxMTA2MWVi
-IgorU1JDUkVWID0gImU4NjdjMDY2MzE3NjdhMmQ5NjQyNGNiZWM1MzBmOWVlNWU3ODE4MGYiCiBT
-UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQSVJWLUhlYWRlcnM7cHJv
-dG9jb2w9aHR0cHM7YnJhbmNoPW1haW4iCiBQRSA9ICIxIgogIyBUaGVzZSByZWNpcGVzIG5lZWQg
-dG8gYmUgdXBkYXRlZCBpbiBsb2Nrc3RlcCB3aXRoIGVhY2ggb3RoZXI6Ci0tIAoyLjM5LjIKCg==
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMTowNzo1NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNy
+b25pZTogdXBncmFkZSAxLjYuMSAtPiAxLjcuMAoKLS0tCiAuLi4vY3JvbmllL3tjcm9uaWVfMS42
+LjEuYmIgPT4gY3JvbmllXzEuNy4wLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
+ZXMtZXh0ZW5kZWQvY3JvbmllL3tjcm9uaWVfMS42LjEuYmIgPT4gY3JvbmllXzEuNy4wLmJifSAo
+OTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jcm9uaWUvY3JvbmllXzEu
+Ni4xLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2Nyb25pZS9jcm9uaWVfMS43LjAuYmIKc2lt
+aWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2Nyb25p
+ZS9jcm9uaWVfMS42LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jcm9uaWUv
+Y3JvbmllXzEuNy4wLmJiCmluZGV4IDFiMzFiZjBkYjIuLjI0YzQxOWIxYzUgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1leHRlbmRlZC9jcm9uaWUvY3JvbmllXzEuNi4xLmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1leHRlbmRlZC9jcm9uaWUvY3JvbmllXzEuNy4wLmJiCkBAIC0yNSw3ICsyNSw3IEBA
+IFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL2Nyb25pZS0ke1BWfS9jcm9u
+aWUtJHtQVn0udGFyLmd6IFwKIFBBTV9TUkNfVVJJID0gImZpbGU6Ly9jcm9uZF9wYW1fY29uZmln
+LnBhdGNoIgogUEFNX0RFUFMgPSAibGlicGFtIGxpYnBhbS1ydW50aW1lIHBhbS1wbHVnaW4tYWNj
+ZXNzIHBhbS1wbHVnaW4tbG9naW51aWQiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyY2QwZjBk
+ZDE2ODBlNmI5YzM5YmYxZTNhNWU3YWQ2ZGY3NmFhOTQwZGUxZWU5MGE0NTM2MzNhYTU5OTg0ZTYy
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY4MjdmNWE0Nzc2MGNjNjRhZmVlZjBhNjBkM2NiNTM3
+NmY1MjU2OTEwOWZjOWE3Mzk1N2RkNWU5ZmRhZTc2MTkiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHVw
+ZGF0ZS1yYy5kIHVzZXJhZGQgc3lzdGVtZCBnaXRodWItcmVsZWFzZXMKIFVQU1RSRUFNX0NIRUNL
+X1JFR0VYID0gInJlbGVhc2VzL3RhZy9jcm9uaWUtKD9QPHB2ZXI+XGQrKFwuXGQrKSspIgotLSAK
+Mi4zOS4yCgo=
 
---===============0608108057971028345==--
+--===============1459951625055196828==--
 
