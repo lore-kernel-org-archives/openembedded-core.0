@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 972A2C072A0
-	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:12 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.8488.1698848704282896022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 841F0C4167B
+	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:11 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.8487.1698848704281599911
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:06 -0700
+ Wed, 01 Nov 2023 07:25:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fC5Fzn/D;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=maPqsNTg;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.191, mailfrom: 0101018b8b460cf7-74ca9e67-8d90-4cef-acc1-3accd9a6dda8-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=K63S308c;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gkR1m7jW;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.33, mailfrom: 0101018b8b460dc0-0db8c16f-0fd0-4181-9593-909559bad09b-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1698848706;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=n69uQoEahDjFNrJfpMqBvrwtMMwhS55lDBrCzwbX9Nk=;
-	b=fC5Fzn/DGPC4BCmMtJbX0P9jS+/3KLBgl1gZKjh7LMc2hVeurz269VrMFGVBkHmK
-	GHRBUussX5EW71Qp12uBn96Zl6O9EtO5++ZLOVB3Av2RYRSOjinznhnMtGZJwM46xR+
-	6tmFNymeNImCGx0uUZ6BvU/YXaaiWOrNJhVlQfdU=
+	bh=rN0Mekf1DpSe8q+Anoi4B9uWmvKSEnboCriW94VS1gU=;
+	b=K63S308cW1hIQ0FaX1XSDyhr211dY84VsQ5F/tvLGzZlW8IyLhVy8UbsiY8tXMy1
+	v/OycPvJ4SSNpWZ3Rzdz0H2ZtFuO2IsFWRZx1Dhter/U+tUG8W/qledBaB0bbYLqkcT
+	gLxW2tQS+gZ4RlVwMgiGA+9v9LQ4HGqJRUhNsMQI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848706;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=n69uQoEahDjFNrJfpMqBvrwtMMwhS55lDBrCzwbX9Nk=;
-	b=maPqsNTgKlTwDPq3FNVRwc4ZhL8qcot3/SKUcTqN5cGF/KboCpDLM+CuWDDSAhJ7
-	5wB2f7unyZQkmgUfZOr1E7VQVrwSe8b05H1bB1rZiU+Th1zTMrm/0hvUaaqruJjzuSh
-	L7CUmitsP4Ibi6JerVxXQv7Ze1yAp1SKpCDfOR2Q=
-Content-Type: multipart/mixed; boundary="===============2898767933272690835=="
+	bh=rN0Mekf1DpSe8q+Anoi4B9uWmvKSEnboCriW94VS1gU=;
+	b=gkR1m7jW+zmetN/L/QGDApOJqStP2ph+ahqx1Dxe6Y/RwzHFF7DIqPtdGsFj/NdZ
+	bdE00LGvHXb4Bd2DqA1y0CrZBdGhzAApX4tWciB6OFOtDIsTCoUZeL4HrsuZmC3pLVa
+	XJd6+QAeQG9q7rpxP8RkZm8kf/9FwjBBFpMLASXY=
+Content-Type: multipart/mixed; boundary="===============7897568117522403864=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to
- 8a9376c6afd45eab6b95b65e5d5d7bad7699b5cb FAILED
-Message-ID: <0101018b8b460cf7-74ca9e67-8d90-4cef-acc1-3accd9a6dda8-000000@us-west-2.amazonses.com>
+Subject: [AUH] linux-firmware: upgrading to 20231030 SUCCEEDED
+Message-ID: <0101018b8b460dc0-0db8c16f-0fd0-4181-9593-909559bad09b-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Nov 2023 14:25:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.191
+X-SES-Outgoing: 2023.11.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190014
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190037
 
---===============2898767933272690835==
+--===============7897568117522403864==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-samples* to *8a9376c6afd45eab6b95b65e5d5d7bad7699b5cb* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *linux-firmware* to *20231030* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-samples-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-linux-firmware-upgrade-20230804-20231030.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -79,579 +72,1633 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4c04cd05189b375f9be773140d1f6c7fbb1c4566 Mon Sep 17 00:00:00 2001
+From b1f0cadf960a3fa1a88960ab5d0a2d81142b66ac Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 13:15:14 +0000
-Subject: [PATCH] vulkan-samples: upgrade to latest revision
+Date: Wed, 1 Nov 2023 13:40:58 +0000
+Subject: [PATCH] linux-firmware: upgrade 20230804 -> 20231030
 
 ---
- .../0001-Deprecate-u8string_view.patch        |  59 ----------
- ...ot-use-LFS64-functions-on-linux-musl.patch |  37 -------
- ...002-Committing-changes-from-do_patch.patch |  16 +++
- .../vulkan/vulkan-samples/32bit.patch         | 101 ------------------
- .../vulkan/vulkan-samples_git.bb              |   6 +-
- 5 files changed, 18 insertions(+), 201 deletions(-)
- delete mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-Deprecate-u8string_view.patch
- delete mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-Do-not-use-LFS64-functions-on-linux-musl.patch
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0002-Committing-changes-from-do_patch.patch
- delete mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/32bit.patch
+ ...20230804.bb => linux-firmware_20231030.bb} | 611 +++++++++++++++++-
+ 1 file changed, 609 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20230804.bb => linux-firmware_20231030.bb} (75%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-Deprecate-u8string_view.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-Deprecate-u8string_view.patch
-deleted file mode 100644
-index c2304bdd48..0000000000
---- a/meta/recipes-graphics/vulkan/vulkan-samples/0001-Deprecate-u8string_view.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--From 93987b1ce7d6f91387202495aac61026070597df Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 15 Jan 2023 21:37:52 -0800
--Subject: [PATCH] Deprecate u8string_view
--
--Use basic_string_view instead
--
--Upstream-Status: Backport [https://github.com/fmtlib/fmt/commit/dea7fde8b7d649923dd41b0766bdf076033c62a2]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- include/spdlog/fmt/bundled/core.h   |  3 ++-
-- include/spdlog/fmt/bundled/format.h | 15 ++-------------
-- 2 files changed, 4 insertions(+), 14 deletions(-)
--
--diff --git a/include/spdlog/fmt/bundled/core.h b/include/spdlog/fmt/bundled/core.h
--index 50b79351..e8b029ef 100644
----- a/include/spdlog/fmt/bundled/core.h
--+++ b/include/spdlog/fmt/bundled/core.h
--@@ -1484,7 +1484,8 @@ FMT_API void vprint(wstring_view format_str, wformat_args args);
-- 
-- /**
--   \rst
---  Prints formatted data to ``stdout``.
--+  Formats ``args`` according to specifications in ``format_str`` and writes the
--+  output to ``stdout``.
-- 
--   **Example**::
-- 
--diff --git a/include/spdlog/fmt/bundled/format.h b/include/spdlog/fmt/bundled/format.h
--index 1bb24a52..39426361 100644
----- a/include/spdlog/fmt/bundled/format.h
--+++ b/include/spdlog/fmt/bundled/format.h
--@@ -407,21 +407,10 @@ void basic_buffer<T>::append(const U *begin, const U *end) {
-- enum char8_t: unsigned char {};
-- #endif
-- 
---// A UTF-8 string view.
---class u8string_view : public basic_string_view<char8_t> {
--- public:
---  typedef char8_t char_type;
---
---  u8string_view(const char *s):
---    basic_string_view<char8_t>(reinterpret_cast<const char8_t*>(s)) {}
---  u8string_view(const char *s, size_t count) FMT_NOEXCEPT:
---    basic_string_view<char8_t>(reinterpret_cast<const char8_t*>(s), count) {}
---};
---
-- #if FMT_USE_USER_DEFINED_LITERALS
-- inline namespace literals {
---inline u8string_view operator"" _u(const char *s, std::size_t n) {
---  return {s, n};
--+inline basic_string_view<char8_t> operator"" _u(const char* s, std::size_t n) {
--+  return {reinterpret_cast<const char8_t*>(s), n};
-- }
-- }
-- #endif
---- 
--2.39.0
--
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-Do-not-use-LFS64-functions-on-linux-musl.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-Do-not-use-LFS64-functions-on-linux-musl.patch
-deleted file mode 100644
-index f2bd7e510b..0000000000
---- a/meta/recipes-graphics/vulkan/vulkan-samples/0001-Do-not-use-LFS64-functions-on-linux-musl.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From ce7a593e74c8e0c2ece15c73e7614d4f13a19a53 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 30 Dec 2022 13:04:08 -0800
--Subject: [PATCH] Do not use LFS64 functions on linux/musl
--
--On musl, off_t is 64bit always ( even on 32bit platforms ), therefore using
--LFS64 funcitons is not needed on such platforms. Moreover, musl has stopped
--providing aliases for these functions [1] which means it wont compile on
--newer musl systems. Therefore only use it on 32bit glibc/linux platforms
--and exclude musl like cygwin or OSX
--
--[1] https://git.musl-libc.org/cgit/musl/commit/?id=246f1c811448f37a44b41cd8df8d0ef9736d95f4
--
--Upstream-Status: Submitted [https://github.com/gabime/spdlog/pull/2589]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- include/spdlog/details/os.h | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/include/spdlog/details/os.h b/include/spdlog/details/os.h
--index 8e8476f0..be0a67b8 100644
----- a/include/spdlog/details/os.h
--+++ b/include/spdlog/details/os.h
--@@ -227,7 +227,9 @@ inline size_t filesize(FILE *f)
-- #else // unix
--     int fd = fileno(f);
-- // 64 bits(but not in osx or cygwin, where fstat64 is deprecated)
---#if !defined(__FreeBSD__) && !defined(__APPLE__) && (defined(__x86_64__) || defined(__ppc64__)) && !defined(__CYGWIN__)
--+#if !defined(__FreeBSD__) && !defined(__APPLE__) && \
--+    (defined(__linux__) && defined(__GLIBC__)) && \
--+    (defined(__x86_64__) || defined(__ppc64__)) && !defined(__CYGWIN__)
--     struct stat64 st;
--     if (::fstat64(fd, &st) == 0)
--     {
---- 
--2.39.0
--
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0002-Committing-changes-from-do_patch.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0002-Committing-changes-from-do_patch.patch
-new file mode 100644
-index 0000000000..2ddeb05e5e
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples/0002-Committing-changes-from-do_patch.patch
-@@ -0,0 +1,16 @@
-+From 623cd54724d0e47f1e19ff527cd081e1ff4babe7 Mon Sep 17 00:00:00 2001
-+From: OpenEmbedded <oe.patch@oe>
-+Date: Wed, 1 Nov 2023 13:14:31 +0000
-+Subject: [PATCH] Committing changes from do_patch
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
+similarity index 75%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
+index 0e8005bfc9..356fbb0fb9 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
+@@ -1,3 +1,610 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- WHENCE
++# +++ WHENCE
++# @@ -536,14 +536,14 @@
++#  
++#  File: cxgb4/t4fw-1.14.4.0.bin
++#  File: cxgb4/t4fw-1.15.37.0.bin
++# -File: cxgb4/t4fw-1.27.3.0.bin
++# -Link: cxgb4/t4fw.bin -> t4fw-1.27.3.0.bin
++# +File: cxgb4/t4fw-1.27.4.0.bin
++# +Link: cxgb4/t4fw.bin -> t4fw-1.27.4.0.bin
++#  File: cxgb4/t5fw-1.14.4.0.bin
++#  File: cxgb4/t5fw-1.15.37.0.bin
++# -File: cxgb4/t5fw-1.27.3.0.bin
++# -Link: cxgb4/t5fw.bin -> t5fw-1.27.3.0.bin
++# -File: cxgb4/t6fw-1.27.3.0.bin
++# -Link: cxgb4/t6fw.bin -> t6fw-1.27.3.0.bin
++# +File: cxgb4/t5fw-1.27.4.0.bin
++# +Link: cxgb4/t5fw.bin -> t5fw-1.27.4.0.bin
++# +File: cxgb4/t6fw-1.27.4.0.bin
++# +Link: cxgb4/t6fw.bin -> t6fw-1.27.4.0.bin
++#  File: cxgb4/aq1202_fw.cld
++#  File: cxgb4/bcm8483.bin
++#  File: cxgb4/configs/t4-config-default.txt
++# @@ -726,10 +726,10 @@
++#  Version: W16.68.1.p179
++#  
++#  File: mrvl/pcieusb8997_combo_v4.bin
++# -Version: W16.68.1.p195
++# +Version: W16.68.10.p159.1
++#  
++#  File: mrvl/pcie8997_wlan_v4.bin
++# -Version: W16.68.1.p195
++# +Version: W16.68.10.p159.1
++#  
++#  File: mrvl/usbusb8997_combo_v4.bin
++#  Version: W16.68.1.p183
++# @@ -1017,22 +1017,22 @@
++#  Version: 74.a5e9588b.0
++#  
++#  File: iwlwifi-cc-a0-77.ucode
++# -Version: 74.2df8986f.0
++# +Version: 74.bd067429.0
++#  
++#  File: iwlwifi-Qu-b0-hr-b0-77.ucode
++# -Version: 74.2df8986f.0
++# +Version: 74.bd067429.0
++#  
++#  File: iwlwifi-Qu-b0-jf-b0-77.ucode
++# -Version: 74.2df8986f.0
++# +Version: 74.bd067429.0
++#  
++#  File: iwlwifi-Qu-c0-hr-b0-77.ucode
++# -Version: 74.2df8986f.0
++# +Version: 74.bd067429.0
++#  
++#  File: iwlwifi-Qu-c0-jf-b0-77.ucode
++# -Version: 74.2df8986f.0
++# +Version: 74.bd067429.0
++#  
++#  File: iwlwifi-QuZ-a0-hr-b0-77.ucode
++# -Version: 74.2df8986f.0
++# +Version: 74.bd06742.0
++#  
++#  File: iwlwifi-QuZ-a0-jf-b0-77.ucode
++#  Version: 74.206b0184.0
++# @@ -1052,6 +1052,9 @@
++#  File: iwlwifi-ty-a0-gf-a0-83.ucode
++#  Version: 80.e8f84e98.0
++#  
++# +File: iwlwifi-ty-a0-gf-a0-84.ucode
++# +Version: 81.8e5c544c.0
++# +
++#  File: iwlwifi-so-a0-gf4-a0-77.ucode
++#  Version: 74.f92b5fed.0
++#  
++# @@ -1067,6 +1070,9 @@
++#  File: iwlwifi-so-a0-gf4-a0-83.ucode
++#  Version: 80.e8f84e98.0
++#  
++# +File: iwlwifi-so-a0-gf4-a0-84.ucode
++# +Version: 81.8e5c544c.0
++# +
++#  File: iwlwifi-so-a0-gf-a0-77.ucode
++#  Version: 74.f92b5fed.0
++#  
++# @@ -1082,6 +1088,9 @@
++#  File: iwlwifi-so-a0-gf-a0-83.ucode
++#  Version: 80.e8f84e98.0
++#  
++# +File: iwlwifi-so-a0-gf-a0-84.ucode
++# +Version: 81.8e5c544c.0
++# +
++#  File: iwlwifi-so-a0-hr-b0-77.ucode
++#  Version: 74.f92b5fed.0
++#  
++# @@ -1091,10 +1100,34 @@
++#  File: iwlwifi-so-a0-hr-b0-81.ucode
++#  Version: 78.31fc9ae6.0
++#  
++# +File: iwlwifi-so-a0-hr-b0-83.ucode
++# +Version: 80.e8f84e98.0
++# +
++# +File: iwlwifi-so-a0-hr-b0-84.ucode
++# +Version: 81.8e5c544c.0
++# +
++#  File: iwlwifi-so-a0-jf-b0-77.ucode
++#  Version: 74.f92b5fed.0
++#  
++#  File: iwlwifi-ty-a0-gf-a0.pnvm
++# +
++# +File: iwlwifi-gl-c0-fm-c0-83.ucode
++# +Version: 80.d24e06ed.0
++# +
++# +File: iwlwifi-gl-c0-fm-c0.pnvm
++# +
++# +File: iwlwifi-ma-b0-gf-a0-83.ucode
++# +Version: 80.d24e06ed.0
++# +
++# +File: iwlwifi-ma-b0-gf-a0.pnvm
++# +
++# +File: iwlwifi-ma-b0-gf4-a0-83.ucode
++# +Version: 80.d24e06ed.0
++# +
++# +File: iwlwifi-ma-b0-gf4-a0.pnvm
++# +
++# +File: iwlwifi-ma-b0-hr-b0-83.ucode
++# +Version: 80.d24e06ed.0
++#  
++#  Licence: Redistributable. See LICENCE.iwlwifi_firmware for details
++#  
++# @@ -2445,6 +2478,17 @@
++#  
++#  --------------------------------------------------------------------------
++#  
++# +--------------------------------------------------------------------------
++# +
++# +Driver: amd_pmf - AMD Platform Management Framework TA
++# +
++# +File: amdtee/773bd96f-b83f-4d52-b12dc529b13d8543.bin
++# +Link: amdtee/amd_pmf_v3.bin -> 773bd96f-b83f-4d52-b12dc529b13d8543.bin
++# +
++# +Licence: Redistributable. See LICENSE.amd_pmf for details.
++# +
++# +--------------------------------------------------------------------------
++# +
++#  Driver: s2255drv
++#  
++#  File: f2255usb.bin
++# @@ -2716,6 +2760,7 @@
++#  Link: brcm/brcmfmac43430-sdio.sinovoip,bpi-m2-zero.txt -> brcmfmac43430-sdio.AP6212.txt
++#  Link: brcm/brcmfmac43430-sdio.sinovoip,bpi-m2-ultra.txt -> brcmfmac43430-sdio.AP6212.txt
++#  Link: brcm/brcmfmac43430-sdio.sinovoip,bpi-m3.txt -> brcmfmac43430-sdio.AP6212.txt
++# +Link: brcm/brcmfmac43430-sdio.sinovoip,bananapi-m64.txt -> brcmfmac43430-sdio.AP6212.txt
++#  Link: brcm/brcmfmac43430-sdio.friendlyarm,nanopi-r1.txt -> brcmfmac43430-sdio.AP6212.txt
++#  Link: brcm/brcmfmac43430-sdio.starfive,visionfive-v1.txt -> brcmfmac43430-sdio.AP6212.txt
++#  Link: brcm/brcmfmac43430-sdio.beagle,beaglev-starlight-jh7100-a1.txt -> brcmfmac43430-sdio.AP6212.txt
++# @@ -3395,10 +3440,10 @@
++#  File: ath10k/QCA9377/hw1.0/notice_ath10k_firmware-6.txt
++#  File: ath10k/WCN3990/hw1.0/board-2.bin
++#  File: ath10k/WCN3990/hw1.0/firmware-5.bin
++# -File: ath10k/WCN3990/hw1.0/wlanmdsp.mbn
++# -Link: qcom/sdm845/wlanmdsp.mbn -> ../../ath10k/WCN3990/hw1.0/wlanmdsp.mbn
++# +File: qcom/sdm845/wlanmdsp.mbn
++# +Link: ath10k/WCN3990/hw1.0/wlanmdsp.mbn -> ../../../qcom/sdm845/wlanmdsp.mbn
++#  Version: WLAN.HL.2.0-01387-QCAHLSWMTPLZ-1
++# -File: ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp
++# +File: qcom/sdm845/notice.txt_wlanmdsp
++#  
++#  Licence: Redistributable. See LICENSE.QualcommAtheros_ath10k for details
++#  
++# @@ -3665,13 +3710,13 @@
++#  File: intel/ibt-12-16.sfi
++#  Version: BT_WindStormPeak_REL1299
++#  File: intel/ibt-17-16-1.sfi
++# -Version: BT_JeffersonPeak_B0_B0_REL20332
++# +Version: BT_JeffersonPeak_B0_B0_REL20379
++#  File: intel/ibt-17-16-1.ddc
++# -Version: BT_JeffersonPeak_B0_B0_REL20332
++# +Version: BT_JeffersonPeak_B0_B0_REL20379
++#  File: intel/ibt-17-2.sfi
++# -Version: BT_JeffersonPeak_B0_B0_REL20332
++# +Version: BT_JeffersonPeak_B0_B0_REL20379
++#  File: intel/ibt-17-2.ddc
++# -Version: BT_JeffersonPeak_B0_B0_REL20332
++# +Version: BT_JeffersonPeak_B0_B0_REL20379
++#  File: intel/ibt-17-0-1.sfi
++#  Version: BT_JeffersonPeak_A0_B0_REL0201
++#  File: intel/ibt-17-0-1.ddc
++# @@ -3681,13 +3726,13 @@
++#  File: intel/ibt-17-1.ddc
++#  Version: BT_JeffersonPeak_A0_B0_REL0201
++#  File: intel/ibt-18-16-1.sfi
++# -Version: BT_ThunderPeak_B0_B0_REL20182
++# +Version: BT_ThunderPeak_B0_B0_REL20379
++#  File: intel/ibt-18-16-1.ddc
++# -Version: BT_ThunderPeak_B0_B0_REL20182
++# +Version: BT_ThunderPeak_B0_B0_REL20379
++#  File: intel/ibt-18-2.sfi
++# -Version: BT_ThunderPeak_B0_B0_REL20182
++# +Version: BT_ThunderPeak_B0_B0_REL20379
++#  File: intel/ibt-18-2.ddc
++# -Version: BT_ThunderPeak_B0_B0_REL20182
++# +Version: BT_ThunderPeak_B0_B0_REL20379
++#  File: intel/ibt-18-0-1.sfi
++#  Version: BT_ThunderPeak_A0_B0_REL0201
++#  File: intel/ibt-18-0-1.ddc
++# @@ -3697,69 +3742,69 @@
++#  File: intel/ibt-18-1.ddc
++#  Version: BT_ThunderPeak_A0_B0_REL0201
++#  File:intel/ibt-20-0-3.sfi
++# -Version: BT_CyclonePeak_A0_REL53454
++# +Version: BT_CyclonePeak_A0_REL53497
++#  File:intel/ibt-20-0-3.ddc
++# -Version: BT_CyclonePeak_A0_REL53454
++# +Version: BT_CyclonePeak_A0_REL53497
++#  File:intel/ibt-20-1-3.sfi
++# -Version: BT_CyclonePeak_A0_REL53454
++# +Version: BT_CyclonePeak_A0_REL53497
++#  File:intel/ibt-20-1-3.ddc
++# -Version: BT_CyclonePeak_A0_REL53454
++# +Version: BT_CyclonePeak_A0_REL53497
++#  File:intel/ibt-20-1-4.sfi
++# -Version: BT_CyclonePeak_A0_REL53454
++# +Version: BT_CyclonePeak_A0_REL53497
++#  File:intel/ibt-20-1-4.ddc
++# -Version: BT_CyclonePeak_A0_REL53454
++# +Version: BT_CyclonePeak_A0_REL53497
++#  File:intel/ibt-19-0-0.sfi
++# -Version: BT_Quasar_REL53454
++# +Version: BT_Quasar_REL53497
++#  File:intel/ibt-19-0-0.ddc
++# -Version: BT_Quasar_REL53454
++# +Version: BT_Quasar_REL53497
++#  File:intel/ibt-19-0-1.sfi
++# -Version: BT_Quasar_REL53454
++# +Version: BT_Quasar_REL53497
++#  File:intel/ibt-19-0-1.ddc
++# -Version: BT_Quasar_REL53454
++# +Version: BT_Quasar_REL53497
++#  File:intel/ibt-19-0-3.sfi
++#  Version: BT_Quasar_REL53263
++#  File:intel/ibt-19-0-3.ddc
++#  Version: BT_Quasar_REL53263
++#  File:intel/ibt-19-0-4.sfi
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-0-4.ddc
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-16-4.sfi
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-16-4.ddc
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-32-1.sfi
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-32-1.ddc
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-32-0.sfi
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-32-0.ddc
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-32-4.sfi
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-32-4.ddc
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-240-1.sfi
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-240-1.ddc
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-240-4.sfi
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-19-240-4.ddc
++# -Version: BT_HarrisonPeak_REL53454
++# +Version: BT_HarrisonPeak_REL53497
++#  File:intel/ibt-0041-0041.sfi
++# -Version: BT_TyphoonPeak_REL67068
++# +Version: BT_TyphoonPeak_REL66410
++#  File:intel/ibt-0041-0041.ddc
++# -Version: BT_TyphoonPeak_REL67068
++# +Version: BT_TyphoonPeak_REL66410
++#  File:intel/ibt-0040-0041.sfi
++# -Version: BT_Solar_GfP2_REL67068
++# +Version: BT_Solar_GfP2_REL66410
++#  File:intel/ibt-0040-0041.ddc
++# -Version: BT_Solar_GfP2_REL67068
++# +Version: BT_Solar_GfP2_REL66410
++#  File:intel/ibt-1040-0041.sfi
++# -Version: BT_SolarF_GfP2_REL67068
++# +Version: BT_SolarF_GfP2_REL66410
++#  File:intel/ibt-1040-0041.ddc
++# -Version: BT_SolarF_GfP2_REL67068
++# +Version: BT_SolarF_GfP2_REL66410
++#  
++#  File:intel/ibt-0040-1020.sfi
++#  Version: BT_Solar_JfP1_REL59564
++# @@ -3780,13 +3825,33 @@
++#  Version: BT_SolarF_JfP2_REL59564
++#  
++#  File:intel/ibt-0040-4150.sfi
++# -Version: BT_Solar_JnP2_REL67068
++# +Version: BT_Solar_JnP2_REL66410
++#  File:intel/ibt-0040-4150.ddc
++# -Version: BT_Solar_JnP2_REL67068
++# +Version: BT_Solar_JnP2_REL66410
++#  File:intel/ibt-1040-4150.sfi
++# -Version: BT_SolarF_JnP2_REL67068
++# +Version: BT_SolarF_JnP2_REL66410
++#  File:intel/ibt-1040-4150.ddc
++# -Version: BT_SolarF_JnP2_REL67068
++# +Version: BT_SolarF_JnP2_REL66410
++# +
++# +File:intel/ibt-0291-0291.sfi
++# +Version: BT_GalePeak_REL39025
++# +File:intel/ibt-0291-0291.ddc
++# +Version: BT_GalePeak_REL39025
++# +
++# +File:intel/ibt-0180-0041.sfi
++# +Version: BT_Magnetar_GfP2_REL82221
++# +File:intel/ibt-0180-0041.ddc
++# +Version: BT_Magnetar_GfP2_REL82221
++# +
++# +File:intel/ibt-0180-4150.sfi
++# +Version: BT_Magnetar_HrP2_REL82221
++# +File:intel/ibt-0180-4150.ddc
++# +Version: BT_Magnetar_HrP2_REL82221
++# +
++# +File:intel/ibt-0180-1050.sfi
++# +Version: BT_Magnetar_HrP1_REL82221
++# +File:intel/ibt-0180-1050.ddc
++# +Version: BT_Magnetar_HrP1_REL82221
++#  
++#  Licence: Redistributable. See LICENCE.ibt_firmware for details
++#  
++# @@ -3822,6 +3887,7 @@
++#  File: rtl_bt/rtl8852bu_fw.bin
++#  File: rtl_bt/rtl8852bu_config.bin
++#  File: rtl_bt/rtl8852cu_fw.bin
++# +File: rtl_bt/rtl8852cu_fw_v2.bin
++#  File: rtl_bt/rtl8852cu_config.bin
++#  File: rtl_bt/rtl8851bu_fw.bin
++#  File: rtl_bt/rtl8851bu_config.bin
++# @@ -3901,7 +3967,9 @@
++#  File: amd/amd_sev_fam17h_model3xh.sbin
++#  Version: 2022-2-25
++#  File: amd/amd_sev_fam19h_model0xh.sbin
++# -Version: 2022-2-25
++# +Version: 2023-8-23
++# +File: amd/amd_sev_fam19h_model1xh.sbin
++# +Version: 2023-8-23
++#  
++#  License: Redistributable. See LICENSE.amd-sev for details
++#  
++# @@ -3909,21 +3977,16 @@
++#  
++#  Driver: microcode_amd - AMD CPU Microcode Update Driver for Linux
++#  
++# -File: amd-ucode/microcode_amd.bin
++# -Raw: amd-ucode/microcode_amd.bin
++# +RawFile: amd-ucode/microcode_amd.bin
++#  Version: 2013-07-10
++# -File: amd-ucode/microcode_amd_fam15h.bin
++# -Raw: amd-ucode/microcode_amd_fam15h.bin
++# +RawFile: amd-ucode/microcode_amd_fam15h.bin
++#  Version: 2018-05-24
++# -File: amd-ucode/microcode_amd_fam16h.bin
++# -Raw: amd-ucode/microcode_amd_fam16h.bin
++# +RawFile: amd-ucode/microcode_amd_fam16h.bin
++#  Version: 2014-10-28
++# -File: amd-ucode/microcode_amd_fam17h.bin
++# -Raw: amd-ucode/microcode_amd_fam17h.bin
++# +RawFile: amd-ucode/microcode_amd_fam17h.bin
++#  Version: 2023-07-19
++# -File: amd-ucode/microcode_amd_fam19h.bin
++# -Raw: amd-ucode/microcode_amd_fam19h.bin
++# -Version: 2023-07-18
++# +RawFile: amd-ucode/microcode_amd_fam19h.bin
++# +Version: 2023-10-19
++#  File: amd-ucode/README
++#  
++#  License: Redistributable. See LICENSE.amd-ucode for details
++# @@ -4613,7 +4676,7 @@
++#  Version: GuC API/APB ver 70.1.1 for Tigerlake
++#  
++#  File: i915/tgl_guc_70.bin
++# -Version: GuC API/APB ver 70.5.1 for Tigerlake
++# +Version: GuC API/APB ver 70.13.1 for Tigerlake
++#  
++#  File: i915/tgl_huc_7.0.3.bin
++#  Version: Huc API/APB ver 7 release 0 for Tigerlake
++# @@ -4694,7 +4757,7 @@
++#  Version: GuC API/APB ver 70.1.1 for Alderlake P
++#  
++#  File: i915/adlp_guc_70.bin
++# -Version: GuC API/APB ver 70.5.1 for Alderlake P
++# +Version: GuC API/APB ver 70.13.1 for Alderlake P
++#  
++#  File: i915/dg2_guc_70.1.2.bin
++#  Version: GuC API/APB ver 70.1.2 for DG2
++# @@ -4703,7 +4766,7 @@
++#  Version: GuC API/APB ver 70.4.1 for DG2
++#  
++#  File: i915/dg2_guc_70.bin
++# -Version: GuC API/APB ver 70.8.0 for DG2
++# +Version: GuC API/APB ver 70.13.1 for DG2
++#  
++#  File: i915/dg2_huc_gsc.bin
++#  Version: HuC API/APB ver 7.10.3 for DG2
++# @@ -4721,13 +4784,16 @@
++#  Version: DMC API/APB ver 2 release 10 for Meteorlake
++#  
++#  File: i915/mtl_dmc.bin
++# -Version: DMC API/APB ver 2 release 13 for Meteorlake
++# +Version: DMC API/APB ver 2 release 17 for Meteorlake
++#  
++#  File: i915/mtl_guc_70.bin
++# -Version: GuC API/APB ver 70.8.0 for Meteorlake
++# +Version: GuC API/APB ver 70.13.1 for Meteorlake
++#  
++#  File: i915/mtl_huc_gsc.bin
++# -Version: HuC API/APB ver 8.5.1 for Meteorlake
++# +Version: HuC API/APB ver 8.5.4 for Meteorlake
++# +
++# +File: i915/mtl_gsc_1.bin
++# +Version: GSC API/APB v1.0, release 102.0.0.1655, SVN 1 for Meteorlake
++#  
++#  License: Redistributable. See LICENSE.i915 for details
++#  --------------------------------------------------------------------------
++# @@ -5548,6 +5614,10 @@
++#  
++#  Version: 5.4-00053
++#  
++# +File: qcom/venus-6.0/venus.mbn
++# +
++# +Version: VIDEO.VE.6.0-00049-PROD-1
++# +
++#  File: qcom/vpu-1.0/venus.mbn
++#  Link: qcom/vpu-1.0/venus.mdt -> venus.mbn
++#  
++# @@ -5598,6 +5668,7 @@
++#  File: qcom/sm8250/a650_zap.mbn
++#  File: qcom/a660_gmu.bin
++#  File: qcom/a660_sqe.fw
++# +File: qcom/a702_sqe.fw
++#  File: qcom/leia_pfp_470.fw
++#  File: qcom/leia_pm4_470.fw
++#  File: qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn
++# @@ -5629,28 +5700,51 @@
++#  File: qcom/apq8016/wcnss.mbn
++#  File: qcom/apq8016/WCNSS_qcom_wlan_nv_sbc.bin
++#  File: qcom/apq8096/adsp.mbn
++# -File: qcom/apq8096/adspr.jsn
++# -File: qcom/apq8096/adspua.jsn
++# +RawFile: qcom/apq8096/adspr.jsn
++# +RawFile: qcom/apq8096/adspua.jsn
++#  File: qcom/apq8096/mba.mbn
++#  File: qcom/apq8096/modem.mbn
++# -File: qcom/apq8096/modemr.jsn
++# +RawFile: qcom/apq8096/modemr.jsn
++# +File: qcom/qcm2290/a702_zap.mbn
++# +File: qcom/qcm2290/adsp.mbn
++# +RawFile: qcom/qcm2290/adspr.jsn
++# +RawFile: qcom/qcm2290/adsps.jsn
++# +RawFile: qcom/qcm2290/adspua.jsn
++# +File: qcom/qcm2290/modem.mbn
++# +RawFile: qcom/qcm2290/modemr.jsn
++# +RawFile: qcom/qcm2290/modemuw.jsn
++# +File: qcom/qcm2290/wlanmdsp.mbn
++# +File: qcom/qrb4210/a610_zap.mbn
++# +File: qcom/qrb4210/adsp.mbn
++# +RawFile: qcom/qrb4210/adspr.jsn
++# +RawFile: qcom/qrb4210/adsps.jsn
++# +RawFile: qcom/qrb4210/adspua.jsn
++# +File: qcom/qrb4210/cdsp.mbn
++# +RawFile: qcom/qrb4210/cdspr.jsn
++# +File: qcom/qrb4210/modem.mbn
++# +RawFile: qcom/qrb4210/modemr.jsn
++# +RawFile: qcom/qrb4210/modemuw.jsn
++# +Link: qcom/qrb4210/wlanmdsp.mbn -> ../qcm2290/wlanmdsp.mbn
++#  File: qcom/sdm845/adsp.mbn
++# -File: qcom/sdm845/adspr.jsn
++# -File: qcom/sdm845/adspua.jsn
++# +RawFile: qcom/sdm845/adspr.jsn
++# +RawFile: qcom/sdm845/adspua.jsn
++#  File: qcom/sdm845/cdsp.mbn
++# -File: qcom/sdm845/cdspr.jsn
++# +RawFile: qcom/sdm845/cdspr.jsn
++#  File: qcom/sdm845/Thundercomm/db845c/slpi.mbn
++# -File: qcom/sdm845/Thundercomm/db845c/slpir.jsn
++# -File: qcom/sdm845/Thundercomm/db845c/slpius.jsn
++# +RawFile: qcom/sdm845/Thundercomm/db845c/slpir.jsn
++# +RawFile: qcom/sdm845/Thundercomm/db845c/slpius.jsn
++#  File: qcom/sm8250/adsp.mbn
++# -File: qcom/sm8250/adspr.jsn
++# -File: qcom/sm8250/adspua.jsn
++# +RawFile: qcom/sm8250/adspr.jsn
++# +RawFile: qcom/sm8250/adspua.jsn
++#  File: qcom/sm8250/cdsp.mbn
++# -File: qcom/sm8250/cdspr.jsn
++# -File: qcom/sc8280xp/LENOVO/21BX/adspr.jsn
++# -File: qcom/sc8280xp/LENOVO/21BX/adspua.jsn
++# -File: qcom/sc8280xp/LENOVO/21BX/battmgr.jsn
++# -File: qcom/sc8280xp/LENOVO/21BX/cdspr.jsn
++# +RawFile: qcom/sm8250/cdspr.jsn
++# +File: qcom/sm8250/Thundercomm/RB5/slpi.mbn
++# +RawFile: qcom/sm8250/Thundercomm/RB5/slpir.jsn
++# +RawFile: qcom/sm8250/Thundercomm/RB5/slpius.jsn
++# +RawFile: qcom/sc8280xp/LENOVO/21BX/adspr.jsn
++# +RawFile: qcom/sc8280xp/LENOVO/21BX/adspua.jsn
++# +RawFile: qcom/sc8280xp/LENOVO/21BX/battmgr.jsn
++# +RawFile: qcom/sc8280xp/LENOVO/21BX/cdspr.jsn
++#  File: qcom/sc8280xp/LENOVO/21BX/qcadsp8280.mbn
++#  File: qcom/sc8280xp/LENOVO/21BX/qccdsp8280.mbn
++#  File: qcom/sc8280xp/LENOVO/21BX/qcslpi8280.mbn
++# @@ -5660,6 +5754,8 @@
++#  Binary files supplied originally from
++#  http://releases.linaro.org/96boards/dragonboard410c/qualcomm/firmware/linux-board-support-package-r1036.1.zip
++#  http://releases.linaro.org/96boards/dragonboard845c/qualcomm/firmware/RB3_firmware_20221121000000-v5.zip
++# +https://releases.linaro.org/96boards/rb1/qualcomm/firmware/RB1_firmware_20230823-v2.zip
++# +https://releases.linaro.org/96boards/rb2/qualcomm/firmware/RB2_firmware_20230823-v2.zip
++#  http://releases.linaro.org/96boards/rb5/qualcomm/firmware/RB5_firmware_20210331-v4.zip
++#  
++#  adsp.mbn has been converted from 20-adsp_split/firmware/adsp.* using
++# @@ -5674,7 +5770,7 @@
++#  
++#  File: qcom/sdm845/mba.mbn
++#  File: qcom/sdm845/modem_nm.mbn
++# -File: qcom/sdm845/modemuw.jsn
++# +RawFile: qcom/sdm845/modemuw.jsn
++#  Link: qcom/sdm845/modem.mbn -> modem_nm.mbn
++#  
++#  Licence: Redistributable. See LICENSE.qcom and qcom/NOTICE.txt for details
++# @@ -6045,6 +6141,35 @@
++#  File: cirrus/cs35l41-dsp1-spk-cali-103c8981-r1.bin
++#  File: cirrus/cs35l41-dsp1-spk-cali-103c8981-l0.bin
++#  File: cirrus/cs35l41-dsp1-spk-cali-103c8981-l1.bin
++# +File: cirrus/cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c46.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c46.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c47.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c47.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c48.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c48.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c49.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c49.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c70.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c70.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c71.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c71.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c72.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c72.wmfw -> cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8c46.bin
++# +File: cirrus/cs35l41-dsp1-spk-cali-103c8c46.bin
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8c47.bin
++# +File: cirrus/cs35l41-dsp1-spk-cali-103c8c47.bin
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8c48.bin
++# +File: cirrus/cs35l41-dsp1-spk-cali-103c8c48.bin
++# +File: cirrus/cs35l41-dsp1-spk-prot-103c8c49.bin
++# +File: cirrus/cs35l41-dsp1-spk-cali-103c8c49.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c70.bin -> cs35l41-dsp1-spk-prot-103c8c46.bin
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c70.bin -> cs35l41-dsp1-spk-cali-103c8c46.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c71.bin -> cs35l41-dsp1-spk-prot-103c8c47.bin
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c71.bin -> cs35l41-dsp1-spk-cali-103c8c47.bin
++# +Link: cirrus/cs35l41-dsp1-spk-prot-103c8c72.bin -> cs35l41-dsp1-spk-prot-103c8c48.bin
++# +Link: cirrus/cs35l41-dsp1-spk-cali-103c8c72.bin -> cs35l41-dsp1-spk-cali-103c8c48.bin
++#  File: cirrus/cs35l41/v6.39.0/halo_cspl_RAM_revB2_29.41.0.wmfw
++#  Link: cirrus/cs35l41-dsp1-spk-prot-17aa3847.wmfw -> cs35l41/v6.39.0/halo_cspl_RAM_revB2_29.41.0.wmfw
++#  Link: cirrus/cs35l41-dsp1-spk-cali-17aa3847.wmfw -> cs35l41/v6.39.0/halo_cspl_RAM_revB2_29.41.0.wmfw
++# @@ -6567,8 +6692,17 @@
++#  
++#  Driver: qcom-sc8280xp - Qualcomm ASoC tplg Firmware
++#  File: qcom/sc8280xp/LENOVO/21BX/audioreach-tplg.bin
++# +Link: qcom/sc8280xp/SC8280XP-LENOVO-X13S-tplg.bin -> LENOVO/21BX/audioreach-tplg.bin
++#  Version: v0.1.0
++#  
++#  Licence: Redistributable. See LICENCE.linaro for details
++#  Originates from https://git.linaro.org/people/srinivas.kandagatla/audioreach-topology.git
++#  --------------------------------------------------------------------------
++# +
++# +Driver: amlogic - Amlogic SoC Firmware
++# +File: amlogic/bluetooth/w2_bt_fw_uart.bin
++# +Version: date = 38.01, number = 0xa914
++# +
++# +Licence: Redistributable. See LICENSE.amlogic for details
++# +
++# +--------------------------------------------------------------------------
++# 
++#
 +
-+---
-+ third_party/spdlog | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/third_party/spdlog b/third_party/spdlog
-+index 7bf8f14..a53d652 160000
-+--- a/third_party/spdlog
-++++ b/third_party/spdlog
-+@@ -1 +1 @@
-+-Subproject commit 7bf8f148795d2571b4ae4aa9c6d2a8111fbb7077
-++Subproject commit a53d652732fd3fffba53f658b9dacce3defe0fb4
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/32bit.patch b/meta/recipes-graphics/vulkan/vulkan-samples/32bit.patch
-deleted file mode 100644
-index 644c3b6167..0000000000
---- a/meta/recipes-graphics/vulkan/vulkan-samples/32bit.patch
-+++ /dev/null
-@@ -1,101 +0,0 @@
--From 49761ca63797014223d8e3ff6fb2c0235803c19c Mon Sep 17 00:00:00 2001
--From: asuessenbach <asuessenbach@nvidia.com>
--Date: Wed, 3 May 2023 09:50:08 +0200
--Subject: [PATCH] Resolve some Vulkan-Hpp-related issues on Win32.
--
--This patch fixes vulkan-samples compilation on 32-bit hosts.
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
-----
-- framework/common/hpp_vk_common.h                        | 4 ++--
-- framework/core/hpp_buffer.cpp                           | 4 ++--
-- framework/core/hpp_buffer.h                             | 2 +-
-- framework/core/hpp_image.cpp                            | 2 +-
-- samples/api/hpp_texture_loading/hpp_texture_loading.cpp | 2 +-
-- 5 files changed, 7 insertions(+), 7 deletions(-)
--
--diff --git a/framework/common/hpp_vk_common.h b/framework/common/hpp_vk_common.h
--index 39ed3dcde..0cbbe479e 100644
----- a/framework/common/hpp_vk_common.h
--+++ b/framework/common/hpp_vk_common.h
--@@ -92,7 +92,7 @@ inline bool is_dynamic_buffer_descriptor_type(vk::DescriptorType descriptor_type
-- 
-- inline vk::ShaderModule load_shader(const std::string &filename, vk::Device device, vk::ShaderStageFlagBits stage)
-- {
---	return vkb::load_shader(filename, device, static_cast<VkShaderStageFlagBits>(stage));
--+	return static_cast<vk::ShaderModule>(vkb::load_shader(filename, device, static_cast<VkShaderStageFlagBits>(stage)));
-- }
-- 
-- inline void set_image_layout(vk::CommandBuffer         command_buffer,
--@@ -104,7 +104,7 @@ inline void set_image_layout(vk::CommandBuffer         command_buffer,
--                              vk::PipelineStageFlags    dst_mask = vk::PipelineStageFlagBits::eAllCommands)
-- {
-- 	vkb::set_image_layout(command_buffer,
---	                      image,
--+	                      static_cast<VkImage>(image),
-- 	                      static_cast<VkImageLayout>(old_layout),
-- 	                      static_cast<VkImageLayout>(new_layout),
-- 	                      static_cast<VkImageSubresourceRange>(subresource_range),
--diff --git a/framework/core/hpp_buffer.cpp b/framework/core/hpp_buffer.cpp
--index 8da265acb..e6509b9f4 100644
----- a/framework/core/hpp_buffer.cpp
--+++ b/framework/core/hpp_buffer.cpp
--@@ -84,7 +84,7 @@ HPPBuffer::~HPPBuffer()
-- 	if (get_handle() && (allocation != VK_NULL_HANDLE))
-- 	{
-- 		unmap();
---		vmaDestroyBuffer(get_device().get_memory_allocator(), get_handle(), allocation);
--+		vmaDestroyBuffer(get_device().get_memory_allocator(), static_cast<VkBuffer>(get_handle()), allocation);
-- 	}
-- }
-- 
--@@ -93,7 +93,7 @@ VmaAllocation HPPBuffer::get_allocation() const
-- 	return allocation;
-- }
-- 
---VkDeviceMemory HPPBuffer::get_memory() const
--+vk::DeviceMemory HPPBuffer::get_memory() const
-- {
-- 	return memory;
-- }
--diff --git a/framework/core/hpp_buffer.h b/framework/core/hpp_buffer.h
--index 7a243c265..bad47406d 100644
----- a/framework/core/hpp_buffer.h
--+++ b/framework/core/hpp_buffer.h
--@@ -55,7 +55,7 @@ class HPPBuffer : public vkb::core::HPPVulkanResource<vk::Buffer>
-- 
-- 	VmaAllocation  get_allocation() const;
-- 	const uint8_t *get_data() const;
---	VkDeviceMemory get_memory() const;
--+	vk::DeviceMemory get_memory() const;
-- 
-- 	/**
-- 	 * @return Return the buffer's device address (note: requires that the buffer has been created with the VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT usage fla)
--diff --git a/framework/core/hpp_image.cpp b/framework/core/hpp_image.cpp
--index 00fa89ba7..5e6f27363 100644
----- a/framework/core/hpp_image.cpp
--+++ b/framework/core/hpp_image.cpp
--@@ -138,7 +138,7 @@ HPPImage::~HPPImage()
-- 	if (get_handle() && memory)
-- 	{
-- 		unmap();
---		vmaDestroyImage(get_device().get_memory_allocator(), get_handle(), memory);
--+		vmaDestroyImage(get_device().get_memory_allocator(), static_cast<VkImage>(get_handle()), memory);
-- 	}
-- }
-- 
--diff --git a/samples/api/hpp_texture_loading/hpp_texture_loading.cpp b/samples/api/hpp_texture_loading/hpp_texture_loading.cpp
--index 11a1f24c1..cbdd22773 100644
----- a/samples/api/hpp_texture_loading/hpp_texture_loading.cpp
--+++ b/samples/api/hpp_texture_loading/hpp_texture_loading.cpp
--@@ -170,7 +170,7 @@ void HPPTextureLoading::load_texture()
-- 		memory_allocate_info  = {memory_requirements.size,
-- 		                         get_device()->get_gpu().get_memory_type(memory_requirements.memoryTypeBits, vk::MemoryPropertyFlagBits::eDeviceLocal)};
-- 		texture.device_memory = get_device()->get_handle().allocateMemory(memory_allocate_info);
---		VK_CHECK(vkBindImageMemory(get_device()->get_handle(), texture.image, texture.device_memory, 0));
--+		get_device()->get_handle().bindImageMemory(texture.image, texture.device_memory, 0);
-- 
-- 		vk::CommandBuffer copy_command = get_device()->create_command_buffer(vk::CommandBufferLevel::ePrimary, true);
-- 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 66f1ef5e9d..0bf1aa29cd 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -7,13 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
+ SUMMARY = "Firmware files for use with Linux kernel"
+ HOMEPAGE = "https://www.kernel.org/"
+ DESCRIPTION = "Linux firmware is a package distributed alongside the Linux kernel \
+@@ -147,7 +754,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=${WHENCE_CHKSUM} \
++                    file://WHENCE;md5=ceb5248746d24d165b603e71b288cf75 \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+@@ -237,7 +844,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
- SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git;branch=main;protocol=https;lfs=0 \
-            file://0001-vulkan-samples-Fix-reproducibility-issue.patch \
--           file://0001-Do-not-use-LFS64-functions-on-linux-musl.patch;patchdir=third_party/spdlog \
--           file://0001-Deprecate-u8string_view.patch;patchdir=third_party/spdlog \
--           file://32bit.patch \
-+           file://0002-Committing-changes-from-do_patch.patch \
-            "
+-SRC_URI[sha256sum] = "88d46c543847ee3b03404d4941d91c92974690ee1f6fdcbee9cef3e5f97db688"
++SRC_URI[sha256sum] = "c98d200fc4a3120de1a594713ce34e135819dff23e883a4ed387863ba25679c7"
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "2307c3eb5608cb1205fa3514b3a31dbfb857d00c"
-+SRCREV = "8a9376c6afd45eab6b95b65e5d5d7bad7699b5cb"
+ inherit allarch
  
- UPSTREAM_CHECK_GITTAGREGEX = "These are not the releases you're looking for"
- S = "${WORKDIR}/git"
 -- 
 2.39.2
 
 
---===============2898767933272690835==
+--===============7897568117522403864==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Loading cache...done.
-Loaded 1842 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (910 cached, 1 parsed). 1842 targets, 38 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+packages/all-poky-linux/linux-firmware: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware: SRC_URI changed from "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20230804.tar.xz" to "https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20231030.tar.xz"
+packages/all-poky-linux/linux-firmware: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-adsp-sst: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-amdgpu: PKGSIZE changed from 80314150 to 80232454 (-0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amlogic-vdec: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-amphion-vpu-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amphion-vpu-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-amphion-vpu: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-amphion-vpu: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar3k: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar5523: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar5523: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ar9170: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ar9170: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: FILELIST: removed "/usr/lib/firmware/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: RDEPENDS: added "linux-firmware-qcom-sdm845-modem"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PKGSIZE changed from 16465860 to 12713844 (-23%)
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath11k: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath3k: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath3k: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath6k: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath6k: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath9k: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ath9k: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-atheros-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-atheros-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm-0bb4-0306: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm-0bb4-0306: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43143: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43143: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43236b: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43236b: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b0: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b4: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b4: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b5: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43241b5: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43242a: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43242a: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329-fullmac: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329-fullmac: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4329: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4330: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4334: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4334: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43340: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43340: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4335: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4335: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43362: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43362: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4339: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4339: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: FILELIST: added "/usr/lib/firmware/brcm/brcmfmac43430-sdio.sinovoip,bananapi-m64.txt"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: PKGSIZE changed from 428426 to 428455 (+0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430a0: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430a0: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43455: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43455: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350c2: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4350c2: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4354: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4354: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356-pcie: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356-pcie: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4356: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43569: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43569: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43570: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43570: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4358: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43602: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43602: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366b: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366b: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366c: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4366c: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4371: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4371: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4373: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm4373: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx-hdr: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx-hdr: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43xx: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-bnx2-mips: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-bnx2-mips: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-broadcom-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-broadcom-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-carl9170: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-carl9170: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: FILELIST: added "/usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c49.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c46.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c47.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c48.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c49.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c46.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c46.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c47.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c48.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c70.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c71.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c72.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c47.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c48.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c70.bin /usr/lib/
+ firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c71.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c72.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c46.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c49.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c70.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c48.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c47.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c71.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c72.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c49.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c70.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c71.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c72.wmfw /usr/lib/firmware/cirrus/cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw"
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: PKGSIZE changed from 1078832 to 1141376 (+6%)
+packages/all-poky-linux/linux-firmware/linux-firmware-cnm-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cnm-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-cnm: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cnm: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-cw1200-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cw1200-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-cw1200: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cw1200: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-cypress-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-cypress-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-dbg: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-dbg: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-dev: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-dev: RRECOMMENDS: removed "linux-firmware-ath10k-dev", added "linux-firmware-qcom-sc8280xp-lenovo-x13s-audio-dev linux-firmware-qcom-sdm845-modem-dev"
+packages/all-poky-linux/linux-firmware/linux-firmware-dev: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-doc: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-doc: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-gplv2-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-gplv2-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-i915-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: FILELIST: added "/usr/lib/firmware/i915/mtl_gsc_1.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: PKGSIZE changed from 26630347 to 27969251 (+5%)
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-11-5: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-11-5: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-12-16: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-12-16: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-17: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-20: PKGSIZE changed from 2402083 to 2399511 (-0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-7: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-7: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-8: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-hw-37-8: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: FILELIST: added "/usr/lib/firmware/intel/ibt-0291-0291.sfi /usr/lib/firmware/intel/ibt-0180-0041.sfi /usr/lib/firmware/intel/ibt-0180-4150.sfi /usr/lib/firmware/intel/ibt-0180-1050.sfi /usr/lib/firmware/intel/ibt-0180-0041.ddc /usr/lib/firmware/intel/ibt-0180-1050.ddc /usr/lib/firmware/intel/ibt-0180-4150.ddc /usr/lib/firmware/intel/ibt-0291-0291.ddc"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGSIZE changed from 17514185 to 20888805 (+19%)
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-enhanced-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-enhanced-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-enhanced: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-enhanced: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ice: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ice: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx6q: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx6q: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx7d: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-imx7d: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-imx-sdma-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-135-6: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-135-6: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-10: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-10: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-12: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-12: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-13: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-13: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-16: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-16: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-17: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-17: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-7: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-7: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-8: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-8: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-9: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-3160-9: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000-4: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000-4: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-5: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-5: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-6: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2a-6: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-5: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-5: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-6: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6000g2b-6: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-4: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-4: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-5: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-6050-5: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7260: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7260: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265d: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-7265d: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8000c: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8000c: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8265: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-8265: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9000: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-9000: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: FILELIST: added "/usr/lib/firmware/iwlwifi-so-a0-gf4-a0-84.ucode /usr/lib/firmware/iwlwifi-ma-b0-gf4-a0-83.ucode /usr/lib/firmware/iwlwifi-ma-b0-hr-b0-83.ucode /usr/lib/firmware/iwlwifi-ty-a0-gf-a0-84.ucode /usr/lib/firmware/iwlwifi-so-a0-gf-a0-84.ucode /usr/lib/firmware/iwlwifi-ma-b0-gf-a0-83.ucode /usr/lib/firmware/iwlwifi-so-a0-hr-b0-83.ucode /usr/lib/firmware/iwlwifi-so-a0-hr-b0-84.ucode /usr/lib/firmware/iwlwifi-gl-c0-fm-c0-83.ucode"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PKGSIZE changed from 131123076 to 146195704 (+11%)
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-license: FILELIST: added "/usr/lib/firmware/LICENSE.amlogic /usr/lib/firmware/LICENSE.amd_pmf"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: PKGSIZE changed from 86624 to 90314 (+4%)
+packages/all-poky-linux/linux-firmware/linux-firmware-liquidio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-liquidio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-locale: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-locale: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-lontium-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-lontium-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-lt9611uxc: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-lt9611uxc: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-marvell-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-marvell-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mediatek: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-microchip-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-microchip-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-microchip: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-microchip: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-moxa-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-moxa-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-moxa: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-moxa: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7601u: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7650-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7650-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7650: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt7650: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt76x2-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt76x2-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-mt76x2: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-mt76x2: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-netronome: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-gpu: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra-k1: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra-k1: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nvidia-tegra: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-mc-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-mc-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-mc: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp-mc: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8987-sdio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8987-sdio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-common: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-common: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-pcie: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-pcie: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-sdio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp8997-sdio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-common: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-common: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-pcie: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-pcie: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-sdio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxp9098-sdio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxpiw416-sdio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxpiw416-sdio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-nxpiw612-sdio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-nxpiw612-sdio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-olpc-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-olpc-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-olpc: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-olpc: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8897: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8897: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-pcie8997: PKGSIZE changed from 1727720 to 1735784 (+0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-phanfw-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-phanfw-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-phanfw: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-phanfw: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qat-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qat-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qat: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qat: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qca: PKGSIZE changed from 2168523 to 2185947 (+1%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a2xx: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a2xx: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a3xx: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a3xx: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a4xx: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a4xx: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a530: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a530: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a630: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a630: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a650: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a650: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a660: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-adreno-a660: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8016-modem: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8016-modem: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8016-wifi: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8016-wifi: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-adreno: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-adreno: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-audio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-audio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-modem: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-apq8096-modem: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-adreno: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-adreno: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-audio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-audio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compat: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compat: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compute: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-compute: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-sensors: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sc8280xp-lenovo-x13s-sensors: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-adreno: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-adreno: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-audio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-audio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-compute: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-compute: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: RDEPENDS: removed "linux-firmware-ath10k"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PKGSIZE changed from 5916348 to 9641353 (+63%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-thundercomm-db845c-sensors: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-thundercomm-db845c-sensors: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-adreno: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-adreno: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-audio: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-audio: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sm8250-compute: PKGSIZE changed from 5822631 to 5826727 (+0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-1.8: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-1.8: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-4.2: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-4.2: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.2: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.2: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.4: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-venus-5.4: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-1.0: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-1.0: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-1.0: PKGSIZE changed from 1973549 to 1974893 (+0%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-2.0: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-vpu-2.0: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-yamato-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-yamato-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qla2xxx-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qla2xxx-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-qla2xxx: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-qla2xxx: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-radeon: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ralink: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9113: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9113: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9116: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rs9116: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8168: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8168: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8188: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8188: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192ce: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192ce: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192cu: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192cu: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192su: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8192su: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8723: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8723: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8761: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8761: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8821: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8821: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8822: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-rtl8822: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8686: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8686: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8688: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8688: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8787: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8787: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8797: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8797: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8801: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8801: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8887: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8887: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8897: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8897: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8997: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-sd8997: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-src: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-src: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-staticdev: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-staticdev: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-connectivity-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-connectivity-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-keystone-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-keystone-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-keystone: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-ti-keystone: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-usb8997: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-usb8997: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-vt6656: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-whence-license: PKGSIZE changed from 236962 to 242410 (+2%)
+packages/all-poky-linux/linux-firmware/linux-firmware-wl1251-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl1251-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl1251: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl1251: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl12xx: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl12xx: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-wl18xx: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wl18xx: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-wlcommon: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-wlcommon: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc4000-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc4000-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc4000: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc4000: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000c-license: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000c-license: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000c: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware-xc5000c: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware: PKGV changed from 20230804 [default] to 20231030 [default]
+packages/all-poky-linux/linux-firmware/linux-firmware: FILELIST: removed "/usr/lib/firmware/cxgb4/t6fw-1.27.3.0.bin /usr/lib/firmware/cxgb4/t5fw-1.27.3.0.bin /usr/lib/firmware/cxgb4/t4fw-1.27.3.0.bin", added "/usr/lib/firmware/qcom/qrb4210/adspr.jsn /usr/lib/firmware/qcom/qrb4210/cdspr.jsn /usr/lib/firmware/qcom/sm8250/Thundercomm/RB5/slpir.jsn /usr/lib/firmware/qcom/qrb4210/modem.mbn /usr/lib/firmware/qcom/venus-6.0/venus.mbn /usr/lib/firmware/qcom/qcm2290/modemuw.jsn /usr/lib/firmware/cxgb4/t5fw-1.27.4.0.bin /usr/lib/firmware/cxgb4/t4fw-1.27.4.0.bin /usr/lib/firmware/cxgb4/t6fw-1.27.4.0.bin /usr/lib/firmware/qcom/qrb4210/adsp.mbn /usr/lib/firmware/qcom/qrb4210/cdsp.mbn /usr/lib/firmware/iwlwifi-ma-b0-gf4-a0.pnvm /usr/lib/firmware/qcom/qcm2290/adspr.jsn /usr/lib/firmware/qcom/qrb4210/a610_zap.mbn /usr/lib/firmware/qcom/qcm2290/wlanmdsp.mbn /usr/lib/firmware/rtl_bt/rtl8852cu_fw_v2.bin /usr/lib/firmware/qcom/qcm2290/adsp.mbn /usr/lib/firmware/qcom/qcm2290/a702_zap.mbn /usr/lib/firmwar
+ e/qcom/qrb4210/wlanmdsp.mbn /usr/lib/firmware/qcom/qcm2290/adspua.jsn /usr/lib/firmware/qcom/qrb4210/adspua.jsn /usr/lib/firmware/qcom/sm8250/Thundercomm/RB5/slpi.mbn /usr/lib/firmware/qcom/qrb4210/adsps.jsn /usr/lib/firmware/iwlwifi-gl-c0-fm-c0.pnvm /usr/lib/firmware/qcom/qcm2290/modem.mbn /usr/lib/firmware/qcom/qrb4210/modemr.jsn /usr/lib/firmware/iwlwifi-ma-b0-gf-a0.pnvm /usr/lib/firmware/amdtee/amd_pmf_v3.bin /usr/lib/firmware/qcom/sc8280xp/SC8280XP-LENOVO-X13S-tplg.bin /usr/lib/firmware/qcom/qcm2290/modemr.jsn /usr/lib/firmware/qcom/sm8250/Thundercomm/RB5/slpius.jsn /usr/lib/firmware/amd/amd_sev_fam19h_model1xh.sbin /usr/lib/firmware/amlogic/bluetooth/w2_bt_fw_uart.bin /usr/lib/firmware/qcom/sdm845/notice.txt_wlanmdsp /usr/lib/firmware/qcom/qcm2290/adsps.jsn /usr/lib/firmware/amdtee/773bd96f-b83f-4d52-b12dc529b13d8543.bin /usr/lib/firmware/qcom/qrb4210/modemuw.jsn /usr/lib/firmware/qcom/a702_sqe.fw"
+packages/all-poky-linux/linux-firmware/linux-firmware: RDEPENDS: added "linux-firmware-qcom-sc8280xp-lenovo-x13s-audio"
+packages/all-poky-linux/linux-firmware/linux-firmware: PV changed from "20230804" to "20231030"
+packages/all-poky-linux/linux-firmware/linux-firmware: PKGSIZE changed from 226276715 to 285705814 (+26%)
 
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-59734f71c2a6c7bc4624d2e2aeefa19c743e6444"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:59734f71c2a6c7bc4624d2e2aeefa19c743e6444"
-workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
+--===============7897568117522403864==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Initialising tasks...done.
-Sstate summary: Wanted 30 Local 20 Mirrors 0 Missed 10 Current 255 (66% match, 96% complete)
-Removing 1 stale sstate objects for arch qemux86_64...done.
-Removing 9 stale sstate objects for arch core2-64...done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 766 of 855 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_recipe_qa)
-NOTE: recipe vulkan-samples-git-r0: task do_recipe_qa: Started
-NOTE: recipe vulkan-samples-git-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_recipe_qa unihash changed to cf1856416cf0f1dd5dbe6a58c004e3c16af88a68393f6715d6dc6ded1ba23d5b
-NOTE: Setscene tasks completed
-NOTE: Running task 837 of 855 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_fetch)
-NOTE: recipe vulkan-samples-git-r0: task do_fetch: Started
-NOTE: recipe vulkan-samples-git-r0: task do_fetch: Succeeded
-NOTE: Running task 838 of 855 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_unpack)
-NOTE: Running task 839 of 855 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vulkan-samples-git-r0: task do_unpack: Started
-NOTE: recipe vulkan-samples-git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vulkan-samples-git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vulkan-samples-git-r0: task do_unpack: Succeeded
-NOTE: Running task 840 of 855 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_patch)
-NOTE: Running task 841 of 855 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_collect_spdx_deps)
-NOTE: recipe vulkan-samples-git-r0: task do_patch: Started
-NOTE: recipe vulkan-samples-git-r0: task do_collect_spdx_deps: Started
-NOTE: recipe vulkan-samples-git-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe vulkan-samples-git-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 841 tasks of which 835 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: PKGSIZE changed from 16465860 to 12713844 (-23%)
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: FILELIST: removed "/usr/lib/firmware/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp"
+packages/all-poky-linux/linux-firmware/linux-firmware-ath10k: RDEPENDS: added "linux-firmware-qcom-sdm845-modem"
+packages/all-poky-linux/linux-firmware/linux-firmware-bcm43430: FILELIST: added "/usr/lib/firmware/brcm/brcmfmac43430-sdio.sinovoip,bananapi-m64.txt"
+packages/all-poky-linux/linux-firmware/linux-firmware-cirrus: FILELIST: added "/usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c49.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c46.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c47.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c48.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c49.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c70.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c71.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c72.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c46.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c47.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c48.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c48.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c49.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c71.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c72.wmfw /usr/li
+ b/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c70.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c46.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c71.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c72.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c70.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c71.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c72.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c46.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c47.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c48.bin /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c49.wmfw /usr/lib/firmware/cirrus/cs35l41/v6.83.0/halo_cspl_RAM_revB2_29.85.0.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-cali-103c8c70.wmfw /usr/lib/firmware/cirrus/cs35l41-dsp1-spk-prot-103c8c47.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-dev: RRECOMMENDS: removed "linux-firmware-ath10k-dev", added "linux-firmware-qcom-sdm845-modem-dev linux-firmware-qcom-sc8280xp-lenovo-x13s-audio-dev"
+packages/all-poky-linux/linux-firmware/linux-firmware-i915: FILELIST: added "/usr/lib/firmware/i915/mtl_gsc_1.bin"
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: PKGSIZE changed from 17514185 to 20888805 (+19%)
+packages/all-poky-linux/linux-firmware/linux-firmware-ibt-misc: FILELIST: added "/usr/lib/firmware/intel/ibt-0180-0041.sfi /usr/lib/firmware/intel/ibt-0180-1050.sfi /usr/lib/firmware/intel/ibt-0180-4150.sfi /usr/lib/firmware/intel/ibt-0291-0291.sfi /usr/lib/firmware/intel/ibt-0180-1050.ddc /usr/lib/firmware/intel/ibt-0291-0291.ddc /usr/lib/firmware/intel/ibt-0180-0041.ddc /usr/lib/firmware/intel/ibt-0180-4150.ddc"
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: PKGSIZE changed from 131123076 to 146195704 (+11%)
+packages/all-poky-linux/linux-firmware/linux-firmware-iwlwifi-misc: FILELIST: added "/usr/lib/firmware/iwlwifi-so-a0-hr-b0-83.ucode /usr/lib/firmware/iwlwifi-ma-b0-gf-a0-83.ucode /usr/lib/firmware/iwlwifi-so-a0-gf-a0-84.ucode /usr/lib/firmware/iwlwifi-ma-b0-hr-b0-83.ucode /usr/lib/firmware/iwlwifi-ty-a0-gf-a0-84.ucode /usr/lib/firmware/iwlwifi-ma-b0-gf4-a0-83.ucode /usr/lib/firmware/iwlwifi-gl-c0-fm-c0-83.ucode /usr/lib/firmware/iwlwifi-so-a0-hr-b0-84.ucode /usr/lib/firmware/iwlwifi-so-a0-gf4-a0-84.ucode"
+packages/all-poky-linux/linux-firmware/linux-firmware-license: FILELIST: added "/usr/lib/firmware/LICENSE.amlogic /usr/lib/firmware/LICENSE.amd_pmf"
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: PKGSIZE changed from 5916348 to 9641353 (+63%)
+packages/all-poky-linux/linux-firmware/linux-firmware-qcom-sdm845-modem: RDEPENDS: removed "linux-firmware-ath10k"
+packages/all-poky-linux/linux-firmware/linux-firmware: PKGSIZE changed from 226276715 to 285705814 (+26%)
+packages/all-poky-linux/linux-firmware/linux-firmware: FILELIST: removed "/usr/lib/firmware/cxgb4/t6fw-1.27.3.0.bin /usr/lib/firmware/cxgb4/t5fw-1.27.3.0.bin /usr/lib/firmware/cxgb4/t4fw-1.27.3.0.bin", added "/usr/lib/firmware/qcom/qrb4210/adsps.jsn /usr/lib/firmware/cxgb4/t6fw-1.27.4.0.bin /usr/lib/firmware/cxgb4/t5fw-1.27.4.0.bin /usr/lib/firmware/cxgb4/t4fw-1.27.4.0.bin /usr/lib/firmware/qcom/qrb4210/modemr.jsn /usr/lib/firmware/qcom/sc8280xp/SC8280XP-LENOVO-X13S-tplg.bin /usr/lib/firmware/qcom/qcm2290/wlanmdsp.mbn /usr/lib/firmware/qcom/qcm2290/a702_zap.mbn /usr/lib/firmware/amdtee/amd_pmf_v3.bin /usr/lib/firmware/amdtee/773bd96f-b83f-4d52-b12dc529b13d8543.bin /usr/lib/firmware/qcom/sdm845/notice.txt_wlanmdsp /usr/lib/firmware/qcom/qrb4210/wlanmdsp.mbn /usr/lib/firmware/qcom/sm8250/Thundercomm/RB5/slpi.mbn /usr/lib/firmware/qcom/qcm2290/modemuw.jsn /usr/lib/firmware/qcom/qrb4210/modem.mbn /usr/lib/firmware/qcom/sm8250/Thundercomm/RB5/slpius.jsn /usr/lib/firmware/qcom/sm8250/Thund
+ ercomm/RB5/slpir.jsn /usr/lib/firmware/qcom/qcm2290/modemr.jsn /usr/lib/firmware/amlogic/bluetooth/w2_bt_fw_uart.bin /usr/lib/firmware/qcom/qcm2290/modem.mbn /usr/lib/firmware/qcom/venus-6.0/venus.mbn /usr/lib/firmware/qcom/qrb4210/adspr.jsn /usr/lib/firmware/qcom/qrb4210/cdspr.jsn /usr/lib/firmware/qcom/qrb4210/a610_zap.mbn /usr/lib/firmware/qcom/qrb4210/adspua.jsn /usr/lib/firmware/qcom/qrb4210/cdsp.mbn /usr/lib/firmware/qcom/qrb4210/adsp.mbn /usr/lib/firmware/iwlwifi-gl-c0-fm-c0.pnvm /usr/lib/firmware/qcom/qcm2290/adspua.jsn /usr/lib/firmware/iwlwifi-ma-b0-gf-a0.pnvm /usr/lib/firmware/qcom/qrb4210/modemuw.jsn /usr/lib/firmware/qcom/qcm2290/adspr.jsn /usr/lib/firmware/iwlwifi-ma-b0-gf4-a0.pnvm /usr/lib/firmware/amd/amd_sev_fam19h_model1xh.sbin /usr/lib/firmware/rtl_bt/rtl8852cu_fw_v2.bin /usr/lib/firmware/qcom/qcm2290/adsps.jsn /usr/lib/firmware/qcom/a702_sqe.fw /usr/lib/firmware/qcom/qcm2290/adsp.mbn"
+packages/all-poky-linux/linux-firmware/linux-firmware: RDEPENDS: added "linux-firmware-qcom-sc8280xp-lenovo-x13s-audio"
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_patch
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: vulkan-samples-git-r0 do_patch: Applying patch '0002-Committing-changes-from-do_patch.patch' on target directory '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/git'
-CmdError('quilt --quiltrc /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0002-Committing-changes-from-do_patch.patch
-File third_party/spdlog is not a regular file -- refusing to patch
-1 out of 1 hunk ignored -- rejects in file 
-Patch 0002-Committing-changes-from-do_patch.patch does not apply (enforce with -f)
-
-stderr: ')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/vulkan-samples/git/temp/log.do_patch.2347585
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-samples_git.bb:do_patch) failed with exit code '1'
-
---===============2898767933272690835==
+--===============7897568117522403864==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-samples-upgrade-to-latest-revision.patch"
+ filename="0001-linux-firmware-upgrade-20230804-20231030.patch"
 
-RnJvbSA0YzA0Y2QwNTE4OWIzNzVmOWJlNzczMTQwZDFmNmM3ZmJiMWM0NTY2IE1vbiBTZXAgMTcg
+RnJvbSBiMWYwY2FkZjk2MGEzZmExYTg4OTYwYWI1ZDBhMmQ4MTE0MmI2NmFjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMzoxNToxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
-bGthbi1zYW1wbGVzOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiAuLi4vMDAwMS1E
-ZXByZWNhdGUtdThzdHJpbmdfdmlldy5wYXRjaCAgICAgICAgfCAgNTkgLS0tLS0tLS0tLQogLi4u
-b3QtdXNlLUxGUzY0LWZ1bmN0aW9ucy1vbi1saW51eC1tdXNsLnBhdGNoIHwgIDM3IC0tLS0tLS0K
-IC4uLjAwMi1Db21taXR0aW5nLWNoYW5nZXMtZnJvbS1kb19wYXRjaC5wYXRjaCB8ICAxNiArKysK
-IC4uLi92dWxrYW4vdnVsa2FuLXNhbXBsZXMvMzJiaXQucGF0Y2ggICAgICAgICB8IDEwMSAtLS0t
-LS0tLS0tLS0tLS0tLS0KIC4uLi92dWxrYW4vdnVsa2FuLXNhbXBsZXNfZ2l0LmJiICAgICAgICAg
-ICAgICB8ICAgNiArLQogNSBmaWxlcyBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCAyMDEgZGVs
-ZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGth
-bi92dWxrYW4tc2FtcGxlcy8wMDAxLURlcHJlY2F0ZS11OHN0cmluZ192aWV3LnBhdGNoCiBkZWxl
-dGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tc2FtcGxl
-cy8wMDAxLURvLW5vdC11c2UtTEZTNjQtZnVuY3Rpb25zLW9uLWxpbnV4LW11c2wucGF0Y2gKIGNy
-ZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1w
-bGVzLzAwMDItQ29tbWl0dGluZy1jaGFuZ2VzLWZyb20tZG9fcGF0Y2gucGF0Y2gKIGRlbGV0ZSBt
-b2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1wbGVzLzMy
-Yml0LnBhdGNoCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxr
-YW4tc2FtcGxlcy8wMDAxLURlcHJlY2F0ZS11OHN0cmluZ192aWV3LnBhdGNoIGIvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tc2FtcGxlcy8wMDAxLURlcHJlY2F0ZS11OHN0cmlu
-Z192aWV3LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBjMjMwNGJkZDQ4Li4w
-MDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLXNhbXBs
-ZXMvMDAwMS1EZXByZWNhdGUtdThzdHJpbmdfdmlldy5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0x
-LDU5ICswLDAgQEAKLUZyb20gOTM5ODdiMWNlN2Q2ZjkxMzg3MjAyNDk1YWFjNjEwMjYwNzA1OTdk
-ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
-bC5jb20+Ci1EYXRlOiBTdW4sIDE1IEphbiAyMDIzIDIxOjM3OjUyIC0wODAwCi1TdWJqZWN0OiBb
-UEFUQ0hdIERlcHJlY2F0ZSB1OHN0cmluZ192aWV3Ci0KLVVzZSBiYXNpY19zdHJpbmdfdmlldyBp
-bnN0ZWFkCi0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0aHViLmNvbS9m
-bXRsaWIvZm10L2NvbW1pdC9kZWE3ZmRlOGI3ZDY0OTkyM2RkNDFiMDc2NmJkZjA3NjAzM2M2MmEy
-XQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQotIGlu
-Y2x1ZGUvc3BkbG9nL2ZtdC9idW5kbGVkL2NvcmUuaCAgIHwgIDMgKystCi0gaW5jbHVkZS9zcGRs
-b2cvZm10L2J1bmRsZWQvZm9ybWF0LmggfCAxNSArKy0tLS0tLS0tLS0tLS0KLSAyIGZpbGVzIGNo
-YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9p
-bmNsdWRlL3NwZGxvZy9mbXQvYnVuZGxlZC9jb3JlLmggYi9pbmNsdWRlL3NwZGxvZy9mbXQvYnVu
-ZGxlZC9jb3JlLmgKLWluZGV4IDUwYjc5MzUxLi5lOGIwMjllZiAxMDA2NDQKLS0tLSBhL2luY2x1
-ZGUvc3BkbG9nL2ZtdC9idW5kbGVkL2NvcmUuaAotKysrIGIvaW5jbHVkZS9zcGRsb2cvZm10L2J1
-bmRsZWQvY29yZS5oCi1AQCAtMTQ4NCw3ICsxNDg0LDggQEAgRk1UX0FQSSB2b2lkIHZwcmludCh3
-c3RyaW5nX3ZpZXcgZm9ybWF0X3N0ciwgd2Zvcm1hdF9hcmdzIGFyZ3MpOwotIAotIC8qKgotICAg
-XHJzdAotLSAgUHJpbnRzIGZvcm1hdHRlZCBkYXRhIHRvIGBgc3Rkb3V0YGAuCi0rICBGb3JtYXRz
-IGBgYXJnc2BgIGFjY29yZGluZyB0byBzcGVjaWZpY2F0aW9ucyBpbiBgYGZvcm1hdF9zdHJgYCBh
-bmQgd3JpdGVzIHRoZQotKyAgb3V0cHV0IHRvIGBgc3Rkb3V0YGAuCi0gCi0gICAqKkV4YW1wbGUq
-Kjo6Ci0gCi1kaWZmIC0tZ2l0IGEvaW5jbHVkZS9zcGRsb2cvZm10L2J1bmRsZWQvZm9ybWF0Lmgg
-Yi9pbmNsdWRlL3NwZGxvZy9mbXQvYnVuZGxlZC9mb3JtYXQuaAotaW5kZXggMWJiMjRhNTIuLjM5
-NDI2MzYxIDEwMDY0NAotLS0tIGEvaW5jbHVkZS9zcGRsb2cvZm10L2J1bmRsZWQvZm9ybWF0LmgK
-LSsrKyBiL2luY2x1ZGUvc3BkbG9nL2ZtdC9idW5kbGVkL2Zvcm1hdC5oCi1AQCAtNDA3LDIxICs0
-MDcsMTAgQEAgdm9pZCBiYXNpY19idWZmZXI8VD46OmFwcGVuZChjb25zdCBVICpiZWdpbiwgY29u
-c3QgVSAqZW5kKSB7Ci0gZW51bSBjaGFyOF90OiB1bnNpZ25lZCBjaGFyIHt9OwotICNlbmRpZgot
-IAotLS8vIEEgVVRGLTggc3RyaW5nIHZpZXcuCi0tY2xhc3MgdThzdHJpbmdfdmlldyA6IHB1Ymxp
-YyBiYXNpY19zdHJpbmdfdmlldzxjaGFyOF90PiB7Ci0tIHB1YmxpYzoKLS0gIHR5cGVkZWYgY2hh
-cjhfdCBjaGFyX3R5cGU7Ci0tCi0tICB1OHN0cmluZ192aWV3KGNvbnN0IGNoYXIgKnMpOgotLSAg
-ICBiYXNpY19zdHJpbmdfdmlldzxjaGFyOF90PihyZWludGVycHJldF9jYXN0PGNvbnN0IGNoYXI4
-X3QqPihzKSkge30KLS0gIHU4c3RyaW5nX3ZpZXcoY29uc3QgY2hhciAqcywgc2l6ZV90IGNvdW50
-KSBGTVRfTk9FWENFUFQ6Ci0tICAgIGJhc2ljX3N0cmluZ192aWV3PGNoYXI4X3Q+KHJlaW50ZXJw
-cmV0X2Nhc3Q8Y29uc3QgY2hhcjhfdCo+KHMpLCBjb3VudCkge30KLS19OwotLQotICNpZiBGTVRf
-VVNFX1VTRVJfREVGSU5FRF9MSVRFUkFMUwotIGlubGluZSBuYW1lc3BhY2UgbGl0ZXJhbHMgewot
-LWlubGluZSB1OHN0cmluZ192aWV3IG9wZXJhdG9yIiIgX3UoY29uc3QgY2hhciAqcywgc3RkOjpz
-aXplX3QgbikgewotLSAgcmV0dXJuIHtzLCBufTsKLStpbmxpbmUgYmFzaWNfc3RyaW5nX3ZpZXc8
-Y2hhcjhfdD4gb3BlcmF0b3IiIiBfdShjb25zdCBjaGFyKiBzLCBzdGQ6OnNpemVfdCBuKSB7Ci0r
-ICByZXR1cm4ge3JlaW50ZXJwcmV0X2Nhc3Q8Y29uc3QgY2hhcjhfdCo+KHMpLCBufTsKLSB9Ci0g
-fQotICNlbmRpZgotLS0gCi0yLjM5LjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL3Z1bGthbi92dWxrYW4tc2FtcGxlcy8wMDAxLURvLW5vdC11c2UtTEZTNjQtZnVuY3Rpb25z
-LW9uLWxpbnV4LW11c2wucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGth
-bi1zYW1wbGVzLzAwMDEtRG8tbm90LXVzZS1MRlM2NC1mdW5jdGlvbnMtb24tbGludXgtbXVzbC5w
-YXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggZjJiZDdlNTEwYi4uMDAwMDAwMDAw
-MAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1wbGVzLzAwMDEt
-RG8tbm90LXVzZS1MRlM2NC1mdW5jdGlvbnMtb24tbGludXgtbXVzbC5wYXRjaAorKysgL2Rldi9u
-dWxsCkBAIC0xLDM3ICswLDAgQEAKLUZyb20gY2U3YTU5M2U3NGM4ZTBjMmVjZTE1YzczZTc2MTRk
-NGYxM2ExOWE1MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEtoZW0gUmFqIDxyYWou
-a2hlbUBnbWFpbC5jb20+Ci1EYXRlOiBGcmksIDMwIERlYyAyMDIyIDEzOjA0OjA4IC0wODAwCi1T
-dWJqZWN0OiBbUEFUQ0hdIERvIG5vdCB1c2UgTEZTNjQgZnVuY3Rpb25zIG9uIGxpbnV4L211c2wK
-LQotT24gbXVzbCwgb2ZmX3QgaXMgNjRiaXQgYWx3YXlzICggZXZlbiBvbiAzMmJpdCBwbGF0Zm9y
-bXMgKSwgdGhlcmVmb3JlIHVzaW5nCi1MRlM2NCBmdW5jaXRvbnMgaXMgbm90IG5lZWRlZCBvbiBz
-dWNoIHBsYXRmb3Jtcy4gTW9yZW92ZXIsIG11c2wgaGFzIHN0b3BwZWQKLXByb3ZpZGluZyBhbGlh
-c2VzIGZvciB0aGVzZSBmdW5jdGlvbnMgWzFdIHdoaWNoIG1lYW5zIGl0IHdvbnQgY29tcGlsZSBv
-bgotbmV3ZXIgbXVzbCBzeXN0ZW1zLiBUaGVyZWZvcmUgb25seSB1c2UgaXQgb24gMzJiaXQgZ2xp
-YmMvbGludXggcGxhdGZvcm1zCi1hbmQgZXhjbHVkZSBtdXNsIGxpa2UgY3lnd2luIG9yIE9TWAot
-Ci1bMV0gaHR0cHM6Ly9naXQubXVzbC1saWJjLm9yZy9jZ2l0L211c2wvY29tbWl0Lz9pZD0yNDZm
-MWM4MTE0NDhmMzdhNDRiNDFjZDhkZjhkMGVmOTczNmQ5NWY0Ci0KLVVwc3RyZWFtLVN0YXR1czog
-U3VibWl0dGVkIFtodHRwczovL2dpdGh1Yi5jb20vZ2FiaW1lL3NwZGxvZy9wdWxsLzI1ODldCi1T
-aWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gaW5jbHVk
-ZS9zcGRsb2cvZGV0YWlscy9vcy5oIHwgNCArKystCi0gMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0
-aW9ucygrKSwgMSBkZWxldGlvbigtKQotCi1kaWZmIC0tZ2l0IGEvaW5jbHVkZS9zcGRsb2cvZGV0
-YWlscy9vcy5oIGIvaW5jbHVkZS9zcGRsb2cvZGV0YWlscy9vcy5oCi1pbmRleCA4ZTg0NzZmMC4u
-YmUwYTY3YjggMTAwNjQ0Ci0tLS0gYS9pbmNsdWRlL3NwZGxvZy9kZXRhaWxzL29zLmgKLSsrKyBi
-L2luY2x1ZGUvc3BkbG9nL2RldGFpbHMvb3MuaAotQEAgLTIyNyw3ICsyMjcsOSBAQCBpbmxpbmUg
-c2l6ZV90IGZpbGVzaXplKEZJTEUgKmYpCi0gI2Vsc2UgLy8gdW5peAotICAgICBpbnQgZmQgPSBm
-aWxlbm8oZik7Ci0gLy8gNjQgYml0cyhidXQgbm90IGluIG9zeCBvciBjeWd3aW4sIHdoZXJlIGZz
-dGF0NjQgaXMgZGVwcmVjYXRlZCkKLS0jaWYgIWRlZmluZWQoX19GcmVlQlNEX18pICYmICFkZWZp
-bmVkKF9fQVBQTEVfXykgJiYgKGRlZmluZWQoX194ODZfNjRfXykgfHwgZGVmaW5lZChfX3BwYzY0
-X18pKSAmJiAhZGVmaW5lZChfX0NZR1dJTl9fKQotKyNpZiAhZGVmaW5lZChfX0ZyZWVCU0RfXykg
-JiYgIWRlZmluZWQoX19BUFBMRV9fKSAmJiBcCi0rICAgIChkZWZpbmVkKF9fbGludXhfXykgJiYg
-ZGVmaW5lZChfX0dMSUJDX18pKSAmJiBcCi0rICAgIChkZWZpbmVkKF9feDg2XzY0X18pIHx8IGRl
-ZmluZWQoX19wcGM2NF9fKSkgJiYgIWRlZmluZWQoX19DWUdXSU5fXykKLSAgICAgc3RydWN0IHN0
-YXQ2NCBzdDsKLSAgICAgaWYgKDo6ZnN0YXQ2NChmZCwgJnN0KSA9PSAwKQotICAgICB7Ci0tLSAK
-LTIuMzkuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGth
-bi1zYW1wbGVzLzAwMDItQ29tbWl0dGluZy1jaGFuZ2VzLWZyb20tZG9fcGF0Y2gucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1wbGVzLzAwMDItQ29tbWl0dGlu
-Zy1jaGFuZ2VzLWZyb20tZG9fcGF0Y2gucGF0Y2gKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXgg
-MDAwMDAwMDAwMC4uMmRkZWIwNWU1ZQotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy92dWxrYW4vdnVsa2FuLXNhbXBsZXMvMDAwMi1Db21taXR0aW5nLWNoYW5nZXMtZnJv
-bS1kb19wYXRjaC5wYXRjaApAQCAtMCwwICsxLDE2IEBACitGcm9tIDYyM2NkNTQ3MjRkMGU0N2Yx
-ZTE5ZmY1MjdjZDA4MWUxZmY0YmFiZTcgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tOiBP
-cGVuRW1iZWRkZWQgPG9lLnBhdGNoQG9lPgorRGF0ZTogV2VkLCAxIE5vdiAyMDIzIDEzOjE0OjMx
-ICswMDAwCitTdWJqZWN0OiBbUEFUQ0hdIENvbW1pdHRpbmcgY2hhbmdlcyBmcm9tIGRvX3BhdGNo
-CisKKy0tLQorIHRoaXJkX3BhcnR5L3NwZGxvZyB8IDIgKy0KKyAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKKworZGlmZiAtLWdpdCBhL3RoaXJkX3BhcnR5L3Nw
-ZGxvZyBiL3RoaXJkX3BhcnR5L3NwZGxvZworaW5kZXggN2JmOGYxNC4uYTUzZDY1MiAxNjAwMDAK
-Ky0tLSBhL3RoaXJkX3BhcnR5L3NwZGxvZworKysrIGIvdGhpcmRfcGFydHkvc3BkbG9nCitAQCAt
-MSArMSBAQAorLVN1YnByb2plY3QgY29tbWl0IDdiZjhmMTQ4Nzk1ZDI1NzFiNGFlNGFhOWM2ZDJh
-ODExMWZiYjcwNzcKKytTdWJwcm9qZWN0IGNvbW1pdCBhNTNkNjUyNzMyZmQzZmZmYmE1M2Y2NThi
-OWRhY2NlM2RlZmUwZmI0CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2Fu
-L3Z1bGthbi1zYW1wbGVzLzMyYml0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGth
-bi92dWxrYW4tc2FtcGxlcy8zMmJpdC5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5k
-ZXggNjQ0YzNiNjE2Ny4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
-a2FuL3Z1bGthbi1zYW1wbGVzLzMyYml0LnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMTAxICsw
-LDAgQEAKLUZyb20gNDk3NjFjYTYzNzk3MDE0MjIzZDhlM2ZmNmZiMmMwMjM1ODAzYzE5YyBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IGFzdWVzc2VuYmFjaCA8YXN1ZXNzZW5iYWNoQG52
-aWRpYS5jb20+Ci1EYXRlOiBXZWQsIDMgTWF5IDIwMjMgMDk6NTA6MDggKzAyMDAKLVN1YmplY3Q6
-IFtQQVRDSF0gUmVzb2x2ZSBzb21lIFZ1bGthbi1IcHAtcmVsYXRlZCBpc3N1ZXMgb24gV2luMzIu
-Ci0KLVRoaXMgcGF0Y2ggZml4ZXMgdnVsa2FuLXNhbXBsZXMgY29tcGlsYXRpb24gb24gMzItYml0
-IGhvc3RzLgotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0Ci1TaWduZWQtb2ZmLWJ5OiBSb3Nz
-IEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KLQotLS0tCi0gZnJhbWV3b3JrL2NvbW1vbi9o
-cHBfdmtfY29tbW9uLmggICAgICAgICAgICAgICAgICAgICAgICB8IDQgKystLQotIGZyYW1ld29y
-ay9jb3JlL2hwcF9idWZmZXIuY3BwICAgICAgICAgICAgICAgICAgICAgICAgICAgfCA0ICsrLS0K
-LSBmcmFtZXdvcmsvY29yZS9ocHBfYnVmZmVyLmggICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwgMiArLQotIGZyYW1ld29yay9jb3JlL2hwcF9pbWFnZS5jcHAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgfCAyICstCi0gc2FtcGxlcy9hcGkvaHBwX3RleHR1cmVfbG9hZGluZy9ocHBfdGV4
-dHVyZV9sb2FkaW5nLmNwcCB8IDIgKy0KLSA1IGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygr
-KSwgNyBkZWxldGlvbnMoLSkKLQotZGlmZiAtLWdpdCBhL2ZyYW1ld29yay9jb21tb24vaHBwX3Zr
-X2NvbW1vbi5oIGIvZnJhbWV3b3JrL2NvbW1vbi9ocHBfdmtfY29tbW9uLmgKLWluZGV4IDM5ZWQz
-ZGNkZS4uMGNiYmU0NzllIDEwMDY0NAotLS0tIGEvZnJhbWV3b3JrL2NvbW1vbi9ocHBfdmtfY29t
-bW9uLmgKLSsrKyBiL2ZyYW1ld29yay9jb21tb24vaHBwX3ZrX2NvbW1vbi5oCi1AQCAtOTIsNyAr
-OTIsNyBAQCBpbmxpbmUgYm9vbCBpc19keW5hbWljX2J1ZmZlcl9kZXNjcmlwdG9yX3R5cGUodms6
-OkRlc2NyaXB0b3JUeXBlIGRlc2NyaXB0b3JfdHlwZQotIAotIGlubGluZSB2azo6U2hhZGVyTW9k
-dWxlIGxvYWRfc2hhZGVyKGNvbnN0IHN0ZDo6c3RyaW5nICZmaWxlbmFtZSwgdms6OkRldmljZSBk
-ZXZpY2UsIHZrOjpTaGFkZXJTdGFnZUZsYWdCaXRzIHN0YWdlKQotIHsKLS0JcmV0dXJuIHZrYjo6
-bG9hZF9zaGFkZXIoZmlsZW5hbWUsIGRldmljZSwgc3RhdGljX2Nhc3Q8VmtTaGFkZXJTdGFnZUZs
-YWdCaXRzPihzdGFnZSkpOwotKwlyZXR1cm4gc3RhdGljX2Nhc3Q8dms6OlNoYWRlck1vZHVsZT4o
-dmtiOjpsb2FkX3NoYWRlcihmaWxlbmFtZSwgZGV2aWNlLCBzdGF0aWNfY2FzdDxWa1NoYWRlclN0
-YWdlRmxhZ0JpdHM+KHN0YWdlKSkpOwotIH0KLSAKLSBpbmxpbmUgdm9pZCBzZXRfaW1hZ2VfbGF5
-b3V0KHZrOjpDb21tYW5kQnVmZmVyICAgICAgICAgY29tbWFuZF9idWZmZXIsCi1AQCAtMTA0LDcg
-KzEwNCw3IEBAIGlubGluZSB2b2lkIHNldF9pbWFnZV9sYXlvdXQodms6OkNvbW1hbmRCdWZmZXIg
-ICAgICAgICBjb21tYW5kX2J1ZmZlciwKLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZr
-OjpQaXBlbGluZVN0YWdlRmxhZ3MgICAgZHN0X21hc2sgPSB2azo6UGlwZWxpbmVTdGFnZUZsYWdC
-aXRzOjplQWxsQ29tbWFuZHMpCi0gewotIAl2a2I6OnNldF9pbWFnZV9sYXlvdXQoY29tbWFuZF9i
-dWZmZXIsCi0tCSAgICAgICAgICAgICAgICAgICAgICBpbWFnZSwKLSsJICAgICAgICAgICAgICAg
-ICAgICAgIHN0YXRpY19jYXN0PFZrSW1hZ2U+KGltYWdlKSwKLSAJICAgICAgICAgICAgICAgICAg
-ICAgIHN0YXRpY19jYXN0PFZrSW1hZ2VMYXlvdXQ+KG9sZF9sYXlvdXQpLAotIAkgICAgICAgICAg
-ICAgICAgICAgICAgc3RhdGljX2Nhc3Q8VmtJbWFnZUxheW91dD4obmV3X2xheW91dCksCi0gCSAg
-ICAgICAgICAgICAgICAgICAgICBzdGF0aWNfY2FzdDxWa0ltYWdlU3VicmVzb3VyY2VSYW5nZT4o
-c3VicmVzb3VyY2VfcmFuZ2UpLAotZGlmZiAtLWdpdCBhL2ZyYW1ld29yay9jb3JlL2hwcF9idWZm
-ZXIuY3BwIGIvZnJhbWV3b3JrL2NvcmUvaHBwX2J1ZmZlci5jcHAKLWluZGV4IDhkYTI2NWFjYi4u
-ZTY1MDliOWY0IDEwMDY0NAotLS0tIGEvZnJhbWV3b3JrL2NvcmUvaHBwX2J1ZmZlci5jcHAKLSsr
-KyBiL2ZyYW1ld29yay9jb3JlL2hwcF9idWZmZXIuY3BwCi1AQCAtODQsNyArODQsNyBAQCBIUFBC
-dWZmZXI6On5IUFBCdWZmZXIoKQotIAlpZiAoZ2V0X2hhbmRsZSgpICYmIChhbGxvY2F0aW9uICE9
-IFZLX05VTExfSEFORExFKSkKLSAJewotIAkJdW5tYXAoKTsKLS0JCXZtYURlc3Ryb3lCdWZmZXIo
-Z2V0X2RldmljZSgpLmdldF9tZW1vcnlfYWxsb2NhdG9yKCksIGdldF9oYW5kbGUoKSwgYWxsb2Nh
-dGlvbik7Ci0rCQl2bWFEZXN0cm95QnVmZmVyKGdldF9kZXZpY2UoKS5nZXRfbWVtb3J5X2FsbG9j
-YXRvcigpLCBzdGF0aWNfY2FzdDxWa0J1ZmZlcj4oZ2V0X2hhbmRsZSgpKSwgYWxsb2NhdGlvbik7
-Ci0gCX0KLSB9Ci0gCi1AQCAtOTMsNyArOTMsNyBAQCBWbWFBbGxvY2F0aW9uIEhQUEJ1ZmZlcjo6
-Z2V0X2FsbG9jYXRpb24oKSBjb25zdAotIAlyZXR1cm4gYWxsb2NhdGlvbjsKLSB9Ci0gCi0tVmtE
-ZXZpY2VNZW1vcnkgSFBQQnVmZmVyOjpnZXRfbWVtb3J5KCkgY29uc3QKLSt2azo6RGV2aWNlTWVt
-b3J5IEhQUEJ1ZmZlcjo6Z2V0X21lbW9yeSgpIGNvbnN0Ci0gewotIAlyZXR1cm4gbWVtb3J5Owot
-IH0KLWRpZmYgLS1naXQgYS9mcmFtZXdvcmsvY29yZS9ocHBfYnVmZmVyLmggYi9mcmFtZXdvcmsv
-Y29yZS9ocHBfYnVmZmVyLmgKLWluZGV4IDdhMjQzYzI2NS4uYmFkNDc0MDZkIDEwMDY0NAotLS0t
-IGEvZnJhbWV3b3JrL2NvcmUvaHBwX2J1ZmZlci5oCi0rKysgYi9mcmFtZXdvcmsvY29yZS9ocHBf
-YnVmZmVyLmgKLUBAIC01NSw3ICs1NSw3IEBAIGNsYXNzIEhQUEJ1ZmZlciA6IHB1YmxpYyB2a2I6
-OmNvcmU6OkhQUFZ1bGthblJlc291cmNlPHZrOjpCdWZmZXI+Ci0gCi0gCVZtYUFsbG9jYXRpb24g
-IGdldF9hbGxvY2F0aW9uKCkgY29uc3Q7Ci0gCWNvbnN0IHVpbnQ4X3QgKmdldF9kYXRhKCkgY29u
-c3Q7Ci0tCVZrRGV2aWNlTWVtb3J5IGdldF9tZW1vcnkoKSBjb25zdDsKLSsJdms6OkRldmljZU1l
-bW9yeSBnZXRfbWVtb3J5KCkgY29uc3Q7Ci0gCi0gCS8qKgotIAkgKiBAcmV0dXJuIFJldHVybiB0
-aGUgYnVmZmVyJ3MgZGV2aWNlIGFkZHJlc3MgKG5vdGU6IHJlcXVpcmVzIHRoYXQgdGhlIGJ1ZmZl
-ciBoYXMgYmVlbiBjcmVhdGVkIHdpdGggdGhlIFZLX0JVRkZFUl9VU0FHRV9TSEFERVJfREVWSUNF
-X0FERFJFU1NfQklUIHVzYWdlIGZsYSkKLWRpZmYgLS1naXQgYS9mcmFtZXdvcmsvY29yZS9ocHBf
-aW1hZ2UuY3BwIGIvZnJhbWV3b3JrL2NvcmUvaHBwX2ltYWdlLmNwcAotaW5kZXggMDBmYTg5YmE3
-Li41ZTZmMjczNjMgMTAwNjQ0Ci0tLS0gYS9mcmFtZXdvcmsvY29yZS9ocHBfaW1hZ2UuY3BwCi0r
-KysgYi9mcmFtZXdvcmsvY29yZS9ocHBfaW1hZ2UuY3BwCi1AQCAtMTM4LDcgKzEzOCw3IEBAIEhQ
-UEltYWdlOjp+SFBQSW1hZ2UoKQotIAlpZiAoZ2V0X2hhbmRsZSgpICYmIG1lbW9yeSkKLSAJewot
-IAkJdW5tYXAoKTsKLS0JCXZtYURlc3Ryb3lJbWFnZShnZXRfZGV2aWNlKCkuZ2V0X21lbW9yeV9h
-bGxvY2F0b3IoKSwgZ2V0X2hhbmRsZSgpLCBtZW1vcnkpOwotKwkJdm1hRGVzdHJveUltYWdlKGdl
-dF9kZXZpY2UoKS5nZXRfbWVtb3J5X2FsbG9jYXRvcigpLCBzdGF0aWNfY2FzdDxWa0ltYWdlPihn
-ZXRfaGFuZGxlKCkpLCBtZW1vcnkpOwotIAl9Ci0gfQotIAotZGlmZiAtLWdpdCBhL3NhbXBsZXMv
-YXBpL2hwcF90ZXh0dXJlX2xvYWRpbmcvaHBwX3RleHR1cmVfbG9hZGluZy5jcHAgYi9zYW1wbGVz
-L2FwaS9ocHBfdGV4dHVyZV9sb2FkaW5nL2hwcF90ZXh0dXJlX2xvYWRpbmcuY3BwCi1pbmRleCAx
-MWExZjI0YzEuLmNiZGQyMjc3MyAxMDA2NDQKLS0tLSBhL3NhbXBsZXMvYXBpL2hwcF90ZXh0dXJl
-X2xvYWRpbmcvaHBwX3RleHR1cmVfbG9hZGluZy5jcHAKLSsrKyBiL3NhbXBsZXMvYXBpL2hwcF90
-ZXh0dXJlX2xvYWRpbmcvaHBwX3RleHR1cmVfbG9hZGluZy5jcHAKLUBAIC0xNzAsNyArMTcwLDcg
-QEAgdm9pZCBIUFBUZXh0dXJlTG9hZGluZzo6bG9hZF90ZXh0dXJlKCkKLSAJCW1lbW9yeV9hbGxv
-Y2F0ZV9pbmZvICA9IHttZW1vcnlfcmVxdWlyZW1lbnRzLnNpemUsCi0gCQkgICAgICAgICAgICAg
-ICAgICAgICAgICAgZ2V0X2RldmljZSgpLT5nZXRfZ3B1KCkuZ2V0X21lbW9yeV90eXBlKG1lbW9y
-eV9yZXF1aXJlbWVudHMubWVtb3J5VHlwZUJpdHMsIHZrOjpNZW1vcnlQcm9wZXJ0eUZsYWdCaXRz
-OjplRGV2aWNlTG9jYWwpfTsKLSAJCXRleHR1cmUuZGV2aWNlX21lbW9yeSA9IGdldF9kZXZpY2Uo
-KS0+Z2V0X2hhbmRsZSgpLmFsbG9jYXRlTWVtb3J5KG1lbW9yeV9hbGxvY2F0ZV9pbmZvKTsKLS0J
-CVZLX0NIRUNLKHZrQmluZEltYWdlTWVtb3J5KGdldF9kZXZpY2UoKS0+Z2V0X2hhbmRsZSgpLCB0
-ZXh0dXJlLmltYWdlLCB0ZXh0dXJlLmRldmljZV9tZW1vcnksIDApKTsKLSsJCWdldF9kZXZpY2Uo
-KS0+Z2V0X2hhbmRsZSgpLmJpbmRJbWFnZU1lbW9yeSh0ZXh0dXJlLmltYWdlLCB0ZXh0dXJlLmRl
-dmljZV9tZW1vcnksIDApOwotIAotIAkJdms6OkNvbW1hbmRCdWZmZXIgY29weV9jb21tYW5kID0g
-Z2V0X2RldmljZSgpLT5jcmVhdGVfY29tbWFuZF9idWZmZXIodms6OkNvbW1hbmRCdWZmZXJMZXZl
-bDo6ZVByaW1hcnksIHRydWUpOwotIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3Z1bGthbi92dWxrYW4tc2FtcGxlc19naXQuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
-a2FuL3Z1bGthbi1zYW1wbGVzX2dpdC5iYgppbmRleCA2NmYxZWY1ZTlkLi4wYmYxYWEyOWNkIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1wbGVzX2dp
-dC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1zYW1wbGVzX2dp
-dC5iYgpAQCAtNywxMyArNywxMSBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
-O21kNT00OGFhMzVjZWZiNzY4NDM2MjIzYTZlN2YxOGRjMmEyYSIKIAogU1JDX1VSSSA9ICJnaXRz
-bTovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1TYW1wbGVzLmdpdDticmFuY2g9bWFp
-bjtwcm90b2NvbD1odHRwcztsZnM9MCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXZ1bGthbi1z
-YW1wbGVzLUZpeC1yZXByb2R1Y2liaWxpdHktaXNzdWUucGF0Y2ggXAotICAgICAgICAgICBmaWxl
-Oi8vMDAwMS1Eby1ub3QtdXNlLUxGUzY0LWZ1bmN0aW9ucy1vbi1saW51eC1tdXNsLnBhdGNoO3Bh
-dGNoZGlyPXRoaXJkX3BhcnR5L3NwZGxvZyBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLURlcHJl
-Y2F0ZS11OHN0cmluZ192aWV3LnBhdGNoO3BhdGNoZGlyPXRoaXJkX3BhcnR5L3NwZGxvZyBcCi0g
-ICAgICAgICAgIGZpbGU6Ly8zMmJpdC5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDAyLUNv
-bW1pdHRpbmctY2hhbmdlcy1mcm9tLWRvX3BhdGNoLnBhdGNoIFwKICAgICAgICAgICAgIgogCiBV
-UFNUUkVBTV9DSEVDS19DT01NSVRTID0gIjEiCi1TUkNSRVYgPSAiMjMwN2MzZWI1NjA4Y2IxMjA1
-ZmEzNTE0YjNhMzFkYmZiODU3ZDAwYyIKK1NSQ1JFViA9ICI4YTkzNzZjNmFmZDQ1ZWFiNmI5NWI2
-NWU1ZDVkN2JhZDc2OTliNWNiIgogCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJUaGVz
-ZSBhcmUgbm90IHRoZSByZWxlYXNlcyB5b3UncmUgbG9va2luZyBmb3IiCiBTID0gIiR7V09SS0RJ
-Un0vZ2l0IgotLSAKMi4zOS4yCgo=
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMzo0MDo1OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+bnV4LWZpcm13YXJlOiB1cGdyYWRlIDIwMjMwODA0IC0+IDIwMjMxMDMwCgotLS0KIC4uLjIwMjMw
+ODA0LmJiID0+IGxpbnV4LWZpcm13YXJlXzIwMjMxMDMwLmJifSB8IDYxMSArKysrKysrKysrKysr
+KysrKy0KIDEgZmlsZSBjaGFuZ2VkLCA2MDkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL3tsaW51eC1maXJtd2Fy
+ZV8yMDIzMDgwNC5iYiA9PiBsaW51eC1maXJtd2FyZV8yMDIzMTAzMC5iYn0gKDc1JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13YXJl
+XzIwMjMwODA0LmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1maXJtd2FyZS9saW51eC1m
+aXJtd2FyZV8yMDIzMTAzMC5iYgpzaW1pbGFyaXR5IGluZGV4IDc1JQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13YXJlXzIwMjMwODA0LmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4LWZpcm13YXJlL2xpbnV4LWZpcm13
+YXJlXzIwMjMxMDMwLmJiCmluZGV4IDBlODAwNWJmYzkuLjM1NmZiYjBmYjkgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgtZmlybXdhcmUvbGludXgtZmlybXdhcmVfMjAyMzA4
+MDQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC1maXJtd2FyZS9saW51eC1maXJt
+d2FyZV8yMDIzMTAzMC5iYgpAQCAtMSwzICsxLDYxMCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxF
+U19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgor
+IyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhl
+IG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYg
+bmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2Fn
+ZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRl
+OiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0t
+IFdIRU5DRQorIyArKysgV0hFTkNFCisjIEBAIC01MzYsMTQgKzUzNiwxNCBAQAorIyAgCisjICBG
+aWxlOiBjeGdiNC90NGZ3LTEuMTQuNC4wLmJpbgorIyAgRmlsZTogY3hnYjQvdDRmdy0xLjE1LjM3
+LjAuYmluCisjIC1GaWxlOiBjeGdiNC90NGZ3LTEuMjcuMy4wLmJpbgorIyAtTGluazogY3hnYjQv
+dDRmdy5iaW4gLT4gdDRmdy0xLjI3LjMuMC5iaW4KKyMgK0ZpbGU6IGN4Z2I0L3Q0ZnctMS4yNy40
+LjAuYmluCisjICtMaW5rOiBjeGdiNC90NGZ3LmJpbiAtPiB0NGZ3LTEuMjcuNC4wLmJpbgorIyAg
+RmlsZTogY3hnYjQvdDVmdy0xLjE0LjQuMC5iaW4KKyMgIEZpbGU6IGN4Z2I0L3Q1ZnctMS4xNS4z
+Ny4wLmJpbgorIyAtRmlsZTogY3hnYjQvdDVmdy0xLjI3LjMuMC5iaW4KKyMgLUxpbms6IGN4Z2I0
+L3Q1ZncuYmluIC0+IHQ1ZnctMS4yNy4zLjAuYmluCisjIC1GaWxlOiBjeGdiNC90NmZ3LTEuMjcu
+My4wLmJpbgorIyAtTGluazogY3hnYjQvdDZmdy5iaW4gLT4gdDZmdy0xLjI3LjMuMC5iaW4KKyMg
+K0ZpbGU6IGN4Z2I0L3Q1ZnctMS4yNy40LjAuYmluCisjICtMaW5rOiBjeGdiNC90NWZ3LmJpbiAt
+PiB0NWZ3LTEuMjcuNC4wLmJpbgorIyArRmlsZTogY3hnYjQvdDZmdy0xLjI3LjQuMC5iaW4KKyMg
+K0xpbms6IGN4Z2I0L3Q2ZncuYmluIC0+IHQ2ZnctMS4yNy40LjAuYmluCisjICBGaWxlOiBjeGdi
+NC9hcTEyMDJfZncuY2xkCisjICBGaWxlOiBjeGdiNC9iY204NDgzLmJpbgorIyAgRmlsZTogY3hn
+YjQvY29uZmlncy90NC1jb25maWctZGVmYXVsdC50eHQKKyMgQEAgLTcyNiwxMCArNzI2LDEwIEBA
+CisjICBWZXJzaW9uOiBXMTYuNjguMS5wMTc5CisjICAKKyMgIEZpbGU6IG1ydmwvcGNpZXVzYjg5
+OTdfY29tYm9fdjQuYmluCisjIC1WZXJzaW9uOiBXMTYuNjguMS5wMTk1CisjICtWZXJzaW9uOiBX
+MTYuNjguMTAucDE1OS4xCisjICAKKyMgIEZpbGU6IG1ydmwvcGNpZTg5OTdfd2xhbl92NC5iaW4K
+KyMgLVZlcnNpb246IFcxNi42OC4xLnAxOTUKKyMgK1ZlcnNpb246IFcxNi42OC4xMC5wMTU5LjEK
+KyMgIAorIyAgRmlsZTogbXJ2bC91c2J1c2I4OTk3X2NvbWJvX3Y0LmJpbgorIyAgVmVyc2lvbjog
+VzE2LjY4LjEucDE4MworIyBAQCAtMTAxNywyMiArMTAxNywyMiBAQAorIyAgVmVyc2lvbjogNzQu
+YTVlOTU4OGIuMAorIyAgCisjICBGaWxlOiBpd2x3aWZpLWNjLWEwLTc3LnVjb2RlCisjIC1WZXJz
+aW9uOiA3NC4yZGY4OTg2Zi4wCisjICtWZXJzaW9uOiA3NC5iZDA2NzQyOS4wCisjICAKKyMgIEZp
+bGU6IGl3bHdpZmktUXUtYjAtaHItYjAtNzcudWNvZGUKKyMgLVZlcnNpb246IDc0LjJkZjg5ODZm
+LjAKKyMgK1ZlcnNpb246IDc0LmJkMDY3NDI5LjAKKyMgIAorIyAgRmlsZTogaXdsd2lmaS1RdS1i
+MC1qZi1iMC03Ny51Y29kZQorIyAtVmVyc2lvbjogNzQuMmRmODk4NmYuMAorIyArVmVyc2lvbjog
+NzQuYmQwNjc0MjkuMAorIyAgCisjICBGaWxlOiBpd2x3aWZpLVF1LWMwLWhyLWIwLTc3LnVjb2Rl
+CisjIC1WZXJzaW9uOiA3NC4yZGY4OTg2Zi4wCisjICtWZXJzaW9uOiA3NC5iZDA2NzQyOS4wCisj
+ICAKKyMgIEZpbGU6IGl3bHdpZmktUXUtYzAtamYtYjAtNzcudWNvZGUKKyMgLVZlcnNpb246IDc0
+LjJkZjg5ODZmLjAKKyMgK1ZlcnNpb246IDc0LmJkMDY3NDI5LjAKKyMgIAorIyAgRmlsZTogaXds
+d2lmaS1RdVotYTAtaHItYjAtNzcudWNvZGUKKyMgLVZlcnNpb246IDc0LjJkZjg5ODZmLjAKKyMg
+K1ZlcnNpb246IDc0LmJkMDY3NDIuMAorIyAgCisjICBGaWxlOiBpd2x3aWZpLVF1Wi1hMC1qZi1i
+MC03Ny51Y29kZQorIyAgVmVyc2lvbjogNzQuMjA2YjAxODQuMAorIyBAQCAtMTA1Miw2ICsxMDUy
+LDkgQEAKKyMgIEZpbGU6IGl3bHdpZmktdHktYTAtZ2YtYTAtODMudWNvZGUKKyMgIFZlcnNpb246
+IDgwLmU4Zjg0ZTk4LjAKKyMgIAorIyArRmlsZTogaXdsd2lmaS10eS1hMC1nZi1hMC04NC51Y29k
+ZQorIyArVmVyc2lvbjogODEuOGU1YzU0NGMuMAorIyArCisjICBGaWxlOiBpd2x3aWZpLXNvLWEw
+LWdmNC1hMC03Ny51Y29kZQorIyAgVmVyc2lvbjogNzQuZjkyYjVmZWQuMAorIyAgCisjIEBAIC0x
+MDY3LDYgKzEwNzAsOSBAQAorIyAgRmlsZTogaXdsd2lmaS1zby1hMC1nZjQtYTAtODMudWNvZGUK
+KyMgIFZlcnNpb246IDgwLmU4Zjg0ZTk4LjAKKyMgIAorIyArRmlsZTogaXdsd2lmaS1zby1hMC1n
+ZjQtYTAtODQudWNvZGUKKyMgK1ZlcnNpb246IDgxLjhlNWM1NDRjLjAKKyMgKworIyAgRmlsZTog
+aXdsd2lmaS1zby1hMC1nZi1hMC03Ny51Y29kZQorIyAgVmVyc2lvbjogNzQuZjkyYjVmZWQuMAor
+IyAgCisjIEBAIC0xMDgyLDYgKzEwODgsOSBAQAorIyAgRmlsZTogaXdsd2lmaS1zby1hMC1nZi1h
+MC04My51Y29kZQorIyAgVmVyc2lvbjogODAuZThmODRlOTguMAorIyAgCisjICtGaWxlOiBpd2x3
+aWZpLXNvLWEwLWdmLWEwLTg0LnVjb2RlCisjICtWZXJzaW9uOiA4MS44ZTVjNTQ0Yy4wCisjICsK
+KyMgIEZpbGU6IGl3bHdpZmktc28tYTAtaHItYjAtNzcudWNvZGUKKyMgIFZlcnNpb246IDc0LmY5
+MmI1ZmVkLjAKKyMgIAorIyBAQCAtMTA5MSwxMCArMTEwMCwzNCBAQAorIyAgRmlsZTogaXdsd2lm
+aS1zby1hMC1oci1iMC04MS51Y29kZQorIyAgVmVyc2lvbjogNzguMzFmYzlhZTYuMAorIyAgCisj
+ICtGaWxlOiBpd2x3aWZpLXNvLWEwLWhyLWIwLTgzLnVjb2RlCisjICtWZXJzaW9uOiA4MC5lOGY4
+NGU5OC4wCisjICsKKyMgK0ZpbGU6IGl3bHdpZmktc28tYTAtaHItYjAtODQudWNvZGUKKyMgK1Zl
+cnNpb246IDgxLjhlNWM1NDRjLjAKKyMgKworIyAgRmlsZTogaXdsd2lmaS1zby1hMC1qZi1iMC03
+Ny51Y29kZQorIyAgVmVyc2lvbjogNzQuZjkyYjVmZWQuMAorIyAgCisjICBGaWxlOiBpd2x3aWZp
+LXR5LWEwLWdmLWEwLnBudm0KKyMgKworIyArRmlsZTogaXdsd2lmaS1nbC1jMC1mbS1jMC04My51
+Y29kZQorIyArVmVyc2lvbjogODAuZDI0ZTA2ZWQuMAorIyArCisjICtGaWxlOiBpd2x3aWZpLWds
+LWMwLWZtLWMwLnBudm0KKyMgKworIyArRmlsZTogaXdsd2lmaS1tYS1iMC1nZi1hMC04My51Y29k
+ZQorIyArVmVyc2lvbjogODAuZDI0ZTA2ZWQuMAorIyArCisjICtGaWxlOiBpd2x3aWZpLW1hLWIw
+LWdmLWEwLnBudm0KKyMgKworIyArRmlsZTogaXdsd2lmaS1tYS1iMC1nZjQtYTAtODMudWNvZGUK
+KyMgK1ZlcnNpb246IDgwLmQyNGUwNmVkLjAKKyMgKworIyArRmlsZTogaXdsd2lmaS1tYS1iMC1n
+ZjQtYTAucG52bQorIyArCisjICtGaWxlOiBpd2x3aWZpLW1hLWIwLWhyLWIwLTgzLnVjb2RlCisj
+ICtWZXJzaW9uOiA4MC5kMjRlMDZlZC4wCisjICAKKyMgIExpY2VuY2U6IFJlZGlzdHJpYnV0YWJs
+ZS4gU2VlIExJQ0VOQ0UuaXdsd2lmaV9maXJtd2FyZSBmb3IgZGV0YWlscworIyAgCisjIEBAIC0y
+NDQ1LDYgKzI0NzgsMTcgQEAKKyMgIAorIyAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgIAorIyArLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0KKyMgKworIyArRHJpdmVyOiBhbWRfcG1mIC0gQU1EIFBsYXRmb3JtIE1h
+bmFnZW1lbnQgRnJhbWV3b3JrIFRBCisjICsKKyMgK0ZpbGU6IGFtZHRlZS83NzNiZDk2Zi1iODNm
+LTRkNTItYjEyZGM1MjliMTNkODU0My5iaW4KKyMgK0xpbms6IGFtZHRlZS9hbWRfcG1mX3YzLmJp
+biAtPiA3NzNiZDk2Zi1iODNmLTRkNTItYjEyZGM1MjliMTNkODU0My5iaW4KKyMgKworIyArTGlj
+ZW5jZTogUmVkaXN0cmlidXRhYmxlLiBTZWUgTElDRU5TRS5hbWRfcG1mIGZvciBkZXRhaWxzLgor
+IyArCisjICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyArCisjICBEcml2ZXI6IHMyMjU1ZHJ2CisjICAK
+KyMgIEZpbGU6IGYyMjU1dXNiLmJpbgorIyBAQCAtMjcxNiw2ICsyNzYwLDcgQEAKKyMgIExpbms6
+IGJyY20vYnJjbWZtYWM0MzQzMC1zZGlvLnNpbm92b2lwLGJwaS1tMi16ZXJvLnR4dCAtPiBicmNt
+Zm1hYzQzNDMwLXNkaW8uQVA2MjEyLnR4dAorIyAgTGluazogYnJjbS9icmNtZm1hYzQzNDMwLXNk
+aW8uc2lub3ZvaXAsYnBpLW0yLXVsdHJhLnR4dCAtPiBicmNtZm1hYzQzNDMwLXNkaW8uQVA2MjEy
+LnR4dAorIyAgTGluazogYnJjbS9icmNtZm1hYzQzNDMwLXNkaW8uc2lub3ZvaXAsYnBpLW0zLnR4
+dCAtPiBicmNtZm1hYzQzNDMwLXNkaW8uQVA2MjEyLnR4dAorIyArTGluazogYnJjbS9icmNtZm1h
+YzQzNDMwLXNkaW8uc2lub3ZvaXAsYmFuYW5hcGktbTY0LnR4dCAtPiBicmNtZm1hYzQzNDMwLXNk
+aW8uQVA2MjEyLnR4dAorIyAgTGluazogYnJjbS9icmNtZm1hYzQzNDMwLXNkaW8uZnJpZW5kbHlh
+cm0sbmFub3BpLXIxLnR4dCAtPiBicmNtZm1hYzQzNDMwLXNkaW8uQVA2MjEyLnR4dAorIyAgTGlu
+azogYnJjbS9icmNtZm1hYzQzNDMwLXNkaW8uc3RhcmZpdmUsdmlzaW9uZml2ZS12MS50eHQgLT4g
+YnJjbWZtYWM0MzQzMC1zZGlvLkFQNjIxMi50eHQKKyMgIExpbms6IGJyY20vYnJjbWZtYWM0MzQz
+MC1zZGlvLmJlYWdsZSxiZWFnbGV2LXN0YXJsaWdodC1qaDcxMDAtYTEudHh0IC0+IGJyY21mbWFj
+NDM0MzAtc2Rpby5BUDYyMTIudHh0CisjIEBAIC0zMzk1LDEwICszNDQwLDEwIEBACisjICBGaWxl
+OiBhdGgxMGsvUUNBOTM3Ny9odzEuMC9ub3RpY2VfYXRoMTBrX2Zpcm13YXJlLTYudHh0CisjICBG
+aWxlOiBhdGgxMGsvV0NOMzk5MC9odzEuMC9ib2FyZC0yLmJpbgorIyAgRmlsZTogYXRoMTBrL1dD
+TjM5OTAvaHcxLjAvZmlybXdhcmUtNS5iaW4KKyMgLUZpbGU6IGF0aDEway9XQ04zOTkwL2h3MS4w
+L3dsYW5tZHNwLm1ibgorIyAtTGluazogcWNvbS9zZG04NDUvd2xhbm1kc3AubWJuIC0+IC4uLy4u
+L2F0aDEway9XQ04zOTkwL2h3MS4wL3dsYW5tZHNwLm1ibgorIyArRmlsZTogcWNvbS9zZG04NDUv
+d2xhbm1kc3AubWJuCisjICtMaW5rOiBhdGgxMGsvV0NOMzk5MC9odzEuMC93bGFubWRzcC5tYm4g
+LT4gLi4vLi4vLi4vcWNvbS9zZG04NDUvd2xhbm1kc3AubWJuCisjICBWZXJzaW9uOiBXTEFOLkhM
+LjIuMC0wMTM4Ny1RQ0FITFNXTVRQTFotMQorIyAtRmlsZTogYXRoMTBrL1dDTjM5OTAvaHcxLjAv
+bm90aWNlLnR4dF93bGFubWRzcAorIyArRmlsZTogcWNvbS9zZG04NDUvbm90aWNlLnR4dF93bGFu
+bWRzcAorIyAgCisjICBMaWNlbmNlOiBSZWRpc3RyaWJ1dGFibGUuIFNlZSBMSUNFTlNFLlF1YWxj
+b21tQXRoZXJvc19hdGgxMGsgZm9yIGRldGFpbHMKKyMgIAorIyBAQCAtMzY2NSwxMyArMzcxMCwx
+MyBAQAorIyAgRmlsZTogaW50ZWwvaWJ0LTEyLTE2LnNmaQorIyAgVmVyc2lvbjogQlRfV2luZFN0
+b3JtUGVha19SRUwxMjk5CisjICBGaWxlOiBpbnRlbC9pYnQtMTctMTYtMS5zZmkKKyMgLVZlcnNp
+b246IEJUX0plZmZlcnNvblBlYWtfQjBfQjBfUkVMMjAzMzIKKyMgK1ZlcnNpb246IEJUX0plZmZl
+cnNvblBlYWtfQjBfQjBfUkVMMjAzNzkKKyMgIEZpbGU6IGludGVsL2lidC0xNy0xNi0xLmRkYwor
+IyAtVmVyc2lvbjogQlRfSmVmZmVyc29uUGVha19CMF9CMF9SRUwyMDMzMgorIyArVmVyc2lvbjog
+QlRfSmVmZmVyc29uUGVha19CMF9CMF9SRUwyMDM3OQorIyAgRmlsZTogaW50ZWwvaWJ0LTE3LTIu
+c2ZpCisjIC1WZXJzaW9uOiBCVF9KZWZmZXJzb25QZWFrX0IwX0IwX1JFTDIwMzMyCisjICtWZXJz
+aW9uOiBCVF9KZWZmZXJzb25QZWFrX0IwX0IwX1JFTDIwMzc5CisjICBGaWxlOiBpbnRlbC9pYnQt
+MTctMi5kZGMKKyMgLVZlcnNpb246IEJUX0plZmZlcnNvblBlYWtfQjBfQjBfUkVMMjAzMzIKKyMg
+K1ZlcnNpb246IEJUX0plZmZlcnNvblBlYWtfQjBfQjBfUkVMMjAzNzkKKyMgIEZpbGU6IGludGVs
+L2lidC0xNy0wLTEuc2ZpCisjICBWZXJzaW9uOiBCVF9KZWZmZXJzb25QZWFrX0EwX0IwX1JFTDAy
+MDEKKyMgIEZpbGU6IGludGVsL2lidC0xNy0wLTEuZGRjCisjIEBAIC0zNjgxLDEzICszNzI2LDEz
+IEBACisjICBGaWxlOiBpbnRlbC9pYnQtMTctMS5kZGMKKyMgIFZlcnNpb246IEJUX0plZmZlcnNv
+blBlYWtfQTBfQjBfUkVMMDIwMQorIyAgRmlsZTogaW50ZWwvaWJ0LTE4LTE2LTEuc2ZpCisjIC1W
+ZXJzaW9uOiBCVF9UaHVuZGVyUGVha19CMF9CMF9SRUwyMDE4MgorIyArVmVyc2lvbjogQlRfVGh1
+bmRlclBlYWtfQjBfQjBfUkVMMjAzNzkKKyMgIEZpbGU6IGludGVsL2lidC0xOC0xNi0xLmRkYwor
+IyAtVmVyc2lvbjogQlRfVGh1bmRlclBlYWtfQjBfQjBfUkVMMjAxODIKKyMgK1ZlcnNpb246IEJU
+X1RodW5kZXJQZWFrX0IwX0IwX1JFTDIwMzc5CisjICBGaWxlOiBpbnRlbC9pYnQtMTgtMi5zZmkK
+KyMgLVZlcnNpb246IEJUX1RodW5kZXJQZWFrX0IwX0IwX1JFTDIwMTgyCisjICtWZXJzaW9uOiBC
+VF9UaHVuZGVyUGVha19CMF9CMF9SRUwyMDM3OQorIyAgRmlsZTogaW50ZWwvaWJ0LTE4LTIuZGRj
+CisjIC1WZXJzaW9uOiBCVF9UaHVuZGVyUGVha19CMF9CMF9SRUwyMDE4MgorIyArVmVyc2lvbjog
+QlRfVGh1bmRlclBlYWtfQjBfQjBfUkVMMjAzNzkKKyMgIEZpbGU6IGludGVsL2lidC0xOC0wLTEu
+c2ZpCisjICBWZXJzaW9uOiBCVF9UaHVuZGVyUGVha19BMF9CMF9SRUwwMjAxCisjICBGaWxlOiBp
+bnRlbC9pYnQtMTgtMC0xLmRkYworIyBAQCAtMzY5Nyw2OSArMzc0Miw2OSBAQAorIyAgRmlsZTog
+aW50ZWwvaWJ0LTE4LTEuZGRjCisjICBWZXJzaW9uOiBCVF9UaHVuZGVyUGVha19BMF9CMF9SRUww
+MjAxCisjICBGaWxlOmludGVsL2lidC0yMC0wLTMuc2ZpCisjIC1WZXJzaW9uOiBCVF9DeWNsb25l
+UGVha19BMF9SRUw1MzQ1NAorIyArVmVyc2lvbjogQlRfQ3ljbG9uZVBlYWtfQTBfUkVMNTM0OTcK
+KyMgIEZpbGU6aW50ZWwvaWJ0LTIwLTAtMy5kZGMKKyMgLVZlcnNpb246IEJUX0N5Y2xvbmVQZWFr
+X0EwX1JFTDUzNDU0CisjICtWZXJzaW9uOiBCVF9DeWNsb25lUGVha19BMF9SRUw1MzQ5NworIyAg
+RmlsZTppbnRlbC9pYnQtMjAtMS0zLnNmaQorIyAtVmVyc2lvbjogQlRfQ3ljbG9uZVBlYWtfQTBf
+UkVMNTM0NTQKKyMgK1ZlcnNpb246IEJUX0N5Y2xvbmVQZWFrX0EwX1JFTDUzNDk3CisjICBGaWxl
+OmludGVsL2lidC0yMC0xLTMuZGRjCisjIC1WZXJzaW9uOiBCVF9DeWNsb25lUGVha19BMF9SRUw1
+MzQ1NAorIyArVmVyc2lvbjogQlRfQ3ljbG9uZVBlYWtfQTBfUkVMNTM0OTcKKyMgIEZpbGU6aW50
+ZWwvaWJ0LTIwLTEtNC5zZmkKKyMgLVZlcnNpb246IEJUX0N5Y2xvbmVQZWFrX0EwX1JFTDUzNDU0
+CisjICtWZXJzaW9uOiBCVF9DeWNsb25lUGVha19BMF9SRUw1MzQ5NworIyAgRmlsZTppbnRlbC9p
+YnQtMjAtMS00LmRkYworIyAtVmVyc2lvbjogQlRfQ3ljbG9uZVBlYWtfQTBfUkVMNTM0NTQKKyMg
+K1ZlcnNpb246IEJUX0N5Y2xvbmVQZWFrX0EwX1JFTDUzNDk3CisjICBGaWxlOmludGVsL2lidC0x
+OS0wLTAuc2ZpCisjIC1WZXJzaW9uOiBCVF9RdWFzYXJfUkVMNTM0NTQKKyMgK1ZlcnNpb246IEJU
+X1F1YXNhcl9SRUw1MzQ5NworIyAgRmlsZTppbnRlbC9pYnQtMTktMC0wLmRkYworIyAtVmVyc2lv
+bjogQlRfUXVhc2FyX1JFTDUzNDU0CisjICtWZXJzaW9uOiBCVF9RdWFzYXJfUkVMNTM0OTcKKyMg
+IEZpbGU6aW50ZWwvaWJ0LTE5LTAtMS5zZmkKKyMgLVZlcnNpb246IEJUX1F1YXNhcl9SRUw1MzQ1
+NAorIyArVmVyc2lvbjogQlRfUXVhc2FyX1JFTDUzNDk3CisjICBGaWxlOmludGVsL2lidC0xOS0w
+LTEuZGRjCisjIC1WZXJzaW9uOiBCVF9RdWFzYXJfUkVMNTM0NTQKKyMgK1ZlcnNpb246IEJUX1F1
+YXNhcl9SRUw1MzQ5NworIyAgRmlsZTppbnRlbC9pYnQtMTktMC0zLnNmaQorIyAgVmVyc2lvbjog
+QlRfUXVhc2FyX1JFTDUzMjYzCisjICBGaWxlOmludGVsL2lidC0xOS0wLTMuZGRjCisjICBWZXJz
+aW9uOiBCVF9RdWFzYXJfUkVMNTMyNjMKKyMgIEZpbGU6aW50ZWwvaWJ0LTE5LTAtNC5zZmkKKyMg
+LVZlcnNpb246IEJUX0hhcnJpc29uUGVha19SRUw1MzQ1NAorIyArVmVyc2lvbjogQlRfSGFycmlz
+b25QZWFrX1JFTDUzNDk3CisjICBGaWxlOmludGVsL2lidC0xOS0wLTQuZGRjCisjIC1WZXJzaW9u
+OiBCVF9IYXJyaXNvblBlYWtfUkVMNTM0NTQKKyMgK1ZlcnNpb246IEJUX0hhcnJpc29uUGVha19S
+RUw1MzQ5NworIyAgRmlsZTppbnRlbC9pYnQtMTktMTYtNC5zZmkKKyMgLVZlcnNpb246IEJUX0hh
+cnJpc29uUGVha19SRUw1MzQ1NAorIyArVmVyc2lvbjogQlRfSGFycmlzb25QZWFrX1JFTDUzNDk3
+CisjICBGaWxlOmludGVsL2lidC0xOS0xNi00LmRkYworIyAtVmVyc2lvbjogQlRfSGFycmlzb25Q
+ZWFrX1JFTDUzNDU0CisjICtWZXJzaW9uOiBCVF9IYXJyaXNvblBlYWtfUkVMNTM0OTcKKyMgIEZp
+bGU6aW50ZWwvaWJ0LTE5LTMyLTEuc2ZpCisjIC1WZXJzaW9uOiBCVF9IYXJyaXNvblBlYWtfUkVM
+NTM0NTQKKyMgK1ZlcnNpb246IEJUX0hhcnJpc29uUGVha19SRUw1MzQ5NworIyAgRmlsZTppbnRl
+bC9pYnQtMTktMzItMS5kZGMKKyMgLVZlcnNpb246IEJUX0hhcnJpc29uUGVha19SRUw1MzQ1NAor
+IyArVmVyc2lvbjogQlRfSGFycmlzb25QZWFrX1JFTDUzNDk3CisjICBGaWxlOmludGVsL2lidC0x
+OS0zMi0wLnNmaQorIyAtVmVyc2lvbjogQlRfSGFycmlzb25QZWFrX1JFTDUzNDU0CisjICtWZXJz
+aW9uOiBCVF9IYXJyaXNvblBlYWtfUkVMNTM0OTcKKyMgIEZpbGU6aW50ZWwvaWJ0LTE5LTMyLTAu
+ZGRjCisjIC1WZXJzaW9uOiBCVF9IYXJyaXNvblBlYWtfUkVMNTM0NTQKKyMgK1ZlcnNpb246IEJU
+X0hhcnJpc29uUGVha19SRUw1MzQ5NworIyAgRmlsZTppbnRlbC9pYnQtMTktMzItNC5zZmkKKyMg
+LVZlcnNpb246IEJUX0hhcnJpc29uUGVha19SRUw1MzQ1NAorIyArVmVyc2lvbjogQlRfSGFycmlz
+b25QZWFrX1JFTDUzNDk3CisjICBGaWxlOmludGVsL2lidC0xOS0zMi00LmRkYworIyAtVmVyc2lv
+bjogQlRfSGFycmlzb25QZWFrX1JFTDUzNDU0CisjICtWZXJzaW9uOiBCVF9IYXJyaXNvblBlYWtf
+UkVMNTM0OTcKKyMgIEZpbGU6aW50ZWwvaWJ0LTE5LTI0MC0xLnNmaQorIyAtVmVyc2lvbjogQlRf
+SGFycmlzb25QZWFrX1JFTDUzNDU0CisjICtWZXJzaW9uOiBCVF9IYXJyaXNvblBlYWtfUkVMNTM0
+OTcKKyMgIEZpbGU6aW50ZWwvaWJ0LTE5LTI0MC0xLmRkYworIyAtVmVyc2lvbjogQlRfSGFycmlz
+b25QZWFrX1JFTDUzNDU0CisjICtWZXJzaW9uOiBCVF9IYXJyaXNvblBlYWtfUkVMNTM0OTcKKyMg
+IEZpbGU6aW50ZWwvaWJ0LTE5LTI0MC00LnNmaQorIyAtVmVyc2lvbjogQlRfSGFycmlzb25QZWFr
+X1JFTDUzNDU0CisjICtWZXJzaW9uOiBCVF9IYXJyaXNvblBlYWtfUkVMNTM0OTcKKyMgIEZpbGU6
+aW50ZWwvaWJ0LTE5LTI0MC00LmRkYworIyAtVmVyc2lvbjogQlRfSGFycmlzb25QZWFrX1JFTDUz
+NDU0CisjICtWZXJzaW9uOiBCVF9IYXJyaXNvblBlYWtfUkVMNTM0OTcKKyMgIEZpbGU6aW50ZWwv
+aWJ0LTAwNDEtMDA0MS5zZmkKKyMgLVZlcnNpb246IEJUX1R5cGhvb25QZWFrX1JFTDY3MDY4Cisj
+ICtWZXJzaW9uOiBCVF9UeXBob29uUGVha19SRUw2NjQxMAorIyAgRmlsZTppbnRlbC9pYnQtMDA0
+MS0wMDQxLmRkYworIyAtVmVyc2lvbjogQlRfVHlwaG9vblBlYWtfUkVMNjcwNjgKKyMgK1ZlcnNp
+b246IEJUX1R5cGhvb25QZWFrX1JFTDY2NDEwCisjICBGaWxlOmludGVsL2lidC0wMDQwLTAwNDEu
+c2ZpCisjIC1WZXJzaW9uOiBCVF9Tb2xhcl9HZlAyX1JFTDY3MDY4CisjICtWZXJzaW9uOiBCVF9T
+b2xhcl9HZlAyX1JFTDY2NDEwCisjICBGaWxlOmludGVsL2lidC0wMDQwLTAwNDEuZGRjCisjIC1W
+ZXJzaW9uOiBCVF9Tb2xhcl9HZlAyX1JFTDY3MDY4CisjICtWZXJzaW9uOiBCVF9Tb2xhcl9HZlAy
+X1JFTDY2NDEwCisjICBGaWxlOmludGVsL2lidC0xMDQwLTAwNDEuc2ZpCisjIC1WZXJzaW9uOiBC
+VF9Tb2xhckZfR2ZQMl9SRUw2NzA2OAorIyArVmVyc2lvbjogQlRfU29sYXJGX0dmUDJfUkVMNjY0
+MTAKKyMgIEZpbGU6aW50ZWwvaWJ0LTEwNDAtMDA0MS5kZGMKKyMgLVZlcnNpb246IEJUX1NvbGFy
+Rl9HZlAyX1JFTDY3MDY4CisjICtWZXJzaW9uOiBCVF9Tb2xhckZfR2ZQMl9SRUw2NjQxMAorIyAg
+CisjICBGaWxlOmludGVsL2lidC0wMDQwLTEwMjAuc2ZpCisjICBWZXJzaW9uOiBCVF9Tb2xhcl9K
+ZlAxX1JFTDU5NTY0CisjIEBAIC0zNzgwLDEzICszODI1LDMzIEBACisjICBWZXJzaW9uOiBCVF9T
+b2xhckZfSmZQMl9SRUw1OTU2NAorIyAgCisjICBGaWxlOmludGVsL2lidC0wMDQwLTQxNTAuc2Zp
+CisjIC1WZXJzaW9uOiBCVF9Tb2xhcl9KblAyX1JFTDY3MDY4CisjICtWZXJzaW9uOiBCVF9Tb2xh
+cl9KblAyX1JFTDY2NDEwCisjICBGaWxlOmludGVsL2lidC0wMDQwLTQxNTAuZGRjCisjIC1WZXJz
+aW9uOiBCVF9Tb2xhcl9KblAyX1JFTDY3MDY4CisjICtWZXJzaW9uOiBCVF9Tb2xhcl9KblAyX1JF
+TDY2NDEwCisjICBGaWxlOmludGVsL2lidC0xMDQwLTQxNTAuc2ZpCisjIC1WZXJzaW9uOiBCVF9T
+b2xhckZfSm5QMl9SRUw2NzA2OAorIyArVmVyc2lvbjogQlRfU29sYXJGX0puUDJfUkVMNjY0MTAK
+KyMgIEZpbGU6aW50ZWwvaWJ0LTEwNDAtNDE1MC5kZGMKKyMgLVZlcnNpb246IEJUX1NvbGFyRl9K
+blAyX1JFTDY3MDY4CisjICtWZXJzaW9uOiBCVF9Tb2xhckZfSm5QMl9SRUw2NjQxMAorIyArCisj
+ICtGaWxlOmludGVsL2lidC0wMjkxLTAyOTEuc2ZpCisjICtWZXJzaW9uOiBCVF9HYWxlUGVha19S
+RUwzOTAyNQorIyArRmlsZTppbnRlbC9pYnQtMDI5MS0wMjkxLmRkYworIyArVmVyc2lvbjogQlRf
+R2FsZVBlYWtfUkVMMzkwMjUKKyMgKworIyArRmlsZTppbnRlbC9pYnQtMDE4MC0wMDQxLnNmaQor
+IyArVmVyc2lvbjogQlRfTWFnbmV0YXJfR2ZQMl9SRUw4MjIyMQorIyArRmlsZTppbnRlbC9pYnQt
+MDE4MC0wMDQxLmRkYworIyArVmVyc2lvbjogQlRfTWFnbmV0YXJfR2ZQMl9SRUw4MjIyMQorIyAr
+CisjICtGaWxlOmludGVsL2lidC0wMTgwLTQxNTAuc2ZpCisjICtWZXJzaW9uOiBCVF9NYWduZXRh
+cl9IclAyX1JFTDgyMjIxCisjICtGaWxlOmludGVsL2lidC0wMTgwLTQxNTAuZGRjCisjICtWZXJz
+aW9uOiBCVF9NYWduZXRhcl9IclAyX1JFTDgyMjIxCisjICsKKyMgK0ZpbGU6aW50ZWwvaWJ0LTAx
+ODAtMTA1MC5zZmkKKyMgK1ZlcnNpb246IEJUX01hZ25ldGFyX0hyUDFfUkVMODIyMjEKKyMgK0Zp
+bGU6aW50ZWwvaWJ0LTAxODAtMTA1MC5kZGMKKyMgK1ZlcnNpb246IEJUX01hZ25ldGFyX0hyUDFf
+UkVMODIyMjEKKyMgIAorIyAgTGljZW5jZTogUmVkaXN0cmlidXRhYmxlLiBTZWUgTElDRU5DRS5p
+YnRfZmlybXdhcmUgZm9yIGRldGFpbHMKKyMgIAorIyBAQCAtMzgyMiw2ICszODg3LDcgQEAKKyMg
+IEZpbGU6IHJ0bF9idC9ydGw4ODUyYnVfZncuYmluCisjICBGaWxlOiBydGxfYnQvcnRsODg1MmJ1
+X2NvbmZpZy5iaW4KKyMgIEZpbGU6IHJ0bF9idC9ydGw4ODUyY3VfZncuYmluCisjICtGaWxlOiBy
+dGxfYnQvcnRsODg1MmN1X2Z3X3YyLmJpbgorIyAgRmlsZTogcnRsX2J0L3J0bDg4NTJjdV9jb25m
+aWcuYmluCisjICBGaWxlOiBydGxfYnQvcnRsODg1MWJ1X2Z3LmJpbgorIyAgRmlsZTogcnRsX2J0
+L3J0bDg4NTFidV9jb25maWcuYmluCisjIEBAIC0zOTAxLDcgKzM5NjcsOSBAQAorIyAgRmlsZTog
+YW1kL2FtZF9zZXZfZmFtMTdoX21vZGVsM3hoLnNiaW4KKyMgIFZlcnNpb246IDIwMjItMi0yNQor
+IyAgRmlsZTogYW1kL2FtZF9zZXZfZmFtMTloX21vZGVsMHhoLnNiaW4KKyMgLVZlcnNpb246IDIw
+MjItMi0yNQorIyArVmVyc2lvbjogMjAyMy04LTIzCisjICtGaWxlOiBhbWQvYW1kX3Nldl9mYW0x
+OWhfbW9kZWwxeGguc2JpbgorIyArVmVyc2lvbjogMjAyMy04LTIzCisjICAKKyMgIExpY2Vuc2U6
+IFJlZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOU0UuYW1kLXNldiBmb3IgZGV0YWlscworIyAgCisj
+IEBAIC0zOTA5LDIxICszOTc3LDE2IEBACisjICAKKyMgIERyaXZlcjogbWljcm9jb2RlX2FtZCAt
+IEFNRCBDUFUgTWljcm9jb2RlIFVwZGF0ZSBEcml2ZXIgZm9yIExpbnV4CisjICAKKyMgLUZpbGU6
+IGFtZC11Y29kZS9taWNyb2NvZGVfYW1kLmJpbgorIyAtUmF3OiBhbWQtdWNvZGUvbWljcm9jb2Rl
+X2FtZC5iaW4KKyMgK1Jhd0ZpbGU6IGFtZC11Y29kZS9taWNyb2NvZGVfYW1kLmJpbgorIyAgVmVy
+c2lvbjogMjAxMy0wNy0xMAorIyAtRmlsZTogYW1kLXVjb2RlL21pY3JvY29kZV9hbWRfZmFtMTVo
+LmJpbgorIyAtUmF3OiBhbWQtdWNvZGUvbWljcm9jb2RlX2FtZF9mYW0xNWguYmluCisjICtSYXdG
+aWxlOiBhbWQtdWNvZGUvbWljcm9jb2RlX2FtZF9mYW0xNWguYmluCisjICBWZXJzaW9uOiAyMDE4
+LTA1LTI0CisjIC1GaWxlOiBhbWQtdWNvZGUvbWljcm9jb2RlX2FtZF9mYW0xNmguYmluCisjIC1S
+YXc6IGFtZC11Y29kZS9taWNyb2NvZGVfYW1kX2ZhbTE2aC5iaW4KKyMgK1Jhd0ZpbGU6IGFtZC11
+Y29kZS9taWNyb2NvZGVfYW1kX2ZhbTE2aC5iaW4KKyMgIFZlcnNpb246IDIwMTQtMTAtMjgKKyMg
+LUZpbGU6IGFtZC11Y29kZS9taWNyb2NvZGVfYW1kX2ZhbTE3aC5iaW4KKyMgLVJhdzogYW1kLXVj
+b2RlL21pY3JvY29kZV9hbWRfZmFtMTdoLmJpbgorIyArUmF3RmlsZTogYW1kLXVjb2RlL21pY3Jv
+Y29kZV9hbWRfZmFtMTdoLmJpbgorIyAgVmVyc2lvbjogMjAyMy0wNy0xOQorIyAtRmlsZTogYW1k
+LXVjb2RlL21pY3JvY29kZV9hbWRfZmFtMTloLmJpbgorIyAtUmF3OiBhbWQtdWNvZGUvbWljcm9j
+b2RlX2FtZF9mYW0xOWguYmluCisjIC1WZXJzaW9uOiAyMDIzLTA3LTE4CisjICtSYXdGaWxlOiBh
+bWQtdWNvZGUvbWljcm9jb2RlX2FtZF9mYW0xOWguYmluCisjICtWZXJzaW9uOiAyMDIzLTEwLTE5
+CisjICBGaWxlOiBhbWQtdWNvZGUvUkVBRE1FCisjICAKKyMgIExpY2Vuc2U6IFJlZGlzdHJpYnV0
+YWJsZS4gU2VlIExJQ0VOU0UuYW1kLXVjb2RlIGZvciBkZXRhaWxzCisjIEBAIC00NjEzLDcgKzQ2
+NzYsNyBAQAorIyAgVmVyc2lvbjogR3VDIEFQSS9BUEIgdmVyIDcwLjEuMSBmb3IgVGlnZXJsYWtl
+CisjICAKKyMgIEZpbGU6IGk5MTUvdGdsX2d1Y183MC5iaW4KKyMgLVZlcnNpb246IEd1QyBBUEkv
+QVBCIHZlciA3MC41LjEgZm9yIFRpZ2VybGFrZQorIyArVmVyc2lvbjogR3VDIEFQSS9BUEIgdmVy
+IDcwLjEzLjEgZm9yIFRpZ2VybGFrZQorIyAgCisjICBGaWxlOiBpOTE1L3RnbF9odWNfNy4wLjMu
+YmluCisjICBWZXJzaW9uOiBIdWMgQVBJL0FQQiB2ZXIgNyByZWxlYXNlIDAgZm9yIFRpZ2VybGFr
+ZQorIyBAQCAtNDY5NCw3ICs0NzU3LDcgQEAKKyMgIFZlcnNpb246IEd1QyBBUEkvQVBCIHZlciA3
+MC4xLjEgZm9yIEFsZGVybGFrZSBQCisjICAKKyMgIEZpbGU6IGk5MTUvYWRscF9ndWNfNzAuYmlu
+CisjIC1WZXJzaW9uOiBHdUMgQVBJL0FQQiB2ZXIgNzAuNS4xIGZvciBBbGRlcmxha2UgUAorIyAr
+VmVyc2lvbjogR3VDIEFQSS9BUEIgdmVyIDcwLjEzLjEgZm9yIEFsZGVybGFrZSBQCisjICAKKyMg
+IEZpbGU6IGk5MTUvZGcyX2d1Y183MC4xLjIuYmluCisjICBWZXJzaW9uOiBHdUMgQVBJL0FQQiB2
+ZXIgNzAuMS4yIGZvciBERzIKKyMgQEAgLTQ3MDMsNyArNDc2Niw3IEBACisjICBWZXJzaW9uOiBH
+dUMgQVBJL0FQQiB2ZXIgNzAuNC4xIGZvciBERzIKKyMgIAorIyAgRmlsZTogaTkxNS9kZzJfZ3Vj
+XzcwLmJpbgorIyAtVmVyc2lvbjogR3VDIEFQSS9BUEIgdmVyIDcwLjguMCBmb3IgREcyCisjICtW
+ZXJzaW9uOiBHdUMgQVBJL0FQQiB2ZXIgNzAuMTMuMSBmb3IgREcyCisjICAKKyMgIEZpbGU6IGk5
+MTUvZGcyX2h1Y19nc2MuYmluCisjICBWZXJzaW9uOiBIdUMgQVBJL0FQQiB2ZXIgNy4xMC4zIGZv
+ciBERzIKKyMgQEAgLTQ3MjEsMTMgKzQ3ODQsMTYgQEAKKyMgIFZlcnNpb246IERNQyBBUEkvQVBC
+IHZlciAyIHJlbGVhc2UgMTAgZm9yIE1ldGVvcmxha2UKKyMgIAorIyAgRmlsZTogaTkxNS9tdGxf
+ZG1jLmJpbgorIyAtVmVyc2lvbjogRE1DIEFQSS9BUEIgdmVyIDIgcmVsZWFzZSAxMyBmb3IgTWV0
+ZW9ybGFrZQorIyArVmVyc2lvbjogRE1DIEFQSS9BUEIgdmVyIDIgcmVsZWFzZSAxNyBmb3IgTWV0
+ZW9ybGFrZQorIyAgCisjICBGaWxlOiBpOTE1L210bF9ndWNfNzAuYmluCisjIC1WZXJzaW9uOiBH
+dUMgQVBJL0FQQiB2ZXIgNzAuOC4wIGZvciBNZXRlb3JsYWtlCisjICtWZXJzaW9uOiBHdUMgQVBJ
+L0FQQiB2ZXIgNzAuMTMuMSBmb3IgTWV0ZW9ybGFrZQorIyAgCisjICBGaWxlOiBpOTE1L210bF9o
+dWNfZ3NjLmJpbgorIyAtVmVyc2lvbjogSHVDIEFQSS9BUEIgdmVyIDguNS4xIGZvciBNZXRlb3Js
+YWtlCisjICtWZXJzaW9uOiBIdUMgQVBJL0FQQiB2ZXIgOC41LjQgZm9yIE1ldGVvcmxha2UKKyMg
+KworIyArRmlsZTogaTkxNS9tdGxfZ3NjXzEuYmluCisjICtWZXJzaW9uOiBHU0MgQVBJL0FQQiB2
+MS4wLCByZWxlYXNlIDEwMi4wLjAuMTY1NSwgU1ZOIDEgZm9yIE1ldGVvcmxha2UKKyMgIAorIyAg
+TGljZW5zZTogUmVkaXN0cmlidXRhYmxlLiBTZWUgTElDRU5TRS5pOTE1IGZvciBkZXRhaWxzCisj
+ICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQorIyBAQCAtNTU0OCw2ICs1NjE0LDEwIEBACisjICAKKyMgIFZl
+cnNpb246IDUuNC0wMDA1MworIyAgCisjICtGaWxlOiBxY29tL3ZlbnVzLTYuMC92ZW51cy5tYm4K
+KyMgKworIyArVmVyc2lvbjogVklERU8uVkUuNi4wLTAwMDQ5LVBST0QtMQorIyArCisjICBGaWxl
+OiBxY29tL3ZwdS0xLjAvdmVudXMubWJuCisjICBMaW5rOiBxY29tL3ZwdS0xLjAvdmVudXMubWR0
+IC0+IHZlbnVzLm1ibgorIyAgCisjIEBAIC01NTk4LDYgKzU2NjgsNyBAQAorIyAgRmlsZTogcWNv
+bS9zbTgyNTAvYTY1MF96YXAubWJuCisjICBGaWxlOiBxY29tL2E2NjBfZ211LmJpbgorIyAgRmls
+ZTogcWNvbS9hNjYwX3NxZS5mdworIyArRmlsZTogcWNvbS9hNzAyX3NxZS5mdworIyAgRmlsZTog
+cWNvbS9sZWlhX3BmcF80NzAuZncKKyMgIEZpbGU6IHFjb20vbGVpYV9wbTRfNDcwLmZ3CisjICBG
+aWxlOiBxY29tL3NjODI4MHhwL0xFTk9WTy8yMUJYL3FjZHhrbXN1YzgyODAubWJuCisjIEBAIC01
+NjI5LDI4ICs1NzAwLDUxIEBACisjICBGaWxlOiBxY29tL2FwcTgwMTYvd2Nuc3MubWJuCisjICBG
+aWxlOiBxY29tL2FwcTgwMTYvV0NOU1NfcWNvbV93bGFuX252X3NiYy5iaW4KKyMgIEZpbGU6IHFj
+b20vYXBxODA5Ni9hZHNwLm1ibgorIyAtRmlsZTogcWNvbS9hcHE4MDk2L2Fkc3ByLmpzbgorIyAt
+RmlsZTogcWNvbS9hcHE4MDk2L2Fkc3B1YS5qc24KKyMgK1Jhd0ZpbGU6IHFjb20vYXBxODA5Ni9h
+ZHNwci5qc24KKyMgK1Jhd0ZpbGU6IHFjb20vYXBxODA5Ni9hZHNwdWEuanNuCisjICBGaWxlOiBx
+Y29tL2FwcTgwOTYvbWJhLm1ibgorIyAgRmlsZTogcWNvbS9hcHE4MDk2L21vZGVtLm1ibgorIyAt
+RmlsZTogcWNvbS9hcHE4MDk2L21vZGVtci5qc24KKyMgK1Jhd0ZpbGU6IHFjb20vYXBxODA5Ni9t
+b2RlbXIuanNuCisjICtGaWxlOiBxY29tL3FjbTIyOTAvYTcwMl96YXAubWJuCisjICtGaWxlOiBx
+Y29tL3FjbTIyOTAvYWRzcC5tYm4KKyMgK1Jhd0ZpbGU6IHFjb20vcWNtMjI5MC9hZHNwci5qc24K
+KyMgK1Jhd0ZpbGU6IHFjb20vcWNtMjI5MC9hZHNwcy5qc24KKyMgK1Jhd0ZpbGU6IHFjb20vcWNt
+MjI5MC9hZHNwdWEuanNuCisjICtGaWxlOiBxY29tL3FjbTIyOTAvbW9kZW0ubWJuCisjICtSYXdG
+aWxlOiBxY29tL3FjbTIyOTAvbW9kZW1yLmpzbgorIyArUmF3RmlsZTogcWNvbS9xY20yMjkwL21v
+ZGVtdXcuanNuCisjICtGaWxlOiBxY29tL3FjbTIyOTAvd2xhbm1kc3AubWJuCisjICtGaWxlOiBx
+Y29tL3FyYjQyMTAvYTYxMF96YXAubWJuCisjICtGaWxlOiBxY29tL3FyYjQyMTAvYWRzcC5tYm4K
+KyMgK1Jhd0ZpbGU6IHFjb20vcXJiNDIxMC9hZHNwci5qc24KKyMgK1Jhd0ZpbGU6IHFjb20vcXJi
+NDIxMC9hZHNwcy5qc24KKyMgK1Jhd0ZpbGU6IHFjb20vcXJiNDIxMC9hZHNwdWEuanNuCisjICtG
+aWxlOiBxY29tL3FyYjQyMTAvY2RzcC5tYm4KKyMgK1Jhd0ZpbGU6IHFjb20vcXJiNDIxMC9jZHNw
+ci5qc24KKyMgK0ZpbGU6IHFjb20vcXJiNDIxMC9tb2RlbS5tYm4KKyMgK1Jhd0ZpbGU6IHFjb20v
+cXJiNDIxMC9tb2RlbXIuanNuCisjICtSYXdGaWxlOiBxY29tL3FyYjQyMTAvbW9kZW11dy5qc24K
+KyMgK0xpbms6IHFjb20vcXJiNDIxMC93bGFubWRzcC5tYm4gLT4gLi4vcWNtMjI5MC93bGFubWRz
+cC5tYm4KKyMgIEZpbGU6IHFjb20vc2RtODQ1L2Fkc3AubWJuCisjIC1GaWxlOiBxY29tL3NkbTg0
+NS9hZHNwci5qc24KKyMgLUZpbGU6IHFjb20vc2RtODQ1L2Fkc3B1YS5qc24KKyMgK1Jhd0ZpbGU6
+IHFjb20vc2RtODQ1L2Fkc3ByLmpzbgorIyArUmF3RmlsZTogcWNvbS9zZG04NDUvYWRzcHVhLmpz
+bgorIyAgRmlsZTogcWNvbS9zZG04NDUvY2RzcC5tYm4KKyMgLUZpbGU6IHFjb20vc2RtODQ1L2Nk
+c3ByLmpzbgorIyArUmF3RmlsZTogcWNvbS9zZG04NDUvY2RzcHIuanNuCisjICBGaWxlOiBxY29t
+L3NkbTg0NS9UaHVuZGVyY29tbS9kYjg0NWMvc2xwaS5tYm4KKyMgLUZpbGU6IHFjb20vc2RtODQ1
+L1RodW5kZXJjb21tL2RiODQ1Yy9zbHBpci5qc24KKyMgLUZpbGU6IHFjb20vc2RtODQ1L1RodW5k
+ZXJjb21tL2RiODQ1Yy9zbHBpdXMuanNuCisjICtSYXdGaWxlOiBxY29tL3NkbTg0NS9UaHVuZGVy
+Y29tbS9kYjg0NWMvc2xwaXIuanNuCisjICtSYXdGaWxlOiBxY29tL3NkbTg0NS9UaHVuZGVyY29t
+bS9kYjg0NWMvc2xwaXVzLmpzbgorIyAgRmlsZTogcWNvbS9zbTgyNTAvYWRzcC5tYm4KKyMgLUZp
+bGU6IHFjb20vc204MjUwL2Fkc3ByLmpzbgorIyAtRmlsZTogcWNvbS9zbTgyNTAvYWRzcHVhLmpz
+bgorIyArUmF3RmlsZTogcWNvbS9zbTgyNTAvYWRzcHIuanNuCisjICtSYXdGaWxlOiBxY29tL3Nt
+ODI1MC9hZHNwdWEuanNuCisjICBGaWxlOiBxY29tL3NtODI1MC9jZHNwLm1ibgorIyAtRmlsZTog
+cWNvbS9zbTgyNTAvY2RzcHIuanNuCisjIC1GaWxlOiBxY29tL3NjODI4MHhwL0xFTk9WTy8yMUJY
+L2Fkc3ByLmpzbgorIyAtRmlsZTogcWNvbS9zYzgyODB4cC9MRU5PVk8vMjFCWC9hZHNwdWEuanNu
+CisjIC1GaWxlOiBxY29tL3NjODI4MHhwL0xFTk9WTy8yMUJYL2JhdHRtZ3IuanNuCisjIC1GaWxl
+OiBxY29tL3NjODI4MHhwL0xFTk9WTy8yMUJYL2Nkc3ByLmpzbgorIyArUmF3RmlsZTogcWNvbS9z
+bTgyNTAvY2RzcHIuanNuCisjICtGaWxlOiBxY29tL3NtODI1MC9UaHVuZGVyY29tbS9SQjUvc2xw
+aS5tYm4KKyMgK1Jhd0ZpbGU6IHFjb20vc204MjUwL1RodW5kZXJjb21tL1JCNS9zbHBpci5qc24K
+KyMgK1Jhd0ZpbGU6IHFjb20vc204MjUwL1RodW5kZXJjb21tL1JCNS9zbHBpdXMuanNuCisjICtS
+YXdGaWxlOiBxY29tL3NjODI4MHhwL0xFTk9WTy8yMUJYL2Fkc3ByLmpzbgorIyArUmF3RmlsZTog
+cWNvbS9zYzgyODB4cC9MRU5PVk8vMjFCWC9hZHNwdWEuanNuCisjICtSYXdGaWxlOiBxY29tL3Nj
+ODI4MHhwL0xFTk9WTy8yMUJYL2JhdHRtZ3IuanNuCisjICtSYXdGaWxlOiBxY29tL3NjODI4MHhw
+L0xFTk9WTy8yMUJYL2Nkc3ByLmpzbgorIyAgRmlsZTogcWNvbS9zYzgyODB4cC9MRU5PVk8vMjFC
+WC9xY2Fkc3A4MjgwLm1ibgorIyAgRmlsZTogcWNvbS9zYzgyODB4cC9MRU5PVk8vMjFCWC9xY2Nk
+c3A4MjgwLm1ibgorIyAgRmlsZTogcWNvbS9zYzgyODB4cC9MRU5PVk8vMjFCWC9xY3NscGk4Mjgw
+Lm1ibgorIyBAQCAtNTY2MCw2ICs1NzU0LDggQEAKKyMgIEJpbmFyeSBmaWxlcyBzdXBwbGllZCBv
+cmlnaW5hbGx5IGZyb20KKyMgIGh0dHA6Ly9yZWxlYXNlcy5saW5hcm8ub3JnLzk2Ym9hcmRzL2Ry
+YWdvbmJvYXJkNDEwYy9xdWFsY29tbS9maXJtd2FyZS9saW51eC1ib2FyZC1zdXBwb3J0LXBhY2th
+Z2UtcjEwMzYuMS56aXAKKyMgIGh0dHA6Ly9yZWxlYXNlcy5saW5hcm8ub3JnLzk2Ym9hcmRzL2Ry
+YWdvbmJvYXJkODQ1Yy9xdWFsY29tbS9maXJtd2FyZS9SQjNfZmlybXdhcmVfMjAyMjExMjEwMDAw
+MDAtdjUuemlwCisjICtodHRwczovL3JlbGVhc2VzLmxpbmFyby5vcmcvOTZib2FyZHMvcmIxL3F1
+YWxjb21tL2Zpcm13YXJlL1JCMV9maXJtd2FyZV8yMDIzMDgyMy12Mi56aXAKKyMgK2h0dHBzOi8v
+cmVsZWFzZXMubGluYXJvLm9yZy85NmJvYXJkcy9yYjIvcXVhbGNvbW0vZmlybXdhcmUvUkIyX2Zp
+cm13YXJlXzIwMjMwODIzLXYyLnppcAorIyAgaHR0cDovL3JlbGVhc2VzLmxpbmFyby5vcmcvOTZi
+b2FyZHMvcmI1L3F1YWxjb21tL2Zpcm13YXJlL1JCNV9maXJtd2FyZV8yMDIxMDMzMS12NC56aXAK
+KyMgIAorIyAgYWRzcC5tYm4gaGFzIGJlZW4gY29udmVydGVkIGZyb20gMjAtYWRzcF9zcGxpdC9m
+aXJtd2FyZS9hZHNwLiogdXNpbmcKKyMgQEAgLTU2NzQsNyArNTc3MCw3IEBACisjICAKKyMgIEZp
+bGU6IHFjb20vc2RtODQ1L21iYS5tYm4KKyMgIEZpbGU6IHFjb20vc2RtODQ1L21vZGVtX25tLm1i
+bgorIyAtRmlsZTogcWNvbS9zZG04NDUvbW9kZW11dy5qc24KKyMgK1Jhd0ZpbGU6IHFjb20vc2Rt
+ODQ1L21vZGVtdXcuanNuCisjICBMaW5rOiBxY29tL3NkbTg0NS9tb2RlbS5tYm4gLT4gbW9kZW1f
+bm0ubWJuCisjICAKKyMgIExpY2VuY2U6IFJlZGlzdHJpYnV0YWJsZS4gU2VlIExJQ0VOU0UucWNv
+bSBhbmQgcWNvbS9OT1RJQ0UudHh0IGZvciBkZXRhaWxzCisjIEBAIC02MDQ1LDYgKzYxNDEsMzUg
+QEAKKyMgIEZpbGU6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLWNhbGktMTAzYzg5ODEtcjEuYmlu
+CisjICBGaWxlOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1jYWxpLTEwM2M4OTgxLWwwLmJpbgor
+IyAgRmlsZTogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstY2FsaS0xMDNjODk4MS1sMS5iaW4KKyMg
+K0ZpbGU6IGNpcnJ1cy9jczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4w
+LndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhjNDYud21m
+dyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMg
+K0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLWNhbGktMTAzYzhjNDYud21mdyAtPiBjczM1
+bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6IGNp
+cnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhjNDcud21mdyAtPiBjczM1bDQxL3Y2Ljgz
+LjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1
+bDQxLWRzcDEtc3BrLWNhbGktMTAzYzhjNDcud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19j
+c3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEt
+c3BrLXByb3QtMTAzYzhjNDgud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9y
+ZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLWNhbGkt
+MTAzYzhjNDgud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44
+NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhjNDku
+d21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncK
+KyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLWNhbGktMTAzYzhjNDkud21mdyAtPiBj
+czM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6
+IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhjNzAud21mdyAtPiBjczM1bDQxL3Y2
+LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9j
+czM1bDQxLWRzcDEtc3BrLWNhbGktMTAzYzhjNzAud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFs
+b19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRz
+cDEtc3BrLXByb3QtMTAzYzhjNzEud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JB
+TV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLWNh
+bGktMTAzYzhjNzEud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8y
+OS44NS4wLndtZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhj
+NzIud21mdyAtPiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndt
+ZncKKyMgK0xpbms6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLWNhbGktMTAzYzhjNzIud21mdyAt
+PiBjczM1bDQxL3Y2LjgzLjAvaGFsb19jc3BsX1JBTV9yZXZCMl8yOS44NS4wLndtZncKKyMgK0Zp
+bGU6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXByb3QtMTAzYzhjNDYuYmluCisjICtGaWxlOiBj
+aXJydXMvY3MzNWw0MS1kc3AxLXNway1jYWxpLTEwM2M4YzQ2LmJpbgorIyArRmlsZTogY2lycnVz
+L2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGM0Ny5iaW4KKyMgK0ZpbGU6IGNpcnJ1cy9jczM1
+bDQxLWRzcDEtc3BrLWNhbGktMTAzYzhjNDcuYmluCisjICtGaWxlOiBjaXJydXMvY3MzNWw0MS1k
+c3AxLXNway1wcm90LTEwM2M4YzQ4LmJpbgorIyArRmlsZTogY2lycnVzL2NzMzVsNDEtZHNwMS1z
+cGstY2FsaS0xMDNjOGM0OC5iaW4KKyMgK0ZpbGU6IGNpcnJ1cy9jczM1bDQxLWRzcDEtc3BrLXBy
+b3QtMTAzYzhjNDkuYmluCisjICtGaWxlOiBjaXJydXMvY3MzNWw0MS1kc3AxLXNway1jYWxpLTEw
+M2M4YzQ5LmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xMDNjOGM3
+MC5iaW4gLT4gY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4YzQ2LmJpbgorIyArTGluazogY2ly
+cnVzL2NzMzVsNDEtZHNwMS1zcGstY2FsaS0xMDNjOGM3MC5iaW4gLT4gY3MzNWw0MS1kc3AxLXNw
+ay1jYWxpLTEwM2M4YzQ2LmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJv
+dC0xMDNjOGM3MS5iaW4gLT4gY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4YzQ3LmJpbgorIyAr
+TGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstY2FsaS0xMDNjOGM3MS5iaW4gLT4gY3MzNWw0
+MS1kc3AxLXNway1jYWxpLTEwM2M4YzQ3LmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNw
+MS1zcGstcHJvdC0xMDNjOGM3Mi5iaW4gLT4gY3MzNWw0MS1kc3AxLXNway1wcm90LTEwM2M4YzQ4
+LmJpbgorIyArTGluazogY2lycnVzL2NzMzVsNDEtZHNwMS1zcGstY2FsaS0xMDNjOGM3Mi5iaW4g
+LT4gY3MzNWw0MS1kc3AxLXNway1jYWxpLTEwM2M4YzQ4LmJpbgorIyAgRmlsZTogY2lycnVzL2Nz
+MzVsNDEvdjYuMzkuMC9oYWxvX2NzcGxfUkFNX3JldkIyXzI5LjQxLjAud21mdworIyAgTGluazog
+Y2lycnVzL2NzMzVsNDEtZHNwMS1zcGstcHJvdC0xN2FhMzg0Ny53bWZ3IC0+IGNzMzVsNDEvdjYu
+MzkuMC9oYWxvX2NzcGxfUkFNX3JldkIyXzI5LjQxLjAud21mdworIyAgTGluazogY2lycnVzL2Nz
+MzVsNDEtZHNwMS1zcGstY2FsaS0xN2FhMzg0Ny53bWZ3IC0+IGNzMzVsNDEvdjYuMzkuMC9oYWxv
+X2NzcGxfUkFNX3JldkIyXzI5LjQxLjAud21mdworIyBAQCAtNjU2Nyw4ICs2NjkyLDE3IEBACisj
+ICAKKyMgIERyaXZlcjogcWNvbS1zYzgyODB4cCAtIFF1YWxjb21tIEFTb0MgdHBsZyBGaXJtd2Fy
+ZQorIyAgRmlsZTogcWNvbS9zYzgyODB4cC9MRU5PVk8vMjFCWC9hdWRpb3JlYWNoLXRwbGcuYmlu
+CisjICtMaW5rOiBxY29tL3NjODI4MHhwL1NDODI4MFhQLUxFTk9WTy1YMTNTLXRwbGcuYmluIC0+
+IExFTk9WTy8yMUJYL2F1ZGlvcmVhY2gtdHBsZy5iaW4KKyMgIFZlcnNpb246IHYwLjEuMAorIyAg
+CisjICBMaWNlbmNlOiBSZWRpc3RyaWJ1dGFibGUuIFNlZSBMSUNFTkNFLmxpbmFybyBmb3IgZGV0
+YWlscworIyAgT3JpZ2luYXRlcyBmcm9tIGh0dHBzOi8vZ2l0LmxpbmFyby5vcmcvcGVvcGxlL3Ny
+aW5pdmFzLmthbmRhZ2F0bGEvYXVkaW9yZWFjaC10b3BvbG9neS5naXQKKyMgIC0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tCisjICsKKyMgK0RyaXZlcjogYW1sb2dpYyAtIEFtbG9naWMgU29DIEZpcm13YXJlCisj
+ICtGaWxlOiBhbWxvZ2ljL2JsdWV0b290aC93Ml9idF9md191YXJ0LmJpbgorIyArVmVyc2lvbjog
+ZGF0ZSA9IDM4LjAxLCBudW1iZXIgPSAweGE5MTQKKyMgKworIyArTGljZW5jZTogUmVkaXN0cmli
+dXRhYmxlLiBTZWUgTElDRU5TRS5hbWxvZ2ljIGZvciBkZXRhaWxzCisjICsKKyMgKy0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tCisjIAorIworCiBTVU1NQVJZID0gIkZpcm13YXJlIGZpbGVzIGZvciB1c2Ugd2l0
+aCBMaW51eCBrZXJuZWwiCiBIT01FUEFHRSA9ICJodHRwczovL3d3dy5rZXJuZWwub3JnLyIKIERF
+U0NSSVBUSU9OID0gIkxpbnV4IGZpcm13YXJlIGlzIGEgcGFja2FnZSBkaXN0cmlidXRlZCBhbG9u
+Z3NpZGUgdGhlIExpbnV4IGtlcm5lbCBcCkBAIC0xNDcsNyArNzU0LDcgQEAgTElDX0ZJTEVTX0NI
+S1NVTSA9ICJmaWxlOi8vTElDRU5DRS5BYmlsaXM7bWQ1PWI1ZWUzZjQxMDc4MGU1NjcxMWFkNDhl
+YWRjMjJiOGJjIFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL0xJQ0VOQ0UueGM0MDAwO21k
+NT0wZmY1MWQyZGM0OWZjZTA0ODE0YzkxNTUwODEwOTJmMCBcCiAgICAgICAgICAgICAgICAgICAg
+IGZpbGU6Ly9MSUNFTkNFLnhjNTAwMDttZDU9MWUxNzBjMTMxNzUzMjNjMzJjN2Y0ZDA5OThkNTNm
+NjYgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vTElDRU5DRS54YzUwMDBjO21kNT0xMmIw
+MmVmYTMwNDlkYjY1ZDUyNGFlYjQxOGRkODdjYSBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6
+Ly9XSEVOQ0U7bWQ1PSR7V0hFTkNFX0NIS1NVTX0gXAorICAgICAgICAgICAgICAgICAgICBmaWxl
+Oi8vV0hFTkNFO21kNT1jZWI1MjQ4NzQ2ZDI0ZDE2NWI2MDNlNzFiMjg4Y2Y3NSBcCiAgICAgICAg
+ICAgICAgICAgICAgICIKICMgV0hFTkNFIGNoZWNrc3VtIGlzIGRlZmluZWQgc2VwYXJhdGVseSB0
+byBlYXNlIG92ZXJyaWRpbmcgaXQgaWYKICMgY2xhc3MtZGV2dXBzdHJlYW0gaXMgc2VsZWN0ZWQu
+CkBAIC0yMzcsNyArODQ0LDcgQEAgU1JDX1VSSTpjbGFzcy1kZXZ1cHN0cmVhbSA9ICJnaXQ6Ly9n
+aXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvZmlybXcKICMgUGluIHRoaXMg
+dG8gdGhlIDIwMjIwNTA5IHJlbGVhc2UsIG92ZXJyaWRlIHRoaXMgaW4gbG9jYWwuY29uZgogU1JD
+UkVWOmNsYXNzLWRldnVwc3RyZWFtID89ICJiMTljYmRjYTc4YWIyYWRmZDIxMGM5MWJlMTVhMjI1
+NjhlOGI4Y2FlIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODhkNDZjNTQzODQ3ZWUzYjAzNDA0
+ZDQ5NDFkOTFjOTI5NzQ2OTBlZTFmNmZkY2JlZTljZWYzZTVmOTdkYjY4OCIKK1NSQ19VUklbc2hh
+MjU2c3VtXSA9ICJjOThkMjAwZmM0YTMxMjBkZTFhNTk0NzEzY2UzNGUxMzU4MTlkZmYyM2U4ODNh
+NGVkMzg3ODYzYmEyNTY3OWM3IgogCiBpbmhlcml0IGFsbGFyY2gKIAotLSAKMi4zOS4yCgo=
 
---===============2898767933272690835==--
+--===============7897568117522403864==--
 
