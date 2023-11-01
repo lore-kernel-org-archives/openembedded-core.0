@@ -2,49 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1543C10F13
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8712AC3DA6E
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:14 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.8660.1698848704870140844
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.8650.1698848703595410194
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Nov 2023 07:25:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Q8L6LQ2W;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=aPI2tN3g;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.30, mailfrom: 0101018b8b46070d-414aff6e-2038-47ca-b386-91a83ad57a12-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SOlcT6Sa;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=D5QHY0Zq;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b8b46074e-a6ec3e42-c9d8-4922-b762-7c5957feb4e0-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1698848704;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZQmnitFLivPGA/nWh69nb86/5rRPYgkvh/+T7R282G0=;
-	b=Q8L6LQ2WojoQPGb4hGygDrWF5flmc1ZMnDxjRN0mK4EUHRbhMXMNdb71YjfJ2+2l
-	tiiIyK2N2b9MOK3K/UCSGe14BlUtD7QIEdkL/9iuCulehcmdpszBTnmwCn36rwhj91r
-	8d/kMkPzsKApdOhf7qyYnCzAeN1qZrZNa/sYWM7s=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=EbEjsO68qF06So/REo0MD9clQA2E4oPe5+k5o89Asao=;
+	b=SOlcT6SaidpbKoaMkJTRjF28t79kUEq740/rNxXA7oljKDr2aYCc4QHPBkNFwDLc
+	60Y2BTl4iw0ntY7IQDxbQ6h9eiS+Mp+g2xkIEwApsv6CVHw+quMXkmfMUuZlnTGzNvM
+	GmUkgLNRlMDbCiqCQ89DAO3qYZS2W5zLNeWOZsPk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848704;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZQmnitFLivPGA/nWh69nb86/5rRPYgkvh/+T7R282G0=;
-	b=aPI2tN3gpVEPHwem6pxvndJ4dWN7dVFNa/+XAJY/9oBttsfXfucKi8DBQueCkeMQ
-	B9Rr5CjDlAgjs+Ows8CJnpkO1zWABwIqDIm4RBegODgwLcQTf1i4+hqQD4c0Gm/gNaq
-	BDCIpqrCSiM0qgbZ2j24tChljZPQLrqCIMmRjkVI=
-Content-Type: multipart/mixed; boundary="===============2976463919650190655=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=EbEjsO68qF06So/REo0MD9clQA2E4oPe5+k5o89Asao=;
+	b=D5QHY0ZqSVS5lcDgCkuzCvJWnzeCJFYwKoGTiG6PnTDOMMexDcUo8+tlzPIgs3wn
+	vlctzX8sBcKoaBKjilVIVHDJXdK5vdSmR8nz0vv66CzJBm9eHuJxxCtxBlVWrckLN0R
+	QGnAFQ1/fI9Yp2Ne8wwXnoQ334AMKvh0mx15+i7E=
+Content-Type: multipart/mixed; boundary="===============3728902386733961316=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-sphinxcontrib-serializinghtml: upgrading to 1.1.9
- FAILED
-Message-ID: <0101018b8b46070d-414aff6e-2038-47ca-b386-91a83ad57a12-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-subunit: upgrading to 1.4.3 SUCCEEDED
+Message-ID: <0101018b8b46074e-a6ec3e42-c9d8-4922-b762-7c5957feb4e0-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Nov 2023 14:25:04 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.30
+X-SES-Outgoing: 2023.11.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189971
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189975
 
---===============2976463919650190655==
+--===============3728902386733961316==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,80 +50,173 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-sphinxcontrib-serializinghtml* to *1.1.9* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-subunit* to *1.4.3* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-subunit-upgrade-1.4.2-1.4.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade python3-sphinxcontrib-serializinghtml -V 1.1.9
-NOTE: Starting bitbake server...
-Loading cache...done.
-Loaded 1846 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-bc44915620e6572561931642eb1c41aa00fdf750"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:bc44915620e6572561931642eb1c41aa00fdf750"
-workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
-
-Initialising tasks...done.
-Sstate summary: Wanted 2 Local 2 Mirrors 0 Missed 0 Current 28 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 1846 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 912 .bb files complete (910 cached, 2 parsed). 1843 targets, 38 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-bc44915620e6572561931642eb1c41aa00fdf750"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:bc44915620e6572561931642eb1c41aa00fdf750"
-workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
-
-Initialising tasks...done.
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz;downloadfilename=sphinxcontrib-serializinghtml-1.1.9.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz;downloadfilename=sphinxcontrib-serializinghtml-1.1.9.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
- ker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/sphinxcontrib-serializinghtml-1.1.9.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz' --progress=dot -v failed with exit code 8, no output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz;downloadfilename=sphinxcontrib-serializinghtml-1.1.9.tar.gz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/temp/log.do_fetch.3820359
-ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz;downloadfilename=sphinxcontrib-serializinghtml-1.1.9.tar.gz
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2976463919650190655==--
+
+-- >8 --
+From d30a4b798d5be8f29742da2aed88138c40e19f05 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 1 Nov 2023 09:37:24 +0000
+Subject: [PATCH] python3-subunit: upgrade 1.4.2 -> 1.4.3
+
+---
+ ...unit_1.4.2.bb => python3-subunit_1.4.3.bb} | 26 +++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-subunit_1.4.2.bb => python3-subunit_1.4.3.bb} (31%)
+
+diff --git a/meta/recipes-devtools/python/python3-subunit_1.4.2.bb b/meta/recipes-devtools/python/python3-subunit_1.4.3.bb
+similarity index 31%
+rename from meta/recipes-devtools/python/python3-subunit_1.4.2.bb
+rename to meta/recipes-devtools/python/python3-subunit_1.4.3.bb
+index a018ef1dc8..6558d31aec 100644
+--- a/meta/recipes-devtools/python/python3-subunit_1.4.2.bb
++++ b/meta/recipes-devtools/python/python3-subunit_1.4.3.bb
+@@ -1,12 +1,34 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- README.rst
++# +++ README.rst
++# @@ -15,6 +15,6 @@
++#  
++#    See the COPYING file for full details on the licensing of Subunit.
++#  
++# -  subunit reuses iso8601 by Michael Twomey, distributed under an MIT style
++# -  licence - see python/iso8601/LICENSE for details.
++# +Subunit
++# +-------
++#  
++# 
++#
++
+ SUMMARY = "Python implementation of subunit test streaming protocol"
+ HOMEPAGE = "https://pypi.org/project/python-subunit/"
+ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://README.rst;beginline=1;endline=20;md5=909c08e291647fd985fbe5d9836d51b6"
++LIC_FILES_CHKSUM = "file://README.rst;beginline=1;endline=20;md5=571e2d702e247b9d8a7745b3b54315ed"
+ 
+ PYPI_PACKAGE = "python-subunit"
+ 
+-SRC_URI[sha256sum] = "2988d324d55ec35dd037e502e3f74ac38f4e457bd44ee0edf5e898f7ee1134d4"
++SRC_URI[sha256sum] = "9ee76092d5b0a02055219763f1aa9e28835f2dd722f03ea9fd8d68e4066b3378"
+ 
+ inherit pypi setuptools3
+ 
+-- 
+2.39.2
+
+
+--===============3728902386733961316==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-subunit-upgrade-1.4.2-1.4.3.patch"
+
+RnJvbSBkMzBhNGI3OThkNWJlOGYyOTc0MmRhMmFlZDg4MTM4YzQwZTE5ZjA1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAwOTozNzoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtc3VidW5pdDogdXBncmFkZSAxLjQuMiAtPiAxLjQuMwoKLS0tCiAuLi51bml0XzEuNC4y
+LmJiID0+IHB5dGhvbjMtc3VidW5pdF8xLjQuMy5iYn0gfCAyNiArKysrKysrKysrKysrKysrKy0t
+CiAxIGZpbGUgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXN1YnVuaXRfMS40LjIuYmIg
+PT4gcHl0aG9uMy1zdWJ1bml0XzEuNC4zLmJifSAoMzElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zdWJ1bml0XzEuNC4yLmJiIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXN1YnVuaXRfMS40LjMuYmIKc2ltaWxhcml0eSBp
+bmRleCAzMSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LXN1YnVuaXRfMS40LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1zdWJ1bml0XzEuNC4zLmJiCmluZGV4IGEwMThlZjFkYzguLjY1NThkMzFhZWMgMTAw
+NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zdWJ1bml0XzEu
+NC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zdWJ1bml0
+XzEuNC4zLmJiCkBAIC0xLDEyICsxLDM0IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NV
+TSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBm
+b2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxp
+Y2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQs
+IGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAn
+TGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHly
+aWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gUkVBRE1F
+LnJzdAorIyArKysgUkVBRE1FLnJzdAorIyBAQCAtMTUsNiArMTUsNiBAQAorIyAgCisjICAgIFNl
+ZSB0aGUgQ09QWUlORyBmaWxlIGZvciBmdWxsIGRldGFpbHMgb24gdGhlIGxpY2Vuc2luZyBvZiBT
+dWJ1bml0LgorIyAgCisjIC0gIHN1YnVuaXQgcmV1c2VzIGlzbzg2MDEgYnkgTWljaGFlbCBUd29t
+ZXksIGRpc3RyaWJ1dGVkIHVuZGVyIGFuIE1JVCBzdHlsZQorIyAtICBsaWNlbmNlIC0gc2VlIHB5
+dGhvbi9pc284NjAxL0xJQ0VOU0UgZm9yIGRldGFpbHMuCisjICtTdWJ1bml0CisjICstLS0tLS0t
+CisjICAKKyMgCisjCisKIFNVTU1BUlkgPSAiUHl0aG9uIGltcGxlbWVudGF0aW9uIG9mIHN1YnVu
+aXQgdGVzdCBzdHJlYW1pbmcgcHJvdG9jb2wiCiBIT01FUEFHRSA9ICJodHRwczovL3B5cGkub3Jn
+L3Byb2plY3QvcHl0aG9uLXN1YnVuaXQvIgogU0VDVElPTiA9ICJkZXZlbC9weXRob24iCiBMSUNF
+TlNFID0gIkFwYWNoZS0yLjAiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9SRUFETUUucnN0
+O2JlZ2lubGluZT0xO2VuZGxpbmU9MjA7bWQ1PTkwOWMwOGUyOTE2NDdmZDk4NWZiZTVkOTgzNmQ1
+MWI2IgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vUkVBRE1FLnJzdDtiZWdpbmxpbmU9MTtl
+bmRsaW5lPTIwO21kNT01NzFlMmQ3MDJlMjQ3YjlkOGE3NzQ1YjNiNTQzMTVlZCIKIAogUFlQSV9Q
+QUNLQUdFID0gInB5dGhvbi1zdWJ1bml0IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjk4OGQz
+MjRkNTVlYzM1ZGQwMzdlNTAyZTNmNzRhYzM4ZjRlNDU3YmQ0NGVlMGVkZjVlODk4ZjdlZTExMzRk
+NCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5ZWU3NjA5MmQ1YjBhMDIwNTUyMTk3NjNmMWFhOWUy
+ODgzNWYyZGQ3MjJmMDNlYTlmZDhkNjhlNDA2NmIzMzc4IgogCiBpbmhlcml0IHB5cGkgc2V0dXB0
+b29sczMKIAotLSAKMi4zOS4yCgo=
+
+--===============3728902386733961316==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-subunit: PV changed from "1.4.2" to "1.4.3"
+packages/core2-64-poky-linux/python3-subunit: PKGV changed from 1.4.2 [default] to 1.4.3 [default]
+packages/core2-64-poky-linux/python3-subunit: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-subunit/python-subunit-1.4.2.tar.gz;downloadfilename=python-subunit-1.4.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-subunit/python-subunit-1.4.3.tar.gz;downloadfilename=python-subunit-1.4.3.tar.gz"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-dbg: PV changed from "1.4.2" to "1.4.3"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-dbg: PKGV changed from 1.4.2 [default] to 1.4.3 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-dev: PV changed from "1.4.2" to "1.4.3"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-dev: PKGV changed from 1.4.2 [default] to 1.4.3 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-doc: PV changed from "1.4.2" to "1.4.3"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-doc: PKGV changed from 1.4.2 [default] to 1.4.3 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-locale: PV changed from "1.4.2" to "1.4.3"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-locale: PKGV changed from 1.4.2 [default] to 1.4.3 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-src: PV changed from "1.4.2" to "1.4.3"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-src: PKGV changed from 1.4.2 [default] to 1.4.3 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-staticdev: PV changed from "1.4.2" to "1.4.3"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-staticdev: PKGV changed from 1.4.2 [default] to 1.4.3 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: FILELIST: directory renamed /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info -> /usr/lib/python3.11/site-packages/python_subunit-1.4.3.dist-info, removed "/usr/lib/python3.11/site-packages/subunit/iso8601.py /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: PV changed from "1.4.2" to "1.4.3"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: PKGSIZE changed from 932776 to 915191 (-2%)
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: PKGV changed from 1.4.2 [default] to 1.4.3 [default]
+Changes to packages/core2-64-poky-linux/python3-subunit (sysroot):
+  /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info moved to /usr/lib/python3.11/site-packages/python_subunit-1.4.3.dist-info
+  /usr/lib/python3.11/site-packages/subunit/iso8601.py was removed
+  /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc was removed
+
+--===============3728902386733961316==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: FILELIST: directory renamed /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info -> /usr/lib/python3.11/site-packages/python_subunit-1.4.3.dist-info, removed "/usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc /usr/lib/python3.11/site-packages/subunit/iso8601.py"
+Changes to packages/core2-64-poky-linux/python3-subunit (sysroot):
+  /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info moved to /usr/lib/python3.11/site-packages/python_subunit-1.4.3.dist-info
+  /usr/lib/python3.11/site-packages/subunit/iso8601.py was removed
+  /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc was removed
+
+--===============3728902386733961316==--
 
