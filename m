@@ -1,287 +1,182 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D346C4167D
-	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:21:01 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web10.8528.1698848457775070122
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EFEC00A5A
+	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:11 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.8677.1698848707011174156
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:20:58 -0700
+ Wed, 01 Nov 2023 07:25:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=OYu0fRXm;
- spf=pass (domain: baylibre.com, ip: 209.85.160.173, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-41cd52c51abso42435571cf.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 07:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698848456; x=1699453256; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IFSeI0SElHIvMQvS3HmeDfj0KMhxnvnusavhcG14tA8=;
-        b=OYu0fRXmYNMYN8ahXSM2GBYCKblO5xn+V6/yRtcl1UCOtekan6i5gG4V1svlTrpWPr
-         35Xu4cHJoxZhp6P3vPtZ6om2Ugvs6oqzMnjg85NHBxdUPyMcvvBACtyI/NdjLsZ1wzTs
-         PbpVksCL7cpTt0SYcPD5MI+rtnxRNelhsm+pIzzCO7Hstp5p1EyvjZrc0+ti6LNz9YyE
-         T7fxNSj5pwfT5xd7vq0B48pOQuBHVUfoegfwqWTIH9nDvlTih3l9HmexO5fjJvIGAJU/
-         Qv5YjHtLBLeLn/yfeWwQYo3mtkX36wYG5dYaXrDpfOU9Uy7t60jhOjxXkCvCTc0vhFv2
-         omuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698848456; x=1699453256;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IFSeI0SElHIvMQvS3HmeDfj0KMhxnvnusavhcG14tA8=;
-        b=w5+j8vW/bcym8lOc4sPIosY5AgyiQQvO24iFuwKdArP7zxYVSyBAAoRrxqD+qM3BYJ
-         OOqXuX25wcAthcuPZMRor/hNxRTfGRm1rqr58kwhmLgBicbYCdJ9L1Uaole1ytTALIm5
-         sW4LK29bOol/A/K8Etl69xinpvwOoNruFNMCZBKUueCHfYW+TaPZHSWHeSspYAyod0xY
-         yWqyf0VsHgFi89xtD0zlUDFMhdcuonSSsVpImvVfXeEGlKY6T+YTrVlnAvVftt/8qrm/
-         Y3MXdQrQO9TjZQAVAsGaxyzbzUI7j9zGpORgy1/O5p1UnA0OCTABPF7ljk3qJjrJuYft
-         B5Gg==
-X-Gm-Message-State: AOJu0YzYOqz9yCahXNfqmrLFet50yZLO6oBlNpUf7fzCh71gaYc3/OwG
-	oh/kJinERjCvYULS7CDNWmwiARodJfAJ3O0v3c8Q0Q==
-X-Google-Smtp-Source: AGHT+IH6TpfGumQcpef5fXTtfQI3ihIBceNxq9fv70zbMSZbMhRlK+Cic7LcUIbW236GzjuqDpCu4A==
-X-Received: by 2002:a05:622a:d2:b0:41c:e76e:87f8 with SMTP id p18-20020a05622a00d200b0041ce76e87f8mr19014940qtw.34.1698848456391;
-        Wed, 01 Nov 2023 07:20:56 -0700 (PDT)
-Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
-        by smtp.gmail.com with ESMTPSA id o23-20020ac841d7000000b00403cce833eesm1425347qtm.27.2023.11.01.07.20.55
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Nov 2023 07:20:56 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] patchtest: remove test for CVE tag in mbox
-Date: Wed,  1 Nov 2023 10:20:55 -0400
-Message-ID: <20231101142055.2117963-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UTKrKFtZ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PXiUOWVV;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.191, mailfrom: 0101018b8b460f53-40ec934a-5b89-45c1-9267-aa60da9096bb-000000@automation.yoctoproject.org)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1698848706;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=BShlbuQACHQaNEa89Vj/yiNCGUtURJPUOK+5zmOK0Pk=;
+	b=UTKrKFtZ3yzZRLhbeZI0THZakfCYg2AFXFfphGMDoTaqaRbXlEUvGsdjrA8WG6qi
+	LxLusHWYBTYggED1CBSe/tTJcQzx3kujE+8g7qetwUmx4kuS89lp1HKJin8M1EN8LZ/
+	y4yjBSBBBMnx1XWmeJRlLWQqX42qoUhKS2/dmtnI=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848706;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=BShlbuQACHQaNEa89Vj/yiNCGUtURJPUOK+5zmOK0Pk=;
+	b=PXiUOWVVPXozg8Js+Uyv7I8qlqohyQZ7kV50CDRTxtgAqVVe4980HndFWKu2kskT
+	uadjf3eMwttSWHKyIFpXaqTeccoDzZ4HHcU7LeWJjlJItKLwvcmlUh1oDPOsKPMZY8X
+	+GWAQgwyLgu744O8zrcCqOFeQAjZ4xLms8ptmEfs=
+Content-Type: multipart/mixed; boundary="===============7561566161322616741=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] nghttp2: upgrading to 1.58.0 SUCCEEDED
+Message-ID: <0101018b8b460f53-40ec934a-5b89-45c1-9267-aa60da9096bb-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:06 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:21:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189917
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190036
 
-After patchtest went live it was determined that testing for a CVE tag
-in the mbox commit message is unnecessary, since it will already be in
-the shortlog and in any carried patches. Remove the test and the
-associated selftest files so that its absence isn't flagged in future
-test results.
+--===============7561566161322616741==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *nghttp2* to *1.58.0* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-nghttp2-upgrade-1.57.0-1.58.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 16118c515a43580512d5f338f56501c258b522dd Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 1 Nov 2023 14:16:59 +0000
+Subject: [PATCH] nghttp2: upgrade 1.57.0 -> 1.58.0
+
 ---
- ...x.test_cve_presence_in_commit_message.fail | 72 ------------------
- ...x.test_cve_presence_in_commit_message.pass | 74 -------------------
- meta/lib/patchtest/tests/test_mbox.py         | 24 ------
- 3 files changed, 170 deletions(-)
- delete mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
- delete mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
+ .../nghttp2/{nghttp2_1.57.0.bb => nghttp2_1.58.0.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/nghttp2/{nghttp2_1.57.0.bb => nghttp2_1.58.0.bb} (91%)
 
-diff --git a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail b/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
-deleted file mode 100644
-index d40b8a936bf..00000000000
---- a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
-+++ /dev/null
-@@ -1,72 +0,0 @@
--From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Tue, 29 Aug 2023 14:12:27 -0400
--Subject: [PATCH] selftest-hello: fix CVE-1234-56789
--
--This patch should fail the test for CVE presence in the mbox commit message.
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-- .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-- 2 files changed, 31 insertions(+), 2 deletions(-)
-- create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--
--diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--new file mode 100644
--index 0000000000..869cfb6fe5
----- /dev/null
--+++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--@@ -0,0 +1,27 @@
--+From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
--+From: Trevor Gamblin <tgamblin@baylibre.com>
--+Date: Tue, 29 Aug 2023 14:08:20 -0400
--+Subject: [PATCH] Fix CVE-NOT-REAL
--+
--+CVE: CVE-1234-56789
--+Upstream-Status: Backport(http://example.com/example)
--+
--+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
--+---
--+ strlen.c | 1 +
--+ 1 file changed, 1 insertion(+)
--+
--+diff --git a/strlen.c b/strlen.c
--+index 1788f38..83d7918 100644
--+--- a/strlen.c
--++++ b/strlen.c
--+@@ -8,6 +8,7 @@ int main() {
--+ 
--+ 	printf("%d\n", str_len(string1));
--+ 	printf("%d\n", str_len(string2));
--++	printf("CVE FIXED!!!\n");
--+ 
--+ 	return 0;
--+ }
--+-- 
--+2.41.0
--diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--index 547587bef4..76975a6729 100644
----- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--@@ -3,7 +3,9 @@ SECTION = "examples"
-- LICENSE = "MIT"
-- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-- 
---SRC_URI = "file://helloworld.c"
--+SRC_URI = "file://helloworld.c \
--+           file://CVE-1234-56789.patch \
--+           "
-- 
-- S = "${WORKDIR}"
-- 
--@@ -16,4 +18,4 @@ do_install() {
-- 	install -m 0755 helloworld ${D}${bindir}
-- }
-- 
---BBCLASSEXTEND = "native nativesdk"
--\ No newline at end of file
--+BBCLASSEXTEND = "native nativesdk"
---- 
--2.41.0
--
-diff --git a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass b/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
-deleted file mode 100644
-index 433c7a450ad..00000000000
---- a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
-+++ /dev/null
-@@ -1,74 +0,0 @@
--From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Tue, 29 Aug 2023 14:12:27 -0400
--Subject: [PATCH] selftest-hello: fix CVE-1234-56789
--
--This test should pass the mbox cve tag test.
--
--CVE: CVE-1234-56789
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-- .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-- 2 files changed, 31 insertions(+), 2 deletions(-)
-- create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--
--diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--new file mode 100644
--index 0000000000..869cfb6fe5
----- /dev/null
--+++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--@@ -0,0 +1,27 @@
--+From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
--+From: Trevor Gamblin <tgamblin@baylibre.com>
--+Date: Tue, 29 Aug 2023 14:08:20 -0400
--+Subject: [PATCH] Fix CVE-NOT-REAL
--+
--+CVE: CVE-1234-56789
--+Upstream-Status: Backport(http://example.com/example)
--+
--+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
--+---
--+ strlen.c | 1 +
--+ 1 file changed, 1 insertion(+)
--+
--+diff --git a/strlen.c b/strlen.c
--+index 1788f38..83d7918 100644
--+--- a/strlen.c
--++++ b/strlen.c
--+@@ -8,6 +8,7 @@ int main() {
--+ 
--+ 	printf("%d\n", str_len(string1));
--+ 	printf("%d\n", str_len(string2));
--++	printf("CVE FIXED!!!\n");
--+ 
--+ 	return 0;
--+ }
--+-- 
--+2.41.0
--diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--index 547587bef4..76975a6729 100644
----- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--@@ -3,7 +3,9 @@ SECTION = "examples"
-- LICENSE = "MIT"
-- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-- 
---SRC_URI = "file://helloworld.c"
--+SRC_URI = "file://helloworld.c \
--+           file://CVE-1234-56789.patch \
--+           "
-- 
-- S = "${WORKDIR}"
-- 
--@@ -16,4 +18,4 @@ do_install() {
-- 	install -m 0755 helloworld ${D}${bindir}
-- }
-- 
---BBCLASSEXTEND = "native nativesdk"
--\ No newline at end of file
--+BBCLASSEXTEND = "native nativesdk"
---- 
--2.41.0
--
-diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
-index 2449564d0f2..0b623b7d17b 100644
---- a/meta/lib/patchtest/tests/test_mbox.py
-+++ b/meta/lib/patchtest/tests/test_mbox.py
-@@ -6,7 +6,6 @@
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
+similarity index 91%
+rename from meta/recipes-support/nghttp2/nghttp2_1.57.0.bb
+rename to meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
+index 0cf1e3e34c..7b2ff4b778 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
+@@ -8,7 +8,7 @@ SRC_URI = "\
+     ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
+     file://0001-fetch-ocsp-response-use-python3.patch \
+ "
+-SRC_URI[sha256sum] = "9210b0113109f43be526ac5835d58a701411821a4d39e155c40d67c40f47a958"
++SRC_URI[sha256sum] = "4a68a3040da92fd9872c056d0f6b0cd60de8410de10b578f8ade9ecc14d297e0"
  
- import base
- import collections
--import parse_cve_tags
- import parse_shortlog
- import parse_signed_off_by
- import pyparsing
-@@ -33,8 +32,6 @@ class TestMbox(base.Base):
-     rexp_detect = pyparsing.Regex('\[\s?YOCTO.*\]')
-     rexp_validation = pyparsing.Regex('\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]')
-     revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
--    prog = parse_cve_tags.cve_tag
--    patch_prog = parse_cve_tags.patch_cve_tag
-     signoff_prog = parse_signed_off_by.signed_off_by
-     revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
-     maxlength = 90
-@@ -143,27 +140,6 @@ class TestMbox(base.Base):
-             if not commit.commit_message.strip():
-                 self.fail('Please include a commit message on your patch explaining the change', commit=commit)
- 
--    def test_cve_presence_in_commit_message(self):
--        if self.unidiff_parse_error:
--            self.skip('Parse error %s' % self.unidiff_parse_error)
--
--        # we are just interested in series that introduce CVE patches, thus discard other
--        # possibilities: modification to current CVEs, patch directly introduced into the
--        # recipe, upgrades already including the CVE, etc.
--        new_patches = [p for p in self.patchset if p.path.endswith('.patch') and p.is_added_file]
--        if not new_patches:
--            self.skip('No new patches introduced')
--
--        for commit in TestMbox.commits:
--            # skip those patches that revert older commits, these do not required the tag presence
--            if self.revert_shortlog_regex.search_string(commit.shortlog):
--                continue
--            if not self.patch_prog.search_string(commit.payload):
--                self.skip("No CVE tag in added patch, so not needed in mbox")
--            elif not self.prog.search_string(commit.payload):
--                self.fail('A CVE tag should be provided in the commit message with format: "CVE: CVE-YYYY-XXXX"',
--                          commit=commit)
--
-     def test_bugzilla_entry_format(self):
-         for commit in TestMbox.commits:
-             if not self.rexp_detect.search_string(commit.commit_message):
+ inherit cmake manpages python3native github-releases
+ PACKAGECONFIG[manpages] = ""
 -- 
-2.41.0
+2.39.2
 
+
+--===============7561566161322616741==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.57.0/nghttp2-1.57.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.58.0/nghttp2-1.58.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
+packages/core2-64-poky-linux/nghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.25.0", added "/usr/lib/libnghttp2.so.14.25.1"
+packages/core2-64-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/libnghttp2: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.25.0", added "/usr/lib/.debug/libnghttp2.so.14.25.1"
+packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 174430 to 174307 (-0%)
+packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1029395 to 1029569 (+0%)
+packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-src: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.57.0" to "1.58.0"
+packages/core2-64-poky-linux/nghttp2/nghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
+packages/core2-64-poky-linux/nghttp2/nghttp2: PV changed from "1.57.0" to "1.58.0"
+Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.25.0 to libnghttp2.so.14.25.1
+  /usr/lib/libnghttp2.so.14.25.0 moved to /usr/lib/libnghttp2.so.14.25.1
+
+--===============7561566161322616741==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.25.0", added "/usr/lib/libnghttp2.so.14.25.1"
+Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
+  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.25.0 to libnghttp2.so.14.25.1
+  /usr/lib/libnghttp2.so.14.25.0 moved to /usr/lib/libnghttp2.so.14.25.1
+
+--===============7561566161322616741==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-nghttp2-upgrade-1.57.0-1.58.0.patch"
+
+RnJvbSAxNjExOGM1MTVhNDM1ODA1MTJkNWYzMzhmNTY1MDFjMjU4YjUyMmRkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxNDoxNjo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
+aHR0cDI6IHVwZ3JhZGUgMS41Ny4wIC0+IDEuNTguMAoKLS0tCiAuLi4vbmdodHRwMi97bmdodHRw
+Ml8xLjU3LjAuYmIgPT4gbmdodHRwMl8xLjU4LjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9uZ2h0dHAyL3tuZ2h0dHAyXzEuNTcuMC5iYiA9PiBuZ2h0dHAyXzEuNTgu
+MC5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25n
+aHR0cDJfMS41Ny4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
+NTguMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41Ny4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41OC4wLmJiCmluZGV4IDBjZjFlM2UzNGMuLjdiMmZmNGI3
+NzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjU3
+LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTguMC5i
+YgpAQCAtOCw3ICs4LDcgQEAgU1JDX1VSSSA9ICJcCiAgICAgJHtHSVRIVUJfQkFTRV9VUkl9L2Rv
+d25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9LnRhci54eiBcCiAgICAgZmlsZTovLzAwMDEtZmV0
+Y2gtb2NzcC1yZXNwb25zZS11c2UtcHl0aG9uMy5wYXRjaCBcCiAiCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiOTIxMGIwMTEzMTA5ZjQzYmU1MjZhYzU4MzVkNThhNzAxNDExODIxYTRkMzllMTU1YzQw
+ZDY3YzQwZjQ3YTk1OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0YTY4YTMwNDBkYTkyZmQ5ODcy
+YzA1NmQwZjZiMGNkNjBkZTg0MTBkZTEwYjU3OGY4YWRlOWVjYzE0ZDI5N2UwIgogCiBpbmhlcml0
+IGNtYWtlIG1hbnBhZ2VzIHB5dGhvbjNuYXRpdmUgZ2l0aHViLXJlbGVhc2VzCiBQQUNLQUdFQ09O
+RklHW21hbnBhZ2VzXSA9ICIiCi0tIAoyLjM5LjIKCg==
+
+--===============7561566161322616741==--
 
