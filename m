@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EFA3C001B2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3642C0018C
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 11:01:49 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web11.4303.1698836504404042142
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.4302.1698836502749136536
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 04:01:44 -0700
+ Wed, 01 Nov 2023 04:01:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YwlHZ3X+;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5401bab7525so11320775a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 04:01:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bczjuDr+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9d2c54482fbso559300766b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 04:01:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698836502; x=1699441302; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1698836501; x=1699441301; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zMOkJ4USCozMz4GgWrp5l2yO5esj7tOcKNzaOJUDY8Y=;
-        b=YwlHZ3X+gLpbEWwk34/XKytJrRSg+LwjamnFpEgex27mfg0KkLMsvhOPFI0hzND3Cd
-         50gZ4QMBXXETZfOmnR2lNn0P2+3k4aDY6dkSgDpEKe20pke28IkEBxCmBpETXfdEfpVF
-         cvIg+U7dRhPEOvryX2QLZ/co8OpI4XUvZJQNoTgr1AkNPLlPnBK5X3ga7gA4w9/BxgBZ
-         fNqzHPxvMqZLPzw8hVxCvfbGSDqqhDwDATVhdYvkmL2gDgAk9xhJsRENCGzh7DcZNIqa
-         EpqNWtoH5rN6sw9E0eirGycv8ve5S6m9AT/t4Igp4JYo/e/FIsa2ipa4VEVw5LTR7pNt
-         ZWVA==
+        bh=zxrbPbfpK1eBWsLP1yeiaQ0JzzZ3oWLRU89NKUZZJQg=;
+        b=bczjuDr+g1u/LnoVZbhs+nrH7L1i3qsLPCJEqdhq2oSCUX/Rdd/rkaUDJI+XTixs5M
+         LC1BpeBEswVueumnozz107dU3rSlfVtyBUrlWCNSBSgRcRsi/NeZYrrYVf6Xw8GuSGCN
+         cw2p3lxir78q0L5p0m3nb0rBEe5ca8PBff+EZCQB+NWtfmNso8zkrrEhaspmjc8faC/E
+         KNGIPGLflnBZ1kXHFZHwxmwuKyvwLkgVcASsY4G18YpPM94Te3V0TccDcpE5wotNpOG6
+         vmzHp8UYffot1uzv5w36zz2jnPsrfnOoc8zJHrSSViblUTmXL0AkkVpUbVtN45cIQ/VJ
+         Up6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698836502; x=1699441302;
+        d=1e100.net; s=20230601; t=1698836501; x=1699441301;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zMOkJ4USCozMz4GgWrp5l2yO5esj7tOcKNzaOJUDY8Y=;
-        b=HqGBVBiPN4efG4jBcZBA8zF9WD8Mbw8F4UckguOrHFQ5qblZRWefch+TcobZ59lsOf
-         270xcUf9+CyE3pY1anQWWeC/e9dX53wCdETjZFvmB3uwbAywfeVmA1Tj7StaGFmWIY+A
-         +uuNiSta/v2aRhOc6chQz5iVP6OWsAToTA5jw0+DvKFSkpC9MSXgaONljB7bZo+sFZ4r
-         e7yciDLTwcLDkiyAgdfMZP4XZoty8px6Xf5KlPHpWeR+Fp1XsWgRZDlDA6Wm84wqUQgi
-         UkraDnXCZX84EE9ZXL8N+8r9wm0ZRVmsVdW4T5KxD8e7BAhZR9xKrXy1Wo0HnBsFI8Cl
-         xzLA==
-X-Gm-Message-State: AOJu0YyZSNFXSOtjhksMnU1U1OOfOS/AiM/dbR6m1+tCAr7gwD43lk/1
-	Msb5GRurQ13LxuFRznQgRmKuYrNz2CA=
-X-Google-Smtp-Source: AGHT+IEVyHvcGHHSMzju/6Vryrg+o3lypoHDZiDqTueJlZCIdmRrTdaQvE9/moJnXOGHRGSPEfYnKw==
-X-Received: by 2002:a17:907:960c:b0:9ad:a4bd:dc67 with SMTP id gb12-20020a170907960c00b009ada4bddc67mr1875158ejc.50.1698836502108;
-        Wed, 01 Nov 2023 04:01:42 -0700 (PDT)
+        bh=zxrbPbfpK1eBWsLP1yeiaQ0JzzZ3oWLRU89NKUZZJQg=;
+        b=EExCIZNAmmA5Iy/REf/0G8lKQM88BkHhkhY2gcCvH9aNeDe6LCvp+EfT6HHS4g8W8f
+         dKD87rYeA8zXf02INXzN0CpHN5pd7WiisI2wLNRcB2BiVhAEaWM/ew8IXTieklXGJqVz
+         XM2yWzGwcpw/uQXu0OlV/gUzoI5V3lIVOzp0Dre6bryeS4JDX864gaJt/c5fwJlD8umU
+         Tl7f7jBLJoHm3ggGbz65O/eGzIRdbQ3TYnlKAtx5BA3RyxKCVuqTDjD+mOKDfz+ym06R
+         tfmjM8d+uX/kXudc6x54qDHr5vmOEyQFEhDaBOwl49vZlma1H7hq0u8MD4qQJbRvT73o
+         a+xg==
+X-Gm-Message-State: AOJu0YzDed6Fst1NeQmhvQtzhw24gNVXHPmnE2ECrLoGJIdUUZClNgMu
+	veGpIXOKmmBzMAzyUG6zLPQPWKZRlmg=
+X-Google-Smtp-Source: AGHT+IEqW2kOgtRM9i2vq4XKCWTncU7B4p64IR7AskHtslqLvv0LVPbzatmtqqdNx6sSLEHB4ZeW4A==
+X-Received: by 2002:a17:907:97ce:b0:9bf:20e0:bfe8 with SMTP id js14-20020a17090797ce00b009bf20e0bfe8mr1510975ejc.9.1698836500803;
+        Wed, 01 Nov 2023 04:01:40 -0700 (PDT)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id m12-20020a17090607cc00b009c7608eb499sm2262426ejc.94.2023.11.01.04.01.41
+        by smtp.gmail.com with ESMTPSA id m12-20020a17090607cc00b009c7608eb499sm2262426ejc.94.2023.11.01.04.01.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Nov 2023 04:01:41 -0700 (PDT)
+        Wed, 01 Nov 2023 04:01:40 -0700 (PDT)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v8 5/8] devtool: refactor deploy-target
-Date: Wed,  1 Nov 2023 12:01:26 +0100
-Message-ID: <20231101110129.647878-6-adrian.freihofer@siemens.com>
+Subject: [PATCH v8 3/8] image-combined-dbg: make this the default
+Date: Wed,  1 Nov 2023 12:01:24 +0100
+Message-ID: <20231101110129.647878-4-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231101110129.647878-1-adrian.freihofer@siemens.com>
 References: <20231101110129.647878-1-adrian.freihofer@siemens.com>
@@ -62,307 +62,182 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 11:01:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189904
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189902
 
-Make the deploy function independent from d. This allows to call the
-function also from Python code not running in bitbake.
-This is needed to for the devtool ide plugin which will call the
-do_install task and the code from devtool deploy-target independently
-from a bitbake server. This allows a much quicker workflow.
+Remove the image-combined-dbg.bbclass and make this the default
+behavior for the rootfs-dbg. A rootfs-dbg with only debug symbols but
+no executable binaries also causes problems with gdb, which is
+probably the most common use case for the roofs-dbg. This change
+simplifies and improves the user experience for a slightly larger
+rootfs-dbg.
+
+If the rootfs-dbg contains a complete copy of the rootfs, it is also
+usable for booting the target device over the network. This in turn
+simplifies other use cases with e.g. the use of perf on a device
+booted over the network.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/__init__.py |   5 +-
- scripts/lib/devtool/deploy.py   | 230 +++++++++++++++++---------------
- 2 files changed, 124 insertions(+), 111 deletions(-)
+ .../classes-recipe/image-combined-dbg.bbclass | 15 --------
+ meta/lib/oe/rootfs.py                         | 35 ++++---------------
+ scripts/crosstap                              | 28 +--------------
+ 3 files changed, 7 insertions(+), 71 deletions(-)
+ delete mode 100644 meta/classes-recipe/image-combined-dbg.bbclass
 
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 702db669de3..7d64547616e 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -78,12 +78,15 @@ def exec_fakeroot(d, cmd, **kwargs):
-     """Run a command under fakeroot (pseudo, in fact) so that it picks up the appropriate file permissions"""
-     # Grab the command and check it actually exists
-     fakerootcmd = d.getVar('FAKEROOTCMD')
-+    fakerootenv = d.getVar('FAKEROOTENV')
-+    exec_fakeroot_no_d(fakerootcmd, fakerootenv, cmd, kwargs)
-+
-+def exec_fakeroot_no_d(fakerootcmd, fakerootenv, cmd, **kwargs):
-     if not os.path.exists(fakerootcmd):
-         logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
-         return 2
-     # Set up the appropriate environment
-     newenv = dict(os.environ)
--    fakerootenv = d.getVar('FAKEROOTENV')
-     for varvalue in fakerootenv.split():
-         if '=' in varvalue:
-             splitval = varvalue.split('=', 1)
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index e14a5874177..ea7e2cb1ae8 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -16,7 +16,7 @@ import bb.utils
- import argparse_oe
- import oe.types
- 
--from devtool import exec_fakeroot, setup_tinfoil, check_workspace_recipe, DevtoolError
-+from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
- 
- logger = logging.getLogger('devtool')
- 
-@@ -133,16 +133,11 @@ def _prepare_remote_script(deploy, verbose=False, dryrun=False, undeployall=Fals
- 
-     return '\n'.join(lines)
- 
+diff --git a/meta/classes-recipe/image-combined-dbg.bbclass b/meta/classes-recipe/image-combined-dbg.bbclass
+deleted file mode 100644
+index 729313739c1..00000000000
+--- a/meta/classes-recipe/image-combined-dbg.bbclass
++++ /dev/null
+@@ -1,15 +0,0 @@
+-#
+-# Copyright OpenEmbedded Contributors
+-#
+-# SPDX-License-Identifier: MIT
+-#
 -
+-IMAGE_PREPROCESS_COMMAND:append = " combine_dbg_image"
 -
--def deploy(args, config, basepath, workspace):
--    """Entry point for the devtool 'deploy' subcommand"""
-+def deploy_cached(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args):
-     import math
-     import oe.recipeutils
-     import oe.package
+-combine_dbg_image () {
+-        if [ "${IMAGE_GEN_DEBUGFS}" = "1" -a -e ${IMAGE_ROOTFS}-dbg ]; then
+-                # copy target files into -dbg rootfs, so it can be used for
+-                # debug purposes directly
+-                tar -C ${IMAGE_ROOTFS} -cf - . | tar -C ${IMAGE_ROOTFS}-dbg -xf -
+-        fi
+-}
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 1a48ed10b3f..a1cc28a6dd0 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -111,40 +111,17 @@ class Rootfs(object, metaclass=ABCMeta):
+         if gen_debugfs != '1':
+            return
  
--    check_workspace_recipe(workspace, args.recipename, checksrc=False)
--
-     try:
-         host, destdir = args.target.split(':')
-     except ValueError:
-@@ -152,116 +147,131 @@ def deploy(args, config, basepath, workspace):
-     if not destdir.endswith('/'):
-         destdir += '/'
- 
-+    recipe_outdir = srcdir
-+    if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
-+        raise DevtoolError('No files to deploy - have you built the %s '
-+                        'recipe? If so, the install step has not installed '
-+                        'any files.' % args.recipename)
++        rootfs_orig = self.image_rootfs + '-orig'
 +
-+    if args.strip and not args.dry_run:
-+        # Fakeroot copy to new destination
-+        srcdir = recipe_outdir
-+        recipe_outdir = os.path.join(workdir, 'devtool-deploy-target-stripped')
-+        if os.path.isdir(recipe_outdir):
-+            exec_fakeroot_no_d(fakerootcmd, fakerootenv, "rm -rf %s" % recipe_outdir, shell=True)
-+        exec_fakeroot_no_d(fakerootcmd, fakerootenv, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
-+        os.environ['PATH'] = ':'.join([os.environ['PATH'], path or ''])
-+        oe.package.strip_execs(args.recipename, recipe_outdir, strip_cmd, libdir, base_libdir, max_process)
-+
-+    filelist = []
-+    inodes = set({})
-+    ftotalsize = 0
-+    for root, _, files in os.walk(recipe_outdir):
-+        for fn in files:
-+            fstat = os.lstat(os.path.join(root, fn))
-+            # Get the size in kiB (since we'll be comparing it to the output of du -k)
-+            # MUST use lstat() here not stat() or getfilesize() since we don't want to
-+            # dereference symlinks
-+            if fstat.st_ino in inodes:
-+                fsize = 0
-+            else:
-+                fsize = int(math.ceil(float(fstat.st_size)/1024))
-+            inodes.add(fstat.st_ino)
-+            ftotalsize += fsize
-+            # The path as it would appear on the target
-+            fpath = os.path.join(destdir, os.path.relpath(root, recipe_outdir), fn)
-+            filelist.append((fpath, fsize))
-+
-+    if args.dry_run:
-+        print('Files to be deployed for %s on target %s:' % (args.recipename, args.target))
-+        for item, _ in filelist:
-+            print('  %s' % item)
-+        return 0
-+
-+    extraoptions = ''
-+    if args.no_host_check:
-+        extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-+    if not args.show_status:
-+        extraoptions += ' -q'
-+
-+    scp_sshexec = ''
-+    ssh_sshexec = 'ssh'
-+    if args.ssh_exec:
-+        scp_sshexec = "-S %s" % args.ssh_exec
-+        ssh_sshexec = args.ssh_exec
-+    scp_port = ''
-+    ssh_port = ''
-+    if args.port:
-+        scp_port = "-P %s" % args.port
-+        ssh_port = "-p %s" % args.port
-+
-+    if args.key:
-+        extraoptions += ' -i %s' % args.key
-+
-+    # In order to delete previously deployed files and have the manifest file on
-+    # the target, we write out a shell script and then copy it to the target
-+    # so we can then run it (piping tar output to it).
-+    # (We cannot use scp here, because it doesn't preserve symlinks.)
-+    tmpdir = tempfile.mkdtemp(prefix='devtool')
-+    try:
-+        tmpscript = '/tmp/devtool_deploy.sh'
-+        tmpfilelist = os.path.join(os.path.dirname(tmpscript), 'devtool_deploy.list')
-+        shellscript = _prepare_remote_script(deploy=True,
-+                                            verbose=args.show_status,
-+                                            nopreserve=args.no_preserve,
-+                                            nocheckspace=args.no_check_space)
-+        # Write out the script to a file
-+        with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
-+            f.write(shellscript)
-+        # Write out the file list
-+        with open(os.path.join(tmpdir, os.path.basename(tmpfilelist)), 'w') as f:
-+            f.write('%d\n' % ftotalsize)
-+            for fpath, fsize in filelist:
-+                f.write('%s %d\n' % (fpath, fsize))
-+        # Copy them to the target
-+        ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
-+        if ret != 0:
-+            raise DevtoolError('Failed to copy script to %s - rerun with -s to '
-+                            'get a complete error message' % args.target)
-+    finally:
-+        shutil.rmtree(tmpdir)
-+
-+    # Now run the script
-+    ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
-+    if ret != 0:
-+        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
-+                        'error message')
-+
-+    logger.info('Successfully deployed %s' % recipe_outdir)
-+
-+    files_list = []
-+    for root, _, files in os.walk(recipe_outdir):
-+        for filename in files:
-+            filename = os.path.relpath(os.path.join(root, filename), recipe_outdir)
-+            files_list.append(os.path.join(destdir, filename))
-+
-+def deploy(args, config, basepath, workspace):
-+    """Entry point for the devtool 'deploy' subcommand"""
-+    check_workspace_recipe(workspace, args.recipename, checksrc=False)
-+
-     tinfoil = setup_tinfoil(basepath=basepath)
-     try:
+         bb.note("  Renaming the original rootfs...")
          try:
-             rd = tinfoil.parse_recipe(args.recipename)
-+
-+            srcdir = rd.getVar('D')
-+            workdir = rd.getVar('WORKDIR')
-+            path = rd.getVar('PATH')
-+            strip_cmd = rd.getVar('STRIP')
-+            libdir = rd.getVar('libdir'),
-+            base_libdir = rd.getVar('base_libdir')
-+            max_process = int(rd.getVar("BB_NUMBER_THREADS") or os.cpu_count() or 1)
-+            fakerootcmd = rd.getVar('FAKEROOTCMD')
-+            fakerootenv = rd.getVar('FAKEROOTENV')
-+            deploy_cached(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args)
-         except Exception as e:
-             raise DevtoolError('Exception parsing recipe %s: %s' %
-                             (args.recipename, e))
--        recipe_outdir = rd.getVar('D')
--        if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
--            raise DevtoolError('No files to deploy - have you built the %s '
--                            'recipe? If so, the install step has not installed '
--                            'any files.' % args.recipename)
--
--        if args.strip and not args.dry_run:
--            # Fakeroot copy to new destination
--            srcdir = recipe_outdir
--            recipe_outdir = os.path.join(rd.getVar('WORKDIR'), 'devtool-deploy-target-stripped')
--            if os.path.isdir(recipe_outdir):
--                exec_fakeroot(rd, "rm -rf %s" % recipe_outdir, shell=True)
--            exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
--            os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH') or ''])
--            oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP'), rd.getVar('libdir'),
--                        rd.getVar('base_libdir'), rd)
--
--        filelist = []
--        inodes = set({})
--        ftotalsize = 0
--        for root, _, files in os.walk(recipe_outdir):
--            for fn in files:
--                fstat = os.lstat(os.path.join(root, fn))
--                # Get the size in kiB (since we'll be comparing it to the output of du -k)
--                # MUST use lstat() here not stat() or getfilesize() since we don't want to
--                # dereference symlinks
--                if fstat.st_ino in inodes:
--                    fsize = 0
--                else:
--                    fsize = int(math.ceil(float(fstat.st_size)/1024))
--                inodes.add(fstat.st_ino)
--                ftotalsize += fsize
--                # The path as it would appear on the target
--                fpath = os.path.join(destdir, os.path.relpath(root, recipe_outdir), fn)
--                filelist.append((fpath, fsize))
--
--        if args.dry_run:
--            print('Files to be deployed for %s on target %s:' % (args.recipename, args.target))
--            for item, _ in filelist:
--                print('  %s' % item)
--            return 0
--
--        extraoptions = ''
--        if args.no_host_check:
--            extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
--        if not args.show_status:
--            extraoptions += ' -q'
--
--        scp_sshexec = ''
--        ssh_sshexec = 'ssh'
--        if args.ssh_exec:
--            scp_sshexec = "-S %s" % args.ssh_exec
--            ssh_sshexec = args.ssh_exec
--        scp_port = ''
--        ssh_port = ''
--        if args.port:
--            scp_port = "-P %s" % args.port
--            ssh_port = "-p %s" % args.port
--
--        if args.key:
--            extraoptions += ' -i %s' % args.key
--
--        # In order to delete previously deployed files and have the manifest file on
--        # the target, we write out a shell script and then copy it to the target
--        # so we can then run it (piping tar output to it).
--        # (We cannot use scp here, because it doesn't preserve symlinks.)
--        tmpdir = tempfile.mkdtemp(prefix='devtool')
--        try:
--            tmpscript = '/tmp/devtool_deploy.sh'
--            tmpfilelist = os.path.join(os.path.dirname(tmpscript), 'devtool_deploy.list')
--            shellscript = _prepare_remote_script(deploy=True,
--                                                verbose=args.show_status,
--                                                nopreserve=args.no_preserve,
--                                                nocheckspace=args.no_check_space)
--            # Write out the script to a file
--            with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
--                f.write(shellscript)
--            # Write out the file list
--            with open(os.path.join(tmpdir, os.path.basename(tmpfilelist)), 'w') as f:
--                f.write('%d\n' % ftotalsize)
--                for fpath, fsize in filelist:
--                    f.write('%s %d\n' % (fpath, fsize))
--            # Copy them to the target
--            ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
--            if ret != 0:
--                raise DevtoolError('Failed to copy script to %s - rerun with -s to '
--                                'get a complete error message' % args.target)
--        finally:
--            shutil.rmtree(tmpdir)
--
--        # Now run the script
--        ret = exec_fakeroot(rd, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
--        if ret != 0:
--            raise DevtoolError('Deploy failed - rerun with -s to get a complete '
--                            'error message')
--
--        logger.info('Successfully deployed %s' % recipe_outdir)
--
--        files_list = []
--        for root, _, files in os.walk(recipe_outdir):
--            for filename in files:
--                filename = os.path.relpath(os.path.join(root, filename), recipe_outdir)
--                files_list.append(os.path.join(destdir, filename))
-     finally:
-         tinfoil.shutdown()
+-            shutil.rmtree(self.image_rootfs + '-orig')
++            shutil.rmtree(rootfs_orig)
+         except:
+             pass
+-        bb.utils.rename(self.image_rootfs, self.image_rootfs + '-orig')
++        bb.utils.rename(self.image_rootfs, rootfs_orig)
  
+         bb.note("  Creating debug rootfs...")
+-        bb.utils.mkdirhier(self.image_rootfs)
+-
+-        bb.note("  Copying back package database...")
+-        for path in package_paths:
+-            bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(path))
+-            if os.path.isdir(self.image_rootfs + '-orig' + path):
+-                shutil.copytree(self.image_rootfs + '-orig' + path, self.image_rootfs + path, symlinks=True)
+-            elif os.path.isfile(self.image_rootfs + '-orig' + path):
+-                shutil.copyfile(self.image_rootfs + '-orig' + path, self.image_rootfs + path)
+-
+-        # Copy files located in /usr/lib/debug or /usr/src/debug
+-        for dir in ["/usr/lib/debug", "/usr/src/debug"]:
+-            src = self.image_rootfs + '-orig' + dir
+-            if os.path.exists(src):
+-                dst = self.image_rootfs + dir
+-                bb.utils.mkdirhier(os.path.dirname(dst))
+-                shutil.copytree(src, dst)
+-
+-        # Copy files with suffix '.debug' or located in '.debug' dir.
+-        for root, dirs, files in os.walk(self.image_rootfs + '-orig'):
+-            relative_dir = root[len(self.image_rootfs + '-orig'):]
+-            for f in files:
+-                if f.endswith('.debug') or '/.debug' in relative_dir:
+-                    bb.utils.mkdirhier(self.image_rootfs + relative_dir)
+-                    shutil.copy(os.path.join(root, f),
+-                                self.image_rootfs + relative_dir)
++        shutil.copytree(rootfs_orig, self.image_rootfs, symlinks=True)
+ 
+         bb.note("  Install complementary '*-dbg' packages...")
+         self.pm.install_complementary('*-dbg')
+@@ -178,7 +155,7 @@ class Rootfs(object, metaclass=ABCMeta):
+         bb.utils.rename(self.image_rootfs, self.image_rootfs + '-dbg')
+ 
+         bb.note("  Restoring original rootfs...")
+-        bb.utils.rename(self.image_rootfs + '-orig', self.image_rootfs)
++        bb.utils.rename(rootfs_orig, self.image_rootfs)
+ 
+     def _exec_shell_cmd(self, cmd):
+         try:
+diff --git a/scripts/crosstap b/scripts/crosstap
+index 5aa72f14d44..87dac33e064 100755
+--- a/scripts/crosstap
++++ b/scripts/crosstap
+@@ -170,18 +170,6 @@ class BitbakeEnv(object):
+         return ret
+ 
+ class ParamDiscovery(object):
+-    SYMBOLS_CHECK_MESSAGE = """
+-WARNING: image '%s' does not have dbg-pkgs IMAGE_FEATURES enabled and no
+-"image-combined-dbg" in inherited classes is specified. As result the image
+-does not have symbols for user-land processes DWARF based probes. Consider
+-adding 'dbg-pkgs' to EXTRA_IMAGE_FEATURES or adding "image-combined-dbg" to
+-USER_CLASSES. I.e add this line 'USER_CLASSES += "image-combined-dbg"' to
+-local.conf file.
+-
+-Or you may use IMAGE_GEN_DEBUGFS="1" option, and then after build you need
+-recombine/unpack image and image-dbg tarballs and pass resulting dir location
+-with --sysroot option.
+-"""
+ 
+     def __init__(self, image):
+         self.image = image
+@@ -204,8 +192,6 @@ with --sysroot option.
+ 
+         self.staging_dir_native = None
+ 
+-        self.image_combined_dbg = False
+-
+     def discover(self):
+         if self.image:
+             benv_image = BitbakeEnv(self.image)
+@@ -248,10 +234,6 @@ with --sysroot option.
+         (self.staging_dir_native
+         ) = benv_systemtap.get_vars(["STAGING_DIR_NATIVE"])
+ 
+-        if self.inherit:
+-            if "image-combined-dbg" in self.inherit.split():
+-                self.image_combined_dbg = True
+-
+     def check(self, sysroot_option):
+         ret = True
+         if self.image_rootfs:
+@@ -280,10 +262,6 @@ with --sysroot option.
+                 if "dbg-pkgs" in image_features:
+                     dbg_pkgs_found = True
+ 
+-            if not dbg_pkgs_found \
+-               and not self.image_combined_dbg:
+-                print(ParamDiscovery.SYMBOLS_CHECK_MESSAGE % (self.image))
+-
+         if not ret:
+             print("")
+ 
+@@ -310,10 +288,7 @@ with --sysroot option.
+         stap.stap = self.staging_dir_native + "/usr/bin/stap"
+         if not stap.sysroot:
+             if self.image_rootfs:
+-                if self.image_combined_dbg:
+-                    stap.sysroot = self.image_rootfs + "-dbg"
+-                else:
+-                    stap.sysroot = self.image_rootfs
++                stap.sysroot = self.image_rootfs + "-dbg"
+         stap.runtime = self.staging_dir_native + "/usr/share/systemtap/runtime"
+         stap.tapset = self.staging_dir_native + "/usr/share/systemtap/tapset"
+         stap.arch = self.__map_systemtap_arch()
+@@ -362,7 +337,6 @@ configuration is recommended:
+ # enables symbol + target binaries rootfs-dbg in workspace
+ IMAGE_GEN_DEBUGFS = "1"
+ IMAGE_FSTYPES_DEBUGFS = "tar.bz2"
+-USER_CLASSES += "image-combined-dbg"
+ 
+ # enables kernel debug symbols
+ KERNEL_EXTRA_FEATURES:append = " features/debug/debug-kernel.scc"
 -- 
 2.41.0
 
