@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB53C18E17
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AE1FC18E1A
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:15 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.8652.1698848703675040269
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.8500.1698848705640419608
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:04 -0700
+ Wed, 01 Nov 2023 07:25:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Ipsugbss;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=W/IzFiuY;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b8b460594-819cf88f-1b00-41a3-81c5-84e9e66f836f-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GJ1iVRwd;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lSuLpc9D;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.23, mailfrom: 0101018b8b460a03-ed08616c-de05-4d4b-9adf-b843c27b434b-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848704;
+	t=1698848705;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rLAXy/2PSRdXmJqv78zjDnivelYf4aZR/BCq7b+pJZc=;
-	b=IpsugbsswlNH32Exln1PiW4jOmldhC9lMGGl20oZyGYCUCNOVXK3+IVWVd3oPFsy
-	6O1OIQFEJzLFPmukdABUQ7pal5JfpukmjEw5kqZ73Cc6gokRsnvI+xbX4/yOXnmiHDa
-	GgmBfxrNuC7H762+lTvEBvuZrT8z2naH8CLkMGNc=
+	bh=2nIPhv0NrJ9UT/59dp0pFzyINKoqmqiTL5julESydI8=;
+	b=GJ1iVRwdfHCHiFLy8fAjInFPMtenx9iQ+5+bmCWAVsPbvVvbAqIQE7B+N92idtE5
+	ZWIroeV6i/KyZJ5Dnzl6J5On2aqurwpIHO2whfo3L2Iltgt3LcALO/5bD0IjX/KzbwZ
+	Bwf7LOR0/mbFvhmRYg9UUk/H7Mh4feNeUBM4HhsA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848704;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848705;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rLAXy/2PSRdXmJqv78zjDnivelYf4aZR/BCq7b+pJZc=;
-	b=W/IzFiuYB84TQf+Eue6xYDgHvanx2lUTBFaIK3kAlkVscKD2WuE5qIepDdsaM4E4
-	xuXCKRLS2n7vKb8sqFDNrWkQZqMFcPIL541VARIH3DA6n0k4ab2/hlVmWP87uPlH8MF
-	54+PGmfl3XYwEtoX8STKAjk9rhzPQS2GsYMFmOQw=
-Content-Type: multipart/mixed; boundary="===============4131167515269095772=="
+	bh=2nIPhv0NrJ9UT/59dp0pFzyINKoqmqiTL5julESydI8=;
+	b=lSuLpc9DLAtQ2oI23IfMFgy9R3tICCeAzucQkgHmzFtzFkZh7RQYK9U+8kdjvPsU
+	pA+gz3iTCOVAfPJ3IEgfFQYO2Vd95apt10ccHS81O6svNGwcaA8RdIHWTWvaU4Htvo3
+	GZ/Ys4yAXUx/rOeTL1T4NeRmu7sl7sBg8wO7zxeQ=
+Content-Type: multipart/mixed; boundary="===============5257885721823913601=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pytest: upgrading to 7.4.3 SUCCEEDED
-Message-ID: <0101018b8b460594-819cf88f-1b00-41a3-81c5-84e9e66f836f-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:03 +0000
+Subject: [AUH] msmtp: upgrading to 1.8.25 SUCCEEDED
+Message-ID: <0101018b8b460a03-ed08616c-de05-4d4b-9adf-b843c27b434b-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.31
+X-SES-Outgoing: 2023.11.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189957
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189994
 
---===============4131167515269095772==
+--===============5257885721823913601==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pytest* to *7.4.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *msmtp* to *1.8.25* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pytest-upgrade-7.4.2-7.4.3.patch
+    - apply the patch: git am 0001-msmtp-upgrade-1.8.24-1.8.25.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,102 +72,125 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5bea64d30175d805fc46d05d635459d5307ff0ec Mon Sep 17 00:00:00 2001
+From f5b6bdb2176f0ad78c5274e134ef982eba95affc Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 09:26:13 +0000
-Subject: [PATCH] python3-pytest: upgrade 7.4.2 -> 7.4.3
+Date: Wed, 1 Nov 2023 11:32:46 +0000
+Subject: [PATCH] msmtp: upgrade 1.8.24 -> 1.8.25
 
 ---
- .../python/{python3-pytest_7.4.2.bb => python3-pytest_7.4.3.bb} | 2 +-
+ .../recipes-extended/msmtp/{msmtp_1.8.24.bb => msmtp_1.8.25.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytest_7.4.2.bb => python3-pytest_7.4.3.bb} (93%)
+ rename meta/recipes-extended/msmtp/{msmtp_1.8.24.bb => msmtp_1.8.25.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-pytest_7.4.2.bb b/meta/recipes-devtools/python/python3-pytest_7.4.3.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-pytest_7.4.2.bb
-rename to meta/recipes-devtools/python/python3-pytest_7.4.3.bb
-index 710aa51716..6fa0febd88 100644
---- a/meta/recipes-devtools/python/python3-pytest_7.4.2.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_7.4.3.bb
-@@ -5,7 +5,7 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.24.bb b/meta/recipes-extended/msmtp/msmtp_1.8.25.bb
+similarity index 91%
+rename from meta/recipes-extended/msmtp/msmtp_1.8.24.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.25.bb
+index b8c867161b..b575fad5e1 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.24.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.25.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
  
--SRC_URI[sha256sum] = "a766259cfab564a2ad52cb1aae1b881a75c3eb7e34ca3779697c23ed47c47069"
-+SRC_URI[sha256sum] = "d989d136982de4e3b29dabcc838ad581c64e8ed52c11fbe86ddebd9da0818cd5"
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "bd6644b1aaab17d61b86647993e3efad860b23c54283b00ddc579c1f5110aa59"
++SRC_URI[sha256sum] = "2dfe1dbbb397d26fe0b0b6b2e9cd2efdf9d72dd42d18e70d7f363ada2652d738"
  
- DEPENDS += "python3-setuptools-scm-native"
+ inherit gettext autotools update-alternatives pkgconfig
  
 -- 
 2.39.2
 
 
---===============4131167515269095772==
+--===============5257885721823913601==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pytest: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pytest/pytest-7.4.2.tar.gz;downloadfilename=pytest-7.4.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pytest/pytest-7.4.3.tar.gz;downloadfilename=pytest-7.4.3.tar.gz"
-packages/core2-64-poky-linux/python3-pytest: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-64-poky-linux/python3-pytest: PV changed from "7.4.2" to "7.4.3"
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-dbg: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-dbg: PV changed from "7.4.2" to "7.4.3"
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-dev: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-dev: PV changed from "7.4.2" to "7.4.3"
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-doc: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-doc: PV changed from "7.4.2" to "7.4.3"
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-locale: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-locale: PV changed from "7.4.2" to "7.4.3"
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-src: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-src: PV changed from "7.4.2" to "7.4.3"
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-staticdev: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-64-poky-linux/python3-pytest/python3-pytest-staticdev: PV changed from "7.4.2" to "7.4.3"
-packages/core2-64-poky-linux/python3-pytest/python3-pytest: PKGV changed from 7.4.2 [default] to 7.4.3 [default]
-packages/core2-64-poky-linux/python3-pytest/python3-pytest: PKGSIZE changed from 2671928 to 2675091 (+0%)
-packages/core2-64-poky-linux/python3-pytest/python3-pytest: PV changed from "7.4.2" to "7.4.3"
-Changes to packages/core2-64-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.11/site-packages/pytest-7.4.2.dist-info moved to /usr/lib/python3.11/site-packages/pytest-7.4.3.dist-info
+packages/core2-64-poky-linux/msmtp: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp: PACKAGES: added "msmtp-locale-ro"
+packages/core2-64-poky-linux/msmtp: SRC_URI changed from "https://marlam.de/msmtp/releases/msmtp-1.8.24.tar.xz" to "https://marlam.de/msmtp/releases/msmtp-1.8.25.tar.xz"
+packages/core2-64-poky-linux/msmtp: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-dbg: PKGSIZE changed from 436392 to 437760 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-dbg: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-dbg: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-dev: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-dev: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-doc: PKGSIZE changed from 114861 to 115996 (+1%)
+packages/core2-64-poky-linux/msmtp/msmtp-doc: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-doc: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PKGSIZE changed from 36812 to 36640 (-0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PKGSIZE changed from 34835 to 34666 (-0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PKGSIZE changed from 37402 to 37206 (-1%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PKGSIZE changed from 36253 to 36085 (-0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PKGSIZE changed from 45081 to 44877 (-0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PKGSIZE changed from 45442 to 45243 (-0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PKGSIZE changed from 35142 to 34972 (-0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ta: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ta: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PKGSIZE changed from 47284 to 47085 (-0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-src: PKGSIZE changed from 514085 to 515088 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-src: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-src: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp-staticdev: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-staticdev: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/msmtp/msmtp: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
+packages/core2-64-poky-linux/msmtp/msmtp: PV changed from "1.8.24" to "1.8.25"
 
---===============4131167515269095772==
+--===============5257885721823913601==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-msmtp-upgrade-1.8.24-1.8.25.patch"
+
+RnJvbSBmNWI2YmRiMjE3NmYwYWQ3OGM1Mjc0ZTEzNGVmOTgyZWJhOTVhZmZjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMTozMjo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1z
+bXRwOiB1cGdyYWRlIDEuOC4yNCAtPiAxLjguMjUKCi0tLQogLi4uL3JlY2lwZXMtZXh0ZW5kZWQv
+bXNtdHAve21zbXRwXzEuOC4yNC5iYiA9PiBtc210cF8xLjguMjUuYmJ9IHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL21zbXRwL3ttc210cF8xLjguMjQuYmIgPT4gbXNtdHBfMS44LjI1LmJifSAo
+OTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9tc210cF8xLjgu
+MjQuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAvbXNtdHBfMS44LjI1LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9t
+c210cF8xLjguMjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9tc210
+cF8xLjguMjUuYmIKaW5kZXggYjhjODY3MTYxYi4uYjU3NWZhZDVlMSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL21zbXRwL21zbXRwXzEuOC4yNC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZXh0ZW5kZWQvbXNtdHAvbXNtdHBfMS44LjI1LmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJQ19G
+SUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWQzMjIzOWJjYjY3MzQ2M2FiODc0ZTgw
+ZDQ3ZmFlNTA0IgogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vbWFybGFtLmRlL21zbXRw
+L2Rvd25sb2FkLyIKIAogU1JDX1VSSSA9ICJodHRwczovL21hcmxhbS5kZS8ke0JQTn0vcmVsZWFz
+ZXMvJHtCUH0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImJkNjY0NGIxYWFhYjE3ZDYx
+Yjg2NjQ3OTkzZTNlZmFkODYwYjIzYzU0MjgzYjAwZGRjNTc5YzFmNTExMGFhNTkiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiMmRmZTFkYmJiMzk3ZDI2ZmUwYjBiNmIyZTljZDJlZmRmOWQ3MmRkNDJk
+MThlNzBkN2YzNjNhZGEyNjUyZDczOCIKIAogaW5oZXJpdCBnZXR0ZXh0IGF1dG90b29scyB1cGRh
+dGUtYWx0ZXJuYXRpdmVzIHBrZ2NvbmZpZwogCi0tIAoyLjM5LjIKCg==
+
+--===============5257885721823913601==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-pytest (sysroot):
-  /usr/lib/python3.11/site-packages/pytest-7.4.2.dist-info moved to /usr/lib/python3.11/site-packages/pytest-7.4.3.dist-info
+packages/core2-64-poky-linux/msmtp: PACKAGES: added "msmtp-locale-ro"
 
---===============4131167515269095772==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pytest-upgrade-7.4.2-7.4.3.patch"
-
-RnJvbSA1YmVhNjRkMzAxNzVkODA1ZmM0NmQwNWQ2MzU0NTlkNTMwN2ZmMGVjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAwOToyNjoxMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcHl0ZXN0OiB1cGdyYWRlIDcuNC4yIC0+IDcuNC4zCgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtcHl0ZXN0XzcuNC4yLmJiID0+IHB5dGhvbjMtcHl0ZXN0XzcuNC4zLmJifSB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHl0ZXN0XzcuNC4yLmJiID0+IHB5
-dGhvbjMtcHl0ZXN0XzcuNC4zLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1weXRlc3RfNy40LjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0XzcuNC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXRlc3Rf
-Ny40LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
-eXRlc3RfNy40LjMuYmIKaW5kZXggNzEwYWE1MTcxNi4uNmZhMGZlYmQ4OCAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5dGVzdF83LjQuMi5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHl0ZXN0XzcuNC4zLmJiCkBA
-IC01LDcgKzUsNyBAQCBERVNDUklQVElPTiA9ICJUaGUgcHl0ZXN0IGZyYW1ld29yayBtYWtlcyBp
-dCBlYXN5IHRvIHdyaXRlIHNtYWxsIHRlc3RzLCB5ZXQgc2NhbAogTElDRU5TRSA9ICJNSVQiCiBM
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT1iZDI3ZTQxYjY1NTBmZTBmYzQ1
-MzU2ZDFkODFlZTM3YyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE3NjYyNTljZmFiNTY0YTJh
-ZDUyY2IxYWFlMWI4ODFhNzVjM2ViN2UzNGNhMzc3OTY5N2MyM2VkNDdjNDcwNjkiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiZDk4OWQxMzY5ODJkZTRlM2IyOWRhYmNjODM4YWQ1ODFjNjRlOGVkNTJj
-MTFmYmU4NmRkZWJkOWRhMDgxOGNkNSIKIAogREVQRU5EUyArPSAicHl0aG9uMy1zZXR1cHRvb2xz
-LXNjbS1uYXRpdmUiCiAKLS0gCjIuMzkuMgoK
-
---===============4131167515269095772==--
+--===============5257885721823913601==--
 
