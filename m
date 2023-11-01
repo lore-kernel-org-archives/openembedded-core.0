@@ -1,205 +1,155 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4332C4332F
-	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 13:52:10 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web10.7819.1698846727021856730
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22EE0C4332F
+	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:00:21 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web11.7861.1698847217593269011
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 06:52:07 -0700
+ Wed, 01 Nov 2023 07:00:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JHNIYznF;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.52, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-99de884ad25so1045205666b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 06:52:06 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=aILzf1FA;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-77063481352so74367685a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 07:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1698846725; x=1699451525; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1GnaBYe4Z3ZBLfHp9nPQg5gy8x4pTR4H3eTRlofbvVM=;
-        b=JHNIYznFFpbIPiwZpsCIfS0nuGrXY1u9K1Dt3uqpPqrj3w3gwPnQxwdNv/+O4RjHMa
-         qSjjKG+6HUtVSsf0lWuu+q1EmXpIsmuFGuat7lkhKJHnOpdi7hOVRJAtRu9TZZpvIB4B
-         glvYURte67tVNHFUxMZwLmpq2yGZGjoBvf3yAf0zXStNHdgAovle92dMxkXJktfem4jB
-         DpjA1wbMQZmnCyDb17iQ9o9mU4OVuL0zbMoP5z7gMRsRdwa93bY/OhKsngkh5pac5+Du
-         19gWIby5evL/VWzH5T1ZRPyeWjOZ0ikAtI1r6IOIYEN0TQR/lmCEbMG/9Hxyno6x5Ulc
-         FTBg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698847216; x=1699452016; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o/t/wHxSY+B7v921X9pSHL9+3TmKV7THnYxBMAgme8o=;
+        b=aILzf1FA1Q6HWUOB0I/ozdPz8QO1YUstkyHioJcH1LyZBcjMftwg1qEEHPFkJxqPR4
+         Os2Xc+wfkMYvRib33YKVDi98l5zYlHCYC5ZqGwxVSH5zNoIuijFEKx4Xzx6HwVvAf5q2
+         28XaL836YLJE3fxTpmFhcuyr962LzmHajVU1e4a9yYvEVqL4QPJ8jjAeRg5zwD24sB5C
+         0jWtuSQUBW2TICMchR2oFRnyjZNM+VInyiYAbyJVxL1/rWKXEUgZOrdjvGT2VZwbt5Jj
+         d6FSzmwEGzd5AUFclL2W2vG2iAd9JvoX70rwEAlQkAV5cwpoPOvKkHCEKlFWLbbwrz5n
+         swRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698846725; x=1699451525;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1GnaBYe4Z3ZBLfHp9nPQg5gy8x4pTR4H3eTRlofbvVM=;
-        b=K5rnOs2HG5BZZZX3k0ejTK78b2t1bRKORdkytG+7qha7x7IIe5QNnpJ8MUs1A/CtYV
-         kKg7leBCV6p50Iqo0huQ5laAiBoVIr/N1Il1wHUIF94yEIb9SHvwA63UWx7ScPCVylyY
-         QsBHdj3enuP2l/f5gJ+Vg/i2mZgUBDLM0B6AO+0MTLHRZHKe9kFOEhg+TOVCuBizggfc
-         Sq81/CO1KCOPwhWiVzQ05vksUboApBjB6HItDUXlS1vGio7sjQ3/P3qmeN+QhwS9Op4C
-         j9irhpXeBBfpZ6SJVwCry++iAhfoO0z8wxfxoDPS63CSRcEfQ2KqyU9gBlhYtowukHpS
-         wCAQ==
-X-Gm-Message-State: AOJu0YzYuvhw3D+Mn1B/yfJ4XxoWqojNqFSIbEdQyigr20WBDRImHPlF
-	uJy6lLDEoN6iX1CO3dAmQVNcYvnu3lgJqWtyKuzUc37/GjQB9mOm
-X-Google-Smtp-Source: AGHT+IGxMiHdniz+Sd3/UPGggSzGQ5ISLOrPRBAzYRFuTrab9ZVBvnEwOouFbMPa0kD2JtaNbZPVcm/68ErXDNSvcV8=
-X-Received: by 2002:a17:907:25c6:b0:9d5:d803:31fb with SMTP id
- ae6-20020a17090725c600b009d5d80331fbmr1957004ejc.41.1698846725253; Wed, 01
- Nov 2023 06:52:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698847216; x=1699452016;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o/t/wHxSY+B7v921X9pSHL9+3TmKV7THnYxBMAgme8o=;
+        b=QULLdY/3/ZkbGVejqiwf0DFpcuvTi3tYTaCgdqNHPwfnZLB6EJUZsGhvlCAPU7qmzY
+         4XXToXg/mfLr91QpLoEyBA4pUlPn6Z181cGjxxWEPCsT0ACBWHIyQ0U9PelU3iY4E7ks
+         k7R2bC6xbDbjc7bLg8v6jx+B4FFrSWa059eHMGOuAP8TQKjDxiAnVm9DnCOxZkaF9qh9
+         bMQbnbqeUyIMdfORtCArImcdZEHhRhegj0jmgzlRKO03KGhX+e/QkpcA2H5Ov5Zcz5hN
+         Ky8rIIT79J+HzhX1eJS97geQjWkDqGpsRpTxUsz3uLxx1Ay/RPl9Os5Y7B3FM5R4Jiqx
+         vLYw==
+X-Gm-Message-State: AOJu0YyWMpXoxzTcFzMeVrnpH5xtVSIcMFpsdpGM7jp6+XsLvmQDF9vE
+	+h2mfxi0ycrPl21qz/1yXnM+JQ==
+X-Google-Smtp-Source: AGHT+IFjdavfmy9Iw4nl+QWt/Wk5117RjYZoBpg3+VKAkG6Od1IID9bEz6HiPwoVW9I2d91yVYP3Vg==
+X-Received: by 2002:a05:6214:ca6:b0:670:a7a7:6415 with SMTP id s6-20020a0562140ca600b00670a7a76415mr9766386qvs.19.1698847216398;
+        Wed, 01 Nov 2023 07:00:16 -0700 (PDT)
+Received: from ?IPV6:2001:1970:5b1f:ab00:d875:6297:4e81:e577? ([2001:1970:5b1f:ab00:d875:6297:4e81:e577])
+        by smtp.gmail.com with ESMTPSA id cv14-20020ad44d8e000000b006577e289d37sm1489956qvb.2.2023.11.01.07.00.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Nov 2023 07:00:16 -0700 (PDT)
+Message-ID: <389d1d1a-e9e6-4927-ae62-94c58b1b2ab6@baylibre.com>
+Date: Wed, 1 Nov 2023 10:00:14 -0400
 MIME-Version: 1.0
-References: <cover.1698789786.git.steve@sakoman.com> <4dcd5e0a0bb43c23850e3a711fc7e2230575d245.1698789786.git.steve@sakoman.com>
- <CA+chaQeAGGEAYu8tnrsgyEN39+TNtYi6HJoGc4bfyDGjBiTpnQ@mail.gmail.com>
-In-Reply-To: <CA+chaQeAGGEAYu8tnrsgyEN39+TNtYi6HJoGc4bfyDGjBiTpnQ@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 1 Nov 2023 03:51:53 -1000
-Message-ID: <CAOSpxdYupYx4Uq736FgTggURgU3P_eHe-PGnd9MG0oohc-Paqw@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 3/3] libwebp: Fix CVE-2023-4863
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Patchtest results for [OE-core][PATCH] patchtest: shorten test
+ result outputs
+To: Steve Sakoman <steve@sakoman.com>, Marta Rybczynska <rybczynska@gmail.com>
+Cc: Anuj Mittal <anuj.mittal@intel.com>, Tim Orling <ticotimo@gmail.com>,
+ OE-core <openembedded-core@lists.openembedded.org>
+References: <0101018b861b3b32-256b0c3e-5bb7-40da-83f1-f6717726db5e-000000@us-west-2.amazonses.com>
+ <ffa9ec9ce67f785d90b81f348c3a0f5641a4a849.camel@intel.com>
+ <CANx9H-CCaTwnVc+KW+sAUJjMutNtNw-T0Rybpdw1kM7o+_qMzg@mail.gmail.com>
+ <8c789be17c092ff433b7b4499388f957c32663ef.camel@intel.com>
+ <CAApg2=SuPopzhjLJgC1oy3e42xEci+1_h2scS-mkT+8EsQCjHg@mail.gmail.com>
+ <CAOSpxda_dq1AGeVCxaoeGLY-u+8d4k7QD7SP-MrNSyw4Kb1TxQ@mail.gmail.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <CAOSpxda_dq1AGeVCxaoeGLY-u+8d4k7QD7SP-MrNSyw4Kb1TxQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 13:52:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189914
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:00:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189915
 
-Thanks for reviewing Martin!
 
-I'll drop this patch until there is further clarification on the need for i=
-t.
-
-Steve
-
-On Tue, Oct 31, 2023 at 1:39=E2=80=AFPM Martin Jansa <martin.jansa@gmail.co=
-m> wrote:
+On 2023-11-01 09:48, Steve Sakoman wrote:
+> On Tue, Oct 31, 2023 at 7:31 PM Marta Rybczynska <rybczynska@gmail.com> wrote:
+>>
+>>
+>>
+>> On Wed, 1 Nov 2023, 11:48 Anuj Mittal, <anuj.mittal@intel.com> wrote:
+>>> On Tue, 2023-10-31 at 19:33 -0700, Tim Orling wrote:
+>>>>
+>>>> On Tue, Oct 31, 2023 at 7:26 PM Anuj Mittal <anuj.mittal@intel.com>
+>>>> wrote:
+>>>>> On Tue, 2023-10-31 at 14:20 +0000, Trevor Gamblin wrote:
+>>>>>> Thank you for your submission. Patchtest identified one
+>>>>>> or more issues with the patch. Please see the log below for
+>>>>>> more information:
+>>>>>>
+>>>>>> ---
+>>>>>> Testing patch /home/patchtest/share/mboxes/patchtest-shorten-
+>>>>>> test-
+>>>>>> result-outputs.patch
+>>>>>>
+>>>>>> FAIL: test CVE presence in commit message: A CVE tag should be
+>>>>>> provided in the commit message with format: "CVE: CVE-YYYY-XXXX"
+>>>>>> (test_mbox.TestMbox.test_cve_presence_in_commit_message)
+>>>>> Is this a requirement to have this in commit message in this
+>>>>> format? I
+>>>>> don't think this was being followed until now. A lot of patches
+>>>>> seem to
+>>>>> be failing this test as a result.
+>>>>>
+>>>>
+>>>> This was required when patchtest was running previously. It has been
+>>>> ignored for a while now, but that does not mean we should not enforce
+>>>> it. It should be documented as required.
+>>>>
+>>>> The tags allow for machines to parse the relevant info. Anything else
+>>>> is purely random and chaos.
+>>> The tag is already required to be present in the CVE patch itself which
+>>> is/can be parsed by scripts which actually I think is a better way of
+>>> detecting whether a CVE is patched rather than looking at commit
+>>> messages.
+>>>
+>>> If having it in a specific format in commit message as well helps,
+>>> sure. It shouldn't take time to add it but we seem to be adding too
+>>> many rules ...
+>>>
+>> (adding Steve)
+>>
+>> I agree with Anuj, and I do not remember seeing a rule to put the
+>> CVE number in the commit message. We already have it in the
+>> patch file name (recommended) and inside the patch file itself.
+>> Those two places are enough in my opinion. In fact, it will likely
+>> be there in the commit message (its title), so repeating it does
+>> not make much logical sense.
+>>
+>> In fact, I have an update of the manual with more detailed information
+>> on submitting CVE fixes and looking for a resolution of this question
+>> to submit it :)
+>>
+>> Steve, does such additional tag in the commit message make it
+>> easier for you?
+> No.  In most cases it seems to add no value, since the cve number is
+> already in the shortlog, the filename of the patch(es), and the CVE
+> tag in the patch file(s).
 >
-> I'm surprised this one does apply in kirkstone as there is this security =
-issue already fixed as 2023-5129 (see dunfell commit https://git.openembedd=
-ed.org/openembedded-core/commit/?h=3Ddunfell&id=3D7dce529515baa843ba3e5c89b=
-2ad605b9845c59b and a bit more details in https://lists.openembedded.org/g/=
-openembedded-core/message/189262 )
+> I haven't been requiring it, so have no issue with removing that test
+> in patchtest.
+I've got a patch ready to do this, just letting the selftests run to 
+ensure nothing's broken before submission.
 >
-> Is https://github.com/webmproject/libwebp/commit/95ea5226c870449522240ccf=
-f26f0b006037c520 really related to CVE-2023-4863 ?
+> Steve
 >
-> On Tue, Oct 31, 2023 at 11:05=E2=80=AFPM Steve Sakoman <steve@sakoman.com=
-> wrote:
->>
->> From: Soumya Sambu <soumya.sambu@windriver.com>
->>
->> Heap buffer overflow in WebP in Google Chrome prior to
->> 116.0.5845.187 allowed a remote attacker to perform an
->> out of bounds memory write via a crafted HTML page.
->>
->> References:
->> https://nvd.nist.gov/vuln/detail/CVE-2023-4863
->> https://security-tracker.debian.org/tracker/CVE-2023-4863
->> https://bugzilla.redhat.com/show_bug.cgi?id=3D2238431#c12
->>
->> Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
->> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->> ---
->>  .../webp/files/CVE-2023-4863.patch            | 53 +++++++++++++++++++
->>  meta/recipes-multimedia/webp/libwebp_1.2.4.bb |  1 +
->>  2 files changed, 54 insertions(+)
->>  create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-4863.pat=
-ch
->>
->> diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch b/me=
-ta/recipes-multimedia/webp/files/CVE-2023-4863.patch
->> new file mode 100644
->> index 0000000000..2b1817822c
->> --- /dev/null
->> +++ b/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch
->> @@ -0,0 +1,53 @@
->> +From 95ea5226c870449522240ccff26f0b006037c520 Mon Sep 17 00:00:00 2001
->> +From: Vincent Rabaud <vrabaud@google.com>
->> +Date: Mon, 11 Sep 2023 16:06:08 +0200
->> +Subject: [PATCH] Fix invalid incremental decoding check.
->> +
->> +The first condition is only necessary if we have not read enough
->> +(enough being defined by src_last, not src_end which is the end
->> +of the image).
->> +The second condition now fits the comment below: "if not
->> +incremental, and we are past the end of buffer".
->> +
->> +BUG=3Doss-fuzz:62136
->> +
->> +Change-Id: I0700f67c62db8e1c02c2e429a069a71e606a5e4f
->> +
->> +CVE: CVE-2023-4863
->> +
->> +Upstream-Status: Backport [https://github.com/webmproject/libwebp/commi=
-t/95ea5226c870449522240ccff26f0b006037c520]
->> +
->> +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
->> +---
->> + src/dec/vp8l_dec.c | 15 +++++++++++++--
->> + 1 file changed, 13 insertions(+), 2 deletions(-)
->> +
->> +diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c
->> +index 186b0b2..59a9e64 100644
->> +--- a/src/dec/vp8l_dec.c
->> ++++ b/src/dec/vp8l_dec.c
->> +@@ -1241,9 +1241,20 @@ static int DecodeImageData(VP8LDecoder* const de=
-c, uint32_t* const data,
->> +   }
->> +
->> +   br->eos_ =3D VP8LIsEndOfStream(br);
->> +-  if (dec->incremental_ && br->eos_ && src < src_end) {
->> ++  // In incremental decoding:
->> ++  // br->eos_ && src < src_last: if 'br' reached the end of the buffer=
- and
->> ++  // 'src_last' has not been reached yet, there is not enough data. 'd=
-ec' has to
->> ++  // be reset until there is more data.
->> ++  // !br->eos_ && src < src_last: this cannot happen as either the buf=
-fer is
->> ++  // fully read, either enough has been read to reach 'src_last'.
->> ++  // src >=3D src_last: 'src_last' is reached, all is fine. 'src' can =
-actually go
->> ++  // beyond 'src_last' in case the image is cropped and an LZ77 goes f=
-urther.
->> ++  // The buffer might have been enough or there is some left. 'br->eos=
-_' does
->> ++  // not matter.
->> ++  assert(!dec->incremental_ || (br->eos_ && src < src_last) || src >=
-=3D src_last);
->> ++  if (dec->incremental_ && br->eos_ && src < src_last) {
->> +     RestoreState(dec);
->> +-  } else if (!br->eos_) {
->> ++  } else if ((dec->incremental_ && src >=3D src_last) || !br->eos_) {
->> +     // Process the remaining rows corresponding to last row-block.
->> +     if (process_func !=3D NULL) {
->> +       process_func(dec, row > last_row ? last_row : row);
->> +--
->> +2.40.0
->> diff --git a/meta/recipes-multimedia/webp/libwebp_1.2.4.bb b/meta/recipe=
-s-multimedia/webp/libwebp_1.2.4.bb
->> index 4defdd5e42..0728ca60f5 100644
->> --- a/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
->> +++ b/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
->> @@ -16,6 +16,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6e8dee932c2=
-6f2dab503abf70c96d8bb \
->>  SRC_URI =3D "http://downloads.webmproject.org/releases/webp/${BP}.tar.g=
-z \
->>             file://CVE-2023-1999.patch \
->>             file://CVE-2023-5129.patch \
->> +           file://CVE-2023-4863.patch \
->>             "
->>  SRC_URI[sha256sum] =3D "7bf5a8a28cc69bcfa8cb214f2c3095703c6b73ac5fba4d5=
-480c205331d9494df"
->>
->> --
->> 2.34.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#189873): https://lists.openembedded.org/g/openembedd=
-ed-core/message/189873
->> Mute This Topic: https://lists.openembedded.org/mt/102307907/3617156
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [m=
-artin.jansa@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#189913): https://lists.openembedded.org/g/openembedded-core/message/189913
+> Mute This Topic: https://lists.openembedded.org/mt/102275009/7611679
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
