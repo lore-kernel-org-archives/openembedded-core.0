@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3BA0C10F1B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1543C10F13
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:14 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.8647.1698848703568689614
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.8660.1698848704870140844
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:06 -0700
+ Wed, 01 Nov 2023 07:25:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dDq9ljFN;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=BVJc8rMS;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.192, mailfrom: 0101018b8b460df3-6136ec20-a8b3-4867-ba23-10d21e4819de-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Q8L6LQ2W;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=aPI2tN3g;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.30, mailfrom: 0101018b8b46070d-414aff6e-2038-47ca-b386-91a83ad57a12-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848706;
+	t=1698848704;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zbI4fNkilbKgxCWEDPuPI9dQA7pEijrkXd2VPQ9xf4c=;
-	b=dDq9ljFNP4Chxb+e5mMKzya4FkthSlTryLM368sH6XjwxzbTCBL6UASw8+7AEGUi
-	1TBLs6VJfoewRliNW2d5gbvNVV/i9QZjjHKBeNRnWPIecUA/lrTvzbDdoLLyZcOPe+1
-	rqDBITRjrCCwny4X1yWfL0xc6EbtUg3ikcOsoW+E=
+	bh=ZQmnitFLivPGA/nWh69nb86/5rRPYgkvh/+T7R282G0=;
+	b=Q8L6LQ2WojoQPGb4hGygDrWF5flmc1ZMnDxjRN0mK4EUHRbhMXMNdb71YjfJ2+2l
+	tiiIyK2N2b9MOK3K/UCSGe14BlUtD7QIEdkL/9iuCulehcmdpszBTnmwCn36rwhj91r
+	8d/kMkPzsKApdOhf7qyYnCzAeN1qZrZNa/sYWM7s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848706;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848704;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zbI4fNkilbKgxCWEDPuPI9dQA7pEijrkXd2VPQ9xf4c=;
-	b=BVJc8rMSZyCU1cKuH0/JUWpK+jkC3c5/2Js4B4idmELhx4iwkkSD7Nh1k9mEj9iP
-	PwF+eCG7Hl0vjBSy0dUwRK2O+62eUho6+GY6+CeL0Knr5n+jQa1lQ9/40Pmh28trYdQ
-	2TZwhzqpUS+Xq1hBAbygS2zKdv0gi+M5BpUQ/ugQ=
-Content-Type: multipart/mixed; boundary="===============1325422141059407627=="
+	bh=ZQmnitFLivPGA/nWh69nb86/5rRPYgkvh/+T7R282G0=;
+	b=aPI2tN3gpVEPHwem6pxvndJ4dWN7dVFNa/+XAJY/9oBttsfXfucKi8DBQueCkeMQ
+	B9Rr5CjDlAgjs+Ows8CJnpkO1zWABwIqDIm4RBegODgwLcQTf1i4+hqQD4c0Gm/gNaq
+	BDCIpqrCSiM0qgbZ2j24tChljZPQLrqCIMmRjkVI=
+Content-Type: multipart/mixed; boundary="===============2976463919650190655=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] hwlatdetect: upgrading to 2.6 SUCCEEDED
-Message-ID: <0101018b8b460df3-6136ec20-a8b3-4867-ba23-10d21e4819de-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:06 +0000
+Subject: [AUH] python3-sphinxcontrib-serializinghtml: upgrading to 1.1.9
+ FAILED
+Message-ID: <0101018b8b46070d-414aff6e-2038-47ca-b386-91a83ad57a12-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:04 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.192
+X-SES-Outgoing: 2023.11.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190026
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189971
 
---===============1325422141059407627==
+--===============2976463919650190655==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,97 +52,80 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *hwlatdetect* to *2.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-sphinxcontrib-serializinghtml* to *1.1.9* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-hwlatdetect-upgrade-2.5-2.6.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade python3-sphinxcontrib-serializinghtml -V 1.1.9
+NOTE: Starting bitbake server...
+Loading cache...done.
+Loaded 1846 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-bc44915620e6572561931642eb1c41aa00fdf750"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:bc44915620e6572561931642eb1c41aa00fdf750"
+workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
+
+Initialising tasks...done.
+Sstate summary: Wanted 2 Local 2 Mirrors 0 Missed 0 Current 28 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 1846 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 912 .bb files complete (910 cached, 2 parsed). 1843 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-bc44915620e6572561931642eb1c41aa00fdf750"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:bc44915620e6572561931642eb1c41aa00fdf750"
+workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
+
+Initialising tasks...done.
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz;downloadfilename=sphinxcontrib-serializinghtml-1.1.9.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz;downloadfilename=sphinxcontrib-serializinghtml-1.1.9.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/scripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot/usr/bin/crossscripts:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-wor
+ ker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; /usr/bin/env wget -t 2 -T 30 --passive-ftp -O /home/pokybuild/yocto-worker/auh/build/build/build/downloads/sphinxcontrib-serializinghtml-1.1.9.tar.gz.tmp -P /home/pokybuild/yocto-worker/auh/build/build/build/downloads 'https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz' --progress=dot -v failed with exit code 8, no output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz;downloadfilename=sphinxcontrib-serializinghtml-1.1.9.tar.gz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/recipetool-dcbdhn_6/work/temp/log.do_fetch.3820359
+ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/s/sphinxcontrib-serializinghtml/sphinxcontrib-serializinghtml-1.1.9.tar.gz;downloadfilename=sphinxcontrib-serializinghtml-1.1.9.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 4d58743055790a981c6b748c4d5056f50864d907 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 13:49:40 +0000
-Subject: [PATCH] hwlatdetect: upgrade 2.5 -> 2.6
-
----
- meta/recipes-rt/rt-tests/rt-tests.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 527e14ad54..70315c4694 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,5 +1,5 @@
--SRCREV = "4579b9a6d85ae528f76e92421eb5e7b33cd26b17"
--PV = "2.5"
-+SRCREV = "217cd8518c5f7777d490892aa9c765a6b2782cb5"
-+PV = "2.6"
- PE = "1"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=main;protocol=https"
--- 
-2.39.2
-
-
---===============1325422141059407627==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-dbg: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-dbg: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-dev: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-dev: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-doc: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-doc: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-locale: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-locale: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-src: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-src: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-staticdev: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect-staticdev: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect: PKGSIZE changed from 17162 to 17229 (+0%)
-packages/core2-64-poky-linux/hwlatdetect/hwlatdetect: PKGV changed from 2.5 [default] to 2.6 [default]
-packages/core2-64-poky-linux/hwlatdetect: PV changed from "2.5" to "2.6"
-packages/core2-64-poky-linux/hwlatdetect: PKGV changed from 2.5 [default] to 2.6 [default]
-
---===============1325422141059407627==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-hwlatdetect-upgrade-2.5-2.6.patch"
-
-RnJvbSA0ZDU4NzQzMDU1NzkwYTk4MWM2Yjc0OGM0ZDUwNTZmNTA4NjRkOTA3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMzo0OTo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGh3
-bGF0ZGV0ZWN0OiB1cGdyYWRlIDIuNSAtPiAyLjYKCi0tLQogbWV0YS9yZWNpcGVzLXJ0L3J0LXRl
-c3RzL3J0LXRlc3RzLmluYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
-KSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtcnQvcnQtdGVzdHMv
-cnQtdGVzdHMuaW5jIGIvbWV0YS9yZWNpcGVzLXJ0L3J0LXRlc3RzL3J0LXRlc3RzLmluYwppbmRl
-eCA1MjdlMTRhZDU0Li43MDMxNWM0Njk0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtcnQvcnQt
-dGVzdHMvcnQtdGVzdHMuaW5jCisrKyBiL21ldGEvcmVjaXBlcy1ydC9ydC10ZXN0cy9ydC10ZXN0
-cy5pbmMKQEAgLTEsNSArMSw1IEBACi1TUkNSRVYgPSAiNDU3OWI5YTZkODVhZTUyOGY3NmU5MjQy
-MWViNWU3YjMzY2QyNmIxNyIKLVBWID0gIjIuNSIKK1NSQ1JFViA9ICIyMTdjZDg1MThjNWY3Nzc3
-ZDQ5MDg5MmFhOWM3NjVhNmIyNzgyY2I1IgorUFYgPSAiMi42IgogUEUgPSAiMSIKIAogU1JDX1VS
-SSA9ICJnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL3V0aWxzL3J0LXRlc3RzL3J0LXRlc3Rz
-LmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKLS0gCjIuMzkuMgoK
-
---===============1325422141059407627==--
+--===============2976463919650190655==--
 
