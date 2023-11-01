@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4708C25B4E
-	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E06C25B54
+	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:17 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.8479.1698848703453616908
+ by mx.groups.io with SMTP id smtpd.web10.8639.1698848702607659161
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:03 -0700
+ Wed, 01 Nov 2023 07:25:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Y0mnnnrl;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=L8ojj3y6;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b8b4600d7-f1b6bce9-6624-4e1f-93ad-5bd7a234b6d6-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZXdZD+WT;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=C2EDzUFK;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b8b45fcc0-0ed6b713-a77f-4372-b98b-4d8830ea9c1f-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848702;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=0BmB+a3z5ihNMgUdyYaHmrK4qwHDH9uHMEv1xgyjlp8=;
-	b=Y0mnnnrl57mwQLVbxmt9u2WssC2k5NQ6wldMVccSpstmSjK+RQ0EzCJlX/3KgXAt
-	Id9rQGHCUMQeSfwShEqtGHHZRjyMIQq1AE0mdF8SF06pO9x2+Q4dyQihkXKTzdBCu2I
-	Cmh+5SwknblpRwJPOwlbiHmO2c7xyxx/rntPiB+Q=
+	t=1698848701;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=GrFhuyVYDxas2hSyG3CG0+O1jiqdZJsD8MuqRGpwWZU=;
+	b=ZXdZD+WTto5F6NJp/7buctS4cwzLrz10/M2lIbAI+9gxQd10agjk5A5wxhxnyqYc
+	45ryvni5Uv36QWsEIL8je2wj06mtJL/+fA/utPufxXbhcsOpeVwVhRc8FktN+iFnu91
+	Br+1xVAjaqyYmoxUzPivGmP1i2qAEMUDOtcrAJMg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848702;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=0BmB+a3z5ihNMgUdyYaHmrK4qwHDH9uHMEv1xgyjlp8=;
-	b=L8ojj3y6Jedoot0LnfuOSE040yWcjarfEkJvLaTCT74ZVmoFFAq5dkKyZSqnUQck
-	1LXBei8gMPHIpunqP5MLk7rSLh0clTjn8enCeFYVs5eE++I58JXqT2XnNjb6NKeFkzf
-	NiS2gQgl/AO5wKN2x9Rs3XNOoJUc4F2b1WxjZx9w=
-Content-Type: multipart/mixed; boundary="===============6318757370498791373=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848701;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=GrFhuyVYDxas2hSyG3CG0+O1jiqdZJsD8MuqRGpwWZU=;
+	b=C2EDzUFKINF2BbSiWaBZap2PuIRp8MhWaWWL6t7BLmcCf/foj4SF+quhgnw5f8De
+	MPwq5ih8oxoJtp0UvLHfsNxYk3b+ki29I1c5TKsDCRDMscAcjD0Ym1OR4BtjcsIXyGb
+	8fh72wQonsno508Chgi8s55lidm4wZqEQ1tkdstY=
+Content-Type: multipart/mixed; boundary="===============2444920979607084341=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] dpkg: upgrading to 1.22.1 SUCCEEDED
-Message-ID: <0101018b8b4600d7-f1b6bce9-6624-4e1f-93ad-5bd7a234b6d6-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:02 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] base-passwd: upgrading to 3.6.2 SUCCEEDED
+Message-ID: <0101018b8b45fcc0-0ed6b713-a77f-4372-b98b-4d8830ea9c1f-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:01 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.11.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189929
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189919
 
---===============6318757370498791373==
+--===============2444920979607084341==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dpkg* to *1.22.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *base-passwd* to *3.6.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-dpkg-upgrade-1.22.0-1.22.1.patch
+    - apply the patch: git am 0001-base-passwd-upgrade-3.6.1-3.6.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,232 +72,183 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From adc01b8660aaa1f984cfa3bb18212978a18bc498 Mon Sep 17 00:00:00 2001
+From 2772d435a2b52d104761e501e9414f09d44646cb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 06:48:53 +0000
-Subject: [PATCH] dpkg: upgrade 1.22.0 -> 1.22.1
+Date: Wed, 1 Nov 2023 05:46:47 +0000
+Subject: [PATCH] base-passwd: upgrade 3.6.1 -> 3.6.2
 
 ---
- .../dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch    | 4 ++--
- meta/recipes-devtools/dpkg/{dpkg_1.22.0.bb => dpkg_1.22.1.bb} | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.22.0.bb => dpkg_1.22.1.bb} (95%)
+ ...-to-configure-whether-to-use-SELinux.patch | 35 -------------------
+ ...e-passwd_3.6.1.bb => base-passwd_3.6.2.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch
+ rename meta/recipes-core/base-passwd/{base-passwd_3.6.1.bb => base-passwd_3.6.2.bb} (96%)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-index f2367c95e9..c1c50c0d49 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0001-build.c-ignore-return-of-1-from-tar-cf.patch
-@@ -1,4 +1,4 @@
--From e3ade3464b8a1129a55c2790cf114d9ae01e3cda Mon Sep 17 00:00:00 2001
-+From e4193893a7374517b19977731850d5d22aa96d05 Mon Sep 17 00:00:00 2001
- From: Paul Eggleton <paul.eggleton@linux.microsoft.com>
- Date: Tue, 16 Jun 2020 03:57:25 +0000
- Subject: [PATCH] build.c: ignore return of 1 from tar -cf
-@@ -29,7 +29,7 @@ Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
-  1 file changed, 4 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch b/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch
+deleted file mode 100644
+index 2cc6174e2a..0000000000
+--- a/meta/recipes-core/base-passwd/base-passwd/0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 25e3bf09bbbb04aa930ea0fd9f28809a24fb7194 Mon Sep 17 00:00:00 2001
+-From: Peter Kjellerstedt <pkj@axis.com>
+-Date: Sun, 2 Oct 2022 17:47:29 +0200
+-Subject: [PATCH] Make it possible to configure whether to use SELinux or not
+-
+-Upstream-Status: Backport [https://salsa.debian.org/debian/base-passwd/-/commit/396c41bb35e03c5dcc727aa9f74218a45874ac1f]
+-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+----
+- configure.ac | 13 ++++++++++++-
+- 1 file changed, 12 insertions(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 589df88..e46403b 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -13,7 +13,18 @@ AC_SYS_LARGEFILE
+- 
+- dnl Scan for things we need
+- AC_CHECK_FUNCS([putgrent])
+--AC_CHECK_LIB([selinux], [is_selinux_enabled])
+-+
+-+dnl Check for SELinux
+-+AC_MSG_CHECKING([whether to enable SELinux support])
+-+AC_ARG_ENABLE([selinux],
+-+  [AS_HELP_STRING([--disable-selinux], [disable support for SELinux])],
+-+  [],
+-+  [enable_selinux=yes])
+-+AC_MSG_RESULT($enable_selinux)
+-+AS_IF([test "x$enable_selinux" != xno],
+-+  [AC_CHECK_LIB([selinux], [is_selinux_enabled], [],
+-+    [AC_MSG_ERROR(
+-+      [SELinux support not available (use --disable-selinux to disable)])])])
+- 
+- dnl Check for debconf
+- AC_MSG_CHECKING([whether to enable debconf support])
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb b/meta/recipes-core/base-passwd/base-passwd_3.6.2.bb
+similarity index 96%
+rename from meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
+rename to meta/recipes-core/base-passwd/base-passwd_3.6.2.bb
+index 44bcfb0199..bb4b49e6ab 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.6.1.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.6.2.bb
+@@ -11,12 +11,11 @@ SRC_URI = "https://launchpad.net/debian/+archive/primary/+files/${BPN}_${PV}.tar
+            file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch \
+            file://0004-Add-an-input-group-for-the-dev-input-devices.patch \
+            file://0005-Add-kvm-group.patch \
+-           file://0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch \
+            file://0007-Add-wheel-group.patch \
+            file://0001-base-passwd-Add-the-sgx-group.patch \
+            "
  
- diff --git a/src/deb/build.c b/src/deb/build.c
--index 76613adec..7c216d1a9 100644
-+index 5da771924..7779706db 100644
- --- a/src/deb/build.c
- +++ b/src/deb/build.c
- @@ -482,6 +482,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb b/meta/recipes-devtools/dpkg/dpkg_1.22.1.bb
-similarity index 95%
-rename from meta/recipes-devtools/dpkg/dpkg_1.22.0.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.22.1.bb
-index 7eaae9f22e..a56d0871a6 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.22.0.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.22.1.bb
-@@ -18,6 +18,6 @@ SRC_URI = "git://salsa.debian.org/dpkg-team/dpkg.git;protocol=https;branch=main
+-SRC_URI[sha256sum] = "6ff369be59d586ba63c0c5fcb00f75f9953fe49db88bc6c6428f2c92866f79af"
++SRC_URI[sha256sum] = "06dc78352bf38a8df76ff295e15ab5654cdefe41e62368b15bfcbbab8e4ec2a0"
  
- SRC_URI:append:class-native = " file://0001-build.c-ignore-return-of-1-from-tar-cf.patch"
- 
--SRCREV = "744487c98a622b9b38c22c6ca330315af4a30a11"
-+SRCREV = "34451fab061f2c19fed6337f48a7949fc1eb57dd"
- 
- S = "${WORKDIR}/git"
+ # the package is taken from launchpad; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
 -- 
 2.39.2
 
 
---===============6318757370498791373==
+--===============2444920979607084341==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/dpkg/dpkg-dbg: PKGSIZE changed from 3490728 to 3490208 (-0%)
-packages/core2-64-poky-linux/dpkg/dpkg-dbg: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-dbg: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-dev: PKGSIZE changed from 166140 to 168107 (+1%)
-packages/core2-64-poky-linux/dpkg/dpkg-dev: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-dev: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-doc: PKGSIZE changed from 397615 to 397789 (+0%)
-packages/core2-64-poky-linux/dpkg/dpkg-doc: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-doc: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ast: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ast: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-bs: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-bs: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ca: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ca: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-cs: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-cs: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-da: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-da: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-de: PKGSIZE changed from 294624 to 296119 (+1%)
-packages/core2-64-poky-linux/dpkg/dpkg-locale-de: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-de: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-dz: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-dz: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-el: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-el: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-eo: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-eo: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-es: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-es: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-et: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-et: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-eu: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-eu: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-fr: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-fr: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-gl: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-gl: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-hu: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-hu: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-id: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-id: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-it: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-it: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ja: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ja: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-km: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-km: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ko: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ko: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ku: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ku: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-lt: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-lt: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-mr: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-mr: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-nb: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-nb: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ne: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ne: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-nl: PKGSIZE changed from 279975 to 280759 (+0%)
-packages/core2-64-poky-linux/dpkg/dpkg-locale-nl: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-nl: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-nn: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-nn: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-oc: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-oc: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-pa: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-pa: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-pl: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-pl: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-pt-br: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-pt-br: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-pt: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-pt: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ro: PKGSIZE changed from 122788 to 183571 (+50%)
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ro: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ro: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ru: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ru: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-sk: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-sk: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-sv: PKGSIZE changed from 268318 to 283498 (+6%)
-packages/core2-64-poky-linux/dpkg/dpkg-locale-sv: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-sv: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-th: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-th: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-tl: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-tl: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-tr: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-tr: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-vi: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-vi: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-zh-cn: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-zh-cn: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-locale-zh-tw: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-locale-zh-tw: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-perl: PKGSIZE changed from 676970 to 678262 (+0%)
-packages/core2-64-poky-linux/dpkg/dpkg-perl: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-perl: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-src: PKGSIZE changed from 1176206 to 1176812 (+0%)
-packages/core2-64-poky-linux/dpkg/dpkg-src: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-src: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-start-stop: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-start-stop: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg-staticdev: PKGSIZE changed from 1533314 to 1533090 (-0%)
-packages/core2-64-poky-linux/dpkg/dpkg-staticdev: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg-staticdev: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/dpkg: PKGSIZE changed from 1384834 to 1385715 (+0%)
-packages/core2-64-poky-linux/dpkg/dpkg: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/dpkg: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg: PV changed from "1.22.0" to "1.22.1"
-packages/core2-64-poky-linux/dpkg/update-alternatives-dpkg: PKGV changed from 1.22.0 [default] to 1.22.1 [default]
-packages/core2-64-poky-linux/dpkg/update-alternatives-dpkg: PV changed from "1.22.0" to "1.22.1"
+packages/core2-64-poky-linux/base-passwd/base-passwd-dbg: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd/base-passwd-dbg: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-dev: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd/base-passwd-dev: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-doc: PKGSIZE changed from 19516 to 19779 (+1%)
+packages/core2-64-poky-linux/base-passwd/base-passwd-locale: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd/base-passwd-locale: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-src: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd/base-passwd-src: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-staticdev: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd/base-passwd-staticdev: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd-update: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd/base-passwd-update: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
+packages/core2-64-poky-linux/base-passwd/base-passwd: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd/base-passwd: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
+packages/core2-64-poky-linux/base-passwd: SRC_URI changed from "https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.1.tar.xz file://0001-Add-a-shutdown-group.patch file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch file://0004-Add-an-input-group-for-the-dev-input-devices.patch file://0005-Add-kvm-group.patch file://0006-Make-it-possible-to-configure-whether-to-use-SELinux.patch file://0007-Add-wheel-group.patch file://0001-base-passwd-Add-the-sgx-group.patch" to "https://launchpad.net/debian/+archive/primary/+files/base-passwd_3.6.2.tar.xz file://0001-Add-a-shutdown-group.patch file://0002-Use-bin-sh-instead-of-bin-bash-for-the-root-user.patch file://0003-Remove-for-root-since-we-do-not-have-an-etc-shadow.patch file://0004-Add-an-input-group-for-the-dev-input-devices.patch file://0005-Add-kvm-group.patch file://0007-Add-wheel-group.patch file://0001-base-passwd-Add-the-sgx-group.patc
+ h"
+packages/core2-64-poky-linux/base-passwd: PV changed from "3.6.1" to "3.6.2"
+packages/core2-64-poky-linux/base-passwd: PKGV changed from 3.6.1 [default] to 3.6.2 [default]
 
---===============6318757370498791373==
+--===============2444920979607084341==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-dpkg-upgrade-1.22.0-1.22.1.patch"
+ filename="0001-base-passwd-upgrade-3.6.1-3.6.2.patch"
 
-RnJvbSBhZGMwMWI4NjYwYWFhMWY5ODRjZmEzYmIxODIxMjk3OGExOGJjNDk4IE1vbiBTZXAgMTcg
+RnJvbSAyNzcyZDQzNWEyYjUyZDEwNDc2MWU1MDFlOTQxNGYwOWQ0NDY0NmNiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAwNjo0ODo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRw
-a2c6IHVwZ3JhZGUgMS4yMi4wIC0+IDEuMjIuMQoKLS0tCiAuLi4vZHBrZy8wMDAxLWJ1aWxkLmMt
-aWdub3JlLXJldHVybi1vZi0xLWZyb20tdGFyLWNmLnBhdGNoICAgIHwgNCArKy0tCiBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvZHBrZy97ZHBrZ18xLjIyLjAuYmIgPT4gZHBrZ18xLjIyLjEuYmJ9IHwg
-MiArLQogMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cve2Rwa2dfMS4yMi4wLmJiID0+IGRwa2df
-MS4yMi4xLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtn
-L2Rwa2cvMDAwMS1idWlsZC5jLWlnbm9yZS1yZXR1cm4tb2YtMS1mcm9tLXRhci1jZi5wYXRjaCBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2cvMDAwMS1idWlsZC5jLWlnbm9yZS1yZXR1
-cm4tb2YtMS1mcm9tLXRhci1jZi5wYXRjaAppbmRleCBmMjM2N2M5NWU5Li5jMWM1MGMwZDQ5IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZHBrZy9kcGtnLzAwMDEtYnVpbGQuYy1p
-Z25vcmUtcmV0dXJuLW9mLTEtZnJvbS10YXItY2YucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2Rwa2cvZHBrZy8wMDAxLWJ1aWxkLmMtaWdub3JlLXJldHVybi1vZi0xLWZyb20tdGFy
-LWNmLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBlM2FkZTM0NjRiOGExMTI5YTU1YzI3OTBj
-ZjExNGQ5YWUwMWUzY2RhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBlNDE5Mzg5M2E3
-Mzc0NTE3YjE5OTc3NzMxODUwZDVkMjJhYTk2ZDA1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
-RnJvbTogUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBsaW51eC5taWNyb3NvZnQuY29tPgog
-RGF0ZTogVHVlLCAxNiBKdW4gMjAyMCAwMzo1NzoyNSArMDAwMAogU3ViamVjdDogW1BBVENIXSBi
-dWlsZC5jOiBpZ25vcmUgcmV0dXJuIG9mIDEgZnJvbSB0YXIgLWNmCkBAIC0yOSw3ICsyOSw3IEBA
-IFNpZ25lZC1vZmYtYnk6IFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b25AbWljcm9zb2Z0LmNv
-bT4KICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRp
-ZmYgLS1naXQgYS9zcmMvZGViL2J1aWxkLmMgYi9zcmMvZGViL2J1aWxkLmMKLWluZGV4IDc2NjEz
-YWRlYy4uN2MyMTZkMWE5IDEwMDY0NAoraW5kZXggNWRhNzcxOTI0Li43Nzc5NzA2ZGIgMTAwNjQ0
-CiAtLS0gYS9zcmMvZGViL2J1aWxkLmMKICsrKyBiL3NyYy9kZWIvYnVpbGQuYwogQEAgLTQ4Miw2
-ICs0ODIsNyBAQCB0YXJiYWxsX3BhY2soY29uc3QgY2hhciAqZGlyLCBmaWxlbmFtZXNfZmVlZF9m
-dW5jICp0YXJfZmlsZW5hbWVzX2ZlZWRlciwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9kcGtnL2Rwa2dfMS4yMi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rwa2cvZHBr
-Z18xLjIyLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2Rwa2cvZHBrZ18xLjIyLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9kcGtnL2Rwa2dfMS4yMi4xLmJiCmluZGV4IDdlYWFlOWYyMmUuLmE1NmQwODcxYTYgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2dfMS4yMi4wLmJiCisrKyBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9kcGtnL2Rwa2dfMS4yMi4xLmJiCkBAIC0xOCw2ICsxOCw2
-IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vc2Fsc2EuZGViaWFuLm9yZy9kcGtnLXRlYW0vZHBrZy5naXQ7
-cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW4KIAogU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZl
-ID0gIiBmaWxlOi8vMDAwMS1idWlsZC5jLWlnbm9yZS1yZXR1cm4tb2YtMS1mcm9tLXRhci1jZi5w
-YXRjaCIKIAotU1JDUkVWID0gIjc0NDQ4N2M5OGE2MjJiOWIzOGMyMmM2Y2EzMzAzMTVhZjRhMzBh
-MTEiCitTUkNSRVYgPSAiMzQ0NTFmYWIwNjFmMmMxOWZlZDYzMzdmNDhhNzk0OWZjMWViNTdkZCIK
-IAogUyA9ICIke1dPUktESVJ9L2dpdCIKLS0gCjIuMzkuMgoK
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAwNTo0Njo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGJh
+c2UtcGFzc3dkOiB1cGdyYWRlIDMuNi4xIC0+IDMuNi4yCgotLS0KIC4uLi10by1jb25maWd1cmUt
+d2hldGhlci10by11c2UtU0VMaW51eC5wYXRjaCB8IDM1IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4u
+LmUtcGFzc3dkXzMuNi4xLmJiID0+IGJhc2UtcGFzc3dkXzMuNi4yLmJifSB8ICAzICstCiAyIGZp
+bGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAzNyBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2Rl
+IDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZC8wMDA2LU1h
+a2UtaXQtcG9zc2libGUtdG8tY29uZmlndXJlLXdoZXRoZXItdG8tdXNlLVNFTGludXgucGF0Y2gK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC97YmFzZS1wYXNzd2RfMy42LjEu
+YmIgPT4gYmFzZS1wYXNzd2RfMy42LjIuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwNi1NYWtlLWl0LXBvc3NpYmxlLXRv
+LWNvbmZpZ3VyZS13aGV0aGVyLXRvLXVzZS1TRUxpbnV4LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNv
+cmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2QvMDAwNi1NYWtlLWl0LXBvc3NpYmxlLXRvLWNvbmZp
+Z3VyZS13aGV0aGVyLXRvLXVzZS1TRUxpbnV4LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0
+NAppbmRleCAyY2M2MTc0ZTJhLi4wMDAwMDAwMDAwCi0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jh
+c2UtcGFzc3dkL2Jhc2UtcGFzc3dkLzAwMDYtTWFrZS1pdC1wb3NzaWJsZS10by1jb25maWd1cmUt
+d2hldGhlci10by11c2UtU0VMaW51eC5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDM1ICswLDAg
+QEAKLUZyb20gMjVlM2JmMDliYmJiMDRhYTkzMGVhMGZkOWYyODgwOWEyNGZiNzE5NCBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IFBldGVyIEtqZWxsZXJzdGVkdCA8cGtqQGF4aXMuY29t
+PgotRGF0ZTogU3VuLCAyIE9jdCAyMDIyIDE3OjQ3OjI5ICswMjAwCi1TdWJqZWN0OiBbUEFUQ0hd
+IE1ha2UgaXQgcG9zc2libGUgdG8gY29uZmlndXJlIHdoZXRoZXIgdG8gdXNlIFNFTGludXggb3Ig
+bm90Ci0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vc2Fsc2EuZGViaWFuLm9y
+Zy9kZWJpYW4vYmFzZS1wYXNzd2QvLS9jb21taXQvMzk2YzQxYmIzNWUwM2M1ZGNjNzI3YWE5Zjc0
+MjE4YTQ1ODc0YWMxZl0KLVNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIu
+a2plbGxlcnN0ZWR0QGF4aXMuY29tPgotLS0tCi0gY29uZmlndXJlLmFjIHwgMTMgKysrKysrKysr
+KysrLQotIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCi0K
+LWRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDU4OWRmODgu
+LmU0NjQwM2IgMTAwNjQ0Ci0tLS0gYS9jb25maWd1cmUuYWMKLSsrKyBiL2NvbmZpZ3VyZS5hYwot
+QEAgLTEzLDcgKzEzLDE4IEBAIEFDX1NZU19MQVJHRUZJTEUKLSAKLSBkbmwgU2NhbiBmb3IgdGhp
+bmdzIHdlIG5lZWQKLSBBQ19DSEVDS19GVU5DUyhbcHV0Z3JlbnRdKQotLUFDX0NIRUNLX0xJQihb
+c2VsaW51eF0sIFtpc19zZWxpbnV4X2VuYWJsZWRdKQotKwotK2RubCBDaGVjayBmb3IgU0VMaW51
+eAotK0FDX01TR19DSEVDS0lORyhbd2hldGhlciB0byBlbmFibGUgU0VMaW51eCBzdXBwb3J0XSkK
+LStBQ19BUkdfRU5BQkxFKFtzZWxpbnV4XSwKLSsgIFtBU19IRUxQX1NUUklORyhbLS1kaXNhYmxl
+LXNlbGludXhdLCBbZGlzYWJsZSBzdXBwb3J0IGZvciBTRUxpbnV4XSldLAotKyAgW10sCi0rICBb
+ZW5hYmxlX3NlbGludXg9eWVzXSkKLStBQ19NU0dfUkVTVUxUKCRlbmFibGVfc2VsaW51eCkKLStB
+U19JRihbdGVzdCAieCRlbmFibGVfc2VsaW51eCIgIT0geG5vXSwKLSsgIFtBQ19DSEVDS19MSUIo
+W3NlbGludXhdLCBbaXNfc2VsaW51eF9lbmFibGVkXSwgW10sCi0rICAgIFtBQ19NU0dfRVJST1Io
+Ci0rICAgICAgW1NFTGludXggc3VwcG9ydCBub3QgYXZhaWxhYmxlICh1c2UgLS1kaXNhYmxlLXNl
+bGludXggdG8gZGlzYWJsZSldKV0pXSkKLSAKLSBkbmwgQ2hlY2sgZm9yIGRlYmNvbmYKLSBBQ19N
+U0dfQ0hFQ0tJTkcoW3doZXRoZXIgdG8gZW5hYmxlIGRlYmNvbmYgc3VwcG9ydF0pCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZF8zLjYuMS5iYiBi
+L21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2UtcGFzc3dkXzMuNi4yLmJiCnNpbWls
+YXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dk
+L2Jhc2UtcGFzc3dkXzMuNi4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBh
+c3N3ZC9iYXNlLXBhc3N3ZF8zLjYuMi5iYgppbmRleCA0NGJjZmIwMTk5Li5iYjRiNDllNmFiIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZF8zLjYu
+MS5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZF8zLjYu
+Mi5iYgpAQCAtMTEsMTIgKzExLDExIEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9sYXVuY2hwYWQubmV0
+L2RlYmlhbi8rYXJjaGl2ZS9wcmltYXJ5LytmaWxlcy8ke0JQTn1fJHtQVn0udGFyCiAgICAgICAg
+ICAgIGZpbGU6Ly8wMDAzLVJlbW92ZS1mb3Itcm9vdC1zaW5jZS13ZS1kby1ub3QtaGF2ZS1hbi1l
+dGMtc2hhZG93LnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAwMDQtQWRkLWFuLWlucHV0LWdy
+b3VwLWZvci10aGUtZGV2LWlucHV0LWRldmljZXMucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8v
+MDAwNS1BZGQta3ZtLWdyb3VwLnBhdGNoIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDYtTWFrZS1p
+dC1wb3NzaWJsZS10by1jb25maWd1cmUtd2hldGhlci10by11c2UtU0VMaW51eC5wYXRjaCBcCiAg
+ICAgICAgICAgIGZpbGU6Ly8wMDA3LUFkZC13aGVlbC1ncm91cC5wYXRjaCBcCiAgICAgICAgICAg
+IGZpbGU6Ly8wMDAxLWJhc2UtcGFzc3dkLUFkZC10aGUtc2d4LWdyb3VwLnBhdGNoIFwKICAgICAg
+ICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNmZmMzY5YmU1OWQ1ODZiYTYzYzBjNWZj
+YjAwZjc1Zjk5NTNmZTQ5ZGI4OGJjNmM2NDI4ZjJjOTI4NjZmNzlhZiIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICIwNmRjNzgzNTJiZjM4YThkZjc2ZmYyOTVlMTVhYjU2NTRjZGVmZTQxZTYyMzY4YjE1
+YmZjYmJhYjhlNGVjMmEwIgogCiAjIHRoZSBwYWNrYWdlIGlzIHRha2VuIGZyb20gbGF1bmNocGFk
+OyB0aGF0IHNvdXJjZSBpcyBzdGF0aWMgYW5kIGdvZXMgc3RhbGUKICMgc28gd2UgY2hlY2sgdGhl
+IGxhdGVzdCB1cHN0cmVhbSBmcm9tIGEgZGlyZWN0b3J5IHRoYXQgZG9lcyBnZXQgdXBkYXRlZAot
+LSAKMi4zOS4yCgo=
 
---===============6318757370498791373==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/dpkg/dpkg-locale-ro: PKGSIZE changed from 122788 to 183571 (+50%)
-
---===============6318757370498791373==--
+--===============2444920979607084341==--
 
