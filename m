@@ -2,39 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8763CC07EB9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AD9EC07EBB
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:13 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.8477.1698848702967985255
+ by mx.groups.io with SMTP id smtpd.web11.8499.1698848705544152698
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Nov 2023 07:25:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NerwqyEk;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jv0SIMfP;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.30, mailfrom: 0101018b8b460bee-bcaf3b01-877d-4ace-92f6-5cffa758d2cc-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ad7mI0h0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=pER3q4LS;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.30, mailfrom: 0101018b8b4609ec-3d21a438-1f64-48a8-b880-7045c9b90647-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1698848705;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=IbalHb5uyK16dthgg86OAfvEHw44XSR8f94fgMn1QZw=;
-	b=NerwqyEkjtpnRgwwYab2oZRtvH0v5dujXUAcca0OBah5zfm0db+Azi72wT5QVb0z
-	kPWUp48he0dPJBjvAIIyEG6/ZwmZCSYpqOFGifE+HR00xONj+f2raS3V8qjCUIGRT32
-	7d9rhLszdnPMioWsHXt996xtHlODkJ/Cr+g54KHM=
+	bh=aVOX8Nr+a8gqB07sXB4Xp5APkx3OZUWAmBUTkVszc3g=;
+	b=ad7mI0h0kbu4M/6UfHuTqEm5BPLLRKfVuYn4GoeL+GcQvkovQ1f49kaCiO0xLrES
+	h/Dnk9H0xvIiedI1XO2lrzzqxoeTso+/QJ2p6giZoaf93GqS7dSElEbGpmvJWSGPKss
+	FJw+WXViupcVk3Oy9CXbTWyTRI2CwhRpYcKXbuV8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848705;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=IbalHb5uyK16dthgg86OAfvEHw44XSR8f94fgMn1QZw=;
-	b=jv0SIMfPpE5FDY7rC8+erNBqoRdYggR17rpOqUQ8nR4K3DglIskJKtIJcntdkSoQ
-	Gq44fNmOmViW830V5otefgU8iQNvDpFgw3RT0dIueVZe8uYd4dJS/mc2ejjHjVU0WgU
-	/yGVCOPFrobMTO/lUCI1oYMsmcbWu/Ggrfg2WsQo=
-Content-Type: multipart/mixed; boundary="===============0857389300129812452=="
+	bh=aVOX8Nr+a8gqB07sXB4Xp5APkx3OZUWAmBUTkVszc3g=;
+	b=pER3q4LSy6QxDXYiCKlkZsBFdbyG1utm2hzegCeEPCrnEb8Q8NOKac6KSLUo4UXy
+	V6GOKAum2x2mG1mRwF3Dd0ZOG0rY5qpSkuYzRgnOib+siohS7na9R1HfqjUd6lvj4yQ
+	EdQqj8jX0Gb5KwzXL6tQICed2QtTR6BEsIIQFapE=
+Content-Type: multipart/mixed; boundary="===============8592722523929293108=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] piglit: upgrading to 5760ed1f60b39574d8e3ee01d95127074865bf18
- SUCCEEDED
-Message-ID: <0101018b8b460bee-bcaf3b01-877d-4ace-92f6-5cffa758d2cc-000000@us-west-2.amazonses.com>
+Subject: [AUH] lighttpd: upgrading to 1.4.73 SUCCEEDED
+Message-ID: <0101018b8b4609ec-3d21a438-1f64-48a8-b880-7045c9b90647-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Nov 2023 14:25:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.11.01-54.240.27.30
@@ -42,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189993
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189992
 
---===============0857389300129812452==
+--===============8592722523929293108==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *piglit* to *5760ed1f60b39574d8e3ee01d95127074865bf18* has Succeeded.
+that the automatic attempt to upgrade the recipe *lighttpd* to *1.4.73* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-lighttpd-upgrade-1.4.72-1.4.73.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,89 +72,128 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7f3a9948deae92acb3767a52f403f7beabcd99f3 Mon Sep 17 00:00:00 2001
+From 78da77a0a2a2acf795bdd8f6a10a1d905f3c2c1b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 12:56:08 +0000
-Subject: [PATCH] piglit: upgrade to latest revision
+Date: Wed, 1 Nov 2023 11:28:51 +0000
+Subject: [PATCH] lighttpd: upgrade 1.4.72 -> 1.4.73
 
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
+ .../lighttpd/{lighttpd_1.4.72.bb => lighttpd_1.4.73.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.72.bb => lighttpd_1.4.73.bb} (97%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 69294c6c94..c80beb1ae7 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -13,7 +13,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.72.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.73.bb
+similarity index 97%
+rename from meta/recipes-extended/lighttpd/lighttpd_1.4.72.bb
+rename to meta/recipes-extended/lighttpd/lighttpd_1.4.73.bb
+index 87058719f9..ea83a4b507 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.72.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.73.bb
+@@ -16,7 +16,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+            file://lighttpd \
             "
- UPSTREAM_CHECK_COMMITS = "1"
  
--SRCREV = "71c21b1157c4f9a96453bdfcb9f4dda091360afd"
-+SRCREV = "5760ed1f60b39574d8e3ee01d95127074865bf18"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr"
+-SRC_URI[sha256sum] = "f7cade4d69b754a0748c01463c33cd8b456ca9cc03bb09e85a71bcbcd54e55ec"
++SRC_URI[sha256sum] = "818816d0b314b0aa8728a7076513435f6d5eb227f3b61323468e1f10dbe84ca8"
+ 
+ DEPENDS = "virtual/crypt"
  
 -- 
 2.39.2
 
 
---===============0857389300129812452==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-piglit-upgrade-to-latest-revision.patch"
-
-RnJvbSA3ZjNhOTk0OGRlYWU5MmFjYjM3NjdhNTJmNDAzZjdiZWFiY2Q5OWYzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMjo1NjowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBp
-Z2xpdDogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL3BpZ2xpdC9waWdsaXRfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
-L3BpZ2xpdC9waWdsaXRfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWds
-aXRfZ2l0LmJiCmluZGV4IDY5Mjk0YzZjOTQuLmM4MGJlYjFhZTcgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvcGlnbGl0L3BpZ2xpdF9naXQuYmIKQEAgLTEzLDcgKzEzLDcgQEAgU1JDX1VSSSA9
-ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL21lc2EvcGlnbGl0LmdpdDtwcm90b2NvbD1o
-dHRwczticmFuY2g9bWEKICAgICAgICAgICAgIgogVVBTVFJFQU1fQ0hFQ0tfQ09NTUlUUyA9ICIx
-IgogCi1TUkNSRVYgPSAiNzFjMjFiMTE1N2M0ZjlhOTY0NTNiZGZjYjlmNGRkYTA5MTM2MGFmZCIK
-K1NSQ1JFViA9ICI1NzYwZWQxZjYwYjM5NTc0ZDhlM2VlMDFkOTUxMjcwNzQ4NjViZjE4IgogIyAo
-d2hlbiBQViBnb2VzIGFib3ZlIDEuMCByZW1vdmUgdGhlIHRyYWlsaW5nIHIpCiBQViA9ICIxLjAr
-Z2l0ciIKIAotLSAKMi4zOS4yCgo=
-
---===============0857389300129812452==
+--===============8592722523929293108==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-doc: PKGSIZE changed from 22650 to 22661 (+0%)
-packages/core2-64-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit: FILELIST: added "/usr/lib/piglit/bin/ext_image_dma_buf_import-refcount-multithread /usr/lib/piglit/tests/spec/arb_tessellation_shader/execution/tesslevels-indirect.shader_test /usr/lib/piglit/bin/arb_copy_image-levels-copy /usr/lib/piglit/bin/ext_image_dma_buf_import-modifiers"
-packages/core2-64-poky-linux/piglit/piglit: PKGSIZE changed from 2053290878 to 2053363953 (+0%)
+packages/core2-64-poky-linux/lighttpd: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd: SRC_URI changed from "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.72.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd" to "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.73.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd"
+packages/core2-64-poky-linux/lighttpd: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-dbg: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-dbg: PKGSIZE changed from 2631000 to 2632112 (+0%)
+packages/core2-64-poky-linux/lighttpd/lighttpd-dbg: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-dev: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-dev: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-doc: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-doc: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-locale: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-locale: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-accesslog: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-accesslog: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-ajp13: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-ajp13: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-auth: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-auth: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-authn-file: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-authn-file: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-cgi: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-cgi: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-deflate: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-deflate: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-dirlisting: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-dirlisting: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-extforward: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-extforward: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-h2: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-h2: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-openssl: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-openssl: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-proxy: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-proxy: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-rrdtool: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-rrdtool: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-sockproxy: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-sockproxy: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-ssi: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-ssi: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-status: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-status: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-userdir: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-userdir: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-vhostdb: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-vhostdb: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-webdav: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-webdav: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-wstunnel: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-module-wstunnel: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-src: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-src: PKGSIZE changed from 3024777 to 3040363 (+1%)
+packages/core2-64-poky-linux/lighttpd/lighttpd-src: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd-staticdev: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd-staticdev: PV changed from "1.4.72" to "1.4.73"
+packages/core2-64-poky-linux/lighttpd/lighttpd: PKGV changed from 1.4.72 [default] to 1.4.73 [default]
+packages/core2-64-poky-linux/lighttpd/lighttpd: PV changed from "1.4.72" to "1.4.73"
 
---===============0857389300129812452==
-Content-Type: text/plain; charset="us-ascii"
+--===============8592722523929293108==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-lighttpd-upgrade-1.4.72-1.4.73.patch"
 
-packages/core2-64-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
-packages/core2-64-poky-linux/piglit/piglit: FILELIST: added "/usr/lib/piglit/bin/ext_image_dma_buf_import-refcount-multithread /usr/lib/piglit/bin/arb_copy_image-levels-copy /usr/lib/piglit/bin/ext_image_dma_buf_import-modifiers /usr/lib/piglit/tests/spec/arb_tessellation_shader/execution/tesslevels-indirect.shader_test"
-packages/core2-64-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+71c21b1157 to 1.0+gitr0+5760ed1f60
+RnJvbSA3OGRhNzdhMGEyYTJhY2Y3OTViZGQ4ZjZhMTBhMWQ5MDVmM2MyYzFiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMToyODo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+Z2h0dHBkOiB1cGdyYWRlIDEuNC43MiAtPiAxLjQuNzMKCi0tLQogLi4uL2xpZ2h0dHBkL3tsaWdo
+dHRwZF8xLjQuNzIuYmIgPT4gbGlnaHR0cGRfMS40LjczLmJifSAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL2xpZ2h0dHBkL3tsaWdodHRwZF8xLjQuNzIuYmIgPT4gbGlnaHR0cGRf
+MS40LjczLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWdo
+dHRwZC9saWdodHRwZF8xLjQuNzIuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlnaHR0cGQv
+bGlnaHR0cGRfMS40LjczLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC9saWdodHRwZF8xLjQuNzIuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9saWdodHRwZC9saWdodHRwZF8xLjQuNzMuYmIKaW5kZXggODcw
+NTg3MTlmOS4uZWE4M2E0YjUwNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xp
+Z2h0dHBkL2xpZ2h0dHBkXzEuNC43Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGln
+aHR0cGQvbGlnaHR0cGRfMS40LjczLmJiCkBAIC0xNiw3ICsxNiw3IEBAIFNSQ19VUkkgPSAiaHR0
+cDovL2Rvd25sb2FkLmxpZ2h0dHBkLm5ldC9saWdodHRwZC9yZWxlYXNlcy0xLjQueC9saWdodHRw
+ZC0ke1BWfS50CiAgICAgICAgICAgIGZpbGU6Ly9saWdodHRwZCBcCiAgICAgICAgICAgICIKIAot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gImY3Y2FkZTRkNjliNzU0YTA3NDhjMDE0NjNjMzNjZDhiNDU2
+Y2E5Y2MwM2JiMDllODVhNzFiY2JjZDU0ZTU1ZWMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODE4
+ODE2ZDBiMzE0YjBhYTg3MjhhNzA3NjUxMzQzNWY2ZDVlYjIyN2YzYjYxMzIzNDY4ZTFmMTBkYmU4
+NGNhOCIKIAogREVQRU5EUyA9ICJ2aXJ0dWFsL2NyeXB0IgogCi0tIAoyLjM5LjIKCg==
 
---===============0857389300129812452==--
+--===============8592722523929293108==--
 
