@@ -2,38 +2,39 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C1D4C001DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFFB3C04A95
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:11 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.8661.1698848704882857423
+ by mx.groups.io with SMTP id smtpd.web11.8505.1698848706881351830
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:08 -0700
+ Wed, 01 Nov 2023 07:25:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MUr4bHAf;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OYTDq6lz;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.192, mailfrom: 0101018b8b460f60-1a70b6e9-b729-4b40-8995-6268359056e3-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eZdju4Tu;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NIpgtLw7;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.192, mailfrom: 0101018b8b460e4f-b3f67637-b4d1-411c-bb2b-0f399855056a-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1698848706;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9B/whyOCOlfWYhRsTHl1k1ohZNGq4tvhyLUkvrV1xQ0=;
-	b=MUr4bHAfYyKo7C0WNXfegtGcOs9fTl+rp2rq/tdQeMrC+UtTkg/HnAc0Yr7qf0et
-	18IEZqpGhy51TuaKIVLqrR0Yvai7MQDDfd6NbTZLQ0bIWNQjXJrR7QcwZZL57+AASQC
-	1xt0u4ufuCl2x5GdNmZwSZYbv7yUYPZX00fwHs/0=
+	bh=qXwtusYPVrRycibOpP4FuvM0lr8t3DQB3mLtboXdPLQ=;
+	b=eZdju4TuRvEF/G+4BlStv1es4x8FfzEkvAV1I1sPb4rMzfkUkdgu7e4eXJz0bBAG
+	HQfjREs422veK1UKlWt+Gxta3jlsgwixaDumNnf+bMP4VFUuOtvzaMcAIluxr8Bsf2/
+	BrTppraz2WNOmFADNjnWkTpAfMNjMyBecMezKIs8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848706;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9B/whyOCOlfWYhRsTHl1k1ohZNGq4tvhyLUkvrV1xQ0=;
-	b=OYTDq6lzbUbI5jWwexfGO+l5yhcu8F9Px9/rOlJC3UAZSXJUJVSIjrHBcQaZ2xML
-	l41zSbK3Ah9+oYrzWbZQ7ZRNpISgLfxz6VCQE9ituxjfMcaDDGRa3BpLZd7/F/QDqAE
-	QmUL/LWPgK8/DcFnU8up3a5hAJVRezzGezxSRLR0=
-Content-Type: multipart/mixed; boundary="===============7194911522128142415=="
+	bh=qXwtusYPVrRycibOpP4FuvM0lr8t3DQB3mLtboXdPLQ=;
+	b=NIpgtLw7XcPXHhyNlkbhgGcGtWj9c6jY+5PmOsdued1X+vDUyBwpYvxrHbwk4C42
+	uFN97DDvXB13fLoEbfld0OaSIhM1C2/eqOt/7TBw8GjbwvF4MlXztktHd7ugvQ+8ySz
+	AacsvB8JNKhm0HQEYJmKAkXLTQTFvd8WcKhZl3mo=
+Content-Type: multipart/mixed; boundary="===============7168963258621447745=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsoup: upgrading to 3.4.4 SUCCEEDED
-Message-ID: <0101018b8b460f60-1a70b6e9-b729-4b40-8995-6268359056e3-000000@us-west-2.amazonses.com>
+Subject: [AUH] puzzles: upgrading to 35f796542ee5d7e775643f526973aa75f483bf20
+ SUCCEEDED
+Message-ID: <0101018b8b460e4f-b3f67637-b4d1-411c-bb2b-0f399855056a-000000@us-west-2.amazonses.com>
 Date: Wed, 1 Nov 2023 14:25:06 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.11.01-54.240.27.192
@@ -41,9 +42,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190038
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190033
 
---===============7194911522128142415==
+--===============7168963258621447745==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libsoup* to *3.4.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *puzzles* to *35f796542ee5d7e775643f526973aa75f483bf20* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsoup-upgrade-3.4.2-3.4.4.patch
+    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,205 +73,49 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f03db61e5fa31d4ed2e69e14f604008d94bed6d2 Mon Sep 17 00:00:00 2001
+From d234bcb3963ef31723c68c4c2e832daad67fba5e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 14:14:47 +0000
-Subject: [PATCH] libsoup: upgrade 3.4.2 -> 3.4.4
+Date: Wed, 1 Nov 2023 13:55:30 +0000
+Subject: [PATCH] puzzles: upgrade to latest revision
 
 ---
- .../libsoup/{libsoup_3.4.2.bb => libsoup_3.4.4.bb}              | 2 +-
+ meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libsoup/{libsoup_3.4.2.bb => libsoup_3.4.4.bb} (96%)
 
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.2.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-similarity index 96%
-rename from meta/recipes-support/libsoup/libsoup_3.4.2.bb
-rename to meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index 3996ae6836..6d382a7852 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index d7089ef95d..a6ecd7a0e1 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
  
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
--SRC_URI[sha256sum] = "78c8fa37cb152d40ec8c4a148d6155e2f6947f3f1602a7cda3a31ad40f5ee2f3"
-+SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "2d9e414ee316b37143954150016e8f4f18358497"
++SRCREV = "35f796542ee5d7e775643f526973aa75f483bf20"
+ PE = "2"
+ PV = "0.0+git"
  
- PROVIDES = "libsoup-3.0"
- CVE_PRODUCT = "libsoup"
 -- 
 2.39.2
 
 
---===============7194911522128142415==
+--===============7168963258621447745==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libsoup: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup: SRC_URI changed from "https://download.gnome.org/sources//libsoup/3.4/libsoup-3.4.2.tar.xz" to "https://download.gnome.org/sources//libsoup/3.4/libsoup-3.4.4.tar.xz"
-packages/core2-64-poky-linux/libsoup/libsoup-dbg: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-dbg: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-dbg: PKGSIZE changed from 2191048 to 2197872 (+0%)
-packages/core2-64-poky-linux/libsoup/libsoup-dbg: FILELIST: removed "/usr/lib/.debug/libsoup-3.0.so.0.7.0", added "/usr/lib/.debug/libsoup-3.0.so.0.7.1"
-packages/core2-64-poky-linux/libsoup/libsoup-dev: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-dev: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-doc: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-doc: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ab: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ab: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-an: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-an: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-as: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-as: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-be: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-be: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bg: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bg: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bn-in: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bn-in: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bs: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-bs: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ca+valencia: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ca+valencia: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ca: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ca: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-cs: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-cs: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-da: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-da: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-de: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-de: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-el: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-el: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-en-gb: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-en-gb: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eo: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eo: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eo: PKGSIZE changed from 2241 to 3945 (+76%)
-packages/core2-64-poky-linux/libsoup/libsoup-locale-es: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-es: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-et: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-et: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eu: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eu: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fa: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fa: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fi: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fi: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fr: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fr: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fur: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-fur: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gd: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gd: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gl: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gl: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gu: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-gu: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-he: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-he: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hi: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hi: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hr: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hr: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hu: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-hu: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-id: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-id: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-it: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-it: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ja: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ja: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ka: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ka: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-kn: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-kn: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ko: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ko: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-lt: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-lt: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-lv: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-lv: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ml: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ml: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-mr: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-mr: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ms: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ms: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-nb: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-nb: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ne: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ne: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-nl: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-nl: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-oc: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-oc: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-or: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-or: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pa: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pa: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pl: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pl: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pt-br: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pt-br: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pt: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-pt: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ro: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ro: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ru: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ru: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sk: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sk: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sl: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sl: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sr+latin: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sr+latin: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sr: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sr: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sv: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-sv: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ta: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ta: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-te: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-te: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tg: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tg: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-th: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-th: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tr: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tr: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-tr: PKGSIZE changed from 4076 to 4074 (-0%)
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ug: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-ug: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-uk: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-uk: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-uz+cyrillic: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-uz+cyrillic: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-vi: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-vi: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-cn: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-cn: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-hk: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-hk: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-tw: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-locale-zh-tw: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-src: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-src: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup-src: PKGSIZE changed from 1770462 to 1778841 (+0%)
-packages/core2-64-poky-linux/libsoup/libsoup-staticdev: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup-staticdev: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup: PKGV changed from 3.4.2 [default] to 3.4.4 [default]
-packages/core2-64-poky-linux/libsoup/libsoup: PV changed from "3.4.2" to "3.4.4"
-packages/core2-64-poky-linux/libsoup/libsoup: PKGSIZE changed from 671112 to 675208 (+1%)
-packages/core2-64-poky-linux/libsoup/libsoup: FILELIST: removed "/usr/lib/libsoup-3.0.so.0.7.0", added "/usr/lib/libsoup-3.0.so.0.7.1"
-Changes to packages/core2-64-poky-linux/libsoup (sysroot):
-  /usr/lib/libsoup-3.0.so.0 changed symlink target from libsoup-3.0.so.0.7.0 to libsoup-3.0.so.0.7.1
-  /usr/lib/libsoup-3.0.so.0.7.0 moved to /usr/lib/libsoup-3.0.so.0.7.1
+packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 19532880 to 19532952 (+0%)
+packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3837742 to 3837761 (+0%)
+packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
 
---===============7194911522128142415==
+--===============7168963258621447745==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -291,301 +136,535 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "arm-poky-linux-musleabi"
 MACHINE              = "qemuarm"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-68a9df13f33b782acb2fea875f616f460c72ce8d"
+DISTRO_VERSION       = "4.3+snapshot-b3862316b2c765c98d314f76489b6734da7f9dc8"
 TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:68a9df13f33b782acb2fea875f616f460c72ce8d"
+meta-yocto-bsp       = "tmp-auh-upgrades:b3862316b2c765c98d314f76489b6734da7f9dc8"
 workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
 
 Initialising tasks...done.
-Sstate summary: Wanted 66 Local 35 Mirrors 0 Missed 31 Current 553 (53% match, 94% complete)
+Sstate summary: Wanted 136 Local 62 Mirrors 0 Missed 74 Current 791 (45% match, 92% complete)
+Removing 1 stale sstate objects for arch allarch...done.
 Removing 2 stale sstate objects for arch qemuarm...done.
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1368 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_recipe_qa)
-NOTE: Running task 1387 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_recipe_qa)
-NOTE: Running task 1410 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_recipe_qa)
-NOTE: Running task 1431 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_write_config)
-NOTE: Running task 1462 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.4.bb:do_recipe_qa)
-NOTE: Running task 1534 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.4.bb:do_write_config)
-NOTE: Running task 1618 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe nghttp2-1.57.0-r0: task do_recipe_qa: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_recipe_qa: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_recipe_qa: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_write_config: Started
-NOTE: recipe libsoup-3.4.4-r0: task do_recipe_qa: Started
-NOTE: recipe libsoup-3.4.4-r0: task do_write_config: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.4.4-r0: task do_write_config: Succeeded
-NOTE: recipe nghttp2-1.57.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe glib-networking-2.76.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libsoup-3.4.4-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1620 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_fetch)
-NOTE: Running task 1621 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_fetch)
-NOTE: Running task 1622 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_fetch)
-NOTE: Running task 1623 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.4.bb:do_fetch)
+NOTE: Running setscene task 817 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 820 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 824 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 846 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 924 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_packagedata_setscene)
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libjpeg-turbo/3.0.0/temp/log.do_packagedata_setscene.3580615
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 925 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_package_setscene)
+NOTE: Running task 1817 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa)
+NOTE: Running task 1818 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_recipe_qa)
+NOTE: Running task 1819 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_recipe_qa)
+NOTE: Running task 1830 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_recipe_qa)
+NOTE: Running task 1946 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_recipe_qa)
+NOTE: Running task 1974 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_recipe_qa: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_recipe_qa: Started
+NOTE: recipe pango-1.51.0-r0: task do_recipe_qa: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_recipe_qa: Started
+NOTE: Running task 2016 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_write_config)
+NOTE: Running task 2017 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_write_config)
+NOTE: Running task 2030 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_write_config)
+NOTE: Running task 2056 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_recipe_qa)
+NOTE: Running task 2082 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_recipe_qa)
+NOTE: Running task 2083 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_recipe_qa)
+NOTE: Running task 2085 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_recipe_qa)
+NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa: Succeeded
+NOTE: recipe fribidi-1.0.13-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2122 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_recipe_qa)
+NOTE: recipe harfbuzz-8.2.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2138 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_fetch)
+NOTE: Running task 2147 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_fetch)
+NOTE: Running task 2155 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_fetch)
+NOTE: recipe pango-1.51.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2167 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_recipe_qa)
+NOTE: Running task 2176 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_fetch)
+NOTE: Running task 2178 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_write_config)
+NOTE: recipe libxi-1_1.8.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2235 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_write_config)
+NOTE: Running task 2249 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_fetch)
 NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_fetch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Started
-NOTE: recipe libsoup-3.4.4-r0: task do_fetch: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_fetch: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_fetch: Succeeded
-NOTE: recipe nghttp2-1.57.0-r0: task do_fetch: Succeeded
-NOTE: recipe libsoup-3.4.4-r0: task do_fetch: Succeeded
-NOTE: Running task 1679 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_unpack)
-NOTE: Running task 1680 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1681 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_unpack)
-NOTE: Running task 1682 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.4.bb:do_unpack)
-NOTE: Running task 1683 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glib-networking-2.76.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1684 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_unpack)
-NOTE: Running task 1685 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_unpack: Started
-NOTE: recipe libsoup-3.4.4-r0: task do_unpack: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_unpack: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1686 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_patch)
-NOTE: Running task 1687 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_collect_spdx_deps)
-NOTE: recipe libsoup-3.4.4-r0: task do_unpack: Succeeded
-NOTE: Running task 1688 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.4.bb:do_patch)
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_package_setscene: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_write_config: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_recipe_qa: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_write_config: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_recipe_qa: Started
+NOTE: recipe pango-1.51.0-r0: task do_write_config: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_recipe_qa: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_fetch: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_fetch: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_recipe_qa: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_recipe_qa: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_fetch: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_fetch: Succeeded
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_write_config: Started
+NOTE: recipe pango-1.51.0-r0: task do_fetch: Started
+NOTE: Running task 2338 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_unpack)
+NOTE: Running task 2339 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_prepare_recipe_sysroot)
+NOTE: recipe fribidi-1.0.13-r0: task do_write_config: Succeeded
+NOTE: recipe fribidi-1.0.13-r0: task do_fetch: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe harfbuzz-8.2.1-r0: task do_write_config: Succeeded
+NOTE: Running task 2340 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_unpack)
+NOTE: Running task 2341 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_unpack)
+NOTE: Running task 2342 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.51.0-r0: task do_write_config: Succeeded
+NOTE: recipe pango-1.51.0-r0: task do_fetch: Succeeded
+NOTE: recipe gtk+3-3.24.38-r0: task do_write_config: Started
+NOTE: Running task 2343 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxi-1_1.8.1-r0: task do_fetch: Succeeded
+NOTE: Running task 2344 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_unpack)
+NOTE: Running task 2345 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_unpack)
+NOTE: Running task 2346 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_write_config: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_recipe_qa: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2347 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_fetch)
+NOTE: Running task 2348 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_fetch)
+NOTE: recipe gtk+3-3.24.38-r0: task do_write_config: Succeeded
+NOTE: Running task 2349 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_fetch)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2350 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_fetch)
+NOTE: recipe gtk+3-3.24.38-r0: task do_recipe_qa: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_recipe_qa: Succeeded
+NOTE: recipe libxft-1_2.3.8-r0: task do_unpack: Started
+NOTE: Running task 2351 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: Running task 2352 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_fetch)
+NOTE: recipe libxft-1_2.3.8-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_unpack: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_unpack: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_unpack: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.51.0-r0: task do_unpack: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_fetch: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_fetch: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_fetch: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_unpack: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_fetch: Succeeded
+NOTE: Running task 2353 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_patch)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_fetch: Started
+NOTE: Running task 2354 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_unpack)
+NOTE: Running task 2355 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_collect_spdx_deps)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_fetch: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_fetch: Started
+NOTE: Running task 2356 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_unpack)
+NOTE: Running task 2357 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_unpack)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2358 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_unpack)
+NOTE: Running task 2359 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_package_setscene: Succeeded
+NOTE: Running task 2360 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gtk+3-3.24.38-r0: task do_fetch: Succeeded
+NOTE: Running setscene task 927 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_recipe_qa_setscene)
+NOTE: Running task 2361 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_unpack)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Succeeded
+NOTE: Running task 2362 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
+NOTE: recipe libxi-1_1.8.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2363 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_patch)
+NOTE: Running task 2364 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_collect_spdx_deps)
+NOTE: recipe fribidi-1.0.13-r0: task do_unpack: Succeeded
 NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: recipe nghttp2-1.57.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1689 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_patch)
-NOTE: Running task 1690 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_collect_spdx_deps)
-NOTE: Running task 1694 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe libpsl-0.21.2-r0: task do_unpack: Succeeded
-NOTE: Running task 1697 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_patch)
-NOTE: Running task 1698 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_collect_spdx_deps)
-NOTE: recipe glib-networking-2.76.1-r0: task do_patch: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsoup-3.4.4-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2365 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_patch)
+NOTE: recipe libxft-1_2.3.8-r0: task do_patch: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_unpack: Started
+NOTE: Running task 2366 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_collect_spdx_deps)
+NOTE: Running task 2367 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
+NOTE: Running task 2368 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libxft-1_2.3.8-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_unpack: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_unpack: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_unpack: Started
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_unpack: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_patch: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe pango-1.51.0-r0: task do_unpack: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_unpack: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2369 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_patch)
+NOTE: Running task 2370 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_patch)
+NOTE: recipe fribidi-1.0.13-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe fribidi-1.0.13-r0: task do_collect_spdx_deps: Started
+NOTE: Setscene tasks completed
+NOTE: recipe libxi-1_1.8.1-r0: task do_patch: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_unpack: Succeeded
+NOTE: recipe libxft-1_2.3.8-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_unpack: Succeeded
+NOTE: Running task 2384 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxft-1_2.3.8-r0: task do_patch: Succeeded
+NOTE: Running task 2387 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_patch)
+NOTE: Running task 2388 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_patch)
+NOTE: Running task 2393 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2394 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_packagedata)
+NOTE: Running task 2397 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_collect_spdx_deps)
+NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_unpack: Succeeded
 NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsoup-3.4.4-r0: task do_patch: Succeeded
-NOTE: Running task 1699 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.4.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1700 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libsoup/libsoup_3.4.4.bb:do_populate_lic)
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpsl-0.21.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe glib-networking-2.76.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe nghttp2-1.57.0-r0: task do_patch: Succeeded
-NOTE: Running task 1701 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_generate_toolchain_file)
-NOTE: Running task 1702 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe glib-networking-2.76.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_patch: Succeeded
-NOTE: Running task 1703 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpsl-0.21.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libsoup-3.4.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libsoup-3.4.4-r0: task do_populate_lic: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_patch: Succeeded
-NOTE: Running task 1704 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libsoup-3.4.4-r0: task do_populate_lic: Succeeded
-NOTE: recipe libsoup-3.4.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glib-networking-2.76.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1705 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1706 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_configure)
-NOTE: recipe nghttp2-1.57.0-r0: task do_configure: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1707 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_configure)
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_configure: Started
+NOTE: Running task 2398 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_collect_spdx_deps)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_patch: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2399 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_patch)
+NOTE: recipe pango-1.51.0-r0: task do_patch: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_patch: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe fribidi-1.0.13-r0: task do_patch: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_patch: Started
+NOTE: Running task 2400 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_patch: Succeeded
+NOTE: Running task 2401 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 2402 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe pango-1.51.0-r0: task do_patch: Succeeded
+NOTE: Running task 2403 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_patch: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_patch: Succeeded
+NOTE: recipe fribidi-1.0.13-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2404 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_patch: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2405 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_deploy_source_date_epoch)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2406 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: recipe libxft-1_2.3.8-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2407 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_configure)
+NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe pango-1.51.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: Running task 2408 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_configure)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 458c0c6ac781fde126e5353fe378356c35d45f3d649603399a6021a03dfb4916
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-8.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libxft-1_2.3.8-r0: task do_configure: Started
+NOTE: Running task 2422 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_configure)
+NOTE: Running task 2423 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Succeeded
+NOTE: Running task 2424 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2425 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2426 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe pango-1.51.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe fribidi-1.0.13-r0: task do_configure: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_configure: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2427 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_configure: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gtk+3-3.24.38-r0: task do_unpack: Succeeded
 NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: Running task 1708 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: Running task 2428 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_patch)
+NOTE: Running task 2429 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
 NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_patch: Started
+NOTE: recipe gtk+3-3.24.38-r0: task do_patch: Succeeded
+NOTE: Running task 2430 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_deploy_source_date_epoch)
+NOTE: recipe harfbuzz-8.2.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2431 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_patch)
+NOTE: Running task 2432 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_collect_spdx_deps)
 NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
 NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 3f47b5ed9eb8441973c4ab548f6730c1607013d772c0621215c8eb30a3b8334f
-NOTE: recipe glib-networking-2.76.1-r0: task do_configure: Succeeded
-NOTE: Running task 1711 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_configure_ptest_base)
-NOTE: recipe glib-networking-2.76.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1712 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_compile)
-NOTE: recipe glib-networking-2.76.1-r0: task do_compile: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_compile: Succeeded
-NOTE: Running task 1713 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_compile_ptest_base)
-NOTE: recipe glib-networking-2.76.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1714 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_install)
-NOTE: recipe glib-networking-2.76.1-r0: task do_install: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_install: Succeeded
-NOTE: Running task 1715 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_install_ptest_base)
-NOTE: recipe nghttp2-1.57.0-r0: task do_configure: Succeeded
-NOTE: Running task 1716 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_compile)
-NOTE: recipe glib-networking-2.76.1-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_install_ptest_base: Succeeded
-NOTE: recipe nghttp2-1.57.0-r0: task do_compile: Started
-NOTE: Running task 1717 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_package)
-NOTE: recipe glib-networking-2.76.1-r0: task do_package: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_compile: Succeeded
-NOTE: Running task 1718 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_install)
-NOTE: recipe nghttp2-1.57.0-r0: task do_install: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_install: Succeeded
-NOTE: Running task 1719 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_package)
-NOTE: Running task 1720 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_populate_sysroot)
-NOTE: recipe nghttp2-1.57.0-r0: task do_populate_sysroot: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_package: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libpsl-0.21.2-r0: task do_configure: Succeeded
-NOTE: Running task 1721 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpsl/libpsl_0.21.2.bb:do_compile)
-NOTE: recipe nghttp2-1.57.0-r0: task do_package: Succeeded
-NOTE: Running task 1722 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_packagedata)
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_packagedata: Started
-NOTE: recipe glib-networking-2.76.1-r0: task do_package: Succeeded
-NOTE: Running task 1723 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_packagedata)
-NOTE: recipe nghttp2-1.57.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1724 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb:do_create_spdx)
-NOTE: recipe glib-networking-2.76.1-r0: task do_packagedata: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_create_spdx: Started
-NOTE: recipe nghttp2-1.57.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe glib-networking-2.76.1-r0: task do_packagedata: Failed
-NOTE: recipe libpsl-0.21.2-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1724 tasks of which 1674 didn't need to be rerun and 1 failed.
+NOTE: Reported task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 81d74494b266d3f40617daff04a9c972ef12aa7b6c281f95139d5211515d4540 to unix:///home/pokybuild/yocto-worker/auh/build/build/build/hashserve.sock ({'taskhash': 'fe496478448e55f676751b5b577f7ce08498b83179e168cab8cc82bed1ad6a5d', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '81d74494b266d3f40617daff04a9c972ef12aa7b6c281f95139d5211515d4540'})
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed fe496478448e55f676751b5b577f7ce08498b83179e168cab8cc82bed1ad6a5d -> 81d74494b266d3f40617daff04a9c972ef12aa7b6c281f95139d5211515d4540 as wanted
+NOTE: Already covered setscene for /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe gtk+3-3.24.38-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_patch: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_patch: Succeeded
+NOTE: Running task 2438 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_deploy_source_date_epoch)
+NOTE: recipe gtk+3-3.24.38-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe harfbuzz-8.2.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe harfbuzz-8.2.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2439 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_configure)
+NOTE: recipe harfbuzz-8.2.1-r0: task do_configure: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_configure: Succeeded
+NOTE: Running task 2440 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_compile)
+NOTE: recipe fribidi-1.0.13-r0: task do_compile: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_compile: Succeeded
+NOTE: Running task 2441 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_install)
+NOTE: recipe fribidi-1.0.13-r0: task do_install: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_install: Succeeded
+NOTE: Running task 2442 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_populate_sysroot)
+NOTE: Running task 2443 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_package)
+NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_package: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe harfbuzz-8.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2444 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_compile)
+NOTE: recipe fribidi-1.0.13-r0: task do_package: Succeeded
+NOTE: Running task 2445 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_packagedata)
+NOTE: recipe harfbuzz-8.2.1-r0: task do_compile: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_packagedata: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_packagedata: Succeeded
+NOTE: Running task 2446 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_create_spdx)
+NOTE: recipe fribidi-1.0.13-r0: task do_create_spdx: Started
+NOTE: recipe fribidi-1.0.13-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_configure: Succeeded
+NOTE: Running task 2447 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_compile)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_compile: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_configure: Succeeded
+NOTE: Running task 2448 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_compile)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_compile: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_configure: Succeeded
+NOTE: Running task 2449 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_compile)
+NOTE: recipe libxi-1_1.8.1-r0: task do_configure: Succeeded
+NOTE: Running task 2450 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_compile)
+NOTE: recipe libxft-1_2.3.8-r0: task do_compile: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_compile: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_compile: Started
+NOTE: Running task 2451 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_install)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_install: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2452 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_install)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_install: Succeeded
+NOTE: Running task 2453 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_populate_sysroot)
+NOTE: Running task 2454 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_package)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_install: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_package: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_compile: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2455 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_install)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2456 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot)
+NOTE: Running task 2457 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_package)
+NOTE: recipe libxi-1_1.8.1-r0: task do_install: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_compile: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_package: Started
+NOTE: Running task 2458 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_install)
+NOTE: recipe libxft-1_2.3.8-r0: task do_install: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_install: Succeeded
+NOTE: Running task 2459 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_populate_sysroot)
+NOTE: Running task 2460 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_package)
+NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_install: Succeeded
+NOTE: Running task 2461 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot)
+NOTE: Running task 2462 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_package)
+NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_package: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_package: Succeeded
+NOTE: Running task 2463 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_packagedata)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata: Started
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata: Succeeded
+NOTE: Running task 2464 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_create_spdx)
+NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2465 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2466 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2467 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_configure)
+NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_configure: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2468 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_create_spdx)
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_create_spdx: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_package: Succeeded
+NOTE: Running task 2469 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_packagedata)
+NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata: Started
+NOTE: recipe libxcursor-1_1.2.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 2470 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_create_spdx)
+NOTE: recipe libxft-1_2.3.8-r0: task do_package: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Started
+NOTE: Running task 2471 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata)
+NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2472 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_collect_spdx_deps)
+NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata: Succeeded
+NOTE: Running task 2473 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_create_spdx)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_configure: Succeeded
+NOTE: Running task 2474 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_compile)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_compile: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_compile: Succeeded
+NOTE: Running task 2475 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_install)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_install: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_install: Succeeded
+NOTE: Running task 2476 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_populate_sysroot)
+NOTE: Running task 2477 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_package)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_package: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2478 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2479 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_configure)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_configure: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_package: Succeeded
+NOTE: Running task 2480 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_packagedata)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata: Succeeded
+NOTE: Running task 2481 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_create_spdx)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2482 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_collect_spdx_deps)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_configure: Succeeded
+NOTE: Running task 2483 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_compile)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_compile: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_compile: Succeeded
+NOTE: Running task 2484 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_install)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_install: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_install: Succeeded
+NOTE: Running task 2485 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_populate_sysroot)
+NOTE: Running task 2486 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_package)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_populate_sysroot: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_package: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_package: Succeeded
+NOTE: Running task 2487 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_packagedata)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_packagedata: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_packagedata: Succeeded
+NOTE: Running task 2488 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_create_spdx)
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_create_spdx: Started
+NOTE: recipe at-spi2-core-2.50.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe harfbuzz-8.2.1-r0: task do_compile: Succeeded
+NOTE: Running task 2489 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_install)
+NOTE: recipe harfbuzz-8.2.1-r0: task do_install: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_install: Succeeded
+NOTE: Running task 2490 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_populate_sysroot)
+NOTE: Running task 2491 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_package)
+NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 2492 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 2493 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure)
+NOTE: recipe pango-1.51.0-r0: task do_configure: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Succeeded
+NOTE: Running task 2494 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata)
+NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Failed
+NOTE: recipe pango-1.51.0-r0: task do_configure: Succeeded
+NOTE: Tasks Summary: Attempted 2494 tasks of which 2354 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 3 seconds
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_packagedata
-Summary: There were 79 ERROR messages, returning a non-zero exit code.
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-src went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-dbg went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-ptest went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-staticdev went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-dev went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-doc went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ab went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-an went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ar went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-as went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-be went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-bg went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-bn-in went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-bs went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ca went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ca+valencia went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-cs went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-da went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-de went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-el went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-en-ca went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-en-gb went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-eo went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-es went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-et went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-eu went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-fa went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-fi went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-fr went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-fur went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-gd went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-gl went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-gu went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-he went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-hi went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-hr went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-hu went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-id went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-it went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ja went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ka went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-kk went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-km went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-kn went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ko went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-lt went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-lv went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ml went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-mr went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ms went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-nb went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ne went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-nl went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-oc went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-or went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-pa went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-pl went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-pt went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-pt-br went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ro went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ru went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-sk went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-sl went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-sr went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-sr+latin went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-sv went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ta went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-te went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-tg went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-th went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-tr went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-ug went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-uk went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-vi went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-zh-cn went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-zh-hk went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: QA Issue: Package version for package glib-networking-locale-zh-tw went backwards which would break package feeds (from 0:2.78.0-r0 to 0:2.76.1-r0) [version-going-backwards]
-ERROR: glib-networking-2.76.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/glib-networking/2.76.1/temp/log.do_packagedata.3983537
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb:do_packagedata) failed with exit code '1'
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata
+Summary: There were 22 ERROR messages, returning a non-zero exit code.
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-src went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-dbg went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package jpeg-tools went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libturbojpeg went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-staticdev went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-dev went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-doc went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-locale went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
+ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
+ERROR: harfbuzz-8.2.1-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/harfbuzz/8.2.1/temp/log.do_packagedata.3631793
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata) failed with exit code '1'
 
---===============7194911522128142415==
+--===============7168963258621447745==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libsoup/libsoup-locale-eo: PKGSIZE changed from 2241 to 3945 (+76%)
-packages/core2-64-poky-linux/libsoup/libsoup: FILELIST: removed "/usr/lib/libsoup-3.0.so.0.7.0", added "/usr/lib/libsoup-3.0.so.0.7.1"
-Changes to packages/core2-64-poky-linux/libsoup (sysroot):
-  /usr/lib/libsoup-3.0.so.0 changed symlink target from libsoup-3.0.so.0.7.0 to libsoup-3.0.so.0.7.1
-  /usr/lib/libsoup-3.0.so.0.7.0 moved to /usr/lib/libsoup-3.0.so.0.7.1
+packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
 
---===============7194911522128142415==
+--===============7168963258621447745==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libsoup-upgrade-3.4.2-3.4.4.patch"
+ filename="0001-puzzles-upgrade-to-latest-revision.patch"
 
-RnJvbSBmMDNkYjYxZTVmYTMxZDRlZDJlNjllMTRmNjA0MDA4ZDk0YmVkNmQyIE1vbiBTZXAgMTcg
+RnJvbSBkMjM0YmNiMzk2M2VmMzE3MjNjNjhjNGMyZTgzMmRhYWQ2N2ZiYTVlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxNDoxNDo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnNvdXA6IHVwZ3JhZGUgMy40LjIgLT4gMy40LjQKCi0tLQogLi4uL2xpYnNvdXAve2xpYnNvdXBf
-My40LjIuYmIgPT4gbGlic291cF8zLjQuNC5iYn0gICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvbGlic291cC97bGlic291cF8zLjQuMi5iYiA9PiBsaWJzb3VwXzMuNC40LmJi
-fSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnNvdXAvbGlic291
-cF8zLjQuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnNvdXAvbGlic291cF8zLjQuNC5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJzb3VwL2xpYnNvdXBfMy40LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xp
-YnNvdXAvbGlic291cF8zLjQuNC5iYgppbmRleCAzOTk2YWU2ODM2Li42ZDM4MmE3ODUyIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJzb3VwL2xpYnNvdXBfMy40LjIuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlic291cC9saWJzb3VwXzMuNC40LmJiCkBAIC0xMiw3
-ICsxMiw3IEBAIERFUEVORFMgPSAiZ2xpYi0yLjAgZ2xpYi0yLjAtbmF0aXZlIGxpYnhtbDIgc3Fs
-aXRlMyBsaWJwc2wgbmdodHRwMiIKIFNIUlRfVkVSID0gIiR7QGQuZ2V0VmFyKCdQVicpLnNwbGl0
-KCcuJylbMF19LiR7QGQuZ2V0VmFyKCdQVicpLnNwbGl0KCcuJylbMV19IgogCiBTUkNfVVJJID0g
-IiR7R05PTUVfTUlSUk9SfS9saWJzb3VwLyR7U0hSVF9WRVJ9L2xpYnNvdXAtJHtQVn0udGFyLnh6
-IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc4YzhmYTM3Y2IxNTJkNDBlYzhjNGExNDhkNjE1NWUy
-ZjY5NDdmM2YxNjAyYTdjZGEzYTMxYWQ0MGY1ZWUyZjMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-MjkxYzY3NzI1ZjM2ZWQ5MGVhNDNlZmZmMjUwNjRiNjljNWEyZDE5ODE0ODg0NzdjMDVjNDgxYTNi
-NGIwYzVhYSIKIAogUFJPVklERVMgPSAibGlic291cC0zLjAiCiBDVkVfUFJPRFVDVCA9ICJsaWJz
-b3VwIgotLSAKMi4zOS4yCgo=
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMzo1NTozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB1
+enpsZXM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1zYXRv
+L3B1enpsZXMvcHV6emxlc19naXQuYmIgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc2F0by9wdXp6
+bGVzL3B1enpsZXNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dp
+dC5iYgppbmRleCBkNzA4OWVmOTVkLi5hNmVjZDdhMGUxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtc2F0by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zYXRvL3B1
+enpsZXMvcHV6emxlc19naXQuYmIKQEAgLTEwLDcgKzEwLDcgQEAgUkVRVUlSRURfRElTVFJPX0ZF
+QVRVUkVTID0gIngxMSIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LnRhcnRhcnVzLm9yZy9zaW1vbi9w
+dXp6bGVzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIAogVVBTVFJFQU1fQ0hFQ0tf
+Q09NTUlUUyA9ICIxIgotU1JDUkVWID0gIjJkOWU0MTRlZTMxNmIzNzE0Mzk1NDE1MDAxNmU4ZjRm
+MTgzNTg0OTciCitTUkNSRVYgPSAiMzVmNzk2NTQyZWU1ZDdlNzc1NjQzZjUyNjk3M2FhNzVmNDgz
+YmYyMCIKIFBFID0gIjIiCiBQViA9ICIwLjArZ2l0IgogCi0tIAoyLjM5LjIKCg==
 
---===============7194911522128142415==--
+--===============7168963258621447745==--
 
