@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B5D7C07CA9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66BAEC07D59
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:13 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.8668.1698848705709708367
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.8649.1698848703575674379
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Nov 2023 07:25:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ID6Fd5wE;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mry66IhE;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.191, mailfrom: 0101018b8b4609d3-881f1369-f161-4686-8116-6938239fdb61-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dpHY/2g4;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Yn7HfI7i;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.29, mailfrom: 0101018b8b460aeb-b4c4a521-b17c-4947-9838-a0bcea410b6b-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1698848705;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Gf/GJEC8ZWw9D3KDf+51ql2KjPkkyALatzmv24hrsMM=;
-	b=ID6Fd5wEeDhj1T8LR5hdQG9QjiNEFzflAG0T7xSDYnwhZP06OQJX28ESjIXq5aSo
-	HDIIpZB+ZvB8TKbPP/ymZM1mBoHLGY0KdA7l7XEvN0x9bRSiBtIEn45ZNENDXPreCpf
-	uW1fVwyI2KI+SRWryeq6TrUII2rRUEtB3hSnn7ZE=
+	bh=81NEzQtR1m3L0GF1831+l86Fv6p1vD4B7wDheuL2Dj8=;
+	b=dpHY/2g4fSaAl4aWKEAOmKCGcxqCvqyAWuJUQao+mNSmCuAVwyymGJHOFa1C6Ye6
+	AsVCr3ODmj2K6uWvIIu62m83+aY0ElRWSft0JzbpnQxWtoPPV0ZDq9CyadCVJ9AUDPy
+	JQTg9+dAqXvAKiqggo4FR+UmpeLoUEmm6WRykrMg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848705;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Gf/GJEC8ZWw9D3KDf+51ql2KjPkkyALatzmv24hrsMM=;
-	b=mry66IhEkqIPEPKgfZ3lwB540ZTxpVWrk8M+omNgh1cJZr/OT63sFaQ1cR9PBGMM
-	XDqEfhQREL+mDDH6TFEPk/IO4dUFISPq19mUU5VYYHED3oc78MuAkZ5/b6JykgSvIVx
-	6k+xTLiEjNVBxTVyT6qN35axacItch2NQiXQPgp0=
-Content-Type: multipart/mixed; boundary="===============4829560961629904551=="
+	bh=81NEzQtR1m3L0GF1831+l86Fv6p1vD4B7wDheuL2Dj8=;
+	b=Yn7HfI7ikDsaO7GzVn3PcoczFKL/DYs2nt5WhlpUTrCUS6hEB8QjDGJv6W9zVc2U
+	lhzkPrcreSQY2jKOXPng4W2mNTedCo+KaAnbppGscr4kmx23fspjz3SOTDCPidRNREd
+	WsVF6/GZkVe9onnW/RIT48mVG0MIU62ckLNwaDIw=
+Content-Type: multipart/mixed; boundary="===============7640228787793806055=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libtirpc: upgrading to 1.3.4 SUCCEEDED
-Message-ID: <0101018b8b4609d3-881f1369-f161-4686-8116-6938239fdb61-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:04 +0000
+Subject: [AUH] libnotify: upgrading to 0.8.3 SUCCEEDED
+Message-ID: <0101018b8b460aeb-b4c4a521-b17c-4947-9838-a0bcea410b6b-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.191
+X-SES-Outgoing: 2023.11.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189996
 
---===============4829560961629904551==
+--===============7640228787793806055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libtirpc* to *1.3.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *libnotify* to *0.8.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libtirpc-upgrade-1.3.3-1.3.4.patch
+    - apply the patch: git am 0001-libnotify-upgrade-0.8.2-0.8.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,92 +72,92 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 47478c626cd0288a0ceac3bea4e89497237a65c7 Mon Sep 17 00:00:00 2001
+From 45da8a0e89ecd99bd6d71a1a031ba31b7798d192 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 11:26:42 +0000
-Subject: [PATCH] libtirpc: upgrade 1.3.3 -> 1.3.4
+Date: Wed, 1 Nov 2023 12:13:50 +0000
+Subject: [PATCH] libnotify: upgrade 0.8.2 -> 0.8.3
 
 ---
- .../libtirpc/{libtirpc_1.3.3.bb => libtirpc_1.3.4.bb}           | 2 +-
+ .../libnotify/{libnotify_0.8.2.bb => libnotify_0.8.3.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libtirpc/{libtirpc_1.3.3.bb => libtirpc_1.3.4.bb} (93%)
+ rename meta/recipes-gnome/libnotify/{libnotify_0.8.2.bb => libnotify_0.8.3.bb} (93%)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb b/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb
 similarity index 93%
-rename from meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-rename to meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
-index 898a952a8b..16c7a6007a 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
- "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
--SRC_URI[sha256sum] = "6474e98851d9f6f33871957ddee9714fdcd9d8a5ee9abb5a98d63ea2e60e12f3"
-+SRC_URI[sha256sum] = "1e0b0c7231c5fa122e06c0609a76723664d068b0dba3b8219b63e6340b347860"
+rename from meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
+rename to meta/recipes-gnome/libnotify/libnotify_0.8.3.bb
+index 6888c33d14..02c48c21df 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.8.3.bb
+@@ -21,7 +21,7 @@ inherit gnomebase gi-docgen features_check gobject-introspection
+ # depends on gtk+3 if tests are enabled
+ ANY_OF_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'tests', '${GTK3DISTROFEATURES}', '', d)}"
  
- CVE_STATUS[CVE-2021-46828] = "fixed-version: fixed in 1.3.3rc1 so not present in 1.3.3"
+-SRC_URI[archive.sha256sum] = "c5f4ed3d1f86e5b118c76415aacb861873ed3e6f0c6b3181b828cf584fc5c616"
++SRC_URI[archive.sha256sum] = "ee8f3ef946156ad3406fdf45feedbdcd932dbd211ab4f16f75eba4f36fb2f6c0"
+ 
+ EXTRA_OEMESON = "-Dman=false"
  
 -- 
 2.39.2
 
 
---===============4829560961629904551==
+--===============7640228787793806055==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libnotify-upgrade-0.8.2-0.8.3.patch"
+
+RnJvbSA0NWRhOGEwZTg5ZWNkOTliZDZkNzFhMWEwMzFiYTMxYjc3OThkMTkyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMjoxMzo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+Ym5vdGlmeTogdXBncmFkZSAwLjguMiAtPiAwLjguMwoKLS0tCiAuLi4vbGlibm90aWZ5L3tsaWJu
+b3RpZnlfMC44LjIuYmIgPT4gbGlibm90aWZ5XzAuOC4zLmJifSAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZ25vbWUvbGlibm90aWZ5L3tsaWJub3RpZnlfMC44LjIuYmIgPT4gbGlibm90aWZ5XzAu
+OC4zLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJub3RpZnkv
+bGlibm90aWZ5XzAuOC4yLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYm5vdGlmeS9saWJub3Rp
+ZnlfMC44LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWdub21lL2xpYm5vdGlmeS9saWJub3RpZnlfMC44LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1nbm9tZS9saWJub3RpZnkvbGlibm90aWZ5XzAuOC4zLmJiCmluZGV4IDY4ODhjMzNkMTQuLjAy
+YzQ4YzIxZGYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJub3RpZnkvbGlibm90
+aWZ5XzAuOC4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJub3RpZnkvbGlibm90aWZ5
+XzAuOC4zLmJiCkBAIC0yMSw3ICsyMSw3IEBAIGluaGVyaXQgZ25vbWViYXNlIGdpLWRvY2dlbiBm
+ZWF0dXJlc19jaGVjayBnb2JqZWN0LWludHJvc3BlY3Rpb24KICMgZGVwZW5kcyBvbiBndGsrMyBp
+ZiB0ZXN0cyBhcmUgZW5hYmxlZAogQU5ZX09GX0RJU1RST19GRUFUVVJFUyA9ICIke0BiYi51dGls
+cy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICd0ZXN0cycsICcke0dUSzNESVNUUk9GRUFUVVJF
+U30nLCAnJywgZCl9IgogCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICJjNWY0ZWQzZDFm
+ODZlNWIxMThjNzY0MTVhYWNiODYxODczZWQzZTZmMGM2YjMxODFiODI4Y2Y1ODRmYzVjNjE2Igor
+U1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiZWU4ZjNlZjk0NjE1NmFkMzQwNmZkZjQ1ZmVl
+ZGJkY2Q5MzJkYmQyMTFhYjRmMTZmNzVlYmE0ZjM2ZmIyZjZjMCIKIAogRVhUUkFfT0VNRVNPTiA9
+ICItRG1hbj1mYWxzZSIKIAotLSAKMi4zOS4yCgo=
+
+--===============7640228787793806055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libtirpc: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc: SRC_URI changed from "https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.3.tar.bz2 file://ipv6.patch" to "https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2 file://ipv6.patch"
-packages/core2-64-poky-linux/libtirpc: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-dbg: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-dbg: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-dbg: PKGSIZE changed from 615392 to 617664 (+0%)
-packages/core2-64-poky-linux/libtirpc/libtirpc-dev: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-dev: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-doc: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-doc: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-locale: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-locale: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-src: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-src: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-src: PKGSIZE changed from 672330 to 674982 (+0%)
-packages/core2-64-poky-linux/libtirpc/libtirpc-staticdev: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-staticdev: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
+packages/core2-64-poky-linux/libnotify: SRC_URI changed from "https://download.gnome.org/sources//libnotify/0.8/libnotify-0.8.2.tar.xz;name=archive" to "https://download.gnome.org/sources//libnotify/0.8/libnotify-0.8.3.tar.xz;name=archive"
+packages/core2-64-poky-linux/libnotify: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/libnotify: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/libnotify/libnotify-dbg: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-dbg: PKGSIZE changed from 146752 to 146944 (+0%)
+packages/core2-64-poky-linux/libnotify/libnotify-dbg: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/libnotify/libnotify-dev: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-dev: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/libnotify/libnotify-doc: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-doc: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/libnotify/libnotify-locale: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-locale: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/libnotify/libnotify-src: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-src: PKGSIZE changed from 125695 to 125478 (-0%)
+packages/core2-64-poky-linux/libnotify/libnotify-src: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/libnotify/libnotify-staticdev: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/libnotify/libnotify-staticdev: PV changed from "0.8.2" to "0.8.3"
+packages/core2-64-poky-linux/libnotify/libnotify: PKGV changed from 0.8.2 [default] to 0.8.3 [default]
+packages/core2-64-poky-linux/libnotify/libnotify: PV changed from "0.8.2" to "0.8.3"
 
---===============4829560961629904551==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libtirpc-upgrade-1.3.3-1.3.4.patch"
-
-RnJvbSA0NzQ3OGM2MjZjZDAyODhhMGNlYWMzYmVhNGU4OTQ5NzIzN2E2NWM3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMToyNjo0MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnRpcnBjOiB1cGdyYWRlIDEuMy4zIC0+IDEuMy40CgotLS0KIC4uLi9saWJ0aXJwYy97bGlidGly
-cGNfMS4zLjMuYmIgPT4gbGlidGlycGNfMS4zLjQuYmJ9ICAgICAgICAgICB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9saWJ0aXJwYy97bGlidGlycGNfMS4zLjMuYmIgPT4gbGlidGlycGNfMS4z
-LjQuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBj
-L2xpYnRpcnBjXzEuMy4zLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xpYnRp
-cnBjXzEuMy40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwY18xLjMuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xpYnRpcnBjXzEuMy40LmJiCmluZGV4IDg5OGE5NTJhOGIu
-LjE2YzdhNjAwN2EgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy9s
-aWJ0aXJwY18xLjMuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMvbGli
-dGlycGNfMS4zLjQuYmIKQEAgLTE0LDcgKzE0LDcgQEAgU1JDX1VSSSA9ICIke1NPVVJDRUZPUkdF
-X01JUlJPUn0vJHtCUE59LyR7QlB9LnRhci5iejIgXAogIgogVVBTVFJFQU1fQ0hFQ0tfVVJJID0g
-Imh0dHBzOi8vc291cmNlZm9yZ2UubmV0L3Byb2plY3RzL2xpYnRpcnBjL2ZpbGVzL2xpYnRpcnBj
-LyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gIig/UDxwdmVyPlxkKyhcLlxkKykrKS8iCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiNjQ3NGU5ODg1MWQ5ZjZmMzM4NzE5NTdkZGVlOTcxNGZkY2Q5ZDhh
-NWVlOWFiYjVhOThkNjNlYTJlNjBlMTJmMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIxZTBiMGM3
-MjMxYzVmYTEyMmUwNmMwNjA5YTc2NzIzNjY0ZDA2OGIwZGJhM2I4MjE5YjYzZTYzNDBiMzQ3ODYw
-IgogCiBDVkVfU1RBVFVTW0NWRS0yMDIxLTQ2ODI4XSA9ICJmaXhlZC12ZXJzaW9uOiBmaXhlZCBp
-biAxLjMuM3JjMSBzbyBub3QgcHJlc2VudCBpbiAxLjMuMyIKIAotLSAKMi4zOS4yCgo=
-
---===============4829560961629904551==--
+--===============7640228787793806055==--
 
