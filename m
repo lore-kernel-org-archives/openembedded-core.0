@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BCDAC05054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D20DDC072DD
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:12 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.8658.1698848704600524775
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.8671.1698848705851745322
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:06 -0700
+ Wed, 01 Nov 2023 07:25:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FNSLNpSH;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OXJZpIWQ;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.33, mailfrom: 0101018b8b460de2-0183e2f8-7fcb-4b57-be45-a5a9543d46e7-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GK0bjiUc;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KDpZ818d;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.29, mailfrom: 0101018b8b460a21-1da3546a-a00f-470e-a717-4e6d4a859258-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848706;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=IEuV3A0It12Vrw5QkIy6dehtrVYa+qmSYoYCtZiaqFw=;
-	b=FNSLNpSH5uO9twi8+SJ4aSfXj5PGYB5SIKebEWUiIrXcsxJclKNvnmsasel8ocMi
-	TT5Ln9GxTZOEHQk06CEjuXGu+wJR34X2vQ4kLCanCTxWacIJOAj+SwIGH2FMdJfjV9I
-	dWiER1+snmNv12zwew0aowPfV7RGm6Rce6/YKZ3Y=
+	t=1698848705;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=gHVvEsP0T6IRRLf1Pf4h9/tRXBpTN/P1ngjyTXSs4Mw=;
+	b=GK0bjiUcoBsIq3bB8oz/iwhwpXFpXdsEBJ+zUMkgyQvj8U3lCOU0dc8iLyiz3D1G
+	7HK9OR5miWMTV/CGDtkp4oc+ZD/IF3BlbsOQhJqEaBKi3Q5cAZZ87JDAjYvZq3/rNs/
+	K9WvriQcFQS766yL+VPQsdXsiyUp4l70fwzRDHG4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848706;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=IEuV3A0It12Vrw5QkIy6dehtrVYa+qmSYoYCtZiaqFw=;
-	b=OXJZpIWQtaKBmeUNHnFUGXJ32nRHoOQuobtHvsCsSFLbFzerzE4lA449P7WIfrh/
-	gbixHP2JhFTJgjTAxSshlK7tNLy/PIvG/XZn7Syrho7wETEoaaqiMerUDoGAR2l5FDQ
-	VnEa/wgEnqngUW/DVTz9+bvQIUaZzF+cwsj6FlgU=
-Content-Type: multipart/mixed; boundary="===============4009352820331478939=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848705;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=gHVvEsP0T6IRRLf1Pf4h9/tRXBpTN/P1ngjyTXSs4Mw=;
+	b=KDpZ818defYbIv167w4ueGbLARS7k6mgQFZNTcfCeMeZiYglyxbG1rZBd+HRz8ER
+	fVxHDQzVWtFrJhGnhhcIGE3hgfjPe9quGafKZASIGZXMaEqgg7RVt0dTDtWva9+PNPz
+	1wZtCvCXlPNPm3IHBYagHCciBb6csOZqf0hrjO38=
+Content-Type: multipart/mixed; boundary="===============8735246718223083505=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xserver-xorg: upgrading to 21.1.9 SUCCEEDED
-Message-ID: <0101018b8b460de2-0183e2f8-7fcb-4b57-be45-a5a9543d46e7-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:06 +0000
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libnewt: upgrading to 0.52.24 SUCCEEDED
+Message-ID: <0101018b8b460a21-1da3546a-a00f-470e-a717-4e6d4a859258-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.33
+X-SES-Outgoing: 2023.11.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190021
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190008
 
---===============4009352820331478939==
+--===============8735246718223083505==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xserver-xorg* to *21.1.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *libnewt* to *0.52.24* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xserver-xorg-upgrade-21.1.8-21.1.9.patch
+    - apply the patch: git am 0001-libnewt-upgrade-0.52.23-0.52.24.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,143 +72,219 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 148bc3310567dd6f677aa3bf85650e4aad895b63 Mon Sep 17 00:00:00 2001
+From 86f7b6895226054085524277404c6f75559f3fd2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 13:29:10 +0000
-Subject: [PATCH] xserver-xorg: upgrade 21.1.8 -> 21.1.9
+Date: Wed, 1 Nov 2023 11:39:02 +0000
+Subject: [PATCH] libnewt: upgrade 0.52.23 -> 0.52.24
 
 ---
- .../{xserver-xorg_21.1.8.bb => xserver-xorg_21.1.9.bb}          | 2 +-
+ .../newt/{libnewt_0.52.23.bb => libnewt_0.52.24.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.8.bb => xserver-xorg_21.1.9.bb} (92%)
+ rename meta/recipes-extended/newt/{libnewt_0.52.23.bb => libnewt_0.52.24.bb} (94%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb
-index 19db7ea434..43c06181e3 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb
-@@ -3,7 +3,7 @@ require xserver-xorg.inc
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.23.bb b/meta/recipes-extended/newt/libnewt_0.52.24.bb
+similarity index 94%
+rename from meta/recipes-extended/newt/libnewt_0.52.23.bb
+rename to meta/recipes-extended/newt/libnewt_0.52.24.bb
+index cd3731cf74..1e39a1c5ca 100644
+--- a/meta/recipes-extended/newt/libnewt_0.52.23.bb
++++ b/meta/recipes-extended/newt/libnewt_0.52.24.bb
+@@ -23,7 +23,7 @@ SRC_URI = "https://releases.pagure.org/newt/newt-${PV}.tar.gz \
+            file://0001-detect-gold-as-GNU-linker-too.patch \
             "
--SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
-+SRC_URI[sha256sum] = "ff697be2011b4c4966b7806929e51b7a08e9d33800d505305d26d9ccde4b533a"
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
+-SRC_URI[sha256sum] = "caa372907b14ececfe298f0d512a62f41d33b290610244a58aed07bbc5ada12a"
++SRC_URI[sha256sum] = "5ded7e221f85f642521c49b1826c8de19845aa372baf5d630a51774b544fbdbb"
+ 
+ S = "${WORKDIR}/newt-${PV}"
+ 
 -- 
 2.39.2
 
 
---===============4009352820331478939==
+--===============8735246718223083505==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/xserver-xorg: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg: SRC_URI changed from "https://www.x.org/releases//individual/xserver/xorg-server-21.1.8.tar.xz file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch" to "https://www.x.org/releases//individual/xserver/xorg-server-21.1.9.tar.xz file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch"
-packages/core2-64-poky-linux/xserver-xorg: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xf86-video-modesetting: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xf86-video-modesetting: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-dbg: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-dbg: PKGSIZE changed from 26806624 to 26807272 (+0%)
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-dbg: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-dev: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-dev: PKGSIZE changed from 1154536 to 1154394 (-0%)
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-dev: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-doc: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-doc: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-dbe: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-dbe: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-dri: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-dri: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-dri2: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-dri2: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-extmod: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-extmod: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-glx: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-glx: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-record: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-extension-record: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-fbdev: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-fbdev: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-locale: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-locale: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-exa: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-exa: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libafb: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libafb: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libcfb: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libcfb: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libint10: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libint10: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libmfb: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libmfb: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libwfb: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libwfb: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libxf1bpp: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libxf1bpp: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libxf4bpp: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-libxf4bpp: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-xaa: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-module-xaa: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-multimedia-modules: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-multimedia-modules: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-sdl: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-sdl: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-src: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-src: PKGSIZE changed from 11884759 to 11885751 (+0%)
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-src: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-staticdev: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-staticdev: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-utils: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-utils: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-xephyr: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-xephyr: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-xvfb: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-xvfb: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-xwayland: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg-xwayland: PV changed from "21.1.8" to "21.1.9"
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg: PKGV changed from 21.1.8 [default] to 21.1.9 [default]
-packages/core2-64-poky-linux/xserver-xorg/xserver-xorg: PV changed from "21.1.8" to "21.1.9"
+packages/core2-64-poky-linux/libnewt: SRC_URI changed from "https://releases.pagure.org/newt/newt-0.52.23.tar.gz file://cross_ar.patch file://Makefile.in-Add-tinfo-library-to-the-linking-librari.patch file://0001-detect-gold-as-GNU-linker-too.patch" to "https://releases.pagure.org/newt/newt-0.52.24.tar.gz file://cross_ar.patch file://Makefile.in-Add-tinfo-library-to-the-linking-librari.patch file://0001-detect-gold-as-GNU-linker-too.patch"
+packages/core2-64-poky-linux/libnewt: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-dbg: FILELIST: removed "/usr/lib/.debug/libnewt.so.0.52.23", added "/usr/lib/.debug/libnewt.so.0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-dbg: PKGSIZE changed from 368480 to 368408 (-0%)
+packages/core2-64-poky-linux/libnewt/libnewt-dbg: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-dbg: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-dev: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-dev: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-doc: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-doc: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ar: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ar: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-as: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-as: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ast: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ast: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bal: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bal: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bg: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bg: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bn-in: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bn-in: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bn: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bn: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bs: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-bs: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ca: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ca: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-cs: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-cs: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-cy: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-cy: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-da: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-da: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-de: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-de: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-dz: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-dz: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-el: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-el: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-eo: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-eo: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-es: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-es: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-et: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-et: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-eu: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-eu: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-fa: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-fa: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-fi: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-fi: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-fr: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-fr: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ga: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ga: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-gl: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-gl: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-gu: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-gu: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-he: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-he: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-hi: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-hi: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-hr: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-hr: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-hu: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-hu: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ia: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ia: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-id: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-id: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-it: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-it: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ja: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ja: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ka: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ka: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-km: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-km: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-kn: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-kn: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ko: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ko: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ku: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ku: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-lt: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-lt: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-lv: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-lv: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-mg: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-mg: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-mk: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-mk: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ml: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ml: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-mr: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-mr: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ms: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ms: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-nb: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-nb: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-nds: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-nds: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ne: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ne: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-nl: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-nl: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-nn: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-nn: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-pa: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-pa: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-pl: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-pl: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-pt-br: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-pt-br: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-pt: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-pt: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ro: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ro: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ru: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ru: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sk: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sk: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sl: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sl: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sq: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sq: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sr+latin: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sr+latin: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sr: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sr: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sv: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-sv: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ta: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-ta: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-te: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-te: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-tg: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-tg: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-th: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-th: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-tl: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-tl: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-tr: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-tr: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-uk: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-uk: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-vi: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-vi: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-wo: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-wo: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-xh: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-xh: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-zh-cn: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-zh-cn: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-locale-zh-tw: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-locale-zh-tw: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-python: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-python: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-src: PKGSIZE changed from 261732 to 261733 (+0%)
+packages/core2-64-poky-linux/libnewt/libnewt-src: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-src: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt-staticdev: PKGSIZE changed from 417170 to 417178 (+0%)
+packages/core2-64-poky-linux/libnewt/libnewt-staticdev: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt-staticdev: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+packages/core2-64-poky-linux/libnewt/libnewt: FILELIST: removed "/usr/lib/libnewt.so.0.52.23", added "/usr/lib/libnewt.so.0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/libnewt: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
+Changes to packages/core2-64-poky-linux/libnewt (sysroot):
+  /usr/lib/libnewt.so.0.52 changed symlink target from libnewt.so.0.52.23 to libnewt.so.0.52.24
+  /usr/lib/libnewt.so.0.52.23 moved to /usr/lib/libnewt.so.0.52.24
+packages/core2-64-poky-linux/libnewt/whiptail: PV changed from "0.52.23" to "0.52.24"
+packages/core2-64-poky-linux/libnewt/whiptail: PKGV changed from 0.52.23 [default] to 0.52.24 [default]
 
---===============4009352820331478939==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xserver-xorg-upgrade-21.1.8-21.1.9.patch"
-
-RnJvbSAxNDhiYzMzMTA1NjdkZDZmNjc3YWEzYmY4NTY1MGU0YWFkODk1YjYzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMzoyOToxMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHhz
-ZXJ2ZXIteG9yZzogdXBncmFkZSAyMS4xLjggLT4gMjEuMS45CgotLS0KIC4uLi97eHNlcnZlci14
-b3JnXzIxLjEuOC5iYiA9PiB4c2VydmVyLXhvcmdfMjEuMS45LmJifSAgICAgICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLXhzZXJ2ZXIve3hzZXJ2ZXIteG9yZ18yMS4xLjguYmIg
-PT4geHNlcnZlci14b3JnXzIxLjEuOS5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MveG9yZy14c2VydmVyL3hzZXJ2ZXIteG9yZ18yMS4xLjguYmIgYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MveG9yZy14c2VydmVyL3hzZXJ2ZXIteG9yZ18yMS4xLjkuYmIKc2ltaWxh
-cml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmcteHNl
-cnZlci94c2VydmVyLXhvcmdfMjEuMS44LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MveG9yZy14c2VydmVyL3hzZXJ2ZXIteG9yZ18yMS4xLjkuYmIKaW5kZXggMTlkYjdlYTQzNC4u
-NDNjMDYxODFlMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmcteHNlcnZl
-ci94c2VydmVyLXhvcmdfMjEuMS44LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LXhzZXJ2ZXIveHNlcnZlci14b3JnXzIxLjEuOS5iYgpAQCAtMyw3ICszLDcgQEAgcmVxdWlyZSB4
-c2VydmVyLXhvcmcuaW5jCiBTUkNfVVJJICs9ICJmaWxlOi8vMDAwMS14Zjg2cGNpQnVzLmMtdXNl
-LUludGVsLWRkeC1vbmx5LWZvci1wcmUtZ2VuNC1oYXJkd2FyLnBhdGNoIFwKICAgICAgICAgICAg
-ZmlsZTovLzAwMDEtQXZvaWQtZHVwbGljYXRlLWRlZmluaXRpb25zLW9mLUlPUG9ydEJhc2UucGF0
-Y2ggXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzhhYWRiNzM1NjUwYzgw
-MjRlZTI1MjExYzE5MGJmOGFhZDg0NGM1ZjU5NjMyNzYxYWIxZWY0YzRkNWFlYjE1MiIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICJmZjY5N2JlMjAxMWI0YzQ5NjZiNzgwNjkyOWU1MWI3YTA4ZTlkMzM4
-MDBkNTA1MzA1ZDI2ZDljY2RlNGI1MzNhIgogCiAjIFRoZXNlIGV4dGVuc2lvbnMgYXJlIG5vdyBp
-bnRlZ3JhdGVkIGludG8gdGhlIHNlcnZlciwgc28gZGVjbGFyZSB0aGUgbWlncmF0aW9uCiAjIHBh
-dGggZm9yIGluLXBsYWNlIHVwZ3JhZGVzLgotLSAKMi4zOS4yCgo=
-
---===============4009352820331478939==
+--===============8735246718223083505==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -228,757 +305,280 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "arm-poky-linux-musleabi"
 MACHINE              = "qemuarm"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-5ce5edc9f9326a9590dbd03fadcdf3ba71a5e925"
+DISTRO_VERSION       = "4.3+snapshot-53588672db65e8f337a19ca38397b28306e7019d"
 TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5ce5edc9f9326a9590dbd03fadcdf3ba71a5e925"
+meta-yocto-bsp       = "tmp-auh-upgrades:53588672db65e8f337a19ca38397b28306e7019d"
 workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
 
 Initialising tasks...done.
-Sstate summary: Wanted 157 Local 61 Mirrors 0 Missed 96 Current 677 (38% match, 88% complete)
-Removing 6 stale sstate objects for arch allarch...done.
+Sstate summary: Wanted 65 Local 40 Mirrors 0 Missed 25 Current 554 (61% match, 95% complete)
+Removing 3 stale sstate objects for arch qemuarm...done.
+Removing 1 stale sstate objects for arch allarch...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 691 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 692 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 699 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 700 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 712 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 714 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 716 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_create_spdx_setscene)
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtirpc-1.3.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_create_spdx_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libxrandr/1.5.3/temp/log.do_packagedata_setscene.2467691
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/vulkan-headers/1.3.261.1/temp/log.do_packagedata_setscene.2467689
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 829 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_package_setscene)
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 830 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_package_setscene)
-NOTE: Running task 1477 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_recipe_qa)
-NOTE: Running task 1519 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_recipe_qa)
-NOTE: Running task 1577 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_recipe_qa)
-NOTE: Running task 1578 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_recipe_qa)
-NOTE: Running task 1588 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_recipe_qa)
-NOTE: Running task 1630 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_recipe_qa)
-NOTE: Running task 1711 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_recipe_qa)
-NOTE: recipe encodings-1_1.0.7-r0: task do_recipe_qa: Started
-NOTE: Running task 1730 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_recipe_qa)
-NOTE: Running task 1731 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_recipe_qa)
-NOTE: Running task 1732 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_recipe_qa)
-NOTE: recipe font-util-1.4.1-r0: task do_recipe_qa: Started
-NOTE: Running task 1805 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_write_config)
-NOTE: Running task 1817 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_recipe_qa)
-NOTE: recipe mtdev-1.1.6-r0: task do_recipe_qa: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_recipe_qa: Started
-NOTE: Running task 1841 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_write_config)
-NOTE: Running task 1842 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_write_config)
-NOTE: Running task 1878 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_write_config)
-NOTE: Running task 1888 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_recipe_qa)
-NOTE: Running task 1889 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_recipe_qa)
-NOTE: Running task 1890 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_recipe_qa)
-NOTE: Running task 1892 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_recipe_qa)
-NOTE: recipe libinput-1.24.0-r0: task do_recipe_qa: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_recipe_qa: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_recipe_qa unihash changed to e3ff60d4da8884cea6cde43e09a1e0cc1b39e50e9697305019d0ab4104ec3610
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_recipe_qa: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_recipe_qa: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_recipe_qa: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa: Started
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_package_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_package_setscene: Started
-NOTE: recipe font-util-1.4.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1925 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_fetch)
-NOTE: recipe libinput-1.24.0-r0: task do_write_config: Started
-NOTE: Running task 1926 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_fetch)
-NOTE: recipe mtdev-1.1.6-r0: task do_recipe_qa: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_recipe_qa: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_write_config: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_recipe_qa: Started
-NOTE: Running task 1960 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_fetch)
-NOTE: recipe xkbcomp-1.4.6-r0: task do_recipe_qa: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_recipe_qa: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_recipe_qa: Started
-NOTE: recipe libinput-1.24.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2006 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb:do_package_write_rpm)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_write_config: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libevdev-1.13.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libinput-1.24.0-r0: task do_write_config: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libxcvt-0.1.2-r0: task do_write_config: Succeeded
-NOTE: recipe libxfont2-2.0.6-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2007 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_fetch)
-NOTE: recipe libepoxy-1.5.10-r0: task do_write_config: Succeeded
-NOTE: recipe libxcvt-0.1.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe encodings-1_1.0.7-r0: task do_fetch: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_recipe_qa: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_write_config: Succeeded
-NOTE: recipe font-util-1.4.1-r0: task do_fetch: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_fetch: Succeeded
-NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_recipe_qa: Succeeded
-NOTE: recipe font-util-1.4.1-r0: task do_fetch: Succeeded
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_recipe_qa: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe mtdev-1.1.6-r0: task do_fetch: Succeeded
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2008 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_unpack)
-NOTE: Running task 2009 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_fetch)
-NOTE: Running task 2010 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_unpack)
-NOTE: Running task 2011 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_unpack)
-NOTE: Running task 2012 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_fetch)
-NOTE: Running task 2013 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_package_setscene: Succeeded
-NOTE: Running task 2014 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_fetch)
-NOTE: Running task 2015 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_fetch)
-NOTE: Running task 2016 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_fetch)
-NOTE: Running task 2017 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_fetch)
-NOTE: Running task 2018 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running setscene task 832 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_recipe_qa_setscene)
-NOTE: Running task 2019 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_fetch)
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_package_setscene: Succeeded
-NOTE: Running task 2020 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_fetch)
-NOTE: Running task 2021 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_fetch)
-NOTE: Running task 2022 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_fetch)
-NOTE: Running task 2023 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_fetch)
-NOTE: Running setscene task 834 of 834 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libevdev-1.13.1-r0: task do_fetch: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_unpack: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Started
-NOTE: recipe font-util-1.4.1-r0: task do_unpack: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Started
-NOTE: recipe libinput-1.24.0-r0: task do_fetch: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2024 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_unpack)
-NOTE: Running task 2025 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xkeyboard-config-2.40-r0: task do_package_write_rpm: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_fetch: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_fetch: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_fetch: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_fetch: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_fetch: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxfont2-2.0.6-r0: task do_fetch: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2026 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_unpack)
-NOTE: Running task 2027 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_unpack)
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2028 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_unpack)
-NOTE: Running task 2029 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_fetch: Started
-NOTE: Running task 2030 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_unpack)
-NOTE: Running task 2031 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe encodings-1_1.0.7-r0: task do_unpack: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_fetch: Succeeded
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2032 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_unpack)
-NOTE: Running task 2033 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_patch)
-NOTE: Running task 2034 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_unpack)
-NOTE: Running task 2035 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_unpack)
-NOTE: recipe mtdev-1.1.6-r0: task do_unpack: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_fetch: Succeeded
-NOTE: Running task 2036 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_collect_spdx_deps)
-NOTE: Running task 2037 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_patch)
-NOTE: Running task 2038 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_unpack)
-NOTE: Running task 2039 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libinput-1.24.0-r0: task do_fetch: Succeeded
-NOTE: recipe libxcvt-0.1.2-r0: task do_fetch: Succeeded
-NOTE: Running task 2040 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_collect_spdx_deps)
-NOTE: Running task 2041 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_unpack)
-NOTE: Running task 2042 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_unpack)
-NOTE: Running task 2043 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe font-util-1.4.1-r0: task do_unpack: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_fetch: Succeeded
-NOTE: Running task 2044 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_patch)
-NOTE: Running task 2045 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_unpack)
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libevdev-1.13.1-r0: task do_unpack: Started
+NOTE: Running setscene task 564 of 619 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: Running setscene task 565 of 619 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Started
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libnsl2/2.0.0/temp/log.do_packagedata_setscene.995578
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 612 of 619 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_package_setscene)
+NOTE: recipe libnsl2-2.0.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 864 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_recipe_qa)
+NOTE: Running task 1052 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_recipe_qa)
+NOTE: Running task 1247 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_recipe_qa)
+NOTE: recipe libpcre-8.45-r0: task do_recipe_qa: Started
+NOTE: recipe slang-2.3.3-r0: task do_recipe_qa: Started
+NOTE: Running task 1501 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe libnewt-0.52.24-r0: task do_recipe_qa: Started
+NOTE: recipe libpcre-8.45-r0: task do_recipe_qa: Succeeded
+NOTE: recipe slang-2.3.3-r0: task do_recipe_qa: Succeeded
+NOTE: recipe libnewt-0.52.24-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1502 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_fetch)
+NOTE: Running task 1503 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_fetch)
+NOTE: Running task 1504 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_fetch)
+NOTE: recipe libnewt-0.52.24-r0: task do_fetch: Started
+NOTE: recipe libpcre-8.45-r0: task do_fetch: Started
+NOTE: recipe slang-2.3.3-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_package_setscene: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_fetch: Succeeded
+NOTE: recipe libpcre-8.45-r0: task do_fetch: Succeeded
+NOTE: Running task 1648 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_unpack)
+NOTE: Running task 1649 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_unpack)
+NOTE: Running task 1650 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_prepare_recipe_sysroot)
+NOTE: recipe slang-2.3.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1651 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_unpack)
+NOTE: recipe libnewt-0.52.24-r0: task do_unpack: Started
+NOTE: recipe libpcre-8.45-r0: task do_unpack: Started
+NOTE: recipe libpcre-8.45-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe slang-2.3.3-r0: task do_unpack: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_unpack: Succeeded
+NOTE: Running task 1652 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_patch)
+NOTE: recipe libnsl2-2.0.0-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 614 of 619 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 615 of 619 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 616 of 619 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libnewt-0.52.24-r0: task do_patch: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: recipe libpcre-8.45-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1656 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libpcre-8.45-r0: task do_unpack: Succeeded
+NOTE: Running task 1659 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_patch)
+NOTE: Running task 1660 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_collect_spdx_deps)
+NOTE: recipe libnsl2-2.0.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe slang-2.3.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1666 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_patch)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libtirpc/1.3.3/temp/log.do_packagedata_setscene.996181
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 617 of 619 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_package_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnewt-0.52.24-r0: task do_patch: Succeeded
+NOTE: recipe libpcre-8.45-r0: task do_patch: Started
+NOTE: Running task 1667 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1668 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_populate_lic)
+NOTE: recipe libpcre-8.45-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libpcre-8.45-r0: task do_patch: Succeeded
+NOTE: recipe slang-2.3.3-r0: task do_patch: Started
+NOTE: Running task 1669 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_deploy_source_date_epoch)
+NOTE: recipe libtirpc-1.3.3-r0: task do_package_setscene: Started
+NOTE: recipe libpcre-8.45-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libnewt-0.52.24-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_populate_lic: Started
+NOTE: recipe libpcre-8.45-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_populate_lic: Succeeded
+NOTE: recipe libnewt-0.52.24-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe libpcre-8.45-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1670 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_configure)
+NOTE: recipe libtirpc-1.3.3-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 619 of 619 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_recipe_qa_setscene)
+NOTE: recipe slang-2.3.3-r0: task do_patch: Succeeded
+NOTE: Running task 1671 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_deploy_source_date_epoch)
+NOTE: recipe libpcre-8.45-r0: task do_configure: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe slang-2.3.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe libevdev-1.13.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2076 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_packagedata)
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Started
-NOTE: Running task 2078 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb:do_packagedata)
-NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_unpack: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_patch: Started
-NOTE: Running task 2086 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe encodings-1_1.0.7-r0: task do_collect_spdx_deps: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_unpack: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_unpack: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_unpack: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_patch: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_patch: Succeeded
-NOTE: Running task 2089 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_patch)
-NOTE: recipe rgb-1_1.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2090 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_collect_spdx_deps)
-NOTE: recipe encodings-1_1.0.7-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_unpack: Started
-NOTE: Running task 2091 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe mtdev-1.1.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Started
-NOTE: recipe libinput-1.24.0-r0: task do_unpack: Started
-NOTE: recipe font-util-1.4.1-r0: task do_patch: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_unpack: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2092 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_patch)
-NOTE: Running task 2093 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_collect_spdx_deps)
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_unpack: Succeeded
-NOTE: recipe font-util-1.4.1-r0: task do_patch: Succeeded
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_packagedata: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_unpack: Succeeded
-NOTE: Running task 2094 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2095 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_patch)
-NOTE: Running task 2096 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_patch)
-NOTE: Running task 2097 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_collect_spdx_deps)
-NOTE: recipe libxfont2-2.0.6-r0: task do_unpack: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_unpack: Succeeded
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_patch: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_unpack: Succeeded
-NOTE: recipe mtdev-1.1.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2098 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_patch)
-NOTE: Running task 2099 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_patch)
-NOTE: Running task 2100 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_patch)
-NOTE: Running task 2101 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_patch)
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe mtdev-1.1.6-r0: task do_patch: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2102 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_collect_spdx_deps)
-NOTE: recipe encodings-1_1.0.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2103 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_patch: Succeeded
-NOTE: Running task 2104 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libevdev-1.13.1-r0: task do_patch: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libevdev-1.13.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe font-util-1.4.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_patch: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_patch: Succeeded
-NOTE: Running task 2105 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_patch: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_patch: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2106 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_deploy_source_date_epoch)
-NOTE: recipe rgb-1_1.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_patch: Succeeded
-NOTE: recipe libevdev-1.13.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe encodings-1_1.0.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2107 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_deploy_source_date_epoch)
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_deploy_source_date_epoch unihash changed to b7a047e814cbcc5577c6ba4420afcdb1caa0f68e08f95c1481ac9218e2af81ef
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_patch: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_patch: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_patch: Succeeded
-NOTE: recipe libxfont2-2.0.6-r0: task do_patch: Succeeded
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_packagedata: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2108 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_configure)
-NOTE: Running task 2111 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2115 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2116 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2117 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libevdev-1.13.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vulkan-headers-1.3.261.1-r0: task do_packagedata: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2127 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/mesa/mesa_23.2.1.bb:do_package_write_rpm)
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe font-util-1.4.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_unpack: Succeeded
-NOTE: Running task 2128 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_patch)
-NOTE: Running task 2129 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_collect_spdx_deps)
-NOTE: recipe libxcvt-0.1.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe encodings-1_1.0.7-r0: task do_configure: Started
-NOTE: recipe libinput-1.24.0-r0: task do_unpack: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2130 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_patch)
-NOTE: recipe libxcvt-0.1.2-r0: task do_unpack: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_unpack: Succeeded
-NOTE: recipe mtdev-1.1.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2131 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_patch)
-NOTE: Running task 2132 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_collect_spdx_deps)
-NOTE: Setscene tasks completed
-NOTE: Running task 2133 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_configure)
-NOTE: Running task 2134 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_patch)
-NOTE: Running task 2135 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_configure)
-NOTE: recipe libepoxy-1.5.10-r0: task do_patch: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libevdev-1.13.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2136 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_configure)
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Started
-NOTE: Running task 2137 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_configure)
-NOTE: recipe libinput-1.24.0-r0: task do_patch: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_configure: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_configure: Started
-NOTE: recipe mesa-2_23.2.1-r0: task do_package_write_rpm: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_patch: Succeeded
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2138 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_patch: Started
-NOTE: Running task 2139 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_configure)
-NOTE: recipe xkbcomp-1.4.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcvt-0.1.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libinput-1.24.0-r0: task do_patch: Succeeded
-NOTE: Running task 2140 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxfont2-2.0.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libevdev-1.13.1-r0: task do_configure: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_configure: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Started
-NOTE: Running task 2141 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_compile)
-NOTE: recipe libepoxy-1.5.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_patch: Succeeded
-NOTE: Running task 2142 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_configure: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_patch: Succeeded
-NOTE: recipe libinput-1.24.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2143 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2144 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_populate_lic)
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_compile: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_compile: Succeeded
-NOTE: Running task 2145 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_install)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_populate_lic: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2146 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_configure)
-NOTE: recipe libinput-1.24.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_install: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Started
-NOTE: Running task 2147 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_configure)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_populate_lic: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_install: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_configure: Started
-NOTE: Running task 2148 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_package)
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_package: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_configure: Succeeded
-NOTE: Running task 2149 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_compile)
-NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_package: Succeeded
-NOTE: Running task 2150 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_packagedata)
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_packagedata: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_configure: Succeeded
-NOTE: Running task 2151 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_compile)
-NOTE: recipe libepoxy-1.5.10-r0: task do_configure: Succeeded
-NOTE: Running task 2152 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_compile)
-NOTE: recipe encodings-1_1.0.7-r0: task do_compile: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2153 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_create_spdx)
-NOTE: Running task 2154 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb:do_package_write_rpm)
-NOTE: recipe libepoxy-1.5.10-r0: task do_compile: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_compile: Succeeded
-NOTE: recipe libxcvt-0.1.2-r0: task do_compile: Succeeded
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_create_spdx: Started
-NOTE: Running task 2155 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_install)
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_package_write_rpm: Started
-NOTE: Running task 2156 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_install)
-NOTE: recipe encodings-1_1.0.7-r0: task do_install: Started
-NOTE: recipe xkeyboard-config-2.40-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libxcvt-0.1.2-r0: task do_install: Started
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_create_spdx: Succeeded
-NOTE: recipe encodings-1_1.0.7-r0: task do_install: Succeeded
-NOTE: Running task 2157 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_populate_sysroot)
-NOTE: Running task 2158 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_package)
-NOTE: recipe xserver-xf86-config-0.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe encodings-1_1.0.7-r0: task do_populate_sysroot: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_package: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_install: Succeeded
-NOTE: Running task 2159 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_populate_sysroot)
-NOTE: Running task 2160 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_package)
-NOTE: recipe encodings-1_1.0.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_populate_sysroot unihash changed to 8d96b091ff707670c3da6e916d18bb0e3d7459c086f55c051db78b0d6c294393
-NOTE: recipe libxcvt-0.1.2-r0: task do_package: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Started
-NOTE: Setscene tasks completed
-NOTE: Running task 2161 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe font-util-1.4.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe font-util-1.4.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2162 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_configure)
-NOTE: recipe font-util-1.4.1-r0: task do_configure: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_package: Succeeded
-NOTE: Running task 2163 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_packagedata)
-NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_package: Succeeded
-NOTE: Running task 2164 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_packagedata)
-NOTE: recipe encodings-1_1.0.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 2165 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/encodings_1.0.7.bb:do_create_spdx)
-NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Started
-NOTE: recipe encodings-1_1.0.7-r0: task do_create_spdx: Started
-NOTE: recipe libxcvt-0.1.2-r0: task do_packagedata: Succeeded
-NOTE: recipe encodings-1_1.0.7-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2166 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcvt_0.1.2.bb:do_create_spdx)
-NOTE: Running task 2167 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_collect_spdx_deps)
-NOTE: recipe libxcvt-0.1.2-r0: task do_create_spdx: Started
-NOTE: recipe font-util-1.4.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe font-util-1.4.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_configure: Succeeded
-NOTE: Running task 2168 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_compile)
-NOTE: recipe libxcvt-0.1.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_compile: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_configure: Succeeded
-NOTE: Running task 2169 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_compile)
-NOTE: recipe rgb-1_1.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 2170 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_install)
-NOTE: recipe mtdev-1.1.6-r0: task do_compile: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_install: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_install: Succeeded
-NOTE: Running task 2171 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_package)
-NOTE: recipe rgb-1_1.1.0-r0: task do_package: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_compile: Succeeded
-NOTE: Running task 2172 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_install)
-NOTE: recipe mtdev-1.1.6-r0: task do_install: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_install: Succeeded
-NOTE: Running task 2173 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_populate_sysroot)
-NOTE: Running task 2174 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_package)
-NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_package: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_configure: Succeeded
-NOTE: Running task 2175 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_compile)
-NOTE: recipe mtdev-1.1.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_configure: Succeeded
-NOTE: Running task 2176 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_compile)
-NOTE: recipe rgb-1_1.1.0-r0: task do_package: Succeeded
-NOTE: Running task 2177 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_packagedata)
-NOTE: recipe libevdev-1.13.1-r0: task do_compile: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_packagedata: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2178 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_create_spdx)
-NOTE: Running task 2179 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/rgb_1.1.0.bb:do_package_write_rpm)
-NOTE: recipe rgb-1_1.1.0-r0: task do_create_spdx: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_package_write_rpm: Started
-NOTE: recipe rgb-1_1.1.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_compile: Succeeded
-NOTE: Running task 2180 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_install)
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Started
-NOTE: recipe font-util-1.4.1-r0: task do_configure: Succeeded
-NOTE: Running task 2181 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_compile)
-NOTE: recipe mtdev-1.1.6-r0: task do_package: Succeeded
-NOTE: recipe rgb-1_1.1.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 2182 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_packagedata)
-NOTE: recipe font-util-1.4.1-r0: task do_compile: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_install: Succeeded
-NOTE: Running task 2183 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_package)
-NOTE: Running task 2184 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_populate_sysroot)
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_compile: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Started
-NOTE: Running task 2185 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_install)
-NOTE: recipe mtdev-1.1.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2186 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/mtdev_1.1.6.bb:do_create_spdx)
-NOTE: recipe libevdev-1.13.1-r0: task do_install: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_create_spdx: Started
-NOTE: recipe font-util-1.4.1-r0: task do_compile: Succeeded
-NOTE: Running task 2187 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_install)
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2188 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe font-util-1.4.1-r0: task do_install: Started
-NOTE: recipe mtdev-1.1.6-r0: task do_create_spdx: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_install: Succeeded
-NOTE: Running task 2189 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_populate_sysroot)
-NOTE: Running task 2190 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_package)
-NOTE: recipe font-util-1.4.1-r0: task do_install: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2191 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_configure)
-NOTE: Running task 2192 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_populate_sysroot)
-NOTE: Running task 2193 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_package)
-NOTE: recipe libevdev-1.13.1-r0: task do_populate_sysroot: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Started
-NOTE: recipe font-util-1.4.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_package: Started
-NOTE: recipe font-util-1.4.1-r0: task do_package: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2194 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe font-util-1.4.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2195 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libinput-1.24.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2196 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_configure)
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Started
-NOTE: recipe libinput-1.24.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2197 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_configure)
-NOTE: recipe libinput-1.24.0-r0: task do_configure: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_package: Succeeded
-NOTE: Running task 2198 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_packagedata)
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Started
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2199 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb:do_create_spdx)
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_create_spdx: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_package: Succeeded
-NOTE: recipe libxkbfile-1_1.1.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2200 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_collect_spdx_deps)
-NOTE: recipe font-util-1.4.1-r0: task do_package: Succeeded
-NOTE: Running task 2201 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_packagedata)
-NOTE: Running task 2202 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_packagedata)
-NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_packagedata: Started
-NOTE: recipe font-util-1.4.1-r0: task do_packagedata: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libevdev-1.13.1-r0: task do_packagedata: Succeeded
-NOTE: recipe font-util-1.4.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2203 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libevdev/libevdev_1.13.1.bb:do_create_spdx)
-NOTE: Running task 2204 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-font/font-util_1.4.1.bb:do_create_spdx)
-NOTE: recipe libevdev-1.13.1-r0: task do_create_spdx: Started
-NOTE: recipe font-util-1.4.1-r0: task do_create_spdx: Started
-NOTE: recipe libevdev-1.13.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2205 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_collect_spdx_deps)
-NOTE: recipe font-util-1.4.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2206 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_collect_spdx_deps)
-NOTE: recipe libinput-1.24.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libinput-1.24.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libinput-1.24.0-r0: task do_configure: Succeeded
-NOTE: Running task 2207 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_configure_ptest_base)
-NOTE: recipe libinput-1.24.0-r0: task do_configure_ptest_base: Started
-NOTE: recipe libinput-1.24.0-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 2208 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_compile)
-NOTE: recipe libinput-1.24.0-r0: task do_compile: Started
-NOTE: recipe mesa-2_23.2.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_configure: Succeeded
-NOTE: Running task 2209 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_compile)
-NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_compile: Succeeded
-NOTE: Running task 2210 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_install)
-NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_install: Succeeded
-NOTE: Running task 2211 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package)
-NOTE: recipe libinput-1.24.0-r0: task do_compile: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Started
-NOTE: Running task 2212 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_compile_ptest_base)
-NOTE: recipe libinput-1.24.0-r0: task do_compile_ptest_base: Started
-NOTE: recipe libinput-1.24.0-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 2213 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_install)
-NOTE: recipe libepoxy-1.5.10-r0: task do_compile: Succeeded
-NOTE: Running task 2214 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_install)
-NOTE: recipe libinput-1.24.0-r0: task do_install: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_install: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_install: Succeeded
-NOTE: recipe libinput-1.24.0-r0: task do_install: Succeeded
-NOTE: Running task 2215 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot)
-NOTE: Running task 2216 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_package)
-NOTE: Running task 2217 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_install_ptest_base)
-NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_package: Started
-NOTE: recipe libinput-1.24.0-r0: task do_install_ptest_base: Started
-NOTE: recipe libinput-1.24.0-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 2218 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_package)
-NOTE: Running task 2219 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_populate_sysroot)
-NOTE: recipe libinput-1.24.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_configure: Succeeded
-NOTE: Running task 2220 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_compile)
-NOTE: recipe libinput-1.24.0-r0: task do_package: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_package: Succeeded
-NOTE: Running task 2221 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_packagedata)
-NOTE: recipe libinput-1.24.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2222 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_create_spdx)
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_compile: Succeeded
-NOTE: Running task 2223 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_install)
-NOTE: Running task 2224 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-app/xkbcomp_1.4.6.bb:do_package_write_rpm)
-NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Started
-NOTE: recipe xkbcomp-1.4.6-r0: task do_create_spdx: Succeeded
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_install: Succeeded
-NOTE: Running task 2225 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_populate_sysroot)
-NOTE: Running task 2226 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_package)
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_package: Succeeded
-NOTE: Running task 2227 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_packagedata)
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2228 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xkbcomp-1.4.6-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_packagedata: Succeeded
-NOTE: Running task 2229 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_create_spdx)
-NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2230 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_configure)
-NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Started
-NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx: Succeeded
-NOTE: recipe libinput-1.24.0-r0: task do_package: Succeeded
-NOTE: Running task 2231 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_packagedata)
-NOTE: recipe libinput-1.24.0-r0: task do_packagedata: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_package: Succeeded
-NOTE: Running task 2232 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_packagedata)
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Started
-NOTE: recipe libinput-1.24.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2233 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/libinput_1.24.0.bb:do_create_spdx)
-NOTE: recipe libinput-1.24.0-r0: task do_create_spdx: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_packagedata: Succeeded
-NOTE: Running task 2234 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libfontenc_1.1.7.bb:do_create_spdx)
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_create_spdx: Started
-NOTE: recipe libfontenc-1_1.1.7-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2235 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_collect_spdx_deps)
-NOTE: recipe libinput-1.24.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxfont2-2.0.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxfont2-2.0.6-r0: task do_configure: Succeeded
-NOTE: Running task 2236 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_compile)
-NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_compile: Succeeded
-NOTE: Running task 2237 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_install)
-NOTE: recipe libxfont2-2.0.6-r0: task do_install: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_install: Succeeded
-NOTE: Running task 2238 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_populate_sysroot)
-NOTE: Running task 2239 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_package)
-NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_package: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2240 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2241 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_configure)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_configure: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_package: Succeeded
-NOTE: Running task 2242 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_packagedata)
-NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2243 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb:do_create_spdx)
-NOTE: recipe libxfont2-2.0.6-r0: task do_create_spdx: Started
-NOTE: recipe libxfont2-2.0.6-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2244 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_collect_spdx_deps)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_collect_spdx_deps: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_configure: Succeeded
-NOTE: Running task 2245 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_compile)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_compile: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_compile: Succeeded
-NOTE: Running task 2246 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_install)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_install: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_install: Succeeded
-NOTE: Running task 2247 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_package)
-NOTE: Running task 2248 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_populate_sysroot)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_populate_sysroot: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_package: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2249 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2250 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_configure)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_configure: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_package: Succeeded
-NOTE: Running task 2251 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_packagedata)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_packagedata: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_packagedata: Succeeded
-NOTE: Running task 2252 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_create_spdx)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_create_spdx: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2253 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_collect_spdx_deps)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_configure: Succeeded
-NOTE: Running task 2254 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_compile)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_compile: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_compile: Succeeded
-NOTE: Running task 2255 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_install)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_install: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_install: Succeeded
-NOTE: Running task 2256 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_package)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_package: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_package: Succeeded
-NOTE: Running task 2257 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_packagedata)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_packagedata: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2258 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_create_spdx)
-NOTE: Running task 2259 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-driver/xf86-input-libinput_1.4.0.bb:do_package_write_rpm)
-NOTE: Running task 2260 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_package_write_rpm)
-NOTE: Running task 2261 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_package_qa)
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_create_spdx: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_package_write_rpm: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_package_write_rpm: Started
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_package_qa: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2262 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_create_runtime_spdx)
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_create_runtime_spdx: Started
-NOTE: recipe xf86-input-libinput-2_1.4.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_package_qa: Succeeded
-NOTE: recipe xserver-xorg-2_21.1.9-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2263 of 2263 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.9.bb:do_build)
-NOTE: Tasks Summary: Attempted 2263 tasks of which 2037 didn't need to be rerun and all succeeded.
+NOTE: Running task 1694 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb:do_packagedata)
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata: Started
+NOTE: recipe slang-2.3.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: Running task 1698 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe libtirpc-1.3.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 1700 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 3f47b5ed9eb8441973c4ab548f6730c1607013d772c0621215c8eb30a3b8334f
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata: Started
+NOTE: recipe libnsl2-2.0.0-r0: task do_packagedata: Succeeded
+NOTE: recipe libpcre-8.45-r0: task do_configure: Succeeded
+NOTE: Running task 1711 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_configure_ptest_base)
+NOTE: recipe libpcre-8.45-r0: task do_configure_ptest_base: Started
+NOTE: recipe libpcre-8.45-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1712 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_compile)
+NOTE: recipe libpcre-8.45-r0: task do_compile: Started
+NOTE: recipe libpcre-8.45-r0: task do_compile: Succeeded
+NOTE: Running task 1713 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_compile_ptest_base)
+NOTE: recipe libpcre-8.45-r0: task do_compile_ptest_base: Started
+NOTE: recipe libpcre-8.45-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1714 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_install)
+NOTE: recipe libpcre-8.45-r0: task do_install: Started
+NOTE: recipe libpcre-8.45-r0: task do_install: Succeeded
+NOTE: Running task 1715 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_install_ptest_base)
+NOTE: recipe libpcre-8.45-r0: task do_install_ptest_base: Started
+NOTE: recipe libpcre-8.45-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1716 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_populate_sysroot)
+NOTE: Running task 1717 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_package)
+NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot: Started
+NOTE: recipe libpcre-8.45-r0: task do_package: Started
+NOTE: recipe libpcre-8.45-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1718 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe slang-2.3.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe slang-2.3.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1719 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_configure)
+NOTE: recipe slang-2.3.3-r0: task do_configure: Started
+NOTE: recipe libpcre-8.45-r0: task do_package: Succeeded
+NOTE: Running task 1720 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_packagedata)
+NOTE: recipe libpcre-8.45-r0: task do_packagedata: Started
+NOTE: recipe libpcre-8.45-r0: task do_packagedata: Succeeded
+NOTE: Running task 1721 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.45.bb:do_create_spdx)
+NOTE: recipe libpcre-8.45-r0: task do_create_spdx: Started
+NOTE: recipe libpcre-8.45-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1722 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_collect_spdx_deps)
+NOTE: recipe slang-2.3.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe slang-2.3.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe slang-2.3.3-r0: task do_configure: Succeeded
+NOTE: Running task 1723 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_configure_ptest_base)
+NOTE: recipe slang-2.3.3-r0: task do_configure_ptest_base: Started
+NOTE: recipe slang-2.3.3-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1724 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_compile)
+NOTE: recipe slang-2.3.3-r0: task do_compile: Started
+NOTE: recipe slang-2.3.3-r0: task do_compile: Succeeded
+NOTE: Running task 1725 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_compile_ptest_base)
+NOTE: recipe slang-2.3.3-r0: task do_compile_ptest_base: Started
+NOTE: recipe slang-2.3.3-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1726 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_install)
+NOTE: recipe slang-2.3.3-r0: task do_install: Started
+NOTE: recipe slang-2.3.3-r0: task do_install: Succeeded
+NOTE: Running task 1727 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_install_ptest_base)
+NOTE: recipe slang-2.3.3-r0: task do_install_ptest_base: Started
+NOTE: recipe slang-2.3.3-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1728 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_package)
+NOTE: Running task 1729 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_populate_sysroot)
+NOTE: recipe slang-2.3.3-r0: task do_populate_sysroot: Started
+NOTE: recipe slang-2.3.3-r0: task do_package: Started
+NOTE: recipe slang-2.3.3-r0: task do_populate_sysroot: Succeeded
+NOTE: Running task 1730 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libnewt-0.52.24-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1731 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_configure)
+NOTE: recipe libnewt-0.52.24-r0: task do_configure: Started
+NOTE: recipe slang-2.3.3-r0: task do_package: Succeeded
+NOTE: Running task 1732 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_packagedata)
+NOTE: recipe slang-2.3.3-r0: task do_packagedata: Started
+NOTE: recipe slang-2.3.3-r0: task do_packagedata: Succeeded
+NOTE: Running task 1733 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/slang/slang_2.3.3.bb:do_create_spdx)
+NOTE: recipe slang-2.3.3-r0: task do_create_spdx: Started
+NOTE: recipe slang-2.3.3-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1734 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_collect_spdx_deps)
+NOTE: recipe libnewt-0.52.24-r0: task do_configure: Succeeded
+NOTE: Running task 1735 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_compile)
+NOTE: recipe libnewt-0.52.24-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_compile: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libnewt-0.52.24-r0: task do_compile: Succeeded
+NOTE: Running task 1736 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_install)
+NOTE: recipe libnewt-0.52.24-r0: task do_install: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_install: Succeeded
+NOTE: Running task 1737 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_package)
+NOTE: Running task 1738 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_populate_sysroot)
+NOTE: recipe libnewt-0.52.24-r0: task do_populate_sysroot: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_package: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libnewt-0.52.24-r0: task do_package: Succeeded
+NOTE: Running task 1739 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_packagedata)
+NOTE: recipe libnewt-0.52.24-r0: task do_packagedata: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_packagedata: Succeeded
+NOTE: Running task 1740 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_create_spdx)
+NOTE: Running task 1741 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_package_write_rpm)
+NOTE: Running task 1742 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_package_qa)
+NOTE: recipe libnewt-0.52.24-r0: task do_create_spdx: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_package_write_rpm: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_package_qa: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1743 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_create_runtime_spdx)
+NOTE: recipe libnewt-0.52.24-r0: task do_package_qa: Succeeded
+NOTE: recipe libnewt-0.52.24-r0: task do_create_runtime_spdx: Started
+NOTE: recipe libnewt-0.52.24-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe libnewt-0.52.24-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 1744 of 1744 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/newt/libnewt_0.52.24.bb:do_build)
+NOTE: Tasks Summary: Attempted 1744 tasks of which 1686 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
 
 Summary: There were 16 ERROR messages, returning a non-zero exit code.
-ERROR: libxrandr-1_1.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxrandr-src went backwards which would break package feeds (from 1:1.5.4-r0 to 1:1.5.3-r0) [version-going-backwards]
-ERROR: vulkan-headers-1.3.261.1-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-src went backwards which would break package feeds (from 0:1.3.268.0-r0 to 0:1.3.261.1-r0) [version-going-backwards]
-ERROR: libxrandr-1_1.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxrandr-dbg went backwards which would break package feeds (from 1:1.5.4-r0 to 1:1.5.3-r0) [version-going-backwards]
-ERROR: vulkan-headers-1.3.261.1-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dbg went backwards which would break package feeds (from 0:1.3.268.0-r0 to 0:1.3.261.1-r0) [version-going-backwards]
-ERROR: libxrandr-1_1.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxrandr-staticdev went backwards which would break package feeds (from 1:1.5.4-r0 to 1:1.5.3-r0) [version-going-backwards]
-ERROR: vulkan-headers-1.3.261.1-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-staticdev went backwards which would break package feeds (from 0:1.3.268.0-r0 to 0:1.3.261.1-r0) [version-going-backwards]
-ERROR: libxrandr-1_1.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxrandr-dev went backwards which would break package feeds (from 1:1.5.4-r0 to 1:1.5.3-r0) [version-going-backwards]
-ERROR: vulkan-headers-1.3.261.1-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-dev went backwards which would break package feeds (from 0:1.3.268.0-r0 to 0:1.3.261.1-r0) [version-going-backwards]
-ERROR: libxrandr-1_1.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxrandr-doc went backwards which would break package feeds (from 1:1.5.4-r0 to 1:1.5.3-r0) [version-going-backwards]
-ERROR: vulkan-headers-1.3.261.1-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-doc went backwards which would break package feeds (from 0:1.3.268.0-r0 to 0:1.3.261.1-r0) [version-going-backwards]
-ERROR: libxrandr-1_1.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxrandr-locale went backwards which would break package feeds (from 1:1.5.4-r0 to 1:1.5.3-r0) [version-going-backwards]
-ERROR: vulkan-headers-1.3.261.1-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers-locale went backwards which would break package feeds (from 0:1.3.268.0-r0 to 0:1.3.261.1-r0) [version-going-backwards]
-ERROR: libxrandr-1_1.5.3-r0 do_packagedata_setscene: QA Issue: Package version for package libxrandr went backwards which would break package feeds (from 1:1.5.4-r0 to 1:1.5.3-r0) [version-going-backwards]
-ERROR: vulkan-headers-1.3.261.1-r0 do_packagedata_setscene: QA Issue: Package version for package vulkan-headers went backwards which would break package feeds (from 0:1.3.268.0-r0 to 0:1.3.261.1-r0) [version-going-backwards]
-ERROR: libxrandr-1_1.5.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: vulkan-headers-1.3.261.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: libnsl2-2.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libnsl2-src went backwards which would break package feeds (from 0:2.0.1-r0 to 0:2.0.0-r0) [version-going-backwards]
+ERROR: libnsl2-2.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libnsl2-dbg went backwards which would break package feeds (from 0:2.0.1-r0 to 0:2.0.0-r0) [version-going-backwards]
+ERROR: libnsl2-2.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libnsl2-staticdev went backwards which would break package feeds (from 0:2.0.1-r0 to 0:2.0.0-r0) [version-going-backwards]
+ERROR: libnsl2-2.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libnsl2-dev went backwards which would break package feeds (from 0:2.0.1-r0 to 0:2.0.0-r0) [version-going-backwards]
+ERROR: libnsl2-2.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libnsl2-doc went backwards which would break package feeds (from 0:2.0.1-r0 to 0:2.0.0-r0) [version-going-backwards]
+ERROR: libnsl2-2.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libnsl2-locale went backwards which would break package feeds (from 0:2.0.1-r0 to 0:2.0.0-r0) [version-going-backwards]
+ERROR: libnsl2-2.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libnsl2 went backwards which would break package feeds (from 0:2.0.1-r0 to 0:2.0.0-r0) [version-going-backwards]
+ERROR: libnsl2-2.0.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: libtirpc-1.3.3-r0 do_packagedata_setscene: QA Issue: Package version for package libtirpc-src went backwards which would break package feeds (from 0:1.3.4-r0 to 0:1.3.3-r0) [version-going-backwards]
+ERROR: libtirpc-1.3.3-r0 do_packagedata_setscene: QA Issue: Package version for package libtirpc-dbg went backwards which would break package feeds (from 0:1.3.4-r0 to 0:1.3.3-r0) [version-going-backwards]
+ERROR: libtirpc-1.3.3-r0 do_packagedata_setscene: QA Issue: Package version for package libtirpc-staticdev went backwards which would break package feeds (from 0:1.3.4-r0 to 0:1.3.3-r0) [version-going-backwards]
+ERROR: libtirpc-1.3.3-r0 do_packagedata_setscene: QA Issue: Package version for package libtirpc-dev went backwards which would break package feeds (from 0:1.3.4-r0 to 0:1.3.3-r0) [version-going-backwards]
+ERROR: libtirpc-1.3.3-r0 do_packagedata_setscene: QA Issue: Package version for package libtirpc-doc went backwards which would break package feeds (from 0:1.3.4-r0 to 0:1.3.3-r0) [version-going-backwards]
+ERROR: libtirpc-1.3.3-r0 do_packagedata_setscene: QA Issue: Package version for package libtirpc-locale went backwards which would break package feeds (from 0:1.3.4-r0 to 0:1.3.3-r0) [version-going-backwards]
+ERROR: libtirpc-1.3.3-r0 do_packagedata_setscene: QA Issue: Package version for package libtirpc went backwards which would break package feeds (from 0:1.3.4-r0 to 0:1.3.3-r0) [version-going-backwards]
+ERROR: libtirpc-1.3.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============4009352820331478939==--
+--===============8735246718223083505==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libnewt/libnewt: FILELIST: removed "/usr/lib/libnewt.so.0.52.23", added "/usr/lib/libnewt.so.0.52.24"
+Changes to packages/core2-64-poky-linux/libnewt (sysroot):
+  /usr/lib/libnewt.so.0.52 changed symlink target from libnewt.so.0.52.23 to libnewt.so.0.52.24
+  /usr/lib/libnewt.so.0.52.23 moved to /usr/lib/libnewt.so.0.52.24
+
+--===============8735246718223083505==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libnewt-upgrade-0.52.23-0.52.24.patch"
+
+RnJvbSA4NmY3YjY4OTUyMjYwNTQwODU1MjQyNzc0MDRjNmY3NTU1OWYzZmQyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMTozOTowMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+Ym5ld3Q6IHVwZ3JhZGUgMC41Mi4yMyAtPiAwLjUyLjI0CgotLS0KIC4uLi9uZXd0L3tsaWJuZXd0
+XzAuNTIuMjMuYmIgPT4gbGlibmV3dF8wLjUyLjI0LmJifSAgICAgICAgICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1leHRlbmRlZC9uZXd0L3tsaWJuZXd0XzAuNTIuMjMuYmIgPT4gbGlibmV3dF8wLjUy
+LjI0LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9uZXd0L2xp
+Ym5ld3RfMC41Mi4yMy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9uZXd0L2xpYm5ld3RfMC41
+Mi4yNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvbmV3dC9saWJuZXd0XzAuNTIuMjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRl
+bmRlZC9uZXd0L2xpYm5ld3RfMC41Mi4yNC5iYgppbmRleCBjZDM3MzFjZjc0Li4xZTM5YTFjNWNh
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbmV3dC9saWJuZXd0XzAuNTIuMjMu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL25ld3QvbGlibmV3dF8wLjUyLjI0LmJiCkBA
+IC0yMyw3ICsyMyw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9yZWxlYXNlcy5wYWd1cmUub3JnL25l
+d3QvbmV3dC0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1kZXRlY3QtZ29s
+ZC1hcy1HTlUtbGlua2VyLXRvby5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImNhYTM3MjkwN2IxNGVjZWNmZTI5OGYwZDUxMmE2MmY0MWQzM2IyOTA2MTAyNDRh
+NThhZWQwN2JiYzVhZGExMmEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWRlZDdlMjIxZjg1ZjY0
+MjUyMWM0OWIxODI2YzhkZTE5ODQ1YWEzNzJiYWY1ZDYzMGE1MTc3NGI1NDRmYmRiYiIKIAogUyA9
+ICIke1dPUktESVJ9L25ld3QtJHtQVn0iCiAKLS0gCjIuMzkuMgoK
+
+--===============8735246718223083505==--
 
