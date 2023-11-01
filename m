@@ -2,56 +2,56 @@ Return-Path: <charles-antoine.couret@mind.be>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 749B1C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C4C9C001B5
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 23:11:23 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.2553.1698880279021954983
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.2506.1698880279983380483
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 16:11:19 -0700
+ Wed, 01 Nov 2023 16:11:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mind.be header.s=google header.b=UtY1tKCV;
- spf=pass (domain: essensium.com, ip: 209.85.128.44, mailfrom: charles-antoine.couret@essensium.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4083dbc43cfso2038385e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 16:11:18 -0700 (PDT)
+ dkim=pass header.i=@mind.be header.s=google header.b=BiBf9Zog;
+ spf=pass (domain: essensium.com, ip: 209.85.221.51, mailfrom: charles-antoine.couret@essensium.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-32ded3eb835so182565f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 16:11:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mind.be; s=google; t=1698880277; x=1699485077; darn=lists.openembedded.org;
+        d=mind.be; s=google; t=1698880278; x=1699485078; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mN7ScpIHoHFZpMmQrLEskAiIeB5gMQfYDf5bd+vgIP0=;
-        b=UtY1tKCVT+eN9gyqlCLR4mnt5Yd8UgIlz3jNkzswmaeixzh5a+V+nV0YJnzlN4PnTa
-         m1tT2zXUk53AESlLwm5MTWsXOmhXlepeXKvZcGCqmCL7U8TsoJ2g20QHRYXq0AvC/U88
-         cIQzVgcm2tIZuEOnytsBsl+Nbe05ZppBPGDkNEQ4wnb32+dZ2qCQG+FxK1TkuIoBSn2v
-         24p8I5FvnUC4QA9Zf7jblgKX6uOKgWFWLN99Dwv5RMlv/TPjF4YJ2Dtwh6H0k8F2/39b
-         sgcVCaO6G42A3faNgrdz/4k+kJGNA1P7Lpk9N8Uo92JLSDbNpXTKTJNcHDVXGPGZ9wCp
-         N1ZQ==
+        bh=xLymyTckY/0P8pSBxfSX5eIB5/EtSaUUZE5sJp67OzE=;
+        b=BiBf9ZogoAP+TQJJqLjBnBqIHV9rx0HA6JvqfKyLCQXDsYV+egDFUquMBvyrrdo0os
+         cprRyRvUna6FiQPQmjWpfz1hkzgfrF/CdaLFSgcPKdjs4RHDw+REYtjv9VgaghaZW8Q0
+         E5MwYtQ9ir+McRf8GgbGWosCR3ZTu6I3kGcKxYmRgvaSWSX2RzZDYN7dJEmSsfV2AgT3
+         LGn5OneVwZKsGcJznqE3pFFZ6zEvc+u3LJco8/I1ZgI+BTDvC7Uga3p8RIHS0eiOJDJ2
+         fzh7LeeUxrOcM2ugPRfZqHM8S2FNoqRXanIRdif+F+hqNRCRAk3rtVwX0Py8VbG951qT
+         Tdfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698880277; x=1699485077;
+        d=1e100.net; s=20230601; t=1698880278; x=1699485078;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mN7ScpIHoHFZpMmQrLEskAiIeB5gMQfYDf5bd+vgIP0=;
-        b=cWVDTgwhvhXW7BlLNOPtvFikipbURozJfzaMozmgJURnFMHkwKcsw/ZG3fkNc6P9mE
-         0MCB7ZCdcy4Wdp82qOKaNgI+wYhtpF2EV76pHAyWk+eMTVAbK41B2Rao3loBzRVSGoWp
-         gU4VEmbM677kdgzhlPA98as+QSSz9NXmSlJuPpIoLcO61rM7AIZ8vBtdEILS1bV7slbQ
-         6CvJJStBoAV8jLoQhdpz1NbW++QnqVIY1nscKfrSIB6NoeBWnfapaZCWSloqfTbrOeSk
-         PwZ+4g97n8CINSX5iG0wk7TCgrM8WVLGCxFFWvcrcD9rKJxOh2bHJoMaJ9OylPtuZkCD
-         ssvw==
-X-Gm-Message-State: AOJu0YxjZPd81cbvMsPEhjk6PoJjqzcdJlqKDmkdbidGMBbGmeOaNe3T
-	/+0xZLfsXwUpyAsi+4Uqvr+mxBWyE9bWSerNv+s=
-X-Google-Smtp-Source: AGHT+IHnTqFKKLrq7qmSgCCakFIDfLLwhm4TOmQKoeilyN+BDV3A2bsXvZ15JN/k9p2ADxAIcvMHBg==
-X-Received: by 2002:a5d:64ce:0:b0:32d:b031:9719 with SMTP id f14-20020a5d64ce000000b0032db0319719mr13962464wri.42.1698880277150;
-        Wed, 01 Nov 2023 16:11:17 -0700 (PDT)
+        bh=xLymyTckY/0P8pSBxfSX5eIB5/EtSaUUZE5sJp67OzE=;
+        b=p4ZzZGRoUbYmVmMwokcHMBx7HP8DS6ZbTAL4hexqG8UuEZzjb4KfdrrzN8JSaWOyQf
+         R32S3p+qIoQblfJagNnvjfMmZ4Uh+pdx6Q6Rvy8SMF15cp11SYCQlbnrswpRraBJoQUI
+         EwpZCZQNNcuyE+x/u04a26pCOhBDw4y+jJP0Douexjt8mKHOdPOY8NtBXlYtjH3ksfMw
+         9RHOnyOE773GzXIKDtDmmoBGQz8zZVD3m98KhINLgQpfEfO2wDKo09RfQW/o7304JzI1
+         2JHgtYGCIDqdg5jiL5x6lQXfqTfmRQaxcGArGE2M9UqeI4dzC3i+Fu2jFSxaa1tQDIhF
+         cBMg==
+X-Gm-Message-State: AOJu0YyXb4YjJrzhUOTdIPcCewrwmylsBrbWWUgh4l54msS+C7Z8F7q6
+	GLnj7kIVkeqQte4//sE3UOOogJes3redFb0ApiU=
+X-Google-Smtp-Source: AGHT+IFb14SVsoez9EEmy4eutAV+bZiaQ4QE/17Dd0/7OOHrAj8FOVt9jX6LAOYta8gR7jIryPcrvQ==
+X-Received: by 2002:a05:6000:1052:b0:32d:aa20:3d05 with SMTP id c18-20020a056000105200b0032daa203d05mr13506887wrx.27.1698880278417;
+        Wed, 01 Nov 2023 16:11:18 -0700 (PDT)
 Received: from Bishop.fritz.box ([2a02:578:85c6:1101:e7a2:3f2c:a83f:5e92])
-        by smtp.gmail.com with ESMTPSA id m11-20020adff38b000000b0032db4e660d9sm854601wro.56.2023.11.01.16.11.16
+        by smtp.gmail.com with ESMTPSA id m11-20020adff38b000000b0032db4e660d9sm854601wro.56.2023.11.01.16.11.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Nov 2023 16:11:16 -0700 (PDT)
+        Wed, 01 Nov 2023 16:11:18 -0700 (PDT)
 From: Charles-Antoine Couret <charles-antoine.couret@mind.be>
 To: openembedded-core@lists.openembedded.org
 Cc: Charles-Antoine Couret <charles-antoine.couret@mind.be>
-Subject: [PATCH 1/5 v3] image_types: add python function to get the IMAGE_FILE_MAXSIZE:fstype value
-Date: Thu,  2 Nov 2023 00:10:50 +0100
-Message-ID: <20231101231058.86928-2-charles-antoine.couret@mind.be>
+Subject: [PATCH 2/5 v3] image_types: use IMAGE_FILE_MAXSIZE variable for ext2/3/4 image types
+Date: Thu,  2 Nov 2023 00:10:51 +0100
+Message-ID: <20231101231058.86928-3-charles-antoine.couret@mind.be>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231101231058.86928-1-charles-antoine.couret@mind.be>
 References: <20231101231058.86928-1-charles-antoine.couret@mind.be>
@@ -61,62 +61,74 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 23:11:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190049
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190050
 
-It returns 0 if the variable is not set for this filesystem.
+If defined, this variable value overrides the size of ext* partition file created by mkfs.
+Otherwise previous logic based on ROOTFS_SIZE variable is used.
 
-In case of fixed partitionning where the rootfs partition can't exceed an
-amount of bytes, there is currently no automatic and no generic way to have
-this requirement met in any case.
-
-Until now, ROOTFS_SIZE value got from directory_size() does not takes into account
-the size of required metadata for the filesystem itself (and does not work well
-for other block size than 4k BTW).
-Obviously it's a difficult task which depends on rootfs size and filesystem type.
-
-The workaround was to set IMAGE_OVERHEAD_FACTOR and IMAGE_ROOTFS_EXTRA_SPACE
-to add the required extra margins. But when the final rootfs is closed to the
-maximum size, it's difficult to adjust them correctly. And if you remove
-or add new recipes in your image, you've to recompute these margins to have enough
-space for these metadata when the rootfs is small, and to not have too big final
-image when the rootfs is big.
-
-It's cumbersome and error prone to just have a build failure when the final output
-can't be flashed into the partition.
-
-The solution is to follow how it's implemented in buildroot by having a
-specific variable, here IMAGE_FILE_MAXSIZE, to create the final sparse file
-and trying to fill it with the content of rootfs. If there is enough space,
-margins are well compressed and does not consume space in the filesystem.
-If there is no enough space, an error is triggered to warm the developer before
-trying to use it in the device.
-
-If IMAGE_FILE_MAXSIZE is not set, the idea is to keep the previous behaviour
-for compatibility reason and to met other requirements.
+It should be set when the final file size would not be above a specific value due to fixed
+partitionning for example.
 
 Signed-off-by: Charles-Antoine Couret <charles-antoine.couret@mind.be>
 ---
- meta/classes-recipe/image_types.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/classes-recipe/image_types.bbclass | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-index 4aed64e27f..be8197f1f6 100644
+index be8197f1f6..fb1e33cf3e 100644
 --- a/meta/classes-recipe/image_types.bbclass
 +++ b/meta/classes-recipe/image_types.bbclass
-@@ -54,6 +54,13 @@ def imagetypes_getdepends(d):
-     # Sort the set so that ordering is consistant
-     return " ".join(sorted(deps))
+@@ -79,24 +79,32 @@ IMAGE_CMD:cramfs = "mkfs.cramfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/${IMAGE_NAME}.cr
  
-+def get_max_image_size(d, fs):
-+    max_size = d.getVar("IMAGE_FILE_MAXSIZE:%s" % fs)
-+    if max_size is not None:
-+        return max_size
-+
-+    return 0
-+
- XZ_COMPRESSION_LEVEL ?= "-9"
- XZ_INTEGRITY_CHECK ?= "crc32"
+ oe_mkext234fs () {
+ 	fstype=$1
++	image_file_maxsize=$2
+ 	extra_imagecmd=""
++	rootfs_file_size=$ROOTFS_SIZE
  
+-	if [ $# -gt 1 ]; then
+-		shift
++	if [ $# -gt 2 ]; then
++		shift 2
+ 		extra_imagecmd=$@
+ 	fi
+ 
++
++	if [[ "${image_file_maxsize}" -ne 0 ]]; then
++		rootfs_file_size=${image_file_maxsize}
++	fi
++
+ 	# If generating an empty image the size of the sparse block should be large
+ 	# enough to allocate an ext4 filesystem using 4096 bytes per inode, this is
+ 	# about 60K, so dd needs a minimum count of 60, with bs=1024 (bytes per IO)
+ 	eval local COUNT=\"0\"
+ 	eval local MIN_COUNT=\"60\"
+-	if [ $ROOTFS_SIZE -lt $MIN_COUNT ]; then
++	if [ $rootfs_file_size -lt $MIN_COUNT ]; then
+ 		eval COUNT=\"$MIN_COUNT\"
+ 	fi
++
+ 	# Create a sparse image block
+-	bbdebug 1 Executing "dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024"
+-	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype seek=$ROOTFS_SIZE count=$COUNT bs=1024
++	bbdebug 1 Executing "dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype seek=$rootfs_file_size count=$COUNT bs=1024"
++	dd if=/dev/zero of=${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype seek=$rootfs_file_size count=$COUNT bs=1024
+ 	bbdebug 1 "Actual Rootfs size:  `du -s ${IMAGE_ROOTFS}`"
+ 	bbdebug 1 "Actual Partition size: `stat -c '%s' ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype`"
+ 	bbdebug 1 Executing "mkfs.$fstype -F $extra_imagecmd ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype -d ${IMAGE_ROOTFS}"
+@@ -105,9 +113,9 @@ oe_mkext234fs () {
+ 	fsck.$fstype -pvfD ${IMGDEPLOYDIR}/${IMAGE_NAME}.$fstype || [ $? -le 3 ]
+ }
+ 
+-IMAGE_CMD:ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
+-IMAGE_CMD:ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
+-IMAGE_CMD:ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
++IMAGE_CMD:ext2 = "oe_mkext234fs ext2 ${@get_max_image_size(d, 'ext2')} ${EXTRA_IMAGECMD}"
++IMAGE_CMD:ext3 = "oe_mkext234fs ext3 ${@get_max_image_size(d, 'ext3')} ${EXTRA_IMAGECMD}"
++IMAGE_CMD:ext4 = "oe_mkext234fs ext4 ${@get_max_image_size(d, 'ext4')} ${EXTRA_IMAGECMD}"
+ 
+ MIN_BTRFS_SIZE ?= "16384"
+ IMAGE_CMD:btrfs () {
 -- 
 2.41.0
 
