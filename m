@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFFB3C04A95
-	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:11 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.8505.1698848706881351830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F64CC0723F
+	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:12 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.8479.1698848703453616908
  for <openembedded-core@lists.openembedded.org>;
  Wed, 01 Nov 2023 07:25:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eZdju4Tu;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NIpgtLw7;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.192, mailfrom: 0101018b8b460e4f-b3f67637-b4d1-411c-bb2b-0f399855056a-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XmMt2DgC;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FTmZzgs2;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b8b460b83-8c733eed-a6ca-488e-b53d-9c5c952e5e86-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848706;
+	t=1698848705;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qXwtusYPVrRycibOpP4FuvM0lr8t3DQB3mLtboXdPLQ=;
-	b=eZdju4TuRvEF/G+4BlStv1es4x8FfzEkvAV1I1sPb4rMzfkUkdgu7e4eXJz0bBAG
-	HQfjREs422veK1UKlWt+Gxta3jlsgwixaDumNnf+bMP4VFUuOtvzaMcAIluxr8Bsf2/
-	BrTppraz2WNOmFADNjnWkTpAfMNjMyBecMezKIs8=
+	bh=rZccCuwY1i8CWnCqIWiVGzYRznrA6Kr7c8uaWB0H2rg=;
+	b=XmMt2DgC/dtpqBZUseVkTHmk+rtluvwwBdkVh03l1UoCHqu5tVS1av5VazqnGeF3
+	nLcSnCe5nV53GPcpAPoZBN3eUowB8NlsL2dwKdBFGQFCwAuTjtAl6/1dxUmCoEFwXMi
+	PeKJCZ6AUgwNn1jKXvuMtoarf6E5ndDx9/YtEeNs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848706;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848705;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qXwtusYPVrRycibOpP4FuvM0lr8t3DQB3mLtboXdPLQ=;
-	b=NIpgtLw7XcPXHhyNlkbhgGcGtWj9c6jY+5PmOsdued1X+vDUyBwpYvxrHbwk4C42
-	uFN97DDvXB13fLoEbfld0OaSIhM1C2/eqOt/7TBw8GjbwvF4MlXztktHd7ugvQ+8ySz
-	AacsvB8JNKhm0HQEYJmKAkXLTQTFvd8WcKhZl3mo=
-Content-Type: multipart/mixed; boundary="===============7168963258621447745=="
+	bh=rZccCuwY1i8CWnCqIWiVGzYRznrA6Kr7c8uaWB0H2rg=;
+	b=FTmZzgs2FB7ENzWH3Wb1r/OuGjumr30q3OpBHAZH4ojmoM76AnKp3G5dBNfszG60
+	yLX/e1fcTsrE2+yhCaJwwLvRj40amoVwWUDflvi6wBnzOL3sRa2BL0VcA2ejT+ZdEyQ
+	WCVPk0nA5UpjEu3+Lz/5odefurpE90zEM1qmnQkI=
+Content-Type: multipart/mixed; boundary="===============2357977550056915283=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] puzzles: upgrading to 35f796542ee5d7e775643f526973aa75f483bf20
- SUCCEEDED
-Message-ID: <0101018b8b460e4f-b3f67637-b4d1-411c-bb2b-0f399855056a-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:06 +0000
+Subject: [AUH] harfbuzz: upgrading to 8.2.2 SUCCEEDED
+Message-ID: <0101018b8b460b83-8c733eed-a6ca-488e-b53d-9c5c952e5e86-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.192
+X-SES-Outgoing: 2023.11.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190033
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190015
 
---===============7168963258621447745==
+--===============2357977550056915283==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *puzzles* to *35f796542ee5d7e775643f526973aa75f483bf20* has Succeeded.
+that the automatic attempt to upgrade the recipe *harfbuzz* to *8.2.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-harfbuzz-upgrade-8.2.1-8.2.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,49 +72,118 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d234bcb3963ef31723c68c4c2e832daad67fba5e Mon Sep 17 00:00:00 2001
+From f407f7f22b0a6ac732534361a7bcbb80a1865582 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 13:55:30 +0000
-Subject: [PATCH] puzzles: upgrade to latest revision
+Date: Wed, 1 Nov 2023 12:24:00 +0000
+Subject: [PATCH] harfbuzz: upgrade 8.2.1 -> 8.2.2
 
 ---
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
+ .../harfbuzz/{harfbuzz_8.2.1.bb => harfbuzz_8.2.2.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_8.2.1.bb => harfbuzz_8.2.2.bb} (95%)
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index d7089ef95d..a6ecd7a0e1 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb
+index df41af29f9..ce1a6bed65 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "2d9e414ee316b37143954150016e8f4f18358497"
-+SRCREV = "35f796542ee5d7e775643f526973aa75f483bf20"
- PE = "2"
- PV = "0.0+git"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "0fec78f98c9c8faf228957a201c8846f809452c20f8445eb092a1ba6f22dbea5"
++SRC_URI[sha256sum] = "e433ad85fbdf57f680be29479b3f964577379aaf319f557eb76569f0ecbc90f3"
+ 
+ DEPENDS += "glib-2.0-native"
  
 -- 
 2.39.2
 
 
---===============7168963258621447745==
+--===============2357977550056915283==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-harfbuzz-upgrade-8.2.1-8.2.2.patch"
+
+RnJvbSBmNDA3ZjdmMjJiMGE2YWM3MzI1MzQzNjFhN2JjYmI4MGExODY1NTgyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMjoyNDowMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGhh
+cmZidXp6OiB1cGdyYWRlIDguMi4xIC0+IDguMi4yCgotLS0KIC4uLi9oYXJmYnV6ei97aGFyZmJ1
+enpfOC4yLjEuYmIgPT4gaGFyZmJ1enpfOC4yLjIuYmJ9ICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy9oYXJmYnV6ei97aGFyZmJ1enpfOC4yLjEuYmIgPT4gaGFyZmJ1enpfOC4y
+LjIuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6
+L2hhcmZidXp6XzguMi4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZi
+dXp6XzguMi4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el84LjIuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL2hhcmZidXp6L2hhcmZidXp6XzguMi4yLmJiCmluZGV4IGRmNDFhZjI5Zjku
+LmNlMWE2YmVkNjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9o
+YXJmYnV6el84LjIuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFy
+ZmJ1enpfOC4yLjIuYmIKQEAgLTksNyArOSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
+L0NPUFlJTkc7bWQ1PWI5ODQyOWI4ZThlM2MyYTY3Y2ZlZjAxZTk5ZTQ4OTNkIFwKICAgICAgICAg
+ICAgICAgICAgICAgIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC8k
+e1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBmZWM3OGY5
+OGM5YzhmYWYyMjg5NTdhMjAxYzg4NDZmODA5NDUyYzIwZjg0NDVlYjA5MmExYmE2ZjIyZGJlYTUi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZTQzM2FkODVmYmRmNTdmNjgwYmUyOTQ3OWIzZjk2NDU3
+NzM3OWFhZjMxOWY1NTdlYjc2NTY5ZjBlY2JjOTBmMyIKIAogREVQRU5EUyArPSAiZ2xpYi0yLjAt
+bmF0aXZlIgogCi0tIAoyLjM5LjIKCg==
+
+--===============2357977550056915283==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 19532880 to 19532952 (+0%)
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3837742 to 3837761 (+0%)
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-icu.so.0.60821.0 /usr/lib/.debug/libharfbuzz.so.0.60821.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.60821.0 /usr/lib/.debug/libharfbuzz-subset.so.0.60821.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.60821.0", added "/usr/lib/.debug/libharfbuzz.so.0.60822.0 /usr/lib/.debug/libharfbuzz-icu.so.0.60822.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.60822.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.60822.0 /usr/lib/.debug/libharfbuzz-subset.so.0.60822.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 61437176 to 62893456 (+2%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1716216 to 1715666 (-0%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.60821.0", added "/usr/lib/libharfbuzz-icu.so.0.60822.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 4735770 to 4769996 (+1%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.60821.0", added "/usr/lib/libharfbuzz-subset.so.0.60822.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PKGSIZE changed from 1267951 to 1317103 (+4%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.60821.0 /usr/lib/libharfbuzz-cairo.so.0.60821.0 /usr/lib/libharfbuzz.so.0.60821.0", added "/usr/lib/libharfbuzz-gobject.so.0.60822.0 /usr/lib/libharfbuzz-cairo.so.0.60822.0 /usr/lib/libharfbuzz.so.0.60822.0"
+packages/core2-64-poky-linux/harfbuzz: PKGV changed from 8.2.1 [default] to 8.2.2 [default]
+packages/core2-64-poky-linux/harfbuzz: PV changed from "8.2.1" to "8.2.2"
+packages/core2-64-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/8.2.1/harfbuzz-8.2.1.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/8.2.2/harfbuzz-8.2.2.tar.xz"
+Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.60821.0 to libharfbuzz-cairo.so.0.60822.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.60821.0 to libharfbuzz-gobject.so.0.60822.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.60821.0 to libharfbuzz-icu.so.0.60822.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.60821.0 to libharfbuzz.so.0.60822.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.60821.0 to libharfbuzz-subset.so.0.60822.0
+  /usr/lib/libharfbuzz-cairo.so.0.60821.0 moved to /usr/lib/libharfbuzz-cairo.so.0.60822.0
+  /usr/lib/libharfbuzz-gobject.so.0.60821.0 moved to /usr/lib/libharfbuzz-gobject.so.0.60822.0
+  /usr/lib/libharfbuzz-icu.so.0.60821.0 moved to /usr/lib/libharfbuzz-icu.so.0.60822.0
+  /usr/lib/libharfbuzz.so.0.60821.0 moved to /usr/lib/libharfbuzz.so.0.60822.0
+  /usr/lib/libharfbuzz-subset.so.0.60821.0 moved to /usr/lib/libharfbuzz-subset.so.0.60822.0
 
---===============7168963258621447745==
+--===============2357977550056915283==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -136,535 +204,140 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "arm-poky-linux-musleabi"
 MACHINE              = "qemuarm"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-b3862316b2c765c98d314f76489b6734da7f9dc8"
+DISTRO_VERSION       = "4.3+snapshot-fe0b2580c7a7a527d49e805657109059d650867d"
 TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
 TARGET_FPU           = "hard"
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:b3862316b2c765c98d314f76489b6734da7f9dc8"
+meta-yocto-bsp       = "tmp-auh-upgrades:fe0b2580c7a7a527d49e805657109059d650867d"
 workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
 
 Initialising tasks...done.
-Sstate summary: Wanted 136 Local 62 Mirrors 0 Missed 74 Current 791 (45% match, 92% complete)
+Sstate summary: Wanted 61 Local 51 Mirrors 0 Missed 10 Current 680 (83% match, 98% complete)
 Removing 1 stale sstate objects for arch allarch...done.
-Removing 2 stale sstate objects for arch qemuarm...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 817 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 820 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 824 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 846 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe wayland-protocols-1.32-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 924 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_packagedata_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata_setscene: Started
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libjpeg-turbo/3.0.0/temp/log.do_packagedata_setscene.3580615
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 925 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_package_setscene)
-NOTE: Running task 1817 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa)
-NOTE: Running task 1818 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_recipe_qa)
-NOTE: Running task 1819 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_recipe_qa)
-NOTE: Running task 1830 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_recipe_qa)
-NOTE: Running task 1946 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_recipe_qa)
-NOTE: Running task 1974 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_recipe_qa: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_recipe_qa: Started
-NOTE: recipe pango-1.51.0-r0: task do_recipe_qa: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_recipe_qa: Started
-NOTE: Running task 2016 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_write_config)
-NOTE: Running task 2017 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_write_config)
-NOTE: Running task 2030 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_write_config)
-NOTE: Running task 2056 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_recipe_qa)
-NOTE: Running task 2082 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_recipe_qa)
-NOTE: Running task 2083 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_recipe_qa)
-NOTE: Running task 2085 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_recipe_qa)
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2122 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_recipe_qa)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2138 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_fetch)
-NOTE: Running task 2147 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_fetch)
-NOTE: Running task 2155 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_fetch)
-NOTE: recipe pango-1.51.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2167 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_recipe_qa)
-NOTE: Running task 2176 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_fetch)
-NOTE: Running task 2178 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_write_config)
-NOTE: recipe libxi-1_1.8.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2235 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_write_config)
-NOTE: Running task 2249 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_fetch)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_package_setscene: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_write_config: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_recipe_qa: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_write_config: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_recipe_qa: Started
-NOTE: recipe pango-1.51.0-r0: task do_write_config: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_recipe_qa: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_fetch: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_fetch: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_recipe_qa: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_recipe_qa: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_fetch: Succeeded
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_write_config: Started
-NOTE: recipe pango-1.51.0-r0: task do_fetch: Started
-NOTE: Running task 2338 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_unpack)
-NOTE: Running task 2339 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fribidi-1.0.13-r0: task do_write_config: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_fetch: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_fetch: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_write_config: Succeeded
-NOTE: Running task 2340 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_unpack)
-NOTE: Running task 2341 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_unpack)
-NOTE: Running task 2342 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.51.0-r0: task do_write_config: Succeeded
-NOTE: recipe pango-1.51.0-r0: task do_fetch: Succeeded
-NOTE: recipe gtk+3-3.24.38-r0: task do_write_config: Started
-NOTE: Running task 2343 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxi-1_1.8.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2344 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_unpack)
-NOTE: Running task 2345 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_unpack)
-NOTE: Running task 2346 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_write_config: Succeeded
-NOTE: recipe libxtst-1_1.2.4-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2347 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_fetch)
-NOTE: Running task 2348 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_fetch)
-NOTE: recipe gtk+3-3.24.38-r0: task do_write_config: Succeeded
-NOTE: Running task 2349 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_fetch)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 2350 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_fetch)
-NOTE: recipe gtk+3-3.24.38-r0: task do_recipe_qa: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_unpack: Started
-NOTE: Running task 2351 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
-NOTE: Running task 2352 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_fetch)
-NOTE: recipe libxft-1_2.3.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_unpack: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.51.0-r0: task do_unpack: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_fetch: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_fetch: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_unpack: Succeeded
-NOTE: recipe libxtst-1_1.2.4-r0: task do_fetch: Succeeded
-NOTE: Running task 2353 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_patch)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_fetch: Started
-NOTE: Running task 2354 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_unpack)
-NOTE: Running task 2355 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_collect_spdx_deps)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_fetch: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_fetch: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_fetch: Started
-NOTE: Running task 2356 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_unpack)
-NOTE: Running task 2357 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_unpack)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_fetch: Succeeded
-NOTE: Running task 2358 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_unpack)
-NOTE: Running task 2359 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_package_setscene: Succeeded
-NOTE: Running task 2360 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gtk+3-3.24.38-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 927 of 927 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_recipe_qa_setscene)
-NOTE: Running task 2361 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_unpack)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Succeeded
-NOTE: Running task 2362 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
-NOTE: recipe libxi-1_1.8.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2363 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_patch)
-NOTE: Running task 2364 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_collect_spdx_deps)
-NOTE: recipe fribidi-1.0.13-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: Running task 2365 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_patch)
-NOTE: recipe libxft-1_2.3.8-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_unpack: Started
-NOTE: Running task 2366 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_collect_spdx_deps)
-NOTE: Running task 2367 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot)
-NOTE: Running task 2368 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe libxft-1_2.3.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_unpack: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_unpack: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_unpack: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_unpack: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_patch: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe pango-1.51.0-r0: task do_unpack: Succeeded
-NOTE: recipe libxtst-1_1.2.4-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2369 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_patch)
-NOTE: Running task 2370 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_patch)
-NOTE: recipe fribidi-1.0.13-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_collect_spdx_deps: Started
+NOTE: Running setscene task 690 of 741 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_packagedata_setscene)
+NOTE: Running setscene task 691 of 741 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 703 of 741 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_packagedata_setscene)
+NOTE: recipe wayland-protocols-1.32-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.116-r0: task do_packagedata_setscene: Started
+NOTE: recipe libdrm-2.4.116-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe wayland-protocols-1.32-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libdrm-2.4.116-r0: task do_populate_sysroot_setscene: Succeeded
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/libdrm/2.4.116/temp/log.do_packagedata_setscene.1995575
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 739 of 741 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_package_setscene)
+NOTE: Running task 1825 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_recipe_qa)
+NOTE: Running task 1898 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_write_config)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_recipe_qa: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_write_config: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_write_config: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1985 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_fetch)
+NOTE: recipe libdrm-2.4.116-r0: task do_package_setscene: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_fetch: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1986 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_unpack)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_unpack: Started
+NOTE: recipe libdrm-2.4.116-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 741 of 741 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_recipe_qa_setscene)
+NOTE: recipe libdrm-2.4.116-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libdrm-2.4.116-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe libxi-1_1.8.1-r0: task do_patch: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_unpack: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_unpack: Succeeded
-NOTE: Running task 2384 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxft-1_2.3.8-r0: task do_patch: Succeeded
-NOTE: Running task 2387 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_patch)
-NOTE: Running task 2388 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_patch)
-NOTE: Running task 2393 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2394 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb:do_packagedata)
-NOTE: Running task 2397 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_collect_spdx_deps)
-NOTE: recipe libxi-1_1.8.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: Running task 2398 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_collect_spdx_deps)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_patch: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2399 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_patch)
-NOTE: recipe pango-1.51.0-r0: task do_patch: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_patch: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_patch: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_patch: Started
-NOTE: Running task 2400 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_patch: Succeeded
-NOTE: Running task 2401 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_patch: Succeeded
-NOTE: Running task 2402 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe pango-1.51.0-r0: task do_patch: Succeeded
-NOTE: Running task 2403 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_patch: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2404 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_patch: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2405 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_deploy_source_date_epoch)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2406 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
-NOTE: recipe libxft-1_2.3.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2407 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_configure)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pango-1.51.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2408 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_configure)
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot unihash changed to 458c0c6ac781fde126e5353fe378356c35d45f3d649603399a6021a03dfb4916
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libjpeg-turbo-1_3.0.0-r0: task do_packagedata: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_configure: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_configure: Started
-NOTE: Running task 2422 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_configure)
-NOTE: Running task 2423 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_configure)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Succeeded
-NOTE: Running task 2424 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2425 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
-NOTE: Running task 2426 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
-NOTE: recipe pango-1.51.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe fribidi-1.0.13-r0: task do_configure: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_configure: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2427 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_configure)
-NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_configure: Started
-NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic: Succeeded
-NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gtk+3-3.24.38-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: Running task 2428 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_patch)
-NOTE: Running task 2429 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_patch: Started
-NOTE: recipe gtk+3-3.24.38-r0: task do_patch: Succeeded
-NOTE: Running task 2430 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb:do_deploy_source_date_epoch)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2431 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_patch)
-NOTE: Running task 2432 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_collect_spdx_deps)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 3f47b5ed9eb8441973c4ab548f6730c1607013d772c0621215c8eb30a3b8334f
-NOTE: Reported task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 81d74494b266d3f40617daff04a9c972ef12aa7b6c281f95139d5211515d4540 to unix:///home/pokybuild/yocto-worker/auh/build/build/build/hashserve.sock ({'taskhash': 'fe496478448e55f676751b5b577f7ce08498b83179e168cab8cc82bed1ad6a5d', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '81d74494b266d3f40617daff04a9c972ef12aa7b6c281f95139d5211515d4540'})
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed fe496478448e55f676751b5b577f7ce08498b83179e168cab8cc82bed1ad6a5d -> 81d74494b266d3f40617daff04a9c972ef12aa7b6c281f95139d5211515d4540 as wanted
-NOTE: Already covered setscene for /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
-NOTE: recipe gtk+3-3.24.38-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_patch: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_patch: Succeeded
-NOTE: Running task 2438 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe gtk+3-3.24.38-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2439 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_configure)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_configure: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_configure: Succeeded
-NOTE: Running task 2440 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_compile)
-NOTE: recipe fribidi-1.0.13-r0: task do_compile: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_compile: Succeeded
-NOTE: Running task 2441 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_install)
-NOTE: recipe fribidi-1.0.13-r0: task do_install: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_install: Succeeded
-NOTE: Running task 2442 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_populate_sysroot)
-NOTE: Running task 2443 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_package)
-NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_package: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2444 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_compile)
-NOTE: recipe fribidi-1.0.13-r0: task do_package: Succeeded
-NOTE: Running task 2445 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_packagedata)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_compile: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_packagedata: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_packagedata: Succeeded
-NOTE: Running task 2446 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.13.bb:do_create_spdx)
-NOTE: recipe fribidi-1.0.13-r0: task do_create_spdx: Started
-NOTE: recipe fribidi-1.0.13-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_configure: Succeeded
-NOTE: Running task 2447 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_compile)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_compile: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2448 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_compile)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_compile: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_configure: Succeeded
-NOTE: Running task 2449 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_compile)
-NOTE: recipe libxi-1_1.8.1-r0: task do_configure: Succeeded
-NOTE: Running task 2450 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_compile)
-NOTE: recipe libxft-1_2.3.8-r0: task do_compile: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_compile: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_compile: Started
-NOTE: Running task 2451 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2452 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_install)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_install: Succeeded
-NOTE: Running task 2453 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_populate_sysroot)
-NOTE: Running task 2454 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_package)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_install: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_package: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_compile: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2455 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_install)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2456 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2457 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_package)
-NOTE: recipe libxi-1_1.8.1-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_compile: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_package: Started
-NOTE: Running task 2458 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_install)
-NOTE: recipe libxft-1_2.3.8-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_install: Succeeded
-NOTE: Running task 2459 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_populate_sysroot)
-NOTE: Running task 2460 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_package)
-NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_install: Succeeded
-NOTE: Running task 2461 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot)
-NOTE: Running task 2462 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_package)
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_package: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_package: Succeeded
-NOTE: Running task 2463 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_packagedata)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata: Started
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_packagedata: Succeeded
-NOTE: Running task 2464 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcomposite_0.4.6.bb:do_create_spdx)
-NOTE: recipe libxi-1_1.8.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2465 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2466 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_packagedata)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2467 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_configure)
-NOTE: recipe libxcomposite-1_0.4.6-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_configure: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2468 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb:do_create_spdx)
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_create_spdx: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_package: Succeeded
-NOTE: Running task 2469 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_packagedata)
-NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata: Started
-NOTE: recipe libxcursor-1_1.2.1-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2470 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_create_spdx)
-NOTE: recipe libxft-1_2.3.8-r0: task do_package: Succeeded
-NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Started
-NOTE: Running task 2471 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata: Started
-NOTE: recipe libxi-1_1.8.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2472 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_collect_spdx_deps)
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 2473 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_create_spdx)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe libxtst-1_1.2.4-r0: task do_configure: Succeeded
-NOTE: Running task 2474 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_compile)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_compile: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_compile: Succeeded
-NOTE: Running task 2475 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_install)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_install: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_install: Succeeded
-NOTE: Running task 2476 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_populate_sysroot)
-NOTE: Running task 2477 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_package)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_package: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2478 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2479 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_configure)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_configure: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_package: Succeeded
-NOTE: Running task 2480 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_packagedata)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_packagedata: Succeeded
-NOTE: Running task 2481 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_create_spdx)
-NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Started
-NOTE: recipe libxtst-1_1.2.4-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2482 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_collect_spdx_deps)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_configure: Succeeded
-NOTE: Running task 2483 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_compile)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_compile: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_compile: Succeeded
-NOTE: Running task 2484 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_install)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_install: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_install: Succeeded
-NOTE: Running task 2485 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_populate_sysroot)
-NOTE: Running task 2486 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_package)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_populate_sysroot: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_package: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_package: Succeeded
-NOTE: Running task 2487 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_packagedata)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_packagedata: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2488 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/atk/at-spi2-core_2.50.0.bb:do_create_spdx)
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_create_spdx: Started
-NOTE: recipe at-spi2-core-2.50.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe harfbuzz-8.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2489 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_install)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_install: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2490 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_populate_sysroot)
-NOTE: Running task 2491 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_package)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 2492 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.51.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2493 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.51.0.bb:do_configure)
-NOTE: recipe pango-1.51.0-r0: task do_configure: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2494 of 2527 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata)
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-8.2.1-r0: task do_packagedata: Failed
-NOTE: recipe pango-1.51.0-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 2494 tasks of which 2354 didn't need to be rerun and 1 failed.
+NOTE: Running task 2008 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/drm/libdrm_2.4.116.bb:do_packagedata)
+NOTE: Running task 2010 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_prepare_recipe_sysroot)
+NOTE: recipe libdrm-2.4.116-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libdrm-2.4.116-r0: task do_packagedata: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_unpack: Succeeded
+NOTE: Running task 2021 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_patch)
+NOTE: Running task 2022 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_collect_spdx_deps)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_patch: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_patch: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_collect_spdx_deps: Started
+NOTE: Running task 2023 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2024 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_populate_lic)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_populate_lic: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_populate_lic: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2025 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_configure)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_configure: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_configure: Succeeded
+NOTE: Running task 2026 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_compile)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_compile: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_compile: Succeeded
+NOTE: Running task 2027 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_install)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_install: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_install: Succeeded
+NOTE: Running task 2028 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_package)
+NOTE: Running task 2029 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_populate_sysroot)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_populate_sysroot: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_package: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_package: Succeeded
+NOTE: Running task 2030 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_packagedata)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_packagedata: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_packagedata: Succeeded
+NOTE: Running task 2031 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_create_spdx)
+NOTE: Running task 2032 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_package_write_rpm)
+NOTE: Running task 2033 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_package_qa)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_create_spdx: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_package_write_rpm: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_package_qa: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_create_spdx: Succeeded
+NOTE: Running task 2034 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_create_runtime_spdx)
+NOTE: recipe harfbuzz-8.2.2-r0: task do_create_runtime_spdx: Started
+NOTE: recipe harfbuzz-8.2.2-r0: task do_package_qa: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe harfbuzz-8.2.2-r0: task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 2035 of 2035 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb:do_build)
+NOTE: Tasks Summary: Attempted 2035 tasks of which 2014 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
+NOTE: Writing buildhistory took: 1 seconds
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata
-Summary: There were 22 ERROR messages, returning a non-zero exit code.
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-src went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-dbg went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package jpeg-tools went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libturbojpeg went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-staticdev went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-dev went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-doc went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo-locale went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: QA Issue: Package version for package libjpeg-turbo went backwards which would break package feeds (from 1:3.0.1-r0 to 1:3.0.0-r0) [version-going-backwards]
-ERROR: libjpeg-turbo-1_3.0.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-src went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-dbg went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-icu went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-icu-dev went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-subset went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-staticdev went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-dev went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-doc went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-locale went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz-bin went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: QA Issue: Package version for package harfbuzz went backwards which would break package feeds (from 0:8.2.2-r0 to 0:8.2.1-r0) [version-going-backwards]
-ERROR: harfbuzz-8.2.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/harfbuzz/8.2.1/temp/log.do_packagedata.3631793
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb:do_packagedata) failed with exit code '1'
+Summary: There were 18 ERROR messages, returning a non-zero exit code.
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-src went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-dbg went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-tests went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-drivers went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-radeon went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-nouveau went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-omap went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-intel went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-exynos went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-freedreno went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-amdgpu went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-etnaviv went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-staticdev went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-dev went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-doc went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm-locale went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: QA Issue: Package version for package libdrm went backwards which would break package feeds (from 0:2.4.117-r0 to 0:2.4.116-r0) [version-going-backwards]
+ERROR: libdrm-2.4.116-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
 
---===============7168963258621447745==
+--===============2357977550056915283==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+2d9e414ee3 to 0.0+git0+35f796542e
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.60821.0", added "/usr/lib/libharfbuzz-icu.so.0.60822.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.60821.0", added "/usr/lib/libharfbuzz-subset.so.0.60822.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz.so.0.60821.0 /usr/lib/libharfbuzz-cairo.so.0.60821.0 /usr/lib/libharfbuzz-gobject.so.0.60821.0", added "/usr/lib/libharfbuzz.so.0.60822.0 /usr/lib/libharfbuzz-gobject.so.0.60822.0 /usr/lib/libharfbuzz-cairo.so.0.60822.0"
+Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.60821.0 to libharfbuzz-cairo.so.0.60822.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.60821.0 to libharfbuzz-gobject.so.0.60822.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.60821.0 to libharfbuzz-icu.so.0.60822.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.60821.0 to libharfbuzz.so.0.60822.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.60821.0 to libharfbuzz-subset.so.0.60822.0
+  /usr/lib/libharfbuzz-cairo.so.0.60821.0 moved to /usr/lib/libharfbuzz-cairo.so.0.60822.0
+  /usr/lib/libharfbuzz-gobject.so.0.60821.0 moved to /usr/lib/libharfbuzz-gobject.so.0.60822.0
+  /usr/lib/libharfbuzz-icu.so.0.60821.0 moved to /usr/lib/libharfbuzz-icu.so.0.60822.0
+  /usr/lib/libharfbuzz.so.0.60821.0 moved to /usr/lib/libharfbuzz.so.0.60822.0
+  /usr/lib/libharfbuzz-subset.so.0.60821.0 moved to /usr/lib/libharfbuzz-subset.so.0.60822.0
 
---===============7168963258621447745==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-puzzles-upgrade-to-latest-revision.patch"
-
-RnJvbSBkMjM0YmNiMzk2M2VmMzE3MjNjNjhjNGMyZTgzMmRhYWQ2N2ZiYTVlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMzo1NTozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB1
-enpsZXM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1zYXRv
-L3B1enpsZXMvcHV6emxlc19naXQuYmIgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc2F0by9wdXp6
-bGVzL3B1enpsZXNfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dp
-dC5iYgppbmRleCBkNzA4OWVmOTVkLi5hNmVjZDdhMGUxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtc2F0by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zYXRvL3B1
-enpsZXMvcHV6emxlc19naXQuYmIKQEAgLTEwLDcgKzEwLDcgQEAgUkVRVUlSRURfRElTVFJPX0ZF
-QVRVUkVTID0gIngxMSIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LnRhcnRhcnVzLm9yZy9zaW1vbi9w
-dXp6bGVzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIAogVVBTVFJFQU1fQ0hFQ0tf
-Q09NTUlUUyA9ICIxIgotU1JDUkVWID0gIjJkOWU0MTRlZTMxNmIzNzE0Mzk1NDE1MDAxNmU4ZjRm
-MTgzNTg0OTciCitTUkNSRVYgPSAiMzVmNzk2NTQyZWU1ZDdlNzc1NjQzZjUyNjk3M2FhNzVmNDgz
-YmYyMCIKIFBFID0gIjIiCiBQViA9ICIwLjArZ2l0IgogCi0tIAoyLjM5LjIKCg==
-
---===============7168963258621447745==--
+--===============2357977550056915283==--
 
