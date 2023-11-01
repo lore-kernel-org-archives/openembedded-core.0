@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AE1FC18E1A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1717C18E57
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:15 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.8500.1698848705640419608
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.8490.1698848704555154051
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:05 -0700
+ Wed, 01 Nov 2023 07:25:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GJ1iVRwd;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lSuLpc9D;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.23, mailfrom: 0101018b8b460a03-ed08616c-de05-4d4b-9adf-b843c27b434b-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QeSKT2E2;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VmRgO1mW;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.193, mailfrom: 0101018b8b4605e4-98f4bc88-a0cb-4665-897e-5e9e506d5ab9-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848705;
+	t=1698848704;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2nIPhv0NrJ9UT/59dp0pFzyINKoqmqiTL5julESydI8=;
-	b=GJ1iVRwdfHCHiFLy8fAjInFPMtenx9iQ+5+bmCWAVsPbvVvbAqIQE7B+N92idtE5
-	ZWIroeV6i/KyZJ5Dnzl6J5On2aqurwpIHO2whfo3L2Iltgt3LcALO/5bD0IjX/KzbwZ
-	Bwf7LOR0/mbFvhmRYg9UUk/H7Mh4feNeUBM4HhsA=
+	bh=OOHeRDZiCYCxQLxDXvIdb8gyMZNzkhsJorrX5PAZ+bA=;
+	b=QeSKT2E22kq7JROyNPM2he9OIVbbi5xwSFAPmFp4/wDdW/MLLYkMkIFccN0PsDEp
+	mJowIbO/j56bVkDkcLktjaTpZ4eJoORFMDsfckzaLDL+t/RhrFYYvqQ5TzhPqncmkNx
+	1CAD/8/bvDU5bBdhgk9Wn2QsphZ7rRgCGBZGcFqk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848705;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848704;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2nIPhv0NrJ9UT/59dp0pFzyINKoqmqiTL5julESydI8=;
-	b=lSuLpc9DLAtQ2oI23IfMFgy9R3tICCeAzucQkgHmzFtzFkZh7RQYK9U+8kdjvPsU
-	pA+gz3iTCOVAfPJ3IEgfFQYO2Vd95apt10ccHS81O6svNGwcaA8RdIHWTWvaU4Htvo3
-	GZ/Ys4yAXUx/rOeTL1T4NeRmu7sl7sBg8wO7zxeQ=
-Content-Type: multipart/mixed; boundary="===============5257885721823913601=="
+	bh=OOHeRDZiCYCxQLxDXvIdb8gyMZNzkhsJorrX5PAZ+bA=;
+	b=VmRgO1mWTTsH5PVW/NOyttoUyS1CqLJh9egY/o6vMNzPcxBd+VUGbbFCprgY76RY
+	6b0YuaB3uuZBiNudU6YF4wOc965yw8TkLJXtulk+AR0InTBbOP7CkeP59ifuweWihPY
+	zzwYH5K9yzK29VlP7JbwvVwKSJhm29pGyYqbmR+A=
+Content-Type: multipart/mixed; boundary="===============0709600957009248014=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] msmtp: upgrading to 1.8.25 SUCCEEDED
-Message-ID: <0101018b8b460a03-ed08616c-de05-4d4b-9adf-b843c27b434b-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:05 +0000
+Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.3 SUCCEEDED
+Message-ID: <0101018b8b4605e4-98f4bc88-a0cb-4665-897e-5e9e506d5ab9-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:03 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.23
+X-SES-Outgoing: 2023.11.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189994
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189953
 
---===============5257885721823913601==
+--===============0709600957009248014==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *msmtp* to *1.8.25* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-ruamel-yaml* to *0.18.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-msmtp-upgrade-1.8.24-1.8.25.patch
+    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.17.35-0.18.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,125 +72,123 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f5b6bdb2176f0ad78c5274e134ef982eba95affc Mon Sep 17 00:00:00 2001
+From 8afa914789b45eda17b2160be34bd24a8fc6492c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 11:32:46 +0000
-Subject: [PATCH] msmtp: upgrade 1.8.24 -> 1.8.25
+Date: Wed, 1 Nov 2023 09:27:51 +0000
+Subject: [PATCH] python3-ruamel-yaml: upgrade 0.17.35 -> 0.18.3
 
 ---
- .../recipes-extended/msmtp/{msmtp_1.8.24.bb => msmtp_1.8.25.bb} | 2 +-
+ ...on3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.8.24.bb => msmtp_1.8.25.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.3.bb} (85%)
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.24.bb b/meta/recipes-extended/msmtp/msmtp_1.8.25.bb
-similarity index 91%
-rename from meta/recipes-extended/msmtp/msmtp_1.8.24.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.8.25.bb
-index b8c867161b..b575fad5e1 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.8.24.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.8.25.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
+diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.3.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
+rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.3.bb
+index 1760fec7ee..0ec804667a 100644
+--- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
++++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.3.bb
+@@ -8,7 +8,7 @@ PYPI_PACKAGE = "ruamel.yaml"
  
- SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
--SRC_URI[sha256sum] = "bd6644b1aaab17d61b86647993e3efad860b23c54283b00ddc579c1f5110aa59"
-+SRC_URI[sha256sum] = "2dfe1dbbb397d26fe0b0b6b2e9cd2efdf9d72dd42d18e70d7f363ada2652d738"
+ inherit pypi setuptools3
  
- inherit gettext autotools update-alternatives pkgconfig
+-SRC_URI[sha256sum] = "801046a9caacb1b43acc118969b49b96b65e8847f29029563b29ac61d02db61b"
++SRC_URI[sha256sum] = "36dbbe90390d977f957436570d2bd540bfd600e6ec5a1ea42bcdb9fc7963d802"
  
+ RDEPENDS:${PN} += "\
+     ${PYTHON_PN}-shell \
 -- 
 2.39.2
 
 
---===============5257885721823913601==
+--===============0709600957009248014==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/msmtp: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp: PACKAGES: added "msmtp-locale-ro"
-packages/core2-64-poky-linux/msmtp: SRC_URI changed from "https://marlam.de/msmtp/releases/msmtp-1.8.24.tar.xz" to "https://marlam.de/msmtp/releases/msmtp-1.8.25.tar.xz"
-packages/core2-64-poky-linux/msmtp: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-dbg: PKGSIZE changed from 436392 to 437760 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-dbg: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-dbg: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-dev: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-dev: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-doc: PKGSIZE changed from 114861 to 115996 (+1%)
-packages/core2-64-poky-linux/msmtp/msmtp-doc: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-doc: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PKGSIZE changed from 36812 to 36640 (-0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PKGSIZE changed from 34835 to 34666 (-0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PKGSIZE changed from 37402 to 37206 (-1%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PKGSIZE changed from 36253 to 36085 (-0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PKGSIZE changed from 45081 to 44877 (-0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PKGSIZE changed from 45442 to 45243 (-0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PKGSIZE changed from 35142 to 34972 (-0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ta: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ta: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PKGSIZE changed from 47284 to 47085 (-0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-src: PKGSIZE changed from 514085 to 515088 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-src: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-src: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp-staticdev: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-staticdev: PV changed from "1.8.24" to "1.8.25"
-packages/core2-64-poky-linux/msmtp/msmtp: PKGV changed from 1.8.24 [default] to 1.8.25 [default]
-packages/core2-64-poky-linux/msmtp/msmtp: PV changed from "1.8.24" to "1.8.25"
+packages/core2-64-poky-linux/python3-ruamel-yaml: PKGV changed from 0.17.35 [default] to 0.18.3 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml: PV changed from "0.17.35" to "0.18.3"
+packages/core2-64-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.17.35.tar.gz;downloadfilename=ruamel.yaml-0.17.35.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.3.tar.gz;downloadfilename=ruamel.yaml-0.18.3.tar.gz"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.17.35" to "0.18.3"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.17.35 [default] to 0.18.3 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.17.35" to "0.18.3"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.17.35 [default] to 0.18.3 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.17.35" to "0.18.3"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.17.35 [default] to 0.18.3 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.17.35" to "0.18.3"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.17.35 [default] to 0.18.3 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.17.35" to "0.18.3"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.17.35 [default] to 0.18.3 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.17.35" to "0.18.3"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.17.35 [default] to 0.18.3 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1228939 to 1226995 (-0%)
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.17.35" to "0.18.3"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.17.35 [default] to 0.18.3 [default]
+Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/LICENSE was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/LICENSE was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/WHEEL was removed
 
---===============5257885721823913601==
+--===============0709600957009248014==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-msmtp-upgrade-1.8.24-1.8.25.patch"
+ filename="0001-python3-ruamel-yaml-upgrade-0.17.35-0.18.3.patch"
 
-RnJvbSBmNWI2YmRiMjE3NmYwYWQ3OGM1Mjc0ZTEzNGVmOTgyZWJhOTVhZmZjIE1vbiBTZXAgMTcg
+RnJvbSA4YWZhOTE0Nzg5YjQ1ZWRhMTdiMjE2MGJlMzRiZDI0YThmYzY0OTJjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxMTozMjo0NiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1z
-bXRwOiB1cGdyYWRlIDEuOC4yNCAtPiAxLjguMjUKCi0tLQogLi4uL3JlY2lwZXMtZXh0ZW5kZWQv
-bXNtdHAve21zbXRwXzEuOC4yNC5iYiA9PiBtc210cF8xLjguMjUuYmJ9IHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL21zbXRwL3ttc210cF8xLjguMjQuYmIgPT4gbXNtdHBfMS44LjI1LmJifSAo
-OTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9tc210cF8xLjgu
-MjQuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAvbXNtdHBfMS44LjI1LmJiCnNpbWls
-YXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9t
-c210cF8xLjguMjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9tc210
-cF8xLjguMjUuYmIKaW5kZXggYjhjODY3MTYxYi4uYjU3NWZhZDVlMSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWV4dGVuZGVkL21zbXRwL21zbXRwXzEuOC4yNC5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvbXNtdHAvbXNtdHBfMS44LjI1LmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWQzMjIzOWJjYjY3MzQ2M2FiODc0ZTgw
-ZDQ3ZmFlNTA0IgogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vbWFybGFtLmRlL21zbXRw
-L2Rvd25sb2FkLyIKIAogU1JDX1VSSSA9ICJodHRwczovL21hcmxhbS5kZS8ke0JQTn0vcmVsZWFz
-ZXMvJHtCUH0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImJkNjY0NGIxYWFhYjE3ZDYx
-Yjg2NjQ3OTkzZTNlZmFkODYwYjIzYzU0MjgzYjAwZGRjNTc5YzFmNTExMGFhNTkiCitTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiMmRmZTFkYmJiMzk3ZDI2ZmUwYjBiNmIyZTljZDJlZmRmOWQ3MmRkNDJk
-MThlNzBkN2YzNjNhZGEyNjUyZDczOCIKIAogaW5oZXJpdCBnZXR0ZXh0IGF1dG90b29scyB1cGRh
-dGUtYWx0ZXJuYXRpdmVzIHBrZ2NvbmZpZwogCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAwOToyNzo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtcnVhbWVsLXlhbWw6IHVwZ3JhZGUgMC4xNy4zNSAtPiAwLjE4LjMKCi0tLQogLi4ub24z
+LXJ1YW1lbC15YW1sXzAuMTcuMzUuYmIgPT4gcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjMuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1ydWFtZWwteWFtbF8w
+LjE3LjM1LmJiID0+IHB5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC4zLmJifSAoODUlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8w
+LjE3LjM1LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15
+YW1sXzAuMTguMy5iYgpzaW1pbGFyaXR5IGluZGV4IDg1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xNy4zNS5iYgpyZW5hbWUg
+dG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTgu
+My5iYgppbmRleCAxNzYwZmVjN2VlLi4wZWM4MDQ2NjdhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xNy4zNS5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC4zLmJi
+CkBAIC04LDcgKzgsNyBAQCBQWVBJX1BBQ0tBR0UgPSAicnVhbWVsLnlhbWwiCiAKIGluaGVyaXQg
+cHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiODAxMDQ2YTljYWFjYjFi
+NDNhY2MxMTg5NjliNDliOTZiNjVlODg0N2YyOTAyOTU2M2IyOWFjNjFkMDJkYjYxYiIKK1NSQ19V
+Uklbc2hhMjU2c3VtXSA9ICIzNmRiYmU5MDM5MGQ5NzdmOTU3NDM2NTcwZDJiZDU0MGJmZDYwMGU2
+ZWM1YTFlYTQyYmNkYjlmYzc5NjNkODAyIgogCiBSREVQRU5EUzoke1BOfSArPSAiXAogICAgICR7
+UFlUSE9OX1BOfS1zaGVsbCBcCi0tIAoyLjM5LjIKCg==
 
---===============5257885721823913601==
+--===============0709600957009248014==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/msmtp: PACKAGES: added "msmtp-locale-ro"
+Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/LICENSE was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.3.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/LICENSE was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/WHEEL was removed
 
---===============5257885721823913601==--
+--===============0709600957009248014==--
 
