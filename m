@@ -1,155 +1,242 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22EE0C4332F
-	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:00:21 +0000 (UTC)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
- by mx.groups.io with SMTP id smtpd.web11.7861.1698847217593269011
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A83C4167B
+	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:18:31 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.8309.1698848306168620209
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:00:18 -0700
+ Wed, 01 Nov 2023 07:18:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=aILzf1FA;
- spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-77063481352so74367685a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 07:00:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KeKG0lxW;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5406c099cebso10769927a12.2;
+        Wed, 01 Nov 2023 07:18:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698847216; x=1699452016; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o/t/wHxSY+B7v921X9pSHL9+3TmKV7THnYxBMAgme8o=;
-        b=aILzf1FA1Q6HWUOB0I/ozdPz8QO1YUstkyHioJcH1LyZBcjMftwg1qEEHPFkJxqPR4
-         Os2Xc+wfkMYvRib33YKVDi98l5zYlHCYC5ZqGwxVSH5zNoIuijFEKx4Xzx6HwVvAf5q2
-         28XaL836YLJE3fxTpmFhcuyr962LzmHajVU1e4a9yYvEVqL4QPJ8jjAeRg5zwD24sB5C
-         0jWtuSQUBW2TICMchR2oFRnyjZNM+VInyiYAbyJVxL1/rWKXEUgZOrdjvGT2VZwbt5Jj
-         d6FSzmwEGzd5AUFclL2W2vG2iAd9JvoX70rwEAlQkAV5cwpoPOvKkHCEKlFWLbbwrz5n
-         swRg==
+        d=gmail.com; s=20230601; t=1698848304; x=1699453104; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3SdL5tUZtoXsLzOBkE+oHV4HUeqexVFD6hgTkInjWVI=;
+        b=KeKG0lxWRpHQZyc0z/Q7QCYC2yTHY7vB2/VB/Ju1aQ4xAgihVXBMyZ5nQzOXUvIK2v
+         5aav/CVZzJ69yvnvwRgHvM15sLAr6V9AgYEGNhkGnzOLSaX1Bo4VMUfU6sBTxs428t+V
+         iQiyyZIxIXj+M4TCvwJ7X3z3gjIC5eUHMXMx5eV7fBYSmv+jN/AYV33VAniPENxA8fP7
+         3IDJabM4OCxENnvLXN3BO1gcZZJPqrvx6ruRBmbWgAuIUgXbt+SOeGUTIiZQGldVr6tG
+         smxflP8fT9dTaayTQuIvc2te3JOB5GjnWG0XnnhcEolY0+8mp/RdajBOYMAEQ2mLOYYA
+         n5LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698847216; x=1699452016;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/t/wHxSY+B7v921X9pSHL9+3TmKV7THnYxBMAgme8o=;
-        b=QULLdY/3/ZkbGVejqiwf0DFpcuvTi3tYTaCgdqNHPwfnZLB6EJUZsGhvlCAPU7qmzY
-         4XXToXg/mfLr91QpLoEyBA4pUlPn6Z181cGjxxWEPCsT0ACBWHIyQ0U9PelU3iY4E7ks
-         k7R2bC6xbDbjc7bLg8v6jx+B4FFrSWa059eHMGOuAP8TQKjDxiAnVm9DnCOxZkaF9qh9
-         bMQbnbqeUyIMdfORtCArImcdZEHhRhegj0jmgzlRKO03KGhX+e/QkpcA2H5Ov5Zcz5hN
-         Ky8rIIT79J+HzhX1eJS97geQjWkDqGpsRpTxUsz3uLxx1Ay/RPl9Os5Y7B3FM5R4Jiqx
-         vLYw==
-X-Gm-Message-State: AOJu0YyWMpXoxzTcFzMeVrnpH5xtVSIcMFpsdpGM7jp6+XsLvmQDF9vE
-	+h2mfxi0ycrPl21qz/1yXnM+JQ==
-X-Google-Smtp-Source: AGHT+IFjdavfmy9Iw4nl+QWt/Wk5117RjYZoBpg3+VKAkG6Od1IID9bEz6HiPwoVW9I2d91yVYP3Vg==
-X-Received: by 2002:a05:6214:ca6:b0:670:a7a7:6415 with SMTP id s6-20020a0562140ca600b00670a7a76415mr9766386qvs.19.1698847216398;
-        Wed, 01 Nov 2023 07:00:16 -0700 (PDT)
-Received: from ?IPV6:2001:1970:5b1f:ab00:d875:6297:4e81:e577? ([2001:1970:5b1f:ab00:d875:6297:4e81:e577])
-        by smtp.gmail.com with ESMTPSA id cv14-20020ad44d8e000000b006577e289d37sm1489956qvb.2.2023.11.01.07.00.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Nov 2023 07:00:16 -0700 (PDT)
-Message-ID: <389d1d1a-e9e6-4927-ae62-94c58b1b2ab6@baylibre.com>
-Date: Wed, 1 Nov 2023 10:00:14 -0400
+        d=1e100.net; s=20230601; t=1698848304; x=1699453104;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3SdL5tUZtoXsLzOBkE+oHV4HUeqexVFD6hgTkInjWVI=;
+        b=gu86LCHoGlfZ3nEO5XfyQbDJdvCPnyiMuQpMGfKhGIUgZaQFmpYpiWCmXSm48Rsz5I
+         o6N8F99Q7ZzF22JQGT0PBgmzTsGBISoiWZEnc4v5coonSb7J2gensDo2qUa+r51WG+vg
+         s7bQMWyx3SMk3/h+bNuGQ8cBwDpuFoqQJ2YVfKEO7Qzq6BMwo8Xws8fKmyhaxAQgtJVe
+         42BtFUZ/ttKvuQTXtZDSr/r6PRjx/ocxFZgSAJNA40n2e4od3vYCcnwdX3pTKJmZocWY
+         JplY3aLZNtH1x59FJdP6+mEKs4tRkabbGrjZe8affh+7f4Hs94KsI42QwQOV6EDu0SXu
+         hoEw==
+X-Gm-Message-State: AOJu0YzXZrF4eYgJLdX79dH+BRdtJ+movPGaYFRVgHUS2jY0MostorDk
+	kJ/WANEWyAr4aHspBlMDDKw=
+X-Google-Smtp-Source: AGHT+IEyZDzSl3dbZR+BNf+Kf3AbwQLymgpoHc19G4fibQzMD2LcqNp3va//0H5+gH2ZZIrxbw+qrw==
+X-Received: by 2002:a50:aada:0:b0:543:75cb:2149 with SMTP id r26-20020a50aada000000b0054375cb2149mr3163141edc.38.1698848304244;
+        Wed, 01 Nov 2023 07:18:24 -0700 (PDT)
+Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id o19-20020a509b13000000b00537963f692esm1167978edi.0.2023.11.01.07.18.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Nov 2023 07:18:23 -0700 (PDT)
+Message-ID: <649b2f000761831cabd1f5737fb5b30a2ffc3654.camel@gmail.com>
+Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
+ for why is sstate not being reused?
+From: adrian.freihofer@gmail.com
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>
+Cc: openembedded-architecture
+ <openembedded-architecture@lists.openembedded.org>, Michael Halstead
+ <mhalstead@linuxfoundation.org>, Yocto-mailing-list
+ <yocto@lists.yoctoproject.org>, ",openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>, Julien STEPHAN
+ <jstephan@baylibre.com>
+Date: Wed, 01 Nov 2023 15:18:22 +0100
+In-Reply-To: <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
+References: 
+	<CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
+	 <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
+	 <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
+	 <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Patchtest results for [OE-core][PATCH] patchtest: shorten test
- result outputs
-To: Steve Sakoman <steve@sakoman.com>, Marta Rybczynska <rybczynska@gmail.com>
-Cc: Anuj Mittal <anuj.mittal@intel.com>, Tim Orling <ticotimo@gmail.com>,
- OE-core <openembedded-core@lists.openembedded.org>
-References: <0101018b861b3b32-256b0c3e-5bb7-40da-83f1-f6717726db5e-000000@us-west-2.amazonses.com>
- <ffa9ec9ce67f785d90b81f348c3a0f5641a4a849.camel@intel.com>
- <CANx9H-CCaTwnVc+KW+sAUJjMutNtNw-T0Rybpdw1kM7o+_qMzg@mail.gmail.com>
- <8c789be17c092ff433b7b4499388f957c32663ef.camel@intel.com>
- <CAApg2=SuPopzhjLJgC1oy3e42xEci+1_h2scS-mkT+8EsQCjHg@mail.gmail.com>
- <CAOSpxda_dq1AGeVCxaoeGLY-u+8d4k7QD7SP-MrNSyw4Kb1TxQ@mail.gmail.com>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <CAOSpxda_dq1AGeVCxaoeGLY-u+8d4k7QD7SP-MrNSyw4Kb1TxQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:00:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189915
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:18:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189916
+
+Hi Alex, hi Richard
+
+The discussion looks really interesting. I would like to contribute
+some comments from the point of view of a rather naive user and try to
+understand the workflows for which these improvements would be
+beneficial also on a bigger picture.
 
 
-On 2023-11-01 09:48, Steve Sakoman wrote:
-> On Tue, Oct 31, 2023 at 7:31 PM Marta Rybczynska <rybczynska@gmail.com> wrote:
->>
->>
->>
->> On Wed, 1 Nov 2023, 11:48 Anuj Mittal, <anuj.mittal@intel.com> wrote:
->>> On Tue, 2023-10-31 at 19:33 -0700, Tim Orling wrote:
->>>>
->>>> On Tue, Oct 31, 2023 at 7:26 PM Anuj Mittal <anuj.mittal@intel.com>
->>>> wrote:
->>>>> On Tue, 2023-10-31 at 14:20 +0000, Trevor Gamblin wrote:
->>>>>> Thank you for your submission. Patchtest identified one
->>>>>> or more issues with the patch. Please see the log below for
->>>>>> more information:
->>>>>>
->>>>>> ---
->>>>>> Testing patch /home/patchtest/share/mboxes/patchtest-shorten-
->>>>>> test-
->>>>>> result-outputs.patch
->>>>>>
->>>>>> FAIL: test CVE presence in commit message: A CVE tag should be
->>>>>> provided in the commit message with format: "CVE: CVE-YYYY-XXXX"
->>>>>> (test_mbox.TestMbox.test_cve_presence_in_commit_message)
->>>>> Is this a requirement to have this in commit message in this
->>>>> format? I
->>>>> don't think this was being followed until now. A lot of patches
->>>>> seem to
->>>>> be failing this test as a result.
->>>>>
->>>>
->>>> This was required when patchtest was running previously. It has been
->>>> ignored for a while now, but that does not mean we should not enforce
->>>> it. It should be documented as required.
->>>>
->>>> The tags allow for machines to parse the relevant info. Anything else
->>>> is purely random and chaos.
->>> The tag is already required to be present in the CVE patch itself which
->>> is/can be parsed by scripts which actually I think is a better way of
->>> detecting whether a CVE is patched rather than looking at commit
->>> messages.
->>>
->>> If having it in a specific format in commit message as well helps,
->>> sure. It shouldn't take time to add it but we seem to be adding too
->>> many rules ...
->>>
->> (adding Steve)
->>
->> I agree with Anuj, and I do not remember seeing a rule to put the
->> CVE number in the commit message. We already have it in the
->> patch file name (recommended) and inside the patch file itself.
->> Those two places are enough in my opinion. In fact, it will likely
->> be there in the commit message (its title), so repeating it does
->> not make much logical sense.
->>
->> In fact, I have an update of the manual with more detailed information
->> on submitting CVE fixes and looking for a resolution of this question
->> to submit it :)
->>
->> Steve, does such additional tag in the commit message make it
->> easier for you?
-> No.  In most cases it seems to add no value, since the cve number is
-> already in the shortlog, the filename of the patch(es), and the CVE
-> tag in the patch file(s).
->
-> I haven't been requiring it, so have no issue with removing that test
-> in patchtest.
-I've got a patch ready to do this, just letting the selftests run to 
-ensure nothing's broken before submission.
->
-> Steve
->
-> -=-=-=-=-=-=-=-=-=-=-=-
+On Thu, 2023-09-14 at 20:51 +0200, Alexander Kanavin wrote:
+> On Thu, 14 Sept 2023 at 14:56, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > For the task signatures, we need to think about some questions. If
+> > I
+> > make a change locally, can I query how much will rebuild and how
+> > much
+> > will be reused? There is bitbake --dry-run but perhaps it is time
+> > for a
+> > an option (or dedicated separate command?) to give some statistics
+> > about what bitbake would do? How much sstate would be reused?
+> >=20
+> > That then logically leads into the questions, can we tell what has
+> > changed? Why isn't my sstate being reused? For that we perhaps
+> > should
+> > define some existing scenarios where it is currently very difficult
+> > to
+> > work this out and then work out how we can report that information
+> > to
+> > the user. These could become test cases?
+>=20
+> So I think there are two questions here that the tools should answer:
+>=20
+> 1. If I would run a build, what would be missing in the cache and
+> need
+> to be built? The missing cache objects are in a dependency hierarchy,
+> so only those missing objects with no dependecies on other missing
+> objects would be printed. That should be comparatively easy to add as
+> bitbake already does those checks all the time. Is there something
+> else that's easily done and useful to print?
+>=20
+> 2. Then there's the question of *why* they are missing, which is
+> harder to answer. If, say, curl:do_package is not in the cache, then
+> the tool would have to walk the cache tree (I/O heavy operation as
+> there is no index), make a list of all curl:do_package objects that
+> are there, and do a recursive bitbake-diffsig (going up the task
+> tree)
+> on them vs the one we want. Then print them starting with the newest.
+> Something like:
+>=20
+
+We are currently experimenting with replacing the eSDK installer with
+the bitbake build environment for our users. Part of this
+transformation is, of course, the shared sstate-cache, for which this
+discussion seems quite relevant. The workflow we are aiming for is as
+follows:
+
+   1. Setup the layers and build config (out of scope here)
+   2. Download the sstate for a particular recipe (usually an image
+      recipe).
+     =20
+      Note: Working with SSTATE_MIRRORS does not work very well because
+      bitbake connects way too often to the sstate server. So we
+      started to develop a script which downloads the sstate artifacts
+      into SSTATE_DIR to get the SDK set up.
+     =20
+      Your point 1. is basically what our (a bit hacky) download script
+      does in the --dry-run mode: Printing all the required sstate
+      artifacts. I think as a first step, it would be very valuable to
+      have a function or a tinfoil API in the core that returns a list
+      of sstate artifacts for a given recipe.
+     =20
+      As a second step a tool or a new feature of an existing tool
+      could download the artifacts into SSTATE_DIR. This would also be
+      a great successor for the not so much maintained devtool sdk-
+      update command.
+   3. At this point, the user is basically in the same situation as
+      after installing the eSDK installer. devtool and now also bitbake
+      are available, the sstate-cache is fully populated.
+
+Maintaining such an SDK and sstate mirror infrastructure brings us to
+your point 2. Tooling for maintaining the sstate cache becomes even
+more important than it is now. Also, locking the sstate cache and
+treating missing artifacts as errors seems to be an important feature.=C2=
+=A0
+
+But I would consider the locking/unlocking more relevant for testing
+rather than for deploying locked SDKs. Unlocked SDKs allow the user to
+switch the branches of the layers to commits where the sstate is not
+available. If the user is in a full featured bitbake environment rather
+than the constrained eSDK installer environment this is perfectly fine.
+Bitbake can just compile the missing recipes.
+Such an SDK would combine all the advantages of the current eSDK
+installer and the much more flexible Bitbake environment. This would
+imply that the sstate download script should just try to download
+what's available on the mirror and maybe print a warning for artifacts
+which cannot be downloaded. But it should not abort with an error for
+missing artifacts.
+
+Does that make sense?
+
+Regrads,
+Adrian
+
+> Existing cache objects are not suitable because:
+> <object id 1> was built on <date> and has a mismatching SRCREV
+> <object id 2> was built on <earlier date> and has a different
+> do_compile()
+>=20
+> > One of the big problems in the past was that we lost much of the
+> > hash
+> > information after parsing completed. This meant that if the hashes
+> > then
+> > didn't match, we couldn't tell why as the original computation was
+> > lost. I did some work on allowing us to retain more of the
+> > information
+> > so that we didn't have to recompute it every time to be able to do
+> > processing with it. I have to admit I've totally lost track of
+> > where I
+> > got to with that.
+>=20
+> Here's an idea I can't get out of my head. Right now, the cache is
+> simply an amorphous mass of objects, with no information regarding
+> how
+> they were created. How about storing complete build confgurations as
+> well into the same directory? There would be a dedicated, separate
+> area for each configuration that placed objects into the cache,
+> containing:
+> - list of layers and revisions
+> - config template used
+> - complete content of build/conf
+> - bitbake invocation (e.g. targets and prefixed variables like
+> MACHINE etc.)
+> - complete list of sstate objects that were produced as a result, so
+> they can be checked for existence
+>=20
+> This would be written into the cache dir at the very end of the build
+> when everything else is already there.
+>=20
+> Right now, everyone sets up their own builds first, then points
+> local.conf or site.conf to the cache, and hopes for the best
+> regarding
+> hit rates. Having stored build configs would allow inverting the
+> workflow, so that you first ask from the cache what it can provide
+> (e.g. it can provide mickledore or kirkstone core-image-minimal for
+> qemux86, and that's exactly what you want as a starting point), then
+> you use the build config stored in the cache to set up a build, and
+> run it - and that would guarantee complete sstate reuse and getting
+> to
+> a functional image as soon as possible. Kind of like binary distro,
+> but implemented with sstate.
+>=20
+> Alex
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#189913): https://lists.openembedded.org/g/openembedded-core/message/189913
-> Mute This Topic: https://lists.openembedded.org/mt/102275009/7611679
+> View/Reply Online (#187647):
+> https://lists.openembedded.org/g/openembedded-core/message/187647
+> Mute This Topic: https://lists.openembedded.org/mt/101356420/4454582
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> adrian.freihofer@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
 
