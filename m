@@ -1,242 +1,287 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46A83C4167B
-	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:18:31 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.8309.1698848306168620209
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D346C4167D
+	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:21:01 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.8528.1698848457775070122
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:18:26 -0700
+ Wed, 01 Nov 2023 07:20:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KeKG0lxW;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5406c099cebso10769927a12.2;
-        Wed, 01 Nov 2023 07:18:25 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=OYu0fRXm;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.173, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-41cd52c51abso42435571cf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 07:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698848304; x=1699453104; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3SdL5tUZtoXsLzOBkE+oHV4HUeqexVFD6hgTkInjWVI=;
-        b=KeKG0lxWRpHQZyc0z/Q7QCYC2yTHY7vB2/VB/Ju1aQ4xAgihVXBMyZ5nQzOXUvIK2v
-         5aav/CVZzJ69yvnvwRgHvM15sLAr6V9AgYEGNhkGnzOLSaX1Bo4VMUfU6sBTxs428t+V
-         iQiyyZIxIXj+M4TCvwJ7X3z3gjIC5eUHMXMx5eV7fBYSmv+jN/AYV33VAniPENxA8fP7
-         3IDJabM4OCxENnvLXN3BO1gcZZJPqrvx6ruRBmbWgAuIUgXbt+SOeGUTIiZQGldVr6tG
-         smxflP8fT9dTaayTQuIvc2te3JOB5GjnWG0XnnhcEolY0+8mp/RdajBOYMAEQ2mLOYYA
-         n5LA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1698848456; x=1699453256; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IFSeI0SElHIvMQvS3HmeDfj0KMhxnvnusavhcG14tA8=;
+        b=OYu0fRXmYNMYN8ahXSM2GBYCKblO5xn+V6/yRtcl1UCOtekan6i5gG4V1svlTrpWPr
+         35Xu4cHJoxZhp6P3vPtZ6om2Ugvs6oqzMnjg85NHBxdUPyMcvvBACtyI/NdjLsZ1wzTs
+         PbpVksCL7cpTt0SYcPD5MI+rtnxRNelhsm+pIzzCO7Hstp5p1EyvjZrc0+ti6LNz9YyE
+         T7fxNSj5pwfT5xd7vq0B48pOQuBHVUfoegfwqWTIH9nDvlTih3l9HmexO5fjJvIGAJU/
+         Qv5YjHtLBLeLn/yfeWwQYo3mtkX36wYG5dYaXrDpfOU9Uy7t60jhOjxXkCvCTc0vhFv2
+         omuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698848304; x=1699453104;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3SdL5tUZtoXsLzOBkE+oHV4HUeqexVFD6hgTkInjWVI=;
-        b=gu86LCHoGlfZ3nEO5XfyQbDJdvCPnyiMuQpMGfKhGIUgZaQFmpYpiWCmXSm48Rsz5I
-         o6N8F99Q7ZzF22JQGT0PBgmzTsGBISoiWZEnc4v5coonSb7J2gensDo2qUa+r51WG+vg
-         s7bQMWyx3SMk3/h+bNuGQ8cBwDpuFoqQJ2YVfKEO7Qzq6BMwo8Xws8fKmyhaxAQgtJVe
-         42BtFUZ/ttKvuQTXtZDSr/r6PRjx/ocxFZgSAJNA40n2e4od3vYCcnwdX3pTKJmZocWY
-         JplY3aLZNtH1x59FJdP6+mEKs4tRkabbGrjZe8affh+7f4Hs94KsI42QwQOV6EDu0SXu
-         hoEw==
-X-Gm-Message-State: AOJu0YzXZrF4eYgJLdX79dH+BRdtJ+movPGaYFRVgHUS2jY0MostorDk
-	kJ/WANEWyAr4aHspBlMDDKw=
-X-Google-Smtp-Source: AGHT+IEyZDzSl3dbZR+BNf+Kf3AbwQLymgpoHc19G4fibQzMD2LcqNp3va//0H5+gH2ZZIrxbw+qrw==
-X-Received: by 2002:a50:aada:0:b0:543:75cb:2149 with SMTP id r26-20020a50aada000000b0054375cb2149mr3163141edc.38.1698848304244;
-        Wed, 01 Nov 2023 07:18:24 -0700 (PDT)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id o19-20020a509b13000000b00537963f692esm1167978edi.0.2023.11.01.07.18.23
+        d=1e100.net; s=20230601; t=1698848456; x=1699453256;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IFSeI0SElHIvMQvS3HmeDfj0KMhxnvnusavhcG14tA8=;
+        b=w5+j8vW/bcym8lOc4sPIosY5AgyiQQvO24iFuwKdArP7zxYVSyBAAoRrxqD+qM3BYJ
+         OOqXuX25wcAthcuPZMRor/hNxRTfGRm1rqr58kwhmLgBicbYCdJ9L1Uaole1ytTALIm5
+         sW4LK29bOol/A/K8Etl69xinpvwOoNruFNMCZBKUueCHfYW+TaPZHSWHeSspYAyod0xY
+         yWqyf0VsHgFi89xtD0zlUDFMhdcuonSSsVpImvVfXeEGlKY6T+YTrVlnAvVftt/8qrm/
+         Y3MXdQrQO9TjZQAVAsGaxyzbzUI7j9zGpORgy1/O5p1UnA0OCTABPF7ljk3qJjrJuYft
+         B5Gg==
+X-Gm-Message-State: AOJu0YzYOqz9yCahXNfqmrLFet50yZLO6oBlNpUf7fzCh71gaYc3/OwG
+	oh/kJinERjCvYULS7CDNWmwiARodJfAJ3O0v3c8Q0Q==
+X-Google-Smtp-Source: AGHT+IH6TpfGumQcpef5fXTtfQI3ihIBceNxq9fv70zbMSZbMhRlK+Cic7LcUIbW236GzjuqDpCu4A==
+X-Received: by 2002:a05:622a:d2:b0:41c:e76e:87f8 with SMTP id p18-20020a05622a00d200b0041ce76e87f8mr19014940qtw.34.1698848456391;
+        Wed, 01 Nov 2023 07:20:56 -0700 (PDT)
+Received: from megalith.cgocable.net ([2001:1970:5b1f:ab00:fc4e:ec42:7e5d:48dd])
+        by smtp.gmail.com with ESMTPSA id o23-20020ac841d7000000b00403cce833eesm1425347qtm.27.2023.11.01.07.20.55
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Nov 2023 07:18:23 -0700 (PDT)
-Message-ID: <649b2f000761831cabd1f5737fb5b30a2ffc3654.camel@gmail.com>
-Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
- for why is sstate not being reused?
-From: adrian.freihofer@gmail.com
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
-	 <richard.purdie@linuxfoundation.org>
-Cc: openembedded-architecture
- <openembedded-architecture@lists.openembedded.org>, Michael Halstead
- <mhalstead@linuxfoundation.org>, Yocto-mailing-list
- <yocto@lists.yoctoproject.org>, ",openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, Julien STEPHAN
- <jstephan@baylibre.com>
-Date: Wed, 01 Nov 2023 15:18:22 +0100
-In-Reply-To: <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
-References: 
-	<CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
-	 <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
-	 <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
-	 <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
+        Wed, 01 Nov 2023 07:20:56 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] patchtest: remove test for CVE tag in mbox
+Date: Wed,  1 Nov 2023 10:20:55 -0400
+Message-ID: <20231101142055.2117963-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:18:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189916
+ <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:21:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189917
 
-Hi Alex, hi Richard
+After patchtest went live it was determined that testing for a CVE tag
+in the mbox commit message is unnecessary, since it will already be in
+the shortlog and in any carried patches. Remove the test and the
+associated selftest files so that its absence isn't flagged in future
+test results.
 
-The discussion looks really interesting. I would like to contribute
-some comments from the point of view of a rather naive user and try to
-understand the workflows for which these improvements would be
-beneficial also on a bigger picture.
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ ...x.test_cve_presence_in_commit_message.fail | 72 ------------------
+ ...x.test_cve_presence_in_commit_message.pass | 74 -------------------
+ meta/lib/patchtest/tests/test_mbox.py         | 24 ------
+ 3 files changed, 170 deletions(-)
+ delete mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
+ delete mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
 
-
-On Thu, 2023-09-14 at 20:51 +0200, Alexander Kanavin wrote:
-> On Thu, 14 Sept 2023 at 14:56, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > For the task signatures, we need to think about some questions. If
-> > I
-> > make a change locally, can I query how much will rebuild and how
-> > much
-> > will be reused? There is bitbake --dry-run but perhaps it is time
-> > for a
-> > an option (or dedicated separate command?) to give some statistics
-> > about what bitbake would do? How much sstate would be reused?
-> >=20
-> > That then logically leads into the questions, can we tell what has
-> > changed? Why isn't my sstate being reused? For that we perhaps
-> > should
-> > define some existing scenarios where it is currently very difficult
-> > to
-> > work this out and then work out how we can report that information
-> > to
-> > the user. These could become test cases?
->=20
-> So I think there are two questions here that the tools should answer:
->=20
-> 1. If I would run a build, what would be missing in the cache and
-> need
-> to be built? The missing cache objects are in a dependency hierarchy,
-> so only those missing objects with no dependecies on other missing
-> objects would be printed. That should be comparatively easy to add as
-> bitbake already does those checks all the time. Is there something
-> else that's easily done and useful to print?
->=20
-> 2. Then there's the question of *why* they are missing, which is
-> harder to answer. If, say, curl:do_package is not in the cache, then
-> the tool would have to walk the cache tree (I/O heavy operation as
-> there is no index), make a list of all curl:do_package objects that
-> are there, and do a recursive bitbake-diffsig (going up the task
-> tree)
-> on them vs the one we want. Then print them starting with the newest.
-> Something like:
->=20
-
-We are currently experimenting with replacing the eSDK installer with
-the bitbake build environment for our users. Part of this
-transformation is, of course, the shared sstate-cache, for which this
-discussion seems quite relevant. The workflow we are aiming for is as
-follows:
-
-   1. Setup the layers and build config (out of scope here)
-   2. Download the sstate for a particular recipe (usually an image
-      recipe).
-     =20
-      Note: Working with SSTATE_MIRRORS does not work very well because
-      bitbake connects way too often to the sstate server. So we
-      started to develop a script which downloads the sstate artifacts
-      into SSTATE_DIR to get the SDK set up.
-     =20
-      Your point 1. is basically what our (a bit hacky) download script
-      does in the --dry-run mode: Printing all the required sstate
-      artifacts. I think as a first step, it would be very valuable to
-      have a function or a tinfoil API in the core that returns a list
-      of sstate artifacts for a given recipe.
-     =20
-      As a second step a tool or a new feature of an existing tool
-      could download the artifacts into SSTATE_DIR. This would also be
-      a great successor for the not so much maintained devtool sdk-
-      update command.
-   3. At this point, the user is basically in the same situation as
-      after installing the eSDK installer. devtool and now also bitbake
-      are available, the sstate-cache is fully populated.
-
-Maintaining such an SDK and sstate mirror infrastructure brings us to
-your point 2. Tooling for maintaining the sstate cache becomes even
-more important than it is now. Also, locking the sstate cache and
-treating missing artifacts as errors seems to be an important feature.=C2=
-=A0
-
-But I would consider the locking/unlocking more relevant for testing
-rather than for deploying locked SDKs. Unlocked SDKs allow the user to
-switch the branches of the layers to commits where the sstate is not
-available. If the user is in a full featured bitbake environment rather
-than the constrained eSDK installer environment this is perfectly fine.
-Bitbake can just compile the missing recipes.
-Such an SDK would combine all the advantages of the current eSDK
-installer and the much more flexible Bitbake environment. This would
-imply that the sstate download script should just try to download
-what's available on the mirror and maybe print a warning for artifacts
-which cannot be downloaded. But it should not abort with an error for
-missing artifacts.
-
-Does that make sense?
-
-Regrads,
-Adrian
-
-> Existing cache objects are not suitable because:
-> <object id 1> was built on <date> and has a mismatching SRCREV
-> <object id 2> was built on <earlier date> and has a different
-> do_compile()
->=20
-> > One of the big problems in the past was that we lost much of the
-> > hash
-> > information after parsing completed. This meant that if the hashes
-> > then
-> > didn't match, we couldn't tell why as the original computation was
-> > lost. I did some work on allowing us to retain more of the
-> > information
-> > so that we didn't have to recompute it every time to be able to do
-> > processing with it. I have to admit I've totally lost track of
-> > where I
-> > got to with that.
->=20
-> Here's an idea I can't get out of my head. Right now, the cache is
-> simply an amorphous mass of objects, with no information regarding
-> how
-> they were created. How about storing complete build confgurations as
-> well into the same directory? There would be a dedicated, separate
-> area for each configuration that placed objects into the cache,
-> containing:
-> - list of layers and revisions
-> - config template used
-> - complete content of build/conf
-> - bitbake invocation (e.g. targets and prefixed variables like
-> MACHINE etc.)
-> - complete list of sstate objects that were produced as a result, so
-> they can be checked for existence
->=20
-> This would be written into the cache dir at the very end of the build
-> when everything else is already there.
->=20
-> Right now, everyone sets up their own builds first, then points
-> local.conf or site.conf to the cache, and hopes for the best
-> regarding
-> hit rates. Having stored build configs would allow inverting the
-> workflow, so that you first ask from the cache what it can provide
-> (e.g. it can provide mickledore or kirkstone core-image-minimal for
-> qemux86, and that's exactly what you want as a starting point), then
-> you use the build config stored in the cache to set up a build, and
-> run it - and that would guarantee complete sstate reuse and getting
-> to
-> a functional image as soon as possible. Kind of like binary distro,
-> but implemented with sstate.
->=20
-> Alex
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#187647):
-> https://lists.openembedded.org/g/openembedded-core/message/187647
-> Mute This Topic: https://lists.openembedded.org/mt/101356420/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+diff --git a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail b/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
+deleted file mode 100644
+index d40b8a936bf..00000000000
+--- a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
++++ /dev/null
+@@ -1,72 +0,0 @@
+-From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
+-From: Trevor Gamblin <tgamblin@baylibre.com>
+-Date: Tue, 29 Aug 2023 14:12:27 -0400
+-Subject: [PATCH] selftest-hello: fix CVE-1234-56789
+-
+-This patch should fail the test for CVE presence in the mbox commit message.
+-
+-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+----
+- .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
+- .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
+- 2 files changed, 31 insertions(+), 2 deletions(-)
+- create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
+-
+-diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
+-new file mode 100644
+-index 0000000000..869cfb6fe5
+---- /dev/null
+-+++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
+-@@ -0,0 +1,27 @@
+-+From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
+-+From: Trevor Gamblin <tgamblin@baylibre.com>
+-+Date: Tue, 29 Aug 2023 14:08:20 -0400
+-+Subject: [PATCH] Fix CVE-NOT-REAL
+-+
+-+CVE: CVE-1234-56789
+-+Upstream-Status: Backport(http://example.com/example)
+-+
+-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+-+---
+-+ strlen.c | 1 +
+-+ 1 file changed, 1 insertion(+)
+-+
+-+diff --git a/strlen.c b/strlen.c
+-+index 1788f38..83d7918 100644
+-+--- a/strlen.c
+-++++ b/strlen.c
+-+@@ -8,6 +8,7 @@ int main() {
+-+ 
+-+ 	printf("%d\n", str_len(string1));
+-+ 	printf("%d\n", str_len(string2));
+-++	printf("CVE FIXED!!!\n");
+-+ 
+-+ 	return 0;
+-+ }
+-+-- 
+-+2.41.0
+-diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+-index 547587bef4..76975a6729 100644
+---- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+-+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+-@@ -3,7 +3,9 @@ SECTION = "examples"
+- LICENSE = "MIT"
+- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+- 
+--SRC_URI = "file://helloworld.c"
+-+SRC_URI = "file://helloworld.c \
+-+           file://CVE-1234-56789.patch \
+-+           "
+- 
+- S = "${WORKDIR}"
+- 
+-@@ -16,4 +18,4 @@ do_install() {
+- 	install -m 0755 helloworld ${D}${bindir}
+- }
+- 
+--BBCLASSEXTEND = "native nativesdk"
+-\ No newline at end of file
+-+BBCLASSEXTEND = "native nativesdk"
+--- 
+-2.41.0
+-
+diff --git a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass b/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
+deleted file mode 100644
+index 433c7a450ad..00000000000
+--- a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
+-From: Trevor Gamblin <tgamblin@baylibre.com>
+-Date: Tue, 29 Aug 2023 14:12:27 -0400
+-Subject: [PATCH] selftest-hello: fix CVE-1234-56789
+-
+-This test should pass the mbox cve tag test.
+-
+-CVE: CVE-1234-56789
+-
+-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+----
+- .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
+- .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
+- 2 files changed, 31 insertions(+), 2 deletions(-)
+- create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
+-
+-diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
+-new file mode 100644
+-index 0000000000..869cfb6fe5
+---- /dev/null
+-+++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
+-@@ -0,0 +1,27 @@
+-+From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
+-+From: Trevor Gamblin <tgamblin@baylibre.com>
+-+Date: Tue, 29 Aug 2023 14:08:20 -0400
+-+Subject: [PATCH] Fix CVE-NOT-REAL
+-+
+-+CVE: CVE-1234-56789
+-+Upstream-Status: Backport(http://example.com/example)
+-+
+-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+-+---
+-+ strlen.c | 1 +
+-+ 1 file changed, 1 insertion(+)
+-+
+-+diff --git a/strlen.c b/strlen.c
+-+index 1788f38..83d7918 100644
+-+--- a/strlen.c
+-++++ b/strlen.c
+-+@@ -8,6 +8,7 @@ int main() {
+-+ 
+-+ 	printf("%d\n", str_len(string1));
+-+ 	printf("%d\n", str_len(string2));
+-++	printf("CVE FIXED!!!\n");
+-+ 
+-+ 	return 0;
+-+ }
+-+-- 
+-+2.41.0
+-diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+-index 547587bef4..76975a6729 100644
+---- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+-+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+-@@ -3,7 +3,9 @@ SECTION = "examples"
+- LICENSE = "MIT"
+- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+- 
+--SRC_URI = "file://helloworld.c"
+-+SRC_URI = "file://helloworld.c \
+-+           file://CVE-1234-56789.patch \
+-+           "
+- 
+- S = "${WORKDIR}"
+- 
+-@@ -16,4 +18,4 @@ do_install() {
+- 	install -m 0755 helloworld ${D}${bindir}
+- }
+- 
+--BBCLASSEXTEND = "native nativesdk"
+-\ No newline at end of file
+-+BBCLASSEXTEND = "native nativesdk"
+--- 
+-2.41.0
+-
+diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
+index 2449564d0f2..0b623b7d17b 100644
+--- a/meta/lib/patchtest/tests/test_mbox.py
++++ b/meta/lib/patchtest/tests/test_mbox.py
+@@ -6,7 +6,6 @@
+ 
+ import base
+ import collections
+-import parse_cve_tags
+ import parse_shortlog
+ import parse_signed_off_by
+ import pyparsing
+@@ -33,8 +32,6 @@ class TestMbox(base.Base):
+     rexp_detect = pyparsing.Regex('\[\s?YOCTO.*\]')
+     rexp_validation = pyparsing.Regex('\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]')
+     revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
+-    prog = parse_cve_tags.cve_tag
+-    patch_prog = parse_cve_tags.patch_cve_tag
+     signoff_prog = parse_signed_off_by.signed_off_by
+     revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
+     maxlength = 90
+@@ -143,27 +140,6 @@ class TestMbox(base.Base):
+             if not commit.commit_message.strip():
+                 self.fail('Please include a commit message on your patch explaining the change', commit=commit)
+ 
+-    def test_cve_presence_in_commit_message(self):
+-        if self.unidiff_parse_error:
+-            self.skip('Parse error %s' % self.unidiff_parse_error)
+-
+-        # we are just interested in series that introduce CVE patches, thus discard other
+-        # possibilities: modification to current CVEs, patch directly introduced into the
+-        # recipe, upgrades already including the CVE, etc.
+-        new_patches = [p for p in self.patchset if p.path.endswith('.patch') and p.is_added_file]
+-        if not new_patches:
+-            self.skip('No new patches introduced')
+-
+-        for commit in TestMbox.commits:
+-            # skip those patches that revert older commits, these do not required the tag presence
+-            if self.revert_shortlog_regex.search_string(commit.shortlog):
+-                continue
+-            if not self.patch_prog.search_string(commit.payload):
+-                self.skip("No CVE tag in added patch, so not needed in mbox")
+-            elif not self.prog.search_string(commit.payload):
+-                self.fail('A CVE tag should be provided in the commit message with format: "CVE: CVE-YYYY-XXXX"',
+-                          commit=commit)
+-
+     def test_bugzilla_entry_format(self):
+         for commit in TestMbox.commits:
+             if not self.rexp_detect.search_string(commit.commit_message):
+-- 
+2.41.0
 
 
