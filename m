@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51FEDC25B0C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2623C25B4D
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:16 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.8639.1698848702607659161
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.8645.1698848703272298284
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:04 -0700
+ Wed, 01 Nov 2023 07:25:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JjOpbVKk;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=O3sA428t;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.31, mailfrom: 0101018b8b4605b0-2a85a21e-7810-49c8-8c61-94f3aae005fa-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KMV1gHtw;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=R+pfChbK;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.45, mailfrom: 0101018b8b460184-3ed75f32-103e-46d0-b14a-8db67957015c-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848704;
+	t=1698848703;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=RFwTV65Gt2pzApNUCBCK4jKqZ8ecjXlSOuxqo6T5mpY=;
-	b=JjOpbVKkndWXSgK7uj0XeL5v2TSCTzmXsPQDl9Rd1zlcKeXc62wzkKGLFw5EpCT8
-	fNp21LcP80kKPflabaWDTnua7xc5LUQTislujFwlfoR/DMKQeX12NriVlu+f7UuXMCj
-	tOAWPpbG9R/XE50yNTewjW8GpBc7C1fEls5xfKX0=
+	bh=FufBVrwN5ZroHqh1R2DktyrIJ6mXIX2ddRWlpBhQ7rs=;
+	b=KMV1gHtwo0x9wze/WdivLb5PVUblj5pq6oV3iN/ELu6z6wpDa1ZFO6VJLNyMZEMr
+	FM3h1EhapT53TuKqWycbK2MvqfGyaIupTiN9L+YZOv75k060lT2p6I9CT8YdYysGN4B
+	ftwRYa1Oh2i3DUVYrst4hKTc3FnBjxFXfoq9hsy4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848704;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848703;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=RFwTV65Gt2pzApNUCBCK4jKqZ8ecjXlSOuxqo6T5mpY=;
-	b=O3sA428tBa7XJhdSOp37g2Xa4fPSfDKmB1GagOU0pXJlE4aAimMfrNtCdZ/4MHb8
-	txOt6rf2mclUXVCPCjxydtCuLKSUHlhe9pjOegiePqjMPOJ8jBiMrpTSn62V/qNVplG
-	IsX38vRIJiZo0P//HBSBxquQF6OpMvZuca4xboi4=
-Content-Type: multipart/mixed; boundary="===============5242500150031154744=="
+	bh=FufBVrwN5ZroHqh1R2DktyrIJ6mXIX2ddRWlpBhQ7rs=;
+	b=R+pfChbKiz0KuDr6w/95clKkr0dwZ8pqZU2xZRCTVTA3IzCVCenKR2gsOha3KvkG
+	0yFuLxcBG1WKxArUR5OIGdTGFaLdDCNQajlyQGrBuyrrPbUbVKPZiYR+d03RkOG6EJo
+	25mBDcL/Z2VcsdAEbWfa00crskDMxITGKlRm5LqY=
+Content-Type: multipart/mixed; boundary="===============3806206352230634765=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-setuptools-rust: upgrading to 1.8.1 SUCCEEDED
-Message-ID: <0101018b8b4605b0-2a85a21e-7810-49c8-8c61-94f3aae005fa-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:03 +0000
+Subject: [AUH] createrepo-c: upgrading to 1.0.2 SUCCEEDED
+Message-ID: <0101018b8b460184-3ed75f32-103e-46d0-b14a-8db67957015c-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:02 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.31
+X-SES-Outgoing: 2023.11.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189962
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189942
 
---===============5242500150031154744==
+--===============3806206352230634765==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-setuptools-rust* to *1.8.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *createrepo-c* to *1.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-setuptools-rust-upgrade-1.7.0-1.8.1.patch
+    - apply the patch: git am 0001-createrepo-c-upgrade-1.0.1-1.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,465 +72,256 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From fa450c336f9265321c82944a33fa253cef7c2c5c Mon Sep 17 00:00:00 2001
+From 59d4d07a0d80ac169fc4db00ffe665a0efb0ddd7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 09:29:49 +0000
-Subject: [PATCH] python3-setuptools-rust: upgrade 1.7.0 -> 1.8.1
+Date: Wed, 1 Nov 2023 06:32:53 +0000
+Subject: [PATCH] createrepo-c: upgrade 1.0.1 -> 1.0.2
 
 ---
- ...etuptools-rust_1.7.0.bb => python3-setuptools-rust_1.8.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-setuptools-rust_1.7.0.bb => python3-setuptools-rust_1.8.1.bb} (93%)
+ .../createrepo-c/createrepo-c/time64fix.patch | 69 -------------------
+ ...erepo-c_1.0.1.bb => createrepo-c_1.0.2.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 71 deletions(-)
+ delete mode 100644 meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_1.0.1.bb => createrepo-c_1.0.2.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-rust_1.7.0.bb b/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-setuptools-rust_1.7.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb
-index 6392a4dead..db5c6c449c 100644
---- a/meta/recipes-devtools/python/python3-setuptools-rust_1.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=011cd92e702dd9e6b1a26157b6fd53f5"
- SRC_URI = "${PYPI_SRC_URI} \
-            https://files.pythonhosted.org/packages/67/08/e1aa2c582c62ac76e4d60f8e454bd3bba933781a06a88b4e38797445822a/setuptools-rust-${PV}.tar.gz \
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch b/meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch
+deleted file mode 100644
+index a63801ce26..0000000000
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c/time64fix.patch
++++ /dev/null
+@@ -1,69 +0,0 @@
+-From 89e1c9415fb8438310036d5810cdb7da75ee3a7f Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 26 Jul 2023 12:27:14 -0700
+-Subject: [PATCH] Adjust printf formats for 64bit time_t on 32bit systems
+-
+-Fixes format specifier mismatch warnings as well while here
+-
+-e.g.
+-warning: format '%ld' expects argument of type 'long int', but argument 2 has type 'time_t'
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/createrepo_c/pull/376]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/createrepo_c.c    | 4 ++--
+- src/misc.c            | 4 ++--
+- src/xml_dump_repomd.c | 2 +-
+- 3 files changed, 5 insertions(+), 5 deletions(-)
+-
+-diff --git a/src/createrepo_c.c b/src/createrepo_c.c
+-index 8681419..0f9048a 100644
+---- a/src/createrepo_c.c
+-+++ b/src/createrepo_c.c
+-@@ -582,9 +582,9 @@ duplicates_warning(const char *nevra, GArray *locations, CmdDupNevra option)
+-   for (size_t i=0; i<locations->len; i++) {
+-       struct DuplicateLocation location = g_array_index(locations, struct
+-                                                         DuplicateLocation, i);
+--      g_warning("    Sourced from location: \'%s\', build timestamp: %ld%s",
+-+      g_warning("    Sourced from location: \'%s\', build timestamp: %jd%s",
+-                 location.location,
+--                location.pkg->time_build,
+-+                (intmax_t) location.pkg->time_build,
+-                 location.pkg->skip_dump ? skip_reason : "");
+- 
+-   }
+-diff --git a/src/misc.c b/src/misc.c
+-index 8511ca2..7866c7b 100644
+---- a/src/misc.c
+-+++ b/src/misc.c
+-@@ -1512,11 +1512,11 @@ cr_append_pid_and_datetime(const char *str, const char *suffix)
+-     gettimeofday(&tv, NULL);
+-     timeinfo = localtime (&(tv.tv_sec));
+-     strftime(datetime, 80, "%Y%m%d%H%M%S", timeinfo);
+--    gchar *result = g_strdup_printf("%s%jd.%s.%ld%s",
+-+    gchar *result = g_strdup_printf("%s%jd.%s.%jd%s",
+-                                     str ? str : "",
+-                                     (intmax_t) getpid(),
+-                                     datetime,
+--                                    tv.tv_usec,
+-+                                    (intmax_t) tv.tv_usec,
+-                                     suffix ? suffix : "");
+-     return result;
+- }
+-diff --git a/src/xml_dump_repomd.c b/src/xml_dump_repomd.c
+-index 33b0e09..9d24249 100644
+---- a/src/xml_dump_repomd.c
+-+++ b/src/xml_dump_repomd.c
+-@@ -143,7 +143,7 @@ cr_xml_dump_repomd_body(xmlNodePtr root, cr_Repomd *repomd)
+-                            BAD_CAST repomd->revision);
+-     } else {
+-         // Use the current time if no revision was explicitly specified
+--        gchar *rev = g_strdup_printf("%ld", time(NULL));
+-+        gchar *rev = g_strdup_printf("%jd", (intmax_t) time(NULL));
+-         xmlNewChild(root, NULL, BAD_CAST "revision", BAD_CAST rev);
+-         g_free(rev);
+-     }
+--- 
+-2.41.0
+-
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_1.0.1.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_1.0.2.bb
+similarity index 94%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_1.0.1.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_1.0.2.bb
+index 44d9213bd4..49d29bcfb4 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_1.0.1.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_1.0.2.bb
+@@ -7,10 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ SRC_URI = "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            file://0001-include-rpm-rpmstring.h.patch \
+-           file://time64fix.patch \
             "
--SRC_URI[sha256sum] = "c7100999948235a38ae7e555fe199aa66c253dc384b125f5d85473bf81eae3a3"
-+SRC_URI[sha256sum] = "94b1dd5d5308b3138d5b933c3a2b55e6d6927d1a22632e509fcea9ddd0f7e486"
  
- inherit cargo pypi python_setuptools_build_meta
+-SRCREV = "e7af838e04009cd2f848a00e1ea31cc42c8f3ae7"
++SRCREV = "e87636334a3bc5d6ddfdb6c0b34042e96987efb1"
+ 
+ S = "${WORKDIR}/git"
  
 -- 
 2.39.2
 
 
---===============5242500150031154744==
+--===============3806206352230634765==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-setuptools-rust: PV changed from "1.7.0" to "1.8.1"
-packages/core2-64-poky-linux/python3-setuptools-rust: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools-rust-1.7.0.tar.gz;downloadfilename=setuptools-rust-1.7.0.tar.gz https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools-rust-1.7.0.tar.gz;downloadfilename=setuptools-rust-1.7.0.tar.gz https://files.pythonhosted.org/packages/67/08/e1aa2c582c62ac76e4d60f8e454bd3bba933781a06a88b4e38797445822a/setuptools-rust-1.7.0.tar.gz" to "https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools-rust-1.8.1.tar.gz;downloadfilename=setuptools-rust-1.8.1.tar.gz https://files.pythonhosted.org/packages/source/s/setuptools-rust/setuptools-rust-1.8.1.tar.gz;downloadfilename=setuptools-rust-1.8.1.tar.gz https://files.pythonhosted.org/packages/67/08/e1aa2c582c62ac76e4d60f8e454bd3bba933781a06a88b4e38797445822a/setuptools-rust-1.8.1.tar.gz"
-packages/core2-64-poky-linux/python3-setuptools-rust: PKGV changed from 1.7.0 [default] to 1.8.1 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dbg: PV changed from "1.7.0" to "1.8.1"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dbg: PKGV changed from 1.7.0 [default] to 1.8.1 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dev: PV changed from "1.7.0" to "1.8.1"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dev: PKGV changed from 1.7.0 [default] to 1.8.1 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-doc: PV changed from "1.7.0" to "1.8.1"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-doc: PKGV changed from 1.7.0 [default] to 1.8.1 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-locale: PV changed from "1.7.0" to "1.8.1"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-locale: PKGV changed from 1.7.0 [default] to 1.8.1 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-src: PV changed from "1.7.0" to "1.8.1"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-src: PKGV changed from 1.7.0 [default] to 1.8.1 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-staticdev: PV changed from "1.7.0" to "1.8.1"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-staticdev: PKGV changed from 1.7.0 [default] to 1.8.1 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PV changed from "1.7.0" to "1.8.1"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PKGSIZE changed from 163814 to 168073 (+3%)
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PKGV changed from 1.7.0 [default] to 1.8.1 [default]
-Changes to packages/core2-64-poky-linux/python3-setuptools-rust (sysroot):
-  /usr/lib/python3.11/site-packages/setuptools_rust-1.7.0.dist-info moved to /usr/lib/python3.11/site-packages/setuptools_rust-1.8.1.dist-info
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-bash-completion: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-bash-completion: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: FILELIST: removed "/usr/lib/.debug/libcreaterepo_c.so.1.0.1", added "/usr/lib/.debug/libcreaterepo_c.so.1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: RRECOMMENDS: removed "file-dbg"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: PKGSIZE changed from 1491936 to 1483256 (-1%)
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dev: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dev: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dev: PKGSIZE changed from 146429 to 146403 (-0%)
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-doc: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-doc: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-locale: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-locale: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-src: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-src: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-src: PKGSIZE changed from 1280187 to 1278726 (-0%)
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-staticdev: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-staticdev: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.1.0.1", added "/usr/lib/libcreaterepo_c.so.1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: RDEPENDS: removed "file (['>= 5.45'])"
+packages/core2-64-poky-linux/createrepo-c: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-64-poky-linux/createrepo-c: PV changed from "1.0.1" to "1.0.2"
+packages/core2-64-poky-linux/createrepo-c: SRC_URI changed from "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch file://0001-include-rpm-rpmstring.h.patch file://time64fix.patch" to "git://github.com/rpm-software-management/createrepo_c;branch=master;protocol=https file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch file://0001-include-rpm-rpmstring.h.patch"
+Changes to packages/core2-64-poky-linux/createrepo-c (sysroot):
+  /usr/lib/libcreaterepo_c.so.1 changed symlink target from libcreaterepo_c.so.1.0.1 to libcreaterepo_c.so.1.0.2
+  /usr/lib/libcreaterepo_c.so.1.0.1 moved to /usr/lib/libcreaterepo_c.so.1.0.2
 
---===============5242500150031154744==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (0 cached, 911 parsed). 1843 targets, 67 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the cortexa15t2hf-neon sysroot...done.
-Removing 1 recipes from the qemuarm sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "arm-poky-linux-musleabi"
-MACHINE              = "qemuarm"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-d883958f15c02c4972e2c0d28f61a173fe535cfd"
-TUNE_FEATURES        = "arm vfp cortexa15 neon thumb callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:d883958f15c02c4972e2c0d28f61a173fe535cfd"
-workspace            = "master:3a7b408178439482d49d573113cc61a69fb28147"
-
-Initialising tasks...done.
-Sstate summary: Wanted 77 Local 32 Mirrors 0 Missed 45 Current 691 (41% match, 94% complete)
-Removing 2 stale sstate objects for arch qemuarm...done.
-Removing 2 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 757 of 768 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/cargo_1.70.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe cargo-native-1.70.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cargo-native-1.70.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 768 of 768 (virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/rust/rust_1.70.0.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1493 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_recipe_qa)
-NOTE: recipe rust-native-1.70.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1624 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_recipe_qa)
-NOTE: Running task 1625 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_recipe_qa)
-NOTE: Running task 1626 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_recipe_qa)
-NOTE: Running task 1627 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_recipe_qa)
-NOTE: Running task 1782 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_recipe_qa)
-NOTE: Running task 1784 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_recipe_qa)
-NOTE: Running task 1855 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_recipe_qa: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_recipe_qa: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_recipe_qa: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_recipe_qa: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_recipe_qa: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_recipe_qa: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_recipe_qa: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-toml-0.10.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1857 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_fetch)
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-tomli-2.0.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-pip-23.2.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe rust-native-1.70.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1881 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_fetch)
-NOTE: Running task 1882 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_fetch)
-NOTE: Running task 1883 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_fetch)
-NOTE: Running task 1884 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_fetch)
-NOTE: Running task 1890 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_fetch)
-NOTE: Running task 1891 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_fetch)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_fetch: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_fetch: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_fetch: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_fetch: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_fetch: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_fetch: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_fetch: Succeeded
-NOTE: recipe python3-toml-0.10.2-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pip-23.2.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2066 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_unpack)
-NOTE: recipe python3-tomli-2.0.1-r0: task do_fetch: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_fetch: Succeeded
-NOTE: Running task 2067 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_unpack)
-NOTE: Running task 2068 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_unpack)
-NOTE: Running task 2069 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2070 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_unpack)
-NOTE: Running task 2071 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2072 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_unpack)
-NOTE: Running task 2073 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2074 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2075 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2076 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_unpack)
-NOTE: Running task 2077 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_unpack)
-NOTE: Running task 2078 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_unpack: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_unpack: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_unpack: Started
-NOTE: Running task 2079 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_unpack: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_unpack: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-toml-0.10.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_unpack: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Started
-NOTE: Running task 2080 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_patch)
-NOTE: Running task 2081 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_patch)
-NOTE: Running task 2082 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_patch)
-NOTE: Running task 2083 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_patch)
-NOTE: Running task 2084 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_collect_spdx_deps)
-NOTE: recipe python3-tomli-2.0.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2085 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_patch)
-NOTE: Running task 2086 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_collect_spdx_deps)
-NOTE: Running task 2087 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_collect_spdx_deps)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2088 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_patch)
-NOTE: Running task 2089 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_collect_spdx_deps)
-NOTE: recipe python3-pip-23.2.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2090 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_patch)
-NOTE: Running task 2091 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_collect_spdx_deps)
-NOTE: recipe python3-pip-23.2.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_patch: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_patch: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_patch: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_patch: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 2095 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_patch: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_patch: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_patch: Succeeded
-NOTE: Running task 2098 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_deploy_source_date_epoch)
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_patch: Succeeded
-NOTE: Running task 2099 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-toml-0.10.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_patch: Succeeded
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_patch: Succeeded
-NOTE: Running task 2100 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2101 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-toml-0.10.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-toml-0.10.2-r0: task do_patch: Succeeded
-NOTE: Running task 2102 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_deploy_source_date_epoch)
-NOTE: recipe python3-tomli-2.0.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pip-23.2.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 2103 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_configure)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_patch: Succeeded
-NOTE: Running task 2104 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2105 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_rust_create_wrappers)
-NOTE: recipe python3-toml-0.10.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2106 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_rust_gen_targets)
-NOTE: Running task 2107 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_populate_lic)
-NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_rust_create_wrappers: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_rust_gen_targets: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_populate_lic: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2108 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_configure)
-NOTE: Running task 2109 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_configure)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2110 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_configure)
-NOTE: recipe python3-toml-0.10.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-tomli-2.0.1-r0: task do_configure: Succeeded
-NOTE: recipe python3-pip-23.2.1-r0: task do_patch: Succeeded
-NOTE: Running task 2111 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_configure)
-NOTE: Running task 2112 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2113 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_compile)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_rust_create_wrappers: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_configure: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_configure: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_populate_lic: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2114 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_configure)
-NOTE: recipe python3-toml-0.10.2-r0: task do_configure: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_configure: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_configure: Succeeded
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_configure: Succeeded
-NOTE: Running task 2115 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_compile)
-NOTE: Running task 2116 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_compile)
-NOTE: Running task 2117 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_compile)
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: recipe python3-toml-0.10.2-r0: task do_configure: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_configure: Started
-NOTE: Running task 2118 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_compile)
-NOTE: Running task 2119 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe python3-pip-23.2.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2120 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_configure)
-NOTE: recipe python3-wheel-0.41.2-r0: task do_compile: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_compile: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_compile: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_configure: Succeeded
-NOTE: Running task 2121 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_compile)
-NOTE: recipe python3-pip-23.2.1-r0: task do_configure: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_compile: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_configure: Succeeded
-NOTE: Running task 2122 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_compile)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 3f47b5ed9eb8441973c4ab548f6730c1607013d772c0621215c8eb30a3b8334f
-NOTE: recipe python3-pip-23.2.1-r0: task do_compile: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_compile: Succeeded
-NOTE: Running task 2126 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_install)
-NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_compile: Succeeded
-NOTE: Running task 2127 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_install)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_compile: Succeeded
-NOTE: Running task 2128 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_install)
-NOTE: recipe python3-wheel-0.41.2-r0: task do_install: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_compile: Succeeded
-NOTE: Running task 2129 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_install)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_install: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_install: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_install: Succeeded
-NOTE: Running task 2130 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_package)
-NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_install: Succeeded
-NOTE: Running task 2131 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_package)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_install: Succeeded
-NOTE: Running task 2132 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_package)
-NOTE: recipe python3-toml-0.10.2-r0: task do_install: Succeeded
-NOTE: Running task 2133 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_package)
-NOTE: recipe python3-wheel-0.41.2-r0: task do_package: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_package: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_package: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_compile: Succeeded
-NOTE: Running task 2134 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_install)
-NOTE: recipe python3-pip-23.2.1-r0: task do_compile: Succeeded
-NOTE: Running task 2135 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_install)
-NOTE: recipe python3-tomli-2.0.1-r0: task do_package: Succeeded
-NOTE: Running task 2136 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-tomli_2.0.1.bb:do_packagedata)
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_install: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_install: Started
-NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_package: Succeeded
-NOTE: Running task 2137 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_packagedata)
-NOTE: recipe python3-toml-0.10.2-r0: task do_package: Succeeded
-NOTE: Running task 2138 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_packagedata)
-NOTE: recipe python3-tomli-2.0.1-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_package: Succeeded
-NOTE: Running task 2139 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_packagedata)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_packagedata: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_install: Succeeded
-NOTE: recipe python3-toml-0.10.2-r0: task do_packagedata: Started
-NOTE: Running task 2140 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_package)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_compile: Succeeded
-NOTE: Running task 2141 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_install)
-NOTE: recipe python3-wheel-0.41.2-r0: task do_packagedata: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_package: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_install: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2142 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_create_spdx)
-NOTE: recipe python3-toml-0.10.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2143 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb:do_package_write_rpm)
-NOTE: Running task 2144 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_create_spdx)
-NOTE: Running task 2145 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-toml_0.10.2.bb:do_package_write_rpm)
-NOTE: recipe python3-wheel-0.41.2-r0: task do_packagedata: Succeeded
-NOTE: Running task 2146 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_create_spdx)
-NOTE: Running task 2147 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-wheel_0.41.2.bb:do_package_write_rpm)
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_create_spdx: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_create_spdx: Started
-NOTE: recipe python3-toml-0.10.2-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_create_spdx: Started
-NOTE: recipe python3-wheel-0.41.2-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_install: Succeeded
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2148 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_package)
-NOTE: recipe python3-toml-0.10.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2149 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_populate_sysroot)
-NOTE: recipe python3-wheel-0.41.2-r0: task do_create_spdx: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_package: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-semantic-version-2.10.0-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-toml-0.10.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-wheel-0.41.2-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_package: Succeeded
-NOTE: Running task 2150 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_packagedata)
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_packagedata: Started
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 2151 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb:do_create_spdx)
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_create_spdx: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_install: Succeeded
-NOTE: Running task 2152 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_package)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_package: Succeeded
-NOTE: recipe python3-pip-23.2.1-r0: task do_package: Started
-NOTE: Running task 2153 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_packagedata)
-NOTE: recipe python3-setuptools-scm-7.1.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_packagedata: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 2154 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_create_spdx)
-NOTE: Running task 2155 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_package_write_rpm)
-NOTE: Running task 2156 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_package_qa)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_create_spdx: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_package_qa: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2157 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-setuptools-rust_1.8.1.bb:do_create_runtime_spdx)
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_package_qa: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_create_runtime_spdx: Started
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_package_write_rpm: Succeeded
-NOTE: recipe python3-setuptools-rust-1.8.1-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe python3-pip-23.2.1-r0: task do_package: Succeeded
-NOTE: Running task 2158 of 2160 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_packagedata)
-NOTE: recipe python3-pip-23.2.1-r0: task do_packagedata: Started
-NOTE: recipe python3-pip-23.2.1-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 2158 tasks of which 2058 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_packagedata
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: python3-pip-23.2.1-r0 do_packagedata: QA Issue: Package version for package python3-pip-src went backwards which would break package feeds (from 0:23.3.1-r0 to 0:23.2.1-r0) [version-going-backwards]
-ERROR: python3-pip-23.2.1-r0 do_packagedata: QA Issue: Package version for package python3-pip-dbg went backwards which would break package feeds (from 0:23.3.1-r0 to 0:23.2.1-r0) [version-going-backwards]
-ERROR: python3-pip-23.2.1-r0 do_packagedata: QA Issue: Package version for package python3-pip-staticdev went backwards which would break package feeds (from 0:23.3.1-r0 to 0:23.2.1-r0) [version-going-backwards]
-ERROR: python3-pip-23.2.1-r0 do_packagedata: QA Issue: Package version for package python3-pip-dev went backwards which would break package feeds (from 0:23.3.1-r0 to 0:23.2.1-r0) [version-going-backwards]
-ERROR: python3-pip-23.2.1-r0 do_packagedata: QA Issue: Package version for package python3-pip-doc went backwards which would break package feeds (from 0:23.3.1-r0 to 0:23.2.1-r0) [version-going-backwards]
-ERROR: python3-pip-23.2.1-r0 do_packagedata: QA Issue: Package version for package python3-pip-locale went backwards which would break package feeds (from 0:23.3.1-r0 to 0:23.2.1-r0) [version-going-backwards]
-ERROR: python3-pip-23.2.1-r0 do_packagedata: QA Issue: Package version for package python3-pip went backwards which would break package feeds (from 0:23.3.1-r0 to 0:23.2.1-r0) [version-going-backwards]
-ERROR: python3-pip-23.2.1-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/cortexa15t2hf-neon-poky-linux-musleabi/python3-pip/23.2.1/temp/log.do_packagedata.3749208
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3-pip_23.2.1.bb:do_packagedata) failed with exit code '1'
-
---===============5242500150031154744==
+--===============3806206352230634765==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-setuptools-rust (sysroot):
-  /usr/lib/python3.11/site-packages/setuptools_rust-1.7.0.dist-info moved to /usr/lib/python3.11/site-packages/setuptools_rust-1.8.1.dist-info
+packages/core2-64-poky-linux/createrepo-c/createrepo-c-dbg: RRECOMMENDS: removed "file-dbg"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: RDEPENDS: removed "file (['>= 5.45'])"
+packages/core2-64-poky-linux/createrepo-c/createrepo-c: FILELIST: removed "/usr/lib/libcreaterepo_c.so.1.0.1", added "/usr/lib/libcreaterepo_c.so.1.0.2"
+Changes to packages/core2-64-poky-linux/createrepo-c (sysroot):
+  /usr/lib/libcreaterepo_c.so.1 changed symlink target from libcreaterepo_c.so.1.0.1 to libcreaterepo_c.so.1.0.2
+  /usr/lib/libcreaterepo_c.so.1.0.1 moved to /usr/lib/libcreaterepo_c.so.1.0.2
 
---===============5242500150031154744==
+--===============3806206352230634765==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-setuptools-rust-upgrade-1.7.0-1.8.1.patch"
+ filename="0001-createrepo-c-upgrade-1.0.1-1.0.2.patch"
 
-RnJvbSBmYTQ1MGMzMzZmOTI2NTMyMWM4Mjk0NGEzM2ZhMjUzY2VmN2MyYzVjIE1vbiBTZXAgMTcg
+RnJvbSA1OWQ0ZDA3YTBkODBhYzE2OWZjNGRiMDBmZmU2NjVhMGVmYjBkZGQ3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAwOToyOTo0OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtc2V0dXB0b29scy1ydXN0OiB1cGdyYWRlIDEuNy4wIC0+IDEuOC4xCgotLS0KIC4uLmV0
-dXB0b29scy1ydXN0XzEuNy4wLmJiID0+IHB5dGhvbjMtc2V0dXB0b29scy1ydXN0XzEuOC4xLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtc2V0dXB0b29scy1y
-dXN0XzEuNy4wLmJiID0+IHB5dGhvbjMtc2V0dXB0b29scy1ydXN0XzEuOC4xLmJifSAoOTMlKQoK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRv
-b2xzLXJ1c3RfMS43LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-c2V0dXB0b29scy1ydXN0XzEuOC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9t
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLXJ1c3RfMS43
-LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1
-cHRvb2xzLXJ1c3RfMS44LjEuYmIKaW5kZXggNjM5MmE0ZGVhZC4uZGI1YzZjNDQ5YyAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMtcnVz
-dF8xLjcuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0
-dXB0b29scy1ydXN0XzEuOC4xLmJiCkBAIC0xMiw3ICsxMiw3IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTAxMWNkOTJlNzAyZGQ5ZTZiMWEyNjE1N2I2ZmQ1M2Y1Igog
-U1JDX1VSSSA9ICIke1BZUElfU1JDX1VSSX0gXAogICAgICAgICAgICBodHRwczovL2ZpbGVzLnB5
-dGhvbmhvc3RlZC5vcmcvcGFja2FnZXMvNjcvMDgvZTFhYTJjNTgyYzYyYWM3NmU0ZDYwZjhlNDU0
-YmQzYmJhOTMzNzgxYTA2YTg4YjRlMzg3OTc0NDU4MjJhL3NldHVwdG9vbHMtcnVzdC0ke1BWfS50
-YXIuZ3ogXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzcxMDA5OTk5NDgy
-MzVhMzhhZTdlNTU1ZmUxOTlhYTY2YzI1M2RjMzg0YjEyNWY1ZDg1NDczYmY4MWVhZTNhMyIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICI5NGIxZGQ1ZDUzMDhiMzEzOGQ1YjkzM2MzYTJiNTVlNmQ2OTI3
-ZDFhMjI2MzJlNTA5ZmNlYTlkZGQwZjdlNDg2IgogCiBpbmhlcml0IGNhcmdvIHB5cGkgcHl0aG9u
-X3NldHVwdG9vbHNfYnVpbGRfbWV0YQogCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAwNjozMjo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNy
+ZWF0ZXJlcG8tYzogdXBncmFkZSAxLjAuMSAtPiAxLjAuMgoKLS0tCiAuLi4vY3JlYXRlcmVwby1j
+L2NyZWF0ZXJlcG8tYy90aW1lNjRmaXgucGF0Y2ggfCA2OSAtLS0tLS0tLS0tLS0tLS0tLS0tCiAu
+Li5lcmVwby1jXzEuMC4xLmJiID0+IGNyZWF0ZXJlcG8tY18xLjAuMi5iYn0gfCAgMyArLQogMiBm
+aWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgNzEgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9k
+ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWMv
+dGltZTY0Zml4LnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8t
+Yy97Y3JlYXRlcmVwby1jXzEuMC4xLmJiID0+IGNyZWF0ZXJlcG8tY18xLjAuMi5iYn0gKDk0JSkK
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1jL2NyZWF0ZXJl
+cG8tYy90aW1lNjRmaXgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY3JlYXRlcmVwby1j
+L2NyZWF0ZXJlcG8tYy90aW1lNjRmaXgucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cmlu
+ZGV4IGE2MzgwMWNlMjYuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Ny
+ZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWMvdGltZTY0Zml4LnBhdGNoCisrKyAvZGV2L251bGwKQEAg
+LTEsNjkgKzAsMCBAQAotRnJvbSA4OWUxYzk0MTVmYjg0MzgzMTAwMzZkNTgxMGNkYjdkYTc1ZWUz
+YTdmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQotRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdt
+YWlsLmNvbT4KLURhdGU6IFdlZCwgMjYgSnVsIDIwMjMgMTI6Mjc6MTQgLTA3MDAKLVN1YmplY3Q6
+IFtQQVRDSF0gQWRqdXN0IHByaW50ZiBmb3JtYXRzIGZvciA2NGJpdCB0aW1lX3Qgb24gMzJiaXQg
+c3lzdGVtcwotCi1GaXhlcyBmb3JtYXQgc3BlY2lmaWVyIG1pc21hdGNoIHdhcm5pbmdzIGFzIHdl
+bGwgd2hpbGUgaGVyZQotCi1lLmcuCi13YXJuaW5nOiBmb3JtYXQgJyVsZCcgZXhwZWN0cyBhcmd1
+bWVudCBvZiB0eXBlICdsb25nIGludCcsIGJ1dCBhcmd1bWVudCAyIGhhcyB0eXBlICd0aW1lX3Qn
+Ci0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGh1Yi5jb20vcnBtLXNv
+ZnR3YXJlLW1hbmFnZW1lbnQvY3JlYXRlcmVwb19jL3B1bGwvMzc2XQotCi1TaWduZWQtb2ZmLWJ5
+OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotLS0tCi0gc3JjL2NyZWF0ZXJlcG9fYy5j
+ICAgIHwgNCArKy0tCi0gc3JjL21pc2MuYyAgICAgICAgICAgIHwgNCArKy0tCi0gc3JjL3htbF9k
+dW1wX3JlcG9tZC5jIHwgMiArLQotIDMgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCA1
+IGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvc3JjL2NyZWF0ZXJlcG9fYy5jIGIvc3JjL2Ny
+ZWF0ZXJlcG9fYy5jCi1pbmRleCA4NjgxNDE5Li4wZjkwNDhhIDEwMDY0NAotLS0tIGEvc3JjL2Ny
+ZWF0ZXJlcG9fYy5jCi0rKysgYi9zcmMvY3JlYXRlcmVwb19jLmMKLUBAIC01ODIsOSArNTgyLDkg
+QEAgZHVwbGljYXRlc193YXJuaW5nKGNvbnN0IGNoYXIgKm5ldnJhLCBHQXJyYXkgKmxvY2F0aW9u
+cywgQ21kRHVwTmV2cmEgb3B0aW9uKQotICAgZm9yIChzaXplX3QgaT0wOyBpPGxvY2F0aW9ucy0+
+bGVuOyBpKyspIHsKLSAgICAgICBzdHJ1Y3QgRHVwbGljYXRlTG9jYXRpb24gbG9jYXRpb24gPSBn
+X2FycmF5X2luZGV4KGxvY2F0aW9ucywgc3RydWN0Ci0gICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEdXBsaWNhdGVMb2NhdGlvbiwgaSk7Ci0t
+ICAgICAgZ193YXJuaW5nKCIgICAgU291cmNlZCBmcm9tIGxvY2F0aW9uOiBcJyVzXCcsIGJ1aWxk
+IHRpbWVzdGFtcDogJWxkJXMiLAotKyAgICAgIGdfd2FybmluZygiICAgIFNvdXJjZWQgZnJvbSBs
+b2NhdGlvbjogXCclc1wnLCBidWlsZCB0aW1lc3RhbXA6ICVqZCVzIiwKLSAgICAgICAgICAgICAg
+ICAgbG9jYXRpb24ubG9jYXRpb24sCi0tICAgICAgICAgICAgICAgIGxvY2F0aW9uLnBrZy0+dGlt
+ZV9idWlsZCwKLSsgICAgICAgICAgICAgICAgKGludG1heF90KSBsb2NhdGlvbi5wa2ctPnRpbWVf
+YnVpbGQsCi0gICAgICAgICAgICAgICAgIGxvY2F0aW9uLnBrZy0+c2tpcF9kdW1wID8gc2tpcF9y
+ZWFzb24gOiAiIik7Ci0gCi0gICB9Ci1kaWZmIC0tZ2l0IGEvc3JjL21pc2MuYyBiL3NyYy9taXNj
+LmMKLWluZGV4IDg1MTFjYTIuLjc4NjZjN2IgMTAwNjQ0Ci0tLS0gYS9zcmMvbWlzYy5jCi0rKysg
+Yi9zcmMvbWlzYy5jCi1AQCAtMTUxMiwxMSArMTUxMiwxMSBAQCBjcl9hcHBlbmRfcGlkX2FuZF9k
+YXRldGltZShjb25zdCBjaGFyICpzdHIsIGNvbnN0IGNoYXIgKnN1ZmZpeCkKLSAgICAgZ2V0dGlt
+ZW9mZGF5KCZ0diwgTlVMTCk7Ci0gICAgIHRpbWVpbmZvID0gbG9jYWx0aW1lICgmKHR2LnR2X3Nl
+YykpOwotICAgICBzdHJmdGltZShkYXRldGltZSwgODAsICIlWSVtJWQlSCVNJVMiLCB0aW1laW5m
+byk7Ci0tICAgIGdjaGFyICpyZXN1bHQgPSBnX3N0cmR1cF9wcmludGYoIiVzJWpkLiVzLiVsZCVz
+IiwKLSsgICAgZ2NoYXIgKnJlc3VsdCA9IGdfc3RyZHVwX3ByaW50ZigiJXMlamQuJXMuJWpkJXMi
+LAotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0ciA/IHN0ciA6ICIiLAot
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChpbnRtYXhfdCkgZ2V0cGlkKCks
+Ci0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGF0ZXRpbWUsCi0tICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdHYudHZfdXNlYywKLSsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAoaW50bWF4X3QpIHR2LnR2X3VzZWMsCi0gICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgc3VmZml4ID8gc3VmZml4IDogIiIpOwotICAgICBy
+ZXR1cm4gcmVzdWx0OwotIH0KLWRpZmYgLS1naXQgYS9zcmMveG1sX2R1bXBfcmVwb21kLmMgYi9z
+cmMveG1sX2R1bXBfcmVwb21kLmMKLWluZGV4IDMzYjBlMDkuLjlkMjQyNDkgMTAwNjQ0Ci0tLS0g
+YS9zcmMveG1sX2R1bXBfcmVwb21kLmMKLSsrKyBiL3NyYy94bWxfZHVtcF9yZXBvbWQuYwotQEAg
+LTE0Myw3ICsxNDMsNyBAQCBjcl94bWxfZHVtcF9yZXBvbWRfYm9keSh4bWxOb2RlUHRyIHJvb3Qs
+IGNyX1JlcG9tZCAqcmVwb21kKQotICAgICAgICAgICAgICAgICAgICAgICAgICAgIEJBRF9DQVNU
+IHJlcG9tZC0+cmV2aXNpb24pOwotICAgICB9IGVsc2UgewotICAgICAgICAgLy8gVXNlIHRoZSBj
+dXJyZW50IHRpbWUgaWYgbm8gcmV2aXNpb24gd2FzIGV4cGxpY2l0bHkgc3BlY2lmaWVkCi0tICAg
+ICAgICBnY2hhciAqcmV2ID0gZ19zdHJkdXBfcHJpbnRmKCIlbGQiLCB0aW1lKE5VTEwpKTsKLSsg
+ICAgICAgIGdjaGFyICpyZXYgPSBnX3N0cmR1cF9wcmludGYoIiVqZCIsIChpbnRtYXhfdCkgdGlt
+ZShOVUxMKSk7Ci0gICAgICAgICB4bWxOZXdDaGlsZChyb290LCBOVUxMLCBCQURfQ0FTVCAicmV2
+aXNpb24iLCBCQURfQ0FTVCByZXYpOwotICAgICAgICAgZ19mcmVlKHJldik7Ci0gICAgIH0KLS0t
+IAotMi40MS4wCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBv
+LWMvY3JlYXRlcmVwby1jXzEuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJl
+cG8tYy9jcmVhdGVyZXBvLWNfMS4wLjIuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NyZWF0ZXJlcG8tYy9jcmVhdGVyZXBvLWNfMS4wLjEu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVw
+by1jXzEuMC4yLmJiCmluZGV4IDQ0ZDkyMTNiZDQuLjQ5ZDI5YmNmYjQgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzEuMC4xLmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jcmVhdGVyZXBvLWMvY3JlYXRlcmVwby1jXzEuMC4y
+LmJiCkBAIC03LDEwICs3LDkgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
+ZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMiCiBTUkNfVVJJID0gImdpdDovL2dp
+dGh1Yi5jb20vcnBtLXNvZnR3YXJlLW1hbmFnZW1lbnQvY3JlYXRlcmVwb19jO2JyYW5jaD1tYXN0
+ZXI7cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1Eby1ub3Qtc2V0LVBZ
+VEhPTl9JTlNUQUxMX0RJUi1ieS1ydW5uaW5nLXB5dGhvbi5wYXRjaCBcCiAgICAgICAgICAgIGZp
+bGU6Ly8wMDAxLWluY2x1ZGUtcnBtLXJwbXN0cmluZy5oLnBhdGNoIFwKLSAgICAgICAgICAgZmls
+ZTovL3RpbWU2NGZpeC5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDUkVWID0gImU3YWY4Mzhl
+MDQwMDljZDJmODQ4YTAwZTFlYTMxY2M0MmM4ZjNhZTciCitTUkNSRVYgPSAiZTg3NjM2MzM0YTNi
+YzVkNmRkZmRiNmMwYjM0MDQyZTk2OTg3ZWZiMSIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAot
+LSAKMi4zOS4yCgo=
 
---===============5242500150031154744==--
+--===============3806206352230634765==--
 
