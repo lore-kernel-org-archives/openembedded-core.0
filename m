@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84EFEC00A5A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62774C001DD
 	for <webhook@archiver.kernel.org>; Wed,  1 Nov 2023 14:25:11 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.8677.1698848707011174156
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.8638.1698848702587346123
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Nov 2023 07:25:07 -0700
+ Wed, 01 Nov 2023 07:25:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UTKrKFtZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PXiUOWVV;
- spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.191, mailfrom: 0101018b8b460f53-40ec934a-5b89-45c1-9267-aa60da9096bb-000000@automation.yoctoproject.org)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fOneJjgu;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PljNpEo6;
+ spf=pass (domain: automation.yoctoproject.org, ip: 54.240.27.23, mailfrom: 0101018b8b45fca4-c275a2ee-b16a-426d-be0e-2ab6bbfcddda-000000@automation.yoctoproject.org)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698848706;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BShlbuQACHQaNEa89Vj/yiNCGUtURJPUOK+5zmOK0Pk=;
-	b=UTKrKFtZ3yzZRLhbeZI0THZakfCYg2AFXFfphGMDoTaqaRbXlEUvGsdjrA8WG6qi
-	LxLusHWYBTYggED1CBSe/tTJcQzx3kujE+8g7qetwUmx4kuS89lp1HKJin8M1EN8LZ/
-	y4yjBSBBBMnx1XWmeJRlLWQqX42qoUhKS2/dmtnI=
+	t=1698848701;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=kw+1p0edjILulF+0FFWoSf6KGwzj/q42hDGT0CwhqWw=;
+	b=fOneJjguiejMqE3W1TX5M568+mDsOrqJlhvqxQ04yMooMj7coHIxpGjnQkWgH4hg
+	IsRJbL5VvUaW38lSKGDb8qeWnXfGMVNNJ4IngeGrfOVRIkDJXyNotCXpGAyIRfD8UpB
+	PnalFoG6wiPuffulJztSSl/6NzE3kehnUh4ao+N8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848706;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BShlbuQACHQaNEa89Vj/yiNCGUtURJPUOK+5zmOK0Pk=;
-	b=PXiUOWVVPXozg8Js+Uyv7I8qlqohyQZ7kV50CDRTxtgAqVVe4980HndFWKu2kskT
-	uadjf3eMwttSWHKyIFpXaqTeccoDzZ4HHcU7LeWJjlJItKLwvcmlUh1oDPOsKPMZY8X
-	+GWAQgwyLgu744O8zrcCqOFeQAjZ4xLms8ptmEfs=
-Content-Type: multipart/mixed; boundary="===============7561566161322616741=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698848701;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=kw+1p0edjILulF+0FFWoSf6KGwzj/q42hDGT0CwhqWw=;
+	b=PljNpEo6NHx3Y6ayrB1QLQxQTE6k5/UJy3P3MruSAMEc0ThFQVpXTZuHaGxpkZ6H
+	xD+wZtRF3dDho3x4XdVQq/JNtKv5LEL6i4ccE1W6rQZv1WkHAn7Gn94FSeon5UVCM3K
+	DeJcmnoMECUsKoQK5E24KkBNCDWrBIMRaZWLFJ8c=
+Content-Type: multipart/mixed; boundary="===============0939207989813535374=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nghttp2: upgrading to 1.58.0 SUCCEEDED
-Message-ID: <0101018b8b460f53-40ec934a-5b89-45c1-9267-aa60da9096bb-000000@us-west-2.amazonses.com>
-Date: Wed, 1 Nov 2023 14:25:06 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] dhcpcd: upgrading to 10.0.4 SUCCEEDED
+Message-ID: <0101018b8b45fca4-c275a2ee-b16a-426d-be0e-2ab6bbfcddda-000000@us-west-2.amazonses.com>
+Date: Wed, 1 Nov 2023 14:25:01 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.01-54.240.27.191
+X-SES-Outgoing: 2023.11.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 01 Nov 2023 14:25:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190036
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/189918
 
---===============7561566161322616741==
+--===============0939207989813535374==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *nghttp2* to *1.58.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *dhcpcd* to *10.0.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-nghttp2-upgrade-1.57.0-1.58.0.patch
+    - apply the patch: git am 0001-dhcpcd-upgrade-10.0.3-10.0.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,111 +71,91 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 16118c515a43580512d5f338f56501c258b522dd Mon Sep 17 00:00:00 2001
+From 322585aed68976ce89240bd3167e5abb5897f21f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 1 Nov 2023 14:16:59 +0000
-Subject: [PATCH] nghttp2: upgrade 1.57.0 -> 1.58.0
+Date: Wed, 1 Nov 2023 05:45:07 +0000
+Subject: [PATCH] dhcpcd: upgrade 10.0.3 -> 10.0.4
 
 ---
- .../nghttp2/{nghttp2_1.57.0.bb => nghttp2_1.58.0.bb}            | 2 +-
+ .../dhcpcd/{dhcpcd_10.0.3.bb => dhcpcd_10.0.4.bb}               | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/nghttp2/{nghttp2_1.57.0.bb => nghttp2_1.58.0.bb} (91%)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.0.3.bb => dhcpcd_10.0.4.bb} (97%)
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
-similarity index 91%
-rename from meta/recipes-support/nghttp2/nghttp2_1.57.0.bb
-rename to meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
-index 0cf1e3e34c..7b2ff4b778 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
-@@ -8,7 +8,7 @@ SRC_URI = "\
-     ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
-     file://0001-fetch-ocsp-response-use-python3.patch \
- "
--SRC_URI[sha256sum] = "9210b0113109f43be526ac5835d58a701411821a4d39e155c40d67c40f47a958"
-+SRC_URI[sha256sum] = "4a68a3040da92fd9872c056d0f6b0cd60de8410de10b578f8ade9ecc14d297e0"
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.3.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb
+similarity index 97%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.3.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb
+index cc0fb382df..fbc3e03d2d 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.3.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb
+@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+            "
  
- inherit cmake manpages python3native github-releases
- PACKAGECONFIG[manpages] = ""
+-SRCREV = "45fb8fd8dd281d2228c7abaddff7877d27e67146"
++SRCREV = "3cb242656546acfe88f6201f8b3dbe261ffd1a3e"
+ S = "${WORKDIR}/git"
+ 
+ inherit pkgconfig autotools-brokensep systemd useradd
 -- 
 2.39.2
 
 
---===============7561566161322616741==
+--===============0939207989813535374==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.57.0/nghttp2-1.57.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.58.0/nghttp2-1.58.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
-packages/core2-64-poky-linux/nghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.25.0", added "/usr/lib/libnghttp2.so.14.25.1"
-packages/core2-64-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/libnghttp2: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.25.0", added "/usr/lib/.debug/libnghttp2.so.14.25.1"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 174430 to 174307 (-0%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1029395 to 1029569 (+0%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2: PV changed from "1.57.0" to "1.58.0"
-Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.25.0 to libnghttp2.so.14.25.1
-  /usr/lib/libnghttp2.so.14.25.0 moved to /usr/lib/libnghttp2.so.14.25.1
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGV changed from 10.0.3 [default] to 10.0.4 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGSIZE changed from 1208048 to 1210480 (+0%)
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PV changed from "10.0.3" to "10.0.4"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PKGV changed from 10.0.3 [default] to 10.0.4 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PV changed from "10.0.3" to "10.0.4"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PKGV changed from 10.0.3 [default] to 10.0.4 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PV changed from "10.0.3" to "10.0.4"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PKGV changed from 10.0.3 [default] to 10.0.4 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PV changed from "10.0.3" to "10.0.4"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGV changed from 10.0.3 [default] to 10.0.4 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGSIZE changed from 1094606 to 1096434 (+0%)
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PV changed from "10.0.3" to "10.0.4"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PKGV changed from 10.0.3 [default] to 10.0.4 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PV changed from "10.0.3" to "10.0.4"
+packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGV changed from 10.0.3 [default] to 10.0.4 [default]
+packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGSIZE changed from 424220 to 424236 (+0%)
+packages/core2-64-poky-linux/dhcpcd/dhcpcd: PV changed from "10.0.3" to "10.0.4"
+packages/core2-64-poky-linux/dhcpcd: PKGV changed from 10.0.3 [default] to 10.0.4 [default]
+packages/core2-64-poky-linux/dhcpcd: PV changed from "10.0.3" to "10.0.4"
 
---===============7561566161322616741==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.25.0", added "/usr/lib/libnghttp2.so.14.25.1"
-Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.25.0 to libnghttp2.so.14.25.1
-  /usr/lib/libnghttp2.so.14.25.0 moved to /usr/lib/libnghttp2.so.14.25.1
-
---===============7561566161322616741==
+--===============0939207989813535374==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-nghttp2-upgrade-1.57.0-1.58.0.patch"
+ filename="0001-dhcpcd-upgrade-10.0.3-10.0.4.patch"
 
-RnJvbSAxNjExOGM1MTVhNDM1ODA1MTJkNWYzMzhmNTY1MDFjMjU4YjUyMmRkIE1vbiBTZXAgMTcg
+RnJvbSAzMjI1ODVhZWQ2ODk3NmNlODkyNDBiZDMxNjdlNWFiYjU4OTdmMjFmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAxNDoxNjo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
-aHR0cDI6IHVwZ3JhZGUgMS41Ny4wIC0+IDEuNTguMAoKLS0tCiAuLi4vbmdodHRwMi97bmdodHRw
-Ml8xLjU3LjAuYmIgPT4gbmdodHRwMl8xLjU4LjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9uZ2h0dHAyL3tuZ2h0dHAyXzEuNTcuMC5iYiA9PiBuZ2h0dHAyXzEuNTgu
-MC5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25n
-aHR0cDJfMS41Ny4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
-NTguMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41Ny4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41OC4wLmJiCmluZGV4IDBjZjFlM2UzNGMuLjdiMmZmNGI3
-NzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjU3
-LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTguMC5i
-YgpAQCAtOCw3ICs4LDcgQEAgU1JDX1VSSSA9ICJcCiAgICAgJHtHSVRIVUJfQkFTRV9VUkl9L2Rv
-d25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9LnRhci54eiBcCiAgICAgZmlsZTovLzAwMDEtZmV0
-Y2gtb2NzcC1yZXNwb25zZS11c2UtcHl0aG9uMy5wYXRjaCBcCiAiCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiOTIxMGIwMTEzMTA5ZjQzYmU1MjZhYzU4MzVkNThhNzAxNDExODIxYTRkMzllMTU1YzQw
-ZDY3YzQwZjQ3YTk1OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0YTY4YTMwNDBkYTkyZmQ5ODcy
-YzA1NmQwZjZiMGNkNjBkZTg0MTBkZTEwYjU3OGY4YWRlOWVjYzE0ZDI5N2UwIgogCiBpbmhlcml0
-IGNtYWtlIG1hbnBhZ2VzIHB5dGhvbjNuYXRpdmUgZ2l0aHViLXJlbGVhc2VzCiBQQUNLQUdFQ09O
-RklHW21hbnBhZ2VzXSA9ICIiCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFdlZCwgMSBOb3YgMjAyMyAwNTo0NTowNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRo
+Y3BjZDogdXBncmFkZSAxMC4wLjMgLT4gMTAuMC40CgotLS0KIC4uLi9kaGNwY2Qve2RoY3BjZF8x
+MC4wLjMuYmIgPT4gZGhjcGNkXzEwLjAuNC5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL3tkaGNwY2RfMTAuMC4zLmJiID0+IGRoY3BjZF8xMC4w
+LjQuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNw
+Y2QvZGhjcGNkXzEwLjAuMy5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2Ro
+Y3BjZF8xMC4wLjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZGhjcGNkXzEwLjAuMy5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9kaGNwY2QvZGhjcGNkXzEwLjAuNC5iYgppbmRleCBjYzBmYjM4
+MmRmLi5mYmMzZTAzZDJkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Ro
+Y3BjZC9kaGNwY2RfMTAuMC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhj
+cGNkL2RoY3BjZF8xMC4wLjQuYmIKQEAgLTE3LDcgKzE3LDcgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9n
+aXRodWIuY29tL05ldHdvcmtDb25maWd1cmF0aW9uL2RoY3BjZDtwcm90b2NvbD1odHRwczticmFu
+Y2g9bWEKICAgICAgICAgICAgZmlsZTovLzAwMDEtZGhjcGNkLjgtRml4LWNvbmZsaWN0LWVycm9y
+LXdoZW4tZW5hYmxlLW11bHRpbGliLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAi
+NDVmYjhmZDhkZDI4MWQyMjI4YzdhYmFkZGZmNzg3N2QyN2U2NzE0NiIKK1NSQ1JFViA9ICIzY2Iy
+NDI2NTY1NDZhY2ZlODhmNjIwMWY4YjNkYmUyNjFmZmQxYTNlIgogUyA9ICIke1dPUktESVJ9L2dp
+dCIKIAogaW5oZXJpdCBwa2djb25maWcgYXV0b3Rvb2xzLWJyb2tlbnNlcCBzeXN0ZW1kIHVzZXJh
+ZGQKLS0gCjIuMzkuMgoK
 
---===============7561566161322616741==--
+--===============0939207989813535374==--
 
