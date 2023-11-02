@@ -1,514 +1,223 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <jing.hui.tham@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A9EC4332F
-	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 07:05:36 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.25549.1698908726802645852
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 455D3C4332F
+	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 07:53:36 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web10.25955.1698911612149022405
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Nov 2023 00:05:27 -0700
+ Thu, 02 Nov 2023 00:53:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gc9KxahN;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-32f9268bf8cso319074f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 00:05:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698908725; x=1699513525; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZP0blDri8J0PuKUpbYQWO9koTU9Iot9GFyBQVvO6h3o=;
-        b=gc9KxahNg488qLDEFLlWwTRN86PJ+Fp6pNWrmhuGEyDLBna8NbNh5gP1PplpZpSkfx
-         q5j4bKBTnJf/N17yyMK+CfMNJNecuNsskwPuUUQJJ+qAX0DJD/GUfs8QcIARePt31kiz
-         bDCLLO/cl5sRYhFklLWtPLXlY8QVEYJMAo4kaegRxDLyGHTi3QhTKMjcMRnR17pHJ1zS
-         2alSH0Lv79tqoqPVV3pXej45jxMZGWVQFzfgkaXWQw+pt9pIEydZlVgAHafr6Hs7BfgD
-         1XwDvqqJr0ZcWPg5srh1qQGOSsBozKGvXUQAcj6LXoDXIyyalzziw/Bt4Jb5jNv+BEEw
-         BzcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698908725; x=1699513525;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZP0blDri8J0PuKUpbYQWO9koTU9Iot9GFyBQVvO6h3o=;
-        b=Zz15Jd0l0KAPtlcH6mWXr5jRs4TQmR4QQlWAOpDXgEo8DgWPjEnw3Xri2jkHDVdlHF
-         PFxiBi1GTkIHv7IbAo7OduGSvz7f447Vu9n4LLdzYpRk7jaU0IB0In1/slopZCu5aSTy
-         PFVX03Rp9vebBEWtE5K4rO6j0KQHRrVSajK6Boc6YjaQpfdZJEeriUV9brKnNoNAOVdF
-         RvOQp6sb03b0vx6FDQnLoW5aqjWr2WL+4tJB4iIjePl4mZwlIRNzQIrqqNgrNBBH2ku5
-         ElWX2QvL2gKgwnEpoEBUKV0kjen7qgnIL7KFNxdC8kVZsuXY/IdnY6eOjujMguLMGMRe
-         47iw==
-X-Gm-Message-State: AOJu0YxzS+KNcE1OUbvrIDSQt0OtdMFvb9IomHKPx2yMfmNtZT1lmT1n
-	NCVFR9dI7h5n92TQIhuAA7u8cEuEg183H+sg/wAf/J+wlIo=
-X-Google-Smtp-Source: AGHT+IHGgf+4843JJ0Gm2QViNmjvXGGuYdknc+c9JRF8O//82AdrodctyAWgWpqHmkj4YWInrPLnjD4z02IbshxIXMg=
-X-Received: by 2002:adf:d1cb:0:b0:32f:8966:c39c with SMTP id
- b11-20020adfd1cb000000b0032f8966c39cmr8473498wrd.71.1698908724776; Thu, 02
- Nov 2023 00:05:24 -0700 (PDT)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=LEErsDeK;
+ spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: jing.hui.tham@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698911612; x=1730447612;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=RgbirrdUhqaH7bhNkq9XGz5LFj8797u8mtKqKyeThKc=;
+  b=LEErsDeKe522JwR7z43COeQ6+slOCVLe8+lj5jmkQM9nxhJ9YCRrDhFc
+   atsSce43vvGO34nXd9p88XYlLWnEKZ0CjhY+iBstAGVUwxpZex/+YhLVT
+   QCn6vM/2ImX6Y5dpePxr1e5J/jU5Sr+ZGvTsTSpeNCdh8oHchHN3cXFer
+   +eJujLPa+ip3hUoBW1T2sM5g3jTNTiZY+Ry3rmNGcrRdQCtAEyfsBiT1y
+   BiLswuv2gxKPnLVqqIOKLbGNGB1+1FK7eCW9nyUQdz9r7LkRBlgw9vrd1
+   NTWrt2BnXcS7AubEIsXW8+Po7Ia3GeXswDBOdvMRUsyyfcu/vYJm4aDE+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="368863824"
+X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
+   d="scan'208";a="368863824"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 00:53:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
+   d="scan'208";a="2458787"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Nov 2023 00:53:31 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 00:53:30 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 00:53:30 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34 via Frontend Transport; Thu, 2 Nov 2023 00:53:30 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.34; Thu, 2 Nov 2023 00:53:29 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cAfLfLfb//+qNeM4w2o3AMd9/eEvQYv4hnqetVvmyTPN8JuZllGRvi5CwAfN3GukMlJCj2m0OmmuH2ov5Q0IdLvImDEOBqgLup2zyqeo6SZFGBn5tZUtVvCcxr+66GkdKreGtfP4xpzi7hGrVwTwavwHJbxkG41RpNFXhPA7TATbBpYJI5p33CJE8jibzN2NGV1mlnk9XrkP2j/oVmMNnKJWqneSgUvCwjUsHreALZq9Ktvoy1NfUq6QOO1VifHm4zvQczeXy5aT6HV3ga9f81BCEDDKYAAkfE9jXSq9eW4Hi70eiu7FMf+XGfCZPHEUqIQdVowFBTDBnGqaO+ND8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dzCJf9TdJLb6f9LfiZ3/OpuapbvneB9Y8eiIy1xKJpk=;
+ b=luSZAFa+ANRM7pp7VNVTcGJtfxoY47t5mRknS9kB5LBLz8JNXO4Xz+iv/jw8ZSGL27y07bqnaQNukwrzaXmsJkUse2z25cWI3aScHIMNJEv3xAdBBxhIvaqGOhArnbITxYjSgruAGewUZ0FhYvnxN63eaIrUf+tEwi8i7G1S8G///XBODDQG0zVdvGh297enXJzj8+pgButVwXPxdevW774o4kcIkJUVPsce3fl53o5Kq6PZ4GNQOmid9JOb6PS/LtZUAlztWWiDq1Q8UgEXuGR69k65cPrGtjP4++Cdg4+wyNauRH2JW87/EoHeyxhhlpFTUqJtftIVLIHH1CBWPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com (2603:10b6:a03:191::11)
+ by DS7PR11MB7857.namprd11.prod.outlook.com (2603:10b6:8:da::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.28; Thu, 2 Nov
+ 2023 07:53:23 +0000
+Received: from BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::3230:6041:e9a3:cdac]) by BY5PR11MB4152.namprd11.prod.outlook.com
+ ([fe80::3230:6041:e9a3:cdac%3]) with mapi id 15.20.6933.024; Thu, 2 Nov 2023
+ 07:53:23 +0000
+From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-3.1.29.rc1)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-3.1.29.rc1)
+Thread-Index: AQHaCSHEX1uaUMFZi0GPLlSuvK/R5bBmsGzQ
+Date: Thu, 2 Nov 2023 07:53:23 +0000
+Message-ID: <BY5PR11MB4152B2DEF182BC43C5E1A84AA1A6A@BY5PR11MB4152.namprd11.prod.outlook.com>
+References: <0101018b732bfffb-12002d52-9058-4b77-ab53-1fa728765bda-000000@us-west-2.amazonses.com>
+In-Reply-To: <0101018b732bfffb-12002d52-9058-4b77-ab53-1fa728765bda-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY5PR11MB4152:EE_|DS7PR11MB7857:EE_
+x-ms-office365-filtering-correlation-id: 17574977-af78-491c-fa09-08dbdb78c9ce
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: iYGS/VT+uBK8l/fuA6W7IgpAfm8xFaROt9CsU2SH+feW6BjbqQLWlL1dS6FvzXvj6r6zdcVuOfpmKiWPQZQr+DX6cMUR+rBsJTlF0TWJ3SI4dN5Yg/ZuJDlbN3msm5RBlebEVbH7oPYvoTseD1PHAwRNz9N3HneUb7mAUDG7TC0q2d3FjC7ElQjYwJH/fMSF9gj2ABwYfoDqu0hjgnj8jEePiURjW0o9HbUJYkK08us7F+HLXvBU8/KzRmSkCxG2TSoAXJOrDLVinccjHAiLYxUFljM5pg/Jhd6fOyjI/69LsYHINo/TztvN7qYRqxGsflKfProA004xhDQP8DqunrCx7cJy4V0URvDnk7tf+g3kHQyvNf5JM0qaTxVtLgkT/oBs0fLWGrpxftb5t4WHxwvFqrHkuJT3QVWribNh7n9kvqGJnlKMyd5/9nHTO/fM5/Lsaqj5NFXAC+93BiHP0SIDbNiWZ1kZJ6qUujFj0/XBFX3PHgcFi45RKEzR0J0XBVLVyPp+gkhOMcfKAcyJzVfVmYEdLCCaSVKfCvcgRii+jdOEU8XJPGaAa1AJ6HzO5iUIRjPe07pmhIOdd7UlrQGF10XD89+mbw+B+RHxS2ME2It4Ttp8dhJWj6oStKE9xuFKyeoNVcDThGW8bTJwXg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4152.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(396003)(376002)(136003)(346002)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(110136005)(86362001)(2906002)(33656002)(41300700001)(66899024)(8676002)(8936002)(15650500001)(5660300002)(38070700009)(52536014)(478600001)(966005)(55016003)(9686003)(38100700002)(122000001)(6506007)(7696005)(71200400001)(53546011)(66446008)(66556008)(66476007)(64756008)(316002)(66946007)(26005)(76116006)(82960400001)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?H39oYkcXAXEMSOWEzQAThasS28m/LGS9JuQwt9UnuLZT5AipmtIix3tnB/e3?=
+ =?us-ascii?Q?pBxfhH4vFVO77Rvml8/5YXz0L9NoK7y2y45Ru/wwgVZC0/lzPJvy/lOBhL3X?=
+ =?us-ascii?Q?wBkOAG6dl4Y9YJTqr2DQsBoNlQ3KpE1mdf9MnBRUHBF/HYg57Ue0SecirYKF?=
+ =?us-ascii?Q?lDxynZCfWQLdKaFSTUizfxVwjdGjCLNlFNt/Jr0dC4GDRu5XhAah4F1bTJPi?=
+ =?us-ascii?Q?VuMQGwWGX5a2qOSVDiWmgSZ8oM1qe16Qse/wiHNZHvGiH6U0ZiU8DMNbWyje?=
+ =?us-ascii?Q?iBc79PpiBwDIguJqnlpc/WhxFqLYVi/Kfnr4ygNZAJtsPm4psFggKg4yu3Xl?=
+ =?us-ascii?Q?zWkvXyFFpjP2Lzg8h645F1KewMDci5vf62uUqwnMi+Pt3LaFG50YGBY0GpN9?=
+ =?us-ascii?Q?Ezl3wR9ZVpA+/z+IqZxuZLRUhXKftN5LCJzol4UFhMb3g9fxTpEQwwWVJot9?=
+ =?us-ascii?Q?nYxmH6A2vBH603ljpiRPTHUCcXZKyKVhCLuhYkOTqq+Nbnx7K394nYBvXLL5?=
+ =?us-ascii?Q?DFcAWCNywnuwa6biPAduWb6q/XzBVM9zwVLU7X3pCuFIF1FbKAtygk2kNGeE?=
+ =?us-ascii?Q?dEZ5wrP20cOPPiuphWVaGi97LoIB96yolmCamFZlMdYMLEYYg37LONhcmKWJ?=
+ =?us-ascii?Q?QEoawPgvohQTn3647euZ06EqEGPLvMb+1TDvUVts7p5qGxyEJmH5DPpQ72H8?=
+ =?us-ascii?Q?RAFdAMg/pCR5URJJELFVxrVkQZLaDBfoDSMI9A47qeF0sFoKxuEv+FHUfBJL?=
+ =?us-ascii?Q?uKkWO+2kA9Z+wbPxx3u1yLAoIC0XYQi7TtJAmAgLpNEeTBU5qewEcmfy2qeU?=
+ =?us-ascii?Q?zkAKgabv9Ifvw+YbGWXPEgN6yzqJI4RtKq4zAb3A2rxyfXIFE4kmWAxmUfdM?=
+ =?us-ascii?Q?8ScBqEoKeN+QWe2MRhqe7+VzqPxEGbBKXEnxNVTjlMp2biai2Na73ewwpvdg?=
+ =?us-ascii?Q?Z3TKxcr0RhqdD8WLItriQrUzG1LRMThXMo7e/joSIQtQ04ySMqrTZ+gbLHZV?=
+ =?us-ascii?Q?7rr64ii5EILT78KCsv1U2sx2qDsJG9xZLJ8z0xZEETWa5FXQ7eZ8GIYMqGAo?=
+ =?us-ascii?Q?etrUMr4YajQzGwvNrgcdoDn6DRXHZF2bbsrUREBspnOOD3ZOJCBSsWod8UaB?=
+ =?us-ascii?Q?3k1Ucs9DbVk/boZ5jScizejKRfLBX7Za+5j5+JCRWg+EFOsg6mbgaImGKTWZ?=
+ =?us-ascii?Q?ZTvGY2dwrtNxW58loKbzIZbwho5ujAl4POunq9TvDy1HNOtgpDt0kdxH6Jgi?=
+ =?us-ascii?Q?Q9orwz8/o1TttsyD4anHMCjiSQJoSr9H8ns+F7vEZuht/HfYo0qvRIXdbMAw?=
+ =?us-ascii?Q?Lke5Vrgarl8UOgMGVuJ7qsUR22FEchBcrJ/69k7PKj66jZPXltTSv29wdESr?=
+ =?us-ascii?Q?ai+b0Z40pQNf1VvorpVX7b1kvCSl+Ca7XgipbUmGNvoxuizGbAwS1ZFgN8l7?=
+ =?us-ascii?Q?c5ZVoS5jzz7ZGxS+WIw5iOxAhArFD5TvVuQMrKGWd8uYhRQllDQ+ktgzQFoV?=
+ =?us-ascii?Q?RJu+zdWDXDUt4WlwWWipuFPcGDRkiMXFu0O7BfWmf+/Erx2hkoUdMZtVN9tu?=
+ =?us-ascii?Q?wjw8RP2j2hhgXmICEUxPSU0aJet77QsW0m256vgG?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <cover.1698789786.git.steve@sakoman.com> <4dcd5e0a0bb43c23850e3a711fc7e2230575d245.1698789786.git.steve@sakoman.com>
- <CA+chaQeAGGEAYu8tnrsgyEN39+TNtYi6HJoGc4bfyDGjBiTpnQ@mail.gmail.com>
- <CAOSpxdYupYx4Uq736FgTggURgU3P_eHe-PGnd9MG0oohc-Paqw@mail.gmail.com> <BYAPR11MB3397809D4D1751D29D25586C81A6A@BYAPR11MB3397.namprd11.prod.outlook.com>
-In-Reply-To: <BYAPR11MB3397809D4D1751D29D25586C81A6A@BYAPR11MB3397.namprd11.prod.outlook.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 2 Nov 2023 08:05:11 +0100
-Message-ID: <CA+chaQfGm6Fem6wo99DY7YQi-G9AqQ8Suvhwe43A449fTysG9g@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 3/3] libwebp: Fix CVE-2023-4863
-To: "Sambu, Soumya" <Soumya.Sambu@windriver.com>
-Cc: "steve@sakoman.com" <steve@sakoman.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000000bd32906092603e3"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4152.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17574977-af78-491c-fa09-08dbdb78c9ce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2023 07:53:23.1046
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SPVAanUklSyoVD7jwIClToyk5HmSw4IyAkrESINxoGoLEzEO1RE24e8ZDrB9Ad9SeGDbVeZUHMBisG0c3hK5MA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7857
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 07:05:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190058
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 07:53:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190059
 
---0000000000000bd32906092603e3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Nov 2, 2023 at 7:57=E2=80=AFAM Sambu, Soumya <Soumya.Sambu@windrive=
-r.com>
-wrote:
-
-> Hi Martin, Steve,
->
-> Debian has mentioned
-> https://chromium.googlesource.com/webm/libwebp.git/+/95ea5226c87044952224=
-0ccff26f0b006037c520%5E%21/#F0 as
-> followup commit for CVE-2023-4863 [Reference:
-> https://security-tracker.debian.org/tracker/CVE-2023-4863].
->
-> This commit was suggested in Bugzilla SUSE as well -
-> https://bugzilla.suse.com/show_bug.cgi?id=3D1215231#c13
->
-
-Aha, thanks for this information, can you please make sure that all
-supported branches receive this additional commit (preferably in less
-confusing set of .patch files, e.g. apply both from CVE-2023-4863.patch and
-remove CVE-2023-5129.patch)?
+Hi All,
+=20
+QA for yocto-3.1.29.rc1 is completed. This is the full report for this rele=
+ase: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
+=20
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.
+=20
+No new issue found.=20
+=20
+Thanks,
+Jing Hui
 
 
->
-> Regards,
-> Soumya
-> ------------------------------
-> *From:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> on behalf of Steve Sakoman via
-> lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-> *Sent:* Wednesday, November 1, 2023 7:21 PM
-> *To:* Martin Jansa <martin.jansa@gmail.com>
-> *Cc:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org>
-> *Subject:* Re: [OE-core][kirkstone 3/3] libwebp: Fix CVE-2023-4863
->
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender an=
-d
-> know the content is safe.
->
-> Thanks for reviewing Martin!
->
-> I'll drop this patch until there is further clarification on the need for
-> it.
->
-> Steve
->
-> On Tue, Oct 31, 2023 at 1:39=E2=80=AFPM Martin Jansa <martin.jansa@gmail.=
-com>
-> wrote:
-> >
-> > I'm surprised this one does apply in kirkstone as there is this securit=
-y
-> issue already fixed as 2023-5129 (see dunfell commit
-> https://git.openembedded.org/openembedded-core/commit/?h=3Ddunfell&id=3D7=
-dce529515baa843ba3e5c89b2ad605b9845c59b
-> and a bit more details in
-> https://lists.openembedded.org/g/openembedded-core/message/189262 )
-> >
-> > Is
-> https://github.com/webmproject/libwebp/commit/95ea5226c870449522240ccff26=
-f0b006037c520
-> really related to CVE-2023-4863 ?
-> >
-> > On Tue, Oct 31, 2023 at 11:05=E2=80=AFPM Steve Sakoman <steve@sakoman.c=
-om>
-> wrote:
-> >>
-> >> From: Soumya Sambu <soumya.sambu@windriver.com>
-> >>
-> >> Heap buffer overflow in WebP in Google Chrome prior to
-> >> 116.0.5845.187 allowed a remote attacker to perform an
-> >> out of bounds memory write via a crafted HTML page.
-> >>
-> >> References:
-> >> https://nvd.nist.gov/vuln/detail/CVE-2023-4863
-> >> https://security-tracker.debian.org/tracker/CVE-2023-4863
-> >> https://bugzilla.redhat.com/show_bug.cgi?id=3D2238431#c12
-> >>
-> >> Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-> >> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> >> ---
-> >>  .../webp/files/CVE-2023-4863.patch            | 53 ++++++++++++++++++=
-+
-> >>  meta/recipes-multimedia/webp/libwebp_1.2.4.bb |  1 +
-> >>  2 files changed, 54 insertions(+)
-> >>  create mode 100644
-> meta/recipes-multimedia/webp/files/CVE-2023-4863.patch
-> >>
-> >> diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch
-> b/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch
-> >> new file mode 100644
-> >> index 0000000000..2b1817822c
-> >> --- /dev/null
-> >> +++ b/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch
-> >> @@ -0,0 +1,53 @@
-> >> +From 95ea5226c870449522240ccff26f0b006037c520 Mon Sep 17 00:00:00 200=
-1
-> >> +From: Vincent Rabaud <vrabaud@google.com>
-> >> +Date: Mon, 11 Sep 2023 16:06:08 +0200
-> >> +Subject: [PATCH] Fix invalid incremental decoding check.
-> >> +
-> >> +The first condition is only necessary if we have not read enough
-> >> +(enough being defined by src_last, not src_end which is the end
-> >> +of the image).
-> >> +The second condition now fits the comment below: "if not
-> >> +incremental, and we are past the end of buffer".
-> >> +
-> >> +BUG=3Doss-fuzz:62136
-> >> +
-> >> +Change-Id: I0700f67c62db8e1c02c2e429a069a71e606a5e4f
-> >> +
-> >> +CVE: CVE-2023-4863
-> >> +
-> >> +Upstream-Status: Backport [
-> https://github.com/webmproject/libwebp/commit/95ea5226c870449522240ccff26=
-f0b006037c520
-> ]
-> >> +
-> >> +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-> >> +---
-> >> + src/dec/vp8l_dec.c | 15 +++++++++++++--
-> >> + 1 file changed, 13 insertions(+), 2 deletions(-)
-> >> +
-> >> +diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c
-> >> +index 186b0b2..59a9e64 100644
-> >> +--- a/src/dec/vp8l_dec.c
-> >> ++++ b/src/dec/vp8l_dec.c
-> >> +@@ -1241,9 +1241,20 @@ static int DecodeImageData(VP8LDecoder* const
-> dec, uint32_t* const data,
-> >> +   }
-> >> +
-> >> +   br->eos_ =3D VP8LIsEndOfStream(br);
-> >> +-  if (dec->incremental_ && br->eos_ && src < src_end) {
-> >> ++  // In incremental decoding:
-> >> ++  // br->eos_ && src < src_last: if 'br' reached the end of the
-> buffer and
-> >> ++  // 'src_last' has not been reached yet, there is not enough data.
-> 'dec' has to
-> >> ++  // be reset until there is more data.
-> >> ++  // !br->eos_ && src < src_last: this cannot happen as either the
-> buffer is
-> >> ++  // fully read, either enough has been read to reach 'src_last'.
-> >> ++  // src >=3D src_last: 'src_last' is reached, all is fine. 'src' ca=
-n
-> actually go
-> >> ++  // beyond 'src_last' in case the image is cropped and an LZ77 goes
-> further.
-> >> ++  // The buffer might have been enough or there is some left.
-> 'br->eos_' does
-> >> ++  // not matter.
-> >> ++  assert(!dec->incremental_ || (br->eos_ && src < src_last) || src >=
-=3D
-> src_last);
-> >> ++  if (dec->incremental_ && br->eos_ && src < src_last) {
-> >> +     RestoreState(dec);
-> >> +-  } else if (!br->eos_) {
-> >> ++  } else if ((dec->incremental_ && src >=3D src_last) || !br->eos_) =
-{
-> >> +     // Process the remaining rows corresponding to last row-block.
-> >> +     if (process_func !=3D NULL) {
-> >> +       process_func(dec, row > last_row ? last_row : row);
-> >> +--
-> >> +2.40.0
-> >> diff --git a/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
-> b/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
-> >> index 4defdd5e42..0728ca60f5 100644
-> >> --- a/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
-> >> +++ b/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
-> >> @@ -16,6 +16,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6e8dee932=
-c26f2dab503abf70c96d8bb
-> \
-> >>  SRC_URI =3D "http://downloads.webmproject.org/releases/webp/${BP}.tar=
-.gz
-> \
-> >>             file://CVE-2023-1999.patch \
-> >>             file://CVE-2023-5129.patch \
-> >> +           file://CVE-2023-4863.patch \
-> >>             "
-> >>  SRC_URI[sha256sum] =3D
-> "7bf5a8a28cc69bcfa8cb214f2c3095703c6b73ac5fba4d5480c205331d9494df"
-> >>
-> >> --
-> >> 2.34.1
-> >>
-> >>
-> >>
-> >>
->
+> -----Original Message-----
+> From: qa-build-notification@lists.yoctoproject.org <qa-build-
+> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
+> Sent: Saturday, October 28, 2023 6:06 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [qa-build-notification] QA notification for completed autobuilde=
+r
+> build (yocto-3.1.29.rc1)
+>=20
+>=20
+> A build flagged for QA (yocto-3.1.29.rc1) was completed on the autobuilde=
+r
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.1.29.rc1
+>=20
+>=20
+> Build URL:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6111
+>=20
+> Build hash information:
+>=20
+> bitbake: dd826595414c5dc1a649f45a9dd2430bf6d4699b
+> meta-agl: 280f7e70af30eefd885f6e60bd29863b46bb2eab
+> meta-arm: b1fe8443a7a72c65fa0fc3371f607c6671b3a882
+> meta-aws: 6e3ace380b609dadf58c81c734ef2061e9636914
+> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
+> meta-intel: e482213f37828216c7a7df68ff353652cc865ec1
+> meta-mingw: 7bdc58e6c5d1054b1b6ad5c4e480a95e995ccbae
+> meta-openembedded: 300be975359fdb3a3b2bf7c6fe15dea7acac575d
+> meta-virtualization: 35c723774ee06b3c1831f00a2cbf25cbeae132e1
+> oecore: 0dbf3a15321b8033ff8ed86c6aa261fdb9c3d5bb
+> poky: aeac1034661725b5c83e79f76238429fb236b090
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#332): https://lists.yoctoproject.org/g/qa-build-
+> notification/message/332
+> Mute This Topic: https://lists.yoctoproject.org/mt/102231153/6424044
+> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
+> notification/leave/10762429/6424044/1746813897/xyzzy
+> [jing.hui.tham@intel.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
---0000000000000bd32906092603e3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Nov 2, 2023 at 7:57=E2=80=AFAM Sa=
-mbu, Soumya &lt;<a href=3D"mailto:Soumya.Sambu@windriver.com">Soumya.Sambu@=
-windriver.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex"><div class=3D"msg167054636337170177=
-">
-
-
-
-
-<div dir=3D"ltr">
-<div><span style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontServic=
-e,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">Hi Martin, =
-Steve,<br>
-<br>
-Debian has mentioned <a href=3D"https://chromium.googlesource.com/webm/libw=
-ebp.git/+/95ea5226c870449522240ccff26f0b006037c520%5E%21/#F0" id=3D"m_16705=
-4636337170177LPlnk745157" target=3D"_blank">
-https://chromium.googlesource.com/webm/libwebp.git/+/95ea5226c870449522240c=
-cff26f0b006037c520%5E%21/#F0</a>=C2=A0as followup commit for CVE-2023-4863 =
-[Reference:
-<a href=3D"https://security-tracker.debian.org/tracker/CVE-2023-4863" id=3D=
-"m_167054636337170177LPlnk418416" target=3D"_blank">
-https://security-tracker.debian.org/tracker/CVE-2023-4863</a>].<br>
-<br>
-</span></div>
-<div><span style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontServic=
-e,Calibri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">This commit=
- was suggested in Bugzilla SUSE as well -
-<a href=3D"https://bugzilla.suse.com/show_bug.cgi?id=3D1215231#c13" id=3D"m=
-_167054636337170177LPlnk998146" target=3D"_blank">
-https://bugzilla.suse.com/show_bug.cgi?id=3D1215231#c13</a></span></div></d=
-iv></div></blockquote><div><br></div><div>Aha, thanks for this information,=
- can you please make sure that all supported branches receive this addition=
-al commit (preferably in less confusing set of .patch files, e.g. apply bot=
-h from CVE-2023-4863.patch and remove CVE-2023-5129.patch)?</div><div><br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D"msg167=
-054636337170177"><div dir=3D"ltr"><div><span style=3D"font-family:Aptos,Apt=
-os_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size:=
-12pt;color:rgb(0,0,0)"><br>
-<br>
-Regards,
-<div>Soumya</div>
-</span></div>
-<div id=3D"m_167054636337170177appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%">
-<div id=3D"m_167054636337170177divRplyFwdMsg" dir=3D"ltr"><font face=3D"Cal=
-ibri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>From:</b> <=
-a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blank=
-">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"mailto:openem=
-bedded-core@lists.openembedded.org" target=3D"_blank">openembedded-core@lis=
-ts.openembedded.org</a>&gt; on behalf of Steve Sakoman via <a href=3D"http:=
-//lists.openembedded.org" target=3D"_blank">lists.openembedded.org</a>
- &lt;steve=3D<a href=3D"mailto:sakoman.com@lists.openembedded.org" target=
-=3D"_blank">sakoman.com@lists.openembedded.org</a>&gt;<br>
-<b>Sent:</b> Wednesday, November 1, 2023 7:21 PM<br>
-<b>To:</b> Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" targe=
-t=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
-ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
-ded-core@lists.openembedded.org</a>&gt;<br>
-<b>Subject:</b> Re: [OE-core][kirkstone 3/3] libwebp: Fix CVE-2023-4863</fo=
-nt>
-<div>=C2=A0</div>
-</div>
-<div><font size=3D"2"><span style=3D"font-size:11pt">
-<div>CAUTION: This email comes from a non Wind River email account!<br>
-Do not click links or open attachments unless you recognize the sender and =
-know the content is safe.<br>
-<br>
-Thanks for reviewing Martin!<br>
-<br>
-I&#39;ll drop this patch until there is further clarification on the need f=
-or it.<br>
-<br>
-Steve<br>
-<br>
-On Tue, Oct 31, 2023 at 1:39=E2=80=AFPM Martin Jansa &lt;<a href=3D"mailto:=
-martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wr=
-ote:<br>
-&gt;<br>
-&gt; I&#39;m surprised this one does apply in kirkstone as there is this se=
-curity issue already fixed as 2023-5129 (see dunfell commit
-<a href=3D"https://git.openembedded.org/openembedded-core/commit/?h=3Ddunfe=
-ll&amp;id=3D7dce529515baa843ba3e5c89b2ad605b9845c59b" target=3D"_blank">
-https://git.openembedded.org/openembedded-core/commit/?h=3Ddunfell&amp;id=
-=3D7dce529515baa843ba3e5c89b2ad605b9845c59b</a> and a bit more details in
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/18926=
-2" target=3D"_blank">https://lists.openembedded.org/g/openembedded-core/mes=
-sage/189262</a> )<br>
-&gt;<br>
-&gt; Is <a href=3D"https://github.com/webmproject/libwebp/commit/95ea5226c8=
-70449522240ccff26f0b006037c520" target=3D"_blank">
-https://github.com/webmproject/libwebp/commit/95ea5226c870449522240ccff26f0=
-b006037c520</a> really related to CVE-2023-4863 ?<br>
-&gt;<br>
-&gt; On Tue, Oct 31, 2023 at 11:05=E2=80=AFPM Steve Sakoman &lt;<a href=3D"=
-mailto:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; wrote=
-:<br>
-&gt;&gt;<br>
-&gt;&gt; From: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@windriver.co=
-m" target=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Heap buffer overflow in WebP in Google Chrome prior to<br>
-&gt;&gt; 116.0.5845.187 allowed a remote attacker to perform an<br>
-&gt;&gt; out of bounds memory write via a crafted HTML page.<br>
-&gt;&gt;<br>
-&gt;&gt; References:<br>
-&gt;&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-4863" target=
-=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2023-4863</a><br>
-&gt;&gt; <a href=3D"https://security-tracker.debian.org/tracker/CVE-2023-48=
-63" target=3D"_blank">https://security-tracker.debian.org/tracker/CVE-2023-=
-4863</a><br>
-&gt;&gt; <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D2238431#c=
-12" target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?id=3D2238431=
-#c12</a><br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@win=
-driver.com" target=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
-&gt;&gt; Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.c=
-om" target=3D"_blank">steve@sakoman.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 .../webp/files/CVE-2023-4863.patch=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 53 +++++++++++++++++++<br>
-&gt;&gt;=C2=A0 meta/recipes-multimedia/webp/<a href=3D"http://libwebp_1.2.4=
-.bb" target=3D"_blank">libwebp_1.2.4.bb</a> |=C2=A0 1 +<br>
-&gt;&gt;=C2=A0 2 files changed, 54 insertions(+)<br>
-&gt;&gt;=C2=A0 create mode 100644 meta/recipes-multimedia/webp/files/CVE-20=
-23-4863.patch<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-4863.patc=
-h b/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch<br>
-&gt;&gt; new file mode 100644<br>
-&gt;&gt; index 0000000000..2b1817822c<br>
-&gt;&gt; --- /dev/null<br>
-&gt;&gt; +++ b/meta/recipes-multimedia/webp/files/CVE-2023-4863.patch<br>
-&gt;&gt; @@ -0,0 +1,53 @@<br>
-&gt;&gt; +From 95ea5226c870449522240ccff26f0b006037c520 Mon Sep 17 00:00:00=
- 2001<br>
-&gt;&gt; +From: Vincent Rabaud &lt;<a href=3D"mailto:vrabaud@google.com" ta=
-rget=3D"_blank">vrabaud@google.com</a>&gt;<br>
-&gt;&gt; +Date: Mon, 11 Sep 2023 16:06:08 +0200<br>
-&gt;&gt; +Subject: [PATCH] Fix invalid incremental decoding check.<br>
-&gt;&gt; +<br>
-&gt;&gt; +The first condition is only necessary if we have not read enough<=
-br>
-&gt;&gt; +(enough being defined by src_last, not src_end which is the end<b=
-r>
-&gt;&gt; +of the image).<br>
-&gt;&gt; +The second condition now fits the comment below: &quot;if not<br>
-&gt;&gt; +incremental, and we are past the end of buffer&quot;.<br>
-&gt;&gt; +<br>
-&gt;&gt; +BUG=3Doss-fuzz:62136<br>
-&gt;&gt; +<br>
-&gt;&gt; +Change-Id: I0700f67c62db8e1c02c2e429a069a71e606a5e4f<br>
-&gt;&gt; +<br>
-&gt;&gt; +CVE: CVE-2023-4863<br>
-&gt;&gt; +<br>
-&gt;&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/webmproj=
-ect/libwebp/commit/95ea5226c870449522240ccff26f0b006037c520" target=3D"_bla=
-nk">https://github.com/webmproject/libwebp/commit/95ea5226c870449522240ccff=
-26f0b006037c520</a>]<br>
-&gt;&gt; +<br>
-&gt;&gt; +Signed-off-by: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@wi=
-ndriver.com" target=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
-&gt;&gt; +---<br>
-&gt;&gt; + src/dec/vp8l_dec.c | 15 +++++++++++++--<br>
-&gt;&gt; + 1 file changed, 13 insertions(+), 2 deletions(-)<br>
-&gt;&gt; +<br>
-&gt;&gt; +diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c<br>
-&gt;&gt; +index 186b0b2..59a9e64 100644<br>
-&gt;&gt; +--- a/src/dec/vp8l_dec.c<br>
-&gt;&gt; ++++ b/src/dec/vp8l_dec.c<br>
-&gt;&gt; +@@ -1241,9 +1241,20 @@ static int DecodeImageData(VP8LDecoder* co=
-nst dec, uint32_t* const data,<br>
-&gt;&gt; +=C2=A0=C2=A0 }<br>
-&gt;&gt; +<br>
-&gt;&gt; +=C2=A0=C2=A0 br-&gt;eos_ =3D VP8LIsEndOfStream(br);<br>
-&gt;&gt; +-=C2=A0 if (dec-&gt;incremental_ &amp;&amp; br-&gt;eos_ &amp;&amp=
-; src &lt; src_end) {<br>
-&gt;&gt; ++=C2=A0 // In incremental decoding:<br>
-&gt;&gt; ++=C2=A0 // br-&gt;eos_ &amp;&amp; src &lt; src_last: if &#39;br&#=
-39; reached the end of the buffer and<br>
-&gt;&gt; ++=C2=A0 // &#39;src_last&#39; has not been reached yet, there is =
-not enough data. &#39;dec&#39; has to<br>
-&gt;&gt; ++=C2=A0 // be reset until there is more data.<br>
-&gt;&gt; ++=C2=A0 // !br-&gt;eos_ &amp;&amp; src &lt; src_last: this cannot=
- happen as either the buffer is<br>
-&gt;&gt; ++=C2=A0 // fully read, either enough has been read to reach &#39;=
-src_last&#39;.<br>
-&gt;&gt; ++=C2=A0 // src &gt;=3D src_last: &#39;src_last&#39; is reached, a=
-ll is fine. &#39;src&#39; can actually go<br>
-&gt;&gt; ++=C2=A0 // beyond &#39;src_last&#39; in case the image is cropped=
- and an LZ77 goes further.<br>
-&gt;&gt; ++=C2=A0 // The buffer might have been enough or there is some lef=
-t. &#39;br-&gt;eos_&#39; does<br>
-&gt;&gt; ++=C2=A0 // not matter.<br>
-&gt;&gt; ++=C2=A0 assert(!dec-&gt;incremental_ || (br-&gt;eos_ &amp;&amp; s=
-rc &lt; src_last) || src &gt;=3D src_last);<br>
-&gt;&gt; ++=C2=A0 if (dec-&gt;incremental_ &amp;&amp; br-&gt;eos_ &amp;&amp=
-; src &lt; src_last) {<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0 RestoreState(dec);<br>
-&gt;&gt; +-=C2=A0 } else if (!br-&gt;eos_) {<br>
-&gt;&gt; ++=C2=A0 } else if ((dec-&gt;incremental_ &amp;&amp; src &gt;=3D s=
-rc_last) || !br-&gt;eos_) {<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0 // Process the remaining rows correspond=
-ing to last row-block.<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0 if (process_func !=3D NULL) {<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 process_func(dec, row &gt; l=
-ast_row ? last_row : row);<br>
-&gt;&gt; +--<br>
-&gt;&gt; +2.40.0<br>
-&gt;&gt; diff --git a/meta/recipes-multimedia/webp/<a href=3D"http://libweb=
-p_1.2.4.bb" target=3D"_blank">libwebp_1.2.4.bb</a> b/meta/recipes-multimedi=
-a/webp/<a href=3D"http://libwebp_1.2.4.bb" target=3D"_blank">libwebp_1.2.4.=
-bb</a><br>
-&gt;&gt; index 4defdd5e42..0728ca60f5 100644<br>
-&gt;&gt; --- a/meta/recipes-multimedia/webp/<a href=3D"http://libwebp_1.2.4=
-.bb" target=3D"_blank">libwebp_1.2.4.bb</a><br>
-&gt;&gt; +++ b/meta/recipes-multimedia/webp/<a href=3D"http://libwebp_1.2.4=
-.bb" target=3D"_blank">libwebp_1.2.4.bb</a><br>
-&gt;&gt; @@ -16,6 +16,7 @@ LIC_FILES_CHKSUM =3D &quot;<a></a>file://COPYING=
-;md5=3D6e8dee932c26f2dab503abf70c96d8bb \<br>
-&gt;&gt;=C2=A0 SRC_URI =3D &quot;<a></a><a href=3D"http://downloads.webmpro=
-ject.org/releases/webp/$%7BBP%7D.tar.gz" target=3D"_blank">http://downloads=
-.webmproject.org/releases/webp/${BP}.tar.gz</a> \<br>
-&gt;&gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 <a>file://CVE-2023-1999.patch</a> \<br>
-&gt;&gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 <a>file://CVE-2023-5129.patch</a> \<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <a>f=
-ile://CVE-2023-4863.patch</a> \<br>
-&gt;&gt;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 &quot;<br>
-&gt;&gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;7bf5a8a28cc69bcfa8cb214f2c30957=
-03c6b73ac5fba4d5480c205331d9494df&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.34.1<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-</div>
-</span></font></div>
-</div>
-
-</div></blockquote></div></div>
-
---0000000000000bd32906092603e3--
 
