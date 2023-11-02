@@ -2,47 +2,47 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 149B0C4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 052DAC4167B
 	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 19:27:51 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.41715.1698953264514494398
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.41714.1698953263585609046
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Nov 2023 12:27:44 -0700
+ Thu, 02 Nov 2023 12:27:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZodFztkk;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gvDctlo8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018b91817aa7-5bb71c82-fc57-4151-a9ca-c9bd94402f6c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=E0HMtCSY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DQlApXo3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018b9181768f-4509fe81-c8f8-43fb-9e93-70fcb5077f56-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1698953263; i=@automation.yoctoproject.org;
+	t=1698953262; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=zUbYsY8g2oxN+glLPN3tTRqBHMh9usz05uCh/GEvfFQ=;
-	b=ZodFztkknmk0SPw3SlmqAprbhyUBo9vX4rAyKb84qIrkMqLVazz2uOFNgouxJ4sg
-	fRG69i3BhZSSdn+V1g6Zx9j/H0c7rHLALJnDwaHZFHZpTtOQ+A00wudnrpfR6MxJiKV
-	06sZ7eE31M/8tG41Pqp3RSqqBnS90nC52TGuH3Z8=
+	bh=587Jeb4oN4SyNY9oGpiD0/H3Jr0mRN/CafRG7iilKWA=;
+	b=E0HMtCSY7MZjEXD539GS8ZCHIESbRIr4O3ggOoR236KrfGTuXDsyjfVYJ2npwI0a
+	Q59GGyW6cMMZxzGIgjIQ4HulLJQGg6csHHYHvzei33fH7qJ0Zl+ZIVCEHD72/1M4oGZ
+	bqgkgCNpYHFB4pvdD/KrnqqnpH2eglB3bu6+KgZk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698953263;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698953262;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=zUbYsY8g2oxN+glLPN3tTRqBHMh9usz05uCh/GEvfFQ=;
-	b=gvDctlo8boG6BEcs92r57TJfx+BfIGeFWkwE6a+Ji0HBx7ve1QnHkCkT0baPGl7A
-	+mgZcQVu+MCJSdHWTg4v+S6hc5+CLETq9GDzbOfRcnLX+Id81boWsCt10yE6I/c30xo
-	pBrmb3VvxF0CtO9KVqjjtZGDNRqBPLKS6WdY69nU=
+	bh=587Jeb4oN4SyNY9oGpiD0/H3Jr0mRN/CafRG7iilKWA=;
+	b=DQlApXo3z66RkhOD7+SiZ6zLa6wMsehhgE46CPIJ03xrlIu43l0469nz2Wfiz5F0
+	p6yPgpeRFqC0SwsAGjj9Kfi50gVJ7paHLp5cAmsmdv5fbRog+g7zA21FYXDS9jm2aQq
+	t2UjhgXxPJ6ZOoZMR/oeTd4/AcGxQeoTQhLFOeoU=
 From: patchtest@automation.yoctoproject.org
 To: raj.khem@gmail.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 5/6] rust-cross-canadian: Add riscv64 to cross-canadian hosts
-In-Reply-To: 42c5e77d7bb58199c996c5107b77dedf705ab400.1698951553.git.raj.khem@gmail.com
+Subject: Patchtest results for [PATCH 3/6] machine-sdk: Add SDK_ARCH for riscv64
+In-Reply-To: d87bca9dcbdf2542f04781dae33febba34b11d3e.1698951553.git.raj.khem@gmail.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018b91817aa7-5bb71c82-fc57-4151-a9ca-c9bd94402f6c-000000@us-west-2.amazonses.com>
-Date: Thu, 2 Nov 2023 19:27:43 +0000
+Message-ID: <0101018b9181768f-4509fe81-c8f8-43fb-9e93-70fcb5077f56-000000@us-west-2.amazonses.com>
+Date: Thu, 2 Nov 2023 19:27:42 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.02-54.240.27.45
+X-SES-Outgoing: 2023.11.02-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 19:27:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190101
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190099
 
 --NextPart
 Content-Type: text/plain
@@ -52,13 +52,13 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/5-6-rust-cross-canadian-Add-riscv64-to-cross-canadian-hosts.patch
+Testing patch /home/patchtest/share/mboxes/3-6-machine-sdk-Add-SDK_ARCH-for-riscv64.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-FAIL: test max line length: Patch line too long (current length 375, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
 PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
