@@ -2,102 +2,94 @@ Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C534BC4332F
-	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 12:42:07 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.29977.1698928918313331000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E188BC4332F
+	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 12:46:07 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.30056.1698929162005690559
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Nov 2023 05:41:58 -0700
+ Thu, 02 Nov 2023 05:46:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jvQ+kBD2;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1c434c33ec0so7174075ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 05:41:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HO4X45o1;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: rybczynska@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6c115026985so953763b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 05:46:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698928916; x=1699533716; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1698929160; x=1699533960; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kizIHqFkPm2nbfiOMaziHfp6+mbzsEBKe9mOC4K7YsU=;
-        b=jvQ+kBD2ofY/aYZ5ibD3k6u/aOWfaGlIwm3xvpiKlO9TqIS80EzdzOsIVcfSul/ICo
-         WGhEWKEZeTdn+/Sm9rYXo+WfqkD6pD/dyL3bjw1cr5pe+TFvLyDvhR8uOG/Jg4dKlzci
-         S+ZkQW1fFpkX1Y/G17wr1LcWr2iTr0XDAReSDnk2PSOS//dBNdZ7YdjGCVy6TNpj9lJh
-         J8XdzGDizUK5eGKfjSsujY4p7GmfF1Ymt5N5yy4YAlDK6a891y0A421BsvBi65FZAI2r
-         EMp1qedL6XX/0h4OJ19YZVxkYmAHxAs1/UiGbzYMkFlRWbB+2o9eit7s+nknBTUHK1jh
-         vP2A==
+        bh=hUeMd6HYci6W3HXRmygq1r4Q/s3oy8sMs0JUjYNZu7M=;
+        b=HO4X45o1cseNrBCLXtjjGPZrVZ6c9Z9Vejk4oMfMb8D65jvhuwLPnJB6S2VXMbvSUD
+         4lnPRmgMUJJNFuzN4yUyj/m92VNTeWzOKfIobdSrHdrPfzEVqLqQatYFpW0Cvj/pWP9C
+         k/sm8SMNAAjDJr9tMeGK/+9I9Lli1FW/VM7S6Mp4r7pVjJqWI14xDMiJdze7zOMtPEHa
+         YpyDGtMpnD+RasiDKKeQ4NHgiLCuqQI6UPY0s4KLWSP+qOM72uWuDDQwDXqyA1/jcmx0
+         L2nbCfdVn2OUR/UNTNTT7zNjRkGN7a1uHhgZJ1a5NEwUtdQfoYjK7hpq/evs0buFIE/I
+         uZDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698928916; x=1699533716;
+        d=1e100.net; s=20230601; t=1698929160; x=1699533960;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kizIHqFkPm2nbfiOMaziHfp6+mbzsEBKe9mOC4K7YsU=;
-        b=orcGBpw23sgPwK4O3p6ysqmHSXvtEeQEmcpNEAlaxL1UK6qRKJaTq1TTsv943UI7AH
-         WCskcGZ+WXFqt0uJkt8r6Jo4UhA3gCDM0H6ax7kfB6itEXGfFOXu8o101aKhMBan4Lpm
-         y0brIcVYblc2vQdzs+e3TqJplwQFDWsHBsb2raxD+CWBlnYDUygHR5G9t8nlHihYbEil
-         braECOYtyd5Z4ALV9vBOLwfWhdDvOSg4P84YWg8VsC4KCgCkAPcx9e9fh3/K6Cqoj7pJ
-         JbK8Qh1wBQLlpTZl4KO9fQBYLv7vo+6/XWKJynToLZbWs7/qYbcLaW2uNxuXLrPckwdc
-         iVkg==
-X-Gm-Message-State: AOJu0Yz25ay72kw4QFaYvUvICvUhGOnksCtf44TXN/D9EWYhFu1yPjSa
-	ysE11whISAj3PNX5s7TkT5hCnyGTAZaSvw==
-X-Google-Smtp-Source: AGHT+IEDxLFnVSenz/Zq9hvxxhRl9nP+CR53CxLYVcdcRdKPoUIxvKYXf0N1Moy3zfeOb/sjxTLyFQ==
-X-Received: by 2002:a17:902:e745:b0:1cc:45db:e21e with SMTP id p5-20020a170902e74500b001cc45dbe21emr12192397plf.37.1698928916455;
-        Thu, 02 Nov 2023 05:41:56 -0700 (PDT)
+        bh=hUeMd6HYci6W3HXRmygq1r4Q/s3oy8sMs0JUjYNZu7M=;
+        b=mtksr0Dgki0nB82/32NxxqiIcCcQukF9e3p6NL353h2oiOW15Ht1XeyRUYlPbPJg3q
+         1Y05+mOyMmdtDP7OAtcF9LkRLyL2KUX44LjbodI0cMQiWaBbRXIvKYz30dMIgj6+ofRB
+         TmXp07sGSJ2JTCYB3Xms8j8AASg+MSPY+nRI6A35wc1B6QAGCSF0d8VkGWWynLEzbJHo
+         9LCwp1L5jVV0Fr+OU1JhYpA0FG3x33wIZQG4RXvteTm4Lb/6nusxY0abNOFMRvgBCgD6
+         QvF3bC15qZZyul7sEOEO60x1KUgHUgd3kD90ZQx6/dJGmxP8f8cVAU4ynOxnUSE3brXi
+         NWxA==
+X-Gm-Message-State: AOJu0Yxx0fvDzHP0mPu9/SJ4snqm2zfgcjYXesS5yPFqpb0EFpW3nVmU
+	oMQ55et6qk93fFQeAYiU2cQStgRoBgEL4A==
+X-Google-Smtp-Source: AGHT+IEts/77ieCF1W9MWBlmJEXz6iKjSCBcnZHtu9EWwL2VI+A5nnnZPuScJAU1fR4lPCWVbe3SqA==
+X-Received: by 2002:a05:6a00:1794:b0:68a:45a1:c0ee with SMTP id s20-20020a056a00179400b0068a45a1c0eemr21024993pfg.15.1698929160269;
+        Thu, 02 Nov 2023 05:46:00 -0700 (PDT)
 Received: from localhost.localdomain ([61.84.2.32])
-        by smtp.gmail.com with ESMTPSA id e19-20020a170902f1d300b001bbb25dd3a7sm3030971plc.187.2023.11.02.05.41.52
+        by smtp.gmail.com with ESMTPSA id x21-20020aa793b5000000b006babcf86b84sm2818534pff.34.2023.11.02.05.45.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Nov 2023 05:41:55 -0700 (PDT)
+        Thu, 02 Nov 2023 05:45:59 -0700 (PDT)
 From: Marta Rybczynska <rybczynska@gmail.com>
 X-Google-Original-From: Marta Rybczynska <marta.rybczynska@syslinbit.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Marta Rybczynska <marta.rybczynska@syslinbit.com>
-Subject: [PATCH] python3-beartype: upgrade 0.16.2 -> 0.16.4
-Date: Thu,  2 Nov 2023 13:41:42 +0100
-Message-ID: <20231102124142.1452764-1-marta.rybczynska@syslinbit.com>
+Subject: [PATCH] python3-spdx-tools: upgrade 0.8.1 -> 0.8.2
+Date: Thu,  2 Nov 2023 13:45:44 +0100
+Message-ID: <20231102124544.1456564-1-marta.rybczynska@syslinbit.com>
 X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 12:42:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190080
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 12:46:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190081
 
-Changelog for 0.16.4 [1]:
-In beartype.claw type-check PEP 526-compliant annotated variable
-  assignments in methods
-Fix an inheritance regression introduced in 0.16.3
-
-Changelog for 0.16.3 [2]:
-Add hot reloading
-Support root superclass validators
-Forward reference issubclass() proxying
-Readable forward reference exceptions
-Class redecoration eliding
-Documentation update
-
-[1] https://github.com/beartype/beartype/releases/tag/v0.16.4
-[2] https://github.com/beartype/beartype/releases/tag/v0.16.3
+Changelog:
+  added optional encoding parameter for parsing files
+  fixed handling of the FilesAnalyzed field in Tag-Value format
+  fixed the validation of the DownloadLocation field
+  fixed the error handling while parsing license expressions
+  fixed output of timezone-sensitive datetimes
+  added code architecture documentation
 
 Signed-off-by: Marta Rybczynska <marta.rybczynska@syslinbit.com>
 ---
- .../{python3-beartype_0.16.2.bb => python3-beartype_0.16.4.bb}  | 2 +-
+ ...{python3-spdx-tools_0.8.1.bb => python3-spdx-tools_0.8.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-beartype_0.16.2.bb => python3-beartype_0.16.4.bb} (75%)
+ rename meta/recipes-devtools/python/{python3-spdx-tools_0.8.1.bb => python3-spdx-tools_0.8.2.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-beartype_0.16.2.bb b/meta/recipes-devtools/python/python3-beartype_0.16.4.bb
-similarity index 75%
-rename from meta/recipes-devtools/python/python3-beartype_0.16.2.bb
-rename to meta/recipes-devtools/python/python3-beartype_0.16.4.bb
-index 20a5b92c61..ad4462e0e2 100644
---- a/meta/recipes-devtools/python/python3-beartype_0.16.2.bb
-+++ b/meta/recipes-devtools/python/python3-beartype_0.16.4.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://beartype.readthedocs.io"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=e40b52d8eb5553aa8f705cdd3f979d69"
+diff --git a/meta/recipes-devtools/python/python3-spdx-tools_0.8.1.bb b/meta/recipes-devtools/python/python3-spdx-tools_0.8.2.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-spdx-tools_0.8.1.bb
+rename to meta/recipes-devtools/python/python3-spdx-tools_0.8.2.bb
+index f58a138430..53263ca032 100644
+--- a/meta/recipes-devtools/python/python3-spdx-tools_0.8.1.bb
++++ b/meta/recipes-devtools/python/python3-spdx-tools_0.8.2.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/spdx/tools-python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=dc7f21ccff0f672f2a7cd6f412ae627d"
  
--SRC_URI[sha256sum] = "47ec1c8c3be3f999f4f9f829e8913f65926aa7e85b180d9ffd305dc78d3e7d7b"
-+SRC_URI[sha256sum] = "1ada89cf2d6eb30eb6e156eed2eb5493357782937910d74380918e53c2eae0bf"
+-SRC_URI[sha256sum] = "c83652cd65b5726058dcbdaab85839dbe484c43ea6f61046137516aa1b8428ae"
++SRC_URI[sha256sum] = "aea4ac9c2c375e7f439b1cef5ff32ef34914c083de0f61e08ed67cd3d9deb2a9"
  
- inherit setuptools3 pypi
+ BBCLASSEXTEND = "native nativesdk"
  
 -- 
 2.42.0
