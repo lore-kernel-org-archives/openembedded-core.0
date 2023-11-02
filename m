@@ -1,123 +1,88 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A89C4332F
-	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 11:52:07 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web10.29083.1698925926063515281
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E5BAC4332F
+	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 12:11:57 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.29101.1698927108077629389
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Nov 2023 04:52:06 -0700
+ Thu, 02 Nov 2023 05:11:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gxNWZM/n;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c503dbe50dso12465511fa.1;
-        Thu, 02 Nov 2023 04:52:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GnUX4mIQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-53e07db272cso1450580a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 05:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698925924; x=1699530724; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=agdLGbFX/O2dTjYG+pTK4K+8PvFnhxepBSEtLHF/QnE=;
-        b=gxNWZM/n1xc5rlhABNMDUvvtDhdzPZNuykY5REa19uWYLJiqZbwFt4UCXz3uzgPsNi
-         kxLW3XEJUUCKWDaygoDGh7rG6gZeyPvPJ8FgJqtaw9DJ91z8w+v3bmijzP6BChFsHlxp
-         mNX+2l0cPMQrgQ9K5WywRJNqoZyIt7+f0V1XWnc3FEq9jkD7hHcR3xiEZtqSSQSgx/Np
-         B+d2zdwoQo+YWSzOOCVSEv+2YQRQS3hEJzj7e+bbu28DPRnvDImTV5mcm8Y/bxVIGMwZ
-         0VZ0bVRrZ0SaR0AE26eaO0W3xmQ16mgnT0u6BHLdfxK9haQLdi2pvR06NBtSpkEeJ4it
-         UXgA==
+        d=gmail.com; s=20230601; t=1698927106; x=1699531906; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2X1GZ75KxiR48H2TRTcmEKKnQ8m1smWsPkDjBIZWgjM=;
+        b=GnUX4mIQoqnoHN4IQaYst8ynAD7rCxIfOo6d00NVTdKeAfRtd/0zlXf1TZpnk5s6mC
+         iAl9DuKKkHU/1pM3TQ3aoZricDm1arRYKC4foNGmlPP0csyF2S09yi6dBgSNah5l/gdQ
+         pYY8Z6pjOs2JCdLast2NeiclydPEpbVZYyYzfyoUcWbJl2JfcV0R0/BimaXMYMlrc1tG
+         t8NTGxNVqThgpBbLmgsleyCt7+u4uPSxW6z/XQkVYfqfh4A7kKJpTKkatvIpwqfr6J1h
+         HBLYdjYL47x2etfkIw68fNcn9vvyAxxonj8y2+cTMsEN9cxf3u2gqkUXAu+mg8wI6okx
+         KKtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698925924; x=1699530724;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=agdLGbFX/O2dTjYG+pTK4K+8PvFnhxepBSEtLHF/QnE=;
-        b=PIl8nVOZ28czvUoYQBXQmKqWnswT2YXRnxM6qN6g6Cpq95IthYlV5kgnNZ0hES5b4V
-         0mhr+c7oW+A4k1hPsGAMEgahP2AvuIswjp/Cp5KxBa2KcODLeDIMatnSKVc/0EbXj99b
-         vh3U5jcotKLT9LRcM3LcJjVhpVRjMI9tz/m34EDI4FjMwevGyfUp0PbJ+oaBxflmtNcS
-         +9hYhJYcClOOn9AFEWrryCQdvYvhxK9FByfFiQ2pL3RlO24RluXjWE9LXWGoxnfT5o8E
-         nvgevnrTCSkm10smjbXQO0zp5721dqwxUx2eb/5O+JSRjM3Ih0yj7QImNvOlhAYZAKCX
-         Kriw==
-X-Gm-Message-State: AOJu0YyDU/EaL27DiogE0dMQSQqTURMEAGs9oE2d4dXgawuZ/jzDTx6g
-	TpZ/zeAvCKyRro7LW30l3NM1RhbnbU6LofH5Q2Q=
-X-Google-Smtp-Source: AGHT+IEmgZXoobJUoxSSrI3AE1EIBhR1soaLmjB65R9Tvc2Pt4odsxvBL0wgiIhhj9RpgK+OsNh9tkwZi7qai5T+shQ=
-X-Received: by 2002:a2e:9b88:0:b0:2c6:f711:cea1 with SMTP id
- z8-20020a2e9b88000000b002c6f711cea1mr852687lji.39.1698925923977; Thu, 02 Nov
- 2023 04:52:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698927106; x=1699531906;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2X1GZ75KxiR48H2TRTcmEKKnQ8m1smWsPkDjBIZWgjM=;
+        b=mIgMC+nEO/+6FjeaoRSJeF+YZ/U3/1lX4TOtm0AGK/VTzZksBlz6VgOtQgH6gGHrx3
+         bXrP/R/+lZMlcvlUCWc0rEfJtVH5PsVHcV72GOlqGRRyrWYg89+/Xi0wbM7fYfXsXZVd
+         Vx1CjBzbnZzMwSOKNFT+wvR57ldk/A0pwaGhKRNRj85I0qricjmL6nEUunArE4dCU007
+         EqziyXwOCB6D6nnOA6puT+t4MbJitqh+zeHEn3rSUXaENa0BnRVm5Kr11ODD/Pnj9brd
+         VZgijte3rXHDlyHPylRaPIcqcwlRbUJQrXVBnfIbsXegBp+URie5hEAxbM+3tqj04VTo
+         9sNA==
+X-Gm-Message-State: AOJu0YxEf/PbBBaus7DV/oQn1YRCFnFAE7C6CJPDgZO8C76QkukMeXpO
+	ZpBFBp9lbpgyAWfXE/W/I83DO4H2Bn4=
+X-Google-Smtp-Source: AGHT+IGc69bSm3AILyGsoT+AHfR0tcsRwdzq3rftGj/2QGwMLWnK1NVPLiH9zYAdirnwr4TAcl+mYg==
+X-Received: by 2002:a17:906:fe49:b0:9ad:ef08:1f32 with SMTP id wz9-20020a170906fe4900b009adef081f32mr3812135ejb.37.1698927106223;
+        Thu, 02 Nov 2023 05:11:46 -0700 (PDT)
+Received: from NVC4181.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id y24-20020a17090629d800b009ce03057c48sm1065838eje.214.2023.11.02.05.11.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 05:11:45 -0700 (PDT)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [PATCH 1/2] lib/oe/buildcfg.py: Include missing import
+Date: Thu,  2 Nov 2023 13:11:31 +0100
+Message-ID: <20231102121132.1148-1-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.42.0.windows.2
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
-References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
- <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
- <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
- <CANNYZj-JhGnGFRxaF0+Q_5Sqq76kAg1pSBBMka_xefuhMv6-vQ@mail.gmail.com>
- <ea84079102bca429a6ae521d218118952a79f111.camel@linuxfoundation.org>
- <feee5d39bc3e280c76b749f39761936464c4cdff.camel@gmail.com>
- <CANNYZj_4e5XbTgcv_ZdqJArCA+=bTj+kmWYVveHDVXyC3TK+rA@mail.gmail.com>
- <d53017757cc59380fea417cf36cdeea25b9770d8.camel@gmail.com> <1793C2E61248AF31.11290@lists.yoctoproject.org>
-In-Reply-To: <1793C2E61248AF31.11290@lists.yoctoproject.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 2 Nov 2023 12:51:51 +0100
-Message-ID: <CANNYZj-KY4kOicC1S1yKnnuYktw+7=f7eMbP8_rQCBSjzFjKtQ@mail.gmail.com>
-Subject: Re: [yocto] Core workflow: sstate for all, bblock/bbunlock, tools for
- why is sstate not being reused?
-To: alex.kanavin@gmail.com
-Cc: adrian.freihofer@gmail.com, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Julien STEPHAN <jstephan@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 11:52:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190077
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 12:11:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190078
 
-On Thu, 2 Nov 2023 at 10:02, Alexander Kanavin via
-lists.yoctoproject.org <alex.kanavin=gmail.com@lists.yoctoproject.org>
-wrote:
-> So here's what I'd like to try:
->
-> - write a new populate_build_replica task that writes a few things
-> under ${WORKDIR}/replica
-> -- setup-layers json and script
-> (another option is to copy the layer trees themselves like esdk does,
-> which is left for maybe later. Completely offline replication is not
-> an initial goal, and it's good to get to a minimally viable
-> implementation asap.)
-> -- meta-build-config layer with the local.conf/bblayer.conf template.
-> -- sstate cache needed to fulfil the bitbake target that the task is
-> for (this would reuse code from esdk that does the same as much as
-> possible)
->
-> All of this is then packaged into a self-extracting shell archive that:
-> - unpacks itself
-> - fetches layers using the json/script from the unpacked tree
-> - sets up a build directory using the template from meta-build-config
-> in the unpacked tree
-> - tweaks site.conf to point to the prepackaged sstate
->
-> And voila! (in theory) This should be the same build as the one that
-> was produced elsewhere.
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-I started writing this as a bitbake task, but then quickly hit an
-obstacle: bitbake-layers deadlocks when executed in a bitbake task.
+get_layer_revisions() uses the os.path module but it is not included
+in the imports.
 
-At which point it dawned on me: all of the required functions are
-available in command-line utility form, and so this should be a script
-as well, with as many options as people find useful (as opposed to
-bitbake tasks which are more difficult to parametrize).
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
+ meta/lib/oe/buildcfg.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-So:
-- bitbake -S lockedsigs to get the list of sstate objects
-- gen-lockedsig-cache to populate a newly made sstate cache directory
-with them (optional)
-- bitbake-layers to save the layer configuration and build configuration
+diff --git a/meta/lib/oe/buildcfg.py b/meta/lib/oe/buildcfg.py
+index 90f5e05715..b9d32c7cc1 100644
+--- a/meta/lib/oe/buildcfg.py
++++ b/meta/lib/oe/buildcfg.py
+@@ -1,4 +1,5 @@
+ 
++import os
+ import subprocess
+ import bb.process
+ 
+-- 
+2.42.0.windows.2
 
-Then either leave all that in an unpacked form, or package it up in a
-self-extracting shell archive or plain tarball. It would also contain
-a script that would set up a plain bitbake build from what is in the
-archive.
-
-This could be poky/scripts/oe-replicate-build ?
-
-Alex
 
