@@ -1,87 +1,98 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF258C4708E
-	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 19:03:10 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.40645.1698951785153074701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9533C4332F
+	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 19:27:50 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.41713.1698953263079701905
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Nov 2023 12:03:05 -0700
+ Thu, 02 Nov 2023 12:27:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=czBTQtXm;
- spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6b1d1099a84so1354265b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 12:03:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698951784; x=1699556584; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tEwxC2WgeiZBxH7B2mBnYyToWvezBpMl2lCteRFPQP8=;
-        b=czBTQtXmAgJUY/a9MOpwyGxL0AsrvoOWJczObwMzYHU1vInzmyeoynvdWJnfwSUhfo
-         zdz1MilbfHb0WEq79JfuUfsEXlD1YjQPUou0cAU9d8VSBUCF4AVUIDB8ePyYZsVBoiqK
-         1cuDc3m4ft563QaLGNzdcNYFqyZqDgi6O4+RgDfyulW2+n9pAp9eBb5hBMKZMxoL+wyq
-         Ssx9hrmURsuJ9jvZ1AlqdSfb+eiYsQIKTRGhRUHehC6QBqmrUSGwJOdQNviWankwZ9GV
-         8fwPB4/7JUVikxIpC5/RXN3x+zY7/rfSECp0u8Ejl6u+e4Ef+9upaKc4DH6yWQuMJL8F
-         X/tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698951784; x=1699556584;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tEwxC2WgeiZBxH7B2mBnYyToWvezBpMl2lCteRFPQP8=;
-        b=WzO9WRbaZ+XUy3SGx36b2Zi2hQ8tF0nRPYs6lMFdKtw1cuF7cSYI8p9EDPoZ7SPNtN
-         u24F/4+lpFCnBHPjSkSr6gGsIluXUMBibfNxX2SWlEKeMP5XnXdiJ4smJJN9gWTlYEbj
-         y0nYBvHRY2/O3LDPBqjKjlic0QMZllIPtVtrL3yRLeRystS5mAcDkOoWIuHvCGLb13d2
-         M9kECW9WVJox6keCitndSnE0SVQSOQd0uJbrkMKDzY8pcd5pYeomHe5YbwWWjLpKzCiv
-         d7nw6l2YkZZyNLcdxDRDi6DiSgCzyfGhy/gtOQi707Sdk7ojZNLBwRTKuTuMI3QA7Ukn
-         wROg==
-X-Gm-Message-State: AOJu0Ywv2vfUfA3fS7Lj72OItv2aEUiWmqCQvkX7s4KVqa2FhqL66Uf+
-	I/URdGimGtZYdcJgrZ0DO/EllkAIa1WYMg==
-X-Google-Smtp-Source: AGHT+IE5zmZbmUXIKslCo8XV/JlRiT1EGYxZ2ta/sNxslSG3TTq7QXO/AFoHfGxK7XgsnPazFKpKbw==
-X-Received: by 2002:a05:6a00:1ca6:b0:6c2:c5b6:3963 with SMTP id y38-20020a056a001ca600b006c2c5b63963mr7677286pfw.0.1698951784200;
-        Thu, 02 Nov 2023 12:03:04 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::46eb])
-        by smtp.gmail.com with ESMTPSA id m5-20020a62f205000000b006c0678eab2csm100636pfh.90.2023.11.02.12.03.03
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Nov 2023 12:03:03 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/6] meson: Add check for riscv64 in link template
-Date: Thu,  2 Nov 2023 12:02:53 -0700
-Message-ID: <830c45958c9fb1600d75634cb0986d7ef327fde3.1698951553.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1698951553.git.raj.khem@gmail.com>
-References: <cover.1698951553.git.raj.khem@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fV0aaV2B;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DtptG3UD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018b91817410-7636e8ce-a004-44f5-b26f-067a97000796-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1698953262; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=gBXIQZc72WtDddpNSfluvqBNmfQLFGEzNhSQ/WmsH20=;
+	b=fV0aaV2BSCkGI7iSQZW2XUBkNFxYbDDrgdH/5Vynpsbsxg7/8P0foTsfej8ypkwq
+	ZqXKi2DZNV6ILZMORUgwxWySZoHMDty46zP7kE0BbcrBQK4ck1JVL3uPF/zS9k93Bxe
+	EhTtKIW7j7tP5uk+lsPTUKc96vkfNzlfmO3lE/tQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1698953262;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=gBXIQZc72WtDddpNSfluvqBNmfQLFGEzNhSQ/WmsH20=;
+	b=DtptG3UDwoXxL65rf5GABjoUPc/0y/OH7fTbrqGern+Gu/UJ33DqQ8D43168eht9
+	0SoERmRcRpqsAqVsERrlDyXQY+wsdoxIfhn4ZQ7XM+W5RYXCHcpN67iovkLOGqk6r04
+	WfzoBhkSQnsbtjM7gQesXH11Ngeasf3PRzpr/Yfc=
+From: patchtest@automation.yoctoproject.org
+To: raj.khem@gmail.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/6] meson: Add check for riscv64 in link template
+In-Reply-To: 830c45958c9fb1600d75634cb0986d7ef327fde3.1698951553.git.raj.khem@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018b91817410-7636e8ce-a004-44f5-b26f-067a97000796-000000@us-west-2.amazonses.com>
+Date: Thu, 2 Nov 2023 19:27:42 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 19:03:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190093
+ <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 19:27:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190098
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-devtools/meson/meson_1.2.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Testing patch /home/patchtest/share/mboxes/2-6-meson-Add-check-for-riscv64-in-link-template.patch
 
-diff --git a/meta/recipes-devtools/meson/meson_1.2.2.bb b/meta/recipes-devtools/meson/meson_1.2.2.bb
-index 6a07168ee1b..c38d88fe61f 100644
---- a/meta/recipes-devtools/meson/meson_1.2.2.bb
-+++ b/meta/recipes-devtools/meson/meson_1.2.2.bb
-@@ -66,6 +66,8 @@ def generate_native_link_template(d):
-         loader = 'ld64.so.2'
-     elif 'loongarch64' in build_arch:
-         loader = 'ld-linux-loongarch-lp64d.so.1'
-+    elif 'riscv64' in build_arch:
-+        loader = 'ld-linux-riscv64-lp64d.so.1'
- 
-     if loader:
-         val += ['-Wl,--dynamic-linker=@{OECORE_NATIVE_SYSROOT}${base_libdir_native}/' + loader]
--- 
-2.42.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest lic files chksum modified not mentioned (test_metadata.TestMetadata.pretest_lic_files_chksum_modified_not_mentioned)
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
