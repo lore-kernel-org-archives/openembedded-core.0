@@ -1,238 +1,88 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B80B0C4332F
-	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 10:28:14 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.48042.1699007293085856591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE611C4332F
+	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 10:42:14 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.48188.1699008126504462617
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Nov 2023 03:28:13 -0700
+ Fri, 03 Nov 2023 03:42:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Lk2Pn4XO;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40837ebba42so12257035e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 03:28:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699007291; x=1699612091; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JuFfbLlDjuZ6y9ZPhHyTkBIvvQUm/cHH890IM4H/3cw=;
-        b=Lk2Pn4XOgMKdwin0/mqEWKw6w++1dL0VqiHXIhoXBPBDtsmaEOM4RqGnNkFd1qq/b8
-         +oWjrDj/cS8frjUNHjwpxumwtvxM84+ilpVavgIWyK1SLKxS3qoaLp3n3bcfsyOKQiP3
-         QyuCKuIFzvbpkiOWKLpE+g+9x5hrLwbKb3dm9Y/uMJDj/hqFBjHzqACLgtusL7cCknvu
-         E8dRpSvKffFRFfpcEExvZ/NIrBDy7fGxosa1K/Sep75Fk/Ab/PMMLXkfbALqJwakETwp
-         aoMJKECkpyqOCBmMykoHFi/rl7ANEYrfpOa9utmZFMQXC6VyIC6BrvFvhI22JJyW2qoQ
-         L3bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699007291; x=1699612091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JuFfbLlDjuZ6y9ZPhHyTkBIvvQUm/cHH890IM4H/3cw=;
-        b=LOEhHF5XTjnwnn3ofbQqQVEV3y1kraBgEMeaYhJpnWHuFLOsCJZsFwZW7vsfRZ6HI0
-         VIa7fqPY0o85v15bPZjNiBC1q+EEeVNdT3rU7rh/s9XSaOdG12QESs3GVT0FfD1euF3M
-         DdhNVHHa12PqSYYhdNjMXoTfLnCn6ymUAcLYGzfWmxTqBRePEOiiTM0xWsWxk/HKoTNF
-         /BsDqGL/F5oshIlLXwN/L/EesjaG/4hG/z2+3aANobkPFR7jeHYaGJbCbTxDtEqib8Wd
-         lxZFoXfLbtPzIRv2dncF/T+oVY+KtlvtgS00z9Enw84zZtLVJrTnXQaU0cXjClzmuEgZ
-         SjaA==
-X-Gm-Message-State: AOJu0Yw6VsxrlUwQjqMWJYmRmJZCIsRUjmaEqzKcyc4rqY+XM8yvAXfB
-	lscZXAPVOSgrbZaRDDAMtm1p318Yl1o=
-X-Google-Smtp-Source: AGHT+IFrJjPUD3PCw3zE1hlj4gl/kqQXJRQx9gQ9hwNCcobZmcn08n48GN+zMSW3RVWkxDD6fXBbbA==
-X-Received: by 2002:a05:600c:4f91:b0:408:4120:bad2 with SMTP id n17-20020a05600c4f9100b004084120bad2mr18819558wmq.9.1699007291435;
-        Fri, 03 Nov 2023 03:28:11 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id y14-20020a05600c2b0e00b00405718cbeadsm1976643wme.1.2023.11.03.03.28.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 03:28:11 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/4] scripts/esdk-tools: use a dedicated, static directory for esdk tools
-Date: Fri,  3 Nov 2023 11:28:05 +0100
-Message-Id: <20231103102806.2332746-3-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231103102806.2332746-1-alex@linutronix.de>
-References: <20231103102806.2332746-1-alex@linutronix.de>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ZCg/2cow;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 424141BF204;
+	Fri,  3 Nov 2023 10:42:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1699008124;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gxxp7b/Go2UCYBdlnBR3gm/RYcAIEIqMV558kK1HKFQ=;
+	b=ZCg/2cowKkSC5g1BuRqWDHUcDrMHVKgzOc77BY1tVUEdqzWiCT9qhpuVaKSuydPGBmMC7d
+	Cw9CrIs+uWLomeGlBCpt4ZM+Hhgibv7OVDxhGsFCkeFTG12gKtbdp4UAfDSnSJe7+JyKFx
+	owv4SslQCZI3Mt+UEDJXGOBWfXhHDvZzdi/v8j0eFz7sOWTsRQpb9uE5b/yHsJ3aD93u2h
+	E4Cf19dZKhDNafd7Z1V7o6gDng8pZao8fDzRZwXU6Y8BFOt643+YN8i4R/ZD2JrJam4bB2
+	6eEXH0Ad1tXed5RMStLrXoJSVXIIKERkwp6556IXqvFz7We1+H09rLfFc2pILQ==
+Message-ID: <136f88cc-8cc7-4a39-a961-4fb21e01e112@bootlin.com>
+Date: Fri, 3 Nov 2023 11:42:03 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Meaning of the name of the "cml1" class?
+Content-Language: en-US
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <b42f4bae-5096-4a99-ac85-8750396580b8@bootlin.com>
+ <CA+chaQc+cEQxc+HjyRBqXVL0m7718Ffb=XXtaKO2DiShE18dGg@mail.gmail.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <CA+chaQc+cEQxc+HjyRBqXVL0m7718Ffb=XXtaKO2DiShE18dGg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 10:28:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190150
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 10:42:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190152
 
-This allows easier replication of esdk environment (which provides
-a curated, limited set of tools that for example does not include bitbake)
-in a standard yocto build. Switchover between various sets can be achieved
-via PATH manipulation.
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/classes-recipe/populate_sdk_ext.bbclass | 16 ++++------------
- scripts/esdk-tools/devtool                   |  1 +
- scripts/esdk-tools/oe-find-native-sysroot    |  1 +
- scripts/esdk-tools/recipetool                |  1 +
- scripts/esdk-tools/runqemu                   |  1 +
- scripts/esdk-tools/runqemu-addptable2image   |  1 +
- scripts/esdk-tools/runqemu-export-rootfs     |  1 +
- scripts/esdk-tools/runqemu-extract-sdk       |  1 +
- scripts/esdk-tools/runqemu-gen-tapdevs       |  1 +
- scripts/esdk-tools/runqemu-ifdown            |  1 +
- scripts/esdk-tools/runqemu-ifup              |  1 +
- scripts/esdk-tools/wic                       |  1 +
- 12 files changed, 15 insertions(+), 12 deletions(-)
- create mode 120000 scripts/esdk-tools/devtool
- create mode 120000 scripts/esdk-tools/oe-find-native-sysroot
- create mode 120000 scripts/esdk-tools/recipetool
- create mode 120000 scripts/esdk-tools/runqemu
- create mode 120000 scripts/esdk-tools/runqemu-addptable2image
- create mode 120000 scripts/esdk-tools/runqemu-export-rootfs
- create mode 120000 scripts/esdk-tools/runqemu-extract-sdk
- create mode 120000 scripts/esdk-tools/runqemu-gen-tapdevs
- create mode 120000 scripts/esdk-tools/runqemu-ifdown
- create mode 120000 scripts/esdk-tools/runqemu-ifup
- create mode 120000 scripts/esdk-tools/wic
+On 03.11.23 at 10:52, Martin Jansa wrote:
+> The answer from 2022-07-18 on #yocto channel:
+>
+> 20:20 < hushmoney> what does clm1 stand for as in clm1.bbclass?
+> 20:20 < hushmoney> s/clm1/cml1/g
+> 20:31 < JaMa> hushmoney: interesting question, the bbclass was 
+> introduced very long time ago (already included in 2004 
+> https://git.openembedded.org/openembedded/commit/?h=master&id=a780643c4b6aa11e1a36965a69df7116477c7b4c 
+> <https://git.openembedded.org/openembedded/commit/?h=master&id=a780643c4b6aa11e1a36965a69df7116477c7b4c>) 
+> and it was very small until 
+> https://git.openembedded.org/openembedded/commit/?h=master&id=f6433e75a047a2d38ab60efea8a7ab7cc3dcd822 
+> <https://git.openembedded.org/openembedded/commit/?h=master&id=f6433e75a047a2d38ab60efea8a7ab7cc3dcd822> 
+> Don't know what it really stands for
+> 20:35 < hushmoney> yes that's what i saw too
+> 20:37 < hushmoney> i grepped the linux source for cml1 and only found 
+> references to some clock in modules and device trees, don't think 
+> that's related
+> 20:45 < JaMa> http://www.catb.org/~esr/cml2/ANNOUNCEMENT
+> 20:48 < hushmoney> wow, good find! still doesn't answer what cml 
+> stands for, but at least i know now to what it refers and that more 
+> answers lie outside of yocto history
+> 20:50 < hushmoney> here it is. cml = Configuration Menu Language
+> 20:50 < hushmoney> JaMa: thanks!
+> 20:51 < hushmoney> sort of an odd choice for that bbclass name, but at 
+> least now i know where it came from
+> 20:56 < kergoth> hushmoney: it's named based on the ocnifguration 
+> language it interacts with, as it's common to more than just kernels, 
+> it's used by busybox, buildroot, and other projects as well
 
-diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
-index 173b3065b00..53adc868d47 100644
---- a/meta/classes-recipe/populate_sdk_ext.bbclass
-+++ b/meta/classes-recipe/populate_sdk_ext.bbclass
-@@ -220,16 +220,16 @@ python copy_buildsystem () {
-         if os.path.exists(os.path.join(baseoutpath, relpath)):
-             conf_initpath = relpath
- 
--        relpath = os.path.join('layers', path, 'scripts', 'devtool')
-+        relpath = os.path.join('layers', path, 'scripts', 'esdk-tools', 'devtool')
-         if os.path.exists(os.path.join(baseoutpath, relpath)):
--            scriptrelpath = os.path.dirname(relpath)
-+            esdk_tools_path = os.path.dirname(relpath)
- 
-         relpath = os.path.join('layers', path, 'meta')
-         if os.path.exists(os.path.join(baseoutpath, relpath, 'lib', 'oe')):
-             core_meta_subdir = relpath
- 
-     d.setVar('oe_init_build_env_path', conf_initpath)
--    d.setVar('scriptrelpath', scriptrelpath)
-+    d.setVar('esdk_tools_path', esdk_tools_path)
- 
-     # Write out config file for devtool
-     import configparser
-@@ -627,14 +627,6 @@ def get_sdk_required_utilities(buildtools_fn, d):
-     return ' '.join(sanity_required_utilities)
- 
- install_tools() {
--	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}
--	scripts="devtool recipetool oe-find-native-sysroot runqemu* wic"
--	for script in $scripts; do
--		for scriptfn in `find ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath} -maxdepth 1 -executable -name "$script"`; do
--			targetscriptfn="${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/$(basename $scriptfn)"
--			test -e ${targetscriptfn} || ln -rs ${scriptfn} ${targetscriptfn}
--		done
--	done
- 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
- 
- 	# find latest buildtools-tarball and install it
-@@ -713,7 +705,7 @@ sdk_ext_postinst() {
- 
- 	# A bit of another hack, but we need this in the path only for devtool
- 	# so put it at the end of $PATH.
--	echo "export PATH=\"$target_sdk_dir/sysroots/${SDK_SYS}${bindir_nativesdk}:\$PATH\"" >> $env_setup_script
-+	echo "export PATH=\"$target_sdk_dir/${esdk_tools_path}:\$PATH\"" >> $env_setup_script
- 
- 	echo "printf 'SDK environment now set up; additionally you may now run devtool to perform development tasks.\nRun devtool --help for further details.\n'" >> $env_setup_script
- 
-diff --git a/scripts/esdk-tools/devtool b/scripts/esdk-tools/devtool
-new file mode 120000
-index 00000000000..176a01ca682
---- /dev/null
-+++ b/scripts/esdk-tools/devtool
-@@ -0,0 +1 @@
-+../devtool
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/oe-find-native-sysroot b/scripts/esdk-tools/oe-find-native-sysroot
-new file mode 120000
-index 00000000000..d3493f3310a
---- /dev/null
-+++ b/scripts/esdk-tools/oe-find-native-sysroot
-@@ -0,0 +1 @@
-+../oe-find-native-sysroot
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/recipetool b/scripts/esdk-tools/recipetool
-new file mode 120000
-index 00000000000..60a95dd9360
---- /dev/null
-+++ b/scripts/esdk-tools/recipetool
-@@ -0,0 +1 @@
-+../recipetool
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/runqemu b/scripts/esdk-tools/runqemu
-new file mode 120000
-index 00000000000..ae7e7ad7c22
---- /dev/null
-+++ b/scripts/esdk-tools/runqemu
-@@ -0,0 +1 @@
-+../runqemu
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/runqemu-addptable2image b/scripts/esdk-tools/runqemu-addptable2image
-new file mode 120000
-index 00000000000..afcd00e79d9
---- /dev/null
-+++ b/scripts/esdk-tools/runqemu-addptable2image
-@@ -0,0 +1 @@
-+../runqemu-addptable2image
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/runqemu-export-rootfs b/scripts/esdk-tools/runqemu-export-rootfs
-new file mode 120000
-index 00000000000..a26fcf6110f
---- /dev/null
-+++ b/scripts/esdk-tools/runqemu-export-rootfs
-@@ -0,0 +1 @@
-+../runqemu-export-rootfs
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/runqemu-extract-sdk b/scripts/esdk-tools/runqemu-extract-sdk
-new file mode 120000
-index 00000000000..cc858aaad55
---- /dev/null
-+++ b/scripts/esdk-tools/runqemu-extract-sdk
-@@ -0,0 +1 @@
-+../runqemu-extract-sdk
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/runqemu-gen-tapdevs b/scripts/esdk-tools/runqemu-gen-tapdevs
-new file mode 120000
-index 00000000000..dbdf79134cf
---- /dev/null
-+++ b/scripts/esdk-tools/runqemu-gen-tapdevs
-@@ -0,0 +1 @@
-+../runqemu-gen-tapdevs
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/runqemu-ifdown b/scripts/esdk-tools/runqemu-ifdown
-new file mode 120000
-index 00000000000..0097693ca3d
---- /dev/null
-+++ b/scripts/esdk-tools/runqemu-ifdown
-@@ -0,0 +1 @@
-+../runqemu-ifdown
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/runqemu-ifup b/scripts/esdk-tools/runqemu-ifup
-new file mode 120000
-index 00000000000..41026d2c0a4
---- /dev/null
-+++ b/scripts/esdk-tools/runqemu-ifup
-@@ -0,0 +1 @@
-+../runqemu-ifup
-\ No newline at end of file
-diff --git a/scripts/esdk-tools/wic b/scripts/esdk-tools/wic
-new file mode 120000
-index 00000000000..a9d908aa254
---- /dev/null
-+++ b/scripts/esdk-tools/wic
-@@ -0,0 +1 @@
-+../wic
-\ No newline at end of file
+Great, many thanks. Better than the "Configure My Linux" hypothesis!
+Michael.
+
 -- 
-2.39.2
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
