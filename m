@@ -1,75 +1,88 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89278C4332F
-	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 06:28:33 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
- by mx.groups.io with SMTP id smtpd.web11.33526.1698992906418595547
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C42C4332F
+	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 07:09:23 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web11.36241.1698995355216488619
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Nov 2023 23:28:26 -0700
+ Fri, 03 Nov 2023 00:09:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Ld7wGKYI;
- spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698992906; x=1730528906;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=trJjrIrD4QgUc7gdUEQcQHEu5xXpNe+9gKVquildqmU=;
-  b=Ld7wGKYIqNUOXydJt2ZunsOf9qBI7yK4JVsQm/aRmiGYLaXbr665pMgG
-   6p4jmoqpMWsPagLPISizBqN2oA/n/NTyza12UKFkhF6MtHFC5dY1yQBcC
-   iu6CadzPPL+ZGPYawU6p+njaMLkZMhTazOYwObA4AR5jHvulA2TcykE0F
-   LC6SjaBHhBcJA8BR0acDIIpOQL2hwn1jlrGNWDFiOIT7Sq2FbjjADwpJn
-   eUXl2SUMD1zWhhRi5Ri6NPrim+mtNBPIUFCp2DaAwmWqny3uMg2QgCaFP
-   y8ICfKvAIqNqqLTpasRKvrJ8uYEzQqTMD2eKa9X9ZLaMfl4lj6uJGG5GV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="379288880"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="379288880"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 23:28:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="796525468"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="796525468"
-Received: from cheeyang-desk1.png.intel.com ([172.30.130.8])
-  by orsmga001.jf.intel.com with ESMTP; 02 Nov 2023 23:28:22 -0700
-From: chee.yang.lee@intel.com
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="117858241"
+X-IronPort-AV: E=Sophos;i="6.03,273,1694703600"; 
+   d="scan'208";a="117858241"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 16:09:13 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 6CC92D3EAF
+	for <openembedded-core@lists.openembedded.org>; Fri,  3 Nov 2023 16:09:10 +0900 (JST)
+Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id B1BF4C4A00
+	for <openembedded-core@lists.openembedded.org>; Fri,  3 Nov 2023 16:09:09 +0900 (JST)
+Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.79])
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8CA6F86346;
+	Fri,  3 Nov 2023 16:09:08 +0900 (JST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] documentation.conf: drop SERIAL_CONSOLES_CHECK
-Date: Fri,  3 Nov 2023 14:25:54 +0800
-Message-Id: <20231103062554.3881836-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] gpgme: upgrade 1.22.0 -> 1.23.1
+Date: Fri,  3 Nov 2023 15:08:38 +0800
+Message-Id: <1698995318-30079-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-27974.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-27974.005
+X-TMASE-Result: 10--2.681600-10.000000
+X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yUIIxwDaU5mrcV3n4J/0zUMzXf7KKCv6Ee/Z
+	a0wAH/tLc8G/amkXuJNWQIgq6AHx7quYyAsAtdH0Yu9YuaJ9+Co3l2plwgrtWDBwx50fHFECIUt
+	KH5AJM9ki+t+0AiFaYvL3NxFKQpq14bVbyN6yIMl85pjA/x1xfpSlv/9klkDigW6bY8SOq3WjxY
+	yRBa/qJXcsDK2xBHh7jaPj0W1qn0TGVuWouVipcpWJFRQuifOFkzNI0WNaTAsyu1L0dqGysPRFC
+	zUVCPlBBAoGcno9KQuR1YgObwZ3Ag+c7SvTVqjFdN69YXirxXqQFgMjwI9VZ/6/2/nZkihaOgB/
+	fz3EXdcVKT0eFRmfDs4YhafCzgujIdY9jOi4lTI=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 06:28:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190108
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 07:09:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190109
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-remove obsolete SERIAL_CONSOLES_CHECK.
+Changelog:
+==========
+* w32: Change gpgme-w32-spawn to use Unicode arguments.
+ * Support GPGME_ENCRYPT_ALWAYS_TRUST also for S/MIME.
+ * New keylist mode GPGME_KEYLIST_MODE_WITH_V5FPR.
+ * New key capability flags has_*.
+ * gpgme-tool: Support use of Windows HANDLE.
+ * qt: Support refreshing keys via WKD.
+ * qt: Handle cancel in changeexpiryjob.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/conf/documentation.conf | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-support/gpgme/{gpgme_1.22.0.bb => gpgme_1.23.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/gpgme/{gpgme_1.22.0.bb => gpgme_1.23.1.bb} (97%)
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 23a9c0fe7b..d03c497c0e 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -379,7 +379,6 @@ SDKMACHINE[doc] = "Specifies the architecture (i.e. i686 or x86_64) for which to
- SECTION[doc] = "The section in which packages should be categorized. Package management utilities can make use of this variable."
- SELECTED_OPTIMIZATION[doc] = "The variable takes the value of FULL_OPTIMIZATION unless DEBUG_BUILD = '1'. In this case, the value of DEBUG_OPTIMIZATION is used."
- SERIAL_CONSOLES[doc] = "Defines the serial consoles (TTYs) to enable using getty."
--SERIAL_CONSOLES_CHECK[doc] = "Similar to SERIAL_CONSOLES except the device is checked for existence before attempting to enable it. Supported only by SysVinit."
- SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS[doc] = "A list of recipe dependencies that should not be used to determine signatures of tasks from one recipe when they depend on tasks from another recipe."
- SIGGEN_EXCLUDERECIPES_ABISAFE[doc] = "A list of recipes that are completely stable and will never change."
- SITEINFO_BITS[doc] = "Specifies the number of bits for the target system CPU."
+diff --git a/meta/recipes-support/gpgme/gpgme_1.22.0.bb b/meta/recipes-support/gpgme/gpgme_1.23.1.bb
+similarity index 97%
+rename from meta/recipes-support/gpgme/gpgme_1.22.0.bb
+rename to meta/recipes-support/gpgme/gpgme_1.23.1.bb
+index 84c8fa9f8a..e029b73a8f 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.22.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.23.1.bb
+@@ -24,7 +24,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+            file://0001-autogen.sh-remove-unknown-in-version.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "9551e37081ad3bde81018a0d24f245c3f8206990549598fb31a97a68380a7b71"
++SRC_URI[sha256sum] = "a0c316f7ab7d3bfb01a8753c3370dc906e5b61436021f3b54ff1483b513769bd"
+ 
+ PYTHON_DEPS = "${@bb.utils.contains('LANGUAGES', 'python', 'swig-native', '', d)}"
+ 
 -- 
 2.34.1
 
