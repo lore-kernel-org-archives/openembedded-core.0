@@ -1,97 +1,68 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C59BFC4332F
-	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 20:49:39 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.65211.1699044576698235847
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 03 Nov 2023 13:49:37 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 703C0C4167D
+	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 22:51:50 +0000 (UTC)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+ by mx.groups.io with SMTP id smtpd.web10.68882.1699051906554172231
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 03 Nov 2023 15:51:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fPMpI7C9;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8DFE31C0004;
-	Fri,  3 Nov 2023 20:49:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699044575;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=uiww2oYd+2pifcPo/Q4B1v8mfO9XEJYK0kaf/92GEKw=;
-	b=fPMpI7C9XfMbWK6/Po6uN6er5nvom7TXJEP10+cGCRw8gDFJLnJ30inDjFZY+HQfsYU3N2
-	WBg7bbJ1h/3WsybrnwR9T5iAiuGJCKWqn2VqXLBAtOWhgfGsQw+lwzfXoWgPgyU4tRSCb9
-	/hQgNLhO6Rih9HfrZea6qABQCzDrMKpk1z0CLSUOFGODBA2c1tzSUDzPqu2QcqmrG20vAD
-	ZB7UYvoWT9VHm/3Yn67lgpIcgI7LRjBKSJw0NhdZxlpPDLjHTbgnlKJPt+lBMNQGibXGPE
-	QX5nN5IOqV38AKSV/EnG/XU+/TFjp2UqAbUGebcGsh4vTjRJ2QWv9dyDCknE5w==
-From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: <Openembedded-core@lists.openembedded.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [OE-Core][PATCH] scripts/resulttool: group all regressions in regression report
-Date: Fri,  3 Nov 2023 13:50:18 -0700
-Message-ID: <20231103205018.19693-1-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.42.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KZEZ7Tsh;
+ spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-1e9c9d181d6so1463216fac.0;
+        Fri, 03 Nov 2023 15:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699051905; x=1699656705; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0VmQ8jQ10OKyf/u8R5f1doWgNMddezA14x9VGys5tnk=;
+        b=KZEZ7TshHnGV1TC5AqN10XOOvUgnKQJdTEwVEkPdoEGNjf5MK3saknhxNICe67r4pa
+         3H9lvznxfzYJN3d1CninsPs5Nzb9h6PG3Qcy7moMHhRORk/urgrWNuR+cd1a1etjyB9i
+         TkOupMUfgCYl/cP4wlwjK9MltADNyBw/6BYXL5ZGVAXifcy3vWv2ZEyRFwWGkFl+JhZy
+         dgGGdMJFWr3sRj2tnirFT1E4Z16CYnmSbOusXdfAH148DRx019gO0By4xtD8GdoVrBaT
+         YhiIPxVpSGaM+gIN6oOvUj2I9IPEt/asfofdeTUQNYjT8LPU6LWw9L2TqbptrGLJP2AT
+         sxlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699051905; x=1699656705;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0VmQ8jQ10OKyf/u8R5f1doWgNMddezA14x9VGys5tnk=;
+        b=gkVZqtMBfZY4saAkSrLeMYazZB77sNzpaOgwGkMTXtEJgdV+RnS21y6m07hz+sK1e2
+         dnpgbPSw6BX7dJ8heACFvumVkRCC2a2kY2f/Ewv4HV+9UUgnv12GojSMeyxLJ0KpdQBX
+         HEAXgxc0SoipKJUSf7RHv2t1tMJJvlI40NexP1HqKS8nSP5Sa/O3aG8Kq1cCsO/V184E
+         7uuJwVYVRrDNmwuYuaV8wzPHO6WGhGWGhjYBKAkEeg3PgJ/BZEmikT/VtFvj6vc7RYIJ
+         IOk9Lyu37KXpQ6yK5cHEmpSJK2vvRpWdYJaQQwQyrlRY1+fQruAx3ojt8k27+HULyBiF
+         N5oQ==
+X-Gm-Message-State: AOJu0Ywi507VH2xPSDwY3PqdIwJfAiqTbh14x+uXgtASYV2/wB2/hDCi
+	wfETTj71sTRX/bHh+q10LymxFOMr7e9saSxPya+LjrHeMrvadQ==
+X-Google-Smtp-Source: AGHT+IGzsTLCRiu2s9F3sAENfGDhYQMJ1Sd0Ompzk9jvXR3oCjDWKlcxBafb4gVRTSYUakZ3LJoF6nokAHbDFb0Obr0=
+X-Received: by 2002:a05:6870:13c5:b0:1be:ceca:c666 with SMTP id
+ 5-20020a05687013c500b001bececac666mr22933836oat.14.1699051905470; Fri, 03 Nov
+ 2023 15:51:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 3 Nov 2023 15:51:19 -0700
+Message-ID: <CAMKF1srnoQYw6zFu7xvZX59AV_t_Am=L8B_e46jVJsue2JQgPQ@mail.gmail.com>
+Subject: Script to apply auh generated patches
+To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 20:49:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190166
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 22:51:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190167
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+Hi All
 
-Commit c304fcbe0588b1078373558c2ddf36064bcdf214 introduced a grouping when
-listing regressions. This grouping has been added only for ptests. It has
-been observed that any other kind of tests could benefit from it. For
-example, current regression reports can show the following:
+Here is a small script which gets the patch from patchwork and applies
+it to tree.
+if you use patchwork in your flow, It might be useful.
 
-1 regression(s) for oescripts.OEGitproxyTests.test_oegitproxy_proxy_dash
-    oescripts.OEGitproxyTests.test_oegitproxy_proxy_dash: PASSED -> SKIPPED
-1 regression(s) for oescripts.OEPybootchartguyTests.test_pybootchartguy_help
-    oescripts.OEPybootchartguyTests.test_pybootchartguy_help: PASSED -> SKIPPED
-1 regression(s) for oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_pdf_output
-    oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_pdf_output: PASSED -> SKIPPED
-1 regression(s) for oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_png_output
-    oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_png_output: PASSED -> SKIPPED
-1 regression(s) for oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_svg_output
-    oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_svg_output: PASSED -> SKIPPED
-[...]
+https://gist.github.com/kraj/9fd27c8763aaa2943e1790d714bacee0#file-auh-sh
 
-This output is not so useful in its current state and should be grouped per
-test type too.
-Enable grouping for all kind of tests, to make it llok like the following
-in reports:
-5 regression(s) for oescripts
-    oescripts.OEGitproxyTests.test_oegitproxy_proxy_dash: PASSED -> SKIPPED
-    oescripts.OEPybootchartguyTests.test_pybootchartguy_help: PASSED -> SKIPPED
-    oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_pdf_output: PASSED -> SKIPPED
-    oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_png_output: PASSED -> SKIPPED
-    oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_svg_output: PASSED -> SKIPPED
-
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
----
- scripts/lib/resulttool/regression.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/lib/resulttool/regression.py b/scripts/lib/resulttool/regression.py
-index 8fbe5a54783a..10e7d13841a7 100644
---- a/scripts/lib/resulttool/regression.py
-+++ b/scripts/lib/resulttool/regression.py
-@@ -236,7 +236,8 @@ def compare_result(logger, base_name, target_name, base_result, target_result, d
-             for k in sorted(result):
-                 if not result[k]['target'] or not result[k]['target'].startswith("PASS"):
-                     # Differentiate each ptest kind when listing regressions
--                    key = '.'.join(k.split('.')[:2]) if k.startswith('ptest') else k
-+                    key_parts = k.split('.')
-+                    key = '.'.join(key_parts[:2]) if k.startswith('ptest') else key_parts[0]
-                     # Append new regression to corresponding test family
-                     regressions[key] = regressions.setdefault(key, []) + ['        %s: %s -> %s\n' % (k, get_status_str(result[k]['base']), get_status_str(result[k]['target']))]
-             resultstring += f"    Total: {sum([len(regressions[r]) for r in regressions])} new regression(s):\n"
--- 
-2.42.0
-
+Thanks
+-Khem
 
