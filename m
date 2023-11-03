@@ -2,98 +2,94 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDAC6C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B80F6C4167D
 	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 10:28:14 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.48041.1699007292764027802
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.48888.1699007292451637914
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Nov 2023 03:28:13 -0700
+ Fri, 03 Nov 2023 03:28:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gd5GVww8;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40853c639abso14206575e9.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GCFX+mQz;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40891d38e3fso13570315e9.1
         for <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 03:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1699007291; x=1699612091; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ieahQZSj6qKJmQKsOaGmi7ikLiTlObdwxrLsrN6IrcQ=;
-        b=gd5GVww8Gym7u9QdaX/yvZ+Nzq3oMSVgyNw01oDWsjp6HhTpxN0d4RWmFsSwF9BpO2
-         53UHT0ZS7JBBoG0EtWlUIOCtV2ktvsfDf6RU0Fwe43FUMl8E2wTRonvBwz4u3bsUFbd4
-         e7Auevrd1KPs6lh0QjNw0iidNqfAEOABH/wsbwU3RzlU/tpuupdGnMIPMgYU87MI+Vrw
-         v9S3+BHB08pJ07k+5PEb8kA6ZEeVwlut+RkUbF4T2x2w883h0bCiGXDDlf92CXFVxwW/
-         RSO4bKLTKcFW1QP5YQSyhpg0jmL22P4oytK6bME4zfQNAn40unmALU8s0uHSJxqfTTEG
-         DZug==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FufGndjz5XVITAICk+pt8iy4iNJuEI8HmhN8/wwcmLU=;
+        b=GCFX+mQzzOuBF3xCJwN0JGw1FgYutOTbLfaS8rst4ksBgxGuwDbxwoa0jt8rpJE5s1
+         ZBV6xw0Dgm+BBU5CT4hfiI2eSTrsxZhANT4xMgod1A3u202HYnAc+E36HfRo4LnpAhZK
+         VHabtnRyH0vlz/+Ty94uZoQr/T0/YqZJDasy8SiRaYATM5luBX+MBQcuqt70hKOzJqjP
+         04Ri98ftBoemMxDgd734ZjL5cgSM+gsEL/uFfncggCz4yXleE6FJO0HG/iuXAXAxTgUo
+         Mc/1meQjtgjK5Ea1TeJSF1OtS8hXqLO6M6VfEqERJUf0qJge9qPXbjCnz7Aq06hDSk5h
+         0mbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1699007291; x=1699612091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ieahQZSj6qKJmQKsOaGmi7ikLiTlObdwxrLsrN6IrcQ=;
-        b=I++2IQxr+nfd335P00NhoQ54EhsHDJX4aZVL5p1aYpVGJYigjumc5AjW/+CgtjVGFV
-         b9NAjPvXV+xSU+8V+I4nSazGRxJ1pPuL+ImoA9SKYf9GbXAIkIwRvWcG4YjCT7JaiTdp
-         WkypBnJggOfxqFp3Qp5P1ffnz3oRp/96dDeEc53jxgZkJaEnA5ZIUCsOXlTGKBj2Q+g9
-         W7MYINLaqaEXyxLkvk4HtZLW/bTp4ALPdJXUA9cDRfF4ahWx7ua1m1gcsJ6d+TYfopRY
-         DAGY0LoooMMG0mho7lfDFqEl7uUw4ffMRtNu3OZBrU9uTvkMrkWzzkHv2+E58Q/o8vF3
-         UN2g==
-X-Gm-Message-State: AOJu0YzZdxMidH9ifq7jtG0XJU4svqKb+XYtE7Qgvkrn9KNqOdip4Ak6
-	AiZIRd+imuA8M0DT3rpTajOjLU7xKSY=
-X-Google-Smtp-Source: AGHT+IGqVSx+wO0fucOkqjDYBYbizbc9IWD4SLDcvxhkSc2BJPRUMuQh5RiG8FvH6fJdlTFfdI4rVQ==
-X-Received: by 2002:a05:600c:46cf:b0:406:52f1:7e6f with SMTP id q15-20020a05600c46cf00b0040652f17e6fmr18531362wmo.12.1699007290934;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FufGndjz5XVITAICk+pt8iy4iNJuEI8HmhN8/wwcmLU=;
+        b=Y2RA/x/ZszYZSwnnf4Ji6DMovgr+SZC8hNbnY3BBstPrdYq4/H9fnOmYBBsYYNe6E2
+         MSM1OQrguntBITvsaGP8G7ivxCRQ9KBXdqpFu9wiuysxxfOK/fYTikzgZlHdTSsDCPeF
+         97sOM4XAk9YbN20GGtQKCLJPXgxqBwhPvMJWZS4xfkB7V1Q5phq340nFt3DFavu1bSwQ
+         w8pE+LL7enRtGVPAtb8YD5Sd+raBHudSQagsaqvvuokxFDMgEOSAmZQfXX+CKNq7RRMA
+         PlSb6AHur0EvIv4OBfC0SEzou3RoKiC+KcQXqErAjYce8gv9rBf02l9snRYMUdojh7tl
+         cmUA==
+X-Gm-Message-State: AOJu0Yye9Pk4QDPxLtCSXAB0SIdXqKODaKHZeKjofz+nJ5TPY2U6XpX4
+	1YeJ6P96mIH0Zao4Cnx9lTnChWr2Dvg=
+X-Google-Smtp-Source: AGHT+IGS0wMmQUZ6QXl+b0piepD8EycfzmHry4bZxZaDsHSsMRJhcEMToVM5S8ikIcCXzYd2ZlL3CQ==
+X-Received: by 2002:a05:600c:1991:b0:405:7400:1e3d with SMTP id t17-20020a05600c199100b0040574001e3dmr17219206wmq.32.1699007290447;
         Fri, 03 Nov 2023 03:28:10 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id y14-20020a05600c2b0e00b00405718cbeadsm1976643wme.1.2023.11.03.03.28.10
+        by smtp.gmail.com with ESMTPSA id y14-20020a05600c2b0e00b00405718cbeadsm1976643wme.1.2023.11.03.03.28.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 03 Nov 2023 03:28:10 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 2/4] meta/lib/oe/copy_buildsystem.py: do not derefence symlinks
-Date: Fri,  3 Nov 2023 11:28:04 +0100
-Message-Id: <20231103102806.2332746-2-alex@linutronix.de>
+Subject: [PATCH 1/4] populate_sdk_ext.bbclass: do not symlink unfsd from sdk image sysroot into eSDK tools path
+Date: Fri,  3 Nov 2023 11:28:03 +0100
+Message-Id: <20231103102806.2332746-1-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231103102806.2332746-1-alex@linutronix.de>
-References: <20231103102806.2332746-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 10:28:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190149
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190148
 
-This was added (I think) for the purpose of supporting layers that refer
-to items outside of the layer via relative symlinks:
-https://git.yoctoproject.org/poky-contrib/commit/?id=d31d1ad4e566e42d0bbcf1f41ac25e33181fb517
-
-I do not think copying the link target into the layer that references it is the
-correct solution: rather the original target should be included
-into the SDK with the same relative path.
-
-This change is done for the sake of preserving symlinks
-that are referencing things inside the layer as they are;
-particularly the content of scripts/esdk-tools/.
+This was done in 2016 to support Eclipse plugin (long dead),
+it's currently broken as image sysroot is not in the SDK
+until the image is built in that context, and current tools
+all rely on runqemu-export-rootfs which does not rely on PATH
+and runs unfsd with full path to recipe-specific sysroots.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oe/copy_buildsystem.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/populate_sdk_ext.bbclass | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index a0d829054e1..81abfbf9e23 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -22,7 +22,7 @@ def _smart_copy(src, dest):
-     mode = os.stat(src).st_mode
-     if stat.S_ISDIR(mode):
-         bb.utils.mkdirhier(dest)
--        cmd = "tar --exclude='.git' --exclude='__pycache__' --xattrs --xattrs-include='*' -chf - -C %s -p . \
-+        cmd = "tar --exclude='.git' --exclude='__pycache__' --xattrs --xattrs-include='*' -cf - -C %s -p . \
-         | tar --xattrs --xattrs-include='*' -xf - -C %s" % (src, dest)
-         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-     else:
+diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
+index 028d0c1ff54..173b3065b00 100644
+--- a/meta/classes-recipe/populate_sdk_ext.bbclass
++++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+@@ -635,13 +635,6 @@ install_tools() {
+ 			test -e ${targetscriptfn} || ln -rs ${scriptfn} ${targetscriptfn}
+ 		done
+ 	done
+-	# We can't use the same method as above because files in the sysroot won't exist at this point
+-	# (they get populated from sstate on installation)
+-	unfsd_path="${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/unfsd"
+-	if [ "${SDK_INCLUDE_TOOLCHAIN}" = "1" -a ! -e $unfsd_path ] ; then
+-		binrelpath=${@os.path.relpath(d.getVar('STAGING_BINDIR_NATIVE'), d.getVar('TMPDIR'))}
+-		ln -rs ${SDK_OUTPUT}/${SDKPATH}/tmp/$binrelpath/unfsd $unfsd_path
+-	fi
+ 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
+ 
+ 	# find latest buildtools-tarball and install it
 -- 
 2.39.2
 
