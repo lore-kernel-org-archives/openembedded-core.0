@@ -1,79 +1,85 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <Lizhi.Xu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C444CC4332F
-	for <webhook@archiver.kernel.org>; Thu,  2 Nov 2023 22:36:38 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.141.1698964592010509116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E874EC4332F
+	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 01:54:01 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.14886.1698976441119206404
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Nov 2023 15:36:32 -0700
+ Thu, 02 Nov 2023 18:54:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iLVIIP3Z;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40790b0a224so11369265e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 15:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698964590; x=1699569390; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PT7DJgsSi9InYDr2fSxpuu+I6plXujYKQ6BZT2tHHnE=;
-        b=iLVIIP3ZCVAIoQcN7j8zLsa4rsx/b1nuNxuNwWp9zJvHaV+yg2J85I7DyHPQKvX3PV
-         ETzeupUwsKIOgeUcS81Pn6w7sCXQFf8IJUTdnW6iSDRfPsyuSAdfdumEpdIdkIWgMyOa
-         RkvaXft0/rjjWuuSXycthwndnW3NZMtkJRPE/pSPUeWvWZMdKnv7yXkLzGetKBRXx4it
-         ezLS+UOFt/rRp+pzNPHLx8RJRu++PtXbf/SmQ8txpPohV3+33ixdW+t6rED6So1j7Y5q
-         mPGdYl5tPybmSYbN8CTmmoUcvLpqHryZa59eYLr5g2MdV6Z6WWGZjNvIX02/ypju7A1p
-         iWWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698964590; x=1699569390;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PT7DJgsSi9InYDr2fSxpuu+I6plXujYKQ6BZT2tHHnE=;
-        b=UObVDDtiw3ui67T4Gy1VzWRzmQNUOMAjXdgunikYAn6EkuKGH5olLKmczxT61RkpZI
-         623zZDqKfqSdz8PzCFXjwhpIBwqye2IpIdozbIlmc2UqgH2UEFdeDBzKEuD1emfEqY9Q
-         ftAIOSCJrgX99jmim0IaJyjz0mXrMW8UNM9Vi0kf8+2m8ZJydhvCSzoWgyupyGiNHeZm
-         s2kq0bqurOjd1KOiLeKLNU6U/L6YE1yAlDz3tfeakNAOlRILNdbap26ZSuy7yJKDzm/d
-         KKIFST+Q/zz6Je+HcvBbd8yCBphQF/jaYSoQqOthWwrrmrQbruZh+OgDfkJSzLKGVurp
-         b/VQ==
-X-Gm-Message-State: AOJu0YwXQnQG4LLderSIjvWR2gr+cncs1m+7TJcnd4J/WuNWpWIyvABE
-	4Xca+23xc7XT3yihwMyJagGpbA9ZqZ3ecA==
-X-Google-Smtp-Source: AGHT+IG0D2NP5eysStwKxBgA89rIiULduPb0yNfAbSgTyEDG04dyc6x4ws9Z5Wqa485T9th1rifGUg==
-X-Received: by 2002:aa7:c2cb:0:b0:53d:fe98:fd48 with SMTP id m11-20020aa7c2cb000000b0053dfe98fd48mr15836104edp.3.1698964570115;
-        Thu, 02 Nov 2023 15:36:10 -0700 (PDT)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id s3-20020a50d483000000b00537963f692esm249407edi.0.2023.11.02.15.36.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Nov 2023 15:36:09 -0700 (PDT)
-Message-ID: <eb0b766c1d36ddd2509c4ef3528d1948f4013fe9.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v8 8/8] docs: cover devtool ide
-From: adrian.freihofer@gmail.com
-To: Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
-	michael.opdenacker@bootlin.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 02 Nov 2023 23:36:09 +0100
-In-Reply-To: <17f16ad5-286c-4f10-905d-af30ff1d3a7e@theobroma-systems.com>
-References: <20231101110129.647878-1-adrian.freihofer@siemens.com>
-	 <20231101110129.647878-9-adrian.freihofer@siemens.com>
-	 <17f16ad5-286c-4f10-905d-af30ff1d3a7e@theobroma-systems.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cOKsnI/J;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=96717d0336=lizhi.xu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A305fb4031287;
+	Thu, 2 Nov 2023 18:53:59 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=oCmgt
+	WjeEs+jCtsLjmnFzUuy8YCOZDprDJQ+PNkjDTg=; b=cOKsnI/JZXnh7UI+VMbDh
+	ilgN4W94UnlqRd8AkKUz9Ch4kCz+FX/d/3XbOmW6sxmnHSINYLoAdUBQDa1uxNiV
+	SYpt9TlgNR5jb2Yf98RL6//c+WG5b4evb5kVgosauMvn5uNUUAFQv71fA1GZl3TI
+	ILM/Ld+4NTZVmNQ+QoZu/xVguV3WCof6XVzyk+D4VQSfory8nHAW34trCzsYGMDl
+	HInJRngKKuJTDfPCMHomxy52y0pL/pSTIivEdY2tMj/ogeKSNxmhLO3i6VizXkHz
+	QnADJbPiFebG6zpX6y8ztDu85iaEZIDqjjD/BSpazr/pPXBY6eWnZmKciPpGfjON
+	w==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u430cs1kf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 02 Nov 2023 18:53:59 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 2 Nov 2023 18:54:01 -0700
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.34 via Frontend Transport; Thu, 2 Nov 2023 18:54:00 -0700
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <alex.kanavin@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] tzdata: Reduced time zone configuration
+Date: Fri, 3 Nov 2023 09:53:57 +0800
+Message-ID: <20231103015357.3478404-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: u5TdGfM49z4h2FL_r6ujIwBeS99t0F-c
+X-Proofpoint-ORIG-GUID: u5TdGfM49z4h2FL_r6ujIwBeS99t0F-c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-03_01,2023-11-02_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 clxscore=1011 mlxlogscore=999 phishscore=0 mlxscore=0
+ bulkscore=0 spamscore=0 suspectscore=0 malwarescore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2310240000 definitions=main-2311030013
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 02 Nov 2023 22:36:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190103
+ <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 01:54:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190104
 
-Hi Michael, hi Quentin
-
-Sent a new version to the docs mailing list:
-https://lists.yoctoproject.org/g/docs/message/4578
-
-I hope this will address all your findings and I also hope that the v8
-of the devtool ide will be accepted soon.
-
-Adrian
+On Thu, 2 Nov 2023 10:43:28 +0100 Alexander Kanavin wrote:
+>> The tzdata.bb by default pulls in all possible timezone data packages which
+>> increases size of the final root filesystem considerably.
+>> The customer would like to have extra timezones configurable so that only
+>> tzdata-core is chosen by default and rest of the zones are optional.
+>> This change would make the fs size a lot smaller.
+>
+>Thank you for the contribution. To be considered for inclusion in
+>oe-core, there need to be two improvements:
+>
+>- please quantify wording like "increases size considerably" and
+>"makes sizes a lot smaller". What kind of numbers are those and under
+>what conditions?
+When TZ_PACKAGES only retains one tzdata-core, the image size generated by 
+tzdata is 320KB. 
+When TZ_PACKAGES contains all tzdata packets, the image size of tzdata is 7.4MB.
+The difference in mirror size between the two is 7MB.
+>- the changes need to be integrated directly into tzdata recipe, and
+>default behavior needs to remain as it is now.
+Thanks,
+Lizhi
 
