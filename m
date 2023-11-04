@@ -1,211 +1,69 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alejandro@enedino.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3635C4332F
-	for <webhook@archiver.kernel.org>; Fri,  3 Nov 2023 23:51:10 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.97382.1699055463820326542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 430C8C4332F
+	for <webhook@archiver.kernel.org>; Sat,  4 Nov 2023 06:47:00 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.5290.1699080414332972332
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Nov 2023 16:51:04 -0700
+ Fri, 03 Nov 2023 23:46:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=bJs56L4z;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1C79C60005;
-	Fri,  3 Nov 2023 23:50:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699055438;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q4eQTA4yL9T3Bt8h8oYypba2mNg1x85lo9AfYZlnnNM=;
-	b=bJs56L4z7Y+9gsOm6cD9fhfF8yWX21dYxJODpHMz3c1vq6RR9glijSj6W/zhlMYbbqvbXQ
-	XfWgaT/7dbMkTF8MhB61JtZGCy4LCOcfNfPP4yDxcoHqL8dCcFlaEsCOy+pdqSZKaHkXiU
-	KL2UaQ+2iHEcMq57LfUtSfRmfw10ZubAIIop3fEyRIcrdPUfXQULuumOfBq7nwVfyCpYvU
-	N60oUw38dfHuKWbLc1qsPIa0fK+KaHRggt3R8IrCA0+A0LJmnWO1QmAWa+zO8VcecmswRy
-	UrhWRRmPsi0OrOdGet2rTPtW7Xel0SG2vp9Q009mSa1B/va6IcGd8bBim6xfHw==
-Date: Sat, 4 Nov 2023 00:50:37 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH 4/4] populate_sdk_ext: split copy_buildsystem()
- into logical steps defined as functions
-Message-ID: <2023110323503770e4813e@mail.local>
-References: <20231103102806.2332746-1-alex@linutronix.de>
- <20231103102806.2332746-4-alex@linutronix.de>
+ dkim=none (message not signed); spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
+Received: from DL-ARCH01.lan (cpe-173-175-175-24.elp.res.rr.com [173.175.175.24])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 690CB20B74C0;
+	Fri,  3 Nov 2023 23:46:53 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 690CB20B74C0
+From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Subject: [PATCH] baremetal-helloworld: Pull in fix for race condition on x86-64
+Date: Sat,  4 Nov 2023 00:46:42 -0600
+Message-ID: <20231104064642.871564-1-alejandro@enedino.org>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231103102806.2332746-4-alex@linutronix.de>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 03 Nov 2023 23:51:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190168
+ <openembedded-core@lists.openembedded.org>; Sat, 04 Nov 2023 06:47:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190169
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/7419/steps/16/logs/stdio
+It was previously discovered that there was a race condition during the M=
+akefile
+execution between the assemble and compile targets, the previous fix atte=
+mpted
+to serialize the build targets, but the fix was missing for x86-64.
 
-On 03/11/2023 11:28:06+0100, Alexander Kanavin wrote:
-> copy_buildsystem() has become far too large and needs to be split
-> into shorter and more understandable pieces; some of those
-> pieces will be reused for the purpose of providing esdk mode
-> directly from a plain yocto build.
-> 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/classes-recipe/populate_sdk_ext.bbclass | 59 ++++++++++++++++----
->  1 file changed, 47 insertions(+), 12 deletions(-)
-> 
-> diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-recipe/populate_sdk_ext.bbclass
-> index 53adc868d47..a20f38fb210 100644
-> --- a/meta/classes-recipe/populate_sdk_ext.bbclass
-> +++ b/meta/classes-recipe/populate_sdk_ext.bbclass
-> @@ -186,12 +186,7 @@ def create_filtered_tasklist(d, sdkbasepath, tasklistfile, conf_initpath):
->          if os.path.exists(localconf + '.bak'):
->              os.replace(localconf + '.bak', localconf)
->  
-> -python copy_buildsystem () {
-> -    import re
-> -    import shutil
-> -    import glob
-> -    import oe.copy_buildsystem
-> -
-> +def copy_bitbake_and_layers(d, baseoutpath, derivative):
->      oe_init_env_script = d.getVar('OE_INIT_ENV_SCRIPT')
->  
->      conf_bbpath = ''
-> @@ -200,13 +195,7 @@ python copy_buildsystem () {
->  
->      # Copy in all metadata layers + bitbake (as repositories)
->      buildsystem = oe.copy_buildsystem.BuildSystem('extensible SDK', d)
-> -    baseoutpath = d.getVar('SDK_OUTPUT') + '/' + d.getVar('SDKPATH')
->  
-> -    #check if custome templateconf path is set
-> -    use_custom_templateconf = d.getVar('SDK_CUSTOM_TEMPLATECONF')
-> -
-> -    # Determine if we're building a derivative extensible SDK (from devtool build-sdk)
-> -    derivative = (d.getVar('SDK_DERIVATIVE') or '') == '1'
->      if derivative:
->          workspace_name = 'orig-workspace'
->      else:
-> @@ -231,6 +220,9 @@ python copy_buildsystem () {
->      d.setVar('oe_init_build_env_path', conf_initpath)
->      d.setVar('esdk_tools_path', esdk_tools_path)
->  
-> +    return (conf_initpath, conf_bbpath, core_meta_subdir, sdkbblayers)
-> +
-> +def write_devtool_config(d, baseoutpath, conf_bbpath, conf_initpath, core_meta_subdir):
->      # Write out config file for devtool
->      import configparser
->      config = configparser.ConfigParser()
-> @@ -247,10 +239,12 @@ python copy_buildsystem () {
->      with open(os.path.join(baseoutpath, 'conf', 'devtool.conf'), 'w') as f:
->          config.write(f)
->  
-> +def write_unlocked_sigs(d, baseoutpath):
->      unlockedsigs =  os.path.join(baseoutpath, 'conf', 'unlocked-sigs.inc')
->      with open(unlockedsigs, 'w') as f:
->          pass
->  
-> +def write_bblayers_conf(d, baseoutpath, sdkbblayers):
->      # Create a layer for new recipes / appends
->      bbpath = d.getVar('BBPATH')
->      env = os.environ.copy()
-> @@ -279,6 +273,9 @@ python copy_buildsystem () {
->          f.write('    $' + '{SDKBASEMETAPATH}/workspace \\\n')
->          f.write('    "\n')
->  
-> +def copy_uninative(d, baseoutpath):
-> +    import shutil
-> +
->      # Copy uninative tarball
->      # For now this is where uninative.bbclass expects the tarball
->      if bb.data.inherits_class('uninative', d):
-> @@ -288,6 +285,12 @@ python copy_buildsystem () {
->          bb.utils.mkdirhier(uninative_outdir)
->          shutil.copy(uninative_file, uninative_outdir)
->  
-> +    return uninative_checksum
-> +
-> +def write_local_conf(d, baseoutpath, derivative, core_meta_subdir, uninative_checksum):
-> +    #check if custome templateconf path is set
-> +    use_custom_templateconf = d.getVar('SDK_CUSTOM_TEMPLATECONF')
-> +
->      env_passthrough = (d.getVar('BB_ENV_PASSTHROUGH_ADDITIONS') or '').split()
->      env_passthrough_values = {}
->  
-> @@ -457,6 +460,9 @@ python copy_buildsystem () {
->                  f.write(line)
->              f.write('\n')
->  
-> +def prepare_locked_cache(d, baseoutpath, conf_initpath):
-> +    import shutil
-> +
->      # Filter the locked signatures file to just the sstate tasks we are interested in
->      excluded_targets = get_sdk_install_targets(d, images_only=True)
->      sigfile = d.getVar('WORKDIR') + '/locked-sigs.inc'
-> @@ -560,6 +566,9 @@ python copy_buildsystem () {
->                  f = os.path.join(root, name)
->                  os.remove(f)
->  
-> +def write_manifest(d, baseoutpath):
-> +    import glob
-> +
->      # Write manifest file
->      # Note: at the moment we cannot include the env setup script here to keep
->      # it updated, since it gets modified during SDK installation (see
-> @@ -583,6 +592,32 @@ python copy_buildsystem () {
->                      continue
->                  chksum = bb.utils.sha256_file(fn)
->                  f.write('%s\t%s\n' % (chksum, os.path.relpath(fn, baseoutpath)))
-> +
-> +
-> +python copy_buildsystem () {
-> +    import oe.copy_buildsystem
-> +
-> +    baseoutpath = d.getVar('SDK_OUTPUT') + '/' + d.getVar('SDKPATH')
-> +
-> +    # Determine if we're building a derivative extensible SDK (from devtool build-sdk)
-> +    derivative = (d.getVar('SDK_DERIVATIVE') or '') == '1'
-> +
-> +    conf_initpath, conf_bbpath, core_meta_subdir, sdkbblayers = copy_bitbake_and_layers(d, baseoutpath, derivative)
-> +
-> +    write_devtool_config(d, baseoutpath, conf_bbpath, conf_initpath, core_meta_subdir)
-> +
-> +    write_unlocked_sigs(d, baseoutpath)
-> +
-> +    write_bblayers_conf(d, baseoutpath, sdkbblayers)
-> +
-> +    uninative_checksum = copy_uninative(d, baseoutpath)
-> +
-> +    write_local_conf(d, baseoutpath, derivative, core_meta_subdir, uninative_checksum)
-> +
-> +    prepare_locked_cache(d, baseoutpath, conf_initpath)
-> +
-> +    write_manifest(d, baseoutpath)
-> +
->  }
->  
->  def get_current_buildtools(d):
-> -- 
-> 2.39.2
-> 
+Pull in latest commit from upstream to fix this issue on x86-64.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190151): https://lists.openembedded.org/g/openembedded-core/message/190151
-> Mute This Topic: https://lists.openembedded.org/mt/102361115/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+[YOCTO #15146]
 
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.o=
+rg>
+---
+ .../baremetal-example/baremetal-helloworld_git.bb               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/recipes-extended/baremetal-example/baremetal-helloworld=
+_git.bb b/meta/recipes-extended/baremetal-example/baremetal-helloworld_gi=
+t.bb
+index fde75ec2fd..6832ccc541 100644
+--- a/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
++++ b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
+@@ -4,7 +4,7 @@ DESCRIPTION =3D "These are introductory examples to showc=
+ase the use of QEMU to ru
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D39346640a23c701e4f459e05f56f4=
+449"
+=20
+-SRCREV =3D "fc7c43d138185028b6ac14c83f6492fce26eca95"
++SRCREV =3D "db2bf750eaef7fc0832e13ada8291343bbcc3afe"
+ PV =3D "0.1+git"
+=20
+ SRC_URI =3D "git://github.com/ahcbb6/baremetal-helloqemu.git;protocol=3D=
+https;branch=3Dmaster"
+--=20
+2.42.1
+
 
