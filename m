@@ -1,88 +1,108 @@
-Return-Path: <vince@underview.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0241EC4332F
-	for <webhook@archiver.kernel.org>; Sun,  5 Nov 2023 04:19:30 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web11.24792.1699157963487952495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CEA0C4332F
+	for <webhook@archiver.kernel.org>; Sun,  5 Nov 2023 08:30:21 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.26766.1699173017897801801
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Nov 2023 21:19:23 -0700
+ Sun, 05 Nov 2023 01:30:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@underview.tech header.s=google header.b=XbcoM6oL;
- spf=pass (domain: underview.tech, ip: 209.85.160.175, mailfrom: vince@underview.tech)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-41cba6e8e65so21202801cf.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 04 Nov 2023 21:19:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cf+dLQTT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.180, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c514cbbe7eso49086691fa.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Nov 2023 01:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=underview.tech; s=google; t=1699157962; x=1699762762; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5NNDeVKjNw+azRkTMX/VPoBFtMajlrxBbTsBfoNKflQ=;
-        b=XbcoM6oL74paCkQA0p54OgPHmAXvDGz0sEa5AJXQrpSuyaPoOCIN4w/JZo3iJ0xugJ
-         MhPv7RRv72hy1gpsMmhkdeBViRNGXIfHT0g8XKf1mrt7kr0XrrYNNR50ZtzaX0iBJYsU
-         OR1vLsoqeL0T9HEHO3mwriVPSRcRU49GDtPh5KpQ57ST1YyrsiBHld1nAe6AmRuhJlSr
-         +RyLdbVpCpVNM0DFfExKGepw0jBjN6Cv0vlUjIvXAsINIramJA4z5LEyvjTs4DLfj0S/
-         ++mL8OWuAgzZfu5B4DzYeuRg8k7Le9Ac7Vi+r9F+c4DOX4kVpdmYBZ09nbMEI5L6Cl6A
-         2HHQ==
+        d=linuxfoundation.org; s=google; t=1699173016; x=1699777816; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VYwUpIcFWsqi9+BgDNSR7knfhh9VVGsXwlcJFrCVW0M=;
+        b=cf+dLQTT7JR21FDDj5INFb+sbCL3ZHjJSnzpGoHSP3ic6Lh+ykrki8UiB9MMfph0dZ
+         WURKqsvLwRTakevhCa70gRpGy4d/LU0SuzyfDsqJs6yxr5UaWPJJlyI9UeELVwGYKzcY
+         9/0TByG0Kj6hA35yRyUvNrpawEIiijhejoYNQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699157962; x=1699762762;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5NNDeVKjNw+azRkTMX/VPoBFtMajlrxBbTsBfoNKflQ=;
-        b=biu5qYYujM3hLFCOPy4itiOO1wriACs6AzbIc2fKOFQ9+fJ3Sqqp2w01cQUMT7iC6M
-         7doPoGfALDIqyEscseg9b2UBnUvsNx53h7vy70M0cLFd089Sat/yuPFYD/S7+nIqWa3w
-         24pmjBRs/rllJFLpWHto1GvtRWw0cgXMmyFj21hktGnwBRgk9s76LJKxTDafMF1BF6xg
-         C7fo4KWIFmRcSwTEwEbRi04UiQ4ptYP8VfbJxrVrefWBAiQgk6BsQ08qTwa2NIMh2bwp
-         /hsASadSA9QYZjH9y2YJ/lWhZ5BzA0V0i1vkp1vCalRQ4pMcvX5RPoqL3ZQLG5O4F0Rv
-         FU+w==
-X-Gm-Message-State: AOJu0Yw+sTdaHEK3dakYeGaBT/mQgjGuVvJmp9mgkVHsGwvqBGd7Vh0y
-	8E8FtcKbH0pDuC+NZ+I5PHQkHq521C6y3hmXRus=
-X-Google-Smtp-Source: AGHT+IEN0woSAbKS2egWQ0rmh5Xq5ZHFmrOVsJGRqe7pvIb+YvQzm6NS+QtRv0Sk40wovUVSqTL6+Q==
-X-Received: by 2002:ac8:57c9:0:b0:41e:a8ab:3c73 with SMTP id w9-20020ac857c9000000b0041ea8ab3c73mr4731658qta.41.1699157962370;
-        Sat, 04 Nov 2023 21:19:22 -0700 (PDT)
-Received: from vince-B550I-AORUS-PRO-AX.hsd1.mi.comcast.net ([2601:406:4d00:a9b0:c3e0:d1d9:dda5:f86a])
-        by smtp.gmail.com with ESMTPSA id o4-20020ac85544000000b0041e383d527esm2177633qtr.66.2023.11.04.21.19.21
+        d=1e100.net; s=20230601; t=1699173016; x=1699777816;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VYwUpIcFWsqi9+BgDNSR7knfhh9VVGsXwlcJFrCVW0M=;
+        b=Anm2Anyh7AU6HxkgJtNmY4oQ1cab24dTGPdkNBrt6Doq6TiUV7rGlvXIKDPgj40NTG
+         XvEm78KwS74xEBRbMZmjdxm4beYCxbmAuTacUDGCqFYz5LKqdzUA4psl16/MdetUdJ6w
+         n3ilwmTOmP00uLZsPJSwnQVcLnc8c6O42mNwl+swz19TSSs5dKovncKpkxZmuA40eyGE
+         HzKpd1NWrksVJKXnJnxZvMSayhpKNsuClEy4WlvuydiKAMs6Cg6udzhf8B8zMKFXDwHH
+         EVKMXi739n5ywJJNHeDcUKjyDKUjOagQK7eChqIdVVqMtc2pd3wVU9kjExvq2O4kFYWJ
+         dZAA==
+X-Gm-Message-State: AOJu0Ywx0gRhKBVONu0CziMnbBzme6DfX1k2MJFTTWQgVfY6rUiTiWzk
+	4oJv4CMmDJPrvDdNHFWSiYhdpA==
+X-Google-Smtp-Source: AGHT+IFaIhPMtam800zJq6Vsec33F5+sAlycc8ShGo2V+hPWih2LQ+FwQ+sFioWqAFP5JhDUKxpQsw==
+X-Received: by 2002:a05:651c:1031:b0:2c6:eb44:2e12 with SMTP id w17-20020a05651c103100b002c6eb442e12mr8955241ljm.43.1699173016050;
+        Sun, 05 Nov 2023 01:30:16 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c8b8:43bd:3cc1:92af? ([2001:8b0:aba:5f3c:c8b8:43bd:3cc1:92af])
+        by smtp.gmail.com with ESMTPSA id n37-20020a05600c3ba500b003fee6e170f9sm8354387wms.45.2023.11.05.01.30.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Nov 2023 21:19:21 -0700 (PDT)
-From: Vincent Davis Jr <vince@underview.tech>
-To: openembedded-core@lists.openembedded.org
-Cc: Vincent Davis Jr <vince@underview.tech>
-Subject: [PATCH] acpica: add nativesdk to BBCLASSEXTEND
-Date: Sun,  5 Nov 2023 00:18:57 -0400
-Message-Id: <20231105041857.119695-1-vince@underview.tech>
-X-Mailer: git-send-email 2.34.1
+        Sun, 05 Nov 2023 01:30:15 -0700 (PDT)
+Message-ID: <c27ece603012c2df3a50d67b9e5337e1880768d7.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v3 0/4] recipetool: Add handler to create go
+ recipes
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Lukas Funke <lukas.funke-oss@weidmueller.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Vyacheslav Yurkov
+ <uvv.mail@gmail.com>, Martin Jansa <martin.jansa@gmail.com>, Peter
+ Kjellerstedt <peter.kjellerstedt@axis.com>, u.oelmann@pengutronix.de, Lukas
+ Funke <lukas.funke@weidmueller.com>
+Date: Sun, 05 Nov 2023 08:30:14 +0000
+In-Reply-To: <20231102155313.309534-1-lukas.funke-oss@weidmueller.com>
+References: <20231102155313.309534-1-lukas.funke-oss@weidmueller.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Nov 2023 04:19:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190183
+ <openembedded-core@lists.openembedded.org>; Sun, 05 Nov 2023 08:30:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190184
 
-Enables use of the iasl compiler on the host
-side of a given generated SDK.
+On Thu, 2023-11-02 at 16:53 +0100, Lukas Funke wrote:
+> From: Lukas Funke <lukas.funke@weidmueller.com>
+>=20
+> This patch series adds a recipetool handler in order to create 'go' recip=
+es.
+> Each recipe contains a list of dependencies in their SRC_URI.
+> Dependencies are derived from the projects `go.mod` file. For each
+> dependency the corresponding license file uri/hash is added.
+>=20
+> The recipe may not work ad-hoc, but is a good starting point to create
+> a working recipe and have a working offline-build.
+>=20
+> In addition to the main recipe three additional files will be generated:
+>   - $pn-modules.inc
+>   - $pn-license.inc
+>   - modules.txt
+>=20
+> Changes from v2:
+>   - Generate separate *.inc for go dependencies and licenses
+>   - Adapted oe-selftest according to change above
+>   - Incorparate community suggestions
+>=20
+> Lukas Funke (4):
+>   classes: go-vendor: Add go-vendor class
+>   selftest: recipetool: Add test for go recipe handler
+>   recipetool: Ignore *.go files while scanning for licenses
+>   recipetool: Add handler to create go recipes
 
-via
+This looks to be getting there but the code failed in testing:
 
-TOOLCHAIN_HOST_TASK += "nativesdk-acpica"
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2371/ste=
+ps/14/logs/stdio
 
-Signed-off-by: Vincent Davis Jr <vince@underview.tech>
----
- meta/recipes-extended/acpica/acpica_20230628.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+since removeprefix is python 3.9 syntax and 3.8 is our minimum version
+at present.
 
-diff --git a/meta/recipes-extended/acpica/acpica_20230628.bb b/meta/recipes-extended/acpica/acpica_20230628.bb
-index 3b939ad665..b7921516a2 100644
---- a/meta/recipes-extended/acpica/acpica_20230628.bb
-+++ b/meta/recipes-extended/acpica/acpica_20230628.bb
-@@ -49,4 +49,4 @@ RPROVIDES:${PN} += "iasl"
- RREPLACES:${PN} += "iasl"
- RCONFLICTS:${PN} += "iasl"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.34.1
+Cheers,
 
+Richard
 
