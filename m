@@ -2,57 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E03A9C4167D
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 13:40:00 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.54587.1699277994668037504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9838C4332F
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 13:50:40 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.54828.1699278631065931759
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 05:39:55 -0800
+ Mon, 06 Nov 2023 05:50:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ehm+sR9h;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.172, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2c6efcef4eeso54348311fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 05:39:54 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C7Wg6B+Q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4083f613272so39449195e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 05:50:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1699277993; x=1699882793; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1699278629; x=1699883429; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=LFqIeYjurBbOJ5VrSG0JswdTvlJX7wU2evg4aD/wrlM=;
-        b=Ehm+sR9h1W7jcG5XhlNLZBU6Gfha5dQ8086Pwu48dBsCNzFavGiNNMUjCROiMexEVc
-         geqFFDy1YD2Rlwo4DEKP8KQ/2z8tBpu745YDIMHk+YNeJUT5vo5oKNRLD96eDrPH1L7L
-         oN1UavPBDtMoMxy6EN+3EFwtDtHfmZt+kFmR8=
+        bh=aM+X1bUQ5aC+RzARRVTh4G4/nb9SnMT4xT13HrBrQgQ=;
+        b=C7Wg6B+QK5UzeQuId/oXa5vUiy+WiFIyAchh1/k1luObJozfapsu89gU6WhKF8XB0x
+         wfdwzpCT7GYqluY8ITPaPlJot+I/EF2sOYj8/+WplRO09zHvKmEoHQ4ATSipPPaz9wif
+         Imh/zmjF4JJvBp64X7Xdje/lL7JPa95FOfqOw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699277993; x=1699882793;
+        d=1e100.net; s=20230601; t=1699278629; x=1699883429;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LFqIeYjurBbOJ5VrSG0JswdTvlJX7wU2evg4aD/wrlM=;
-        b=mvOtfY/K1MnBYalhRJh5l9JKoQZZiHsHDyv5tTNXKy7pG0uVLGxyMgxJkhg/5BdUkj
-         oOFFnxHJ3PiGJ90Mu5s2YVsYiG1Z8RVevCQ0Oq8w6E0dtI/uxH4rcln/5sE1QOsWNy0P
-         vv9XugsKM5pF46l6Onm616IImAbL1fuUX0lqcDj4oGkIUYqK5ACUDWFqvBoh1pCoQ1dj
-         Yd+V9ty8kGSvReb7mSLYCU/t9eXNev0QysJMxmMj2GAqdUv3gb1+kRXsrKqVQwqXZr8C
-         a1dNARCy78j53YOaIcG4n/7WDRbD80GNcPHXiInMUlWu6Ay/dbcxiAWlUnWdwBSX8gdT
-         IxJQ==
-X-Gm-Message-State: AOJu0Yy8gn63P5wyonh6h1MXZOD/3ILW7OfG2pC9mIJVfLCI+WdBRdz6
-	hPCOUCYXig3SIY9Fa7KaXNJPPw==
-X-Google-Smtp-Source: AGHT+IEsh5Zg5f2tvYd7folzY3F0nq0yBsmBC30Lcs4QeHRuEGrH4cyJkMCAshkpIttUTV4aQUS4VA==
-X-Received: by 2002:a2e:86c4:0:b0:2b9:f27f:e491 with SMTP id n4-20020a2e86c4000000b002b9f27fe491mr23825364ljj.42.1699277992831;
-        Mon, 06 Nov 2023 05:39:52 -0800 (PST)
+        bh=aM+X1bUQ5aC+RzARRVTh4G4/nb9SnMT4xT13HrBrQgQ=;
+        b=Lx4ONV6Ow+QQIiW4ZR5AVN4++o/WIiQ4VAqLFszn/idE/wQKvJ3d0+bezBrDkGuZx+
+         8EQ1n/2uGbh1jDLtsmWyBy+SfSD2YO0HLa9EBUHqbL0hyNXVH4H0BjIhaU2Cc6dEt57q
+         TecUIK0rVX6KSPtzM3dZHBKDqsbezd8Bgw7Y4anpY/YoawsxRCXhopPV0rQ/r2iwlayX
+         7duhsBlKwUPm8f5KrXit4kjVNGmWgrZYMiUxGRSN7D5D6bxDRdoQxW9gGbzHxv0p76Gf
+         qdXsz/mrR3SK+LNlwTxuxBNrMQIW5hXGaHcNvQuhwOCQzFpcZddSAxbMtC4N8tnSJlt2
+         JTUQ==
+X-Gm-Message-State: AOJu0Ywt/TAkcZw9duxdcrlfhMixsozmOd1fKebkiIv1wm68kdn2eysk
+	EuXxL8/K7IC+In31JhPDQ+dLww==
+X-Google-Smtp-Source: AGHT+IF0znU/FbPU0WrKhGe0wPTGL0wpBAfNwMvIuJDsDES6L6rUuBP85DPirYGQEabWeC5dZkjnFA==
+X-Received: by 2002:a05:600c:20c:b0:409:4823:57d7 with SMTP id 12-20020a05600c020c00b00409482357d7mr16157035wmi.14.1699278629405;
+        Mon, 06 Nov 2023 05:50:29 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:1ccc:c310:74c7:1597? ([2001:8b0:aba:5f3c:1ccc:c310:74c7:1597])
-        by smtp.gmail.com with ESMTPSA id p22-20020a05600c419600b00401d8181f8bsm11950512wmh.25.2023.11.06.05.39.52
+        by smtp.gmail.com with ESMTPSA id n3-20020a05600c4f8300b004064288597bsm12390171wmq.30.2023.11.06.05.50.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 05:39:52 -0800 (PST)
-Message-ID: <71b30900fc4937e1d70a72c0423196d6e1daa21b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v8 2/8] cmake.bbclass: support qemu
+        Mon, 06 Nov 2023 05:50:29 -0800 (PST)
+Message-ID: <41e4a23f7b8fcbc1da06d9414646aed6d9a33f1a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v8 3/8] image-combined-dbg: make this the
+ default
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Adrian Freihofer <adrian.freihofer@gmail.com>, 
 	openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Date: Mon, 06 Nov 2023 13:39:51 +0000
-In-Reply-To: <20231101110129.647878-3-adrian.freihofer@siemens.com>
+Date: Mon, 06 Nov 2023 13:50:28 +0000
+In-Reply-To: <20231101110129.647878-4-adrian.freihofer@siemens.com>
 References: <20231101110129.647878-1-adrian.freihofer@siemens.com>
-	 <20231101110129.647878-3-adrian.freihofer@siemens.com>
+	 <20231101110129.647878-4-adrian.freihofer@siemens.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
@@ -60,91 +61,43 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 13:40:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190216
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 13:50:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190217
 
 On Wed, 2023-11-01 at 12:01 +0100, Adrian Freihofer wrote:
-> Define the CMAKE_CROSSCOMPILING_EMULATOR variable similar to what the
-> meson bbclass does. This allows for example to execute cross compilied
-> unit tests on the build machine.
+> Remove the image-combined-dbg.bbclass and make this the default
+> behavior for the rootfs-dbg. A rootfs-dbg with only debug symbols but
+> no executable binaries also causes problems with gdb, which is
+> probably the most common use case for the roofs-dbg. This change
+> simplifies and improves the user experience for a slightly larger
+> rootfs-dbg.
 >=20
-> CMAKE_CROSSCOMPILING_EMULATOR is a semi colon separated list of
-> paramters which could directly handle the -L and the -E parameters.
-> Creating a wrapper script is not absolutely mandatory. But anyway lets
-> do it similar to what the meson.bbclass does and also disable pseudo.
+> If the rootfs-dbg contains a complete copy of the rootfs, it is also
+> usable for booting the target device over the network. This in turn
+> simplifies other use cases with e.g. the use of perf on a device
+> booted over the network.
 >=20
 > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->  meta/classes-recipe/cmake.bbclass | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->=20
-> diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmak=
-e.bbclass
-> index d978b889440..911c237a3fd 100644
-> --- a/meta/classes-recipe/cmake.bbclass
-> +++ b/meta/classes-recipe/cmake.bbclass
-> @@ -4,6 +4,13 @@
->  # SPDX-License-Identifier: MIT
->  #
-> =20
-> +inherit qemu
-> +
-> +EXEWRAPPER_ENABLED:class-native =3D "False"
-> +EXEWRAPPER_ENABLED:class-nativesdk =3D "False"
-> +EXEWRAPPER_ENABLED ?=3D "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-=
-usermode', 'True', 'False', d)}"
-> +DEPENDS:append =3D "${@' qemu-native' if d.getVar('EXEWRAPPER_ENABLED') =
-=3D=3D 'True' else ''}"
-> +
->  # Path to the CMake file to process.
->  OECMAKE_SOURCEPATH ??=3D "${S}"
-> =20
-> @@ -156,6 +163,19 @@ EOF
-> =20
->  addtask generate_toolchain_file after do_patch before do_configure
-> =20
-> +cmake_do_generate_toolchain_file:append:class-target() {
-> +    if [ "${EXEWRAPPER_ENABLED}" =3D "True" ]; then
-> +        # Write out a qemu wrapper that will be used as exe_wrapper so t=
-hat camake
-> +        # can run target helper binaries through that. This also allows =
-to execute ctest.
-> +        qemu_binary=3D"${@qemu_wrapper_cmdline(d, '${STAGING_DIR_HOST}',=
- ['${STAGING_DIR_HOST}/${libdir}','${STAGING_DIR_HOST}/${base_libdir}'])}"
-> +        echo "#!/bin/sh" > "${WORKDIR}/cmake-qemuwrapper"
-> +        echo "$qemu_binary \"\$@\"" >> "${WORKDIR}/cmake-qemuwrapper"
-> +        chmod +x "${WORKDIR}/cmake-qemuwrapper"
-> +        echo "set( CMAKE_CROSSCOMPILING_EMULATOR ${WORKDIR}/cmake-qemuwr=
-apper)" \
-> +          >> ${WORKDIR}/toolchain.cmake
-> +    fi
-> +}
-> +
->  CONFIGURE_FILES =3D "CMakeLists.txt *.cmake"
-> =20
->  do_configure[cleandirs] =3D "${@d.getVar('B') if d.getVar('S') !=3D d.ge=
-tVar('B') else ''}"
 
-We've tried very hard historically to avoid needing qemu usermode. It
-has crept in, first because gobject introspection required it and more
-recently, meson but that isn't a reason to encourage it.
+I'm being pressured for review on this so I'll just say what the
+problem is. I struggle to review this as off the top of my head, I
+can't remember the difference between "rootfs-dbg" or "image-combined-
+dbg". I understand the patch gets rid of one and the argument appears
+to be that gdb doesn't work well with the case that is removed.
 
-I'm a bit reluctant to put this in the cmake class itself as it makes
-it seem like it is part of the normal best practise and it really
-isn't. I'd suggest a cmake-qemu class which people can use if they
-really need this.
+What isn't here is any reminder of what the differences are, or a
+pointer to the history which lead us to have two different modes in the
+first place. We presumably had a reason for adding it.
 
-The reason is that some architectures/platorms don't work under qemu.
-Even x86-64 didn't with certain more recent CPU optimisations until
-surprisingly recently.
+That means in order to review it, I'd have to dig into the history and
+work out the differences, then work out why we added the two modes and
+then determine if they're still needed.
+
+What would help speed up review would be a pointer to the original
+commits and/or a summary of why the were added. A summary of the
+differences between the two modes would also help/
 
 Cheers,
 
 Richard
-
-
-
-
-
-
 
