@@ -1,85 +1,81 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B18FBC4332F
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 13:07:30 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.53243.1699276050076952073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3AC9C4167B
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 13:13:40 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web11.53354.1699276413203637694
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 05:07:30 -0800
+ Mon, 06 Nov 2023 05:13:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TiXIscRU;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50970c2115eso1269090e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 05:07:29 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=rBo41ivJ;
+ spf=pass (domain: baylibre.com, ip: 209.85.167.178, mailfrom: tgamblin@baylibre.com)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3b5aee410f2so226829b6e.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 05:13:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699276048; x=1699880848; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FAAByQERkvuFqMeG1H6KgbgtswWAAnG4ONRuNuIjH9E=;
-        b=TiXIscRUHdHPVAbcKoy2SkpxUtrtoLxekoyjUIDIgf0z60Ihx2IlZOxcih8kj5wiI7
-         ZBFmj9oLpx7h4SWc8YuMrPpeiWlVGkAScMUdhS6hbb2uoVg8xgPOIdit27A2o/MlhaAc
-         2dZHBShER0mlJyJEkiviCngFQtDHlg5vbOhR3KqsfHeoeDusyDBhkwcvWDKTPe4wz/EE
-         pMbNTssGu0bjwrYC51RG4ZNp+dFCcHx4/YHL3fqxgJo5INvGl85pO9kPrjgYu+XrkLFF
-         gMPRD58l4hQaYeH2niAeNZ35nWEIZx1obJSoq0Mz5UcO4RvRcED05FlJR9y9/jQ4xo5d
-         CCgQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1699276412; x=1699881212; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dsrIuT1RpLfFCzqQrIExSlgGZ/UQI5IVV3RWuyQpFHE=;
+        b=rBo41ivJEVnwDvJZuqGSrMjtQPlizml+RGTujX5bt05IobOLyKY0XQlbSrGwzc0pNZ
+         pNUVvO65SmmCDs+O+Qm/ysPeyBo0qJqFjSWtyxuqSxwDAtdNsVyl+L5QePtgFWF2+gVK
+         ga+/VzKahPcPzpenqXv2YfT7TZhqyISepRHy/GhdBJH3uqm4Y5W7jT9D11QpW9Uxw2c9
+         aXI1o8FEwR8JQJQiTEwyLlyKpGF/9ui8vZac3l7+fU0WRutAKt+rzczWEu/EXLCLLPOJ
+         6W4gXFyYzXOVmku5Wf5yA2S7P1rUGgSQJ6ZQJHj5ZmLQ9XNw4bZgbM+wmdafkW16j/RX
+         br4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699276048; x=1699880848;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FAAByQERkvuFqMeG1H6KgbgtswWAAnG4ONRuNuIjH9E=;
-        b=q3c6Owd3bba0k26EFiIbreliqT8XYECeXvh88nouhmCh4T38tiZ08pvl1fe0zlOO9W
-         uLEmdZVg5nAd/huP1Od6J2dGpqjH/kh0NOJI/FYxGvmIhlZkive2TWOdOl5At8vW5xDd
-         KQxVTYYozlSrXo9qsCuZYBdwYHNGcsWpJIRw16xQ4pS/OUWDE6tYcX2kDWr/MNT4NH4S
-         fH5+Me6Fyeo2O+QEdggmVhnjjciwbKXeL/ULSUJ6j8V6pNi/WXfqkGlEFE88L7qrTW+F
-         Ec1kiKFXjwt4qdLKLfYlpeE0MZxBdld1yuMFvT1kW7B84H+TF2sFOD+ORVvpfX6mR70z
-         RbJA==
-X-Gm-Message-State: AOJu0YyV4ekdXQLxu5gHSQnXMgYgFr5f9ZSuti1Twhvv4DD2Kvk1N+kb
-	vMRiv/qB+JD+IBR4gso1uqAWphw+6tm14ICdhm8=
-X-Google-Smtp-Source: AGHT+IHcdXnzIx+xHKDQJiy8QkLkMfHvWV9p6o20OJwPsS9ZwYOUm0QA0Bj7y0wtKbYHQVDoiPxBtzp29QHFOoPbuMo=
-X-Received: by 2002:ac2:5e84:0:b0:507:9777:7a7 with SMTP id
- b4-20020ac25e84000000b00507977707a7mr21230092lfq.17.1699276047898; Mon, 06
- Nov 2023 05:07:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699276412; x=1699881212;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dsrIuT1RpLfFCzqQrIExSlgGZ/UQI5IVV3RWuyQpFHE=;
+        b=rFB5vAKcML9XNHjVsuo9Ga7yGmOP5hclPySirnSVKvD4o/GC6oP3DWKWW2AxCpiJC6
+         jqnaBaP52/cG0jjJnURPbAfr0xPb5j3HwapF3rvi5nBb3+CajbaUc2fCCFztoWUWqNVs
+         B1bhxnysxFWTQ8SUGzN3jRmN8AGqG27wP224CFCm55zlIbtzC6dtIl7g4e+Fm14ZWepe
+         gTY2pmkL0rEo7sAljYz4A1Z8XynBPMsxkScBkY8ksdc5ZJl63w/9JW2xWcQpKhTR+j2L
+         BRwzQk5cLFVR+99RT4tFctikfbZzeyFG8wffpHZHMDekdhqTIyNU3OhQVj05K74Yyuio
+         Na2A==
+X-Gm-Message-State: AOJu0YygACVIrrv9pD8f9zcOWFBjOirmDfxb2RolvbjcNO076C8xAshw
+	U5IHoavYoJWw7TYDCQMagq0/WQ==
+X-Google-Smtp-Source: AGHT+IFIZsO/TXrdLwgiV7ZA+QstQTXFBmatqN0vWSvYDfdmYNSQkFvGcDr1oVFpMLWhob3kQ6D4aA==
+X-Received: by 2002:a05:6808:22a5:b0:3b5:94f7:2b2 with SMTP id bo37-20020a05680822a500b003b594f702b2mr7596414oib.56.1699276412146;
+        Mon, 06 Nov 2023 05:13:32 -0800 (PST)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id s8-20020a05620a16a800b00767b0c35c15sm3245325qkj.91.2023.11.06.05.13.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Nov 2023 05:13:31 -0800 (PST)
+Message-ID: <11eaf282-e9dc-4ed6-994d-c94c47582150@baylibre.com>
+Date: Mon, 6 Nov 2023 08:13:30 -0500
 MIME-Version: 1.0
-References: <20231026103320.2751277-1-alex@linutronix.de> <984be73de92e191166e9dddf95aa9861f346ddcd.camel@linuxfoundation.org>
-In-Reply-To: <984be73de92e191166e9dddf95aa9861f346ddcd.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 6 Nov 2023 14:07:16 +0100
-Message-ID: <CANNYZj__C98+yFQ54Fsr8HqNL7xaLri6AukWfL0O4CK0in8t2w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] selftest/sstatetests: add tests for
- 'bitbake -S printdiff'
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] Patchtest results for [PATCH] cairo: upgrade 1.16.0 ->
+ 1.18.0
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: qiutt@fujitsu.com, openembedded-core@lists.openembedded.org
+References: <0101018ba28d50b5-31bd6f92-16b0-443a-b238-0e8143dd0ea4-000000@us-west-2.amazonses.com>
+ <CANNYZj_cfDiPZQsZQv88XsS8AqSVRanefc1ZNbi-ZrfacOurcw@mail.gmail.com>
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <CANNYZj_cfDiPZQsZQv88XsS8AqSVRanefc1ZNbi-ZrfacOurcw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 13:07:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190213
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 13:13:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190214
 
-On Mon, 6 Nov 2023 at 13:48, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
 
-> This highlights two issues:
+On 2023-11-06 07:25, Alexander Kanavin wrote:
+> On Mon, 6 Nov 2023 at 03:54, Patchtest
+> <patchtest@automation.yoctoproject.org> wrote:
+>> Testing patch /home/patchtest/share/mboxes/cairo-upgrade-1.16.0---1.18.0.patch
+>>
+>> FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+> This doesn't seem correct, as the patch doesn't touch LIC_FILES_CHKSUM.
+You're right. Having a look...
 >
-> a) Why is the single sstate siginfo file gone? The most likely
-> explanation is that it wasn't accessed recently and was deleted by the
-> cleanup/ageing code. This makes sense since the code in question never
-> downloads it, only checks it exists and uses that as a marker. Our
-> usage "accesses" are in a different codepath to the parsing check.
->
-> b) This means -S printdiff doesn't quite do what you'd expect since it
-> doesn't skip "covered" tasks in the same way a normal build would.
->
-> To reproduce the test failure you should be able to just delete that
-> siginfo file from your local sstate.
-
-It is tempting to then not use the 'live' AB cache, and run the tests
-against private synthetic cache like the most of the rest of
-sstatetests does. Should we?
-
-Alex
+> Alex
 
