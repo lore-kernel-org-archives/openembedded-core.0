@@ -1,349 +1,342 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <qiutt@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0412C4332F
-	for <webhook@archiver.kernel.org>; Sun,  5 Nov 2023 19:43:34 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.37093.1699213412898299690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5089C4332F
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 02:34:36 +0000 (UTC)
+Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
+ by mx.groups.io with SMTP id smtpd.web10.46357.1699238075433767795
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Nov 2023 11:43:33 -0800
+ Sun, 05 Nov 2023 18:34:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lUfuLmwQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40859dee28cso29444915e9.0;
-        Sun, 05 Nov 2023 11:43:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699213411; x=1699818211; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bNK3LrTF5tM7QJrEqjLcNE0wA5dpreVent9FQYXF/kA=;
-        b=lUfuLmwQEYtuBP67CA7LrAZxrsp/FCnILmzrSCOetf32VL/cD4k+WyTcjSEiymLuDo
-         B4rrcVIIMjhoi9ze19Z/wgXprA4Hcx5fsxLhcNRjCHAvwbR8g7KcOmyXaisus+xxtcWm
-         rERavIS7IupGO32Lvf+5WfpNPS5xrc4N4zmOg1tJVhQnaYaz5Q8GGd6X8G4oRAuGgSYZ
-         NPIe4h5dPxjcB0CDr3BLUYCUUISUpOVp9JIMj3lbFdA0HJ7Qk5pef+F4np2/4RyhzHHI
-         HrkGqdmWBB1aubaWDD50V83e5XOzfG7PbFqvaFcs0mBD+HbEJ2HDCteWMH6CDuQUNXUf
-         fJog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699213411; x=1699818211;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bNK3LrTF5tM7QJrEqjLcNE0wA5dpreVent9FQYXF/kA=;
-        b=s7HO4gHnt4s7/36jS/3VXqWKGth+NTILv+7R47j8lp4CHtOyIshsxEAgIAr2WQ3AuA
-         s983FQgZDUNOCxHwsD/nzwupouN/BynnTZs37Li4Y22xfnMlW4NRpqcMJJs72Fj15jMN
-         o/7VqFzzft4F4jR2JkpcgBUoE9WBxUVFIItyyXweJ/9o/lDEepS0RwVc2omqF0RLvq9e
-         uamU5/NrEe90uesvx55CxPDk9nH5OFG7fZPhXkGZshapiYfl6QPTtQOerBzWh9xj4/FV
-         EnLAYGJ+229heGsjtsc/Dh28tXoJNbp5CljUspuQsAr2v5cZCyuvS+35oFv2Y2UQQnkz
-         v+1g==
-X-Gm-Message-State: AOJu0Yz3tE36YbDgypdPxH7UN3m7imQQJTMlqjXsjiMjlwRRDMPVcbyk
-	jlrJYoCK29opH9Tz3Ac0lTo=
-X-Google-Smtp-Source: AGHT+IGYJ6Sxr5HsCOldl7DhrOHO4CmCuyhD1tI4Laj2mjZmIdD8M7SNofnhhPy7b9G7YbSpzjBveA==
-X-Received: by 2002:a05:600c:3146:b0:406:53ab:a9af with SMTP id h6-20020a05600c314600b0040653aba9afmr23025479wmo.10.1699213410769;
-        Sun, 05 Nov 2023 11:43:30 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 12-20020a05600c020c00b004063ea92492sm9849221wmi.22.2023.11.05.11.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Nov 2023 11:43:30 -0800 (PST)
-Message-ID: <dd3d342e400b900c7f7ddbbe93c725472f6d6f1f.camel@gmail.com>
-Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
- for why is sstate not being reused?
-From: adrian.freihofer@gmail.com
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-architecture
- <openembedded-architecture@lists.openembedded.org>, Michael Halstead
- <mhalstead@linuxfoundation.org>, Yocto-mailing-list
- <yocto@lists.yoctoproject.org>, ",openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, Julien STEPHAN
- <jstephan@baylibre.com>
-Date: Sun, 05 Nov 2023 20:43:29 +0100
-In-Reply-To: <0b1cfe6b26e5c61b1e700e3801900038e2d48f25.camel@linuxfoundation.org>
-References: 
-	<CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
-	 <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
-	 <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
-	 <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
-	 <649b2f000761831cabd1f5737fb5b30a2ffc3654.camel@gmail.com>
-	 <CANNYZj_Cq+cncw5SCGii=Mhj0KGgo=qr=hCuo+wpdvtR9C=Qyg@mail.gmail.com>
-	 <58e2c7a830bceac9b3a8c6cee63f03ae4a118da0.camel@gmail.com>
-	 <0b1cfe6b26e5c61b1e700e3801900038e2d48f25.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
-MIME-Version: 1.0
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: qiutt@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="126632102"
+X-IronPort-AV: E=Sophos;i="6.03,280,1694703600"; 
+   d="scan'208";a="126632102"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 11:34:13 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id BD42AD9DB5
+	for <openembedded-core@lists.openembedded.org>; Mon,  6 Nov 2023 11:34:11 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id EA22926AEB
+	for <openembedded-core@lists.openembedded.org>; Mon,  6 Nov 2023 11:34:10 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6EE56200501BD
+	for <openembedded-core@lists.openembedded.org>; Mon,  6 Nov 2023 11:34:10 +0900 (JST)
+Received: from centos.g08.fujitsu.local (unknown [10.167.219.96])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 0CF841A006F;
+	Mon,  6 Nov 2023 10:34:09 +0800 (CST)
+From: qiutt@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: qiutt <qiutt@fujitsu.com>
+Subject: [PATCH] cairo: upgrade 1.16.0 -> 1.18.0
+Date: Mon,  6 Nov 2023 10:34:05 +0800
+Message-Id: <1699238045-2801-1-git-send-email-qiutt@fujitsu.com>
+X-Mailer: git-send-email 1.7.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27980.004
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27980.004
+X-TMASE-Result: 10--9.092100-10.000000
+X-TMASE-MatchedRID: Zht1puvKudmjz0nOeth/yUIIxwDaU5mrxqwmEOBVKeqvY1zctlJ9TDBX
+	Xb/qS263sU8ECLuhDYszKUcjfbDidspSC015mx5vHeq/w17M53qZmLDnd2pI3wUMroZlhAl9OcY
+	/jkDGKiJV4C/vPAJ49XdNoXv6UJm+YTECZtuF/N0D2WXLXdz+AdUEOicf335WmOZ1aYocYsOVIb
+	fpsq9FzNvJClw+2wnZxiiH+oQX+1UBOHW58ozCWk7nLUqYrlslNmVjpriVEtm4GyTmeN+AbNizx
+	Nej0JUTw1vigW0zG7E4XZaUWQ+fgAI2KcLRn3QRzfqlpbtmcWgnhzAhgvoq50Yx760ONDcWKpi9
+	XFTnNcDPz9CYF+mMT3y8s7RgoirCxG11D4HJ3wS/QNwZdfw3FSJtibNJuxPCo2PBF3QVHR9WDCU
+	d3SK4dosAGCSLDiuK+bg+kMDal2sWQV+Hmk6Z5/hmLfH/1YU7LYdywTHl7nuervGnOiwVzftqIr
+	kO/l5c6tJOVmmMtwe636hV6a1ExwTmrXwoXYx7EzEoOqAAVLNr9+Kgn2XgeHXHQq6zBeSUs0Bvo
+	FssJgWWM5TrNhwGvBuB5Xh71Q+eeAhnd12HpxdmPsTq8ee41heN9Hd3TB5Gnebzwo/2+OOUg5UD
+	6AlF0rF9uGobEuT7gDLqnrRlXra/ZOFeDeXHgN0H8LFZNFG7/nnwJ52QYi+pygCGKFPC+PL0dqd
+	hIhOvA0ihJoywxP1/MOQ1Z9NLMA1q3VdInFoLVTZi8K+htUM=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 05 Nov 2023 19:43:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190190
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 02:34:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190191
 
-On Sat, 2023-11-04 at 11:09 +0000, Richard Purdie wrote:
-> On Sat, 2023-11-04 at 11:29 +0100, adrian.freihofer@gmail.com=C2=A0wrote:
-> > Hi Alex, hi Richard
-> >=20
-> > After some internal discussions, I would like to clarify my
-> > previous
-> > answers on this topic.
-> >=20
-> > =C2=A0* Usually there are two different workflows
-> > =C2=A0=C2=A0=C2=A0 - application developers: could use an SDK with a lo=
-cked
-> > sstate-cache.
-> > =C2=A0=C2=A0=C2=A0 - Yocto/BSP developers: need an unlocked SDK. They c=
-hange the
-> > recipes.
-> > =C2=A0* A locked SDK
-> > =C2=A0=C2=A0=C2=A0 - can work with setscene from SSTATE_MIRRORS
-> > =C2=A0=C2=A0=C2=A0 - setscene does caching in the SSTATE_DIR (no issue =
-about that)
-> > =C2=A0=C2=A0=C2=A0 - But network problems can occur during the initial =
-build
-> > because
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake executes many independent setsce=
-ne tasks. Opening so
-> > many
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 independent connections slows down the b=
-uild, especially if
-> > the
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 server treats them as a denial of servic=
-e attack.
-> > =C2=A0=C2=A0=C2=A0 - The denial of service problem is difficult to solv=
-e because
-> > each
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 setscene task runs in its own bibtake ta=
-sk. Reusing a
-> > connection to
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 download multiple sstate artifacts seems=
- almost impossible.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This is much easier to solve with separa=
-te sstate download
-> > script.
->=20
-> FWIW, we did have a similar issue with do_fetch overloading
-> servers/proxies/ISPs and added:
->=20
-> do_fetch[number_threads] =3D "4"
->=20
-> Finding the right place to put a thread limit on overall setscene
-> tasks
-> is harder but in theory possible. Or perhaps a "network capable
-> tasks"
-> thread limit?
->=20
-> Is the overload caused by the initial query of sstate presence, or,
-> does it happen when the setscene tasks themselves run?
+From: qiutt <qiutt@fujitsu.com>
 
-The most extreme situation is probably bitbake --setscene-only with an
-empty TMPDIR. Each of the setscene tasks establishes a new connection.
-A server receives so many connections that it treats them as a denial
-of service attack by throttling. A separate script would allow the same
-connection to be reused to download all the required artifacts.
-Limiting the number of threads does not really solve the issue because
-there are still the same amount of connections which get quickly
-opened.
+Changelog for 1.18.0 [1]:
+  The cairo-sphinx tool has been removed
+  Cairo now implements Type 3 color fonts for PDF
+  The XML surface has been removed
+  The Tee surface is now automatically enabled
+  The Quartz surface is improved
+  Cairo now hides all private symbols by default on every platform
+  Fixed multiple issues
 
->=20
->=20
-> > =C2=A0* An unlocked SDK
-> > =C2=A0=C2=A0=C2=A0 - Tries to download the sstate cache for changed rec=
-ipes and
-> > their
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dependencies, which obviously can't work=
-.
-> > =C2=A0=C2=A0=C2=A0 - The useless download requests slow down the build
-> > considerably and
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cause a high load on the servers without=
- any benefit.
->=20
-> Is this sstate over http(s) or something else? I seem to remember you
-> mentioning sftp. If this were using sftp, it would be horribly slow
-> as
-> it was designed for a light overhead "does this exist?" check which
-> http(s) can manage well.
+[1] https://www.cairographics.org/news/cairo-1.18.0/
 
-Yes, we are evaluating sftp. You are right, it is not optimal from a
-performance point of view. For example S3 is much faster. A compromise
-is to set up a limited number of parallel sftp connections. This has
-worked very well so far.
+Signed-off-by: qiutt <qiutt@fujitsu.com>
+---
+ .../cairo/cairo/CVE-2018-19876.patch          | 34 -----------
+ .../cairo/cairo/CVE-2019-6461.patch           | 13 ++--
+ .../cairo/cairo/CVE-2019-6462.patch           | 40 -------------
+ .../cairo/cairo/CVE-2020-35492.patch          | 60 -------------------
+ .../{cairo_1.16.0.bb => cairo_1.18.0.bb}      | 41 ++++---------
+ 5 files changed, 18 insertions(+), 170 deletions(-)
+ delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+ delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+ delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+ rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.18.0.bb} (68%)
 
-The question of why we use sftp brings us to a larger topic that is
-probably relevant for almost all Yocto users, but not for the Yocto
-project itself: Security.
-
-There is usually a git server infrastructure that makes it possible to
-protect Git repositories with finely graded access policies. As the
-sstate-cache contains the same source code, the protection concept for
-the Git repositories must also be applied to the sstate-cache
-artifacts.
-
-First of all a user authentication is required for the sstate-mirror.
-An obvious idea is to use the same user authentication for the sstate-
-cache server as for the Git server. In addition to https, ssh is also
-often used for git repositories. SSH even offers some advantages in
-terms of user-friendliness and security (if a ssh agent is used).=C2=A0This
-consideration finally leads us to use the sftp protocol for the sstate
-mirror. This is also relatively easy to administer: Simply copy the
-user's public ssh keys from the git server to the sftp server.
-
-If one then wants to scale an sstate-cache server for many different
-projects and users, one quickly wishes for an option for authorization
-at artifact level. Ideally, the access rights to the source code would
-be completely transferred to the associated sstate artifacts. For such
-an authorization the ssate mirror server would require the SRC_URI
-which was used to compile the sstate artifact. With this information,
-it could ask the Git server whether or not a user has access to all
-source code repositories to grant or deny access to a particular sstate
-artifact. It should not be forgotten that the access rights to the Git
-repositories can change.
-
->=20
-> Recently we've been wondering about teaching the hashequiv server
-> about
-> "presence", which would then mean the build would only query things
-> that stood a good chance of existing.
->=20
-Yes, that sound very interesting. There are probably even more such
-kind of meta data which could be provided by the hashserver to improve
-the management of a shared sstate mirror.
-
-Would it make sense to include e.g. the SRC_URI in the hashserv
-database and extend the hashserver's API to also provide meta data e.g.
-for the authorization of the sstate-mirror? Or is security and
-authorization something which should be handled independently from hash
-equivalence?
-
-Another topic where additional meta data about the sstate-cache seams
-to be beneficial is sstate-mirror retention. Knowing which artifact was
-compiled for which tag or commit of the bitbake layer could help to
-wipe out some artifacts which are not needed anymore.
-
-> > =C2=A0=C2=A0=C2=A0 - A script which gets a list of sstate artifacts fro=
-m bitbake
-> > and then
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 does a upfront download works much bette=
-r
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 + The script runs only when the us=
-er calls it or the SDK
-> > gets boot-
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 strapped
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 + The script uses a reasonable amo=
-unt of parallel
-> > connections which
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 are re-used for more t=
-hen one artifact download
->=20
-> Explaining to users they need to do X before Y quickly gets tiring,
-> both for people explaining it and the people doing it trying to
-> remember. I'd really like to get to a point where the system "does
-> the
-> right thing" if we can.
->=20
-> I don't believe the problems you describe are insurmountable. If you
-> are using sftp, that is going to be a big chunk of the problem as the
-> system assumes something faster is available. Yes, I've taken patches
-> to make sftp work but it isn't recommended at all. I appreciate there
-> would be reasons why you use sftp but if it is possible to get a list
-> of "available sstate" via other means, it would improve things.
->=20
-> > =C2=A0* Idea for a smart lock/unlock implementation
-> > =C2=A0=C2=A0=C2=A0 - Form a user's perspective a locked vs. an unlocked=
- SDK does
-> > not make
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 much sense. It makes more sense if the S=
-DK would
-> > automatically
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 download the sstate-cache if it is expec=
-ted to be available.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Lets think about an implementation (whic=
-h allows to override
-> > the
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logic) to switch from automatic to manua=
-l mode:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SSTATE_MIRRORS_ENABLED ?=3D "${is_sstate=
-_mirror_available()}"
->=20
-> What determines this availability? I worry that is something very
-> fragile and specific to your use case. It is also not an all or
-> nothing
-> binary thing.
-
-It would probably be better to query a harserver if an artifact is
-present.
->=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 In our case the sstate mirror is expecte=
-d to provide all
-> > artifacts
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for tagged commits and for some git bran=
-ches of the layer
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 repositories.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The sstate is obviousely not usable for =
-a "dirty" git layer
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 repository.
->=20
-> That isn't correct and isn't going to work. If I make a single change
-> locally, there is a good chance that 99.9% of the sstate could still
-> be
-> valid in some cases. Forcing the user through 10 hours of rebuild
-> when
-> potentially that much was available is a really really bad user
-> experience.
-
-Maybe there is a better idea.
-
->=20
-> > =C2=A0That's what the is_sstate_mirror_available function
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 could check to automatically enable and =
-disable lazy
-> > downloads.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > =C2=A0=C2=A0=C2=A0 - If is_sstate_mirror_available() returns false, it =
-should
-> > still be
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 possible to initiate a sstate-cache down=
-load manually.
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > =C2=A0* Terminology
-> > =C2=A0=C2=A0=C2=A0 - Older Yocto Releases:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 + eSDK means an installer which pr=
-ovides a different
-> > environment with
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 different tools
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 + The eSDK was static, with a lock=
-ed sstate cache
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 + Was for one MACHINE, for one ima=
-ge...
-> > =C2=A0=C2=A0=C2=A0 - Newer Yocto Releases:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 + The bitbake environment offers a=
-ll features of the eSDK
-> > installer. I
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 consider this as alrea=
-dy implemented with meta-ide-support
-> > and
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 build-sysroots.
->=20
-> Remember bblock and bbunlock too. These provide a way to fix or
-> unlock
-> specific sections of the codebase. Usually a developer has a pretty
-> good idea of which bits they want to allow to change. I don't think
-> people have yet realised/explored the potential these offer.
->=20
-
-Yes, I also started thinking about the possibilities we would get for
-the SDK if there is a hash-server or an even more generic a meta data
-server for the sstate-cache in the middle of the infrastructure
-picture. it would probably solve some challenges which I could not find
-a solution so far.
-
-
-Thank you for your response.
-
-Adrian
-
-
-> Cheers,
->=20
-> Richard
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+deleted file mode 100644
+index 4252a5663b..0000000000
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-CVE: CVE-2018-19876
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
+-From: Carlos Garcia Campos <cgarcia@igalia.com>
+-Date: Mon, 19 Nov 2018 12:33:07 +0100
+-Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
+- cairo_ft_apply_variations
+-
+-Fixes a crash when using freetype >= 2.9
+----
+- src/cairo-ft-font.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
+-index 325dd61b4..981973f78 100644
+---- a/src/cairo-ft-font.c
+-+++ b/src/cairo-ft-font.c
+-@@ -2393,7 +2393,11 @@ skip:
+- done:
+-         free (coords);
+-         free (current_coords);
+-+#if HAVE_FT_DONE_MM_VAR
+-+        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
+-+#else
+-         free (ft_mm_var);
+-+#endif
+-     }
+- }
+- 
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+index a2dba6cb20..fab514332c 100644
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
++++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+@@ -1,15 +1,16 @@
+ There is an assertion in function _cairo_arc_in_direction().
++backport for 1.18.0 version.
++Signed-off-by: Qiu Tingting <qiutt@fujitsu.com>
+ 
+ CVE: CVE-2019-6461
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+-diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+-index 390397bae..1bde774a4 100644
+---- a/src/cairo-arc.c
+-+++ b/src/cairo-arc.c
+-@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
+-     if (cairo_status (cr))
++diff -rNu c/src/cairo-arc.c d/src/cairo-arc.c
++--- c/src/cairo-arc.c	2023-10-25 08:30:04.502179244 +0800
+++++ d/src/cairo-arc.c	2023-10-25 08:30:25.122179639 +0800
++@@ -191,7 +191,8 @@
++     if (! ISFINITE (angle_max) || ! ISFINITE (angle_min))
+          return;
+  
+ -    assert (angle_max >= angle_min);
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+deleted file mode 100644
+index 7c3209291b..0000000000
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-CVE: CVE-2019-6462
+-Upstream-Status: Backport
+-Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+-
+-From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
+-From: Heiko Lewin <hlewin@gmx.de>
+-Date: Sun, 1 Aug 2021 11:16:03 +0000
+-Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
+-
+----
+- src/cairo-arc.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+-index 390397bae..1c891d1a0 100644
+---- a/src/cairo-arc.c
+-+++ b/src/cairo-arc.c
+-@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
+- 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
+-     };
+-     int table_size = ARRAY_LENGTH (table);
+-+    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
+- 
+-     for (i = 0; i < table_size; i++)
+- 	if (table[i].error < tolerance)
+- 	    return table[i].angle;
+- 
+-     ++i;
+-+
+-     do {
+- 	angle = M_PI / i++;
+- 	error = _arc_error_normalized (angle);
+--    } while (error > tolerance);
+-+    } while (error > tolerance && i < max_segments);
+- 
+-     return angle;
+- }
+--- 
+-2.38.1
+-
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+deleted file mode 100644
+index fb6ce5cfdf..0000000000
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-Fix stack buffer overflow.
+-
+-CVE: CVE-2020-35492
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+-From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
+-From: Heiko Lewin <heiko.lewin@worldiety.de>
+-Date: Tue, 15 Dec 2020 16:48:19 +0100
+-Subject: [PATCH] Fix mask usage in image-compositor
+-
+----
+- src/cairo-image-compositor.c                |   8 ++--
+- test/Makefile.sources                       |   1 +
+- test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
+- test/reference/bug-image-compositor.ref.png | Bin 0 -> 185 bytes
+- 4 files changed, 44 insertions(+), 4 deletions(-)
+- create mode 100644 test/bug-image-compositor.c
+- create mode 100644 test/reference/bug-image-compositor.ref.png
+-
+-diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
+-index 79ad69f68..4f8aaed99 100644
+---- a/src/cairo-image-compositor.c
+-+++ b/src/cairo-image-compositor.c
+-@@ -2601,14 +2601,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+- 		    unsigned num_spans)
+- {
+-     cairo_image_span_renderer_t *r = abstract_renderer;
+--    uint8_t *m;
+-+    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
+-     int x0;
+- 
+-     if (num_spans == 0)
+- 	return CAIRO_STATUS_SUCCESS;
+- 
+-     x0 = spans[0].x;
+--    m = r->_buf;
+-+    m = base;
+-     do {
+- 	int len = spans[1].x - spans[0].x;
+- 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
+-@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+- 				      spans[0].x, y,
+- 				      spans[1].x - spans[0].x, h);
+- 
+--	    m = r->_buf;
+-+	    m = base;
+- 	    x0 = spans[1].x;
+- 	} else if (spans[0].coverage == 0x0) {
+- 	    if (spans[0].x != x0) {
+-@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+- #endif
+- 	    }
+- 
+--	    m = r->_buf;
+-+	    m = base;
+- 	    x0 = spans[1].x;
+- 	} else {
+- 	    *m++ = spans[0].coverage;
+--- 
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
+similarity index 68%
+rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
+rename to meta/recipes-graphics/cairo/cairo_1.18.0.bb
+index ffb813d290..a1efc82d45 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
+@@ -30,47 +30,28 @@ DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+ 
+ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
+-           file://CVE-2018-19876.patch \
+            file://CVE-2019-6461.patch \
+-           file://CVE-2019-6462.patch \
+-           file://CVE-2020-35492.patch \
+           "
+ 
+-SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
+-SRC_URI[sha256sum] = "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
++SRC_URI[md5sum] = "3f0685fbadc530606f965b9645bb51d9"
++SRC_URI[sha256sum] = "243a0736b978a33dee29f9cca7521733b78a65b5418206fef7bd1c3d4cf10b64"
+ 
+-inherit autotools pkgconfig upstream-version-is-even gtk-doc multilib_script
++inherit meson pkgconfig
++EXTRA_OEMESON = "-Dglib=enabled -Dpng=enabled -Dfontconfig=enabled -Dzlib=enabled"
+ 
+ MULTILIB_SCRIPTS = "${PN}-perf-utils:${bindir}/cairo-trace"
+ 
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
+-                   trace"
++PACKAGECONFIG ??= " \
++	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
++"
++
+ PACKAGECONFIG:class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+ PACKAGECONFIG:class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+ 
+-PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+-PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+-PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
+-PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
+-PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+-PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
+-PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
+-# trace is under GPLv3
+-PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+-
+-EXTRA_OECONF += " \
+-    ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
+-    --enable-tee \
+-"
+-
+-# We don't depend on binutils so we need to disable this
+-export ac_cv_lib_bfd_bfd_openr="no"
+-# Ensure we don't depend on LZO
+-export ac_cv_lib_lzo2_lzo2a_decompress="no"
++PACKAGECONFIG[x11] = "-Dxlib=enabled,-Dxlib=disabled,${X11DEPENDS}"
++PACKAGECONFIG[xcb] = "-Dxcb=enabled,-Dxcb=disabled,libxcb"
+ 
+ do_install:append () {
+ 	rm -rf ${D}${bindir}/cairo-sphinx
+@@ -96,7 +77,7 @@ to replay rendering."
+ 
+ DESCRIPTION:cairo-perf-utils = "The Cairo library performance utilities"
+ 
+-FILES:${PN} = "${libdir}/libcairo.so.*"
++FILES:${PN} = "${libdir}/libcairo.so.* ${libdir}/cairo/libcairo-fdr.so*"
+ FILES:${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
+ FILES:${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
+ FILES:${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so"
+-- 
+2.25.1
 
 
