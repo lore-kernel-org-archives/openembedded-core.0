@@ -1,618 +1,165 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91382C4332F
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 15:31:41 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.56925.1699284691568875616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F25C4332F
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 15:33:11 +0000 (UTC)
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web11.56973.1699284788101097457
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 07:31:32 -0800
+ Mon, 06 Nov 2023 07:33:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=h71GruIg;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.52, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5401bab7525so7858820a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 07:31:31 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QIrlFRFj;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7a94a3b0a49so167544439f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 07:33:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699284689; x=1699889489; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1699284787; x=1699889587; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5jySDERg8OoLqPmjW6dfCsNFf8KqZiVnzgeedmHP2VE=;
-        b=h71GruIgzmTQugHFFDEuTj/303+UzRvcOHUITo9Ily/6g47Hdj+GvAREZC7jMfOyvA
-         oueYfLSOm/IlHi3UXuKifnxLAOwJOHrurEh7In1D/yzB60BrLj8sGTz9XGRf588L4lyv
-         QbMHRIi3YmARfQkrx4Pi/yDC9opUtCSNgfa4/5DbcvHHH5VCmX/nka20rSCfkB5xnaTR
-         +um3D8xjqJKgBVO/hzGHQMH1lE3xXBVx9dGa0EBNj9PLn3lMnWTCy08EX31RmI5zyDJV
-         zGjBZwDuLYmHdUhBaN+mnLknJhOJbFemZlJoCvdmvrKd1AM/AoH+ZZmO7KCvtRVJAz6Q
-         abag==
+        bh=OnC2dPCqv9wFBpbbGwPFbdiWmJbjK4EUPuaQSU4CytI=;
+        b=QIrlFRFjqTnWaueJXoUwQ65YGKdYErCKOMJr+ZSW8UmTUkPAA8FSpYrz4a/JlqgpQ4
+         Wbw5VbIU+col8fizRXyg9zGqdsTmZFLRE9pS/v1ytglDXtX7yY3Dy8yudl6KH9KtjPP4
+         sLL/Rd6zGuJrMOnwBaioaaS3g8wtuWJFCgUJgx9VgL0BOodAeXw05WMhJNW1GT3dWnr8
+         a9fqaZ0xw28umVPNMo1lI3Znop6UkqV8/LeI7Q0qNa5jZBiUjdHgwyDgkh/W/tqG2hz8
+         I+6xUSo/SD4hRFHtMgUtYc5HoeTkk2k490N1ZTEa0p09wzMedqqsMt1q9ADeGLiOfhRG
+         PBVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699284689; x=1699889489;
+        d=1e100.net; s=20230601; t=1699284787; x=1699889587;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5jySDERg8OoLqPmjW6dfCsNFf8KqZiVnzgeedmHP2VE=;
-        b=d8nAtim0lDJur5AJqAzHwXLMCv347BRUZIpMi20TfdCSAg3GRnJG8ziph2kZRhZ289
-         h/Q3b07GrXgtTLAAcBJnMsf1w9kKwuqrAktE1oXsHMlcSZIDruikFve8du3LhCk3/oh2
-         0dHvUCsFjF91JXg2A3WBW657fKmdqZ7b3l3+CgsdFj1wHLDuOsfNjRTkwhm9ecYcPn2O
-         /DEaM11YpU/4ZiXxxwX9WPSNPZgbYOROCTJZr9yx/Sz0m0UpGYi7UqWdYmRizsceVjVF
-         VASB1BzmKcIkMhvu9xj8fwODnEKV0Cumeg/3bkkcOs9KNeU4w/v1Pud50B7mlj9kbekq
-         uwww==
-X-Gm-Message-State: AOJu0YwG8rXSCVJC49LxIlrHS6KgE+mzrU0eZCBRF+zFWuJ266pHHUy8
-	v/SvJttOL83xjwA+/nPqQo4LOU9KAknYxzzJAOXRZQ==
-X-Google-Smtp-Source: AGHT+IEEEOwQ27xMk+HiOPL0O9ANR2dcrYLVt+dV3KQMyeB+OaL6LyEbobrzeHvRrNKF+AOZZk39nql0VNJqiei45+w=
-X-Received: by 2002:a17:907:7fac:b0:9c1:9b3a:4cd1 with SMTP id
- qk44-20020a1709077fac00b009c19b3a4cd1mr17651971ejc.3.1699284689283; Mon, 06
- Nov 2023 07:31:29 -0800 (PST)
+        bh=OnC2dPCqv9wFBpbbGwPFbdiWmJbjK4EUPuaQSU4CytI=;
+        b=Wv20HRpakSB+kD7JelqBHkdrieOf8SUgtoirCUYQO1IWAzKxqw6a0Bo8xa6MoYUo1t
+         Fc7o315oWKjkYk3R6QBqCUhcjuBR5rAKK6v1YP3GxaZpgXf96P+gM3vTNzc127ltctni
+         evI280ZXmb16FdQC2DIgYcClbgmz4Q0oDvqAalwCOx1VLqS6Gq2kmpNMSPvZRc7dH/Nt
+         ugLFiw9W9oZqCumo7JFt7TyoY8RvO2Wcfgrumo2RrhkMG1ID/RhBzFhDWnqPrJ2+LDBm
+         Z2sZ3nVjO3GwlPgFEXJ2F8BnCtGy0N+JmEQPnzf+2E8GgoMHkgfOnnrdZmltV0WSwb7U
+         3R7A==
+X-Gm-Message-State: AOJu0Yw/ve48GPCZ71zB5aRqo4S7ZVIOQq4htaSmHYwh4L1SPWbzTf//
+	s/71x0Hzcqun1sWNxv9JBgTJ7oY03HA+jKE+u+A=
+X-Google-Smtp-Source: AGHT+IGfWnK4DGVFcppHZmVTYgMlFuWkzLXED4JuVniA0aNb/EgtYyGFf8wUEF1+HI1mJgNx02K7RM3q8/uF0Y6+cKU=
+X-Received: by 2002:a05:6602:3f88:b0:78b:b892:e334 with SMTP id
+ fb8-20020a0566023f8800b0078bb892e334mr40119027iob.11.1699284787206; Mon, 06
+ Nov 2023 07:33:07 -0800 (PST)
 MIME-Version: 1.0
-References: <179504CADB8F6451.12603@lists.openembedded.org> <CANQUz1_8SRKv-prdz9QbF3v77hvoqr3yBvP7G+Ddii4fTpUABw@mail.gmail.com>
-In-Reply-To: <CANQUz1_8SRKv-prdz9QbF3v77hvoqr3yBvP7G+Ddii4fTpUABw@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 6 Nov 2023 05:31:17 -1000
-Message-ID: <CAOSpxdYSJ9t=VYo4xK74s7uxjk4geZb2_Fg2YEwrrsJFdWR-WA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] xserver-xorg: Fix for CVE-2023-5367
- CVE-2023-5380 and CVE-2023-5574
-To: Vijay Anusuri <vanusuri@mvista.com>
-Cc: openembedded-core@lists.openembedded.org
+References: <20231106142217.3837516-1-rasmus.villemoes@prevas.dk>
+ <CADkTA4OsEXpRsULAkvx0cbFvdH2xVPW3JGuG2FcJ43OZyakBzQ@mail.gmail.com> <9a9a2845-68f0-45b2-b934-5e8438361670@prevas.dk>
+In-Reply-To: <9a9a2845-68f0-45b2-b934-5e8438361670@prevas.dk>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 6 Nov 2023 10:32:55 -0500
+Message-ID: <CADkTA4MhXMqu+G6q+_Dk-ySfAsp-un0A+Y57dQmz9LRpR=bm8A@mail.gmail.com>
+Subject: Re: [PATCH] perf: add jevents PACKAGECONFIG item
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Cc: openembedded-core@lists.openembedded.org, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Max Krummenacher <max.krummenacher@toradex.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 15:31:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190229
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 15:33:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190230
 
-On Mon, Nov 6, 2023 at 5:02=E2=80=AFAM Vijay Anusuri <vanusuri@mvista.com> =
-wrote:
+On Mon, Nov 6, 2023 at 10:15=E2=80=AFAM Rasmus Villemoes
+<rasmus.villemoes@prevas.dk> wrote:
 >
-> Hi Steve,
+> On 06/11/2023 15.49, Bruce Ashfield wrote:
+> > On Mon, Nov 6, 2023 at 9:22=E2=80=AFAM Rasmus Villemoes
+> > <rasmus.villemoes@prevas.dk> wrote:
+> >>
+> >> From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> >>
+> >> Building for an arm64 target, e.g. qemuarm64 or a raspberrypi3,
+> >> without "python" in PACKAGECONFIG, results in
+> >>
+> >> | Makefile.config:892: *** ERROR: No python interpreter needed for jev=
+ents generation. Install python or build with NO_JEVENTS=3D1..  Stop.
+> >>
+> >> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> >> ---
+> >>  meta/recipes-kernel/perf/perf.bb | 1 +
+> >>  1 file changed, 1 insertion(+)
+> >>
+> >> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/pe=
+rf/perf.bb
+> >> index a392166e73..37b53ee7df 100644
+> >> --- a/meta/recipes-kernel/perf/perf.bb
+> >> +++ b/meta/recipes-kernel/perf/perf.bb
+> >> @@ -28,6 +28,7 @@ PACKAGECONFIG[audit] =3D ",NO_LIBAUDIT=3D1,audit"
+> >>  PACKAGECONFIG[manpages] =3D ",,xmlto-native asciidoc-native"
+> >>  PACKAGECONFIG[cap] =3D ",,libcap"
+> >>  PACKAGECONFIG[libtraceevent] =3D ",NO_LIBTRACEEVENT=3D1,libtraceevent=
+"
+> >> +PACKAGECONFIG[jevents] =3D ",NO_JEVENTS=3D1,python3-native"
+> >
+> > Since we already have a python packageconfig and it takes care of
+> > the dependencies that we need, we shouldn't be repeating the python3-na=
+tive
+> > in this one. We'll end up having to maintain that dependency in
+> > two locations.
+> >
+> > i.e. we don't have python3-native as a dependency of our main python
+> > packageconfig .. is that an error (the python packageconfig) or should
+> > this be depending on python3 python3-setuptools-native, just like the
+> > python one ?
 >
-> Xserver-xorg version is the same for both mickledore and kirkstone. Could=
- you please merge this patch to mickledore along with kirkstone.
+> The two are as I understand it entirely unrelated. The existing python
+> knob controls whether some stuff that requires python at runtime is
+> built/installed (and that build may of course itself require some native
+> python, in this case in the guise of setuptools-native).
+>
+> The jevents stuff is purely about generating some tables [as a .c file]
+> at build time, and that requires native python, but does not impose a
+> dependency on python on target.
 
-I will merge these patches to the stable branches after it hits the
-master branch.
+Fair enough. So it is definitely a host-side feature.
 
-Steve
+A comment above the packageconfig explaining that would
+be ideal. In a perfect world, all of our packageconfig options
+would have a docstring along with them .. since it is easy
+to lose track of things.
 
 >
-> Thanks & Regards,
-> Vijay
+> > Since there's no way to make packageconfig 'a' depend on
+> > packageconfig 'b' that I know of (RP will correct me if I'm missing
+> > or forgetting something here), we could always add a test on the
+> > final PACKAGECONFIG and error/warn if jevents was enabled and
+> > python wasn't.
 >
-> On Mon, Nov 6, 2023 at 4:51=E2=80=AFPM Vijay Anusuri via lists.openembedd=
-ed.org <vanusuri=3Dmvista.com@lists.openembedded.org> wrote:
->>
->> From: Vijay Anusuri <vanusuri@mvista.com>
->>
->> Upstream-Status: Backport
->> [https://gitlab.freedesktop.org/xorg/xserver/-/commit/541ab2ecd41d4d8689=
-e71855d93e492bc554719a
->> &
->> https://gitlab.freedesktop.org/xorg/xserver/-/commit/564ccf2ce9616620456=
-102727acb8b0256b7bbd7
->> &
->> https://gitlab.freedesktop.org/xorg/xserver/-/commit/1953f460b9ad1a9cdf0=
-fcce70f6ad3310b713d5f
->> &
->> https://gitlab.freedesktop.org/xorg/xserver/-/commit/b6fe3f924aecac6d6e3=
-11673511ce61aa2f7a81f
->> &
->> https://gitlab.freedesktop.org/xorg/xserver/-/commit/ab2c58ba4719fc31c19=
-c7829b06bdba8a88bd586]
->>
->> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> ---
->>  .../xserver-xorg/CVE-2023-5367.patch          |  84 +++++++++++++
->>  .../xserver-xorg/CVE-2023-5380.patch          | 102 ++++++++++++++++
->>  .../xserver-xorg/CVE-2023-5574-1.patch        | 113 ++++++++++++++++++
->>  .../xserver-xorg/CVE-2023-5574-2.patch        |  42 +++++++
->>  .../xserver-xorg/CVE-2023-5574-3.patch        |  54 +++++++++
->>  .../xorg-xserver/xserver-xorg_21.1.8.bb       |   5 +
->>  6 files changed, 400 insertions(+)
->>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-=
-2023-5367.patch
->>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-=
-2023-5380.patch
->>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-=
-2023-5574-1.patch
->>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-=
-2023-5574-2.patch
->>  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-=
-2023-5574-3.patch
->>
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-53=
-67.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.pa=
-tch
->> new file mode 100644
->> index 0000000000..508588481e
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patc=
-h
->> @@ -0,0 +1,84 @@
->> +From 541ab2ecd41d4d8689e71855d93e492bc554719a Mon Sep 17 00:00:00 2001
->> +From: Peter Hutterer <peter.hutterer@who-t.net>
->> +Date: Tue, 3 Oct 2023 11:53:05 +1000
->> +Subject: [PATCH] Xi/randr: fix handling of PropModeAppend/Prepend
->> +
->> +The handling of appending/prepending properties was incorrect, with at
->> +least two bugs: the property length was set to the length of the new
->> +part only, i.e. appending or prepending N elements to a property with P
->> +existing elements always resulted in the property having N elements
->> +instead of N + P.
->> +
->> +Second, when pre-pending a value to a property, the offset for the old
->> +values was incorrect, leaving the new property with potentially
->> +uninitalized values and/or resulting in OOB memory writes.
->> +For example, prepending a 3 element value to a 5 element property would
->> +result in this 8 value array:
->> +  [N, N, N, ?, ?, P, P, P ] P, P
->> +                            ^OOB write
->> +
->> +The XI2 code is a copy/paste of the RandR code, so the bug exists in
->> +both.
->> +
->> +CVE-2023-5367, ZDI-CAN-22153
->> +
->> +This vulnerability was discovered by:
->> +Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
->> +
->> +Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
->> +
->> +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/=
--/commit/541ab2ecd41d4d8689e71855d93e492bc554719a]
->> +CVE: CVE-2023-5367
->> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> +---
->> + Xi/xiproperty.c    | 4 ++--
->> + randr/rrproperty.c | 4 ++--
->> + 2 files changed, 4 insertions(+), 4 deletions(-)
->> +
->> +diff --git a/Xi/xiproperty.c b/Xi/xiproperty.c
->> +index 066ba21fba..d315f04d0e 100644
->> +--- a/Xi/xiproperty.c
->> ++++ b/Xi/xiproperty.c
->> +@@ -730,7 +730,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom prope=
-rty, Atom type,
->> +                 XIDestroyDeviceProperty(prop);
->> +             return BadAlloc;
->> +         }
->> +-        new_value.size =3D len;
->> ++        new_value.size =3D total_len;
->> +         new_value.type =3D type;
->> +         new_value.format =3D format;
->> +
->> +@@ -747,7 +747,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom prope=
-rty, Atom type,
->> +         case PropModePrepend:
->> +             new_data =3D new_value.data;
->> +             old_data =3D (void *) (((char *) new_value.data) +
->> +-                                  (prop_value->size * size_in_bytes));
->> ++                                  (len * size_in_bytes));
->> +             break;
->> +         }
->> +         if (new_data)
->> +diff --git a/randr/rrproperty.c b/randr/rrproperty.c
->> +index c2fb9585c6..25469f57b2 100644
->> +--- a/randr/rrproperty.c
->> ++++ b/randr/rrproperty.c
->> +@@ -209,7 +209,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom pro=
-perty, Atom type,
->> +                 RRDestroyOutputProperty(prop);
->> +             return BadAlloc;
->> +         }
->> +-        new_value.size =3D len;
->> ++        new_value.size =3D total_len;
->> +         new_value.type =3D type;
->> +         new_value.format =3D format;
->> +
->> +@@ -226,7 +226,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom pro=
-perty, Atom type,
->> +         case PropModePrepend:
->> +             new_data =3D new_value.data;
->> +             old_data =3D (void *) (((char *) new_value.data) +
->> +-                                  (prop_value->size * size_in_bytes));
->> ++                                  (len * size_in_bytes));
->> +             break;
->> +         }
->> +         if (new_data)
->> +--
->> +GitLab
->> +
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-53=
-80.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.pa=
-tch
->> new file mode 100644
->> index 0000000000..57e2a5abdf
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patc=
-h
->> @@ -0,0 +1,102 @@
->> +From 564ccf2ce9616620456102727acb8b0256b7bbd7 Mon Sep 17 00:00:00 2001
->> +From: Peter Hutterer <peter.hutterer@who-t.net>
->> +Date: Thu, 5 Oct 2023 12:19:45 +1000
->> +Subject: [PATCH] mi: reset the PointerWindows reference on screen switc=
-h
->> +
->> +PointerWindows[] keeps a reference to the last window our sprite
->> +entered - changes are usually handled by CheckMotion().
->> +
->> +If we switch between screens via XWarpPointer our
->> +dev->spriteInfo->sprite->win is set to the new screen's root window.
->> +If there's another window at the cursor location CheckMotion() will
->> +trigger the right enter/leave events later. If there is not, it skips
->> +that process and we never trigger LeaveWindow() - PointerWindows[] for
->> +the device still refers to the previous window.
->> +
->> +If that window is destroyed we have a dangling reference that will
->> +eventually cause a use-after-free bug when checking the window hierarch=
-y
->> +later.
->> +
->> +To trigger this, we require:
->> +- two protocol screens
->> +- XWarpPointer to the other screen's root window
->> +- XDestroyWindow before entering any other window
->> +
->> +This is a niche bug so we hack around it by making sure we reset the
->> +PointerWindows[] entry so we cannot have a dangling pointer. This
->> +doesn't handle Enter/Leave events correctly but the previous code didn'=
-t
->> +either.
->> +
->> +CVE-2023-5380, ZDI-CAN-21608
->> +
->> +This vulnerability was discovered by:
->> +Sri working with Trend Micro Zero Day Initiative
->> +
->> +Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
->> +Reviewed-by: Adam Jackson <ajax@redhat.com>
->> +
->> +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/=
--/commit/564ccf2ce9616620456102727acb8b0256b7bbd7]
->> +CVE: CVE-2023-5380
->> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> +---
->> + dix/enterleave.h   |  2 --
->> + include/eventstr.h |  3 +++
->> + mi/mipointer.c     | 17 +++++++++++++++--
->> + 3 files changed, 18 insertions(+), 4 deletions(-)
->> +
->> +diff --git a/dix/enterleave.h b/dix/enterleave.h
->> +index 4b833d8a3b..e8af924c68 100644
->> +--- a/dix/enterleave.h
->> ++++ b/dix/enterleave.h
->> +@@ -58,8 +58,6 @@ extern void DeviceFocusEvent(DeviceIntPtr dev,
->> +
->> + extern void EnterWindow(DeviceIntPtr dev, WindowPtr win, int mode);
->> +
->> +-extern void LeaveWindow(DeviceIntPtr dev);
->> +-
->> + extern void CoreFocusEvent(DeviceIntPtr kbd,
->> +                            int type, int mode, int detail, WindowPtr p=
-Win);
->> +
->> +diff --git a/include/eventstr.h b/include/eventstr.h
->> +index 93308f9b24..a9926eaeef 100644
->> +--- a/include/eventstr.h
->> ++++ b/include/eventstr.h
->> +@@ -335,4 +335,7 @@ union _InternalEvent {
->> +     GestureEvent gesture_event;
->> + };
->> +
->> ++extern void
->> ++LeaveWindow(DeviceIntPtr dev);
->> ++
->> + #endif
->> +diff --git a/mi/mipointer.c b/mi/mipointer.c
->> +index a638f25d4a..8cf0035140 100644
->> +--- a/mi/mipointer.c
->> ++++ b/mi/mipointer.c
->> +@@ -397,8 +397,21 @@ miPointerWarpCursor(DeviceIntPtr pDev, ScreenPtr p=
-Screen, int x, int y)
->> + #ifdef PANORAMIX
->> +         && noPanoramiXExtension
->> + #endif
->> +-        )
->> +-        UpdateSpriteForScreen(pDev, pScreen);
->> ++        ) {
->> ++            DeviceIntPtr master =3D GetMaster(pDev, MASTER_POINTER);
->> ++            /* Hack for CVE-2023-5380: if we're moving
->> ++             * screens PointerWindows[] keeps referring to the
->> ++             * old window. If that gets destroyed we have a UAF
->> ++             * bug later. Only happens when jumping from a window
->> ++             * to the root window on the other screen.
->> ++             * Enter/Leave events are incorrect for that case but
->> ++             * too niche to fix.
->> ++             */
->> ++            LeaveWindow(pDev);
->> ++            if (master)
->> ++                LeaveWindow(master);
->> ++            UpdateSpriteForScreen(pDev, pScreen);
->> ++    }
->> + }
->> +
->> + /**
->> +--
->> +GitLab
->> +
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-55=
-74-1.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-=
-1.patch
->> new file mode 100644
->> index 0000000000..9a8e583e78
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-1.pa=
-tch
->> @@ -0,0 +1,113 @@
->> +From 1953f460b9ad1a9cdf0fcce70f6ad3310b713d5f Mon Sep 17 00:00:00 2001
->> +From: Peter Hutterer <peter.hutterer@who-t.net>
->> +Date: Thu, 12 Oct 2023 12:44:13 +1000
->> +Subject: [PATCH] fb: properly wrap/unwrap CloseScreen
->> +
->> +fbCloseScreen assumes that it overrides miCloseScreen (which just
->> +calls FreePixmap(screen->devPrivates)) and emulates that instead of
->> +wrapping it.
->> +
->> +This is a wrong assumption, we may have ShmCloseScreen in the mix too,
->> +resulting in leaks (see below). Fix this by properly setting up the
->> +CloseScreen wrapper.
->> +
->> +This means we no longer need the manual DestroyPixmap call in
->> +vfbCloseScreen, reverting d348ab06aae21c153ecbc3511aeafc8ab66d8303
->> +
->> +CVE-2023-5574, ZDI-CAN-21213
->> +
->> +This vulnerability was discovered by:
->> +Sri working with Trend Micro Zero Day Initiative
->> +
->> +Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
->> +Reviewed-by: Adam Jackson <ajax@redhat.com>
->> +
->> +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/=
--/commit/1953f460b9ad1a9cdf0fcce70f6ad3310b713d5f]
->> +CVE: CVE-2023-5574
->> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> +---
->> + fb/fb.h             |  1 +
->> + fb/fbscreen.c       | 14 ++++++++++----
->> + hw/vfb/InitOutput.c |  7 -------
->> + 3 files changed, 11 insertions(+), 11 deletions(-)
->> +
->> +diff --git a/fb/fb.h b/fb/fb.h
->> +index d157b6956d..cd7bd05d21 100644
->> +--- a/fb/fb.h
->> ++++ b/fb/fb.h
->> +@@ -410,6 +410,7 @@ typedef struct {
->> + #endif
->> +     DevPrivateKeyRec    gcPrivateKeyRec;
->> +     DevPrivateKeyRec    winPrivateKeyRec;
->> ++    CloseScreenProcPtr  CloseScreen;
->> + } FbScreenPrivRec, *FbScreenPrivPtr;
->> +
->> + #define fbGetScreenPrivate(pScreen) ((FbScreenPrivPtr) \
->> +diff --git a/fb/fbscreen.c b/fb/fbscreen.c
->> +index 4ab807ab50..c481033f98 100644
->> +--- a/fb/fbscreen.c
->> ++++ b/fb/fbscreen.c
->> +@@ -29,6 +29,7 @@
->> + Bool
->> + fbCloseScreen(ScreenPtr pScreen)
->> + {
->> ++    FbScreenPrivPtr screen_priv =3D fbGetScreenPrivate(pScreen);
->> +     int d;
->> +     DepthPtr depths =3D pScreen->allowedDepths;
->> +
->> +@@ -37,9 +38,10 @@ fbCloseScreen(ScreenPtr pScreen)
->> +         free(depths[d].vids);
->> +     free(depths);
->> +     free(pScreen->visuals);
->> +-    if (pScreen->devPrivate)
->> +-        FreePixmap((PixmapPtr)pScreen->devPrivate);
->> +-    return TRUE;
->> ++
->> ++    pScreen->CloseScreen =3D screen_priv->CloseScreen;
->> ++
->> ++    return pScreen->CloseScreen(pScreen);
->> + }
->> +
->> + Bool
->> +@@ -144,6 +146,7 @@ fbFinishScreenInit(ScreenPtr pScreen, void *pbits, =
-int xsize, int ysize,
->> +                    int dpix, int dpiy, int width, int bpp)
->> + #endif
->> + {
->> ++    FbScreenPrivPtr screen_priv;
->> +     VisualPtr visuals;
->> +     DepthPtr depths;
->> +     int nvisuals;
->> +@@ -177,8 +180,11 @@ fbFinishScreenInit(ScreenPtr pScreen, void *pbits,=
- int xsize, int ysize,
->> +                       rootdepth, ndepths, depths,
->> +                       defaultVisual, nvisuals, visuals))
->> +         return FALSE;
->> +-    /* overwrite miCloseScreen with our own */
->> ++
->> ++    screen_priv =3D fbGetScreenPrivate(pScreen);
->> ++    screen_priv->CloseScreen =3D pScreen->CloseScreen;
->> +     pScreen->CloseScreen =3D fbCloseScreen;
->> ++
->> +     return TRUE;
->> + }
->> +
->> +diff --git a/hw/vfb/InitOutput.c b/hw/vfb/InitOutput.c
->> +index 48efb61b2f..076fb7defa 100644
->> +--- a/hw/vfb/InitOutput.c
->> ++++ b/hw/vfb/InitOutput.c
->> +@@ -720,13 +720,6 @@ vfbCloseScreen(ScreenPtr pScreen)
->> +
->> +     pScreen->CloseScreen =3D pvfb->closeScreen;
->> +
->> +-    /*
->> +-     * fb overwrites miCloseScreen, so do this here
->> +-     */
->> +-    if (pScreen->devPrivate)
->> +-        (*pScreen->DestroyPixmap) (pScreen->devPrivate);
->> +-    pScreen->devPrivate =3D NULL;
->> +-
->> +     return pScreen->CloseScreen(pScreen);
->> + }
->> +
->> +--
->> +GitLab
->> +
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-55=
-74-2.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-=
-2.patch
->> new file mode 100644
->> index 0000000000..2cdef752c7
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-2.pa=
-tch
->> @@ -0,0 +1,42 @@
->> +From b6fe3f924aecac6d6e311673511ce61aa2f7a81f Mon Sep 17 00:00:00 2001
->> +From: Peter Hutterer <peter.hutterer@who-t.net>
->> +Date: Thu, 12 Oct 2023 12:42:06 +1000
->> +Subject: [PATCH] mi: fix CloseScreen initialization order
->> +
->> +If SHM is enabled it will set the CloseScreen pointer, only to be
->> +overridden by the hardcoded miCloseScreen pointer. Do this the other wa=
-y
->> +round, miCloseScreen is the bottom of our stack.
->> +
->> +Direct leak of 48 byte(s) in 2 object(s) allocated from:
->> +  #0 0x7f5ea3ad8cc7 in calloc (/lib64/libasan.so.8+0xd8cc7) (BuildId: d=
-8f3addefe29e892d775c30eb364afd3c2484ca5))
->> +  #1 0x70adfb in ShmInitScreenPriv ../Xext/shm.c:213
->> +
->> +Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
->> +Reviewed-by: Adam Jackson <ajax@redhat.com>
->> +
->> +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/=
--/commit/b6fe3f924aecac6d6e311673511ce61aa2f7a81f]
->> +CVE: CVE-2023-5574
->> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> +---
->> + mi/miscrinit.c | 2 +-
->> + 1 file changed, 1 insertion(+), 1 deletion(-)
->> +
->> +diff --git a/mi/miscrinit.c b/mi/miscrinit.c
->> +index 3bb52b1bc6..b88938c9ae 100644
->> +--- a/mi/miscrinit.c
->> ++++ b/mi/miscrinit.c
->> +@@ -249,10 +249,10 @@ miScreenInit(ScreenPtr pScreen, void *pbits,  /* =
-pointer to screen bits */
->> +     pScreen->numVisuals =3D numVisuals;
->> +     pScreen->visuals =3D visuals;
->> +     if (width) {
->> ++        pScreen->CloseScreen =3D miCloseScreen;
->> + #ifdef MITSHM
->> +         ShmRegisterFbFuncs(pScreen);
->> + #endif
->> +-        pScreen->CloseScreen =3D miCloseScreen;
->> +     }
->> +     /* else CloseScreen */
->> +     /* QueryBestSize */
->> +--
->> +GitLab
->> +
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-55=
-74-3.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-=
-3.patch
->> new file mode 100644
->> index 0000000000..47c247ef0c
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-3.pa=
-tch
->> @@ -0,0 +1,54 @@
->> +From ab2c58ba4719fc31c19c7829b06bdba8a88bd586 Mon Sep 17 00:00:00 2001
->> +From: Peter Hutterer <peter.hutterer@who-t.net>
->> +Date: Tue, 24 Oct 2023 12:09:36 +1000
->> +Subject: [PATCH] dix: always initialize pScreen->CloseScreen
->> +
->> +CloseScreen is wrapped by the various modules, many of which do not
->> +check if they're the last ones unwrapping. This is fine if the order of
->> +those modules never changes but when it does we might get a NULL-pointe=
-r
->> +dereference by some naive code doing a
->> +
->> +   pScreen->CloseScreen =3D priv->CloseScreen;
->> +   free(priv);
->> +   return (*pScreen->CloseScreen)(pScreen);
->> +
->> +To avoid this set it to a default function that just returns TRUE that'=
-s
->> +guaranteed to be the last one.
->> +
->> +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/=
--/commit/ab2c58ba4719fc31c19c7829b06bdba8a88bd586]
->> +CVE: CVE-2023-5574
->> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->> +---
->> + dix/dispatch.c | 9 +++++++++
->> + 1 file changed, 9 insertions(+)
->> +
->> +diff --git a/dix/dispatch.c b/dix/dispatch.c
->> +index eaac39b7c9..cd092fd409 100644
->> +--- a/dix/dispatch.c
->> ++++ b/dix/dispatch.c
->> +@@ -3890,6 +3890,12 @@ static int indexForScanlinePad[65] =3D {
->> +     3                           /* 64 bits per scanline pad unit */
->> + };
->> +
->> ++static Bool
->> ++DefaultCloseScreen(ScreenPtr screen)
->> ++{
->> ++    return TRUE;
->> ++}
->> ++
->> + /*
->> +       grow the array of screenRecs if necessary.
->> +       call the device-supplied initialization procedure
->> +@@ -3949,6 +3955,9 @@ static int init_screen(ScreenPtr pScreen, int i, =
-Bool gpu)
->> +             PixmapWidthPaddingInfo[depth].notPower2 =3D 0;
->> +         }
->> +     }
->> ++
->> ++    pScreen->CloseScreen =3D DefaultCloseScreen;
->> ++
->> +     return 0;
->> + }
->> +
->> +--
->> +GitLab
->> +
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b=
-/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
->> index 19db7ea434..a0f905f83b 100644
->> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
->> @@ -2,6 +2,11 @@ require xserver-xorg.inc
->>
->>  SRC_URI +=3D "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-=
-hardwar.patch \
->>             file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch =
-\
->> +           file://CVE-2023-5367.patch \
->> +           file://CVE-2023-5380.patch \
->> +           file://CVE-2023-5574-1.patch \
->> +           file://CVE-2023-5574-2.patch \
->> +           file://CVE-2023-5574-3.patch \
->>             "
->>  SRC_URI[sha256sum] =3D "38aadb735650c8024ee25211c190bf8aad844c5f5963276=
-1ab1ef4c4d5aeb152"
->>
->> --
->> 2.25.1
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#190205): https://lists.openembedded.org/g/openembedd=
-ed-core/message/190205
->> Mute This Topic: https://lists.openembedded.org/mt/102417729/7301997
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [v=
-anusuri@mvista.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+> I don't think it's correct to force jevents pc to include python pc, as
+> the latter will make the perf binary pull in the whole python
+> interpreter etc.
+>
+> If feature A depends on foo-native and foo and bar, and feature B
+> requires foo-native, I don't see why one should be forced to enable
+> feature A in order to get B. [Conversely, even if the dependencies of
+> feature A today happen to be a superset of those of feature B, I don't
+> think selecting feature A should automatically imply feature B.]
+
+I don't disagree with that logic, but you went too far with it  .. since
+it was based solely on my first comment about it being target
+python.  If there actually are dependent features, I'd always argue
+for having a dependency versus duplicating the details, but that
+isn't the case here.
+
+Bruce
+
+>
+> > It is always a bit annoying that perf turns these on, and we have
+> > to explicitly opt-out .. but that is out of our control :)
+>
+> Indeed.
+>
+> Rasmus
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
