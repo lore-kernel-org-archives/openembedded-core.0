@@ -1,92 +1,119 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD21C4332F
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 17:09:41 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.59788.1699290578327081757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 112E2C4332F
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 17:21:22 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.60799.1699291275651345585
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 09:09:38 -0800
+ Mon, 06 Nov 2023 09:21:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ecYhOOFu;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6c10f098a27so3528789b3a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 09:09:38 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GrJ9s8/h;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40850b244beso36234375e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 09:21:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699290577; x=1699895377; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qAjcuaTv15TOKcvnSMwwVMz87DqqVfdp0hUhkjexXDQ=;
-        b=ecYhOOFu3Em+5UG7cc7GIaLupkE4rhthf0vO4TLlxEjuXQz05nEdTKIbnMePhd8Xri
-         I23WqrdhGm9aiFXqaxnrk33L8F9LDaQDvhQMx2c0szPc2GAOKzAgXYzpdt4F0ubiOb3q
-         TwF0A082+rcaDUzVLwC4/vxp5A5FJfNf+8fa0yEI45MO92U6+IU6J72veWakqrpdruoK
-         E/Q9KXJSI4kr6cfyd+s1kLxsP/FD1wYppDxmo99Wc/nTt/K7hfSeSgzviExXWNIFF3Wz
-         3O8LAxiEXmRFo+mt6eTDP68+z5NBMv6OzKModA4iW7efU/hc7UBtgfRl3/Oavmil6F/t
-         oSyw==
+        d=linuxfoundation.org; s=google; t=1699291274; x=1699896074; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=WzmlD/6vPQg5VhfA3H/u35kr9juFBxO50DM3lQLJJwE=;
+        b=GrJ9s8/hfMb1aAIVjg0bdKCK5IB9/yC65V3+Aga3iiwfC8KQouh6vgKdjdjpDAm045
+         LiW8c4yYK0Q28yA/QyDN0CuTrMBFlGUnd/1tVhXq6YV0BsuHA/I205qdoTP5PoFRb1tC
+         0a4zuGnaGJ4zI4lckl4462gC4aQaat0rm17CA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699290577; x=1699895377;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qAjcuaTv15TOKcvnSMwwVMz87DqqVfdp0hUhkjexXDQ=;
-        b=LwRSqm/fZEDwZlYlYJMo9YLKO7mcP3e6K/yj4O9KwNG931ZLRQNUsqrQhG9k14Vpqo
-         D//BRfVBDIY6ZmNYHLQ0xlnPsgDU/VBpbDp2OfgIG/IE2xKJsZaXPolLej5QkgByiCXz
-         g6P8+YqKVG5x5MqxaklnipedkJS8cDCjF+fJliHCwidLyXUrkoe/rYRkYJuvN2OyrC6F
-         jX9oHBb3sGGh+XRNu0cz4UDhemgeOYyo8Ms0ty4dEiDGSerUilJR5Odnz161P3h6j2lG
-         Nros5G6LNAwb81CwLCUinNPpPnBJaDHvjxaVkiEFXCbNd9WlEL/EBlAP5ohy8bELGa6a
-         I2AQ==
-X-Gm-Message-State: AOJu0YykoaLxupAVvh38HYBpttoWeSsLCsYGTqmL9tssVQ7fwmLzyeb0
-	VvHfVGIr7BGoiGGvFIz2ti2T6Ht0w91i7Q==
-X-Google-Smtp-Source: AGHT+IEjQ0ifWygJebrm7/gzJtlQRKrNE/Pyk+81PYlCHKHTVExQpi5WjbZ7TuzJi/ix1bBkPPObFQ==
-X-Received: by 2002:a05:6a20:1608:b0:17b:1f75:e3f2 with SMTP id l8-20020a056a20160800b0017b1f75e3f2mr26896221pzj.39.1699290577256;
-        Mon, 06 Nov 2023 09:09:37 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::38be])
-        by smtp.gmail.com with ESMTPSA id d11-20020a63fd0b000000b005b82611378bsm40704pgh.52.2023.11.06.09.09.36
+        d=1e100.net; s=20230601; t=1699291274; x=1699896074;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WzmlD/6vPQg5VhfA3H/u35kr9juFBxO50DM3lQLJJwE=;
+        b=ieIFYWDMy24AohpiWfLVne/JD3vJbTyoUAWIG0MMda9MWy0DWIwHPGvC3AiHS/6P1r
+         X4Xx2hDlUBEbHrtRQbjLkrBJY91ig4FXwgvCw3dVk1XxqfFlRxPk7QIk48yMx/Vh75Bv
+         tq+1c+MJG78GwWHRl4zdO9hCGjt7m4p6VeG1llpOVTWghba29PFTuVl5JWR02UtvaAxm
+         gDSvekEYiKaQap3LZZNgFFozyeilx3p3KX6O1nMupfT4jP4b9enxnxWOv+AWSTI/5r9x
+         iMnmDI44Rr+rp1li6DxI+AtuNpoX7BUvr777YoMS2JJn1j7mwCi3pPM3fkZWLhSc+YNJ
+         PMQQ==
+X-Gm-Message-State: AOJu0Yw/LdE9DPs6dxk7PommJ4w2ua0cpAK4ErcJmo9fb/z2AU4aOsiR
+	pIVAiVDkbF063rNrPQhxysoXoQ==
+X-Google-Smtp-Source: AGHT+IEVSUCjdEwj0r5rWVFr2FxbmX9HTLhOPX433FroWo2VnXb3025QAO6t5ptyudWGqCbpgUT4Cw==
+X-Received: by 2002:a05:600c:1909:b0:40a:25f1:7a28 with SMTP id j9-20020a05600c190900b0040a25f17a28mr266988wmq.40.1699291273985;
+        Mon, 06 Nov 2023 09:21:13 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1ccc:c310:74c7:1597? ([2001:8b0:aba:5f3c:1ccc:c310:74c7:1597])
+        by smtp.gmail.com with ESMTPSA id er14-20020a05600c84ce00b0040472ad9a3dsm12548198wmb.14.2023.11.06.09.21.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 09:09:36 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Florian Wickert <fw@ferncast.de>
-Subject: [PATCH] systemd: Make libnss-mymachines conditional upon packageconfig
-Date: Mon,  6 Nov 2023 09:09:34 -0800
-Message-ID: <20231106170934.3738696-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.1
+        Mon, 06 Nov 2023 09:21:13 -0800 (PST)
+Message-ID: <8721eadcfd550afdcb98156b028917c4d3070d87.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v3 0/4] recipetool: Add handler to create go
+ recipes
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Lukas Funke <lukas.funke-oss@weidmueller.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Vyacheslav Yurkov
+ <uvv.mail@gmail.com>, Martin Jansa <martin.jansa@gmail.com>, Peter
+ Kjellerstedt <peter.kjellerstedt@axis.com>, u.oelmann@pengutronix.de, Lukas
+ Funke <lukas.funke@weidmueller.com>
+Date: Mon, 06 Nov 2023 17:21:12 +0000
+In-Reply-To: <1794ACDB8DBB20CE.26468@lists.openembedded.org>
+References: <20231102155313.309534-1-lukas.funke-oss@weidmueller.com>
+	 <1794ACDB8DBB20CE.26468@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 17:09:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190239
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 17:21:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190240
 
-nss-mymachines packageconfig controls this features therefore add this
-dependency only when it is enabled.
+On Sun, 2023-11-05 at 08:30 +0000, Richard Purdie via
+lists.openembedded.org wrote:
+> On Thu, 2023-11-02 at 16:53 +0100, Lukas Funke wrote:
+> > From: Lukas Funke <lukas.funke@weidmueller.com>
+> >=20
+> > This patch series adds a recipetool handler in order to create 'go' rec=
+ipes.
+> > Each recipe contains a list of dependencies in their SRC_URI.
+> > Dependencies are derived from the projects `go.mod` file. For each
+> > dependency the corresponding license file uri/hash is added.
+> >=20
+> > The recipe may not work ad-hoc, but is a good starting point to create
+> > a working recipe and have a working offline-build.
+> >=20
+> > In addition to the main recipe three additional files will be generated=
+:
+> >   - $pn-modules.inc
+> >   - $pn-license.inc
+> >   - modules.txt
+> >=20
+> > Changes from v2:
+> >   - Generate separate *.inc for go dependencies and licenses
+> >   - Adapted oe-selftest according to change above
+> >   - Incorparate community suggestions
+> >=20
+> > Lukas Funke (4):
+> >   classes: go-vendor: Add go-vendor class
+> >   selftest: recipetool: Add test for go recipe handler
+> >   recipetool: Ignore *.go files while scanning for licenses
+> >   recipetool: Add handler to create go recipes
+>=20
+> This looks to be getting there but the code failed in testing:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2371/s=
+teps/14/logs/stdio
+>=20
+> since removeprefix is python 3.9 syntax and 3.8 is our minimum version
+> at present.
 
-Fixes
-    ERROR: systemd-1_254.4-r0 do_package_qa: QA Issue: systemd-container rdepends on libnss-mymachines, but it isn't a build dependency? [build-deps]
+Since these were through testing, there was no other negative review
+feedback, the patches appeared to do what I thought we'd all agreed was
+needed and I had the minor tweak needed for the python version issue I
+did merge them. I squashed the tweak in with a comment in the commit
+message.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Florian Wickert <fw@ferncast.de>
----
- meta/recipes-core/systemd/systemd_254.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_254.4.bb
-index 8a8ff545995..f22e5bfd059 100644
---- a/meta/recipes-core/systemd/systemd_254.4.bb
-+++ b/meta/recipes-core/systemd/systemd_254.4.bb
-@@ -542,7 +542,7 @@ FILES:${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
-                          ${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
-                         "
- 
--RDEPENDS:${PN}-container = "libnss-mymachines"
-+$RDEPENDS:${PN}-container = "{@bb.utils.contains('PACKAGECONFIG', 'nss-mymachines', 'libnss-mymachines', '', d)}"
- 
- # "machinectl import-tar" uses "tar --numeric-owner", not supported by busybox.
- RRECOMMENDS:${PN}-container += "\
--- 
-2.42.1
+Richard
 
 
