@@ -1,188 +1,410 @@
-Return-Path: <rasmus.villemoes@prevas.dk>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68204C4332F
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 15:15:21 +0000 (UTC)
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.105])
- by mx.groups.io with SMTP id smtpd.web10.57162.1699283714091586577
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69806C4332F
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 15:20:01 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.57280.1699283997330815589
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 07:15:16 -0800
+ Mon, 06 Nov 2023 07:19:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=eOsqw0rd;
- spf=pass (domain: prevas.dk, ip: 40.107.7.105, mailfrom: rasmus.villemoes@prevas.dk)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EVvVxhaBLXK1+yvqy/MeoXL6CyGZveRobS4PDqXuL4FXhQQR/DV9sfgew750+aHZiMFClKyON4w4XMIK7UjhVC0UtgJy5D7YBj7pWYnbWqbHHEhA8yjMVnU4UFv0C1C8t5OlgysC/GFpqOgfCNjmE79VSTutoxqIo4evbl2mN9C2y9hRpAfF25UoYgiv3wq4xRTmrdN1o491FI6nV51KKRFW2REAwgQEBxaEQfoPTH4UOoVJNCw8SusMPyBngjtm7/Wmoe7VrgfNHkMDGcrpp3U3sXBdj7xtsWKCFZs67ktVUjJ1p+MNS+DiAyDy43ddLbsKY1rWOvtKTwpfbJJxjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Bo8Cpeop1572cv9J491H89IA5FNuggud/3WASVsBWdw=;
- b=oGYt4jTAh2v/Sw08/3AS+koy+1v7wDtb3NNPzMWrYGJ/oEQ3e2lD3143+0bFcty8E3m3yJPq9PSW4AQv3eAzEygxf8qtpMz0pZy3fQcbbMSKL4bbS8q7lU7ScJPs4lECoYHt7+RUI19dKo7PSplakCi9m+bsbWtkDEojbvPrDJp59NHFV8IPjXZuw1513aOp8jEbkubLSEOZFsFYWz2jWRwEGd7oW6qEFg9srggNkGVf7+6k1rEFRj+xDbY6fzFhkw+iWZ9RpC+npJfLOHi3t3iMWpasSriyklaepjFZkac5rOgvwiy8S6CYEsDSQSaVd5C2xyuVVOVz062zRXuekw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bo8Cpeop1572cv9J491H89IA5FNuggud/3WASVsBWdw=;
- b=eOsqw0rdOK4XwJl3KuN8md/fluQk2UIOyf9GMSwb55dIizrNey08N81Sd5Naf7A4GG9sc2NbpIM2PQrcBRNdUP1bE5hiOi5QglCq2GXFrzBUIrIdJKtE0JzQTv3Jx7hTN2laq7BHnsaIiSz/We8ydzc/hXfHuqpGJJChIrmZi70=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=prevas.dk;
-Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:45a::14)
- by DU0PR10MB5922.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3b6::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
- 2023 15:15:09 +0000
-Received: from DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::3d76:c11a:5c3f:3245]) by DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::3d76:c11a:5c3f:3245%5]) with mapi id 15.20.6954.027; Mon, 6 Nov 2023
- 15:15:09 +0000
-Message-ID: <9a9a2845-68f0-45b2-b934-5e8438361670@prevas.dk>
-Date: Mon, 6 Nov 2023 16:15:07 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] perf: add jevents PACKAGECONFIG item
-Content-Language: en-US, da
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: openembedded-core@lists.openembedded.org,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Max Krummenacher <max.krummenacher@toradex.com>
-References: <20231106142217.3837516-1-rasmus.villemoes@prevas.dk>
- <CADkTA4OsEXpRsULAkvx0cbFvdH2xVPW3JGuG2FcJ43OZyakBzQ@mail.gmail.com>
-From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-In-Reply-To: <CADkTA4OsEXpRsULAkvx0cbFvdH2xVPW3JGuG2FcJ43OZyakBzQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QuxWteVF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4081ccf69dcso33213485e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 07:19:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1699283995; x=1699888795; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VK82E+kUFrsNarP6VasZrFw6q+599KoRHn69Lu1P5is=;
+        b=QuxWteVF1Ts4cM6U0UvFiz4Otc0LI6UnE/fjFih7YNanOJYUBQnFlOYdEWVD8rW2bv
+         ie0rBKIArFa4MrNYqLrNKwXByoBkSq0EC5Z0cDoExlxis1cVptL2YX8j7rny4S37ju4Y
+         HkhiMEwUweHFR6rSDSWEDWZusLq+MTwTNhHxI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699283995; x=1699888795;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VK82E+kUFrsNarP6VasZrFw6q+599KoRHn69Lu1P5is=;
+        b=jLOKnDZks6Xz0eNPS4mj9GrEYHjCPNvcSkhev7r5DIZVFPO1Szfp17th5hMLbDBzHE
+         L2Y4qiP+r45z32LsVcXkw0//7HrHOvg72sr9dcHCcb/EYQGpGk92Ny/we2lUX30Nk2Jb
+         DYYKrUkJmI8SbYcc9Kv1cRsVi/xoTQ3pbYBRu3gr2Av2sT13pvs3IrdXLjt5LnoUfXt2
+         l6wO/H2iZs44sP1eXy4Aryso6IKkm3jv80p/PaM2yv/1LUuDii+IFnIl9Wb10AqN71th
+         vKag/SrpstGRycGdLsj8KHEpd0QJw56bffX62vu09NAN1NxmMwhXDxUmrgCA+2RLQO5g
+         ce6w==
+X-Gm-Message-State: AOJu0Yzv1VTIKgnZBH6XozbRq5Bz78I8NW8UHK6OrywFWE7gA+/3hzNJ
+	9bS+9vHe8AKDXhxOWM8eYBQ6iw==
+X-Google-Smtp-Source: AGHT+IEixYPeMT1UhsiPWFrWH/C/i0rgmbIA8cbq4SEOPCtpaS+ArlNdhOB6HVYkWVV9Kb1Wda/B+Q==
+X-Received: by 2002:a05:6000:1e98:b0:32f:64f2:815 with SMTP id dd24-20020a0560001e9800b0032f64f20815mr8402442wrb.33.1699283995365;
+        Mon, 06 Nov 2023 07:19:55 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1ccc:c310:74c7:1597? ([2001:8b0:aba:5f3c:1ccc:c310:74c7:1597])
+        by smtp.gmail.com with ESMTPSA id k18-20020adff292000000b0032f7fab0712sm9740958wro.52.2023.11.06.07.19.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 07:19:54 -0800 (PST)
+Message-ID: <141d0b5daed2a4654c8defe070ad4bcf8cc3e705.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/3] selftest/sstatetests: add tests for
+ 'bitbake -S printdiff'
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Mon, 06 Nov 2023 15:19:54 +0000
+In-Reply-To: <17950980CB694D6A.12603@lists.openembedded.org>
+References: <20231026103320.2751277-1-alex@linutronix.de>
+	 <17950980CB694D6A.12603@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: MM0P280CA0087.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:190:8::33) To DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:45a::14)
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR10MB7100:EE_|DU0PR10MB5922:EE_
-X-MS-Office365-Filtering-Correlation-Id: c2823407-f40a-40b2-8ef3-08dbdedb2a7b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	yVzEUUqBMSWAS0ES/ct8QI7emrxkyY+5sQ67qDAm8B5yhhV28aLXzAXVgZVYE8IUqRACL64snWFU0/IVMwmb8VC9tK+Bf/Nzffrf2dKSqaptj5szF4nUgpkaES2aHhwZqTNKXFkccFRjBKigda8BVlvHlyCSMf+99kKdE2tkXXamwVhMP/m9BgHKwRFTfTXuIZ2UwaUcs4InP9mh8xKatHNz+Ip/A/cgU29zQ01bL+mBpGPJDjGQURSwrZAX4UTD4YbFDcEZgH3DmVSy+1NarjDI0PqPNUFEBrCh3fQQpf8M6qzLWAV/p8oMyg7CkgqBmnt8jzZY30zhFcZt2sOSqtQn29wM9ej4hnwIxDvMmstkUQSDETGifduZPJyn6rZT+mHCyrzitQ9RGdpsUpj/Iu1SBhSgXDYTAyvwosdLCwFjubkSkzsJxnDywg/U7HcSUu5v9CR7KHC2hZQVerI61FysVxFkLqx+5AkkRCshJNSZJ1c22sNjNmxRDrXM/ulPZwWInFIxWK4n6FW6jSP9GEMDCN7lp0dARr1rk/YgGTpLT3A+Bso0tlvH0qBkCz1kFO9e5abn5POIag0TThCxvPIDDJUvi+/w5bfeFR4E7vSZKUjq/7mxmmmLj8pLkF1Q/gfIcvrWPrqdzkScD0vApg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(136003)(366004)(39850400004)(396003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(36756003)(316002)(8676002)(8936002)(83380400001)(4326008)(8976002)(26005)(66476007)(66556008)(6916009)(54906003)(66946007)(5660300002)(41300700001)(44832011)(478600001)(6512007)(6486002)(53546011)(6506007)(2616005)(2906002)(31686004)(31696002)(86362001)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?+6OindHLNCaw8EynnTfRlgMJL8PUPJ8102mvX5Rmpvfp5zV3S+lO4VvXd6wO?=
- =?us-ascii?Q?eQ55PtCvE8+M7Nth24Ijl3uMDSZ9DyhLoMCm9j2q1rlqkQNPhi5XomIL68rJ?=
- =?us-ascii?Q?USgQnfeowdcFei8VYv5Ca1ulUtZOPcbEVx/1+H57Z9Vk7ypddhXyF5Rk8Jcw?=
- =?us-ascii?Q?FXI6ysrP24dOmHsNweO3xxXZtIFStCb3joTmbAXikx6vtBhOLLBLNCdmsdpn?=
- =?us-ascii?Q?IiWjizpp/tkCuXOOqOJf2wsVkeOqVwl9encJo9Gnt8xroCWSmeLKNNVy1VzF?=
- =?us-ascii?Q?KRXzciRUmfReseq++w17CD2OPFYObNBDUb9BAyb47t24KpsRBJs5PjSmW+tS?=
- =?us-ascii?Q?NZ2ry9Ztuww2wBXvbYlDtc7I4h/oDS9mF8EArzwXLG7WztcVFWSBkhJ+6gO+?=
- =?us-ascii?Q?eO/yNKpPTeLONIvg7S7pog0NN+/uP2iuW7eFpgIeDll9xl9lulqQj8XPl60j?=
- =?us-ascii?Q?TDFZhHo5XfkKycCM0g7yQpGMgd7Q1O26RlMLR5rOaf+5OuMoXPyO1pPIJIYO?=
- =?us-ascii?Q?Avz8vfby8X8ruNtf41tfovCmig8T4jU8ijWzF9lai1wNe3kbrsgd9juF52Eo?=
- =?us-ascii?Q?po2H0Vx03Y9Jbr3YA8SMTZsq4rcptQGRllpeRHPsUUCth3xx3ixpTNyyLCti?=
- =?us-ascii?Q?4SmYfsITME5r9TD7jsLmPPJegewniSybm1islpb4qQVE0MU32DEO87jGnl25?=
- =?us-ascii?Q?holuDIGNpDxY0B3kuIaYhXDSvuC2MLjwhYAMsE30ssT7Bl/VLGvYmor2tNs7?=
- =?us-ascii?Q?69bnRNAHsHiTPD++A/MFOwmGJvHOUEboEY64QU0BRLlmjkt3g986GkQULyDr?=
- =?us-ascii?Q?QdEuJLFTy86ZeSSxrkTjZDb+zrzwVNIkFr44KP5yTYcb4+Zi+oJ6u1Ylkjlq?=
- =?us-ascii?Q?bfQjQ3TuCIYGIKMrTKEzSh3giMgZe7zME4FbzBCoPPJTelaFaOcCJ4xPh1qi?=
- =?us-ascii?Q?24MBqjUtRzjzXZv7iH7+O/y8L5mipw8oYZiz/826mft9cFw8c3qcHyLTOBm4?=
- =?us-ascii?Q?yDzUnZMk5oZS4oGAePha+nPyPgZVYp5LYISAOyp43jgqvwRCD7WuXePBZHJ6?=
- =?us-ascii?Q?AV4KzgF1RNozylHLn7qljv+sMFhhUthvfIbzlt+Ztr5BtISnzDwmBpzawIAs?=
- =?us-ascii?Q?qYMqbEDR7OmaYAdm/AE6FvheknA3qiBvyF4tDCZ+VoL1Dlng+tLznOPg0TzP?=
- =?us-ascii?Q?bqdl42wqpbHH0TafzCHUUyYJATtg32Z9mli8Oz3xDzR4P9jCMfyGjiUVpHSq?=
- =?us-ascii?Q?vbp6QVEMONvecNIJXNhlqZgrrizVH5UBsueyWLo6RTrT2pPG3EODi9mxaYuA?=
- =?us-ascii?Q?HQtBDsrsKVEz7iXjMoOe4QqzJDjMxhIpxiOc/DJ1F7MX1o94cBpbfgXcQ86R?=
- =?us-ascii?Q?2yw18fLnj5Uw/O4EtIwPc6IqJZyjr0U4yha7BYqgCShSLYo1Y7cQ/cGU0wnC?=
- =?us-ascii?Q?yE/xRjsMDAvXHaaFGC6t16Lho12jimMvAqjsid9ZvBQTMoppSo5gurcCdSE9?=
- =?us-ascii?Q?Z4eazfeuogxZFdYukapA7biWqReRD7x58sb+nu/YMsfZKFGZec2SF2qJxr1Z?=
- =?us-ascii?Q?3UJAOYOLb0JNZUd1W2u3N5gHcTdSD8EaYQi6wYIZx346jJKEzpZnAs5NC8D1?=
- =?us-ascii?Q?gA=3D=3D?=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2823407-f40a-40b2-8ef3-08dbdedb2a7b
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR10MB7100.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 15:15:09.6623
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gkWqKIBBXkLJi3zYvJaW4s51wLcKTOEtA0beA3zGJOXnRnnXWtUiJCOpG/oaxYFTrmxulbE+u6WUguu94HZKEpAr5hgHIs+RXmq4Eb5ZwK0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB5922
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 15:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190227
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 15:20:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190228
 
-On 06/11/2023 15.49, Bruce Ashfield wrote:
-> On Mon, Nov 6, 2023 at 9:22=E2=80=AFAM Rasmus Villemoes
-> <rasmus.villemoes@prevas.dk> wrote:
->>
->> From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
->>
->> Building for an arm64 target, e.g. qemuarm64 or a raspberrypi3,
->> without "python" in PACKAGECONFIG, results in
->>
->> | Makefile.config:892: *** ERROR: No python interpreter needed for jeven=
-ts generation. Install python or build with NO_JEVENTS=3D1..  Stop.
->>
->> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
->> ---
->>  meta/recipes-kernel/perf/perf.bb | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf=
-/perf.bb
->> index a392166e73..37b53ee7df 100644
->> --- a/meta/recipes-kernel/perf/perf.bb
->> +++ b/meta/recipes-kernel/perf/perf.bb
->> @@ -28,6 +28,7 @@ PACKAGECONFIG[audit] =3D ",NO_LIBAUDIT=3D1,audit"
->>  PACKAGECONFIG[manpages] =3D ",,xmlto-native asciidoc-native"
->>  PACKAGECONFIG[cap] =3D ",,libcap"
->>  PACKAGECONFIG[libtraceevent] =3D ",NO_LIBTRACEEVENT=3D1,libtraceevent"
->> +PACKAGECONFIG[jevents] =3D ",NO_JEVENTS=3D1,python3-native"
+On Mon, 2023-11-06 at 12:47 +0000, Richard Purdie via
+lists.openembedded.org wrote:
+> On Thu, 2023-10-26 at 12:33 +0200, Alexander Kanavin wrote:
+> > > 'bitbake -S printdiff' is a useful diagnostic facility for finding ou=
+t
+> > > why sstate is not being reused, but until now it had no tests that wo=
+uld
+> > > ensure it works. This commit adds three basic scenarios:
+> > >=20
+> > > 1. make a change in a really basic, common recipe that is at the very=
+ root
+> > > of dependency trees (quilt-native), and ensure that change is correct=
+ly discovered when
+> > > building an image.
+> > >=20
+> > > 2. make a change in gcc-source recipe, which is somewhat special
+> > > (operates in work-shared), and ensure that gcc-runtime builds track
+> > > that down as well.
+> > >=20
+> > > 3. make a change in base_do_configure() definition from base.bbclass,
+> > > which is not recipe-specific, but affects many basic recipes, and ens=
+ure that
+> > > is correctly reported as well.
+> > >=20
+> > > The test itself actually runs twice:
+> > > - first against a fully populated build directory, where
+> > > the printdiff code is guaranteed to find the correct previous
+> > > stamp that can be compared with in a predictable manner.
+> > >=20
+> > > - then in an empty build directory where the printdiff code
+> > > goes to look in the sstate cache, and so the existence of the
+> > > previous signature can be tested, but not the difference with it
+> > > (what the exact difference would be is unpredictable as the
+> > > sstate cache is indeed shared between many builds).
+> > >=20
+> > > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 >=20
-> Since we already have a python packageconfig and it takes care of
-> the dependencies that we need, we shouldn't be repeating the python3-nati=
-ve
-> in this one. We'll end up having to maintain that dependency in
-> two locations.
+> There have been autobulilder failures from the do_configure base change
+> and we've not been quite sure why.=C2=A0The summary below took quite a bi=
+t
+> of digging but seems quite simple when written up like this!
 >=20
-> i.e. we don't have python3-native as a dependency of our main python
-> packageconfig .. is that an error (the python packageconfig) or should
-> this be depending on python3 python3-setuptools-native, just like the
-> python one ?
+> If you dig into a failure like:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2379/s=
+teps/15/logs/stdio
+>=20
+> you see messages like:
+>=20
+> The differences between the current build and any cached tasks start at t=
+he following tasks:
+> /home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-devto=
+ols/quilt/quilt-native_0.67.bb:do_collect_spdx_deps
+> virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/met=
+a/recipes-devtools/gnu-config/gnu-config_git.bb:do_configure
+> virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/met=
+a/recipes-core/zlib/zlib_1.3.bb:do_collect_spdx_deps
+> virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/met=
+a/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_collect_spdx_deps
+> /home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-exten=
+ded/timezone/tzcode-native.bb:do_prepare_recipe_sysroot
+>=20
+> which seems odd. Taking the first one, if quilt-native has built, you'd
+> expect those to be present.
+>=20
+> I went onto the arm builder and tried a "bitbake quilt-native -S printdif=
+f -DDD":
+>=20
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/4d/8d/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:4d8da10af56c40d61adb5febb96f583a399ceb276d0dc13e61971f1eb0b7d81d_c=
+reate_runtime_spdx.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/85/79/sstate:quilt-native::0.67:r0::11:85794fd6d83b61cb273e4=
+d14f6e3581d7fa4ec743b455f1d21786cff032c262c_patch.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/b8/fb/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:b8fbbfbafeb7cdf333f1766d6b3c94822a21d42145e17377bede29e44a86a14d_p=
+repare_recipe_sysroot.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/fe/ae/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:feae04b2abf592e3df83d0dcac1f74399e342ba99c718975d34b8a27e07eeca5_c=
+onfigure.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/f5/98/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:f598fad5807fabde02cd16e5f7f26b486d0b5f87dec6ff3c3d5378ba68780ff1_i=
+nstall.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/e2/a4/sstate:quilt-native::0.67:r0::11:e2a41fd44aa7736bd318e=
+c9c4a6b91e4b80563ba213035afe3df3cb96fdf7aaf_fetch.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/da/07/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:da07e6362c0b01fc2798456aa1319e2343a556e33d0857f90a129701eaa722b2_d=
+eploy_source_date_epoch.tar.zst.siginfo
+> DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuild=
+er.yocto.io/pub/sstate/universal/72/12/sstate:quilt-native:aarch64-linux:0.=
+67:r0:aarch64:11:7212eff5f191def566b82db976b37e1efcb0a8ccd964eff5b5682b651b=
+7cb7fa_collect_spdx_deps.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/73/96/sstate:quilt-native::0.67:r0::11:7396e70fb1865087409e4=
+54eb8bacae3bcb4add6218b3cd707d2e96880b72936_populate_lic.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/9f/8e/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:9f8e9e5303322240b173483312d885144dfdf2228698868857a281b510ec3214_r=
+ecipe_qa.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/fd/c4/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:fdc40ea4bffb4485bdbb3c38a13b4e5d8d94d1c2cdb66c8659fe5f758a3530a3_p=
+opulate_sysroot.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/ac/69/sstate:quilt-native::0.67:r0::11:ac69437e7d349349b5f1b=
+2df79203d3ade24e59dc32f16cdf03e6dc92dd3fad6_unpack.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/94/9b/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:949b4472b14403843ae5219789e371979cbc9a53c7fa250033f55157186d902e_c=
+ompile.tar.zst.siginfo
+> DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto=
+.io/pub/sstate/universal/1b/da/sstate:quilt-native:aarch64-linux:0.67:r0:aa=
+rch64:11:1bdafcc9e6b4209bfbdf4b83f8b44e0cc3cc26cdeebe7d713a9f7fcba4b02d48_c=
+reate_spdx.tar.zst.siginfo
+>=20
+> and the sstate for quilt-native_0.67.bb:do_collect_spdx_deps is indeed mi=
+ssing, there is only x86:
+>=20
+> $ ls /srv/autobuilder/autobuilder.yocto.io/pub/sstate/*/72/12/sstate\:qui=
+lt-native\:*collect_spdx_deps.tar.zst.siginfo=20
+> /srv/autobuilder/autobuilder.yocto.io/pub/sstate/universal/72/12/sstate:q=
+uilt-native:x86_64-linux:0.67:r0:x86_64:11:7212eff5f191def566b82db976b37e1e=
+fcb0a8ccd964eff5b5682b651b7cb7fa_collect_spdx_deps.tar.zst.siginfo
+>=20
+> The normal build works since it doesn't care about the siginfo files,
+> just the actual sstate it needs and as a covered task, it just skips
+> over this.
+>=20
+> This highlights two issues:
+>=20
+> a) Why is the single sstate siginfo file gone? The most likely
+> explanation is that it wasn't accessed recently and was deleted by the
+> cleanup/ageing code. This makes sense since the code in question never
+> downloads it, only checks it exists and uses that as a marker. Our
+> usage "accesses" are in a different codepath to the parsing check.
+>=20
+> b) This means -S printdiff doesn't quite do what you'd expect since it
+> doesn't skip "covered" tasks in the same way a normal build would.
+>=20
+> To reproduce the test failure you should be able to just delete that
+> siginfo file from your local sstate.
 
-The two are as I understand it entirely unrelated. The existing python
-knob controls whether some stuff that requires python at runtime is
-built/installed (and that build may of course itself require some native
-python, in this case in the guise of setuptools-native).
+I had a look into b), where I needed to teach the runqueue differences
+code about setscene covered tasks. A really hacky way to test that
+would be:
 
-The jevents stuff is purely about generating some tables [as a .c file]
-at build time, and that requires native python, but does not impose a
-dependency on python on target.
+diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
+index bb999c9dc1..3592130046 100644
+--- a/bitbake/lib/bb/runqueue.py
++++ b/bitbake/lib/bb/runqueue.py
+@@ -1697,7 +1697,7 @@ class RunQueue:
+=20
+             tocheck.add(tid)
+=20
+-        valid_new =3D self.validate_hashes(tocheck, self.cooker.data, 0, T=
+rue, summary=3DFalse)
++        valid_new =3D self.validate_hashes(tocheck, self.cooker.data, 0, T=
+rue, summary=3DTrue)
+=20
+         # Tasks which are both setscene and noexec never care about depend=
+encies
+         # We therefore find tasks which are setscene and noexec and mark t=
+heir
+@@ -1720,8 +1722,21 @@ class RunQueue:
+             if tid not in valid_new and tid not in noexec:
+                 invalidtasks.add(tid)
+=20
++        self.sqdata =3D SQData()
++        self.sqdata.cantskip =3D set()
++        self.sqdata.tasks_scenequeue_done =3D set()
++        self.sqdata.sq_buildable =3D set()
++        build_scenequeue_data(self.sqdata, self.rqdata, None, self.cooker,=
+ None, self.sqdata)
++
++        for tid in self.rqdata.runq_setscene_tids:
++            if tid not in valid_new:
++                continue
++            for dep in self.sqdata.sq_covered_tasks[tid]:
++                if dep in invalidtasks:
++                    invalidtasks.remove(dep)
++
+         found =3D set()
+         for tid in invalidtasks:
+             processed =3D set()
+             toprocess =3D set([tid])
+             while toprocess:
+@@ -2961,6 +2978,8 @@ def build_scenequeue_data(sqdata, rqdata, rq, cooker,=
+ stampcache, sqrq):
+                 sqrq.sq_deferred[tid] =3D sqdata.hashes[h]
+                 bb.debug(1, "Deferring %s after %s" % (tid, sqdata.hashes[=
+h]))
+=20
++    if not rq:
++        return
+     update_scenequeue_data(sqdata.sq_revdeps, sqdata, rqdata, rq, cooker, =
+stampcache, sqrq, summary=3DTrue)
+=20
+     # Compute a list of 'stale' sstate tasks where the current hash does n=
+ot match the one
 
-> Since there's no way to make packageconfig 'a' depend on
-> packageconfig 'b' that I know of (RP will correct me if I'm missing
-> or forgetting something here), we could always add a test on the
-> final PACKAGECONFIG and error/warn if jevents was enabled and
-> python wasn't.
 
-I don't think it's correct to force jevents pc to include python pc, as
-the latter will make the perf binary pull in the whole python
-interpreter etc.
+the code needing some proper refactoring to allow that for an
+upstreamable patch. The trouble is that whilst it is improved, this
+still showed glitches:
 
-If feature A depends on foo-native and foo and bar, and feature B
-requires foo-native, I don't see why one should be forced to enable
-feature A in order to get B. [Conversely, even if the dependencies of
-feature A today happen to be a superset of those of feature B, I don't
-think selecting feature A should automatically imply feature B.]
+The differences between the current build and any cached tasks start at the=
+ following tasks:
+/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-extende=
+d/timezone/tzcode-native.bb:do_prepare_recipe_sysroot
+virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
+recipes-devtools/makedevs/makedevs_1.0.1.bb:do_configure
+/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-extende=
+d/timezone/tzcode-native.bb:do_deploy_source_date_epoch
+virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
+recipes-extended/pigz/pigz_2.8.bb:do_configure
+virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
+recipes-core/update-rc.d/update-rc.d_0.8.bb:do_configure
+virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
+recipes-devtools/gnu-config/gnu-config_git.bb:do_configure
+/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-extende=
+d/texinfo-dummy-native/texinfo-dummy-native.bb:do_configure
+/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-core/gl=
+ibc/ldconfig-native_2.12.1.bb:do_configure
+/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-core/ge=
+ttext/gettext-minimal-native_0.22.bb:do_configure
+virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
+recipes-extended/zstd/zstd_1.5.5.bb:do_configure
+virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
+recipes-extended/unzip/unzip_6.0.bb:do_configure
 
-> It is always a bit annoying that perf turns these on, and we have
-> to explicitly opt-out .. but that is out of our control :)
+e.g. why the tzcode-native.bb:do_deploy_source_date_epoch issue?
 
-Indeed.
+Further debugging with "bitbake tzcode-native -S printdiff -DDD":
 
-Rasmus
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/e2/a4/sstate:quilt-native::0.67:r0::11:e2a41fd44aa7736bd318ec9=
+c4a6b91e4b80563ba213035afe3df3cb96fdf7aaf_fetch.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/b8/fb/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
+h64:11:b8fbbfbafeb7cdf333f1766d6b3c94822a21d42145e17377bede29e44a86a14d_pre=
+pare_recipe_sysroot.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/94/9b/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
+h64:11:949b4472b14403843ae5219789e371979cbc9a53c7fa250033f55157186d902e_com=
+pile.tar.zst.siginfo
+DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuilder=
+.yocto.io/pub/sstate/universal/ee/ae/sstate:tzcode-native:aarch64-linux:202=
+3c:r0:aarch64:11:eeaecb5daeb66cd24558c8ad6f75a33cbc3a108d6c6e98ebcc2e28e73c=
+c4978c_compile.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/83/6e/sstate:tzcode-native:aarch64-linux:2023c:r0:aa=
+rch64:11:836eeaecc95081aa94d30ec4d61b30b325f92b9913c77190d0e22eeadb5b7d0b_c=
+reate_runtime_spdx.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/9f/8e/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
+h64:11:9f8e9e5303322240b173483312d885144dfdf2228698868857a281b510ec3214_rec=
+ipe_qa.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/59/02/sstate:tzcode-native::2023c:r0::11:5902de31682091449c8d4=
+0162f35f4ef0bee1a4879b3743b565504fd4fb03f27_populate_lic.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/03/07/sstate:tzcode-native:aarch64-linux:2023c:r0:aa=
+rch64:11:0307b7910df3aae19e2714a290786fd46213b5664ed082eb38658ee4d0a7295b_r=
+ecipe_qa.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/85/79/sstate:quilt-native::0.67:r0::11:85794fd6d83b61cb273e4d1=
+4f6e3581d7fa4ec743b455f1d21786cff032c262c_patch.tar.zst.siginfo
+DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuilder=
+.yocto.io/pub/sstate/universal/a7/fa/sstate:tzcode-native:aarch64-linux:202=
+3c:r0:aarch64:11:a7fa933ded6a2c1c8a60de136a9a46cd1788fb47c53e5a00cb981349ff=
+d260e5_configure.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/ac/69/sstate:quilt-native::0.67:r0::11:ac69437e7d349349b5f1b2d=
+f79203d3ade24e59dc32f16cdf03e6dc92dd3fad6_unpack.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/fe/ae/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
+h64:11:feae04b2abf592e3df83d0dcac1f74399e342ba99c718975d34b8a27e07eeca5_con=
+figure.tar.zst.siginfo
+DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuilder=
+.yocto.io/pub/sstate/universal/03/0d/sstate:tzcode-native:aarch64-linux:202=
+3c:r0:aarch64:11:030dba86bef371a20bb779cef7cdd93c0c84eaa0fadfe1d74d8784cfc9=
+980b2c_deploy_source_date_epoch.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/f5/98/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
+h64:11:f598fad5807fabde02cd16e5f7f26b486d0b5f87dec6ff3c3d5378ba68780ff1_ins=
+tall.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/2b/cf/sstate:tzcode-native::2023c:r0::11:2bcf4112bf22bd356e535=
+2e9f6dde17040e9f9ebc4a60b4321112f501a6596bd_fetch.tar.zst.siginfo
+DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuilder=
+.yocto.io/pub/sstate/universal/9f/3b/sstate:tzcode-native:aarch64-linux:202=
+3c:r0:aarch64:11:9f3b9de096a3092769fc5c09a8f85de88aff486874b1c97150eb4cff25=
+2f5f03_install.tar.zst.siginfo
+DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuilder=
+.yocto.io/pub/sstate/universal/f6/97/sstate:tzcode-native:aarch64-linux:202=
+3c:r0:aarch64:11:f697fc1dffb4c3e7942e0a0e952978b50535cc61a8ed1bd1b0f5c9e1bc=
+91d676_prepare_recipe_sysroot.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/66/4d/sstate:tzcode-native::2023c:r0::11:664de93a4c91a94e498ce=
+6039aba6bd490699f18b4295163b78495524dda17b9_patch.tar.zst.siginfo
+DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuilder=
+.yocto.io/pub/sstate/universal/91/da/sstate:tzcode-native:aarch64-linux:202=
+3c:r0:aarch64:11:91dadb158ecb0b8ac2178d8847bd8894bb8b95f84f53af47d617ef2c7e=
+b2c3dd_populate_sysroot.tar.zst.siginfo
+DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuilder=
+.yocto.io/pub/sstate/universal/b0/30/sstate:tzcode-native:aarch64-linux:202=
+3c:r0:aarch64:11:b030f98a1bbe000c1b9eda75252084fd2e43239d55d0b410306ca5566e=
+cf422b_collect_spdx_deps.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/da/07/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
+h64:11:da07e6362c0b01fc2798456aa1319e2343a556e33d0857f90a129701eaa722b2_dep=
+loy_source_date_epoch.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/c2/92/sstate:tzcode-native::2023c:r0::11:c2925547a4521cb90a5e8=
+b48c4e1397115800337248e1cd21ef25e5ab88e8834_unpack.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/fd/c4/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
+h64:11:fdc40ea4bffb4485bdbb3c38a13b4e5d8d94d1c2cdb66c8659fe5f758a3530a3_pop=
+ulate_sysroot.tar.zst.siginfo
+DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
+o/pub/sstate/universal/37/9d/sstate:tzcode-native:aarch64-linux:2023c:r0:aa=
+rch64:11:379d43911b1203a6ff7232a38b8f1eb95bdc3df5924ee06ed4f3be84a691d864_c=
+reate_spdx.tar.zst.siginfo
+
+so it seems that missing siginfo of tasks *before* do_configure would
+also cause the test to show issues.
+
+I'm going to try a patch touching sstate files to try and improve
+things. I do think the runqueue patches to improve printdiff may also
+be worthwhile as the above was much more readable, which is the end
+goal.
+
+Cheers,
+
+Richard
+
 
 
