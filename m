@@ -1,165 +1,144 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79F25C4332F
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 15:33:11 +0000 (UTC)
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
- by mx.groups.io with SMTP id smtpd.web11.56973.1699284788101097457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 776A9C4167D
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 15:34:21 +0000 (UTC)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web11.57000.1699284855028280953
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 07:33:08 -0800
+ Mon, 06 Nov 2023 07:34:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QIrlFRFj;
- spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f43.google.com with SMTP id ca18e2360f4ac-7a94a3b0a49so167544439f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 07:33:08 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=KV4WcZb0;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.177, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-41cc56255e3so28229591cf.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 07:34:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699284787; x=1699889587; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OnC2dPCqv9wFBpbbGwPFbdiWmJbjK4EUPuaQSU4CytI=;
-        b=QIrlFRFjqTnWaueJXoUwQ65YGKdYErCKOMJr+ZSW8UmTUkPAA8FSpYrz4a/JlqgpQ4
-         Wbw5VbIU+col8fizRXyg9zGqdsTmZFLRE9pS/v1ytglDXtX7yY3Dy8yudl6KH9KtjPP4
-         sLL/Rd6zGuJrMOnwBaioaaS3g8wtuWJFCgUJgx9VgL0BOodAeXw05WMhJNW1GT3dWnr8
-         a9fqaZ0xw28umVPNMo1lI3Znop6UkqV8/LeI7Q0qNa5jZBiUjdHgwyDgkh/W/tqG2hz8
-         I+6xUSo/SD4hRFHtMgUtYc5HoeTkk2k490N1ZTEa0p09wzMedqqsMt1q9ADeGLiOfhRG
-         PBVg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1699284854; x=1699889654; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MxoC6c4a6UMPxh6fWbGmLmJDyN32HFos5hK66U9ZO6E=;
+        b=KV4WcZb0au9tsLrV0Uh2Z9ayEGJ6U/QV1OShS9mAZf83QcSJ22PlYol9Cw7MxU4LA2
+         nbMAbKvpuL8MDquUjoAdM5P2/yIjGZuuga183GL/Xmi6y1jaW+zke9bew5ZiRUD/dgLQ
+         uSql6FbVmVqC0X1a5UwwAnY+Cr5kLUL+sDg/RQ9sJCUF+EtLNvegXcTKDwGjG7LY18Rb
+         ThamRTIvvk5biNJIHd8RgM/56zGNypN3GFcJboRA+kjXqn0izOz9eae1SPtttqLKA7Om
+         PrO3V8HK4QgTmtul3Ht4SqUSAYWhEKxHNW2S9gNL6jR4TNNfARn5GXOTR98qC1ShSl+F
+         s6bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699284787; x=1699889587;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OnC2dPCqv9wFBpbbGwPFbdiWmJbjK4EUPuaQSU4CytI=;
-        b=Wv20HRpakSB+kD7JelqBHkdrieOf8SUgtoirCUYQO1IWAzKxqw6a0Bo8xa6MoYUo1t
-         Fc7o315oWKjkYk3R6QBqCUhcjuBR5rAKK6v1YP3GxaZpgXf96P+gM3vTNzc127ltctni
-         evI280ZXmb16FdQC2DIgYcClbgmz4Q0oDvqAalwCOx1VLqS6Gq2kmpNMSPvZRc7dH/Nt
-         ugLFiw9W9oZqCumo7JFt7TyoY8RvO2Wcfgrumo2RrhkMG1ID/RhBzFhDWnqPrJ2+LDBm
-         Z2sZ3nVjO3GwlPgFEXJ2F8BnCtGy0N+JmEQPnzf+2E8GgoMHkgfOnnrdZmltV0WSwb7U
-         3R7A==
-X-Gm-Message-State: AOJu0Yw/ve48GPCZ71zB5aRqo4S7ZVIOQq4htaSmHYwh4L1SPWbzTf//
-	s/71x0Hzcqun1sWNxv9JBgTJ7oY03HA+jKE+u+A=
-X-Google-Smtp-Source: AGHT+IGfWnK4DGVFcppHZmVTYgMlFuWkzLXED4JuVniA0aNb/EgtYyGFf8wUEF1+HI1mJgNx02K7RM3q8/uF0Y6+cKU=
-X-Received: by 2002:a05:6602:3f88:b0:78b:b892:e334 with SMTP id
- fb8-20020a0566023f8800b0078bb892e334mr40119027iob.11.1699284787206; Mon, 06
- Nov 2023 07:33:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699284854; x=1699889654;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MxoC6c4a6UMPxh6fWbGmLmJDyN32HFos5hK66U9ZO6E=;
+        b=ZCpfErLJJSvgZZvSv9RWjA/gtTAWdP3kzWjtJXV+zXaR/N74qENuKq6CJjbQBErPRV
+         yjC2duY9F0OnMvnZsjuGlY2jmezfxt2oF83b/Cv9ZSNxsHw4935QzdbJRQ0TxuNg4kO1
+         QntThPgHJJ9i2XIskzyUOISNZwubYTF9s/jiy4QxZn8lTposxcxTvyEK8hxniEf4al9K
+         /ImRf1B/4CrGS9gIAUpV7VmdogWmxspfBlhayFh8uBDigNC4nFZ+exmeEO5Ii7+XQ13j
+         I7ruykzpuMC49uzhcEHkDBWbrvmCD9Uj/cYNq7/6YfiiHXgikEh00W56dsBLrYEaf+2e
+         erYA==
+X-Gm-Message-State: AOJu0YxxL57uqqRsdVk62+QcDhhNhp7jBmXUSFMPdzilR8icXHjJVkck
+	zRXoF546nZ9/v/DkdJUMh0cwA4KqnX88blTWtZYPpw==
+X-Google-Smtp-Source: AGHT+IFfvyjIoavvQ1HFSScfQNn80fSdE4c3FApDJxghb18htoaDJABWQSR6XrXam7MuYfsdW2C66w==
+X-Received: by 2002:a05:622a:189f:b0:41c:c27a:2927 with SMTP id v31-20020a05622a189f00b0041cc27a2927mr32042417qtc.44.1699284853847;
+        Mon, 06 Nov 2023 07:34:13 -0800 (PST)
+Received: from megalith.. (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id u15-20020a05622a198f00b0041977932fc6sm3469886qtc.18.2023.11.06.07.34.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 07:34:13 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] patchtest: rework license checksum tests
+Date: Mon,  6 Nov 2023 10:34:12 -0500
+Message-ID: <20231106153412.2223228-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <20231106142217.3837516-1-rasmus.villemoes@prevas.dk>
- <CADkTA4OsEXpRsULAkvx0cbFvdH2xVPW3JGuG2FcJ43OZyakBzQ@mail.gmail.com> <9a9a2845-68f0-45b2-b934-5e8438361670@prevas.dk>
-In-Reply-To: <9a9a2845-68f0-45b2-b934-5e8438361670@prevas.dk>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 6 Nov 2023 10:32:55 -0500
-Message-ID: <CADkTA4MhXMqu+G6q+_Dk-ySfAsp-un0A+Y57dQmz9LRpR=bm8A@mail.gmail.com>
-Subject: Re: [PATCH] perf: add jevents PACKAGECONFIG item
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: openembedded-core@lists.openembedded.org, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Max Krummenacher <max.krummenacher@toradex.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 15:33:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190230
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 15:34:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190231
 
-On Mon, Nov 6, 2023 at 10:15=E2=80=AFAM Rasmus Villemoes
-<rasmus.villemoes@prevas.dk> wrote:
->
-> On 06/11/2023 15.49, Bruce Ashfield wrote:
-> > On Mon, Nov 6, 2023 at 9:22=E2=80=AFAM Rasmus Villemoes
-> > <rasmus.villemoes@prevas.dk> wrote:
-> >>
-> >> From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-> >>
-> >> Building for an arm64 target, e.g. qemuarm64 or a raspberrypi3,
-> >> without "python" in PACKAGECONFIG, results in
-> >>
-> >> | Makefile.config:892: *** ERROR: No python interpreter needed for jev=
-ents generation. Install python or build with NO_JEVENTS=3D1..  Stop.
-> >>
-> >> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-> >> ---
-> >>  meta/recipes-kernel/perf/perf.bb | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/pe=
-rf/perf.bb
-> >> index a392166e73..37b53ee7df 100644
-> >> --- a/meta/recipes-kernel/perf/perf.bb
-> >> +++ b/meta/recipes-kernel/perf/perf.bb
-> >> @@ -28,6 +28,7 @@ PACKAGECONFIG[audit] =3D ",NO_LIBAUDIT=3D1,audit"
-> >>  PACKAGECONFIG[manpages] =3D ",,xmlto-native asciidoc-native"
-> >>  PACKAGECONFIG[cap] =3D ",,libcap"
-> >>  PACKAGECONFIG[libtraceevent] =3D ",NO_LIBTRACEEVENT=3D1,libtraceevent=
-"
-> >> +PACKAGECONFIG[jevents] =3D ",NO_JEVENTS=3D1,python3-native"
-> >
-> > Since we already have a python packageconfig and it takes care of
-> > the dependencies that we need, we shouldn't be repeating the python3-na=
-tive
-> > in this one. We'll end up having to maintain that dependency in
-> > two locations.
-> >
-> > i.e. we don't have python3-native as a dependency of our main python
-> > packageconfig .. is that an error (the python packageconfig) or should
-> > this be depending on python3 python3-setuptools-native, just like the
-> > python one ?
->
-> The two are as I understand it entirely unrelated. The existing python
-> knob controls whether some stuff that requires python at runtime is
-> built/installed (and that build may of course itself require some native
-> python, in this case in the guise of setuptools-native).
->
-> The jevents stuff is purely about generating some tables [as a .c file]
-> at build time, and that requires native python, but does not impose a
-> dependency on python on target.
+Remove the pretest_lic_files_chksum_modified_not_mentioned test entirely
+and use pyparsing in test_lic_files_chksum_modified_not_mentioned to
+scan the patches for lines starting with either "+LIC_FILES_CHKSUM" or
+"-LIC_FILES_CHKSUM".  If either is found but no "License-Update" tag is
+present in the commit, fail the test.
 
-Fair enough. So it is definitely a host-side feature.
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ meta/lib/patchtest/tests/test_metadata.py | 40 +++++------------------
+ 1 file changed, 8 insertions(+), 32 deletions(-)
 
-A comment above the packageconfig explaining that would
-be ideal. In a perfect world, all of our packageconfig options
-would have a docstring along with them .. since it is easy
-to lose track of things.
+diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchtest/tests/test_metadata.py
+index 3742760b451..b6f4456ad2e 100644
+--- a/meta/lib/patchtest/tests/test_metadata.py
++++ b/meta/lib/patchtest/tests/test_metadata.py
+@@ -16,6 +16,8 @@ class TestMetadata(base.Metadata):
+     license_var  = 'LICENSE'
+     closed   = 'CLOSED'
+     lictag_re  = pyparsing.AtLineStart("License-Update:")
++    lic_chksum_added = pyparsing.AtLineStart("+" + metadata_chksum)
++    lic_chksum_removed = pyparsing.AtLineStart("-" + metadata_chksum)
+     add_mark = pyparsing.Regex('\+ ')
+     max_length = 200
+     metadata_src_uri  = 'SRC_URI'
+@@ -76,48 +78,22 @@ class TestMetadata(base.Metadata):
+             if not lic_files_chksum:
+                 self.fail('%s is missing in newly added recipe' % self.metadata_chksum)
+ 
+-    def pretest_lic_files_chksum_modified_not_mentioned(self):
+-        if not self.modified:
+-            self.skip('No modified recipes, skipping pretest')
+-        # get the proper metadata values
+-        for pn in self.modified:
+-            rd = self.tinfoil.parse_recipe(pn)
+-            pathname = rd.getVar('FILE')
+-            # we are not interested in images
+-            if '/images/' in pathname:
+-                continue
+-            PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata_chksum,pn)] = rd.getVar(self.metadata_chksum)
+-
+     def test_lic_files_chksum_modified_not_mentioned(self):
+         if not self.modified:
+             self.skip('No modified recipes, skipping test')
+ 
+-        # get the proper metadata values
+-        for pn in self.modified:
+-            rd = self.tinfoil.parse_recipe(pn)
+-            pathname = rd.getVar('FILE')
+-            # we are not interested in images
+-            if '/images/' in pathname:
++        for patch in self.patchset:
++            # for the moment, we are just interested in metadata
++            if patch.path.endswith('.patch'):
+                 continue
+-            PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata_chksum,pn)] = rd.getVar(self.metadata_chksum)
+-        # compare if there were changes between pre-merge and merge
+-        for pn in self.modified:
+-            pretest = PatchTestDataStore['pre%s-%s-%s' % (self.shortid(),self.metadata_chksum, pn)]
+-            test    = PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata_chksum, pn)]
+-
+-            # TODO: this is workaround to avoid false-positives when pretest metadata is empty (not reason found yet)
+-            # For more info, check bug 12284
+-            if not pretest:
+-                return
+-
+-            if pretest != test:
++            payload = str(patch)
++            if (self.lic_chksum_added.search_string(payload) or self.lic_chksum_removed.search_string(payload)):
+                 # if any patch on the series contain reference on the metadata, fail
+                 for commit in self.commits:
+                     if self.lictag_re.search_string(commit.commit_message):
+                        break
+                 else:
+-                    self.fail('LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message',
+-                              data=[('Current checksum', pretest), ('New checksum', test)])
++                    self.fail('LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message')
+ 
+     def test_max_line_length(self):
+         for patch in self.patchset:
+-- 
+2.41.0
 
->
-> > Since there's no way to make packageconfig 'a' depend on
-> > packageconfig 'b' that I know of (RP will correct me if I'm missing
-> > or forgetting something here), we could always add a test on the
-> > final PACKAGECONFIG and error/warn if jevents was enabled and
-> > python wasn't.
->
-> I don't think it's correct to force jevents pc to include python pc, as
-> the latter will make the perf binary pull in the whole python
-> interpreter etc.
->
-> If feature A depends on foo-native and foo and bar, and feature B
-> requires foo-native, I don't see why one should be forced to enable
-> feature A in order to get B. [Conversely, even if the dependencies of
-> feature A today happen to be a superset of those of feature B, I don't
-> think selecting feature A should automatically imply feature B.]
-
-I don't disagree with that logic, but you went too far with it  .. since
-it was based solely on my first comment about it being target
-python.  If there actually are dependent features, I'd always argue
-for having a dependency versus duplicating the details, but that
-isn't the case here.
-
-Bruce
-
->
-> > It is always a bit annoying that perf turns these on, and we have
-> > to explicitly opt-out .. but that is out of our control :)
->
-> Indeed.
->
-> Rasmus
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
