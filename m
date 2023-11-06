@@ -1,218 +1,181 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55770C4167D
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 12:48:10 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.53431.1699274882670916287
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0FAC4332F
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 12:50:00 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.73])
+ by mx.groups.io with SMTP id smtpd.web10.53463.1699274993595800207
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 04:48:03 -0800
+ Mon, 06 Nov 2023 04:49:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V5crpuvC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40790b0a224so33600335e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 04:48:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1699274881; x=1699879681; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xcnwsL1P8gfVFo9AtnbuLIY7gtyyj6oo/f9Po6qI7/E=;
-        b=V5crpuvCRTf0APAMeSOmfW6JfOoMoip0HoFtqGbzfnJhbbrwx8XUAslTI9+4rzYjHw
-         UH+FDGgAoFnpPmPiaC2uaYti+ycYjh/+Yu+rvx6e2jUQLIkJZbGbeIan2KuH2q9PmKgo
-         kJPFoHOXvw55w0erZD27PrbXVWfc6CnHGTWNI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699274881; x=1699879681;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xcnwsL1P8gfVFo9AtnbuLIY7gtyyj6oo/f9Po6qI7/E=;
-        b=XkpinPFKrMc9VQNiwotPDkxM4+m/AqmJ9ZHY2v8o9FU8LoqtRQ2UCYh/ZX8lDOfZVb
-         vh5tnjJsETUIAQVZaaqGoZ7XQgF76EIyWJWNorAhHNy5cdCLr4XrIgvbKLpqgAUsOz5+
-         UEJxJ9rBFonjsqeUJeuz5jCRfjEN/5Qe7ka7EpvERJZoSxvvSTJNn8O2EL4YbFmn/Q2Z
-         lhwYTtaxjkGeT+vbpi1GpdStSx/R3KXG/Emh8och71G/+CEcgKJPIErEqlOE5QVVIY63
-         OR22Z23B5pHLKLcRlYVsoVJuYcMliQpgNgALTZTqeBgg+HHTuI0veL3fUkYq+gsd+8vc
-         0YZA==
-X-Gm-Message-State: AOJu0Yxh7l8emQHqXT8br2tokZcLXw6Y2/HbKcLk+kuKJZ6h1uijiVkN
-	MUUScFuUlnlUrwna/veEKMFvYg==
-X-Google-Smtp-Source: AGHT+IG41nt1d2OvzpAl4FUwUQES0bwFX57LdIeAIZSmCBJ4U/PecO/TB8SREcUE6JwoA+PR5rYJWA==
-X-Received: by 2002:a05:600c:1d0e:b0:402:8896:bb7b with SMTP id l14-20020a05600c1d0e00b004028896bb7bmr22499110wms.6.1699274881029;
-        Mon, 06 Nov 2023 04:48:01 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1ccc:c310:74c7:1597? ([2001:8b0:aba:5f3c:1ccc:c310:74c7:1597])
-        by smtp.gmail.com with ESMTPSA id bg19-20020a05600c3c9300b0040531f5c51asm12428713wmb.5.2023.11.06.04.48.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 04:48:00 -0800 (PST)
-Message-ID: <984be73de92e191166e9dddf95aa9861f346ddcd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/3] selftest/sstatetests: add tests for
- 'bitbake -S printdiff'
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Mon, 06 Nov 2023 12:47:59 +0000
-In-Reply-To: <20231026103320.2751277-1-alex@linutronix.de>
-References: <20231026103320.2751277-1-alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=0yJG/BGs;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=0yJG/BGs;
+ spf=pass (domain: arm.com, ip: 40.107.7.73, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=IUTEGYxnGE5Hu8sTU01+cACl4JEzOFpQ8zWkQ4q4eT6d6AWJOODdkRmcya2ylvsMgGlHDbHfM5s0HgAsNY68bLRLMiKs7sdi0A7Lv1/3mYAa2lqonqhTzJ4SlSQ1aCbZu2+jrzotou+lX2TJ82MtS79TyFJlX2SyKAdbvFmPCxpl0iotRvbwLoT3Tu04+zsG922PpXlnMYsxI/kO6MxRF1X8fw9uvch2Pudehk9V7POUyb/qhpMLJQipoo/ABNlGNTG1N3NUOaxxwZb+GTEpelY6nJuGpS+9GO0Ahf2C3720/BkzMx0k9DObXq3wwPQcIeFJ6H6TbRB78aSpKJX07A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DREM37/x6Z/S9RLyhWamz2vIEeO+aoG0Wc9b3NeeeYg=;
+ b=Vy4J0MANxSj3V+cHEGFBlrELp3+1y9dTZvyhdRlW9UN+s+1n7NuqhzWLg+m8FVlQKaVz2J/PTdljJfpbywDsIL5E2hU6jI1viG+kFQqpQx5lVmV9lDXlA+U1jh78GhdIJcy/RaWezP2LZMjAaXWW/1NL2ch7yXfym8x8d5ZSXugdZKggy5WTKxjPtpXf78wf3zoJ/4T0m/HD2G88N7B/9kh0HSmyuzeGc/yFMxz3Kb1BQugHg70WpAJwqMQglMKLf1LphxggQ7RJFRQakM5QqSYsK5fB+6ZmKGkujZKCIKOz0gbNs7QRoHqgBZQSYzy4CRYmrD+IbbOQ7Wq/mEDQ2Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DREM37/x6Z/S9RLyhWamz2vIEeO+aoG0Wc9b3NeeeYg=;
+ b=0yJG/BGsgJKKuybTXY0X9eIag0NFEdVNRE4uHkdOdTkHNSaVmSVxUbR3LKfHeRMaSL0+hUG6nWu1E3OPPts0PFAPu4Ixa7M8yP6Hsp5JDS9duhBSXkQCBW+xpzfgvjU7MENdKeBeJfqlgVvRnOsGTF3Ee9nBToROMmL1CF/FnQY=
+Received: from AS9PR01CA0037.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:542::25) by AS8PR08MB6181.eurprd08.prod.outlook.com
+ (2603:10a6:20b:29a::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
+ 2023 12:49:49 +0000
+Received: from AMS0EPF00000195.eurprd05.prod.outlook.com
+ (2603:10a6:20b:542:cafe::5d) by AS9PR01CA0037.outlook.office365.com
+ (2603:10a6:20b:542::25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28 via Frontend
+ Transport; Mon, 6 Nov 2023 12:49:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AMS0EPF00000195.mail.protection.outlook.com (10.167.16.215) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6977.16 via Frontend Transport; Mon, 6 Nov 2023 12:49:49 +0000
+Received: ("Tessian outbound e243565b0037:v228"); Mon, 06 Nov 2023 12:49:49 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 63c980aa8c83aa64
+X-CR-MTA-TID: 64aa7808
+Received: from fdbdb23deb2c.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id E0874529-DCD0-41C7-8E80-A33ED07F1118.1;
+	Mon, 06 Nov 2023 12:49:42 +0000
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id fdbdb23deb2c.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 06 Nov 2023 12:49:42 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YLget8Knyz783ASpCLyZhr6AUG75ThK3wYWvIF04IwPduXskXkeAvm1QxTZJsHLhRdqDCFS5kxcFxvos2EQMl977vtYTMHPBwdzKUz9qKo1I/W1QPBNU3Gu6o7FLQIvvS847ISBBiHf4HavezuZnuZFwqYzb94YGTzH05s4Pd9bpw2Ao5/H2mXiqZYOUA4ogi9eCPKFJN4iOse0dZJ3gQr/oHTzJR/6IsWXWCuzZ075axlNFwBtsgh1bgsBW6vCsEzl2XKukKzHr+xLR5k11ET2e4IJddlvBQpkp+EdgE+6CuQcF3r8phabKTd9Zxx0MsLIlEBXvLDVg+3lzNThKNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DREM37/x6Z/S9RLyhWamz2vIEeO+aoG0Wc9b3NeeeYg=;
+ b=IIg+eNQjoZ9CPRQqdb9eZj/ebkFjRUPFAgnCbx7t2LzCZYRDFOngaA2oLPQa9d0oBKEroMgOSOOgSiyrtq3WoOPZNM0K9FfIT2zaTVuQLxR+UxqO8oWmNA55SXvYhfXAmiLEVYpIsef8UhAbqcuFs4Bw3rbwXk9/wCxi7pL48EOgNhu224noJyqSppPqa4Uv7x00Rnquss+JCzaD1KzNO+uiiZFzVaDGtE9+NGssAl5DVvU9Rd3ePGpPbYRR8+KdwAc/2lNSqS1K/nznnHNqrSUTwhdLI/TA7TzyyRQuvYYeHaCmfOLJPmy0ehB4Zv6N5IacZbKFEszOk//oBKUSzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DREM37/x6Z/S9RLyhWamz2vIEeO+aoG0Wc9b3NeeeYg=;
+ b=0yJG/BGsgJKKuybTXY0X9eIag0NFEdVNRE4uHkdOdTkHNSaVmSVxUbR3LKfHeRMaSL0+hUG6nWu1E3OPPts0PFAPu4Ixa7M8yP6Hsp5JDS9duhBSXkQCBW+xpzfgvjU7MENdKeBeJfqlgVvRnOsGTF3Ee9nBToROMmL1CF/FnQY=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DU0PR08MB7762.eurprd08.prod.outlook.com (2603:10a6:10:3ba::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.27; Mon, 6 Nov
+ 2023 12:49:39 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::d066:526c:84ed:fb05]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::d066:526c:84ed:fb05%5]) with mapi id 15.20.6954.027; Mon, 6 Nov 2023
+ 12:49:39 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] cairo: upgrade 1.16.0 -> 1.18.0
+Thread-Topic: [OE-core] [PATCH] cairo: upgrade 1.16.0 -> 1.18.0
+Thread-Index: AQHaEFnSTqMql4HhqEm++HyuXtsgP7BtPrEA
+Date: Mon, 6 Nov 2023 12:49:39 +0000
+Message-ID: <3B746DFC-DB41-440A-BB22-7678F2DE3A21@arm.com>
+References: <1699238045-2801-1-git-send-email-qiutt@fujitsu.com>
+In-Reply-To: <1699238045-2801-1-git-send-email-qiutt@fujitsu.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.200.91.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DU0PR08MB7762:EE_|AMS0EPF00000195:EE_|AS8PR08MB6181:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b7b4b4d-f09c-4408-dfda-08dbdec6dcf5
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ yVa7WDMJ1UIti9U5jv0L0ikxqJpEXuZUndzvCowzYWWnJaFb6n50B5csRIfPZSIMKytjtx7rR4wLtx/4ozxzjAcXfua9Ez5AA6a9bgexD2VIkMpFLBEM3iK9EYBuEypQtqV2Ohche6QOoPeRrzOHdl7J/E3YQ2KXNzXP5kTb8WeoreKbZwgqmIyP9lCPTtZgCDzXtTDx9lYDti2R/f8xvUtyfFgwrGTyDkpkjoDaW3bAf0rtzGi3IL73NG2q+dMvRVdsn4CZfq1OakOoFuordZqBZu7lMa6RYrv7NhG0xRw/x4Q/e/QsnugVIl2rz349Si+j6jv3W9QH/D+AlQ5mblCcqrmwzWEn41PGVHOCAT3ZTeROqs9vA+BOcMwDsLd0p2GqYlS7FayK4tltqb3REV/5rzbGcQrB5OON2m9HnBL3TjhVlboJaPwzt7UN9Ew+0gnkNfNir1VBzTDrO3KhszMTzq/eHBlSJGrLezgsjuWwwdTb8xXIBhOFxZ7XATz7PF0YoJajEqXHTjlDj6lDCO9EKRfFVptira0q924446xElM1uYS88DFxxyZ6C2ZREPQqE1rx3MQeb+Ud/iBrQACjkvk87oglY0+y6SMCcharNpEex0iTe0nRL5+pcOYXLDM4ajDVhBCgPoPegmis8hg==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(39860400002)(346002)(376002)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(33656002)(122000001)(2616005)(38100700002)(86362001)(478600001)(6506007)(966005)(36756003)(8676002)(4326008)(8936002)(26005)(6486002)(41300700001)(66476007)(66556008)(6916009)(66446008)(64756008)(71200400001)(91956017)(316002)(83380400001)(76116006)(6512007)(66946007)(2906002)(38070700009)(5660300002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9ED090D37F429044BDFE3CCCCA58CC4A@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB7762
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF00000195.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	07a31e65-e0a0-46ad-22e6-08dbdec6d72f
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	t4yS/V2pSsZrq0oEWMr9wi6RfR/yMUbfLjr8Owz5jWGbOx8EotIfhcOCRK+RxaoYuopWstAW6kdBhQBoNczw7vLMlisdXQwmbGcG0eMAcu3VL1fvC+CXwtjujgzSWVLNshmd6YhPjlUfb2tgD3R7s7Xb5KDsrTGdkZxuFvjJdJojL7vZtUG18kcjIKz7GIWE6PXQwceWX2epxnJl8XVfGwvfvowtF6+LOwXfLP+bU70Vq0dBbPpY6eWYsKkQvxtRrUGrjHnq9OjiPGM9S/lZbVFoDb5WP0R7gKO6HpRq4ckxsLGSm+y+aaOV9ZrMna+1+FMG6hyrxovIjPlp2v9L1c/t3su21vyDNhn25cuXhzB6JNV6jyI3B4b1M4Ax5LieWRoRduqxVIajfBGVRENVapNq534+vYX7SQ05MGL+Yc7D4lWD+BTpDrobu+XM8+1yW3X813CNYmfnqDriozbhp61mMyzwsmvzEthe6P2xlUBmM4Oumfe9rNzleL+T/Gryy3sBESsoAkNyu/26toFFt+e/ehhI/vFo3aHrxbf9Od5P2I96xJ7106jpKN1o8rri96AYY+I+c7yc81V9SRm3TAdYO6z+P1olQkw1w4fXw37CLivbq/AKDz9lrGMZIP0M17ymEnLIOqgTMO91c6LQNezkvjYirxHT6i8Fk46t7kVh1LyR95IIZ8PsBixjcrPq+qTEZnbBH7wkGvqVbIWJoqji1NJfR+OZEX4QIsDFB7M=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(396003)(39860400002)(346002)(376002)(230922051799003)(186009)(64100799003)(1800799009)(82310400011)(451199024)(36840700001)(46966006)(40470700004)(36860700001)(40480700001)(356005)(6506007)(81166007)(6486002)(478600001)(966005)(6512007)(36756003)(82740400003)(336012)(316002)(2616005)(47076005)(26005)(70206006)(70586007)(83380400001)(8936002)(8676002)(6862004)(4326008)(86362001)(2906002)(41300700001)(33656002)(5660300002)(40460700003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 12:49:49.4580
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b7b4b4d-f09c-4408-dfda-08dbdec6dcf5
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF00000195.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6181
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 12:48:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190209
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 12:50:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190210
 
-On Thu, 2023-10-26 at 12:33 +0200, Alexander Kanavin wrote:
-> > 'bitbake -S printdiff' is a useful diagnostic facility for finding out
-> > why sstate is not being reused, but until now it had no tests that woul=
-d
-> > ensure it works. This commit adds three basic scenarios:
-> >=20
-> > 1. make a change in a really basic, common recipe that is at the very r=
-oot
-> > of dependency trees (quilt-native), and ensure that change is correctly=
- discovered when
-> > building an image.
-> >=20
-> > 2. make a change in gcc-source recipe, which is somewhat special
-> > (operates in work-shared), and ensure that gcc-runtime builds track
-> > that down as well.
-> >=20
-> > 3. make a change in base_do_configure() definition from base.bbclass,
-> > which is not recipe-specific, but affects many basic recipes, and ensur=
-e that
-> > is correctly reported as well.
-> >=20
-> > The test itself actually runs twice:
-> > - first against a fully populated build directory, where
-> > the printdiff code is guaranteed to find the correct previous
-> > stamp that can be compared with in a predictable manner.
-> >=20
-> > - then in an empty build directory where the printdiff code
-> > goes to look in the sstate cache, and so the existence of the
-> > previous signature can be tested, but not the difference with it
-> > (what the exact difference would be is unpredictable as the
-> > sstate cache is indeed shared between many builds).
-> >=20
-> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-
-There have been autobulilder failures from the do_configure base change
-and we've not been quite sure why.=C2=A0The summary below took quite a bit
-of digging but seems quite simple when written up like this!
-
-If you dig into a failure like:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2379/ste=
-ps/15/logs/stdio
-
-you see messages like:
-
-The differences between the current build and any cached tasks start at the=
- following tasks:
-/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-devtool=
-s/quilt/quilt-native_0.67.bb:do_collect_spdx_deps
-virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
-recipes-devtools/gnu-config/gnu-config_git.bb:do_configure
-virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
-recipes-core/zlib/zlib_1.3.bb:do_collect_spdx_deps
-virtual:native:/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/=
-recipes-core/update-rc.d/update-rc.d_0.8.bb:do_collect_spdx_deps
-/home/pokybuild/yocto-worker/oe-selftest-armhost/build/meta/recipes-extende=
-d/timezone/tzcode-native.bb:do_prepare_recipe_sysroot
-
-which seems odd. Taking the first one, if quilt-native has built, you'd
-expect those to be present.
-
-I went onto the arm builder and tried a "bitbake quilt-native -S printdiff =
--DDD":
-
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/4d/8d/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:4d8da10af56c40d61adb5febb96f583a399ceb276d0dc13e61971f1eb0b7d81d_cre=
-ate_runtime_spdx.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/85/79/sstate:quilt-native::0.67:r0::11:85794fd6d83b61cb273e4d1=
-4f6e3581d7fa4ec743b455f1d21786cff032c262c_patch.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/b8/fb/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:b8fbbfbafeb7cdf333f1766d6b3c94822a21d42145e17377bede29e44a86a14d_pre=
-pare_recipe_sysroot.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/fe/ae/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:feae04b2abf592e3df83d0dcac1f74399e342ba99c718975d34b8a27e07eeca5_con=
-figure.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/f5/98/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:f598fad5807fabde02cd16e5f7f26b486d0b5f87dec6ff3c3d5378ba68780ff1_ins=
-tall.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/e2/a4/sstate:quilt-native::0.67:r0::11:e2a41fd44aa7736bd318ec9=
-c4a6b91e4b80563ba213035afe3df3cb96fdf7aaf_fetch.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/da/07/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:da07e6362c0b01fc2798456aa1319e2343a556e33d0857f90a129701eaa722b2_dep=
-loy_source_date_epoch.tar.zst.siginfo
-DEBUG: SState: Looked for but didn't find file /srv/autobuilder/autobuilder=
-.yocto.io/pub/sstate/universal/72/12/sstate:quilt-native:aarch64-linux:0.67=
-:r0:aarch64:11:7212eff5f191def566b82db976b37e1efcb0a8ccd964eff5b5682b651b7c=
-b7fa_collect_spdx_deps.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/73/96/sstate:quilt-native::0.67:r0::11:7396e70fb1865087409e454=
-eb8bacae3bcb4add6218b3cd707d2e96880b72936_populate_lic.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/9f/8e/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:9f8e9e5303322240b173483312d885144dfdf2228698868857a281b510ec3214_rec=
-ipe_qa.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/fd/c4/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:fdc40ea4bffb4485bdbb3c38a13b4e5d8d94d1c2cdb66c8659fe5f758a3530a3_pop=
-ulate_sysroot.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/ac/69/sstate:quilt-native::0.67:r0::11:ac69437e7d349349b5f1b2d=
-f79203d3ade24e59dc32f16cdf03e6dc92dd3fad6_unpack.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/94/9b/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:949b4472b14403843ae5219789e371979cbc9a53c7fa250033f55157186d902e_com=
-pile.tar.zst.siginfo
-DEBUG: SState: Found valid sstate file /srv/autobuilder/autobuilder.yocto.i=
-o/pub/sstate/universal/1b/da/sstate:quilt-native:aarch64-linux:0.67:r0:aarc=
-h64:11:1bdafcc9e6b4209bfbdf4b83f8b44e0cc3cc26cdeebe7d713a9f7fcba4b02d48_cre=
-ate_spdx.tar.zst.siginfo
-
-and the sstate for quilt-native_0.67.bb:do_collect_spdx_deps is indeed miss=
-ing, there is only x86:
-
-$ ls /srv/autobuilder/autobuilder.yocto.io/pub/sstate/*/72/12/sstate\:quilt=
--native\:*collect_spdx_deps.tar.zst.siginfo=20
-/srv/autobuilder/autobuilder.yocto.io/pub/sstate/universal/72/12/sstate:qui=
-lt-native:x86_64-linux:0.67:r0:x86_64:11:7212eff5f191def566b82db976b37e1efc=
-b0a8ccd964eff5b5682b651b7cb7fa_collect_spdx_deps.tar.zst.siginfo
-
-The normal build works since it doesn't care about the siginfo files,
-just the actual sstate it needs and as a covered task, it just skips
-over this.
-
-This highlights two issues:
-
-a) Why is the single sstate siginfo file gone? The most likely
-explanation is that it wasn't accessed recently and was deleted by the
-cleanup/ageing code. This makes sense since the code in question never
-downloads it, only checks it exists and uses that as a marker. Our
-usage "accesses" are in a different codepath to the parsing check.
-
-b) This means -S printdiff doesn't quite do what you'd expect since it
-doesn't skip "covered" tasks in the same way a normal build would.
-
-To reproduce the test failure you should be able to just delete that
-siginfo file from your local sstate.
-
-Cheers,
-
-Richard
-
-
-
-
-
+Q29tcGFyaW5nIHRoaXMgdG8gbXkgV0lQIHBhdGNoIG9mIHRoZSBzbmFwc2hvdCBpbiBTZXB0ZW1i
+ZXI6DQoNCmh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvcG9reS1jb250cmliL2NvbW1pdC8/
+aD1yb3NzL2NhaXJvJmlkPTkyMTZlNzEwYjMyMjU4MWUyZWJlYzVmNzYzZmEzNDVjYjE2ZTA0MDkN
+Cg0KVGhlIEJVR1RSQUNLRVIgZmllbGQgbmVlZHMgdXBkYXRpbmcuDQoNCj4gK1NSQ19VUklbbWQ1
+c3VtXSA9ICIzZjA2ODVmYmFkYzUzMDYwNmY5NjViOTY0NWJiNTFkOSINCg0KRHJvcC4NCg0KPiBY
+MTFERVBFTkRTID0gInZpcnR1YWwvbGlieDExIGxpYnNtIGxpYnhyZW5kZXIgbGlieGV4dCINCg0K
+VGhpcyBsaXN0IG9mIGRlcGVuZGVuY2llcyBpcyBzbWFsbGVyIG5vdywgc28gSSBpbmxpbmVkIGl0
+Lg0KDQo+ICtQQUNLQUdFQ09ORklHID8/PSAiIFwNCj4gKyAke0BiYi51dGlscy5jb250YWlucygn
+RElTVFJPX0ZFQVRVUkVTJywgJ3gxMScsICd4MTEgeGNiJywgJycsIGQpfSBcDQo+ICsiDQo+ICsN
+Cj4gUEFDS0FHRUNPTkZJRzpjbGFzcy1uYXRpdmUgPSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJ
+U1RST19GRUFUVVJFUycsICd4MTEnLCAneDExIHhjYicsICcnLCBkKX0iDQo+IFBBQ0tBR0VDT05G
+SUc6Y2xhc3MtbmF0aXZlc2RrID0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVS
+RVMnLCAneDExJywgJ3gxMSB4Y2InLCAnJywgZCl94oCdDQoNClNhbWUgbGluZSB0aHJlZSB0aW1l
+cywgbm8gbmVlZCBmb3IgdGhlIG92ZXJyaWRlcy4NCg0KPiArUEFDS0FHRUNPTkZJR1t4MTFdID0g
+Ii1EeGxpYj1lbmFibGVkLC1EeGxpYj1kaXNhYmxlZCwke1gxMURFUEVORFN9Ig0KPiArUEFDS0FH
+RUNPTkZJR1t4Y2JdID0gIi1EeGNiPWVuYWJsZWQsLUR4Y2I9ZGlzYWJsZWQsbGlieGNiIg0KDQpJ
+bmxpbmUgdGhlIGRlcGVuZGVuY2llcywgYW5kIHJlbmFtZSB4MTEgdG8geGxpYiwgYXMgdGhhdOKA
+mXMgd2hhdCB0aGUgb3B0aW9uIGlzIGNhbGxlZC4NCg0KVGhlIGRvX2luc3RhbGw6YXBwZW5kIGNh
+biBiZSB0cmltbWVkLCBzZWUgbXkgV0lQLg0KDQo+IC1GSUxFUzoke1BOfSA9ICIke2xpYmRpcn0v
+bGliY2Fpcm8uc28uKiINCj4gK0ZJTEVTOiR7UE59ID0gIiR7bGliZGlyfS9saWJjYWlyby5zby4q
+ICR7bGliZGlyfS9jYWlyby9saWJjYWlyby1mZHIuc28qIg0KPiBGSUxFUzoke1BOfS1nb2JqZWN0
+ID0gIiR7bGliZGlyfS9saWJjYWlyby1nb2JqZWN0LnNvLioiDQo+IEZJTEVTOiR7UE59LXNjcmlw
+dC1pbnRlcnByZXRlciA9ICIke2xpYmRpcn0vbGliY2Fpcm8tc2NyaXB0LWludGVycHJldGVyLnNv
+LioiDQo+IEZJTEVTOiR7UE59LXBlcmYtdXRpbHMgPSAiJHtiaW5kaXJ9L2NhaXJvLXRyYWNlKiAk
+e2xpYmRpcn0vY2Fpcm8vKi5sYSAke2xpYmRpcn0vY2Fpcm8vbGliY2Fpcm8tdHJhY2Uuc2/igJ0N
+Cg0KY2Fpcm8tZmRyIHNob3VsZCBiZSBpbiBwZXJmLXV0aWxzLCBub3QgdGhlIGNvcmUgbGlicmFy
+eS4NCg0KUm9zcw==
 
