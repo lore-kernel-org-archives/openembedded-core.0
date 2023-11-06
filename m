@@ -1,532 +1,92 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFB0C4332F
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 11:21:49 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.51441.1699269701563135330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B754C4332F
+	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 11:48:50 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.52372.1699271320407766883
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 03:21:43 -0800
+ Mon, 06 Nov 2023 03:48:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ihnFv1na;
- spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1cc4f777ab9so29480385ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 03:21:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HPngL4tF;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-509109104e2so5627312e87.3;
+        Mon, 06 Nov 2023 03:48:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1699269700; x=1699874500; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ImsHWwIxlc/0HAvLUKLHQz5xuRSwKL5RQYve1NlQu0E=;
-        b=ihnFv1naFE4BefXogthgm9RMLxypVlh8IGhV9jGnIjXZAZ8dL6qCYYQANYZ3FxTCJD
-         lLoBdJ7bRaX50TbgC8md8Sp/JwJD7LK3tif3lVdtTCdmKhfe5IRZ6SArFhM1zybRjT5B
-         lfTJrnBUW4eGxwmyzu5XR25DNMD2C32qlkCPg=
+        d=gmail.com; s=20230601; t=1699271318; x=1699876118; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=a2NIPtqj8GV+fVybbcGyLpSs16MtxfjjRASY5gQoKW4=;
+        b=HPngL4tFdSEEQM1gNI8DZeMZZVjBOpiPqmqtmCuplUeQ3Op1WpSjOj8Ua/zI4DJLcf
+         qO8harZN6E28F7SzWgRt5jBTegAXd3Lr/WPVRKJ4pRGgy6Za/5We5Ft9NLdNiQX/+lEj
+         a6mTRPHLRN32J/DnNXqxUXiv6muKszcidD76H5fSy8sEoKSmEDKl+1AT+LYVjFdsHIJ6
+         d2PDozrdZm1JaiqTBNELPkvdnxUTAX6+mX/X5wkWWljlPqYjDL3tSLruz9YziAnjgBdX
+         B4onucr2WicVvp/BMVCZreCPTAGf9X+pB2XIygC5FEcqRhnrf7WVbLTBO8d448vIpoFL
+         fhUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699269700; x=1699874500;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1699271318; x=1699876118;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ImsHWwIxlc/0HAvLUKLHQz5xuRSwKL5RQYve1NlQu0E=;
-        b=BkJkucBe5jeynQbxlVUWVDgmsRSfGD/lxEyJxFWuDAyf1HbWfKDucFBZLLWXsci91q
-         nGQv74kYAYu32q2qhm+b09c5BN88jccJ+mBeukh7dvZn1oYQfsjR9OIp6tccf/A8gI9y
-         pvW9WYQmp0owj/76h3gOqhMMMMw8BwUoBAdX1GuNnE4FNEJ3EuulsivQWk2H6DZSLYf5
-         anGOHGVY5uBDx3BtVbcYTdN9qB5+cFmZL7jBelws1KZf9VGNFdd//K5upkuNbVjceZM7
-         a04BeayAOZoVpEU5NgKr5URD6QsHVnrPw2KYyRBEJ0SP3Urhr9c4UWmuc0aEu+eYzJGk
-         g/AQ==
-X-Gm-Message-State: AOJu0YzhgVVZdlzzvP2Z1c3gi0yY8Rhfo9o2BtmEfz1UA5URvFenWlna
-	0lzk9wcR1DwoNiApKiD98YxR2+YpaYKFq6tSTPM=
-X-Google-Smtp-Source: AGHT+IFskF6mAlrIh31lvIqXC0zza80B3ynRn2hWcu2rZzyyRIJZttJU3WDxs7TLrw1MKhhRxLdcKA==
-X-Received: by 2002:a17:902:dcc5:b0:1cc:b3f:dd81 with SMTP id t5-20020a170902dcc500b001cc0b3fdd81mr21465039pll.67.1699269699969;
-        Mon, 06 Nov 2023 03:21:39 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c01c:7c68:1109:1fee:ab02:8473])
-        by smtp.gmail.com with ESMTPSA id n9-20020a170902e54900b001c0a414695bsm5681015plf.43.2023.11.06.03.21.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Nov 2023 03:21:39 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] xserver-xorg: Fix for CVE-2023-5367 CVE-2023-5380 and CVE-2023-5574
-Date: Mon,  6 Nov 2023 16:51:30 +0530
-Message-Id: <20231106112130.1773383-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=a2NIPtqj8GV+fVybbcGyLpSs16MtxfjjRASY5gQoKW4=;
+        b=CboytxRwvHsYe5Gupbj5Ojei6yAZYbuZuPcT1/NZKvnIvmUOnpCm/2906bqQ+XYmm+
+         ZLCLsMT6DMbd14ZUp3UW/2MV1coxAFdnDANImJ+N5ja2lzVhK2D20RumY45lPwoH3nCj
+         6tQuG8yVWl58avTLJ2IiCWEF0RstLWfyswDzvi6qbWJ1g+/MRULKA5a/sBct6M+sTyuC
+         CpFPr+CZ23zUZTfWrutJnaBGe6spAZIZRH1oSleOm3cwJJXJ8E0ZQewR/uni13aEmPk3
+         f6+fGIAfGfQTR4hTs14qNvbnxn06dHpoYiIqwEWJYqG+qe7qPMk4sY3+vj1l0kbJIo3g
+         EsXQ==
+X-Gm-Message-State: AOJu0Ywc3cJJ6mVzFOmgrNe9wAUvMIjML+qrElSSgLnLQ4gv4U8nPmJj
+	6jmicf1bwlngMRlCmpf0c8xXp03BA49uRCLxiOA=
+X-Google-Smtp-Source: AGHT+IF0zLnaJo6oIcJMMeKHotuwUG6FF+TCHQbCdPFTrO4iKXLRXf5S1U+yoe40raoxbF30IDBhD7s8BZJbCCmjm7Q=
+X-Received: by 2002:a19:434d:0:b0:503:655:12e7 with SMTP id
+ m13-20020a19434d000000b00503065512e7mr19649366lfj.62.1699271318316; Mon, 06
+ Nov 2023 03:48:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
+ <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
+ <81f4c191fe6dead1feec6bfc0d36aa328af1f7d4.camel@linuxfoundation.org>
+ <CANNYZj_uSknujoQUK2yV7U4N+WW_RkUH=sJnFDBfZgV0G5fv7Q@mail.gmail.com>
+ <649b2f000761831cabd1f5737fb5b30a2ffc3654.camel@gmail.com>
+ <CANNYZj_Cq+cncw5SCGii=Mhj0KGgo=qr=hCuo+wpdvtR9C=Qyg@mail.gmail.com>
+ <58e2c7a830bceac9b3a8c6cee63f03ae4a118da0.camel@gmail.com>
+ <0b1cfe6b26e5c61b1e700e3801900038e2d48f25.camel@linuxfoundation.org> <dd3d342e400b900c7f7ddbbe93c725472f6d6f1f.camel@gmail.com>
+In-Reply-To: <dd3d342e400b900c7f7ddbbe93c725472f6d6f1f.camel@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 6 Nov 2023 12:48:25 +0100
+Message-ID: <CANNYZj_TUyUkc_Mrmh6WUwXOXkctONshWFWZ3bd-FKm-Fdki+Q@mail.gmail.com>
+Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
+ for why is sstate not being reused?
+To: adrian.freihofer@gmail.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	Michael Halstead <mhalstead@linuxfoundation.org>, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Julien STEPHAN <jstephan@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 11:21:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190205
+ <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 11:48:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190206
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+On Sun, 5 Nov 2023 at 20:43, <adrian.freihofer@gmail.com> wrote:
+> Another topic where additional meta data about the sstate-cache seams
+> to be beneficial is sstate-mirror retention. Knowing which artifact was
+> compiled for which tag or commit of the bitbake layer could help to
+> wipe out some artifacts which are not needed anymore.
 
-Upstream-Status: Backport
-[https://gitlab.freedesktop.org/xorg/xserver/-/commit/541ab2ecd41d4d8689e71855d93e492bc554719a
-&
-https://gitlab.freedesktop.org/xorg/xserver/-/commit/564ccf2ce9616620456102727acb8b0256b7bbd7
-&
-https://gitlab.freedesktop.org/xorg/xserver/-/commit/1953f460b9ad1a9cdf0fcce70f6ad3310b713d5f
-&
-https://gitlab.freedesktop.org/xorg/xserver/-/commit/b6fe3f924aecac6d6e311673511ce61aa2f7a81f
-&
-https://gitlab.freedesktop.org/xorg/xserver/-/commit/ab2c58ba4719fc31c19c7829b06bdba8a88bd586]
+There should be progress on this particular point soon when I get
+oe-replicate-build prototype to function. It also records the list of
+needed sstate objects into the replica bundle (in the form of
+locked-sigs.inc, which is in itself not included into the build conf),
+and if you place that bundle next to sstate, and make a superset of
+all the objects in all bundles registered that way, you have a list of
+things that can be pruned from the cache without loss of build times.
+There could also be more interesting use cases, like querying the
+sstate server for available builds with guaranteed sstate coverage
+etc.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../xserver-xorg/CVE-2023-5367.patch          |  84 +++++++++++++
- .../xserver-xorg/CVE-2023-5380.patch          | 102 ++++++++++++++++
- .../xserver-xorg/CVE-2023-5574-1.patch        | 113 ++++++++++++++++++
- .../xserver-xorg/CVE-2023-5574-2.patch        |  42 +++++++
- .../xserver-xorg/CVE-2023-5574-3.patch        |  54 +++++++++
- .../xorg-xserver/xserver-xorg_21.1.8.bb       |   5 +
- 6 files changed, 400 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-1.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-2.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-3.patch
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
-new file mode 100644
-index 0000000000..508588481e
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
-@@ -0,0 +1,84 @@
-+From 541ab2ecd41d4d8689e71855d93e492bc554719a Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Tue, 3 Oct 2023 11:53:05 +1000
-+Subject: [PATCH] Xi/randr: fix handling of PropModeAppend/Prepend
-+
-+The handling of appending/prepending properties was incorrect, with at
-+least two bugs: the property length was set to the length of the new
-+part only, i.e. appending or prepending N elements to a property with P
-+existing elements always resulted in the property having N elements
-+instead of N + P.
-+
-+Second, when pre-pending a value to a property, the offset for the old
-+values was incorrect, leaving the new property with potentially
-+uninitalized values and/or resulting in OOB memory writes.
-+For example, prepending a 3 element value to a 5 element property would
-+result in this 8 value array:
-+  [N, N, N, ?, ?, P, P, P ] P, P
-+                            ^OOB write
-+
-+The XI2 code is a copy/paste of the RandR code, so the bug exists in
-+both.
-+
-+CVE-2023-5367, ZDI-CAN-22153
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/541ab2ecd41d4d8689e71855d93e492bc554719a]
-+CVE: CVE-2023-5367
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ Xi/xiproperty.c    | 4 ++--
-+ randr/rrproperty.c | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/Xi/xiproperty.c b/Xi/xiproperty.c
-+index 066ba21fba..d315f04d0e 100644
-+--- a/Xi/xiproperty.c
-++++ b/Xi/xiproperty.c
-+@@ -730,7 +730,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type,
-+                 XIDestroyDeviceProperty(prop);
-+             return BadAlloc;
-+         }
-+-        new_value.size = len;
-++        new_value.size = total_len;
-+         new_value.type = type;
-+         new_value.format = format;
-+ 
-+@@ -747,7 +747,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type,
-+         case PropModePrepend:
-+             new_data = new_value.data;
-+             old_data = (void *) (((char *) new_value.data) +
-+-                                  (prop_value->size * size_in_bytes));
-++                                  (len * size_in_bytes));
-+             break;
-+         }
-+         if (new_data)
-+diff --git a/randr/rrproperty.c b/randr/rrproperty.c
-+index c2fb9585c6..25469f57b2 100644
-+--- a/randr/rrproperty.c
-++++ b/randr/rrproperty.c
-+@@ -209,7 +209,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type,
-+                 RRDestroyOutputProperty(prop);
-+             return BadAlloc;
-+         }
-+-        new_value.size = len;
-++        new_value.size = total_len;
-+         new_value.type = type;
-+         new_value.format = format;
-+ 
-+@@ -226,7 +226,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type,
-+         case PropModePrepend:
-+             new_data = new_value.data;
-+             old_data = (void *) (((char *) new_value.data) +
-+-                                  (prop_value->size * size_in_bytes));
-++                                  (len * size_in_bytes));
-+             break;
-+         }
-+         if (new_data)
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
-new file mode 100644
-index 0000000000..57e2a5abdf
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
-@@ -0,0 +1,102 @@
-+From 564ccf2ce9616620456102727acb8b0256b7bbd7 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 5 Oct 2023 12:19:45 +1000
-+Subject: [PATCH] mi: reset the PointerWindows reference on screen switch
-+
-+PointerWindows[] keeps a reference to the last window our sprite
-+entered - changes are usually handled by CheckMotion().
-+
-+If we switch between screens via XWarpPointer our
-+dev->spriteInfo->sprite->win is set to the new screen's root window.
-+If there's another window at the cursor location CheckMotion() will
-+trigger the right enter/leave events later. If there is not, it skips
-+that process and we never trigger LeaveWindow() - PointerWindows[] for
-+the device still refers to the previous window.
-+
-+If that window is destroyed we have a dangling reference that will
-+eventually cause a use-after-free bug when checking the window hierarchy
-+later.
-+
-+To trigger this, we require:
-+- two protocol screens
-+- XWarpPointer to the other screen's root window
-+- XDestroyWindow before entering any other window
-+
-+This is a niche bug so we hack around it by making sure we reset the
-+PointerWindows[] entry so we cannot have a dangling pointer. This
-+doesn't handle Enter/Leave events correctly but the previous code didn't
-+either.
-+
-+CVE-2023-5380, ZDI-CAN-21608
-+
-+This vulnerability was discovered by:
-+Sri working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Reviewed-by: Adam Jackson <ajax@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/564ccf2ce9616620456102727acb8b0256b7bbd7]
-+CVE: CVE-2023-5380
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ dix/enterleave.h   |  2 --
-+ include/eventstr.h |  3 +++
-+ mi/mipointer.c     | 17 +++++++++++++++--
-+ 3 files changed, 18 insertions(+), 4 deletions(-)
-+
-+diff --git a/dix/enterleave.h b/dix/enterleave.h
-+index 4b833d8a3b..e8af924c68 100644
-+--- a/dix/enterleave.h
-++++ b/dix/enterleave.h
-+@@ -58,8 +58,6 @@ extern void DeviceFocusEvent(DeviceIntPtr dev,
-+ 
-+ extern void EnterWindow(DeviceIntPtr dev, WindowPtr win, int mode);
-+ 
-+-extern void LeaveWindow(DeviceIntPtr dev);
-+-
-+ extern void CoreFocusEvent(DeviceIntPtr kbd,
-+                            int type, int mode, int detail, WindowPtr pWin);
-+ 
-+diff --git a/include/eventstr.h b/include/eventstr.h
-+index 93308f9b24..a9926eaeef 100644
-+--- a/include/eventstr.h
-++++ b/include/eventstr.h
-+@@ -335,4 +335,7 @@ union _InternalEvent {
-+     GestureEvent gesture_event;
-+ };
-+ 
-++extern void
-++LeaveWindow(DeviceIntPtr dev);
-++
-+ #endif
-+diff --git a/mi/mipointer.c b/mi/mipointer.c
-+index a638f25d4a..8cf0035140 100644
-+--- a/mi/mipointer.c
-++++ b/mi/mipointer.c
-+@@ -397,8 +397,21 @@ miPointerWarpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y)
-+ #ifdef PANORAMIX
-+         && noPanoramiXExtension
-+ #endif
-+-        )
-+-        UpdateSpriteForScreen(pDev, pScreen);
-++        ) {
-++            DeviceIntPtr master = GetMaster(pDev, MASTER_POINTER);
-++            /* Hack for CVE-2023-5380: if we're moving
-++             * screens PointerWindows[] keeps referring to the
-++             * old window. If that gets destroyed we have a UAF
-++             * bug later. Only happens when jumping from a window
-++             * to the root window on the other screen.
-++             * Enter/Leave events are incorrect for that case but
-++             * too niche to fix.
-++             */
-++            LeaveWindow(pDev);
-++            if (master)
-++                LeaveWindow(master);
-++            UpdateSpriteForScreen(pDev, pScreen);
-++    }
-+ }
-+ 
-+ /**
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-1.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-1.patch
-new file mode 100644
-index 0000000000..9a8e583e78
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-1.patch
-@@ -0,0 +1,113 @@
-+From 1953f460b9ad1a9cdf0fcce70f6ad3310b713d5f Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 12 Oct 2023 12:44:13 +1000
-+Subject: [PATCH] fb: properly wrap/unwrap CloseScreen
-+
-+fbCloseScreen assumes that it overrides miCloseScreen (which just
-+calls FreePixmap(screen->devPrivates)) and emulates that instead of
-+wrapping it.
-+
-+This is a wrong assumption, we may have ShmCloseScreen in the mix too,
-+resulting in leaks (see below). Fix this by properly setting up the
-+CloseScreen wrapper.
-+
-+This means we no longer need the manual DestroyPixmap call in
-+vfbCloseScreen, reverting d348ab06aae21c153ecbc3511aeafc8ab66d8303
-+
-+CVE-2023-5574, ZDI-CAN-21213
-+
-+This vulnerability was discovered by:
-+Sri working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Reviewed-by: Adam Jackson <ajax@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/1953f460b9ad1a9cdf0fcce70f6ad3310b713d5f]
-+CVE: CVE-2023-5574
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ fb/fb.h             |  1 +
-+ fb/fbscreen.c       | 14 ++++++++++----
-+ hw/vfb/InitOutput.c |  7 -------
-+ 3 files changed, 11 insertions(+), 11 deletions(-)
-+
-+diff --git a/fb/fb.h b/fb/fb.h
-+index d157b6956d..cd7bd05d21 100644
-+--- a/fb/fb.h
-++++ b/fb/fb.h
-+@@ -410,6 +410,7 @@ typedef struct {
-+ #endif
-+     DevPrivateKeyRec    gcPrivateKeyRec;
-+     DevPrivateKeyRec    winPrivateKeyRec;
-++    CloseScreenProcPtr  CloseScreen;
-+ } FbScreenPrivRec, *FbScreenPrivPtr;
-+ 
-+ #define fbGetScreenPrivate(pScreen) ((FbScreenPrivPtr) \
-+diff --git a/fb/fbscreen.c b/fb/fbscreen.c
-+index 4ab807ab50..c481033f98 100644
-+--- a/fb/fbscreen.c
-++++ b/fb/fbscreen.c
-+@@ -29,6 +29,7 @@
-+ Bool
-+ fbCloseScreen(ScreenPtr pScreen)
-+ {
-++    FbScreenPrivPtr screen_priv = fbGetScreenPrivate(pScreen);
-+     int d;
-+     DepthPtr depths = pScreen->allowedDepths;
-+ 
-+@@ -37,9 +38,10 @@ fbCloseScreen(ScreenPtr pScreen)
-+         free(depths[d].vids);
-+     free(depths);
-+     free(pScreen->visuals);
-+-    if (pScreen->devPrivate)
-+-        FreePixmap((PixmapPtr)pScreen->devPrivate);
-+-    return TRUE;
-++
-++    pScreen->CloseScreen = screen_priv->CloseScreen;
-++
-++    return pScreen->CloseScreen(pScreen);
-+ }
-+ 
-+ Bool
-+@@ -144,6 +146,7 @@ fbFinishScreenInit(ScreenPtr pScreen, void *pbits, int xsize, int ysize,
-+                    int dpix, int dpiy, int width, int bpp)
-+ #endif
-+ {
-++    FbScreenPrivPtr screen_priv;
-+     VisualPtr visuals;
-+     DepthPtr depths;
-+     int nvisuals;
-+@@ -177,8 +180,11 @@ fbFinishScreenInit(ScreenPtr pScreen, void *pbits, int xsize, int ysize,
-+                       rootdepth, ndepths, depths,
-+                       defaultVisual, nvisuals, visuals))
-+         return FALSE;
-+-    /* overwrite miCloseScreen with our own */
-++
-++    screen_priv = fbGetScreenPrivate(pScreen);
-++    screen_priv->CloseScreen = pScreen->CloseScreen;
-+     pScreen->CloseScreen = fbCloseScreen;
-++
-+     return TRUE;
-+ }
-+ 
-+diff --git a/hw/vfb/InitOutput.c b/hw/vfb/InitOutput.c
-+index 48efb61b2f..076fb7defa 100644
-+--- a/hw/vfb/InitOutput.c
-++++ b/hw/vfb/InitOutput.c
-+@@ -720,13 +720,6 @@ vfbCloseScreen(ScreenPtr pScreen)
-+ 
-+     pScreen->CloseScreen = pvfb->closeScreen;
-+ 
-+-    /*
-+-     * fb overwrites miCloseScreen, so do this here
-+-     */
-+-    if (pScreen->devPrivate)
-+-        (*pScreen->DestroyPixmap) (pScreen->devPrivate);
-+-    pScreen->devPrivate = NULL;
-+-
-+     return pScreen->CloseScreen(pScreen);
-+ }
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-2.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-2.patch
-new file mode 100644
-index 0000000000..2cdef752c7
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-2.patch
-@@ -0,0 +1,42 @@
-+From b6fe3f924aecac6d6e311673511ce61aa2f7a81f Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 12 Oct 2023 12:42:06 +1000
-+Subject: [PATCH] mi: fix CloseScreen initialization order
-+
-+If SHM is enabled it will set the CloseScreen pointer, only to be
-+overridden by the hardcoded miCloseScreen pointer. Do this the other way
-+round, miCloseScreen is the bottom of our stack.
-+
-+Direct leak of 48 byte(s) in 2 object(s) allocated from:
-+  #0 0x7f5ea3ad8cc7 in calloc (/lib64/libasan.so.8+0xd8cc7) (BuildId: d8f3addefe29e892d775c30eb364afd3c2484ca5))
-+  #1 0x70adfb in ShmInitScreenPriv ../Xext/shm.c:213
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Reviewed-by: Adam Jackson <ajax@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/b6fe3f924aecac6d6e311673511ce61aa2f7a81f]
-+CVE: CVE-2023-5574
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ mi/miscrinit.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/mi/miscrinit.c b/mi/miscrinit.c
-+index 3bb52b1bc6..b88938c9ae 100644
-+--- a/mi/miscrinit.c
-++++ b/mi/miscrinit.c
-+@@ -249,10 +249,10 @@ miScreenInit(ScreenPtr pScreen, void *pbits,  /* pointer to screen bits */
-+     pScreen->numVisuals = numVisuals;
-+     pScreen->visuals = visuals;
-+     if (width) {
-++        pScreen->CloseScreen = miCloseScreen;
-+ #ifdef MITSHM
-+         ShmRegisterFbFuncs(pScreen);
-+ #endif
-+-        pScreen->CloseScreen = miCloseScreen;
-+     }
-+     /* else CloseScreen */
-+     /* QueryBestSize */
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-3.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-3.patch
-new file mode 100644
-index 0000000000..47c247ef0c
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5574-3.patch
-@@ -0,0 +1,54 @@
-+From ab2c58ba4719fc31c19c7829b06bdba8a88bd586 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Tue, 24 Oct 2023 12:09:36 +1000
-+Subject: [PATCH] dix: always initialize pScreen->CloseScreen
-+
-+CloseScreen is wrapped by the various modules, many of which do not
-+check if they're the last ones unwrapping. This is fine if the order of
-+those modules never changes but when it does we might get a NULL-pointer
-+dereference by some naive code doing a
-+
-+   pScreen->CloseScreen = priv->CloseScreen;
-+   free(priv);
-+   return (*pScreen->CloseScreen)(pScreen);
-+
-+To avoid this set it to a default function that just returns TRUE that's
-+guaranteed to be the last one.
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/ab2c58ba4719fc31c19c7829b06bdba8a88bd586]
-+CVE: CVE-2023-5574
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ dix/dispatch.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
-+
-+diff --git a/dix/dispatch.c b/dix/dispatch.c
-+index eaac39b7c9..cd092fd409 100644
-+--- a/dix/dispatch.c
-++++ b/dix/dispatch.c
-+@@ -3890,6 +3890,12 @@ static int indexForScanlinePad[65] = {
-+     3                           /* 64 bits per scanline pad unit */
-+ };
-+ 
-++static Bool
-++DefaultCloseScreen(ScreenPtr screen)
-++{
-++    return TRUE;
-++}
-++
-+ /*
-+ 	grow the array of screenRecs if necessary.
-+ 	call the device-supplied initialization procedure
-+@@ -3949,6 +3955,9 @@ static int init_screen(ScreenPtr pScreen, int i, Bool gpu)
-+             PixmapWidthPaddingInfo[depth].notPower2 = 0;
-+         }
-+     }
-++
-++    pScreen->CloseScreen = DefaultCloseScreen;
-++
-+     return 0;
-+ }
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-index 19db7ea434..a0f905f83b 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-@@ -2,6 +2,11 @@ require xserver-xorg.inc
- 
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-+           file://CVE-2023-5367.patch \
-+           file://CVE-2023-5380.patch \
-+           file://CVE-2023-5574-1.patch \
-+           file://CVE-2023-5574-2.patch \
-+           file://CVE-2023-5574-3.patch \
-            "
- SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
- 
--- 
-2.25.1
-
+Alex
 
