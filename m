@@ -2,57 +2,57 @@ Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F87EC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2417C00141
 	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 15:28:04 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.13576.1699370878491875333
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.13765.1699370876337448445
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 07:27:58 -0800
+ Tue, 07 Nov 2023 07:27:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CghnVDuO;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: jhatnedap@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-9e213f198dfso158277566b.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 07:27:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GIiM3sDo;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9d10972e63eso862339466b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 07:27:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699370877; x=1699975677; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1699370875; x=1699975675; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=0FLSRWZTjFkpTUJKPjPtD5DTeSfoel+H42Tsh2HXR0w=;
-        b=CghnVDuO4NVYdHTcHofuy8uQXkrQogvCZ0RRS3eJ11kq1M8AfGAc3K+pwQvD6IVsyz
-         nrB+7AwdkojC/pzHQryLcRfR7rFgPVZELFs78WTuaSJZc8mpVyAK/y8ueNpY1GCWUuwe
-         br+GSyyjNQs74yJ3550GiV23JKARXuon7WzaqCcbHY0mfAg1ZYF2CAgOLE20xWhcTsl+
-         gymo7aXjKQGA0/htkRZT6AJ2AJ1Jyb0XcWzucoIkYgB6HZnLgf26vsEYe5JRmuyxd7As
-         UR9Xi14dv4yr7LCjL149ez0Tm7Z3+IVCJcS2achMUntesvoCFrIhXQLSUS6bqPvBlmyE
-         e2CQ==
+        bh=jEov84liuOIYpydN2gCeN6fg+lXT8deOyhMLeA1Of9o=;
+        b=GIiM3sDorlaXOBa1KyuC1R8u1XxGR6MIUSHw6tBoD7HD5JBAblRzCDTw2l47s7tlK3
+         TbnnRTnKUPp41qAcrmISanjtDYMIUMGTON3ucFeLfoXprEMhM70WTyJxfsnD7NbSBpvj
+         +68oP0togjHpfWsC6OSXO5rPMQwIqDdv7ts/tYI720yD8OMFhxGvdhHooWvYrS51E0sy
+         acVKjwZ7/AHKLarq/FDxiXF3Mkj/vWcJ7Ex8fLR+QFa2PyDd2GNkeuAi2OIXeJkChgfj
+         F82V0EEfJjjquAx5MGvOQtsMA2daQNShaDpLDLVZ85gfHM0XT6FkxgtTxyBUEokeQKKB
+         7yTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699370877; x=1699975677;
+        d=1e100.net; s=20230601; t=1699370875; x=1699975675;
         h=content-transfer-encoding:mime-version:reply-to:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0FLSRWZTjFkpTUJKPjPtD5DTeSfoel+H42Tsh2HXR0w=;
-        b=KhJFYABlmz7QLT+iqJEpDaPR59SGL+QOjbrlYcHcDH6gOlr/W2G500ze7/D/kgKr33
-         JaPT1vAKjEH+6d6E2ainpSnw4agg1mHYCDxWa7T34lDZJkVLSIjFqf3oAv+K2MtLyfpT
-         shYk+fTkWR2qDH05O7bvMGPpP/FN6ANNnhWWCCyzmovKoO8U43fjDYpOqQb85Z5RYGHR
-         O61Z7xR0D186m1PlkjltS5bddHhLO18Z2dQVfC/u3DtWs1n8o0BSaiVF1YkLe6FAupY8
-         p1fO24SwhacPiG9K/ana1uCZp2BQjDjcg/CvjbPxrn5Mf+Q8DTiR1i+hVEPv0tcW++Ip
-         Oh+g==
-X-Gm-Message-State: AOJu0YxckX8qsIhF9RFndNMfYy4WQzFhPRfU+0Xx2/LKjn6Z6ar71irw
-	AzomHZeGPLupIAPTOhg23Klk5OiHII4=
-X-Google-Smtp-Source: AGHT+IHDwELP2djgRJbLe6TSqS4NqEGKSoXZRPLMQwAV3/7gOXSGCcZTL37rN2od+s4cCZKdtNrevg==
-X-Received: by 2002:a17:907:7255:b0:9bf:10f3:e435 with SMTP id ds21-20020a170907725500b009bf10f3e435mr16467778ejc.1.1699370876964;
-        Tue, 07 Nov 2023 07:27:56 -0800 (PST)
+        bh=jEov84liuOIYpydN2gCeN6fg+lXT8deOyhMLeA1Of9o=;
+        b=tahCsTSb7yei/U5gndNooLWXJlGT/OSGj9yNJ6V8s/962gd0rxslJzjCa74fx6391L
+         4vAkDolB4xs6kMGInd8Gjahw4ndy8VUpTDRIWLGHyvyCanDgUVTiFccSCD8/Q+jJz1VE
+         KbvIFNjSDTEzp6EgSvGXSlbSKntEheFQ6gae1xt14dCVfS07hLWY4RIyry7C62VkBR4Y
+         6xkVn5KtYGpYkGjeS4+bNRGHvFiSwGQqyDbQFfl06rSFVKyjCH5AGPAqu2Ex3G82crbg
+         EYXyf6AnwWxklyvtEYvG68R4nfVoddO8hanr9mLrNlU2LnUSrdu6+l14eV5crg2u9Q06
+         tP/w==
+X-Gm-Message-State: AOJu0YycnwZnimzxEFYCiOAge+qIWnPzhh633Z+6HAs1MeDmTZZ6GYpe
+	vqjKg9wrroczBGTc00L1xQtQ62wRDu4=
+X-Google-Smtp-Source: AGHT+IGC5Jz3slPl3vu1WeA3jf/Fh+Dt94VWBWGYhPLDui7sTatv2tVqdkfWS7Lq9HBTjSsjx3xrYQ==
+X-Received: by 2002:a17:906:ef0e:b0:9c7:4d3e:1e50 with SMTP id f14-20020a170906ef0e00b009c74d3e1e50mr19752804ejs.76.1699370874815;
+        Tue, 07 Nov 2023 07:27:54 -0800 (PST)
 Received: from NVC4181.nedap.local ([149.3.168.10])
-        by smtp.gmail.com with ESMTPSA id bx7-20020a170906a1c700b009c5c5c2c5a4sm1146574ejb.219.2023.11.07.07.27.56
+        by smtp.gmail.com with ESMTPSA id bx7-20020a170906a1c700b009c5c5c2c5a4sm1146574ejb.219.2023.11.07.07.27.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 07:27:56 -0800 (PST)
+        Tue, 07 Nov 2023 07:27:54 -0800 (PST)
 From: jhatnedap@gmail.com
 X-Google-Original-From: jermain.horsman@nedap.com
 To: openembedded-core@lists.openembedded.org
 Cc: Jermain Horsman <jermain.horsman@nedap.com>
-Subject: [RFC 6/7] bitbake-layers: Add default remote to layers-setup.json
-Date: Tue,  7 Nov 2023 16:26:41 +0100
-Message-ID: <20231107152641.1043-8-jermain.horsman@nedap.com>
+Subject: [RFC 5/7] lib/oe/buildcfg.py: Add additional git functions
+Date: Tue,  7 Nov 2023 16:26:40 +0100
+Message-ID: <20231107152641.1043-7-jermain.horsman@nedap.com>
 X-Mailer: git-send-email 2.42.0.windows.2
 In-Reply-To: <20231107152641.1043-2-jermain.horsman@nedap.com>
 References: <20231107152641.1043-2-jermain.horsman@nedap.com>
@@ -63,123 +63,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 15:28:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190296
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190295
 
 From: Jermain Horsman <jermain.horsman@nedap.com>
 
-Having a default remote present allows for the checkout of a
-branch in the case multiple remotes are available.
-
-This requires an update to the json-schema and associated checks.
+Includes a function to determine the default remote.
 
 Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 ---
- meta/files/layers.example.json                    | 5 ++++-
- meta/files/layers.schema.json                     | 8 ++++++--
- meta/lib/bblayers/makesetup.py                    | 1 +
- meta/lib/bblayers/setupwriters/oe-setup-layers.py | 2 +-
- scripts/oe-setup-layers                           | 2 +-
- 5 files changed, 13 insertions(+), 5 deletions(-)
+ meta/lib/oe/buildcfg.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/meta/files/layers.example.json b/meta/files/layers.example.json
-index 0a6a6a7b48..06ba196cf6 100644
---- a/meta/files/layers.example.json
-+++ b/meta/files/layers.example.json
-@@ -4,6 +4,7 @@
-             "contains_this_file": true,
-             "git-remote": {
-                 "branch": "master",
-+                "default-remote": "remote-alex",
-                 "describe": "",
-                 "remotes": {
-                     "remote-alex": {
-@@ -17,6 +18,7 @@
-         "meta-intel": {
-             "git-remote": {
-                 "branch": "master",
-+                "default-remote": "origin",
-                 "describe": "15.0-hardknott-3.3-310-g0a96edae",
-                 "remotes": {
-                     "origin": {
-@@ -30,6 +32,7 @@
-         "poky": {
-             "git-remote": {
-                 "branch": "akanavin/setup-layers",
-+                "default-remote": "poky-contrib",
-                 "describe": "4.1_M1-374-g9dda719b2a",
-                 "remotes": {
-                     "origin": {
-@@ -44,5 +47,5 @@
-             "path": "poky"
-         }
-     },
--    "version": "1.0"
-+    "version": "1.1"
- }
-diff --git a/meta/files/layers.schema.json b/meta/files/layers.schema.json
-index 659ee8da49..06a34656e5 100644
---- a/meta/files/layers.schema.json
-+++ b/meta/files/layers.schema.json
-@@ -7,8 +7,8 @@
-     ],
-     "properties": {
-         "version": {
--            "description": "The version of this document; currently '1.0'",
--            "enum": ["1.0"]
-+            "description": "The version of this document; currently '1.1'",
-+            "enum": ["1.1"]
-         },
-         "sources": {
-             "description": "The dict of layer sources",
-@@ -41,6 +41,10 @@
-                                         "description": "The git branch to fetch (optional)",
-                                         "type": "string"
-                                     },
-+                                    "default-remote": {
-+                                        "description": "The default git remote",
-+                                        "type": "string"
-+                                    },
-                                     "rev": {
-                                         "description": "The git revision to checkout",
-                                         "type": "string"
-diff --git a/meta/lib/bblayers/makesetup.py b/meta/lib/bblayers/makesetup.py
-index d24470dc83..0d0e42e1d0 100644
---- a/meta/lib/bblayers/makesetup.py
-+++ b/meta/lib/bblayers/makesetup.py
-@@ -62,6 +62,7 @@ class MakeSetupPlugin(LayerPlugin):
-                         'rev':l_rev,
-                         'branch':l_branch,
-                         'remotes':self._get_remotes_with_url(repo_path),
-+                        'default-remote':oe.buildcfg.get_metadata_git_default_remote(repo_path),
-                         'describe':oe.buildcfg.get_metadata_git_describe(repo_path)}}
-                 if repo_path == destdir_repo:
-                     repos[repo_path]['contains_this_file'] = True
-diff --git a/meta/lib/bblayers/setupwriters/oe-setup-layers.py b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
-index d5bc19a8cb..4e0c780eab 100644
---- a/meta/lib/bblayers/setupwriters/oe-setup-layers.py
-+++ b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
-@@ -36,7 +36,7 @@ class OeSetupLayersWriter():
-         if not os.path.exists(args.destdir):
-             os.makedirs(args.destdir)
-         repos = parent.make_repo_config(args.destdir)
--        json = {"version":"1.0","sources":repos}
-+        json = {"version":"1.1","sources":repos}
-         if not repos:
-             raise Exception("Could not determine layer sources")
-         output = args.output_prefix or "setup-layers"
-diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
-index ac9a9f139b..4622c264f9 100755
---- a/scripts/oe-setup-layers
-+++ b/scripts/oe-setup-layers
-@@ -191,7 +191,7 @@ args = parser.parse_args()
- with open(args.jsondata) as f:
-     json_f = json.load(f)
+diff --git a/meta/lib/oe/buildcfg.py b/meta/lib/oe/buildcfg.py
+index f9cb0cc74c..2ca654e56e 100644
+--- a/meta/lib/oe/buildcfg.py
++++ b/meta/lib/oe/buildcfg.py
+@@ -50,6 +50,22 @@ def get_metadata_git_remote_url(path, remote):
+         uri = ''
+     return uri.strip()
  
--supported_versions = ["1.0"]
-+supported_versions = ["1.0", "1.1"]
- if json_f["version"] not in supported_versions:
-     raise Exception("File {} has version {}, which is not in supported versions: {}".format(args.jsondata, json_f["version"], supported_versions))
- 
++def get_metadata_git_default_remote(path):
++    remotes = get_metadata_git_remotes(path)
++    if len(remotes) == 1:
++        default_remote = remotes[0]
++    else:
++        try:
++            default_remote, _ = bb.process.run('git config --local checkout.defaultRemote', cwd=path)
++        except bb.process.ExecutionError:
++            default_remote = ""
++        if not default_remote:
++            try:
++                default_remote, _ = bb.process.run('git config checkout.defaultRemote', cwd=path)
++            except bb.process.ExecutionError:
++                default_remote = ""
++    return default_remote.strip()
++
+ def get_metadata_git_describe(path):
+     try:
+         describe, _ = bb.process.run('git describe --tags', cwd=path)
 -- 
 2.42.0.windows.2
 
