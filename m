@@ -1,99 +1,47 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <andrey.popov@yadro.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B67BC4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 15:03:24 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.12961.1699369400858047724
- for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 07:03:20 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FriZkID3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QTJH8auI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018baa4f3606-c5970649-553b-452a-a6af-af280d904c01-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1699369400; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=rgZa/iToy7933Y1BUadaL+kT9s4TIMg7W1SLCubU9yM=;
-	b=FriZkID31Lv2TQ32urYPUY92gEG5xNoi47YOA5WvotFq47UAbAup719yW4O/PPFW
-	Vh06MUVnEx4YdCHcnKoH/ov92hRjKFt8TW8sWCg4egQplGDFLUbhLjyyrGYpdOx4z9j
-	mIXcutt6KBxg6DjVFVfGCTk9Gf0tyWKFQ6zKij9s=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1699369400;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=rgZa/iToy7933Y1BUadaL+kT9s4TIMg7W1SLCubU9yM=;
-	b=QTJH8auI5iNbTD9F+mChftAg1slUMgVIjXlic74AtlCpklKwF3iB+1S8yVdknFrE
-	B/Lgn9FHCXPCBm5jNZQ73t2L3FiFyKGaZVsm80dHbNPFQoINL3nrcAOEQjRT6WCO/1j
-	IxfVvRl+BMHyqQ3jDVBEVhpld4PzNvdWSg1XjiJY=
-From: patchtest@automation.yoctoproject.org
-To: Andrey Popov <andrey.popov@yadro.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] classes/image-live: Add support for building EFI-bootable ISO
- images for architectures other than x86 and x86_64
-In-Reply-To: 20231107145048.10436-1-andrey.popov@yadro.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018baa4f3606-c5970649-553b-452a-a6af-af280d904c01-000000@us-west-2.amazonses.com>
-Date: Tue, 7 Nov 2023 15:03:19 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.07-54.240.27.33
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE02C4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 15:03:44 +0000 (UTC)
+Subject: Re: [PATCH] classes/image-live: Add support for building EFI-bootable ISO images for architectures other than x86 and x86_64
+To: openembedded-core@lists.openembedded.org
+From: "Andrey Popov" <andrey.popov@yadro.com>
+X-Originating-Location: Tula, Tula Oblast, RU (95.139.247.121)
+X-Originating-Platform: Linux Chrome 113
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Tue, 07 Nov 2023 07:03:41 -0800
+References: <CANNYZj9yfxMw8EafTd8B-x9=vK1NTAF-NGB8CJqHoaxWsBsD8Q@mail.gmail.com>
+In-Reply-To: <CANNYZj9yfxMw8EafTd8B-x9=vK1NTAF-NGB8CJqHoaxWsBsD8Q@mail.gmail.com>
+Message-ID: <17247.1699369421073287026@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="efTrHQb2qsFgOHoAsO0o"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 15:03:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190287
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 15:03:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190288
 
---NextPart
-Content-Type: text/plain
+--efTrHQb2qsFgOHoAsO0o
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello, Alex!
 
----
-Testing patch /home/patchtest/share/mboxes/classes-image-live-Add-support-for-building-EFI-bootable-ISO-images-for-architectures-other-than-x86-and-x86_64.patch
+I created this patch in hope that I could ensure compatibility with legacy =
+platforms that use BIOS, that is why I kept the syslinux part.
+I don't think it is a good idea to drop syslinux usage entirely, IMHO.
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 112 characters) (test_mbox.TestMbox.test_shortlog_length)
+Best regards, Andrey.
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+--efTrHQb2qsFgOHoAsO0o
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-SKIP: pretest lic files chksum modified not mentioned: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_lic_files_chksum_modified_not_mentioned)
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+Hello, Alex!<br /><br />I created this patch in hope that I could ensure co=
+mpatibility with legacy platforms that use BIOS, that is why I kept the sys=
+linux part.<br />I don't think it is a good idea to drop syslinux usage ent=
+irely, IMHO.<br /><br />Best regards, Andrey.
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+--efTrHQb2qsFgOHoAsO0o--
 
