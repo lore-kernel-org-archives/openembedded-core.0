@@ -1,275 +1,123 @@
-Return-Path: <andrey.popov@yadro.com>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7E73C4167D
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 15:13:14 +0000 (UTC)
-Received: from mta-04.yadro.com (mta-04.yadro.com [89.207.88.248])
- by mx.groups.io with SMTP id smtpd.web10.13396.1699369983908496096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FDAFC4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 15:27:34 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.13563.1699370852855840235
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 07:13:05 -0800
+ Tue, 07 Nov 2023 07:27:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@yadro.com header.s=mta-04 header.b=Dxnjknf1;
- dkim=fail reason="dkim: body hash did not verify" header.i=@yadro.com header.s=mta-03 header.b=OqfKu6hY;
- spf=pass (domain: yadro.com, ip: 89.207.88.248, mailfrom: andrey.popov@yadro.com)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-04.yadro.com BF756C0002
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-04;
-	t=1699369979; bh=IP0Nf9dFGBLMhLKwVCfBxZggIJ4OVTlgVDL9GYvWEc8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=Dxnjknf17S/rAlGtc0es43sojNHJdCVlk3nHeqUNWQ67wzuz7LnHbW/BBOdgO6MYI
-	 ojMhDgn0e60TayatOaqgdZki56BbeXeB5bwVAZNykJq5BjfnBzXtF+T905k7zBjy10
-	 5EA11GPCUN+dh2KfSLTu0FYhi7OonYa8fDSShyKbGKH5OETCoGFm6dIemyIOmb8ESW
-	 Bx5VZTCZ7i2HJ05Sk6Janhwcr8NVG2oRVwAwFgGALLfyApuUqb9FuyN0YAynHGwE3p
-	 YA4LYwy6jfKTnY64W6Iw4ilhDCDKpcJSm+xrlO0+Tt1MZQB9vkJ67pMPPHbFIeLV6f
-	 Wq/LNp4/o8qEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yadro.com; s=mta-03;
-	t=1699369979; bh=IP0Nf9dFGBLMhLKwVCfBxZggIJ4OVTlgVDL9GYvWEc8=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=OqfKu6hYbITnS4IUkr8ZXB2o84WhqemE0OojkGtMLh7I5e92OBHqNMVpfbma6wedj
-	 qXiackiitECZZJiyNvAmgGMUDIIVATLEMIjj0yrF14SxUlZWVVpIhzHvUQmmpsthoZ
-	 BR/Z/rJa6RKmnU1R7S3GJzDG/TnIdXq0CK4TxB0MFp7bK32WOYKgrB9k0S3w5CwoL1
-	 lV1aTylKEhJiZ4sh//ptX9kYppYyLkRji0IgRFDRirisf0bqOJMlXLNHzHpZdaTJSW
-	 pHFffykXaDF2VlbWb0AGS1DjPBhJBLtzKLeLqEXedODOBRcudhzd9lHq1vP1gTAFqf
-	 giW2yisgo3hnQ==
-From: Andrey Popov <andrey.popov@yadro.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Andrey Popov <andrey.popov@yadro.com>
-Subject: [PATCH v2] image-live: Add support for building EFI-bootable ISO images for non-x86-based archs
-Date: Tue, 7 Nov 2023 18:12:43 +0300
-Message-ID: <20231107151243.10853-1-andrey.popov@yadro.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cOwSsQpP;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-53ed4688b9fso9711068a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 07:27:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699370851; x=1699975651; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pnS8QA1xVNfMutDd/Flz4nrkHkcx92fV25iiBiqfBcA=;
+        b=cOwSsQpPt75GCXN4buaPwggGCQqXSIIIj/wWBlw6ZMwyuDWu0e6MdaqxcjZwZcsOqv
+         1ovFxf0jlV+BIDcJqIpIb3m4XmboEHK14KWhSRd2J5OOO9xOh23ZxZkHP7laJ/HnXXY5
+         WN1ic8hOqIHdkqOdlPeYfDW3fiD9kbf/Ow/BvAiJaQoQENIIJkNn5jaMlzwqyNrdxNCY
+         4M45gJYXRfsCjQ2Q6nAYnJdnxaUiTVs4SHk2Ez43CzFV1pgF588qdkIwR/3nuLcAAbEm
+         6iDpSDQFKIL5QwUqM+YiZjauQIasSXEmtLNTfRfTFXEpnkCDkltWlzK2mo2P6XUOnhIl
+         N2/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699370851; x=1699975651;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pnS8QA1xVNfMutDd/Flz4nrkHkcx92fV25iiBiqfBcA=;
+        b=YZkHRShPPYbl6OUWx4FEm7dAbav4QeF+jzphwCfsHYftsGm1PEAM0eKLSMT9E4w7Rm
+         RMTbOcYQDYSozUupVjMDILwQfAbfHM/I51KDB7vm8CJpJWBruva3AyewsvcEtEKxg9qy
+         9GCEz6+h42Sv9yvJI0BNw6ldchw8FRUN6iLrsmp5y6wWxm1VFGI990jgC+Mcvokzt+Ck
+         XcvW/sIX+DxmwlKgp7fnlr4XZioXYCZyAmAhZMlc2qHcRH70PjaqhlaXZvX3Zz730c3E
+         80954jVeM+2+m1+P4Xr96/0nBenVvYhAeRVNRsVM8HvzYE97YfsIIhHhBXM2ZEHmwXgN
+         /vcA==
+X-Gm-Message-State: AOJu0YxuA7/fzH+OY8OjgMwI2iy9T2Rf+w9ZsU0qlJq1Cb+wovFpHJzJ
+	Okzz7hAd4NZ4z5Ij+NRaMEUGnkMYAro=
+X-Google-Smtp-Source: AGHT+IGnW658zFWh7GdwcENDAOFLOfTFdlfVICILtcAbweR9RlHOtfJXjytwFtnQXA0N5sIIjsY7YQ==
+X-Received: by 2002:a17:906:71db:b0:9bd:e99b:82dc with SMTP id i27-20020a17090671db00b009bde99b82dcmr11900780ejk.61.1699370851067;
+        Tue, 07 Nov 2023 07:27:31 -0800 (PST)
+Received: from NVC4181.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id bx7-20020a170906a1c700b009c5c5c2c5a4sm1146574ejb.219.2023.11.07.07.27.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Nov 2023 07:27:30 -0800 (PST)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [RFC 0/7] bitbake-layers: Add update-layers-setup
+Date: Tue,  7 Nov 2023 16:26:35 +0100
+Message-ID: <20231107152641.1043-2-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.42.0.windows.2
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: T-EXCH-09.corp.yadro.com (172.17.11.59) To
- T-EXCH-08.corp.yadro.com (172.17.11.58)
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 15:13:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190289
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 15:27:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190290
 
-Since syslinux is only compatible with platforms that use x86-based
-CPUs, this change allows creation of bootable ISO images for other
-EFI-compatible platforms by replacing invocation of the isohybrid
-tool for those platforms with a python script that creates MBR
-partition table with a single entry that points to a bootable
-EFI image placed inside the ISO image.
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-Signed-off-by: Andrey Popov <andrey.popov@yadro.com>
----
- meta/classes-recipe/image-live.bbclass | 129 ++++++++++++++++++++++---
- 1 file changed, 115 insertions(+), 14 deletions(-)
+During development it can be useful to use a branch instead of a
+revision, e.g. when rebasing often or just for easy upgrading of
+the setup.
 
-diff --git a/meta/classes-recipe/image-live.bbclass b/meta/classes-recipe=
-/image-live.bbclass
-index 95dd44a..ac7fc1b 100644
---- a/meta/classes-recipe/image-live.bbclass
-+++ b/meta/classes-recipe/image-live.bbclass
-@@ -2,15 +2,15 @@
- #
- # SPDX-License-Identifier: MIT
-=20
--# Creates a bootable image using syslinux, your kernel and an optional
-+# Creates a bootable image using syslinux (for x86), your kernel and an =
-optional
- # initrd
-=20
- #
- # End result is two things:
- #
--# 1. A .hddimg file which is an msdos filesystem containing syslinux, a =
-kernel,
--# an initrd and a rootfs image. These can be written to harddisks direct=
-ly and
--# also booted on USB flash disks (write them there with dd).
-+# 1. A .hddimg file which is an msdos filesystem containing syslinux (fo=
-r x86),
-+# a kernel, an initrd and a rootfs image. These can be written to harddi=
-sks
-+# directly and also booted on USB flash disks (write them there with dd)=
-.
- #
- # 2. A CD .iso image
-=20
-@@ -29,8 +29,10 @@ do_bootimg[depends] +=3D "dosfstools-native:do_populat=
-e_sysroot \
-                         mtools-native:do_populate_sysroot \
-                         cdrtools-native:do_populate_sysroot \
-                         virtual/kernel:do_deploy \
--                        ${MLPREFIX}syslinux:do_populate_sysroot \
--                        syslinux-native:do_populate_sysroot \
-+                        ${@d.getVar('MLPREFIX') + 'syslinux:do_populate_=
-sysroot \
-+                           syslinux-native:do_populate_sysroot' if __imp=
-ort__('re').match('i.86', d.getVar('TARGET_ARCH')) or \
-+                                                                   __imp=
-ort__('re').match('x86_64', d.getVar('TARGET_ARCH')) else \
-+                           'xorriso-native:do_populate_sysroot'} \
-                         ${@'%s:do_image_%s' % (d.getVar('PN'), d.getVar(=
-'LIVE_ROOTFS_TYPE').replace('-', '_')) if d.getVar('ROOTFS') else ''} \
-                         "
-=20
-@@ -71,14 +73,92 @@ MKISOFS_OPTIONS =3D "-no-emul-boot -boot-load-size 4 =
--boot-info-table"
- BOOTIMG_VOLUME_ID   ?=3D "boot"
- BOOTIMG_EXTRA_SPACE ?=3D "512"
-=20
-+def compute_chs(sector_z):
-+    C =3D int(sector_z / (63 * 255))
-+    H =3D int((sector_z % (63 * 255)) / 63)
-+    # convert zero-based sector to CHS format
-+    S =3D int(sector_z % 63) + 1
-+    # munge accord to partition table format
-+    S =3D (S & 0x3f) | (((C >> 8) & 0x3) << 6)
-+    C =3D (C & 0xFF)
-+    return (C, H, S)
-+
-+def mk_efi_part_table(iso, start, length):
-+    from struct import pack
-+
-+    # Compute starting and ending CHS addresses for the partition entry.
-+    (s_C, s_H, s_S) =3D compute_chs(start)
-+    (e_C, e_H, e_S) =3D compute_chs(start + length - 1)
-+
-+    # Write the 66 byte partition table to bytes 0x1BE through 0x1FF in
-+    # sector 0 of the .ISO.
-+    #
-+    # See the partition table format here:
-+    # http://en.wikipedia.org/wiki/Master_boot_record#Sector_layout
-+    f =3D open(iso, 'r+b')
-+    f.seek(0x1BE)
-+    f.write(pack("<8BLL48xH", 0x80, s_H, s_S, s_C,
-+                 0xEF, e_H, e_S, e_C, start, length, 0xAA55))
-+    f.close()
-+
-+def runtool(cmdln_or_args):
-+    import subprocess
-+
-+    if isinstance(cmdln_or_args, list):
-+        cmd =3D cmdln_or_args[0]
-+        shell =3D False
-+    else:
-+        import shlex
-+        cmd =3D shlex.split(cmdln_or_args)[0]
-+        shell =3D True
-+
-+    sout =3D subprocess.PIPE
-+    serr =3D subprocess.STDOUT
-+
-+    try:
-+        process =3D subprocess.Popen(cmdln_or_args, stdout=3Dsout,
-+                                   stderr=3Dserr, shell=3Dshell)
-+        sout, serr =3D process.communicate()
-+        # combine stdout and stderr, filter None out and decode
-+        out =3D ''.join([out.decode('utf-8') for out in [sout, serr] if =
-out])
-+    except OSError as err:
-+        bb.fatal("Cannot run command %s: %s" % (cmd, err))
-+
-+    return process.returncode, out
-+
-+def exec_cmd(cmd_and_args):
-+    args =3D cmd_and_args.split()
-+    ret, out =3D runtool(args)
-+    out =3D out.strip()
-+    if ret !=3D 0:
-+        bb.fatal("exec_cmd: %s returned '%s' instead of 0\noutput: %s" %=
- \
-+                 (cmd_and_args, ret, out))
-+    return ret, out
-+
-+def install_efi_part_table(iso_img):
-+    find_efi_img_cmd =3D "xorriso -indev %s -find /efi.img \
-+                        -name efi.img -exec report_lba --" % iso_img
-+    ret, out =3D exec_cmd(find_efi_img_cmd)
-+    efi_img_start =3D -1
-+    efi_img_length =3D -1
-+    for line in out.split("\n"):
-+        if "File data lba:" in line and "/efi.img" in line:
-+            file_stat =3D line[14:].split(',')
-+            efi_img_start =3D int(file_stat[1].strip()) * 4
-+            efi_img_length =3D int(int(file_stat[3].strip()) / 512)
-+            break
-+    if (efi_img_start < 0) or (efi_img_length < 0):
-+        bb.fatal("Failed to determine /efi.img attributes")
-+    mk_efi_part_table(iso_img, efi_img_start, efi_img_length)
-+
- populate_live() {
--    populate_kernel $1
-+	populate_kernel $1
- 	if [ -s "${ROOTFS}" ]; then
- 		install -m 0644 ${ROOTFS} $1/rootfs.img
- 	fi
- }
-=20
--build_iso() {
-+build_iso_base() {
- 	# Only create an ISO if we have an INITRD and the live or iso image typ=
-e was selected
- 	if [ -z "${INITRD}" ] || [ "${@bb.utils.contains_any('IMAGE_FSTYPES', '=
-live iso', '1', '0', d)}" !=3D "1" ]; then
- 		bbnote "ISO image will not be created."
-@@ -104,11 +184,13 @@ build_iso() {
- 	fi
-=20
- 	# EFI only
--	if [ "${PCBIOS}" !=3D "1" ] && [ "${EFI}" =3D "1" ] ; then
--		# Work around bug in isohybrid where it requires isolinux.bin
--		# In the boot catalog, even though it is not used
--		mkdir -p ${ISODIR}/${ISOLINUXDIR}
--		install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin ${ISODIR}${IS=
-OLINUXDIR}
-+	if [ -n "$(echo ${TARGET_ARCH} | grep -e i.86)" ] || [ "${TARGET_ARCH}"=
- =3D "x86_64" ]; then
-+		if [ "${PCBIOS}" !=3D "1" ] && [ "${EFI}" =3D "1" ]; then
-+			# Work around bug in isohybrid where it requires isolinux.bin
-+			# In the boot catalog, even though it is not used
-+			mkdir -p ${ISODIR}/${ISOLINUXDIR}
-+			install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin ${ISODIR}${I=
-SOLINUXDIR}
-+		fi
- 	fi
-=20
- 	# We used to have support for zisofs; this is a relic of that
-@@ -128,7 +210,15 @@ build_iso() {
- 		fi
- 	fi
-=20
--	if [ "${PCBIOS}" =3D "1" ] && [ "${EFI}" !=3D "1" ] ; then
-+	if [ -z "$(echo ${TARGET_ARCH} | grep -e i.86)" ] && [ "${TARGET_ARCH}"=
- !=3D "x86_64" ]; then
-+		mkisofs -A ${BOOTIMG_VOLUME_ID} -V ${BOOTIMG_VOLUME_ID} \
-+		        -o ${IMGDEPLOYDIR}/${IMAGE_NAME}.iso \
-+			$mkisofs_compress_opts $mkisofs_iso_level \
-+			${ISODIR}
-+		return
-+	fi
-+
-+	if [ "${PCBIOS}" =3D "1" ] && [ "${EFI}" !=3D "1" ]; then
- 		# PCBIOS only media
- 		mkisofs -V ${BOOTIMG_VOLUME_ID} \
- 		        -o ${IMGDEPLOYDIR}/${IMAGE_NAME}.iso \
-@@ -150,6 +240,17 @@ build_iso() {
- 	isohybrid $isohybrid_args ${IMGDEPLOYDIR}/${IMAGE_NAME}.iso
- }
-=20
-+python build_iso() {
-+    import re
-+
-+    bb.build.exec_func("build_iso_base", d)
-+    target_arch =3D d.getVar("TARGET_ARCH")
-+    if not re.match("i.86", target_arch) and not re.match("x86_64", targ=
-et_arch) \
-+       and d.getVar("EFI") =3D=3D "1":
-+        install_efi_part_table(d.getVar("IMGDEPLOYDIR") + "/" + \
-+                               d.getVar("IMAGE_NAME") + ".iso")
-+}
-+
- build_fat_img() {
- 	FATSOURCEDIR=3D$1
- 	FATIMG=3D$2
---=20
-2.34.1
+This is a first iteration, it updates the generation of the
+setup-layers.json file as well as the json schema for it.
+This allows for situations where one or more layers are checked out
+using a branch instead of a revision, care is taken to make sure this
+works when using multiple remotes.
+All changes made are backwards compatible with older setup-layer json
+files.
+
+Previously the idea was to update bitbake-layers create-layers-setup and
+extend it, I have however put it in a separate plugin as I think it makes
+for a cleaner interface:
+
+bitbake-layers update-layers-setup some.json poky [--branch]
+
+I've opted to take the information from the currently checked out
+repositories instead of allowing the user to specify the revision as this
+eliminates the need to check if references are valid.
+
+In previous discussions with Alex we talked about using any revisions,
+e.g. tags as well, however, I have kept those out for simplicity.
+Using tags complicates things as a reference can have multiple tags,
+which would require additional parameters or potentially an interactive
+solution.
+
+I have not done a full oe-selftest run, so I may have missed a test, but
+I believe the current selftests should pass on every commit.
+I have extended oe-selftest with a simple case for the new functionality.
+
+Jermain Horsman (7):
+  scripts/oe-setup-layers: Allow setup using branches instead of fixed
+    revisions
+  lib/oe/buildcfg.py: Add additional git functions
+  bitbake-layers: Add ability to update layer repository configuration
+  bblayers/makesetup.py: Use new functions from oe.buildcfg
+  lib/oe/buildcfg.py: Add additional git functions
+  bitbake-layers: Add default remote to layers-setup.json
+  bitbake-layers: Add test case update-layer-setup
+
+ meta/files/layers.example.json                |  5 +-
+ meta/files/layers.schema.json                 |  8 +-
+ meta/lib/bblayers/makesetup.py                | 33 +++----
+ .../bblayers/setupwriters/oe-setup-layers.py  |  2 +-
+ meta/lib/bblayers/updatesetup.py              | 78 ++++++++++++++++
+ meta/lib/oe/buildcfg.py                       | 45 +++++++++
+ meta/lib/oeqa/selftest/cases/bblayers.py      | 58 ++++++++++--
+ scripts/oe-setup-layers                       | 93 +++++++++++++++++--
+ 8 files changed, 282 insertions(+), 40 deletions(-)
+ create mode 100644 meta/lib/bblayers/updatesetup.py
+
+-- 
+2.42.0.windows.2
 
 
