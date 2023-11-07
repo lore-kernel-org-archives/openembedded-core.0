@@ -1,246 +1,184 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <lukas.funke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA107C4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 12:39:13 +0000 (UTC)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.web11.9305.1699360746200079262
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E66EDC4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 12:47:53 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.41])
+ by mx.groups.io with SMTP id smtpd.web10.9709.1699361267335865710
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 04:39:06 -0800
+ Tue, 07 Nov 2023 04:47:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kw56l+nq;
- spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-7b9dc92881eso2284950241.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 04:39:06 -0800 (PST)
+ dkim=pass header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=fWckZ5lT;
+ spf=pass (domain: weidmueller.com, ip: 40.107.15.41, mailfrom: lukas.funke-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kV5kujh+pWblERylsbTwKxstpHiV7T2UHFJR0C6NJ6FkOF3sgLWDbXfMPMZGAvVkouC4It6w/owuQ0b23oihkVbsOks6CU0zyWjuu6UcTzxhizgnBqc5OXt8y6yM3Wb2WvlTO1eFZhfyleENPZ4eTkuLjpns2fb9+bnamNbEhgVSpPpOnNaKmTQpiHoOQDgG3RwsR0TMQIYjNmoGagPhfL/EgQotClj/TABwnQvO65+qi5DhseGcS8oh2gTikhU1JXZ5KsTD+Uh74NAO1Ct8yvMFLTeFTCkIAmPh2hC6VHdJL/5X4HP5q66m/iuPiE2vcL0V+YEfqST3eaQDvm+Ctg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZTY8mUzc3F3YXEd12C2hsdR+F0xnbS0kco9quGRRJKI=;
+ b=FP8DH35cNYeM4iuSdMHpoqUYkbcEMCd+Wx4XtTGF526O9dNdNJcszijeJE61GsYt7o3CM1aabV0z5qG1Q772s+yPIkNw2JsHb9CEiebMtpOmIE3NVDd+c7phhTmGVrlwlvfDv9BrQVJmCIvoJNWpcxkXuPi4gwBwCDgm/U+atakes4SRKw/Y9N/h9S8zZy3U89KDtvqIM5zcs6GTFfJmYEp8B6NZ4hk3cn/N6g8SL42TNBP7xnrBGs+kZw7n9hS147rx60IMKijdfInPBIastlYRRF8ypN78emy2Sjr70Lsty9L2m9MLPRYUaLfoC+mqqyuOJdXDvZxfnNfCnQRWxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699360745; x=1699965545; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FkbTSX+g7Z4COarYjI/PQiwBcX1FSpeQkb36sA5XJBo=;
-        b=kw56l+nq30BFbJyV4TPATmqdlmv5u0NCMyvI3BOaWvxlRy/2sa4Ny+HStGpyRQgSSO
-         +HCVGTQUudBE9FYeATHG6b0b1WMn3fecVCvB7ttSLVvhL1O4C/VXkBBjJzd+gJMDO0ra
-         3CTc8KqhnOL0RlhoWLMlVFK+RMsYlKlU8wmjRVzmIJCzmDWdgDc3cjx+M60KLZo4gaIk
-         R3syie9i3XZiIrO67YUATVDgB/zf2dMAf6Ca41oz0TQo0rquwuVP0q3vXPy4DsSWY/6W
-         8qKaaq3SWBzHhv573S8/RiLyyoTx4lv7vajl6/gCpR+UijPpt/6BSdKezBnlGmJEOmIm
-         GEuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699360745; x=1699965545;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FkbTSX+g7Z4COarYjI/PQiwBcX1FSpeQkb36sA5XJBo=;
-        b=dpqloc59FpqHUM0a92jCgnUQJ71bHc1u3HUKUQpnc4KryUXSNJ3S1dHEnPZ2HiYNyM
-         fNzrHupU2dp/xVnVkVyR9/Z4tSrqrOxixTTi2aD2ZlYI2/7e5p5cnM6p3l3K3fJZpc9v
-         fIkNQkoQNDuX/ZMEaKaJIeerz/tg4RmmcPeH3Rbc/aUKhLbBfGi5vExx+ohsEkszjzAA
-         GEw63vLXTTkh7k1Ri1IWHsiJ2Tt+e6YprWpN9IHsivzpwH1vDU1q2beUact6hEDtKDGx
-         aghy4EjistP+iMYPStGFs5VHLtir2+l6zYm7CEtchdsz3C457hR99OLRN4r4M8nxjarF
-         vX3Q==
-X-Gm-Message-State: AOJu0Yz86ZcHSORlGrWdDPF2wuBe4+2Wgn8T4+4NUvV9Mm+op3Iu0az1
-	k2/EQeEv+CFvCeB+75Tu4tGPgFXZHR2jT6EA2II=
-X-Google-Smtp-Source: AGHT+IFJc9NWuMSq8rpgi8/hnC2ou/2v8/lWBKGFRQ4nvQcIB/ppI/C7aBczfJcbqvhAPPVL6PEvDSpQ6wA1FdDIQEY=
-X-Received: by 2002:a05:6102:c93:b0:45f:3b30:9ca9 with SMTP id
- f19-20020a0561020c9300b0045f3b309ca9mr5978861vst.15.1699360745200; Tue, 07
- Nov 2023 04:39:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20231107120017.515892-1-lukas.funke-oss@weidmueller.com>
-In-Reply-To: <20231107120017.515892-1-lukas.funke-oss@weidmueller.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Tue, 7 Nov 2023 12:38:54 +0000
-Message-ID: <CANPvuRk2CG92NwXi20MQrJAabyePM07_pPtQ-CMtNbCj+y3+ig@mail.gmail.com>
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZTY8mUzc3F3YXEd12C2hsdR+F0xnbS0kco9quGRRJKI=;
+ b=fWckZ5lTIECVM6g3ykFMx9Yb9iONNw1UBR/3mTC6hzUSyQ7up83hnKdpOP/3yvjF70lxAs6iJjXhljGyNgB5Sn7HIkSS/VskgvQxviMkkD4otqO3reTUjzVNy2g+WcwWZfhPBWOAv1BnJtss+oqMQuxKHuoZ/fuQfg1c0o0oUZ8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
+ by DU0PR08MB8977.eurprd08.prod.outlook.com (2603:10a6:10:465::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.27; Tue, 7 Nov
+ 2023 12:47:42 +0000
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::b914:d9b5:6462:13b6]) by AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::b914:d9b5:6462:13b6%4]) with mapi id 15.20.6954.028; Tue, 7 Nov 2023
+ 12:47:42 +0000
+Message-ID: <cbc07983-df4f-47c5-9483-e867c47c6c5e@weidmueller.com>
+Date: Tue, 7 Nov 2023 13:47:41 +0100
+User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-Core][PATCH] udev-extraconf: mount.sh: check if filesystem is
  supported before mounting
-To: Lukas Funke <lukas.funke-oss@weidmueller.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Lukas Funke <lukas.funke@weidmueller.com>
-Content-Type: multipart/alternative; boundary="0000000000009023a506098f4157"
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20231107120017.515892-1-lukas.funke-oss@weidmueller.com>
+ <88e139f8a5d37305c4d0b2156d4964df34cbb830.camel@linuxfoundation.org>
+From: Lukas Funke <lukas.funke-oss@weidmueller.com>
+In-Reply-To: <88e139f8a5d37305c4d0b2156d4964df34cbb830.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR5P281CA0032.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f3::6) To AS2PR08MB8431.eurprd08.prod.outlook.com
+ (2603:10a6:20b:55a::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|DU0PR08MB8977:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ed4fc8e-ac49-4aeb-36f7-08dbdf8fbba6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	dRQL3vRr7NRAuCT2mXyFUQ/JKio6uWoowpF1WdaSAffNfv/T8NneGxZhcx7kfCBWCVrqYTCQos9fwW6h7E1v+gNZZtzMpGigmelQESEqDcZ8MQ+ZUI3MvwqZO6IOFX3IBqSzBslwOjnPhL45NsDWfu1O9U/UWyHv3lx7RFAyg492pctnqSIdFLi8uTfyP+gPll7ap7xKPwK0xJyfIno7oBr2UI6Dyn2dpuusImHACBrsRXIWmZ607fU13iS9b/Kma1btQpBK81H9gAQix6iAdaSmjGKtFbHl40d0YORWAf3wCW92FXNfpMGvqNZLnJ2yH66/y6LfEPqLrCpx51uvnaNBGz2Vl58sgLHkkkcPn58YqYCLkKiPTwxJreNBU4RZ08wsLK4bYxduQlpMJBn7Ko5ZeMOJ50Ow0B/Cziknszq+t5lrIStVEICvbSayZgIN3nNeNXlutnfmcseG007sEB7cx54dubyOkgQCaYcz0HfSD8MQ6mPMTCrguNz1xBccgHI9F/kl7JOwFeI9f9w3bqJ2V9FjSJRHqJFp3Kr5+o/z1zz09ClDtP19ocOCs/CgkPR8xZcMkEqR49J+YWLPsAXiM0BZbou97xgpDe2hk6DfLXwwen+JXgPfmJjzo+jH3O9rXIYOHodod1mNbk0jfw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(396003)(346002)(136003)(39860400002)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(66476007)(38100700002)(53546011)(6506007)(316002)(66556008)(36756003)(5660300002)(31696002)(41300700001)(66946007)(6512007)(8936002)(8676002)(26005)(6486002)(2616005)(31686004)(2906002)(86362001)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?UUZkMEtEdk5aNGVPRE9kN3U4eWZ3QjNRK3oyV3YzTkNMWlJlQ1NsTzJIL012?=
+ =?utf-8?B?N0R1dEtqYXcrVkVUVHg0MHV3RDhIYVlCeFI3djRIbGdFL2YwdU1yUi8vZndU?=
+ =?utf-8?B?WDFjMTRvREN6SDNtYTBXVlVKcFJDNVFQK3NXSWNsMWFyRms5Q2NsYndqa1Iv?=
+ =?utf-8?B?OTRIY2x4aFROZzNuZzhrQ3V4VXFtbVJteU5ac2VGdzRydXozYmZwRnJNRHRo?=
+ =?utf-8?B?cjN3NDF2QTl3T1Y4N2RhcnY4dXlTTmw4NUJVQ3RrdWZJenlLVndMNGVrcHhB?=
+ =?utf-8?B?Q2JJbU1TNjFHUisvYUxVWjd1SDJCSmkyMjJDQWFBY05VRy9KUVBCTGJRUkxY?=
+ =?utf-8?B?WFFpOXd5N2szV3RvSWdMWlh3djFyYjA4N3ZEaHo2RU1Ua1VqcWJza3hsNklo?=
+ =?utf-8?B?MFNOcUlkSjNsNUdGN2pmZUhOenRjMkRoampSSC94enFyU1RucWxlUG1RZkg2?=
+ =?utf-8?B?U2xyVlBlc3BReGFxTFVWV1JJelhCdEowQ1BxTDFWUEFyL3hWZTI5dmhPQ1NZ?=
+ =?utf-8?B?K0JVekVwakpSbG9MT1l5aGs2VXJEbFdNV0JSL3h0S2VZQVNvUUpwMWlRNXFI?=
+ =?utf-8?B?RFB6ZHFYQjlZcWNqck9Fd1doZW02UjU2RmkreXViOXZmazBGQmJ3ZUJ2TGdQ?=
+ =?utf-8?B?clZFRlA5aGY1N2llYUQydWNtdDA3anE3UDc5VGtkTFlKQ3EzZXpCeGZSbGVD?=
+ =?utf-8?B?MTRZSkczQ29lNWgrM1BKWVdKZy9sU0NyNzRTR2gwL0hVc3F4MDNnVXY1OFgr?=
+ =?utf-8?B?bGtqdFFtUC95cGswcGtPWHc3TTROTEY3dllWVEU5dWdPcXZwd0JoVWNLcEls?=
+ =?utf-8?B?aXo4N3RuTnl1WWFuYW81NjVHODFLVDFzRmFRdlpnV0djMGNBNlN5ZU1tL09I?=
+ =?utf-8?B?T2ZYNGFhMnk2ZGVMeVJoaVFnUmZoNWVncGVVV1p4VmhEd240SFdkZS9EeW5m?=
+ =?utf-8?B?b095RkdxVUhkQ1dLL1p1U1Y5YTJYOTVZc0NsM1NtMHdzZ3lBZGpFaTBxaVk2?=
+ =?utf-8?B?WTlUOWNWcm14ZTdQZHMwQlZ3SVZNQ1h1dS92T1dqVytQaHBJOFVHYkhuTU9F?=
+ =?utf-8?B?VDVjWFJNcVZRd1d4b2YxeFZzTzd2RldubVZrZTkxQ3ZNSUtOMXhGbTFmL0E5?=
+ =?utf-8?B?SUFZUEYwNXJnSjV3elFlZy83U2lLRUJtUk1HV0hXWUlOV2J3VEtKbkdoN3Zj?=
+ =?utf-8?B?OTJZL0JrTlhBeTE0dVdESU5PMlNOWVRkSjZlYTVSR1UrUkdKUjlHblEwVHBk?=
+ =?utf-8?B?WXgwRmlJbjVkaUNGSnVadHV1aXVGUjFxR0lORWU3WHo3MTJlaGVER2c1dFRY?=
+ =?utf-8?B?ODV5M1VPN2hTcHV5QWxwMGpyYnZXdjg5bGdONVZwTXBKR1pLVjhlV0M1ZGhD?=
+ =?utf-8?B?SFBDdmtRb3M3MDJZaE9UeXdPZmhlaVdJT0JSVjRHNGxGTkdoNkRRMGI1MHVi?=
+ =?utf-8?B?dGNSVTRLdXRBOCtHdnRWU01XRnE2QVMyd2RQbDI5TFQ5UEFWRWhsWFpxS1dG?=
+ =?utf-8?B?QjZPYjUxd2Z4M2JSZ2RBcnlaQkx3WWFuZnBhbmRsQURQLyt5bTlQVmdrdVNo?=
+ =?utf-8?B?Tm9hV21xNG9OV1BOMmlBTlFYeFkxdW1QNUpVK3N1MldQMW1GbWZuUElPNHA1?=
+ =?utf-8?B?cTQ3QjV0K2diY3JkNjY3cDY1aExpYkNTSUdZWlV4VklWMzdZaTI0R2I4ZHpJ?=
+ =?utf-8?B?ZDNXdVlNYnNUYmd3SEppZGpoWi82L005cEdxaXVtVXU5aFdQdUNLUFNISUtW?=
+ =?utf-8?B?dlFjTjNSWW1pVklZM0FQL09lNnFCMUE0MkZvOURKeWtNOXdBd3cyK2xHQkl2?=
+ =?utf-8?B?N2dNUXgzRlBhcTZFSXdkK3NmVDlqWUZ2WVQ4R1JSdjNDdTl1VStKWmI2cm5B?=
+ =?utf-8?B?ZXhRWkV4TWZzUXBpbGhVcHJzZU13VUltMGdkRUNKbjRtYlJpOUt2eGNNMGJ1?=
+ =?utf-8?B?Z2ZCRVZkT3BEV3FObmNrbVBzTVpLVEVicFJIbFRDZjVEb0ZpNHNQS0p0R0sw?=
+ =?utf-8?B?R3Z5YjFndUJPZDRmZ1VpTXlqNTM4TDRpbU1SSlVzNElMUUsxRnVYS1hJWDBl?=
+ =?utf-8?B?QklFZXRQWm5aR3gzaDA5akdFQjQyQVZzZjVkazc3aXc1K3piV1VFV1NTN2J6?=
+ =?utf-8?B?NGRkeTVmYUU0YkRkaDFPR0tqMWt2UFFEV0hNQTJFa1hHUll2Nm54U05RT2cx?=
+ =?utf-8?B?ZUE9PQ==?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ed4fc8e-ac49-4aeb-36f7-08dbdf8fbba6
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 12:47:42.5502
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VFJdVQ8/l1kEQgchEYFpNtPPYDHhALU3qmtzBq5aMMcc0jk/N87KPZMKglz/jhq0NGA//K1OEWvxshCURZzW6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8977
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 12:39:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190279
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 12:47:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190280
 
---0000000000009023a506098f4157
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Richard,
 
-Lukas Funke <lukas.funke-oss@weidmueller.com> escreveu no dia ter=C3=A7a,
-7/11/2023 =C3=A0(s) 12:00:
+On 07.11.2023 13:15, Richard Purdie wrote:
+> On Tue, 2023-11-07 at 13:00 +0100, Lukas Funke wrote:
+>> From: Lukas Funke <lukas.funke@weidmueller.com>
+>>
+>> Check if the filesystem is supported by the kernel before trying to
+>> mount it. Systemd-mount will mount the directories asynchronously
+>> resulting in stale directories if the devices filesystem is not
+>> supported.
+>>
+>> Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
+>> ---
+>>   meta/recipes-core/udev/udev-extraconf/mount.sh | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+>>
+>> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+>> index 989fabc194..59563b7511 100644
+>> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
+>> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+>> @@ -36,6 +36,17 @@ do
+>>   	fi
+>>   done
+>>   
+>> +is_filesystem_supported() {
+>> +    list_fs=$(cat /proc/filesystems | cut -f 2 | tr '\n' ' ')
+>> +    for fs in ${list_fs}; do
+>> +        if [ "$fs" == "$ID_FS_TYPE" ]
+>> +        then
+>> +            return 0
+>> +        fi
+>> +    done
+>> +    return 1
+>> +}
+>> +
+> 
+> We once went through the init scripts and carefully minimised all the
+> fork() calls in them, since all that process execution overhead does
+> mount up and delay boot times.
+> 
+> I really don't know what to do, whether I should continue to care or
+> not. It is easy to say systems have plenty of memory/cpu and therefore,
+> "who cares?". Equally, systems working efficiently is nice to have...
 
-> From: Lukas Funke <lukas.funke@weidmueller.com>
->
-> Check if the filesystem is supported by the kernel before trying to
-> mount it. Systemd-mount will mount the directories asynchronously
-> resulting in stale directories if the devices filesystem is not
-> supported.
->
-> Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
-> ---
->  meta/recipes-core/udev/udev-extraconf/mount.sh | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh
-> b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> index 989fabc194..59563b7511 100644
-> --- a/meta/recipes-core/udev/udev-extraconf/mount.sh
-> +++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
-> @@ -36,6 +36,17 @@ do
->         fi
->  done
->
-> +is_filesystem_supported() {
-> +    list_fs=3D$(cat /proc/filesystems | cut -f 2 | tr '\n' ' ')
-> +    for fs in ${list_fs}; do
-> +        if [ "$fs" =3D=3D "$ID_FS_TYPE" ]
-> +        then
-> +            return 0
-> +        fi
-> +    done
-> +    return 1
-> +}
-> +
->  automount_systemd() {
->      name=3D"`basename "$DEVNAME"`"
->
-> @@ -64,6 +75,11 @@ automount_systemd() {
->          grep "^[[:space:]]*$tmp" /etc/fstab && return
->      done
->
-> +    if ! is_filesystem_supported; then
->
+Not sure if correctly interpreted, but it seems that there are some 
+"frustration" vibes in your reply :)
 
-I think the same can done with grep avoid string manipulations and the loop
+I was not aware of the discussion but understand what you are trying to 
+achieve. We can replace the 'cat' with a 'read', which should avoid the 
+fork() since it's a shell-builtin (correct me if I'm wrong).
 
-+ if grep -q -w "$ID_FS_TYPE" /proc/filesystems; then
+Best regards
+Lukas
 
-Jose
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
-+        logger "mount.sh/automount" "Filesystem '$ID_FS_TYPE' on
-> '${DEVNAME}' is unsupported"
-> +        return
-> +    fi
-> +
->      [ -d "$MOUNT_BASE/$name" ] || mkdir -p "$MOUNT_BASE/$name"
->
->      MOUNT=3D"$MOUNT -o silent"
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190272):
-> https://lists.openembedded.org/g/openembedded-core/message/190272
-> Mute This Topic: https://lists.openembedded.org/mt/102440934/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000009023a506098f4157
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Lukas Funke &lt;<a href=3D"mailto:luk=
-as.funke-oss@weidmueller.com">lukas.funke-oss@weidmueller.com</a>&gt; escre=
-veu no dia ter=C3=A7a, 7/11/2023 =C3=A0(s) 12:00:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">From: Lukas Funke &lt;<a href=3D"mailto:l=
-ukas.funke@weidmueller.com" target=3D"_blank">lukas.funke@weidmueller.com</=
-a>&gt;<br>
-<br>
-Check if the filesystem is supported by the kernel before trying to<br>
-mount it. Systemd-mount will mount the directories asynchronously<br>
-resulting in stale directories if the devices filesystem is not<br>
-supported.<br>
-<br>
-Signed-off-by: Lukas Funke &lt;<a href=3D"mailto:lukas.funke@weidmueller.co=
-m" target=3D"_blank">lukas.funke@weidmueller.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/udev/udev-extraconf/mount.sh | 16 ++++++++++++++++<=
-br>
-=C2=A01 file changed, 16 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-=
-core/udev/udev-extraconf/mount.sh<br>
-index 989fabc194..59563b7511 100644<br>
---- a/meta/recipes-core/udev/udev-extraconf/mount.sh<br>
-+++ b/meta/recipes-core/udev/udev-extraconf/mount.sh<br>
-@@ -36,6 +36,17 @@ do<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0done<br>
-<br>
-+is_filesystem_supported() {<br>
-+=C2=A0 =C2=A0 list_fs=3D$(cat /proc/filesystems | cut -f 2 | tr &#39;\n&#3=
-9; &#39; &#39;)<br>
-+=C2=A0 =C2=A0 for fs in ${list_fs}; do<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;$fs&quot; =3D=3D &quot;$ID_FS_TYPE&=
-quot; ]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 done<br>
-+=C2=A0 =C2=A0 return 1<br>
-+}<br>
-+<br>
-=C2=A0automount_systemd() {<br>
-=C2=A0 =C2=A0 =C2=A0name=3D&quot;`basename &quot;$DEVNAME&quot;`&quot;<br>
-<br>
-@@ -64,6 +75,11 @@ automount_systemd() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0grep &quot;^[[:space:]]*$tmp&quot; /etc/f=
-stab &amp;&amp; return<br>
-=C2=A0 =C2=A0 =C2=A0done<br>
-<br>
-+=C2=A0 =C2=A0 if ! is_filesystem_supported; then<br></blockquote><div><br>=
-I think the same can done with grep avoid string manipulations and the loop=
-<br><br>+ if grep -q -w &quot;$ID_FS_TYPE&quot; /proc/filesystems; then</di=
-v><div><br></div><div>Jose<br><br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 logger &quot;<a href=3D"http://mount.sh/automo=
-unt" rel=3D"noreferrer" target=3D"_blank">mount.sh/automount</a>&quot; &quo=
-t;Filesystem &#39;$ID_FS_TYPE&#39; on &#39;${DEVNAME}&#39; is unsupported&q=
-uot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
-+=C2=A0 =C2=A0 fi<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0[ -d &quot;$MOUNT_BASE/$name&quot; ] || mkdir -p &quot;=
-$MOUNT_BASE/$name&quot;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0MOUNT=3D&quot;$MOUNT -o silent&quot;<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#190272): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/190272" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/190272</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102440934/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/102440934/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---0000000000009023a506098f4157--
 
