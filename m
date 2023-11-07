@@ -1,131 +1,124 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E500FC4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 05:35:10 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.web10.4589.1699335305024616194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8A8EC4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 05:42:30 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.4275.1699335746764971281
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 21:35:05 -0800
+ Mon, 06 Nov 2023 21:42:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=droA5o6U;
- spf=pass (domain: mvista.com, ip: 209.85.128.177, mailfrom: asharma@mvista.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-59b5484fbe6so61884687b3.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 21:35:04 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=LB01ALfp;
+ spf=pass (domain: mvista.com, ip: 209.85.210.172, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6c115026985so5437713b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 21:42:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1699335304; x=1699940104; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1699335746; x=1699940546; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YAEH3nS83Did6kGkmFny+TY+gMomiyRy5uOPJXfezak=;
-        b=droA5o6U+smvQ+d2LY33eVJhnpeg3WMI6lU/FDBA92Is2QEKOqpdFuJEGMibNmWa+a
-         lgRt8kz4lgba93oB4S+G19KXjS+KbCNn9s5gM0xX+U1FMi/aMX3/WfKwLM18buFnP//U
-         rrOVyYaNCQq7gRNqeUpgO/vkQfxi9SGuNKbgA=
+        bh=2Vs9e0AQ+/7pxUuwDTvWxBaFcmhluVmmaFXtzzDEs/Y=;
+        b=LB01ALfpicErcNN9QN386ywjochf1IT2y3MTQevdMOfGkteT83/tV8GUFDLlrQkKqL
+         yNJ1APF5QBiYAwNZM0VnZ5n1heYG1VF1QoOSGEPALyQy90nCrJqkaa/yBl+16+Vo2AWr
+         I77rTCpFuI8CmkpVgnImsUJL1B3qnPLC7/NIQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699335304; x=1699940104;
+        d=1e100.net; s=20230601; t=1699335746; x=1699940546;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YAEH3nS83Did6kGkmFny+TY+gMomiyRy5uOPJXfezak=;
-        b=gRUkKA4qq8FG2SzkHXAnCENV/KAua1uopOnMpFQGWZsMcCeIXYPIiola1Pysdp2Tez
-         PPesq1Z84w8SKcKrkFRD9GIl3HXsfJZKtsUbvABNSxMdUQySCpR8hqioN8GR42BkWluE
-         RPecJub5Mo4Yh75SOKfvX1gLXaxKhCOqgFKpNySg7kSZ5T0OwvAVOHB+Y5zOSTA/6TXD
-         3Rx2pgbKe6Rc2P5KRHI188hP0RugeZQ4CQPH/7b4ZYH7KJoFA/CPv7xHCHY6wEv9OONm
-         WGX4FCnUm9U8nNYt2dOArqsvTZWN4CoE0gW7lo5yoqqbY5WC2ZFVFftTOfPNfbKWor2o
-         kn2g==
-X-Gm-Message-State: AOJu0Yw5CqRgqkiVL31auL+RIgPxe9Z7pruk548VqLCIwygzDrox02sZ
-	5/gjT8ZA7zeiOIiBBGY/YvVch2EDqzhKmsb/CxA=
-X-Google-Smtp-Source: AGHT+IE79pGqQR7Kl3biRQZ+7Y+cg8GZQk9detKgfU53qgAP/qli75nyieujhFxHVCAeHthtbn6luA==
-X-Received: by 2002:a0d:dc47:0:b0:5a1:635e:e68 with SMTP id f68-20020a0ddc47000000b005a1635e0e68mr11140609ywe.46.1699335303810;
-        Mon, 06 Nov 2023 21:35:03 -0800 (PST)
-Received: from asharma-Latitude-3400 ([223.190.83.79])
-        by smtp.gmail.com with ESMTPSA id o17-20020a635d51000000b005b96b42f7ccsm586219pgm.82.2023.11.06.21.35.01
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 Nov 2023 21:35:03 -0800 (PST)
-Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Tue, 07 Nov 2023 11:02:48 +0530
-From: Ashish Sharma <asharma@mvista.com>
+        bh=2Vs9e0AQ+/7pxUuwDTvWxBaFcmhluVmmaFXtzzDEs/Y=;
+        b=eUxAoYuu0GpNoKQOSeOiatYUtgTLQ5AzV/aBu0S5R3QB20b7LrTZfF7E/iZBpMOAu/
+         Nt57PYaBr3PgYVfkKX4Yiqk3qmMza1wK8HsX/ZiuUs6Khv2ZictpZ/Y4A1u8M3TdU0jH
+         dJ+eDoW747fPdkA/NlpoI/RDOWNHGvLGz5ux+wyuoyxxH7uPrkPO2QwbzmhpLabajqQ4
+         Txq/wurpka+t1Y6ZladfeXU+bE5eVkGeVhM4x3cb2+UZCF6jWpgyuXTzIefXjH0ki4Ab
+         ML1UL7QjVYUc4chIPAnJCymOjRXakScvBVVZ33ZuNuwlc5SmaK6nqgpqV5oGFT8+5i6n
+         OSlw==
+X-Gm-Message-State: AOJu0YwoocUH4E5lfcatMVYJFabkhN7Nt1G3tALwTD6ZbfI3jYDo5nAZ
+	Jea1VJecDy8gbV0xq6y+VqcqHuKo2iG0lxJOn09eIA==
+X-Google-Smtp-Source: AGHT+IE2f61RDphLbdO21bARhW08G5eyVJmKaUGUd5/5vlr4fF6RT4HqxHJbIV7p0OHIBL8U7s4d8w==
+X-Received: by 2002:a05:6a20:8f07:b0:181:6f00:2f73 with SMTP id b7-20020a056a208f0700b001816f002f73mr20384622pzk.3.1699335745853;
+        Mon, 06 Nov 2023 21:42:25 -0800 (PST)
+Received: from MVIN00016.mvista.com ([27.121.101.117])
+        by smtp.gmail.com with ESMTPSA id qc7-20020a17090b288700b00268b9862343sm2690947pjb.24.2023.11.06.21.42.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 21:42:25 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] zlib: Backport fix CVE-2023-45853
-Date: Tue,  7 Nov 2023 11:02:40 +0530
-Message-Id: <20231107053240.22718-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.35.7
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [dunfell][PATCH] tiff: Security fix for CVE-2023-40745
+Date: Tue,  7 Nov 2023 11:12:20 +0530
+Message-Id: <20231107054220.20853-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 05:35:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190251
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 05:42:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190252
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Upstream-Status: Backport from https://gitlab.com/libtiff/libtiff/-/commit/4fc16f649fa2875d5c388cf2edc295510a247ee5
+
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../zlib/zlib/CVE-2023-45853.patch            | 40 +++++++++++++++++++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |  3 +-
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
+ .../libtiff/files/CVE-2023-40745.patch        | 34 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-40745.patch
 
-diff --git a/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch b/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-40745.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-40745.patch
 new file mode 100644
-index 00000000000..77afb7ad1b6
+index 0000000000..6eb286039f
 --- /dev/null
-+++ b/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
-@@ -0,0 +1,40 @@
-+From 73331a6a0481067628f065ffe87bb1d8f787d10c Mon Sep 17 00:00:00 2001
-+From: Hans Wennborg <hans@chromium.org>
-+Date: Fri, 18 Aug 2023 11:05:33 +0200
-+Subject: [PATCH] Reject overflows of zip header fields in minizip.
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-40745.patch
+@@ -0,0 +1,34 @@
++From 4fc16f649fa2875d5c388cf2edc295510a247ee5 Mon Sep 17 00:00:00 2001
++From: Arie Haenel <arie.haenel@jct.ac.il>
++Date: Wed, 19 Jul 2023 19:34:25 +0000
++Subject: [PATCH] tiffcp: fix memory corruption (overflow) on hostile images
++ (fixes #591)
 +
-+This checks the lengths of the file name, extra field, and comment
-+that would be put in the zip headers, and rejects them if they are
-+too long. They are each limited to 65535 bytes in length by the zip
-+format. This also avoids possible buffer overflows if the provided
-+fields are too long.
++Upstream-Status: Backport from [https://gitlab.com/libtiff/libtiff/-/commit/4fc16f649fa2875d5c388cf2edc295510a247ee5]
++CVE: CVE-2023-40745
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tools/tiffcp.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
 +
-+Upstream-Status: Backport from [https://github.com/madler/zlib/commit/73331a6a0481067628f065ffe87bb1d8f787d10c]
-+CVE: CVE-2023-45853
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ contrib/minizip/zip.c | 11 +++++++++++
-+ 1 file changed, 11 insertions(+)
-+
-+diff --git a/contrib/minizip/zip.c b/contrib/minizip/zip.c
-+index 3d3d4cadd..0446109b2 100644
-+--- a/contrib/minizip/zip.c
-++++ b/contrib/minizip/zip.c
-+@@ -1043,6 +1043,17 @@ extern int ZEXPORT zipOpenNewFileInZip4_64(zipFile file, const char* filename, c
-+       return ZIP_PARAMERROR;
-+ #endif
-+ 
-++    // The filename and comment length must fit in 16 bits.
-++    if ((filename!=NULL) && (strlen(filename)>0xffff))
-++        return ZIP_PARAMERROR;
-++    if ((comment!=NULL) && (strlen(comment)>0xffff))
-++        return ZIP_PARAMERROR;
-++    // The extra field length must fit in 16 bits. If the member also requires
-++    // a Zip64 extra block, that will also need to fit within that 16-bit
-++    // length, but that will be checked for later.
-++    if ((size_extrafield_local>0xffff) || (size_extrafield_global>0xffff))
-++        return ZIP_PARAMERROR;
++diff --git a/tools/tiffcp.c b/tools/tiffcp.c
++index 83b3910..007bd05 100644
++--- a/tools/tiffcp.c
+++++ b/tools/tiffcp.c
++@@ -1437,6 +1437,13 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
++ 		TIFFError(TIFFFileName(in), "Error, cannot handle that much samples per tile row (Tile Width * Samples/Pixel)");
++ 		return 0;
++ 	}
 ++
-+     zi = (zip64_internal*)file;
-+ 
-+     if (zi->in_opened_file_inzip == 1)
-diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-index f768b41988b..fbd99480d34 100644
---- a/meta/recipes-core/zlib/zlib_1.2.11.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-@@ -11,7 +11,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
-            file://CVE-2018-25032.patch \
-            file://run-ptest \
--	    file://CVE-2022-37434.patch \
-+           file://CVE-2022-37434.patch \
-+           file://CVE-2023-45853.patch \
-            "
- UPSTREAM_CHECK_URI = "http://zlib.net/"
- 
+++	if ( (imagew - tilew * spp) > INT_MAX ){
+++        TIFFError(TIFFFileName(in),
+++                  "Error, image raster scan line size is too large");
+++        return 0;
+++	}
+++
++ 	iskew = imagew - tilew*spp;
++ 	tilebuf = _TIFFmalloc(tilesize);
++ 	if (tilebuf == 0)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index d27381b4cd..31e7db19aa 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -45,6 +45,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-3316.patch \
+            file://CVE-2023-3576.patch \
+            file://CVE-2023-3618.patch \
++           file://CVE-2023-40745.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
-2.35.7
+2.25.1
 
 
