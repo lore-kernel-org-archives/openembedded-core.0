@@ -1,202 +1,131 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E2D8C4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 00:20:00 +0000 (UTC)
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
- by mx.groups.io with SMTP id smtpd.web11.7217.1699316391188203404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E500FC4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 05:35:10 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web10.4589.1699335305024616194
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 16:19:51 -0800
+ Mon, 06 Nov 2023 21:35:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FlOomb4o;
- spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7a66b5f7ea7so194294739f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 16:19:51 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=droA5o6U;
+ spf=pass (domain: mvista.com, ip: 209.85.128.177, mailfrom: asharma@mvista.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-59b5484fbe6so61884687b3.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 21:35:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699316390; x=1699921190; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pDobf2pL4jGoqb8uFZRRGL5NyPtwlN2W9dCIYmH4pi8=;
-        b=FlOomb4owN4RU8WtudOHy959d6llo1whSBUaazuBDMQjHFeVXVIf6x/qJKWbxeLcKs
-         bCl8tbRSfgDrDwYmshEg++kazVH9G8meVZjXtTR6SLPDZ1oMRiRiZwGYdiFvff8tFnm4
-         Ch2iJVJ587p3svOX0//35TXh8+mtIz8Glym5tVRm+GFqw8OKEu6B+dIuC+HzdzRl+7sw
-         Z5jf40o5K6cT4OAhjdaI6We6E0kfRyfPjfDr3Ad8I57+yINB8Uu+vVc0WeqjNvnH3I3z
-         QlAejQAvF+afGLNtUCLCfgeKkMB4GHfaZlidle8cniOqWSITkz5h0Hl73tmBkyn9FFEU
-         8tuQ==
+        d=mvista.com; s=google; t=1699335304; x=1699940104; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YAEH3nS83Did6kGkmFny+TY+gMomiyRy5uOPJXfezak=;
+        b=droA5o6U+smvQ+d2LY33eVJhnpeg3WMI6lU/FDBA92Is2QEKOqpdFuJEGMibNmWa+a
+         lgRt8kz4lgba93oB4S+G19KXjS+KbCNn9s5gM0xX+U1FMi/aMX3/WfKwLM18buFnP//U
+         rrOVyYaNCQq7gRNqeUpgO/vkQfxi9SGuNKbgA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699316390; x=1699921190;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pDobf2pL4jGoqb8uFZRRGL5NyPtwlN2W9dCIYmH4pi8=;
-        b=uMuLUomDX4CJEq6FlDY8gUgTL/HghKa6IKm6NZkuAFWOAxkBlvpl4Tg8yKW4+dfLOj
-         8J7D6klBYbDgNGXJjxUbkEQtwDIMI5ZTQxvXNgH0ThrNzhIyLeE2IQa4E2VpQ+S6JL5k
-         dwtqbekDfTyu4nngiSy0/1T3eEmRUxmHbXrQOAsANS1XOVql4iHWMRJHSoYPEsmxOAPo
-         eRnL/a4UFdYGIKPH9TdZuAVGU8vH3WWC/ChD46yXSKvQ9Qh667Vp/xnUyiyvobkPkHAp
-         AHhmG0GzGi8XcwQ3OzOc9yKkLbTRRf3fJq2WWyqA2zvywWSGdcSaGSIqIfZqNW+TvGr5
-         Jnug==
-X-Gm-Message-State: AOJu0Yx5uUmm6Hz8rI//tJb/WNizpqF1UOp1bztIMBqNalbW48sQkpt5
-	LkEajiDkk+0igOkOBp1CIhG8ExjyW0Ufp8xAEUQ=
-X-Google-Smtp-Source: AGHT+IGfQZgSI9WZwugJKanzpcP1U1If/i/pNRmRyEaOBYG3EoWeS7+scLLO+3OKLtBTV4B1hgykabtFX1WawZQSFcQ=
-X-Received: by 2002:a05:6602:2a44:b0:792:989b:c621 with SMTP id
- k4-20020a0566022a4400b00792989bc621mr40266997iov.1.1699316390303; Mon, 06 Nov
- 2023 16:19:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699335304; x=1699940104;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YAEH3nS83Did6kGkmFny+TY+gMomiyRy5uOPJXfezak=;
+        b=gRUkKA4qq8FG2SzkHXAnCENV/KAua1uopOnMpFQGWZsMcCeIXYPIiola1Pysdp2Tez
+         PPesq1Z84w8SKcKrkFRD9GIl3HXsfJZKtsUbvABNSxMdUQySCpR8hqioN8GR42BkWluE
+         RPecJub5Mo4Yh75SOKfvX1gLXaxKhCOqgFKpNySg7kSZ5T0OwvAVOHB+Y5zOSTA/6TXD
+         3Rx2pgbKe6Rc2P5KRHI188hP0RugeZQ4CQPH/7b4ZYH7KJoFA/CPv7xHCHY6wEv9OONm
+         WGX4FCnUm9U8nNYt2dOArqsvTZWN4CoE0gW7lo5yoqqbY5WC2ZFVFftTOfPNfbKWor2o
+         kn2g==
+X-Gm-Message-State: AOJu0Yw5CqRgqkiVL31auL+RIgPxe9Z7pruk548VqLCIwygzDrox02sZ
+	5/gjT8ZA7zeiOIiBBGY/YvVch2EDqzhKmsb/CxA=
+X-Google-Smtp-Source: AGHT+IE79pGqQR7Kl3biRQZ+7Y+cg8GZQk9detKgfU53qgAP/qli75nyieujhFxHVCAeHthtbn6luA==
+X-Received: by 2002:a0d:dc47:0:b0:5a1:635e:e68 with SMTP id f68-20020a0ddc47000000b005a1635e0e68mr11140609ywe.46.1699335303810;
+        Mon, 06 Nov 2023 21:35:03 -0800 (PST)
+Received: from asharma-Latitude-3400 ([223.190.83.79])
+        by smtp.gmail.com with ESMTPSA id o17-20020a635d51000000b005b96b42f7ccsm586219pgm.82.2023.11.06.21.35.01
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 Nov 2023 21:35:03 -0800 (PST)
+Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Tue, 07 Nov 2023 11:02:48 +0530
+From: Ashish Sharma <asharma@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ashish Sharma <asharma@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] zlib: Backport fix CVE-2023-45853
+Date: Tue,  7 Nov 2023 11:02:40 +0530
+Message-Id: <20231107053240.22718-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.35.7
 MIME-Version: 1.0
-References: <20231106195219.3851918-1-max.oss.09@gmail.com>
- <CADkTA4PCD=g7fdu96K-yV=jrfGyP65yfhW1ByZR-kjNU=C4WQQ@mail.gmail.com> <CAEHkU3XnQxE09di9HruWJoxprFddpX3KcW+2CMGZnWzD+uZvaA@mail.gmail.com>
-In-Reply-To: <CAEHkU3XnQxE09di9HruWJoxprFddpX3KcW+2CMGZnWzD+uZvaA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 6 Nov 2023 19:19:39 -0500
-Message-ID: <CADkTA4MQfqBrufty+Hxr6W5r0xCRFe0A5KH1iAgBM3Ksauc1qw@mail.gmail.com>
-Subject: Re: [PATCH] perf: fix build with latest kernel
-To: Max Krummenacher <max.oss.09@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Max Krummenacher <max.krummenacher@toradex.com>, mikko.rapeli@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 00:20:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190250
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 05:35:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190251
 
-On Mon, Nov 6, 2023 at 3:40=E2=80=AFPM Max Krummenacher <max.oss.09@gmail.c=
-om> wrote:
->
-> On Mon, Nov 6, 2023 at 9:04=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gma=
-il.com> wrote:
-> >
-> > On Mon, Nov 6, 2023 at 2:53=E2=80=AFPM Max Krummenacher <max.oss.09@gma=
-il.com> wrote:
-> > >
-> > > From: Max Krummenacher <max.krummenacher@toradex.com>
-> > >
-> > > Kernel 6.7-rc1 commit 02e85f74668e ("tools: arm64: Add a Makefile for
-> > > generating sysreg-defs.h") uses files from arch/arm64/tools/,
-> > > gen-sysreg.awk and sysreg.
-> > > Without the files the build of perf fails independent of the used
-> > > architecture (confirmed with armv7 and qemux86_64).
-> > >
-> > > As arch/arm64/tools/ has been added with 5.13 allow perf to build
-> > > even it that directory does not exist.
-> > >
-> > > Add arch/arm64/tools/ to PERF_SRC.
-> > >
-> > > Fixes:
-> > > | make[3]: *** No rule to make target '.../qemux86_64-tdx-linux/perf/=
-1.0/perf-1.0/arch/arm64/tools/gen-sysreg.awk', needed by '.../qemux86_64-td=
-x-linux/perf/1.0/perf-1.0/tools/arch/arm64/include/generated/asm/sysreg-def=
-s.h'.  Stop.
-> > > | make[2]: *** [Makefile.perf:456: arm64-sysreg-defs] Error 2
-> > >
-> > > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-> > > ---
-> > >  meta/recipes-kernel/perf/perf.bb | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > Hi all
-> > >
-> > > I see some other options:
-> > > - drop perf support for kernels<5.13 and simply add to PERF_SRC
-> > > - drop the bb.fatal in favour of continue and simply add to PERF_SRC
-> > >
-> > > Any comments?
-> >
-> > I just ran into this myself while updating linux-yocto-dev
-> >
-> > What you have is better than either of those options, but different
-> > from what I was working on.
-> >
-> > perf already uses KERNEL_VERSION, so I was adding some KERNEL_VERSION
-> > specific sources and only copying them when they match.
-> >
-> > I'm concerned that skipping or always allowing files to not exist will
-> > lead us to more subtle errors with invalid/incorrect kernel source tree=
-s.
-> >
-> > Another idea I had is to just skip if sources don't exist (like we do i=
-n
-> > devsrc), but bb.warn so the user is aware.
->
-> I can change the commit to:
-> - just add to PERF_SRC
-> - change the bb.fatal to bb.warn with the existing error string
-> - add a 'continue' after the bb.warn
->
-> Does that sound like a plan?
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
+---
+ .../zlib/zlib/CVE-2023-45853.patch            | 40 +++++++++++++++++++
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |  3 +-
+ 2 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
 
-That matches my 2nd idea to fix it, so I'm good with it.
+diff --git a/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch b/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
+new file mode 100644
+index 00000000000..77afb7ad1b6
+--- /dev/null
++++ b/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
+@@ -0,0 +1,40 @@
++From 73331a6a0481067628f065ffe87bb1d8f787d10c Mon Sep 17 00:00:00 2001
++From: Hans Wennborg <hans@chromium.org>
++Date: Fri, 18 Aug 2023 11:05:33 +0200
++Subject: [PATCH] Reject overflows of zip header fields in minizip.
++
++This checks the lengths of the file name, extra field, and comment
++that would be put in the zip headers, and rejects them if they are
++too long. They are each limited to 65535 bytes in length by the zip
++format. This also avoids possible buffer overflows if the provided
++fields are too long.
++
++Upstream-Status: Backport from [https://github.com/madler/zlib/commit/73331a6a0481067628f065ffe87bb1d8f787d10c]
++CVE: CVE-2023-45853
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ contrib/minizip/zip.c | 11 +++++++++++
++ 1 file changed, 11 insertions(+)
++
++diff --git a/contrib/minizip/zip.c b/contrib/minizip/zip.c
++index 3d3d4cadd..0446109b2 100644
++--- a/contrib/minizip/zip.c
+++++ b/contrib/minizip/zip.c
++@@ -1043,6 +1043,17 @@ extern int ZEXPORT zipOpenNewFileInZip4_64(zipFile file, const char* filename, c
++       return ZIP_PARAMERROR;
++ #endif
++ 
+++    // The filename and comment length must fit in 16 bits.
+++    if ((filename!=NULL) && (strlen(filename)>0xffff))
+++        return ZIP_PARAMERROR;
+++    if ((comment!=NULL) && (strlen(comment)>0xffff))
+++        return ZIP_PARAMERROR;
+++    // The extra field length must fit in 16 bits. If the member also requires
+++    // a Zip64 extra block, that will also need to fit within that 16-bit
+++    // length, but that will be checked for later.
+++    if ((size_extrafield_local>0xffff) || (size_extrafield_global>0xffff))
+++        return ZIP_PARAMERROR;
+++
++     zi = (zip64_internal*)file;
++ 
++     if (zi->in_opened_file_inzip == 1)
+diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
+index f768b41988b..fbd99480d34 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.11.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
+@@ -11,7 +11,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-configure-Pass-LDFLAGS-to-link-tests.patch \
+            file://CVE-2018-25032.patch \
+            file://run-ptest \
+-	    file://CVE-2022-37434.patch \
++           file://CVE-2022-37434.patch \
++           file://CVE-2023-45853.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://zlib.net/"
+ 
+-- 
+2.35.7
 
-It'll really only just be someone using an old kernel against master
-that will ever see a warning, so I have no issues with it.
-
-Bruce
-
->
-> Max
-> >
-> > Bruce
-> >
-> > >
-> > > Thanks.
-> > > Max
-> > >
-> > >
-> > > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/p=
-erf/perf.bb
-> > > index 675acfaf26..dae9320169 100644
-> > > --- a/meta/recipes-kernel/perf/perf.bb
-> > > +++ b/meta/recipes-kernel/perf/perf.bb
-> > > @@ -117,6 +117,7 @@ EXTRA_OEMAKE +=3D "\
-> > >  # honour a JOBS variable.
-> > >  EXTRA_OEMAKE:append:task-configure =3D " JOBS=3D1"
-> > >
-> > > +PERF_SRC_OPTIONAL ?=3D "arch/arm64/tools"
-> > >  PERF_SRC ?=3D "Makefile \
-> > >               tools/arch \
-> > >               tools/build \
-> > > @@ -127,6 +128,7 @@ PERF_SRC ?=3D "Makefile \
-> > >               tools/scripts \
-> > >               scripts/ \
-> > >               arch/${ARCH}/Makefile \
-> > > +             ${PERF_SRC_OPTIONAL} \
-> > >  "
-> > >
-> > >  PERF_EXTRA_LDFLAGS =3D ""
-> > > @@ -162,6 +164,7 @@ do_install() {
-> > >
-> > >  do_configure[prefuncs] +=3D "copy_perf_source_from_kernel"
-> > >  python copy_perf_source_from_kernel() {
-> > > +    sources_opt =3D (d.getVar("PERF_SRC_OPTIONAL") or "").split()
-> > >      sources =3D (d.getVar("PERF_SRC") or "").split()
-> > >      src_dir =3D d.getVar("STAGING_KERNEL_DIR")
-> > >      dest_dir =3D d.getVar("S")
-> > > @@ -171,6 +174,8 @@ python copy_perf_source_from_kernel() {
-> > >          src =3D oe.path.join(src_dir, s)
-> > >          dest =3D oe.path.join(dest_dir, s)
-> > >          if not os.path.exists(src):
-> > > +            if s in sources_opt:
-> > > +                continue
-> > >              bb.fatal("Path does not exist: %s. Maybe PERF_SRC does n=
-ot match the kernel version." % src)
-> > >          if os.path.isdir(src):
-> > >              oe.path.copyhardlinktree(src, dest)
-> > > --
-> > > 2.35.3
-> > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
