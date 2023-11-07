@@ -1,99 +1,86 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C5BC4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 11:53:03 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.8698.1699357982422493774
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96701C4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 11:53:53 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.8454.1699358027687162202
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 03:53:02 -0800
+ Tue, 07 Nov 2023 03:53:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mt9Bq9qI;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: zboszor@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9e1fb7faa9dso134934766b.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 03:53:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699357980; x=1699962780; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QheVU55AOpi97kz7e8dFLi9TKtD2wpZJt88Q1+YXLh0=;
-        b=mt9Bq9qIT5wd1ZTAU24N+aMITACz/8FzjE2JT1JM+9P+VO4RLfRquW2ZtOujPXFYWy
-         KDVieL6yL4PiOQivbL9aVd0Z2qwPTRxl9bP8/E0r4IscmJCeIGSuVSrnFi0NIEDNugi5
-         gFxXcaDW+hU09Ur/a8nnlUZn9QHdgMtTSFHfAOANUk/p57UHDeR/h2CBEuVkMBCFyG8O
-         zolOj/Bkw6lj5eMOwFupz5r7jQOIpR+VkS8h1EjTDc+gdtHW4dvPtiGdsm7b6aJMmnc9
-         GyMAV5TB+FmI/TNs8uqTLlFn5Aoaqx7xWJrFnREgGXHUuoAaRTj6OSsGFFvZ51QLr9jo
-         3oQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699357980; x=1699962780;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QheVU55AOpi97kz7e8dFLi9TKtD2wpZJt88Q1+YXLh0=;
-        b=RAyu/oe1Xx5fR+PDaGfxwAIBgBHVFrMb+f/4/rG7Z0WJcckR7mtB4+5gJVCsJh3aX9
-         q5QLYwxHJNz4QBy65GnJ/43FF+uHuALHcSEEv+UJTvrvmffxvogfkpXVvPn9QjKcQ8ac
-         +KPvcz3IaYieVw8pX31Gkmr/kATnHWFQ+aJb2VxwVwqGbWaUN/H2hB5Qj3XzPMO0jDDm
-         lKZ+skUpFve56Ubwve+p/fDMeSdh7GFMq12hqrGBjhh64bcAvPbREJt2TPQ7gy1JVObm
-         IQyCm3qgcgDeukkxtESDdwtm3IiVdCReuXczopCue93dNFcQND2AYvuLh5X3s8EwigzA
-         2L1A==
-X-Gm-Message-State: AOJu0YyulHPE+VLwInc2e7usuCcrX7i/QtR11rPUhnlnToUJilcNY/J4
-	ZG76Eo1zaSz6LF4gmZbMtRkTHRPc/gY=
-X-Google-Smtp-Source: AGHT+IGYla7dhkYKWiEpSVIubrYUHG2hRTOYrC8fKXIm0XfiFAeqT6p0tywNg2Sfg2BszUT/4euTmA==
-X-Received: by 2002:a17:907:26c9:b0:9e0:dde:cc9f with SMTP id bp9-20020a17090726c900b009e00ddecc9fmr5372988ejc.22.1699357980388;
-        Tue, 07 Nov 2023 03:53:00 -0800 (PST)
-Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id h5-20020a170906718500b009dbe08bc793sm971422ejk.18.2023.11.07.03.52.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 03:53:00 -0800 (PST)
-From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] common-licenses: Add Baekmuk license
-Date: Tue,  7 Nov 2023 12:52:58 +0100
-Message-ID: <20231107115258.172865-1-zboszor@gmail.com>
-X-Mailer: git-send-email 2.41.0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=T/KiSmCw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=96752bfcfe=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A7917NJ017473
+	for <openembedded-core@lists.openembedded.org>; Tue, 7 Nov 2023 03:53:47 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=TfD2d
+	2VbIfsWpjHaNlDWwJSLlmD/b5pfFLTx7nY/KUI=; b=T/KiSmCw/e9bwD99/6zjU
+	TV8Ne//OHDQoU/jsLpWnZ2bnrfqmSP3wU3kgLgXc2PaDQ2pPB8GkNbPYXUWG6JKR
+	gc9SxF0eyjKD2b5fBjrPpR5thKCMVlv8gevyR4QsJuWH7+QGTK9XT4ct7ZD2Bt8q
+	vHMUku2fnPUmHFC0QtDqc73uY8sitwhaeijpskkas+eZT7iG5AFHAyleAINyThsk
+	bu+1bldZbhdEeZHkbdIw4pa2CB7x/rQC7fqXoSen6qzJqWmI3Dzxs9SSD1BUY+wT
+	7OhmtOfp2pFN9F6MCSwFGXMP4CH+7ubreszdHLSCNPthpZ2Xuwwp+fHLYUMJwYDz
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u5nffta26-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 03:53:47 -0800 (PST)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Tue, 7 Nov 2023 03:53:48 -0800
+From: nmali <narpat.mali@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/1] python3-jinja2: Fixed ptest result output as per the standard
+Date: Tue, 7 Nov 2023 11:51:58 +0000
+Message-ID: <20231107115158.2423357-1-narpat.mali@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: zi8qts06sQm0u23yg7mPAkpJGu3Tlymq
+X-Proofpoint-ORIG-GUID: zi8qts06sQm0u23yg7mPAkpJGu3Tlymq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-07_02,2023-11-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ priorityscore=1501 spamscore=0 suspectscore=0 impostorscore=0
+ clxscore=1011 malwarescore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ adultscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2310240000 definitions=main-2311070098
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 11:53:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190270
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 11:53:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190271
 
-The Baekmuk font uses this license.
+From: Narpat Mali <narpat.mali@windriver.com>
 
-The license file was extracted from
-http://kldp.net/baekmuk/release/865-baekmuk-ttf-2.2.tar.gz
+There was an extra space between the result and ':'.
+After removing extra space, the ptest result will be:
+result : testname -> result: testname
 
-The SPDX link for this license:
-https://spdx.org/licenses/Baekmuk.html
-
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 ---
- meta/files/common-licenses/Baekmuk | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 meta/files/common-licenses/Baekmuk
+ meta/recipes-devtools/python/python3-jinja2/run-ptest | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/files/common-licenses/Baekmuk b/meta/files/common-licenses/Baekmuk
-new file mode 100644
-index 0000000000..04322ec737
---- /dev/null
-+++ b/meta/files/common-licenses/Baekmuk
-@@ -0,0 +1,11 @@
-+Copyright (c) 1986-2002 Kim Jeong-Hwan
-+All rights reserved.
-+
-+Permission to use, copy, modify and distribute this font is
-+hereby granted, provided that both the copyright notice and
-+this permission notice appear in all copies of the font,
-+derivative works or modified versions, and that the following
-+acknowledgement appear in supporting documentation:
-+    Baekmuk Batang, Baekmuk Dotum, Baekmuk Gulim, and
-+    Baekmuk Headline are registered trademarks owned by
-+    Kim Jeong-Hwan.
+diff --git a/meta/recipes-devtools/python/python3-jinja2/run-ptest b/meta/recipes-devtools/python/python3-jinja2/run-ptest
+index 3004024619..5817735a63 100644
+--- a/meta/recipes-devtools/python/python3-jinja2/run-ptest
++++ b/meta/recipes-devtools/python/python3-jinja2/run-ptest
+@@ -1,3 +1,3 @@
+ #!/bin/sh
+ 
+-pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'| sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s : %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
++pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'| sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
 -- 
-2.41.0
+2.40.0
 
 
