@@ -1,190 +1,330 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA4ADC4167D
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 12:26:43 +0000 (UTC)
-Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
- by mx.groups.io with SMTP id smtpd.web11.9003.1699360002399435486
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D729CC4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 12:29:13 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.9312.1699360144020701389
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 04:26:42 -0800
+ Tue, 07 Nov 2023 04:29:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
-Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
-	by mailout06.t-online.de (Postfix) with SMTP id 0915110FFB
-	for <openembedded-core@lists.openembedded.org>; Tue,  7 Nov 2023 13:26:40 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.154.173.54]) by fwd78.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1r0LAD-2GxlQH0; Tue, 7 Nov 2023 13:26:37 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][RFC][PATCHv2] vala.bbclass: enable vapi build if class is inherited
-Date: Tue,  7 Nov 2023 13:26:54 +0100
-Message-ID: <20231107122654.881882-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.42.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RcNVyTJi;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-507a5f2193bso6030089e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 04:29:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699360142; x=1699964942; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8jjcCZqbiYqkoJMp+LDIl12OZUZcNJw674ZOe/qgaw=;
+        b=RcNVyTJin5zCyVdPNj66D5pcuMExZQVz0XVNxASKHxJ3GhSLNO9WUIjUbnrEvltWss
+         FGVr4mHxFPTbSf5YVkUaa5N0JB4LySwTMXWbConI3EpNfssUX62PC1J3pBeOPovVvAce
+         IwMl1QcThnO5P82fasZmOyp2kbD6e6yWRnP37GZt4TQzNcCP6wnLO1KMgfo5+2s8Q1QU
+         9rxOhUp4+121mbfiVoMLyMC1wO9SuAfao37i3vlpCFh1XoAY75sQmm/jNbqd4DdqDZ2X
+         M8JzeAmqA7aT8M8QkTO+YqFqWkKgwAnKVOIHAlsM004e96Uek5hA7bp7sO5x8jFMBmEK
+         QxQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699360142; x=1699964942;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l8jjcCZqbiYqkoJMp+LDIl12OZUZcNJw674ZOe/qgaw=;
+        b=AzStzLaDqwye2uGLHZj8q5QhlJUCDFUe6/Wzf67ZutEAY50mwoucpzWLBzDQbAEzVi
+         RVlpLxa0t1O5nRbRMETSfRZdZWoxbskGM9VGAydydYQnjgx27WdlchJTb8pzi4gT0x9x
+         tuSEusQlGuawF88ZQiybmu4kg2gxcRaTMmHPy7EP0iMvNDI9Lz8TB5tmeGVe7bH9+Qo1
+         hbO5+YIBiwoSgC/CPTCtn9NggaBkMG3kUXHh9lHmzwCnFX0kZdvDvQEtL9+5JiSsvqoe
+         wKk2A6yy0fYUGOg1xXIM1xayKWFtBeCfQ4OwFSXP1nZaD9S48idvBZqmkMzNRqx1UwmR
+         VPCQ==
+X-Gm-Message-State: AOJu0Yxa335CtTK5SXZ++X7zudVmkrfRVQ6RlTs5vOPnRosFdirKUpLK
+	3M9P9tmG6n3852c7N860NhiPUk0k4fWVrIbH0JY=
+X-Google-Smtp-Source: AGHT+IHE7ylaUaPRsGzDt1czPeHIBTIhFFeVqWiP1CNq/QloKLDiE4bu4sozYNMQwaNnKRfJMh+gdMVqBfHaj4HOU3M=
+X-Received: by 2002:a05:6512:1085:b0:4fe:b97:e361 with SMTP id
+ j5-20020a056512108500b004fe0b97e361mr1126666lfg.18.1699360141744; Tue, 07 Nov
+ 2023 04:29:01 -0800 (PST)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1699359997-3FFFCEA2-948A149A/0/0 CLEAN NORMAL
-X-TOI-MSGID: f374f1ea-3fe5-4d46-b5a2-7d58f6cc2e48
-Content-Transfer-Encoding: quoted-printable
+References: <20231107120129.1314360-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20231107120129.1314360-1-richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 7 Nov 2023 13:28:50 +0100
+Message-ID: <CANNYZj82K=_gPAWfPkGm2FXtbJG1-w+cMipSuLJhqoP=0KNa_A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/sstatetests: Fix intermitttent
+ errors and improve performance
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000981fc606098f1d98"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 12:26:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190277
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 12:29:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190278
 
-Try to enable vapi build automatically if GI_DATA_ENABLED =3D True.
-Do it basically the same way it is done for gi
+--000000000000981fc606098f1d98
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/classes-recipe/vala.bbclass              | 23 +++++++++++++++++++
- meta/recipes-gnome/gcr/gcr_4.1.0.bb           |  2 --
- .../libadwaita/libadwaita_1.4.0.bb            |  2 --
- .../libdazzle/libdazzle_3.44.0.bb             |  1 +
- .../libportal/libportal_0.7.1.bb              |  2 +-
- meta/recipes-gnome/librsvg/librsvg_2.56.3.bb  |  2 --
- .../appstream/appstream_0.16.3.bb             |  2 --
- 7 files changed, 25 insertions(+), 9 deletions(-)
+Thanks a lot!
+=E2=80=94runall didn=E2=80=99t occur to me at all.
 
-diff --git a/meta/classes-recipe/vala.bbclass b/meta/classes-recipe/vala.=
-bbclass
-index 460ddb36f0..45c3993c54 100644
---- a/meta/classes-recipe/vala.bbclass
-+++ b/meta/classes-recipe/vala.bbclass
-@@ -16,6 +16,29 @@ export STAGING_DATADIR
- # Upstream Vala >=3D 0.11 looks in XDG_DATA_DIRS for .vapi files
- export XDG_DATA_DIRS =3D "${STAGING_DATADIR}:${STAGING_LIBDIR}"
-=20
-+VALA_ENABLED:class-native =3D "False"
-+VALA_ENABLED ?=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'True=
-', 'False', d)}"
-+
-+# meson: default option name to enable/disable vala. This matches most
-+# project's configuration. In doubts - check meson_options.txt in projec=
-t's
-+# source path.
-+VALA_MESON_OPTION ?=3D 'vapi'
-+VALA_MESON_ENABLE_FLAG ?=3D 'true'
-+VALA_MESON_DISABLE_FLAG ?=3D 'false'
-+
-+# Define vala options such that they can be disabled completely when VAL=
-A_MESON_OPTION is empty
-+VALAMESONTARGET =3D "-D${VALA_MESON_OPTION}=3D${@bb.utils.contains('VALA=
-_ENABLED', 'True', '${VALA_MESON_ENABLE_FLAG}', '${VALA_MESON_DISABLE_FLA=
-G}', d)} "
-+VALAMESONBUILD =3D "-D${VALA_MESON_OPTION}=3D${VALA_MESON_DISABLE_FLAG} =
-"
-+
-+EXTRA_OECONF:prepend:class-target =3D "${@bb.utils.contains('VALA_ENABLE=
-D', 'True', '--enable-vala', '--disable-vala', d)} "
-+EXTRA_OEMESON:prepend:class-target =3D "${@['', '${VALAMESONTARGET}'][d.=
-getVar('VALA_MESON_OPTION') !=3D '']} "
-+# When building native recipes, disable vala, as it is not necessary,
-+# pulls in additional dependencies, and makes build times longer
-+EXTRA_OECONF:prepend:class-native =3D "--disable-vala "
-+EXTRA_OEMESON:prepend:class-native =3D "${@['', '${VALAMESONBUILD}'][d.g=
-etVar('VALA_MESON_OPTION') !=3D '']}"
-+EXTRA_OECONF:prepend:class-nativesdk =3D "--disable-vala "
-+EXTRA_OEMESON:prepend:class-nativesdk =3D "${@['', '${VALAMESONBUILD}'][=
-d.getVar('VALA_MESON_OPTION') !=3D '']}"
-+
- # Package additional files
- FILES:${PN}-dev +=3D "\
-     ${datadir}/vala/vapi/*.vapi \
-diff --git a/meta/recipes-gnome/gcr/gcr_4.1.0.bb b/meta/recipes-gnome/gcr=
-/gcr_4.1.0.bb
-index 239d9806cc..79e5169298 100644
---- a/meta/recipes-gnome/gcr/gcr_4.1.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_4.1.0.bb
-@@ -27,13 +27,11 @@ PACKAGECONFIG ??=3D " \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gtk', '', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'gtk', '', d)} \
--	${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'vapi', '', d)} \
- "
- PACKAGECONFIG[gtk] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
- PACKAGECONFIG[ssh_agent] =3D "-Dssh_agent=3Dtrue,-Dssh_agent=3Dfalse,lib=
-secret,openssh"
- #'Use systemd socket activation for server programs'
- PACKAGECONFIG[systemd] =3D "-Dsystemd=3Denabled,-Dsystemd=3Ddisabled,sys=
-temd"
--PACKAGECONFIG[vapi] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,"
-=20
- FILES:${PN} +=3D " \
-     ${datadir}/dbus-1 \
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb b/meta/rec=
-ipes-gnome/libadwaita/libadwaita_1.4.0.bb
-index d8aa2cd697..b44284b499 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb
-@@ -24,5 +24,3 @@ GTKDOC_MESON_OPTION =3D 'gtk_doc'
- PACKAGECONFIG[examples] =3D "-Dexamples=3Dtrue,-Dexamples=3Dfalse"
-=20
- FILES:${PN} +=3D "${datadir}/metainfo"
--
--EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dv=
-api=3Dtrue', '-Dvapi=3Dfalse', d)}"
-diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb b/meta/reci=
-pes-gnome/libdazzle/libdazzle_3.44.0.bb
-index 49ebc818b0..e561bfa22a 100644
---- a/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb
-+++ b/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb
-@@ -15,5 +15,6 @@ DEPENDS =3D "glib-2.0-native glib-2.0 gtk+3"
- SRC_URI[archive.sha256sum] =3D "3cd3e45eb6e2680cb05d52e1e80dd8f9d59d4765=
-212f0e28f78e6c1783d18eae"
-=20
- GIR_MESON_OPTION =3D 'with_introspection'
-+VALA_MESON_OPTION =3D "with_vapi"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-diff --git a/meta/recipes-gnome/libportal/libportal_0.7.1.bb b/meta/recip=
-es-gnome/libportal/libportal_0.7.1.bb
-index 22e45559c9..e754096b5e 100644
---- a/meta/recipes-gnome/libportal/libportal_0.7.1.bb
-+++ b/meta/recipes-gnome/libportal/libportal_0.7.1.bb
-@@ -17,4 +17,4 @@ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-=20
- DEPENDS +=3D "glib-2.0 glib-2.0-native gtk+3 ${@bb.utils.contains('DISTR=
-O_FEATURES', 'opengl', 'gtk4', '', d)}"
-=20
--EXTRA_OEMESON =3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dva=
-pi=3Dtrue', '-Dvapi=3Dfalse', d)} -Dbackend-qt5=3Ddisabled"
-+EXTRA_OEMESON =3D "-Dbackend-qt5=3Ddisabled"
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.56.3.bb b/meta/recipes-=
-gnome/librsvg/librsvg_2.56.3.bb
-index 4b9aaeecbe..03d7cc92f2 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.56.3.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.56.3.bb
-@@ -57,10 +57,8 @@ CVE_STATUS[CVE-2018-1000041] =3D "not-applicable-platf=
-orm: Issue only applies on W
- CACHED_CONFIGUREVARS =3D "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=3D${STAGING=
-_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
-=20
- PACKAGECONFIG ??=3D "gdkpixbuf"
--PACKAGECONFIG:append:class-target =3D " ${@bb.utils.contains('GI_DATA_EN=
-ABLED', 'True', 'vala', '', d)}"
- # The gdk-pixbuf loader
- PACKAGECONFIG[gdkpixbuf] =3D "--enable-pixbuf-loader,--disable-pixbuf-lo=
-ader,gdk-pixbuf-native"
--PACKAGECONFIG[vala] =3D "--enable-vala,--disable-vala"
-=20
- do_install:append() {
- 	# Loadable modules don't need .a or .la on Linux
-diff --git a/meta/recipes-support/appstream/appstream_0.16.3.bb b/meta/re=
-cipes-support/appstream/appstream_0.16.3.bb
-index bde679e256..dafeff2555 100644
---- a/meta/recipes-support/appstream/appstream_0.16.3.bb
-+++ b/meta/recipes-support/appstream/appstream_0.16.3.bb
-@@ -40,6 +40,4 @@ PACKAGECONFIG[stemming] =3D "-Dstemming=3Dtrue,-Dstemmi=
-ng=3Dfalse,libstemmer"
-=20
- FILES:${PN} +=3D "${datadir}"
-=20
--EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dv=
-api=3Dtrue', '-Dvapi=3Dfalse', d)}"
--
- BBCLASSEXTEND =3D "native"
---=20
-2.42.0
+Alex
 
+On Tue 7. Nov 2023 at 13.01, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> You could reproduce an error in this test with:
+>
+> bitbake core-image-minimal
+> bitbake tzcode-native -c cleansstate
+> oe-selftest -r
+> sstatetests.SStatePrintdiff.test_image_minimal_vs_base_do_configure
+>
+> since tzcode-native isn't needed once tzdata is available and isn't rebui=
+lt
+> by "bitbake core-image-minimal" if it is missig. tzdata is allarch so if
+> tzdata is
+> built on an x86 host, a aarch64 build machine would never build
+> tzcode-native with
+> this set of calls.
+>
+> Add a --runall option to the initial bitbake invocation to force these
+> things to be
+> created if they're missing.
+>
+> This explains why some failures were occurring on the infrastructure. Wit=
+h
+> that issue
+> fixed, drop the hash mode change since I believe this fixes that issue.
+> That
+> restriction was hurting performance, this should allow sstate reuse for
+> the test
+> and improve the speed of it.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oeqa/selftest/cases/sstatetests.py | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> index a6865a5ba7b..24c96ace08c 100644
+> --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> @@ -776,16 +776,15 @@ addtask tmptask2 before do_tmptask1
+>                  self.assertEqual(recursecb_count,1)
+>
+>  class SStatePrintdiff(SStateBase):
+> -    # FIXME: OEBasicHash setting is necessary for now as otherwise the
+> following error can occur:
+> -    # ERROR: Can't find a task we're supposed to have written out? (hash=
+:
+> e79d70b9c2cc72030c1ce822525510699a1eeb1ddf5986271d3217422244366a)?
+> -    # The underlying issue should be investigated and addressed.
+>      def run_test_printdiff_changerecipe(self, target, change_recipe,
+> change_bbtask, change_content, expected_sametmp_output,
+> expected_difftmp_output):
+>          self.write_config("""
+>  TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff"
+> -BB_SIGNATURE_HANDLER =3D "OEBasicHash"
+>  """)
+>          self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff")
+> -        bitbake(target)
+> +        # Use runall do_build to ensure any indirect sstate is created,
+> e.g. tzcode-native on both x86 and
+> +        # aarch64 hosts since only allarch target recipes depend upon it
+> and it may not be built otherwise.
+> +        # A bitbake -c cleansstate tzcode-native would cause some of
+> these tests to error for example.
+> +        bitbake("--runall build {}".format(target))
+>          bitbake("-S none {}".format(target))
+>          bitbake(change_bbtask)
+>          self.write_recipeinc(change_recipe, change_content)
+> @@ -793,7 +792,6 @@ BB_SIGNATURE_HANDLER =3D "OEBasicHash"
+>
+>          self.write_config("""
+>  TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff-2"
+> -BB_SIGNATURE_HANDLER =3D "OEBasicHash"
+>  """)
+>          self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff-2")
+>          result_difftmp =3D bitbake("-S printdiff {}".format(target))
+> @@ -807,17 +805,15 @@ BB_SIGNATURE_HANDLER =3D "OEBasicHash"
+>      def run_test_printdiff_changeconfig(self, target, change_content,
+> expected_sametmp_output, expected_difftmp_output):
+>          self.write_config("""
+>  TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff"
+> -BB_SIGNATURE_HANDLER =3D "OEBasicHash"
+>  """)
+>          self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff")
+> -        bitbake(target)
+> +        bitbake("--runall build {}".format(target))
+>          bitbake("-S none {}".format(target))
+>          self.append_config(change_content)
+>          result_sametmp =3D bitbake("-S printdiff {}".format(target))
+>
+>          self.write_config("""
+>  TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff-2"
+> -BB_SIGNATURE_HANDLER =3D "OEBasicHash"
+>  """)
+>          self.append_config(change_content)
+>          self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff-2")
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#190273):
+> https://lists.openembedded.org/g/openembedded-core/message/190273
+> Mute This Topic: https://lists.openembedded.org/mt/102440948/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000981fc606098f1d98
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Thanks a lot!=C2=A0</div><div dir=3D"auto">=E2=80=94runal=
+l didn=E2=80=99t occur to me at all.</div><div dir=3D"auto"><br></div><div =
+dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Tue 7. Nov 2023 at 13.01, Richard Purdie &lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfounda=
+tion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;pad=
+ding-left:1ex;border-left-color:rgb(204,204,204)">You could reproduce an er=
+ror in this test with:<br>
+<br>
+bitbake core-image-minimal<br>
+bitbake tzcode-native -c cleansstate<br>
+oe-selftest -r sstatetests.SStatePrintdiff.test_image_minimal_vs_base_do_co=
+nfigure<br>
+<br>
+since tzcode-native isn&#39;t needed once tzdata is available and isn&#39;t=
+ rebuilt<br>
+by &quot;bitbake core-image-minimal&quot; if it is missig. tzdata is allarc=
+h so if tzdata is<br>
+built on an x86 host, a aarch64 build machine would never build tzcode-nati=
+ve with<br>
+this set of calls.<br>
+<br>
+Add a --runall option to the initial bitbake invocation to force these thin=
+gs to be<br>
+created if they&#39;re missing.<br>
+<br>
+This explains why some failures were occurring on the infrastructure. With =
+that issue<br>
+fixed, drop the hash mode change since I believe this fixes that issue. Tha=
+t<br>
+restriction was hurting performance, this should allow sstate reuse for the=
+ test<br>
+and improve the speed of it.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+---<br>
+=C2=A0meta/lib/oeqa/selftest/cases/sstatetests.py | 14 +++++---------<br>
+=C2=A01 file changed, 5 insertions(+), 9 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/se=
+lftest/cases/sstatetests.py<br>
+index a6865a5ba7b..24c96ace08c 100644<br>
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py<br>
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py<br>
+@@ -776,16 +776,15 @@ addtask tmptask2 before do_tmptask1<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEq=
+ual(recursecb_count,1)<br>
+<br>
+=C2=A0class SStatePrintdiff(SStateBase):<br>
+-=C2=A0 =C2=A0 # FIXME: OEBasicHash setting is necessary for now as otherwi=
+se the following error can occur:<br>
+-=C2=A0 =C2=A0 # ERROR: Can&#39;t find a task we&#39;re supposed to have wr=
+itten out? (hash: e79d70b9c2cc72030c1ce822525510699a1eeb1ddf5986271d3217422=
+244366a)?<br>
+-=C2=A0 =C2=A0 # The underlying issue should be investigated and addressed.=
+<br>
+=C2=A0 =C2=A0 =C2=A0def run_test_printdiff_changerecipe(self, target, chang=
+e_recipe, change_bbtask, change_content, expected_sametmp_output, expected_=
+difftmp_output):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.write_config(&quot;&quot;&quot;<br>
+=C2=A0TMPDIR =3D &quot;${TOPDIR}/tmp-sstateprintdiff&quot;<br>
+-BB_SIGNATURE_HANDLER =3D &quot;OEBasicHash&quot;<br>
+=C2=A0&quot;&quot;&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.track_for_cleanup(self.topdir + &quo=
+t;/tmp-sstateprintdiff&quot;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(target)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Use runall do_build to ensure any indirect s=
+state is created, e.g. tzcode-native on both x86 and<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # aarch64 hosts since only allarch target reci=
+pes depend upon it and it may not be built otherwise.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # A bitbake -c cleansstate tzcode-native would=
+ cause some of these tests to error for example.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&quot;--runall build {}&quot;.format(t=
+arget))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(&quot;-S none {}&quot;.format(tar=
+get))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(change_bbtask)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.write_recipeinc(change_recipe, chang=
+e_content)<br>
+@@ -793,7 +792,6 @@ BB_SIGNATURE_HANDLER =3D &quot;OEBasicHash&quot;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.write_config(&quot;&quot;&quot;<br>
+=C2=A0TMPDIR =3D &quot;${TOPDIR}/tmp-sstateprintdiff-2&quot;<br>
+-BB_SIGNATURE_HANDLER =3D &quot;OEBasicHash&quot;<br>
+=C2=A0&quot;&quot;&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.track_for_cleanup(self.topdir + &quo=
+t;/tmp-sstateprintdiff-2&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result_difftmp =3D bitbake(&quot;-S print=
+diff {}&quot;.format(target))<br>
+@@ -807,17 +805,15 @@ BB_SIGNATURE_HANDLER =3D &quot;OEBasicHash&quot;<br>
+=C2=A0 =C2=A0 =C2=A0def run_test_printdiff_changeconfig(self, target, chang=
+e_content, expected_sametmp_output, expected_difftmp_output):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.write_config(&quot;&quot;&quot;<br>
+=C2=A0TMPDIR =3D &quot;${TOPDIR}/tmp-sstateprintdiff&quot;<br>
+-BB_SIGNATURE_HANDLER =3D &quot;OEBasicHash&quot;<br>
+=C2=A0&quot;&quot;&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.track_for_cleanup(self.topdir + &quo=
+t;/tmp-sstateprintdiff&quot;)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(target)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bitbake(&quot;--runall build {}&quot;.format(t=
+arget))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bitbake(&quot;-S none {}&quot;.format(tar=
+get))<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.append_config(change_content)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result_sametmp =3D bitbake(&quot;-S print=
+diff {}&quot;.format(target))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.write_config(&quot;&quot;&quot;<br>
+=C2=A0TMPDIR =3D &quot;${TOPDIR}/tmp-sstateprintdiff-2&quot;<br>
+-BB_SIGNATURE_HANDLER =3D &quot;OEBasicHash&quot;<br>
+=C2=A0&quot;&quot;&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.append_config(change_content)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.track_for_cleanup(self.topdir + &quo=
+t;/tmp-sstateprintdiff-2&quot;)<br>
+-- <br>
+2.39.2<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#190273): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/190273" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/190273</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102440948/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/102440948/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000981fc606098f1d98--
 
