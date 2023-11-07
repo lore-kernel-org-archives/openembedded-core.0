@@ -2,115 +2,117 @@ Return-Path: <max.oss.09@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8C6DC4167D
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 09:09:32 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.6641.1699348170529569127
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC591C4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 09:11:42 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web11.6333.1699348298837709804
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 01:09:30 -0800
+ Tue, 07 Nov 2023 01:11:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W2ldZx1H;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-9d2e7726d5bso801700466b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 01:09:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YdR4MOfD;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: max.oss.09@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-32dff08bbdbso3675570f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 01:11:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699348169; x=1699952969; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b0u3tSK1GVkEYkrNInbodp7NKxm3pcdM/fKLtgNpuTs=;
-        b=W2ldZx1HXyOe/VBDkAl5S8nzAFW8rjw5t1Of9/SVsiXmONwxQBUGSxT+XDDeZbAx7z
-         N0BHDtLHTz2Nxk3WAFD2MgpvHRwS81UD8DimpbLTqaOyKj17a6HxnZqrZEULzkT2MRgU
-         UabWgJ1iFeCyYT/p9uoZAbbq/Dc+BSdqhPlSVyosOKaA5qx420A0Vp8znlv473VFiR87
-         6ejZJuYE14zylxlVcOatypEZvOL7Bf2SPft9TzayKywl8KIOy0bf8FvQOySw0nwRUPLB
-         WLs7kUy+qRNFDib4mAYPjtFet3FbBwUUHyW0YlQq514ysxHHMWeUm01GDF5xfPw7Y0us
-         rk6w==
+        d=gmail.com; s=20230601; t=1699348297; x=1699953097; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LJ6uzzcBDi3aPyHMg9U8z3O8uTi/dPnteeyiSKiOvZ0=;
+        b=YdR4MOfDBKoUkpEpxmwpl2dg9bWBoziXeRYyR/4t1M+e0fJu3rP4GRnFz1rmKx1yap
+         INbzMIrf+O/BNTx81v6mHyvUNRk00KX+DwJx4R6UU0hq+1kma5lwIHQEzW9LePoICsev
+         z8abNPcK7glw/+V03tEYt+LnlmpNw3sCpon/Lx//9g4m0jkt0+28PxALHROv85KP8pxS
+         aBcdIw/4QGU87erNjS1PXYic5WIPDrQLRQhn4v22FyEZG9xi2hIsgEjwffPcWsj5RMfB
+         HBVp7AO2RtHO67ejG+oOHn/hyWqg2Ar1dlVUyCoR47iEa9PhvVpOlC4JF6JxfsFni2lq
+         RzBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699348169; x=1699952969;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b0u3tSK1GVkEYkrNInbodp7NKxm3pcdM/fKLtgNpuTs=;
-        b=rEMlU3/kSyxHCs7ybgUNuShMoCSGHCB/9wmg4PGjR8of61ANB8b8aIbORXBEWihxnq
-         vS/YbeoYXnIhJcqbCJ1Y4OtxIXtXfULOm4FaP8w7Oynu2TKCWezzRoYT1VMcobA+oUdJ
-         fS69cuRaTp9o4XtCAumnwWvgNOK84/H/mf2kuV1tdVt9I04GzzPTMgixSzcDMSOsuakU
-         u/0IcKrl7CrZewNWlU29YrScz9fk9t34Nw0J5BVCx/nY7p3eu8EEROUlH83zH/bDhSHV
-         bD4LH+F3dWsZVde8dkJiRRHuI+SQjNmDOWi2kCE2UABgirGzSWIZ+kOB8GKeLSO3Dr3e
-         26og==
-X-Gm-Message-State: AOJu0YxqmlcmCeyQTe6JWT0LgFdsCjjRadhPOI4RhadD26kR7S8Tx7Wo
-	w9dF+0E1DNn2eoHMU3g6PHh7amsuD7c=
-X-Google-Smtp-Source: AGHT+IGKWxMUXqy9Ks6MRQWOjTA6StQtD/qSPP62RbxWXVdU6K6yBnP87b6tjtEDNBaJPZ7DAvwREw==
-X-Received: by 2002:a17:906:fd8a:b0:9d3:8d1e:ceb with SMTP id xa10-20020a170906fd8a00b009d38d1e0cebmr15728593ejb.23.1699348168426;
-        Tue, 07 Nov 2023 01:09:28 -0800 (PST)
-Received: from linuxdev2.toradex.int (31-10-206-125.static.upc.ch. [31.10.206.125])
-        by smtp.gmail.com with ESMTPSA id y6-20020a1709063a8600b00988e953a586sm796370ejd.61.2023.11.07.01.09.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 01:09:27 -0800 (PST)
-From: Max Krummenacher <max.oss.09@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: mikko.rapeli@linaro.org,
-	bruce.ashfield@gmail.com,
-	Max Krummenacher <max.krummenacher@toradex.com>
-Subject: [OE-core][Patch v2] perf: fix build with latest kernel
-Date: Tue,  7 Nov 2023 06:08:52 -0300
-Message-Id: <20231107090852.1478021-1-max.oss.09@gmail.com>
-X-Mailer: git-send-email 2.35.3
+        d=1e100.net; s=20230601; t=1699348297; x=1699953097;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LJ6uzzcBDi3aPyHMg9U8z3O8uTi/dPnteeyiSKiOvZ0=;
+        b=t3D7LJMIvq4qEdspwg2M28nfqOfMe4vJUIpQIatkGKCkkIA7MWKgpcUrOez98/fHT5
+         LALkz6v/AfdnkQDFBp6AV9BggcpjmJLY/W0+tfQq28nl7XpPTXC38CFgWph1gmrupIFq
+         eKoE6L+qwTm1Lg5U+v9qBlV8v6dFOnit5P2QKWlpB/AQQIcbcvYWe4nBIbcDrfkhGXaG
+         hYlgeKxy2FQM5Qbl7GI3V5x7WB0OfAwZfCvUNbRV2LgJa5K8iuqlTBoedXFiL1AlW9yo
+         TIlSUs43zi3NR9u0aHPlNmSL++XrYS6+q2Ln5DTlaDKu22reHMb08XfvPeQog+cGZ+06
+         GYNg==
+X-Gm-Message-State: AOJu0Yzo+YAL9Bns6A1BlER6RUXl+2YV2cVkv1wdIYkfdKXmk5b2tGec
+	GuqNMAppAf1NVGO5zkd8ZtFl1M3HyghCV67aUxI=
+X-Google-Smtp-Source: AGHT+IF5kaGPIfyDJbCqMFZS49FlwVHegN786LL0qbLz5XUdFAKkr2gCBvfLmUrV6KRT5SKmg/sWzwVGMH+PBtiQJ7w=
+X-Received: by 2002:a05:6000:4b:b0:319:67ac:4191 with SMTP id
+ k11-20020a056000004b00b0031967ac4191mr24191910wrx.37.1699348297085; Tue, 07
+ Nov 2023 01:11:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1779A92D7850E120.10230@lists.openembedded.org>
+In-Reply-To: <1779A92D7850E120.10230@lists.openembedded.org>
+From: Max Krummenacher <max.oss.09@gmail.com>
+Date: Tue, 7 Nov 2023 10:11:26 +0100
+Message-ID: <CAEHkU3UwMLQ1mB7=m4C7SbLBeC7cUr_8MCFc-DW=_DeGWLZq4Q@mail.gmail.com>
+Subject: Re: [oe][OE-core][Patch] classes/create-spdx-2.2: allow absolute
+ paths in NO_GENERIC_LICENSE
+To: max.oss.09@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Max Krummenacher <max.krummenacher@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 09:09:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190256
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 09:11:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190257
 
-From: Max Krummenacher <max.krummenacher@toradex.com>
+On Wed, Aug 9, 2023 at 10:19=E2=80=AFAM Max Krummenacher via
+lists.openembedded.org <max.oss.09=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> From: Max Krummenacher <max.krummenacher@toradex.com>
+>
+> The current implementation expects the license file in NO_GENERIC_LICENSE
+> specified as being relative to ${S}.
+> Assuming that there are two source locations this gets confusing to
+> specify, e.g. ${WORKDIR}/other_tree/file looks more natural than
+> ${S}/../other_tree/file.
+>
+> Check if the filename specified is not absolute and only then assume
+> it is relative to ${S}.
+>
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> ---
+>  meta/classes/create-spdx-2.2.bbclass | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-s=
+pdx-2.2.bbclass
+> index 844b674f6f..42d4ef54b0 100644
+> --- a/meta/classes/create-spdx-2.2.bbclass
+> +++ b/meta/classes/create-spdx-2.2.bbclass
+> @@ -134,7 +134,8 @@ def convert_license_to_spdx(lic, document, d, existin=
+g=3D{}):
+>                  # If it's not SPDX or PD, then NO_GENERIC_LICENSE must b=
+e set
+>                  filename =3D d.getVarFlag('NO_GENERIC_LICENSE', name)
+>                  if filename:
+> -                    filename =3D d.expand("${S}/" + filename)
+> +                    if not Path(filename).is_absolute():
+> +                        filename =3D d.expand("${S}/" + filename)
+>                      with open(filename, errors=3D"replace") as f:
+>                          extracted_info.extractedText =3D f.read()
+>                  else:
+> --
+> 2.35.3
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#185690): https://lists.openembedded.org/g/openembedde=
+d-core/message/185690
+> Mute This Topic: https://lists.openembedded.org/mt/100639089/3617484
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+x.oss.09@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
-Kernel 6.7-rc1 commit 02e85f74668e ("tools: arm64: Add a Makefile for
-generating sysreg-defs.h") uses files from arch/arm64/tools/,
-gen-sysreg.awk and sysreg.
-Without the files the build of perf fails independent of the used
-architecture (confirmed with armv7 and qemux86_64).
-
-As arch/arm64/tools/ has been added with 5.13 allow perf to build
-even it that directory does not exist.
-
-Add arch/arm64/tools/ to PERF_SRC.
-
-Fixes:
-| make[3]: *** No rule to make target '.../qemux86_64-tdx-linux/perf/1.0/perf-1.0/arch/arm64/tools/gen-sysreg.awk', needed by '.../qemux86_64-tdx-linux/perf/1.0/perf-1.0/tools/arch/arm64/include/generated/asm/sysreg-defs.h'.  Stop.
-| make[2]: *** [Makefile.perf:456: arm64-sysreg-defs] Error 2
-
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
----
- meta/recipes-kernel/perf/perf.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-Changes in v2:
-- drop distinction between needed and optional files in PERF_SRC
-- allow all file paths in PERF_SRC to not exist, but bb.warn about them
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index a392166e73..287d3e68f7 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -135,6 +135,7 @@ PERF_SRC ?= "Makefile \
-              tools/perf \
-              tools/scripts \
-              scripts/ \
-+             arch/arm64/tools \
-              arch/${ARCH}/Makefile \
- "
- 
-@@ -180,7 +181,8 @@ python copy_perf_source_from_kernel() {
-         src = oe.path.join(src_dir, s)
-         dest = oe.path.join(dest_dir, s)
-         if not os.path.exists(src):
--            bb.fatal("Path does not exist: %s. Maybe PERF_SRC does not match the kernel version." % src)
-+            bb.warn("Path does not exist: %s. Maybe PERF_SRC lists more files than what your kernel version provides and needs." % src)
-+            continue
-         if os.path.isdir(src):
-             oe.path.copyhardlinktree(src, dest)
-         else:
--- 
-2.35.3
-
+Gentle ping.
 
