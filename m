@@ -1,196 +1,99 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91ECFC4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 11:40:43 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web11.8282.1699357234262098414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3C5BC4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 11:53:03 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.8698.1699357982422493774
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 03:40:34 -0800
+ Tue, 07 Nov 2023 03:53:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bi/BKuiT;
- spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32f78dcf036so3992726f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 03:40:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mt9Bq9qI;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: zboszor@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9e1fb7faa9dso134934766b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 03:53:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699357233; x=1699962033; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GF/SGOBxoUjZaWD05YaONwynbfaNk+5UWbTeo+YMQNI=;
-        b=bi/BKuiTusd9xYQ+xK2REb1ac8KdnUjMOdN0i+N4VdWHglEoJjcpV8bqzn0NoVYwQU
-         9YV8j1P/28l/XZnQiXy8wxDA9LLLfbQtm+uMn5yk3HkS8T6fz+xNxgmhdebbh7fpm/tb
-         UEQYySKYG/UoJI1dpjKzhNogT4S3YdYv85bQuH9gX7gt2bGkaSrhP29c1rk8M+IypR/J
-         HdLy742yyZJkK3xCZwFZCo1vhoeCkHRJdwL/bfXAuOVUNmrQBTaDmXv+OD4rHCf5OCKU
-         i5nXT/UojaxJnUUVAwhPuMZITTZtbqUaj2y/F113/W/sS8lhCoCHNrNyzwIg1Jn6wW1H
-         1e3g==
+        d=gmail.com; s=20230601; t=1699357980; x=1699962780; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QheVU55AOpi97kz7e8dFLi9TKtD2wpZJt88Q1+YXLh0=;
+        b=mt9Bq9qIT5wd1ZTAU24N+aMITACz/8FzjE2JT1JM+9P+VO4RLfRquW2ZtOujPXFYWy
+         KDVieL6yL4PiOQivbL9aVd0Z2qwPTRxl9bP8/E0r4IscmJCeIGSuVSrnFi0NIEDNugi5
+         gFxXcaDW+hU09Ur/a8nnlUZn9QHdgMtTSFHfAOANUk/p57UHDeR/h2CBEuVkMBCFyG8O
+         zolOj/Bkw6lj5eMOwFupz5r7jQOIpR+VkS8h1EjTDc+gdtHW4dvPtiGdsm7b6aJMmnc9
+         GyMAV5TB+FmI/TNs8uqTLlFn5Aoaqx7xWJrFnREgGXHUuoAaRTj6OSsGFFvZ51QLr9jo
+         3oQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699357233; x=1699962033;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1699357980; x=1699962780;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GF/SGOBxoUjZaWD05YaONwynbfaNk+5UWbTeo+YMQNI=;
-        b=tROgsllnURTslGqequ4hlNVdfPCQ19H/6Bftuu2E2mePlIQvsHtZIFKPAFVPIz5oQY
-         jrUGTgrxYhLZEoGa3stwYbcqCXw9a+hkrNZWdVEnSQm34xooGIbUmbI0hfMXj6m0iCjT
-         IzFLpwIJToZs6MEF2aQAcniXk2CUPjCrW71Xt5RDcdDg13q2RlV4cg92RYlLcF+bqE0B
-         YQJ69BgBS/BEf9ap2n8/lPFPcvgqd9oEBN5DCOPbUcxbNDcQclPPRh8fShVl767rsz8C
-         jJG5C56c1Ed7Bbzpzgafqq7Cb/essd47APPZFUre1A3SuGhA9eMnDGfRAmvaCCw6tTlz
-         VsVA==
-X-Gm-Message-State: AOJu0YydXLOYDIal/aPVOImHGrNHRKWoAPnHtA0jBfgKIuNoAoEJVmBH
-	ogF+BeRGxEHMhZIEOG2dYy/t2UtCikqQTcDWvQs=
-X-Google-Smtp-Source: AGHT+IFZcdWxFVXRJ9B76hQbAKZ+mtMmVs5VDwXAE3StUyz6e/hZgwLG4vSZERFunIwRs6sf6bfSpWZeTufW3hgQXkE=
-X-Received: by 2002:a05:6000:2c2:b0:32f:8c9a:67 with SMTP id
- o2-20020a05600002c200b0032f8c9a0067mr2728416wry.0.1699357232354; Tue, 07 Nov
- 2023 03:40:32 -0800 (PST)
+        bh=QheVU55AOpi97kz7e8dFLi9TKtD2wpZJt88Q1+YXLh0=;
+        b=RAyu/oe1Xx5fR+PDaGfxwAIBgBHVFrMb+f/4/rG7Z0WJcckR7mtB4+5gJVCsJh3aX9
+         q5QLYwxHJNz4QBy65GnJ/43FF+uHuALHcSEEv+UJTvrvmffxvogfkpXVvPn9QjKcQ8ac
+         +KPvcz3IaYieVw8pX31Gkmr/kATnHWFQ+aJb2VxwVwqGbWaUN/H2hB5Qj3XzPMO0jDDm
+         lKZ+skUpFve56Ubwve+p/fDMeSdh7GFMq12hqrGBjhh64bcAvPbREJt2TPQ7gy1JVObm
+         IQyCm3qgcgDeukkxtESDdwtm3IiVdCReuXczopCue93dNFcQND2AYvuLh5X3s8EwigzA
+         2L1A==
+X-Gm-Message-State: AOJu0YyulHPE+VLwInc2e7usuCcrX7i/QtR11rPUhnlnToUJilcNY/J4
+	ZG76Eo1zaSz6LF4gmZbMtRkTHRPc/gY=
+X-Google-Smtp-Source: AGHT+IGYla7dhkYKWiEpSVIubrYUHG2hRTOYrC8fKXIm0XfiFAeqT6p0tywNg2Sfg2BszUT/4euTmA==
+X-Received: by 2002:a17:907:26c9:b0:9e0:dde:cc9f with SMTP id bp9-20020a17090726c900b009e00ddecc9fmr5372988ejc.22.1699357980388;
+        Tue, 07 Nov 2023 03:53:00 -0800 (PST)
+Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id h5-20020a170906718500b009dbe08bc793sm971422ejk.18.2023.11.07.03.52.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Nov 2023 03:53:00 -0800 (PST)
+From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	=?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH] common-licenses: Add Baekmuk license
+Date: Tue,  7 Nov 2023 12:52:58 +0100
+Message-ID: <20231107115258.172865-1-zboszor@gmail.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <24b92a7a-aa29-45e7-8a5e-7c34fe131971@gmail.com>
-In-Reply-To: <24b92a7a-aa29-45e7-8a5e-7c34fe131971@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 7 Nov 2023 12:40:20 +0100
-Message-ID: <CA+chaQdvOFqGHZ5=VLtG4uqDOocnP-_x90RUWn07J2=7RfMPcA@mail.gmail.com>
-Subject: Re: [OE-core] Baekmuk license is not known by Yocto
-To: Zoltan Boszormenyi <zboszor@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000002e594b06098e701e"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 11:40:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190269
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 11:53:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190270
 
---0000000000002e594b06098e701e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The Baekmuk font uses this license.
 
-You can add the license to the layer where the recipe is, see LICENSE_PATH
-variable used in meta-oe for example.
+The license file was extracted from
+http://kldp.net/baekmuk/release/865-baekmuk-ttf-2.2.tar.gz
 
-On Tue, Nov 7, 2023 at 12:30=E2=80=AFPM Zoltan Boszormenyi <zboszor@gmail.c=
-om>
-wrote:
+The SPDX link for this license:
+https://spdx.org/licenses/Baekmuk.html
 
-> Hi,
->
-> I have a font package recipe for baekmuk-ttf-fonts
-> which can't be built under Yocto 4.3 do to these:
->
-> WARNING: baekmuk-ttf-fonts-2.2-r0 do_populate_lic: QA Issue:
-> baekmuk-ttf-fonts: No generic
-> license file exists for: Baekmuk in any provider [license-exists]
-> ERROR: baekmuk-ttf-fonts-2.2-r0 do_create_spdx: Cannot find any text for
-> license Baekmuk
-> ERROR: Logfile of failure stored in:
->
-> /data/test-yocto-4.3/tmp-sicom-glibc/work/all-oe-linux/baekmuk-ttf-fonts/=
-2.2/temp/log.do_create_spdx.3195121
-> ERROR: Task
->
-> (/data/test-yocto-4.3/conf/../layers/meta-sicom/recipes-support/fonts/bae=
-kmuk-ttf-fonts_2.2.bb:do_create_spdx)
->
-> failed with exit code '1'
->
-> The recipe uses the source tarball from:
-> http://kldp.net/baekmuk/release/865-baekmuk-ttf-2.2.tar.gz
-> and this tarball contains the license in the file "COPYRIGHT".
->
-> The SPDX page for this license is: https://spdx.org/licenses/Baekmuk.html
->
-> I know the workaround is adding these lines to the recipe:
->
-> NO_GENERIC_LICENSE[Baekmuk]  =3D "COPYRIGHT"
-> INSANE_SKIP:${PN} =3D "license-exists"
->
-> But this license exists and is known by SPDX.
-> So please add this license name/text to Yocto.
-> Also, please backport it to nanbield.
->
-> Thanks in advance.
-> Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190267):
-> https://lists.openembedded.org/g/openembedded-core/message/190267
-> Mute This Topic: https://lists.openembedded.org/mt/102440652/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> martin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+---
+ meta/files/common-licenses/Baekmuk | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 meta/files/common-licenses/Baekmuk
 
---0000000000002e594b06098e701e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/files/common-licenses/Baekmuk b/meta/files/common-licenses/Baekmuk
+new file mode 100644
+index 0000000000..04322ec737
+--- /dev/null
++++ b/meta/files/common-licenses/Baekmuk
+@@ -0,0 +1,11 @@
++Copyright (c) 1986-2002 Kim Jeong-Hwan
++All rights reserved.
++
++Permission to use, copy, modify and distribute this font is
++hereby granted, provided that both the copyright notice and
++this permission notice appear in all copies of the font,
++derivative works or modified versions, and that the following
++acknowledgement appear in supporting documentation:
++    Baekmuk Batang, Baekmuk Dotum, Baekmuk Gulim, and
++    Baekmuk Headline are registered trademarks owned by
++    Kim Jeong-Hwan.
+-- 
+2.41.0
 
-<div dir=3D"ltr">You can add the license to the layer where the recipe is, =
-see LICENSE_PATH variable used in meta-oe for example.</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 7, 2023 =
-at 12:30=E2=80=AFPM Zoltan Boszormenyi &lt;<a href=3D"mailto:zboszor@gmail.=
-com">zboszor@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">Hi,<br>
-<br>
-I have a font package recipe for baekmuk-ttf-fonts<br>
-which can&#39;t be built under Yocto 4.3 do to these:<br>
-<br>
-WARNING: baekmuk-ttf-fonts-2.2-r0 do_populate_lic: QA Issue: baekmuk-ttf-fo=
-nts: No generic <br>
-license file exists for: Baekmuk in any provider [license-exists]<br>
-ERROR: baekmuk-ttf-fonts-2.2-r0 do_create_spdx: Cannot find any text for li=
-cense Baekmuk<br>
-ERROR: Logfile of failure stored in: <br>
-/data/test-yocto-4.3/tmp-sicom-glibc/work/all-oe-linux/baekmuk-ttf-fonts/2.=
-2/temp/log.do_create_spdx.3195121<br>
-ERROR: Task <br>
-(/data/test-yocto-4.3/conf/../layers/meta-sicom/recipes-support/fonts/baekm=
-uk-ttf-fonts_2.2.bb:do_create_spdx) <br>
-failed with exit code &#39;1&#39;<br>
-<br>
-The recipe uses the source tarball from:<br>
-<a href=3D"http://kldp.net/baekmuk/release/865-baekmuk-ttf-2.2.tar.gz" rel=
-=3D"noreferrer" target=3D"_blank">http://kldp.net/baekmuk/release/865-baekm=
-uk-ttf-2.2.tar.gz</a><br>
-and this tarball contains the license in the file &quot;COPYRIGHT&quot;.<br=
->
-<br>
-The SPDX page for this license is: <a href=3D"https://spdx.org/licenses/Bae=
-kmuk.html" rel=3D"noreferrer" target=3D"_blank">https://spdx.org/licenses/B=
-aekmuk.html</a><br>
-<br>
-I know the workaround is adding these lines to the recipe:<br>
-<br>
-NO_GENERIC_LICENSE[Baekmuk]=C2=A0 =3D &quot;COPYRIGHT&quot;<br>
-INSANE_SKIP:${PN} =3D &quot;license-exists&quot;<br>
-<br>
-But this license exists and is known by SPDX.<br>
-So please add this license name/text to Yocto.<br>
-Also, please backport it to nanbield.<br>
-<br>
-Thanks in advance.<br>
-Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#190267): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/190267" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/190267</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102440652/361=
-7156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/102440652/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:martin.jansa@gmail.com" ta=
-rget=3D"_blank">martin.jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---0000000000002e594b06098e701e--
 
