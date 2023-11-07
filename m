@@ -1,112 +1,202 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 448B7C4167D
-	for <webhook@archiver.kernel.org>; Mon,  6 Nov 2023 21:19:53 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.67561.1699305584248737477
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 06 Nov 2023 13:19:44 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E2D8C4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 00:20:00 +0000 (UTC)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+ by mx.groups.io with SMTP id smtpd.web11.7217.1699316391188203404
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 06 Nov 2023 16:19:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eFi5/1gv;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 16F0AFF805;
-	Mon,  6 Nov 2023 21:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699305581;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f5zivQ6ll0Bq6n9yQ6w5ONiqXEy8vcdZDsWZAp64jqM=;
-	b=eFi5/1gvMygzR/aQSmJdZgWfb9lygPPhNgOa8KzHb1cX9FQEyVUdQ/uAIcOtbshmXzm2Zi
-	6RjfjKPfiuIEtZ2O9JlaCqOtjIuzrVMrkBKfhj6Cpdnw8yaaiMm0DdpayXISJDvrpJqa+S
-	sR3/Fs8Ziz9PAkQGcCUhjkOdvFJQXiKGOJ493+C2vVeNhxUTmgD1GnG1jw2oulq0XO6n+b
-	dKhYj09HRh8E7jLGkFa4LoNY81M/4axYS70vmeuvlO52e7HuzwyZDk75t/Vay5Gw2K13Ax
-	xCr43M3p5q5c7z89IgnF6CQ/hQIXvo5c+sNa5ZuDjp5U49ZPodXA6KnIvcMFFQ==
-Message-ID: <7fed1cc6-da4d-4bd6-80ee-a90b9c71546f@bootlin.com>
-Date: Mon, 6 Nov 2023 13:20:58 -0800
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FlOomb4o;
+ spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7a66b5f7ea7so194294739f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 16:19:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699316390; x=1699921190; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pDobf2pL4jGoqb8uFZRRGL5NyPtwlN2W9dCIYmH4pi8=;
+        b=FlOomb4owN4RU8WtudOHy959d6llo1whSBUaazuBDMQjHFeVXVIf6x/qJKWbxeLcKs
+         bCl8tbRSfgDrDwYmshEg++kazVH9G8meVZjXtTR6SLPDZ1oMRiRiZwGYdiFvff8tFnm4
+         Ch2iJVJ587p3svOX0//35TXh8+mtIz8Glym5tVRm+GFqw8OKEu6B+dIuC+HzdzRl+7sw
+         Z5jf40o5K6cT4OAhjdaI6We6E0kfRyfPjfDr3Ad8I57+yINB8Uu+vVc0WeqjNvnH3I3z
+         QlAejQAvF+afGLNtUCLCfgeKkMB4GHfaZlidle8cniOqWSITkz5h0Hl73tmBkyn9FFEU
+         8tuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699316390; x=1699921190;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pDobf2pL4jGoqb8uFZRRGL5NyPtwlN2W9dCIYmH4pi8=;
+        b=uMuLUomDX4CJEq6FlDY8gUgTL/HghKa6IKm6NZkuAFWOAxkBlvpl4Tg8yKW4+dfLOj
+         8J7D6klBYbDgNGXJjxUbkEQtwDIMI5ZTQxvXNgH0ThrNzhIyLeE2IQa4E2VpQ+S6JL5k
+         dwtqbekDfTyu4nngiSy0/1T3eEmRUxmHbXrQOAsANS1XOVql4iHWMRJHSoYPEsmxOAPo
+         eRnL/a4UFdYGIKPH9TdZuAVGU8vH3WWC/ChD46yXSKvQ9Qh667Vp/xnUyiyvobkPkHAp
+         AHhmG0GzGi8XcwQ3OzOc9yKkLbTRRf3fJq2WWyqA2zvywWSGdcSaGSIqIfZqNW+TvGr5
+         Jnug==
+X-Gm-Message-State: AOJu0Yx5uUmm6Hz8rI//tJb/WNizpqF1UOp1bztIMBqNalbW48sQkpt5
+	LkEajiDkk+0igOkOBp1CIhG8ExjyW0Ufp8xAEUQ=
+X-Google-Smtp-Source: AGHT+IGfQZgSI9WZwugJKanzpcP1U1If/i/pNRmRyEaOBYG3EoWeS7+scLLO+3OKLtBTV4B1hgykabtFX1WawZQSFcQ=
+X-Received: by 2002:a05:6602:2a44:b0:792:989b:c621 with SMTP id
+ k4-20020a0566022a4400b00792989bc621mr40266997iov.1.1699316390303; Mon, 06 Nov
+ 2023 16:19:50 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-Core][PATCH] scripts/resulttool: group all regressions in
- regression report
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20231103205018.19693-1-alexis.lothore@bootlin.com>
- <eee499bd9c5445eeae353677ed3d9611a046845a.camel@linuxfoundation.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-In-Reply-To: <eee499bd9c5445eeae353677ed3d9611a046845a.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
+References: <20231106195219.3851918-1-max.oss.09@gmail.com>
+ <CADkTA4PCD=g7fdu96K-yV=jrfGyP65yfhW1ByZR-kjNU=C4WQQ@mail.gmail.com> <CAEHkU3XnQxE09di9HruWJoxprFddpX3KcW+2CMGZnWzD+uZvaA@mail.gmail.com>
+In-Reply-To: <CAEHkU3XnQxE09di9HruWJoxprFddpX3KcW+2CMGZnWzD+uZvaA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 6 Nov 2023 19:19:39 -0500
+Message-ID: <CADkTA4MQfqBrufty+Hxr6W5r0xCRFe0A5KH1iAgBM3Ksauc1qw@mail.gmail.com>
+Subject: Re: [PATCH] perf: fix build with latest kernel
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Max Krummenacher <max.krummenacher@toradex.com>, mikko.rapeli@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 06 Nov 2023 21:19:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190249
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 00:20:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190250
 
-Hi Richard,
-sorry for the late reply. I see that you have decided to apply the patch in the
-mean time, but here are my comments
+On Mon, Nov 6, 2023 at 3:40=E2=80=AFPM Max Krummenacher <max.oss.09@gmail.c=
+om> wrote:
+>
+> On Mon, Nov 6, 2023 at 9:04=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gma=
+il.com> wrote:
+> >
+> > On Mon, Nov 6, 2023 at 2:53=E2=80=AFPM Max Krummenacher <max.oss.09@gma=
+il.com> wrote:
+> > >
+> > > From: Max Krummenacher <max.krummenacher@toradex.com>
+> > >
+> > > Kernel 6.7-rc1 commit 02e85f74668e ("tools: arm64: Add a Makefile for
+> > > generating sysreg-defs.h") uses files from arch/arm64/tools/,
+> > > gen-sysreg.awk and sysreg.
+> > > Without the files the build of perf fails independent of the used
+> > > architecture (confirmed with armv7 and qemux86_64).
+> > >
+> > > As arch/arm64/tools/ has been added with 5.13 allow perf to build
+> > > even it that directory does not exist.
+> > >
+> > > Add arch/arm64/tools/ to PERF_SRC.
+> > >
+> > > Fixes:
+> > > | make[3]: *** No rule to make target '.../qemux86_64-tdx-linux/perf/=
+1.0/perf-1.0/arch/arm64/tools/gen-sysreg.awk', needed by '.../qemux86_64-td=
+x-linux/perf/1.0/perf-1.0/tools/arch/arm64/include/generated/asm/sysreg-def=
+s.h'.  Stop.
+> > > | make[2]: *** [Makefile.perf:456: arm64-sysreg-defs] Error 2
+> > >
+> > > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+> > > ---
+> > >  meta/recipes-kernel/perf/perf.bb | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > >
+> > > Hi all
+> > >
+> > > I see some other options:
+> > > - drop perf support for kernels<5.13 and simply add to PERF_SRC
+> > > - drop the bb.fatal in favour of continue and simply add to PERF_SRC
+> > >
+> > > Any comments?
+> >
+> > I just ran into this myself while updating linux-yocto-dev
+> >
+> > What you have is better than either of those options, but different
+> > from what I was working on.
+> >
+> > perf already uses KERNEL_VERSION, so I was adding some KERNEL_VERSION
+> > specific sources and only copying them when they match.
+> >
+> > I'm concerned that skipping or always allowing files to not exist will
+> > lead us to more subtle errors with invalid/incorrect kernel source tree=
+s.
+> >
+> > Another idea I had is to just skip if sources don't exist (like we do i=
+n
+> > devsrc), but bb.warn so the user is aware.
+>
+> I can change the commit to:
+> - just add to PERF_SRC
+> - change the bb.fatal to bb.warn with the existing error string
+> - add a 'continue' after the bb.warn
+>
+> Does that sound like a plan?
 
-On 11/4/23 04:13, Richard Purdie wrote:
-> On Fri, 2023-11-03 at 13:50 -0700, Alexis Lothoré via
-> lists.openembedded.org wrote:
->> From: Alexis Lothoré <alexis.lothore@bootlin.com>
->> 5 regression(s) for oescripts
->>     oescripts.OEGitproxyTests.test_oegitproxy_proxy_dash: PASSED -> SKIPPED
->>     oescripts.OEPybootchartguyTests.test_pybootchartguy_help: PASSED -> SKIPPED
->>     oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_pdf_output: PASSED -> SKIPPED
->>     oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_png_output: PASSED -> SKIPPED
->>     oescripts.OEPybootchartguyTests.test_pybootchartguy_to_generate_build_svg_output: PASSED -> SKIPPED
->>
-> 
-> Do you have a different example? This one is tricky as I happen to know
-> that test depends on the host distro and the things available there.
-> There are some distros it will pass on, there are some where it is
-> always skipped. There was a recipetool test added recently which will
-> do something similar depending upon host python version.
+That matches my 2nd idea to fix it, so I'm good with it.
 
-If not already done, you can take a look at the report I have manually generated
-for 4.3.rc2 (https://pastebin.com/fvRcqes4) which relies on this patch
+It'll really only just be someone using an old kernel against master
+that will ever see a warning, so I have no issues with it.
 
-> The challenge is we run the test on different host distros so it is
-> hard to see it as a regression. I don't know what we can do to make
-> this "clear" to the report reader...
-> 
-> The patch is probably ok as it doesn't make the output worse but it has
-> probably already obfuscated things a bit.
+Bruce
 
-I am not sure if this patch obfuscates things more, since it is mostly about
-grouping regressions to avoid the repeated "1 regression(s) for <..>". I would
-say it _may_ obfuscate some things if there are a lot of regressions for the
-same test kind  (so the display limit is triggered) AND some tests of this
-specific kind are meant to run on specific distros while some others must run on
-multiple. In this case, indeed, there may be a mix of (legitimately) skipped
-tests and real failing tests, hidden by the display limit. But is it the case ?
+>
+> Max
+> >
+> > Bruce
+> >
+> > >
+> > > Thanks.
+> > > Max
+> > >
+> > >
+> > > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/p=
+erf/perf.bb
+> > > index 675acfaf26..dae9320169 100644
+> > > --- a/meta/recipes-kernel/perf/perf.bb
+> > > +++ b/meta/recipes-kernel/perf/perf.bb
+> > > @@ -117,6 +117,7 @@ EXTRA_OEMAKE +=3D "\
+> > >  # honour a JOBS variable.
+> > >  EXTRA_OEMAKE:append:task-configure =3D " JOBS=3D1"
+> > >
+> > > +PERF_SRC_OPTIONAL ?=3D "arch/arm64/tools"
+> > >  PERF_SRC ?=3D "Makefile \
+> > >               tools/arch \
+> > >               tools/build \
+> > > @@ -127,6 +128,7 @@ PERF_SRC ?=3D "Makefile \
+> > >               tools/scripts \
+> > >               scripts/ \
+> > >               arch/${ARCH}/Makefile \
+> > > +             ${PERF_SRC_OPTIONAL} \
+> > >  "
+> > >
+> > >  PERF_EXTRA_LDFLAGS =3D ""
+> > > @@ -162,6 +164,7 @@ do_install() {
+> > >
+> > >  do_configure[prefuncs] +=3D "copy_perf_source_from_kernel"
+> > >  python copy_perf_source_from_kernel() {
+> > > +    sources_opt =3D (d.getVar("PERF_SRC_OPTIONAL") or "").split()
+> > >      sources =3D (d.getVar("PERF_SRC") or "").split()
+> > >      src_dir =3D d.getVar("STAGING_KERNEL_DIR")
+> > >      dest_dir =3D d.getVar("S")
+> > > @@ -171,6 +174,8 @@ python copy_perf_source_from_kernel() {
+> > >          src =3D oe.path.join(src_dir, s)
+> > >          dest =3D oe.path.join(dest_dir, s)
+> > >          if not os.path.exists(src):
+> > > +            if s in sources_opt:
+> > > +                continue
+> > >              bb.fatal("Path does not exist: %s. Maybe PERF_SRC does n=
+ot match the kernel version." % src)
+> > >          if os.path.isdir(src):
+> > >              oe.path.copyhardlinktree(src, dest)
+> > > --
+> > > 2.35.3
+> > >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
 
-Anyway, I agree with you about the main issue (false positive due to tests not
-meant to be compared between some distros/machines), but I did not find time yet
-to take a better look at this and propose something relevant while making sure
-not to loose any relevant comparison. The "dumb" way could be to detect that all
-tests in a result have a "SKIPPED" status on target side, which hints about
-those tests not being relevant for the target (in this case, we could simply
-silently discard the comparison), but I have to ensure it is valid for most cases.
 
-Alexis
 
-> 
-> Cheers,
-> 
-> Richar
-
--- 
-Alexis Lothoré, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
