@@ -2,107 +2,129 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AAFFC4332F
-	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 13:06:44 +0000 (UTC)
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
- by mx.groups.io with SMTP id smtpd.web11.9828.1699362397029409852
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E1B4C4332F
+	for <webhook@archiver.kernel.org>; Tue,  7 Nov 2023 13:08:34 +0000 (UTC)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web10.10142.1699362511309463050
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 05:06:37 -0800
+ Tue, 07 Nov 2023 05:08:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=goJi4hUN;
- spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-35937f2fadeso22032855ab.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 05:06:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fUjM+IlL;
+ spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7a66ff282baso144847739f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 05:08:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699362396; x=1699967196; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1699362510; x=1699967310; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3Fvh3ISMYZ3rh2R6Hmnf1Q0RrrhUuynGKxrpIEqmnRg=;
-        b=goJi4hUNiufANi0GJ5vK9dUIfbNyhc5wQJCfkBp8qkllFrxOgxoBa00YTLI2MX7wLN
-         VTm6g3qtsSJ/A4zVdkDe4AwUp0JJOYLsbgaPpjPdSFA2bi9jyffmJFTr6x9G59jK8k24
-         a11MFAWDoUsaURja5fi0Gdu3fJBbM0m9q2rEHEmw9nHpmNyLX3Ax/g/gywzkncDoaLqY
-         7N1i+702IVrbi2ccYYsadbsM16p6IqkENS0LCKjw9127lNXLEg2kI89VfsBJ2/yfj4mu
-         yu1EYo1daD4Khw8AQHWG9eo594pxRBoFxU+Uyyr9urOtRJt/tzbNgtKKKgcZGnP/1L2H
-         Vwiw==
+        bh=Ol3urGFIlCCls7GJT/c4wQBkQe3HgV9xFYNkJMp8ufM=;
+        b=fUjM+IlLdwkVIx3BrkY/tUN/U3/1wIXRB2VHbOXSDeAaIzCXwUFJdobdybG7Wu8U7U
+         B3xx0JYkB5XnQbvNUaLn12KkXf5QWzqbVevv1Rawf+yF6LRHAI6QfmYGyxWe6gZa27DL
+         UyAM7MrlwC2S0PrldU23GLtG6+yww0AnCuD6JbxdOnCv2CSDgtzqwRqWRtjJhe2FABjE
+         E1Vzg83hDgwCbrtNGw5QYRtAO2pIFEO3onALbPuFlhm/rdeM9USfepCO0qenyjcjw2uF
+         RFyFkrc/qUnWk9WRQ8gaZde48GCjkPJwKuMupAMuIuIeis1MpVhIRD/10XpckZOzc20z
+         Czcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699362396; x=1699967196;
+        d=1e100.net; s=20230601; t=1699362510; x=1699967310;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3Fvh3ISMYZ3rh2R6Hmnf1Q0RrrhUuynGKxrpIEqmnRg=;
-        b=nw2q93uu3vejQDhXbnT2zseYkjCSjocBBI/K2zrfwe6WubdQwZHs4yGPXtHD0vWlh3
-         XFvKsQmIoSRCxYlfrIpiPEkX7FNs5lrQJe6A7EcSBmXbMpN8cEYfxVki3EK8c6Wid7iF
-         sp28wYgd8UrTczyL9yOm+1kQoSVxwrTmeFZOVAY5+a49GcG9OKmLdzlLx+K0LOfWWima
-         APbXu52f3CON8UOVIyxvRh+7uztu8lJVkMFzwrW8KspZm6V3q7lZPiAM+15YlzCrEjO/
-         1a25sAjIrwnlpMzARNzgAwX5n9cQS+OhefX7auGZzdfRqgNCqMTXJK2fsk+MHOkzWuLd
-         Mw5Q==
-X-Gm-Message-State: AOJu0YyZmaKr/QTyD0603cVqOrNpJGsEA0o/p1pOgZhDgJ+U6eK+4Odw
-	cc3pt14/7nh1kBe1zaW1TwCYigBMvBiMGeQxC9U=
-X-Google-Smtp-Source: AGHT+IHsQIpz6Wi6PqXw+Ei1ydCxYmBN2HfVzft2tapsZe85HOtFTzyQK9L4TgCL+S7IEPXro3U3OgsspYOVoKACFIg=
-X-Received: by 2002:a05:6602:1646:b0:79f:dbec:ac4d with SMTP id
- y6-20020a056602164600b0079fdbecac4dmr34544577iow.19.1699362396090; Tue, 07
- Nov 2023 05:06:36 -0800 (PST)
+        bh=Ol3urGFIlCCls7GJT/c4wQBkQe3HgV9xFYNkJMp8ufM=;
+        b=XZ9TPBWfT9FkelL1w+Zlq28ZAjEqSoJOVoloNSjM06sQWIRRlEi4NBVgI6HWphxOJH
+         Rq/5LlGUlSMArJdd43/Kx0yfcx+FxgRUS8ky/4yzsI8TZtjuoPhqqlB3UBZerw6WQSgt
+         pbX1LODR630BfaZn1NdIasEnE1KZeq/lEG3xJ6pfOPxKFV86Mjeyge0cVSWpoU1VrX80
+         ncJbKlXwK6YQJH1OOI6PCwPaeafq1Se0OCxV8Ptv173GTOjqDZQ06ssYdlwj4+BRRqku
+         48m1L8Woe7VZggMexJdT1CjVfthd7Hfd+ziijvaL0njHDt2efdk5QUFJBwLi7zl4kWG0
+         yOAg==
+X-Gm-Message-State: AOJu0YyPIn8CVOgMpOvN6pcKlyXgFePQ/f+ainFSYdvSesH9pQK+1p+m
+	n07W+QzdlYL/KnrqZQ2Wwf9BSHCiMetmhm5eqbSUlokpjL7yrw==
+X-Google-Smtp-Source: AGHT+IEjvFP3+aNLJEflC7PEhGGvuknFLWxtzDPq2LQDhBFJkNYarLk3hCVKP9hCe30Jqn/ZjCBZJJz9bdxsnaX9Zw8=
+X-Received: by 2002:a05:6602:3b97:b0:795:d33:861f with SMTP id
+ dm23-20020a0566023b9700b007950d33861fmr2026052iob.6.1699362510520; Tue, 07
+ Nov 2023 05:08:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20231107092557.3843789-1-rasmus.villemoes@prevas.dk>
-In-Reply-To: <20231107092557.3843789-1-rasmus.villemoes@prevas.dk>
+References: <20231107090852.1478021-1-max.oss.09@gmail.com>
+In-Reply-To: <20231107090852.1478021-1-max.oss.09@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 7 Nov 2023 08:06:25 -0500
-Message-ID: <CADkTA4N1F2VN8SZP+Lhwx-ujpqBUNhr-6VeV+kXj5r-i79Ph2Q@mail.gmail.com>
-Subject: Re: [PATCH v2] perf: add jevents PACKAGECONFIG item
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: openembedded-core@lists.openembedded.org, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+Date: Tue, 7 Nov 2023 08:08:19 -0500
+Message-ID: <CADkTA4O3LARD-ZHatkpMCKK14PoUrR6bBuDfwXB4sJdwXGpxSQ@mail.gmail.com>
+Subject: Re: [OE-core][Patch v2] perf: fix build with latest kernel
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, mikko.rapeli@linaro.org, 
 	Max Krummenacher <max.krummenacher@toradex.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 13:06:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190282
+ <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 13:08:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190283
 
-On Tue, Nov 7, 2023 at 4:26=E2=80=AFAM Rasmus Villemoes
-<rasmus.villemoes@prevas.dk> wrote:
+On Tue, Nov 7, 2023 at 4:09=E2=80=AFAM Max Krummenacher <max.oss.09@gmail.c=
+om> wrote:
 >
-> From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> From: Max Krummenacher <max.krummenacher@toradex.com>
 >
-> Building for an arm64 target, e.g. qemuarm64 or a raspberrypi3,
-> without "python" in PACKAGECONFIG, results in
+> Kernel 6.7-rc1 commit 02e85f74668e ("tools: arm64: Add a Makefile for
+> generating sysreg-defs.h") uses files from arch/arm64/tools/,
+> gen-sysreg.awk and sysreg.
+> Without the files the build of perf fails independent of the used
+> architecture (confirmed with armv7 and qemux86_64).
 >
-> | Makefile.config:892: *** ERROR: No python interpreter needed for jevent=
-s generation. Install python or build with NO_JEVENTS=3D1..  Stop.
+> As arch/arm64/tools/ has been added with 5.13 allow perf to build
+> even it that directory does not exist.
 >
-> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+> Add arch/arm64/tools/ to PERF_SRC.
+>
+> Fixes:
+> | make[3]: *** No rule to make target '.../qemux86_64-tdx-linux/perf/1.0/=
+perf-1.0/arch/arm64/tools/gen-sysreg.awk', needed by '.../qemux86_64-tdx-li=
+nux/perf/1.0/perf-1.0/tools/arch/arm64/include/generated/asm/sysreg-defs.h'=
+.  Stop.
+> | make[2]: *** [Makefile.perf:456: arm64-sysreg-defs] Error 2
+>
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 > ---
-> v2: add comment on (non-)relationship to 'python' PC item.
+>  meta/recipes-kernel/perf/perf.bb | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
+> Changes in v2:
+> - drop distinction between needed and optional files in PERF_SRC
+> - allow all file paths in PERF_SRC to not exist, but bb.warn about them
 
-v2 looks good to me.
+Looks good to me.
 
 Bruce
 
->  meta/recipes-kernel/perf/perf.bb | 3 +++
->  1 file changed, 3 insertions(+)
 >
 > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/=
 perf.bb
-> index a392166e73..5672f7d338 100644
+> index a392166e73..287d3e68f7 100644
 > --- a/meta/recipes-kernel/perf/perf.bb
 > +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -28,6 +28,9 @@ PACKAGECONFIG[audit] =3D ",NO_LIBAUDIT=3D1,audit"
->  PACKAGECONFIG[manpages] =3D ",,xmlto-native asciidoc-native"
->  PACKAGECONFIG[cap] =3D ",,libcap"
->  PACKAGECONFIG[libtraceevent] =3D ",NO_LIBTRACEEVENT=3D1,libtraceevent"
-> +# jevents requires host python for generating a .c file, but is
-> +# unrelated to the python item.
-> +PACKAGECONFIG[jevents] =3D ",NO_JEVENTS=3D1,python3-native"
->  # Arm CoreSight
->  PACKAGECONFIG[coresight] =3D "CORESIGHT=3D1,,opencsd"
->  PACKAGECONFIG[pfm4] =3D ",NO_LIBPFM4=3D1,libpfm4"
+> @@ -135,6 +135,7 @@ PERF_SRC ?=3D "Makefile \
+>               tools/perf \
+>               tools/scripts \
+>               scripts/ \
+> +             arch/arm64/tools \
+>               arch/${ARCH}/Makefile \
+>  "
+>
+> @@ -180,7 +181,8 @@ python copy_perf_source_from_kernel() {
+>          src =3D oe.path.join(src_dir, s)
+>          dest =3D oe.path.join(dest_dir, s)
+>          if not os.path.exists(src):
+> -            bb.fatal("Path does not exist: %s. Maybe PERF_SRC does not m=
+atch the kernel version." % src)
+> +            bb.warn("Path does not exist: %s. Maybe PERF_SRC lists more =
+files than what your kernel version provides and needs." % src)
+> +            continue
+>          if os.path.isdir(src):
+>              oe.path.copyhardlinktree(src, dest)
+>          else:
 > --
-> 2.40.1.1.g1c60b9335d
+> 2.35.3
 >
 
 
