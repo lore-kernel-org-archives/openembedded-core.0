@@ -1,160 +1,91 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD8ECC4332F
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 06:53:14 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web10.8464.1699426391037662310
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34B87C4332F
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 08:23:45 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web10.9190.1699431822943506837
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 22:53:11 -0800
+ Wed, 08 Nov 2023 00:23:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=krZVNvQh;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1ead2e6fab7so3890915fac.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 22:53:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=X3nGuXj/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-543923af573so11202283a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 00:23:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699426390; x=1700031190; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SqMBdkIDjnXnciiY43dDQRpR3axTTMCQBP+hj9GYDUg=;
-        b=krZVNvQh6AnkecQDGRpz2+thCBRTKMu6RPUhlURpCgLVFNt+JEdQVBOgZpKZ7bzvh4
-         N+AOSDnEq52XqYSE4fvLlYv2sm47fzXXL2Fy7PoDHOEAOPzhlYZmy3UfjDizCOiNLrGD
-         1JBv9OsTMlFUkpTL+89qEnrwqqEDWWR7DHrQcoEU7kMui943yBAI22qKvTiQG8eZQKse
-         upi0dayy0UZJxdC462Zt3UlHK/I9rz+9kvxDZhAM7GMkPTNLcoy4XkFVxsvuU6EjA9rF
-         yIbFDUry47Qw9fqPd3NBVeDBEF9WSTBcACjfvHhg8Y2ql9P8QovnnoLD0SBUSwIVCxCq
-         TWEA==
+        d=gmail.com; s=20230601; t=1699431821; x=1700036621; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VQ3Jc5SdrSm8khRouHy3n47v3FhdlHUqzPAEUcljLyg=;
+        b=X3nGuXj/Bl86RXX/5ZJowdLARamBsf5HCAKsy27Oiv5a45Ymo0++0k6eWsfjC5VVJq
+         KN/6+Nw79Phs7bJUiZ+t0Ztr5w2Hf5scJitZ/KbTxPP8jOiO1LBg1lhV0ze2a+Zc4bHf
+         swohT5/DhJR0sF9DBVVSb6kW1avnKvTaBBQIj795KmjNlHCwJ6cpBSu5FR3nmTmU0wIA
+         1mTvdIsxvavIgFMKmdl+tGiSfSFYGOle6Zq2KahcoMn0bIcCTwqgXIklN8trw8muMK2m
+         FTafOmpESFAsnT0Ju5Ib/Sq44VOqBPHxJo2xoD5KHN+SFHexqhbtZ6P+9XHAJ3fFl3ca
+         qzOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699426390; x=1700031190;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SqMBdkIDjnXnciiY43dDQRpR3axTTMCQBP+hj9GYDUg=;
-        b=gCUTw7ACJzN/xERymhZvcr/6Sbp70QHCSXM/CVtQkhof8SCVZY4ysKiAlDTTMCsj9F
-         HD1VB0Av8sKPdiCMEbOUg6w6iolTJYmdfh7GQ/omgInDK6ILzh8Bx7pX7Hvl+EnQq8lF
-         3ijCFk43R2kJfNgmrZit6UkN7TqfkHd6hcLlTIs4mmQG6pOEphw1WTNZBlpOUApW87jA
-         PJjm0CATODs6QuJkAfMdCA4q5E9ks4VzObBfqA5OIO8w+g8NukQs+zfHRVRBYO40zyo+
-         1oSPhrjU1xFqgXkg2xS4L0cCeiQfi/Of1xh5Zb6LPisrW+7N0MPKqTZ1Sl4zXyfFsH10
-         0jQw==
-X-Gm-Message-State: AOJu0Yx8wLTTd2kJEIL/VWk7RSw7wQZPPPTqwy3CzGctaruVP49Sf+Nw
-	Q/9XW50wTQ3k78NFE5QoPpgdgCH49eiDxaFiFY46OLRQmj8=
-X-Google-Smtp-Source: AGHT+IFaYG0tMNLtIc4x/xYScmUhLJy7B9aUwp8XOYtJg6nmO1IlKctZ4RO938NG+bCERDDQcZ0m9mq8JxhMOe7ci0w=
-X-Received: by 2002:a05:6870:f81a:b0:1e9:97eb:15a with SMTP id
- fr26-20020a056870f81a00b001e997eb015amr1164606oab.36.1699426390144; Tue, 07
- Nov 2023 22:53:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699431821; x=1700036621;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VQ3Jc5SdrSm8khRouHy3n47v3FhdlHUqzPAEUcljLyg=;
+        b=XtljRcqF/A0rzxrgremq7hmI2+lmC3tZiBhJPOv3A+avri6r1xlQqgrn3WHLoohBbG
+         SzP5cAtazdcNi7uMtEUqraorj1i+bTxTdy1wiVTyNmT2xmPJe6n9hErWoqaLwt3xdh43
+         Qav3Nl5s2hq6W71FlyK5vB3x51+z68MPIueXmvpBHQ2qzc9SlhyPRnRrKchTtqxKKD/G
+         pC+ogcZXzq4FXd4qmACbbQigccqslExR6ZsMlmK3BuqC2DbfxTDQh7x/Q+A/LDBSdiff
+         9XtjyRM0QtwVIPt/0+impgNSwo/cStPDPO7uCh0qyoTfsy7PdjsB7q3GXz7mkR/71MUP
+         /qog==
+X-Gm-Message-State: AOJu0Yx7hUhtxG5UNiLIgcbX1aSW+D+1/YtUq7bguuiSJTtULbO6v6je
+	U2KuQhOcvEb1t0IWQvJcVcKQIgi0Wp4=
+X-Google-Smtp-Source: AGHT+IE35wdOyPCulTBLojQ+WWMs5xZAWX9+Pv33mLWdmOyYiy6o4zQhTcF27t9QFDHfPS3AU6HX0w==
+X-Received: by 2002:a17:906:2cd3:b0:9e3:fe08:27b1 with SMTP id r19-20020a1709062cd300b009e3fe0827b1mr207369ejr.73.1699431820984;
+        Wed, 08 Nov 2023 00:23:40 -0800 (PST)
+Received: from NVC4181.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id o20-20020a170906359400b0098f33157e7dsm655026ejb.82.2023.11.08.00.23.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 00:23:40 -0800 (PST)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [PATCH] lib/bblayers/setupwriters/oe-setup-layers.py: Fix indentation
+Date: Wed,  8 Nov 2023 09:22:30 +0100
+Message-ID: <20231108082229.640-2-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.42.0.windows.2
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
-References: <20231108060904.2305647-1-Deepthi.Hemraj@windriver.com>
-In-Reply-To: <20231108060904.2305647-1-Deepthi.Hemraj@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 7 Nov 2023 22:52:43 -0800
-Message-ID: <CAMKF1sq68hCc_kC4D90_=UqNURyBiOCukNiM6UqvV1UKvz-1aQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust-cross-canadian: Fix file conflicts for arm
- and aarch64
-To: Deepthi.Hemraj@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
-	Naveen.Gowda@windriver.com, Shivaprasad.Moodalappa@windriver.com, 
-	Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 06:53:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190305
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 08:23:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190306
 
-On Tue, Nov 7, 2023 at 10:09=E2=80=AFPM Hemraj, Deepthi via
-lists.openembedded.org
-<Deepthi.Hemraj=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
->
-> [YOCTO #15061]
-> Rust multilib sdks broken because of the conflicts between attempted inst=
-alls of rust-cross-canadian for arm and aarch64.
->
-> Arm and aarch64 target architectures are trying to install cargo.sh and r=
-ust.sh in the same path which resulted in the issue.
->
-> The current patch modifies CARGO_ENV_SETUP_SH and RUST_ENV_SETUP_SH macro=
-s based on the architecture.
-> Hence, creates different file names for the environment setup scripts and=
- resolves the issue.
->
-> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-> ---
->  .../rust/rust-cross-canadian.inc              | 25 +++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/re=
-cipes-devtools/rust/rust-cross-canadian.inc
-> index 7bfef6d175..94c3b0d696 100644
-> --- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-> +++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-> @@ -54,6 +54,18 @@ do_install () {
->      mkdir "${ENV_SETUP_DIR}"
->      RUST_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/rust.sh"
->
-> +    # Set up environment variables for AArch64
-> +    if [ "${TARGET_ARCH}" =3D=3D "aarch64" ]; then
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-change this check to '=3D'
+The writer always printed the script was written even if this
+was not the case when specififying '--json-only'.
 
-> +       RUST_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/rust-aarch64.sh"
-> +       RUST_TARGET_SYS=3D"aarch64-unknown-linux-gnu"
-> +    # Set up environment variables for ARM
-> +    elif [ "${TARGET_ARCH}" =3D=3D "arm" ]; then
-> +       RUST_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/rust-arm.sh"
-> +       RUST_TARGET_SYS=3D"arm-unknown-linux-gnueabi"
-> +    else
-> +       RUST_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/rust.sh"
-> +    fi
-> +
->      RUST_TARGET_TRIPLE=3D`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:up=
-per:]' | sed 's/-/_/g'`
->      RUST_HOST_TRIPLE=3D`echo ${RUST_HOST_SYS} | tr '[:lower:]' '[:upper:=
-]' | sed 's/-/_/g'`
->      SDKLOADER=3D${@bb.utils.contains('SDK_ARCH', 'x86_64', 'ld-linux-x86=
--64.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'i686', 'ld-linux.so.2',=
- '', d)}${@bb.utils.contains('SDK_ARCH', 'aarch64', 'ld-linux-aarch64.so.1'=
-, '', d)}${@bb.utils.contains('SDK_ARCH', 'ppc64le', 'ld64.so.2', '', d)}${=
-@bb.utils.contains('SDK_ARCH', 'riscv64', 'ld-linux-riscv64-lp64d.so.1', ''=
-, d)}
-> @@ -67,6 +79,19 @@ do_install () {
->      chown -R root.root ${D}
->
->      CARGO_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/cargo.sh"
-> +
-> +    # Set up environment variables for AArch64
-> +    if [ "${TARGET_ARCH}" =3D "aarch64" ]; then
-> +       CARGO_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/cargo-aarch64.sh"
-> +       CARGO_TARGET_SYS=3D"aarch64-unknown-linux-gnu"
-> +    # Set up environment variables for ARM
-> +    elif [ "${TARGET_ARCH}" =3D=3D "arm" ]; then
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
+ meta/lib/bblayers/setupwriters/oe-setup-layers.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-same here
+diff --git a/meta/lib/bblayers/setupwriters/oe-setup-layers.py b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+index d5bc19a8cb..bd71ca1f51 100644
+--- a/meta/lib/bblayers/setupwriters/oe-setup-layers.py
++++ b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+@@ -45,7 +45,7 @@ class OeSetupLayersWriter():
+         logger.info('Created {}.json'.format(output))
+         if not args.json_only:
+             self._write_python(os.path.join(os.path.dirname(__file__),'../../../../scripts/oe-setup-layers'), output)
+-        logger.info('Created {}'.format(output))
++            logger.info('Created {}'.format(output))
+ 
+     def register_arguments(self, parser):
+         parser.add_argument('--json-only', action='store_true',
+-- 
+2.42.0.windows.2
 
-> +       CARGO_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/cargo-arm.sh"
-> +       CARGO_TARGET_SYS=3D"arm-unknown-linux-gnueabi"
-> +    else
-> +       CARGO_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/cargo.sh"
-> +    fi
-> +
->      cat <<- EOF > "${CARGO_ENV_SETUP_SH}"
->         export CARGO_HOME=3D"\$OECORE_TARGET_SYSROOT/home/cargo"
->         mkdir -p "\$CARGO_HOME"
-> --
-> 2.42.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190304): https://lists.openembedded.org/g/openembedde=
-d-core/message/190304
-> Mute This Topic: https://lists.openembedded.org/mt/102459344/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
