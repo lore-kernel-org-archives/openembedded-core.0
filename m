@@ -1,308 +1,145 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43163C4332F
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 11:50:16 +0000 (UTC)
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.49])
- by mx.groups.io with SMTP id smtpd.web11.11758.1699444206358143387
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E17DC4332F
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 12:00:26 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.11117.1699441729108518432
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 03:50:06 -0800
+ Wed, 08 Nov 2023 03:08:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector1 header.b=Idg9ttTT;
- spf=pass (domain: infinera.com, ip: 40.107.94.49, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e95VocLmOdXTXloISU7jO7eW6hzvZAyENPMYftCwYzYPPUqRrd0nxTXJUt4mwf+AYJzB7bWByvc7/0eRZxuJwSnqv+9f0aRr2Pl6MVS2drF6FqGiPiu47NJXw7x5vXh7dX450TWo9xfzAZMPxKM0/dNouYDK54ASQoYPWd+FGtMC4iha7J7LxfktuQJEc+la5MCDWqb5UkdDvRc5FiJfh2Mo1UUK1OTY0bfVOf/s2eVbD25hfpp2FmqZYo3VW2RhSYhfX/PYX1reKqMiBVY5ArcKj06tjhWcfbAU7NUm29zrwHd76yYJsbQ2sQ0MndKDoj3Xm7S+p0S4NDlvlV9GjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=onE4irwGLyGzIi+hj90hlwD0K27s6BaFzJ8l+DBHK1M=;
- b=Qdrm1mHQYCyVzRfznzmkyEnFWWbMJf3wBdW5zljuAGdjlf1AqGvA9bw+6mvBR+xsF6cjZqKlPyhjcZ7NccnZFfCcSiKJNofCbmcfLk1NOr7qOrtmcKGe6s3Ut9D9YrYovC0fIWSjsgrclIzGFkl5sfPMMaZSwT+UmgeeYPw68+cw12lTubBskjoD3FFPAZSw7zDY6qUptDgx8X01PdhheZU1rfCr/pKtX0StrxTn10PRkICW0tG/l9wer3Z2bHKZ5F1NL0VaKkc7Ae30oZRF5CIo7g7yjNI2NjeBMXp3F+KT9RPe2/5G0bu6JBURTgFoTK+5OuixVjnxc94E1xI1Gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=onE4irwGLyGzIi+hj90hlwD0K27s6BaFzJ8l+DBHK1M=;
- b=Idg9ttTTuh9YgHOoFA6Gh4RYHIrVplbiQ1gf3JiMoB/ROSXoLl7Vm8Ds01+uu1VioLMrnK0DaPZjys7/lK1mrZ9bp9x8v3mK9ZL1T7v9byyZAINzxQwiBSpOGR7zE9unRAYwvM/ze9EFQJxqK18XqkrFc1B+XojA/Ab4hq7UFpx/84WZnWxosSlqHZPyJS7VqIV7wh+0YuFOWnCr5vPD1GvlwwHuNwQpdwhggNEENAo3CnzyAGtvVe/Edj/RjnEa8JZvBEaL3YJqSW7/UfNmdpLaGIfgVy/Vf/2q9sV57oo7gaRhNXZy9vnZ1cJ7hc+a7NUp5qev0je57UEKkMwJkg==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by IA1PR10MB7113.namprd10.prod.outlook.com (2603:10b6:208:3fb::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Wed, 8 Nov
- 2023 11:50:01 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5%6]) with mapi id 15.20.6977.018; Wed, 8 Nov 2023
- 11:50:01 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "quaresma.jose@gmail.com" <quaresma.jose@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] [meta classes] sed -i destroys symlinks
-Thread-Topic: [OE-core] [PATCH] [meta classes] sed -i destroys symlinks
-Thread-Index: AQHaEjJILzHm+VeylEa+mo6FT6kG8LBwR3MAgAAHkAA=
-Date: Wed, 8 Nov 2023 11:50:01 +0000
-Message-ID: <bb563d42468303a71a47509e0892ef5b7f5ee6c9.camel@infinera.com>
-References: <20231108105644.2884585-1-joakim.tjernlund@infinera.com>
-	 <CANPvuRkdZ6fUwgQjA_u=kGBVjv-EQDJ+J0=nsV+voZhaA0RxQw@mail.gmail.com>
-In-Reply-To: 
- <CANPvuRkdZ6fUwgQjA_u=kGBVjv-EQDJ+J0=nsV+voZhaA0RxQw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.1 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|IA1PR10MB7113:EE_
-x-ms-office365-filtering-correlation-id: 4827edbc-0e26-49bf-719d-08dbe050d72f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- KQYCChbxlQGynuSq2eWf1Ns9HX2btRMTM3PP0e/uEkPe6s+hc/as7c1GMNKwDBGrNuAeZGgap/xDATvE3YNsSqoZdZSlPTg0sapAjcj2vF9TAtTUOkUCr42xhC2fDhRBY6FoN2AAx4nOp8vfAE6YaA76S3cgjZUuwsqXXhw5/wvGI70819z04pLhcqVXxhqXnZGALVU+rq1e0th9MwpntXD9nG9b17vtfcxXRmPqm9CNJqjW9xYuLtIBJeQuoUeHrObP5ieZpkG9oAvxWin6bAGOjN+nDwrXFAMPyJq8nO4k91ht1cip/8sDDkVnsVZw6fowaAxnDM/v1JsQPQkBDwY7X16LlF4Zuv3syHZzZNgvjh6BiqSJSv1B9dBTL2CYIvXyBVId0ny7GSfDkFuyTbQBX38jIp7rQ1de6XydbgR04IHGl09pGUVquNx35Cxw+9Lqfp8Jgp8gm0pMP8vP6EFR78bh0WJ7S8KR78RxfB1G35Steco3xmb9857woV1GjXM4NgSnxxITEJuH/FE80dnI78AxVNEGRG/WYE03z98LNPnzKocG1tlCdijj8IEtNb3nu588lqr1XJQHJWfxVL2mBUTZnUQ6HWpkGDgI5EE=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(366004)(346002)(136003)(376002)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(122000001)(83380400001)(71200400001)(6506007)(6512007)(2616005)(6486002)(478600001)(966005)(166002)(38100700002)(66556008)(8936002)(91956017)(66446008)(66946007)(76116006)(316002)(64756008)(66476007)(6916009)(4326008)(5660300002)(86362001)(2906002)(8676002)(41300700001)(36756003)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?OVV5NFZraXUzQ3hCUVdKWUlVQ2tYNjhNckdGbmp0Z2NNYWRBblVra0kzNTB4?=
- =?utf-8?B?K05lM2NGeW5LUlBQQmtRWUN2cVJ0QzBFRi9XemtsN3JnZmxreHR0VVRubTZz?=
- =?utf-8?B?Ri9mS0FyY21DdzlzNFFaYTZEZ2FOQUxBMVV3NDR1bFNJM3FwenR2RFJKRDNN?=
- =?utf-8?B?MzZaUURPWGxPbGNZWmhHOVltdFE1RGltNGh4cmIxRklzcFhkMG9qWWd4VWM1?=
- =?utf-8?B?dUE3QitSc05QS3dTdlZKdTIrN05XZmh0S21PVk8vRTB0TWpkUTI0NHJyKzJl?=
- =?utf-8?B?eUtlNE9lV2t5bEFmZGhvWWZDTnRqZHFVOHQ3T3M3THNlc0xDNEc1NWhMeDMw?=
- =?utf-8?B?bDliLzJxQVY4RHF6bUQ1eEpQOGNhN2RISzZ2VzlxYVNxaDFhVE1wSzZiQXY0?=
- =?utf-8?B?VlNISVVIb0JPM3JMVXY4b25QMWtsbFF3NHZvWVg0RmNKWG1PSkgzVWljcGhW?=
- =?utf-8?B?OUxyRVFuNS9GMkxmbTc1MXB6UUpWeVV6VUJRN2hib2NqK2ZHQ3F6TXltbGpl?=
- =?utf-8?B?ZG84RCtXU2Qyb2RUQzluVldHTURUaWVFL2VMRWVEZWJWQzYxYnlwTXpsbEQ3?=
- =?utf-8?B?ZFJDeUtlOWZIWU84Z2ViY29hK3VMV243MWFwUmk1YWNWWHloR2g5ODRmQ1Nl?=
- =?utf-8?B?WFc1NTFkbUMyMDRFQXBCZVBtQlNuSnN3OHBtSzlKdjlDdW92alpFN2p1N3lR?=
- =?utf-8?B?OXZYTk9vZDV2Ty9Xd0lKZ2JSeGJlTVVJWm90Z2RMdWxxODNYN3pvdGRkcWZO?=
- =?utf-8?B?amFRdkFjZ1E2MExndDNqbnVMU1JuY1RKVUFnT3g2dktHUG1xTjcwcTZUamRW?=
- =?utf-8?B?T01EUVlDZUZLOGxzTUdIWkRRS1M2WjlBWGxKUVhFUi8wRDBsSEJ4UUw5RnF0?=
- =?utf-8?B?ZHdESE9ITlR5QU5aeEVJanVjNk5Zb0hvQUZ6enZmcnh6THZQQXhwR0NDUFkv?=
- =?utf-8?B?aU93RXlhdC9Pblp2U0FxUmFNZ3BZVjBnMDBaMTRXTWdEeVlidnBNZ1hRdFc3?=
- =?utf-8?B?Uk94NXV1Q2N5eTlEbUVwZWtFR3lDNEFRblc0SFl6VnpjTFZtODdRZGRNRHhI?=
- =?utf-8?B?dDRxVzVLQ1h6bFZmd29ILzUwcUQxSndpSDZtL2JDbDVpSXJoS1hvSWJLVVN0?=
- =?utf-8?B?OVBWcFJEZVpiMzd6a1ZiK3RPVENESlh4WndxNVpKSmVGZElmSkd0YmkwaEd0?=
- =?utf-8?B?RHVzSHk3SUEvKzJuL29pODFHbEZwNUw5bDhHVEY5U1d3Vncwd2N1eGFUYUF3?=
- =?utf-8?B?cU5QUS80dFJPZWM5bVdLZlorblJOczBlQjRFUGlQejc2c211Tk1OOUI0RDhD?=
- =?utf-8?B?clhRS3ZVaUNKcnkycWVzUENNMDVOaVlqSkJFRFp2UGJyeE5qblJ5NHo2VnhG?=
- =?utf-8?B?WDdUZ0NpekcyUVNQZHIrdjhhaDgxbG56N0lGN3IzUE9vMEpuQ2gzYWtvWjJk?=
- =?utf-8?B?ZnF1b2thMWY3RU1qMzUwbFBERmExdkN1RWlCbWErU3hTNUQxNHBRZ3YvNmEz?=
- =?utf-8?B?bFhtbzRiUFpJSkJTcHluWlZ2eHdZa2tvZlc2MkloZVZJd1VBNlJEU1V5M1h2?=
- =?utf-8?B?eGlFQnFnYnJCRWx3M1VpOTM0aXFHN3FzU2NvbGk0N1NVQWZaL3I2YlgzUDQx?=
- =?utf-8?B?S2c3VlFLN1p2dWhJSUZ2Y243R2MyZ003NzhKLzgyMmJsMldveE4xSlVEWUxn?=
- =?utf-8?B?UENEV1lzZ1lrakxRZVkvQ0R1TWcwUGlmUkNkL3FXcUwxWkMrQ3daemVldWNE?=
- =?utf-8?B?djdTNXdQUXZYWWlVUHdoNzVqYWZhZE5EdTZpbG82RUNOcUxGN0FtQnQ4Q2Fx?=
- =?utf-8?B?MjRZNTRWVmpDaGwrVHFLMUxOWlhnVlFHbEpsTFBnaUorYkpRUGErY0xHbEta?=
- =?utf-8?B?VmpjWGhWNHAvdXo3U1laNVNHT0xRT3ZRb3JWeGRNZGk1MGFwM2hOT3luSnBN?=
- =?utf-8?B?cE5rVVFyanRUQVBaS3JFUzJyd1VOc3NxTXR6QUFKOHdNcGZQaHJqRzk3d1p4?=
- =?utf-8?B?YmNITGgycWVJMC9FT0ZuTFppMnl3VXFNYkdHVUxWcFJOWWVxQWJvanh0Y28v?=
- =?utf-8?B?RGVsN3V1cVQ3NjZ0ZXBYR3p0c25xSE03QmRJbm1VdGRsZmNobE5zL3h1dWdk?=
- =?utf-8?B?R1R0ZWc5Vm9zUHBTV1pBcGN0WHptdVNpVG45RW1YaWN4ZVp5U1dxSWJsT3Va?=
- =?utf-8?Q?DsQToCAZuZo6oWO55vxagTo1u77faiewzpwwzALp4PmQ?=
-Content-Type: multipart/alternative;
-	boundary="_000_bb563d42468303a71a47509e0892ef5b7f5ee6c9camelinfineraco_"
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: luca.fancellu@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B24021477;
+	Wed,  8 Nov 2023 03:09:32 -0800 (PST)
+Received: from e125770.cambridge.arm.com (e125770.arm.com [10.1.199.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B73253F703;
+	Wed,  8 Nov 2023 03:08:47 -0800 (PST)
+From: "luca fancellu" <luca.fancellu@arm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: diego.sueiro@arm.com,
+	rahul.singh@arm.com
+Subject: [PATCH] oeqa,ssh: Handle SSHCall timeout error code
+Date: Wed,  8 Nov 2023 11:08:39 +0000
+Message-Id: <20231108110839.3599139-1-luca.fancellu@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4827edbc-0e26-49bf-719d-08dbe050d72f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2023 11:50:01.4928
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MxX56dGDZ4MN32qBTr3cou7uJIEpTI2oiapURB5IHTh4BpYwP9PwToIY2aVuMtJjKGLm/bqMY2oBr4dMuHuWOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB7113
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 11:50:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190320
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 12:00:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190321
 
---_000_bb563d42468303a71a47509e0892ef5b7f5ee6c9camelinfineraco_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+The current code in ssh.py is terminating the ssh process that
+does not finish its computation in a given timeout (when timeout
+is passed), the SSHCall function is returning the process error
+code.
 
-T24gV2VkLCAyMDIzLTExLTA4IGF0IDExOjIyICswMDAwLCBKb3NlIFF1YXJlc21hIHdyb3RlOg0K
-SGkgSm9ha2ltLA0KDQpKb2FraW0gVGplcm5sdW5kIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnLz4gPEpvYWtpbS5UamVybmx1bmQ9aW5maW5l
-cmEuY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOmluZmluZXJhLmNvbUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnPj4gZXNjcmV2ZXUgbm8gZGlhIHF1YXJ0YSwgOC8xMS8yMDIzIMOgKHMp
-IDEwOjU2Og0KSWYgL2V0Yy9wYXNzd2QgaXMgYSBzeW1saW5rLCBzZWQgLWkgb24gc2FtZSBmaWxl
-IHdpbGwgcmVwbGFjZSB0aGUNCnN5bWxpbmsgd2l0aCBhIG5ldyBmaWxlLiBQcmV2ZW50IHRoYXQg
-YnkgZXhwYW5kaW5nIHRoZSBmaWxlIHdpdGggcmVhbHBhdGgNCmJlZm9yZSBnaXZpbmcgaXQgdG8g
-c2VkLg0KDQoNClRoZSBzZWQgZm9sbG93LXN5bWxpbmtzIGFyZ3VtZW50IGxvb2tzIG1vcmUgYXBw
-cm9wcmlhdGUgZm9yIHRoaXMgaW1vLg0KDQoNCkJ1dCBub3QgYWxsIHNlZCBpbXBsLiBzdXBwb3J0
-IHRoYXQgb3B0aW9uKG5vdCBidXN5Ym94IGZvciBvbmUpLiBJcyBHbnUgc2VkIGFuIHJlcXVpcmVt
-ZW50IGhlcmU/DQoNCg0KLS1mb2xsb3ctc3ltbGlua3MNClRoaXMgb3B0aW9uIGlzIGF2YWlsYWJs
-ZSBvbmx5IG9uIHBsYXRmb3JtcyB0aGF0IHN1cHBvcnQgc3ltYm9saWMgbGlua3MgYW5kIGhhcyBh
-biBlZmZlY3Qgb25seSBpZiBvcHRpb24gLWkgaXMgc3BlY2lmaWVkLiBJbiB0aGlzIGNhc2UsIGlm
-IHRoZSBmaWxlIHRoYXQgaXMgc3BlY2lmaWVkIG9uIHRoZSBjb21tYW5kIGxpbmUgaXMgYSBzeW1i
-b2xpYyBsaW5rLCBzZWQgd2lsbCBmb2xsb3cgdGhlIGxpbmsgYW5kIGVkaXQgdGhlIHVsdGltYXRl
-IGRlc3RpbmF0aW9uIG9mIHRoZSBsaW5rLiBUaGUgZGVmYXVsdCBiZWhhdmlvciBpcyB0byBicmVh
-ayB0aGUgc3ltYm9saWMgbGluaywgc28gdGhhdCB0aGUgbGluayBkZXN0aW5hdGlvbiB3aWxsIG5v
-dCBiZSBtb2RpZmllZC4NCg0KaHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0d2FyZS9zZWQvbWFudWFs
-L2h0bWxfbm9kZS9Db21tYW5kXzAwMmRMaW5lLU9wdGlvbnMuaHRtbA0KDQpKb3NlDQoNCg0KU2ln
-bmVkLW9mZi1ieTogSm9ha2ltIFRqZXJubHVuZCA8am9ha2ltLnRqZXJubHVuZEBpbmZpbmVyYS5j
-b208bWFpbHRvOmpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPj4NCi0tLQ0KDQogLSBJIGhh
-dmUgcGF0Y2hlcyB3aGljaCBtb3ZlcyBzaGFkb3cvcGFzc3dkIGZpbGVzIHRvIGFuIHN1YmRpciBp
-biBvcmRlciB0bw0KICAgaGF2ZSBwYXNzd2QgbWdtdCBvbiBhIFJPIFJGUy4gSXMgdGhlcmUgYSBp
-bnRlcmVzdCB0byBoYXZlIHRoYXQgb3ByaW9uIGluIE9FPw0KDQogbWV0YS9jbGFzc2VzL3Jvb3Rm
-cy1wb3N0Y29tbWFuZHMuYmJjbGFzcyB8IDQgKystLQ0KIG1ldGEvY2xhc3Nlcy91c2VyYWRkX2Jh
-c2UuYmJjbGFzcyAgICAgICAgfCAyICstDQogMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMo
-KyksIDMgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvcm9vdGZzLXBv
-c3Rjb21tYW5kcy5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3Jvb3Rmcy1wb3N0Y29tbWFuZHMuYmJj
-bGFzcw0KaW5kZXggNWMwYjNlYzM3Yy4uNTVjYzg2M2RiZiAxMDA2NDQNCi0tLSBhL21ldGEvY2xh
-c3Nlcy9yb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3MNCisrKyBiL21ldGEvY2xhc3Nlcy9yb290
-ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3MNCkBAIC0xNDgsMTAgKzE0OCwxMCBAQCByZWFkX29ubHlf
-cm9vdGZzX2hvb2sgKCkgew0KICMNCiB6YXBfZW1wdHlfcm9vdF9wYXNzd29yZCAoKSB7DQogICAg
-ICAgIGlmIFsgLWUgJHtJTUFHRV9ST09URlN9L2V0Yy9zaGFkb3cgXTsgdGhlbg0KLSAgICAgICAg
-ICAgICAgIHNlZCAtaSAncyVecm9vdDo6JXJvb3Q6KjolJyAke0lNQUdFX1JPT1RGU30vZXRjL3No
-YWRvdw0KKyAgICAgICAgICAgICAgIHNlZCAtaSAncyVecm9vdDo6JXJvb3Q6KjolJyAkKHJlYWxw
-YXRoICR7SU1BR0VfUk9PVEZTfS9ldGMvc2hhZG93KQ0KICAgICAgICAgZmkNCiAgICAgICAgaWYg
-WyAtZSAke0lNQUdFX1JPT1RGU30vZXRjL3Bhc3N3ZCBdOyB0aGVuDQotICAgICAgICAgICAgICAg
-c2VkIC1pICdzJV5yb290Ojolcm9vdDoqOiUnICR7SU1BR0VfUk9PVEZTfS9ldGMvcGFzc3dkDQor
-ICAgICAgICAgICAgICAgc2VkIC1pICdzJV5yb290Ojolcm9vdDoqOiUnICQocmVhbHBhdGggJHtJ
-TUFHRV9ST09URlN9L2V0Yy9wYXNzd2QpDQogICAgICAgIGZpDQogfQ0KDQpkaWZmIC0tZ2l0IGEv
-bWV0YS9jbGFzc2VzL3VzZXJhZGRfYmFzZS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3VzZXJhZGRf
-YmFzZS5iYmNsYXNzDQppbmRleCA3ZjViOWI3MjE5Li43MjczMmE0ZDU3IDEwMDY0NA0KLS0tIGEv
-bWV0YS9jbGFzc2VzL3VzZXJhZGRfYmFzZS5iYmNsYXNzDQorKysgYi9tZXRhL2NsYXNzZXMvdXNl
-cmFkZF9iYXNlLmJiY2xhc3MNCkBAIC0xNTQsNyArMTU0LDcgQEAgcGVyZm9ybV9wYXNzd2RfZXhw
-aXJlICgpIHsNCiAgICAgICAgbG9jYWwgdXNlcm5hbWU9YGVjaG8gIiRvcHRzIiB8IGF3ayAneyBw
-cmludCAkTkYgfSdgDQogICAgICAgIGxvY2FsIHVzZXJfZXhpc3RzPSJgZ3JlcCAiXiR1c2VybmFt
-ZToiICRyb290ZGlyL2V0Yy9wYXNzd2QgfHwgdHJ1ZWAiDQogICAgICAgIGlmIHRlc3QgIngkdXNl
-cl9leGlzdHMiICE9ICJ4IjsgdGhlbg0KLSAgICAgICAgICAgICAgIGV2YWwgZmxvY2sgLXggJHJv
-b3RkaXIke3N5c2NvbmZkaXJ9IC1jIFwiJFBTRVVETyBzZWQgLWkgXCcncy9eXCgnJHVzZXJuYW1l
-JzpbXjpdKlwpOlteOl0qOi9cMTowOi8nXCcgJHJvb3RkaXIvZXRjL3NoYWRvdyBcIiB8fCB0cnVl
-DQorICAgICAgICAgICAgICAgZXZhbCBmbG9jayAteCAkcm9vdGRpciR7c3lzY29uZmRpcn0gLWMg
-XCIkUFNFVURPIHNlZCAtaSBcJydzL15cKCckdXNlcm5hbWUnOlteOl0qXCk6W146XSo6L1wxOjA6
-LydcJyAkKHJlYWxwYXRoICRyb290ZGlyL2V0Yy9zaGFkb3cpIFwiIHx8IHRydWUNCiAgICAgICAg
-ICAgICAgICBsb2NhbCBwYXNzd2RfbGFzdGNoYW5nZWQ9ImBncmVwICJeJHVzZXJuYW1lOiIgJHJv
-b3RkaXIvZXRjL3NoYWRvdyB8IGN1dCAtZDogLWYzYCINCiAgICAgICAgICAgICAgICBpZiB0ZXN0
-ICJ4JHBhc3N3ZF9sYXN0Y2hhbmdlZCIgIT0gIngwIjsgdGhlbg0KICAgICAgICAgICAgICAgICAg
-ICAgICAgYmJmYXRhbCAiJHtQTn06IHBhc3N3ZCAtLWV4cGlyZSBvcGVyYXRpb24gZGlkIG5vdCBz
-dWNjZWVkLiINCg0K
+The Openssl ssh before version 8.6_p1 is returning 0 when it is
+terminated, from commit 8a9520836e71830f4fccca066dba73fea3d16bda
+onwards (version >=3D 8.6_p1) ssh is returning 255 instead.
 
---_000_bb563d42468303a71a47509e0892ef5b7f5ee6c9camelinfineraco_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <11B60CC0E11E1C4686163B04395F3BF3@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+So for version of ssh older than 8.6_p1 when the SSHCall time out,
+the return code will be 0, meaning success, which is wrong.
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZT5wcmUsY29kZSxhZGRyZXNzIHsNCiAg
-bWFyZ2luOiAwcHg7DQp9DQpoMSxoMixoMyxoNCxoNSxoNiB7DQogIG1hcmdpbi10b3A6IDAuMmVt
-Ow0KICBtYXJnaW4tYm90dG9tOiAwLjJlbTsNCn0NCm9sLHVsIHsNCiAgbWFyZ2luLXRvcDogMGVt
-Ow0KICBtYXJnaW4tYm90dG9tOiAwZW07DQp9DQpibG9ja3F1b3RlIHsNCiAgbWFyZ2luLXRvcDog
-MGVtOw0KICBtYXJnaW4tYm90dG9tOiAwZW07DQp9DQo8L3N0eWxlPg0KPC9oZWFkPg0KPGJvZHk+
-DQo8ZGl2Pk9uIFdlZCwgMjAyMy0xMS0wOCBhdCAxMToyMiArMDAwMCwgSm9zZSBRdWFyZXNtYSB3
-cm90ZTo8L2Rpdj4NCjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAg
-LjhleDsgYm9yZGVyLWxlZnQ6MnB4ICM3MjlmY2Ygc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+DQo8
-ZGl2IGRpcj0ibHRyIj4NCjxkaXY+SGkgSm9ha2ltLDwvZGl2Pg0KPGJyPg0KPGRpdiBjbGFzcz0i
-Z21haWxfcXVvdGUiPg0KPGRpdiBkaXI9Imx0ciIgY2xhc3M9ImdtYWlsX2F0dHIiPkpvYWtpbSBU
-amVybmx1bmQgdmlhIDxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnLyIgb3Jp
-Z2luYWxzcmM9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnLyIgc2hhc2g9IkxyTzlFMFpr
-WmtHc2hJS1Q5VUd5dnpPdmVPdENOeEJTQ2tjdW9OTk9IWFhVSnVvb210MzBSbG1uN0xzbVEvTDB4
-dVdQbFdjZGFjZmtNUVQrdEVxWkJGSjAzblN0Qm1Na0F2TC9GUCtuMC9CQmZ4TVhxUEZ3RkZ6b1pB
-Tmg5SXVUTDdEOXgvSGJKb09rNmZ6S0duZXBBdnpwdm1FdlhUbjZxemh3SEk2K3cvUT0iPg0KbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZzwvYT4gJmx0O0pvYWtpbS5UamVybmx1bmQ9PGEgaHJlZj0ibWFp
-bHRvOmluZmluZXJhLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5pbmZpbmVyYS5jb21AbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZzwvYT4mZ3Q7IGVzY3JldmV1IG5vIGRpYSBxdWFydGEsIDgvMTEv
-MjAyMyDDoChzKSAxMDo1Njo8YnI+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIHN0
-eWxlPSJtYXJnaW46MCAwIDAgLjhleDsgYm9yZGVyLWxlZnQ6MnB4ICM3MjlmY2Ygc29saWQ7cGFk
-ZGluZy1sZWZ0OjFleCI+DQo8ZGl2PklmIC9ldGMvcGFzc3dkIGlzIGEgc3ltbGluaywgc2VkIC1p
-IG9uIHNhbWUgZmlsZSB3aWxsIHJlcGxhY2UgdGhlPGJyPg0Kc3ltbGluayB3aXRoIGEgbmV3IGZp
-bGUuIFByZXZlbnQgdGhhdCBieSBleHBhbmRpbmcgdGhlIGZpbGUgd2l0aCByZWFscGF0aDxicj4N
-CmJlZm9yZSBnaXZpbmcgaXQgdG8gc2VkLjxicj4NCjwvZGl2Pg0KPGJyPg0KPC9ibG9ja3F1b3Rl
-Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+VGhlIHNlZCBmb2xsb3ctc3ltbGlua3MgYXJndW1l
-bnQgbG9va3MgbW9yZSBhcHByb3ByaWF0ZSZuYnNwO2ZvciB0aGlzIGltby48L2Rpdj4NCjwvZGl2
-Pg0KPC9kaXY+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQo8
-L2Rpdj4NCjxkaXY+QnV0IG5vdCBhbGwgc2VkIGltcGwuIHN1cHBvcnQgdGhhdCBvcHRpb24obm90
-IGJ1c3lib3ggZm9yIG9uZSkuIElzIEdudSBzZWQgYW4gcmVxdWlyZW1lbnQgaGVyZT88L2Rpdj4N
-CjxkaXY+PGJyPg0KPC9kaXY+DQo8YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBzdHlsZT0ibWFyZ2lu
-OjAgMCAwIC44ZXg7IGJvcmRlci1sZWZ0OjJweCAjNzI5ZmNmIHNvbGlkO3BhZGRpbmctbGVmdDox
-ZXgiPg0KPGRpdiBkaXI9Imx0ciI+DQo8ZGl2IGNsYXNzPSJnbWFpbF9xdW90ZSI+DQo8ZGl2Pjxi
-cj4NCi0tZm9sbG93LXN5bWxpbmtzPGJyPg0KVGhpcyBvcHRpb24gaXMgYXZhaWxhYmxlIG9ubHkg
-b24gcGxhdGZvcm1zIHRoYXQgc3VwcG9ydCBzeW1ib2xpYyBsaW5rcyBhbmQgaGFzIGFuIGVmZmVj
-dCBvbmx5IGlmIG9wdGlvbiAtaSBpcyBzcGVjaWZpZWQuIEluIHRoaXMgY2FzZSwgaWYgdGhlIGZp
-bGUgdGhhdCBpcyBzcGVjaWZpZWQgb24gdGhlIGNvbW1hbmQgbGluZSBpcyBhIHN5bWJvbGljIGxp
-bmssIHNlZCB3aWxsIGZvbGxvdyB0aGUgbGluayBhbmQgZWRpdCB0aGUgdWx0aW1hdGUgZGVzdGlu
-YXRpb24NCiBvZiB0aGUgbGluay4gVGhlIGRlZmF1bHQgYmVoYXZpb3IgaXMgdG8gYnJlYWsgdGhl
-IHN5bWJvbGljIGxpbmssIHNvIHRoYXQgdGhlIGxpbmsgZGVzdGluYXRpb24gd2lsbCBub3QgYmUg
-bW9kaWZpZWQuPGJyPg0KPGJyPg0KPGEgaHJlZj0iaHR0cHM6Ly93d3cuZ251Lm9yZy9zb2Z0d2Fy
-ZS9zZWQvbWFudWFsL2h0bWxfbm9kZS9Db21tYW5kXzAwMmRMaW5lLU9wdGlvbnMuaHRtbCIgb3Jp
-Z2luYWxzcmM9Imh0dHBzOi8vd3d3LmdudS5vcmcvc29mdHdhcmUvc2VkL21hbnVhbC9odG1sX25v
-ZGUvQ29tbWFuZF8wMDJkTGluZS1PcHRpb25zLmh0bWwiIHNoYXNoPSJ5eDVlVkovQkNFeWM2bXJJ
-SDkzTkFOZC9BSW51TDhVQTIyYTcxNURvQksvZ1JBWUVYMWc4a2dHa1BabWVOMU9VVnNiV3pCRUpK
-NHh0aVZndmdneFpWV1JFajdvR0RjSzVvRnVMQ1B1cTM2Zy95aHpTRGxKUUJUY2pxRkh2bml2Sk9Y
-clhPait2eUtLN3ZxaTRsaWlSc3MwUERkQ1E5eXVPVWtreTJFZkpYREE9Ij5odHRwczovL3d3dy5n
-bnUub3JnL3NvZnR3YXJlL3NlZC9tYW51YWwvaHRtbF9ub2RlL0NvbW1hbmRfMDAyZExpbmUtT3B0
-aW9ucy5odG1sPC9hPjxicj4NCjxicj4NCkpvc2U8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8
-YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBzdHlsZT0ibWFyZ2luOjAgMCAwIC44ZXg7IGJvcmRlci1s
-ZWZ0OjJweCAjNzI5ZmNmIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPg0KPGRpdj48YnI+DQpTaWdu
-ZWQtb2ZmLWJ5OiBKb2FraW0gVGplcm5sdW5kICZsdDs8YSBocmVmPSJtYWlsdG86am9ha2ltLnRq
-ZXJubHVuZEBpbmZpbmVyYS5jb20iIHRhcmdldD0iX2JsYW5rIj5qb2FraW0udGplcm5sdW5kQGlu
-ZmluZXJhLmNvbTwvYT4mZ3Q7PGJyPg0KLS0tPGJyPg0KPC9kaXY+DQo8ZGl2Pjxicj4NCiZuYnNw
-Oy0gSSBoYXZlIHBhdGNoZXMgd2hpY2ggbW92ZXMgc2hhZG93L3Bhc3N3ZCBmaWxlcyB0byBhbiBz
-dWJkaXIgaW4gb3JkZXIgdG88YnI+DQombmJzcDsgJm5ic3A7aGF2ZSBwYXNzd2QgbWdtdCBvbiBh
-IFJPIFJGUy4gSXMgdGhlcmUgYSBpbnRlcmVzdCB0byBoYXZlIHRoYXQgb3ByaW9uIGluIE9FPzxi
-cj4NCjwvZGl2Pg0KPGRpdj48YnI+DQombmJzcDttZXRhL2NsYXNzZXMvcm9vdGZzLXBvc3Rjb21t
-YW5kcy5iYmNsYXNzIHwgNCArKy0tPGJyPg0KJm5ic3A7bWV0YS9jbGFzc2VzL3VzZXJhZGRfYmFz
-ZS5iYmNsYXNzJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHwgMiArLTxicj4NCiZuYnNwOzIg
-ZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKTxicj4NCjwvZGl2
-Pg0KPGRpdj48YnI+DQpkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL3Jvb3Rmcy1wb3N0Y29tbWFu
-ZHMuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9yb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3M8YnI+
-DQppbmRleCA1YzBiM2VjMzdjLi41NWNjODYzZGJmIDEwMDY0NDxicj4NCi0tLSBhL21ldGEvY2xh
-c3Nlcy9yb290ZnMtcG9zdGNvbW1hbmRzLmJiY2xhc3M8YnI+DQorKysgYi9tZXRhL2NsYXNzZXMv
-cm9vdGZzLXBvc3Rjb21tYW5kcy5iYmNsYXNzPGJyPg0KQEAgLTE0OCwxMCArMTQ4LDEwIEBAIHJl
-YWRfb25seV9yb290ZnNfaG9vayAoKSB7PGJyPg0KJm5ic3A7Izxicj4NCiZuYnNwO3phcF9lbXB0
-eV9yb290X3Bhc3N3b3JkICgpIHs8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgaWYg
-WyAtZSAke0lNQUdFX1JPT1RGU30vZXRjL3NoYWRvdyBdOyB0aGVuPGJyPg0KLSZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtzZWQgLWkgJ3MlXnJv
-b3Q6OiVyb290Oio6JScgJHtJTUFHRV9ST09URlN9L2V0Yy9zaGFkb3c8YnI+DQorJm5ic3A7ICZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3NlZCAtaSAncyVe
-cm9vdDo6JXJvb3Q6KjolJyAkKHJlYWxwYXRoICR7SU1BR0VfUk9PVEZTfS9ldGMvc2hhZG93KTxi
-cj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtmaTxicj4NCiZuYnNwOyAmbmJz
-cDsgJm5ic3A7ICZuYnNwOyBpZiBbIC1lICR7SU1BR0VfUk9PVEZTfS9ldGMvcGFzc3dkIF07IHRo
-ZW48YnI+DQotJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwO3NlZCAtaSAncyVecm9vdDo6JXJvb3Q6KjolJyAke0lNQUdFX1JPT1RGU30vZXRjL3Bh
-c3N3ZDxicj4NCismbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
-cDsgJm5ic3A7c2VkIC1pICdzJV5yb290Ojolcm9vdDoqOiUnICQocmVhbHBhdGggJHtJTUFHRV9S
-T09URlN9L2V0Yy9wYXNzd2QpPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZpPGJy
-Pg0KJm5ic3A7fTxicj4NCjwvZGl2Pg0KPGRpdj48YnI+DQpkaWZmIC0tZ2l0IGEvbWV0YS9jbGFz
-c2VzL3VzZXJhZGRfYmFzZS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3VzZXJhZGRfYmFzZS5iYmNs
-YXNzPGJyPg0KaW5kZXggN2Y1YjliNzIxOS4uNzI3MzJhNGQ1NyAxMDA2NDQ8YnI+DQotLS0gYS9t
-ZXRhL2NsYXNzZXMvdXNlcmFkZF9iYXNlLmJiY2xhc3M8YnI+DQorKysgYi9tZXRhL2NsYXNzZXMv
-dXNlcmFkZF9iYXNlLmJiY2xhc3M8YnI+DQpAQCAtMTU0LDcgKzE1NCw3IEBAIHBlcmZvcm1fcGFz
-c3dkX2V4cGlyZSAoKSB7PGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGxvY2FsIHVz
-ZXJuYW1lPWBlY2hvICZxdW90OyRvcHRzJnF1b3Q7IHwgYXdrICd7IHByaW50ICRORiB9J2A8YnI+
-DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgbG9jYWwgdXNlcl9leGlzdHM9JnF1b3Q7YGdy
-ZXAgJnF1b3Q7XiR1c2VybmFtZTomcXVvdDsgJHJvb3RkaXIvZXRjL3Bhc3N3ZCB8fCB0cnVlYCZx
-dW90Ozxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBpZiB0ZXN0ICZxdW90O3gkdXNl
-cl9leGlzdHMmcXVvdDsgIT0gJnF1b3Q7eCZxdW90OzsgdGhlbjxicj4NCi0mbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ZXZhbCBmbG9jayAteCAk
-cm9vdGRpciR7c3lzY29uZmRpcn0gLWMgXCZxdW90OyRQU0VVRE8gc2VkIC1pIFwnJ3MvXlwoJyR1
-c2VybmFtZSc6W146XSpcKTpbXjpdKjovXDE6MDovJ1wnICRyb290ZGlyL2V0Yy9zaGFkb3cgXCZx
-dW90OyB8fCB0cnVlPGJyPg0KKyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7ICZuYnNwOyAmbmJzcDtldmFsIGZsb2NrIC14ICRyb290ZGlyJHtzeXNjb25mZGlyfSAtYyBc
-JnF1b3Q7JFBTRVVETyBzZWQgLWkgXCcncy9eXCgnJHVzZXJuYW1lJzpbXjpdKlwpOlteOl0qOi9c
-MTowOi8nXCcgJChyZWFscGF0aCAkcm9vdGRpci9ldGMvc2hhZG93KSBcJnF1b3Q7IHx8IHRydWU8
-YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
-c3A7IGxvY2FsIHBhc3N3ZF9sYXN0Y2hhbmdlZD0mcXVvdDtgZ3JlcCAmcXVvdDteJHVzZXJuYW1l
-OiZxdW90OyAkcm9vdGRpci9ldGMvc2hhZG93IHwgY3V0IC1kOiAtZjNgJnF1b3Q7PGJyPg0KJm5i
-c3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBpZiB0
-ZXN0ICZxdW90O3gkcGFzc3dkX2xhc3RjaGFuZ2VkJnF1b3Q7ICE9ICZxdW90O3gwJnF1b3Q7OyB0
-aGVuPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgYmJmYXRhbCAmcXVvdDske1BOfTog
-cGFzc3dkIC0tZXhwaXJlIG9wZXJhdGlvbiBkaWQgbm90IHN1Y2NlZWQuJnF1b3Q7PGJyPg0KPC9k
-aXY+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPGRpdj48
-YnI+DQo8L2Rpdj4NCjxkaXY+PHNwYW4+PC9zcGFuPjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+Fix this issue checking if the process has timeout (hence it's been
+terminated) and checking if the returned code is 0, in that case
+set it to 255 to advertise that an error occurred.
 
---_000_bb563d42468303a71a47509e0892ef5b7f5ee6c9camelinfineraco_--
+Add a test case exercising the timeout in the SSHTest, test_ssh
+test function.
+
+Signed-off-by: Luca Fancellu <luca.fancellu@arm.com>
+---
+ meta/lib/oeqa/core/target/ssh.py   | 21 ++++++++++++++++++++-
+ meta/lib/oeqa/runtime/cases/ssh.py |  3 +++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target=
+/ssh.py
+index f22836d390ac..4fe763aaefba 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -224,6 +224,11 @@ class OESSHTarget(OETarget):
+                 remoteDir =3D os.path.join(remotePath, tmpDir.lstrip("/"=
+))
+                 self.deleteDir(remoteDir)
+=20
++
++class SSHCallTimeout(Exception):
++    pass
++
++
+ def SSHCall(command, logger, timeout=3DNone, **opts):
+=20
+     def run():
+@@ -232,9 +237,9 @@ def SSHCall(command, logger, timeout=3DNone, **opts):
+         output_raw =3D b''
+         starttime =3D time.time()
+         process =3D subprocess.Popen(command, **options)
++        eof =3D False
+         if timeout:
+             endtime =3D starttime + timeout
+-            eof =3D False
+             os.set_blocking(process.stdout.fileno(), False)
+             while time.time() < endtime and not eof:
+                 try:
+@@ -293,6 +298,11 @@ def SSHCall(command, logger, timeout=3DNone, **opts)=
+:
+                     pass
+                 process.wait()
+=20
++        # Process has timed out, raise exception here so that the proces=
+s at
++        # this point is already terminated/killed
++        if not eof:
++            raise SSHCallTimeout
++
+     options =3D {
+         "stdout": subprocess.PIPE,
+         "stderr": subprocess.STDOUT,
+@@ -313,6 +323,15 @@ def SSHCall(command, logger, timeout=3DNone, **opts)=
+:
+=20
+     try:
+         run()
++    except SSHCallTimeout:
++        # Version of openssh before 8.6_p1 returns error code 0 when kil=
+led by
++        # a signal, when the timeout occurs we will receive a 0 error co=
+de
++        # because the process is been terminated and it's wrong because =
+that
++        # value means success, but the process timed out.
++        # Afterwards, from version 8.6_p1 onwards, the returned code is =
+255.
++        # Fix this behaviour by checking the return code
++        if process.returncode =3D=3D 0:
++            process.returncode =3D 255
+     except:
+         # Need to guard against a SystemExit or other exception ocurring
+         # whilst running and ensure we don't leave a process behind.
+diff --git a/meta/lib/oeqa/runtime/cases/ssh.py b/meta/lib/oeqa/runtime/c=
+ases/ssh.py
+index 13aac5439698..cdbef595008c 100644
+--- a/meta/lib/oeqa/runtime/cases/ssh.py
++++ b/meta/lib/oeqa/runtime/cases/ssh.py
+@@ -13,6 +13,9 @@ class SSHTest(OERuntimeTestCase):
+     @OETestDepends(['ping.PingTest.test_ping'])
+     @OEHasPackage(['dropbear', 'openssh-sshd'])
+     def test_ssh(self):
++        (status, output) =3D self.target.run('sleep 20', timeout=3D2)
++        msg=3D'run() timed out but return code was zero.'
++        self.assertNotEqual(status, 0, msg=3Dmsg)
+         (status, output) =3D self.target.run('uname -a')
+         self.assertEqual(status, 0, msg=3D'SSH Test failed: %s' % output=
+)
+         (status, output) =3D self.target.run('cat /etc/controllerimage')
+
+base-commit: 6806bd23499aa66942c2b6b8fbc52dbec8ff8483
+--=20
+2.34.1
+
 
