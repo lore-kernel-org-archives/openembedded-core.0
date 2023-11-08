@@ -1,92 +1,117 @@
-Return-Path: <mklntf@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD637C4332F
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 20:55:39 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.74721.1699476936843431668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6487EC4167B
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 22:53:20 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.107100.1699483994591510500
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 12:55:37 -0800
+ Wed, 08 Nov 2023 14:53:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A3iYGuUE;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: mklntf@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4084095722aso484305e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 12:55:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jf6NEpj8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6b44befac59so1027933b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:53:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699476935; x=1700081735; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ll9exGEacNO12Z7JpOjvW6m+RYWjkUWp3z/LggrcSKs=;
-        b=A3iYGuUEeCIewR3qTQEMnOtHQ3Y7KJYPIWVWlq1qDIxNmyC5iTi5KfMuQOmHmQBnQU
-         z26RW4PvzR0OIYA4Dub+T6GTyDTJ5M8lC0K+dCiPnQ9YGW3IGykoM0K0Ag1grfyVUt9v
-         +jeE7wy6oeQCIdApR4hIY4TwVz6fJ7h0ohRlPIVWmWcMXaQbDEMJvnyKnSpiuybxUQaG
-         MG2M5UDx3PuGok33fvK9BwV48fcx8IhcY5fzKwZuu+t/UubCW+GBeQTlBi/2FPcToAtJ
-         U20w6yWuFEPyieXohXmFtPgQp95zXQlVsgdmLQz9gDxdSkRvsrMf3wEkRWE5C8DOg28V
-         nkWQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699483993; x=1700088793; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HFRqJtAHe+lD+640H154LRNMmRUoayM0A2K+zSabm88=;
+        b=jf6NEpj8PW8CPq82/BXRIcNz6yr4K+aNM45Yz8GkCSMAf2FzfVAN88rz0JC1MEh7IJ
+         aAm4Jid29qjUcff7t0WcGbqilkkkznx9jrlMOzutRRIt8qSg3/X5NKSsdjEwKKTAvsrg
+         XS75unCP16Qle8+Wejkyxq1IW4IzHBfNOozEYB5jyYBziyr1kByjrvOWsaabQATl5JH7
+         SKtdnfU300iyB85yg5opu/wvz78b2KeY4BefRmLuEy6Y8pQF4FRyQ3oFCKqHPUluVqlM
+         +bWeVU/N5DLI0esyElALBCTtFbw1UFnI+1clGyZv1t+yXsxpkWbaoig03rYL6asvoX7o
+         Q6FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699476935; x=1700081735;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ll9exGEacNO12Z7JpOjvW6m+RYWjkUWp3z/LggrcSKs=;
-        b=aFE/kS51DBON6mfnOdBNhBcJ2o0XfZBNB6m8v6leBR/G0pE6tpjjbB5+MZwOeeUJVX
-         nd3V7KPWAHQjIwrzkQT7VobpSU0roZSYnufwHOzQGjFyBXf1/dCjKm/w0wdimo1kEArf
-         0T8fFaZQheggaO3YN+v+fQtqjXcJXgazdB6kXgxclSR9Vo0TKpWS0a+EQbwZQQiaH7Wn
-         undPxXy5EPzRpp8n2PNgOP2Fg2yB9SahZWpsWcS2RmA/AVFznzU3ennabyOKtdMXObdm
-         72Qy8iR9+ZMJwgYcA5V4tkes5ethwclcu3/er4rXSrBGF2LUuY/7vFH/njTfO0qh7KUe
-         iFCg==
-X-Gm-Message-State: AOJu0YxlLCKdAH71f8kbmi8LNftebtXD4/owfzUCK04yAZbQ6wfK+WKX
-	8SBC7V9G5ZRCdCbf6GeeOxyJZ7X/gEYbAg==
-X-Google-Smtp-Source: AGHT+IHGsQsBy5qUWwJ+uTVhYq4uGM6Y740Yc42kplFVQtpJwNhpMgSbdIDtK7o5M4AdekxBYLHELA==
-X-Received: by 2002:a05:6000:2c1:b0:32d:a43c:a23d with SMTP id o1-20020a05600002c100b0032da43ca23dmr3788455wry.3.1699476935022;
-        Wed, 08 Nov 2023 12:55:35 -0800 (PST)
-Received: from nbmf.example ([2a02:810d:6e40:708:d1f8:a4c2:4c8d:975e])
-        by smtp.gmail.com with ESMTPSA id d7-20020adffd87000000b0032fb7b4f191sm5709887wrr.91.2023.11.08.12.55.34
+        d=1e100.net; s=20230601; t=1699483993; x=1700088793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HFRqJtAHe+lD+640H154LRNMmRUoayM0A2K+zSabm88=;
+        b=MebLGcEEQi09APW53YI+DRp0z2+l2RmAFJ9AxEgXN1sCtHNJbs0YhpfcQKJn1Ay38a
+         8zEJOCo56ADwmaSeJ5i6Jy36d45/yzELOYzfQB7tKMLXnddXfXTDr3HKQOUmDmmPWt4P
+         sSeprpldJirzhEMhNnzR/e3tK4tq807MZwFqrXOPY4sb5kNy0fomO2BqeGDsb2CBCZKx
+         /NN4hLVCPzUllPIybo5gfftmThLCsoQ7luu+zDCbxcEMNQELXZR1jednT6Tvi+KBEbus
+         N6L2DTlZHvupwouA0gKiWBh7CAhlI5cH9JvdlkUHSNPZLPfspkb3c1bRf2I4aEC0rXUB
+         0QJQ==
+X-Gm-Message-State: AOJu0YwJBYl/XS2lCt2lCy3GmPf3qq2X0xNny14fCbiSzRzcpPntle7x
+	AonD2n4r7PSahDEqp2WC+tfOgLoW5SEnvyBeeqat6g==
+X-Google-Smtp-Source: AGHT+IFpM6TUB7KJmgvY910BbHEIm7GkX5axkEe+F/RDdoXByTLhMkVct3tKwxsQfrCOSwGp31qULA==
+X-Received: by 2002:a05:6a20:6a20:b0:181:7d6d:c10b with SMTP id p32-20020a056a206a2000b001817d6dc10bmr4950759pzk.7.1699483992760;
+        Wed, 08 Nov 2023 14:53:12 -0800 (PST)
+Received: from hexa.lan (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id du4-20020a056a002b4400b006884844dfcdsm9467883pfb.55.2023.11.08.14.53.11
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 12:55:34 -0800 (PST)
-From: mklntf@gmail.com
+        Wed, 08 Nov 2023 14:53:12 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Markus Fuchs <mklntf@gmail.com>
-Subject: [PATCH] systemd: Add 'no-ntp-fallback' PACKAGECONFIG option
-Date: Wed,  8 Nov 2023 21:55:31 +0100
-Message-ID: <20231108205531.14011-1-mklntf@gmail.com>
-X-Mailer: git-send-email 2.42.0
+Subject: [OE-core][kirkstone 0/7] Patch review
+Date: Wed,  8 Nov 2023 12:52:59 -1000
+Message-Id: <cover.1699483825.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 20:55:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190357
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 22:53:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190358
 
-From: Markus Fuchs <mklntf@gmail.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Friday, November 10
 
-systemd defines a default set of fallback NTP servers in
-https://github.com/systemd/systemd/blob/v254/meson_options.txt#L343-L345
+Passed a-full on autobuilder:
 
-A no-dns-fallback option was added previously to comfortably allow to
-disable the default set of DNS fallback servers. This patch does the
-same for the default set of NTP servers.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6158
 
-Signed-off-by: Markus Fuchs <mklntf@gmail.com>
----
- meta/recipes-core/systemd/systemd_254.4.bb | 1 +
- 1 file changed, 1 insertion(+)
+The following changes since commit 0eb8e67aa6833df0cde29833568a70e65c21d7e5:
 
-diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_254.4.bb
-index 80ef418726..cc0e29fdd2 100644
---- a/meta/recipes-core/systemd/systemd_254.4.bb
-+++ b/meta/recipes-core/systemd/systemd_254.4.bb
-@@ -179,6 +179,7 @@ PACKAGECONFIG[microhttpd] = "-Dmicrohttpd=true,-Dmicrohttpd=false,libmicrohttpd"
- PACKAGECONFIG[myhostname] = "-Dnss-myhostname=true,-Dnss-myhostname=false,,libnss-myhostname"
- PACKAGECONFIG[networkd] = "-Dnetworkd=true,-Dnetworkd=false"
- PACKAGECONFIG[no-dns-fallback] = "-Ddns-servers="
-+PACKAGECONFIG[no-ntp-fallback] = "-Dntp-servers="
- PACKAGECONFIG[nss] = "-Dnss-systemd=true,-Dnss-systemd=false,,libnss-systemd"
- PACKAGECONFIG[nss-mymachines] = "-Dnss-mymachines=true,-Dnss-mymachines=false"
- PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=true,-Dnss-resolve=false"
+  build-appliance-image: Update to kirkstone head revision (2023-11-03 04:27:49 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Narpat Mali (1):
+  python3-jinja2: Fixed ptest result output as per the standard
+
+Ross Burton (3):
+  cve-check: sort the package list in the JSON report
+  cve-check: slightly more verbose warning when adding the same package
+    twice
+  cve-check: don't warn if a patch is remote
+
+Sanjana (1):
+  binutils: Fix CVE-2022-47010
+
+Soumya Sambu (1):
+  libwebp: Fix CVE-2023-4863
+
+Vijay Anusuri (1):
+  xserver-xorg: Fix for CVE-2023-5367 and CVE-2023-5380
+
+ meta/classes/cve-check.bbclass                |   2 +
+ meta/lib/oe/cve_check.py                      |  13 +--
+ .../binutils/binutils-2.38.inc                |   1 +
+ .../binutils/0032-CVE-2022-47010.patch        |  38 +++++++
+ .../python/python3-jinja2/run-ptest           |   2 +-
+ .../xserver-xorg/CVE-2023-5367.patch          |  84 +++++++++++++++
+ .../xserver-xorg/CVE-2023-5380.patch          | 102 ++++++++++++++++++
+ .../xorg-xserver/xserver-xorg_21.1.8.bb       |   2 +
+ ...23-5129.patch => CVE-2023-4863-0001.patch} |  20 ++--
+ .../webp/files/CVE-2023-4863-0002.patch       |  53 +++++++++
+ meta/recipes-multimedia/webp/libwebp_1.2.4.bb |   3 +-
+ 11 files changed, 303 insertions(+), 17 deletions(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0032-CVE-2022-47010.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
+ rename meta/recipes-multimedia/webp/files/{CVE-2023-5129.patch => CVE-2023-4863-0001.patch} (97%)
+ create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-4863-0002.patch
+
 -- 
-2.42.0
+2.34.1
 
 
