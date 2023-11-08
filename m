@@ -2,115 +2,239 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6487EC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62936C4332F
 	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 22:53:20 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.107100.1699483994591510500
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.107109.1699483998264586119
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 14:53:14 -0800
+ Wed, 08 Nov 2023 14:53:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jf6NEpj8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6b44befac59so1027933b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:53:14 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GHqIw3Qu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6bee11456baso190488b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:53:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699483993; x=1700088793; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HFRqJtAHe+lD+640H154LRNMmRUoayM0A2K+zSabm88=;
-        b=jf6NEpj8PW8CPq82/BXRIcNz6yr4K+aNM45Yz8GkCSMAf2FzfVAN88rz0JC1MEh7IJ
-         aAm4Jid29qjUcff7t0WcGbqilkkkznx9jrlMOzutRRIt8qSg3/X5NKSsdjEwKKTAvsrg
-         XS75unCP16Qle8+Wejkyxq1IW4IzHBfNOozEYB5jyYBziyr1kByjrvOWsaabQATl5JH7
-         SKtdnfU300iyB85yg5opu/wvz78b2KeY4BefRmLuEy6Y8pQF4FRyQ3oFCKqHPUluVqlM
-         +bWeVU/N5DLI0esyElALBCTtFbw1UFnI+1clGyZv1t+yXsxpkWbaoig03rYL6asvoX7o
-         Q6FQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699483997; x=1700088797; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=maTHmA7MEQ9MrKFesHVNLOmsFw+v+FWMbVK0yd7uVBc=;
+        b=GHqIw3QuAErYPzNOS/5IlWY6FuwU3+px/5ymxeb2b5wLaw/GApE7RHgisv37dZBTOI
+         lpT04xKhhmQ37VeFqHTFzFpEiMVuMiXZhYNLk0BtRSGtpR8BOQB7To1oTNnRjSfGUy1X
+         G0aFCF6wi9OiL0c05GhV4uWlgWnjBSSGx1uCjVSIqB+ydWcGWFQQXXCdIoQAjTTLzU5j
+         fffs31RAMntNcygydBgoApwBipXIZtHrqOQIVm0ccdU6tyXdTeh7Jgxt3VPvaYu2f7BB
+         lVNQcp1XVzMdiqrMRMCH4YshbMXVPYt/fOw6Hxcb73N+S6dlqFz3rfwaN36ZhcSesTrx
+         T+lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699483993; x=1700088793;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HFRqJtAHe+lD+640H154LRNMmRUoayM0A2K+zSabm88=;
-        b=MebLGcEEQi09APW53YI+DRp0z2+l2RmAFJ9AxEgXN1sCtHNJbs0YhpfcQKJn1Ay38a
-         8zEJOCo56ADwmaSeJ5i6Jy36d45/yzELOYzfQB7tKMLXnddXfXTDr3HKQOUmDmmPWt4P
-         sSeprpldJirzhEMhNnzR/e3tK4tq807MZwFqrXOPY4sb5kNy0fomO2BqeGDsb2CBCZKx
-         /NN4hLVCPzUllPIybo5gfftmThLCsoQ7luu+zDCbxcEMNQELXZR1jednT6Tvi+KBEbus
-         N6L2DTlZHvupwouA0gKiWBh7CAhlI5cH9JvdlkUHSNPZLPfspkb3c1bRf2I4aEC0rXUB
-         0QJQ==
-X-Gm-Message-State: AOJu0YwJBYl/XS2lCt2lCy3GmPf3qq2X0xNny14fCbiSzRzcpPntle7x
-	AonD2n4r7PSahDEqp2WC+tfOgLoW5SEnvyBeeqat6g==
-X-Google-Smtp-Source: AGHT+IFpM6TUB7KJmgvY910BbHEIm7GkX5axkEe+F/RDdoXByTLhMkVct3tKwxsQfrCOSwGp31qULA==
-X-Received: by 2002:a05:6a20:6a20:b0:181:7d6d:c10b with SMTP id p32-20020a056a206a2000b001817d6dc10bmr4950759pzk.7.1699483992760;
-        Wed, 08 Nov 2023 14:53:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699483997; x=1700088797;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=maTHmA7MEQ9MrKFesHVNLOmsFw+v+FWMbVK0yd7uVBc=;
+        b=F59UtJkeI+s6iYCiFFaE/+2LORC1c9j9rpuWs5bZyX4/KbiJEc1MJTa0GLDApofbG1
+         SyAI8rVz5c9V0ncQsciMX+L8pGKNscEXoJpTg5P8Gct2qVNUWnaMtjcDOlWZLSjPQLUF
+         jMV06dUJnLSgI8HQsJENhodOaTKEAtpsYxKqh4HQepfH3TQMacc6FXOO45G5WeNESYwN
+         HpIevZpph28+FEZz9OzH6HDRfNntgxHo6F5hoI+BjshUobSMYnQoxYKWhzfdDJesVret
+         KoVZ0wALGH9Za7T+GQw9ylBLX1N+f/HWNcbZCoYYTM9p6F2zVfHzsl471XIZiXQxsdfF
+         ykaQ==
+X-Gm-Message-State: AOJu0Yz7jXs8VOMXZWVTRhCgy3BSMs652t8PP57+XETPHA9rpHAOGkEG
+	+eL/W0ptp5JNXcDJpEqVKZNhgYRfcUPgHT2gk5Yxjw==
+X-Google-Smtp-Source: AGHT+IFYOEpCaaorkfpl/MCosqACrnMTsYY/MN2Nx5m1aTLA/lpZP914zTEPhhPwwvsKZwyFhW9hLg==
+X-Received: by 2002:a05:6a00:1707:b0:68e:2d59:b1f3 with SMTP id h7-20020a056a00170700b0068e2d59b1f3mr3330357pfc.13.1699483996839;
+        Wed, 08 Nov 2023 14:53:16 -0800 (PST)
 Received: from hexa.lan (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id du4-20020a056a002b4400b006884844dfcdsm9467883pfb.55.2023.11.08.14.53.11
+        by smtp.gmail.com with ESMTPSA id du4-20020a056a002b4400b006884844dfcdsm9467883pfb.55.2023.11.08.14.53.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 14:53:12 -0800 (PST)
+        Wed, 08 Nov 2023 14:53:16 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/7] Patch review
-Date: Wed,  8 Nov 2023 12:52:59 -1000
-Message-Id: <cover.1699483825.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/7] libwebp: Fix CVE-2023-4863
+Date: Wed,  8 Nov 2023 12:53:01 -1000
+Message-Id: <dbef9bf56fec551b6d1428fcefdadb500172940a.1699483825.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1699483825.git.steve@sakoman.com>
+References: <cover.1699483825.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 22:53:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190358
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190360
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Friday, November 10
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Passed a-full on autobuilder:
+Heap buffer overflow in WebP in Google Chrome prior to 116.0.5845.187
+allowed a remote attacker to perform an out of bounds memory write via
+a crafted HTML page.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6158
+Removed CVE-2023-5129.patch as CVE-2023-5129 is duplicate of CVE-2023-4863.
 
-The following changes since commit 0eb8e67aa6833df0cde29833568a70e65c21d7e5:
+CVE: CVE-2023-4863
 
-  build-appliance-image: Update to kirkstone head revision (2023-11-03 04:27:49 -1000)
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-4863
+https://security-tracker.debian.org/tracker/CVE-2023-4863
+https://bugzilla.redhat.com/show_bug.cgi?id=2238431#c12
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Narpat Mali (1):
-  python3-jinja2: Fixed ptest result output as per the standard
-
-Ross Burton (3):
-  cve-check: sort the package list in the JSON report
-  cve-check: slightly more verbose warning when adding the same package
-    twice
-  cve-check: don't warn if a patch is remote
-
-Sanjana (1):
-  binutils: Fix CVE-2022-47010
-
-Soumya Sambu (1):
-  libwebp: Fix CVE-2023-4863
-
-Vijay Anusuri (1):
-  xserver-xorg: Fix for CVE-2023-5367 and CVE-2023-5380
-
- meta/classes/cve-check.bbclass                |   2 +
- meta/lib/oe/cve_check.py                      |  13 +--
- .../binutils/binutils-2.38.inc                |   1 +
- .../binutils/0032-CVE-2022-47010.patch        |  38 +++++++
- .../python/python3-jinja2/run-ptest           |   2 +-
- .../xserver-xorg/CVE-2023-5367.patch          |  84 +++++++++++++++
- .../xserver-xorg/CVE-2023-5380.patch          | 102 ++++++++++++++++++
- .../xorg-xserver/xserver-xorg_21.1.8.bb       |   2 +
- ...23-5129.patch => CVE-2023-4863-0001.patch} |  20 ++--
- .../webp/files/CVE-2023-4863-0002.patch       |  53 +++++++++
- meta/recipes-multimedia/webp/libwebp_1.2.4.bb |   3 +-
- 11 files changed, 303 insertions(+), 17 deletions(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0032-CVE-2022-47010.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ ...23-5129.patch => CVE-2023-4863-0001.patch} | 20 +++----
+ .../webp/files/CVE-2023-4863-0002.patch       | 53 +++++++++++++++++++
+ meta/recipes-multimedia/webp/libwebp_1.2.4.bb |  3 +-
+ 3 files changed, 66 insertions(+), 10 deletions(-)
  rename meta/recipes-multimedia/webp/files/{CVE-2023-5129.patch => CVE-2023-4863-0001.patch} (97%)
  create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-4863-0002.patch
 
+diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch b/meta/recipes-multimedia/webp/files/CVE-2023-4863-0001.patch
+similarity index 97%
+rename from meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
+rename to meta/recipes-multimedia/webp/files/CVE-2023-4863-0001.patch
+index 356806ad87..e623569352 100644
+--- a/meta/recipes-multimedia/webp/files/CVE-2023-5129.patch
++++ b/meta/recipes-multimedia/webp/files/CVE-2023-4863-0001.patch
+@@ -1,7 +1,7 @@
+-From 383b8b4eb6780d855e8a8177fbce96ab39dba6a5 Mon Sep 17 00:00:00 2001
++From 902bc9190331343b2017211debcec8d2ab87e17a Mon Sep 17 00:00:00 2001
+ From: Vincent Rabaud <vrabaud@google.com>
+ Date: Thu, 7 Sep 2023 21:16:03 +0200
+-Subject: [PATCH 1/1] Fix OOB write in BuildHuffmanTable.
++Subject: [PATCH 1/2] Fix OOB write in BuildHuffmanTable.
+ 
+ First, BuildHuffmanTable is called to check if the data is valid.
+ If it is and the table is not big enough, more memory is allocated.
+@@ -12,9 +12,11 @@ codes) streams are still decodable.
+ Bug: chromium:1479274
+ Change-Id: I31c36dbf3aa78d35ecf38706b50464fd3d375741
+ 
+-CVE: CVE-2023-5129
++CVE: CVE-2023-4863
++
+ Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/902bc9190331343b2017211debcec8d2ab87e17a]
+-Signed-off-by: Colin McAllister <colinmca242@gmail.com>
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+ ---
+  src/dec/vp8l_dec.c        | 46 ++++++++++---------
+  src/dec/vp8li_dec.h       |  2 +-
+@@ -23,7 +25,7 @@ Signed-off-by: Colin McAllister <colinmca242@gmail.com>
+  4 files changed, 129 insertions(+), 43 deletions(-)
+ 
+ diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c
+-index 13480551..186b0b2f 100644
++index 1348055..186b0b2 100644
+ --- a/src/dec/vp8l_dec.c
+ +++ b/src/dec/vp8l_dec.c
+ @@ -253,11 +253,11 @@ static int ReadHuffmanCodeLengths(
+@@ -171,7 +173,7 @@ index 13480551..186b0b2f 100644
+    assert(dec->hdr_.num_htree_groups_ > 0);
+  
+ diff --git a/src/dec/vp8li_dec.h b/src/dec/vp8li_dec.h
+-index 72b2e861..32540a4b 100644
++index 72b2e86..32540a4 100644
+ --- a/src/dec/vp8li_dec.h
+ +++ b/src/dec/vp8li_dec.h
+ @@ -51,7 +51,7 @@ typedef struct {
+@@ -184,7 +186,7 @@ index 72b2e861..32540a4b 100644
+  
+  typedef struct VP8LDecoder VP8LDecoder;
+ diff --git a/src/utils/huffman_utils.c b/src/utils/huffman_utils.c
+-index 0cba0fbb..9efd6283 100644
++index 0cba0fb..9efd628 100644
+ --- a/src/utils/huffman_utils.c
+ +++ b/src/utils/huffman_utils.c
+ @@ -177,21 +177,24 @@ static int BuildHuffmanTable(HuffmanCode* const root_table, int root_bits,
+@@ -315,7 +317,7 @@ index 0cba0fbb..9efd6283 100644
+ +  }
+ +}
+ diff --git a/src/utils/huffman_utils.h b/src/utils/huffman_utils.h
+-index 13b7ad1a..98415c53 100644
++index 13b7ad1..98415c5 100644
+ --- a/src/utils/huffman_utils.h
+ +++ b/src/utils/huffman_utils.h
+ @@ -43,6 +43,29 @@ typedef struct {
+@@ -360,5 +362,5 @@ index 13b7ad1a..98415c53 100644
+  
+  #ifdef __cplusplus
+ -- 
+-2.34.1
++2.40.0
+ 
+diff --git a/meta/recipes-multimedia/webp/files/CVE-2023-4863-0002.patch b/meta/recipes-multimedia/webp/files/CVE-2023-4863-0002.patch
+new file mode 100644
+index 0000000000..231894e882
+--- /dev/null
++++ b/meta/recipes-multimedia/webp/files/CVE-2023-4863-0002.patch
+@@ -0,0 +1,53 @@
++From 95ea5226c870449522240ccff26f0b006037c520 Mon Sep 17 00:00:00 2001
++From: Vincent Rabaud <vrabaud@google.com>
++Date: Mon, 11 Sep 2023 16:06:08 +0200
++Subject: [PATCH 2/2] Fix invalid incremental decoding check.
++
++The first condition is only necessary if we have not read enough
++(enough being defined by src_last, not src_end which is the end
++of the image).
++The second condition now fits the comment below: "if not
++incremental, and we are past the end of buffer".
++
++BUG=oss-fuzz:62136
++
++Change-Id: I0700f67c62db8e1c02c2e429a069a71e606a5e4f
++
++CVE: CVE-2023-4863
++
++Upstream-Status: Backport [https://github.com/webmproject/libwebp/commit/95ea5226c870449522240ccff26f0b006037c520]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ src/dec/vp8l_dec.c | 15 +++++++++++++--
++ 1 file changed, 13 insertions(+), 2 deletions(-)
++
++diff --git a/src/dec/vp8l_dec.c b/src/dec/vp8l_dec.c
++index 186b0b2..59a9e64 100644
++--- a/src/dec/vp8l_dec.c
+++++ b/src/dec/vp8l_dec.c
++@@ -1241,9 +1241,20 @@ static int DecodeImageData(VP8LDecoder* const dec, uint32_t* const data,
++   }
++
++   br->eos_ = VP8LIsEndOfStream(br);
++-  if (dec->incremental_ && br->eos_ && src < src_end) {
+++  // In incremental decoding:
+++  // br->eos_ && src < src_last: if 'br' reached the end of the buffer and
+++  // 'src_last' has not been reached yet, there is not enough data. 'dec' has to
+++  // be reset until there is more data.
+++  // !br->eos_ && src < src_last: this cannot happen as either the buffer is
+++  // fully read, either enough has been read to reach 'src_last'.
+++  // src >= src_last: 'src_last' is reached, all is fine. 'src' can actually go
+++  // beyond 'src_last' in case the image is cropped and an LZ77 goes further.
+++  // The buffer might have been enough or there is some left. 'br->eos_' does
+++  // not matter.
+++  assert(!dec->incremental_ || (br->eos_ && src < src_last) || src >= src_last);
+++  if (dec->incremental_ && br->eos_ && src < src_last) {
++     RestoreState(dec);
++-  } else if (!br->eos_) {
+++  } else if ((dec->incremental_ && src >= src_last) || !br->eos_) {
++     // Process the remaining rows corresponding to last row-block.
++     if (process_func != NULL) {
++       process_func(dec, row > last_row ? last_row : row);
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.2.4.bb b/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
+index 4defdd5e42..a6cdc0c510 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.2.4.bb
+@@ -15,7 +15,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+ 
+ SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz \
+            file://CVE-2023-1999.patch \
+-           file://CVE-2023-5129.patch \
++           file://CVE-2023-4863-0001.patch \
++           file://CVE-2023-4863-0002.patch \
+            "
+ SRC_URI[sha256sum] = "7bf5a8a28cc69bcfa8cb214f2c3095703c6b73ac5fba4d5480c205331d9494df"
+ 
 -- 
 2.34.1
 
