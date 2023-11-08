@@ -1,290 +1,191 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <Deepthi.Hemraj@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9DB8C4332F
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 03:36:03 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.6604.1699414557701862903
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A478C4332F
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 06:09:44 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.8204.1699423775920702647
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 19:35:57 -0800
+ Tue, 07 Nov 2023 22:09:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=egUb98/f;
- spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6c396ef9a3dso3459348b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 19:35:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1699414556; x=1700019356; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YY3lHwQnHAsYGhhK4VeMT7GmdlLPDOjMU7w95ebg7zM=;
-        b=egUb98/fgwqYoaIxqmBhLFDsyxvoah++6nfZh0QekHyKsz+diYBvl72o00Mv7Nvnl7
-         +bbudE3rj7iIkawJP5tn2dQRftf1IscbQgCA1ck3YzPPwJcejvUTgTiD5pwdRTv+0dCp
-         /uzCIVU2W04xHpJdD/SK71j4hAWDw0QWQYbwY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699414556; x=1700019356;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YY3lHwQnHAsYGhhK4VeMT7GmdlLPDOjMU7w95ebg7zM=;
-        b=Dq1fqyLoG3eFJIuZ9LMsjjVGBseWH7kZPCx7N4YPdq4zqM882UZMx0e3ysm0ZWtBNn
-         CmdeKbrMZ2nyITCNijII23Pp2P/Vuf0x8DSHMxflA3EFulXdIrhBnyvAU9NThHufhjgH
-         DiXM4ThQS+P3uVRtOKmm8JBEFrL/ucjla0IkV0WeP4L6tfT3foSIhBTI1H4PL35F32DJ
-         TBqzV8qsO6HrjMId642d71NCrGsyKdxUlo7T2nI1B7LByx303ZGmZO7LooFb6UwW2QLA
-         p60fWYiLWtfIL0B4L/k5G8o/7Lvq2mk4k1nM42CyIUtkp5g2s1K7Y5jyWQRkrKnhVoD0
-         IJDw==
-X-Gm-Message-State: AOJu0YwCtIRWXH01W8Ow5pORzU92a38RmTL6ifT65PUFpQNBJ4z2sxf6
-	EXz2YVzIimjJ+zTgntZtf882nZ2qaFlZyh6lLjw=
-X-Google-Smtp-Source: AGHT+IEYpUGosHpRs9aXjM500yMMBOmIRjbn7LmowEDOPkLl6gLOClVRckVEg/y3MGAFSlNNnUF/lQ==
-X-Received: by 2002:a05:6a00:816:b0:6c3:2bb5:c684 with SMTP id m22-20020a056a00081600b006c32bb5c684mr636960pfk.0.1699414556111;
-        Tue, 07 Nov 2023 19:35:56 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c01c:7c68:95df:68d1:445e:d2ff])
-        by smtp.gmail.com with ESMTPSA id fh24-20020a056a00391800b006c306943730sm8116254pfb.91.2023.11.07.19.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 19:35:55 -0800 (PST)
-From: vanusuri@mvista.com
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=bOSb+NC6;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=96767f8fc1=deepthi.hemraj@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A84K4Fu011255
+	for <openembedded-core@lists.openembedded.org>; Wed, 8 Nov 2023 06:09:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=+EOKBiYFZHn3U+0FVM
+	4EtAuD51dU73Ee0pvwJnhg8ec=; b=bOSb+NC6/rgi8H++VK/FqMrlm30MYS1O5r
+	DL/UJyr6j6TMiOsrnTdPUeFLCuXZZtSNirR083sLIgrB4CQUt0l3KrK6NIma+qzg
+	E/LGig+B4ij2i2EPdR8A3vUlhvDYJciKpW9IW+hNnZw4LQSd0CXCVt3s4BrfHlK5
+	dZd2TGI17uIC7CIRc+nHPPb1uuOEdwiRJrcYsP4DEKiQozvtCQSOiFKhUz/RxEM4
+	Y08iCbO45NG7Xt46XBgtW0h6yLgX0Gr8Rimw60cKvVoZrJa/1rcRNRLRWKiLLkFP
+	OZZ91M1vQyZQci3Wg+A7hztcxFsStw89YcSoNiIo+tOAuXzeBjIw==
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2169.outbound.protection.outlook.com [104.47.73.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u7w3t0byw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 06:09:34 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DYC0RgWStl//BezljyisxZ79JKucUceSzRMPW219JrIdPPS/2Y8uY41MEI+lmaWP4urywUYQ1wAWx+cAkEgGOucafnFagfCndQ4VDuy3lx+nQvFoZ8SRLDx25ASvZctDF9/TUc96I74ckBL4z5sLPJT+7K6e0rZuee6TkWjQdofcp4D05C64xq6cQ2IhwSv3MWM1t5Gh3ZTwxH60cCMS8L+18E+wFXIH6t33Ffl/aCdf7W4fUSuR4133/v6Tze2+G7S2qNVu9z3QXgsWFX8P8/fgR2WM6Psi7Cv41US84gr9EnnqPrIoKwCMqx4AfaPBHsv6R4yEv0E+FfYGWdk+dQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+EOKBiYFZHn3U+0FVM4EtAuD51dU73Ee0pvwJnhg8ec=;
+ b=X45DwOeiJ22q9Cwf0La17GGwpr/dYxqnmPGkZLiEBrYby+cUNrURt2J7SK2ImvCkjYJUkD5IfQmgjMYmBWTD6uZRXhMeNpwk9pJdpashYzVNuFHJk9j4U6KtvsClUTOhBvNqdhmD54Tv/TRtyEscFCo2wdPbfASezf/rLaoKVrU9mxswNwqNwUdqp2LIpETPKV6+No/dpL3mTbgiO7XdoylQVN6gFldizC+5p4MKXXuy2iOJOjWC0TvxBGtENgkWog57Dt6xv0SCKeTSHYTco8UvQmV9qxhY70UVPmF/z1a8aP7YYfLHu1hZUIK0lkO+o6IzJWXRV7G/Gt98V3sxyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB6449.namprd11.prod.outlook.com (2603:10b6:510:1f7::17)
+ by DM6PR11MB4516.namprd11.prod.outlook.com (2603:10b6:5:2a5::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Wed, 8 Nov
+ 2023 06:09:31 +0000
+Received: from PH7PR11MB6449.namprd11.prod.outlook.com
+ ([fe80::d722:19c4:2468:6024]) by PH7PR11MB6449.namprd11.prod.outlook.com
+ ([fe80::d722:19c4:2468:6024%5]) with mapi id 15.20.6954.030; Wed, 8 Nov 2023
+ 06:09:30 +0000
+From: Deepthi.Hemraj@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][mickledore][kirkstone][PATCH v2] xserver-xorg: Fix for CVE-2023-5367 and CVE-2023-5380
-Date: Wed,  8 Nov 2023 09:05:46 +0530
-Message-Id: <20231108033546.13988-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
+        Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
+Subject: [PATCH] rust-cross-canadian: Fix file conflicts for arm and aarch64
+Date: Tue,  7 Nov 2023 22:09:04 -0800
+Message-ID: <20231108060904.2305647-1-Deepthi.Hemraj@windriver.com>
+X-Mailer: git-send-email 2.42.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0014.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::19) To PH7PR11MB6449.namprd11.prod.outlook.com
+ (2603:10b6:510:1f7::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6449:EE_|DM6PR11MB4516:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0004414-46e4-4f9d-40d2-08dbe0214549
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	NhAGfw1WMBfnnRVHPSiz55Becg2t0+B/m5b9/BfuT5MHk+nKb6dwZl16cW56i05g1QaeLpK7mYbrIoTieDyz7Wj3IsuD1YzeFWBXpDKbGtPSVTAH6pIaqTn0NaTORMPY9KSbZlDh/wRxy+Rp5AJ7UAwi2QXej74fIYLWdjywrQTd+O8E5XC2BkYNM6Eu6u76MbhLL2p/UW1CiP3ZV7RyiKzCD1mNQsREYDViWxGh9u8EFPzsQhKQYKIzqqK9x/TbstjtJd5k1tgLtmX4KPgnVg3QDYd78JE68N9pt/6EDoPY0MLkysAQeze7Q4Wk/WsJdOezmDdMjk5EM6xtCuixSEBXc7bmKtjG8aOJs9XXtZmIekL+vaCeWPBECFzeggPaUd4ToawAgstZI1DTIwP5UVMOfQ69U7DQgUIsiiMRGDCAHqC7j6I2pV5vUqHNY1J4YqKZFnk9nQnvmM6l8/ZlXQUJSsu5ejUqwaHsM1pnh27Gv0jMJY6bOm6L9kqpxK11PFxEmZEBwzrk3d+s1lGVWnZgSbmCpAUrSvRILvHpfW2XHvfBVyUAhjpa7w+zuWx1kaIrOm27QYU/pXN2qSIibL/0Acxf1ffQN/a5Map/tuccnyVg6OBudxAdxh0Ffqqz
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6449.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(396003)(136003)(346002)(39850400004)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(6486002)(6666004)(478600001)(86362001)(36756003)(38350700005)(38100700002)(52116002)(2616005)(6512007)(107886003)(41300700001)(6916009)(66476007)(66556008)(66946007)(6506007)(9686003)(1076003)(26005)(5660300002)(2906002)(8676002)(316002)(4326008)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ICOu7Pbr+LVp6bh0rydkKthQKvJcZnnwUvoIYM4Il4VzqwWDBWZVDfJnJPWy?=
+ =?us-ascii?Q?Ylf+mXfpxIRmJ2YsNXYJWUdEnda/yLEgKa1ozolGRMpN6Bc0l2g8w5F8uokh?=
+ =?us-ascii?Q?eLTXaONNBlqx2GhKlacbgvPxs+YVIugY7PklkXwWolJhyhkO6haqdMQMzY3j?=
+ =?us-ascii?Q?IEm3iSmIa7AiINZfT8v+upqAgym8DOPyPkYZK5p8pnwqRh22FHd6YcnZvSv1?=
+ =?us-ascii?Q?fQxlWQM4GbJjE6Fab930+/WVr6teHPEubW4d9MKZg7ODbFUF59OVjzIn2gu+?=
+ =?us-ascii?Q?Qgabt6upQUz9I+E9KtJI4eNnsbr++lf5zJ7a3DRW4/reenS7wn5tnISlFjtu?=
+ =?us-ascii?Q?vcP1FKlaDkMY6AXX6zzpLyQzClxpZjHYmVBt7QU1QHn3blXloB3FbIXcFU+e?=
+ =?us-ascii?Q?ciMyiwkpsWGHqtyzoAh8u/qR/PgYDX/nbYffpxzzg7DnhkTr/6uMXRMuGdgM?=
+ =?us-ascii?Q?eRBZW+gM6tJg4zh00gsbzQScu2gbdoFMFu5295wY/B0VXQuxEMFthmc/GIM8?=
+ =?us-ascii?Q?lTegjDqD2rgRMM1E2t8LuDS7Lk/vWEPnK/IenXdgt9WINL96zZGJj8VToxq+?=
+ =?us-ascii?Q?zFeqLo0gfG2mnxPLEfgHcjO78obsNzW0MV4oVJwAxsuCtqe5lOI7G98+97Ut?=
+ =?us-ascii?Q?p7CtgbdGGXLK45WkUT2PLJ5VMetwE96no7+Pohv0tRs+vzMf1gZpOX9BMrEo?=
+ =?us-ascii?Q?wsUoOe9a7+VwVDptc4PQrlbOEsRyBuBeOK6+ei8FJ6ER39d/mlA4qs+Nub8c?=
+ =?us-ascii?Q?usqe6x0KEZ/A/BBcMeiFyJk2KFy1Bwz3I+w+RxTZ4bV1OGSLsvMAGSicVoN6?=
+ =?us-ascii?Q?IIqDBpmSMQTwKHEblxMrFtYCu32VBqxO6DfmWwXTf8ki4M+Orzz8p6dfr8rg?=
+ =?us-ascii?Q?64wF+f2GYfOo+Y9QqQemsKzqNnl//1P8VJGpLlF1Ce3ex9Qb3zV6rsQzsEBQ?=
+ =?us-ascii?Q?PPhm0z2a4PlvdBCiYVS9OebS9ROc/dnr3RVxAZbWyPMCxQzTLFgmXauW2AEP?=
+ =?us-ascii?Q?7ChRnVMvuru37LfiaDARvXj6hg13ycmm5zR6f3ernSOZJ+Kl1lmlVQXDl6g0?=
+ =?us-ascii?Q?h+5g5z3EdZdhupL0k5CrmCwNEgYTP5OEP1jCXFvE5k9gZ+f4Dl223pwBbPvh?=
+ =?us-ascii?Q?MAUK/Qra9QtYBqTyhEE9YZHEAnHT7TKGCJ+ggy8eMa48PEPj11gZ8tnrKVJa?=
+ =?us-ascii?Q?ytzk6S6kd+MCHl1o4WKRNBWfHUmuDcH6U+IolgC73Kjb6cy/hlYHpQd+hBOf?=
+ =?us-ascii?Q?Uriq5KOtc9Px92ruBJHIECI6yq5D91oId6SUYsZgYBEvvJpuiIs9XMTe/buT?=
+ =?us-ascii?Q?FPkJhrf6ThnZR1n55paQag8aUVTSMmKjlBnDaC6O7rO6b5SSqb3zq8YIc0A9?=
+ =?us-ascii?Q?awK3ixUQ3TqENjfJLt8mp5/Y+g4iAZAsFFuI6ucCL7Ek2cvaLQAZybcx1TBf?=
+ =?us-ascii?Q?CKFJRkfw/q7SnZRoVrH+sFHbEFxm1oeOOTmtlemCAxpCHMDfaEpuYtF/tK++?=
+ =?us-ascii?Q?moj92MDmieAkhokliky7DO7UjVO8upBt8dzVe6STladn1F7dobqGSooeKTWK?=
+ =?us-ascii?Q?AhK6DnDwUoQmOB8cC80eRcPeG0hptFnEX+5Xw5VGyOXG9DYGR62OpotXF0JX?=
+ =?us-ascii?Q?Ww=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0004414-46e4-4f9d-40d2-08dbe0214549
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6449.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 06:09:30.5888
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 18cj/2eoxQs364b+tKKi0NXQeMiBe80hxBhNUsczLfWyjISABYQ6PrJGbwQjekOs94DPiVsjvInSuSjYxYImWZi3XTbDOlUvgB2m2/qo4pw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4516
+X-Proofpoint-ORIG-GUID: jmwTKkkHPI5w6aHjd6WnVTLr5Lulc487
+X-Proofpoint-GUID: jmwTKkkHPI5w6aHjd6WnVTLr5Lulc487
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-08_01,2023-11-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ mlxscore=0 phishscore=0 clxscore=1011 malwarescore=0 lowpriorityscore=0
+ mlxlogscore=718 priorityscore=1501 spamscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311060001 definitions=main-2311080048
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 03:36:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190303
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 06:09:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190304
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
-Upstream-Status: Backport
-[https://gitlab.freedesktop.org/xorg/xserver/-/commit/541ab2ecd41d4d8689e71855d93e492bc554719a
-&
-https://gitlab.freedesktop.org/xorg/xserver/-/commit/564ccf2ce9616620456102727acb8b0256b7bbd7]
+[YOCTO #15061]
+Rust multilib sdks broken because of the conflicts between attempted installs of rust-cross-canadian for arm and aarch64.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Arm and aarch64 target architectures are trying to install cargo.sh and rust.sh in the same path which resulted in the issue.
+
+The current patch modifies CARGO_ENV_SETUP_SH and RUST_ENV_SETUP_SH macros based on the architecture.
+Hence, creates different file names for the environment setup scripts and resolves the issue.
+
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 ---
- .../xserver-xorg/CVE-2023-5367.patch          |  84 +++++++++++++++
- .../xserver-xorg/CVE-2023-5380.patch          | 102 ++++++++++++++++++
- .../xorg-xserver/xserver-xorg_21.1.8.bb       |   2 +
- 3 files changed, 188 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
+ .../rust/rust-cross-canadian.inc              | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
-new file mode 100644
-index 0000000000..508588481e
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
-@@ -0,0 +1,84 @@
-+From 541ab2ecd41d4d8689e71855d93e492bc554719a Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Tue, 3 Oct 2023 11:53:05 +1000
-+Subject: [PATCH] Xi/randr: fix handling of PropModeAppend/Prepend
-+
-+The handling of appending/prepending properties was incorrect, with at
-+least two bugs: the property length was set to the length of the new
-+part only, i.e. appending or prepending N elements to a property with P
-+existing elements always resulted in the property having N elements
-+instead of N + P.
-+
-+Second, when pre-pending a value to a property, the offset for the old
-+values was incorrect, leaving the new property with potentially
-+uninitalized values and/or resulting in OOB memory writes.
-+For example, prepending a 3 element value to a 5 element property would
-+result in this 8 value array:
-+  [N, N, N, ?, ?, P, P, P ] P, P
-+                            ^OOB write
-+
-+The XI2 code is a copy/paste of the RandR code, so the bug exists in
-+both.
-+
-+CVE-2023-5367, ZDI-CAN-22153
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/541ab2ecd41d4d8689e71855d93e492bc554719a]
-+CVE: CVE-2023-5367
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ Xi/xiproperty.c    | 4 ++--
-+ randr/rrproperty.c | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/Xi/xiproperty.c b/Xi/xiproperty.c
-+index 066ba21fba..d315f04d0e 100644
-+--- a/Xi/xiproperty.c
-++++ b/Xi/xiproperty.c
-+@@ -730,7 +730,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type,
-+                 XIDestroyDeviceProperty(prop);
-+             return BadAlloc;
-+         }
-+-        new_value.size = len;
-++        new_value.size = total_len;
-+         new_value.type = type;
-+         new_value.format = format;
-+ 
-+@@ -747,7 +747,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type,
-+         case PropModePrepend:
-+             new_data = new_value.data;
-+             old_data = (void *) (((char *) new_value.data) +
-+-                                  (prop_value->size * size_in_bytes));
-++                                  (len * size_in_bytes));
-+             break;
-+         }
-+         if (new_data)
-+diff --git a/randr/rrproperty.c b/randr/rrproperty.c
-+index c2fb9585c6..25469f57b2 100644
-+--- a/randr/rrproperty.c
-++++ b/randr/rrproperty.c
-+@@ -209,7 +209,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type,
-+                 RRDestroyOutputProperty(prop);
-+             return BadAlloc;
-+         }
-+-        new_value.size = len;
-++        new_value.size = total_len;
-+         new_value.type = type;
-+         new_value.format = format;
-+ 
-+@@ -226,7 +226,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type,
-+         case PropModePrepend:
-+             new_data = new_value.data;
-+             old_data = (void *) (((char *) new_value.data) +
-+-                                  (prop_value->size * size_in_bytes));
-++                                  (len * size_in_bytes));
-+             break;
-+         }
-+         if (new_data)
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
-new file mode 100644
-index 0000000000..57e2a5abdf
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
-@@ -0,0 +1,102 @@
-+From 564ccf2ce9616620456102727acb8b0256b7bbd7 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 5 Oct 2023 12:19:45 +1000
-+Subject: [PATCH] mi: reset the PointerWindows reference on screen switch
-+
-+PointerWindows[] keeps a reference to the last window our sprite
-+entered - changes are usually handled by CheckMotion().
-+
-+If we switch between screens via XWarpPointer our
-+dev->spriteInfo->sprite->win is set to the new screen's root window.
-+If there's another window at the cursor location CheckMotion() will
-+trigger the right enter/leave events later. If there is not, it skips
-+that process and we never trigger LeaveWindow() - PointerWindows[] for
-+the device still refers to the previous window.
-+
-+If that window is destroyed we have a dangling reference that will
-+eventually cause a use-after-free bug when checking the window hierarchy
-+later.
-+
-+To trigger this, we require:
-+- two protocol screens
-+- XWarpPointer to the other screen's root window
-+- XDestroyWindow before entering any other window
-+
-+This is a niche bug so we hack around it by making sure we reset the
-+PointerWindows[] entry so we cannot have a dangling pointer. This
-+doesn't handle Enter/Leave events correctly but the previous code didn't
-+either.
-+
-+CVE-2023-5380, ZDI-CAN-21608
-+
-+This vulnerability was discovered by:
-+Sri working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Reviewed-by: Adam Jackson <ajax@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/564ccf2ce9616620456102727acb8b0256b7bbd7]
-+CVE: CVE-2023-5380
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ dix/enterleave.h   |  2 --
-+ include/eventstr.h |  3 +++
-+ mi/mipointer.c     | 17 +++++++++++++++--
-+ 3 files changed, 18 insertions(+), 4 deletions(-)
-+
-+diff --git a/dix/enterleave.h b/dix/enterleave.h
-+index 4b833d8a3b..e8af924c68 100644
-+--- a/dix/enterleave.h
-++++ b/dix/enterleave.h
-+@@ -58,8 +58,6 @@ extern void DeviceFocusEvent(DeviceIntPtr dev,
-+ 
-+ extern void EnterWindow(DeviceIntPtr dev, WindowPtr win, int mode);
-+ 
-+-extern void LeaveWindow(DeviceIntPtr dev);
-+-
-+ extern void CoreFocusEvent(DeviceIntPtr kbd,
-+                            int type, int mode, int detail, WindowPtr pWin);
-+ 
-+diff --git a/include/eventstr.h b/include/eventstr.h
-+index 93308f9b24..a9926eaeef 100644
-+--- a/include/eventstr.h
-++++ b/include/eventstr.h
-+@@ -335,4 +335,7 @@ union _InternalEvent {
-+     GestureEvent gesture_event;
-+ };
-+ 
-++extern void
-++LeaveWindow(DeviceIntPtr dev);
-++
-+ #endif
-+diff --git a/mi/mipointer.c b/mi/mipointer.c
-+index a638f25d4a..8cf0035140 100644
-+--- a/mi/mipointer.c
-++++ b/mi/mipointer.c
-+@@ -397,8 +397,21 @@ miPointerWarpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y)
-+ #ifdef PANORAMIX
-+         && noPanoramiXExtension
-+ #endif
-+-        )
-+-        UpdateSpriteForScreen(pDev, pScreen);
-++        ) {
-++            DeviceIntPtr master = GetMaster(pDev, MASTER_POINTER);
-++            /* Hack for CVE-2023-5380: if we're moving
-++             * screens PointerWindows[] keeps referring to the
-++             * old window. If that gets destroyed we have a UAF
-++             * bug later. Only happens when jumping from a window
-++             * to the root window on the other screen.
-++             * Enter/Leave events are incorrect for that case but
-++             * too niche to fix.
-++             */
-++            LeaveWindow(pDev);
-++            if (master)
-++                LeaveWindow(master);
-++            UpdateSpriteForScreen(pDev, pScreen);
-++    }
-+ }
-+ 
-+ /**
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-index 19db7ea434..63932b4e79 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-@@ -2,6 +2,8 @@ require xserver-xorg.inc
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+index 7bfef6d175..94c3b0d696 100644
+--- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
++++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
+@@ -54,6 +54,18 @@ do_install () {
+     mkdir "${ENV_SETUP_DIR}"
+     RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust.sh"
  
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-+           file://CVE-2023-5367.patch \
-+           file://CVE-2023-5380.patch \
-            "
- SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
++    # Set up environment variables for AArch64
++    if [ "${TARGET_ARCH}" == "aarch64" ]; then
++	RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust-aarch64.sh"
++	RUST_TARGET_SYS="aarch64-unknown-linux-gnu"
++    # Set up environment variables for ARM
++    elif [ "${TARGET_ARCH}" == "arm" ]; then
++	RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust-arm.sh"
++	RUST_TARGET_SYS="arm-unknown-linux-gnueabi"
++    else
++	RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust.sh"
++    fi
++
+     RUST_TARGET_TRIPLE=`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
+     RUST_HOST_TRIPLE=`echo ${RUST_HOST_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
+     SDKLOADER=${@bb.utils.contains('SDK_ARCH', 'x86_64', 'ld-linux-x86-64.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'i686', 'ld-linux.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'aarch64', 'ld-linux-aarch64.so.1', '', d)}${@bb.utils.contains('SDK_ARCH', 'ppc64le', 'ld64.so.2', '', d)}${@bb.utils.contains('SDK_ARCH', 'riscv64', 'ld-linux-riscv64-lp64d.so.1', '', d)}
+@@ -67,6 +79,19 @@ do_install () {
+     chown -R root.root ${D}
  
+     CARGO_ENV_SETUP_SH="${ENV_SETUP_DIR}/cargo.sh"
++
++    # Set up environment variables for AArch64
++    if [ "${TARGET_ARCH}" = "aarch64" ]; then
++	CARGO_ENV_SETUP_SH="${ENV_SETUP_DIR}/cargo-aarch64.sh"
++	CARGO_TARGET_SYS="aarch64-unknown-linux-gnu"
++    # Set up environment variables for ARM
++    elif [ "${TARGET_ARCH}" == "arm" ]; then
++	CARGO_ENV_SETUP_SH="${ENV_SETUP_DIR}/cargo-arm.sh"
++	CARGO_TARGET_SYS="arm-unknown-linux-gnueabi"
++    else
++	CARGO_ENV_SETUP_SH="${ENV_SETUP_DIR}/cargo.sh"
++    fi
++
+     cat <<- EOF > "${CARGO_ENV_SETUP_SH}"
+ 	export CARGO_HOME="\$OECORE_TARGET_SYSROOT/home/cargo"
+ 	mkdir -p "\$CARGO_HOME"
 -- 
-2.25.1
+2.42.0
 
 
