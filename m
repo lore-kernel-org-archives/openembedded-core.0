@@ -2,60 +2,60 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE702C4332F
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 03:14:33 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.6265.1699413268645976623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9DB8C4332F
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 03:36:03 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.6604.1699414557701862903
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Nov 2023 19:14:28 -0800
+ Tue, 07 Nov 2023 19:35:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=R3JJEo6o;
- spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1cc921a4632so53808085ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 19:14:28 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=egUb98/f;
+ spf=pass (domain: mvista.com, ip: 209.85.210.175, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6c396ef9a3dso3459348b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Nov 2023 19:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1699413267; x=1700018067; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1699414556; x=1700019356; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aBQGISCpSy3IjAdYmTV8/PAQQuBH/65cvJmEF99a02o=;
-        b=R3JJEo6oSLXnp7ZUtAWrB3C1/lLKKtq7qVsFbNUJX8pVYJbaGKAjTdZ+rfkXTWDTxQ
-         E7eVozdgFBz6gVQ39Tw7+frBFW3vQ91EOnuExMKXsPoq+i3OudleuPMgaGqejHlKKuf6
-         /kdRZLPnX/EFGm5SeFpS8Zj2yTZUId6NZxOEg=
+        bh=YY3lHwQnHAsYGhhK4VeMT7GmdlLPDOjMU7w95ebg7zM=;
+        b=egUb98/fgwqYoaIxqmBhLFDsyxvoah++6nfZh0QekHyKsz+diYBvl72o00Mv7Nvnl7
+         +bbudE3rj7iIkawJP5tn2dQRftf1IscbQgCA1ck3YzPPwJcejvUTgTiD5pwdRTv+0dCp
+         /uzCIVU2W04xHpJdD/SK71j4hAWDw0QWQYbwY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699413267; x=1700018067;
+        d=1e100.net; s=20230601; t=1699414556; x=1700019356;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aBQGISCpSy3IjAdYmTV8/PAQQuBH/65cvJmEF99a02o=;
-        b=C5oLv+nD61P/56wf0tZ67IrJJ1LWTm3DQq34YIThOGLCkcBPM+p5/3jNHAwIEWik4N
-         yOKYU9BNi5r+WTilTy224JvkJoNcXq5wxLKEF4wWUz6YvMxfZ3pLUnfAk/Ahoz6/eypD
-         hcKRNjZ6tnx68/HsxMa5PIpGfebDzdfZf/bmq5N1+LPd8C9Ir1piZdmXg2Ypxd19zX0+
-         O8p147SonSuWgHCiRDvPE8AV2c+PA+yHbc+6SCmwxMIDJe6LnvRyoFnXLP4pDvc1SWb4
-         dxHfRAhBpGrWV0dCQHc4u3J8hpnW954ZrBZpFkV2CojJ/WI+jyEFGSCIgpvYG8JELSo7
-         vkmQ==
-X-Gm-Message-State: AOJu0Yxym3BimFbNDeIR/iienn8gsyCJu6WPjzJl22oxqk8DpmnUpev3
-	j8/kijMWywV0CjePYIAJp6w23U2X2+eN4kmFOSU=
-X-Google-Smtp-Source: AGHT+IH3HwNC3V9a5mKaoi6yTJwO5ENiiZ++haOWz4Zg8IT1Y/OJ+4MMDIQWlUyjBoeUPMktx3O69Q==
-X-Received: by 2002:a17:903:2cf:b0:1c9:dfb8:a5a0 with SMTP id s15-20020a17090302cf00b001c9dfb8a5a0mr1125133plk.10.1699413267013;
-        Tue, 07 Nov 2023 19:14:27 -0800 (PST)
-Received: from MVIN00020.mvista.com ([49.37.147.93])
-        by smtp.gmail.com with ESMTPSA id e8-20020a170902744800b001cc50f67fbasm518175plt.281.2023.11.07.19.14.25
+        bh=YY3lHwQnHAsYGhhK4VeMT7GmdlLPDOjMU7w95ebg7zM=;
+        b=Dq1fqyLoG3eFJIuZ9LMsjjVGBseWH7kZPCx7N4YPdq4zqM882UZMx0e3ysm0ZWtBNn
+         CmdeKbrMZ2nyITCNijII23Pp2P/Vuf0x8DSHMxflA3EFulXdIrhBnyvAU9NThHufhjgH
+         DiXM4ThQS+P3uVRtOKmm8JBEFrL/ucjla0IkV0WeP4L6tfT3foSIhBTI1H4PL35F32DJ
+         TBqzV8qsO6HrjMId642d71NCrGsyKdxUlo7T2nI1B7LByx303ZGmZO7LooFb6UwW2QLA
+         p60fWYiLWtfIL0B4L/k5G8o/7Lvq2mk4k1nM42CyIUtkp5g2s1K7Y5jyWQRkrKnhVoD0
+         IJDw==
+X-Gm-Message-State: AOJu0YwCtIRWXH01W8Ow5pORzU92a38RmTL6ifT65PUFpQNBJ4z2sxf6
+	EXz2YVzIimjJ+zTgntZtf882nZ2qaFlZyh6lLjw=
+X-Google-Smtp-Source: AGHT+IEYpUGosHpRs9aXjM500yMMBOmIRjbn7LmowEDOPkLl6gLOClVRckVEg/y3MGAFSlNNnUF/lQ==
+X-Received: by 2002:a05:6a00:816:b0:6c3:2bb5:c684 with SMTP id m22-20020a056a00081600b006c32bb5c684mr636960pfk.0.1699414556111;
+        Tue, 07 Nov 2023 19:35:56 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:c01c:7c68:95df:68d1:445e:d2ff])
+        by smtp.gmail.com with ESMTPSA id fh24-20020a056a00391800b006c306943730sm8116254pfb.91.2023.11.07.19.35.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 19:14:26 -0800 (PST)
+        Tue, 07 Nov 2023 19:35:55 -0800 (PST)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH v2] xserver-xorg: Fix for CVE-2023-5367 and CVE-2023-5380
-Date: Wed,  8 Nov 2023 08:42:11 +0530
-Message-Id: <20231108031211.12669-1-vanusuri@mvista.com>
+Subject: [OE-core][mickledore][kirkstone][PATCH v2] xserver-xorg: Fix for CVE-2023-5367 and CVE-2023-5380
+Date: Wed,  8 Nov 2023 09:05:46 +0530
+Message-Id: <20231108033546.13988-1-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 03:14:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190302
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 03:36:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190303
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
@@ -68,7 +68,7 @@ Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
  .../xserver-xorg/CVE-2023-5367.patch          |  84 +++++++++++++++
  .../xserver-xorg/CVE-2023-5380.patch          | 102 ++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.20.14.bb      |   2 +
+ .../xorg-xserver/xserver-xorg_21.1.8.bb       |   2 +
  3 files changed, 188 insertions(+)
  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
@@ -165,7 +165,7 @@ index 0000000000..508588481e
 +
 diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
 new file mode 100644
-index 0000000000..720340d83b
+index 0000000000..57e2a5abdf
 --- /dev/null
 +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
 @@ -0,0 +1,102 @@
@@ -216,7 +216,7 @@ index 0000000000..720340d83b
 + 3 files changed, 18 insertions(+), 4 deletions(-)
 +
 +diff --git a/dix/enterleave.h b/dix/enterleave.h
-+index 4b833d8..e8af924 100644
++index 4b833d8a3b..e8af924c68 100644
 +--- a/dix/enterleave.h
 ++++ b/dix/enterleave.h
 +@@ -58,8 +58,6 @@ extern void DeviceFocusEvent(DeviceIntPtr dev,
@@ -229,11 +229,11 @@ index 0000000000..720340d83b
 +                            int type, int mode, int detail, WindowPtr pWin);
 + 
 +diff --git a/include/eventstr.h b/include/eventstr.h
-+index bf3b95f..2bae3b0 100644
++index 93308f9b24..a9926eaeef 100644
 +--- a/include/eventstr.h
 ++++ b/include/eventstr.h
-+@@ -296,4 +296,7 @@ union _InternalEvent {
-+ #endif
++@@ -335,4 +335,7 @@ union _InternalEvent {
++     GestureEvent gesture_event;
 + };
 + 
 ++extern void
@@ -241,7 +241,7 @@ index 0000000000..720340d83b
 ++
 + #endif
 +diff --git a/mi/mipointer.c b/mi/mipointer.c
-+index 75be1ae..b12ae9b 100644
++index a638f25d4a..8cf0035140 100644
 +--- a/mi/mipointer.c
 ++++ b/mi/mipointer.c
 +@@ -397,8 +397,21 @@ miPointerWarpCursor(DeviceIntPtr pDev, ScreenPtr pScreen, int x, int y)
@@ -269,21 +269,21 @@ index 0000000000..720340d83b
 + 
 + /**
 +-- 
-+2.25.1
++GitLab
 +
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
-index 5c604fa86e..eaff93bd09 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.14.bb
-@@ -16,6 +16,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://CVE-2022-46344.patch \
-            file://CVE-2023-0494.patch \
-            file://CVE-2023-1393.patch \
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+index 19db7ea434..63932b4e79 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
+@@ -2,6 +2,8 @@ require xserver-xorg.inc
+ 
+ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
+            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
 +           file://CVE-2023-5367.patch \
 +           file://CVE-2023-5380.patch \
- "
- SRC_URI[md5sum] = "453fc86aac8c629b3a5b77e8dcca30bf"
- SRC_URI[sha256sum] = "54b199c9280ff8bf0f73a54a759645bd0eeeda7255d1c99310d5b7595f3ac066"
+            "
+ SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
+ 
 -- 
 2.25.1
 
