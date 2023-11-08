@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D74C41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F33D1C0018C
 	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 13:47:06 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.13926.1699451220233449833
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.13928.1699451221743220483
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 05:47:00 -0800
+ Wed, 08 Nov 2023 05:47:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0bqNzBTF;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1cc3216b2a1so56111825ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 05:47:00 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FKP6ObSI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1cc7077d34aso52729185ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 05:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699451219; x=1700056019; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699451221; x=1700056021; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Yy4U95czz44BluqTjiYvpNRegsPD3fHjoKD0ImcO+Mc=;
-        b=0bqNzBTFkpzn/44N/XEnK9seTjS1bVAs34czVn4P9YmkkP7JMCeh5YVuFwgd9fDkG3
-         ZvD9KmgTD/C8Y8nNp3KdOc+DAGv3FZVq3yl1dImdGmaVPoXGuejnl0GBgDtnTPa6ZraM
-         IL0rLTTdO367CAOv7VY2dw4m+GD0x6BQ54W9QbVQFvgS1eXMJ3r6Uu/4QISw9CcOLyKK
-         64Di0/oMCK/o0uln9Ua5h8fXUQgmHQZw+twC+ohWRLWvfO70jXytgSJEA209JCFJbpBD
-         WDNcqOGRsp1/icn6QEA2WshRsFrRuOKYVIIIUk5Yt6GwVLjhF47nl+zPH8ZlajcwvStS
-         E/1w==
+        bh=/ZXPBH1TdZvBvF6yAqWgUPZcwHxJsls1R8XCiDe41n0=;
+        b=FKP6ObSIrN+ataDxG8n10JPotQwyKiNCquVCd6GVsJTzBaUsVhKwY/eSDAfbWnPBSm
+         adDlbR+S0cy5w9yaJArMsOeueZ3Gx0Jq2L2ZV5MBgREYT2c34QGWbEtKN9XAzR4vduTy
+         a2kJF2Pru+DSXX1N1m5MCkCwDh5n+UATgipelu4OtignFrFN201iFQUC1JtXw/ITT8un
+         rFDz9JZP1o3uFGdv9vlKPKtRHbAzquVJMTKYSXU1eRNmQIp4kYBq81LB6rmG+XU74iu/
+         PwV98aF4N787gY2hv+IvQerK/FYv86a71RUHi5KP/z5VuXXxaX0vowRJreY9x+IpdNfB
+         QjIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699451219; x=1700056019;
+        d=1e100.net; s=20230601; t=1699451221; x=1700056021;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Yy4U95czz44BluqTjiYvpNRegsPD3fHjoKD0ImcO+Mc=;
-        b=wotoTW7dh3YVZmlQnUiY0Y/Ru0RISuHttbtpNO/+n/Lu1lR8QpOOY6E1zqyeh3g5mb
-         rC+w9XWuBPhNjYTqPS7QHX0CkC7pOqSGVf+EIzs1f5wjRP5qON8FuGmlrrD4nTQU4Qy0
-         Ko65REdkQTDyB1Zc2VgDyFzINgeyNq99y51iMAYdfQlMOt/0ip3Vbjco9UVVJBtW+pkC
-         c+9wNmTG0lwP1aly6BmtC4osLxnzuHFohPY6475oAz0XpSqe3J1kRqBoK113wYOADk1h
-         5NcZpGF9pg0XBZn17/n9YT1i5/zcn7c+NNkFRwYx9XvSPfx2CONWqGARhFlLf9fU1yCg
-         rldg==
-X-Gm-Message-State: AOJu0YzGZLBdZC1pRPSVcM7GeV1gTT6bmeDjJwv8eJBlP0KnO4wZDlym
-	MtkJ4kwThgKBMGNZEDNVa8x38r2bCCs2PWJq+rLzoA==
-X-Google-Smtp-Source: AGHT+IHCXGo0aMKEanvEgNYn/YtPKEnaC37BdtfwLS+bdXYlgjqvTbYmydY97bCXdXmUHPFrt7CYMg==
-X-Received: by 2002:a17:902:7c0d:b0:1cc:1490:e7bf with SMTP id x13-20020a1709027c0d00b001cc1490e7bfmr1689644pll.30.1699451218772;
-        Wed, 08 Nov 2023 05:46:58 -0800 (PST)
+        bh=/ZXPBH1TdZvBvF6yAqWgUPZcwHxJsls1R8XCiDe41n0=;
+        b=iipgXEEmPnfTRnsTtfLUa1YWdRhsRuLbgc13MIaKn1YhiMVIr7FH2IsQAGigDizvKu
+         dyopqz8Ylb/xMosSfy4OvLwgRted30E4pP1RNl0upyIfEnD46qYxHih+G/MQ+jz0zvmQ
+         9veAqjEF13MsvCcqZXkIcQoZi8KitY69w0c5AwbdRhVVBOGbZPoZxEa2mHvasuQzDWJ+
+         8JO/gvCfhWzxyLK9YnUbMZOmXnM88kC2R49frygRwvDviKjYJ+93fDh6cfdvkM2wnSrm
+         Y3XqRLFKDtO+iQiQwEm+9RmBSsXvDV6s4VpkSYnETFQNYuScwApKHQYL2cU+emehrDif
+         D5jQ==
+X-Gm-Message-State: AOJu0Yy1xC03d6lHAZ0He4g8Wn2ZwqCcn2TwjiNR5ZpKwichewuw1Bip
+	JXDvuhol77MNUHbr30aYKIIyc+sXOH5JOY9W3t2IKQ==
+X-Google-Smtp-Source: AGHT+IEUOyfzJeQ2qfjBPfg7G1vkW2hxzPWYRKh8pMP7ASMZQSMdEGUAKR6huiRF2E39SqQYK7z8LA==
+X-Received: by 2002:a17:902:cf01:b0:1c9:d8b6:e7ad with SMTP id i1-20020a170902cf0100b001c9d8b6e7admr2893607plg.56.1699451220591;
+        Wed, 08 Nov 2023 05:47:00 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id w12-20020a170902d3cc00b001b7cbc5871csm1781980plb.53.2023.11.08.05.46.57
+        by smtp.gmail.com with ESMTPSA id w12-20020a170902d3cc00b001b7cbc5871csm1781980plb.53.2023.11.08.05.46.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 05:46:58 -0800 (PST)
+        Wed, 08 Nov 2023 05:47:00 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 01/10] curl: Fix CVE-2023-38039
-Date: Wed,  8 Nov 2023 03:46:42 -1000
-Message-Id: <77a7921660e8da1cb618ba3634835790ae8adfdd.1699451066.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 02/10] shadow: Fix CVE-2023-4641
+Date: Wed,  8 Nov 2023 03:46:43 -1000
+Message-Id: <3623f48ff73ad97f583172b7dbfcb56affc9353b.1699451066.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1699451066.git.steve@sakoman.com>
 References: <cover.1699451066.git.steve@sakoman.com>
@@ -61,252 +61,185 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 13:47:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190327
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190328
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-Backport patch [1] to fix CVE-2023-38039 and reference [2] and [3] to fix
-the build error.
+shadow-utils: possible password leak during passwd(1) change
 
-[1] https://github.com/curl/curl/commit/3ee79c1674fd6f9
-[2] https://github.com/curl/curl/commit/2cb0d346aaa
-[3] https://github.com/curl/curl/commit/83319e027179
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../curl/curl/CVE-2023-38039.patch            | 209 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.0.1.bb       |   1 +
- 2 files changed, 210 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-38039.patch
+ .../shadow/files/CVE-2023-4641.patch          | 147 ++++++++++++++++++
+ meta/recipes-extended/shadow/shadow.inc       |   1 +
+ 2 files changed, 148 insertions(+)
+ create mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2023-38039.patch b/meta/recipes-support/curl/curl/CVE-2023-38039.patch
+diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641.patch b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
 new file mode 100644
-index 0000000000..ef8b600413
+index 0000000000..1fabfe928e
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2023-38039.patch
-@@ -0,0 +1,209 @@
-+From daa73dbfa9d4dbaf5415cc14dcbf31e45ed77468 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Thu, 2 Nov 2023 15:57:39 +0800
-+Subject: [PATCH] http: return error when receiving too large header set
++++ b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
+@@ -0,0 +1,147 @@
++From 25dbe2ce166a13322b7536ff2f738786ea2e61e7 Mon Sep 17 00:00:00 2001
++From: Alejandro Colomar <alx@kernel.org>
++Date: Sat, 10 Jun 2023 16:20:05 +0200
++Subject: [PATCH] gpasswd(1): Fix password leak
 +
-+To avoid abuse. The limit is set to 300 KB for the accumulated size of
-+all received HTTP headers for a single response. Incomplete research
-+suggests that Chrome uses a 256-300 KB limit, while Firefox allows up to
-+1MB.
++How to trigger this password leak?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Closes #11582
++When gpasswd(1) asks for the new password, it asks twice (as is usual
++for confirming the new password).  Each of those 2 password prompts
++uses agetpass() to get the password.  If the second agetpass() fails,
++the first password, which has been copied into the 'static' buffer
++'pass' via STRFCPY(), wasn't being zeroed.
 +
-+CVE: CVE-2023-38039
++agetpass() is defined in <./libmisc/agetpass.c> (around line 91), and
++can fail for any of the following reasons:
 +
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/3ee79c1674fd6f9]
++-  malloc(3) or readpassphrase(3) failure.
 +
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++   These are going to be difficult to trigger.  Maybe getting the system
++   to the limits of memory utilization at that exact point, so that the
++   next malloc(3) gets ENOMEM, and possibly even the OOM is triggered.
++   About readpassphrase(3), ENFILE and EINTR seem the only plausible
++   ones, and EINTR probably requires privilege or being the same user;
++   but I wouldn't discard ENFILE so easily, if a process starts opening
++   files.
++
++-  The password is longer than PASS_MAX.
++
++   The is plausible with physical access.  However, at that point, a
++   keylogger will be a much simpler attack.
++
++And, the attacker must be able to know when the second password is being
++introduced, which is not going to be easy.
++
++How to read the password after the leak?
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Provoking the leak yourself at the right point by entering a very long
++password is easy, and inspecting the process stack at that point should
++be doable.  Try to find some consistent patterns.
++
++Then, search for those patterns in free memory, right after the victim
++leaks their password.
++
++Once you get the leak, a program should read all the free memory
++searching for patterns that gpasswd(1) leaves nearby the leaked
++password.
++
++On 6/10/23 03:14, Seth Arnold wrote:
++> An attacker process wouldn't be able to use malloc(3) for this task.
++> There's a handful of tools available for userspace to allocate memory:
++>
++> -  brk / sbrk
++> -  mmap MAP_ANONYMOUS
++> -  mmap /dev/zero
++> -  mmap some other file
++> -  shm_open
++> -  shmget
++>
++> Most of these return only pages of zeros to a process.  Using mmap of an
++> existing file, you can get some of the contents of the file demand-loaded
++> into the memory space on the first use.
++>
++> The MAP_UNINITIALIZED flag only works if the kernel was compiled with
++> CONFIG_MMAP_ALLOW_UNINITIALIZED.  This is rare.
++>
++> malloc(3) doesn't zero memory, to our collective frustration, but all the
++> garbage in the allocations is from previous allocations in the current
++> process.  It isn't leftover from other processes.
++>
++> The avenues available for reading the memory:
++> -  /dev/mem and /dev/kmem (requires root, not available with Secure Boot)
++> -  /proc/pid/mem (requires ptrace privileges, mediated by YAMA)
++> -  ptrace (requires ptrace privileges, mediated by YAMA)
++> -  causing memory to be swapped to disk, and then inspecting the swap
++>
++> These all require a certain amount of privileges.
++
++How to fix it?
++~~~~~~~~~~~~~~
++
++memzero(), which internally calls explicit_bzero(3), or whatever
++alternative the system provides with a slightly different name, will
++make sure that the buffer is zeroed in memory, and optimizations are not
++allowed to impede this zeroing.
++
++This is not really 100% effective, since compilers may place copies of
++the string somewhere hidden in the stack.  Those copies won't get zeroed
++by explicit_bzero(3).  However, that's arguably a compiler bug, since
++compilers should make everything possible to avoid optimizing strings
++that are later passed to explicit_bzero(3).  But we all know that
++sometimes it's impossible to have perfect knowledge in the compiler, so
++this is plausible.  Nevertheless, there's nothing we can do against such
++issues, except minimizing the time such passwords are stored in plain
++text.
++
++Security concerns
++~~~~~~~~~~~~~~~~~
++
++We believe this isn't easy to exploit.  Nevertheless, and since the fix
++is trivial, this fix should probably be applied soon, and backported to
++all supported distributions, to prevent someone else having more
++imagination than us to find a way.
++
++Affected versions
++~~~~~~~~~~~~~~~~~
++
++All.  Bug introduced in shadow 19990709.  That's the second commit in
++the git history.
++
++Fixes: 45c6603cc86c ("[svn-upgrade] Integrating new upstream version, shadow (19990709)")
++
++CVE: CVE-2023-4641
++Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/65c88a43a23c2391dcc90c0abda3e839e9c57904]
++
++Reported-by: Alejandro Colomar <alx@kernel.org>
++Cc: Serge Hallyn <serge@hallyn.com>
++Cc: Iker Pedrosa <ipedrosa@redhat.com>
++Cc: Seth Arnold <seth.arnold@canonical.com>
++Cc: Christian Brauner <christian@brauner.io>
++Cc: Balint Reczey <rbalint@debian.org>
++Cc: Sam James <sam@gentoo.org>
++Cc: David Runge <dvzrv@archlinux.org>
++Cc: Andreas Jaeger <aj@suse.de>
++Cc: <~hallyn/shadow@lists.sr.ht>
++Signed-off-by: Alejandro Colomar <alx@kernel.org>
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 +---
-+ lib/c-hyper.c  | 12 +++++++-----
-+ lib/http.c     | 39 +++++++++++++++++++++++++++++++++++----
-+ lib/http.h     |  9 +++++++++
-+ lib/pingpong.c |  2 +-
-+ lib/urldata.h  | 18 ++++++++++--------
-+ 5 files changed, 62 insertions(+), 18 deletions(-)
++ src/gpasswd.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/lib/c-hyper.c b/lib/c-hyper.c
-+index 9c7632d..28f64ef 100644
-+--- a/lib/c-hyper.c
-++++ b/lib/c-hyper.c
-+@@ -174,8 +174,11 @@ static int hyper_each_header(void *userdata,
-+     }
-+   }
++diff --git a/src/gpasswd.c b/src/gpasswd.c
++index 5983f787..2d8869ef 100644
++--- a/src/gpasswd.c
+++++ b/src/gpasswd.c
++@@ -896,6 +896,7 @@ static void change_passwd (struct group *gr)
++ 		strzero (cp);
++ 		cp = getpass (_("Re-enter new password: "));
++ 		if (NULL == cp) {
+++			memzero (pass, sizeof pass);
++ 			exit (1);
++ 		}
 + 
-+-  data->info.header_size += (curl_off_t)len;
-+-  data->req.headerbytecount += (curl_off_t)len;
-++  result = Curl_bump_headersize(data, len, FALSE);
-++  if(result) {
-++    data->state.hresult = result;
-++    return HYPER_ITER_BREAK;
-++  }
-+   return HYPER_ITER_CONTINUE;
-+ }
-+ 
-+@@ -305,9 +308,8 @@ static CURLcode status_line(struct Curl_easy *data,
-+     if(result)
-+       return result;
-+   }
-+-  data->info.header_size += (curl_off_t)len;
-+-  data->req.headerbytecount += (curl_off_t)len;
-+-  return CURLE_OK;
-++  result = Curl_bump_headersize(data, len, FALSE);
-++  return result;
-+ }
-+ 
-+ /*
-+diff --git a/lib/http.c b/lib/http.c
-+index 400d2b0..d3efd60 100644
-+--- a/lib/http.c
-++++ b/lib/http.c
-+@@ -3760,6 +3760,34 @@ static CURLcode verify_header(struct Curl_easy *data)
-+   return CURLE_OK;
-+ }
-+ 
-++CURLcode Curl_bump_headersize(struct Curl_easy *data,
-++                              size_t delta,
-++                              bool connect_only)
-++{
-++  size_t bad = 0;
-++  unsigned int max = MAX_HTTP_RESP_HEADER_SIZE;
-++  if(delta < MAX_HTTP_RESP_HEADER_SIZE) {
-++    data->info.header_size += (unsigned int)delta;
-++    data->req.allheadercount += (unsigned int)delta;
-++    if(!connect_only)
-++      data->req.headerbytecount += (unsigned int)delta;
-++    if(data->req.allheadercount > max)
-++      bad = data->req.allheadercount;
-++    else if(data->info.header_size > (max * 20)) {
-++      bad = data->info.header_size;
-++      max *= 20;
-++    }
-++  }
-++  else
-++    bad = data->req.allheadercount + delta;
-++  if(bad) {
-++    failf(data, "Too large response headers: %zu > %u", bad, max);
-++    return CURLE_RECV_ERROR;
-++  }
-++  return CURLE_OK;
-++}
-++
-++
-+ /*
-+  * Read any HTTP header lines from the server and pass them to the client app.
-+  */
-+@@ -4007,8 +4035,9 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
-+       if(result)
-+         return result;
-+ 
-+-      data->info.header_size += (long)headerlen;
-+-      data->req.headerbytecount += (long)headerlen;
-++      result = Curl_bump_headersize(data, headerlen, FALSE);
-++      if(result)
-++        return result;
-+ 
-+       /*
-+        * When all the headers have been parsed, see if we should give
-+@@ -4330,8 +4359,10 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
-+     if(result)
-+       return result;
-+ 
-+-    data->info.header_size += Curl_dyn_len(&data->state.headerb);
-+-    data->req.headerbytecount += Curl_dyn_len(&data->state.headerb);
-++    result = Curl_bump_headersize(data, Curl_dyn_len(&data->state.headerb),
-++                                  FALSE);
-++    if(result)
-++      return result;
-+ 
-+     Curl_dyn_reset(&data->state.headerb);
-+   }
-+diff --git a/lib/http.h b/lib/http.h
-+index 444abc0..ea3b37e 100644
-+--- a/lib/http.h
-++++ b/lib/http.h
-+@@ -60,6 +60,10 @@ extern const struct Curl_handler Curl_handler_wss;
-+ #endif
-+ #endif /* websockets */
-+ 
-++CURLcode Curl_bump_headersize(struct Curl_easy *data,
-++                              size_t delta,
-++                              bool connect_only);
-++
-+ 
-+ /* Header specific functions */
-+ bool Curl_compareheader(const char *headerline,  /* line to check */
-+@@ -176,6 +180,11 @@ CURLcode Curl_http_auth_act(struct Curl_easy *data);
-+ #define EXPECT_100_THRESHOLD (1024*1024)
-+ #endif
-+ 
-++/* MAX_HTTP_RESP_HEADER_SIZE is the maximum size of all response headers
-++   combined that libcurl allows for a single HTTP response, any HTTP
-++   version. This count includes CONNECT response headers. */
-++#define MAX_HTTP_RESP_HEADER_SIZE (300*1024)
-++
-+ #endif /* CURL_DISABLE_HTTP */
-+ 
-+ #ifdef USE_NGHTTP3
-+diff --git a/lib/pingpong.c b/lib/pingpong.c
-+index 2f4aa1c..e53a506 100644
-+--- a/lib/pingpong.c
-++++ b/lib/pingpong.c
-+@@ -341,7 +341,7 @@ CURLcode Curl_pp_readresp(struct Curl_easy *data,
-+       ssize_t clipamount = 0;
-+       bool restart = FALSE;
-+ 
-+-      data->req.headerbytecount += (long)gotbytes;
-++      data->req.headerbytecount += (unsigned int)gotbytes;
-+ 
-+       pp->nread_resp += gotbytes;
-+       for(i = 0; i < gotbytes; ptr++, i++) {
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index f3e782a..748660f 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -619,17 +619,19 @@ struct SingleRequest {
-+   curl_off_t bytecount;         /* total number of bytes read */
-+   curl_off_t writebytecount;    /* number of bytes written */
-+ 
-+-  curl_off_t headerbytecount;   /* only count received headers */
-+-  curl_off_t deductheadercount; /* this amount of bytes doesn't count when we
-+-                                   check if anything has been transferred at
-+-                                   the end of a connection. We use this
-+-                                   counter to make only a 100 reply (without a
-+-                                   following second response code) result in a
-+-                                   CURLE_GOT_NOTHING error code */
-+ 
-+   curl_off_t pendingheader;      /* this many bytes left to send is actually
-+                                     header and not body */
-+   struct curltime start;         /* transfer started at this time */
-++  unsigned int headerbytecount;  /* received server headers (not CONNECT
-++                                    headers) */
-++  unsigned int allheadercount;   /* all received headers (server + CONNECT) */
-++  unsigned int deductheadercount; /* this amount of bytes doesn't count when
-++                                     we check if anything has been transferred
-++                                     at the end of a connection. We use this
-++                                     counter to make only a 100 reply (without
-++                                     a following second response code) result
-++                                     in a CURLE_GOT_NOTHING error code */
-+   enum {
-+     HEADER_NORMAL,              /* no bad header at all */
-+     HEADER_PARTHEADER,          /* part of the chunk is a bad header, the rest
-+@@ -1076,7 +1078,6 @@ struct PureInfo {
-+   int httpversion; /* the http version number X.Y = X*10+Y */
-+   time_t filetime; /* If requested, this is might get set. Set to -1 if the
-+                       time was unretrievable. */
-+-  curl_off_t header_size;  /* size of read header(s) in bytes */
-+   curl_off_t request_size; /* the amount of bytes sent in the request(s) */
-+   unsigned long proxyauthavail; /* what proxy auth types were announced */
-+   unsigned long httpauthavail;  /* what host auth types were announced */
-+@@ -1084,6 +1085,7 @@ struct PureInfo {
-+   char *contenttype; /* the content type of the object */
-+   char *wouldredirect; /* URL this would've been redirected to if asked to */
-+   curl_off_t retry_after; /* info from Retry-After: header */
-++  unsigned int header_size;  /* size of read header(s) in bytes */
-+ 
-+   /* PureInfo members 'conn_primary_ip', 'conn_primary_port', 'conn_local_ip'
-+      and, 'conn_local_port' are copied over from the connectdata struct in
 +-- 
-+2.25.1
++2.34.1
 +
-diff --git a/meta/recipes-support/curl/curl_8.0.1.bb b/meta/recipes-support/curl/curl_8.0.1.bb
-index 375b4d2f93..04da092ee9 100644
---- a/meta/recipes-support/curl/curl_8.0.1.bb
-+++ b/meta/recipes-support/curl/curl_8.0.1.bb
-@@ -21,6 +21,7 @@ SRC_URI = " \
-     file://CVE-2023-28320-fol1.patch \
-     file://CVE-2023-38545.patch \
-     file://CVE-2023-38546.patch \
-+    file://CVE-2023-38039.patch \
- "
- SRC_URI[sha256sum] = "0a381cd82f4d00a9a334438b8ca239afea5bfefcfa9a1025f2bf118e79e0b5f0"
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index cf05a3af93..4014baddc1 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -17,6 +17,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+ 	   file://0001-Fix-can-not-print-full-login.patch \
+            file://CVE-2023-29383.patch \
+            file://0001-Overhaul-valid_field.patch \
++           file://CVE-2023-4641.patch \
+            "
  
+ SRC_URI:append:class-target = " \
 -- 
 2.34.1
 
