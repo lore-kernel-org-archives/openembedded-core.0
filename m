@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B922C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AAE8C4332F
 	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 14:16:07 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.14716.1699452959264649113
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.14715.1699452958046218991
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 06:15:59 -0800
+ Wed, 08 Nov 2023 06:15:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TAg51jCg;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Sb1UmF2M;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018baf4a35f7-cdb23964-2ef9-40c9-937e-d45fe5e01bf9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SNWte6ON;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=boj6YR23;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018baf4a3228-b2bc09ae-2972-49fc-bab0-2763ba6f7cc2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1699452958; i=@automation.yoctoproject.org;
+	t=1699452957; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=+yT0/zH9GHoyuUYZpgbQJlJyW37xUS8Jmbrn2/EFhHs=;
-	b=TAg51jCgYgU711i8jKzCLv4D5+BoWBGiyYcO451BZQ0i31PGlY8zVKbGtVwyuiD7
-	BJ2H2+josW2ZiURGYhjAdJdqiLhQCCi7qOFWJfSudTaAvvbK22dk7n/u/CbNqHKEWjI
-	Hk8RsF6aZqYJhbdrYHFJDtXZBAA2ma6co2OT4fm0=
+	bh=j4f5CGhoPtky6zh14LnCsTnhioWzFAynEDHerekpUVo=;
+	b=SNWte6ONMBiwwZ8Scml+II4n+KCTJvSYoaXp0e2ykh16MVZmLHj636jR0qzL/fc2
+	CJ1xU9qn8vtFuv8z52HIfDQXU3pjS47R0uPFuHO3L08/E1jQx7gHjxlVk6VRtwtd90W
+	BPTU4VGUPJzOjWbvDBgJ8bj8bnvntpItLUAuj07o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1699452958;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1699452957;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=+yT0/zH9GHoyuUYZpgbQJlJyW37xUS8Jmbrn2/EFhHs=;
-	b=Sb1UmF2MLg9l5mRqPCezcLXA6cyci6lXKrVUYY54EPB5KMXUBjBwJs8g3+ZfA1Kp
-	fV+24V7vrxTLT5lY8Ip4c3zI8GU3H63vtaKsMyTUzjLqsEhAdZL7HvOCoKqDs4earAF
-	/yMQXf89NxkY/zwMD3ivTXU4R56DiphjsI/7I4oo=
+	bh=j4f5CGhoPtky6zh14LnCsTnhioWzFAynEDHerekpUVo=;
+	b=boj6YR23wp1HWZD8ZYrrg3hjCxEWg8qO1bu6kpRG9MMutBVB58vWNRlW4lw7OOgt
+	ryEIlH2d+a8UqYaXzQpbs0CKreKIAg1pGUqD1EGVwSL4hF169nSKKZkPm/qsS5E5IiO
+	PhCBbke5mkexDBJW4c+J4breLcnw7smTxg4+26zs=
 From: patchtest@automation.yoctoproject.org
 To: Steve Sakoman <steve@sakoman.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][mickledore 09/10] linux-yocto: make sure the pahole-native
- available before do_kernel_configme
-In-Reply-To: b535bf84a03dca7ed3f54ef1d0bc9da78756a9d8.1699451066.git.steve@sakoman.com
+Subject: Patchtest results for [OE-core][mickledore 06/10] cve-check: slightly more verbose warning
+ when adding the same package twice
+In-Reply-To: 7d7d1de6211b2813c1679bb9ce35289607d66c12.1699451066.git.steve@sakoman.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018baf4a35f7-cdb23964-2ef9-40c9-937e-d45fe5e01bf9-000000@us-west-2.amazonses.com>
-Date: Wed, 8 Nov 2023 14:15:58 +0000
+Message-ID: <0101018baf4a3228-b2bc09ae-2972-49fc-bab0-2763ba6f7cc2-000000@us-west-2.amazonses.com>
+Date: Wed, 8 Nov 2023 14:15:57 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.08-54.240.27.193
+X-SES-Outgoing: 2023.11.08-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:16:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190338
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190337
 
 --NextPart
 Content-Type: text/plain
@@ -53,19 +53,20 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/mickledore-09-10-linux-yocto-make-sure-the-pahole-native-available-before-do_kernel_configme.patch
+Testing patch /home/patchtest/share/mboxes/mickledore-06-10-cve-check-slightly-more-verbose-warning-when-adding-the-same-package-twice.patch
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 95 characters) (test_mbox.TestMbox.test_shortlog_length)
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 94 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
 PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
 SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
 SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
 SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
@@ -74,7 +75,6 @@ SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzi
 SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
 SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
 SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
