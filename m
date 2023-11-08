@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 933C1C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9888CC0018C
 	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 22:53:30 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.107114.1699484007006260185
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.107111.1699484001903364646
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 14:53:27 -0800
+ Wed, 08 Nov 2023 14:53:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wr1mZ5cf;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6b89ab5ddb7so207649b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:53:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=B8Z/XtAP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-565334377d0so174954a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:53:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699484006; x=1700088806; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699484000; x=1700088800; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GVXgqaTcrZspsPd6gPjt0w+6XSqKK3vqKLfk9RwXQZE=;
-        b=wr1mZ5cf1T1AQn9cdl/HB5Ejl/txOrDcIsruFDS1mUQ2msM1kI5juTC42q7PnaEscw
-         S/UfkVrxL/fBB5cvf1p3QrvjIsgelev3Y28XKw+Fq+PvpvtaCrHbclX+NfEBwIoQAbSY
-         UU+t7tM5xoxZuvXf6yJFbUD9S3erq/UIifFPJ3RhGg3ZPGdsLTkIAqKxyDThk6raVDPO
-         up++7dlJnR1xpbBr+Qm0asneKY9QaYQYwqv0A8Wjxp63hK3GlHGYXEmDlmQCgT9/Z7rG
-         jBZ0/3LF8WEnA60qkggwX4ZWNqhDK6JQiMSGhlX1BuluNJgICa3avuPZPBsjIreoRjQJ
-         cYGw==
+        bh=Z0v6XyoOheDwqe6so5zFf6HdKGvFAiBekg8DF3w3an8=;
+        b=B8Z/XtAP9Vij7MwVPKm22fLPUTiSLX+9ZMNXmYMwUtg3Mm8Wigkj/eWVZz+QywUFg4
+         ZtuTRVvx/e/HPGt+8tKQjKOybBE+nlamreSuL5BDVByw7Fjb54mnFv0Q3sM4Lq9F8epT
+         6iiNQ4Ts70mXTxF0avjw8ciMzgChJ5XF9WlBDw97nKFiZmqkwx6QLCx1aFgVVK+vcC2j
+         56VhLiNMKjl15UnJHRvRhS/G/HPY2Vk1iHK9CWy4TCYOl07/Vt2D5mmgE7BeVW1xkK5s
+         U0boRMNwxr35qmQxEXvBPNUhPcrGq6Ydu9XDZgnrrDkcryoOMvIUihgtyo3NqHfSvcJd
+         vxrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699484006; x=1700088806;
+        d=1e100.net; s=20230601; t=1699484000; x=1700088800;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GVXgqaTcrZspsPd6gPjt0w+6XSqKK3vqKLfk9RwXQZE=;
-        b=dsv0F3+MDRc7Zs7bXqIXIZxgyX2FiGJx9W4Cw1pszHgfggAwmXKs2gL1eqDXs5Gkm0
-         1oVJsE+I/+wPZ4IYZDyut7AItjIEqvH47LBgJeWFoXLglV6VxJ3gW72PDrb1H9kqFLtV
-         P6owDC6L0+EEwgiJul2ei840FaBVZldAmi75PJd/hexFMFL3X3HkMq/s+qoInBLFj9Pw
-         vP6SrKkkWEl+TYBPyp5ER/bMT2yPpsolynXc4LFDlELoP3RaCgk1C27T5F4gjJCGC6Z8
-         vU5z1W3IoZuWM5OTmhVB6nxDLDQOoCS0SON2Y8qzkRNTCs/L0AbjGQ+bHGO0zS2HFrNP
-         Os2Q==
-X-Gm-Message-State: AOJu0YyyGSErnLSZO2GxDNeb0wVzXHWzx+f48G85IjR78pM3c95oW05m
-	ZnyyhKF1hvvo4WAtWV4QveyLaaka/GxffaKK4oavkg==
-X-Google-Smtp-Source: AGHT+IFwssRC+gRsBx8fYCO+g/XXSKgf6rt60rFkGum9Zo2clmzFNSNafprIURIB2ByGTBjDZpe7bg==
-X-Received: by 2002:a05:6a00:3998:b0:6bc:f819:fcf0 with SMTP id fi24-20020a056a00399800b006bcf819fcf0mr3015914pfb.1.1699484005720;
-        Wed, 08 Nov 2023 14:53:25 -0800 (PST)
+        bh=Z0v6XyoOheDwqe6so5zFf6HdKGvFAiBekg8DF3w3an8=;
+        b=fRVk3KnxPyvNwNrEUxxtu0MKkBI6PTeNPwq/x/HP8WIZzdNJcEfnA3UJybURnAw0sP
+         l2spTWOK/txi8Abq6X7IlkOECMIbSwgUHM/NjIQz4q/BIzrVF+IedRJXGLGrSWeGj09t
+         otBqFNf7siC2WzRYCywpHXH5uC+LLKtPSrAAEnACXzQ5gddIC9QrxGyDDuSPvH+pAI8U
+         MSdKwioSUZXiPr111YafDUyGO+KCOUAyl2DJoJsUZNyRQRrvOwz2XoTdEn2J6qArc1dJ
+         H9M48gsm3+XtXjA9Fnss4Bmfrg4kRinn7t93SPCOizd90bf+e1CEuAiapGyst+IzZ8iw
+         rnpA==
+X-Gm-Message-State: AOJu0YzF3ljSsSzZOdCRML/TWUGpwMgG3llEJ2G2RzP7epLZPTgGMYWL
+	+Hfv/kf6pvdYHbV+GrCrV6SiIkPQ8/yM5dSshyh7Dg==
+X-Google-Smtp-Source: AGHT+IGkKR6mps1rc5L0NryeA/tHidBkmqhJ6x2GJyBQwD6FuDriCpGtK9q3tNmiYmMfvS6FgEnsMQ==
+X-Received: by 2002:a05:6a20:54a8:b0:136:faec:a7dc with SMTP id i40-20020a056a2054a800b00136faeca7dcmr4134667pzk.11.1699484000587;
+        Wed, 08 Nov 2023 14:53:20 -0800 (PST)
 Received: from hexa.lan (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id du4-20020a056a002b4400b006884844dfcdsm9467883pfb.55.2023.11.08.14.53.24
+        by smtp.gmail.com with ESMTPSA id du4-20020a056a002b4400b006884844dfcdsm9467883pfb.55.2023.11.08.14.53.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 14:53:25 -0800 (PST)
+        Wed, 08 Nov 2023 14:53:20 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 7/7] python3-jinja2: Fixed ptest result output as per the standard
-Date: Wed,  8 Nov 2023 12:53:06 -1000
-Message-Id: <4bb6373e5f4a1330a063d1afe855d6c24d5461e7.1699483825.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/7] cve-check: sort the package list in the JSON report
+Date: Wed,  8 Nov 2023 12:53:03 -1000
+Message-Id: <1245649fd2725915154648a98584c908da07af18.1699483825.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1699483825.git.steve@sakoman.com>
 References: <cover.1699483825.git.steve@sakoman.com>
@@ -61,29 +61,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 22:53:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190365
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190362
 
-From: Narpat Mali <narpat.mali@windriver.com>
+From: Ross Burton <ross.burton@arm.com>
 
-There was an extra space between the result and ':'.
-After removing extra space, the ptest result will be:
-result : testname -> result: testname
+The JSON report generated by the cve-check class is basically a huge
+list of packages.  This list of packages is, however, unsorted.
 
-Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+To make things easier for people comparing the JSON, or more
+specifically for git when archiving the JSON over time in a git
+repository, we can sort the list by package name.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit e9861be0e5020830c2ecc24fd091f4f5b05da036)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/python/python3-jinja2/run-ptest | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/cve-check.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-jinja2/run-ptest b/meta/recipes-devtools/python/python3-jinja2/run-ptest
-index 3004024619..5817735a63 100644
---- a/meta/recipes-devtools/python/python3-jinja2/run-ptest
-+++ b/meta/recipes-devtools/python/python3-jinja2/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 494fa03ec1..f554150d94 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -98,6 +98,8 @@ def generate_json_report(d, out_path, link_path):
+                     cve_check_merge_jsons(summary, data)
+                 filename = f.readline()
  
--pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'| sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s : %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-+pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'| sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
++        summary["package"].sort(key=lambda d: d['name'])
++
+         with open(out_path, "w") as f:
+             json.dump(summary, f, indent=2)
+ 
 -- 
 2.34.1
 
