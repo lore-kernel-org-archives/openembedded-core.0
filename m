@@ -1,98 +1,112 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AAE8C4332F
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 14:16:07 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.14715.1699452958046218991
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43CD5C4167D
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 14:16:37 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.14675.1699452994003925540
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 06:15:58 -0800
+ Wed, 08 Nov 2023 06:16:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SNWte6ON;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=boj6YR23;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018baf4a3228-b2bc09ae-2972-49fc-bab0-2763ba6f7cc2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1699452957; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=j4f5CGhoPtky6zh14LnCsTnhioWzFAynEDHerekpUVo=;
-	b=SNWte6ONMBiwwZ8Scml+II4n+KCTJvSYoaXp0e2ykh16MVZmLHj636jR0qzL/fc2
-	CJ1xU9qn8vtFuv8z52HIfDQXU3pjS47R0uPFuHO3L08/E1jQx7gHjxlVk6VRtwtd90W
-	BPTU4VGUPJzOjWbvDBgJ8bj8bnvntpItLUAuj07o=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1699452957;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=j4f5CGhoPtky6zh14LnCsTnhioWzFAynEDHerekpUVo=;
-	b=boj6YR23wp1HWZD8ZYrrg3hjCxEWg8qO1bu6kpRG9MMutBVB58vWNRlW4lw7OOgt
-	ryEIlH2d+a8UqYaXzQpbs0CKreKIAg1pGUqD1EGVwSL4hF169nSKKZkPm/qsS5E5IiO
-	PhCBbke5mkexDBJW4c+J4breLcnw7smTxg4+26zs=
-From: patchtest@automation.yoctoproject.org
-To: Steve Sakoman <steve@sakoman.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][mickledore 06/10] cve-check: slightly more verbose warning
- when adding the same package twice
-In-Reply-To: 7d7d1de6211b2813c1679bb9ce35289607d66c12.1699451066.git.steve@sakoman.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018baf4a3228-b2bc09ae-2972-49fc-bab0-2763ba6f7cc2-000000@us-west-2.amazonses.com>
-Date: Wed, 8 Nov 2023 14:15:57 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.08-54.240.27.29
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YPxfsxSL;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-41c157bbd30so43703021cf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 06:16:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699452993; x=1700057793; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LNJzMVOG/ulV9qwhddrThIbBoVrjIDRpv0lioS51FkY=;
+        b=YPxfsxSLNXgesoE/mTqKfyMaGuMW1R1y+6puKVc+pSfjQaqanT6jST4WVT/b9LlldQ
+         Ye56Ykz0v6PQWhO3pJm3K8rJK5jhf30yqcbkC2hsB7h/daOyq0Lbbnf/gaY7KV3OBUx2
+         FwdFPzvsdNP1sQNXwfuynSKbpih6qnZ+IoX2dQhJhreFrj2fJWKUAoZSYNK5NuqHFtPb
+         JnORTzaZoeHXRLEP8FBkZKC0WmuTdALe4qs4XbqHLiwK/aFZ3vuhqc+U4WcBGdwDk2yv
+         dqatDX7KK69h+JKzyfbzKMTObk/gQc3y/D4yfK7KmMpmMPcN2u1m3KD4ZiY9oh8bENv/
+         j33w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699452993; x=1700057793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LNJzMVOG/ulV9qwhddrThIbBoVrjIDRpv0lioS51FkY=;
+        b=Wkb38hfXnQpqxPAUXnoNdaFDEmxgj9L8aeoQGe4KSKMbCK2jvNa3df4Q+L9iDCuWvA
+         VfCKy4fWy/iW+U96kg7jp1WgGfL/L+Q18dq67bwld4rR+KuukyqcHRa530GnoAeqCb0p
+         DGVz0RWBUyk0LzyXYWP8aMaW9eoOIOOBFoZXgTdjPExd1/rGPFDN5Yu0aplqRfalQof1
+         Gj2FQp2YIN8peHxIKi9/MFgAKdiCBZvXTi6o770Zc27Xeow3VeCiNjCgZMyCy7JhwWje
+         k74n70K8sYPyApq6k7HJj9B3YkmacE+LwgqFpXNOqTfOqjCGJy9avGEbXyE+j+ji/0mZ
+         71tA==
+X-Gm-Message-State: AOJu0YyD83rJcP39NNTcFfqzTIeLqD4LyZIRbRay06TjS9YxPR9u6CtJ
+	z3INrMAPsikDJNL44+DLSmw=
+X-Google-Smtp-Source: AGHT+IGsFMgEEwgHBINDyejqt8E3hqFe2ssZ4x/wHrtuj9WDPzQiUbzl38Xkxwrgd0BIMRe4YWXDVg==
+X-Received: by 2002:a05:622a:189e:b0:41c:d420:ab1d with SMTP id v30-20020a05622a189e00b0041cd420ab1dmr2146931qtc.40.1699452992951;
+        Wed, 08 Nov 2023 06:16:32 -0800 (PST)
+Received: from build.lan ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id j14-20020ac85c4e000000b004181138e0c0sm921665qtj.31.2023.11.08.06.16.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 06:16:32 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/12] kernel-yocto: consolidated pull request
+Date: Wed,  8 Nov 2023 09:16:18 -0500
+Message-Id: <cover.1699452828.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:16:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190337
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:16:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190339
 
---NextPart
-Content-Type: text/plain
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Richard,
 
----
-Testing patch /home/patchtest/share/mboxes/mickledore-06-10-cve-check-slightly-more-verbose-warning-when-adding-the-same-package-twice.patch
+Here's the latest set of kernel changes. There's more tools changes
+than normal, but I don't expect issues.
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 94 characters) (test_mbox.TestMbox.test_shortlog_length)
+Otherwise, this is mainly -stable bumps, as I prepare to move the
+-dev kernel to the latest.
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+Bruce
 
 
---NextPart--
+The following changes since commit 832384fdc69bd909183da7572ab8171dc34542c3:
+
+  poky-tiny: fix PACKAGE_EXCLUDE (2023-11-08 11:00:09 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (12):
+  linux-yocto/6.5: update to v6.5.8
+  linux-yocto/6.1: update to v6.1.59
+  linux-yocto/6.5: update to v6.5.9
+  linux-yocto/6.1: update to v6.1.60
+  kern-tools: make lower context patches reproducible
+  kern-tools: bump SRCREV for queue processing changes
+  kern-tools: update SRCREV to include SECURITY.md file
+  kernel-yocto: improve metadata patching
+  linux-yocto/6.1: cfg: restore CONFIG_DEVMEM
+  linux-yocto/6.5: cfg: restore CONFIG_DEVMEM
+  linux-yocto/6.5: update to v6.5.10
+  linux-yocto/6.1: update to v6.1.61
+
+ meta/classes-recipe/kernel-yocto.bbclass      | 30 +++++++++++++++----
+ .../kern-tools/kern-tools-native_git.bb       |  2 +-
+ .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+ .../linux/linux-yocto-rt_6.5.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+ .../linux/linux-yocto-tiny_6.5.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 ++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_6.5.bb  | 28 ++++++++---------
+ 8 files changed, 66 insertions(+), 46 deletions(-)
+
+-- 
+2.34.1
+
 
