@@ -1,284 +1,202 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C84AC4332F
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 11:23:16 +0000 (UTC)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
- by mx.groups.io with SMTP id smtpd.web11.11298.1699442588081413172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A8CC4167B
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 11:24:06 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.11231.1699442641371013607
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 03:23:08 -0800
+ Wed, 08 Nov 2023 03:24:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mx0p8HMP;
- spf=pass (domain: gmail.com, ip: 209.85.217.54, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-45d9389fca5so2359110137.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 03:23:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MUYMLwFA;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-507bd19eac8so8820137e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 03:24:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699442587; x=1700047387; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1699442639; x=1700047439; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sCmtvUbM1vL65eH1vpa85uaD4MGZw1zglFrtoRSOaNc=;
-        b=mx0p8HMPdEVk9uW/fMlDFbu0pPbL3aTFfmzijqATt876C/42nMlRDJRU/BigRfbxbp
-         eja7F18uanqisCnY7ENskvp3/vH/TkzGLTZsGrKoszDjCngoI7MPDe2l/KKky5h1ZCar
-         AszIRJaS8YCCXMZXg0w83a4WuKpGJzBajb+w8vHPa0JwGdV4BuYo4N3MRXYo2yXRqoKx
-         sZeWnBOboyy62YC85ioPyAIL0XmssDiKHle1iBnVIiTocf3K9sg/rXGbIvNPPHh9PmxJ
-         tPUNDCjhdJSbQvFik7YrP9v1HnbQKYXKsTiG1mg3mC14BIKxGC3UcvaRXYJqvknXRyqH
-         +XPA==
+        bh=FjoGqouYT8VVjeMulsWOLh7iR/+emHG/TctxpGeTehc=;
+        b=MUYMLwFAOOSXOsviq6ejtVo+9xUtAqO/S67Co7Gj/5trtIxGAc+KRL26JuWOAJnIU/
+         Ml6q4+J9yL3tgRKKXE4L7qKLsH3K8kDM7mPmosDdYBfE2NO65RYieFU03aN6CwFdu/OC
+         FRxGkz9tIsQWo2sxoBg4LpjnVMNh5JWWeRBLB4EhuCtOwwMmZifoQgQvUm8PnIir6BqY
+         gkx9nepq+bzNT31d/iiWsc0ixfiBoCCV5uUc7P8SHSNaqGATlP4cQ0zXWIm0qZxEu9KZ
+         2unmVwuK7l9AoUI5lblUusq9p/gEXR4DXfUoO0itM3pxW+NB2qiI4LFTjZuP1Pp6aEkj
+         Xpqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699442587; x=1700047387;
+        d=1e100.net; s=20230601; t=1699442639; x=1700047439;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sCmtvUbM1vL65eH1vpa85uaD4MGZw1zglFrtoRSOaNc=;
-        b=R9UdQa8x/sMtuRGuIBFsmOmtY5gpDz6+7bhRL+0eVkXwYEJpImlSVd1mkt/biY6lZe
-         naoKcxn4tzHrWL1SveaEDb3D5918rwOpCYccSIFhX5BcsufSn6yNaj2BdOU7AN5lr5dS
-         r2pRe7tPlsaTW77Y2fzU7LNDJZZru07isw6lmdq3ldDK4Jk+/uVPzJGZNEXHxpD/1tJj
-         Qa8oH8l+Vd/m5ReENuBfuQLvlTL75RUsnUEtXCeL7bzanBNecfN8jtHfdINpYihZAkhF
-         7ed+hZ+7xSwb+bhoc1iw3wXaJBx3tXQ8SZgHLgw4NEoDupxJdwEnY6iHPgB8WJnMs/Gt
-         kYVg==
-X-Gm-Message-State: AOJu0Yw3LAG8A846Oesh2xxOn7jw3HHik5mkeDZwRFD1gDdrMgS0NLZY
-	k0fwiCaaQ4F4hnmowDTbfEiixAuQpWY/uh74XHQ=
-X-Google-Smtp-Source: AGHT+IHyMf4jD/15llhbjqh4dzv81HIgDrFyQvztDTbw/T+DhC1ldGeEthdsxPvcLvqHhqr0iRUPJGDixTNNoC+EMJo=
-X-Received: by 2002:a67:ef45:0:b0:45d:b3a9:84c5 with SMTP id
- k5-20020a67ef45000000b0045db3a984c5mr1264411vsr.34.1699442587030; Wed, 08 Nov
- 2023 03:23:07 -0800 (PST)
+        bh=FjoGqouYT8VVjeMulsWOLh7iR/+emHG/TctxpGeTehc=;
+        b=tYl4gVtJ1sNk+NxbhKyGgxqSAjp7uC7IiNiDIX7KJrc3d/KBQ/ZaKqShx26O6dJloW
+         9IT8lJ7U9NA87tsM+V4FOaTn/LfaAqpIZsbP6R0XYdBZbb503YduDuSV3lqvbu7hbRN2
+         IMH3OOU7mMjrrE860J1Ci+g05BrnBSuKhBZQC8mWY2mrCSRUzlGuAzl9uxUBNbtSoMB4
+         sGXERbELh4RApjIXy0+6exW4alRMrrAGkPzjs4SdYxbWvXyJJk1m47TwVbP3rzjJKba3
+         fSPcMt6dZMd8xJL9WiKjSUYiL2dRkbWzGGbHe09X5rgN/P4VKP9R38Nq2AY1Beyl0IG7
+         c0kg==
+X-Gm-Message-State: AOJu0YyUsaWnug8bQj5DAO4n3LmJ8dCJRdPWJ2bKVwFIiiaewROO4hM8
+	w94hGXp4z4h1xsGW+Dv+7uch+oyjd9JxSmKSEz6LSIiR
+X-Google-Smtp-Source: AGHT+IFZ2ToCYM0ni8HGB+Suvsb61L9OyULXkJ5NOEOLMElujF8x4li8lSqX7ZTQg1S0qHxMjiPzQyWKmdbh8IDLkns=
+X-Received: by 2002:a05:6512:108b:b0:500:b42f:1830 with SMTP id
+ j11-20020a056512108b00b00500b42f1830mr1275549lfg.63.1699442639310; Wed, 08
+ Nov 2023 03:23:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20231108105644.2884585-1-joakim.tjernlund@infinera.com>
-In-Reply-To: <20231108105644.2884585-1-joakim.tjernlund@infinera.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 8 Nov 2023 11:22:56 +0000
-Message-ID: <CANPvuRkdZ6fUwgQjA_u=kGBVjv-EQDJ+J0=nsV+voZhaA0RxQw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] [meta classes] sed -i destroys symlinks
-To: Joakim.Tjernlund@infinera.com
+References: <20231107152641.1043-2-jermain.horsman@nedap.com> <20231107152641.1043-8-jermain.horsman@nedap.com>
+In-Reply-To: <20231107152641.1043-8-jermain.horsman@nedap.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 8 Nov 2023 12:23:47 +0100
+Message-ID: <CANNYZj_KbgyoEnXe1F815bcjMO+H_s9k1RbPzbpcxOxfNwpQBQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC 6/7] bitbake-layers: Add default remote to layers-setup.json
+To: jermain.horsman@nedap.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000b75a6e0609a24fda"
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 11:23:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190317
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 11:24:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190318
 
---000000000000b75a6e0609a24fda
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I think adding this field can be avoided if remote and branch are
+combined with / separator in the already existig 'rev' field?
 
-Hi Joakim,
+E.g. 'git checkout poky-contrib/master' and 'git checkout
+origin/master' both work here. The idea is that 'rev' contains
+basically what we give to 'git checkout' in the setup-layers script.
+Can be a tag too.
 
-Joakim Tjernlund via lists.openembedded.org <Joakim.Tjernlund=3D
-infinera.com@lists.openembedded.org> escreveu no dia quarta, 8/11/2023 =C3=
-=A0(s)
-10:56:
+Will that cause issues?
 
-> If /etc/passwd is a symlink, sed -i on same file will replace the
-> symlink with a new file. Prevent that by expanding the file with realpath
-> before giving it to sed.
+Alex
+
+On Tue, 7 Nov 2023 at 16:28, Jermain Horsman <jermain.horsman@nedap.com> wrote:
 >
-
-The sed follow-symlinks argument looks more appropriate for this imo.
-
---follow-symlinks
-This option is available only on platforms that support symbolic links and
-has an effect only if option -i is specified. In this case, if the file
-that is specified on the command line is a symbolic link, sed will follow
-the link and edit the ultimate destination of the link. The default
-behavior is to break the symbolic link, so that the link destination will
-not be modified.
-
-https://www.gnu.org/software/sed/manual/html_node/Command_002dLine-Options.=
-html
-
-Jose
-
-
-> Signed-off-by: Joakim Tjernlund <joakim.tjernlund@infinera.com>
+> From: Jermain Horsman <jermain.horsman@nedap.com>
+>
+> Having a default remote present allows for the checkout of a
+> branch in the case multiple remotes are available.
+>
+> This requires an update to the json-schema and associated checks.
+>
+> Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 > ---
+>  meta/files/layers.example.json                    | 5 ++++-
+>  meta/files/layers.schema.json                     | 8 ++++++--
+>  meta/lib/bblayers/makesetup.py                    | 1 +
+>  meta/lib/bblayers/setupwriters/oe-setup-layers.py | 2 +-
+>  scripts/oe-setup-layers                           | 2 +-
+>  5 files changed, 13 insertions(+), 5 deletions(-)
 >
->  - I have patches which moves shadow/passwd files to an subdir in order t=
-o
->    have passwd mgmt on a RO RFS. Is there a interest to have that oprion
-> in OE?
->
->  meta/classes/rootfs-postcommands.bbclass | 4 ++--
->  meta/classes/useradd_base.bbclass        | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/rootfs-postcommands.bbclass
-> b/meta/classes/rootfs-postcommands.bbclass
-> index 5c0b3ec37c..55cc863dbf 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -148,10 +148,10 @@ read_only_rootfs_hook () {
->  #
->  zap_empty_root_password () {
->         if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then
-> -               sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/shadow
-> +               sed -i 's%^root::%root:*:%' $(realpath
-> ${IMAGE_ROOTFS}/etc/shadow)
->          fi
->         if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
-> -               sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
-> +               sed -i 's%^root::%root:*:%' $(realpath
-> ${IMAGE_ROOTFS}/etc/passwd)
->         fi
+> diff --git a/meta/files/layers.example.json b/meta/files/layers.example.json
+> index 0a6a6a7b48..06ba196cf6 100644
+> --- a/meta/files/layers.example.json
+> +++ b/meta/files/layers.example.json
+> @@ -4,6 +4,7 @@
+>              "contains_this_file": true,
+>              "git-remote": {
+>                  "branch": "master",
+> +                "default-remote": "remote-alex",
+>                  "describe": "",
+>                  "remotes": {
+>                      "remote-alex": {
+> @@ -17,6 +18,7 @@
+>          "meta-intel": {
+>              "git-remote": {
+>                  "branch": "master",
+> +                "default-remote": "origin",
+>                  "describe": "15.0-hardknott-3.3-310-g0a96edae",
+>                  "remotes": {
+>                      "origin": {
+> @@ -30,6 +32,7 @@
+>          "poky": {
+>              "git-remote": {
+>                  "branch": "akanavin/setup-layers",
+> +                "default-remote": "poky-contrib",
+>                  "describe": "4.1_M1-374-g9dda719b2a",
+>                  "remotes": {
+>                      "origin": {
+> @@ -44,5 +47,5 @@
+>              "path": "poky"
+>          }
+>      },
+> -    "version": "1.0"
+> +    "version": "1.1"
 >  }
+> diff --git a/meta/files/layers.schema.json b/meta/files/layers.schema.json
+> index 659ee8da49..06a34656e5 100644
+> --- a/meta/files/layers.schema.json
+> +++ b/meta/files/layers.schema.json
+> @@ -7,8 +7,8 @@
+>      ],
+>      "properties": {
+>          "version": {
+> -            "description": "The version of this document; currently '1.0'",
+> -            "enum": ["1.0"]
+> +            "description": "The version of this document; currently '1.1'",
+> +            "enum": ["1.1"]
+>          },
+>          "sources": {
+>              "description": "The dict of layer sources",
+> @@ -41,6 +41,10 @@
+>                                          "description": "The git branch to fetch (optional)",
+>                                          "type": "string"
+>                                      },
+> +                                    "default-remote": {
+> +                                        "description": "The default git remote",
+> +                                        "type": "string"
+> +                                    },
+>                                      "rev": {
+>                                          "description": "The git revision to checkout",
+>                                          "type": "string"
+> diff --git a/meta/lib/bblayers/makesetup.py b/meta/lib/bblayers/makesetup.py
+> index d24470dc83..0d0e42e1d0 100644
+> --- a/meta/lib/bblayers/makesetup.py
+> +++ b/meta/lib/bblayers/makesetup.py
+> @@ -62,6 +62,7 @@ class MakeSetupPlugin(LayerPlugin):
+>                          'rev':l_rev,
+>                          'branch':l_branch,
+>                          'remotes':self._get_remotes_with_url(repo_path),
+> +                        'default-remote':oe.buildcfg.get_metadata_git_default_remote(repo_path),
+>                          'describe':oe.buildcfg.get_metadata_git_describe(repo_path)}}
+>                  if repo_path == destdir_repo:
+>                      repos[repo_path]['contains_this_file'] = True
+> diff --git a/meta/lib/bblayers/setupwriters/oe-setup-layers.py b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+> index d5bc19a8cb..4e0c780eab 100644
+> --- a/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+> +++ b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+> @@ -36,7 +36,7 @@ class OeSetupLayersWriter():
+>          if not os.path.exists(args.destdir):
+>              os.makedirs(args.destdir)
+>          repos = parent.make_repo_config(args.destdir)
+> -        json = {"version":"1.0","sources":repos}
+> +        json = {"version":"1.1","sources":repos}
+>          if not repos:
+>              raise Exception("Could not determine layer sources")
+>          output = args.output_prefix or "setup-layers"
+> diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
+> index ac9a9f139b..4622c264f9 100755
+> --- a/scripts/oe-setup-layers
+> +++ b/scripts/oe-setup-layers
+> @@ -191,7 +191,7 @@ args = parser.parse_args()
+>  with open(args.jsondata) as f:
+>      json_f = json.load(f)
 >
-> diff --git a/meta/classes/useradd_base.bbclass
-> b/meta/classes/useradd_base.bbclass
-> index 7f5b9b7219..72732a4d57 100644
-> --- a/meta/classes/useradd_base.bbclass
-> +++ b/meta/classes/useradd_base.bbclass
-> @@ -154,7 +154,7 @@ perform_passwd_expire () {
->         local username=3D`echo "$opts" | awk '{ print $NF }'`
->         local user_exists=3D"`grep "^$username:" $rootdir/etc/passwd ||
-> true`"
->         if test "x$user_exists" !=3D "x"; then
-> -               eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO sed -i
-> \''s/^\('$username':[^:]*\):[^:]*:/\1:0:/'\' $rootdir/etc/shadow \" || tr=
-ue
-> +               eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO sed -i
-> \''s/^\('$username':[^:]*\):[^:]*:/\1:0:/'\' $(realpath
-> $rootdir/etc/shadow) \" || true
->                 local passwd_lastchanged=3D"`grep "^$username:"
-> $rootdir/etc/shadow | cut -d: -f3`"
->                 if test "x$passwd_lastchanged" !=3D "x0"; then
->                         bbfatal "${PN}: passwd --expire operation did not
-> succeed."
+> -supported_versions = ["1.0"]
+> +supported_versions = ["1.0", "1.1"]
+>  if json_f["version"] not in supported_versions:
+>      raise Exception("File {} has version {}, which is not in supported versions: {}".format(args.jsondata, json_f["version"], supported_versions))
+>
 > --
-> 2.41.0
+> 2.42.0.windows.2
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#190315):
-> https://lists.openembedded.org/g/openembedded-core/message/190315
-> Mute This Topic: https://lists.openembedded.org/mt/102461303/5052612
+> View/Reply Online (#190296): https://lists.openembedded.org/g/openembedded-core/message/190296
+> Mute This Topic: https://lists.openembedded.org/mt/102444611/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000b75a6e0609a24fda
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Joakim,</div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">Joakim Tjernlund via <a href=3D"http://list=
-s.openembedded.org">lists.openembedded.org</a> &lt;Joakim.Tjernlund=3D<a hr=
-ef=3D"mailto:infinera.com@lists.openembedded.org">infinera.com@lists.openem=
-bedded.org</a>&gt; escreveu no dia quarta, 8/11/2023 =C3=A0(s) 10:56:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">If /etc/passwd is a s=
-ymlink, sed -i on same file will replace the<br>
-symlink with a new file. Prevent that by expanding the file with realpath<b=
-r>
-before giving it to sed.<br></blockquote><div><br></div><div>The sed follow=
--symlinks argument looks more appropriate=C2=A0for this imo.<br><br>--follo=
-w-symlinks<br>This option is available only on platforms that support symbo=
-lic links and has an effect only if option -i is specified. In this case, i=
-f the file that is specified on the command line is a symbolic link, sed wi=
-ll follow the link and edit the ultimate destination of the link. The defau=
-lt behavior is to break the symbolic link, so that the link destination wil=
-l not be modified.<br><br><a href=3D"https://www.gnu.org/software/sed/manua=
-l/html_node/Command_002dLine-Options.html">https://www.gnu.org/software/sed=
-/manual/html_node/Command_002dLine-Options.html</a><br><br>Jose</div><div><=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Joakim Tjernlund &lt;<a href=3D"mailto:joakim.tjernlund@infi=
-nera.com" target=3D"_blank">joakim.tjernlund@infinera.com</a>&gt;<br>
----<br>
-<br>
-=C2=A0- I have patches which moves shadow/passwd files to an subdir in orde=
-r to<br>
-=C2=A0 =C2=A0have passwd mgmt on a RO RFS. Is there a interest to have that=
- oprion in OE?<br>
-<br>
-=C2=A0meta/classes/rootfs-postcommands.bbclass | 4 ++--<br>
-=C2=A0meta/classes/useradd_base.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<b=
-r>
-=C2=A02 files changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs=
--postcommands.bbclass<br>
-index 5c0b3ec37c..55cc863dbf 100644<br>
---- a/meta/classes/rootfs-postcommands.bbclass<br>
-+++ b/meta/classes/rootfs-postcommands.bbclass<br>
-@@ -148,10 +148,10 @@ read_only_rootfs_hook () {<br>
-=C2=A0#<br>
-=C2=A0zap_empty_root_password () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s%^root=
-::%root:*:%&#39; ${IMAGE_ROOTFS}/etc/shadow<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s%^root=
-::%root:*:%&#39; $(realpath ${IMAGE_ROOTFS}/etc/shadow)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s%^root=
-::%root:*:%&#39; ${IMAGE_ROOTFS}/etc/passwd<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s%^root=
-::%root:*:%&#39; $(realpath ${IMAGE_ROOTFS}/etc/passwd)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0}<br>
-<br>
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.=
-bbclass<br>
-index 7f5b9b7219..72732a4d57 100644<br>
---- a/meta/classes/useradd_base.bbclass<br>
-+++ b/meta/classes/useradd_base.bbclass<br>
-@@ -154,7 +154,7 @@ perform_passwd_expire () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 local username=3D`echo &quot;$opts&quot; | awk =
-&#39;{ print $NF }&#39;`<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 local user_exists=3D&quot;`grep &quot;^$usernam=
-e:&quot; $rootdir/etc/passwd || true`&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;x$user_exists&quot; !=3D &quot;x&=
-quot;; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0eval flock -x $root=
-dir${sysconfdir} -c \&quot;$PSEUDO sed -i \&#39;&#39;s/^\(&#39;$username&#3=
-9;:[^:]*\):[^:]*:/\1:0:/&#39;\&#39; $rootdir/etc/shadow \&quot; || true<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0eval flock -x $root=
-dir${sysconfdir} -c \&quot;$PSEUDO sed -i \&#39;&#39;s/^\(&#39;$username&#3=
-9;:[^:]*\):[^:]*:/\1:0:/&#39;\&#39; $(realpath $rootdir/etc/shadow) \&quot;=
- || true<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 local passwd_lastch=
-anged=3D&quot;`grep &quot;^$username:&quot; $rootdir/etc/shadow | cut -d: -=
-f3`&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;x$pas=
-swd_lastchanged&quot; !=3D &quot;x0&quot;; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 bbfatal &quot;${PN}: passwd --expire operation did not succeed.&=
-quot;<br>
--- <br>
-2.41.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#190315): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/190315" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/190315</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102461303/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/102461303/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---000000000000b75a6e0609a24fda--
 
