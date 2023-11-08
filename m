@@ -1,117 +1,98 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E947C04A95
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 13:47:17 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.13814.1699451231022193907
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B922C4167B
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 14:16:07 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.14716.1699452959264649113
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 05:47:11 -0800
+ Wed, 08 Nov 2023 06:15:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eEeKoB8G;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1cc3bc5df96so51626255ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 05:47:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699451230; x=1700056030; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CjTfDBPML4d8cTfHodQbh0685f7WFWuwFQ3gjgTV6qA=;
-        b=eEeKoB8GXA53IUmU8jEAXsdpsNwvZxVGNOEPxhJExONBHgPvi+yDYu0QBLzQ6bnMaX
-         ScYHjSYcTOsw5V16lC8sAO7lb3TNTzfHtZbO+Bl2jjtYQPfc54wkPjLzXCiJ5vDE88Hr
-         YqRKgQwqIdJuGmbroYAtLgXRSL3+29+0+c/lHcDsAJJX+YgAs6jkOFw8KLncJUUETMSh
-         k00EIeSWBAXvY0V42ktxvAr+sdcP5Otsi9xO2m20Jrdq6Thk+0igSeUHgdgKsLIFvPII
-         et3oHFucmAkezACUv73GC6m4DfDAb2CUDAGF4wXqONEKOaqGOIfzIM2n6OBIihwYa1YM
-         13Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699451230; x=1700056030;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CjTfDBPML4d8cTfHodQbh0685f7WFWuwFQ3gjgTV6qA=;
-        b=CaGd1pC/cIfUX+IDQLcKxgqeNx1McwlV12Q9NXlCdQJYG0PTYJnDXEh4J1Cxac+/Bv
-         qIp6z1VcDvQwWCUO5BUVAdyt+DTkVa9dNeJqV3gmAD6jJV+uQpcufofNewyiIETRLRcA
-         /vvWkixAxQBPlOGZ1lBRHkOP0Eo7aMgNhVw1bK6cVgnUo3qTanKv4GOcDvXQmJJWF1uA
-         cW7fk1V9iZwnR0tveaB8LyD6SqzgQeB0P22FqFfqHHiHdtvkuJR6lhY1DlbqEstwsvcD
-         +don4KjeBGEONs6lWVwr6Ws6vYn9F0+U6wbl4nYpxDbW1wMBATjWfil3PAklTUDfx+W9
-         3/uQ==
-X-Gm-Message-State: AOJu0Yw2InzKw28GKAFu1sqmABSQLAZx7SiRvd5Al10ZyDKh0cxi/DVI
-	ekE5vIdkbwqKz46JK1zayvI6gwlUQBDScMY7XtyuFw==
-X-Google-Smtp-Source: AGHT+IEfeyOvzUWvnQWoKs+whMy2C1lOkvYrsHnCcqEQslwvOtMMK72aMbDwJZtD4ZCv7Zyj9fdW5g==
-X-Received: by 2002:a17:902:b408:b0:1cc:45df:4710 with SMTP id x8-20020a170902b40800b001cc45df4710mr1882334plr.40.1699451229663;
-        Wed, 08 Nov 2023 05:47:09 -0800 (PST)
-Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id w12-20020a170902d3cc00b001b7cbc5871csm1781980plb.53.2023.11.08.05.47.08
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 05:47:09 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 07/10] cve-check: don't warn if a patch is remote
-Date: Wed,  8 Nov 2023 03:46:48 -1000
-Message-Id: <4f21354c7204c3404326ddc243d02056387472d3.1699451066.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1699451066.git.steve@sakoman.com>
-References: <cover.1699451066.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TAg51jCg;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Sb1UmF2M;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018baf4a35f7-cdb23964-2ef9-40c9-937e-d45fe5e01bf9-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1699452958; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=+yT0/zH9GHoyuUYZpgbQJlJyW37xUS8Jmbrn2/EFhHs=;
+	b=TAg51jCgYgU711i8jKzCLv4D5+BoWBGiyYcO451BZQ0i31PGlY8zVKbGtVwyuiD7
+	BJ2H2+josW2ZiURGYhjAdJdqiLhQCCi7qOFWJfSudTaAvvbK22dk7n/u/CbNqHKEWjI
+	Hk8RsF6aZqYJhbdrYHFJDtXZBAA2ma6co2OT4fm0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1699452958;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=+yT0/zH9GHoyuUYZpgbQJlJyW37xUS8Jmbrn2/EFhHs=;
+	b=Sb1UmF2MLg9l5mRqPCezcLXA6cyci6lXKrVUYY54EPB5KMXUBjBwJs8g3+ZfA1Kp
+	fV+24V7vrxTLT5lY8Ip4c3zI8GU3H63vtaKsMyTUzjLqsEhAdZL7HvOCoKqDs4earAF
+	/yMQXf89NxkY/zwMD3ivTXU4R56DiphjsI/7I4oo=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][mickledore 09/10] linux-yocto: make sure the pahole-native
+ available before do_kernel_configme
+In-Reply-To: b535bf84a03dca7ed3f54ef1d0bc9da78756a9d8.1699451066.git.steve@sakoman.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018baf4a35f7-cdb23964-2ef9-40c9-937e-d45fe5e01bf9-000000@us-west-2.amazonses.com>
+Date: Wed, 8 Nov 2023 14:15:58 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.08-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 13:47:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190333
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 14:16:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190338
 
-From: Ross Burton <ross.burton@arm.com>
+--NextPart
+Content-Type: text/plain
 
-We don't make do_cve_check depend on do_unpack because that would be a
-waste of time 99% of the time.  The compromise here is that we can't
-scan remote patches for issues, but this isn't a problem so downgrade
-the warning to a note.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Also move the check for CVEs in the filename before the local file check
-so that even with remote patches, we still check for CVE references in
-the name.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0251cad677579f5b4dcc25fa2f8552c6040ac2cf)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/cve_check.py | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Testing patch /home/patchtest/share/mboxes/mickledore-09-10-linux-yocto-make-sure-the-pahole-native-available-before-do_kernel_configme.patch
 
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index b4c9f6ffe3..8acd2879bf 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -95,11 +95,6 @@ def get_patched_cves(d):
-     for url in oe.patch.src_patches(d):
-         patch_file = bb.fetch.decodeurl(url)[2]
- 
--        # Remote compressed patches may not be unpacked, so silently ignore them
--        if not os.path.isfile(patch_file):
--            bb.warn("%s does not exist, cannot extract CVE list" % patch_file)
--            continue
--
-         # Check patch file name for CVE ID
-         fname_match = cve_file_name_match.search(patch_file)
-         if fname_match:
-@@ -107,6 +102,12 @@ def get_patched_cves(d):
-             patched_cves.add(cve)
-             bb.debug(2, "Found CVE %s from patch file name %s" % (cve, patch_file))
- 
-+        # Remote patches won't be present and compressed patches won't be
-+        # unpacked, so say we're not scanning them
-+        if not os.path.isfile(patch_file):
-+            bb.note("%s is remote or compressed, not scanning content" % patch_file)
-+            continue
-+
-         with open(patch_file, "r", encoding="utf-8") as f:
-             try:
-                 patch_text = f.read()
--- 
-2.34.1
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 95 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
