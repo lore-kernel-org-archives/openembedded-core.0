@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11793C41535
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 13:47:17 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.13934.1699451229047108541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFC2AC4167B
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 13:47:16 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.13933.1699451227469903765
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 05:47:09 -0800
+ Wed, 08 Nov 2023 05:47:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qV+O9XNX;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1cc9784dbc1so43763585ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 05:47:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=IN1JQqoP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1cc5916d578so62249195ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 05:47:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699451228; x=1700056028; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699451226; x=1700056026; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v7pqI5PNZ7Se3roTn+gMuWkHVdeN6bO8KiasPXWmlkI=;
-        b=qV+O9XNX9ryVPytOo1f5CWXDbE04Hdw6yIt6lIz2Krj+11aQ5ZaV9gDfeoHUSfO/vV
-         ULm28itMWvWOJe/G6r4ktJCi1XiG9fTo8YrMmuWljfSbYBPwoO6j34heK0MBjZ5CYncG
-         aJtIBvE+DhJMhgAZ6e0j6F7DYqUKZrgS/89vxmEWHPBBY2BSHbxhp5yGsNQC0H+wzL/n
-         LNpiPAmt2sFYSizI9EqcthsG64GUegqQpvww08wv5ga2Jqr3Gjzlyehapt4TxjDmkc+y
-         vZL4k8naIIE6EZ51i61Cwfizq/lj356K/6EJSrk3WaOxKmuuYhp9AXzoxdI9Oi9YV/Oh
-         2kZg==
+        bh=JlCme3nNCJCOUhLGtiS9nGcdARcmiBfisFHPEYGAH+Y=;
+        b=IN1JQqoPPw2au9UPTcTyMdL233/aZrLAp7Xf7IDwCZYOIeeCcKsfRb973STQIB2N/0
+         3AUpBVEpkdJ7eb89FiCwrZythPI/NMka0RAmns1gfSeeqIZURrlNBnWhX0sqgmV4drGJ
+         PXXgxfjKFcdoAVnQyrbaPNcjpRWJf58xz+JvxjLs9b16dYYbLbvWeUdCqpGKNnVBT21a
+         ldMqrgovB+7QJkgcn3cFusyOGCeApJHiosd76Ph/VxKdP934f1P1+4NmwdJ2iZVjH0c0
+         gF1NBZ37RUy3s33jSSQG/UXGFiPKWm0rcNGjwK/sT8rCs4WO/w3Qqr8jb493K9IAHKxB
+         +plg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699451228; x=1700056028;
+        d=1e100.net; s=20230601; t=1699451226; x=1700056026;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v7pqI5PNZ7Se3roTn+gMuWkHVdeN6bO8KiasPXWmlkI=;
-        b=EPH/pXC22jkEtv01yo5ZXUxby3Y4wkd+AbVISIfxpWvExKgoorNHB0cFiczlgxltOd
-         WGPBpqDOm6yEqsrgSVabp/8EevNolHuMI4roaEFZXkmTPtbe75fzynoc0fj+JBs4Q6LN
-         jex36bn5J7iI4guniE0AHpGuWEcy7kt1RCdHNrsSXKaCDDfkCKthcGPzTbMTqrgsgoD0
-         aqYbuHUZ753g77ndd+RgTefVmfu56fcttoXAQJ9EJf0outf9REXmBNFkp4c1AlOqnZAt
-         3X7OHhJkRPSa06B3z1ELiTRgX99cq9x7nNkCFCrl6tr2UKUEfvY5eFfkVssAyPvDFHrm
-         jL1Q==
-X-Gm-Message-State: AOJu0YwVE+LgSN0zDFPGsSk4KfPmlWH1Ab86lPID4bv9b07CdyAAB9QW
-	o8tMvv2fFzj00FqkGrhRizDZkelWJH70GXMWPFT5Cw==
-X-Google-Smtp-Source: AGHT+IFK9+oEG8RjxRIKotlKXdii3tq2V/1FDiXQLtkbwm3HlG8mraY4c0b+KZFOnszUoz+M0+gCog==
-X-Received: by 2002:a17:902:dacb:b0:1c9:e765:e14a with SMTP id q11-20020a170902dacb00b001c9e765e14amr2333581plx.1.1699451227813;
-        Wed, 08 Nov 2023 05:47:07 -0800 (PST)
+        bh=JlCme3nNCJCOUhLGtiS9nGcdARcmiBfisFHPEYGAH+Y=;
+        b=dzu2mnmON30kcoskOb372IgndyllH7y6fh8xePzAnzFWTlqjxwjJ3TWJY1I+JvPA/v
+         rW4OJZG27jjvUIqSrWvECBjt+E0wNyiOXUr9CGkd/tfE9ZrsTfp5dexH5Pkce21/FB/O
+         j0zodeLYWNDWhTBNepeHqFHBFBAETi1ZvWKBnq16HEdTlFU/9O41KLB1Nrk7xrnoK7rq
+         xalOdCo/spyVp5r5oI8Vh8rdwQp27UK9TspHazRfk9w0Bz2dXrBDkiY7/+qAbnmTUJTK
+         GY4kgMw19lDeahYT/whjF04YlAssuwR+YVCyp19RY/hrOHuSZzovUnhUvcuHYSOReHy6
+         yuwg==
+X-Gm-Message-State: AOJu0YzAp+mWKCmVzj89wEkuAafZraL2UKqxaj7fa15cXcU2TsdMyt7M
+	nw2uttZSzL+X7b3Wf9anghSrFXA5L5w5VamVZYkZCw==
+X-Google-Smtp-Source: AGHT+IFx2TMN7HzwqGW4gHdevHUqvs1GuQ9h7YPPg7GiEbQW93z1exz1kyRQrgtEJ7SRzLVtOBr0/A==
+X-Received: by 2002:a17:902:ea0c:b0:1cc:4f55:db72 with SMTP id s12-20020a170902ea0c00b001cc4f55db72mr2303163plg.0.1699451226117;
+        Wed, 08 Nov 2023 05:47:06 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id w12-20020a170902d3cc00b001b7cbc5871csm1781980plb.53.2023.11.08.05.47.06
+        by smtp.gmail.com with ESMTPSA id w12-20020a170902d3cc00b001b7cbc5871csm1781980plb.53.2023.11.08.05.47.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 05:47:07 -0800 (PST)
+        Wed, 08 Nov 2023 05:47:05 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][mickledore 06/10] cve-check: slightly more verbose warning when adding the same package twice
-Date: Wed,  8 Nov 2023 03:46:47 -1000
-Message-Id: <7d7d1de6211b2813c1679bb9ce35289607d66c12.1699451066.git.steve@sakoman.com>
+Subject: [OE-core][mickledore 05/10] cve-check: sort the package list in the JSON report
+Date: Wed,  8 Nov 2023 03:46:46 -1000
+Message-Id: <e32b4655e79561dd9c38efdf99858372bde806b0.1699451066.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1699451066.git.steve@sakoman.com>
 References: <cover.1699451066.git.steve@sakoman.com>
@@ -60,36 +60,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 13:47:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190332
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 13:47:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190331
 
 From: Ross Burton <ross.burton@arm.com>
 
-Occasionally the cve-check tool will warn that it is adding the same
-package twice.  Knowing what this package is might be the first step
-towards understanding where this message comes from.
+The JSON report generated by the cve-check class is basically a huge
+list of packages.  This list of packages is, however, unsorted.
+
+To make things easier for people comparing the JSON, or more
+specifically for git when archiving the JSON over time in a git
+repository, we can sort the list by package name.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c1179faec8583a8b7df192cf1cbf221f0e3001fc)
+(cherry picked from commit e9861be0e5020830c2ecc24fd091f4f5b05da036)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/cve_check.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/cve-check.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index dbaa0b373a..b4c9f6ffe3 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -165,7 +165,7 @@ def cve_check_merge_jsons(output, data):
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 3846aee5ea..171e472cef 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -104,6 +104,8 @@ def generate_json_report(d, out_path, link_path):
+                     cve_check_merge_jsons(summary, data)
+                 filename = f.readline()
  
-     for product in output["package"]:
-         if product["name"] == data["package"][0]["name"]:
--            bb.error("Error adding the same package twice")
-+            bb.error("Error adding the same package %s twice" % product["name"])
-             return
++        summary["package"].sort(key=lambda d: d['name'])
++
+         with open(out_path, "w") as f:
+             json.dump(summary, f, indent=2)
  
-     output["package"].append(data["package"][0])
 -- 
 2.34.1
 
