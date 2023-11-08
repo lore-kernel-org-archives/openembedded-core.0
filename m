@@ -1,337 +1,186 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <luca.fancellu@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B34AEC4167D
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 13:18:06 +0000 (UTC)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
- by mx.groups.io with SMTP id smtpd.web11.13238.1699449485277687751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D055BC4332F
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 13:22:26 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.88])
+ by mx.groups.io with SMTP id smtpd.web11.13347.1699449738690636432
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 05:18:05 -0800
+ Wed, 08 Nov 2023 05:22:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ABuCR6B9;
- spf=pass (domain: gmail.com, ip: 209.85.217.53, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-45dadc5bf51so1797238137.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 05:18:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699449484; x=1700054284; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x9BgKXkXiT1W3+0HCYXCPsHXlcjlwlX2Pts/d/IMdao=;
-        b=ABuCR6B9m+JhRyZCQTpiOIIkUbvi5hmZoA9LBxK7g1O2ZDwGiwsI1sgHkjdPjRy55M
-         sSwSIqk7NrkwGRWI9FMFMjmj9EobWaLCWIXoGVZipyAD84WDDDLQ4bG4LUO8PcoJHOLu
-         z96QBTNM2IrNmX/5xyjX5njLgNXFvRiADnOWL7hUb3myQTiPgZ0Y+KEAQEUydseZFVC2
-         8FgkIybcfRKDnd78BJKjUg06lP9mcVrgcOC4ZxWNR1ZkigcpSTSiaLOZlXcdMnbufUeM
-         eWv13hmev0G/rAjOf35uommzzUXHUllBkFRLnISd4F6Uk2PJWlQUAt9MPO+rPnKOQQvK
-         A1Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699449484; x=1700054284;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x9BgKXkXiT1W3+0HCYXCPsHXlcjlwlX2Pts/d/IMdao=;
-        b=Hoz2CUcsSBsddYuh5QSnxc2rhsdlwM/wCou7ytJZPFg2YHwiW7oJCMZQTxXdfMExXQ
-         dDDP5LWXJsUTEL9FBbzobLxXfwAtQFlGHLa08Gc6zuMWXkgCe+V7E/Tjnc1EMoH/uwVb
-         drc2qnNEUTsqfxixmW4QsktHQLU5FKKiEqeDVrhvWUzbgFXPyVvyyH8tYHRPi2hsyij2
-         BgUzrGHh1bOiOZesc/c2rywLl7jTSH5s9k4sfWD6foMyyRHrQC0qbsrrmxHF2MO5LGbg
-         KxC7S6ft+VV2kTuMc8ngXf6BIKd5mU5aXFVQ2txb3GmmoO3bsXsTfrnoF7PGjAaAab7J
-         frag==
-X-Gm-Message-State: AOJu0YzpzKL+d0P5DRLiGR0eSDQ7RwQV5Kvrd4NtSYHaurUQnb/AU9A3
-	6ORYgoF+5T6at4Hj0xr9BWIcQCnJ5ThGfPONPug=
-X-Google-Smtp-Source: AGHT+IFKdfuyjXmDM4JMYlqZU6Pty3rxM08u42fQ6cCmEhIXNpTBzK9tTLCj9+io5PmnSasXCjMvVATNJuJgg3WK3GE=
-X-Received: by 2002:a67:c20e:0:b0:457:bc52:9b04 with SMTP id
- i14-20020a67c20e000000b00457bc529b04mr1267000vsj.35.1699449484279; Wed, 08
- Nov 2023 05:18:04 -0800 (PST)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=ft5L55jI;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=ft5L55jI;
+ spf=pass (domain: arm.com, ip: 40.107.104.88, mailfrom: luca.fancellu@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=A7nVkwEzVipvi9W7NlDtraJbEexH4nwYomZh+jKSYNGWPQ8eJgPZSp+w9bHVjn0RETNidRIYq2nndqneYMOvm/JabEkRhFqN6lFGsaKFmCo0XMM7X16Imi2Q4fCZxORHXHUB526+jKmR0JQO0/oTSvcCraxtu+/HY8fq2pAy6mKEjs1cX89FParm32P7ka8gCbbrMPO+NzNJ2X1NmsHQejviBg35EEcVNgwl3iu+6loyIEuXX6ugFgR8PFqCfuc7F1iDEZrha10BY01aKa2+0VxhLnWMiBLlHOl3z/nQ0OXlqglvO2cTnOLoBDn5f68T3o6XxpzWmJZ1+kL2wJdvMg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PzX+CXycOF2dGlHkYdjrSeItY85ft5qYE2mjrxJTxxc=;
+ b=QnGuYJAWcRdzhTiUdmim/rZ7rBqeGRp+WojEgRuHfDUeYorl85zd58/mJWn9rJAXjrkW4Jloktt7ZD07DbpWMgFBWSst6gfSOw9D7dLGppLNNnhvxLpre6H819d2np6Ed90TEW35bfZpw03H6ha5JCw+4onO3J9VyTXhc146uaPDbufGOt1Tg05tev56LAfZkNlEBoxLj5ktYr25+VDIbgJumqqlwvSu6MoarZuUqeOpIQSWdhges04FBq2RGbCP0d7sPZ4QdP5PJGLCntYGR9mBK7lUq1emrAVpbev4+Jwji+qLYGjZXXea1fRKLW9lCVlk24d2MkCXDI5e470Z9A==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PzX+CXycOF2dGlHkYdjrSeItY85ft5qYE2mjrxJTxxc=;
+ b=ft5L55jImvivPAFDtZzNhk2yrpcLy6kA4kg21ZxIHRFn1hZRxAOyjD+F58k2NNDRQGwaUow15FUK4OJpiPIPfUKHnHJaLxz2SgWGAI+bw/pckZ+PUy4Gd4MIgByHxJc7de78lQiZGk3uDQJA0Zyj2/UqETDm8q/GFFX2RTddpng=
+Received: from DB9PR01CA0015.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:1d8::20) by PAWPR08MB9758.eurprd08.prod.outlook.com
+ (2603:10a6:102:2e2::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.27; Wed, 8 Nov
+ 2023 13:22:15 +0000
+Received: from DU6PEPF0000952A.eurprd02.prod.outlook.com
+ (2603:10a6:10:1d8:cafe::44) by DB9PR01CA0015.outlook.office365.com
+ (2603:10a6:10:1d8::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.18 via Frontend
+ Transport; Wed, 8 Nov 2023 13:22:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DU6PEPF0000952A.mail.protection.outlook.com (10.167.8.11) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6977.16 via Frontend Transport; Wed, 8 Nov 2023 13:22:15 +0000
+Received: ("Tessian outbound 20615a7e7970:v228"); Wed, 08 Nov 2023 13:22:15 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 858072137c5008a9
+X-CR-MTA-TID: 64aa7808
+Received: from 8e94c1a61635.2
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 8AE13749-5262-4444-9D6F-39FDDB50A229.1;
+	Wed, 08 Nov 2023 13:22:08 +0000
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 8e94c1a61635.2
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 08 Nov 2023 13:22:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XCqm6inEKOsiQqqe1LOotC8lkOeBSvTlTUQ7YaT8PmXMby9XqYx4t3G0rC//wyumEnrC+xj8iGm6GsCwXWSHqQ6JNEjUbEnFENIdIEBqaNwjY2FBBkSuNj/uZO8GaK/kcZbeO/D2vaC3GRwjoffLsuyOwPYjxhJ5gUxaHHHDPFANzCFassXCRLraTURFbU0VAhbZE+DGKlUvrrNKGTvXa5kwxMADuaE7ZIWO+j0yltUiEXMABHpysmLLMTz3VtwOO+3xTzFzfC6KMvj2CLZJlml3kGR2JZOsK1vojztduj+2fiup9W7B07zorchFGFGX9BwEAsmVOgAiA4/IrwmsBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PzX+CXycOF2dGlHkYdjrSeItY85ft5qYE2mjrxJTxxc=;
+ b=MzYsqie0caACTWfX0ItZ6+/il4Tigum6snUy1EQiD5pM7uhVpEeBk+E71gZRsbmgEmpKut58zKsGw4ba8QDOyKx+fgwpPdN+5LfucQeg6J86vhA9j9DECm5RlTZ0nFUaatISldVh8je2Q8r8CXGFCnypq/I31XBeuZKHoiO5ICHPLPj41LT+TR6W3q6rRbYvxkLG47DgVjCfISRr0b8zAI/5BwweXGEMFBsY9MyCcsUWHO0FVrnPFWUFfOzbLs9xfhepvkLacPPXRFWG38ndMqYIT4Daqq9KD+JuZWFYxetAFCLwz8icxmVw3rATvgjmnYnxUsXiSjV3Ml910y4U/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PzX+CXycOF2dGlHkYdjrSeItY85ft5qYE2mjrxJTxxc=;
+ b=ft5L55jImvivPAFDtZzNhk2yrpcLy6kA4kg21ZxIHRFn1hZRxAOyjD+F58k2NNDRQGwaUow15FUK4OJpiPIPfUKHnHJaLxz2SgWGAI+bw/pckZ+PUy4Gd4MIgByHxJc7de78lQiZGk3uDQJA0Zyj2/UqETDm8q/GFFX2RTddpng=
+Received: from AM6PR08MB3749.eurprd08.prod.outlook.com (2603:10a6:20b:8f::22)
+ by GV1PR08MB8667.eurprd08.prod.outlook.com (2603:10a6:150:85::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Wed, 8 Nov
+ 2023 13:22:06 +0000
+Received: from AM6PR08MB3749.eurprd08.prod.outlook.com
+ ([fe80::76e6:a7e1:1592:866]) by AM6PR08MB3749.eurprd08.prod.outlook.com
+ ([fe80::76e6:a7e1:1592:866%3]) with mapi id 15.20.6954.028; Wed, 8 Nov 2023
+ 13:22:05 +0000
+From: Luca Fancellu <Luca.Fancellu@arm.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Diego Sueiro <Diego.Sueiro@arm.com>, Rahul Singh <Rahul.Singh@arm.com>
+Subject: Re: [OE-core] [PATCH] oeqa,ssh: Handle SSHCall timeout error code
+Thread-Topic: [OE-core] [PATCH] oeqa,ssh: Handle SSHCall timeout error code
+Thread-Index: AQHaEjs4HuAPHMZePUu6qEylYoqY5bBwaJ+A
+Date: Wed, 8 Nov 2023 13:22:05 +0000
+Message-ID: <06CD96EF-2DAD-4DC1-A0D9-E8DA3F2FAB65@arm.com>
+References: <20231108110839.3599139-1-luca.fancellu@arm.com>
+In-Reply-To: <20231108110839.3599139-1-luca.fancellu@arm.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.200.91.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM6PR08MB3749:EE_|GV1PR08MB8667:EE_|DU6PEPF0000952A:EE_|PAWPR08MB9758:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8005b6b-d4f5-4726-4633-08dbe05db9a4
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ iC60jU8gChcqP+9skQzrkcGZo/cVYKiq544GHi/fJL2hCueanz37P11QsMoaTI6qXbmpzcTxi3MUaKQli7Deu036CVp86lh/9otlCpqeQtVdb4bYHKooMvS+p9D73Sc0M4Kq7u3wLQzs2ISA5GPpjdKSKfKcXCz1SNduz8n4HcsEA2lxVvu9uHRnoTiMXbQXAhuxIho884HWbfWKd9AWSphbp1IkaYAvwcRonqCZRJChMFHlwEy8CLIu0x60ItXfgIS1xDn5iv9SuxbRx+VWFcU5XlhsPaWe5UNKCOozmE9JR/Lnb89dfm0UW+9KlFaq9prTYqawo01V8Pm3Ei1wi0/LKxy+/kW8bwZiBFPigJ9v5/g8ovFWfwnE7TMnZbgliFTn0S4W47inh8CxOSxITZBWdZ78jEy73nBdbBMgQt2iy9XYspkRN9adTuLgr8ey3J5zK8pPl9y+e9x3qMrlXnweM9o0nktY6y6wzftDXt+Mj9ONRCuAAZkDgAnvcexpWaE4dz7psBYvpaSnliP7N8E9ejSVpdyYtg8XFRgvCXz7g03DV7iw258Z21U9KYucKp1W9GTqioF1owxx1ikycCGoxOWtV9mC3ZRPNnX7/WZCR8OWuXxETvKn8HEUGdROY6XWFjvw9tG5yoBg7pAxdA==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3749.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(346002)(136003)(39860400002)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799009)(41300700001)(6512007)(478600001)(6506007)(6486002)(53546011)(2616005)(71200400001)(26005)(8936002)(4744005)(54906003)(8676002)(5660300002)(76116006)(2906002)(64756008)(6916009)(66476007)(91956017)(66946007)(316002)(66446008)(66556008)(38100700002)(4326008)(122000001)(86362001)(36756003)(38070700009)(33656002)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <09A03FF26D8153478F2A7FFAFF6C3CB2@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20231108105644.2884585-1-joakim.tjernlund@infinera.com>
- <CANPvuRkdZ6fUwgQjA_u=kGBVjv-EQDJ+J0=nsV+voZhaA0RxQw@mail.gmail.com> <bb563d42468303a71a47509e0892ef5b7f5ee6c9.camel@infinera.com>
-In-Reply-To: <bb563d42468303a71a47509e0892ef5b7f5ee6c9.camel@infinera.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 8 Nov 2023 13:17:53 +0000
-Message-ID: <CANPvuR=jp-JrttHxEnyf2w8sbJkywNUnOwc3-hJVO5a2++7Feg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] [meta classes] sed -i destroys symlinks
-To: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d304250609a3ea1d"
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8667
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU6PEPF0000952A.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	5fefeda7-61bb-4ff5-41a5-08dbe05db3f0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	vaaD8EWJo+bzRtNzq6kMDjCPzeJV+xUBIbVBQKJPzmlb50yKwBOuDsv43ZqdpkWbQLwqHZAhy+Ac+RABqRbFWQ8feTNZIFDOG1EsG8yIoKVPyuI1ufSjtdDbBM/4cYmVKZO/9+nm2dhzVo7iCNx2En2EHP0hiIreHU+BRPkgvlU6lYHQxC+VcdkccvWCgS6iKm1N6vR/lImZaW2BKV8pofB2wQgJQzSharafRRCHul7b3T39ueFTyV9qjTg4Gbct6Bnvxj5OK/F6zYnTwY5LmQvzIqCBBfFx2Dd+Rjwx/2t3Ikp0t64tB4r8rfidVR7ou+tAnY4YAEYCz0ED8qWHuqTVUN458N2SoF78vaNCNPbCaxxXXcgsozSZ9YQAs0gwSbIb6lUUVBG0/40hVrUwY7PJE64MWGCoESWRPvCZpJxqWgMbCMPRO7lTLdKgKe+wy9yxfgF2ZnTNGftjCF11/m/pUSCzEvqBj8G2jHfIRDo34FQJ8xNEAt0qyCgOvGA6mkwOTovV4f4COOJvInGZjgDbw2PYcj9HyuTQiQ45w7U5Pz6al/ydg9DKn/ELZcVs/XLx0zBXl7AaJgHTIn+qzdLg8Bq67QXnS4oeUab3ZAQZERHVAz06f8YS4wMeFuewrVsEwAJPgaY6lcx3eKXKh7dzNZhUUe1l5sJy9ZsAweo20nEh/AmMpKAMiOctb2KIDuKVjjp6sqN15UHSg4kyItO6wtWSFH2w1Za3e0GrHCDaIH8BIFOFJBXAydAXy0ft
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(376002)(346002)(136003)(39860400002)(230922051799003)(64100799003)(82310400011)(1800799009)(186009)(451199024)(46966006)(40470700004)(36840700001)(41300700001)(356005)(81166007)(8676002)(8936002)(2906002)(82740400003)(336012)(70586007)(47076005)(4326008)(54906003)(6916009)(316002)(33656002)(53546011)(26005)(70206006)(2616005)(36860700001)(6506007)(5660300002)(86362001)(40480700001)(40460700003)(36756003)(478600001)(6486002)(6512007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 13:22:15.4188
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8005b6b-d4f5-4726-4633-08dbe05db9a4
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000952A.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB9758
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 13:18:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190323
-
---000000000000d304250609a3ea1d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Joakim Tjernlund <Joakim.Tjernlund@infinera.com> escreveu no dia quarta,
-8/11/2023 =C3=A0(s) 11:50:
-
-> On Wed, 2023-11-08 at 11:22 +0000, Jose Quaresma wrote:
->
-> Hi Joakim,
->
-> Joakim Tjernlund via lists.openembedded.org <Joakim.Tjernlund=3D
-> infinera.com@lists.openembedded.org> escreveu no dia quarta, 8/11/2023
-> =C3=A0(s) 10:56:
->
-> If /etc/passwd is a symlink, sed -i on same file will replace the
-> symlink with a new file. Prevent that by expanding the file with realpath
-> before giving it to sed.
->
->
-> The sed follow-symlinks argument looks more appropriate for this imo.
->
->
->
-> But not all sed impl. support that option(not busybox for one). Is Gnu se=
-d
-> an requirement here?
->
-
-On the target we can use the sed from busybox but on the build host we use
-the native sed which is the gnu.
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 13:22:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190324
 
 
->
->
-> --follow-symlinks
-> This option is available only on platforms that support symbolic links an=
-d
-> has an effect only if option -i is specified. In this case, if the file
-> that is specified on the command line is a symbolic link, sed will follow
-> the link and edit the ultimate destination of the link. The default
-> behavior is to break the symbolic link, so that the link destination will
-> not be modified.
->
->
-> https://www.gnu.org/software/sed/manual/html_node/Command_002dLine-Option=
-s.html
->
-> Jose
->
->
-> Signed-off-by: Joakim Tjernlund <joakim.tjernlund@infinera.com>
+
+> On 8 Nov 2023, at 11:08, luca fancellu via lists.openembedded.org <luca.f=
+ancellu=3Darm.com@lists.openembedded.org> wrote:
+>=20
+> The current code in ssh.py is terminating the ssh process that
+> does not finish its computation in a given timeout (when timeout
+> is passed), the SSHCall function is returning the process error
+> code.
+>=20
+> The Openssl ssh before version 8.6_p1 is returning 0 when it is
+> terminated, from commit 8a9520836e71830f4fccca066dba73fea3d16bda
+> onwards (version >=3D 8.6_p1) ssh is returning 255 instead.
+>=20
+> So for version of ssh older than 8.6_p1 when the SSHCall time out,
+> the return code will be 0, meaning success, which is wrong.
+>=20
+> Fix this issue checking if the process has timeout (hence it's been
+> terminated) and checking if the returned code is 0, in that case
+> set it to 255 to advertise that an error occurred.
+>=20
+> Add a test case exercising the timeout in the SSHTest, test_ssh
+> test function.
+>=20
+> Signed-off-by: Luca Fancellu <luca.fancellu@arm.com>
 > ---
->
->  - I have patches which moves shadow/passwd files to an subdir in order t=
-o
->    have passwd mgmt on a RO RFS. Is there a interest to have that oprion
-> in OE?
->
->  meta/classes/rootfs-postcommands.bbclass | 4 ++--
->  meta/classes/useradd_base.bbclass        | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/rootfs-postcommands.bbclass
-> b/meta/classes/rootfs-postcommands.bbclass
-> index 5c0b3ec37c..55cc863dbf 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -148,10 +148,10 @@ read_only_rootfs_hook () {
->  #
->  zap_empty_root_password () {
->         if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then
-> -               sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/shadow
-> +               sed -i 's%^root::%root:*:%' $(realpath
-> ${IMAGE_ROOTFS}/etc/shadow)
->          fi
->         if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
-> -               sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
-> +               sed -i 's%^root::%root:*:%' $(realpath
-> ${IMAGE_ROOTFS}/etc/passwd)
->         fi
->  }
->
-> diff --git a/meta/classes/useradd_base.bbclass
-> b/meta/classes/useradd_base.bbclass
-> index 7f5b9b7219..72732a4d57 100644
-> --- a/meta/classes/useradd_base.bbclass
-> +++ b/meta/classes/useradd_base.bbclass
-> @@ -154,7 +154,7 @@ perform_passwd_expire () {
->         local username=3D`echo "$opts" | awk '{ print $NF }'`
->         local user_exists=3D"`grep "^$username:" $rootdir/etc/passwd ||
-> true`"
->         if test "x$user_exists" !=3D "x"; then
-> -               eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO sed -i
-> \''s/^\('$username':[^:]*\):[^:]*:/\1:0:/'\' $rootdir/etc/shadow \" || tr=
-ue
-> +               eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO sed -i
-> \''s/^\('$username':[^:]*\):[^:]*:/\1:0:/'\' $(realpath
-> $rootdir/etc/shadow) \" || true
->                 local passwd_lastchanged=3D"`grep "^$username:"
-> $rootdir/etc/shadow | cut -d: -f3`"
->                 if test "x$passwd_lastchanged" !=3D "x0"; then
->                         bbfatal "${PN}: passwd --expire operation did not
-> succeed."
->
->
->
 
---=20
-Best regards,
+Sorry, seems that I pushed twice this patch, ignore this.
 
-Jos=C3=A9 Quaresma
+Cheers,
+Luca
 
---000000000000d304250609a3ea1d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Joakim Tjernlund &lt;<a href=3D"mailt=
-o:Joakim.Tjernlund@infinera.com">Joakim.Tjernlund@infinera.com</a>&gt; escr=
-eveu no dia quarta, 8/11/2023 =C3=A0(s) 11:50:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div class=3D"msg5215857189206641611">
-
-
-
-
-<div>
-<div>On Wed, 2023-11-08 at 11:22 +0000, Jose Quaresma wrote:</div>
-<blockquote type=3D"cite" style=3D"margin:0px 0px 0px 0.8ex;border-left:2px=
- solid rgb(114,159,207);padding-left:1ex">
-<div dir=3D"ltr">
-<div>Hi Joakim,</div>
-<br>
-<div class=3D"gmail_quote">
-<div dir=3D"ltr" class=3D"gmail_attr">Joakim Tjernlund via <a href=3D"http:=
-//lists.openembedded.org/" target=3D"_blank">
-lists.openembedded.org</a> &lt;Joakim.Tjernlund=3D<a href=3D"mailto:infiner=
-a.com@lists.openembedded.org" target=3D"_blank">infinera.com@lists.openembe=
-dded.org</a>&gt; escreveu no dia quarta, 8/11/2023 =C3=A0(s) 10:56:<br>
-</div>
-<blockquote type=3D"cite" style=3D"margin:0px 0px 0px 0.8ex;border-left:2px=
- solid rgb(114,159,207);padding-left:1ex">
-<div>If /etc/passwd is a symlink, sed -i on same file will replace the<br>
-symlink with a new file. Prevent that by expanding the file with realpath<b=
-r>
-before giving it to sed.<br>
-</div>
-<br>
-</blockquote>
-<div><br>
-</div>
-<div>The sed follow-symlinks argument looks more appropriate=C2=A0for this =
-imo.</div>
-</div>
-</div>
-</blockquote>
-<div><br>
-</div>
-<div><br>
-</div>
-<div>But not all sed impl. support that option(not busybox for one). Is Gnu=
- sed an requirement here?</div></div></div></blockquote><div><br>On the tar=
-get we can use the sed from busybox but on the build host we use the native=
- sed which is the gnu.</div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex"><div class=3D"msg5215857189206641611"><div>
-<div><br>
-</div>
-<blockquote type=3D"cite" style=3D"margin:0px 0px 0px 0.8ex;border-left:2px=
- solid rgb(114,159,207);padding-left:1ex">
-<div dir=3D"ltr">
-<div class=3D"gmail_quote">
-<div><br>
---follow-symlinks<br>
-This option is available only on platforms that support symbolic links and =
-has an effect only if option -i is specified. In this case, if the file tha=
-t is specified on the command line is a symbolic link, sed will follow the =
-link and edit the ultimate destination
- of the link. The default behavior is to break the symbolic link, so that t=
-he link destination will not be modified.<br>
-<br>
-<a href=3D"https://www.gnu.org/software/sed/manual/html_node/Command_002dLi=
-ne-Options.html" target=3D"_blank">https://www.gnu.org/software/sed/manual/=
-html_node/Command_002dLine-Options.html</a><br>
-<br>
-Jose</div>
-<div><br>
-</div>
-<blockquote type=3D"cite" style=3D"margin:0px 0px 0px 0.8ex;border-left:2px=
- solid rgb(114,159,207);padding-left:1ex">
-<div><br>
-Signed-off-by: Joakim Tjernlund &lt;<a href=3D"mailto:joakim.tjernlund@infi=
-nera.com" target=3D"_blank">joakim.tjernlund@infinera.com</a>&gt;<br>
----<br>
-</div>
-<div><br>
-=C2=A0- I have patches which moves shadow/passwd files to an subdir in orde=
-r to<br>
-=C2=A0 =C2=A0have passwd mgmt on a RO RFS. Is there a interest to have that=
- oprion in OE?<br>
-</div>
-<div><br>
-=C2=A0meta/classes/rootfs-postcommands.bbclass | 4 ++--<br>
-=C2=A0meta/classes/useradd_base.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<b=
-r>
-=C2=A02 files changed, 3 insertions(+), 3 deletions(-)<br>
-</div>
-<div><br>
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs=
--postcommands.bbclass<br>
-index 5c0b3ec37c..55cc863dbf 100644<br>
---- a/meta/classes/rootfs-postcommands.bbclass<br>
-+++ b/meta/classes/rootfs-postcommands.bbclass<br>
-@@ -148,10 +148,10 @@ read_only_rootfs_hook () {<br>
-=C2=A0#<br>
-=C2=A0zap_empty_root_password () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s%^root=
-::%root:*:%&#39; ${IMAGE_ROOTFS}/etc/shadow<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s%^root=
-::%root:*:%&#39; $(realpath ${IMAGE_ROOTFS}/etc/shadow)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s%^root=
-::%root:*:%&#39; ${IMAGE_ROOTFS}/etc/passwd<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s%^root=
-::%root:*:%&#39; $(realpath ${IMAGE_ROOTFS}/etc/passwd)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0}<br>
-</div>
-<div><br>
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.=
-bbclass<br>
-index 7f5b9b7219..72732a4d57 100644<br>
---- a/meta/classes/useradd_base.bbclass<br>
-+++ b/meta/classes/useradd_base.bbclass<br>
-@@ -154,7 +154,7 @@ perform_passwd_expire () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 local username=3D`echo &quot;$opts&quot; | awk =
-&#39;{ print $NF }&#39;`<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 local user_exists=3D&quot;`grep &quot;^$usernam=
-e:&quot; $rootdir/etc/passwd || true`&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;x$user_exists&quot; !=3D &quot;x&=
-quot;; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0eval flock -x $root=
-dir${sysconfdir} -c \&quot;$PSEUDO sed -i \&#39;&#39;s/^\(&#39;$username&#3=
-9;:[^:]*\):[^:]*:/\1:0:/&#39;\&#39; $rootdir/etc/shadow \&quot; || true<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0eval flock -x $root=
-dir${sysconfdir} -c \&quot;$PSEUDO sed -i \&#39;&#39;s/^\(&#39;$username&#3=
-9;:[^:]*\):[^:]*:/\1:0:/&#39;\&#39; $(realpath $rootdir/etc/shadow) \&quot;=
- || true<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 local passwd_lastch=
-anged=3D&quot;`grep &quot;^$username:&quot; $rootdir/etc/shadow | cut -d: -=
-f3`&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;x$pas=
-swd_lastchanged&quot; !=3D &quot;x0&quot;; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 bbfatal &quot;${PN}: passwd --expire operation did not succeed.&=
-quot;<br>
-</div>
-</blockquote>
-</div>
-</div>
-</blockquote>
-<div><br>
-</div>
-<div><span></span></div>
-</div>
-
-</div></blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gm=
-ail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signatu=
-re"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></=
-div></div>
-
---000000000000d304250609a3ea1d--
 
