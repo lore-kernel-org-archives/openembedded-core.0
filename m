@@ -1,176 +1,91 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D30C4332F
-	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 10:34:25 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.10542.1699439659938194922
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B91FCC4332F
+	for <webhook@archiver.kernel.org>; Wed,  8 Nov 2023 10:39:25 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web11.10647.1699439955776317744
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 02:34:20 -0800
+ Wed, 08 Nov 2023 02:39:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ks9+b11u;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40891d38e3fso46701965e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 02:34:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=P9ixVmyh;
+ spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c504a5e1deso88367861fa.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 02:39:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1699439658; x=1700044458; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JjV4gTAzj5cZNVZdetmAWt5OFbnQyZiqIRxXJ35PC7A=;
-        b=Ks9+b11uPAr38Ay8hA+HX3T/1UdT43LuTjNNpg6LKo+MOtcaxY5h7RWPPZ5zZRYsNS
-         NeRZ5FZXeLlsX/hzbmV7CqH0XzUbMjJYlVULpT/cS9nmhrXxcgdiQY8PNROR/JsHB7wz
-         GTNSFqPwzzkEeZB/scrjiJXb8CNgI8oj9A0jo=
+        d=gmail.com; s=20230601; t=1699439954; x=1700044754; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=M5wlWnI/LlgKhiGY36ViBwBayijhj0aMSbQSSmwsCiY=;
+        b=P9ixVmyhqUpQuj3SOspdOq5ARgxK/YznHQ9NmZK0NefftER+dea1Y+ilz9PXExh7w/
+         c6ZbUygN4tWF2uTtuIdkQUgPejWtL0rUeGTeDeGfsTe9L4TymQzrCDI+cKJe5A8H1L2W
+         Ug034y6KkdyvyeFhzYnz5G7s/HXgU5A6JZu5KJF8Wbj5WPb+mAxH+kJOyiwyxcNDd65A
+         IpAoaXfLtPuqep++PuKRTM8otMlhrBtUUqe53HahKQvKqKtUhpgj/kDXh4ZflB1lMW+D
+         Wy9Z/SdSM1h2ahELa3INTD1bvB2dHh9+a7djVP+qq2XYNntf7IqauV/L3/VHvdO+oBHc
+         9lwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699439658; x=1700044458;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JjV4gTAzj5cZNVZdetmAWt5OFbnQyZiqIRxXJ35PC7A=;
-        b=biAMogOYjT/BsuB5coLCr1fOz9cfgtgylo71X3D7jcUF5dHJ8R11EH8vDy0k8bouir
-         JAl1H0jR+SIOxyt50tasoF7Z3Vs0tzzk1vTAqSM8o6MAFg2fF4OJpTXqlREHcQ962qEv
-         ZDsGuWB9Z2lmZwlrXHsHa5OQ5lo8iLex7R1gs9ffgUgPCtHIc2zkqGw+fo9dOsLfeRvc
-         lddnoxLQeQAhMCAjbnJtKUaKi3bKxBn8p0IWcgweP+xbXh1D7UCKMJVjV6IwF9w6o/xC
-         YF2DRD+J7VWrSAR6ycymzYziGH8GuyRvhoKgZ5wy401fHjRGubk6hQ/9YkFN5JYGc95V
-         FI4A==
-X-Gm-Message-State: AOJu0YyEmvJ8JYUbsQYFpWxmZggZy3wHIYKxkji0rEIdXCA5NmoB5lU3
-	bpaaUbJFrnj/SZC52v28y5xRm6LQhF+Ksg22M88=
-X-Google-Smtp-Source: AGHT+IFjkM2Hn2NlqC+CZw5GM1t17wxDeE3vOjJiGYS5Ty4cf0O/dBjEyaPO16CM7Wiklgqi0+sqlQ==
-X-Received: by 2002:a05:600c:3107:b0:408:3975:e225 with SMTP id g7-20020a05600c310700b004083975e225mr1309848wmo.40.1699439657901;
-        Wed, 08 Nov 2023 02:34:17 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a4af:177d:488a:aeb7? ([2001:8b0:aba:5f3c:a4af:177d:488a:aeb7])
-        by smtp.gmail.com with ESMTPSA id a1-20020adfe5c1000000b0032f7cfac0fesm4592229wrn.51.2023.11.08.02.34.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 02:34:17 -0800 (PST)
-Message-ID: <42b2bd6a298183d94db370e38fb0548a7d5cdd7d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/sstatetests: Fix intermitttent
- errors and improve performance
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 08 Nov 2023 10:34:16 +0000
-In-Reply-To: <1795558BCB8BF07B.20624@lists.openembedded.org>
-References: <1795558BCB8BF07B.20624@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20230601; t=1699439954; x=1700044754;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M5wlWnI/LlgKhiGY36ViBwBayijhj0aMSbQSSmwsCiY=;
+        b=h2Ijlrh6NeNdcOBtOWgDQuYYcYCFhCCAsSGNHNuy6LE6RXEk3NwmKg4mFnWrTJ6fke
+         fUrE6s1HRe6FhLBkJb1H2H81wjr0td11dmcO8BPf0U8GX7H8in/++F1ubcd/mEwMBZGx
+         dJp6e26iaFyCQ3heYp7D6a657XRp31lEr+mMWUYGz/xffZHyMLJg64zOjNqJTvmzLaJb
+         2RFqrodSAh5gdYVsYo2EN8nYnx/0oTuudc38roKDpNcRAr/HR6Tvl55xRwYP8Z2egzpz
+         g3kxAmZLj9SnOEP/q2J0rIhFfWeurJCsEhoQw0LvOKe9YuNPp5bPJzIwzTMicazb7R/E
+         mbDw==
+X-Gm-Message-State: AOJu0YwdSkH/1nRbpdNbGH4RwELGglspeF7rRkwTHKu9juG3wJxEdG7X
+	NsQa4eUqjneoLQ5esGQZH8ZC2frBO3dtL0dwkl4=
+X-Google-Smtp-Source: AGHT+IEoWaC1rRs82IhClKyhhDASQ04s9xOfWjKw+J0P74m3WSi9xvUdVyJaZsC9Fir6KxBS9k1Ic7VDO4zbFSn/Gw4=
+X-Received: by 2002:a05:651c:ba4:b0:2c5:13b1:b450 with SMTP id
+ bg36-20020a05651c0ba400b002c513b1b450mr1238688ljb.26.1699439953747; Wed, 08
+ Nov 2023 02:39:13 -0800 (PST)
 MIME-Version: 1.0
+References: <20231107152641.1043-2-jermain.horsman@nedap.com> <20231107152641.1043-5-jermain.horsman@nedap.com>
+In-Reply-To: <20231107152641.1043-5-jermain.horsman@nedap.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 8 Nov 2023 11:39:02 +0100
+Message-ID: <CANNYZj8_gtZxzuUiAuu=ykJ05xK=cYqi9-D9697Zfiee5rU7Vw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC 3/7] bitbake-layers: Add ability to update layer
+ repository configuration
+To: jermain.horsman@nedap.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 10:34:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190312
+ <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 10:39:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190313
 
-On Tue, 2023-11-07 at 12:01 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> You could reproduce an error in this test with:
->=20
-> bitbake core-image-minimal
-> bitbake tzcode-native -c cleansstate
-> oe-selftest -r sstatetests.SStatePrintdiff.test_image_minimal_vs_base_do_=
-configure
->=20
-> since tzcode-native isn't needed once tzdata is available and isn't rebui=
-lt
-> by "bitbake core-image-minimal" if it is missig. tzdata is allarch so if =
-tzdata is
-> built on an x86 host, a aarch64 build machine would never build tzcode-na=
-tive with
-> this set of calls.
->=20
-> Add a --runall option to the initial bitbake invocation to force these th=
-ings to be
-> created if they're missing.
->=20
-> This explains why some failures were occurring on the infrastructure. Wit=
-h that issue
-> fixed, drop the hash mode change since I believe this fixes that issue. T=
-hat
-> restriction was hurting performance, this should allow sstate reuse for t=
-he test
-> and improve the speed of it.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/lib/oeqa/selftest/cases/sstatetests.py | 14 +++++---------
->  1 file changed, 5 insertions(+), 9 deletions(-)
->=20
-> diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/=
-selftest/cases/sstatetests.py
-> index a6865a5ba7b..24c96ace08c 100644
-> --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-> +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-> @@ -776,16 +776,15 @@ addtask tmptask2 before do_tmptask1
->                  self.assertEqual(recursecb_count,1)
-> =20
->  class SStatePrintdiff(SStateBase):
-> -    # FIXME: OEBasicHash setting is necessary for now as otherwise the f=
-ollowing error can occur:
-> -    # ERROR: Can't find a task we're supposed to have written out? (hash=
-: e79d70b9c2cc72030c1ce822525510699a1eeb1ddf5986271d3217422244366a)?
-> -    # The underlying issue should be investigated and addressed.
->      def run_test_printdiff_changerecipe(self, target, change_recipe, cha=
-nge_bbtask, change_content, expected_sametmp_output, expected_difftmp_outpu=
-t):
->          self.write_config("""
->  TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff"
-> -BB_SIGNATURE_HANDLER =3D "OEBasicHash"
->  """)
->          self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff")
-> -        bitbake(target)
-> +        # Use runall do_build to ensure any indirect sstate is created, =
-e.g. tzcode-native on both x86 and
-> +        # aarch64 hosts since only allarch target recipes depend upon it=
- and it may not be built otherwise.
-> +        # A bitbake -c cleansstate tzcode-native would cause some of the=
-se tests to error for example.
-> +        bitbake("--runall build {}".format(target))
->          bitbake("-S none {}".format(target))
->          bitbake(change_bbtask)
->          self.write_recipeinc(change_recipe, change_content)
-> @@ -793,7 +792,6 @@ BB_SIGNATURE_HANDLER =3D "OEBasicHash"
-> =20
->          self.write_config("""
->  TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff-2"
-> -BB_SIGNATURE_HANDLER =3D "OEBasicHash"
->  """)
->          self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff-2")
->          result_difftmp =3D bitbake("-S printdiff {}".format(target))
-> @@ -807,17 +805,15 @@ BB_SIGNATURE_HANDLER =3D "OEBasicHash"
->      def run_test_printdiff_changeconfig(self, target, change_content, ex=
-pected_sametmp_output, expected_difftmp_output):
->          self.write_config("""
->  TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff"
-> -BB_SIGNATURE_HANDLER =3D "OEBasicHash"
->  """)
->          self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff")
-> -        bitbake(target)
-> +        bitbake("--runall build {}".format(target))
->          bitbake("-S none {}".format(target))
->          self.append_config(change_content)
->          result_sametmp =3D bitbake("-S printdiff {}".format(target))
-> =20
->          self.write_config("""
->  TMPDIR =3D "${TOPDIR}/tmp-sstateprintdiff-2"
-> -BB_SIGNATURE_HANDLER =3D "OEBasicHash"
->  """)
->          self.append_config(change_content)
->          self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff-2")
+On Tue, 7 Nov 2023 at 16:27, Jermain Horsman <jermain.horsman@nedap.com> wrote:
 
-Whilst this worked in local testing and at last part of it fixes
-issues:
+> +    def register_commands(self, sp):
+> +        parser_update_layers = self.add_command(sp, 'update-layers-setup', self.do_update_setup, parserecipes=False)
+> +        parser_update_layers.add_argument('json',
+> +            help='File location of the setup-layers json config.')
+> +        parser_update_layers.add_argument('repo',
+> +            help='Name of the repository to be updated.')
+> +        parser_update_layers.add_argument('--branch', '-b',
+> +            help='store branch',
+> +            action='store_true')
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2382/ste=
-ps/15/logs/stdio
+I'm afraid I can't accept this. The UI should be:
 
-:(
+bitbake-layers create-layers-setup --update poky --reference <ref>
 
-Might need to try again leaving the sig handler bits for now as there
-must be some further issue there.
+where ref is a revision, tag or branch.
 
-Cheers,
+A separate top level plugin is problematic because create-layers-setup
+has specifically a sub-plugin mechanism in itself to support various
+ways of writing layer setup, json writer is just one implementation,
+and all extensions should be contained there.
 
-Richard
+Also --branch without parameters to say 'use current branch' is too
+limiting. It's better to explicitly provide the reference, and write
+it out into the json without validation for existence.
 
+Alex
 
