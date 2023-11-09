@@ -1,364 +1,339 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B802FC4332F
-	for <webhook@archiver.kernel.org>; Thu,  9 Nov 2023 02:00:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FE43C4332F
+	for <webhook@archiver.kernel.org>; Thu,  9 Nov 2023 04:01:22 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.112695.1699495231943823364
+ by mx.groups.io with SMTP id smtpd.web10.114421.1699502478077516614
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Nov 2023 18:00:31 -0800
+ Wed, 08 Nov 2023 20:01:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DHnTHLUt;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9677a88a23=randy.macleod@windriver.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9677c0d58b=xiangyu.chen@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A90f2Ft008181
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 Nov 2023 18:00:31 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:message-id:date:subject:to:cc:references:from
-	:in-reply-to:mime-version; s=PPS06212021; bh=fiUsmcyDUTIwxl6zpaW
-	yuMDBOW8KMqPr03fFAUpO8Ks=; b=DHnTHLUtRaYzoqdVdStG9GuMSgDpIR7R1qi
-	Uh0YZwuEBohEHcr/cJobrirBqA12eC5Gclz71tHpAizWAXDyQmj64hoAqLGGQlYS
-	PS9JhOKRcPUtwCqb99lrm8VQ2VA7TowhrWRfJbGaYVLh8MQqTWWV5lRaGAT9gZvb
-	Co7EFN/wCr6HYWusiGF8AJFaMMhmbHJcT9nWUjI9K6totwvWKN95/gKYKAd3fjW/
-	wRrn34l7l3uizVUUBcKoa2/RI0GAqitjs+JCU/t2lLYLdcbJnHDQlQieZwxkJSZB
-	8m3DbpCzWDtfz5vtQgo8nTISXfk8N4fL8pDvvO3iDAkfZPEGd9A==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u7w2t1d86-1
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A93p33b004002
+	for <openembedded-core@lists.openembedded.org>; Wed, 8 Nov 2023 20:01:17 -0800
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u7w2t1few-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 18:00:31 -0800 (PST)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 3A920UTP007176
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 Nov 2023 18:00:30 -0800
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u7w2t1d84-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Nov 2023 18:00:30 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Wed, 08 Nov 2023 20:01:17 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wv45HeZoGRk5hGSeVF5xvbC0GFiFHP5r/O5Ddlln/+Vh08dvWWhOZwzUdxiyViH3TJhMeZtRT++JTQyQJc3Z1OtZuuJ7NjvuzjtTaH1UzRuWQuVN4AkIcy1E25G1XIXslAsDJNeBOgwqf0QDdzxknaE82MKv1CsSJLOcu56CT/iWmnJSKivIJdN13jOtxf3yGS9AtlgdUxSmxDJOCUVgAip5ixa+we8UN9C751cR396PrFD/VNeRCOnsOhWWwMm/Iccgt7ERVvMt8loriq8G3PbS+R32mU7LlNQgKxYtGJVNbIn3OyRVUEOH23IFCSFnZlreqeYPXbK25wJOS68IQw==
+ b=Uo5lDpSIMrQmmL3zLY1qWGv12jcFPRcNQ5AOUhLCoWiKJJp7QG1Y7oSIGONF9QtAe/nGayDz91E27oeqPAwnkITWI6N/jBOH3cqgIWMG8+zy1FXr/5LIrvdAzAUWPG/dizhWC896BYrO6rjsQNyA6JzrWrWsSYDKxUSh7pYdK66y2cbiqM1Z3N9MVKZJlRObEqMqwO4phASVQzY891qhqpMVX1K5g7Q0xX+5E3NNp68lJGUzR8SfFvxEDrupgvWa2js9sa9hcuEyh+BeOVewLPgXtZbIjfGI7l6UPFVwBL8VU/WMAJIG7TZ1Sj8RgPlkxY5iHtsG7bqD4lhl6vYLWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fiUsmcyDUTIwxl6zpaWyuMDBOW8KMqPr03fFAUpO8Ks=;
- b=Um4wnlojdg29L0LT3z66VCMK3GtRQvPCtqxNcLNvlG0EV6cFRw7iDnPPFU0L1M6iEBmxtgYEJu38fGNyAZY1VpbOzWle7yG6nA/+hmDOfOcma1c9wZIDjmUKNT4zm260h/qeUjjc5Q0DNwU+v+Z4NhNiXKilBGS25EGKRk/WRixw6xL7FKpj9wSOKIMx5o+TXvm631Ee4Htd6bNC8gau1nX9EC6Wz21BaaeHkNo9Nq9CRSfBrhFoy0c+qmJniQ2x1KXEi5sC+bzmplDapm0gVOiaLZutOQALi8E6GsDH2dNP9lu7oFc+y/5SdpSfgZZYyC1RuIYxBVB7LaLbvNd/8g==
+ bh=oUoH9MIHotDlyx4LhOOBGuHvuAiRZaXYrfZb6i9fHwo=;
+ b=KD+VOdFIJvpZVt4pR01gROwMeP9YQIt3tpU2iAM7G3pajFpjVqGjh+sWseUfZ4AYZqK9D3mlPTfQ6LF6hiHhh4a4la4e/KwWzl3Z9IoZ9gOt0FHuAVf/WRDz4IC3+/pt7ZWkNQ9wSXAVlJ+KWKOMNDxUUsItXRDwQcDygTWVw1jLwvc6LGiNmxhei8cjUQQkOTo5lo3QqtS/ExCU57VpPD7T5kecEsv9onEcS6L7HkJzq9Y9DDu6HXO7ImHL7I0LGD6QtBIlkkBi60CvpZ3PnLSPjEn83k6IBwn/AfG6t7oMTmFysupPHbW2VCmrdgojSX84vT6CPEQJt0wino90cA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com (2603:10b6:5:193::19)
- by SA1PR11MB6568.namprd11.prod.outlook.com (2603:10b6:806:253::11) with
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by MN0PR11MB6207.namprd11.prod.outlook.com (2603:10b6:208:3c5::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Thu, 9 Nov
- 2023 02:00:27 +0000
-Received: from DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::1452:e3f3:48cb:a128]) by DM6PR11MB3994.namprd11.prod.outlook.com
- ([fe80::1452:e3f3:48cb:a128%4]) with mapi id 15.20.6954.028; Thu, 9 Nov 2023
- 02:00:27 +0000
-Content-Type: multipart/alternative;
- boundary="------------f08LDoMwDOD99v7DRd0GB5jw"
-Message-ID: <94196e06-f078-4df5-afee-e29c05f11b37@windriver.com>
-Date: Wed, 8 Nov 2023 21:00:23 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC 1/5] valgrind: make ptest depend on all components
-Content-Language: en-CA
-To: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Cc: alex.kanavin@gmail.com
-References: <1795D005C571B567.15940@lists.openembedded.org>
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <1795D005C571B567.15940@lists.openembedded.org>
-X-ClientProxiedBy: BYAPR06CA0040.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::17) To DM6PR11MB3994.namprd11.prod.outlook.com
- (2603:10b6:5:193::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Thu, 9 Nov
+ 2023 04:01:13 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::6162:ed58:51f5:efd]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.6954.028; Thu, 9 Nov 2023
+ 04:01:12 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][master][mickledore][PATCH v2] grub: Fix for CVE-2023-4692 and CVE-2023-4693
+Date: Thu,  9 Nov 2023 12:35:29 +0800
+Message-Id: <20231109043529.3755015-1-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY2PR0101CA0039.apcprd01.prod.exchangelabs.com
+ (2603:1096:404:8000::25) To MW4PR11MB5824.namprd11.prod.outlook.com
+ (2603:10b6:303:187::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3994:EE_|SA1PR11MB6568:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb19516b-2ebd-436a-b33c-08dbe0c7a411
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|MN0PR11MB6207:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6087cd8e-827e-4ae3-7548-08dbe0d88388
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	GCrzxYG6wKANE3+hMG5+xYCODSIj7JkTURMCghMlBYVS/rakANUok3e/dfsXG3V96l4kQcl2Eoekbq4ckdtAFZgJXNpc6XWBj9NLohFq5/XihQ3xnnN2553DqOeV4FcqC5EmpLWoqV8a5yL8Fq+3cSYxTNf6wZJQWyFBnCyKT9Vg5fzObvwYGlpu2Q6CWCIEfx9etyt8OxT74muGWwpG1yMDt4z7XBtLENKVA7znofaVbnXR7gIqcAwBbT0gv+8FMOcM+tI3QEmpU0plIVjyfZ7oo6ZOXKu2nrpWSmOh4iJHMCiezad/6/o77P4m9EJa/3FsAZnwJFHRfnC6IAsy0wn3GYL+Bc8A8D8KM/Ropu9zVfCAOAlmIPHCRcGq3I5x8f519A8k1gYJRidVjVA1kcF5sDlBTpWPPd/9n6QqY9VTK+iFVhQyKXZTs02kFg84rI8nfQx6LIH+eNv7hr+fAPHpje7hKEeZ6jZgJGtuReA6E/kF/2hBsacfMHuXTqC2/uCrTdfyp+zIyZSdKTYqn06aXNHe+CV1fS5Qfo9/ccbu7BQDzrigUWQk4EzEII/SB0XDDjNMdw2kay6a4KOfV8aBJtvDd0cyK1UwKd9S0e5I6iS0bruFK04uDqLpNnITKUrFQAKJZLKyD6cinnyFZg==
+	fS4TZGiJud3FOlGGNiA8IFFeXqtGgvhbs1GgXUJEcFNJQ0nqKCthIsp9Jxipa+QVnrGqacZ1NoO48UF1WmCCVJIjoxjT00vbYeatT13IpsrT57Cb2UQ9HsEreasxCIMaVykSi3fVeDUJeyU+USqSZ9DP8Ea4FbsGNn2Y27PPx7phy4kTRcwLk7KlkKh6RtCBkyXrU2q45eHPGsG93qpEppYIwCoZte7Wg1Ql/BWZAAJA09QyvsPq6l6PacbB/o5onnj3s4PCQdAu/MBQVnoL7L8EqRmstzEdLgFTfrO2ASp3d7e0T1dIKoSgcGNGvCYaom8MaoaP5BJjqVe7C5vppFcveQuXKs9CiQhsleDR9uvX38Nx4CEvYDYi+RMRZh1Q3i/9HzVJBgschVufssAZFrDhRcTNYSI4WrmIxa1Ik2XGsu9wpJIWPH+ZVO2/2gJYTbVWOZY8DEIcbC0EMztcF8SByzJC6wIW0Gi3PywmHTyiLGT1ZZjyNC+pfuxKS0im1bVK/7TCsJudQqB4UY+a9Ep/aKP17y+CXCU9LpVuj6EQ8p7bwfqYYyQirOBiXgJoOMpUpn9BhJYH+Qd15DjHKY+SJMDRUfaNPr2UidhXObAjxc+ggYHwDnosPjO714kNIeUTGoXGzzPH7LPauscddzIquxfNT5qHsZ7LTOb4InCvX+0g34XA0u8XEodSji1z
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3994.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(366004)(136003)(376002)(346002)(396003)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(53546011)(6666004)(33964004)(478600001)(6486002)(6512007)(2616005)(966005)(6506007)(83380400001)(66946007)(2906002)(26005)(41300700001)(316002)(5660300002)(66476007)(8936002)(8676002)(4326008)(6916009)(36756003)(38100700002)(31696002)(166002)(86362001)(66556008)(66899024)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(396003)(136003)(39850400004)(230473577357003)(230273577357003)(230922051799003)(230373577357003)(230173577357003)(1800799009)(451199024)(186009)(64100799003)(8936002)(26005)(83380400001)(52116002)(2616005)(83170400001)(66946007)(6916009)(316002)(66476007)(41300700001)(38350700005)(2906002)(8676002)(5660300002)(44832011)(38100700002)(6512007)(1076003)(66556008)(6666004)(6486002)(6506007)(478600001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?YTB6Q1hkUFJLSlIzalE3dForOG1rdVZ4bnYwTldiWE1Lb0FDc0dwUTRGeDhm?=
- =?utf-8?B?YW1waXg4S1RXY1FMdkpweVVBSHpjamdzdERkTzk5djVEU2U5TzlkYmR5Zkll?=
- =?utf-8?B?WHpNZS9NRWNHaE81YytpZU1mY1h6a1NTY3J5ZzRBYTNORHFwdDFNWFR1Zmdk?=
- =?utf-8?B?SStGRjhaSzhtTGxnQW5oYloycDdjM3hZRUxDbmlBTU9na20xbG1USEdCYUJi?=
- =?utf-8?B?bmVJREN4T2hORmhYeXk5aTZiU1YrTEJ3T3RIS2tRTkY0d29WbEVNdGI3L2dF?=
- =?utf-8?B?TmRWT2YwVGo2ZU1kS0NYbGxQYzZHR25zY2lQMU1zUVFTaWpLWGZIUkcybDFJ?=
- =?utf-8?B?cXJYcEg3ZDVxeGtIenRhL1NTRTkwM1UrazhhcmkxNEtBZzBDZUp5YThhMlBr?=
- =?utf-8?B?QUo4SjVvRkRWNnlXbjBnN2x0aGVzWGFvZVFlb0NhRjBLN2xTYVVYa1NiLzR0?=
- =?utf-8?B?YmU5SVdqVlhabFV4Z2VvSXBFeHpuQldGZzVTUzBFVWdyUEJXbkczaU9JN0I3?=
- =?utf-8?B?SVIvWXRUTDR6bG1VNGVlbnVYOVhLcjBGM0ZTbGxIY2IwY1k4UmswLzEzTnZT?=
- =?utf-8?B?Um1xZW5FUE9tNG42SXNxekhBMTFSK01kMi9ITjVNNU91bWVIa1d1aFpKenk5?=
- =?utf-8?B?VnFXRFFWSncxZFl5RGVnalk1REwzTXREV21FK0RyVU0zMk4ySG5jQ29lc0lJ?=
- =?utf-8?B?TGpxbWIvNFBreVVGK2psNTFXWWZQeVc0bnJCaU9Fb1licXp1bE8rUmNCRmlK?=
- =?utf-8?B?dk1iNFJDUE8xbnY2UDMxaVBjK0p5Y2lhK3Iyb2dXaDNhVGpLL0VjaDRmVXRu?=
- =?utf-8?B?c1lyOGJvMlR6OXMzWVdnT0pyeGlOYldQelNPZGR0dWNwSThweTN4UUJiV0Vm?=
- =?utf-8?B?Z1RUS0JNU1BTSnNxUldFaWUxSEdaWDZBdW5XaHloZ015L2QrK0E2MU9WNkVH?=
- =?utf-8?B?RSs2bG1UMlQ2R0ljTHFhelZNMk5QUFJOYlM2eEs2eEtGNzh1VTduYjlGTUFO?=
- =?utf-8?B?SUt4YnhMbG52a2pQTnRjdmV2VUZ0Y1pGKy9lUHk1SXdpQTdIV3RKZkFBR2VG?=
- =?utf-8?B?bXFTalBHUWNDVGR5RGtoTTRmRjBVdGJ5cUlVZ0EzOFQ4TTZDeDZpbVAvUjRZ?=
- =?utf-8?B?R0diMndFV3pEc0tSZGRvS1Z3VDgvWW5SQzc2NmZUSjNackhqeXZCYU9vRUFX?=
- =?utf-8?B?eFh1T2ozNkdHOTVGamdhS0V3MDNmcjFQZDVabFhWb3RhNkY1SmpvRFlQSjVP?=
- =?utf-8?B?S2FrZndaRmY2enZiQ2JLQmxCOEpQdm8xK3dDY3BmQjlaM0w2TGsrUnVkSC90?=
- =?utf-8?B?UWFzcG5tc2x0NWl6RExHakV2ME5EZTdRdG9MRkpyUEt2cktjODdTTVRHTHdR?=
- =?utf-8?B?UVV3WGRZc3Z2Zzd2d0RDU0pUMmVTS2dCd0JzRjg4U0d1NURQbFplNnAxY0JO?=
- =?utf-8?B?UWpSRk1OZXQvb01DalExMlRKcEc2U0ZTWTlHOGtvUnM3ZUNaYVdVdlFDZ04r?=
- =?utf-8?B?YmV3NWFWYlFNZ1FtZzk4aHd1bFZZQ252S0tMSmVWUDBwOFQvMlBOaFlNOFJT?=
- =?utf-8?B?amMvZHpjcWE1eW02V2dNaExMNWpnbUlOaEhVVDhQVy84eVBtVThUTFVZcWRk?=
- =?utf-8?B?dmFLQ0hDLzJkYVdMemFiRXdkSWcyd3l2WFN4RnVMakNucEF6NkluWlVwNTg0?=
- =?utf-8?B?dXBrbENQVXBzNm4rTWN1b2VwM1VPUGRjSkhTSHZYK0NwbXpGNVgrZnZzNUhu?=
- =?utf-8?B?V3dMK1Z6Z2tZU2tUS3grUXkxbDBJTVBwLzZJejk3TklJT1hEL0gzYTNIVmw1?=
- =?utf-8?B?Wk8zYUhtOXJHditRaXQyOE1QN1lMUlBoajRCY1ZnbENhTlRpOVlEbTN2b3pw?=
- =?utf-8?B?UzhvNjlhWElQdkV0dFkvQzFOZGxrdUMrTEtPRVNQakVybVo0YnRzbFltNUsw?=
- =?utf-8?B?dkdjUmhFUm0zekxYYkZTcVRKMmFEUUtmYUwwWjVRWGFhbXJ5cnFkSExMRThU?=
- =?utf-8?B?YTc0N2pCY25GL0NCVXBZTlN5YWl3aG92OFc0VUQ3SURjUS96a1g3SS9QeUxY?=
- =?utf-8?B?WmV6MmVmb3JNOTZmQzZDdk9Ea1FsQTgzYTlZekFTbm9ibTdjQVlJUktCM01w?=
- =?utf-8?B?STFWVjJCaHNzdTRkZEV3U2dRTTA5bFBWblZLcldjQkRSQk5EellwSW5tYzhM?=
- =?utf-8?B?U2c9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb19516b-2ebd-436a-b33c-08dbe0c7a411
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3994.namprd11.prod.outlook.com
+	=?us-ascii?Q?ITenMH7S6hK2xVQaWovmYwFvnHqfY8JOJhilN/w0FH8LrCGS1OOQ6bEhXSBM?=
+ =?us-ascii?Q?EacDOQ6KVUiZxfNXgNrtZqtZm3uGcI0xDl+Di3E/889VSh/ZRlLv0NBrfryC?=
+ =?us-ascii?Q?X2oz2ciX4FadUcRnzPhXPFzN2turV+D9FY1/TMCkWqqb/NfTge02cvMkBlBS?=
+ =?us-ascii?Q?NRJz3VMvlRKHWDUGV4yHaqcE3ENTQUFxxbro4zNAeTfIarqKTT8iMavQqKTl?=
+ =?us-ascii?Q?Vhn8kGe9REsL0Z50OS0F0+wA2sb6p6+DYbQVP4jJIqCuqZJD9Hh8/fZtoHct?=
+ =?us-ascii?Q?E8z8BEXQBS0TmK+GJ8qrLjP+/U8CTVbRnYq0+VdTa/7ogG8RTVDkTzgLWThJ?=
+ =?us-ascii?Q?fSYkQAy2WOMHSqMAsH2BYBAO2g5pn4SqCzElq1TXE57yPq0pW3l1nY7yfBFD?=
+ =?us-ascii?Q?ctn5iNcSSO+cpMqaJ42TQ2rhfmJDtfXxX+/F27voieCUvxGgOehGPueVfLog?=
+ =?us-ascii?Q?IKEk9htKEwqNWY6xBpVsEQED+qvHwRwPJY25Dtu/byur0tEBvps/6GMYYWKJ?=
+ =?us-ascii?Q?nRAO+zYXBd3L5l4w59NDOKQ2uTj28XQtnVs2hdrNUQV0UZdXqY1gJdr7L5Cq?=
+ =?us-ascii?Q?Rr1ZmZKA58LffDwptrbp3LJO6a5xQSRR4hIhr6E108WIXM9rGkkYds8HJffe?=
+ =?us-ascii?Q?yvAXsgeSLqMbn6kvM4z0Lh5PJTy5rm0PEW8PyOhFhqB3vOgEMdoGYfMji/Bq?=
+ =?us-ascii?Q?ozXBNokJFJpVoReyWqFNC0kT3d5kzFddIgQ9odtUUJH5KIK9jkj0b+YPBqXd?=
+ =?us-ascii?Q?/c9ANB7ihcWCnwcUHQJyK0camSgaef+5qV/WLfiLQcxya0jx2mDKfubq5EJ6?=
+ =?us-ascii?Q?h23CEQhLVQSCEoqjyWqtNNVJ0dzvBO18yNg186RPgu1W6vwqfdvSJyCuV4AV?=
+ =?us-ascii?Q?LkyGcnvGxBtodX01r1XQqoLKNgCSO/f6eptsg1OX9lc4HAErAybDTlyuJ5DX?=
+ =?us-ascii?Q?R59nICTw11GRItfObK0PaY3YnC6vlhfMveem5KGuMynqaNEBZnuG31MQb49Q?=
+ =?us-ascii?Q?l42oxGz2Kbz6CzeKoydiyLoBgdQ5D8QZxGvjoL0Z2UOuu71iXr4Z2D5St62n?=
+ =?us-ascii?Q?+FrSJNac/lX3Gvgdj1srYH4SO9m0gST3G/tfBb2LsFlPvNwNVHW7xZiyAu8g?=
+ =?us-ascii?Q?iSvxCueNhzjrfutb9a7+JPTEI3cWYO7ox2IzH4UlyxiF/uNO4r/6vl36HcQ7?=
+ =?us-ascii?Q?314ux34VadMaY80sYgEccU1iwlOGJYRWwpFoRmQMSwkYstDikqFTO13CO4lu?=
+ =?us-ascii?Q?rv/dHF9Mvg+PvRqC2gg16uLKhBIGhgCVHA8hp2krJF+9Z+8g+VXeqKjUgqMB?=
+ =?us-ascii?Q?wfmn/sbqCbISX63byEHeCfZYhLyzrRQOVqSSKs3qLS1W5BdZvvZAHZu++Nu9?=
+ =?us-ascii?Q?20XBi2rovG9dqDW7mg3ZF4uY8ag8WA254Gkrfv2T4PbcOz3VkVrtNdhpqzdL?=
+ =?us-ascii?Q?c7OcxPB7A8nMxnZtRWsVVWvBi23Tqv0oLoPms+C2TcwsvQgPxC+apTX5xa4w?=
+ =?us-ascii?Q?/oYOdz7rRZIbCPwKaL43Ll6tn4GwhMBbyXHE/JaOnqraFSObBEI+HvNzp+hB?=
+ =?us-ascii?Q?mvIhu5hEBz7BN7p5QbDns79eayoExO5g4LhX+pS+ldYMJleuiuWNN3J24pPk?=
+ =?us-ascii?Q?Qw=3D=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6087cd8e-827e-4ae3-7548-08dbe0d88388
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2023 02:00:26.0055
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2023 04:01:12.9704
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cZKMFyUqoq9uvW4mAOkmH4hWpBZrEhvoNNl3wEcKPw8vn5kC+dzrFNmtut3gBEreFDbZXKE7Siwkqe2tj6vMNIrI5P6ccaWt3uew7cJrmUE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6568
-X-Proofpoint-GUID: kuqH2TbmHKJZoAgqXaj-xr8andniC6e1
-X-Proofpoint-ORIG-GUID: HRqzISUOZkxjevbx1mJkufFoF6-xgxoQ
+X-MS-Exchange-CrossTenant-UserPrincipalName: R83zfkDKaliwJ+L81QQ976n8a2zi+Fvs9KteCpDY5BVOHTclAruhH2op5xI0vVHQPknbDxCdyJoQ/bVhdKFh6Irv9LhJEdIpEJrrbCPz4As=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6207
+X-Proofpoint-GUID: _b92tIekobcQRTfr9fPDT0KLNGgerQpq
+X-Proofpoint-ORIG-GUID: _b92tIekobcQRTfr9fPDT0KLNGgerQpq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-09_01,2023-11-08_01,2023-05-22_02
+ definitions=2023-11-09_02,2023-11-08_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
  suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0
- mlxlogscore=841 impostorscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ mlxlogscore=999 impostorscore=0 clxscore=1015 phishscore=0 bulkscore=0
  mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311090013
+ engine=8.19.0-2311060001 definitions=main-2311090030
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 09 Nov 2023 02:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190374
+ <openembedded-core@lists.openembedded.org>; Thu, 09 Nov 2023 04:01:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190375
 
---------------f08LDoMwDOD99v7DRd0GB5jw
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-On 2023-11-08 8:25 p.m., Randy MacLeod via lists.openembedded.org wrote:
-> From: Randy MacLeod<Randy.MacLeod@windriver.com>
->
-> When the helper scripts were split into separate packages, they
-> weren't added as ptest dependencies. Fix that.
+CVE: CVE-2023-4692
 
-Well, this is embarrassing...
+Crafted file system images can cause heap-based buffer
+overflow and may allow arbitrary code execution and secure boot bypass.
 
-I'm no longer convinced that this is required.
+Upstream-Status: Backport
+[https://git.savannah.gnu.org/cgit/grub.git/commit/?id=43651027d24e62a7a463254165e1e46e42aecdea]
 
-I think I saw the ../cg_diff errors below:
+CVE: CVE-2023-4693
 
-PASS: memcheck/tests/vcpu_fbench
-PASS: memcheck/tests/wcs
-PASS: memcheck/tests/wcsncpy
-PASS: memcheck/tests/wmemcmp
-FAIL: memcheck/tests/wrap1
-FAIL: memcheck/tests/wrap2
-FAIL: memcheck/tests/wrap3
-FAIL: memcheck/tests/wrap4
-FAIL: memcheck/tests/wrap5
-FAIL: memcheck/tests/wrap6
-FAIL: memcheck/tests/wrap7
-FAIL: memcheck/tests/wrap8
-PASS: memcheck/tests/wrapmalloc
-PASS: memcheck/tests/wrapmallocstatic
-PASS: memcheck/tests/writev1
-PASS: memcheck/tests/xml1
-python3: can't open file 
-'/usr/lib/valgrind/ptest/cachegrind/tests/../cg_diff': [Errno 2] No such 
-file or directory
-post check failed: python3 ../cg_diff --mod-funcname="s/main/MAIN/" 
-ann1.cgout ann1b.cgout > ann-diff1.cgout && python3 ../cg_annotate 
---mod-filename="s/a.c/A.c/" --mod-funcname s/MAIN/Main/
-PASS: cachegrind/tests/ann-diff1
-python3: can't open file 
-'/usr/lib/valgrind/ptest/cachegrind/tests/../cg_diff': [Errno 2] No such 
-file or directory
-post check failed: python3 ../cg_diff --mod-filename="s/.*aux\//aux\//i" 
---mod-funcname="s/(f[a-z]*)[0-9]/\1N/g" ann-diff2a.cgout 
-ann-diff2b.cgout > ann-diff2c.cgout && python3 ../cg_annotat
-PASS: cachegrind/tests/ann-diff2
+There an out-of-bounds read at fs/ntfs.c, a physically present attacker
+may leverage that by presenting a specially crafted NTFS file system
+image to read arbitrary memory locations. A successful attack may allow
+sensitive data cached in memory or EFI variables values to be leaked
+presenting a high Confidentiality risk.
 
-and made an assumption that may not be valid. I think this problem is 
-still present
-even after this change.
+Upstream-Status: Backport
+[https://git.savannah.gnu.org/cgit/grub.git/commit/?id=0ed2458cc4eff6d9a9199527e2a0b6d445802f94]
 
-As I said previously, I may not have time to get back to this until next 
-week so
-if anyone picks up this work, they might want to confirm that this is 
-really required.
-
-I should have just waited until I had time to complete the update before 
-spamming the list.
-
-../Randy
-
-../Randy
-
-
->
-> Signed-off-by: Randy MacLeod<Randy.MacLeod@windriver.com>
-> ---
->   meta/recipes-devtools/valgrind/valgrind_3.21.0.bb | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-> index 68ab319a1b..a2feda6aae 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-> @@ -139,7 +139,9 @@ RDEPENDS:${PN}-ptest += " bash coreutils curl file \
->      perl-module-overloading perl-module-cwd perl-module-ipc-open3 \
->      perl-module-carp perl-module-symbol \
->      procps sed ${PN}-dbg ${PN}-src ${TCLIBC}-src gcc-runtime-dbg \
-> -   util-linux-taskset"
-> +   util-linux-taskset \
-> +   ${PN}-cachegrind ${PN}-massif ${PN}-callgrind \
-> +"
->   RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-utils glibc-gconv-utf-32"
->   
->   # One of the tests contains a bogus interpreter path on purpose.
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190367):https://lists.openembedded.org/g/openembedded-core/message/190367
-> Mute This Topic:https://lists.openembedded.org/mt/102477896/3616765
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [randy.macleod@windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
---------------f08LDoMwDOD99v7DRd0GB5jw
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 2023-11-08 8:25 p.m., Randy MacLeod
-      via lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:1795D005C571B567.15940@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">From: Randy MacLeod <a class="moz-txt-link-rfc2396E" href="mailto:Randy.MacLeod@windriver.com">&lt;Randy.MacLeod@windriver.com&gt;</a>
-
-When the helper scripts were split into separate packages, they
-weren't added as ptest dependencies. Fix that.</pre>
-    </blockquote>
-    <p>Well, this is embarrassing...<br>
-    </p>
-    <p>I'm no longer convinced that this is required.</p>
-    <p>I think I saw the ../cg_diff errors below:<br>
-      <br>
-      PASS: memcheck/tests/vcpu_fbench <br>
-      PASS: memcheck/tests/wcs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      PASS: memcheck/tests/wcsncpy&nbsp;&nbsp; &nbsp;<br>
-      PASS: memcheck/tests/wmemcmp&nbsp;&nbsp; &nbsp;<br>
-      FAIL: memcheck/tests/wrap1 &nbsp;<br>
-      FAIL: memcheck/tests/wrap2&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      FAIL: memcheck/tests/wrap3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      FAIL: memcheck/tests/wrap4&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      FAIL: memcheck/tests/wrap5&nbsp;&nbsp; &nbsp;<br>
-      FAIL: memcheck/tests/wrap6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      FAIL: memcheck/tests/wrap7&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      FAIL: memcheck/tests/wrap8&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      PASS: memcheck/tests/wrapmalloc&nbsp; &nbsp;<br>
-      PASS: memcheck/tests/wrapmallocstatic<br>
-      PASS: memcheck/tests/writev1&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      PASS: memcheck/tests/xml1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<br>
-      python3: can't open file
-      '/usr/lib/valgrind/ptest/cachegrind/tests/../cg_diff': [Errno 2]
-      No such file or directory<br>
-      post check failed: python3 ../cg_diff
-      --mod-funcname=&quot;s/main/MAIN/&quot; ann1.cgout ann1b.cgout &gt;
-      ann-diff1.cgout &amp;&amp; python3 ../cg_annotate
-      --mod-filename=&quot;s/a.c/A.c/&quot; --mod-funcname s/MAIN/Main/<br>
-      PASS: cachegrind/tests/ann-diff1<br>
-      python3: can't open file
-      '/usr/lib/valgrind/ptest/cachegrind/tests/../cg_diff': [Errno 2]
-      No such file or directory<br>
-      post check failed: python3 ../cg_diff
-      --mod-filename=&quot;s/.*aux\//aux\//i&quot;
-      --mod-funcname=&quot;s/(f[a-z]*)[0-9]/\1N/g&quot; ann-diff2a.cgout
-      ann-diff2b.cgout &gt; ann-diff2c.cgout &amp;&amp; python3
-      ../cg_annotat<br>
-      PASS: cachegrind/tests/ann-diff2</p>
-    <p>and made an assumption that may not be valid. I think this
-      problem is still present<br>
-      even after this change.<br>
-      <br>
-      As I said previously, I may not have time to get back to this
-      until next week so<br>
-      if anyone picks up this work, they might want to confirm that this
-      is really required.</p>
-    <p>I should have just waited until I had time to complete the update
-      before spamming the list.</p>
-    <p>../Randy<br>
-    </p>
-    <p>../Randy<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:1795D005C571B567.15940@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">
-
-Signed-off-by: Randy MacLeod <a class="moz-txt-link-rfc2396E" href="mailto:Randy.MacLeod@windriver.com">&lt;Randy.MacLeod@windriver.com&gt;</a>
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.21.0.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+v1 -> v2 : merged two CVEs to one commit, updated the comments
+---
+ .../grub/files/CVE-2023-4692.patch            | 98 +++++++++++++++++++
+ .../grub/files/CVE-2023-4693.patch            | 63 ++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  2 +
+ 3 files changed, 163 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2023-4692.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2023-4693.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-index 68ab319a1b..a2feda6aae 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-@@ -139,7 +139,9 @@ RDEPENDS:${PN}-ptest += &quot; bash coreutils curl file \
-    perl-module-overloading perl-module-cwd perl-module-ipc-open3 \
-    perl-module-carp perl-module-symbol \
-    procps sed ${PN}-dbg ${PN}-src ${TCLIBC}-src gcc-runtime-dbg \
--   util-linux-taskset&quot;
-+   util-linux-taskset \
-+   ${PN}-cachegrind ${PN}-massif ${PN}-callgrind \
-+&quot;
- RDEPENDS:${PN}-ptest:append:libc-glibc = &quot; glibc-utils glibc-gconv-utf-32&quot;
+diff --git a/meta/recipes-bsp/grub/files/CVE-2023-4692.patch b/meta/recipes-bsp/grub/files/CVE-2023-4692.patch
+new file mode 100644
+index 0000000000..305fcc93d8
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2023-4692.patch
+@@ -0,0 +1,98 @@
++From 43651027d24e62a7a463254165e1e46e42aecdea Mon Sep 17 00:00:00 2001
++From: Maxim Suhanov <dfirblog@gmail.com>
++Date: Mon, 28 Aug 2023 16:31:57 +0300
++Subject: [PATCH] fs/ntfs: Fix an OOB write when parsing the $ATTRIBUTE_LIST attribute
++ for the $MFT file
++
++When parsing an extremely fragmented $MFT file, i.e., the file described
++using the $ATTRIBUTE_LIST attribute, current NTFS code will reuse a buffer
++containing bytes read from the underlying drive to store sector numbers,
++which are consumed later to read data from these sectors into another buffer.
++
++These sectors numbers, two 32-bit integers, are always stored at predefined
++offsets, 0x10 and 0x14, relative to first byte of the selected entry within
++the $ATTRIBUTE_LIST attribute. Usually, this won't cause any problem.
++
++However, when parsing a specially-crafted file system image, this may cause
++the NTFS code to write these integers beyond the buffer boundary, likely
++causing the GRUB memory allocator to misbehave or fail. These integers contain
++values which are controlled by on-disk structures of the NTFS file system.
++
++Such modification and resulting misbehavior may touch a memory range not
++assigned to the GRUB and owned by firmware or another EFI application/driver.
++
++This fix introduces checks to ensure that these sector numbers are never
++written beyond the boundary.
++
++Fixes: CVE-2023-4692
++
++Upstream-Status: Backport from 
++[https://git.savannah.gnu.org/cgit/grub.git/commit/?id=43651027d24e62a7a463254165e1e46e42aecdea]
++CVE: CVE-2023-4692
++
++Reported-by: Maxim Suhanov <dfirblog@gmail.com>
++Signed-off-by: Maxim Suhanov <dfirblog@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++---
++ grub-core/fs/ntfs.c | 18 +++++++++++++++++-
++ 1 file changed, 17 insertions(+), 1 deletion(-)
++
++diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
++index bbdbe24..c3c4db1 100644
++--- a/grub-core/fs/ntfs.c
+++++ b/grub-core/fs/ntfs.c
++@@ -184,7 +184,7 @@ find_attr (struct grub_ntfs_attr *at, grub_uint8_t attr)
++     }
++   if (at->attr_end)
++     {
++-      grub_uint8_t *pa;
+++      grub_uint8_t *pa, *pa_end;
++ 
++       at->emft_buf = grub_malloc (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR);
++       if (at->emft_buf == NULL)
++@@ -209,11 +209,13 @@ find_attr (struct grub_ntfs_attr *at, grub_uint8_t attr)
++ 	    }
++ 	  at->attr_nxt = at->edat_buf;
++ 	  at->attr_end = at->edat_buf + u32at (pa, 0x30);
+++	  pa_end = at->edat_buf + n;
++ 	}
++       else
++ 	{
++ 	  at->attr_nxt = at->attr_end + u16at (pa, 0x14);
++ 	  at->attr_end = at->attr_end + u32at (pa, 4);
+++	  pa_end = at->mft->buf + (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR);
++ 	}
++       at->flags |= GRUB_NTFS_AF_ALST;
++       while (at->attr_nxt < at->attr_end)
++@@ -230,6 +232,13 @@ find_attr (struct grub_ntfs_attr *at, grub_uint8_t attr)
++ 	  at->flags |= GRUB_NTFS_AF_GPOS;
++ 	  at->attr_cur = at->attr_nxt;
++ 	  pa = at->attr_cur;
+++
+++	  if ((pa >= pa_end) || (pa_end - pa < 0x18))
+++	    {
+++	      grub_error (GRUB_ERR_BAD_FS, "can\'t parse attribute list");
+++	      return NULL;
+++	    }
+++
++ 	  grub_set_unaligned32 ((char *) pa + 0x10,
++ 				grub_cpu_to_le32 (at->mft->data->mft_start));
++ 	  grub_set_unaligned32 ((char *) pa + 0x14,
++@@ -240,6 +249,13 @@ find_attr (struct grub_ntfs_attr *at, grub_uint8_t attr)
++ 	    {
++ 	      if (*pa != attr)
++ 		break;
+++
+++              if ((pa >= pa_end) || (pa_end - pa < 0x18))
+++                {
+++	          grub_error (GRUB_ERR_BAD_FS, "can\'t parse attribute list");
+++	          return NULL;
+++	        }
+++
++ 	      if (read_attr
++ 		  (at, pa + 0x10,
++ 		   u32at (pa, 0x10) * (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR),
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2023-4693.patch b/meta/recipes-bsp/grub/files/CVE-2023-4693.patch
+new file mode 100644
+index 0000000000..420fe92ac3
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2023-4693.patch
+@@ -0,0 +1,63 @@
++From 0ed2458cc4eff6d9a9199527e2a0b6d445802f94 Mon Sep 17 00:00:00 2001
++From: Maxim Suhanov <dfirblog@...>
++Date: Mon, 28 Aug 2023 16:32:33 +0300
++Subject: fs/ntfs: Fix an OOB read when reading data from the resident $DATA
++ attribute
++
++When reading a file containing resident data, i.e., the file data is stored in
++the $DATA attribute within the NTFS file record, not in external clusters,
++there are no checks that this resident data actually fits the corresponding
++file record segment.
++
++When parsing a specially-crafted file system image, the current NTFS code will
++read the file data from an arbitrary, attacker-chosen memory offset and of
++arbitrary, attacker-chosen length.
++
++This allows an attacker to display arbitrary chunks of memory, which could
++contain sensitive information like password hashes or even plain-text,
++obfuscated passwords from BS EFI variables.
++
++This fix implements a check to ensure that resident data is read from the
++corresponding file record segment only.
++
++Fixes: CVE-2023-4693
++
++Upstream-Status: Backport from 
++[https://git.savannah.gnu.org/cgit/grub.git/commit/?id=0ed2458cc4eff6d9a9199527e2a0b6d445802f94]
++CVE: CVE-2023-4693
++
++Reported-by: Maxim Suhanov <dfirblog@...>
++Signed-off-by: Maxim Suhanov <dfirblog@...>
++Reviewed-by: Daniel Kiper <daniel.kiper@...>
++Signed-off-by: Xiangyu Chen <xiangyu.chen@...>
++---
++ grub-core/fs/ntfs.c | 13 ++++++++++++-
++ 1 file changed, 12 insertions(+), 1 deletion(-)
++
++diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
++index c3c4db1..a68e173 100644
++--- a/grub-core/fs/ntfs.c
+++++ b/grub-core/fs/ntfs.c
++@@ -401,7 +401,18 @@ read_data (struct grub_ntfs_attr *at, grub_uint8_t *pa, grub_uint8_t *dest,
++     {
++       if (ofs + len > u32at (pa, 0x10))
++ 	return grub_error (GRUB_ERR_BAD_FS, "read out of range");
++-      grub_memcpy (dest, pa + u32at (pa, 0x14) + ofs, len);
+++
+++      if (u32at (pa, 0x10) > (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR))
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute too large");
+++
+++      if (pa >= at->mft->buf + (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR))
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute out of range");
+++
+++      if (u16at (pa, 0x14) + u32at (pa, 0x10) >
+++	  (grub_addr_t) at->mft->buf + (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR) - (grub_addr_t) pa)
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute out of range");
+++
+++      grub_memcpy (dest, pa + u16at (pa, 0x14) + ofs, len);
++       return 0;
++     }
++ 
++-- 
++cgit v1.1
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 41839698dc..f594e7d3a4 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -42,6 +42,8 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2022-3775.patch \
+            file://0001-risc-v-Handle-R_RISCV_CALL_PLT-reloc.patch \
+            file://0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch \
++           file://CVE-2023-4692.patch \
++           file://CVE-2023-4693.patch \
+ "
  
- # One of the tests contains a bogus interpreter path on purpose.
-</pre>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre class="moz-quote-pre" wrap="">-=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#190367): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/190367">https://lists.openembedded.org/g/openembedded-core/message/190367</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/102477896/3616765">https://lists.openembedded.org/mt/102477896/3616765</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
+ SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
+-- 
+2.25.1
 
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------f08LDoMwDOD99v7DRd0GB5jw--
 
