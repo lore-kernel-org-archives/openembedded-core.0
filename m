@@ -1,202 +1,367 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 485B3C4332F
-	for <webhook@archiver.kernel.org>; Fri, 10 Nov 2023 10:12:34 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.55])
- by mx.groups.io with SMTP id smtpd.web10.24351.1699611145643045563
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BBE7C4332F
+	for <webhook@archiver.kernel.org>; Fri, 10 Nov 2023 11:19:24 +0000 (UTC)
+Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
+ by mx.groups.io with SMTP id smtpd.web11.25325.1699615153957027495
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Nov 2023 02:12:26 -0800
+ Fri, 10 Nov 2023 03:19:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@welotec.com header.s=selector1 header.b=doxdhCrs;
- spf=pass (domain: welotec.com, ip: 40.107.20.55, mailfrom: p.lobacz@welotec.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lhtm/Z71aQgFgTQq1kWTftHTmS7JCT2j9NYFQfChJCut3VuSxrlRjcSMsAg8ZiaNi+c9R4Tv6WIfyhiV0uGYuzpG1P9H3I/bdqDxb7oJbq3kTlHi7vOXay4/dCWl/L3kcvISzJtvZ7C8336qJMO9J0YCFac6avm7kD92hGBh4dQ/6+al0CK2pvCfftbjDjhgZ5FhlxjUhiE9Dm7w3wKu8Vu2Q2sM07jBDGkibEnvl7nqsLZkYoaD7ATb5mOeXEVs5VsUMW2Hw8QKBEXMceabEOR3LH9YB6QnG8y/CVoc1WB+KNT1kXViVx4SxPoDnHVycNDPZ8Iu2vW8/Mhu63Kw8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z29BkAcKc07He9y8msjNHIH6I1g/oUKCcaw8c/eCWBA=;
- b=ICmTJFThzJFqtDZCizGJ9UPptzjLNyBFTPM1g03s0ihkrM2WLN9ahfMoBLCHtzANoBAnNyowS6wfHDoYVqAJzA3LbVi0dt09hwL3g0dDn0IZcOLJE4/zsDJEkfp59qJ5NJ3lMoAtAZfkeXDGGEfutQYydOoFn50jAoohCDi0DNnRcW+FZkToMeRpPWM6UqptZgMuoGUXJy1yn87Mo54HHveK6NbqJj1+Ln45qnAPzHqNWM9RymYUs6/CACQNxtkl4qxLdCLZ/fEtOaNBRtajyOxXLj/mqX0lkDrOBcbfU0exTW55zEx6Z016kITf/91w/IIK80uogGco71KO2u2Ypw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z29BkAcKc07He9y8msjNHIH6I1g/oUKCcaw8c/eCWBA=;
- b=doxdhCrsVd4GgybQba4i6N1xm7AHZKpdVQRe4lHsY5X4zojzfaCOo/9HnPngEk1Sel2Y4CgauSMvkV0lInskKGmmjdWjYGxLw+4UFaPwyxbHlzmRXlJsnTsDE/qEdnrrOIoIc1tlEaQbKh4GiVVKeHhREmsiLuoTBJ6BQFYzh0Y3TF3yX3aivS4pSnjV1PrNi2N4b0Z66NHFO4IzDMPwP7HvvhwHasPuWdQ5kC9Ypepi903WHmYXT5wyNB7h36tIB51KIiaT23A7LhZo9+v9s1XUOVSDv/YAc69pFSrPylqYw5t95pZZ95NR3DZJTnJq+5gAkrQ7tFm8WM0O3y9OGw==
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com (2603:10a6:803:da::22)
- by DB9PR04MB9258.eurprd04.prod.outlook.com (2603:10a6:10:372::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.10; Fri, 10 Nov
- 2023 10:12:21 +0000
-Received: from VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::a038:57ac:22bc:9918]) by VI1PR04MB5373.eurprd04.prod.outlook.com
- ([fe80::a038:57ac:22bc:9918%6]) with mapi id 15.20.6977.016; Fri, 10 Nov 2023
- 10:12:20 +0000
-From: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-CC: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
-Subject: Re: [OE-Core][PATCH v14 03/11] sstate.bbclass: override tar with
- tar-native
-Thread-Topic: [OE-Core][PATCH v14 03/11] sstate.bbclass: override tar with
- tar-native
-Thread-Index: AQHZ/3gR441rZw67AEy2jVPMY0zZfrBLK2KAgAC9qwCAJ5TKAA==
-Date: Fri, 10 Nov 2023 10:12:20 +0000
-Message-ID: <2705101.mvXUDI8C0e@latitude>
-References: <20231015145749.69995-1-p.lobacz@welotec.com>
- <3bf4d3c6ef38532d316ec3eefc9d670aad5ba21d.camel@linuxfoundation.org>
- <178E804624FA5560.14388@lists.openembedded.org>
-In-Reply-To: <178E804624FA5560.14388@lists.openembedded.org>
-Accept-Language: pl-PL, en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: VI1PR04MB5373:EE_|DB9PR04MB9258:EE_
-x-ms-office365-filtering-correlation-id: ac423696-d5d3-4d29-7ff0-08dbe1d586b9
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- yGd75eCH7HGF/6bXuhxq7ZjQi3864yus4y/psRjS+HWnLT4Ic9CpapZdKWhuifBrovsh6zBEz86mcttNI9EW58hTQnFgEQg0yuXCUmYGCJKi18u6P5/7mGZpsktXwO+8gq4ivbN4kJNAxR0Pk3Eo2IPuMfgKSnapmkoXnDQS9NAGK9NgAv7PyREnIrwjo4uM5j8STmFpo14FEF79xRKAgtHQdXiVcRtOoHtFUyzfsjUAwKcBv/o/xH+kMRhFuUsAQ34GZfNYVuz3iYfxlEZheSul/MytmaB6g6H39NE3S7oaIa+Ppv9a2uJDa+BmlU98lFtwhHvknlj0+tSEleFxZFhtRC6ptcE2fS2plZauyrVxyoEsiSEMjWFxyUJyuTtZfn1tFpFj1HE1WfzFyZom7PbCpEn/U6NNeU6/ApM74XIuCxwDUuttuiBpEC8fImkbpjpWTYrvM1Z+qVkSnGG8p2sYf3q7MXrTeyfZcfov2pCL7kNSEVjSdrd00iquv9ruQln21UF1g96EwtyTqVbDKGidy9d8W/4AH98c70ENGgO1OB+RIpU8xlfXReOO501A2a/WjOEB9ajmhijC+Abf2vKdKnV3EnQLxqvKXBXbj2qkWE/PSDhYY+Omgrgw+4EZIbd0d/yH55cOzcX/EsZAWA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5373.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(136003)(396003)(346002)(39840400004)(366004)(451199024)(1800799009)(64100799003)(186009)(45080400002)(6486002)(966005)(478600001)(71200400001)(6506007)(38070700009)(85202003)(4001150100001)(86362001)(5660300002)(122000001)(41300700001)(2906002)(33716001)(85182001)(316002)(66476007)(110136005)(38100700002)(64756008)(91956017)(66446008)(76116006)(66946007)(66556008)(8676002)(8936002)(4326008)(66899024)(83380400001)(26005)(66574015)(107886003)(6512007)(9686003)(39026012);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ejNhc1duc0VQT01qZ3ptSUh5ZFkzem04b3g5dEphU2tVVldYbG4wakdjRFVr?=
- =?utf-8?B?M1lVRWtHSWZCV3Z6bkpHMzNQQkNFK3JtZmowaXZMV2RtVFh0THpiQTZxTG9n?=
- =?utf-8?B?bEZXMjdhTkwvM2hFcXM2d0J4RFFPd1RWeFhrMUdFcFBWUWRQcElycW1NTFFu?=
- =?utf-8?B?cVJIMjZ6SkVOeXNsdWQvQ1dlazdkTE9TVEg5TklWN3B4WTRsK0JwRW5NS2Q5?=
- =?utf-8?B?c3NXNlYxbVdDa0pYMGJLS3Y1eUV3cEE0clVYNmQzM1hKc2M0MFNEWHdCSFVE?=
- =?utf-8?B?ZExLVFFnOXFhVVVmV3JoUkcyM3JGUk5hZW12bkpCNW1TaXl3T1hmM1JFNzZ5?=
- =?utf-8?B?Wk05WmYzVy9idHJNV000dmtPMW9DMXFqSzZnQ1plaENSMW4yYWEvT1F5aDk3?=
- =?utf-8?B?Tk1DVXM5V3dZc2JiM1pmZ1VUbTRwaE4xcjZ3aGltQ1dsM29OQ255RVpDemxE?=
- =?utf-8?B?QmxJR2R3bGpFL0V2MWdiRUpOMnlkWEc5Ni9ZdmVxSTJjZEN0d0M0TElzUlNY?=
- =?utf-8?B?NGRSZEk1dS94UXo5VW5nbTJnZDVsdnlNenlBMTdKVWYxRnVjb3R1TWpkQnpp?=
- =?utf-8?B?dG54emIvNFpBTENNT0NjUFgyRFNhaHhMNmRoN1lnODB0Qkcwc05wd21YeVdl?=
- =?utf-8?B?bHVtNGdBWm5WMnpWTEVweldrdVBiRFdLWXNCUEFkMUJYdHlVaXFUcVBTbG5C?=
- =?utf-8?B?eFR0cDBEZHJWekdzdDhIV0FVY2ZmV2tTVE5ublZZMFphUVErNjV4akZvcUtI?=
- =?utf-8?B?YkhOcENUUTMvTTcyMFc0aEwxYmxWNzNpYkVuL2RvRHZ2bFBBbWlPNWxOTmtj?=
- =?utf-8?B?WFZkVGEvTVE3UFVaN3NxWWFYSWJHOG4xQURkVGpXeUNWYU1DbC8vcVBVNkpT?=
- =?utf-8?B?SnJpN3RUc2hjV1JkUDZTMW1MZDF1d1ozTlFhazdHM3NHV1VLdWhiTVh1TUdm?=
- =?utf-8?B?aVFpY3V4SDArUkZvZGgrd2dBODR1bE1MSVlFQlFqaTFqZnl6empGWE1zUnB5?=
- =?utf-8?B?SkE0YVdCS0d3bi84SXdDTi96eFk5elZMTENMUHBMdlJWWEk3c1YrcnJjSWFn?=
- =?utf-8?B?cHA2ZndEMDRWWlRWSkxBd0RkN1hwWFczazdDbDU1Nkw5WVNvOEtISmo3ZWp5?=
- =?utf-8?B?MmNXWEFibFgyMm5DWWFCcFdBNWgxMklONmIyVkxxZE1UUVZHTFpqYXFjNkJp?=
- =?utf-8?B?blh2L3ZLRGhiRnJ0dEZaSURJK2E2b0taOU16UWdqMTJPczFSeUNkVnptL2VN?=
- =?utf-8?B?U2hCZG9tTyt6UzQybHhEeTZ2SE5vSUdaVzg0eDF0RC9ocEs1czV1VWsvRWl1?=
- =?utf-8?B?eTVtTGZMOTYvRllPMURXY2phSUpSRnpqY09oWXE4NVh2YXFQZVJTLzlsNzFW?=
- =?utf-8?B?ajd2d2dqTHdnNEhYS2twa2o1Sk9jQi91clU5dHl2R25lTHdoeno0eFFMTUtp?=
- =?utf-8?B?eWRkbW1pbVNMQ3JPTGlnK0pPRlc1QThoRFhCY3l2VExwZ094TGE2NnUxNTJC?=
- =?utf-8?B?RXM5U29VNGRkM09CaTlIdDZCYlZQcXhLY2kwVEpBcXRSTXVUZVFzZUlYZzFH?=
- =?utf-8?B?MnhFY0EzUG9WcHRXTmQ5RGc4ditmSjExa0JMSlphWmlxbFU1QmwxREpXckpr?=
- =?utf-8?B?am1mNVNtWVBCOVBXd1hHK2JhU1lVdmhQMzQ0NzkrQ1oxVWNNYVFadE4wNU5t?=
- =?utf-8?B?SE84Rm9ZNVRUM2g2R01ub0JOMzBzSjZRUFJWUHJwUUZSa2pINDVFVWtiekR2?=
- =?utf-8?B?YnE3VGIvN0xCM3RjSmxSbkZaR3dLRGV0b3IyMlZHcFJIU0xtcTlpSVptTCtI?=
- =?utf-8?B?Q3h1SkFuV1NHVWJGMXQvWTYreUdBaVBOT2V4Uzl2VWZ2T0ZndTNRSE9JVHN2?=
- =?utf-8?B?N0hJbW90QWNwVklkMEJybFU5OXZTdmdVZXNNTDRUd3VMS2lFaXQybUNVTjQr?=
- =?utf-8?B?cGR6cmFUbmhkalFYWXkxZjlUUGlMRkFCTUJEY2JXN2xJS0ZNYnhDbDE0Ukow?=
- =?utf-8?B?V0FXMVNMNXErTFdnaXJ3NDAzNTNiUmdpSVc5WFR1OVlVMUNuOVY1ZkhRVUxw?=
- =?utf-8?B?cHNEcGlkY2hQTFFDL0pjalQ0a3pyTTloWjVrdnVZcDhscDBaMW9MS0VzUFBN?=
- =?utf-8?Q?M7yGjMkUJCHMWdbBX3Av0n8nz?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4B6B8F84EF2C4B41B40FBF4D41D8A9A2@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.81, mailfrom: f_l_k@t-online.de)
+Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
+	by mailout03.t-online.de (Postfix) with SMTP id 9F1206E65
+	for <openembedded-core@lists.openembedded.org>; Fri, 10 Nov 2023 12:18:30 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.163.32.113]) by fwd74.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1r1PWw-3wPS8f0; Fri, 10 Nov 2023 12:18:30 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] gnomebase.bbclass: Use meson as default buildsystem
+Date: Fri, 10 Nov 2023 12:18:51 +0100
+Message-ID: <20231110111851.305549-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5373.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac423696-d5d3-4d29-7ff0-08dbe1d586b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2023 10:12:20.7573
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RLGC9wk09E+lPazJv/O6sKNx5W36aAwV5AkI8GJANOH8Y3r8LtHcLIR950r8BMZwGRlqGh7KclT46VCYTbWRKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9258
+X-TOI-EXPURGATEID: 150726::1699615110-D6FFA93F-9209268E/0/0 CLEAN NORMAL
+X-TOI-MSGID: ca6e96b2-4d8b-474f-b6c5-17867c068a5e
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Nov 2023 10:12:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190405
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Nov 2023 11:19:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190406
 
-RG5pYSBwb25pZWR6aWHFgmVrLCAxNiBwYcW6ZHppZXJuaWthIDIwMjMgMDc6NDU6NDEgQ0VUIFBp
-b3RyIMWBb2JhY3ogdmlhIApsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHBpc3plOgo+IERuaWEgbmll
-ZHppZWxhLCAxNSBwYcW6ZHppZXJuaWthIDIwMjMgMjA6MjY6NDkgQ0VTVCBSaWNoYXJkIFB1cmRp
-ZSBwaXN6ZToKPiA+IE9uIFN1biwgMjAyMy0xMC0xNSBhdCAxNjo1NyArMDIwMCwgUGlvdHIgxYFv
-YmFjeiB3cm90ZToKPiA+ID4gRHVlIHRvIHRoZSBidWdzCj4gPiA+IGh0dHBzOi8vZXVyMDQuc2Fm
-ZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUyRiUyRnNhdmFubgo+
-ID4gPiBhJTJGJmRhdGE9MDUlN0MwMSU3Q3AubG9iYWN6JTQwd2Vsb3RlYy5jb20lN0NiYWMzZjA0
-YTA3NjY0YjNhOTEyYTA4ZGJjZTAKPiA+ID4gYjI4MmMlN0MyNTExMWE3ZjFkNWE0YzUxYTRjYTdm
-OGU0NDAxMWIzOSU3QzAlN0MwJTdDNjM4MzMwMzE5NTQ1ODA4MzUxJTdDCj4gPiA+IFVua25vd24l
-N0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJ
-NklrMWhhVwo+ID4gPiB3aUxDSlhWQ0k2TW4wJTNEJTdDMzAwMCU3QyU3QyU3QyZzZGF0YT04NzV3
-d3B4bXZZMTAlMkJVZHZFYkpGVEp3YzF6VyUyQnEKPiA+ID4gMFlPbjhnOXdnVnZkVUElM0QmcmVz
-ZXJ2ZWQ9MAo+ID4gPiBoLmdudS5vcmclMkZidWdzJTJGJTNGNjE5MzQmZGF0YT0wNSU3QzAxJTdD
-cC5sb2JhY3olNDB3ZWxvdGVjLmNvbSU3QzIwOAo+ID4gPiA0M2MKPiA+ID4gZDQwOWZmNDcxYWQ1
-M2IwOGRiY2RhYzRkNTUlN0MyNTExMWE3ZjFkNWE0YzUxYTRjYTdmOGU0NDAxMWIzOSU3QzAlN0Mw
-JTcKPiA+ID4gQzYzCj4gPiA+IDgzMjk5MTIxNDQwMjA0ODclN0NVbmtub3duJTdDVFdGcGJHWnNi
-M2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYyCj4gPiA+IGx1TQo+ID4gPiB6SWlMQ0pC
-VGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MzMDAwJTdDJTdDJTdDJnNkYXRhPVU4JTJGbW0w
-Mk1SNXBzNQo+ID4gPiBidFIgSm5FMUVueVNOazROSlY0OThrUlg2NmpqZWVRJTNEJnJlc2VydmVk
-PTAgYW5kCj4gPiA+IGh0dHBzOi8vZXVyMDQuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5j
-b20vP3VybD1odHRwcyUzQSUyRiUyRnNhdmFubgo+ID4gPiBhJTJGJmRhdGE9MDUlN0MwMSU3Q3Au
-bG9iYWN6JTQwd2Vsb3RlYy5jb20lN0NiYWMzZjA0YTA3NjY0YjNhOTEyYTA4ZGJjZTAKPiA+ID4g
-YjI4MmMlN0MyNTExMWE3ZjFkNWE0YzUxYTRjYTdmOGU0NDAxMWIzOSU3QzAlN0MwJTdDNjM4MzMw
-MzE5NTQ1ODA4MzUxJTdDCj4gPiA+IFVua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdM
-akF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhVwo+ID4gPiB3aUxDSlhWQ0k2TW4w
-JTNEJTdDMzAwMCU3QyU3QyU3QyZzZGF0YT04NzV3d3B4bXZZMTAlMkJVZHZFYkpGVEp3YzF6VyUy
-QnEKPiA+ID4gMFlPbjhnOXdnVnZkVUElM0QmcmVzZXJ2ZWQ9MAo+ID4gPiBoLmdudS5vcmclMkZi
-dWdzJTJGJTNGNTkxODQmZGF0YT0wNSU3QzAxJTdDcC5sb2JhY3olNDB3ZWxvdGVjLmNvbSU3QzIw
-OAo+ID4gPiA0M2MKPiA+ID4gZDQwOWZmNDcxYWQ1M2IwOGRiY2RhYzRkNTUlN0MyNTExMWE3ZjFk
-NWE0YzUxYTRjYTdmOGU0NDAxMWIzOSU3QzAlN0MwJTcKPiA+ID4gQzYzCj4gPiA+IDgzMjk5MTIx
-NDQwMjA0ODclN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pR
-SWpvaVYyCj4gPiA+IGx1TQo+ID4gPiB6SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0Ql
-N0MzMDAwJTdDJTdDJTdDJnNkYXRhPUozY3dXV0FRNkJIUDFhRwo+ID4gPiBWZVAgMXlSSUduR3lH
-MWZxVnZQYVZKWTZraktXYyUzRCZyZXNlcnZlZD0wLCB3aGljaCBhcmUgZml4ZWQgaW4gdGFyCj4g
-PiA+IHZlcnNpb24gMS4zNSwgd2UgbmVlZCB0byBmb3JjZSB5b2N0byB0byB1c2UgaXQgaW5zdGVh
-ZAo+ID4gPiBvZiB0aGUgb25lIHByb3ZpZGVkIGJ5IHRoZSBob3N0IG1hY2hpbmUuCj4gPiA+IAo+
-ID4gPiBzc3RhdGVfY3JlYXRlX3BhY2thZ2UgYW5kIHNzdGF0ZV91bnBhY2tfcGFja2FnZSBmdW5j
-dGlvbnMsCj4gPiA+IHdpbGwgdXNlIHRoZSB0YXIgcHJvdmlkZWQgYnkgdGFyIHJlY2lwZSwgd2hp
-Y2ggaXMgYWxyZWFkeQo+ID4gPiBpbiBwcm9wZXIgdmVyc2lvbi4KPiA+ID4gCj4gPiA+IFNpZ25l
-ZC1vZmYtYnk6IFBpb3RyIMWBb2JhY3ogPHAubG9iYWN6QHdlbG90ZWMuY29tPgo+ID4gPiAtLS0K
-PiA+ID4gCj4gPiA+ICBtZXRhL2NsYXNzZXMtZ2xvYmFsL3NzdGF0ZS5iYmNsYXNzIHwgNiArKysr
-Ky0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkK
-PiA+ID4gCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtZ2xvYmFsL3NzdGF0ZS5iYmNs
-YXNzCj4gPiA+IGIvbWV0YS9jbGFzc2VzLWdsb2JhbC9zc3RhdGUuYmJjbGFzcyBpbmRleCAyNjc2
-ZjE4ZTBhLi41YWU2ZjUxNWYyIDEwMDY0NAo+ID4gPiAtLS0gYS9tZXRhL2NsYXNzZXMtZ2xvYmFs
-L3NzdGF0ZS5iYmNsYXNzCj4gPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy1nbG9iYWwvc3N0YXRlLmJi
-Y2xhc3MKPiA+ID4gQEAgLTE1Miw3ICsxNTIsOSBAQCBweXRob24gKCkgewo+ID4gPiAKPiA+ID4g
-ICAgICBlbHNlOgo+ID4gPiAgICAgICAgICBkLnNldFZhcignU1NUQVRFX01BTk1BQ0gnLCBkLmV4
-cGFuZCgiJHtQQUNLQUdFX0FSQ0h9IikpCj4gPiA+IAo+ID4gPiAtICAgIGlmIGJiLmRhdGEuaW5o
-ZXJpdHNfY2xhc3MoJ25hdGl2ZScsIGQpIG9yCj4gPiA+IGJiLmRhdGEuaW5oZXJpdHNfY2xhc3Mo
-J2Nyb3Nzc2RrJywgZCkgb3IgYmIuZGF0YS5pbmhlcml0c19jbGFzcygnY3Jvc3MnLAo+ID4gPiBk
-KTogKyAgICBpc19uYXRpdmUgPSBiYi5kYXRhLmluaGVyaXRzX2NsYXNzKCduYXRpdmUnLCBkKSBv
-cgo+ID4gPiBiYi5kYXRhLmluaGVyaXRzX2NsYXNzKCdjcm9zc3NkaycsIGQpIG9yIGJiLmRhdGEu
-aW5oZXJpdHNfY2xhc3MoJ2Nyb3NzJywKPiA+ID4gZCkgKwo+ID4gPiAKPiA+ID4gKyAgICBpZiBp
-c19uYXRpdmU6Cj4gPiA+ICAgICAgICAgIGQuc2V0VmFyKCdTU1RBVEVfRVhUUkFQQVRIJywgIiR7
-TkFUSVZFTFNCU1RSSU5HfS8iKQo+ID4gPiAgICAgICAgICBkLnNldFZhcignQkJfSEFTSEZJTEVO
-QU1FJywgIlRydWUgJHtTU1RBVEVfUEtHU1BFQ30KPiA+ID4gICAgICAgICAgJHtTU1RBVEVfU1dT
-UEVDfSIpCj4gPiA+ICAgICAgICAgIGQuc2V0VmFyKCdTU1RBVEVfRVhUUkFQQVRIV0lMRENBUkQn
-LCAiJHtOQVRJVkVMU0JTVFJJTkd9LyIpCj4gPiA+IAo+ID4gPiBAQCAtMTY0LDYgKzE2Niw4IEBA
-IHB5dGhvbiAoKSB7Cj4gPiA+IAo+ID4gPiAgICAgICAgICBkLmFwcGVuZFZhckZsYWcodGFzaywg
-J3Bvc3RmdW5jcycsICIgc3N0YXRlX3Rhc2tfcG9zdGZ1bmMiKQo+ID4gPiAgICAgICAgICBkLnNl
-dFZhckZsYWcodGFzaywgJ25ldHdvcmsnLCAnMScpCj4gPiA+ICAgICAgICAgIGQuc2V0VmFyRmxh
-Zyh0YXNrICsgIl9zZXRzY2VuZSIsICduZXR3b3JrJywgJzEnKQo+ID4gPiAKPiA+ID4gKyAgICAg
-ICAgaWYgbm90IGlzX25hdGl2ZToKPiA+ID4gKyAgICAgICAgICAgIGQuYXBwZW5kVmFyRmxhZyh0
-YXNrLCAnZGVwdGFzaycsICcKPiA+ID4gdGFyLXJlcGxhY2VtZW50LW5hdGl2ZTpkb19wb3B1bGF0
-ZV9zeXNyb290Jyk+Cj4gPiA+IAo+ID4gPiAgfQo+ID4gCj4gPiA+ICBkZWYgc3N0YXRlX2luaXQo
-dGFzaywgZCk6Cj4gPiBJIGRvbid0IHRoaW5rIHRoaXMgZGVwZW5kZW5jeSBpcyBlbm91Z2ggdG8g
-ZW5zdXJlIHRoYXQgdGhlIHNldHNjZW5lCj4gPiB0YXNrIGZvciBvbmUgb2YgdGhlc2UgdGFza3Mg
-aGFzIHRhci1uYXRpdmUgcHJlc2VudCB3aGVuIHRoZSBzc3RhdGUKPiA+IHBhY2thZ2UgaXMgZXh0
-cmFjdGVkIGZyb20gc3N0YXRlPwo+ID4gCj4gPiBDaGVlcnMsCj4gPiAKPiA+IFJpY2hhcmQKPiAK
-PiBIaSBSaWNoYXJkLCBwcm9wb3NhbHMgYXJlIHdlbGNvbWUgOi0pCj4gCj4gQlIKPiBQaW90cgpC
-VFcuIFJpY2hhcmQgd2FzIGl0IHRlc3RlZCBhbHJlYWR5IGJ5IHlvdT8KCkJSClBpb3RyCg==
+The vast majority of gnome recipes uses meson. Set it as default
+and override the few recipes that still use autotools.
+
+This way we can remove a lot of lines in meta-oe and more important
+it would not be needed to explicitly set GNOMEBASEBUILDCLASS =3D "meson" =
+for newly
+created gnome recipe anymore.
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/classes-recipe/gnomebase.bbclass                           | 2 +-
+ meta/recipes-core/glib-networking/glib-networking_2.76.1.bb     | 1 -
+ meta/recipes-core/libxml/libxml2_2.11.5.bb                      | 1 +
+ meta/recipes-devtools/python/python3-pygobject_3.46.0.bb        | 1 -
+ meta/recipes-gnome/epiphany/epiphany_44.6.bb                    | 1 -
+ meta/recipes-gnome/gcr/gcr_4.1.0.bb                             | 1 -
+ meta/recipes-gnome/gnome/adwaita-icon-theme_45.0.bb             | 1 -
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb                         | 1 +
+ .../gsettings-desktop-schemas/gsettings-desktop-schemas_44.0.bb | 1 -
+ meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb                    | 1 +
+ meta/recipes-gnome/json-glib/json-glib_1.6.6.bb                 | 1 -
+ meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb               | 1 -
+ meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb                | 1 -
+ meta/recipes-gnome/libgudev/libgudev_238.bb                     | 1 -
+ meta/recipes-gnome/libnotify/libnotify_0.8.2.bb                 | 1 -
+ meta/recipes-gnome/librsvg/librsvg_2.56.3.bb                    | 1 +
+ meta/recipes-gnome/libsecret/libsecret_0.21.1.bb                | 1 -
+ meta/recipes-graphics/graphene/graphene_1.10.8.bb               | 1 -
+ meta/recipes-graphics/pango/pango_1.51.0.bb                     | 1 -
+ meta/recipes-support/vte/vte_0.72.2.bb                          | 1 -
+ 20 files changed, 5 insertions(+), 16 deletions(-)
+
+diff --git a/meta/classes-recipe/gnomebase.bbclass b/meta/classes-recipe/=
+gnomebase.bbclass
+index 5e72f549a3..a12e9f31a9 100644
+--- a/meta/classes-recipe/gnomebase.bbclass
++++ b/meta/classes-recipe/gnomebase.bbclass
+@@ -27,7 +27,7 @@ FILES:${PN} +=3D "${datadir}/application-registry  \
+=20
+ FILES:${PN}-doc +=3D "${datadir}/devhelp"
+=20
+-GNOMEBASEBUILDCLASS ??=3D "autotools"
++GNOMEBASEBUILDCLASS ??=3D "meson"
+ inherit ${GNOMEBASEBUILDCLASS} pkgconfig
+=20
+ do_install:append() {
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb =
+b/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
+index 3687123141..0f8822e160 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
+@@ -27,7 +27,6 @@ PACKAGECONFIG[libproxy] =3D "-Dlibproxy=3Denabled,-Dlib=
+proxy=3Ddisabled,libproxy"
+ PACKAGECONFIG[tests] =3D "-Dinstalled_tests=3Dtrue,-Dinstalled_tests=3Df=
+alse"
+ PACKAGECONFIG[gnomeproxy] =3D "-Dgnome_proxy=3Denabled,-Dgnome_proxy=3Dd=
+isabled,gsettings-desktop-schemas"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ inherit gnomebase gettext upstream-version-is-even gio-module-cache ptes=
+t-gnome
+=20
+ SRC_URI +=3D "file://run-ptest"
+diff --git a/meta/recipes-core/libxml/libxml2_2.11.5.bb b/meta/recipes-co=
+re/libxml/libxml2_2.11.5.bb
+index fc82912df2..319833f053 100644
+--- a/meta/recipes-core/libxml/libxml2_2.11.5.bb
++++ b/meta/recipes-core/libxml/libxml2_2.11.5.bb
+@@ -11,6 +11,7 @@ LIC_FILES_CHKSUM =3D "file://Copyright;md5=3D2044417e2e=
+5006b65a8b9067b683fcf1 \
+=20
+ DEPENDS =3D "zlib virtual/libiconv"
+=20
++GNOMEBASEBUILDCLASS =3D "autotools"
+ inherit gnomebase
+=20
+ SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=3D${BP=
+};name=3Dtesttar \
+diff --git a/meta/recipes-devtools/python/python3-pygobject_3.46.0.bb b/m=
+eta/recipes-devtools/python/python3-pygobject_3.46.0.bb
+index 28129fd66a..73a393051a 100644
+--- a/meta/recipes-devtools/python/python3-pygobject_3.46.0.bb
++++ b/meta/recipes-devtools/python/python3-pygobject_3.46.0.bb
+@@ -5,7 +5,6 @@ SECTION =3D "devel/python"
+ LICENSE =3D "LGPL-2.1-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da916467b91076e631dd8edb742476=
+9c7"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_OPTION =3D ""
+=20
+ inherit gnomebase setuptools3-base gobject-introspection upstream-versio=
+n-is-even
+diff --git a/meta/recipes-gnome/epiphany/epiphany_44.6.bb b/meta/recipes-=
+gnome/epiphany/epiphany_44.6.bb
+index d8dd3d6dae..577eb43a80 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_44.6.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_44.6.bb
+@@ -23,7 +23,6 @@ DEPENDS =3D " \
+           desktop-file-utils-native \
+           "
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ inherit gnomebase gsettings features_check gettext mime-xdg gtk-icon-cac=
+he
+ REQUIRED_DISTRO_FEATURES =3D "x11 opengl"
+=20
+diff --git a/meta/recipes-gnome/gcr/gcr_4.1.0.bb b/meta/recipes-gnome/gcr=
+/gcr_4.1.0.bb
+index 239d9806cc..399f327e04 100644
+--- a/meta/recipes-gnome/gcr/gcr_4.1.0.bb
++++ b/meta/recipes-gnome/gcr/gcr_4.1.0.bb
+@@ -15,7 +15,6 @@ CACHED_CONFIGUREVARS +=3D "ac_cv_path_GPG=3D'gpg2'"
+=20
+ CFLAGS +=3D "-D_GNU_SOURCE"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ GTKDOC_MESON_OPTION =3D "gtk_doc"
+ inherit gnomebase gtk-icon-cache gi-docgen features_check vala gobject-i=
+ntrospection gettext mime mime-xdg
+=20
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_45.0.bb b/meta/r=
+ecipes-gnome/gnome/adwaita-icon-theme_45.0.bb
+index 4dbcced5c3..0bd98288f6 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_45.0.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_45.0.bb
+@@ -10,7 +10,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc84cac88e46f=
+c07647ea07e6c24eeb7c \
+                     file://COPYING_CCBYSA3;md5=3D96143d33de3a79321b1006c=
+4e8ed07e7 \
+                     file://COPYING_LGPL;md5=3De6a600fd5e1d9cbde2d9836802=
+33ad02"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ inherit gnomebase allarch gtk-icon-cache
+=20
+ SRC_URI[archive.sha256sum] =3D "2442bfb06f4e6cc95bf6e2682fdff98fa5eddc68=
+8751b9d6215c623cb4e42ff1"
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome=
+/gnome/gconf_3.2.6.bb
+index 4930aeb9f0..1e29bd9bb0 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b=
+5b66355690e9abc605"
+=20
+ DEPENDS =3D "glib-2.0 glib-2.0-native dbus dbus-glib libxml2 intltool-na=
+tive"
+=20
++GNOMEBASEBUILDCLASS =3D "autotools"
+ inherit gnomebase gtk-doc gettext gobject-introspection gio-module-cache
+=20
+ SRC_URI =3D "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}=
+.tar.xz;name=3Darchive \
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-deskt=
+op-schemas_44.0.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettin=
+gs-desktop-schemas_44.0.bb
+index 8e30d5e524..5ccc1a7dd4 100644
+--- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sche=
+mas_44.0.bb
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-sche=
+mas_44.0.bb
+@@ -9,7 +9,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd25=
+5951079008b364516c"
+=20
+ DEPENDS =3D "glib-2.0"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+=20
+ inherit gnomebase gsettings gobject-introspection gettext
+=20
+diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb b/meta/recipes-=
+gnome/gtk-doc/gtk-doc_1.33.2.bb
+index 150eca9274..2e8ab1c771 100644
+--- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
++++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
+@@ -5,6 +5,7 @@ HOMEPAGE =3D "https://www.gtk.org/docs/"
+ LICENSE =3D "GPL-2.0-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae=
+19f"
+=20
++GNOMEBASEBUILDCLASS =3D "autotools"
+ inherit gnomebase
+=20
+ # Configure the scripts correctly (and build their dependencies) only if=
+ they are actually
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb b/meta/recip=
+es-gnome/json-glib/json-glib_1.6.6.bb
+index 9c34fb7f40..a9a71953c3 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb
+@@ -11,7 +11,6 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D7fbc338309ac=
+38fefcd64b04bb903e34"
+=20
+ DEPENDS =3D "glib-2.0 glib-2.0-native"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ inherit gnomebase lib_package gobject-introspection gi-docgen gettext pt=
+est-gnome manpages upstream-version-is-even
+ GIR_MESON_ENABLE_FLAG =3D 'enabled'
+ GIR_MESON_DISABLE_FLAG =3D 'disabled'
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb b/meta/rec=
+ipes-gnome/libadwaita/libadwaita_1.4.0.bb
+index d8aa2cd697..cc05756805 100644
+--- a/meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb
++++ b/meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb
+@@ -3,7 +3,6 @@ HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libadwaita"
+ LICENSE=3D"LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
+16c"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+=20
+ DEPENDS =3D " \
+     gtk4 \
+diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb b/meta/reci=
+pes-gnome/libdazzle/libdazzle_3.44.0.bb
+index 49ebc818b0..9bca7e9dce 100644
+--- a/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb
++++ b/meta/recipes-gnome/libdazzle/libdazzle_3.44.0.bb
+@@ -7,7 +7,6 @@ HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libdazzle"
+ BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/libdazzle/issues"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D8f0e2cd40e05189ec81232da84bd6=
+e1a"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ inherit gnomebase upstream-version-is-even vala features_check gobject-i=
+ntrospection
+=20
+ DEPENDS =3D "glib-2.0-native glib-2.0 gtk+3"
+diff --git a/meta/recipes-gnome/libgudev/libgudev_238.bb b/meta/recipes-g=
+nome/libgudev/libgudev_238.bb
+index c71e4bda74..5923544eca 100644
+--- a/meta/recipes-gnome/libgudev/libgudev_238.bb
++++ b/meta/recipes-gnome/libgudev/libgudev_238.bb
+@@ -14,7 +14,6 @@ RCONFLICTS:${PN} =3D "systemd (<=3D 220)"
+ LICENSE =3D "LGPL-2.1-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
+16c"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ inherit gnomebase gobject-introspection gtk-doc
+=20
+ GIR_MESON_ENABLE_FLAG =3D 'enabled'
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb b/meta/recip=
+es-gnome/libnotify/libnotify_0.8.2.bb
+index 6888c33d14..1ca7ef8714 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.8.2.bb
+@@ -14,7 +14,6 @@ DEPENDS =3D "glib-2.0 glib-2.0-native gdk-pixbuf"
+ PACKAGECONFIG ?=3D ""
+ PACKAGECONFIG[tests] =3D "-Dtests=3Dtrue,-Dtests=3Dfalse,gtk+3"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_ENABLE_FLAG =3D "enabled"
+ GIR_MESON_DISABLE_FLAG =3D "disabled"
+ inherit gnomebase gi-docgen features_check gobject-introspection
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.56.3.bb b/meta/recipes-=
+gnome/librsvg/librsvg_2.56.3.bb
+index 4b9aaeecbe..c4f34f2e29 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.56.3.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.56.3.bb
+@@ -14,6 +14,7 @@ SECTION =3D "x11/utils"
+ DEPENDS =3D "cairo gdk-pixbuf glib-2.0 libxml2 pango python3-docutils-na=
+tive"
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
++GNOMEBASEBUILDCLASS =3D "autotools"
+ inherit cargo_common gnomebase pixbufcache gobject-introspection rust va=
+la gi-docgen cargo-update-recipe-crates
+=20
+ require ${BPN}-crates.inc
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.21.1.bb b/meta/reci=
+pes-gnome/libsecret/libsecret_0.21.1.bb
+index 63102476cb..f762d7c343 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.21.1.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.21.1.bb
+@@ -8,7 +8,6 @@ HOMEPAGE =3D "https://github.com/GNOME/libsecret"
+ BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/libsecret/issues"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D23c2a5e0106b99d75238986559bb5=
+fc6"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+=20
+ inherit gnomebase gi-docgen vala gobject-introspection manpages
+=20
+diff --git a/meta/recipes-graphics/graphene/graphene_1.10.8.bb b/meta/rec=
+ipes-graphics/graphene/graphene_1.10.8.bb
+index 55d8a2d74e..e2e82b32aa 100644
+--- a/meta/recipes-graphics/graphene/graphene_1.10.8.bb
++++ b/meta/recipes-graphics/graphene/graphene_1.10.8.bb
+@@ -3,7 +3,6 @@ HOMEPAGE =3D "http://ebassi.github.io/graphene/"
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3Da7d871d9e23c450c421a85bb2=
+819f648"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+=20
+ inherit gnomebase gobject-introspection gtk-doc
+=20
+diff --git a/meta/recipes-graphics/pango/pango_1.51.0.bb b/meta/recipes-g=
+raphics/pango/pango_1.51.0.bb
+index 77a1901248..85a0270a3f 100644
+--- a/meta/recipes-graphics/pango/pango_1.51.0.bb
++++ b/meta/recipes-graphics/pango/pango_1.51.0.bb
+@@ -11,7 +11,6 @@ LICENSE =3D "LGPL-2.0-or-later"
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D3bf50002aefd002f49e7bb854063f=
+7e7"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+=20
+ inherit gnomebase gi-docgen ptest-gnome upstream-version-is-even gobject=
+-introspection
+=20
+diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-suppor=
+t/vte/vte_0.72.2.bb
+index 4249b75ac0..44e71491f6 100644
+--- a/meta/recipes-support/vte/vte_0.72.2.bb
++++ b/meta/recipes-support/vte/vte_0.72.2.bb
+@@ -13,7 +13,6 @@ LIC_FILES_CHKSUM =3D " \
+=20
+ DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gper=
+f-native icu"
+=20
+-GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_OPTION =3D 'gir'
+ GIDOCGEN_MESON_OPTION =3D "docs"
+=20
+--=20
+2.42.0
+
 
