@@ -2,214 +2,217 @@ Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC0ECC4332F
-	for <webhook@archiver.kernel.org>; Fri, 10 Nov 2023 03:13:01 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.20581.1699585977380271578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 371B0C4332F
+	for <webhook@archiver.kernel.org>; Fri, 10 Nov 2023 04:33:12 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.21413.1699590789904973516
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Nov 2023 19:12:57 -0800
+ Thu, 09 Nov 2023 20:33:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=967886f530=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AA2lpXA031506
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Nov 2023 03:12:56 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u7w3y2kyw-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=967886f530=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AA4L3i5026304
+	for <openembedded-core@lists.openembedded.org>; Thu, 9 Nov 2023 20:33:09 -0800
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3u7w2t2p5a-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 10 Nov 2023 03:12:56 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 09 Nov 2023 20:33:09 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IWbezBkrRDXpcZlDSw59xfPRF+rpCEwKL5x/uQVeDpiJclGumDr1gktSjZtoDfWDBmdI3y1znr3R71LN7kS5XD1C0JUHvB621kNXwoYeng/cgR+awljF5FBAhNRDxQo8osgF79BUuamA4x+ye5WsRiyn3ZFyR5hXhS2xMhW+IJDPKn1B0w9wmA9/w/AzFXmQPY8zHkI1qI5GbIS6lSwlHx38DXLBuq8ziJ5IpD5skANSoQkl0nyUt5roGwRnZmlVGceBok8dErtkl0cWNyIGA7S6UZ/iGL5pSHAuLrhlV7vBVVAI+o5U1VYPu5+UNsrR+PPtffJsIG2gCB/JlOx3fg==
+ b=E1/YvPazvjsrAmE6Ni60HkvtWp9B7QI7sGExwkXtqgbCR8yhMOAYVV7vxJcSD2oX9O8UQCh+zatM4Z3lHrmLdAtfgd+QsUqClelW5L+qVGUo8GsRxUBag2LJUaZmpyAvE3l2o6glVSAi2koqiMgALv2CrKlaKb7VMf1YIU84N1YRJyiLxKtPxAVNOSKp62MnN7kcEW4VxzQ/w5JwonHRcGmrQEUBdsyKoakfmWo694mIimnCYBikAUwjY5h4bx1tb3xanwqW9kw4uwQ9/PRoCi8P/LHgtwnL1fbfeeYSW/i0lbOYeWkYR2xPu0tF6B+eC5lNK+c76dWvYNcn7aqMqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2e3to2Y2dI1W0xbp7WmaeCRF6j4rn8kNwS1e3lAxFAg=;
- b=E9/0av75SQHIRXf4C0OH5+eLWUxWMScAdoBQR2PvYITq33jswgY4ZqM725sn6EnRGMG1kZm3fpaQr8scUn+J7ex0KhFW/Lc6w/QLNgBzexRyFyykjxjBnyoXgQ/DB+4qgPLexVanaNq3uVcb4UbJdO1zaqH0mTfSCSgloeO7hWpwcwFU5zWwKWw/EjGd3kbMj2/gi+wzSyBUafdl9gimhiFbsCpfnLrQ1cVJmwHsxmvepCm+T6RHx3JUF1OplpQzRswOSr5KcHIRDauq+SGpalILIZjwudqrHEJFQB2kNBESrGPtA68uoz3C87SkRR2s1cxf2r6zl5ErhUTTyf3vsQ==
+ bh=jBu518ENpX6Tz5TLvTCItk6HPx5anTnVf1I5EBlce50=;
+ b=WF/A0bnGX/NPXpmVMIMCGWGXzTkdoAMELInXoBiMrI6xWdacgCY+nUoyaDHpztmJm6FReftOKxB4WeV1/R8FR51qLLbQlVj8/5yQH3AizvRfKhc/tXiYr/Gr/+iJV9oiZOZJsNuoAYRQnL8Lnx2LrAnj7i3rmhMA/O4HjANva5w0HgWcCL/026/7iS7gXhI+/fzVSGWUJ0ZkCrTMzEY4EstUsVoTD+8ci+3Cg+fbVI1+tJrljqV3IKdsGmhF08x+BXBxajgqPamgmoIl4HUVn15pjgAcHt3UEqt9TBfNEqzQP4Bb4/Ui7C4wBS++7sHkdTssQ3d4w8M0+wJjrBEqqg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
 Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by SA1PR11MB8574.namprd11.prod.outlook.com (2603:10b6:806:3b1::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Fri, 10 Nov
- 2023 03:12:54 +0000
+ by DS7PR11MB7782.namprd11.prod.outlook.com (2603:10b6:8:e0::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6977.18; Fri, 10 Nov 2023 04:33:06 +0000
 Received: from MW4PR11MB5824.namprd11.prod.outlook.com
  ([fe80::6162:ed58:51f5:efd]) by MW4PR11MB5824.namprd11.prod.outlook.com
  ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.6954.028; Fri, 10 Nov 2023
- 03:12:54 +0000
+ 04:33:06 +0000
 From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] sudo: upgrade 1.9.14p3 -> 1.9.15p2
-Date: Fri, 10 Nov 2023 11:47:12 +0800
-Message-Id: <20231110034712.2491591-1-xiangyu.chen@eng.windriver.com>
+Subject: [OE-core][mickledore][PATCH] sudo: upgrade 1.9.13p3 -> 1.9.15p2
+Date: Fri, 10 Nov 2023 13:07:21 +0800
+Message-Id: <20231110050721.3815203-1-xiangyu.chen@eng.windriver.com>
 X-Mailer: git-send-email 2.35.5
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: TY2PR04CA0011.apcprd04.prod.outlook.com
- (2603:1096:404:f6::23) To MW4PR11MB5824.namprd11.prod.outlook.com
- (2603:10b6:303:187::19)
+X-ClientProxiedBy: SG2PR06CA0195.apcprd06.prod.outlook.com (2603:1096:4:1::27)
+ To MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|SA1PR11MB8574:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1cb2d07-ef52-42ce-900b-08dbe19aee3c
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|DS7PR11MB7782:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f61e079-ea58-4dc2-a6cb-08dbe1a6229c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	THAakBT8B8yW6FCMjxq5LuftVzSPZmV+6ZC27sNT0XklZthJkOObQzps8c8fR2N4GB3KRvthriq1FkFXYu3EBjHBaDDITBqFFE7pHgIcFEqSDtWEFFmklrEw3BCl+18gcGkT66nuxYfalUdpCO5x+CSi3vVOSFkJShfgTroAHnLXfuYglL3it5391Of1dGVvs+2RR6mB4We/J8xC6LW3E11TkjBHHl35fii6a+TQa/uzl1Nv6WHGFqerC+hzbITsKpZyTJ/1uiHXOteljMcPbWh9bsHy1qX7lNwyASU+kApTFAMcpSC5ZixC/20vk5beB9Ui185hMacb5U/SxQsEznyLH9LTqYbv5sPewOV6dsQlFAZmCo4kn6/LawS8RjrrA/5rJ1a/VwoNLnb4oQzh08nLodIZH6B2mQHyy/ULRH4gAt2QQrTINSWaMOLB/usQFvwepxBzEBHhKZM0zoW6ns8Gp+KafDy6T/fEzOuJLdD11JHuZrENeXmuX0dGBgfLQC4c/M1oQliTBg5A9hlDh3Nj/IpM1GwVM58PGBMJuFCyB2UdJxdKIsr4+Utjy8keb4Fz+wqI1vHLi9yupWt3VJjcILGHc1dOrX3lUVxgRoOHth95z8JZil/PIiERLBEAQ3lKgecqHC8s23sQitrLqA==
+	UjpYhp2TwNKcKju2J1nLyCmkHKVh0nLRFBMreNIZeA6VGZVzS7EWDo4KcnvoSn+LaF6g5GpIbDwTBAnUZIgZUuDPS78u6KYanTWmj1rDlaAun4mRK7blRjTHVc0L92vt6TddJgFU1IkAyFgZVdI/7pVbKgLN6ydSjTha58Agogc373Asf+0mqNuvobsiQAudMqfHFDauTXDGekxd8x1mc+/fB06oQ0pRS4GJ2WAJWut99wjXhD0RwvoptSaFe2sAniuloQeMyYW2BT3UVhrzpq91kq4FjMHN3yOpunydQZ2VraVgura78VUw1M32s/hXkovV2cIlZrQnZsoH2JfgeJ2BIUvJreTvm6GL/7zTeY7KRN5cmXbcpPKkAj8mIbEFGrlhAjO7AKK0gGGvfDj6V2oYfV5c2wbkdOKXZeK2y9W0EHHC3Ip9L/IE/tyXG1KQA/LbRbz9hnxc+H7Dccj7OzCCXnIWgm0nQqnVcNQzVnCnMaa75mnsbw4RSJV+h7d8ZtHvYYWQvtrXntYABzHcRx79crv17IbxEAGqS6vn5S2CJ9Vsu0X+qKbe9SCotFujEyHKt1JUuJ8VVRqhwsvlgzqCYCRWoclRjaKEMNAg5Tg=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(346002)(39850400004)(366004)(376002)(230922051799003)(230173577357003)(230273577357003)(186009)(1800799009)(64100799003)(451199024)(52116002)(6506007)(6666004)(83170400001)(38100700002)(1076003)(83380400001)(6512007)(8676002)(38350700005)(5660300002)(2906002)(41300700001)(44832011)(66476007)(8936002)(66556008)(6916009)(15974865002)(316002)(66946007)(26005)(6486002)(478600001)(2616005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39850400004)(366004)(376002)(346002)(396003)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(316002)(6486002)(8676002)(478600001)(966005)(8936002)(6666004)(41300700001)(1076003)(6506007)(83380400001)(6916009)(66556008)(66946007)(66476007)(44832011)(2906002)(2616005)(26005)(83170400001)(38100700002)(52116002)(38350700005)(6512007)(5660300002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?S3VKmADgMV3ZzJNB4M8BfQnw263LkW41J57dxD7/Do1bKlMbnX3vcXMzuuxq?=
- =?us-ascii?Q?DjU8JZS969ghyLkjFoNGIdXEaekfMfDFerm4kvwRAkmSLMbWO/O5/5i4bJig?=
- =?us-ascii?Q?B5a9NCjHfdNf9gUv5S58zbA/nuT5x2vmlEBGQ8OqktEuKm5WGlpo+Ly0GBFW?=
- =?us-ascii?Q?MOXs9jUPjFVQyMRf+4Aro3UgdSvin+AqEUcXRIiH6Al6ndPxg+IxVFbx0v2G?=
- =?us-ascii?Q?YBaF25ENwC8P6F+wjfKS8pbSoqtL/pn+wpPETQUThdEiUx5BJ+5/ZzgVDbMn?=
- =?us-ascii?Q?Izlcrfxh7jCoYEJahVYY6ZNHp5NZGn3cPLrV47Nm2IrSml7rYDsNDKaY6Mr5?=
- =?us-ascii?Q?ixSqYYyYOujh92XGtGHcFsHixSgJQjfWFq+KWqjzTbqaxXpCjnX1jrRTsGiq?=
- =?us-ascii?Q?bfrIrOnYH8dZ46ExghKaJGnLExWyYeW+ey2ZueoCKkSs6dIDmc/Lk0w+Bplm?=
- =?us-ascii?Q?J/HIP+saMRbrTAq5syrfgHz5RcGzYo4SrNHcUu6GJEh6R882arH1ZfKDrTrG?=
- =?us-ascii?Q?QoRFQHn5N8zcxlrEh2ozDzgtPCcPJxqQJ+oDSWKapM+Xdmh2KNA0HCIffYh6?=
- =?us-ascii?Q?snQOFrzNqE+uqFEQCl2lnQ8JV8KgwwaEThBok32VITXC0xITGjuVnCVWMKUf?=
- =?us-ascii?Q?C6PircltKFVZjzJYORL2F7UNcut5cG6huPUahiJKSQ07OxeC30dOYgeTPvO5?=
- =?us-ascii?Q?rPnwYxOAezu6moq/AXOxn0rbV35UP51CmnQxMxfTUpfd536HvG/ULrsq9NFu?=
- =?us-ascii?Q?DuDtvmHq7qPv+zNGD2R9+6nr6KMSxjZnC7a/GBDEjwXAXrW8o8dvASTd6Vkj?=
- =?us-ascii?Q?iWh2cpBiEzx5o9YNfUxuivbzUI3p9LDmle2WJMKg43neMB3UTSf/phb1o8IZ?=
- =?us-ascii?Q?g0siWgQrrGEddc3W3pbI8yNwhQHHfQW9ORZV+HdsdHm8fvMMqmYDJ2cFM4na?=
- =?us-ascii?Q?gNfeHJZwRuUvmOdYCw1biod41zJX12gle1a7fljGPX2Wxy4HLu1DV7I5HyBB?=
- =?us-ascii?Q?nbvXYuWyv7Ea7DsmonpP5KMrINLlPoMxZnbE4RODEQRzGp9nPuKfjCxz7LNh?=
- =?us-ascii?Q?WM1Rt22Z2A+d5emLpuev4vFFIe/KQDfGTbfe2+aJUhbi65Di9FCeoBXRoJUn?=
- =?us-ascii?Q?iDh0FsiC+6+q2ighQeTeCToJ7Efp3ApQXQoRwOH6mgX3bCj3G4V/rbEq+IPu?=
- =?us-ascii?Q?hKHFFrAgrzdVsLe6/OdKBPFPd4S47aj+WsRSfyOXRCKqoOk6CAeZzjiPFhCN?=
- =?us-ascii?Q?29W4sBLMcdd+gguWhKcaM10W5VXxsBzh39wIs/+yZjoBH7HlpwIInTTQdEsq?=
- =?us-ascii?Q?qG66/yCTWV3eWoo7hG2r+NWwms0vCkXC4OGbBpWLuKZaKA2jy1jjpbXk0a9a?=
- =?us-ascii?Q?FLD3nrSzA4vIqwM2QE1fLVUXGhVnwwBo7py+euzoYvj5lfU3/pB9aiskMy6X?=
- =?us-ascii?Q?zXFFI2Y7cU3Pq05gEYsAESuWbYvGePbdbhH1ENWS8Hdz/rkEuWItOQZm2j/2?=
- =?us-ascii?Q?k462wFB8WPRqGjQ2EcvytAWF4if0MFJCihhFW14nTt2kG741z3ZOBhAM45oi?=
- =?us-ascii?Q?mY/AqBXKvy7FbM/Ks5ZgUO/wQhoKXvHBUHUTMpoXpJ48ZrNnwicF6frLdjYF?=
- =?us-ascii?Q?Mw=3D=3D?=
+	=?us-ascii?Q?RIJtn5fiB+kZlH9hzCn2zaXl/b3Vb2NxVcf9lNTYxzTITtQ+BkeEdHZMYaoD?=
+ =?us-ascii?Q?g1HtdLBMoUsGKtXN9UTbAMi5UX3UGfH9yp4a+ggnLOnET8W6laa66gG3CDm5?=
+ =?us-ascii?Q?CnGuIbRMpGoSC9LqDa1be6b0fNj+rzXbaQ9bokxsVZjyVojduKIemewyA8z3?=
+ =?us-ascii?Q?c95FgWm/hSI7q8mJ2nqZcT1VJCzK6TF82c6fjaL3QWZFE9SaW/6/2e4xBMxG?=
+ =?us-ascii?Q?TvyxfahohK4P0n8iRb+YOt6OcyR9xbjnSlIKnR5L8XfBxXh7re//6mSSmrsO?=
+ =?us-ascii?Q?4N0qTS45X8s/Ozq45tKvkeynIprrwt1DX9uJ97KYl77IpvavlkLslkLSa6PU?=
+ =?us-ascii?Q?0O5t8nCIlPVCVGqaitVp7Em2kL0jPaCQZwQzpmqaI295DLO1ijfk3xCkUHmY?=
+ =?us-ascii?Q?BvqHt+CSJIVgUlR42nzesL+wBuSrmW65zAAwt4XxOkdW7H1IuY4ul0eIY878?=
+ =?us-ascii?Q?6TzBgqUaqrUTr+fW/K/JA6FZVdONSKsa714i4Wdl39Nk3z6Is5BDg5h4zEzk?=
+ =?us-ascii?Q?r28lP5AVRxDbOD1yTTpTf2BXvLIcvjGZPW5vbofMFn8kHrlL3JiNY1RsHZE+?=
+ =?us-ascii?Q?IXlrXyAbqaUoNsLuvlAg4r/ZX96UVoW0Uc6nukJx1uLIKiD8sQunc8WdHxxP?=
+ =?us-ascii?Q?3Zwx7sLixtpNn4PKW6o5DWLvdx5LTKXfXVLhjWiqq6apNasmea29MKXAqqld?=
+ =?us-ascii?Q?G9PkmkAHq2nWYiMIoNO7Ae/nMnvU+/L+86yGV69+oGENXoLFiQIb+XXminLQ?=
+ =?us-ascii?Q?dPg7icpTkIsOM2hqiG37o3USJ+GSrqfjLgZSJOfzTq0V63tm6DVRwP+4rXH+?=
+ =?us-ascii?Q?FDya3/KQaNL+Wcsrhp4Pdm2oFZl+Yrb/61Xp8tsqXbjNdbeQUAouaBR5ZPmc?=
+ =?us-ascii?Q?mVUeRlfBINH6nyeXZSWiU5vn7V4yILPYqp0exOCu1mxeDoA7689jyelDtFcc?=
+ =?us-ascii?Q?IMdws8mp0R+cZ9nGtk37wge6YM1wpqDw4USaIQjGxOE7K5wEkYHFruBCV0Nh?=
+ =?us-ascii?Q?9jdEygb19IGUlC0ZVJyHJFDq5a5Nbx/wTTsWXdUj6RKu9eq0/Qu6oPDoZuSy?=
+ =?us-ascii?Q?xjExPkWJIyXBbOSka8JGBugezB8cwVz6FO6S7CIdmdfIeg/whve+DRUg8oW0?=
+ =?us-ascii?Q?JvIMTOwFL6k19/dLXUJkMEmaESwdSvYxZaG0KiGs4uDqi0FgR0uvDzeA2KvF?=
+ =?us-ascii?Q?DwCkqfy3Zuumr3aS7xTGo5useghvXkxL4gF1IS7yUpe+2CzYDbYyxzFXRrtN?=
+ =?us-ascii?Q?3IH/3PmeeAOFER20C474HuEkUplnv9Nfe2EHyPfiEikio4Vl6OaowHam9DN5?=
+ =?us-ascii?Q?dbs4VJtguQevhYbh0Pz3/nZJBsjISx5Qc+gYsWrpyNmR8PIdDTZp6Mbh5pIF?=
+ =?us-ascii?Q?UOBqeJMeoYJ7wCthOB0gDvwqEGjDBgzV3bbMY/Q4YIiSRHOTdZlYpeNYqsIo?=
+ =?us-ascii?Q?GWuALUCHBOEwD6Ok8F0Sn/oM+N3sqXKXxJLx9WzpeHFZvX5Bfzm3oOVfMjDS?=
+ =?us-ascii?Q?zXC/RT/aiYQrVCDcZaSyUoo2TPWUPCZYoy/sYocuQYKMVIjxlcMmQO8/qG6x?=
+ =?us-ascii?Q?EYJjYQgbKvUkHAxMCCygbjVkqTIA8s5THoHwvWbWHjWAoe+KkIDb+8JVqShD?=
+ =?us-ascii?Q?Og=3D=3D?=
 X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1cb2d07-ef52-42ce-900b-08dbe19aee3c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f61e079-ea58-4dc2-a6cb-08dbe1a6229c
 X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2023 03:12:54.2724
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2023 04:33:06.5960
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RaHZSri3V97T02uqzXo6lyEAt+u3tEwPTPI8g+KZY28X4rXaoQRvVnNTnJHwPZi6LI75afmQTusjaAFiimMDZ7Tm42s03xWEX0Ilwtafcg0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8574
-X-Proofpoint-GUID: rki3EbqFo-Bc_gfeJMhDpcsepE5Ue7pa
-X-Proofpoint-ORIG-GUID: rki3EbqFo-Bc_gfeJMhDpcsepE5Ue7pa
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mwpwu+0tleU59FrrKrcGo5GgbNQiAgLVLaC8HvPamEJ17WKxlYUowohFJNWlFl9ek8CfRlEs0hMCIo5lyqPGK3eK60PzwTFdCHcdwzuDeCw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7782
+X-Proofpoint-GUID: Ki7dDq3FZ1yhZyfJ3ZGJUHBJrgogFo0Q
+X-Proofpoint-ORIG-GUID: Ki7dDq3FZ1yhZyfJ3ZGJUHBJrgogFo0Q
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-09_17,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- mlxscore=0 spamscore=0 impostorscore=0 suspectscore=0 mlxlogscore=999
- malwarescore=0 phishscore=0 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311100023
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ mlxlogscore=999 impostorscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311060001 definitions=main-2311100038
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 10 Nov 2023 03:13:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190396
+ <openembedded-core@lists.openembedded.org>; Fri, 10 Nov 2023 04:33:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190397
 
 From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-Changelog:
-===========
-1.9.15p2:
-- Fixed a bug on BSD systems where sudo would not restore the
-terminal settings on exit if the terminal had parity enabled.
+Upgrade 1.9.13p3 to 1.9.15p2 to fix bugs and CVEs
 
-1.9.15p1:
-- Fixed a bug introduced in sudo 1.9.15 that prevented LDAP-based
-sudoers from being able to read the ldap.conf file.
+License-update: file removed upstream
+Drop patch as issue fixed upstream.
 
-1.9.15:
-- Fixed an undefined symbol problem on older versions of macOS
-when "intercept" or "log_subcmds" are enabled in sudoers.
-- Fixed "make check" failure related to getpwent(3) wrapping
-on NetBSD.
-- Fixed the warning message for "sudo -l command" when the command
-is not permitted.  There was a missing space between "list" and
-the actual command due to changes in sudo 1.9.14.
-- Fixed a bug where output could go to the wrong terminal if
-"use_pty" is enabled (the default) and the standard input, output
-or error is redirected to a different terminal.  Bug #1056.
-- The visudo utility will no longer create an empty file when the
-specified sudoers file does not exist and the user exits the
-editor without making any changes.  GitHub issue #294.
-- The AIX and Solaris sudo packages on www.sudo.ws now support
-"log_subcmds" and "intercept" with both 32-bit and 64-bit
-binaries.  Previously, they only worked when running binaries
-with the same word size as the sudo binary.  GitHub issue #289.
-- The sudoers source is now logged in the JSON event log.  This
-makes it possible to tell which rule resulted in a match.
-Running "sudo -ll command" now produces verbose output that
-includes matching rule as well as the path to the sudoers file
-the matching rule came from.  For LDAP sudoers, the name of the
-matching sudoRole is printed instead.
-- The embedded copy of zlib has been updated to version 1.3.
-- The sudoers plugin has been modified to make it more resilient
-to ROWHAMMER attacks on authentication and policy matching.
-This addresses CVE-2023-42465.
-- The sudoers plugin now constructs the user time stamp file path
-name using the user-ID instead of the user name.  This avoids a
-potential problem with user names that contain a path separator
-('/') being interpreted as part of the path name.  A similar
-issue in sudo-rs has been assigned CVE-2023-42456.
-- A path separator ('/') in a user, group or host name is now
-replaced with an underbar character ('_') when expanding escapes
-in @include and @includedir directives as well as the "iolog_file"
-and "iolog_dir" sudoers Default settings.
-- The "intercept_verify" sudoers option is now only applied when
-the "intercept" option is set in sudoers.  Previously, it was
-also applied when "log_subcmds" was enabled.  Sudo 1.9.14
-contained an incorrect fix for this.  Bug #1058.
-- Changes to terminal settings are now performed atomically, where
-possible.  If the command is being run in a pseudo-terminal and
-the user's terminal is already in raw mode, sudo will not change
-the user's terminal settings.  This prevents concurrent sudo
-processes from restoring the terminal settings to the wrong values.
-GitHub issue #312.
-- Reverted a change from sudo 1.9.4 that resulted in PAM session
-modules being called with the environment of the command to be
-run instead of the environment of the invoking user.
-GitHub issue #318.
-- New Indonesian translation from translationproject.org.
-- The sudo_logsrvd server will now raise its open file descriptor
-limit to the maximum allowed value when it starts up.  Each
-connection can require up to nine open file descriptors so the
-default soft limit may be too low.
-- Better log message when rejecting a command if the "intercept"
-option is enabled and the "intercept_allow_setid" option is
-disabled.  Previously, "command not allowed" would be logged and
-the user had no way of knowing what the actual problem was.
-- Sudo will now log the invoking user's environment as "submitenv"
-in the JSON logs.  The command's environment ("runenv") is no
-longer logged for commands rejected by the sudoers file or an
-approval plugin.
+Changelogs:
+1.9.15p2: https://www.sudo.ws/releases/stable/#1.9.15p2
+1.9.15p1: https://www.sudo.ws/releases/stable/#1.9.15p1
+1.9.15:   https://www.sudo.ws/releases/stable/#1.9.15
+1.9.14p3: https://www.sudo.ws/releases/stable/#1.9.14p3
+1.9.14p2: https://www.sudo.ws/releases/stable/#1.9.14p2
+1.9.14p1: https://www.sudo.ws/releases/stable/#1.9.14p1
+1.9.14:   https://www.sudo.ws/releases/stable/#1.9.14
 
 Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 ---
- .../sudo/{sudo_1.9.14p3.bb => sudo_1.9.15p2.bb}                 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.14p3.bb => sudo_1.9.15p2.bb} (96%)
+ ...me.c-correctly-include-header-for-ou.patch | 25 -------------------
+ meta/recipes-extended/sudo/sudo.inc           |  5 ++--
+ .../{sudo_1.9.13p3.bb => sudo_1.9.15p2.bb}    |  3 +--
+ 3 files changed, 3 insertions(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-extended/sudo/files/0001-lib-util-mksigname.c-correctly-include-header-for-ou.patch
+ rename meta/recipes-extended/sudo/{sudo_1.9.13p3.bb => sudo_1.9.15p2.bb} (92%)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.14p3.bb b/meta/recipes-extended/sudo/sudo_1.9.15p2.bb
-similarity index 96%
-rename from meta/recipes-extended/sudo/sudo_1.9.14p3.bb
+diff --git a/meta/recipes-extended/sudo/files/0001-lib-util-mksigname.c-correctly-include-header-for-ou.patch b/meta/recipes-extended/sudo/files/0001-lib-util-mksigname.c-correctly-include-header-for-ou.patch
+deleted file mode 100644
+index f63ed553be..0000000000
+--- a/meta/recipes-extended/sudo/files/0001-lib-util-mksigname.c-correctly-include-header-for-ou.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-From f993c5c88faacc43971899aae2168ffb3e34dc80 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Fri, 24 Sep 2021 13:36:24 +0200
+-Subject: [PATCH] lib/util/mksigname.c: correctly include header for out of
+- tree builds
+-
+-Upstream-Status: Submitted [https://github.com/sudo-project/sudo/pull/123]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- lib/util/mksigname.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lib/util/mksigname.c b/lib/util/mksigname.c
+-index de8b1ad..0a69e7e 100644
+---- a/lib/util/mksigname.c
+-+++ b/lib/util/mksigname.c
+-@@ -36,7 +36,7 @@ main(int argc, char *argv[])
+- {
+-     unsigned int i;
+- 
+--#include "mksigname.h"
+-+#include "lib/util/mksigname.h"
+- 
+-     printf("const char *const sudo_sys_signame[] = {\n");
+-     for (i = 0; i < nitems(sudo_sys_signame); i++) {
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index bedf713d2c..feb1cf35a7 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -8,7 +8,6 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=5100e20d35f9015f9eef6bdb27ba194f \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
+                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
+-                    file://lib/util/getcwd.c;beginline=2;endline=27;md5=50f8d9667750e18dea4e84a935c12009 \
+                     file://lib/util/glob.c;beginline=2;endline=31;md5=2852f68687544e3eb8a0a61665506f0e \
+                     file://lib/util/snprintf.c;beginline=3;endline=33;md5=b70df6179969e38fcf68da91b53b8029 \
+                     file://include/sudo_queue.h;beginline=2;endline=27;md5=ad578e9664d17a010b63e4bc0576ee8d \
+@@ -31,12 +30,12 @@ EXTRA_OECONF = "--with-editor=${base_bindir}/vi --with-env-editor"
+ EXTRA_OECONF:append:libc-musl = " --disable-hardening "
+ 
+ do_compile:prepend () {
+-       # Remove build host references from sudo_usage.h
++       # Remove build host references from config.h
+        sed -i  \
+            -e 's,--with-libtool-sysroot=${STAGING_DIR_TARGET},,g' \
+            -e 's,--build=${BUILD_SYS},,g' \
+            -e 's,--host=${HOST_SYS},,g' \
+-           ${B}/src/sudo_usage.h
++           ${B}/config.h
+ }
+ 
+ # Explicitly create ${localstatedir}/lib before do_install to ensure
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.13p3.bb b/meta/recipes-extended/sudo/sudo_1.9.15p2.bb
+similarity index 92%
+rename from meta/recipes-extended/sudo/sudo_1.9.13p3.bb
 rename to meta/recipes-extended/sudo/sudo_1.9.15p2.bb
-index d5c5718ea5..431dfba3c2 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.14p3.bb
+index 2e11739470..431dfba3c2 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.13p3.bb
 +++ b/meta/recipes-extended/sudo/sudo_1.9.15p2.bb
-@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+@@ -3,12 +3,11 @@ require sudo.inc
+ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
+-           file://0001-lib-util-mksigname.c-correctly-include-header-for-ou.patch \
+            "
  
  PAM_SRC_URI = "file://sudo.pam"
  
--SRC_URI[sha256sum] = "a08318b1c4bc8582c004d4cd9ae2903abc549e7e46ba815e41fe81d1c0782b62"
+-SRC_URI[sha256sum] = "92334a12bb93e0c056b09f53e255ccb7d6f67c6350e2813cd9593ceeca78560b"
 +SRC_URI[sha256sum] = "199c0cdbfa7efcfffa9c88684a8e2fb206a62b70a316507e4a91c89c873bbcc8"
  
  DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
