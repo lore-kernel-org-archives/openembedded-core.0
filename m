@@ -1,117 +1,89 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <marcus.folkesson@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FDFC4332F
-	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 16:28:44 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.55146.1699720122159752195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB10C4332F
+	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 17:24:16 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web11.15.1699723447195381722
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Nov 2023 08:28:42 -0800
+ Sat, 11 Nov 2023 09:24:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ii55X1Bj;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1e98e97c824so2116590fac.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 08:28:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZPs4ph2/;
+ spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: marcus.folkesson@gmail.com)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-507cd62472dso4617520e87.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 09:24:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699720121; x=1700324921; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R7QucvTawp+GiCmC/ofbJT7ulZL1wyvgsmiFRdVN7rM=;
-        b=ii55X1BjW+TlFAw9ojI20HNdE18agDBQ1cSh2eQQrm10YJ8PUnNCjWGFGwfO1j3FfW
-         XZQOyorJx3Twth9pEcR0KaLfovVv3YVyHowGAvKObgf4gZLoQeuc9uBJhrlpxfsfylNp
-         3fV63Tp/+oJ717NVLLsQv2GxcCY5I+95XHqThB+16LH2XX2OLzHhCWR0VLl4PmktB0Y7
-         672GI67Sy4p8Kyj5LbfL+5vAPy67CaiVkxiDcxfD9LbCFAgKjNKOQjsRDtKNgLLuMxon
-         Yx+H79QXuO5/VlBLa87rZsUp037voJdzqmT+rFpAUZZphPm1Lk6h9+DA+wDAHTCvmuZJ
-         bqFA==
+        d=gmail.com; s=20230601; t=1699723445; x=1700328245; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/v73JI5ZmK8CiWxffmJK2Tzq8P87r5UlFzVJ+35ub5I=;
+        b=ZPs4ph2/kF9gXbWTLSCG/cDTtZqbHn8YFXP+jKv6rPiP5A9wGpJkBp8WQdgGuscesc
+         3d1QdzcXFjfG1K+n6NQ123460R50r/vZNCsiwz84hsOoqk9eURFxTtmUr95yvzl2itPm
+         DSsUk+zj90e7bT4e8xnOaNfWxC61L2KF47I9sWz+o752ArsHgr6zWeUqy1Z+GS/qkCnW
+         H55rtqJbjWcwP18Fn3mLk8RDRoU3g7a/flvV1u9HK48K16KwrrVp2C1hBPuoX1GTTpAk
+         Kb6PS3EsVmEcNboNgvw+IDXPVqA+VC+XGjPgaZlfUVAACzf+iyhfVKzCNQq+6Z6oyLZ+
+         XP2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699720121; x=1700324921;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R7QucvTawp+GiCmC/ofbJT7ulZL1wyvgsmiFRdVN7rM=;
-        b=pnRqOEFlUB0B9GXhQUZDhNouj/Mv8sArvDJ6QtDUwfN3RNEDgbOB3TzVV+6tcbFlDA
-         FnEnx9PP4yOVEvygdtOC/Kq1m4VAfQ1DQ94MiQ29JwVNliDX3mKyBcogXgtCN8pI3Z6B
-         wJ8KXk22HSqjkkNYlcTqOKal2z4nVyLHiFFmlHqk/2px3g+FzkpwfwVS3pxzvJt6NLXv
-         Z9k4Ecm677SI9jNUZd5aAdG+S5q7EYVHW59o2sxHX6OELK4/jzxOcpZubfxMapte46hm
-         WTLRd1J8kQuBr6sr4mxsv+5nObkum8WXGZ+WCaYI3chJhoXmChTn207X8XBKxf3w+KqI
-         323Q==
-X-Gm-Message-State: AOJu0Yz+p+YM3RcEk5xU4wPF/XEwE0GQGd5Clg4OaufogwX0k9/8d9Ew
-	/LHNRkbYoIJiFsfd/sTVtcn9eU4wSKdK825bFyA=
-X-Google-Smtp-Source: AGHT+IHznW0xjhVCloNyoxH9t3uA06pt4iD4rsn81WHMIVPgUbaqQJqlSCjXiTE0zcz9tVkN1tvzpTtpHqOy3P+DihU=
-X-Received: by 2002:a05:6871:5223:b0:1e9:97f2:501e with SMTP id
- ht35-20020a056871522300b001e997f2501emr2970083oac.20.1699720121301; Sat, 11
- Nov 2023 08:28:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699723445; x=1700328245;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/v73JI5ZmK8CiWxffmJK2Tzq8P87r5UlFzVJ+35ub5I=;
+        b=VGJHBLp2a00K/3jddsBgSoS7AogYhsI6OVR9/loBeHt6S5WxfA2LAlXtAsRrfDYeuE
+         CljqiOk2JpJrc/LdxJtzj+bO1XMAZ9FZSYUED9YTpRGtRhghcoJnZjRBOOOoLUxzSP30
+         BH70NqtgB8ZtXUg18XFxXBZgzWpgib2ZIjR/Ko8yV9XarslGHM/GtzAWHt3af7xnhPnC
+         xpnk0OJVYZEucRtQE85WKdRnHw2qscCHYQo0VN2A326WpD7JIBlasW0JRRcFdbppUKma
+         Xxh6jdKIf/Stct5EOozhQtZBjWgMFmVLrJtbVpm3qkrtitdPqL3kTQu9vNzZv+twhVmh
+         003A==
+X-Gm-Message-State: AOJu0Ywojnk5AoJfB5343K84mRgtgsM0l66VYDt4LS4x34FlSxaWfrzr
+	Io92GriCl/Cd8BGJKb0usv6A8+Jmvl0=
+X-Google-Smtp-Source: AGHT+IGIdxF4rx4bGgf0OQ27S+EX86FA/GaNy54WxxDBUNuIzTELJjE9roRoYNvy4/y0Nh0UnvoFGw==
+X-Received: by 2002:a05:6512:3e09:b0:509:4792:25eb with SMTP id i9-20020a0565123e0900b00509479225ebmr1074334lfv.17.1699723444493;
+        Sat, 11 Nov 2023 09:24:04 -0800 (PST)
+Received: from localhost.localdomain (83-233-6-197.cust.bredband2.com. [83.233.6.197])
+        by smtp.gmail.com with ESMTPSA id c13-20020a056512238d00b0050089b26ea1sm330927lfv.276.2023.11.11.09.24.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Nov 2023 09:24:03 -0800 (PST)
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: marcus.folkesson@gmail.com
+Subject: [RESEND PATCH] qemuboot.bbclass: fix typos in documentation
+Date: Sat, 11 Nov 2023 18:28:10 +0100
+Message-ID: <20231111172810.1880050-1-marcus.folkesson@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <cover.1699714834.git.steve@sakoman.com> <24b9da1a2332dd1dbc80006e36af693ed1161ee3.1699714834.git.steve@sakoman.com>
-In-Reply-To: <24b9da1a2332dd1dbc80006e36af693ed1161ee3.1699714834.git.steve@sakoman.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 11 Nov 2023 08:28:15 -0800
-Message-ID: <CAMKF1sok8EKi8mVTzSPXThJ2n4pom2VSWW4OvAdkYkt7Bz42Fw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 14/15] lz4: use CFLAGS from bitbake
-To: Steve Sakoman <steve@sakoman.com>, Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 16:28:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190432
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 17:24:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190433
 
-On Sat, Nov 11, 2023 at 7:03=E2=80=AFAM Steve Sakoman <steve@sakoman.com> w=
-rote:
->
-> From: Mikko Rapeli <mikko.rapeli@bmw.de>
->
-> Currently lz4 uses it's own defaults which include O3 optimization.
-> Switch from O3 to bitbake default O2 reduces binary package size
-> from 467056 to 331888 bytes. Enables also building with Os if needed.
->
-diverging away from package defaults means treading a less travelled
-path and prone to errors
-this could be the reason for the reproducibility problem that Steve
-sent a patch for.
-how does it impact runtime performance ?
+comand -> command
+docuemntation -> documentation
 
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit abaaf8c6bcd368728d298937a9406eb2aebc7a7d)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/recipes-support/lz4/lz4_1.9.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support=
-/lz4/lz4_1.9.2.bb
-> index 0c4a0ac807..c2e24b518c 100644
-> --- a/meta/recipes-support/lz4/lz4_1.9.2.bb
-> +++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
-> @@ -23,7 +23,7 @@ S =3D "${WORKDIR}/git"
->  # Fixed in r118, which is larger than the current version.
->  CVE_CHECK_WHITELIST +=3D "CVE-2014-4715"
->
-> -EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' DESTDIR=3D${D} LIBDIR=
-=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STATIC=3Dno"
-> +EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' CFLAGS=3D'${CFLAGS}' D=
-ESTDIR=3D${D} LIBDIR=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STATIC=3D=
-no"
->
->  do_install() {
->         oe_runmake install
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190429): https://lists.openembedded.org/g/openembedde=
-d-core/message/190429
-> Mute This Topic: https://lists.openembedded.org/mt/102526883/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+---
+ meta/classes-recipe/qemuboot.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
+index 5c4bbd6737..ff32aac902 100644
+--- a/meta/classes-recipe/qemuboot.bbclass
++++ b/meta/classes-recipe/qemuboot.bbclass
+@@ -62,8 +62,8 @@
+ # QB_SLIRP_OPT: network option for SLIRP mode, e.g., -netdev user,id=net0"
+ #
+ # QB_CMDLINE_IP_SLIRP: If QB_NETWORK_DEVICE adds more than one network interface to qemu, usually the
+-#                      ip= kernel comand line argument needs to be changed accordingly. Details are documented
+-#                      in the kernel docuemntation https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt
++#                      ip= kernel command line argument needs to be changed accordingly. Details are documented
++#                      in the kernel documentation https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt
+ #                      Example to configure only the first interface: "ip=eth0:dhcp"
+ # QB_CMDLINE_IP_TAP: This parameter is similar to the QB_CMDLINE_IP_SLIRP parameter. Since the tap interface requires
+ #                    static IP configuration @CLIENT@ and @GATEWAY@ place holders are replaced by the IP and the gateway
+-- 
+2.41.0
+
 
