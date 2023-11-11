@@ -1,88 +1,106 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85350C4332F
-	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 18:44:36 +0000 (UTC)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
- by mx.groups.io with SMTP id smtpd.web10.1497.1699728276017050605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88419C4332F
+	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 18:47:46 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.1595.1699728459246333734
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Nov 2023 10:44:36 -0800
+ Sat, 11 Nov 2023 10:47:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TbJvBPHs;
- spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3580b94ac2eso12737145ab.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 10:44:35 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X7rpEJOJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40839652b97so23183805e9.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 10:47:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699728275; x=1700333075; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HOBaj2IsaOnYWe9sKlgcdd/rI26LSO8lyOwGz23IHDU=;
-        b=TbJvBPHsE7EJD7LSR4aA4DDylZZT6pXBanPVomv2SuF5XFXGDKKjBkqJ3mqilngDNT
-         IHEbqvZr3V+BGQQlvKRK6dvEe+2AvSZXMGbeVI+7V9r+Gf4UyCDTsZ1m1Gy4Hwlv72EG
-         abNrs2GL4ZabFHea2azyYS1FZIHINUX6TI0RibPFPQRkDXz5HTBN3wv+kgPbnAERSw7c
-         9nHZaKFLjObUlmtvU9bKSXKOdFyMR2o8Ug7y2rz/+kEAwqn8QF2L7FkMPQbS5BQJOLuy
-         tZJmlrL8uwei+nKyDKa68TB/EEgVhLRV+x4zDIs+zKN8Qx/TcA7JW+TSxWcoYJ0cE/p7
-         313g==
+        d=linuxfoundation.org; s=google; t=1699728457; x=1700333257; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=TDD5uq9FABxs1xa8IIdiT1XFU75zNziHvTl8rS/vyqY=;
+        b=X7rpEJOJMhLHwHLtkfCwarvaqRZJFEnIQAxw04v5xhYd6i46GnNBSQ4I6/aWmngpVY
+         ZniQJIJSzxA38XXVIktsCqwV6pf/L7vVZOEu8hRMgUCeMpeL4NPbQ1rkI97bkV2it1EG
+         Kkm/7tQGLwGWZBWyICC9NNjQnchSyDO0P8SZ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699728275; x=1700333075;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HOBaj2IsaOnYWe9sKlgcdd/rI26LSO8lyOwGz23IHDU=;
-        b=UXJpPpQ1or3M0p7ZaCHN8F4+SOqb7p4F3+fiqg2gVclYHFrtWuasbIHDJoxM/ZrEWy
-         mTV5ti/xZXJI0ofU75JEQSAf4kakMHdC/x3ITeKhfclTXIIdaJAKFnH+kiY9YIx5SDG2
-         QKqaZkLek4jxldWExgjCSkXisGJuu1HTrsk3ogxsyTtPTCY1KYXXCMoCaemOmfS4cPkz
-         fCwchlNgcZlnpt0JncdJ7ZipbH8BLK22ZKUPRZkZJo42m2VCSaweV5Aun3nyeHOye3+F
-         BBfUl1EV6hZZCvchFz96k0Zkcfmx81BO1ZOYUc5i62ypZxhoS4SzKdZEtAHjaoQ1xwUD
-         qrYA==
-X-Gm-Message-State: AOJu0YzbXgg6i6oOggzjf+81BADKg0wUvTdDn0q8izDdUcG5HZl0YzHD
-	qcr8PnopC+kmmCaqdzo3wTzKG/UrIsiV5g==
-X-Google-Smtp-Source: AGHT+IGukv8Y4gTuinUgtlGLDHHFWkMBdqYZYpHfIaZQ0JxtwLw54xw12Q5CpQnnzLAGHmFokzpBQA==
-X-Received: by 2002:a05:6e02:1749:b0:34f:c7f7:18b with SMTP id y9-20020a056e02174900b0034fc7f7018bmr4739913ill.2.1699728274466;
-        Sat, 11 Nov 2023 10:44:34 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::62f8])
-        by smtp.gmail.com with ESMTPSA id e7-20020a17090301c700b001c727d3ea6bsm1581122plh.74.2023.11.11.10.44.33
+        d=1e100.net; s=20230601; t=1699728457; x=1700333257;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TDD5uq9FABxs1xa8IIdiT1XFU75zNziHvTl8rS/vyqY=;
+        b=G+AotVk/ADC/Kd2/2B0y92j+nXrl37GsFOWSatp+Jt/bwie6GCEdkNzvHiHuLfGqdm
+         9tewk2Y21l5L0T5E/1ykkfUAYDrGaa4Ku3bqeL2LRtIy5G/mdOYmj/RPgD9fhvD4IOeW
+         jceSGmPoMEheEDPncIHMfenwf6Iyd2xV1Ndi1PmXf+Ddhe3cObvZZiGZBbzAsaDnbrfW
+         iyGH9Msl8jJBDKCPF8Ziu/TAM0TispxtGk57lqtSGQQZ1Yw/SDN+uOSCr/crrTusIXUF
+         RJNXqMb5njFUmcT4qkL9Cv/pIQUML63gucn5ZJan8/xQaSawAYRPVG9+jW8TAgGlJaeg
+         /Upw==
+X-Gm-Message-State: AOJu0YwMUu23VpLwI+RrytXCJdi0lBvTbfLwYxcvlQ2YtkvZZfeCcvAJ
+	9Fmrx/99RSoVlbxoQ5PNGQahGA==
+X-Google-Smtp-Source: AGHT+IFNxbBhgQrXZEqbAM3JPtb8wud71OF7/2EcqUB7TvrDjQiavmD+sPNAu4DTN/B2MvdGIMqKCQ==
+X-Received: by 2002:a05:600c:4689:b0:408:37aa:4766 with SMTP id p9-20020a05600c468900b0040837aa4766mr2031507wmo.5.1699728457635;
+        Sat, 11 Nov 2023 10:47:37 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:53e5:ae40:81ca:e333? ([2001:8b0:aba:5f3c:53e5:ae40:81ca:e333])
+        by smtp.gmail.com with ESMTPSA id bi15-20020a05600c3d8f00b004095874f6d3sm2888108wmb.28.2023.11.11.10.47.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Nov 2023 10:44:34 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libsoup: Upgrade to 3.4.2 -> 3.4.4
-Date: Sat, 11 Nov 2023 10:44:32 -0800
-Message-ID: <20231111184432.752939-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.1
+        Sat, 11 Nov 2023 10:47:37 -0800 (PST)
+Message-ID: <f0a66fa3f97bf3eda5667077540cbf2900e753fe.camel@linuxfoundation.org>
+Subject: Re: [OE-core][dunfell 15/15] lz4: specify gnu17 in CFLAGS to fix
+ reproducibility issues
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Sat, 11 Nov 2023 18:47:36 +0000
+In-Reply-To: <CAOSpxdZLvOAhz9t-m3BeOzpXjLjSELQMJpqn6hCpcxZY2wx3CA@mail.gmail.com>
+References: <cover.1699714834.git.steve@sakoman.com>
+	 <ce826b01d93ac99ce089c2212cb0cbff61cee1e4.1699714834.git.steve@sakoman.com>
+	 <98dcc905adef3d2d828af60abdaa40291abd458d.camel@linuxfoundation.org>
+	 <CAMKF1sqRD+yX+gFHSPhmrdY2nBHpLh24YYHv6HusfkSS5tmT5w@mail.gmail.com>
+	 <CAOSpxdZLvOAhz9t-m3BeOzpXjLjSELQMJpqn6hCpcxZY2wx3CA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 18:44:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190437
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 18:47:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190438
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../libsoup/{libsoup_3.4.2.bb => libsoup_3.4.4.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libsoup/{libsoup_3.4.2.bb => libsoup_3.4.4.bb} (96%)
+On Sat, 2023-11-11 at 08:20 -1000, Steve Sakoman wrote:
+> On Sat, Nov 11, 2023 at 8:08=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wro=
+te:
+> >=20
+> > On Sat, Nov 11, 2023 at 9:36=E2=80=AFAM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >=20
+> > > On Sat, 2023-11-11 at 05:03 -1000, Steve Sakoman wrote:
+> > > > We are seeing reproducibility issues where gcc-cross sometimes defa=
+ults
+> > > > to gnu11 and other times to gnu17.
+> > >=20
+> > > Why is gcc-cross doing that? It is supposed to be deterministic so we
+> > > really need to get to the bottom of this :/.
+> >=20
+> > I think the previous patch to enforce OE cflags is exposing this
+> > problem.
+>=20
+> No, the problem also exists without the previous patch.
+>=20
+> Richard suggested the backport as a potential solution, since it fixed
+> a repro issue in master.
+>=20
+> It turned out to not be a complete fix in dunfell, hence my second patch.
+>=20
+> I agree that it would be good to get to the bottom of the gcc
+> reproducibility problem.  But until we do, this second patch will fix
+> the issue now and will do no harm once gcc is fixed since it is just
+> explicitly specifying what should be the gcc default.
 
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.2.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-similarity index 96%
-rename from meta/recipes-support/libsoup/libsoup_3.4.2.bb
-rename to meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index 3996ae68369..6d382a7852c 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- 
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
--SRC_URI[sha256sum] = "78c8fa37cb152d40ec8c4a148d6155e2f6947f3f1602a7cda3a31ad40f5ee2f3"
-+SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
- 
- PROVIDES = "libsoup-3.0"
- CVE_PRODUCT = "libsoup"
--- 
-2.42.1
+I worry that if we merge that, we'll not spend the time needed to get
+to the bottom of the gcc issue :(. We don't know if the issue is there
+on master or not :/.
 
+Cheers,
+
+Richard
 
