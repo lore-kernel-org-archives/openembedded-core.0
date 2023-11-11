@@ -1,92 +1,90 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BBC0C41535
-	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 15:03:44 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.53376.1699715021740197430
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 761D7C4332F
+	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 15:18:24 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.53273.1699715900705930288
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Nov 2023 07:03:41 -0800
+ Sat, 11 Nov 2023 07:18:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3bwDOCSL;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1ccbb7f79cdso23936135ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 07:03:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699715020; x=1700319820; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z3V724EwI/qKPAMf9RyM4vGt8ZqUGM8Nnuw1wHp0zS4=;
-        b=3bwDOCSLdEdTi/IsUjF4bVcGML3n4VnBvmEyR3tXOboVzmGFUWAxeV/bK93hesusrR
-         u6U2xy8bm72zk9TvRzhMlDJWPBZRD3h0cHvKU77C35ByAsRxUp1T/gxt+K9Ix+m2wu6Q
-         siCKJHY2mBQxB7+ChQyxBAeLfLObYkBnZ+I9FTnjPidJU8vZSjmrg6VlxccL6V0i98a+
-         JDgKsCrs8cEI1aQOn6Z8ih5J6Ml/5J6S5mhNVQB0Ac67jbN6XW6BPjOX4KNXodo5TCMT
-         uxMYtszSNVEZTq+oXlnkw9QFa/hN9TyMO87+PAAcEGrWT/plcJYwAhEIGEgzZwAk9OzE
-         MTVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699715020; x=1700319820;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z3V724EwI/qKPAMf9RyM4vGt8ZqUGM8Nnuw1wHp0zS4=;
-        b=tCRvKwU90TDlbUzer29T+deEwiJ3dQnmCZcoEhCUHT0w7FDbxpLqrL7GSMa+olC8pa
-         4SjPdKrO85csjhsQziKcF7YRcG4YPcKpMc9FvGgp9hy0fSgWOBdktwh2A4OmQcsabz1y
-         41xNTrSKZBtuW2GpFrxqymrd1c/uZJGA2RhcTP1LNwxVJE1w5TMp4zmQUjVvsrM45Bo8
-         PDw+ZSR2I+TK7k7jgOKVBKFmh7F2H9G4AhX/yTRXQZZFzx8YSKQO0fqE6oLvg1qKdqqG
-         gUz3wXGV9U5pbFOQs56J7Haycn2Ee+V3qIMhYmR3pjVwTStr9Jb1wTQbWmOV56ceg/jS
-         hFnQ==
-X-Gm-Message-State: AOJu0YwWEihbJscy5Pyvt7/MA995yUpnkqIs9KMSqKOtZwlDFG9nYZoV
-	KyHJ4FI9+nVNicYcRtI90WvgkVwBKBaA9zk07TkOzQ==
-X-Google-Smtp-Source: AGHT+IEd5qONpAzMjM1Yhfp3bEKeQbm7oHQn3cYgKbTFhBdweSFB6motUqSn6IZDmOjsa1vXc2dEmw==
-X-Received: by 2002:a17:903:2387:b0:1cc:6597:f41e with SMTP id v7-20020a170903238700b001cc6597f41emr2054919plh.0.1699715020270;
-        Sat, 11 Nov 2023 07:03:40 -0800 (PST)
-Received: from hexa.lan (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y18-20020a1709027c9200b001b53c8659fesm1379200pll.30.2023.11.11.07.03.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Nov 2023 07:03:39 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/15] lz4: specify gnu17 in CFLAGS to fix reproducibility issues
-Date: Sat, 11 Nov 2023 05:03:04 -1000
-Message-Id: <ce826b01d93ac99ce089c2212cb0cbff61cee1e4.1699714834.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1699714834.git.steve@sakoman.com>
-References: <cover.1699714834.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Lnddxo19;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TLumprEJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018bbef661d7-beec15f5-f279-4348-a18b-e5db91f03bab-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1699715900; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=p590qzczvC2AatiNNepveHc4IiDxGl9MByKBLvhKsG0=;
+	b=Lnddxo193y7uJIIzH9A/k1cNO8vSPgppos8CnqX+nI90qaE6nOSwe2gKloeKrpBH
+	KpAvXwt5NTa3h+Utj7JVwYQByy7qiwwQujryPXPaPkz1E6yudwOh62r7QPE+Ifvpe3a
+	Gch/8UxkXdeWeTBIh6rr68Ur2Edbqx9lcdCXSyyA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1699715900;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=p590qzczvC2AatiNNepveHc4IiDxGl9MByKBLvhKsG0=;
+	b=TLumprEJy/tsTIPi/NGzm2jvAxrMOzj1KP2DwbQY6uCMbniZpEEXi/eOrk5mAEcT
+	xuDHTmMczNLpr8gC6FLvcYlBXi+tJ+bc6N6YMiqlwDaQxCd8nZk9h8qoVtb3+1Xf8jY
+	FX9DPZW4vdj3msqr074kOhu2W28Z6l9R0KLw9i0U=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][dunfell 10/15] cve-check: slightly more verbose warning
+ when adding the same package twice
+In-Reply-To: ef6b9c84a786974cb3b24706d8afd9ae809a6f8d.1699714834.git.steve@sakoman.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018bbef661d7-beec15f5-f279-4348-a18b-e5db91f03bab-000000@us-west-2.amazonses.com>
+Date: Sat, 11 Nov 2023 15:18:19 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.11-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 15:03:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190430
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 15:18:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190431
 
-We are seeing reproducibility issues where gcc-cross sometimes defaults
-to gnu11 and other times to gnu17.
+--NextPart
+Content-Type: text/plain
 
-Specify std=gnu17 rather than leave this to chance.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/lz4/lz4_1.9.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+Testing patch /home/patchtest/share/mboxes/dunfell-10-15-cve-check-slightly-more-verbose-warning-when-adding-the-same-package-twice.patch
 
-diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support/lz4/lz4_1.9.2.bb
-index c2e24b518c..8cf71fdc04 100644
---- a/meta/recipes-support/lz4/lz4_1.9.2.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
-@@ -23,6 +23,7 @@ S = "${WORKDIR}/git"
- # Fixed in r118, which is larger than the current version.
- CVE_CHECK_WHITELIST += "CVE-2014-4715"
- 
-+CFLAGS_append = " -std=gnu17"
- EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' CFLAGS='${CFLAGS}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir} BUILD_STATIC=no"
- 
- do_install() {
--- 
-2.34.1
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 91 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
