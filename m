@@ -1,118 +1,88 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9024EC4332F
-	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 18:20:36 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web11.1094.1699726827109441912
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85350C4332F
+	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 18:44:36 +0000 (UTC)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+ by mx.groups.io with SMTP id smtpd.web10.1497.1699728276017050605
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Nov 2023 10:20:27 -0800
+ Sat, 11 Nov 2023 10:44:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=C3QNGdks;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.51, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-9bf86b77a2aso483736566b.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 10:20:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TbJvBPHs;
+ spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3580b94ac2eso12737145ab.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 10:44:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699726825; x=1700331625; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WQe3vrjh6kycwQOwuJ7WJ4WbQ5nI0dc3sAgrEcqZcY4=;
-        b=C3QNGdksIBZrPSvy3am4/3mjnooWyjWhNjGfEVoTOqUkpjKoanv3Qd5w2u0e6GCLQ9
-         SbvA8ucJSGZWniBITl6WYIBNAizyn6E/zYqKD/ZyQ9PEMtInQbHnoZysUOTIOuMNG9H6
-         pCBcT8zmH8Coy0yntE7swCTjto1J3pHrFhpiqK6I0dqx7EODOZQ9QAOng9C2HQR+1UFy
-         4UmaEO1rrApHP8YdnSWpKmdOhvt4dIzCVuEOg4tpTOE55Y42VVoIi8alN2Q496Cp2qVt
-         EOLequY8an16qjZoB+RMWuPcPuuAMY7dnOC9parD2hrr+naEn2amIUQsxAVd5IQoHtV1
-         l+xQ==
+        d=gmail.com; s=20230601; t=1699728275; x=1700333075; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HOBaj2IsaOnYWe9sKlgcdd/rI26LSO8lyOwGz23IHDU=;
+        b=TbJvBPHsE7EJD7LSR4aA4DDylZZT6pXBanPVomv2SuF5XFXGDKKjBkqJ3mqilngDNT
+         IHEbqvZr3V+BGQQlvKRK6dvEe+2AvSZXMGbeVI+7V9r+Gf4UyCDTsZ1m1Gy4Hwlv72EG
+         abNrs2GL4ZabFHea2azyYS1FZIHINUX6TI0RibPFPQRkDXz5HTBN3wv+kgPbnAERSw7c
+         9nHZaKFLjObUlmtvU9bKSXKOdFyMR2o8Ug7y2rz/+kEAwqn8QF2L7FkMPQbS5BQJOLuy
+         tZJmlrL8uwei+nKyDKa68TB/EEgVhLRV+x4zDIs+zKN8Qx/TcA7JW+TSxWcoYJ0cE/p7
+         313g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699726825; x=1700331625;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WQe3vrjh6kycwQOwuJ7WJ4WbQ5nI0dc3sAgrEcqZcY4=;
-        b=pzkEJpducs0xt7uFa0yckuzF8I9qA5H+14VBcXZX7jPLDw8m43MNfQPRPu1j4IMCVt
-         OeVkQG1SRyG54OJlEyy7y0U9dTfvU3/ANzoCRxGn7pXUDCiSs0OjmEMnasGACvevMMs5
-         vmkQrrsSvIXF9xi1YTE+dKCypr8WCG0Se5GksdNJwRdFWKCXlmvRIHosaGuyfx00oPWQ
-         Qa49YG11/O0+3Aqjstpb0Qm8vTESialeFcR15TNjY+M0vI54qmhgjiyXZTwr869M1HEx
-         exQsLhRnUMsVuJfTLKkZOsNcy/Tal+vc4MSVH3S0mh5/3QclH43CTfhAOxIcAEQ78DqW
-         km7A==
-X-Gm-Message-State: AOJu0YwwrzL1f5XkVWQodwSwiXlu6LKN4r2TlvLRcMmOw4P4IhedkWI+
-	zxAXwGgiQf8cGJwfYi7eR9NopMbfZOyf5CXt2895nQ==
-X-Google-Smtp-Source: AGHT+IFR2+Y5i2YYjwPIIIEeLZSqPPoNYTQlMv5Ccyk/pRZ7TwABsWQndYF4Wenv1BEzlV+k1ADJ8gn+MzQsxHPh5yo=
-X-Received: by 2002:a17:906:a8d:b0:9c7:4d3e:1e50 with SMTP id
- y13-20020a1709060a8d00b009c74d3e1e50mr1494747ejf.76.1699726825472; Sat, 11
- Nov 2023 10:20:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699728275; x=1700333075;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HOBaj2IsaOnYWe9sKlgcdd/rI26LSO8lyOwGz23IHDU=;
+        b=UXJpPpQ1or3M0p7ZaCHN8F4+SOqb7p4F3+fiqg2gVclYHFrtWuasbIHDJoxM/ZrEWy
+         mTV5ti/xZXJI0ofU75JEQSAf4kakMHdC/x3ITeKhfclTXIIdaJAKFnH+kiY9YIx5SDG2
+         QKqaZkLek4jxldWExgjCSkXisGJuu1HTrsk3ogxsyTtPTCY1KYXXCMoCaemOmfS4cPkz
+         fCwchlNgcZlnpt0JncdJ7ZipbH8BLK22ZKUPRZkZJo42m2VCSaweV5Aun3nyeHOye3+F
+         BBfUl1EV6hZZCvchFz96k0Zkcfmx81BO1ZOYUc5i62ypZxhoS4SzKdZEtAHjaoQ1xwUD
+         qrYA==
+X-Gm-Message-State: AOJu0YzbXgg6i6oOggzjf+81BADKg0wUvTdDn0q8izDdUcG5HZl0YzHD
+	qcr8PnopC+kmmCaqdzo3wTzKG/UrIsiV5g==
+X-Google-Smtp-Source: AGHT+IGukv8Y4gTuinUgtlGLDHHFWkMBdqYZYpHfIaZQ0JxtwLw54xw12Q5CpQnnzLAGHmFokzpBQA==
+X-Received: by 2002:a05:6e02:1749:b0:34f:c7f7:18b with SMTP id y9-20020a056e02174900b0034fc7f7018bmr4739913ill.2.1699728274466;
+        Sat, 11 Nov 2023 10:44:34 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::62f8])
+        by smtp.gmail.com with ESMTPSA id e7-20020a17090301c700b001c727d3ea6bsm1581122plh.74.2023.11.11.10.44.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Nov 2023 10:44:34 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libsoup: Upgrade to 3.4.2 -> 3.4.4
+Date: Sat, 11 Nov 2023 10:44:32 -0800
+Message-ID: <20231111184432.752939-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-References: <cover.1699714834.git.steve@sakoman.com> <ce826b01d93ac99ce089c2212cb0cbff61cee1e4.1699714834.git.steve@sakoman.com>
- <98dcc905adef3d2d828af60abdaa40291abd458d.camel@linuxfoundation.org> <CAMKF1sqRD+yX+gFHSPhmrdY2nBHpLh24YYHv6HusfkSS5tmT5w@mail.gmail.com>
-In-Reply-To: <CAMKF1sqRD+yX+gFHSPhmrdY2nBHpLh24YYHv6HusfkSS5tmT5w@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Sat, 11 Nov 2023 08:20:14 -1000
-Message-ID: <CAOSpxdZLvOAhz9t-m3BeOzpXjLjSELQMJpqn6hCpcxZY2wx3CA@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 15/15] lz4: specify gnu17 in CFLAGS to fix
- reproducibility issues
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 18:20:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190436
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 18:44:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190437
 
-On Sat, Nov 11, 2023 at 8:08=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> On Sat, Nov 11, 2023 at 9:36=E2=80=AFAM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Sat, 2023-11-11 at 05:03 -1000, Steve Sakoman wrote:
-> > > We are seeing reproducibility issues where gcc-cross sometimes defaul=
-ts
-> > > to gnu11 and other times to gnu17.
-> >
-> > Why is gcc-cross doing that? It is supposed to be deterministic so we
-> > really need to get to the bottom of this :/.
->
-> I think the previous patch to enforce OE cflags is exposing this
-> problem.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../libsoup/{libsoup_3.4.2.bb => libsoup_3.4.4.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libsoup/{libsoup_3.4.2.bb => libsoup_3.4.4.bb} (96%)
 
-No, the problem also exists without the previous patch.
+diff --git a/meta/recipes-support/libsoup/libsoup_3.4.2.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+similarity index 96%
+rename from meta/recipes-support/libsoup/libsoup_3.4.2.bb
+rename to meta/recipes-support/libsoup/libsoup_3.4.4.bb
+index 3996ae68369..6d382a7852c 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.4.2.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "78c8fa37cb152d40ec8c4a148d6155e2f6947f3f1602a7cda3a31ad40f5ee2f3"
++SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
+ 
+ PROVIDES = "libsoup-3.0"
+ CVE_PRODUCT = "libsoup"
+-- 
+2.42.1
 
-Richard suggested the backport as a potential solution, since it fixed
-a repro issue in master.
-
-It turned out to not be a complete fix in dunfell, hence my second patch.
-
-I agree that it would be good to get to the bottom of the gcc
-reproducibility problem.  But until we do, this second patch will fix
-the issue now and will do no harm once gcc is fixed since it is just
-explicitly specifying what should be the gcc default.
-
-Steve
-
-> Now, it could be a
-> bug in how gcc is invoked or in gcc itself,  but there is one file
-> that shows up these c11 tags
-> in debug info segments.
->
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#190434): https://lists.openembedded.org/g/openembed=
-ded-core/message/190434
-> > Mute This Topic: https://lists.openembedded.org/mt/102526884/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
 
