@@ -1,106 +1,97 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88419C4332F
-	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 18:47:46 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.1595.1699728459246333734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3102C4332F
+	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 19:03:26 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.1928.1699729403036118928
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Nov 2023 10:47:40 -0800
+ Sat, 11 Nov 2023 11:03:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X7rpEJOJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40839652b97so23183805e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 10:47:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1699728457; x=1700333257; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TDD5uq9FABxs1xa8IIdiT1XFU75zNziHvTl8rS/vyqY=;
-        b=X7rpEJOJMhLHwHLtkfCwarvaqRZJFEnIQAxw04v5xhYd6i46GnNBSQ4I6/aWmngpVY
-         ZniQJIJSzxA38XXVIktsCqwV6pf/L7vVZOEu8hRMgUCeMpeL4NPbQ1rkI97bkV2it1EG
-         Kkm/7tQGLwGWZBWyICC9NNjQnchSyDO0P8SZ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699728457; x=1700333257;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TDD5uq9FABxs1xa8IIdiT1XFU75zNziHvTl8rS/vyqY=;
-        b=G+AotVk/ADC/Kd2/2B0y92j+nXrl37GsFOWSatp+Jt/bwie6GCEdkNzvHiHuLfGqdm
-         9tewk2Y21l5L0T5E/1ykkfUAYDrGaa4Ku3bqeL2LRtIy5G/mdOYmj/RPgD9fhvD4IOeW
-         jceSGmPoMEheEDPncIHMfenwf6Iyd2xV1Ndi1PmXf+Ddhe3cObvZZiGZBbzAsaDnbrfW
-         iyGH9Msl8jJBDKCPF8Ziu/TAM0TispxtGk57lqtSGQQZ1Yw/SDN+uOSCr/crrTusIXUF
-         RJNXqMb5njFUmcT4qkL9Cv/pIQUML63gucn5ZJan8/xQaSawAYRPVG9+jW8TAgGlJaeg
-         /Upw==
-X-Gm-Message-State: AOJu0YwMUu23VpLwI+RrytXCJdi0lBvTbfLwYxcvlQ2YtkvZZfeCcvAJ
-	9Fmrx/99RSoVlbxoQ5PNGQahGA==
-X-Google-Smtp-Source: AGHT+IFNxbBhgQrXZEqbAM3JPtb8wud71OF7/2EcqUB7TvrDjQiavmD+sPNAu4DTN/B2MvdGIMqKCQ==
-X-Received: by 2002:a05:600c:4689:b0:408:37aa:4766 with SMTP id p9-20020a05600c468900b0040837aa4766mr2031507wmo.5.1699728457635;
-        Sat, 11 Nov 2023 10:47:37 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:53e5:ae40:81ca:e333? ([2001:8b0:aba:5f3c:53e5:ae40:81ca:e333])
-        by smtp.gmail.com with ESMTPSA id bi15-20020a05600c3d8f00b004095874f6d3sm2888108wmb.28.2023.11.11.10.47.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Nov 2023 10:47:37 -0800 (PST)
-Message-ID: <f0a66fa3f97bf3eda5667077540cbf2900e753fe.camel@linuxfoundation.org>
-Subject: Re: [OE-core][dunfell 15/15] lz4: specify gnu17 in CFLAGS to fix
- reproducibility issues
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>, Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 11 Nov 2023 18:47:36 +0000
-In-Reply-To: <CAOSpxdZLvOAhz9t-m3BeOzpXjLjSELQMJpqn6hCpcxZY2wx3CA@mail.gmail.com>
-References: <cover.1699714834.git.steve@sakoman.com>
-	 <ce826b01d93ac99ce089c2212cb0cbff61cee1e4.1699714834.git.steve@sakoman.com>
-	 <98dcc905adef3d2d828af60abdaa40291abd458d.camel@linuxfoundation.org>
-	 <CAMKF1sqRD+yX+gFHSPhmrdY2nBHpLh24YYHv6HusfkSS5tmT5w@mail.gmail.com>
-	 <CAOSpxdZLvOAhz9t-m3BeOzpXjLjSELQMJpqn6hCpcxZY2wx3CA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JOtQHZ96;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=h0rzPc0w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018bbfc467fa-87cf5ab1-5ad2-4aca-8b49-1560ac81d11c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1699729402; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=wQ5C6N8rF7WyienRFzB7sChvWH/kf6UKNjq5J2YWwks=;
+	b=JOtQHZ96AIuJ9cYym083r7LButonYdkp8MW+dQ0UBGz58/icOvghSyTO1WsFvwzN
+	6s7SF+joRuek6/I12UuLHefA5K4h8AmpQ8OUGDzx9jg8usmh+dXlYeaf3HoOHA8TVgF
+	5qyLYK9lSc5hkeFyiGvrphmI1ScNLJ78SAYPdRCY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1699729402;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=wQ5C6N8rF7WyienRFzB7sChvWH/kf6UKNjq5J2YWwks=;
+	b=h0rzPc0wJvcruuORq6GOMXU5kT1Ix/0sToOC54WWaL5PTh6mabKfSdreYsZ5jRiI
+	l4Lf/z4GN5xi6Ic060ryX/Z9lZ4HrjVUvHpDzObitcEN03eXv+kBNnfqxFGIoWIntGw
+	5E3frubZbg+GHErrr1aLHY6fuOl7U10ChJN53lrM=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] libsoup: Upgrade to 3.4.2 -> 3.4.4
+In-Reply-To: 20231111184432.752939-1-raj.khem@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018bbfc467fa-87cf5ab1-5ad2-4aca-8b49-1560ac81d11c-000000@us-west-2.amazonses.com>
+Date: Sat, 11 Nov 2023 19:03:21 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.11-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 18:47:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190438
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 19:03:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190439
 
-On Sat, 2023-11-11 at 08:20 -1000, Steve Sakoman wrote:
-> On Sat, Nov 11, 2023 at 8:08=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wro=
-te:
-> >=20
-> > On Sat, Nov 11, 2023 at 9:36=E2=80=AFAM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >=20
-> > > On Sat, 2023-11-11 at 05:03 -1000, Steve Sakoman wrote:
-> > > > We are seeing reproducibility issues where gcc-cross sometimes defa=
-ults
-> > > > to gnu11 and other times to gnu17.
-> > >=20
-> > > Why is gcc-cross doing that? It is supposed to be deterministic so we
-> > > really need to get to the bottom of this :/.
-> >=20
-> > I think the previous patch to enforce OE cflags is exposing this
-> > problem.
->=20
-> No, the problem also exists without the previous patch.
->=20
-> Richard suggested the backport as a potential solution, since it fixed
-> a repro issue in master.
->=20
-> It turned out to not be a complete fix in dunfell, hence my second patch.
->=20
-> I agree that it would be good to get to the bottom of the gcc
-> reproducibility problem.  But until we do, this second patch will fix
-> the issue now and will do no harm once gcc is fixed since it is just
-> explicitly specifying what should be the gcc default.
+--NextPart
+Content-Type: text/plain
 
-I worry that if we merge that, we'll not spend the time needed to get
-to the bottom of the gcc issue :(. We don't know if the issue is there
-on master or not :/.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Cheers,
+---
+Testing patch /home/patchtest/share/mboxes/libsoup-Upgrade-to-3.4.2---3.4.4.patch
 
-Richard
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
