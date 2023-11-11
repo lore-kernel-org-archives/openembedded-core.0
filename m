@@ -1,90 +1,117 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 761D7C4332F
-	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 15:18:24 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.53273.1699715900705930288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8FDFC4332F
+	for <webhook@archiver.kernel.org>; Sat, 11 Nov 2023 16:28:44 +0000 (UTC)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web11.55146.1699720122159752195
  for <openembedded-core@lists.openembedded.org>;
- Sat, 11 Nov 2023 07:18:20 -0800
+ Sat, 11 Nov 2023 08:28:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Lnddxo19;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TLumprEJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018bbef661d7-beec15f5-f279-4348-a18b-e5db91f03bab-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1699715900; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=p590qzczvC2AatiNNepveHc4IiDxGl9MByKBLvhKsG0=;
-	b=Lnddxo193y7uJIIzH9A/k1cNO8vSPgppos8CnqX+nI90qaE6nOSwe2gKloeKrpBH
-	KpAvXwt5NTa3h+Utj7JVwYQByy7qiwwQujryPXPaPkz1E6yudwOh62r7QPE+Ifvpe3a
-	Gch/8UxkXdeWeTBIh6rr68Ur2Edbqx9lcdCXSyyA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1699715900;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=p590qzczvC2AatiNNepveHc4IiDxGl9MByKBLvhKsG0=;
-	b=TLumprEJy/tsTIPi/NGzm2jvAxrMOzj1KP2DwbQY6uCMbniZpEEXi/eOrk5mAEcT
-	xuDHTmMczNLpr8gC6FLvcYlBXi+tJ+bc6N6YMiqlwDaQxCd8nZk9h8qoVtb3+1Xf8jY
-	FX9DPZW4vdj3msqr074kOhu2W28Z6l9R0KLw9i0U=
-From: patchtest@automation.yoctoproject.org
-To: Steve Sakoman <steve@sakoman.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][dunfell 10/15] cve-check: slightly more verbose warning
- when adding the same package twice
-In-Reply-To: ef6b9c84a786974cb3b24706d8afd9ae809a6f8d.1699714834.git.steve@sakoman.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018bbef661d7-beec15f5-f279-4348-a18b-e5db91f03bab-000000@us-west-2.amazonses.com>
-Date: Sat, 11 Nov 2023 15:18:19 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.11-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ii55X1Bj;
+ spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1e98e97c824so2116590fac.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 08:28:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699720121; x=1700324921; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R7QucvTawp+GiCmC/ofbJT7ulZL1wyvgsmiFRdVN7rM=;
+        b=ii55X1BjW+TlFAw9ojI20HNdE18agDBQ1cSh2eQQrm10YJ8PUnNCjWGFGwfO1j3FfW
+         XZQOyorJx3Twth9pEcR0KaLfovVv3YVyHowGAvKObgf4gZLoQeuc9uBJhrlpxfsfylNp
+         3fV63Tp/+oJ717NVLLsQv2GxcCY5I+95XHqThB+16LH2XX2OLzHhCWR0VLl4PmktB0Y7
+         672GI67Sy4p8Kyj5LbfL+5vAPy67CaiVkxiDcxfD9LbCFAgKjNKOQjsRDtKNgLLuMxon
+         Yx+H79QXuO5/VlBLa87rZsUp037voJdzqmT+rFpAUZZphPm1Lk6h9+DA+wDAHTCvmuZJ
+         bqFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699720121; x=1700324921;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R7QucvTawp+GiCmC/ofbJT7ulZL1wyvgsmiFRdVN7rM=;
+        b=pnRqOEFlUB0B9GXhQUZDhNouj/Mv8sArvDJ6QtDUwfN3RNEDgbOB3TzVV+6tcbFlDA
+         FnEnx9PP4yOVEvygdtOC/Kq1m4VAfQ1DQ94MiQ29JwVNliDX3mKyBcogXgtCN8pI3Z6B
+         wJ8KXk22HSqjkkNYlcTqOKal2z4nVyLHiFFmlHqk/2px3g+FzkpwfwVS3pxzvJt6NLXv
+         Z9k4Ecm677SI9jNUZd5aAdG+S5q7EYVHW59o2sxHX6OELK4/jzxOcpZubfxMapte46hm
+         WTLRd1J8kQuBr6sr4mxsv+5nObkum8WXGZ+WCaYI3chJhoXmChTn207X8XBKxf3w+KqI
+         323Q==
+X-Gm-Message-State: AOJu0Yz+p+YM3RcEk5xU4wPF/XEwE0GQGd5Clg4OaufogwX0k9/8d9Ew
+	/LHNRkbYoIJiFsfd/sTVtcn9eU4wSKdK825bFyA=
+X-Google-Smtp-Source: AGHT+IHznW0xjhVCloNyoxH9t3uA06pt4iD4rsn81WHMIVPgUbaqQJqlSCjXiTE0zcz9tVkN1tvzpTtpHqOy3P+DihU=
+X-Received: by 2002:a05:6871:5223:b0:1e9:97f2:501e with SMTP id
+ ht35-20020a056871522300b001e997f2501emr2970083oac.20.1699720121301; Sat, 11
+ Nov 2023 08:28:41 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1699714834.git.steve@sakoman.com> <24b9da1a2332dd1dbc80006e36af693ed1161ee3.1699714834.git.steve@sakoman.com>
+In-Reply-To: <24b9da1a2332dd1dbc80006e36af693ed1161ee3.1699714834.git.steve@sakoman.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 11 Nov 2023 08:28:15 -0800
+Message-ID: <CAMKF1sok8EKi8mVTzSPXThJ2n4pom2VSWW4OvAdkYkt7Bz42Fw@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 14/15] lz4: use CFLAGS from bitbake
+To: Steve Sakoman <steve@sakoman.com>, Mikko Rapeli <Mikko.Rapeli@bmw.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 15:18:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190431
+ <openembedded-core@lists.openembedded.org>; Sat, 11 Nov 2023 16:28:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190432
 
---NextPart
-Content-Type: text/plain
+On Sat, Nov 11, 2023 at 7:03=E2=80=AFAM Steve Sakoman <steve@sakoman.com> w=
+rote:
+>
+> From: Mikko Rapeli <mikko.rapeli@bmw.de>
+>
+> Currently lz4 uses it's own defaults which include O3 optimization.
+> Switch from O3 to bitbake default O2 reduces binary package size
+> from 467056 to 331888 bytes. Enables also building with Os if needed.
+>
+diverging away from package defaults means treading a less travelled
+path and prone to errors
+this could be the reason for the reproducibility problem that Steve
+sent a patch for.
+how does it impact runtime performance ?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/dunfell-10-15-cve-check-slightly-more-verbose-warning-when-adding-the-same-package-twice.patch
-
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 91 characters) (test_mbox.TestMbox.test_shortlog_length)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit abaaf8c6bcd368728d298937a9406eb2aebc7a7d)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> ---
+>  meta/recipes-support/lz4/lz4_1.9.2.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support=
+/lz4/lz4_1.9.2.bb
+> index 0c4a0ac807..c2e24b518c 100644
+> --- a/meta/recipes-support/lz4/lz4_1.9.2.bb
+> +++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
+> @@ -23,7 +23,7 @@ S =3D "${WORKDIR}/git"
+>  # Fixed in r118, which is larger than the current version.
+>  CVE_CHECK_WHITELIST +=3D "CVE-2014-4715"
+>
+> -EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' DESTDIR=3D${D} LIBDIR=
+=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STATIC=3Dno"
+> +EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' CFLAGS=3D'${CFLAGS}' D=
+ESTDIR=3D${D} LIBDIR=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STATIC=3D=
+no"
+>
+>  do_install() {
+>         oe_runmake install
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#190429): https://lists.openembedded.org/g/openembedde=
+d-core/message/190429
+> Mute This Topic: https://lists.openembedded.org/mt/102526883/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
