@@ -1,135 +1,143 @@
-Return-Path: <lukas.funke-oss@weidmueller.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E341EC4167D
-	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 14:02:09 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.71])
- by mx.groups.io with SMTP id smtpd.web10.37240.1699884123300484584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF4B4C4332F
+	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 14:14:19 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.37715.1699884854174058820
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Nov 2023 06:02:03 -0800
+ Mon, 13 Nov 2023 06:14:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=GSVbl0if;
- spf=pass (domain: weidmueller.com, ip: 40.107.15.71, mailfrom: lukas.funke-oss@weidmueller.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=StoLPtChOZMep2iZGuZj/46Eefo2CR+zOawQBNSmiA4HqzQ6xP48KFi8C7vTjEJV+5dPek4mbFwdRJcH6G0hzNNFsgeP3Yvh0QOw5j3O11FUKTFMzFGVUbyQkZSNCzfN3/waPJnQOTvzeaOS7+kxvCAIw2ewUJihwj5iJFgbAufVQjVIs24jUWvKVJboxYWQpEAgr0RtbBnw6mk8qiZoM5UW0e5xRzaqntm7ck+o+peClwRoCyaAtI4WRplOiNEEZUflbnbp+PVEVPmHRnmyZywyFroc5QNsyPlxDi7U3H5056yX5Zi/XsEO+n+kOXzr9qk3GGR+tAWdJnZUVu4UYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IVclCLsjhAqZnqaqmxDdA/oqJevOwMzfPsooz9Qv4hM=;
- b=dKY+GdqdXd5bwRH3mGSZlKqdayjGkwwiJGc+966Q3SPXg7Vaiiijkb+1lpBzOiS4IP4hFa2TgUAyFx/p0zEUifa50eDsLvkD7jrc7WIItlNDjQXk5KnptpGVE8J083CzoflK3F76gY+TwrBdz1U5e1htXQSn0aT2u0qz8VYLQlC/kxUN+MuLpzJ9SRt082hntPMMvK7tVYqzIwRk8B5/MdPxzNIEHGWG/89pibCTjReMp8z1PtX4rZr/8FPhuUnqHJJ6ZbP8G8r52MnDQHbIZpe22xm3QFi7hSMFDGlWE3VVe5K92DwuQ4/cOQkd6Q35njMO0qJill+n4eqzcD/gqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=avHWOY5H;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.42, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-53db360294fso6976920a12.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 06:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IVclCLsjhAqZnqaqmxDdA/oqJevOwMzfPsooz9Qv4hM=;
- b=GSVbl0ifBclhdAYHuKak/hLAuXNvf9gJOq0UIwIGBov6zN7q54sY+Gmuf9oUm5c+NHZ1gD9MzNcQ4baAhwNiHIm/s1Rny7PNrdyDHcnJT7LkUPf0OOmNvfDvCBDHLaqsBdAcijfJvB9/WXpgeffWJd1rqfC5kOk5cwZwDorjU2w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
- by AS8PR08MB6535.eurprd08.prod.outlook.com (2603:10a6:20b:336::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.29; Mon, 13 Nov
- 2023 14:02:00 +0000
-Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
- ([fe80::b914:d9b5:6462:13b6]) by AS2PR08MB8431.eurprd08.prod.outlook.com
- ([fe80::b914:d9b5:6462:13b6%5]) with mapi id 15.20.6977.029; Mon, 13 Nov 2023
- 14:02:00 +0000
-From: lukas.funke-oss@weidmueller.com
-To: openembedded-core@lists.openembedded.org
-CC: Malte Schmidt <malte.schmidt@weidmueller.com>
-Subject: [OE-Core][PATCH v3] wic: rawcopy: add support for zsdt decompression
-Date: Mon, 13 Nov 2023 15:01:54 +0100
-Message-ID: <20231113140154.1048359-1-lukas.funke-oss@weidmueller.com>
-X-Mailer: git-send-email 2.30.2
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: FR0P281CA0129.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:97::15) To AS2PR08MB8431.eurprd08.prod.outlook.com
- (2603:10a6:20b:55a::18)
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699884852; x=1700489652; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d2SefdEjjWuzCSntrR4Hs45kFU0mDHGytyB78DQ8Uh0=;
+        b=avHWOY5H+YH/f8FhVnda1s84HhEO9yeKB4rDPSX9i3Ca4xEJU0fl5VkGcR/sOKLT1w
+         3k3+myKc/sNWQ9Ziv6jS0obx71P0IwRSK4w2yUpzWLMY6xagEg5kHTGLnX7YbV/0HHNm
+         r4yYwz6tq5u3VUIv29zyjLNhLCj0Yi6Sdz6LbY3jl85Rfup/pT1bQYAf5PC1dmn7NFWw
+         AIse8Q65Npzv1mJpFAvFsobMoFnrCxiqmMBMf1xeeYqJ50/RH8gBT/sqMaIhQX+IU+Zm
+         b54wxlHoldX7662QIoeCA7C5qmkKInX8gJH4WoG3NSnnnTlgG71A8x/MW3Dx+7OpsmD4
+         nOYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699884852; x=1700489652;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=d2SefdEjjWuzCSntrR4Hs45kFU0mDHGytyB78DQ8Uh0=;
+        b=hemEfhW8TLs2dBwV90TqwETr3asdBQ+xUlribSg6BAEr7C1R41kldMHZpSuL/312UF
+         UtlBrS0VQYU/jd6VG3YNQON9zmWIJr7o8pNiErAbbOJKbKkTK7a7XDewu8Yx5lx16HH7
+         oUt2Qukl4P6c3K/q2VjEsPu7srL0+jXoPctyT89zwPFdJkbnC1jbrlEceI+SzquyK+0a
+         BdSOQEtgDbk+MRu1mVmRmexSL0yHGKUjUiI9MrLN00Zw0ZlbS0EcNLidJZWwITobuJOg
+         c10Li7+w2dl9xqNrnGtjC18a73CyQ9xFJRXYK2rUfro8vwQt5DIIy0WCB33l3UDIcmSx
+         OF5Q==
+X-Gm-Message-State: AOJu0YwgaJYcjFxGds1KANt/pGv+vRuG+D3iAOdc+rjDuxRsfoJsCtTE
+	wpOd6WQT6EaGrsm3RLkH4S7cKiyDUr207ekCoJMgQg==
+X-Google-Smtp-Source: AGHT+IFZvrn3g3/JWf3yV4o3LSWk+Qj8TyGsGEGEGVzUIkxPcgcdH2hufW4I9wC54QXa6yx9wewXCDEJDr47hCH0b+w=
+X-Received: by 2002:a17:906:6806:b0:9e6:b485:cb2c with SMTP id
+ k6-20020a170906680600b009e6b485cb2cmr4604252ejr.72.1699884852170; Mon, 13 Nov
+ 2023 06:14:12 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|AS8PR08MB6535:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2bbd42ef-5383-4371-f13a-08dbe4511af4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	pGkMIqz1fuOxQ7uBY5xIMmCeuvgMrDFR/ejrGVn0tOiU6uWxly1rkubLHrh+z1yrDcZzo1V91/qH5CoH7RAZYNgw4+5WhzDkCZe2Uut2QMklhBZIPmeqJlheuvS1kFRnf15qzX75pJxQf70bjMa9L5rQ5tELWrf8+ed1dSRRWqc8mhU0DCj1WIXwj+hWJ4ALM6TBrIx4tcy8t4pkNI2P7aZWR8MDj0oqqfCAIoT/3AjSu4/CTdzJMMmEtUkQXbiZ3LehwgyIxkGRAmw/wDl07PWdExDyUhao0H08gB7sOg56lJrbLNXGfnKKXV5Domfo1O2VUaHBaMCSGOqXkPTM3754h9Rbp8gZriPQO4TMkxmd2h9MNVcVk+5BoHzJy6gm4HGxxkrlsbRiV9NBw9CBLVu7mmBevDsiAQzS+WIqsY17J2uzY/62zXLGIZ23DV++MkfFir+GR1o02Jp2RWo4EEpSfEq7hDY9fHbwdnkSKbmzUc9C77YWbYU53jbrhBh1tmHld9+12W6OAs62Qdfc7cDD1GqeGpg/FYqSBOd/ArWqlM76l8RSlvFTiiLs2Ygq1nY+bSn6/+KvG2uZsqas4q/F5N0/pO7cCsg1L2SjHzU1rf4MUY+sadc/7peE80p5
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(39860400002)(346002)(366004)(396003)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(107886003)(2906002)(38350700005)(1076003)(4744005)(2616005)(5660300002)(86362001)(41300700001)(26005)(9686003)(6512007)(66556008)(66946007)(66476007)(6916009)(316002)(38100700002)(83380400001)(36756003)(478600001)(6486002)(52116002)(6506007)(6666004)(8676002)(4326008)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?1xuGlJazuNn43ZOPVPdP86bnkAL9IwZ3ldSg71m1QfPyOsk+jvFG/lfsu2xf?=
- =?us-ascii?Q?pAdszycHkQphg9kJQJJB5og6C6Ol39rAdfxPLOIUayNCq6KsK5Py+kd8E1ON?=
- =?us-ascii?Q?Z2jfMGMec3aPjAp7OVskrpfiLnJp+ZxWlSwnQYneqy2uBW3eBpVDVsFPSlRO?=
- =?us-ascii?Q?gJmTVAzR3qQsOLUII/f4RXFqeHPp91xpANtbr6uka86JyWnt4h5bq/CmZu5D?=
- =?us-ascii?Q?hf7nLldfRLo01gktXNCHJgBQQEAXGQhqG89w0mIdBP+NsOuZAFc3IA8aZJbr?=
- =?us-ascii?Q?2MXhVFXECspndwYmU2rYSxwsKRa8+rv/AMHA6QB2gf/AyZI4/HKWfCNWPI0B?=
- =?us-ascii?Q?D8pznfE/fjdA9y2kQ3GpMMEGURti+xsSWYoS+IuYitO1S7SHIvOsvnKcQKOg?=
- =?us-ascii?Q?Nxi9xgN54vcb15YRRaMvbH2HZ2WAhoty/82c3RhOP5suvoktJfLoP1QfbVeL?=
- =?us-ascii?Q?KkzGq5l7nG33yjwj/pPwMbqhnHbHR0SoyuKrpGedTKkPFPfI2S/qPU6R271M?=
- =?us-ascii?Q?fWyGFZh4RKRGImfV1qFQpTZpfxa6Upi8IT2zP5lu9i+G+nOVHOqp5EvS1NLV?=
- =?us-ascii?Q?RTxysmY49M7K/agTRoPm5151w0/KTpzXtBwi0Pshe40dq8aNbVt/eNYPvJP7?=
- =?us-ascii?Q?HswWM0vauSPir8eDuFieG5AMgr4rACpe9OaNIk7Ih2LYyYtVwXqES05u9ztd?=
- =?us-ascii?Q?LM846PhHvKPT/RWrZRQ51SrUYk3sxyCkJmpih5PihLxs4yP1QVivhVFr8Cty?=
- =?us-ascii?Q?RpqLorL3/9VNoA23ns7v1AXzQJOu/I3uA8YnBhH1tJPzacMGRtFNH6DLSbZn?=
- =?us-ascii?Q?22Nlb2qDvqL7BMzHi6UVk1FZNtxdfDVt4EZGLDkNIYVlU3BzUZgeU1hvP6xm?=
- =?us-ascii?Q?Xk7qdaHfq8s5ctksyd1ZENJCDMGW29czAdUdfr5AvcybZGJmR1fqjl5oN5Dg?=
- =?us-ascii?Q?KeIgLluOEWL+nzX5jQ5HvE1g0Jbrk6rq1om91GggZjdmoDQ2UmYvrERxY38X?=
- =?us-ascii?Q?uH/MLeAC2VsTPsp572Iyf8YYHZQaLy6JFLl3j5Uiar1HwDxysPS9wm7dcnbn?=
- =?us-ascii?Q?88KilbqRRhcox9MDAx8/3wREZ7QBMnd4zcTeoDfTWRPL6zuf5vYb1FunjFVI?=
- =?us-ascii?Q?64VRX81kdxlmcAUQQto6cr7mEA/VqVCgZAMSdiqy1y8QXsiFJiOXjkz3JiOo?=
- =?us-ascii?Q?aMY5wzSzWFlGgOtSQeR2RZJfAVQXNWE7sn61eg6PBZI3OUiAbHPY9bvqAKlZ?=
- =?us-ascii?Q?xIoiXzuvyjVvOb4IFGFw/e5vZE/PFV/P1WDJ5OMdpxYZ9J0bhKranyP5Gl21?=
- =?us-ascii?Q?XemBz59XRKTuhr8ZY4ENms+hSTi6UUdSQ8i4lV3AoDGEQUbJXmoU+aDpNsbq?=
- =?us-ascii?Q?iBMFxQswWmPdZ5Ca/0khttDAKIOwX1NBFFh1D6rbuSVUI45LQlEdbMyyXoJk?=
- =?us-ascii?Q?gGTIJgb9fei4D9/cGuE4aygMwtO4xSw/CfFGCk8bKTVZTtZoF9Tsm1hfhG81?=
- =?us-ascii?Q?sRlgrqCSpYs498r3ytBvCsnCUM7xML+sfTipj9Ia2h3C+pKbOJO8p5Adu39m?=
- =?us-ascii?Q?Ky8gJ+VmTOE/iKZX4cdL6gqsunbtEyiQr/K39lKkKLpuWi7zhgQYOLqgFmxJ?=
- =?us-ascii?Q?GA=3D=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bbd42ef-5383-4371-f13a-08dbe4511af4
-X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2023 14:02:00.0314
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: e1/kKO+gE7h5fmeQC0VdfgZJBn7KxySDeuDQI/tOfpu9G0f0ZBMYi5JVbczyBccy4dD3XEid+9tAfsMRpwJSZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6535
+References: <cover.1699714834.git.steve@sakoman.com> <ce826b01d93ac99ce089c2212cb0cbff61cee1e4.1699714834.git.steve@sakoman.com>
+ <9d7f39468c47e3ce9f15729562cd69f74b064f15.camel@linuxfoundation.org>
+In-Reply-To: <9d7f39468c47e3ce9f15729562cd69f74b064f15.camel@linuxfoundation.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 13 Nov 2023 04:14:01 -1000
+Message-ID: <CAOSpxdZ6CHz=PfNb19RmuagChYoBNUu1H_FX-5qwOm62PTdEmg@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 15/15] lz4: specify gnu17 in CFLAGS to fix
+ reproducibility issues
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 14:02:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190473
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 14:14:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190474
 
-From: Malte Schmidt <malte.schmidt@weidmueller.com>
+On Mon, Nov 13, 2023 at 3:42=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sat, 2023-11-11 at 05:03 -1000, Steve Sakoman wrote:
+> > We are seeing reproducibility issues where gcc-cross sometimes defaults
+> > to gnu11 and other times to gnu17.
+> >
+> > Specify std=3Dgnu17 rather than leave this to chance.
+> >
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-support/lz4/lz4_1.9.2.bb | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-suppo=
+rt/lz4/lz4_1.9.2.bb
+> > index c2e24b518c..8cf71fdc04 100644
+> > --- a/meta/recipes-support/lz4/lz4_1.9.2.bb
+> > +++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
+> > @@ -23,6 +23,7 @@ S =3D "${WORKDIR}/git"
+> >  # Fixed in r118, which is larger than the current version.
+> >  CVE_CHECK_WHITELIST +=3D "CVE-2014-4715"
+> >
+> > +CFLAGS_append =3D " -std=3Dgnu17"
+> >  EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' CFLAGS=3D'${CFLAGS}'=
+ DESTDIR=3D${D} LIBDIR=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STATIC=
+=3Dno"
+> >
+> >  do_install() {
+>
+> I've looked into this a lot more and I'm now of the opinion this is
+> totally wrong and definitely should not merge.
+>
+> An example failure is:
+>
+> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231109-ch73k=
+tqp/packages/diff-html/
+>
+> First, it is worth noting the huge size difference. It appears debug
+> line information is being missed out. The difference in cflags is a
+> false lead, it is because crti.S is compiled with c17 and the producer
+> string is being mis-compared, the data is missing on one side.
+>
+> So what we're looking for really is a cflags issue where -g is going
+> missing.
+>
+> I did check older failures which look similar:
+>
+> http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231105-_xpb5=
+75y/packages/diff-html/
+>
+> Since we're looking for cflags issues:
+>
+> https://github.com/lz4/lz4/commit/7d8d1075e696d585238e6aa6a4f43dc759da250=
+e
+>
+> looks interesting and leads to:
+>
+> https://savannah.gnu.org/bugs/?func=3Ddetailitem&item_id=3D59230
+>
+> If the makefile had intermittently picked up CFLAGS from the
+> environment, the output would be identical to the previous cflags patch
+> in the series, which would cross link the hash equivalence
+> inputs/outputs and could generally confuse things.
 
----
- scripts/lib/wic/plugins/source/rawcopy.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks for looking into this!  I will remove the patch from the series.
 
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/pl=
-ugins/source/rawcopy.py
-index 7c90cd3cf8..82d38fbb84 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -52,7 +52,8 @@ class RawCopyPlugin(SourcePlugin):
-         decompressor =3D {
-             ".bz2": "bzip2",
-             ".gz": "gzip",
--            ".xz": "xz"
-+            ".xz": "xz",
-+            ".zst": "zstd -f",
-         }.get(extension)
-         if not decompressor:
-             raise WicError("Not supported compressor filename extension: %=
-s" % extension)
---=20
-2.30.2
+> The real question is which autobuilder worker is compiling without the
+> -g option and is it a make bug? Perhaps it doesn't matter and we just
+> need to force the input and output hashes to change to stop the errors
+> once the previous patch is applied.
 
+What is the proper way to force the input and output hashes to change?
+
+Thanks again!
+
+Steve
 
