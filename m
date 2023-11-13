@@ -2,30 +2,30 @@ Return-Path: <lukas.funke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1F1C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1380C41535
 	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 13:58:09 +0000 (UTC)
 Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.49])
  by mx.groups.io with SMTP id smtpd.web10.37139.1699883879028211034
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Nov 2023 05:58:02 -0800
+ Mon, 13 Nov 2023 05:58:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=Mr1k6UL1;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=4Wssf5Uv;
  spf=pass (domain: weidmueller.com, ip: 40.107.14.49, mailfrom: lukas.funke-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jglALReb+bQe98Yvdf3kkgPpRGEbNikQz+Sc6ZiQlgrF61eMSkJDufZaOWyc3qJwdJjfHmdnByXovtsS/MILUa1MV0EA+P3LWlt4t23Ig9DYLvtUdfw+rIrVlxPc46G5z4NLr8EqsvdVSBqK5gpgIWl9dFNvrrBr54pHiyWtk9LWNVNHIk0vaf0iAlGRK5m6lIWoE19TNv2z3NJPbl1ze0jRnbuLDk2N0sUzoC9ycvDqklYb8BsEtawTBj5/ZGFgKPuLE+HngATmtv9z+vV90LmoSdDyPODhlovxhJ5d0ZuPretxyJE153me83tn8j8xIsXXSj1HdJ54X8peZp/m1w==
+ b=UvS2Pb1GCbj545jwZ/VQ3hGK5qAdNcT/lsp/SgZhghziY9TZbXGit+PtLOjdXUQK2I+Iz6oP4WAXTq0F04Zfqow6YW+kLQg/bmhSECqRn1RYG6vO8yzPGQlwUHz2d6jMH6y/0xS0hWkzDwjbdFNgejqRC7shSXBvS93INYMAM8FWgG2HXQSWmQ/qu/ZU1YwlfUs5s3TwqcIQ+68UuLlFw6v+hR+eeimiAoEJelS9dimjNcxm3Sxbt/vUvNT8DRFfEkEPEwNOduZ5atU1pAh1jtKAjM7j3BkP51SuhM+PJwlrjASBy0la7EmsZqhPTWenWEUOffekxziaFVPnGNJQ/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sFAdQdFbn1YtPFJdCaBXjkO9R5Kbb9nBK+eCHRIyBDU=;
- b=BevHTrAQMmaQogHsidustnM/uTXrZonPucyCly0P60jEj6EO3uRbKAx/w6FoSwiKOHVyD0mw2dHiXXMHNVgpU7i+754ULHm1yb0B1tTLij6VYSj2vHArUU3SrPtSU1epPOHbmbg9oMY2LGe8oUIa2U4FqG+Yct1VEYXuEo4MGdtDohtp2ZKZ0aBcS1Sh6Zuem6Ogx+IUo9JcAW7pZxEbxfW1iObMpJVBgprXupCOSEPGX/4r22w7l+bIzv4nFOXEkCz0P07IteTLGa26Uhywo3hV09C096LEv6dTLC1elBQVC5c0cYfPBWV6iY6GSOee3N1sHOKvzQiRsQX28teoWQ==
+ bh=/2AJxhzLaXYaAlFnc7kzEYCGTMO0h/neppMo9L1u9t8=;
+ b=XwJRVwBY6gVhh2XW4XAXggWy/XTEqXvL1DGBfUB8PAfIoYHbpUY1iN5GE0ucTDxlfGPTnzft9yYVdF8YPn4Z/rac2i2eN0ptV8c7dE2ULRcAR2t3uNkUT+8QD9uGAqSb+g6pv2C8QyiSfDb1kDV6E60ZTs/N/hxzXJoqqVYn+otSlQLHZisL8XWLLzZmuplyOCr+GFjO0vAAAWNIJ0h/SWiigKK1uw9+PKCUwQC0V+K99gFIBDtB/qAdqxplW5/p61DXb4Ajp6gbWImYgyvcp5S5IHPuHjwsC6AIa2lhBgJ1Vtl0hqClgWQ0dkgeZzZWI51vTj0cmUrVyvdoiS+ipw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sFAdQdFbn1YtPFJdCaBXjkO9R5Kbb9nBK+eCHRIyBDU=;
- b=Mr1k6UL1Tiwki3+hn/+SMPn7GLXNeuxnknqz/bljWxVxWnnTxUAPGFU5qM1K+UylwU1xfay7QRuJmJ/vkwUGeOXlju3JxvVccu9ruw2XVGYx7yMQ4eWErjxe8MjMziav9cKt3O8ICByc91Wha8/yOs4+7uaH4SU6Y16YLljYiKQ=
+ bh=/2AJxhzLaXYaAlFnc7kzEYCGTMO0h/neppMo9L1u9t8=;
+ b=4Wssf5UvrJFT3D1k1h22qevJZviyQx3KDXUBe2xjZIOwkTXcSzDZmBocOQ5XRw8SyppWRjdBF8rhEJf1zKdQsjucE1NFkahpPUdiWuCATzDAYH05ipIBndkO5SYJkM1zMtSlJLxGIyGCvjQPSE98BAbnGcTDlzpdrgdsPdaFi0k=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
@@ -40,9 +40,9 @@ Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
 From: lukas.funke-oss@weidmueller.com
 To: openembedded-core@lists.openembedded.org
 CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [OE-Core][PATCH 2/2] patch: extract patches with all-zero hash
-Date: Mon, 13 Nov 2023 14:57:46 +0100
-Message-ID: <20231113135746.1047416-3-lukas.funke-oss@weidmueller.com>
+Subject: [OE-Core][PATCH 1/2] patch: extract patches without diffstats
+Date: Mon, 13 Nov 2023 14:57:45 +0100
+Message-ID: <20231113135746.1047416-2-lukas.funke-oss@weidmueller.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20231113135746.1047416-1-lukas.funke-oss@weidmueller.com>
 References: <20231113135746.1047416-1-lukas.funke-oss@weidmueller.com>
@@ -54,84 +54,85 @@ X-ClientProxiedBy: FR5P281CA0041.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|DU2PR08MB10040:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83d9fbda-356b-44ce-1d9a-08dbe450891c
+X-MS-Office365-Filtering-Correlation-Id: ba812a61-7cc9-4d18-1ece-08dbe45088fd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	O+SbO96T6ok8kKVOZuFj2cJVEujFsERIQdF8UEePWlRGy0mtw0JUO++9zfrq9y5Vm3yHw+0FYy0QrSYsexazU04NNdrxWogDRBXXNRtI5FseZQ17jh7GjagfbhM2iKJphhxE/bP3HmjrN4OgsPMG8N32rbNT28OU+KLE75fNBK+vNCFhoZURY4ClVyObEearqpzu8jK3ma0kCrjtypHhXUuwYSNDwvAiU1BIXyvobxPeBhepHePmzJcVKgqUnHc2qgswPAo4fTJpdnYwikUTSnJHzjH22a72+HT1lmlHGaL9NxdQQ4U9/LfupAujgOgHH7stKM3R6EX4LXxUSfQusYrFOKE4tx3QrIwv8CDobcVT4SNF2V0mI64AUCoZBpT/TdcecJVUHcs4MKaNuFmXleOIGmx9N0PTv+KkUk4PF0tuTJrR50p0CLjtQvdFXeFLHOeC6uEKT4qhOUZN8nL9EDjIWsz3AgXE3JTVZMWvAXQXf7T8CqjnTIRgFzGQZ9DSBXU8DrHlqtuD/EZcEhueN3QKx3T4dp+gJ2koMF36NqFZlBTxxAPRKb3sDxCIAGzEKFwm8Dv3LK1M1z2E3D6Blz0qVVzykiwpXvYBHsanPhxA0hreHPcSMrfUixpG2O4m
+	BOmBzGnguUKqqNfzmyM2BZ9lll30ZQia5OfSmJaZ5Ev7Esb8wKD6CBw4213wuLSOV4VvkFRd9inIhaRBGkUU+/acBaoBui9922xEb/PkOuwabi2feITNBQJEAYhDUpRY7IbsUd/znTbr/XBG+G3YBtZxFU278rspPnC9z1+xOMXETRYvRpRSVgdpxBEv3qEvMEa+Lg/8+0rTfkWbB5l0LJVjkTkNNJGz4rb8qidlAcClj3sINCgq/lzGzlmZc5APTfV4DcOj9F7gt4mWkFfi9En43U+RRVuKuxv9E9KpcjDHAjQKxKmJRdnnyj2KCKOrWKVfPHdVNQyJBAyI6oBGzOMkkr6oA7tFYIcJ+eY7hv1KSYv+QJIg+utYldlQfgUGgipoERUVCGrq5rRUCnfyyuUS/HgorXzRvE/IVWCG9frdpNWkAKNEktpKG+y/KDEjNxij+bcQNY2gcWL6bSXIiTp1s7KmDBVr8kw2Yh5crNP2ZkivHfpr7BXai0287Ctu5J6V9Vpdezjw+ojhkI/lzIBevRyVwiplUeHEFdtl4S8VkY8FnhFMUJHU3KF7HwP8UELLBSWwMtq9ux5KzCjDsRDNDAy86Ocbb+/v5OkiwKwj964VLd8VS8ioGrubl/U2
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(39850400004)(346002)(376002)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(316002)(26005)(107886003)(1076003)(6506007)(52116002)(6666004)(2616005)(6512007)(9686003)(83380400001)(4326008)(8936002)(8676002)(5660300002)(4744005)(2906002)(41300700001)(6486002)(478600001)(6916009)(66476007)(66946007)(66556008)(36756003)(86362001)(38100700002)(38350700005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?dE59ZAsuino7hUfFkt9401Sb/6mwpr1jv9l7qBtP6ebmg/UweryNJoTSFt/A?=
- =?us-ascii?Q?FdjnZMYaT0wUAAZHF7b8z3HyuaXjKRfK3BKe8hRTW9wck534if1/hnQNDgUV?=
- =?us-ascii?Q?cAy29GQKOARYiwnRFIHrsEqFmB88+oCjSfCx6vdfV/S327Ilihhq9FSj07xU?=
- =?us-ascii?Q?EY+rNiud2nOrBh7euJo8ssD0Wcy3WGP9uy5BfFve8wKeKoJKiO1Gnpl3jtX/?=
- =?us-ascii?Q?44iqlYQijDUpQDSokN6iG3XLByA+ZeEXv1e5/FxmEPbuBd7kZs93AtN2ZG7K?=
- =?us-ascii?Q?sSMmA+wDwgZy7CwwlbFdiKAtRUCA18WTvjLJjg5kmjWeqz5IM/GQoN/G8H5M?=
- =?us-ascii?Q?klKs+6egpDLygUnoMSx+r0u6Mtd4TAcj7gZ5mnVzVvFBJCEr7j4+3nOgO8jF?=
- =?us-ascii?Q?djfjyq/p15K8n9AFcGx/I8AyZyk9aUie1C++mDKVVoLIblwPPtnrV9Zy/JUJ?=
- =?us-ascii?Q?ndHFUDN0yB38qEZXfr2kDKiJFHsU6vVXhRqpaMqexe0HRG/ugkbupaYL+vo3?=
- =?us-ascii?Q?KkaanDPoCq0Gz7csg5vpO0mjQW1eS80qmsub5OI9tMIwfnCJZSrujjKDXRCp?=
- =?us-ascii?Q?irRtdj1Ovw7iH7Qen83/zqMX+GvjKczjQwZ0DFuDqa4D7S35aFGIcaJ3PyUN?=
- =?us-ascii?Q?qBR4uHiatGfAlQtjTYSK1yOD94dCcLAGzYFtZ8oTl287nM3WqAc8NVmHRdKL?=
- =?us-ascii?Q?7WgQv02ruLseLKBxApRl7FAHPQyzwme92s1OQ7D8hMAOONCpWN26AD3/mgeN?=
- =?us-ascii?Q?/HRttZyWREa76qpFMZ3P73ikh6zyvvAD+9O7VybOZ41LZBYeyrSQ+JG5AFk7?=
- =?us-ascii?Q?7/OFFoVFkI8Y6J2kh78+xJ+rAbpSl+q1cyG/AoR/1Kl3Akm8VglLKVioW2J7?=
- =?us-ascii?Q?8YTG1WVISBuX4NeSPzd8dJ2EYcRl55CKRXbYMJIvO5i+bYFf36dk6IdpGQjG?=
- =?us-ascii?Q?FgxFcQvnGmf7GOD0RnMWyZZOQE7qw1M5DUvv0UsubqNX2j6RZkyDBk9d5pS0?=
- =?us-ascii?Q?OHUVawoBmTM0HRSmBfofNq0o07eqnnPQGXrgcJ05zUREF1fxvawMYdHQbB0a?=
- =?us-ascii?Q?Iyd0lG9MoF726sPIoLAh75wxn7+uZfP3TsuxPGrFWRIz8TgEY3lZRs3RO2pa?=
- =?us-ascii?Q?Wiyrff0n41xoBSZKwJ0HFcFuhLHcYiqm1A/GRn+LpQJ7ITOOo+NrAwTKnzcE?=
- =?us-ascii?Q?9emwZtQEwcQ8eGXJWru8wJ9C+qJER5uNWpyjo9EXWr7BBpIdAujKVZIcwhJE?=
- =?us-ascii?Q?SO9k48BFtpUrnpiEWzgq3wLTRH61AID1bU2LsrafSQxqhPKOWKu6dqLzO2e3?=
- =?us-ascii?Q?wSExbHgsdsXuLCj2uJBDgAey2/9s0ue3TS4mQHq23rZLU9N3v0VU1CAyS+EB?=
- =?us-ascii?Q?DZ7mgXF+FoK7Nw4MEiRaY9nZmKlJv9wiDjRqFOjHiq7NZAerJEv7qxybR2OY?=
- =?us-ascii?Q?MfaHlzMXG+MP0pC75HHK9Q9ex+xZbjFzkGE64fOY5q4ivr6MdHqaOsKoUUSI?=
- =?us-ascii?Q?ekPyWc7hw7qbZdO4TNC3Rgr+Jroet+W3moC8m0iaaQcbripSCmV2fbyxaY2A?=
- =?us-ascii?Q?lWRWQ5As5ydG+o1VjWOov8RsJ5neVQkRMKrlwKg1fNFx4kh8XVFOJ5V0hmQi?=
- =?us-ascii?Q?zA=3D=3D?=
+	=?us-ascii?Q?j7ezbeJKbU+2gT0chzCLoQN3XEFryb4JWduPsXE8wNDPqvUosGagvXEywoAY?=
+ =?us-ascii?Q?Y4yWWgfd+I2/BWQ4zAypbqUcZ6h8VmnpPw4vQuT1CxW1JouDI6qUgu/WK6xs?=
+ =?us-ascii?Q?BJIjeO75f1K9EJ840MYBN2mAJlJEDrd6AlPm8PBmkVkMJ4F210CfM1TlN/Bv?=
+ =?us-ascii?Q?mpcCzBfVp4WLr/+TxZS14uE9UX/yxn+ARHdbeWglSHNwhr00qumyGbM1bA1m?=
+ =?us-ascii?Q?jJ4InTOviLsqaA+f2aQtaDCtdncttv4HqUDhcP9bof4Si9/B82XNyTSd7y+e?=
+ =?us-ascii?Q?MpW1miZk2FfNzjZKxPyUhTeygaXZOhhEToXXX65fyQoPEK8Vj/sKQuRj//9H?=
+ =?us-ascii?Q?f7vtOefljCYM+CetFDCmT4oAOoW/k6z767l5C9L+rGRIH/5uQOTPhL7aZB3u?=
+ =?us-ascii?Q?pJ2p6AEuw11Bo1/nGkVoFoqMj/y5agscJGq8orwp3wMqmbT5VeTHmxNZRG6D?=
+ =?us-ascii?Q?GYyH9E2GLrVnXAqSLucImZEu/16oqHWQJimxU5eBaZByB/D+mtFRY+tu2UW9?=
+ =?us-ascii?Q?yZ3NpaoUrEQ/ejR7xIZKpi9hJWkQCcAyLEN8kem2QeRezMsxLs2sRykSmQDr?=
+ =?us-ascii?Q?y1qzh0AW2zPT48wxqLEgcjIFa4ewhzZbTEPBVgtO6RvfsllH2Mh0sz8XXg6J?=
+ =?us-ascii?Q?WNkQ8tMLZmbwijXURXlunaewZp30btinB41bQuLh2tZxtoL7g0gseUW9s/9t?=
+ =?us-ascii?Q?lAA+gCR4REHDBBHfh8l6KItQngqojsJN5UMAd6KjolwujOiY/1J+JKwWa/Dt?=
+ =?us-ascii?Q?/i7jHfBgCu6H9qlOfvFODMHGTyteJcG9vuJBQMcYq0vA/uK/BiXTu8IDM1Ty?=
+ =?us-ascii?Q?re5nuQQq4JSoVr7WW/vRsdh+zkkp1UGv3J9GDxdOrdnaQx1QeHrf7ORltktQ?=
+ =?us-ascii?Q?liCudwKr8/VmQp2ebZPKHA8ecDcSrERjgnNt6VSGIP9wLdgPHUqzM1SfTeP6?=
+ =?us-ascii?Q?tcR0St/Lr09FcS85/oPpUxpy9aHIMPDxk7azo2r11jlMt7FNVGoX0JdfxMzB?=
+ =?us-ascii?Q?diY4Zb7s7v4eJDcCu34g+o3p8N8RgkS5bqxNjPt7GE2Cglkv8YCisfOGhtXP?=
+ =?us-ascii?Q?pc9+VNvR/RJ4E91zjKT1/UfLwuf9VgaoULyBk3VxJv0yTxm6+OnR/A97tGVZ?=
+ =?us-ascii?Q?CmA/7rG2oQoCe0oiwFU0Y/W+CgCgU796RZekkC2yTVmzD3lqaguRiOlS1yPU?=
+ =?us-ascii?Q?1TF/6s2/bX5Msft2WBDIrWYyHzV9G+lAJENNU1uU+vGZ95k/g7cqNb+ejeN3?=
+ =?us-ascii?Q?joM4INyiLyRrV4yr6jZC7MnvdySfFQcrED682Gnm8EvwQlvXs46r273LlJW3?=
+ =?us-ascii?Q?fZdwxiX/KvFvu9+YEAaTrGmraiUw9VLNQr5GzL7s9HzowhlDrJX7OyR5WRfP?=
+ =?us-ascii?Q?gVcEUvSb9/oppkDWIvJw1o9r/VVNoFu1yuLMHtgOlRPEbvebz4upmh00Wbpn?=
+ =?us-ascii?Q?IB8T7YIqZyMxinGy6bv/vdtAtQfYkksdduaGh39OOR6Oe0w0JsgdwtnQBh4p?=
+ =?us-ascii?Q?hazOmtG5Uv0pyA0Yt3iV0wcHjLR+F+7/SuQfx3ENW7BOkj+dtfR/mU70bEwk?=
+ =?us-ascii?Q?ZYp3YZP7QMt12kRxIpQUm8R7fWzL1k0P/LKdk+H7mESdVeixHIPF5OitOKXX?=
+ =?us-ascii?Q?ZQ=3D=3D?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83d9fbda-356b-44ce-1d9a-08dbe450891c
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba812a61-7cc9-4d18-1ece-08dbe45088fd
 X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2023 13:57:55.2965
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2023 13:57:55.0790
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UO+73gSQ5sbg2xyQ2m6tt5L2J6sdyP6muU4oIPLKWeC9G9p4r/epp4yXrUYgDHL1G+K3JMWe1TdrfE8+RDj4eA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0OU3ki3Fzc36AD7ay3lFWT+Q6Ivj0B+k172oj+cmmORq2I91LVo62pSbFK3g24BhtF7IrerEIvllnWZ1vIU1/g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR08MB10040
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 13:58:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190472
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190471
 
 From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
 
-Extract patches with all-zero hash in each patch header instead of the
-hash of the commit to reduce changes during patch refresh.
+Extract patches without diffstats to reduce changes during patch
+refresh.
 
 Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
 om>
 ---
- meta/lib/oe/patch.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/patch.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 71cd193afb..cc4c8f4371 100644
+index 4ec9caed45..71cd193afb 100644
 --- a/meta/lib/oe/patch.py
 +++ b/meta/lib/oe/patch.py
-@@ -465,7 +465,7 @@ class GitApplyTree(PatchTree):
+@@ -464,7 +464,8 @@ class GitApplyTree(PatchTree):
+         import shutil
          tempdir =3D tempfile.mkdtemp(prefix=3D'oepatch')
          try:
-             shellcmd =3D ["git", "format-patch", "--no-signature", "--no-n=
+-            shellcmd =3D ["git", "format-patch", "--no-signature", "--no-n=
+umbered", startcommit, "-o", tempdir]
++            shellcmd =3D ["git", "format-patch", "--no-signature", "--no-n=
 umbered",
--                        "--no-stat", startcommit, "-o", tempdir]
-+                        "--no-stat", "--zero-commit", startcommit, "-o", t=
-empdir]
++                        "--no-stat", startcommit, "-o", tempdir]
              if paths:
                  shellcmd.append('--')
                  shellcmd.extend(paths)
