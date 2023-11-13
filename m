@@ -1,113 +1,97 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE9BCC4332F
-	for <webhook@archiver.kernel.org>; Sun, 12 Nov 2023 22:34:44 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.25158.1699828482691168470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55757C4332F
+	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 07:08:57 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.32123.1699859328863515184
  for <openembedded-core@lists.openembedded.org>;
- Sun, 12 Nov 2023 14:34:43 -0800
+ Sun, 12 Nov 2023 23:08:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=H38jYPLw;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D35B7FF805;
-	Sun, 12 Nov 2023 22:34:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699828480;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nOkTqbvbQRlewPZKGhsGsQ9C+1OZ7h2JlREg6zEzy6o=;
-	b=H38jYPLw5mwSUjdxxMrCiYwqOEXX/H5qzdYpZkvttMxc24rLV5EIRrEpDwD8ffwVw1l1iJ
-	7QjueVqJjezamJgks37eu9qulpaz27cO+la/gyB21nB6HcMfPSaS2903MtxCdObfWzwhpL
-	JQrieBFkKfBDbLfjYZTArnn0PhJbobhqSiUMdL8yIfrH0vE6P4amyAuRsRgi3AMaORk7Ly
-	JNMtAJUPsOm/PIWY8QM0xGP2GT5I8kd+vBcGF0yBWU4tA7FdHUds610eqO0hhAduKaaiS1
-	GQJGg3ZiZ7EcAITC5mOzMoKEcc/sxtaK4aYgnmM+ZcaLwP7wLOjmbWTYoUkizQ==
-Date: Sun, 12 Nov 2023 23:34:39 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy <wangmy@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] python3-ruamel-yaml: upgrade 0.17.35 -> 0.18.4
-Message-ID: <20231112223439257c0f30@mail.local>
-References: <1698997393-31213-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lZwsWQmf;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40a46ea95f0so23088285e9.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 12 Nov 2023 23:08:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699859327; x=1700464127; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FNlWcSqUrj94+DrMNTzW756tbzNi9a15XZqIi7eaGJM=;
+        b=lZwsWQmfJJVNg9QROHdLY1N4CBxYNhTjikR/4XRME+H0ZDEo2YHyXaPHHJviPW4faY
+         GN+Uy37ELA94brruc5EmF6dRLk02gPekByj0mvM6Ld5zbmTIAhIPemDWKwXTtwtmIv1n
+         4j563e+n6yGcjruljOEUyqPGuDJ7zOBtdfLYwGoZ/YJFfnIKtcLRC1wyhEALIrqT9sb1
+         db8+lpZWc0S8Ran1EZz10D3p4d/yopNLg0uBwwWGxMZLMDDRemugFWyAzr3IHZ63HlFz
+         T4i3X1mugzrR7F41p5iVA7BmZ1v52fGpdJEVx6rCsqJCebuMmQTgE226Mr3V3Yolm5XJ
+         XBNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699859327; x=1700464127;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FNlWcSqUrj94+DrMNTzW756tbzNi9a15XZqIi7eaGJM=;
+        b=VYwBX7wKSRE8rd4wokwj+qaf6wAftdXHpdEItDxawhxGn02p2eN6rX2PZ8xylLhLMu
+         D2zoH/JDuLNkkdMq9VFhKEtwlueZ5FegAWo6dgSz46JfMSqnRacTpphxsJzBefgdECDm
+         vdXv1Zu3v2Sycq0Ms8rHegXL2CrWTTYGowSgzITFZ8rT8RS+Czq7Pn3UPqdW4enZ6qv5
+         uV7XV8oDXmMSptJap5TnJACQiUxq2mrH99hJ4wvRDvoniveEABRRCg1cTu0UDMfWz9fP
+         A/61nHVyJx+7irfJ/+siv4FNDk99eooPjVk+HvZiaWTdCGnH3y05HgwgGijQo7dNgDgu
+         xFoQ==
+X-Gm-Message-State: AOJu0YxnqLKN3Az0ei5fbiAhR357IOgSq0hSLZRn+jvt+R/ttpDMWNbB
+	KICG7lqba75REdBBkIz+ykUFDAXXqWU=
+X-Google-Smtp-Source: AGHT+IFnnYvY8hBaCgGf5zyVe2OjiHZv98ee2LXKEIl9c1whHJkjLMJ/qbzvhgHMEzQwemrtMvsRag==
+X-Received: by 2002:a05:600c:35d6:b0:406:53ab:a9af with SMTP id r22-20020a05600c35d600b0040653aba9afmr5384012wmq.10.1699859326984;
+        Sun, 12 Nov 2023 23:08:46 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id v19-20020a05600c445300b0040813e14b49sm12949327wmn.30.2023.11.12.23.08.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Nov 2023 23:08:46 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH 1/2] staging.bbclass: process installed dependencies in deterministic order as well
+Date: Mon, 13 Nov 2023 08:08:43 +0100
+Message-ID: <20231113070844.5142-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1698997393-31213-1-git-send-email-wangmy@fujitsu.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 12 Nov 2023 22:34:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190457
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 07:08:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190458
 
-Hello,
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-I've tried this multiple times but this is failing because it is
-impossible to fetch:
+* similarly as direct dependencies before
+* this doesn't fix any issue (at least AFAIK),
+  just keeps the log files more deterministic to avoid unnecessary churn like in:
 
-https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.4.tar.gz
+  perl-native.log.do_configure:
+  -NOTE: Installed into sysroot: ['zlib-native', 'make-native', 'perlcross-native', 'gdbm-native', 'xz-native', 'gettext-minimal-native', 'texinfo-dummy-native', 'libtool-native']
+  +NOTE: Installed into sysroot: ['zlib-native', 'make-native', 'perlcross-native', 'gdbm-native', 'libtool-native', 'gettext-minimal-native', 'texinfo-dummy-native', 'xz-native']
 
-I guess we need 0.18.5.
+  and similarly in "Note: Skipping as already exists in sysroot:
 
-On 03/11/2023 15:43:13+0800, wangmy wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> Changelog:
-> ============
-> - YAML() instance has a 'doc_infos' attribute which is a cumulative list of DocInfo
->   instances (one for 'load()', one per document for 'load_all()'). DocInfo instances
->   contain version information (requested, directive) and tag directive information
-> - fix issue that the YAML instance tags attribute was not reset between documents,
->   resulting in mixing of tag directives of multiple documents. Now only provides tag
->   directive information on latest document after loading. This means tags for dumping
->   must be set **again** after a document is loaded with the same instance. (because
->   of this tags will be removed in a favour of a different mechanism in the future)
-> - fix issue with multiple document intermixing YAML 1.2 and YAML 1.1, the VersionedResolver
->   now resets
-> - fix issue with disappearing comment when next token was Tag (still can't have both
->   a comment before a tag and after a tag, before node)
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  ...on3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.4.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.4.bb} (85%)
-> 
-> diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.4.bb
-> similarity index 85%
-> rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
-> rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.4.bb
-> index 1760fec7ee..7be966184e 100644
-> --- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
-> +++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.4.bb
-> @@ -8,7 +8,7 @@ PYPI_PACKAGE = "ruamel.yaml"
->  
->  inherit pypi setuptools3
->  
-> -SRC_URI[sha256sum] = "801046a9caacb1b43acc118969b49b96b65e8847f29029563b29ac61d02db61b"
-> +SRC_URI[sha256sum] = "a2778930d2573358f7c43f26e4bd5715015dccebf53c9943ed611200c1e2adcd"
->  
->  RDEPENDS:${PN} += "\
->      ${PYTHON_PN}-shell \
-> -- 
-> 2.34.1
-> 
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ meta/classes-global/staging.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190133): https://lists.openembedded.org/g/openembedded-core/message/190133
-> Mute This Topic: https://lists.openembedded.org/mt/102359575/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
+index d229f40107..cf1e4600fd 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -521,7 +521,7 @@ python extend_recipe_sysroot() {
+ 
+     binfiles = {}
+     # Now handle installs
+-    for dep in configuredeps:
++    for dep in sorted(configuredeps):
+         c = setscenedeps[dep][0]
+         if c not in installed:
+             continue
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.42.1
+
 
