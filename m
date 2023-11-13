@@ -1,160 +1,139 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B97CC4332F
-	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 15:22:30 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.39375.1699888944373060223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79EABC4332F
+	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 16:04:40 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.40684.1699891470745151612
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Nov 2023 07:22:24 -0800
+ Mon, 13 Nov 2023 08:04:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PG1FliSx;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.48, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9e623356d5dso436845066b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 07:22:23 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cW3e8jcX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-408425c7c10so37612735e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 08:04:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1699888942; x=1700493742; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q2vgYAXl94xlHLwYE9KEGSr+06MXAVZXKq1JShVSIok=;
-        b=PG1FliSxdZfDA2880qaI8qGuD2305Bwrt5FgiIIKKB59x0oRnzwbxdvNYQF9pbxNDF
-         ELajNUprIPwsNtqREmV1Zv6j1cD7FX4KyvNWZ7JZHJl6wOt5s1k3eBc6/yR85AJIjUIf
-         yiI5poFNnowpHkQOM/zvHL6bdLv1ysW7LpJMMf+PFr+2CpxW8gLBU/wXywoJMLbLLJv0
-         S1bzUyLw0uE7ARzT3thkw4tchW4Ic8mGvyQXnSHWugR365dJpK26FRoHNSesRjUabYSz
-         wotWD0l9JpeOmw/lSD8oA4pTwXd04SGLmBSSZdcTHUEV8rY182OJU251zcS8XpsKU+I6
-         bbFA==
+        d=linuxfoundation.org; s=google; t=1699891469; x=1700496269; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zjw/UYbD5zXp54DJIZJLnA6YDN6iqKejFt3Zned6glA=;
+        b=cW3e8jcXWDQHKotwf7ZO4Jg7CxywE04KlMyfgFHsF9QkfvrblvpxDnrnHBsyofQt1B
+         2wEUtHFiBLb/SXybqaUuNSuhmYWC4o0vv3OQRGt2aqUbwJmTzPtynHN5LZwQQW+S+X2n
+         p5P6JeYaJf5VITEVcjI42ZV6pBx4UeUBcB+Lc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699888942; x=1700493742;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=q2vgYAXl94xlHLwYE9KEGSr+06MXAVZXKq1JShVSIok=;
-        b=kHgta6VjEX3IbvJNUHAtl1+M4Jx6uZcmF6RY1bKg0gOCT4a2V8F9szjCnxTr4A5xfM
-         AqXxzPkMzvwRDy18rKXkn4Pt79RPBhffgBQRvx1fhFgjCUZjboCKD5HsF4beUwSk686H
-         JZ0tOZthvoSb2N7NbLk0fF/OjMEtVyCsnl9HdBJ5dTgz83bmS9QAGIeXNQNWW00HkxOk
-         jOs3+T2mF798/w+ROwjNRo96SpS9LPwLxnbY1GHeboRq9L74PjJIOFSvnt7E6np0S3tk
-         d1KO73jxCqM4NGZrU9VDeM71eZCwGmB89JhoXCDVjvsRWo/v/v+jZUgyvZWXmxRs9Mvl
-         S/IA==
-X-Gm-Message-State: AOJu0YybmUk5eJuXvltiqe6lnqsOriCCDCxGW7KYlJfRfKZpDKluEE7s
-	ZADJ+ghUZxdZAiZdToujcYFWbbUbL92bTzAI06Z3kw==
-X-Google-Smtp-Source: AGHT+IFVehC+SB0cncy64k63U4uWcPJpZrGoRDBa4m8Y2jxGEdSx44E3NHCy7SNkzj286dlNcUALcsjDxsZLLQM5yo8=
-X-Received: by 2002:a17:906:2a41:b0:9b9:f980:8810 with SMTP id
- k1-20020a1709062a4100b009b9f9808810mr5547358eje.34.1699888942518; Mon, 13 Nov
- 2023 07:22:22 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1699714834.git.steve@sakoman.com> <ce826b01d93ac99ce089c2212cb0cbff61cee1e4.1699714834.git.steve@sakoman.com>
- <9d7f39468c47e3ce9f15729562cd69f74b064f15.camel@linuxfoundation.org>
- <CAOSpxdZ6CHz=PfNb19RmuagChYoBNUu1H_FX-5qwOm62PTdEmg@mail.gmail.com> <f9a35fe25b224428bd2bb5400ea96efe87f70a17.camel@linuxfoundation.org>
-In-Reply-To: <f9a35fe25b224428bd2bb5400ea96efe87f70a17.camel@linuxfoundation.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 13 Nov 2023 05:22:11 -1000
-Message-ID: <CAOSpxdaPZ6dNbJjQypjhqB2bF_7qkZz07KokMHk7aOV-PdtFEg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 15/15] lz4: specify gnu17 in CFLAGS to fix
- reproducibility issues
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1699891469; x=1700496269;
+        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Zjw/UYbD5zXp54DJIZJLnA6YDN6iqKejFt3Zned6glA=;
+        b=eJvmlUGMMAAM6YRfnVe1tCACkPBJN4nDF7XRJiKoLTt8pde7zA/hwxazwe6rWtkGhw
+         mS4kq6uurpMWuQoRCodlocoL5f4/qEkyIrNu2lXmMSCTqgFFEwjKuT31U74iUUkZ1ArE
+         4ktaK7peay0zdQZOdThXdDRbHXMIFtfOTsZ/kIOJ5O4DuGs8eUr5G3PunxqkXnkNB6zp
+         Ey5jqEiqhU6bBNT1I6k9gHK7D2BPuCFwimqaxKpjy8OXEmF0xC8S9vZD91KwL7F6kfjJ
+         EN0UC8TU/7oz5Bm0I8TsPC6etFtMHWrEXV3AJxIbWOtXcaYYVi7wX9IE7Gi/Z2McM8Fy
+         qsyA==
+X-Gm-Message-State: AOJu0YxwH0w1X4/WamTYDEiwTslrfIk7Kdnc6X+ntDqs/Z110ihv76gx
+	/bhMwNwMCCq3zi9HO61Ij7CwRw==
+X-Google-Smtp-Source: AGHT+IGdKJHNQ6URcmFuJ1OsQSZvZr6N8R1mtLhe95Jb7UqCFqRRxcCzPvz0ZG/AnJutWp9jPXRqrg==
+X-Received: by 2002:adf:fb06:0:b0:31a:d9bc:47a2 with SMTP id c6-20020adffb06000000b0031ad9bc47a2mr4869243wrr.53.1699891468923;
+        Mon, 13 Nov 2023 08:04:28 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f440:7406:36f8:870a? ([2001:8b0:aba:5f3c:f440:7406:36f8:870a])
+        by smtp.gmail.com with ESMTPSA id e3-20020adffd03000000b003142e438e8csm5725839wrr.26.2023.11.13.08.04.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Nov 2023 08:04:28 -0800 (PST)
+Message-ID: <beed5830d4e06d296a36ef35d9cc3f098a56c3c0.camel@linuxfoundation.org>
+Subject: vim reproducibility on dunfell
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Nov 2023 16:04:27 +0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 15:22:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190478
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 16:04:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190479
 
-On Mon, Nov 13, 2023 at 4:35=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2023-11-13 at 04:14 -1000, Steve Sakoman wrote:
-> > On Mon, Nov 13, 2023 at 3:42=E2=80=AFAM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Sat, 2023-11-11 at 05:03 -1000, Steve Sakoman wrote:
-> > > > We are seeing reproducibility issues where gcc-cross sometimes defa=
-ults
-> > > > to gnu11 and other times to gnu17.
-> > > >
-> > > > Specify std=3Dgnu17 rather than leave this to chance.
-> > > >
-> > > > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > ---
-> > > >  meta/recipes-support/lz4/lz4_1.9.2.bb | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-s=
-upport/lz4/lz4_1.9.2.bb
-> > > > index c2e24b518c..8cf71fdc04 100644
-> > > > --- a/meta/recipes-support/lz4/lz4_1.9.2.bb
-> > > > +++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
-> > > > @@ -23,6 +23,7 @@ S =3D "${WORKDIR}/git"
-> > > >  # Fixed in r118, which is larger than the current version.
-> > > >  CVE_CHECK_WHITELIST +=3D "CVE-2014-4715"
-> > > >
-> > > > +CFLAGS_append =3D " -std=3Dgnu17"
-> > > >  EXTRA_OEMAKE =3D "PREFIX=3D${prefix} CC=3D'${CC}' CFLAGS=3D'${CFLA=
-GS}' DESTDIR=3D${D} LIBDIR=3D${libdir} INCLUDEDIR=3D${includedir} BUILD_STA=
-TIC=3Dno"
-> > > >
-> > > >  do_install() {
-> > >
-> > > I've looked into this a lot more and I'm now of the opinion this is
-> > > totally wrong and definitely should not merge.
-> > >
-> > > An example failure is:
-> > >
-> > > http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231109-c=
-h73ktqp/packages/diff-html/
-> > >
-> > > First, it is worth noting the huge size difference. It appears debug
-> > > line information is being missed out. The difference in cflags is a
-> > > false lead, it is because crti.S is compiled with c17 and the produce=
-r
-> > > string is being mis-compared, the data is missing on one side.
-> > >
-> > > So what we're looking for really is a cflags issue where -g is going
-> > > missing.
-> > >
-> > > I did check older failures which look similar:
-> > >
-> > > http://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231105-_=
-xpb575y/packages/diff-html/
-> > >
-> > > Since we're looking for cflags issues:
-> > >
-> > > https://github.com/lz4/lz4/commit/7d8d1075e696d585238e6aa6a4f43dc759d=
-a250e
-> > >
-> > > looks interesting and leads to:
-> > >
-> > > https://savannah.gnu.org/bugs/?func=3Ddetailitem&item_id=3D59230
-> > >
-> > > If the makefile had intermittently picked up CFLAGS from the
-> > > environment, the output would be identical to the previous cflags pat=
-ch
-> > > in the series, which would cross link the hash equivalence
-> > > inputs/outputs and could generally confuse things.
-> >
-> > Thanks for looking into this!  I will remove the patch from the series.
-> >
-> > > The real question is which autobuilder worker is compiling without th=
-e
-> > > -g option and is it a make bug? Perhaps it doesn't matter and we just
-> > > need to force the input and output hashes to change to stop the error=
-s
-> > > once the previous patch is applied.
-> >
-> > What is the proper way to force the input and output hashes to change?
-> >
-> > Thanks again!
->
-> https://git.yoctoproject.org/poky/commit/?id=3Dad3dfac07f856917434deb073f=
-e9c8a788d4c21d
->
-> is an example.
+Hi Steve,
 
-Thanks Richard!  I'll test with this and resubmit the series.
+I know ubuntu2204 has been causing concern for dunfell builds with vim
+and reproducibility. Since I have a local ubuntu 22.04 machine I took a
+look and sure enough, dunfell vim builds 'fail'.
 
-Steve
+The difference is that in one case, iconv runs during do_compile and in
+the other it does not. The shipped ru.cp1251.po has "CP1521" but if
+rebuilt, it is replaced with "cp1251". The question is therefore why
+iconv runs in one case and not the other.
+
+Comparing my master build with the dunfell one, with the same vim
+versions and just "vim -c unpack":
+
+richard@jet:/media/build/poky-dunfell/build/tmp/work/core2-64-poky-linux/vi=
+m/9.0.2048-r0/git/src/po$ ls -la ru* --full-time
+-rw-r--r-- 1 richard richard 415845 2023-11-13 15:25:43.623938196 +0000 ru.=
+cp1251.po
+-rw-r--r-- 1 richard richard 546691 2023-11-13 15:25:43.623938196 +0000 ru.=
+po
+
+
+richard@jet:/media/build/poky/build/tmp/work/armv5e-poky-linux-gnueabi/vim/=
+9.0.2048/git/src/po$ ls -la ru* --full-time
+-rw-r--r-- 1 richard richard 415845 2023-11-13 15:25:53.219945033 +0000 ru.=
+cp1251.po
+-rw-r--r-- 1 richard richard 546691 2023-11-13 15:25:53.223945035 +0000 ru.=
+po
+
+and again just to be sure:
+
+richard@jet:/media/build/poky-dunfell/build/tmp/work/core2-64-poky-linux/vi=
+m/9.0.2048-r0/git/src/po$ ls -la ru* --full-time
+-rw-r--r-- 1 richard richard 415845 2023-11-13 15:32:03.736202888 +0000 ru.=
+cp1251.po
+-rw-r--r-- 1 richard richard 546691 2023-11-13 15:32:03.736202888 +0000 ru.=
+po
+
+richard@jet:/media/build/poky/build/tmp/work/armv5e-poky-linux-gnueabi/vim/=
+9.0.2048/git/src/po$ ls -la ru* --full-time
+-rw-r--r-- 1 richard richard 415845 2023-11-13 15:32:04.896203681 +0000 ru.=
+cp1251.po
+-rw-r--r-- 1 richard richard 546691 2023-11-13 15:32:04.900203684 +0000 ru.=
+po
+
+so for some reason the ru*.po files have the same timestamp. This
+triggers make to rebuild it. Why? Not sure. git is from the distro in
+both cases.
+
+I did isolate the steps from do_unpack to these in dunfell and master:
+
+DEST=3D/media/build/poky/build/tmp/work/armv5e-poky-linux-gnueabi/vim/9.0.2=
+048
+rm $DEST/git/ -rf
+git -c gc.autoDetach=3Dfalse -c core.pager=3Dcat clone -n -s /media/sources=
+//git2/github.com.vim.vim.git/ $DEST/git/
+git -C $DEST/git/ -c gc.autoDetach=3Dfalse -c core.pager=3Dcat checkout -B =
+master 982ef16059bd163a77271107020defde0740bbd6
+ls -la $DEST/git/src/po/ru* --full-time
+
+DEST=3D/media/build/poky-dunfell/build/tmp/work/core2-64-poky-linux/vim/9.0=
+.2048-r0
+rm $DEST/git/ -rf
+git -c core.fsyncobjectfiles=3D0 clone -s -n /media/sources//git2/github.co=
+m.vim.vim.git/ $DEST/git/
+git -C $DEST/git/ -c core.fsyncobjectfiles=3D0 checkout -B master 982ef1605=
+9bd163a77271107020defde0740bbd6
+ls -la $DEST/git/src/po/ru* --full-time
+
+and I was sometimes able to see the same timestamps, sometimes not in
+both cases so I suspect this issue could affect master too.
+
+Cheers,
+
+Richard
+
+
+
 
