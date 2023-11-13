@@ -2,35 +2,35 @@ Return-Path: <luca.fancellu@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E020DC4332F
-	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 10:38:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4C12C4332F
+	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 10:39:08 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.34183.1699871927193507810
+ by mx.groups.io with SMTP id smtpd.web11.34188.1699871945996082840
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Nov 2023 02:38:47 -0800
+ Mon, 13 Nov 2023 02:39:06 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: luca.fancellu@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E797314BF;
-	Mon, 13 Nov 2023 02:39:31 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2B4214BF;
+	Mon, 13 Nov 2023 02:39:50 -0800 (PST)
 Received: from e125770.cambridge.arm.com (e125770.arm.com [10.1.199.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 09EAC3F6C4;
-	Mon, 13 Nov 2023 02:38:45 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1529E3F6C4;
+	Mon, 13 Nov 2023 02:39:04 -0800 (PST)
 From: Luca Fancellu <luca.fancellu@arm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Diego.Sueiro@arm.com,
 	Rahul.Singh@arm.com
-Subject: [mickledore][PATCH] oeqa,ssh: Handle SSHCall timeout error code
-Date: Mon, 13 Nov 2023 10:38:38 +0000
-Message-Id: <20231113103838.681710-1-luca.fancellu@arm.com>
+Subject: [nanbield][PATCH] oeqa,ssh: Handle SSHCall timeout error code
+Date: Mon, 13 Nov 2023 10:38:57 +0000
+Message-Id: <20231113103857.681815-1-luca.fancellu@arm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 10:38:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190463
+ <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 10:39:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190464
 
 The current code in ssh.py is terminating the ssh process that
 does not finish its computation in a given timeout (when timeout
@@ -59,10 +59,10 @@ Signed-off-by: Luca Fancellu <luca.fancellu@arm.com>
 
 diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target=
 /ssh.py
-index a9566d9bd661..5290ad7a50d0 100644
+index f22836d390ac..f4dd0ca417a4 100644
 --- a/meta/lib/oeqa/core/target/ssh.py
 +++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -229,11 +229,12 @@ def SSHCall(command, logger, timeout=3DNone, **opts=
+@@ -232,11 +232,12 @@ def SSHCall(command, logger, timeout=3DNone, **opts=
 ):
          output_raw =3D b''
          starttime =3D time.time()
@@ -79,7 +79,7 @@ index a9566d9bd661..5290ad7a50d0 100644
 endtime: %s' % (time.time(), endtime))
                      if select.select([process.stdout], [], [], 5)[0] !=3D=
  []:
-@@ -254,6 +255,10 @@ def SSHCall(command, logger, timeout=3DNone, **opts)=
+@@ -257,6 +258,10 @@ def SSHCall(command, logger, timeout=3DNone, **opts)=
 :
                      logger.debug('BlockingIOError')
                      continue
@@ -92,7 +92,7 @@ endtime: %s' % (time.time(), endtime))
              process.stdout.close()
 =20
              # process hasn't returned yet
-@@ -290,6 +295,16 @@ def SSHCall(command, logger, timeout=3DNone, **opts)=
+@@ -293,6 +298,16 @@ def SSHCall(command, logger, timeout=3DNone, **opts)=
 :
                      pass
                  process.wait()
@@ -131,7 +131,7 @@ index 13aac5439698..cdbef595008c 100644
 )
          (status, output) =3D self.target.run('cat /etc/controllerimage')
 
-base-commit: c0c48c613df5a1f9d397398a9817e843c01d991e
+base-commit: 2e9c2a2381105f1306bcbcb54816cbc5d8110eff
 --=20
 2.34.1
 
