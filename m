@@ -2,30 +2,30 @@ Return-Path: <lukas.funke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF436C4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE304C4332F
 	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 08:13:49 +0000 (UTC)
 Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.60])
  by mx.groups.io with SMTP id smtpd.web10.8452.1699949621774483481
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 00:13:43 -0800
+ Tue, 14 Nov 2023 00:13:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=nRdJ4MSM;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=e/UYwiZt;
  spf=pass (domain: weidmueller.com, ip: 40.107.105.60, mailfrom: lukas.funke-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zz+jXpVsHhcG4iY5JJMDVf9EHDWgtr0tVhMhqsFOZtrIkpZu1OJNAe2Hyd9LE/BKIij4ePp4jv+/Le+nISNlakx6cNDGKFjh3RoAd5cEKCExsPyLdvAcO8XCsSyHtJjXR2TXye1k2zXjwwXJO3XiMvQTs938EyLDnxNG7/qwk5l2kR3ICp0lu3FYs+MTJ5bdfgwGrfntax6G/S83bN+vcsC7H/itv7DXeDFYaDpDQYBY4TqDWm7j5ekiYuehG9dTAePODRGCv+oJIn7hpDwUU7ttmP4lwf1QmQn+4rkRViEuV7K6kSCMc+4esC0P8can8tRwTfa2D7AxyULKsSY5yA==
+ b=RFCMlgAuJPf/fA42se2L8Yt4kNqkr+4TaQHSQPCIpx0p++5Ht0OO8EpF0ye0GlmAziwLuJvUXz4zmI4bZRgduJOgAX39maLyUInQwvJ4bQvs4Nyqo6yFebixDWu6XoY9367+405hOq+YDmef4oGNR6oqp7MaQZcmZwKMHpFTAoKwOXY5BPI0hlV5DPLV9Ax9AzMjUbqKiegN022ZZenKRz8eN1B/1tEjI/Y/s95GaEBvihSP+vKz2uizroIDfuydBErBOjfr+G6bD144Ffk00Lk6IpCW/wX2LwylBhXIFmsnMTAb7nVTyOd2sYp5tG5zFAU8Df0sl+iP5UhxBvtd6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ajjGKUkfB9ScLHXt9+WbrdszkyyFjAGYsDqM5gnDaAM=;
- b=WG54GXYnGQ0SbyyoPrVb2zIt/SPo5+Mq6xY4LGhv22k0hq2kFHm88pTwX/AOBmwnTETdx7kieESY9flap/PkLGwToijDZo8M6jFMah++dtxBETZP08pqndBNBwnjqv/Cdjj8fZpizdv1qZuiojgC+aedhJ80Bq8HM8rte5PjgELAx3HrMtb99hHbTQpwNTbhJmCilB6uKkY87wNnfbgWntHr4KwblfubmSj39x87v5LP7gxbgac8uzsK9KqeWdB48jTFcnkO2L3BECYaDExzT5vTAet5jvNz2ZGJnRneMz5WGkxpC8YTBg7jsrmnOTuJeiwoCHyrCaDsZFfcSaq6pw==
+ bh=CH7tBYQ/RTeoBG/KgOiUYyQWU0V0p7ofeelM5zkavI8=;
+ b=dE/r9vn7dtl5CgoHQrFx/bCwKll1ECu03cYA7OxuWVlXaJtSvrdtPeLU/42Kbmm4VQCkzFyAqxdJ6f5lYnFe4dh9geuasQ8Ia9VfeUOmxrqg6nn4w154njmdrqP40cN5xkSmsTp/k9oHKRHYcvUve6rMdCM75Is4Lt6zZO/hQOL8oiOMxQpDwWsz47xlzuPIr00rirpJDOQpPd3ZBg81h1IU+/3nYPInQyKVLq/XANEyy3HFEO2YvZmI2sLoDa2oKBYVcjT0oZQHYIjX/jYNUNe570AWDq51n0pFda9aSHkxndMV/NAhqy/gztiTQn/Me3vQ9bYX/kGEmHYLKi0ZAw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ajjGKUkfB9ScLHXt9+WbrdszkyyFjAGYsDqM5gnDaAM=;
- b=nRdJ4MSMI5/tiyamtbD3bEVQhwJYQGSUKQFiYlCJUpa3LGFRm8w91U40mjAKdXVkWowP9VogkawtwCrSye49I9l30k6e4Um8TQuXHkIQpjNKULAjykqhH/khgzSdm2SnfBw66nxP7fROa0Lzpt/okZVme5f8I/kUAETkw+rThCQ=
+ bh=CH7tBYQ/RTeoBG/KgOiUYyQWU0V0p7ofeelM5zkavI8=;
+ b=e/UYwiZtlrPGO+M2pY30dy6nGJ1t1oSnDRRf8QPZfImF4JLgp61bGgr9Y0FYIqTbHVcYTopAtqaluBSjDZHj/cIV245RH8RU6UjcY2YkyKlcWutzSS6IGdzN7jhLg14i+LUoe9on9Jx0/yPFpojqQSirGpKHPxAa3uFz5/wwb8Q=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
@@ -39,11 +39,13 @@ Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
  08:13:38 +0000
 From: lukas.funke-oss@weidmueller.com
 To: openembedded-core@lists.openembedded.org
-CC: Lukas Funke <lukas.funke@weidmueller.com>
-Subject: [OE-Core][PATCH 0/1] wic: extend empty plugin with options to write zeros to partiton
-Date: Tue, 14 Nov 2023 09:13:31 +0100
-Message-ID: <cover.1699885520.git.lukas.funke@weidmueller.com>
+CC: Malte Schmidt <malte.schmidt@weidmueller.com>
+Subject: [OE-Core][PATCH 1/1] wic: extend empty plugin with options to write zeros to partiton
+Date: Tue, 14 Nov 2023 09:13:32 +0100
+Message-ID: <084355e0fe303a8322111da4b84f3a3a6c2048d9.1699885520.git.lukas.funke@weidmueller.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1699885520.git.lukas.funke@weidmueller.com>
+References: <cover.1699885520.git.lukas.funke@weidmueller.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: FR4P281CA0334.DEUP281.PROD.OUTLOOK.COM
@@ -52,62 +54,62 @@ X-ClientProxiedBy: FR4P281CA0334.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|PAVPR08MB9458:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7483d1b2-d12a-4fa3-1040-08dbe4e99af8
+X-MS-Office365-Filtering-Correlation-Id: 4b3c5bbf-8550-436a-35f0-08dbe4e99b1e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	48Pg/1GJ4CDL1V67FcZLFttxZGZz65EmMKa7xbIGpw/YXY3EkJv2Jg6IB+uYglGbiqjOdbgeab6PGAFKKoQHC+lZ2kGQsv76sXh2zf+cX+kzegxcAOoOXGsdqfB6XRmc67sjAPo508hwKQBpLnapbk75f8dHHRvbwfgLPLmMmNygyeO7BoUJidOLx/q0sYiFNudvj27DEQ6DaJ2lSb7cjnPNgSlNQ2v8JW6aQFywQVfo8BYw6jXiSNCFhdZgRcdc/vfYlAEnNsuSyzl/Pgh9K1HSx8dlkX1f4PetsPWLpOrmlsv4+nYeHbFDmssAQ9VnxTbXoyKmsI+i0VR6ar7WlvCByC5+661Z2YdYNAyS6kAjS0D19NqUQ1WoWDr2BgkuDw7nIDiNjYwd6HScSXLkSSNT4A2iwZpy1vWYmpUJq916lXY/sc7cVRI9S9jpaXA75MwMiX4rXSg8NWO1mm+Z6BNskS5ugRzvRmhRBnt67Yd+uuHei5juzPOspmhpXBq5L0Shk5ZeUeMelRXvg0IsuIrjZzCcIi7MSVPqXqzg/3Y5/oE38hNduWu33YOZO+9ytg3AgZmndSoF0Y0RXjh+klUIZshi+cDfLDHNJP9NYGSVEnOlhqrzxnXsrcB0x9n8
+	XLDkHoo7bQO+oB+1VYgRb2Z4P0zxVBKLxuzGx6ge/r+bgU4yPL3raBG+UHiAx5HggWb9oWBbIRBH6ENUfXeAaozCPVSFKBj7u460tYQtueBe2gD4ntvgrhG5sORhFUPFr3w8XkyftlY3rrnrhQrhYJwLc754y+srLnhUXNnjtGYWNs25SLL6SXTaRR+q62A0OYc/XAg6nPVwqvHLvGWMABMQ8Sgea8o3Vqoi27M5wM4M5op1RjZTpouEJLTIt7XYtjljjqwBkVLOImKpYJHqM13YUrwJuM0xldvxsX82F4R0xKwCAicpoF4Wq1hmwOvjCHG0IX2REdgFTqCQmLSh/QwAz7+3HJkWMmHly4eWeNS27qZHklVoB7mBznObw6MiJQY09sN8wbiXOydjl7qFQgjtQSO/JqurJbPoKabmi8GHH0Dh5bc3CFhQr/4PjnC+S4sOF2WTcdXWbuuCPmk+TCLJZPFckVlIFKxvrONXHhVoZZOuKoQep/lKhrIgOqcAVA0i3wdriKjZQ6V0veHDpt8RjSJVnPdVuASkZpjUNwDnxJusq35h1s7pT4reV0B14VAxuF3pvval9OYi6ffJuE/SfH1Ra8P5b2wNePo2JzS87V09RzVQJRNsy83J/aUe
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(376002)(39860400002)(136003)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(38350700005)(66946007)(66556008)(66476007)(6916009)(38100700002)(36756003)(86362001)(9686003)(6512007)(83380400001)(26005)(107886003)(2616005)(6506007)(6666004)(52116002)(4744005)(2906002)(478600001)(316002)(6486002)(4326008)(5660300002)(41300700001)(8936002)(8676002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(376002)(39860400002)(136003)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(38350700005)(66946007)(66556008)(66476007)(6916009)(38100700002)(36756003)(86362001)(9686003)(6512007)(83380400001)(26005)(107886003)(2616005)(6506007)(6666004)(52116002)(2906002)(478600001)(316002)(6486002)(4326008)(5660300002)(41300700001)(8936002)(8676002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?AxycUsgeJgPLNFIDsgZleYV0foCheCZ0hdZfchpuL8jupW/AmlPAuuBSvcuG?=
- =?us-ascii?Q?rNYhYrgsOuKC64wQBIXW9RW976GmhAq5hl+mXxHJwPG2/nW5J9ktM5ZJdCIw?=
- =?us-ascii?Q?za6tR//5uzKP3dUPnMOLb1Z81uLAvE6GC4cEdqmSRqhLMBDySo7TMDAqidh6?=
- =?us-ascii?Q?OU7b8iOn3MkmZla9XM8oUtRAzAFZi0kllZueQecBrTaRHH4Gp12KRdb6qQEI?=
- =?us-ascii?Q?OYBd2e304z54plRmZI6RxrtaY8k7E3ovBqmc2bFZJXLL9vK/RGE1OnucfpRK?=
- =?us-ascii?Q?b5IknyF3ZHab38Q4kwxikhk9tgFbweJsjpGXvpM39Mz1K+8ktwFk+C/aXzNM?=
- =?us-ascii?Q?1AW7sBjiDZl1ApvhrsG49sffOLHpPRvoiI0YaaO68AhwnuyUgSUFeBu4wiBw?=
- =?us-ascii?Q?Gckh+TpJeu/sbL5FXY6fg2a86X0lbi2uAjBfZE+GMCp/6QWvlEQqopBF/iJ7?=
- =?us-ascii?Q?Jnt3P+ZGCy3xCO0OXjmRCkgkx6OslGk05c4zhQPnESqK8THvFz5IPibNgpy4?=
- =?us-ascii?Q?VcrMDlEvBK7obmbJufxqtpRHJrDXFV1sRok74BtMkJwvbW6D5NvnCE5Hb3qS?=
- =?us-ascii?Q?WZJYU3JwZ/d5icytdc0PZbaL1tzPVeDIWDI75qHfWAv5nH/z/qaL5S0HhCO+?=
- =?us-ascii?Q?ajI8QeM8r/bQ7OGbA5La1gZtxLHwaLC5iHG+pD7Jlq16/CSmTC4ifHmNdW3U?=
- =?us-ascii?Q?lYfs2jPSy/GWRTvCMi9jRAT4CWWf64DY3evjAytJaCpuYbqOGygKXx6qvBgV?=
- =?us-ascii?Q?MvFdgIbklzXUyOVBTxkTob8Dm1YMGzyJIWlOYNCYqrVhM1A4QyMNnlUUCXh2?=
- =?us-ascii?Q?HE1P+2WOtsRiIwTpSzO5k8n8Hf+glbFN9he7bUSkquz09L65Lmzd5UJjV1Yr?=
- =?us-ascii?Q?2CSkCxvCDJk5TWs0I9MoQp96dUz34uYcsOoFoZTWEoFYk2Jr3FiLfHiQZTWo?=
- =?us-ascii?Q?WHiit9ibc0A5BrhcVeMuQFP7na110TaBPgF6eIhifkTUb1+FJTXvIPypE6AQ?=
- =?us-ascii?Q?0h3bkXiUz1VE2miJMGCtuyq7Q3UcG6mfUD39iyZqriiG8ChNyfqcLHZyFuu7?=
- =?us-ascii?Q?2pYueGJUMDHaIEf6SBjaRa9Ikqh2Yk0Wj91SXG3oefFa1pyL/c3kjN0N0Xt0?=
- =?us-ascii?Q?dlrXRIrivWoO/jgszhthOillMKhG1BcC68eFsbctxF5ksrbLowpyHgmFdRcd?=
- =?us-ascii?Q?TPYxghG98hgAL1EumlAxrWD+6GLRemDkJLyspLU35PjrsvL/Pwr5fFS5pUCx?=
- =?us-ascii?Q?zRKJCNJAUeJ0XYS2HUqdM6ETL5lUx9E/ccytfCN9tORnMo02xy4Laapl15I0?=
- =?us-ascii?Q?+UBLegFjHU/ENJikAjJqhiIGqAjrixS/Ex3GVU+xkkaPd64qhTyyzxcWzDGU?=
- =?us-ascii?Q?iWo2usuzMU628vpyrMT0t9s0EMgObxjs/0Y1hU77LvWe1go8o/MiyyEUCkrr?=
- =?us-ascii?Q?3Hb/4qAWNB1JkLzrJ4RDh5G79kgeZwf5zZH+H7J9F5pXBaCqkSfHwtzzcoeU?=
- =?us-ascii?Q?ajv+r5qv8nYDat/nvonvx7NWHmd4M6SPRh6XjPrTVXmiEhVHVs7CLtXe3EbN?=
- =?us-ascii?Q?e00ku94GK6jGrg7vmcogZoAv0Afyxan1894Fd+KYHL/6uA0WOyM7Yb7YlnlZ?=
- =?us-ascii?Q?Fw=3D=3D?=
+	=?us-ascii?Q?t7gl6tSrerioWuv5xtuvMWUNnl/9hUIyOTGUZ8UBMaKtAksfTFfbhuh8f8iS?=
+ =?us-ascii?Q?Z3kWkJOpvDBP2vRRPf1jSnDckISn7TieWLQXXWm8oNzRZlbw4pXrpgsQI9Cm?=
+ =?us-ascii?Q?pl5RinzHp4AauWjCLEoXu9AdYnbefZZzxqePPaGIQL2QaE9gv1L9j4JjE1s8?=
+ =?us-ascii?Q?FuhtACTnzaDjLsc9GvLdzaBjeE2+fehAUoE8RcXmZOJPqsJyzA6DHIWQdPG7?=
+ =?us-ascii?Q?1V2ksZGYDJBLR/UuSdMXJtmehbD7sH/uqXYm6cRHlyUEt2sXBMrSj1TVOobc?=
+ =?us-ascii?Q?NM2rVrjuIpho5Pz29cvQjY/Z2n3JBPDJ49vaCrkJlwE3bHNzC+XjL4Mb/ibY?=
+ =?us-ascii?Q?e5+qlf04Nf2rKQg1qn/9cGogneJtxqyqvfR/GwPPm7HWKodZMMM9/v/6+Crk?=
+ =?us-ascii?Q?RpPSt5vh3DhqrSDAd2hgkybe45XXVacxYn9+Z5OV5b4GnO/tfZUhE1S649SM?=
+ =?us-ascii?Q?cqa6bIUcROXaZ+2J2Q/l36FxStsP+woxVgv0j+hnLosxqQDk0p4DmNMbXg/A?=
+ =?us-ascii?Q?HXbG8X2MGbFms4Box6lXtnQGZuYxcHZ0HML5y5Ppp4dgIhM/uIT9CJJUjGDY?=
+ =?us-ascii?Q?VkwTlDgrhHfPI/cMitx3NeLoDEzQcyb0E2YgiztZmEneeJBzliOREbg/pWs4?=
+ =?us-ascii?Q?kRY4zgpXFlCbEoAC3SRs5fQN+/3TW0R+2AWllpd5fexx97aHtodWSwus8JoH?=
+ =?us-ascii?Q?nVKzQhYUE8iyqPghJf/BtQ3/UI/iHa3A5jLcge+st2iH/+9rT1uZNk0O6N4z?=
+ =?us-ascii?Q?31QUKmqBBhNhtFeucvZreGtl5XEivVcbVHwEeQgQNy5Q6y/A0dN+jDYS3bdd?=
+ =?us-ascii?Q?mtvgufixpH6sHcNi8g9tAjl2p9rMJw5B52Ro43G4wxLIln3amEPLU6AUh1Wh?=
+ =?us-ascii?Q?T1YFdmDJjzInhIo8Fx/CWHXJBFAaTEx1uV8+cQCc2cOEn3k5GjSpnpuA7jqi?=
+ =?us-ascii?Q?IZS7y+R9cRqQeCQuz8oQlZFcCwfJyJD/G62PcKq04FqqC+lZ2uEpYL8oW02T?=
+ =?us-ascii?Q?V/s9aC2v7QYQvoajzV62eq5sGMtLBgzRn3MxStzFUpRSIDk/lUBwB4C9pepV?=
+ =?us-ascii?Q?M04c76C8ua5Yj7EyClfXgUyxIaDty7+b2x9oKovKchJMVLWe9v/nloo0oR/T?=
+ =?us-ascii?Q?5jERmTmSR/50AhN7Sz4+AFhOEpaqmB9xtUZCPVzEnobnjt/RXJknqrHNxIqx?=
+ =?us-ascii?Q?E3JtIZpPQ6W0I3urhc6vXVnTpIW664WqfETfdYNiZBXLY3Jy7pGeTa4ecJJ9?=
+ =?us-ascii?Q?A27bynaHQLNR1MGM6J3KTgdt8FMlOi0Hyen7IHJDgg7KsP9Qi3VsHEDohkJH?=
+ =?us-ascii?Q?OQZES0n0sgffI8GG94OZjFDqImUq9EKIqRqu9KcZOufEfMdsp1NTOiKLoKgD?=
+ =?us-ascii?Q?VWjRBPr52RLY4yC9ggozGWnOIWsd4Mun7D+sgwehOuxNCNayF4Rshy/hZteA?=
+ =?us-ascii?Q?Q+FZal3ayl14Nw4YY1osBOhA4A1pXLwd4D/2ZExbYGlc/NAZUpJ0Wbiwx4/3?=
+ =?us-ascii?Q?QYbLIdEH21xzY1e4cPNx5V0BE0g0EAJCQIO0G1hXImBYSVhOUrLGlxxhkE10?=
+ =?us-ascii?Q?bFQ+N48em+VOhCc4T0OuRYWB2/930OvFwCBgKyHddPFUDw4FEZrenfYg140k?=
+ =?us-ascii?Q?6A=3D=3D?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7483d1b2-d12a-4fa3-1040-08dbe4e99af8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b3c5bbf-8550-436a-35f0-08dbe4e99b1e
 X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 08:13:38.2572
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 08:13:38.4945
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nlewZLkkhvdJj8bz7X9RFBvv1BCpi7aR8/N/2xqVon1RW8rorT9QLEOpLn7zvsMb/bFIChgvlsrZCUuYZS/BPA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: kznCOs7k4YjsjnSNU9ahjIO/IlKi7sgZ2Si7V/MZEH89OHGKeZDmkhvfA0J3sBtGlqkwPze/9winP7txvx+OSw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9458
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 08:13:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190488
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190489
 
-From: Lukas Funke <lukas.funke@weidmueller.com>
+From: Malte Schmidt <malte.schmidt@weidmueller.com>
 
 Adds features to explicitly write zeros to the start of the
 partition. This is useful to overwrite old content like
@@ -128,12 +130,99 @@ The features are:
   Write at most N bytes at a time during source file creation.
   Defaults to '1M'. Default unit is 'K'.
 
-Malte Schmidt (1):
-  wic: extend empty plugin with options to write zeros to partiton
-
+Signed-off-by: Malte Schmidt <malte.schmidt@weidmueller.com>
+---
  scripts/lib/wic/plugins/source/empty.py | 57 ++++++++++++++++++++++++-
  1 file changed, 56 insertions(+), 1 deletion(-)
 
+diff --git a/scripts/lib/wic/plugins/source/empty.py b/scripts/lib/wic/plug=
+ins/source/empty.py
+index 041617d648..f7581a0298 100644
+--- a/scripts/lib/wic/plugins/source/empty.py
++++ b/scripts/lib/wic/plugins/source/empty.py
+@@ -7,9 +7,19 @@
+ # To use it you must pass "empty" as argument for the "--source" parameter=
+ in
+ # the wks file. For example:
+ # part foo --source empty --ondisk sda --size=3D"1024" --align 1024
++#
++# The plugin supports writing zeros to the start of the
++# partition. This is useful to overwrite old content like
++# filesystem signatures which may be re-recognized otherwise.
++# This feature can be enabled with
++# '--soucreparams=3D"[fill|size=3D<N>[S|s|K|k|M|G]][,][bs=3D<N>[S|s|K|k|M|=
+G]]"'
++# Conflicting or missing options throw errors.
+=20
+ import logging
++import os
+=20
++from wic import WicError
++from wic.ksparser import sizetype
+ from wic.pluginbase import SourcePlugin
+=20
+ logger =3D logging.getLogger('wic')
+@@ -17,6 +27,16 @@ logger =3D logging.getLogger('wic')
+ class EmptyPartitionPlugin(SourcePlugin):
+     """
+     Populate unformatted empty partition.
++
++    The following sourceparams are supported:
++    - fill
++      Fill the entire partition with zeros. Requires '--fixed-size' option
++      to be set.
++    - size=3D<N>[S|s|K|k|M|G]
++      Set the first N bytes of the partition to zero. Default unit is 'K'.
++    - bs=3D<N>[S|s|K|k|M|G]
++      Write at most N bytes at a time during source file creation.
++      Defaults to '1M'. Default unit is 'K'.
+     """
+=20
+     name =3D 'empty'
+@@ -29,4 +49,39 @@ class EmptyPartitionPlugin(SourcePlugin):
+         Called to do the actual content population for a partition i.e. it
+         'prepares' the partition to be incorporated into the image.
+         """
+-        return
++        get_byte_count =3D sizetype('K', True)
++        size =3D 0
++
++        if 'fill' in source_params and 'size' in source_params:
++            raise WicError("Conflicting source parameters 'fill' and 'size=
+' specified, exiting.")
++
++        # Set the size of the zeros to be written to the partition
++        if 'fill' in source_params:
++            if part.fixed_size =3D=3D 0:
++                raise WicError("Source parameter 'fill' only works with th=
+e '--fixed-size' option, exiting.")
++            size =3D part.fixed_size
++        elif 'size' in source_params:
++            size =3D get_byte_count(source_params['size'])
++
++        if size =3D=3D 0:
++            # Nothing to do, create empty partition
++            return
++
++        if 'bs' in source_params:
++            bs =3D get_byte_count(source_params['bs'])
++        else:
++            bs =3D get_byte_count('1M')
++
++        # Create a binary file of the requested size filled with zeros
++        source_file =3D os.path.join(cr_workdir, 'empty-plugin-zeros%s.bin=
+' % part.lineno)
++        if not os.path.exists(os.path.dirname(source_file)):
++            os.makedirs(os.path.dirname(source_file))
++
++        quotient, remainder =3D divmod(size, bs)
++        with open(source_file, 'wb') as file:
++            for _ in range(quotient):
++                file.write(bytearray(bs))
++            file.write(bytearray(remainder))
++
++        part.size =3D (size + 1024 - 1) // 1024  # size in KB rounded up
++        part.source_file =3D source_file
 --=20
 2.30.2
 
