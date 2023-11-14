@@ -1,294 +1,212 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E5AC54E7C
-	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 20:36:34 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.54])
- by mx.groups.io with SMTP id smtpd.web11.3924.1699994191260043788
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 955B8C4332F
+	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 21:04:24 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.4596.1699995861946153905
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 12:36:31 -0800
+ Tue, 14 Nov 2023 13:04:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@infinera.com header.s=selector1 header.b=rEk7PoZw;
- spf=pass (domain: infinera.com, ip: 40.107.243.54, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BemXIOGimKIrUGDtKht8IpJrRRs2+rB6pbbVmDmaXhIa9qWvajdC4p49RjP3dVTnIoh5Uz3J06PlLhUSgR8oT4Zw9J/k7v5ZAeDEVEcQu6qkdEQptIcCF1gDWaMB2lgZiKuGfiaGrmmXUIznDwoPJeaU+FZPZducMTYXbOzYJpP2328yqHMVHh14uZ6zy0JuT8SJpGWe4zv7UCOppQW+QPEYD4Nupa4AHZUzoo6tip6dclaoCKOP96iRIi0r3w/p69k3d6B6+HeYasd9AI/D4m4ideh+Tr16B8iRAeTgj1/R5HAL2YscyCpxWOfAIf3TN2HhgOxCqH+XdFDVWjdg3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z4RlG+dHLFDkqzxMq2eYZ5HQTcsv63VE3XhsYvq4i0Q=;
- b=Tx6vu7o/4k0PjktCELJupw7yM3CuiT1AyoMeaP9GJ9NX7f7wafwsegkUvCKtFuKqNlKvCxGIzlXbLF4W9T9yG4ufAdZLmnWKPVdHanqe8mygftDJAygC7THLnM9fEqup9DOfcQkEqm225utXEpqTnw98kNF68rZ0f3pbrZcYqDDeniL4tkL4C8LpdJL4bpPMhf63/57NT+6+62H8kikXk99MPAza/Nqii8nRy6IXJNtVWbaQYGdyJfPoYFusd+1sYxJVzSevjPicETPTGqXZPmVzHm9vL5MRdHAAdNZGJ5ho2FP4eCUqO3wPFFmAKSftyd940cUsTJnMpoaq+fptUA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 8.4.225.30) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=infinera.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=infinera.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z4RlG+dHLFDkqzxMq2eYZ5HQTcsv63VE3XhsYvq4i0Q=;
- b=rEk7PoZwz4ZEy8t+/ybGgwZCtFn7dHJmAIJujUAotYI3J5ypxEm0i7sj8W9SoEnGtAI84CJZIUwyAntVo3T4E+VP+Bz/47G2BKaiAS4aNSKixI1FB/tqMlqaM1WjdCcjOGvPCa+NGm/1bRFqJJpGjHfoa+bRPC+7fFPtWK0zz9e7tthcIFSPtFyYWlqRZUpZDEgDZtkT8ZFri/NZsGG4ZLxMdQ8GKhV/T/FVq6bNarX5JjZd06Cb1hBd/Nrk1IFmo+LhgvwNxeEh1B91WkMLx0o9aLQeD1ue5UBvVyV3VLT+LtnPy3ndLDs7OxCT3nZG7L8iAzkPugSkmhLBfGJfqQ==
-Received: from MN2PR20CA0010.namprd20.prod.outlook.com (2603:10b6:208:e8::23)
- by DS7PR10MB7373.namprd10.prod.outlook.com (2603:10b6:8:ef::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6977.31; Tue, 14 Nov 2023 20:36:27 +0000
-Received: from BL6PEPF0001AB50.namprd04.prod.outlook.com
- (2603:10b6:208:e8:cafe::26) by MN2PR20CA0010.outlook.office365.com
- (2603:10b6:208:e8::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31 via Frontend
- Transport; Tue, 14 Nov 2023 20:36:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 8.4.225.30)
- smtp.mailfrom=infinera.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=infinera.com;
-Received-SPF: Pass (protection.outlook.com: domain of infinera.com designates
- 8.4.225.30 as permitted sender) receiver=protection.outlook.com;
- client-ip=8.4.225.30; helo=owa.infinera.com; pr=C
-Received: from owa.infinera.com (8.4.225.30) by
- BL6PEPF0001AB50.mail.protection.outlook.com (10.167.242.74) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7002.13 via Frontend Transport; Tue, 14 Nov 2023 20:36:26 +0000
-Received: from sv-ex16-prd.infinera.com (10.100.96.229) by
- sv-ex16-prd.infinera.com (10.100.96.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.6; Tue, 14 Nov 2023 12:36:13 -0800
-Received: from sv-smtp-prod3.infinera.com (10.100.98.58) by
- sv-ex16-prd.infinera.com (10.100.96.229) with Microsoft SMTP Server id
- 15.1.2507.6 via Frontend Transport; Tue, 14 Nov 2023 12:36:13 -0800
-Received: from se-metroit-prd1.infinera.com ([10.210.32.58]) by sv-smtp-prod3.infinera.com with Microsoft SMTPSVC(8.5.9600.16384);
-	 Tue, 14 Nov 2023 12:36:12 -0800
-Received: from gentoo-jocke.infinera.com (gentoo-jocke.infinera.com [10.210.71.73])
-	by se-metroit-prd1.infinera.com (Postfix) with ESMTP id 2DB3C2C06D81
-	for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 21:36:12 +0100 (CET)
-Received: by gentoo-jocke.infinera.com (Postfix, from userid 1001)
-	id 2CA45456169E; Tue, 14 Nov 2023 21:36:12 +0100 (CET)
-From: Joakim Tjernlund <joakim.tjernlund@infinera.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Joakim Tjernlund <joakim.tjernlund@infinera.com>
-Subject: [PATCH 2/3] shadow: Add PW_SUBDIR
-Date: Tue, 14 Nov 2023 21:34:51 +0100
-Message-ID: <20231114203608.1490318-3-joakim.tjernlund@infinera.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231114203608.1490318-1-joakim.tjernlund@infinera.com>
-References: <20231114203608.1490318-1-joakim.tjernlund@infinera.com>
+ dkim=pass header.i=@linaro.org header.s=google header.b=XOgO7aFP;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c6efcef4eeso80959691fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 13:04:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699995860; x=1700600660; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XKvQUi7N66H0+YjLKOa5duCvjvtc7Id8SUy8VFJ5mYQ=;
+        b=XOgO7aFPEtvu9REPRJxcGdBK+BEGmZFApFAn5BV3iz5QQiS0c3prw8dR1MTKjEE4L8
+         kxF5P1p1NMtuoESo3FwBj3RVaS8a9WS/MOTfm7Yrzik+s4Xb+SWa1ydSvQJ9mja3JvhQ
+         AUaacTwi8R4PglYxCTMv/WHOyl9gH8xWFHT6sPDQ7feH8uwVKAK0rK/xkrmB2Y8Proju
+         TdCQgCbuGkz0OzNC6vgFzGKwWXp5rI3ZIZJ5h/cF+MHpQRa9i72dMB8QvdxxVsvrzjpa
+         yeW7hRenfqTRcG6OYOFad5SJYdCc2KJFK1xBpsHiOQGQE8DOGeOE6LUUqXZzRRku5yGP
+         hCVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699995860; x=1700600660;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XKvQUi7N66H0+YjLKOa5duCvjvtc7Id8SUy8VFJ5mYQ=;
+        b=pCZeR1OYol9KxkzHWvxA9MxmP5w/MPGfe9/zbWkmdoDw8c4aCUb3sMn05adof4t+lK
+         sCh6XUCvfjp7l/+sUn9M29rSx2vDUNsC4hAgRrjT8pfA/ry1kcW6UZw/i8Hti/z5++eN
+         +slT9MiBI4L6TiEvSiA/03RCYNIPEed4EKb7gn1XY5qlEEDZZBX468GM8qw3wdz72j2C
+         ydrKpxDvtfkyq85UhweJDa4wbRpRKVXs9OYBUOIWilOSsNOSMDFyLvCpeWyfpJNq9hCM
+         iIVJWbhnzMcctOhiraWKLyz/erddf3cwk7NWvCfjzhAxI5k5p/br+nAtAxXtJn4MPdeu
+         +0YQ==
+X-Gm-Message-State: AOJu0Yz1fQZvyIUPKa8BX6YIQnlpSVN2k9XvCC0BhcLN3uFy9mRMCp3F
+	kIQo1WCiEq5UeVGKmDL8LZ+ozQKZKcG8RjOzHIU=
+X-Google-Smtp-Source: AGHT+IGt6nGGsMNJsvn8Mc3MO0Oglq+chft+ro/5K3AZk5YzkZJRTEbGUoKboW4yBU4SgFAQMZs7bw==
+X-Received: by 2002:a2e:a3d2:0:b0:2c5:6df:8b2c with SMTP id w18-20020a2ea3d2000000b002c506df8b2cmr2330453lje.45.1699995859785;
+        Tue, 14 Nov 2023 13:04:19 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id a8-20020a05651c210800b002c001e57e1asm1437856ljq.73.2023.11.14.13.04.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Nov 2023 13:04:19 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/2] rust-android-sparse: add lightweight simg2img/img2simg implementation
+Date: Wed, 15 Nov 2023 00:04:17 +0300
+Message-Id: <20231114210418.1323819-2-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org>
+References: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-OriginalArrivalTime: 14 Nov 2023 20:36:13.0150 (UTC) FILETIME=[355A3FE0:01DA173A]
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB50:EE_|DS7PR10MB7373:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2a7c979-1de6-4ec0-15c6-08dbe5515fcf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	9OtRuS/+mb9XH+b9fQIFZD0BfB28AA3z8i5LlCRhLP0vfbHrW6pCdFsZR6hKMdNQNyf4YKlIwaBusgUeGND9qcguCRN1HgvUUiDHO/vO9v/Zd2KcnMIFqlcb3tgOBIh+p7fpmARYtDsdFHqVrolehWALf5+YVYEltvGv/6nd/apRi9dCWYpW5mwbKj+a8GZgmNop0llEEFU9vwo4fpgPk6Etu0HJqGV1hGUQcOA4WKiAn1Lfzx51LeWKv+wm0sU7IipABf4SwkT5bEi4RrN2gIhGWnkV274XS0UC61TfYGApAXWe6mdn6sySrDvIwNFJ5VJcRg76Aeg0CFFxn+glDFqlRdSb614jv2uidWTdluvVnCoWCnALvZRqwE8Kc0MsGThHf9fVMjB3MgpCNDrY+9vuUJGGM3b72Nsfv2hPB9mWGXzwalEIBB0oqXejKE8feaAmdymR62AAEuROD5gcNSTGro3lvrpBQ41UGOjB9iQqJQZixnnoZFUDg9Evw45t3iFYi/lkVQN9Bl5xROAv3aeCldfdhjacZ5cKB2awAqyfB/ZgBCpMVYJpkLzNW5JdUB7kcV9W5hzkMCClSCJSeXh9U5WZ50nbcYrnF1oPuRu+pKgAOISjDkZ2G1va9adnXaMY0sXiofaNZh6wKhR/nTxqZisN0feWYh+PCXI79kQFx5j21akIKCWzeewFcyEhTzXyHq1OLhlNfuXR67mz8mKRPo7qHaDIFvAk6DGhmkY=
-X-Forefront-Antispam-Report: 
-	CIP:8.4.225.30;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:owa.infinera.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(136003)(39860400002)(346002)(396003)(230922051799003)(64100799003)(1800799009)(186009)(82310400011)(451199024)(36840700001)(46966006)(2616005)(107886003)(6666004)(1076003)(478600001)(36860700001)(336012)(6266002)(26005)(47076005)(83380400001)(426003)(44832011)(6916009)(8676002)(5660300002)(4326008)(70206006)(8936002)(70586007)(316002)(42186006)(2906002)(41300700001)(36756003)(82740400003)(81166007)(356005)(86362001)(40480700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 20:36:26.4013
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2a7c979-1de6-4ec0-15c6-08dbe5515fcf
-X-MS-Exchange-CrossTenant-Id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=285643de-5f5b-4b03-a153-0ae2dc8aaf77;Ip=[8.4.225.30];Helo=[owa.infinera.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	BL6PEPF0001AB50.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB7373
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 20:36:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190518
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 21:04:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190520
 
-Add support for creating passwd files in a /etc subdir
-Set PW_SUBIR to pwdb to get passwd files in /etc/pwdb
+The Android's simg2img/img2simg comes from android-tools, which is a
+huge package with lots of dependencies on its own. It resides inside
+meta-oe rather than OE-Core. Add lightweight tool to handle sparse
+images, which is small enough to be pushed into OE-Core.
 
-Signed-off-by: Joakim Tjernlund <joakim.tjernlund@infinera.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../0001-Define-SUBUID_FILE-SUBGID_FILE.patch | 92 +++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       | 30 +++++-
- 2 files changed, 118 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-extended/shadow/files/0001-Define-SUBUID_F=
-ILE-SUBGID_FILE.patch
+ .../rust-android-sparse-crates.inc            | 98 +++++++++++++++++++
+ .../rust-android-sparse_0.6.0.bb              | 20 ++++
+ 2 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-extended/rust-android-sparse/rust-android-sparse-crates.inc
+ create mode 100644 meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
 
-diff --git a/meta/recipes-extended/shadow/files/0001-Define-SUBUID_FILE-SUB=
-GID_FILE.patch b/meta/recipes-extended/shadow/files/0001-Define-SUBUID_FILE=
--SUBGID_FILE.patch
+diff --git a/meta/recipes-extended/rust-android-sparse/rust-android-sparse-crates.inc b/meta/recipes-extended/rust-android-sparse/rust-android-sparse-crates.inc
 new file mode 100644
-index 0000000000..b02a61e3c2
+index 000000000000..5f3e1c5657ff
 --- /dev/null
-+++ b/meta/recipes-extended/shadow/files/0001-Define-SUBUID_FILE-SUBGID_FIL=
-E.patch
-@@ -0,0 +1,92 @@
-+From f605fb315faef7ddcad70d638f3b3aa16ea98fc0 Mon Sep 17 00:00:00 2001
-+From: Joakim Tjernlund <joakim.tjernlund@infinera.com>
-+Date: Thu, 2 Nov 2023 00:27:10 +0100
-+Subject: [PATCH] Define SUBUID_FILE/SUBGID_FILE
++++ b/meta/recipes-extended/rust-android-sparse/rust-android-sparse-crates.inc
+@@ -0,0 +1,98 @@
++# Autogenerated with 'bitbake -c update_crates rust-android-sparse'
 +
-+Upstream-Status: Pending
++# from Cargo.lock
++SRC_URI += " \
++    crate://crates.io/aho-corasick/0.7.18 \
++    crate://crates.io/assert_cmd/0.9.1 \
++    crate://crates.io/autocfg/1.0.1 \
++    crate://crates.io/bitflags/1.3.2 \
++    crate://crates.io/build_const/0.2.2 \
++    crate://crates.io/byteorder/1.4.3 \
++    crate://crates.io/cfg-if/1.0.0 \
++    crate://crates.io/clap/2.34.0 \
++    crate://crates.io/crc/1.8.1 \
++    crate://crates.io/difference/2.0.0 \
++    crate://crates.io/escargot/0.3.1 \
++    crate://crates.io/float-cmp/0.4.0 \
++    crate://crates.io/getrandom/0.2.3 \
++    crate://crates.io/itoa/0.4.8 \
++    crate://crates.io/libc/0.2.109 \
++    crate://crates.io/memchr/2.4.1 \
++    crate://crates.io/normalize-line-endings/0.2.2 \
++    crate://crates.io/num-traits/0.2.14 \
++    crate://crates.io/ppv-lite86/0.2.15 \
++    crate://crates.io/predicates/0.9.1 \
++    crate://crates.io/predicates-core/0.9.0 \
++    crate://crates.io/predicates-tree/0.9.0 \
++    crate://crates.io/proc-macro2/1.0.33 \
++    crate://crates.io/quote/1.0.10 \
++    crate://crates.io/rand/0.8.4 \
++    crate://crates.io/rand_chacha/0.3.1 \
++    crate://crates.io/rand_core/0.6.3 \
++    crate://crates.io/rand_hc/0.3.1 \
++    crate://crates.io/redox_syscall/0.2.10 \
++    crate://crates.io/regex/1.5.4 \
++    crate://crates.io/regex-syntax/0.6.25 \
++    crate://crates.io/remove_dir_all/0.5.3 \
++    crate://crates.io/ryu/1.0.6 \
++    crate://crates.io/serde/1.0.130 \
++    crate://crates.io/serde_derive/1.0.130 \
++    crate://crates.io/serde_json/1.0.72 \
++    crate://crates.io/syn/1.0.82 \
++    crate://crates.io/tempfile/3.2.0 \
++    crate://crates.io/textwrap/0.11.0 \
++    crate://crates.io/treeline/0.1.0 \
++    crate://crates.io/unicode-width/0.1.9 \
++    crate://crates.io/unicode-xid/0.2.2 \
++    crate://crates.io/wasi/0.10.2+wasi-snapshot-preview1 \
++    crate://crates.io/winapi/0.3.9 \
++    crate://crates.io/winapi-i686-pc-windows-gnu/0.4.0 \
++    crate://crates.io/winapi-x86_64-pc-windows-gnu/0.4.0 \
++"
 +
-+These where hard coded, make them definable like SHADOW_FILE
++SRC_URI[aho-corasick-0.7.18.sha256sum] = "1e37cfd5e7657ada45f742d6e99ca5788580b5c529dc78faf11ece6dc702656f"
++SRC_URI[assert_cmd-0.9.1.sha256sum] = "c5b60c276f334145cf2cec09c5bb6f63523f078c0c850909f66bca8f933cf809"
++SRC_URI[autocfg-1.0.1.sha256sum] = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
++SRC_URI[bitflags-1.3.2.sha256sum] = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
++SRC_URI[build_const-0.2.2.sha256sum] = "b4ae4235e6dac0694637c763029ecea1a2ec9e4e06ec2729bd21ba4d9c863eb7"
++SRC_URI[byteorder-1.4.3.sha256sum] = "14c189c53d098945499cdfa7ecc63567cf3886b3332b312a5b4585d8d3a6a610"
++SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
++SRC_URI[clap-2.34.0.sha256sum] = "a0610544180c38b88101fecf2dd634b174a62eef6946f84dfc6a7127512b381c"
++SRC_URI[crc-1.8.1.sha256sum] = "d663548de7f5cca343f1e0a48d14dcfb0e9eb4e079ec58883b7251539fa10aeb"
++SRC_URI[difference-2.0.0.sha256sum] = "524cbf6897b527295dff137cec09ecf3a05f4fddffd7dfcd1585403449e74198"
++SRC_URI[escargot-0.3.1.sha256sum] = "19db1f7e74438642a5018cdf263bb1325b2e792f02dd0a3ca6d6c0f0d7b1d5a5"
++SRC_URI[float-cmp-0.4.0.sha256sum] = "134a8fa843d80a51a5b77d36d42bc2def9edcb0262c914861d08129fd1926600"
++SRC_URI[getrandom-0.2.3.sha256sum] = "7fcd999463524c52659517fe2cea98493cfe485d10565e7b0fb07dbba7ad2753"
++SRC_URI[itoa-0.4.8.sha256sum] = "b71991ff56294aa922b450139ee08b3bfc70982c6b2c7562771375cf73542dd4"
++SRC_URI[libc-0.2.109.sha256sum] = "f98a04dce437184842841303488f70d0188c5f51437d2a834dc097eafa909a01"
++SRC_URI[memchr-2.4.1.sha256sum] = "308cc39be01b73d0d18f82a0e7b2a3df85245f84af96fdddc5d202d27e47b86a"
++SRC_URI[normalize-line-endings-0.2.2.sha256sum] = "2e0a1a39eab95caf4f5556da9289b9e68f0aafac901b2ce80daaf020d3b733a8"
++SRC_URI[num-traits-0.2.14.sha256sum] = "9a64b1ec5cda2586e284722486d802acf1f7dbdc623e2bfc57e65ca1cd099290"
++SRC_URI[ppv-lite86-0.2.15.sha256sum] = "ed0cfbc8191465bed66e1718596ee0b0b35d5ee1f41c5df2189d0fe8bde535ba"
++SRC_URI[predicates-0.9.1.sha256sum] = "f31e7977fc111984fdac76b6ae3a4cb598008fc6fd02dfdca189bf180bd7be20"
++SRC_URI[predicates-core-0.9.0.sha256sum] = "85f80bc390d1c02a4cdaa63f27f05c3c426679eb65433d8dd65d392147e4e5c5"
++SRC_URI[predicates-tree-0.9.0.sha256sum] = "2e86df9b81bdcb0a5141aca9d2b9c5e0c558ef6626d3ae2c12912f5c9df740bd"
++SRC_URI[proc-macro2-1.0.33.sha256sum] = "fb37d2df5df740e582f28f8560cf425f52bb267d872fe58358eadb554909f07a"
++SRC_URI[quote-1.0.10.sha256sum] = "38bc8cc6a5f2e3655e0899c1b848643b2562f853f114bfec7be120678e3ace05"
++SRC_URI[rand-0.8.4.sha256sum] = "2e7573632e6454cf6b99d7aac4ccca54be06da05aca2ef7423d22d27d4d4bcd8"
++SRC_URI[rand_chacha-0.3.1.sha256sum] = "e6c10a63a0fa32252be49d21e7709d4d4baf8d231c2dbce1eaa8141b9b127d88"
++SRC_URI[rand_core-0.6.3.sha256sum] = "d34f1408f55294453790c48b2f1ebbb1c5b4b7563eb1f418bcfcfdbb06ebb4e7"
++SRC_URI[rand_hc-0.3.1.sha256sum] = "d51e9f596de227fda2ea6c84607f5558e196eeaf43c986b724ba4fb8fdf497e7"
++SRC_URI[redox_syscall-0.2.10.sha256sum] = "8383f39639269cde97d255a32bdb68c047337295414940c68bdd30c2e13203ff"
++SRC_URI[regex-1.5.4.sha256sum] = "d07a8629359eb56f1e2fb1652bb04212c072a87ba68546a04065d525673ac461"
++SRC_URI[regex-syntax-0.6.25.sha256sum] = "f497285884f3fcff424ffc933e56d7cbca511def0c9831a7f9b5f6153e3cc89b"
++SRC_URI[remove_dir_all-0.5.3.sha256sum] = "3acd125665422973a33ac9d3dd2df85edad0f4ae9b00dafb1a05e43a9f5ef8e7"
++SRC_URI[ryu-1.0.6.sha256sum] = "3c9613b5a66ab9ba26415184cfc41156594925a9cf3a2057e57f31ff145f6568"
++SRC_URI[serde-1.0.130.sha256sum] = "f12d06de37cf59146fbdecab66aa99f9fe4f78722e3607577a5375d66bd0c913"
++SRC_URI[serde_derive-1.0.130.sha256sum] = "d7bc1a1ab1961464eae040d96713baa5a724a8152c1222492465b54322ec508b"
++SRC_URI[serde_json-1.0.72.sha256sum] = "d0ffa0837f2dfa6fb90868c2b5468cad482e175f7dad97e7421951e663f2b527"
++SRC_URI[syn-1.0.82.sha256sum] = "8daf5dd0bb60cbd4137b1b587d2fc0ae729bc07cf01cd70b36a1ed5ade3b9d59"
++SRC_URI[tempfile-3.2.0.sha256sum] = "dac1c663cfc93810f88aed9b8941d48cabf856a1b111c29a40439018d870eb22"
++SRC_URI[textwrap-0.11.0.sha256sum] = "d326610f408c7a4eb6f51c37c330e496b08506c9457c9d34287ecc38809fb060"
++SRC_URI[treeline-0.1.0.sha256sum] = "a7f741b240f1a48843f9b8e0444fb55fb2a4ff67293b50a9179dfd5ea67f8d41"
++SRC_URI[unicode-width-0.1.9.sha256sum] = "3ed742d4ea2bd1176e236172c8429aaf54486e7ac098db29ffe6529e0ce50973"
++SRC_URI[unicode-xid-0.2.2.sha256sum] = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
++SRC_URI[wasi-0.10.2+wasi-snapshot-preview1.sha256sum] = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6"
++SRC_URI[winapi-0.3.9.sha256sum] = "5c839a674fcd7a98952e593242ea400abe93992746761e38641405d28b00f419"
++SRC_URI[winapi-i686-pc-windows-gnu-0.4.0.sha256sum] = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
++SRC_URI[winapi-x86_64-pc-windows-gnu-0.4.0.sha256sum] = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
+diff --git a/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb b/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
+new file mode 100644
+index 000000000000..3cf8993fb614
+--- /dev/null
++++ b/meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
+@@ -0,0 +1,20 @@
++# Auto-Generated by cargo-bitbake 0.3.16
++#
++inherit cargo cargo-update-recipe-crates
 +
-+Signed-off-by: Joakim Tjernlund <joakim.tjernlund@infinera.com>
-+---
-+ lib/defines.h         | 8 ++++++++
-+ lib/subordinateio.c   | 6 +++---
-+ libmisc/prefix_flag.c | 8 ++++----
-+ 3 files changed, 15 insertions(+), 7 deletions(-)
++# how to get android-sparse could be as easy as but default to a git checkout:
++SRC_URI += "crate://crates.io/android-sparse/0.6.0"
++S= "${CARGO_VENDORING_DIRECTORY}/android-sparse-${PV}"
++SRC_URI[android-sparse-0.6.0.sha256sum] = "9c76c5759b0af9dea95a769ff5fe140cec5afb5fa65019817f3731b3232afe44"
 +
-+diff --git a/lib/defines.h b/lib/defines.h
-+index fc1521c..27b220f 100644
-+--- a/lib/defines.h
-++++ b/lib/defines.h
-+@@ -312,6 +312,14 @@ char *strchr (), *strrchr (), *strtok ();
-+ #define SHADOW_FILE "/etc/shadow"
-+ #endif
-+=20
-++#ifndef SUBUID_FILE
-++#define SUBUID_FILE "/etc/subuid"
-++#endif
-++
-++#ifndef SUBGID_FILE
-++#define SUBGID_FILE "/etc/subgid"
-++#endif
-++
-+ #ifdef SHADOWGRP
-+ #ifndef SGROUP_FILE
-+ #define SGROUP_FILE "/etc/gshadow"
-+diff --git a/lib/subordinateio.c b/lib/subordinateio.c
-+index 9ca70b8..9ddc5e1 100644
-+--- a/lib/subordinateio.c
-++++ b/lib/subordinateio.c
-+@@ -206,7 +206,7 @@ static const struct subordinate_range *find_range(stru=
-ct commonio_db *db,
-+         /*
-+          * We only do special handling for these two files
-+          */
-+-        if ((0 !=3D strcmp(db->filename, "/etc/subuid")) && (0 !=3D strcm=
-p(db->filename, "/etc/subgid")))
-++        if ((0 !=3D strcmp(db->filename, SUBUID_FILE)) && (0 !=3D strcmp(=
-db->filename, SUBGID_FILE)))
-+                 return NULL;
-+=20
-+         /*
-+@@ -554,7 +554,7 @@ static int remove_range (struct commonio_db *db,
-+ }
-+=20
-+ static struct commonio_db subordinate_uid_db =3D {
-+-	"/etc/subuid",		/* filename */
-++	SUBUID_FILE,		/* filename */
-+ 	&subordinate_ops,	/* ops */
-+ 	NULL,			/* fp */
-+ #ifdef WITH_SELINUX
-+@@ -650,7 +650,7 @@ uid_t sub_uid_find_free_range(uid_t min, uid_t max, un=
-signed long count)
-+ }
-+=20
-+ static struct commonio_db subordinate_gid_db =3D {
-+-	"/etc/subgid",		/* filename */
-++	SUBGID_FILE,		/* filename */
-+ 	&subordinate_ops,	/* ops */
-+ 	NULL,			/* fp */
-+ #ifdef WITH_SELINUX
-+diff --git a/libmisc/prefix_flag.c b/libmisc/prefix_flag.c
-+index d4dfbc2..0e7dfa7 100644
-+--- a/libmisc/prefix_flag.c
-++++ b/libmisc/prefix_flag.c
-+@@ -120,14 +120,14 @@ extern const char* process_prefix_flag (const char* =
-short_opt, int argc, char **
-+ 		spw_setdbname(spw_db_file);
-+=20
-+ #ifdef ENABLE_SUBIDS
-+-		len =3D strlen(prefix) + strlen("/etc/subuid") + 2;
-++		len =3D strlen(prefix) + strlen(SUBUID_FILE) + 2;
-+ 		suid_db_file =3D xmalloc(len);
-+-		snprintf(suid_db_file, len, "%s/%s", prefix, "/etc/subuid");
-++		snprintf(suid_db_file, len, "%s/%s", prefix, SUBUID_FILE);
-+ 		sub_uid_setdbname(suid_db_file);
-+=20
-+-		len =3D strlen(prefix) + strlen("/etc/subgid") + 2;
-++		len =3D strlen(prefix) + strlen(SUBGID_FILE) + 2;
-+ 		sgid_db_file =3D xmalloc(len);
-+-		snprintf(sgid_db_file, len, "%s/%s", prefix, "/etc/subgid");
-++		snprintf(sgid_db_file, len, "%s/%s", prefix, SUBGID_FILE);
-+ 		sub_gid_setdbname(sgid_db_file);
-+ #endif
-+=20
-+--=20
-+2.41.0
++require rust-android-sparse-crates.inc
 +
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extende=
-d/shadow/shadow.inc
-index 3c1dd2f98e..bcb9b09a49 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -18,6 +18,7 @@ SRC_URI =3D "https://github.com/shadow-maint/shadow/relea=
-ses/download/v${PV}/${BP}
-            file://useradd \
-            file://CVE-2023-29383.patch \
-            file://0001-Overhaul-valid_field.patch \
-+           file://0001-Define-SUBUID_FILE-SUBGID_FILE.patch \
-            "
-=20
- SRC_URI:append:class-target =3D " \
-@@ -46,6 +47,21 @@ PAM_SRC_URI =3D "file://pam.d/chfn \
-                file://pam.d/passwd \
-                file://pam.d/su"
-=20
-+#Set PW_SUBDIR to pwdb to get passwd files in /etc/pwdb
-+PW_SUBDIR ?=3D ""
-+PWPRE =3D "/etc/${PW_SUBDIR}"
-+CFLAGS:append =3D ' -DPASSWD_FILE=3D\\"${PWPRE}/passwd\\"'
-+CFLAGS:append =3D ' -DSHADOW_FILE=3D\\"${PWPRE}/shadow\\"'
-+CFLAGS:append =3D ' -DGROUP_FILE=3D\\"${PWPRE}/group\\"'
-+CFLAGS:append =3D ' -DSGROUP_FILE=3D\\"${PWPRE}/gshadow\\"'
-+CFLAGS:append =3D ' -DSUBUID_FILE=3D\\"${PWPRE}/subuid\\"'
-+CFLAGS:append =3D ' -DSUBGID_FILE=3D\\"${PWPRE}/subgid\\"'
++LIC_FILES_CHKSUM = " \
++    file://LICENSE;md5=0ffe68749328daf57dd85d5ca6ee981f \
++"
 +
-+#shadow has it own impl. that uses whatever dir passwd files are in
-+do_configure:prepend () {
-+    sed -i -e 's/lckpwdf//' ${S}/configure.ac
-+}
++SUMMARY = "An implementation of Android's sparse file format."
++HOMEPAGE = "https://gitlab.com/ra_kete/android-sparse-rs"
++LICENSE = "MIT"
 +
- inherit autotools gettext
-=20
- export CONFIG_SHELL=3D"/bin/sh"
-@@ -157,9 +173,9 @@ do_install:append() {
- 	# usermod requires the subuid/subgid files to be in place before being
- 	# able to use the -v/-V flags otherwise it fails:
- 	# usermod: /etc/subuid does not exist, you cannot use the flags -v or -V
--	install -d ${D}${sysconfdir}
--	touch ${D}${sysconfdir}/subuid
--	touch ${D}${sysconfdir}/subgid
-+	install -d ${D}${sysconfdir}/${PW_SUBDIR}
-+	touch ${D}${sysconfdir}/${PW_SUBDIR}/subuid
-+	touch ${D}${sysconfdir}/${PW_SUBDIR}/subgid
- }
-=20
- PACKAGES =3D+ "${PN}-base"
-@@ -193,12 +209,18 @@ ALTERNATIVE_LINK_NAME[su] =3D "${base_bindir}/su"
-=20
- PACKAGE_WRITE_DEPS +=3D "shadow-native"
- pkg_postinst:${PN}:class-target () {
-+	install -d $D${sysconfdir}/${PW_SUBDIR}
- 	if [ "x$D" !=3D "x" ]; then
- 	  rootarg=3D"--root $D"
- 	else
- 	  rootarg=3D""
- 	fi
--
-+	if [ -n "${PW_SUBDIR}" ]; then
-+	    ln -fs ${PW_SUBDIR}/subuid $D${sysconfdir}/subuid
-+	    ln -fs ${PW_SUBDIR}/subgid $D${sysconfdir}/subgid
-+	    ln -fs ${PW_SUBDIR}/shadow $D${sysconfdir}/shadow
-+	    ln -fs ${PW_SUBDIR}/gshadow $D${sysconfdir}/gshadow
-+	fi
- 	pwconv $rootarg || exit 1
- 	grpconv $rootarg || exit 1
- }
---=20
-2.41.0
++BBCLASSEXTEND += "native"
+-- 
+2.39.2
 
 
