@@ -1,147 +1,111 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A48C4332F
-	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 21:53:44 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.5822.1699998819604133591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47659C4332F
+	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 23:32:25 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.812.1700004744190840838
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 13:53:39 -0800
+ Tue, 14 Nov 2023 15:32:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UO6zJ68B;
- spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5c18a3387f5so1728611a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 13:53:39 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e20M8cyD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4083f613275so51084305e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 15:32:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699998819; x=1700603619; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JIyg75cS9cu5DrvfmMJsvUc1AZQfVKgn26wb/4vQVs0=;
-        b=UO6zJ68BrwGQK1x4wP6e3tzjLUGJf3Ro396qxxxKGXkKZOPHht4mxAteK5THvMY2kE
-         qMc3qcJZOGKY1Fc1lQh+aRA8AmvPkAK0KmDd6xxt34/KKze1nCL77QS1OoHUuIvsua0G
-         ItU+i1IYSxZIZoxfBxUqs91LyELU5TDNvDcozBe3Qw8fUqcuifqBgPhJJo45Fx9yhSJM
-         +igdKHjKXTUhBePfFIaKR4H8eua8duPEoBO6aTOS/rMa/+UgkJJszGli3XgDIr4Zju7I
-         tI6CeG+LnoLS5pJWDdBgOx9sOOv7M5fxZAuzqpdv9EdrTQ66+FprbUKng1QbqeNIE7bt
-         bF8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699998819; x=1700603619;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linuxfoundation.org; s=google; t=1700004742; x=1700609542; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JIyg75cS9cu5DrvfmMJsvUc1AZQfVKgn26wb/4vQVs0=;
-        b=jEMNobO34XiR1c6/pmC+PXKvzZcLLKBB4Ooi1bsWtJJsBAy8XEkAzz6jo76a5D34Rb
-         1KwhY5OU41uGT87q1R5JMmAmNsEai3ZSvtEu4zMobFyk09wFVjCxR6ovYFmmtcPl6B2Q
-         PtoqDnWWd1Mydnt8JM3TuRdimOnIo30sJRw7fPGvNdoxyKBk8KC8IAm3ciW1JUSt8xNJ
-         5C9hBUQRV3rsO6Do4y0n4UlxueznEiXaWc6bAq+ODPjEjzogEPC/SOjltkE0e7v+ksCv
-         Qo1Rw7fJejP/oOyZ3DfOUJWSRKSGz6p/kf7typjPuCgPkICiFTwJ1cqxw2UXsckQbkVL
-         pO7A==
-X-Gm-Message-State: AOJu0YzN8F0NFkgy3kQrum6gMD0TzwwO4oLePwKyc98l6MRoTYWGb6hk
-	DdH+SYmWv2WvAZPOesHXnZ6FIYX8ybFlzQ==
-X-Google-Smtp-Source: AGHT+IFl4LJ9tKP+RWmovx/70rvPE/+8I0o2t51xPPVQrWCCXE9nHkJf/PWNsrrUrAekHlwDYciRFQ==
-X-Received: by 2002:a17:903:244d:b0:1cc:2ef7:2abe with SMTP id l13-20020a170903244d00b001cc2ef72abemr3987339pls.48.1699998818651;
-        Tue, 14 Nov 2023 13:53:38 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::62f8])
-        by smtp.gmail.com with ESMTPSA id o14-20020a170902d4ce00b001c0cb2aa2easm6091391plg.121.2023.11.14.13.53.38
+        bh=ZcgWjniHchDbDdSHEHU6ZHMubNf3xGCASwi9IC01qO4=;
+        b=e20M8cyD6Hb2JgFI6Iwk4oxJ4/7VcHYa/ateLqjn3/xZ+pzxVQ/PXJ2+L0Mxdv1tch
+         HQqLuEaYq4MlJr/Kn18lpsRAQHdqH0AloWIBH73lKnliMzyL/cZ7JecuZlByC5ud2UaI
+         LnFkAj9CY5Bkdn9zKPf3RGdSAczfSV5yOhR8g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700004742; x=1700609542;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZcgWjniHchDbDdSHEHU6ZHMubNf3xGCASwi9IC01qO4=;
+        b=Y0C/pZ49EarkfDuhnVsJyijAqrP/wW7y/Ah+/p3T5h8H4S9hb14Lppxhaj/l49cIPP
+         tdFnivmSbzQa6bkImMVkTr3hUtcs5D+O70+rqNddyqWwomB5ZTLqiv5rFgsAd25n3Jwi
+         FZV1qkWxvxaa6XV+68QkamUiFeCrNcV55LfLPfQ4008qLUStEYQjf8lyGmqQ9Wft3foH
+         3Gn9AeAOOdwtP6NhimBlVDFQENO5ZMPTa6g3zJTbeDyf75GT8ddchC3tplBOuwXAtal3
+         fGwsi5NyjmidNa2+WnZdcgQNbR5VIcJERUd9hHmos+We78uH28Xk1tMHOGeYUGyMAucQ
+         YN6g==
+X-Gm-Message-State: AOJu0Yy8erF+PQVesNM19flESl/gz6ozepOQBGfyXA2vcfzsJAPnaEcW
+	a7bZXb8VlDg0bZV4epopy83VQSWeRRPOfp/2w+g=
+X-Google-Smtp-Source: AGHT+IF1aOqtp9rWnQjnHovjTIGWsUrhZHn7mtuWSIyJnJU4AgXo8Fpb+EoL408vEh+zBfNWuD/Spg==
+X-Received: by 2002:a05:6000:178d:b0:32d:a466:48d8 with SMTP id e13-20020a056000178d00b0032da46648d8mr10704916wrg.69.1700004742541;
+        Tue, 14 Nov 2023 15:32:22 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bbf9:c35a:2291:eb7c])
+        by smtp.gmail.com with ESMTPSA id n2-20020a5d4202000000b0032d886039easm8836638wrq.14.2023.11.14.15.32.21
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 13:53:38 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+        Tue, 14 Nov 2023 15:32:22 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] vte: Upgrade to 0.74.1
-Date: Tue, 14 Nov 2023 13:53:29 -0800
-Message-ID: <20231114215335.1308211-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.1
+Subject: [PATCH 2/2] vim: Improve locale handling
+Date: Tue, 14 Nov 2023 23:32:20 +0000
+Message-Id: <20231114233220.2567795-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231114233220.2567795-1-richard.purdie@linuxfoundation.org>
+References: <20231114233220.2567795-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 21:53:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190522
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 23:32:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190524
 
-* Enable systemd knob for distros with systemd in them.
-* Add dependency on gtk4 which is needed
-* Package systemd unit files
-* Add packageconfig for fribidi defaulted to disabled
+When making checkouts from git, the timestamps can vary and occasionally two files
+can end up with the same stamp. This triggers make to regenerate ru.cp1251.po from
+ru.po for example. If it isn't regenerated, the output isn't quite the same leading
+to reproducibility issues (CP1251 vs cp1251).
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Since we added all locales to buildtools tarball now, we can drop the locale
+restrictions too. We need to generate a native binary for the sjis conversion
+tool so also tweak that.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...01-Add-W_EXITCODE-macro-for-non-glibc-systems.patch |  4 ++--
- .../vte/{vte_0.72.2.bb => vte_0.74.1.bb}               | 10 ++++++----
- 2 files changed, 8 insertions(+), 6 deletions(-)
- rename meta/recipes-support/vte/{vte_0.72.2.bb => vte_0.74.1.bb} (80%)
+ meta/recipes-support/vim/vim.inc | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-index b4100fc381e..daf07bfd3c9 100644
---- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-+++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-@@ -19,7 +19,7 @@ Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 58025828f2b..38212a1fa60 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -40,22 +40,16 @@ do_configure () {
+     cd src
+     rm -f auto/*
+     touch auto/config.mk
++    # git timestamps aren't reliable and we want to consistently regenerate these generated files
++    rm -f po/cs.cp1250.po po/ja.euc-jp.po po/ja.sjis.po po/ko.po po/pl.UTF-8.po po/pl.cp1250.po po/ru.cp1251.po po/sk.cp1250.po po/uk.cp1251.po po/zh_CN.po po/zh_CN.cp936.po po/zh_TW.po
+     aclocal
+     autoconf
+     cd ..
+     oe_runconf
+     touch src/auto/configure
+     touch src/auto/config.mk src/auto/config.h
+-}
+-
+-do_compile() {
+-    # We do not support fully / correctly the following locales.  Attempting
+-    # to use these with msgfmt in order to update the ".desktop" files exposes
+-    # this problem and leads to the compile failing.
+-    for LOCALE in cs fr ko pl sk zh_CN zh_TW;do
+-        echo -n > src/po/${LOCALE}.po
+-    done
+-    autotools_do_compile
++    # need a native tool, not a target one
++    ${BUILD_CC} src/po/sjiscorr.c -o src/po/sjiscorr
+ }
  
- --- a/src/missing.hh
- +++ b/src/missing.hh
--@@ -24,6 +24,10 @@
-+@@ -43,6 +43,10 @@
-  #define NSIG (8 * sizeof(sigset_t))
-  #endif
-  
-@@ -27,7 +27,7 @@ Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
- +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
- +#endif
- +
-- #ifndef HAVE_FDWALK
-+ #if !HAVE_FDWALK
-  int fdwalk(int (*cb)(void* data, int fd),
-             void* data);
- --- a/src/widget.cc
-diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-support/vte/vte_0.74.1.bb
-similarity index 80%
-rename from meta/recipes-support/vte/vte_0.72.2.bb
-rename to meta/recipes-support/vte/vte_0.74.1.bb
-index 44e71491f62..2f0448edb3c 100644
---- a/meta/recipes-support/vte/vte_0.72.2.bb
-+++ b/meta/recipes-support/vte/vte_0.74.1.bb
-@@ -11,16 +11,16 @@ LIC_FILES_CHKSUM = " \
-     file://COPYING.XTERM;md5=d7fc3a23c16c039afafe2e042030f057 \
- "
- 
--DEPENDS = "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gperf-native icu"
-+DEPENDS = "glib-2.0 glib-2.0-native gtk+3 gtk4 libpcre2 libxml2-native gperf-native icu"
- 
- GIR_MESON_OPTION = 'gir'
- GIDOCGEN_MESON_OPTION = "docs"
- 
--inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection
-+inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection systemd
- 
- # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
- SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
--SRC_URI[archive.sha256sum] = "f7966fd185a6981f53964162b71cfef7e606495155d6f5827b72aa0dd6741c9e"
-+SRC_URI[archive.sha256sum] = "2328c3f1c998350a18e0e513348e9fc581d57ea4e7b89aedf11e0e3c65042b4f"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
-@@ -32,8 +32,9 @@ do_compile:prepend() {
- # Package additional files
- FILES:${PN}-dev += "${datadir}/vala/vapi/*"
- 
--PACKAGECONFIG ??= "gnutls"
-+PACKAGECONFIG ??= "gnutls ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false,vala-native vala"
-+PACKAGECONFIG[fribidi] = "-Dfribidi=true,-Dfribidi=false,fribidi"
- PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
- PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
- # vala requires gir
-@@ -42,6 +43,7 @@ PACKAGECONFIG:remove:class-native = "vala"
- CFLAGS += "-D_GNU_SOURCE"
- 
- PACKAGES =+ "libvte ${PN}-prompt"
-+FILES:${PN} += "${systemd_user_unitdir}"
- FILES:libvte = "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
- FILES:${PN}-prompt = " \
-     ${sysconfdir}/profile.d \
+ PACKAGECONFIG ??= "\
 -- 
-2.42.1
+2.39.2
 
 
