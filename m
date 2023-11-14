@@ -2,30 +2,30 @@ Return-Path: <lukas.funke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92633C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93F3FC4167B
 	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 11:00:40 +0000 (UTC)
 Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.76])
  by mx.groups.io with SMTP id smtpd.web10.10162.1699959629235343840
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 03:00:35 -0800
+ Tue, 14 Nov 2023 03:00:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=geUS6DeL;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=PzPgu629;
  spf=pass (domain: weidmueller.com, ip: 40.107.249.76, mailfrom: lukas.funke-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JpTS2y8M5RnLCJjtBmEeQ8LdM41etjEMBVkdyJ2VnomEhFBzvSQ5RQRLjpuU5eHR+EhzHPWsIUtw5Hgu9MqzQ1HklQ5i2n9s0qTg9eIqE1tJQ8C58jkl60d3SkfKrqLnyuXQHtJIsSc00PdKJQhGFzJxfz6EAkatGx/Vw0DE11EBUDj13DGRl4FC3qdpYnACa8xEmGKJRL6JNFe6zA4YLf5+ze14u7g7OzoNH/GNAzb0HxnkanusfV/7o6TFX39D2G5BIiHqbueOpGrcE3orG4DCxu3zmbfl5H/i/S4Zm53roBSU9eZRf6SxGxtAMofWyfLfpT4Sx8u3Csoq4ann+A==
+ b=Xaz9iNBAcZHE7fep8mhVojlhgmx+WFRwwDvXcaaoa1W3ylycV02bdD+rjIvQW/SOUl4RXtB+cqH5z7nmLiX4hwlGS3yGQnDVVoXkvsYIalaJkGszFkCKeTf1Xc+z6NT70gVzUGFHNK/s42HaUWJE/72ONbdk+RUbPj0rOXruRTEkl50KJxk0WsEI8LFvQq4nDyYZ5h3wuHtGgfeMzO8sG8pSJ6l+qnUn8beiMbLVzGoqyKlmQaXGEXgsEW6CWjh/6VTkPnDWLaicw3AkZOXkGzohEsj0QH2kbLAPjFgRrdvUN/6HYKWZodTHi6ubSAu6/4lHbdFLurP0jf7ub1eE7A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JnKg7CaELlrQ38XHAoFn17kzMy0eGyPX6eMcvvs446s=;
- b=hTCu9r5VCv3tOmxk0LB4VLU9SsieISM5bvayjShrFZJUx4ttDzkSwTvuZbyusBIPTzaaU9Cwpj1XkrKoHGlm2sk78G3ONxRIyZAg9Wkz+57qAd/QJzlizivs6HgnBeXTjb2yUMcE06oy9wVIKrZCvAg7ZHj7QJmJpIqtKn//PZuCIGe9bIqvSG37S0CdZ3CdESRLOXdDK5irkl8QgmTS6U3kv3dWJZBAsrRvufRG3ihZYZ7npWmQa9LBKFdwTCAmdfNgvMo+uUcbDAuP34rQrETr4BgGXz+0Gb6MHOaxh66HuRmoRa0aOkwY5qoVY5WHjr6R2VBKq61MB8YQqrcScg==
+ bh=m9Kkv30TF40fpMV9qQuoZsvddjjbZh4EdsAC5ksT7M8=;
+ b=FRRyMHpYEWO59IUjBPwU2FP/gTQxX1zUZiXm1RGvkb1taniiVGIAo0Fe4CmBEGuHk+tnG+p/qwoIP2x6MU4tVHBUXIIJLdL8fMbGscpvEsX0FnujnpRP1VjjyVdF5AaX26YPsRyI+O7A+zKtPdxDpG2Dx4pMWVoYcdnnBjgjyPxSrLm48S/FUNTnd7viukYd8/sJu4jGui5yxetlnne9JPJH9Ifa4/14c3oEYB39Z+urgNjaGFmVW/4rA1hH5RZNDxB8weO4/9Yc8iPL1aveolkRr3hcZFxixAvCe+PvEtZ2MWAmvVSvU/3WHKXIemgBbz50S9ODcFv8T2aMzlbcGQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=weidmueller.com; dmarc=pass action=none
  header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JnKg7CaELlrQ38XHAoFn17kzMy0eGyPX6eMcvvs446s=;
- b=geUS6DeLQu5dsDwXK3O7cu0MgztzmMQRFF2td5MyPv2uTXVn7UnA1cRQXTOz2llmTBBE/vBcItilAYF9TcERzXPpHfBxB3a6mAr0jrwkX9NFkJJGG8VzfwXBBJ7pNtjtXOr6/WIvkKNJPtGMwpQrgUfSrc//k/a20mGm0LQe/4E=
+ bh=m9Kkv30TF40fpMV9qQuoZsvddjjbZh4EdsAC5ksT7M8=;
+ b=PzPgu629Cz1FNOpckakxSWzqV6B6jpOZ+LmdrweFcRddbHaC1x8FHpiZm6F6H95vAWyetlqIBr5RHiS4GbS5/G3t+1mltXUKlzgu2yjQLD6dRRH5ZdrsY2qeXySS/+ieeHWrIbzZ+bi3bOy/5t58S085WWVHJ5IEsd1+mMZKmrA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=weidmueller.com;
 Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
@@ -39,14 +39,11 @@ Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
  11:00:25 +0000
 From: lukas.funke-oss@weidmueller.com
 To: openembedded-core@lists.openembedded.org
-CC: Malte Schmidt <malte.schmidt@weidmueller.com>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
-Subject: [OE-Core][PATCH 1/4] systemd: use nonarch libdir for tmpfiles.d
-Date: Tue, 14 Nov 2023 12:00:15 +0100
-Message-ID: <997d53a3599a9c3c203f3ea538df1e411241b2c2.1699958492.git.lukas.funke@weidmueller.com>
+CC: Lukas Funke <lukas.funke@weidmueller.com>
+Subject: [OE-Core][PATCH 0/4] tmpfiles.d: use nonarch libdir
+Date: Tue, 14 Nov 2023 12:00:14 +0100
+Message-ID: <cover.1699958492.git.lukas.funke@weidmueller.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1699958492.git.lukas.funke@weidmueller.com>
-References: <cover.1699958492.git.lukas.funke@weidmueller.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: FR0P281CA0158.DEUP281.PROD.OUTLOOK.COM
@@ -55,62 +52,64 @@ X-ClientProxiedBy: FR0P281CA0158.DEUP281.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|VI0PR08MB10797:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53868322-a54d-484a-24c7-08dbe500e7c3
+X-MS-Office365-Filtering-Correlation-Id: 5e9cecf1-be57-4733-ebfd-08dbe500e789
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	IzgPmE0+eqTl2SYZCQSxvWjadv6bMuubeeAxyovtnF9W5KwKbpJ/kxm2BqpdpLNDxIcRivdSLDT+c8Yz7e3AkLcyEUvKegj7E2OQLo98vuRVCS8svx1WPLg2q6DkTKzYYXaZgA4V0KNDubOeUdvqKPcU225v9ggj37tGHKYVvQ8ljVtSJwfxqwJsrIb9lPg+8k3+43soasyQtUsUlGUmH/tc3bHg7VxyUT0GDEeShLlEt9tKX4Cua/SqopyuODmELy4PHehPe/c9HuZquHyMHbfFVy34LidClyQH05/lcOG0riCEe473o75LeVPK5Ba+0fZymKkVKGJPLkBIQmoMxZwm/FujT4jjrfYITMep44y6HTq/Llh4BShrbEviz/rM2mN7PMeFX1cNpPbsy3uevSEKsnMzF5mZZgO70cRl12bdk1TMDOLX5J6aya0r5SwGE3dcsIVsv7PnQ2f5KE6PbfSGYolUHLW+wrqoi0iptrbz3/iq+Rg/S0m0gPxA3C1I2/rQMx5LwmdQ99DjjO0K05AHjrzAs5jLYj3QHFsAgZsskR6LWDkaeZB7RVMLqKHNzj7e8I9ywtWRf7QcTc/7kdbcwDsO0Lw74aokt5ejODU=
+	k7t2/phebyCedT2sBjXOSwTygO3pw7RqSIIutMeMgI0e0v5yddFE1frR2d5aCj9AgseVwD59W00hV9nnwqyyn/HJ6hObKd6drFWmzM3FzGAoRztA3SBfTdKGhBcHtLq7LtiIjxR1uswVV6356c1Xws2ZoweWtBWjjB5IIJwBIV+xSBQ9LsFhgDgobgvLTIT7+7JkwbTaK5KlG9saK7OrLPUcqHp1qVkSjO3f4nkPAogAQ05N2ih066i148aCWNLzyihkjDG6xixfQnqUQLTp/tXPTmWeq1TMlN70Xyifg09GMKcOPkW0qpscKdQLtyI5WsEBb097Yv076ZsWM8HY++cOFR7jtxHoGVVZzgJ0BgHQTXUpg7AKw0zGQkkcuQh7zGOPmAbCeEIeJViga2wf3vWz1Uef+LP/iZebSmZfYAaurtEP0tOdpL+5tj1VwSl4UfWngll7fWtV4qcNj9WibQwWOJRiVnL5ScWfWb4RjA5DWYZIaikKWkSkwieeDqcKqWXxOS1hvejzCvSvhE0eK81KNO0YS9wIT5NFPXDUjIEy21HMN4UdFf/XTwYPXTV5VELVfHA+gq9zei7UaGwV68jmcX6oxe8Lu17aAOPBke4=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(346002)(136003)(366004)(396003)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(36756003)(83380400001)(38350700005)(26005)(107886003)(2616005)(38100700002)(6666004)(5660300002)(86362001)(4326008)(8936002)(8676002)(966005)(6486002)(478600001)(41300700001)(66476007)(52116002)(66556008)(66946007)(6916009)(6512007)(9686003)(54906003)(316002)(6506007)(2906002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(346002)(136003)(366004)(396003)(230922051799003)(186009)(1800799009)(64100799003)(451199024)(36756003)(83380400001)(38350700005)(26005)(107886003)(2616005)(38100700002)(6666004)(5660300002)(86362001)(4326008)(8936002)(8676002)(966005)(6486002)(478600001)(41300700001)(66476007)(52116002)(66556008)(66946007)(6916009)(6512007)(9686003)(316002)(4744005)(6506007)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?82lUe+PGxXi2OPXmoWVF9Z2s1ooGYD4yvdgBLtk1gkM88lafrwkgm8guRbNM?=
- =?us-ascii?Q?G77I5+mcgVO5GfVG8RarkpzUF22aQM5y7nmjCG/8fII8PL3gNydITcuJSs1u?=
- =?us-ascii?Q?S/FsbiF3JGsF4Cw7L1Tu/wR3Zxek8ZvjstM2PswCL3Z+vRxYN92DX6WGZgz6?=
- =?us-ascii?Q?g4l7ydCZn2bWgBS5758gLu2U1Wdy+PW3HavrDXWTOq4fcAHKh07p79ZJugsb?=
- =?us-ascii?Q?4mCFltlo0wHUQACYA4jT8vljX+UIkD/wFkkW+wtXA5VRNXYAV9pcF4gBkRjb?=
- =?us-ascii?Q?/DAlcoVqkXgwcqDQ+csBvaYnUAo3g1lHOLe+Eir4wE63pcMd68F6gmoOfpqu?=
- =?us-ascii?Q?rlhYWjhOuk3P92f0OVzIPhJQtvNpea3/iCWYDdqjhrmV5lOpSMrSFv3x7KyE?=
- =?us-ascii?Q?d42IbV7VdDv5MLcEQ+g4+dk3antR7Cjg8wVaR+GDScC8Erql6Bk60H7WRo3g?=
- =?us-ascii?Q?fhpj4eXlbFfGi51IOIamDEWOJBDEWnbiL2rDu61LJtg2gFOK2VlxPz+PwzGW?=
- =?us-ascii?Q?5b9Swe9E3KJRMU4ZSH3Ad6Ex+mijBYPAFMAXDZclS1ohUOJJOeiLw6Z0opAU?=
- =?us-ascii?Q?eqrLpRzmLJMDE20TEHpuaIhYokAEw9gQCv7rK92NKxZ0ZqNA4DhOOC7iNwpt?=
- =?us-ascii?Q?vMBSvFM6C9KEF+e27iYx0co6UOeMdI90szRMdv8+0I9dasvDJ3DR/d3hWSuQ?=
- =?us-ascii?Q?fRqAidqHlOjjX6sUdVssvHVOHJ8EF0up+PPxq3ahVkJ5J7fWyBxxk6AGFoxw?=
- =?us-ascii?Q?SHl4B7/UtzvVUpV7DaTOM61tZNWZ9PqJj2hGVGUcGn/jVpRmbp5bwc1vbJGF?=
- =?us-ascii?Q?Mp4Q6et7x1hxyipMkeiUFDmbbfigkPP9gxl/id6SO22yR+oODCh/PnBgfIf4?=
- =?us-ascii?Q?pKGa/xQmsj05M8L351o+tWY99lvX4HM1Qdk5sFmWl1J14qUDjbthOYnMwe6k?=
- =?us-ascii?Q?yeZ5d3PPPmz4gmw0AZ1QC6Gtg47VdmERDKBvuVOYht0Q9ynVLrLub+Drumlk?=
- =?us-ascii?Q?9EzPpnpss6gh/FAnZ7HJhp6LnUIEXNChJH/D4TVBkdBptPh44Sj2Pbb280Bj?=
- =?us-ascii?Q?6hyuSJ9r0pQwzW+0c89SN3ENM9lr9dowblxJ1w85Yq6rVdIh/V2iW6mdMOnL?=
- =?us-ascii?Q?B8p/O8nRfbKBsSSuAKtxwvAClQlSi97Jiw1gSdRvgThnop7zDZpoYgVZ/CqX?=
- =?us-ascii?Q?EKvKi/WLvNthIlrHQeiDYsemSZiKRFA2l3Bh8R28DTp2o02UvpWJPTpUjZFP?=
- =?us-ascii?Q?81O1mM/HbMsNr+k1HpHo0gIlNJYOdQfX6pNuNLgLam97ReGP5NehdfkqjWn4?=
- =?us-ascii?Q?+WlaVvucvMioLd/eWXOipbJEhVI0FLonUjg5HS1bPSJ7LcfP9LVS4JPJiENp?=
- =?us-ascii?Q?AEAa86AEV+yeejwV3OYma0amY3ClhgrBosp5EwujPMuc3H8BgBvxXV00SbC8?=
- =?us-ascii?Q?3GSh/+Q4csXclOc6SgaZCnij9S+e1G2Isd2t87Rwi36JCxMI5ZxC6v1dTSmt?=
- =?us-ascii?Q?ZlFvWJ/njlY0zhgif/DroPpdUgkqzjGI/8xj0t5znce13nVIP14AnwRkMIwR?=
- =?us-ascii?Q?NK5PF6GO7zCLI81ZMEq5C51SwINbET3UPx5Ul3ms+L5TgLHb+BLO3QnmH5JR?=
- =?us-ascii?Q?gg=3D=3D?=
+	=?us-ascii?Q?2lSghTL+1OJwkwtgs0mAXFQYYjKfI6uqz4uJnaRn2a/7NvcCCOhH2Y417pOD?=
+ =?us-ascii?Q?xTJFxa+YJE1uB8wdonsi+2qkc1rsKfhWI092zQmHR60PF9BuAddjoxZYGbnp?=
+ =?us-ascii?Q?SE5EW34ex4QSg/MiJSZIgmpi7oehYlvCtIcNh2YoUnd4xZZuBcDiZDDweGbp?=
+ =?us-ascii?Q?u1OoVYDtR71DlGJvoecIgZ+B6IIM/9eBg0DPHi/TiLUWjAQ8vSUhop7Iz08E?=
+ =?us-ascii?Q?sznTC0RITVB0NEEqlD38D6Wq8gtx0/PnSOrajlxhIxbHK+HtYlH+WfA6it6E?=
+ =?us-ascii?Q?EnEObSrWV+V1fQP8/PgOrpNkDq4np/Pprf8g2wTlJUWyucrsVmKb0pm+Yv13?=
+ =?us-ascii?Q?EavoB54vHeQZ9lhZfjszEQ5bv1PuxvVUK2MflPvANO5mbvfjqGcu58y2cX0h?=
+ =?us-ascii?Q?HViJ36WiuZDxLoFvi7hq4+yYT7SiJyPkpbgsGBlsuT3vixJFUooCTwGPxsEa?=
+ =?us-ascii?Q?hFyBruxzYM1b9cwAf+E8XV7d/yTMAC1GYhjKO3wRBjJrNwN6BzntpyHD4BYb?=
+ =?us-ascii?Q?Pf0WUywV9GJGicCWRojG1DU+SwmFMw0huwLa8iCLb9agojDpnUISYTGyT5kT?=
+ =?us-ascii?Q?UBjEXManY1+igg9LI9OOceOHvKSJeYlE1n0AP19/FpMkVBVV4dO1p6U3gpjE?=
+ =?us-ascii?Q?qEjfFut+gr2VXFY15oDU/g14k6b01+17UCEvl5elSFjHX6eDR5MfWMOQ1B8k?=
+ =?us-ascii?Q?9xsdAwHA8Z3SZ0bk1mtMEC0vMede6WtiUjc6k11bd6yCqrpQ5/pQ8SpC+sAs?=
+ =?us-ascii?Q?bAKaXwFpI7NzkFH/PFzudgRD3/e0I2FiTLHEYwv8C/RxO2i8Bv0TZjm/bO9v?=
+ =?us-ascii?Q?g8rCvRNRiOWPc7USKg3dn2xNlABbs/ZobAPLEt80tdHLUbVjBhaITpx2OHoF?=
+ =?us-ascii?Q?C2bRAeSlg+MwiMEJWkSCCpGKbnOu3oGpyPzX/+rITzbWCdUs5hH33RlTKdHy?=
+ =?us-ascii?Q?jcXE+yjnGKqhoxXOHi3wQqzW0KyScC5wBWQrxPVB0P0oIilQqF7il4fu95Xp?=
+ =?us-ascii?Q?Zwec7uSnM0TtLGZ5t98aXOf+cNEAnXiGB/wmxHfz0iPYwyw6MaXR+PiCXFAB?=
+ =?us-ascii?Q?reOh90kMPGD/VC0xqNq6Iy7xXH3eF9eUb9Emh8iuvBP8qs4OE2/LAJeHfBRo?=
+ =?us-ascii?Q?Est3YxNpRNB8CwKP4PiZAHhnEpCjXjFqYJEetX2t8lmOGt6McL0GI1xsSh+L?=
+ =?us-ascii?Q?QuOOwXizB5JMJPA0HFbIsPAgu9YS4bzM7wQ3ts3OuXmdlahTnoWaPkvvCZpr?=
+ =?us-ascii?Q?NXA1JfLU7kC1X8wViJIymMd1QHcBJUr39L+9YY8Ec1J/ZmKWHzNYqF711jlT?=
+ =?us-ascii?Q?iXNckqwsyLLsvQ/BzhG/qHiLs+UTUrztgKcp+p/hDPiNbUSzpucdO8Uwko8v?=
+ =?us-ascii?Q?cqTplXRHa01jDGgwheF21ddVMuHOU02EJjE5p1ReeMRFYXbX0rn43MoA15oI?=
+ =?us-ascii?Q?Zt6ijkG34FuZ7M0GpkA/P/1H1LUOa0ClFO/Is63y9MGPkjpOS70ksmlcNXPi?=
+ =?us-ascii?Q?zi4lGVe1lLta5GjF8bSr3CxmTl65SFYz+puvj65EX1Fw6t/1fzalGpM/0E9s?=
+ =?us-ascii?Q?SjFc81R6OMF+UWKvCAwrmWud7ASNt5jqp0z/PoDSQFcCeAdcUqBRMN7ZifCX?=
+ =?us-ascii?Q?LA=3D=3D?=
 X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53868322-a54d-484a-24c7-08dbe500e7c3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e9cecf1-be57-4733-ebfd-08dbe500e789
 X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 11:00:25.5701
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 11:00:25.1857
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZTyzJWvygXVCAcJRZ8pg9wYppRrIVlio3vyN9FrNxUi5sS5vsAW9WvM4xMKgFMdSMuk/FBzCfdNIZ0ovhiVzdg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: aO1RUvhD/JFiqMjodIO+kF4mEw6MRRxFeV8f737XoDTtbnm7WTb/z4L1yHmqWmcjO8DD/P7ONNpael2Rd6BI6Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10797
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 11:00:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190493
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190492
 
-From: Malte Schmidt <malte.schmidt@weidmueller.com>
+From: Lukas Funke <lukas.funke@weidmueller.com>
+
+The series intents to move tmpfiles.d configurations from /etc to /usr/lib.
 
 The documentation of systemd states that /etc/tmpfiles.d should be
 reserved for the local administrator and packages should put their files
@@ -118,37 +117,20 @@ in /usr/lib/tmpfiles.d [1].
 
 [1] https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html
 
-Signed-off-by: Malte Schmidt <malte.schmidt@weidmueller.com>
-Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
-om>
----
- meta/recipes-core/systemd/systemd_254.4.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Malte Schmidt (3):
+  systemd: use nonarch libdir for tmpfiles.d
+  pam: use nonarch libdir for tmpfiles.d
+  sysstat: use nonarch libdir for tmpfiles.d
 
-diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core=
-/systemd/systemd_254.4.bb
-index cc0e29fdd2..48d467dfdd 100644
---- a/meta/recipes-core/systemd/systemd_254.4.bb
-+++ b/meta/recipes-core/systemd/systemd_254.4.bb
-@@ -282,12 +282,12 @@ do_install() {
- 	[ ! -e ${D}/${base_sbindir}/udevd ] && ln -s ${rootlibexecdir}/systemd/sy=
-stemd-udevd ${D}/${base_sbindir}/udevd
-=20
- 	install -d ${D}${sysconfdir}/udev/rules.d/
--	install -d ${D}${sysconfdir}/tmpfiles.d
-+	install -d ${D}${exec_prefix}/lib/tmpfiles.d
- 	for rule in $(find ${WORKDIR} -maxdepth 1 -type f -name "*.rules"); do
- 		install -m 0644 $rule ${D}${sysconfdir}/udev/rules.d/
- 	done
-=20
--	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpf=
-iles.d/
-+	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${exec_prefix}/lib=
-/tmpfiles.d/
-=20
- 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; =
-then
- 		install -d ${D}${sysconfdir}/init.d
+Stefan Herbrechtsmeier (1):
+  glibc: use nonarch libdir for tmpfiles.d
+
+ meta/recipes-core/glibc/glibc-package.inc       |  8 ++++----
+ meta/recipes-core/systemd/systemd_254.4.bb      |  4 ++--
+ meta/recipes-extended/pam/libpam_1.5.3.bb       |  9 ++++++---
+ meta/recipes-extended/sysstat/sysstat_12.7.4.bb | 10 +++++++---
+ 4 files changed, 19 insertions(+), 12 deletions(-)
+
 --=20
 2.30.2
 
