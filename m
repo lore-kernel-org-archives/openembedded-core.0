@@ -1,172 +1,83 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <pooadire@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CAB8C4332F
-	for <webhook@archiver.kernel.org>; Mon, 13 Nov 2023 20:31:34 +0000 (UTC)
-Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
- by mx.groups.io with SMTP id smtpd.web11.1926.1699907491720202792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 410A4C4332F
+	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 06:35:19 +0000 (UTC)
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+ by mx.groups.io with SMTP id smtpd.web11.7662.1699943710619340484
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Nov 2023 12:31:32 -0800
+ Mon, 13 Nov 2023 22:35:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
-Received: from fwd77.aul.t-online.de (fwd77.aul.t-online.de [10.223.144.103])
-	by mailout07.t-online.de (Postfix) with SMTP id BE0A31F138
-	for <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 21:31:29 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.163.34.200]) by fwd77.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1r2daj-2L5DrF0; Mon, 13 Nov 2023 21:31:29 +0100
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=FS9jZ39y;
+ spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: pooadire@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=867; q=dns/txt; s=iport;
+  t=1699943710; x=1701153310;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=u1Y1QXBXAzK76+1NEMBFJjMPHU4znUJUlH8+kgUpXGs=;
+  b=FS9jZ39ygr1L8e+Hgi+zHjXQkUc/pqu+VCygebbC2VhmBudaoaIHGydh
+   jhjRNb+aSFIqGYqEuXNjbm5UxQtDbHRMLQlgg7O0smwtsYVN9FOignDTL
+   vc0nDoLT+toKoqK4vXfvuql6qcWjcJ7euq05PhpSdOxTAvEthYXveuP8O
+   E=;
+X-CSE-ConnectionGUID: cGQHJhu5SKuf8o0ih/q2ig==
+X-CSE-MsgGUID: vigyTNjWQQ6L7GHkGqp+5w==
+X-IronPort-AV: E=Sophos;i="6.03,301,1694736000"; 
+   d="scan'208";a="138279036"
+Received: from rcdn-core-3.cisco.com ([173.37.93.154])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 06:35:10 +0000
+Received: from sjc-ads-2359.cisco.com (sjc-ads-2359.cisco.com [171.70.63.47])
+	by rcdn-core-3.cisco.com (8.15.2/8.15.2) with ESMTPS id 3AE6Z4Q2013690
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 14 Nov 2023 06:35:09 GMT
+Received: by sjc-ads-2359.cisco.com (Postfix, from userid 1807045)
+	id 6CACFCC129C; Mon, 13 Nov 2023 22:35:04 -0800 (PST)
+From: poojitha adireddy <pooadire@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv3] cups: Upgrade 2.4.6 -> 2.4.7
-Date: Mon, 13 Nov 2023 21:31:57 +0100
-Message-ID: <20231113203157.74231-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.42.0
+Cc: xe-linux-external@cisco.com, pooadire@cisco.com
+Subject: [OE-core] [dunfell] [PATCH] qemu: Whitelist CVE
+Date: Tue, 14 Nov 2023 06:35:01 +0000
+Message-Id: <20231114063501.195289-1-pooadire@cisco.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1699907489-3D7F9877-12F5A5A6/0/0 CLEAN NORMAL
-X-TOI-MSGID: b3d7e887-b8dc-4cb8-92b4-4089a1379151
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 171.70.63.47, sjc-ads-2359.cisco.com
+X-Outbound-Node: rcdn-core-3.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 13 Nov 2023 20:31:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190486
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 06:35:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190487
 
-- enable tls by default to fix:
-| hash.c:16:12: fatal error: gnutls/crypto.h: No such file or directory
-|    16 | #  include <gnutls/crypto.h>
+Reason:
+CVE-2021-3947, issue introduced in v6.0.0-rc0
+Reference:
+https://security-tracker.debian.org/tracker/CVE-2021-3947
 
-Changes in CUPS v2.4.7 (2023-09-20)
------------------------------------
+Dunfell utilizes qemu v4.2.0, Hence whitelisting the CVE.
 
-- CVE-2023-4504 - Fixed Heap-based buffer overflow when reading Postscrip=
-t
-  in PPD files
-- Added OpenSSL support for cupsHashData (Issue #762)
-- Fixed delays in lpd backend (Issue #741)
-- Fixed extensive logging in scheduler (Issue #604)
-- Fixed hanging of `lpstat` on IBM AIX (Issue #773)
-- Fixed hanging of `lpstat` on Solaris (Issue #156)
-- Fixed printing to stderr if we can't open cups-files.conf (Issue #777)
-- Fixed purging job files via `cancel -x` (Issue #742)
-- Fixed RFC 1179 port reserving behavior in LPD backend (Issue #743)
-- Fixed a bug in the PPD command interpretation code (Issue #768)
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: poojitha adireddy <pooadire@cisco.com>
 ---
- meta/recipes-extended/cups/cups.inc           |  8 ++--
- .../cups/cups/CVE-2023-4504.patch             | 42 -------------------
- .../cups/{cups_2.4.6.bb =3D> cups_2.4.7.bb}     |  2 +-
- 3 files changed, 6 insertions(+), 46 deletions(-)
- delete mode 100644 meta/recipes-extended/cups/cups/CVE-2023-4504.patch
- rename meta/recipes-extended/cups/{cups_2.4.6.bb =3D> cups_2.4.7.bb} (51=
-%)
+ meta/recipes-devtools/qemu/qemu.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/=
-cups/cups.inc
-index fa32c38549..ff5f55e62a 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -15,7 +15,6 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/cups-${=
-PV}-source.tar.gz \
-            file://0004-cups-fix-multilib-install-file-conflicts.patch \
-            file://volatiles.99_cups \
-            file://cups-volatiles.conf \
--           file://CVE-2023-4504.patch \
-            "
-=20
- GITHUB_BASE_URI =3D "https://github.com/OpenPrinting/cups/releases"
-@@ -38,10 +37,13 @@ GROUPADD_PARAM:${PN} =3D "--system lpadmin"
- SYSTEMD_SERVICE:${PN} =3D "cups.socket cups.path cups.service cups-lpd.s=
-ocket"
-=20
- PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf',=
- 'avahi', '', d)} \
--                   ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd', =
-d)}"
-+                   ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd', =
-d)} \
-+                   openssl \
-+"
- PACKAGECONFIG[avahi] =3D "--with-dnssd=3Davahi,--with-dnssd=3Dno,avahi"
- PACKAGECONFIG[acl] =3D "--enable-acl,--disable-acl,acl"
--PACKAGECONFIG[gnutls] =3D "--with-tls=3Dgnutls,--with-tls=3Dno,gnutls"
-+PACKAGECONFIG[gnutls] =3D "--with-tls=3Dgnutls,,gnutls,,,openssl"
-+PACKAGECONFIG[openssl] =3D "--with-tls=3Dopenssl,,openssl,,,gnutls"
- PACKAGECONFIG[pam] =3D "--enable-pam --with-pam-module=3Dunix, --disable=
--pam, libpam"
- PACKAGECONFIG[systemd] =3D "--with-systemd=3D${systemd_system_unitdir},-=
--without-systemd,systemd"
- PACKAGECONFIG[xinetd] =3D "--with-xinetd=3D${sysconfdir}/xinetd.d,--with=
-out-xinetd,xinetd"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2023-4504.patch b/meta/r=
-ecipes-extended/cups/cups/CVE-2023-4504.patch
-deleted file mode 100644
-index e52e43a209..0000000000
---- a/meta/recipes-extended/cups/cups/CVE-2023-4504.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--CVE: CVE-2023-4504
--Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/2=
-431caddb7e6a87f04ac90b5c6366ad268b6ff31 ]
--Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
--
--From 2431caddb7e6a87f04ac90b5c6366ad268b6ff31 Mon Sep 17 00:00:00 2001
--From: Zdenek Dohnal <zdohnal@redhat.com>
--Date: Wed, 20 Sep 2023 14:45:17 +0200
--Subject: [PATCH] raster-interpret.c: Fix CVE-2023-4504
--
--We didn't check for end of buffer if it looks there is an escaped
--character - check for NULL terminator there and if found, return NULL
--as return value and in `ptr`, because a lone backslash is not
--a valid PostScript character.
-----
-- cups/raster-interpret.c | 14 +++++++++++++-
-- 1 files changed, 13 insertions(+), 1 deletion(-)
--
--diff --git a/cups/raster-interpret.c b/cups/raster-interpret.c
--index 6fcf731b5..b8655c8c6 100644
----- a/cups/raster-interpret.c
--+++ b/cups/raster-interpret.c
--@@ -1116,7 +1116,19 @@ scan_ps(_cups_ps_stack_t *st,		/* I  - Stack */
--=20
-- 	    cur ++;
--=20
---            if (*cur =3D=3D 'b')
--+	   /*
--+	    * Return NULL if we reached NULL terminator, a lone backslash
--+	    * is not a valid character in PostScript.
--+	    */
--+
--+	    if (!*cur)
--+	    {
--+	      *ptr =3D NULL;
--+
--+	      return (NULL);
--+	    }
--+
--+	    if (*cur =3D=3D 'b')
-- 	      *valptr++ =3D '\b';
-- 	    else if (*cur =3D=3D 'f')
-- 	      *valptr++ =3D '\f';
-diff --git a/meta/recipes-extended/cups/cups_2.4.6.bb b/meta/recipes-exte=
-nded/cups/cups_2.4.7.bb
-similarity index 51%
-rename from meta/recipes-extended/cups/cups_2.4.6.bb
-rename to meta/recipes-extended/cups/cups_2.4.7.bb
-index 58029fdbd4..f4b0282e4c 100644
---- a/meta/recipes-extended/cups/cups_2.4.6.bb
-+++ b/meta/recipes-extended/cups/cups_2.4.7.bb
-@@ -2,4 +2,4 @@ require cups.inc
-=20
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
-d57"
-=20
--SRC_URI[sha256sum] =3D "58e970cf1955e1cc87d0847c32526d9c2ccee335e5f0e388=
-2b283138ba0e7262"
-+SRC_URI[sha256sum] =3D "dd54228dd903526428ce7e37961afaed230ad310788141da=
-75cebaa08362cf6c"
---=20
-2.42.0
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e6b26aba88..9734a9719f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -167,6 +167,9 @@ CVE_CHECK_WHITELIST += "CVE-2020-27661"
+ # this bug related to windows specific.
+ CVE_CHECK_WHITELIST += "CVE-2023-0664"
+ 
++# the issue introduced in v6.0.0-rc0
++CVE_CHECK_WHITELIST += "CVE-2021-3947"
++
+ COMPATIBLE_HOST_mipsarchn32 = "null"
+ COMPATIBLE_HOST_mipsarchn64 = "null"
+ 
+-- 
+2.33.0
 
 
