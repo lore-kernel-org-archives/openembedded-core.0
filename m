@@ -1,114 +1,118 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0E6C4332F
-	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 15:29:12 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.15356.1699975750809573667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E995BC4167B
+	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 15:44:02 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.15785.1699976636238355937
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 07:29:10 -0800
+ Tue, 14 Nov 2023 07:43:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GmiZv3jV;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1ccbb7f79cdso43442485ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 07:29:10 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cpz7xhWK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40839807e82so34239095e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 07:43:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699975750; x=1700580550; darn=lists.openembedded.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pgdqideiTUE1ZMUpb05iX5VrqI3ySxAptxiuijoaUPw=;
-        b=GmiZv3jVXoI7Vg7FYvtZ4MvRctVSRzyKeHVTIK5WISAT0YZ6Dt+/iNI0fpyEt6MOeO
-         0JdjQmPXpcS47h1hkErHEX/j4op5cfVG31cppDp833lHkudRyT+blxmIAWPBLFkulhOL
-         ou9pX4WllVSaRZ1PhylDjTeMXHDbpOCpmOeUCOHYmWSoQMlElU5kdtrVqQEbD0BXflq7
-         bebuuxujbMOSsx1H0JyJo6i58FTizsu2OwEtfHcUnMruyRpqSqYF18iTZmgWhaPpaU3z
-         gopua8zxRSaYzuesDczPlFkwVmljCUGlm0OPYlc6z/XSDrTBmvVdg/dCn3bAiqO6F2Kn
-         3Sog==
+        d=linuxfoundation.org; s=google; t=1699976634; x=1700581434; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=suuYcG4I8s0sgINhLGNVa0m8E/Qjlnlguww9vlgmriw=;
+        b=cpz7xhWKfuw4BszuYtHVThy+ehNj6PtMdpyTB55A+fPlXBPREzyPoLiZKVrUhLAszc
+         MEreVqPF6BRHcVFUul77vmrs7P7HV8n7R8uWMZGGyD0xtcM4MbYr0shV1RbjDj6sBcc9
+         PnfhbfzgjiPpRsvnxRySGmeOQst8uKf6LJRvo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699975750; x=1700580550;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pgdqideiTUE1ZMUpb05iX5VrqI3ySxAptxiuijoaUPw=;
-        b=vkoVd9pIflmHkb4xOYpyH+r0uFp62MicHsV/VYP2JrC3wfuX6RXE5URF25i/OtIFGr
-         xJYL1d2sBVlQf7sufTSGc/P1v33Eq97fMSrYgp+kwGrmw2YvkhL26IVcw7fIMYH5D3sF
-         cbfg1Th79bdoUoa5g/DqLZsVdmcYsS8R001UT+kdFqRMRBPwgYFfLfNidXxrFr1I3xf7
-         gUzEEma3/BJyF3HxeAs+1JDLMiGjOm4QmX1EfXp6x8MHS/2IjWNJoOeQ3DzZhLztI5xF
-         337J3Kl59KylfZkmUnRrpgxwIsMPxwp3UW2n1h58fBZsfWE3Zb1Qa+qhNiHRYvGYm45g
-         U0AA==
-X-Gm-Message-State: AOJu0Yzn+LxtHaTarUMeHAPKXWl9Sg2RnfAqJMXANxYQEST1QFNbeqVY
-	eRLYWmeJG8/PiSssMyGAo04IzyzXqB87Cw==
-X-Google-Smtp-Source: AGHT+IEzX6AnJmmriZq0dsKGGtcYPv9CcAzo+qe/v9VB3YvXwg1TSLGbqpUgzRnoZvN6cxZ9skIoIA==
-X-Received: by 2002:a17:903:2589:b0:1cc:636f:f376 with SMTP id jb9-20020a170903258900b001cc636ff376mr2250809plb.44.1699975749653;
-        Tue, 14 Nov 2023 07:29:09 -0800 (PST)
-Received: from apollo.localdomain ([2601:646:9100:2cb0::62f8])
-        by smtp.gmail.com with ESMTPSA id f18-20020a170902ce9200b001cc3a8af18dsm5775056plg.60.2023.11.14.07.29.09
+        d=1e100.net; s=20230601; t=1699976634; x=1700581434;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=suuYcG4I8s0sgINhLGNVa0m8E/Qjlnlguww9vlgmriw=;
+        b=uvpsZ4JDeqRVwBxGyyJPpoDxu1zOGzIJyK/jGS2bI9Zgo49bMOLb9quWDyN3XyGiFf
+         e+pXc/wbPmMAPaewNPQkMQeO2LmQs1gwmZ+dxHPkL+PKrYUNJNQjXzceVWnvWbFAUFp6
+         Jb0BXowZW7ANnl92b1k3QQHdwNeEF+Fn9dNORIQhYBFwaXUlef2l2sF5RZTFE7eGCOvz
+         VJq3sXliN35PwBwqkPnlrSxrwJpCKQboTD6B3w4fy0TFT30p7ilUrWMZfSpmzmFFsZRo
+         FxoSmx91qBLy4OIEAhODU+mH+cGrrahO61RBs2q0b03cZAvThVv0lvuj19VpzSYxOuEN
+         XBGw==
+X-Gm-Message-State: AOJu0Yzw7vPi2YF6WN2jB48IgEuCysXDyE4vDT2HAqjIjTcO+iOVTleb
+	drbSKHmxNa/SFv/QjAMYNAznow==
+X-Google-Smtp-Source: AGHT+IEgpMGp5qFPWYEDlgtTWBBN/hDhM08dsRLxozi0HlZRVAdM1Hy7LKBRxlDbub/7kRbH6ZjDEw==
+X-Received: by 2002:a05:600c:35d4:b0:407:4701:f9e with SMTP id r20-20020a05600c35d400b0040747010f9emr2916482wmq.17.1699976634554;
+        Tue, 14 Nov 2023 07:43:54 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c86b:91bb:bc1f:9d3f? ([2001:8b0:aba:5f3c:c86b:91bb:bc1f:9d3f])
+        by smtp.gmail.com with ESMTPSA id p15-20020a05600c358f00b0040596352951sm17724715wmq.5.2023.11.14.07.43.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 07:29:09 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Nov 2023 07:29:01 -0800
-Subject: [PATCH] rust: Avoid removing origin from llvm-config binary with
- chrpath
+        Tue, 14 Nov 2023 07:43:54 -0800 (PST)
+Message-ID: <a226a852c2d0555780f9e21006f30c3f42a217a0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] rust: Avoid removing origin from llvm-config
+ binary with chrpath
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 14 Nov 2023 15:43:53 +0000
+In-Reply-To: <20231114-rust-with-clang-v1-1-d05ed1f7387c@gmail.com>
+References: <20231114-rust-with-clang-v1-1-d05ed1f7387c@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231114-rust-with-clang-v1-1-d05ed1f7387c@gmail.com>
-X-B4-Tracking: v=1; b=H4sIADySU2UC/x2MWwqAIBAAryL73UJrEdFVog/RrRbCQu0B4d2TP
- odh5oXIQTjCoF4IfEmU3RegSoFdjV8YxRUGXeuGiFoMZ0x4S1rRbsWjJmO5d27WfQelOgLP8vz
- Hccr5AxpK/6phAAAA
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-X-Mailer: b4 0.12.4
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 15:29:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190511
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 15:44:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190512
 
-If these directories are removed from binary, it does not find the
-needed libraries it may need from recipe-sysroot-native, e.g. when
-building with clang+llvm-runtime, it also builds rust-native with
-clang-native and links to libc++.so.1 which will be part of
-native sysroot but may not be available on build host system install
-and it loses that ability to find it in native sysroot and we see errors
-like
-llvm-config: libc++.so.1 not found.
+On Tue, 2023-11-14 at 07:29 -0800, Khem Raj wrote:
+> If these directories are removed from binary, it does not find the
+> needed libraries it may need from recipe-sysroot-native, e.g. when
+> building with clang+llvm-runtime, it also builds rust-native with
+> clang-native and links to libc++.so.1 which will be part of
+> native sysroot but may not be available on build host system install
+> and it loses that ability to find it in native sysroot and we see errors
+> like
+> llvm-config: libc++.so.1 not found.
+>=20
+> during rust bootstrap execution.
+>=20
+> This patch stops editing the binary, so it can find the dependencies in
+> native sysroot it
+> needs for running itself when placed in target directory ( target sysroot=
+ )
+> yet when llvm-config is invoked the reported paths are relative to
+> taregt sysroot which is what we expect, so functionality remains as it is=
+.
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> When using libc++ instead of libstdc++, llvm-config is unable to find
+> libc++.so.1 from native sysroot due to llvm-config copying dance we do.
+> ---
+>  meta/recipes-devtools/rust/rust_1.70.0.bb | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/rust/rust_1.70.0.bb b/meta/recipes-dev=
+tools/rust/rust_1.70.0.bb
+> index 16d433910f8..98cc56c0c91 100644
+> --- a/meta/recipes-devtools/rust/rust_1.70.0.bb
+> +++ b/meta/recipes-devtools/rust/rust_1.70.0.bb
+> @@ -205,7 +205,6 @@ rust_runx () {
+>      if [ ${RUST_ALTERNATE_EXE_PATH_NATIVE} !=3D ${RUST_ALTERNATE_EXE_PAT=
+H} -a ! -f ${RUST_ALTERNATE_EXE_PATH} ]; then
+>          mkdir -p `dirname ${RUST_ALTERNATE_EXE_PATH}`
+>          cp ${RUST_ALTERNATE_EXE_PATH_NATIVE} ${RUST_ALTERNATE_EXE_PATH}
+> -        chrpath -d ${RUST_ALTERNATE_EXE_PATH}
+>      fi
+> =20
+>      oe_cargo_fix_env
+>=20
 
-during rust bootstrap execution.
+We had to do that since we're moving the binary and the relative paths
+no longer work? It depends on your layout iirc so some will work, some
+won't and it sounds like you're just getting lucky :(.
 
-This patch stops editing the binary, so it can find the dependencies in
-native sysroot it
-needs for running itself when placed in target directory ( target sysroot )
-yet when llvm-config is invoked the reported paths are relative to
-taregt sysroot which is what we expect, so functionality remains as it is.
+Put another way, that was put there for a reason so we can't just
+remove it.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-When using libc++ instead of libstdc++, llvm-config is unable to find
-libc++.so.1 from native sysroot due to llvm-config copying dance we do.
----
- meta/recipes-devtools/rust/rust_1.70.0.bb | 1 -
- 1 file changed, 1 deletion(-)
+Cheers,
 
-diff --git a/meta/recipes-devtools/rust/rust_1.70.0.bb b/meta/recipes-devtools/rust/rust_1.70.0.bb
-index 16d433910f8..98cc56c0c91 100644
---- a/meta/recipes-devtools/rust/rust_1.70.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.70.0.bb
-@@ -205,7 +205,6 @@ rust_runx () {
-     if [ ${RUST_ALTERNATE_EXE_PATH_NATIVE} != ${RUST_ALTERNATE_EXE_PATH} -a ! -f ${RUST_ALTERNATE_EXE_PATH} ]; then
-         mkdir -p `dirname ${RUST_ALTERNATE_EXE_PATH}`
-         cp ${RUST_ALTERNATE_EXE_PATH_NATIVE} ${RUST_ALTERNATE_EXE_PATH}
--        chrpath -d ${RUST_ALTERNATE_EXE_PATH}
-     fi
- 
-     oe_cargo_fix_env
-
----
-base-commit: abf3e54d118139e1fcd952a691b77a0c53db6a30
-change-id: 20231114-rust-with-clang-21ace8ddf286
-
-Best regards,
--- 
-Khem Raj <raj.khem@gmail.com>
-
+Richard
 
