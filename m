@@ -1,98 +1,127 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 630D2C4828E
-	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 23:50:15 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.1317.1700005811499437201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F9DFC47DDA
+	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 23:54:05 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.1312.1700006035300774525
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 15:50:11 -0800
+ Tue, 14 Nov 2023 15:53:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gXbm/BS8;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YkpzaKFK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018bd03e1149-f38fc8fb-744b-4536-bc2a-05d7e128bb5b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700005810; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=tTFpZO7+tpNz5sZjvA7s1M/R2yWD9X06pRzQ1eBEDYo=;
-	b=gXbm/BS8nm58CNdxbQlX87kc3NcraitLds+O2R126uNNCzXveSs4ObuqbW1+GUCn
-	z0R9x2XWFEzxPDGnAjiG+1EVijFgoTQCTGL6dtrgJcWwj39ylBLUfcqRZ7g9+FKZy9v
-	UmYClXkiGHQfeICJ8kYOETyWYgyDOVypaeXESdrw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700005810;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tTFpZO7+tpNz5sZjvA7s1M/R2yWD9X06pRzQ1eBEDYo=;
-	b=YkpzaKFKFTxkdA/PmBuRdSmrARTj2i7zsQIv2fXzCYQicRExel+nE8jnrM/pIOwj
-	3Aw5gRT+zj192ID5QAIc5Tw/w4Yi0ZpWJfrSpFdKNjTHLH1JbAmUCdWxhLKoiMbvom7
-	Vb5i+z4TdXdrCKGw8/7Rn0UMCn7Mm0hPYHIie1b0=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] oeqa/selftest/reproducible: Add
- OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES support
-In-Reply-To: 20231114233220.2567795-1-richard.purdie@linuxfoundation.org
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018bd03e1149-f38fc8fb-744b-4536-bc2a-05d7e128bb5b-000000@us-west-2.amazonses.com>
-Date: Tue, 14 Nov 2023 23:50:10 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.14-54.240.27.192
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=hhqw4NEd;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40839807e82so1805715e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 15:53:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1700006033; x=1700610833; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4E7dkA+mnVDd996zvmU2T2FXm4xQAx7Py2692+xqzfs=;
+        b=hhqw4NEdddOygLVvvZD1se1DI5Ea/fcvxk2nWW6aW9Lokk/HSEwE24VWl/hGmupQ7c
+         MXAZN4403xBG1VJwy1W4bex3R+GtG6dn/7OY5FNOpyreG5qs+cU+7+PbBj9O9pQ9pM/s
+         Zn1dVy10vInDJbXElnnFYXOYgNWSH8u/HMwkPc2kQ6oUtlAF1Wv5qMoPkE2QOo+eOiCU
+         abbb1jXhKHv02z8dScowVIIzYVS1bwEGeYTy61XAw8h5pzdcvM4WhdsBhsZvi9JvIwov
+         3RNqB65kOco/MbkClJbioq0cz5u/l3R6BN2IdSsMxtrmThSKvVcJ5hWp7hlhuzOADdDZ
+         Ih4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700006033; x=1700610833;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4E7dkA+mnVDd996zvmU2T2FXm4xQAx7Py2692+xqzfs=;
+        b=E9nyn7PaOmFCbC/i4i7mHbcsUusCjz+VjLDy/zuOOwAfunVi04GASLWv36XAmIA4TB
+         K8dguNJtPdFMqvCxP+Ye2OzDHuV2fSaem7eZvhn9xsHs2vfjMztcdUoi4UCa+aPZe/Lb
+         JiARLZNpv3ttcb2CrB15WBIYM4WbAt7wm9uMOLbz6OB6mEuiMfBQ8EszmFcuwFB7Qs72
+         7L2VdgqBtwW0wv88RNALACLFDqc7Ognlqajb+lCVLolxnjpGiE/lkjgWgMUru/QfjJ0h
+         ZHMfGjXlm5rQ9CLRxBMNxqckVrK06997vufYYFc1/9Yql7JJBlBjOafQd3ctxVdQr11I
+         ezGg==
+X-Gm-Message-State: AOJu0YwIHX96DxzzC4nri+j7/b6rH2iEwYe99R/3J3llDtlCptdAOquV
+	1i0NsZswhRtnNCA8WaO8G8AG5X0tToYZWbHJ14I=
+X-Google-Smtp-Source: AGHT+IFtEVlhe689E0LAZWcxBohoTrurxpL8yofsNF37R2X8F/A32hYolkTvazbNZ+V9LMsADeePJw==
+X-Received: by 2002:a05:600c:1c89:b0:405:358c:ba74 with SMTP id k9-20020a05600c1c8900b00405358cba74mr3864187wms.0.1700006032733;
+        Tue, 14 Nov 2023 15:53:52 -0800 (PST)
+Received: from P-ASN-ECS-830T8C3.numericable.fr ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id p17-20020a05600c469100b004064e3b94afsm19054193wmo.4.2023.11.14.15.53.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Nov 2023 15:53:52 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] selftest/reproducible: Allow packages exclusion via config
+Date: Wed, 15 Nov 2023 00:53:32 +0100
+Message-Id: <20231114235332.112208-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 23:50:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190525
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 23:54:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190526
 
---NextPart
-Content-Type: text/plain
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES can be used to prevent known
+not-reproducible packages to make the reproducible test fail.
 
+For example, in local.conf:
+  OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES = "example-not-reproducible"
+
+To quote the original exclusion commit (4864764667097b32a3ee1935e2c52df732d55632)
+> selftest/reproducible: add an exclusion list for items that are not yet reproducible
+> [...]
+> Non-reproducible excluded packages are not given to diffoscope and do not cause a
+> failure, but still saved side-by-side with non-reproducible failing ones to make
+> investigation easier.
+
+NB: Patch was written by Richard with small fixes and a commit message
+from Yoann.
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
-Testing patch /home/patchtest/share/mboxes/1-2-oeqa-selftest-reproducible-Add-OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES-support.patch
+ meta/lib/oeqa/selftest/cases/reproducible.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-FAIL: test max line length: Patch line too long (current length 233, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index 84c6c3a05f..dac0dce346 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -45,13 +45,14 @@ class CompareResult(object):
+         return (self.status, self.test) < (other.status, other.test)
+ 
+ class PackageCompareResults(object):
+-    def __init__(self):
++    def __init__(self, exclusions):
+         self.total = []
+         self.missing = []
+         self.different = []
+         self.different_excluded = []
+         self.same = []
+         self.active_exclusions = set()
++        exclude_packages.extend((exclusions or "").split())
+ 
+     def add_result(self, r):
+         self.total.append(r)
+@@ -153,7 +154,7 @@ class ReproducibleTests(OESelftestTestCase):
+ 
+     def setUpLocal(self):
+         super().setUpLocal()
+-        needed_vars = ['TOPDIR', 'TARGET_PREFIX', 'BB_NUMBER_THREADS', 'BB_HASHSERVE', 'OEQA_REPRODUCIBLE_TEST_PACKAGE', 'OEQA_REPRODUCIBLE_TEST_TARGET', 'OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS']
++        needed_vars = ['TOPDIR', 'TARGET_PREFIX', 'BB_NUMBER_THREADS', 'BB_HASHSERVE', 'OEQA_REPRODUCIBLE_TEST_PACKAGE', 'OEQA_REPRODUCIBLE_TEST_TARGET', 'OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS', 'OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES']
+         bb_vars = get_bb_vars(needed_vars)
+         for v in needed_vars:
+             setattr(self, v.lower(), bb_vars[v])
+@@ -175,7 +176,7 @@ class ReproducibleTests(OESelftestTestCase):
+         self.extraresults['reproducible.rawlogs']['log'] += msg
+ 
+     def compare_packages(self, reference_dir, test_dir, diffutils_sysroot):
+-        result = PackageCompareResults()
++        result = PackageCompareResults(self.oeqa_reproducible_excluded_packages)
+ 
+         old_cwd = os.getcwd()
+         try:
+-- 
+2.30.2
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
