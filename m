@@ -1,110 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49046C4167D
-	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 23:32:25 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.752.1700004743881674953
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 630D2C4828E
+	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 23:50:15 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.1317.1700005811499437201
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 15:32:24 -0800
+ Tue, 14 Nov 2023 15:50:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gAch2uUP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-32d9d8284abso3956267f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 15:32:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1700004742; x=1700609542; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b71u8uuHx0rCS9hKNn9uxq9TthhXjfcYg5w89Im2Jkk=;
-        b=gAch2uUPCCT8DWdgEHNelDkd5cd1l6IS+KLBV0AyaDjr+ajEcNSwrc3QLrdlk3ARc4
-         A5SXpC3CKOPNYwvXuJ7/EVdCzTOKGQYVKDetrn/Kttq626qf1vyiohlEC5zxFVqu3Sr1
-         JT8DAzc3XZzCvAN+e6G1/vshE6R67ndiLATos=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700004742; x=1700609542;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b71u8uuHx0rCS9hKNn9uxq9TthhXjfcYg5w89Im2Jkk=;
-        b=CDT2nrz/mcDQl7AgECfpQj/5c/627lm71u9yTxy/h0Du90DfIbkEQVfmzQsWFs5A6a
-         ZIZr4bdy58Sy0gHxXXmFjZC8gMelW0lNIzMPShuxLPxhjgK7Tv7BfGHfAzQnpenBseDl
-         LFTFbqfXnYtLeBr0L/eoiq0lAmtBgi0iP4JVj62+/DVmFcZdKaUagIyU4N2fRnzvyQ4a
-         4u7ezWwZBDXVyA3M1icW1UCDXDBzol2Wdkq5Re1G54+WgfeS0GolS/Px1+k6Zh6sOxUo
-         Vm56IydCQ/4Fy7JARqjC4XRdA8/7gLBa3pL9oky1xpqWg4hRicn8haDyJtTmMpY/aqQA
-         DRHQ==
-X-Gm-Message-State: AOJu0YxX/yakZ3RT267VqooFl08/PU3G1CpSSwtf2lBPA05jmhzcNXkr
-	8kuaWfcj28nDIbSnFjLm+b3y1TJ96+EMdc0sta8=
-X-Google-Smtp-Source: AGHT+IFhGbU32GP2MRPaNA0Ozh1/FUfzI00NDI4Li4MOeG4b85oiPmfY6mlsmwM8pB85JXHcx8jfwA==
-X-Received: by 2002:adf:b31c:0:b0:32f:a5b1:47e8 with SMTP id j28-20020adfb31c000000b0032fa5b147e8mr5641044wrd.27.1700004741889;
-        Tue, 14 Nov 2023 15:32:21 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:bbf9:c35a:2291:eb7c])
-        by smtp.gmail.com with ESMTPSA id n2-20020a5d4202000000b0032d886039easm8836638wrq.14.2023.11.14.15.32.21
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 15:32:21 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] oeqa/selftest/reproducible: Add OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES support
-Date: Tue, 14 Nov 2023 23:32:19 +0000
-Message-Id: <20231114233220.2567795-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gXbm/BS8;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YkpzaKFK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018bd03e1149-f38fc8fb-744b-4536-bc2a-05d7e128bb5b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1700005810; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=tTFpZO7+tpNz5sZjvA7s1M/R2yWD9X06pRzQ1eBEDYo=;
+	b=gXbm/BS8nm58CNdxbQlX87kc3NcraitLds+O2R126uNNCzXveSs4ObuqbW1+GUCn
+	z0R9x2XWFEzxPDGnAjiG+1EVijFgoTQCTGL6dtrgJcWwj39ylBLUfcqRZ7g9+FKZy9v
+	UmYClXkiGHQfeICJ8kYOETyWYgyDOVypaeXESdrw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700005810;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=tTFpZO7+tpNz5sZjvA7s1M/R2yWD9X06pRzQ1eBEDYo=;
+	b=YkpzaKFKFTxkdA/PmBuRdSmrARTj2i7zsQIv2fXzCYQicRExel+nE8jnrM/pIOwj
+	3Aw5gRT+zj192ID5QAIc5Tw/w4Yi0ZpWJfrSpFdKNjTHLH1JbAmUCdWxhLKoiMbvom7
+	Vb5i+z4TdXdrCKGw8/7Rn0UMCn7Mm0hPYHIie1b0=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/2] oeqa/selftest/reproducible: Add
+ OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES support
+In-Reply-To: 20231114233220.2567795-1-richard.purdie@linuxfoundation.org
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018bd03e1149-f38fc8fb-744b-4536-bc2a-05d7e128bb5b-000000@us-west-2.amazonses.com>
+Date: Tue, 14 Nov 2023 23:50:10 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.14-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 23:32:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190523
+ <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 23:50:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190525
 
-Add a new variable to the reproducible test so the list of excluded
-packages can be extended from the metadata. This might be useful for
-meta-openembedded for example so known issues can be excluded and
-therefore new regressions become more visible.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/1-2-oeqa-selftest-reproducible-Add-OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES-support.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 84c6c3a05ff..dac0dce3467 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -45,13 +45,14 @@ class CompareResult(object):
-         return (self.status, self.test) < (other.status, other.test)
- 
- class PackageCompareResults(object):
--    def __init__(self):
-+    def __init__(self, exclusions):
-         self.total = []
-         self.missing = []
-         self.different = []
-         self.different_excluded = []
-         self.same = []
-         self.active_exclusions = set()
-+        exclude_packages.extend((exclusions or "").split())
- 
-     def add_result(self, r):
-         self.total.append(r)
-@@ -153,7 +154,7 @@ class ReproducibleTests(OESelftestTestCase):
- 
-     def setUpLocal(self):
-         super().setUpLocal()
--        needed_vars = ['TOPDIR', 'TARGET_PREFIX', 'BB_NUMBER_THREADS', 'BB_HASHSERVE', 'OEQA_REPRODUCIBLE_TEST_PACKAGE', 'OEQA_REPRODUCIBLE_TEST_TARGET', 'OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS']
-+        needed_vars = ['TOPDIR', 'TARGET_PREFIX', 'BB_NUMBER_THREADS', 'BB_HASHSERVE', 'OEQA_REPRODUCIBLE_TEST_PACKAGE', 'OEQA_REPRODUCIBLE_TEST_TARGET', 'OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS', 'OEQA_REPRODUCIBLE_EXCLUDED_PACKAGES']
-         bb_vars = get_bb_vars(needed_vars)
-         for v in needed_vars:
-             setattr(self, v.lower(), bb_vars[v])
-@@ -175,7 +176,7 @@ class ReproducibleTests(OESelftestTestCase):
-         self.extraresults['reproducible.rawlogs']['log'] += msg
- 
-     def compare_packages(self, reference_dir, test_dir, diffutils_sysroot):
--        result = PackageCompareResults()
-+        result = PackageCompareResults(self.oeqa_reproducible_excluded_packages)
- 
-         old_cwd = os.getcwd()
-         try:
--- 
-2.39.2
+FAIL: test max line length: Patch line too long (current length 233, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
