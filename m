@@ -2,92 +2,110 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96057C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A849EC4167D
 	for <webhook@archiver.kernel.org>; Tue, 14 Nov 2023 21:04:24 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.4594.1699995861574497397
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.4597.1699995862270197314
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 13:04:21 -0800
+ Tue, 14 Nov 2023 13:04:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=HfqiF+fx;
- spf=pass (domain: linaro.org, ip: 209.85.208.182, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c595f5dc84so2182881fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 13:04:21 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=JOMdOUbH;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c503dbe50dso85371131fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 13:04:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699995859; x=1700600659; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kspQeSwglukoYiLU5JSRp+YZ/TlBa+HtuNWeDhE4pOQ=;
-        b=HfqiF+fxNymSCOT5ddU2yft8YCSfoFbs3TunPmmfFJv3kG2YbDEblZSo6PzRJ/0hnc
-         QCPQWfg/Kyge9bG+H6QXdczfnOrruEsNpErLrpA+/kqRG1UUyuxah0rqW2G2PdeJUzya
-         a+daK5m/l4injl6++egZzAI7aXRoa22X3VZk+S5Z4KOBnWFvRiBaB0NvtGgZ9gxuy8aq
-         /QkNkRjBEUcdeIxObsCFxw9S4Cg1cywwOSpYJnFWQ4RtNFQ5RekX0F/8rN1e5eanm6Qo
-         fw7q1TQpcccCiAQJGDWZ5Bmm7b3/zPDLEmVW4FMkF0UgoaP6BN1jT7hui85rYfz5pNiz
-         SaNQ==
+        d=linaro.org; s=google; t=1699995860; x=1700600660; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lm1lj/HbJ+GPGg3O2A6WfmuawmO4eRr6jBLJ1zkFmXo=;
+        b=JOMdOUbH/3U2qAiXuasqSoJqr36REYVzAhBZbxu0hLOEDheh6OpnQYFx9sKEAzadQm
+         9Vo1GS36gy6JHEXAG8Qcc32lddSGzHxovwmSAYoEfoWUz+4Nawd7NRBx9OLliehexWOG
+         6WP7H8GhKfC4DaVNsZoVqsizY8lgdB+49GplK//sytZ1an4EdgUSxbuNiok+watS0DzO
+         JexkExX/jCR7xMNoOTZ96yN28HtbOLx5oncfulvOtwAbcmMrQ2jQVkcVNDCjeMuxjEBR
+         On2HBC6WYkANcPTX2RWSvvtaelEeQu7olGYtmSWCuHQmNmXJFdVEQArE/RO3Q4HA0uc/
+         TnEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699995859; x=1700600659;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kspQeSwglukoYiLU5JSRp+YZ/TlBa+HtuNWeDhE4pOQ=;
-        b=LTj/iymhr/yh5G15hNGLI2ekyR430n685F4FP+zLlGeRSl12WBE8dyg+5xQauJUoUY
-         CtBGgFVdebNJDoMGAyDEx/D+2kwWJyGzBpd4+FoFdzRjlrmDz0NX2QaQC5FJ7MosqxmQ
-         iHFZtQWMzaYKbUQHCxfeZtevKcgD9h8npc6JhlkrCWCR27jijssDCYFzEXK4oALug39a
-         Ct0OhsJA89xa1yzPRA+FkWKDAWGFKmlIUDsEuf26i5z3FCzA5/yXuJ6ZkLBk4U66UYTD
-         WqkDhuZSQYW+asjHTMoyuns6y8xnNO53LOtKjvIFUe/ow4bQsRCaRoMPweZS/DRpHa1X
-         VQQg==
-X-Gm-Message-State: AOJu0YxWhtuW3TXJ7qK3QTNAiqGzIrynHqmxYsFw695E0/XEzjQWC2zj
-	K4eLYhVZcMV/gV2+dQ8W9QJF8HWrPav8a5uAGsQ=
-X-Google-Smtp-Source: AGHT+IGcICbfWmWSYsi0PvOubM+u4ESBCN1rpZhRy0ce8TcrqX/DIJOW2nrHG0ZEOMxIc7/tOU9N6A==
-X-Received: by 2002:a2e:a784:0:b0:2c4:fdfa:41c with SMTP id c4-20020a2ea784000000b002c4fdfa041cmr1654076ljf.0.1699995859185;
-        Tue, 14 Nov 2023 13:04:19 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699995860; x=1700600660;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lm1lj/HbJ+GPGg3O2A6WfmuawmO4eRr6jBLJ1zkFmXo=;
+        b=SNdNC4/Ted88kbn+OOT4irKzjXxExa2KnbCMKj7rJDpo/dAUOXk9jrXCAfctf2xxqC
+         ibeLXCLeuNR+ub60XDCYSCjDQtwgCDbzOCIbOSg/+6sJ9LIYQ6la4AtX/6H4/tf9ZsdL
+         EWjwE1HPzm7l/DKXYNYgxOZoIqoOiqTyTbW3N1LsHXlUHzkyBPAOuhGTBYwdABZthZ7Q
+         IdvhEIKVUznec7YWP9aEw2/5alvjtfI+72p4pC8XEzLbhI+99PQ4nl+te+ptnZ0cb9QL
+         FPehm6op6PHD85ZvrQI7qc1A+WSC7/o0MeA58Dycje8PtRMihitMfh/MG11ji6gZxvkZ
+         ebyA==
+X-Gm-Message-State: AOJu0YyVAyws83t6o5ucpZKFu+ctQQAQx82d94IhA7Zh85h/qNMSoak7
+	Zlmx9WeEc28uDC50HB6WZN7WMN8R5mD4hvzWYTE=
+X-Google-Smtp-Source: AGHT+IE3u3K3mgInd7vvlEq35D5OFx9edJKJM8OE0K7c+hgxrewoGVOTWffolUC7L+j79J9PeWNuHQ==
+X-Received: by 2002:a05:651c:308:b0:2c5:724:fd64 with SMTP id a8-20020a05651c030800b002c50724fd64mr2508832ljp.46.1699995860388;
+        Tue, 14 Nov 2023 13:04:20 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id a8-20020a05651c210800b002c001e57e1asm1437856ljq.73.2023.11.14.13.04.18
+        by smtp.gmail.com with ESMTPSA id a8-20020a05651c210800b002c001e57e1asm1437856ljq.73.2023.11.14.13.04.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 13:04:18 -0800 (PST)
+        Tue, 14 Nov 2023 13:04:20 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 0/2] add sparse image format support
-Date: Wed, 15 Nov 2023 00:04:16 +0300
-Message-Id: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 2/2] image_types.bbclass: add support for sparse images
+Date: Wed, 15 Nov 2023 00:04:18 +0300
+Message-Id: <20231114210418.1323819-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org>
+References: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 21:04:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190519
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190521
 
-Typically the generated filesystem image contains a lot of free space,
-which is filled with zeroes. Android ecosystem has come up with the
-'sparse' image formwat, which basically drops all irrelevant data blocks
-instead of storing them. This way the generated image consumes less
-space when stored and takes less time to be flashed (as there is no need
-to transfer sequences of zeroes). For example, bootloaders implementing
-fastboot protocol natively support writing such images.
+Android-targeted devices support so called sparse image format. This is
+the raw filesystem image with dropped zero blocks. This way the image
+takes less space and the bootloaders and/or filesystem manipulation
+tools can flash it quicker (as they do not have to write useless
+sequences of zeroes).
 
-The meta-oe repository already supports sparse format. However keeping
-it in meta-oe means that it can not be used for BSP layers. Moving it
-directly to OE-Core is not possible, since meta-oe uses android-tools, a
-huge beast, to support this kind of conversion. Instead of that, use the
-simple Rust crate to implement sparse <-> raw image conversion.
+Add new image conversion type called 'sparse'to be able to generate
+filesystem images in the sparse format.
 
-Changes since v1:
-- Epanded patch description and added cover letter to describe sparse
-  images and the reasons for bringing their support into OE-Core.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ meta/classes-recipe/image_types.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Dmitry Baryshkov (2):
-  rust-android-sparse: add lightweight simg2img/img2simg implementation
-  image_types.bbclass: add support for sparse images
-
- meta/classes-recipe/image_types.bbclass       |  4 +-
- .../rust-android-sparse-crates.inc            | 98 +++++++++++++++++++
- .../rust-android-sparse_0.6.0.bb              | 20 ++++
- 3 files changed, 121 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/rust-android-sparse/rust-android-sparse-crates.inc
- create mode 100644 meta/recipes-extended/rust-android-sparse/rust-android-sparse_0.6.0.bb
-
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index d615b41ed1ed..d0c9514b36a3 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -328,7 +328,7 @@ IMAGE_TYPES:append:x86-64 = " hddimg iso"
+ # CONVERSION_CMD/DEPENDS.
+ COMPRESSIONTYPES ?= ""
+ 
+-CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
++CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync sparse ${COMPRESSIONTYPES}"
+ CONVERSION_CMD:lzma = "lzma -k -f -7 ${IMAGE_NAME}.${type}"
+ CONVERSION_CMD:gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.gz"
+ CONVERSION_CMD:bz2 = "pbzip2 -f -k ${IMAGE_NAME}.${type}"
+@@ -355,6 +355,7 @@ CONVERSION_CMD:qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}.${type} ${IMAGE_
+ CONVERSION_CMD:base64 = "base64 ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.base64"
+ CONVERSION_CMD:zsync = "zsyncmake_curl ${IMAGE_NAME}.${type}"
+ CONVERSION_CMD:gzsync = "zsyncmake_curl -z ${IMAGE_NAME}.${type}"
++CONVERSION_CMD:sparse = "img2simg -c ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.sparse"
+ CONVERSION_DEPENDS_lzma = "xz-native"
+ CONVERSION_DEPENDS_gz = "pigz-native"
+ CONVERSION_DEPENDS_bz2 = "pbzip2-native"
+@@ -375,6 +376,7 @@ CONVERSION_DEPENDS_vhdx = "qemu-system-native"
+ CONVERSION_DEPENDS_vhd = "qemu-system-native"
+ CONVERSION_DEPENDS_zsync = "zsync-curl-native"
+ CONVERSION_DEPENDS_gzsync = "zsync-curl-native"
++CONVERSION_DEPENDS_sparse = "rust-android-sparse-native"
+ 
+ RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
+ RUNNABLE_MACHINE_PATTERNS ?= "qemu"
 -- 
 2.39.2
 
