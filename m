@@ -1,97 +1,91 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 717A0C3DA79
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 00:03:25 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.1514.1700006597418702737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 715AEC47071
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 03:17:46 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.5023.1700018263349472275
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 16:03:17 -0800
+ Tue, 14 Nov 2023 19:17:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=g5k0UmMv;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FrSp0eGL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018bd04a0edd-b3079fa4-3096-496f-8410-5206dfb94a15-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700006596; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=D8pn8VMktoJUYzyj7AEEQjlT04eDDRNqtcnqN/nIh6s=;
-	b=g5k0UmMv2BcZHyQyDZPah1w9R0O7T1VKeBhx+p3945cn/4Y3APp3rqpgSecGGHcG
-	T+swfsPNsrS2q00rs5f05g/dxvohwXRwfxCZlCpvwhExNW6MBTm9d1YHtV0i+R30xCP
-	ghqhF5AdMCCBdT7oQ/+/MyiF5cHbuxUv7bGc2mI4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700006596;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=D8pn8VMktoJUYzyj7AEEQjlT04eDDRNqtcnqN/nIh6s=;
-	b=FrSp0eGLOC/KP3X4GS5rfHA6NMyl07VcGbfTkp5XtYW9XJ27NwPO7MjOJ/NPL5RO
-	iQZx7Ujh7ojoh2FdM/t4wAU4ZHIYf2DXcKH7yG5ndGgr76j6XaGzzkkpuHAoD2HXNqq
-	xqkByUdTYujp3TwSUwKt9AEuGDPS8BKc+j/Na058=
-From: patchtest@automation.yoctoproject.org
-To: Yoann Congal <yoann.congal@smile.fr>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] selftest/reproducible: Allow packages exclusion via config
-In-Reply-To: 20231114235332.112208-1-yoann.congal@smile.fr
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018bd04a0edd-b3079fa4-3096-496f-8410-5206dfb94a15-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Nov 2023 00:03:16 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.29
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ya01zVM0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1cc5fa0e4d5so57231905ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:17:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700018262; x=1700623062; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iNOpgxyGx/G0HaosL/4bSriIk0If/lLzri6xdNhq09c=;
+        b=ya01zVM0AakKTAxvd45l+yMmsEGD3xp6J8dGkTFtt0ACEtCjKyfqMSWEj+DRidRS7j
+         V3M5gtgpO0rE7fzM39lB0xZn42QI6JuAEatXVLVKenwzFSpj0HynEeUg4i7HRUfcZefU
+         INwp8IGmZ/Tuy65Y8gIw0oTprd65mLJqDiVZLzlm57QBE0jNjgWITtCEUikc3uTNT0n2
+         KMZDwNoVzdearNYN770EHe9u1g7R4K29x9WqfqBWOpj1hjUrKrJM9gEdL447iY6L4J7m
+         0ETUln4M9qj57bKiPwYDBRHsdcCsQq8/l1SNPwtFJ/d2SgyBZZKKGx5I9tD2Y/m4Uccs
+         j0OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700018262; x=1700623062;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iNOpgxyGx/G0HaosL/4bSriIk0If/lLzri6xdNhq09c=;
+        b=tKCHi2Fb7IADqne6HSGhICAJj/WoVLFs0p6S3WLGrkSYj3JskThYigLI9coA6bDJpG
+         oIyuix/KmGgxw+lgMi+zjLtWIJiFiDNYn3TK004Na3DzBhDULAb4iH91RId9x9z8HLlh
+         oc4ckmSqjajq6HPOXEqox1j6Q0eOSb74FtvGPtY3Fbbeaa85DsOgP65R67UfLYmKbOT6
+         m6KzMh+tZoRTdQbA3xIHFncjiJKCDHgJc6AQrpLP/E2wyfZ5VdRWBHmeg0Pz5RDMG9gn
+         nRq3PI3AafEjpKb1tZDiPUPY7QuFIolW0hwJvzYa3/h1dgKQMhc0C9hAMN/KFDqAWf1D
+         QSqQ==
+X-Gm-Message-State: AOJu0YzSsYcsvHLh8gm72GBUrD3FLK8RTyqu5kjeOc9g4jEqffwgW3K6
+	2uriPMK2RCjBx/sTFkW5m42FJF4mSbzGNIhdAzC8iw==
+X-Google-Smtp-Source: AGHT+IE1i12FmD2K6VlEs1mB+D0R6uszOQwIl64ZN8iG05acaWvwI8q/XnLOCWZ4eP6+9v/u2iwfig==
+X-Received: by 2002:a17:903:2308:b0:1ca:29f:4b06 with SMTP id d8-20020a170903230800b001ca029f4b06mr5039300plh.2.1700018262531;
+        Tue, 14 Nov 2023 19:17:42 -0800 (PST)
+Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id l5-20020a170903120500b001c6187f2875sm6369300plh.225.2023.11.14.19.17.41
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Nov 2023 19:17:42 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 01/17] kexec-tools: Ignore Fedora/RedHat specific CVE-2021-20269
+Date: Tue, 14 Nov 2023 17:17:18 -1000
+Message-Id: <d34567be6e87afdec55973f8f75be8d44b4acd1b.1700018112.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1700018112.git.steve@sakoman.com>
+References: <cover.1700018112.git.steve@sakoman.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 00:03:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190529
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 03:17:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190531
 
---NextPart
-Content-Type: text/plain
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
-Testing patch /home/patchtest/share/mboxes/selftest-reproducible-Allow-packages-exclusion-via-config.patch
+ meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-FAIL: test max line length: Patch line too long (current length 233, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
+index 871b36440f..206c6ccae7 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
+@@ -30,6 +30,9 @@ inherit autotools update-rc.d systemd
+ export LDFLAGS = "-L${STAGING_LIBDIR}"
+ EXTRA_OECONF = " --with-zlib=yes"
+ 
++# affects kexec-tools shipped by Fedora versions prior to 2.0.21-8 and RHEL versions prior to 2.0.20-47.
++CVE_CHECK_WHITELIST += "CVE-2021-20269"
++
+ do_compile_prepend() {
+     # Remove the prepackaged config.h from the source tree as it overrides
+     # the same file generated by configure and placed in the build tree
+-- 
+2.34.1
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
