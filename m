@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4B9CC54F7D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C8B9C54F79
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:11 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.14628.1700059030659166669
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.14623.1700059030055378036
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Nov 2023 06:37:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WnAKbsEJ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qYTJ8NQN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018bd36a20dc-6ccd78aa-67f4-4539-9543-1fb17e27e57d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TeIOZZCg;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=quvpCUN/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018bd36a2218-1b7218cd-479a-4b0e-9a48-648f9d1cec9f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700059029;
+	t=1700059030;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gmInW23Bm65XcnxMrnW+PMCVhXiOkRkOtUiS7owPvx8=;
-	b=WnAKbsEJpQhlBrXbQXQU85GN6MNGpsmJ2TRkUzgVYtcz6csLbxEnivxDvdny3+Jg
-	oRAatILTUoZN0Kivggsj3knX+OVFmYmvC0LIQ6J7yjlnaU0Lo1yZIif30ZPIZkcIqgL
-	5u+hbKPpLlhoy7V9Sdnol/5zbcfegQkCna/rI2BQ=
+	bh=Xmnp5MiaLMQM1r7SvROC6fW3PpV6tGFs7uIupgCSmWg=;
+	b=TeIOZZCgvD2JVab+JvwXErR/Ya48pJRsB6/9slPwtlomha1H9Qb8KuMjmYsHu03V
+	kDRQi5FKD5Tf+qNEZ4S+VcHqSXE31855bnUrnD/NBzNPkdNw8yhefjqUhZjnIxKwUGN
+	NdB510KfVt3Tvkv0PTmrmkKYzcqSv7lKfMnHyhzg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059029;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059030;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gmInW23Bm65XcnxMrnW+PMCVhXiOkRkOtUiS7owPvx8=;
-	b=qYTJ8NQNQUlef8eeZfHh2A+K3vbO+LIyaH6O7PMrvtg34vHy80bY5NijtonC0/wi
-	ectNOaU8sVw/jyG+nNw2IJrLlM7Y9x63eLiukTJB2XalAUYaQFfZxP81QZkf5GavvIa
-	mvcdJAU3w5q17oenXp9jNbER1nmuUhOkeFL/bzVE=
-Content-Type: multipart/mixed; boundary="===============9100003904108513956=="
+	bh=Xmnp5MiaLMQM1r7SvROC6fW3PpV6tGFs7uIupgCSmWg=;
+	b=quvpCUN/ARAfkqjhdgS9qedz48rSEGWrgxVKmGzae0VWXb3QH9zTycdmXPWgdVEX
+	UwIQoJHFhOEvtc0JfGPrPIMWUiKdeUZSoY71nHUWtecWbpBiczfbUgFulISHHAZ1zvj
+	cnsj7gPwhw/ou+Ae6bEp1JHRyeahV1TteUhO5pGE=
+Content-Type: multipart/mixed; boundary="===============7531324556079291126=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.88.4 SUCCEEDED
-Message-ID: <0101018bd36a20dc-6ccd78aa-67f4-4539-9543-1fb17e27e57d-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Nov 2023 14:37:09 +0000
+Subject: [AUH] python3-mako: upgrading to 1.3.0 SUCCEEDED
+Message-ID: <0101018bd36a2218-1b7218cd-479a-4b0e-9a48-648f9d1cec9f-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Nov 2023 14:37:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.29
+X-SES-Outgoing: 2023.11.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190636
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190634
 
---===============9100003904108513956==
+--===============7531324556079291126==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.88.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-mako* to *1.3.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.88.1-6.88.4.patch
+    - apply the patch: git am 0001-python3-mako-upgrade-1.2.4-1.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,67 +72,89 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 62eed1b7b2674cc8b8c9fa08d7cff9de64215874 Mon Sep 17 00:00:00 2001
+From 6ba80bf8bc49ac2d3352e4c2510f3c28197842c3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Nov 2023 07:09:55 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.88.1 -> 6.88.4
+Date: Wed, 15 Nov 2023 07:15:31 +0000
+Subject: [PATCH] python3-mako: upgrade 1.2.4 -> 1.3.0
 
 ---
- ...ython3-hypothesis_6.88.1.bb => python3-hypothesis_6.88.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.88.1.bb => python3-hypothesis_6.88.4.bb} (91%)
+ ...n3-mako_1.2.4.bb => python3-mako_1.3.0.bb} | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.2.4.bb => python3-mako_1.3.0.bb} (33%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.88.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.88.4.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.88.1.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.88.4.bb
-index e6703f103b..e0e81e6ea3 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.88.1.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.88.4.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/python/python3-mako_1.2.4.bb b/meta/recipes-devtools/python/python3-mako_1.3.0.bb
+similarity index 33%
+rename from meta/recipes-devtools/python/python3-mako_1.2.4.bb
+rename to meta/recipes-devtools/python/python3-mako_1.3.0.bb
+index 9860058723..bdf28049d8 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.2.4.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.3.0.bb
+@@ -1,14 +1,33 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE
++# +++ LICENSE
++# @@ -1,4 +1,4 @@
++# -Copyright 2006-2022 the Mako authors and contributors <see AUTHORS file>.
++# +Copyright 2006-2023 the Mako authors and contributors <see AUTHORS file>.
++#  
++#  Permission is hereby granted, free of charge, to any person obtaining a copy of
++#  this software and associated documentation files (the "Software"), to deal in
++# 
++#
++
+ SUMMARY = "Templating library for Python"
+ HOMEPAGE = "http://www.makotemplates.org/"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=ad08dd28df88e64b35bcac27c822ee34"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fcc01df649aee6c59dcb254c894ea0d4"
  
--SRC_URI[sha256sum] = "f4c2c004b9ec3e0e25332ad2cb6b91eba477a855557a7b5c6e79068809ff8b51"
-+SRC_URI[sha256sum] = "5c1126b8cb3cef06a6f4a3d2a721b6c0412090cc5fca15fca573f46d5f24e89e"
+ PYPI_PACKAGE = "Mako"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI[sha256sum] = "d60a3903dc3bb01a18ad6a89cdbe2e4eadc69c0bc8ef1e3773ba53d44c3f7a34"
++SRC_URI[sha256sum] = "e3a9d388fd00e87043edbe8792f45880ac0114e9c4adc69f6e9bfb2c55e3b11b"
+ 
+ RDEPENDS:${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-markupsafe \
 -- 
 2.39.2
 
 
---===============9100003904108513956==
+--===============7531324556079291126==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.88.1.tar.gz;downloadfilename=hypothesis-6.88.1.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.88.4.tar.gz;downloadfilename=hypothesis-6.88.4.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
-packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.88.1 [default] to 6.88.4 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.11/site-packages/hypothesis-6.88.1.dist-info -> /usr/lib/python3.11/site-packages/hypothesis-6.88.4.dist-info, removed "/usr/lib/python3.11/site-packages/hypothesis/_error_if_old.py /usr/lib/python3.11/site-packages/hypothesis/__pycache__/_error_if_old.cpython-311.pyc"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.88.1" to "6.88.4"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 2922652 to 2925846 (+0%)
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.11/site-packages/hypothesis-6.88.1.dist-info moved to /usr/lib/python3.11/site-packages/hypothesis-6.88.4.dist-info
-  /usr/lib/python3.11/site-packages/hypothesis/_error_if_old.py was removed
-  /usr/lib/python3.11/site-packages/hypothesis/__pycache__/_error_if_old.cpython-311.pyc was removed
+packages/core2-64-poky-linux/python3-mako: PV changed from "1.2.4" to "1.3.0"
+packages/core2-64-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.4.tar.gz;downloadfilename=Mako-1.2.4.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.3.0.tar.gz;downloadfilename=Mako-1.3.0.tar.gz"
+packages/core2-64-poky-linux/python3-mako: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.2.4" to "1.3.0"
+packages/core2-64-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.2.4" to "1.3.0"
+packages/core2-64-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.2.4" to "1.3.0"
+packages/core2-64-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.2.4" to "1.3.0"
+packages/core2-64-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-src: PV changed from "1.2.4" to "1.3.0"
+packages/core2-64-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.2.4" to "1.3.0"
+packages/core2-64-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+packages/core2-64-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 663876 to 663659 (-0%)
+packages/core2-64-poky-linux/python3-mako/python3-mako: PV changed from "1.2.4" to "1.3.0"
+packages/core2-64-poky-linux/python3-mako/python3-mako: PKGV changed from 1.2.4 [default] to 1.3.0 [default]
+Changes to packages/core2-64-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.11/site-packages/Mako-1.2.4.dist-info moved to /usr/lib/python3.11/site-packages/Mako-1.3.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1770,47 +1792,62 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============9100003904108513956==
+--===============7531324556079291126==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.88.1-6.88.4.patch"
+ filename="0001-python3-mako-upgrade-1.2.4-1.3.0.patch"
 
-RnJvbSA2MmVlZDFiN2IyNjc0Y2M4YjhjOWZhMDhkN2NmZjlkZTY0MjE1ODc0IE1vbiBTZXAgMTcg
+RnJvbSA2YmE4MGJmOGJjNDlhYzJkMzM1MmU0YzI1MTBmM2MyODE5Nzg0MmMzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDc6MDk6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi44OC4xIC0+IDYuODguNAoKLS0tCiAuLi55dGhv
-bjMtaHlwb3RoZXNpc182Ljg4LjEuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuODguNC5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWh5cG90aGVzaXNfNi44
-OC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182Ljg4LjQuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi44OC4x
-LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi44
-OC40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuODguMS5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi44OC40LmJiCmluZGV4
-IGU2NzAzZjEwM2IuLmUwZTgxZTZlYTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuODguMS5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182Ljg4LjQuYmIKQEAgLTEzLDcgKzEz
-LDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUucHkgXAogICAgICIKIAot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gImY0YzJjMDA0YjllYzNlMGUyNTMzMmFkMmNiNmI5MWViYTQ3
-N2E4NTU1NTdhN2I1YzZlNzkwNjg4MDlmZjhiNTEiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWMx
-MTI2YjhjYjNjZWYwNmE2ZjRhM2QyYTcyMWI2YzA0MTIwOTBjYzVmY2ExNWZjYTU3M2Y0NmQ1ZjI0
-ZTg5ZSIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9uMy1hdHRycyBcCi0tIAoy
-LjM5LjIKCg==
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDc6MTU6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLW1ha286IHVwZ3JhZGUgMS4yLjQgLT4gMS4zLjAKCi0tLQogLi4ubjMtbWFrb18xLjIu
+NC5iYiA9PiBweXRob24zLW1ha29fMS4zLjAuYmJ9IHwgMjMgKysrKysrKysrKysrKysrKystLQog
+MSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1tYWtvXzEuMi40LmJiID0+IHB5
+dGhvbjMtbWFrb18xLjMuMC5iYn0gKDMzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjIuNC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1tYWtvXzEuMy4wLmJiCnNpbWlsYXJpdHkgaW5kZXggMzMlCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYWtvXzEuMi40LmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMu
+MC5iYgppbmRleCA5ODYwMDU4NzIzLi5iZGYyODA0OWQ4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjIuNC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFrb18xLjMuMC5iYgpAQCAtMSwxNCArMSwzMyBA
+QAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVk
+IGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNl
+IGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRh
+dGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2Vz
+IGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAo
+ZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIwor
+IyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UKKyMgKysrIExJQ0VOU0UKKyMgQEAgLTEs
+NCArMSw0IEBACisjIC1Db3B5cmlnaHQgMjAwNi0yMDIyIHRoZSBNYWtvIGF1dGhvcnMgYW5kIGNv
+bnRyaWJ1dG9ycyA8c2VlIEFVVEhPUlMgZmlsZT4uCisjICtDb3B5cmlnaHQgMjAwNi0yMDIzIHRo
+ZSBNYWtvIGF1dGhvcnMgYW5kIGNvbnRyaWJ1dG9ycyA8c2VlIEFVVEhPUlMgZmlsZT4uCisjICAK
+KyMgIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkg
+cGVyc29uIG9idGFpbmluZyBhIGNvcHkgb2YKKyMgIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0
+ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLCB0byBkZWFsIGluCisjIAor
+IworCiBTVU1NQVJZID0gIlRlbXBsYXRpbmcgbGlicmFyeSBmb3IgUHl0aG9uIgogSE9NRVBBR0Ug
+PSAiaHR0cDovL3d3dy5tYWtvdGVtcGxhdGVzLm9yZy8iCiBTRUNUSU9OID0gImRldmVsL3B5dGhv
+biIKIExJQ0VOU0UgPSAiTUlUIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTtt
+ZDU9YWQwOGRkMjhkZjg4ZTY0YjM1YmNhYzI3YzgyMmVlMzQiCitMSUNfRklMRVNfQ0hLU1VNID0g
+ImZpbGU6Ly9MSUNFTlNFO21kNT1mY2MwMWRmNjQ5YWVlNmM1OWRjYjI1NGM4OTRlYTBkNCIKIAog
+UFlQSV9QQUNLQUdFID0gIk1ha28iCiAKIGluaGVyaXQgcHlwaSBweXRob25fc2V0dXB0b29sc19i
+dWlsZF9tZXRhCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkNjBhMzkwM2RjM2JiMDFhMThhZDZh
+ODljZGJlMmU0ZWFkYzY5YzBiYzhlZjFlMzc3M2JhNTNkNDRjM2Y3YTM0IgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImUzYTlkMzg4ZmQwMGU4NzA0M2VkYmU4NzkyZjQ1ODgwYWMwMTE0ZTljNGFkYzY5
+ZjZlOWJmYjJjNTVlM2IxMWIiCiAKIFJERVBFTkRTOiR7UE59ID0gIiR7UFlUSE9OX1BOfS1odG1s
+IFwKICAgICAgICAgICAgICAgICAgICR7UFlUSE9OX1BOfS1tYXJrdXBzYWZlIFwKLS0gCjIuMzku
+MgoK
 
---===============9100003904108513956==
+--===============7531324556079291126==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.11/site-packages/hypothesis-6.88.1.dist-info -> /usr/lib/python3.11/site-packages/hypothesis-6.88.4.dist-info, removed "/usr/lib/python3.11/site-packages/hypothesis/_error_if_old.py /usr/lib/python3.11/site-packages/hypothesis/__pycache__/_error_if_old.cpython-311.pyc"
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.11/site-packages/hypothesis-6.88.1.dist-info moved to /usr/lib/python3.11/site-packages/hypothesis-6.88.4.dist-info
-  /usr/lib/python3.11/site-packages/hypothesis/_error_if_old.py was removed
-  /usr/lib/python3.11/site-packages/hypothesis/__pycache__/_error_if_old.cpython-311.pyc was removed
+Changes to packages/core2-64-poky-linux/python3-mako (sysroot):
+  /usr/lib/python3.11/site-packages/Mako-1.2.4.dist-info moved to /usr/lib/python3.11/site-packages/Mako-1.3.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3448,5 +3485,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============9100003904108513956==--
+--===============7531324556079291126==--
 
