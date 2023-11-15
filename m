@@ -2,47 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B138C47061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84221C54F36
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:10 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.14614.1700059028661486741
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.14618.1700059029318658792
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Nov 2023 06:37:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TN3+Ow/w;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XxvrvP3i;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018bd36a186a-f5247160-0ead-4527-824b-79342bcadbca-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TsaLvpAs;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=g07KGum3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018bd36a1fdd-5bb43f41-b9a7-4ea4-85c8-2b4b07345dce-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700059027;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=ZOsbgzB/uZCucEGpYfXf2aMER8F3fw78hCPWY3e52vU=;
-	b=TN3+Ow/wilRuF+heNXM05Tq8H61+3Qudeozs23FWtUyqCn+BBUxsqlCmNh0dZfcs
-	IBKWZt5QlB2/x0Q2XkZIJzPq3W0CyRNU87z3wERsDs1iDkQcSJI9CcLJz8ONDwetc7w
-	sjIctwn4v5k2DdVbN1ziRNaIN02G2DKnAFjGan/Y=
+	t=1700059029;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=ND0C1s6gPzB6b6YcYnBH8bs8aoLdS3ZpzVhbWhXfMPg=;
+	b=TsaLvpAsiy2UnsmCPzXxz/YXYv2aqhl36FcF582isTxBzIAGGsI3QW4lCDJVcRsn
+	g+rJoZKOR4thlIswp3DMS8C5g5qhk0NdOzr3fTVSRbbUTqSZXDDXrwkEw65IulwGCIJ
+	QOyZzevVykTYLTrBATUKuqDhsI0LMOwZEKhcSyn0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059027;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZOsbgzB/uZCucEGpYfXf2aMER8F3fw78hCPWY3e52vU=;
-	b=XxvrvP3iBM+XVsU3LPwk62Nt1UklVWcBI7mYt7FiFmTsOSWEvpemTy5fhur/f30u
-	vNdl9WrEr4WV44enhLl1aejvW4Bob7QfRxUaN4/tfXhKsAvDuZdgzcBkSmsfdIvdCcF
-	qFd7+VS3MjaI079KaJnf3cn3YagPUCk9sufLpQuY=
-Content-Type: multipart/mixed; boundary="===============5805453358259242338=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059029;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=ND0C1s6gPzB6b6YcYnBH8bs8aoLdS3ZpzVhbWhXfMPg=;
+	b=g07KGum3gGT/j7N7C6gKF0xI7KVFprmxjsmS6f/cE4b3Sg/lrFHd6mau/ohDL34R
+	+hvSfHw6SDIzZtXa9agZgv5IE3HPOMHfwVA/HiBlfvnU7DLsZOPkqLRXHb30Je1zoG6
+	+NHrfWXK6Zm1oq3ujWaPcXQCTYRr7zmqpy7Y5DBE=
+Content-Type: multipart/mixed; boundary="===============2194359094163674870=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] dhcpcd: upgrading to 10.0.5 SUCCEEDED
-Message-ID: <0101018bd36a186a-f5247160-0ead-4527-824b-79342bcadbca-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Nov 2023 14:37:07 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] mmc-utils: upgrading to
+ b5ca140312d279ad2f22068fd72a6230eea13436 SUCCEEDED
+Message-ID: <0101018bd36a1fdd-5bb43f41-b9a7-4ea4-85c8-2b4b07345dce-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Nov 2023 14:37:09 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.30
+X-SES-Outgoing: 2023.11.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190605
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190614
 
---===============5805453358259242338==
+--===============2194359094163674870==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *dhcpcd* to *10.0.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *mmc-utils* to *b5ca140312d279ad2f22068fd72a6230eea13436* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-dhcpcd-upgrade-10.0.4-10.0.5.patch
+    - apply the patch: git am 0001-mmc-utils-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,91 +73,85 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 20e0342b1ba9679ee9e22d984c60cd18ef72d1d3 Mon Sep 17 00:00:00 2001
+From 4e484f17a0b35d3985a47934a92326dba1390e67 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Nov 2023 05:07:59 +0000
-Subject: [PATCH] dhcpcd: upgrade 10.0.4 -> 10.0.5
+Date: Wed, 15 Nov 2023 06:49:48 +0000
+Subject: [PATCH] mmc-utils: upgrade to latest revision
 
 ---
- .../dhcpcd/{dhcpcd_10.0.4.bb => dhcpcd_10.0.5.bb}               | 2 +-
+ meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.0.4.bb => dhcpcd_10.0.5.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.5.bb
-similarity index 97%
-rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb
-rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.5.bb
-index fbc3e03d2d..c2dee267ba 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.5.bb
-@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
-            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
-            "
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index 2d02927af7..a7e4d369ff 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
  
--SRCREV = "3cb242656546acfe88f6201f8b3dbe261ffd1a3e"
-+SRCREV = "6baf4df467aaae89b026a089122d155c6eec3f19"
- S = "${WORKDIR}/git"
+ SRCBRANCH ?= "master"
+-SRCREV = "613495ecaca97a19fa7f8f3ea23306472b36453c"
++SRCREV = "b5ca140312d279ad2f22068fd72a6230eea13436"
  
- inherit pkgconfig autotools-brokensep systemd useradd
+ PV = "0.1+git"
+ 
 -- 
 2.39.2
 
 
---===============5805453358259242338==
+--===============2194359094163674870==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PV changed from "10.0.4" to "10.0.5"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGSIZE changed from 1210480 to 1210944 (+0%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dbg: PKGV changed from 10.0.4 [default] to 10.0.5 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PV changed from "10.0.4" to "10.0.5"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-dev: PKGV changed from 10.0.4 [default] to 10.0.5 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PV changed from "10.0.4" to "10.0.5"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-doc: PKGV changed from 10.0.4 [default] to 10.0.5 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PV changed from "10.0.4" to "10.0.5"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-locale: PKGV changed from 10.0.4 [default] to 10.0.5 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PV changed from "10.0.4" to "10.0.5"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGSIZE changed from 1096434 to 1097220 (+0%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-src: PKGV changed from 10.0.4 [default] to 10.0.5 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PV changed from "10.0.4" to "10.0.5"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd-staticdev: PKGV changed from 10.0.4 [default] to 10.0.5 [default]
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PV changed from "10.0.4" to "10.0.5"
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGSIZE changed from 424236 to 424252 (+0%)
-packages/core2-64-poky-linux/dhcpcd/dhcpcd: PKGV changed from 10.0.4 [default] to 10.0.5 [default]
-packages/core2-64-poky-linux/dhcpcd: PV changed from "10.0.4" to "10.0.5"
-packages/core2-64-poky-linux/dhcpcd: PKGV changed from 10.0.4 [default] to 10.0.5 [default]
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGSIZE changed from 298216 to 291584 (-2%)
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGSIZE changed from 215757 to 213396 (-1%)
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGSIZE changed from 128864 to 120384 (-7%)
+packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
 
---===============5805453358259242338==
+--===============2194359094163674870==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-dhcpcd-upgrade-10.0.4-10.0.5.patch"
+ filename="0001-mmc-utils-upgrade-to-latest-revision.patch"
 
-RnJvbSAyMGUwMzQyYjFiYTk2NzllZTllMjJkOTg0YzYwY2QxOGVmNzJkMWQzIE1vbiBTZXAgMTcg
+RnJvbSA0ZTQ4NGYxN2EwYjM1ZDM5ODVhNDc5MzRhOTIzMjZkYmExMzkwZTY3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDU6MDc6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-aGNwY2Q6IHVwZ3JhZGUgMTAuMC40IC0+IDEwLjAuNQoKLS0tCiAuLi4vZGhjcGNkL3tkaGNwY2Rf
-MTAuMC40LmJiID0+IGRoY3BjZF8xMC4wLjUuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC97ZGhjcGNkXzEwLjAuNC5iYiA9PiBkaGNwY2RfMTAu
-MC41LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvZGhj
-cGNkL2RoY3BjZF8xMC4wLjQuYmIgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2RoY3BjZC9k
-aGNwY2RfMTAuMC41LmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2RoY3BjZF8xMC4wLjQuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvZGhjcGNkL2RoY3BjZF8xMC4wLjUuYmIKaW5kZXggZmJjM2Uw
-M2QyZC4uYzJkZWUyNjdiYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9k
-aGNwY2QvZGhjcGNkXzEwLjAuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Ro
-Y3BjZC9kaGNwY2RfMTAuMC41LmJiCkBAIC0xNyw3ICsxNyw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8v
-Z2l0aHViLmNvbS9OZXR3b3JrQ29uZmlndXJhdGlvbi9kaGNwY2Q7cHJvdG9jb2w9aHR0cHM7YnJh
-bmNoPW1hCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWRoY3BjZC44LUZpeC1jb25mbGljdC1lcnJv
-ci13aGVuLWVuYWJsZS1tdWx0aWxpYi5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDUkVWID0g
-IjNjYjI0MjY1NjU0NmFjZmU4OGY2MjAxZjhiM2RiZTI2MWZmZDFhM2UiCitTUkNSRVYgPSAiNmJh
-ZjRkZjQ2N2FhYWU4OWIwMjZhMDg5MTIyZDE1NWM2ZWVjM2YxOSIKIFMgPSAiJHtXT1JLRElSfS9n
-aXQiCiAKIGluaGVyaXQgcGtnY29uZmlnIGF1dG90b29scy1icm9rZW5zZXAgc3lzdGVtZCB1c2Vy
-YWRkCi0tIAoyLjM5LjIKCg==
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDY6NDk6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+bWMtdXRpbHM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tbWMvbW1j
+LXV0aWxzX2dpdC5iYgppbmRleCAyZDAyOTI3YWY3Li5hN2U0ZDM2OWZmIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbW1jL21tYy11dGlsc19naXQuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiCkBAIC01LDcgKzUsNyBAQCBMSUNFTlNF
+ID0gIkdQTC0yLjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL21tYy5jO2JlZ2lu
+bGluZT0xO2VuZGxpbmU9MjA7bWQ1PWZhZTMyNzkyZTIwZjRkMjdhZGUxYzVhNzYyZDE2YjdkIgog
+CiBTUkNCUkFOQ0ggPz0gIm1hc3RlciIKLVNSQ1JFViA9ICI2MTM0OTVlY2FjYTk3YTE5ZmE3Zjhm
+M2VhMjMzMDY0NzJiMzY0NTNjIgorU1JDUkVWID0gImI1Y2ExNDAzMTJkMjc5YWQyZjIyMDY4ZmQ3
+MmE2MjMwZWVhMTM0MzYiCiAKIFBWID0gIjAuMStnaXQiCiAKLS0gCjIuMzkuMgoK
 
---===============5805453358259242338==--
+--===============2194359094163674870==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+
+--===============2194359094163674870==--
 
