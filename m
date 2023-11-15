@@ -1,87 +1,88 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1561EC07548
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 07:34:18 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.8217.1700033655911668178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C1DC07548
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 08:09:48 +0000 (UTC)
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
+ by mx.groups.io with SMTP id smtpd.web11.8541.1700035784112775958
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 23:34:16 -0800
+ Wed, 15 Nov 2023 00:09:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YlijhqFq;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: uvv.mail@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9f27af23443so69418766b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 23:34:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700033654; x=1700638454; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VOj5JQQda6GyNVG/38vk0mp3Q68DaLavGf3Shv+sLO8=;
-        b=YlijhqFqjejHLs8YSNTN20tn/gsdsJz69wgqnzgqOn0EwxHaybmAx1mevTT2cG4EBy
-         R+xtDtN/GGZrv7NnVmTdvSYlXcy133hepOlpUDol1EKjM3+CuEEmXLxXupiN1DMa6JIF
-         gYPReL9sBQqpUZ8nevy8waTNtQ9zzVdIFm2J1s9XkXHjJX6cnTqBVnN26SYP6OAUc8j4
-         EOVEwxcAiZ1JscM3T54/X5bGS2ptqPX0vsKQ2kNb5RAXo5tfxIeEsOh6UTwplfcyDU4P
-         GAkTDD4K2Ess6edaGgd3OGe09c3liz18Gj5n+ZY8bR2p8PKeO5OBUHbzUl7BLDomT6BB
-         9bDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700033654; x=1700638454;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VOj5JQQda6GyNVG/38vk0mp3Q68DaLavGf3Shv+sLO8=;
-        b=MV0zl1pLHd/AOqtk3/RpBB0/+I0MJnY581GDo34xOLMQjlMF2qeCEa4wPZdaZk5uyw
-         pKHE8+acxhLC7+u+O4wn825XWHDu+yjiSZ5UVzInuhlIy9jVd/6HWNr7liP+ZgPAb23y
-         6BkXzhSpBz2oYOLEO8EnsUPzG4uiCzHxqM+mVwvl6+q0CI9qisgOAYMxd31nEeDuVB9W
-         IctGGpJMqLueMN3s4krndU8mb1TcsIZOj6Pxh/G8wJNqoNsmBsFL8/0Yqgagzy0JXMnu
-         aaSPDgp/4UQHHgTrhV6Sgb3qVORwede+R3kh0+Aq2VZyAvhcU/5Z4TRfX3fi9RR7ex+e
-         rCSQ==
-X-Gm-Message-State: AOJu0YxV7+ehA7jtDthyP/qSFoY3+xcKMVlbFNIV6jY9hlgQW8q5Cq6m
-	CiXAywVkcKTMSwvMP1XKvpo=
-X-Google-Smtp-Source: AGHT+IELkDpRPWbKsXEKelDCeQOzBr3FnhuKEqYub+mIx9LXhig7TyqqSdejnH+higOhzJWzNcuy/A==
-X-Received: by 2002:a17:906:33ce:b0:9e5:31c4:f5f8 with SMTP id w14-20020a17090633ce00b009e531c4f5f8mr8114195eja.53.1700033654068;
-        Tue, 14 Nov 2023 23:34:14 -0800 (PST)
-Received: from [10.134.44.122] ([89.249.73.139])
-        by smtp.gmail.com with ESMTPSA id e4-20020a1709062c0400b0099293cdbc98sm6738192ejh.145.2023.11.14.23.34.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Nov 2023 23:34:13 -0800 (PST)
-Message-ID: <d961f2bd-3da7-433b-b78d-198cff8ef234@gmail.com>
-Date: Wed, 15 Nov 2023 08:34:12 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-Core][PATCH v3 0/4] recipetool: Add handler to create go
- recipes
-Content-Language: en-US
-To: Lukas Funke <lukas.funke-oss@weidmueller.com>,
- openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
- Martin Jansa <martin.jansa@gmail.com>,
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>, u.oelmann@pengutronix.de
-References: <20231102155313.309534-1-lukas.funke-oss@weidmueller.com>
- <cf5fa871-ddcc-4f18-a013-3ef10ec77de9@gmail.com>
- <625e1f93-9850-4c0f-b546-a246cf94924e@weidmueller.com>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <625e1f93-9850-4c0f-b546-a246cf94924e@weidmueller.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10894"; a="139714125"
+X-IronPort-AV: E=Sophos;i="6.03,304,1694703600"; 
+   d="scan'208";a="139714125"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 17:09:42 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 4559DDC146
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 17:09:39 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 7E9CCD88C2
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 17:09:38 +0900 (JST)
+Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.79])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id AA08220050199;
+	Wed, 15 Nov 2023 17:09:37 +0900 (JST)
+From: wangmy@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] dhcpcd: upgrade 10.0.4 -> 10.0.5
+Date: Wed, 15 Nov 2023 16:09:05 +0800
+Message-Id: <1700035745-979-1-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-27998.006
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-27998.006
+X-TMASE-Result: 10--2.600200-10.000000
+X-TMASE-MatchedRID: u4ys6248rQyjz0nOeth/yUIIxwDaU5mrP3Y6Dcg5mW232CLmbDkNLDTI
+	xI7tqkhQEr6A5KANIzxAY3bPkB2eXqajnK4HrKoPGYJhRh6ssetN8rmPQRlvKyWLxjlrSy8vYx7
+	uw6rXKm8ERBukjkrusRTyLejpOmIHmZGvWTp76WAD2WXLXdz+AdXLiEcLf+DIsrDwfHQQaK1yp+
+	gwY/4LBCL637QCIVpixwb6oUXQPLIbO59FK9BdmDo39wOA02LhVeAZ5VSHdZ2bKItl61J/yfJvo
+	cwUrWp7XWPmaFoiyJsnRE+fI6etkjUXkK455nOuQmhX6c/BcrNui6AKX0oskkIOyn5ouRxxK0HV
+	luyNPFR2GSGJ+QpXMJuonHsurLo1XW834E2VZUA5iXMF2dTXu0u/kTKv9giuqwOHO1Fdn0Kb4tj
+	0DvxRUIs9ro6z1cfchCFNTbTJJtE=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 07:34:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190558
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 08:09:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190559
 
-On 15.11.2023 08:30, Lukas Funke wrote:
-> Hi Slava,
->
-> No problem. Party is still going on. The 'modules.txt' is intendet to 
-> be in your ${WORKDIR} as it is part of the SRC_URI, generated by
-> the recipetool. My guess would be, that there is some 
-> missconfiguration in your SRC_URI?
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Yes, I noticed that it should be there in recipetool tests. But 
-generated recipe didn't have It in SRC_URI. I tried to use generated 
-recipe as is. I'll try to double check later.
+Changelog:
+==========
+DHCP: re-enter DISCOVER phase if server doesn't reply to our REQUEST
+privsep: Allow __NR_dup3 syscall as some libc's use that instead of the dup2 dhcpcd uses
+dev: Fix an issue where not opening the dev plugin folder if configured returned the wrong fd
+privsep: Harden the launcher process detecting daemonisation.
+compat: arc4random uses explicit_bzero if available
 
-Slava
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+---
+ .../dhcpcd/{dhcpcd_10.0.4.bb => dhcpcd_10.0.5.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.0.4.bb => dhcpcd_10.0.5.bb} (97%)
+
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.5.bb
+similarity index 97%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.5.bb
+index fbc3e03d2d..c2dee267ba 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.4.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.5.bb
+@@ -17,7 +17,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch \
+            "
+ 
+-SRCREV = "3cb242656546acfe88f6201f8b3dbe261ffd1a3e"
++SRCREV = "6baf4df467aaae89b026a089122d155c6eec3f19"
+ S = "${WORKDIR}/git"
+ 
+ inherit pkgconfig autotools-brokensep systemd useradd
+-- 
+2.34.1
+
 
