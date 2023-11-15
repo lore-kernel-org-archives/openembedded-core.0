@@ -1,412 +1,238 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <lukas.funke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2911C07548
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 06:43:57 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web10.7744.1700030635297609126
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13BD7C07548
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 07:31:08 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.66])
+ by mx.groups.io with SMTP id smtpd.web11.8177.1700033462919260631
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 22:43:55 -0800
+ Tue, 14 Nov 2023 23:31:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=fJwIGyiR;
- spf=pass (domain: mvista.com, ip: 209.85.167.181, mailfrom: vanusuri@mvista.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3b40d5ea323so4131099b6e.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 22:43:55 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=XXlz2k15;
+ spf=pass (domain: weidmueller.com, ip: 40.107.105.66, mailfrom: lukas.funke-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YNAmyySLXLfnJwruzXI0JcvlLanRsL1FzgXgN5LXTGEar7o2YOnVVuyX/zkTrfQyal9erNdGOVLslKx68fel7t7PXQewwsl1EcnwaShMQAZ+klKyk5V99vmiXUeev+dPrdo7YNvSVscoiKHB2V8a/lKURi/ytR3BrrSICa/7g8OF9Nn617A7hX8YCqTPiUEpMOARSMpV92Hv8N5TZ9Ow1qfENcp8qBYbzo6D1AKdVNCfMnrGvVGHscZZoCpRlTNs8WmgB9KXA0RVnPREbsdBw/u0UGomfWWBNcoTH6Mp/JP9TLvj+MZlJlL+PlzYPJyEQh7MUWJY3YGQ7E+UdV0gvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wLQMeFYiAB3wgt11+O8Q61v8dMtYpsK++V+qNgZ+qps=;
+ b=Ol6znEd5N2Gs02bDSdi/bJGHU2vKOjhVi0bMUXLRSCVX6aNWfhK75Q0idpPHXQ6ioLKYZDNnVYEj1OAawpAuCLdSYp3LyQQ+GAuZPug8UJSE0Z1uRp9gT9Ud6K9iTjZza59YjGMSXr4jFDSt7OjVvSFi2HYwYLKEND2qs9FVg1DT67VvtXZYPwW73mHFOL0/0MbwoMA5LBUzJti9MjujJ+RFdamkvrADRatQtSzaGOaTS9xDaJEfMSlC4lLHddOPEkZTXLZXPa0Amh0G0xo82FuLour6qE3oukbMPrYv6X5MyZXBND0/u1NIdnn0ZX/ICF176z+Oj8G5NfW9ZuXx/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1700030634; x=1700635434; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3mWPixo5skyhsWNCu4E6xXB7OqF4w72kPrV3UWjewZA=;
-        b=fJwIGyiRX4HncrvzeicCx2OeWpyl7Y8i+Hie+QY/hmjx0lndO/uY1vbGxWJDr3aTSz
-         GeEaXWLHwESsLnUgPIko2A7iNKPTrSCuba33i6BqH5rIuPvWZjl51Lf+5x0+pQEGK5Fp
-         3kvFWMdyALCjUMTMbNaoH7x5B6B7YLm/DZHcs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700030634; x=1700635434;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3mWPixo5skyhsWNCu4E6xXB7OqF4w72kPrV3UWjewZA=;
-        b=Gb5qxweiSCGjQ0waVLhF/Kn7T41SDOWUhIBleYsIgk37hhQFd+i3T2WEsf0smD+v5b
-         bpxoaadZINtyBQNwJHCPVFZQTn6JiXkOvQoRisIae+IXQ/E4uTNjl7wJ5vfhlApbNXIC
-         1WFg78gmlC7eR4CZC4eXF3uL8OXVbj1uAIMIKjwPmJ8LP35UdOFDzCX+uwzFRi7MIbY5
-         YrCNLmppWYLa7kHFBpogyq4rJG7WoCsqJVE2zNzbg4JiIKbgkSU3WWzdtsYRfvaCMM+h
-         bb6yPQEu/wnliAFYEMcm5Vd/BRVqdzexnkjHq83fbIAGYbnHhR2zhaocdGqMeFVhs9jw
-         +IEQ==
-X-Gm-Message-State: AOJu0YyFl4e79e+zYCgtK5nbnTtmY7YVnz/iavyTYPnoH1WvxsGHu5ug
-	8R6SApxE4G6PsJi1LNOg7gS4s0274POXqbQ5JlA=
-X-Google-Smtp-Source: AGHT+IFWhROQFr3hKxo8Kc/qLr2FUZLB+alBizyZu8lhIxw41xgby7FKgHoJFfHVFZ0doTyRUNkMTw==
-X-Received: by 2002:a05:6808:f15:b0:3a3:95f9:c99b with SMTP id m21-20020a0568080f1500b003a395f9c99bmr16369580oiw.35.1700030633635;
-        Tue, 14 Nov 2023 22:43:53 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c01c:7c68:f9a7:2645:67b0:db49])
-        by smtp.gmail.com with ESMTPSA id k6-20020aa790c6000000b006c5da63556dsm2272088pfk.178.2023.11.14.22.43.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 22:43:53 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH v3] libx11: Fix for CVE-2023-43785 CVE-2023-43786 and CVE-2023-43787
-Date: Wed, 15 Nov 2023 12:13:44 +0530
-Message-Id: <20231115064344.175210-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wLQMeFYiAB3wgt11+O8Q61v8dMtYpsK++V+qNgZ+qps=;
+ b=XXlz2k15bjy3U8AttbYEgswQFTH1iHm/GyXxc8trv2cBP3dVuXiPO1DBR6f0OiQDbRMDkGWeBqRfcTt0B+G5YaUhHlxQjzkXpvQZimGTEVEuNa2+ZQXWSseA6KCL7I443NmrpRTpffym5QnXqi6WHCDQDOciXp8SbEb1Aj0Htcs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
+ by AS2PR08MB9644.eurprd08.prod.outlook.com (2603:10a6:20b:607::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
+ 2023 07:30:59 +0000
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::b914:d9b5:6462:13b6]) by AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::b914:d9b5:6462:13b6%5]) with mapi id 15.20.7002.018; Wed, 15 Nov 2023
+ 07:30:59 +0000
+Message-ID: <625e1f93-9850-4c0f-b546-a246cf94924e@weidmueller.com>
+Date: Wed, 15 Nov 2023 08:30:57 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-Core][PATCH v3 0/4] recipetool: Add handler to create go
+ recipes
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
+ openembedded-core@lists.openembedded.org
+CC: Bruce Ashfield <bruce.ashfield@gmail.com>,
+ Martin Jansa <martin.jansa@gmail.com>,
+ Peter Kjellerstedt <peter.kjellerstedt@axis.com>, u.oelmann@pengutronix.de
+References: <20231102155313.309534-1-lukas.funke-oss@weidmueller.com>
+ <cf5fa871-ddcc-4f18-a013-3ef10ec77de9@gmail.com>
+From: Lukas Funke <lukas.funke-oss@weidmueller.com>
+In-Reply-To: <cf5fa871-ddcc-4f18-a013-3ef10ec77de9@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR4P281CA0268.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e8::13) To AS2PR08MB8431.eurprd08.prod.outlook.com
+ (2603:10a6:20b:55a::18)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|AS2PR08MB9644:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ed19b58-5239-49e0-b75c-08dbe5acd010
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	cJVXiRkXIZEv0T4Ir1IQGeubw/QI8D1x9c0YRRD9xCtbQ61irz6LzFlZt0JC/gmE7BFKgkSF7zsCvO1Jv9LEa21fAHZpIr5QvykSl6Qv6+BrfpMZT4PTIc5QUeMvmbX91RsiFRuYKrLZzTThqMMInF1ODaxmOOISMPRfj/+4wvsgN41dSVo2gc96iePe3IOtCxufK5/gxYLVnMu1HNj0Z4t3S3xOtsAlgjoynPfseMLjxGR/pajk8lqIfEsL+6clhqEbx27vaNTOPFCJitEj1tEyZCM21OaBiolTzf2YKGjs3Idc6uzADVhhvnLIsUJakDW+BLeySWIZINFcdrATOqUmy+933bPS4MUdAkCYDOprFQ9cKrovGisWKunViv9Vza7EVWPkoifCzgWZQ3OR7CH6HX5D7pHkmGEOnO+Ut3Iz/aU1NWc5blhpk/t45KcVlJUmtiKt/BZUTC0dPd6iYwwoIgZKMj8zFo2Ywwr8vIqrGFoB8DIrACNL3cbGLO7i7t2ZFNqJwg4CC2vvnef503dBA//Tap/UVlJnj8SQV/cOeqp8UN74ylf9nLKp5MjWGwmefcnePvLDu6nQLT/R9bJ/rvJmUIsP6bREkLW4Tj9XIkmiCQx+HVr/KdlFpCGkioZAVkv2bA4zJYijjNNxcQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(346002)(376002)(39860400002)(366004)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(86362001)(5660300002)(966005)(6486002)(66946007)(31696002)(6512007)(36756003)(316002)(54906003)(4326008)(66476007)(8936002)(8676002)(66556008)(41300700001)(31686004)(2906002)(38100700002)(26005)(2616005)(83380400001)(478600001)(6506007)(53546011)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?fka1qGlzXyCAvo/axVUtZXUSMZ+aqlQW1vzmq5y0HN7bMO2VS9XLHt2E5yzQ?=
+ =?us-ascii?Q?2pUK8+G+Zxj+HS2Lb5qqwUBlCO2raRXS0A/LNr8K/uXiJK6E3iRhPzANRlaM?=
+ =?us-ascii?Q?jE4H90Lpcrna1eFPUSG/fH97l3q1flGxBd0BPmiXpYDiv+SQqNJVWi1S78Qx?=
+ =?us-ascii?Q?zyCab39TYJYYTvzCJRoF7gAYvM5xpcSy/Ls3YHk52Ges0/TtZraqQ6E60non?=
+ =?us-ascii?Q?P5PgznbbB6iGw7EG7khRYGaY2gBRTdr/GVl2DLT7G8bWpolxhlG5ShFFQbgB?=
+ =?us-ascii?Q?8QSWDPAO8ftsx9PgwvGA1YyeKNIrewuQG7jJqefd8B63CBt8wc9crqyQfi0O?=
+ =?us-ascii?Q?mHrnvLRxQxGk6G8GF47iimGlFe5APeOBiu1V4Wrgn1Q3NBcVB3Q1nNfwzyak?=
+ =?us-ascii?Q?rXArou6tNWr6CMvyK2xg3ndcUMtTs+Zbr9gs2WW9dvAo/zw+rrn6K9ya64uz?=
+ =?us-ascii?Q?6cUoo5MvmSD0ARgGg1c9fgPLMBNDXk0rmmjvenit1MhSYbOSIiQbuUXZD6uk?=
+ =?us-ascii?Q?KWaN4IcJ8ybQrCp3geamFE/5A6RkvgiMwDFci6rwDhaMKjcGPPu9Zf8frfiW?=
+ =?us-ascii?Q?gna1XSAFiNs3V9JHoZIZeW/zB2MVlhMM12Tqqx4z908R4losJtSKM+vVMW2E?=
+ =?us-ascii?Q?bYObxjjUCG2XCvS+bdgUkzKE61B4UZN2RVEGaNR6V7EZz7Obocrlnxcb79zT?=
+ =?us-ascii?Q?sKfDA6SzgGXwcJ/4+QORQibdo/ZEBRH/70+Ked6IAhZnPEoBRBxvyItAvuU/?=
+ =?us-ascii?Q?QFFhrlAS2M3GYFNEOjVu28Vn2+PpQz7gcTdZZBZA+nacm9citAuA1I3EOPXx?=
+ =?us-ascii?Q?kebfGc7oZ2pRzd/YOZ4OYMi3nAlFC10Uklb45WZESr+umGdWtCZlo7zzzdZ0?=
+ =?us-ascii?Q?jFFE2OSxYLppcvplhOD0JBW1Q28ESVskbKubrdDZ7gieekARWrLeRB6yNFb5?=
+ =?us-ascii?Q?+pV9RNL2EDMpBPocGJG5V4g6+UzI/T4NQ7J3EM3MunrzvpTS6IiWAt9Qmg8c?=
+ =?us-ascii?Q?QRK2wxuBGg5o2dgELDVhAcVB4jC6kEP5bXXkgZuICbH93qZWGdKpUZCy2i1O?=
+ =?us-ascii?Q?QOlW6PievU9HNQyk+OMMYb7QvPnN/MmpuUxCxzQVwJYMn7+ugNWPguNwQjUs?=
+ =?us-ascii?Q?C47VGCDxRm7fotoCXJk4OoyUWHCytRH3PKSt/DiM8+W6DpKSW/8hh4NAToYc?=
+ =?us-ascii?Q?N6BzIeh1udtU8wSQ3gPW6zeNGtz475oTECyVczwT/TOpNSJOJO7N0xfU8H9R?=
+ =?us-ascii?Q?gv/XOuimXQDytbJHkoMLzbMv1ISBYoZCFZI8QBXx1sluA23n0y0hOm34xn4S?=
+ =?us-ascii?Q?T5rKrY2JTVO2thloA8EkvOtY3pBhAJVRfXmMOAfmknO3TCGS3gf92t7xdeoU?=
+ =?us-ascii?Q?TRGVu5MkFKj6pWWGgCno+9D4YoLTpTf+T/Sk8Aad4MiEVjZGSvdMZoCR4dD9?=
+ =?us-ascii?Q?ZA2onpMxjvVxw4w1xT8Ri3+wh5BhjFkYa+f6dFEU/LNxAC8IfNzaI93ZtN3y?=
+ =?us-ascii?Q?vHgVC5HlOu1ZDS7RArbpZLxQZVoefr8gWxmjHhXU/bHxmhBe8qL32k5CgJOH?=
+ =?us-ascii?Q?gXTebKbJb3bcEO7u51IlgRwxj866QvRr3wqAM1gIcFB7k4maAkNTlDqYhZ32?=
+ =?us-ascii?Q?Rg=3D=3D?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ed19b58-5239-49e0-b75c-08dbe5acd010
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 07:30:59.1970
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lmsofTdPfISw1PuiwoQL0vZkWShapDAIiPoKd5cuV3K6TL1dHis1KqGwVLTNZQ1FnCIJmFS4aouhK0V5xo+YEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9644
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 06:43:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190556
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 07:31:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190557
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Hi Slava,
 
-import patches from ubuntu to fix
- CVE-2023-43785
- CVE-2023-43786
- CVE-2023-43787
+On 15.11.2023 06:59, Vyacheslav Yurkov wrote:
+> Hi Lukas,
+> Thanks for the v3. I know I'm late to the party, because it's already=20
+> merged, but my testing results are below anyway.
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/libx11/tree/debian/patches?h=ubuntu/focal-security
-Upstream commit
-https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/6858d468d9ca55fb4c5fd70b223dbc78a3358a7f
-&
-https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/204c3393c4c90a29ed6bef64e43849536e863a86
-&
-https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/73a37d5f2fcadd6540159b432a70d80f442ddf4a
-&
-https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/b4031fc023816aca07fbd592ed97010b9b48784b
-&
-https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/7916869d16bdd115ac5be30a67c3749907aea6a0]
+No problem. Party is still going on. The 'modules.txt' is intendet to be=20
+in your ${WORKDIR} as it is part of the SRC_URI, generated by
+the recipetool. My guess would be, that there is some missconfiguration=20
+in your SRC_URI?
 
-Reference: https://launchpad.net/ubuntu/+source/libx11/2:1.6.9-2ubuntu1.6
+>=20
+> The series seems to have handled my ssh URL correctly.
+>=20
+> I've got an error in do_go_vendor though.
+> File: '<poky>'/meta/classes/go-vendor.bbclass', lineno: 166, function:=20
+> do_go_vendor
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0162:
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0163:=C2=A0=C2=A0=C2=A0 # Copy vendor manifest
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0164:=C2=A0=C2=A0=C2=A0 modules_txt_src =3D os.=
+path.join(d.getVar('WORKDIR'),=20
+> "modules.txt")
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0165:=C2=A0=C2=A0=C2=A0 bb.debug(1, "cp %s --> =
+%s" % (modules_txt_src, vendor_dir))
+>  =C2=A0*** 0166:=C2=A0=C2=A0=C2=A0 shutil.copy2(modules_txt_src, vendor_d=
+ir)
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0167:
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0168:=C2=A0=C2=A0=C2=A0 # Clean up vendor dir
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0169:=C2=A0=C2=A0=C2=A0 # We only require the m=
+odules in the modules_txt file
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0170:=C2=A0=C2=A0=C2=A0 fetched_paths =3D set([=
+os.path.relpath(x[0], vendor_dir)=20
+> for x in os.walk(vendor_dir)])
+> File: '/usr/lib64/python3.9/shutil.py', lineno: 444, function: copy2
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0440:=C2=A0=C2=A0=C2=A0 resembles GNU's "cp -P =
+src dst".
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0441:=C2=A0=C2=A0=C2=A0 """
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0442:=C2=A0=C2=A0=C2=A0 if os.path.isdir(dst):
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0443:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ dst =3D os.path.join(dst, os.path.basename(src))
+>  =C2=A0*** 0444:=C2=A0=C2=A0=C2=A0 copyfile(src, dst, follow_symlinks=3Df=
+ollow_symlinks)
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0445:=C2=A0=C2=A0=C2=A0 copystat(src, dst, foll=
+ow_symlinks=3Dfollow_symlinks)
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0446:=C2=A0=C2=A0=C2=A0 return dst
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0447:
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0448:def ignore_patterns(*patterns):
+> File: '/usr/lib64/python3.9/shutil.py', lineno: 264, function: copyfile
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0260:
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0261:=C2=A0=C2=A0=C2=A0 if not follow_symlinks =
+and _islink(src):
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0262:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ os.symlink(os.readlink(src), dst)
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0263:=C2=A0=C2=A0=C2=A0 else:
+>  =C2=A0*** 0264:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with open(src,=
+ 'rb') as fsrc:
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0265:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 try:
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0266:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with open(dst, 'wb') as fd=
+st:
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0267:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # =
+macOS
+>  =C2=A0=C2=A0=C2=A0=C2=A0 0268:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if=
+ _HAS_FCOPYFILE:
+> Exception: FileNotFoundError: [Errno 2] No such file or directory:=20
+> '<WORKDIR>/modules.txt'
+>=20
+> I've located "modules.txt" in my $WORKDIR/$GO_IMPORT/vendor directory=20
+> though, which seems to be consistent with=20
+> https://go.dev/ref/mod#go-mod-file-go . Am I missing something or I can=20
+> send a fixup?
+>=20
+> Slava
+>=20
+> On 02.11.2023 16:53, lukas.funke-oss@weidmueller.com wrote:
+>> From: Lukas Funke <lukas.funke@weidmueller.com>
+>>
+>> This patch series adds a recipetool handler in order to create 'go'=20
+>> recipes.
+>> Each recipe contains a list of dependencies in their SRC_URI.
+>> Dependencies are derived from the projects `go.mod` file. For each
+>> dependency the corresponding license file uri/hash is added.
+>>
+>> The recipe may not work ad-hoc, but is a good starting point to create
+>> a working recipe and have a working offline-build.
+>>
+>> In addition to the main recipe three additional files will be generated:
+>> =C2=A0=C2=A0 - $pn-modules.inc
+>> =C2=A0=C2=A0 - $pn-license.inc
+>> =C2=A0=C2=A0 - modules.txt
+>>
+>> Changes from v2:
+>> =C2=A0=C2=A0 - Generate separate *.inc for go dependencies and licenses
+>> =C2=A0=C2=A0 - Adapted oe-selftest according to change above
+>> =C2=A0=C2=A0 - Incorparate community suggestions
+>>
+>> Lukas Funke (4):
+>> =C2=A0=C2=A0 classes: go-vendor: Add go-vendor class
+>> =C2=A0=C2=A0 selftest: recipetool: Add test for go recipe handler
+>> =C2=A0=C2=A0 recipetool: Ignore *.go files while scanning for licenses
+>> =C2=A0=C2=A0 recipetool: Add handler to create go recipes
+>>
+>> =C2=A0 meta/classes/go-vendor.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 135 ++++
+>> =C2=A0 meta/lib/oeqa/selftest/cases/recipetool.py | 163 +++++
+>> =C2=A0 scripts/lib/recipetool/create.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+>> =C2=A0 scripts/lib/recipetool/create_go.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 730 +++++++++++++++++++++
+>> =C2=A0 4 files changed, 1029 insertions(+), 1 deletion(-)
+>> =C2=A0 create mode 100644 meta/classes/go-vendor.bbclass
+>> =C2=A0 create mode 100644 scripts/lib/recipetool/create_go.py
+>>
+>=20
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../xorg-lib/libx11/CVE-2023-43785.patch      | 63 ++++++++++++++++++
- .../xorg-lib/libx11/CVE-2023-43786-1.patch    | 42 ++++++++++++
- .../xorg-lib/libx11/CVE-2023-43786-2.patch    | 46 +++++++++++++
- .../xorg-lib/libx11/CVE-2023-43787-1.patch    | 52 +++++++++++++++
- .../xorg-lib/libx11/CVE-2023-43787-2.patch    | 64 +++++++++++++++++++
- .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |  5 ++
- 6 files changed, 272 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-1.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-2.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787-1.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787-2.patch
-
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch
-new file mode 100644
-index 0000000000..dbdf096fc8
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43785.patch
-@@ -0,0 +1,63 @@
-+From 6858d468d9ca55fb4c5fd70b223dbc78a3358a7f Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Sun, 17 Sep 2023 14:19:40 -0700
-+Subject: [PATCH libX11 1/5] CVE-2023-43785: out-of-bounds memory access in
-+ _XkbReadKeySyms()
-+
-+Make sure we allocate enough memory in the first place, and
-+also handle error returns from _XkbReadBufferCopyKeySyms() when
-+it detects out-of-bounds issues.
-+
-+Reported-by: Gregory James DUCK <gjduck@gmail.com>
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/libx11/tree/debian/patches/0001-CVE-2023-43785-out-of-bounds-memory-access-in-_XkbRe.patch?h=ubuntu/focal-security
-+Upstream commit https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/6858d468d9ca55fb4c5fd70b223dbc78a3358a7f]
-+CVE: CVE-2023-43785
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/xkb/XKBGetMap.c | 14 +++++++++-----
-+ 1 file changed, 9 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/xkb/XKBGetMap.c b/src/xkb/XKBGetMap.c
-+index 2891d21e..31199e4a 100644
-+--- a/src/xkb/XKBGetMap.c
-++++ b/src/xkb/XKBGetMap.c
-+@@ -182,7 +182,8 @@ _XkbReadKeySyms(XkbReadBufferPtr buf, XkbDescPtr xkb, xkbGetMapReply *rep)
-+             if (offset + newMap->nSyms >= map->size_syms) {
-+                 register int sz;
-+ 
-+-                sz = map->size_syms + 128;
-++                sz = offset + newMap->nSyms;
-++                sz = ((sz + (unsigned) 128) / 128) * 128;
-+                 _XkbResizeArray(map->syms, map->size_syms, sz, KeySym);
-+                 if (map->syms == NULL) {
-+                     map->size_syms = 0;
-+@@ -191,8 +192,9 @@ _XkbReadKeySyms(XkbReadBufferPtr buf, XkbDescPtr xkb, xkbGetMapReply *rep)
-+                 map->size_syms = sz;
-+             }
-+             if (newMap->nSyms > 0) {
-+-                _XkbReadBufferCopyKeySyms(buf, (KeySym *) &map->syms[offset],
-+-                                          newMap->nSyms);
-++                if (_XkbReadBufferCopyKeySyms(buf, (KeySym *) &map->syms[offset],
-++                                              newMap->nSyms) == 0)
-++                    return BadLength;
-+                 offset += newMap->nSyms;
-+             }
-+             else {
-+@@ -222,8 +224,10 @@ _XkbReadKeySyms(XkbReadBufferPtr buf, XkbDescPtr xkb, xkbGetMapReply *rep)
-+             newSyms = XkbResizeKeySyms(xkb, i + rep->firstKeySym, tmp);
-+             if (newSyms == NULL)
-+                 return BadAlloc;
-+-            if (newMap->nSyms > 0)
-+-                _XkbReadBufferCopyKeySyms(buf, newSyms, newMap->nSyms);
-++            if (newMap->nSyms > 0) {
-++                if (_XkbReadBufferCopyKeySyms(buf, newSyms, newMap->nSyms) == 0)
-++                    return BadLength;
-++            }
-+             else
-+                 newSyms[0] = NoSymbol;
-+             oldMap->kt_index[0] = newMap->ktIndex[0];
-+-- 
-+2.39.3
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-1.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-1.patch
-new file mode 100644
-index 0000000000..31a99eb4ac
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-1.patch
-@@ -0,0 +1,42 @@
-+From 204c3393c4c90a29ed6bef64e43849536e863a86 Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Thu, 7 Sep 2023 15:54:30 -0700
-+Subject: [PATCH libX11 2/5] CVE-2023-43786: stack exhaustion from infinite
-+ recursion in PutSubImage()
-+
-+When splitting a single line of pixels into chunks to send to the
-+X server, be sure to take into account the number of bits per pixel,
-+so we don't just loop forever trying to send more pixels than fit in
-+the given request size and not breaking them down into a small enough
-+chunk to fix.
-+
-+Fixes: "almost complete rewrite" (Dec. 12, 1987) from X11R2
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/libx11/tree/debian/patches/0002-CVE-2023-43786-stack-exhaustion-from-infinite-recurs.patch?h=ubuntu/focal-security
-+Upstream commit https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/204c3393c4c90a29ed6bef64e43849536e863a86]
-+CVE: CVE-2023-43786
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/PutImage.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/PutImage.c b/src/PutImage.c
-+index 857ee916..a6db7b42 100644
-+--- a/src/PutImage.c
-++++ b/src/PutImage.c
-+@@ -914,8 +914,9 @@ PutSubImage (
-+ 		    req_width, req_height - SubImageHeight,
-+ 		    dest_bits_per_pixel, dest_scanline_pad);
-+     } else {
-+-	int SubImageWidth = (((Available << 3) / dest_scanline_pad)
-+-				* dest_scanline_pad) - left_pad;
-++	int SubImageWidth = ((((Available << 3) / dest_scanline_pad)
-++                              * dest_scanline_pad) - left_pad)
-++                              / dest_bits_per_pixel;
-+ 
-+ 	PutSubImage(dpy, d, gc, image, req_xoffset, req_yoffset, x, y,
-+ 		    (unsigned int) SubImageWidth, 1,
-+-- 
-+2.39.3
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-2.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-2.patch
-new file mode 100644
-index 0000000000..4800bedf41
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43786-2.patch
-@@ -0,0 +1,46 @@
-+From 73a37d5f2fcadd6540159b432a70d80f442ddf4a Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Thu, 7 Sep 2023 15:55:04 -0700
-+Subject: [PATCH libX11 3/5] XPutImage: clip images to maximum height & width
-+ allowed by protocol
-+
-+The PutImage request specifies height & width of the image as CARD16
-+(unsigned 16-bit integer), same as the maximum dimensions of an X11
-+Drawable, which the image is being copied to.
-+
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/libx11/tree/debian/patches/0003-XPutImage-clip-images-to-maximum-height-width-allowe.patch?h=ubuntu/focal-security
-+Upstream commit https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/73a37d5f2fcadd6540159b432a70d80f442ddf4a]
-+CVE: CVE-2023-43786
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/PutImage.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/src/PutImage.c b/src/PutImage.c
-+index a6db7b42..ba411e36 100644
-+--- a/src/PutImage.c
-++++ b/src/PutImage.c
-+@@ -30,6 +30,7 @@ in this Software without prior written authorization from The Open Group.
-+ #include "Xlibint.h"
-+ #include "Xutil.h"
-+ #include <stdio.h>
-++#include <limits.h>
-+ #include "Cr.h"
-+ #include "ImUtil.h"
-+ #include "reallocarray.h"
-+@@ -962,6 +963,10 @@ XPutImage (
-+ 	height = image->height - req_yoffset;
-+     if ((width <= 0) || (height <= 0))
-+ 	return 0;
-++    if (width > USHRT_MAX)
-++        width = USHRT_MAX;
-++    if (height > USHRT_MAX)
-++        height = USHRT_MAX;
-+ 
-+     if ((image->bits_per_pixel == 1) || (image->format != ZPixmap)) {
-+ 	dest_bits_per_pixel = 1;
-+-- 
-+2.39.3
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787-1.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787-1.patch
-new file mode 100644
-index 0000000000..d35d96c4dc
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787-1.patch
-@@ -0,0 +1,52 @@
-+From b4031fc023816aca07fbd592ed97010b9b48784b Mon Sep 17 00:00:00 2001
-+From: Alan Coopersmith <alan.coopersmith@oracle.com>
-+Date: Thu, 7 Sep 2023 16:12:27 -0700
-+Subject: [PATCH libX11 4/5] XCreatePixmap: trigger BadValue error for
-+ out-of-range dimensions
-+
-+The CreatePixmap request specifies height & width of the image as CARD16
-+(unsigned 16-bit integer), so if either is larger than that, set it to 0
-+so the X server returns a BadValue error as the protocol requires.
-+
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/libx11/tree/debian/patches/0004-XCreatePixmap-trigger-BadValue-error-for-out-of-rang.patch?h=ubuntu/focal-security
-+Upstream commit https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/b4031fc023816aca07fbd592ed97010b9b48784b]
-+CVE: CVE-2023-43787
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/CrPixmap.c | 11 +++++++++++
-+ 1 file changed, 11 insertions(+)
-+
-+diff --git a/src/CrPixmap.c b/src/CrPixmap.c
-+index cdf31207..3cb2ca6d 100644
-+--- a/src/CrPixmap.c
-++++ b/src/CrPixmap.c
-+@@ -28,6 +28,7 @@ in this Software without prior written authorization from The Open Group.
-+ #include <config.h>
-+ #endif
-+ #include "Xlibint.h"
-++#include <limits.h>
-+ 
-+ #ifdef USE_DYNAMIC_XCURSOR
-+ void
-+@@ -47,6 +48,16 @@ Pixmap XCreatePixmap (
-+     Pixmap pid;
-+     register xCreatePixmapReq *req;
-+ 
-++    /*
-++     * Force a BadValue X Error if the requested dimensions are larger
-++     * than the X11 protocol has room for, since that's how callers expect
-++     * to get notified of errors.
-++     */
-++    if (width > USHRT_MAX)
-++        width = 0;
-++    if (height > USHRT_MAX)
-++        height = 0;
-++
-+     LockDisplay(dpy);
-+     GetReq(CreatePixmap, req);
-+     req->drawable = d;
-+-- 
-+2.39.3
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787-2.patch b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787-2.patch
-new file mode 100644
-index 0000000000..110bd445df
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libx11/CVE-2023-43787-2.patch
-@@ -0,0 +1,64 @@
-+From 7916869d16bdd115ac5be30a67c3749907aea6a0 Mon Sep 17 00:00:00 2001
-+From: Yair Mizrahi <yairm@jfrog.com>
-+Date: Thu, 7 Sep 2023 16:15:32 -0700
-+Subject: [PATCH libX11 5/5] CVE-2023-43787: Integer overflow in XCreateImage()
-+ leading to a heap overflow
-+
-+When the format is `Pixmap` it calculates the size of the image data as:
-+    ROUNDUP((bits_per_pixel * width), image->bitmap_pad);
-+There is no validation on the `width` of the image, and so this
-+calculation exceeds the capacity of a 4-byte integer, causing an overflow.
-+
-+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/libx11/tree/debian/patches/0005-CVE-2023-43787-Integer-overflow-in-XCreateImage-lead.patch?h=ubuntu/focal-security
-+Upstream commit https://gitlab.freedesktop.org/xorg/lib/libx11/-/commit/7916869d16bdd115ac5be30a67c3749907aea6a0]
-+CVE: CVE-2023-43787
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/ImUtil.c | 20 +++++++++++++++-----
-+ 1 file changed, 15 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/ImUtil.c b/src/ImUtil.c
-+index 36f08a03..fbfad33e 100644
-+--- a/src/ImUtil.c
-++++ b/src/ImUtil.c
-+@@ -30,6 +30,7 @@ in this Software without prior written authorization from The Open Group.
-+ #include <X11/Xlibint.h>
-+ #include <X11/Xutil.h>
-+ #include <stdio.h>
-++#include <limits.h>
-+ #include "ImUtil.h"
-+ 
-+ static int _XDestroyImage(XImage *);
-+@@ -361,13 +362,22 @@ XImage *XCreateImage (
-+ 	/*
-+ 	 * compute per line accelerator.
-+ 	 */
-+-	{
-+-	if (format == ZPixmap)
-++	if (format == ZPixmap) {
-++	    if ((INT_MAX / bits_per_pixel) < width) {
-++		Xfree(image);
-++		return NULL;
-++	    }
-++
-+ 	    min_bytes_per_line =
-+-	       ROUNDUP((bits_per_pixel * width), image->bitmap_pad);
-+-	else
-++		ROUNDUP((bits_per_pixel * width), image->bitmap_pad);
-++	} else {
-++	    if ((INT_MAX - offset) < width) {
-++		Xfree(image);
-++		return NULL;
-++	    }
-++
-+ 	    min_bytes_per_line =
-+-	        ROUNDUP((width + offset), image->bitmap_pad);
-++		ROUNDUP((width + offset), image->bitmap_pad);
-+ 	}
-+ 	if (image_bytes_per_line == 0) {
-+ 	    image->bytes_per_line = min_bytes_per_line;
-+-- 
-+2.39.3
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-index 568162a911..248889a1d4 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-@@ -19,6 +19,11 @@ SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
-             file://CVE-2022-3554.patch \
-             file://CVE-2022-3555.patch \
-             file://CVE-2023-3138.patch \
-+            file://CVE-2023-43785.patch \
-+            file://CVE-2023-43786-1.patch \
-+            file://CVE-2023-43786-2.patch \
-+            file://CVE-2023-43787-1.patch \
-+            file://CVE-2023-43787-2.patch \
- "
- 
- SRC_URI[md5sum] = "55adbfb6d4370ecac5e70598c4e7eed2"
--- 
-2.25.1
-
+Best regards
+Lukas
 
