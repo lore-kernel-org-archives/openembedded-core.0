@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A051C47075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A82C47076
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 03:17:56 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.4873.1700018274337669598
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.5028.1700018268899278446
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 19:17:54 -0800
+ Tue, 14 Nov 2023 19:17:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=D0eJeiH1;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1cc3bb4c307so50095495ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:17:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pwY6L4+U;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1cc3bc5df96so47786595ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:17:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700018273; x=1700623073; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700018268; x=1700623068; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WkZK9M5tj2KC2wgtvXppRw+ZgeYvryLLhaSDeXXceBU=;
-        b=D0eJeiH1NQwGb3sxfNB8Zgvv5VVagsr7dzChvM1SYSWM4KCCk6LK8MPgUCDqriawZn
-         Jp/D7hbbFSgzw8QSTjXca3hnDTwysZQ2JLTML84BomBe3IY3lze0IZDExHi747SyZpvY
-         nju1Kb7MDQF2UxXw0GWDmB1wLsw0R9dtvEzGG9b8s+oeXLvk97Ua4XuMPmg3ySOInBoZ
-         YCrA0Pj/Duf7JTjfJhzv+Z5KjqZ55Xc0kn9VRJ/tfUr02TgUrW5nIUKxkzFh5JgIeRXf
-         kNhZjOBsX1GOM0Dn8tAdujYlDGoWxAk4D6z/gIwoS4AQ5B5bW5LxrVfMnloiJ/e+eUCL
-         O5jA==
+        bh=WxMx6sWNf2Ln+qEe1ikCzwpv9ZqTJafGD9HxWPQbgqE=;
+        b=pwY6L4+UPOZnicTAXB4cW8wNK24sYdeiGJpHYfIbqNIqDDgkTs83W1j+aS632U6Y5z
+         ILPmJCQkXEuC8N/Lm/dLEArCfM3clZhasQY5WahtgOO9fnMMyPFK6Xg2WRX12Vi43u9a
+         pE7JQ62RCZaMdDDIfgLSoQVSXGzRuw2Ec/W0g9PO/8KfdjF0D8j/zjSr6Ulq1jjjqVZG
+         rXJzHDs9krmkDXkhBnGAU6zjJprXO5+lpbfBkjsDn4f1XOB7HsFVqcSgudFrMznK0E8Q
+         CXjSaAy3myOuHUqGC7eh6lw1+CVLRkuvLJNDYDq0G+cNFZcIpNfdOa94TfbT4T3O7LxC
+         iufA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700018273; x=1700623073;
+        d=1e100.net; s=20230601; t=1700018268; x=1700623068;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WkZK9M5tj2KC2wgtvXppRw+ZgeYvryLLhaSDeXXceBU=;
-        b=eoLZ/bP0oOm+/VkjhTPPc0Wwnx6CjcQgBhta4/9TSQEvcDPHOaxQd584wa+7wunnD3
-         h02pxEABhYaVKr/VPhSv98AyARHY5lbUnDQakg6Mk7s/S1/rSp5k9nXIwKPuN5mwXXc1
-         S+rPVrtlKipRn2Pm53/zI9D/EDO+Ns755JhNeuQUkVjbEwg56mbW0+eBv2q2rexsf2N0
-         Ycr7gnR1GteK7Eo1mFOBVdux1xotc3SuHlGBlun9zpJfOR+S+jsdrOycD87r2BIbyv84
-         k+tdDZqDnoOxqLEVBrbTZ/2P9loiMt8UI8MpNf4U2PXb3nuxsh8wDa9h5yzawurkteJG
-         mn/Q==
-X-Gm-Message-State: AOJu0Yylxj0dgQaFF3buzmnb9KMNDO9lFwU3XzoPc1RyqOPXNHVhWLS+
-	YCEFw12+8YqVExPtnf6WyjbcPArdbRUSBWXZBpytyA==
-X-Google-Smtp-Source: AGHT+IH/zcZU3X91izNXyQTTd6wg6i6YujHDnlQSd5nOBUnCIzpls0rufZFAbAzTGXskLvqbIzUarA==
-X-Received: by 2002:a17:902:d548:b0:1cc:c857:14a0 with SMTP id z8-20020a170902d54800b001ccc85714a0mr4709306plf.3.1700018273460;
-        Tue, 14 Nov 2023 19:17:53 -0800 (PST)
+        bh=WxMx6sWNf2Ln+qEe1ikCzwpv9ZqTJafGD9HxWPQbgqE=;
+        b=g7b1K7jt1abl4bxqe8PwgbROeJSHJWXY1CFCvVy+1ofoGzgRwG2qwNrDFv4dQpmBcs
+         MqRyQ8e5ChMrvsuJUQ/PHd4wrg1hR3Xz75KBnnAEwJflzkXty7eTu2S32hzv5QaWJnJG
+         xrsmlO34BpX3p7m3UDBczE84C0Uew2/6dfDIKlca4UcJOkgeSQNRne7m0V1wTkCkWEV1
+         3vKhq+9FbP8wdAPidfdhF2VjapoK48JPPthrFzKmjMTj9reqeKNIoOG76HjG4OA0r/Kx
+         uNCecEJTjCoARSt+aShbvGgetrk7OYbAfotIVgfbmekfVzpeaPN6B151+Vu0FPZ1LPdP
+         tB3Q==
+X-Gm-Message-State: AOJu0YyzyomXH7T3pookQRt1XWzqzYPWOZ43+w5o/vNw6fIeBUEQtvJY
+	xvfxvufHek+S+8iVh0W3KrW0+7Ghd3qGGy/MzVl+8A==
+X-Google-Smtp-Source: AGHT+IHmrinZ8Eyv0SpUESegemcPxCJOQG2iWMUVEoh/ySsLF0el4YQfBf/r41fp0ji7fULdRy3VGQ==
+X-Received: by 2002:a17:902:e892:b0:1cc:5648:f15c with SMTP id w18-20020a170902e89200b001cc5648f15cmr5012966plg.48.1700018268054;
+        Tue, 14 Nov 2023 19:17:48 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id l5-20020a170903120500b001c6187f2875sm6369300plh.225.2023.11.14.19.17.52
+        by smtp.gmail.com with ESMTPSA id l5-20020a170903120500b001c6187f2875sm6369300plh.225.2023.11.14.19.17.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 19:17:53 -0800 (PST)
+        Tue, 14 Nov 2023 19:17:47 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/17] zlib: Backport fix for CVE-2023-45853
-Date: Tue, 14 Nov 2023 17:17:24 -1000
-Message-Id: <bbe5e13c2ff981d7defd14f9e2d91ebbe107bb4b.1700018112.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/17] tiff: backport Debian patch to fix CVE-2023-41175
+Date: Tue, 14 Nov 2023 17:17:21 -1000
+Message-Id: <ef66190f834fde453af431cc2aadebac82b7e5b5.1700018112.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700018112.git.steve@sakoman.com>
 References: <cover.1700018112.git.steve@sakoman.com>
@@ -61,78 +61,108 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 03:17:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190537
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190534
 
-From: Ashish Sharma <asharma@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Upstream-Status: Backport from [https://github.com/madler/zlib/commit/73331a6a0481067628f065ffe87bb1d8f787d10c]
+Upstream-Status: Backport [import from debian security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u8.debian.tar.xz
+Upstream commit https://gitlab.com/libtiff/libtiff/-/commit/6e2dac5f904496d127c92ddc4e56eccfca25c2ee]
 
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Reference: https://security-tracker.debian.org/tracker/CVE-2023-41175
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../zlib/zlib/CVE-2023-45853.patch            | 40 +++++++++++++++++++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
+ .../libtiff/files/CVE-2023-41175.patch        | 67 +++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |  1 +
+ 2 files changed, 68 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch
 
-diff --git a/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch b/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch
 new file mode 100644
-index 0000000000..654579eb81
+index 0000000000..3f44a42012
 --- /dev/null
-+++ b/meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
-@@ -0,0 +1,40 @@
-+From 73331a6a0481067628f065ffe87bb1d8f787d10c Mon Sep 17 00:00:00 2001
-+From: Hans Wennborg <hans@chromium.org>
-+Date: Fri, 18 Aug 2023 11:05:33 +0200
-+Subject: [PATCH] Reject overflows of zip header fields in minizip.
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch
+@@ -0,0 +1,67 @@
++From 4cc97e3dfa6559f4d17af0d0687bcae07ca4b73d Mon Sep 17 00:00:00 2001
++From: Arie Haenel <arie.haenel@jct.ac.il>
++Date: Wed, 19 Jul 2023 19:40:01 +0000
++Subject: raw2tiff: fix integer overflow and bypass of the check (fixes #592)
 +
-+This checks the lengths of the file name, extra field, and comment
-+that would be put in the zip headers, and rejects them if they are
-+too long. They are each limited to 65535 bytes in length by the zip
-+format. This also avoids possible buffer overflows if the provided
-+fields are too long.
-+
-+Upstream-Status: Backport from [https://github.com/madler/zlib/commit/73331a6a0481067628f065ffe87bb1d8f787d10c]
-+CVE: CVE-2023-45853
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
++Upstream-Status: Backport [import from debian security.debian.org/debian-security/pool/updates/main/t/tiff/tiff_4.1.0+git191117-2~deb10u8.debian.tar.xz
++Upstream commit https://gitlab.com/libtiff/libtiff/-/commit/6e2dac5f904496d127c92ddc4e56eccfca25c2ee]
++CVE: CVE-2023-41175
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ contrib/minizip/zip.c | 11 +++++++++++
-+ 1 file changed, 11 insertions(+)
++ tools/raw2tiff.c | 26 ++++++++++++++++++++++++++
++ 1 file changed, 26 insertions(+)
 +
-+diff --git a/contrib/minizip/zip.c b/contrib/minizip/zip.c
-+index 3d3d4cadd..0446109b2 100644
-+--- a/contrib/minizip/zip.c
-++++ b/contrib/minizip/zip.c
-+@@ -1043,6 +1043,17 @@ extern int ZEXPORT zipOpenNewFileInZip4_64(zipFile file, const char* filename, c
-+       return ZIP_PARAMERROR;
-+ #endif
++diff --git a/tools/raw2tiff.c b/tools/raw2tiff.c
++index ab36ff4e..a905da52 100644
++--- a/tools/raw2tiff.c
+++++ b/tools/raw2tiff.c
++@@ -35,6 +35,7 @@
++ #include <sys/types.h>
++ #include <math.h>
++ #include <ctype.h>
+++#include <limits.h>
 + 
-++    // The filename and comment length must fit in 16 bits.
-++    if ((filename!=NULL) && (strlen(filename)>0xffff))
-++        return ZIP_PARAMERROR;
-++    if ((comment!=NULL) && (strlen(comment)>0xffff))
-++        return ZIP_PARAMERROR;
-++    // The extra field length must fit in 16 bits. If the member also requires
-++    // a Zip64 extra block, that will also need to fit within that 16-bit
-++    // length, but that will be checked for later.
-++    if ((size_extrafield_local>0xffff) || (size_extrafield_global>0xffff))
-++        return ZIP_PARAMERROR;
++ #ifdef HAVE_UNISTD_H
++ # include <unistd.h>
++@@ -101,6 +102,7 @@ main(int argc, char* argv[])
++ 	int	fd;
++ 	char	*outfilename = NULL;
++ 	TIFF	*out;
+++	uint32  temp_limit_check = 0;
++ 
++ 	uint32 row, col, band;
++ 	int	c;
++@@ -212,6 +214,30 @@ main(int argc, char* argv[])
++ 	if (guessSize(fd, dtype, hdr_size, nbands, swab, &width, &length) < 0)
++ 		return 1;
++ 
+++	if ((width == 0) || (length == 0) ){
+++		fprintf(stderr, "Too large nbands value specified.\n");
+++		return (EXIT_FAILURE);
+++	}
 ++
-+     zi = (zip64_internal*)file;
-+ 
-+     if (zi->in_opened_file_inzip == 1)
-diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-index e2fbc12bd8..910fc2ec17 100644
---- a/meta/recipes-core/zlib/zlib_1.2.11.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-@@ -11,6 +11,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libpng/${BPN}/${PV}/${BPN}-${PV}.tar.xz \
-            file://CVE-2018-25032.patch \
-            file://run-ptest \
- 	    file://CVE-2022-37434.patch \
-+           file://CVE-2023-45853.patch \
-            "
- UPSTREAM_CHECK_URI = "http://zlib.net/"
- 
+++	temp_limit_check = nbands * depth;
+++
+++	if ( !temp_limit_check || length > ( UINT_MAX / temp_limit_check ) )  {
+++		fprintf(stderr, "Too large length size specified.\n");
+++		return (EXIT_FAILURE);
+++	}
+++	temp_limit_check = temp_limit_check * length;
+++
+++	if ( !temp_limit_check || width > ( UINT_MAX / temp_limit_check ) )  {
+++		fprintf(stderr, "Too large width size specified.\n");
+++		return (EXIT_FAILURE);
+++	}
+++	temp_limit_check = temp_limit_check * width;
+++
+++	if ( !temp_limit_check || hdr_size > ( UINT_MAX - temp_limit_check ) )  {
+++		fprintf(stderr, "Too large header size specified.\n");
+++		return (EXIT_FAILURE);
+++	}
+++
++ 	if (outfilename == NULL)
++ 		outfilename = argv[optind+1];
++ 	out = TIFFOpen(outfilename, "w");
++-- 
++2.30.2
++
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index 31e7db19aa..2697a28463 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -46,6 +46,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-3576.patch \
+            file://CVE-2023-3618.patch \
+            file://CVE-2023-40745.patch \
++           file://CVE-2023-41175.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
 2.34.1
 
