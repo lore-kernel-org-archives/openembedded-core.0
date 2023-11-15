@@ -2,421 +2,198 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4074EC5AD43
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70AD0C5AE4A
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:16 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.14615.1700059029410658477
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.14625.1700059030184937340
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 06:37:13 -0800
+ Wed, 15 Nov 2023 06:37:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=K64H8U10;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ODQ/qLkE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018bd36a2f45-166e3cf2-4c3a-4894-8730-080b6e6ef372-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=I5bbzTa0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mqWIyiRt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018bd36a2f3e-11244f25-04c6-49b6-abcd-96f536505546-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1700059033;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Usn3zAkOrfR4DsqQvvRWGt1/vHOhfuDFTZeILh3eQzk=;
-	b=K64H8U10EADpVMV5/HoNcQ/Tq6UDzbGXoqQKOSU/PuJY5dlFJdyVbokFwdk8oIv3
-	XK27c5xbVzSHotAoHN/clalb00RqKkYaOBbLn8k6ur3O6UNkFcYeUEu9vY6dx3HWCOW
-	lilptNJ/VRlp5nFfunpFNo57fr6ZNGujUUtGLe9g=
+	bh=HVeooMCJTKvNLxdDSox39skK1JPkgGpc3UxY8qquQMU=;
+	b=I5bbzTa0Sn9lYzBAXjKES/LrS5OhZxq1yXBvGHMeBJe2m4IPxhZEvqsrhI2+Lc2H
+	44dRw2Wv1IifRo3m3pdYi2fisOcVXkzoz8OagDHkbboPhoNgHQl2hF/hBJQ+IAxB2CF
+	ZgFFYqggI6PznWTbhpNIexUVcAsGHlGKwC/9LrZc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059033;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Usn3zAkOrfR4DsqQvvRWGt1/vHOhfuDFTZeILh3eQzk=;
-	b=ODQ/qLkErh9+GhOhuLaUcvpO4EinYLsvokU3uw9E8Or+u287e0Z9oVZHh8Mriph5
-	RUCelB/Hkd76SYQVLv796IAdSf47JARKVUFN2nxlukGmEG4DR8aFXfVVXflpcugr5Dr
-	C/0uDh25J9y9vWWjeZ1VbgC1KE711iklo/YUx4H4=
-Content-Type: multipart/mixed; boundary="===============0002491162588876704=="
+	bh=HVeooMCJTKvNLxdDSox39skK1JPkgGpc3UxY8qquQMU=;
+	b=mqWIyiRtKQzNSnJbv31PJHrJmZqqB7x5BoJMwmYuraRz2IxfHssLuTHVaNLgSuis
+	zoSwjlMT52G0onESUoA4W2TE1woFKe+aPkiafRzv0GGlfwbYkeQKiVMuuFe2AZChDhV
+	mlcrk+HXlJQRGZmdEmrN4EIdoKSebrPpMnUjE1EE=
+Content-Type: multipart/mixed; boundary="===============5591494373524749571=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] icu: upgrading to 74-1 FAILED
-Message-ID: <0101018bd36a2f45-166e3cf2-4c3a-4894-8730-080b6e6ef372-000000@us-west-2.amazonses.com>
+Subject: [AUH] libgcrypt: upgrading to 1.10.3 SUCCEEDED
+Message-ID: <0101018bd36a2f3e-11244f25-04c6-49b6-abcd-96f536505546-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Nov 2023 14:37:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.45
+X-SES-Outgoing: 2023.11.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190719
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190725
 
---===============0002491162588876704==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICppY3UqIHRvICo3NC0xKiBoYXMgRmFpbGVkKGRvX2NvbXBpbGUpLgoKRGV0YWlsZWQgZXJyb3Ig
-aW5mb3JtYXRpb246Cgpkb19jb21waWxlIGZhaWxlZAoKCgpOZXh0IHN0ZXBzOgogICAgLSBhcHBs
-eSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLWljdS11cGdyYWRlLTczLTItNzQtMS5wYXRjaAogICAg
-LSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJpemUgdGhl
-bSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhhdCBjb250
-YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRlc3RzCiAg
-ICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMgLS1yZXNl
-dC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBtYWlsaW5n
-IGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hvdWxkIG5v
-dCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9fVVBEQVRF
-X1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGljIHVwZ3Jh
-ZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRoZSBhdHRh
-Y2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRlIGZhaWx1
-cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3ppbGxhLnlv
-Y3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVwZGF0ZSUy
-MEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJvbSA1MTI1
-MjczYTNkZGJhMGU5N2RlYmE1Yzc0ZWNlODg4N2U1ZThiYThhIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRhdGU6IFdl
-ZCwgMTUgTm92IDIwMjMgMTM6NTc6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBpY3U6IHVwZ3Jh
-ZGUgNzMtMiAtPiA3NC0xCgotLS0KIC4uLi9pY3Uve2ljdV83My0yLmJiID0+IGljdV83NC0xLmJi
-fSAgICAgICAgICB8IDEwMyArKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCAxMDEg
-aW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9pY3Uve2ljdV83My0yLmJiID0+IGljdV83NC0xLmJifSAoNTElKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzMtMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2ljdS9pY3VfNzQtMS5iYgpzaW1pbGFyaXR5IGluZGV4IDUxJQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9pY3UvaWN1XzczLTIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
-b3J0L2ljdS9pY3VfNzQtMS5iYgppbmRleCA3YzU5ZjhiYjg5Li5hNWEyODAyZWQ4IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1XzczLTIuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvaWN1L2ljdV83NC0xLmJiCkBAIC0xLDMgKzEsMTAyIEBACisjIEZJWE1FOiB0
-aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wg
-dXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUg
-b2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5T
-RSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNv
-bW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGlj
-ZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2Vz
-OgorIworIyAtLS0gLi4vTElDRU5TRQorIyArKysgLi4vTElDRU5TRQorIyBAQCAtMSw0OSArMSw0
-MiBAQAorIyAtVU5JQ09ERSwgSU5DLiBMSUNFTlNFIEFHUkVFTUVOVCAtIERBVEEgRklMRVMgQU5E
-IFNPRlRXQVJFCisjIC0KKyMgLVNlZSBUZXJtcyBvZiBVc2UgPGh0dHBzOi8vd3d3LnVuaWNvZGUu
-b3JnL2NvcHlyaWdodC5odG1sPgorIyAtZm9yIGRlZmluaXRpb25zIG9mIFVuaWNvZGUgSW5jLuKA
-mXMgRGF0YSBGaWxlcyBhbmQgU29mdHdhcmUuCisjIC0KKyMgLU5PVElDRSBUTyBVU0VSOiBDYXJl
-ZnVsbHkgcmVhZCB0aGUgZm9sbG93aW5nIGxlZ2FsIGFncmVlbWVudC4KKyMgLUJZIERPV05MT0FE
-SU5HLCBJTlNUQUxMSU5HLCBDT1BZSU5HIE9SIE9USEVSV0lTRSBVU0lORyBVTklDT0RFIElOQy4n
-UworIyAtREFUQSBGSUxFUyAoIkRBVEEgRklMRVMiKSwgQU5EL09SIFNPRlRXQVJFICgiU09GVFdB
-UkUiKSwKKyMgLVlPVSBVTkVRVUlWT0NBTExZIEFDQ0VQVCwgQU5EIEFHUkVFIFRPIEJFIEJPVU5E
-IEJZLCBBTEwgT0YgVEhFCisjIC1URVJNUyBBTkQgQ09ORElUSU9OUyBPRiBUSElTIEFHUkVFTUVO
-VC4KKyMgLUlGIFlPVSBETyBOT1QgQUdSRUUsIERPIE5PVCBET1dOTE9BRCwgSU5TVEFMTCwgQ09Q
-WSwgRElTVFJJQlVURSBPUiBVU0UKKyMgLVRIRSBEQVRBIEZJTEVTIE9SIFNPRlRXQVJFLgorIyAr
-VU5JQ09ERSBMSUNFTlNFIFYzCisjICAKKyMgIENPUFlSSUdIVCBBTkQgUEVSTUlTU0lPTiBOT1RJ
-Q0UKKyMgIAorIyAtQ29weXJpZ2h0IMKpIDE5OTEtMjAyMyBVbmljb2RlLCBJbmMuIEFsbCByaWdo
-dHMgcmVzZXJ2ZWQuCisjIC1EaXN0cmlidXRlZCB1bmRlciB0aGUgVGVybXMgb2YgVXNlIGluIGh0
-dHBzOi8vd3d3LnVuaWNvZGUub3JnL2NvcHlyaWdodC5odG1sLgorIyAtCisjIC1QZXJtaXNzaW9u
-IGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5p
-bmcKKyMgLWEgY29weSBvZiB0aGUgVW5pY29kZSBkYXRhIGZpbGVzIGFuZCBhbnkgYXNzb2NpYXRl
-ZCBkb2N1bWVudGF0aW9uCisjIC0odGhlICJEYXRhIEZpbGVzIikgb3IgVW5pY29kZSBzb2Z0d2Fy
-ZSBhbmQgYW55IGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbgorIyAtKHRoZSAiU29mdHdhcmUiKSB0
-byBkZWFsIGluIHRoZSBEYXRhIEZpbGVzIG9yIFNvZnR3YXJlCisjIC13aXRob3V0IHJlc3RyaWN0
-aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdodHMgdG8gdXNlLAorIyAt
-Y29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgYW5kL29yIHNlbGwgY29w
-aWVzIG9mCisjIC10aGUgRGF0YSBGaWxlcyBvciBTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCBwZXJz
-b25zIHRvIHdob20gdGhlIERhdGEgRmlsZXMKKyMgLW9yIFNvZnR3YXJlIGFyZSBmdXJuaXNoZWQg
-dG8gZG8gc28sIHByb3ZpZGVkIHRoYXQgZWl0aGVyCisjIC0oYSkgdGhpcyBjb3B5cmlnaHQgYW5k
-IHBlcm1pc3Npb24gbm90aWNlIGFwcGVhciB3aXRoIGFsbCBjb3BpZXMKKyMgLW9mIHRoZSBEYXRh
-IEZpbGVzIG9yIFNvZnR3YXJlLCBvcgorIyAtKGIpIHRoaXMgY29weXJpZ2h0IGFuZCBwZXJtaXNz
-aW9uIG5vdGljZSBhcHBlYXIgaW4gYXNzb2NpYXRlZAorIyAtRG9jdW1lbnRhdGlvbi4KKyMgLQor
-IyAtVEhFIERBVEEgRklMRVMgQU5EIFNPRlRXQVJFIEFSRSBQUk9WSURFRCAiQVMgSVMiLCBXSVRI
-T1VUIFdBUlJBTlRZIE9GCisjIC1BTlkgS0lORCwgRVhQUkVTUyBPUiBJTVBMSUVELCBJTkNMVURJ
-TkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRQorIyAtV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJ
-VFksIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORAorIyAtTk9OSU5GUklOR0VN
-RU5UIE9GIFRISVJEIFBBUlRZIFJJR0hUUy4KKyMgLUlOIE5PIEVWRU5UIFNIQUxMIFRIRSBDT1BZ
-UklHSFQgSE9MREVSIE9SIEhPTERFUlMgSU5DTFVERUQgSU4gVEhJUworIyAtTk9USUNFIEJFIExJ
-QUJMRSBGT1IgQU5ZIENMQUlNLCBPUiBBTlkgU1BFQ0lBTCBJTkRJUkVDVCBPUiBDT05TRVFVRU5U
-SUFMCisjIC1EQU1BR0VTLCBPUiBBTlkgREFNQUdFUyBXSEFUU09FVkVSIFJFU1VMVElORyBGUk9N
-IExPU1MgT0YgVVNFLAorIyAtREFUQSBPUiBQUk9GSVRTLCBXSEVUSEVSIElOIEFOIEFDVElPTiBP
-RiBDT05UUkFDVCwgTkVHTElHRU5DRSBPUiBPVEhFUgorIyAtVE9SVElPVVMgQUNUSU9OLCBBUklT
-SU5HIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFVTRSBPUgorIyAtUEVSRk9STUFO
-Q0UgT0YgVEhFIERBVEEgRklMRVMgT1IgU09GVFdBUkUuCisjIC0KKyMgLUV4Y2VwdCBhcyBjb250
-YWluZWQgaW4gdGhpcyBub3RpY2UsIHRoZSBuYW1lIG9mIGEgY29weXJpZ2h0IGhvbGRlcgorIyAt
-c2hhbGwgbm90IGJlIHVzZWQgaW4gYWR2ZXJ0aXNpbmcgb3Igb3RoZXJ3aXNlIHRvIHByb21vdGUg
-dGhlIHNhbGUsCisjIC11c2Ugb3Igb3RoZXIgZGVhbGluZ3MgaW4gdGhlc2UgRGF0YSBGaWxlcyBv
-ciBTb2Z0d2FyZSB3aXRob3V0IHByaW9yCisjIC13cml0dGVuIGF1dGhvcml6YXRpb24gb2YgdGhl
-IGNvcHlyaWdodCBob2xkZXIuCisjICtDb3B5cmlnaHQgwqkgMjAxNi0yMDIzIFVuaWNvZGUsIElu
-Yy4KKyMgKworIyArTk9USUNFIFRPIFVTRVI6IENhcmVmdWxseSByZWFkIHRoZSBmb2xsb3dpbmcg
-bGVnYWwgYWdyZWVtZW50LiBCWQorIyArRE9XTkxPQURJTkcsIElOU1RBTExJTkcsIENPUFlJTkcg
-T1IgT1RIRVJXSVNFIFVTSU5HIERBVEEgRklMRVMsIEFORC9PUgorIyArU09GVFdBUkUsIFlPVSBV
-TkVRVUlWT0NBTExZIEFDQ0VQVCwgQU5EIEFHUkVFIFRPIEJFIEJPVU5EIEJZLCBBTEwgT0YgVEhF
-CisjICtURVJNUyBBTkQgQ09ORElUSU9OUyBPRiBUSElTIEFHUkVFTUVOVC4gSUYgWU9VIERPIE5P
-VCBBR1JFRSwgRE8gTk9UCisjICtET1dOTE9BRCwgSU5TVEFMTCwgQ09QWSwgRElTVFJJQlVURSBP
-UiBVU0UgVEhFIERBVEEgRklMRVMgT1IgU09GVFdBUkUuCisjICsKKyMgK1Blcm1pc3Npb24gaXMg
-aGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBh
-CisjICtjb3B5IG9mIGRhdGEgZmlsZXMgYW5kIGFueSBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24g
-KHRoZSAiRGF0YSBGaWxlcyIpIG9yCisjICtzb2Z0d2FyZSBhbmQgYW55IGFzc29jaWF0ZWQgZG9j
-dW1lbnRhdGlvbiAodGhlICJTb2Z0d2FyZSIpIHRvIGRlYWwgaW4gdGhlCisjICtEYXRhIEZpbGVz
-IG9yIFNvZnR3YXJlIHdpdGhvdXQgcmVzdHJpY3Rpb24sIGluY2x1ZGluZyB3aXRob3V0IGxpbWl0
-YXRpb24KKyMgK3RoZSByaWdodHMgdG8gdXNlLCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNo
-LCBkaXN0cmlidXRlLCBhbmQvb3Igc2VsbAorIyArY29waWVzIG9mIHRoZSBEYXRhIEZpbGVzIG9y
-IFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUKKyMgK0RhdGEgRmls
-ZXMgb3IgU29mdHdhcmUgYXJlIGZ1cm5pc2hlZCB0byBkbyBzbywgcHJvdmlkZWQgdGhhdCBlaXRo
-ZXIgKGEpCisjICt0aGlzIGNvcHlyaWdodCBhbmQgcGVybWlzc2lvbiBub3RpY2UgYXBwZWFyIHdp
-dGggYWxsIGNvcGllcyBvZiB0aGUgRGF0YQorIyArRmlsZXMgb3IgU29mdHdhcmUsIG9yIChiKSB0
-aGlzIGNvcHlyaWdodCBhbmQgcGVybWlzc2lvbiBub3RpY2UgYXBwZWFyIGluCisjICthc3NvY2lh
-dGVkIERvY3VtZW50YXRpb24uCisjICsKKyMgK1RIRSBEQVRBIEZJTEVTIEFORCBTT0ZUV0FSRSBB
-UkUgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkKKyMgK0tJTkQsIEVY
-UFJFU1MgT1IgSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFO
-VElFUyBPRgorIyArTUVSQ0hBTlRBQklMSVRZLCBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVS
-UE9TRSBBTkQgTk9OSU5GUklOR0VNRU5UIE9GCisjICtUSElSRCBQQVJUWSBSSUdIVFMuCisjICsK
-KyMgK0lOIE5PIEVWRU5UIFNIQUxMIFRIRSBDT1BZUklHSFQgSE9MREVSIE9SIEhPTERFUlMgSU5D
-TFVERUQgSU4gVEhJUyBOT1RJQ0UKKyMgK0JFIExJQUJMRSBGT1IgQU5ZIENMQUlNLCBPUiBBTlkg
-U1BFQ0lBTCBJTkRJUkVDVCBPUiBDT05TRVFVRU5USUFMIERBTUFHRVMsCisjICtPUiBBTlkgREFN
-QUdFUyBXSEFUU09FVkVSIFJFU1VMVElORyBGUk9NIExPU1MgT0YgVVNFLCBEQVRBIE9SIFBST0ZJ
-VFMsCisjICtXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwgTkVHTElHRU5DRSBPUiBP
-VEhFUiBUT1JUSU9VUyBBQ1RJT04sCisjICtBUklTSU5HIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9O
-IFdJVEggVEhFIFVTRSBPUiBQRVJGT1JNQU5DRSBPRiBUSEUgREFUQQorIyArRklMRVMgT1IgU09G
-VFdBUkUuCisjICsKKyMgK0V4Y2VwdCBhcyBjb250YWluZWQgaW4gdGhpcyBub3RpY2UsIHRoZSBu
-YW1lIG9mIGEgY29weXJpZ2h0IGhvbGRlciBzaGFsbAorIyArbm90IGJlIHVzZWQgaW4gYWR2ZXJ0
-aXNpbmcgb3Igb3RoZXJ3aXNlIHRvIHByb21vdGUgdGhlIHNhbGUsIHVzZSBvciBvdGhlcgorIyAr
-ZGVhbGluZ3MgaW4gdGhlc2UgRGF0YSBGaWxlcyBvciBTb2Z0d2FyZSB3aXRob3V0IHByaW9yIHdy
-aXR0ZW4KKyMgK2F1dGhvcml6YXRpb24gb2YgdGhlIGNvcHlyaWdodCBob2xkZXIuCisjICAKKyMg
-IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0KKyMgIAorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5hdGlvbmFsIENv
-bXBvbmVudCBmb3IgVW5pY29kZSBsaWJyYXJpZXMiCiBERVNDUklQVElPTiA9ICJUaGUgSW50ZXJu
-YXRpb25hbCBDb21wb25lbnQgZm9yIFVuaWNvZGUgKElDVSkgaXMgYSBtYXR1cmUsIFwKIHBvcnRh
-YmxlIHNldCBvZiBDL0MrKyBhbmQgSmF2YSBsaWJyYXJpZXMgZm9yIFVuaWNvZGUgc3VwcG9ydCwg
-c29mdHdhcmUgXApAQCAtNzgsNyArMTc3LDcgQEAgRklMRVM6bGliaWN1aW8gPSAiJHtsaWJkaXJ9
-L2xpYmljdWlvLnNvLioiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAot
-TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9ODBjMmNmMzlhZDhhZTEy
-YjliOTQ4MmExNzM3YzY2NTAiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8uLi9MSUNFTlNF
-O21kNT0wOGRjMzg1MmRmOGZmZmE4MDczMDE5MDJhZDg5OWZmOCIKIAogZGVmIGljdV9kb3dubG9h
-ZF92ZXJzaW9uKGQpOgogICAgIHB2c3BsaXQgPSBkLmdldFZhcignUFYnKS5zcGxpdCgnLScpCkBA
-IC0xMTEsNyArMjEwLDcgQEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX07bmFtZT1jb2RlIFwK
-IFNSQ19VUkk6YXBwZW5kOmNsYXNzLXRhcmdldCA9ICJcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAx
-LURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaCBcCiAgICAgICAgICAgIgotU1JD
-X1VSSVtjb2RlLnNoYTI1NnN1bV0gPSAiODE4YTgwNzEyZWQzY2FhY2Q5YjY1MjMwNWUwMWFmYzdm
-YTE2N2U2ZjJlOTQ5OTZkYTQ0YjkwYzJhYjYwNGNlMSIKK1NSQ19VUklbY29kZS5zaGEyNTZzdW1d
-ID0gIjg2Y2U4ZTYwNjgxOTcyZTYwZTRkY2IyNDkwYzY5NzQ2M2ZjZWM2MGRkNDAwYTVmOWJmZmJh
-MjZkMGI1MmI4ZDAiCiBTUkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9ICJjYTFlZTA3NjE2M2I0Mzg0
-NjFlNDg0NDIxYTc2NzlmYzMzYTY0Y2QwYTU0ZjlkNGI0MDE4OTNmYTFlYjQyNzAxIgogCiBVUFNU
-UkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcvcmVsZWFzZS0oP1A8cHZlcj4oPyEuK3Jj
-KS4rKSIKLS0gCjIuMzkuMgoK
-
---===============0002491162588876704==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-icu-upgrade-73-2-74-1.patch"
-
-RnJvbSA1MTI1MjczYTNkZGJhMGU5N2RlYmE1Yzc0ZWNlODg4N2U1ZThiYThhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMTM6NTc6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
-Y3U6IHVwZ3JhZGUgNzMtMiAtPiA3NC0xCgotLS0KIC4uLi9pY3Uve2ljdV83My0yLmJiID0+IGlj
-dV83NC0xLmJifSAgICAgICAgICB8IDEwMyArKysrKysrKysrKysrKysrKy0KIDEgZmlsZSBjaGFu
-Z2VkLCAxMDEgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9pY3Uve2ljdV83My0yLmJiID0+IGljdV83NC0xLmJifSAoNTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNzMtMi5iYiBiL21ldGEvcmVjaXBl
-cy1zdXBwb3J0L2ljdS9pY3VfNzQtMS5iYgpzaW1pbGFyaXR5IGluZGV4IDUxJQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1XzczLTIuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1zdXBwb3J0L2ljdS9pY3VfNzQtMS5iYgppbmRleCA3YzU5ZjhiYjg5Li5hNWEyODAyZWQ4
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1XzczLTIuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV83NC0xLmJiCkBAIC0xLDMgKzEsMTAyIEBACisj
-IEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkg
-J2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0
-d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0
-aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4K
-KyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFt
-cGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRo
-ZSBjaGFuZ2VzOgorIworIyAtLS0gLi4vTElDRU5TRQorIyArKysgLi4vTElDRU5TRQorIyBAQCAt
-MSw0OSArMSw0MiBAQAorIyAtVU5JQ09ERSwgSU5DLiBMSUNFTlNFIEFHUkVFTUVOVCAtIERBVEEg
-RklMRVMgQU5EIFNPRlRXQVJFCisjIC0KKyMgLVNlZSBUZXJtcyBvZiBVc2UgPGh0dHBzOi8vd3d3
-LnVuaWNvZGUub3JnL2NvcHlyaWdodC5odG1sPgorIyAtZm9yIGRlZmluaXRpb25zIG9mIFVuaWNv
-ZGUgSW5jLuKAmXMgRGF0YSBGaWxlcyBhbmQgU29mdHdhcmUuCisjIC0KKyMgLU5PVElDRSBUTyBV
-U0VSOiBDYXJlZnVsbHkgcmVhZCB0aGUgZm9sbG93aW5nIGxlZ2FsIGFncmVlbWVudC4KKyMgLUJZ
-IERPV05MT0FESU5HLCBJTlNUQUxMSU5HLCBDT1BZSU5HIE9SIE9USEVSV0lTRSBVU0lORyBVTklD
-T0RFIElOQy4nUworIyAtREFUQSBGSUxFUyAoIkRBVEEgRklMRVMiKSwgQU5EL09SIFNPRlRXQVJF
-ICgiU09GVFdBUkUiKSwKKyMgLVlPVSBVTkVRVUlWT0NBTExZIEFDQ0VQVCwgQU5EIEFHUkVFIFRP
-IEJFIEJPVU5EIEJZLCBBTEwgT0YgVEhFCisjIC1URVJNUyBBTkQgQ09ORElUSU9OUyBPRiBUSElT
-IEFHUkVFTUVOVC4KKyMgLUlGIFlPVSBETyBOT1QgQUdSRUUsIERPIE5PVCBET1dOTE9BRCwgSU5T
-VEFMTCwgQ09QWSwgRElTVFJJQlVURSBPUiBVU0UKKyMgLVRIRSBEQVRBIEZJTEVTIE9SIFNPRlRX
-QVJFLgorIyArVU5JQ09ERSBMSUNFTlNFIFYzCisjICAKKyMgIENPUFlSSUdIVCBBTkQgUEVSTUlT
-U0lPTiBOT1RJQ0UKKyMgIAorIyAtQ29weXJpZ2h0IMKpIDE5OTEtMjAyMyBVbmljb2RlLCBJbmMu
-IEFsbCByaWdodHMgcmVzZXJ2ZWQuCisjIC1EaXN0cmlidXRlZCB1bmRlciB0aGUgVGVybXMgb2Yg
-VXNlIGluIGh0dHBzOi8vd3d3LnVuaWNvZGUub3JnL2NvcHlyaWdodC5odG1sLgorIyAtCisjIC1Q
-ZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNv
-biBvYnRhaW5pbmcKKyMgLWEgY29weSBvZiB0aGUgVW5pY29kZSBkYXRhIGZpbGVzIGFuZCBhbnkg
-YXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uCisjIC0odGhlICJEYXRhIEZpbGVzIikgb3IgVW5pY29k
-ZSBzb2Z0d2FyZSBhbmQgYW55IGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbgorIyAtKHRoZSAiU29m
-dHdhcmUiKSB0byBkZWFsIGluIHRoZSBEYXRhIEZpbGVzIG9yIFNvZnR3YXJlCisjIC13aXRob3V0
-IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdodHMgdG8g
-dXNlLAorIyAtY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgYW5kL29y
-IHNlbGwgY29waWVzIG9mCisjIC10aGUgRGF0YSBGaWxlcyBvciBTb2Z0d2FyZSwgYW5kIHRvIHBl
-cm1pdCBwZXJzb25zIHRvIHdob20gdGhlIERhdGEgRmlsZXMKKyMgLW9yIFNvZnR3YXJlIGFyZSBm
-dXJuaXNoZWQgdG8gZG8gc28sIHByb3ZpZGVkIHRoYXQgZWl0aGVyCisjIC0oYSkgdGhpcyBjb3B5
-cmlnaHQgYW5kIHBlcm1pc3Npb24gbm90aWNlIGFwcGVhciB3aXRoIGFsbCBjb3BpZXMKKyMgLW9m
-IHRoZSBEYXRhIEZpbGVzIG9yIFNvZnR3YXJlLCBvcgorIyAtKGIpIHRoaXMgY29weXJpZ2h0IGFu
-ZCBwZXJtaXNzaW9uIG5vdGljZSBhcHBlYXIgaW4gYXNzb2NpYXRlZAorIyAtRG9jdW1lbnRhdGlv
-bi4KKyMgLQorIyAtVEhFIERBVEEgRklMRVMgQU5EIFNPRlRXQVJFIEFSRSBQUk9WSURFRCAiQVMg
-SVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GCisjIC1BTlkgS0lORCwgRVhQUkVTUyBPUiBJTVBMSUVE
-LCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRQorIyAtV0FSUkFOVElFUyBPRiBNRVJD
-SEFOVEFCSUxJVFksIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORAorIyAtTk9O
-SU5GUklOR0VNRU5UIE9GIFRISVJEIFBBUlRZIFJJR0hUUy4KKyMgLUlOIE5PIEVWRU5UIFNIQUxM
-IFRIRSBDT1BZUklHSFQgSE9MREVSIE9SIEhPTERFUlMgSU5DTFVERUQgSU4gVEhJUworIyAtTk9U
-SUNFIEJFIExJQUJMRSBGT1IgQU5ZIENMQUlNLCBPUiBBTlkgU1BFQ0lBTCBJTkRJUkVDVCBPUiBD
-T05TRVFVRU5USUFMCisjIC1EQU1BR0VTLCBPUiBBTlkgREFNQUdFUyBXSEFUU09FVkVSIFJFU1VM
-VElORyBGUk9NIExPU1MgT0YgVVNFLAorIyAtREFUQSBPUiBQUk9GSVRTLCBXSEVUSEVSIElOIEFO
-IEFDVElPTiBPRiBDT05UUkFDVCwgTkVHTElHRU5DRSBPUiBPVEhFUgorIyAtVE9SVElPVVMgQUNU
-SU9OLCBBUklTSU5HIE9VVCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFVTRSBPUgorIyAt
-UEVSRk9STUFOQ0UgT0YgVEhFIERBVEEgRklMRVMgT1IgU09GVFdBUkUuCisjIC0KKyMgLUV4Y2Vw
-dCBhcyBjb250YWluZWQgaW4gdGhpcyBub3RpY2UsIHRoZSBuYW1lIG9mIGEgY29weXJpZ2h0IGhv
-bGRlcgorIyAtc2hhbGwgbm90IGJlIHVzZWQgaW4gYWR2ZXJ0aXNpbmcgb3Igb3RoZXJ3aXNlIHRv
-IHByb21vdGUgdGhlIHNhbGUsCisjIC11c2Ugb3Igb3RoZXIgZGVhbGluZ3MgaW4gdGhlc2UgRGF0
-YSBGaWxlcyBvciBTb2Z0d2FyZSB3aXRob3V0IHByaW9yCisjIC13cml0dGVuIGF1dGhvcml6YXRp
-b24gb2YgdGhlIGNvcHlyaWdodCBob2xkZXIuCisjICtDb3B5cmlnaHQgwqkgMjAxNi0yMDIzIFVu
-aWNvZGUsIEluYy4KKyMgKworIyArTk9USUNFIFRPIFVTRVI6IENhcmVmdWxseSByZWFkIHRoZSBm
-b2xsb3dpbmcgbGVnYWwgYWdyZWVtZW50LiBCWQorIyArRE9XTkxPQURJTkcsIElOU1RBTExJTkcs
-IENPUFlJTkcgT1IgT1RIRVJXSVNFIFVTSU5HIERBVEEgRklMRVMsIEFORC9PUgorIyArU09GVFdB
-UkUsIFlPVSBVTkVRVUlWT0NBTExZIEFDQ0VQVCwgQU5EIEFHUkVFIFRPIEJFIEJPVU5EIEJZLCBB
-TEwgT0YgVEhFCisjICtURVJNUyBBTkQgQ09ORElUSU9OUyBPRiBUSElTIEFHUkVFTUVOVC4gSUYg
-WU9VIERPIE5PVCBBR1JFRSwgRE8gTk9UCisjICtET1dOTE9BRCwgSU5TVEFMTCwgQ09QWSwgRElT
-VFJJQlVURSBPUiBVU0UgVEhFIERBVEEgRklMRVMgT1IgU09GVFdBUkUuCisjICsKKyMgK1Blcm1p
-c3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9i
-dGFpbmluZyBhCisjICtjb3B5IG9mIGRhdGEgZmlsZXMgYW5kIGFueSBhc3NvY2lhdGVkIGRvY3Vt
-ZW50YXRpb24gKHRoZSAiRGF0YSBGaWxlcyIpIG9yCisjICtzb2Z0d2FyZSBhbmQgYW55IGFzc29j
-aWF0ZWQgZG9jdW1lbnRhdGlvbiAodGhlICJTb2Z0d2FyZSIpIHRvIGRlYWwgaW4gdGhlCisjICtE
-YXRhIEZpbGVzIG9yIFNvZnR3YXJlIHdpdGhvdXQgcmVzdHJpY3Rpb24sIGluY2x1ZGluZyB3aXRo
-b3V0IGxpbWl0YXRpb24KKyMgK3RoZSByaWdodHMgdG8gdXNlLCBjb3B5LCBtb2RpZnksIG1lcmdl
-LCBwdWJsaXNoLCBkaXN0cmlidXRlLCBhbmQvb3Igc2VsbAorIyArY29waWVzIG9mIHRoZSBEYXRh
-IEZpbGVzIG9yIFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUKKyMg
-K0RhdGEgRmlsZXMgb3IgU29mdHdhcmUgYXJlIGZ1cm5pc2hlZCB0byBkbyBzbywgcHJvdmlkZWQg
-dGhhdCBlaXRoZXIgKGEpCisjICt0aGlzIGNvcHlyaWdodCBhbmQgcGVybWlzc2lvbiBub3RpY2Ug
-YXBwZWFyIHdpdGggYWxsIGNvcGllcyBvZiB0aGUgRGF0YQorIyArRmlsZXMgb3IgU29mdHdhcmUs
-IG9yIChiKSB0aGlzIGNvcHlyaWdodCBhbmQgcGVybWlzc2lvbiBub3RpY2UgYXBwZWFyIGluCisj
-ICthc3NvY2lhdGVkIERvY3VtZW50YXRpb24uCisjICsKKyMgK1RIRSBEQVRBIEZJTEVTIEFORCBT
-T0ZUV0FSRSBBUkUgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkKKyMg
-K0tJTkQsIEVYUFJFU1MgT1IgSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBU
-SEUgV0FSUkFOVElFUyBPRgorIyArTUVSQ0hBTlRBQklMSVRZLCBGSVRORVNTIEZPUiBBIFBBUlRJ
-Q1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5UIE9GCisjICtUSElSRCBQQVJUWSBSSUdI
-VFMuCisjICsKKyMgK0lOIE5PIEVWRU5UIFNIQUxMIFRIRSBDT1BZUklHSFQgSE9MREVSIE9SIEhP
-TERFUlMgSU5DTFVERUQgSU4gVEhJUyBOT1RJQ0UKKyMgK0JFIExJQUJMRSBGT1IgQU5ZIENMQUlN
-LCBPUiBBTlkgU1BFQ0lBTCBJTkRJUkVDVCBPUiBDT05TRVFVRU5USUFMIERBTUFHRVMsCisjICtP
-UiBBTlkgREFNQUdFUyBXSEFUU09FVkVSIFJFU1VMVElORyBGUk9NIExPU1MgT0YgVVNFLCBEQVRB
-IE9SIFBST0ZJVFMsCisjICtXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwgTkVHTElH
-RU5DRSBPUiBPVEhFUiBUT1JUSU9VUyBBQ1RJT04sCisjICtBUklTSU5HIE9VVCBPRiBPUiBJTiBD
-T05ORUNUSU9OIFdJVEggVEhFIFVTRSBPUiBQRVJGT1JNQU5DRSBPRiBUSEUgREFUQQorIyArRklM
-RVMgT1IgU09GVFdBUkUuCisjICsKKyMgK0V4Y2VwdCBhcyBjb250YWluZWQgaW4gdGhpcyBub3Rp
-Y2UsIHRoZSBuYW1lIG9mIGEgY29weXJpZ2h0IGhvbGRlciBzaGFsbAorIyArbm90IGJlIHVzZWQg
-aW4gYWR2ZXJ0aXNpbmcgb3Igb3RoZXJ3aXNlIHRvIHByb21vdGUgdGhlIHNhbGUsIHVzZSBvciBv
-dGhlcgorIyArZGVhbGluZ3MgaW4gdGhlc2UgRGF0YSBGaWxlcyBvciBTb2Z0d2FyZSB3aXRob3V0
-IHByaW9yIHdyaXR0ZW4KKyMgK2F1dGhvcml6YXRpb24gb2YgdGhlIGNvcHlyaWdodCBob2xkZXIu
-CisjICAKKyMgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgIAorIyAKKyMKKwogU1VNTUFSWSA9ICJJbnRlcm5h
-dGlvbmFsIENvbXBvbmVudCBmb3IgVW5pY29kZSBsaWJyYXJpZXMiCiBERVNDUklQVElPTiA9ICJU
-aGUgSW50ZXJuYXRpb25hbCBDb21wb25lbnQgZm9yIFVuaWNvZGUgKElDVSkgaXMgYSBtYXR1cmUs
-IFwKIHBvcnRhYmxlIHNldCBvZiBDL0MrKyBhbmQgSmF2YSBsaWJyYXJpZXMgZm9yIFVuaWNvZGUg
-c3VwcG9ydCwgc29mdHdhcmUgXApAQCAtNzgsNyArMTc3LDcgQEAgRklMRVM6bGliaWN1aW8gPSAi
-JHtsaWJkaXJ9L2xpYmljdWlvLnNvLioiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2
-ZXNkayIKIAotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9ODBjMmNm
-MzlhZDhhZTEyYjliOTQ4MmExNzM3YzY2NTAiCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly8u
-Li9MSUNFTlNFO21kNT0wOGRjMzg1MmRmOGZmZmE4MDczMDE5MDJhZDg5OWZmOCIKIAogZGVmIGlj
-dV9kb3dubG9hZF92ZXJzaW9uKGQpOgogICAgIHB2c3BsaXQgPSBkLmdldFZhcignUFYnKS5zcGxp
-dCgnLScpCkBAIC0xMTEsNyArMjEwLDcgQEAgU1JDX1VSSSA9ICIke0JBU0VfU1JDX1VSSX07bmFt
-ZT1jb2RlIFwKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLXRhcmdldCA9ICJcCiAgICAgICAgICAgIGZp
-bGU6Ly8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaCBcCiAgICAgICAg
-ICAgIgotU1JDX1VSSVtjb2RlLnNoYTI1NnN1bV0gPSAiODE4YTgwNzEyZWQzY2FhY2Q5YjY1MjMw
-NWUwMWFmYzdmYTE2N2U2ZjJlOTQ5OTZkYTQ0YjkwYzJhYjYwNGNlMSIKK1NSQ19VUklbY29kZS5z
-aGEyNTZzdW1dID0gIjg2Y2U4ZTYwNjgxOTcyZTYwZTRkY2IyNDkwYzY5NzQ2M2ZjZWM2MGRkNDAw
-YTVmOWJmZmJhMjZkMGI1MmI4ZDAiCiBTUkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9ICJjYTFlZTA3
-NjE2M2I0Mzg0NjFlNDg0NDIxYTc2NzlmYzMzYTY0Y2QwYTU0ZjlkNGI0MDE4OTNmYTFlYjQyNzAx
-IgogCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcvcmVsZWFzZS0oP1A8cHZl
-cj4oPyEuK3JjKS4rKSIKLS0gCjIuMzkuMgoK
-
---===============0002491162588876704==
+--===============5591494373524749571==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1846 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (910 cached, 1 parsed). 1843 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+Hello,
 
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-a1cf0f56eefee9057f826cb8ac58d3167000d6f0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:a1cf0f56eefee9057f826cb8ac58d3167000d6f0"
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *libgcrypt* to *1.10.3* has Succeeded.
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 76 Local 60 Mirrors 0 Missed 16 Current 223 (78% match, 94% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 231 of 299 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 240 of 299 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 265 of 299 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf-archive/autoconf-archive_2023.02.20.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 272 of 299 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf-archive/autoconf-archive_2023.02.20.bb:do_create_spdx_setscene)
-NOTE: Running task 631 of 910 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_recipe_qa)
-NOTE: Running task 647 of 910 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_recipe_qa)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-74-1-r0: task do_recipe_qa: Started
-NOTE: recipe autoconf-archive-native-2023.02.20-r0: task do_create_spdx_setscene: Started
-NOTE: recipe autoconf-archive-native-2023.02.20-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe icu-native-74-1-r0: task do_recipe_qa: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 276 of 299 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 278 of 299 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-74-1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 702 of 910 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_fetch)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-native-74-1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 703 of 910 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe autoconf-archive-native-2023.02.20-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe icu-74-1-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 283 of 299 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.38.bb:do_create_spdx_setscene)
-NOTE: recipe autoconf-archive-native-2023.02.20-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe icu-native-74-1-r0: task do_fetch: Started
-NOTE: recipe glibc-2.38+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.38+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-WARNING: icu-74-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-data.zip;name=data - will attempt other sources if available
-WARNING: icu-native-74-1-r0 do_fetch: Checksum failure encountered with download of https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-data.zip;name=data - will attempt other sources if available
-NOTE: recipe icu-74-1-r0: task do_fetch: Failed
-NOTE: recipe icu-native-74-1-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 879 tasks of which 875 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231115135650.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231115135650.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Next steps:
+    - apply the patch: git am 0001-libgcrypt-upgrade-1.10.2-1.10.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Summary: 2 tasks failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_fetch
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_fetch
-Summary: There were 2 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-ERROR: icu-74-1-r0 do_fetch: Fetcher failure for URL: 'https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-data.zip;name=data'. Checksum mismatch!
-File: '/srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_1-data.zip.tmp' has sha256 checksum '67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f' when 'ca1ee076163b438461e484421a7679fc33a64cd0a54f9d4b401893fa1eb42701' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[data.sha256sum] = "67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: icu-74-1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-data.zip;name=data')
-ERROR: icu-native-74-1-r0 do_fetch: Fetcher failure for URL: 'https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-data.zip;name=data'. Checksum mismatch!
-File: '/srv/autobuilder/autobuilder.yocto.io/current_sources/icu4c-74_1-data.zip.tmp' has sha256 checksum '67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f' when 'ca1ee076163b438461e484421a7679fc33a64cd0a54f9d4b401893fa1eb42701' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[data.sha256sum] = "67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: icu-native-74-1-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://github.com/unicode-org/icu/releases/download/release-74-1/icu4c-74_1-data.zip;name=data')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/icu/74-1/temp/log.do_fetch.2935672
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_fetch) failed with exit code '1'
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/icu-native/74-1/temp/log.do_fetch.2935683
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_fetch) failed with exit code '1'
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
---===============0002491162588876704==--
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 6ff52859a1b0c75de883b5eb1606b3840eef8818 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 15 Nov 2023 14:09:17 +0000
+Subject: [PATCH] libgcrypt: upgrade 1.10.2 -> 1.10.3
+
+---
+ .../libgcrypt/{libgcrypt_1.10.2.bb => libgcrypt_1.10.3.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.10.2.bb => libgcrypt_1.10.3.bb} (96%)
+
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+similarity index 96%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+index 524b06ca22..1c4f4d6038 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+@@ -27,7 +27,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://no-bench-slope.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "3b9c02a004b68c256add99701de00b383accccf37177e0d6c58289664cce0c03"
++SRC_URI[sha256sum] = "8b0870897ac5ac67ded568dcfadf45969cfa8a6beb0fd60af2a9eadc2a3272aa"
+ 
+ CVE_STATUS[CVE-2018-12433] = "disputed: CVE is disputed and not affecting crypto libraries for any distro."
+ CVE_STATUS[CVE-2018-12438] = "disputed: CVE is disputed and not affecting crypto libraries for any distro."
+-- 
+2.39.2
+
+
+--===============5591494373524749571==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libgcrypt: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.2.tar.bz2 file://0001-libgcrypt-fix-m4-file-for-oe-core.patch file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch file://no-native-gpg-error.patch file://no-bench-slope.patch file://run-ptest" to "https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.3.tar.bz2 file://0001-libgcrypt-fix-m4-file-for-oe-core.patch file://0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch file://0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch file://no-native-gpg-error.patch file://no-bench-slope.patch file://run-ptest"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-dbg: FILELIST: removed "/usr/lib/.debug/libgcrypt.so.20.4.2", added "/usr/lib/.debug/libgcrypt.so.20.4.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-dbg: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-dbg: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-dbg: PKGSIZE changed from 5495280 to 5513312 (+0%)
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-dev: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-dev: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-doc: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-doc: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-doc: PKGSIZE changed from 351184 to 351978 (+0%)
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-locale: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-locale: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-ptest: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-ptest: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-src: FILELIST: directory renamed /usr/src/debug/libgcrypt/1.10.2-r0/random -> /usr/src/debug/libgcrypt/1.10.3-r0/random, directory renamed /usr/src/debug/libgcrypt/1.10.2-r0/tests -> /usr/src/debug/libgcrypt/1.10.3-r0/tests, directory renamed /usr/src/debug/libgcrypt/1.10.2-r0/cipher -> /usr/src/debug/libgcrypt/1.10.3-r0/cipher, directory renamed /usr/src/debug/libgcrypt/1.10.2-r0/mpi -> /usr/src/debug/libgcrypt/1.10.3-r0/mpi, directory renamed /usr/src/debug/libgcrypt/1.10.2-r0/compat -> /usr/src/debug/libgcrypt/1.10.3-r0/compat, removed "/usr/src/debug/libgcrypt/1.10.2-r0/src/dumpsexp.c /usr/src/debug/libgcrypt/1.10.2-r0/src/types.h /usr/src/debug/libgcrypt/1.10.2-r0/src/fips.c /usr/src/debug/libgcrypt/1.10.2-r0/src/global.c /usr/src/debug/libgcrypt/1.10.2-r0/src/mpi.h /usr/src/debug/libgcrypt/1.10.2-r0/src/hmac256.h /usr/src/debug/libgcrypt/1.10.2-r0/src/stdmem.c /usr/src/debug/libgcrypt/1.10.2-r0/src/hmac256.c /usr/src/debug/libgcr
+ ypt/1.10.2-r0/src/ec-context.h /usr/src/debug/libgcrypt/1.10.2-r0/src/gcrypt-int.h /usr/src/debug/libgcrypt/1.10.2-r0/src/stdmem.h /usr/src/debug/libgcrypt/1.10.2-r0/src/context.h /usr/src/debug/libgcrypt/1.10.2-r0/src/sexp.c /usr/src/debug/libgcrypt/1.10.2-r0/src/context.c /usr/src/debug/libgcrypt/1.10.2-r0/src/cipher.h /usr/src/debug/libgcrypt/1.10.2-r0/src/hwfeatures.c /usr/src/debug/libgcrypt/1.10.2-r0/src/misc.c /usr/src/debug/libgcrypt/1.10.2-r0/src/mpicalc.c /usr/src/debug/libgcrypt/1.10.2-r0/src/secmem.c /usr/src/debug/libgcrypt/1.10.2-r0/src/g10lib.h /usr/src/debug/libgcrypt/1.10.2-r0/src/secmem.h /usr/src/debug/libgcrypt/1.10.2-r0/src/visibility.c /usr/src/debug/libgcrypt/1.10.2-r0/src/cipher-proto.h /usr/src/debug/libgcrypt/1.10.2-r0/src/gcrypt.h /usr/src/debug/libgcrypt/1.10.2-r0/src/gcrypt-testapi.h", added "/usr/src/debug/libgcrypt/1.10.3-r0/src/dumpsexp.c /usr/src/debug/libgcrypt/1.10.3-r0/src/types.h /usr/src/debug/libgcrypt/1.10.3-r0/src/fips.c /usr/src/debug/libgcr
+ ypt/1.10.3-r0/src/global.c /usr/src/debug/libgcrypt/1.10.3-r0/src/mpi.h /usr/src/debug/libgcrypt/1.10.3-r0/src/hmac256.h /usr/src/debug/libgcrypt/1.10.3-r0/src/const-time.c /usr/src/debug/libgcrypt/1.10.3-r0/src/stdmem.c /usr/src/debug/libgcrypt/1.10.3-r0/src/hmac256.c /usr/src/debug/libgcrypt/1.10.3-r0/src/ec-context.h /usr/src/debug/libgcrypt/1.10.3-r0/src/const-time.h /usr/src/debug/libgcrypt/1.10.3-r0/src/gcrypt-int.h /usr/src/debug/libgcrypt/1.10.3-r0/src/stdmem.h /usr/src/debug/libgcrypt/1.10.3-r0/src/context.h /usr/src/debug/libgcrypt/1.10.3-r0/src/sexp.c /usr/src/debug/libgcrypt/1.10.3-r0/src/context.c /usr/src/debug/libgcrypt/1.10.3-r0/src/cipher.h /usr/src/debug/libgcrypt/1.10.3-r0/src/hwfeatures.c /usr/src/debug/libgcrypt/1.10.3-r0/src/misc.c /usr/src/debug/libgcrypt/1.10.3-r0/src/mpicalc.c /usr/src/debug/libgcrypt/1.10.3-r0/src/secmem.c /usr/src/debug/libgcrypt/1.10.3-r0/src/g10lib.h /usr/src/debug/libgcrypt/1.10.3-r0/src/secmem.h /usr/src/debug/libgcrypt/1.10.3-r0/src/v
+ isibility.c /usr/src/debug/libgcrypt/1.10.3-r0/src/cipher-proto.h /usr/src/debug/libgcrypt/1.10.3-r0/src/gcrypt.h /usr/src/debug/libgcrypt/1.10.3-r0/src/gcrypt-testapi.h"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-src: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-src: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-src: PKGSIZE changed from 5097236 to 5108578 (+0%)
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-staticdev: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt/libgcrypt-staticdev: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt: FILELIST: removed "/usr/lib/libgcrypt.so.20.4.2", added "/usr/lib/libgcrypt.so.20.4.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt: PKGV changed from 1.10.2 [default] to 1.10.3 [default]
+packages/core2-64-poky-linux/libgcrypt/libgcrypt: PV changed from "1.10.2" to "1.10.3"
+packages/core2-64-poky-linux/libgcrypt/libgcrypt: PKGSIZE changed from 941819 to 937691 (-0%)
+Changes to packages/core2-64-poky-linux/libgcrypt (sysroot):
+  /usr/lib/libgcrypt.so.20 changed symlink target from libgcrypt.so.20.4.2 to libgcrypt.so.20.4.3
+  /usr/lib/libgcrypt.so changed symlink target from libgcrypt.so.20.4.2 to libgcrypt.so.20.4.3
+  /usr/lib/libgcrypt.so.20.4.2 moved to /usr/lib/libgcrypt.so.20.4.3
+Changes to packages/x86_64-linux/libgcrypt-native (sysroot):
+  /usr/lib/libgcrypt.so.20 changed symlink target from libgcrypt.so.20.4.2 to libgcrypt.so.20.4.3
+  /usr/lib/libgcrypt.so changed symlink target from libgcrypt.so.20.4.2 to libgcrypt.so.20.4.3
+  /usr/lib/libgcrypt.so.20.4.2 moved to /usr/lib/libgcrypt.so.20.4.3
+
+--===============5591494373524749571==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libgcrypt/libgcrypt: FILELIST: removed "/usr/lib/libgcrypt.so.20.4.2", added "/usr/lib/libgcrypt.so.20.4.3"
+Changes to packages/core2-64-poky-linux/libgcrypt (sysroot):
+  /usr/lib/libgcrypt.so.20 changed symlink target from libgcrypt.so.20.4.2 to libgcrypt.so.20.4.3
+  /usr/lib/libgcrypt.so changed symlink target from libgcrypt.so.20.4.2 to libgcrypt.so.20.4.3
+  /usr/lib/libgcrypt.so.20.4.2 moved to /usr/lib/libgcrypt.so.20.4.3
+Changes to packages/x86_64-linux/libgcrypt-native (sysroot):
+  /usr/lib/libgcrypt.so.20 changed symlink target from libgcrypt.so.20.4.2 to libgcrypt.so.20.4.3
+  /usr/lib/libgcrypt.so changed symlink target from libgcrypt.so.20.4.2 to libgcrypt.so.20.4.3
+  /usr/lib/libgcrypt.so.20.4.2 moved to /usr/lib/libgcrypt.so.20.4.3
+
+--===============5591494373524749571==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libgcrypt-upgrade-1.10.2-1.10.3.patch"
+
+RnJvbSA2ZmY1Mjg1OWExYjBjNzVkZTg4M2I1ZWIxNjA2YjM4NDBlZWY4ODE4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMTQ6MDk6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJnY3J5cHQ6IHVwZ3JhZGUgMS4xMC4yIC0+IDEuMTAuMwoKLS0tCiAuLi4vbGliZ2NyeXB0L3ts
+aWJnY3J5cHRfMS4xMC4yLmJiID0+IGxpYmdjcnlwdF8xLjEwLjMuYmJ9ICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC9saWJnY3J5cHQve2xpYmdjcnlwdF8xLjEwLjIuYmIgPT4gbGliZ2Ny
+eXB0XzEuMTAuMy5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
+aWJnY3J5cHQvbGliZ2NyeXB0XzEuMTAuMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdj
+cnlwdC9saWJnY3J5cHRfMS4xMC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmdjcnlwdC9saWJnY3J5cHRfMS4xMC4yLmJiCnJlbmFt
+ZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJnY3J5cHQvbGliZ2NyeXB0XzEuMTAuMy5iYgpp
+bmRleCA1MjRiMDZjYTIyLi4xYzRmNGQ2MDM4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJnY3J5cHQvbGliZ2NyeXB0XzEuMTAuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9saWJnY3J5cHQvbGliZ2NyeXB0XzEuMTAuMy5iYgpAQCAtMjcsNyArMjcsNyBAQCBTUkNf
+VVJJID0gIiR7R05VUEdfTUlSUk9SfS9saWJnY3J5cHQvbGliZ2NyeXB0LSR7UFZ9LnRhci5iejIg
+XAogICAgICAgICAgICBmaWxlOi8vbm8tYmVuY2gtc2xvcGUucGF0Y2ggXAogICAgICAgICAgICBm
+aWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNi
+OWMwMmEwMDRiNjhjMjU2YWRkOTk3MDFkZTAwYjM4M2FjY2NjZjM3MTc3ZTBkNmM1ODI4OTY2NGNj
+ZTBjMDMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGIwODcwODk3YWM1YWM2N2RlZDU2OGRjZmFk
+ZjQ1OTY5Y2ZhOGE2YmViMGZkNjBhZjJhOWVhZGMyYTMyNzJhYSIKIAogQ1ZFX1NUQVRVU1tDVkUt
+MjAxOC0xMjQzM10gPSAiZGlzcHV0ZWQ6IENWRSBpcyBkaXNwdXRlZCBhbmQgbm90IGFmZmVjdGlu
+ZyBjcnlwdG8gbGlicmFyaWVzIGZvciBhbnkgZGlzdHJvLiIKIENWRV9TVEFUVVNbQ1ZFLTIwMTgt
+MTI0MzhdID0gImRpc3B1dGVkOiBDVkUgaXMgZGlzcHV0ZWQgYW5kIG5vdCBhZmZlY3RpbmcgY3J5
+cHRvIGxpYnJhcmllcyBmb3IgYW55IGRpc3Ryby4iCi0tIAoyLjM5LjIKCg==
+
+--===============5591494373524749571==--
 
