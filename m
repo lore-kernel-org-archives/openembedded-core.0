@@ -1,143 +1,217 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B139C48BF9
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 13:42:10 +0000 (UTC)
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.73])
- by mx.groups.io with SMTP id smtpd.web11.13377.1700055725996648819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0592CC48BFA
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 13:42:30 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.13352.1700055747683737575
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 05:42:06 -0800
+ Wed, 15 Nov 2023 05:42:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector1 header.b=Enmqwvsg;
- spf=pass (domain: infinera.com, ip: 40.107.244.73, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MLDy2BtbHTt+od+ZlaeFmgX9c54CWDQ8ogse4NtcWoQgVhivrNaCWWBmQCm64TCHiXfMhY5a3hZLk4RyqTmHemXO/kgeoS4Fs6FQMVxqXkIiWA3QjrQDBt959Nck1nS9JblsjpazNl2kpeCcmQOvgotgsxTE6RIQ1YXP/3LkjTvM6d17TYIPFDJnSwSsSOi8FVeeReuRrBiw4XcOGR58nTmaGTg+T4Jhi+Iiu+VChzOfQaqlclZ3Fo6ACnjfEZgvnUb9gSKhyJjLNYkXUHuZgnafkHWpoSNg4wAUixkwgYJetIISwTMc2FladCVmEF33DeNr+7B/e/6qaZTD/NpR6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N9Y2KWPy02NeJ4O26cHrFjH7LPFeKz64xyQDNpeRNIQ=;
- b=mGicOT8krDzBGxlAwaDvDJdOGR8v+kITH1wf0Lww6+CBD3sRbrjI+0T5FnOJmFF9gQ94yuoa5bPc+RoL4IyJuBJS85OIKJhHSNFUcKlFXciGy/9U+aMYRmwPmIjrK9ximMk9EiYOWRhb1o2FPykcZcaIddBwDvwjOHtjreQW2UoidL7JHAQN1o2/s1NtbkbjK6i0vGLPHMQx6i0x7/37Wm5TNQFrSEybIG3La8sBgm8Csk4QYZtIVvRYiiGEA246cf1xgR7+yRlx0CRi8MDQi1X8S13i4U1CxkTLseSAnh/Qv54qneNu7RpunGM9QLXTBDvXwHsxoPZxPMFjmAjL/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N9Y2KWPy02NeJ4O26cHrFjH7LPFeKz64xyQDNpeRNIQ=;
- b=Enmqwvsgb/C5NxwnWf8Mcu0tCkkyThDZ2IcFIglcYOYT0Tl7GpEIwrr99mx7RoB5+1nFyvDNSb4UR8990OTdyrVsDzH3GNFOQP303xe3rdhDti31nFUR5CQ0ddKCbNdtAOcdROmttePF3nA5EKHUxqwVKNYohC8VXMXJgwMrg3URftqkRMoEQapba4OhZzcnX+dPk/SZdPZ8Cnqq3rGIDU2kRFNFfd5q+V3ORnVpX3fzLlXdhY6pi2MGDNrFf8jPWy0KFYuD6cItVBz5NqQg+sDTBbcAVTbYe2GCHhl7mdaycxhQfh1O9CVxnWEueGWtUbWTyamC6CtXf3p+CF6UbQ==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by CH0PR10MB4841.namprd10.prod.outlook.com (2603:10b6:610:c3::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.20; Wed, 15 Nov
- 2023 13:42:01 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5%6]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
- 13:42:01 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 2/3] shadow: Add PW_SUBDIR
-Thread-Topic: [OE-core] [PATCH 2/3] shadow: Add PW_SUBDIR
-Thread-Index: AQHaFzo4YvdKKSdR20CYqjr8bGTp4bB7UeuAgAASpAA=
-Date: Wed, 15 Nov 2023 13:42:01 +0000
-Message-ID: <4f3483d322d0d4afb65b31ba06b3e0d383b62b6b.camel@infinera.com>
-References: <20231114203608.1490318-1-joakim.tjernlund@infinera.com>
-	 <20231114203608.1490318-3-joakim.tjernlund@infinera.com>
-	 <CANNYZj_c1dCdhhuPhnNdQ+9PKQ_FPdbB-b2miypMM9jQuofBcg@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_c1dCdhhuPhnNdQ+9PKQ_FPdbB-b2miypMM9jQuofBcg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.1 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|CH0PR10MB4841:EE_
-x-ms-office365-filtering-correlation-id: 64f743f7-8cd9-43d6-92be-08dbe5e0a56d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- Igb9cTSl4hHfosZ1TyF7XU3G0OQ2mIEEU8YggW8cY8jUr5BqBSAnjhHM7PBEssTI7NGSW/HiPLAY7O3Yqg09vVRCI8XBjvdBZFeS2Us7uhKt7UM5uPCI7AVnkdz7s2kZq+QqZGhnmBwfnQ1b8wTe/H+pXgk2BT75l35pAhwEa/KM9uALFVmkkIMshMU2r7ZiSLqUmUJx9qrTomuc7xMJZ+S5+/a029x8+/6JZM1f/nXPC5MxKPv6FZOtZueCSOzqVj8J9sKbQT1rzQjK06yRbMiTShrXlYxUWg0/JUOoHYIWFU/jliicFoUbMQN7k6z3XW9ZdfuCucfrFyruBvNyEKmw6UKn05XLRhsQxfbozCdHY3eTGOUZOny+hsGg1q1uFp4zjltt9xTue+eGz94UxEAjhMOUdNaBtdcX2L/1kFEYdHlVPdwon4NVCyq5YVINcnxLDXlpL0YHgk5AhDjSqbsNTqva2fpkUzHjQ+aTNIOgwBycwPsj//5RsHWVQCO/3th58Lp/fOjkupFmpRUYdvzBhb2PtaLocNQoM2o2iHFDDvf1okNA06hxIZm+kiRdzxmVE5KnV1CYjtIlErj6sEDKCLFLs0kFE8AuDRfkTh0=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39860400002)(366004)(376002)(136003)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(2906002)(2616005)(4326008)(36756003)(4744005)(8676002)(8936002)(966005)(6486002)(76116006)(6916009)(478600001)(4001150100001)(91956017)(86362001)(64756008)(316002)(5660300002)(66946007)(66446008)(66476007)(66556008)(122000001)(38070700009)(38100700002)(71200400001)(6506007)(41300700001)(6512007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?N1VoTWFjcFNiR1R0aUkxK2pmWlFLcTZuM3QydmFYWUtVdEttUGtDMzRwZUN4?=
- =?utf-8?B?aEp6U0lhMXA2cmsxcjVxR0hPZzRoQ2NSU096N2E2OHpFMk5tUmRBbHBpcFdk?=
- =?utf-8?B?NVB1K2VaMkVrcER3NjZ4WEtjN1BPY0JobmlZcUlLckowNkJhRkduNkwyV21W?=
- =?utf-8?B?aEh2QXJVMkt6clRFQnBBSlZveG9VMzlqeTBjSjgzOEJIMnQ5Wk1uWU5IRTRX?=
- =?utf-8?B?am03a2JXTzR6dUlubkU2Z00yNWtnOUFmU2xsdDA0TFVkZHNGMm9hWEZ2TXkz?=
- =?utf-8?B?aTZuaGRZeHZ0ZTU5K2oydGlTWEpMSFo1bDhvS0RrTm9EL3lJdXplN1BFVWlR?=
- =?utf-8?B?TGZMdWVVbmRadkdGL1Qzc2dEN21OV1FXM2FsQkMxb01FcDUzK05kYWJaWFdX?=
- =?utf-8?B?RnArdFo3Zktlc205YlYyajZPWXBHYk1lazdzeTRBN1NMQU5jaWY5Q1MxWktO?=
- =?utf-8?B?TWdpN2RiS3BvM0E0TVd4TTNpNEFIQXNzRCtJc2VIQllqbjRkU2R5UW9kYzlG?=
- =?utf-8?B?ODJSazZMREkxelZVTHVxY0JQWWhpSHJKeDJxUEJwa1lnY2hGelFxMmRSS1dv?=
- =?utf-8?B?MU5lOHdjUmpqME9ydHJpb2RwVWdYYkJQMis2VzdneXROaXF0eTI5aHBsa29i?=
- =?utf-8?B?bUE1VzlTdkF4MWFqbGFoOVBVb2NENUVyNTNSelVjNXR1RnRtalh0cEYvTS9L?=
- =?utf-8?B?Ty9hUWFJZU9KOGxuWnpnWVhLS3lSdkw4bk9JeUdLbzBaR0VRVTlpdDh6VzFP?=
- =?utf-8?B?cWpEZ1lGSnNiNElwdEQ3ZTd4T1QveUpNc0gxbTVEUW5La2dOWHN1bUtzVkF3?=
- =?utf-8?B?WnBXdWZIdldxc0RMSHlEWnFmVjdkZFg1US9qMldWMjRMcjV1TnBxeVp6VGJq?=
- =?utf-8?B?ZkwvRkpiOFNvUGxKN1hsZ2dBRmE5MkxOSkcwZ3Z4dW95ZnpqOFhkUW1UcFB5?=
- =?utf-8?B?dnZQR1d2VE5laDFSOExDdGRqYm1mRERzeklNVHJyYW9md2V6ejJsNnhCZElC?=
- =?utf-8?B?Tmp5Z1hmSnFiNUVtN3U3RHdWazgzQnJIbGEzNlRBenhXZHVvdjNNajZKd25W?=
- =?utf-8?B?WUFRR0p1dnc0SGF1Z05GZjJtYUdmM055M3hZd3RmQXRqVU14SldmM2gxaVRm?=
- =?utf-8?B?eGRWM0pLZUtrWVNJZjRqT0VLUjE5Qzl4UGhHekxtUmxUZm9Kam0xc3JBZklR?=
- =?utf-8?B?S3o3eDRzaVJ5dHFtQU03UjNFYnUyQUtvODRBMmswK0YwRWdqeHhiVitXM3hk?=
- =?utf-8?B?dzV4NklJMzhzUk4vbk1TS2JwL0doUzdHR1BWQXdyY3pOR09IbitJTHdpNGNm?=
- =?utf-8?B?eUh5RHZUK2RFMTdneStkN3E1YWwwZGRMa1BxRVFaK0thQkcxMWNTQkJMeWlu?=
- =?utf-8?B?K2dEUFhxMjlDampSMkkwV2ZMOUc4Yy80cUhIT2pyakUraVJITVErTEg1QTFj?=
- =?utf-8?B?Q0o0SjZrMHFSVXN5cWc1RHdwc3pabEJEMlF2dTBhcGtXcW9IbEJSSG1EV0Nm?=
- =?utf-8?B?S25qQ202TnYxQS9zcFRtOVNJemZNUTFITG5Ca0NsSVlyZnJJUFAyZUdnOEpE?=
- =?utf-8?B?M2QzK0dFTU1XWVNFNjFFZmVVUUZEMUFXaW1QTFdHUGNoOHZxeEdBcmFadUls?=
- =?utf-8?B?bmJtRmZlKzRKM2RjdVlWeDZIYUp5a0N6YUs0R0RMNnAyQzkzWlRrNmdpbzZS?=
- =?utf-8?B?bU00djZPNS9PSFRWaisrR21OS25XOVoyb3pXenMzK2djVWZ2WkNXS2pFN0Vh?=
- =?utf-8?B?ZlVaVXBHQktrZ29sRkIxUHg1YzM4TDRVREZtMU5PemJqMzEvbFE4d3hoU2hD?=
- =?utf-8?B?cUN6bE9DYnlvQW9JcmNmeXZxdlY0M2huZW12UGtSa3gvanROakIrRjVTTC9h?=
- =?utf-8?B?VDNRenRYY1ljZVZDMS9WTzQ0WmN4djZmNExuOER4RnF1RWlsNFExem53U3Zs?=
- =?utf-8?B?NEVSMmZWRkZrOFpSeE5oY25sazVYZHlIVlA2SWRMcVc2ZEdBVVJSYTFRcEJl?=
- =?utf-8?B?V08rMkQyck41UXBITzZHbmhQek5PaXFxS28zSSt2YXh0ZExuRmE0eC9mc0tE?=
- =?utf-8?B?eW9OYjZhVkVqQ2J3Uk4yTTI2WUtVR25tMUFpWWhEUzlIODJWckMxQTVZM0N5?=
- =?utf-8?B?TzlCQTJ6bXRBQkw0cVVWTk5zUm5YaFZ4TWxnMytURkNFVHl0YTMvYThwRmdo?=
- =?utf-8?Q?0vfvkMXkvyQlmwNFYRzTzFmsqQFSgJWK9VPhHkhSpHv/?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <952301387E5E8840AAE94E097CD41228@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ux3uHdoE;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c594196344so88170021fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 05:42:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700055745; x=1700660545; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Npz3xxi7v4n3EjNZxhztEhJYHH9McnFtqWxezrjBoRw=;
+        b=Ux3uHdoEuWSC/+uEhJo3LBreYtUJBYS0vRj3HLx8N/y47tF+4SD4NQCIK5SoRmQIae
+         CB2kgUk6iiid6CcrJW/P0ybE4qNNGbgJvp+M5bR/a5kpkHus31uQtR01+tXVwTAl1ean
+         WzkzBy+1JOb3ir0V+VajTtOr2MvbZv/tsgmzc00jojq4jhNvMkweh8QPl3wLMjavmjMV
+         sGHdixscDWscNiG9S+2/MqRhS46ZZW8DuwXowM710uEL+fOWOfQ7GpcBPW/cS7qWPsC6
+         dhmTKQgMjKfbfzRcKinRxW6wxN9UwU+660p7/bUNpXoMrXy+yznSH5lW9gIN85nviuGG
+         K2Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700055745; x=1700660545;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Npz3xxi7v4n3EjNZxhztEhJYHH9McnFtqWxezrjBoRw=;
+        b=NkxHNf0PsjyXjPy1WehO4r1JW3wBlz0JdD+kv8N/XBO18b234cwsbqxVdUsdLGnOM3
+         ndFE3dZczaqVjCp5o42f8S9nWgR3EhczhJuObkWuZeQ2f2jUX9q+npdTxiMJbY+2kAup
+         9JWemrjE8iNn1uIjQ772hRZDTOZSftJ+5ygWQPR52ifTu2xgIjrO8WWwD81pHTzItzdX
+         54edObHvTy2IAGK+F4/odUM2YNVS8toLl/O5aeROpzlaLlnNdJr904FbVOLkFajhBPo0
+         d58z5/p/w8ftJ3pFSLsTDEUxGIg5diEaUmoMu+zFrV6C47DuJkeRVisoQZ7uapBwbzwf
+         iFEA==
+X-Gm-Message-State: AOJu0YxKfceObZ8EJ4PmG4300lkqu/ouP82kHQi5GCTi6+NPBqKonBoC
+	ZGsy6nVTlUybzTfkIB5Nt5+Wwq9hmS0bxXmy7uY=
+X-Google-Smtp-Source: AGHT+IESO7TAl/mtYcoJZFrFMHdKlDnXMcgqeFY4I09T5vygw0QMEuLevH8FObvIErFwxNmBczOd2WGS7jwfEd9CCMM=
+X-Received: by 2002:a2e:b5d0:0:b0:2c8:3613:d07c with SMTP id
+ g16-20020a2eb5d0000000b002c83613d07cmr3341398ljn.12.1700055745337; Wed, 15
+ Nov 2023 05:42:25 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64f743f7-8cd9-43d6-92be-08dbe5e0a56d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2023 13:42:01.3582
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0BAGjNTsct2o+xHAuP779dFL/R2AStQqwcH1SpqqvFcXmYw7EyD7AaI4VxW7AzqOYYAohtJdtmC8KIngUPwrLA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB4841
+References: <20231114215335.1308211-1-raj.khem@gmail.com> <2023111510065022f67321@mail.local>
+In-Reply-To: <2023111510065022f67321@mail.local>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 Nov 2023 14:42:13 +0100
+Message-ID: <CANNYZj8joL0MDw+i5zcB9xYH0bHD4Gt8YbPBQutOczp0j0dKAg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] vte: Upgrade to 0.74.1
+To: alexandre.belloni@bootlin.com
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 13:42:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190596
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 13:42:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190597
 
-T24gV2VkLCAyMDIzLTExLTE1IGF0IDEzOjM1ICswMTAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90
-ZToNCj4gT24gVHVlLCAxNCBOb3YgMjAyMyBhdCAyMTozNiwgSm9ha2ltIFRqZXJubHVuZCB2aWEN
-Cj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA8Sm9ha2ltLlRqZXJubHVuZD1pbmZpbmVyYS5j
-b21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+ID4gQWRkIHN1cHBvcnQgZm9yIGNy
-ZWF0aW5nIHBhc3N3ZCBmaWxlcyBpbiBhIC9ldGMgc3ViZGlyDQo+ID4gK1N1YmplY3Q6IFtQQVRD
-SF0gRGVmaW5lIFNVQlVJRF9GSUxFL1NVQkdJRF9GSUxFDQo+ID4gKw0KPiA+ICtVcHN0cmVhbS1T
-dGF0dXM6IFBlbmRpbmcNCj4gDQo+IFBlbmRpbmcuLi4gd2hhdCBleGFjdGx5Pw0KDQpQZW5kaW5n
-IG1lcmdlDQo+IA0KPiBJbiBvdGhlciB3b3JkcywgdXBzdHJlYW0gZmlyc3QsIHBsZWFzZS4gVGhp
-cyBpcyBjbGVhcmx5IG5vdCBzb21ldGhpbmcNCj4gdGhhdCBvZS1jb3JlIHNob3VsZCBub3QgYmUg
-Y2FycnlpbmcgYW5kIG1haW50YWluaW5nIGFuZCByZWJhc2luZy4NCg0KVXBzdHJlYW0gbWVyZ2Vk
-IGl0LCBzZWUgIGh0dHBzOi8vZ2l0aHViLmNvbS9zaGFkb3ctbWFpbnQvc2hhZG93L2NvbW1pdC9l
-ZTNhNzljNjk1MmY4Y2E2NDljMjg2YzdmNzY2MzlkOWQxZGVkYWFkDQoNCiBKb2NrZQ0KDQo=
+Please note also the earlier patch by Markus Volk, we nearly got it to
+merging until a snag with rust on x32. I suspect that snag may have
+been resolved since, and in any case I suggest you Khem take that
+patch instead and push it forward, it's nearly ready unlike this one.
+
+Alex
+
+On Wed, 15 Nov 2023 at 11:06, Alexandre Belloni via
+lists.openembedded.org
+<alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
+>
+> Hello,
+>
+> The added dependency fails on the AB:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6196/st=
+eps/13/logs/warnings
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/8464/st=
+eps/12/logs/warnings
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/39/builds/8169/st=
+eps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/8168/st=
+eps/20/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/8114/st=
+eps/11/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/7488/st=
+eps/12/logs/warnings
+>
+> On 14/11/2023 13:53:29-0800, Khem Raj wrote:
+> > * Enable systemd knob for distros with systemd in them.
+> > * Add dependency on gtk4 which is needed
+> > * Package systemd unit files
+> > * Add packageconfig for fribidi defaulted to disabled
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  ...01-Add-W_EXITCODE-macro-for-non-glibc-systems.patch |  4 ++--
+> >  .../vte/{vte_0.72.2.bb =3D> vte_0.74.1.bb}               | 10 ++++++--=
+--
+> >  2 files changed, 8 insertions(+), 6 deletions(-)
+> >  rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.1.bb} (80=
+%)
+> >
+> > diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for=
+-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
+-macro-for-non-glibc-systems.patch
+> > index b4100fc381e..daf07bfd3c9 100644
+> > --- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-gl=
+ibc-systems.patch
+> > +++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-gl=
+ibc-systems.patch
+> > @@ -19,7 +19,7 @@ Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gma=
+il.com>
+> >
+> >  --- a/src/missing.hh
+> >  +++ b/src/missing.hh
+> > -@@ -24,6 +24,10 @@
+> > +@@ -43,6 +43,10 @@
+> >   #define NSIG (8 * sizeof(sigset_t))
+> >   #endif
+> >
+> > @@ -27,7 +27,7 @@ Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gma=
+il.com>
+> >  +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+> >  +#endif
+> >  +
+> > - #ifndef HAVE_FDWALK
+> > + #if !HAVE_FDWALK
+> >   int fdwalk(int (*cb)(void* data, int fd),
+> >              void* data);
+> >  --- a/src/widget.cc
+> > diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-supp=
+ort/vte/vte_0.74.1.bb
+> > similarity index 80%
+> > rename from meta/recipes-support/vte/vte_0.72.2.bb
+> > rename to meta/recipes-support/vte/vte_0.74.1.bb
+> > index 44e71491f62..2f0448edb3c 100644
+> > --- a/meta/recipes-support/vte/vte_0.72.2.bb
+> > +++ b/meta/recipes-support/vte/vte_0.74.1.bb
+> > @@ -11,16 +11,16 @@ LIC_FILES_CHKSUM =3D " \
+> >      file://COPYING.XTERM;md5=3Dd7fc3a23c16c039afafe2e042030f057 \
+> >  "
+> >
+> > -DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gp=
+erf-native icu"
+> > +DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 gtk4 libpcre2 libxml2-nati=
+ve gperf-native icu"
+> >
+> >  GIR_MESON_OPTION =3D 'gir'
+> >  GIDOCGEN_MESON_OPTION =3D "docs"
+> >
+> > -inherit gnomebase gi-docgen features_check upstream-version-is-even go=
+bject-introspection
+> > +inherit gnomebase gi-docgen features_check upstream-version-is-even go=
+bject-introspection systemd
+> >
+> >  # vapigen.m4 is required when vala is not present (but the one from va=
+la should be used normally)
+> >  SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.p=
+atch"
+> > -SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e60649=
+5155d6f5827b72aa0dd6741c9e"
+> > +SRC_URI[archive.sha256sum] =3D "2328c3f1c998350a18e0e513348e9fc581d57e=
+a4e7b89aedf11e0e3c65042b4f"
+> >
+> >  ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+> >
+> > @@ -32,8 +32,9 @@ do_compile:prepend() {
+> >  # Package additional files
+> >  FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
+> >
+> > -PACKAGECONFIG ??=3D "gnutls"
+> > +PACKAGECONFIG ??=3D "gnutls ${@bb.utils.filter('DISTRO_FEATURES', 'sys=
+temd', d)}"
+> >  PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala=
+"
+> > +PACKAGECONFIG[fribidi] =3D "-Dfribidi=3Dtrue,-Dfribidi=3Dfalse,fribidi=
+"
+> >  PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+> >  PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,syste=
+md"
+> >  # vala requires gir
+> > @@ -42,6 +43,7 @@ PACKAGECONFIG:remove:class-native =3D "vala"
+> >  CFLAGS +=3D "-D_GNU_SOURCE"
+> >
+> >  PACKAGES =3D+ "libvte ${PN}-prompt"
+> > +FILES:${PN} +=3D "${systemd_user_unitdir}"
+> >  FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+> >  FILES:${PN}-prompt =3D " \
+> >      ${sysconfdir}/profile.d \
+> > --
+> > 2.42.1
+> >
+>
+> >
+> >
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#190581): https://lists.openembedded.org/g/openembedde=
+d-core/message/190581
+> Mute This Topic: https://lists.openembedded.org/mt/102593386/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
