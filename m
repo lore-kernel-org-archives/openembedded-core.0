@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFAB5C54F92
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01DB6C54F93
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:13 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.14616.1700059029003989944
+ by mx.groups.io with SMTP id smtpd.web11.14616.1700059029454168216
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Nov 2023 06:37:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=B18lTpMO;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dKy8etcp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018bd36a22ee-5e547319-b6ce-4021-8050-bad8e6c31904-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=I7ePlG/y;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QEBS8Wzc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018bd36a2401-571fa624-e53f-4619-9d7e-1b2fdf576702-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700059031;
+	t=1700059030;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=jyja4aIl/wHGIenfxQtSuIyFX9/CkZYmpBt0Pv6xnt4=;
-	b=B18lTpMOvCMhBuQVxH/Obxh9mzucKPe3ZmUF7vHrNytVVoMh18470/kSdZ/kmu/5
-	urcsFbrjbS84SKWuy+NrVVRrW8gDII7K72H1ZOE0iBYD2RME9IQROJmdPjPRnwy9api
-	Sw6x3yVAKN2yC32m4gsutpkGCuNjn0K0wq0m0xfc=
+	bh=Ib+XIwOv/bnFd0ldL3aayWBtzxEKz8EAl7pRBfPUcic=;
+	b=I7ePlG/yjquDitjDxvecdR4G7DDgtw6R08FNrQ+KDq6YqvCtFl94yaDJtF5yoCWR
+	r9808FUgfTJGtCL8ScnKnjkJoXmk7Z3zbIqpeIm8LeQH6SnJ/5EsLDdQJC+07sbbPpd
+	t+Of7SUmrYC0ENG+8sx9o1Vad1RJYBVTKLMx+47Y=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059031;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059030;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=jyja4aIl/wHGIenfxQtSuIyFX9/CkZYmpBt0Pv6xnt4=;
-	b=dKy8etcp+vjssP+z6U4OaBjenCIRLXDY9XGxWkZn5erXJZFOx2MO4JTWyJCCjMLm
-	RWqDl93CTbToMgeLo7CNjQhTz1CL6CxVe7FWixbJhafrlAbXhw942iNAG/+DOIcnDh6
-	xzqOEQCaaFoAABFkb2jLWa1L7Pmb03G4pZA+EWMI=
-Content-Type: multipart/mixed; boundary="===============4891118482175497361=="
+	bh=Ib+XIwOv/bnFd0ldL3aayWBtzxEKz8EAl7pRBfPUcic=;
+	b=QEBS8WzcUpfHmrlMdFUYadUijpVl/iLW7hs+bjxzZoiZm4SnLX7reXXUsr40ln1o
+	LPchFrfIVTTq05k7K4A+5g7tlxh1AAyGRwKbC8Ij1RnF4H8oEXJs2RUHxEgsRFsRHMW
+	H1PlQzWHtPftX5E3BJ83GKalba3k1owMHIjfZAys=
+Content-Type: multipart/mixed; boundary="===============3536172977096450492=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Zang Ruochen <zangruochen@loongson.cn>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pbr: upgrading to 6.0.0 SUCCEEDED
-Message-ID: <0101018bd36a22ee-5e547319-b6ce-4021-8050-bad8e6c31904-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-trove-classifiers: upgrading to 2023.11.14 SUCCEEDED
+Message-ID: <0101018bd36a2401-571fa624-e53f-4619-9d7e-1b2fdf576702-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Nov 2023 14:37:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.11.15-54.240.27.31
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190655
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190652
 
---===============4891118482175497361==
+--===============3536172977096450492==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pbr* to *6.0.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-trove-classifiers* to *2023.11.14* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pbr-upgrade-5.11.1-6.0.0.patch
+    - apply the patch: git am 0001-python3-trove-classifiers-upgrade-2023.10.18-2023.11.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,77 +72,64 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 78b1eaadef4e366cfebcf4173b17bbc668871d5f Mon Sep 17 00:00:00 2001
+From cebd2035e0b71b6d50ff6b8f2a364ca85cd3e45c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Nov 2023 07:33:06 +0000
-Subject: [PATCH] python3-pbr: upgrade 5.11.1 -> 6.0.0
+Date: Wed, 15 Nov 2023 07:50:17 +0000
+Subject: [PATCH] python3-trove-classifiers: upgrade 2023.10.18 -> 2023.11.14
 
 ---
- .../python/{python3-pbr_5.11.1.bb => python3-pbr_6.0.0.bb}      | 2 +-
+ ...rs_2023.10.18.bb => python3-trove-classifiers_2023.11.14.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pbr_5.11.1.bb => python3-pbr_6.0.0.bb} (33%)
+ rename meta/recipes-devtools/python/{python3-trove-classifiers_2023.10.18.bb => python3-trove-classifiers_2023.11.14.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-pbr_5.11.1.bb b/meta/recipes-devtools/python/python3-pbr_6.0.0.bb
-similarity index 33%
-rename from meta/recipes-devtools/python/python3-pbr_5.11.1.bb
-rename to meta/recipes-devtools/python/python3-pbr_6.0.0.bb
-index 520dbef8dd..6c8171196a 100644
---- a/meta/recipes-devtools/python/python3-pbr_5.11.1.bb
-+++ b/meta/recipes-devtools/python/python3-pbr_6.0.0.bb
-@@ -1,4 +1,4 @@
- inherit setuptools3
- require python-pbr.inc
+diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2023.10.18.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-trove-classifiers_2023.10.18.bb
+rename to meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb
+index b0c1b84cc5..a6c7e95c51 100644
+--- a/meta/recipes-devtools/python/python3-trove-classifiers_2023.10.18.bb
++++ b/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
--SRC_URI[sha256sum] = "aefc51675b0b533d56bb5fd1c8c6c0522fe31896679882e1c4c63d5e4a0fccb3"
-+SRC_URI[sha256sum] = "d1377122a5a00e2f940ee482999518efe16d745d423a670c27773dfbc3c9a7d9"
+-SRC_URI[sha256sum] = "2cdfcc7f31f7ffdd57666a9957296089ac72daad4d11ab5005060e5cd7e29939"
++SRC_URI[sha256sum] = "64b5e78305a5de347f2cd7ec8c12d704a3ef0cb85cc10c0ca5f73488d1c201f8"
+ 
+ inherit pypi python_setuptools_build_meta ptest
+ 
 -- 
 2.39.2
 
 
---===============4891118482175497361==
+--===============3536172977096450492==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pbr: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pbr/pbr-5.11.1.tar.gz;downloadfilename=pbr-5.11.1.tar.gz file://0001-change-shebang-to-python3.patch" to "https://files.pythonhosted.org/packages/source/p/pbr/pbr-6.0.0.tar.gz;downloadfilename=pbr-6.0.0.tar.gz file://0001-change-shebang-to-python3.patch"
-packages/core2-64-poky-linux/python3-pbr: PKGV changed from 5.11.1 [default] to 6.0.0 [default]
-packages/core2-64-poky-linux/python3-pbr: PV changed from "5.11.1" to "6.0.0"
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-dbg: PKGV changed from 5.11.1 [default] to 6.0.0 [default]
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-dbg: PV changed from "5.11.1" to "6.0.0"
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-dev: PKGV changed from 5.11.1 [default] to 6.0.0 [default]
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-dev: PV changed from "5.11.1" to "6.0.0"
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-doc: PKGV changed from 5.11.1 [default] to 6.0.0 [default]
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-doc: PV changed from "5.11.1" to "6.0.0"
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-locale: PKGV changed from 5.11.1 [default] to 6.0.0 [default]
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-locale: PV changed from "5.11.1" to "6.0.0"
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-src: PKGV changed from 5.11.1 [default] to 6.0.0 [default]
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-src: PV changed from "5.11.1" to "6.0.0"
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-staticdev: PKGV changed from 5.11.1 [default] to 6.0.0 [default]
-packages/core2-64-poky-linux/python3-pbr/python3-pbr-staticdev: PV changed from "5.11.1" to "6.0.0"
-packages/core2-64-poky-linux/python3-pbr/python3-pbr: FILELIST: directory renamed /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info -> /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info, removed "/usr/lib/python3.11/site-packages/pbr/__pycache__/builddoc.cpython-311.pyc /usr/lib/python3.11/site-packages/pbr/builddoc.py"
-packages/core2-64-poky-linux/python3-pbr/python3-pbr: PKGV changed from 5.11.1 [default] to 6.0.0 [default]
-packages/core2-64-poky-linux/python3-pbr/python3-pbr: PKGSIZE changed from 698124 to 650913 (-7%)
-packages/core2-64-poky-linux/python3-pbr/python3-pbr: PV changed from "5.11.1" to "6.0.0"
-Changes to packages/core2-64-poky-linux/python3-pbr (sysroot):
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/AUTHORS was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/LICENSE was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/AUTHORS was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/entry_points.txt was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/LICENSE was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/WHEEL was removed
-  /usr/lib/python3.11/site-packages/pbr/builddoc.py was removed
-  /usr/lib/python3.11/site-packages/pbr/__pycache__/builddoc.cpython-311.pyc was removed
+packages/core2-64-poky-linux/python3-trove-classifiers: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/trove-classifiers/trove-classifiers-2023.10.18.tar.gz;downloadfilename=trove-classifiers-2023.10.18.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/t/trove-classifiers/trove-classifiers-2023.11.14.tar.gz;downloadfilename=trove-classifiers-2023.11.14.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/python3-trove-classifiers: PV changed from "2023.10.18" to "2023.11.14"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dbg: PV changed from "2023.10.18" to "2023.11.14"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-dev: PV changed from "2023.10.18" to "2023.11.14"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-doc: PV changed from "2023.10.18" to "2023.11.14"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-locale: PV changed from "2023.10.18" to "2023.11.14"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-ptest: PV changed from "2023.10.18" to "2023.11.14"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-src: PV changed from "2023.10.18" to "2023.11.14"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers-staticdev: PV changed from "2023.10.18" to "2023.11.14"
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGV changed from 2023.10.18 [default] to 2023.11.14 [default]
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PKGSIZE changed from 90712 to 91028 (+0%)
+packages/core2-64-poky-linux/python3-trove-classifiers/python3-trove-classifiers: PV changed from "2023.10.18" to "2023.11.14"
+Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.11/site-packages/trove_classifiers-2023.10.18.dist-info moved to /usr/lib/python3.11/site-packages/trove_classifiers-2023.11.14.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1779,33 +1766,50 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.11/site-packages/trove_classifiers-2023.10.18.dist-info moved to /usr/lib/python3.11/site-packages/trove_classifiers-2023.11.14.dist-info
 
---===============4891118482175497361==
+--===============3536172977096450492==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-trove-classifiers-upgrade-2023.10.18-2023.11.patch"
+
+RnJvbSBjZWJkMjAzNWUwYjcxYjZkNTBmZjZiOGYyYTM2NGNhODVjZDNlNDVjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDc6NTA6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzOiB1cGdyYWRlIDIwMjMuMTAuMTggLT4gMjAyMy4xMS4x
+NAoKLS0tCiAuLi5yc18yMDIzLjEwLjE4LmJiID0+IHB5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnNf
+MjAyMy4xMS4xNC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEg
+ZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24z
+LXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjMuMTAuMTguYmIgPT4gcHl0aG9uMy10cm92ZS1jbGFzc2lm
+aWVyc18yMDIzLjExLjE0LmJifSAoODclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVyc18yMDIzLjEwLjE4LmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjMu
+MTEuMTQuYmIKc2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzXzIwMjMuMTAuMTguYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lm
+aWVyc18yMDIzLjExLjE0LmJiCmluZGV4IGIwYzFiODRjYzUuLmE2YzdlOTVjNTEgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10cm92ZS1jbGFzc2lmaWVy
+c18yMDIzLjEwLjE4LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My10cm92ZS1jbGFzc2lmaWVyc18yMDIzLjExLjE0LmJiCkBAIC0zLDcgKzMsNyBAQCBIT01FUEFH
+RSA9ICJodHRwczovL2dpdGh1Yi5jb20vcHlwYS90cm92ZS1jbGFzc2lmaWVycyIKIExJQ0VOU0Ug
+PSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTg2
+ZDNmM2E5NWMzMjRjOTQ3OWJkODk4Njk2OGY0MzI3IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAi
+MmNkZmNjN2YzMWY3ZmZkZDU3NjY2YTk5NTcyOTYwODlhYzcyZGFhZDRkMTFhYjUwMDUwNjBlNWNk
+N2UyOTkzOSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2NGI1ZTc4MzA1YTVkZTM0N2YyY2Q3ZWM4
+YzEyZDcwNGEzZWYwY2I4NWNjMTBjMGNhNWY3MzQ4OGQxYzIwMWY4IgogCiBpbmhlcml0IHB5cGkg
+cHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YSBwdGVzdAogCi0tIAoyLjM5LjIKCg==
+
+--===============3536172977096450492==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-pbr/python3-pbr: FILELIST: directory renamed /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info -> /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info, removed "/usr/lib/python3.11/site-packages/pbr/builddoc.py /usr/lib/python3.11/site-packages/pbr/__pycache__/builddoc.cpython-311.pyc"
-Changes to packages/core2-64-poky-linux/python3-pbr (sysroot):
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/AUTHORS was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/LICENSE was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/pbr-6.0.0.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/AUTHORS was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/entry_points.txt was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/LICENSE was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/pbr-5.11.1.dist-info/WHEEL was removed
-  /usr/lib/python3.11/site-packages/pbr/builddoc.py was removed
-  /usr/lib/python3.11/site-packages/pbr/__pycache__/builddoc.cpython-311.pyc was removed
+Changes to packages/core2-64-poky-linux/python3-trove-classifiers (sysroot):
+  /usr/lib/python3.11/site-packages/trove_classifiers-2023.10.18.dist-info moved to /usr/lib/python3.11/site-packages/trove_classifiers-2023.11.14.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3442,34 +3446,8 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-trove-classifiers-native (sysroot):
+  /usr/lib/python3.11/site-packages/trove_classifiers-2023.10.18.dist-info moved to /usr/lib/python3.11/site-packages/trove_classifiers-2023.11.14.dist-info
 
---===============4891118482175497361==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pbr-upgrade-5.11.1-6.0.0.patch"
-
-RnJvbSA3OGIxZWFhZGVmNGUzNjZjZmViY2Y0MTczYjE3YmJjNjY4ODcxZDVmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDc6MzM6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBicjogdXBncmFkZSA1LjExLjEgLT4gNi4wLjAKCi0tLQogLi4uL3B5dGhvbi97cHl0
-aG9uMy1wYnJfNS4xMS4xLmJiID0+IHB5dGhvbjMtcGJyXzYuMC4wLmJifSAgICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1wYnJfNS4xMS4xLmJiID0+IHB5dGhv
-bjMtcGJyXzYuMC4wLmJifSAoMzMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1wYnJfNS4xMS4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXBicl82LjAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDMzJQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGJyXzUuMTEuMS5iYgpyZW5h
-bWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBicl82LjAuMC5iYgpp
-bmRleCA1MjBkYmVmOGRkLi42YzgxNzExOTZhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGJyXzUuMTEuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGJyXzYuMC4wLmJiCkBAIC0xLDQgKzEsNCBAQAogaW5oZXJp
-dCBzZXR1cHRvb2xzMwogcmVxdWlyZSBweXRob24tcGJyLmluYwogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiYWVmYzUxNjc1YjBiNTMzZDU2YmI1ZmQxYzhjNmMwNTIyZmUzMTg5NjY3OTg4MmUxYzRj
-NjNkNWU0YTBmY2NiMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkMTM3NzEyMmE1YTAwZTJmOTQw
-ZWU0ODI5OTk1MThlZmUxNmQ3NDVkNDIzYTY3MGMyNzc3M2RmYmMzYzlhN2Q5IgotLSAKMi4zOS4y
-Cgo=
-
---===============4891118482175497361==--
+--===============3536172977096450492==--
 
