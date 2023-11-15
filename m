@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A46C5AE5E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AABE6C5B55F
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:16 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.14640.1700059033586237539
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.14613.1700059029150162965
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Nov 2023 06:37:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=L1i4rDEZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZLTe0X47;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018bd36a2dad-2436642b-ad87-4acb-9b34-62aacb0b1314-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OxocV4h0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=WXcqnbhj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018bd36a2c2b-37f75948-a579-419c-90f5-e0b0cd1d5b47-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1700059033;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pDtFBB4EbaUYFOpMUdkBwA6t5f9ZAxQOk03P9YSb8Dc=;
-	b=L1i4rDEZUfTpwXhtSJb6+8xMTvOVDwutnBfrueT9/F7+NLfbBgjbVujC6Ld6J57j
-	sHAuNcvGv0R4BIh8vbRgD8wUvci1Qri0H2oQXM7JE4u5mb0fNKznB5KYn8b3pYno0w6
-	NpQhPJK3PhZQjibOmdaReLfjLU7Ne9RTOXZn7Y0E=
+	bh=HMuMaaw0L1DP6D/ePSTQvOM19Swi+c3l3eIuI2f9bkA=;
+	b=OxocV4h0LOccJBKWoyhNEws7p2JxZ+ad1neT9LwLsRfRcBxFAeqDfyE6X9edvrM1
+	wxvMILyGn5Tq6UXhcvQgi6VW0E8En0xbe3V+LZhNPcl3leK6MPvMpsHvZylin6yuhHf
+	496I+q1vSrrJYPwul/naSXBNOTFCfVKmWA/rQ/X8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059033;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pDtFBB4EbaUYFOpMUdkBwA6t5f9ZAxQOk03P9YSb8Dc=;
-	b=ZLTe0X47WoJupOKGJETjm7sxjG7TebpmbCSRRyHEvHXAU591kmn10M1l91kCwNii
-	tnvuMwY7eY2F+y8Tyl/ACLjBU6YE8C0bzaRZY27fepzqxtpTQGt334+ShXy5GJhINbx
-	bdB1IC5cBVIv18B9GON2HRfqA519usM+xhvVt4Cg=
-Content-Type: multipart/mixed; boundary="===============0453630578686506805=="
+	bh=HMuMaaw0L1DP6D/ePSTQvOM19Swi+c3l3eIuI2f9bkA=;
+	b=WXcqnbhjqyZPtB2EN8sVaFkW9MoiiGwE08qj1UFgGgcuwmsjiemQNzrs73x0dkKC
+	FH8jXc9DkivOgHb+QErJ4lELIcSDTM/nxT/caGdzP4sKHegnGvUQIcCsgTioddxStOl
+	TOH//7/LViRHkfGRCPTB+oCQc7LlDRC/eLSs2mDs=
+Content-Type: multipart/mixed; boundary="===============8120749401448466693=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0: upgrading to 1.22.7 SUCCEEDED
-Message-ID: <0101018bd36a2dad-2436642b-ad87-4acb-9b34-62aacb0b1314-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Nov 2023 14:37:13 +0000
+Subject: [AUH] gstreamer1.0-plugins-bad: upgrading to 1.22.7 SUCCEEDED
+Message-ID: <0101018bd36a2c2b-37f75948-a579-419c-90f5-e0b0cd1d5b47-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Nov 2023 14:37:12 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.192
+X-SES-Outgoing: 2023.11.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190722
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190723
 
---===============0453630578686506805==
+--===============8120749401448466693==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0* to *1.22.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-bad* to *1.22.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-upgrade-1.22.6-1.22.7.patch
+    - apply the patch: git am 0001-gstreamer1.0-plugins-bad-upgrade-1.22.6-1.22.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,416 +72,463 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5eb937e12aa4fda46e571330316a08b5701f71e5 Mon Sep 17 00:00:00 2001
+From 9f17ec076e83190aba3d8def6c945c2e9dbaef85 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Nov 2023 13:35:44 +0000
-Subject: [PATCH] gstreamer1.0: upgrade 1.22.6 -> 1.22.7
+Date: Wed, 15 Nov 2023 13:04:41 +0000
+Subject: [PATCH] gstreamer1.0-plugins-bad: upgrade 1.22.6 -> 1.22.7
 
 ---
- .../{gstreamer1.0_1.22.6.bb => gstreamer1.0_1.22.7.bb}          | 2 +-
+ ...plugins-bad_1.22.6.bb => gstreamer1.0-plugins-bad_1.22.7.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.22.6.bb => gstreamer1.0_1.22.7.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.22.6.bb => gstreamer1.0-plugins-bad_1.22.7.bb} (98%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.7.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.7.bb
-index a898464322..72161b272f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.7.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3 \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.7.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.7.bb
+index 3db7ddff5f..b7d787b611 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.7.bb
+@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
             "
--SRC_URI[sha256sum] = "f500e6cfddff55908f937711fc26a0840de28a1e9ec49621c0b6f1adbd8f818e"
-+SRC_URI[sha256sum] = "01e42c6352a06bdfa4456e64b06ab7d98c5c487a25557c761554631cbda64217"
+-SRC_URI[sha256sum] = "b4029cd2908a089c55f1d902a565d007495c95b1442d838485dc47fb12df7137"
++SRC_URI[sha256sum] = "c716f8dffa8fac3fb646941af1c6ec72fff05a045131311bf2d049fdc87bce2e"
  
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
 -- 
 2.39.2
 
 
---===============0453630578686506805==
+--===============8120749401448466693==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-bash-completion: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dbg: PKGSIZE changed from 15609998 to 15610766 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dbg: FILELIST: removed "/usr/lib/.debug/libgstnet-1.0.so.0.2206.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2206.0-gdb.py /usr/lib/.debug/libgstreamer-1.0.so.0.2206.0 /usr/lib/.debug/libgstcontroller-1.0.so.0.2206.0 /usr/lib/.debug/libgstcheck-1.0.so.0.2206.0 /usr/lib/.debug/libgstbase-1.0.so.0.2206.0", added "/usr/lib/.debug/libgstcheck-1.0.so.0.2207.0 /usr/lib/.debug/libgstnet-1.0.so.0.2207.0 /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2207.0-gdb.py /usr/lib/.debug/libgstcontroller-1.0.so.0.2207.0 /usr/lib/.debug/libgstreamer-1.0.so.0.2207.0 /usr/lib/.debug/libgstbase-1.0.so.0.2207.0"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dev: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-dev: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-doc: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-doc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-af: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ast: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-az: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-be: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-bg: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ca: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-cs: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-da: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-de: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-el: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-en-gb: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-eo: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-es: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-eu: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fi: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fr: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-fur: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-gl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-hr: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-hu: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-id: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-it: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ja: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ka: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ko: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-lt: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-nb: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-nl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-pl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-pt-br: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ro: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-ru: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-rw: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sk: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sq: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sr: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-sv: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-tr: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-uk: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-vi: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-cn: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-locale-zh-tw: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-ptest: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-src: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-src: PKGSIZE changed from 9395019 to 9395235 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0-staticdev: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstnet-1.0.so.0.2206.0 /usr/lib/libgstreamer-1.0.so.0.2206.0 /usr/lib/libgstcheck-1.0.so.0.2206.0 /usr/lib/libgstcontroller-1.0.so.0.2206.0 /usr/lib/libgstbase-1.0.so.0.2206.0", added "/usr/lib/libgstnet-1.0.so.0.2207.0 /usr/lib/libgstreamer-1.0.so.0.2207.0 /usr/lib/libgstcontroller-1.0.so.0.2207.0 /usr/lib/libgstcheck-1.0.so.0.2207.0 /usr/lib/libgstbase-1.0.so.0.2207.0"
-packages/core2-64-poky-linux/gstreamer1.0: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.22.6.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3" to "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.22.7.tar.xz file://run-ptest file://0001-tests-respect-the-idententaion-used-in-meson.patch file://0002-tests-add-support-for-install-the-tests.patch file://0003-tests-use-a-dictionaries-for-environment.patch;striplevel=3 file://0004-tests-add-helper-script-to-run-the-installed_tests.patch;striplevel=3"
-packages/core2-64-poky-linux/gstreamer1.0: PV changed from "1.22.6" to "1.22.7"
-packages/core2-64-poky-linux/gstreamer1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
-Changes to packages/core2-64-poky-linux/gstreamer1.0 (sysroot):
-  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2206.0 to libgstbase-1.0.so.0.2207.0
-  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2206.0 to libgstcheck-1.0.so.0.2207.0
-  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2206.0 to libgstcontroller-1.0.so.0.2207.0
-  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2206.0 to libgstnet-1.0.so.0.2207.0
-  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2206.0 to libgstreamer-1.0.so.0.2207.0
-  /usr/lib/libgstbase-1.0.so.0.2206.0 moved to /usr/lib/libgstbase-1.0.so.0.2207.0
-  /usr/lib/libgstcheck-1.0.so.0.2206.0 moved to /usr/lib/libgstcheck-1.0.so.0.2207.0
-  /usr/lib/libgstcontroller-1.0.so.0.2206.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2207.0
-  /usr/lib/libgstnet-1.0.so.0.2206.0 moved to /usr/lib/libgstnet-1.0.so.0.2207.0
-  /usr/lib/libgstreamer-1.0.so.0.2206.0 moved to /usr/lib/libgstreamer-1.0.so.0.2207.0
-  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2206.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2207.0-gdb.py
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-accurip: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-accurip: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmdec: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmdec: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmenc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmenc: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aes: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aes: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aiff: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aiff: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-apps: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-apps: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-asfmux: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-asfmux: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiobuffersplit: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiobuffersplit: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiofxbad: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiofxbad: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiolatency: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiolatency: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiomixmatrix: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiomixmatrix: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiovisualizers: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiovisualizers: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-autoconvert: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-autoconvert: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-badaudio-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-badaudio-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bayer: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bayer: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bluez: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bluez: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bz2: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bz2: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-camerabin: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-camerabin: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-closedcaption: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-closedcaption: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecalpha: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecalpha: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecs-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecs-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codectimestamper: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codectimestamper: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-coloreffects: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-coloreffects: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-cuda-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-cuda-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-curl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-curl: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dash: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dash: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: FILELIST: removed "/usr/lib/.debug/libgsturidownloader-1.0.so.0.2206.0 /usr/lib/.debug/libgstplayer-1.0.so.0.2206.0 /usr/lib/.debug/libgstcodecs-1.0.so.0.2206.0 /usr/lib/.debug/libgstisoff-1.0.so.0.2206.0 /usr/lib/.debug/libgstbadaudio-1.0.so.0.2206.0 /usr/lib/.debug/libgstinsertbin-1.0.so.0.2206.0 /usr/lib/.debug/libgstphotography-1.0.so.0.2206.0 /usr/lib/.debug/libgstsctp-1.0.so.0.2206.0 /usr/lib/.debug/libgstadaptivedemux-1.0.so.0.2206.0 /usr/lib/.debug/libgstbasecamerabinsrc-1.0.so.0.2206.0 /usr/lib/.debug/libgstplay-1.0.so.0.2206.0 /usr/lib/.debug/libgstvulkan-1.0.so.0.2206.0 /usr/lib/.debug/libgstcodecparsers-1.0.so.0.2206.0 /usr/lib/.debug/libgstwayland-1.0.so.0.2206.0 /usr/lib/.debug/libgstmpegts-1.0.so.0.2206.0 /usr/lib/.debug/libgstcuda-1.0.so.0.2206.0 /usr/lib/.debug/libgstwebrtc-1.0.so.0.2206.0", added "/usr/lib/.debug/libgstplayer-1.0.so.0.2207.0 /usr/lib/.debug/libgstwebrtc-1.0.so.0.2207
+ .0 /usr/lib/.debug/libgstadaptivedemux-1.0.so.0.2207.0 /usr/lib/.debug/libgstphotography-1.0.so.0.2207.0 /usr/lib/.debug/libgstsctp-1.0.so.0.2207.0 /usr/lib/.debug/libgstbadaudio-1.0.so.0.2207.0 /usr/lib/.debug/libgstinsertbin-1.0.so.0.2207.0 /usr/lib/.debug/libgstcodecs-1.0.so.0.2207.0 /usr/lib/.debug/libgstplay-1.0.so.0.2207.0 /usr/lib/.debug/libgstwayland-1.0.so.0.2207.0 /usr/lib/.debug/libgstisoff-1.0.so.0.2207.0 /usr/lib/.debug/libgstcodecparsers-1.0.so.0.2207.0 /usr/lib/.debug/libgstmpegts-1.0.so.0.2207.0 /usr/lib/.debug/libgstvulkan-1.0.so.0.2207.0 /usr/lib/.debug/libgstbasecamerabinsrc-1.0.so.0.2207.0 /usr/lib/.debug/libgstcuda-1.0.so.0.2207.0 /usr/lib/.debug/libgsturidownloader-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PKGSIZE changed from 24864488 to 24866296 (+0%)
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-debugutilsbad: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-debugutilsbad: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PKGSIZE changed from 2930913 to 2930885 (-0%)
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-doc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-doc: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dtls: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dtls: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvb: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvb: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsubenc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsubenc: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsuboverlay: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsuboverlay: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvdspu: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvdspu: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-faceoverlay: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-faceoverlay: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fbdevsink: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fbdevsink: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-festival: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-festival: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fieldanalysis: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fieldanalysis: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-freeverb: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-freeverb: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-frei0r: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-frei0r: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gaudieffects: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gaudieffects: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gdp: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gdp: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-geometrictransform: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-geometrictransform: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-glib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-glib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-hls: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-hls: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-id3tag: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-id3tag: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-inter: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-inter: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-interlace: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-interlace: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ipcpipeline: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ipcpipeline: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivfparse: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivfparse: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivtc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivtc: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jp2kdecimator: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jp2kdecimator: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jpegformat: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jpegformat: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-legacyrawparse: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-legacyrawparse: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-af: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-af: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ast: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ast: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-az: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-az: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-bg: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-bg: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ca: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ca: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-cs: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-cs: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-da: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-da: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-de: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-de: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-el: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-el: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-en-gb: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-en-gb: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eo: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eo: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-es: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-es: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eu: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eu: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fi: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fi: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fr: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fr: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fur: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fur: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-gl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-gl: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hr: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hr: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hu: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hu: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-id: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-id: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-it: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-it: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ja: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ja: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ka: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ka: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ky: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ky: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lt: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lt: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lv: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lv: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-mt: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-mt: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nb: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nb: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nl: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-or: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-or: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pl: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pt-br: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pt-br: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ro: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ro: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ru: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ru: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sk: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sk: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sl: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sl: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sq: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sq: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sr: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sr: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sv: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sv: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-tr: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-tr: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-uk: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-uk: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-vi: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-vi: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-cn: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-cn: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-tw: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-tw: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-meta: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-meta: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsdemux: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsdemux: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsmux: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsmux: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegts-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegts-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsdemux: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsdemux: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsmux: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsmux: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mxf: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mxf: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-netsim: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-netsim: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pcapparse: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pcapparse: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-play-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-play-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-player-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-player-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pnm: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pnm: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-proxy: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-proxy: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-removesilence: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-removesilence: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rfbsrc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rfbsrc: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rist: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rist: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rsvg: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rsvg: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtmp2: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtmp2: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtpmanagerbad: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtpmanagerbad: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtponvif: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtponvif: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sbc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sbc: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sdpelem: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sdpelem: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-segmentclip: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-segmentclip: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-shm: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-shm: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-siren: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-siren: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smooth: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smooth: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smoothstreaming: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smoothstreaming: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sndfile: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sndfile: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-speed: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-speed: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PKGSIZE changed from 15055995 to 15054458 (-0%)
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-staticdev: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-staticdev: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-subenc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-subenc: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-switchbin: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-switchbin: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-timecode: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-timecode: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcode: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcode: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcoder-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcoder-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ttmlsubs: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ttmlsubs: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvch264: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvch264: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videofiltersbad: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videofiltersbad: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoframe-audiolevel: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoframe-audiolevel: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoparsersbad: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoparsersbad: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videosignal: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videosignal: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vmnc: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vmnc: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanwayland-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanwayland-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanxcb-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanxcb-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-waylandsink: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-waylandsink: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webp: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webp: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webrtc-typelib: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webrtc-typelib: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-y4mdec: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-y4mdec: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.6.tar.xz file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch file://0002-avoid-including-sys-poll.h-directly.patch file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.22.7.tar.xz file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch file://0002-avoid-including-sys-poll.h-directly.patch file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILES: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2206.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILELIST: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2206.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILES: removed "/usr/lib/libgstbadaudio-1.0.so.0.2206.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILELIST: removed "/usr/lib/libgstbadaudio-1.0.so.0.2206.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILES: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2206.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILELIST: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2206.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILES: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2206.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILELIST: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2206.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILES: removed "/usr/lib/libgstcodecs-1.0.so.0.2206.0", added "/usr/lib/libgstcodecs-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILELIST: removed "/usr/lib/libgstcodecs-1.0.so.0.2206.0", added "/usr/lib/libgstcodecs-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILES: removed "/usr/lib/libgstcuda-1.0.so.0.2206.0", added "/usr/lib/libgstcuda-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILELIST: removed "/usr/lib/libgstcuda-1.0.so.0.2206.0", added "/usr/lib/libgstcuda-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILES: removed "/usr/lib/libgstinsertbin-1.0.so.0.2206.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILELIST: removed "/usr/lib/libgstinsertbin-1.0.so.0.2206.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILES: removed "/usr/lib/libgstisoff-1.0.so.0.2206.0", added "/usr/lib/libgstisoff-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILELIST: removed "/usr/lib/libgstisoff-1.0.so.0.2206.0", added "/usr/lib/libgstisoff-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILES: removed "/usr/lib/libgstmpegts-1.0.so.0.2206.0", added "/usr/lib/libgstmpegts-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILELIST: removed "/usr/lib/libgstmpegts-1.0.so.0.2206.0", added "/usr/lib/libgstmpegts-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILES: removed "/usr/lib/libgstphotography-1.0.so.0.2206.0", added "/usr/lib/libgstphotography-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILELIST: removed "/usr/lib/libgstphotography-1.0.so.0.2206.0", added "/usr/lib/libgstphotography-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILES: removed "/usr/lib/libgstplay-1.0.so.0.2206.0", added "/usr/lib/libgstplay-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILELIST: removed "/usr/lib/libgstplay-1.0.so.0.2206.0", added "/usr/lib/libgstplay-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILES: removed "/usr/lib/libgstplayer-1.0.so.0.2206.0", added "/usr/lib/libgstplayer-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILELIST: removed "/usr/lib/libgstplayer-1.0.so.0.2206.0", added "/usr/lib/libgstplayer-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILES: removed "/usr/lib/libgstsctp-1.0.so.0.2206.0", added "/usr/lib/libgstsctp-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILELIST: removed "/usr/lib/libgstsctp-1.0.so.0.2206.0", added "/usr/lib/libgstsctp-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsttranscoder-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsttranscoder-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILES: removed "/usr/lib/libgsturidownloader-1.0.so.0.2206.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILELIST: removed "/usr/lib/libgsturidownloader-1.0.so.0.2206.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILES: removed "/usr/lib/libgstvulkan-1.0.so.0.2206.0", added "/usr/lib/libgstvulkan-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILELIST: removed "/usr/lib/libgstvulkan-1.0.so.0.2206.0", added "/usr/lib/libgstvulkan-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILES: removed "/usr/lib/libgstwayland-1.0.so.0.2206.0", added "/usr/lib/libgstwayland-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILELIST: removed "/usr/lib/libgstwayland-1.0.so.0.2206.0", added "/usr/lib/libgstwayland-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: PV changed from "1.22.6" to "1.22.7"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILES: removed "/usr/lib/libgstwebrtc-1.0.so.0.2206.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILELIST: removed "/usr/lib/libgstwebrtc-1.0.so.0.2206.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: PKGV changed from 1.22.6 [default] to 1.22.7 [default]
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: PV changed from "1.22.6" to "1.22.7"
+Changes to packages/core2-64-poky-linux/gstreamer1.0-plugins-bad (sysroot):
+  /usr/lib/libgstadaptivedemux-1.0.so.0 changed symlink target from libgstadaptivedemux-1.0.so.0.2206.0 to libgstadaptivedemux-1.0.so.0.2207.0
+  /usr/lib/libgstbadaudio-1.0.so.0 changed symlink target from libgstbadaudio-1.0.so.0.2206.0 to libgstbadaudio-1.0.so.0.2207.0
+  /usr/lib/libgstbasecamerabinsrc-1.0.so.0 changed symlink target from libgstbasecamerabinsrc-1.0.so.0.2206.0 to libgstbasecamerabinsrc-1.0.so.0.2207.0
+  /usr/lib/libgstcodecparsers-1.0.so.0 changed symlink target from libgstcodecparsers-1.0.so.0.2206.0 to libgstcodecparsers-1.0.so.0.2207.0
+  /usr/lib/libgstcodecs-1.0.so.0 changed symlink target from libgstcodecs-1.0.so.0.2206.0 to libgstcodecs-1.0.so.0.2207.0
+  /usr/lib/libgstcuda-1.0.so.0 changed symlink target from libgstcuda-1.0.so.0.2206.0 to libgstcuda-1.0.so.0.2207.0
+  /usr/lib/libgstinsertbin-1.0.so.0 changed symlink target from libgstinsertbin-1.0.so.0.2206.0 to libgstinsertbin-1.0.so.0.2207.0
+  /usr/lib/libgstisoff-1.0.so.0 changed symlink target from libgstisoff-1.0.so.0.2206.0 to libgstisoff-1.0.so.0.2207.0
+  /usr/lib/libgstmpegts-1.0.so.0 changed symlink target from libgstmpegts-1.0.so.0.2206.0 to libgstmpegts-1.0.so.0.2207.0
+  /usr/lib/libgstphotography-1.0.so.0 changed symlink target from libgstphotography-1.0.so.0.2206.0 to libgstphotography-1.0.so.0.2207.0
+  /usr/lib/libgstplay-1.0.so.0 changed symlink target from libgstplay-1.0.so.0.2206.0 to libgstplay-1.0.so.0.2207.0
+  /usr/lib/libgstplayer-1.0.so.0 changed symlink target from libgstplayer-1.0.so.0.2206.0 to libgstplayer-1.0.so.0.2207.0
+  /usr/lib/libgstsctp-1.0.so.0 changed symlink target from libgstsctp-1.0.so.0.2206.0 to libgstsctp-1.0.so.0.2207.0
+  /usr/lib/libgsturidownloader-1.0.so.0 changed symlink target from libgsturidownloader-1.0.so.0.2206.0 to libgsturidownloader-1.0.so.0.2207.0
+  /usr/lib/libgstvulkan-1.0.so.0 changed symlink target from libgstvulkan-1.0.so.0.2206.0 to libgstvulkan-1.0.so.0.2207.0
+  /usr/lib/libgstwayland-1.0.so.0 changed symlink target from libgstwayland-1.0.so.0.2206.0 to libgstwayland-1.0.so.0.2207.0
+  /usr/lib/libgstwebrtc-1.0.so.0 changed symlink target from libgstwebrtc-1.0.so.0.2206.0 to libgstwebrtc-1.0.so.0.2207.0
+  /usr/lib/libgstadaptivedemux-1.0.so.0.2206.0 moved to /usr/lib/libgstadaptivedemux-1.0.so.0.2207.0
+  /usr/lib/libgstbadaudio-1.0.so.0.2206.0 moved to /usr/lib/libgstbadaudio-1.0.so.0.2207.0
+  /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2206.0 moved to /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2207.0
+  /usr/lib/libgstcodecparsers-1.0.so.0.2206.0 moved to /usr/lib/libgstcodecparsers-1.0.so.0.2207.0
+  /usr/lib/libgstcodecs-1.0.so.0.2206.0 moved to /usr/lib/libgstcodecs-1.0.so.0.2207.0
+  /usr/lib/libgstcuda-1.0.so.0.2206.0 moved to /usr/lib/libgstcuda-1.0.so.0.2207.0
+  /usr/lib/libgstinsertbin-1.0.so.0.2206.0 moved to /usr/lib/libgstinsertbin-1.0.so.0.2207.0
+  /usr/lib/libgstisoff-1.0.so.0.2206.0 moved to /usr/lib/libgstisoff-1.0.so.0.2207.0
+  /usr/lib/libgstmpegts-1.0.so.0.2206.0 moved to /usr/lib/libgstmpegts-1.0.so.0.2207.0
+  /usr/lib/libgstphotography-1.0.so.0.2206.0 moved to /usr/lib/libgstphotography-1.0.so.0.2207.0
+  /usr/lib/libgstplay-1.0.so.0.2206.0 moved to /usr/lib/libgstplay-1.0.so.0.2207.0
+  /usr/lib/libgstplayer-1.0.so.0.2206.0 moved to /usr/lib/libgstplayer-1.0.so.0.2207.0
+  /usr/lib/libgstsctp-1.0.so.0.2206.0 moved to /usr/lib/libgstsctp-1.0.so.0.2207.0
+  /usr/lib/libgsturidownloader-1.0.so.0.2206.0 moved to /usr/lib/libgsturidownloader-1.0.so.0.2207.0
+  /usr/lib/libgstvulkan-1.0.so.0.2206.0 moved to /usr/lib/libgstvulkan-1.0.so.0.2207.0
+  /usr/lib/libgstwayland-1.0.so.0.2206.0 moved to /usr/lib/libgstwayland-1.0.so.0.2207.0
+  /usr/lib/libgstwebrtc-1.0.so.0.2206.0 moved to /usr/lib/libgstwebrtc-1.0.so.0.2207.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1866,278 +1913,64 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============0453630578686506805==
+--===============8120749401448466693==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0/gstreamer1.0: FILELIST: removed "/usr/lib/libgstbase-1.0.so.0.2206.0 /usr/lib/libgstnet-1.0.so.0.2206.0 /usr/lib/libgstcheck-1.0.so.0.2206.0 /usr/lib/libgstcontroller-1.0.so.0.2206.0 /usr/lib/libgstreamer-1.0.so.0.2206.0", added "/usr/lib/libgstnet-1.0.so.0.2207.0 /usr/lib/libgstcheck-1.0.so.0.2207.0 /usr/lib/libgstcontroller-1.0.so.0.2207.0 /usr/lib/libgstreamer-1.0.so.0.2207.0 /usr/lib/libgstbase-1.0.so.0.2207.0"
-Changes to packages/core2-64-poky-linux/gstreamer1.0 (sysroot):
-  /usr/lib/libgstbase-1.0.so.0 changed symlink target from libgstbase-1.0.so.0.2206.0 to libgstbase-1.0.so.0.2207.0
-  /usr/lib/libgstcheck-1.0.so.0 changed symlink target from libgstcheck-1.0.so.0.2206.0 to libgstcheck-1.0.so.0.2207.0
-  /usr/lib/libgstcontroller-1.0.so.0 changed symlink target from libgstcontroller-1.0.so.0.2206.0 to libgstcontroller-1.0.so.0.2207.0
-  /usr/lib/libgstnet-1.0.so.0 changed symlink target from libgstnet-1.0.so.0.2206.0 to libgstnet-1.0.so.0.2207.0
-  /usr/lib/libgstreamer-1.0.so.0 changed symlink target from libgstreamer-1.0.so.0.2206.0 to libgstreamer-1.0.so.0.2207.0
-  /usr/lib/libgstbase-1.0.so.0.2206.0 moved to /usr/lib/libgstbase-1.0.so.0.2207.0
-  /usr/lib/libgstcheck-1.0.so.0.2206.0 moved to /usr/lib/libgstcheck-1.0.so.0.2207.0
-  /usr/lib/libgstcontroller-1.0.so.0.2206.0 moved to /usr/lib/libgstcontroller-1.0.so.0.2207.0
-  /usr/lib/libgstnet-1.0.so.0.2206.0 moved to /usr/lib/libgstnet-1.0.so.0.2207.0
-  /usr/lib/libgstreamer-1.0.so.0.2206.0 moved to /usr/lib/libgstreamer-1.0.so.0.2207.0
-  /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2206.0-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgstreamer-1.0.so.0.2207.0-gdb.py
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILELIST: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2206.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILELIST: removed "/usr/lib/libgstbadaudio-1.0.so.0.2206.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILELIST: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2206.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILELIST: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2206.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILELIST: removed "/usr/lib/libgstcodecs-1.0.so.0.2206.0", added "/usr/lib/libgstcodecs-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILELIST: removed "/usr/lib/libgstcuda-1.0.so.0.2206.0", added "/usr/lib/libgstcuda-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILELIST: removed "/usr/lib/libgstinsertbin-1.0.so.0.2206.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILELIST: removed "/usr/lib/libgstisoff-1.0.so.0.2206.0", added "/usr/lib/libgstisoff-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILELIST: removed "/usr/lib/libgstmpegts-1.0.so.0.2206.0", added "/usr/lib/libgstmpegts-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILELIST: removed "/usr/lib/libgstphotography-1.0.so.0.2206.0", added "/usr/lib/libgstphotography-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILELIST: removed "/usr/lib/libgstplay-1.0.so.0.2206.0", added "/usr/lib/libgstplay-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILELIST: removed "/usr/lib/libgstplayer-1.0.so.0.2206.0", added "/usr/lib/libgstplayer-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILELIST: removed "/usr/lib/libgstsctp-1.0.so.0.2206.0", added "/usr/lib/libgstsctp-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILELIST: removed "/usr/lib/libgsturidownloader-1.0.so.0.2206.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILELIST: removed "/usr/lib/libgstvulkan-1.0.so.0.2206.0", added "/usr/lib/libgstvulkan-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILELIST: removed "/usr/lib/libgstwayland-1.0.so.0.2206.0", added "/usr/lib/libgstwayland-1.0.so.0.2207.0"
+packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILELIST: removed "/usr/lib/libgstwebrtc-1.0.so.0.2206.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2207.0"
+Changes to packages/core2-64-poky-linux/gstreamer1.0-plugins-bad (sysroot):
+  /usr/lib/libgstadaptivedemux-1.0.so.0 changed symlink target from libgstadaptivedemux-1.0.so.0.2206.0 to libgstadaptivedemux-1.0.so.0.2207.0
+  /usr/lib/libgstbadaudio-1.0.so.0 changed symlink target from libgstbadaudio-1.0.so.0.2206.0 to libgstbadaudio-1.0.so.0.2207.0
+  /usr/lib/libgstbasecamerabinsrc-1.0.so.0 changed symlink target from libgstbasecamerabinsrc-1.0.so.0.2206.0 to libgstbasecamerabinsrc-1.0.so.0.2207.0
+  /usr/lib/libgstcodecparsers-1.0.so.0 changed symlink target from libgstcodecparsers-1.0.so.0.2206.0 to libgstcodecparsers-1.0.so.0.2207.0
+  /usr/lib/libgstcodecs-1.0.so.0 changed symlink target from libgstcodecs-1.0.so.0.2206.0 to libgstcodecs-1.0.so.0.2207.0
+  /usr/lib/libgstcuda-1.0.so.0 changed symlink target from libgstcuda-1.0.so.0.2206.0 to libgstcuda-1.0.so.0.2207.0
+  /usr/lib/libgstinsertbin-1.0.so.0 changed symlink target from libgstinsertbin-1.0.so.0.2206.0 to libgstinsertbin-1.0.so.0.2207.0
+  /usr/lib/libgstisoff-1.0.so.0 changed symlink target from libgstisoff-1.0.so.0.2206.0 to libgstisoff-1.0.so.0.2207.0
+  /usr/lib/libgstmpegts-1.0.so.0 changed symlink target from libgstmpegts-1.0.so.0.2206.0 to libgstmpegts-1.0.so.0.2207.0
+  /usr/lib/libgstphotography-1.0.so.0 changed symlink target from libgstphotography-1.0.so.0.2206.0 to libgstphotography-1.0.so.0.2207.0
+  /usr/lib/libgstplay-1.0.so.0 changed symlink target from libgstplay-1.0.so.0.2206.0 to libgstplay-1.0.so.0.2207.0
+  /usr/lib/libgstplayer-1.0.so.0 changed symlink target from libgstplayer-1.0.so.0.2206.0 to libgstplayer-1.0.so.0.2207.0
+  /usr/lib/libgstsctp-1.0.so.0 changed symlink target from libgstsctp-1.0.so.0.2206.0 to libgstsctp-1.0.so.0.2207.0
+  /usr/lib/libgsturidownloader-1.0.so.0 changed symlink target from libgsturidownloader-1.0.so.0.2206.0 to libgsturidownloader-1.0.so.0.2207.0
+  /usr/lib/libgstvulkan-1.0.so.0 changed symlink target from libgstvulkan-1.0.so.0.2206.0 to libgstvulkan-1.0.so.0.2207.0
+  /usr/lib/libgstwayland-1.0.so.0 changed symlink target from libgstwayland-1.0.so.0.2206.0 to libgstwayland-1.0.so.0.2207.0
+  /usr/lib/libgstwebrtc-1.0.so.0 changed symlink target from libgstwebrtc-1.0.so.0.2206.0 to libgstwebrtc-1.0.so.0.2207.0
+  /usr/lib/libgstadaptivedemux-1.0.so.0.2206.0 moved to /usr/lib/libgstadaptivedemux-1.0.so.0.2207.0
+  /usr/lib/libgstbadaudio-1.0.so.0.2206.0 moved to /usr/lib/libgstbadaudio-1.0.so.0.2207.0
+  /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2206.0 moved to /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2207.0
+  /usr/lib/libgstcodecparsers-1.0.so.0.2206.0 moved to /usr/lib/libgstcodecparsers-1.0.so.0.2207.0
+  /usr/lib/libgstcodecs-1.0.so.0.2206.0 moved to /usr/lib/libgstcodecs-1.0.so.0.2207.0
+  /usr/lib/libgstcuda-1.0.so.0.2206.0 moved to /usr/lib/libgstcuda-1.0.so.0.2207.0
+  /usr/lib/libgstinsertbin-1.0.so.0.2206.0 moved to /usr/lib/libgstinsertbin-1.0.so.0.2207.0
+  /usr/lib/libgstisoff-1.0.so.0.2206.0 moved to /usr/lib/libgstisoff-1.0.so.0.2207.0
+  /usr/lib/libgstmpegts-1.0.so.0.2206.0 moved to /usr/lib/libgstmpegts-1.0.so.0.2207.0
+  /usr/lib/libgstphotography-1.0.so.0.2206.0 moved to /usr/lib/libgstphotography-1.0.so.0.2207.0
+  /usr/lib/libgstplay-1.0.so.0.2206.0 moved to /usr/lib/libgstplay-1.0.so.0.2207.0
+  /usr/lib/libgstplayer-1.0.so.0.2206.0 moved to /usr/lib/libgstplayer-1.0.so.0.2207.0
+  /usr/lib/libgstsctp-1.0.so.0.2206.0 moved to /usr/lib/libgstsctp-1.0.so.0.2207.0
+  /usr/lib/libgsturidownloader-1.0.so.0.2206.0 moved to /usr/lib/libgsturidownloader-1.0.so.0.2207.0
+  /usr/lib/libgstvulkan-1.0.so.0.2206.0 moved to /usr/lib/libgstvulkan-1.0.so.0.2207.0
+  /usr/lib/libgstwayland-1.0.so.0.2206.0 moved to /usr/lib/libgstwayland-1.0.so.0.2207.0
+  /usr/lib/libgstwebrtc-1.0.so.0.2206.0 moved to /usr/lib/libgstwebrtc-1.0.so.0.2207.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3522,39 +3355,40 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============0453630578686506805==
+--===============8120749401448466693==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-upgrade-1.22.6-1.22.7.patch"
+ filename="0001-gstreamer1.0-plugins-bad-upgrade-1.22.6-1.22.7.patch"
 
-RnJvbSA1ZWI5MzdlMTJhYTRmZGE0NmU1NzEzMzAzMTZhMDhiNTcwMWY3MWU1IE1vbiBTZXAgMTcg
+RnJvbSA5ZjE3ZWMwNzZlODMxOTBhYmEzZDhkZWY2Yzk0NWMyZTlkYmFlZjg1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMTM6MzU6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjA6IHVwZ3JhZGUgMS4yMi42IC0+IDEuMjIuNwoKLS0tCiAuLi4ve2dzdHJlYW1l
-cjEuMF8xLjIyLjYuYmIgPT4gZ3N0cmVhbWVyMS4wXzEuMjIuNy5iYn0gICAgICAgICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMF8xLjIyLjYuYmIg
-PT4gZ3N0cmVhbWVyMS4wXzEuMjIuNy5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjIuNi5iYiBiL21ldGEvcmVj
-aXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjBfMS4yMi43LmJiCnNpbWlsYXJp
-dHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
-ci9nc3RyZWFtZXIxLjBfMS4yMi42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRp
-YS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMjIuNy5iYgppbmRleCBhODk4NDY0MzIyLi43MjE2
-MWIyNzJmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wXzEuMjIuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
-ZXIvZ3N0cmVhbWVyMS4wXzEuMjIuNy5iYgpAQCAtMjIsNyArMjIsNyBAQCBTUkNfVVJJID0gImh0
-dHBzOi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0cmVhbWVyL2dzdHJlYW1lci0k
-e1BWfS50YXIueAogICAgICAgICAgICBmaWxlOi8vMDAwMy10ZXN0cy11c2UtYS1kaWN0aW9uYXJp
-ZXMtZm9yLWVudmlyb25tZW50LnBhdGNoO3N0cmlwbGV2ZWw9MyBcCiAgICAgICAgICAgIGZpbGU6
-Ly8wMDA0LXRlc3RzLWFkZC1oZWxwZXItc2NyaXB0LXRvLXJ1bi10aGUtaW5zdGFsbGVkX3Rlc3Rz
-LnBhdGNoO3N0cmlwbGV2ZWw9MyBcCiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
-ICJmNTAwZTZjZmRkZmY1NTkwOGY5Mzc3MTFmYzI2YTA4NDBkZTI4YTFlOWVjNDk2MjFjMGI2ZjFh
-ZGJkOGY4MThlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjAxZTQyYzYzNTJhMDZiZGZhNDQ1NmU2
-NGIwNmFiN2Q5OGM1YzQ4N2EyNTU1N2M3NjE1NTQ2MzFjYmRhNjQyMTciCiAKIFBBQ0tBR0VDT05G
-SUcgPz89ICIke0BiYi51dGlscy5jb250YWlucygnUFRFU1RfRU5BQkxFRCcsICcxJywgJ3Rlc3Rz
-JywgJycsIGQpfSBcCiAgICAgICAgICAgICAgICAgICAgY2hlY2sgXAotLSAKMi4zOS4yCgo=
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMTM6MDQ6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQ6IHVwZ3JhZGUgMS4yMi42IC0+IDEuMjIuNwoKLS0tCiAu
+Li5wbHVnaW5zLWJhZF8xLjIyLjYuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIu
+Ny5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEu
+MC1wbHVnaW5zLWJhZF8xLjIyLjYuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIu
+Ny5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFt
+ZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIuNi5iYiBiL21ldGEvcmVjaXBlcy1tdWx0
+aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWRfMS4yMi43LmJiCnNpbWls
+YXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
+YW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWRfMS4yMi42LmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIu
+Ny5iYgppbmRleCAzZGI3ZGRmZjVmLi5iN2Q3ODdiNjExIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjIuNi5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBs
+dWdpbnMtYmFkXzEuMjIuNy5iYgpAQCAtMTAsNyArMTAsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8v
+Z3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0LXBsdWdpbnMtYmFkL2dzdC1wbHVnaW5z
+LWJhZAogICAgICAgICAgICBmaWxlOi8vMDAwMi1hdm9pZC1pbmNsdWRpbmctc3lzLXBvbGwuaC1k
+aXJlY3RseS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDA0LW9wZW5jdi1yZXNvbHZlLW1p
+c3Npbmctb3BlbmN2LWRhdGEtZGlyLWluLXlvY3RvLWJ1aWwucGF0Y2ggXAogICAgICAgICAgICAi
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjQwMjljZDI5MDhhMDg5YzU1ZjFkOTAyYTU2NWQwMDc0
+OTVjOTViMTQ0MmQ4Mzg0ODVkYzQ3ZmIxMmRmNzEzNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJj
+NzE2ZjhkZmZhOGZhYzNmYjY0Njk0MWFmMWM2ZWM3MmZmZjA1YTA0NTEzMTMxMWJmMmQwNDlmZGM4
+N2JjZTJlIgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LXBsdWdpbnMtYmFkLSR7UFZ9IgogCi0tIAoy
+LjM5LjIKCg==
 
---===============0453630578686506805==--
+--===============8120749401448466693==--
 
