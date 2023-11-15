@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC73C47074
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F010C47075
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 03:18:06 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web10.4877.1700018285353321532
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.5042.1700018283642721417
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 19:18:05 -0800
+ Tue, 14 Nov 2023 19:18:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=v93zv2Nt;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5bdb0be3591so5018292a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:18:05 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zyCjGFNx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6c33ab26dddso5616410b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:18:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700018284; x=1700623084; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700018282; x=1700623082; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=maJummaCH/YIjMqoCIuVO+Gjw+QXYVkapUXhhycRuY4=;
-        b=v93zv2NtJF3ZlOsgZuN4WBfvwiuVMMZil/BquWpzZjjs5m9bwj/LlGQ7xSab20UyQp
-         +B8/7HlyDcbVMtw0yQfZNQJuWkSqEewokUDXI2laEbMrjoecXCicJ+iPs1Z/AJGXIlvO
-         hfMPg5/+BRYZZXr4iYz+03U7zaw9H7CDKDqbzcmuGiLlxobmu6NYnhvZ3rRR0QJSWDCg
-         AUZXctqVWnJboJd5+EbXMc4sK9Ht/3Ifc61zWx6RrqZ9M6J/sLIwtvw6wJ31AeNd/ye0
-         RXHja39vgaN+tZind3fcAJiI31rnCHNJ6uRggJ7cdQZqaFuyGD94NMhmUtO9e90p8ldO
-         r1fg==
+        bh=ArKgE67eBur1QH7o35YJ2kR0QyNgk9KdWPhF9xHxzt8=;
+        b=zyCjGFNxA51ABVIledOjA/IA0Ovtfw8aePhghzFqo/7aSg9dSyxYb07tu6ZX1slVJq
+         5ZieDLGyU4L4nEFsFZV6rVjEyNMxTZHTNAC4TZYL2iUSAVf+EXLnIZLfCvmNQ7Ij8bV6
+         gecktKyTe7osMsQbVAH9j/2WqifY3zoqWnvCmL84fgjW/SduXNJOOwuNBEMqIYRTjRoT
+         jEbnYcX3eZTsyG4vHYP1f/1UbLJu/+6jmS1RTOQ7+tndQ8ZzIHx1BXeEyF+RGTtnlPzI
+         BWssaMYHE9swQMHGVyBCY7l2kpwLJnOReqRYRT7Af5Hgr5Qrg1CJWZKhVqNX+C0vrsuh
+         JYMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700018284; x=1700623084;
+        d=1e100.net; s=20230601; t=1700018282; x=1700623082;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=maJummaCH/YIjMqoCIuVO+Gjw+QXYVkapUXhhycRuY4=;
-        b=M/WKGM1zLy1q3TW4UH8WfhBo5DsSZgSyJq6pdTHTCe/ow4LL281uAs4dEv/ukpTN2q
-         SugavnzBS1YLGUyvXppo+DWd5K3P0aNCH3Z2VllheIv9YPpv1eXGtsyp6vynJpxOv9jn
-         au7KBoG3UDEezm/EJhZfiJ4WxVdOP0NtDOQ4Tfj35M9Kv5PnMIwsA/L286XZjNDDrGjl
-         4FKsb2TzBUlyVKSDRH9vOc0lLsd6IJpoXylN/wsiQ7glc0+KdfdJlPLP6Xiz2Io1bvuu
-         oGTC8OkpbV6ErbtlAwEyc2RBnsIaYVpxgQbHuYqgu3SpiLswT6EFDn+d12Ia480EoHAT
-         2SMw==
-X-Gm-Message-State: AOJu0YyJ3xKxTy58R1Ca5pcrHwRuYojIFbX7RifaasmfFWGh4wsPzE3I
-	dGaMHkrklNJHHavZ2IG6gQK6aUVGot06+r45u2TiXw==
-X-Google-Smtp-Source: AGHT+IGl0X1y85QaUWfDhhkJDgF0ePS5SSrVrqySl2pAamZZPgW2IyqDZmToOBAjiSkDJALJEswcqw==
-X-Received: by 2002:a05:6a20:8f14:b0:185:c28f:d188 with SMTP id b20-20020a056a208f1400b00185c28fd188mr14763768pzk.45.1700018284130;
-        Tue, 14 Nov 2023 19:18:04 -0800 (PST)
+        bh=ArKgE67eBur1QH7o35YJ2kR0QyNgk9KdWPhF9xHxzt8=;
+        b=ATWH3FlcNYT1FnA4NvlT9E/tHIkA1zFUojBW0dn4d7q034QZH47HPDOXpnCvs94g3n
+         pIpEKvYMVfC0LMr6gKvxSG1q7Vp2VOFq9D+mWTgcPKSiLTde94lde+3ohBQqSHC6XUKP
+         hENQryFUQ/NCQw2Hrc0SiIb2OQuFXHt6SffxYppzhC6aeEZi3pEmr5KtCuIwFT6UMGbW
+         Uo9ctl1l2j4W83N427N+6puG7uDsCDeR9UGposPn3N7Z8CoheY7+aH5WdVWiKu1VaI8i
+         VcueXp3PHCVZs73ycK5vTUIkfFbg1HzY3Qyahzq8PIhPry61gHBHa+KYA9sHunEv5s0K
+         AJsQ==
+X-Gm-Message-State: AOJu0Yye8tSrzjXRTd/JYshuAPS9jpberSsT+yCQFuT54LnANoj3zf7a
+	ZoS7C2SPspexaYoN4ZNt9p6sSq7Xjo5p+9358U240A==
+X-Google-Smtp-Source: AGHT+IElvaecPpjfiTHqRvUNppNgDskiGSoVjD555EAscxBmPNaZ3+KwJBB4k+ZKs9WHgkeAFuTQJQ==
+X-Received: by 2002:a05:6a21:185:b0:186:652a:7b9c with SMTP id le5-20020a056a21018500b00186652a7b9cmr9244552pzb.20.1700018282433;
+        Tue, 14 Nov 2023 19:18:02 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id l5-20020a170903120500b001c6187f2875sm6369300plh.225.2023.11.14.19.18.03
+        by smtp.gmail.com with ESMTPSA id l5-20020a170903120500b001c6187f2875sm6369300plh.225.2023.11.14.19.18.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 19:18:03 -0800 (PST)
+        Tue, 14 Nov 2023 19:18:02 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/17] assimp: Explicitly use nobranch=1 in SRC_URI
-Date: Tue, 14 Nov 2023 17:17:30 -1000
-Message-Id: <4bd92b9621909b8b528b648529baaaa48bc1c424.1700018112.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/17] cve-check: don't warn if a patch is remote
+Date: Tue, 14 Nov 2023 17:17:29 -1000
+Message-Id: <32a19dfbaac38cd4864281a1131ac65e1216318f.1700018112.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700018112.git.steve@sakoman.com>
 References: <cover.1700018112.git.steve@sakoman.com>
@@ -61,36 +61,56 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 03:18:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190543
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190542
 
-From: Naveen Saini <naveen.kumar.saini@intel.com>
+From: Ross Burton <ross.burton@arm.com>
 
-Branch 'assimp_5.0_release' is not present in repo.
+We don't make do_cve_check depend on do_unpack because that would be a
+waste of time 99% of the time.  The compromise here is that we can't
+scan remote patches for issues, but this isn't a problem so downgrade
+the warning to a note.
 
-Error:
-assimp-5.0.1-r0 do_fetch: Fetcher failure: Unable to find revision 8f0c6b04b2257a520aaab38421b2e090204b69df in branch assimp_5.0_release even from upstream
+Also move the check for CVEs in the filename before the local file check
+so that even with remote patches, we still check for CVE references in
+the name.
 
-Set nobranch=1, to fetch from v5.0.1 tag.
-
-Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 0251cad677579f5b4dcc25fa2f8552c6040ac2cf)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/vulkan/assimp_5.0.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/cve_check.py | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/vulkan/assimp_5.0.1.bb b/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
-index 295ac12fc5..0774f37e31 100644
---- a/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
-+++ b/meta/recipes-graphics/vulkan/assimp_5.0.1.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2119edef0916b0bd511cb3c731076271"
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index a91d691c30..ed4af18ced 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -114,11 +114,6 @@ def get_patched_cves(d):
+     for url in oe.patch.src_patches(d):
+         patch_file = bb.fetch.decodeurl(url)[2]
  
- DEPENDS = "zlib"
+-        # Remote compressed patches may not be unpacked, so silently ignore them
+-        if not os.path.isfile(patch_file):
+-            bb.warn("%s does not exist, cannot extract CVE list" % patch_file)
+-            continue
+-
+         # Check patch file name for CVE ID
+         fname_match = cve_file_name_match.search(patch_file)
+         if fname_match:
+@@ -126,6 +121,12 @@ def get_patched_cves(d):
+             patched_cves.add(cve)
+             bb.debug(2, "Found CVE %s from patch file name %s" % (cve, patch_file))
  
--SRC_URI = "git://github.com/assimp/assimp.git;branch=assimp_5.0_release;protocol=https \
-+SRC_URI = "git://github.com/assimp/assimp.git;nobranch=1;protocol=https \
-            file://0001-closes-https-github.com-assimp-assimp-issues-2733-up.patch \
-            file://0001-Use-ASSIMP_LIB_INSTALL_DIR-to-search-library.patch \
-            "
++        # Remote patches won't be present and compressed patches won't be
++        # unpacked, so say we're not scanning them
++        if not os.path.isfile(patch_file):
++            bb.note("%s is remote or compressed, not scanning content" % patch_file)
++            continue
++
+         with open(patch_file, "r", encoding="utf-8") as f:
+             try:
+                 patch_text = f.read()
 -- 
 2.34.1
 
