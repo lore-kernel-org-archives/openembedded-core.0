@@ -2,154 +2,122 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 733FAC47072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E70C47075
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 03:17:46 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.4868.1700018261953119603
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.5026.1700018265950656866
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 19:17:42 -0800
+ Tue, 14 Nov 2023 19:17:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=V6e6nNHx;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1cc0d0a0355so49019485ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:17:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=n20/gOkb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1cc3bc5df96so47786245ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:17:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700018260; x=1700623060; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bm3iKSjvbSRmxlGIUSKwHCwjqO2ab1mQfwPM6DV2+QY=;
-        b=V6e6nNHxkvzKVPFSccLtOEj56QzboHNA+d0QOWIkmoNi9cqlXG3t7hmWKe4LF3W8a1
-         n/RQF3ezTahQsEV+cHi2iRaGdDTZgf1LF/5Wu1Q+lr6SGHYPtOc4tOR9egaaLQAjM7ia
-         6eZHfg2xyjvcmEM1cgvR38RKmqCRIDKW371uhzfwXY5WBSjVOmWoa4NmDx8Wu9YNmcGb
-         GNx2fwOqHMb+20dnOIzURAEjXva0U1iAqk142kvJiodVlFy2TkwnaCZqpln9AZyiLUfS
-         q5D6dQekzZuFcuDw+x5+WwagmSNepPsaAer7dvB++x3vREvG0B0obyxO4U68ABoJqPWO
-         aniQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700018264; x=1700623064; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FB1rDZKdIyjbZSl67obGJQ9hecyACJqy+Nmr5tVmiRE=;
+        b=n20/gOkbDv3wErPHSZmlM4KOAlcrLuJ9Ojrx6GKA18jt4SWPAhb9c05yBxRLlI30oW
+         lUkTqaxblw8PInKnWucebi3bJrSf30Vg+/kQoCkBO1fIXI/zkTAgtUkzd8c7aOQqqftf
+         FfoqZDNYqVkVdJkawefT6yy5OxzXy2SbSRqCsKvQGrpp7BnjJggqIhBC65X4gGQjvESl
+         RcGhy6+8jrTT2Y3hSKqQp1PJeH8XoW/lK5X8cCr6sFZ7XnYDhe0sVhmyyP0ILVCDY3j0
+         LKvdv+lL1pDXd2frL/78GI8bNVG3FbqE+O8Tgsd/QTdQjYkJgz6S87aJjUML05zFxmhJ
+         8lTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700018260; x=1700623060;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bm3iKSjvbSRmxlGIUSKwHCwjqO2ab1mQfwPM6DV2+QY=;
-        b=lP4uXDzK2NcT5NtxMGPiC8ZgstR95Vr3HW7WWrjzAwt/oynzoa2g3TpaqjHSadb182
-         r21LdVBNf4WIM1MChe0oFcL8SmHZTmhPlBuNPVCoXsqXKminps5kgn+xRRz9794sdUlO
-         vfTFqO/f6HjAKpzoKroiBimGl7rhoiiJkwB7ihYRcf+Wq8WtMnOByIfT9Fh7NTQXm+Lx
-         35opijMztBuXakFiTASGNoQhWFDeMNHGVB/ETS5jcIVYcUPy9iIlqIgX8NfsCEDquVku
-         Lt6Lw+fZaFm4QlFKKSb2zj63XPTD5hukyzhFVVez52mN4g5G6EaN6MTr5zo7XE3/E8yz
-         f6yA==
-X-Gm-Message-State: AOJu0Yy5fTa9KgqNOzsrYF2wA5RQGcRhv3XgAqCcfQrIdNrfVIo+C1tp
-	tthp1eLk/YJ7c/nmj7nofqLIH9JVMlsY6jYvq1z+tQ==
-X-Google-Smtp-Source: AGHT+IHp6+uNRHnF/FKfKO8ftZPxLkq1kjZf2YG9xmlJOg7xYX1WvPNt9JEE4pxbV2ph5ubL73n/6w==
-X-Received: by 2002:a17:902:ab0f:b0:1c9:ca02:645c with SMTP id ik15-20020a170902ab0f00b001c9ca02645cmr4012992plb.36.1700018260257;
-        Tue, 14 Nov 2023 19:17:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700018264; x=1700623064;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FB1rDZKdIyjbZSl67obGJQ9hecyACJqy+Nmr5tVmiRE=;
+        b=cdFyLcypB5MuLmZ6jazjhjD906m3mzw8xzsiUQ2VTs+FJW2Grbo3Z60x4UrJAmQ1ss
+         sCt4alBMPzvJvMFLrx0dm6PCyRVcHHKM9VAGmJ1jb5+A5hcoQBhoRwfxSDmDKtEbnEwD
+         pgUab9l9Nz7XdHBsrDwiia2D9chZ2DRgQSmFygHZl3jHP1RHxiDk+VS7GvBW9PtuYYKK
+         bnXw0QidxtTKCa4mBUlY0Do+Ak9jletOv60xlX1TK6k/yZm9gEky7a+ewFrhCB3vBWMW
+         sQUw3piaSSt4NGel80n533Ml7Z0PPs5qoJ+JF4zck1dNh6EGL/QU/9wxlKX6Fja6yeID
+         BG9w==
+X-Gm-Message-State: AOJu0YyQtHweJhx1hJ30MbDSE430cwnU1VKReSYoRAC52jLBWfnhhTrG
+	MKsNaEbKxc2e+7BqdACtF8FENpCLa9SawTlm4KMeOQ==
+X-Google-Smtp-Source: AGHT+IH93YfIzm+9hh8RzbNCq7xBVXAqjRYyuP/njaHI9xlYLt8/hAFBvxl/2cNyZlhjEYUcJbchGg==
+X-Received: by 2002:a17:902:d2c1:b0:1cc:251c:c381 with SMTP id n1-20020a170902d2c100b001cc251cc381mr4462541plc.29.1700018264431;
+        Tue, 14 Nov 2023 19:17:44 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id l5-20020a170903120500b001c6187f2875sm6369300plh.225.2023.11.14.19.17.39
+        by smtp.gmail.com with ESMTPSA id l5-20020a170903120500b001c6187f2875sm6369300plh.225.2023.11.14.19.17.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 19:17:39 -0800 (PST)
+        Tue, 14 Nov 2023 19:17:44 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/17] Patch review
-Date: Tue, 14 Nov 2023 17:17:17 -1000
-Message-Id: <cover.1700018112.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/17] tiff: CVE patch correction for CVE-2023-3576
+Date: Tue, 14 Nov 2023 17:17:19 -1000
+Message-Id: <56088368bdd22a939b813c7aefd5ba475c6d4021.1700018112.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1700018112.git.steve@sakoman.com>
+References: <cover.1700018112.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 03:17:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190530
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190532
 
-Please review this set of changes for dunfell and have comments back by
-end of day Thursday, November 16
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
+- The commit [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
+fixes CVE-2023-3576
+- Hence, renamed the CVE-2023-3618-1.patch to CVE-2023-3576.patch
+- Reference: https://security-tracker.debian.org/tracker/CVE-2023-3576
+             https://security-tracker.debian.org/tracker/CVE-2023-3618
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6194
-
-The following changes since commit 0dbf3a15321b8033ff8ed86c6aa261fdb9c3d5bb:
-
-  build-appliance-image: Update to dunfell head revision (2023-10-27 04:22:17 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Ashish Sharma (1):
-  zlib: Backport fix for CVE-2023-45853
-
-Hitendra Prajapati (1):
-  tiff: Security fix for CVE-2023-40745
-
-Lee Chee Yang (1):
-  kexec-tools: Ignore Fedora/RedHat specific CVE-2021-20269
-
-Mikko Rapeli (1):
-  lz4: use CFLAGS from bitbake
-
-Naveen Saini (2):
-  assimp: Explicitly use nobranch=1 in SRC_URI
-  resolvconf: Fix fetch error
-
-Peter Marko (1):
-  glibc: ignore CVE-2023-4527
-
-Ross Burton (3):
-  cve-check: sort the package list in the JSON report
-  cve-check: slightly more verbose warning when adding the same package
-    twice
-  cve-check: don't warn if a patch is remote
-
-Soumya Sambu (1):
-  libwebp: Fix CVE-2023-4863
-
-Steve Sakoman (3):
-  Revert "qemu: Backport fix for CVE-2023-0330"
-  lz4: Update sstate/equiv versions to clean cache
-  selftest: skip virgl test on all fedora
-
-Vijay Anusuri (3):
-  tiff: CVE patch correction for CVE-2023-3576
-  tiff: backport Debian patch to fix CVE-2023-41175
-  xserver-xorg: Fix for CVE-2023-5367 and CVE-2023-5380
-
- meta/classes/cve-check.bbclass                |   2 +
- meta/lib/oe/cve_check.py                      |  13 +-
- meta/lib/oeqa/selftest/cases/runtime_test.py  |  10 +-
- .../resolvconf/resolvconf_1.82.bb             |   2 +-
- meta/recipes-core/glibc/glibc_2.31.bb         |   7 +
- .../zlib/zlib/CVE-2023-45853.patch            |  40 ++++++
- meta/recipes-core/zlib/zlib_1.2.11.bb         |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   3 +-
- ...-2023-0330_1.patch => CVE-2023-0330.patch} |   0
- .../qemu/qemu/CVE-2023-0330_2.patch           | 135 ------------------
- meta/recipes-graphics/vulkan/assimp_5.0.1.bb  |   2 +-
- .../xserver-xorg/CVE-2023-5367.patch          |  84 +++++++++++
- .../xserver-xorg/CVE-2023-5380.patch          | 102 +++++++++++++
- .../xorg-xserver/xserver-xorg_1.20.14.bb      |   2 +
- .../kexec/kexec-tools_2.0.20.bb               |   3 +
- ...-2023-3618-1.patch => CVE-2023-3576.patch} |   3 +-
- ...-2023-3618-2.patch => CVE-2023-3618.patch} |   0
- .../libtiff/files/CVE-2023-40745.patch        |  34 +++++
- .../libtiff/files/CVE-2023-41175.patch        |  67 +++++++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   6 +-
- ...23-5129.patch => CVE-2023-4863-0001.patch} |  27 ++--
- .../webp/files/CVE-2023-4863-0002.patch       |  53 +++++++
- meta/recipes-multimedia/webp/libwebp_1.1.0.bb |   3 +-
- meta/recipes-support/lz4/lz4_1.9.2.bb         |   6 +-
- 24 files changed, 431 insertions(+), 174 deletions(-)
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2023-45853.patch
- rename meta/recipes-devtools/qemu/qemu/{CVE-2023-0330_1.patch => CVE-2023-0330.patch} (100%)
- delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-0330_2.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5367.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-5380.patch
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../files/{CVE-2023-3618-1.patch => CVE-2023-3576.patch}      | 3 ++-
+ .../files/{CVE-2023-3618-2.patch => CVE-2023-3618.patch}      | 0
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb                 | 4 ++--
+ 3 files changed, 4 insertions(+), 3 deletions(-)
  rename meta/recipes-multimedia/libtiff/files/{CVE-2023-3618-1.patch => CVE-2023-3576.patch} (93%)
  rename meta/recipes-multimedia/libtiff/files/{CVE-2023-3618-2.patch => CVE-2023-3618.patch} (100%)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-40745.patch
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-41175.patch
- rename meta/recipes-multimedia/webp/files/{CVE-2023-5129.patch => CVE-2023-4863-0001.patch} (95%)
- create mode 100644 meta/recipes-multimedia/webp/files/CVE-2023-4863-0002.patch
 
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
+similarity index 93%
+rename from meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
+rename to meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
+index 35ed852519..67837fe142 100644
+--- a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-1.patch
++++ b/meta/recipes-multimedia/libtiff/files/CVE-2023-3576.patch
+@@ -4,8 +4,9 @@ Date: Tue, 7 Mar 2023 15:02:08 +0800
+ Subject: [PATCH] Fix memory leak in tiffcrop.c
+ 
+ Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/881a070194783561fd209b7c789a4e75566f7f37]
+-CVE: CVE-2023-3618
++CVE: CVE-2023-3576
+ Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+ ---
+  tools/tiffcrop.c | 7 ++++++-
+  1 file changed, 6 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch b/meta/recipes-multimedia/libtiff/files/CVE-2023-3618.patch
+similarity index 100%
+rename from meta/recipes-multimedia/libtiff/files/CVE-2023-3618-2.patch
+rename to meta/recipes-multimedia/libtiff/files/CVE-2023-3618.patch
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+index 6df4244697..d27381b4cd 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
+@@ -43,8 +43,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2023-26966.patch \
+            file://CVE-2023-2908.patch \
+            file://CVE-2023-3316.patch \
+-           file://CVE-2023-3618-1.patch \
+-           file://CVE-2023-3618-2.patch \
++           file://CVE-2023-3576.patch \
++           file://CVE-2023-3618.patch \
+           "
+ SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
+ SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
 -- 
 2.34.1
 
