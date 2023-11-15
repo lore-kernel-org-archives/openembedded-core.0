@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 279F1C54F9D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F58C47061
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:13 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.14623.1700059030055378036
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.14636.1700059031292511190
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Nov 2023 06:37:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XyCbdcPX;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=eEjDj8fG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018bd36a26a0-fe45d8d8-d70b-49dd-a6bf-a719dc5dee2c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MFTD4icd;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=erMBa4Ul;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018bd36a23c4-68be40ac-dcd9-4ad4-b351-303469da86be-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700059031;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Jr9LF7p0awT1WTjQHMc0UUoWDIKilnvdxL/IwNYl2DE=;
-	b=XyCbdcPX9iKXPxyGgPE9zvcAAC9wRIPRnU2Rr5qLv/CUJcEqTWzmVazJzhBoIV/m
-	gzXZq66a5ZMK0uCSekvDuTr+pMRQEFs9syiilqbxbtaFYIHYdDEhsyWcdzs6MNRkZpM
-	JvrVhXEyE/9efN0Sv2LBqyw7YZ3SA54f0Y5c1b+g=
+	t=1700059030;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=Yb9S34LY3Xbsrup5fbg2DhkJe2w5riLdsRxpuVgCasw=;
+	b=MFTD4icdBH8QjLb2BeO1zwHvrbduhc9fVQcwv1HpSVDccAiYi4LTTbeIcJhKxDiA
+	MfGmwBm0o28Fu2bjU8Z96Au6pjpvWwqEwaNRO4DcKUGMAm2K4PmZAhyXIYJAgsjzJiA
+	Tuy+78o/0gQUgCxn6BANBsOHeZ4B76kQXlF4gz5w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059031;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Jr9LF7p0awT1WTjQHMc0UUoWDIKilnvdxL/IwNYl2DE=;
-	b=eEjDj8fGbWdgP7jr+7Jz75QWE4acxkQ0U816tp+tMoSseIlbBsH536yGqDzh0kd+
-	qMT1WxnSpPfoOLryR/RhVjJPC7sBC2sDOQOwjyhsKVS4ctWVJTQhAFQJRcEIdUTZ727
-	zp+b4iFOvFIewEoieS678QDbsFc3hvZouPhVvtns=
-Content-Type: multipart/mixed; boundary="===============7564947652342186187=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059030;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=Yb9S34LY3Xbsrup5fbg2DhkJe2w5riLdsRxpuVgCasw=;
+	b=erMBa4UljBs8LcxcCF0ukfHQojzQvPIFr94DjWM5SdqNgV8NPt6bPtlDdUZWOv9d
+	6yt1WiHhuza5WnhFdorj6dNnxmzkAcPU+VaJoL8h5tGtZwy9x2YmxOKTrMikNMT6xv1
+	67QYqO+u5LTxsSUM2L3Zyt241SpEt3NrOIJCKFJY=
+Content-Type: multipart/mixed; boundary="===============2336291017364626590=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libtirpc: upgrading to 1.3.4 SUCCEEDED
-Message-ID: <0101018bd36a26a0-fe45d8d8-d70b-49dd-a6bf-a719dc5dee2c-000000@us-west-2.amazonses.com>
-Date: Wed, 15 Nov 2023 14:37:11 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-testtools: upgrading to 2.7.1 SUCCEEDED
+Message-ID: <0101018bd36a23c4-68be40ac-dcd9-4ad4-b351-303469da86be-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Nov 2023 14:37:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.33
+X-SES-Outgoing: 2023.11.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190661
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190659
 
---===============7564947652342186187==
+--===============2336291017364626590==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libtirpc* to *1.3.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-testtools* to *2.7.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libtirpc-upgrade-1.3.3-1.3.4.patch
+    - apply the patch: git am 0001-python3-testtools-upgrade-2.7.0-2.7.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,61 +71,66 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 3d29c8f8016132e284c7826ae9c56d4e9c8a7877 Mon Sep 17 00:00:00 2001
+From c7c3665b59211eb474749340690789ff31070831 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Nov 2023 09:14:15 +0000
-Subject: [PATCH] libtirpc: upgrade 1.3.3 -> 1.3.4
+Date: Wed, 15 Nov 2023 07:47:18 +0000
+Subject: [PATCH] python3-testtools: upgrade 2.7.0 -> 2.7.1
 
 ---
- .../libtirpc/{libtirpc_1.3.3.bb => libtirpc_1.3.4.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libtirpc/{libtirpc_1.3.3.bb => libtirpc_1.3.4.bb} (93%)
+ meta/recipes-devtools/python/python-testtools.inc               | 2 +-
+ .../{python3-testtools_2.7.0.bb => python3-testtools_2.7.1.bb}  | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-testtools_2.7.0.bb => python3-testtools_2.7.1.bb} (100%)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
-similarity index 93%
-rename from meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-rename to meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
-index 898a952a8b..16c7a6007a 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.3.3.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
- "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
--SRC_URI[sha256sum] = "6474e98851d9f6f33871957ddee9714fdcd9d8a5ee9abb5a98d63ea2e60e12f3"
-+SRC_URI[sha256sum] = "1e0b0c7231c5fa122e06c0609a76723664d068b0dba3b8219b63e6340b347860"
+diff --git a/meta/recipes-devtools/python/python-testtools.inc b/meta/recipes-devtools/python/python-testtools.inc
+index 76f99c2058..759166d63d 100644
+--- a/meta/recipes-devtools/python/python-testtools.inc
++++ b/meta/recipes-devtools/python/python-testtools.inc
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e2c9d3e8ba7141c83bfef190e0b9379a"
  
- CVE_STATUS[CVE-2021-46828] = "fixed-version: fixed in 1.3.3rc1 so not present in 1.3.3"
+ inherit pypi
  
+-SRC_URI[sha256sum] = "eec326f4275e6a55e5540302d01a0ae0a9e48991d7aade38a5c8ed093c37993a"
++SRC_URI[sha256sum] = "df6de96010e29ee21f637a147eabf30d50b25e3841dd1d68f93ee89ce77e366c"
+ 
+ DEPENDS += " \
+     ${PYTHON_PN}-pbr \
+diff --git a/meta/recipes-devtools/python/python3-testtools_2.7.0.bb b/meta/recipes-devtools/python/python3-testtools_2.7.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-testtools_2.7.0.bb
+rename to meta/recipes-devtools/python/python3-testtools_2.7.1.bb
 -- 
 2.39.2
 
 
---===============7564947652342186187==
+--===============2336291017364626590==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libtirpc: SRC_URI changed from "https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.3.tar.bz2 file://ipv6.patch" to "https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.4.tar.bz2 file://ipv6.patch"
-packages/core2-64-poky-linux/libtirpc: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-dbg: PKGSIZE changed from 615392 to 617664 (+0%)
-packages/core2-64-poky-linux/libtirpc/libtirpc-dbg: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-dbg: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-dev: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-dev: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-doc: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-doc: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-locale: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-locale: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-src: PKGSIZE changed from 672330 to 674982 (+0%)
-packages/core2-64-poky-linux/libtirpc/libtirpc-src: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-src: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc-staticdev: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc-staticdev: PV changed from "1.3.3" to "1.3.4"
-packages/core2-64-poky-linux/libtirpc/libtirpc: PKGV changed from 1.3.3 [default] to 1.3.4 [default]
-packages/core2-64-poky-linux/libtirpc/libtirpc: PV changed from "1.3.3" to "1.3.4"
+packages/core2-64-poky-linux/python3-testtools: PV changed from "2.7.0" to "2.7.1"
+packages/core2-64-poky-linux/python3-testtools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/t/testtools/testtools-2.7.0.tar.gz;downloadfilename=testtools-2.7.0.tar.gz" to "https://files.pythonhosted.org/packages/source/t/testtools/testtools-2.7.1.tar.gz;downloadfilename=testtools-2.7.1.tar.gz"
+packages/core2-64-poky-linux/python3-testtools: PKGV changed from 2.7.0 [default] to 2.7.1 [default]
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-dbg: PV changed from "2.7.0" to "2.7.1"
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-dbg: PKGV changed from 2.7.0 [default] to 2.7.1 [default]
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-dev: PV changed from "2.7.0" to "2.7.1"
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-dev: PKGV changed from 2.7.0 [default] to 2.7.1 [default]
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-doc: PV changed from "2.7.0" to "2.7.1"
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-doc: PKGV changed from 2.7.0 [default] to 2.7.1 [default]
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-locale: PV changed from "2.7.0" to "2.7.1"
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-locale: PKGV changed from 2.7.0 [default] to 2.7.1 [default]
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-src: PV changed from "2.7.0" to "2.7.1"
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-src: PKGV changed from 2.7.0 [default] to 2.7.1 [default]
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-staticdev: PV changed from "2.7.0" to "2.7.1"
+packages/core2-64-poky-linux/python3-testtools/python3-testtools-staticdev: PKGV changed from 2.7.0 [default] to 2.7.1 [default]
+packages/core2-64-poky-linux/python3-testtools/python3-testtools: PKGSIZE changed from 257020 to 255403 (-1%)
+packages/core2-64-poky-linux/python3-testtools/python3-testtools: PV changed from "2.7.0" to "2.7.1"
+packages/core2-64-poky-linux/python3-testtools/python3-testtools: PKGV changed from 2.7.0 [default] to 2.7.1 [default]
+packages/core2-64-poky-linux/python3-testtools/python3-testtools: FILELIST: removed "/usr/lib/python3.11/site-packages/testtools/deferredruntest.py /usr/lib/python3.11/site-packages/testtools/__pycache__/deferredruntest.cpython-311.pyc"
+Changes to packages/core2-64-poky-linux/python3-testtools (sysroot):
+  /usr/lib/python3.11/site-packages/testtools/deferredruntest.py was removed
+  /usr/lib/python3.11/site-packages/testtools/__pycache__/deferredruntest.cpython-311.pyc was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1764,43 +1768,16 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============7564947652342186187==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libtirpc-upgrade-1.3.3-1.3.4.patch"
-
-RnJvbSAzZDI5YzhmODAxNjEzMmUyODRjNzgyNmFlOWM1NmQ0ZTljOGE3ODc3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDk6MTQ6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ0aXJwYzogdXBncmFkZSAxLjMuMyAtPiAxLjMuNAoKLS0tCiAuLi4vbGlidGlycGMve2xpYnRp
-cnBjXzEuMy4zLmJiID0+IGxpYnRpcnBjXzEuMy40LmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvbGlidGlycGMve2xpYnRpcnBjXzEuMy4zLmJiID0+IGxpYnRpcnBjXzEu
-My40LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJw
-Yy9saWJ0aXJwY18xLjMuMy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0
-aXJwY18xLjMuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvbGlidGlycGMvbGlidGlycGNfMS4zLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwY18xLjMuNC5iYgppbmRleCA4OThhOTUyYThi
-Li4xNmM3YTYwMDdhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMv
-bGlidGlycGNfMS4zLjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xp
-YnRpcnBjXzEuMy40LmJiCkBAIC0xNCw3ICsxNCw3IEBAIFNSQ19VUkkgPSAiJHtTT1VSQ0VGT1JH
-RV9NSVJST1J9LyR7QlBOfS8ke0JQfS50YXIuYnoyIFwKICIKIFVQU1RSRUFNX0NIRUNLX1VSSSA9
-ICJodHRwczovL3NvdXJjZWZvcmdlLm5ldC9wcm9qZWN0cy9saWJ0aXJwYy9maWxlcy9saWJ0aXJw
-Yy8iCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIoP1A8cHZlcj5cZCsoXC5cZCspKykvIgotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjY0NzRlOTg4NTFkOWY2ZjMzODcxOTU3ZGRlZTk3MTRmZGNkOWQ4
-YTVlZTlhYmI1YTk4ZDYzZWEyZTYwZTEyZjMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWUwYjBj
-NzIzMWM1ZmExMjJlMDZjMDYwOWE3NjcyMzY2NGQwNjhiMGRiYTNiODIxOWI2M2U2MzQwYjM0Nzg2
-MCIKIAogQ1ZFX1NUQVRVU1tDVkUtMjAyMS00NjgyOF0gPSAiZml4ZWQtdmVyc2lvbjogZml4ZWQg
-aW4gMS4zLjNyYzEgc28gbm90IHByZXNlbnQgaW4gMS4zLjMiCiAKLS0gCjIuMzkuMgoK
-
---===============7564947652342186187==
+--===============2336291017364626590==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/python3-testtools/python3-testtools: FILELIST: removed "/usr/lib/python3.11/site-packages/testtools/deferredruntest.py /usr/lib/python3.11/site-packages/testtools/__pycache__/deferredruntest.cpython-311.pyc"
+Changes to packages/core2-64-poky-linux/python3-testtools (sysroot):
+  /usr/lib/python3.11/site-packages/testtools/deferredruntest.py was removed
+  /usr/lib/python3.11/site-packages/testtools/__pycache__/deferredruntest.cpython-311.pyc was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3438,5 +3415,38 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============7564947652342186187==--
+--===============2336291017364626590==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-testtools-upgrade-2.7.0-2.7.1.patch"
+
+RnJvbSBjN2MzNjY1YjU5MjExZWI0NzQ3NDkzNDA2OTA3ODlmZjMxMDcwODMxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDc6NDc6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXRlc3R0b29sczogdXBncmFkZSAyLjcuMCAtPiAyLjcuMQoKLS0tCiBtZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi10ZXN0dG9vbHMuaW5jICAgICAgICAgICAgICAgfCAy
+ICstCiAuLi4ve3B5dGhvbjMtdGVzdHRvb2xzXzIuNy4wLmJiID0+IHB5dGhvbjMtdGVzdHRvb2xz
+XzIuNy4xLmJifSAgfCAwCiAyIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
+aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy10ZXN0
+dG9vbHNfMi43LjAuYmIgPT4gcHl0aG9uMy10ZXN0dG9vbHNfMi43LjEuYmJ9ICgxMDAlKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLXRlc3R0b29scy5p
+bmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi10ZXN0dG9vbHMuaW5jCmlu
+ZGV4IDc2Zjk5YzIwNTguLjc1OTE2NmQ2M2QgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uLXRlc3R0b29scy5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24tdGVzdHRvb2xzLmluYwpAQCAtNiw3ICs2LDcgQEAgTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZTJjOWQzZThiYTcxNDFjODNiZmVmMTkwZTBi
+OTM3OWEiCiAKIGluaGVyaXQgcHlwaQogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWVjMzI2ZjQy
+NzVlNmE1NWU1NTQwMzAyZDAxYTBhZTBhOWU0ODk5MWQ3YWFkZTM4YTVjOGVkMDkzYzM3OTkzYSIK
+K1NSQ19VUklbc2hhMjU2c3VtXSA9ICJkZjZkZTk2MDEwZTI5ZWUyMWY2MzdhMTQ3ZWFiZjMwZDUw
+YjI1ZTM4NDFkZDFkNjhmOTNlZTg5Y2U3N2UzNjZjIgogCiBERVBFTkRTICs9ICIgXAogICAgICR7
+UFlUSE9OX1BOfS1wYnIgXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXRlc3R0b29sc18yLjcuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy10ZXN0dG9vbHNfMi43LjEuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10ZXN0dG9vbHNfMi43
+LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy10ZXN0
+dG9vbHNfMi43LjEuYmIKLS0gCjIuMzkuMgoK
+
+--===============2336291017364626590==--
 
