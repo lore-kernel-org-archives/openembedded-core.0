@@ -1,597 +1,260 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93219C07548
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 12:45:19 +0000 (UTC)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
- by mx.groups.io with SMTP id smtpd.web11.12018.1700052312978793177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4848C4332F
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 13:21:59 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.12691.1700054511374686962
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 04:45:13 -0800
+ Wed, 15 Nov 2023 05:21:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BZdWSmAh;
- spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-45f3b583ce9so529429137.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 04:45:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700052312; x=1700657112; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=McBJ49KPjTVgF3+vb57enl16nCqieRpx08qrw0szxh4=;
-        b=BZdWSmAhHB/G7e2Z5uLFWfPfFMtFVzGi88LafIFyP+2HMsdvz2J472AgUS7S2b0Stx
-         Ukeh39NweTolva5cwJ36KUzxuU5H7Gng1657w7HBoisSGtQeuMtfaZKQ3xbV6UNQ3ROO
-         utzCfQPSX2D5xZ53cUVQpYxnTNhlz/cCAnWK81Ei9AgJCyTO7729DUN4w//NfflWdycc
-         SXo19KwPp5RgjN9Ete5lHnk/FBXXiQn46ayPJcG5jvyJboogWvHX0yqAK+8jbdB3xO7g
-         nbcYe7lmKWazV0HuH4CFqjsF6MBAdtWC2AqV0d21fxQr8S7vjCELMPuOgyW8eJmlTDo7
-         5o0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700052312; x=1700657112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=McBJ49KPjTVgF3+vb57enl16nCqieRpx08qrw0szxh4=;
-        b=tiBnKPAGGkWu9QrG/kuBQDV4iqeAur/4l8V/n420cISRXueeBQDt+4pUlMGxGEZCgI
-         xz6PKLNhq0f0EUz0gMWrVIVyGK/j0hAAvLiCwxXL9xBJtFBE1er5cA14D7IZXHSznu2o
-         2Dy/M/4HWlr3L+9TV+3N+YsGZw9Ec/+hOpPgzr2+BLFcJPkgKotXDZjb4v2CLU10Qwok
-         r6UiFQTIMOadvT8bg0ANQqahhsCrfMmgV847WYzQhkZSavpEP4eJbkRKH4rhgqFhi4gF
-         VClFmebJ7hiv+APUavkDg3g2iXbfpcCeBdaK+PgJ/PX3Hqa3lqRn51ghwmsA92Ff6N82
-         WDGQ==
-X-Gm-Message-State: AOJu0YxZEs+2g9g2wzqLAvRN1j4f1reBHHHJTgUK91GMTY2l/z6U0zEv
-	qgZO8ct7RzNnYfOQAlGJohET+SB4uxF89kupAjR2AvXjUtQ=
-X-Google-Smtp-Source: AGHT+IHOEc5Zqv+6KYV6xhgHDvhLN+yo3Ffs+UTzzqkNvLPT0q5jL57jf6YY1E6z2/dOBxfMxF8OvK3UCr0bvgJ8mo4=
-X-Received: by 2002:a67:ead2:0:b0:452:6478:3e24 with SMTP id
- s18-20020a67ead2000000b0045264783e24mr3697852vso.12.1700052311664; Wed, 15
- Nov 2023 04:45:11 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=NkAw3iy/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=968395276a=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AFALCBr028504
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 13:21:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:references:in-reply-to
+	:content-type:mime-version; s=PPS06212021; bh=Lk3qUPGxo5kFjIZF+D
+	8yL+7vD7XwzvnKfb4frnXFLNM=; b=NkAw3iy/cvp4bcOCgMvVpxhBdal8zh3vvU
+	QuKuJ0WfRQPobLX5Lf4gp559Tzsmi3AieBYw84UTnw8L3F2b1KYDN+90XxdYkvKB
+	D5i86lESyGhYzHE1LAj4DLQjneZupQUy8v9MVdMJXxT/IKG/uZGOkJrbC3E7JbyR
+	UZfsfIbXgUVKiI1iOgiC+pV0keTeKrcoYDyFQCuD9kjUFw1NNHoJ0xf6swrV+3gX
+	9wXwYKkZLCff2GAU3q84a1p0FqcJ7izeVXzYoGsZOr1w4GtIyuVFyk1KKHRSwnun
+	PuAE9fcUwHQCzEPMGTJ5SDEvx9qRWJkk6Q5WAtRi7RB6YtswpHDQ==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ua0k6bpx2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 13:21:50 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.22/8.17.1.22) with ESMTP id 3AFDLniX012572;
+	Wed, 15 Nov 2023 13:21:49 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ua0k6bpx0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Nov 2023 13:21:49 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ln7tzZdYYPC3cGC3rWEJ2tCTxlT4afzjLXlOV85mW4vCec70g8lR/bzWrdpF/ZqyVdmc9rZj3yueI5kSySEK+cTxbGHdwn/2KSoWK9w0l6q+iFDT1hCoHe19yNEmowldyGAnxXpPxxfLZykOUIsnNSBwWRncwBnCo+JINPJ+Kmg6VISuRzhLetK4ZvB7YOJMX1RoL9TvleWRXZdCtYT7Hc+0H6X7p/HeRqLtbVIty84OrMbdzTiFM53tDvbOmgmnCu95yoQNkoJDEnvZ5oWICtQa7qNIjUGc9oJMI8Zz3TeqKpE2+zmYi3FngG4Fg7v3pT6xzY2esDnpj+ELdJgT/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Lk3qUPGxo5kFjIZF+D8yL+7vD7XwzvnKfb4frnXFLNM=;
+ b=eX12d211AzCcfOHNDD4vPncwLuXv5Cvf02UsrWtT1mzR9lR0nx1y8Qsb8a4as+cRBfSTCTe/v+t3qZOSS9LOyE4FtBq2PHPQ3hI+X40nh1Iv+Gaqw4sPoHDrQawxXonBNMw7krq6lvcPjzDge+v81UnDar+v7RBvFyUdpzg7HpzP0ieLYvSWtBpQmRAOD6/27gRtxJtmaooBQdWNoPM4n/1n6oYM2DIAuThoDTI9nDCg6Tv1XZDPuzt1kRdZrmzCrrHVvHznbHkWcu5pFZmus9CUO5hSxajbjccipPY+f7Hzv8dQipiKHSvrO6Bf3uGjzeegqI2466JCeyx+w51hEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from MW4PR11MB5822.namprd11.prod.outlook.com (2603:10b6:303:185::9)
+ by PH8PR11MB6951.namprd11.prod.outlook.com (2603:10b6:510:225::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.25; Wed, 15 Nov
+ 2023 13:21:37 +0000
+Received: from MW4PR11MB5822.namprd11.prod.outlook.com
+ ([fe80::d836:9049:e781:2391]) by MW4PR11MB5822.namprd11.prod.outlook.com
+ ([fe80::d836:9049:e781:2391%4]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
+ 13:21:36 +0000
+From: "Polampalli, Archana" <Archana.Polampalli@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/2] vim: Improve locale handling
+Thread-Topic: [OE-core] [PATCH 2/2] vim: Improve locale handling
+Thread-Index: AQHaF1LttvF1Ev3Hs0+fRc9V05ehbbB7R5DAgAAKvoCAAAvJKg==
+Date: Wed, 15 Nov 2023 13:21:36 +0000
+Message-ID: 
+ <MW4PR11MB5822AB3A5C5F06F2D531215F84B1A@MW4PR11MB5822.namprd11.prod.outlook.com>
+References: <20231114233220.2567795-1-richard.purdie@linuxfoundation.org>
+	 <20231114233220.2567795-2-richard.purdie@linuxfoundation.org>
+	 <MW4PR11MB58224AD271C46B0D27AABBF684B1A@MW4PR11MB5822.namprd11.prod.outlook.com>
+ <479f742da1557615f8ce6b30bdeda341f2cdd4b5.camel@linuxfoundation.org>
+In-Reply-To: 
+ <479f742da1557615f8ce6b30bdeda341f2cdd4b5.camel@linuxfoundation.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW4PR11MB5822:EE_|PH8PR11MB6951:EE_
+x-ms-office365-filtering-correlation-id: 73232daf-a396-4086-7e23-08dbe5ddcb9c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ LwXjwKPZZq4a5c3EDWh9nayDkrJPnbw2M4GVCOa2R2exHq7UaIm0miIV1qdcEbfLvmi/FluNBz76+woj9PUxWfjT6RROrp5qHb5c9sN3sIUNkNpsW6oZVBHWxvJwQechG0iQxPJvGRmAodHtPbD45S/TamUkw1+lnRaYjn/vHKHWLrs7AV5DurLyjfx6tEtSxKyUMgyKJa6nXUJYe5ZV1ZPbnFNQEOpOvSNEiqqxYtpdVSx4kqxh5kqn5eMCNL0cZU2vINx1Ch+0bWFxx/qIMICMttC7GvjLP0z2VYr1lPOS+8yCO39ljUSnaBk2x9d4uqYIKJ/OsTCdBlSDgyZEmzqdClbNRphKWuvTnf+XwQ9EEErA6YQHnzzIf7PGOGyxzPJrnJA9QDpDQdyPsyZ977B6of7U/Uiej3+r/9kSGtkfKBK1bLsKZvjD/P1QcVmb0nv74C7B4KJTlkjntY//sk2uMulakdfK14PTAPScELOGKMHObKlCDQmKBMRD51I2haKnPwPEzlc6KIfgtyW960t2+S+iZkVoe6tircckoykp19LdUPKt7C5B8y1LR/X++oebx4rao07JghMdkHj7B8XCxanoVYWaISadNiBNR2bOb7u4qAsH9kCSGog5JiC3baqYk4fpJAMIPgtBmQizPNY0ppVRZ7/Ulbuf5jqhJ5c=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5822.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(39850400004)(346002)(376002)(230173577357003)(230922051799003)(230273577357003)(1800799009)(64100799003)(451199024)(186009)(52536014)(19627405001)(66446008)(76116006)(2906002)(8676002)(66556008)(64756008)(91956017)(66476007)(8936002)(66946007)(55016003)(71200400001)(4001150100001)(478600001)(316002)(5660300002)(9686003)(41300700001)(33656002)(53546011)(86362001)(110136005)(6506007)(26005)(83380400001)(7696005)(122000001)(38100700002)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?MQTQB+vLi8X7cYgtYF9uQo602tW9yOj2w8tdX3+3XddVkOsa02SOggSPDF6S?=
+ =?us-ascii?Q?Y+g8rIZ5Yw7dwQ5uw96+VjW9y8iQvQ8DMxbI3SOkX/wBc7ij/4b9P8pSLsLZ?=
+ =?us-ascii?Q?Zd626FCh3cQRkOQrnRBnyUpAKxbC10EzVaa8df/DSASc7+2+PtKbe21IfAVz?=
+ =?us-ascii?Q?6vRDAkxUalkMm0QJq4jFjNioxq2Nzkv3M/cB2yV6AnDheiMkeQVcIxlm00ct?=
+ =?us-ascii?Q?ulkZ3TejjQE0/+JQtiF7u39YnvjiEYt9LRqBwmyUqd3qY3jSysxJQ1Z4LuCv?=
+ =?us-ascii?Q?PaR+q/gE1iCZBILPosN3JA1t0x2EC/brHKpZtueVuPyl4fzf0HOXc6AKAbey?=
+ =?us-ascii?Q?Smdsst3Qhj97JztvgOCFE878eRnzpcdvtm+024fm2hORCEFG1WBVgQqSbjnm?=
+ =?us-ascii?Q?XGX22Du0jyNqR43EQOOSv16FQjL6MAYufOoqmqEDvwavsTgQBfCTn202nYgZ?=
+ =?us-ascii?Q?AoPao5iNahvg1PAtbIQguintZYvf7ZNS0zqka2nsAfGag24V01pX0y1Tpmkp?=
+ =?us-ascii?Q?AVumwP7QukGCJb7TcC/xBFONIOshTNHffnTbYRoG2FtkezrjNmWn08hKBwXg?=
+ =?us-ascii?Q?gqgxNf932I6s04sEV7MjGpbUWsWM8qq1rPgTgqTxDyHi89y2QOfXGO1+Vin+?=
+ =?us-ascii?Q?SpB5fYKx/UG2KI77BhJBisk/djVktCD4bOmes3EW7R3zeNJpEwlIeTfK+2fV?=
+ =?us-ascii?Q?DmBWmiM13iAZT5wzQ/N8o316eM1tui+53PR9cxeGQ/zt6QYRzJcP5ebMnZ+H?=
+ =?us-ascii?Q?b2Cu/KwZxkzC6nzRMgoZS3PkqotNOvn9lrA5Sip3fWEwot0q+i361SfC5xiA?=
+ =?us-ascii?Q?8ETtFjvlDWotbZn6HoyVUFOaStHyZN6LeANTy4W/B18/khqIjIOY2xihjytx?=
+ =?us-ascii?Q?lApXwML4dU+XjYKfE/e3n6bGU0bwb+V6sOkQ87H1Opxf8mOqldhdAk3yXyia?=
+ =?us-ascii?Q?k2+WIQ0ewPpZGJZrJtB5KxYD30+wBQBjVvnABCzyuhzzLqvEhZJ/+4U7+tIY?=
+ =?us-ascii?Q?4UdybuS3qWNbZL1g7/AmJ+FIizEo3qV66pz69DDm+sRjRNGOxh7RN3M7jTur?=
+ =?us-ascii?Q?P0CagvXvWNAFRBh+N9rlHVZn7NQ7QCjJSeH0FqrPZ0LLYLRI53EXYoVXtrcD?=
+ =?us-ascii?Q?f751Rcitl37qSltOezQtAzULXP/gWEhx5pj0GLKGs6FNgDrMb/vrNaVMcJLF?=
+ =?us-ascii?Q?Vtv4wmGNeQlUtDiOrGHx235pjfTrRcdUY0JetZ+zN4am782Pg5OglvRZo0zs?=
+ =?us-ascii?Q?jfGKF27y1gZp/CW/Eux8wtfbPAhdPxj0zCqs6Q1T2zyYWJWgS5Gb0x9bkNG9?=
+ =?us-ascii?Q?PxPPRT/3pykA8GhnAMZRf2V67Oq9onxszvml/yfBbGzJnGBxs/83LoACPdmC?=
+ =?us-ascii?Q?CQnnzWF5RWOjAo45YIdCmT4mOWBNfwgORaT7xAvpyooN/LCxrbRgmOgEFhrK?=
+ =?us-ascii?Q?CR+wXcbcq9Dp9LaBP3qmRX6dIgPhFj8ucb2veYRQ8mRjf6jeYu5SajImkxsv?=
+ =?us-ascii?Q?AsORXvaTD/mOdLGWHCMtYNgs82XQcyKa2EaJ+6iJWLmuprXdlRwigLrD6Si3?=
+ =?us-ascii?Q?c/zAVeSE/v2qvvOixO8jUywNro/ID5ZUQXF1MV3uRS/Hvi7e/lMNoO7wApX/?=
+ =?us-ascii?Q?lw=3D=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_MW4PR11MB5822AB3A5C5F06F2D531215F84B1AMW4PR11MB5822namp_"
 MIME-Version: 1.0
-References: <20231115050507.3572177-1-xiangyu.chen@eng.windriver.com>
-In-Reply-To: <20231115050507.3572177-1-xiangyu.chen@eng.windriver.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 15 Nov 2023 12:45:00 +0000
-Message-ID: <CANPvuRnCTOii5+bECiNCM3C5OnektcHQCRFoZnxP940DbcsCxQ@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH v2] openssh: add systemd readiness notification support
-To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000022f3ad060a3046dd"
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5822.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73232daf-a396-4086-7e23-08dbe5ddcb9c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2023 13:21:36.9370
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xrKpn/Ne77VmpVh9WhVg+hbYlkoARE+gGJL5K2nSUxC0DCMu/nzgTa0C9Dlm9sRpMgK2Iwkl7ONPO7neOh1ZzgqnNzFMOQBwFk1DJEZgtmB0io1K0s/cUGT0vyqTwdkd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6951
+X-Proofpoint-GUID: kq3YNcwQ4NdBBzm6CgjfK3O40nwVtlvm
+X-Proofpoint-ORIG-GUID: KJJ2iJ0jvIQvTRFzMEfySkTbRJKXunDk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-15_12,2023-11-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=618 spamscore=0
+ lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311060001
+ definitions=main-2311150103
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 12:45:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190593
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 13:21:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190594
 
---00000000000022f3ad060a3046dd
-Content-Type: text/plain; charset="UTF-8"
+--_000_MW4PR11MB5822AB3A5C5F06F2D531215F84B1AMW4PR11MB5822namp_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Xiangyu,
+Thank you for the confirmation.
 
-I believe the recipe patch can be shrinking to a new PACKAGECONFIG line,
-comments inline.
+Regards,
+Archana
+________________________________
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Sent: Wednesday, November 15, 2023 18:07
+To: Polampalli, Archana <Archana.Polampalli@windriver.com>; openembedded-co=
+re@lists.openembedded.org <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/2] vim: Improve locale handling
 
-Jose
+CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.
 
-Xiangyu Chen <xiangyu.chen@eng.windriver.com> escreveu no dia quarta,
-15/11/2023 =C3=A0(s) 04:30:
+On Wed, 2023-11-15 at 12:11 +0000, Polampalli, Archana wrote:
+>
+> Hi Richard,
+>
+>
+> I am planning to send Vim upgrade patch for all branches.
+>
+>
+> Could you please confirm Is it applicable to other branches as well,
+> if yes please confirm are you planning to send other branches also It
+> will avoid patch conflicts to further vim patches.
 
-> From: Xiangyu Chen <xiangyu.chen@windriver.com>
->
-> The sshd keeps on terminating and restarting in servel minutes, we can
-> observe
-> log from journalctl that the sshd was killed by systemd with signal 15:
->
->     systemd[1]: sshd.service start operation timed out. Terminating.
->     sshd[374]: Received signal 15; terminating.
->
-> When the sshd as a systemd service, it need to tell systemd with a "READY=
-"
-> status,
-> and when it is restarted, it need to tell systemd with a "RELOADING"
-> status, otherwise,
-> systemd would treat it as failing service and restart it again.
->
-> Taken a patch from openssh upstream PR[1], that after using a signal to
-> tell systemd
-> it is ready or reload now.
->
-> Ref:
-> [1]
-> https://github.com/openssh/openssh-portable/pull/375/commits/be187435911c=
-de6cc3cef6982a508261074f1e56
->
-> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ---
->  ...tional-support-for-systemd-sd_notify.patch | 99 +++++++++++++++++++
->  .../openssh/openssh_9.5p1.bb                  |  5 +-
->  2 files changed, 103 insertions(+), 1 deletion(-)
->  create mode 100644
-> meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-suppo=
-rt-for-systemd-sd_notify.patch
->
-> diff --git
-> a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-sup=
-port-for-systemd-sd_notify.patch
-> b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-sup=
-port-for-systemd-sd_notify.patch
-> new file mode 100644
-> index 0000000000..acda8f1ce9
-> --- /dev/null
-> +++
-> b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-sup=
-port-for-systemd-sd_notify.patch
-> @@ -0,0 +1,99 @@
-> +From be187435911cde6cc3cef6982a508261074f1e56 Mon Sep 17 00:00:00 2001
-> +From: Matt Jolly <Matt.Jolly@footclan.ninja>
-> +Date: Thu, 2 Feb 2023 21:05:40 +1100
-> +Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
-> +
-> +This is a rebase of Dennis Lamm's <expeditioneer@gentoo.org>
-> +patch based on Jakub Jelen's <jjelen@redhat.com> original patch
-> +
-> +Upstream-Status: Submitted [
-> https://github.com/openssh/openssh-portable/pull/375/commits/be187435911c=
-de6cc3cef6982a508261074f1e56
-> ]
-> +
-> +Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> +---
-> + configure.ac | 24 ++++++++++++++++++++++++
-> + sshd.c       | 13 +++++++++++++
-> + 2 files changed, 37 insertions(+)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index 22fee70f..486c189f 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -4835,6 +4835,29 @@ AC_SUBST([GSSLIBS])
-> + AC_SUBST([K5LIBS])
-> + AC_SUBST([CHANNELLIBS])
-> +
-> ++# Check whether user wants systemd support
-> ++SYSTEMD_MSG=3D"no"
-> ++AC_ARG_WITH(systemd,
-> ++      [  --with-systemd          Enable systemd support],
-> ++      [ if test "x$withval" !=3D "xno" ; then
-> ++              AC_PATH_TOOL([PKGCONFIG], [pkg-config], [no])
-> ++              if test "$PKGCONFIG" !=3D "no"; then
-> ++                      AC_MSG_CHECKING([for libsystemd])
-> ++                      if $PKGCONFIG --exists libsystemd; then
-> ++                              SYSTEMD_CFLAGS=3D`$PKGCONFIG --cflags
-> libsystemd`
-> ++                              SYSTEMD_LIBS=3D`$PKGCONFIG --libs libsyst=
-emd`
-> ++                              CPPFLAGS=3D"$CPPFLAGS $SYSTEMD_CFLAGS"
-> ++                              SSHDLIBS=3D"$SSHDLIBS $SYSTEMD_LIBS"
-> ++                              AC_MSG_RESULT([yes])
-> ++                              AC_DEFINE(HAVE_SYSTEMD, 1, [Define if you
-> want systemd support.])
-> ++                              SYSTEMD_MSG=3D"yes"
-> ++                      else
-> ++                              AC_MSG_RESULT([no])
-> ++                      fi
-> ++              fi
-> ++      fi ]
-> ++)
-> ++
-> + # Looking for programs, paths and files
-> +
-> + PRIVSEP_PATH=3D/var/empty
-> +@@ -5634,6 +5657,7 @@ echo "                   libldns support: $LDNS_MS=
-G"
-> + echo "  Solaris process contract support: $SPC_MSG"
-> + echo "           Solaris project support: $SP_MSG"
-> + echo "         Solaris privilege support: $SPP_MSG"
-> ++echo "                   systemd support: $SYSTEMD_MSG"
-> + echo "       IP address in \$DISPLAY hack: $DISPLAY_HACK_MSG"
-> + echo "           Translate v4 in v6 hack: $IPV4_IN6_HACK_MSG"
-> + echo "                  BSD Auth support: $BSD_AUTH_MSG"
-> +diff --git a/sshd.c b/sshd.c
-> +index 6321936c..859d6a0b 100644
-> +--- a/sshd.c
-> ++++ b/sshd.c
-> +@@ -88,6 +88,10 @@
-> + #include <prot.h>
-> + #endif
-> +
-> ++#ifdef HAVE_SYSTEMD
-> ++#include <systemd/sd-daemon.h>
-> ++#endif
-> ++
-> + #include "xmalloc.h"
-> + #include "ssh.h"
-> + #include "ssh2.h"
-> +@@ -310,6 +314,10 @@ static void
-> + sighup_restart(void)
-> + {
-> +       logit("Received SIGHUP; restarting.");
-> ++#ifdef HAVE_SYSTEMD
-> ++      /* Signal systemd that we are reloading */
-> ++      sd_notify(0, "RELOADING=3D1");
-> ++#endif
-> +       if (options.pid_file !=3D NULL)
-> +               unlink(options.pid_file);
-> +       platform_pre_restart();
-> +@@ -2086,6 +2094,11 @@ main(int ac, char **av)
-> +                       }
-> +               }
-> +
-> ++#ifdef HAVE_SYSTEMD
-> ++              /* Signal systemd that we are ready to accept connections
-> */
-> ++              sd_notify(0, "READY=3D1");
-> ++#endif
-> ++
-> +               /* Accept a connection and return in a forked child */
-> +               server_accept_loop(&sock_in, &sock_out,
-> +                   &newsock, config_s);
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-> b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-> index 3a94633cf0..bbb8fb091a 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-> @@ -26,6 +26,7 @@ SRC_URI =3D "
-> http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
->             file://sshd_check_keys \
->             file://add-test-support-for-busybox.patch \
->
-> file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-> +
->  file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
->             "
->  SRC_URI[sha256sum] =3D
-> "f026e7b79ba7fb540f75182af96dc8a8f1db395f922bbc9f6ca603672686086b"
->
-> @@ -51,7 +52,8 @@ INITSCRIPT_PARAMS:${PN}-sshd =3D "defaults 9"
->  SYSTEMD_PACKAGES =3D "${PN}-sshd"
->  SYSTEMD_SERVICE:${PN}-sshd =3D "sshd.socket sshd.service"
->
-> -inherit autotools-brokensep ptest
-> +inherit autotools-brokensep ptest pkgconfig
-> +DEPENDS +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'system=
-d',
-> '', d)}"
->
+It is applicable to all branches and I believe our LTS maintainer has
+it queued for them already.
 
-The DEPENDS is not need as it was added by the PACKAGECONFIG[systemd]
+Cheers,
 
+Richard
 
->
->  PACKAGECONFIG ??=3D ""
->  PACKAGECONFIG[kerberos] =3D "--with-kerberos5,--without-kerberos5,krb5"
->
-
-PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
-PACKAGECONFIG[systemd] =3D "--with-systemd,--without-systemd,systemd"
-
-@@ -69,6 +71,7 @@ EXTRA_OECONF =3D "'LOGIN_PROGRAM=3D${base_bindir}/login' =
-\
->                  --sysconfdir=3D${sysconfdir}/ssh \
->                  --with-xauth=3D${bindir}/xauth \
->                  --disable-strip \
-> +                ${@bb.utils.contains('DISTRO_FEATURES', 'systemd',
-> '--with-systemd', '--without-systemd', d)} \
->
-
-This is not need as it was added by the PACKAGECONFIG[systemd]
-
-                 "
->
->  # musl doesn't implement wtmp/utmp and logwtmp
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190553):
-> https://lists.openembedded.org/g/openembedded-core/message/190553
-> Mute This Topic: https://lists.openembedded.org/mt/102599570/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---00000000000022f3ad060a3046dd
-Content-Type: text/html; charset="UTF-8"
+--_000_MW4PR11MB5822AB3A5C5F06F2D531215F84B1AMW4PR11MB5822namp_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Xiangyu,<br><br>I believe=C2=A0the recipe patch ca=
-n be shrinking=C2=A0to a new PACKAGECONFIG line,</div><div>comments=C2=A0in=
-line.<br><br>Jose</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Xiangyu Chen &lt;<a href=3D"mailto:xiangyu.chen@eng.windri=
-ver.com">xiangyu.chen@eng.windriver.com</a>&gt; escreveu no dia quarta, 15/=
-11/2023 =C3=A0(s) 04:30:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">From: Xiangyu Chen &lt;<a href=3D"mailto:xiangyu.chen@windriver.=
-com" target=3D"_blank">xiangyu.chen@windriver.com</a>&gt;<br>
-<br>
-The sshd keeps on terminating and restarting in servel minutes, we can obse=
-rve<br>
-log from journalctl that the sshd was killed by systemd with signal 15:<br>
-<br>
-=C2=A0 =C2=A0 systemd[1]: sshd.service start operation timed out. Terminati=
-ng.<br>
-=C2=A0 =C2=A0 sshd[374]: Received signal 15; terminating.<br>
-<br>
-When the sshd as a systemd service, it need to tell systemd with a &quot;RE=
-ADY&quot; status,<br>
-and when it is restarted, it need to tell systemd with a &quot;RELOADING&qu=
-ot; status, otherwise,<br>
-systemd would treat it as failing service and restart it again.<br>
-<br>
-Taken a patch from openssh upstream PR[1], that after using a signal to tel=
-l systemd<br>
-it is ready or reload now.<br>
-<br>
-Ref:<br>
-[1] <a href=3D"https://github.com/openssh/openssh-portable/pull/375/commits=
-/be187435911cde6cc3cef6982a508261074f1e56" rel=3D"noreferrer" target=3D"_bl=
-ank">https://github.com/openssh/openssh-portable/pull/375/commits/be1874359=
-11cde6cc3cef6982a508261074f1e56</a><br>
-<br>
-Signed-off-by: Xiangyu Chen &lt;<a href=3D"mailto:xiangyu.chen@windriver.co=
-m" target=3D"_blank">xiangyu.chen@windriver.com</a>&gt;<br>
----<br>
-=C2=A0...tional-support-for-systemd-sd_notify.patch | 99 ++++++++++++++++++=
-+<br>
-=C2=A0.../openssh/<a href=3D"http://openssh_9.5p1.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">openssh_9.5p1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 +-<br>
-=C2=A02 files changed, 103 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-sys=
-temd-Add-optional-support-for-systemd-sd_notify.patch<br>
-<br>
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-opt=
-ional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/opens=
-sh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch<br=
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-new file mode 100644<br>
-index 0000000000..acda8f1ce9<br>
---- /dev/null<br>
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-s=
-upport-for-systemd-sd_notify.patch<br>
-@@ -0,0 +1,99 @@<br>
-+From be187435911cde6cc3cef6982a508261074f1e56 Mon Sep 17 00:00:00 2001<br>
-+From: Matt Jolly &lt;Matt.Jolly@footclan.ninja&gt;<br>
-+Date: Thu, 2 Feb 2023 21:05:40 +1100<br>
-+Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`<br>
-+<br>
-+This is a rebase of Dennis Lamm&#39;s &lt;<a href=3D"mailto:expeditioneer@=
-gentoo.org" target=3D"_blank">expeditioneer@gentoo.org</a>&gt;<br>
-+patch based on Jakub Jelen&#39;s &lt;<a href=3D"mailto:jjelen@redhat.com" =
-target=3D"_blank">jjelen@redhat.com</a>&gt; original patch<br>
-+<br>
-+Upstream-Status: Submitted [<a href=3D"https://github.com/openssh/openssh-=
-portable/pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56" rel=3D"=
-noreferrer" target=3D"_blank">https://github.com/openssh/openssh-portable/p=
-ull/375/commits/be187435911cde6cc3cef6982a508261074f1e56</a>]<br>
-+<br>
-+Signed-off-by: Xiangyu Chen &lt;<a href=3D"mailto:xiangyu.chen@windriver.c=
-om" target=3D"_blank">xiangyu.chen@windriver.com</a>&gt;<br>
-+---<br>
-+ <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank">conf=
-igure.ac</a> | 24 ++++++++++++++++++++++++<br>
-+ sshd.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 13 +++++++++++++<br>
-+ 2 files changed, 37 insertions(+)<br>
-+<br>
-+diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"=
-_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"noreferre=
-r" target=3D"_blank">configure.ac</a><br>
-+index 22fee70f..486c189f 100644<br>
-+--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a><br>
-++++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a><br>
-+@@ -4835,6 +4835,29 @@ AC_SUBST([GSSLIBS])<br>
-+ AC_SUBST([K5LIBS])<br>
-+ AC_SUBST([CHANNELLIBS])<br>
-+ <br>
-++# Check whether user wants systemd support<br>
-++SYSTEMD_MSG=3D&quot;no&quot;<br>
-++AC_ARG_WITH(systemd,<br>
-++=C2=A0 =C2=A0 =C2=A0 [=C2=A0 --with-systemd=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 Enable systemd support],<br>
-++=C2=A0 =C2=A0 =C2=A0 [ if test &quot;x$withval&quot; !=3D &quot;xno&quot;=
- ; then<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_PATH_TOOL([PKGCONFIG]=
-, [pkg-config], [no])<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$PKGCONFIG=
-&quot; !=3D &quot;no&quot;; then<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 AC_MSG_CHECKING([for libsystemd])<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if $PKGCONFIG --exists libsystemd; then<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SYSTEMD_CFLAGS=3D`$PKGCONFIG --cflags libsy=
-stemd`<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SYSTEMD_LIBS=3D`$PKGCONFIG --libs libsystem=
-d`<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $SYSTEMD_CFLAGS&=
-quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SSHDLIBS=3D&quot;$SSHDLIBS $SYSTEMD_LIBS&qu=
-ot;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([yes])<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_DEFINE(HAVE_SYSTEMD, 1, [Define if you w=
-ant systemd support.])<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 SYSTEMD_MSG=3D&quot;yes&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 else<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([no])<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 fi<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-++=C2=A0 =C2=A0 =C2=A0 fi ]<br>
-++)<br>
-++<br>
-+ # Looking for programs, paths and files<br>
-+ <br>
-+ PRIVSEP_PATH=3D/var/empty<br>
-+@@ -5634,6 +5657,7 @@ echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0libldns support: $LDNS_MSG&quot;<br>
-+ echo &quot;=C2=A0 Solaris process contract support: $SPC_MSG&quot;<br>
-+ echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Solaris project suppo=
-rt: $SP_MSG&quot;<br>
-+ echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Solaris privilege support: $=
-SPP_MSG&quot;<br>
-++echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0systemd support: $SYSTEMD_MSG&quot;<br>
-+ echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0IP address in \$DISPLAY hack: $DISP=
-LAY_HACK_MSG&quot;<br>
-+ echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Translate v4 in v6 ha=
-ck: $IPV4_IN6_HACK_MSG&quot;<br>
-+ echo &quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- BSD Auth support: $BSD_AUTH_MSG&quot;<br>
-+diff --git a/sshd.c b/sshd.c<br>
-+index 6321936c..859d6a0b 100644<br>
-+--- a/sshd.c<br>
-++++ b/sshd.c<br>
-+@@ -88,6 +88,10 @@<br>
-+ #include &lt;prot.h&gt;<br>
-+ #endif<br>
-+ <br>
-++#ifdef HAVE_SYSTEMD<br>
-++#include &lt;systemd/sd-daemon.h&gt;<br>
-++#endif<br>
-++<br>
-+ #include &quot;xmalloc.h&quot;<br>
-+ #include &quot;ssh.h&quot;<br>
-+ #include &quot;ssh2.h&quot;<br>
-+@@ -310,6 +314,10 @@ static void<br>
-+ sighup_restart(void)<br>
-+ {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0logit(&quot;Received SIGHUP; restarting.&quot;)=
-;<br>
-++#ifdef HAVE_SYSTEMD<br>
-++=C2=A0 =C2=A0 =C2=A0 /* Signal systemd that we are reloading */<br>
-++=C2=A0 =C2=A0 =C2=A0 sd_notify(0, &quot;RELOADING=3D1&quot;);<br>
-++#endif<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (options.pid_file !=3D NULL)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unlink(options.pid_=
-file);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0platform_pre_restart();<br>
-+@@ -2086,6 +2094,11 @@ main(int ac, char **av)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+ <br>
-++#ifdef HAVE_SYSTEMD<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Signal systemd that w=
-e are ready to accept connections */<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sd_notify(0, &quot;READY=
-=3D1&quot;);<br>
-++#endif<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Accept a connect=
-ion and return in a forked child */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0server_accept_loop(=
-&amp;sock_in, &amp;sock_out,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;=
-newsock, config_s);<br>
-+-- <br>
-+2.25.1<br>
-+<br>
-diff --git a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.=
-5p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.5p1.bb</a> b/meta/re=
-cipes-connectivity/openssh/<a href=3D"http://openssh_9.5p1.bb" rel=3D"noref=
-errer" target=3D"_blank">openssh_9.5p1.bb</a><br>
-index 3a94633cf0..bbb8fb091a 100644<br>
---- a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.5p1.bb"=
- rel=3D"noreferrer" target=3D"_blank">openssh_9.5p1.bb</a><br>
-+++ b/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_9.5p1.bb"=
- rel=3D"noreferrer" target=3D"_blank">openssh_9.5p1.bb</a><br>
-@@ -26,6 +26,7 @@ SRC_URI =3D &quot;<a href=3D"http://ftp.openbsd.org/pub/O=
-penBSD/OpenSSH/portable/openssh-$%7BPV%7D.tar" rel=3D"noreferrer" target=3D=
-"_blank">http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.=
-tar</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://sshd_check_keys \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://add-test-support-for-busyb=
-ox.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-regress-banner.sh-log=
--input-and-output-files-on-erro.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-systemd-Add-optional-=
-support-for-systemd-sd_notify.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;f026e7b79ba7fb540f75182af96dc8a8f1db395f=
-922bbc9f6ca603672686086b&quot;<br>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Thank you for the confirmation.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
 <br>
-@@ -51,7 +52,8 @@ INITSCRIPT_PARAMS:${PN}-sshd =3D &quot;defaults 9&quot;<b=
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Regards,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Archana</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Richard Purdie &lt;ri=
+chard.purdie@linuxfoundation.org&gt;<br>
+<b>Sent:</b> Wednesday, November 15, 2023 18:07<br>
+<b>To:</b> Polampalli, Archana &lt;Archana.Polampalli@windriver.com&gt;; op=
+enembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openembe=
+dded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core] [PATCH 2/2] vim: Improve locale handling</fon=
+t>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">CAUTION: This email comes from a non Wind River em=
+ail account!<br>
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.<br>
+<br>
+On Wed, 2023-11-15 at 12:11 +0000, Polampalli, Archana wrote:<br>
+&gt;<br>
+&gt; Hi Richard,<br>
+&gt;<br>
+&gt;<br>
+&gt; I am planning to send Vim upgrade patch for all branches.<br>
+&gt;<br>
+&gt;<br>
+&gt; Could you please confirm Is it applicable to other branches as well,<b=
 r>
-=C2=A0SYSTEMD_PACKAGES =3D &quot;${PN}-sshd&quot;<br>
-=C2=A0SYSTEMD_SERVICE:${PN}-sshd =3D &quot;sshd.socket sshd.service&quot;<b=
-r>
-<br>
--inherit autotools-brokensep ptest<br>
-+inherit autotools-brokensep ptest pkgconfig<br>
-+DEPENDS +=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;sy=
-stemd&#39;, &#39;systemd&#39;, &#39;&#39;, d)}&quot;<br></blockquote><div><=
-br>The DEPENDS is not need as it was added by the PACKAGECONFIG[systemd]<br=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-=C2=A0PACKAGECONFIG ??=3D &quot;&quot;<br>
-=C2=A0PACKAGECONFIG[kerberos] =3D &quot;--with-kerberos5,--without-kerberos=
-5,krb5&quot;<br></blockquote><div>=C2=A0<br>PACKAGECONFIG ??=3D &quot;${@bb=
-.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;systemd&#39;, d)}&quot;<br>PA=
-CKAGECONFIG[systemd] =3D &quot;--with-systemd,--without-systemd,systemd&quo=
-t;<br><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-@@ -69,6 +71,7 @@ EXTRA_OECONF =3D &quot;&#39;LOGIN_PROGRAM=3D${base_bindir=
-}/login&#39; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--sysconfdir=
-=3D${sysconfdir}/ssh \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-xauth=
-=3D${bindir}/xauth \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--disable-str=
-ip \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contai=
-ns(&#39;DISTRO_FEATURES&#39;, &#39;systemd&#39;, &#39;--with-systemd&#39;, =
-&#39;--without-systemd&#39;, d)} \<br></blockquote><div><br>This is not nee=
-d as it was added by the PACKAGECONFIG[systemd]<br><br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0# musl doesn&#39;t implement wtmp/utmp and logwtmp<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#190553): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/190553" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/190553</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102599570/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/102599570/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+&gt; if yes please confirm are you planning to send other branches also It<=
 br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; will avoid patch conflicts to further vim patches.<br>
 <br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
+It is applicable to all branches and I believe our LTS maintainer has<br>
+it queued for them already.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+</div>
+</span></font></div>
+</body>
+</html>
 
---00000000000022f3ad060a3046dd--
+--_000_MW4PR11MB5822AB3A5C5F06F2D531215F84B1AMW4PR11MB5822namp_--
 
