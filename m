@@ -1,123 +1,143 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Joakim.Tjernlund@infinera.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D5FC4332F
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 13:22:09 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.12707.1700054524390772117
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B139C48BF9
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 13:42:10 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.73])
+ by mx.groups.io with SMTP id smtpd.web11.13377.1700055725996648819
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 05:22:04 -0800
+ Wed, 15 Nov 2023 05:42:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PYEIKBlf;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50943ccbbaeso9688796e87.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 05:22:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700054522; x=1700659322; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+7kVgwg9x2vDb3HE8lERVV9PHSjnHivGhNTApIUcGn4=;
-        b=PYEIKBlfVp4j6hKnxjYdmHpbHIeYbLnJVSJUlifP8fZHG79l/E8QSpUkD/w1rHUS44
-         yHT2mlOO/Mv2BaXeWxMMguNAEwQR4I7LyVEGfZkC5TmJn6ZlSj9Y97COmkDYsRBGijTH
-         vNtIF0Zc1cXoTERl9IKpkVuq0oVgysFgy5L9k+HDjB4Q6pvor3mu52F3qu+A5/MRI7/4
-         rhVc9v68OZnR6/jgTJnKRyifLY6DNSjmwPkn1b4G7cFJ2d5iRFrHv2wibhQB8f5xrBJZ
-         XP0XC33ziho7zMW4/vmuNYyMRtRCn3x200qb8YCvYrSGvzSqi8CC7G5/bFf/RyIqOCoZ
-         g9jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700054522; x=1700659322;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+7kVgwg9x2vDb3HE8lERVV9PHSjnHivGhNTApIUcGn4=;
-        b=RWpp6USTf6o1JuE78PlugIRe/s5fBqN0ExzqarGxaIlZNeajE1bzaTBiddkNz/c1PT
-         5z1/JDbnD1KrbAn1naHuIlHwZ/Wri8hRqdb0S2T6lIHmf4TlDAXGpbqgmBMP2etgUL3N
-         p1TuwlXbPMDgKPqmGqQOBteI9gEGdXJ2ZzXdd0/1h0e/zsa3tOZfAGcSoA1rHEfIomTC
-         wzb9vy+p8PEWgKDhc0KtjOnQmFE3Mrkb7pAhtL5qVVMpYehtXn0bwcTyEzgMr7GHqZye
-         Pwk4dwjFLOzpq4sd1a/vX8k1n0RtJypUpSNoxAfTBClPPqAV1wpvLUNwNwa4xq5qUoMa
-         GWQw==
-X-Gm-Message-State: AOJu0YyaQsnDcIXwjNizmiDvULaWi4boxIW06tqrMYy2c0q5IDljP9eM
-	LwoD6L1WX3TpftWxg3wQPPPt66bJeSvHIylVWzqjLfK38Q8=
-X-Google-Smtp-Source: AGHT+IFU/QiAtMgNit6+X7E1xcksnNrpiaWTJq5A8dRLhZAZf4o00j3vE9svuia8vJ4lcrp3/6PW//KGbyAIFgAqHpY=
-X-Received: by 2002:a19:ae17:0:b0:506:926c:9b0d with SMTP id
- f23-20020a19ae17000000b00506926c9b0dmr7812701lfc.20.1700054522130; Wed, 15
- Nov 2023 05:22:02 -0800 (PST)
+ dkim=pass header.i=@infinera.com header.s=selector1 header.b=Enmqwvsg;
+ spf=pass (domain: infinera.com, ip: 40.107.244.73, mailfrom: joakim.tjernlund@infinera.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MLDy2BtbHTt+od+ZlaeFmgX9c54CWDQ8ogse4NtcWoQgVhivrNaCWWBmQCm64TCHiXfMhY5a3hZLk4RyqTmHemXO/kgeoS4Fs6FQMVxqXkIiWA3QjrQDBt959Nck1nS9JblsjpazNl2kpeCcmQOvgotgsxTE6RIQ1YXP/3LkjTvM6d17TYIPFDJnSwSsSOi8FVeeReuRrBiw4XcOGR58nTmaGTg+T4Jhi+Iiu+VChzOfQaqlclZ3Fo6ACnjfEZgvnUb9gSKhyJjLNYkXUHuZgnafkHWpoSNg4wAUixkwgYJetIISwTMc2FladCVmEF33DeNr+7B/e/6qaZTD/NpR6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N9Y2KWPy02NeJ4O26cHrFjH7LPFeKz64xyQDNpeRNIQ=;
+ b=mGicOT8krDzBGxlAwaDvDJdOGR8v+kITH1wf0Lww6+CBD3sRbrjI+0T5FnOJmFF9gQ94yuoa5bPc+RoL4IyJuBJS85OIKJhHSNFUcKlFXciGy/9U+aMYRmwPmIjrK9ximMk9EiYOWRhb1o2FPykcZcaIddBwDvwjOHtjreQW2UoidL7JHAQN1o2/s1NtbkbjK6i0vGLPHMQx6i0x7/37Wm5TNQFrSEybIG3La8sBgm8Csk4QYZtIVvRYiiGEA246cf1xgR7+yRlx0CRi8MDQi1X8S13i4U1CxkTLseSAnh/Qv54qneNu7RpunGM9QLXTBDvXwHsxoPZxPMFjmAjL/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
+ dkim=pass header.d=infinera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N9Y2KWPy02NeJ4O26cHrFjH7LPFeKz64xyQDNpeRNIQ=;
+ b=Enmqwvsgb/C5NxwnWf8Mcu0tCkkyThDZ2IcFIglcYOYT0Tl7GpEIwrr99mx7RoB5+1nFyvDNSb4UR8990OTdyrVsDzH3GNFOQP303xe3rdhDti31nFUR5CQ0ddKCbNdtAOcdROmttePF3nA5EKHUxqwVKNYohC8VXMXJgwMrg3URftqkRMoEQapba4OhZzcnX+dPk/SZdPZ8Cnqq3rGIDU2kRFNFfd5q+V3ORnVpX3fzLlXdhY6pi2MGDNrFf8jPWy0KFYuD6cItVBz5NqQg+sDTBbcAVTbYe2GCHhl7mdaycxhQfh1O9CVxnWEueGWtUbWTyamC6CtXf3p+CF6UbQ==
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
+ by CH0PR10MB4841.namprd10.prod.outlook.com (2603:10b6:610:c3::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.20; Wed, 15 Nov
+ 2023 13:42:01 +0000
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::86e6:23e4:41ae:35c5]) by PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::86e6:23e4:41ae:35c5%6]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
+ 13:42:01 +0000
+From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
+To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/3] shadow: Add PW_SUBDIR
+Thread-Topic: [OE-core] [PATCH 2/3] shadow: Add PW_SUBDIR
+Thread-Index: AQHaFzo4YvdKKSdR20CYqjr8bGTp4bB7UeuAgAASpAA=
+Date: Wed, 15 Nov 2023 13:42:01 +0000
+Message-ID: <4f3483d322d0d4afb65b31ba06b3e0d383b62b6b.camel@infinera.com>
+References: <20231114203608.1490318-1-joakim.tjernlund@infinera.com>
+	 <20231114203608.1490318-3-joakim.tjernlund@infinera.com>
+	 <CANNYZj_c1dCdhhuPhnNdQ+9PKQ_FPdbB-b2miypMM9jQuofBcg@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj_c1dCdhhuPhnNdQ+9PKQ_FPdbB-b2miypMM9jQuofBcg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.50.1 
+autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
+ keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=infinera.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|CH0PR10MB4841:EE_
+x-ms-office365-filtering-correlation-id: 64f743f7-8cd9-43d6-92be-08dbe5e0a56d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ Igb9cTSl4hHfosZ1TyF7XU3G0OQ2mIEEU8YggW8cY8jUr5BqBSAnjhHM7PBEssTI7NGSW/HiPLAY7O3Yqg09vVRCI8XBjvdBZFeS2Us7uhKt7UM5uPCI7AVnkdz7s2kZq+QqZGhnmBwfnQ1b8wTe/H+pXgk2BT75l35pAhwEa/KM9uALFVmkkIMshMU2r7ZiSLqUmUJx9qrTomuc7xMJZ+S5+/a029x8+/6JZM1f/nXPC5MxKPv6FZOtZueCSOzqVj8J9sKbQT1rzQjK06yRbMiTShrXlYxUWg0/JUOoHYIWFU/jliicFoUbMQN7k6z3XW9ZdfuCucfrFyruBvNyEKmw6UKn05XLRhsQxfbozCdHY3eTGOUZOny+hsGg1q1uFp4zjltt9xTue+eGz94UxEAjhMOUdNaBtdcX2L/1kFEYdHlVPdwon4NVCyq5YVINcnxLDXlpL0YHgk5AhDjSqbsNTqva2fpkUzHjQ+aTNIOgwBycwPsj//5RsHWVQCO/3th58Lp/fOjkupFmpRUYdvzBhb2PtaLocNQoM2o2iHFDDvf1okNA06hxIZm+kiRdzxmVE5KnV1CYjtIlErj6sEDKCLFLs0kFE8AuDRfkTh0=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(39860400002)(366004)(376002)(136003)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(2906002)(2616005)(4326008)(36756003)(4744005)(8676002)(8936002)(966005)(6486002)(76116006)(6916009)(478600001)(4001150100001)(91956017)(86362001)(64756008)(316002)(5660300002)(66946007)(66446008)(66476007)(66556008)(122000001)(38070700009)(38100700002)(71200400001)(6506007)(41300700001)(6512007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?N1VoTWFjcFNiR1R0aUkxK2pmWlFLcTZuM3QydmFYWUtVdEttUGtDMzRwZUN4?=
+ =?utf-8?B?aEp6U0lhMXA2cmsxcjVxR0hPZzRoQ2NSU096N2E2OHpFMk5tUmRBbHBpcFdk?=
+ =?utf-8?B?NVB1K2VaMkVrcER3NjZ4WEtjN1BPY0JobmlZcUlLckowNkJhRkduNkwyV21W?=
+ =?utf-8?B?aEh2QXJVMkt6clRFQnBBSlZveG9VMzlqeTBjSjgzOEJIMnQ5Wk1uWU5IRTRX?=
+ =?utf-8?B?am03a2JXTzR6dUlubkU2Z00yNWtnOUFmU2xsdDA0TFVkZHNGMm9hWEZ2TXkz?=
+ =?utf-8?B?aTZuaGRZeHZ0ZTU5K2oydGlTWEpMSFo1bDhvS0RrTm9EL3lJdXplN1BFVWlR?=
+ =?utf-8?B?TGZMdWVVbmRadkdGL1Qzc2dEN21OV1FXM2FsQkMxb01FcDUzK05kYWJaWFdX?=
+ =?utf-8?B?RnArdFo3Zktlc205YlYyajZPWXBHYk1lazdzeTRBN1NMQU5jaWY5Q1MxWktO?=
+ =?utf-8?B?TWdpN2RiS3BvM0E0TVd4TTNpNEFIQXNzRCtJc2VIQllqbjRkU2R5UW9kYzlG?=
+ =?utf-8?B?ODJSazZMREkxelZVTHVxY0JQWWhpSHJKeDJxUEJwa1lnY2hGelFxMmRSS1dv?=
+ =?utf-8?B?MU5lOHdjUmpqME9ydHJpb2RwVWdYYkJQMis2VzdneXROaXF0eTI5aHBsa29i?=
+ =?utf-8?B?bUE1VzlTdkF4MWFqbGFoOVBVb2NENUVyNTNSelVjNXR1RnRtalh0cEYvTS9L?=
+ =?utf-8?B?Ty9hUWFJZU9KOGxuWnpnWVhLS3lSdkw4bk9JeUdLbzBaR0VRVTlpdDh6VzFP?=
+ =?utf-8?B?cWpEZ1lGSnNiNElwdEQ3ZTd4T1QveUpNc0gxbTVEUW5La2dOWHN1bUtzVkF3?=
+ =?utf-8?B?WnBXdWZIdldxc0RMSHlEWnFmVjdkZFg1US9qMldWMjRMcjV1TnBxeVp6VGJq?=
+ =?utf-8?B?ZkwvRkpiOFNvUGxKN1hsZ2dBRmE5MkxOSkcwZ3Z4dW95ZnpqOFhkUW1UcFB5?=
+ =?utf-8?B?dnZQR1d2VE5laDFSOExDdGRqYm1mRERzeklNVHJyYW9md2V6ejJsNnhCZElC?=
+ =?utf-8?B?Tmp5Z1hmSnFiNUVtN3U3RHdWazgzQnJIbGEzNlRBenhXZHVvdjNNajZKd25W?=
+ =?utf-8?B?WUFRR0p1dnc0SGF1Z05GZjJtYUdmM055M3hZd3RmQXRqVU14SldmM2gxaVRm?=
+ =?utf-8?B?eGRWM0pLZUtrWVNJZjRqT0VLUjE5Qzl4UGhHekxtUmxUZm9Kam0xc3JBZklR?=
+ =?utf-8?B?S3o3eDRzaVJ5dHFtQU03UjNFYnUyQUtvODRBMmswK0YwRWdqeHhiVitXM3hk?=
+ =?utf-8?B?dzV4NklJMzhzUk4vbk1TS2JwL0doUzdHR1BWQXdyY3pOR09IbitJTHdpNGNm?=
+ =?utf-8?B?eUh5RHZUK2RFMTdneStkN3E1YWwwZGRMa1BxRVFaK0thQkcxMWNTQkJMeWlu?=
+ =?utf-8?B?K2dEUFhxMjlDampSMkkwV2ZMOUc4Yy80cUhIT2pyakUraVJITVErTEg1QTFj?=
+ =?utf-8?B?Q0o0SjZrMHFSVXN5cWc1RHdwc3pabEJEMlF2dTBhcGtXcW9IbEJSSG1EV0Nm?=
+ =?utf-8?B?S25qQ202TnYxQS9zcFRtOVNJemZNUTFITG5Ca0NsSVlyZnJJUFAyZUdnOEpE?=
+ =?utf-8?B?M2QzK0dFTU1XWVNFNjFFZmVVUUZEMUFXaW1QTFdHUGNoOHZxeEdBcmFadUls?=
+ =?utf-8?B?bmJtRmZlKzRKM2RjdVlWeDZIYUp5a0N6YUs0R0RMNnAyQzkzWlRrNmdpbzZS?=
+ =?utf-8?B?bU00djZPNS9PSFRWaisrR21OS25XOVoyb3pXenMzK2djVWZ2WkNXS2pFN0Vh?=
+ =?utf-8?B?ZlVaVXBHQktrZ29sRkIxUHg1YzM4TDRVREZtMU5PemJqMzEvbFE4d3hoU2hD?=
+ =?utf-8?B?cUN6bE9DYnlvQW9JcmNmeXZxdlY0M2huZW12UGtSa3gvanROakIrRjVTTC9h?=
+ =?utf-8?B?VDNRenRYY1ljZVZDMS9WTzQ0WmN4djZmNExuOER4RnF1RWlsNFExem53U3Zs?=
+ =?utf-8?B?NEVSMmZWRkZrOFpSeE5oY25sazVYZHlIVlA2SWRMcVc2ZEdBVVJSYTFRcEJl?=
+ =?utf-8?B?V08rMkQyck41UXBITzZHbmhQek5PaXFxS28zSSt2YXh0ZExuRmE0eC9mc0tE?=
+ =?utf-8?B?eW9OYjZhVkVqQ2J3Uk4yTTI2WUtVR25tMUFpWWhEUzlIODJWckMxQTVZM0N5?=
+ =?utf-8?B?TzlCQTJ6bXRBQkw0cVVWTk5zUm5YaFZ4TWxnMytURkNFVHl0YTMvYThwRmdo?=
+ =?utf-8?Q?0vfvkMXkvyQlmwNFYRzTzFmsqQFSgJWK9VPhHkhSpHv/?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <952301387E5E8840AAE94E097CD41228@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org> <20231114210418.1323819-3-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20231114210418.1323819-3-dmitry.baryshkov@linaro.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 15 Nov 2023 14:21:50 +0100
-Message-ID: <CANNYZj9tspe63BkSUU_sWQHdSpnK8kwFQvJETa6Mrw7CfifQXA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/2] image_types.bbclass: add support for
- sparse images
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: infinera.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64f743f7-8cd9-43d6-92be-08dbe5e0a56d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2023 13:42:01.3582
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0BAGjNTsct2o+xHAuP779dFL/R2AStQqwcH1SpqqvFcXmYw7EyD7AaI4VxW7AzqOYYAohtJdtmC8KIngUPwrLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB4841
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 13:22:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190595
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 13:42:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190596
 
-We perhaps need tests as well?
-
-Alex
-
-On Tue, 14 Nov 2023 at 22:04, Dmitry Baryshkov <dbaryshkov@gmail.com> wrote:
->
-> Android-targeted devices support so called sparse image format. This is
-> the raw filesystem image with dropped zero blocks. This way the image
-> takes less space and the bootloaders and/or filesystem manipulation
-> tools can flash it quicker (as they do not have to write useless
-> sequences of zeroes).
->
-> Add new image conversion type called 'sparse'to be able to generate
-> filesystem images in the sparse format.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  meta/classes-recipe/image_types.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-> index d615b41ed1ed..d0c9514b36a3 100644
-> --- a/meta/classes-recipe/image_types.bbclass
-> +++ b/meta/classes-recipe/image_types.bbclass
-> @@ -328,7 +328,7 @@ IMAGE_TYPES:append:x86-64 = " hddimg iso"
->  # CONVERSION_CMD/DEPENDS.
->  COMPRESSIONTYPES ?= ""
->
-> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
-> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 gzsync zsync sparse ${COMPRESSIONTYPES}"
->  CONVERSION_CMD:lzma = "lzma -k -f -7 ${IMAGE_NAME}.${type}"
->  CONVERSION_CMD:gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.gz"
->  CONVERSION_CMD:bz2 = "pbzip2 -f -k ${IMAGE_NAME}.${type}"
-> @@ -355,6 +355,7 @@ CONVERSION_CMD:qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}.${type} ${IMAGE_
->  CONVERSION_CMD:base64 = "base64 ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.base64"
->  CONVERSION_CMD:zsync = "zsyncmake_curl ${IMAGE_NAME}.${type}"
->  CONVERSION_CMD:gzsync = "zsyncmake_curl -z ${IMAGE_NAME}.${type}"
-> +CONVERSION_CMD:sparse = "img2simg -c ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.sparse"
->  CONVERSION_DEPENDS_lzma = "xz-native"
->  CONVERSION_DEPENDS_gz = "pigz-native"
->  CONVERSION_DEPENDS_bz2 = "pbzip2-native"
-> @@ -375,6 +376,7 @@ CONVERSION_DEPENDS_vhdx = "qemu-system-native"
->  CONVERSION_DEPENDS_vhd = "qemu-system-native"
->  CONVERSION_DEPENDS_zsync = "zsync-curl-native"
->  CONVERSION_DEPENDS_gzsync = "zsync-curl-native"
-> +CONVERSION_DEPENDS_sparse = "rust-android-sparse-native"
->
->  RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
->  RUNNABLE_MACHINE_PATTERNS ?= "qemu"
-> --
-> 2.39.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190521): https://lists.openembedded.org/g/openembedded-core/message/190521
-> Mute This Topic: https://lists.openembedded.org/mt/102592509/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+T24gV2VkLCAyMDIzLTExLTE1IGF0IDEzOjM1ICswMTAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90
+ZToNCj4gT24gVHVlLCAxNCBOb3YgMjAyMyBhdCAyMTozNiwgSm9ha2ltIFRqZXJubHVuZCB2aWEN
+Cj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA8Sm9ha2ltLlRqZXJubHVuZD1pbmZpbmVyYS5j
+b21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+ID4gQWRkIHN1cHBvcnQgZm9yIGNy
+ZWF0aW5nIHBhc3N3ZCBmaWxlcyBpbiBhIC9ldGMgc3ViZGlyDQo+ID4gK1N1YmplY3Q6IFtQQVRD
+SF0gRGVmaW5lIFNVQlVJRF9GSUxFL1NVQkdJRF9GSUxFDQo+ID4gKw0KPiA+ICtVcHN0cmVhbS1T
+dGF0dXM6IFBlbmRpbmcNCj4gDQo+IFBlbmRpbmcuLi4gd2hhdCBleGFjdGx5Pw0KDQpQZW5kaW5n
+IG1lcmdlDQo+IA0KPiBJbiBvdGhlciB3b3JkcywgdXBzdHJlYW0gZmlyc3QsIHBsZWFzZS4gVGhp
+cyBpcyBjbGVhcmx5IG5vdCBzb21ldGhpbmcNCj4gdGhhdCBvZS1jb3JlIHNob3VsZCBub3QgYmUg
+Y2FycnlpbmcgYW5kIG1haW50YWluaW5nIGFuZCByZWJhc2luZy4NCg0KVXBzdHJlYW0gbWVyZ2Vk
+IGl0LCBzZWUgIGh0dHBzOi8vZ2l0aHViLmNvbS9zaGFkb3ctbWFpbnQvc2hhZG93L2NvbW1pdC9l
+ZTNhNzljNjk1MmY4Y2E2NDljMjg2YzdmNzY2MzlkOWQxZGVkYWFkDQoNCiBKb2NrZQ0KDQo=
 
