@@ -1,90 +1,112 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <alberto@pianon.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC82C07548
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 11:10:49 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.10767.1700046639413198689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DDF4C07548
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 11:13:49 +0000 (UTC)
+Received: from server3.justice4all.it (server3.justice4all.it [95.217.19.36])
+ by mx.groups.io with SMTP id smtpd.web10.10796.1700046824759116342
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 03:10:39 -0800
+ Wed, 15 Nov 2023 03:13:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=N7RTno53;
- spf=pass (domain: linaro.org, ip: 209.85.167.48, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-507a3b8b113so9349046e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 03:10:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700046637; x=1700651437; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QJfISZY1lHtXp2WdXvTWL2SEgwdcVy/dn6++VqJJtSc=;
-        b=N7RTno53v/uCOaTGSn9p9zBeHbj2aVa0vKfOWm6S0WeiaG2gl5HCcRadielXUFSFqI
-         Gc5OUb2AKZkbQXT3lHvViidfmti+CSAHKHdIjuBR4S39k/eweawdHhmUpU+F0IaN7Z31
-         svaVM6KMrJkIMvYJkZRA5x4sUpKhEbMq79JgDTzsF86MVDNtrrwZ3mq1Ub5vrig7BM2t
-         SSFGB7k8OENKlnQFuCxDEJ3qgNVNkOuNS1bWAvu+Yt8RItFC2rvsGlJSLv/Ly00tQ6Uv
-         4z9zxt7GlNdnREOUJKLeyPeld7l4Lf54oeBDPrFQrjxvcm0kFayybrzxyWpKFhh5LaV+
-         aRNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700046637; x=1700651437;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QJfISZY1lHtXp2WdXvTWL2SEgwdcVy/dn6++VqJJtSc=;
-        b=dWsAHn8L4yqjCUE7nvEMOfJ5HGqytd2EO3rd4aZ1xDh8EYIEcfT5wIe8APPm7l8nxu
-         rcylBGVQ3p/MtGGZI7DkY0IOcCOHtO5eab/KrXOHJPsIK5MfglnjHtRREXbwZqEtf3gU
-         IWilX3WWMqopNR8+jM9CgzlOqc4e/qLFhq2h/AoBij6H9Z4+N2qVK95ir9p/s6a97Bbr
-         I5GCe6NK7WtFNOZVsPDtboPwwLAPTxJs145O3fK35DlVErXpqTerbSV+Xb0MyOitpW/W
-         XSFDH9xvp/qq21B58lHoeXQgoqPKEcDl8MzkakwPOPSdMd/M+ssGzhmGo9jzUdNgAP4D
-         +j/A==
-X-Gm-Message-State: AOJu0YzCFyjFP0fnyQOVHVWjG6mf6vs97iyXNAcacoixmvjjwsLcI8wR
-	EWKKU6C0XmbLepmg/KpecgXg7m9ok+4ZhT9Ztsc=
-X-Google-Smtp-Source: AGHT+IHyohj5X4C9l2BMaSSdnYurapwyTNwwi22t06qqojYqpa+SdiZZtvGwrxiLd3wEZXtcn68LLQ==
-X-Received: by 2002:a05:6512:3142:b0:505:7371:ec83 with SMTP id s2-20020a056512314200b005057371ec83mr8165526lfi.48.1700046637112;
-        Wed, 15 Nov 2023 03:10:37 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id m7-20020a0565120a8700b005041b7735dbsm1618145lfu.53.2023.11.15.03.10.36
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 03:10:36 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] libdrm: upgrade 2.4.116 -> 2.4.117
-Date: Wed, 15 Nov 2023 14:10:36 +0300
-Message-Id: <20231115111036.3020786-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@pianon.eu header.s=mail20151219 header.b=lk8HZZxe;
+ spf=pass (domain: pianon.eu, ip: 95.217.19.36, mailfrom: alberto@pianon.eu)
+Received: from localhost (localhost [127.0.0.1])
+	by server3.justice4all.it (Postfix) with ESMTP id 8FE265C0096
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 12:13:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=pianon.eu; h=
+	message-id:subject:subject:from:from:date:date
+	:content-transfer-encoding:content-type:content-type
+	:mime-version; s=mail20151219; t=1700046821; x=1701861222; bh=kI
+	d5dAdUhw7Glnp02WPmipDGq1K9AftdmSY0Y20V5o0=; b=lk8HZZxecgIPmtuZOg
+	BWX+eB/+Tv7JQ+EYlg5mtF6RqRY7BP0XEhcHVWoBNNNKRysK1amuOzlpfCPI8rMS
+	87KHijxDArwc75bRXJAH5v8i9QtozaGEO2jsLSJwbmE89mAOjcELcRwytBlNYMGq
+	qI2ThwujNNp4JHKxqRSZw54I8=
+X-Virus-Scanned: Debian amavisd-new at server3.justice4all.it
+Received: from server3.justice4all.it ([127.0.0.1])
+	by localhost (server3.justice4all.it [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id VSLNWioyxl8k
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Nov 2023 12:13:41 +0100 (CET)
+Received: from pianon.eu (localhost [127.0.0.1])
+	(Authenticated sender: alberto@pianon.eu)
+	by server3.justice4all.it (Postfix) with ESMTPA id D009A5C0095
+	for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 12:13:41 +0100 (CET)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 15 Nov 2023 12:13:41 +0100
+From: Alberto Pianon <alberto@pianon.eu>
+To: openembedded-core@lists.openembedded.org
+Subject: artifacts in sstate-plaindirs are deleted and not cached
+Message-ID: <6744f48abd7233b3d51518d4e1fd7c41@pianon.eu>
+X-Sender: alberto@pianon.eu
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 11:10:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190585
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 11:13:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190586
 
-Bump the libdrm version, in particuar to get updated modetest with
-support for custom video modes and writeback.
+Hi,
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../drm/{libdrm_2.4.116.bb => libdrm_2.4.117.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.116.bb => libdrm_2.4.117.bb} (97%)
+I wanted to add sstate cache support to my WIP meta-bbtracer layer and I 
+ran into a problem.
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.116.bb b/meta/recipes-graphics/drm/libdrm_2.4.117.bb
-similarity index 97%
-rename from meta/recipes-graphics/drm/libdrm_2.4.116.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.117.bb
-index f0aaf314c6b7..3e6fb16e15d6 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.116.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.117.bb
-@@ -13,7 +13,7 @@ DEPENDS = "libpthread-stubs"
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
-           "
- 
--SRC_URI[sha256sum] = "46c53f40735ea3d26d614297f155f6131a510624a24274f654f6469ca905339a"
-+SRC_URI[sha256sum] = "a2888d69e3eb1c8a77adc08a75a60fbae01f0d208d26f034d1a12e362361242b"
- 
- inherit meson pkgconfig manpages
- 
--- 
-2.39.2
+Following the manual 
+(https://docs.yoctoproject.org/singleindex.html#shared-state), I tried 
+to use sstate-plaindirs instead of separate sstate-inputdirs and 
+sstate-outputdirs since I don't actually need to use different 
+directories, but I noticed that artifacts placed in such dirs always get 
+deleted, and the corresponding zst archive in sstate-cache is empty. If 
+I use sstate-inputdirs/outputdirs, it works.
 
+To isolate and reproduce the issue, I set up a dummy yocto layer that 
+just adds a class that adds a task that writes a dummy file after 
+do_unpack: https://github.com/alpianon/meta-sstate-test
+
+The dummy bbclass is:
+
+```
+SSTATE_TEST_DIR = "${TMPDIR}/sstate-test/${PN}"
+SSTATE_TEST_FILE = "${SSTATE_TEST_DIR}/sstate-test.json"
+
+python do_sstatetest () {
+     bb.warn("writing to %s" % d.getVar("SSTATE_TEST_FILE"))
+     with open(d.getVar("SSTATE_TEST_FILE"), "w") as f:
+         f.write("Hello World!")
+}
+
+addtask do_sstatetest after do_unpack before do_patch
+
+SSTATETASKS += "do_sstatetest"
+do_sstatetest[sstate-plaindirs] = "${SSTATE_TEST_DIR}"
+
+python do_sstatetest_setscene () {
+     sstate_setscene(d)
+}
+
+addtask do_sstatetest_setscene
+
+do_sstatetest[dirs] = "${SSTATE_TEST_DIR}"
+```
+
+After running `bitbake -c sstatetest <whatever-recipe>`, a 
+sstate-test.json is expected to be found in 
+tmp/sstate-test/<whatever-recipe>, but such dir is empty instead. But if 
+I remove the whole sstate configuration from the above bbclass, the file 
+is there after running the task.
+
+By adding some debug messages to sstate.bbclass, I concluded that the 
+sstate "plaindir" content gets deleted by prepdir() function called 
+within this code in sstate.bbclass: 
+https://git.yoctoproject.org/poky/tree/meta/classes-global/sstate.bbclass#n385 
+but I don't understand why.
+
+Is that the intended behaviour? Am I missing something?
+
+Thanks
+Cheers,
+
+Alberto
 
