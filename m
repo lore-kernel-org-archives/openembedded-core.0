@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84221C54F36
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74520C54F38
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:10 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.14618.1700059029318658792
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.14619.1700059029637280557
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 06:37:09 -0800
+ Wed, 15 Nov 2023 06:37:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TsaLvpAs;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=g07KGum3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018bd36a1fdd-5bb43f41-b9a7-4ea4-85c8-2b4b07345dce-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Ki0iXxrt;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=h2KaWpUq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018bd36a2090-b19efec7-11e9-43f4-aa51-bf68498b16df-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1700059029;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ND0C1s6gPzB6b6YcYnBH8bs8aoLdS3ZpzVhbWhXfMPg=;
-	b=TsaLvpAsiy2UnsmCPzXxz/YXYv2aqhl36FcF582isTxBzIAGGsI3QW4lCDJVcRsn
-	g+rJoZKOR4thlIswp3DMS8C5g5qhk0NdOzr3fTVSRbbUTqSZXDDXrwkEw65IulwGCIJ
-	QOyZzevVykTYLTrBATUKuqDhsI0LMOwZEKhcSyn0=
+	bh=3KY+5STZO6OBCdD+HUU0f3LxdeMOZ7KFZ0eeUEEDchA=;
+	b=Ki0iXxrtSsmb6sALEgfsDlpuQUghdXNKZwmiBO/A9XkIEYB8ik7QC44qKW2Dj+xI
+	QGQHrLgLIMoLdqhOr/IfX09EGlUUq4XlbsZ03T9UX2D2upnOjAkYXmiiK0WhvpMWJkY
+	+Jb7v3/b8Eov1V3moR1ga83cz/eAy2Nl1U/dBN4M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059029;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ND0C1s6gPzB6b6YcYnBH8bs8aoLdS3ZpzVhbWhXfMPg=;
-	b=g07KGum3gGT/j7N7C6gKF0xI7KVFprmxjsmS6f/cE4b3Sg/lrFHd6mau/ohDL34R
-	+hvSfHw6SDIzZtXa9agZgv5IE3HPOMHfwVA/HiBlfvnU7DLsZOPkqLRXHb30Je1zoG6
-	+NHrfWXK6Zm1oq3ujWaPcXQCTYRr7zmqpy7Y5DBE=
-Content-Type: multipart/mixed; boundary="===============2194359094163674870=="
+	bh=3KY+5STZO6OBCdD+HUU0f3LxdeMOZ7KFZ0eeUEEDchA=;
+	b=h2KaWpUq+eBwRmKYAa1qbDGN3sSrrWefNs1JRV95a0FWUoz/JiZjnic0m0YEDJvk
+	tcLHrwKwHD3zltorTKBmMjdxgm9+/XjTyXYMxmg0Qsag5M6aTTSiq5Gh3bPBEiwqGpv
+	LHWgGaPxaKqWCPL/EUG7BKLr5OWCRQ6rs10VBbhk=
+Content-Type: multipart/mixed; boundary="===============0331817992804349892=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mmc-utils: upgrading to
- b5ca140312d279ad2f22068fd72a6230eea13436 SUCCEEDED
-Message-ID: <0101018bd36a1fdd-5bb43f41-b9a7-4ea4-85c8-2b4b07345dce-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-hatch-vcs: upgrading to 0.4.0 SUCCEEDED
+Message-ID: <0101018bd36a2090-b19efec7-11e9-43f4-aa51-bf68498b16df-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Nov 2023 14:37:09 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.31
+X-SES-Outgoing: 2023.11.15-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190614
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190620
 
---===============2194359094163674870==
+--===============0331817992804349892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mmc-utils* to *b5ca140312d279ad2f22068fd72a6230eea13436* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-hatch-vcs* to *0.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mmc-utils-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-python3-hatch-vcs-upgrade-0.3.0-0.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,85 +72,100 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4e484f17a0b35d3985a47934a92326dba1390e67 Mon Sep 17 00:00:00 2001
+From 47a0ba0ed5942a397bfc81a0a7e2ff5fc66bc2fd Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Nov 2023 06:49:48 +0000
-Subject: [PATCH] mmc-utils: upgrade to latest revision
+Date: Wed, 15 Nov 2023 07:06:59 +0000
+Subject: [PATCH] python3-hatch-vcs: upgrade 0.3.0 -> 0.4.0
 
 ---
- meta/recipes-devtools/mmc/mmc-utils_git.bb | 2 +-
+ .../{python3-hatch-vcs_0.3.0.bb => python3-hatch-vcs_0.4.0.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hatch-vcs_0.3.0.bb => python3-hatch-vcs_0.4.0.bb} (80%)
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 2d02927af7..a7e4d369ff 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
+diff --git a/meta/recipes-devtools/python/python3-hatch-vcs_0.3.0.bb b/meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-hatch-vcs_0.3.0.bb
+rename to meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb
+index b4db10e767..2e49aba469 100644
+--- a/meta/recipes-devtools/python/python3-hatch-vcs_0.3.0.bb
++++ b/meta/recipes-devtools/python/python3-hatch-vcs_0.4.0.bb
+@@ -7,7 +7,7 @@ inherit pypi python_hatchling
  
- SRCBRANCH ?= "master"
--SRCREV = "613495ecaca97a19fa7f8f3ea23306472b36453c"
-+SRCREV = "b5ca140312d279ad2f22068fd72a6230eea13436"
+ PYPI_PACKAGE = "hatch_vcs"
  
- PV = "0.1+git"
+-SRC_URI[sha256sum] = "cec5107cfce482c67f8bc96f18bbc320c9aa0d068180e14ad317bbee5a153fee"
++SRC_URI[sha256sum] = "093810748fe01db0d451fabcf2c1ac2688caefd232d4ede967090b1c1b07d9f7"
+ 
+ BBCLASSEXTEND = "native nativesdk"
  
 -- 
 2.39.2
 
 
---===============2194359094163674870==
+--===============0331817992804349892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGSIZE changed from 298216 to 291584 (-2%)
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGSIZE changed from 215757 to 213396 (-1%)
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGSIZE changed from 128864 to 120384 (-7%)
-packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+packages/core2-64-poky-linux/python3-hatch-vcs: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatch_vcs/hatch_vcs-0.3.0.tar.gz;downloadfilename=hatch_vcs-0.3.0.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatch_vcs/hatch_vcs-0.4.0.tar.gz;downloadfilename=hatch_vcs-0.4.0.tar.gz"
+packages/core2-64-poky-linux/python3-hatch-vcs: PV changed from "0.3.0" to "0.4.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dbg: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dbg: PV changed from "0.3.0" to "0.4.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dev: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-dev: PV changed from "0.3.0" to "0.4.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-doc: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-doc: PV changed from "0.3.0" to "0.4.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-locale: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-locale: PV changed from "0.3.0" to "0.4.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-src: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-src: PV changed from "0.3.0" to "0.4.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-staticdev: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs-staticdev: PV changed from "0.3.0" to "0.4.0"
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PKGV changed from 0.3.0 [default] to 0.4.0 [default]
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PKGSIZE changed from 27472 to 27803 (+1%)
+packages/core2-64-poky-linux/python3-hatch-vcs/python3-hatch-vcs: PV changed from "0.3.0" to "0.4.0"
+Changes to packages/core2-64-poky-linux/python3-hatch-vcs (sysroot):
+  /usr/lib/python3.11/site-packages/hatch_vcs-0.3.0.dist-info moved to /usr/lib/python3.11/site-packages/hatch_vcs-0.4.0.dist-info
 
---===============2194359094163674870==
+--===============0331817992804349892==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mmc-utils-upgrade-to-latest-revision.patch"
+ filename="0001-python3-hatch-vcs-upgrade-0.3.0-0.4.0.patch"
 
-RnJvbSA0ZTQ4NGYxN2EwYjM1ZDM5ODVhNDc5MzRhOTIzMjZkYmExMzkwZTY3IE1vbiBTZXAgMTcg
+RnJvbSA0N2EwYmEwZWQ1OTQyYTM5N2JmYzgxYTBhN2UyZmY1ZmM2NmJjMmZkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDY6NDk6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-bWMtdXRpbHM6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9tbWMvbW1jLXV0aWxzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tbWMvbW1j
-LXV0aWxzX2dpdC5iYgppbmRleCAyZDAyOTI3YWY3Li5hN2U0ZDM2OWZmIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbW1jL21tYy11dGlsc19naXQuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL21tYy9tbWMtdXRpbHNfZ2l0LmJiCkBAIC01LDcgKzUsNyBAQCBMSUNFTlNF
-ID0gIkdQTC0yLjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL21tYy5jO2JlZ2lu
-bGluZT0xO2VuZGxpbmU9MjA7bWQ1PWZhZTMyNzkyZTIwZjRkMjdhZGUxYzVhNzYyZDE2YjdkIgog
-CiBTUkNCUkFOQ0ggPz0gIm1hc3RlciIKLVNSQ1JFViA9ICI2MTM0OTVlY2FjYTk3YTE5ZmE3Zjhm
-M2VhMjMzMDY0NzJiMzY0NTNjIgorU1JDUkVWID0gImI1Y2ExNDAzMTJkMjc5YWQyZjIyMDY4ZmQ3
-MmE2MjMwZWVhMTM0MzYiCiAKIFBWID0gIjAuMStnaXQiCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDc6MDY6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWhhdGNoLXZjczogdXBncmFkZSAwLjMuMCAtPiAwLjQuMAoKLS0tCiAuLi4ve3B5dGhv
+bjMtaGF0Y2gtdmNzXzAuMy4wLmJiID0+IHB5dGhvbjMtaGF0Y2gtdmNzXzAuNC4wLmJifSAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWhhdGNoLXZjc18wLjMuMC5i
+YiA9PiBweXRob24zLWhhdGNoLXZjc18wLjQuMC5iYn0gKDgwJSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2gtdmNzXzAuMy4wLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWhhdGNoLXZjc18wLjQuMC5iYgpzaW1p
+bGFyaXR5IGluZGV4IDgwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtaGF0Y2gtdmNzXzAuMy4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2gtdmNzXzAuNC4wLmJiCmluZGV4IGI0ZGIxMGU3NjcuLjJl
+NDlhYmE0NjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1oYXRjaC12Y3NfMC4zLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLWhhdGNoLXZjc18wLjQuMC5iYgpAQCAtNyw3ICs3LDcgQEAgaW5oZXJpdCBweXBpIHB5
+dGhvbl9oYXRjaGxpbmcKIAogUFlQSV9QQUNLQUdFID0gImhhdGNoX3ZjcyIKIAotU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImNlYzUxMDdjZmNlNDgyYzY3ZjhiYzk2ZjE4YmJjMzIwYzlhYTBkMDY4MTgw
+ZTE0YWQzMTdiYmVlNWExNTNmZWUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDkzODEwNzQ4ZmUw
+MWRiMGQ0NTFmYWJjZjJjMWFjMjY4OGNhZWZkMjMyZDRlZGU5NjcwOTBiMWMxYjA3ZDlmNyIKIAog
+QkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgogCi0tIAoyLjM5LjIKCg==
 
---===============2194359094163674870==
+--===============0331817992804349892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dbg: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-dev: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-doc: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-locale: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-src: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils-staticdev: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
-packages/core2-64-poky-linux/mmc-utils/mmc-utils: PKGV changed from 0.1+git0+613495ecac to 0.1+git0+b5ca140312
+Changes to packages/core2-64-poky-linux/python3-hatch-vcs (sysroot):
+  /usr/lib/python3.11/site-packages/hatch_vcs-0.3.0.dist-info moved to /usr/lib/python3.11/site-packages/hatch_vcs-0.4.0.dist-info
 
---===============2194359094163674870==--
+--===============0331817992804349892==--
 
