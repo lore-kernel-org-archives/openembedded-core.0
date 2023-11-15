@@ -2,60 +2,60 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC71EC47072
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 03:48:26 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.5587.1700020098918028098
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D5FC07548
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 03:53:26 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.5653.1700020400657805847
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Nov 2023 19:48:19 -0800
+ Tue, 14 Nov 2023 19:53:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=dHc5vDzY;
- spf=pass (domain: mvista.com, ip: 209.85.215.172, mailfrom: vanusuri@mvista.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5a9bc2ec556so3933177a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:48:18 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=BL8lEZOB;
+ spf=pass (domain: mvista.com, ip: 209.85.215.175, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5aa481d53e5so4401418a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Nov 2023 19:53:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1700020097; x=1700624897; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1700020399; x=1700625199; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=3mWPixo5skyhsWNCu4E6xXB7OqF4w72kPrV3UWjewZA=;
-        b=dHc5vDzYH9ggIITXunYSrOQ/86n3u1CSXh8NxtBV0uF91Tb43FzoH687+NP/ia3Vky
-         0KaN5G9q89SQDuFQr3a7RAjJkMn73onBeDvRIWdz2fgExlLA7KFca8nOor/f6zOnvVH8
-         2ao+myLrfcK8g8W+2m6AgB6L4zwS0ZsxRs6IE=
+        b=BL8lEZOB+k93I69XB/iUgJro0UiTiwnA1sYSYTaIVbop1sfQA6AEH29bIvkwekAuzJ
+         hu+eb/KO8SCUoGH8hoejK0eEAx5jaxwhWCQT07IlYfLYgl3H5oAW1MrZMtavhDDu4jXE
+         rIxQLJiPeGBMjQoegyze+E+jKQI6y4ab7qRY4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700020097; x=1700624897;
+        d=1e100.net; s=20230601; t=1700020399; x=1700625199;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=3mWPixo5skyhsWNCu4E6xXB7OqF4w72kPrV3UWjewZA=;
-        b=DrKcsSAsQLobwxQRWa7QJuqbFoUDcBEUxyDJxzPSd7oDlDV0dvbtj8ahiXa1FZGCpB
-         db8BitOsHQFsw6oTKAjSzxlYn4iV5w14Yw0R5JBDP+IMUTN2JSmB/UiekDwHLyfKTWP/
-         mD0K7n2H3j7zYEMJl+yjrtNksYYg6egaHkguBLuKY5gN/HHdI4PwCHHStfMLZX6MVL7x
-         WFW+x7yKlzzL5KFxCXm/aMmf9EOMxxjKoICCWwWXJirJ8F2IvmIOVlLhb5xsTZKx6Zvo
-         pOikrhVNytiAClRaNyv4JXw5FNpOzv2Rw1ajN1Vcuxb2SsGDXeDenFmaJ1uYjrrMKXmN
-         qcBw==
-X-Gm-Message-State: AOJu0YxHwqS/R/64ACqDmKDf3sonB32eSbTKKdTjTUwjJQjf6Xi0UYuc
-	7oG6uXF1FXe7nTZsHpA2u6ViCLnCXKVZXgBN+ik=
-X-Google-Smtp-Source: AGHT+IGR5wSXPJU7F7UYUTCB3T2xrOcRD7vdTNTMex23MVHCwWUoqyWab1FEaQeqmtAfXhCW0NKXmg==
-X-Received: by 2002:a05:6a20:8f27:b0:187:5684:4b82 with SMTP id b39-20020a056a208f2700b0018756844b82mr1273699pzk.10.1700020097072;
-        Tue, 14 Nov 2023 19:48:17 -0800 (PST)
+        b=gfS/AegiHVZmkfSv0uN7nTKJzE7ULyVur2eDpIXay6TcrVVFtagWUILcUPFMAcHene
+         gQmOQ5b0Ka2U2uftDQc8Go/+kM1V3Ixj9esT8KbuD3VB18TA8QVJk0eYLS5xPpUo6UCs
+         p9WODmS95HU8hd7uVLNeo+RJzdXB0FRG4Lwx33QlUenhTjdXi4ayLaMPYXxLC7BtpdON
+         g4jhmBirPDCFdN++dmNGJ3N64KwcMI/aH75cLNRUIyQP4Nj0fWlyOMGWmG6SDMNF4G4S
+         xW7o/umqy3HSdy7fpdGkl5LIr8Gw080+fjWq4yomfqd7mzwTBSr+aIUTeoSjQQZsA6lS
+         NF3g==
+X-Gm-Message-State: AOJu0YxWdYT38jlYulAyluKO1A7JY6CCuTBsYXa5l17GOrvI5n+FRiJt
+	pmWF/boyihMH60qoB9tm+FP+ItyhUpXllHwJ5PQ=
+X-Google-Smtp-Source: AGHT+IHgVUkGdmUcAH2xqFjgLGSRwWpN76YedKcZK9dmXPjWs0qWlDmpXcFUOK4N9ZpIQtBPJEHotQ==
+X-Received: by 2002:a17:902:f543:b0:1cc:5aef:f2cf with SMTP id h3-20020a170902f54300b001cc5aeff2cfmr4965941plf.9.1700020399231;
+        Tue, 14 Nov 2023 19:53:19 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:c01c:7c68:f9a7:2645:67b0:db49])
-        by smtp.gmail.com with ESMTPSA id j24-20020a170902759800b001bdd7579b5dsm6382601pll.240.2023.11.14.19.48.15
+        by smtp.gmail.com with ESMTPSA id q6-20020a170902dac600b001c9b5b63e36sm6452169plx.32.2023.11.14.19.53.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 19:48:16 -0800 (PST)
+        Tue, 14 Nov 2023 19:53:18 -0800 (PST)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] libx11: backport Debian patches to fix CVE-2023-43785 CVE-43786 and CVE-2023-43787
-Date: Wed, 15 Nov 2023 09:18:07 +0530
-Message-Id: <20231115034807.168344-1-vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH v2] libx11: backport Debian patches to fix CVE-2023-43785 CVE-2023-43786 and CVE-2023-43787
+Date: Wed, 15 Nov 2023 09:23:10 +0530
+Message-Id: <20231115035310.168511-1-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 03:48:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190549
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 03:53:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190550
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
