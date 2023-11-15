@@ -1,64 +1,97 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F4193C07548
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 10:14:08 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web11.10067.1700043246194476434
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2620EC07548
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 10:48:39 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.10427.1700045309072115639
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 02:14:06 -0800
+ Wed, 15 Nov 2023 02:48:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=AeWdQ73G;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=DWwc2tEsPQa3AJdRnXQ54SJjtuwFXNZzWCuZfSOm+DI=; b=AeWdQ73GZTpjBpcZPesRe5/snY
-	oiu5Ra22eixr5ZqqdT5YYSLmDl/ft1F33jk3kaAa9iwrnNJo/hGKU7voxs+n2xh5vbcu1Zll91CdD
-	0WZgAXcGevRsJ4GpVf7rNoMbOFfF/i6n4pNcC3tDN2kLtg5WDhd/ylhH6XX19FQxqbeJbLH8v4R+M
-	58dL6Wu9pm3FSiNduUu+8clHwGPKWHe0SQTSWuCUQlySn0KDHi/gzENEPmuJHqjwvmf22z6OHGjZW
-	zJ3+AVPnmwyWVbdI4TX6DgUlTAHx6RJUtDhCA5fWkGW3B5rl81/QXtds5eCX++0xZjxQHPxIIEUYn
-	+if66jtQ==;
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:33912 helo=fedora)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1r3CuH-009X9A-2Z
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Nov 2023 05:14:04 -0500
-Date: Wed, 15 Nov 2023 05:13:58 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: how to INSANE_SKIP duplicate installed files?
-Message-ID: <a0951c4-a5cc-15e0-91a8-f51fb5be8ed5@crashcourse.ca>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TCx/gGMu;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jD9J5keu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018bd298c05a-45aa9dec-a456-4a32-93eb-7802a003bfae-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1700045308; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=NP/EIlrTst9/h37vuQOcQKrLqZ/+RgniRFye/XtOUwg=;
+	b=TCx/gGMuxhvnxDpQpptuAxUIoTvPeI1cBwYnLVyIBSGg1PmCQpJVXRpwdTrDm8uv
+	xbCDapGUVioq9e5CLtUtNqeAF9Wgp48YkEQkk1rFtu7dzMism+M2GojnQeJ8OVYRtNb
+	NPcURNzfX5T1wM9xhBsPp8JwaWkqrmrGbzPQH+zs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700045308;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=NP/EIlrTst9/h37vuQOcQKrLqZ/+RgniRFye/XtOUwg=;
+	b=jD9J5keuD8H/2I525LxLBd36hKJrIeW4JN9ZL5sw+Rgwk9crrsZpyHh8eik2gl9e
+	tSRgs8NnL6s2ERH05Y7rCuiG1KrtsG06p/MR6eDFoVQiQKWynQc+kjLWR7EtWh9l4rQ
+	O+04uU+J/PkIiSJjwqaiXvOEkkKgUdYpoww7Yb/E=
+From: patchtest@automation.yoctoproject.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] libdrm: upgrade 2.4.116 -> 2.4.117
+In-Reply-To: 20231115093042.1618000-1-dmitry.baryshkov@linaro.org
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018bd298c05a-45aa9dec-a456-4a32-93eb-7802a003bfae-000000@us-west-2.amazonses.com>
+Date: Wed, 15 Nov 2023 10:48:27 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 10:14:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190582
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 10:48:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190583
+
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
+---
+Testing patch /home/patchtest/share/mboxes/libdrm-upgrade-2.4.116---2.4.117.patch
+
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
-  i swear, i once did this but now i can't find the solution for
-allowing two recipes to install duplicate files. of course, the right
-answer is to fix the recipes but a colleague just wants to get his
-build to work so what is the quickest way to do the dangerous thing
-and allow overriding installed files?
-
-rday
+--NextPart--
 
