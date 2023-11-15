@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 228A6C54F60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B4BDC54F75
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:11 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.14615.1700059029410658477
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.14617.1700059029474879731
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Nov 2023 06:37:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DKgXCoTJ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Ow1lk7RI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018bd36a1cfd-8a4571a3-f06e-48eb-a89b-d8d98d2a3c95-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TPYOkbxl;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=j/Wdt0Ix;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018bd36a1c12-200e6e0b-af44-4514-bf7d-0e2b2b55471d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700059029;
+	t=1700059028;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vwPp6zQeReNNimKFzVD2DCMSEATwC54bM0rTJTSQkyQ=;
-	b=DKgXCoTJrtjb3O4ZRQF2FLeHfPghE5I7reTPoDPfx5I98cw/lLAshxfyQuLnYFO5
-	ccOq3mMypQX5U76F4nBWJhwBJsH6PABqXB0NVrN7rSO4JStVtaS4bfLmSAccOJs/BMN
-	KaBllPrrpzAJFe2WZKXZ/Q/evfb+cPrYT9SIXcmY=
+	bh=maqvWXpP2huI8P8NiBeoh8ughEYfDmTf9CRFEuvdsfQ=;
+	b=TPYOkbxlQMLk/l1LeLSqZYW832F9NJLM875rZ/1xPafzJgWlu7133a+z5BU6NWGb
+	6usMQMKlsNtJLNj8tcuqZ2MYxMcMjM26w9EPYcWTy9rt1AxYj8qzc6B0D2HdNYYBQd0
+	3RmolPs/PVnNRAmOFnjBIWlEmP0ZwGsrqz7m5OMM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059029;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059028;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vwPp6zQeReNNimKFzVD2DCMSEATwC54bM0rTJTSQkyQ=;
-	b=Ow1lk7RIC6fiXrjRH5nHMNq0hzF5RhidgCC6KkQInl4V0+Q30z3htHNB6Zyg6xbG
-	SkrDYArKeZ58a+vGK3KzEuVyaqrHSQBoggFJXxQbiA4mNUnWJAfMhDNGR0iR/D2itI3
-	1/1n4zVJsnEApEUnRklo9KvRsr8RD4BEw7XftXLQ=
-Content-Type: multipart/mixed; boundary="===============1202754316130597543=="
+	bh=maqvWXpP2huI8P8NiBeoh8ughEYfDmTf9CRFEuvdsfQ=;
+	b=j/Wdt0Ixm+L/vrrvatH44717HP47tuAGOID20VswcLkf/vfbvFGxznKSZy5xwy9D
+	QJ7cuMmmjzQvFrMFM9MGG4ATO5N+XsuxY6+EYx4ymroP6XRS9K7XprRnkf5IlTca7Jw
+	ZwRHxrHNMpSOarrBIRhl8blxQw6P+saPCTVdylUM=
+Content-Type: multipart/mixed; boundary="===============8489160935472740701=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] desktop-file-utils: upgrading to 0.27 FAILED
-Message-ID: <0101018bd36a1cfd-8a4571a3-f06e-48eb-a89b-d8d98d2a3c95-000000@us-west-2.amazonses.com>
+Subject: [AUH] glib-networking: upgrading to 2.78.0 SUCCEEDED
+Message-ID: <0101018bd36a1c12-200e6e0b-af44-4514-bf7d-0e2b2b55471d-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Nov 2023 14:37:08 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.45
+X-SES-Outgoing: 2023.11.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190610
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190611
 
---===============1202754316130597543==
+--===============8489160935472740701==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *desktop-file-utils* to *0.27* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *glib-networking* to *2.78.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-desktop-file-utils-upgrade-0.26-0.27.patch
+    - apply the patch: git am 0001-glib-networking-upgrade-2.76.1-2.78.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,187 +72,510 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 108c0b38f75156f81507e83f4ae75626bbd711ff Mon Sep 17 00:00:00 2001
+From 8fee7fc4b9cb1c429a18d63b23df1182fac65702 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Nov 2023 05:47:20 +0000
-Subject: [PATCH] desktop-file-utils: upgrade 0.26 -> 0.27
+Date: Wed, 15 Nov 2023 05:28:08 +0000
+Subject: [PATCH] glib-networking: upgrade 2.76.1 -> 2.78.0
 
 ---
- .../{desktop-file-utils_0.26.bb => desktop-file-utils_0.27.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/desktop-file-utils/{desktop-file-utils_0.26.bb => desktop-file-utils_0.27.bb} (84%)
+ ...sable-PKCS-11-tests-if-not-available.patch | 113 ------------------
+ ...ng_2.76.1.bb => glib-networking_2.78.0.bb} |   6 +-
+ 2 files changed, 1 insertion(+), 118 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
+ rename meta/recipes-core/glib-networking/{glib-networking_2.76.1.bb => glib-networking_2.78.0.bb} (89%)
 
-diff --git a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
-similarity index 84%
-rename from meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb
-rename to meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
-index f6d1146e89..6c3f8b1921 100644
---- a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.26.bb
-+++ b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
-@@ -8,8 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://src/validator.c;beginline=4;endline=27;md5=281e1114ee6c486a1a0a4295986b9416"
+diff --git a/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch b/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
+deleted file mode 100644
+index 7b003588c8..0000000000
+--- a/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
++++ /dev/null
+@@ -1,113 +0,0 @@
+-From 04728a5b73e870b4695c5e7ba42fa41c00471944 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Fri, 12 May 2023 20:19:35 +0100
+-Subject: [PATCH] tls/tests: disable PKCS#11 tests if not available
+-
+-GnuTLS can be built without PKCS#11, which means the symbols
+-gnutls_pkcs11_init and gnutls_pkcs11_add_provider are not part of the
+-library.
+-
+-If these symbols don't exist in GnuTLS then we can't add a mock pkcs#11
+-provider for testing, and several tests which need the mock provider
+-will fail.
+-
+-Solve this by checking for the symbols at build time and disabling the
+-provider and tests which need it.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- meson.build             |  4 ++++
+- tls/tests/certificate.c | 11 +++++++----
+- tls/tests/connection.c  |  4 +++-
+- 3 files changed, 14 insertions(+), 5 deletions(-)
+-
+-diff --git a/meson.build b/meson.build
+-index 0fa9027..d2a023a 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -84,6 +84,10 @@ gnutls_dep = dependency('gnutls', version: '>= 3.7.4', required: get_option('gnu
+- 
+- if gnutls_dep.found()
+-   backends += ['gnutls']
+-+  # test-specific, maybe move to tls/tests
+-+  if cc.has_function('gnutls_pkcs11_init', prefix: '#include <gnutls/pkcs11.h>', dependencies: gnutls_dep)
+-+    config_h.set10('HAVE_GNUTLS_PKCS11', true)
+-+  endif
+- endif
+- 
+- # *** Checks for OpenSSL    ***
+-diff --git a/tls/tests/certificate.c b/tls/tests/certificate.c
+-index e820ba1..dd2412b 100644
+---- a/tls/tests/certificate.c
+-+++ b/tls/tests/certificate.c
+-@@ -24,6 +24,7 @@
+-  * Author: Stef Walter <stefw@collabora.co.uk>
+-  */
+- 
+-+#include "config.h"
+- #include "certificate.h"
+- 
+- #include <gio/gio.h>
+-@@ -911,7 +912,7 @@ int
+- main (int   argc,
+-       char *argv[])
+- {
+--#ifdef BACKEND_IS_GNUTLS
+-+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
+-   char *module_path;
+- #endif
+- 
+-@@ -921,7 +922,7 @@ main (int   argc,
+-   g_setenv ("GIO_USE_TLS", BACKEND, TRUE);
+-   g_assert_cmpint (g_ascii_strcasecmp (G_OBJECT_TYPE_NAME (g_tls_backend_get_default ()), "GTlsBackend" BACKEND), ==, 0);
+- 
+--#ifdef BACKEND_IS_GNUTLS
+-+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
+-   module_path = g_test_build_filename (G_TEST_BUILT, "mock-pkcs11.so", NULL);
+-   g_assert_true (g_file_test (module_path, G_FILE_TEST_EXISTS));
+- 
+-@@ -942,12 +943,14 @@ main (int   argc,
+-               setup_certificate, test_create_certificate_with_issuer, teardown_certificate);
+-   g_test_add ("/tls/" BACKEND "/certificate/create-with-garbage-input", TestCertificate, NULL,
+-               setup_certificate, test_create_certificate_with_garbage_input, teardown_certificate);
+--  g_test_add ("/tls/" BACKEND "/certificate/pkcs11", TestCertificate, NULL,
+--              setup_certificate, test_create_certificate_pkcs11, teardown_certificate);
+-   g_test_add ("/tls/" BACKEND "/certificate/private-key", TestCertificate, NULL,
+-               setup_certificate, test_private_key, teardown_certificate);
+-+#if HAVE_GNUTLS_PKCS11
+-+  g_test_add ("/tls/" BACKEND "/certificate/pkcs11", TestCertificate, NULL,
+-+              setup_certificate, test_create_certificate_pkcs11, teardown_certificate);
+-   g_test_add ("/tls/" BACKEND "/certificate/private-key-pkcs11", TestCertificate, NULL,
+-               setup_certificate, test_private_key_pkcs11, teardown_certificate);
+-+#endif
+- 
+-   g_test_add_func ("/tls/" BACKEND "/certificate/create-chain", test_create_certificate_chain);
+-   g_test_add_func ("/tls/" BACKEND "/certificate/create-no-chain", test_create_certificate_no_chain);
+-diff --git a/tls/tests/connection.c b/tls/tests/connection.c
+-index 17efe1b..62a7fbb 100644
+---- a/tls/tests/connection.c
+-+++ b/tls/tests/connection.c
+-@@ -3376,7 +3376,7 @@ main (int   argc,
+- 
+-   g_assert_true (g_ascii_strcasecmp (G_OBJECT_TYPE_NAME (g_tls_backend_get_default ()), "GTlsBackend" BACKEND) == 0);
+- 
+--#ifdef BACKEND_IS_GNUTLS
+-+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
+-   module_path = g_test_build_filename (G_TEST_BUILT, "mock-pkcs11.so", NULL);
+-   g_assert_true (g_file_test (module_path, G_FILE_TEST_EXISTS));
+- 
+-@@ -3438,8 +3438,10 @@ main (int   argc,
+-               setup_connection, test_client_auth_request_fail, teardown_connection);
+-   g_test_add ("/tls/" BACKEND "/connection/client-auth-request-none", TestConnection, NULL,
+-               setup_connection, test_client_auth_request_none, teardown_connection);
+-+#if HAVE_GNUTLS_PKCS11
+-   g_test_add ("/tls/" BACKEND "/connection/client-auth-pkcs11", TestConnection, NULL,
+-               setup_connection, test_client_auth_pkcs11_connection, teardown_connection);
+-+#endif
+-   g_test_add ("/tls/" BACKEND "/connection/no-database", TestConnection, NULL,
+-               setup_connection, test_connection_no_database, teardown_connection);
+-   g_test_add ("/tls/" BACKEND "/connection/failed", TestConnection, NULL,
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
+similarity index 89%
+rename from meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
+index 0f8822e160..59eb715d93 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ SECTION = "libs"
+ DEPENDS = "glib-2.0-native glib-2.0"
  
- SRC_URI = "http://freedesktop.org/software/${BPN}/releases/${BP}.tar.xz"
--SRC_URI[md5sum] = "29739e005f5887cf41639b8450f3c23f"
--SRC_URI[sha256sum] = "b26dbde79ea72c8c84fb7f9d870ffd857381d049a86d25e0038c4cef4c747309"
-+SRC_URI[sha256sum] = "a0817df39ce385b6621880407c56f1f298168c040c2032cedf88d5b76affe836"
+-SRC_URI[archive.sha256sum] = "5c698a9994dde51efdfb1026a56698a221d6250e89dc50ebcddda7b81480a42b"
++SRC_URI[archive.sha256sum] = "52fe4ce93f7dc51334b102894599858d23c8a65ac4a1110b30920565d68d3aba"
  
- DEPENDS = "glib-2.0"
+ # Upstream note that for the openssl backend, half the tests where this backend don't return
+ # the expected error code or don't work as expected so default to gnutls
+@@ -29,10 +29,6 @@ PACKAGECONFIG[gnomeproxy] = "-Dgnome_proxy=enabled,-Dgnome_proxy=disabled,gsetti
  
+ inherit gnomebase gettext upstream-version-is-even gio-module-cache ptest-gnome
+ 
+-SRC_URI += "file://run-ptest"
+-SRC_URI += "file://eagain.patch"
+-SRC_URI += "file://0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch"
+-
+ FILES:${PN} += "\
+                 ${libdir}/gio/modules/libgio*.so \
+                 ${datadir}/dbus-1/services/ \
 -- 
 2.39.2
 
 
---===============1202754316130597543==
+--===============8489160935472740701==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1846 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (910 cached, 1 parsed). 1843 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PKGSIZE changed from 837728 to 837632 (-0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-dev: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-dev: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-doc: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-doc: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ab: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ab: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-an: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-an: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ar: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ar: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-as: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-as: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-be: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-be: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bg: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bg: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bn-in: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bn-in: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bs: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bs: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PKGSIZE changed from 8348 to 8462 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PKGSIZE changed from 8018 to 8095 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PKGSIZE changed from 7540 to 7631 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PKGSIZE changed from 8850 to 8338 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-ca: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-ca: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGSIZE changed from 7018 to 7261 (+3%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PKGSIZE changed from 2665 to 6660 (+150%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PKGSIZE changed from 7853 to 7951 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-et: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-et: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PKGSIZE changed from 7569 to 7652 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PKGSIZE changed from 9405 to 9523 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fur: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fur: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gd: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gd: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PKGSIZE changed from 8751 to 8313 (-5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gu: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gu: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PKGSIZE changed from 8974 to 9064 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hi: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hi: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PKGSIZE changed from 8634 to 8124 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PKGSIZE changed from 7891 to 7414 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PKGSIZE changed from 8155 to 8047 (-1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ja: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ja: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PKGSIZE changed from 11677 to 11868 (+2%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-km: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-km: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kn: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kn: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PKGSIZE changed from 8249 to 8342 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PKGSIZE changed from 7756 to 7830 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ml: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ml: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-mr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-mr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ms: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ms: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nb: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nb: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ne: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ne: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PKGSIZE changed from 7545 to 7643 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PKGSIZE changed from 8092 to 8173 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-or: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-or: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pa: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pa: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PKGSIZE changed from 8136 to 8219 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PKGSIZE changed from 8422 to 8251 (-2%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sk: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sk: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PKGSIZE changed from 8128 to 8193 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr+latin: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr+latin: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PKGSIZE changed from 7673 to 7752 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ta: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ta: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-te: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-te: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tg: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tg: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-th: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-th: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PKGSIZE changed from 7905 to 7403 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ug: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ug: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PKGSIZE changed from 11812 to 11136 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-vi: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-vi: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-hk: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-hk: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-tw: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-tw: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: FILELIST: removed "/usr/lib/glib-networking/ptest/run-ptest"
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PKGSIZE changed from 373431 to 373374 (-0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PKGSIZE changed from 741522 to 741786 (+0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-staticdev: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-staticdev: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking: SRC_URI changed from "https://download.gnome.org/sources//glib-networking/2.76/glib-networking-2.76.1.tar.xz;name=archive file://run-ptest file://eagain.patch file://0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch" to "https://download.gnome.org/sources//glib-networking/2.78/glib-networking-2.78.0.tar.xz;name=archive"
 
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-6937960b1aeb9676d3910e8535ce4e6724e97bd5"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:6937960b1aeb9676d3910e8535ce4e6724e97bd5"
+--===============8489160935472740701==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 115 Local 103 Mirrors 0 Missed 12 Current 336 (89% match, 97% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 343 of 451 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_create_spdx_setscene)
-NOTE: Running task 417 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_recipe_qa)
-NOTE: recipe desktop-file-utils-0.27-r0: task do_recipe_qa: Started
-NOTE: recipe glib-2.0-1_2.78.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-1_2.78.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe desktop-file-utils-0.27-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_recipe_qa unihash changed to a9a128387601ede696a2637259f8b91371de3212adec3e8a048283a95a2d7042
-NOTE: Running setscene task 429 of 451 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1000 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 443 of 451 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe desktop-file-utils-0.27-r0: task do_fetch: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_fetch: Succeeded
-NOTE: Running task 1051 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_unpack)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 446 of 451 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.38.bb:do_create_spdx_setscene)
-NOTE: recipe desktop-file-utils-0.27-r0: task do_unpack: Succeeded
-NOTE: Running task 1063 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_patch)
-NOTE: recipe glibc-2.38+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_patch: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_patch: Succeeded
-NOTE: Running task 1064 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1065 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_populate_lic)
-NOTE: recipe glibc-2.38+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 451 of 451 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1201 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_prepare_recipe_sysroot)
-NOTE: recipe desktop-file-utils-0.27-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_populate_lic: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_populate_lic unihash changed to 7e9040fe923af576216b2476d81821011a114f57d86b5337ec2c40c1946369bd
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe desktop-file-utils-0.27-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_deploy_source_date_epoch unihash changed to 81812d295327f253ea68a77b5f0cdf4d9a631b039c3cb23bb23802aab9f070ea
-NOTE: recipe desktop-file-utils-0.27-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1288 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_collect_spdx_deps)
-NOTE: Setscene tasks completed
-NOTE: Running task 1289 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_configure)
-NOTE: recipe desktop-file-utils-0.27-r0: task do_collect_spdx_deps: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_configure: Started
-NOTE: recipe desktop-file-utils-0.27-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe desktop-file-utils-0.27-r0: task do_configure: Succeeded
-NOTE: Running task 1290 of 1301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_compile)
-NOTE: recipe desktop-file-utils-0.27-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 52
-| make: *** No targets specified and no makefile found.  Stop.
-| ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.3736634:182 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.3736634, line 182
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.3736634, line 166
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.3736634, line 161
-| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.3736634, line 156
-| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.3736634, line 151
-| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.3736634, line 195
-NOTE: recipe desktop-file-utils-0.27-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1290 tasks of which 1280 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231115054702.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231115054702.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PKGSIZE changed from 2665 to 6660 (+150%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: FILELIST: removed "/usr/lib/glib-networking/ptest/run-ptest"
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_compile
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: desktop-file-utils-0.27-r0 do_compile: oe_runmake failed
-ERROR: desktop-file-utils-0.27-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/run.do_compile.3736634', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/desktop-file-utils/0.27/temp/log.do_compile.3736634
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb:do_compile) failed with exit code '1'
-
---===============1202754316130597543==
+--===============8489160935472740701==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-desktop-file-utils-upgrade-0.26-0.27.patch"
+ filename="0001-glib-networking-upgrade-2.76.1-2.78.0.patch"
 
-RnJvbSAxMDhjMGIzOGY3NTE1NmY4MTUwN2U4M2Y0YWU3NTYyNmJiZDcxMWZmIE1vbiBTZXAgMTcg
+RnJvbSA4ZmVlN2ZjNGI5Y2IxYzQyOWExOGQ2M2IyM2RmMTE4MmZhYzY1NzAyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDU6NDc6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-ZXNrdG9wLWZpbGUtdXRpbHM6IHVwZ3JhZGUgMC4yNiAtPiAwLjI3CgotLS0KIC4uLi97ZGVza3Rv
-cC1maWxlLXV0aWxzXzAuMjYuYmIgPT4gZGVza3RvcC1maWxlLXV0aWxzXzAuMjcuYmJ9IHwgMyAr
-LS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxldGlvbnMoLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL3tkZXNrdG9wLWZpbGUt
-dXRpbHNfMC4yNi5iYiA9PiBkZXNrdG9wLWZpbGUtdXRpbHNfMC4yNy5iYn0gKDg0JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rlc2t0b3At
-ZmlsZS11dGlsc18wLjI2LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Rlc2t0b3AtZmlsZS11
-dGlscy9kZXNrdG9wLWZpbGUtdXRpbHNfMC4yNy5iYgpzaW1pbGFyaXR5IGluZGV4IDg0JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3RvcC1maWxlLXV0aWxzL2Rlc2t0b3At
-ZmlsZS11dGlsc18wLjI2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZGVza3Rv
-cC1maWxlLXV0aWxzL2Rlc2t0b3AtZmlsZS11dGlsc18wLjI3LmJiCmluZGV4IGY2ZDExNDZlODku
-LjZjM2Y4YjE5MjEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9kZXNrdG9wLWZp
-bGUtdXRpbHMvZGVza3RvcC1maWxlLXV0aWxzXzAuMjYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2Rlc2t0b3AtZmlsZS11dGlscy9kZXNrdG9wLWZpbGUtdXRpbHNfMC4yNy5iYgpAQCAt
-OCw4ICs4LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9YjIzNGVl
-NGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8v
-c3JjL3ZhbGlkYXRvci5jO2JlZ2lubGluZT00O2VuZGxpbmU9Mjc7bWQ1PTI4MWUxMTE0ZWU2YzQ4
-NmExYTBhNDI5NTk4NmI5NDE2IgogCiBTUkNfVVJJID0gImh0dHA6Ly9mcmVlZGVza3RvcC5vcmcv
-c29mdHdhcmUvJHtCUE59L3JlbGVhc2VzLyR7QlB9LnRhci54eiIKLVNSQ19VUklbbWQ1c3VtXSA9
-ICIyOTczOWUwMDVmNTg4N2NmNDE2MzliODQ1MGYzYzIzZiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
-ICJiMjZkYmRlNzllYTcyYzhjODRmYjdmOWQ4NzBmZmQ4NTczODFkMDQ5YTg2ZDI1ZTAwMzhjNGNl
-ZjRjNzQ3MzA5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImEwODE3ZGYzOWNlMzg1YjY2MjE4ODA0
-MDdjNTZmMWYyOTgxNjhjMDQwYzIwMzJjZWRmODhkNWI3NmFmZmU4MzYiCiAKIERFUEVORFMgPSAi
-Z2xpYi0yLjAiCiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDU6Mjg6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bGliLW5ldHdvcmtpbmc6IHVwZ3JhZGUgMi43Ni4xIC0+IDIuNzguMAoKLS0tCiAuLi5zYWJsZS1Q
+S0NTLTExLXRlc3RzLWlmLW5vdC1hdmFpbGFibGUucGF0Y2ggfCAxMTMgLS0tLS0tLS0tLS0tLS0t
+LS0tCiAuLi5uZ18yLjc2LjEuYmIgPT4gZ2xpYi1uZXR3b3JraW5nXzIuNzguMC5iYn0gfCAgIDYg
+Ky0KIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDExOCBkZWxldGlvbnMoLSkKIGRl
+bGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1u
+ZXR3b3JraW5nLzAwMDEtdGxzLXRlc3RzLWRpc2FibGUtUEtDUy0xMS10ZXN0cy1pZi1ub3QtYXZh
+aWxhYmxlLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL3tn
+bGliLW5ldHdvcmtpbmdfMi43Ni4xLmJiID0+IGdsaWItbmV0d29ya2luZ18yLjc4LjAuYmJ9ICg4
+OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWIt
+bmV0d29ya2luZy8wMDAxLXRscy10ZXN0cy1kaXNhYmxlLVBLQ1MtMTEtdGVzdHMtaWYtbm90LWF2
+YWlsYWJsZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5l
+dHdvcmtpbmcvMDAwMS10bHMtdGVzdHMtZGlzYWJsZS1QS0NTLTExLXRlc3RzLWlmLW5vdC1hdmFp
+bGFibGUucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDdiMDAzNTg4YzguLjAw
+MDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0
+d29ya2luZy8wMDAxLXRscy10ZXN0cy1kaXNhYmxlLVBLQ1MtMTEtdGVzdHMtaWYtbm90LWF2YWls
+YWJsZS5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDExMyArMCwwIEBACi1Gcm9tIDA0NzI4YTVi
+NzNlODcwYjQ2OTVjNWU3YmE0MmZhNDFjMDA0NzE5NDQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+Ci1Gcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KLURhdGU6IEZyaSwgMTIg
+TWF5IDIwMjMgMjA6MTk6MzUgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gdGxzL3Rlc3RzOiBkaXNh
+YmxlIFBLQ1MjMTEgdGVzdHMgaWYgbm90IGF2YWlsYWJsZQotCi1HbnVUTFMgY2FuIGJlIGJ1aWx0
+IHdpdGhvdXQgUEtDUyMxMSwgd2hpY2ggbWVhbnMgdGhlIHN5bWJvbHMKLWdudXRsc19wa2NzMTFf
+aW5pdCBhbmQgZ251dGxzX3BrY3MxMV9hZGRfcHJvdmlkZXIgYXJlIG5vdCBwYXJ0IG9mIHRoZQot
+bGlicmFyeS4KLQotSWYgdGhlc2Ugc3ltYm9scyBkb24ndCBleGlzdCBpbiBHbnVUTFMgdGhlbiB3
+ZSBjYW4ndCBhZGQgYSBtb2NrIHBrY3MjMTEKLXByb3ZpZGVyIGZvciB0ZXN0aW5nLCBhbmQgc2V2
+ZXJhbCB0ZXN0cyB3aGljaCBuZWVkIHRoZSBtb2NrIHByb3ZpZGVyCi13aWxsIGZhaWwuCi0KLVNv
+bHZlIHRoaXMgYnkgY2hlY2tpbmcgZm9yIHRoZSBzeW1ib2xzIGF0IGJ1aWxkIHRpbWUgYW5kIGRp
+c2FibGluZyB0aGUKLXByb3ZpZGVyIGFuZCB0ZXN0cyB3aGljaCBuZWVkIGl0LgotCi1VcHN0cmVh
+bS1TdGF0dXM6IEJhY2twb3J0Ci1TaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0
+b25AYXJtLmNvbT4KLS0tLQotIG1lc29uLmJ1aWxkICAgICAgICAgICAgIHwgIDQgKysrKwotIHRs
+cy90ZXN0cy9jZXJ0aWZpY2F0ZS5jIHwgMTEgKysrKysrKy0tLS0KLSB0bHMvdGVzdHMvY29ubmVj
+dGlvbi5jICB8ICA0ICsrKy0KLSAzIGZpbGVzIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyksIDUg
+ZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1p
+bmRleCAwZmE5MDI3Li5kMmEwMjNhIDEwMDY0NAotLS0tIGEvbWVzb24uYnVpbGQKLSsrKyBiL21l
+c29uLmJ1aWxkCi1AQCAtODQsNiArODQsMTAgQEAgZ251dGxzX2RlcCA9IGRlcGVuZGVuY3koJ2du
+dXRscycsIHZlcnNpb246ICc+PSAzLjcuNCcsIHJlcXVpcmVkOiBnZXRfb3B0aW9uKCdnbnUKLSAK
+LSBpZiBnbnV0bHNfZGVwLmZvdW5kKCkKLSAgIGJhY2tlbmRzICs9IFsnZ251dGxzJ10KLSsgICMg
+dGVzdC1zcGVjaWZpYywgbWF5YmUgbW92ZSB0byB0bHMvdGVzdHMKLSsgIGlmIGNjLmhhc19mdW5j
+dGlvbignZ251dGxzX3BrY3MxMV9pbml0JywgcHJlZml4OiAnI2luY2x1ZGUgPGdudXRscy9wa2Nz
+MTEuaD4nLCBkZXBlbmRlbmNpZXM6IGdudXRsc19kZXApCi0rICAgIGNvbmZpZ19oLnNldDEwKCdI
+QVZFX0dOVVRMU19QS0NTMTEnLCB0cnVlKQotKyAgZW5kaWYKLSBlbmRpZgotIAotICMgKioqIENo
+ZWNrcyBmb3IgT3BlblNTTCAgICAqKioKLWRpZmYgLS1naXQgYS90bHMvdGVzdHMvY2VydGlmaWNh
+dGUuYyBiL3Rscy90ZXN0cy9jZXJ0aWZpY2F0ZS5jCi1pbmRleCBlODIwYmExLi5kZDI0MTJiIDEw
+MDY0NAotLS0tIGEvdGxzL3Rlc3RzL2NlcnRpZmljYXRlLmMKLSsrKyBiL3Rscy90ZXN0cy9jZXJ0
+aWZpY2F0ZS5jCi1AQCAtMjQsNiArMjQsNyBAQAotICAqIEF1dGhvcjogU3RlZiBXYWx0ZXIgPHN0
+ZWZ3QGNvbGxhYm9yYS5jby51az4KLSAgKi8KLSAKLSsjaW5jbHVkZSAiY29uZmlnLmgiCi0gI2lu
+Y2x1ZGUgImNlcnRpZmljYXRlLmgiCi0gCi0gI2luY2x1ZGUgPGdpby9naW8uaD4KLUBAIC05MTEs
+NyArOTEyLDcgQEAgaW50Ci0gbWFpbiAoaW50ICAgYXJnYywKLSAgICAgICBjaGFyICphcmd2W10p
+Ci0gewotLSNpZmRlZiBCQUNLRU5EX0lTX0dOVVRMUwotKyNpZiBkZWZpbmVkKEJBQ0tFTkRfSVNf
+R05VVExTKSAmJiBIQVZFX0dOVVRMU19QS0NTMTEKLSAgIGNoYXIgKm1vZHVsZV9wYXRoOwotICNl
+bmRpZgotIAotQEAgLTkyMSw3ICs5MjIsNyBAQCBtYWluIChpbnQgICBhcmdjLAotICAgZ19zZXRl
+bnYgKCJHSU9fVVNFX1RMUyIsIEJBQ0tFTkQsIFRSVUUpOwotICAgZ19hc3NlcnRfY21waW50IChn
+X2FzY2lpX3N0cmNhc2VjbXAgKEdfT0JKRUNUX1RZUEVfTkFNRSAoZ190bHNfYmFja2VuZF9nZXRf
+ZGVmYXVsdCAoKSksICJHVGxzQmFja2VuZCIgQkFDS0VORCksID09LCAwKTsKLSAKLS0jaWZkZWYg
+QkFDS0VORF9JU19HTlVUTFMKLSsjaWYgZGVmaW5lZChCQUNLRU5EX0lTX0dOVVRMUykgJiYgSEFW
+RV9HTlVUTFNfUEtDUzExCi0gICBtb2R1bGVfcGF0aCA9IGdfdGVzdF9idWlsZF9maWxlbmFtZSAo
+R19URVNUX0JVSUxULCAibW9jay1wa2NzMTEuc28iLCBOVUxMKTsKLSAgIGdfYXNzZXJ0X3RydWUg
+KGdfZmlsZV90ZXN0IChtb2R1bGVfcGF0aCwgR19GSUxFX1RFU1RfRVhJU1RTKSk7Ci0gCi1AQCAt
+OTQyLDEyICs5NDMsMTQgQEAgbWFpbiAoaW50ICAgYXJnYywKLSAgICAgICAgICAgICAgIHNldHVw
+X2NlcnRpZmljYXRlLCB0ZXN0X2NyZWF0ZV9jZXJ0aWZpY2F0ZV93aXRoX2lzc3VlciwgdGVhcmRv
+d25fY2VydGlmaWNhdGUpOwotICAgZ190ZXN0X2FkZCAoIi90bHMvIiBCQUNLRU5EICIvY2VydGlm
+aWNhdGUvY3JlYXRlLXdpdGgtZ2FyYmFnZS1pbnB1dCIsIFRlc3RDZXJ0aWZpY2F0ZSwgTlVMTCwK
+LSAgICAgICAgICAgICAgIHNldHVwX2NlcnRpZmljYXRlLCB0ZXN0X2NyZWF0ZV9jZXJ0aWZpY2F0
+ZV93aXRoX2dhcmJhZ2VfaW5wdXQsIHRlYXJkb3duX2NlcnRpZmljYXRlKTsKLS0gIGdfdGVzdF9h
+ZGQgKCIvdGxzLyIgQkFDS0VORCAiL2NlcnRpZmljYXRlL3BrY3MxMSIsIFRlc3RDZXJ0aWZpY2F0
+ZSwgTlVMTCwKLS0gICAgICAgICAgICAgIHNldHVwX2NlcnRpZmljYXRlLCB0ZXN0X2NyZWF0ZV9j
+ZXJ0aWZpY2F0ZV9wa2NzMTEsIHRlYXJkb3duX2NlcnRpZmljYXRlKTsKLSAgIGdfdGVzdF9hZGQg
+KCIvdGxzLyIgQkFDS0VORCAiL2NlcnRpZmljYXRlL3ByaXZhdGUta2V5IiwgVGVzdENlcnRpZmlj
+YXRlLCBOVUxMLAotICAgICAgICAgICAgICAgc2V0dXBfY2VydGlmaWNhdGUsIHRlc3RfcHJpdmF0
+ZV9rZXksIHRlYXJkb3duX2NlcnRpZmljYXRlKTsKLSsjaWYgSEFWRV9HTlVUTFNfUEtDUzExCi0r
+ICBnX3Rlc3RfYWRkICgiL3Rscy8iIEJBQ0tFTkQgIi9jZXJ0aWZpY2F0ZS9wa2NzMTEiLCBUZXN0
+Q2VydGlmaWNhdGUsIE5VTEwsCi0rICAgICAgICAgICAgICBzZXR1cF9jZXJ0aWZpY2F0ZSwgdGVz
+dF9jcmVhdGVfY2VydGlmaWNhdGVfcGtjczExLCB0ZWFyZG93bl9jZXJ0aWZpY2F0ZSk7Ci0gICBn
+X3Rlc3RfYWRkICgiL3Rscy8iIEJBQ0tFTkQgIi9jZXJ0aWZpY2F0ZS9wcml2YXRlLWtleS1wa2Nz
+MTEiLCBUZXN0Q2VydGlmaWNhdGUsIE5VTEwsCi0gICAgICAgICAgICAgICBzZXR1cF9jZXJ0aWZp
+Y2F0ZSwgdGVzdF9wcml2YXRlX2tleV9wa2NzMTEsIHRlYXJkb3duX2NlcnRpZmljYXRlKTsKLSsj
+ZW5kaWYKLSAKLSAgIGdfdGVzdF9hZGRfZnVuYyAoIi90bHMvIiBCQUNLRU5EICIvY2VydGlmaWNh
+dGUvY3JlYXRlLWNoYWluIiwgdGVzdF9jcmVhdGVfY2VydGlmaWNhdGVfY2hhaW4pOwotICAgZ190
+ZXN0X2FkZF9mdW5jICgiL3Rscy8iIEJBQ0tFTkQgIi9jZXJ0aWZpY2F0ZS9jcmVhdGUtbm8tY2hh
+aW4iLCB0ZXN0X2NyZWF0ZV9jZXJ0aWZpY2F0ZV9ub19jaGFpbik7Ci1kaWZmIC0tZ2l0IGEvdGxz
+L3Rlc3RzL2Nvbm5lY3Rpb24uYyBiL3Rscy90ZXN0cy9jb25uZWN0aW9uLmMKLWluZGV4IDE3ZWZl
+MWIuLjYyYTdmYmIgMTAwNjQ0Ci0tLS0gYS90bHMvdGVzdHMvY29ubmVjdGlvbi5jCi0rKysgYi90
+bHMvdGVzdHMvY29ubmVjdGlvbi5jCi1AQCAtMzM3Niw3ICszMzc2LDcgQEAgbWFpbiAoaW50ICAg
+YXJnYywKLSAKLSAgIGdfYXNzZXJ0X3RydWUgKGdfYXNjaWlfc3RyY2FzZWNtcCAoR19PQkpFQ1Rf
+VFlQRV9OQU1FIChnX3Rsc19iYWNrZW5kX2dldF9kZWZhdWx0ICgpKSwgIkdUbHNCYWNrZW5kIiBC
+QUNLRU5EKSA9PSAwKTsKLSAKLS0jaWZkZWYgQkFDS0VORF9JU19HTlVUTFMKLSsjaWYgZGVmaW5l
+ZChCQUNLRU5EX0lTX0dOVVRMUykgJiYgSEFWRV9HTlVUTFNfUEtDUzExCi0gICBtb2R1bGVfcGF0
+aCA9IGdfdGVzdF9idWlsZF9maWxlbmFtZSAoR19URVNUX0JVSUxULCAibW9jay1wa2NzMTEuc28i
+LCBOVUxMKTsKLSAgIGdfYXNzZXJ0X3RydWUgKGdfZmlsZV90ZXN0IChtb2R1bGVfcGF0aCwgR19G
+SUxFX1RFU1RfRVhJU1RTKSk7Ci0gCi1AQCAtMzQzOCw4ICszNDM4LDEwIEBAIG1haW4gKGludCAg
+IGFyZ2MsCi0gICAgICAgICAgICAgICBzZXR1cF9jb25uZWN0aW9uLCB0ZXN0X2NsaWVudF9hdXRo
+X3JlcXVlc3RfZmFpbCwgdGVhcmRvd25fY29ubmVjdGlvbik7Ci0gICBnX3Rlc3RfYWRkICgiL3Rs
+cy8iIEJBQ0tFTkQgIi9jb25uZWN0aW9uL2NsaWVudC1hdXRoLXJlcXVlc3Qtbm9uZSIsIFRlc3RD
+b25uZWN0aW9uLCBOVUxMLAotICAgICAgICAgICAgICAgc2V0dXBfY29ubmVjdGlvbiwgdGVzdF9j
+bGllbnRfYXV0aF9yZXF1ZXN0X25vbmUsIHRlYXJkb3duX2Nvbm5lY3Rpb24pOwotKyNpZiBIQVZF
+X0dOVVRMU19QS0NTMTEKLSAgIGdfdGVzdF9hZGQgKCIvdGxzLyIgQkFDS0VORCAiL2Nvbm5lY3Rp
+b24vY2xpZW50LWF1dGgtcGtjczExIiwgVGVzdENvbm5lY3Rpb24sIE5VTEwsCi0gICAgICAgICAg
+ICAgICBzZXR1cF9jb25uZWN0aW9uLCB0ZXN0X2NsaWVudF9hdXRoX3BrY3MxMV9jb25uZWN0aW9u
+LCB0ZWFyZG93bl9jb25uZWN0aW9uKTsKLSsjZW5kaWYKLSAgIGdfdGVzdF9hZGQgKCIvdGxzLyIg
+QkFDS0VORCAiL2Nvbm5lY3Rpb24vbm8tZGF0YWJhc2UiLCBUZXN0Q29ubmVjdGlvbiwgTlVMTCwK
+LSAgICAgICAgICAgICAgIHNldHVwX2Nvbm5lY3Rpb24sIHRlc3RfY29ubmVjdGlvbl9ub19kYXRh
+YmFzZSwgdGVhcmRvd25fY29ubmVjdGlvbik7Ci0gICBnX3Rlc3RfYWRkICgiL3Rscy8iIEJBQ0tF
+TkQgIi9jb25uZWN0aW9uL2ZhaWxlZCIsIFRlc3RDb25uZWN0aW9uLCBOVUxMLAotLS0gCi0yLjM0
+LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWIt
+bmV0d29ya2luZ18yLjc2LjEuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcv
+Z2xpYi1uZXR3b3JraW5nXzIuNzguMC5iYgpzaW1pbGFyaXR5IGluZGV4IDg5JQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuNzYu
+MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0
+d29ya2luZ18yLjc4LjAuYmIKaW5kZXggMGY4ODIyZTE2MC4uNTllYjcxNWQ5MyAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29ya2luZ18yLjc2
+LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWItbmV0d29y
+a2luZ18yLjc4LjAuYmIKQEAgLTE0LDcgKzE0LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxl
+Oi8vQ09QWUlORzttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMgXAogU0VDVElP
+TiA9ICJsaWJzIgogREVQRU5EUyA9ICJnbGliLTIuMC1uYXRpdmUgZ2xpYi0yLjAiCiAKLVNSQ19V
+UklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjVjNjk4YTk5OTRkZGU1MWVmZGZiMTAyNmE1NjY5OGEy
+MjFkNjI1MGU4OWRjNTBlYmNkZGRhN2I4MTQ4MGE0MmIiCitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2
+c3VtXSA9ICI1MmZlNGNlOTNmN2RjNTEzMzRiMTAyODk0NTk5ODU4ZDIzYzhhNjVhYzRhMTExMGIz
+MDkyMDU2NWQ2OGQzYWJhIgogCiAjIFVwc3RyZWFtIG5vdGUgdGhhdCBmb3IgdGhlIG9wZW5zc2wg
+YmFja2VuZCwgaGFsZiB0aGUgdGVzdHMgd2hlcmUgdGhpcyBiYWNrZW5kIGRvbid0IHJldHVybgog
+IyB0aGUgZXhwZWN0ZWQgZXJyb3IgY29kZSBvciBkb24ndCB3b3JrIGFzIGV4cGVjdGVkIHNvIGRl
+ZmF1bHQgdG8gZ251dGxzCkBAIC0yOSwxMCArMjksNiBAQCBQQUNLQUdFQ09ORklHW2dub21lcHJv
+eHldID0gIi1EZ25vbWVfcHJveHk9ZW5hYmxlZCwtRGdub21lX3Byb3h5PWRpc2FibGVkLGdzZXR0
+aQogCiBpbmhlcml0IGdub21lYmFzZSBnZXR0ZXh0IHVwc3RyZWFtLXZlcnNpb24taXMtZXZlbiBn
+aW8tbW9kdWxlLWNhY2hlIHB0ZXN0LWdub21lCiAKLVNSQ19VUkkgKz0gImZpbGU6Ly9ydW4tcHRl
+c3QiCi1TUkNfVVJJICs9ICJmaWxlOi8vZWFnYWluLnBhdGNoIgotU1JDX1VSSSArPSAiZmlsZTov
+LzAwMDEtdGxzLXRlc3RzLWRpc2FibGUtUEtDUy0xMS10ZXN0cy1pZi1ub3QtYXZhaWxhYmxlLnBh
+dGNoIgotCiBGSUxFUzoke1BOfSArPSAiXAogICAgICAgICAgICAgICAgICR7bGliZGlyfS9naW8v
+bW9kdWxlcy9saWJnaW8qLnNvIFwKICAgICAgICAgICAgICAgICAke2RhdGFkaXJ9L2RidXMtMS9z
+ZXJ2aWNlcy8gXAotLSAKMi4zOS4yCgo=
 
---===============1202754316130597543==--
+--===============8489160935472740701==--
 
