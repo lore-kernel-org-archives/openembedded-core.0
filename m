@@ -1,200 +1,288 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D172C2BB3F
-	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 18:24:28 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.20960.1700072663152724374
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D180C072A2
+	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 18:28:08 +0000 (UTC)
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+ by mx.groups.io with SMTP id smtpd.web11.21027.1700072880640150602
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 10:24:23 -0800
+ Wed, 15 Nov 2023 10:28:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NszxCfRY;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1cc0d0a0355so55102145ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 10:24:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700072662; x=1700677462; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YwnbFEowCOIPXHVnTy11nqwwrucONumx37RdmdwMisc=;
-        b=NszxCfRYbVmFKKmRHy70XEznWdtnFogF29v1Q8thLm/NxSAYONipTNjbS0q8FqOkq+
-         Yf5hX78i7bBnkb26UDL9YhI153AGcIg+P4D6i/ZAWMdTahNAu400CRRWprTI/Lj37hwj
-         YqMQODr2lHtVI3+2chuTbinaxaR3Njs2mkrCnZ5x+VFmFzeB6KJnYEwe+Wv4/iGHb+Qs
-         g1zIpRakeuBxBxWZy1Mn/B5OfMUebM0MdwA4elsVMxHd66x8oHiCACyJlXAl2W2gPjwz
-         CJJeZIyfH0agiBoaF6ttBuqcToMAQHxqNTG3ysWp/Xo4mUc2T9un8F0Nd/BVcPDVhb0T
-         ebaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700072662; x=1700677462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YwnbFEowCOIPXHVnTy11nqwwrucONumx37RdmdwMisc=;
-        b=gsX5Gx/vA3tGH+eGNHJokC3hOcMezrzgzQlBYtvKZ2bMreMyNqJhLerTvh8UjeVT1B
-         vRNf3f2j17CYStzcuZSlAmQBjQRLwoiZs4706Iwkjhk33YVr3x+y29Z2j/cU1kAOf2dW
-         E3M34t1hFutsq0xzWmaPuqERSahVBcFHNnHrW05kZzhcaifEJ44tzQbVcfHo9j+SFMnn
-         tgXzfuuxvMAlnboCk0Y9jDOP43JDi1acY3gZe4KLmq5O9ml1KznC5zTR+EHwWB2YqQiV
-         IDgaDBidGk1ZQGmBuE+6op2R6Eo2rwDAyENPOijTZ+z2gp/CMDVtY7X8c6hQB6A6XJon
-         UbIQ==
-X-Gm-Message-State: AOJu0Ywvhi+/vLpm0liEB+j/RKvGaiPaLIoKOFMDhHvXNcZw9dnOdsvt
-	D1BS+yiDFYdEBLvaKwX4pXQqoz/qEuUn7A==
-X-Google-Smtp-Source: AGHT+IG6nSMrtCP9lRD0Y6AhL0fo2d691Y7EYRbNL46WppHhIKZ1BO5fhcnZoGVQzMWvfY7fk/qyUQ==
-X-Received: by 2002:a17:902:dad1:b0:1cc:70e4:28c7 with SMTP id q17-20020a170902dad100b001cc70e428c7mr6971757plx.18.1700072662135;
-        Wed, 15 Nov 2023 10:24:22 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::62f8])
-        by smtp.gmail.com with ESMTPSA id 13-20020a170902c20d00b001a9b29b6759sm7628161pll.183.2023.11.15.10.24.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 10:24:21 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=MqWfK9Hw;
+ spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: deeratho@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=9201; q=dns/txt; s=iport;
+  t=1700072880; x=1701282480;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hFlDO1hqZpY4+W8jT9S2wKqUKcTJErOOolj5gjvPevs=;
+  b=MqWfK9HwuZnmP3tT0/E4oF9B2dffH7J4wrgkQJkFOc51lokX1Mm7t41T
+   lRfZJ/SBFnAuc8M8uOOyP+RVMAMr8ZO2dr83nqKpvWUhVeG7oYJEcJ5yQ
+   Cx6LuSwE3ttt2iTk7uC4Fal7CQcvv9BbUCYPkWusCB0wwzrPtxlfgr3yF
+   g=;
+X-CSE-ConnectionGUID: D0TjQOxGTreJTy2TiLJEIA==
+X-CSE-MsgGUID: iDK8L4E5R5mhGT96FCiX0A==
+X-IronPort-AV: E=Sophos;i="6.03,305,1694736000"; 
+   d="scan'208";a="194125626"
+Received: from alln-core-3.cisco.com ([173.36.13.136])
+  by alln-iport-1.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 18:28:00 +0000
+Received: from sjc-ads-3552.cisco.com (sjc-ads-3552.cisco.com [171.68.249.250])
+	by alln-core-3.cisco.com (8.15.2/8.15.2) with ESMTPS id 3AFIRxLX032137
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 15 Nov 2023 18:27:59 GMT
+Received: by sjc-ads-3552.cisco.com (Postfix, from userid 1795984)
+	id 46270CC1280; Wed, 15 Nov 2023 10:27:59 -0800 (PST)
+From: Deepak Rathore <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Markus Volk <f_l_k@t-online.de>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v8 1/2] vte: upgrade 2.72.2 -> 2.74.0
-Date: Wed, 15 Nov 2023 10:24:15 -0800
-Message-ID: <20231115182417.415940-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.42.1
+Cc: deeratho@cisco.com
+Subject: [OE-core] [mickledore] [PATCH] curl 8.0.1: Fix CVE-2023-38039
+Date: Wed, 15 Nov 2023 10:27:55 -0800
+Message-Id: <20231115182755.2395463-1-deeratho@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 171.68.249.250, sjc-ads-3552.cisco.com
+X-Outbound-Node: alln-core-3.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 18:24:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190739
+ <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 18:28:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190741
 
-From: Markus Volk <f_l_k@t-online.de>
+Upstream Repository: https://github.com/curl/curl.git
 
-Rework recipe
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2023-38039
+Type: Security Fix
+CVE: CVE-2023-38039
+Score: 7.5
+Patch: https://github.com/curl/curl/commit/3ee79c1674fd6f9
 
-- remove legacy of the autotools buildsystem
-- remove BBCLASSEXTEND
-- build	vapi dependent on gi-data
-- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
-  a combination	where docs=true	and gir=false
-- gtk+3 and gtk4 are requested by default-> add gtk4 depending
-  on DISTRO_FEATURE
-- install systemd support files	depending on DISTRO_FEATURE
-- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v8: Rebased on latest tip of trunk
-
- ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
- .../vte/{vte_0.72.2.bb => vte_0.74.0.bb}      | 29 ++++++---------
- 2 files changed, 25 insertions(+), 39 deletions(-)
- rename meta/recipes-support/vte/{vte_0.72.2.bb => vte_0.74.0.bb} (66%)
-
-diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-index b4100fc381e..8934d5f80a6 100644
---- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-+++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
- Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
- 
- [1] https://gitlab.gnome.org/GNOME/vte/issues/72
--
- ---
-- src/missing.hh | 4 ++++
-- src/widget.cc  | 1 +
-- 2 files changed, 5 insertions(+)
-+ src/widget.cc  | 4 +++
-+ 1 files changed, 4 insertions(+)
- 
----- a/src/missing.hh
--+++ b/src/missing.hh
--@@ -24,6 +24,10 @@
-- #define NSIG (8 * sizeof(sigset_t))
-- #endif
-+diff --git a/src/widget.cc b/src/widget.cc
-+index 07f7cabf..31a77f68 100644
-+--- a/src/widget.cc
-++++ b/src/widget.cc
-+@@ -16,6 +16,10 @@
-+  * along with this library.  If not, see <https://www.gnu.org/licenses/>.
-+  */
-  
- +#ifndef W_EXITCODE
- +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
- +#endif
- +
-- #ifndef HAVE_FDWALK
-- int fdwalk(int (*cb)(void* data, int fd),
--            void* data);
----- a/src/widget.cc
--+++ b/src/widget.cc
--@@ -21,6 +21,7 @@
-- #include "widget.hh"
-- 
-- #include <sys/wait.h> // for W_EXITCODE
--+#include "missing.hh" // for W_EXITCODE on non-glibc systems
-+ #include "config.h"
-  
-- #include <exception>
-- #include <new>
-+ #include "widget.hh"
-+-- 
-+2.42.0
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-38039.patch b/meta/recipes-support/curl/curl/CVE-2023-38039.patch
+new file mode 100644
+index 0000000000..cdf8612274
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-38039.patch
+@@ -0,0 +1,204 @@
++From d942d0a479c428a2aa6981d576307568042c3a97 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 2 Aug 2023 23:34:48 +0200
++Subject: [PATCH] http: return error when receiving too large header set
 +
-diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-support/vte/vte_0.74.0.bb
-similarity index 66%
-rename from meta/recipes-support/vte/vte_0.72.2.bb
-rename to meta/recipes-support/vte/vte_0.74.0.bb
-index 44e71491f62..21203adcf79 100644
---- a/meta/recipes-support/vte/vte_0.72.2.bb
-+++ b/meta/recipes-support/vte/vte_0.74.0.bb
-@@ -16,32 +16,27 @@ DEPENDS = "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gperf-native i
- GIR_MESON_OPTION = 'gir'
- GIDOCGEN_MESON_OPTION = "docs"
- 
--inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection
-+inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection vala
- 
--# vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
- SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
--SRC_URI[archive.sha256sum] = "f7966fd185a6981f53964162b71cfef7e606495155d6f5827b72aa0dd6741c9e"
-+SRC_URI[archive.sha256sum] = "9ae08f777952ba793221152d360550451580f42d3b570e3341ebb6841984c76b"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
--# Help g-ir-scanner find the .so for linking
--do_compile:prepend() {
--    export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
--}
-+EXTRA_OEMESON += "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=true', '-Dvapi=false', d)}"
-+EXTRA_OEMESON:append = " ${@bb.utils.contains('GI_DATA_ENABLED', 'False', '-Ddocs=false', '', d)}"
- 
--# Package additional files
--FILES:${PN}-dev += "${datadir}/vala/vapi/*"
--
--PACKAGECONFIG ??= "gnutls"
--PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false,vala-native vala"
-+PACKAGECONFIG ??= " \
-+	gnutls \
-+	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
-+"
-+PACKAGECONFIG[gtk4] = "-Dgtk4=true,-Dgtk4=false,gtk4"
- PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
- PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
--# vala requires gir
--PACKAGECONFIG:remove:class-native = "vala"
--
--CFLAGS += "-D_GNU_SOURCE"
- 
- PACKAGES =+ "libvte ${PN}-prompt"
-+FILES:${PN} +="${systemd_user_unitdir}"
- FILES:libvte = "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
- FILES:${PN}-prompt = " \
-     ${sysconfdir}/profile.d \
-@@ -49,5 +44,3 @@ FILES:${PN}-prompt = " \
++To avoid abuse. The limit is set to 300 KB for the accumulated size of
++all received HTTP headers for a single response. Incomplete research
++suggests that Chrome uses a 256-300 KB limit, while Firefox allows up to
++1MB.
++
++Closes #11582
++
++CVE: CVE-2023-38039
++Upstream-Status: Backport
++[https://github.com/curl/curl/commit/3ee79c1674fd6f9]
++
++Backport Changes:
++Dropped the changes of lib/cf-h1-proxy.c file as this file is not
++present in current version of curl and added in curl from curl-8_1_0
++version with below commit:
++https://github.com/curl/curl/commit/4ae2d9f24
++
++(cherry picked from commit 3ee79c1674fd6f99e8efca52cd7510e08b766770)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++
++diff --git a/lib/c-hyper.c b/lib/c-hyper.c
++index 9c7632d35..28f64ef97 100644
++--- a/lib/c-hyper.c
+++++ b/lib/c-hyper.c
++@@ -174,8 +174,11 @@ static int hyper_each_header(void *userdata,
++     }
++   }
++ 
++-  data->info.header_size += (curl_off_t)len;
++-  data->req.headerbytecount += (curl_off_t)len;
+++  result = Curl_bump_headersize(data, len, FALSE);
+++  if(result) {
+++    data->state.hresult = result;
+++    return HYPER_ITER_BREAK;
+++  }
++   return HYPER_ITER_CONTINUE;
++ }
++ 
++@@ -305,9 +308,8 @@ static CURLcode status_line(struct Curl_easy *data,
++     if(result)
++       return result;
++   }
++-  data->info.header_size += (curl_off_t)len;
++-  data->req.headerbytecount += (curl_off_t)len;
++-  return CURLE_OK;
+++  result = Curl_bump_headersize(data, len, FALSE);
+++  return result;
++ }
++ 
++ /*
++diff --git a/lib/http.c b/lib/http.c
++index 400d2b081..d8c3e1eda 100644
++--- a/lib/http.c
+++++ b/lib/http.c
++@@ -3760,6 +3760,29 @@ static CURLcode verify_header(struct Curl_easy *data)
++   return CURLE_OK;
++ }
++ 
+++CURLcode Curl_bump_headersize(struct Curl_easy *data,
+++                              size_t delta,
+++                              bool connect_only)
+++{
+++  size_t bad = 0;
+++  if(delta < MAX_HTTP_RESP_HEADER_SIZE) {
+++    if(!connect_only)
+++      data->req.headerbytecount += (unsigned int)delta;
+++    data->info.header_size += (unsigned int)delta;
+++    if(data->info.header_size > MAX_HTTP_RESP_HEADER_SIZE)
+++      bad = data->info.header_size;
+++  }
+++  else
+++    bad = data->info.header_size + delta;
+++  if(bad) {
+++    failf(data, "Too large response headers: %zu > %zu",
+++          bad, MAX_HTTP_RESP_HEADER_SIZE);
+++    return CURLE_RECV_ERROR;
+++  }
+++  return CURLE_OK;
+++}
+++
+++
++ /*
++  * Read any HTTP header lines from the server and pass them to the client app.
++  */
++@@ -4007,8 +4030,9 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
++       if(result)
++         return result;
++ 
++-      data->info.header_size += (long)headerlen;
++-      data->req.headerbytecount += (long)headerlen;
+++      result = Curl_bump_headersize(data, headerlen, FALSE);
+++      if(result)
+++        return result;
++ 
++       /*
++        * When all the headers have been parsed, see if we should give
++@@ -4330,8 +4354,10 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
++     if(result)
++       return result;
++ 
++-    data->info.header_size += Curl_dyn_len(&data->state.headerb);
++-    data->req.headerbytecount += Curl_dyn_len(&data->state.headerb);
+++    result = Curl_bump_headersize(data, Curl_dyn_len(&data->state.headerb),
+++                                  FALSE);
+++    if(result)
+++      return result;
++ 
++     Curl_dyn_reset(&data->state.headerb);
++   }
++diff --git a/lib/http.h b/lib/http.h
++index 444abc0be..b29f3b84f 100644
++--- a/lib/http.h
+++++ b/lib/http.h
++@@ -61,6 +61,10 @@ extern const struct Curl_handler Curl_handler_wss;
++ #endif /* websockets */
++ 
++ 
+++CURLcode Curl_bump_headersize(struct Curl_easy *data,
+++                              size_t delta,
+++                              bool connect_only);
+++
++ /* Header specific functions */
++ bool Curl_compareheader(const char *headerline,  /* line to check */
++                         const char *header,   /* header keyword _with_ colon */
++@@ -176,6 +180,11 @@ CURLcode Curl_http_auth_act(struct Curl_easy *data);
++ #define EXPECT_100_THRESHOLD (1024*1024)
++ #endif
++ 
+++/* MAX_HTTP_RESP_HEADER_SIZE is the maximum size of all response headers
+++   combined that libcurl allows for a single HTTP response, any HTTP
+++   version. This count includes CONNECT response headers. */
+++#define MAX_HTTP_RESP_HEADER_SIZE (300*1024)
+++
++ #endif /* CURL_DISABLE_HTTP */
++ 
++ #ifdef USE_NGHTTP3
++diff --git a/lib/pingpong.c b/lib/pingpong.c
++index 2f4aa1c34..189a0b68e 100644
++--- a/lib/pingpong.c
+++++ b/lib/pingpong.c
++@@ -341,7 +341,9 @@ CURLcode Curl_pp_readresp(struct Curl_easy *data,
++       ssize_t clipamount = 0;
++       bool restart = FALSE;
++ 
++-      data->req.headerbytecount += (long)gotbytes;
+++      result = Curl_bump_headersize(data, gotbytes, FALSE);
+++      if(result)
+++        return result;
++ 
++       pp->nread_resp += gotbytes;
++       for(i = 0; i < gotbytes; ptr++, i++) {
++diff --git a/lib/urldata.h b/lib/urldata.h
++index f3e782ad3..390c611e2 100644
++--- a/lib/urldata.h
+++++ b/lib/urldata.h
++@@ -619,17 +619,16 @@ struct SingleRequest {
++   curl_off_t bytecount;         /* total number of bytes read */
++   curl_off_t writebytecount;    /* number of bytes written */
++ 
++-  curl_off_t headerbytecount;   /* only count received headers */
++-  curl_off_t deductheadercount; /* this amount of bytes doesn't count when we
++-                                   check if anything has been transferred at
++-                                   the end of a connection. We use this
++-                                   counter to make only a 100 reply (without a
++-                                   following second response code) result in a
++-                                   CURLE_GOT_NOTHING error code */
++-
++   curl_off_t pendingheader;      /* this many bytes left to send is actually
++                                     header and not body */
++   struct curltime start;         /* transfer started at this time */
+++  unsigned int headerbytecount;  /* only count received headers */
+++  unsigned int deductheadercount; /* this amount of bytes doesn't count when
+++                                     we check if anything has been transferred
+++                                     at the end of a connection. We use this
+++                                     counter to make only a 100 reply (without
+++                                     a following second response code) result
+++                                     in a CURLE_GOT_NOTHING error code */
++   enum {
++     HEADER_NORMAL,              /* no bad header at all */
++     HEADER_PARTHEADER,          /* part of the chunk is a bad header, the rest
++@@ -1076,7 +1075,6 @@ struct PureInfo {
++   int httpversion; /* the http version number X.Y = X*10+Y */
++   time_t filetime; /* If requested, this is might get set. Set to -1 if the
++                       time was unretrievable. */
++-  curl_off_t header_size;  /* size of read header(s) in bytes */
++   curl_off_t request_size; /* the amount of bytes sent in the request(s) */
++   unsigned long proxyauthavail; /* what proxy auth types were announced */
++   unsigned long httpauthavail;  /* what host auth types were announced */
++@@ -1084,6 +1082,7 @@ struct PureInfo {
++   char *contenttype; /* the content type of the object */
++   char *wouldredirect; /* URL this would've been redirected to if asked to */
++   curl_off_t retry_after; /* info from Retry-After: header */
+++  unsigned int header_size;  /* size of read header(s) in bytes */
++ 
++   /* PureInfo members 'conn_primary_ip', 'conn_primary_port', 'conn_local_ip'
++      and, 'conn_local_port' are copied over from the connectdata struct in
++-- 
++2.33.0
++
+diff --git a/meta/recipes-support/curl/curl_8.0.1.bb b/meta/recipes-support/curl/curl_8.0.1.bb
+index 375b4d2f93..04da092ee9 100644
+--- a/meta/recipes-support/curl/curl_8.0.1.bb
++++ b/meta/recipes-support/curl/curl_8.0.1.bb
+@@ -21,6 +21,7 @@ SRC_URI = " \
+     file://CVE-2023-28320-fol1.patch \
+     file://CVE-2023-38545.patch \
+     file://CVE-2023-38546.patch \
++    file://CVE-2023-38039.patch \
  "
+ SRC_URI[sha256sum] = "0a381cd82f4d00a9a334438b8ca239afea5bfefcfa9a1025f2bf118e79e0b5f0"
  
- FILES:${PN}-dev += "${datadir}/glade/"
--
--BBCLASSEXTEND = "native nativesdk"
 -- 
-2.42.1
+2.35.6
 
 
