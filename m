@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4930C55825
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47964C54FD6
 	for <webhook@archiver.kernel.org>; Wed, 15 Nov 2023 14:37:15 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.14633.1700059031958564744
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.14635.1700059032443452834
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Nov 2023 06:37:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hfZHacAr;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DsmQybFr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018bd36a2660-c07b47f2-f6f3-42a7-9b74-cbb6c677c62f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Um/Qbuc6;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=g+vbTn3x;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018bd36a2856-911ab289-4f96-450f-b9b7-1facad89943b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1700059031;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=5B1/iB/l0Rxss2WD1Sx5juDFX9EkqS0PFENtdv8GUE4=;
-	b=hfZHacArsdsUMUZ6pwcyMOL3r5yyIWkLaKS8W8VRYhqnd8Bcmanb8UY1JbHrwuTd
-	DaizcosMyY96k5VWBN4G488+SlKktXror3dFqIC80XsegU59jh7K2mR93RRySHhgCBP
-	UPOesiCM0KZ3Jd96aK3JTyQVNrZvg5yKkJ11a1CI=
+	bh=lZRPjkV+E/yDKa/QWU7wyET556fQ3KkQNlHsl/UOdpE=;
+	b=Um/Qbuc6jGPTqqO4QXcoaMWYy2QMBFVCMucHNLwSE+jS02pjN7ROoDusnKk3feWh
+	67GeqNjeJXJOoLOc+xoPW16Vq61sm6WAes2fuMIGxhFBMxzScDeFmwLRQTGq57kTieP
+	AIxCVv9E3XiWzpB8Q5ISqI+dNQQpY0WVQlEi9MO8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700059031;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=5B1/iB/l0Rxss2WD1Sx5juDFX9EkqS0PFENtdv8GUE4=;
-	b=DsmQybFr99vpb4INHax/wwzBsQ392LJptnw5YTmauuQpRLPCJPPheSzekLGofI7c
-	DvF1NRQgngoGnUhgmQNk6DLdx+K8dJRUnVDw4hjO7ysNXqYV8DFtMsF/LQuxz+zSk2N
-	XD9cTot31rFq3og4GcIZftA/iRzeMvsUvTpVmJ5c=
-Content-Type: multipart/mixed; boundary="===============4305111947740206095=="
+	bh=lZRPjkV+E/yDKa/QWU7wyET556fQ3KkQNlHsl/UOdpE=;
+	b=g+vbTn3xregtbdXQAzr+Ii2ZAn4Cc9lIN+PH4vWO2FP3WqFs0YZ9imkBn+pjDS82
+	CIwsRqDeMPh+QKqxPeXUIy5/ULwM5iQoUiX9QT8HJ8iBSyhVjUTwGGu0gsKzbNY5JYT
+	NjRtdb2sGWffLdA6fFPfho0YXY+Cw4Xkm7wc9+d8=
+Content-Type: multipart/mixed; boundary="===============0619195474602849554=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libsolv: upgrading to 0.7.26 SUCCEEDED
-Message-ID: <0101018bd36a2660-c07b47f2-f6f3-42a7-9b74-cbb6c677c62f-000000@us-west-2.amazonses.com>
+Subject: [AUH] json-glib: upgrading to 1.8.0 SUCCEEDED
+Message-ID: <0101018bd36a2856-911ab289-4f96-450f-b9b7-1facad89943b-000000@us-west-2.amazonses.com>
 Date: Wed, 15 Nov 2023 14:37:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.15-54.240.27.23
+X-SES-Outgoing: 2023.11.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 14:37:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190675
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190686
 
---===============4305111947740206095==
+--===============0619195474602849554==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libsolv* to *0.7.26* has Succeeded.
+that the automatic attempt to upgrade the recipe *json-glib* to *1.8.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libsolv-upgrade-0.7.25-0.7.26.patch
+    - apply the patch: git am 0001-json-glib-upgrade-1.6.6-1.8.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,64 +72,447 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 86c7405ae92ae1fed651545e7e379bca202b1893 Mon Sep 17 00:00:00 2001
+From 52442e13bab81bf998643ac59cb91fc9feb1984d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 15 Nov 2023 09:04:04 +0000
-Subject: [PATCH] libsolv: upgrade 0.7.25 -> 0.7.26
+Date: Wed, 15 Nov 2023 10:28:08 +0000
+Subject: [PATCH] json-glib: upgrade 1.6.6 -> 1.8.0
 
 ---
- .../libsolv/{libsolv_0.7.25.bb => libsolv_0.7.26.bb}            | 2 +-
+ .../json-glib/{json-glib_1.6.6.bb => json-glib_1.8.0.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libsolv/{libsolv_0.7.25.bb => libsolv_0.7.26.bb} (95%)
+ rename meta/recipes-gnome/json-glib/{json-glib_1.6.6.bb => json-glib_1.8.0.bb} (92%)
 
-diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.25.bb b/meta/recipes-extended/libsolv/libsolv_0.7.26.bb
-similarity index 95%
-rename from meta/recipes-extended/libsolv/libsolv_0.7.25.bb
-rename to meta/recipes-extended/libsolv/libsolv_0.7.26.bb
-index 69cb3f7996..bae7960138 100644
---- a/meta/recipes-extended/libsolv/libsolv_0.7.25.bb
-+++ b/meta/recipes-extended/libsolv/libsolv_0.7.26.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https \
-            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
- "
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb b/meta/recipes-gnome/json-glib/json-glib_1.8.0.bb
+similarity index 92%
+rename from meta/recipes-gnome/json-glib/json-glib_1.6.6.bb
+rename to meta/recipes-gnome/json-glib/json-glib_1.8.0.bb
+index a9a71953c3..2094ebe3e7 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.6.6.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.8.0.bb
+@@ -18,7 +18,7 @@ GIDOCGEN_MESON_ENABLE_FLAG = 'enabled'
+ GIDOCGEN_MESON_DISABLE_FLAG = 'disabled'
  
--SRCREV = "f1be8bf3dcc7dc14d331adbc97f337fa08e641c9"
-+SRCREV = "48c985375134d2443eee551613161cadc278af2f"
+ SRC_URI += " file://run-ptest"
+-SRC_URI[archive.sha256sum] = "96ec98be7a91f6dde33636720e3da2ff6ecbb90e76ccaa49497f31a6855a490e"
++SRC_URI[archive.sha256sum] = "97ef5eb92ca811039ad50a65f06633f1aae64792789307be7170795d8b319454"
  
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native"
 -- 
 2.39.2
 
 
---===============4305111947740206095==
+--===============0619195474602849554==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libsolv: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolv-dbg: PKGSIZE changed from 2745992 to 2745856 (-0%)
-packages/core2-64-poky-linux/libsolv/libsolv-dbg: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolv-dbg: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolv-dev: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolv-dev: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolv-doc: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolv-doc: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolv-locale: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolv-locale: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolv-src: PKGSIZE changed from 1646073 to 1646147 (+0%)
-packages/core2-64-poky-linux/libsolv/libsolv-src: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolv-src: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolv-staticdev: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolv-staticdev: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolv-tools: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolv-tools: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolv: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolv: PV changed from "0.7.25" to "0.7.26"
-packages/core2-64-poky-linux/libsolv/libsolvext: PKGV changed from 0.7.25 [default] to 0.7.26 [default]
-packages/core2-64-poky-linux/libsolv/libsolvext: PV changed from "0.7.25" to "0.7.26"
+packages/core2-64-poky-linux/json-glib/json-glib-bin: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-bin: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-dbg: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-dbg: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-dbg: FILELIST: removed "/usr/lib/.debug/libjson-glib-1.0.so.0.600.6", added "/usr/lib/.debug/libjson-glib-1.0.so.0.800.0"
+packages/core2-64-poky-linux/json-glib/json-glib-dbg: PKGSIZE changed from 1032456 to 1022216 (-1%)
+packages/core2-64-poky-linux/json-glib/json-glib-dev: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-dev: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-dev: PKGSIZE changed from 450872 to 453371 (+1%)
+packages/core2-64-poky-linux/json-glib/json-glib-doc: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-doc: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-as: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-as: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-be: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-be: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-bg: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-bg: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-bg: PKGSIZE changed from 4478 to 6578 (+47%)
+packages/core2-64-poky-linux/json-glib/json-glib-locale-bn-in: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-bn-in: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-bs: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-bs: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ca+valencia: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ca+valencia: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ca: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ca: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-cs: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-cs: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-da: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-da: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-de: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-de: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-el: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-el: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-en-gb: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-en-gb: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-eo: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-eo: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-es: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-es: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-et: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-et: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-eu: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-eu: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-fr: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-fr: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-fur: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-fur: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-gl: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-gl: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-he: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-he: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-he: PKGSIZE changed from 5028 to 5307 (+6%)
+packages/core2-64-poky-linux/json-glib/json-glib-locale-hi: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-hi: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-hr: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-hr: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-hu: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-hu: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-id: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-id: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-it: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-it: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ja: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ja: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ko: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ko: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ky: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ky: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-lt: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-lt: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-lv: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-lv: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ml: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ml: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ms: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ms: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-nb: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-nb: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ne: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ne: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-nl: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-nl: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-oc: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-oc: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-oc: PKGSIZE changed from 5631 to 5732 (+2%)
+packages/core2-64-poky-linux/json-glib/json-glib-locale-or: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-or: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-pa: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-pa: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-pl: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-pl: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-pt-br: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-pt-br: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-pt: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-pt: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ro: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ro: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ru: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ru: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sk: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sk: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sl: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sl: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sr+latin: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sr+latin: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sr: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sr: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sv: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-sv: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-te: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-te: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-tg: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-tg: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-tr: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-tr: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-tr: PKGSIZE changed from 5459 to 5457 (-0%)
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ug: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-ug: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-uk: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-uk: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-vi: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-vi: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-zh-cn: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-zh-cn: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-zh-hk: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-zh-hk: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-locale-zh-tw: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-locale-zh-tw: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-ptest: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-ptest: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-ptest: PKGSIZE changed from 326345 to 321873 (-1%)
+packages/core2-64-poky-linux/json-glib/json-glib-src: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-src: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib-src: FILELIST: directory renamed /usr/src/debug/json-glib/1.6.6-r0/json-glib/tests -> /usr/src/debug/json-glib/1.8.0-r0/json-glib/tests, removed "/usr/src/debug/json-glib/1.6.6-r0/json-glib/json-scanner.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-builder.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gobject.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-builder.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gobject.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-scanner.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-generator.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-utils.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-path.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-generator.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-value.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-path.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gboxed.c /usr/src/debug/json-glib/1.6.6-r0/json-glib
+ /json-glib-format.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-object.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-parser.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-reader.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-parser.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-reader.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-debug.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-debug.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-types.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-serializable.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-glib-validate.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-array.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gvariant.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-types-private.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-gvariant.h /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-enum-types.c /usr/src/debug/json-glib/1.6.6-r0/json-glib/json-node.c /usr/src/debug/json-glib/1.
+ 6.6-r0/json-glib/json-gobject-private.h", added "/usr/src/debug/json-glib/1.8.0-r0/json-glib/json-scanner.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-builder.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gobject.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-builder.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gobject.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-scanner.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-generator.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-utils.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-path.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-generator.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-value.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-path.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-utils.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gboxed.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-glib-format.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-object.c /usr/src/d
+ ebug/json-glib/1.8.0-r0/json-glib/json-parser.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-reader.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-parser.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-reader.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-debug.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-debug.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-types.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-serializable.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-glib-validate.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-array.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gvariant.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-types-private.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gvariant.h /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-enum-types.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-node.c /usr/src/debug/json-glib/1.8.0-r0/json-glib/json-gobject-private.h"
+packages/core2-64-poky-linux/json-glib/json-glib-src: PKGSIZE changed from 613013 to 612489 (-0%)
+packages/core2-64-poky-linux/json-glib/json-glib-staticdev: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib-staticdev: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib/json-glib: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib/json-glib: FILELIST: removed "/usr/lib/libjson-glib-1.0.so.0.600.6", added "/usr/lib/libjson-glib-1.0.so.0.800.0"
+packages/core2-64-poky-linux/json-glib/json-glib: PKGSIZE changed from 196039 to 196119 (+0%)
+packages/core2-64-poky-linux/json-glib: PKGV changed from 1.6.6 [default] to 1.8.0 [default]
+packages/core2-64-poky-linux/json-glib: PV changed from "1.6.6" to "1.8.0"
+packages/core2-64-poky-linux/json-glib: PACKAGES: added "json-glib-locale-ab json-glib-locale-ka json-glib-locale-fa"
+packages/core2-64-poky-linux/json-glib: SRC_URI changed from "https://download.gnome.org/sources//json-glib/1.6/json-glib-1.6.6.tar.xz;name=archive file://run-ptest" to "https://download.gnome.org/sources//json-glib/1.8/json-glib-1.8.0.tar.xz;name=archive file://run-ptest"
+Changes to packages/core2-64-poky-linux/json-glib (sysroot):
+  /usr/lib/libjson-glib-1.0.so.0 changed symlink target from libjson-glib-1.0.so.0.600.6 to libjson-glib-1.0.so.0.800.0
+  /usr/lib/libjson-glib-1.0.so.0.600.6 moved to /usr/lib/libjson-glib-1.0.so.0.800.0
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1514,41 +1897,302 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============4305111947740206095==
+--===============0619195474602849554==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libsolv-upgrade-0.7.25-0.7.26.patch"
+ filename="0001-json-glib-upgrade-1.6.6-1.8.0.patch"
 
-RnJvbSA4NmM3NDA1YWU5MmFlMWZlZDY1MTU0NWU3ZTM3OWJjYTIwMmIxODkzIE1vbiBTZXAgMTcg
+RnJvbSA1MjQ0MmUxM2JhYjgxYmY5OTg2NDNhYzU5Y2I5MWZjOWZlYjE5ODRkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMDk6MDQ6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJzb2x2OiB1cGdyYWRlIDAuNy4yNSAtPiAwLjcuMjYKCi0tLQogLi4uL2xpYnNvbHYve2xpYnNv
-bHZfMC43LjI1LmJiID0+IGxpYnNvbHZfMC43LjI2LmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
+CkRhdGU6IFdlZCwgMTUgTm92IDIwMjMgMTA6Mjg6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBq
+c29uLWdsaWI6IHVwZ3JhZGUgMS42LjYgLT4gMS44LjAKCi0tLQogLi4uL2pzb24tZ2xpYi97anNv
+bi1nbGliXzEuNi42LmJiID0+IGpzb24tZ2xpYl8xLjguMC5iYn0gICAgICAgIHwgMiArLQogMSBm
 aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2xpYnNvbHYve2xpYnNvbHZfMC43LjI1LmJiID0+IGxpYnNvbHZfMC43
-LjI2LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJzb2x2
-L2xpYnNvbHZfMC43LjI1LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnNvbHYvbGlic29s
-dl8wLjcuMjYuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL2xpYnNvbHYvbGlic29sdl8wLjcuMjUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1leHRlbmRlZC9saWJzb2x2L2xpYnNvbHZfMC43LjI2LmJiCmluZGV4IDY5Y2IzZjc5OTYuLmJh
-ZTc5NjAxMzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJzb2x2L2xpYnNv
-bHZfMC43LjI1LmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJzb2x2L2xpYnNvbHZf
-MC43LjI2LmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9v
-cGVuU1VTRS9saWJzb2x2LmdpdDticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzIFwKICAgICAg
-ICAgICAgZmlsZTovLzAwMDEtdXRpbHMtQ29uc2lkZS1tdXNsLXdoZW4td3JhcHBpbmctcXNvcnRf
-ci5wYXRjaCBcCiAiCiAKLVNSQ1JFViA9ICJmMWJlOGJmM2RjYzdkYzE0ZDMzMWFkYmM5N2YzMzdm
-YTA4ZTY0MWM5IgorU1JDUkVWID0gIjQ4Yzk4NTM3NTEzNGQyNDQzZWVlNTUxNjEzMTYxY2FkYzI3
-OGFmMmYiCiAKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIig/UDxwdmVyPlxkKyhcLlxk
-KykrKSIKIAotLSAKMi4zOS4yCgo=
+ZWNpcGVzLWdub21lL2pzb24tZ2xpYi97anNvbi1nbGliXzEuNi42LmJiID0+IGpzb24tZ2xpYl8x
+LjguMC5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvanNvbi1nbGli
+L2pzb24tZ2xpYl8xLjYuNi5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9qc29uLWdsaWIvanNvbi1n
+bGliXzEuOC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1nbm9tZS9qc29uLWdsaWIvanNvbi1nbGliXzEuNi42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtZ25vbWUvanNvbi1nbGliL2pzb24tZ2xpYl8xLjguMC5iYgppbmRleCBhOWE3MTk1M2MzLi4y
+MDk0ZWJlM2U3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvanNvbi1nbGliL2pzb24t
+Z2xpYl8xLjYuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvanNvbi1nbGliL2pzb24tZ2xp
+Yl8xLjguMC5iYgpAQCAtMTgsNyArMTgsNyBAQCBHSURPQ0dFTl9NRVNPTl9FTkFCTEVfRkxBRyA9
+ICdlbmFibGVkJwogR0lET0NHRU5fTUVTT05fRElTQUJMRV9GTEFHID0gJ2Rpc2FibGVkJwogCiBT
+UkNfVVJJICs9ICIgZmlsZTovL3J1bi1wdGVzdCIKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1d
+ID0gIjk2ZWM5OGJlN2E5MWY2ZGRlMzM2MzY3MjBlM2RhMmZmNmVjYmI5MGU3NmNjYWE0OTQ5N2Yz
+MWE2ODU1YTQ5MGUiCitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI5N2VmNWViOTJjYTgx
+MTAzOWFkNTBhNjVmMDY2MzNmMWFhZTY0NzkyNzg5MzA3YmU3MTcwNzk1ZDhiMzE5NDU0IgogCiBQ
+QUNLQUdFQ09ORklHID8/PSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ1BURVNUX0VOQUJMRUQnLCAn
+MScsICd0ZXN0cycsICcnLCBkKX0iCiBQQUNLQUdFQ09ORklHW21hbnBhZ2VzXSA9ICItRG1hbj10
+cnVlLC1EbWFuPWZhbHNlLGxpYnhzbHQtbmF0aXZlIHhtbHRvLW5hdGl2ZSIKLS0gCjIuMzkuMgoK
 
---===============4305111947740206095==
+--===============0619195474602849554==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/json-glib/json-glib-locale-bg: PKGSIZE changed from 4478 to 6578 (+47%)
+packages/core2-64-poky-linux/json-glib/json-glib: FILELIST: removed "/usr/lib/libjson-glib-1.0.so.0.600.6", added "/usr/lib/libjson-glib-1.0.so.0.800.0"
+packages/core2-64-poky-linux/json-glib: PACKAGES: added "json-glib-locale-fa json-glib-locale-ab json-glib-locale-ka"
+Changes to packages/core2-64-poky-linux/json-glib (sysroot):
+  /usr/lib/libjson-glib-1.0.so.0 changed symlink target from libjson-glib-1.0.so.0.600.6 to libjson-glib-1.0.so.0.800.0
+  /usr/lib/libjson-glib-1.0.so.0.600.6 moved to /usr/lib/libjson-glib-1.0.so.0.800.0
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -2933,5 +3577,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============4305111947740206095==--
+--===============0619195474602849554==--
 
