@@ -1,168 +1,157 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0A61C47071
-	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 18:41:09 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.77])
- by mx.groups.io with SMTP id smtpd.web11.14610.1700160068266317188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D6A8C197A0
+	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 19:44:40 +0000 (UTC)
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+ by mx.groups.io with SMTP id smtpd.web11.16132.1700163874532828499
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Nov 2023 10:41:08 -0800
+ Thu, 16 Nov 2023 11:44:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=s0S8wZ3D;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=s0S8wZ3D;
- spf=pass (domain: arm.com, ip: 40.107.20.77, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=gLX2haft5dDXiC5R/VDdgOdKDTkDaRLO9TtBsxbjCycBS1+LDenUUHZo8MmV6dacX4p8WoJYJMgjLouQ5X1fwF2R7AUYmHMqfybjQ2Teh5KuQxth8joE/TVN1dUnX1Ndc0wSSOP0ggnPfhj8/ldkjf6BSHPQu3Vly5OZj1EohOceIgp6z9SFYEqLIQH2fRK1YKXtJqPzjWnRoqKy0HERbiQxAGZJu/1uVrGV081mBKDha3kySK+JUSstHOLdlgchopzRDUbIdMAtvmcLTwRvWZ1y+BnsP8LM6bI+BYT3SwyG6RqrgXI3yLNSGhUBygxRmbVSV2d6mgeY0c6QXRAfgA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+vgA0nWNPuaUh/3P+1b+kjAwDPrutK7g/nd/SOHmwRI=;
- b=EQ+vQiQpEibiw/8Ein1NtQrPA6teZtzZeymk3kDXA2Mrhx7jDpYUP9WJeBmfT1Jy1vx0gwZPxrDp5El0sRHLz+GlN7oJnAIG081qpNvv8UwlryVKE+6jezk3MAUEqwrl0iE9/cHmC9u0LFcsY+UA+iqHzf4qP7iLN46tfcUjmOiEmv+XagboLsAWE3r/NFFraGzeAJG0LEo3wCEEEIMdmvfzoRO1R2XlB5RAP0GqoleOyVuDwJoXzrJ/3Rp1U3KkQk8+9XcVl0l99YYQMl49MlniRfl+PAFQbyL6mRzr8VXarw/1S1B51CmAN+ffNy6XfSpWb/AcjTcEGgH8Fkwo+Q==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+vgA0nWNPuaUh/3P+1b+kjAwDPrutK7g/nd/SOHmwRI=;
- b=s0S8wZ3DnLmrnc8gLQuHp1BursQxYQPdeKPhEErEeAQ5C4DLTBiZoeEpx2G+/9M42zYGquwu9SHaA5wv1fAVbm/SanFC8PxCUzzrtjrRkbXtdPdfwEo2agASRp66DOJesZ+5V084DGL2DnXBmh9ntxYMdsA9nL1aZYkLM1aO8rQ=
-Received: from DU2PR04CA0290.eurprd04.prod.outlook.com (2603:10a6:10:28c::25)
- by GVXPR08MB7893.eurprd08.prod.outlook.com (2603:10a6:150:1::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.20; Thu, 16 Nov
- 2023 18:41:04 +0000
-Received: from DU6PEPF0000952A.eurprd02.prod.outlook.com
- (2603:10a6:10:28c:cafe::46) by DU2PR04CA0290.outlook.office365.com
- (2603:10a6:10:28c::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21 via Frontend
- Transport; Thu, 16 Nov 2023 18:41:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DU6PEPF0000952A.mail.protection.outlook.com (10.167.8.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7002.20 via Frontend Transport; Thu, 16 Nov 2023 18:41:03 +0000
-Received: ("Tessian outbound 20615a7e7970:v228"); Thu, 16 Nov 2023 18:41:03 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 9635af7ae099196c
-X-CR-MTA-TID: 64aa7808
-Received: from 7a11bea1f0b0.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id F02462B5-8435-464C-9D70-5B827E8AB63F.1;
-	Thu, 16 Nov 2023 18:40:57 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7a11bea1f0b0.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Thu, 16 Nov 2023 18:40:56 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bMyc2ZEkRTeMJeJAEerQmCdx3iamViUru3/ao+ym5UuGM21MbZEGnSd89+VaRM475y4F1BrpACXBFIoQqDmhgWKA+2/wNwzd+UuTk48oC2Xggy7r4RIrssfpsAsli4k0005w62Hjy12S5dv8a5E5/LH2mUdnyQvTyiZA5VZ2lNl988GjpovxUutc9jl84YV7lcLBTilO11bDuxlHZuhYtgDLQIC2Ck6hGqFmiUJwqas7pkFvNdy4evzOWUR1IRFjbNISJDE4l1jdSo7wbCtCzFQEOAfW7pqrTXdaHvpqeKRxpIaBKku6LamZiTOdzllqbWeLiRt7R0LMlKlgR0hEfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+vgA0nWNPuaUh/3P+1b+kjAwDPrutK7g/nd/SOHmwRI=;
- b=Svh1YDfg0wmjEj6bsEH/mDkuDhjfVGo94D4CXB7UdI/eQxi8sbAQ3T0oyxrTa1tMjPk0n+Msh4FnUS46/F4zXXPP5NNkcc4CCspe/UrQ5Ozm1gr8DfTN4zKv/BAvHHD7lz63thFscAT31Liv6Y3DVe65YzQKtGB+/rk6tS5LzqreCZ/+SJmMsuOqT9y22Y1fHOxCT/K87JqTzUHFZNDvNOwuu0OscI3gkOMG/+V6zSZ2aMmvHQDTj/I/mCuHcAxjiUTaeawhC+fEKcb5V14vfDPEKNuIlKAe50ZIf4NO3LxbGsmx3IcJvnGcCJWkdURHN+iDsaKpLeyO2lTN9aA5Zg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+vgA0nWNPuaUh/3P+1b+kjAwDPrutK7g/nd/SOHmwRI=;
- b=s0S8wZ3DnLmrnc8gLQuHp1BursQxYQPdeKPhEErEeAQ5C4DLTBiZoeEpx2G+/9M42zYGquwu9SHaA5wv1fAVbm/SanFC8PxCUzzrtjrRkbXtdPdfwEo2agASRp66DOJesZ+5V084DGL2DnXBmh9ntxYMdsA9nL1aZYkLM1aO8rQ=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by GVXPR08MB7871.eurprd08.prod.outlook.com (2603:10a6:150:17::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.19; Thu, 16 Nov
- 2023 18:40:54 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::ef47:2c42:1ef6:fe5c]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::ef47:2c42:1ef6:fe5c%6]) with mapi id 15.20.7002.021; Thu, 16 Nov 2023
- 18:40:52 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "dbaryshkov@gmail.com" <dbaryshkov@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2 1/2] rust-android-sparse: add lightweight
- simg2img/img2simg implementation
-Thread-Topic: [OE-core] [PATCH v2 1/2] rust-android-sparse: add lightweight
- simg2img/img2simg implementation
-Thread-Index: AQHaFz4xs+l9VLj0R0+wiz1bWy79tbB9SlEA
-Date: Thu, 16 Nov 2023 18:40:52 +0000
-Message-ID: <7C3ECD47-77A8-433B-8697-3324C36EBB2C@arm.com>
-References: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org>
- <20231114210418.1323819-2-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20231114210418.1323819-2-dmitry.baryshkov@linaro.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3774.200.91.1.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|GVXPR08MB7871:EE_|DU6PEPF0000952A:EE_|GVXPR08MB7893:EE_
-X-MS-Office365-Filtering-Correlation-Id: 101df9db-7685-4d1c-797a-08dbe6d3964a
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- FAQQosz1Nv9v+L+8p6jq+0TyMnwosCF++/Oannaa+9dIkb0jkvm5iRPo3MW/5Vh94r7wSBOWnjaDMSsJeJxZB46W3qOL9KQCgQ72W/e7CpyOMjABA/PTQ/3kykKTfwvnNI4U4xDrXriSK7rNMmbc7kt8mQWfR2Cc2ICZ+6Qvkf5rjq7ZarGU+wzqbJyhSXxnneYcKY/Jae9alKsTk2bfP7LTuS5nbiCglaPnUO+q3LVCw9T/fCt6Wsc+Co4FvuJPLYia6CP66+VhjaC/V8cwn4IAV/jSN+eVtczP+fSH+2s+70u0LKPapmp3joepDTWjf+JJBFrprBY0iBzCvYAGFaOp3X+qoLbDa6YS9dF4Rk0kg6b/qtuIlr9P5bS9x6pxmcLyKej5YLZWeh1D6w9NxjbdH9KotrZZnXZHBpcb66gFPNsnTjtrsEOrmQojiUlYlWKH/uSXL4kd1TZ8ntIqaU5HcjLnLbS3xrnl6bRbbXcQ2Qqg4jPdG1V/U1YDoeplpB3D8SWa6Jomf32PAit6ICxOVOoM/OqMwFSjUTWx02skJ3qz3CANOY0vy4JSFh4YJlAQdEW/oECBVKxWfpBuBPhuKHoNuw0uR24pU3Daf789IKV5iRXVf46T0K/EqNObrXKHJlSiGHFp0whE9VMmeF7NVy7IGVb8D710/1t0m/4mikSD5ga5ZoUaapQVRhuZ
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(39860400002)(376002)(396003)(136003)(230922051799003)(186009)(1800799009)(451199024)(64100799003)(38070700009)(41300700001)(36756003)(122000001)(38100700002)(6506007)(5660300002)(53546011)(2616005)(316002)(4326008)(6916009)(8676002)(66476007)(26005)(8936002)(66556008)(6512007)(64756008)(76116006)(33656002)(66446008)(66946007)(91956017)(478600001)(71200400001)(86362001)(2906002)(4744005)(6486002)(16393002)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8B512CB70304354E93E8E657AEE5FA7E@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CbD44S0u;
+ spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1f4e17c1edfso627429fac.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 11:44:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700163874; x=1700768674; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iEAqWLnz9n/XlpEar2Ln4PMMqo4aqZWUzH8wpWeV5W0=;
+        b=CbD44S0udYojCIVHpic3IwGyBfzYDXsaQqhXY+PFDuv3g2JsB6xT33LvrGJYbO/zCZ
+         6e9UvwNqbjYAuU/QrEFTFz83dJdrRB+9lmi686fk65Gk7k1Rbqb5V0SLZcWCWJIbSbq/
+         OgLFs068jSQxBC7J2lnQ/BqGF95hw9Ip42EmivSFLUk0y990A7HTGFCxWQaJbJDZpAL9
+         jmt/AISCbPpU6W2NL2SxFDQijHTNh/23aG4OO1/vprgMQFwxN4hNcPNhpF5kMxgJff0c
+         yIFAbPAAEem6XG11I5cEW62oe6mADMO6IaDqmP0g8KJHMpVz351uI+pyIwnsC9rE4oYR
+         irLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700163874; x=1700768674;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iEAqWLnz9n/XlpEar2Ln4PMMqo4aqZWUzH8wpWeV5W0=;
+        b=YI2m2U3v7owZRyqnTuBkxTIU0nE+E+UUmDImQ9niHv7FViUOeO0fZ20BWWKK0jEblm
+         DKLdrbjDftYKXWBqZAms/DsdMoVdvH5wm4coWY7eKCrb+XgilHtnJs8VdesVW4eiGeNF
+         oof24Y50wrJosMtBJVfYX6C1EWBxonNaa+aHhe4vTv7AOcoeSmkfuUyV75y48YVisOLm
+         wN9MDEHZb0yjKeW2Fo0KFlNFizZJmb90tCHI00if7M7FdEf0rdnBDs0nHTfihIARAzdJ
+         MjgKgKGjH21ni+eFXkZfwphmcVJK5G1mr+0tm8VopFf3ENEHXUm2AihrwWMsgQ4J9lFJ
+         +blA==
+X-Gm-Message-State: AOJu0YzODFV2G7C+kNbqgThSHBMe9bb5VGEPLniFCIPvjCcE/gSutH2/
+	hK9lcKCASAgAAf6FsBS4IXa8JMRS6ThG3kyJD5U=
+X-Google-Smtp-Source: AGHT+IEeYEjL/R0xx7cs8N/5+uThNcqUbEWDHDCFIJbssgqAKGpqxl2LZxiI4BPx8KIPj5kYKDSjAKViuvGTTTEicws=
+X-Received: by 2002:a05:6870:7886:b0:1e9:896a:8055 with SMTP id
+ hc6-20020a056870788600b001e9896a8055mr22679913oab.25.1700163873633; Thu, 16
+ Nov 2023 11:44:33 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB7871
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU6PEPF0000952A.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	09a96f3d-3485-4ae2-b88a-08dbe6d38f82
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4RloCsno9/X8ttyNQX7ccYjMTX7rm2wcUBV3v7L8GABAa4+R9hnzMKMx6vn58AF/iilm9THFjJlE14bMxYwkDEVWT24JiZ68o3k7+i7nION9g1kR7XY+vn4CIph3Ki4A0y+iztX43ZUrd2yppQKIYEtoYaJ0wEL1Z+RAnCs8dwrSSf3WLl6EUtDfWvKh2H1VQMqSEly/Ud+Jc+YLAQeym/e6W3M8wzWlIo+DkZ/9lSNzc9U8zW8gm8pEnoGk8wYGkcjbA5/gkkjxnBsig7Yw90w6Gi7tZWcIaZ6rdkiUaipR1JKjc7asj295Muj3OagT7HnR6FRAb19VQ8053EheP4MNptSvnMLCey83r7w16OwIoEhSCNBE0lLy2NTxGPPy5rKCkkjIi8CPYQD8XdP9WLFxeZgzxJDXrCfkuMwGdZUfFTM6LrgXqbyNpj8e3X5i84sg1IKLKM0laMkzu+31bAPTM0tobVo9mX/FaCwRMnzqktIQZQa4QNNi8IuxCh8bqzOAenT7NcpFQwWk4F+sl79YLpTvHuMNmMUVqadHOLx/QgLppt6TpPI7kYuKI/5scdEqeI5ZTw3L9iPX6np3daaMuae2c/kWTWZVXqUcD26bl8KECFvGsX2vrtWehIr6Ye4rAVeEDErKm48NKV+xxIlV76ZjdCbGRRPWM/ey3+ltyAOUfuqo3H4PxITL0M5SjFHCDAFRLb+bExriukkJL9zsDqsCTsHuunqc6s912UDDk8AI90SpgN0/Pfft4FytPvZYcy33nSLQ0b/URLY2FQ==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(346002)(396003)(376002)(230922051799003)(64100799003)(1800799009)(451199024)(82310400011)(186009)(46966006)(36840700001)(40470700004)(8676002)(53546011)(8936002)(6862004)(4326008)(6506007)(40480700001)(6486002)(70206006)(70586007)(86362001)(316002)(478600001)(6512007)(82740400003)(2616005)(33656002)(26005)(336012)(47076005)(36860700001)(2906002)(4744005)(40460700003)(5660300002)(41300700001)(81166007)(36756003)(356005)(16393002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 18:41:03.7008
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 101df9db-7685-4d1c-797a-08dbe6d3964a
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000952A.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB7893
+References: <20231116073650.2710535-1-martin.jansa@gmail.com>
+In-Reply-To: <20231116073650.2710535-1-martin.jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Nov 2023 11:44:07 -0800
+Message-ID: <CAMKF1spKx_S3ORqC-Tek+DErRt1uwtybD2cja1eE+cnTpc53oA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCHv3 01/11] bitbake.conf: drop ${PE} and ${PR} from -f{file,macro,debug}-prefix-map
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 18:41:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190809
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 19:44:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190810
 
-T24gMTQgTm92IDIwMjMsIGF0IDIxOjA0LCBEbWl0cnkgQmFyeXNoa292IHZpYSBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnIDxkYmFyeXNoa292PWdtYWlsLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PiB3cm90ZToNCj4gDQo+IFRoZSBBbmRyb2lkJ3Mgc2ltZzJpbWcvaW1nMnNpbWcgY29tZXMgZnJv
-bSBhbmRyb2lkLXRvb2xzLCB3aGljaCBpcyBhDQo+IGh1Z2UgcGFja2FnZSB3aXRoIGxvdHMgb2Yg
-ZGVwZW5kZW5jaWVzIG9uIGl0cyBvd24uIEl0IHJlc2lkZXMgaW5zaWRlDQo+IG1ldGEtb2UgcmF0
-aGVyIHRoYW4gT0UtQ29yZS4gQWRkIGxpZ2h0d2VpZ2h0IHRvb2wgdG8gaGFuZGxlIHNwYXJzZQ0K
-PiBpbWFnZXMsIHdoaWNoIGlzIHNtYWxsIGVub3VnaCB0byBiZSBwdXNoZWQgaW50byBPRS1Db3Jl
-Lg0KDQpBbXVzaW5nbHkgSSBzYXcgdGhpcyBiZWZvcmUgdGhlIG90aGVyIHBvc3QuDQoNCldoeSBz
-aG91bGQgdGhpcyBiZSBpbiBjb3JlPyAgV2UgYWxyZWFkeSBoYXZlIGJtYXAgZm9yIHRoZSB1c2Ut
-Y2FzZSBvZiDigJxzcGFyc2UgaW1hZ2Vz4oCdLiAgV2hhdOKAmXMgdGhlIHJhdGlvbmFsZSBmb3Ig
-YWRkaW5nIHR3byB0b29scyB0aGF0IGRvIHRoZSBzYW1lIHRoaW5nPw0KDQpSb3Nz
+On Wed, Nov 15, 2023 at 11:36=E2=80=AFPM Martin Jansa <martin.jansa@gmail.c=
+om> wrote:
+>
+> * ${EXTENDPE} and ${PR} was already dropped from ${WORKDIR} in:
+>   https://lists.openembedded.org/g/openembedded-core/message/185818
+>   adjust -fmacro-prefix-map and -fdebug-prefix-map similarly.
+>   As we don't depend on PR in WORKDIR maybe we don't need it in
+>   /usr/src/debug paths as well anymore.
+>
+> * The interesting side-effect of this is that for DISTROs which still
+>   use PR (e.g. webOS OSE), the difference in -fdebug-prefix-map causes
+>   all binaries to be slightly different when rebuilt with different PR
+>   (due to this path, even when otherwise they are binary reproducible)
+>   and when the number of digits in PR changes (e.g. from r9 to r10) it
+>   also results in slightly bigger binaries (and more unnecessary changes
+>   in buildhistory diffs).
+>
+
+these paths are for binary outputs unlike workdir, this change would means =
+we
+have same path to install debug info on targets which might not match
+to installed
+binaries Can you check if these paths are matching while debugging on targe=
+t ?
+
+>   For example this foo binary, the difference between "new" and "old" is
+>   extra patch applied in SRC_URI (which doesn't affect the foo binary,
+>   but was the reason for PR bump).
+>
+>   And the binary is bigger with r10, identical with r6 and slightly
+>   different due to debug-prefix-map between r6 and r7:
+>
+>   $ ls -la 1.0.0-175-*/image/usr/sbin/foo
+>   -rwxr-xr-x 1 bitbake bitbake 30182460 Nov  8 08:29 1.0.0-175-new-r10/im=
+age/usr/sbin/foo
+>   -rwxr-xr-x 1 bitbake bitbake 30182224 Nov  8 08:02 1.0.0-175-new-r6/ima=
+ge/usr/sbin/foo
+>   -rwxr-xr-x 1 bitbake bitbake 30182224 Nov  8 07:49 1.0.0-175-new-r7/ima=
+ge/usr/sbin/foo
+>   -rwxr-xr-x 1 bitbake bitbake 30182224 Nov  8 07:39 1.0.0-175-old-r6/ima=
+ge/usr/sbin/foo
+>
+>   $ md5sum 1.0.0-175-*/image/usr/sbin/foo
+>   8e3ab67d596f8cc2f9c6320dab10af01  1.0.0-175-new-r10/image/usr/sbin/foo
+>   f6ff1e64fe6affb9ba0d8f278cf7ed79  1.0.0-175-new-r6/image/usr/sbin/foo
+>   6469a0b10aac233911e63c5ea97b03c0  1.0.0-175-new-r7/image/usr/sbin/foo
+>   f6ff1e64fe6affb9ba0d8f278cf7ed79  1.0.0-175-old-r6/image/usr/sbin/foo
+>
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> ---
+> v3: added additional fix for perf (and changes in other recipes were move=
+d to separate commits)
+>
+>  meta/conf/bitbake.conf | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 67ff769046..3836a389b8 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -648,10 +648,10 @@ EXTRA_OEMAKE:prepend:task-install =3D "${PARALLEL_M=
+AKEINST} "
+>  ##################################################################
+>  # Beware: applied last to first
+>  DEBUG_PREFIX_MAP ?=3D "-fcanon-prefix-map \
+> - -fmacro-prefix-map=3D${S}=3D/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}=
+ \
+> - -fdebug-prefix-map=3D${S}=3D/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}=
+ \
+> - -fmacro-prefix-map=3D${B}=3D/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}=
+ \
+> - -fdebug-prefix-map=3D${B}=3D/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}=
+ \
+> + -fmacro-prefix-map=3D${S}=3D/usr/src/debug/${PN}/${PV} \
+> + -fdebug-prefix-map=3D${S}=3D/usr/src/debug/${PN}/${PV} \
+> + -fmacro-prefix-map=3D${B}=3D/usr/src/debug/${PN}/${PV} \
+> + -fdebug-prefix-map=3D${B}=3D/usr/src/debug/${PN}/${PV} \
+>   -fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \
+>   -fmacro-prefix-map=3D${STAGING_DIR_HOST}=3D \
+>   -fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
+> --
+> 2.42.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#190753): https://lists.openembedded.org/g/openembedde=
+d-core/message/190753
+> Mute This Topic: https://lists.openembedded.org/mt/102623139/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
