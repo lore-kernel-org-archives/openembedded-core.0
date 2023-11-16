@@ -1,148 +1,107 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A76C197A0
-	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 16:32:39 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web11.11216.1700152357428878923
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 471BAC197A0
+	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 16:32:59 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.11202.1700152372162233435
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Nov 2023 08:32:37 -0800
+ Thu, 16 Nov 2023 08:32:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YESx2SIj;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A58F40003;
-	Thu, 16 Nov 2023 16:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700152355;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hOmM5KeYDZr4LuYUNoQxrrw288gyUOYRVeh5j1E8K7w=;
-	b=YESx2SIjeXlWzo9DZS8nUlMHVkZ58MPCplHWlE5opFG4P1oRWj+KWvVVUtuDreeNBm1ydS
-	jyBe3ddCkSnXzhZWhB8/VU/wn15wRCA2esKwxBXUD+X8c4fANLRQR61rzD3ABHn2i5hBeC
-	ESsqwxqTwPIhHn8vh3eOgYdXkbv9q/4iIXnRlHMdGli8fULYAJVdZut2O1rbhYnx1pOke5
-	WHvkDO8m4R60CQ6OQ9x67L1IJmiY/ZrOwFaGT7JZzTAtWdD8jSqHxlYxUSXOYcDa8dOCmb
-	qVe04SMaoGSBGy1AXhY1Tjf/20gV8sZRdLsnjj3T04ruYkJzDAgdM2aoz2tJ7g==
-Date: Thu, 16 Nov 2023 17:32:34 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: meenali.gupta@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-core][PATCH 4/5] avahi: fix CVE-2023-38472
-Message-ID: <20231116163234fe55e02a@mail.local>
-References: <20231116114450.1124133-1-meenali.gupta@windriver.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MkEMlcwZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50a938dda08so1446934e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 08:32:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1700152370; x=1700757170; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TbMUcwzI8OPy19SrCteMGT63QaFzM0rHhmbRybGOKYw=;
+        b=MkEMlcwZSHh9H60PShbgnlQqVGKeO10/PiaGw44psSpTSuqxWCcO/SEOnxKfvVTMTg
+         tcjDjxzUSuhD49SblChI2+OorDZYCnuDO2ZolGyQpc+gxx/WzxpOu+rKdtC/8jXHSPhF
+         ifm+3165jYbK9ZZlR6nPnhPsVxBZBRd6llIds=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700152370; x=1700757170;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TbMUcwzI8OPy19SrCteMGT63QaFzM0rHhmbRybGOKYw=;
+        b=Dd+mOc1I8q+aB7eJCL34zFYwzom3iUwwTwRHSLnDD0ZNugC315anBjq2AZzdGd8saO
+         4Ievyn/UHU4U7VyRN1ugAi27uumpYtdYXkpN6fFkGvsQkXkQgugZxintNAfOCpzP7BBM
+         RZDNG6SFS3Q+bfAz8E9MssQG4CsU0uJuT46FLrFQIO+1gU2OCAs2xWXXT4D5KbuavvL7
+         rz//gIJ7bTBFvK+VxCPUceUnK923vSOQ04ZfSxrAo11ExrWvGltbBJJu9txrq144iDzz
+         Nni47/I0hSbgVUC7rDa84IqbM8V9SiM3Uzhkxu56QaEwqzWIuy6NvFCU0nU7DUt5LPuE
+         cAKA==
+X-Gm-Message-State: AOJu0YyYcMWmeamjE5N/Lxw6+AnZBfmJ+CPFe7u0OAufMeMAFXcBZ/dk
+	ywc762AaU7be9NJOEtGpgQU7bL//zB+tBGeQs7I=
+X-Google-Smtp-Source: AGHT+IH7c9RjPBKJ2igiYBn+7SKWhen4IQoNa6fAjMCZtidXkZboqJwyoyUAVAFsBghNWOwEjLJqrg==
+X-Received: by 2002:a19:4f4c:0:b0:509:440f:73e with SMTP id a12-20020a194f4c000000b00509440f073emr11943451lfk.39.1700152370339;
+        Thu, 16 Nov 2023 08:32:50 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f8ae:b070:36e4:3937? ([2001:8b0:aba:5f3c:f8ae:b070:36e4:3937])
+        by smtp.gmail.com with ESMTPSA id d34-20020a05600c4c2200b0040a48430837sm4116819wmp.13.2023.11.16.08.32.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Nov 2023 08:32:49 -0800 (PST)
+Message-ID: <b76e12f0d17a26331a803b32203d8404081160a8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 2/2] image_types.bbclass: add support for
+ sparse images
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Dmitry Baryshkov <dbaryshkov@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 16 Nov 2023 16:32:49 +0000
+In-Reply-To: <20231114210418.1323819-3-dmitry.baryshkov@linaro.org>
+References: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org>
+	 <20231114210418.1323819-3-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231116114450.1124133-1-meenali.gupta@windriver.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 16:32:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190802
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 16:32:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190803
 
-Please version properly your patches, this should have been v2.
-
-Also please resend the whole series because now, I have to go and
-cherry-pick patches from v1 because 5/5 doesn't apply standalone.
-
-You hsould not push this work on the maintainers.
-
-On 16/11/2023 11:44:50+0000, Meenali Gupta via lists.openembedded.org wrote:
-> From: Meenali Gupta <meenali.gupta@windriver.com>
-> 
-> A vulnerability was found in Avahi. A reachable assertion exists
-> in the avahi_rdata_parse() function.
-> 
-> Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
+On Wed, 2023-11-15 at 00:04 +0300, Dmitry Baryshkov wrote:
+> Android-targeted devices support so called sparse image format. This is
+> the raw filesystem image with dropped zero blocks. This way the image
+> takes less space and the bootloaders and/or filesystem manipulation
+> tools can flash it quicker (as they do not have to write useless
+> sequences of zeroes).
+>=20
+> Add new image conversion type called 'sparse'to be able to generate
+> filesystem images in the sparse format.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
->  .../avahi/files/CVE-2023-38472.patch          | 46 +++++++++++++++++++
->  2 files changed, 47 insertions(+)
->  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
-> 
-> diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> index 9c903d6868..84eb1c554d 100644
-> --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-> @@ -29,6 +29,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
->             file://CVE-2023-38469.patch \
->             file://CVE-2023-38470.patch \
->             file://CVE-2023-38471.patch \
-> +           file://CVE-2023-38472.patch \
->             "
->  
->  GITHUB_BASE_URI = "https://github.com/lathiat/avahi/releases/"
-> diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
-> new file mode 100644
-> index 0000000000..a1de8e2a5a
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
-> @@ -0,0 +1,46 @@
-> +From 8cf606779dc356768afc6b70e53f2808a9655143 Mon Sep 17 00:00:00 2001
-> +From: Michal Sekletar <msekleta@redhat.com>
-> +Date: Thu, 19 Oct 2023 17:36:44 +0200
-> +Subject: [PATCH] avahi: core: make sure there is rdata to process before
-> + parsing it
-> +
-> +Fixes #452
-> +
-> +Upstream-Status: Backport [https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40]
-> +CVE: CVE-2023-38472
-> +
-> +Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-> +---
-> + avahi-client/client-test.c      | 3 +++
-> + avahi-daemon/dbus-entry-group.c | 2 +-
-> + 2 files changed, 4 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/avahi-client/client-test.c b/avahi-client/client-test.c
-> +index 7d04a6a..57750a4 100644
-> +--- a/avahi-client/client-test.c
-> ++++ b/avahi-client/client-test.c
-> +@@ -258,6 +258,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
-> +     printf("%s\n", avahi_strerror(avahi_entry_group_add_service (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "Lathiat's Site", "_http._tcp", NULL, NULL, 80, "foo=bar", NULL)));
-> +     printf("add_record: %d\n", avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "\5booya", 6));
-> +
-> ++    error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
-> ++    assert(error != AVAHI_OK);
-> ++
-> +     avahi_entry_group_commit (group);
-> +
-> +     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
-> +diff --git a/avahi-daemon/dbus-entry-group.c b/avahi-daemon/dbus-entry-group.c
-> +index 4e879a5..aa23d4b 100644
-> +--- a/avahi-daemon/dbus-entry-group.c
-> ++++ b/avahi-daemon/dbus-entry-group.c
-> +@@ -340,7 +340,7 @@ DBusHandlerResult avahi_dbus_msg_entry_group_impl(DBusConnection *c, DBusMessage
-> +         if (!(r = avahi_record_new_full (name, clazz, type, ttl)))
-> +             return avahi_dbus_respond_error(c, m, AVAHI_ERR_NO_MEMORY, NULL);
-> +
-> +-        if (avahi_rdata_parse (r, rdata, size) < 0) {
-> ++        if (!rdata || avahi_rdata_parse (r, rdata, size) < 0) {
-> +             avahi_record_unref (r);
-> +             return avahi_dbus_respond_error(c, m, AVAHI_ERR_INVALID_RDATA, NULL);
-> +         }
-> +--
-> +2.40.0
-> -- 
-> 2.40.0
-> 
+>  meta/classes-recipe/image_types.bbclass | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recip=
+e/image_types.bbclass
+> index d615b41ed1ed..d0c9514b36a3 100644
+> --- a/meta/classes-recipe/image_types.bbclass
+> +++ b/meta/classes-recipe/image_types.bbclass
+> @@ -328,7 +328,7 @@ IMAGE_TYPES:append:x86-64 =3D " hddimg iso"
+>  # CONVERSION_CMD/DEPENDS.
+>  COMPRESSIONTYPES ?=3D ""
+> =20
+> -CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1=
+sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi q=
+cow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
+> +CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1=
+sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi q=
+cow2 base64 gzsync zsync sparse ${COMPRESSIONTYPES}"
+>  CONVERSION_CMD:lzma =3D "lzma -k -f -7 ${IMAGE_NAME}.${type}"
+>  CONVERSION_CMD:gz =3D "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}.${type=
+} > ${IMAGE_NAME}.${type}.gz"
+>  CONVERSION_CMD:bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}.${type}"
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190784): https://lists.openembedded.org/g/openembedded-core/message/190784
-> Mute This Topic: https://lists.openembedded.org/mt/102625030/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+I think we may need to be more specific about what kind of "sparse"
+image this is, maybe "android-sparse" ?
 
+Cheers,
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Richard
 
