@@ -2,158 +2,139 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DEB9C54FB9
-	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 16:06:59 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.10459.1700150815619112000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A76C197A0
+	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 16:32:39 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web11.11216.1700152357428878923
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Nov 2023 08:06:56 -0800
+ Thu, 16 Nov 2023 08:32:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nE5svOqg;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1BF4F240002;
-	Thu, 16 Nov 2023 16:06:53 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YESx2SIj;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A58F40003;
+	Thu, 16 Nov 2023 16:32:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700150813;
+	t=1700152355;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SaS2y87is0D2zg+UDhQCdKH8IYQVjsOpS2hplls51WQ=;
-	b=nE5svOqgViVBHIbK0422dK1AwR+Mw/U5CSCRiCfteKxrz/CGvPzMg0Y4bC1nHaZKO2Xrul
-	oSAIgZmClC6NN0X1G6Etkwk0gc2TLUdreGURFa0QNM2Jin164wkQ7Fe5P3h22tRh0aVA1u
-	5oSWvffbJ6ZKwug+mYNTJjcBKDxXjIv1BH+/1svd8VztLg1Ctf5enix1jrxfO+Gy0MS9ec
-	LbDoC5Y5x3yb/uHWlS/Zvv9QHo4yHqgaJ7gWN6gQOJbC3321gE4bg3IXfdZArwS7dl7KbA
-	DjGJCye9YvjE6jyyfQHmQ+6QU7thWk4eRw+pLOGzeKBOT8WuLEMRnW3A1+iMuw==
-Date: Thu, 16 Nov 2023 17:06:52 +0100
+	bh=hOmM5KeYDZr4LuYUNoQxrrw288gyUOYRVeh5j1E8K7w=;
+	b=YESx2SIjeXlWzo9DZS8nUlMHVkZ58MPCplHWlE5opFG4P1oRWj+KWvVVUtuDreeNBm1ydS
+	jyBe3ddCkSnXzhZWhB8/VU/wn15wRCA2esKwxBXUD+X8c4fANLRQR61rzD3ABHn2i5hBeC
+	ESsqwxqTwPIhHn8vh3eOgYdXkbv9q/4iIXnRlHMdGli8fULYAJVdZut2O1rbhYnx1pOke5
+	WHvkDO8m4R60CQ6OQ9x67L1IJmiY/ZrOwFaGT7JZzTAtWdD8jSqHxlYxUSXOYcDa8dOCmb
+	qVe04SMaoGSBGy1AXhY1Tjf/20gV8sZRdLsnjj3T04ruYkJzDAgdM2aoz2tJ7g==
+Date: Thu, 16 Nov 2023 17:32:34 +0100
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy <wangmy@fujitsu.com>
+To: meenali.gupta@windriver.com
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] gawk: upgrade 5.2.2 -> 5.3.0
-Message-ID: <202311161606520e1ec82b@mail.local>
-References: <1700035829-1053-1-git-send-email-wangmy@fujitsu.com>
+Subject: Re: [oe-core][PATCH 4/5] avahi: fix CVE-2023-38472
+Message-ID: <20231116163234fe55e02a@mail.local>
+References: <20231116114450.1124133-1-meenali.gupta@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1700035829-1053-1-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <20231116114450.1124133-1-meenali.gupta@windriver.com>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 16:06:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190801
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 16:32:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190802
 
-New ptest failure:
+Please version properly your patches, this should have been v2.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5720/steps/13/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/5902/steps/13/logs/stdio
+Also please resend the whole series because now, I have to go and
+cherry-pick patches from v1 because 5/5 doesn't apply standalone.
 
-od: invalid option -- 'A'
-BusyBox v1.36.1 () multi-call binary.
+You hsould not push this work on the maintainers.
 
-Usage: od [-aBbcDdeFfHhIiLlOovXx] [FILE]
-od: invalid option -- 'A'
-BusyBox v1.36.1 () multi-call binary.
-
-Usage: od [-aBbcDdeFfHhIiLlOovXx] [FILE]
-od: invalid option -- 'A'
-BusyBox v1.36.1 () multi-call binary.
-
-Usage: od [-aBbcDdeFfHhIiLlOovXx] [FILE]
-od: invalid option -- 'A'
-BusyBox v1.36.1 () multi-call binary.
-
-Usage: od [-aBbcDdeFfHhIiLlOovXx] [FILE]
-od: invalid option -- 'A'
-BusyBox v1.36.1 () multi-call binary.
-
-Usage: od [-aBbcDdeFfHhIiLlOovXx] [FILE]
-od: invalid option -- 'A'
-BusyBox v1.36.1 () multi-call binary.
-
-Usage: od [-aBbcDdeFfHhIiLlOovXx] [FILE]
-od: invalid option -- 'A'
-BusyBox v1.36.1 () multi-call binary.
-
-Usage: od [-aBbcDdeFfHhIiLlOovXx] [FILE]
-gawk: cmd. line:2: warning: invalid `\u' escape sequence
-gawk: cmd. line:3: warning: invalid `\u' escape sequence
-gawk: cmd. line:2: warning: invalid `\u' escape sequence
-right: literal ? is literal
-gawk: cmd. line:2: warning: invalid `\u' escape sequence
-gawk: cmd. line:5: warning: invalid `\u' escape sequence
-gawk: cmd. line:8: warning: invalid `\u' escape sequence
-1 == 1
-gawk: cmd. line:3: warning: invalid `\u' escape sequence
-1 == 1
-0 == 0
-gawk: cmd. line:6: warning: invalid `\u' escape sequence
-0 == 0
-0 == 0
-gawk: cmd. line:9: warning: invalid `\u' escape sequence
-0 == 0
-FAIL: cmdlinefsbacknl2
-
-
-On 15/11/2023 16:10:29+0800, wangmy wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
+On 16/11/2023 11:44:50+0000, Meenali Gupta via lists.openembedded.org wrote:
+> From: Meenali Gupta <meenali.gupta@windriver.com>
 > 
-> Changelog:
-> ===========
-> 1. Infrastructure changes: Removed the use of libsigsegv. The
->    value-add was never very much and it caused problems in some
->    environments.
-> 2. In keeping with new features in BWK awk, gawk now has built-in
->    CSV file parsing. The behavior is intended to be identical to
->    that of the "One True AWK" when --csv is applied. See the
->    manual for details.
-> 3. Also in keeping with BWK awk, gawk now supports a new \u escape
->    sequence. This should be followed by 1-8 hexadecimal digits. The
->    given code point is converted to its corresponding multibyte encoding
->    for storage inside gawk. See the manual.
-> 4. If PROCINFO["BUFFERPIPE"] exists, then pipe output is buffered.
->    You can also use PROCINFO["command", "BUFFERPIPE"]. See the manual
->    for details.
-> 5. Because of the additional `do_csv' variable in the API, which breaks
->    binary compatibility, the API major version was updated to 4 and
->    the minor version was reset to zero.  The API remains source code
->    compatible; that is, existing extensions should only require recompilation.
-> 6. The manual now requires Texinfo 7.1 and its texinfo.tex for formatting.
->    As a result, we no longer need to pre-process it, removing the need
->    for gawktexi.in and leaving just gawk.texi.
-> 7. And of course, there have been several minor code cleanups and bug fixes.
->    See the ChangeLog for details.
+> A vulnerability was found in Avahi. A reachable assertion exists
+> in the avahi_rdata_parse() function.
 > 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
 > ---
->  meta/recipes-extended/gawk/{gawk_5.2.2.bb => gawk_5.3.0.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-extended/gawk/{gawk_5.2.2.bb => gawk_5.3.0.bb} (97%)
+>  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
+>  .../avahi/files/CVE-2023-38472.patch          | 46 +++++++++++++++++++
+>  2 files changed, 47 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
 > 
-> diff --git a/meta/recipes-extended/gawk/gawk_5.2.2.bb b/meta/recipes-extended/gawk/gawk_5.3.0.bb
-> similarity index 97%
-> rename from meta/recipes-extended/gawk/gawk_5.2.2.bb
-> rename to meta/recipes-extended/gawk/gawk_5.3.0.bb
-> index 3c18b6911a..3d652da6e5 100644
-> --- a/meta/recipes-extended/gawk/gawk_5.2.2.bb
-> +++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
-> @@ -19,7 +19,7 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
->             file://run-ptest \
+> diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+> index 9c903d6868..84eb1c554d 100644
+> --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
+> +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+> @@ -29,6 +29,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
+>             file://CVE-2023-38469.patch \
+>             file://CVE-2023-38470.patch \
+>             file://CVE-2023-38471.patch \
+> +           file://CVE-2023-38472.patch \
 >             "
 >  
-> -SRC_URI[sha256sum] = "945aef7ccff101f20b22a10802bc005e994ab2b8ea3e724cc1a197c62f41f650"
-> +SRC_URI[sha256sum] = "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1eb55e440d30273336"
->  
->  inherit autotools gettext texinfo update-alternatives
->  
+>  GITHUB_BASE_URI = "https://github.com/lathiat/avahi/releases/"
+> diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
+> new file mode 100644
+> index 0000000000..a1de8e2a5a
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
+> @@ -0,0 +1,46 @@
+> +From 8cf606779dc356768afc6b70e53f2808a9655143 Mon Sep 17 00:00:00 2001
+> +From: Michal Sekletar <msekleta@redhat.com>
+> +Date: Thu, 19 Oct 2023 17:36:44 +0200
+> +Subject: [PATCH] avahi: core: make sure there is rdata to process before
+> + parsing it
+> +
+> +Fixes #452
+> +
+> +Upstream-Status: Backport [https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40]
+> +CVE: CVE-2023-38472
+> +
+> +Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
+> +---
+> + avahi-client/client-test.c      | 3 +++
+> + avahi-daemon/dbus-entry-group.c | 2 +-
+> + 2 files changed, 4 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/avahi-client/client-test.c b/avahi-client/client-test.c
+> +index 7d04a6a..57750a4 100644
+> +--- a/avahi-client/client-test.c
+> ++++ b/avahi-client/client-test.c
+> +@@ -258,6 +258,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
+> +     printf("%s\n", avahi_strerror(avahi_entry_group_add_service (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "Lathiat's Site", "_http._tcp", NULL, NULL, 80, "foo=bar", NULL)));
+> +     printf("add_record: %d\n", avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "\5booya", 6));
+> +
+> ++    error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
+> ++    assert(error != AVAHI_OK);
+> ++
+> +     avahi_entry_group_commit (group);
+> +
+> +     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
+> +diff --git a/avahi-daemon/dbus-entry-group.c b/avahi-daemon/dbus-entry-group.c
+> +index 4e879a5..aa23d4b 100644
+> +--- a/avahi-daemon/dbus-entry-group.c
+> ++++ b/avahi-daemon/dbus-entry-group.c
+> +@@ -340,7 +340,7 @@ DBusHandlerResult avahi_dbus_msg_entry_group_impl(DBusConnection *c, DBusMessage
+> +         if (!(r = avahi_record_new_full (name, clazz, type, ttl)))
+> +             return avahi_dbus_respond_error(c, m, AVAHI_ERR_NO_MEMORY, NULL);
+> +
+> +-        if (avahi_rdata_parse (r, rdata, size) < 0) {
+> ++        if (!rdata || avahi_rdata_parse (r, rdata, size) < 0) {
+> +             avahi_record_unref (r);
+> +             return avahi_dbus_respond_error(c, m, AVAHI_ERR_INVALID_RDATA, NULL);
+> +         }
+> +--
+> +2.40.0
 > -- 
-> 2.34.1
+> 2.40.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#190561): https://lists.openembedded.org/g/openembedded-core/message/190561
-> Mute This Topic: https://lists.openembedded.org/mt/102601410/3617179
+> View/Reply Online (#190784): https://lists.openembedded.org/g/openembedded-core/message/190784
+> Mute This Topic: https://lists.openembedded.org/mt/102625030/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
