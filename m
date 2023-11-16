@@ -1,107 +1,105 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 471BAC197A0
-	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 16:32:59 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.11202.1700152372162233435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6469BC197A0
+	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 16:34:39 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.11248.1700152471499003784
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Nov 2023 08:32:52 -0800
+ Thu, 16 Nov 2023 08:34:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MkEMlcwZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50a938dda08so1446934e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 08:32:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1700152370; x=1700757170; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TbMUcwzI8OPy19SrCteMGT63QaFzM0rHhmbRybGOKYw=;
-        b=MkEMlcwZSHh9H60PShbgnlQqVGKeO10/PiaGw44psSpTSuqxWCcO/SEOnxKfvVTMTg
-         tcjDjxzUSuhD49SblChI2+OorDZYCnuDO2ZolGyQpc+gxx/WzxpOu+rKdtC/8jXHSPhF
-         ifm+3165jYbK9ZZlR6nPnhPsVxBZBRd6llIds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700152370; x=1700757170;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TbMUcwzI8OPy19SrCteMGT63QaFzM0rHhmbRybGOKYw=;
-        b=Dd+mOc1I8q+aB7eJCL34zFYwzom3iUwwTwRHSLnDD0ZNugC315anBjq2AZzdGd8saO
-         4Ievyn/UHU4U7VyRN1ugAi27uumpYtdYXkpN6fFkGvsQkXkQgugZxintNAfOCpzP7BBM
-         RZDNG6SFS3Q+bfAz8E9MssQG4CsU0uJuT46FLrFQIO+1gU2OCAs2xWXXT4D5KbuavvL7
-         rz//gIJ7bTBFvK+VxCPUceUnK923vSOQ04ZfSxrAo11ExrWvGltbBJJu9txrq144iDzz
-         Nni47/I0hSbgVUC7rDa84IqbM8V9SiM3Uzhkxu56QaEwqzWIuy6NvFCU0nU7DUt5LPuE
-         cAKA==
-X-Gm-Message-State: AOJu0YyYcMWmeamjE5N/Lxw6+AnZBfmJ+CPFe7u0OAufMeMAFXcBZ/dk
-	ywc762AaU7be9NJOEtGpgQU7bL//zB+tBGeQs7I=
-X-Google-Smtp-Source: AGHT+IH7c9RjPBKJ2igiYBn+7SKWhen4IQoNa6fAjMCZtidXkZboqJwyoyUAVAFsBghNWOwEjLJqrg==
-X-Received: by 2002:a19:4f4c:0:b0:509:440f:73e with SMTP id a12-20020a194f4c000000b00509440f073emr11943451lfk.39.1700152370339;
-        Thu, 16 Nov 2023 08:32:50 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f8ae:b070:36e4:3937? ([2001:8b0:aba:5f3c:f8ae:b070:36e4:3937])
-        by smtp.gmail.com with ESMTPSA id d34-20020a05600c4c2200b0040a48430837sm4116819wmp.13.2023.11.16.08.32.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Nov 2023 08:32:49 -0800 (PST)
-Message-ID: <b76e12f0d17a26331a803b32203d8404081160a8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 2/2] image_types.bbclass: add support for
- sparse images
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 16 Nov 2023 16:32:49 +0000
-In-Reply-To: <20231114210418.1323819-3-dmitry.baryshkov@linaro.org>
-References: <20231114210418.1323819-1-dmitry.baryshkov@linaro.org>
-	 <20231114210418.1323819-3-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=RiqF8kqq;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0D2634000F;
+	Thu, 16 Nov 2023 16:34:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700152470;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SrXZGwaJBIZ9yDjkZL2zXplKspd+B4XAPHKLNsjSMYM=;
+	b=RiqF8kqqc/dzhQ21hvX7yjyr5zgeOpGO0B7qs/56KSSpem+fhF7i1pwf8hl0d+HiTOjYpF
+	Qo+QBr2GRiWCt6pU37y3M0Vb/Ay+vEylvoFK+G99Pv3m3kwznqEElqK6q+TKtydvL2KcEu
+	AOJeedDo4BOMklLjlevXbQtzOpQ/HcFOhhsNj7ua7N4xISoG9Gl98ZoNcrVf1imTLc6g42
+	3RzblFmchJYrs6l5g4otoeZdOn0mu8WrZvPP+Mdvb+Kp2QfTUw7uuIFpWWQRYyqeWoZyqo
+	aoJ72J6O4xrOU8lQ9rZciea/qZr8AJCwXBO6GEdPKwWEQb3v4gvxge23XaADdg==
+Date: Thu, 16 Nov 2023 17:34:29 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Lukas Funke <lukas.funke-oss@weidmueller.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Jose Quaresma <quaresma.jose@gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH v3] systemd: use nonarch libdir for
+ tmpfiles.d
+Message-ID: <20231116163429211c1a31@mail.local>
+References: <1798186BACD6DC19.9929@lists.openembedded.org>
+ <20231116125059.1483544-1-lukas.funke-oss@weidmueller.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231116125059.1483544-1-lukas.funke-oss@weidmueller.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 16:32:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190803
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 16:34:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190804
 
-On Wed, 2023-11-15 at 00:04 +0300, Dmitry Baryshkov wrote:
-> Android-targeted devices support so called sparse image format. This is
-> the raw filesystem image with dropped zero blocks. This way the image
-> takes less space and the bootloaders and/or filesystem manipulation
-> tools can flash it quicker (as they do not have to write useless
-> sequences of zeroes).
->=20
-> Add new image conversion type called 'sparse'to be able to generate
-> filesystem images in the sparse format.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Please always resend the whole series so I don't have to cherrypick
+patches from various threads. Also, is this really for meta-oe?
+
+On 16/11/2023 13:50:59+0100, Lukas Funke wrote:
+> From: Malte Schmidt <malte.schmidt@weidmueller.com>
+> 
+> The documentation of systemd states that /etc/tmpfiles.d should be
+> reserved for the local administrator and packages should put their files
+> in /usr/lib/tmpfiles.d [1].
+> 
+> [1] https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html
+> 
+> Signed-off-by: Malte Schmidt <malte.schmidt@weidmueller.com>
+> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+> Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
 > ---
->  meta/classes-recipe/image_types.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recip=
-e/image_types.bbclass
-> index d615b41ed1ed..d0c9514b36a3 100644
-> --- a/meta/classes-recipe/image_types.bbclass
-> +++ b/meta/classes-recipe/image_types.bbclass
-> @@ -328,7 +328,7 @@ IMAGE_TYPES:append:x86-64 =3D " hddimg iso"
->  # CONVERSION_CMD/DEPENDS.
->  COMPRESSIONTYPES ?=3D ""
-> =20
-> -CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1=
-sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi q=
-cow2 base64 gzsync zsync ${COMPRESSIONTYPES}"
-> +CONVERSIONTYPES =3D "gz bz2 lzma xz lz4 lzo zip 7zip zst sum md5sum sha1=
-sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi q=
-cow2 base64 gzsync zsync sparse ${COMPRESSIONTYPES}"
->  CONVERSION_CMD:lzma =3D "lzma -k -f -7 ${IMAGE_NAME}.${type}"
->  CONVERSION_CMD:gz =3D "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}.${type=
-} > ${IMAGE_NAME}.${type}.gz"
->  CONVERSION_CMD:bz2 =3D "pbzip2 -f -k ${IMAGE_NAME}.${type}"
+>  meta/recipes-core/systemd/systemd_254.4.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_254.4.bb
+> index cc0e29fdd2..6d71fbaba2 100644
+> --- a/meta/recipes-core/systemd/systemd_254.4.bb
+> +++ b/meta/recipes-core/systemd/systemd_254.4.bb
+> @@ -282,12 +282,12 @@ do_install() {
+>  	[ ! -e ${D}/${base_sbindir}/udevd ] && ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
+>  
+>  	install -d ${D}${sysconfdir}/udev/rules.d/
+> -	install -d ${D}${sysconfdir}/tmpfiles.d
+> +	install -d ${D}${nonarch_libdir}/tmpfiles.d
+>  	for rule in $(find ${WORKDIR} -maxdepth 1 -type f -name "*.rules"); do
+>  		install -m 0644 $rule ${D}${sysconfdir}/udev/rules.d/
+>  	done
+>  
+> -	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${sysconfdir}/tmpfiles.d/
+> +	install -m 0644 ${WORKDIR}/00-create-volatile.conf ${D}${nonarch_libdir}/tmpfiles.d/
+>  
+>  	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+>  		install -d ${D}${sysconfdir}/init.d
+> -- 
+> 2.30.2
+> 
 
-I think we may need to be more specific about what kind of "sparse"
-image this is, maybe "android-sparse" ?
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#190793): https://lists.openembedded.org/g/openembedded-core/message/190793
+> Mute This Topic: https://lists.openembedded.org/mt/102625692/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-Cheers,
 
-Richard
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
