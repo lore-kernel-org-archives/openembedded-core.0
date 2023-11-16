@@ -2,56 +2,56 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CBA1C47071
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D54C54FB9
 	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 07:37:16 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web10.2318.1700120227649310872
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.2317.1700120226494539067
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Nov 2023 23:37:07 -0800
+ Wed, 15 Nov 2023 23:37:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eeFEO4xw;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-53e08b60febso703960a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 23:37:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XQ1W+vaA;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-9f27af23441so64963866b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Nov 2023 23:37:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700120226; x=1700725026; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1700120225; x=1700725025; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6uKWYuSdp0+qUxubFZR+SjoW6jRwamdHhjNcJ0SKVgw=;
-        b=eeFEO4xwvGCYMzAZ9vwya3nFgX8bN0SWxZ7dQXJbuZZ0K/irXQ10Iz97yjvKA29EMv
-         Z4qx2kA7FLltABEPGYhNdCduQpuEu5BHJOE+YRkpBsKU9GUHpNuNI46FDN4mHAhts/9+
-         msgNI7laNqGiX3pxmBN2UBPDWRahWKGe94oHd9Npr+nnAU1QU8nwMvfeSMh8D7E57zgD
-         0lq555MpV5hHTebW5xFj+dYBLy9ahobjtiMos3zEkwagK01EDW7ERn2J/CVk/97e5FEa
-         zjhJgFjNZDsbKJZMNtVdW9qd6YRjtw/eBM+LvwPxm2gYgt+/SINo7TTfoTrLriixcnwm
-         OC4g==
+        bh=aUzxIrnCQ5V0Oz6E1BkNfhrZqttDgUZwr+LnclbLTxI=;
+        b=XQ1W+vaAEODf9qxeg6+dtTEGyx1r7C+vqNwr1DJGtymqWJOs47TI2Dz7Prds5pO/D6
+         F6H/O0gsIzwXOrh+Up6tH0gdLSnxke7OShOORkGw2tsXYaShl4xk7qvofLqDFhW5XVeY
+         7jc+9U4+hC64jB8+U6FhpAo+pB9FENWxZ+q4mJUI3a/M5aHwNkiRXmZiFlDBBElrlWOE
+         mYGHzyN6WiwTlMweGxMSiZc33Iq/LmKfRp6eQiKwv6gE5D/+bWuSzaul/RvIAz0Imdxu
+         8wCyoCnzQkdU0xgde5npg4GWQnNh3nIJGO5s1aM2Ym3AnKOk4jBLUQeS6cdsREtFW4td
+         FSxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700120226; x=1700725026;
+        d=1e100.net; s=20230601; t=1700120225; x=1700725025;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6uKWYuSdp0+qUxubFZR+SjoW6jRwamdHhjNcJ0SKVgw=;
-        b=OQgrhNCqwDdOEnVNlzQE3uV0UhG5uMMe1IsJcOPcSKmJfpCyj8IlGHv76EOfoy6ysO
-         e+1CMvmm7qMQXiF2LdvwD+9QgjLCvDVS4fLWJH/A2n0oNSJNC4cm0Ct381nf27ZrVYTM
-         xf134Ol5Cg2PW1Qi8htSYjDagiZjq5aten4nubsEOGAk49vevOccxpfu0vp0Lrtylpv9
-         X6853mMDSqq1l4IJYYcfDIZTz6uw/3Xxsv7X5H8vXZv8j++Saf5x1/MVllv1kMgbDn2/
-         7DJo7Vy01VkShxA3pqVnp6rJSONsvLRSOJ/6/UjlrrpS7YTmskb9fecJN/PJXrGmP1vc
-         WiLQ==
-X-Gm-Message-State: AOJu0YzZL9WPwxMTfWKlUk1bAR2K1wyq6MNT6Ea1M6x9Q8/DMR0157mw
-	pia7IWy6itCSjQO0Qij7XfnPdc4BmKg=
-X-Google-Smtp-Source: AGHT+IF3XJEoMV4MZUAqIg0KPtUjlMuTRHdWytfZ9TmjZhGwBxQngw+kw3wNdKITjLiOoG6hrrqToQ==
-X-Received: by 2002:a17:906:f0c9:b0:9f6:15ad:cbf5 with SMTP id dk9-20020a170906f0c900b009f615adcbf5mr324142ejb.15.1700120226020;
-        Wed, 15 Nov 2023 23:37:06 -0800 (PST)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id u10-20020a170906408a00b009e5d30422ebsm8012560ejj.101.2023.11.15.23.37.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=aUzxIrnCQ5V0Oz6E1BkNfhrZqttDgUZwr+LnclbLTxI=;
+        b=Vr1y/F4fi4E/ADyptaM6ZKEbh5wiz/e3I/Bxl6U4EZgmeeGmylXZTPUCLAP6iyYDuP
+         wn3Mkxbc1FLUgpnQXRZWQSGpmG5TXZFflyZQ9ERbPtK8BLh8HqzLqltd4yhk/8e0gkes
+         qAF7sX9B/tX+ick2OR7yPn1gZxUxzNvkhtyoFt/LFl0pj2NhkEWFPtBjued03XcrN3g+
+         yqZx3W2+SEX7WXNH2/zon0pr7qYX1FjOSFoABybPLKF0nK4kpruIUWNQR6aC4VKcPa/2
+         48W2J239ZFdVWkCZrRGuoENr43ny/29hRqoe3k8G/RWR9mepzx04R2n+YGVTl2hzDK+Y
+         NRHw==
+X-Gm-Message-State: AOJu0YxX2HF6hyXmyBQoBiXhd80b5GQyhvw8aI333L8pNcrcW9fzSYaj
+	+Qvre7e9v2ournRxPy4Cgof0KwzNCPc=
+X-Google-Smtp-Source: AGHT+IFi5lfosp8WAiwiBBdV/3xn42t8VYWgVfvTaIK9iGiKVlGGsfh5NTxM42jyncuJnAgEsrq4Sw==
+X-Received: by 2002:a17:906:441:b0:9e3:5495:a33 with SMTP id e1-20020a170906044100b009e354950a33mr13088116eja.63.1700120225011;
         Wed, 15 Nov 2023 23:37:05 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id a14-20020a170906190e00b009c764341f74sm7942673eje.71.2023.11.15.23.37.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Nov 2023 23:37:04 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH 10/11] valgrind: drop PE, PR from /usr/src/debug paths
-Date: Thu, 16 Nov 2023 08:36:49 +0100
-Message-ID: <20231116073650.2710535-10-martin.jansa@gmail.com>
+Subject: [PATCH 09/11] vulkan-samples: drop PE, PR from /usr/src/debug paths
+Date: Thu, 16 Nov 2023 08:36:48 +0100
+Message-ID: <20231116073650.2710535-9-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231116073650.2710535-1-martin.jansa@gmail.com>
 References: <20231116073650.2710535-1-martin.jansa@gmail.com>
@@ -61,28 +61,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 07:37:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190762
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190761
 
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/recipes-devtools/valgrind/valgrind_3.21.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../0001-vulkan-samples-Fix-reproducibility-issue.patch         | 2 +-
+ meta/recipes-graphics/vulkan/vulkan-samples_git.bb              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-index 68ab319a1b..d098ae08fc 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-@@ -239,8 +239,8 @@ do_install_ptest() {
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
+index 7609011421..fbe5cf0c8e 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
++++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-vulkan-samples-Fix-reproducibility-issue.patch
+@@ -9,7 +9,7 @@ in the debug source remapping from CFLAGS
  
-     # As the binary isn't stripped or debug-splitted, the source file isn't fetched
-     # via dwarfsrcfiles either, so it needs to be installed manually.
--    mkdir -p ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/none/tests/
--    install ${S}/none/tests/tls.c ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/none/tests/
-+    mkdir -p ${D}/usr/src/debug/${PN}/${PV}/none/tests/
-+    install ${S}/none/tests/tls.c ${D}/usr/src/debug/${PN}/${PV}/none/tests/
- }
+ We export the right path to use in the recipe with:
  
- do_install_ptest:append:x86-64 () {
+-EXTRA_OECMAKE = "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/"
++EXTRA_OECMAKE = "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${PV}/"
+ 
+ and we then patch this into the code instead of the broken use
+ of CMAKE_SOURCE_DIR since __FILENAME__ will match our path prefix
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index 66f1ef5e9d..973ceeb573 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -29,7 +29,7 @@ FILES:${PN} += "${datadir}"
+ # used for logging with LOGE in the code. We need to make this match the value we use
+ # in the debug source remapping from CFLAGS
+ #
+-EXTRA_OECMAKE += "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/"
++EXTRA_OECMAKE += "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${PV}/"
+ # Binaries built with PCH enabled don't appear reproducible, differing results were seen
+ # from some builds depending on the point the PCH was compiled. Disable it to be
+ # deterministic
 -- 
 2.42.1
 
