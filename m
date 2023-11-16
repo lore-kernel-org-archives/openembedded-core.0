@@ -1,111 +1,207 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF28C54FB9
-	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 12:13:08 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.5240.1700136782598538013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02F8FC197A0
+	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 12:13:28 +0000 (UTC)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+ by mx.groups.io with SMTP id smtpd.web10.5243.1700136804331556423
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Nov 2023 04:13:03 -0800
+ Thu, 16 Nov 2023 04:13:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fUoIiY8g;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.178, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c6ed1b9a1cso8953431fa.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 04:13:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UN/9egwN;
+ spf=pass (domain: gmail.com, ip: 209.85.222.46, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-7b9f08482c8so276391241.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 04:13:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1700136781; x=1700741581; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IQ25eSTLXh0MhNwMnmv5bcREK4qo17CXYYrBJq39Z0E=;
-        b=fUoIiY8ghbJO7xrW0nNtJw+02gGliDIgzc+dQ/TymR54KNeNa0sBnY/giZQFzqP7ow
-         HS4IA/sJ1Jq0bAa4AsN+8Sn5AQxmO37qaJ+G7YNHU5fFVaxoJ4iG+X5iHXJxwwxBlPbS
-         7Owx5gIPDWHbYz3W76CfAGrob/yBfAqC9ElSo=
+        d=gmail.com; s=20230601; t=1700136803; x=1700741603; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=n8zZMuoDLFRwZLtS7BeEwu7j51EehMf8aUXZCAp0Pvs=;
+        b=UN/9egwN/k2+SLh2EJbe83VvcqSsBN7HTiGzyEfRqpSoOIF+XwFF2nqnE+3U1VKwr9
+         UjPbmUriVODoH8zG9GW2hkfK0WVtP1AYsYwu2g7dj8tgInjO3EE6I8PJ8micDBw8Kq7x
+         EVgZGMq94rRZvqrvn+Pjm91MGISCNmHlfKyoSK3AjRsMxYyRWeb6OSsaHs8aXavNJWTg
+         P9Ct36oyrbeDzqya4WjXMYsY/A8gUkA3EXI4wRpNVS+G5n71U0VsGRpBRjOy31v7KAsY
+         v2VHRy7H5qGyudrRCAcBAycWTuDM9s+AUCa+z8WSXJg2OatdCoZEcqByCGLcjV5fL4YA
+         MhRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700136781; x=1700741581;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IQ25eSTLXh0MhNwMnmv5bcREK4qo17CXYYrBJq39Z0E=;
-        b=f0GE3q/Kgw5rnBotX55pv9KhIPW2kIiASg4RDVVZ5Aqa1GxteiMbhp8Y8YE9wTWaWO
-         wwTh30wQIIcBshmkHENZnv2f8wjg1QTgZRkaKgQassWOw3930IRxcFwvRHfuOpkBJBX2
-         X8Mvivm5lVL4PG3ZC7lpbikfrM8pUjLzA1J+WuI2gNCjr2xgtbaTYugfgh9fTa9DMc+Z
-         s1Lmm0WD2Djzn2LOR0hLl0qIztR2FYAdRCTaYDG48RYObfA7o3n+AMR5wd/ateHKTW0S
-         I6Jh9HSl7KwOjCQvmfZANBRYS/DQNGpthgUdPRI+AT3ABVi7CDgYrW4ZwIvvV/KICeYd
-         0QxQ==
-X-Gm-Message-State: AOJu0YwDPrRfKhzrr/1kBTR0KCyDWZ/KKSN2HvDf4bbrlFbFWo2HLTyp
-	R3ToPs5BbCPr4XTdYKwI5466aw==
-X-Google-Smtp-Source: AGHT+IHD9J2ABZkvr9OHxksmOst4vRsXTIRfU3OeX+JYGo81Ht+lxo+MlNC4HXqSeoJrgAcp2LFL2Q==
-X-Received: by 2002:a2e:350e:0:b0:2c5:19ab:726e with SMTP id z14-20020a2e350e000000b002c519ab726emr6293972ljz.47.1700136780670;
-        Thu, 16 Nov 2023 04:13:00 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6dd4:df61:1cbf:d952? ([2001:8b0:aba:5f3c:6dd4:df61:1cbf:d952])
-        by smtp.gmail.com with ESMTPSA id r4-20020a05600c35c400b003fefb94ccc9sm3414700wmq.11.2023.11.16.04.13.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Nov 2023 04:13:00 -0800 (PST)
-Message-ID: <1ab344acaa97212f14044d48623d03b9a93c2ed4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] meta/recipes: Remove empty
- ${PN}/DEV_PKG_DEPENDENCY workarounds
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yoann Congal <yoann.congal@smile.fr>, 
-	openembedded-core@lists.openembedded.org
-Cc: Fawzi KHABER <fawzi.khaber@smile.fr>
-Date: Thu, 16 Nov 2023 12:12:59 +0000
-In-Reply-To: <20230928215640.2683961-3-yoann.congal@smile.fr>
-References: <20230928215640.2683961-1-yoann.congal@smile.fr>
-	 <20230928215640.2683961-3-yoann.congal@smile.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20230601; t=1700136803; x=1700741603;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n8zZMuoDLFRwZLtS7BeEwu7j51EehMf8aUXZCAp0Pvs=;
+        b=u/+d4jalzWDUBeEI0cM0yhEsyaCFu2on9XAgYh7KH9IN+5yNLtF83tBKUFqnonc6PP
+         j+XT4IpdOr2wHFmiLF8SV1UMcnm3fND5oXZpvBIRyhRRxmqGIe/4nBWZb375wKIMdSKY
+         56D1AN9kCqXi+1uTaSusVlnTJqXKhQSxTC3bi54gek3SYfDfuxVYtI8Ov15MIv76h1OO
+         TzUmc+GTuQMUDIdISgiw5tSdpbBOYdVKbBh4Ie1oNbFOi08Fh480q6qhzk/FqMYeI0xY
+         7MIyLGEbMaxkHXxJ+i/FSEQuA1GCY3SrJaKqyXYErFySz9E3edXVufeb3ngwhGUeUKdS
+         DmLA==
+X-Gm-Message-State: AOJu0YwPWp7SWhnZfzpfn8d9+qywqyZMcSgHnIYQe/LsY4FdCiS4C6ru
+	QzFEP8djTdTCezKc4HF+fmAhs/G2+554qkxGaYUGoHRLAyQ=
+X-Google-Smtp-Source: AGHT+IHUjWF0oCf3fMGmiAWBAM5bqtL5U+aAQelqhZhR1YFV5UlqKybPnoxHxhjNlw0pPcVyUWOtfNXiT4eGGQ4cOLw=
+X-Received: by 2002:a67:c10b:0:b0:45f:1107:95f3 with SMTP id
+ d11-20020a67c10b000000b0045f110795f3mr12004396vsj.34.1700136803165; Thu, 16
+ Nov 2023 04:13:23 -0800 (PST)
 MIME-Version: 1.0
+References: <20231116115457.1462082-1-lukas.funke-oss@weidmueller.com> <20231116115457.1462082-2-lukas.funke-oss@weidmueller.com>
+In-Reply-To: <20231116115457.1462082-2-lukas.funke-oss@weidmueller.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Thu, 16 Nov 2023 12:13:12 +0000
+Message-ID: <CANPvuRmC7t-2zj2ZfJyUO35SqceBRXKBpq1L4S6BGZm2_VW7ow@mail.gmail.com>
+Subject: Re: [meta-oe][PATCH v2 1/4] systemd: use nonarch libdir for tmpfiles.d
+To: lukas.funke-oss@weidmueller.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Malte Schmidt <malte.schmidt@weidmueller.com>, 
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>, 
+	Lukas Funke <lukas.funke@weidmueller.com>
+Content-Type: multipart/alternative; boundary="00000000000038ea9a060a43f22c"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 12:13:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190791
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 12:13:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190792
 
-On Thu, 2023-09-28 at 23:56 +0200, Yoann Congal wrote:
-> From: Fawzi KHABER <fawzi.khaber@smile.fr>
->=20
-> Remove superfluous DEV_PKG_DEPENDENCY =3D "" previously used to bypass
-> ${PN}-dev package RDEPENDS on empty&non-built ${PN}. DEV_PKG_DEPENDENCY
-> applies RRECOMMENDS now, all workarounds are not needed anymore.
->=20
-> Related to [YOCTO #6839] and [YOCTO #8222]
->=20
-> Signed-off-by: Yoann CONGAL <yoann.congal@smile.fr>
-> Signed-off-by: Fawzi KHABER <fawzi.khaber@smile.fr>
+--00000000000038ea9a060a43f22c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<lukas.funke-oss@weidmueller.com> escreveu no dia quinta, 16/11/2023 =C3=A0=
+(s)
+11:55:
+
+> From: Malte Schmidt <malte.schmidt@weidmueller.com>
+>
+> The documentation of systemd states that /etc/tmpfiles.d should be
+> reserved for the local administrator and packages should put their files
+> in /usr/lib/tmpfiles.d [1].
+>
+> [1] https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html
+>
+> Signed-off-by: Malte Schmidt <malte.schmidt@weidmueller.com>
+> Signed-off-by: Stefan Herbrechtsmeier <
+> stefan.herbrechtsmeier@weidmueller.com>
+> Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
 > ---
->  meta/recipes-connectivity/bind/bind_9.18.19.bb                | 1 -
->  meta/recipes-core/musl/bsd-headers.bb                         | 1 -
->  meta/recipes-core/musl/libssp-nonshared.bb                    | 1 -
->  meta/recipes-core/newlib/newlib_git.bb                        | 3 ---
->  meta/recipes-devtools/gcc/libgcc-common.inc                   | 4 ----
->  meta/recipes-devtools/python/python3_3.11.5.bb                | 1 -
->  meta/recipes-graphics/mesa/libglu_9.0.3.bb                    | 3 ---
->  meta/recipes-graphics/mesa/mesa.inc                           | 3 ---
->  meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb        | 1 -
->  meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb                | 1 -
->  meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb          | 1 -
->  meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb          | 3 +--
->  meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb         | 3 +--
->  meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 1 -
->  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb  | 1 -
->  meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb | 1 -
->  16 files changed, 2 insertions(+), 27 deletions(-)
+>  meta/recipes-core/systemd/systemd_254.4.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_254.4.bb
+> b/meta/recipes-core/systemd/systemd_254.4.bb
+> index cc0e29fdd2..6d71fbaba2 100644
+> --- a/meta/recipes-core/systemd/systemd_254.4.bb
+> +++ b/meta/recipes-core/systemd/systemd_254.4.bb
+> @@ -282,12 +282,12 @@ do_install() {
+>         [ ! -e ${D}/${base_sbindir}/udevd ] && ln -s
+> ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
+>
+>         install -d ${D}${sysconfdir}/udev/rules.d/
+> -       install -d ${D}${sysconfdir}/tmpfiles.d
+> +       install -d ${D}${nonarch_libdir}/tmpfiles.d
+>         for rule in $(find ${WORKDIR} -maxdepth 1 -type f -name
+> "*.rules"); do
+>                 install -m 0644 $rule ${D}${sysconfdir}/udev/rules.d/
+>         done
+>
+> -       install -m 0644 ${WORKDIR}/00-create-volatile.conf
+> ${D}${sysconfdir}/tmpfiles.d/
+> +       install -m 0644 ${WORKDIR}/00-create-volatile.conf
+> ${D}${exec_prefix}/lib/tmpfiles.d/
+>
 
-Firstly, sorry for taking as long to get to this. The patch 1/2 looks
-good and I'm happy to merge that. It does set us on the patch I
-outlined originally so I think we're good there.
+${nonarch_libdir} still missing there.
 
-I'm less sure about this second one. It appears to remove variables
-which do actively change things and once they are removed, warnings
-from the previous patch show up.
 
-I therefore think the second patch is incorrect and doesn't move us in
-the direction we want?
+>
+>         if
+> ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; the=
+n
+>                 install -d ${D}${sysconfdir}/init.d
+> --
+> 2.30.2
+>
+>
 
-Cheers,
+--=20
+Best regards,
 
-Richard
+Jos=C3=A9 Quaresma
+
+--00000000000038ea9a060a43f22c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">&lt;<a href=3D"mailto:lukas.funke-oss=
+@weidmueller.com">lukas.funke-oss@weidmueller.com</a>&gt; escreveu no dia q=
+uinta, 16/11/2023 =C3=A0(s) 11:55:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">From: Malte Schmidt &lt;<a href=3D"mailto:malte.schmidt@=
+weidmueller.com" target=3D"_blank">malte.schmidt@weidmueller.com</a>&gt;<br=
+>
+<br>
+The documentation of systemd states that /etc/tmpfiles.d should be<br>
+reserved for the local administrator and packages should put their files<br=
+>
+in /usr/lib/tmpfiles.d [1].<br>
+<br>
+[1] <a href=3D"https://www.freedesktop.org/software/systemd/man/tmpfiles.d.=
+html" rel=3D"noreferrer" target=3D"_blank">https://www.freedesktop.org/soft=
+ware/systemd/man/tmpfiles.d.html</a><br>
+<br>
+Signed-off-by: Malte Schmidt &lt;<a href=3D"mailto:malte.schmidt@weidmuelle=
+r.com" target=3D"_blank">malte.schmidt@weidmueller.com</a>&gt;<br>
+Signed-off-by: Stefan Herbrechtsmeier &lt;<a href=3D"mailto:stefan.herbrech=
+tsmeier@weidmueller.com" target=3D"_blank">stefan.herbrechtsmeier@weidmuell=
+er.com</a>&gt;<br>
+Signed-off-by: Lukas Funke &lt;<a href=3D"mailto:lukas.funke@weidmueller.co=
+m" target=3D"_blank">lukas.funke@weidmueller.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_254.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">systemd_254.4.bb</a> | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_254.4.bb" =
+rel=3D"noreferrer" target=3D"_blank">systemd_254.4.bb</a> b/meta/recipes-co=
+re/systemd/<a href=3D"http://systemd_254.4.bb" rel=3D"noreferrer" target=3D=
+"_blank">systemd_254.4.bb</a><br>
+index cc0e29fdd2..6d71fbaba2 100644<br>
+--- a/meta/recipes-core/systemd/<a href=3D"http://systemd_254.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">systemd_254.4.bb</a><br>
++++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_254.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">systemd_254.4.bb</a><br>
+@@ -282,12 +282,12 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ ! -e ${D}/${base_sbindir}/udevd ] &amp;&amp; =
+ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd<br=
+>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${sysconfdir}/udev/rules.d/<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/tmpfiles.d<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${nonarch_libdir}/tmpfiles.d<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for rule in $(find ${WORKDIR} -maxdepth 1 -type=
+ f -name &quot;*.rules&quot;); do<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 $ru=
+le ${D}${sysconfdir}/udev/rules.d/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${WORKDIR}/00-create-volatile.c=
+onf ${D}${sysconfdir}/tmpfiles.d/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${WORKDIR}/00-create-volatile.c=
+onf ${D}${exec_prefix}/lib/tmpfiles.d/<br></blockquote><div><br></div><div>=
+<span style=3D"color:rgb(0,0,0)">${nonarch_libdir} still missing there.</sp=
+an><br>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;DISTRO_FEATURES&#3=
+9;,&#39;sysvinit&#39;,&#39;true&#39;,&#39;false&#39;,d)}; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D}${sy=
+sconfdir}/init.d<br>
+-- <br>
+2.30.2<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--00000000000038ea9a060a43f22c--
 
