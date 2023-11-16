@@ -2,153 +2,175 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D6A8C197A0
-	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 19:44:40 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web11.16132.1700163874532828499
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A8CC197A0
+	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 21:25:50 +0000 (UTC)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+ by mx.groups.io with SMTP id smtpd.web11.18460.1700169945925531274
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Nov 2023 11:44:34 -0800
+ Thu, 16 Nov 2023 13:25:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CbD44S0u;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1f4e17c1edfso627429fac.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 11:44:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L4ZsVUB2;
+ spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6ce2eaf7c2bso738469a34.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 13:25:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700163874; x=1700768674; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1700169945; x=1700774745; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iEAqWLnz9n/XlpEar2Ln4PMMqo4aqZWUzH8wpWeV5W0=;
-        b=CbD44S0udYojCIVHpic3IwGyBfzYDXsaQqhXY+PFDuv3g2JsB6xT33LvrGJYbO/zCZ
-         6e9UvwNqbjYAuU/QrEFTFz83dJdrRB+9lmi686fk65Gk7k1Rbqb5V0SLZcWCWJIbSbq/
-         OgLFs068jSQxBC7J2lnQ/BqGF95hw9Ip42EmivSFLUk0y990A7HTGFCxWQaJbJDZpAL9
-         jmt/AISCbPpU6W2NL2SxFDQijHTNh/23aG4OO1/vprgMQFwxN4hNcPNhpF5kMxgJff0c
-         yIFAbPAAEem6XG11I5cEW62oe6mADMO6IaDqmP0g8KJHMpVz351uI+pyIwnsC9rE4oYR
-         irLQ==
+        bh=P6HiIr/xXqYHtKorwWuA04F9xMAcdEzUmjTHNc5XFlU=;
+        b=L4ZsVUB2GDijiTne8nrDXfb4DWVhtBOgkRhZOk7OAoQ+dDW8/2CWXLUP2UCyLWroLb
+         XCE+Fjk35ekaiG/4QQWWnOnhKGJ5kCa3HuTUitxoxIhbh66n37Pqtihp8BefmiOhbPBT
+         oj5ZJkzLcTUtRQvUnGNBIOpiHeHsBUlHWH96Cu7ZiSw7p7tBQTxJZIJpzvHdhWTPUHOD
+         vwliZ7eoSOcLs/TaXQfycs3sephlxvbeYeHvko4KtMhnYK+bOcvSxpYav1/1J7GO5Lv/
+         MM4aBj3gWFO8H4SoOAjYcPl6bb6IoNxNFCePP399zJMOiXqzAFA53iyJJCCWZLXQniEz
+         KJVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700163874; x=1700768674;
+        d=1e100.net; s=20230601; t=1700169945; x=1700774745;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iEAqWLnz9n/XlpEar2Ln4PMMqo4aqZWUzH8wpWeV5W0=;
-        b=YI2m2U3v7owZRyqnTuBkxTIU0nE+E+UUmDImQ9niHv7FViUOeO0fZ20BWWKK0jEblm
-         DKLdrbjDftYKXWBqZAms/DsdMoVdvH5wm4coWY7eKCrb+XgilHtnJs8VdesVW4eiGeNF
-         oof24Y50wrJosMtBJVfYX6C1EWBxonNaa+aHhe4vTv7AOcoeSmkfuUyV75y48YVisOLm
-         wN9MDEHZb0yjKeW2Fo0KFlNFizZJmb90tCHI00if7M7FdEf0rdnBDs0nHTfihIARAzdJ
-         MjgKgKGjH21ni+eFXkZfwphmcVJK5G1mr+0tm8VopFf3ENEHXUm2AihrwWMsgQ4J9lFJ
-         +blA==
-X-Gm-Message-State: AOJu0YzODFV2G7C+kNbqgThSHBMe9bb5VGEPLniFCIPvjCcE/gSutH2/
-	hK9lcKCASAgAAf6FsBS4IXa8JMRS6ThG3kyJD5U=
-X-Google-Smtp-Source: AGHT+IEeYEjL/R0xx7cs8N/5+uThNcqUbEWDHDCFIJbssgqAKGpqxl2LZxiI4BPx8KIPj5kYKDSjAKViuvGTTTEicws=
-X-Received: by 2002:a05:6870:7886:b0:1e9:896a:8055 with SMTP id
- hc6-20020a056870788600b001e9896a8055mr22679913oab.25.1700163873633; Thu, 16
- Nov 2023 11:44:33 -0800 (PST)
+        bh=P6HiIr/xXqYHtKorwWuA04F9xMAcdEzUmjTHNc5XFlU=;
+        b=oC/btKIEZZDUWFU32kCQnI1UNlbEn9sb1UoCibs0M9mB+rpDeGwOOiQ9ad2z2FU8fH
+         Ft9E1DUJEOCQou/yWTSthH7uRaxzMcKVjp3+8qxqRN7aNlisZHQ8wAgHe+Jcqtxt3eZ+
+         2xY2ZCfUN+QmxlnbcE6eDf4hdmJTPwX56Tyi6bP2eVMnnt7iSeGWJsS3ywjU7R11RGvH
+         vcBhl4UIIAe5MwxoljwbCY4HVvgSky7iKRMGQs6Zc+T8O1RUH/LTUd+mlycVZKwAA+4Q
+         6lpqbpOqfiZ7u0SaRke0xk4tlzRK17eXnghjlolqK7cThMX4MLJYhuTfnd8P7ghQpH/e
+         iBbg==
+X-Gm-Message-State: AOJu0Yw9kQvC818sa/Li5u4lNsSn/XJh6kJv3n4aZj6nYZS04J9xfTMR
+	tVGRY24c7Y9/tyjFKZ+Q3sxI9QnvMnof2mn+01k=
+X-Google-Smtp-Source: AGHT+IEFDWqqFXF72pr+S5lPM0esRKptk07iVX5lDa50PwFvg/UGgrzdYWTOn86j3GtiRLE6r2IDlz1EHklc4ITuEAo=
+X-Received: by 2002:a05:6870:3d85:b0:1e5:89d8:81fb with SMTP id
+ lm5-20020a0568703d8500b001e589d881fbmr23435702oab.10.1700169944931; Thu, 16
+ Nov 2023 13:25:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20231116073650.2710535-1-martin.jansa@gmail.com>
-In-Reply-To: <20231116073650.2710535-1-martin.jansa@gmail.com>
+References: <20231116165250.2863415-1-richard.purdie@linuxfoundation.org> <20231116165250.2863415-2-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20231116165250.2863415-2-richard.purdie@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 16 Nov 2023 11:44:07 -0800
-Message-ID: <CAMKF1spKx_S3ORqC-Tek+DErRt1uwtybD2cja1eE+cnTpc53oA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHv3 01/11] bitbake.conf: drop ${PE} and ${PR} from -f{file,macro,debug}-prefix-map
-To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 16 Nov 2023 13:25:18 -0800
+Message-ID: <CAMKF1soCqH=+=QUeaF-ikMmwHCe0L0K8Cp_-X3tVqe6xTkQVFg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] bitbake.conf: Drop oldincludedir
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 19:44:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190810
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 21:25:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190811
 
-On Wed, Nov 15, 2023 at 11:36=E2=80=AFPM Martin Jansa <martin.jansa@gmail.c=
-om> wrote:
+On Thu, Nov 16, 2023 at 8:53=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> * ${EXTENDPE} and ${PR} was already dropped from ${WORKDIR} in:
->   https://lists.openembedded.org/g/openembedded-core/message/185818
->   adjust -fmacro-prefix-map and -fdebug-prefix-map similarly.
->   As we don't depend on PR in WORKDIR maybe we don't need it in
->   /usr/src/debug paths as well anymore.
+> Autoconf defines this as:
 >
-> * The interesting side-effect of this is that for DISTROs which still
->   use PR (e.g. webOS OSE), the difference in -fdebug-prefix-map causes
->   all binaries to be slightly different when rebuilt with different PR
->   (due to this path, even when otherwise they are binary reproducible)
->   and when the number of digits in PR changes (e.g. from r9 to r10) it
->   also results in slightly bigger binaries (and more unnecessary changes
->   in buildhistory diffs).
+> "The directory for installing C header files for non-GCC compilers."
 >
+> Whilst this is something autoconf does allow changing, I find it hard
+> to believe it has much use in the wild now and that headers don't get
+> split like this in reality, it would probably only be useful on really
+> old unixes.. The values are the same in our configuration anyway.
+>
+> Drop the value and just use includedir everywhere.
 
-these paths are for binary outputs unlike workdir, this change would means =
-we
-have same path to install debug info on targets which might not match
-to installed
-binaries Can you check if these paths are matching while debugging on targe=
-t ?
+Maybe alias it to includedir instead. Since some makefiles may assume
+a default value in its absence
+which might change the install behavior. It does not matter much on
+native builds but for cross builds it might.
 
->   For example this foo binary, the difference between "new" and "old" is
->   extra patch applied in SRC_URI (which doesn't affect the foo binary,
->   but was the reason for PR bump).
 >
->   And the binary is bigger with r10, identical with r6 and slightly
->   different due to debug-prefix-map between r6 and r7:
->
->   $ ls -la 1.0.0-175-*/image/usr/sbin/foo
->   -rwxr-xr-x 1 bitbake bitbake 30182460 Nov  8 08:29 1.0.0-175-new-r10/im=
-age/usr/sbin/foo
->   -rwxr-xr-x 1 bitbake bitbake 30182224 Nov  8 08:02 1.0.0-175-new-r6/ima=
-ge/usr/sbin/foo
->   -rwxr-xr-x 1 bitbake bitbake 30182224 Nov  8 07:49 1.0.0-175-new-r7/ima=
-ge/usr/sbin/foo
->   -rwxr-xr-x 1 bitbake bitbake 30182224 Nov  8 07:39 1.0.0-175-old-r6/ima=
-ge/usr/sbin/foo
->
->   $ md5sum 1.0.0-175-*/image/usr/sbin/foo
->   8e3ab67d596f8cc2f9c6320dab10af01  1.0.0-175-new-r10/image/usr/sbin/foo
->   f6ff1e64fe6affb9ba0d8f278cf7ed79  1.0.0-175-new-r6/image/usr/sbin/foo
->   6469a0b10aac233911e63c5ea97b03c0  1.0.0-175-new-r7/image/usr/sbin/foo
->   f6ff1e64fe6affb9ba0d8f278cf7ed79  1.0.0-175-old-r6/image/usr/sbin/foo
->
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
-> v3: added additional fix for perf (and changes in other recipes were move=
-d to separate commits)
+>  meta/classes-recipe/autotools.bbclass  | 2 +-
+>  meta/conf/bitbake.conf                 | 1 -
+>  meta/files/fs-perms-persistent-log.txt | 1 -
+>  meta/files/fs-perms.txt                | 1 -
+>  meta/lib/oe/package.py                 | 3 +--
+>  5 files changed, 2 insertions(+), 6 deletions(-)
 >
->  meta/conf/bitbake.conf | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
+> diff --git a/meta/classes-recipe/autotools.bbclass b/meta/classes-recipe/=
+autotools.bbclass
+> index 5ed21a3d684..1663307b061 100644
+> --- a/meta/classes-recipe/autotools.bbclass
+> +++ b/meta/classes-recipe/autotools.bbclass
+> @@ -76,7 +76,7 @@ CONFIGUREOPTS =3D " --build=3D${BUILD_SYS} \
+>                   --localstatedir=3D${localstatedir} \
+>                   --libdir=3D${libdir} \
+>                   --includedir=3D${includedir} \
+> -                 --oldincludedir=3D${oldincludedir} \
+> +                 --oldincludedir=3D${includedir} \
+>                   --infodir=3D${infodir} \
+>                   --mandir=3D${mandir} \
+>                   --disable-silent-rules \
 > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 67ff769046..3836a389b8 100644
+> index 12292714d2f..500f0112742 100644
 > --- a/meta/conf/bitbake.conf
 > +++ b/meta/conf/bitbake.conf
-> @@ -648,10 +648,10 @@ EXTRA_OEMAKE:prepend:task-install =3D "${PARALLEL_M=
-AKEINST} "
->  ##################################################################
->  # Beware: applied last to first
->  DEBUG_PREFIX_MAP ?=3D "-fcanon-prefix-map \
-> - -fmacro-prefix-map=3D${S}=3D/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}=
- \
-> - -fdebug-prefix-map=3D${S}=3D/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}=
- \
-> - -fmacro-prefix-map=3D${B}=3D/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}=
- \
-> - -fdebug-prefix-map=3D${B}=3D/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}=
- \
-> + -fmacro-prefix-map=3D${S}=3D/usr/src/debug/${PN}/${PV} \
-> + -fdebug-prefix-map=3D${S}=3D/usr/src/debug/${PN}/${PV} \
-> + -fmacro-prefix-map=3D${B}=3D/usr/src/debug/${PN}/${PV} \
-> + -fdebug-prefix-map=3D${B}=3D/usr/src/debug/${PN}/${PV} \
->   -fdebug-prefix-map=3D${STAGING_DIR_HOST}=3D \
->   -fmacro-prefix-map=3D${STAGING_DIR_HOST}=3D \
->   -fdebug-prefix-map=3D${STAGING_DIR_NATIVE}=3D \
+> @@ -46,7 +46,6 @@ export sbindir =3D "${exec_prefix}/sbin"
+>  export libdir =3D "${exec_prefix}/${baselib}"
+>  export libexecdir =3D "${exec_prefix}/libexec"
+>  export includedir =3D "${exec_prefix}/include"
+> -export oldincludedir =3D "${exec_prefix}/include"
+>  localedir =3D "${libdir}/locale"
+>
+>  # Linkage between native/cross/nativesdk layouts
+> diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms=
+-persistent-log.txt
+> index 518c1be3c93..61f0a6e26a1 100644
+> --- a/meta/files/fs-perms-persistent-log.txt
+> +++ b/meta/files/fs-perms-persistent-log.txt
+> @@ -38,7 +38,6 @@ ${datadir}/locale     0755    root    root    true    0=
+644    root    root
+>
+>  # Cleanup headers
+>  ${includedir}          0755    root    root    true    0644    root    r=
+oot
+> -${oldincludedir}       0755    root    root    true    0644    root    r=
+oot
+>
+>  # Cleanup debug src
+>  /usr/src/debug         0755    root    root    true    0644    root    r=
+oot
+> diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+> index daa4aed840f..48191f504ce 100644
+> --- a/meta/files/fs-perms.txt
+> +++ b/meta/files/fs-perms.txt
+> @@ -38,7 +38,6 @@ ${datadir}/locale     0755    root    root    true    0=
+644    root    root
+>
+>  # Cleanup headers
+>  ${includedir}          0755    root    root    true    0644    root    r=
+oot
+> -${oldincludedir}       0755    root    root    true    0644    root    r=
+oot
+>
+>  # Cleanup debug src
+>  /usr/src/debug         0755    root    root    true    0644    root    r=
+oot
+> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+> index 1dd20f85ebd..f69bf9c353c 100644
+> --- a/meta/lib/oe/package.py
+> +++ b/meta/lib/oe/package.py
+> @@ -456,8 +456,7 @@ def fixup_perms(d):
+>                  'sbindir',
+>                  'libexecdir',
+>                  'libdir',
+> -                'includedir',
+> -                'oldincludedir' ]
+> +                'includedir' ]
+>
+>      for path in target_path_vars:
+>          dir =3D d.getVar(path) or ""
 > --
-> 2.42.1
+> 2.39.2
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#190753): https://lists.openembedded.org/g/openembedde=
-d-core/message/190753
-> Mute This Topic: https://lists.openembedded.org/mt/102623139/1997914
+> View/Reply Online (#190807): https://lists.openembedded.org/g/openembedde=
+d-core/message/190807
+> Mute This Topic: https://lists.openembedded.org/mt/102630315/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
 j.khem@gmail.com]
