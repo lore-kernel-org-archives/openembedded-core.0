@@ -1,138 +1,187 @@
-Return-Path: <lukas.funke-oss@weidmueller.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A2EDC197A0
-	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 13:33:18 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.53])
- by mx.groups.io with SMTP id smtpd.web10.6552.1700141590038717834
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B8AC54FB9
+	for <webhook@archiver.kernel.org>; Thu, 16 Nov 2023 13:54:08 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.6956.1700142840572120953
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Nov 2023 05:33:11 -0800
+ Thu, 16 Nov 2023 05:54:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=AJDsNX5/;
- spf=pass (domain: weidmueller.com, ip: 40.107.105.53, mailfrom: lukas.funke-oss@weidmueller.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RsAkkKysSKeVFMFa2DDELiE7Xmx9nwlHQUN6Y0lOwphMT2vkDlHzQfh/QmFxaeuis+aIrpgQOzOj/yEt4WOTSe7hlulM9nfPoYnzRacZjqxpZi2AuWE4zGRjKVf05/I2jeXxDnJ7HXz21Fh5MmoGYmFMx1Xp5AGhLkEhYtk5EBXE5W9Ohxve772OXmWYcrXePGtelDjlrxrWjDNwRH+70Jb+Usys/Fr0moi6udOYc6RFS6H0+gDevTaQqBsors7U1cEDJShggZAYdNdeB3T5kfTH3hqe8ge/2fCD9aSrYFKosmeqQhIUmD+CV5DPg9msy6Mi+sh1FzduRRLspn/HQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F5mgdZEocV39JYgq4GRnuERjwqMVt9ic4WXHecq0dso=;
- b=PDxFna5v+e2zbxLTBlGSTR54+hq+SLGme6aZzE2JFCSSfYr71Af9mHqI/mde6TWARU6Jog1xy7tqGfk54Hh8fNfbyKTN9dTmlPWs7dehOZsXWj6y9lVbfUPEWr3P2sxtO7ZQIsXPUisFKHBYTW4GwlZfvOLvDgjKaKolGpmJVHws0hrg80a5eunwxdEzmAvgM3jCGbzm7mMoDg5zXrPdGJG9kHblHbfzSdjB6aAfvGBKa6jUMeU09912Bt/pNuxFPhUWaFd2P1O57mMd1HOW+XQl5M1cpkRiQU3+uBycZs9DDT1kSURbQzDUSCD/m0CikZ6Kgl25XvYav/zPwgm7Lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=W9I3FiUC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40a4d04af5cso6035485e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 05:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F5mgdZEocV39JYgq4GRnuERjwqMVt9ic4WXHecq0dso=;
- b=AJDsNX5/7oP3PvvGM94mLiMLBvhQZhiMD5wlHB0y/MMZRZz8hATMbo8OQ5xgeQqcGAdNgx2x8IUvMWO81brf9PQeMH/S0CKhkuBIshdQbQ2wNYoEAhJA12bYqxeJieASdvdRwhhTx4yzPuaYvMzTCXc92d6l4fXbvfmS43ebutw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
- by DB9PR08MB7724.eurprd08.prod.outlook.com (2603:10a6:10:393::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Thu, 16 Nov
- 2023 13:33:06 +0000
-Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
- ([fe80::b914:d9b5:6462:13b6]) by AS2PR08MB8431.eurprd08.prod.outlook.com
- ([fe80::b914:d9b5:6462:13b6%5]) with mapi id 15.20.7002.018; Thu, 16 Nov 2023
- 13:33:06 +0000
-From: lukas.funke-oss@weidmueller.com
-To: openembedded-core@lists.openembedded.org
-CC: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
-	Lukas Funke <lukas.funke@weidmueller.com>
-Subject: [meta-oe][PATCH] classes: go-mod: do not pack go mod cache
-Date: Thu, 16 Nov 2023 14:33:00 +0100
-Message-ID: <20231116133300.1503470-1-lukas.funke-oss@weidmueller.com>
-X-Mailer: git-send-email 2.30.2
+        d=linuxfoundation.org; s=google; t=1700142839; x=1700747639; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YKHGegDdCFnptP2iIZuiZkrYa1p6N9PRWfMtJMDuVDQ=;
+        b=W9I3FiUCEGCN+k607lh7/BbbqzwKrN+bOH6GnvEiUXMEhbCtYTaDFwgr5zR6iqd1bZ
+         1Bh1YJc9MoZHGz2zGNUaDso9uX5YPmtShM1UmVZe0viVBk4nw1TyBVeMeDB4eMn9vwU5
+         ZxZFtzYJVdx2xyzC55idsPbiFTwqPaiJbabcI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700142839; x=1700747639;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YKHGegDdCFnptP2iIZuiZkrYa1p6N9PRWfMtJMDuVDQ=;
+        b=mfyoXUhaZFphw3IYT8ag40emA3MQ1iad7SQsk+kJbk+ameS/QqG30o4ZsPAt4KlYAV
+         +ejbC4EQkO/4WtnG7SCxxUlJKSsr4iQLVqPmCRzjosMOcUWTNu8qQguffEF3JJqAiGWQ
+         B7k3mzILDPouht90pYJYh7w46cvAt+vAJfepofQqv5WgdmUOmWyACBt3ccFMVOl9tVEl
+         fuUzSEeW7TqUldOgmqyOCtGD5kaPLPpJkPfTKhEaVunClERG/UiX8vLA1rIRuHh3JEA7
+         PqhXIodGwXHLa9DcNEYpYe08X/Y7lQOOaHn5PbqKQmLYhkKpaCqEeJ/1xOZxhUjWOd6k
+         S4Ig==
+X-Gm-Message-State: AOJu0Ywq8PsEyWaoDgwVG9NWqXAel6To5OJVuVYObYJt3oCflw6LhJWu
+	J0DvEufw3geUv5TeL0pPnz/PCA==
+X-Google-Smtp-Source: AGHT+IFmJfbiViIPY0SR0geBLfcppfPIV75xqBtF+iN1tljYo/o9sg1yjpxMiRJmg0w1itnh2p1QAQ==
+X-Received: by 2002:a05:600c:3b94:b0:408:5a1c:9de7 with SMTP id n20-20020a05600c3b9400b004085a1c9de7mr14159591wms.7.1700142838640;
+        Thu, 16 Nov 2023 05:53:58 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6dd4:df61:1cbf:d952? ([2001:8b0:aba:5f3c:6dd4:df61:1cbf:d952])
+        by smtp.gmail.com with ESMTPSA id h4-20020adff4c4000000b0031ad5fb5a0fsm13697190wrp.58.2023.11.16.05.53.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Nov 2023 05:53:58 -0800 (PST)
+Message-ID: <d0ce7354a1f78365b3305e1d90aea5525cf48b24.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] meta/recipes: Remove empty
+ ${PN}/DEV_PKG_DEPENDENCY workarounds
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yoann CONGAL <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org, Fawzi KHABER
+	 <fawzi.khaber@smile.fr>
+Date: Thu, 16 Nov 2023 13:53:57 +0000
+In-Reply-To: <CAMSfU+4sT86jrae0GDCAwA+R2ERb0CT7WWe5JRMoeRyaQ_x6cA@mail.gmail.com>
+References: <20230928215640.2683961-1-yoann.congal@smile.fr>
+	 <20230928215640.2683961-3-yoann.congal@smile.fr>
+	 <1ab344acaa97212f14044d48623d03b9a93c2ed4.camel@linuxfoundation.org>
+	 <CAMSfU+4sT86jrae0GDCAwA+R2ERb0CT7WWe5JRMoeRyaQ_x6cA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0064.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ce::16) To AS2PR08MB8431.eurprd08.prod.outlook.com
- (2603:10a6:20b:55a::18)
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|DB9PR08MB7724:EE_
-X-MS-Office365-Filtering-Correlation-Id: c97933f5-b0cc-4768-92e5-08dbe6a890ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	u4+oHpcRdOd7DyAV1MoHUjXUbrzaja6TdFwf2/mjGynnFBlMhRXLqMVAXoY8KU5JyVCoPSwC9MZvEGM+bWl6R86S1YcRpVV7PEBjqVYtDhi/mBlzN101Cd8eQt/wlENhpR1afM4BwvMvXkfh8e99WIKxZOQIVCpX5KiuoE9/Osbbrm5E+CwqyIqTM4OZwMEo2xxet3TGBuZQaBUxhmbSOxLRNPa5SM17Fgh0oH2wIsJ/YchCpNw6z7DTQFyT2NfyHIefLuij3c0BdcmeQW0VEBhEzlGSzTcW7fq5J20Gwnw/4aAG/0qAJZeHpMnSPQShdReiD1or4sSml1+6f7ptTMNb/iGJvjlz4KbbkMlZ/YRouURq3iqHhkaFu5ZbDeygwFhiNSCZDBAJWrJqMZw/Se0aZmC46LHB+TVriNRHeZdrGQerDlmFdDeBKcBN29+N+jm8ohydcVPPwet0Yxo7UdgMjlMvEeXA25we5nDygdQzf2BtZIuz7b9NkVRTpssC2zlQ0wevH8bw7xha4LXnIT+UGzdZYs2aqAqPDeQfON4CYIzrjveBujNQRxkYNR+PTfKirMDDocmkZL8+g762bgX9NDuKFKakIK5zJObdzgp7LmOrWn5CKCT18qabWh96
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(396003)(39860400002)(366004)(376002)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(6506007)(52116002)(6666004)(2906002)(2616005)(36756003)(1076003)(107886003)(26005)(9686003)(6512007)(41300700001)(5660300002)(4326008)(38100700002)(8936002)(8676002)(66946007)(66556008)(6916009)(66476007)(38350700005)(86362001)(54906003)(316002)(478600001)(6486002)(4744005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?wZUu+2U0FcfekGfb7GYQUgvK0UCC/x1vuTqcmT6CHf5fUYn4J2TawUZeobpV?=
- =?us-ascii?Q?cAGdx+xOiBvninWt0Sjv9Ycx3JDXC/z7/kPcqKyXMSjG3qIk9oJ7s622Ktlx?=
- =?us-ascii?Q?n9oEUDYTRJeuwqPLqwQrfh4rT3EaloKAoyb3YdFv36SSqp2IbCHgRNQJ+94b?=
- =?us-ascii?Q?pqY53I9AOKKYl5zqznsm+o3UDFYe2brYqjOzZWPURr8O/UspKnSrRAWOXoC2?=
- =?us-ascii?Q?1bUEdzis99d5bVdVdENZ3woUQyesXuRbogpF37bMY1SaJZjronMN8FpBkuwe?=
- =?us-ascii?Q?tX2JdYTMXJ9j7AwjTp/HatlScMs8ryZtnaTd5hLXGEC3UckmcjZYNtiyKtlr?=
- =?us-ascii?Q?IggMwNiWwlMJxpocs4vyUTdehBEHlxYg3BpkmGyoZdr+Azn87GSnagdCmP8w?=
- =?us-ascii?Q?NFAK8AcFUgVtWv1y5vpvSLFoX/bWTXfJMAFTm1Xz85sBMKkQuZDanY1DeWLd?=
- =?us-ascii?Q?Texmu2apz2x0uQOaJMw0vZHtN6WN/tfpxw4IGuNgLDe83Y2RJJzUo8RCLYl8?=
- =?us-ascii?Q?/sefv4oo4UdzLGFCLxul9/CQVHt5YIMyHMXt2QGBQT09YagBIU+7N3LDqF4b?=
- =?us-ascii?Q?TwutRyGANQS45IhITaPH49oZWXJ9jmDXwnPwzew/M//qf88vWXyRW+cGPh5x?=
- =?us-ascii?Q?zYCcC7mt7tDQhE5ZdOkiKIsL+WtllPnY3co214sxBtguE2/af5aqqpC3oQzP?=
- =?us-ascii?Q?FRVmhnkLQ8aV0F76rvSLZ3krb2iBz0wqm8ENxPF2Dfug/LqsS5KkYSKsoyS6?=
- =?us-ascii?Q?6J7M0c8+X3RQF0AXk8jU0Tfq+C+WuHhqYFUBEEIobGAOtv2MAMiwJY181JFr?=
- =?us-ascii?Q?C51zmynbvsy66M5Vgx2e5ZiZL2M2HDE0fkG9SRmskvqa0Sxt8wId6t+lsmKb?=
- =?us-ascii?Q?l8kIsKP2stpdsYbacYUQEEerri8m0KUv2em8zIx/RKxWB7bbgocA6ppIbP+Q?=
- =?us-ascii?Q?1WYPXBfD73u8LJgk+LUtJ02yl+VcdyiBdPoAFyGD6rXbNtj7POXHDrO4zV49?=
- =?us-ascii?Q?U+hN+vqG4IKesuSumM+lCJ5jVFcMpyZpkcQlqOUoMCg7jdcNwL2eowweE6n+?=
- =?us-ascii?Q?iZfS4HWmQ+fBaTkW3QtfVuOEPNiJI7nh2GYAK+T/osnbcirXP4X4F33EG6zR?=
- =?us-ascii?Q?WRkf/y1y/iIPh68FPgaRPJBOMPr6xaXRmNBdyIkOTey0rtnkxmGB9I2ywS72?=
- =?us-ascii?Q?tRerBMkdBGAwKmaJJGbyIi97g0c/sxiXtFqh7xfjerIySa/WWEcXGqDYfSBe?=
- =?us-ascii?Q?BTPN0IDpmxqRgxSoj+f2ZdqxjfE7trK4EDzPZuKUqprE0UU2wf3s7Ae0dEya?=
- =?us-ascii?Q?T4FDD7qpXjiwSj3je7eYwPeBOR5Ep0NenfbjY7xhGk1U9gslsr9WEiTd/YQA?=
- =?us-ascii?Q?yB2WUVFl+K/TZUaCIIJ6JAVVW8ETkwiciAITi9CkTRDA100/EeQ5pxB5h2wH?=
- =?us-ascii?Q?WY/skV70jr0ru99MToWflgYXOASwo/ARrmZdTZHjqPSzfCO/sAvc9unQkfOV?=
- =?us-ascii?Q?k0Lu4+yIeuWiTnWRsAGKtFeDfE7u5nrBmmsDfl9U7cS3zDSGgrd1dULh1RoR?=
- =?us-ascii?Q?5gKUeHEH/UiKgrARW4RpD1N04a93i6OErM0+OiIaUcgyxMlFPrk8WujYBW1A?=
- =?us-ascii?Q?dQ=3D=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c97933f5-b0cc-4768-92e5-08dbe6a890ae
-X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 13:33:06.0834
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lyTYgspyFdAasZozYNDmrHHoymvbSVhpD0lAbV4+uaqjo4OXAv+qEmP+m96SDF/KD3R0vCgNOLLVQBT4X38YOA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7724
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 13:33:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190795
+ <openembedded-core@lists.openembedded.org>; Thu, 16 Nov 2023 13:54:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190796
 
-From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
+On Thu, 2023-11-16 at 14:10 +0100, Yoann CONGAL wrote:
+> Hi Richard,
+>=20
+> Le jeu. 16 nov. 2023 =C3=A0 13:13, Richard Purdie
+> <richard.purdie@linuxfoundation.org> a =C3=A9crit :
+> > On Thu, 2023-09-28 at 23:56 +0200, Yoann Congal wrote:
+> > > From: Fawzi KHABER <fawzi.khaber@smile.fr>
+> > >=20
+> > > Remove superfluous DEV_PKG_DEPENDENCY =3D "" previously used to bypas=
+s
+> > > ${PN}-dev package RDEPENDS on empty&non-built ${PN}. DEV_PKG_DEPENDEN=
+CY
+> > > applies RRECOMMENDS now, all workarounds are not needed anymore.
+> > >=20
+> > > Related to [YOCTO #6839] and [YOCTO #8222]
+> > >=20
+> > > Signed-off-by: Yoann CONGAL <yoann.congal@smile.fr>
+> > > Signed-off-by: Fawzi KHABER <fawzi.khaber@smile.fr>
+> > > ---
+> > >  meta/recipes-connectivity/bind/bind_9.18.19.bb                | 1 -
+> > >  meta/recipes-core/musl/bsd-headers.bb                         | 1 -
+> > >  meta/recipes-core/musl/libssp-nonshared.bb                    | 1 -
+> > >  meta/recipes-core/newlib/newlib_git.bb                        | 3 --=
+-
+> > >  meta/recipes-devtools/gcc/libgcc-common.inc                   | 4 --=
+--
+> > >  meta/recipes-devtools/python/python3_3.11.5.bb                | 1 -
+> > >  meta/recipes-graphics/mesa/libglu_9.0.3.bb                    | 3 --=
+-
+> > >  meta/recipes-graphics/mesa/mesa.inc                           | 3 --=
+-
+> > >  meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb        | 1 -
+> > >  meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb                | 1 -
+> > >  meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb          | 1 -
+> > >  meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb          | 3 +-=
+-
+> > >  meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb         | 3 +-=
+-
+> > >  meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 1 -
+> > >  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb  | 1 -
+> > >  meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb | 1 -
+> > >  16 files changed, 2 insertions(+), 27 deletions(-)
+> >=20
+> > Firstly, sorry for taking as long to get to this.
+>=20
+> That is fine! This was sent really late in the dev cycle wrt the release.=
+..
+>=20
+> > The patch 1/2 looks
+> > good and I'm happy to merge that. It does set us on the patch I
+> > outlined originally so I think we're good there.
+>=20
+> Awesome, thanks!
+>=20
+> > I'm less sure about this second one. It appears to remove variables
+> > which do actively change things and once they are removed, warnings
+> > from the previous patch show up.
+> >=20
+> > I therefore think the second patch is incorrect and doesn't move us in
+> > the direction we want?
+>=20
+> I would need to look into it to to confirm this but from your plan :
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D6839#c7
+> a) was to make warnings appear
+> b) fixing the warnings
+>=20
+> We are now between a) and b) : warnings but no fix.
+>=20
+> Since the patch I finally integrated the fact that the CI must be warning=
+ free.
+> So I guess, I'll come back with a series with this patch (a) _and the
+> fixes (b)_.
+> Does that sound good?
 
-Clean go module cache from builddir to prevent it of beeing packed.
+Yes. I think the changes in 2/2 actually create warnings where we don't
+currently have any and you'd need to revert 2/2 to help with the fixes
+in step b) above.
 
-Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.c=
-om>
-Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
----
- meta/classes-recipe/go-mod.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+I did also do a bit more testing of 1/2 and it also needs a bit more
+work unfortunately, it is the right direction but not quite there yet.
 
-diff --git a/meta/classes-recipe/go-mod.bbclass b/meta/classes-recipe/go-mo=
-d.bbclass
-index 61571596bc..ca3a690d05 100644
---- a/meta/classes-recipe/go-mod.bbclass
-+++ b/meta/classes-recipe/go-mod.bbclass
-@@ -24,3 +24,7 @@ inherit go
-=20
- GO_WORKDIR ?=3D "${GO_IMPORT}"
- do_compile[dirs] +=3D "${B}/src/${GO_WORKDIR}"
-+
-+export GOMODCACHE =3D "${B}/.mod"
-+
-+do_compile[cleandirs] +=3D "${B}/.mod"
---=20
-2.30.2
+Firstly, it shows warnings like:
+
+perl-modules rrecommends perl-module-warnings but perl-module-warnings won'=
+t be built
+
+which is because it is an RPROVIDES:
+
+recipes-devtools/perl/perl_5.38.0.bb:RPROVIDES:${PN} +=3D "perl-module-stri=
+ct perl-module-vars perl-module-config perl-module-warnings \
+
+so we need to teach the check how to resolve and ignore those.
+
+Secondly, it is only handling "self referencing" rrecommends.
+
+That can be changed by updating the constraint to something like:
+
+        if not rrec_data or "FILES_INFO" not in rrec_data or (rrec_data["FI=
+LES_INFO"] =3D=3D "{}"
+                and not bb.utils.to_boolean(rrec_data.get("ALLOW_EMPTY", "0=
+"), False)):
+            oe.qa.add_message(messages, "rrecommends-non-existent", "{0} rr=
+ecommends {1} but {1} won't be built".format(pkg, rrecommend))
+
+but then a lot more warnings appear.
+
+I think a lot of the new warnings would be fixed if the RPROVIDES issue
+is accounted for.
+
+So things are heading the right way but need a little work. I'd be
+happy to merge 1/2 when it is ready since we can enable the warnings on
+a per layer basis now once we fix the issues. 1/2 isn't quite ready yet
+though, we need to fix the RPROVIDES issue.
+
+Cheers,
+
+Richard
 
 
