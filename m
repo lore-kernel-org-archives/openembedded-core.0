@@ -2,47 +2,47 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 133D2C197A0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14726C5ACB3
 	for <webhook@archiver.kernel.org>; Fri, 17 Nov 2023 11:45:44 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.9443.1700221536504082642
+ by mx.groups.io with SMTP id smtpd.web10.9444.1700221537819232913
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Nov 2023 03:45:36 -0800
+ Fri, 17 Nov 2023 03:45:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HyAmuNpH;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=hZsFQV/a;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018bdd19c506-de4fde16-af41-4614-bf29-e813a85c1efb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BRODRDIo;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FZMHXSfq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018bdd19c9e7-b3d697c8-5ea1-4f76-b828-279a778df823-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700221535; i=@automation.yoctoproject.org;
+	t=1700221536; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=eFokpwHVj/7SSCDmGp6eq8nBpvUb0ZPDB6wJaB0/UAw=;
-	b=HyAmuNpH7Mv0Tob2u/y0eBL+sQnQcKWZDHjk74L3KbeL2u6G3ruMdmu2SWtzBZbI
-	DwTR7T5WzIlKOT+exH8gNQgM+RZxYq2J7XV92cb6sgJoTbrenrjCeV52vK85R3bI3gk
-	Ldrkgwg4C4Nyf8F+beciIiMTd1kMUflC6CnkSES8=
+	bh=HAJafv9HVObqmKal0eDmwHi9/DpJp9icsOadtcDISGQ=;
+	b=BRODRDIoG6TNMzTLfiy4DFQpc1WmRk39Iav5hzdcxYnRiehUbNmfFlxIPC5CIZ8j
+	Lceg0wIYKt/oOq17MA5tUNQVGiM48J45GAE/ukGtJNbNZoSVAbkRc381BEsxSt/k/QE
+	nBl2L5QHN7KXl/1Fw8VgKSeYWloWypRm87Lm6d8w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700221535;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700221536;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=eFokpwHVj/7SSCDmGp6eq8nBpvUb0ZPDB6wJaB0/UAw=;
-	b=hZsFQV/aYTFIuPoKG+/sQ43/mAnjFuZeD246VUuiCtaYlWzP465RPMqTZebf9PJN
-	XwW2HhPUreijauQozdYyX6eLZn0RZ7ScJvxvXxxIuQKkqAdOSN4qoibVe/8YPvdLjss
-	TTse3D9isGINqR+GqKWB6Rnkyw06Y5kYZMcTXCno=
+	bh=HAJafv9HVObqmKal0eDmwHi9/DpJp9icsOadtcDISGQ=;
+	b=FZMHXSfq24JI6nEEs+dggpLafULuC7z0CcyyLHJXDJtyJNMLBMWAlQqSjZSXQf8q
+	/tfSwlHbFCjGSWeYqhtQV1pqFnRO8YmZvtHNJojICq+JT7gC+0K0E+pGSaw6Z+aN+Sq
+	T4V6IAlftpp2QRkZ02CdwaBRA7WBuWlNMKS/0QhI=
 From: patchtest@automation.yoctoproject.org
 To: Julien Stephan <jstephan@baylibre.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/7] bitbake: utils: remove spaces on empty lines
-In-Reply-To: 20231117111218.3344066-2-jstephan@baylibre.com
+Subject: Patchtest results for [PATCH 6/7] oeqa/selftest/recipetool: remove spaces on empty lines
+In-Reply-To: 20231117111218.3344066-7-jstephan@baylibre.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018bdd19c506-de4fde16-af41-4614-bf29-e813a85c1efb-000000@us-west-2.amazonses.com>
-Date: Fri, 17 Nov 2023 11:45:35 +0000
+Message-ID: <0101018bdd19c9e7-b3d697c8-5ea1-4f76-b828-279a778df823-000000@us-west-2.amazonses.com>
+Date: Fri, 17 Nov 2023 11:45:36 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.11.17-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 11:45:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190845
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190846
 
 --NextPart
 Content-Type: text/plain
@@ -52,7 +52,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/1-7-bitbake-utils-remove-spaces-on-empty-lines.patch
+Testing patch /home/patchtest/share/mboxes/6-7-oeqa-selftest-recipetool-remove-spaces-on-empty-lines.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
