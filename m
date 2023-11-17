@@ -1,118 +1,111 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39EBEC072A2
-	for <webhook@archiver.kernel.org>; Fri, 17 Nov 2023 15:51:15 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web10.14410.1700236272378048806
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A3CFC072A2
+	for <webhook@archiver.kernel.org>; Fri, 17 Nov 2023 16:35:15 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.15.1700238910241117663
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Nov 2023 07:51:12 -0800
+ Fri, 17 Nov 2023 08:35:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T9XeyZoq;
- spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-67131800219so11137876d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 07:51:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=b7zHTWeT;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1ce656b9780so2307835ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 08:35:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700236271; x=1700841071; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=HTFqV7iuE3NxZvFElAAolxLJbDBeAYtpSFWwOkIhNzw=;
-        b=T9XeyZoqe69nXfHtdqsA8E53SBJZP5pTer9i1alC/EzmMkporMiCYmt8UlRJReAogD
-         JMzmuMOeh0FpH1WLXnQbXoYUTYKcE2e+4YihKvM4Of44sYAexVHz4jFR/ZWjGxhdT1fJ
-         QfHJeXdvhDxsHVCcY40fp+XI4Q9NOuRaYBjjApizcXk9G5hX7PaPANEQhu6i/M5q9Ytu
-         agsvwJVEnsmG1Mj9BBYEzfOp/+sm5Xgs4LP/qbHl84tfds4n81GdVcP4c+6wHNtFBhsK
-         /i79KGF908trTAGOEi0ohG8+nj6lE+3O6TvRcq1qUyfmvc0kcvVaBz1Qxm3bPSwDDiYU
-         vZkA==
+        d=gmail.com; s=20230601; t=1700238909; x=1700843709; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1J3+bbEz+AkQPlPo5v9CtYamxNFzIY21iEY0zczH8s4=;
+        b=b7zHTWeTZTwWX/d4Ci/sk1eLwSMyGt+Yfu9/GoOwnm+MzTIE0K441idKgPClNOSlVU
+         O4LLFCchaXvIBawUoWQN1Mxfg4y+reAigXTFwHtVrXXgmZqIR5y/pDTy9xsvmxLARVhv
+         5C1z0tJppl6/H7A+UoWy5Xh2102yB/2KKAsZ2d2Ev5KXpD3sf5elfZOSCSeEzYcCBgw4
+         rNyohNg8cwgVl1q9jF6AhADtwSqyL3rcEZL8pf18UVb0J0VUzLbfaqQwE8GCAiIvtWGq
+         zvM9JF3xV338pEchAbM/K1SHkk32SCSaATa+1eTftI+au020xicvOLheULTfb6E9b0x9
+         jBqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700236271; x=1700841071;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HTFqV7iuE3NxZvFElAAolxLJbDBeAYtpSFWwOkIhNzw=;
-        b=CExf5DHaQ71yww9hbw+aIqYlei9kZLUR+C20z6HXzJlRuNGAt3ALors8jnNdhcfswv
-         hgfNZKbfekdgzx8oUEtnlLqnQQ4eSH7ZLEzGXQ0k9pAxcUhO+cik+Sy8JIs5EQG4biF1
-         qosp9PCCvjCLspMyJIuyMr4qNQiq5zZ9b6W4rH0Yy9scIXP/12MwQbcVedI/Q2Rc8B9+
-         j6/DqAlrPAD/uMqJMp4SWqzVK2yv+QNpzeJl95VGYJTYKMWr3p81EVqBLhob3mR+NBTA
-         Dbjt4Mf90qpmOjNWmJii49etUvShDyc0cKf5kfAD0yUsg/RRztcm3MoipSOBu5cfml2E
-         UfTw==
-X-Gm-Message-State: AOJu0YyprTGtLcR2QJXlJuZVafc3YnRyWSy7/Etj9BH4RRNNUZS2Ndt6
-	BTytVSsYjnf6gmN+fKUtbvsSSKL6zuGqiVkb1sRdYLPg+TE=
-X-Google-Smtp-Source: AGHT+IFj6veFwzrLIKfQ68enveBMpv4h2K/umTOY8sQZMi8BLWyfuRF9wzNpAb9e3VJEuz3R7us/3Pa07LUfr+qKczE=
-X-Received: by 2002:a0c:b341:0:b0:677:f830:83f0 with SMTP id
- a1-20020a0cb341000000b00677f83083f0mr1578778qvf.8.1700236271287; Fri, 17 Nov
- 2023 07:51:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700238909; x=1700843709;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1J3+bbEz+AkQPlPo5v9CtYamxNFzIY21iEY0zczH8s4=;
+        b=cL8f6e+zE7VTLjXsOqaUX2ELz4NQkFyhQ9x1otp12vSQEKt8UTLpTp2B7hqjRM07bp
+         kXlRqK2NcEmj8i73GEd2DxQG0xpNItQIR5lPMbOOlBiBhOMJZpUJPefnKxtGqlltiGpH
+         5xkEKEKf3REftZHcbFYYzixVuPQAr6Z/yXkU8YeAlbmX0g9AgvCGiNOfOQx0DkDnoPte
+         SyP7wMBXOz76I0FKkcbtoofA01a5n6PVwcUmuxjL1sB/G8dAW3KBrcEkGetSV0AuWCM5
+         2deucRmDj/dgRqWcZAIbTkxXKI/1bxR/MYQ9FfQmLpT96yYLp+Nz98PGzk799uaBT06d
+         oUvg==
+X-Gm-Message-State: AOJu0Ywfjhfmth4yuJrR7f4aFghgITlpGAGw+yuiJYJErMBzo4sKZPEe
+	WGqQ+FKPZVuziP1PQaxys5HJv2caTNCQSQ==
+X-Google-Smtp-Source: AGHT+IGL7YitnltKe2EpgbJRGCNufeZFhklym7ZmiyVRk49V7dB8cQle88Nxxw5ofPjoTVQnUXTtoA==
+X-Received: by 2002:a17:903:228f:b0:1cc:3829:8355 with SMTP id b15-20020a170903228f00b001cc38298355mr135176plh.12.1700238909256;
+        Fri, 17 Nov 2023 08:35:09 -0800 (PST)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:3fa:1e17:52a9:6eff])
+        by smtp.gmail.com with ESMTPSA id iz19-20020a170902ef9300b001cc32261bdcsm1583439plb.248.2023.11.17.08.35.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Nov 2023 08:35:08 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] python3-hypothesis: upgrade 6.88.3 -> 6.89.0
+Date: Fri, 17 Nov 2023 08:32:05 -0800
+Message-Id: <20231117163204.67243-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Fri, 17 Nov 2023 16:51:00 +0100
-Message-ID: <CA+cAkeorg-Xfi25GsXnY39kuu20yHyNhXzkk=AXPmJAQjZNJUQ@mail.gmail.com>
-Subject: Migration dunfell to kirkstone , init manager issue
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000fc02b4060a5b1acb"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 15:51:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190853
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 16:35:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190854
 
---000000000000fc02b4060a5b1acb
-Content-Type: text/plain; charset="UTF-8"
+https://hypothesis.readthedocs.io/en/latest/changes.html#v6-89-0
+https://hypothesis.readthedocs.io/en/latest/changes.html#v6-88-4
 
-Hello,
+6.89.0 - 2023-11-16
+This release teaches from_type() to handle constraints implied by the
+annotated-types package - as used by e.g. Pydantic. This is usually
+efficient, but falls back to filtering in a few remaining cases.
 
-I recently started upgrading my system from dunfell to kirkstone and I
-started with a basic (but custom nonetheless) qemu image that I used in
-dunfell (before starting machine/distro specific ops).
+Thanks to Viicos for pull request #3780!
 
-After several corrections , many thanks by the way for the various
-convert scripts !, I managed to get my qemu image built on kirkstone.
+6.88.4 - 2023-11-13
+This patch adds a warning when @st.composite wraps a function annotated
+as returning a SearchStrategy, since this is usually an error (issue #3786).
+The function should return a value, and the decorator will convert it to a
+function which returns a strategy.
 
-But when I didn't manage to boot it correctly (I used qemu-system-x86-64 of
-my  host)  and every second on prompt I got these messages
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
 
-process '-/bin/sh' (pid 143) exited. Scheduling for restart.
-process '-/bin/sh' (pid 144) exited. Scheduling for restart.
-process '-/bin/sh' (pid 145) exited. Scheduling for restart.
-can't open /dev/tty2: No such file or directory
-can't open /dev/tty3: No such file or directory
-can't open /dev/tty4: No such file or directory
+Alexandre,
+This is on top of the python3-hypothesis 6.88.1->6.88.3 upgrade in abelloni/master-next
 
-I looked into it more and found that the init system is set to busybox
-(/sbin/init point to /bin/busybox.nosuid).
-My system needs systemd as init manager  and I verify that I have set
-INIT_MANAGER="systemd" in my configuration (I even perform a bitbake -e to
-check that this is not overridden).
+All ptests pass on qemux86-64
 
-Can someone please tell me where to look (which log file, or some oe tools
-that I can use)  to find why systemd is not used as the init manager ?
+ ...ython3-hypothesis_6.88.3.bb => python3-hypothesis_6.89.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.88.3.bb => python3-hypothesis_6.89.0.bb} (91%)
 
-Thanks.
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.88.3.bb b/meta/recipes-devtools/python/python3-hypothesis_6.89.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.88.3.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.89.0.bb
+index ef1be95d6ab..035809c3947 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.88.3.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.89.0.bb
+@@ -13,7 +13,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "5cfda253e34726c98ab04b9595fca15677ee9f4f6055146aea25a6278d71f6f1"
++SRC_URI[sha256sum] = "9168bb12cd29001067e66b5f25f1bbdeff08b80c29c3909e19fc8205d8b9aeed"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.34.1
 
---000000000000fc02b4060a5b1acb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<div><br></div><div>I recently started upgrading my =
-system from dunfell to kirkstone and I started with a basic (but custom non=
-etheless) qemu image that I used in dunfell (before starting machine/distro=
- specific ops).</div><div><br></div><div>After several corrections , many t=
-hanks=C2=A0by the way for the various convert=C2=A0scripts !, I managed to =
-get my qemu image built on kirkstone.</div><div><br></div><div>But when I d=
-idn&#39;t manage to boot it correctly (I used qemu-system-x86-64 of my=C2=
-=A0 host)=C2=A0 and every second on prompt I got these messages</div><div><=
-br></div><div>process &#39;-/bin/sh&#39; (pid 143) exited. Scheduling for r=
-estart.<br>process &#39;-/bin/sh&#39; (pid 144) exited. Scheduling for rest=
-art.<br>process &#39;-/bin/sh&#39; (pid 145) exited. Scheduling for restart=
-.<br>can&#39;t open /dev/tty2: No such file or directory<br>can&#39;t open =
-/dev/tty3: No such file or directory<br>can&#39;t open /dev/tty4: No such f=
-ile or directory<br></div><div><br></div><div>I looked into it more and fou=
-nd that the init system is set to busybox (/sbin/init point to /bin/busybox=
-.nosuid).</div><div>My system needs systemd as init manager=C2=A0 and I ver=
-ify that I have set INIT_MANAGER=3D&quot;systemd&quot; in my configuration =
-(I even perform a bitbake -e to check that this is not overridden).</div><d=
-iv><br></div><div>Can someone please tell me where to look (which log file,=
- or some oe tools that I can use)=C2=A0 to find why systemd is not used as =
-the init manager ?</div><div><br></div><div>Thanks.</div><div><br></div><di=
-v><br></div></div>
-
---000000000000fc02b4060a5b1acb--
 
