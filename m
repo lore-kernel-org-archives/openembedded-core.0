@@ -1,114 +1,98 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97ED0C072A2
-	for <webhook@archiver.kernel.org>; Fri, 17 Nov 2023 17:24:55 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.1379.1700241892109891293
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C00C072A2
+	for <webhook@archiver.kernel.org>; Fri, 17 Nov 2023 19:49:16 +0000 (UTC)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web11.4858.1700250553655452717
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Nov 2023 09:24:52 -0800
+ Fri, 17 Nov 2023 11:49:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lLiJ7a/Q;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6c4cf0aea06so2171702b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 09:24:52 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=vAJH1LaZ;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.47, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-67572f4b17cso13615926d6.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 11:49:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700241891; x=1700846691; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=07+jqoa8723kOf1GFnZvKFpOnXjzJsUC9TY9WGABH88=;
-        b=lLiJ7a/QqSr6wFMg7YXQ6dqw40bA3/WX7lVXTOQwR12dq4dGbZK+D+TPVx7itgAfdG
-         +PP3Pi16BTXRSyKOGk4tWIvO4tmpTTzD2X0zkk0dXC6fKZrUydrJ2/bcu5e29DtJS8rD
-         fkIqsmMLWB1JQ5y6h2s+JvB6GY+Cj/NtKwX6NboX56Nm7PMyYd/aJ3rrIisuGPf7vJUp
-         2Wo71S66AXWXhyGr4E9MbYsSpLtAHZDfIb92v8o52xjpgD5skPGwAGXiRPDMw3V3+Ngc
-         BWjGo2JxuZtx42+i+9GlLL8vcK9lM3b+AtTuCteaL/t5SAsJXcBMUp0SWwGuc7IGgC5P
-         tRGA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1700250552; x=1700855352; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N6uu49nxQ5kkjBpO7q60cJpWkqs7knyw8IzGk0iFoOw=;
+        b=vAJH1LaZBmBkvqFG4ZIFn+7ckZzWBNvS4/9U4joMEhm7XlkHNuCL0PjMirBpEham8w
+         opW1+kzEYd0lifjKsa8TunNHt20TjaoSEpYi6WOeMTU7BGb+5OXA8WPH7mAVzv5jSEOR
+         VnuZeTIzV3Ymppg1tclEUcXU5coG9SwE34NjhwDfUTzelblEIVXo8+qUBcU6gqY69DvW
+         1IChArQkuybd49A5dvrJUlwhFQRphUEKQbchH4aExr5yi+NhEoonps8SA36nS091qEBb
+         Imms78jvf/W94vs9FYpEjteGPIkiJvvtzPmwF8fhRKOgT7OFakXLu7jxRNCWrhJZwF9v
+         1JfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700241891; x=1700846691;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=07+jqoa8723kOf1GFnZvKFpOnXjzJsUC9TY9WGABH88=;
-        b=STP+FIbpXtmhXiaOHWvw9mMLeHnMKtSbOiCpFEAljxGv/JyBoH2Z/ciEn+8ZAIrT3c
-         YOjQCf7qS9nRM0RIEXNTYvQR4mlRIEyZXDUT/mRKdYPiEoS2x6VSgvVpoVyXNxXzP6MZ
-         ByN1JqA62t/6I46hUTY6s9DlqneO9M7aU2UP5W2GUF1AwRFEJIC0qzC96VwizRMORbHd
-         XLwbvVQ1MFCGyFtaNI2dDhRLyVHHi2MtsLmS1AM0Vu7jX9xy7ugkbLTLYcI+ldWHNFjW
-         o8sO5sde+W5qGIcounghWGbppQzYDRtn1nMVrM22gu4267NFs2TWqdcf+XBJQYPHe/zD
-         eUHw==
-X-Gm-Message-State: AOJu0Yy3MzTEBwJc2nDq4XD53gnqsXhqOzeJSCsg+5x1uI0Bjr+f7htv
-	VC5GWaqXA8UAf3hYSuXUOlhIAQMn6qw4IQ==
-X-Google-Smtp-Source: AGHT+IHTqg40A36SW6Ew2NokJ0qe37kxbbrK32+AQOadIlrupa33eAq9pJY5rm+PpgPyXas2GaGB6g==
-X-Received: by 2002:a05:6a00:24c9:b0:6c3:871a:7f0f with SMTP id d9-20020a056a0024c900b006c3871a7f0fmr34853pfv.5.1700241891053;
-        Fri, 17 Nov 2023 09:24:51 -0800 (PST)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:3fa:1e17:52a9:6eff])
-        by smtp.gmail.com with ESMTPSA id s2-20020aa78d42000000b006be5af77f06sm1655608pfe.2.2023.11.17.09.24.50
+        d=1e100.net; s=20230601; t=1700250552; x=1700855352;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N6uu49nxQ5kkjBpO7q60cJpWkqs7knyw8IzGk0iFoOw=;
+        b=WNwGDp35OiU7OxGEZtHo6KbUJRhPQE0BgYNaIe0vCKy2BzGCkwsK4SQFykkRdnRjVs
+         s4IJOcRrQP+Lz46TEdPJSlG0FSHpek1ugrOHtUg+R8tmAt9/N2ZGciczAZ3EWYVthLTT
+         wtgIRuE/DYDJ/uQFU6MQjBbeRIwl72Sv3QpdVhdKVUsUxRoDg5AFELUxcnWF5qyT/9N/
+         zQS9/DLn+eyo2XqNY5Yc44D62B3DJxr+XonAu3R3Q315m5sNpl3qMv32Xx2gopWVvtgz
+         C1UsY2mjlEh/q4/lSOlzGChjbiIHkXUwHHd/EDnT/hDOi9UoubHGsjCtZ2rNiHu0FUJm
+         SkQQ==
+X-Gm-Message-State: AOJu0YwFX4qhlztIGkO+K4Q/tI33FRhsFTBVST8Hy8ZVAzLUHQNyrBAh
+	j+RUF4OJhC8ny2q4somgWfjBIWRCPzKbQoWimqxywA==
+X-Google-Smtp-Source: AGHT+IGXR9niPUo1k2QQsohxZRKmk/s/KHskrx8Sr+8lFl+nXhDdZuAmhIOzxXC6cLGSLHc4tkTs3Q==
+X-Received: by 2002:a05:6214:20c5:b0:672:e2d5:7a7e with SMTP id 5-20020a05621420c500b00672e2d57a7emr85743qve.50.1700250552139;
+        Fri, 17 Nov 2023 11:49:12 -0800 (PST)
+Received: from megalith.. (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id j10-20020a0cc34a000000b00677f8d80f76sm533481qvi.90.2023.11.17.11.49.11
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Nov 2023 09:24:50 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+        Fri, 17 Nov 2023 11:49:11 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-setuptools-scm: upgrade 7.1.0 -> 8.0.4
-Date: Fri, 17 Nov 2023 09:23:42 -0800
-Message-Id: <20231117172341.559517-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][PATCH 1/4] python3-mako: upgrade 1.2.4 -> 1.3.0
+Date: Fri, 17 Nov 2023 14:49:02 -0500
+Message-ID: <20231117194905.2080320-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 17:24:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190856
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 19:49:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190857
 
-See 8.0.0 changelog for breaking changes.
+License-Update: Updated copyright year
 
-8.0.1, 8.0.2 and 8.0.3 were bug fix releases
-8.0.4 has bug fixes and other changes
+Changelog: https://docs.makotemplates.org/en/latest/changelog.html#change-1.3.0
 
-https://github.com/pypa/setuptools_scm/blob/main/CHANGELOG.md#v804
-https://github.com/pypa/setuptools_scm/blob/main/CHANGELOG.md#v803
-https://github.com/pypa/setuptools_scm/blob/main/CHANGELOG.md#v802
-https://github.com/pypa/setuptools_scm/blob/main/CHANGELOG.md#v801
-https://github.com/pypa/setuptools_scm/blob/main/CHANGELOG.md#v800
-
-* Drop PYPI_PACKAGE override (no longer needed)
-* Wrap DESCRIPTION so the line length is <80 chars.
-
-License-Update: use LICENSE file for checksum, remains MIT
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- ...ools-scm_7.1.0.bb => python3-setuptools-scm_8.0.4.bb} | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools-scm_7.1.0.bb => python3-setuptools-scm_8.0.4.bb} (69%)
+ .../python/{python3-mako_1.2.4.bb => python3-mako_1.3.0.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.2.4.bb => python3-mako_1.3.0.bb} (73%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb b/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
-similarity index 69%
-rename from meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
-index bb13c654606..5467b793ce0 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_7.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_8.0.4.bb
-@@ -1,12 +1,13 @@
- SUMMARY = "the blessed package to manage your versions by scm tags"
- HOMEPAGE = "https://pypi.org/project/setuptools-scm/"
--DESCRIPTION = "setuptools_scm handles managing your Python package versions in SCM metadata instead of declaring them as the version argument or in a SCM managed file."
-+DESCRIPTION = "setuptools_scm handles managing your Python package \
-+versions in SCM metadata instead of declaring them as the version \
-+argument or in a SCM managed file."
+diff --git a/meta/recipes-devtools/python/python3-mako_1.2.4.bb b/meta/recipes-devtools/python/python3-mako_1.3.0.bb
+similarity index 73%
+rename from meta/recipes-devtools/python/python3-mako_1.2.4.bb
+rename to meta/recipes-devtools/python/python3-mako_1.3.0.bb
+index 9860058723c..d180e05ceac 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.2.4.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.3.0.bb
+@@ -2,13 +2,13 @@ SUMMARY = "Templating library for Python"
+ HOMEPAGE = "http://www.makotemplates.org/"
+ SECTION = "devel/python"
  LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=8227180126797a0148f94f483f3e1489"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=838c366f69b72c5df05c96dff79b35f2"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=ad08dd28df88e64b35bcac27c822ee34"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fcc01df649aee6c59dcb254c894ea0d4"
  
--SRC_URI[sha256sum] = "6c508345a771aad7d56ebff0e70628bf2b0ec7573762be9960214730de278f27"
-+SRC_URI[sha256sum] = "b5f43ff6800669595193fd09891564ee9d1d7dcb196cab4b2506d53a2e1c95c7"
+ PYPI_PACKAGE = "Mako"
  
--PYPI_PACKAGE = "setuptools_scm"
  inherit pypi python_setuptools_build_meta
  
- UPSTREAM_CHECK_REGEX = "scm-(?P<pver>.*)\.tar"
+-SRC_URI[sha256sum] = "d60a3903dc3bb01a18ad6a89cdbe2e4eadc69c0bc8ef1e3773ba53d44c3f7a34"
++SRC_URI[sha256sum] = "e3a9d388fd00e87043edbe8792f45880ac0114e9c4adc69f6e9bfb2c55e3b11b"
+ 
+ RDEPENDS:${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-markupsafe \
 -- 
-2.34.1
+2.42.0
 
 
