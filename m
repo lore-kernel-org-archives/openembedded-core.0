@@ -1,205 +1,114 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9065BC197A0
-	for <webhook@archiver.kernel.org>; Fri, 17 Nov 2023 11:06:43 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web11.9344.1700219192760839337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D253C197A0
+	for <webhook@archiver.kernel.org>; Fri, 17 Nov 2023 11:12:43 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.9057.1700219561845513103
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Nov 2023 03:06:33 -0800
+ Fri, 17 Nov 2023 03:12:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pbjZ/SOq;
- spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6998A2000A;
-	Fri, 17 Nov 2023 11:06:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700219190;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XYUp50gNJO9S+yb4+wMCU6kFt4K2hKc13le2Bu8WHyc=;
-	b=pbjZ/SOq/WW87+imNqL7FN4i2JlLSOSWZm1PAlwJgK+nyojmLAwZYgxQqXJTSe1mkXeOIZ
-	ZlCcGbIqGaRaxr2ISn6X9EwYXjB4PUQ3ktNuQNgyd6DaQvp0Rc3ubOHwdr76s9cYz1CUaG
-	oqhk2/lgclUrOAbe4DIznDHF8BXY1yFA8rotgNubhckW+tkb323YnYu4xnCXR0zyWZap46
-	A3hryeCL/3gPPGoYTjynucNYKaCUX1XbFkzDnAUdZlxEP88r0PBb36RoX7w15ZFmfDjoqj
-	qtztgnar1dhyuAja38t8birq5BWvpRy2dzP794P1nREgluYVYSTXeKr021Dd9Q==
-Date: Fri, 17 Nov 2023 12:06:30 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Markus Volk <f_l_k@t-online.de>
-Subject: Re: [OE-core] [PATCH v8 1/2] vte: upgrade 2.72.2 -> 2.74.0
-Message-ID: <20231117110630da1a7c99@mail.local>
-References: <20231115182417.415940-1-raj.khem@gmail.com>
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=pPEm/fE+;
+ spf=pass (domain: baylibre.com, ip: 209.85.167.41, mailfrom: jstephan@baylibre.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-507cee17b00so2405063e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 03:12:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1700219559; x=1700824359; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yxheyAbeqtzfBn8BlEtRKNU/86m2MEWVHj4M/cqyaDk=;
+        b=pPEm/fE+QcqfuguVbwM3Z+SC9iGo/F/8TghbN32ScuZ8CswAqvo4k5TlR+Vwv6Zter
+         pQUC8NV/40r49RShidHNUGs61SN/tcVWgBde5vevslrIiFkq3NCoPxiWdbhKe5yjc9p2
+         BVcYCRESb4oilzdsbaSx/xsaqIn/KUURKMpTrjcqghc7HQ4xqCFrx1Mal+vAuAom1nMS
+         Xtp2rToAXxqZtJ3ej8IyruIUqDKm+aJZap2O8ZE8AQ87udVB9AlbbtC7Ci/TFc+/+lk2
+         lB2TtWjYWetVoQFFlE8iBG6wO4C3c9VPv8kwDPaNvOslvzU/F0L95dwqboUEyBZx2Ug8
+         G/CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700219559; x=1700824359;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yxheyAbeqtzfBn8BlEtRKNU/86m2MEWVHj4M/cqyaDk=;
+        b=n5KHqOipAeOFW1nDmTo/mWwH57Bd/Nm3TbCDXIvVBeapyLbiq4xWB4wgHY1H3WggT7
+         2LEpVPAKFvygcvSM/FGXSSDvXEugfTitzz1t6o9ALTUwTzzV47aBdr3gK2zwePy2gPlt
+         6AOXyXArnQnK96+vMUnsZ4paRoUV6AMlniRg3TfyZqlLAjys6Ln79CWUmt6U7nKSLrsu
+         hq4dQtpN3JoVVr63jgs74w81NipcCGRzwAFSBrNIwlq8ARoKINryBWGLPQ71gJvZ88Fm
+         gaNHKRLDENTnNNOjyo7wZwi3lOoIfNNoMW6xQobkwGFSE0VEJpdosJ/5h40K4XnOk1wX
+         Uq1Q==
+X-Gm-Message-State: AOJu0YwB2r+2Ba5MopdoNNI2/ZuJgZRpUsqwm6WcT4a93WywUIOfuyy/
+	swJWGNXACydt5Q87jUk1E4MDVfDH0xhrRp4HwwK+nQ==
+X-Google-Smtp-Source: AGHT+IFjmj1dVYKRzOG8r4FAtJeW9QbGgysM7sAp8/IspvLWY06qCfRiKTEKgC4VMGpcmbVc1u8pdg==
+X-Received: by 2002:a05:6512:39c9:b0:50a:77c3:10c with SMTP id k9-20020a05651239c900b0050a77c3010cmr16085864lfu.27.1700219559081;
+        Fri, 17 Nov 2023 03:12:39 -0800 (PST)
+Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
+        by smtp.gmail.com with ESMTPSA id z5-20020adff745000000b0032d829e10c0sm1982440wrp.28.2023.11.17.03.12.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Nov 2023 03:12:38 -0800 (PST)
+From: Julien Stephan <jstephan@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH 3/7] recipetool: create: add trailing newlines
+Date: Fri, 17 Nov 2023 12:12:14 +0100
+Message-ID: <20231117111218.3344066-4-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231117111218.3344066-1-jstephan@baylibre.com>
+References: <20231117111218.3344066-1-jstephan@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231115182417.415940-1-raj.khem@gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 11:06:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190835
+ <openembedded-core@lists.openembedded.org>; Fri, 17 Nov 2023 11:12:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190839
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/8176/steps/21/logs/stdio
+create_recipe() function relies on oe.recipeutils.patch_recipe_lines()
+which relies on bb.utils.edit_metadata(). edit_metada expect lines to
+have trailing newlines, so add it to each line before calling
+patch_recipe_lines, otherwise edit_metadata will not be able to squash
+blank line if there are two consecutive blanks after a removal
 
-ERROR: core-image-sato-1.0-r0 do_rootfs: Multilib check error: duplicate files /home/pokybuild/yocto-worker/multilib/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/multilib/lib32/usr/share/glib-2.0/schemas/gschemas.compiled /home/pokybuild/yocto-worker/multilib/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/rootfs/usr/share/glib-2.0/schemas/gschemas.compiled is not the same
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ scripts/lib/recipetool/create.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-
-On 15/11/2023 10:24:15-0800, Khem Raj wrote:
-> From: Markus Volk <f_l_k@t-online.de>
-> 
-> Rework recipe
-> 
-> - remove legacy of the autotools buildsystem
-> - remove BBCLASSEXTEND
-> - build	vapi dependent on gi-data
-> - docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
->   a combination	where docs=true	and gir=false
-> - gtk+3 and gtk4 are requested by default-> add gtk4 depending
->   on DISTRO_FEATURE
-> - install systemd support files	depending on DISTRO_FEATURE
-> - update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-> 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v8: Rebased on latest tip of trunk
-> 
->  ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
->  .../vte/{vte_0.72.2.bb => vte_0.74.0.bb}      | 29 ++++++---------
->  2 files changed, 25 insertions(+), 39 deletions(-)
->  rename meta/recipes-support/vte/{vte_0.72.2.bb => vte_0.74.0.bb} (66%)
-> 
-> diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-> index b4100fc381e..8934d5f80a6 100644
-> --- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-> +++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-> @@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
->  Signed-off-by: Andreas M�ller <schnitzeltony@gmail.com>
->  
->  [1] https://gitlab.gnome.org/GNOME/vte/issues/72
-> -
->  ---
-> - src/missing.hh | 4 ++++
-> - src/widget.cc  | 1 +
-> - 2 files changed, 5 insertions(+)
-> + src/widget.cc  | 4 +++
-> + 1 files changed, 4 insertions(+)
->  
-> ---- a/src/missing.hh
-> -+++ b/src/missing.hh
-> -@@ -24,6 +24,10 @@
-> - #define NSIG (8 * sizeof(sigset_t))
-> - #endif
-> +diff --git a/src/widget.cc b/src/widget.cc
-> +index 07f7cabf..31a77f68 100644
-> +--- a/src/widget.cc
-> ++++ b/src/widget.cc
-> +@@ -16,6 +16,10 @@
-> +  * along with this library.  If not, see <https://www.gnu.org/licenses/>.
-> +  */
->   
->  +#ifndef W_EXITCODE
->  +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
->  +#endif
->  +
-> - #ifndef HAVE_FDWALK
-> - int fdwalk(int (*cb)(void* data, int fd),
-> -            void* data);
-> ---- a/src/widget.cc
-> -+++ b/src/widget.cc
-> -@@ -21,6 +21,7 @@
-> - #include "widget.hh"
-> - 
-> - #include <sys/wait.h> // for W_EXITCODE
-> -+#include "missing.hh" // for W_EXITCODE on non-glibc systems
-> + #include "config.h"
->   
-> - #include <exception>
-> - #include <new>
-> + #include "widget.hh"
-> +-- 
-> +2.42.0
-> +
-> diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-support/vte/vte_0.74.0.bb
-> similarity index 66%
-> rename from meta/recipes-support/vte/vte_0.72.2.bb
-> rename to meta/recipes-support/vte/vte_0.74.0.bb
-> index 44e71491f62..21203adcf79 100644
-> --- a/meta/recipes-support/vte/vte_0.72.2.bb
-> +++ b/meta/recipes-support/vte/vte_0.74.0.bb
-> @@ -16,32 +16,27 @@ DEPENDS = "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gperf-native i
->  GIR_MESON_OPTION = 'gir'
->  GIDOCGEN_MESON_OPTION = "docs"
->  
-> -inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection
-> +inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection vala
->  
-> -# vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
->  SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
-> -SRC_URI[archive.sha256sum] = "f7966fd185a6981f53964162b71cfef7e606495155d6f5827b72aa0dd6741c9e"
-> +SRC_URI[archive.sha256sum] = "9ae08f777952ba793221152d360550451580f42d3b570e3341ebb6841984c76b"
->  
->  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
->  
-> -# Help g-ir-scanner find the .so for linking
-> -do_compile:prepend() {
-> -    export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
-> -}
-> +EXTRA_OEMESON += "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=true', '-Dvapi=false', d)}"
-> +EXTRA_OEMESON:append = " ${@bb.utils.contains('GI_DATA_ENABLED', 'False', '-Ddocs=false', '', d)}"
->  
-> -# Package additional files
-> -FILES:${PN}-dev += "${datadir}/vala/vapi/*"
-> -
-> -PACKAGECONFIG ??= "gnutls"
-> -PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false,vala-native vala"
-> +PACKAGECONFIG ??= " \
-> +	gnutls \
-> +	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> +	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
-> +"
-> +PACKAGECONFIG[gtk4] = "-Dgtk4=true,-Dgtk4=false,gtk4"
->  PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
->  PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
-> -# vala requires gir
-> -PACKAGECONFIG:remove:class-native = "vala"
-> -
-> -CFLAGS += "-D_GNU_SOURCE"
->  
->  PACKAGES =+ "libvte ${PN}-prompt"
-> +FILES:${PN} +="${systemd_user_unitdir}"
->  FILES:libvte = "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
->  FILES:${PN}-prompt = " \
->      ${sysconfdir}/profile.d \
-> @@ -49,5 +44,3 @@ FILES:${PN}-prompt = " \
->  "
->  
->  FILES:${PN}-dev += "${datadir}/glade/"
-> -
-> -BBCLASSEXTEND = "native nativesdk"
-> -- 
-> 2.42.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190739): https://lists.openembedded.org/g/openembedded-core/message/190739
-> Mute This Topic: https://lists.openembedded.org/mt/102611065/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 293198d1c88..f5d541eb6c1 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -873,8 +873,10 @@ def create_recipe(args):
+         outlines.append('')
+     outlines.extend(lines_after)
+ 
++    outlines = [ line.rstrip('\n') +"\n" for line in outlines]
++
+     if extravalues:
+-        _, outlines = oe.recipeutils.patch_recipe_lines(outlines, extravalues, trailing_newline=False)
++        _, outlines = oe.recipeutils.patch_recipe_lines(outlines, extravalues, trailing_newline=True)
+ 
+     if args.extract_to:
+         scriptutils.git_convert_standalone_clone(srctree)
+@@ -890,7 +892,7 @@ def create_recipe(args):
+         log_info_cond('Source extracted to %s' % args.extract_to, args.devtool)
+ 
+     if outfile == '-':
+-        sys.stdout.write('\n'.join(outlines) + '\n')
++        sys.stdout.write(''.join(outlines) + '\n')
+     else:
+         with open(outfile, 'w') as f:
+             lastline = None
+@@ -898,7 +900,7 @@ def create_recipe(args):
+                 if not lastline and not line:
+                     # Skip extra blank lines
+                     continue
+-                f.write('%s\n' % line)
++                f.write('%s' % line)
+                 lastline = line
+         log_info_cond('Recipe %s has been created; further editing may be required to make it fully functional' % outfile, args.devtool)
+         tinfoil.modified_files()
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.42.0
+
 
