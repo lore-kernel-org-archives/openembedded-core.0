@@ -1,155 +1,215 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A37E7C5ACB3
-	for <webhook@archiver.kernel.org>; Sat, 18 Nov 2023 16:25:34 +0000 (UTC)
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
- by mx.groups.io with SMTP id smtpd.web11.11423.1700324732162829188
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D955FC2BB3F
+	for <webhook@archiver.kernel.org>; Sat, 18 Nov 2023 17:18:14 +0000 (UTC)
+Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
+ by mx.groups.io with SMTP id smtpd.web10.12645.1700327891057301513
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Nov 2023 08:25:32 -0800
+ Sat, 18 Nov 2023 09:18:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KdODBD0O;
- spf=pass (domain: gmail.com, ip: 209.85.161.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-58a0154b4baso1996549eaf.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Nov 2023 08:25:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700324731; x=1700929531; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nEsaOQWk+i9+sJ7cxfC+gRfxzqxd2FR3Kg1o9EkGueY=;
-        b=KdODBD0OcvRLwmve92A10+XZWFKrge0UucWksFGlumvQ52rXQU2opT/Y/UNKE7s7Ex
-         xjbAYQjHNXSn0VqaOF20pJ96RmDvhPZcXL5gDeZ18P6Uw/wEZUW7/H3oNAjG6OibihzD
-         e0xwyJWKuqcWbGQDdoTD0FrmPXo9qt8DBOupRVBpK490mTcvoZXM4TNzU+spcgshNWfm
-         ni8epDcXhEQrwLaliLWZSYizSVMxnyQuNOzbtcDyX2KzauT6sbI4DoJA9esIznh9Ve4u
-         NLZgfToy0enWHxOwjlx/icMn+piX0DSVykQzMk/Nnj13AcAlwZ1xmMF3gKJyxId93+Z9
-         c06w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700324731; x=1700929531;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nEsaOQWk+i9+sJ7cxfC+gRfxzqxd2FR3Kg1o9EkGueY=;
-        b=JIGDhFizquGdRdQJ82N1GNEeRYh01vaizT8R49Z3NyI2ju4v7VF83Y8dLITSAYCozM
-         PmQRtB0w0QVhUIJ7bLPQWfff9cQycp4vwPC7xjyZYEPKBt6muMR3vS85MYDJq58fTrw/
-         3JadCeqN05++D8c6dWGc6rSaEsHskt6utPblgzS6Sfhgytrrn8zU9CPKbM289k0JVryS
-         g7G8ZuK6TD1EcIRvi7e5wkcQsB9aqPwBTpbKT7XjsgR1pCPQy6NDFzvvuxDc4sFddmtk
-         rRbCgVpb9QOVV0kryN7PpZIiqeTghkPqePECoayOuUBRsZbi/DXUIqu8sivrUH5jiIKZ
-         IzQw==
-X-Gm-Message-State: AOJu0Yz/xMObFgOKyRurkj89qTngcAhQtKjWxvV6FOswrPTKv7UmJ0Kf
-	1pfzHkEP6k30OpL0pl7rHrwl1TZbQDa5Fe1/MRQ=
-X-Google-Smtp-Source: AGHT+IGOwUWdKfzicYflrx6R/7TMJmqKgsyNKD39/k7tfFoVh3dy8eNkyeGYttvnUzU5j35b8ZU2MzqRNoSG94RuiDI=
-X-Received: by 2002:a05:6870:d62b:b0:1f4:daf6:7918 with SMTP id
- a43-20020a056870d62b00b001f4daf67918mr1139410oaq.26.1700324731194; Sat, 18
- Nov 2023 08:25:31 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
+Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
+	by mailout07.t-online.de (Postfix) with SMTP id D0233520B1
+	for <openembedded-core@lists.openembedded.org>; Sat, 18 Nov 2023 18:18:08 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.154.170.27]) by fwd74.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1r4OxL-2BhMMz0; Sat, 18 Nov 2023 18:18:07 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] ffmpeg: Upgrade 6.0 -> 6.1
+Date: Sat, 18 Nov 2023 18:18:38 +0100
+Message-ID: <20231118171838.42190-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20231116115457.1462082-1-lukas.funke-oss@weidmueller.com> <20231116115457.1462082-5-lukas.funke-oss@weidmueller.com>
-In-Reply-To: <20231116115457.1462082-5-lukas.funke-oss@weidmueller.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 18 Nov 2023 08:25:05 -0800
-Message-ID: <CAMKF1sr7O6xDzUaOrJuhCwMtmR0zXKtD-z_Xhnth-yBwLi6adg@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v2 4/4] glibc: use nonarch libdir for tmpfiles.d
-To: Lukas Funke <lukas.funke-oss@weidmueller.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <quaresma.jose@gmail.com>, 
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>, 
-	Lukas Funke <lukas.funke@weidmueller.com>
-Content-Type: text/plain; charset="UTF-8"
+X-TOI-EXPURGATEID: 150726::1700327887-E4E0893F-041F45CC/0/0 CLEAN NORMAL
+X-TOI-MSGID: 6dfbf8e0-8a10-4383-abc0-add2bbe2fe6a
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 18 Nov 2023 16:25:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190864
+ <openembedded-core@lists.openembedded.org>; Sat, 18 Nov 2023 17:18:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190865
 
-I am still seeing
+-Remove patches that made it upstream
 
-ERROR: glibc-2.38+git-r0 do_package: QA Issue: glibc:
-Files/directories were installed but not shipped in any package:
-  /etc/tmpfiles.d
-  /etc/tmpfiles.d/nscd.conf
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ ...ops-clip-constants-used-with-shift-i.patch | 77 -------------------
+ ...bswscale-riscv-Fix-syntax-of-vsetvli.patch | 35 ---------
+ .../ffmpeg/{ffmpeg_6.0.bb =3D> ffmpeg_6.1.bb}   |  6 +-
+ 3 files changed, 2 insertions(+), 116 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-x8=
+6-mathops-clip-constants-used-with-shift-i.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libswscale=
+-riscv-Fix-syntax-of-vsetvli.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_6.0.bb =3D> ffmpeg_6.1.bb}=
+ (96%)
 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-x86-matho=
+ps-clip-constants-used-with-shift-i.patch b/meta/recipes-multimedia/ffmpe=
+g/ffmpeg/0001-avcodec-x86-mathops-clip-constants-used-with-shift-i.patch
+deleted file mode 100644
+index a47a20365f..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-x86-mathops-clip=
+-constants-used-with-shift-i.patch
++++ /dev/null
+@@ -1,77 +0,0 @@
+-From effadce6c756247ea8bae32dc13bb3e6f464f0eb Mon Sep 17 00:00:00 2001
+-From: =3D?UTF-8?q?R=3DC3=3DA9mi=3D20Denis-Courmont?=3D <remi@remlab.net>
+-Date: Sun, 16 Jul 2023 18:18:02 +0300
+-Subject: [PATCH] avcodec/x86/mathops: clip constants used with shift
+- instructions within inline assembly
+-
+-Fixes assembling with binutil as >=3D 2.41
+-
+-Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/comm=
+it/effadce6c756247ea8bae32dc13bb3e6f464f0eb]
+-Signed-off-by: James Almer <jamrial@gmail.com>
+----
+- libavcodec/x86/mathops.h | 26 +++++++++++++++++++++++---
+- 1 file changed, 23 insertions(+), 3 deletions(-)
+-
+-diff --git a/libavcodec/x86/mathops.h b/libavcodec/x86/mathops.h
+-index 6298f5ed19..ca7e2dffc1 100644
+---- a/libavcodec/x86/mathops.h
+-+++ b/libavcodec/x86/mathops.h
+-@@ -35,12 +35,20 @@
+- static av_always_inline av_const int MULL(int a, int b, unsigned shift)
+- {
+-     int rt, dummy;
+-+    if (__builtin_constant_p(shift))
+-     __asm__ (
+-         "imull %3               \n\t"
+-         "shrdl %4, %%edx, %%eax \n\t"
+-         :"=3Da"(rt), "=3Dd"(dummy)
+--        :"a"(a), "rm"(b), "ci"((uint8_t)shift)
+-+        :"a"(a), "rm"(b), "i"(shift & 0x1F)
+-     );
+-+    else
+-+        __asm__ (
+-+            "imull %3               \n\t"
+-+            "shrdl %4, %%edx, %%eax \n\t"
+-+            :"=3Da"(rt), "=3Dd"(dummy)
+-+            :"a"(a), "rm"(b), "c"((uint8_t)shift)
+-+        );
+-     return rt;
+- }
+-=20
+-@@ -113,19 +121,31 @@ __asm__ volatile(\
+- // avoid +32 for shift optimization (gcc should do that ...)
+- #define NEG_SSR32 NEG_SSR32
+- static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
+-+    if (__builtin_constant_p(s))
+-     __asm__ ("sarl %1, %0\n\t"
+-          : "+r" (a)
+--         : "ic" ((uint8_t)(-s))
+-+         : "i" (-s & 0x1F)
+-     );
+-+    else
+-+        __asm__ ("sarl %1, %0\n\t"
+-+               : "+r" (a)
+-+               : "c" ((uint8_t)(-s))
+-+        );
+-     return a;
+- }
+-=20
+- #define NEG_USR32 NEG_USR32
+- static inline uint32_t NEG_USR32(uint32_t a, int8_t s){
+-+    if (__builtin_constant_p(s))
+-     __asm__ ("shrl %1, %0\n\t"
+-          : "+r" (a)
+--         : "ic" ((uint8_t)(-s))
+-+         : "i" (-s & 0x1F)
+-     );
+-+    else
+-+        __asm__ ("shrl %1, %0\n\t"
+-+               : "+r" (a)
+-+               : "c" ((uint8_t)(-s))
+-+        );
+-     return a;
+- }
+-=20
+---=20
+-2.41.0
+-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libswscale-riscv-=
+Fix-syntax-of-vsetvli.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-=
+libswscale-riscv-Fix-syntax-of-vsetvli.patch
+deleted file mode 100644
+index 94e0ba6d10..0000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libswscale-riscv-Fix-syn=
+tax-of-vsetvli.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 85eefb65eb632d827e17a72518dd289dcd721084 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 2 Jul 2023 19:29:55 -0700
+-Subject: [PATCH] libswscale/riscv: Fix syntax of vsetvli
+-
+-Add missing operand which clang complains about but gcc assumes it to be
+-'m1' if not specifiied.
+-
+-Fixes building with clang
+-| src/libswscale/riscv/rgb2rgb_rvv.S:88:25: error: operand must be e[8|1=
+6|32|64|128|256|512|1024],m[1|2|4|8|f2|f4|f8],[ta|tu],[ma|mu]
+-|         vsetvli t4, t3, e8, ta, ma
+-|                         ^
+-
+-Upstream-Status: Submitted [https://ffmpeg.org/pipermail/ffmpeg-devel/20=
+23-July/311514.html]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- libswscale/riscv/rgb2rgb_rvv.S | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/libswscale/riscv/rgb2rgb_rvv.S b/libswscale/riscv/rgb2rgb_r=
+vv.S
+-index 5626d90..bbdfdbe 100644
+---- a/libswscale/riscv/rgb2rgb_rvv.S
+-+++ b/libswscale/riscv/rgb2rgb_rvv.S
+-@@ -85,7 +85,7 @@ func ff_interleave_bytes_rvv, zve32x
+-         mv      t3, a3
+-         addi    a4, a4, -1
+- 2:
+--        vsetvli    t4, t3, e8, ta, ma
+-+        vsetvli    t4, t3, e8, m1, ta, ma
+-         sub        t3, t3, t4
+-         vle8.v     v8, (t0)
+-         add        t0, t4, t0
+---=20
+-2.41.0
+-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb b/meta/recipes-=
+multimedia/ffmpeg/ffmpeg_6.1.bb
+similarity index 96%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.bb
+index e65f80d64b..6b5731d052 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.0.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.bb
+@@ -22,11 +22,9 @@ LIC_FILES_CHKSUM =3D "file://COPYING.GPLv2;md5=3Db234e=
+e4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv2.1;md5=3Dbd7a443320af8c812e4c18=
+d1b79df004 \
+                     file://COPYING.LGPLv3;md5=3De6a600fd5e1d9cbde2d98368=
+0233ad02"
+=20
+-SRC_URI =3D "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+-           file://0001-avcodec-x86-mathops-clip-constants-used-with-shif=
+t-i.patch \
+-           file://0001-libswscale-riscv-Fix-syntax-of-vsetvli.patch"
++SRC_URI =3D "https://www.ffmpeg.org/releases/${BP}.tar.xz"
+=20
+-SRC_URI[sha256sum] =3D "57be87c22d9b49c112b6d24bc67d42508660e6b718b3db89=
+c44e47e289137082"
++SRC_URI[sha256sum] =3D "488c76e57dd9b3bee901f71d5c95eaf1db4a5a31fe46a286=
+54e837144207c270"
+=20
+ # https://nvd.nist.gov/vuln/detail/CVE-2023-39018
+ # https://github.com/bramp/ffmpeg-cli-wrapper/issues/291
+--=20
+2.42.0
 
-         Please set FILES such that these items are packaged.
-Alternatively if they are unneeded, avoid installing them or delete
-them within do_install.
-
-On Thu, Nov 16, 2023 at 3:55=E2=80=AFAM Lukas Funke
-<lukas.funke-oss@weidmueller.com> wrote:
->
-> From: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>
->
-> The documentation of systemd states that /etc/tmpfiles.d should be
-> reserved for the local administrator and packages should put their files
-> in /usr/lib/tmpfiles.d [1].
->
-> [1] https://www.freedesktop.org/software/systemd/man/tmpfiles.d.html
->
-> Signed-off-by: Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller=
-.com>
-> Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
-> ---
->  meta/recipes-core/glibc/glibc-package.inc | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-cor=
-e/glibc/glibc-package.inc
-> index 1d4e4c5274..1ef987be0a 100644
-> --- a/meta/recipes-core/glibc/glibc-package.inc
-> +++ b/meta/recipes-core/glibc/glibc-package.inc
-> @@ -42,7 +42,7 @@ FILES_SOLIBSDEV =3D "${libdir}/lib*${SOLIBSDEV}"
->  FILES:${PN}-dev +=3D "${libdir}/libpthread.a ${libdir}/libdl.a ${libdir}=
-/libutil.a ${libdir}/libanl.a ${libdir}/*_nonshared.a ${base_libdir}/*_nons=
-hared.a ${base_libdir}/*.o ${datadir}/aclocal"
->  RDEPENDS:${PN}-dev =3D "linux-libc-headers-dev"
->  FILES:${PN}-staticdev +=3D "${libdir}/*.a ${base_libdir}/*.a"
-> -FILES:nscd =3D "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_sys=
-tem_unitdir}/nscd* ${sysconfdir}/tmpfiles.d/nscd.conf \
-> +FILES:nscd =3D "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_sys=
-tem_unitdir}/nscd* ${nonarch_libdir}/tmpfiles.d/nscd.conf \
->                ${sysconfdir}/nscd.conf ${sysconfdir}/default/volatiles/98=
-_nscd ${localstatedir}/db/nscd"
->  FILES:${PN}-mtrace =3D "${bindir}/mtrace"
->  FILES:tzcode =3D "${bindir}/tzselect ${sbindir}/zic ${bindir}/zdump"
-> @@ -132,9 +132,9 @@ def get_libc_fpu_setting(bb, d):
->
->  do_install:append:class-target() {
->         if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'fa=
-lse', d)}; then
-> -               install -d ${D}${sysconfdir}/tmpfiles.d
-> +               install -d ${D}${nonarch_libdir}/tmpfiles.d
->                 echo "d /run/nscd 755 root root -" \
-> -                       > ${D}${sysconfdir}/tmpfiles.d/nscd.conf
-> +                       > ${D}${nonarch_libdir}/tmpfiles.d/nscd.conf
->         fi
->
->         if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'f=
-alse', d)}; then
-> @@ -280,7 +280,7 @@ python populate_packages:prepend () {
->  pkg_postinst:nscd () {
->         if [ -z "$D" ]; then
->                 if command -v systemd-tmpfiles >/dev/null; then
-> -                       systemd-tmpfiles --create ${sysconfdir}/tmpfiles.=
-d/nscd.conf
-> +                       systemd-tmpfiles --create ${nonarch_libdir}/tmpfi=
-les.d/nscd.conf
->                 elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; th=
-en
->                         ${sysconfdir}/init.d/populate-volatile.sh update
->                 fi
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190789): https://lists.openembedded.org/g/openembedde=
-d-core/message/190789
-> Mute This Topic: https://lists.openembedded.org/mt/102625108/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
