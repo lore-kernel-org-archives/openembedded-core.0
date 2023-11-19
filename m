@@ -1,209 +1,109 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E973CC072A2
-	for <webhook@archiver.kernel.org>; Sun, 19 Nov 2023 10:27:59 +0000 (UTC)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
- by mx.groups.io with SMTP id smtpd.web11.25778.1700389672436455635
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C16C072A2
+	for <webhook@archiver.kernel.org>; Sun, 19 Nov 2023 11:18:00 +0000 (UTC)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+ by mx.groups.io with SMTP id smtpd.web11.26190.1700392678781076685
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Nov 2023 02:27:52 -0800
+ Sun, 19 Nov 2023 03:17:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gSZbIQFy;
- spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-677f8d5978cso7884866d6.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Nov 2023 02:27:52 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZmXZlzUQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.217.48, mailfrom: steve@sakoman.com)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-462a1a2717aso32204137.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 19 Nov 2023 03:17:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700389671; x=1700994471; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P0hsrw2wvcUjTDSZNdJhao21xe3btaRqbXCaKpg0kmc=;
-        b=gSZbIQFyEfRxfCYdnXx59AvSKmG+8cVDbJkMCatsTgTFApjk0KXz4Sw68TVUXq0iWC
-         PBBDjguo2A9MSg82T8ESWnJ0oq3LgDXnaw0WBhpPQnAJkJL8OjFcv1PiCD2GgD/TW0qA
-         jHSWNX7R8Y772OBZ6S0AIiquQmSLSg6z6YnTUEcprkbfBS7z9cgU+zF9McNiFhyIvCfO
-         Iwa0NrmWF18Q/TVitQuyT3J8jahBf0G7R0Y6Uvd91jLGMJ+g4akbpTBfVmr/PZLcQFCk
-         CCzQPFJ9Tuc8m40yIeFLu7DagExCXsLsj8nvt6W+RSC/uEx6Us6RWZ1xveuJRX8AYep3
-         ZkLQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700392677; x=1700997477; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sA0PcM476K+jCfBusJmyjmdlpOnleit0MKDOAOVAdRQ=;
+        b=ZmXZlzUQpE9Qmw0+H7MPwflhR/mZZCz4Ny6tdjGAsvSZSZrwTB9MpvCCnUMD/ewUbx
+         EVPCxqbBG38XFTDWmAaYihytcR2qZ1zRAyURzOtTLcxfMmbNW/ReDB8NmGjq3s0WNyxr
+         IJ6WlPRvPWhApENM4kMZ5OMcVH1sEWCPbt+dKHSnx6p7t1FOPAjxwvIvjg0gzYCTC3C0
+         NdEsw8NeFq+lrxvvTgRCIA2WKLYcT6ouZD7mWwfH/oFVFt1s+i9kLPGA1BE1Dc3KEMS7
+         z0ZXPgsiFT7LJvk27/6gNeyGlB7Gd+d35xOtK3WvKxf6jaBZB+dIZam5Ws10tGd/Wd3X
+         e8hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700389671; x=1700994471;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P0hsrw2wvcUjTDSZNdJhao21xe3btaRqbXCaKpg0kmc=;
-        b=a99kLf7KjgleCw5JfXEEpl/zw252OdF0jXpkM7q7HmI9jH3GZylL7anC8Ez4UQYgnK
-         bxD2JQKD2GshVYt4EIwXjjPBSnBKLjhELg/vu74D+D/OZAN1KMr+asmQsV1TNp8oa+Y7
-         YF6DeqBuTAeikbNYxvMn4Wk1RQQ7spReKdjXA48J3jv3Dtg9rbxvtfKq0Mi8zBY/LaE/
-         X7POA8ysmlr5swWLd73phENIjN3Gx3zJP/bZCGz9DdZTcyxj+lJtAb47b2WmJaHD3A/f
-         kW3iTgcPppJ81xMngxmZjeUd5FNkWJRBIYqGCp1X3iXkQZB4uF+4i8lREoUHUD5gGQfx
-         /jFw==
-X-Gm-Message-State: AOJu0Yx6MJ4F5cWPyGsumF0JQyGWMQ9TI85kMWpbmnIifhGa4VXncO7i
-	YC6UOiH4KHgGgs2fHEjBkDDiqwNQfhENrFjz6N1ASkcG
-X-Google-Smtp-Source: AGHT+IE94Pqbv32wkuedPuJA5bxWBuT+SG/HjDd27eM/7r8HjlC67vvFDeBZPt7wcYxMZ3SYXM66CYiesIlV9t6u0e4=
-X-Received: by 2002:a05:6214:c83:b0:66d:139f:34cd with SMTP id
- r3-20020a0562140c8300b0066d139f34cdmr5693114qvr.13.1700389671331; Sun, 19 Nov
- 2023 02:27:51 -0800 (PST)
-MIME-Version: 1.0
-References: <179873E1B6040C02.6542@lists.openembedded.org> <CA+cAkeofOq5rDdDdGq2pWEbOadtAYyaHdEp-0i-30A3sgybi2A@mail.gmail.com>
-In-Reply-To: <CA+cAkeofOq5rDdDdGq2pWEbOadtAYyaHdEp-0i-30A3sgybi2A@mail.gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Sun, 19 Nov 2023 11:27:40 +0100
-Message-ID: <CA+cAkeo3cYR=pFipM_EYWys7F3RKpkZGMUfvyZePi2gbVg3Hrw@mail.gmail.com>
-Subject: Re: [OE-core] Migration dunfell to kirkstone , init manager issue
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000056e99a060a7ed277"
+        d=1e100.net; s=20230601; t=1700392677; x=1700997477;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sA0PcM476K+jCfBusJmyjmdlpOnleit0MKDOAOVAdRQ=;
+        b=hZIJUScp7xHyjmk3sivcaZYYj82a9I4xIAsoQyJZf/JR+tI4pQ67fOwcQItNHFO7PH
+         SbSHWeJk1BKdb4LEXeaIszVxt+5EfsbB9h7tJxc49pC38lFG3PmXpoMNVFjydXn9VA/N
+         NJxdidVXc8jXq696GcvvtwgfrJJAvV0sciUj+hvlbLYhY6gEQev+zcQml9NEqHJgnAq7
+         zK5E5BmO5hJP1GpcfRaCntGpIB1zqkyqdPJaQ9WmQaJZ8pf/CtChuGCPDs8ztX/fbld9
+         gMqjoQEW325Dd1DAq9JSQJXJTznpAx6CG2oiWcVtka0ItXno9CTVxzK0iSm7fffT3X4G
+         ynMw==
+X-Gm-Message-State: AOJu0Ywgg9J+dIKxVCKcD5sSQq0p7hhZKFVLTZz0QdS4Gh71ZjSDdjOS
+	sDES04HqXMYoIQQhplTuI+cRE1Psy8as/G9k04S91A==
+X-Google-Smtp-Source: AGHT+IG0HBAX9YW4LsGTwaV8GJQgoLZrH2hb+yp775iVoE+cB4MnjRn2T81JfUyXCfqDjqkUtTFByg==
+X-Received: by 2002:a67:f5d4:0:b0:45d:91f6:2796 with SMTP id t20-20020a67f5d4000000b0045d91f62796mr3919817vso.26.1700392677073;
+        Sun, 19 Nov 2023 03:17:57 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id g21-20020ac84dd5000000b004181d77e08fsm1884883qtw.85.2023.11.19.03.17.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Nov 2023 03:17:56 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 8687A1069DF; Sun, 19 Nov 2023 01:17:55 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 19 Nov 2023 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 19 Nov 2023 01:17:55 -1000
+Message-Id: <20231119111755.8687A1069DF@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Nov 2023 10:27:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190870
+ <openembedded-core@lists.openembedded.org>; Sun, 19 Nov 2023 11:18:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190871
 
---00000000000056e99a060a7ed277
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Branch: master
 
-Le sam. 18 nov. 2023, 20:12, Fr=C3=A9d=C3=A9ric Martinsons <
-frederic.martinsons@gmail.com> a =C3=A9crit :
+New this week: 5 CVEs
+CVE-2023-45283 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45283 *
+CVE-2023-45284 (CVSS3: 5.3 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45284 *
+CVE-2023-47233 (CVSS3: 4.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47233 *
+CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
+CVE-2023-5678 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5678 *
 
-> I saw in log.do_rootfs that update_alternatives task links /sbin/init to
-> busybox.
-> I saw also that the default config (init.cfg) have CONFIG_INIT=3Dy (in
-> openembedded-core layer), dunfell also had it too but, in the end, it was
-> not taken into account.
->
-> I'll look further about busybox config and update-alternatives class
-> unless someone here have a clue about what is going on.
->
+Removed this week: 0 CVEs
 
-In the end, I managed to get back systemd as init system by adding an
-append to busybox and set explictely "CONFIG_INIT is not set"
-I gave up on understanding this change of behavior towards how it was done
-on dunfell (simply set INIT_MANAGER=3D"systemd")
+Full list:  Found 34 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2023-0687 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0687 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
+CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-38469 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38469 *
+CVE-2023-38470 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38470 *
+CVE-2023-38471 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38471 *
+CVE-2023-38472 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38472 *
+CVE-2023-38473 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38473 *
+CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
+CVE-2023-39928 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39928 *
+CVE-2023-40030 (CVSS3: 6.1 MEDIUM): rust:rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40030 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
+CVE-2023-45283 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45283 *
+CVE-2023-45284 (CVSS3: 5.3 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45284 *
+CVE-2023-46246 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46246 *
+CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
+CVE-2023-47233 (CVSS3: 4.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47233 *
+CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
+CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
+CVE-2023-5678 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5678 *
 
-
-
-> Le ven. 17 nov. 2023, 16:51, Frederic Martinsons via
-> lists.openembedded.org <frederic.martinsons=3D
-> gmail.com@lists.openembedded.org> a =C3=A9crit :
->
->> Hello,
->>
->> I recently started upgrading my system from dunfell to kirkstone and I
->> started with a basic (but custom nonetheless) qemu image that I used in
->> dunfell (before starting machine/distro specific ops).
->>
->> After several corrections , many thanks by the way for the various
->> convert scripts !, I managed to get my qemu image built on kirkstone.
->>
->> But when I didn't manage to boot it correctly (I used qemu-system-x86-64
->> of my  host)  and every second on prompt I got these messages
->>
->> process '-/bin/sh' (pid 143) exited. Scheduling for restart.
->> process '-/bin/sh' (pid 144) exited. Scheduling for restart.
->> process '-/bin/sh' (pid 145) exited. Scheduling for restart.
->> can't open /dev/tty2: No such file or directory
->> can't open /dev/tty3: No such file or directory
->> can't open /dev/tty4: No such file or directory
->>
->> I looked into it more and found that the init system is set to busybox
->> (/sbin/init point to /bin/busybox.nosuid).
->> My system needs systemd as init manager  and I verify that I have set
->> INIT_MANAGER=3D"systemd" in my configuration (I even perform a bitbake -=
-e to
->> check that this is not overridden).
->>
->> Can someone please tell me where to look (which log file, or some oe
->> tools that I can use)  to find why systemd is not used as the init manag=
-er ?
->>
->> Thanks.
->>
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#190853):
->> https://lists.openembedded.org/g/openembedded-core/message/190853
->> Mute This Topic: https://lists.openembedded.org/mt/102649719/6213388
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> frederic.martinsons@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
-
---00000000000056e99a060a7ed277
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Le sam. 18 nov. 2023, 20:12, Fr=C3=A9d=C3=A9ric Martin=
-sons &lt;<a href=3D"mailto:frederic.martinsons@gmail.com">frederic.martinso=
-ns@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div dir=3D"auto">I saw in log.do_rootfs that update_alternatives tas=
-k links /sbin/init to busybox.=C2=A0<div dir=3D"auto">I saw also that the d=
-efault config (init.cfg) have CONFIG_INIT=3Dy (in openembedded-core layer),=
- dunfell also had it too but, in the end, it was not taken into account.=C2=
-=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">I&#39;ll look furthe=
-r about busybox config and update-alternatives class unless someone here ha=
-ve a clue about what is going on.=C2=A0</div></div></blockquote></div></div=
-><div dir=3D"auto"><br></div><div dir=3D"auto">In the end, I managed to get=
- back systemd as init system by adding an append to busybox and set explict=
-ely &quot;CONFIG_INIT is not set&quot;</div><div dir=3D"auto">I gave up on =
-understanding this change of behavior towards how it was done on dunfell (s=
-imply set INIT_MANAGER=3D&quot;systemd&quot;)=C2=A0</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto"><br></div><div dir=3D"auto"></div><div dir=3D"a=
-uto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le ven. 17 nov. 20=
-23, 16:51, Frederic Martinsons via <a href=3D"http://lists.openembedded.org=
-" target=3D"_blank" rel=3D"noreferrer">lists.openembedded.org</a> &lt;frede=
-ric.martinsons=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
-=3D"_blank" rel=3D"noreferrer">gmail.com@lists.openembedded.org</a>&gt; a =
-=C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">=
-Hello,<div><br></div><div>I recently started upgrading my system from dunfe=
-ll to kirkstone and I started with a basic (but custom nonetheless) qemu im=
-age that I used in dunfell (before starting machine/distro specific ops).</=
-div><div><br></div><div>After several corrections , many thanks=C2=A0by the=
- way for the various convert=C2=A0scripts !, I managed to get my qemu image=
- built on kirkstone.</div><div><br></div><div>But when I didn&#39;t manage =
-to boot it correctly (I used qemu-system-x86-64 of my=C2=A0 host)=C2=A0 and=
- every second on prompt I got these messages</div><div><br></div><div>proce=
-ss &#39;-/bin/sh&#39; (pid 143) exited. Scheduling for restart.<br>process =
-&#39;-/bin/sh&#39; (pid 144) exited. Scheduling for restart.<br>process &#3=
-9;-/bin/sh&#39; (pid 145) exited. Scheduling for restart.<br>can&#39;t open=
- /dev/tty2: No such file or directory<br>can&#39;t open /dev/tty3: No such =
-file or directory<br>can&#39;t open /dev/tty4: No such file or directory<br=
-></div><div><br></div><div>I looked into it more and found that the init sy=
-stem is set to busybox (/sbin/init point to /bin/busybox.nosuid).</div><div=
->My system needs systemd as init manager=C2=A0 and I verify that I have set=
- INIT_MANAGER=3D&quot;systemd&quot; in my configuration (I even perform a b=
-itbake -e to check that this is not overridden).</div><div><br></div><div>C=
-an someone please tell me where to look (which log file, or some oe tools t=
-hat I can use)=C2=A0 to find why systemd is not used as the init manager ?<=
-/div><div><br></div><div>Thanks.</div><div><br></div><div><br></div></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#190853): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/190853" rel=3D"noreferrer noreferrer noreferrer" ta=
-rget=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/=
-190853</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102649719/621=
-3388" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://li=
-sts.openembedded.org/mt/102649719/6213388</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" rel=3D"noreferrer noreferrer" target=3D"_blank">openembedded-core+own=
-er@lists.openembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://l=
-ists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:fred=
-eric.martinsons@gmail.com" rel=3D"noreferrer noreferrer" target=3D"_blank">=
-frederic.martinsons@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-</blockquote></div></div></div>
-
---00000000000056e99a060a7ed277--
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
