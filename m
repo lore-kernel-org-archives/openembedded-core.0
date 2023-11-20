@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19C5AC5AE5C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 047C4C5AE5B
 	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 16:39:33 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.609.1700498367622878133
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.631.1700498371348716756
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 08:39:27 -0800
+ Mon, 20 Nov 2023 08:39:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=p7uOpbKO;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5bd6ac9833fso2499852a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:39:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RtQFdVpk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1cf6373ce31so6376765ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:39:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498366; x=1701103166; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498370; x=1701103170; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UA7YdednANPv1zRKaT9FQhvM1osO5S6mEJINP/svuoI=;
-        b=p7uOpbKO6Jq359E0n5MUpzuoKjozdBmuieVgdEaw+m5pbDH8KFnRxSzIjPVNCNMF+r
-         CfomWmaipAOu0qbCz6qmnPh3QhEtNBscCz2vbscdGyufAszQuKuZSz+Y8PWyqfjEhU36
-         u4bc+JrWToAEB8J3wCZ01w0IY4gi2uPfuwgdkPvLfFWkPqxsYIEFkgPRkzjykbxXBOYy
-         gXO/Q6yKXfPammsPviKIr0ApK3v4QttwnW7XJT/tQyXVrsfkGr3W6NdbD3173HoJulQP
-         EZeqysUb/7b6f1k8VBz0v+fvqy4qsP/7RbXUp7ZFCZC7660VY3BTEui3GqsU/fE0W4ab
-         M9VA==
+        bh=fXySRxg+TjBqsX4RWzyaNWYOTyMDdk5Qop+dwQhVKxE=;
+        b=RtQFdVpkU+2KyhJ2UH6Az0Nza68VTsBhEOm6OGkzqZZBOTjA5XzhEi+z1S5kJKTg7i
+         d4q4J4PBKivAObgNYKyT3R16eGGKIcErtmrwFoZxYNI4MP+PMvRpVMaZea6UVH3uro3R
+         B8aB8xajsl1BJd13PkRfryYlyIlTbIPr5rjxN+aSjv9eJ9fplkOcRB5Cq/ANBpx1EdIs
+         XoYRl06WaBCSpQAljcb841UiYSbyivjJnGpC4zp8liZFMdGsZXRwoh/x6uQw93bpk32X
+         58E7/AAMy5MfgW/0jhdnutwwG7jQkV3tirZAfsunF/gsGS3EEIqNQyJ76wmKUvz9h2Ry
+         lwVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700498366; x=1701103166;
+        d=1e100.net; s=20230601; t=1700498370; x=1701103170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UA7YdednANPv1zRKaT9FQhvM1osO5S6mEJINP/svuoI=;
-        b=jEXzQYaGXy0yU98/CRpYIkpQMdPQf32DqIETcPmUWhlIQ/Rk4M0wGNoVJX5b3/ZjzS
-         iSendkCMhNOsngY1y8JXUbsrcnDoXAfJV9/6+dObnXK3f5wGsJ77OtBzNGiDTjE2Y/BG
-         xN6MC59CAZZvG8i8sQ2SYUuCAtejdhrS0XFpau3wpQVpAQEMwvMrpmYhbDg/2eZPBIYl
-         rPzyPNq/dn7kQPMeRFxSe9vLc0hrJkKXTw8Oqn+zgWLG5dkGE367IfQBx8OX7i+vguKr
-         olvfsb/QGpXVRl/b8ZWLTJPV0OuTtugipvryOgzCkkmq/GDLPhRG9AFuMX6C4DlsvBFC
-         SRTA==
-X-Gm-Message-State: AOJu0YzvuINKfYwlGlZIZlvl6QJ8MRimRJ+52D3iHWKYGAFIc6csUVJs
-	S9HnQqJU5+oGltozjrOoeMiIOCwPRitb4VHt6jDkhA==
-X-Google-Smtp-Source: AGHT+IE3yAsbBp3c3yOHlh2/gzSBNsWaq4yKgUqsULjG27hr+CMzlTL/EQWN/l+UJ3xJeRCW8003rw==
-X-Received: by 2002:a05:6a20:158b:b0:187:b9a6:61d4 with SMTP id h11-20020a056a20158b00b00187b9a661d4mr6289391pzj.47.1700498366472;
-        Mon, 20 Nov 2023 08:39:26 -0800 (PST)
+        bh=fXySRxg+TjBqsX4RWzyaNWYOTyMDdk5Qop+dwQhVKxE=;
+        b=gT3V9/GS2V5cW8GgNm5mUVa+cvZZMW+D+wa7o925HwA2xlEXHkFF0v1T/gQJhL3SF0
+         +MzYpB89luvpZ9tViy5Ohm8wG+ICkTXo422mLEU8R4HKUlmCoFubuLxzjuSLKqIcF9a5
+         D/FaWEhF+2uGxIgmUO2H9GFDF+RiKpNFYk3v71Dtr/QA034dDCjHUBYpqCBR3BwBbLZD
+         oxUKN6Rpe60+ervGoNeQkWeESOuopQKSMuhkONTZ/9avzHaa4OXFC4PBGNMylnLTZmrE
+         G+5npT5AUS054X/ildGkcbT4nv67guflHmcvucCBz5H0wgOkwM2aQaWDg9EQwvgQYCLD
+         Q5Jg==
+X-Gm-Message-State: AOJu0YxGjLk6ohB/URq/joOO476+Wb5cOMDkfGx/MCNrVbKwXM/XwCa0
+	i7t71RscCEtveCiO0ru3ZTe+E8mnWOTpOg1KHRqhRA==
+X-Google-Smtp-Source: AGHT+IExmoAeHeqwajkCY9byPSURi9X0EZ5mN4WNrmbjLdMDVk7qLLPkmALSbExh5PH+/fS25fnJqw==
+X-Received: by 2002:a17:903:188:b0:1ce:b83f:bd0c with SMTP id z8-20020a170903018800b001ceb83fbd0cmr19496plg.7.1700498370312;
+        Mon, 20 Nov 2023 08:39:30 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.39.25
+        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.39.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 08:39:26 -0800 (PST)
+        Mon, 20 Nov 2023 08:39:29 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 16/33] baremetal-helloworld: Pull in fix for race condition on x86-64
-Date: Mon, 20 Nov 2023 06:38:30 -1000
-Message-Id: <fd187832cafff2adc34df04abdc9503dcf8ca594.1700496737.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 18/33] patchtest: test regardless of mergeability
+Date: Mon, 20 Nov 2023 06:38:32 -1000
+Message-Id: <aa2e3b4218b9bab00a895f470e6abcc4c1ea6358.1700496737.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700496737.git.steve@sakoman.com>
 References: <cover.1700496737.git.steve@sakoman.com>
@@ -61,39 +61,82 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 16:39:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190905
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190907
 
-From: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+From: Trevor Gamblin <tgamblin@baylibre.com>
 
-It was previously discovered that there was a race condition during the Makefile
-execution between the assemble and compile targets, the previous fix attempted
-to serialize the build targets, but the fix was missing for x86-64.
-
-Pull in latest commit from upstream to fix this issue on x86-64.
-
-[YOCTO #15146]
-
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e7e1631a1efbcf421de801e94734f67f25668540)
+(cherry picked from commit dc089073eb120de76c8907e476c341ed3e97c164)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../baremetal-example/baremetal-helloworld_git.bb               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py | 5 -----
+ meta/lib/patchtest/tests/test_metadata_license.py          | 5 -----
+ meta/lib/patchtest/tests/test_metadata_summary.py          | 5 -----
+ meta/lib/patchtest/tests/test_python_pylint.py             | 2 --
+ 4 files changed, 17 deletions(-)
 
-diff --git a/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-index fde75ec2fd..6832ccc541 100644
---- a/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-+++ b/meta/recipes-extended/baremetal-example/baremetal-helloworld_git.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "These are introductory examples to showcase the use of QEMU to ru
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=39346640a23c701e4f459e05f56f4449"
+diff --git a/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py b/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
+index b2c32507ff..cb3e7c9d34 100644
+--- a/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
++++ b/meta/lib/patchtest/tests/test_metadata_lic_files_chksum.py
+@@ -15,11 +15,6 @@ class LicFilesChkSum(base.Metadata):
+     lictag   = 'License-Update'
+     lictag_re  = pyparsing.Regex("^%s:" % lictag)
  
--SRCREV = "fc7c43d138185028b6ac14c83f6492fce26eca95"
-+SRCREV = "db2bf750eaef7fc0832e13ada8291343bbcc3afe"
- PV = "0.1+git"
+-    def setUp(self):
+-        # these tests just make sense on patches that can be merged
+-        if not PatchTestInput.repo.canbemerged:
+-            self.skip('Patch cannot be merged')
+-
+     def test_lic_files_chksum_presence(self):
+         if not self.added:
+             self.skip('No added recipes, skipping test')
+diff --git a/meta/lib/patchtest/tests/test_metadata_license.py b/meta/lib/patchtest/tests/test_metadata_license.py
+index a5bc03b83f..1a7f09b747 100644
+--- a/meta/lib/patchtest/tests/test_metadata_license.py
++++ b/meta/lib/patchtest/tests/test_metadata_license.py
+@@ -12,11 +12,6 @@ class License(base.Metadata):
+     metadata = 'LICENSE'
+     invalid_license = 'PATCHTESTINVALID'
  
- SRC_URI = "git://github.com/ahcbb6/baremetal-helloqemu.git;protocol=https;branch=master"
+-    def setUp(self):
+-        # these tests just make sense on patches that can be merged
+-        if not PatchTestInput.repo.canbemerged:
+-            self.skip('Patch cannot be merged')
+-
+     def test_license_presence(self):
+         if not self.added:
+             self.skip('No added recipes, skipping test')
+diff --git a/meta/lib/patchtest/tests/test_metadata_summary.py b/meta/lib/patchtest/tests/test_metadata_summary.py
+index 1502863df0..170e79eb4b 100644
+--- a/meta/lib/patchtest/tests/test_metadata_summary.py
++++ b/meta/lib/patchtest/tests/test_metadata_summary.py
+@@ -10,11 +10,6 @@ from data import PatchTestInput
+ class Summary(base.Metadata):
+     metadata = 'SUMMARY'
+ 
+-    def setUp(self):
+-        # these tests just make sense on patches that can be merged
+-        if not PatchTestInput.repo.canbemerged:
+-            self.skip('Patch cannot be merged')
+-
+     def test_summary_presence(self):
+         if not self.added:
+             self.skip('No added recipes, skipping test')
+diff --git a/meta/lib/patchtest/tests/test_python_pylint.py b/meta/lib/patchtest/tests/test_python_pylint.py
+index 9cfc491a13..304b2d5ee9 100644
+--- a/meta/lib/patchtest/tests/test_python_pylint.py
++++ b/meta/lib/patchtest/tests/test_python_pylint.py
+@@ -26,8 +26,6 @@ class PyLint(base.Base):
+     def setUp(self):
+         if self.unidiff_parse_error:
+             self.skip('Python-unidiff parse error')
+-        if not PatchTestInput.repo.canbemerged:
+-            self.skip('Patch cannot be merged, no reason to execute the test method')
+         if not PyLint.pythonpatches:
+             self.skip('No python related patches, skipping test')
+ 
 -- 
 2.34.1
 
