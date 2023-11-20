@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FACAC197A0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B3D3C5AE5B
 	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 16:39:53 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.web11.649.1700498389589328181
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+ by mx.groups.io with SMTP id smtpd.web10.627.1700498393014286263
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 08:39:49 -0800
+ Mon, 20 Nov 2023 08:39:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZXwAU1N5;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.174, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3b2df2fb611so3333896b6e.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:39:49 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SW3PcxPB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.169, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-35749078a59so12408915ab.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:39:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498388; x=1701103188; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498392; x=1701103192; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BstJjODz7uGY3FQlmtrGKH232/qPeLK8Bjexm+xDA1g=;
-        b=ZXwAU1N5K8DhDe75An3l5c4u2y3lM0N1AFegTARZWad+zLFYDOJIzB4ZvUuq0bbrc6
-         zndXzTZn2+6wq29RrXc26hnjPPbQPg023efCCGZzwHLXLdo07wGEMeVfuxDH36xsX0E6
-         0nRW2icWiqLkouYbu5tvussD7jABE4mNXgHa3XWcLPmBf1O+owVkaarW2LtURNUJg4+o
-         z2oHOuLZYSgz/6ijcIjC0IIUBOL+0ziasObmiaUkrd2TKfEsosleveQOFrP+0jZGrr4C
-         I+Kb28k6bB4ddlNj7THZsQFov+QyzT+juj8jqTi82ifJ7LPC6ytIWtEb6q6UwsBc414B
-         Hxbg==
+        bh=iOAuzL4onpCQ3AJ+upQyFx0xMBqZO2TZ4XqgHb9R148=;
+        b=SW3PcxPB1AQZ1wTg6dtR0vqDoEMiq/Kts8pzV//wvbFNtYa/LpTIdW45h+/4FFDxii
+         2g7lrufY+F6ugljUX69wZXXEsy8+ieVAPYNpqJwvpWQBigMDY0HTAc+XaLpFvoKA+zX6
+         DkWZU6oU3oiuf6tcY7Gvi+zFVxJyjtEjuvn/wsYl/Myu/OfOcbD8U6CxpQC+wxgyslEw
+         NFTrZxjalOB7WL/8vJUBRZfqML94uwCD7LiBciaGTV5jfDBwGjXescGhTanmkZd5x8rk
+         cYeJKxBMtHuXa2c2ElIYMhRE5U4WyRN570MLl/I37GJwY2fVRC+3sDkNytJzSArUXnXr
+         tKEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700498388; x=1701103188;
+        d=1e100.net; s=20230601; t=1700498392; x=1701103192;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BstJjODz7uGY3FQlmtrGKH232/qPeLK8Bjexm+xDA1g=;
-        b=jbpkIhHJpKojt3TKRI2Jtu/+Azwtkmvv1Ra+8g7Okdu+FH4zABb3nzeNN/tvLlXGLv
-         d4zpExcldLzHJtDyKIKMr3Qx6pQP8diTTnTvAb3Y4bYYDp64y+mF+rQUjcY+5OKhtJ4Z
-         2r98/0P/Todom3ciFOOGOV8C+9M2J5yBl0qDYgBcxhGndofsuVAdw1T1l4CS8pIXuq42
-         fphstaWr07h4WgWT6st+IpdcHZQ2H9EJgxjYkUFtGlX2SY6TXRs6bd2r2zotpuKs+50O
-         tbEA3Fe1khUcPPLztJrhRHtvQnh+GwKlh3lR6rW+zlJ3XzhVjp2i+a1hcgvaw40wP8rK
-         Hq4g==
-X-Gm-Message-State: AOJu0Yyifhikhs1/AcHBqsBFG1P7/TJLb0mn3lq057I3khtoEqJc6Dm/
-	fox5JcLb85Ed0obdSD8HCLyQJtYQg6yy7l2H5nm+BQ==
-X-Google-Smtp-Source: AGHT+IHAey5GecYD/5+zpuR4c53WGsP0TEDvDYNgkaRnJDWE3eH9UHQUzzjRlLbFhKUBOWSTSHwYSQ==
-X-Received: by 2002:a05:6808:10c7:b0:3b6:4e53:e7ac with SMTP id s7-20020a05680810c700b003b64e53e7acmr11774415ois.56.1700498387948;
-        Mon, 20 Nov 2023 08:39:47 -0800 (PST)
+        bh=iOAuzL4onpCQ3AJ+upQyFx0xMBqZO2TZ4XqgHb9R148=;
+        b=W/RP6TjvZ2wFaGkolvsscpuWYUVPhqw0eTuP5T8LrMgfVxZFF1ce2EC4/3WkViW0Re
+         lMEG5wq58nYWSjCpz78yYBbxOyrxy+VRxzWCa3YA56a8C4FWlxxNYsdDHxiP+qeDDM8N
+         +XxtFArSJ9juAVytzH+sThQrZi46OtgugfGCB07vdhfUPLl7zMCIBeI6eCXtGfP3NhXU
+         F3YTvnN46ztU+PzP7bf0JVkkt7u0bqAYarWIPpGs+PsqI7r2ahvHszcCdpW0EXnrHhly
+         s+dl8m66TGR9pKGx3oi3OKUEEcuEWqzOQIX1yPoi10uDGlihUs1jVWjz94GA/CLogQhA
+         Homg==
+X-Gm-Message-State: AOJu0YwgWp5+9TVpNPfHlYpDzPfeC0BVzXwi7T2zL1eNv2MsnP9BDJ9p
+	Gvj68aGC1sUX/92J37glnHBJiObwwr1tyVuM9X1/QA==
+X-Google-Smtp-Source: AGHT+IFM0Lp72U2HDjQdQzuXM6c5MQrcEnPLt3FkYj/2ynSa0enQwXs9q6+TswvqtZgniUVSGUstaQ==
+X-Received: by 2002:a05:6e02:b4d:b0:357:704a:8699 with SMTP id f13-20020a056e020b4d00b00357704a8699mr11618147ilu.8.1700498391935;
+        Mon, 20 Nov 2023 08:39:51 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.39.46
+        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.39.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 08:39:47 -0800 (PST)
+        Mon, 20 Nov 2023 08:39:51 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 27/33] patchtest: shorten test result outputs
-Date: Mon, 20 Nov 2023 06:38:41 -1000
-Message-Id: <0d518057b8e4d8b68fb542115a18ec180897693f.1700496737.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 29/33] patchtest-send-results: add In-Reply-To
+Date: Mon, 20 Nov 2023 06:38:43 -1000
+Message-Id: <a19b530d90f02a12cde2ba4989e96d6b2c7539e4.1700496737.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700496737.git.steve@sakoman.com>
 References: <cover.1700496737.git.steve@sakoman.com>
@@ -61,108 +61,80 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 16:39:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190916
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190918
 
 From: Trevor Gamblin <tgamblin@baylibre.com>
 
-Some test result lines in TestMbox and TestPatch are still too long to
-avoid being flagged by the mailer script. Clean them up by removing
-redundant information, so that they are all under the length limit of
-220 characters.
+Rework the script for sending results to use send_raw_email and specify
+the 'In-Reply-To' field so that patchtest replies to the emails, rather
+than sending them standalone to the submitter and mailing list.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c10d0bb542b23fbdc14d76dfa8e5885aa4d33083)
+(cherry picked from commit 0c45c92e7f26aea4edf2cfa577b7ba51384e59d3)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/patchtest/tests/test_mbox.py  | 14 +++++++-------
- meta/lib/patchtest/tests/test_patch.py |  4 ++--
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ scripts/patchtest-send-results | 39 ++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 18 deletions(-)
 
-diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
-index 95002c9e2a..2449564d0f 100644
---- a/meta/lib/patchtest/tests/test_mbox.py
-+++ b/meta/lib/patchtest/tests/test_mbox.py
-@@ -100,7 +100,7 @@ class TestMbox(base.Base):
-             self.skip("Skipping merge test since patch is not intended for master branch. Target detected is %s" % PatchTestInput.repo.branch)
-         if not PatchTestInput.repo.ismerged:
-             commithash, author, date, shortlog = headlog()
--            self.fail('Series does not apply on top of target branch. Rebase your series and ensure the target is correct',
-+            self.fail('Series does not apply on top of target branch %s' % PatchTestInput.repo.branch,
-                       data=[('Targeted branch', '%s (currently at %s)' % (PatchTestInput.repo.branch, commithash))])
+diff --git a/scripts/patchtest-send-results b/scripts/patchtest-send-results
+index 01b071159b..1df81f943a 100755
+--- a/scripts/patchtest-send-results
++++ b/scripts/patchtest-send-results
+@@ -59,7 +59,16 @@ subject_line = f"Patchtest results for {mbox_subject}"
  
-     def test_target_mailing_list(self):
-@@ -114,7 +114,7 @@ class TestMbox(base.Base):
-         for commit in TestMbox.commits:
-             match = project_regex.search_string(commit.subject)
-             if match:
--                self.fail('Series sent to the wrong mailing list. Check the project\'s README (%s) and send the patch to the indicated list' % match.group('project'),
-+                self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists',
-                           commit=commit)
+ # extract the submitter email address and use it as the reply address
+ # for the results
+-reply_address = re.findall("<(.*)>", mbox[0]['from'])
++reply_address = re.findall("<(.*)>", mbox[0]['from'])[0]
++
++# extract the message ID and use that as the in-reply-to address
++in_reply_to = re.findall("<(.*)>", mbox[0]['Message-ID'])[0]
++
++# the address the results email is sent from
++from_address = "patchtest@automation.yoctoproject.org"
++
++# mailing list to CC
++cc_address = "openembedded-core@lists.openembedded.org"
  
-         for patch in self.patchset:
-@@ -122,7 +122,7 @@ class TestMbox(base.Base):
-             base_path = folders[0]
-             for project in [self.bitbake, self.doc, self.oe, self.poky]:
-                 if base_path in  project.paths:
--                    self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists. Send the series again to the correct mailing list (ML)',
-+                    self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists',
-                               data=[('Suggested ML', '%s [%s]' % (project.listemail, project.gitrepo)),
-                                     ('Patch\'s path:', patch.path)])
+ if "FAIL" in testresult:
+     reply_contents = None
+@@ -70,24 +79,18 @@ if "FAIL" in testresult:
+         reply_contents = greeting + testresult + suggestions
  
-@@ -130,18 +130,18 @@ class TestMbox(base.Base):
-             if base_path.startswith('scripts'):
-                 for poky_file in self.poky_scripts:
-                     if patch.path.startswith(poky_file):
--                        self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists. Send the series again to the correct mailing list (ML)',
-+                        self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists',
-                                   data=[('Suggested ML', '%s [%s]' % (self.poky.listemail, self.poky.gitrepo)),('Patch\'s path:', patch.path)])
- 
-     def test_mbox_format(self):
-         if self.unidiff_parse_error:
--            self.fail('Series cannot be parsed correctly due to malformed diff lines. Create the series again using git-format-patch and ensure it can be applied using git am',
-+            self.fail('Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am',
-                       data=[('Diff line',self.unidiff_parse_error)])
- 
-     def test_commit_message_presence(self):
-         for commit in TestMbox.commits:
-             if not commit.commit_message.strip():
--                self.fail('Mbox is missing a descriptive commit message. Please include a commit message on your patch explaining the change', commit=commit)
-+                self.fail('Please include a commit message on your patch explaining the change', commit=commit)
- 
-     def test_cve_presence_in_commit_message(self):
-         if self.unidiff_parse_error:
-@@ -161,7 +161,7 @@ class TestMbox(base.Base):
-             if not self.patch_prog.search_string(commit.payload):
-                 self.skip("No CVE tag in added patch, so not needed in mbox")
-             elif not self.prog.search_string(commit.payload):
--                self.fail('Missing or incorrectly formatted CVE tag in mbox. Correct or include the CVE tag in the mbox with format: "CVE: CVE-YYYY-XXXX"',
-+                self.fail('A CVE tag should be provided in the commit message with format: "CVE: CVE-YYYY-XXXX"',
-                           commit=commit)
- 
-     def test_bugzilla_entry_format(self):
-diff --git a/meta/lib/patchtest/tests/test_patch.py b/meta/lib/patchtest/tests/test_patch.py
-index b6904b185f..65d0f930b0 100644
---- a/meta/lib/patchtest/tests/test_patch.py
-+++ b/meta/lib/patchtest/tests/test_patch.py
-@@ -50,7 +50,7 @@ class TestPatch(base.Base):
-         for newpatch in TestPatch.newpatches:
-             payload = newpatch.__str__()
-             if not self.upstream_status_regex.search_string(payload):
--                self.fail('Added patch file is missing Upstream-Status in the header. Add Upstream-Status: <Valid status> to the header',
-+                self.fail('Added patch file is missing Upstream-Status: <Valid status> in the commit message',
-                           data=[('Standard format', self.standard_format), ('Valid status', self.valid_status)])
-             for line in payload.splitlines():
-                 if self.patchmetadata_regex.match(line):
-@@ -87,7 +87,7 @@ class TestPatch(base.Base):
-                 if TestPatch.prog.search_string(payload):
-                     break
-             else:
--                self.fail('A patch file has been added, but does not have a Signed-off-by tag. Sign off the added patch file (%s)' % newpatch.path)
-+                self.fail('A patch file has been added without a Signed-off-by tag. Sign off the added patch file (%s)' % newpatch.path)
- 
-     def test_cve_tag_format(self):
-         for commit in TestPatch.commits:
+     ses_client = boto3.client('ses', region_name='us-west-2')
+-    response = ses_client.send_email(
+-        Source='patchtest@automation.yoctoproject.org',
+-        Destination={
+-            'CcAddresses': ['openembedded-core@lists.openembedded.org'],
++    raw_data = 'From: ' + from_address + '\nTo: ' + reply_address + \
++        '\nCC: ' + cc_address + '\nSubject:' + subject_line + \
++        '\nIn-Reply-To:' + in_reply_to + \
++        '\nMIME-Version: 1.0" + \
++        "\nContent-type: Multipart/Mixed;boundary="NextPart"\n\n--NextPart\nContent-Type: text/plain\n\n' + \
++        reply_contents + '\n\n--NextPart'
++    response = ses_client.send_raw_email(
++        Source="patchtest@automation.yoctoproject.org",
++        RawMessage={
++            "Data": raw_data,
+         },
+-        ReplyToAddresses=reply_address,
+-        Message={
+-            'Subject': {
+-                'Data': subject_line,
+-                'Charset': 'utf-8'
+-            },
+-            'Body': {
+-                'Text': {
+-                    'Data': reply_contents,
+-                    'Charset': 'utf-8'
+-                }
+-            }
+-        }
+     )
++
+ else:
+     print(f"No failures identified for {args.patch}.")
 -- 
 2.34.1
 
