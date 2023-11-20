@@ -1,110 +1,138 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2452C197A0
-	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 21:02:44 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web10.13072.1700514162112745223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2F9CC2BB3F
+	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 21:11:54 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.13288.1700514708749399649
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 13:02:42 -0800
+ Mon, 20 Nov 2023 13:11:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O5J6sDSX;
- spf=pass (domain: gmail.com, ip: 209.85.167.171, mailfrom: ticotimo@gmail.com)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3b83398cfc7so11656b6e.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 13:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700514161; x=1701118961; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=olTaCGyDdw1CmLcWH4bTkwu2HVtIt8qfgdEMGX63Uxg=;
-        b=O5J6sDSXiiC9V91t2zvRol6HuWPEKD3CPZR+Fr50C6s4o6k3nZ964NISYBjiN3kr9m
-         1nKiw9GJXooVkj+nwG2Id5NbxP0BPDgy1qhUUVDkqf1ijq1viPrK4yhUxXshpZyjy63c
-         I/FIeA9PwZi+wRrmyJgbZQz9idTKCcX5xBnhDn/zmMNgC8Tkjm4YqtC5ThmK7rWMqbvJ
-         t8yPNR+ZI65uKk543JDQwXAVKcKeKkeAuECQL9xRu2zjsfoE/1XIcLxb9M331j6ND9yT
-         UsCBqWHT47ToEytD82N92lqKAZCBVx+JLBc3qWTapBHxPymRB8jzb1ltJeXx5Rkah/7B
-         QS/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700514161; x=1701118961;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=olTaCGyDdw1CmLcWH4bTkwu2HVtIt8qfgdEMGX63Uxg=;
-        b=YugfQCNS2ijlbsMDH90gDXLwLCePzqKSCg7r7siWTuiCK6t26z0K+7cZeJH/BsJj9m
-         6ddNTAJf2lv11WePo5heLeVIzXCwM7CgDmCRJDW169z6+W/IsUtqX/IF1fRfK2Rg8cUx
-         SflpHWKTtGv+2wr2PmJNUvXI4w4ikq2q/L3YD9JRDkI6dcwSLvb2HanWiAJLDl7WWojK
-         B3DDDbYf2FmLo3q7po9x8dM4/J1DwJm2kyLg/SziVFyPFkheaGWp1FJWVBWZVcP43VhA
-         aX1XkbJGGS4DNPdI5U2C6ek369EKw/hjyxnz5F0YMUYWr9/aMXMxfuL/ozf5iAOAVN6Q
-         3Iqg==
-X-Gm-Message-State: AOJu0YwkyI3CqUop+aZ6X21P5tJi6zelidvYuHXhHeDhN/6qDE+58z+D
-	DY8PKRNfKQVWH5jKiXochN0gzJ2LZs51dw==
-X-Google-Smtp-Source: AGHT+IHJDHpHS778L1O6lFNOg8NChtF+vyDLYpEpyQLyFVbyAgDQP+a1xfX8J0E0HzKuN7kV8edmmg==
-X-Received: by 2002:a05:6808:10d0:b0:3b2:ef9e:45af with SMTP id s16-20020a05680810d000b003b2ef9e45afmr12426756ois.13.1700514160772;
-        Mon, 20 Nov 2023 13:02:40 -0800 (PST)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0::b328])
-        by smtp.gmail.com with ESMTPSA id s11-20020a65644b000000b005bcebc93d7asm5556484pgv.47.2023.11.20.13.02.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 13:02:40 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-poetry-core: upgrade 1.7.0 -> 1.8.1
-Date: Mon, 20 Nov 2023 13:01:41 -0800
-Message-Id: <20231120210140.3203077-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=M+/GFFA/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 14B6A24000D;
+	Mon, 20 Nov 2023 21:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700514706;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Jm6+BVINnGeiNS0RBf0KKvKDPcO5F+o1mssmlkay2X4=;
+	b=M+/GFFA/feIvrdzWPAGm8iQFBk0gFxybk+9g0aKkDkzmdofl+/eXR9LZ+YkOa3zwv7b7dP
+	Fatx8YlODi9kQMx2jOrCGYI6Y9TVXJGwyNpUkQ6EoGMWQX3crWBXaGshUgKYl2qUTW7aNW
+	ckYmtTYa4F2Xcgz2CiyhtxTfK1ZtRZKZ3rDc4MrWUzrAZFb1ZDMQRViD9nSmjgeX4hBvLw
+	KfAgJ7Jp2/9Sge7NUPJN7nTOqhXlEA8fugaOLHUvypORyz2Xym+IraUNca7YNSS/susErg
+	t1gA1+XYvogctoORs2foTgBrd83qWUp+69/1kuGYDszqKm1Os0lnfKEf050cMg==
+Date: Mon, 20 Nov 2023 22:11:45 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH 4/4] python3-cython: upgrade 0.29.36 -> 3.0.5
+Message-ID: <2023112021114550af6fde@mail.local>
+References: <20231117194905.2080320-1-tgamblin@baylibre.com>
+ <20231117194905.2080320-4-tgamblin@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231117194905.2080320-4-tgamblin@baylibre.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 21:02:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190929
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 21:11:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190930
 
-https://github.com/python-poetry/poetry-core/blob/1.8.1/CHANGELOG.md#181---2023-10-31
-https://github.com/python-poetry/poetry-core/blob/1.8.1/CHANGELOG.md#180---2023-10-31
+Hello Trevor,
 
-License-Update: add vendored fastjsonschema (BSD-3-Clause)
-License-Update: drop vendored attr,attrs,jsonschema,pyrsistent
+Do you mind rebasing, this cnflicts with changes that are now on master?
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
+On 17/11/2023 14:49:05-0500, Trevor Gamblin wrote:
+> License-Update: Update license link to use https
+> 
+> cython 3.0.x attempts to remain compatible with 0.29.x but still makes
+> some major changes (in addition to fixing old issues). For a complete
+> overview it's best to view the CHANGES.rst doc rather than including
+> them here: https://github.com/cython/cython/blob/master/CHANGES.rst.
+> 
+> Note that more source files were added to cython_fix_sources to avoid
+> the following:
+> 
+> |WARNING: python3-cython-3.0.5-r0 do_package_qa: QA Issue: File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Utils.c in package python3-cython-src contains reference to TMPDIR
+> |File /usr/src/debug/python3-cython/3.0.5-r0/Cython/StringIOTree.c in package python3-cython-src contains reference to TMPDIR
+> |File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Compiler/Parsing.c in package python3-cython-src contains reference to TMPDIR
+> |File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Compiler/Code.c in package python3-cython-src contains reference to TMPDIR
+> |File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Plex/Machines.c in package python3-cython-src contains reference to TMPDIR
+> |File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Plex/DFA.c in package python3-cython-src contains reference to TMPDIR
+> |File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Plex/Transitions.c in package python3-cython-src contains reference to TMPDIR [buildpaths]
+> 
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
+>  meta/recipes-devtools/python/python-cython.inc             | 4 ++--
+>  .../{python3-cython_0.29.36.bb => python3-cython_3.0.5.bb} | 7 +++++++
+>  2 files changed, 9 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-cython_0.29.36.bb => python3-cython_3.0.5.bb} (73%)
+> 
+> diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
+> index 6aec6b012f1..e757e3f7c87 100644
+> --- a/meta/recipes-devtools/python/python-cython.inc
+> +++ b/meta/recipes-devtools/python/python-cython.inc
+> @@ -5,11 +5,11 @@ It's designed to bridge the gap between the nice, high-level, easy-to-use world
+>  and the messy, low-level world of C."
+>  SECTION = "devel/python"
+>  LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
+>  PYPI_PACKAGE = "Cython"
+>  BBCLASSEXTEND = "native nativesdk"
+>  
+> -SRC_URI[sha256sum] = "41c0cfd2d754e383c9eeb95effc9aa4ab847d0c9747077ddd7c0dcb68c3bc01f"
+> +SRC_URI[sha256sum] = "39318348db488a2f24e7c84e08bdc82f2624853c0fea8b475ea0b70b27176492"
+>  UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
+>  
+>  inherit pypi
+> diff --git a/meta/recipes-devtools/python/python3-cython_0.29.36.bb b/meta/recipes-devtools/python/python3-cython_3.0.5.bb
+> similarity index 73%
+> rename from meta/recipes-devtools/python/python3-cython_0.29.36.bb
+> rename to meta/recipes-devtools/python/python3-cython_3.0.5.bb
+> index 78be2b94edb..94074aaf811 100644
+> --- a/meta/recipes-devtools/python/python3-cython_0.29.36.bb
+> +++ b/meta/recipes-devtools/python/python3-cython_3.0.5.bb
+> @@ -24,10 +24,17 @@ cython_fix_sources () {
+>  		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Compiler/FusedNode.c \
+>  		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Compiler/Scanning.c \
+>  		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Compiler/Visitor.c \
+> +		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Compiler/Parsing.c \
+> +		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Compiler/Code.c \
+>  		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Plex/Actions.c \
+>  		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Plex/Scanners.c \
+> +		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Plex/Machines.c \
+> +		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Plex/DFA.c \
+> +		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Plex/Transitions.c \
+>  		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Runtime/refnanny.c \
+>  		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Tempita/_tempita.c \
+> +		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/StringIOTree.c \
+> +		${PKGD}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/Cython/Utils.c \
+>  		${PKGD}${libdir}/${PYTHON_DIR}/site-packages/Cython*/SOURCES.txt; do
+>  		if [ -e $f ]; then
+>  			sed -i -e 's#${WORKDIR}/Cython-${PV}#/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}#g' $f
+> -- 
+> 2.42.0
+> 
 
-Tested by building python3-rdflib and python3-iso8601 for qemux86-64
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#190860): https://lists.openembedded.org/g/openembedded-core/message/190860
+> Mute This Topic: https://lists.openembedded.org/mt/102654597/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
- ...3-poetry-core_1.7.0.bb => python3-poetry-core_1.8.1.bb} | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/python/{python3-poetry-core_1.7.0.bb => python3-poetry-core_1.8.1.bb} (73%)
 
-diff --git a/meta/recipes-devtools/python/python3-poetry-core_1.7.0.bb b/meta/recipes-devtools/python/python3-poetry-core_1.8.1.bb
-similarity index 73%
-rename from meta/recipes-devtools/python/python3-poetry-core_1.7.0.bb
-rename to meta/recipes-devtools/python/python3-poetry-core_1.8.1.bb
-index 40b6355f4b7..ccfa3312747 100644
---- a/meta/recipes-devtools/python/python3-poetry-core_1.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-poetry-core_1.8.1.bb
-@@ -7,18 +7,15 @@ CHANGELOG = "https://github.com/python-poetry/poetry-core/blob/master/CHANGELOG.
- LICENSE = "Apache-2.0 & BSD-2-Clause & MIT"
- LIC_FILES_CHKSUM = "\
-     file://LICENSE;md5=78c39cfd009863ae44237a7ab1f9cedc \
--    file://src/poetry/core/_vendor/attr/_version_info.py;beginline=1;endline=1;md5=b2dccaa94b3629a08bfb4f983cad6f89 \
--    file://src/poetry/core/_vendor/attrs/LICENSE;md5=5e55731824cf9205cfabeab9a0600887 \
--    file://src/poetry/core/_vendor/jsonschema/COPYING;md5=7a60a81c146ec25599a3e1dabb8610a8 \
-+    file://src/poetry/core/_vendor/fastjsonschema/LICENSE;md5=18950e8362b69c0c617b42b8bd8e7532 \
-     file://src/poetry/core/_vendor/lark/LICENSE;md5=fcfbf1e2ecc0f37acbb5871aa0267500 \
-     file://src/poetry/core/_vendor/packaging/LICENSE;md5=faadaedca9251a90b205c9167578ce91 \
-     file://src/poetry/core/_vendor/packaging/LICENSE.APACHE;md5=2ee41112a44fe7014dce33e26468ba93 \
-     file://src/poetry/core/_vendor/packaging/LICENSE.BSD;md5=7bef9bf4a8e4263634d0597e7ba100b8 \
--    file://src/poetry/core/_vendor/pyrsistent/LICENSE.mit;md5=b695eb9c6e7a6fb1b1bc2d193c42776e \
-     file://src/poetry/core/_vendor/tomli/LICENSE;md5=aaaaf0879d17df0110d1aa8c8c9f46f5 \
- "
- 
--SRC_URI[sha256sum] = "8f679b83bd9c820082637beca1204124d5d2a786e4818da47ec8acefd0353b74"
-+SRC_URI[sha256sum] = "67a76c671da2a70e55047cddda83566035b701f7e463b32a2abfeac6e2a16376"
- 
- inherit python_poetry_core pypi
- PYPI_ARCHIVE_NAME = "poetry_core-${PV}.${PYPI_PACKAGE_EXT}"
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
