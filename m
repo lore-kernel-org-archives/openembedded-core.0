@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64996C2BB3F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 703EDC5AE5C
 	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 16:40:03 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.634.1700498397455143201
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.web11.655.1700498401300426576
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 08:39:57 -0800
+ Mon, 20 Nov 2023 08:40:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NCd9yraF;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6c32a20d5dbso4003312b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:39:57 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EwmHOi5Z;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.182, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3b82541da51so708446b6e.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498396; x=1701103196; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498400; x=1701103200; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NZ7FYQNWlEugTMoBGbxhqFBXxrUA9G7g8p1T9oV4vCg=;
-        b=NCd9yraFK/RdvCePn5dxlyis2WJgysBmytc3UWi78ho0KslJgZLZqWmiipqrXTQcUX
-         Bgi3sfzXpxk2b9sIUcqKWv5v0AlJ0iqwCl/b8lAUypZ32zSiQg23KMXdcs040V9MYuvi
-         UqfDPx7nqD2+0je4ozVLfhE1PRSWvrhBeIR8cqRqqflFU2Gw3zEAPfCg5Zn0FRZWX141
-         sg6rR7GEbOKtgjIQKjij9SUgHPwWYfQ7ZL1HJdp9+ZpfdyE5n+jW68Hut38POca2VYyF
-         oe2FsmChQ6jSWAbypaetpCYDX24QS4G8Uc3lflaV+1pFHSYYFL/IFfl9nXGajH/wy6fa
-         ptGA==
+        bh=FUEmMILZt9PyOnHwIAOaXDXPp38RlCW2vnxtdYA28tg=;
+        b=EwmHOi5Z8AUiU4NEo7oDSZxjJduU41JLUIXAkQFNuhIpV64t/2bpj2KumJSp4qr8nu
+         JTZGfIvW0x206pBMyuXyfVe/K3FC8l3wxoebKLQlASrgavM+xhvXU3ASUWvoUrcU+/Cp
+         z5m7izaMvWICO48wmzenBpiE99Jq6/wO4YugD+BNqjpaVKguKITFIt8vQI4Xgr1EsA+g
+         3hLbxn2Q6bNY9yFKIoFdm9Qj60H/aLhwm19tZKe8Xk3F+XSibO2DEMP2Lk59U5v7FupV
+         qSqHLzSj36GRAq6Z6IMgFVGoGIx0e7Ug6bSS808EnMlQ4NpvFgOFVe76EpfeII+53jB0
+         wW4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700498396; x=1701103196;
+        d=1e100.net; s=20230601; t=1700498400; x=1701103200;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NZ7FYQNWlEugTMoBGbxhqFBXxrUA9G7g8p1T9oV4vCg=;
-        b=w/pG5CNZc7AHEDKAAniBGfGkjBilD/xLxGBghLQQri/bwBi3mwVwB2ykNs4OT/N3eL
-         ytsvaRp41FqTVDghR/bwICeKlMvbXAC+nDMvDLHbPPiN+PdtjyufjY+J+fR9Z8UHhLzp
-         79YB1xhpQyP8onEZCKEH5TOP54qzPnqu2S3MvBX/OODcMfo8+7o0I6IwHzzylFexXOmH
-         ETGTC74PR9ImiR0GCSSnygx3wyQQEJWFDODyLSkUBkGkqLv0ezsSUu5QmVSJY8UCHHaj
-         LOX3KAz6IexAFlAUzeO5uJGtz/1TCckl1614phD7039Bgl1RwBD9lvzYBKpnY81Pa+j6
-         e/gw==
-X-Gm-Message-State: AOJu0Yznya5k6y7EVIm480IbJxFG9vz1jYdkFZWVxjp0YAZyvBanpDRP
-	QSV730Z9rOLqCQeOY0OQZqRlr49Ky/DW3eUkT3PDxg==
-X-Google-Smtp-Source: AGHT+IEaDsVJ8VhyULbZel9ebjRSLZSCo3ELtfhDqziRLsNFwjgolrMLkiRs4AqESJ23sBkKmSrf4Q==
-X-Received: by 2002:a05:6a00:398b:b0:666:e1f4:5153 with SMTP id fi11-20020a056a00398b00b00666e1f45153mr7010255pfb.0.1700498396123;
-        Mon, 20 Nov 2023 08:39:56 -0800 (PST)
+        bh=FUEmMILZt9PyOnHwIAOaXDXPp38RlCW2vnxtdYA28tg=;
+        b=oPOn4WzTqqauHW0sk3LhXNTGVoupFj8Uanb8QhQtIxBNs2hVbLbNYESShVyuStO/yC
+         qoBL7Yj5GuSjnE22kUNxGZqOdw0mQy8QEPnEQ+OT5Ch+gBwuJN1/W6MNh27gksgUkqfa
+         CRLbXauSKugKnAI/PSR+vLGdLJtdlT2VjcVCbBOvT8klxRlYqELy02pV+8RqFK5FDlRU
+         gxc8vapsqOQSnttyYs/vdPTaHH3rR1n8MSirOyGC7sNBDFPVzo61adB02K6hDq4ysqL2
+         axP7P9VfbZCfHUTnkngAiTNao9pGCP7devhkV5/gK/zMciNxjwxekwcCxzM3Pg8WTcsR
+         Y1JQ==
+X-Gm-Message-State: AOJu0YwJR9Z24B7mF6aT68EGGQlObdtyvLrBGxmWdJTmfEfqa4vGYFOX
+	Wd9CNc4Z6Qh48l8bOWdagz2nvxuCE4OKObIp63JjRw==
+X-Google-Smtp-Source: AGHT+IHYewxdo3crk24N93PXUjHoC9cqG3iu9AXpBgXrtB5zHHin6ut6pWIPZZPZq3+tnGlqwxSWFA==
+X-Received: by 2002:a05:6808:22a0:b0:3b2:e07e:5062 with SMTP id bo32-20020a05680822a000b003b2e07e5062mr10976577oib.52.1700498400290;
+        Mon, 20 Nov 2023 08:40:00 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.39.55
+        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.39.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 08:39:55 -0800 (PST)
+        Mon, 20 Nov 2023 08:39:59 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 31/33] patchtest: remove test for CVE tag in mbox
-Date: Mon, 20 Nov 2023 06:38:45 -1000
-Message-Id: <a0bedd3e2ef98ab45e565af5e5dd1c77713479a2.1700496737.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 33/33] patchtest: rework license checksum tests
+Date: Mon, 20 Nov 2023 06:38:47 -1000
+Message-Id: <34153775ffdb80a869a69ec051367d33007d516e.1700496737.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700496737.git.steve@sakoman.com>
 References: <cover.1700496737.git.steve@sakoman.com>
@@ -61,235 +61,92 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 16:40:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190920
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190922
 
 From: Trevor Gamblin <tgamblin@baylibre.com>
 
-After patchtest went live it was determined that testing for a CVE tag
-in the mbox commit message is unnecessary, since it will already be in
-the shortlog and in any carried patches. Remove the test and the
-associated selftest files so that its absence isn't flagged in future
-test results.
+Remove the pretest_lic_files_chksum_modified_not_mentioned test entirely
+and use pyparsing in test_lic_files_chksum_modified_not_mentioned to
+scan the patches for lines starting with either "+LIC_FILES_CHKSUM" or
+"-LIC_FILES_CHKSUM".  If either is found but no "License-Update" tag is
+present in the commit, fail the test.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 54690f18f04a2ab993a85d551ce4f8d0fa56618a)
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 8e1bda0eb225ada22fdf5990edfec512be1d6629)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...x.test_cve_presence_in_commit_message.fail | 72 ------------------
- ...x.test_cve_presence_in_commit_message.pass | 74 -------------------
- meta/lib/patchtest/tests/test_mbox.py         | 24 ------
- 3 files changed, 170 deletions(-)
- delete mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
- delete mode 100644 meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
+ meta/lib/patchtest/tests/test_metadata.py | 40 +++++------------------
+ 1 file changed, 8 insertions(+), 32 deletions(-)
 
-diff --git a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail b/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
-deleted file mode 100644
-index d40b8a936b..0000000000
---- a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.fail
-+++ /dev/null
-@@ -1,72 +0,0 @@
--From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Tue, 29 Aug 2023 14:12:27 -0400
--Subject: [PATCH] selftest-hello: fix CVE-1234-56789
--
--This patch should fail the test for CVE presence in the mbox commit message.
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-- .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-- 2 files changed, 31 insertions(+), 2 deletions(-)
-- create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--
--diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--new file mode 100644
--index 0000000000..869cfb6fe5
----- /dev/null
--+++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--@@ -0,0 +1,27 @@
--+From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
--+From: Trevor Gamblin <tgamblin@baylibre.com>
--+Date: Tue, 29 Aug 2023 14:08:20 -0400
--+Subject: [PATCH] Fix CVE-NOT-REAL
--+
--+CVE: CVE-1234-56789
--+Upstream-Status: Backport(http://example.com/example)
--+
--+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
--+---
--+ strlen.c | 1 +
--+ 1 file changed, 1 insertion(+)
--+
--+diff --git a/strlen.c b/strlen.c
--+index 1788f38..83d7918 100644
--+--- a/strlen.c
--++++ b/strlen.c
--+@@ -8,6 +8,7 @@ int main() {
--+ 
--+ 	printf("%d\n", str_len(string1));
--+ 	printf("%d\n", str_len(string2));
--++	printf("CVE FIXED!!!\n");
--+ 
--+ 	return 0;
--+ }
--+-- 
--+2.41.0
--diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--index 547587bef4..76975a6729 100644
----- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--@@ -3,7 +3,9 @@ SECTION = "examples"
-- LICENSE = "MIT"
-- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-- 
---SRC_URI = "file://helloworld.c"
--+SRC_URI = "file://helloworld.c \
--+           file://CVE-1234-56789.patch \
--+           "
-- 
-- S = "${WORKDIR}"
-- 
--@@ -16,4 +18,4 @@ do_install() {
-- 	install -m 0755 helloworld ${D}${bindir}
-- }
-- 
---BBCLASSEXTEND = "native nativesdk"
--\ No newline at end of file
--+BBCLASSEXTEND = "native nativesdk"
---- 
--2.41.0
--
-diff --git a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass b/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
-deleted file mode 100644
-index 433c7a450a..0000000000
---- a/meta/lib/patchtest/selftest/files/TestMbox.test_cve_presence_in_commit_message.pass
-+++ /dev/null
-@@ -1,74 +0,0 @@
--From 14d72f6973270f78455a8628143f2cff90e8f41e Mon Sep 17 00:00:00 2001
--From: Trevor Gamblin <tgamblin@baylibre.com>
--Date: Tue, 29 Aug 2023 14:12:27 -0400
--Subject: [PATCH] selftest-hello: fix CVE-1234-56789
--
--This test should pass the mbox cve tag test.
--
--CVE: CVE-1234-56789
--
--Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-----
-- .../selftest-hello/files/CVE-1234-56789.patch | 27 +++++++++++++++++++
-- .../selftest-hello/selftest-hello_1.0.bb      |  6 +++--
-- 2 files changed, 31 insertions(+), 2 deletions(-)
-- create mode 100644 meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--
--diff --git a/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--new file mode 100644
--index 0000000000..869cfb6fe5
----- /dev/null
--+++ b/meta-selftest/recipes-test/selftest-hello/files/CVE-1234-56789.patch
--@@ -0,0 +1,27 @@
--+From b26a31186e6ee2eb1f506d5f2f9394d327a0df2f Mon Sep 17 00:00:00 2001
--+From: Trevor Gamblin <tgamblin@baylibre.com>
--+Date: Tue, 29 Aug 2023 14:08:20 -0400
--+Subject: [PATCH] Fix CVE-NOT-REAL
--+
--+CVE: CVE-1234-56789
--+Upstream-Status: Backport(http://example.com/example)
--+
--+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
--+---
--+ strlen.c | 1 +
--+ 1 file changed, 1 insertion(+)
--+
--+diff --git a/strlen.c b/strlen.c
--+index 1788f38..83d7918 100644
--+--- a/strlen.c
--++++ b/strlen.c
--+@@ -8,6 +8,7 @@ int main() {
--+ 
--+ 	printf("%d\n", str_len(string1));
--+ 	printf("%d\n", str_len(string2));
--++	printf("CVE FIXED!!!\n");
--+ 
--+ 	return 0;
--+ }
--+-- 
--+2.41.0
--diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--index 547587bef4..76975a6729 100644
----- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--+++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
--@@ -3,7 +3,9 @@ SECTION = "examples"
-- LICENSE = "MIT"
-- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-- 
---SRC_URI = "file://helloworld.c"
--+SRC_URI = "file://helloworld.c \
--+           file://CVE-1234-56789.patch \
--+           "
-- 
-- S = "${WORKDIR}"
-- 
--@@ -16,4 +18,4 @@ do_install() {
-- 	install -m 0755 helloworld ${D}${bindir}
-- }
-- 
---BBCLASSEXTEND = "native nativesdk"
--\ No newline at end of file
--+BBCLASSEXTEND = "native nativesdk"
---- 
--2.41.0
--
-diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
-index 2449564d0f..0b623b7d17 100644
---- a/meta/lib/patchtest/tests/test_mbox.py
-+++ b/meta/lib/patchtest/tests/test_mbox.py
-@@ -6,7 +6,6 @@
+diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchtest/tests/test_metadata.py
+index 3742760b45..b6f4456ad2 100644
+--- a/meta/lib/patchtest/tests/test_metadata.py
++++ b/meta/lib/patchtest/tests/test_metadata.py
+@@ -16,6 +16,8 @@ class TestMetadata(base.Metadata):
+     license_var  = 'LICENSE'
+     closed   = 'CLOSED'
+     lictag_re  = pyparsing.AtLineStart("License-Update:")
++    lic_chksum_added = pyparsing.AtLineStart("+" + metadata_chksum)
++    lic_chksum_removed = pyparsing.AtLineStart("-" + metadata_chksum)
+     add_mark = pyparsing.Regex('\+ ')
+     max_length = 200
+     metadata_src_uri  = 'SRC_URI'
+@@ -76,48 +78,22 @@ class TestMetadata(base.Metadata):
+             if not lic_files_chksum:
+                 self.fail('%s is missing in newly added recipe' % self.metadata_chksum)
  
- import base
- import collections
--import parse_cve_tags
- import parse_shortlog
- import parse_signed_off_by
- import pyparsing
-@@ -33,8 +32,6 @@ class TestMbox(base.Base):
-     rexp_detect = pyparsing.Regex('\[\s?YOCTO.*\]')
-     rexp_validation = pyparsing.Regex('\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]')
-     revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
--    prog = parse_cve_tags.cve_tag
--    patch_prog = parse_cve_tags.patch_cve_tag
-     signoff_prog = parse_signed_off_by.signed_off_by
-     revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
-     maxlength = 90
-@@ -143,27 +140,6 @@ class TestMbox(base.Base):
-             if not commit.commit_message.strip():
-                 self.fail('Please include a commit message on your patch explaining the change', commit=commit)
- 
--    def test_cve_presence_in_commit_message(self):
--        if self.unidiff_parse_error:
--            self.skip('Parse error %s' % self.unidiff_parse_error)
--
--        # we are just interested in series that introduce CVE patches, thus discard other
--        # possibilities: modification to current CVEs, patch directly introduced into the
--        # recipe, upgrades already including the CVE, etc.
--        new_patches = [p for p in self.patchset if p.path.endswith('.patch') and p.is_added_file]
--        if not new_patches:
--            self.skip('No new patches introduced')
--
--        for commit in TestMbox.commits:
--            # skip those patches that revert older commits, these do not required the tag presence
--            if self.revert_shortlog_regex.search_string(commit.shortlog):
+-    def pretest_lic_files_chksum_modified_not_mentioned(self):
+-        if not self.modified:
+-            self.skip('No modified recipes, skipping pretest')
+-        # get the proper metadata values
+-        for pn in self.modified:
+-            rd = self.tinfoil.parse_recipe(pn)
+-            pathname = rd.getVar('FILE')
+-            # we are not interested in images
+-            if '/images/' in pathname:
 -                continue
--            if not self.patch_prog.search_string(commit.payload):
--                self.skip("No CVE tag in added patch, so not needed in mbox")
--            elif not self.prog.search_string(commit.payload):
--                self.fail('A CVE tag should be provided in the commit message with format: "CVE: CVE-YYYY-XXXX"',
--                          commit=commit)
+-            PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata_chksum,pn)] = rd.getVar(self.metadata_chksum)
 -
-     def test_bugzilla_entry_format(self):
-         for commit in TestMbox.commits:
-             if not self.rexp_detect.search_string(commit.commit_message):
+     def test_lic_files_chksum_modified_not_mentioned(self):
+         if not self.modified:
+             self.skip('No modified recipes, skipping test')
+ 
+-        # get the proper metadata values
+-        for pn in self.modified:
+-            rd = self.tinfoil.parse_recipe(pn)
+-            pathname = rd.getVar('FILE')
+-            # we are not interested in images
+-            if '/images/' in pathname:
++        for patch in self.patchset:
++            # for the moment, we are just interested in metadata
++            if patch.path.endswith('.patch'):
+                 continue
+-            PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata_chksum,pn)] = rd.getVar(self.metadata_chksum)
+-        # compare if there were changes between pre-merge and merge
+-        for pn in self.modified:
+-            pretest = PatchTestDataStore['pre%s-%s-%s' % (self.shortid(),self.metadata_chksum, pn)]
+-            test    = PatchTestDataStore['%s-%s-%s' % (self.shortid(),self.metadata_chksum, pn)]
+-
+-            # TODO: this is workaround to avoid false-positives when pretest metadata is empty (not reason found yet)
+-            # For more info, check bug 12284
+-            if not pretest:
+-                return
+-
+-            if pretest != test:
++            payload = str(patch)
++            if (self.lic_chksum_added.search_string(payload) or self.lic_chksum_removed.search_string(payload)):
+                 # if any patch on the series contain reference on the metadata, fail
+                 for commit in self.commits:
+                     if self.lictag_re.search_string(commit.commit_message):
+                        break
+                 else:
+-                    self.fail('LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message',
+-                              data=[('Current checksum', pretest), ('New checksum', test)])
++                    self.fail('LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message')
+ 
+     def test_max_line_length(self):
+         for patch in self.patchset:
 -- 
 2.34.1
 
