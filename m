@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 116B3C5AE5C
-	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 16:39:03 +0000 (UTC)
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
- by mx.groups.io with SMTP id smtpd.web11.602.1700498342015513713
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE8CC5AE5B
+	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 16:39:02 +0000 (UTC)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web10.583.1700498338026484379
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 08:39:02 -0800
+ Mon, 20 Nov 2023 08:38:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zBMk6Sgu;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.177, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-359c1f42680so12422835ab.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:39:01 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ORj1WF+u;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.177, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3b5aee410f2so2228517b6e.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:38:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498340; x=1701103140; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498336; x=1701103136; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bweCzYnmHrUyPnfFF7+12//ohNjOd708tMNRPHLWXe8=;
-        b=zBMk6SgulXdyyi5USqVcKoR7Co18BN/fXxlxGsZGI/XrUmT/otmvhAJelcaFwH90V+
-         TBsIUPEowAdtBMAhCk4VO8cPDjT0BBwj5pmMr0X5xs+kGhBGhY2rgi3bsncfIt5X9SyH
-         7+3+AEXFivWygjO6hEgqOuZQL6krkoBnJ66IdweK8YG3hE4/BZKCJLDUPtw3CsJ6MQj6
-         cRvgODAbf2q68bmJ9kCscy3D1wxv80XSeE3YRkLX8/zM8500MrCCwmWKi9PD+4YiMoVq
-         ljoAluxVAvKZNLhqx20Q/OgjuJWz7GkH/8SG4jzjdzHuTrlIMzUTjvNv1Lk7R11AMAQs
-         ux7w==
+        bh=FRXOS0RZZymLd/vCMN8CbNInMUjOsrroSG+24/zVTVY=;
+        b=ORj1WF+u0+NaPW/Wfs/vQnvz8C2ls1MXol9tWoT9pgey7a86eq7uNi2QnMeMrI8NNf
+         8WDlSFfHOaQRWXaI3lo7K/ivvb2VR1giAY7Pf1OuinGocW1/rUwTe/4H/xzPhgfLZtdA
+         tZeVBnWUKfXBMoG1/tR5VwhphK5sE1juhaevMQ14CGFIuR68SRhlvEvaEugmNRmxYCwg
+         uZMnztadr0MfofbrakIde5/wu9sagck8xO8jzD4DqXtsy0NwO82BdGOsqiVQxIz7zyHi
+         89W7HMbD6gqMUx1DrPXYaayH5xVhjzTefUCstLnGKn2OvpLx6q4b4KMRxSx+kFSDH+kk
+         L1UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700498340; x=1701103140;
+        d=1e100.net; s=20230601; t=1700498336; x=1701103136;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bweCzYnmHrUyPnfFF7+12//ohNjOd708tMNRPHLWXe8=;
-        b=oeSrOhYwGPXr3gV4k6FS3OYA33jAM2Hgd+J7a9iMmtB6VVwpYxc1DmRpLAjbv0f3mU
-         DCAZoKG5V00aXnpGkEQ+Vy0XWcJBtQlqTvBAzlZ6HOQ63xka3InQkZym2sy4YYpx8nW0
-         WLRYGYs0ZM55fPxrJsPpMxy/AJgcaBugI5OYjrBio1wZWZZPwQO0LzcSBgKI5U3hWuKw
-         w5prQirtOxjguAn/vYwp2KsksS7jY8PXJxMvrfTXE4Ri8ws+OgzGL+P1DQRb2ixahLGp
-         8bfLKujobhC8A/f/Udv4xsB6kzf5sJyvp2yA2JyyFGK/pMqLlYqaRBRBVfZk7Qz/PXMG
-         VGrQ==
-X-Gm-Message-State: AOJu0YyVSA2G+mW03/nhRvw3tArw3oHfVoAqFll1596y+IMfY6B8TPgH
-	zSsoew+CvO2puDzovAr/w90mWTNAa1pjHDDkc9ZtRw==
-X-Google-Smtp-Source: AGHT+IHy5wtOAnqPqZPq2ET9W3Y8Umb5iJRfcLShUXGx/Rw2mcEwnTg4ePOO45a0GgygT9zDXPnExA==
-X-Received: by 2002:a05:6e02:ecf:b0:35b:d7a:eb85 with SMTP id i15-20020a056e020ecf00b0035b0d7aeb85mr974360ilk.3.1700498340720;
-        Mon, 20 Nov 2023 08:39:00 -0800 (PST)
+        bh=FRXOS0RZZymLd/vCMN8CbNInMUjOsrroSG+24/zVTVY=;
+        b=eZc2STHIjTpusaB9m8Ms3pc9L+dR40+EhRdARgjtWifCy8gf5zJuJke++UAHSLsiIF
+         CSS5qaMPr8miGKyYgOIyhkTmSMe+sFtTdoNR860kEoKXfC8D2reffgaXXBz9H4XYABsO
+         QM5ZThZhkXHZ7fyucC4fxrwMtE9Bv42jZZM4f/jKWahOlkGS2mrEHUsNq5cTccEUJ3SL
+         bwxeM/XSkH4o5IwgKsZGjOFQy+NSHOkPxKZ5OM2qmitgt6TcJWjtRvAwqQfia7w7WWuP
+         tDxDq/pLzA72CqbgQrcEtiLxGsuddzJo2vXbNVszCfXkHggOXzpExDUMp7amDY1BPM2J
+         rGiw==
+X-Gm-Message-State: AOJu0YwthniVWuRQkahvm2rj4J73Fg94E8tItfzw3eNoWzoNDL5u+8XH
+	mk0+6JPnpSlMmc6v9ClO3Gqdcsv67NFsWKf0zGd/BQ==
+X-Google-Smtp-Source: AGHT+IGYIPqYIpM0PCw9VoTPwQP0sFXNdbEY4z1/w9+fhIZGfFCgGHIpfVGBZQDA5S0dHVrr5Tn7vg==
+X-Received: by 2002:a05:6808:19a2:b0:3b2:e233:1e7 with SMTP id bj34-20020a05680819a200b003b2e23301e7mr8060123oib.49.1700498336197;
+        Mon, 20 Nov 2023 08:38:56 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.38.59
+        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.38.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 08:39:00 -0800 (PST)
+        Mon, 20 Nov 2023 08:38:55 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 03/33] libsdl2: upgrade 2.28.3 -> 2.28.4
-Date: Mon, 20 Nov 2023 06:38:17 -1000
-Message-Id: <3923426c799f8772fb84303000d04ac3d968e84f.1700496737.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 01/33] libsndfile1: fix CVE-2022-33065
+Date: Mon, 20 Nov 2023 06:38:15 -1000
+Message-Id: <84ea91d63147c19ebf5909f7e9f377ddb1a52a7b.1700496737.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700496737.git.steve@sakoman.com>
 References: <cover.1700496737.git.steve@sakoman.com>
@@ -60,42 +60,777 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 16:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190892
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 16:39:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190890
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Alex Stewart <alex.stewart@ni.com>
 
-This is a stable bugfix release, with the following changes:
-
-Enable clipping for zero sized rectangles in the SDL renderer
-Notify X11 clipboard managers when the clipboard changes
-Fixed sensor timestamps for third-party PS5 controllers
-Added detection for Logitech and Simagic racing wheels
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-(cherry picked from commit f47de111cd66c3f9a5a6d5589e1fd034027a0a75)
+Signed-off-by: Alex Stewart <alex.stewart@ni.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit f34991c7eeb91702a44ac8b4a190fcb45dac57cb)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsdl2/{libsdl2_2.28.3.bb => libsdl2_2.28.4.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.28.3.bb => libsdl2_2.28.4.bb} (97%)
+ .../libsndfile1/cve-2022-33065.patch          | 739 ++++++++++++++++++
+ .../libsndfile/libsndfile1_1.2.2.bb           |   1 +
+ 2 files changed, 740 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/cve-2022-33065.patch
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.28.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.28.4.bb
-similarity index 97%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.28.3.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.28.4.bb
-index f866a3618f..3fed10878f 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.28.3.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.28.4.bb
-@@ -25,7 +25,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/cve-2022-33065.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/cve-2022-33065.patch
+new file mode 100644
+index 0000000000..fa4b2fc08b
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/cve-2022-33065.patch
+@@ -0,0 +1,739 @@
++From c7ce5b0ebeeb58934825077d1324960aa0747718 Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Tue, 10 Oct 2023 16:10:34 -0400
++Subject: [PATCH] mat4/mat5: fix int overflow in dataend calculation
++
++The clang sanitizer warns of a possible signed integer overflow when
++calculating the `dataend` value in `mat4_read_header()`.
++
++```
++src/mat4.c:323:41: runtime error: signed integer overflow: 205 * -100663296 cannot be represented in type 'int'
++SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mat4.c:323:41 in
++src/mat4.c:323:48: runtime error: signed integer overflow: 838860800 * 4 cannot be represented in type 'int'
++SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mat4.c:323:48 in
++```
++
++Cast the offending `rows` and `cols` ints to `sf_count_t` (the type of
++`dataend` before performing the calculation, to avoid the issue.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/789
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Upstream-Status: Backport [9a829113c88a51e57c1e46473e90609e4b7df151]
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++---
++ src/mat4.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/mat4.c b/src/mat4.c
++index 0b1b414b..575683ba 100644
++--- a/src/mat4.c
+++++ b/src/mat4.c
++@@ -320,7 +320,7 @@ mat4_read_header (SF_PRIVATE *psf)
++ 				psf->filelength - psf->dataoffset, psf->sf.channels * psf->sf.frames * psf->bytewidth) ;
++ 		}
++ 	else if ((psf->filelength - psf->dataoffset) > psf->sf.channels * psf->sf.frames * psf->bytewidth)
++-		psf->dataend = psf->dataoffset + rows * cols * psf->bytewidth ;
+++		psf->dataend = psf->dataoffset + (sf_count_t) rows * (sf_count_t) cols * psf->bytewidth ;
++ 
++ 	psf->datalength = psf->filelength - psf->dataoffset - psf->dataend ;
++ 
++From 842303f984b2081481e74cb84a9a24ecbe3dec1a Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Wed, 11 Oct 2023 16:36:02 -0400
++Subject: [PATCH] au: avoid int overflow while calculating data_end
++
++At several points in au_read_header(), we calculate the functional end
++of the data segment by adding the (int)au_fmt.dataoffset and the
++(int)au_fmt.datasize. This can overflow the implicit int_32 return value
++and cause undefined behavior.
++
++Instead, precalculate the value and assign it to a 64-bit
++(sf_count_t)data_end variable.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++---
++ src/au.c | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
++
++diff --git a/src/au.c b/src/au.c
++index 62bd691d..f68f2587 100644
++--- a/src/au.c
+++++ b/src/au.c
++@@ -291,6 +291,7 @@ static int
++ au_read_header (SF_PRIVATE *psf)
++ {	AU_FMT	au_fmt ;
++ 	int		marker, dword ;
+++	sf_count_t data_end ;
++ 
++ 	memset (&au_fmt, 0, sizeof (au_fmt)) ;
++ 	psf_binheader_readf (psf, "pm", 0, &marker) ;
++@@ -317,14 +318,15 @@ au_read_header (SF_PRIVATE *psf)
++ 		return SFE_AU_EMBED_BAD_LEN ;
++ 		} ;
++ 
+++	data_end = (sf_count_t) au_fmt.dataoffset + (sf_count_t) au_fmt.datasize ;
++ 	if (psf->fileoffset > 0)
++-	{	psf->filelength = au_fmt.dataoffset + au_fmt.datasize ;
+++	{	psf->filelength = data_end ;
++ 		psf_log_printf (psf, "  Data Size   : %d\n", au_fmt.datasize) ;
++ 		}
++-	else if (au_fmt.datasize == -1 || au_fmt.dataoffset + au_fmt.datasize == psf->filelength)
+++	else if (au_fmt.datasize == -1 || data_end == psf->filelength)
++ 		psf_log_printf (psf, "  Data Size   : %d\n", au_fmt.datasize) ;
++-	else if (au_fmt.dataoffset + au_fmt.datasize < psf->filelength)
++-	{	psf->filelength = au_fmt.dataoffset + au_fmt.datasize ;
+++	else if (data_end < psf->filelength)
+++	{	psf->filelength = data_end ;
++ 		psf_log_printf (psf, "  Data Size   : %d\n", au_fmt.datasize) ;
++ 		}
++ 	else
++From 0754d3380a54e3fbdde0f684b88955c80c79f58f Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Wed, 11 Oct 2023 16:46:29 -0400
++Subject: [PATCH] avr: fix int overflow in avr_read_header()
++
++Pre-cast hdr.frames to sf_count_t, to provide the calculation with
++enough numeric space to avoid an int-overflow.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++---
++ src/avr.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/avr.c b/src/avr.c
++index 6c78ff69..1bc1ffc9 100644
++--- a/src/avr.c
+++++ b/src/avr.c
++@@ -162,7 +162,7 @@ avr_read_header (SF_PRIVATE *psf)
++ 	psf->endian = SF_ENDIAN_BIG ;
++ 
++  	psf->dataoffset = AVR_HDR_SIZE ;
++-	psf->datalength = hdr.frames * (hdr.rez / 8) ;
+++	psf->datalength = (sf_count_t) hdr.frames * (hdr.rez / 8) ;
++ 
++ 	if (psf->fileoffset > 0)
++ 		psf->filelength = AVR_HDR_SIZE + psf->datalength ;
++From 6ac31a68a614e2bba4a05b54e5558d6270c98376 Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Wed, 11 Oct 2023 16:54:21 -0400
++Subject: [PATCH] sds: fix int overflow warning in sample calculations
++
++The sds_*byte_read() functions compose their uint_32 sample buffers by
++shifting 7bit samples into a 32bit wide buffer, and adding them
++together. Because the 7bit samples are stored in 32bit ints, code
++fuzzers become concerned that the addition operation can overflow and
++cause undefined behavior.
++
++Instead, bitwise-OR the bytes together - which should accomplish the
++same arithmetic operation, without risking an int-overflow.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++
++Do the same for the 3byte and 4byte read functions.
++---
++ src/sds.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/sds.c b/src/sds.c
++index 6bc76171..2a0f164c 100644
++--- a/src/sds.c
+++++ b/src/sds.c
++@@ -454,7 +454,7 @@ sds_2byte_read (SF_PRIVATE *psf, SDS_PRIVATE *psds)
++ 
++ 	ucptr = psds->read_data + 5 ;
++ 	for (k = 0 ; k < 120 ; k += 2)
++-	{	sample = arith_shift_left (ucptr [k], 25) + arith_shift_left (ucptr [k + 1], 18) ;
+++	{	sample = arith_shift_left (ucptr [k], 25) | arith_shift_left (ucptr [k + 1], 18) ;
++ 		psds->read_samples [k / 2] = (int) (sample - 0x80000000) ;
++ 		} ;
++ 
++@@ -498,7 +498,7 @@ sds_3byte_read (SF_PRIVATE *psf, SDS_PRIVATE *psds)
++ 
++ 	ucptr = psds->read_data + 5 ;
++ 	for (k = 0 ; k < 120 ; k += 3)
++-	{	sample = (((uint32_t) ucptr [k]) << 25) + (ucptr [k + 1] << 18) + (ucptr [k + 2] << 11) ;
+++	{	sample = (((uint32_t) ucptr [k]) << 25) | (ucptr [k + 1] << 18) | (ucptr [k + 2] << 11) ;
++ 		psds->read_samples [k / 3] = (int) (sample - 0x80000000) ;
++ 		} ;
++ 
++@@ -542,7 +542,7 @@ sds_4byte_read (SF_PRIVATE *psf, SDS_PRIVATE *psds)
++ 
++ 	ucptr = psds->read_data + 5 ;
++ 	for (k = 0 ; k < 120 ; k += 4)
++-	{	sample = (((uint32_t) ucptr [k]) << 25) + (ucptr [k + 1] << 18) + (ucptr [k + 2] << 11) + (ucptr [k + 3] << 4) ;
+++	{	sample = (((uint32_t) ucptr [k]) << 25) | (ucptr [k + 1] << 18) | (ucptr [k + 2] << 11) | (ucptr [k + 3] << 4) ;
++ 		psds->read_samples [k / 4] = (int) (sample - 0x80000000) ;
++ 		} ;
++ 
++From 96428e1dd4998f1cd47df24f8fe9b0da35d7b947 Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Wed, 11 Oct 2023 17:26:51 -0400
++Subject: [PATCH] aiff: fix int overflow when counting header elements
++
++aiff_read_basc_chunk() tries to count the AIFF header size by keeping
++track of the bytes returned by psf_binheader_readf(). Though improbable,
++it is technically possible for these added bytes to exceed the int-sized
++`count` accumulator.
++
++Use a 64-bit sf_count_t type for `count`, to ensure that it always has
++enough numeric space.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++---
++ src/aiff.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/aiff.c b/src/aiff.c
++index a2bda8f4..6b244302 100644
++--- a/src/aiff.c
+++++ b/src/aiff.c
++@@ -1702,7 +1702,7 @@ static int
++ aiff_read_basc_chunk (SF_PRIVATE * psf, int datasize)
++ {	const char * type_str ;
++ 	basc_CHUNK bc ;
++-	int count ;
+++	sf_count_t count ;
++ 
++ 	count = psf_binheader_readf (psf, "E442", &bc.version, &bc.numBeats, &bc.rootNote) ;
++ 	count += psf_binheader_readf (psf, "E222", &bc.scaleType, &bc.sigNumerator, &bc.sigDenominator) ;
++From b352c350d35bf978e4d3a32e5d9df1f2284445f4 Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Wed, 11 Oct 2023 17:43:02 -0400
++Subject: [PATCH] ircam: fix int overflow in ircam_read_header()
++
++When reading the IRCAM header, it is possible for the calculated
++blockwidth to exceed the bounds of a signed int32.
++
++Use a 64bit sf_count_t to store the blockwidth.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++---
++ src/common.h |  2 +-
++ src/ircam.c  | 10 +++++-----
++ 2 files changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/src/common.h b/src/common.h
++index d92eabde..5369cb67 100644
++--- a/src/common.h
+++++ b/src/common.h
++@@ -439,7 +439,7 @@ typedef struct sf_private_tag
++ 	sf_count_t		datalength ;	/* Length in bytes of the audio data. */
++ 	sf_count_t		dataend ;		/* Offset to file tailer. */
++ 
++-	int				blockwidth ;	/* Size in bytes of one set of interleaved samples. */
+++	sf_count_t		blockwidth ;	/* Size in bytes of one set of interleaved samples. */
++ 	int				bytewidth ;		/* Size in bytes of one sample (one channel). */
++ 
++ 	void			*dither ;
++diff --git a/src/ircam.c b/src/ircam.c
++index 8e7cdba8..3d73ba44 100644
++--- a/src/ircam.c
+++++ b/src/ircam.c
++@@ -171,35 +171,35 @@ ircam_read_header	(SF_PRIVATE *psf)
++ 	switch (encoding)
++ 	{	case IRCAM_PCM_16 :
++ 				psf->bytewidth = 2 ;
++-				psf->blockwidth = psf->sf.channels * psf->bytewidth ;
+++				psf->blockwidth = (sf_count_t) psf->sf.channels * psf->bytewidth ;
++ 
++ 				psf->sf.format = SF_FORMAT_IRCAM | SF_FORMAT_PCM_16 ;
++ 				break ;
++ 
++ 		case IRCAM_PCM_32 :
++ 				psf->bytewidth = 4 ;
++-				psf->blockwidth = psf->sf.channels * psf->bytewidth ;
+++				psf->blockwidth = (sf_count_t) psf->sf.channels * psf->bytewidth ;
++ 
++ 				psf->sf.format = SF_FORMAT_IRCAM | SF_FORMAT_PCM_32 ;
++ 				break ;
++ 
++ 		case IRCAM_FLOAT :
++ 				psf->bytewidth = 4 ;
++-				psf->blockwidth = psf->sf.channels * psf->bytewidth ;
+++				psf->blockwidth = (sf_count_t) psf->sf.channels * psf->bytewidth ;
++ 
++ 				psf->sf.format = SF_FORMAT_IRCAM | SF_FORMAT_FLOAT ;
++ 				break ;
++ 
++ 		case IRCAM_ALAW :
++ 				psf->bytewidth = 1 ;
++-				psf->blockwidth = psf->sf.channels * psf->bytewidth ;
+++				psf->blockwidth = (sf_count_t) psf->sf.channels * psf->bytewidth ;
++ 
++ 				psf->sf.format = SF_FORMAT_IRCAM | SF_FORMAT_ALAW ;
++ 				break ;
++ 
++ 		case IRCAM_ULAW :
++ 				psf->bytewidth = 1 ;
++-				psf->blockwidth = psf->sf.channels * psf->bytewidth ;
+++				psf->blockwidth = (sf_count_t) psf->sf.channels * psf->bytewidth ;
++ 
++ 				psf->sf.format = SF_FORMAT_IRCAM | SF_FORMAT_ULAW ;
++ 				break ;
++From 3bcd291e57867f88f558fa6f80990e84311df78c Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Wed, 11 Oct 2023 16:12:22 -0400
++Subject: [PATCH] mat4/mat5: fix int overflow when calculating blockwidth
++
++Pre-cast the components of the blockwidth calculation to sf_count_t to
++avoid overflowing integers during calculation.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++---
++ src/mat4.c | 2 +-
++ src/mat5.c | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/mat4.c b/src/mat4.c
++index 575683ba..9f046f0c 100644
++--- a/src/mat4.c
+++++ b/src/mat4.c
++@@ -104,7 +104,7 @@ mat4_open	(SF_PRIVATE *psf)
++ 
++ 	psf->container_close = mat4_close ;
++ 
++-	psf->blockwidth = psf->bytewidth * psf->sf.channels ;
+++	psf->blockwidth = (sf_count_t) psf->bytewidth * psf->sf.channels ;
++ 
++ 	switch (subformat)
++ 	{	case SF_FORMAT_PCM_16 :
++diff --git a/src/mat5.c b/src/mat5.c
++index da5a6eca..20f0ea64 100644
++--- a/src/mat5.c
+++++ b/src/mat5.c
++@@ -114,7 +114,7 @@ mat5_open	(SF_PRIVATE *psf)
++ 
++ 	psf->container_close = mat5_close ;
++ 
++-	psf->blockwidth = psf->bytewidth * psf->sf.channels ;
+++	psf->blockwidth = (sf_count_t) psf->bytewidth * psf->sf.channels ;
++ 
++ 	switch (subformat)
++ 	{	case SF_FORMAT_PCM_U8 :
++From c177e292d47ef73b1d3c1bb391320299a0ed2ff9 Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Mon, 16 Oct 2023 12:37:47 -0400
++Subject: [PATCH] common: fix int overflow in psf_binheader_readf()
++
++The psf_binheader_readf() function attempts to count and return the
++number of bytes traversed in the header. During this accumulation, it is
++possible to overflow the int-sized byte_count variable.
++
++Avoid this overflow by checking that the accumulated bytes do not exceed
++INT_MAX and throwing an error if they do. This implies that files with
++multi-gigabyte headers threaten to produce this error, but I imagine
++those files don't really exist - and this error is better than the
++undefined behavior which would have resulted previously.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++---
++ src/common.c | 36 ++++++++++++++++++++++++------------
++ 1 file changed, 24 insertions(+), 12 deletions(-)
++
++diff --git a/src/common.c b/src/common.c
++index 1c3d951d..7f6cceca 100644
++--- a/src/common.c
+++++ b/src/common.c
++@@ -18,6 +18,7 @@
++ 
++ #include <config.h>
++ 
+++#include <limits.h>
++ #include <stdarg.h>
++ #include <string.h>
++ #if HAVE_UNISTD_H
++@@ -990,6 +991,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 	double			*doubleptr ;
++ 	char			c ;
++ 	int				byte_count = 0, count = 0 ;
+++	int				read_bytes = 0 ;
++ 
++ 	if (! format)
++ 		return psf_ftell (psf) ;
++@@ -998,6 +1000,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 
++ 	while ((c = *format++))
++ 	{
+++		read_bytes = 0 ;
++ 		if (psf->header.indx + 16 >= psf->header.len && psf_bump_header_allocation (psf, 16))
++ 			break ;
++ 
++@@ -1014,7 +1017,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 					intptr = va_arg (argptr, unsigned int*) ;
++ 					*intptr = 0 ;
++ 					ucptr = (unsigned char*) intptr ;
++-					byte_count += header_read (psf, ucptr, sizeof (int)) ;
+++					read_bytes = header_read (psf, ucptr, sizeof (int)) ;
++ 					*intptr = GET_MARKER (ucptr) ;
++ 					break ;
++ 
++@@ -1022,7 +1025,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 					intptr = va_arg (argptr, unsigned int*) ;
++ 					*intptr = 0 ;
++ 					ucptr = (unsigned char*) intptr ;
++-					byte_count += header_read (psf, sixteen_bytes, sizeof (sixteen_bytes)) ;
+++					read_bytes = header_read (psf, sixteen_bytes, sizeof (sixteen_bytes)) ;
++ 					{	int k ;
++ 						intdata = 0 ;
++ 						for (k = 0 ; k < 16 ; k++)
++@@ -1034,14 +1037,14 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 			case '1' :
++ 					charptr = va_arg (argptr, char*) ;
++ 					*charptr = 0 ;
++-					byte_count += header_read (psf, charptr, sizeof (char)) ;
+++					read_bytes = header_read (psf, charptr, sizeof (char)) ;
++ 					break ;
++ 
++ 			case '2' : /* 2 byte value with the current endian-ness */
++ 					shortptr = va_arg (argptr, unsigned short*) ;
++ 					*shortptr = 0 ;
++ 					ucptr = (unsigned char*) shortptr ;
++-					byte_count += header_read (psf, ucptr, sizeof (short)) ;
+++					read_bytes = header_read (psf, ucptr, sizeof (short)) ;
++ 					if (psf->rwf_endian == SF_ENDIAN_BIG)
++ 						*shortptr = GET_BE_SHORT (ucptr) ;
++ 					else
++@@ -1051,7 +1054,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 			case '3' : /* 3 byte value with the current endian-ness */
++ 					intptr = va_arg (argptr, unsigned int*) ;
++ 					*intptr = 0 ;
++-					byte_count += header_read (psf, sixteen_bytes, 3) ;
+++					read_bytes = header_read (psf, sixteen_bytes, 3) ;
++ 					if (psf->rwf_endian == SF_ENDIAN_BIG)
++ 						*intptr = GET_BE_3BYTE (sixteen_bytes) ;
++ 					else
++@@ -1062,7 +1065,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 					intptr = va_arg (argptr, unsigned int*) ;
++ 					*intptr = 0 ;
++ 					ucptr = (unsigned char*) intptr ;
++-					byte_count += header_read (psf, ucptr, sizeof (int)) ;
+++					read_bytes = header_read (psf, ucptr, sizeof (int)) ;
++ 					if (psf->rwf_endian == SF_ENDIAN_BIG)
++ 						*intptr = psf_get_be32 (ucptr, 0) ;
++ 					else
++@@ -1072,7 +1075,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 			case '8' : /* 8 byte value with the current endian-ness */
++ 					countptr = va_arg (argptr, sf_count_t *) ;
++ 					*countptr = 0 ;
++-					byte_count += header_read (psf, sixteen_bytes, 8) ;
+++					read_bytes = header_read (psf, sixteen_bytes, 8) ;
++ 					if (psf->rwf_endian == SF_ENDIAN_BIG)
++ 						countdata = psf_get_be64 (sixteen_bytes, 0) ;
++ 					else
++@@ -1083,7 +1086,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 			case 'f' : /* Float conversion */
++ 					floatptr = va_arg (argptr, float *) ;
++ 					*floatptr = 0.0 ;
++-					byte_count += header_read (psf, floatptr, sizeof (float)) ;
+++					read_bytes = header_read (psf, floatptr, sizeof (float)) ;
++ 					if (psf->rwf_endian == SF_ENDIAN_BIG)
++ 						*floatptr = float32_be_read ((unsigned char*) floatptr) ;
++ 					else
++@@ -1093,7 +1096,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 			case 'd' : /* double conversion */
++ 					doubleptr = va_arg (argptr, double *) ;
++ 					*doubleptr = 0.0 ;
++-					byte_count += header_read (psf, doubleptr, sizeof (double)) ;
+++					read_bytes = header_read (psf, doubleptr, sizeof (double)) ;
++ 					if (psf->rwf_endian == SF_ENDIAN_BIG)
++ 						*doubleptr = double64_be_read ((unsigned char*) doubleptr) ;
++ 					else
++@@ -1117,7 +1120,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 					charptr = va_arg (argptr, char*) ;
++ 					count = va_arg (argptr, size_t) ;
++ 					memset (charptr, 0, count) ;
++-					byte_count += header_read (psf, charptr, count) ;
+++					read_bytes = header_read (psf, charptr, count) ;
++ 					break ;
++ 
++ 			case 'G' :
++@@ -1128,7 +1131,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 					if (psf->header.indx + count >= psf->header.len && psf_bump_header_allocation (psf, count))
++ 						break ;
++ 
++-					byte_count += header_gets (psf, charptr, count) ;
+++					read_bytes = header_gets (psf, charptr, count) ;
++ 					break ;
++ 
++ 			case 'z' :
++@@ -1152,7 +1155,7 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 			case 'j' :	/* Seek to position from current position. */
++ 					count = va_arg (argptr, size_t) ;
++ 					header_seek (psf, count, SEEK_CUR) ;
++-					byte_count += count ;
+++					read_bytes = count ;
++ 					break ;
++ 
++ 			case '!' : /* Clear buffer, forcing re-read. */
++@@ -1164,8 +1167,17 @@ psf_binheader_readf (SF_PRIVATE *psf, char const *format, ...)
++ 				psf->error = SFE_INTERNAL ;
++ 				break ;
++ 			} ;
+++
+++		if (read_bytes > 0 && byte_count > (INT_MAX - read_bytes))
+++		{	psf_log_printf (psf, "Header size exceeds INT_MAX. Aborting.", c) ;
+++			psf->error = SFE_INTERNAL ;
+++			break ;
+++		} else
+++		{	byte_count += read_bytes ;
++ 		} ;
++ 
+++		} ;	/*end while*/
+++
++ 	va_end (argptr) ;
++ 
++ 	return byte_count ;
++From a23d563386e7c8d93dcdbe7d5b1d63cad6009116 Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Thu, 19 Oct 2023 14:07:19 -0400
++Subject: [PATCH] nms_adpcm: fix int overflow in signal estimate
++
++It is possible (though functionally incorrect) for the signal estimate
++calculation in nms_adpcm_update() to overflow the int value of s_e,
++resulting in undefined behavior.
++
++Since adpcm state signal values are never practically larger than
++16 bits, use smaller numeric sizes throughout the file to avoid the
++overflow.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Authored-by: Arthur Taylor <art@ified.ca>
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++Rebased-by: Alex Stewart <alex.stewart@ni.com>
++---
++ src/nms_adpcm.c | 85 ++++++++++++++++++++++++-------------------------
++ 1 file changed, 42 insertions(+), 43 deletions(-)
++
++diff --git a/src/nms_adpcm.c b/src/nms_adpcm.c
++index 96d6ad26..460ea077 100644
++--- a/src/nms_adpcm.c
+++++ b/src/nms_adpcm.c
++@@ -48,36 +48,36 @@
++ /* Variable names from ITU G.726 spec */
++ struct nms_adpcm_state
++ {	/* Log of the step size multiplier. Operated on by codewords. */
++-	int yl ;
+++	short yl ;
++ 
++ 	/* Quantizer step size multiplier. Generated from yl. */
++-	int y ;
+++	short y ;
++ 
++-	/* Coefficents of the pole predictor */
++-	int a [2] ;
+++	/* Coefficients of the pole predictor */
+++	short a [2] ;
++ 
++-	/* Coefficents of the zero predictor  */
++-	int b [6] ;
+++	/* Coefficients of the zero predictor  */
+++	short b [6] ;
++ 
++ 	/* Previous quantized deltas (multiplied by 2^14) */
++-	int d_q [7] ;
+++	short d_q [7] ;
++ 
++ 	/* d_q [x] + s_ez [x], used by the pole-predictor for signs only. */
++-	int p [3] ;
+++	short p [3] ;
++ 
++ 	/* Previous reconstructed signal values. */
++-	int s_r [2] ;
+++	short s_r [2] ;
++ 
++ 	/* Zero predictor components of the signal estimate. */
++-	int s_ez ;
+++	short s_ez ;
++ 
++ 	/* Signal estimate, (including s_ez). */
++-	int s_e ;
+++	short s_e ;
++ 
++ 	/* The most recent codeword (enc:generated, dec:inputted) */
++-	int Ik ;
+++	char Ik ;
++ 
++-	int parity ;
+++	char parity ;
++ 
++ 	/*
++ 	** Offset into code tables for the bitrate.
++@@ -109,7 +109,7 @@ typedef struct
++ } NMS_ADPCM_PRIVATE ;
++ 
++ /* Pre-computed exponential interval used in the antilog approximation. */
++-static unsigned int table_expn [] =
+++static unsigned short table_expn [] =
++ {	0x4000, 0x4167, 0x42d5, 0x444c,	0x45cb, 0x4752, 0x48e2, 0x4a7a,
++ 	0x4c1b, 0x4dc7, 0x4f7a, 0x5138,	0x52ff, 0x54d1, 0x56ac, 0x5892,
++ 	0x5a82, 0x5c7e, 0x5e84, 0x6096,	0x62b4, 0x64dd, 0x6712, 0x6954,
++@@ -117,21 +117,21 @@ static unsigned int table_expn [] =
++ } ;
++ 
++ /* Table mapping codewords to scale factor deltas. */
++-static int table_scale_factor_step [] =
+++static short table_scale_factor_step [] =
++ {	0x0,	0x0,	0x0,	0x0,	0x4b0,	0x0,	0x0,	0x0,	/* 2-bit */
++ 	-0x3c,	0x0,	0x90,	0x0,	0x2ee,	0x0,	0x898,	0x0,	/* 3-bit */
++ 	-0x30,	0x12,	0x6b,	0xc8,	0x188,	0x2e0,	0x551,	0x1150,	/* 4-bit */
++ } ;
++ 
++ /* Table mapping codewords to quantized delta interval steps. */
++-static unsigned int table_step [] =
+++static unsigned short table_step [] =
++ {	0x73F,	0,		0,		0,		0x1829,	0,		0,		0,		/* 2-bit */
++ 	0x3EB,	0,		0xC18,	0,		0x1581,	0,		0x226E,	0,		/* 3-bit */
++ 	0x20C,	0x635,	0xA83,	0xF12,	0x1418,	0x19E3,	0x211A,	0x2BBA,	/* 4-bit */
++ } ;
++ 
++ /* Binary search lookup table for quantizing using table_step. */
++-static int table_step_search [] =
+++static short table_step_search [] =
++ {	0,		0x1F6D,	0,		-0x1F6D,	0,		0,			0,			0, /* 2-bit */
++ 	0x1008,	0x1192,	0,		-0x219A,	0x1656,	-0x1656,	0,			0, /* 3-bit */
++ 	0x872,	0x1277,	-0x8E6,	-0x232B,	0xD06,	-0x17D7,	-0x11D3,	0, /* 4-bit */
++@@ -179,23 +179,23 @@ static sf_count_t nms_adpcm_seek (SF_PRIVATE *psf, int mode, sf_count_t offset)
++ ** Maps [1,20480] to [1,1024] in an exponential relationship. This is
++ ** approximately ret = b^exp where b = e^(ln(1024)/ln(20480)) ~= 1.0003385
++ */
++-static inline int
++-nms_adpcm_antilog (int exp)
++-{	int ret ;
+++static inline short
+++nms_adpcm_antilog (short exp)
+++{	int_fast32_t r ;
++ 
++-	ret = 0x1000 ;
++-	ret += (((exp & 0x3f) * 0x166b) >> 12) ;
++-	ret *= table_expn [(exp & 0x7c0) >> 6] ;
++-	ret >>= (26 - (exp >> 11)) ;
+++	r = 0x1000 ;
+++	r += (((int_fast32_t) (exp & 0x3f) * 0x166b) >> 12) ;
+++	r *= table_expn [(exp & 0x7c0) >> 6] ;
+++	r >>= (26 - (exp >> 11)) ;
++ 
++-	return ret ;
+++	return (short) r ;
++ } /* nms_adpcm_antilog */
++ 
++ static void
++ nms_adpcm_update (struct nms_adpcm_state *s)
++ {	/* Variable names from ITU G.726 spec */
++-	int a1ul ;
++-	int fa1 ;
+++	short a1ul, fa1 ;
+++	int_fast32_t se ;
++ 	int i ;
++ 
++ 	/* Decay and Modify the scale factor in the log domain based on the codeword. */
++@@ -222,7 +222,7 @@ nms_adpcm_update (struct nms_adpcm_state *s)
++ 	else if (fa1 > 256)
++ 		fa1 = 256 ;
++ 
++-	s->a [0] = (0xff * s->a [0]) >> 8 ;
+++	s->a [0] = (s->a [0] * 0xff) >> 8 ;
++ 	if (s->p [0] != 0 && s->p [1] != 0 && ((s->p [0] ^ s->p [1]) < 0))
++ 		s->a [0] -= 192 ;
++ 	else
++@@ -230,7 +230,7 @@ nms_adpcm_update (struct nms_adpcm_state *s)
++ 		fa1 = -fa1 ;
++ 		}
++ 
++-	s->a [1] = fa1 + ((0xfe * s->a [1]) >> 8) ;
+++	s->a [1] = fa1 + ((s->a [1] * 0xfe) >> 8) ;
++ 	if (s->p [0] != 0 && s->p [2] != 0 && ((s->p [0] ^ s->p [2]) < 0))
++ 		s->a [1] -= 128 ;
++ 	else
++@@ -250,19 +250,18 @@ nms_adpcm_update (struct nms_adpcm_state *s)
++ 			s->a [0] = a1ul ;
++ 		} ;
++ 
++-	/* Compute the zero predictor estimate. Rotate past deltas too. */
++-	s->s_ez = 0 ;
+++	/* Compute the zero predictor estimate and rotate past deltas. */
+++	se = 0 ;
++ 	for (i = 5 ; i >= 0 ; i--)
++-	{	s->s_ez += s->d_q [i] * s->b [i] ;
+++	{	se += (int_fast32_t) s->d_q [i] * s->b [i] ;
++ 		s->d_q [i + 1] = s->d_q [i] ;
++ 		} ;
+++	s->s_ez = se >> 14 ;
++ 
++-	/* Compute the signal estimate. */
++-	s->s_e = s->a [0] * s->s_r [0] + s->a [1] * s->s_r [1] + s->s_ez ;
++-
++-	/* Return to scale */
++-	s->s_ez >>= 14 ;
++-	s->s_e >>= 14 ;
+++	/* Complete the signal estimate. */
+++	se += (int_fast32_t) s->a [0] * s->s_r [0] ;
+++	se += (int_fast32_t) s->a [1] * s->s_r [1] ;
+++	s->s_e = se >> 14 ;
++ 
++ 	/* Rotate members to prepare for next iteration. */
++ 	s->s_r [1] = s->s_r [0] ;
++@@ -274,7 +273,7 @@ nms_adpcm_update (struct nms_adpcm_state *s)
++ static int16_t
++ nms_adpcm_reconstruct_sample (struct nms_adpcm_state *s, uint8_t I)
++ {	/* Variable names from ITU G.726 spec */
++-	int dqx ;
+++	int_fast32_t dqx ;
++ 
++ 	/*
++ 	** The ordering of the 12-bit right-shift is a precision loss. It agrees
++@@ -308,17 +307,17 @@ nms_adpcm_codec_init (struct nms_adpcm_state *s, enum nms_enc_type type)
++ /*
++ ** nms_adpcm_encode_sample()
++ **
++-** Encode a linear 16-bit pcm sample into a 2,3, or 4 bit NMS-ADPCM codeword
+++** Encode a linear 16-bit pcm sample into a 2, 3, or 4 bit NMS-ADPCM codeword
++ ** using and updating the predictor state.
++ */
++ static uint8_t
++ nms_adpcm_encode_sample (struct nms_adpcm_state *s, int16_t sl)
++ {	/* Variable names from ITU G.726 spec */
++-	int d ;
+++	int_fast32_t d ;
++ 	uint8_t I ;
++ 
++ 	/* Down scale the sample from 16 => ~14 bits. */
++-	sl = (sl * 0x1fdf) / 0x7fff ;
+++	sl = ((int_fast32_t) sl * 0x1fdf) / 0x7fff ;
++ 
++ 	/* Compute estimate, and delta from actual value */
++ 	nms_adpcm_update (s) ;
++@@ -407,7 +406,7 @@ nms_adpcm_encode_sample (struct nms_adpcm_state *s, int16_t sl)
++ */
++ static int16_t
++ nms_adpcm_decode_sample (struct nms_adpcm_state *s, uint8_t I)
++-{	int sl ;
+++{	int_fast32_t sl ;
++ 
++ 	nms_adpcm_update (s) ;
++ 	sl = nms_adpcm_reconstruct_sample (s, I) ;
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+index 9c1f601aab..a9ee7c3575 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+@@ -9,6 +9,7 @@ LICENSE = "LGPL-2.1-only"
  
- S = "${WORKDIR}/SDL2-${PV}"
- 
--SRC_URI[sha256sum] = "7acb8679652701a2504d734e2ba7543ec1a83e310498ddd22fd44bf965eb5518"
-+SRC_URI[sha256sum] = "888b8c39f36ae2035d023d1b14ab0191eb1d26403c3cf4d4d5ede30e66a4942c"
- 
- inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
+            file://noopus.patch \
++           file://cve-2022-33065.patch \
+           "
+ GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
  
 -- 
 2.34.1
