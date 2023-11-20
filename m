@@ -1,133 +1,264 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5753BC072A2
-	for <webhook@archiver.kernel.org>; Sun, 19 Nov 2023 15:18:01 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web10.29685.1700407072164180185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B773C54E76
+	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 12:49:19 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.49338.1700484552090222369
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Nov 2023 07:17:52 -0800
+ Mon, 20 Nov 2023 04:49:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=L0Z82uYP;
- spf=softfail (domain: sakoman.com, ip: 209.85.222.176, mailfrom: steve@sakoman.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-77c200f4680so155600385a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Nov 2023 07:17:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ew2mH/9N;
+ spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-548d1f8b388so885373a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 04:49:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700407071; x=1701011871; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+94lW/+quS1srJCTDo1eNbWiy1X7zkj+tCpO33w14x8=;
-        b=L0Z82uYPAJeGGvoWknmRa1Wn7ctsiYkr64YyQpmIJsxfuvGPqyQy4Y0lx4YaXAOjvp
-         yenfwmdCxz+D/1Iag7r9FBCkSPj7fNe5azv98xicwHadvMgUQL7zvWdGk0QVBLTQM5I0
-         s7RXYV6fOOGAdoiw355kzTyZsaCjtc3WTyIHAY+uH71dzWWOGEYFInV2p/Ifaya0rBz4
-         N7FaOPH1SXI8PdEE+iflWuW1pS/yPMtT114LHjbNJazrWm53lPVev/VdJ6THma09TcmV
-         8I9iu4+WeuezLgRBC+IoB7Myb3yx8rtzBBF6p+Yrl2tT27RVQfAsM+X8EulhY9q8LpOl
-         T7Ug==
+        d=gmail.com; s=20230601; t=1700484550; x=1701089350; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=mymSOQ5pVLXnJr/ay9d4wedzh8VWnzxFJmK6JBuJ6S8=;
+        b=ew2mH/9Nyzm4tmXcEZ3V0jaesbiOLLQxzHbFooO7mAyOgISLbZbZzxkViKeKU/uacr
+         9w0RpLdOgD1v/HL0ltTqxXaS/D9FlVv9JRRYsyNWP/4+RuqwtL41oVukj78kbNhbNXyP
+         IPsyo04L/nSiiOmT7U7Sc49r9YWGcFd34w+wIYbm0CvvTb3Xud+eJj+HRGkKsaNbcx92
+         C7CB4mHZIyEVKDuMWgc47A7+PNYQOrTETN23RG1QG8x3YoQs1GRZG1zzTpyPcapT8Jyh
+         QXj4DmQGjSCeu4VjmiwCGZlLUJ559PIPZQgc+zQEmqbVAMbZUDVjUI/mgKiD0CbVvTo6
+         KTUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700407071; x=1701011871;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+94lW/+quS1srJCTDo1eNbWiy1X7zkj+tCpO33w14x8=;
-        b=ZxU5lvE+3K/DicPa3+71K0q1qVYxCUhWSV/+l8c0cSnNgmWbUVLV2wfT12rw8hjrhz
-         PrEbyRpQpWI2ZsqkalR4dmf6nIu//MfVygN6F8528HhADkRtr5zCEVe1EzE3XACV7njS
-         aPATqbWRLd8kYiDgVQ9O6A6cwWU5RW468PqpjF1hF8lgR9GVG2oxxRQvHDCxTrHn4Wwj
-         RokHNI+qQeo8h0Fu9pbjNaSR5dYodyjwCyv4YaF48i2E++NWX3mcb6mtWBvHatrfeBYV
-         ZmFpqkFyCCIg4w9S9nW9XbVUFA+B3j5zBIJlSJV/8nk2xx+Mqvs+zgHh/qRIjHJlWozK
-         1KkQ==
-X-Gm-Message-State: AOJu0YzdYDUB1QBbnc6+G1AJw8Ktoq+8Msq11RloJkYVEw9N9HoH/I2Z
-	IKYaClC9R33Gfzm/aByWd4ccb8YcpIGEWwXboRT6AA==
-X-Google-Smtp-Source: AGHT+IGCQagK0ILEdbBIacQu6BNdMQErcjlO6uzFaSm2fSL4HOcfyifGKnWgvZURi3t5Su5kQOQneA==
-X-Received: by 2002:a05:620a:2b42:b0:778:8ebc:129e with SMTP id dp2-20020a05620a2b4200b007788ebc129emr7883764qkb.15.1700407070893;
-        Sun, 19 Nov 2023 07:17:50 -0800 (PST)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id bj17-20020a05620a191100b0076ee973b9a7sm2010267qkb.27.2023.11.19.07.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 07:17:50 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 474FE1069C3; Sun, 19 Nov 2023 05:17:49 -1000 (HST)
-Subject: OE-core CVE metrics for nanbield on Sun 19 Nov 2023 05:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 19 Nov 2023 05:17:49 -1000
-Message-Id: <20231119151749.474FE1069C3@builder.sakoman.com>
+        d=1e100.net; s=20230601; t=1700484550; x=1701089350;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mymSOQ5pVLXnJr/ay9d4wedzh8VWnzxFJmK6JBuJ6S8=;
+        b=dsJ4HXZANovI0/cObA+mVlMMHDDo/bzEegQKE3K8+/3iCeYQBHc2HQHP0FeoE/ESmi
+         FLgdYi4O3DkRpDp6VC2f7xmg2veX0ovlhorUeSUzLWAUDu62mf0Oe3i1aOWOcgBkADs+
+         xAFJXJNE55pexAbW2ChrUtVAPkpfbkX2DUFHGhOGeso7UkomBi0jpeqyb4Fl9XIxrB56
+         gN7BH8aoH1ua66Ma1yhvXalULr4F6OcSmiKtIdLKYzzIfQBUKwIqYE3+RDv9E/mDRN5M
+         +qSrd3tPjBjgXzw5tRFmd7SFQHsjsZNhUdDB/9nNJyCfiTldlQYIEKtAYWbZB/wk1vrB
+         Lwwg==
+X-Gm-Message-State: AOJu0YzPTO4bz2inWQfrvbeLhjWm3DAwfTgj6M7hJVOUXdSRZqhml6b1
+	TUPjkZ2GOe4ZBd9YTorv1AJtNQRpsG1YmipBudo=
+X-Google-Smtp-Source: AGHT+IGnRjpHsZaG1AKcD+sPIogzILa8y9uBiYHTIAzEEISIcyihJ15B2k9jfG2ghVbjH4BQTLJEz56ms3K5VcstFDs=
+X-Received: by 2002:aa7:c9d7:0:b0:548:a227:b09c with SMTP id
+ i23-20020aa7c9d7000000b00548a227b09cmr3170306edt.36.1700484550350; Mon, 20
+ Nov 2023 04:49:10 -0800 (PST)
+MIME-Version: 1.0
+References: <20230901233231.1109712-1-michelle.linto91@gmail.com>
+ <141c44bea4477d552aa4fc0371094b8ad4dc65b5.camel@linuxfoundation.org> <6f267d3e-adc7-c650-8d81-4fc019384d5a@linux.microsoft.com>
+In-Reply-To: <6f267d3e-adc7-c650-8d81-4fc019384d5a@linux.microsoft.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Mon, 20 Nov 2023 14:48:59 +0200
+Message-ID: <CALT56yOchv+3n7Xs_0w+FTEKtVu0qEH-VqmjNsMHXcw7RmG6fw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uki: Add support for building Unified Kernel Images
+To: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Michelle Lin <michelle.linto91@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 19 Nov 2023 15:18:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190875
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 12:49:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190876
 
-Branch: nanbield
+On Thu, 7 Sept 2023 at 01:29, Alejandro Hernandez Samaniego
+<alhe@linux.microsoft.com> wrote:
+>
+>
+> On 9/2/23 00:53, Richard Purdie wrote:
+> > On Fri, 2023-09-01 at 23:32 +0000, Michelle Lin wrote:
+> >> Currently, there is not a class to support the building of unified kernel
+> >> images. Adding a uki.bbclass to support the creation of UKIs. This class calls
+> >> the systemd Ukify tool, which will combine the kernel/initrd/stub components to
+> >> build the UKI. To sign the UKI (i.e. SecureBoot, TPM PCR signing), the keys/cert
+> >> files are to be specified in a separate configuration file, and the path to the
+> >> file is passed to the Ukify tool. UKIs are supported by UEFI and can improve
+> >> security through predicted TPM PCR states, and reduce the build burden due to
+> >> its single PE binary format.
+> >>
+> >> Signed-off-by: Michelle Lin <michelle.linto91@gmail.com>
+> >> ---
+> >>   meta/classes/uki.bbclass                 | 140 +++++++++++++++++++++++
+> >>   meta/recipes-core/systemd/systemd_254.bb |  23 ++++
+> >>   2 files changed, 163 insertions(+)
+> >>   create mode 100644 meta/classes/uki.bbclass
+> >>
+> >> diff --git a/meta/classes/uki.bbclass b/meta/classes/uki.bbclass
+> >> new file mode 100644
+> >> index 0000000000..2eff387c75
+> >> --- /dev/null
+> >> +++ b/meta/classes/uki.bbclass
+> >> @@ -0,0 +1,140 @@
+> >> +#
+> >> +# Unified kernel image (UKI) class
+> >> +#
+> >> +#
+> >> +# This bbclass is designed to repack an Overlake image as a UKI, to be booted on a qemuarm64 with SecureBoot
+> >> +# signing and embedded with TPM PCR measurements.
+> >> +#
+> >> +# The UKI is composed by:
+> >> +#   - an UEFI stub
+> >> +#     The linux kernel can generate a UEFI stub, however the one from systemd-boot can fetch
+> >> +#     the command line from a separate section of the EFI application, avoiding the need to
+> >> +#     rebuild the kernel.
+> >> +#   - the kernel
+> >> +#   - an initramfs
+> >> +#   - other metadata (e.g. PCR measurements)
+> >> +#
+> >> +#
+> >> +#
+> >> +
+> >> +# List build time dependencies
+> >> +DEPENDS += "systemd-native \
+> >> +            sbsigntool-native \
+> >> +            virtual/${TARGET_PREFIX}binutils \
+> >> +            "
+> >> +
+> >> +REQUIRED_DISTRO_FEATURES += "usrmerge systemd"
+> >> +
+> >> +inherit features_check
+> >> +require ../conf/image-uefi.conf
+> >> +
+> >> +INITRD_IMAGE ?= "core-image-minimal-initramfs"
+> >> +
+> >> +INITRD_LIVE ?= "${@ ('${DEPLOY_DIR_IMAGE}/' + d.getVar('INITRD_IMAGE') + '-${MACHINE}.cpio.gz') if d.getVar('INITRD_IMAGE') else ''}"
+> >> +
+> >> +UKI_CONFIG_FILE ?= "${WORKDIR}/core-image-minimal-uki.conf"
+> >> +UKI_FILENAME ?= "${@ 'UKI.signed.efi' if d.getVar('UKI_CONFIG_FILE') else 'UKI.unsigned.efi'}"
+> >> +
+> >> +do_uki[depends] += " \
+> >> +                        systemd-boot:do_deploy \
+> >> +                        virtual/kernel:do_deploy \
+> >> +                     "
+> >> +
+> >> +# INITRD_IMAGE is added to INITRD_LIVE, which we use to create our initrd, so depend on it if it is set
+> >> +# So we want to generate the initrd image if INITRD_IMAGE exists
+> >> +do_uki[depends] += "${@ '${INITRD_IMAGE}:do_image_complete' if d.getVar('INITRD_IMAGE') else ''}"
+> >> +
+> >> +# ensure that the build directory is empty everytime we generate a newly-created uki
+> >> +do_uki[cleandirs] = "${B}"
+> >> +# influence the build directory at the start of the builds
+> >> +do_uki[dirs] = "${B}"
+> >> +
+> >> +# we want to allow specifying files in SRC_URI, such as for signing the UKI
+> >> +python () {
+> >> +    d.delVarFlag("do_fetch","noexec")
+> >> +    d.delVarFlag("do_unpack","noexec")
+> >> +}
+> >> +
+> >> +# main task
+> >> +python do_uki() {
+> >> +    import glob
+> >> +    import subprocess
+> >> +
+> >> +    # Construct the ukify command
+> >> +    ukify_cmd = ("ukify build")
+> >> +
+> >> +    # Handle the creation of an initrd image by reading and concatenating multiple cpio files.
+> >> +    # If the INITRD_LIVE variable is defined and not empty, it opens the necessary files, reads their contents,
+> >> +    # and constructs a list.
+> >> +    if d.getVar('INITRD_LIVE'):
+> >> +        initrd_list = ""
+> >> +        for cpio in d.getVar('INITRD_LIVE').split():
+> >> +            # get a list of initrds
+> >> +            initrd_list += cpio + ' '
+> >> +
+> >> +        ukify_cmd += " --initrd=%s" % initrd_list
+> >> +    else:
+> >> +        bb.fatal("ERROR - Required argument: INITRD")
+> >> +
+> >> +    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
+> >> +
+> >> +    # Kernel
+> >> +    if d.getVar('KERNEL_IMAGETYPE'):
+> >> +        kernel = "%s/%s" % (deploy_dir_image, d.getVar('KERNEL_IMAGETYPE'))
+> >> +        kernel_version = d.getVar('KERNEL_VERSION')
+> >> +        if not os.path.exists(kernel):
+> >> +            bb.fatal(f"ERROR: cannot find {kernel}.")
+> >> +
+> >> +        ukify_cmd += " --linux=%s --uname %s" % (kernel, kernel_version)
+> >> +    else:
+> >> +        bb.fatal("ERROR - Required argument: KERNEL")
+> >> +
+> >> +    # Architecture
+> >> +    target_arch = d.getVar('EFI_ARCH')
+> >> +    ukify_cmd += " --efi-arch %s" % target_arch
+> >> +
+> >> +    # Stub
+> >> +    stub = "%s/linux%s.efi.stub" % (deploy_dir_image, target_arch)
+> >> +    if not os.path.exists(stub):
+> >> +        bb.fatal(f"ERROR: cannot find {stub}.")
+> >> +    ukify_cmd += " --stub %s" % stub
+> >> +
+> >> +    # Add option for dtb
+> >> +    if d.getVar('KERNEL_DEVICETREE'):
+> >> +        first_dtb = d.getVar('KERNEL_DEVICETREE').split()[0]
+> >> +        dtb_path = "%s/%s" % (deploy_dir_image, first_dtb)
+> >> +
+> >> +        if not os.path.exists(dtb_path):
+> >> +            bb.fatal(f"ERROR: cannot find {dtb_path}.")
+> >> +
+> >> +        ukify_cmd += " --devicetree %s" % dtb_path
+> >> +
+> >> +    # Add option to pass a config file to sign the UKI.
+> >> +    if os.path.exists(d.getVar('UKI_CONFIG_FILE')):
+> >> +        ukify_cmd += " --config=%s" % d.getVar('UKI_CONFIG_FILE')
+> >> +        ukify_cmd += " --tools=%s%s/lib/systemd/tools" % (d.getVar("RECIPE_SYSROOT_NATIVE"), d.getVar("prefix"))
+> >> +        bb.note("Pulling keys from config file")
+> >> +    else:
+> >> +        bb.note("Generating unsigned UKI")
+> >> +
+> >> +    # Custom UKI name
+> >> +    output = " --output=%s" % d.getVar('UKI_FILENAME')
+> >> +    ukify_cmd += " %s" % output
+> >> +
+> >> +    # Set env to determine where bitbake should look for dynamic libraries
+> >> +    env = os.environ.copy() # get the env variables
+> >> +    env['LD_LIBRARY_PATH'] = d.expand("${RECIPE_SYSROOT_NATIVE}/usr/lib/systemd:${LD_LIBRARY_PATH}")
+> >> +
+> >> +    # Run the ukify command
+> >> +    subprocess.check_call(ukify_cmd, env=env, shell=True)
+> >> +}
+> >> +
+> >> +inherit deploy
+> >> +
+> >> +do_deploy () {
+> >> +    # Copy generated UKI into DEPLOYDIR
+> >> +    install ${B}/${UKI_FILENAME} ${DEPLOYDIR}
+> >> +}
+> >> +
+> >> +addtask uki before do_deploy do_image after do_rootfs
+> >> +addtask deploy before do_build after do_compile
+> >> \ No newline at end of file
+> >> diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/systemd/systemd_254.bb
+> >> index 8d5cf13095..65f132abb8 100644
+> >> --- a/meta/recipes-core/systemd/systemd_254.bb
+> >> +++ b/meta/recipes-core/systemd/systemd_254.bb
+> >> @@ -6,6 +6,9 @@ PE = "1"
+> >>
+> >>   DEPENDS = "intltool-native gperf-native libcap util-linux python3-jinja2-native"
+> >>
+> >> +# The Ukify tool requires this module
+> >> +DEPENDS:append:class-native = " python3-pefile-native"
+> > Do we need to add this to OE-Core? I think this will cause current
+> > builds to fail?
+>
+>
+> I think you are right, there are some dependencies from this that are
+> not present in OE-core, this probably belongs in a different layer, at
+> least for the time being.
 
-New this week: 5 CVEs
-CVE-2023-45283 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45283 *
-CVE-2023-45284 (CVSS3: 5.3 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45284 *
-CVE-2023-47233 (CVSS3: 4.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47233 *
-CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
-CVE-2023-5678 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5678 *
+I think that ukify is useful in OE-core. Having it in another layer
+would mean that we can not use it from the BSP layer.
 
-Removed this week: 0 CVEs
+As the ukify is usable even without sbsign and pesign, I think we can
+do either of the following things:
 
-Full list:  Found 58 unpatched CVEs
-CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-33065 (CVSS3: 7.8 HIGH): libsndfile1 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-33065 *
-CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2023-0687 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0687 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-38469 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38469 *
-CVE-2023-38470 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38470 *
-CVE-2023-38471 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38471 *
-CVE-2023-38472 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38472 *
-CVE-2023-38473 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38473 *
-CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
-CVE-2023-39189 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39189 *
-CVE-2023-39192 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39192 *
-CVE-2023-39193 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39193 *
-CVE-2023-39928 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39928 *
-CVE-2023-40030 (CVSS3: 6.1 MEDIUM): rust:rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40030 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-42752 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42752 *
-CVE-2023-42753 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42753 *
-CVE-2023-42754 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42754 *
-CVE-2023-42756 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42756 *
-CVE-2023-45283 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45283 *
-CVE-2023-45284 (CVSS3: 5.3 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45284 *
-CVE-2023-45803 (CVSS3: 4.2 MEDIUM): python3-urllib3 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45803 *
-CVE-2023-4623 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4623 *
-CVE-2023-46246 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46246 *
-CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
-CVE-2023-46813 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46813 *
-CVE-2023-46862 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46862 *
-CVE-2023-4692 (CVSS3: 7.8 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4692 *
-CVE-2023-4693 (CVSS3: 4.6 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4693 *
-CVE-2023-47233 (CVSS3: 4.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47233 *
-CVE-2023-4921 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4921 *
-CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
-CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
-CVE-2023-5178 (CVSS3: 8.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5178 *
-CVE-2023-5197 (CVSS3: 6.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5197 *
-CVE-2023-5345 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5345 *
-CVE-2023-5363 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5363 *
-CVE-2023-5367 (CVSS3: 7.8 HIGH): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5367 *
-CVE-2023-5380 (CVSS3: 4.7 MEDIUM): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5380 *
-CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
-CVE-2023-5633 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5633 *
-CVE-2023-5678 (CVSS3: 7.5 HIGH): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5678 *
-CVE-2023-5717 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5717 *
+- Mark sbsign and pesign as recomendations instead of dependencies
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+- Add PACAKGECONFIG for the signing support. If it is not enabled,
+replace sbsign and pesign support with the error message.
+
+-- 
+With best wishes
+Dmitry
 
