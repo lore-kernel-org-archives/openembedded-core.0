@@ -1,141 +1,64 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3AEC2BB3F
-	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 21:58:25 +0000 (UTC)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
- by mx.groups.io with SMTP id smtpd.web11.16718.1700517502812899681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 289B4C2BB3F
+	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 22:12:45 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.web10.17229.1700518363133524277
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 13:58:23 -0800
+ Mon, 20 Nov 2023 14:12:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=IrLDq7eo;
- spf=pass (domain: baylibre.com, ip: 209.85.167.174, mailfrom: tgamblin@baylibre.com)
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3b5714439b3so2395774b6e.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 13:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1700517502; x=1701122302; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dYdKT/tiq3g/YB3zBOCIjvgr6BKH8xeaBZ3hMGZv+0Y=;
-        b=IrLDq7eoovMVszypPezxHrSpQ2qkJO18ZWF2kpoB7yIkQz8beFGesv2Isss6KlKcGt
-         CtU5Opv3LFB0ZaoJP66Sk00YBKpZqhzjawsq94UcYro9vInm6248f+umBZVEz14wbGD5
-         CZeTYbT6ju+zQ2fpNyVcb661zyc35od36Iyl4uOnmKzRHuHGPNimz+21tl02zJxbNwAz
-         S3CUU36IpVfuJKmZlUMkaQcC+q0FQRtJv8pr5qtc5Bihp2x6TQIvHGgdZDFumUwAh5U+
-         hc8iEBs/okAcHWnUtXzUWp5WKInfCv2lSurKWlHaPMRyrSU9FsIztjvq2Kj2NcKMz8r1
-         FvBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700517502; x=1701122302;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dYdKT/tiq3g/YB3zBOCIjvgr6BKH8xeaBZ3hMGZv+0Y=;
-        b=sObeptHYM7ARQb//57BBVZzu9/e9DyqxG/+XtiJnP9gbmBNs4SaWozTj57DRa6TRWI
-         9mzgvDVWrnFJwdr+215u8pg2TdpQVHc4XKJLBmpLCm1Z1NwzdR9S7QFZbB79We984gTR
-         r4s5+N46yJUdBf1ks9aleRoHNBrjazFABSQ2oMmUW8a1obvz0TjAfFonCuwuyAzI47yx
-         QqwpmWxzTcaj/C3nffwHEiUg5NgRGxQmFjl2yIHqzn3QWnqlHc9Dm859UZE71x2r5A9Q
-         PbIKMKg0wcsb8ehOJJF/t0pyPT35/sOq3acxPVi/cSl0wfJ8yxNuvb0tYg+ruTE+OvWR
-         cidA==
-X-Gm-Message-State: AOJu0YwLuYNcy/GWCfDFl3FTsiH3SxAucYNna+CFuX8lGIpHOWHzls3u
-	f5/h2Nd4X7pkso4rascximBLD0DmZfz2ijFJOGLLMA==
-X-Google-Smtp-Source: AGHT+IHXwwbB1R3eQEoaEzHpQsUqpxoUN2wAJK/q/4PehI8RCH4ohqiQvgvY7uOcQdEQiMCXPm5k/w==
-X-Received: by 2002:a05:6870:b68b:b0:1f0:8120:88a6 with SMTP id cy11-20020a056870b68b00b001f0812088a6mr7368160oab.58.1700517501770;
-        Mon, 20 Nov 2023 13:58:21 -0800 (PST)
-Received: from megalith.. (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id m6-20020ac86886000000b0041969bc2e4csm2975089qtq.32.2023.11.20.13.58.21
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 13:58:21 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=OiRwI0Vt;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2023112022123940dcc89de33be5ae77-ewqg_x@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2023112022123940dcc89de33be5ae77
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 20 Nov 2023 23:12:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=43T4xStfIY1d60eP9zLU8CYIHFVbQZ4gURA4cZLJIEw=;
+ b=OiRwI0Vt1l10yZF/yf5oawbaJBK3Pq52hXQ/yhCu/L6n7AyKQ+OtbWE1WVnSruO3G+f+gK
+ aEam3ScpLlwijA94mCwBcxFOiyoJXQuXcch7qf17Np3dLNu1BeF293HT7sEUMHm0gWr7WE70
+ BXOVABkLqZfOgW7y++pKxoANtvog8=;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH v2] python3-cython: upgrade 0.29.36 -> 3.0.5
-Date: Mon, 20 Nov 2023 16:58:20 -0500
-Message-ID: <20231120215820.1475322-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.42.0
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] go: ignore CVE-2023-45283 and CVE-2023-45284
+Date: Mon, 20 Nov 2023 23:11:54 +0100
+Message-Id: <20231120221154.139701-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 21:58:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190937
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 22:12:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190938
 
-License-Update: Update license link to use https
+From: Peter Marko <peter.marko@siemens.com>
 
-cython 3.0.x attempts to remain compatible with 0.29.x but still makes
-some major changes (in addition to fixing old issues). For a complete
-overview it's best to view the CHANGES.rst doc rather than including
-them here: https://github.com/cython/cython/blob/master/CHANGES.rst.
+These CVEs affect path handling on Windows.
 
-Note that more source files were added to cython_fix_sources to avoid
-the following:
-
-|WARNING: python3-cython-3.0.5-r0 do_package_qa: QA Issue: File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Utils.c in package python3-cython-src contains reference to TMPDIR
-|File /usr/src/debug/python3-cython/3.0.5-r0/Cython/StringIOTree.c in package python3-cython-src contains reference to TMPDIR
-|File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Compiler/Parsing.c in package python3-cython-src contains reference to TMPDIR
-|File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Compiler/Code.c in package python3-cython-src contains reference to TMPDIR
-|File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Plex/Machines.c in package python3-cython-src contains reference to TMPDIR
-|File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Plex/DFA.c in package python3-cython-src contains reference to TMPDIR
-|File /usr/src/debug/python3-cython/3.0.5-r0/Cython/Plex/Transitions.c in package python3-cython-src contains reference to TMPDIR [buildpaths]
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-v2 rebases the patch to apply on latest master. There was a previous
-improvement made to the python3-cython recipe that was merged first.
+ meta/recipes-devtools/go/go-1.17.13.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- meta/recipes-devtools/python/python-cython.inc           | 4 ++--
- ...python3-cython_0.29.36.bb => python3-cython_3.0.5.bb} | 9 ++++++++-
- 2 files changed, 10 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-cython_0.29.36.bb => python3-cython_3.0.5.bb} (72%)
-
-diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
-index 6aec6b012f1..e757e3f7c87 100644
---- a/meta/recipes-devtools/python/python-cython.inc
-+++ b/meta/recipes-devtools/python/python-cython.inc
-@@ -5,11 +5,11 @@ It's designed to bridge the gap between the nice, high-level, easy-to-use world
- and the messy, low-level world of C."
- SECTION = "devel/python"
- LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
- PYPI_PACKAGE = "Cython"
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 461819d80f..a0974629fb 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -54,5 +54,5 @@ SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784
+ # https://github.com/golang/go/issues/30999#issuecomment-910470358
+ CVE_CHECK_IGNORE += "CVE-2021-29923"
  
--SRC_URI[sha256sum] = "41c0cfd2d754e383c9eeb95effc9aa4ab847d0c9747077ddd7c0dcb68c3bc01f"
-+SRC_URI[sha256sum] = "39318348db488a2f24e7c84e08bdc82f2624853c0fea8b475ea0b70b27176492"
- UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
- 
- inherit pypi
-diff --git a/meta/recipes-devtools/python/python3-cython_0.29.36.bb b/meta/recipes-devtools/python/python3-cython_3.0.5.bb
-similarity index 72%
-rename from meta/recipes-devtools/python/python3-cython_0.29.36.bb
-rename to meta/recipes-devtools/python/python3-cython_3.0.5.bb
-index 07638d7ad78..342c0f8f3fe 100644
---- a/meta/recipes-devtools/python/python3-cython_0.29.36.bb
-+++ b/meta/recipes-devtools/python/python3-cython_3.0.5.bb
-@@ -20,14 +20,21 @@ do_install:append() {
- PACKAGESPLITFUNCS =+ "cython_fix_sources"
- 
- cython_fix_sources () {
--	for f in ${PKGD}${TARGET_DBGSRC_DIR}/Cython/Compiler/FlowControl.c \
-+	for f in ${PKGD}${TARGET_DBSRC_DIR}/Cython/Compiler/Code.c \
-+		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Compiler/FlowControl.c \
- 		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Compiler/FusedNode.c \
-+		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Compiler/Parsing.c \
- 		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Compiler/Scanning.c \
- 		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Compiler/Visitor.c \
- 		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Plex/Actions.c \
-+		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Plex/DFA.c \
-+		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Plex/Machines.c \
- 		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Plex/Scanners.c \
-+		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Plex/Transitions.c \
- 		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Runtime/refnanny.c \
- 		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Tempita/_tempita.c \
-+		${PKGD}${TARGET_DBGSRC_DIR}/Cython/StringIOTree.c \
-+		${PKGD}${TARGET_DBGSRC_DIR}/Cython/Utils.c \
- 		${PKGD}${libdir}/${PYTHON_DIR}/site-packages/Cython*/SOURCES.txt; do
- 		if [ -e $f ]; then
- 			sed -i -e 's#${WORKDIR}/Cython-${PV}#${TARGET_DBGSRC_DIR}#g' $f
+-# This is specific to Microsoft Windows
+-CVE_CHECK_IGNORE += "CVE-2022-41716"
++# This are specific to Microsoft Windows
++CVE_CHECK_IGNORE += "CVE-2022-41716 CVE-2023-45283 CVE-2023-45284"
 -- 
-2.42.0
+2.30.2
 
 
