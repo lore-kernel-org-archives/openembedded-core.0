@@ -1,86 +1,96 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D1E2C54E76
-	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 21:35:55 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.13889.1700516153156827593
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF919C2BB3F
+	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 21:38:24 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.14284.1700516299548205291
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 13:35:53 -0800
+ Mon, 20 Nov 2023 13:38:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=erZVYTpO;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PQQJf/6H;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018beea94440-6f886e68-f0e5-48f4-bb1a-65c883f53034-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700516152; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=encaB1ipmtLOiMqw2VNMdgxmtae0B/y4m/DB8IGvlgU=;
-	b=erZVYTpO4QNcevICgSgxCXegFEs/EDGqFksq2C/c3rCxIlV3y2023Mt/XVFiQc/v
-	XTqN6nrjsDM8GREKddclOtF8IxdsSN2VlgIg4oZLi5NdxQbq9NGgZyPbwnOgazDS5Uw
-	JP/e3iiCTd3rJjrLlidfbrUIarGMiMUmmL2FWr3Q=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700516152;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=encaB1ipmtLOiMqw2VNMdgxmtae0B/y4m/DB8IGvlgU=;
-	b=PQQJf/6H9/jmHzkxWpkLJStt8iiZ7PdbP8dSzx5zGi1J8jY2JLReAkNPK3tKMKWn
-	VUuC89Rg4iT01r/o4kaEHs+ra6pus+4eY2KV1k4P+6YMO5AgVyYUsHmQnpZOvu1dm+5
-	sIUkD+KNtcVoPu4b8wVhS7xrqY5PWsgFnKFRXHI8=
-From: patchtest@automation.yoctoproject.org
-To: Stefan Ghinea <stefan.ghinea@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core] [hardknott] [PATCH 1/2] libtirpc: add support for
- configuring and building with --enable-gssapi
-In-Reply-To: 20231120212436.27604-1-stefan.ghinea@windriver.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018beea94440-6f886e68-f0e5-48f4-bb1a-65c883f53034-000000@us-west-2.amazonses.com>
-Date: Mon, 20 Nov 2023 21:35:52 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.20-54.240.27.45
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=aZo0/mEc;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BC0AC2000A;
+	Mon, 20 Nov 2023 21:38:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700516297;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R+fR0VyhW4UXvK9W/wICLBodLmd4I+wDUQ86pba91W4=;
+	b=aZo0/mEcHty0QkIrbaCXkV+g8UcQ7cuIp51JWSSUXviBF+RZkJ0PL3fX5/P8ucUJIjPQgi
+	2l5YrqOVxOVlKsaIFcUpPMnaLmMKhl8hydcezSliwLsZTrSNu5manrGJmWVP7N/b2Xvor8
+	Ylfdmo/9I1UPyhc3ls9lR7LBphuEpl2xtgTFozYalzUxzWopfwyogaiPnYVF31dUIUn5BW
+	x3EWc58kBbm3cXvUP3myAUFQQ2NCeXIpENewHk/NZrfVM/01rqvDvjZCyV0ip6twrRPc5V
+	YLo+oMGtWImceudlJPObXykKhQmYyZQI0gqi2XUqbacx4ThNdTLzdp+YvK6o+Q==
+Date: Mon, 20 Nov 2023 22:38:16 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/2] bitbake.conf: Log events by default using
+ BB_DEFAULT_EVENTLOG
+Message-ID: <202311202138167b527027@mail.local>
+References: <20231116165250.2863415-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231116165250.2863415-1-richard.purdie@linuxfoundation.org>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 21:35:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190934
+ <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 21:38:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190936
 
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/hardknott-1-2-libtirpc-add-support-for-configuring-and-building-with---enable-gssapi.patch
-
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 95 characters) (test_mbox.TestMbox.test_shortlog_length)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+For some reason, this is the cause of:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6065/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6062/steps/15/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/6013/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6078/steps/14/logs/stdio
 
 
---NextPart--
+On 16/11/2023 16:52:49+0000, Richard Purdie wrote:
+> By setting this, event data from during the build is saved out. This can
+> be used for analytic including toaster to allow builds to be examined
+> later. This will use some disk space but it is worth it for the ability
+> to look into what happened during the build. Users can set the value to
+> something else in local.conf to override if they wish.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/conf/bitbake.conf | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 67ff7690463..12292714d2f 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -934,6 +934,7 @@ BB_DEFAULT_UMASK ??= "022"
+>  
+>  # Complete output from bitbake
+>  BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+> +BB_DEFAULT_EVENTLOG ?= "${LOG_DIR}/eventlog/${DATETIME}.json"
+>  
+>  # Setup our default hash policy
+>  BB_SIGNATURE_HANDLER ?= "OEBasicHash"
+> -- 
+> 2.39.2
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#190806): https://lists.openembedded.org/g/openembedded-core/message/190806
+> Mute This Topic: https://lists.openembedded.org/mt/102630313/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
