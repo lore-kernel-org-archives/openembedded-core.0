@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D64B6C2BB3F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6832C5AE5B
 	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 16:39:22 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.600.1700498361958211255
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.web11.619.1700498356503054090
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 08:39:22 -0800
+ Mon, 20 Nov 2023 08:39:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Ejg4k/3q;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso3479250a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:39:21 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rqTn2U9f;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.169, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3b6d88dbaa3so3045419b6e.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 08:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498361; x=1701103161; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700498355; x=1701103155; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JDjxAUTDyqXsSES+Vn4gVZ3TCpcuA2p6RdP++xKCoAc=;
-        b=Ejg4k/3qXbt/YmwRWdEMxpSU9px5mxeGhq7HN63LzRVf0p1LvrTWtuT3JV5vgDcasT
-         PxISWi30Mpo6aDbj13Hl0bhZPdg9KSpiLnim/3MGwoxsw6WOfFYAG9oxQFrHhL7ldWuN
-         Qydb46nZoxirT6SdJc2+pc7esvk95E1qTbC2hjCymYnkIqiX0KAK8hTw99JTh3WfqsPx
-         UY5C0bnHZ7yW2vOl1ij78HQXeQnzslqOgSna1UUvSwz075HyHZT2x7z8I0nRuRaHSn6O
-         ECQTeYMGJy/9dF8OvP/BWltqwmtBjiMRSrZS3Tg7y+hzlYhl2ecoWgWwOv7yQFIUJr9P
-         mq+w==
+        bh=utgOX76huIwlfXXkDFEn5LHemJ5rhnFRTvYSeQBqqHk=;
+        b=rqTn2U9fv4dnDhFS8HikUuqD1xntk7ESNsRO6tWuEKeiP59oFV3Vz23RhjQwx96S83
+         x1uPJrJoGYd3LnpUvfhYm1I5ySnUKKvnA1PGCZEbRT35lICrx5DNw6GNoyFdsANA11x7
+         uvnCbS/FnbI/KuFmSDHZxRQPKmzgxDOQEYEBpLZYuXQJCENtNcNvUFvXW2YLv6moMvmH
+         KP2JOcW++nHtJv6Uyf85kZLy15xUgsvE8sVEJHvTJHktSm/I7qaIoziKwVqS5WQ/G1BE
+         zg3q4RPiVZXMHvGm/pmkHg29r7NiRTV44wp95UzqhjtR/4OUq+UifJoQUDfDPznWhMX2
+         oV9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700498361; x=1701103161;
+        d=1e100.net; s=20230601; t=1700498355; x=1701103155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JDjxAUTDyqXsSES+Vn4gVZ3TCpcuA2p6RdP++xKCoAc=;
-        b=c1KyhwKp/gl2DLIumtKHKFc5izu0skoqoMYEzl4hoFpFfJBZUPhoIt+SDIW8zhwkbU
-         o21kw461QlAjxMfXPDJ00DaWpryby0gXWkUDz/Uow3egwiABZjso8/Y7aJ7DniJz8mS3
-         JY43TOw7C21hg9KM4+1X05uZYpZ8Uh0pJpLce1A98kj5KvVyoP+NEOLul28CGm3V06BQ
-         mAm8cr+NrCCaYp9UtgcFN7dblUIRXibcqR0YUtwWkKtcBIxYxdMuvC07tuflor9GieGW
-         aE66kOL9hpWAzm3NuTlF3eFZ8W/JGhuCNxJTy6XZExzwT9l+H8ZhVYk00Emg14xBxOZ5
-         CKvA==
-X-Gm-Message-State: AOJu0YzvyelIf9v5Vb8bHivbNsJ7FI71maJ5K2St4qTxFbVcaETzywmv
-	0aQ/CuBN3QFml7mMwVtP407rdU4lwckRt3aGRv4QBA==
-X-Google-Smtp-Source: AGHT+IGloxRHT8agPLxVw144WmAHjmGePWsJKjCwJnqJ8H1hOooALkbC0p2yzXhHpI2wspwHUWFH3A==
-X-Received: by 2002:a05:6a21:3414:b0:186:664b:44bf with SMTP id yn20-20020a056a21341400b00186664b44bfmr9860872pzb.60.1700498360785;
-        Mon, 20 Nov 2023 08:39:20 -0800 (PST)
+        bh=utgOX76huIwlfXXkDFEn5LHemJ5rhnFRTvYSeQBqqHk=;
+        b=h3c+s9y7YO8nEh/yEoJJpOKxKHbBQdYIrutJmVWCFvywCGiO/b1r6CfqGTDEsafnIx
+         QoUBRalKoKUZqyibaBUK327wtmRrgJP9g6OK8TDb9v5hvOKQqYq5qHZ9pu2Fh08zzVg7
+         /rpWCzO/oLkX0+b+7kqy6/EiDsW+GAIc7OwSmeIMv7dV6s/Ijfnux79m1s4DL5of85y2
+         YGYuK39pryWVFjCtVs7pjqxbxpDA5X5JMgczAOmiKih7/X4OBFTarq42NIs3VhsqHdOS
+         x1I+Jhp4N0bX7KSqsFvR2j2LRBGufb2yhYfksQFeO+DyUNA6LDNexM/32MsaxZFGGcWC
+         uHhg==
+X-Gm-Message-State: AOJu0Yz6NW9nVzvy3c7Bj7N6iKYxlaRgElkVHbMGoKzgCKO8Uyxq4hp9
+	+nURNO2ctIwlhiF83wMPE15Ew1p0II/z8+RiCRIVhw==
+X-Google-Smtp-Source: AGHT+IE6vdr3WXcqgRfVrCVCp6KlFb91fRY/AJnIROTcM6SlQfRgntgDcrQP+BYDLxT8uVjbmhDp1Q==
+X-Received: by 2002:a05:6808:2392:b0:3af:9851:4d32 with SMTP id bp18-20020a056808239200b003af98514d32mr11143343oib.7.1700498355196;
+        Mon, 20 Nov 2023 08:39:15 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.39.19
+        by smtp.gmail.com with ESMTPSA id o23-20020a634e57000000b005c215baacc1sm4899279pgl.70.2023.11.20.08.39.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 08:39:20 -0800 (PST)
+        Mon, 20 Nov 2023 08:39:14 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 13/33] linux-yocto: make sure the pahole-native available before do_kernel_configme
-Date: Mon, 20 Nov 2023 06:38:27 -1000
-Message-Id: <9a175e954d1dd485293e0c3c49332fa2fe2bab1b.1700496737.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 10/33] bb-matrix-plot.sh: Show underscores correctly in labels
+Date: Mon, 20 Nov 2023 06:38:24 -1000
+Message-Id: <a8039d601187b28d9cec4402c9e0bd72b2805eb2.1700496737.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700496737.git.steve@sakoman.com>
 References: <cover.1700496737.git.steve@sakoman.com>
@@ -61,43 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 16:39:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190902
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190899
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-When using debug-btf.scc in a clean workspace, the CONFIG_MODULE_ALLOW_BTF_MISMATCH cannot
-apply to kernel until clean the kernel code(bitbake linux-yocto -c cleanall) and rebuild.
+Underscores previously caused the next character in the label to be
+printed using subscript due to the enhanced string support in gnuplot.
 
-After tracking the code, some options depend on CONFIG_PAHOLE_VERSION, it was generated by
-scripts/pahole-version.sh in kernel, but during do_kernel_configme step, the pahole-native
-is not available in sysroot-native, so need to wait pahole-native install to sysroot-native
-before do_kernel_configme.
-
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 217a4db53edbd88001f6390bbff39e5dd3d137af)
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 282b48f90f77e0766993018d22fe03dd303febdc)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux/linux-yocto.inc | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/contrib/bb-perf/bb-matrix-plot.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 0cc303c009..0132fcffb3 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -65,7 +65,10 @@ KERNEL_DEBUG ?= ""
- DEPENDS += '${@bb.utils.contains_any("ARCH", [ "x86", "arm64", "powerpc" ], "elfutils-native", "", d)}'
- DEPENDS += "openssl-native util-linux-native"
- DEPENDS += "gmp-native libmpc-native"
--DEPENDS += '${@bb.utils.contains("KERNEL_DEBUG", "True", "pahole-native", "", d)}'
-+
-+# Some options depend on CONFIG_PAHOLE_VERSION, so need to make pahole-native available before do_kernel_configme
-+do_kernel_configme[depends] += '${@bb.utils.contains("KERNEL_DEBUG", "True", "pahole-native:do_populate_sysroot", "", d)}'
-+
- EXTRA_OEMAKE += '${@bb.utils.contains("KERNEL_DEBUG", "True", "", "PAHOLE=false", d)}'
+diff --git a/scripts/contrib/bb-perf/bb-matrix-plot.sh b/scripts/contrib/bb-perf/bb-matrix-plot.sh
+index e7bd129e9e..6672189c95 100755
+--- a/scripts/contrib/bb-perf/bb-matrix-plot.sh
++++ b/scripts/contrib/bb-perf/bb-matrix-plot.sh
+@@ -16,8 +16,8 @@
  
- do_devshell:prepend() {
+ # Setup the defaults
+ DATFILE="bb-matrix.dat"
+-XLABEL="BB_NUMBER_THREADS"
+-YLABEL="PARALLEL_MAKE"
++XLABEL="BB\\\\_NUMBER\\\\_THREADS"
++YLABEL="PARALLEL\\\\_MAKE"
+ FIELD=3
+ DEF_TITLE="Elapsed Time (seconds)"
+ PM3D_FRAGMENT="unset surface; set pm3d at s hidden3d 100"
 -- 
 2.34.1
 
