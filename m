@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D1A4C2BB3F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D1E2C54E76
 	for <webhook@archiver.kernel.org>; Mon, 20 Nov 2023 21:35:55 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.13780.1700516153753418242
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.13889.1700516153156827593
  for <openembedded-core@lists.openembedded.org>;
  Mon, 20 Nov 2023 13:35:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=atI28mpe;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dpYKIf0X;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018beea945fb-286e1f16-1599-4b9c-a409-b1a4d2240e1a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=erZVYTpO;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PQQJf/6H;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018beea94440-6f886e68-f0e5-48f4-bb1a-65c883f53034-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700516153; i=@automation.yoctoproject.org;
+	t=1700516152; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=dpgP2B4fcU8Vg3nQG1n6GzCHB7yOASPM/T+RXCzihd0=;
-	b=atI28mpemwMK90gcdqaq7UI44rr0NUQFPgPRX5yajxs2vuveGdoR/cp80M9lC4hW
-	r1XJdLH3bMRXvsd2uRdB6VE2M5EDcS7GplIhQm+CNlPywuidCdWXOPrN7AJG+yHEQ4b
-	T5G+YB+Jom/Dp8FdWwe0xoeo9ee0apU9cl/DmmvA=
+	bh=encaB1ipmtLOiMqw2VNMdgxmtae0B/y4m/DB8IGvlgU=;
+	b=erZVYTpO4QNcevICgSgxCXegFEs/EDGqFksq2C/c3rCxIlV3y2023Mt/XVFiQc/v
+	XTqN6nrjsDM8GREKddclOtF8IxdsSN2VlgIg4oZLi5NdxQbq9NGgZyPbwnOgazDS5Uw
+	JP/e3iiCTd3rJjrLlidfbrUIarGMiMUmmL2FWr3Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700516153;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700516152;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=dpgP2B4fcU8Vg3nQG1n6GzCHB7yOASPM/T+RXCzihd0=;
-	b=dpYKIf0XRxBCLJb2TKaSN/QoMJckw0xnF0nVfi4CxU/eitlNXtcZbDhy4QxXbDcT
-	ksR/AVuKEuLSFWmL0ByzSjgIWJGCSq/REbFqxFNK44GHq68tWZyBMajYImuMLJoA/HD
-	TGxFnXClKZBBn2X+HyXL0p4m/8t46/ns6P9DAmVI=
+	bh=encaB1ipmtLOiMqw2VNMdgxmtae0B/y4m/DB8IGvlgU=;
+	b=PQQJf/6H9/jmHzkxWpkLJStt8iiZ7PdbP8dSzx5zGi1J8jY2JLReAkNPK3tKMKWn
+	VUuC89Rg4iT01r/o4kaEHs+ra6pus+4eY2KV1k4P+6YMO5AgVyYUsHmQnpZOvu1dm+5
+	sIUkD+KNtcVoPu4b8wVhS7xrqY5PWsgFnKFRXHI8=
 From: patchtest@automation.yoctoproject.org
 To: Stefan Ghinea <stefan.ghinea@windriver.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core] [hardknott] [PATCH 2/2] nfs-utils: add krb5 PACKAGECONFIG
- to allow building with gss and svcgss
-In-Reply-To: 20231120212436.27604-2-stefan.ghinea@windriver.com
+Subject: Patchtest results for [OE-core] [hardknott] [PATCH 1/2] libtirpc: add support for
+ configuring and building with --enable-gssapi
+In-Reply-To: 20231120212436.27604-1-stefan.ghinea@windriver.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018beea945fb-286e1f16-1599-4b9c-a409-b1a4d2240e1a-000000@us-west-2.amazonses.com>
+Message-ID: <0101018beea94440-6f886e68-f0e5-48f4-bb1a-65c883f53034-000000@us-west-2.amazonses.com>
 Date: Mon, 20 Nov 2023 21:35:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.20-54.240.27.33
+X-SES-Outgoing: 2023.11.20-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 21:35:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190935
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190934
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/hardknott-2-2-nfs-utils-add-krb5-PACKAGECONFIG-to-allow-building-with-gss-and-svcgss.patch
+Testing patch /home/patchtest/share/mboxes/hardknott-1-2-libtirpc-add-support-for-configuring-and-building-with---enable-gssapi.patch
 
 FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 95 characters) (test_mbox.TestMbox.test_shortlog_length)
 
