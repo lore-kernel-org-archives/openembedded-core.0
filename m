@@ -1,172 +1,262 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75275C61D85
-	for <webhook@archiver.kernel.org>; Tue, 21 Nov 2023 01:37:16 +0000 (UTC)
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.62])
- by mx.groups.io with SMTP id smtpd.web10.25153.1700530632511222299
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FE98C5AD4C
+	for <webhook@archiver.kernel.org>; Tue, 21 Nov 2023 02:16:56 +0000 (UTC)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web11.25729.1700533014841881572
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 17:37:12 -0800
+ Mon, 20 Nov 2023 18:16:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=qrAq6kZZ;
- spf=pass (domain: axis.com, ip: 40.107.249.62, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CTvNfErvNgzppYchcInjEBLEMyOnOv7PWJYikaQt9jF7WGj1TFfMe9mjt/JUvn6T5omSBLNMld61Tnik+gLZhK0oZQXNR2Aobx5Mc+iLbmpsmWbzztmWWMluE+qD2TuaUBo1I53VsAjlSov2xW/csPvs2k1qswkgDfOVEeGfWbFV+tanI3b5O1/S9h5zIjnODIY0WLslTeChlI3y4mEd8lzkSqZycNlsknjv2CI4gbq9S1dcxjFRbOAJJFIfm4f79TdFj9H/Yl+8E9tqg4azTX7yVj9uMDjboX6bYsD6QSCYXRGAyylMN7gDgpKTpi2Jdp336JnrmGIgnCHqA9AY9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TPARauoM7zwFYwk5x/LEIwJYEr1u+He3WPTTrUHxrj4=;
- b=YaymeQsOnMfedJNLpo3/2SEBnVLnmJXpWJF4MrgQxZUWSyGDMY3KvMx62SwSEjkCFkjPI3eXoquQF7ewuSEcFyRg6/vQVDD1x4vuhJe8FM1lBCGyWsyKYP2r+G1DwYaqRPFglYB3iEX961Ko98CUlnq/TSToW3BoyCq34WGKr6y+qCKjVw2ouDJoHT9PMZNWhqbf1SuzQE7W5tM86EVgnv0cnzBUWsziz4V5cxwQmvBb7jffPufyOtrzJbdft5dOaljOGwcU5YG/IyWSZCP4Vnw2qOCHvKX+PTrPXO963yjRtcQO6AyrKzx/FCI53YgW4LEkwHZ7hMXi3se4rtceEA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=fail (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TPARauoM7zwFYwk5x/LEIwJYEr1u+He3WPTTrUHxrj4=;
- b=qrAq6kZZSxC6QU4Q9fwGJloxU8sdzTd5CPjwAE46wV2dTBbc28APHgMqfFn2xJ/MC0mlgmAFv3sQfMIehn1sz2Xn2O7D6D/2FTY2zgAkKWUYmt5pspafAzNpFlB0ON9pVJzTrzZ0tGQNRZ5xMsMqBoT+733LfGbsQ+ZM/pN/PvY=
-Received: from AM9P192CA0014.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::19)
- by VI1PR02MB5870.eurprd02.prod.outlook.com (2603:10a6:803:139::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Tue, 21 Nov
- 2023 01:37:08 +0000
-Received: from AM4PEPF00025F96.EURPRD83.prod.outlook.com
- (2603:10a6:20b:21d:cafe::dc) by AM9P192CA0014.outlook.office365.com
- (2603:10a6:20b:21d::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28 via Frontend
- Transport; Tue, 21 Nov 2023 01:37:08 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=axis.com;
-Received-SPF: Fail (protection.outlook.com: domain of axis.com does not
- designate 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com;
-Received: from mail.axis.com (195.60.68.100) by
- AM4PEPF00025F96.mail.protection.outlook.com (10.167.16.5) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7046.3 via Frontend Transport; Tue, 21 Nov 2023 01:37:07 +0000
-Received: from se-mail01w.axis.com (10.20.40.7) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 21 Nov
- 2023 02:37:07 +0100
-Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Tue, 21 Nov 2023 02:37:07 +0100
-Received: from saur (saur.se.axis.com [10.92.3.10])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 6CA04E41C
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 02:37:07 +0100 (CET)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur (8.17.1/8.15.2) with ESMTPS id 3AL1b79L1061260
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 02:37:07 +0100
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 3AL1b72I1061259
-	for openembedded-core@lists.openembedded.org; Tue, 21 Nov 2023 02:37:07 +0100
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] oeqa/selftest/tinfoil: Add tests that parse virtual recipes
-Date: Tue, 21 Nov 2023 02:37:04 +0100
-Message-ID: <20231121013704.1061241-1-pkj@axis.com>
-X-Mailer: git-send-email 2.40.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dwlHOdAe;
+ spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1f0f94a08a0so3044883fac.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 18:16:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700533014; x=1701137814; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s08gvU5Lf5W9XIVyMCv64ypzRUUqMzU1F5a9tOqlZZQ=;
+        b=dwlHOdAeNX/Da6tJOUyO9heQVz+vnwMrmSmWnZFv6MRpMVMB1SB/ZKXG+2yCVPjrH/
+         IAUywrenXExjQEOLdTJX8yDmtQGrF3D8+8QfuACnLzsxt8B51okJOYAAA9EhXOIXU2u8
+         RWc8TbQ+Fl7CfHVq0igqD8ty46qsU2oYr3ZZJY/KQD69eHwcH3mvYJO/uq8aBrsW81FQ
+         1Qxsz536JypBOdeDo8AHgIVXG/qJc+cwrskS8X1+CzlDK8LJeU7f0PFphnwVoCajnlhw
+         zsTI8kipx3U6SSnpfp4lvUTXELC43eq/90t6F4jmqFTB9ocY4B4pCoUiQ66DwLHGDKKj
+         woYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700533014; x=1701137814;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s08gvU5Lf5W9XIVyMCv64ypzRUUqMzU1F5a9tOqlZZQ=;
+        b=XswLNoMQko2sGaQ0WHjfyZhz26bHSaeG80tmaCZ6CoSz+nuUE8b+oXQ0OETA5o27/7
+         Zsyo1VYL08TkfP7F1gPfo2qz4b2qpu62i3b8IS9ioA0B2FPtWlhGRrwM2gAE8SByCnCm
+         4wGFojeZEmXo0AHIkBxEzli4FuZ3/v+S2a1GDYi/7xBmBpLTs9UB8VCkd20VyUpUqL8X
+         Lr8p4hx8Bv0gD60arh3ICQR3kscTxjKBtH9AwjroqEu1Qg5oI0i4VWJv1qqded4+gf4h
+         Vc1Liw2evAsfWz+galGzmZ5mJjuiEFZceTJHMtJlUGYngmBUpjnFdTD/sD1p+JAeU5lX
+         X08g==
+X-Gm-Message-State: AOJu0Yxseultr0ly2wUPDipq4Q+CmPVwWVcCl9S7YreART8pKGmzDdcg
+	x6YS5sR61VDLdi4/cwSd33iqWBkQr7Kig6AjZhw=
+X-Google-Smtp-Source: AGHT+IGloncjt90Oju9Y1ZXWOjcTa7QAdBWu2ZO53E0ud0uMjWk2Ajn/hQhZIh1y6tpWpK5+9uQy+I/tpZp3d2utu7E=
+X-Received: by 2002:a05:6870:3055:b0:1ef:ace4:f360 with SMTP id
+ u21-20020a056870305500b001eface4f360mr11043475oau.17.1700533013968; Mon, 20
+ Nov 2023 18:16:53 -0800 (PST)
 MIME-Version: 1.0
+References: <20231115182417.415940-1-raj.khem@gmail.com> <20231117110630da1a7c99@mail.local>
+In-Reply-To: <20231117110630da1a7c99@mail.local>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 20 Nov 2023 18:16:27 -0800
+Message-ID: <CAMKF1spZp2oX=g5umm7KSdN_sGgr9Jyr7R_jzK0O9-U+=YXoJQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v8 1/2] vte: upgrade 2.72.2 -> 2.74.0
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org, Markus Volk <f_l_k@t-online.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00025F96:EE_|VI1PR02MB5870:EE_
-X-MS-Office365-Filtering-Correlation-Id: 004d3883-0988-45a5-5f6f-08dbea325fd5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	SdwHJvQe10J1M3Slfbbz9oXKLaIU96knUOs42pGrOhCUpnNCgH2fGeX+3W0FP1tuoDNvB3mBYSAkxaNKhwdDTXktUbr+mKyfAnOYg2RzblY3Qa2lxoEYicmJF+21GtoXM1sxwr81m20hPdTeXon6QG6dCW6KyTMYx6xN6DSP8JAMkVhhPorz9KKh4LK1okxQS86OwTFUq5eXhGc/MvYwSefsR2+5glXE3jgaN0YqsLlw9BF+Id9ISKlhejs9y0TBH/NG9riRQEs6Jdxq3Xk0KlkoazwKmVqvKFUnDs4RLxfEmMcpGBaGI1mZSug7WMMHkZerym1H0O6VPUzjdOkvPD/lytaDADzmf3ez6RbfjUX+0lNRHGhRQhgdiYP7hdXtaHj7obg/8RFrG0A3k5NI0byzqi8DBkaeVm6QY9UhoooLUDYdoxkCw6/eBHXgdOmYFKgpoP50qY7J9tF30Pno2MCg0/FeCAG7WWAIoOjpTX18YXSSB9UFlBAQcu8VY0WgBzaUhZiJWRhUXh97GN9CMbC9hUcye4cXRwBbZ0kfNs/YBH0CTyTpqF+dFKWuBoXCy1bv5kEscGo9BgbOoE4PqC1S8IpuThLhmU4AYODOqM/pmaHbiKWNUSTCpOKlgnUzE5SBCM9VEDlBDXU+K34/7l0Czjxom2yGFZackHyKwryHz8R1T75DkTW0DTrY5+GqK0fVBaay/rL5GZvDjH3BsmlBIHxabmGMrMMmvtR8pHI=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(39850400004)(136003)(396003)(346002)(376002)(230922051799003)(64100799003)(82310400011)(186009)(1800799012)(451199024)(36840700001)(46966006)(40470700004)(2616005)(82740400003)(356005)(40480700001)(40460700003)(6666004)(42186006)(6916009)(70206006)(70586007)(316002)(36756003)(81166007)(1076003)(26005)(83380400001)(336012)(426003)(2906002)(478600001)(5660300002)(36860700001)(47076005)(8936002)(41300700001)(8676002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 01:37:07.9828
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 004d3883-0988-45a5-5f6f-08dbea325fd5
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00025F96.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR02MB5870
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 01:37:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190951
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 02:16:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190952
 
-Running `devtool search gcc` would result in errors for virtual recipes.
-The reason was the newly introduced :layer-<layername> override.
+On Fri, Nov 17, 2023 at 3:06=E2=80=AFAM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/8176/st=
+eps/21/logs/stdio
+>
+> ERROR: core-image-sato-1.0-r0 do_rootfs: Multilib check error: duplicate =
+files /home/pokybuild/yocto-worker/multilib/build/build/tmp/work/qemux86_64=
+-poky-linux/core-image-sato/1.0/multilib/lib32/usr/share/glib-2.0/schemas/g=
+schemas.compiled /home/pokybuild/yocto-worker/multilib/build/build/tmp/work=
+/qemux86_64-poky-linux/core-image-sato/1.0/rootfs/usr/share/glib-2.0/schema=
+s/gschemas.compiled is not the same
+>
 
-When tinfoil parsed the recipes using the parseRecipeFile() function, it
-failed to properly identify the layername for virtual recipes, which
-resulted in the errors.
+This is interesting problem is that we are pulling in gtk4 now as part
+of vte but it does not get pulled into lib32
+runtime like it does for gtk+3 ( it comes via adwaita-icon-theme
+recipe as dep) and they both install some gschemas
+32bit rootfs does not have gtk4 schemas but 64bit does have. gschemas
+are compiled at the end of do_rootfs
+and now we have different final schema files. I think these schemas
+should be packages into package of its own
+perhaps instead of adding them to gtk+3 or gtk4 packages since these
+are architecture independent xml files.
 
-Add tests that exercise these code paths through parseRecipeFile().
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/lib/oeqa/selftest/cases/tinfoil.py | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selfte=
-st/cases/tinfoil.py
-index dd13c20402..21c8686b2a 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -48,6 +48,17 @@ class TinfoilTests(OESelftestTestCase):
-             rd =3D tinfoil.parse_recipe_file(best[3])
-             self.assertEqual(testrecipe, rd.getVar('PN'))
-=20
-+    def test_parse_virtual_recipe(self):
-+        with bb.tinfoil.Tinfoil() as tinfoil:
-+            tinfoil.prepare(config_only=3DFalse, quiet=3D2)
-+            testrecipe =3D 'nativesdk-gcc'
-+            best =3D tinfoil.find_best_provider(testrecipe)
-+            if not best:
-+                self.fail('Unable to find recipe providing %s' % testrecip=
-e)
-+            rd =3D tinfoil.parse_recipe_file(best[3])
-+            self.assertEqual(testrecipe, rd.getVar('PN'))
-+            self.assertIsNotNone(rd.getVar('FILE_LAYERNAME'))
-+
-     def test_parse_recipe_copy_expand(self):
-         with bb.tinfoil.Tinfoil() as tinfoil:
-             tinfoil.prepare(config_only=3DFalse, quiet=3D2)
-@@ -66,7 +77,7 @@ class TinfoilTests(OESelftestTestCase):
-             localdata.setVar('PN', 'hello')
-             self.assertEqual('hello', localdata.getVar('BPN'))
-=20
--    # The config_data API tp parse_recipe_file is used by:
-+    # The config_data API to parse_recipe_file is used by:
-     # layerindex-web layerindex/update_layer.py
-     def test_parse_recipe_custom_data(self):
-         with bb.tinfoil.Tinfoil() as tinfoil:
-@@ -80,6 +91,18 @@ class TinfoilTests(OESelftestTestCase):
-             rd =3D tinfoil.parse_recipe_file(best[3], config_data=3Dlocald=
-ata)
-             self.assertEqual("testval", rd.getVar('TESTVAR'))
-=20
-+    def test_parse_virtual_recipe_custom_data(self):
-+        with bb.tinfoil.Tinfoil() as tinfoil:
-+            tinfoil.prepare(config_only=3DFalse, quiet=3D2)
-+            localdata =3D bb.data.createCopy(tinfoil.config_data)
-+            localdata.setVar("TESTVAR", "testval")
-+            testrecipe =3D 'nativesdk-gcc'
-+            best =3D tinfoil.find_best_provider(testrecipe)
-+            if not best:
-+                self.fail('Unable to find recipe providing %s' % testrecip=
-e)
-+            rd =3D tinfoil.parse_recipe_file(best[3], config_data=3Dlocald=
-ata)
-+            self.assertEqual("testval", rd.getVar('TESTVAR'))
-+
-     def test_list_recipes(self):
-         with bb.tinfoil.Tinfoil() as tinfoil:
-             tinfoil.prepare(config_only=3DFalse, quiet=3D2)
+>
+> On 15/11/2023 10:24:15-0800, Khem Raj wrote:
+> > From: Markus Volk <f_l_k@t-online.de>
+> >
+> > Rework recipe
+> >
+> > - remove legacy of the autotools buildsystem
+> > - remove BBCLASSEXTEND
+> > - build       vapi dependent on gi-data
+> > - docs require gir, add       a EXTRA_OEMESON:append to avoid fail in
+> >   a combination       where docs=3Dtrue and gir=3Dfalse
+> > - gtk+3 and gtk4 are requested by default-> add gtk4 depending
+> >   on DISTRO_FEATURE
+> > - install systemd support files       depending on DISTRO_FEATURE
+> > - update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+> >
+> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > v8: Rebased on latest tip of trunk
+> >
+> >  ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
+> >  .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 29 ++++++---------
+> >  2 files changed, 25 insertions(+), 39 deletions(-)
+> >  rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (66=
+%)
+> >
+> > diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for=
+-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
+-macro-for-non-glibc-systems.patch
+> > index b4100fc381e..8934d5f80a6 100644
+> > --- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-gl=
+ibc-systems.patch
+> > +++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-gl=
+ibc-systems.patch
+> > @@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
+> >  Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> >
+> >  [1] https://gitlab.gnome.org/GNOME/vte/issues/72
+> > -
+> >  ---
+> > - src/missing.hh | 4 ++++
+> > - src/widget.cc  | 1 +
+> > - 2 files changed, 5 insertions(+)
+> > + src/widget.cc  | 4 +++
+> > + 1 files changed, 4 insertions(+)
+> >
+> > ---- a/src/missing.hh
+> > -+++ b/src/missing.hh
+> > -@@ -24,6 +24,10 @@
+> > - #define NSIG (8 * sizeof(sigset_t))
+> > - #endif
+> > +diff --git a/src/widget.cc b/src/widget.cc
+> > +index 07f7cabf..31a77f68 100644
+> > +--- a/src/widget.cc
+> > ++++ b/src/widget.cc
+> > +@@ -16,6 +16,10 @@
+> > +  * along with this library.  If not, see <https://www.gnu.org/license=
+s/>.
+> > +  */
+> >
+> >  +#ifndef W_EXITCODE
+> >  +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+> >  +#endif
+> >  +
+> > - #ifndef HAVE_FDWALK
+> > - int fdwalk(int (*cb)(void* data, int fd),
+> > -            void* data);
+> > ---- a/src/widget.cc
+> > -+++ b/src/widget.cc
+> > -@@ -21,6 +21,7 @@
+> > - #include "widget.hh"
+> > -
+> > - #include <sys/wait.h> // for W_EXITCODE
+> > -+#include "missing.hh" // for W_EXITCODE on non-glibc systems
+> > + #include "config.h"
+> >
+> > - #include <exception>
+> > - #include <new>
+> > + #include "widget.hh"
+> > +--
+> > +2.42.0
+> > +
+> > diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-supp=
+ort/vte/vte_0.74.0.bb
+> > similarity index 66%
+> > rename from meta/recipes-support/vte/vte_0.72.2.bb
+> > rename to meta/recipes-support/vte/vte_0.74.0.bb
+> > index 44e71491f62..21203adcf79 100644
+> > --- a/meta/recipes-support/vte/vte_0.72.2.bb
+> > +++ b/meta/recipes-support/vte/vte_0.74.0.bb
+> > @@ -16,32 +16,27 @@ DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 libpcre=
+2 libxml2-native gperf-native i
+> >  GIR_MESON_OPTION =3D 'gir'
+> >  GIDOCGEN_MESON_OPTION =3D "docs"
+> >
+> > -inherit gnomebase gi-docgen features_check upstream-version-is-even go=
+bject-introspection
+> > +inherit gnomebase gi-docgen features_check upstream-version-is-even go=
+bject-introspection vala
+> >
+> > -# vapigen.m4 is required when vala is not present (but the one from va=
+la should be used normally)
+> >  SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.p=
+atch"
+> > -SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e60649=
+5155d6f5827b72aa0dd6741c9e"
+> > +SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f4=
+2d3b570e3341ebb6841984c76b"
+> >
+> >  ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+> >
+> > -# Help g-ir-scanner find the .so for linking
+> > -do_compile:prepend() {
+> > -    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
+> > -}
+> > +EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-=
+Dvapi=3Dtrue', '-Dvapi=3Dfalse', d)}"
+> > +EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fa=
+lse', '-Ddocs=3Dfalse', '', d)}"
+> >
+> > -# Package additional files
+> > -FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
+> > -
+> > -PACKAGECONFIG ??=3D "gnutls"
+> > -PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala=
+"
+> > +PACKAGECONFIG ??=3D " \
+> > +     gnutls \
+> > +     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+> > +     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)}=
+ \
+> > +"
+> > +PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
+> >  PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+> >  PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,syste=
+md"
+> > -# vala requires gir
+> > -PACKAGECONFIG:remove:class-native =3D "vala"
+> > -
+> > -CFLAGS +=3D "-D_GNU_SOURCE"
+> >
+> >  PACKAGES =3D+ "libvte ${PN}-prompt"
+> > +FILES:${PN} +=3D"${systemd_user_unitdir}"
+> >  FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+> >  FILES:${PN}-prompt =3D " \
+> >      ${sysconfdir}/profile.d \
+> > @@ -49,5 +44,3 @@ FILES:${PN}-prompt =3D " \
+> >  "
+> >
+> >  FILES:${PN}-dev +=3D "${datadir}/glade/"
+> > -
+> > -BBCLASSEXTEND =3D "native nativesdk"
+> > --
+> > 2.42.1
+> >
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#190739): https://lists.openembedded.org/g/openembed=
+ded-core/message/190739
+> > Mute This Topic: https://lists.openembedded.org/mt/102611065/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+alexandre.belloni@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
