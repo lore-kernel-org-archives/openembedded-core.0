@@ -1,101 +1,92 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <javier.tia@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF53C61D92
-	for <webhook@archiver.kernel.org>; Tue, 21 Nov 2023 13:25:49 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.39812.1700573139305738967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC32BC61D92
+	for <webhook@archiver.kernel.org>; Tue, 21 Nov 2023 13:26:59 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.39821.1700573214193973835
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Nov 2023 05:25:39 -0800
+ Tue, 21 Nov 2023 05:26:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BCo3DTwn;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c50906f941so74805991fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 05:25:39 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=T/IuU9Tj;
+ spf=pass (domain: linaro.org, ip: 209.85.210.173, mailfrom: javier.tia@linaro.org)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6cb66f23eddso1958648b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 05:26:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700573137; x=1701177937; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ig1KSOrZtacMgS3vwCPHmlpxymqFhAJzFR1Jri1hvTg=;
-        b=BCo3DTwnsp1H4ma9I9Eu1S+SOlwvGBLghX+zFAtfL/ZgCieI9yXYJsXxDHGoyTMfoF
-         EODsw+x4gGt802PQqmuVtsgjIcMNWLovfJZ4o574qqy3bIPk0bJZ07MWPgYwdIK7gjwJ
-         7+XmHQHsa12ThvILQKQYDrKCZU9iJACsokTOV1qexDEvGY2OkmpcfhVCw60yPaxPU0yu
-         nEhAAzxQRrxlqD8AQWufTBMTUkqGHdlYi6+vPlEVyos1l+Hz8DvxfSmL+/NZhPdOyJkq
-         M5hMhSuBrLAVFtSd53zgHb2YhVXZU6U3z8g4QKnXd64bIETQ6T3JboL6UfL4OQhisOft
-         sCoA==
+        d=linaro.org; s=google; t=1700573213; x=1701178013; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z06T3O5w1TF2+d8tK724lE7Cx8zSYeceJdukSqPJ2ig=;
+        b=T/IuU9Tj5mKsgcfmKLSeiYrh7IrTgSHPiLIULlJltwKi0wj+an7woRPCVc+gNt1rf/
+         5LS4rENHbdRsuDQFpnXtlUCefthtZmfJ6jWg/xLoVYR3dmfwzeGC10eblSmjcSgHMzzQ
+         Oyp+mVBcOAbYW3UAv4h0Gr5X0KjL5sO4/bHmVa+eECa7uD8qdLL/ycNjPV22DhxpETRz
+         sdQvrq1FlxvMuG4kW2621oGudtWrxSLkmIaLSvBjuKk5JGa5673ksigUhMgbnyrgFLH/
+         sB975ZClgqNELThpOEmTW90agetDkNzbzL70Fs9J7PKCTR/a12mbGc8GXzD/QstaWspg
+         STYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700573137; x=1701177937;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1700573213; x=1701178013;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ig1KSOrZtacMgS3vwCPHmlpxymqFhAJzFR1Jri1hvTg=;
-        b=e1FXRCZBgDBq5QKQF3x3p0RZWtHPpq9xnL1Y4dQejN5xDfAy9PXP6aN7fC7MfsaBiE
-         1g2ongiotjZCkEyvOE3RdqSp6dxhQhMntCyvSdpukEYMYrgmXoqmLU4+pH7wudx1qqQA
-         9/mQLaD+a4+2cNxh+I3oN2fD40R4h9swZicaHQMVZkz08xxo4UjvJHD84xnNkYOQaaSY
-         36m+szhE35BA+WRWMbD+tAi71pgSP1mJJcot3FTD+/XJHe6Y1xl1vQWmhpzc16tFFwvu
-         hdc9n/M0NoOwZzCVM827JrukaGk6HHGwPvHYjVcpJWGPEYVQm2hM7SGTp9dFwT5QF88A
-         wfDg==
-X-Gm-Message-State: AOJu0YwicSyiFxBTb4pcoabeErUYUKpGMNaUjEUAulNLONTytPAsR9Pe
-	Cp0RX2cvLKXbe0vQ5rf/2HmOIkSoIjU4uMhOaVM=
-X-Google-Smtp-Source: AGHT+IHULh2I9w5dIAeTIr1vkUdSU2Twa5yqjzHgYbMQOWji3MP/QD7BCoX6VkTVOxR0NaoFZiBc8u4tGWMRX4YUDCk=
-X-Received: by 2002:a2e:9114:0:b0:2c5:174b:9a53 with SMTP id
- m20-20020a2e9114000000b002c5174b9a53mr6911127ljg.26.1700573137146; Tue, 21
- Nov 2023 05:25:37 -0800 (PST)
+        bh=Z06T3O5w1TF2+d8tK724lE7Cx8zSYeceJdukSqPJ2ig=;
+        b=ZATwxnixF63lafib2ZOesL++556NogHpwBZvsUFWoheW9tb96FIPfnuExPEndVTU41
+         PNwfPAXTXDPrbJhRTHVA1ZqdMiPgOtFpVgUie5pFLY/CnCoNU5hMT+E2274NHgQDoJm8
+         DLFXSZEHr8yJ8BrhY0vsp0jwU27sz7FUNhwfLmrQv3V97NIUT3om61QkCYDr/0rD07pq
+         n+2SZvmP5EeV78uNkF3Byeptq5Tehi+sl1uDzd5JUBeUCSYFGKANtUHVbGmox6SkATDc
+         RYEYjIStcZRhHg8ls4RpSyrdcQGt+k6ON6facEsNmu0JH5Xk6uS991Kt8VUwTuhnoOtW
+         aiBg==
+X-Gm-Message-State: AOJu0YyKFQGGTvOB5E7pj4Gw/C2w241ihzq7htgcsYo379Bc/WnBq/GC
+	oEBbpKaL05L1VdRN2Dp4dkw9ZF+wBDTE0e409/ZwGA==
+X-Google-Smtp-Source: AGHT+IHhYh+SdaTYvOxRnpYHyn/ZpyKHYBvj7x13you2pg0xy/thEy7y3Wz5C/KASoepBq7QVPlpbQ==
+X-Received: by 2002:a05:6a20:2d25:b0:187:e302:2d09 with SMTP id g37-20020a056a202d2500b00187e3022d09mr10528621pzl.24.1700573213320;
+        Tue, 21 Nov 2023 05:26:53 -0800 (PST)
+Received: from jetm-rog-x670e-gene.. ([177.93.3.242])
+        by smtp.gmail.com with ESMTPSA id x19-20020a056a000bd300b006cbae51f335sm3321289pfu.144.2023.11.21.05.26.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 05:26:52 -0800 (PST)
+From: Javier Tia <javier.tia@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Javier Tia <javier.tia@linaro.org>
+Subject: [PATCH] kernel-arch: use ccache only for compiler
+Date: Tue, 21 Nov 2023 07:26:38 -0600
+Message-ID: <20231121132638.1106320-1-javier.tia@linaro.org>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-References: <20231121132440.933298-1-ppjadhav456@gmail.com>
-In-Reply-To: <20231121132440.933298-1-ppjadhav456@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 21 Nov 2023 14:25:25 +0100
-Message-ID: <CANNYZj-qUdiTsLBVsbMhD8+yFoH1RQ5w6uyEUa98LcMZY8Yvyg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] ptest-packagelists: Add sdbus-c++ ptest
-To: Poonam Jadhav <ppjadhav456@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, poonam.jadhav@kpit.com, 
-	ranjitsinh.rathod@kpit.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 13:25:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190977
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 13:26:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190978
 
-Same comment as for the master patch.
+Attempting to use it with other tools is not beneficial, only with the
+compiler. Confirmation from ccache's maintainer [1].
 
-Alex
+[1] https://github.com/ccache/ccache/discussions/1346#discussioncomment-7616180
 
-On Tue, 21 Nov 2023 at 14:24, Poonam Jadhav <ppjadhav456@gmail.com> wrote:
->
-> From: Poonam Jadhav <poonam.jadhav@kpit.com>
->
-> Add sdbus-c++-ptest in ptest-packagelists to run ptest
->
-> Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
-> ---
->  meta/conf/distro/include/ptest-packagelists.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-> index 5c6a30635f..f8047b27ed 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -65,6 +65,7 @@ PTESTS_FAST = "\
->      python3-webcolors-ptest \
->      qemu-ptest \
->      quilt-ptest \
-> +    sdbus-c++-ptest \
->      sed-ptest \
->      slang-ptest \
->      wayland-ptest \
-> --
-> 2.25.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#190975): https://lists.openembedded.org/g/openembedded-core/message/190975
-> Mute This Topic: https://lists.openembedded.org/mt/102727878/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Javier Tia <javier.tia@linaro.org>
+---
+ meta/classes-recipe/kernel-arch.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes-recipe/kernel-arch.bbclass b/meta/classes-recipe/kernel-arch.bbclass
+index 6a50bbfd42..404f2e7061 100644
+--- a/meta/classes-recipe/kernel-arch.bbclass
++++ b/meta/classes-recipe/kernel-arch.bbclass
+@@ -74,8 +74,8 @@ TARGET_STRIP_KERNEL_ARCH ?= ""
+ HOST_STRIP_KERNEL_ARCH ?= "${TARGET_STRIP_KERNEL_ARCH}"
+
+ KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH} -fdebug-prefix-map=${STAGING_KERNEL_BUILDDIR}=${KERNEL_SRC_PATH}"
+-KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+-KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+-KERNEL_OBJCOPY = "${CCACHE}${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
++KERNEL_LD = "${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
++KERNEL_AR = "${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
++KERNEL_OBJCOPY = "${HOST_PREFIX}objcopy ${HOST_OBJCOPY_KERNEL_ARCH}"
+ KERNEL_STRIP = "${HOST_PREFIX}strip ${HOST_STRIP_KERNEL_ARCH}"
+ TOOLCHAIN ?= "gcc"
+-- 
+2.42.1
+
 
