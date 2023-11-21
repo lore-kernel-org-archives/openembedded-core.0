@@ -1,262 +1,326 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FE98C5AD4C
-	for <webhook@archiver.kernel.org>; Tue, 21 Nov 2023 02:16:56 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.25729.1700533014841881572
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 926D8C5ACB3
+	for <webhook@archiver.kernel.org>; Tue, 21 Nov 2023 05:29:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by mx.groups.io with SMTP id smtpd.web10.29019.1700544594979870258
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Nov 2023 18:16:54 -0800
+ Mon, 20 Nov 2023 21:29:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dwlHOdAe;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1f0f94a08a0so3044883fac.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 20 Nov 2023 18:16:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700533014; x=1701137814; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s08gvU5Lf5W9XIVyMCv64ypzRUUqMzU1F5a9tOqlZZQ=;
-        b=dwlHOdAeNX/Da6tJOUyO9heQVz+vnwMrmSmWnZFv6MRpMVMB1SB/ZKXG+2yCVPjrH/
-         IAUywrenXExjQEOLdTJX8yDmtQGrF3D8+8QfuACnLzsxt8B51okJOYAAA9EhXOIXU2u8
-         RWc8TbQ+Fl7CfHVq0igqD8ty46qsU2oYr3ZZJY/KQD69eHwcH3mvYJO/uq8aBrsW81FQ
-         1Qxsz536JypBOdeDo8AHgIVXG/qJc+cwrskS8X1+CzlDK8LJeU7f0PFphnwVoCajnlhw
-         zsTI8kipx3U6SSnpfp4lvUTXELC43eq/90t6F4jmqFTB9ocY4B4pCoUiQ66DwLHGDKKj
-         woYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700533014; x=1701137814;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=s08gvU5Lf5W9XIVyMCv64ypzRUUqMzU1F5a9tOqlZZQ=;
-        b=XswLNoMQko2sGaQ0WHjfyZhz26bHSaeG80tmaCZ6CoSz+nuUE8b+oXQ0OETA5o27/7
-         Zsyo1VYL08TkfP7F1gPfo2qz4b2qpu62i3b8IS9ioA0B2FPtWlhGRrwM2gAE8SByCnCm
-         4wGFojeZEmXo0AHIkBxEzli4FuZ3/v+S2a1GDYi/7xBmBpLTs9UB8VCkd20VyUpUqL8X
-         Lr8p4hx8Bv0gD60arh3ICQR3kscTxjKBtH9AwjroqEu1Qg5oI0i4VWJv1qqded4+gf4h
-         Vc1Liw2evAsfWz+galGzmZ5mJjuiEFZceTJHMtJlUGYngmBUpjnFdTD/sD1p+JAeU5lX
-         X08g==
-X-Gm-Message-State: AOJu0Yxseultr0ly2wUPDipq4Q+CmPVwWVcCl9S7YreART8pKGmzDdcg
-	x6YS5sR61VDLdi4/cwSd33iqWBkQr7Kig6AjZhw=
-X-Google-Smtp-Source: AGHT+IGloncjt90Oju9Y1ZXWOjcTa7QAdBWu2ZO53E0ud0uMjWk2Ajn/hQhZIh1y6tpWpK5+9uQy+I/tpZp3d2utu7E=
-X-Received: by 2002:a05:6870:3055:b0:1ef:ace4:f360 with SMTP id
- u21-20020a056870305500b001eface4f360mr11043475oau.17.1700533013968; Mon, 20
- Nov 2023 18:16:53 -0800 (PST)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=krnAkSVo;
+ spf=pass (domain: intel.com, ip: 192.198.163.7, mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700544595; x=1732080595;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mADXg7Hq5WT8BgAG5i2qnkw6b/nd1kDyOGdXZnCDtSY=;
+  b=krnAkSVo6sqJebCzY4cCQqB7WXWD4Ks4SkliQmP28debIoIx05igb89/
+   nMPJ+Aws+yHpgQuckGHw9GFQqamzWkWYPBnVtMCT4GD5CQM5mzLlR9tNm
+   qwK8SjzAZdWWjm92ucQJ6Y8vRU3kVFokDR1OKKv3XeyeUDVb3VljHO/Fr
+   wXJe4se1n1r/+1WY23qGJKZlFBKg7Gk/Fvpf5gekN4NS5tWANjn/XYmv9
+   j1XRlT1P5vC2UuI/vHMt/PfxbR87B9a1tb78+N7zFJ9qvmlXYIoY115H9
+   jC6xDrjVbAZ05H60jXJhCRJCSMBlbRWWclNUrBVZIZTYzBk+l+KgcUw3u
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="13314591"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="13314591"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 21:29:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="716423207"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="716423207"
+Received: from anmitta2-mobl3.png.intel.com ([10.107.4.247])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 21:29:53 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] vulkan: upgrade 1.3.261.1 -> 1.3.268.0
+Date: Tue, 21 Nov 2023 13:29:47 +0800
+Message-ID: <20231121052947.22618-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20231115182417.415940-1-raj.khem@gmail.com> <20231117110630da1a7c99@mail.local>
-In-Reply-To: <20231117110630da1a7c99@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Nov 2023 18:16:27 -0800
-Message-ID: <CAMKF1spZp2oX=g5umm7KSdN_sGgr9Jyr7R_jzK0O9-U+=YXoJQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v8 1/2] vte: upgrade 2.72.2 -> 2.74.0
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, Markus Volk <f_l_k@t-online.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 02:16:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190952
+ <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 05:29:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/190953
 
-On Fri, Nov 17, 2023 at 3:06=E2=80=AFAM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/8176/st=
-eps/21/logs/stdio
->
-> ERROR: core-image-sato-1.0-r0 do_rootfs: Multilib check error: duplicate =
-files /home/pokybuild/yocto-worker/multilib/build/build/tmp/work/qemux86_64=
--poky-linux/core-image-sato/1.0/multilib/lib32/usr/share/glib-2.0/schemas/g=
-schemas.compiled /home/pokybuild/yocto-worker/multilib/build/build/tmp/work=
-/qemux86_64-poky-linux/core-image-sato/1.0/rootfs/usr/share/glib-2.0/schema=
-s/gschemas.compiled is not the same
->
+* Allow glslang to find external spirv-tools to build.
+* Vulkan-validation-layers has been split. So a new recipe
+Vulkan-Utility-Libraries has been added and vulkan-validation-layers now
+depends on it.
 
-This is interesting problem is that we are pulling in gtk4 now as part
-of vte but it does not get pulled into lib32
-runtime like it does for gtk+3 ( it comes via adwaita-icon-theme
-recipe as dep) and they both install some gschemas
-32bit rootfs does not have gtk4 schemas but 64bit does have. gschemas
-are compiled at the end of do_rootfs
-and now we have different final schema files. I think these schemas
-should be packages into package of its own
-perhaps instead of adding them to gtk+3 or gtk4 packages since these
-are architecture independent xml files.
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ ...lang_1.3.261.1.bb => glslang_1.3.268.0.bb} |  6 +++-
+ ....3.261.1.bb => spirv-headers_1.3.268.0.bb} |  3 +-
+ ..._1.3.261.1.bb => spirv-tools_1.3.268.0.bb} |  3 +-
+ ...3.261.1.bb => vulkan-headers_1.3.268.0.bb} |  5 +--
+ ....3.261.1.bb => vulkan-loader_1.3.268.0.bb} |  7 ++--
+ ...1.3.261.1.bb => vulkan-tools_1.3.268.0.bb} |  3 +-
+ .../vulkan-utility-libraries_1.3.268.0.bb     | 33 +++++++++++++++++++
+ ... => vulkan-validation-layers_1.3.268.0.bb} |  9 ++---
+ 9 files changed, 57 insertions(+), 13 deletions(-)
+ rename meta/recipes-graphics/glslang/{glslang_1.3.261.1.bb => glslang_1.3.268.0.bb} (88%)
+ rename meta/recipes-graphics/spir/{spirv-headers_1.3.261.1.bb => spirv-headers_1.3.268.0.bb} (86%)
+ rename meta/recipes-graphics/spir/{spirv-tools_1.3.261.1.bb => spirv-tools_1.3.268.0.bb} (93%)
+ rename meta/recipes-graphics/vulkan/{vulkan-headers_1.3.261.1.bb => vulkan-headers_1.3.268.0.bb} (89%)
+ rename meta/recipes-graphics/vulkan/{vulkan-loader_1.3.261.1.bb => vulkan-loader_1.3.268.0.bb} (91%)
+ rename meta/recipes-graphics/vulkan/{vulkan-tools_1.3.261.1.bb => vulkan-tools_1.3.268.0.bb} (93%)
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb
+ rename meta/recipes-graphics/vulkan/{vulkan-validation-layers_1.3.261.1.bb => vulkan-validation-layers_1.3.268.0.bb} (86%)
 
->
-> On 15/11/2023 10:24:15-0800, Khem Raj wrote:
-> > From: Markus Volk <f_l_k@t-online.de>
-> >
-> > Rework recipe
-> >
-> > - remove legacy of the autotools buildsystem
-> > - remove BBCLASSEXTEND
-> > - build       vapi dependent on gi-data
-> > - docs require gir, add       a EXTRA_OEMESON:append to avoid fail in
-> >   a combination       where docs=3Dtrue and gir=3Dfalse
-> > - gtk+3 and gtk4 are requested by default-> add gtk4 depending
-> >   on DISTRO_FEATURE
-> > - install systemd support files       depending on DISTRO_FEATURE
-> > - update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
-> >
-> > Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > v8: Rebased on latest tip of trunk
-> >
-> >  ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
-> >  .../vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb}      | 29 ++++++---------
-> >  2 files changed, 25 insertions(+), 39 deletions(-)
-> >  rename meta/recipes-support/vte/{vte_0.72.2.bb =3D> vte_0.74.0.bb} (66=
-%)
-> >
-> > diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for=
--non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE=
--macro-for-non-glibc-systems.patch
-> > index b4100fc381e..8934d5f80a6 100644
-> > --- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-gl=
-ibc-systems.patch
-> > +++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-gl=
-ibc-systems.patch
-> > @@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
-> >  Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> >
-> >  [1] https://gitlab.gnome.org/GNOME/vte/issues/72
-> > -
-> >  ---
-> > - src/missing.hh | 4 ++++
-> > - src/widget.cc  | 1 +
-> > - 2 files changed, 5 insertions(+)
-> > + src/widget.cc  | 4 +++
-> > + 1 files changed, 4 insertions(+)
-> >
-> > ---- a/src/missing.hh
-> > -+++ b/src/missing.hh
-> > -@@ -24,6 +24,10 @@
-> > - #define NSIG (8 * sizeof(sigset_t))
-> > - #endif
-> > +diff --git a/src/widget.cc b/src/widget.cc
-> > +index 07f7cabf..31a77f68 100644
-> > +--- a/src/widget.cc
-> > ++++ b/src/widget.cc
-> > +@@ -16,6 +16,10 @@
-> > +  * along with this library.  If not, see <https://www.gnu.org/license=
-s/>.
-> > +  */
-> >
-> >  +#ifndef W_EXITCODE
-> >  +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
-> >  +#endif
-> >  +
-> > - #ifndef HAVE_FDWALK
-> > - int fdwalk(int (*cb)(void* data, int fd),
-> > -            void* data);
-> > ---- a/src/widget.cc
-> > -+++ b/src/widget.cc
-> > -@@ -21,6 +21,7 @@
-> > - #include "widget.hh"
-> > -
-> > - #include <sys/wait.h> // for W_EXITCODE
-> > -+#include "missing.hh" // for W_EXITCODE on non-glibc systems
-> > + #include "config.h"
-> >
-> > - #include <exception>
-> > - #include <new>
-> > + #include "widget.hh"
-> > +--
-> > +2.42.0
-> > +
-> > diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-supp=
-ort/vte/vte_0.74.0.bb
-> > similarity index 66%
-> > rename from meta/recipes-support/vte/vte_0.72.2.bb
-> > rename to meta/recipes-support/vte/vte_0.74.0.bb
-> > index 44e71491f62..21203adcf79 100644
-> > --- a/meta/recipes-support/vte/vte_0.72.2.bb
-> > +++ b/meta/recipes-support/vte/vte_0.74.0.bb
-> > @@ -16,32 +16,27 @@ DEPENDS =3D "glib-2.0 glib-2.0-native gtk+3 libpcre=
-2 libxml2-native gperf-native i
-> >  GIR_MESON_OPTION =3D 'gir'
-> >  GIDOCGEN_MESON_OPTION =3D "docs"
-> >
-> > -inherit gnomebase gi-docgen features_check upstream-version-is-even go=
-bject-introspection
-> > +inherit gnomebase gi-docgen features_check upstream-version-is-even go=
-bject-introspection vala
-> >
-> > -# vapigen.m4 is required when vala is not present (but the one from va=
-la should be used normally)
-> >  SRC_URI +=3D "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.p=
-atch"
-> > -SRC_URI[archive.sha256sum] =3D "f7966fd185a6981f53964162b71cfef7e60649=
-5155d6f5827b72aa0dd6741c9e"
-> > +SRC_URI[archive.sha256sum] =3D "9ae08f777952ba793221152d360550451580f4=
-2d3b570e3341ebb6841984c76b"
-> >
-> >  ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
-> >
-> > -# Help g-ir-scanner find the .so for linking
-> > -do_compile:prepend() {
-> > -    export GIR_EXTRA_LIBS_PATH=3D"${B}/src/.libs"
-> > -}
-> > +EXTRA_OEMESON +=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-=
-Dvapi=3Dtrue', '-Dvapi=3Dfalse', d)}"
-> > +EXTRA_OEMESON:append =3D " ${@bb.utils.contains('GI_DATA_ENABLED', 'Fa=
-lse', '-Ddocs=3Dfalse', '', d)}"
-> >
-> > -# Package additional files
-> > -FILES:${PN}-dev +=3D "${datadir}/vala/vapi/*"
-> > -
-> > -PACKAGECONFIG ??=3D "gnutls"
-> > -PACKAGECONFIG[vala] =3D "-Dvapi=3Dtrue,-Dvapi=3Dfalse,vala-native vala=
-"
-> > +PACKAGECONFIG ??=3D " \
-> > +     gnutls \
-> > +     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> > +     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)}=
- \
-> > +"
-> > +PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4"
-> >  PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
-> >  PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,syste=
-md"
-> > -# vala requires gir
-> > -PACKAGECONFIG:remove:class-native =3D "vala"
-> > -
-> > -CFLAGS +=3D "-D_GNU_SOURCE"
-> >
-> >  PACKAGES =3D+ "libvte ${PN}-prompt"
-> > +FILES:${PN} +=3D"${systemd_user_unitdir}"
-> >  FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
-> >  FILES:${PN}-prompt =3D " \
-> >      ${sysconfdir}/profile.d \
-> > @@ -49,5 +44,3 @@ FILES:${PN}-prompt =3D " \
-> >  "
-> >
-> >  FILES:${PN}-dev +=3D "${datadir}/glade/"
-> > -
-> > -BBCLASSEXTEND =3D "native nativesdk"
-> > --
-> > 2.42.1
-> >
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#190739): https://lists.openembedded.org/g/openembed=
-ded-core/message/190739
-> > Mute This Topic: https://lists.openembedded.org/mt/102611065/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 35f8a72fa41..2c59db56ac6 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -837,6 +837,7 @@ RECIPE_MAINTAINER:pn-vulkan-headers = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-vulkan-loader = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-vulkan-samples = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-vulkan-tools = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER:pn-vulkan-utility-libraries = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-vulkan-validation-layers = "Vincent Davis Jr <vince@underview.tech>"
+ RECIPE_MAINTAINER:pn-waffle = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-watchdog = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-graphics/glslang/glslang_1.3.261.1.bb b/meta/recipes-graphics/glslang/glslang_1.3.268.0.bb
+similarity index 88%
+rename from meta/recipes-graphics/glslang/glslang_1.3.261.1.bb
+rename to meta/recipes-graphics/glslang/glslang_1.3.268.0.bb
+index e607045148c..033830ba36b 100644
+--- a/meta/recipes-graphics/glslang/glslang_1.3.261.1.bb
++++ b/meta/recipes-graphics/glslang/glslang_1.3.268.0.bb
+@@ -8,13 +8,14 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
+ LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
+ 
+-SRCREV = "76b52ebf77833908dc4c0dd6c70a9c357ac720bd"
++SRCREV = "36d08c0d940cf307a23928299ef52c7970d8cee6"
+ SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
+            file://0001-generate-glslang-pkg-config.patch \
+            "
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
+ # glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
++# vulkan-validation-layers, vulkan-utility-libraries.
+ # The tags versions should always be sdk-x.y.z, as this is what
+ # upstream considers a release.
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+@@ -22,12 +23,15 @@ S = "${WORKDIR}/git"
+ 
+ inherit cmake python3native
+ 
++DEPENDS = "spirv-tools"
++
+ EXTRA_OECMAKE = " \
+     -DCMAKE_BUILD_TYPE=Release \
+     -DBUILD_SHARED_LIBS=ON \
+     -DENABLE_PCH=OFF \
+     -DENABLE_CTEST=OFF \
+     -DBUILD_EXTERNAL=OFF \
++    -DALLOW_EXTERNAL_SPIRV_TOOLS=ON \
+ "
+ 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.261.1.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb
+similarity index 86%
+rename from meta/recipes-graphics/spir/spirv-headers_1.3.261.1.bb
+rename to meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb
+index 945f0879f52..7045f704736 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.3.261.1.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb
+@@ -4,11 +4,12 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
+ 
+-SRCREV = "124a9665e464ef98b8b718d572d5f329311061eb"
++SRCREV = "e867c06631767a2d96424cbec530f9ee5e78180f"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
+ # glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
++# vulkan-validation-layers, vulkan-utility-libraries.
+ # The tags versions should always be sdk-x.y.z, as this is what
+ # upstream considers a release.
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.268.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb
+rename to meta/recipes-graphics/spir/spirv-tools_1.3.268.0.bb
+index 6904288299c..1cccafdad02 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_1.3.261.1.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_1.3.268.0.bb
+@@ -7,11 +7,12 @@ SECTION = "graphics"
+ LICENSE  = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-SRCREV = "e553b884c7c9febaa4e52334f683641fb5f196a0"
++SRCREV = "360d469b9eac54d6c6e20f609f9ec35e3a5380ad"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https"
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
+ # glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
++# vulkan-validation-layers, vulkan-utility-libraries.
+ # The tags versions should always be sdk-x.y.z, as this is what
+ # upstream considers a release.
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.268.0.bb
+similarity index 89%
+rename from meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb
+rename to meta/recipes-graphics/vulkan/vulkan-headers_1.3.268.0.bb
+index 01eb14b9fb0..a1a83317daa 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.261.1.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.268.0.bb
+@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
+ 
+-SRCREV = "85c2334e92e215cce34e8e0ed8b2dce4700f4a50"
++SRCREV = "7b3466a1f47a9251ac1113efbe022ff016e2f95b"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -21,7 +21,8 @@ FILES:${PN} += "${datadir}/vulkan"
+ RDEPENDS:${PN} += "python3-core"
+ 
+ # These recipes need to be updated in lockstep with each other:
+-# glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
++# glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools,
++# vulkan-validation-layers, vulkan-utility-libraries.
+ # The tags versions should always be sdk-x.y.z, as this is what
+ # upstream considers a release.
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.261.1.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.3.268.0.bb
+similarity index 91%
+rename from meta/recipes-graphics/vulkan/vulkan-loader_1.3.261.1.bb
+rename to meta/recipes-graphics/vulkan/vulkan-loader_1.3.268.0.bb
+index 01cbeafa3ee..5a5749d40c9 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-loader_1.3.261.1.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.3.268.0.bb
+@@ -9,8 +9,8 @@ SECTION = "libs"
+ 
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=main;protocol=https"
+-SRCREV = "afdd025ead2b63b2c73d900ab128a2d3b512cdf0"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=vulkan-sdk-1.3.268;protocol=https"
++SRCREV = "f4c838e2e7358fc450f8112119bbdbb5b03e03fa"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -36,7 +36,8 @@ PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SU
+ RRECOMMENDS:${PN} = "mesa-vulkan-drivers"
+ 
+ # These recipes need to be updated in lockstep with each other:
+-# glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
++# glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools,
++# vulkan-validation-layers, vulkan-utility-libraries.
+ # The tags versions should always be sdk-x.y.z, as this is what
+ # upstream considers a release.
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.261.1.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.3.268.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/vulkan/vulkan-tools_1.3.261.1.bb
+rename to meta/recipes-graphics/vulkan/vulkan-tools_1.3.268.0.bb
+index 7a7edc9ebdf..78bd9b0e045 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-tools_1.3.261.1.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.3.268.0.bb
+@@ -7,7 +7,7 @@ SECTION = "libs"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=main;protocol=https"
+-SRCREV = "a7da7027ca9fd0901639f02619c226da9c6036f1"
++SRCREV = "1532001f7edae559af1988293eec90bc5e2607d5"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -31,6 +31,7 @@ PACKAGECONFIG[wayland] = "-DBUILD_WSI_WAYLAND_SUPPORT=ON, -DBUILD_WSI_WAYLAND_SU
+ 
+ # These recipes need to be updated in lockstep with each other:
+ # glslang, vulkan-headers, vulkan-loader, vulkan-tools, spirv-headers, spirv-tools
++# vulkan-validation-layers, vulkan-utility-libraries.
+ # The tags versions should always be sdk-x.y.z, as this is what
+ # upstream considers a release.
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb b/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb
+new file mode 100644
+index 00000000000..fee4ba6cc9e
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb
+@@ -0,0 +1,33 @@
++SUMMARY = "Vulkan Utility Libraries"
++DESCRIPTION = "Common libraries created to share code across various \
++Vulkan repositories, solving long standing issues for Vulkan SDK \
++developers and users."
++HOMEPAGE = "https://www.khronos.org/vulkan/"
++BUGTRACKER = "https://github.com/KhronosGroup/Vulkan-Utility-Libraries"
++SECTION = "libs"
++
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ca2d6799091aaa98a8520f1b793939b"
++
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Utility-Libraries.git;branch=main;protocol=https"
++SRCREV = "c9ca4ac620a238a93c65d864f2eaa33954d74509"
++
++S = "${WORKDIR}/git"
++
++REQUIRED_DISTRO_FEATURES = "vulkan"
++
++DEPENDS = "vulkan-headers"
++
++EXTRA_OECMAKE = "\
++    -DBUILD_TESTS=OFF \
++    "
++
++inherit cmake features_check pkgconfig
++
++# These recipes need to be updated in lockstep with each other:
++# glslang, vulkan-headers, vulkan-loader, vulkan-tools,
++# vulkan-validation-layers, spirv-headers, spirv-tools,
++# vulkan-utility-libraries.
++# The tags versions should always be sdk-x.y.z, as this is what
++# upstream considers a release.
++UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.261.1.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.268.0.bb
+similarity index 86%
+rename from meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.261.1.bb
+rename to meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.268.0.bb
+index 1e2a0acedbd..6c2715b041b 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.261.1.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.268.0.bb
+@@ -8,14 +8,14 @@ SECTION = "libs"
+ LICENSE = "Apache-2.0 & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=cd3c0bc366cd9b6a906e22f0bcb5910f"
+ 
+-SRC_URI = "git://git@github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=sdk-1.3.261;protocol=https"
+-SRCREV = "628cd310bef6d54b4e6b25b5ac2ed013473409d6"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=vulkan-sdk-1.3.268;protocol=https"
++SRCREV = "3c64adb4e052062fc60b6580c365429fddfbcfbf"
+ 
+ S = "${WORKDIR}/git"
+ 
+ REQUIRED_DISTRO_FEATURES = "vulkan"
+ 
+-DEPENDS = "vulkan-headers vulkan-loader spirv-headers spirv-tools glslang"
++DEPENDS = "vulkan-headers vulkan-loader spirv-headers spirv-tools glslang vulkan-utility-libraries"
+ 
+ # BUILD_TESTS            - Not required for OE builds
+ # USE_ROBIN_HOOD_HASHING - Provides substantial performance improvements on all platforms.
+@@ -42,7 +42,8 @@ FILES_SOLIBSDEV = ""
+ 
+ # These recipes need to be updated in lockstep with each other:
+ # glslang, vulkan-headers, vulkan-loader, vulkan-tools,
+-# vulkan-validation-layers, spirv-headers, spirv-tools
++# vulkan-validation-layers, spirv-headers, spirv-tools,
++# vulkan-utility-libraries.
+ # The tags versions should always be sdk-x.y.z, as this is what
+ # upstream considers a release.
+ UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+-- 
+2.42.0
+
 
