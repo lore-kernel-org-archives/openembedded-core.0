@@ -2,78 +2,84 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 971D8C61D9C
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:07:56 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web11.15355.1700644067045450235
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94C2EC61D9D
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:08:36 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web10.15289.1700644113876522911
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 01:07:47 -0800
+ Wed, 22 Nov 2023 01:08:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="140574769"
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="119914562"
 X-IronPort-AV: E=Sophos;i="6.04,218,1695654000"; 
-   d="scan'208";a="140574769"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 18:07:44 +0900
-Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id C70F3D66DD
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 18:07:42 +0900 (JST)
-Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 10FDFE6478
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 18:07:42 +0900 (JST)
+   d="scan'208";a="119914562"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 18:08:31 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 9D523C148F
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 18:08:29 +0900 (JST)
+Received: from aks-ab1.gw.nic.fujitsu.com (aks-ab1.gw.nic.fujitsu.com [192.51.207.11])
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id CADF6D60E7
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 18:08:28 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.79])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 059CA8717C;
-	Wed, 22 Nov 2023 18:07:40 +0900 (JST)
+	by aks-ab1.gw.nic.fujitsu.com (Postfix) with ESMTP id B22AC2FC7AA8;
+	Wed, 22 Nov 2023 18:08:27 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-scons: upgrade 4.5.2 -> 4.6.0
-Date: Wed, 22 Nov 2023 17:07:07 +0800
-Message-Id: <1700644027-9873-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-urllib3: upgrade 2.0.7 -> 2.1.0
+Date: Wed, 22 Nov 2023 17:07:43 +0800
+Message-Id: <1700644063-9909-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-28012.006
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-28012.006
-X-TMASE-Result: 10-0.266800-10.000000
-X-TMASE-MatchedRID: wgzGQ0X+yFqjz0nOeth/yUIIxwDaU5mr9pLnYtQ99xJoOe42HKVRDr6p
-	xbTOjavy+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74AQhNjZQYyI3FCedixYXzOrlmG
-	OZvTvMReD/SpuYoqPDS5rYfHE0OO95UcZtwNsCroURSScn+QSXpjDMT0TyDk5+gtHj7OwNO28bR
-	Ued1HGAsJi10hJ43xHvjQzpLWwQh4qMFq74bw2p68cJAMSlYrsivwTsUHhAPqJ6BCaI2e7Kl2ro
-	31NTVPvECDB5u+Pt3TZdTCUzonWQfIMFg0InOPqz5gAnmajvOU4qCidlj1MUy0uABDi47cA
+X-TMASE-Result: 10-3.405900-10.000000
+X-TMASE-MatchedRID: EzAtoNUuirijz0nOeth/yUIIxwDaU5mrMVx/3ZYby7+/UKSk38cGDA7t
+	FvCWixbmZFBG9rFbfMLSfPTtJ4xSfv4/7++nTNOS5p1ddw6V4RtUENBIMyKD0QfxTM57BPHD7v0
+	MlFSLfmlNDQmQ8bbzv+affHI8kAmis1RWeqLGIw65x7uAXGEprQFA6pSxaDHmAhn751acftuem2
+	vw+cenKeLzNWBegCW24nmFeyfGnuMLbigRnpKlKZx+7GyJjhAU60sxS3oVZM1jSnVMBLUnm9kLW
+	SRN33LRBOvwadx5P3kX1vwo2x046KRrkPo+i5dX39pHHGNPFTWjmsLesWX4OaU7IT6zPkjI7H2f
+	VekOqwmYL1KImKhq1ZuOe7yPCBvAf2OJxbAVgHQ+kK598Yf3Mg==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:07:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191040
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:08:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191041
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-https://github.com/SCons/scons/releases/tag/4.6.0
+============
+-Removed support for the deprecated urllib3[secure] extra.
+-Removed support for the deprecated SecureTransport TLS implementation.
+-Removed support for the end-of-life Python 3.7.
+-Allowed loading CA certificates from memory for proxies.
+-Fixed decoding Gzip-encoded responses which specified x-gzip content-encoding.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../python/{python3-scons_4.5.2.bb => python3-scons_4.6.0.bb}   | 2 +-
+ .../{python3-urllib3_2.0.7.bb => python3-urllib3_2.1.0.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-scons_4.5.2.bb => python3-scons_4.6.0.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-urllib3_2.0.7.bb => python3-urllib3_2.1.0.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-scons_4.5.2.bb b/meta/recipes-devtools/python/python3-scons_4.6.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-scons_4.5.2.bb
-rename to meta/recipes-devtools/python/python3-scons_4.6.0.bb
-index e0173a309e..c3cc3f0373 100644
---- a/meta/recipes-devtools/python/python3-scons_4.5.2.bb
-+++ b/meta/recipes-devtools/python/python3-scons_4.6.0.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d903b0b8027f461402bac9b5169b36f7"
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.0.7.bb b/meta/recipes-devtools/python/python3-urllib3_2.1.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-urllib3_2.0.7.bb
+rename to meta/recipes-devtools/python/python3-urllib3_2.1.0.bb
+index c286838086..b5b37e2924 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.0.7.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.1.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
  
- SRC_URI += " file://0001-Fix-man-page-installation.patch"
--SRC_URI[sha256sum] = "813360b2bce476bc9cc12a0f3a22d46ce520796b352557202cb07d3e402f5458"
-+SRC_URI[sha256sum] = "7db28958b188b800f803c287d0680cc3ac7c422ed0b1cf9895042c52567803ec"
+-SRC_URI[sha256sum] = "c97dfde1f7bd43a71c8d2a58e369e9b2bf692d1334ea9f9cae55add7d0dd0f84"
++SRC_URI[sha256sum] = "df7aa8afb0148fa78488e7899b2c59b5f4ffcfa82e6c54ccb9dd37c1d7b52d54"
  
- PYPI_PACKAGE = "SCons"
+ inherit pypi python_hatchling
  
 -- 
 2.34.1
