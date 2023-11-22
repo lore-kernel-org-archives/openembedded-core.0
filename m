@@ -1,88 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA944C61D97
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 22:05:12 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.51895.1700690712270231336
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7840C27C40
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 22:26:22 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.52323.1700691972770096955
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 14:05:12 -0800
+ Wed, 22 Nov 2023 14:26:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OsMi8Hkj;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6b20577ef7bso279727b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 14:05:12 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dFEODMAs;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40b358f216dso978535e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 14:26:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700690711; x=1701295511; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WHhgOlmAnyXgqLIzxnMZv+eOBZW/l7nQg7Si9jrislo=;
-        b=OsMi8Hkj89/B7AaP6/E+Pjx6mkyWADOAL9K3L3jSuYZbhlpjnf4h8ZLjdPgmduY8I7
-         RqEvOEMzcfizsjjAOut8XKN7GvW2Wv9O61fTLFmLBj+zABF1AsMcEJU4WPkO6ILk9q9c
-         p5bpDgib+hIQjby23ctsj5JViYp53u6sJgU+lcRT4MPpE8SsZo9EqAJ5iCqAQhgrLxkm
-         +uFcy6iYBmHueIPXMYjqUgmLPf0sWqIxvlwDbSBZdH832FHD+QRReVMZuUvikHcDcTYd
-         EaAgeAi7F7NTPKFfaOzSZJRG5x9BziLq2GjqiAR9zGmd195eb8G2lphpzNIxRr3nUV0h
-         ue6A==
+        d=linuxfoundation.org; s=google; t=1700691971; x=1701296771; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4nccle+TrjYn+bdmqZSCJ/NiEfMfUXovMN9LrSn1w18=;
+        b=dFEODMAs807zSItY8TEaWKJIHHjucuN9DxP0TyJ3MbqUqI/gklxnq87IOG4d5EvMws
+         HnVPyoTetWCGhy8e1a6NYuboVaac56KtwWX2OME8xi4ek31OKFFvm8aVwO0lLnZVXT4C
+         BZLesnnSelqRKmRVHxucEasIvjB2KCv8m/uo4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700690711; x=1701295511;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WHhgOlmAnyXgqLIzxnMZv+eOBZW/l7nQg7Si9jrislo=;
-        b=ol1zxhwEKtqFhtWOkb9LZhQrbXhMdHvPhWUh/xwcsdz3N+Bt8j5jsoSvZWfAz5wnU1
-         PjEwGRBXh6Xi+g1Ek6olZIbbgQ9W1OSuyglKhP5e9h+aXuiiREXwXzRQkrh8fbD+YCvU
-         PjeKHbIuyFekkD7jP7HmtkIB3UMXbjuLL5SCG2nSI6GszJGFR5zkIPk6cvNGNrTmVu7O
-         NhlymnROblUQ4l4360ZHBD41BO+JprhEgwbhYhpgDNvZkKKvsywIhZGxTD9UJm4iZBU/
-         TUmn20CISxe6uMQtOLVVMSakOYF/L6TkSfe2xwPRL6D5Bnt5HRubWFWCRX43lOzoUPGq
-         BBpg==
-X-Gm-Message-State: AOJu0YyCe53SaizJZz2U75TJKFnGPJtw6HI2WsEE0cAPcLSpQ91jKbrV
-	bH2IyV4miWGyoCU48VNxLNjcC/cubdzuHg==
-X-Google-Smtp-Source: AGHT+IGckKpQXVccvp6ahV3/vehg+Mv9AC0DqGEQaWPj5Y8rPgSmL78oxfW1Mkn2Vkhd/Gb1ZmREFg==
-X-Received: by 2002:a05:6a21:6d8b:b0:187:9f36:c30a with SMTP id wl11-20020a056a216d8b00b001879f36c30amr3657817pzb.39.1700690711091;
-        Wed, 22 Nov 2023 14:05:11 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::2c3f])
-        by smtp.gmail.com with ESMTPSA id b12-20020a17090ae38c00b0027782f611d1sm252519pjz.36.2023.11.22.14.05.10
+        d=1e100.net; s=20230601; t=1700691971; x=1701296771;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4nccle+TrjYn+bdmqZSCJ/NiEfMfUXovMN9LrSn1w18=;
+        b=ksiRorj9uWxubQ9NbMlGeId31YEN29mZnV+vyFKaK4pN6dH6uGq0u4Q22wNK8e/4Up
+         tQWjeeZoEOQAGXzfcJcqv0g3nONg4AYXb/pBIh8bR3aIMgZSwPnh1WWo4lhVZLV1+4DN
+         0LiCPAiP8XQhNyPfVOCUoyeIkWR1tNCOAlhCB22GelR3UjSfA/QqR51X3Q9SM7M4GICG
+         iAsyCKZJPj8Unwfcod1MXKhafwhvP3qixrYsI0S4/VF/bLD3+cU/Pvdz7P/tTXuFu0zL
+         AffuPWpwpFq9ydbUaaIkfQl5QLtOInKgThyTizcBsSNkJ56igLejmbP0TjAl3TAPDkmz
+         jk1g==
+X-Gm-Message-State: AOJu0Yw9N7N78LxZfCIv0Mes4q6UjwTUlrMO8cH2UEnN0d8f19yOVByg
+	idHe/f/8VmLAWkpeYioleUfiPA==
+X-Google-Smtp-Source: AGHT+IEyG7JvrXg0MNM0PNEUs75/eTwx8yRAACLSX/Od2m2L8lHm3OPyhH91PvfB/hOY045QJpr0Xg==
+X-Received: by 2002:a05:600c:4e8e:b0:40b:2ada:fed0 with SMTP id f14-20020a05600c4e8e00b0040b2adafed0mr2920100wmq.20.1700691971201;
+        Wed, 22 Nov 2023 14:26:11 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c511:4d31:367c:ab3c? ([2001:8b0:aba:5f3c:c511:4d31:367c:ab3c])
+        by smtp.gmail.com with ESMTPSA id o36-20020a05600c512400b0040596352951sm740417wms.5.2023.11.22.14.26.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 14:05:10 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] init-manager-mdev-busybox: Keep sysvinit distro feature on
-Date: Wed, 22 Nov 2023 14:05:08 -0800
-Message-ID: <20231122220508.3148727-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 22 Nov 2023 14:26:10 -0800 (PST)
+Message-ID: <c05e72b51eb7f0283645f525976d5b2033587ee1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 20/21] populate_sdk_ext.bbclass: add
+ *:do_shared_workdir to BB_SETSCENE_ENFORCE_IGNORE_TASKS
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 22 Nov 2023 22:26:09 +0000
+In-Reply-To: <606a01cbb1f1d6608093260692d9d299218074b7.1700600804.git.martin.jansa@gmail.com>
+References: <cover.1700600804.git.martin.jansa@gmail.com>
+	 <606a01cbb1f1d6608093260692d9d299218074b7.1700600804.git.martin.jansa@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 22:05:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191124
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 22:26:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191125
 
-The rcS script that busybox-init provides is able to run scripts that
-are available as part of sysvinit, therefore its fine to keep sysvinit
-distro feature enabled so that we can build complex systems with
-busybox as init system.
+On Wed, 2023-11-22 at 13:44 +0100, Martin Jansa wrote:
+>  meta/classes-recipe/populate_sdk_ext.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-recipe/populate_sdk_ext.bbclass b/meta/classes-=
+recipe/populate_sdk_ext.bbclass
+> index f209becae1..5705140359 100644
+> --- a/meta/classes-recipe/populate_sdk_ext.bbclass
+> +++ b/meta/classes-recipe/populate_sdk_ext.bbclass
+> @@ -366,7 +366,7 @@ def write_local_conf(d, baseoutpath, derivative, core=
+_meta_subdir, uninative_che
+>              f.write('BB_HASHCONFIG_IGNORE_VARS:append =3D " SIGGEN_UNLOC=
+KED_RECIPES"\n\n')
+> =20
+>              # Set up which tasks are ignored for run on install
+> -            f.write('BB_SETSCENE_ENFORCE_IGNORE_TASKS =3D "%:* *:do_shar=
+ed_workdir *:do_rm_work wic-tools:* *:do_addto_recipe_sysroot"\n\n')
+> +            f.write('BB_SETSCENE_ENFORCE_IGNORE_TASKS =3D "%:* *:do_shar=
+ed_workdir *:do_rm_work *:do_deploy_links wic-tools:* *:do_addto_recipe_sys=
+root"\n\n')
+> =20
+>              # Hide the config information from bitbake output (since it'=
+s fixed within the SDK)
+>              f.write('BUILDCFG_HEADER =3D ""\n\n')
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/init-manager-mdev-busybox.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The subject says "add do_shared_workdir" but the code change is
+actually "add do_deploy_links".
 
-diff --git a/meta/conf/distro/include/init-manager-mdev-busybox.inc b/meta/conf/distro/include/init-manager-mdev-busybox.inc
-index 12091cba68c..a5a61bbe4d2 100644
---- a/meta/conf/distro/include/init-manager-mdev-busybox.inc
-+++ b/meta/conf/distro/include/init-manager-mdev-busybox.inc
-@@ -1,5 +1,6 @@
- # enable mdev/busybox for init
--DISTRO_FEATURES_BACKFILL_CONSIDERED:append = " systemd sysvinit"
-+DISTRO_FEATURES:append = " sysvinit"
-+DISTRO_FEATURES_BACKFILL_CONSIDERED:append = " systemd"
- VIRTUAL-RUNTIME_dev_manager ??= "busybox-mdev"
- VIRTUAL-RUNTIME_init_manager ??= "busybox"
- VIRTUAL-RUNTIME_initscripts ??= "initscripts"
--- 
-2.43.0
+This caught my eye in my inbox as the shared_workdir task can be
+painful!
 
+Cheers,
+
+Richard
 
