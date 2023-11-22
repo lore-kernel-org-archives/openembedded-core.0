@@ -1,344 +1,95 @@
-Return-Path: <alb3rt0.m3rciai@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D21C61D9B
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:18:16 +0000 (UTC)
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
- by mx.groups.io with SMTP id smtpd.web10.15414.1700644696335738274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D250DC61D9C
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:31:06 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.15559.1700645463408733906
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 01:18:16 -0800
+ Wed, 22 Nov 2023 01:31:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CYevBsRE;
- spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: alb3rt0.m3rciai@gmail.com)
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4629eb39d67so394629137.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 01:18:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZGR+hM+s;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2c72e275d96so81473581fa.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 01:31:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700644695; x=1701249495; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1700645461; x=1701250261; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RNrXqz3ROgQZJ1ccC840rZL9k7hwTHi4Cq+Q2TaB6jM=;
-        b=CYevBsREQF+7kqmr/+8I1CrEdmtPsIjWCg7OzIBRaUYtxkma8mG2xdxr7+D7MX2t9P
-         nTcASWCzztEn+pE8W1t1U0/qka4Zb9b120ehqzovnrpqcfkO3EW+3NDtgV33khvnRa3e
-         yFh/rCh6lvedkIWkgUnIHBdcBC1EI3CtBc5D9G91lFU/RuYlL5JswHZaBa2wSLDs5Lw1
-         fEBWGEEBQGqLbp/Bp5OKHDQRSBFXI6CHJ/PoHdHuk0rBXA2N5rLExXHnsuqHsXofmz4m
-         7psLNnSYr9i9KonKxOWeUFCB0lybE5bqkDeSpSFnrkxVkXC/C5mIrFCWLnf9BlZE44Ul
-         9ZBg==
+        bh=xJGhM3VGV7EBbr9oSqRv+HhP+brrl7id8VETxzTfdnQ=;
+        b=ZGR+hM+saKfx9TAgCw00pCWFlJhTvi4osH9tYU7zyisnBixjp0tyIG7dKOp+x+yVrz
+         KxU7yQxW73tuI9WkLuHof625jjxXTeU3m2xzKUng7U+2eH1gLvltlqr6KnTCnzcqMRVI
+         YxeLxu1SkaivgETLhElhVVff/LTV2nY6E97nedjQXIhMEzd/YJNOF5qTLOco5flL4Gu6
+         4cs8GGsI/FNbFKBih/DG4Vitj8e9OqY+MgJaetgyFd1Ue34W8n163Yoq8EQEb+4tvyYZ
+         Uvbl43M+ZFja/zHsIGG0JbmUyvHuG/5CngrgCYPQJCHTkhrFgfzC3Iezt1FHn1WvGvW5
+         8AXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700644695; x=1701249495;
+        d=1e100.net; s=20230601; t=1700645461; x=1701250261;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RNrXqz3ROgQZJ1ccC840rZL9k7hwTHi4Cq+Q2TaB6jM=;
-        b=TgtYGzXChpQ4SRUJdJnpl+e07hX3rSyTOCbTaqJAYTS1a0LXH+Zd+eN3rR1tLaH6CB
-         tBsdFoYSyfLRtP7F7liU9Z7ey6KZsJamE8MmhWkwyNYBSsfu8E6WE9cO3Bh5VOwiXeBt
-         TNinXnMF28UCaj9LuLVhnwJj0GHuqBYO2ONjhdg5520ksjqbvOi9wGhZt8+Hd63kW4E/
-         MOjt41gPkt53VUmWBwvlXVlnY9wkC+fWUTymtqqeDxWKf/vdF7pvLvOmK2htwCtUkiu6
-         JqkIpaEYjq1X3qCifT5q+so07XepLZGjC++kTZEXfc3sFLWNJ5A72mYCcsXKu998Km6t
-         sODw==
-X-Gm-Message-State: AOJu0Ywt8cEsLF+bjZd8jcT3nKAkaU5qCxA3ThSJKsB5MyN6s9lWG4yb
-	9gysdkhcRnw2QDGwTHFAIkRDSBP5s+IzM6uuxuA=
-X-Google-Smtp-Source: AGHT+IESh9dRg60L1jVf71jhKnD8gvEHo/LhB3XcGfHJaeNYvjHTC1bqi8curNWmrFzw5Wg3cg2a7eOKIMT5JhFQ2qQ=
-X-Received: by 2002:a05:6102:1623:b0:462:83d4:1c02 with SMTP id
- cu35-20020a056102162300b0046283d41c02mr2172361vsb.15.1700644695227; Wed, 22
- Nov 2023 01:18:15 -0800 (PST)
+        bh=xJGhM3VGV7EBbr9oSqRv+HhP+brrl7id8VETxzTfdnQ=;
+        b=Hq9vsdbzMyzcGYBlIvKzRIALmcveMKdB9KcnfF2n4OvevHDwRJpCA+ru9TOWM8FmNg
+         PWmjKCjZ4cUy6ZMw0JNLv3/9wndG8aKaoKvFg/V0jnGyuU/CO3a1NOcj7mPBzE1Jnb1C
+         uZga9oJj4NzJIAA11rBv0X+0D3iDPsz+KZR9kDM8P6EwWlm/QhPAIA8XGU2WJTboWmjN
+         15knGhIkQy3vytJNS74j/1573MnDnVyn1ShpF2dx/a1VTz3knnhg1C+wmLfy3OPmCzhk
+         mVtYF1rjml57KcXfQh+QV3N9bTlwUr0ItxGm7in0fJbGu/wDg7SW3Hn3djtZBO+Pd1gF
+         2WyQ==
+X-Gm-Message-State: AOJu0Yy/wFko3WiRVeorvmnBkaXiTYQXI1g+AiaPCmP22iaPF0oACH3H
+	YMdwwZklte1oQVpmrOg8jH7JMEMJcr2vKIqzP2Y=
+X-Google-Smtp-Source: AGHT+IHyg2XjaINPBjley4Gjy79OCLdYGmloQcGo5VnfrtCctJjWWpcYR8kqkHEw8sijS1Z5hwTy9k64J5PjfZYDrcQ=
+X-Received: by 2002:a2e:a69f:0:b0:2c5:94a:ac96 with SMTP id
+ q31-20020a2ea69f000000b002c5094aac96mr1168484lje.9.1700645461266; Wed, 22 Nov
+ 2023 01:31:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20231122085438.7328-1-alb3rt0.m3rciai@gmail.com> <CANNYZj87+-6jte1KYUNg2ueWvsYzxiOQvbTzrCZ_ooo9N7uutw@mail.gmail.com>
-In-Reply-To: <CANNYZj87+-6jte1KYUNg2ueWvsYzxiOQvbTzrCZ_ooo9N7uutw@mail.gmail.com>
-From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-Date: Wed, 22 Nov 2023 10:18:04 +0100
-Message-ID: <CAH=B7vfs74f-vyx8JGJyfAu3NPa5xwgumsW+_ahMBXnfUmJw2Q@mail.gmail.com>
+References: <20231122085438.7328-1-alb3rt0.m3rciai@gmail.com>
+ <CANNYZj87+-6jte1KYUNg2ueWvsYzxiOQvbTzrCZ_ooo9N7uutw@mail.gmail.com> <CAH=B7vfs74f-vyx8JGJyfAu3NPa5xwgumsW+_ahMBXnfUmJw2Q@mail.gmail.com>
+In-Reply-To: <CAH=B7vfs74f-vyx8JGJyfAu3NPa5xwgumsW+_ahMBXnfUmJw2Q@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 22 Nov 2023 10:30:49 +0100
+Message-ID: <CANNYZj_XcosMZQHswireb1JHJahUvSy1NuHy_3-f3Km8aWwgbg@mail.gmail.com>
 Subject: Re: [PATCH] poky: kirkstone: eSDK: fix build-in eSDK environment file generation
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f2c132060aba3268"
+To: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Michael Opdenacker <michael.opdenacker@bootlin.com>, docs <docs@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:18:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191045
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:31:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191046
 
---000000000000f2c132060aba3268
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hello Alexander,
-
-Of course
-I'm following the guide
-https://docs.yoctoproject.org/4.0.14/sdk-manual/extensible.html#setting-up-=
-the-extensible-sdk-environment-directly-in-a-yocto-build
-
-create environment file for cross compilation
-
-$ bitbake meta-ide-support
-$ bitbake -c populate_sysroot gtk+3
-# or any other target or native item that the application developer would n=
-eed
-$ bitbake build-sysroots
-
-then you can open a new terminal and sourcing the file generated by the
-above steps using
-   source tmp/deploy/images/qemux86-64/environment-setup-core2-64-poky-linu=
-x
-
-go inside the project you would like cross-compile and you get errors
-
-Let me know if it is enough for you, thanks :)
-
-
-On Wed, Nov 22, 2023 at 9:59=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
-il.com>
-wrote:
-
-> Can you please describe in the commit message how the issue can be
-> reproduced and observed, because otherwise I can't do a meaningful
-> review, and would have to say 'no' until I can?
+On Wed, 22 Nov 2023 at 10:18, Alberto Merciai <alb3rt0.m3rciai@gmail.com> wrote:
+> Of course
+> I'm following the guide
+> https://docs.yoctoproject.org/4.0.14/sdk-manual/extensible.html#setting-up-the-extensible-sdk-environment-directly-in-a-yocto-build
 >
-> Do we need to improve the tests? Do they miss something?
+> create environment file for cross compilation
 >
-> Alex
+> $ bitbake meta-ide-support
+> $ bitbake -c populate_sysroot gtk+3
+> # or any other target or native item that the application developer would need
+> $ bitbake build-sysroots
 >
-> On Wed, 22 Nov 2023 at 09:54, Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-> wrote:
-> >
-> > From: amerciai <alb3rt0.m3rciai@gmail.com>
-> >
-> > - Following Setting up the Extensible SDK environment directly in a
-> Yocto build
-> >
-> https://docs.yoctoproject.org/4.0.14/sdk-manual/extensible.html#setting-u=
-p-the-extensible-sdk-environment-directly-in-a-yocto-build
-> >   The generated environment file does not point to the
-> >   correct sysroot folder, then the end user is not able
-> >   to cross-compile by sourcing the file.
-> >
-> > - The same for kirkstone-4.0.10
-> >
-> > - By analyzing
-> >
-> https://lore.kernel.org/all/20220622103312.1098389-3-alex@linutronix.de/T=
-/#m7eadf6c722410f5b233ebba9fc700a895af9f052
-> >   I found that changes apllied to
-> >   meta/classes/toolchain-scripts.bbclass
-> >   solve the issue.
-> >
-> > Suggested-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
-> >
-> > diff --git a/meta/classes/toolchain-scripts.bbclass
-> b/meta/classes/toolchain-scripts.bbclass
-> > index d735d434e6..ec50a1efa0 100644
-> > --- a/meta/classes/toolchain-scripts.bbclass
-> > +++ b/meta/classes/toolchain-scripts.bbclass
-> > @@ -70,15 +70,23 @@ toolchain_create_tree_env_script () {
-> >         script=3D${TMPDIR}/environment-setup-${REAL_MULTIMACH_TARGET_SY=
-S}
-> >         rm -f $script
-> >         touch $script
-> > +       echo 'standalone_sysroot_target=3D"${STAGING_DIR}/${MACHINE}"' =
->>
-> $script
-> > +       echo 'standalone_sysroot_native=3D"${STAGING_DIR}/${BUILD_ARCH}=
-"'
-> >> $script
-> >         echo 'orig=3D`pwd`; cd ${COREBASE}; . ./oe-init-build-env
-> ${TOPDIR}; cd $orig' >> $script
-> > -       echo 'export
-> PATH=3D${STAGING_DIR_NATIVE}/usr/bin:${STAGING_BINDIR_TOOLCHAIN}:$PATH' >=
+> then you can open a new terminal and sourcing the file generated by the above steps using
+>    source tmp/deploy/images/qemux86-64/environment-setup-core2-64-poky-linux
 >
-> $script
-> > -       echo 'export PKG_CONFIG_SYSROOT_DIR=3D${PKG_CONFIG_SYSROOT_DIR}=
-'
-> >> $script
-> > -       echo 'export PKG_CONFIG_PATH=3D${PKG_CONFIG_PATH}' >> $script
-> > +
-> > +       echo 'export
-> PATH=3D$standalone_sysroot_native/${bindir_native}:$standalone_sysroot_na=
-tive/${bindir_native}/${TARGET_SYS}:$PATH'
-> >> $script
-> > +       echo 'export PKG_CONFIG_SYSROOT_DIR=3D$standalone_sysroot_targe=
-t'
-> >> $script
-> > +       echo 'export
-> PKG_CONFIG_PATH=3D$standalone_sysroot_target'"$libdir"'/pkgconfig:$standa=
-lone_sysroot_target'"$prefix"'/share/pkgconfig'
-> >> $script
-> > +
-> >         echo 'export CONFIG_SITE=3D"${CONFIG_SITE}"' >> $script
-> > -       echo 'export SDKTARGETSYSROOT=3D${STAGING_DIR_TARGET}' >> $scri=
-pt
-> > -       echo 'export OECORE_NATIVE_SYSROOT=3D"${STAGING_DIR_NATIVE}"' >=
->
-> $script
-> > -       echo 'export OECORE_TARGET_SYSROOT=3D"${STAGING_DIR_TARGET}"' >=
->
-> $script
-> > -       echo 'export OECORE_ACLOCAL_OPTS=3D"-I
-> ${STAGING_DIR_NATIVE}/usr/share/aclocal"' >> $script
-> > +
-> > +       echo 'export SDKTARGETSYSROOT=3D$standalone_sysroot_target' >>
-> $script
-> > +       echo 'export OECORE_NATIVE_SYSROOT=3D$standalone_sysroot_native=
-'
-> >> $script
-> > +       echo 'export OECORE_TARGET_SYSROOT=3D$standalone_sysroot_target=
-'
-> >> $script
-> > +       echo 'export OECORE_ACLOCAL_OPTS=3D"-I
-> $standalone_sysroot_native/usr/share/aclocal"' >> $script
-> > +       echo 'export OECORE_BASELIB=3D"${baselib}"' >> $script
-> > +       echo 'export OECORE_TARGET_ARCH=3D"${TARGET_ARCH}"' >>$script
-> > +       echo 'export OECORE_TARGET_OS=3D"${TARGET_OS}"' >>$script
-> >
-> >         toolchain_shared_env_script
-> >  }
-> > --
-> > 2.34.1
-> >
->
+> go inside the project you would like cross-compile and you get errors
 
---000000000000f2c132060aba3268
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks, now I understand what happened. This feature was actually
+never backported to kirkstone (and won't be because of LTS policy - no
+new features), but documentation was (mistakenly) updated to state
+that it was:
+https://git.yoctoproject.org/yocto-docs/commit/?h=kirkstone&id=5e2ec35e3d63f9c73726122fe2b3dd6d6f85a77e
 
-<div dir=3D"ltr">Hello Alexander,<div><br></div><div>Of course<br>I&#39;m f=
-ollowing the guide</div><div><div><a href=3D"https://docs.yoctoproject.org/=
-4.0.14/sdk-manual/extensible.html#setting-up-the-extensible-sdk-environment=
--directly-in-a-yocto-build">https://docs.yoctoproject.org/4.0.14/sdk-manual=
-/extensible.html#setting-up-the-extensible-sdk-environment-directly-in-a-yo=
-cto-build</a></div><div><br class=3D"gmail-Apple-interchange-newline"></div=
-></div><div>create environment file for cross compilation</div><div><pre st=
-yle=3D"box-sizing:border-box;line-height:1.4;font-family:SFMono-Regular,Men=
-lo,Monaco,Consolas,&quot;Liberation Mono&quot;,&quot;Courier New&quot;,Cour=
-ier,monospace;font-size:12px;margin-top:0px;margin-bottom:0px;padding:12px;=
-overflow:auto;color:rgb(51,51,51)">$ bitbake meta-ide-support
-$ bitbake -c populate_sysroot gtk+3
-# or any other target or native item that the application developer would n=
-eed
-$ bitbake build-sysroots</pre>then you can open a new terminal and sourcing=
- the file generated by the above steps using=C2=A0</div><div>=C2=A0 =C2=A0<=
-span style=3D"color:rgb(51,51,51);font-family:SFMono-Regular,Menlo,Monaco,C=
-onsolas,&quot;Liberation Mono&quot;,&quot;Courier New&quot;,Courier,monospa=
-ce;font-size:12px">source tmp/deploy/images/qemux86-64/environment-setup-co=
-re2-64-poky-linux</span></div><div><br></div><div>go inside the project you=
- would like cross-compile and you get errors</div><div><br></div><div>Let m=
-e know if it is enough for you, thanks :)</div><div><br></div></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 2=
-2, 2023 at 9:59=E2=80=AFAM Alexander Kanavin &lt;<a href=3D"mailto:alex.kan=
-avin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">Can you please describe in the commit=
- message how the issue can be<br>
-reproduced and observed, because otherwise I can&#39;t do a meaningful<br>
-review, and would have to say &#39;no&#39; until I can?<br>
-<br>
-Do we need to improve the tests? Do they miss something?<br>
-<br>
-Alex<br>
-<br>
-On Wed, 22 Nov 2023 at 09:54, Alberto Merciai &lt;<a href=3D"mailto:alb3rt0=
-.m3rciai@gmail.com" target=3D"_blank">alb3rt0.m3rciai@gmail.com</a>&gt; wro=
-te:<br>
-&gt;<br>
-&gt; From: amerciai &lt;<a href=3D"mailto:alb3rt0.m3rciai@gmail.com" target=
-=3D"_blank">alb3rt0.m3rciai@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; - Following Setting up the Extensible SDK environment directly in a Yo=
-cto build<br>
-&gt;=C2=A0 =C2=A0<a href=3D"https://docs.yoctoproject.org/4.0.14/sdk-manual=
-/extensible.html#setting-up-the-extensible-sdk-environment-directly-in-a-yo=
-cto-build" rel=3D"noreferrer" target=3D"_blank">https://docs.yoctoproject.o=
-rg/4.0.14/sdk-manual/extensible.html#setting-up-the-extensible-sdk-environm=
-ent-directly-in-a-yocto-build</a><br>
-&gt;=C2=A0 =C2=A0The generated environment file does not point to the<br>
-&gt;=C2=A0 =C2=A0correct sysroot folder, then the end user is not able<br>
-&gt;=C2=A0 =C2=A0to cross-compile by sourcing the file.<br>
-&gt;<br>
-&gt; - The same for kirkstone-4.0.10<br>
-&gt;<br>
-&gt; - By analyzing<br>
-&gt;=C2=A0 =C2=A0<a href=3D"https://lore.kernel.org/all/20220622103312.1098=
-389-3-alex@linutronix.de/T/#m7eadf6c722410f5b233ebba9fc700a895af9f052" rel=
-=3D"noreferrer" target=3D"_blank">https://lore.kernel.org/all/2022062210331=
-2.1098389-3-alex@linutronix.de/T/#m7eadf6c722410f5b233ebba9fc700a895af9f052=
-</a><br>
-&gt;=C2=A0 =C2=A0I found that changes apllied to<br>
-&gt;=C2=A0 =C2=A0meta/classes/toolchain-scripts.bbclass<br>
-&gt;=C2=A0 =C2=A0solve the issue.<br>
-&gt;<br>
-&gt; Suggested-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gma=
-il.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Alberto Merciai &lt;<a href=3D"mailto:alb3rt0.m3rciai@g=
-mail.com" target=3D"_blank">alb3rt0.m3rciai@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/too=
-lchain-scripts.bbclass<br>
-&gt; index d735d434e6..ec50a1efa0 100644<br>
-&gt; --- a/meta/classes/toolchain-scripts.bbclass<br>
-&gt; +++ b/meta/classes/toolchain-scripts.bbclass<br>
-&gt; @@ -70,15 +70,23 @@ toolchain_create_tree_env_script () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0script=3D${TMPDIR}/environment-setup-=
-${REAL_MULTIMACH_TARGET_SYS}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f $script<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0touch $script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;standalone_sysroot_target=3D&quo=
-t;${STAGING_DIR}/${MACHINE}&quot;&#39; &gt;&gt; $script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;standalone_sysroot_native=3D&quo=
-t;${STAGING_DIR}/${BUILD_ARCH}&quot;&#39; &gt;&gt; $script<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;orig=3D`pwd`; cd ${COREBASE=
-}; . ./oe-init-build-env ${TOPDIR}; cd $orig&#39; &gt;&gt; $script<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PATH=3D${STAGING_DIR_NATI=
-VE}/usr/bin:${STAGING_BINDIR_TOOLCHAIN}:$PATH&#39; &gt;&gt; $script<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PKG_CONFIG_SYSROOT_DIR=3D=
-${PKG_CONFIG_SYSROOT_DIR}&#39; &gt;&gt; $script<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PKG_CONFIG_PATH=3D${PKG_C=
-ONFIG_PATH}&#39; &gt;&gt; $script<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PATH=3D$standalone_sysroo=
-t_native/${bindir_native}:$standalone_sysroot_native/${bindir_native}/${TAR=
-GET_SYS}:$PATH&#39; &gt;&gt; $script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PKG_CONFIG_SYSROOT_DIR=3D=
-$standalone_sysroot_target&#39; &gt;&gt; $script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PKG_CONFIG_PATH=3D$standa=
-lone_sysroot_target&#39;&quot;$libdir&quot;&#39;/pkgconfig:$standalone_sysr=
-oot_target&#39;&quot;$prefix&quot;&#39;/share/pkgconfig&#39; &gt;&gt; $scri=
-pt<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export CONFIG_SITE=3D&quot;=
-${CONFIG_SITE}&quot;&#39; &gt;&gt; $script<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export SDKTARGETSYSROOT=3D${STAG=
-ING_DIR_TARGET}&#39; &gt;&gt; $script<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_NATIVE_SYSROOT=3D&=
-quot;${STAGING_DIR_NATIVE}&quot;&#39; &gt;&gt; $script<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_TARGET_SYSROOT=3D&=
-quot;${STAGING_DIR_TARGET}&quot;&#39; &gt;&gt; $script<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_ACLOCAL_OPTS=3D&qu=
-ot;-I ${STAGING_DIR_NATIVE}/usr/share/aclocal&quot;&#39; &gt;&gt; $script<b=
-r>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export SDKTARGETSYSROOT=3D$stand=
-alone_sysroot_target&#39; &gt;&gt; $script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_NATIVE_SYSROOT=3D$=
-standalone_sysroot_native&#39; &gt;&gt; $script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_TARGET_SYSROOT=3D$=
-standalone_sysroot_target&#39; &gt;&gt; $script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_ACLOCAL_OPTS=3D&qu=
-ot;-I $standalone_sysroot_native/usr/share/aclocal&quot;&#39; &gt;&gt; $scr=
-ipt<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_BASELIB=3D&quot;${=
-baselib}&quot;&#39; &gt;&gt; $script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_TARGET_ARCH=3D&quo=
-t;${TARGET_ARCH}&quot;&#39; &gt;&gt;$script<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_TARGET_OS=3D&quot;=
-${TARGET_OS}&quot;&#39; &gt;&gt;$script<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0toolchain_shared_env_script<br>
-&gt;=C2=A0 }<br>
-&gt; --<br>
-&gt; 2.34.1<br>
-&gt;<br>
-</blockquote></div>
+Michael, the bits about meta-ide-suppport/build-sysroots need to be
+reverted, before more people get misled.
 
---000000000000f2c132060aba3268--
+Alberto, can you check that this works as expected on master or any
+more recent release where my commit is present, and the file is set
+correctly?
+
+Alex
 
