@@ -1,99 +1,204 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC58CC072A2
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 06:17:45 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.13650.1700633864708206831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0CCEC61D92
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 06:31:25 +0000 (UTC)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+ by mx.groups.io with SMTP id smtpd.web10.13772.1700634684504901361
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Nov 2023 22:17:45 -0800
+ Tue, 21 Nov 2023 22:31:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VV9V2GGS;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lgl5ZULG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018bf5ad656a-57e76e74-15ac-4cfc-917b-83d492f7e7f4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1700633863; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=pIfB0KGWtNfqTSdyaAH7E8ooPP5gkRduFy7AD+81Bgo=;
-	b=VV9V2GGSkqXnlvDzbSCghDw48y9GegbI9mgN+LDHsWsznx2HVkjIzllOP6riHuUW
-	hfPX+K/1nPVvFQu7DZ3N8dQ0GCYuvMHJ0oGY+4FvZ6a/bPJXLk78caB9X13tS4vipJH
-	CfRCoGQqDN0vB5U7o2sVpdr40uB9U7O0XDKOuTLA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700633863;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=pIfB0KGWtNfqTSdyaAH7E8ooPP5gkRduFy7AD+81Bgo=;
-	b=lgl5ZULGtdpnc259Oruhgy5dlGFuZ0xSxMEoLQOK8ggopop5yT6HR06i6ZX3AH1q
-	SBO2NCeyCktyoIVUqH5BwihKzigAdox1rrYGTBdMnJVOUtw/5DC3BlVGtzTj10mscMk
-	jWvHKbeci/ymLZj5f4dpGozLIbPgHD2AILKzsSN0=
-From: patchtest@automation.yoctoproject.org
-To: Vivek Kumbhar <vkumbhar@mvista.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH] openssl: fix CVE-2023-5678 Generating
- excessively long X9.42 DH keys or checking excessively long X9.42 DH keys or
- parameters may be very slow
-In-Reply-To: 20231122055929.778393-1-vkumbhar@mvista.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018bf5ad656a-57e76e74-15ac-4cfc-917b-83d492f7e7f4-000000@us-west-2.amazonses.com>
-Date: Wed, 22 Nov 2023 06:17:43 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.22-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jVCyviaO;
+ spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7a93b7fedc8so279483939f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 22:31:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700634683; x=1701239483; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bv1Lhee9PGUms+boHeS5DPl02RwXimsv3j3hDIBbaA0=;
+        b=jVCyviaOaQ8ELQI/Q4k1Cr0SaNrTtx9TM36GFUaQwIzznW85q9aWM4SeF2LV8gC86R
+         Q1LIFjI+gQ1I23qISdiQLoOfaJqGYRrUlTLKey8NSsL2Slv0hPLVXgy7U8IlOD0Keumn
+         4yVMwzOFAX/BmgKzKe6gVRMVt/crtM/zrY3+q2T3qWIMca2FrnMPceTHg3qk/xB4rUjM
+         duiiA88xV/RnntuYihslg1cfIv0iYOOxh5m8jfdRPStiIJbdIKBBg7lYsTUJtpglQj/X
+         McmVSHkFXH+4UA4wCPg7rlm0vG6Ov32gF+xoVq3BNOnCsHk7Dz80IiUaMe2I9J0SMCAf
+         xv3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700634683; x=1701239483;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bv1Lhee9PGUms+boHeS5DPl02RwXimsv3j3hDIBbaA0=;
+        b=fFSiS+3LcgDb3+nnQasLixu6r5Na9j57PVlMokn/Nx7vZEC6pRF0NQ9EILQMFR/eAn
+         Q0X0JWEXVjCKmsjmYA/V8xpIe1W9XUOikgY0Bju3rOKAyorgkzFbWDvMy0wZvU0GILW+
+         sElqzBz+0KTFFIPF60CLTVuHX/R+dcShPsRXuDeXAuJe3NwP4oRH3FXq9k2qsGTHsdVF
+         WeAnsoS714/XMc9OPDRYYLNJb0e8JqIbaGl9TQdEcQkg8A0scBiqyyexJqWWatUbW1j9
+         cGbhKjP885ayGahRUuZ7QCV+Nf8btpcW0gcSblDGmMVLSAJlIXcHtMszZN627gvakpO1
+         bIhg==
+X-Gm-Message-State: AOJu0Yyd8x+0SolnZWDFppuod83reO4ffNv9jbrU7LjZNn4KXwpeK7TB
+	bGaljAn/9p/aDwoLIhvENjNHIYUxQYiQ1g==
+X-Google-Smtp-Source: AGHT+IHEYHgWxIGnXRxJskhHeC/E36dwmHASv9RrfEWD+xmadsBDVK+siQbERcLw6umSRkfAcmgM8Q==
+X-Received: by 2002:a05:6e02:c6a:b0:35b:7d4:9d5e with SMTP id f10-20020a056e020c6a00b0035b07d49d5emr1476084ilj.23.1700634683305;
+        Tue, 21 Nov 2023 22:31:23 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::2c3f])
+        by smtp.gmail.com with ESMTPSA id m12-20020a056a00080c00b006cb6fa32590sm6224874pfk.148.2023.11.21.22.31.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Nov 2023 22:31:22 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Markus Volk <f_l_k@t-online.de>,
+	Khem Raj <raj.khem@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH v9 1/3] vte: upgrade 2.72.2 -> 2.74.0
+Date: Tue, 21 Nov 2023 22:31:16 -0800
+Message-ID: <20231122063119.3620722-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 06:17:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191017
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 06:31:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191018
 
---NextPart
-Content-Type: text/plain
+From: Markus Volk <f_l_k@t-online.de>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Rework recipe
 
+- remove legacy of the autotools buildsystem
+- remove BBCLASSEXTEND
+- build	vapi dependent on gi-data
+- docs require gir, add	a EXTRA_OEMESON:append to avoid	fail in
+  a combination	where docs=true	and gir=false
+- gtk+3 and gtk4 are requested by default-> add gtk4 depending
+  on DISTRO_FEATURE
+- install systemd support files	depending on DISTRO_FEATURE
+- update 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+
+(From OE-Core rev: f9ddacafbdcf0539a8d5eecfa981194b401f1062)
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-openssl-fix-CVE-2023-5678-Generating-excessively-long-X9.42-DH-keys-or-checking-excessively-long-X9.42-DH-keys-or-parameters-may-be-very-slow.patch
+v9: Rebased
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 161 characters) (test_mbox.TestMbox.test_shortlog_length)
+ ...EXITCODE-macro-for-non-glibc-systems.patch | 35 ++++++++-----------
+ .../vte/{vte_0.72.2.bb => vte_0.74.0.bb}      | 29 ++++++---------
+ 2 files changed, 25 insertions(+), 39 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.72.2.bb => vte_0.74.0.bb} (66%)
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+index b4100fc381e..8934d5f80a6 100644
+--- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
++++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+@@ -11,32 +11,25 @@ Upstream-Status: Submitted [1]
+ Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+ 
+ [1] https://gitlab.gnome.org/GNOME/vte/issues/72
+-
+ ---
+- src/missing.hh | 4 ++++
+- src/widget.cc  | 1 +
+- 2 files changed, 5 insertions(+)
++ src/widget.cc  | 4 +++
++ 1 files changed, 4 insertions(+)
+ 
+---- a/src/missing.hh
+-+++ b/src/missing.hh
+-@@ -24,6 +24,10 @@
+- #define NSIG (8 * sizeof(sigset_t))
+- #endif
++diff --git a/src/widget.cc b/src/widget.cc
++index 07f7cabf..31a77f68 100644
++--- a/src/widget.cc
+++++ b/src/widget.cc
++@@ -16,6 +16,10 @@
++  * along with this library.  If not, see <https://www.gnu.org/licenses/>.
++  */
+  
+ +#ifndef W_EXITCODE
+ +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+ +#endif
+ +
+- #ifndef HAVE_FDWALK
+- int fdwalk(int (*cb)(void* data, int fd),
+-            void* data);
+---- a/src/widget.cc
+-+++ b/src/widget.cc
+-@@ -21,6 +21,7 @@
+- #include "widget.hh"
+- 
+- #include <sys/wait.h> // for W_EXITCODE
+-+#include "missing.hh" // for W_EXITCODE on non-glibc systems
++ #include "config.h"
+  
+- #include <exception>
+- #include <new>
++ #include "widget.hh"
++-- 
++2.42.0
++
+diff --git a/meta/recipes-support/vte/vte_0.72.2.bb b/meta/recipes-support/vte/vte_0.74.0.bb
+similarity index 66%
+rename from meta/recipes-support/vte/vte_0.72.2.bb
+rename to meta/recipes-support/vte/vte_0.74.0.bb
+index 44e71491f62..21203adcf79 100644
+--- a/meta/recipes-support/vte/vte_0.72.2.bb
++++ b/meta/recipes-support/vte/vte_0.74.0.bb
+@@ -16,32 +16,27 @@ DEPENDS = "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gperf-native i
+ GIR_MESON_OPTION = 'gir'
+ GIDOCGEN_MESON_OPTION = "docs"
+ 
+-inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection
++inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection vala
+ 
+-# vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+-SRC_URI[archive.sha256sum] = "f7966fd185a6981f53964162b71cfef7e606495155d6f5827b72aa0dd6741c9e"
++SRC_URI[archive.sha256sum] = "9ae08f777952ba793221152d360550451580f42d3b570e3341ebb6841984c76b"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+-# Help g-ir-scanner find the .so for linking
+-do_compile:prepend() {
+-    export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
+-}
++EXTRA_OEMESON += "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-Dvapi=true', '-Dvapi=false', d)}"
++EXTRA_OEMESON:append = " ${@bb.utils.contains('GI_DATA_ENABLED', 'False', '-Ddocs=false', '', d)}"
+ 
+-# Package additional files
+-FILES:${PN}-dev += "${datadir}/vala/vapi/*"
+-
+-PACKAGECONFIG ??= "gnutls"
+-PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false,vala-native vala"
++PACKAGECONFIG ??= " \
++	gnutls \
++	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
++	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
++"
++PACKAGECONFIG[gtk4] = "-Dgtk4=true,-Dgtk4=false,gtk4"
+ PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
+ PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
+-# vala requires gir
+-PACKAGECONFIG:remove:class-native = "vala"
+-
+-CFLAGS += "-D_GNU_SOURCE"
+ 
+ PACKAGES =+ "libvte ${PN}-prompt"
++FILES:${PN} +="${systemd_user_unitdir}"
+ FILES:libvte = "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+ FILES:${PN}-prompt = " \
+     ${sysconfdir}/profile.d \
+@@ -49,5 +44,3 @@ FILES:${PN}-prompt = " \
+ "
+ 
+ FILES:${PN}-dev += "${datadir}/glade/"
+-
+-BBCLASSEXTEND = "native nativesdk"
+-- 
+2.43.0
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
