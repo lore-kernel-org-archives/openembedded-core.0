@@ -1,195 +1,344 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <alb3rt0.m3rciai@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD115C61D9B
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:15:26 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web10.15381.1700644524584223423
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D21C61D9B
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:18:16 +0000 (UTC)
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+ by mx.groups.io with SMTP id smtpd.web10.15414.1700644696335738274
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 01:15:24 -0800
+ Wed, 22 Nov 2023 01:18:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Eb1OKCcL;
- spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700644524; x=1732180524;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pK3esmZihq/21U5SXtKtjPRBhy+HYjjzGwthEBAeXOI=;
-  b=Eb1OKCcL0boWP7u7G+cTpIKJNtA4u6mzGwwKkXJ7hN3At2VtqJCO06Uz
-   dYiO1X09FSB6EF/xElJxvbkuLHWnHGphaA+RahMOYAoK7qwS6W0UQrvTA
-   KWbI6yRxa/1B0BY/72wDV7BJMUZvVP7TezCDtAdYQYGIkSP55S8KnVIqn
-   UMJr75WPjCP1atz6nIoU8uEAqpOXzMSPNgEabGah9SInrvw/4z6jk6PtV
-   i1lAVqWSlzGgl6Aqp2YvwvfLuNIjSRFRX8almrsSx/HOQNlUjLpBPAPxw
-   +VGjTxrnB6VvqZhQTITb5dD00Ycjc7jPLznKNvKkmZh+TJNHHXWBY+IpO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="458512234"
-X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="458512234"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 01:15:24 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="910728620"
-X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
-   d="scan'208";a="910728620"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2023 01:15:22 -0800
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [dunfell][PATCH 1/2] wayland: fix CVE-2021-3782
-Date: Wed, 22 Nov 2023 16:55:44 +0800
-Message-Id: <20231122085545.2327422-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CYevBsRE;
+ spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: alb3rt0.m3rciai@gmail.com)
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4629eb39d67so394629137.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 01:18:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700644695; x=1701249495; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RNrXqz3ROgQZJ1ccC840rZL9k7hwTHi4Cq+Q2TaB6jM=;
+        b=CYevBsREQF+7kqmr/+8I1CrEdmtPsIjWCg7OzIBRaUYtxkma8mG2xdxr7+D7MX2t9P
+         nTcASWCzztEn+pE8W1t1U0/qka4Zb9b120ehqzovnrpqcfkO3EW+3NDtgV33khvnRa3e
+         yFh/rCh6lvedkIWkgUnIHBdcBC1EI3CtBc5D9G91lFU/RuYlL5JswHZaBa2wSLDs5Lw1
+         fEBWGEEBQGqLbp/Bp5OKHDQRSBFXI6CHJ/PoHdHuk0rBXA2N5rLExXHnsuqHsXofmz4m
+         7psLNnSYr9i9KonKxOWeUFCB0lybE5bqkDeSpSFnrkxVkXC/C5mIrFCWLnf9BlZE44Ul
+         9ZBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700644695; x=1701249495;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RNrXqz3ROgQZJ1ccC840rZL9k7hwTHi4Cq+Q2TaB6jM=;
+        b=TgtYGzXChpQ4SRUJdJnpl+e07hX3rSyTOCbTaqJAYTS1a0LXH+Zd+eN3rR1tLaH6CB
+         tBsdFoYSyfLRtP7F7liU9Z7ey6KZsJamE8MmhWkwyNYBSsfu8E6WE9cO3Bh5VOwiXeBt
+         TNinXnMF28UCaj9LuLVhnwJj0GHuqBYO2ONjhdg5520ksjqbvOi9wGhZt8+Hd63kW4E/
+         MOjt41gPkt53VUmWBwvlXVlnY9wkC+fWUTymtqqeDxWKf/vdF7pvLvOmK2htwCtUkiu6
+         JqkIpaEYjq1X3qCifT5q+so07XepLZGjC++kTZEXfc3sFLWNJ5A72mYCcsXKu998Km6t
+         sODw==
+X-Gm-Message-State: AOJu0Ywt8cEsLF+bjZd8jcT3nKAkaU5qCxA3ThSJKsB5MyN6s9lWG4yb
+	9gysdkhcRnw2QDGwTHFAIkRDSBP5s+IzM6uuxuA=
+X-Google-Smtp-Source: AGHT+IESh9dRg60L1jVf71jhKnD8gvEHo/LhB3XcGfHJaeNYvjHTC1bqi8curNWmrFzw5Wg3cg2a7eOKIMT5JhFQ2qQ=
+X-Received: by 2002:a05:6102:1623:b0:462:83d4:1c02 with SMTP id
+ cu35-20020a056102162300b0046283d41c02mr2172361vsb.15.1700644695227; Wed, 22
+ Nov 2023 01:18:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231122085438.7328-1-alb3rt0.m3rciai@gmail.com> <CANNYZj87+-6jte1KYUNg2ueWvsYzxiOQvbTzrCZ_ooo9N7uutw@mail.gmail.com>
+In-Reply-To: <CANNYZj87+-6jte1KYUNg2ueWvsYzxiOQvbTzrCZ_ooo9N7uutw@mail.gmail.com>
+From: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+Date: Wed, 22 Nov 2023 10:18:04 +0100
+Message-ID: <CAH=B7vfs74f-vyx8JGJyfAu3NPa5xwgumsW+_ahMBXnfUmJw2Q@mail.gmail.com>
+Subject: Re: [PATCH] poky: kirkstone: eSDK: fix build-in eSDK environment file generation
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000f2c132060aba3268"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:15:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191043
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:18:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191045
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+--000000000000f2c132060aba3268
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-take CVE-2021-3782.patch from OE-core rev 09b8ff8d2361b2db001bc963f481db294ccf2170.
+Hello Alexander,
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../wayland/wayland/CVE-2021-3782.patch       | 111 ++++++++++++++++++
- .../wayland/wayland_1.18.0.bb                 |   1 +
- 2 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/wayland/CVE-2021-3782.patch
+Of course
+I'm following the guide
+https://docs.yoctoproject.org/4.0.14/sdk-manual/extensible.html#setting-up-=
+the-extensible-sdk-environment-directly-in-a-yocto-build
 
-diff --git a/meta/recipes-graphics/wayland/wayland/CVE-2021-3782.patch b/meta/recipes-graphics/wayland/wayland/CVE-2021-3782.patch
-new file mode 100644
-index 0000000000..df204508e9
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/wayland/CVE-2021-3782.patch
-@@ -0,0 +1,111 @@
-+From 5eed6609619cc2e4eaa8618d11c15d442abf54be Mon Sep 17 00:00:00 2001
-+From: Derek Foreman <derek.foreman@collabora.com>
-+Date: Fri, 28 Jan 2022 13:18:37 -0600
-+Subject: [PATCH] util: Limit size of wl_map
-+
-+Since server IDs are basically indistinguishable from really big client
-+IDs at many points in the source, it's theoretically possible to overflow
-+a map and either overflow server IDs into the client ID space, or grow
-+client IDs into the server ID space. This would currently take a massive
-+amount of RAM, but the definition of massive changes yearly.
-+
-+Prevent this by placing a ridiculous but arbitrary upper bound on the
-+number of items we can put in a map: 0xF00000, somewhere over 15 million.
-+This should satisfy pathological clients without restriction, but stays
-+well clear of the 0xFF000000 transition point between server and client
-+IDs. It will still take an improbable amount of RAM to hit this, and a
-+client could still exhaust all RAM in this way, but our goal is to prevent
-+overflow and undefined behaviour.
-+
-+Fixes #224
-+
-+Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2021-3782
-+
-+Reference to upstream patch:
-+https://gitlab.freedesktop.org/wayland/wayland/-/commit/b19488c7154b902354cb26a27f11415d7799b0b2
-+
-+[DP: adjust context for wayland version 1.20.0]
-+Signed-off-by: Dragos-Marian Panait <dragos.panait@windriver.com>
-+---
-+ src/wayland-private.h |  1 +
-+ src/wayland-util.c    | 25 +++++++++++++++++++++++--
-+ 2 files changed, 24 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/wayland-private.h b/src/wayland-private.h
-+index 9bf8cb7..35dc40e 100644
-+--- a/src/wayland-private.h
-++++ b/src/wayland-private.h
-+@@ -45,6 +45,7 @@
-+ #define WL_MAP_SERVER_SIDE 0
-+ #define WL_MAP_CLIENT_SIDE 1
-+ #define WL_SERVER_ID_START 0xff000000
-++#define WL_MAP_MAX_OBJECTS 0x00f00000
-+ #define WL_CLOSURE_MAX_ARGS 20
-+ 
-+ struct wl_object {
-+diff --git a/src/wayland-util.c b/src/wayland-util.c
-+index d5973bf..3e45d19 100644
-+--- a/src/wayland-util.c
-++++ b/src/wayland-util.c
-+@@ -195,6 +195,7 @@ wl_map_insert_new(struct wl_map *map, uint32_t flags, void *data)
-+ 	union map_entry *start, *entry;
-+ 	struct wl_array *entries;
-+ 	uint32_t base;
-++	uint32_t count;
-+ 
-+ 	if (map->side == WL_MAP_CLIENT_SIDE) {
-+ 		entries = &map->client_entries;
-+@@ -215,10 +216,25 @@ wl_map_insert_new(struct wl_map *map, uint32_t flags, void *data)
-+ 		start = entries->data;
-+ 	}
-+ 
-++	/* wl_array only grows, so if we have too many objects at
-++	 * this point there's no way to clean up. We could be more
-++	 * pro-active about trying to avoid this allocation, but
-++	 * it doesn't really matter because at this point there is
-++	 * nothing to be done but disconnect the client and delete
-++	 * the whole array either way.
-++	 */
-++	count = entry - start;
-++	if (count > WL_MAP_MAX_OBJECTS) {
-++		/* entry->data is freshly malloced garbage, so we'd
-++		 * better make it a NULL so wl_map_for_each doesn't
-++		 * dereference it later. */
-++		entry->data = NULL;
-++		return 0;
-++	}
-+ 	entry->data = data;
-+ 	entry->next |= (flags & 0x1) << 1;
-+ 
-+-	return (entry - start) + base;
-++	return count + base;
-+ }
-+ 
-+ int
-+@@ -235,6 +251,9 @@ wl_map_insert_at(struct wl_map *map, uint32_t flags, uint32_t i, void *data)
-+ 		i -= WL_SERVER_ID_START;
-+ 	}
-+ 
-++	if (i > WL_MAP_MAX_OBJECTS)
-++		return -1;
-++
-+ 	count = entries->size / sizeof *start;
-+ 	if (count < i)
-+ 		return -1;
-+@@ -269,8 +288,10 @@ wl_map_reserve_new(struct wl_map *map, uint32_t i)
-+ 		i -= WL_SERVER_ID_START;
-+ 	}
-+ 
-+-	count = entries->size / sizeof *start;
-++	if (i > WL_MAP_MAX_OBJECTS)
-++		return -1;
-+ 
-++	count = entries->size / sizeof *start;
-+ 	if (count < i)
-+ 		return -1;
-+ 
-+-- 
-+2.37.3
-diff --git a/meta/recipes-graphics/wayland/wayland_1.18.0.bb b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-index 00be3aac27..e621abddbf 100644
---- a/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-@@ -18,6 +18,7 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://0002-Do-not-hardcode-the-path-to-wayland-scanner.patch \
-            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
-            file://0001-meson-tests-add-missing-dependencies-on-protocol-hea.patch \
-+           file://CVE-2021-3782.patch \
-            "
- SRC_URI[md5sum] = "23317697b6e3ff2e1ac8c5ba3ed57b65"
- SRC_URI[sha256sum] = "4675a79f091020817a98fd0484e7208c8762242266967f55a67776936c2e294d"
--- 
-2.37.3
+create environment file for cross compilation
 
+$ bitbake meta-ide-support
+$ bitbake -c populate_sysroot gtk+3
+# or any other target or native item that the application developer would n=
+eed
+$ bitbake build-sysroots
+
+then you can open a new terminal and sourcing the file generated by the
+above steps using
+   source tmp/deploy/images/qemux86-64/environment-setup-core2-64-poky-linu=
+x
+
+go inside the project you would like cross-compile and you get errors
+
+Let me know if it is enough for you, thanks :)
+
+
+On Wed, Nov 22, 2023 at 9:59=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+wrote:
+
+> Can you please describe in the commit message how the issue can be
+> reproduced and observed, because otherwise I can't do a meaningful
+> review, and would have to say 'no' until I can?
+>
+> Do we need to improve the tests? Do they miss something?
+>
+> Alex
+>
+> On Wed, 22 Nov 2023 at 09:54, Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+> wrote:
+> >
+> > From: amerciai <alb3rt0.m3rciai@gmail.com>
+> >
+> > - Following Setting up the Extensible SDK environment directly in a
+> Yocto build
+> >
+> https://docs.yoctoproject.org/4.0.14/sdk-manual/extensible.html#setting-u=
+p-the-extensible-sdk-environment-directly-in-a-yocto-build
+> >   The generated environment file does not point to the
+> >   correct sysroot folder, then the end user is not able
+> >   to cross-compile by sourcing the file.
+> >
+> > - The same for kirkstone-4.0.10
+> >
+> > - By analyzing
+> >
+> https://lore.kernel.org/all/20220622103312.1098389-3-alex@linutronix.de/T=
+/#m7eadf6c722410f5b233ebba9fc700a895af9f052
+> >   I found that changes apllied to
+> >   meta/classes/toolchain-scripts.bbclass
+> >   solve the issue.
+> >
+> > Suggested-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Signed-off-by: Alberto Merciai <alb3rt0.m3rciai@gmail.com>
+> >
+> > diff --git a/meta/classes/toolchain-scripts.bbclass
+> b/meta/classes/toolchain-scripts.bbclass
+> > index d735d434e6..ec50a1efa0 100644
+> > --- a/meta/classes/toolchain-scripts.bbclass
+> > +++ b/meta/classes/toolchain-scripts.bbclass
+> > @@ -70,15 +70,23 @@ toolchain_create_tree_env_script () {
+> >         script=3D${TMPDIR}/environment-setup-${REAL_MULTIMACH_TARGET_SY=
+S}
+> >         rm -f $script
+> >         touch $script
+> > +       echo 'standalone_sysroot_target=3D"${STAGING_DIR}/${MACHINE}"' =
+>>
+> $script
+> > +       echo 'standalone_sysroot_native=3D"${STAGING_DIR}/${BUILD_ARCH}=
+"'
+> >> $script
+> >         echo 'orig=3D`pwd`; cd ${COREBASE}; . ./oe-init-build-env
+> ${TOPDIR}; cd $orig' >> $script
+> > -       echo 'export
+> PATH=3D${STAGING_DIR_NATIVE}/usr/bin:${STAGING_BINDIR_TOOLCHAIN}:$PATH' >=
+>
+> $script
+> > -       echo 'export PKG_CONFIG_SYSROOT_DIR=3D${PKG_CONFIG_SYSROOT_DIR}=
+'
+> >> $script
+> > -       echo 'export PKG_CONFIG_PATH=3D${PKG_CONFIG_PATH}' >> $script
+> > +
+> > +       echo 'export
+> PATH=3D$standalone_sysroot_native/${bindir_native}:$standalone_sysroot_na=
+tive/${bindir_native}/${TARGET_SYS}:$PATH'
+> >> $script
+> > +       echo 'export PKG_CONFIG_SYSROOT_DIR=3D$standalone_sysroot_targe=
+t'
+> >> $script
+> > +       echo 'export
+> PKG_CONFIG_PATH=3D$standalone_sysroot_target'"$libdir"'/pkgconfig:$standa=
+lone_sysroot_target'"$prefix"'/share/pkgconfig'
+> >> $script
+> > +
+> >         echo 'export CONFIG_SITE=3D"${CONFIG_SITE}"' >> $script
+> > -       echo 'export SDKTARGETSYSROOT=3D${STAGING_DIR_TARGET}' >> $scri=
+pt
+> > -       echo 'export OECORE_NATIVE_SYSROOT=3D"${STAGING_DIR_NATIVE}"' >=
+>
+> $script
+> > -       echo 'export OECORE_TARGET_SYSROOT=3D"${STAGING_DIR_TARGET}"' >=
+>
+> $script
+> > -       echo 'export OECORE_ACLOCAL_OPTS=3D"-I
+> ${STAGING_DIR_NATIVE}/usr/share/aclocal"' >> $script
+> > +
+> > +       echo 'export SDKTARGETSYSROOT=3D$standalone_sysroot_target' >>
+> $script
+> > +       echo 'export OECORE_NATIVE_SYSROOT=3D$standalone_sysroot_native=
+'
+> >> $script
+> > +       echo 'export OECORE_TARGET_SYSROOT=3D$standalone_sysroot_target=
+'
+> >> $script
+> > +       echo 'export OECORE_ACLOCAL_OPTS=3D"-I
+> $standalone_sysroot_native/usr/share/aclocal"' >> $script
+> > +       echo 'export OECORE_BASELIB=3D"${baselib}"' >> $script
+> > +       echo 'export OECORE_TARGET_ARCH=3D"${TARGET_ARCH}"' >>$script
+> > +       echo 'export OECORE_TARGET_OS=3D"${TARGET_OS}"' >>$script
+> >
+> >         toolchain_shared_env_script
+> >  }
+> > --
+> > 2.34.1
+> >
+>
+
+--000000000000f2c132060aba3268
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello Alexander,<div><br></div><div>Of course<br>I&#39;m f=
+ollowing the guide</div><div><div><a href=3D"https://docs.yoctoproject.org/=
+4.0.14/sdk-manual/extensible.html#setting-up-the-extensible-sdk-environment=
+-directly-in-a-yocto-build">https://docs.yoctoproject.org/4.0.14/sdk-manual=
+/extensible.html#setting-up-the-extensible-sdk-environment-directly-in-a-yo=
+cto-build</a></div><div><br class=3D"gmail-Apple-interchange-newline"></div=
+></div><div>create environment file for cross compilation</div><div><pre st=
+yle=3D"box-sizing:border-box;line-height:1.4;font-family:SFMono-Regular,Men=
+lo,Monaco,Consolas,&quot;Liberation Mono&quot;,&quot;Courier New&quot;,Cour=
+ier,monospace;font-size:12px;margin-top:0px;margin-bottom:0px;padding:12px;=
+overflow:auto;color:rgb(51,51,51)">$ bitbake meta-ide-support
+$ bitbake -c populate_sysroot gtk+3
+# or any other target or native item that the application developer would n=
+eed
+$ bitbake build-sysroots</pre>then you can open a new terminal and sourcing=
+ the file generated by the above steps using=C2=A0</div><div>=C2=A0 =C2=A0<=
+span style=3D"color:rgb(51,51,51);font-family:SFMono-Regular,Menlo,Monaco,C=
+onsolas,&quot;Liberation Mono&quot;,&quot;Courier New&quot;,Courier,monospa=
+ce;font-size:12px">source tmp/deploy/images/qemux86-64/environment-setup-co=
+re2-64-poky-linux</span></div><div><br></div><div>go inside the project you=
+ would like cross-compile and you get errors</div><div><br></div><div>Let m=
+e know if it is enough for you, thanks :)</div><div><br></div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 2=
+2, 2023 at 9:59=E2=80=AFAM Alexander Kanavin &lt;<a href=3D"mailto:alex.kan=
+avin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">Can you please describe in the commit=
+ message how the issue can be<br>
+reproduced and observed, because otherwise I can&#39;t do a meaningful<br>
+review, and would have to say &#39;no&#39; until I can?<br>
+<br>
+Do we need to improve the tests? Do they miss something?<br>
+<br>
+Alex<br>
+<br>
+On Wed, 22 Nov 2023 at 09:54, Alberto Merciai &lt;<a href=3D"mailto:alb3rt0=
+.m3rciai@gmail.com" target=3D"_blank">alb3rt0.m3rciai@gmail.com</a>&gt; wro=
+te:<br>
+&gt;<br>
+&gt; From: amerciai &lt;<a href=3D"mailto:alb3rt0.m3rciai@gmail.com" target=
+=3D"_blank">alb3rt0.m3rciai@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; - Following Setting up the Extensible SDK environment directly in a Yo=
+cto build<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://docs.yoctoproject.org/4.0.14/sdk-manual=
+/extensible.html#setting-up-the-extensible-sdk-environment-directly-in-a-yo=
+cto-build" rel=3D"noreferrer" target=3D"_blank">https://docs.yoctoproject.o=
+rg/4.0.14/sdk-manual/extensible.html#setting-up-the-extensible-sdk-environm=
+ent-directly-in-a-yocto-build</a><br>
+&gt;=C2=A0 =C2=A0The generated environment file does not point to the<br>
+&gt;=C2=A0 =C2=A0correct sysroot folder, then the end user is not able<br>
+&gt;=C2=A0 =C2=A0to cross-compile by sourcing the file.<br>
+&gt;<br>
+&gt; - The same for kirkstone-4.0.10<br>
+&gt;<br>
+&gt; - By analyzing<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://lore.kernel.org/all/20220622103312.1098=
+389-3-alex@linutronix.de/T/#m7eadf6c722410f5b233ebba9fc700a895af9f052" rel=
+=3D"noreferrer" target=3D"_blank">https://lore.kernel.org/all/2022062210331=
+2.1098389-3-alex@linutronix.de/T/#m7eadf6c722410f5b233ebba9fc700a895af9f052=
+</a><br>
+&gt;=C2=A0 =C2=A0I found that changes apllied to<br>
+&gt;=C2=A0 =C2=A0meta/classes/toolchain-scripts.bbclass<br>
+&gt;=C2=A0 =C2=A0solve the issue.<br>
+&gt;<br>
+&gt; Suggested-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gma=
+il.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Alberto Merciai &lt;<a href=3D"mailto:alb3rt0.m3rciai@g=
+mail.com" target=3D"_blank">alb3rt0.m3rciai@gmail.com</a>&gt;<br>
+&gt;<br>
+&gt; diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/too=
+lchain-scripts.bbclass<br>
+&gt; index d735d434e6..ec50a1efa0 100644<br>
+&gt; --- a/meta/classes/toolchain-scripts.bbclass<br>
+&gt; +++ b/meta/classes/toolchain-scripts.bbclass<br>
+&gt; @@ -70,15 +70,23 @@ toolchain_create_tree_env_script () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0script=3D${TMPDIR}/environment-setup-=
+${REAL_MULTIMACH_TARGET_SYS}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f $script<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0touch $script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;standalone_sysroot_target=3D&quo=
+t;${STAGING_DIR}/${MACHINE}&quot;&#39; &gt;&gt; $script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;standalone_sysroot_native=3D&quo=
+t;${STAGING_DIR}/${BUILD_ARCH}&quot;&#39; &gt;&gt; $script<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;orig=3D`pwd`; cd ${COREBASE=
+}; . ./oe-init-build-env ${TOPDIR}; cd $orig&#39; &gt;&gt; $script<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PATH=3D${STAGING_DIR_NATI=
+VE}/usr/bin:${STAGING_BINDIR_TOOLCHAIN}:$PATH&#39; &gt;&gt; $script<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PKG_CONFIG_SYSROOT_DIR=3D=
+${PKG_CONFIG_SYSROOT_DIR}&#39; &gt;&gt; $script<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PKG_CONFIG_PATH=3D${PKG_C=
+ONFIG_PATH}&#39; &gt;&gt; $script<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PATH=3D$standalone_sysroo=
+t_native/${bindir_native}:$standalone_sysroot_native/${bindir_native}/${TAR=
+GET_SYS}:$PATH&#39; &gt;&gt; $script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PKG_CONFIG_SYSROOT_DIR=3D=
+$standalone_sysroot_target&#39; &gt;&gt; $script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export PKG_CONFIG_PATH=3D$standa=
+lone_sysroot_target&#39;&quot;$libdir&quot;&#39;/pkgconfig:$standalone_sysr=
+oot_target&#39;&quot;$prefix&quot;&#39;/share/pkgconfig&#39; &gt;&gt; $scri=
+pt<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export CONFIG_SITE=3D&quot;=
+${CONFIG_SITE}&quot;&#39; &gt;&gt; $script<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export SDKTARGETSYSROOT=3D${STAG=
+ING_DIR_TARGET}&#39; &gt;&gt; $script<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_NATIVE_SYSROOT=3D&=
+quot;${STAGING_DIR_NATIVE}&quot;&#39; &gt;&gt; $script<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_TARGET_SYSROOT=3D&=
+quot;${STAGING_DIR_TARGET}&quot;&#39; &gt;&gt; $script<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_ACLOCAL_OPTS=3D&qu=
+ot;-I ${STAGING_DIR_NATIVE}/usr/share/aclocal&quot;&#39; &gt;&gt; $script<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export SDKTARGETSYSROOT=3D$stand=
+alone_sysroot_target&#39; &gt;&gt; $script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_NATIVE_SYSROOT=3D$=
+standalone_sysroot_native&#39; &gt;&gt; $script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_TARGET_SYSROOT=3D$=
+standalone_sysroot_target&#39; &gt;&gt; $script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_ACLOCAL_OPTS=3D&qu=
+ot;-I $standalone_sysroot_native/usr/share/aclocal&quot;&#39; &gt;&gt; $scr=
+ipt<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_BASELIB=3D&quot;${=
+baselib}&quot;&#39; &gt;&gt; $script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_TARGET_ARCH=3D&quo=
+t;${TARGET_ARCH}&quot;&#39; &gt;&gt;$script<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;export OECORE_TARGET_OS=3D&quot;=
+${TARGET_OS}&quot;&#39; &gt;&gt;$script<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0toolchain_shared_env_script<br>
+&gt;=C2=A0 }<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+&gt;<br>
+</blockquote></div>
+
+--000000000000f2c132060aba3268--
 
