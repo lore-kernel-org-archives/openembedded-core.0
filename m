@@ -1,133 +1,750 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E88C4C61D97
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 11:50:17 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.17531.1700653811070044780
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08752C61D97
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 11:57:08 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.17621.1700654220873094658
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 03:50:11 -0800
+ Wed, 22 Nov 2023 03:57:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=EXscyxEo;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9690644334=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AMBj2c9017505
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 11:50:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=mSonq
-	q6O47cdFk10PSDo31YPW3TiA7dLeTUDZj/lF4c=; b=EXscyxEohbqdlWRfko/FU
-	CcfMcFrfrkibV1TTiC9yUdiKV+qM1cT6SO3O+qKQc3s5Fm2kuZcZrATjUnYNo2Sx
-	fAqWsme7LbczJTl4FDd7eORfn774keufho5EWi2bu06AS2XluZIFAUVoV3wifVE1
-	VWMSPZm81PnBwWZBzalWRBdesMok4v1iuiOvPqw2nBRh3JlXftFhAxt6s7jAOOrO
-	R/845EBjd5Wnnxwk0t7GJD8fZkXdgFfR+XEZ/UDQKDf8dBa4fJzmOek0ycSUaF4L
-	219OuSTOcZDckHf80be/aBI1YcJvt4KEUiXFcZ4Vh/t1yzdoaEHnmiIhdxgZ/99M
-	A==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uf41saxf1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 11:50:10 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 22 Nov 2023 03:50:13 -0800
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/1] gstreamer1.0-plugins-bad: fix CVE-2023-44429
-Date: Wed, 22 Nov 2023 11:49:50 +0000
-Message-ID: <20231122114950.2095666-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@mvista.com header.s=google header.b=HbA77ubY;
+ spf=pass (domain: mvista.com, ip: 209.85.210.176, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6b5cac99cfdso5801803b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 03:57:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1700654219; x=1701259019; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a1Hmri08gQF8me9aU5vObuPPezUfwQrw0CA23Lh3UyE=;
+        b=HbA77ubY18wDph4C8rzBqFGGLYCzr2DY3hqEZom81K8sGSwIzcjW55cZZ4EP0TYryW
+         v+ybxAuS7Mi3Kkl3g+7ZL8FZWcL4oYrVFyfpcuwgj49lgyyxPCyfF1lF6H/vouKMm52Z
+         mTCXRYNJHGVpP7W3gJqMRWhv6fv9DAiPFckW0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700654219; x=1701259019;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a1Hmri08gQF8me9aU5vObuPPezUfwQrw0CA23Lh3UyE=;
+        b=Rg/lG3CCg2iJ8n1jFZ4EzytzLTCDcBjmoWeLDDW3FDiy7bPRC4GkO++ozc19L3XQwb
+         AXmFDKaWHbQRSR2GZYOodxyWn0mdzKN1msPDxBYt/epVKJxFEmISjINjPR9bJu6czeQX
+         8RlBh9X9KcbEUlXCOfC5byACO3vQwRoFfc6orx9T7aHQvMdpvwLnrxah70Bg3SL69s+c
+         JPwYY597dy0nniehGE9Iw57z9p0+Dk8IqFyq08GmjTTR+TAYDIvXzpKHzMWk8VB6OmhD
+         k0W/6P0iWtEu18q0ec3JKRiQJs2/jpZZ+UP6Jdo4VjU7jEP1vy3bS4sGcsASlzHETTn5
+         FBaQ==
+X-Gm-Message-State: AOJu0YwIxe1IQEWUyS9vAbp7PmYNKCa3JQrfNMEMW86p3+5FK9DRAZjc
+	5nCvInelBJU5Ou+6QLiRyoWCt5BhVO0MoXEwjlY=
+X-Google-Smtp-Source: AGHT+IHJ6jfdN3NZlWCQQ3Gp2LDz/CMe9Op1m6aXjmmJSYKUhreNYnUvsAUp37Td7Hyv2UNxbzaDXQ==
+X-Received: by 2002:a05:6a20:d04c:b0:18b:47a9:66e8 with SMTP id hv12-20020a056a20d04c00b0018b47a966e8mr1351252pzb.1.1700654218770;
+        Wed, 22 Nov 2023 03:56:58 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:1cb0:ae01:5847:2fe1:65bd:882a])
+        by smtp.gmail.com with ESMTPSA id u18-20020a170902e5d200b001b8b2a6c4a4sm9643189plf.172.2023.11.22.03.56.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Nov 2023 03:56:58 -0800 (PST)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][mickledore][PATCH] avahi: backport Debian patches to fix multiple CVE's
+Date: Wed, 22 Nov 2023 17:26:43 +0530
+Message-Id: <20231122115643.3036868-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: 9tcgOhBIJVDti7mrwisiVUTu0Y-w9kAV
-X-Proofpoint-GUID: 9tcgOhBIJVDti7mrwisiVUTu0Y-w9kAV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0 priorityscore=1501
- clxscore=1015 mlxlogscore=683 adultscore=0 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311060001
- definitions=main-2311220083
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 11:50:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191069
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 11:57:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191070
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-AV1 codec parser buffer overflow
+import patches from ubuntu to fix
+ CVE-2023-1981
+ CVE-2023-38469
+ CVE-2023-38470
+ CVE-2023-38471
+ CVE-2023-38472
+ CVE-2023-38473
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches?h=ubuntu/jammy-security
+Upstream commit
+https://github.com/lathiat/avahi/commit/a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f
+&
+https://github.com/lathiat/avahi/commit/a337a1ba7d15853fb56deef1f464529af6e3a1cf
+&
+https://github.com/lathiat/avahi/commit/c6cab87df290448a63323c8ca759baa516166237
+&
+https://github.com/lathiat/avahi/commit/94cb6489114636940ac683515417990b55b5d66c
+&
+https://github.com/lathiat/avahi/commit/20dec84b2480821704258bc908e7b2bd2e883b24
+&
+https://github.com/lathiat/avahi/commit/894f085f402e023a98cbb6f5a3d117bd88d93b09
+&
+https://github.com/lathiat/avahi/commit/b675f70739f404342f7f78635d6e2dcd85a13460
+&
+https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40
+&
+https://github.com/lathiat/avahi/commit/b448c9f771bada14ae8de175695a9729f8646797]
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../CVE-2023-44429.patch                      | 38 +++++++++++++++++++
- .../gstreamer1.0-plugins-bad_1.20.7.bb        |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44429.patch
+ meta/recipes-connectivity/avahi/avahi_0.8.bb  |   9 ++
+ .../avahi/files/CVE-2023-1981.patch           |  58 ++++++++++
+ .../avahi/files/CVE-2023-38469-1.patch        |  48 ++++++++
+ .../avahi/files/CVE-2023-38469-2.patch        |  65 +++++++++++
+ .../avahi/files/CVE-2023-38470-1.patch        |  57 +++++++++
+ .../avahi/files/CVE-2023-38470-2.patch        |  52 +++++++++
+ .../avahi/files/CVE-2023-38471-1.patch        |  73 ++++++++++++
+ .../avahi/files/CVE-2023-38471-2.patch        |  52 +++++++++
+ .../avahi/files/CVE-2023-38472.patch          |  45 ++++++++
+ .../avahi/files/CVE-2023-38473.patch          | 109 ++++++++++++++++++
+ 10 files changed, 568 insertions(+)
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44429.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44429.patch
-new file mode 100644
-index 0000000000..5070d6b865
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44429.patch
-@@ -0,0 +1,38 @@
-+From 1db83d3f745332cbda6adf954b2c53a10caa205e Mon Sep 17 00:00:00 2001
-+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-+Date: Wed, 4 Oct 2023 11:14:38 +0200
-+Subject: [PATCH] codecparsers: av1: Clip max tile rows and cols values
-+
-+Clip tile rows and cols to 64 as describe in AV1 specification.
-+
-+Fixes ZDI-CAN-22226 / CVE-2023-44429
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3015
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/5634>
-+
-+CVE: CVE-2023-44429
-+
-+Upstream-Status: Backport
-+[https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/1db83d3f745332cbda6adf954b2c53a10caa205e]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ gst-libs/gst/codecparsers/gstav1parser.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/gst-libs/gst/codecparsers/gstav1parser.c b/gst-libs/gst/codecparsers/gstav1parser.c
-+index 7b9378c..68f8a76 100644
-+--- a/gst-libs/gst/codecparsers/gstav1parser.c
-++++ b/gst-libs/gst/codecparsers/gstav1parser.c
-+@@ -2219,6 +2219,8 @@ gst_av1_parse_tile_info (GstAV1Parser * parser, GstBitReader * br,
-+       ((parser->state.mi_cols + 31) >> 5) : ((parser->state.mi_cols + 15) >> 4);
-+   sb_rows = seq_header->use_128x128_superblock ? ((parser->state.mi_rows +
-+           31) >> 5) : ((parser->state.mi_rows + 15) >> 4);
-++  sb_cols = MIN (GST_AV1_MAX_TILE_COLS, sb_cols);
-++  sb_rows = MIN (GST_AV1_MAX_TILE_ROWS, sb_rows);
-+   sb_shift = seq_header->use_128x128_superblock ? 5 : 4;
-+   sb_size = sb_shift + 2;
-+   max_tile_width_sb = GST_AV1_MAX_TILE_WIDTH >> sb_size;
-+--
-+2.40.0
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
-index fbaabda3f9..504cfce1fd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
-@@ -13,6 +13,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://CVE-2023-40474.patch \
-            file://CVE-2023-40475.patch \
-            file://CVE-2023-40476.patch \
-+           file://CVE-2023-44429.patch \
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+index 3fb082cf3f..418b0c8ccf 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+@@ -27,6 +27,15 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
+            file://handle-hup.patch \
+            file://local-ping.patch \
+            file://invalid-service.patch \
++           file://CVE-2023-1981.patch \
++           file://CVE-2023-38469-1.patch \
++           file://CVE-2023-38469-2.patch \
++           file://CVE-2023-38470-1.patch \
++           file://CVE-2023-38470-2.patch \
++           file://CVE-2023-38471-1.patch \
++           file://CVE-2023-38471-2.patch \
++           file://CVE-2023-38472.patch \
++           file://CVE-2023-38473.patch \
             "
- SRC_URI[sha256sum] = "87251beebfd1325e5118cc67774061f6e8971761ca65a9e5957919610080d195"
  
+ GITHUB_BASE_URI = "https://github.com/lathiat/avahi/releases/"
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
+new file mode 100644
+index 0000000000..4d7924d13a
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
+@@ -0,0 +1,58 @@
++From a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Petr=20Men=C5=A1=C3=ADk?= <pemensik@redhat.com>
++Date: Thu, 17 Nov 2022 01:51:53 +0100
++Subject: [PATCH] Emit error if requested service is not found
++
++It currently just crashes instead of replying with error. Check return
++value and emit error instead of passing NULL pointer to reply.
++
++Fixes #375
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-1981.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/lathiat/avahi/commit/a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f]
++CVE: CVE-2023-1981
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-daemon/dbus-protocol.c | 20 ++++++++++++++------
++ 1 file changed, 14 insertions(+), 6 deletions(-)
++
++diff --git a/avahi-daemon/dbus-protocol.c b/avahi-daemon/dbus-protocol.c
++index 70d7687bc..406d0b441 100644
++--- a/avahi-daemon/dbus-protocol.c
+++++ b/avahi-daemon/dbus-protocol.c
++@@ -375,10 +375,14 @@ static DBusHandlerResult dbus_get_alternative_host_name(DBusConnection *c, DBusM
++     }
++ 
++     t = avahi_alternative_host_name(n);
++-    avahi_dbus_respond_string(c, m, t);
++-    avahi_free(t);
+++    if (t) {
+++        avahi_dbus_respond_string(c, m, t);
+++        avahi_free(t);
++ 
++-    return DBUS_HANDLER_RESULT_HANDLED;
+++        return DBUS_HANDLER_RESULT_HANDLED;
+++    } else {
+++        return avahi_dbus_respond_error(c, m, AVAHI_ERR_NOT_FOUND, "Hostname not found");
+++    }
++ }
++ 
++ static DBusHandlerResult dbus_get_alternative_service_name(DBusConnection *c, DBusMessage *m, DBusError *error) {
++@@ -389,10 +393,14 @@ static DBusHandlerResult dbus_get_alternative_service_name(DBusConnection *c, DB
++     }
++ 
++     t = avahi_alternative_service_name(n);
++-    avahi_dbus_respond_string(c, m, t);
++-    avahi_free(t);
+++    if (t) {
+++        avahi_dbus_respond_string(c, m, t);
+++        avahi_free(t);
++ 
++-    return DBUS_HANDLER_RESULT_HANDLED;
+++        return DBUS_HANDLER_RESULT_HANDLED;
+++    } else {
+++        return avahi_dbus_respond_error(c, m, AVAHI_ERR_NOT_FOUND, "Service not found");
+++    }
++ }
++ 
++ static DBusHandlerResult dbus_create_new_entry_group(DBusConnection *c, DBusMessage *m, DBusError *error) {
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
+new file mode 100644
+index 0000000000..85345edc10
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
+@@ -0,0 +1,48 @@
++From a337a1ba7d15853fb56deef1f464529af6e3a1cf Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Mon, 23 Oct 2023 20:29:31 +0000
++Subject: [PATCH] core: reject overly long TXT resource records
++
++Closes https://github.com/lathiat/avahi/issues/455
++
++CVE-2023-38469
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38469-1.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/lathiat/avahi/commit/a337a1ba7d15853fb56deef1f464529af6e3a1cf]
++CVE: CVE-2023-38469
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-core/rr.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
++
++Index: avahi-0.8/avahi-core/rr.c
++===================================================================
++--- avahi-0.8.orig/avahi-core/rr.c
+++++ avahi-0.8/avahi-core/rr.c
++@@ -32,6 +32,7 @@
++ #include <avahi-common/malloc.h>
++ #include <avahi-common/defs.h>
++ 
+++#include "dns.h"
++ #include "rr.h"
++ #include "log.h"
++ #include "util.h"
++@@ -688,11 +689,17 @@ int avahi_record_is_valid(AvahiRecord *r
++         case AVAHI_DNS_TYPE_TXT: {
++ 
++             AvahiStringList *strlst;
+++            size_t used = 0;
++ 
++-            for (strlst = r->data.txt.string_list; strlst; strlst = strlst->next)
+++            for (strlst = r->data.txt.string_list; strlst; strlst = strlst->next) {
++                 if (strlst->size > 255 || strlst->size <= 0)
++                     return 0;
++ 
+++                used += 1+strlst->size;
+++                if (used > AVAHI_DNS_RDATA_MAX)
+++                    return 0;
+++            }
+++
++             return 1;
++         }
++     }
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
+new file mode 100644
+index 0000000000..f8f60ddca1
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
+@@ -0,0 +1,65 @@
++From c6cab87df290448a63323c8ca759baa516166237 Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Wed, 25 Oct 2023 18:15:42 +0000
++Subject: [PATCH] tests: pass overly long TXT resource records
++
++to make sure they don't crash avahi any more.
++It reproduces https://github.com/lathiat/avahi/issues/455
++
++Canonical notes:
++nickgalanis> removed first hunk since there is no .github dir in this release
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38469-2.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/lathiat/avahi/commit/c6cab87df290448a63323c8ca759baa516166237]
++CVE: CVE-2023-38469
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-client/client-test.c       | 14 ++++++++++++++
++ 1 files changed, 14 insertions(+)
++
++Index: avahi-0.8/avahi-client/client-test.c
++===================================================================
++--- avahi-0.8.orig/avahi-client/client-test.c
+++++ avahi-0.8/avahi-client/client-test.c
++@@ -22,6 +22,7 @@
++ #endif
++ 
++ #include <stdio.h>
+++#include <string.h>
++ #include <assert.h>
++ 
++ #include <avahi-client/client.h>
++@@ -33,6 +34,8 @@
++ #include <avahi-common/malloc.h>
++ #include <avahi-common/timeval.h>
++ 
+++#include <avahi-core/dns.h>
+++
++ static const AvahiPoll *poll_api = NULL;
++ static AvahiSimplePoll *simple_poll = NULL;
++ 
++@@ -222,6 +225,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
++     uint32_t cookie;
++     struct timeval tv;
++     AvahiAddress a;
+++    uint8_t rdata[AVAHI_DNS_RDATA_MAX+1];
+++    AvahiStringList *txt = NULL;
+++    int r;
++ 
++     simple_poll = avahi_simple_poll_new();
++     poll_api = avahi_simple_poll_get(simple_poll);
++@@ -258,6 +264,14 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
++     printf("%s\n", avahi_strerror(avahi_entry_group_add_service (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "Lathiat's Site", "_http._tcp", NULL, NULL, 80, "foo=bar", NULL)));
++     printf("add_record: %d\n", avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "\5booya", 6));
++ 
+++    memset(rdata, 1, sizeof(rdata));
+++    r = avahi_string_list_parse(rdata, sizeof(rdata), &txt);
+++    assert(r >= 0);
+++    assert(avahi_string_list_serialize(txt, NULL, 0) == sizeof(rdata));
+++    error = avahi_entry_group_add_service_strlst(group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", "_qotd._tcp", NULL, NULL, 123, txt);
+++    assert(error == AVAHI_ERR_INVALID_RECORD);
+++    avahi_string_list_free(txt);
+++
++     avahi_entry_group_commit (group);
++ 
++     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
+new file mode 100644
+index 0000000000..4cca81698b
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
+@@ -0,0 +1,57 @@
++From 94cb6489114636940ac683515417990b55b5d66c Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Petr=20Men=C5=A1=C3=ADk?= <pemensik@redhat.com>
++Date: Tue, 11 Apr 2023 15:29:59 +0200
++Subject: [PATCH] Ensure each label is at least one byte long
++
++The only allowed exception is single dot, where it should return empty
++string.
++
++Fixes #454.
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38470-1.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/lathiat/avahi/commit/94cb6489114636940ac683515417990b55b5d66c]
++CVE: CVE-2023-38470
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-common/domain-test.c | 14 ++++++++++++++
++ avahi-common/domain.c      |  2 +-
++ 2 files changed, 15 insertions(+), 1 deletion(-)
++
++Index: avahi-0.8/avahi-common/domain-test.c
++===================================================================
++--- avahi-0.8.orig/avahi-common/domain-test.c
+++++ avahi-0.8/avahi-common/domain-test.c
++@@ -45,6 +45,20 @@ int main(AVAHI_GCC_UNUSED int argc, AVAH
++     printf("%s\n", s = avahi_normalize_name_strdup("fo\\\\o\\..f oo."));
++     avahi_free(s);
++ 
+++    printf("%s\n", s = avahi_normalize_name_strdup("."));
+++    avahi_free(s);
+++
+++    s = avahi_normalize_name_strdup(",.=.}.=.?-.}.=.?.?.}.}.?.?.?.z.?.?.}.}."
+++		    "}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.=.=.?.?.}.}.?.?.}.}.}"
+++		    ".?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.=.=.?.?.}.}.?.?.?.zM.?`"
+++		    "?.}.}.}.?.?.?.r.=.?.}.=.?.?.}.?.?.?.}.=.?.?.}??.}.}.?.?."
+++		    "?.z.?.?.}.}.}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.?`?.}.}.}."
+++		    "??.?.zM.?`?.}.}.}.?.?.?.r.=.?.}.=.?.?.}.?.?.?.}.=.?.?.}?"
+++		    "?.}.}.?.?.?.z.?.?.}.}.}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM."
+++		    "?`?.}.}.}.?.?.?.r.=.=.?.?`.?.?}.}.}.?.?.?.r.=.?.}.=.?.?."
+++		    "}.?.?.?.}.=.?.?.}");
+++    assert(s == NULL);
+++
++     printf("%i\n", avahi_domain_equal("\\065aa bbb\\.\\046cc.cc\\\\.dee.fff.", "Aaa BBB\\.\\.cc.cc\\\\.dee.fff"));
++     printf("%i\n", avahi_domain_equal("A", "a"));
++ 
++Index: avahi-0.8/avahi-common/domain.c
++===================================================================
++--- avahi-0.8.orig/avahi-common/domain.c
+++++ avahi-0.8/avahi-common/domain.c
++@@ -201,7 +201,7 @@ char *avahi_normalize_name(const char *s
++         }
++ 
++         if (!empty) {
++-            if (size < 1)
+++            if (size < 2)
++                 return NULL;
++ 
++             *(r++) = '.';
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
+new file mode 100644
+index 0000000000..e0736bf210
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
+@@ -0,0 +1,52 @@
++From 20dec84b2480821704258bc908e7b2bd2e883b24 Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Tue, 19 Sep 2023 03:21:25 +0000
++Subject: [PATCH] [common] bail out when escaped labels can't fit into ret
++
++Fixes:
++```
++==93410==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f9e76f14c16 at pc 0x00000047208d bp 0x7ffee90a6a00 sp 0x7ffee90a61c8
++READ of size 1110 at 0x7f9e76f14c16 thread T0
++    #0 0x47208c in __interceptor_strlen (out/fuzz-domain+0x47208c) (BuildId: 731b20c1eef22c2104e75a6496a399b10cfc7cba)
++    #1 0x534eb0 in avahi_strdup avahi/avahi-common/malloc.c:167:12
++    #2 0x53862c in avahi_normalize_name_strdup avahi/avahi-common/domain.c:226:12
++```
++and
++```
++fuzz-domain: fuzz/fuzz-domain.c:38: int LLVMFuzzerTestOneInput(const uint8_t *, size_t): Assertion `avahi_domain_equal(s, t)' failed.
++==101571== ERROR: libFuzzer: deadly signal
++    #0 0x501175 in __sanitizer_print_stack_trace (/home/vagrant/avahi/out/fuzz-domain+0x501175) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
++    #1 0x45ad2c in fuzzer::PrintStackTrace() (/home/vagrant/avahi/out/fuzz-domain+0x45ad2c) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
++    #2 0x43fc07 in fuzzer::Fuzzer::CrashCallback() (/home/vagrant/avahi/out/fuzz-domain+0x43fc07) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
++    #3 0x7f1581d7ebaf  (/lib64/libc.so.6+0x3dbaf) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #4 0x7f1581dcf883 in __pthread_kill_implementation (/lib64/libc.so.6+0x8e883) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #5 0x7f1581d7eafd in gsignal (/lib64/libc.so.6+0x3dafd) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #6 0x7f1581d6787e in abort (/lib64/libc.so.6+0x2687e) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #7 0x7f1581d6779a in __assert_fail_base.cold (/lib64/libc.so.6+0x2679a) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #8 0x7f1581d77186 in __assert_fail (/lib64/libc.so.6+0x36186) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #9 0x5344a4 in LLVMFuzzerTestOneInput /home/vagrant/avahi/fuzz/fuzz-domain.c:38:9
++```
++
++It's a follow-up to 94cb6489114636940ac683515417990b55b5d66c
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38470-2.patch?h=ubuntu/jammy-security
++CVE: CVE-2023-38470 #Follow-up patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-common/domain.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++Index: avahi-0.8/avahi-common/domain.c
++===================================================================
++--- avahi-0.8.orig/avahi-common/domain.c
+++++ avahi-0.8/avahi-common/domain.c
++@@ -210,7 +210,8 @@ char *avahi_normalize_name(const char *s
++         } else
++             empty = 0;
++ 
++-        avahi_escape_label(label, strlen(label), &r, &size);
+++        if (!(avahi_escape_label(label, strlen(label), &r, &size)))
+++            return NULL;
++     }
++ 
++     return ret_s;
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
+new file mode 100644
+index 0000000000..07cd3246e8
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
+@@ -0,0 +1,73 @@
++From 894f085f402e023a98cbb6f5a3d117bd88d93b09 Mon Sep 17 00:00:00 2001
++From: Michal Sekletar <msekleta@redhat.com>
++Date: Mon, 23 Oct 2023 13:38:35 +0200
++Subject: [PATCH] core: extract host name using avahi_unescape_label()
++
++Previously we could create invalid escape sequence when we split the
++string on dot. For example, from valid host name "foo\\.bar" we have
++created invalid name "foo\\" and tried to set that as the host name
++which crashed the daemon.
++
++Fixes #453
++
++CVE-2023-38471
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38471-1.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/lathiat/avahi/commit/894f085f402e023a98cbb6f5a3d117bd88d93b09]
++CVE: CVE-2023-38471
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-core/server.c | 27 +++++++++++++++++++++------
++ 1 file changed, 21 insertions(+), 6 deletions(-)
++
++Index: avahi-0.8/avahi-core/server.c
++===================================================================
++--- avahi-0.8.orig/avahi-core/server.c
+++++ avahi-0.8/avahi-core/server.c
++@@ -1295,7 +1295,11 @@ static void update_fqdn(AvahiServer *s)
++ }
++ 
++ int avahi_server_set_host_name(AvahiServer *s, const char *host_name) {
++-    char *hn = NULL;
+++    char label_escaped[AVAHI_LABEL_MAX*4+1];
+++    char label[AVAHI_LABEL_MAX];
+++    char *hn = NULL, *h;
+++    size_t len;
+++
++     assert(s);
++ 
++     AVAHI_CHECK_VALIDITY(s, !host_name || avahi_is_valid_host_name(host_name), AVAHI_ERR_INVALID_HOST_NAME);
++@@ -1305,17 +1309,28 @@ int avahi_server_set_host_name(AvahiServ
++     else
++         hn = avahi_normalize_name_strdup(host_name);
++ 
++-    hn[strcspn(hn, ".")] = 0;
+++    h = hn;
+++    if (!avahi_unescape_label((const char **)&hn, label, sizeof(label))) {
+++        avahi_free(h);
+++        return AVAHI_ERR_INVALID_HOST_NAME;
+++    }
+++
+++    avahi_free(h);
++ 
++-    if (avahi_domain_equal(s->host_name, hn) && s->state != AVAHI_SERVER_COLLISION) {
++-        avahi_free(hn);
+++    h = label_escaped;
+++    len = sizeof(label_escaped);
+++    if (!avahi_escape_label(label, strlen(label), &h, &len))
+++        return AVAHI_ERR_INVALID_HOST_NAME;
+++
+++    if (avahi_domain_equal(s->host_name, label_escaped) && s->state != AVAHI_SERVER_COLLISION)
++         return avahi_server_set_errno(s, AVAHI_ERR_NO_CHANGE);
++-    }
++ 
++     withdraw_host_rrs(s);
++ 
++     avahi_free(s->host_name);
++-    s->host_name = hn;
+++    s->host_name = avahi_strdup(label_escaped);
+++    if (!s->host_name)
+++        return AVAHI_ERR_NO_MEMORY;
++ 
++     update_fqdn(s);
++ 
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
+new file mode 100644
+index 0000000000..44737bfc2e
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
+@@ -0,0 +1,52 @@
++From b675f70739f404342f7f78635d6e2dcd85a13460 Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Tue, 24 Oct 2023 22:04:51 +0000
++Subject: [PATCH] core: return errors from avahi_server_set_host_name properly
++
++It's a follow-up to 894f085f402e023a98cbb6f5a3d117bd88d93b09
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38471-2.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/lathiat/avahi/commit/b675f70739f404342f7f78635d6e2dcd85a13460]
++CVE: CVE-2023-38471 #Follow-up Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-core/server.c | 9 ++++++---
++ 1 file changed, 6 insertions(+), 3 deletions(-)
++
++Index: avahi-0.8/avahi-core/server.c
++===================================================================
++--- avahi-0.8.orig/avahi-core/server.c
+++++ avahi-0.8/avahi-core/server.c
++@@ -1309,10 +1309,13 @@ int avahi_server_set_host_name(AvahiServ
++     else
++         hn = avahi_normalize_name_strdup(host_name);
++ 
+++    if (!hn)
+++        return avahi_server_set_errno(s, AVAHI_ERR_NO_MEMORY);
+++
++     h = hn;
++     if (!avahi_unescape_label((const char **)&hn, label, sizeof(label))) {
++         avahi_free(h);
++-        return AVAHI_ERR_INVALID_HOST_NAME;
+++        return avahi_server_set_errno(s, AVAHI_ERR_INVALID_HOST_NAME);
++     }
++ 
++     avahi_free(h);
++@@ -1320,7 +1323,7 @@ int avahi_server_set_host_name(AvahiServ
++     h = label_escaped;
++     len = sizeof(label_escaped);
++     if (!avahi_escape_label(label, strlen(label), &h, &len))
++-        return AVAHI_ERR_INVALID_HOST_NAME;
+++        return avahi_server_set_errno(s, AVAHI_ERR_INVALID_HOST_NAME);
++ 
++     if (avahi_domain_equal(s->host_name, label_escaped) && s->state != AVAHI_SERVER_COLLISION)
++         return avahi_server_set_errno(s, AVAHI_ERR_NO_CHANGE);
++@@ -1330,7 +1333,7 @@ int avahi_server_set_host_name(AvahiServ
++     avahi_free(s->host_name);
++     s->host_name = avahi_strdup(label_escaped);
++     if (!s->host_name)
++-        return AVAHI_ERR_NO_MEMORY;
+++        return avahi_server_set_errno(s, AVAHI_ERR_NO_MEMORY);
++ 
++     update_fqdn(s);
++ 
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
+new file mode 100644
+index 0000000000..5c63edb31f
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
+@@ -0,0 +1,45 @@
++From b024ae5749f4aeba03478e6391687c3c9c8dee40 Mon Sep 17 00:00:00 2001
++From: Michal Sekletar <msekleta@redhat.com>
++Date: Thu, 19 Oct 2023 17:36:44 +0200
++Subject: [PATCH] core: make sure there is rdata to process before parsing it
++
++Fixes #452
++
++CVE-2023-38472
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38472.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40]
++CVE: CVE-2023-38472
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-client/client-test.c      | 3 +++
++ avahi-daemon/dbus-entry-group.c | 2 +-
++ 2 files changed, 4 insertions(+), 1 deletion(-)
++
++Index: avahi-0.8/avahi-client/client-test.c
++===================================================================
++--- avahi-0.8.orig/avahi-client/client-test.c
+++++ avahi-0.8/avahi-client/client-test.c
++@@ -272,6 +272,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
++     assert(error == AVAHI_ERR_INVALID_RECORD);
++     avahi_string_list_free(txt);
++ 
+++    error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
+++    assert(error != AVAHI_OK);
+++
++     avahi_entry_group_commit (group);
++ 
++     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
++Index: avahi-0.8/avahi-daemon/dbus-entry-group.c
++===================================================================
++--- avahi-0.8.orig/avahi-daemon/dbus-entry-group.c
+++++ avahi-0.8/avahi-daemon/dbus-entry-group.c
++@@ -340,7 +340,7 @@ DBusHandlerResult avahi_dbus_msg_entry_g
++         if (!(r = avahi_record_new_full (name, clazz, type, ttl)))
++             return avahi_dbus_respond_error(c, m, AVAHI_ERR_NO_MEMORY, NULL);
++ 
++-        if (avahi_rdata_parse (r, rdata, size) < 0) {
+++        if (!rdata || avahi_rdata_parse (r, rdata, size) < 0) {
++             avahi_record_unref (r);
++             return avahi_dbus_respond_error(c, m, AVAHI_ERR_INVALID_RDATA, NULL);
++         }
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
+new file mode 100644
+index 0000000000..d7c69225b1
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
+@@ -0,0 +1,109 @@
++From b448c9f771bada14ae8de175695a9729f8646797 Mon Sep 17 00:00:00 2001
++From: Michal Sekletar <msekleta@redhat.com>
++Date: Wed, 11 Oct 2023 17:45:44 +0200
++Subject: [PATCH] common: derive alternative host name from its unescaped
++ version
++
++Normalization of input makes sure we don't have to deal with special
++cases like unescaped dot at the end of label.
++
++Fixes #451 #487
++CVE-2023-38473
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38473.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/lathiat/avahi/commit/b448c9f771bada14ae8de175695a9729f8646797]
++CVE: CVE-2023-38473
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-common/alternative-test.c |  3 +++
++ avahi-common/alternative.c      | 27 +++++++++++++++++++--------
++ 2 files changed, 22 insertions(+), 8 deletions(-)
++
++Index: avahi-0.8/avahi-common/alternative-test.c
++===================================================================
++--- avahi-0.8.orig/avahi-common/alternative-test.c
+++++ avahi-0.8/avahi-common/alternative-test.c
++@@ -31,6 +31,9 @@ int main(AVAHI_GCC_UNUSED int argc, AVAH
++     const char* const test_strings[] = {
++         "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
++         "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXüüüüüüü",
+++        ").",
+++        "\\.",
+++        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\\\\",
++         "gurke",
++         "-",
++         " #",
++Index: avahi-0.8/avahi-common/alternative.c
++===================================================================
++--- avahi-0.8.orig/avahi-common/alternative.c
+++++ avahi-0.8/avahi-common/alternative.c
++@@ -49,15 +49,20 @@ static void drop_incomplete_utf8(char *c
++ }
++ 
++ char *avahi_alternative_host_name(const char *s) {
+++    char label[AVAHI_LABEL_MAX], alternative[AVAHI_LABEL_MAX*4+1];
+++    char *alt, *r, *ret;
++     const char *e;
++-    char *r;
+++    size_t len;
++ 
++     assert(s);
++ 
++     if (!avahi_is_valid_host_name(s))
++         return NULL;
++ 
++-    if ((e = strrchr(s, '-'))) {
+++    if (!avahi_unescape_label(&s, label, sizeof(label)))
+++        return NULL;
+++
+++    if ((e = strrchr(label, '-'))) {
++         const char *p;
++ 
++         e++;
++@@ -74,19 +79,18 @@ char *avahi_alternative_host_name(const
++ 
++     if (e) {
++         char *c, *m;
++-        size_t l;
++         int n;
++ 
++         n = atoi(e)+1;
++         if (!(m = avahi_strdup_printf("%i", n)))
++             return NULL;
++ 
++-        l = e-s-1;
+++        len = e-label-1;
++ 
++-        if (l >= AVAHI_LABEL_MAX-1-strlen(m)-1)
++-            l = AVAHI_LABEL_MAX-1-strlen(m)-1;
+++        if (len >= AVAHI_LABEL_MAX-1-strlen(m)-1)
+++            len = AVAHI_LABEL_MAX-1-strlen(m)-1;
++ 
++-        if (!(c = avahi_strndup(s, l))) {
+++        if (!(c = avahi_strndup(label, len))) {
++             avahi_free(m);
++             return NULL;
++         }
++@@ -100,7 +104,7 @@ char *avahi_alternative_host_name(const
++     } else {
++         char *c;
++ 
++-        if (!(c = avahi_strndup(s, AVAHI_LABEL_MAX-1-2)))
+++        if (!(c = avahi_strndup(label, AVAHI_LABEL_MAX-1-2)))
++             return NULL;
++ 
++         drop_incomplete_utf8(c);
++@@ -109,6 +113,13 @@ char *avahi_alternative_host_name(const
++         avahi_free(c);
++     }
++ 
+++    alt = alternative;
+++    len = sizeof(alternative);
+++    ret = avahi_escape_label(r, strlen(r), &alt, &len);
+++
+++    avahi_free(r);
+++    r = avahi_strdup(ret);
+++
++     assert(avahi_is_valid_host_name(r));
++ 
++     return r;
 -- 
-2.40.0
+2.25.1
 
 
