@@ -2,89 +2,98 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 719DEC61D97
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B17C61D9C
 	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 14:13:59 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.20262.1700662436389481001
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.20345.1700662437708148083
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 06:13:56 -0800
+ Wed, 22 Nov 2023 06:13:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LnHQXlTU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-32f737deedfso4256083f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 06:13:56 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gPNobz+6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40b2fa4ec5eso6419365e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 06:13:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1700662434; x=1701267234; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=d5oY+eu0smNY8s1h5s3wtZjRcfW5+9Qu5hKvhGyoM6c=;
-        b=LnHQXlTU6ipSWowExsoe9G7+awoOd6We+3Q0podR7zuzi8AkF18IJSvI2qoN05GXEn
-         3A7w4Itpv90T1XmTbi8LIyFeyVC6LyhSZewyOCV8PxIhkn6UW3+R4tLuH2wPeGB9S6fq
-         aoKWEtk5s3gJ0Zaf65adGW1163VbT5Rzxzv4k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700662434; x=1701267234;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linuxfoundation.org; s=google; t=1700662436; x=1701267236; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=d5oY+eu0smNY8s1h5s3wtZjRcfW5+9Qu5hKvhGyoM6c=;
-        b=tplpia7WNLaj4diX7CDU1xJ1srTInvaRaFbCHRZXNXsHPdR3NfloUS2uW19g19O8/K
-         TYipzueGEc9SWQ7RvR9x2j3bC+aJMfpWUYyEx4u7NypexocxSJKAo1ixqo4oPucOm1NX
-         0cd7WhQ56Gg3voLAG07COh4bct+GlOMloapIG0EaOyBJO9hdZPdjQbcjFH8wct5KahCc
-         Z4jEvJUakgCTQDupkVGecGYRfBg8fjHPsHJ1Yr9/j6u41FG44L6FUhEDAON/ypwh4SA8
-         65LxDOC2aRzPmdfk3iLu+o9M5jn/2xSKrqW71AbZRcGhDbX8K4IsT+cdHv8M3ed0C2Ho
-         1r4A==
-X-Gm-Message-State: AOJu0YyXxGcLiHP4KnYLYzs4SPVoFdHJ3uD90fWnMX/tGqJw1IMzRdXE
-	qNAgE+RQOxzO1wCvOy9mDBbbN9272UfQODzq0qA=
-X-Google-Smtp-Source: AGHT+IGVf3JWvOylHkq9Dz3OAkgHnpHOQvQbTlJnGwvO08Esd0FYDRnrUks0koNvESolL+0pnhhFTQ==
-X-Received: by 2002:adf:e78a:0:b0:332:c692:fae with SMTP id n10-20020adfe78a000000b00332c6920faemr455441wrm.26.1700662434547;
-        Wed, 22 Nov 2023 06:13:54 -0800 (PST)
+        bh=1d9KRAeZP2FQi8Ey8a0VD9hNjkaNsvQIAk56eEjD1E4=;
+        b=gPNobz+6Ci5Vr15HJ6W5xDOffANWNQKtgoxFROtWearJK9EXeCH6ufY5YwDV4hJG7v
+         MhoY15A90X322333vjMF8UkX7BwYD/mQ5acEMTQNXTptHzfU1NtQJeDvDR3VvFC7TFW2
+         rUvzt2q4KI+0JLwfToJVTruvwQiFMuvZ4jvZA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700662436; x=1701267236;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1d9KRAeZP2FQi8Ey8a0VD9hNjkaNsvQIAk56eEjD1E4=;
+        b=vBC/9sc/tb4iWlz5wAKEreL7XSJ+KFj6H88Z4BAX4h5zgwbk3DilVEAyez1DouB71D
+         WQlHOgEd+Jl2HfZooMPx4PJfyxl/3cR4Pgaoal7hXaAQpq4/YrPZSO88WOv5wYuejJiC
+         rPf9s35ovvYNixwKQYuli9rNUdkcsI9HnFW2LbR55jJm2ZTQ+JTvdBdFqyv0YP+0u8C3
+         f9dpKYBrRkChM7bAYSC4eutb8Av4rmTzWpjAaQttfadBUeQFufxnnzOuERg7yFgzuXYM
+         4bTKo1myRm2ZTCkNvfDi0e8+YZu9fwkP7ejdrq3QiQ+ExBfpn8ayAxG9I/tW9DAvZafs
+         X4Aw==
+X-Gm-Message-State: AOJu0Yy0ytpSGgy49DuSwH1uTbQgmCYYp3sBOxu3E1iHUUWokZCaYRQW
+	3r8Fz41e47LL0/Hk4prkeJJttdN/WSPE9SV6QG8=
+X-Google-Smtp-Source: AGHT+IFoL72EDZ5qwaaoisGIWfOn5tyYYRuBArrp5jbcYvPWAAVeTUrm6IuRsCKvs36SHD/ouCnJDA==
+X-Received: by 2002:a1c:7413:0:b0:405:499a:7fc1 with SMTP id p19-20020a1c7413000000b00405499a7fc1mr1761565wmc.40.1700662435929;
+        Wed, 22 Nov 2023 06:13:55 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1718:e534:44cc:c75e])
-        by smtp.gmail.com with ESMTPSA id q10-20020adf9dca000000b0032f7f4089b7sm1902938wre.43.2023.11.22.06.13.53
+        by smtp.gmail.com with ESMTPSA id q10-20020adf9dca000000b0032f7f4089b7sm1902938wre.43.2023.11.22.06.13.54
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 06:13:53 -0800 (PST)
+        Wed, 22 Nov 2023 06:13:54 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>
-Subject: [PATCH 1/2] shared-mime-info: embed PV in the filename
-Date: Wed, 22 Nov 2023 14:13:51 +0000
-Message-Id: <20231122141352.3484673-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] package_ipk: Fix Source: field variable dependency
+Date: Wed, 22 Nov 2023 14:13:52 +0000
+Message-Id: <20231122141352.3484673-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231122141352.3484673-1-richard.purdie@linuxfoundation.org>
+References: <20231122141352.3484673-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 14:13:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191108
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191109
 
-From: Ross Burton <ross.burton@arm.com>
+The Source: variable is generated from FILE but this is excluded from checksums
+normally which results in a reproduciubility issue when the filename changes.
 
-As this recipe tracks the release tags we can embed the PV in the
-filename.
+Add in a dependency by reworking the code a little to avoid this.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{shared-mime-info_git.bb => shared-mime-info_2.4.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/shared-mime-info/{shared-mime-info_git.bb => shared-mime-info_2.4.bb} (98%)
+ meta/classes-global/package_ipk.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb
-similarity index 98%
-rename from meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
-rename to meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb
-index 937428221ef..5ba40236096 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb
-@@ -10,7 +10,7 @@ DEPENDS = "libxml2 itstool-native glib-2.0 shared-mime-info-native xmlto-native"
+diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/package_ipk.bbclass
+index 1ca1308967c..71ffdd522ac 100644
+--- a/meta/classes-global/package_ipk.bbclass
++++ b/meta/classes-global/package_ipk.bbclass
+@@ -47,6 +47,10 @@ python do_package_ipk () {
+ do_package_ipk[vardeps] += "ipk_write_pkg"
+ do_package_ipk[vardepsexclude] = "BB_NUMBER_THREADS"
  
- SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master"
- SRCREV = "9a6d6b8e963935f145f3a1ef446552de6996dada"
--PV = "2.4"
++# FILE isn't included by default but we want the recipe to change if basename() changes
++IPK_RECIPE_FILE = "${@os.path.basename(d.getVar('FILE'))}"
++IPK_RECIPE_FILE[vardepvalue] = "${IPK_RECIPE_FILE}"
 +
- S = "${WORKDIR}/git"
+ def ipk_write_pkg(pkg, d):
+     import re, copy
+     import subprocess
+@@ -62,7 +66,7 @@ def ipk_write_pkg(pkg, d):
  
- inherit meson pkgconfig gettext python3native mime
+     outdir = d.getVar('PKGWRITEDIRIPK')
+     pkgdest = d.getVar('PKGDEST')
+-    recipesource = os.path.basename(d.getVar('FILE'))
++    recipesource = d.getVar('IPK_RECIPE_FILE')
+ 
+     localdata = bb.data.createCopy(d)
+     root = "%s/%s" % (pkgdest, pkg)
 -- 
 2.39.2
 
