@@ -1,196 +1,244 @@
-Return-Path: <zangruochen@loongson.cn>
+Return-Path: <christian.taedcke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D17C61D9C
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:59:47 +0000 (UTC)
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by mx.groups.io with SMTP id smtpd.web10.15888.1700647181613593958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E041AC61D9C
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 10:01:06 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.83])
+ by mx.groups.io with SMTP id smtpd.web10.15912.1700647258368650542
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 01:59:42 -0800
+ Wed, 22 Nov 2023 02:00:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: zangruochen@loongson.cn)
-Received: from loongson.cn (unknown [153.35.147.217])
-	by gateway (Coremail) with SMTP id _____8BxbOoH0V1l_+U7AA--.25519S3;
-	Wed, 22 Nov 2023 17:59:35 +0800 (CST)
-Received: from ubuntu.localdomain (unknown [153.35.147.217])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxO9wE0V1lVGVJAA--.30011S2;
-	Wed, 22 Nov 2023 17:59:32 +0800 (CST)
-From: zangruochen@loongson.cn
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] elfutils: upgrade 0.189 -> 0.190
-Date: Wed, 22 Nov 2023 01:59:31 -0800
-Message-Id: <20231122095931.1866607-1-zangruochen@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=0yNJUReb;
+ spf=pass (domain: weidmueller.com, ip: 40.107.7.83, mailfrom: christian.taedcke-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y53JQFrV8sJXcDcrHSU3dE+lUk4cyYkNRGn5OdD8z17eLoNW5DZrH9Tzv/otpDdNCoqBKoaOrqzPd66WaEISWil7IBKs43JeqKoWs6JjJKTqoyqmBGubn5x22bGQ7o8pBAzNPehPlowwU1GE9ow+EV69T8pzTddqxBc3kalzzSq7GgYRtsBjjgifCny5hX26dnIhI1FyjkO/LOuwQku7ceowd24OoPX/v2jsVudnYvlUhkXstSyO097BwLhOr+62VeLgCOdZ2uT7VonKS9PvpRiEn6tc/Wxls3mYac2WbIbQ+uJdZdZMgr576Pl5BHV6P/viUEGj3ZHeVCmCDGVw7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ThIRftePMQ4BN8UisX7LSbXmOtBlpvSAVxSyMvFlICg=;
+ b=jI8Gfxg0RUZQOLv8Uop5/kPWeKIA2rYslPYczvjmpK2/BJUIXuTLDH+lYQ+pp9D3JHBXwIN3t40ailaHyHR+LGNpRGwVip+Q9VaHK5EDKjFf6GirwWdXSsByNy7JZQCbdarZlQgceP35CHuI82ni9edkoLUiAxMRbi40fWcKjOEvmyjB8enHJg5nBKyOWx3JumXyQTbv0dIKjBYm/eJrSIgcEB8SHy1zRt8dDElbPiJ9px7BqNhQQATDe/tQCECdKwBiz0sPJHtwj+XlGKc5ImOpd0wMpXAnK5/beYpZHhpqliSWkI5UwBI/J8RwPNxVpZPk2YeSeKxKR8KHqDtTTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ThIRftePMQ4BN8UisX7LSbXmOtBlpvSAVxSyMvFlICg=;
+ b=0yNJURebKWjdaPuiiy1lpEnO0Q+2Mbq86SNr7hxfTXF5NTLfX+mhktOGHzm75cuZG+5+Pta5m9QvvqyH0dhLwOZW1hozPJhT9zHYrZ4MinoFc+1m4d4MMeK6sCcS1dlUROwWE9gq7ltI19wiYWe1JftzQZ+YfywYAhuG576Jld8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from AM0PR08MB4946.eurprd08.prod.outlook.com (2603:10a6:208:165::13)
+ by AS8PR08MB8184.eurprd08.prod.outlook.com (2603:10a6:20b:561::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
+ 2023 10:00:54 +0000
+Received: from AM0PR08MB4946.eurprd08.prod.outlook.com
+ ([fe80::a732:6327:19b0:b4d5]) by AM0PR08MB4946.eurprd08.prod.outlook.com
+ ([fe80::a732:6327:19b0:b4d5%3]) with mapi id 15.20.7002.026; Wed, 22 Nov 2023
+ 10:00:54 +0000
+Message-ID: <7b991338-147d-46bc-bfc4-1b5c956cc82b@weidmueller.com>
+Date: Wed, 22 Nov 2023 11:00:52 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] meta/lib/oeqa/selftest/cases/wic: Add tests for
+ configuring kernel image install into boot partition.
+To: Kareem Zarka <zarkakareem@gmail.com>,
+ openembedded-core@lists.openembedded.org
+Cc: Stefan Schmidt <stefan.schmidt@huawei.com>,
+ Kareem Zarka <kareem.zarka@huawei.com>
+References: <20230308103448.2134894-1-kareem.zarka@huawei.com>
+ <20230308103448.2134894-2-kareem.zarka@huawei.com>
+From: "Taedcke, Christian" <christian.taedcke-oss@weidmueller.com>
+In-Reply-To: <20230308103448.2134894-2-kareem.zarka@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0136.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b8::11) To AM0PR08MB4946.eurprd08.prod.outlook.com
+ (2603:10a6:208:165::13)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxO9wE0V1lVGVJAA--.30011S2
-X-CM-SenderInfo: p2dqw2xxrfxv3q6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3WFy3ZryDGw45CFy8GFyUurX_yoWxGr1rpF
-	ZakFyfGw48Ja1Iqr97CF1rXw40qa9Fvas8XFyxCrWj9rWUZw15Wr43tFyIqFZ8XFyDuFW8
-	ZrWkGFy5tw4DuagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
-	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
-	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lw4CEc2x0rV
-	AKj4xxMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
-	wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUJVWUXwCIc4
-	0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
-	xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
-	1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUFGYLDUUU
-	U
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR08MB4946:EE_|AS8PR08MB8184:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13722437-e053-46bc-9b7e-08dbeb41ea60
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1dsp4dUX8U+FOJaS09ZXNAXajv96lQzalgMkMV/4t8fzmB1cFV7CZBZYo3Rs5BinIGMYBHC6RnciHlLNcUxUOPfHhPKV1/7sj4P+dh1rKP5TbpPSAZ8I5FGrVi1EnKlR8OCG21g8c3oGD5U9rCQfIwaE6K4iHAH8aMoVDpM3x9QUcvYCfnN28A0xWtz/LGQW6GcIVNJ9+l1k8cOEKjbEhoDvCTPUKClGTR9F+FXuqaLAl9u4ltXx1PbNLo7mu4GmB9da1nOXbcnVOgeBL6eNrHHyiLUgc8g8RgFbMe/ciABXuQImGrhruzLBI8FwUIroFMlxuV5VhRCQEnM2bWWpLONXUPAHlX98DhQzUUnyX//nz/makmtCEvvYAr4XgcrNxMwBgnbeRCe/9g3aYjPMK8O9RAL7G7iqzM7cTGfKFEmTDQnBMKIZnfVfT/Q/idBxozuiUNLt5k2PfE3X3fkWdSQMJle4eb2w1cwPmDN4g/ws4VqWnzDAebl1yp5CJCxYK5jzdsSBlpMLe+pvIESul3GF143y+jb7ZFfdkquLE70fYDkCTPVEpt4ds+egIiACF3qUboHn8D/FttJR0zk1IL50LyJYDrbNObII1aJdoeijuqOkBHHDOUUP47oq5Ovb3EmPjNp5TkHeM2GWwLmiLA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR08MB4946.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(136003)(396003)(39860400002)(366004)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(6512007)(6506007)(53546011)(2616005)(83380400001)(2906002)(8676002)(8936002)(4326008)(478600001)(41300700001)(6486002)(5660300002)(316002)(66476007)(66556008)(54906003)(26005)(66946007)(31696002)(86362001)(36756003)(38100700002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?QnVMUnU2TmU1M1hvUmFSQ1ZMdGpVL1NBaDU3U2JCUk92QWExTEdvVmxIU0Jt?=
+ =?utf-8?B?ZGtHYmRnTndMTXp5OFhpemNsZWFjcml0azM1QktpelpDNzV6Yi8rUkNnWVIr?=
+ =?utf-8?B?Q1d1KzRpRG50eGQ0QWdDUERvRTgwdW9UYVY1SG8xVEZMM0VwZUNFaXhnOU1S?=
+ =?utf-8?B?UEZneFRXMGphYTA5VWN3dVE2YnJlNTIwU2ljTURidHVVaW04Yy95QytHcXJQ?=
+ =?utf-8?B?NXhJdmVEa05nZDNZM3ZRR2c3c1BlZE90bEJsd3doaUFTU1NObWo5V3VsbGty?=
+ =?utf-8?B?bDloNXhVQXMvQjlBOVEvOU9hSksyTHNNdUpDYkNFOEVzMFFrMUs0cldCcFJq?=
+ =?utf-8?B?U3ZpdHBUTFpMbktlY2lNM201ZXdzVGdhc2J3SFpiSEszQklmN1VrY0l6WUEy?=
+ =?utf-8?B?ZzQyVGp4SVhTQ1owVEVXeVZuOWs0aTZMZFJvZXdnNUFVY0RTbGFWZEhXUlZk?=
+ =?utf-8?B?K3QraXk3K0h3cE9BYVJzaThYUlA5TWxHRXJNUGdmU2FTajI1SUR4N2NWb1k2?=
+ =?utf-8?B?K2k4WC9meUwyQzhCOEYyZk9paGdsMVg5ck9KS0VhK0syYU1qaHYvc3h1TzV5?=
+ =?utf-8?B?aVEzUWtmZi9wRXUydkp5QjV0dlZUUUV2d0twR1lQKy95ZGtCZk52TFVDN1hF?=
+ =?utf-8?B?VkRKVWtQTFFnQTErUk94RWZBaGNyOTFMcHdjZ1lSaVB4TnBGZy81RkZ3WUtY?=
+ =?utf-8?B?T0l6WjdVQkRwL1JoamsyeUJQMjBJSkxVbHYyRXpYV2VBOVc5YkdIVUVBckpi?=
+ =?utf-8?B?MnZiTTl0SVhxL3NsRkZpYThWZXhDWGVVQ1dFd0JSOXErWE9Na2ppTk9GRzhU?=
+ =?utf-8?B?RFBMb0pLa0Q5bXNKWkdENEtDaGd0akhpa2RaR0Q2K1JvWEt6Skk5cHBTekg0?=
+ =?utf-8?B?MklNcVVkSHQ5ZDBJUExjc0YyanpiOHVCeHdEbm1qaDVrelFaQ0x5ZjI5R0Ry?=
+ =?utf-8?B?YkY2OXI2Q0Z3MnIzdHgwa0JmZDVkSWRBdVJiWHJRN29vY3QrWnc3YTRLUnNr?=
+ =?utf-8?B?VnJVS2RYTFNINitjajIvT3ZwQjI0YThydXZTZUh6NVJvNVYwK0dvdERkTVE3?=
+ =?utf-8?B?VzFqZnJFYitEdE00c1p1a05Ub1YyWVVQN2lyUDE5a25SUXQwQklZcTI0c3Fo?=
+ =?utf-8?B?Z0t6Zmx5M3FsdW5FUDhEVHF4di9XM0VpMTJBZGEwSFJySndiaDhIUm5CbUhj?=
+ =?utf-8?B?V2RNczVaZE1OL3YvWThqVDNUUkVNMzIzZHE4cldSWHJUek5ZUHYyUTBuenpa?=
+ =?utf-8?B?WmRHVTlxT1Jsd2dSNC84Sk0zMlZnT0s4dWdHOG5qZVhVZEZ3WFdTaWY0QUN1?=
+ =?utf-8?B?QVF2U2x0S1FJZzRkZlFTdkhZUFRoakt5L0Y1Q2hiTm8xMmwvUElRS2Fia1lN?=
+ =?utf-8?B?c3FNM0JRcG1rRExIZ3VudElTSDVXNnFXTjVpWk5JTkloaWN4RWtKcFRML2VO?=
+ =?utf-8?B?TWlyemhESVNQditWei8yOUdiaExMZFBIWEEyY2ZkYmg5UjkxSFVjdlpUeGxt?=
+ =?utf-8?B?bFp1eU4xVStEMGdTK2dLSDU4N3U1ajJmNGtKYUtUc3hEQ3BBcFhES2pqU2Fy?=
+ =?utf-8?B?Q0p0THh1SURjUXlMajJiRW1xM3FBN0ZTNHJJelZRdGZ1TGdnVzNOZ0t0a2dS?=
+ =?utf-8?B?bWZwU2p2Wm5aaXVJc1FDblc1TEl3N2NTd0oycGdva3hzL1JzSkdGUkc3dXlv?=
+ =?utf-8?B?SFlVaEVPeERNQmc1Nk1qVmUrUGdZV0dBSDh2bm42T1puWXl2emV1eldQUmhT?=
+ =?utf-8?B?bktkbXRzYVo2ZlFjblJsbVIyY0tPRVJMb3ZDdTNtZDdGb3NjUFdYZlNmVE5K?=
+ =?utf-8?B?MlpucnFWSmRoOEVvWFUzbVN6TlFLU1d6UXFZQ3ZBOTBPc05aM243Y0NTdWph?=
+ =?utf-8?B?WmpZN3g4S0ppWkdoVUJFWmk4RSs3Qkd2SW9Za1NadE5Kd2ZyZDFBQytHdmhE?=
+ =?utf-8?B?d1FJNVN2MENmWEdONWVHN3JpZVNLZDRnL0hYN1NMZmZicVZrK3pzU25qSThr?=
+ =?utf-8?B?c1FQWFM5clNQakhOWnltZVJKamFEaTNod1BJUFhyOUowVFVNOUZyMTlRa2FC?=
+ =?utf-8?B?RkRqUjF3MjhRK0x2M2NqdnJHck5WazRoK3ZjeHljNGhHTkl0dmRwd01RVEhV?=
+ =?utf-8?B?S3U4TFFCT0w4bStINFdRem8vN2sraTZib2VuNC95MGQvUk1OYmhvbXYxdGZr?=
+ =?utf-8?Q?BdqhrXDEJ3NIvJt+vKm8FfGmaD54Zg9CbOXXumP+vfq9?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13722437-e053-46bc-9b7e-08dbeb41ea60
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB4946.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 10:00:54.3602
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mmmtFSixmCEVd9mViEi9aZcBgtURboFYkPWFQPGfOLMZK+fE+UNRWVO82obhVxNLMRlUSKBbwuYejedZOoo+zfLa4B2Ki1GSLHzgSsIH+gTDfI42rGf8K3QdEE9qx5wN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8184
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:59:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191048
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 10:01:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191049
 
-From: Zang Ruochen <zangruochen@loongson.cn>
+Hello Kareem,
 
-The following patches have been fixed:
-0001-libasm-may-link-with-libbz2-if-found.patch
+are you planning to continue withis this review? If not i would try to 
+get this merged.
 
-Refresh the following patch:
-0001-dso-link-change.patch
+On 08.03.2023 11:34, Kareem Zarka wrote:
+> - test_skip_kernel_install: This test verifies that the kernel is not
+> installed in the boot partition when the 'install-kernel-into-boot-dir'
+> parameter is set to false.
+> - test_kernel_install: This test verifies that the kernel is installed
+> in the boot partition when the 'install-kernel-into-boot-dir' parameter
+> is set to true .
+> Both tests use a WKS (Kickstart) file to specify the desired
+> configuration, build a disk image using WIC, and extract the disk image
+> to a temporary directory to verify the results.
+> 
+> Signed-off-by: Kareem Zarka <kareem.zarka@huawei.com>
+> ---
+>   meta/lib/oeqa/selftest/cases/wic.py | 70 +++++++++++++++++++++++++++++
+>   1 file changed, 70 insertions(+)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+> index b9430cdb3b..7f5db1dc73 100644
+> --- a/meta/lib/oeqa/selftest/cases/wic.py
+> +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> @@ -16,6 +16,7 @@ import hashlib
+>   from glob import glob
+>   from shutil import rmtree, copy
+>   from tempfile import NamedTemporaryFile
+> +from tempfile import TemporaryDirectory
+>   
+>   from oeqa.selftest.case import OESelftestTestCase
+>   from oeqa.core.decorator import OETestTag
+> @@ -146,6 +147,75 @@ class CLITests(OESelftestTestCase):
+>           self.assertEqual(1, runCmd('wic', ignore_status=True).status)
+>   
+>   class Wic(WicTestCase):
+> +    def test_skip_kernel_install(self):
+> +        """Test the functionality of not installing the kernel in the boot directory using the wic plugin"""
+> +        # Build the mtools package to support FAT filesystem handling
+> +        bitbake("mtools")
 
-Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
----
- .../{elfutils_0.189.bb => elfutils_0.190.bb}  |  3 +-
- .../elfutils/files/0001-dso-link-change.patch | 21 ++++++-----
- ...libasm-may-link-with-libbz2-if-found.patch | 36 -------------------
- 3 files changed, 13 insertions(+), 47 deletions(-)
- rename meta/recipes-devtools/elfutils/{elfutils_0.189.bb => elfutils_0.190.bb} (98%)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
+I believe this should be 'bitbake("mtools-native")'. This should fix the 
+error on the build server.
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.189.bb b/meta/recipes-devtools/elfutils/elfutils_0.190.bb
-similarity index 98%
-rename from meta/recipes-devtools/elfutils/elfutils_0.189.bb
-rename to meta/recipes-devtools/elfutils/elfutils_0.190.bb
-index d8bf82b022..8657080830 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.189.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.190.bb
-@@ -16,7 +16,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0002-Fix-elf_cvt_gunhash-if-dest-and-src-are-same.patch \
-            file://0003-fixheadercheck.patch \
-            file://0006-Fix-build-on-aarch64-musl.patch \
--           file://0001-libasm-may-link-with-libbz2-if-found.patch \
-            file://0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-            file://ptest.patch \
-@@ -25,7 +24,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-            "
--SRC_URI[sha256sum] = "39bd8f1a338e2b7cd4abc3ff11a0eddc6e690f69578a57478d8179b4148708c8"
-+SRC_URI[sha256sum] = "8e00a3a9b5f04bc1dc273ae86281d2d26ed412020b391ffcc23198f10231d692"
- 
- inherit autotools gettext ptest pkgconfig
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch b/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
-index 6acc036406..b719efdf32 100644
---- a/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
-@@ -1,6 +1,6 @@
--From c5fb59ac0819b5b6d8244c613cbcf92cb09840c1 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Tue, 15 Aug 2017 17:10:57 +0800
-+From a54d70478157f3528c2ed73afd57020b59571fc7 Mon Sep 17 00:00:00 2001
-+From: Zang Ruochen <zangruochen@loongson.cn>
-+Date: Wed, 22 Nov 2023 00:52:53 -0800
- Subject: [PATCH] dso link change
- 
- Upstream-Status: Pending
-@@ -16,18 +16,18 @@ more details.
- Rebase to 0.170
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
-+Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
- ---
-  src/Makefile.am   | 2 +-
-  tests/Makefile.am | 2 +-
-  2 files changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/src/Makefile.am b/src/Makefile.am
--index 88d0ac8..c28d81f 100644
-+index d3d9d40..ea61616 100644
- --- a/src/Makefile.am
- +++ b/src/Makefile.am
- @@ -45,7 +45,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -ldl -lpthread
-- libelf = ../libelf/libelf.a -lz
-+ libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
-  else
-  libasm = ../libasm/libasm.so
- -libdw = ../libdw/libdw.so
-@@ -36,11 +36,11 @@ index 88d0ac8..c28d81f 100644
-  endif
-  libebl = ../libebl/libebl.a ../backends/libebl_backends.a ../libcpu/libcpu.a
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index c145720..72afd0e 100644
-+index 7fb8efb..71c1a61 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -554,7 +554,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl -lpthread
-- libelf = ../libelf/libelf.a -lz
-+@@ -680,7 +680,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl -lpthread
-+ libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
-  libasm = ../libasm/libasm.a
-  else
- -libdw = ../libdw/libdw.so
-@@ -48,3 +48,6 @@ index c145720..72afd0e 100644
-  libelf = ../libelf/libelf.so
-  libasm = ../libasm/libasm.so
-  endif
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch b/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
-deleted file mode 100644
-index 09c9d3ea24..0000000000
---- a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From ed1975deeaa47f98d212fd144c8bda075b1a5d36 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 4 Oct 2017 22:30:46 -0700
--Subject: [PATCH] libasm may link with libbz2 if found
--
--This can fail to link binaries like objdump
--where indirect libraries may be not found by linker
--
--| /mnt/a/oe/build/tmp/work/riscv64-bec-linux/elfutils/0.170-r0/recipe-sysroot/usr/lib/libbz2.so.1: error adding symbols: DSO missing from command line
--| collect2: error: ld returned 1 exit status
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- src/Makefile.am | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/Makefile.am b/src/Makefile.am
--index c28d81f..951e978 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -40,11 +40,11 @@ EXTRA_DIST += make-debug-archive.in
-- CLEANFILES += make-debug-archive
-- 
-- if BUILD_STATIC
---libasm = ../libasm/libasm.a
--+libasm = ../libasm/libasm.a $(zip_LIBS)
-- libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -ldl -lpthread
-- libelf = ../libelf/libelf.a -lz
-- else
---libasm = ../libasm/libasm.so
--+libasm = ../libasm/libasm.so $(zip_LIBS)
-- libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
-- libelf = ../libelf/libelf.so
-- endif
--- 
-2.25.1
+> +        # create a temporary file for the WKS content
+> +        with NamedTemporaryFile("w", suffix=".wks") as wks:
+> +            wks.write(
+> +                'part --source bootimg-efi '
+> +                '--sourceparams="loader=grub-efi,install-kernel-into-boot-dir=false" '
+> +                '--label boot --active\n'
+> +            )
+> +            wks.flush()
+> +            # create a temporary directory to extract the disk image to
+> +            with TemporaryDirectory() as tmpdir:
+> +                img = 'core-image-minimal'
+> +                # build the image using the WKS file
+> +                cmd = "wic create %s -e %s -o %s" % (
+> +                    wks.name, img, self.resultdir)
+> +                runCmd(cmd)
+> +                wksname = os.path.splitext(os.path.basename(wks.name))[0]
+> +                out = glob(os.path.join(
+> +                    self.resultdir, "%s-*.direct" % wksname))
+> +                self.assertEqual(1, len(out))
+> +                # extract the content of the disk image to the temporary directory
+> +                cmd = "wic cp %s:1 %s" % (out[0], tmpdir)
+> +                runCmd(cmd)
+> +                # check if the kernel is installed or not
+> +                kimgtype = get_bb_var('KERNEL_IMAGETYPE', img)
+> +                for file in os.listdir(tmpdir):
+> +                    if file == kimgtype:
+> +                        raise AssertionError(
+> +                            "The kernel image '{}' was found in the partition".format(kimgtype)
+> +                        )
+> +
+> +    def test_kernel_install(self):
+> +        """Test the installation of the kernel to the boot directory in the wic plugin"""
+> +        # Build the mtools package to support FAT filesystem handling
+> +        bitbake("mtools")
 
+Probably 'bitbake("mtools-native")'
+
+> +        # create a temporary file for the WKS content
+> +        with NamedTemporaryFile("w", suffix=".wks") as wks:
+> +            wks.write(
+> +                'part --source bootimg-efi '
+> +                '--sourceparams="loader=grub-efi,install-kernel-into-boot-dir=true" '
+> +                '--label boot --active\n'
+> +            )
+> +            wks.flush()
+> +            # create a temporary directory to extract the disk image to
+> +            with TemporaryDirectory() as tmpdir:
+> +                img = 'core-image-minimal'
+> +                # build the image using the WKS file
+> +                cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
+> +                runCmd(cmd)
+> +                wksname = os.path.splitext(os.path.basename(wks.name))[0]
+> +                out = glob(os.path.join(self.resultdir, "%s-*.direct" % wksname))
+> +                self.assertEqual(1, len(out))
+> +                # extract the content of the disk image to the temporary directory
+> +                cmd = "wic cp %s:1 %s" % (out[0], tmpdir)
+> +                runCmd(cmd)
+> +                # check if the kernel is installed or not
+> +                kimgtype = get_bb_var('KERNEL_IMAGETYPE', img)
+> +                found = False
+> +                for file in os.listdir(tmpdir):
+> +                    if file == kimgtype:
+> +                        found = True
+> +                        break
+> +                self.assertTrue(
+> +                    found, "The kernel image '{}' was not found in the boot partition".format(kimgtype)
+> +                )
+> +
+>       def test_build_image_name(self):
+>           """Test wic create wictestdisk --image-name=core-image-minimal"""
+>           cmd = "wic create wictestdisk --image-name=core-image-minimal -o %s" % self.resultdir
+
+Regards,
+Christian
 
