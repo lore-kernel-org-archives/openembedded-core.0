@@ -1,90 +1,196 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <zangruochen@loongson.cn>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0270BC61D9B
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:57:57 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.15864.1700647068304579162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03D17C61D9C
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 09:59:47 +0000 (UTC)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by mx.groups.io with SMTP id smtpd.web10.15888.1700647181613593958
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 01:57:48 -0800
+ Wed, 22 Nov 2023 01:59:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=m95/sJ3r;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c503da4fd6so82390301fa.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 01:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700647066; x=1701251866; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EU/DLlcVeefFqeEuGmPhBkbNalygVjBEP+brTL3WAlw=;
-        b=m95/sJ3r8gHDrUrrbR8sOJ+DDX1yQ/DWAOxQ5qBItzsdaV4mSlIC6Y1uEHW7FIwsMm
-         b0Kue7CWGmJGRYwiZNROx1CruVUDy/WHRT1zxcdGkXOPeXeZA89WlmUUx0CvtGKrENFY
-         tK84VQm2lCttWGhfa7EarPLGXRTzxxNe81IhtZZvizEcRzB6jLCfAVSR3ym/gVN/m/F/
-         TeY2lF8jiRchu54r2t7T6CoQMZKqiMWNn0/8Fo5yAPeqjYcYG5XCqRxtGkRbauZ2App2
-         yVyadRlk/b51ZkBav/H6iipC/JyV87b8CmsEQzx6N5ok2fxRYDRtW4O3NYJS/Obb6Naz
-         da3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700647066; x=1701251866;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EU/DLlcVeefFqeEuGmPhBkbNalygVjBEP+brTL3WAlw=;
-        b=t5PnbiBDtEoR9LMCvpXA48k47KMSl2y88YCxH96bUR+8uwq1zWDEAKlYGWYdopFI3R
-         KDPKKcYfBA4Qvt0kKdqZjhwxUVv0pRXFFrRY/5G/UudWCgPl0ai/f1fxzbjKgGeUZJWq
-         U7DDhkiyVCIZnM7p8PZfqgDaCXHMnGxXOK6mYkD/aNCMs46yLd515ZtDC4AtxmxSOuIF
-         PpRTW5Sp2L+5Os1pdB/S5iZOT4pl1wlHEQOI38e1tD7PiSizSAjlfk0i93hQhORv5YiF
-         ZIM4gXPKY6vNK3KWTYOti4Sx6Ie6s7ijNp0umtMzI9VDamfKd+WKWHMQXGdiE3Szr/O1
-         UlTA==
-X-Gm-Message-State: AOJu0YwAJU9oaoTasyNjf3PlWpWgKqVGV1kk/TcImB4TB7faqgoYdWz8
-	xIgAmmdXN6daygE2pzeG1pzJoyB2bJ7vjSzArKo=
-X-Google-Smtp-Source: AGHT+IH9k3i9s4tje9s8vEtyjm/0RKItkPHGELQ0rHP9apm+bPuegJPurjd6qm8s+WQhbrgwmgXIx62gOePUQharN+k=
-X-Received: by 2002:a2e:9dc8:0:b0:2c6:f16e:ab30 with SMTP id
- x8-20020a2e9dc8000000b002c6f16eab30mr1006240ljj.24.1700647066018; Wed, 22 Nov
- 2023 01:57:46 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: zangruochen@loongson.cn)
+Received: from loongson.cn (unknown [153.35.147.217])
+	by gateway (Coremail) with SMTP id _____8BxbOoH0V1l_+U7AA--.25519S3;
+	Wed, 22 Nov 2023 17:59:35 +0800 (CST)
+Received: from ubuntu.localdomain (unknown [153.35.147.217])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxO9wE0V1lVGVJAA--.30011S2;
+	Wed, 22 Nov 2023 17:59:32 +0800 (CST)
+From: zangruochen@loongson.cn
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] elfutils: upgrade 0.189 -> 0.190
+Date: Wed, 22 Nov 2023 01:59:31 -0800
+Message-Id: <20231122095931.1866607-1-zangruochen@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CANNYZj9AN=Eq0DKPeGS-N-XP2=OitMzW6sOcBpH2MUNzugY1hQ@mail.gmail.com>
- <31510.1700646535220677658@lists.openembedded.org>
-In-Reply-To: <31510.1700646535220677658@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 22 Nov 2023 10:57:34 +0100
-Message-ID: <CANNYZj-2mr2BwjF4weTFfSXrDhhunvFrqxSQY+k_BQsLxq1QSg@mail.gmail.com>
-Subject: Re: Private: Re: [OE-core] [Kirkstone] joe editor broken with current ncurses
-To: tobias.jakobi@compleo-cs.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8CxO9wE0V1lVGVJAA--.30011S2
+X-CM-SenderInfo: p2dqw2xxrfxv3q6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBj93XoW3WFy3ZryDGw45CFy8GFyUurX_yoWxGr1rpF
+	ZakFyfGw48Ja1Iqr97CF1rXw40qa9Fvas8XFyxCrWj9rWUZw15Wr43tFyIqFZ8XFyDuFW8
+	ZrWkGFy5tw4DuagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lw4CEc2x0rV
+	AKj4xxMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+	wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUJVWUXwCIc4
+	0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+	xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+	1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUFGYLDUUU
+	U
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:57:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191047
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 09:59:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191048
 
-It's not clear to me: do you also see the issues with master? Can you
-try that please?
+From: Zang Ruochen <zangruochen@loongson.cn>
 
-Please keep all responses on the mailing list.
+The following patches have been fixed:
+0001-libasm-may-link-with-libbz2-if-found.patch
 
+Refresh the following patch:
+0001-dso-link-change.patch
 
-Alex
+Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
+---
+ .../{elfutils_0.189.bb => elfutils_0.190.bb}  |  3 +-
+ .../elfutils/files/0001-dso-link-change.patch | 21 ++++++-----
+ ...libasm-may-link-with-libbz2-if-found.patch | 36 -------------------
+ 3 files changed, 13 insertions(+), 47 deletions(-)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.189.bb => elfutils_0.190.bb} (98%)
+ delete mode 100644 meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
 
-On Wed, 22 Nov 2023 at 10:48, <tobias.jakobi@compleo-cs.com> wrote:
->
-> Hello Alex,
->
-> thanks for the suggestion. I've imported the ncurses recipe from oe-core/=
-master, but the problem remained. It turns out that the CVE patch is what i=
-s causing the problems here. I read through the Gentoo bugreports again, an=
-d noticed that one user reported p20230918 to be working. Checking the ncur=
-ses commit log it seems like p20230918 includes a fix for the CVE, so addit=
-ional patching is unnecessary.
->
-> So my current approach is to use p20230918 (https://github.com/ThomasDick=
-ey/ncurses-snapshots/releases/tag/v6_4_20230918), but drop the CVE patch th=
-at the recipe is master applies. This seems to work, i.e. joe and tmux are =
-both functional again.
->
-> Sadly I have no idea which changes one would need to backport to the 6.3 =
-version to fix the issue... :(
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.189.bb b/meta/recipes-devtools/elfutils/elfutils_0.190.bb
+similarity index 98%
+rename from meta/recipes-devtools/elfutils/elfutils_0.189.bb
+rename to meta/recipes-devtools/elfutils/elfutils_0.190.bb
+index d8bf82b022..8657080830 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.189.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.190.bb
+@@ -16,7 +16,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://0002-Fix-elf_cvt_gunhash-if-dest-and-src-are-same.patch \
+            file://0003-fixheadercheck.patch \
+            file://0006-Fix-build-on-aarch64-musl.patch \
+-           file://0001-libasm-may-link-with-libbz2-if-found.patch \
+            file://0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch \
+            file://0001-skip-the-test-when-gcc-not-deployed.patch \
+            file://ptest.patch \
+@@ -25,7 +24,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+ SRC_URI:append:libc-musl = " \
+            file://0003-musl-utils.patch \
+            "
+-SRC_URI[sha256sum] = "39bd8f1a338e2b7cd4abc3ff11a0eddc6e690f69578a57478d8179b4148708c8"
++SRC_URI[sha256sum] = "8e00a3a9b5f04bc1dc273ae86281d2d26ed412020b391ffcc23198f10231d692"
+ 
+ inherit autotools gettext ptest pkgconfig
+ 
+diff --git a/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch b/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
+index 6acc036406..b719efdf32 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
+@@ -1,6 +1,6 @@
+-From c5fb59ac0819b5b6d8244c613cbcf92cb09840c1 Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Tue, 15 Aug 2017 17:10:57 +0800
++From a54d70478157f3528c2ed73afd57020b59571fc7 Mon Sep 17 00:00:00 2001
++From: Zang Ruochen <zangruochen@loongson.cn>
++Date: Wed, 22 Nov 2023 00:52:53 -0800
+ Subject: [PATCH] dso link change
+ 
+ Upstream-Status: Pending
+@@ -16,18 +16,18 @@ more details.
+ Rebase to 0.170
+ 
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
++Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
+ ---
+  src/Makefile.am   | 2 +-
+  tests/Makefile.am | 2 +-
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/src/Makefile.am b/src/Makefile.am
+-index 88d0ac8..c28d81f 100644
++index d3d9d40..ea61616 100644
+ --- a/src/Makefile.am
+ +++ b/src/Makefile.am
+ @@ -45,7 +45,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -ldl -lpthread
+- libelf = ../libelf/libelf.a -lz
++ libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
+  else
+  libasm = ../libasm/libasm.so
+ -libdw = ../libdw/libdw.so
+@@ -36,11 +36,11 @@ index 88d0ac8..c28d81f 100644
+  endif
+  libebl = ../libebl/libebl.a ../backends/libebl_backends.a ../libcpu/libcpu.a
+ diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index c145720..72afd0e 100644
++index 7fb8efb..71c1a61 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+-@@ -554,7 +554,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl -lpthread
+- libelf = ../libelf/libelf.a -lz
++@@ -680,7 +680,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl -lpthread
++ libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
+  libasm = ../libasm/libasm.a
+  else
+ -libdw = ../libdw/libdw.so
+@@ -48,3 +48,6 @@ index c145720..72afd0e 100644
+  libelf = ../libelf/libelf.so
+  libasm = ../libasm/libasm.so
+  endif
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch b/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
+deleted file mode 100644
+index 09c9d3ea24..0000000000
+--- a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From ed1975deeaa47f98d212fd144c8bda075b1a5d36 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 4 Oct 2017 22:30:46 -0700
+-Subject: [PATCH] libasm may link with libbz2 if found
+-
+-This can fail to link binaries like objdump
+-where indirect libraries may be not found by linker
+-
+-| /mnt/a/oe/build/tmp/work/riscv64-bec-linux/elfutils/0.170-r0/recipe-sysroot/usr/lib/libbz2.so.1: error adding symbols: DSO missing from command line
+-| collect2: error: ld returned 1 exit status
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+----
+- src/Makefile.am | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/Makefile.am b/src/Makefile.am
+-index c28d81f..951e978 100644
+---- a/src/Makefile.am
+-+++ b/src/Makefile.am
+-@@ -40,11 +40,11 @@ EXTRA_DIST += make-debug-archive.in
+- CLEANFILES += make-debug-archive
+- 
+- if BUILD_STATIC
+--libasm = ../libasm/libasm.a
+-+libasm = ../libasm/libasm.a $(zip_LIBS)
+- libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -ldl -lpthread
+- libelf = ../libelf/libelf.a -lz
+- else
+--libasm = ../libasm/libasm.so
+-+libasm = ../libasm/libasm.so $(zip_LIBS)
+- libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
+- libelf = ../libelf/libelf.so
+- endif
+-- 
+2.25.1
+
 
