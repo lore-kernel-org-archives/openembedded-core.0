@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4B6C61D99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56FC4C61D9A
 	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 02:31:34 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.10880.1700620286752575416
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.10874.1700620290150308183
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Nov 2023 18:31:26 -0800
+ Tue, 21 Nov 2023 18:31:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=f8uo0ZmB;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-53fa455cd94so4191732a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 18:31:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HU8EQsdK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6cb7951d713so297668b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 18:31:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700620285; x=1701225085; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700620289; x=1701225089; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/HrqdG9xORZbbYqxsmNruMXBrHYi8m9uxkXmYMWa4LM=;
-        b=f8uo0ZmBCc2zhE/u7GxF/76aW1mQgg+3pShcILXmKVgQp7Ypm4WmWZ6mVN1pgqbCfm
-         eJbAVF94hxYhLYKV3q5xMbqcPp7Bo9ZPC/a1WpJsacwL99EXp1pc4xEpd27Zcny0jni2
-         ohwx8hRIOT36+ESKVZJbUgn9VdMpo6YT9n+OEUCw5xhf/XUH6ao+MxafCPk7dgP7g3DX
-         F6gIRNlO0CjDoYhSpWQ5Uv4TuG2NEuhIxzRvwdJR2c+/Cw7kBg+FESH3tT9/OOoUe0Ul
-         lsDC08nEJ9ZwCREdiGV2FCD/8GfBOoVCfIgwLZnQypItp0bISzN89X4B6dGtjhBKgWPM
-         sJ0w==
+        bh=IOeLmRyCeb1rC2JyrcEp/dp089/WafZNyh9IN0sPjZs=;
+        b=HU8EQsdKakDbimuwBNc6EHNaYOoxyi/HjUzdRCp5peJj9E8M3m+FWLS8nX4BxHJxmc
+         Fl1zY5lg4t2fKRcPYMCkqvDKucTVSO0BLazQeLqKFPYePjE06T7xFK07obRJnqifH4To
+         Bj9Mp3MFjlxinQ97gMGfKv1WdpjPhwrKU+xqtpl8rvSSeRGev8QHf+mUD96JI+YFbWkV
+         SBnd74NJxPfAJQZBvsWPWQKYSxTJTVuKA5HnbCUCAtNAtf+QXhGYFzuysBJ5RoKRTEdP
+         5Sfflmb+/FwTgza/SHZbnKWrzHy1IeHGdeWtdVhyy02kdP+oO+7DN0/Gr8TZCUfGUYjv
+         I6jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700620285; x=1701225085;
+        d=1e100.net; s=20230601; t=1700620289; x=1701225089;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/HrqdG9xORZbbYqxsmNruMXBrHYi8m9uxkXmYMWa4LM=;
-        b=arWAIetRQdWRNmw9qha0Hw+zXmrWPpPVjDB4izACVVydjoHm3G6BqQy12V6UNZSbfL
-         5PxM5JaH/WSBd9px1BNS5hcytrGA6HVK/RB30f+D2rME7pGwF7YI5o3INTfrTsIN7779
-         QrXkzM6VKHbUzX5UMS2dvh38PZYxYMb1RYoClrMxaksGJjHu5TjTsu8S98WzdZUBLioi
-         9giE9SCXzejXM7mEYbHQXelnyrGubfAjgK1jK7qoHPJixLCu58SnVG4PpvN/ONWevJq7
-         LqrDI4YF4/WrBq1rTw2bYfv29jiU3JmcpoLpH8nkcFkcOS7hSBRm6BBYUiZdzwZcSW8m
-         OZlA==
-X-Gm-Message-State: AOJu0YwnMoPjQKzkqyhorVPEDpn4zl6We+C8r8MapDm9AXwlxOxqP1Xe
-	75+iFyge5SdA11Fy3wIp7MeTOlyAp7Mld2BE7C/ZyQ==
-X-Google-Smtp-Source: AGHT+IHt52vBDTYxTYCY4BA3gYJFCSVFhw+mWVuZ76RIZVHdbutxy28OMsdEKYFbbdMy1G5ltuSdVA==
-X-Received: by 2002:a05:6a20:e104:b0:18a:e455:a3ae with SMTP id kr4-20020a056a20e10400b0018ae455a3aemr1191818pzb.40.1700620285312;
-        Tue, 21 Nov 2023 18:31:25 -0800 (PST)
+        bh=IOeLmRyCeb1rC2JyrcEp/dp089/WafZNyh9IN0sPjZs=;
+        b=G+J2uuswQGdbnBaU5MwIgjeN/FZBesSlXKfK6NPCjIj5i9qxgdyrY2JkZ9z76tWPl/
+         yBD4LpTT2iULTVacibK7AL2P5DlM90tHDKJSHgpjFeXSyJfAxnHWMVK20yyiuAoB1C5Z
+         kxAG8k13GWxLrCcsWpp+ggGt1oN/8Hd4ijXLmu9MA0piNw7tMLX7mEbKZVGM/JunbaGb
+         ke4Iyll8uj21DPhdNMylJkd87v2nKvoe85JpTe/4u/Mezfbdg+sWn+9DKksSslNmUXM1
+         lyI7aeRPEeMRPHs8ORAiruree+vsnfBqnDQMzMRwTAHCUGVmU91Fnp2y5rQyvGz5/MaO
+         bcqQ==
+X-Gm-Message-State: AOJu0YytXNl0qHEe8JsseUQ5vvlvMLT4E3n/YGVWKGWlJgd3Ysvr0yQM
+	8+nMhltqzqDAAHcHSTWYoGavjgzrdeYHhuQT3vAXKg==
+X-Google-Smtp-Source: AGHT+IF5mfwWOnsBbbNcl+O/gMz6y77kk5NGqrlO122qQDestVdub0D5BEL0XJvLkXD6+KFKK4yEmw==
+X-Received: by 2002:a05:6a00:2d17:b0:6cb:536b:1b3 with SMTP id fa23-20020a056a002d1700b006cb536b01b3mr7222893pfb.8.1700620288761;
+        Tue, 21 Nov 2023 18:31:28 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id d11-20020a056a00198b00b006cb9a43ae4esm4384182pfl.215.2023.11.21.18.31.24
+        by smtp.gmail.com with ESMTPSA id d11-20020a056a00198b00b006cb9a43ae4esm4384182pfl.215.2023.11.21.18.31.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 18:31:25 -0800 (PST)
+        Tue, 21 Nov 2023 18:31:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/16] avahi: fix CVE-2023-38471
-Date: Tue, 21 Nov 2023 16:31:01 -1000
-Message-Id: <f4286c3a3070fd50e334a48f1b7c068d34747115.1700620126.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 06/16] avahi: fix CVE-2023-38469
+Date: Tue, 21 Nov 2023 16:31:03 -1000
+Message-Id: <8bd1980fd4175be3dd68987f8c5653409b76f544.1700620126.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700620126.git.steve@sakoman.com>
 References: <cover.1700620126.git.steve@sakoman.com>
@@ -61,110 +61,84 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 02:31:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191003
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191005
 
 From: Meenali Gupta <meenali.gupta@windriver.com>
 
-A vulnerability was found in Avahi. A reachable assertion exists
-in the dbus_set_host_name function.
+A vulnerability was found in Avahi, where a reachable assertion
+exists in avahi_dns_packet_append_record.
 
 Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  meta/recipes-connectivity/avahi/avahi_0.8.bb  |  1 +
- .../avahi/files/CVE-2023-38471.patch          | 73 +++++++++++++++++++
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38471.patch
+ .../avahi/files/CVE-2023-38469.patch          | 47 +++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38469.patch
 
 diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index b5c966c102..ac04b42614 100644
+index a2ad9058d6..c733f94e42 100644
 --- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
 +++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -26,6 +26,7 @@ SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}
-            file://0001-Fix-opening-etc-resolv.conf-error.patch \
-            file://handle-hup.patch \
+@@ -28,6 +28,7 @@ SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}
             file://local-ping.patch \
-+           file://CVE-2023-38471.patch \
+            file://CVE-2023-38471.patch \
+            file://CVE-2023-38470.patch \
++           file://CVE-2023-38469.patch \
             "
  
  UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471.patch
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469.patch
 new file mode 100644
-index 0000000000..40b61b71dd
+index 0000000000..f0f6c4bf7b
 --- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38471.patch
-@@ -0,0 +1,73 @@
-+From 9cd4ea89b3ac89b7bb0196fda1aa88cd51b106b6 Mon Sep 17 00:00:00 2001
-+From: Michal Sekletar <msekleta@redhat.com>
-+Date: Mon, 23 Oct 2023 13:38:35 +0200
-+Subject: [PATCH] core: extract host name using avahi_unescape_label()
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38469.patch
+@@ -0,0 +1,47 @@
++From a337a1ba7d15853fb56deef1f464529af6e3a1cf Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Mon, 23 Oct 2023 20:29:31 +0000
++Subject: [PATCH]core: reject overly long TXT resource records
++Closes https://github.com/lathiat/avahi/issues/455
 +
-+Previously we could create invalid escape sequence when we split the
-+string on dot. For example, from valid host name "foo\\.bar" we have
-+created invalid name "foo\\" and tried to set that as the host name
-+which crashed the daemon.
-+
-+Fixes #453
-+
-+Upstream-Status: Backport [https://github.com/lathiat/avahi/commit/894f085f402e023a98cbb6f5a3d117bd88d93b09]
-+CVE: CVE-2023-38471
++Upstream-Status: Backport [https://github.com/lathiat/avahi/pull/500/commits/a337a1ba7d15853fb56deef1f464529af6e3a1cf]
++CVE: CVE-2023-38469
 +
 +Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
 +---
-+ avahi-core/server.c | 27 +++++++++++++++++++++------
-+ 1 file changed, 21 insertions(+), 6 deletions(-)
++ avahi-core/rr.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
 +
-+diff --git a/avahi-core/server.c b/avahi-core/server.c
-+index e507750..40f1d68 100644
-+--- a/avahi-core/server.c
-++++ b/avahi-core/server.c
-+@@ -1295,7 +1295,11 @@ static void update_fqdn(AvahiServer *s) {
-+ }
++diff --git a/avahi-core/rr.c b/avahi-core/rr.c
++index 7fa0bee..b03a24c 100644
++--- a/avahi-core/rr.c
+++++ b/avahi-core/rr.c
++@@ -32,6 +32,7 @@
++ #include <avahi-common/malloc.h>
++ #include <avahi-common/defs.h>
 +
-+ int avahi_server_set_host_name(AvahiServer *s, const char *host_name) {
-+-    char *hn = NULL;
-++    char label_escaped[AVAHI_LABEL_MAX*4+1];
-++    char label[AVAHI_LABEL_MAX];
-++    char *hn = NULL, *h;
-++    size_t len;
+++#include "dns.h"
++ #include "rr.h"
++ #include "log.h"
++ #include "util.h"
++@@ -688,11 +689,17 @@ int avahi_record_is_valid(AvahiRecord *r) {
++         case AVAHI_DNS_TYPE_TXT: {
++
++             AvahiStringList *strlst;
+++            size_t used = 0;
++
++-            for (strlst = r->data.txt.string_list; strlst; strlst = strlst->next)
+++            for (strlst = r->data.txt.string_list; strlst; strlst = strlst->next) {
++                 if (strlst->size > 255 || strlst->size <= 0)
++                     return 0;
++
+++                used += 1+strlst->size;
+++                if (used > AVAHI_DNS_RDATA_MAX)
+++                    return 0;
+++            }
 ++
-+     assert(s);
-+
-+     AVAHI_CHECK_VALIDITY(s, !host_name || avahi_is_valid_host_name(host_name), AVAHI_ERR_INVALID_HOST_NAME);
-+@@ -1305,17 +1309,28 @@ int avahi_server_set_host_name(AvahiServer *s, const char *host_name) {
-+     else
-+         hn = avahi_normalize_name_strdup(host_name);
-+
-+-    hn[strcspn(hn, ".")] = 0;
-++    h = hn;
-++    if (!avahi_unescape_label((const char **)&hn, label, sizeof(label))) {
-++        avahi_free(h);
-++        return AVAHI_ERR_INVALID_HOST_NAME;
-++    }
-++
-++    avahi_free(h);
-++
-++    h = label_escaped;
-++    len = sizeof(label_escaped);
-++    if (!avahi_escape_label(label, strlen(label), &h, &len))
-++        return AVAHI_ERR_INVALID_HOST_NAME;
-+
-+-    if (avahi_domain_equal(s->host_name, hn) && s->state != AVAHI_SERVER_COLLISION) {
-+-        avahi_free(hn);
-++    if (avahi_domain_equal(s->host_name, label_escaped) && s->state != AVAHI_SERVER_COLLISION)
-+         return avahi_server_set_errno(s, AVAHI_ERR_NO_CHANGE);
-+-    }
-+
-+     withdraw_host_rrs(s);
-+
-+     avahi_free(s->host_name);
-+-    s->host_name = hn;
-++    s->host_name = avahi_strdup(label_escaped);
-++    if (!s->host_name)
-++        return AVAHI_ERR_NO_MEMORY;
-+
-+     update_fqdn(s);
-+
++             return 1;
++         }
++     }
 +--
 +2.40.0
 -- 
