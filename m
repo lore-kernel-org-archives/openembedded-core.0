@@ -2,56 +2,56 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 407E7C61D97
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EEA6C61D9D
 	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 12:45:18 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.18523.1700657117446179213
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.18522.1700657115988276160
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 04:45:17 -0800
+ Wed, 22 Nov 2023 04:45:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BXnGVnYI;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5446c9f3a77so9590472a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 04:45:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=a5y8GFaN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5401bab7525so9636190a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 04:45:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700657116; x=1701261916; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1700657114; x=1701261914; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eGvOG3h9XoEJTOJuOYZwtMnrpSF7SmfcXtkZ0RRfnZc=;
-        b=BXnGVnYIqAHKarvJkGEGuUSh7sHvLuufEFzPmyAwpTF5OEE5gTCPQin5NPUrYd3QJM
-         wvEd0QXUEhihAmbnAXDctaZHYn/DGwr6xOKrMr5T8EsWRBd1R8ccFspf1ZVQ+M0mQkgr
-         WRq+D+2MFgK7TJMrQuqn+k0UNJU1Uv1KvmUABiA9N5YA8gPP7pf2ih+NFW615EGJQUnI
-         qrbG1mlcUFVg+CMZIUDp1iSa0wiPx2rUv2f2UG1pRHGkXE6xXeh5CvKrg4lHuYxeoqLh
-         V7FMwvGEbCsaggK4df9z0TfuVjRDMWZvlz1ROhvS+GvErX351fponm82WfU61ZRXu4nd
-         Twjg==
+        bh=lMrcdPAoeMlhwviv1Hn6mOdSBQI8As2RRxLNv+v+uXs=;
+        b=a5y8GFaNteUDOgG+2AfNR4DNFaf3qLlb/eJmAVerRpvIdiOoVKpbTgRjMilE2JVmcw
+         ptRd3iThbcHoljLaTe5HTm3/cLp9EAej4Pke5LVBtHFnDcgc+gjn9PEAQGG5QhENgRZ+
+         OBY8nmbCejzr27MorrjyztY4vEYEB4yxHDL6OdeS/NHxdhJzF060u9vwnx/ptvJWTAAU
+         WGCqBoYPOmmv8HfxE5YMqGoDAM7sDfXfYGoVRdjZstbjf13gNlgJexU4MKvuM3tFhIDh
+         AYkBcNNHX26ab+D7r4p2P4wtclZT2zMiBdeLgsLwx7kNAMfxoHTp+TbcTB06ecoILjWr
+         0h7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700657116; x=1701261916;
+        d=1e100.net; s=20230601; t=1700657114; x=1701261914;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eGvOG3h9XoEJTOJuOYZwtMnrpSF7SmfcXtkZ0RRfnZc=;
-        b=DswoOGnZEmmvmyh7M+mBxBYZHGrkWIINSE8M0CMiwpEUtuqMFy4RN1d9kNelqOBJ8i
-         zUnx121ZsSTw0A1EgCt6ud6y/qndikFw32hHJq13N/FyZl4xsF7G9ZpIBuRgX70DUoKd
-         hXTqknB95/WWhLYz5j0yKXf9xYtVv1LvN71+rBMMdTVAD9szW7jaUD4el/kCa2kDZq34
-         Xk5LH/LQSj8XmoHNi6vhZIhcM5gCFD/fRpBACln14kRSIE1+6JIqnsJseM3XqU26aw9C
-         6pkXNVYn/XNIt08A0uZJIgmOLMQ65ZNYx4brdD77wkVSt/qUjtul6n60K3TitjJkv1vg
-         DikQ==
-X-Gm-Message-State: AOJu0YwaW2KncvHA/GNARS0N7jPTtNzpopXYID9hwGHnKVeQiXZ8fgfa
-	4Dp1/D8hewjRVwuQIV+oDzs2l6tyQkw=
-X-Google-Smtp-Source: AGHT+IH892urY4zI7XHA8kDlFJ/RlH5JrwNcrpKFjOaFQWrjdCXNRG6f8HS06Vsu6VIf3pK94bG8qA==
-X-Received: by 2002:a17:906:14e:b0:a00:152a:1ec4 with SMTP id 14-20020a170906014e00b00a00152a1ec4mr1852375ejh.11.1700657115896;
-        Wed, 22 Nov 2023 04:45:15 -0800 (PST)
+        bh=lMrcdPAoeMlhwviv1Hn6mOdSBQI8As2RRxLNv+v+uXs=;
+        b=GumaMNfmVnNjdtwEAl69WjXBIMdSP88Pvn2m1qYVDi/pLxY+JYgdnC4xpHwkI/ZtAI
+         Gl6zumUAvqITcjJnBOKwYVlN1GixLOrgA/i/MeeR2wVDAsje6lowKVlS+rcgn6XaCfeH
+         yuL2Vzg/xZYgWNj6vulYe/p93bT2vCv2K69cGnc5yxD8VwPrU0m4ue8j0E7mvMje9JAC
+         gS/0Q7h2KhdIpzDPOkoGo7wtnhD8yDNTnzyKl0IfIBeoYWOZD955KTwbNhv7/OTa9QYd
+         NMIQH6do7egHhcvUFTL69D8TWTS/gNhB0y/K1sDXHzKUKHI0k2agt13zqHpt/mL63vIt
+         ZV/Q==
+X-Gm-Message-State: AOJu0Yy6Rvj8tLme0V4tkECIHcV8vyxDj6Bm5h5CNNoTf+A/jmVQtboY
+	wBZRhLbHa2DDPPwFX74s0rXzBaQyBxk=
+X-Google-Smtp-Source: AGHT+IH2Qi0T+bj12ZlldP0lFAALeerCZjKh6ELzie2smMgtKvyzP2dKbrLaklmT/192wIf1l7uNbw==
+X-Received: by 2002:aa7:d3c6:0:b0:543:caf4:e5bc with SMTP id o6-20020aa7d3c6000000b00543caf4e5bcmr1811994edr.1.1700657114326;
+        Wed, 22 Nov 2023 04:45:14 -0800 (PST)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id q22-20020a1709066ad600b009e776cc92dcsm6599449ejs.181.2023.11.22.04.45.15
+        by smtp.gmail.com with ESMTPSA id u10-20020a056402110a00b005487c48d9ebsm4722582edv.57.2023.11.22.04.45.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 04:45:15 -0800 (PST)
+        Wed, 22 Nov 2023 04:45:14 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/21] oeqa: bbtests.BitbakeTests.test_image_manifest: use just isfile() instead of islink()
-Date: Wed, 22 Nov 2023 13:44:40 +0100
-Message-ID: <1d362851c180f90ace447cf0364db3d11cfb01c9.1700600804.git.martin.jansa@gmail.com>
+Subject: [PATCH 08/21] image.bbclass: rename create_symlinks to create_hardlinks
+Date: Wed, 22 Nov 2023 13:44:38 +0100
+Message-ID: <167efa2f229459d7b6b9334ee1c740d9413664ec.1700600804.git.martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1700600804.git.martin.jansa@gmail.com>
 References: <cover.1700600804.git.martin.jansa@gmail.com>
@@ -61,38 +61,56 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 12:45:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191087
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191085
 
-* with [YOCTO #12937] changes the manifest is hardlink not symlink
-
-* fixes:
-  2023-11-16 00:16:33,967 - oe-selftest - INFO - test_image_manifest (bbtests.BitbakeTests.test_image_manifest)
-  2023-11-16 00:19:05,060 - oe-selftest - INFO -  ... FAIL
-  2023-11-16 00:19:05,060 - oe-selftest - INFO - Traceback (most recent call last):
-    File "/OE/build/poky/meta/lib/oeqa/selftest/cases/bbtests.py", line 139, in test_image_manifest
-      self.assertTrue(os.path.islink(manifest), msg="No manifest file created for image. It should have been created in %s" % manifest)
-  AssertionError: False is not true : No manifest file created for image. It should have been created in /OE/build/poky/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs--1.0-r0-20110405230000.manifest
+* to make it more clear what this postfunc does now
 
 [YOCTO #12937]
 
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/bbtests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/image-live.bbclass | 2 +-
+ meta/classes-recipe/image.bbclass      | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index d242352ea2..4276a9ba91 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -136,7 +136,7 @@ class BitbakeTests(OESelftestTestCase):
-         deploydir = bb_vars["DEPLOY_DIR_IMAGE"]
-         imagename = bb_vars["IMAGE_LINK_NAME"]
-         manifest = os.path.join(deploydir, imagename + ".manifest")
--        self.assertTrue(os.path.islink(manifest), msg="No manifest file created for image. It should have been created in %s" % manifest)
-+        self.assertTrue(os.path.isfile(manifest), msg="No manifest file created for image. It should have been created in %s" % manifest)
+diff --git a/meta/classes-recipe/image-live.bbclass b/meta/classes-recipe/image-live.bbclass
+index 95dd44a8c0..4d926cb7a7 100644
+--- a/meta/classes-recipe/image-live.bbclass
++++ b/meta/classes-recipe/image-live.bbclass
+@@ -257,7 +257,7 @@ python do_bootimg() {
+         bb.build.exec_func('build_efi_cfg', d)
+     bb.build.exec_func('build_hddimg', d)
+     bb.build.exec_func('build_iso', d)
+-    bb.build.exec_func('create_symlinks', d)
++    bb.build.exec_func('create_hardlinks', d)
+ }
+ do_bootimg[subimages] = "hddimg iso"
  
-     def test_invalid_recipe_src_uri(self):
-         data = 'SRC_URI = "file://invalid"'
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index 48dc70b8fc..aa24a92245 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -508,7 +508,7 @@ python () {
+         d.setVarFlag(task, 'fakeroot', '1')
+ 
+         d.appendVarFlag(task, 'prefuncs', ' ' + debug + ' set_image_size')
+-        d.prependVarFlag(task, 'postfuncs', 'create_symlinks ')
++        d.prependVarFlag(task, 'postfuncs', 'create_hardlinks ')
+         d.appendVarFlag(task, 'subimages', ' ' + ' '.join(subimages))
+         d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
+         d.appendVarFlag(task, 'vardepsexclude', ' DATETIME DATE ' + ' '.join(vardepsexclude))
+@@ -584,9 +584,9 @@ python set_image_size () {
+ }
+ 
+ #
+-# Create symlinks to the newly created image
++# Create hardlinks to the newly created image
+ #
+-python create_symlinks() {
++python create_hardlinks() {
+ 
+     deploy_dir = d.getVar('IMGDEPLOYDIR')
+     img_name = d.getVar('IMAGE_NAME')
 -- 
 2.43.0
 
