@@ -1,107 +1,99 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF52C61D9B
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 12:35:38 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.18353.1700656537224294734
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 407E7C61D97
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 12:45:18 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web10.18523.1700657117446179213
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 04:35:37 -0800
+ Wed, 22 Nov 2023 04:45:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EzcXGMK+;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-9ff26d7c0a6so434538866b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 04:35:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BXnGVnYI;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5446c9f3a77so9590472a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 04:45:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700656535; x=1701261335; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=t/bab2FFkC+2bk3v6jeYUqln4kuAL7nTmynu1g4BDf4=;
-        b=EzcXGMK+u5NDnjr4eYnCisf5Yttl0mYYI8O8pan79sGjPiCvTV58Y+5THWKuUsl/07
-         pByqaeHpuadHdT2mFzcNdcT41UPUIiVdDnblRCujTt9pPVUMSzKg8nqIHyUSJrMV7pPM
-         J9fCmvN5VS0HALq5K7nkTxCHwrE2Kq9lo6AK7VSmJY5SQH+qaOzOmE5ep/PavRpqqoMY
-         upWeSbKH+sdAll7DIo3tzcbyq0TwjaAO4uoiV9FI8+x3xQHjjmzRLAdtYvrS9ALlNy5e
-         x46C4ohfZhcqABQzlfACkj5Fhw6LiFw4BoewlhlJax6hhfqhKCic7hkViiGuuF5koqP+
-         D+QA==
+        d=gmail.com; s=20230601; t=1700657116; x=1701261916; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eGvOG3h9XoEJTOJuOYZwtMnrpSF7SmfcXtkZ0RRfnZc=;
+        b=BXnGVnYIqAHKarvJkGEGuUSh7sHvLuufEFzPmyAwpTF5OEE5gTCPQin5NPUrYd3QJM
+         wvEd0QXUEhihAmbnAXDctaZHYn/DGwr6xOKrMr5T8EsWRBd1R8ccFspf1ZVQ+M0mQkgr
+         WRq+D+2MFgK7TJMrQuqn+k0UNJU1Uv1KvmUABiA9N5YA8gPP7pf2ih+NFW615EGJQUnI
+         qrbG1mlcUFVg+CMZIUDp1iSa0wiPx2rUv2f2UG1pRHGkXE6xXeh5CvKrg4lHuYxeoqLh
+         V7FMwvGEbCsaggK4df9z0TfuVjRDMWZvlz1ROhvS+GvErX351fponm82WfU61ZRXu4nd
+         Twjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700656535; x=1701261335;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t/bab2FFkC+2bk3v6jeYUqln4kuAL7nTmynu1g4BDf4=;
-        b=K1D28omAZ7QRuvrg5SNI3Na09dWD+IrQGkDcwvgtjTBBbQIsn/bwHJruf/8aB7iOzh
-         wgLtj1gCEmDKOyNgIJLVs+iReUaDMHV6ZxEmb+fRUpJoek2LOausCL0l2cJjSV+1xLzM
-         f2JDFq7BMG+X6z13SzmQ/GWKMfb13+ypy4rh4A8QQMjyWUUxor5IyS1nb76kn8l2mg9z
-         zn+WIp7xN+RoBwJzEoXMohxlfzodEDyNXrIJrGAFJa+5dngg4KE4PoJUoy32nrGb261Y
-         ZXZ1Wwy6ntGp/NmQQjbmik3ecrPvPfib6RFNRft9aRUdR8iAJ/jW0ENTvvT7OJXRkJfL
-         ecRg==
-X-Gm-Message-State: AOJu0YwSN0X5LLIfd365Be0laRX/UHRJK/8HbT4ddUKE5mqIfXLBKr0h
-	EhOzzabVeDo8SxxemYSfFqY=
-X-Google-Smtp-Source: AGHT+IFqHNu22HmH4dRf/w7b76tO0CfHboIoq4IlufiZH9sWF4qsunCBLaQYIqQrtXQ47hZJmfM+8A==
-X-Received: by 2002:a17:906:bf49:b0:9fd:6400:b62f with SMTP id ps9-20020a170906bf4900b009fd6400b62fmr1766851ejb.29.1700656535174;
-        Wed, 22 Nov 2023 04:35:35 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:5488:f785:9061:cf6c? ([2a02:169:59a6:0:5488:f785:9061:cf6c])
-        by smtp.gmail.com with ESMTPSA id g26-20020a170906349a00b00a0451802b3csm790245ejb.4.2023.11.22.04.35.34
+        d=1e100.net; s=20230601; t=1700657116; x=1701261916;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eGvOG3h9XoEJTOJuOYZwtMnrpSF7SmfcXtkZ0RRfnZc=;
+        b=DswoOGnZEmmvmyh7M+mBxBYZHGrkWIINSE8M0CMiwpEUtuqMFy4RN1d9kNelqOBJ8i
+         zUnx121ZsSTw0A1EgCt6ud6y/qndikFw32hHJq13N/FyZl4xsF7G9ZpIBuRgX70DUoKd
+         hXTqknB95/WWhLYz5j0yKXf9xYtVv1LvN71+rBMMdTVAD9szW7jaUD4el/kCa2kDZq34
+         Xk5LH/LQSj8XmoHNi6vhZIhcM5gCFD/fRpBACln14kRSIE1+6JIqnsJseM3XqU26aw9C
+         6pkXNVYn/XNIt08A0uZJIgmOLMQ65ZNYx4brdD77wkVSt/qUjtul6n60K3TitjJkv1vg
+         DikQ==
+X-Gm-Message-State: AOJu0YwaW2KncvHA/GNARS0N7jPTtNzpopXYID9hwGHnKVeQiXZ8fgfa
+	4Dp1/D8hewjRVwuQIV+oDzs2l6tyQkw=
+X-Google-Smtp-Source: AGHT+IH892urY4zI7XHA8kDlFJ/RlH5JrwNcrpKFjOaFQWrjdCXNRG6f8HS06Vsu6VIf3pK94bG8qA==
+X-Received: by 2002:a17:906:14e:b0:a00:152a:1ec4 with SMTP id 14-20020a170906014e00b00a00152a1ec4mr1852375ejh.11.1700657115896;
+        Wed, 22 Nov 2023 04:45:15 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id q22-20020a1709066ad600b009e776cc92dcsm6599449ejs.181.2023.11.22.04.45.15
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 04:35:34 -0800 (PST)
-Message-ID: <b27c4560ee3647d92d322b14e27a816bccb49f84.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v8 3/8] image-combined-dbg: make this the
- default
-From: adrian.freihofer@gmail.com
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Christopher Larson
-	 <kergoth@gmail.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Nov 2023 13:35:33 +0100
-In-Reply-To: <CANNYZj9rKV2dYb1PYoQ=Zb+C2A8w7TVi+w6he=oxJHdWueE-eg@mail.gmail.com>
-References: <20231101110129.647878-1-adrian.freihofer@siemens.com>
-	 <20231101110129.647878-4-adrian.freihofer@siemens.com>
-	 <41e4a23f7b8fcbc1da06d9414646aed6d9a33f1a.camel@linuxfoundation.org>
-	 <1952881b121248aaae11df8b884caba82d567bec.camel@gmail.com>
-	 <b98adc29-7e18-4c68-b94c-4b9b5b2a38db@Spark>
-	 <b38107c74191ff9a5fa6fb0a9cf8a42cfed32225.camel@gmail.com>
-	 <DB5PR02MB10213E5FE440BEAB46DA58849EFB4A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-	 <b3871a691e147ff70ac2145cc5af36a4c4c26837.camel@gmail.com>
-	 <CANNYZj9rKV2dYb1PYoQ=Zb+C2A8w7TVi+w6he=oxJHdWueE-eg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Wed, 22 Nov 2023 04:45:15 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 10/21] oeqa: bbtests.BitbakeTests.test_image_manifest: use just isfile() instead of islink()
+Date: Wed, 22 Nov 2023 13:44:40 +0100
+Message-ID: <1d362851c180f90ace447cf0364db3d11cfb01c9.1700600804.git.martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1700600804.git.martin.jansa@gmail.com>
+References: <cover.1700600804.git.martin.jansa@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 12:35:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191076
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 12:45:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191087
 
-On Wed, 2023-11-22 at 13:25 +0100, Alexander Kanavin wrote:
-> On Wed, 22 Nov 2023 at 13:23, Adrian Freihofer
-> <adrian.freihofer@gmail.com> wrote:
->=20
-> > But I also have to say that recent documentation points out that
-> > the
-> > rootfs.tar must be extracted into the extracted rootfs-dbg which is
-> > a
-> > working solution. The issue which I have is with the SDK which
-> > tries to
-> > avoid building the tars and extracting them again just for
-> > providing
-> > the debug symbols on the host. This use case is probably new.
->=20
-> Sorry for barging in without fully understanding the issue, but I've
-> added debuginfod support to yocto precisely to avoid having to deal
-> with large, awkward, slow debug filesystems. It's a lot leaner and
-> slimmer approach.
->=20
-Thank you Alex. Looking at that is already on my todo list. I think is
-is a very interesting approach.
-But I hesitated a bit because creating some files seems to be easier
-than starting and stopping a daemon behind an IDE. And the fact that
-debuginfod is available probably doesn't mean that rootfs-dbg is no
-longer supported. So let's just get started and then improve.
+* with [YOCTO #12937] changes the manifest is hardlink not symlink
 
-Adrian
+* fixes:
+  2023-11-16 00:16:33,967 - oe-selftest - INFO - test_image_manifest (bbtests.BitbakeTests.test_image_manifest)
+  2023-11-16 00:19:05,060 - oe-selftest - INFO -  ... FAIL
+  2023-11-16 00:19:05,060 - oe-selftest - INFO - Traceback (most recent call last):
+    File "/OE/build/poky/meta/lib/oeqa/selftest/cases/bbtests.py", line 139, in test_image_manifest
+      self.assertTrue(os.path.islink(manifest), msg="No manifest file created for image. It should have been created in %s" % manifest)
+  AssertionError: False is not true : No manifest file created for image. It should have been created in /OE/build/poky/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs--1.0-r0-20110405230000.manifest
 
+[YOCTO #12937]
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/bbtests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index d242352ea2..4276a9ba91 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -136,7 +136,7 @@ class BitbakeTests(OESelftestTestCase):
+         deploydir = bb_vars["DEPLOY_DIR_IMAGE"]
+         imagename = bb_vars["IMAGE_LINK_NAME"]
+         manifest = os.path.join(deploydir, imagename + ".manifest")
+-        self.assertTrue(os.path.islink(manifest), msg="No manifest file created for image. It should have been created in %s" % manifest)
++        self.assertTrue(os.path.isfile(manifest), msg="No manifest file created for image. It should have been created in %s" % manifest)
+ 
+     def test_invalid_recipe_src_uri(self):
+         data = 'SRC_URI = "file://invalid"'
+-- 
+2.43.0
 
 
