@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85FB5C61D97
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F7AC61D85
 	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 02:31:54 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.10890.1700620306629771919
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.web10.10889.1700620304812902288
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Nov 2023 18:31:46 -0800
+ Tue, 21 Nov 2023 18:31:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uPnpRQoR;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5aa7172bafdso4129759a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 18:31:46 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bhTKqVW3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.182, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3b83398cfc7so889000b6e.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Nov 2023 18:31:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700620305; x=1701225105; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700620304; x=1701225104; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=d2SdTaIEahh+tg5kZOOjhkSV3iviikCRcAUdJuqnfV8=;
-        b=uPnpRQoRAV7YKajnbtIiDEDEuKmeNzZUE04y0aXstYMeqo4qya59rGSoqEa5ItSBxm
-         wnyOI9p+UjzBqvgg7MpFwOxnlPP/+cDXH+Az9u1uQc0p9s53xVEiNb56iZbIoU9+hgKI
-         1Qn1BksDKiM9iCFibl30LLTMyJwxfymQILmkW+jGczQHFLX448p2HE+BxEafxZCJO1Y/
-         pMeXBoxtxbGqrXD9kILnKxmLEHONSUshRBlG5dKXEZU5lVIi+VDJIfGq8WrCurR6F8p0
-         4VrSGTY0SX/5+q2boHHnGCn2FXPpdJ0FkYmyritR1LRKiHZY/T5UrAEQmbvanprbFIfo
-         TbtQ==
+        bh=1ouWmz9jKrU1RDs05fXVML3r+myZKo8WAsweR5p+o94=;
+        b=bhTKqVW3T6VuZcTCp44ovKxDkBgGbD23W6XAE8rGCWxPZJImmFZbGcNCaaJeqrkCra
+         lTWQIr12xzTBBXu7fn+jbaRRrcBCr6ylNkudMqLe/D7HurWHqoIp8W2hRwREx9AIvwmH
+         4G131SjsAz3PXi4p/lEaii7Z60Ks4la1IKtxN+JivAvvZccRt0NUA1JYDwzd1p7EAA9s
+         TwGs5D3bcpCy3OeqjoQzEurgtsSGtTNGX30DqTg1sKXZrkGHlRficKfxK4Po1U+QxWSQ
+         ihKlwwn6tbWCQpdqDdMS36hxaS0zkQA2y7gi7VzNZ/6V66epUGbO6SZAlP5gaon5yUbO
+         XHzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700620305; x=1701225105;
+        d=1e100.net; s=20230601; t=1700620304; x=1701225104;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=d2SdTaIEahh+tg5kZOOjhkSV3iviikCRcAUdJuqnfV8=;
-        b=NhiG9X+iudas/etK94PinZwdOYhV3XboSnQ0A6r3dWvUqORIqx1HFxbLrJiq6oiwS/
-         tYJs1eqhm1eWKFGjKNe5WtinJXc3Y+RmSrQFPgA3gj0osvwqWNFd5Z3FTJKgKAMQg0gk
-         FEc9Y3eJOLPeldcpNkAc4U/Ou7bpxSNYTt7BugrBNbEm/8Ll8KHRumTbYgOm24vuFS4m
-         lYjXShdMwPhudD111+FWOE2AdX/J+KJsqVepcz/1hHTtDWYSigrmusQ0DnNvLXU63pHA
-         5MuVFr4yaQ80XhKlgk1EnEyWG7c7tlKmjSWlkn1MBE2uu4jfBEholCSKz4yRZAPUPw85
-         5Mkg==
-X-Gm-Message-State: AOJu0YxKqtZTfbSApT1dbSNCnqBjZV8Gle54vqEVr0DY3S9buQhXfR2R
-	dDeTte4GWOxESOELVzQdwnmKn8yDOcpRcxFLI0f58w==
-X-Google-Smtp-Source: AGHT+IGFxwpQacjlWNBeE2I5mGxo2rUlX1iIlpFFfJva8X5A5eKK5lu88cQlXlMs83oKnqF84QlfKA==
-X-Received: by 2002:a05:6a20:5507:b0:187:f7d3:fe4 with SMTP id ko7-20020a056a20550700b00187f7d30fe4mr851265pzb.11.1700620305477;
-        Tue, 21 Nov 2023 18:31:45 -0800 (PST)
+        bh=1ouWmz9jKrU1RDs05fXVML3r+myZKo8WAsweR5p+o94=;
+        b=unD+M7kQ009I5vdeIQ4ECLriKsdVM5uSIUSqUvfupH2OGG+zQSi7UA/cUR5AOeiZxP
+         SA4AySYGNJLYW2mB6iG/1EhMguUf0kaJqxZaTZ6AQbOGfUZibF7vx2xAwwCyYYs4tO/Y
+         GYhAYiVlFWXYi1dYQzVWmB245Kzn/ItCKinaYZiLcLQj8rnjREsCEer54vwAqTbm6Mbf
+         oLM6nY4a1+WG1FAGKGat2I/dDwMKmXm05wGIfjtrbpVMDnSkRqINlbrHiKB4tJZvQZ8S
+         NnNHbC+Z15FtC/lPj3Z1csFV+T5djnwgXJYS75/APAYFSxkVNbSYWWeScY7BtjcBO5Tz
+         cXaA==
+X-Gm-Message-State: AOJu0Yw3mMqw4g+fq0ApzGxCA5iJ33av8WeulAi37bPKxVa+eDSDxybt
+	4NLcAGPs6nqpqBcwZRY8wPVh3d26DJkb0NX2zovaUw==
+X-Google-Smtp-Source: AGHT+IG0JbdjQzQZ/WVwc3e7G5mZ5D4hzhpmJ6R+AeGWlZtbBpc3JW9DNLNBPXgJ4/JPUgIc3soMZw==
+X-Received: by 2002:a54:4e8c:0:b0:3b8:37ba:7c73 with SMTP id c12-20020a544e8c000000b003b837ba7c73mr1060731oiy.53.1700620303851;
+        Tue, 21 Nov 2023 18:31:43 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id d11-20020a056a00198b00b006cb9a43ae4esm4384182pfl.215.2023.11.21.18.31.44
+        by smtp.gmail.com with ESMTPSA id d11-20020a056a00198b00b006cb9a43ae4esm4384182pfl.215.2023.11.21.18.31.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 18:31:45 -0800 (PST)
+        Tue, 21 Nov 2023 18:31:43 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 16/16] libxcrypt: fixed some build error for nativesdk with mingw
-Date: Tue, 21 Nov 2023 16:31:13 -1000
-Message-Id: <ca4866d14f725ae6c99c6651a69333d9453713a2.1700620126.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 15/16] goarch: Move Go architecture mapping to a library
+Date: Tue, 21 Nov 2023 16:31:12 -1000
+Message-Id: <8726ae02d760270f9e7fe7ef5715d8f7553371ce.1700620126.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700620126.git.steve@sakoman.com>
 References: <cover.1700620126.git.steve@sakoman.com>
@@ -61,157 +61,130 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 02:31:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191015
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191014
 
-From: Wenlin Kang <wenlin.kang@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Steps to reproduce
-  1) add layer meta-mingw
-  2) add line in local.conf
-     SDKMACHINE = "x86_64-mingw32"
-  3) bitbake nativesdk-libxcrypt
+Other spaces uses the Go architecture definitions as their own (for
+example, container arches are defined to be Go arches). To make it
+easier for other places to use this mapping, move the code that does the
+translation of OpenEmbedded arches to Go arches to a library.
 
-Fixed:
-1. .symver error
-  | {standard input}: Assembler messages:
-  | {standard input}:4: Error: unknown pseudo-op: `.symver'
+(From oe-core rev: 3e86f72fc2e1cc2e5ea4b4499722d736941167ce)
 
-2. pedantic error
-  | ../git/lib/crypt.c:316:24: error: ISO C does not allow extra ';' outside of a function [-Werror=pedantic]
-  |   316 | SYMVER_crypt_gensalt_rn;
-  |       |
+This commit together with meta-virtualization commit
+115f6367f37095415f289fb6981cda9608ac72ff
+broke meta-virtualization master used with
+meta-lts-mixins kirkstone/go which is our primary
+usecase for having kirkstone/go mixin layer
 
-3. conversion error
-  | ../git/lib/util-get-random-bytes.c: In function '_crypt_get_random_bytes':
-  | ../git/lib/util-get-random-bytes.c:140:42: error: conversion from 'size_t' {aka 'long long unsigned int'} to 'unsigned int' may change value [-Werror=conversion]
-  |   140 |           ssize_t nread = read (fd, buf, buflen);
+Manually crafted since cherry-pick had too many conflicts:
+* different path to classes
+* additional architecture loongarch64
+* different way how to import library
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../0001-Fix-for-compilation-on-Windows.patch | 37 +++++++++++++++
- ...dom-bytes.c-fixed-conversion-error-w.patch | 47 +++++++++++++++++++
- meta/recipes-core/libxcrypt/libxcrypt.inc     |  4 ++
- 3 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-core/libxcrypt/files/0001-Fix-for-compilation-on-Windows.patch
- create mode 100644 meta/recipes-core/libxcrypt/files/0001-lib-util-get-random-bytes.c-fixed-conversion-error-w.patch
+ meta/classes/base.bbclass   |  2 +-
+ meta/classes/goarch.bbclass | 27 +++------------------------
+ meta/lib/oe/go.py           | 32 ++++++++++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+), 25 deletions(-)
+ create mode 100644 meta/lib/oe/go.py
 
-diff --git a/meta/recipes-core/libxcrypt/files/0001-Fix-for-compilation-on-Windows.patch b/meta/recipes-core/libxcrypt/files/0001-Fix-for-compilation-on-Windows.patch
-new file mode 100644
-index 0000000000..5760ee09cc
---- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/0001-Fix-for-compilation-on-Windows.patch
-@@ -0,0 +1,37 @@
-+From a507b628a5a5d4e4f1cf0f0a9a72967470ee7624 Mon Sep 17 00:00:00 2001
-+From: Brecht Sanders <brecht@sanders.org>
-+Date: Fri, 3 Feb 2023 08:44:49 +0100
-+Subject: [PATCH] Fix for compilation on Windows
-+
-+This fix allows the library to build on Windows (at least with MinGW-w64).
-+
-+`.symver` is only supported for ELF format but Windows uses COFF/PE.
-+
-+Workaround dummy define of `symver_set()`
-+
-+Upstream-Status: Backport [https://github.com/besser82/libxcrypt/commit/a507b628a5a5d4e4f1cf0f0a9a72967470ee7624]
-+
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+---
-+ lib/crypt-port.h | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/lib/crypt-port.h b/lib/crypt-port.h
-+index f06ca24..a707939 100644
-+--- a/lib/crypt-port.h
-++++ b/lib/crypt-port.h
-+@@ -201,6 +201,11 @@ extern size_t strcpy_or_abort (void *dst, size_t d_size, const void *src);
-+   __asm__(".globl _" extstr);                           \
-+   __asm__(".set _" extstr ", _" #intname)
-+ 
-++#elif defined _WIN32
-++
-++/* .symver is only supported for ELF format, Windows uses COFF/PE */
-++# define symver_set(extstr, intname, version, mode)
-++
-+ #elif defined __GNUC__ && __GNUC__ >= 3
-+ 
-+ # define _strong_alias(name, aliasname) \
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-core/libxcrypt/files/0001-lib-util-get-random-bytes.c-fixed-conversion-error-w.patch b/meta/recipes-core/libxcrypt/files/0001-lib-util-get-random-bytes.c-fixed-conversion-error-w.patch
-new file mode 100644
-index 0000000000..3846f76674
---- /dev/null
-+++ b/meta/recipes-core/libxcrypt/files/0001-lib-util-get-random-bytes.c-fixed-conversion-error-w.patch
-@@ -0,0 +1,47 @@
-+From ff99091eb8a6b9e6edc567f6d2552183fbaacec3 Mon Sep 17 00:00:00 2001
-+From: Wenlin Kang <wenlin.kang@windriver.com>
-+Date: Mon, 6 Nov 2023 14:43:28 +0800
-+Subject: [PATCH] lib/util-get-random-bytes.c: fixed conversion error with
-+ mingw
-+
-+With x86_64-w64-mingw32-gcc. get below error:
-+| ../git/lib/util-get-random-bytes.c: In function '_crypt_get_random_bytes':
-+| ../git/lib/util-get-random-bytes.c:140:42: error: conversion from 'size_t' {aka 'long long unsigned int'} to 'unsigned int' may change value [-Werror=conversion]
-+|   140 |           ssize_t nread = read (fd, buf, buflen);
-+|       |                                          ^~~~~~
-+
-+In util-get-random-bytes.c, has get_random_bytes(void *buf, size_t buflen),
-+but in mingw-w64-mingw-w64/mingw-w64-headers/crt/io.h, read() has "unsigned int"
-+read(int _FileHandle,void *_DstBuf,unsigned int _MaxCharCount), and has:
-+ #ifdef _WIN64
-+   __MINGW_EXTENSION typedef unsigned __int64 size_t;
-+ #else
-+   typedef unsigned int size_t;
-+ #endif /* _WIN64 */
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+---
-+ lib/util-get-random-bytes.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/lib/util-get-random-bytes.c b/lib/util-get-random-bytes.c
-+index 79816db..68cd378 100644
-+--- a/lib/util-get-random-bytes.c
-++++ b/lib/util-get-random-bytes.c
-+@@ -137,7 +137,11 @@ get_random_bytes(void *buf, size_t buflen)
-+         dev_urandom_doesnt_work = true;
-+       else
-+         {
-++#ifdef _WIN64
-++          ssize_t nread = read (fd, buf, (unsigned int)buflen);
-++#else
-+           ssize_t nread = read (fd, buf, buflen);
-++#endif
-+           if (nread < 0 || (size_t)nread < buflen)
-+             dev_urandom_doesnt_work = true;
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 342cbd0d06..2b3cd31c2a 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -16,6 +16,8 @@ SRCBRANCH ?= "master"
- SRC_URI += "file://fix_cflags_handling.patch \
-     file://0001-Make-BuildCommon.pm-compatible-with-latest-perl.patch \
-     file://0002-Remove-smartmatch-usage-from-gen-crypt-h.patch \
-+    file://0001-Fix-for-compilation-on-Windows.patch \
-+    file://0001-lib-util-get-random-bytes.c-fixed-conversion-error-w.patch \
- "
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index b15c5839b6..ee26ee5597 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -12,7 +12,7 @@ inherit logging
  
- PROVIDES = "virtual/crypt"
-@@ -29,4 +31,6 @@ CPPFLAGS:append:class-nativesdk = " -Wno-error"
- API = "--disable-obsolete-api"
- EXTRA_OECONF += "${API}"
+ OE_EXTRA_IMPORTS ?= ""
  
-+CFLAGS:append:class-nativesdk = " -Wno-pedantic"
+-OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible oe.rust ${OE_EXTRA_IMPORTS}"
++OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license oe.qa oe.reproducible oe.rust oe.go ${OE_EXTRA_IMPORTS}"
+ OE_IMPORTS[type] = "list"
+ 
+ PACKAGECONFIG_CONFARGS ??= ""
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 92fec16b82..394c0c5d84 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -61,31 +61,10 @@ SECURITY_NOPIE_CFLAGS ??= ""
+ CCACHE_DISABLE ?= "1"
+ 
+ def go_map_arch(a, d):
+-    import re
+-    if re.match('i.86', a):
+-        return '386'
+-    elif a == 'x86_64':
+-        return 'amd64'
+-    elif re.match('arm.*', a):
+-        return 'arm'
+-    elif re.match('aarch64.*', a):
+-        return 'arm64'
+-    elif re.match('mips64el.*', a):
+-        return 'mips64le'
+-    elif re.match('mips64.*', a):
+-        return 'mips64'
+-    elif a == 'mips':
+-        return 'mips'
+-    elif a == 'mipsel':
+-        return 'mipsle'
+-    elif re.match('p(pc|owerpc)(64le)', a):
+-        return 'ppc64le'
+-    elif re.match('p(pc|owerpc)(64)', a):
+-        return 'ppc64'
+-    elif a == 'riscv64':
+-        return 'riscv64'
+-    else:
++    arch = oe.go.map_arch(a)
++    if not arch:
+         raise bb.parse.SkipRecipe("Unsupported CPU architecture: %s" % a)
++    return arch
+ 
+ def go_map_arm(a, d):
+     if a.startswith("arm"):
+diff --git a/meta/lib/oe/go.py b/meta/lib/oe/go.py
+new file mode 100644
+index 0000000000..9996057f12
+--- /dev/null
++++ b/meta/lib/oe/go.py
+@@ -0,0 +1,32 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
 +
- BBCLASSEXTEND = "native nativesdk"
++import re
++
++def map_arch(a):
++    if re.match('i.86', a):
++        return '386'
++    elif a == 'x86_64':
++        return 'amd64'
++    elif re.match('arm.*', a):
++        return 'arm'
++    elif re.match('aarch64.*', a):
++        return 'arm64'
++    elif re.match('mips64el.*', a):
++        return 'mips64le'
++    elif re.match('mips64.*', a):
++        return 'mips64'
++    elif a == 'mips':
++        return 'mips'
++    elif a == 'mipsel':
++        return 'mipsle'
++    elif re.match('p(pc|owerpc)(64le)', a):
++        return 'ppc64le'
++    elif re.match('p(pc|owerpc)(64)', a):
++        return 'ppc64'
++    elif a == 'riscv64':
++        return 'riscv64'
++    return ''
 -- 
 2.34.1
 
