@@ -2,56 +2,56 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC282C61DF4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 923B1C61D9B
 	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 12:45:28 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.18447.1700657123534188357
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.18531.1700657126196723608
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 04:45:23 -0800
+ Wed, 22 Nov 2023 04:45:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=K01mfdWU;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-543c3756521so9207779a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 04:45:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eJL1ndgt;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a00d5b0ec44so350835866b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 04:45:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700657122; x=1701261922; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1700657124; x=1701261924; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1ncpDvRpt5O+kIEZCaxsM31oezdTO4eqZmifCN73B8Q=;
-        b=K01mfdWURqLDdj8hRySbJVaNWA/sEGHzj6hlmh9zCyUHK02aJKDKctuqlRvnyptmrm
-         OcrY23+ovzDZB5SvR3kR5SLluLVfQq1y1K10tsHN120jz9rkDOV+RWtBKf0Q51vuKWhi
-         qL4IkwlSqVbmDXo2BU1F0Fe+oidnJN4DDEWyb4ZWK9hDBzJQXxm8SbAUub2GAkpKiSr6
-         4nsv9mqwre4ti4fI0t+nD+rkSxoSf/pZnVfTGtJdMu5wPmrii4kba+lvSiUC1QOs3Oxp
-         PwEbECbGCWGBF3dSIYUY0I69piwaacDTkAOOFwHg5/FnRaUZ14jfmyFvb8+Qzen9Zt+C
-         X2Tw==
+        bh=c9czxcDtUG6ZESyDD9Djl5QWr3/pSqdiVQemICp/lPU=;
+        b=eJL1ndgt9qlqGhjOxsASAGm7NK6Vpx5QEzDoKiNW+7I9XlTQJiN9HOOboKcTZimS3K
+         yDkho4DfH4dsVwScYGh+OqBbrLbG0gpNX0LlR6lkPiUH5VCEC/O5fvMUC7TyRcwWgg5l
+         dp5wOUCu2o5QRHbP6r2T+3fDWN5s1+xoA8yEELoFwgDOMn5viYTYnSfhCSirgBcn9v4J
+         HvUBQTdk6UU3VIeAXqbl8h+qeQ3a3ggA7ptR1u4M2akbkykwjWhEyY4Jmo2ns5D7UTCQ
+         AvLrJdRzUgIArmyYij66GVAUa58zaKa9H80lCpDm+L6uc3fKnxuT5dMCjDXdxRbz4mHN
+         MHNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700657122; x=1701261922;
+        d=1e100.net; s=20230601; t=1700657124; x=1701261924;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1ncpDvRpt5O+kIEZCaxsM31oezdTO4eqZmifCN73B8Q=;
-        b=K0R+iNSRY9WbuzdIr61ctvkI7V69o6FaTaq5qISRNq0RdXV0y3xUiq9Ln4IR+nke3V
-         ha0YHGR30vupM14EU33lZxuuugE4CLt45pnWeupJN5qqz3id7YLMQXYWfmrQ6aD7zmi1
-         3nvNkCvvpNRQYock/3P73HsJDd6WBMhe934wmtki+ZptdyVnYAlWYQ3xA+6d7AdzbXYa
-         Jn7X71eV9yH9oHqooMQKqDIuenx38sif+v//prDwnVvpDiyoMPe0Lwat3MILPfolUtJT
-         6vk+qbQwsFdUNpagmLWGvoQFJTXAD1wCeKSEta36J6MDewVrgq2tQ/4nU9EGlvs3cSjY
-         Fwxg==
-X-Gm-Message-State: AOJu0YxxKvudbZ+ryZy1Frwu5BzKj3r4EXAi6MsE3MdUR+X2yt87OfnP
-	8scLrIOJBcka8qY6dDYhlk/WeBqCMJc=
-X-Google-Smtp-Source: AGHT+IEMEpwwzvaAnBrrTZiiIkdKnTSFBJ61+PRIY5DHro3n0C397coXjgzuVuHf90m4pIQuIqGLYA==
-X-Received: by 2002:a17:906:535b:b0:9da:ee00:a023 with SMTP id j27-20020a170906535b00b009daee00a023mr1407912ejo.30.1700657122010;
-        Wed, 22 Nov 2023 04:45:22 -0800 (PST)
+        bh=c9czxcDtUG6ZESyDD9Djl5QWr3/pSqdiVQemICp/lPU=;
+        b=ouKP9fDXxFgMSNK0FUoXZskaMV6z1kjJ1FAgyMbk2hUn9kn0KbS8VSsN6UeWwuHvVW
+         dpo/IzSx+RGGs9gen8PShauKq3tyoXfEAVqN92HvRxWTOoIz54wM8NQxWGsMZypncEEV
+         jfq1yHLg2xoy+5k+ZCvRMmsv1jioOhWlsSP8A0rwc/AG2eVI8Jm+Gm6NUgi2XTej4CyE
+         4AwVwCdJ/x4M0Hlu8gclj/0YTIiNpT3YfkNXgNk4ziBclONQt6A5c6HyzUPgzOQInK6l
+         5+O15/AkUHfygAipxY4Y4WyJGd1nkeEqWyFv4hwZoN7zflGH+vTuAEEY2dwlUVlEsjS5
+         huFQ==
+X-Gm-Message-State: AOJu0Yxh+4ZguTtWF6UkA+UBGQFcwzDrxs59SbYTp4z90Vb5p2flT89G
+	tKdzarvTBirgKk+tiYu9thOe8+gZaNA=
+X-Google-Smtp-Source: AGHT+IE20QflflD/WO1iL2hs4iNbjJmdqAfiNyCU+CxydJgcYKSnI/T3PlIa0JZ+8bWB52dfdxBjlA==
+X-Received: by 2002:a17:906:10dd:b0:a04:b55a:4111 with SMTP id v29-20020a17090610dd00b00a04b55a4111mr858335ejv.47.1700657124491;
+        Wed, 22 Nov 2023 04:45:24 -0800 (PST)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id y23-20020a170906471700b009fcd13bbd72sm4374923ejq.214.2023.11.22.04.45.21
+        by smtp.gmail.com with ESMTPSA id w17-20020a1709067c9100b009b9f87b34b6sm6560657ejo.189.2023.11.22.04.45.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 04:45:21 -0800 (PST)
+        Wed, 22 Nov 2023 04:45:23 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 18/21] selftest: multiconfig-image-packager: use IMAGE_NAME instead of IMAGE_LINK_NAME
-Date: Wed, 22 Nov 2023 13:44:48 +0100
-Message-ID: <17dccf417aa6d8ec1fadae328bdd29a0ee7aeb78.1700600804.git.martin.jansa@gmail.com>
+Subject: [PATCH 21/21] u-boot.inc: don't replace the binary with symlink
+Date: Wed, 22 Nov 2023 13:44:51 +0100
+Message-ID: <8026b4db3dc2a49dc8b7e51b01836af56f3713ba.1700600804.git.martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1700600804.git.martin.jansa@gmail.com>
 References: <cover.1700600804.git.martin.jansa@gmail.com>
@@ -61,65 +61,197 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 12:45:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191095
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191098
 
-* the IMAGE_LINK_NAME now contains PKGV, PKGR in the filename, but the
-  multiconfig-image-packager and MC_DEPLOY_IMAGE_BASENAME
-  (e.g. core-image-minimal) has different PKGV value causing:
+* when UBOOT_ARTIFACT_NAME and UBOOT_ARTIFACT_LINK_NAME are empty
+  the UBOOT_BINARYNAME and UBOOT_IMAGE might be indentical and the
+  binary gets overwritten by the symlink to itself (similarly for SPL_*)
 
-  | DEBUG: Executing shell function do_install
-  | install: cannot stat 'tmp-mc-musl/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs--0.1-r0-20110405230000.ext4': No such file or directory
-  ...
-  | install: cannot stat 'tmp-mc-tiny/deploy/images/qemux86/core-image-minimal-qemux86.rootfs--0.1-r0-20110405230000.cpio.gz': No such file or directory
+$ ls -lah /OE/build/poky/build/tmp/work/qemuarm-poky-linux-gnueabi/u-boot/2023.10/package/boot
+total 8.0K
+drwxr-xr-x 2 martin martin 4.0K Nov 21 21:23 .
+drwxr-xr-x 4 martin martin 4.0K Nov 21 21:23 ..
+lrwxrwxrwx 1 martin martin    3 Nov 21 21:23 MLO -> MLO
+lrwxrwxrwx 1 martin martin   10 Nov 21 21:23 u-boot.bin -> u-boot.bin
 
-  because the actual filenames are:
-  tmp-mc-musl/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs--1.0-r0-20110405230000.ext4
-  tmp-mc-tiny/deploy/images/qemux86/core-image-minimal-qemux86.rootfs--1.0-r0-20110405230000.ext4
+* which causes:
+ERROR: u-boot-1_2023.10-r0 do_package: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_package(d)
+     0003:
+File: '/OE/build/poky/meta/classes-global/package.bbclass', lineno: 536, function: do_package
+     0532:    bb.build.exec_func("package_prepare_pkgdata", d)
+     0533:    bb.build.exec_func("perform_packagecopy", d)
+     0534:    for f in (d.getVar('PACKAGE_PREPROCESS_FUNCS') or '').split():
+     0535:        bb.build.exec_func(f, d)
+ *** 0536:    oe.package.process_split_and_strip_files(d)
+     0537:    oe.package.fixup_perms(d)
+     0538:
+     0539:    ###########################################################################
+     0540:    # Split up PKGD into PKGDEST
+File: '/OE/build/poky/meta/lib/oe/package.py', lineno: 1073, function: process_split_and_strip_files
+     1069:                    staticlibs.append(file)
+     1070:                    continue
+     1071:
+     1072:                try:
+ *** 1073:                    ltarget = cpath.realpath(file, dvar, False)
+     1074:                    s = cpath.lstat(ltarget)
+     1075:                except OSError as e:
+     1076:                    (err, strerror) = e.args
+     1077:                    if err != errno.ENOENT:
+File: '/OE/build/poky/meta/lib/oe/cachedpath.py', lineno: 231, function: realpath
+     0227:            if e.errno == errno.ELOOP:
+     0228:                # make ELOOP more readable; without catching it, there will
+     0229:                # be printed a backtrace with 100s of OSError exceptions
+     0230:                # else
+ *** 0231:                raise OSError(errno.ELOOP,
+     0232:                              "too much recursions while resolving '%s'; loop in '%s'" %
+     0233:                              (file, e.strerror))
+     0234:
+     0235:            raise
+Exception: OSError: [Errno 40] too much recursions while resolving '/OE/build/poky/build/tmp/work/qemuarm-poky-linux-gnueabi/u-boot/2023.10/package/boot/MLO'; loop in '/OE/build/poky/build/tmp/work/qemuarm-poky-linux-gnueabi/u-boot/2023.10/package/boot/MLO'
+
+ERROR: Logfile of failure stored in: /OE/build/poky/build/tmp/work/qemuarm-poky-linux-gnueabi/u-boot/2023.10/temp/log.do_package.3990391
 
 [YOCTO #12937]
 
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- .../multiconfig/multiconfig-image-packager_0.1.bb    | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/classes-recipe/uboot-sign.bbclass | 24 ++++++++++-----------
+ meta/recipes-bsp/u-boot/u-boot.inc     | 29 +++++++++++++++++++-------
+ 2 files changed, 34 insertions(+), 19 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-index d7785cee2e..b53b6a4b26 100644
---- a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-+++ b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
-@@ -13,11 +13,11 @@ do_install[mcdepends] += "mc::${MCNAME}:core-image-minimal:do_image_complete mc:
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+index e89c8214d3..d7de2c3bde 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -420,24 +420,24 @@ do_deploy:prepend() {
+ 	fi
  
- do_install () {
-     install -d ${D}/var/lib/machines/${MCNAME}
--    install ${MC_DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME_CORE_IMAGE_MINIMAL}.${MCIMGTYPE} ${D}/var/lib/machines/${MCNAME}/${MC_DEPLOY_IMAGE_BASENAME}.${MCIMGTYPE}
-+    install ${MC_DEPLOY_DIR_IMAGE}/${IMAGE_NAME_CORE_IMAGE_MINIMAL}.${MCIMGTYPE} ${D}/var/lib/machines/${MCNAME}/${MC_DEPLOY_IMAGE_BASENAME}.${MCIMGTYPE}
-     install ${MC_DEPLOY_DIR_IMAGE}/bzImage ${D}/var/lib/machines/${MCNAME}
+ 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
+-		ln -vf ${DEPLOYDIR}/${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
+-		ln -vf ${DEPLOYDIR}/${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_LINK}
+-		ln -vf ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE} ${DEPLOYDIR}/${UBOOT_NODTB_LINK}
+-		ln -vf ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE} ${DEPLOYDIR}/${UBOOT_NODTB_BINARY}
++		[ "${UBOOT_DTB_IMAGE}" != "${UBOOT_DTB_BINARY}" ]     && ln -vf ${DEPLOYDIR}/${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
++		[ "${UBOOT_DTB_IMAGE}" != "${UBOOT_DTB_LINK}" ]       && ln -vf ${DEPLOYDIR}/${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_LINK}
++		[ "${UBOOT_NODTB_IMAGE}" != "${UBOOT_NODTB_LINK}" ]   && ln -vf ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE} ${DEPLOYDIR}/${UBOOT_NODTB_LINK}
++		[ "${UBOOT_NODTB_IMAGE}" != "${UBOOT_NODTB_BINARY}" ] && ln -vf ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE} ${DEPLOYDIR}/${UBOOT_NODTB_BINARY}
+ 	fi
+ 
+ 	if [ "${UBOOT_FITIMAGE_ENABLE}" = "1" ] ; then
+-		ln -vf ${DEPLOYDIR}/${UBOOT_ITS_IMAGE} ${DEPLOYDIR}/${UBOOT_ITS}
+-		ln -vf ${DEPLOYDIR}/${UBOOT_ITS_IMAGE} ${DEPLOYDIR}/${UBOOT_ITS_LINK}
+-		ln -vf ${DEPLOYDIR}/${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_FITIMAGE_BINARY}
+-		ln -vf ${DEPLOYDIR}/${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_FITIMAGE_LINK}
++		[ "${UBOOT_ITS_IMAGE}" != "${UBOOT_ITS}" ]                  && ln -vf ${DEPLOYDIR}/${UBOOT_ITS_IMAGE} ${DEPLOYDIR}/${UBOOT_ITS}
++		[ "${UBOOT_ITS_IMAGE}" != "${UBOOT_ITS_LINK}" ]             && ln -vf ${DEPLOYDIR}/${UBOOT_ITS_IMAGE} ${DEPLOYDIR}/${UBOOT_ITS_LINK}
++		[ "${UBOOT_FITIMAGE_IMAGE}" != "${UBOOT_FITIMAGE_BINARY}" ] && ln -vf ${DEPLOYDIR}/${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_FITIMAGE_BINARY}
++		[ "${UBOOT_FITIMAGE_IMAGE}" != "${UBOOT_FITIMAGE_LINK}" ]   && ln -vf ${DEPLOYDIR}/${UBOOT_FITIMAGE_IMAGE} ${DEPLOYDIR}/${UBOOT_FITIMAGE_LINK}
+ 	fi
+ 
+ 	if [ "${SPL_SIGN_ENABLE}" = "1" -a -n "${SPL_DTB_BINARY}" ] ; then
+-		ln -vf ${DEPLOYDIR}/${SPL_DTB_IMAGE} ${DEPLOYDIR}/${SPL_DTB_LINK}
+-		ln -vf ${DEPLOYDIR}/${SPL_DTB_IMAGE} ${DEPLOYDIR}/${SPL_DTB_BINARY}
+-		ln -vf ${DEPLOYDIR}/${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_LINK}
+-		ln -vf ${DEPLOYDIR}/${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_BINARY}
++		[ "${SPL_DTB_IMAGE}" != "${SPL_DTB_LINK}" ]       && ln -vf ${DEPLOYDIR}/${SPL_DTB_IMAGE} ${DEPLOYDIR}/${SPL_DTB_LINK}
++		[ "${SPL_DTB_IMAGE}" != "${SPL_DTB_BINARY}" ]     && ln -vf ${DEPLOYDIR}/${SPL_DTB_IMAGE} ${DEPLOYDIR}/${SPL_DTB_BINARY}
++		[ "${SPL_NODTB_IMAGE}" != "${SPL_NODTB_LINK}" ]   && ln -vf ${DEPLOYDIR}/${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_LINK}
++		[ "${SPL_NODTB_IMAGE}" != "${SPL_NODTB_BINARY}" ] && ln -vf ${DEPLOYDIR}/${SPL_NODTB_IMAGE} ${DEPLOYDIR}/${SPL_NODTB_BINARY}
+ 	fi
  }
  
--# for IMAGE_LINK_NAME, IMAGE_BASENAME
-+# for IMAGE_NAME, IMAGE_BASENAME
- inherit image-artifact-names
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 4ea0ed3cf4..168f659acc 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -113,7 +113,9 @@ do_install () {
+         unset i
+     else
+         install -D -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+-        ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
++        if [ "${UBOOT_IMAGE}" != "${UBOOT_BINARY}" ]; then
++            ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
++        fi
  
- python () {
-@@ -31,14 +31,14 @@ python () {
-     # these will most likely start with my BPN multiconfig-image-packager, but I want them from core-image-minimal
-     # as there is no good way to query core-image-minimal's context lets assume that there are no overrides
-     # and that we can just replace IMAGE_BASENAME
--    image_link_name = d.getVar('IMAGE_LINK_NAME')
-+    image_name = d.getVar('IMAGE_NAME')
-     image_basename = d.getVar('IMAGE_BASENAME')
-     machine = d.getVar('MACHINE')
-     mcmachine = d.getVar('MCMACHINE')
-     image_to_deploy = d.getVar('MC_DEPLOY_IMAGE_BASENAME')
--    image_link_name_to_deploy = image_link_name.replace(image_basename, image_to_deploy).replace(machine, mcmachine)
--    bb.warn('%s: assuming that "%s" built for "%s" has IMAGE_LINK_NAME "%s"' % (d.getVar('PN'), mcmachine, image_to_deploy, image_link_name_to_deploy))
--    d.setVar('IMAGE_LINK_NAME_CORE_IMAGE_MINIMAL', image_link_name_to_deploy)
-+    image_name_to_deploy = image_name.replace(image_basename, image_to_deploy).replace(machine, mcmachine)
-+    bb.warn('%s: assuming that "%s" built for "%s" has IMAGE_NAME "%s"' % (d.getVar('PN'), mcmachine, image_to_deploy, image_name_to_deploy))
-+    d.setVar('IMAGE_NAME_CORE_IMAGE_MINIMAL', image_name_to_deploy)
- }
+         # Install the uboot-initial-env
+         if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+@@ -140,7 +142,9 @@ do_install () {
+             unset i
+         else
+             install -m 644 ${B}/${UBOOT_ELF} ${D}/boot/${UBOOT_ELF_IMAGE}
+-            ln -sf ${UBOOT_ELF_IMAGE} ${D}/boot/${UBOOT_ELF_BINARY}
++            if [ "${UBOOT_ELF_IMAGE}" != "${UBOOT_ELF_BINARY}" ]; then
++                ln -sf ${UBOOT_ELF_IMAGE} ${D}/boot/${UBOOT_ELF_BINARY}
++            fi
+         fi
+     fi
  
- BBCLASSEXTEND = "mcextend:tiny mcextend:musl"
+@@ -158,6 +162,7 @@ do_install () {
+                     if [ $j -eq $i ]; then
+                          install -m 644 ${B}/${config}/${SPL_BINARY} ${D}/boot/${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX}
+                          ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}-${type}
++sd
+                          ln -sf ${SPL_BINARYNAME}-${type}-${PV}-${PR}${SPL_DELIMITER}${SPL_SUFFIX} ${D}/boot/${SPL_BINARYFILE}
+                     fi
+                 done
+@@ -166,13 +171,17 @@ do_install () {
+             unset i
+         else
+             install -m 644 ${B}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
+-            ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARYFILE}
++            if [ "${SPL_IMAGE}" != "${SPL_BINARYFILE}" ]; then
++                ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARYFILE}
++            fi
+         fi
+     fi
+ 
+     if [ -n "${UBOOT_ENV}" ]; then
+         install -m 644 ${WORKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_IMAGE}
+-        ln -sf ${UBOOT_ENV_IMAGE} ${D}/boot/${UBOOT_ENV_BINARY}
++        if [ "${UBOOT_ENV_IMAGE}" != "${UBOOT_ENV_BINARY}" ]; then
++            ln -sf ${UBOOT_ENV_IMAGE} ${D}/boot/${UBOOT_ENV_BINARY}
++        fi
+     fi
+ 
+     if [ "${UBOOT_EXTLINUX}" = "1" ]; then
+@@ -225,7 +234,9 @@ do_deploy () {
+         unset i
+     else
+         install -D -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+-        ln -vf ${DEPLOYDIR}/${UBOOT_IMAGE} ${DEPLOYDIR}/${UBOOT_BINARY}
++        if [ "${UBOOT_IMAGE}" != "${UBOOT_BINARY}" ]; then
++            ln -vf ${DEPLOYDIR}/${UBOOT_IMAGE} ${DEPLOYDIR}/${UBOOT_BINARY}
++        fi
+ 
+         if [ -n "${UBOOT_LINK}" -a "${UBOOT_ARTIFACT_NAME}" != "${UBOOT_ARTIFACT_LINK_NAME}" ]; then
+             ln -vf ${DEPLOYDIR}/${UBOOT_IMAGE} ${DEPLOYDIR}/${UBOOT_LINK}
+@@ -296,7 +307,9 @@ do_deploy () {
+             unset i
+         else
+             install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
+-            ln -vf ${DEPLOYDIR}/${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}
++            if [ "${SPL_IMAGE}" != "${SPL_BINARYNAME}" ]; then
++                ln -vf ${DEPLOYDIR}/${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}
++            fi
+             if [ -n "${SPL_LINK}" -a "${UBOOT_ARTIFACT_NAME}" != "${UBOOT_ARTIFACT_LINK_NAME}" ]; then
+                 ln -vf ${DEPLOYDIR}/${SPL_IMAGE} ${DEPLOYDIR}/${SPL_LINK}
+             fi
+@@ -305,7 +318,9 @@ do_deploy () {
+ 
+     if [ -n "${UBOOT_ENV}" ]; then
+         install -m 644 ${WORKDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
+-        ln -vf ${DEPLOYDIR}${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_BINARY}
++        if [ "${UBOOT_ENV_IMAGE}" != "${UBOOT_ENV_BINARY}" ]; then
++            ln -vf ${DEPLOYDIR}${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_BINARY}
++        fi
+         if [ -n "${UBOOT_ENV_LINK}" -a "${UBOOT_ARTIFACT_NAME}" != "${UBOOT_ARTIFACT_LINK_NAME}" ]; then
+             ln -vf ${DEPLOYDIR}${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_LINK}
+         fi
 -- 
 2.43.0
 
