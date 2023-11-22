@@ -2,56 +2,56 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 665F1C61DF4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85204C61DF6
 	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 12:45:18 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.18435.1700657114441052745
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.18519.1700657111504735903
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 04:45:14 -0800
+ Wed, 22 Nov 2023 04:45:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eDbBiqcZ;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9fffa4c4f43so410289566b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 04:45:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LWWsirwV;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9fcfd2a069aso500952166b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 04:45:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700657113; x=1701261913; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1700657110; x=1701261910; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fqhjYl5w8LOzOCTE8sWbviy2v9fZ5k92HrDXd354WwA=;
-        b=eDbBiqcZGs4+amWrvd4nVskyKsgz9BZhtz8b8hxGRIbzXe3RWz73oa3qc7LZlJYIrl
-         tTNbBXeoeiEuLmxoqCKsoDpEJROVLBdIaqeC1D8KMJSendW+k7uXvFl8IQ4D9CIWHfpm
-         HmBJ0powZwQmGgriYRHB7mYXXdqPl1j0vhnx9o9deCiR2tqAIrtHEF6U9/Bzhs93nxQg
-         IUfiYonePpdv3VF5d0iL5ayQV17XknN5oa2wmFwVOI2a6xbFVagzWWV6mv4Kt+q/R2eh
-         JgRHuWXobyxFCnvLFJGJKaDn/JVXuYYiQINkjrYlOgIA/fII5xDgOgLRX5xn5ur8gBAo
-         bUmg==
+        bh=R+/Cjvxf54NUl3zLrG33cM+CDDJTLdZbgDH2N9Nv/2Y=;
+        b=LWWsirwVh/XHnTBAgWnoSHWfaGMkGv3fE/ZEmrBUDJhrpxd/sbkK//ltPHhZjH4kKq
+         x+aq3ndSzpJdeXCfVLzSR6RyWOGDKWGdEcU6yBuYdXgrgxgQqV75o4/jCEw75AvxudVZ
+         OWUR14bdS49GT4N9PPDn2wT7JMeUxXpKnK98yIIRG+ogubMAM0M6NOmIMai7E+LWwQ/O
+         BaaletPrHjhqu/hn3buHWk8jioLW42B0Jxti8fa/+rWk4drELmb+sti8KlBGvLxXR47M
+         JFev3ZD14FqRNF7utk0Yk5/KBxaAIp+vNmKkdsixg4vlD6KJJYe4r4YfHjh/NOHYhCYJ
+         kOhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700657113; x=1701261913;
+        d=1e100.net; s=20230601; t=1700657110; x=1701261910;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fqhjYl5w8LOzOCTE8sWbviy2v9fZ5k92HrDXd354WwA=;
-        b=H5w+TorQ64SRjmckniataERp8K7yJYWYT9sC08E3xPCBb9MmexTspsGlzKn6ld5v9A
-         n79hqOHVQEFepBsM6zIfrdR+CgJcSOD2l/s5TBMw4tt+MA62yjSxigDanRvt8uUOB7Zf
-         TUgGolh/tP1CA5kX2oYCYqh8nqpcx7shZruK5fwI6pkPA63tmDpOCyYDEqFN55XdyLlg
-         JEhbmipBx+P7WatXopcqtFS9nK33aVP1kCkqdpZaKQHLk2Pomdb4AE9CrHF8GneM+o+R
-         8cVLVQxg6OoRaRka6QM2Zg7xHxdfwyrBQZu1bFCF0YsFGl0HeUbl1udUNE5QzoAy5SY0
-         yQJQ==
-X-Gm-Message-State: AOJu0Yy+xcGy5VDLrItVqYgSZz+fROdXMWnK6x18rbtZP2DUOVr8bdXe
-	08QZhli3e0gEdOXt7JEx9o3KFIMn7m4=
-X-Google-Smtp-Source: AGHT+IE7Zy+rRtS67uOFUj0W6chEpAZsowv8wwE9joTa07vvtIYn/XBqPWZd/tN7OGRe5N5JsYUh8g==
-X-Received: by 2002:a17:906:535b:b0:a03:7de1:374f with SMTP id j27-20020a170906535b00b00a037de1374fmr1610269ejo.25.1700657112867;
-        Wed, 22 Nov 2023 04:45:12 -0800 (PST)
+        bh=R+/Cjvxf54NUl3zLrG33cM+CDDJTLdZbgDH2N9Nv/2Y=;
+        b=HCzoxHdugUn3f8Bi6dT8zmtIFhYXuEZoJFHIBBCpllczHBYC4vHcSG2JRBKSpLj+b4
+         hJSTZjMSnhoEY3KiuWgu0THccq40RPDMWc4yIfmJlS7GEaTBz/oxaumqT8FRjJ9VRrSD
+         SHkW0vK497qPXbWHp0BCemjmFtl+3fp4vMXwNp3cts3jTeSMHOu8oJIb628rcOQLILmC
+         mokKukSkHssZmlZ5m0moqzoHMGOM8fEfiHYSoCspzFTRUU6vzKpYiXUfqXMFEB7AXZj/
+         EmSuY1xuTT3Wjt9wKq9W6ZqgX7WJCGAZeBpgBJofKliRrJXw4yEWgp/kIi77BmhudqE9
+         8t6Q==
+X-Gm-Message-State: AOJu0Yw6Eykl9eMJIXLp5ubavvG8W0CCvCHQhOgO61uo0N3m8jEfBAZ3
+	Lv6uw5NK/R/xy8Re2Zl07RPUYI+uHPU=
+X-Google-Smtp-Source: AGHT+IGgQH/ZunSONNdZRlWcZrZGLZo5t4lVwGXUGIMQhNbHRjbwGozmj0GC6V82o0i/ayM/MdBSOw==
+X-Received: by 2002:a17:906:260e:b0:9ff:ca67:789d with SMTP id h14-20020a170906260e00b009ffca67789dmr1888146ejc.31.1700657109849;
+        Wed, 22 Nov 2023 04:45:09 -0800 (PST)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id e10-20020a170906314a00b009a13fdc139fsm6529375eje.183.2023.11.22.04.45.12
+        by smtp.gmail.com with ESMTPSA id d7-20020a17090648c700b00a0353fd24a5sm1381680ejt.184.2023.11.22.04.45.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 04:45:12 -0800 (PST)
+        Wed, 22 Nov 2023 04:45:09 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/21] kernel-fitimage.bbclass: add .its extension also to links
-Date: Wed, 22 Nov 2023 13:44:36 +0100
-Message-ID: <f65abce22a039037c01c11ca5a97f3a7ffaade64.1700600804.git.martin.jansa@gmail.com>
+Subject: [PATCH 02/21] create-spdx-2.2.bbclass: use hardlink as well
+Date: Wed, 22 Nov 2023 13:44:32 +0100
+Message-ID: <b3a6626a8d7a5b20bcb78093cfe4d64ed7c7b30c.1700600804.git.martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1700600804.git.martin.jansa@gmail.com>
 References: <cover.1700600804.git.martin.jansa@gmail.com>
@@ -61,65 +61,28 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 12:45:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191083
-
-* for consistency with the names
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191079
 
 [YOCTO #12937]
----
- meta/classes-recipe/kernel-artifact-names.bbclass | 2 ++
- meta/classes-recipe/kernel-fitimage.bbclass       | 8 ++++----
- 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel-artifact-names.bbclass b/meta/classes-recipe/kernel-artifact-names.bbclass
-index 023ce61de5..1117a5b61f 100644
---- a/meta/classes-recipe/kernel-artifact-names.bbclass
-+++ b/meta/classes-recipe/kernel-artifact-names.bbclass
-@@ -31,6 +31,8 @@ KERNEL_FIT_NAME ?= "${KERNEL_ARTIFACT_NAME}"
- KERNEL_FIT_LINK_NAME ?= "${KERNEL_ARTIFACT_LINK_NAME}"
- KERNEL_FIT_BIN_EXT ?= "${KERNEL_ARTIFACT_BIN_EXT}"
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ meta/classes/create-spdx-2.2.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index b0aef80db1..8c77f6b886 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -967,7 +967,7 @@ python image_combine_spdx() {
+         if image_link_name:
+             link = imgdeploydir / (image_link_name + suffix)
+             if link != target_path:
+-                link.symlink_to(os.path.relpath(target_path, link.parent))
++                os.link(target_path, link)
  
-+KERNEL_FIT_ITS_EXT ?= ".its"
-+
- MODULE_TARBALL_NAME ?= "${KERNEL_ARTIFACT_NAME}"
- MODULE_TARBALL_LINK_NAME ?= "${KERNEL_ARTIFACT_LINK_NAME}"
- MODULE_TARBALL_DEPLOY ?= "1"
-diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-index 25a33123a6..ee2496fedc 100644
---- a/meta/classes-recipe/kernel-fitimage.bbclass
-+++ b/meta/classes-recipe/kernel-fitimage.bbclass
-@@ -843,14 +843,14 @@ kernel_do_deploy:append() {
- 
- 		if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
- 			bbnote "Copying fit-image.its source file..."
--			install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its${KERNEL_FIT_NAME}.its"
-+			install -m 0644 ${B}/fit-image.its "$deployDir/fitImage-its${KERNEL_FIT_NAME}${KERNEL_FIT_ITS_EXT}"
- 			bbnote "Copying linux.bin file..."
- 			install -m 0644 ${B}/linux.bin $deployDir/fitImage-linux${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}
- 		fi
- 
- 		if [ -n "${INITRAMFS_IMAGE}" ]; then
- 			bbnote "Copying fit-image-${INITRAMFS_IMAGE}.its source file..."
--			install -m 0644 ${B}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_NAME}.its"
-+			install -m 0644 ${B}/fit-image-${INITRAMFS_IMAGE}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_NAME}${KERNEL_FIT_ITS_EXT}"
- 			if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
- 				bbnote "Copying fitImage-${INITRAMFS_IMAGE} file..."
- 				install -m 0644 ${B}/${KERNEL_OUTPUT_DIR}/fitImage-${INITRAMFS_IMAGE} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT}"
-@@ -864,12 +864,12 @@ kernel_do_deploy_links:append() {
- 			bbnote "Not creating versioned hardlinks, because KERNEL_FIT_LINK_NAME is empty or identical to KERNEL_FIT_NAME"
- 		else
- 			if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
--				ln -vf $deployDir/fitImage-its${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its${KERNEL_FIT_LINK_NAME}"
-+				ln -vf $deployDir/fitImage-its${KERNEL_FIT_NAME}${KERNEL_FIT_ITS_EXT} "$deployDir/fitImage-its${KERNEL_FIT_LINK_NAME}${KERNEL_FIT_ITS_EXT}"
- 				ln -vf $deployDir/fitImage-linux${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT} "$deployDir/fitImage-linux${KERNEL_FIT_LINK_NAME}${KERNEL_FIT_BIN_EXT}"
- 			fi
- 
- 			if [ -n "${INITRAMFS_IMAGE}" ]; then
--				ln -vf $deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_NAME}.its "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_LINK_NAME}"
-+				ln -vf $deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_NAME}${KERNEL_FIT_ITS_EXT} "$deployDir/fitImage-its-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_LINK_NAME}${KERNEL_FIT_ITS_EXT}"
- 				if [ "${INITRAMFS_IMAGE_BUNDLE}" != "1" ]; then
- 					ln -vf $deployDir/fitImage-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_NAME}${KERNEL_FIT_BIN_EXT} "$deployDir/fitImage-${INITRAMFS_IMAGE_NAME}${KERNEL_FIT_LINK_NAME}${KERNEL_FIT_BIN_EXT}"
- 				fi
+     spdx_tar_path = imgdeploydir / (image_name + ".spdx.tar.zst")
+     make_image_link(spdx_tar_path, ".spdx.tar.zst")
 -- 
 2.43.0
 
