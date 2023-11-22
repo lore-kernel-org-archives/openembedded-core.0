@@ -1,187 +1,133 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED363C61D9B
-	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 11:46:07 +0000 (UTC)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
- by mx.groups.io with SMTP id smtpd.web11.17459.1700653565386741522
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E88C4C61D97
+	for <webhook@archiver.kernel.org>; Wed, 22 Nov 2023 11:50:17 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.17531.1700653811070044780
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 03:46:05 -0800
+ Wed, 22 Nov 2023 03:50:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xw90BGpA;
- spf=pass (domain: gmail.com, ip: 209.85.221.169, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-4afe5fc8ad7so1477475e0c.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 03:46:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700653564; x=1701258364; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Oi4bf8GsHYD+gda74xSN7pvqc1NtLb+9eLuTs9EDhDY=;
-        b=Xw90BGpAART08JgvPTZfwWSqXI2OWNDEFnd0QNDk0GfloMYI7qV20b936aMoZmI+4P
-         fyHp/jFaY8+TOpqpXLmd3Uox2D8ZipLW99oMdkMTTy7wGBZgEGQo6yRYCG7AFmVWgUSK
-         55ekCQv26mhaG1zEIOBagKqnWU7s6zJyBDiACzDAkR/ZEZSZitaQ3GB5mPxbM3vjB8BQ
-         gl7Y4aIyFov8SC2RJ/qem1TAxjk6hNoPYlcBJGWokLRbJJIhbmlKkbjCEFcczSXG+pSz
-         knACva18PY0jHPiARft7m1f1bpzAq9TEjqbVuByepVNSu6P1gkLmtWHSJTDvGnoakxHb
-         Yc0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700653564; x=1701258364;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Oi4bf8GsHYD+gda74xSN7pvqc1NtLb+9eLuTs9EDhDY=;
-        b=pmN9NLqrAzni1KEsEhi4pYgsAKn5WJ1u3rMBMzzHVlalgdO9F6Skm49YpdMHUuAtpJ
-         +Go0hW9LHqFJQyPn6tsib5SK5S6wQsSo7A4IplqIDJeoqAAdtjA4r8aeV2feSXk+gHU1
-         ZdjiJ5Eu/P6yb6fdnvFWrJ7LkNf37OKMMD+il4v6KI59S0HG3UcPwoMYJ9IKsUXFR8Pk
-         SpfvHpAV+aHhHwyUlV9k+Rv71hakl3bOzv/URef4RGNy1Hm1ffvB1xKILJafwtczowwB
-         hs4NTZfV4K+oFIXadRkVHzmv4KKE2vpLl/qg+ocZxkhCYrGGTa1zV7qmZ2KVo97hkj/e
-         LGJQ==
-X-Gm-Message-State: AOJu0YxHaQ8isNrzrt+8Zq1d4ChWBUmhI0rrvZCeo4/KvA3a81QMpHrt
-	fQyqzo/2f7wqZhJ7PH6NABa3+OwE7tsR4iEsJFI=
-X-Google-Smtp-Source: AGHT+IGEfTqe8h//5ja6B3xgCTX7ZpE9fLcVheJu6Lk0Hpl/jP9XkeU85d+hSC2feOU0xzRgsSU3w7PVI+Lfbw4SnUM=
-X-Received: by 2002:a1f:dd82:0:b0:4a8:fcf8:9c77 with SMTP id
- u124-20020a1fdd82000000b004a8fcf89c77mr1954853vkg.6.1700653564376; Wed, 22
- Nov 2023 03:46:04 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=EXscyxEo;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9690644334=archana.polampalli@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AMBj2c9017505
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 11:50:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=mSonq
+	q6O47cdFk10PSDo31YPW3TiA7dLeTUDZj/lF4c=; b=EXscyxEohbqdlWRfko/FU
+	CcfMcFrfrkibV1TTiC9yUdiKV+qM1cT6SO3O+qKQc3s5Fm2kuZcZrATjUnYNo2Sx
+	fAqWsme7LbczJTl4FDd7eORfn774keufho5EWi2bu06AS2XluZIFAUVoV3wifVE1
+	VWMSPZm81PnBwWZBzalWRBdesMok4v1iuiOvPqw2nBRh3JlXftFhAxt6s7jAOOrO
+	R/845EBjd5Wnnxwk0t7GJD8fZkXdgFfR+XEZ/UDQKDf8dBa4fJzmOek0ycSUaF4L
+	219OuSTOcZDckHf80be/aBI1YcJvt4KEUiXFcZ4Vh/t1yzdoaEHnmiIhdxgZ/99M
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uf41saxf1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 11:50:10 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Wed, 22 Nov 2023 03:50:13 -0800
+From: <archana.polampalli@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][kirkstone][PATCH 1/1] gstreamer1.0-plugins-bad: fix CVE-2023-44429
+Date: Wed, 22 Nov 2023 11:49:50 +0000
+Message-ID: <20231122114950.2095666-1-archana.polampalli@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-References: <20231120144628.52664-1-adrian.freihofer@siemens.com>
- <20231120144628.52664-3-adrian.freihofer@siemens.com> <17996456E4E8A103.7061@lists.openembedded.org>
- <CANPvuRkN=exsjS1EUiM-MKDc+HN_LT2vNrsOSYuBsnP4jmzZFw@mail.gmail.com>
- <d9c8d5ec4c8ae98f8b065501292fbe2d32fbbfe6.camel@gmail.com>
- <CANPvuRnvgaH1_RMhcgSXcWen-+Dz6dv2RbqBNyMq0bsGQVTQMQ@mail.gmail.com> <CANNYZj8_mfVEY5Q6LMAdifXcFnMYJ-y-UekpZRpVzuyqpg76qQ@mail.gmail.com>
-In-Reply-To: <CANNYZj8_mfVEY5Q6LMAdifXcFnMYJ-y-UekpZRpVzuyqpg76qQ@mail.gmail.com>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Wed, 22 Nov 2023 11:45:53 +0000
-Message-ID: <CANPvuRkWiLa4j8ST8-zXfAEkxijt41R_uQs3oc9uFnmU1UHaGw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] cmake.bbclass: optionally support qemu
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: adrian.freihofer@gmail.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000973ca6060abc4393"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: 9tcgOhBIJVDti7mrwisiVUTu0Y-w9kAV
+X-Proofpoint-GUID: 9tcgOhBIJVDti7mrwisiVUTu0Y-w9kAV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ clxscore=1015 mlxlogscore=683 adultscore=0 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311060001
+ definitions=main-2311220083
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 11:46:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191068
+ <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 11:50:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191069
 
---000000000000973ca6060abc4393
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia ter=C3=A7a,
-21/11/2023 =C3=A0(s) 11:21:
+AV1 codec parser buffer overflow
 
-> On Tue, 21 Nov 2023 at 12:12, Jose Quaresma <quaresma.jose@gmail.com>
-> wrote:
-> >> I was using it for running Unit Tests on the host before I deployed
-> >> them to the target device as ptest. This worked well. It is well
-> >> integrated with cmake and therefore also with IDEs. So I thought that
-> >> there are certain use cases where it would be nice to have it opt-in.
-> >>
-> >> meson offers qemu-user as well (because of gobject). So if qemu-user i=
-s
-> >> not usable there will be other challenges as well.
-> >>
-> >> There is also a MACHINE_FEATURE which allows to support it for ARCHs
-> >> where it works well but not for ARCHs where qemu-user is known to be
-> >> broken.
-> >>
-> >> I think it would be a nice optional feature.
-> >
-> >
-> > I agree without any doubt on that part.
-> >
-> > But I believe this doesn't work for applications that are using the for=
-k
-> system call.
-> > So consider this will also break any ptest using fork, giving the wrong
-> impression the test is failing.
->
-> I think this needs to be double checked. I find it odd that qemu
-> usermode would fail on such a basic thing, and it would not show up
-> anywhere in places where it's used in core (not just g-i - all the
-> various postinst utilities for generating indexes etc.).
->
-> Alex
->
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+---
+ .../CVE-2023-44429.patch                      | 38 +++++++++++++++++++
+ .../gstreamer1.0-plugins-bad_1.20.7.bb        |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44429.patch
 
-There is no recent information on the internet about the fork issue on qemu
-user mode
-so this may no longer be a problem.
-I can back again, not now, testing some of the oe-core packages who uses
-the meson build
-system to get some results about failing/passing. The approach is the same
-used in this patchset.
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44429.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44429.patch
+new file mode 100644
+index 0000000000..5070d6b865
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/CVE-2023-44429.patch
+@@ -0,0 +1,38 @@
++From 1db83d3f745332cbda6adf954b2c53a10caa205e Mon Sep 17 00:00:00 2001
++From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
++Date: Wed, 4 Oct 2023 11:14:38 +0200
++Subject: [PATCH] codecparsers: av1: Clip max tile rows and cols values
++
++Clip tile rows and cols to 64 as describe in AV1 specification.
++
++Fixes ZDI-CAN-22226 / CVE-2023-44429
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3015
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/5634>
++
++CVE: CVE-2023-44429
++
++Upstream-Status: Backport
++[https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/1db83d3f745332cbda6adf954b2c53a10caa205e]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ gst-libs/gst/codecparsers/gstav1parser.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/gst-libs/gst/codecparsers/gstav1parser.c b/gst-libs/gst/codecparsers/gstav1parser.c
++index 7b9378c..68f8a76 100644
++--- a/gst-libs/gst/codecparsers/gstav1parser.c
+++++ b/gst-libs/gst/codecparsers/gstav1parser.c
++@@ -2219,6 +2219,8 @@ gst_av1_parse_tile_info (GstAV1Parser * parser, GstBitReader * br,
++       ((parser->state.mi_cols + 31) >> 5) : ((parser->state.mi_cols + 15) >> 4);
++   sb_rows = seq_header->use_128x128_superblock ? ((parser->state.mi_rows +
++           31) >> 5) : ((parser->state.mi_rows + 15) >> 4);
+++  sb_cols = MIN (GST_AV1_MAX_TILE_COLS, sb_cols);
+++  sb_rows = MIN (GST_AV1_MAX_TILE_ROWS, sb_rows);
++   sb_shift = seq_header->use_128x128_superblock ? 5 : 4;
++   sb_size = sb_shift + 2;
++   max_tile_width_sb = GST_AV1_MAX_TILE_WIDTH >> sb_size;
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+index fbaabda3f9..504cfce1fd 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.20.7.bb
+@@ -13,6 +13,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://CVE-2023-40474.patch \
+            file://CVE-2023-40475.patch \
+            file://CVE-2023-40476.patch \
++           file://CVE-2023-44429.patch \
+            "
+ SRC_URI[sha256sum] = "87251beebfd1325e5118cc67774061f6e8971761ca65a9e5957919610080d195"
+ 
+-- 
+2.40.0
 
-It will be good also to have some numbers and example recipes in oe-core
-where we can use this patchset.
-In conclusion, this is really a great future imo and improves a lot the
-integrations of new tests in the ptest infrastructure.
-
-Jose
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---000000000000973ca6060abc4393
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Alexander Kanavin &lt;<a href=3D"mail=
-to:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; escreveu no dia t=
-er=C3=A7a, 21/11/2023 =C3=A0(s) 11:21:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">On Tue, 21 Nov 2023 at 12:12, Jose Quaresma &lt;<a h=
-ref=3D"mailto:quaresma.jose@gmail.com" target=3D"_blank">quaresma.jose@gmai=
-l.com</a>&gt; wrote:<br>
-&gt;&gt; I was using it for running Unit Tests on the host before I deploye=
-d<br>
-&gt;&gt; them to the target device as ptest. This worked well. It is well<b=
-r>
-&gt;&gt; integrated with cmake and therefore also with IDEs. So I thought t=
-hat<br>
-&gt;&gt; there are certain use cases where it would be nice to have it opt-=
-in.<br>
-&gt;&gt;<br>
-&gt;&gt; meson offers qemu-user as well (because of gobject). So if qemu-us=
-er is<br>
-&gt;&gt; not usable there will be other challenges as well.<br>
-&gt;&gt;<br>
-&gt;&gt; There is also a MACHINE_FEATURE which allows to support it for ARC=
-Hs<br>
-&gt;&gt; where it works well but not for ARCHs where qemu-user is known to =
-be<br>
-&gt;&gt; broken.<br>
-&gt;&gt;<br>
-&gt;&gt; I think it would be a nice optional feature.<br>
-&gt;<br>
-&gt;<br>
-&gt; I agree without any doubt on that part.<br>
-&gt;<br>
-&gt; But I believe this doesn&#39;t work for applications that are using th=
-e fork system call.<br>
-&gt; So consider this will also break any ptest using fork, giving the wron=
-g impression the test is failing.<br>
-<br>
-I think this needs to be double checked. I find it odd that qemu<br>
-usermode would fail on such a basic thing, and it would not show up<br>
-anywhere in places where it&#39;s used in core (not just g-i - all the<br>
-various postinst utilities for generating indexes etc.).<br>
-<br>
-Alex<br>
-</blockquote></div><br>There is no recent information on the internet about=
- the fork issue on qemu user mode<div>so this may no longer be a problem.<b=
-r>I can back again, not now, testing some of the oe-core packages who uses =
-the meson build</div><div>system to get some results about failing/passing.=
- The approach is the same used in this patchset.<br><br>It will be good als=
-o to have some numbers=C2=A0and example recipes in oe-core where we can use=
- this patchset.<br></div><div>In conclusion, this is really a great future =
-imo and improves a lot the integrations of new tests in the ptest infrastru=
-cture.=C2=A0</div><div><div><div><br></div><div>Jose<br><br></div><span cla=
-ss=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail=
-_signature"><div dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div>=
-</div></div></div></div></div>
-
---000000000000973ca6060abc4393--
 
