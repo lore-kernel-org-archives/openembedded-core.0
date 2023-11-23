@@ -1,101 +1,90 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECF03C61DF7
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 14:04:07 +0000 (UTC)
-Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
- by mx.groups.io with SMTP id smtpd.web11.91581.1700748240436374960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3377C61DF7
+	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 14:11:07 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.91447.1700748664225919523
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 06:04:00 -0800
+ Thu, 23 Nov 2023 06:11:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
-Received: from fwd78.aul.t-online.de (fwd78.aul.t-online.de [10.223.144.104])
-	by mailout06.t-online.de (Postfix) with SMTP id A64088B21;
-	Thu, 23 Nov 2023 15:03:57 +0100 (CET)
-Received: from [192.168.178.67] ([84.163.41.134]) by fwd78.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1r6AJ9-3bQmo40; Thu, 23 Nov 2023 15:03:55 +0100
-Date: Thu, 23 Nov 2023 15:04:20 +0100
-From: f_l_k@t-online.de
-Subject: Re: [oe-core][PATCHv3] cups: Allow to be controlled by root and users
- in wheel
-To: Markus Volk <f_l_k@t-online.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-Message-Id: <8RXK4S.ZEPMLSMPYBO92@t-online.de>
-In-Reply-To: <179A449F252F0281.9514@lists.openembedded.org>
-References: <20231120161848.1461683-1-f_l_k@t-online.de>
-	<aa9e1e82072027c73d4ce2b787a0a2cc9e4ada79.camel@linuxfoundation.org>
-	<179A449F252F0281.9514@lists.openembedded.org>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JDwVGBnA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50a6ff9881fso1296461e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 06:11:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1700748662; x=1701353462; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k0cMEW1/gN2LQpFH8uMc5qd8vjrXcqgoVR9R0g291Co=;
+        b=JDwVGBnA07M6NwGAnB47yofaONJdZ5e/p4YVclKb/bnQK/uL/1Pyobt9PAb3nM5l2S
+         S7wLBxWS67PNBowvPetfHYUpF91QnGlcmlmLWOJ0OEY5XatF86YCaM1x17KpieXmAGXW
+         5MkxCra9HGZNsJSe22e095fSAakndD6Cdn8is=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700748662; x=1701353462;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=k0cMEW1/gN2LQpFH8uMc5qd8vjrXcqgoVR9R0g291Co=;
+        b=nkasAyznPhHkYN2oYzOLJqL05ayDTBWguMkjkX2agOF3TFYqxdNt34iDDy1gCc8G7d
+         2amXZW51KQWSmi47zTzxu+Ch7fMpIP6cdi9Jzk8EhPSKXVpeHOWcpzBFf1vtcwOcoxf0
+         Q9CU5lHCyPzr6tJSUb3EOjM5EWT8pXqxUskuVN+f9tXgrhzz5j4yM0PwuaHI3im+yQsk
+         JsKChVNH+DxOocS4SCAOjTNPBN4k07iLEMiNq/AbGWIjfJjDNwHhPchd7NqArTlBkfvZ
+         8YcHLdWl2pdk09X8h1lB0iR1hygtaU9fLvhxFpY+Xc84VpID46b+976EKEm30sv+9ghj
+         qqBA==
+X-Gm-Message-State: AOJu0YzrtbEmGjWmdMmW95+C7LtPlWYq44J4wFrR5IteexwbJG2iaUu5
+	Pdg+A6U5O2yRIkp1gFPSSU6uRA==
+X-Google-Smtp-Source: AGHT+IE5LvukrXQTzajgwzwCU6N05AZWSMZH72GcA8fUIIhAtcxMy5/mHh6NwAxpzmZC9o49kjalPw==
+X-Received: by 2002:a05:6512:ac3:b0:507:9640:f256 with SMTP id n3-20020a0565120ac300b005079640f256mr2934860lfu.36.1700748662400;
+        Thu, 23 Nov 2023 06:11:02 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c511:4d31:367c:ab3c? ([2001:8b0:aba:5f3c:c511:4d31:367c:ab3c])
+        by smtp.gmail.com with ESMTPSA id j7-20020adff007000000b0032ddc3b88e9sm1792439wro.0.2023.11.23.06.11.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 06:11:01 -0800 (PST)
+Message-ID: <12a072dc57477bc7a07847718a34bd75dab9abeb.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC 2/2] useradd.bbclass: ensure sysroot_setscene
+ for DEPENDS
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
+	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 23 Nov 2023 14:11:01 +0000
+In-Reply-To: <c6d2ae3913582947c046d577a9dbf6dc8629909a.1700746611.git.pidge@baylibre.com>
+References: <cover.1700746611.git.pidge@baylibre.com>
+	 <c6d2ae3913582947c046d577a9dbf6dc8629909a.1700746611.git.pidge@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-hU5qxZSVHz2ukNPTFDkx"
-X-TOI-EXPURGATEID: 150726::1700748235-47FFC979-0360C13E/0/0 CLEAN NORMAL
-X-TOI-MSGID: 8320b759-0ac2-4f45-a42c-56521979a0a0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 14:04:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191157
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 14:11:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191158
 
---=-hU5qxZSVHz2ukNPTFDkx
-Content-Type: text/plain; charset=us-ascii; format=flowed
+On Thu, 2023-11-23 at 13:49 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
+=A1in wrote:
+> [YOCTO #13419]
+>=20
+> If recipeB creates a user and assigns it to a group created in recipeA,
+> we need to ensure two things:
+>=20
+> That recipeA is in recipeB's DEPENDS (documentation issue) and that the
+> sysroot setscene, in the case of a TMPDIR wipeout, is in
+> USERADDSETSCENEDEPS.
+>=20
+> RP and I discussed adding a USERADD_DEPENDS variable to deal with this,
+> but there is some magic around DEPENDS that a new variable wouldn't have
+> so I'm sending this as is for people to poke at.
 
-On Thu, Nov 23 2023 at 02:40:19 PM +01:00:00, Markus Volk 
-<f_l_k@t-online.de> wrote:
-> In other words. This makes the cups-pk-helper unlock mechanism work 
-> out of the box without further configuration
+Can you be more specific about this "magic"?
 
-with this commit:
-Nov 23 15:03:06 intel-corei7-64 dbus-daemon[739]: [system] Activating 
-service name='org.opensuse.CupsPkHelper.Mechanism' requested by 
-':1.126' (uid=1000 pid=2346631 comm="/usr/bin/gnome-control-center") 
-(using servicehelper)
-Nov 23 15:03:06 intel-corei7-64 dbus-daemon[739]: [system] Successfully 
-activated service 'org.opensuse.CupsPkHelper.Mechanism'
+I'm still worrying that DEPENDS is too broad, there are many more
+things in there which we don't want listed as setscene dependencies and
+I think this needs to be more precise.
 
+Cheers,
 
-without this commit:
-Nov 23 15:00:01 intel-corei7-64 dbus-daemon[739]: [system] Activating 
-service name='org.opensuse.CupsPkHelper.Mechanism' requested by 
-':1.115' (uid=1000 pid=2346285 comm="/usr/bin/gnome-control-center") 
-(using servicehelper)
-Nov 23 15:00:01 intel-corei7-64 dbus-daemon[739]: [system] Successfully 
-activated service 'org.opensuse.CupsPkHelper.Mechanism'
-Nov 23 15:00:01 intel-corei7-64 gnome-control-c[2346285]: 
-cups-pk-helper: setting of an option failed: client-error-forbidden
-Nov 23 15:00:01 intel-corei7-64 gnome-control-c[2346285]: 
-g_hash_table_ref: assertion 'hash_table != NULL' failed
-Nov 23 15:00:03 intel-corei7-64 gnome-control-c[2346285]: 
-cups-pk-helper: setting of an option failed: client-error-forbi
-
-
---=-hU5qxZSVHz2ukNPTFDkx
-Content-Type: text/html; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-
-<div id=3D"geary-body" dir=3D"auto">On Thu, Nov 23 2023 at 02:40:19 PM +01:=
-00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type=3D"=
-cite">In other words. This makes the cups-pk-helper unlock mechanism work o=
-ut of the box without further configuration</blockquote><div><br></div><div=
->with this commit:</div><div><div>Nov 23 15:03:06 intel-corei7-64 dbus-daem=
-on[739]: [system] Activating service name=3D'org.opensuse.CupsPkHelper.Mech=
-anism' requested by ':1.126' (uid=3D1000 pid=3D2346631 comm=3D"/usr/bin/gno=
-me-control-center") (using servicehelper)</div><div>Nov 23 15:03:06 intel-c=
-orei7-64 dbus-daemon[739]: [system] Successfully activated service 'org.ope=
-nsuse.CupsPkHelper.Mechanism'</div></div><div><br></div><div><br></div><div=
->without this commit:</div><div><div>Nov 23 15:00:01 intel-corei7-64 dbus-d=
-aemon[739]: [system] Activating service name=3D'org.opensuse.CupsPkHelper.M=
-echanism' requested by ':1.115' (uid=3D1000 pid=3D2346285 comm=3D"/usr/bin/=
-gnome-control-center") (using servicehelper)</div><div>Nov 23 15:00:01 inte=
-l-corei7-64 dbus-daemon[739]: [system] Successfully activated service 'org.=
-opensuse.CupsPkHelper.Mechanism'</div><div>Nov 23 15:00:01 intel-corei7-64 =
-gnome-control-c[2346285]: cups-pk-helper: setting of an option failed: clie=
-nt-error-forbidden</div><div>Nov 23 15:00:01 intel-corei7-64 gnome-control-=
-c[2346285]: g_hash_table_ref: assertion 'hash_table !=3D NULL' failed</div>=
-<div>Nov 23 15:00:03 intel-corei7-64 gnome-control-c[2346285]: cups-pk-help=
-er: setting of an option failed: client-error-forbi</div></div></div>
---=-hU5qxZSVHz2ukNPTFDkx--
-
+Richard
 
