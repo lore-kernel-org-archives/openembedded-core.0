@@ -1,94 +1,95 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C16AFC5AD4C
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 10:47:56 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.88529.1700736471915151920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 000B7C61D85
+	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 11:35:06 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web11.89093.1700739297607395918
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 02:47:52 -0800
+ Thu, 23 Nov 2023 03:34:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Ovn59+nI;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=96911f4787=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AN7iIW7001366
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 10:47:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=TXUUh
-	mPHK/0Ps/o/IuJqAfkS/25VFztREbeCJ3uzeDg=; b=Ovn59+nIHdQVyXkNnRB7j
-	m3z/apXTpJxvG4xPj/5jzbHy2/+uiBEUXTVKYy2FnZvWekisJRAQZF5xMLE0u5dS
-	JuC8GaO/uJ4OROyq6zYbAxOUZs25b6nGpWDgyrsbP+i0YO7dvY9RHUI/NjCMY5wi
-	1+zuCVRAQRV5C5I3G0Z70GpOVu/aCnoAQwvcVMiyQkhkATkmAyJIgnDfzi+VQCCX
-	dkJJ5/WWduRCSqXqtYVQ/uUFSFJfpQN2Ip54yaorrbkEB4CT1Q8ySi4XVILLeBRK
-	73u15luBtC1Fvvhn1nexD7yHI89zVwOAjLYAP6kRXYoFNKnvIlOdKb/jys3k433h
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uejfwvd4w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 10:47:50 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 23 Nov 2023 02:47:38 -0800
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][master][kirkstone][PATCH 1/1] vim: Upgrade 9.0.2068 -> 9.0.2112
-Date: Thu, 23 Nov 2023 10:47:06 +0000
-Message-ID: <20231123104706.915387-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
+Received: from fwd81.aul.t-online.de (fwd81.aul.t-online.de [10.223.144.107])
+	by mailout06.t-online.de (Postfix) with SMTP id 9C69623390
+	for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 12:34:55 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.163.41.134]) by fwd81.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1r67yw-0WwZHd0; Thu, 23 Nov 2023 12:34:54 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] pciutils: add packageconfigs for options
+Date: Thu, 23 Nov 2023 12:34:52 +0100
+Message-ID: <20231123113452.1697802-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: OOXBwjn1vElhkXT7luK-pgUL3Z7KOLWm
-X-Proofpoint-ORIG-GUID: OOXBwjn1vElhkXT7luK-pgUL3Z7KOLWm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=758
- bulkscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0 impostorscore=0
- priorityscore=1501 adultscore=0 phishscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311060001
- definitions=main-2311230077
+X-TOI-EXPURGATEID: 150726::1700739294-FEB02990-9245B888/0/0 CLEAN NORMAL
+X-TOI-MSGID: 73e690f3-e619-4d48-a5e5-92a2ba182a08
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 10:47:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191141
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 11:35:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191142
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+My motivation for this is to get zlib support selectable, because
+libosinfo requires the pci.ids file uncompressed. Add packageconfigs for
+the other options as well to avoid autoselect.
 
-This includes CVE fix for CVE-2023-48237.
-6bf131888 (tag: v9.0.2112) patch 9.0.2112: [security]: overflow in shift_line
+Configuration stays the same besides zlib is deselected by default.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-48237
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-bsp/pciutils/pciutils_3.10.0.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index e8942cbc2d..de350c4110 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".2068"
--SRCREV = "9198c1f2b1ddecde22af918541e0de2a32f0f45a"
-+PV .= ".2112"
-+SRCREV = "6bf131888a3d1de62bbfa8a7ea03c0ddccfd496e"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
--- 
-2.40.0
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.10.0.bb b/meta/recipes-=
+bsp/pciutils/pciutils_3.10.0.bb
+index e27cfd4ced..4bde090169 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.10.0.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.10.0.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954=
+499f7abaabaa882bbe"
+ # Can drop make-native when all systems have make 4.3
+ # https://git.savannah.gnu.org/cgit/make.git/commit/?id=3Db90fabc8d6f34f=
+b37d428dc0fb1b8b1951a9fbed
+ # causes space issues in lib/libpci.pc
+-DEPENDS =3D "zlib kmod make-native"
++DEPENDS =3D "make-native"
+=20
+ SRC_URI =3D "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.=
+tar.xz \
+            file://configure.patch"
+@@ -18,10 +18,11 @@ SRC_URI[sha256sum] =3D "238a2e27166730e53a17fe07bfad2=
+29e07fa39b618117e5944b6d7eda9
+=20
+ inherit multilib_header pkgconfig update-alternatives
+=20
+-PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
+'hwdb', '', d)}"
++PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
+'hwdb', '', d)} dns kmod"
+ PACKAGECONFIG[hwdb] =3D "HWDB=3Dyes,HWDB=3Dno,udev"
+-
+-PCI_CONF_FLAG =3D "ZLIB=3Dyes DNS=3Dyes SHARED=3Dyes STRIP=3D LIBDIR=3D$=
+{libdir}"
++PACKAGECONFIG[zlib] =3D "ZLIB=3Dyes,ZLIB=3Dno,zlib"
++PACKAGECONFIG[kmod] =3D "LIBKMOD=3Dyes,LIBKMOD=3Dno,kmod"
++PACKAGECONFIG[dns] =3D "DNS=3Dyes,DNS=3Dno"
+=20
+ # see configure.patch
+ do_configure () {
+@@ -38,7 +39,7 @@ export SBINDIR =3D "${sbindir}"
+ export SHAREDIR =3D "${datadir}"
+ export MANDIR =3D "${mandir}"
+=20
+-EXTRA_OEMAKE =3D "-e MAKEFLAGS=3D ${PCI_CONF_FLAG}"
++EXTRA_OEMAKE =3D "-e MAKEFLAGS=3D SHARED=3Dyes STRIP=3D LIBDIR=3D${libdi=
+r}"
+=20
+ ASNEEDED =3D ""
+=20
+--=20
+2.42.0
 
 
