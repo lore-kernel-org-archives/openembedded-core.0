@@ -1,106 +1,572 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <marex@denx.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92B14C27C40
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 00:33:03 +0000 (UTC)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
- by mx.groups.io with SMTP id smtpd.web11.80041.1700699577988815067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C22C27C40
+	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 00:46:33 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by mx.groups.io with SMTP id smtpd.web11.80259.1700700388272646231
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Nov 2023 16:32:58 -0800
+ Wed, 22 Nov 2023 16:46:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RKVtJDlI;
- spf=pass (domain: gmail.com, ip: 209.85.221.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4af6a700086so128282e0c.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Nov 2023 16:32:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700699577; x=1701304377; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fICn/BY03LEi97Hsd+uCGdiWf1N5vvNcfUlmYiYng6g=;
-        b=RKVtJDlIltiyf13Vm+Dwz/Pz4h3rm2w8rzLdCzd4U7fOSVOgtoSpTfeiVxONN/8H2s
-         THM2eNqfhLyt74R3gZeP16J07MEr2uGb4oiMhokzj5IewuoK+CMs2uQR5vE5PXumrR77
-         xGqX6YArsbLF+0dNTvrSXohvnQQXSC/1esHLMX81YCL5EFb494O9pnIZUN6cSvPnprEw
-         jLHhHJaaAxYYQls498jb4XK7s5yUADFlB3UKRc/pparfeWmfjmIXUp0hDcgL5cvTDdBE
-         7Gd02WSOl7EPstsfXX1gceZ9fqoApXHFI9AkdZAprRu5iWAlJJIr24LNXyJJqv5f1ZXg
-         1npQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700699577; x=1701304377;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fICn/BY03LEi97Hsd+uCGdiWf1N5vvNcfUlmYiYng6g=;
-        b=MLsPILpC6LsZNZKtyPk6dGz+EayUIEomfebO7d8K1L8W3N+L3D0mqiL3jwf4Dsf/Rv
-         S5N2/7TyHt14C37W1oA1X0mOwLB/LN/tp0uMINH85USW9QUhQmPBCdBRSfSAD6AGmdno
-         SF6KDTYzBtKWmr4NZvrY5fQMe4/rOo85aqkpZjPPWNu+8iWr7T/kBJrW1/5qkHAM8Z1C
-         RZF0AvH0RbIZ8D1f0cHTQq/VHy32iaS1bEChdJaMLGW6G2RaUBo9zyNO3K1YJTfTQMXv
-         s3D1RAY3MK49mEM0oVoeDXT/+kxhKGgTvhS4h1nzM04YanAaSmZx3pW6Pm2RZ4k6tALy
-         sPWw==
-X-Gm-Message-State: AOJu0Yw1rXw72dUfskoFVQSyBokJ4VHhn96zZaDmL275tWAV2ZF6Gs4v
-	lZ9RLhkDSUnE0jbsVu3YEDJ7dg0ywt4XPFfMIBs=
-X-Google-Smtp-Source: AGHT+IFT2sqLviUng44OGmqgskoIYM3A2xG56c47xnZMwF6K8OK5BFTGt5gF2RYEIPX4kXR58MubU3Rbp9uZSh7HR88=
-X-Received: by 2002:a1f:d946:0:b0:49c:79f3:27a4 with SMTP id
- q67-20020a1fd946000000b0049c79f327a4mr4501148vkg.3.1700699576939; Wed, 22 Nov
- 2023 16:32:56 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@denx.de header.s=phobos-20191101 header.b=TdeJtcDJ;
+ spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 8C168875F5;
+	Thu, 23 Nov 2023 01:46:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1700700386;
+	bh=2End7rDWI9VSKjBFt+nnsXNIkxFBhzVZh5GKq7qd7I0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TdeJtcDJXlze5RH4uc9CIVTUhmnvyR0SdmArx0oglxK/aQROEEF6Qg6ocrheo/Msq
+	 aSg+FzP7tJVT81YK6hDc6jS6kd2yFmP7jGmQHTKg6KL3m5dS4sWBXPtNv4P9deTWRQ
+	 qDxu0m/WKRpybKYGePegXTt877jp9ryXMppB5VVOOGutDtTBMovZDm4U3bYPza9NjX
+	 hSftCJHndud74zJfv+N8T1nJE6xZ+7nPQA0uwE+kOardzuIOMQL1xaBHCsJTw1d3jF
+	 0UIj0V2ssGAr9LRHhbnAYL5+q08I9kwZGmLdm9Cd9wxPlDktbPb8cBdO6dec3/I85P
+	 Pqu4bCtgdpiRw==
+From: Marek Vasut <marex@denx.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Marek Vasut <marex@denx.de>,
+	Ross Burton <ross.burton@arm.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] Revert "lzop: remove recipe from oe-core"
+Date: Thu, 23 Nov 2023 01:45:42 +0100
+Message-ID: <20231123004605.82598-1-marex@denx.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20231122220508.3148727-1-raj.khem@gmail.com> <AS1PR10MB5697BBD21B74897C9B766D73FDBAA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697BBD21B74897C9B766D73FDBAA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Nov 2023 16:32:29 -0800
-Message-ID: <CAMKF1sq8P-ER-AmLdwkQJaavNh-=YyAWGkihBvi3N3b_zfU3Tw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] init-manager-mdev-busybox: Keep sysvinit distro
- feature on
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 00:33:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191127
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 00:46:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191128
 
-On Wed, Nov 22, 2023 at 2:59=E2=80=AFPM Marko, Peter <Peter.Marko@siemens.c=
-om> wrote:
->
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Khem Raj via lists.openembedded.org
->
-> > The rcS script that busybox-init provides is able to run scripts that
-> > are available as part of sysvinit, therefore its fine to keep sysvinit
-> > distro feature enabled so that we can build complex systems with
-> > busybox as init system.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/conf/distro/include/init-manager-mdev-busybox.inc | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/conf/distro/include/init-manager-mdev-busybox.inc b/m=
-eta/conf/distro/include/init-manager-mdev-busybox.inc
-> > index 12091cba68c..a5a61bbe4d2 100644
-> > --- a/meta/conf/distro/include/init-manager-mdev-busybox.inc
-> > +++ b/meta/conf/distro/include/init-manager-mdev-busybox.inc
-> > @@ -1,5 +1,6 @@
-> >  # enable mdev/busybox for init
-> > -DISTRO_FEATURES_BACKFILL_CONSIDERED:append =3D " systemd sysvinit"
-> > +DISTRO_FEATURES:append =3D " sysvinit"
->
-> I don't think that this append is a good idea.
-> I want a small, lean, controllable init system, not a complex one.
-> This probably belongs to distro or to a new INIT_MANAGER type.
+This reverts commit dea5e8863792dc7bb3324b543e04da4c94a060aa.
 
-That's fair. Although one can easily build a full system just with
-busybox-init like this perhaps it should be a separate INIT_MANAGER
-perhaps eudev-busybox or some such.
+The original commit claims that lzop is unused in OE-core.
+That is not correct, the following places still use it and
+became unbuildable now:
+"
+meta/classes-recipe/image_types.bbclass:CONVERSION_CMD:lzo =3D "lzop -9 $=
+{IMAGE_NAME}.${type}"
+meta/classes-recipe/image_types.bbclass:CONVERSION_DEPENDS_lzo =3D "lzop-=
+native"
+meta/classes-recipe/kernel-uboot.bbclass:                       lzop -9 l=
+inux.bin
+meta/classes-recipe/kernel.bbclass:DEPENDS +=3D "${@bb.utils.contains("IN=
+ITRAMFS_FSTYPES", "cpio.lzo", "lzop-native", "", d)}"
+meta/classes-recipe/kernel.bbclass:                             lzop -df =
+${B}/usr/${INITRAMFS_IMAGE_NAME}.$img
+"
 
->
-> > +DISTRO_FEATURES_BACKFILL_CONSIDERED:append =3D " systemd"
-> >  VIRTUAL-RUNTIME_dev_manager ??=3D "busybox-mdev"
-> >  VIRTUAL-RUNTIME_init_manager ??=3D "busybox"
-> >  VIRTUAL-RUNTIME_initscripts ??=3D "initscripts"
-> > --
-> > 2.43.0
->
+Furthermore, LZO is the best compromise between kernel decompression
+time and size on low end ARM systems, that is why it is often used
+with e.g.:
+FIT_KERNEL_COMP_ALG =3D "lzo"
+FIT_KERNEL_COMP_ALG_EXTENSION =3D ".lzo"
+
+Reinstate the package to avoid breaking this use case.
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Ross Burton <ross.burton@arm.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/conf/distro/include/maintainers.inc    |   1 +
+ meta/recipes-support/lzop/lzop/acinclude.m4 | 390 ++++++++++++++++++++
+ meta/recipes-support/lzop/lzop_1.04.bb      |  27 ++
+ 3 files changed, 418 insertions(+)
+ create mode 100644 meta/recipes-support/lzop/lzop/acinclude.m4
+ create mode 100644 meta/recipes-support/lzop/lzop_1.04.bb
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index 35f8a72fa4..e95ab59d0d 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -484,6 +484,7 @@ RECIPE_MAINTAINER:pn-lua =3D "Alexander Kanavin <alex=
+.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-lz4 =3D "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-lzo =3D "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-lzip =3D "Denys Dmytriyenko <denis@denix.org>"
++RECIPE_MAINTAINER:pn-lzop =3D "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-m4 =3D "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-m4-native =3D "Robert Yang <liezhi.yang@windriver.c=
+om>"
+ RECIPE_MAINTAINER:pn-make =3D "Robert Yang <liezhi.yang@windriver.com>"
+diff --git a/meta/recipes-support/lzop/lzop/acinclude.m4 b/meta/recipes-s=
+upport/lzop/lzop/acinclude.m4
+new file mode 100644
+index 0000000000..0029c19c7d
+--- /dev/null
++++ b/meta/recipes-support/lzop/lzop/acinclude.m4
+@@ -0,0 +1,390 @@
++
++AC_DEFUN([mfx_ACC_CHECK_ENDIAN], [
++AC_C_BIGENDIAN([AC_DEFINE(ACC_ABI_BIG_ENDIAN,1,[Define to 1 if your mach=
+ine is big endian.])],[AC_DEFINE(ACC_ABI_LITTLE_ENDIAN,1,[Define to 1 if =
+your machine is little endian.])])
++])#
++
++AC_DEFUN([mfx_ACC_CHECK_HEADERS], [
++AC_HEADER_TIME
++AC_CHECK_HEADERS([assert.h ctype.h dirent.h errno.h fcntl.h float.h limi=
+ts.h malloc.h memory.h setjmp.h signal.h stdarg.h stddef.h stdint.h stdio=
+.h stdlib.h string.h strings.h time.h unistd.h utime.h sys/stat.h sys/tim=
+e.h sys/types.h sys/wait.h])
++])#
++
++AC_DEFUN([mfx_ACC_CHECK_FUNCS], [
++AC_CHECK_FUNCS(access alloca atexit atoi atol chmod chown ctime difftime=
+ fstat gettimeofday gmtime localtime longjmp lstat memcmp memcpy memmove =
+memset mktime qsort raise setjmp signal snprintf strcasecmp strchr strdup=
+ strerror strftime stricmp strncasecmp strnicmp strrchr strstr time umask=
+ utime vsnprintf)
++])#
++
++
++AC_DEFUN([mfx_ACC_CHECK_SIZEOF], [
++AC_CHECK_SIZEOF(short)
++AC_CHECK_SIZEOF(int)
++AC_CHECK_SIZEOF(long)
++
++AC_CHECK_SIZEOF(long long)
++AC_CHECK_SIZEOF(__int16)
++AC_CHECK_SIZEOF(__int32)
++AC_CHECK_SIZEOF(__int64)
++
++AC_CHECK_SIZEOF(void *)
++AC_CHECK_SIZEOF(size_t)
++AC_CHECK_SIZEOF(ptrdiff_t)
++])#
++
++
++# /*********************************************************************=
+**
++# // Check for ACC_conformance
++# **********************************************************************=
+**/
++
++AC_DEFUN([mfx_ACC_ACCCHK], [
++mfx_tmp=3D$1
++mfx_save_CPPFLAGS=3D$CPPFLAGS
++dnl in Makefile.in $(INCLUDES) will be before $(CPPFLAGS), so we mimic t=
+his here
++test "X$mfx_tmp" =3D "X" || CPPFLAGS=3D"$mfx_tmp $CPPFLAGS"
++
++AC_MSG_CHECKING([whether your compiler passes the ACC conformance test])
++
++AC_LANG_CONFTEST([AC_LANG_PROGRAM(
++[[#define ACC_CONFIG_NO_HEADER 1
++#include "acc/acc.h"
++#include "acc/acc_incd.h"
++#undef ACCCHK_ASSERT
++#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT_HEADER(expr)
++#include "acc/acc_chk.ch"
++#undef ACCCHK_ASSERT
++static void test_acc_compile_time_assert(void) {
++#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT(expr)
++#include "acc/acc_chk.ch"
++#undef ACCCHK_ASSERT
++}
++#undef NDEBUG
++#include <assert.h>
++static int test_acc_run_time_assert(int r) {
++#define ACCCHK_ASSERT(expr)     assert(expr);
++#include "acc/acc_chk.ch"
++#undef ACCCHK_ASSERT
++return r;
++}
++]], [[
++test_acc_compile_time_assert();
++if (test_acc_run_time_assert(1) !=3D 1) return 1;
++]]
++)])
++
++mfx_tmp=3DFAILED
++_AC_COMPILE_IFELSE([], [mfx_tmp=3Dyes])
++rm -f conftest.$ac_ext conftest.$ac_objext
++
++CPPFLAGS=3D$mfx_save_CPPFLAGS
++
++AC_MSG_RESULT([$mfx_tmp])
++case x$mfx_tmp in
++  xpassed | xyes) ;;
++  *)
++    AC_MSG_NOTICE([])
++    AC_MSG_NOTICE([Your compiler failed the ACC conformance test - for d=
+etails see ])
++    AC_MSG_NOTICE([`config.log'. Please check that log file and consider=
+ sending])
++    AC_MSG_NOTICE([a patch or bug-report to <${PACKAGE_BUGREPORT}>.])
++    AC_MSG_NOTICE([Thanks for your support.])
++    AC_MSG_NOTICE([])
++    AC_MSG_ERROR([ACC conformance test failed. Stop.])
++dnl    AS_EXIT
++    ;;
++esac
++])# mfx_ACC_ACCCHK
++
++
++# /*********************************************************************=
+**
++# // Check for ACC_conformance
++# **********************************************************************=
+**/
++
++AC_DEFUN([mfx_MINIACC_ACCCHK], [
++mfx_tmp=3D$1
++mfx_save_CPPFLAGS=3D$CPPFLAGS
++dnl in Makefile.in $(INCLUDES) will be before $(CPPFLAGS), so we mimic t=
+his here
++test "X$mfx_tmp" =3D "X" || CPPFLAGS=3D"$mfx_tmp $CPPFLAGS"
++
++AC_MSG_CHECKING([whether your compiler passes the ACC conformance test])
++
++AC_LANG_CONFTEST([AC_LANG_PROGRAM(
++[[#define ACC_CONFIG_NO_HEADER 1
++#define ACC_WANT_ACC_INCD_H 1
++#include $2
++
++#define ACC_WANT_ACC_CHK_CH 1
++#undef ACCCHK_ASSERT
++#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT_HEADER(expr)
++#include $2
++
++#define ACC_WANT_ACC_CHK_CH 1
++#undef ACCCHK_ASSERT
++#define ACCCHK_ASSERT(expr)     ACC_COMPILE_TIME_ASSERT(expr)
++static void test_acc_compile_time_assert(void) {
++#include $2
++}
++
++#undef NDEBUG
++#include <assert.h>
++#define ACC_WANT_ACC_CHK_CH 1
++#undef ACCCHK_ASSERT
++#define ACCCHK_ASSERT(expr)  assert(expr);
++static int test_acc_run_time_assert(int r) {
++#include $2
++return r;
++}
++]], [[
++test_acc_compile_time_assert();
++if (test_acc_run_time_assert(1) !=3D 1) return 1;
++]]
++)])
++
++mfx_tmp=3DFAILED
++_AC_COMPILE_IFELSE([], [mfx_tmp=3Dyes])
++rm -f conftest.$ac_ext conftest.$ac_objext
++
++CPPFLAGS=3D$mfx_save_CPPFLAGS
++
++AC_MSG_RESULT([$mfx_tmp])
++case x$mfx_tmp in
++  xpassed | xyes) ;;
++  *)
++    AC_MSG_NOTICE([])
++    AC_MSG_NOTICE([Your compiler failed the ACC conformance test - for d=
+etails see ])
++    AC_MSG_NOTICE([`config.log'. Please check that log file and consider=
+ sending])
++    AC_MSG_NOTICE([a patch or bug-report to <${PACKAGE_BUGREPORT}>.])
++    AC_MSG_NOTICE([Thanks for your support.])
++    AC_MSG_NOTICE([])
++    AC_MSG_ERROR([ACC conformance test failed. Stop.])
++dnl    AS_EXIT
++    ;;
++esac
++])# mfx_MINIACC_ACCCHK
++
++
++
++# serial 1
++
++AC_DEFUN([mfx_PROG_CPPFLAGS], [
++AC_MSG_CHECKING([whether the C preprocessor needs special flags])
++
++AC_LANG_CONFTEST([AC_LANG_PROGRAM(
++[[#include <limits.h>
++#if (32767 >=3D 4294967295ul) || (65535u >=3D 4294967295ul)
++#  include "your C preprocessor is broken 1"
++#elif (0xffffu =3D=3D 0xfffffffful)
++#  include "your C preprocessor is broken 2"
++#elif (32767 >=3D ULONG_MAX) || (65535u >=3D ULONG_MAX)
++#  include "your C preprocessor is broken 3"
++#endif
++]], [[ ]]
++)])
++
++mfx_save_CPPFLAGS=3D$CPPFLAGS
++mfx_tmp=3DERROR
++for mfx_arg in "" -no-cpp-precomp
++do
++  CPPFLAGS=3D"$mfx_arg $mfx_save_CPPFLAGS"
++  _AC_COMPILE_IFELSE([],
++[mfx_tmp=3D$mfx_arg
++break])
++done
++CPPFLAGS=3D$mfx_save_CPPFLAGS
++rm -f conftest.$ac_ext conftest.$ac_objext
++case x$mfx_tmp in
++  x)
++    AC_MSG_RESULT([none needed]) ;;
++  xERROR)
++    AC_MSG_RESULT([ERROR])
++    AC_MSG_ERROR([your C preprocessor is broken - for details see config=
+.log])
++    ;;
++  *)
++    AC_MSG_RESULT([$mfx_tmp])
++    CPPFLAGS=3D"$mfx_tmp $CPPFLAGS"
++    ;;
++esac
++])# mfx_PROG_CPPFLAGS
++
++
++
++# serial 3
++
++AC_DEFUN([mfx_CHECK_HEADER_SANE_LIMITS_H], [
++AC_CACHE_CHECK([whether limits.h is sane],
++mfx_cv_header_sane_limits_h,
++[AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <limits.h>
++#if (32767 >=3D 4294967295ul) || (65535u >=3D 4294967295ul)
++#  if defined(__APPLE__) && defined(__GNUC__)
++#    error "your preprocessor is broken - use compiler option -no-cpp-pr=
+ecomp"
++#  else
++#    include "your preprocessor is broken"
++#  endif
++#endif
++#define MFX_0xffff          0xffff
++#define MFX_0xffffffffL     4294967295ul
++#if !defined(CHAR_BIT) || (CHAR_BIT !=3D 8)
++#  include "error CHAR_BIT"
++#endif
++#if !defined(UCHAR_MAX)
++#  include "error UCHAR_MAX 1"
++#endif
++#if !defined(USHRT_MAX)
++#  include "error USHRT_MAX 1"
++#endif
++#if !defined(UINT_MAX)
++#  include "error UINT_MAX 1"
++#endif
++#if !defined(ULONG_MAX)
++#  include "error ULONG_MAX 1"
++#endif
++#if !defined(SHRT_MAX)
++#  include "error SHRT_MAX 1"
++#endif
++#if !defined(INT_MAX)
++#  include "error INT_MAX 1"
++#endif
++#if !defined(LONG_MAX)
++#  include "error LONG_MAX 1"
++#endif
++#if (UCHAR_MAX < 1)
++#  include "error UCHAR_MAX 2"
++#endif
++#if (USHRT_MAX < 1)
++#  include "error USHRT_MAX 2"
++#endif
++#if (UINT_MAX < 1)
++#  include "error UINT_MAX 2"
++#endif
++#if (ULONG_MAX < 1)
++#  include "error ULONG_MAX 2"
++#endif
++#if (UCHAR_MAX < 0xff)
++#  include "error UCHAR_MAX 3"
++#endif
++#if (USHRT_MAX < MFX_0xffff)
++#  include "error USHRT_MAX 3"
++#endif
++#if (UINT_MAX < MFX_0xffff)
++#  include "error UINT_MAX 3"
++#endif
++#if (ULONG_MAX < MFX_0xffffffffL)
++#  include "error ULONG_MAX 3"
++#endif
++#if (USHRT_MAX > UINT_MAX)
++#  include "error USHRT_MAX vs UINT_MAX"
++#endif
++#if (UINT_MAX > ULONG_MAX)
++#  include "error UINT_MAX vs ULONG_MAX"
++#endif
++]], [[
++#if (USHRT_MAX =3D=3D MFX_0xffff)
++{ typedef char a_short2a[1 - 2 * !(sizeof(short) =3D=3D 2)]; }
++#elif (USHRT_MAX >=3D MFX_0xffff)
++{ typedef char a_short2b[1 - 2 * !(sizeof(short) > 2)]; }
++#endif
++#if (UINT_MAX =3D=3D MFX_0xffff)
++{ typedef char a_int2a[1 - 2 * !(sizeof(int) =3D=3D 2)]; }
++#elif (UINT_MAX >=3D MFX_0xffff)
++{ typedef char a_int2b[1 - 2 * !(sizeof(int) > 2)]; }
++#endif
++#if (ULONG_MAX =3D=3D MFX_0xffff)
++{ typedef char a_long2a[1 - 2 * !(sizeof(long) =3D=3D 2)]; }
++#elif (ULONG_MAX >=3D MFX_0xffff)
++{ typedef char a_long2b[1 - 2 * !(sizeof(long) > 2)]; }
++#endif
++#if (USHRT_MAX =3D=3D MFX_0xffffffffL)
++{ typedef char a_short4a[1 - 2 * !(sizeof(short) =3D=3D 4)]; }
++#elif (USHRT_MAX >=3D MFX_0xffffffffL)
++{ typedef char a_short4b[1 - 2 * !(sizeof(short) > 4)]; }
++#endif
++#if (UINT_MAX =3D=3D MFX_0xffffffffL)
++{ typedef char a_int4a[1 - 2 * !(sizeof(int) =3D=3D 4)]; }
++#elif (UINT_MAX >=3D MFX_0xffffffffL)
++{ typedef char a_int4b[1 - 2 * !(sizeof(int) > 4)]; }
++#endif
++#if (ULONG_MAX =3D=3D MFX_0xffffffffL)
++{ typedef char a_long4a[1 - 2 * !(sizeof(long) =3D=3D 4)]; }
++#elif (ULONG_MAX >=3D MFX_0xffffffffL)
++{ typedef char a_long4b[1 - 2 * !(sizeof(long) > 4)]; }
++#endif
++]])],
++[mfx_cv_header_sane_limits_h=3Dyes],
++[mfx_cv_header_sane_limits_h=3Dno])])
++])
++
++# /*********************************************************************=
+**
++# // standard
++# **********************************************************************=
+**/
++
++AC_DEFUN([mfx_LZO_CHECK_ENDIAN], [
++AC_C_BIGENDIAN([AC_DEFINE(LZO_ABI_BIG_ENDIAN,1,[Define to 1 if your mach=
+ine is big endian.])],[AC_DEFINE(LZO_ABI_LITTLE_ENDIAN,1,[Define to 1 if =
+your machine is little endian.])])
++])#
++
++
++# /*********************************************************************=
+**
++# //
++# **********************************************************************=
+**/
++
++dnl more types which are not yet covered by ACC
++
++AC_DEFUN([mfx_CHECK_SIZEOF], [
++AC_CHECK_SIZEOF(__int32)
++AC_CHECK_SIZEOF(intmax_t)
++AC_CHECK_SIZEOF(uintmax_t)
++AC_CHECK_SIZEOF(intptr_t)
++AC_CHECK_SIZEOF(uintptr_t)
++
++AC_CHECK_SIZEOF(float)
++AC_CHECK_SIZEOF(double)
++AC_CHECK_SIZEOF(long double)
++
++AC_CHECK_SIZEOF(dev_t)
++AC_CHECK_SIZEOF(fpos_t)
++AC_CHECK_SIZEOF(mode_t)
++AC_CHECK_SIZEOF(off_t)
++AC_CHECK_SIZEOF(ssize_t)
++AC_CHECK_SIZEOF(time_t)
++])#
++
++
++
++AC_DEFUN([mfx_CHECK_LIB_WINMM], [
++if test "X$GCC" =3D Xyes; then
++case $host_os in
++cygwin* | mingw* | pw32*)
++     test "X$LIBS" !=3D "X" && LIBS=3D"$LIBS "
++     LIBS=3D"${LIBS}-lwinmm" ;;
++*)
++     ;;
++esac
++fi
++])#
++
++#serial 6
++
++dnl From Paul Eggert.
++
++# Define ST_MTIM_NSEC to be the nanoseconds member of struct stat's st_m=
+tim,
++# if it exists.
++
++AC_DEFUN([AC_STRUCT_ST_MTIM_NSEC],
++ [AC_CACHE_CHECK([for nanoseconds member of struct stat.st_mtim],
++   ac_cv_struct_st_mtim_nsec,
++   [ac_save_CPPFLAGS=3D"$CPPFLAGS"
++    ac_cv_struct_st_mtim_nsec=3Dno
++    # tv_nsec -- the usual case
++    # _tv_nsec -- Solaris 2.6, if
++    #	(defined _XOPEN_SOURCE && _XOPEN_SOURCE_EXTENDED =3D=3D 1
++    #	 && !defined __EXTENSIONS__)
++    # st__tim.tv_nsec -- UnixWare 2.1.2
++    for ac_val in tv_nsec _tv_nsec st__tim.tv_nsec; do
++      CPPFLAGS=3D"$ac_save_CPPFLAGS -DST_MTIM_NSEC=3D$ac_val"
++      AC_TRY_COMPILE([#include <sys/types.h>
++#include <sys/stat.h>], [struct stat s; s.st_mtim.ST_MTIM_NSEC;],
++        [ac_cv_struct_st_mtim_nsec=3D$ac_val; break])
++    done
++    CPPFLAGS=3D"$ac_save_CPPFLAGS"])
++
++  if test $ac_cv_struct_st_mtim_nsec !=3D no; then
++    AC_DEFINE_UNQUOTED(ST_MTIM_NSEC, $ac_cv_struct_st_mtim_nsec,
++      [Define to be the nanoseconds member of struct stat's st_mtim,
++       if it exists.])
++  fi
++ ]
++)
+diff --git a/meta/recipes-support/lzop/lzop_1.04.bb b/meta/recipes-suppor=
+t/lzop/lzop_1.04.bb
+new file mode 100644
+index 0000000000..d9b3524b67
+--- /dev/null
++++ b/meta/recipes-support/lzop/lzop_1.04.bb
+@@ -0,0 +1,27 @@
++SUMMARY =3D "Real-time file compressor"
++DESCRIPTION =3D "lzop is a compression utility which is designed to be a=
+ companion to gzip. \n\
++It is based on the LZO data compression library and its main advantages =
+over \n\
++gzip are much higher compression and decompression speed at the cost of =
+some \n\
++compression ratio. The lzop compression utility was designed with the go=
+als \n\
++of reliability, speed, portability and with reasonable drop-in compatibi=
+lity \n\
++to gzip."
++HOMEPAGE =3D "http://www.lzop.org/"
++DEPENDS +=3D "lzo"
++
++LICENSE =3D "GPL-2.0-or-later"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
+263 \
++                    file://src/lzop.c;beginline=3D5;endline=3D21;md5=3D2=
+3d767de7754eb24b9e900b025cf7fc8"
++
++SRC_URI =3D "http://www.lzop.org/download/${BP}.tar.gz \
++           file://acinclude.m4 \
++          "
++SRC_URI[md5sum] =3D "271eb10fde77a0a96b9cbf745e719ddf"
++SRC_URI[sha256sum] =3D "7e72b62a8a60aff5200a047eea0773a8fb205caf7acbe177=
+4d95147f305a2f41"
++
++inherit autotools
++
++do_configure:prepend () {
++    install -Dm 0644 ${WORKDIR}/acinclude.m4 ${S}/acinclude.m4
++}
++
++BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.42.0
+
 
