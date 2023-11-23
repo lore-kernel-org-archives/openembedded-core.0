@@ -1,195 +1,104 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A697C5AD4C
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 17:15:39 +0000 (UTC)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web10.98373.1700759729529259283
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5232FC5AD4C
+	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 17:46:49 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.99050.1700761601438379950
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 09:15:29 -0800
+ Thu, 23 Nov 2023 09:46:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SlgnjFXp;
- spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6d7e67c169cso648686a34.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 09:15:29 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SV8Nqttf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-32f737deedfso623077f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 09:46:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700759728; x=1701364528; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CO5627XJ33+gDbEjb9XBm4RXk00qAqVM7ySFAxkg25A=;
-        b=SlgnjFXp5GxgGc7WgjSKluaj2pHenGWjx5pPQi3++jlBXt+j+9E2WAxVjnx0ItAiF6
-         B7cBD1pd+DS8t9f0yitiq0Xs9NZBW+9/lxA0HnV62uAbr9jD2j7t4vambC3g16Xit8LK
-         mQSvCKqOeU+rpOL9KlcKe/3zm9f6ESBJn+shXAE56ZuZWSspxToLhiWC9AUWytN3+Pfn
-         3/GsGY0tAk1qukDcSPt3P1nOquP0BiM2J7ssndrvOl+TuvexsP8c2pKIMyTLFy2hw3Ek
-         TJDULqhXmzQRy8Bv0JSXCy+qrz548RYWwcS8WWoIvOsQx1ODDif6wkrF/7ETgsI8Xg8W
-         K6fQ==
+        d=linuxfoundation.org; s=google; t=1700761600; x=1701366400; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Dvj3AMDPQ9oun4LfslpzESpVgcqmSHmutw/fWkyxsC0=;
+        b=SV8Nqttf+2ymYD6Z/o5sQzdIz4TGP6GNd8/T2ldvPxsqSZW6VnUSF1xoNlzGOj1Ihv
+         j3gpaEyQvbGhkqm4xTzUO3zJv0gpY6WJGX4TAXtfVeCpC1nlUeTX8XlRfxxhxOGxuJUZ
+         0ofZTAOxE+v7yhOHuw4qVWJOgOJ5J2SdrLJtU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700759728; x=1701364528;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CO5627XJ33+gDbEjb9XBm4RXk00qAqVM7ySFAxkg25A=;
-        b=j1859v3jnMYZhwlxro7TCmEedUyon/EfA83PFbOzFeSCE8NKdxG/gh+Pe+uNeF+1l6
-         SoYhRxIkqBPb9y8w/uRUUfQJtSk9q5Spe4KH1LwOVIdhclQPgBFCborEPAAZYhcJtCBd
-         22ugRhLBtfTjMfjxT78jqexIFvS4x6gz4CTmkT/sez843p12rslm45t3mGfJs8LkrJ1n
-         zXHCjr4eI98fGlkZmPnrHbbLPVGZrG1hnM3RF1b847yosMCIdN86NCSfL/Ei1cnt9w/k
-         tz0TuE60ZV2s1LrOEwOXx814SvWNIqmyRI3fGoyD9WilVrZdrCfSQcObkhoK/dhHNzkf
-         blsA==
-X-Gm-Message-State: AOJu0YzKz50Yi0uCn0fIPWPfjB2bGKvb/E1cTtSrUz3y7xjfJ36xaxUW
-	DgeXOlCh5qE99MJLzbQCmtF5N9cysWwF7958cOJZ/n8LaQWFOA==
-X-Google-Smtp-Source: AGHT+IGHkJCwk3C/ILiqtAxWwuHRsz9nJxSgV0iMLEXFqYDUfdzA9/kl8i7LOGdXk/W1gSwZKMhUWjyBUf4mdWiPbjI=
-X-Received: by 2002:a05:6870:8dcb:b0:1dc:33a:40d8 with SMTP id
- lq11-20020a0568708dcb00b001dc033a40d8mr7545915oab.4.1700759728359; Thu, 23
- Nov 2023 09:15:28 -0800 (PST)
-MIME-Version: 1.0
-References: <1700643791-9633-1-git-send-email-wangmy@fujitsu.com> <20231123080011c56c3ec6@mail.local>
-In-Reply-To: <20231123080011c56c3ec6@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 23 Nov 2023 09:15:02 -0800
-Message-ID: <CAMKF1sqr6bJbmwoHU-OGZc2q7VgVj4e4TDXhqWRT2Pbd9iiPPQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libxml2: upgrade 2.11.5 -> 2.12.0
-To: alexandre.belloni@bootlin.com
-Cc: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1700761600; x=1701366400;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Dvj3AMDPQ9oun4LfslpzESpVgcqmSHmutw/fWkyxsC0=;
+        b=NlpNIMeEFoMyBb9xhBnEx7me0YkFWK0sPuouuF4uTpelT+ZdCs8gIt8Arw6spFSLkU
+         eKSs2a6zQyygQJFb4Sc3UVeq+Yks0UoF3lkxkk8X2sfra6atoOkwgVgzvBZYJ2RDFeKa
+         L3irP5yEhff0zMM9WbANDYDlgN5HbKUoyo4kq8v+DUw5oyb3NA5efOBFUuIzo9AeAYUn
+         KBHIAQIMoYpdbeTwOIHbT0xoFBvEyyqPXpCKn7H37mJll9hzPm/TdVMH9d789aUGBNxL
+         szP3RAyXEubz7v1grMeMtdpS/wN1xXzgSMeSVN3JIOtBmvS/m7h9wV+aFKZXFbrROfbU
+         /kBg==
+X-Gm-Message-State: AOJu0YzWrtNadR7Gsz9ltVBh4nl2l66cK3Gh32h1CKEhXMBccp+hd7m3
+	fuCwkG57jv9b+XnVHiPhMB4B7Q==
+X-Google-Smtp-Source: AGHT+IFgYb95DtYwztzsqv7PMR0TWo2CjyViaEx67twWGxj/2gAGe0CS/BRuhhvjwHwYj6Tj+YiC4A==
+X-Received: by 2002:adf:eac3:0:b0:332:c2a0:c0d0 with SMTP id o3-20020adfeac3000000b00332c2a0c0d0mr146912wrn.46.1700761599730;
+        Thu, 23 Nov 2023 09:46:39 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c511:4d31:367c:ab3c? ([2001:8b0:aba:5f3c:c511:4d31:367c:ab3c])
+        by smtp.gmail.com with ESMTPSA id r13-20020adfe68d000000b00332cbda1970sm2199536wrm.30.2023.11.23.09.46.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 09:46:39 -0800 (PST)
+Message-ID: <1a27fc60e22d0ce02d5512e015c6481707a171b2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCH v2 1/1] wic: extend empty plugin with
+ options to write zeros to partiton
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Lukas Funke <lukas.funke-oss@weidmueller.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Malte Schmidt
+	 <malte.schmidt@weidmueller.com>, Lukas Funke <lukas.funke@weidmueller.com>
+Date: Thu, 23 Nov 2023 17:46:38 +0000
+In-Reply-To: <d4ac3df6b09be317ec7530694c6815a2e128ee8d.1700646304.git.lukas.funke@weidmueller.com>
+References: <cover.1700646304.git.lukas.funke@weidmueller.com>
+	 <d4ac3df6b09be317ec7530694c6815a2e128ee8d.1700646304.git.lukas.funke@weidmueller.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 17:15:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191172
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 17:46:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191173
 
-On Thu, Nov 23, 2023 at 12:00=E2=80=AFAM Alexandre Belloni via
-lists.openembedded.org
-<alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
->
-> This breaks libsoup and webkit:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/8203/st=
-eps/12/logs/stdio
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/8058/st=
-eps/11/logs/stdio
+On Wed, 2023-11-22 at 11:47 +0100, Lukas Funke wrote:
+> From: Malte Schmidt <malte.schmidt@weidmueller.com>
+>=20
+> Adds features to explicitly write zeros to the start of the
+> partition. This is useful to overwrite old content like
+> filesystem signatures which may be re-recognized otherwise.
+>=20
+> The new features can be enabled with
+> '--soucreparams=3D"[fill|size=3D<N>[S|s|K|k|M|G]][,][bs=3D<N>[S|s|K|k|M|G=
+]]"'
+> Conflicting or missing options throw errors.
+>=20
+> The features are:
+> - fill
+>   Fill the entire partition with zeros. Requires '--fixed-size' option
+>   to be set.
+> - size=3D<N>[S|s|K|k|M|G]
+>   Set the first N bytes of the partition to zero. Default unit is 'K'.
+> - bs=3D<N>[S|s|K|k|M|G]
+>   Write at most N bytes at a time during source file creation.
+>   Defaults to '1M'. Default unit is 'K'.
+>=20
+> Signed-off-by: Malte Schmidt <malte.schmidt@weidmueller.com>
+> Signed-off-by: Lukas Funke <lukas.funke@weidmueller.com>
+> ---
+>  scripts/lib/wic/plugins/source/empty.py | 57 ++++++++++++++++++++++++-
+>  1 file changed, 56 insertions(+), 1 deletion(-)
 
-I have sent a fix for libsoup2 but there are more failures with
-meta-openembedded layers
+This is probably reasonable but it needs a testcase adding to wic's
+testsuite please.
 
-https://errors.yoctoproject.org/Errors/Build/174703/
+(run with oe-selftest -r wic)
 
->
-> On 22/11/2023 17:03:11+0800, wangmy wrote:
-> > From: Wang Mingyu <wangmy@fujitsu.com>
-> >
-> > License-Update:
-> >  hash: Rewrite hash table code
-> >
-> > install-tests.patch
-> > refreshed for new version.
-> >
-> > Changelog:
-> >  https://github.com/GNOME/libxml2/blob/master/NEWS
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> >  meta/recipes-core/libxml/libxml2/install-tests.patch     | 8 ++++----
-> >  .../libxml/{libxml2_2.11.5.bb =3D> libxml2_2.12.0.bb}      | 9 +++++--=
---
-> >  2 files changed, 9 insertions(+), 8 deletions(-)
-> >  rename meta/recipes-core/libxml/{libxml2_2.11.5.bb =3D> libxml2_2.12.0=
-.bb} (92%)
-> >
-> > diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/met=
-a/recipes-core/libxml/libxml2/install-tests.patch
-> > index 14ccce5873..ef46af9ba8 100644
-> > --- a/meta/recipes-core/libxml/libxml2/install-tests.patch
-> > +++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
-> > @@ -1,4 +1,4 @@
-> > -From 3fc716357ce1372d9418dc86f24315b34d9808de Mon Sep 17 00:00:00 2001
-> > +From ad68c053d3c9926e43125058d33b5a7028159b44 Mon Sep 17 00:00:00 2001
-> >  From: Ross Burton <ross.burton@arm.com>
-> >  Date: Mon, 5 Dec 2022 17:02:32 +0000
-> >  Subject: [PATCH] add yocto-specific install-ptest target
-> > @@ -13,11 +13,11 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-> >   1 file changed, 10 insertions(+)
-> >
-> >  diff --git a/Makefile.am b/Makefile.am
-> > -index 5bc4018..57d27af 100644
-> > +index 0a49d37..1097c63 100644
-> >  --- a/Makefile.am
-> >  +++ b/Makefile.am
-> > -@@ -26,6 +26,16 @@ check_PROGRAMS =3D \
-> > -     testlimits \
-> > +@@ -27,6 +27,16 @@ check_PROGRAMS =3D \
-> > +     testparser \
-> >       testrecurse
-> >
-> >  +ptestdir=3D$(libexecdir)
-> > diff --git a/meta/recipes-core/libxml/libxml2_2.11.5.bb b/meta/recipes-=
-core/libxml/libxml2_2.12.0.bb
-> > similarity index 92%
-> > rename from meta/recipes-core/libxml/libxml2_2.11.5.bb
-> > rename to meta/recipes-core/libxml/libxml2_2.12.0.bb
-> > index 319833f053..58b4c14301 100644
-> > --- a/meta/recipes-core/libxml/libxml2_2.11.5.bb
-> > +++ b/meta/recipes-core/libxml/libxml2_2.12.0.bb
-> > @@ -4,10 +4,11 @@ HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libxml2"
-> >  BUGTRACKER =3D "http://bugzilla.gnome.org/buglist.cgi?product=3Dlibxml=
-2"
-> >  SECTION =3D "libs"
-> >  LICENSE =3D "MIT"
-> > -LIC_FILES_CHKSUM =3D "file://Copyright;md5=3D2044417e2e5006b65a8b9067b=
-683fcf1 \
-> > -                    file://hash.c;beginline=3D6;endline=3D15;md5=3De77=
-f77b12cb69e203d8b4090a0eee879 \
-> > +LIC_FILES_CHKSUM =3D "file://Copyright;md5=3Dfec7ecfe714722b2bb0aaff7d=
-200c701 \
-> > +                    file://hash.c;beginline=3D6;endline=3D15;md5=3D9af=
-9349d0ead24569dc332f2116ef5f8 \
-> >                      file://list.c;beginline=3D4;endline=3D13;md5=3Db9c=
-25b021ccaf287e50060602d20f3a7 \
-> > -                    file://trio.c;beginline=3D5;endline=3D14;md5=3Dcd4=
-f61e27f88c1d43df112966b1cd28f"
-> > +                    file://trio.c;beginline=3D5;endline=3D14;md5=3Dcd4=
-f61e27f88c1d43df112966b1cd28f \
-> > +                    "
-> >
-> >  DEPENDS =3D "zlib virtual/libiconv"
-> >
-> > @@ -19,7 +20,7 @@ SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts2013092=
-3.tar;subdir=3D${BP};name=3Dtestt
-> >             file://install-tests.patch \
-> >             "
-> >
-> > -SRC_URI[archive.sha256sum] =3D "3727b078c360ec69fa869de14bd6f75d7ee8d3=
-6987b071e6928d4720a28df3a6"
-> > +SRC_URI[archive.sha256sum] =3D "431521c8e19ca396af4fa97743b5a6bfcccddb=
-ba90e16426a15e5374cd64fe0d"
-> >  SRC_URI[testtar.sha256sum] =3D "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83=
-e69a2be4722379f08702ea7273"
-> >
-> >  # Disputed as a security issue, but fixed in d39f780
-> > --
-> > 2.34.1
-> >
->
-> >
-> >
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#191137): https://lists.openembedded.org/g/openembedde=
-d-core/message/191137
-> Mute This Topic: https://lists.openembedded.org/mt/102745852/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Cheers,
+
+Richard
 
