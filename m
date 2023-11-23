@@ -2,126 +2,125 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFF1C624B4
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 14:50:08 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web10.92393.1700751003643017383
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC94C61DF7
+	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 14:53:38 +0000 (UTC)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web10.92461.1700751212676141805
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 06:50:03 -0800
+ Thu, 23 Nov 2023 06:53:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=amkxS31X;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.41, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a04196fc957so131710466b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 06:50:03 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VrScMxcR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.45, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a02d91ab195so129798866b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 06:53:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700751002; x=1701355802; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700751211; x=1701356011; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uxSyc3zN8mt9SRGmtrhG2Uv9rL/fbr2ZxtZ7rWFX4zY=;
-        b=amkxS31Xsx3p/85BbF/OMD0JwlnmLq6Uoj2Th+R9b21A9oCnw1PIHajczCByjZM2yr
-         mWEkKz9/aMcpeh1WBaPv2T3ykWIRXvD1LvEXcomsY3KsVqMzNpgD/5yAKjGKfFaF5ukD
-         jKUPmosKCCVDyaRnzZq081MtfOAKejpsZOuRz/Zh5qZZ3JttvMfKrSBrB9mGrrCi4Ibs
-         AzdEEuCUJLEdKiuEM4Bbelxc97LqyQ/kQ5qmj220zQtbUv3pb0YTw9uRggYGGCZDSuTx
-         EtNJ8MkhbDaP9XwrU8Gxv8g4SlI51wml+xxiys5pm3LyJdqHeznAIejg/qeQzjVFYA2z
-         xZ8Q==
+        bh=UqWruC7S6YE8KsJn9yGR7WAQpX0Ill2HQzSKy+VW+8c=;
+        b=VrScMxcRpwxhgUzupAMOutR59IyJIsDltc4ZP1Ss8yYW9vSoMYnTqkW2aJQlSAaQnI
+         nLtj7d2jxpw+WiJuwM501Tt0dP3jRNDcDT827SyYhGdov8REcRsDHyS2lvk8lqF/0WMb
+         9vmvGa8hepmGLUoDpHA4j7kUYZ1Lg9q7KoPHHVoXA/2zzukH6SQU56xQU2vQPBoTcJ3P
+         tPhhy6mCzcG3Pohfc7CgOkigJmkn2AmyJQJ7ZcIbULm/10/i+nUBFA/wCn0Chdf4O8xm
+         C4ynR8b2gqBUuTiJG/XcwZuC79W5QLFzJg+jzq2riVll6qDlMZS+qXQpsGv3/Gk6Vifk
+         dGqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700751002; x=1701355802;
+        d=1e100.net; s=20230601; t=1700751211; x=1701356011;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uxSyc3zN8mt9SRGmtrhG2Uv9rL/fbr2ZxtZ7rWFX4zY=;
-        b=oOrUGQeSWAEBL97sQuHJNTC/nylstcDsJ25nZnsoSfAPKFVqf4P8IlaJVF9LkHPFeR
-         FsvxHxFtXFjaHHHs2GfpDpKzXGbMV2LE9WEJyYvxi4p+Mww6hvtdOJYlxjIG9Fv1NgjN
-         o6Z7XyXZp4BDRjEEjYCntrn20g4q8/AvuBufvBjZXtJN4FHpw4ZEiOHbYnlyce6XdoiL
-         ecBA2KINzsUpHRM0tQA4IrfIFSDABgZRMaelR0z9aqU87ITHnbE+8VnAEoFnuy+lJuS6
-         gdSkwn2Kxa7uxnaNqaCABP02AjjniYtGIwYhNd2vn4uX+eevam5uI9omkMWs+rrVYshi
-         Vwxg==
-X-Gm-Message-State: AOJu0Yxcp6uMJrd1mIe2+nfq1dgE8BxyrDbn9ccimnvOfSdONX3kMTtB
-	7t2lAFM5ouTXflIbykTcr1h9pQ0gKxfCXRw4ivBAUw==
-X-Google-Smtp-Source: AGHT+IEW59WH4SZ/+GnKnjqjWVyxrihy0nHCIwWi96kWiZ+JEUvGxF1rGD/Pk5CMHQBN0n0ClqJodMeJXjug4SPO9X4=
-X-Received: by 2002:a17:906:11c:b0:a03:a1e6:2c70 with SMTP id
- 28-20020a170906011c00b00a03a1e62c70mr3611473eje.46.1700751002037; Thu, 23 Nov
- 2023 06:50:02 -0800 (PST)
+        bh=UqWruC7S6YE8KsJn9yGR7WAQpX0Ill2HQzSKy+VW+8c=;
+        b=YchsC9U0wzdWVMmcpgA+elqvmh3GTSNhSRlp8g31D28r/FiVdYjpTQxuFP1vNnrwej
+         QDo8nVu/gIO23Metd64EbDLYmMAnvhd4qN0C8cMprD4jikGdaJXxVIO/0SKEGTDzIxIk
+         l5dGuhVmYgCL33g9wQLpiicqRnnxHKUn+c9jXf1bBc1UxtTBsmyijGcePPovyPbec1JV
+         zs00tGFC0giPMfiY06msh3YolvDKBo32SLONgOcbm4S7d5s3upSPZr5RAhAFeLkXmoIA
+         3+2GZFS1UHzA932w9GsZ2aPgyUQBKJ7kyJPPaBLOq8XLbJ4X5y/5gCyYJQEq4vgcn/LY
+         fi8g==
+X-Gm-Message-State: AOJu0YzkWXzsA6zFZtHpN8rE+XZWIKyMoNbSX559Rwg5ykrYx44fh74M
+	b1oaesC5wX4qKzWdg8POClYHSiY33Dwa4sCooVzM6w==
+X-Google-Smtp-Source: AGHT+IEAUOSV5G18MtGchm0wjU9RkGwOCFm4LxJFprjTCtyrcyDEUJRtCtQ8LzmmCbwRiXly4Xa07BHYv6YhX0hbxO4=
+X-Received: by 2002:a17:906:8a:b0:a00:163f:4b98 with SMTP id
+ 10-20020a170906008a00b00a00163f4b98mr3682843ejc.44.1700751211103; Thu, 23 Nov
+ 2023 06:53:31 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1700620126.git.steve@sakoman.com> <03e6ea59d82e613ba3b5d388fa87317cef982f2b.1700620126.git.steve@sakoman.com>
- <e41e538ce6ebbe4c30af4de9c6a1f4e02fd9f359.camel@linuxfoundation.org>
-In-Reply-To: <e41e538ce6ebbe4c30af4de9c6a1f4e02fd9f359.camel@linuxfoundation.org>
+References: <cover.1700620126.git.steve@sakoman.com> <8726ae02d760270f9e7fe7ef5715d8f7553371ce.1700620126.git.steve@sakoman.com>
+ <375cd11f8849681f65762a53db3716f5753f3e60.camel@linuxfoundation.org> <CADkTA4OXFOpmukoMC_+Z4O7rEBHSH5g=g5hi=MUK3yBspAg+zg@mail.gmail.com>
+In-Reply-To: <CADkTA4OXFOpmukoMC_+Z4O7rEBHSH5g=g5hi=MUK3yBspAg+zg@mail.gmail.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Thu, 23 Nov 2023 04:49:51 -1000
-Message-ID: <CAOSpxdbYSdnkLCb0Qyh9w1ZdwbZsEgsvKQfMCaNk8j=0d6d=7w@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 09/16] binutils: Fix CVE-2022-47007
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Nov 2023 04:53:20 -1000
+Message-ID: <CAOSpxdaphzYG-myGzUm25KtN72xuO30niR5ROm8LhrVn=2+how@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone 15/16] goarch: Move Go architecture mapping
+ to a library
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 14:50:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191164
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 14:53:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191165
 
-On Thu, Nov 23, 2023 at 2:41=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Thu, Nov 23, 2023 at 3:45=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gmai=
+l.com> wrote:
 >
-> On Tue, 2023-11-21 at 16:31 -1000, Steve Sakoman wrote:
-> > From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> On Thu, Nov 23, 2023 at 7:40=E2=80=AFAM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
 > >
-> > Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  .../binutils/binutils-2.38.inc                |  1 +
-> >  .../binutils/0033-CVE-2022-47007.patch        | 34 +++++++++++++++++++
-> >  2 files changed, 35 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/binutils/binutils/0033-CVE-20=
-22-47007.patch
+> > On Tue, 2023-11-21 at 16:31 -1000, Steve Sakoman wrote:
+> > > From: Peter Marko <peter.marko@siemens.com>
+> > >
+> > > Other spaces uses the Go architecture definitions as their own (for
+> > > example, container arches are defined to be Go arches). To make it
+> > > easier for other places to use this mapping, move the code that does =
+the
+> > > translation of OpenEmbedded arches to Go arches to a library.
+> > >
+> > > (From oe-core rev: 3e86f72fc2e1cc2e5ea4b4499722d736941167ce)
+> > >
+> > > This commit together with meta-virtualization commit
+> > > 115f6367f37095415f289fb6981cda9608ac72ff
+> > > broke meta-virtualization master used with
+> > > meta-lts-mixins kirkstone/go which is our primary
+> > > usecase for having kirkstone/go mixin layer
+> > >
+> > > Manually crafted since cherry-pick had too many conflicts:
+> > > * different path to classes
+> > > * additional architecture loongarch64
+> > > * different way how to import library
+> > >
+> > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > Cc: Joshua Watt <JPEWhacker@gmail.com>
+> > > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > Cc: Jose Quaresma <jose.quaresma@foundries.io>
+> > > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > > ---
+> > >  meta/classes/base.bbclass   |  2 +-
+> > >  meta/classes/goarch.bbclass | 27 +++------------------------
+> > >  meta/lib/oe/go.py           | 32 ++++++++++++++++++++++++++++++++
+> > >  3 files changed, 36 insertions(+), 25 deletions(-)
+> > >  create mode 100644 meta/lib/oe/go.py
 > >
-> > diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/re=
-cipes-devtools/binutils/binutils-2.38.inc
-> > index 43cc97f1ef..dc29141812 100644
-> > --- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-> > +++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-> > @@ -67,5 +67,6 @@ SRC_URI =3D "\
-> >       file://0031-CVE-2022-47695.patch \
-> >       file://CVE-2022-48063.patch \
-> >       file://0032-CVE-2022-47010.patch \
-> > +     file://0033-CVE-2022-47007.patch \
-> >  "
-> >  S  =3D "${WORKDIR}/git"
-> > diff --git a/meta/recipes-devtools/binutils/binutils/0033-CVE-2022-4700=
-7.patch b/meta/recipes-devtools/binutils/binutils/0033-CVE-2022-47007.patch
-> > new file mode 100644
-> > index 0000000000..cc6dfe684b
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/binutils/binutils/0033-CVE-2022-47007.patch
-> > @@ -0,0 +1,34 @@
-> > +From: Alan Modra <amodra@gmail.com>
-> > +Date: Thu, 16 Jun 2022 23:30:41 +0000 (+0930)
-> > +Subject: PR29254, memory leak in stab_demangle_v3_arg
-> > +X-Git-Tag: binutils-2_39~237
-> > +X-Git-Url: https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit=
-diff_plain;h=3D0ebc886149c22aceaf8ed74267821a59ca9d03eb
-> > +
-> > +PR29254, memory leak in stab_demangle_v3_arg
-> > +
-> > +     PR 29254
-> > +     * stabs.c (stab_demangle_v3_arg): Free dt on failure path.
-> > +
-> > +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gd=
-b.git;a=3Dcommitdiff_plain;h=3D0ebc886149c22aceaf8ed74267821a59ca9d03eb]
-> > +
-> > +CVE: CVE-2022-47007
-> > +
-> > +Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-> > +---
-> > +
+> > This did cause problems for some layers such as meta-virtualization so
+> > I'd want to check those layers are ok with this?
+> >
 >
-> This has not merged to master yet. It probably will but...
+> It should be fine, the issues were around it not being present and recipe=
+s
+> trying to use the mapping directly without the go.bbclass being inherited=
+.
+>
+> It won't be used in kirkstone, so is a no-op there (for meta-virt), but t=
+hat
+> does mean some mixin and multi release compatible layers can more
+> easily to backports.
 
-This CVE shouldn't affect master, it is for binutils versions 2.34
-thru 2.38, while master is 2.41
+Thanks for reviewing Richard and Bruce!
 
-See: https://nvd.nist.gov/vuln/detail/CVE-2022-47007
+Since Bruce confirms there are no issues with meta-virt I'll leave
+this in the series.
 
 Steve
 
