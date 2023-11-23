@@ -1,90 +1,86 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3377C61DF7
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 14:11:07 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.91447.1700748664225919523
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11D9BC5AD4C
+	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 14:21:38 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.92007.1700749296543399430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 06:11:04 -0800
+ Thu, 23 Nov 2023 06:21:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JDwVGBnA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50a6ff9881fso1296461e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 06:11:03 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=f3sGzkt5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.50, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a00cbb83c82so132590966b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 06:21:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1700748662; x=1701353462; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1700749295; x=1701354095; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=k0cMEW1/gN2LQpFH8uMc5qd8vjrXcqgoVR9R0g291Co=;
-        b=JDwVGBnA07M6NwGAnB47yofaONJdZ5e/p4YVclKb/bnQK/uL/1Pyobt9PAb3nM5l2S
-         S7wLBxWS67PNBowvPetfHYUpF91QnGlcmlmLWOJ0OEY5XatF86YCaM1x17KpieXmAGXW
-         5MkxCra9HGZNsJSe22e095fSAakndD6Cdn8is=
+        bh=f4aFmHKFUoA0L6ft/bZX2+oVAPl2B4RGg8Uhmpkjzw0=;
+        b=f3sGzkt5CqapW1nqkXLb4U7enbRMmbCopRgc/dmfL8PSf/UK/mLmc98FzTsIA8dD+L
+         i8R22CHdlhbgAyxr0nyLakukdaUk7QKTIDJXwEwNxa90dU1mqDgKLuL7upXbW56DzbHF
+         2+uvsnK6g+IKsPGjEUy40ydL8Md6SqsBxvztfjVPyE9QCVWp/eA+WV6N9kPWuUDPcVjr
+         rVeSPoD0NQ3znOojVv/j8/GCW89CB2Rrb+MUEUE1Dl1GQUfz/aXOzlfCG5Gj+4Jte9FA
+         WiiH2rF/4l30VfSszrmJbt5PaEACSh6KiHLUzgUfOUBrUZnjXPpP9RhjEzabVT1s+oxr
+         PZXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700748662; x=1701353462;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=k0cMEW1/gN2LQpFH8uMc5qd8vjrXcqgoVR9R0g291Co=;
-        b=nkasAyznPhHkYN2oYzOLJqL05ayDTBWguMkjkX2agOF3TFYqxdNt34iDDy1gCc8G7d
-         2amXZW51KQWSmi47zTzxu+Ch7fMpIP6cdi9Jzk8EhPSKXVpeHOWcpzBFf1vtcwOcoxf0
-         Q9CU5lHCyPzr6tJSUb3EOjM5EWT8pXqxUskuVN+f9tXgrhzz5j4yM0PwuaHI3im+yQsk
-         JsKChVNH+DxOocS4SCAOjTNPBN4k07iLEMiNq/AbGWIjfJjDNwHhPchd7NqArTlBkfvZ
-         8YcHLdWl2pdk09X8h1lB0iR1hygtaU9fLvhxFpY+Xc84VpID46b+976EKEm30sv+9ghj
-         qqBA==
-X-Gm-Message-State: AOJu0YzrtbEmGjWmdMmW95+C7LtPlWYq44J4wFrR5IteexwbJG2iaUu5
-	Pdg+A6U5O2yRIkp1gFPSSU6uRA==
-X-Google-Smtp-Source: AGHT+IE5LvukrXQTzajgwzwCU6N05AZWSMZH72GcA8fUIIhAtcxMy5/mHh6NwAxpzmZC9o49kjalPw==
-X-Received: by 2002:a05:6512:ac3:b0:507:9640:f256 with SMTP id n3-20020a0565120ac300b005079640f256mr2934860lfu.36.1700748662400;
-        Thu, 23 Nov 2023 06:11:02 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c511:4d31:367c:ab3c? ([2001:8b0:aba:5f3c:c511:4d31:367c:ab3c])
-        by smtp.gmail.com with ESMTPSA id j7-20020adff007000000b0032ddc3b88e9sm1792439wro.0.2023.11.23.06.11.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 06:11:01 -0800 (PST)
-Message-ID: <12a072dc57477bc7a07847718a34bd75dab9abeb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC 2/2] useradd.bbclass: ensure sysroot_setscene
- for DEPENDS
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
-	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 23 Nov 2023 14:11:01 +0000
-In-Reply-To: <c6d2ae3913582947c046d577a9dbf6dc8629909a.1700746611.git.pidge@baylibre.com>
-References: <cover.1700746611.git.pidge@baylibre.com>
-	 <c6d2ae3913582947c046d577a9dbf6dc8629909a.1700746611.git.pidge@baylibre.com>
+        d=1e100.net; s=20230601; t=1700749295; x=1701354095;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f4aFmHKFUoA0L6ft/bZX2+oVAPl2B4RGg8Uhmpkjzw0=;
+        b=cJ9Kfnpmlwpp3xJfN3fRP1Q7JGFoXMQyd75ZJIiZwGkXc6WUNe7JGU9LniDt+B4KYr
+         M7zBAuWveDy4kRxoNXvDVekR1QjrYAXdK6pcdjDnMe3PHBzOGSWFiTNt+eX64WOCN8cM
+         bdw+uyjx7qQA3Wex8bvY9dBRI7w/0BPLNpIM1lS49enPFOF0zdI72360tDgVvFXXdZYd
+         cR5GwA6+Xv2hmJg8ZKFRr+yIa6fXuh8o2u4fqjSS3WOoXQf4Vr9lQKhlP6AqoTxXoYjH
+         xgBzGBqrfdjjcogKBMqJl7K940ew/zFI9X77bxhG7IlXWttDiGURNST9FLRcnK6ptjl3
+         Ks7Q==
+X-Gm-Message-State: AOJu0YxZ1j0uD37R5KYTNyXZoMpAXFIjlz3Tz6zRaMRFdBt00zmmFQF7
+	c/aiB+dMeysLTbhItiJfOCxnDC2U/V+u0Lyp9EgZCg==
+X-Google-Smtp-Source: AGHT+IGF0MecWeLOLN9Gjy9LDhmJvF6GUCxD5Ne7JMdIGXVc78j3WpmJo5BIzf/JJO5n5InH4yrIDqU6m9p+GcyBNvU=
+X-Received: by 2002:a17:907:cbc9:b0:a00:1c9a:a472 with SMTP id
+ vk9-20020a170907cbc900b00a001c9aa472mr5238924ejc.7.1700749294666; Thu, 23 Nov
+ 2023 06:21:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20230608095227.34548-1-badganchipv@gmail.com> <31510.1700718321138957405@lists.openembedded.org>
+In-Reply-To: <31510.1700718321138957405@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 23 Nov 2023 04:21:23 -1000
+Message-ID: <CAOSpxdZLHZaO=E3TxmDM0MQUyQKZRM+xRrVccN2HQsF5n2m=pw@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][PATCH 1/2] systemd: implement
+ --initialized-match/nomatch arguments
+To: Pawan Badganchi <badganchipv@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 14:11:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191158
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 14:21:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191159
 
-On Thu, 2023-11-23 at 13:49 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
-=A1in wrote:
-> [YOCTO #13419]
->=20
-> If recipeB creates a user and assigns it to a group created in recipeA,
-> we need to ensure two things:
->=20
-> That recipeA is in recipeB's DEPENDS (documentation issue) and that the
-> sysroot setscene, in the case of a TMPDIR wipeout, is in
-> USERADDSETSCENEDEPS.
->=20
-> RP and I discussed adding a USERADD_DEPENDS variable to deal with this,
-> but there is some magic around DEPENDS that a new variable wouldn't have
-> so I'm sending this as is for people to poke at.
+On Wed, Nov 22, 2023 at 7:45=E2=80=AFPM Pawan Badganchi <badganchipv@gmail.=
+com> wrote:
+>
+> Hi,
+>
+> Could you please take this patch
 
-Can you be more specific about this "magic"?
+Sorry, this seried is a feature change and not a candidate for a stable rel=
+ease.
 
-I'm still worrying that DEPENDS is too broad, there are many more
-things in there which we don't want listed as setscene dependencies and
-I think this needs to be more precise.
+Steve
 
-Cheers,
-
-Richard
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191135): https://lists.openembedded.org/g/openembedde=
+d-core/message/191135
+> Mute This Topic: https://lists.openembedded.org/mt/99403398/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
