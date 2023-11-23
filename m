@@ -1,80 +1,86 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCAC4C61DF7
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 13:47:47 +0000 (UTC)
-Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
- by mx.groups.io with SMTP id smtpd.web10.90944.1700747259015353099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C6EC61DF7
+	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 13:49:07 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.91279.1700747346246256598
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 05:47:39 -0800
+ Thu, 23 Nov 2023 05:49:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
-Received: from fwd88.aul.t-online.de (fwd88.aul.t-online.de [10.223.144.114])
-	by mailout10.t-online.de (Postfix) with SMTP id F185612DB7;
-	Thu, 23 Nov 2023 14:47:35 +0100 (CET)
-Received: from [192.168.178.67] ([84.163.41.134]) by fwd88.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1r6A3K-0m0xTE0; Thu, 23 Nov 2023 14:47:34 +0100
-Date: Thu, 23 Nov 2023 14:40:19 +0100
-From: f_l_k@t-online.de
-Subject: Re: [oe-core][PATCHv3] cups: Allow to be controlled by root and users
- in wheel
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Message-Id: <7NWK4S.WL0GC9LYMOPE3@t-online.de>
-In-Reply-To: <aa9e1e82072027c73d4ce2b787a0a2cc9e4ada79.camel@linuxfoundation.org>
-References: <20231120161848.1461683-1-f_l_k@t-online.de>
-	<aa9e1e82072027c73d4ce2b787a0a2cc9e4ada79.camel@linuxfoundation.org>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=OSD1jo/5;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.48, mailfrom: pidge@baylibre.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-32faea0fa1fso518211f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 05:49:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1700747345; x=1701352145; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=v22+tSTBfOBVxe+7jRGMO2gEASy6vxZ+zi4Bi5jXTrY=;
+        b=OSD1jo/5LEwZsEXTFuu4lBDfvYJLUvLQH4WpVE6jEv34hccgdv3SJeLVoAeTNHGLcb
+         KhkfW8+wfNjl/VN6lOgIGI85LUSTjXs2E7smSvZd/1w8mUGNAYS+Wi4PuGQA/kb+0DQ0
+         Q6Fsimb2EabL2oIAQAR9UZRjxMIotY44v/scS0EhP2howsa1/cteEXYqqizyrYLwyD7Q
+         GSJQJ9unaNTRxnqz7Vli6Fn/gYDy07JHEv+mDBMKUdYTYmW7fVdW0FWRbr3mTJbK9Zdi
+         zgvIeyt/bu1F77ARkfsPq6lxlZ9v7yW7q+SCsxSTM73Bhnz/PHXA4+PHkFDiZE9LG11V
+         HcZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700747345; x=1701352145;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v22+tSTBfOBVxe+7jRGMO2gEASy6vxZ+zi4Bi5jXTrY=;
+        b=Nz0k814QEn8MA+8JrivUgKofcXjP5c2I/Ngg2Fkvo9GlVh4CPjEkPKCDELhZ18bRFl
+         +kKhvqKfXF8qiYRGOmumf6UVl6LvpTmfefU1HEcgVSFjwbtILfzBl20RnwbkHU7C0byg
+         giFsbdKEflpKsMlvzUvwWRovhWgkt71WKD0Q7MkPefEZSctrngVmHJzbcTK7AJw/ZK72
+         f0j3fTpfyhwtM5HsQOpb2wcNQhTG0zrBMsOhROEW1oa1wT6GB9cjFp1JRa2GvUi8V6bJ
+         cvpYvdL+7umaSh2n9mtlj6CZREGuuKz0yLVGoOPiOXUUT5alfFuwFtw37xR1WWeaJkeV
+         Dtkw==
+X-Gm-Message-State: AOJu0Ywu9BUCWCexJo9AAbPE8HNVGo9AhvFj4m7wvJtGJ5Vb5dQxSC+w
+	iOidDly6yTnb80gK/oV/rz70JFZl2KZbo1dJdw3lbQ==
+X-Google-Smtp-Source: AGHT+IHE5ACDubHKvN/2TUOnKVgYEwtbYLZoOnsJQqYtbAG1FFbOtSPomgczsFiVJYPEZvodaWIlhg==
+X-Received: by 2002:a5d:63c5:0:b0:332:d617:e1ef with SMTP id c5-20020a5d63c5000000b00332d617e1efmr2220791wrw.4.1700747344343;
+        Thu, 23 Nov 2023 05:49:04 -0800 (PST)
+Received: from orm.fritz.box ([194.110.145.184])
+        by smtp.gmail.com with ESMTPSA id c3-20020a5d4143000000b0032dde679398sm1754983wrq.8.2023.11.23.05.49.03
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 05:49:04 -0800 (PST)
+From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC 0/2] useradd improvements
+Date: Thu, 23 Nov 2023 13:48:59 +0000
+Message-Id: <cover.1700746611.git.pidge@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-BgD+41EE/1mRYZAuDzRe"
-X-TOI-EXPURGATEID: 150726::1700747254-2F7FD958-0DB65DB0/0/0 CLEAN NORMAL
-X-TOI-MSGID: e2ee6037-dc84-40aa-be29-00cf0b0ce7a8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 13:47:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191152
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 13:49:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191153
 
---=-BgD+41EE/1mRYZAuDzRe
-Content-Type: text/plain; charset=us-ascii; format=flowed
+This patch series includes tests for a few deficits in useradd and a patch to
+user add that should fix a few issues with recipes who have useradd 
+interdependencies. It's still a WIP, but after discussion with RP I wanted
+to send this out.
 
-On Thu, Nov 23 2023 at 12:50:20 PM +00:00:00, Richard Purdie 
-<richard.purdie@linuxfoundation.org> wrote:
-> This definitely needs more explanation about the problem being solved
-> and why this is the right way to solve it...
-> 
-> root could presumably control this before so even the current commit
-> message doesn't quite make sense to me.
+Eilís 'pidge' Ní Fhlannagáin (2):
+  usergrouptests: Add initial useradd testing
+  useradd.bbclass: ensure sysroot_setscene for DEPENDS
 
-With this commit the printer configuration in gnome-control-center 
-works as i would expect:
+ .../selftest-users/creategroup1.bb            | 32 +++++++++++++++++++
+ .../selftest-users/creategroup2.bb            | 32 +++++++++++++++++++
+ .../selftest-users/useraddbadtask.bb          | 20 ++++++++++++
+ meta/classes/useradd.bbclass                  |  8 +++++
+ .../lib/oeqa/selftest/cases/usergrouptests.py | 32 +++++++++++++++++++
+ 5 files changed, 124 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/selftest-users/creategroup1.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/creategroup2.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/useraddbadtask.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/usergrouptests.py
 
-To unlock the printer configuration a user who is in the wheel group 
-only needs his own password, if he is not in wheel the root password is 
-requested.
-If the printer configuration is unlocked, all configuration options of 
-gnome-control-center can be used
-
-With the lpadmin group you can unlock the printer configuration with 
-cups-pk-helper, but then you still do not have the needed permission to 
-make meaningful changes. You can only print ... Adding or removing 
-printers or changing the print quality or paper size can then only be 
-done via the web interface
-
-In other words. This makes the cups-pk-helper unlock mechanism work out 
-of the box without further configuration
-
-
---=-BgD+41EE/1mRYZAuDzRe
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">On Thu, Nov 23 2023 at 12:50:20 PM +00:00:00, Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">This definitely needs more explanation about the problem being solved
-and why this is the right way to solve it...
-
-root could presumably control this before so even the current commit
-message doesn't quite make sense to me.</div></blockquote><div><br></div><div><div>With this commit the printer configuration in gnome-control-center works as i would expect:</div><div><br></div><div>To unlock the printer configuration a user who is in the wheel group only needs his own password, if he is not in wheel the root password is requested.</div><div>If the printer configuration is unlocked, all configuration options of gnome-control-center can be used</div><div><br></div><div>With the lpadmin group you can unlock the printer configuration with cups-pk-helper, but then you still do not have the needed permission to make meaningful changes. You can only print ... Adding or removing printers or changing the print quality or paper size can then only be done via the web interface</div><div><br></div></div><div>In other words. This makes the cups-pk-helper unlock mechanism work out of the box without further configuration</div></div>
---=-BgD+41EE/1mRYZAuDzRe--
+-- 
+2.34.1
 
 
