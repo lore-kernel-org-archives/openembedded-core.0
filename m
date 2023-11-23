@@ -1,87 +1,127 @@
-Return-Path: <frieder.schrempf@kontron.de>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4630C5AD4C
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 15:44:18 +0000 (UTC)
-Received: from mail.fris.de (mail.fris.de [116.203.77.234])
- by mx.groups.io with SMTP id smtpd.web11.93981.1700754256507511655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C14C61D97
+	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 15:49:28 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web10.93777.1700754561583675392
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 07:44:17 -0800
+ Thu, 23 Nov 2023 07:49:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@fris.de header.s=dkim header.b=eqpUuzW+;
- spf=pass (domain: fris.de, ip: 116.203.77.234, mailfrom: frieder@fris.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DDB83BFC04;
-	Thu, 23 Nov 2023 16:44:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fris.de; s=dkim;
-	t=1700754253; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=Sauk/5mGNqdkSXT+YSVvupyhtvqMo2cRnUH2oXX/HHY=;
-	b=eqpUuzW+89sXvuKSU537q2sHDwp18RWxgoqz3J/31PR7HY/n76PbeMuNhjcdJ74gvnfM46
-	/EFV7FUvaRnjVFdiiDIG1hnkrX+EU5xbR399dYLnIY3bKzj3ya+N+13ZZ1PN1uLeQd8F6R
-	ElWvUDxJhgYVXL21Z73xzjPSTefvUopJNy2CZaoCF78CV7Km51UZQdQJ1jLy8EE0y3OP1I
-	skHHzgHfBfBSdby+zPiZptKn7ik3RVt10SIAsofHPHqQT7x7mbaWV0zRIt/tOxQF2wKoCR
-	wwFFcs3gLQdS+hyq+KttluTd/fh77z1CrQkevVIFTgVwNJoqbkvf9N6zJshhdA==
-From: Frieder Schrempf <frieder@fris.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Ninad Palsule <ninad@linux.ibm.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Frieder Schrempf <frieder.schrempf@kontron.de>
-Subject: [kirkstone][PATCH] kernel-fitImage: Strip path component from dtb
-Date: Thu, 23 Nov 2023 16:43:51 +0100
-Message-ID: <20231123154351.806765-1-frieder@fris.de>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
+	by mailout01.t-online.de (Postfix) with SMTP id 8A58C45F3;
+	Thu, 23 Nov 2023 16:49:19 +0100 (CET)
+Received: from [192.168.178.67] ([84.163.41.134]) by fwd72.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1r6Bx8-3vu6Yy0; Thu, 23 Nov 2023 16:49:19 +0100
+Date: Thu, 23 Nov 2023 16:49:40 +0100
+From: f_l_k@t-online.de
+Subject: Re: [oe-core][PATCHv3] cups: Allow to be controlled by root and users
+ in wheel
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <SM2L4S.0RPFX8B9ALQ@t-online.de>
+In-Reply-To: <46771525c2282f66edbf766d3b9c7dd8abbc2147.camel@linuxfoundation.org>
+References: <20231120161848.1461683-1-f_l_k@t-online.de>
+	<aa9e1e82072027c73d4ce2b787a0a2cc9e4ada79.camel@linuxfoundation.org>
+	<7NWK4S.WL0GC9LYMOPE3@t-online.de>
+	<46771525c2282f66edbf766d3b9c7dd8abbc2147.camel@linuxfoundation.org>
+X-Mailer: geary/44.1
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative; boundary="=-q3pRWddoOiLQT0KPAPpw"
+X-TOI-EXPURGATEID: 150726::1700754559-5081A95D-C652C561/0/0 CLEAN NORMAL
+X-TOI-MSGID: 0e32d064-c7eb-4720-9df9-277da92daa79
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 15:44:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191169
+ <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 15:49:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191170
 
-From: Ninad Palsule <ninad@linux.ibm.com>
+--=-q3pRWddoOiLQT0KPAPpw
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Machines that have added subdirectires to the KERNEL_DEVICETREE
-recently, such as arm32 boards that were moved under subdirectories in
-Linux 6.5, will have that subdirectory in the node name of the FIT. This
-breaks existing systems that select a configuration in u-boot by it's
-name.
+On Thu, Nov 23 2023 at 03:03:39 PM +00:00:00, Richard Purdie 
+<richard.purdie@linuxfoundation.org> wrote:
+> I'm guessing lpadmin is removed as it is unneeded but it does mean you
+> lose the ability to control printers separately from complete wheel
+> access.
+> 
+> Could we not allow wheel access to lpadmin instead?
 
-Strip off the directory component from the device tree to preserve
-compatibility.
+The Cups documentation states: The default contains "admin", "lpadmin", 
+"root", "sys" and/or "system".
+<https://www.cups.org/doc/man-cups-files.conf.html#:~:text=SystemGroup>
 
-(From OE-Core rev: 941ba1a132bafa9c9be855fb91fec96d8b06299f)
+sys and root should be included by default, I assume? Additionally, I 
+looked at the cups-files.conf from my Fedora install and it includes 
+root, sys, wheel, so that seemed like a good setting to me and 
+immediately solved the permissions problem. Adding wheel made quite a 
+bit of sense to me as it is widely used as a prioritized group. Not 
+only sudo, but also flatpak and iwd, for example, use wheel as a 
+prioritized group by default.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de> # backport =
-to kirkstone
----
- meta/classes/kernel-fitimage.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+Probably shouldn't be a problem to add the lpadmin group as a system 
+group in addition to the others, so as not to lose the ability to 
+control printers separately from wheel or root. I can run some tests, 
+but that will take some time. It's a busy week.
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-f=
-itimage.bbclass
-index 27e17db951..194d825b0e 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -542,6 +542,11 @@ fitimage_assemble() {
- 				DTB_PATH=3D"arch/${ARCH}/boot/$DTB"
- 			fi
-=20
-+			# Strip off the path component from the filename
-+			if "${@'false' if oe.types.boolean(d.getVar('KERNEL_DTBVENDORED')) el=
-se 'true'}"; then
-+				DTB=3D`basename $DTB`
-+			fi
-+
- 			DTB=3D$(echo "$DTB" | tr '/' '_')
-=20
- 			# Skip DTB if we've picked it up previously
---=20
-2.42.1
+I just figured, that in the interest of simplicity,  because it hasn't 
+been used before either and because fedora did the same, the lpadmin 
+group wouldn't be missed .  And in case of a system that has polkit 
+support cups can be configured with fine-grained privileges using 
+cups-pk-helper
+
+
+
+--=-q3pRWddoOiLQT0KPAPpw
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto">On Thu, Nov 23 2023 at 03:03:39 PM +00:=
+00:00, Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt; wrote:<br>=
+<blockquote type=3D"cite"><div class=3D"plaintext" style=3D"white-space: br=
+eak-spaces;">I'm guessing lpadmin is removed as it is unneeded but it does =
+mean you
+lose the ability to control printers separately from complete wheel
+access.
+
+Could we not allow wheel access to lpadmin instead?</div></blockquote><span=
+ style=3D"orphans: 2; widows: 2;"><div style=3D"font-family: &quot;lucida g=
+rande&quot;, geneva, helvetica, arial, sans-serif; white-space: break-space=
+s;"><br></div><font face=3D"lucida grande, geneva, helvetica, arial, sans-s=
+erif"><span style=3D"white-space-collapse: break-spaces;">The Cups document=
+ation states: The default contains "admin", "lpadmin", "root", "sys" and/or=
+ "system".</span></font></span><div><span style=3D"orphans: 2; widows: 2;">=
+<font face=3D"lucida grande, geneva, helvetica, arial, sans-serif"><span st=
+yle=3D"white-space-collapse: break-spaces;"><a href=3D"https://www.cups.org=
+/doc/man-cups-files.conf.html#:~:text=3DSystemGroup">https://www.cups.org/d=
+oc/man-cups-files.conf.html#:~:text=3DSystemGroup</a></span></font></span><=
+/div><div><span style=3D"orphans: 2; widows: 2;"><font face=3D"lucida grand=
+e, geneva, helvetica, arial, sans-serif"><span style=3D"white-space-collaps=
+e: break-spaces;"><br></span></font></span></div><div><span style=3D"orphan=
+s: 2; widows: 2;"><font face=3D"lucida grande, geneva, helvetica, arial, sa=
+ns-serif"><span style=3D"white-space-collapse: break-spaces;">sys and root =
+should be included by default, I assume? Additionally, I looked at the cups=
+-files.conf from my Fedora install and it includes root, sys, wheel, so tha=
+t seemed like a good setting to me and immediately solved the permissions p=
+roblem.
+Adding wheel made quite a bit of sense to me as it is widely used as a prio=
+ritized group. Not only sudo, but also flatpak and iwd, for example, use wh=
+eel as a prioritized group by default.</span></font></span></div><div><span=
+ style=3D"orphans: 2; widows: 2;"><font face=3D"lucida grande, geneva, helv=
+etica, arial, sans-serif"><br></font></span></div><div><span style=3D"orpha=
+ns: 2; widows: 2;"><font face=3D"lucida grande, geneva, helvetica, arial, s=
+ans-serif"><div>Probably shouldn't be a problem to add the lpadmin group as=
+ a system group in addition to the others, so as not to lose the ability to=
+ control printers separately from wheel or root. I can run some tests, but =
+that will take some time. It's a busy week.</div><div><br></div><div>I just=
+ figured, that in the interest of simplicity, &nbsp;because it hasn't been =
+used before either and because fedora did the same, the lpadmin group would=
+n't be missed . &nbsp;And in case of a system that has polkit support cups =
+can be configured with fine-grained privileges using cups-pk-helper</div></=
+font></span><div><br></div></div></div>
+--=-q3pRWddoOiLQT0KPAPpw--
 
 
