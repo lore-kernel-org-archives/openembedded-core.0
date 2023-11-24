@@ -1,64 +1,242 @@
-Return-Path: <marex@denx.de>
+Return-Path: <Lizhi.Xu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADBD3C5AD4C
-	for <webhook@archiver.kernel.org>; Thu, 23 Nov 2023 21:07:40 +0000 (UTC)
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by mx.groups.io with SMTP id smtpd.web11.107934.1700773653799074873
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D770FC61DF4
+	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 06:21:54 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.130357.1700806906160166148
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 13:07:34 -0800
+ Thu, 23 Nov 2023 22:21:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@denx.de header.s=phobos-20191101 header.b=JMCunf0c;
- spf=pass (domain: denx.de, ip: 85.214.62.61, mailfrom: marex@denx.de)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 3DB7686BA8;
-	Thu, 23 Nov 2023 22:07:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1700773651;
-	bh=8jqxJMDZdDQpp6Zu+NwwjwbeU4ZuJ8dsYlbYsf1Pvy0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JMCunf0c8JC2Nvcocjuc8bfK+Stom/evLNKXYy7UTkny+mvpZyWaKekZRaa1YoSmA
-	 M4umfXsyYgnFkeQJ5NrqlmWw1eq+2WCIFb6X7ukZOJO+0eGL5ct9pV4zqht8+F3scD
-	 pWAQ34vpnSpcZ61FyqZ+KG63UHRCka0VQNfbyayElt38oYjIXHUjPe+UEeWgyPTY/5
-	 ubMPf6W9Xxkug/iH3n/BZE130Rl5JNXW+cpdn38U4Y5A37vyoFLAR+TMzvR7Zxuf+/
-	 BioPRr9qRX9s+UtUEadC8XII3mKA3I8hUE3ux2EPSRbKNAY9aPbIbTM8PBcIBTrVo3
-	 g3CZZ0ZBUjRPA==
-Message-ID: <f5a8fb84-42cc-432b-8704-9b058be25835@denx.de>
-Date: Thu, 23 Nov 2023 12:49:49 +0100
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JYy3oUlE;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9692d60ded=lizhi.xu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AO619D6013679
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 06:21:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=OKg2z
+	QLcA4QcHpFxB9J+y7VHVpsjE+4VKgaEp1nKQ8E=; b=JYy3oUlE7hGYy/3bG+7dB
+	cFFeJRHPSuiBsWYveZ7DwR75Ho0dDNL29mPiWdRSxTKOld4RMmJ97M1NT6KwhTYz
+	CD0oifNCIX4CIO+SVajE26pVhftToRhq9AJ+FgUOtzmgy12HfgXNk5J6SySi1jJY
+	amPf2Ci6Fhu86oRoFvS7bRg1zFRQfVE/ixW2US3nKDGT1Dte9vVwpwWHEtPw27A8
+	NIa8OQB1NwUcLWLPMdCUjvv9I38VnR70MCHqDyEBBPAJEvKQaHOsAtR5fMhWo+6h
+	p3gmAm5/WNjdjgUJ5xYXapoDf4xXEOtjRdyak9BrrQ7jR1hCFSCyCtYDebZl83m8
+	Q==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uejfww346-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 06:21:45 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Thu, 23 Nov 2023 22:21:50 -0800
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Thu, 23 Nov 2023 22:21:49 -0800
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V2] [OE-core] tzdata: Reduced time zone configuration
+Date: Fri, 24 Nov 2023 14:21:42 +0800
+Message-ID: <20231124062142.4189235-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] Revert "lzop: remove recipe from oe-core"
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
- Ross Burton <ross.burton@arm.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20231123004605.82598-1-marex@denx.de>
- <CANNYZj8s99epW6DxAmNzW=70P_0ksoAntN3bVbUu6ehR=tkcpg@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CANNYZj8s99epW6DxAmNzW=70P_0ksoAntN3bVbUu6ehR=tkcpg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: Wn0iFSxRx7taDj8tri_BV-ClhqQYD3Iq
+X-Proofpoint-ORIG-GUID: Wn0iFSxRx7taDj8tri_BV-ClhqQYD3Iq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxlogscore=999
+ bulkscore=0 lowpriorityscore=0 clxscore=1011 mlxscore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 phishscore=0 malwarescore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311060001
+ definitions=main-2311240047
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 21:07:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191175
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 06:21:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191176
 
-On 11/23/23 09:26, Alexander Kanavin wrote:
-> I'm not sure I agree. It's totally ok to depend on things that are not
-> in core, if they're not enabled or tested on the AB by default, and
-> what layer they're in is well known (meta-oe in this case).
+tzdata.bb by default pulls in all possible timezone data packages which 
+increases size of the final root filesystem considerably.
+The customer would like to have extra timezones configurable so that only
+tzdata-core is chosen by default and rest of the zones are optional.
+This change would make the fs size a lot smaller.
 
-The lzop is called in oe-core and I was under the impression that 
-oe-core shouldn't depend on anything except bitbake . So either this 
-stuff should be moved to meta-oe too (which would be unfortunate growth 
-of dependencies) or the lzop should be reinstated . I would obviously be 
-in favor of the later.
+Comparison of customized package volume before and after:
+When TZ_PACKAGES contains all tzdata packets, the image size of tzdata is 7.4MB.
+The difference in mirror size between the two is 7MB.
+
+When TZ_PACKAGES only retains one tzdata-core, the image size generated by
+tzdata is 320KB.
+
+Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+---
+ meta/recipes-extended/timezone/README.txt     |   8 ++
+ meta/recipes-extended/timezone/tzd.inc        |   3 +
+ meta/recipes-extended/timezone/tzdata-cus.inc | 114 ++++++++++++++++++
+ meta/recipes-extended/timezone/tzdata.bb      |   1 +
+ 4 files changed, 126 insertions(+)
+ create mode 100644 meta/recipes-extended/timezone/README.txt
+ create mode 100644 meta/recipes-extended/timezone/tzd.inc
+ create mode 100644 meta/recipes-extended/timezone/tzdata-cus.inc
+
+diff --git a/meta/recipes-extended/timezone/README.txt b/meta/recipes-extended/timezone/README.txt
+new file mode 100644
+index 0000000000..e0c6bfdc2e
+--- /dev/null
++++ b/meta/recipes-extended/timezone/README.txt
+@@ -0,0 +1,8 @@
++# Timezones Config 
++Set the parameter "OP_TZ" in the file "tzd.inc" to increase or 
++decrease the time zone in rootfs, as shown in the following example:
++
++1. Add time zone Asia and Americas, set OP_TZ=" tzdata-asia tzdata-americas"
++
++2. Delete time zone Americas, set OP_TZ=" tzdata-asia"
++
+diff --git a/meta/recipes-extended/timezone/tzd.inc b/meta/recipes-extended/timezone/tzd.inc
+new file mode 100644
+index 0000000000..fd59531063
+--- /dev/null
++++ b/meta/recipes-extended/timezone/tzd.inc
+@@ -0,0 +1,3 @@
++OP_TZ=" tzdata-americas \
++	tzdata-asia \
++"
+diff --git a/meta/recipes-extended/timezone/tzdata-cus.inc b/meta/recipes-extended/timezone/tzdata-cus.inc
+new file mode 100644
+index 0000000000..db97ac7a02
+--- /dev/null
++++ b/meta/recipes-extended/timezone/tzdata-cus.inc
+@@ -0,0 +1,114 @@
++require tzd.inc
++# Packages are primarily organized by directory with a major city in most time
++# zones in the base package
++TZ_PACKAGES = " \
++    tzdata-core \
++    ${OP_TZ} \
++"
++
++# delete posix
++do_install:append() { 
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-posix" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/posix
++	fi
++}
++
++# delete right
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-right" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/right
++	fi
++}
++
++# delete america
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-americas" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/America
++		rm -rf ${D}${datadir}/zoneinfo/US
++		rm -rf ${D}${datadir}/zoneinfo/Brazil
++		rm -rf ${D}${datadir}/zoneinfo/Canada
++		rm -rf ${D}${datadir}/zoneinfo/Mexico
++		rm -rf ${D}${datadir}/zoneinfo/Chile
++	fi
++}
++
++# delete europe
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-europe" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/Europe
++	fi
++}
++
++# delete africa
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-africa" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/Africa
++	fi
++}
++
++# delete atlantic
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-atlantic" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/Atlantic
++	fi
++}
++
++# delete pacific
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-pacific" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/Pacific
++	fi
++}
++
++# delete antarctica
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-antarctica" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/Antarctica
++	fi
++}
++
++# delete australia
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-australia" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/Australia
++	fi
++}
++
++# delete arctic
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-arctic" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/Arctic
++	fi
++}
++
++# delete misc
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-misc" 2>&1; then
++		rm ${D}${datadir}/zoneinfo/Cuba
++		rm ${D}${datadir}/zoneinfo/Egypt
++		rm ${D}${datadir}/zoneinfo/Eire
++		rm ${D}${datadir}/zoneinfo/Factory
++		rm ${D}${datadir}/zoneinfo/GB-Eire
++		rm ${D}${datadir}/zoneinfo/Hongkong
++		rm ${D}${datadir}/zoneinfo/Iceland
++		rm ${D}${datadir}/zoneinfo/Iran
++		rm ${D}${datadir}/zoneinfo/Israel
++		rm ${D}${datadir}/zoneinfo/Jamaica
++		rm ${D}${datadir}/zoneinfo/Japan
++		rm ${D}${datadir}/zoneinfo/Kwajalein
++		rm ${D}${datadir}/zoneinfo/Libya
++		rm ${D}${datadir}/zoneinfo/Navajo
++		rm ${D}${datadir}/zoneinfo/Poland
++		rm ${D}${datadir}/zoneinfo/Portugal
++		rm ${D}${datadir}/zoneinfo/Singapore
++		rm ${D}${datadir}/zoneinfo/Turkey
++	fi
++}
++
++# delete asia
++do_install:append() {      
++	if ! echo "${TZ_PACKAGES}" | grep -c "tzdata-asia" 2>&1; then
++		rm -rf ${D}${datadir}/zoneinfo/Asia 
++		rm -rf ${D}${datadir}/zoneinfo/Indian
++	fi
++}
+diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
+index dd1960ffa7..e2180cfda4 100644
+--- a/meta/recipes-extended/timezone/tzdata.bb
++++ b/meta/recipes-extended/timezone/tzdata.bb
+@@ -202,3 +202,4 @@ CONFFILES:tzdata-core = "${sysconfdir}/localtime ${sysconfdir}/timezone"
+ ALLOW_EMPTY:${PN} = "1"
+ 
+ RDEPENDS:${PN} = "${TZ_PACKAGES}"
++require tzdata-cus.inc
+-- 
+2.25.1
+
 
