@@ -1,92 +1,91 @@
-Return-Path: <martin@geanix.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B07BC61DF4
-	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 14:12:38 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web10.137805.1700835150485420691
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A33C61D97
+	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 14:12:47 +0000 (UTC)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web10.137809.1700835167299420334
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Nov 2023 06:12:32 -0800
+ Fri, 24 Nov 2023 06:12:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=LPziipla;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: martin@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References;
-	bh=8JipkBN4sdGzYnysuW9oVRcx3UoJxzYSfU/tr2MccIo=; b=LPziiplasIztRB3xHQwMfXMbip
-	fzMzu6o97ySYcrfHynV6a7MxmVVa8YFrMPVF6Myp4qJFQIGG506+2EdCna/OGRBwRjDU4VmYR90Oi
-	eQK1yTPbNo0rP7KrEuKU+QGXz9KsjKiInHNj1uPZF8MgInwUVEedIgFJGSepi1z5cR1M6JhGh7iCy
-	KBG2DxZVIOPCIGYpk9VDaOQIvw8xWPobLf4XHvj4VLPtdEhQHX1BCfwdFBEh9j4HgRtr5l69Yvv90
-	ri4J/v05gftybK9otjqV/iEEeXeo9RVmoaplWM2C75fAImFOPTiv2zX+HLDeF4Y9NcCPRVyRrvVEl
-	jSIUM+WA==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <martin@geanix.com>)
-	id 1r6Wuy-0003xE-LB; Fri, 24 Nov 2023 15:12:28 +0100
-Received: from [185.17.218.86] (helo=zen..)
-	by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <martin@geanix.com>)
-	id 1r6Wuy-000W7O-Do; Fri, 24 Nov 2023 15:12:28 +0100
-From: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Martin=20Hundeb=C3=B8ll?= <martin@geanix.com>
-Subject: [PATCH] libpam: split /etc/environment into pam-plugin-env package
-Date: Fri, 24 Nov 2023 15:12:13 +0100
-Message-ID: <20231124141213.2071910-1-martin@geanix.com>
-X-Mailer: git-send-email 2.42.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UK2lr2IC;
+ spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1f9ef233912so425371fac.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 06:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700835166; x=1701439966; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CvocW39PSDpS4Q8CkcfHS7zoGsIJdeXKrgu+MHcC46I=;
+        b=UK2lr2ICugAHfUAKJI8Vhcro6AVFzYbrxhSfQi6vdE7NhIEoOdw0hLuVIlk9+RnAYI
+         GHGiNchd7YbNwCYJW8+yTf3V2CVOnCIcid88aa9I2pDOomNLI0EHGUUJiR/H0rudoYqj
+         SzxDecrXQwY8No3EQbJbu0jq9veRIbbnrCedUebclY9u34UAMv6+NbUQVZ9jlinM4n2/
+         rbc/VycWsLh+7B8FB64ODVORNqZsDlpWiAEoouCsfNf2berqBYxn3SF8xMY5trhBHsN3
+         PjqtLq4ve0P2fu/uV6lBFsfyNt3B1tAwJAjr/elUwVT/WX17J/4Xm3m5IGuXA6RCLvQB
+         FEKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700835166; x=1701439966;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CvocW39PSDpS4Q8CkcfHS7zoGsIJdeXKrgu+MHcC46I=;
+        b=PVTGSnFJr8PcE/UtvMnbEl2Y4eOcHB5T3ez79FaokanxqobF+1BI8XPpvtQ6rPMdri
+         xd6x/HOU6UjaaaBpHvR32+wzF+7Z5wknNiNLJtRK1RoRreU08WNmSwGDr8e8C6200Aa0
+         mpiyMuC+N9l0rLN2YZUjl4Xly6AcYj1afK2cFK7ylYFYQ4HVGBKF3e88INd2MWcMuPKs
+         5/IJ39Ki8PUEGMj3P9n4oW4pVzgj6s1YV6ax9LboO1P13wFD6dbuKNu2+F9Dxj490Mbg
+         Yj4PD3PeYau9u2BphYkG7ovJ/1OI6FAs+qktC7GqdTm0SSp6t/0jIDypIGOQoGROpmhW
+         mq+g==
+X-Gm-Message-State: AOJu0Yxj2OZt62QwnWQa2uav9rvJu8CTCQLZnP2G9oUem8E115XnK8FE
+	oETtla2BjbXz2EMY8xB1YrbIdVF2DazXJhdhbIcNsiSfHSE=
+X-Google-Smtp-Source: AGHT+IHEosGxMNAO9ILYe3fUHFYPEo55lMGf4IZXZYEX5aN4MnTH7ECBvCRGrULAvJKIBiZ5e73jTOMpJ85qZrssA6A=
+X-Received: by 2002:a05:6870:213:b0:1f9:57df:ce37 with SMTP id
+ j19-20020a056870021300b001f957dfce37mr3675812oad.33.1700835166412; Fri, 24
+ Nov 2023 06:12:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: martin@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27103/Fri Nov 24 09:40:22 2023)
+References: <20231124062142.4189235-1-lizhi.xu@windriver.com>
+In-Reply-To: <20231124062142.4189235-1-lizhi.xu@windriver.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 24 Nov 2023 14:12:34 +0000
+Message-ID: <CAO5Uq5R6Ctm4TTTd+FxTOazq2uK-bGWqkCLZ+5zSu-FBk8jQeA@mail.gmail.com>
+Subject: Re: [PATCH V2] [OE-core] tzdata: Reduced time zone configuration
+To: Lizhi.Xu@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 14:12:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191201
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 14:12:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191202
 
-Since systemd-v255, pam-plugin-umask is pulled in by by the logind
-package config for systemd. This causes /etc/environment to by installed
-as part of libpam-runtime. In our case, this broke do_rootfs for our
-image, because /etc/environment is already provided another (custom)
-recipe.
+On Fri, Nov 24, 2023 at 6:21=E2=80=AFAM Xu, Lizhi via lists.openembedded.or=
+g
+<Lizhi.Xu=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> tzdata.bb by default pulls in all possible timezone data packages which
+> increases size of the final root filesystem considerably.
+> The customer would like to have extra timezones configurable so that only
+> tzdata-core is chosen by default and rest of the zones are optional.
+> This change would make the fs size a lot smaller.
+>
+> Comparison of customized package volume before and after:
+> When TZ_PACKAGES contains all tzdata packets, the image size of tzdata is=
+ 7.4MB.
+> The difference in mirror size between the two is 7MB.
+>
+> When TZ_PACKAGES only retains one tzdata-core, the image size generated b=
+y
+> tzdata is 320KB.
+>
+> Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
 
-Fix this by making the /etc/environment file part of the pam-plugin-env
-package, which isn't automatically pulled in by systemd-logind. It also
-happens to be the where it should be, as the file is installed as by the
-pam_env plugin.
+I get what you're trying to do, but this looks horrid. How about
+splitting into multiple packages based on top level directory (plus
+the few which sit in the top level directory) using a new
+PACKAGESPLITFUNCS so you don't have to hardcode the list of packages?
 
-Signed-off-by: Martin Hundebøll <martin@geanix.com>
----
- meta/recipes-extended/pam/libpam_1.5.3.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/pam/libpam_1.5.3.bb b/meta/recipes-extended/pam/libpam_1.5.3.bb
-index 1aa307af4d..c2ba1e6899 100644
---- a/meta/recipes-extended/pam/libpam_1.5.3.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.3.bb
-@@ -51,9 +51,14 @@ PACKAGECONFIG[userdb] = "--enable-db=db,--enable-db=no,db,"
- PACKAGES += "${PN}-runtime ${PN}-xtests"
- FILES:${PN} = "${base_libdir}/lib*${SOLIBS}"
- FILES:${PN}-dev += "${base_libdir}/security/*.la ${base_libdir}/*.la ${base_libdir}/lib*${SOLIBSDEV}"
--FILES:${PN}-runtime = "${sysconfdir} ${sbindir} ${systemd_system_unitdir}"
-+FILES:${PN}-runtime = "${sysconfdir}/pam.d ${sysconfdir}/security ${sysconfdir}/tmpfiles.d ${sbindir} ${systemd_system_unitdir}"
- FILES:${PN}-xtests = "${datadir}/Linux-PAM/xtests"
- 
-+# libpam installs /etc/environment for use with the pam_env plugin. Make sure it is
-+# packaged with the pam-plugin-env package to avoid breaking installations which
-+# install that file via other packages
-+FILES:pam-plugin-env = "/etc/environment"
-+
- PACKAGES_DYNAMIC += "^${MLPREFIX}pam-plugin-.*"
- 
- def get_multilib_bit(d):
--- 
-2.42.0
-
+--=20
+Alex Kiernan
 
