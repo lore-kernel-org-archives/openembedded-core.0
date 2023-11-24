@@ -1,91 +1,97 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 200FFC61DF4
-	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 14:43:18 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.138509.1700836987924613272
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B95BC61DF4
+	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 14:53:58 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.138769.1700837628296718070
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Nov 2023 06:43:08 -0800
+ Fri, 24 Nov 2023 06:53:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UOGaOVPU;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-32fd7fc9f19so1216166f8f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 06:43:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700836986; x=1701441786; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CdUgyD30g8/tXLaN5wjAcHwXVmfwlOTZ/xa1VsxGhuE=;
-        b=UOGaOVPUW59/MNY+19UT91t6S8M7ji7yhHQqlZdo2qDElVHD1irzyq6yybSfvRPQLA
-         wNm4d4XlV+clLFEVz9TSTgQ5o9KyIjFJ+nS2TXOXKRiuJl7gXl5tsB4SVjtl4l8A08hb
-         0jJCLnYddtFCTdy1WuUVac7wE+8TxlfRNKxmt/eQgF8gp0ZuJOd/Ec5ciICKPIvLzL4K
-         Oc9elOHtcc8eZ8951zO9zSGiIcbesQu+KnyjGiey0Jw0aYOSs4+5A7Ysry9wnFz9F1cV
-         qe6lAT+2if/B5u3Yk3Uy8CzeyreY0zIfQBl18FwTwx4UVmgRQNIA+CoixTYrTa5QymCJ
-         74Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700836986; x=1701441786;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CdUgyD30g8/tXLaN5wjAcHwXVmfwlOTZ/xa1VsxGhuE=;
-        b=BgBpSb9qXF5VVh6BYwkoutWiit6n33CsyEkIockfO9rBa/0VwKX0JxbAdsvoGaEEAS
-         goi+ULKWsBzRfO0+VGha1veYfTyU4YhZC1gy4ELm9Rwglvrn70CNgXK+6kqH56LFzXmp
-         Zz26s+IMr44Ci3W75T9GxcbBKQKIvltmLkJrKh2rfiR5bW90D+3/EBW06uNrd34SDvFK
-         BdmEDxJi21l/74TOWsY3TzOyjIxarP/E2MmwnyKEFytjX7cMspkenIDfnCm6AjVWTZFZ
-         qncKGx18EBijWJCOPbOKrSpzxE2jyWt+Oik4Qkm4LYJ46TqoeC4d4A7bGUAspG9SnWnh
-         isaw==
-X-Gm-Message-State: AOJu0YxxmCeX07qqgfUF3HcMDWEeg0V2wxGLcitKn6hKYnrhoSksWPx/
-	jYiULMH7H/fMFzNKlvaCiM3DUh1Cj3w=
-X-Google-Smtp-Source: AGHT+IFrZpjexazGig4N+ZtG9TLLAhBPyOD5afyx3rOlWHjnKYB9+685Y9IMu4IPrEb2h1xXIyIirw==
-X-Received: by 2002:adf:fa0a:0:b0:332:c3d2:623c with SMTP id m10-20020adffa0a000000b00332c3d2623cmr2993765wrr.1.1700836985915;
-        Fri, 24 Nov 2023 06:43:05 -0800 (PST)
-Received: from Zuma-000004PC.lan ([2a02:390:9c57:0:c45d:d5a9:301f:4fd6])
-        by smtp.gmail.com with ESMTPSA id c9-20020adfef49000000b00331698cb263sm4507602wrp.103.2023.11.24.06.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 06:43:05 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH 2/2] rust: Drop TARGET_VENDOR export
-Date: Fri, 24 Nov 2023 14:42:53 +0000
-Message-Id: <20231124144253.14955-2-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20231124144253.14955-1-alex.kiernan@gmail.com>
-References: <20231124144253.14955-1-alex.kiernan@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MYhKAcgb;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VdfvZFh/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018c01d295b5-bb8b06db-5907-466c-b3eb-ae767d55cae0-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1700837627; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=l7LMiZE7cMZ5pL80r0A4QD7LG0/Hsy9CBL55QhVTaIo=;
+	b=MYhKAcgb9dJZOWZTXaXeIKl1PoQeaB+V5Af3JlhZFcwnOXfUkcQbCDVHAv2+aM5+
+	Q3FXM/oHARyRMYK0SD6zd+s/x+Kt30D6vMoRs3K9HiKu5DBLFXY7JzMG0c7JAw0xduF
+	dQzFr8oNJEUepXsy/uPuQHtbqqfAvLvfhagZE6Es=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700837627;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=l7LMiZE7cMZ5pL80r0A4QD7LG0/Hsy9CBL55QhVTaIo=;
+	b=VdfvZFh/0IuPNG3jTgCWjmg4BG2ebU8osK8oSt28TFRuurc9tCx4q5XAwSPybO1e
+	WLASXNrjLVSs/BqQAPHmcGDM5SyYf25MRUb/hJhIUkRo9l7GkA4NsF9JERPqBF++orb
+	1/BnAWEmMCW+g9hibyrAH3ulvM7dnBa3MuVo5BRw=
+From: patchtest@automation.yoctoproject.org
+To: Joakim Tjernlund <joakim.tjernlund@infinera.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [kirkstone][PATCH 1/4] [meta classes] sed -i destroys symlinks
+In-Reply-To: 20231124141108.1397342-2-joakim.tjernlund@infinera.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c01d295b5-bb8b06db-5907-466c-b3eb-ae767d55cae0-000000@us-west-2.amazonses.com>
+Date: Fri, 24 Nov 2023 14:53:47 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.24-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 14:43:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191204
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 14:53:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191205
 
-This was used by crossbeam_atomic.patch, but that patch was removed as
-part of the 1.69.0 upgrade.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
+---
+Testing patch /home/patchtest/share/mboxes/kirkstone-1-4-meta-classes-sed--i-destroys-symlinks.patch
+
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
 ---
 
- meta/recipes-devtools/rust/rust-source.inc | 3 ---
- 1 file changed, 3 deletions(-)
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 4a720e645bf4..7a0790f6b62c 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -12,8 +12,5 @@ SRC_URI[rust.sha256sum] = "bb8e9c564566b2d3228d95de9063a9254182446a161353f1d843b
- 
- RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
- 
--# Used by crossbeam_atomic.patch
--export TARGET_VENDOR
--
- UPSTREAM_CHECK_URI = "https://forge.rust-lang.org/infra/other-installation-methods.html"
- UPSTREAM_CHECK_REGEX = "rustc-(?P<pver>\d+(\.\d+)+)-src"
--- 
-2.39.0
+--NextPart
 
+
+--NextPart--
 
