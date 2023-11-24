@@ -1,83 +1,97 @@
-Return-Path: <h4nn35.work@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C903C61D97
-	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 10:34:56 +0000 (UTC)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
- by mx.groups.io with SMTP id smtpd.web11.132989.1700822092321421407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 494C9C61DF4
+	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 11:12:46 +0000 (UTC)
+Received: from smtp6.emailarray.com (smtp6.emailarray.com [65.39.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.133160.1700824361214397159
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Nov 2023 02:34:52 -0800
+ Fri, 24 Nov 2023 03:12:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RLpCNCQ9;
- spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: h4nn35.work@gmail.com)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-db3fa47c2f7so1550546276.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 02:34:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700822091; x=1701426891; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0d+L9NnUNm5kZAW/doN0bxO4mFuzGtcw9aSyfl0OMvQ=;
-        b=RLpCNCQ9DwV706MOwOIraYlCrFmXELiWTVDwXfGfFF/uJrCCErXZBzmV2TnEANhY3S
-         aMifTjUL+uZKznVi6ImxYMjLcbHK0ydzAp72lFhAv44/nmAu0+x+fLNS56wSSwmEeipM
-         V4rjK7khF/oKdI+JqIh/otOKRUSRoVloT0v63zuSbcFcWg25x4bQGwXf54CmRCme6i4d
-         qBetEEhNiqUdLPlWCi+zzb3sNOnJBjs13IhVCgi9/pG4v6TPEYc4as4Q+8NAL1YJ6+1y
-         q+QNtqHmTPQPXBmGZO/b9jqiuJq7RwD2fUvui8zG2cr08wxlAAsSFTURLEmsPMuedzIM
-         wo2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700822091; x=1701426891;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0d+L9NnUNm5kZAW/doN0bxO4mFuzGtcw9aSyfl0OMvQ=;
-        b=jGEqMMdjzzRP0wJBeAa0HI/HjkpRToDOkdPRMvb2GwLbsxXjcxz8/EDGENQkVJyuOz
-         jmnOU4SnYRMfIdWSfaBDJ01HZH5Uy1JEByF/iIDojG9d83hr/eQQTV6f6eVOQVZQpagw
-         c1x/qnyVHQRnp9uluRKGClw5+doK54jViWjfsmPRSCwuSCrqKnrW5J+Z9D6VQja/+gzI
-         9p8GnDDQs4zFwVhxP7Cim9dvGDCKbqbE5Sk3hzJoETMfTUWiYNjnTMs7g+MsMfd6PMEG
-         D+maqfeNav3Ad1PPVyuhVo3T0KU9B2GccrgHuL+/WDBatHx9AV9x4rETv1Rgj4JFRfgR
-         o2Aw==
-X-Gm-Message-State: AOJu0YxziRfwe3BNCpTZqOMUu/hNVZrwvOW/qE/UD9Ki0lv9zcIWom+7
-	3mTEHW+gMwi06C4r2AoZ647EF7f1oJBM+Pfgh1hWv1CJNg==
-X-Google-Smtp-Source: AGHT+IHCQdWpDdWjGfE/WuGBXj/mvXTeNCrpnO4/2ts/olJZZu86q+nNdXTotK3PzCCBXcRoUVmgFLwc2FEYN8pqKZM=
-X-Received: by 2002:a25:9703:0:b0:da3:ab41:31f3 with SMTP id
- d3-20020a259703000000b00da3ab4131f3mr1817998ybo.8.1700822091437; Fri, 24 Nov
- 2023 02:34:51 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: balister.org, ip: 65.39.216.46, mailfrom: philip@balister.org)
+Received: (qmail 25089 invoked by uid 89); 24 Nov 2023 11:12:34 -0000
+X-Orig-Sender: philip@balister.org
+Received: from unknown (HELO ?192.168.0.31?) (cGhpbGlwQGJhbGlzdGVyLm9yZ0AxNzQuMTA3LjE3My45Nw==) (POLARISLOCAL)  
+  by smtp6.emailarray.com with SMTP; 24 Nov 2023 11:12:34 -0000
+Message-ID: <8498fc58-f51c-b629-e2e8-8c5578864ddb@balister.org>
+Date: Fri, 24 Nov 2023 06:12:33 -0500
 MIME-Version: 1.0
-From: Johannes Pointner <h4nn35.work@gmail.com>
-Date: Fri, 24 Nov 2023 11:34:40 +0100
-Message-ID: <CAHvQdo1KaZ2S1srqjvyj=R0tVroUieExEXmfBpiEBq9J1RZxDQ@mail.gmail.com>
-Subject: rootfs.py generates wrong ld.so.cache in case of usrmerge distro feature
-To: OE-core <openembedded-core@lists.openembedded.org>
-Cc: Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [OE-core] [PATCH] Revert "lzop: remove recipe from oe-core"
+To: Martin Jansa <martin.jansa@gmail.com>,
+ Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org,
+ Ross Burton <ross.burton@arm.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20231123004605.82598-1-marex@denx.de>
+ <CANNYZj8s99epW6DxAmNzW=70P_0ksoAntN3bVbUu6ehR=tkcpg@mail.gmail.com>
+ <f5a8fb84-42cc-432b-8704-9b058be25835@denx.de>
+ <CANNYZj_XG4nxLOqOq=aeYOZBNuDMoOdYF8G2LWVUDbe+gYNEQQ@mail.gmail.com>
+ <CA+chaQdz8Aby6uL+RxvZMOsRfQVSztL6eDNNRcWQR7mQgCZLXg@mail.gmail.com>
+Content-Language: en-US
+From: Philip Balister <philip@balister.org>
+In-Reply-To: <CA+chaQdz8Aby6uL+RxvZMOsRfQVSztL6eDNNRcWQR7mQgCZLXg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 10:34:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191179
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 11:12:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191180
 
-Hello,
+On 11/24/23 03:18, Martin Jansa wrote:
+> On Fri, Nov 24, 2023 at 8:52 AM Alexander Kanavin 
+> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
+> 
+>     On Thu, 23 Nov 2023 at 22:07, Marek Vasut <marex@denx.de
+>     <mailto:marex@denx.de>> wrote:
+> 
+>      > The lzop is called in oe-core and I was under the impression that
+>      > oe-core shouldn't depend on anything except bitbake . So either this
+>      > stuff should be moved to meta-oe too (which would be unfortunate
+>     growth
+>      > of dependencies) or the lzop should be reinstated . I would
+>     obviously be
+>      > in favor of the later.
+> 
+>     There are plenty of recipes in oe-core that have optional features
+>     (enabled via PACKAGECONFIG) that depend on recipes that are not in
+>     core. If you enable them, bitbake will say that the needed recipe is
+>     missing and then you need to figure out which layer to add (typically
+>     something in meta-openembedded tree). This is not that different:
+>     optional feature, disabled by default, and the error will be the same:
+>     missing lzop recipe.
+> 
+> 
+> I think this case is slightly different as this optional dependency 
+> might be "enabled" by MACHINE config in some BSP layer and BSP layer 
+> depending on meta-oe just to build the kernel (with BSP preferred 
+> compression) isn't great - compared with some DISTRO config enabling 
+> some additional PACKAGECONFIG in some other recipe the DISTRO uses.
 
-I did recently my first Nanbield build which required the distro
-feature usrmerge because of using systemd and as a result QtWebEngine
-didn't work anymore.
-I reported this to Qt(https://bugreports.qt.io/browse/QTBUG-119140),
-but looking deeper into this it turned out to be an issue related to
-the generated ld.so.cache in the rootfs.py.
-At the moment in the ldconfig-native which is used to generate this,
-are the paths to LIBDIR("/usr/lib") and SLIBDIR("/lib") hardcoded, but
-that isn't correct if usrmerge is enabled, at least I think so.
-The resulting ld.so.cache looks like this:
-236 libs found in cache `/etc/ld.so.cache'
-       libzstd.so.1 (libc6) => /lib/libzstd.so.1
-       libz.so.1 (libc6) => /lib/libz.so.1
-       libxtables.so.12 (libc6) => /lib/libxtables.so.12
-       libxslt.so.1 (libc6) => /lib/libxslt.so.1
-       libxml2.so.2 (libc6) => /lib/libxml2.so.2
-...
+It sounds like enabling the option forces the addition of another layer 
+to an existing project. I understand the need for that if the 
+PACKAGECONFIG added so additional package to the image, but in this case 
+the option just needs an additional tool to create stuff needed for 
+booting a board
 
-Would it be OK to configure the paths LIBDIR SLIBDIR using base_libdir
-and libdir?
+Philip
 
-Thanks,
-Hannes
+> 
+> At least if Marek agrees to maintain it instead of restoring Denys as 
+> maintainer :).
+> 
+> Cheers,
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191178): https://lists.openembedded.org/g/openembedded-core/message/191178
+> Mute This Topic: https://lists.openembedded.org/mt/102759947/384425
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [philip@balister.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
