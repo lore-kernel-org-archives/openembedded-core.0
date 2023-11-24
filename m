@@ -1,227 +1,164 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 251A8C61D97
-	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 16:57:39 +0000 (UTC)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web10.144091.1700845049944538140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23429C61DF4
+	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 17:01:49 +0000 (UTC)
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.51])
+ by mx.groups.io with SMTP id smtpd.web11.144365.1700845301744446884
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Nov 2023 08:57:30 -0800
+ Fri, 24 Nov 2023 09:01:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IwB/uDIx;
- spf=pass (domain: gmail.com, ip: 209.85.167.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3b83fc26e4cso1275047b6e.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 08:57:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700845049; x=1701449849; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lQn4bRYFnygReri7Olko9b/wq9omqfcAQgYuYKWVvDA=;
-        b=IwB/uDIxBo54XqvE02SGJR1UZAGjPXZugiG8PzJtjKrwfnt5HMBR82ibf0B0fNOpw9
-         EAKwfNfd2ws4VW5YlIW97DBLL3ww9F6VO50LPKYFnK0cxnBZQG8Muyfe37QS5vtdKT7D
-         Yk0i9To+fZfJfWtKWTlYRMKq2LVoOOIFQI78DFfPDUFOXRDqKGPEiUEkO124YNbfXIqJ
-         Xq+nMeeGzRB40ksv6oyrb8ug2fqGqJIrChKSTQc5Su6LrYT3aQmZwctjgfak2U4O7HW4
-         ziBEbFf7RbnDS4jMgy5CrGNu2F865aeUYCaxhplTWFxMWalS1VHoOdqH1XGpEGZ2wEzp
-         yDEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700845049; x=1701449849;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lQn4bRYFnygReri7Olko9b/wq9omqfcAQgYuYKWVvDA=;
-        b=UmU7CtFvABZqFnJqAeXH/kTJpShg8gQmOq2DAB3IwKA/uan5G/uGFmLuqMyazh/+ko
-         1LfVP5EwaJksEVh5Swzu3BVdy3LrcvrcdFHDcAKHdUwzGNOSU6B9qdvFa3j1or+oC8B5
-         CRkYz5r+NuJb8K+fYdIKhu8UgcI7zrZzbSRMIM6f5cOLBMYqmeBr+xLKeJprSvqW3rD7
-         A2wPrxhoTt4L0qqFQWjcOrwG0ipESYgnlGeIg5oEH2qeqd0mo668/eUmTwtAUXfVUyFT
-         O+8Kf9AKkvfNO1TV5RY0LubYl4+xSqQijKRItslAooF7CbgGRznU1CddI//SipLBIrKE
-         WEtA==
-X-Gm-Message-State: AOJu0YzJT+Vt77RGv4YILxn9p93ydSohZ02cE0IlErdrIpwhXeO7NGTn
-	ZUDgsHVWOkH4f2Wi0s6N/lFTamB8izClNIYM1ko=
-X-Google-Smtp-Source: AGHT+IGUfI+pxNII/FLHmEQ8LhvoMmL5NdYOTJ7jEGeRicnA9Z1kZWo1KFRa85A+9kDRdYF1sU/LXhb4T51NZO+v/Js=
-X-Received: by 2002:a05:6870:e99a:b0:1fa:126:2b27 with SMTP id
- r26-20020a056870e99a00b001fa01262b27mr2301645oao.50.1700845049028; Fri, 24
- Nov 2023 08:57:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20231122063119.3620722-1-raj.khem@gmail.com> <462EA886-8F44-464F-88ED-609B42680F39@arm.com>
- <307F70DF-9B9F-4A38-9788-F47DB99193D1@arm.com>
-In-Reply-To: <307F70DF-9B9F-4A38-9788-F47DB99193D1@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 24 Nov 2023 08:57:18 -0800
-Message-ID: <CAMKF1srK4r=YYB35noP5f30JJMO-cMYUyMMixWFrAP3tdox1+g@mail.gmail.com>
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=JqO5pefM;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=JqO5pefM;
+ spf=pass (domain: arm.com, ip: 40.107.13.51, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=Esn6bqn0X2YVdenqRxbj0bmw1NwzfFG4iIgLRH/hq/QH8obrHgb24qQSyu5gUsWpTwy0CM82B6M23mTlhM5DEqa/1L/W1Jk+v5OUhDWhPO1JCAFMi6WRI6ipLv+44Ivst0EWxkPWC86DVC/8qdcyxF1Vhewy9LFWTy3+SIYPaePcVocJoEokDX7yuSnOc0QwbSKZLQW8o7Cz1PiaNw5NG449A7c3zWcS/e6VQQEg9Pk55ibt/NbtDjcODoczCf+LS4njMtopVLohtd+Av2Neyp/qEWfQi/I1NA+P+golCxJGQrZlJnlQu9PwJzSQM6K6rWdwkB3WGpPO0v3dLv52xQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vn2eDvleLtwrqysZ0C2a41IcyOPZ9vc8DGdEa9E+6QQ=;
+ b=KsdDPF4YBoIq+qJcVIbzjOtMnh4/ZEuBNEVNy+StK/VYnaaVaxMrlJZvtozlTmM7cho5004sDy82SCwKfBeL3R3RF9a99cewAOn4/ywPcQUimGsc6xSj9UHMOh3rjBB81wEiSwzhlbMuWrP4M+fe0W8k1s/lWnlN/DFBIrt+4+GPY8WCTu9EcQoz4kby03k9YBsXlzrqPy+mtPh1DQkS6NAYvHUM6FamKJvmQ7gtqr/g078kWU8j9z1oIQ7PL/zugw8lEDLL56DtG+mDb+xfDO0MFLDiUtFRbVfC3i3iMS7Hl13uvUEw7Y7f3bSIzQY7FwLai3hza66mM0SJHmDg1g==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vn2eDvleLtwrqysZ0C2a41IcyOPZ9vc8DGdEa9E+6QQ=;
+ b=JqO5pefM/AMh1lPWtWvpu23OH/QnpGIXZ9Zo90F/zcS9tpzvU9/k5Si3G6ygIurEHBpwfp/CMYm1qrF24gAiaPoJGFp9NzE38/VGzNMKKQclT6tfxayKSaZNmxrruFIHZ95NMuiszc/hvbqrxa+E4Zg22SFgac1pdn6mAppQZA0=
+Received: from AM0PR10CA0012.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::22)
+ by PAVPR08MB9308.eurprd08.prod.outlook.com (2603:10a6:102:303::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.21; Fri, 24 Nov
+ 2023 17:01:36 +0000
+Received: from AMS0EPF0000019A.eurprd05.prod.outlook.com
+ (2603:10a6:208:17c:cafe::f5) by AM0PR10CA0012.outlook.office365.com
+ (2603:10a6:208:17c::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.21 via Frontend
+ Transport; Fri, 24 Nov 2023 17:01:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AMS0EPF0000019A.mail.protection.outlook.com (10.167.16.246) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7025.13 via Frontend Transport; Fri, 24 Nov 2023 17:01:35 +0000
+Received: ("Tessian outbound 8289ea11ec17:v228"); Fri, 24 Nov 2023 17:01:35 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: ddcef70a3e40738e
+X-CR-MTA-TID: 64aa7808
+Received: from 73bb380cbd22.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id ECD14FEA-B177-47AC-8756-156424665564.1;
+	Fri, 24 Nov 2023 17:01:29 +0000
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 73bb380cbd22.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 24 Nov 2023 17:01:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k8ThfUwTGM9MPUDpbiRHo+lH+dftAby+cBMUEorzrDYHWM1fIeuqdPW64/etJrk7Unj6RWf8cabDjwGBGM4WPjoJYh9+kT4pi35qdSlQb9DvIWWrMmtSy2DE92IfsZaj6DoPvF3ApUtieMxINk8/BrgWNMnSy/QCcRly1FOi2KqMB0BSqCWkcbbsDYxPBsQO0fxA189Saw9znKs7Kab84uxkEeQwd2gR+gCchWpeXrTdc3SQH04dPmFt9Kfn4BV8qGUkldAoeVl6hMGVCerUuX9sOBuQ4l9E/HJnMPj5vUwQK5zLC9ld3xsTiKB/QnUAW+OLj9K1tmKjynNWHsts6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vn2eDvleLtwrqysZ0C2a41IcyOPZ9vc8DGdEa9E+6QQ=;
+ b=AR22CiDFvZuBA6ikPL5HuCqMFrgLiCJd43M+w+Y48C6r5dSiukXeVuF1zE+SZKSgex5Dwb9ilcVpbN74XpVBHbYp2bP583wYCBbXrkoAuhwG75SwXT5AdLx1A93jNQSxupAghoExHTFArkz1U6hWoQNxKd3jzB/nl/j42cPoypKOQPBumvlpd1ZVRm2uJbK93PhqM+OvvtggBLLyoK45J41HEktRDhaJ1ThsnBhrv6+Vn1GutYg8M2UGthXbZJ4d2Z98hL+dW8fXnYh24J0HZT4O1S5WGRGXjCvWteZELBAVnm4VQtGy8vqpgdHG4YFmaHLi9XoIEaI4+Ny94aBY2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vn2eDvleLtwrqysZ0C2a41IcyOPZ9vc8DGdEa9E+6QQ=;
+ b=JqO5pefM/AMh1lPWtWvpu23OH/QnpGIXZ9Zo90F/zcS9tpzvU9/k5Si3G6ygIurEHBpwfp/CMYm1qrF24gAiaPoJGFp9NzE38/VGzNMKKQclT6tfxayKSaZNmxrruFIHZ95NMuiszc/hvbqrxa+E4Zg22SFgac1pdn6mAppQZA0=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS2PR08MB8504.eurprd08.prod.outlook.com (2603:10a6:20b:55f::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19; Fri, 24 Nov
+ 2023 17:01:26 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::ef47:2c42:1ef6:fe5c]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::ef47:2c42:1ef6:fe5c%6]) with mapi id 15.20.7025.021; Fri, 24 Nov 2023
+ 17:01:26 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>, Markus Volk
+	<f_l_k@t-online.de>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH v9 1/3] vte: upgrade 2.72.2 -> 2.74.0
-To: Ross Burton <ross.burton@arm.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Markus Volk <f_l_k@t-online.de>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f723fd060ae8d8cc"
+Thread-Topic: [OE-core] [PATCH v9 1/3] vte: upgrade 2.72.2 -> 2.74.0
+Thread-Index: AQHaHQ2RTudaz6UdlEWVs9rhH0b2UrCJqmYAgAAA2wCAAAk0AIAAARiA
+Date: Fri, 24 Nov 2023 17:01:24 +0000
+Message-ID: <2A0F1B32-90E9-4813-AB9C-833D1264B78C@arm.com>
+References: <20231122063119.3620722-1-raj.khem@gmail.com>
+ <462EA886-8F44-464F-88ED-609B42680F39@arm.com>
+ <307F70DF-9B9F-4A38-9788-F47DB99193D1@arm.com>
+ <CAMKF1srK4r=YYB35noP5f30JJMO-cMYUyMMixWFrAP3tdox1+g@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1srK4r=YYB35noP5f30JJMO-cMYUyMMixWFrAP3tdox1+g@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.200.91.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS2PR08MB8504:EE_|AMS0EPF0000019A:EE_|PAVPR08MB9308:EE_
+X-MS-Office365-Filtering-Correlation-Id: 937b1afe-1545-44b3-3798-08dbed0f047d
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ TienmNL67LBzpby+yzgmmDP1r+4UjTSWh75OsZ2lyv6cxehNEUr8CY3+8l5Rn79daHJu+GOhiUmmXq3xybOoDLpkoayiIMWJtOzCCem4zyk2nsCiFImeTWS3iF8omwQLLb4yvy8HgkG6XFVW52H5CVBwPDzPNr9l7ih+xjLtevKjHTz8akXU8tvHlSbHuUUga55KV2jeZtAV/gtxvx6L2D7v3Y0HHQo9DYNvTYIgE7MrYytCMDYPiimwSaPZEsh+Qvm/S7r+VQ8GFBBdaAq6j2wDIcaVzT5/M+loTRVJTM8KTpM9YrmfbAAfnJDX+Z3Ot0PSzVl/2WeqNjoneNt5kmxv/U8wAQ/eg9ngnfsxM2fuHka7q8eTKMRbBdrUeA5N1AHZvVBSb9hjmdZKUHfXT/5dV/0KbiC2Wkr/vCA+OkkqZ9+xJh+whfTKZpdc9O/n0ke/JU7m6kuWfvb7UhUSV1dCI5uB/RVvzAuiPlZHEVEWEPA3vwDOJZhx0t44bh9keWyACxpfRuCAnqRuDl0VZGLyz2aQMUCIvnILTxBMWqOObTP6l22r1Le751SZ4xOsx4KOCjYrmCRZDvdksgyra3csUzD6iu7o6a9+ksDFefpSRwkz7hsHsXDtIk3CX5JUlot3/xALqZ6qZ2D1el9pxw==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(136003)(366004)(396003)(376002)(346002)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(38070700009)(66946007)(66446008)(66476007)(76116006)(66556008)(91956017)(54906003)(64756008)(38100700002)(36756003)(122000001)(558084003)(86362001)(71200400001)(6486002)(2616005)(33656002)(6506007)(6512007)(2906002)(26005)(6916009)(316002)(478600001)(4326008)(8936002)(8676002)(5660300002)(41300700001)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <86E7C4D34DB0074ABFC49AD55B1BADD8@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8504
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AMS0EPF0000019A.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4567f5ed-03c4-4766-f94b-08dbed0efd90
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1tkg/qrUJwkz5i4SwQeGEIz/gxjP381bL5BHvn57bAKHYcqxi01FzaRRaogxcRd4l1LhippgdavW3Bpz6gbhyEWFdbbNDj475ja7sazovgWrPag6GT7wBmcEl1s1Vf/gXNzxsLlDa/LlYQcGhP1GjZgBRXw6Bsc3/ppH+IQ4iJI67MrxcKqB0VtVfeN2CyIAE91H5Pi7POVFxtBrI7dRZKFWXWA2Gcr0vf1SpjmBZWD0Q+uVOYm8Opd2fvAuK0CWSlCrpnwy/Evc+xabFhGN6/Xt5r3xJCH/NSDfpjymLaqpyNe7V6TKuIqUKwPJVCdeAXPRtkgrYmQ58XNo0MRpJk2IEt6Pl6i25EAo3nSLD+ezxXV/7uw1L4vwD52hWBbOFCecqL6544G5HjVNYKTnD6vIvIqDDPgPHfcS7rF6Hd1vhvOjPvKdQWFY9Ugz0ef9bo+zceAIvvyVFF+wZdRqEoTKxzEAm8Ep7yOHG5ZJRXMWkS3Ygw3h9aRdKBU0QqWuz7xa5dQrYlRBqBQAxjRfqwjpLGaAXaUuTdqWG/0qusHTYwcszPRGzH25Nl4ofs75K4o+tCzHJ6BCF2iKQFsTLp+rxEOwwR+f6eqvmrOT1h0O6di7bq6ztvNnLb7foLDf97hG1ABY4/eEG2mC2j88UwDe6gvrmAazb7O96/VkM1+C/zfbPFnGRzE8e/UCp3pmOKw35tS6E/SWdCTBfHwPXbEP07JeAuv3/a3r7GVPP6Ow3JaBt+DF51VcCQVZs3Sx
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(346002)(396003)(376002)(136003)(230922051799003)(1800799012)(64100799003)(82310400011)(451199024)(186009)(40470700004)(36840700001)(46966006)(40480700001)(40460700003)(70586007)(70206006)(33656002)(81166007)(36756003)(356005)(558084003)(82740400003)(86362001)(6512007)(47076005)(26005)(336012)(2616005)(478600001)(2906002)(316002)(54906003)(6486002)(5660300002)(6862004)(8676002)(4326008)(8936002)(36860700001)(6506007)(41300700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2023 17:01:35.8195
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 937b1afe-1545-44b3-3798-08dbed0f047d
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS0EPF0000019A.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9308
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 16:57:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191210
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 17:01:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191211
 
---000000000000f723fd060ae8d8cc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Nov 24, 2023 at 8:24=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
-
->
->
-> > On 24 Nov 2023, at 16:21, Ross Burton via lists.openembedded.org
-> <ross.burton=3Darm.com@lists.openembedded.org> wrote:
-> >
-> > On 22 Nov 2023, at 06:31, Khem Raj via lists.openembedded.org <raj.khem=
-=3D
-> gmail.com@lists.openembedded.org> wrote:
-> >> +PACKAGECONFIG ??=3D " \
-> >> + gnutls \
-> >> + ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
-> >> + ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
-> >> +"
-> >> +PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4=E2=80=9D
-> >
-> > So for example a Sato system which is entirely 100% GTK+3 will now also
-> pull in the entire GTK4 stack, right?
-> >
-> > That=E2=80=99s clearly and obviously the wrong thing to do.
-> >
-> > Split the packages so that the GTK3 binaries are in separate packages t=
-o
-> the GTK4 binaries.
->
-
-Hmm interesting I wonder if it Will avoid adding the dependencies for dbg
-and dev packages
-
->
-> I can only presume nobody looks at buildhistory-diff, but this isn=E2=80=
-=99t a
-> subtle problem:
-
-
-
-
->
-> packages/core2-64-poky-linux/vte/vte-dbg: PKGSIZE changed from 7057208 to
-> 14127056 (+100%)
-> packages/core2-64-poky-linux/vte/vte-dbg: RRECOMMENDS: removed
-> "fribidi-dbg", added "gtk4-dbg libsystemd-dbg"
-> packages/core2-64-poky-linux/vte/vte-dev: RDEPENDS: added "gtk4-dev
-> cairo-dev"
-> packages/core2-64-poky-linux/vte/vte-dev: PKGSIZE changed from 391257 to
-> 815848 (+109%)
-> packages/core2-64-poky-linux/vte/vte-dev: RRECOMMENDS: removed
-> "fribidi-dev", added "vala-dev libsystemd-dev gtk4-dev systemd-dev"
-> packages/core2-64-poky-linux/vte/vte-dev: FILELIST: added
-> "/usr/include/vte-2.91-gtk4/vte/vte.h
-> /usr/include/vte-2.91-gtk4/vte/vteglobals.h
-> /usr/include/vte-2.91-gtk4/vte/vteenums.h
-> /usr/include/vte-2.91-gtk4/vte/vteterminal.h
-> /usr/share/gir-1.0/Vte-3.91.gir /usr/share/vala/vapi/vte-2.91-gtk4.vapi
-> /usr/include/vte-2.91-gtk4/vte/vtemacros.h
-> /usr/include/vte-2.91-gtk4/vte/vteregex.h
-> /usr/share/vala/vapi/vte-2.91.deps /usr/include/vte-2.91-gtk4/vte/vtepty.=
-h
-> /usr/lib/libvte-2.91-gtk4.so /usr/share/vala/vapi/vte-2.91-gtk4.deps
-> /usr/share/vala/vapi/vte-2.91.vapi
-> /usr/include/vte-2.91-gtk4/vte/vtedeprecated.h
-> /usr/include/vte-2.91-gtk4/vte/vtetypebuiltins.h
-> /usr/lib/pkgconfig/vte-2.91-gtk4.pc
-> /usr/include/vte-2.91-gtk4/vte/vtetypebuiltins-gtk4.h
-> /usr/include/vte-2.91-gtk4/vte/vteversion.h"
-> packages/core2-64-poky-linux/vte/vte-locale-el: PKGSIZE changed from 1278
-> to 1622 (+27%)
-> packages/core2-64-poky-linux/vte/vte: RDEPENDS: added "gtk4 (['>=3D
-> 4.12.3'])"
-> packages/core2-64-poky-linux/vte/vte: PKGSIZE changed from 93336 to 17846=
-6
-> (+91%)
-> packages/core2-64-poky-linux/vte/vte: FILELIST: added
-> "/usr/lib/systemd/user/vte-spawn-.scope.d/defaults.conf
-> /usr/bin/vte-2.91-gtk4=E2=80=9D
->
-> Ross
-
---000000000000f723fd060ae8d8cc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Nov 24, 2023 at 8:24=E2=80=AFAM Ross Burton &lt;<a =
-href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex"><br>
-<br>
-&gt; On 24 Nov 2023, at 16:21, Ross Burton via <a href=3D"http://lists.open=
-embedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</=
-a> &lt;ross.burton=3D<a href=3D"mailto:arm.com@lists.openembedded.org" targ=
-et=3D"_blank">arm.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; On 22 Nov 2023, at 06:31, Khem Raj via <a href=3D"http://lists.openemb=
-edded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> =
-&lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
-=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;&gt; +PACKAGECONFIG ??=3D &quot; \<br>
-&gt;&gt; + gnutls \<br>
-&gt;&gt; + ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;systemd&#39;,=
- d)} \<br>
-&gt;&gt; + ${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;opengl&#39;=
-, &#39;gtk4&#39;, &#39;&#39;, d)} \<br>
-&gt;&gt; +&quot;<br>
-&gt;&gt; +PACKAGECONFIG[gtk4] =3D &quot;-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,gtk4=
-=E2=80=9D<br>
-&gt; <br>
-&gt; So for example a Sato system which is entirely 100% GTK+3 will now als=
-o pull in the entire GTK4 stack, right?<br>
-&gt; <br>
-&gt; That=E2=80=99s clearly and obviously the wrong thing to do.<br>
-&gt; <br>
-&gt; Split the packages so that the GTK3 binaries are in separate packages =
-to the GTK4 binaries.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Hmm interesting =
-I wonder if it Will avoid adding the dependencies for dbg and dev packages=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><br>
-I can only presume nobody looks at buildhistory-diff, but this isn=E2=80=99=
-t a subtle problem:</blockquote><div dir=3D"auto"><br></div><div dir=3D"aut=
-o"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-packages/core2-64-poky-linux/vte/vte-dbg: PKGSIZE changed from 7057208 to 1=
-4127056 (+100%)<br>
-packages/core2-64-poky-linux/vte/vte-dbg: RRECOMMENDS: removed &quot;fribid=
-i-dbg&quot;, added &quot;gtk4-dbg libsystemd-dbg&quot;<br>
-packages/core2-64-poky-linux/vte/vte-dev: RDEPENDS: added &quot;gtk4-dev ca=
-iro-dev&quot;<br>
-packages/core2-64-poky-linux/vte/vte-dev: PKGSIZE changed from 391257 to 81=
-5848 (+109%)<br>
-packages/core2-64-poky-linux/vte/vte-dev: RRECOMMENDS: removed &quot;fribid=
-i-dev&quot;, added &quot;vala-dev libsystemd-dev gtk4-dev systemd-dev&quot;=
-<br>
-packages/core2-64-poky-linux/vte/vte-dev: FILELIST: added &quot;/usr/includ=
-e/vte-2.91-gtk4/vte/vte.h /usr/include/vte-2.91-gtk4/vte/vteglobals.h /usr/=
-include/vte-2.91-gtk4/vte/vteenums.h /usr/include/vte-2.91-gtk4/vte/vteterm=
-inal.h /usr/share/gir-1.0/Vte-3.91.gir /usr/share/vala/vapi/vte-2.91-gtk4.v=
-api /usr/include/vte-2.91-gtk4/vte/vtemacros.h /usr/include/vte-2.91-gtk4/v=
-te/vteregex.h /usr/share/vala/vapi/vte-2.91.deps /usr/include/vte-2.91-gtk4=
-/vte/vtepty.h /usr/lib/<a href=3D"http://libvte-2.91-gtk4.so" rel=3D"norefe=
-rrer" target=3D"_blank">libvte-2.91-gtk4.so</a> /usr/share/vala/vapi/vte-2.=
-91-gtk4.deps /usr/share/vala/vapi/vte-2.91.vapi /usr/include/vte-2.91-gtk4/=
-vte/vtedeprecated.h /usr/include/vte-2.91-gtk4/vte/vtetypebuiltins.h /usr/l=
-ib/pkgconfig/vte-2.91-gtk4.pc /usr/include/vte-2.91-gtk4/vte/vtetypebuiltin=
-s-gtk4.h /usr/include/vte-2.91-gtk4/vte/vteversion.h&quot;<br>
-packages/core2-64-poky-linux/vte/vte-locale-el: PKGSIZE changed from 1278 t=
-o 1622 (+27%)<br>
-packages/core2-64-poky-linux/vte/vte: RDEPENDS: added &quot;gtk4 ([&#39;&gt=
-;=3D 4.12.3&#39;])&quot;<br>
-packages/core2-64-poky-linux/vte/vte: PKGSIZE changed from 93336 to 178466 =
-(+91%)<br>
-packages/core2-64-poky-linux/vte/vte: FILELIST: added &quot;/usr/lib/system=
-d/user/vte-spawn-.scope.d/defaults.conf /usr/bin/vte-2.91-gtk4=E2=80=9D<br>
-<br>
-Ross</blockquote></div></div>
-
---000000000000f723fd060ae8d8cc--
+PiA+IFNwbGl0IHRoZSBwYWNrYWdlcyBzbyB0aGF0IHRoZSBHVEszIGJpbmFyaWVzIGFyZSBpbiBz
+ZXBhcmF0ZSBwYWNrYWdlcyB0byB0aGUgR1RLNCBiaW5hcmllcy4NCj4gDQo+IEhtbSBpbnRlcmVz
+dGluZyBJIHdvbmRlciBpZiBpdCBXaWxsIGF2b2lkIGFkZGluZyB0aGUgZGVwZW5kZW5jaWVzIGZv
+ciBkYmcgYW5kIGRldiBwYWNrYWdlcyANCg0KSXQgd29u4oCZdCwgeW914oCZbGwgbmVlZCB0byBt
+YW51YWxseSBoYW5kbGUgdGhvc2UgZGVwZW5kZW5jaWVzLg0KDQpSb3Nz
 
