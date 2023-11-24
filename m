@@ -2,57 +2,57 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5974CC636D0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BCF3C636F2
 	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 12:32:07 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.134529.1700829119027826562
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.134528.1700829117215093861
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Nov 2023 04:31:59 -0800
+ Fri, 24 Nov 2023 04:31:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=d7KYqT5M;
- spf=pass (domain: linaro.org, ip: 209.85.208.174, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2c8879a1570so23868351fa.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 04:31:58 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=TnZ6A7Cy;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c50cf61f6dso22405881fa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 04:31:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700829117; x=1701433917; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1700829115; x=1701433915; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=og/Z5Sj9P0YMveddYuS8oqwKP4loR4bV+9BRl+zthZI=;
-        b=d7KYqT5MXxvV3bBqDUOIzYI3FKWyFpMdAGmMRZx2tx6ihBNIQuNpWB3Gd+VF6FOAsG
-         YZLQEU4JBrgk4x3biA244bRuhB8pq9+0X4FpB+KpH7bk9cweqQEpIsgi5OKZbeKHDA6e
-         P8mmUKKSu4tumc8aLQVoP7GiShBqhCEyjvy1U/Nr0cyUJQpuqhXJ+FE7yJh0NJs6x+ZN
-         OGtr704eR7Tr4tXZgOu4FEVg8aJqKdK+f6I78Anq/qcogaYKBR1pARCzIDpJ4NBHazS7
-         b/8AWvUtqlsjoWr3VVbRIeW243o7GQC87J3H8HpgovWZ4xLXVG+CSLenqWYmfuEqCQ5u
-         UTiA==
+        bh=dE0qB1NMNkq8ExcNOAIAnTmKyzm22UfjPhCSccOFLYY=;
+        b=TnZ6A7CyMqi5Hx/pKxGZr65mAPyObtvNXUG/y4LjIcPqgTaFZBHjTij1QhcmhihVHI
+         +M9tvP3pdk7vT+rgNSTW37ka8tXRSEKOKGnu61OVf0guyf1FdiNUw5bE1cfDPrUSNK2H
+         CVgBX1Wk2WPPySXqWvlvmLi1JABReKperEKF4HvduMH4X5Wu7rn6k2dpDparP34OU182
+         eJ1CEAnFZJY/T9w29qog6GaIawnPTkywX3XyszfnxdtFGVnQIzgGwfl9FbWHniZT94sU
+         GZekY56XU/SPGghMxraG5RvjFdRLS3GawVsGdtkLDNc42Rfbd5vu2w2hhhFWEziJWX/E
+         x09g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700829117; x=1701433917;
+        d=1e100.net; s=20230601; t=1700829115; x=1701433915;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=og/Z5Sj9P0YMveddYuS8oqwKP4loR4bV+9BRl+zthZI=;
-        b=ZmeGS0XJeCrX8o/ilRvDuHVm8xg0Fld1dpFfzJWCA4o5k+SJeRrLz5p1C6rXheViau
-         iFDzBhjksMJs7CERIPoE9o4vC8pjxhGnCqXg/dLR/5t18TQalCzyt1pXLA3Qt4KfxV1v
-         tq8FpSkXC0OqOCG15QUYcqNFDx4LYf77eHHNoCLXb1UUnVba8qBw/4bUTDvnzxjRU9wQ
-         0lLC8ro8ZV4xd3R84LNNPeS/cIctY3n16I6593FbhYubNs/xTjiV6CedTV/VZy+rdX3p
-         RTVaHLXEG93NLTo2it8B2nSkQvhq6jPp8RHarg9pLU+uTbgjUoiceMBzdCdDJx/ngSEh
-         QJeA==
-X-Gm-Message-State: AOJu0YwBsbhu2DYwwZVKg1PKCq5azILWDyKqTXgrBcWu5L+CtPbiVhV0
-	10ig3LHUN9l/aTUJBin0zJwivzUaEiZ7KhANMVU=
-X-Google-Smtp-Source: AGHT+IFQao8YFmSitJicPcWVVp+9QWz/lZGHPYUjOSz9qFgfvzBRKatQaHhXwiyk6Q4Ykv/TOyqj4g==
-X-Received: by 2002:a2e:9909:0:b0:2c6:f1a9:e74 with SMTP id v9-20020a2e9909000000b002c6f1a90e74mr1826899lji.34.1700829117123;
-        Fri, 24 Nov 2023 04:31:57 -0800 (PST)
+        bh=dE0qB1NMNkq8ExcNOAIAnTmKyzm22UfjPhCSccOFLYY=;
+        b=o/b34VoQ6898GZTrSQl83sCRqHknMtu5WFYAn6+XgaRDYeUh+hmS09Id5e/br+2v0y
+         KlTT+qPmV/tWkvQsVgf4GOuGllyKMhXe5D7NWyEV1IqrTD2mgRRuT6Fka45iUpyprpe7
+         Sejf5gJP4p0OF9s0lVp1ZZgZDnxFyin7x7Gm4ibf8nYXhJnUC4bL/cvKmMzgpreH/9r3
+         W61OjyJWeodj5YMEomTYebQoSeYsne/vZ0O1h4l/s5qZtgFUltj71YUtn8gbv3nn56Ap
+         HMoiIvLogqAsnKh3VEky3EhMR1M/11YFDEHjGIrO8ca9N4iuYVEUBcWoTPY19nRb2nHz
+         p6gg==
+X-Gm-Message-State: AOJu0YwEX4CEGtlXGNbgnIvlimscGqzEcIVDD6ZhV4Ts421Qyn3yvWYU
+	A8DwaJQ85/MUL266Pi6sLAiUgENRxR+VHirnWps=
+X-Google-Smtp-Source: AGHT+IGmD9VyqRLknyz9Fc35Vgd3Uaqjqj7kD9OdTvHHjHwNUu6lhs6fCGkhMGK9wxodYStaPpksig==
+X-Received: by 2002:a2e:938b:0:b0:2c8:7699:7316 with SMTP id g11-20020a2e938b000000b002c876997316mr2253853ljh.30.1700829115322;
+        Fri, 24 Nov 2023 04:31:55 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
-        by smtp.gmail.com with ESMTPSA id n9-20020a2e86c9000000b002c123b976a5sm478210ljj.123.2023.11.24.04.31.56
+        by smtp.gmail.com with ESMTPSA id n9-20020a2e86c9000000b002c123b976a5sm478210ljj.123.2023.11.24.04.31.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 04:31:56 -0800 (PST)
+        Fri, 24 Nov 2023 04:31:54 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [nanbield][PATCH 08/10] linux-firmware: package firmware for Qualcomm QCM2290 / QRB4210
-Date: Fri, 24 Nov 2023 15:31:49 +0300
-Message-Id: <20231124123151.1091665-9-dmitry.baryshkov@linaro.org>
+Subject: [nanbield][PATCH 05/10] linux-firmware: add notice file to sdm845 modem firmware
+Date: Fri, 24 Nov 2023 15:31:46 +0300
+Message-Id: <20231124123151.1091665-6-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231124123151.1091665-1-dmitry.baryshkov@linaro.org>
 References: <20231124123151.1091665-1-dmitry.baryshkov@linaro.org>
@@ -62,81 +62,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 12:32:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191191
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191188
 
 From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Package firmware files for the Qualcomm QCM2290 and QRB4210 platforms.
+Follow the upstream change (which moved wlanmdsp and notice files from
+ath10k to sdm845 dir) and include notice file into the sdm845 modem
+firmware package.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit bc4170ca691df3eefa39fffd31c280b3ead111a9)
+(cherry picked from commit e03d1b9cc06ae23a8abc8a30b1c09bd997465400)
 ---
- .../linux-firmware/linux-firmware_20231030.bb | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-index bd46f08724fc..55e0d7f71224 100644
+index 895d36cc02cf..2d446848fd6c 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-@@ -367,6 +367,9 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-adreno-a630 ${PN}-qcom-adreno-a650 ${PN}-qcom-adreno-a660 ${PN}-qcom-adreno-a702 \
-              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
-              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
-+             ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem ${PN}-qcom-qcm2290-wifi  \
-+             ${PN}-qcom-qrb4210-adreno ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute \
-+             ${PN}-qcom-qrb4210-modem ${PN}-qcom-qrb4210-wifi  \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-compat \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-audio \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-adreno \
-@@ -1319,6 +1322,15 @@ LICENSE:${PN}-qcom-apq8016-wifi = "Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-audio = "Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-modem = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qcm2290-adreno = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qcm2290-audio = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qcm2290-modem = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qcm2290-wifi = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qrb4210-adreno = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qrb4210-audio = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qrb4210-compute  = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qrb4210-modem = "Firmware-qcom"
-+LICENSE:${PN}-qcom-qrb4210-wifi = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "Firmware-qcom & Firmware-linaro"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "Firmware-qcom"
-@@ -1353,6 +1365,15 @@ FILES:${PN}-qcom-apq8016-wifi = "${nonarch_base_libdir}/firmware/qcom/apq8016/wc
- FILES:${PN}-qcom-apq8096-adreno = "${nonarch_base_libdir}/firmware/qcom/apq8096/a530_zap.mbn ${nonarch_base_libdir}/firmware/qcom/a530_zap.mdt"
- FILES:${PN}-qcom-apq8096-audio = "${nonarch_base_libdir}/firmware/qcom/apq8096/adsp*.*"
- FILES:${PN}-qcom-apq8096-modem = "${nonarch_base_libdir}/firmware/qcom/apq8096/mba.mbn ${nonarch_base_libdir}/firmware/qcom/apq8096/modem*.* ${nonarch_base_libdir}/firmware/qcom/apq8096/wlanmdsp.mbn"
-+FILES:${PN}-qcom-qcm2290-adreno = "${nonarch_base_libdir}/firmware/qcom/qcm2290/a702_zap.mbn"
-+FILES:${PN}-qcom-qcm2290-audio = "${nonarch_base_libdir}/firmware/qcom/qcm2290/adsp*.*"
-+FILES:${PN}-qcom-qcm2290-modem = "${nonarch_base_libdir}/firmware/qcom/qcm2290/modem*.*"
-+FILES:${PN}-qcom-qcm2290-wifi = "${nonarch_base_libdir}/firmware/qcom/qcm2290/wlanmdsp.mbn"
-+FILES:${PN}-qcom-qrb4210-adreno = "${nonarch_base_libdir}/firmware/qcom/qrb4210/a610_zap.mbn"
-+FILES:${PN}-qcom-qrb4210-audio = "${nonarch_base_libdir}/firmware/qcom/qrb4210/adsp*.*"
-+FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210/cdsp*.*"
-+FILES:${PN}-qcom-qrb4210-modem = "${nonarch_base_libdir}/firmware/qcom/qrb4210/modem*.*"
-+FILES:${PN}-qcom-qrb4210-wifi = "${nonarch_base_libdir}/firmware/qcom/qrb4210/wlanmdsp.mbn"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compat = "${nonarch_base_libdir}/firmware/qcom/LENOVO/21BX"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/*adsp*.* ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/battmgr.jsn ${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/audioreach-tplg.bin ${nonarch_base_libdir}/firmware/qcom/sc8280xp/SC8280XP-LENOVO-X13S-tplg.bin"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${nonarch_base_libdir}/firmware/qcom/sc8280xp/LENOVO/21BX/qcdxkmsuc8280.mbn"
-@@ -1386,6 +1407,15 @@ RDEPENDS:${PN}-qcom-apq8016-wifi = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8096-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qcm2290-adreno = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qcm2290-audio = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qcm2290-modem = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qcm2290-wifi = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qrb4210-adreno = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qrb4210-audio = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qrb4210-compute = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qrb4210-modem = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-qrb4210-wifi = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-license"
+@@ -1359,7 +1359,7 @@ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${nonarch_base_libdir}/firmware
+ FILES:${PN}-qcom-sdm845-adreno = "${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
+ FILES:${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
+ FILES:${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
+-FILES:${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
++FILES:${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/notice.txt_wlanmdsp"
+ FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${nonarch_base_libdir}/firmware/qcom/sdm845/Thundercomm/db845c/slpi*.*"
+ FILES:${PN}-qcom-sm8250-adreno = "${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
+ FILES:${PN}-qcom-sm8250-audio = "${nonarch_base_libdir}/firmware/qcom/sm8250/adsp*.*"
 -- 
 2.39.2
 
