@@ -1,137 +1,83 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <h4nn35.work@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C31C61DF4
-	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 08:18:35 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.131355.1700813914313011581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C903C61D97
+	for <webhook@archiver.kernel.org>; Fri, 24 Nov 2023 10:34:56 +0000 (UTC)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+ by mx.groups.io with SMTP id smtpd.web11.132989.1700822092321421407
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Nov 2023 00:18:34 -0800
+ Fri, 24 Nov 2023 02:34:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gLYlPa8t;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40b399314aaso4297345e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 00:18:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RLpCNCQ9;
+ spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: h4nn35.work@gmail.com)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-db3fa47c2f7so1550546276.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 02:34:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700813913; x=1701418713; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=roC9TgcgWdh+YoYPK5Nm9EY1D7bwmNJGIgKta2ZtEig=;
-        b=gLYlPa8t1n3JkMjyajDfRZDTZKym2Iy9TRcIYai4TpsjEtnzc2NYMJFyLsHoapep2e
-         QBox+vaS7m8zLDzUXbCoW1NOpxriX5oTLh3VWDd55Rj2Jo/EqP/3rX9CV456mIY9pOky
-         wqeGATZV8qOweG9y6WSjbdG7BRn6fDZeGMetkHsV+YpxDez/DUyn+G27ZCH0sJekMQF9
-         iWxSUUBKr/OkQvDOEARG3D+P1iy29gsN5ugip1Klxi/E287zIEPezNYq5NPK769cvvhL
-         x41Z5eFha8x+9ksM0FFW9ylUx4AO42M5BVhXGGFqbB+LmCR6JWAiGL+SzfIeUWsnAori
-         WQ6g==
+        d=gmail.com; s=20230601; t=1700822091; x=1701426891; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0d+L9NnUNm5kZAW/doN0bxO4mFuzGtcw9aSyfl0OMvQ=;
+        b=RLpCNCQ9DwV706MOwOIraYlCrFmXELiWTVDwXfGfFF/uJrCCErXZBzmV2TnEANhY3S
+         aMifTjUL+uZKznVi6ImxYMjLcbHK0ydzAp72lFhAv44/nmAu0+x+fLNS56wSSwmEeipM
+         V4rjK7khF/oKdI+JqIh/otOKRUSRoVloT0v63zuSbcFcWg25x4bQGwXf54CmRCme6i4d
+         qBetEEhNiqUdLPlWCi+zzb3sNOnJBjs13IhVCgi9/pG4v6TPEYc4as4Q+8NAL1YJ6+1y
+         q+QNtqHmTPQPXBmGZO/b9jqiuJq7RwD2fUvui8zG2cr08wxlAAsSFTURLEmsPMuedzIM
+         wo2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700813913; x=1701418713;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=roC9TgcgWdh+YoYPK5Nm9EY1D7bwmNJGIgKta2ZtEig=;
-        b=M9ub0LlL+7CQLg5JhD+ES43fIx/N66wzPrSHCoTAgi0S2i6ezIegdCgYG3wXy8BSbg
-         JnLcmYnZD6JIp2YPVMCW6Cw+8Mt2QlWDa+HPZK7u+nhuBheb74LNemLHqHkEFl7tY0Fb
-         O230WoTKW63mG5AYmkybblTp4mtjeGy+MXrzPgT9a2dasRamsd3XvCN4lstz5Yut1yEh
-         2opVfdq4NCyRjJSpbp08I7UI0OyAHbHCpD3T3sZerOmQBGcRC172xXyD0LdmiYKX/nQd
-         JegiSasLalHvg8fI1EpXGQool9Ay2SoAUWYY9/VeJg1hd/S5VWoEcbalSu87D/wEs2Lo
-         l2OA==
-X-Gm-Message-State: AOJu0Yx8z4DHQCw5nBMHh8pRfYEFpKtpfFRDU1ImdQ6F6uzDik7NezKQ
-	iNja99zsUufRmvZ3YOlvb7Wo2K6JkIwMgVblRSU=
-X-Google-Smtp-Source: AGHT+IGA4ZfkQUWbkTsJOSlwrew/dzuvvStXg+5z0KjnAA6KjeWvHwmOYzG8Mt43xj6FehT04VCYnk1dbuyf2JyfVBo=
-X-Received: by 2002:a05:600c:4695:b0:409:3f53:c9c7 with SMTP id
- p21-20020a05600c469500b004093f53c9c7mr1374477wmo.35.1700813912424; Fri, 24
- Nov 2023 00:18:32 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700822091; x=1701426891;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0d+L9NnUNm5kZAW/doN0bxO4mFuzGtcw9aSyfl0OMvQ=;
+        b=jGEqMMdjzzRP0wJBeAa0HI/HjkpRToDOkdPRMvb2GwLbsxXjcxz8/EDGENQkVJyuOz
+         jmnOU4SnYRMfIdWSfaBDJ01HZH5Uy1JEByF/iIDojG9d83hr/eQQTV6f6eVOQVZQpagw
+         c1x/qnyVHQRnp9uluRKGClw5+doK54jViWjfsmPRSCwuSCrqKnrW5J+Z9D6VQja/+gzI
+         9p8GnDDQs4zFwVhxP7Cim9dvGDCKbqbE5Sk3hzJoETMfTUWiYNjnTMs7g+MsMfd6PMEG
+         D+maqfeNav3Ad1PPVyuhVo3T0KU9B2GccrgHuL+/WDBatHx9AV9x4rETv1Rgj4JFRfgR
+         o2Aw==
+X-Gm-Message-State: AOJu0YxziRfwe3BNCpTZqOMUu/hNVZrwvOW/qE/UD9Ki0lv9zcIWom+7
+	3mTEHW+gMwi06C4r2AoZ647EF7f1oJBM+Pfgh1hWv1CJNg==
+X-Google-Smtp-Source: AGHT+IHCQdWpDdWjGfE/WuGBXj/mvXTeNCrpnO4/2ts/olJZZu86q+nNdXTotK3PzCCBXcRoUVmgFLwc2FEYN8pqKZM=
+X-Received: by 2002:a25:9703:0:b0:da3:ab41:31f3 with SMTP id
+ d3-20020a259703000000b00da3ab4131f3mr1817998ybo.8.1700822091437; Fri, 24 Nov
+ 2023 02:34:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20231123004605.82598-1-marex@denx.de> <CANNYZj8s99epW6DxAmNzW=70P_0ksoAntN3bVbUu6ehR=tkcpg@mail.gmail.com>
- <f5a8fb84-42cc-432b-8704-9b058be25835@denx.de> <CANNYZj_XG4nxLOqOq=aeYOZBNuDMoOdYF8G2LWVUDbe+gYNEQQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_XG4nxLOqOq=aeYOZBNuDMoOdYF8G2LWVUDbe+gYNEQQ@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 24 Nov 2023 09:18:16 +0100
-Message-ID: <CA+chaQdz8Aby6uL+RxvZMOsRfQVSztL6eDNNRcWQR7mQgCZLXg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Revert "lzop: remove recipe from oe-core"
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org, 
-	Ross Burton <ross.burton@arm.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="000000000000144434060ae199ad"
+From: Johannes Pointner <h4nn35.work@gmail.com>
+Date: Fri, 24 Nov 2023 11:34:40 +0100
+Message-ID: <CAHvQdo1KaZ2S1srqjvyj=R0tVroUieExEXmfBpiEBq9J1RZxDQ@mail.gmail.com>
+Subject: rootfs.py generates wrong ld.so.cache in case of usrmerge distro feature
+To: OE-core <openembedded-core@lists.openembedded.org>
+Cc: Khem Raj <raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 08:18:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191178
+ <openembedded-core@lists.openembedded.org>; Fri, 24 Nov 2023 10:34:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191179
 
---000000000000144434060ae199ad
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Fri, Nov 24, 2023 at 8:52=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
-il.com>
-wrote:
+I did recently my first Nanbield build which required the distro
+feature usrmerge because of using systemd and as a result QtWebEngine
+didn't work anymore.
+I reported this to Qt(https://bugreports.qt.io/browse/QTBUG-119140),
+but looking deeper into this it turned out to be an issue related to
+the generated ld.so.cache in the rootfs.py.
+At the moment in the ldconfig-native which is used to generate this,
+are the paths to LIBDIR("/usr/lib") and SLIBDIR("/lib") hardcoded, but
+that isn't correct if usrmerge is enabled, at least I think so.
+The resulting ld.so.cache looks like this:
+236 libs found in cache `/etc/ld.so.cache'
+       libzstd.so.1 (libc6) => /lib/libzstd.so.1
+       libz.so.1 (libc6) => /lib/libz.so.1
+       libxtables.so.12 (libc6) => /lib/libxtables.so.12
+       libxslt.so.1 (libc6) => /lib/libxslt.so.1
+       libxml2.so.2 (libc6) => /lib/libxml2.so.2
+...
 
-> On Thu, 23 Nov 2023 at 22:07, Marek Vasut <marex@denx.de> wrote:
->
-> > The lzop is called in oe-core and I was under the impression that
-> > oe-core shouldn't depend on anything except bitbake . So either this
-> > stuff should be moved to meta-oe too (which would be unfortunate growth
-> > of dependencies) or the lzop should be reinstated . I would obviously b=
-e
-> > in favor of the later.
->
-> There are plenty of recipes in oe-core that have optional features
-> (enabled via PACKAGECONFIG) that depend on recipes that are not in
-> core. If you enable them, bitbake will say that the needed recipe is
-> missing and then you need to figure out which layer to add (typically
-> something in meta-openembedded tree). This is not that different:
-> optional feature, disabled by default, and the error will be the same:
-> missing lzop recipe.
->
+Would it be OK to configure the paths LIBDIR SLIBDIR using base_libdir
+and libdir?
 
-I think this case is slightly different as this optional dependency might
-be "enabled" by MACHINE config in some BSP layer and BSP layer depending on
-meta-oe just to build the kernel (with BSP preferred compression) isn't
-great - compared with some DISTRO config enabling some additional
-PACKAGECONFIG in some other recipe the DISTRO uses.
-
-At least if Marek agrees to maintain it instead of restoring Denys as
-maintainer :).
-
-Cheers,
-
---000000000000144434060ae199ad
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Nov 24, 2023 at 8:52=E2=80=AFAM A=
-lexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin=
-@gmail.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">On Thu, 23 Nov 2023 at 22:07, Marek Va=
-sut &lt;<a href=3D"mailto:marex@denx.de" target=3D"_blank">marex@denx.de</a=
->&gt; wrote:<br>
-<br>
-&gt; The lzop is called in oe-core and I was under the impression that<br>
-&gt; oe-core shouldn&#39;t depend on anything except bitbake . So either th=
-is<br>
-&gt; stuff should be moved to meta-oe too (which would be unfortunate growt=
-h<br>
-&gt; of dependencies) or the lzop should be reinstated . I would obviously =
-be<br>
-&gt; in favor of the later.<br>
-<br>
-There are plenty of recipes in oe-core that have optional features<br>
-(enabled via PACKAGECONFIG) that depend on recipes that are not in<br>
-core. If you enable them, bitbake will say that the needed recipe is<br>
-missing and then you need to figure out which layer to add (typically<br>
-something in meta-openembedded tree). This is not that different:<br>
-optional feature, disabled by default, and the error will be the same:<br>
-missing lzop recipe.<br></blockquote><div><br></div><div>I think this case =
-is slightly different as this optional dependency might be &quot;enabled&qu=
-ot; by MACHINE config in some BSP layer and BSP layer depending on meta-oe =
-just to build the kernel (with BSP preferred compression) isn&#39;t great -=
- compared with some DISTRO config enabling some additional PACKAGECONFIG in=
- some other recipe the DISTRO uses.</div><div><br></div><div>At least if Ma=
-rek agrees to maintain it instead of restoring Denys as maintainer :).</div=
-><div><br></div><div>Cheers,</div></div></div>
-
---000000000000144434060ae199ad--
+Thanks,
+Hannes
 
