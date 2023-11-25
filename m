@@ -1,140 +1,407 @@
-Return-Path: <philip@balister.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72B25C61D9D
-	for <webhook@archiver.kernel.org>; Sat, 25 Nov 2023 11:50:33 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.97258.1700758790745229595
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87734C61DF4
+	for <webhook@archiver.kernel.org>; Sat, 25 Nov 2023 12:10:33 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web11.24148.1700914229160805798
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Nov 2023 08:59:50 -0800
+ Sat, 25 Nov 2023 04:10:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=oLFhKK5x;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_vkraleti@quicinc.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ANGpnpp030538
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 16:59:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=zaRkks61rkSEEdgRdRDTPohjEMq2xQ6VHWlKPpwqGD4=;
- b=oLFhKK5xINpKF4nQ0R+toNvuHt42tY0MiJR5kW7eJqIMeg6GTpg+j1Imw4DxQ7NOmBwW
- kW7o1v/pjk8CwEeK8Jd9kyT79bReJOsnD2epS5HS9ZXwtmucIV7Jtb+MlSiIs4QbndBB
- dw+IukkGR626hlcYobEc2+g5x1Wa6mbGQECmMikmpyXqZfgsTouUhCH11+z7q0f+xaTY
- 2ZpS/R4bMOiya4hkNseYcQLMmymNXjlX++Q9uJt8tgUtWS/crTWujVqqyMDSaW0SMLvi
- kaZJxETNL9S0Gnx30nm7lF1Qf88oJ2xvWRVZ6kIo9ml5LuavGxcJRX0MVO+1CawOQFcJ Dw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uj25t146x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 16:59:50 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ANGxn7o006078
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Nov 2023 16:59:49 GMT
-Received: from hu-vkraleti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Thu, 23 Nov 2023 08:59:48 -0800
-From: "Viswanath Kraleti" <quic_vkraleti@quicinc.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] systemd-boot: fix build issues on armv7a-linux
-Date: Thu, 23 Nov 2023 22:29:27 +0530
-Message-ID: <20231123165927.1868468-2-quic_vkraleti@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231123165927.1868468-1-quic_vkraleti@quicinc.com>
-References: <20231123165927.1868468-1-quic_vkraleti@quicinc.com>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
+	by mailout04.t-online.de (Postfix) with SMTP id 826B21F8A9
+	for <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 13:09:59 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.163.40.202]) by fwd74.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1r6rTy-08Ln5l0; Sat, 25 Nov 2023 13:09:58 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCHv2] bluez5: fix connection for ps5/dualshock controllers
+Date: Sat, 25 Nov 2023 13:10:27 +0100
+Message-ID: <20231125121028.84257-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: F6ORpMdRY3gCqzLFh2i_nGCo3gczHlMX
-X-Proofpoint-ORIG-GUID: F6ORpMdRY3gCqzLFh2i_nGCo3gczHlMX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-23_12,2023-11-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=863
- mlxscore=0 spamscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
- clxscore=1015 priorityscore=1501 malwarescore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311230125
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-TOI-EXPURGATEID: 150726::1700914198-E560B93F-A592F16E/0/0 CLEAN NORMAL
+X-TOI-MSGID: 2eeaf769-4e25-4c3b-81d8-17a5b9d73d06
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 11:50:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191227
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 12:10:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191228
 
-From: Viswanath Kraleti <vkraleti@qti.qualcomm.com>
+Bluez 5.69 added a regression. Bluetooth connection for playstation contr=
+ollers
+stopped working. This adds a backport patch for the issue
 
-backport a fix to address build failures on armv7a [bug id #29381]
-introduced in systemd v254-rc1.
-
-Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-core/systemd/systemd.inc         |  4 ++-
- ...n-Pass-all-static-pie-args-to-linker.patch | 35 +++++++++++++++++++
- 2 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-Pass-all-static-pie-args-to-linker.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
+ ...e_probe-failing-if-SDP-record-is-not.patch | 313 ++++++++++++++++++
+ 2 files changed, 314 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0002-input-Fi=
+x-.device_probe-failing-if-SDP-record-is-not.patch
 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index ccc3236457..f9caba2066 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -17,6 +17,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
- 
- SRCREV = "2e7504449a51fb38db9cd2da391c6434f82def51"
- SRCBRANCH = "v254-stable"
--SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}"
-+SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH} \
-+           file://0001-meson-Pass-all-static-pie-args-to-linker.patch \
-+           "
- 
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-core/systemd/systemd/0001-meson-Pass-all-static-pie-args-to-linker.patch b/meta/recipes-core/systemd/systemd/0001-meson-Pass-all-static-pie-args-to-linker.patch
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-c=
+onnectivity/bluez5/bluez5.inc
+index e10158a6e5..a23e4e58a6 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -55,6 +55,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/bluetooth/bluez-=
+${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-run=
+nin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0004-src-shared-util.c-include-linux-limits.h.patch \
++           file://0002-input-Fix-.device_probe-failing-if-SDP-record-is-=
+not.patch \
+            "
+ S =3D "${WORKDIR}/bluez-${PV}"
+=20
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.devi=
+ce_probe-failing-if-SDP-record-is-not.patch b/meta/recipes-connectivity/b=
+luez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.pa=
+tch
 new file mode 100644
-index 0000000000..efea95b6ac
+index 0000000000..d0884338db
 --- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-meson-Pass-all-static-pie-args-to-linker.patch
-@@ -0,0 +1,35 @@
-+From f85a387a67900b02c69abccb88c2ef7191c67277 Mon Sep 17 00:00:00 2001
-+From: Jan Janssen <medhefgo@web.de>
-+Date: Sun, 1 Oct 2023 09:55:48 +0200
-+Subject: [PATCH] meson: Pass all -static-pie args to linker
++++ b/meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_prob=
+e-failing-if-SDP-record-is-not.patch
+@@ -0,0 +1,313 @@
++From 3a9c637010f8dc1ba3e8382abe01065761d4f5bb Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Tue, 10 Oct 2023 12:38:29 -0700
++Subject: [PATCH 02/40] input: Fix .device_probe failing if SDP record is=
+ not
++ found
 +
-+Fixes: #29381
++Due to changes introduced by 67a26abe53bf
++("profile: Add probe_on_discover flag") profiles may get probed when
++their profile UUID are discovered, rather than resolved, which means
++the SDP record may not be available.
 +
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/cecbb162a3134b43d2ca160e13198c73ff34c3ef]
++Fixes: https://github.com/bluez/bluez/issues/614
 +
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/3a9c637=
+010f8dc1ba3e8382abe01065761d4f5bb]
 +---
-+ src/boot/efi/meson.build | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
++ profiles/input/device.c | 182 +++++++++++++++++++---------------------
++ 1 file changed, 84 insertions(+), 98 deletions(-)
 +
-+diff --git a/src/boot/efi/meson.build b/src/boot/efi/meson.build
-+index 2773eaf286..9a60a57329 100644
-+--- a/src/boot/efi/meson.build
-++++ b/src/boot/efi/meson.build
-+@@ -161,9 +161,14 @@ efi_c_ld_args = [
-+         '-Wl,--entry=efi_main',
-+         '-Wl,--fatal-warnings',
-+ 
-+-        # These flags should be passed by -static-pie, but seem to be missing sometimes.
-+-        '-Wl,--no-dynamic-linker',
-+-        '-z', 'text',
-++        # These flags should be passed by -static-pie, but for whatever reason the flag translation
-++        # is not enabled on all architectures. Not passing `-static` would just allow the linker to
-++        # use dynamic libraries, (which we can't/don't use anyway). But if `-pie` is missing and the
-++        # gcc build does not default to `-pie` we get a regular (no-pie) binary that will be
-++        # rightfully rejected by elf2efi. Note that meson also passes `-pie` to the linker driver,
-++        # but it is overridden by our `-static-pie`. We also need to pass these directly to the
-++        # linker as `-static`+`-pie` seem to get translated differently.
-++        '-Wl,-static,-pie,--no-dynamic-linker,-z,text',
-+ 
-+         # EFI has 4KiB pages.
-+         '-z', 'common-page-size=4096',
--- 
-2.25.1
++diff --git a/profiles/input/device.c b/profiles/input/device.c
++index e2ac6ea60..4a50ea992 100644
++--- a/profiles/input/device.c
+++++ b/profiles/input/device.c
++@@ -60,7 +60,7 @@ struct input_device {
++ 	char			*path;
++ 	bdaddr_t		src;
++ 	bdaddr_t		dst;
++-	uint32_t		handle;
+++	const sdp_record_t	*rec;
++ 	GIOChannel		*ctrl_io;
++ 	GIOChannel		*intr_io;
++ 	guint			ctrl_watch;
++@@ -754,7 +754,8 @@ static void epox_endian_quirk(unsigned char *data, i=
+nt size)
++ 	}
++ }
++=20
++-static int create_hid_dev_name(sdp_record_t *rec, struct hidp_connadd_r=
+eq *req)
+++static int create_hid_dev_name(const sdp_record_t *rec,
+++					struct hidp_connadd_req *req)
++ {
++ 	char sdesc[sizeof(req->name) / 2];
++=20
++@@ -776,7 +777,7 @@ static int create_hid_dev_name(sdp_record_t *rec, st=
+ruct hidp_connadd_req *req)
++=20
++ /* See HID profile specification v1.0, "7.11.6 HIDDescriptorList" for d=
+etails
++  * on the attribute format. */
++-static int extract_hid_desc_data(sdp_record_t *rec,
+++static int extract_hid_desc_data(const sdp_record_t *rec,
++ 						struct hidp_connadd_req *req)
++ {
++ 	sdp_data_t *d;
++@@ -817,36 +818,40 @@ invalid_desc:
++ 	return -EINVAL;
++ }
++=20
++-static int extract_hid_record(sdp_record_t *rec, struct hidp_connadd_re=
+q *req)
+++static int extract_hid_record(struct input_device *idev,
+++					struct hidp_connadd_req *req)
++ {
++ 	sdp_data_t *pdlist;
++ 	uint8_t attr_val;
++ 	int err;
++=20
++-	err =3D create_hid_dev_name(rec, req);
+++	if (!idev->rec)
+++		return -ENOENT;
+++
+++	err =3D create_hid_dev_name(idev->rec, req);
++ 	if (err < 0)
++ 		DBG("No valid Service Name or Service Description found");
++=20
++-	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_PARSER_VERSION);
+++	pdlist =3D sdp_data_get(idev->rec, SDP_ATTR_HID_PARSER_VERSION);
++ 	req->parser =3D pdlist ? pdlist->val.uint16 : 0x0100;
++=20
++-	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_DEVICE_SUBCLASS);
+++	pdlist =3D sdp_data_get(idev->rec, SDP_ATTR_HID_DEVICE_SUBCLASS);
++ 	req->subclass =3D pdlist ? pdlist->val.uint8 : 0;
++=20
++-	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_COUNTRY_CODE);
+++	pdlist =3D sdp_data_get(idev->rec, SDP_ATTR_HID_COUNTRY_CODE);
++ 	req->country =3D pdlist ? pdlist->val.uint8 : 0;
++=20
++-	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_VIRTUAL_CABLE);
+++	pdlist =3D sdp_data_get(idev->rec, SDP_ATTR_HID_VIRTUAL_CABLE);
++ 	attr_val =3D pdlist ? pdlist->val.uint8 : 0;
++ 	if (attr_val)
++ 		req->flags |=3D (1 << HIDP_VIRTUAL_CABLE_UNPLUG);
++=20
++-	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_BOOT_DEVICE);
+++	pdlist =3D sdp_data_get(idev->rec, SDP_ATTR_HID_BOOT_DEVICE);
++ 	attr_val =3D pdlist ? pdlist->val.uint8 : 0;
++ 	if (attr_val)
++ 		req->flags |=3D (1 << HIDP_BOOT_PROTOCOL_MODE);
++=20
++-	err =3D extract_hid_desc_data(rec, req);
+++	err =3D extract_hid_desc_data(idev->rec, req);
++ 	if (err < 0)
++ 		return err;
++=20
++@@ -1035,11 +1040,6 @@ static gboolean encrypt_notify(GIOChannel *io, GI=
+OCondition condition,
++ static int hidp_add_connection(struct input_device *idev)
++ {
++ 	struct hidp_connadd_req *req;
++-	sdp_record_t *rec;
++-	char src_addr[18], dst_addr[18];
++-	char filename[PATH_MAX];
++-	GKeyFile *key_file;
++-	char handle[11], *str;
++ 	GError *gerr =3D NULL;
++ 	int err;
++=20
++@@ -1049,33 +1049,7 @@ static int hidp_add_connection(struct input_devic=
+e *idev)
++ 	req->flags     =3D 0;
++ 	req->idle_to   =3D idle_timeout;
++=20
++-	ba2str(&idev->src, src_addr);
++-	ba2str(&idev->dst, dst_addr);
++-
++-	snprintf(filename, PATH_MAX, STORAGEDIR "/%s/cache/%s", src_addr,
++-								dst_addr);
++-	sprintf(handle, "0x%8.8X", idev->handle);
++-
++-	key_file =3D g_key_file_new();
++-	if (!g_key_file_load_from_file(key_file, filename, 0, &gerr)) {
++-		error("Unable to load key file from %s: (%s)", filename,
++-								gerr->message);
++-		g_clear_error(&gerr);
++-	}
++-	str =3D g_key_file_get_string(key_file, "ServiceRecords", handle, NULL=
+);
++-	g_key_file_free(key_file);
++-
++-	if (!str) {
++-		error("Rejected connection from unknown device %s", dst_addr);
++-		err =3D -EPERM;
++-		goto cleanup;
++-	}
++-
++-	rec =3D record_from_string(str);
++-	g_free(str);
++-
++-	err =3D extract_hid_record(rec, req);
++-	sdp_record_free(rec);
+++	err =3D extract_hid_record(idev, req);
++ 	if (err < 0) {
++ 		error("Could not parse HID SDP record: %s (%d)", strerror(-err),
++ 									-err);
++@@ -1091,7 +1065,7 @@ static int hidp_add_connection(struct input_device=
+ *idev)
++=20
++ 	/* Make sure the device is bonded if required */
++ 	if (classic_bonded_only && !input_device_bonded(idev)) {
++-		error("Rejected connection from !bonded device %s", dst_addr);
+++		error("Rejected connection from !bonded device %s", idev->path);
++ 		goto cleanup;
++ 	}
++=20
++@@ -1161,6 +1135,68 @@ static int connection_disconnect(struct input_dev=
+ice *idev, uint32_t flags)
++ 		return ioctl_disconnect(idev, flags);
++ }
++=20
+++static bool is_device_sdp_disable(const sdp_record_t *rec)
+++{
+++	sdp_data_t *data;
+++
+++	data =3D sdp_data_get(rec, SDP_ATTR_HID_SDP_DISABLE);
+++
+++	return data && data->val.uint8;
+++}
+++
+++static enum reconnect_mode_t hid_reconnection_mode(bool reconnect_initi=
+ate,
+++						bool normally_connectable)
+++{
+++	if (!reconnect_initiate && !normally_connectable)
+++		return RECONNECT_NONE;
+++	else if (!reconnect_initiate && normally_connectable)
+++		return RECONNECT_HOST;
+++	else if (reconnect_initiate && !normally_connectable)
+++		return RECONNECT_DEVICE;
+++	else /* (reconnect_initiate && normally_connectable) */
+++		return RECONNECT_ANY;
+++}
+++
+++static void extract_hid_props(struct input_device *idev,
+++					const sdp_record_t *rec)
+++{
+++	/* Extract HID connectability */
+++	bool reconnect_initiate, normally_connectable;
+++	sdp_data_t *pdlist;
+++
+++	/* HIDNormallyConnectable is optional and assumed FALSE if not
+++	 * present.
+++	 */
+++	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_RECONNECT_INITIATE);
+++	reconnect_initiate =3D pdlist ? pdlist->val.uint8 : TRUE;
+++
+++	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_NORMALLY_CONNECTABLE);
+++	normally_connectable =3D pdlist ? pdlist->val.uint8 : FALSE;
+++
+++	/* Update local values */
+++	idev->reconnect_mode =3D
+++		hid_reconnection_mode(reconnect_initiate, normally_connectable);
+++}
+++
+++static void input_device_update_rec(struct input_device *idev)
+++{
+++	struct btd_profile *p =3D btd_service_get_profile(idev->service);
+++	const sdp_record_t *rec;
+++
+++	rec =3D btd_device_get_record(idev->device, p->remote_uuid);
+++	if (!rec || idev->rec =3D=3D rec)
+++		return;
+++
+++	idev->rec =3D rec;
+++	idev->disable_sdp =3D is_device_sdp_disable(rec);
+++
+++	/* Initialize device properties */
+++	extract_hid_props(idev, rec);
+++
+++	if (idev->disable_sdp)
+++		device_set_refresh_discovery(idev->device, false);
+++}
+++
++ static int input_device_connected(struct input_device *idev)
++ {
++ 	int err;
++@@ -1168,6 +1204,9 @@ static int input_device_connected(struct input_dev=
+ice *idev)
++ 	if (idev->intr_io =3D=3D NULL || idev->ctrl_io =3D=3D NULL)
++ 		return -ENOTCONN;
++=20
+++	/* Attempt to update SDP record if it had changed */
+++	input_device_update_rec(idev);
+++
++ 	err =3D hidp_add_connection(idev);
++ 	if (err < 0)
++ 		return err;
++@@ -1411,74 +1450,21 @@ int input_device_disconnect(struct btd_service *=
+service)
++ 	return 0;
++ }
++=20
++-static bool is_device_sdp_disable(const sdp_record_t *rec)
++-{
++-	sdp_data_t *data;
++-
++-	data =3D sdp_data_get(rec, SDP_ATTR_HID_SDP_DISABLE);
++-
++-	return data && data->val.uint8;
++-}
++-
++-static enum reconnect_mode_t hid_reconnection_mode(bool reconnect_initi=
+ate,
++-						bool normally_connectable)
++-{
++-	if (!reconnect_initiate && !normally_connectable)
++-		return RECONNECT_NONE;
++-	else if (!reconnect_initiate && normally_connectable)
++-		return RECONNECT_HOST;
++-	else if (reconnect_initiate && !normally_connectable)
++-		return RECONNECT_DEVICE;
++-	else /* (reconnect_initiate && normally_connectable) */
++-		return RECONNECT_ANY;
++-}
++-
++-static void extract_hid_props(struct input_device *idev,
++-					const sdp_record_t *rec)
++-{
++-	/* Extract HID connectability */
++-	bool reconnect_initiate, normally_connectable;
++-	sdp_data_t *pdlist;
++-
++-	/* HIDNormallyConnectable is optional and assumed FALSE
++-	* if not present. */
++-	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_RECONNECT_INITIATE);
++-	reconnect_initiate =3D pdlist ? pdlist->val.uint8 : TRUE;
++-
++-	pdlist =3D sdp_data_get(rec, SDP_ATTR_HID_NORMALLY_CONNECTABLE);
++-	normally_connectable =3D pdlist ? pdlist->val.uint8 : FALSE;
++-
++-	/* Update local values */
++-	idev->reconnect_mode =3D
++-		hid_reconnection_mode(reconnect_initiate, normally_connectable);
++-}
++-
++ static struct input_device *input_device_new(struct btd_service *servic=
+e)
++ {
++ 	struct btd_device *device =3D btd_service_get_device(service);
++-	struct btd_profile *p =3D btd_service_get_profile(service);
++ 	const char *path =3D device_get_path(device);
++-	const sdp_record_t *rec =3D btd_device_get_record(device, p->remote_uu=
+id);
++ 	struct btd_adapter *adapter =3D device_get_adapter(device);
++ 	struct input_device *idev;
++=20
++-	if (!rec)
++-		return NULL;
++-
++ 	idev =3D g_new0(struct input_device, 1);
++ 	bacpy(&idev->src, btd_adapter_get_address(adapter));
++ 	bacpy(&idev->dst, device_get_address(device));
++ 	idev->service =3D btd_service_ref(service);
++ 	idev->device =3D btd_device_ref(device);
++ 	idev->path =3D g_strdup(path);
++-	idev->handle =3D rec->handle;
++-	idev->disable_sdp =3D is_device_sdp_disable(rec);
++-
++-	/* Initialize device properties */
++-	extract_hid_props(idev, rec);
++=20
++-	if (idev->disable_sdp)
++-		device_set_refresh_discovery(device, false);
+++	input_device_update_rec(idev);
++=20
++ 	return idev;
++ }
++--=20
++2.42.0
++
+--=20
+2.42.0
 
 
