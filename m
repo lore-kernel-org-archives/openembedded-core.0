@@ -1,84 +1,97 @@
-Return-Path: <jan.vermaete@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E7F7C4167B
-	for <webhook@archiver.kernel.org>; Sat, 25 Nov 2023 14:16:54 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.25544.1700921805381508786
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C249C4167B
+	for <webhook@archiver.kernel.org>; Sat, 25 Nov 2023 14:33:44 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.25824.1700922817520552186
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Nov 2023 06:16:45 -0800
+ Sat, 25 Nov 2023 06:33:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LfwxGlN8;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: jan.vermaete@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50baa2a278bso544668e87.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 06:16:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700921803; x=1701526603; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a22HjQHKaOuWoQFUiSWnX2YLpLF4xNMv52lYrA3YQAY=;
-        b=LfwxGlN8Yj9gWVWfkbqZ0TWVOr9y3D/UiScx0Y/AK8AVFDZLEp7dv1cJlp1eGGJ5vi
-         +HzvJO26TBodmuW7j7SEzrbU9YuI2ZFce6uM7AFqLHsSDROaVxctbGiflTjusc+fJbx/
-         TtcH26WcKY+EMfSfoMNWCQ8UgJer9EqSsHUYo03KbNrZ9YwMzRQb8SlbofbwmItJkxhS
-         QhbToCkf9oWMTKpFQ4RaHF7/WGOblkhe1eXAwJAsEkKl+F3LqTfReEzc6jB0Uac8IRb2
-         Txr9niBrKbCTgHgycK/95xBLkc21e8YLjPqqRHfGNlcEOhO1CKSqBtaIaRWCKnG7aAHS
-         mWNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700921803; x=1701526603;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a22HjQHKaOuWoQFUiSWnX2YLpLF4xNMv52lYrA3YQAY=;
-        b=c3fPDPeSg2TxE4l/QEcQgeJn6D2PlHgHkp12aKzoR1DK3dhI+dc0ETnufogn7n3L3R
-         LGaO1jC79Gk1+RAbFi2ycwvJ3/QLNqrEpdhkhSoOC0OJlrx0sVUQy0QP4Ss66x2DGyMo
-         vO/2Eczn9RP4D5nra+ny7rMvbdZYcyzM9zE3CGaZYtaUk/JipeCXra96XdwWItOQVYo9
-         t1z1YNRf5axcdfYIw2mVFLnpioU7wv7bQt4YpYYjS/NcYV63mSH6Z66Jss2ytop0kE4D
-         h5fLkM/MtgDWB+otLnzEvB5Dj+cLq2cWchVi3oNFPCe69GhgCTwO/X/W0CCipxAP3SFB
-         oKZA==
-X-Gm-Message-State: AOJu0YzMIXypvzkWmDlz13BkPHqjTb4TPTRRXax8m0TcfbQS/aRsX7mQ
-	ULHoxV/dVoyOuMmxva4GMvh8k8pIQXA=
-X-Google-Smtp-Source: AGHT+IETQdniVpgo//1U3PvA6K8MfRDqxpWSi2oFTzaaXdEsDemkmelTqRJhryeEitGU4tb5zzH9NQ==
-X-Received: by 2002:ac2:4904:0:b0:50b:a33f:548d with SMTP id n4-20020ac24904000000b0050ba33f548dmr1079045lfi.22.1700921802897;
-        Sat, 25 Nov 2023 06:16:42 -0800 (PST)
-Received: from localhost.localdomain (ptr-fij45qzyv84958jjcio.18120a2.ip6.access.telenet.be. [2a02:1812:512:2c00:edac:2acf:5be9:6920])
-        by smtp.gmail.com with ESMTPSA id c21-20020a056402101500b0053e5f67d637sm3064274edu.9.2023.11.25.06.16.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Nov 2023 06:16:42 -0800 (PST)
-From: Jan Vermaete <jan.vermaete@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jan Vermaete <jan.vermaete@gmail.com>
-Subject: [PATCH 1/1] systemd: fixed typo
-Date: Sat, 25 Nov 2023 15:16:38 +0100
-Message-Id: <20231125141638.6254-1-jan.vermaete@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VQ3ps+GM;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IV5xWgxj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c06e67866-7ee1bc21-6024-4a4b-befb-c53ce42b3886-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1700922816; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=D1B0xL18opCiydUU91iv/UXcHW1WV9f3LkHmrC7pLg8=;
+	b=VQ3ps+GMvwkHmN8VCKNqO7Swc5NyjYWq4yXwFK/kQ+hfEQ37hGZPc6Q1AP5Q1nz2
+	BYNgtTou5H87LGZ6b1I8xr14VWupbh2ZEHe4sMYrpVIvskpVem0sRH7KcMKX1ThCPvL
+	cH93KRlFE/kgIWuWD8COeZgGFdMHykDhpJ1c72Eg=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1700922816;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=D1B0xL18opCiydUU91iv/UXcHW1WV9f3LkHmrC7pLg8=;
+	b=IV5xWgxj9APPvle9zedDvdDRLFo90NYS6froxrMhdR3tdPFZ5J8WGMOXlz103kln
+	XbGtvF/kZ/SBv0NUvKGqNOXJQPRGxaD0qLaDnNU83R2Kz/tVtSn9ani7yV/JnVWaea5
+	KFKLdXHEwRJ/VlESi6tKjIYiNY+mqBueGfeMNw64=
+From: patchtest@automation.yoctoproject.org
+To: Jan Vermaete <jan.vermaete@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/1] systemd: fixed typo
+In-Reply-To: 20231125141638.6254-1-jan.vermaete@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c06e67866-7ee1bc21-6024-4a4b-befb-c53ce42b3886-000000@us-west-2.amazonses.com>
+Date: Sat, 25 Nov 2023 14:33:36 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.25-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 14:16:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191232
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 14:33:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191233
 
-Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-core/systemd/systemd_254.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/1-1-systemd-fixed-typo.patch
 
-diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_254.4.bb
-index ecf693ef92..4d68a3266a 100644
---- a/meta/recipes-core/systemd/systemd_254.4.bb
-+++ b/meta/recipes-core/systemd/systemd_254.4.bb
-@@ -206,7 +206,7 @@ PACKAGECONFIG[smack] = "-Dsmack=true,-Dsmack=false"
- PACKAGECONFIG[sysext] = "-Dsysext=true, -Dsysext=false"
- PACKAGECONFIG[sysusers] = "-Dsysusers=true,-Dsysusers=false"
- PACKAGECONFIG[sysvinit] = "-Dsysvinit-path=${sysconfdir}/init.d -Dsysvrcnd-path=${sysconfdir},-Dsysvinit-path= -Dsysvrcnd-path=,,systemd-compat-units update-rc.d"
--# When enabled use reproducble build timestamp if set as time epoch,
-+# When enabled use reproducible build timestamp if set as time epoch,
- # or build time if not. When disabled, time epoch is unset.
- def build_epoch(d):
-     epoch = d.getVar('SOURCE_DATE_EPOCH') or "-1"
--- 
-2.34.1
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
