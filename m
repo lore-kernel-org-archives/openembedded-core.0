@@ -1,153 +1,242 @@
-Return-Path: <pidge@baylibre.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85DB8C4167B
-	for <webhook@archiver.kernel.org>; Sat, 25 Nov 2023 15:21:54 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.26688.1700925709714543277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3898C4167B
+	for <webhook@archiver.kernel.org>; Sat, 25 Nov 2023 16:47:44 +0000 (UTC)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web10.28054.1700930856739516424
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Nov 2023 07:21:50 -0800
+ Sat, 25 Nov 2023 08:47:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=ikUMIv71;
- spf=pass (domain: baylibre.com, ip: 209.85.221.54, mailfrom: pidge@baylibre.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-32faea0fa1fso1583515f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 07:21:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Pj84PgE0;
+ spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1fa289a3b6aso225946fac.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 08:47:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1700925708; x=1701530508; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=2AZ5QS8lsSKr7+2Og7p3sgR6ulygpYjEMzIF2clFXcU=;
-        b=ikUMIv71gXJGRItB/K99szSLN69+G6F2pyjDx7UZW2kpIj8Z3kCkh2rGzYZNRlFMSw
-         r8YAJZqPENO2nil5LsE5HGJEP6hlkSewdcDhDDmjCLVsh8eOZ4/APQPBr0gJ/xscH/8y
-         7P2q9gtFG6pprt4iGMST7754nVPhDlN6Rl72y4ysrSRFVlHPrydzqdu/CvXJJGjeKboA
-         briZdktqydRWzDxF0UCIZE74RfGv4VNxCwxHCbXMLLVDp9EWrJnYoLlED5QM4D4bEGh2
-         i4m5IjHCvrtbXwz8q3nIcge/VXf2Cuw5BXa30iYNZ7YJX5iACqFnXV92212YWYqYdKZm
-         bmRg==
+        d=gmail.com; s=20230601; t=1700930856; x=1701535656; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lnb7+VgdBPQReMBYSu9RA70O9XugaqicTFp70SasmRI=;
+        b=Pj84PgE0WJ+PZbMVSD6qlrw7NVtIaYnKyB8dbzkPUt26fJHjg7xaYeXPR40W5tBkRD
+         jg9LBvds6HbYmmTp7MK6CIB+ySu5Mh+Kh+NCSmGRN1ywW9KLszPkVsyMII8JAPKUDWZE
+         dtx5cGz3k/eLiXy+J1WgUJUgYKgbtxpk54aDeEFlfAmsMyHf8Uz3vBbZ9fDaHR/NvWW6
+         DKQiy+1dRZw3hy3BDMg3nn/CABr9qRbfMRRG9+FVZeD1Jto7i4IhITjmSWfJFBXrAlfq
+         cNHJ/IQSB31vRmmbGvjqPdk1n/eIsnu/Js8Oc8HCLznum0cDLWzlWV9kxm58HHKUnERc
+         sdLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700925708; x=1701530508;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2AZ5QS8lsSKr7+2Og7p3sgR6ulygpYjEMzIF2clFXcU=;
-        b=w/+vb5GVFns745knHoxDtWtxQT+Ss0AQpVNZC56j8u+IcrETTgk7LxSSDLHGAP0U12
-         Rdv9EZhxLNmAOM9wPo/bDFMPxz1lPb73qkipDNJXIRNHfGqLN7dxfpObcERus6oYyc21
-         ZeMseHysdRuOCBkphHAjh808ltuXkNKyFGGjAS1JfXZKXmxT9CPriBTkIeS2F4vmWz+p
-         ObAOfqQYxgcQCHci1B4dDgnAhZcEqc07jBk9TjTyobY7zTQM410vG39EG/nJjZQPiQ9V
-         njpTsA9BAvuYTpCQ8gQlZEwF8mGijkw+I/NZ/plllNuex3S5SoKLODugKWtitMAJqR0e
-         +rWg==
-X-Gm-Message-State: AOJu0YxV36yJ5PxJaT7mH/8tOVRqNzb07KyveJQic8vA4NQkimebSPp/
-	yqgDLPdbqgYy1Fg4fM4Mn0HtJg==
-X-Google-Smtp-Source: AGHT+IFMAdaxQqT9ebIo8AMbUDdGbXjf9gY9ELoNGejpnuTANaapNNbd1H3P3+WOwDmx2jjOFQDPQA==
-X-Received: by 2002:a05:6000:b45:b0:332:ed2c:41d9 with SMTP id dk5-20020a0560000b4500b00332ed2c41d9mr3130717wrb.35.1700925707218;
-        Sat, 25 Nov 2023 07:21:47 -0800 (PST)
-Received: from [192.168.178.55] ([194.110.145.184])
-        by smtp.gmail.com with ESMTPSA id l6-20020a05600c4f0600b0040b3632e993sm8207113wmq.46.2023.11.25.07.21.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Nov 2023 07:21:46 -0800 (PST)
-Message-ID: <20acca9c-9055-41f0-83b8-adb80f3f56ed@baylibre.com>
-Date: Sat, 25 Nov 2023 15:21:45 +0000
+        d=1e100.net; s=20230601; t=1700930856; x=1701535656;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lnb7+VgdBPQReMBYSu9RA70O9XugaqicTFp70SasmRI=;
+        b=Ujbs/OhaN6x6mImY2Z6iM/xA5tjVRujRyiVA9F8YdSJcWYElSrGCRLc+EZy7MbVA6U
+         UcBAGK333WuwpAdaKzJSHCSjh+rcZunEVvp6nGvVsp4N+1MmuWzgyLdzvJwk6hI6CY/x
+         YVdXNVFwTH2C9cYuLBt+0wJrOqsBlgcEEOxR/s0qFc+4BuuSsqdJ2flzPZTQXolRmLfe
+         CJJxpUnBszL7OcwOWdk6BJNSKCTAxkeNjHTJ73ppCFLBa/al+jon/I6vOO9/s11EDY+I
+         K72vJWKwhpqotpnC/VLAaJyh/nYO56pOWtXIINs4g1rvnRG+eycUt6PPfIxAuXN2eJrJ
+         NCgg==
+X-Gm-Message-State: AOJu0Yy/q0gP5+FH6/Z3Fym2rjvCbcXoFysJot54kJuXp64Ct06wwU9z
+	hkMTL9ASVjuo3ee6y9jPJkV8pN1CaQofgC+uXdw=
+X-Google-Smtp-Source: AGHT+IHTNwv/ioFb7WNO03ri3JRMC4IFRx2T6Yr+R6MXGYGc82CZwLC+9Wh4weRWYjMU1Nj0IxnAWlXtLa5HgZaTFzs=
+X-Received: by 2002:a05:6870:c690:b0:1fa:2f8:c734 with SMTP id
+ cv16-20020a056870c69000b001fa02f8c734mr5436654oab.5.1700930855797; Sat, 25
+ Nov 2023 08:47:35 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC 2/2] useradd.bbclass: ensure sysroot_setscene for
- DEPENDS
-Content-Language: en-US
-From: =?UTF-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?=
- <pidge@baylibre.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <cover.1700746611.git.pidge@baylibre.com>
- <c6d2ae3913582947c046d577a9dbf6dc8629909a.1700746611.git.pidge@baylibre.com>
- <12a072dc57477bc7a07847718a34bd75dab9abeb.camel@linuxfoundation.org>
- <84c99b9f-518d-492d-bffb-0f9bd4c633d1@baylibre.com>
-In-Reply-To: <84c99b9f-518d-492d-bffb-0f9bd4c633d1@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231125073823.159294-1-raj.khem@gmail.com> <20231125073823.159294-3-raj.khem@gmail.com>
+ <PA4PR08MB7411F95FD927EE786C9FB2CAE8BFA@PA4PR08MB7411.eurprd08.prod.outlook.com>
+In-Reply-To: <PA4PR08MB7411F95FD927EE786C9FB2CAE8BFA@PA4PR08MB7411.eurprd08.prod.outlook.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 25 Nov 2023 08:47:24 -0800
+Message-ID: <CAMKF1srDkA24P72x5MzBRVfkrWgDg6dLTAjeS=HxKm7sDxvmaA@mail.gmail.com>
+Subject: Re: [PATCH v10 3/3] vte: Separate out gtk4 pieces of vte into
+ individual packages
+To: Ross Burton <ross.burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000007287ff060afcd36d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 15:21:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191234
+ <openembedded-core@lists.openembedded.org>; Sat, 25 Nov 2023 16:47:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191235
 
-On 24/11/2023 14:10, Eilís 'pidge' Ní Fhlannagáin wrote:
-> On 23/11/2023 14:11, Richard Purdie wrote:
->> On Thu, 2023-11-23 at 13:49 +0000, Eilís 'pidge' Ní Fhlannagáin wrote:
->>> [YOCTO #13419]
->>>
->>> If recipeB creates a user and assigns it to a group created in recipeA,
->>> we need to ensure two things:
->>>
->>> That recipeA is in recipeB's DEPENDS (documentation issue) and that the
->>> sysroot setscene, in the case of a TMPDIR wipeout, is in
->>> USERADDSETSCENEDEPS.
->>>
->>> RP and I discussed adding a USERADD_DEPENDS variable to deal with this,
->>> but there is some magic around DEPENDS that a new variable wouldn't have
->>> so I'm sending this as is for people to poke at.
->>
->> Can you be more specific about this "magic"?
->>
->> I'm still worrying that DEPENDS is too broad, there are many more
->> things in there which we don't want listed as setscene dependencies and
->> I think this needs to be more precise.
->>
->> Cheers,
->>
->> Richard
-> 
-> The interesting thing here is if we do something like:
-> 
-> python __anonymous() {
->      setscenedeps = ""
->      if "-native" not in d.getVar("PN") and d.getVar("USERADD_DEPENDS") 
-> is not None:
->          for pkg in d.getVar("USERADD_DEPENDS").split():
->              setscenedeps += " %s:do_populate_sysroot_setscene " % pkg
->          d.setVar("USERADDSETSCENEDEPS", "%s %s" % 
-> (d.getVar("USERADDSETSCENEDEPS"), setscenedeps))
-> }
-> 
-> we end up throwing:
-> 
-> ERROR: creategroup2-1.0-r0 do_prepare_recipe_sysroot: The sstate 
-> manifest for task 'creategroup1:populate_sysroot' (multilib variant '') 
-> could not be found.
-> The pkgarchs considered were: qemux86_64, core2-64, x86_64, allarch, 
-> none_none-nativesdk.
-> But none of these manifests exists:
-> 
-> /home/pidge/poky/build/tmp/sstate-control/manifest-qemux86_64-creategroup1.populate_sysroot
-> 
-> /home/pidge/poky/build/tmp/sstate-control/manifest-core2-64-creategroup1.populate_sysroot
-> 
-> /home/pidge/poky/build/tmp/sstate-control/manifest-x86_64-creategroup1.populate_sysroot
-> 
-> /home/pidge/poky/build/tmp/sstate-control/manifest-allarch-creategroup1.populate_sysroot
-> 
-> /home/pidge/poky/build/tmp/sstate-control/manifest-none_none-nativesdk-creategroup1.populate_sysroot
-> 
-> The weird thing (hence this being an RFC), is that the patch I sent 
-> doesn't throw this. At first, I thought it was something happening with 
-> a polluted sstate but I don't think so now. I am absolutely unsure as to 
-> why that would be, BUT my suspicion is that this error is related to 
-> 14961 (which I'm still poking at).
-> 
+--0000000000007287ff060afcd36d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I had a crack at this tonight. Interestingly enough, limiting the code 
-"fixes" the issue, eg and allows us to use USERADD_DEPENDS:
+Seems to do so for the test case and for development or build time it=E2=80=
+=99s
+fine to have them both be installed since they can live side by side
+without issues
 
-if "-native" not in d.getVar("PN") and d.getVar("USERADD_DEPENDS") is 
-not None and d.getVar("BB_CURRENTTASK") == "package":
+On Sat, Nov 25, 2023 at 6:04=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
 
-I guess my question is why would it work with DEPENDS but fail with 
-USERADD_DEPENDS unless we limited to do_package? (hence the magic I'm 
-seeing). I'm still guessing this is something in staging.bbclass that is 
-doing something funny.
+> Does this allow installing the gtk4 libraries without gtk3? Looks like th=
+e
+> GIR files will mean pulling in both.
+>
+> Ross
+> ------------------------------
+> *From:* Khem Raj <raj.khem@gmail.com>
+> *Sent:* Saturday, November 25, 2023 7:38:21 AM
+> *To:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org>
+> *Cc:* Khem Raj <raj.khem@gmail.com>; Ross Burton <Ross.Burton@arm.com>
+> *Subject:* [PATCH v10 3/3] vte: Separate out gtk4 pieces of vte into
+> individual packages
+>
+> This avoids adding gtk4 dependencies when image may only desire the gtk3
+> pieces of vte.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Ross Burton <ross.burton@arm.com>
+> ---
+> v10: Added new
+>
+>  meta/recipes-support/vte/vte_0.74.1.bb | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/vte/vte_0.74.1.bb
+> b/meta/recipes-support/vte/vte_0.74.1.bb
+> index 8a7054a13cd..91c331d44cc 100644
+> --- a/meta/recipes-support/vte/vte_0.74.1.bb
+> +++ b/meta/recipes-support/vte/vte_0.74.1.bb
+> @@ -36,7 +36,15 @@ PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfalse,=
+gtk4"
+>  PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
+>  PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,systemd=
+"
+>
+> -PACKAGES =3D+ "libvte ${PN}-prompt"
+> +PACKAGES =3D+ "libvte-gtk4 ${PN}-gtk4 ${PN}-gtk4-dev libvte ${PN}-prompt=
+"
+> +FILES:libvte-gtk4 =3D "${libdir}/lib*gtk4.so.*
+> ${libdir}/girepository-1.0/Vte-3.91.typelib"
+> +FILES:${PN}-gtk4 =3D"${bindir}/vte-2.91-gtk4"
+> +FILES:${PN}-gtk4-dev =3D "${libdir}/lib*gtk4.so \
+> +                        ${libdir}/pkgconfig/vte-2.91-gtk4.pc \
+> +                        ${datadir}/vala/vapi/vte-2.91-gtk4.deps \
+> +                        ${datadir}/vala/vapi/vte-2.91-gtk4.vapi \
+> +                        ${includedir}/vte-2.91-gtk4 \
+> +                        "
+>  FILES:${PN} +=3D"${systemd_user_unitdir}"
+>  FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+>  FILES:${PN}-prompt =3D " \
+> --
+> 2.43.0
+>
+>
 
--- 
-Eilís 'pidge' Ní Fhlannagáin
-BayLibre - At the Heart of Embedded Linux
-www.baylibre.com
+--0000000000007287ff060afcd36d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto">Seems to do so for the test case and for development or b=
+uild time it=E2=80=99s fine to have them both be installed since they can l=
+ive side=C2=A0by side without issues=C2=A0</div><div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Nov 25, 2023 at 6:04=
+=E2=80=AFAM Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Bur=
+ton@arm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+
+
+<div>
+<div>
+<div dir=3D"ltr">
+<div dir=3D"ltr">Does this allow installing the gtk4 libraries without gtk3=
+? Looks like the GIR files will mean pulling in both.</div>
+<div dir=3D"ltr"><br>
+</div>
+<div dir=3D"ltr">Ross</div>
+</div>
+</div>
+<div id=3D"m_5557539945681723539ms-outlook-mobile-signature">
+<div></div>
+</div>
+<hr style=3D"display:inline-block;width:98%">
+<div id=3D"m_5557539945681723539divRplyFwdMsg" dir=3D"ltr"><font face=3D"Ca=
+libri, sans-serif" style=3D"font-size:11pt" color=3D"#000000"><b>From:</b> =
+Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.kh=
+em@gmail.com</a>&gt;<br>
+<b>Sent:</b> Saturday, November 25, 2023 7:38:21 AM<br>
+<b>To:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
+ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
+ded-core@lists.openembedded.org</a>&gt;<br>
+<b>Cc:</b> Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_bl=
+ank">raj.khem@gmail.com</a>&gt;; Ross Burton &lt;<a href=3D"mailto:Ross.Bur=
+ton@arm.com" target=3D"_blank">Ross.Burton@arm.com</a>&gt;<br>
+<b>Subject:</b> [PATCH v10 3/3] vte: Separate out gtk4 pieces of vte into i=
+ndividual packages</font>
+<div>=C2=A0</div>
+</div></div><div>
+<div><font size=3D"2"><span style=3D"font-size:11pt">
+<div>This avoids adding gtk4 dependencies when image may only desire the gt=
+k3<br>
+pieces of vte.<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+Cc: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_blank=
+">ross.burton@arm.com</a>&gt;<br>
+---<br>
+v10: Added new<br>
+<br>
+=C2=A0meta/recipes-support/vte/<a href=3D"http://vte_0.74.1.bb" target=3D"_=
+blank">vte_0.74.1.bb</a> | 10 +++++++++-<br>
+=C2=A01 file changed, 9 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-support/vte/<a href=3D"http://vte_0.74.1.bb" targ=
+et=3D"_blank">vte_0.74.1.bb</a> b/meta/recipes-support/vte/<a href=3D"http:=
+//vte_0.74.1.bb" target=3D"_blank">vte_0.74.1.bb</a><br>
+index 8a7054a13cd..91c331d44cc 100644<br>
+--- a/meta/recipes-support/vte/<a href=3D"http://vte_0.74.1.bb" target=3D"_=
+blank">vte_0.74.1.bb</a><br>
++++ b/meta/recipes-support/vte/<a href=3D"http://vte_0.74.1.bb" target=3D"_=
+blank">vte_0.74.1.bb</a><br>
+@@ -36,7 +36,15 @@ PACKAGECONFIG[gtk4] =3D &quot;-Dgtk4=3Dtrue,-Dgtk4=3Dfal=
+se,gtk4&quot;<br>
+=C2=A0PACKAGECONFIG[gnutls] =3D &quot;-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnut=
+ls&quot;<br>
+=C2=A0PACKAGECONFIG[systemd] =3D &quot;-D_systemd=3Dtrue,-D_systemd=3Dfalse=
+,systemd&quot;<br>
+=C2=A0<br>
+-PACKAGES =3D+ &quot;libvte ${PN}-prompt&quot;<br>
++PACKAGES =3D+ &quot;libvte-gtk4 ${PN}-gtk4 ${PN}-gtk4-dev libvte ${PN}-pro=
+mpt&quot;<br>
++FILES:libvte-gtk4 =3D &quot;${libdir}/lib*gtk4.so.* ${libdir}/girepository=
+-1.0/Vte-3.91.typelib&quot;<br>
++FILES:${PN}-gtk4 =3D&quot;${bindir}/vte-2.91-gtk4&quot;<br>
++FILES:${PN}-gtk4-dev =3D &quot;${libdir}/lib*gtk4.so \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${libdir=
+}/pkgconfig/vte-2.91-gtk4.pc \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${datadi=
+r}/vala/vapi/vte-2.91-gtk4.deps \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${datadi=
+r}/vala/vapi/vte-2.91-gtk4.vapi \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${includ=
+edir}/vte-2.91-gtk4 \<br>
++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &quot;<b=
+r>
+=C2=A0FILES:${PN} +=3D&quot;${systemd_user_unitdir}&quot;<br>
+=C2=A0FILES:libvte =3D &quot;${libdir}/*.so.* ${libdir}/girepository-1.0/*&=
+quot;<br>
+=C2=A0FILES:${PN}-prompt =3D &quot; \<br>
+-- <br>
+2.43.0<br>
+<br>
+</div>
+</span></font></div>
+</div>
+
+</blockquote></div></div>
+
+--0000000000007287ff060afcd36d--
 
