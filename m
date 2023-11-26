@@ -2,51 +2,51 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B570C4167B
-	for <webhook@archiver.kernel.org>; Sun, 26 Nov 2023 21:22:03 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.88])
- by mx.groups.io with SMTP id smtpd.web10.66386.1701033717665672313
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DCD1C07D59
+	for <webhook@archiver.kernel.org>; Sun, 26 Nov 2023 21:24:43 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.76])
+ by mx.groups.io with SMTP id smtpd.web10.66446.1701033882177896589
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Nov 2023 13:21:58 -0800
+ Sun, 26 Nov 2023 13:24:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=l+25D7AS;
- spf=pass (domain: axis.com, ip: 40.107.20.88, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=TP0IVshR;
+ spf=pass (domain: axis.com, ip: 40.107.241.76, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ONPkrVAzyP/R7MIlrYUDKw4nrb45SYSIyV5rvbyVjuERs84zonPnBPjU0rcOSGxInAphHJJyQmcphQUHtOJknvOFbXCSzKR45cJKBqGtKGqxQlGuLzncAP2vmvnZBZxNLzipVjD7Ua6Pyf9N/zWPc9WUBxZloXuQvPbRfr0OfcfL4KKnVlm5AmxIImL2fr6WYbtpGPxY9CcPi2zfvBl/d+qkBblCCJf70sEC5LACd2kM9iV4l2TbP33uzSRmHSeWpYFDZrHE78F9AZuD0SqQT0d/fuzTFEuisUimXXRFfBkvkElpYahy4ipaSGAmJD03aajhQEmUDWX+uKPfsrFKdg==
+ b=PiYbqVl2VnRxh6BbIkyxDd2uOgjZZzoWrmlPmYLFzse/makKlP6ElQyeFEqnbRPfNVT3LON6TydsLd9N3jXyxp8YbXf9dOr27yqiUhdUkQl43ntOEO3VDK9lSWlwPL3k/QHS8LHZqrPv47kmze/83SIgNPRljA/HfveMlEYfBtvoTrNixjZPblxtJ+QpCdvl17/2byMgH+tKPDmAvUiWIvhyn64dsKuvYYhOsKUWRB7Mkw15l2jCzkmgqQTDKZNg95XsW3gZ1J4r/pdSIh6sotZDwo5tXQycgJFmCcn3+iFzqZVHmCrhDjkKovUzZWQTinhJJcRuOUyYGBSx3iymhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kLTq/HsoTWsAWdsHus246ExGIJNk0OcEsqUYLjYxuYU=;
- b=FNzfAXpWc4hCq5I3MUTOhwaPJbAmwTwTMelLM5gOge8PlyvQhgC8gQ0xhnSD4Cv7PpaYuiUcTV7M16PvALqg/t5/v99R2HGKuKFF5ioR9bF3ZNFWE/l8f+2DiO5FcfF+maVsKO+EejEZN4ZwX8FLV2LleUk6k7hxn5LhLVyQDkObf2I6EQyhp9SafXbeHyduCXYPM75SezQY6T9oCixn0uNanh72yYgnUSIrMz/eTqS78KmLNrV/6J7ZZMC9KJTfAeIlbDLbyuUXrwNDduiEP0WETPVWsE3YMEMygDISvvD4s/BKMAm7DpWQ7V1TJa5JLfbLSQeFv6TaWBT2Voh7Fg==
+ bh=HHejyO4y9EfF5pJkp02bZq9IYmSpJPeHfmvKaJybkA4=;
+ b=CgCZW6BOHTIp7Gr+ZDIaPaQPSuZ8lqME3YSB3c9hYy6e94eq3IEzaRl4AWgNtIuyop3CcJ6d3E9RaXH7XIaskPdsxsDh6DnObdu2aq7VAEMlqZ4fOtu8n/bxdgfvyJkR4t+U1kyQX6WLgAPWcaSlKNyOfuPvAtik7fRm5mBXJTKslKOkCjk/5MLA04LGu9WGOeKzZBiYdFpD8U1nl2r2oKMQ2iqkRjyNqCudpZuY0NJkUEwLSrMowjqd5jMpTNGrnwrAIWHP/pKDUweUekC+iqNm6MzezVKi+DC06FgKEoJPaEDsGzGpSwwT9FJ7W0h20F63sBSWo8k1z6wwPZaB0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
  dkim=pass header.d=axis.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kLTq/HsoTWsAWdsHus246ExGIJNk0OcEsqUYLjYxuYU=;
- b=l+25D7ASVB2atTkXSCT97uMJAmWF6iI0SVH7Zd6heiIADBJqxi26FIv/tMLYy22VL4ART74i1VUVdeVvT+wBd2reIgfDNlA+bg5ecHgvFno77ITvQLjuVJLMepHxubPf2cdyhyakQzXrKDrrPLypqtisItWMDGaFle58l+/nrCU=
+ bh=HHejyO4y9EfF5pJkp02bZq9IYmSpJPeHfmvKaJybkA4=;
+ b=TP0IVshR38Nr0hhuvkwEhuNWckLd6znLYPeErvDPGW1B9vHOY755/Da2xW/OVhyDVXtt8cjBACDtA7cXORfzI4a3hdbhZumciqTjSf47oVro1W92CxOyw4Uhn2VMiJIbNNGXym1YygXx3oZuZc+TmqDVJld9oWHJo+0EnW1Kmvo=
 Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by GV1PR02MB8308.eurprd02.prod.outlook.com (2603:10a6:150:53::14) with
+ by DB9PR02MB8347.eurprd02.prod.outlook.com (2603:10a6:10:396::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.25; Sun, 26 Nov
- 2023 21:21:53 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.27; Sun, 26 Nov
+ 2023 21:24:38 +0000
 Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
  ([fe80::6bf2:231b:b0b7:205e]) by DB5PR02MB10213.eurprd02.prod.outlook.com
  ([fe80::6bf2:231b:b0b7:205e%5]) with mapi id 15.20.7025.022; Sun, 26 Nov 2023
- 21:21:53 +0000
+ 21:24:38 +0000
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: "Joakim.Tjernlund@infinera.com" <Joakim.Tjernlund@infinera.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [kirkstone][PATCH 2/4] base-passwd: Add PW_SUBDIR
-Thread-Topic: [OE-core] [kirkstone][PATCH 2/4] base-passwd: Add PW_SUBDIR
-Thread-Index: AQHaHuAjXhTfGrc9w0ik0XvjvhAASLCNC33w
-Date: Sun, 26 Nov 2023 21:21:53 +0000
+Subject: RE: [OE-core] [kirkstone][PATCH 3/4] pseudo: Add PW_SUBDIR
+Thread-Topic: [OE-core] [kirkstone][PATCH 3/4] pseudo: Add PW_SUBDIR
+Thread-Index: AQHaHuAobgXj3vTS2EuojOSpCAldhLCNGiug
+Date: Sun, 26 Nov 2023 21:24:37 +0000
 Message-ID: 
- <DB5PR02MB10213D2E9905D5D115A8F4EF9EFBEA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <DB5PR02MB1021306EE31EF0BB7E68B32DEEFBEA@DB5PR02MB10213.eurprd02.prod.outlook.com>
 References: <20231124141108.1397342-1-joakim.tjernlund@infinera.com>
- <20231124141108.1397342-3-joakim.tjernlund@infinera.com>
-In-Reply-To: <20231124141108.1397342-3-joakim.tjernlund@infinera.com>
+ <20231124141108.1397342-4-joakim.tjernlund@infinera.com>
+In-Reply-To: <20231124141108.1397342-4-joakim.tjernlund@infinera.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -54,63 +54,63 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=axis.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|GV1PR02MB8308:EE_
-x-ms-office365-filtering-correlation-id: f9d2dcce-d05e-4f67-d214-08dbeec5b642
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB9PR02MB8347:EE_
+x-ms-office365-filtering-correlation-id: e8973bf9-fe72-4c10-7d7d-08dbeec61835
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- GZM80odnOsNLrH+h4CjGhmLUq1Ol4LHZVzPiENPYN2x0SXdP0j5n1r5/TJugTlZ3jhHJuWKgTec9pclJ1g15yBBDHg1La+zMZMWnACpsIUM4U8uf6Upg4B6hskErfPtL4X1fwLFazHyop+vo0VoHenR5v1BHItyZpIXUN/bTO8lvPJZCQfubQ6RGw6zia9kaU+wcUKDMH45rih9ERx3ekfyVYKvyNZUxOEgfh5Tpif4G/qwtBa1JP87h/yzU51i0lKHVJ2mPl8ujiz5O0b17sAUoDbp8/Yf/0RdTi62wWZ4YZzPpAKFhSXex1QKfcLNwEmT11Tc/nzCNJSa/8RgPymxSw1KtvAL6inbqMFggXGEij/1YyEXZaN4hsjkoikvYK9TpA1X7VHQTdjY1heK2UBxNuAfqV/W1dFtDOD1ZZv5nI7Rw83yaYDJ7mA0IDSwVgmiUIt0spxvD7N5iwZc/s2RNTSAm2oiPsvKmhOqtXMng4XgJnZsspI/0p+lfZ5eRvqdXgod7mkTtaWgTDTUeAauZZ/ubjpBpCDKfnYBOCF1YfxKh+FYM58yw9tksi+72rpkzcaUEAq8+kjeWs3NwicQKj/wXTh5RKE83XtmWcJ4=
+ yiO75Ziw2fhie1I3+s4JH0ajpGnalj66/1WnKAVJB9U0Feeejm3t7UaLTph8RNQYddHmM6etXrv9gr8bj4kV+zeMW1kULo52SoAuUjOol2HtKnPH2GR5hYuoV8kSqgYK8aOaeJqTWv0GRYDTp3T9/2SxcWBbgtXo4kmi6JUOkdZLYTD0+F3i2s4A7Y+TKKltM9TDIDBervxaPK3WVZAL5/X8MI1fZWVwtujD1WKJ0daPwDEH3dI1HRzcgje+i6Nfj9zhwcjyfYr+glX0cGWbr44rSwWQmr0LOKL7xQfpBhOC2dR0R3IFckLkjGK5vj6dCS9MlXpCXoTfDcfQlBTSl8G5z9HNe9St4lKy3mgX/vp7WVLw5y/o3zCRZBZYqCYOP5Tt+oS8ZXprrIRzTt5a/enLiolXJA6OFHjXzi6SMVY/24xO5DdVjweTw6kcieSN4+RiSoZUChKto8RjTR5y03n3qum4KEmiUDIR8mSdhtifH6om9XDImWya6usoNj8U7wAQEDFahVGzimtcExrOZm2DCNTRDLj/K+gJseid93yby5VsJj1+BhsuHJKWRLTVBgB6XxFUqE48tQfCQGW/G3hXMV9wOQ78CgxhocQec1Jf1xoCX6ZT2+Cj4Y1VvAgg
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(396003)(39850400004)(366004)(346002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(26005)(86362001)(8676002)(8936002)(44832011)(7696005)(38100700002)(6506007)(9686003)(53546011)(83380400001)(122000001)(55016003)(478600001)(71200400001)(76116006)(66946007)(66476007)(66556008)(316002)(64756008)(110136005)(66446008)(33656002)(38070700009)(41300700001)(52536014)(2906002)(5660300002);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39850400004)(366004)(376002)(396003)(346002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(83380400001)(38100700002)(122000001)(55016003)(52536014)(9686003)(53546011)(7696005)(6506007)(71200400001)(8936002)(76116006)(66556008)(66946007)(110136005)(316002)(66446008)(64756008)(66476007)(5660300002)(44832011)(8676002)(478600001)(86362001)(41300700001)(2906002)(33656002)(38070700009)(26005);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?nJ4ev48sdv67MCQO+sPKvcQHjQIkDEKYs2Gsg9QLyHsuOKZf8gDlNyJ4h5UQ?=
- =?us-ascii?Q?lLarhY5IK76Sd5dDuqEYO6XoAaDpcmi/PrBwB2hHKJfi6JqteYAX9EtJP5y+?=
- =?us-ascii?Q?1BmAUxun2OZXNIyAkmfPYxi8eMGsDoWG1iJ7tri83PbsfxblBCD0aFhWg3d0?=
- =?us-ascii?Q?PLaa2EDoopWaTI4LAd2J8WMrqabcnfuGMyRxR13bpW2dxQ3QbANcnn+myfZQ?=
- =?us-ascii?Q?hYHIRNUijtjPnO/56xQ35TnkTDBVNK1cPyL4TSmMLvOfASubYaC+EGsoZ9hP?=
- =?us-ascii?Q?io70PtXhMhzbuCVM/MJ07FnWrCy1nDWuaPp6XtxoTPgFrblGJ2Xuc/GzmM1p?=
- =?us-ascii?Q?lBohl0Hf7slicWBuHixrW3sci6aFCVpZ38PMJNsQytI9XBUmYNkmMVNRC5xo?=
- =?us-ascii?Q?+xXTRwsAXpoQVoo62w0oBboSUTjNkeKIQifSZlPpdK71rpEiwJwjmTb+rSdK?=
- =?us-ascii?Q?Rm4Vep11pB40rHQWqKXRpfymkCkRuilwKK7phYX7q+hhssyr1KoNkq0A5Gk4?=
- =?us-ascii?Q?ywbbR64i2UVW1EhWNpnhdOH9cM5Nac90/Hnb1p9S4b9LGot+e7gCjTWtPkA9?=
- =?us-ascii?Q?Li8bjqf1qK3sOBw+m7orebaFGY9FW8VZBzZ8LaCkoGqYQHtaafOlPG6ZVQHY?=
- =?us-ascii?Q?mm8DuEFwwgRJajnO6plp+n5KupabFkf5pmd/+R+GdWXy3llF7Ef+ymN3L3Tx?=
- =?us-ascii?Q?QObru7VhoF4/6r9jePUQ3C/9WMlohxbOmv6HyqAh1RoB70MTy0o+QGq1x4hv?=
- =?us-ascii?Q?64mAjNfwtHXAcyg/c1+HCvL6U8qUKfnI+s2Ckh2cku8d/6TTC/BxnOIrOGh6?=
- =?us-ascii?Q?IeOK22XTOn8KIH0r3/FEl0/JeZMSJwt21C+Rqg/kCG9cf9QlBZE3OS9juH6P?=
- =?us-ascii?Q?FGbYvJE8/6VfWqF8UWCh65f2s+7M6t5gzHXEVQlb6+rgd6hqm3EIduV14AkF?=
- =?us-ascii?Q?NwwFeP0/DygV48dhb3vD4prMcrzRIBIUhzwOvqOW0E3bnGRwKII2YF1LGKLj?=
- =?us-ascii?Q?Tcu1E2eCQV746LPipsPQG2ydeJYU5n7lGfikLsxhU9YnhDwe97fZ64EpUHrW?=
- =?us-ascii?Q?WKSfFJtPNThnPBwolTn2DgaD1j8RQcwS43DgwAcrpA+RAui9vSzqvgTsoucO?=
- =?us-ascii?Q?qaqCwq4SNiMcj6y9Z7iclOH9mvzGGlTGAIUsCZkDQl4rzdBIq4l8eFPDVwSH?=
- =?us-ascii?Q?oxpfYlSeiR52hxeaopldcz6ojQvbkIEJhI6DbqHPXu5e96Cg+psPEa92XRk+?=
- =?us-ascii?Q?kW+cmF9chITiBCDlICydIY7/8rRq3+d/eXysNpIiUnFYUCxiqpaeVvS1qYHI?=
- =?us-ascii?Q?9BSLc2H3xzPq8WyB8uv+HvZaBukxFFxzxnljvwDsp+GqWaxoMrVP5ZJDQEpx?=
- =?us-ascii?Q?+8zo/md2nypu08xzctj+D9nOe+ffUZosATzPCdth2O8JDf0EP9SbKPV6Weba?=
- =?us-ascii?Q?jBe/Q/cbeY/VvLEsPPEOrw2cjEu6zn8vwDFRTSYMgCiEl7CdNcXwtPrrK5DP?=
- =?us-ascii?Q?SIPtSseHFntIIC7d9unO0V9yMTsfQfShIw0VzBZAARnG+cpI9BQXpZjAMgoM?=
- =?us-ascii?Q?vLtNnvIlvU8UHHT23Rw=3D?=
+ =?us-ascii?Q?tYbtuLcEQulZ8rGIIzQBLlPohXBM6dK2AiJuPq4j/y26hcCAai+3qVe8PmTm?=
+ =?us-ascii?Q?imzfKJhOWlKs6B24Itv0PuJT71dGwXLByRsZIgFrptGVScFvAWsewWcluk1N?=
+ =?us-ascii?Q?VWMrWolac3GEhHgyN2jrKi0n7Cl8FM2v8kCur40xtzja54Q9pWnmS1CBHeeU?=
+ =?us-ascii?Q?kgeWXpRFo078CnlwD7UwwcwOC+AH4EPDafsPy3NEIKBwpeEMhQn5OIOrEb27?=
+ =?us-ascii?Q?yveSXQ0aCjyEGcsGW6b99qySP+cMbVv1XeOpc0YaM0laAzmEX9cfM3G5ALfY?=
+ =?us-ascii?Q?F0y8kE5UBKx4PwT5NiA+PkN6dl/pJxuLuNpWsdzeSo/8s41kgjot02nUcXt6?=
+ =?us-ascii?Q?2w4pWQhtQ5oTvuyVZh/iMAU3BuA7V8q3mt8yGNR5/XcemUYnaJPL90ECVYy7?=
+ =?us-ascii?Q?n8hLifu0oBFt8Pqd9VmwFN8AG5KyBkH8Yx7PeixYS8zVqGTmN3k3hXwz/1jY?=
+ =?us-ascii?Q?Ak14eZHnTmV/tpmwLqWCRz8ZG4iaTm9xiVkSHiBznjuyrCOoKyhQSkE+pPL4?=
+ =?us-ascii?Q?IIbk6gkaArDb5fYnVtjliz/5kvK9VP7voUU4DTUhoTrVyUDnVnox6nID8/3L?=
+ =?us-ascii?Q?46i/mI+f4U2oyrg6GnDNpFcUOIbd+/p4itiJKX02ZK4Rnb/SdLZ0mJ/wAaNA?=
+ =?us-ascii?Q?HWr+yh3Z7l9i2ijG8XOYMN7E0imqrn4cQucin3NwYtA8XbHrdBT+pGZqhuCM?=
+ =?us-ascii?Q?4OmFnqJC2C1PA8hGQIEyQoeP1vEWpRYTwFjcHhncguQsCkX145dzJKBkLaEH?=
+ =?us-ascii?Q?n9bWlIdg2CihDZfAOIpfdQ8nLJ45Kz1GUDsnqHqy2FsSBlm/n3DNlf3C5qGs?=
+ =?us-ascii?Q?qoMneTo/rV8n+CJ44lFvywIZ6c4im1D1aob7GAG38N/JC/haLKDvDhUzn06C?=
+ =?us-ascii?Q?LpCPFKnBValvIJeHyHFbmN/j5finAOTwVleq1VgfN64JsQOn8ag1udKL14NR?=
+ =?us-ascii?Q?PdPaVL+51u24Z/ETK3DB15cgNLI1K+03A8QS78DlLb9JVFO4df7BLXnkJA6e?=
+ =?us-ascii?Q?bO/0ZNCLyIxJS+vQmWWDwU7kBfdy0PihYlBMp+O9Gg07AT9tEPnMU/jRzLyH?=
+ =?us-ascii?Q?uZJFSVi1cnYqnNckhjR4PwayPtdxaWkv3MklF8Nx3ArhpOjJvZ+C2okHB4T0?=
+ =?us-ascii?Q?m7YqtwOYrJRK04THWSjDSpwwwFbw4Z4xKB4adsncYRxs4bLvXxURac8ItRit?=
+ =?us-ascii?Q?gY0dMPfoOC//eZGYTmS7Ms1tt5JxVza3TxWbIdfyjgZC8sh0m7oRy3IJjDxI?=
+ =?us-ascii?Q?okJmCbNKq+2d8dWMUrkVvqdBUm7QThXpi1u7tFbq7S4OJz+O4mNoV67vyRpU?=
+ =?us-ascii?Q?UR1AWLrYBHv1hBSgnwrh3dF5qPZLwKGk3VImeN2LUwJQjFi4bGVchFmEAp58?=
+ =?us-ascii?Q?HSgvbCIIdWxIl6Cw+2pYxGc2aZVL/DPmOLGh0RjwgvU1srCbSEQ+Z9Bjl/tu?=
+ =?us-ascii?Q?tVhbTSMO4KZl+H5E5Mvph0krHLdaGTZNrmuG0xxje4GfrKS5M9W5n+XaCMEY?=
+ =?us-ascii?Q?dRf8Xz7SAKrqeSsrUOqmR84q16QL2BjfTjLrzz0h4q2jI8fVPp8v2pHW9MZd?=
+ =?us-ascii?Q?m+LjKu0nhKKYAX3iF+8=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: axis.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f9d2dcce-d05e-4f67-d214-08dbeec5b642
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2023 21:21:53.6747
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8973bf9-fe72-4c10-7d7d-08dbeec61835
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2023 21:24:38.0053
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tNtQFAwr7jOyLpRvXPzlKmy3yPqKztxFw2gpYuNXFNPJW5ba7Mk0KtRs9GYrwu9d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR02MB8308
+X-MS-Exchange-CrossTenant-userprincipalname: Eneht6WPfWSNgzidkRSNuHavSPhHJuQn+3dYgI7OK1bki3b+ipIHcD/gBcwVThlv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB8347
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 26 Nov 2023 21:22:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191238
+ <openembedded-core@lists.openembedded.org>; Sun, 26 Nov 2023 21:24:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191239
 
 > -----Original Message-----
 > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
@@ -118,115 +118,60 @@ penembedded.org> On Behalf Of Joakim Tjernlund via lists.openembedded.org
 > Sent: den 24 november 2023 15:11
 > To: openembedded-core@lists.openembedded.org
 > Cc: Joakim Tjernlund <joakim.tjernlund@infinera.com>
-> Subject: [OE-core] [kirkstone][PATCH 2/4] base-passwd: Add PW_SUBDIR
+> Subject: [OE-core] [kirkstone][PATCH 3/4] pseudo: Add PW_SUBDIR
 >=20
 > Add support for creating passwd files in a /etc subdir
-> Set PW_SUBIR to pwdb to get passwd  files in /etc/pwdb
+> Set PW_SUBIR to pwdb to get passwd files in /etc/pwdb
 >=20
 > Signed-off-by: Joakim Tjernlund <joakim.tjernlund@infinera.com>
 > ---
->  .../base-passwd/base-passwd_3.5.29.bb         | 24 ++++++++++++-------
->  1 file changed, 16 insertions(+), 8 deletions(-)
+>  meta/recipes-devtools/pseudo/pseudo.inc | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
 >=20
-> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/r=
-ecipes-core/base-passwd/base-passwd_3.5.29.bb
-> index ef7792ae49..e453be0763 100644
-> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> @@ -20,6 +20,9 @@ SRC_URI =3D "https://launchpad.net/debian/+archive/prim=
-ary/+files/${BPN}_${PV}.tar
->  SRC_URI[md5sum] =3D "6beccac48083fe8ae5048acd062e5421"
->  SRC_URI[sha256sum] =3D "f0b66388b2c8e49c15692439d2bee63bcdd4bbbf7a782c7f=
-64accc55986b6a36"
+> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devto=
+ols/pseudo/pseudo.inc
+> index 7e09b6d58c..7ba2e2261c 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo.inc
+> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
+> @@ -10,6 +10,9 @@ SECTION =3D "base"
+>  LICENSE =3D "LGPL-2.1-only"
+>  DEPENDS =3D "sqlite3 attr"
 >=20
-> +#Set PW_SUBDIR to pwdb to get passwd  files in /etc/pwdb
+> +#Set PW_SUBDIR to pwdb to get passwd files in /etc/pwdb
 > +PW_SUBDIR ?=3D ""
 > +
-
-Rather than defining a subdirectory, I would recommend defining the full=20
-path, e.g.:
-
-PW_DIR ?=3D "${sysconfdir}"
-
-This avoids generating a lot of "//" in the middle of paths for the majorit=
-y=20
-of us who do not use a subdirectory for the password files.
-
->  # the package is taken from launchpad; that source is static and goes st=
-ale
->  # so we check the latest upstream from a directory that does get updated
->  UPSTREAM_CHECK_URI =3D "${DEBIAN_MIRROR}/main/b/base-passwd/"
-> @@ -50,10 +53,11 @@ basepasswd_sysroot_postinst() {
->  #!/bin/sh
+>  FILES:${PN} =3D "${prefix}/lib/pseudo/lib*/libpseudo.so ${bindir}/* ${lo=
+calstatedir}/pseudo ${prefix}/var/pseudo"
+>  INSANE_SKIP:${PN} +=3D "libdir"
+>  INSANE_SKIP:${PN}-dbg +=3D "libdir"
+> @@ -131,10 +134,12 @@ do_install () {
 >=20
->  # Install passwd.master and group.master to sysconfdir
-> -install -d -m 755 ${STAGING_DIR_TARGET}${sysconfdir}
-> +install -d -m 755 ${STAGING_DIR_TARGET}${sysconfdir}/${PW_SUBDIR}
->  for i in passwd group; do
->  	install -p -m 644 ${STAGING_DIR_TARGET}${datadir}/base-passwd/\$i.maste=
-r \
-> -		${STAGING_DIR_TARGET}${sysconfdir}/\$i
-> +		${STAGING_DIR_TARGET}${sysconfdir}/${PW_SUBDIR}/\$i
-> +	[ -n "${PW_SUBDIR}" ] && ln -fs ${PW_SUBDIR}/\$i ${STAGING_DIR_TARGET}$=
-{sysconfdir}/\$i
+>  do_install:append:class-native () {
+>  	chrpath ${D}${bindir}/pseudo -r `chrpath ${D}${bindir}/pseudo | cut -d =
+=3D -f 2 | sed s/XORIGIN/\\$ORIGIN/`
+> -	install -d ${D}${sysconfdir}
+> +	install -d ${D}${sysconfdir}/${PW_SUBDIR}
+>  	# The fallback files should never be modified
+> -	install -m 444 ${WORKDIR}/fallback-passwd ${D}${sysconfdir}/passwd
+> -	install -m 444 ${WORKDIR}/fallback-group ${D}${sysconfdir}/group
+> +	install -m 444 ${WORKDIR}/fallback-passwd ${D}${sysconfdir}/${PW_SUBDIR=
+}/passwd
+> +        [ -n "${PW_SUBDIR}" ] && ln -fs ${PW_SUBDIR}/passwd ${D}${syscon=
+fdir}/passwd
 
-I generally recommended to use `[ ! ... ] || ...` instead of `[ ... ] && ..=
-.`:
+Inconsistent indentation (spaces instead of tab). And here too I=20
+recommend to use || instead of &&.
 
-	[ -z "${PW_SUBDIR}" ] || ln -fs ${PW_SUBDIR}/\$i ${STAGING_DIR_TARGET}${sy=
-sconfdir}/\$i
+> +	install -m 444 ${WORKDIR}/fallback-group ${D}${sysconfdir}/${PW_SUBDIR}=
+/group
+> +        [ -n "${PW_SUBDIR}" ] && ln -fs ${PW_SUBDIR}/group ${D}${sysconf=
+dir}/group
 
-Or, assuming my recommendation above is followed:=20
+Inconsistent indentation (spaces instead of tab).
 
-	[ "${PW_DIR}" =3D "${sysconfdir}" ] ||
-		ln -fsr ${STAGING_DIR_TARGET}${PW_DIR}/\$i ${STAGING_DIR_TARGET}${sysconf=
-dir}/\$i
-
-The reason is that the return status ($?) of `[ ... ] && ...` is 1 if the=20
-test fails, while it is 0 for `[ ! ... ] || ...` when the test succeeds.
-
->  done
 >=20
->  # Run any useradd postinsts
-> @@ -89,15 +93,19 @@ python populate_packages:prepend() {
->      f.close()
->=20
->      preinst =3D """#!/bin/sh
-> -mkdir -p $D${sysconfdir}
-> -if [ ! -e $D${sysconfdir}/passwd ]; then
-> -\tcat << 'EOF' > $D${sysconfdir}/passwd
-> +mkdir -p $D${sysconfdir}/${PW_SUBDIR}
-> +if [ ! -e $D${sysconfdir}/${PW_SUBDIR}/passwd ]; then
-> +\tcat << 'EOF' > $D${sysconfdir}/${PW_SUBDIR}/passwd
->  """ + passwd + """EOF
->  fi
-> -if [ ! -e $D${sysconfdir}/group ]; then
-> -\tcat << 'EOF' > $D${sysconfdir}/group
-> +if [ ! -e $D${sysconfdir}/${PW_SUBDIR}/group ]; then
-> +\tcat << 'EOF' > $D${sysconfdir}/${PW_SUBDIR}/group
->  """ + group + """EOF
->  fi
-> +if [ -n "${PW_SUBDIR}" ]; then
-> +ln -fs ${PW_SUBDIR}/passwd $D${sysconfdir}/passwd
-> +ln -fs ${PW_SUBDIR}/group $D${sysconfdir}/group
-
-Use \t to indent the above two lines like the code before.
-
-> +fi
->  """
->      d.setVar(d.expand('pkg_preinst:${PN}'), preinst)
->  }
-> @@ -114,5 +122,5 @@ pkg_postinst:${PN}-update () {
->  if [ -n "$D" ]; then
->  	exit 0
->  fi
-> -${sbindir}/update-passwd
-> +${sbindir}/update-passwd -P /etc/${PW_SUBDIR}/passwd -S /etc/${PW_SUBDIR=
-}/shadow -G /etc/${PW_SUBDIR}/group
-
-Replace /etc with ${sysconfdir}.
-
->  }
+>  	# Two native/nativesdk entries below are the same
+>  	# If necessary install for the alternative machine arch.  This is only
 > --
 > 2.41.0
 
