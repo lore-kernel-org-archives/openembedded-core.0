@@ -1,92 +1,68 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA352C0755A
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 19:48:00 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.104960.1701114478448818169
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04295C4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 19:56:31 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web10.105190.1701114986216557146
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 11:47:58 -0800
+ Mon, 27 Nov 2023 11:56:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QH/jFMIJ;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7626EC0009;
-	Mon, 27 Nov 2023 19:47:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701114476;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wcgb9Px4TL+b00sZdht9BHBa03b1tpIj6Nw2zpV9O5w=;
-	b=QH/jFMIJ7I4qLtS9o1o/JuPG/1031CWmrqBr4nQ9sh/EGO+tVqw9qFC61o32HRzm4eWNyp
-	PnK6iMOYnbiH2Z8ZmbCXz5JZg3vbEqIuRZRyHZ6gxwo6XoGzs2b5KHjpDDtPNV1jes/T33
-	TI1RAQVa1FpopUmVzTWCzjnmts9WbKBhWNFjbp7l4eq5Nog+V/1GlW9pSQFyEfmLlfvEne
-	oh88H7UQyfWeElYAkZtu7Pt/tSup+Cog9gyH8IT9LB2rQdhy3erEIA4IEAkDKOdZwmaKgV
-	jkmb1A/Wfp8ZPqEIurIN6Vps/6jS8YKGFf4KTWA0Sdi6sRd0vedHDDfvFN85pw==
-Date: Mon, 27 Nov 2023 20:47:55 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: sundeep.kokkonda@windriver.com
-Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com,
-	naveen.gowda@windriver.com, shivaprasad.moodalappa@windriver.com,
-	yash.shinde@windriver.com, deepthi.hemraj@windriver.com,
-	umesh.kallapa@windriver.com, steve@sakoman.com
-Subject: Re: [OE-core] [PATCH] glibc: stable 2.38 branch updates
-Message-ID: <202311271947555ac0c342@mail.local>
-References: <20231127040046.1024625-1-sundeep.kokkonda@windriver.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=jVRB9dsI;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2023112719562321c433c0316c181faa-sk4ba3@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2023112719562321c433c0316c181faa
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 27 Nov 2023 20:56:24 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=pY0JQg9BscAMDSdmPYAQ73NL9P0yEq/Dqa2mn6hfKuk=;
+ b=jVRB9dsIY9oPmIP/k7cgE/+jXczPkqnxGZpMFa3kGplEySHksclYT8ZekALQQT3oZYqb3N
+ QoFfsPMil6m7wUHtck++zy4FKtRmuVgjvtohsjWmy3ivs1P3rPrAcNKvb8HnTb+Cuny6B2y3
+ jIoTMyTLznB6p01Cg95+P7HNjf9gI=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH v2 1/2] cve-update-nvd2-native: remove unused variable CVE_SOCKET_TIMEOUT
+Date: Mon, 27 Nov 2023 20:55:35 +0100
+Message-Id: <20231127195536.428542-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231127040046.1024625-1-sundeep.kokkonda@windriver.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 19:48:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191322
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 19:56:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191323
 
-Please follow https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#fixing-your-from-identity
+From: Peter Marko <peter.marko@siemens.com>
 
-On 26/11/2023 20:00:46-0800, Sundeep KOKKONDA via lists.openembedded.org wrote:
-> Below commits on glibc-2.38 stable branch are updated.
-> 1e04dcec49 Revert "elf: Move l_init_called_next to old place of l_text_end in link map"
-> 719866ab2f Revert "elf: Always call destructors in reverse constructor order (bug 30785)"
-> e0b6c9706c Revert "elf: Remove unused l_text_end field from struct link_map"
-> 
-> Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
-> ---
->  meta/recipes-core/glibc/glibc-version.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-> index 19b98bc11a..ccf9d505c5 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,6 +1,6 @@
->  SRCBRANCH ?= "release/2.38/master"
->  PV = "2.38+git"
-> -SRCREV_glibc ?= "750a45a783906a19591fb8ff6b7841470f1f5701"
-> +SRCREV_glibc ?= "1e04dcec491bd8f48b5b74ce3e8414132578a645"
->  SRCREV_localedef ?= "e0eca29583b9e0f62645c4316ced93cf4e4e26e1"
->  
->  GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
-> -- 
-> 2.42.0
-> 
+This variable is not referenced in oe-core anymore.
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#191246): https://lists.openembedded.org/g/openembedded-core/message/191246
-> Mute This Topic: https://lists.openembedded.org/mt/102823529/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+v2: typo in commit message
 
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 67d76f75dd..64a96a46f0 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -26,9 +26,6 @@ NVDCVE_API_KEY ?= ""
+ # Use a negative value to skip the update
+ CVE_DB_UPDATE_INTERVAL ?= "86400"
+ 
+-# Timeout for blocking socket operations, such as the connection attempt.
+-CVE_SOCKET_TIMEOUT ?= "60"
+-
+ CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
+ 
+ CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.2
+
 
