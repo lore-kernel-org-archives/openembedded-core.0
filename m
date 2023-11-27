@@ -1,148 +1,107 @@
-Return-Path: <li.wang@windriver.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 300B2C0755A
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 06:57:36 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.87676.1701068254526021818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 317A1C4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 07:00:16 +0000 (UTC)
+Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
+ by mx.groups.io with SMTP id smtpd.web10.88100.1701068412303859706
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Nov 2023 22:57:34 -0800
+ Sun, 26 Nov 2023 23:00:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=GYzCiJrm;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=969515cd65=li.wang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AR6j2O3001096;
-	Mon, 27 Nov 2023 06:57:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=lhuHX
-	BW638IThDNl7UWFQJlZO7M17qzd/nYfbQ98BR8=; b=GYzCiJrmmUYUnZHlgMFPF
-	57x5cTlN33Sy40k7ihPhoB9ws5vV4FNbyXDndpLshfDAQRTtZD+6vjar8aKN11st
-	qktSSNEfZmg9Cshvsz6WjDXO8Ry6qXLOGykXWXUruxf4iDnVp2LoobNypLn2EgVq
-	UBoLAtKelDjbjTloDArzJoSniWh5v+10qqkjA6tS0LRVVrkGAl1XXB7Z7LrO6tve
-	bbNdyCVpxozCDzYl35oBpz/pI83HdQrZntX8vvOw+MwjaHgfmmQthCbX0TIhiQhG
-	S1U+vJQkwYRR01uXZIhGnvaxnpzWNI4UT37sqKbn0pML+qwsXis7oZ/jWDZMcjl9
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uk7w6hbeg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Nov 2023 06:57:33 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 26 Nov 2023 22:57:39 -0800
-Received: from pek-lwang1-d1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.34 via Frontend Transport; Sun, 26 Nov 2023 22:57:38 -0800
-From: Li Wang <li.wang@windriver.com>
-To: <steve@sakoman.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][Kirkstone][PATCH] systemtap_git: fix used uninitialized error
-Date: Mon, 27 Nov 2023 14:54:47 +0800
-Message-ID: <20231127065447.3889632-1-li.wang@windriver.com>
-X-Mailer: git-send-email 2.31.1
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
+Received: from fwd87.aul.t-online.de (fwd87.aul.t-online.de [10.223.144.113])
+	by mailout02.t-online.de (Postfix) with SMTP id 2033726528
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 08:00:10 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.163.41.136]) by fwd87.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1r7VbC-1CqbMP0; Mon, 27 Nov 2023 08:00:06 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCHv2] pciutils: add packageconfigs for options
+Date: Mon, 27 Nov 2023 08:00:12 +0100
+Message-ID: <20231127070012.3192807-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: jBzK5bnu0c8s_Dx7bw1f2eph4v7y7rKf
-X-Proofpoint-ORIG-GUID: jBzK5bnu0c8s_Dx7bw1f2eph4v7y7rKf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1011 spamscore=0 suspectscore=0 bulkscore=0 mlxscore=0
- adultscore=0 phishscore=0 malwarescore=0 impostorscore=0 mlxlogscore=988
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311270047
+X-TOI-EXPURGATEID: 150726::1701068406-67FFC968-14E47070/0/0 CLEAN NORMAL
+X-TOI-MSGID: 60d8f219-0cda-400e-b5cb-40776d9fe7fb
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 06:57:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191257
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 07:00:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191258
 
-bpf-translate.cxx: error: 'this_column_size' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-bpf-translate.cxx: error: 'num' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+My motivation for this is to get zlib support selectable, because
+libosinfo requires the pci.ids file uncompressed. Add packageconfigs for
+the other options as well to avoid autoselect.
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
+Configuration stays the same besides zlib is deselected by default.
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- ...x-Prevent-Werror-maybe-uninitialized.patch | 53 +++++++++++++++++++
- .../recipes-kernel/systemtap/systemtap_git.bb |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch
+ meta/recipes-bsp/pciutils/pciutils_3.10.0.bb | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch b/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch
-new file mode 100644
-index 0000000000..130eefab5d
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch
-@@ -0,0 +1,53 @@
-+From df3425f51a512f65522522daf1f78c7fab0a63fd Mon Sep 17 00:00:00 2001
-+From: Aaron Merey <amerey@redhat.com>
-+Date: Fri, 25 Feb 2022 19:18:29 -0500
-+Subject: [PATCH] bpf-translate.cxx: Prevent -Werror=maybe-uninitialized
-+
-+Two variables in bpf-translate.cxx can trigger -Werror=maybe-uninitialized.
-+The code is designed so that uninitialized uses are not actually possible,
-+but to convince gcc of this we move a throw statement and initialize one
-+of the variables with a value.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=df3425f51a512f65522522daf1f78c7fab0a63fd]
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ bpf-translate.cxx | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/bpf-translate.cxx b/bpf-translate.cxx
-+index 3f45c721f..1b63d6078 100644
-+--- a/bpf-translate.cxx
-++++ b/bpf-translate.cxx
-+@@ -1203,7 +1203,7 @@ bpf_unparser::emit_asm_arg (const asm_stmt &stmt, const std::string &arg,
-+     {
-+       /* arg is a register number */
-+       std::string reg = arg[0] == 'r' ? arg.substr(1) : arg;
-+-      unsigned long num;
-++      unsigned long num = ULONG_MAX;
-+       bool parsed = false;
-+       try {
-+         num = stoul(reg, 0, 0);
-+@@ -1941,8 +1941,6 @@ bpf_unparser::visit_foreach_loop(foreach_loop* s)
-+   for (unsigned k = 0; k < arraydecl->index_types.size(); k++)
-+     {
-+       auto type = arraydecl->index_types[k];
-+-      if (type != pe_long && type != pe_string)
-+-        throw SEMANTIC_ERROR(_("unhandled foreach index type"), s->tok);
-+       int this_column_size;
-+       // PR23875: foreach should handle string keys
-+       if (type == pe_long)
-+@@ -1953,6 +1951,10 @@ bpf_unparser::visit_foreach_loop(foreach_loop* s)
-+         {
-+           this_column_size = BPF_MAXSTRINGLEN;
-+         }
-++      else
-++        {
-++          throw SEMANTIC_ERROR(_("unhandled foreach index type"), s->tok);
-++        }
-+       if (info.sort_column == k + 1) // record sort column
-+         {
-+           info.sort_column_size = this_column_size;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index ce86d5274d..c84fc27001 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -9,6 +9,7 @@ require systemtap_git.inc
- SRC_URI += "file://0001-improve-reproducibility-for-c-compiling.patch \
-             file://0001-staprun-address-ncurses-6.3-failures.patch \
-             file://0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch \
-+            file://0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch \
-            "
- 
- DEPENDS = "elfutils"
--- 
-2.31.1
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.10.0.bb b/meta/recipes-=
+bsp/pciutils/pciutils_3.10.0.bb
+index e27cfd4ced..0f2288b818 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.10.0.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.10.0.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954=
+499f7abaabaa882bbe"
+ # Can drop make-native when all systems have make 4.3
+ # https://git.savannah.gnu.org/cgit/make.git/commit/?id=3Db90fabc8d6f34f=
+b37d428dc0fb1b8b1951a9fbed
+ # causes space issues in lib/libpci.pc
+-DEPENDS =3D "zlib kmod make-native"
++DEPENDS =3D "make-native"
+=20
+ SRC_URI =3D "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.=
+tar.xz \
+            file://configure.patch"
+@@ -18,10 +18,11 @@ SRC_URI[sha256sum] =3D "238a2e27166730e53a17fe07bfad2=
+29e07fa39b618117e5944b6d7eda9
+=20
+ inherit multilib_header pkgconfig update-alternatives
+=20
+-PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
+'hwdb', '', d)}"
++PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
+'hwdb', '', d)} dns kmod"
+ PACKAGECONFIG[hwdb] =3D "HWDB=3Dyes,HWDB=3Dno,udev"
+-
+-PCI_CONF_FLAG =3D "ZLIB=3Dyes DNS=3Dyes SHARED=3Dyes STRIP=3D LIBDIR=3D$=
+{libdir}"
++PACKAGECONFIG[zlib] =3D "ZLIB=3Dyes,ZLIB=3Dno,zlib"
++PACKAGECONFIG[kmod] =3D "LIBKMOD=3Dyes,LIBKMOD=3Dno,kmod"
++PACKAGECONFIG[dns] =3D "DNS=3Dyes,DNS=3Dno"
+=20
+ # see configure.patch
+ do_configure () {
+@@ -29,7 +30,7 @@ do_configure () {
+ 	  cd lib && \
+ 	  # PACKAGECONFIG_CONFARGS for this recipe could only possibly contain =
+'HWDB=3Dyes/no',
+ 	  # so we put it before ./configure
+-	  ${PCI_CONF_FLAG} ${PACKAGECONFIG_CONFARGS} ./configure ${PV} ${datadi=
+r} ${TARGET_OS} ${TARGET_ARCH}
++	  ${PACKAGECONFIG_CONFARGS} ./configure ${PV} ${datadir} ${TARGET_OS} $=
+{TARGET_ARCH}
+ 	)
+ }
+=20
+@@ -38,7 +39,7 @@ export SBINDIR =3D "${sbindir}"
+ export SHAREDIR =3D "${datadir}"
+ export MANDIR =3D "${mandir}"
+=20
+-EXTRA_OEMAKE =3D "-e MAKEFLAGS=3D ${PCI_CONF_FLAG}"
++EXTRA_OEMAKE =3D "SHARED=3Dyes STRIP=3D LIBDIR=3D${libdir} -e MAKEFLAGS=3D=
+"
+=20
+ ASNEEDED =3D ""
+=20
+--=20
+2.42.1
 
 
