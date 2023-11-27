@@ -1,89 +1,211 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F29BC4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 17:16:50 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.100618.1701105404600572627
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4094FC46CA3
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 17:18:00 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.100665.1701105472330256796
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 09:16:44 -0800
+ Mon, 27 Nov 2023 09:17:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dIf9qdo3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ktrjEHRQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018c11c88677-207d9839-da52-454e-826a-a38c92b4640d-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701105403; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=x9MIlds1ejlZLGjT+Q/ZYrQcgPucA65Ov92LTVtjPX4=;
-	b=dIf9qdo3E/ll/o07mbPaAJVWodrz1T5IlLf9m0EYDrpAL6tVjuVTIOLSed8DNKOi
-	UUgwEGQ1gbkZP+gt6hLoidHqX9Q5MZmEjpnZu9O3oSzk7Q7QGEvSTXrNZ9kCXeOufHU
-	BEFErlvcpCWMgHnQc7I5Wfw9Nop3Lp9vyvDfxbAQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701105403;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=x9MIlds1ejlZLGjT+Q/ZYrQcgPucA65Ov92LTVtjPX4=;
-	b=ktrjEHRQ++5Xq5Fdko1HbD3u8Q/iQC5QoM7zoPhM8iVl8PBXEKVCNn6BeHT/8HtP
-	YDwdodeHaFUDxki58BVgaZfbIL188Y2oJ4xyOngYCO+NN9qGG78BkcKd5B5+VnfwV1m
-	2tg0B0L10pmzwB2BgfbAVrOSJqa3XU/RfPYBbBoU=
-From: patchtest@automation.yoctoproject.org
-To: Ashish Sharma <asharma@mvista.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][dunfell][PATCH] mdadm: Backport fix CVE-2023-28938
-In-Reply-To: 20231127170223.28941-1-asharma@mvista.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c11c88677-207d9839-da52-454e-826a-a38c92b4640d-000000@us-west-2.amazonses.com>
-Date: Mon, 27 Nov 2023 17:16:43 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.27-54.240.27.23
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=rjx3nhkA;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.47, mailfrom: jstephan@baylibre.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40b4023ea99so14015555e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 09:17:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701105470; x=1701710270; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7cb+bmsxqysR6yxp0FN8b0/PImhLaVQqAwRfLXSc60A=;
+        b=rjx3nhkAnZZShDqVgbLD1ZSZcYAX93j6LMgl3ry8AusKxpaL1sACDh3CsCzNhwm95+
+         +jFByWsrLDxr1Led/Gm7jm2SZSAdvgK/Spd4shVBu3ttO2ZmdZqAsZONFuN8kyiw2k9c
+         GJlhrtRhKKf/42IylowSI/8ck3HZkNo0OuOJp90B//N9w7puD+VoHc6/yNF1stwuPM15
+         54+7MCx68E72t0jQB/uLMw82BI2+9adR+IuHaTx8i9dieZsDkdTaM01WV+MXI7XK0n0c
+         tfJnRO/g6OCD+qXi4SbSLDfqSo3v7MMYJAHeCjJ8ZDZiRv4c+ZQKAFun3oEN6Y/oXBd/
+         oPDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701105470; x=1701710270;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7cb+bmsxqysR6yxp0FN8b0/PImhLaVQqAwRfLXSc60A=;
+        b=jyvjWIBZ7HEFwqwwCyTr+uR+vs7AyxF7e3G9K6KTCpVMNRBpQv2cPcI4k5WlMbMFLm
+         1BFJOfaJi572w5gjxg5YhJPO6tYZYkQKwbaYePgnpX2EvnDC70CylhhT0c6qc3g7w40E
+         SktZ/0I8Ct+Tka+r52+xoeDAkNmTbfCTmq/3OLtpr4gdz59Y/3Z5tNVB9odpMIQu8aRi
+         ZKRUJLN1NH4+0GKYu7y+1cYsVEbK7N/8l+p30ZdIp2KRcavFGkoYlzmo18cRhPbR1MyW
+         VhFvHrOG1jlL7KW1INitP0ElVRdLFJvPuxT4Z9H0P+uyW/nM/9z068rjXK1Dg6/h3nrt
+         0wAQ==
+X-Gm-Message-State: AOJu0Yz4fcJJSMxJ8Px//Iesgvl3wDLsyQNrri3HTBR4DS1BzVZpFYzM
+	DHa8vMoBxrbyoUOPwNCSx3XZn9nNtM0J57QFME+1ag==
+X-Google-Smtp-Source: AGHT+IFxHGU/9PWBhPZjnyYatx79qJ6ZP77XYJwl33iLOvCdiebAiHBMZlqPshk99ymYy3kvhVGg0w==
+X-Received: by 2002:a05:600c:3505:b0:40a:5129:c284 with SMTP id h5-20020a05600c350500b0040a5129c284mr5618848wmq.35.1701105469864;
+        Mon, 27 Nov 2023 09:17:49 -0800 (PST)
+Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
+        by smtp.gmail.com with ESMTPSA id r12-20020a05600c35cc00b0040b3e7569fcsm9156684wmq.11.2023.11.27.09.17.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 09:17:49 -0800 (PST)
+From: Julien Stephan <jstephan@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Julien Stephan <jstephan@baylibre.com>
+Subject: [PATCH] recipetool: create: add support for crates
+Date: Mon, 27 Nov 2023 18:17:42 +0100
+Message-ID: <20231127171742.416913-2-jstephan@baylibre.com>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231127171742.416913-1-jstephan@baylibre.com>
+References: <20231127171742.416913-1-jstephan@baylibre.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 17:16:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191311
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 17:18:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191312
 
---NextPart
-Content-Type: text/plain
+This commit adds a new plugin for creating recipes for crates (rust based
+applications).
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+TODO: add more description here on final version of the patch
 
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
-Testing patch /home/patchtest/share/mboxes/dunfell-mdadm-Backport-fix-CVE-2023-28938.patch
+ scripts/lib/recipetool/create_cargo.py | 125 +++++++++++++++++++++++++
+ 1 file changed, 125 insertions(+)
+ create mode 100644 scripts/lib/recipetool/create_cargo.py
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/scripts/lib/recipetool/create_cargo.py b/scripts/lib/recipetool/create_cargo.py
+new file mode 100644
+index 00000000000..d24ce63509c
+--- /dev/null
++++ b/scripts/lib/recipetool/create_cargo.py
+@@ -0,0 +1,125 @@
++# Recipe creation tool - cargo support plugin
++#
++# Copyright (c) 2023 BayLibre, SAS
++# Author: Julien Stephan <jstephan@baylibre.com>
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++import logging
++import os
++from recipetool.create import RecipeHandler
++
++logger = logging.getLogger("recipetool")
++
++tinfoil = None
++
++
++def tinfoil_init(instance):
++    global tinfoil
++    tinfoil = instance
++
++
++class CargoRecipeHandler(RecipeHandler):
++    """
++    Base class to support rust crate
++    """
++
++    # The supported metadata list
++    # Exaustive list available here: https://doc.rust-lang.org/cargo/reference/manifest.html#the-manifest-format
++    manifest_package_table = [
++        "name",
++        "version",
++        "homepage",
++        "description",
++        "license",
++        "license-file",
++        "dependencies",
++    ]
++
++    bbvar_map = {
++        "name": "PN",
++        "version": "PV",
++        "homepage": "HOMEPAGE",
++        "description": "SUMMARY",
++        "license": "LICENSE",
++    }
++
++    def __init__(self):
++        pass
++
++    def process(
++        self, srctree, classes, lines_before, lines_after, handled, extravalues
++    ):
++        if "buildsystem" in handled:
++            return False
++
++        # Check for non-zero size Cargo.toml file
++        manifestfiles = RecipeHandler.checkfiles(srctree, ["Cargo.toml"])
++        for fn in manifestfiles:
++            if os.path.getsize(fn):
++                break
++        else:
++            return False
++
++        manifest = os.path.join(srctree, "Cargo.toml")
++
++        lockfile = RecipeHandler.checkfiles(srctree, ["Cargo.lock"])
++        if lockfile == []:
++            logger.error(
++                "No cargo lock found, this is not yet supported, falling back to another method"
++            )
++            return False
++
++        try:
++            import tomllib
++        except ImportError:
++            try:
++                import tomli as tomllib
++            except ImportError:
++                logger.exception(
++                    "Neither 'tomllib' nor 'tomli' could be imported. Please use python3.11 or above or install tomli module"
++                )
++                return False
++            except Exception:
++                logger.exception("Failed to parse pyproject.toml")
++                return False
++
++        try:
++            with open(manifest, "rb") as f:
++                config = tomllib.load(f)
++
++            metadata = config["package"]
++
++            if metadata:
++                for field, value in metadata.items():
++                    if field in self.manifest_package_table:
++                        if field == "license":
++                            # license field is an SPDX 2.1 license expression
++                            # https://doc.rust-lang.org/cargo/reference/manifest.html#the-license-and-license-file-fields
++                            value = value.replace("AND", "&")
++                            value = value.replace("OR", "|")
++                            # even if deprecated we can still find some old crate using "/" to separate mulitple licenses
++                            value = value.replace("/", " & ")
++                        elif field == "license-file":
++                            # TODO: handle this properly
++                            continue
++
++                        extravalues[self.bbvar_map[field]] = value
++
++            if "dependencies" in extravalues:
++                lines_after.append("include ${BPN}-crates.inc")
++                extravalues.pop("dependencies")
++            classes.append("cargo")
++            classes.append("cargo-update-recipe-crates")
++            handled.append("buildsystem")
++        except Exception:
++            logger.exception(
++                "Failed to correctly handle Cargo.toml, falling back to another method"
++            )
++            return False
++
++
++def register_recipe_handlers(handlers):
++    # We need to make sure these are ahead of the makefile fallback handler
++    handlers.append((CargoRecipeHandler(), 80))
+-- 
+2.42.0
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
