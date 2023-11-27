@@ -1,122 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22F8AC4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:21:58 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.91678.1701080515381745466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 263AFC4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:24:58 +0000 (UTC)
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web10.92037.1701080695990390440
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 02:21:55 -0800
+ Mon, 27 Nov 2023 02:24:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CbV9MTVs;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c876e44157so49156421fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:21:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701080513; x=1701685313; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pdLtdlAxwlfuzRgMg9yvM6i/A8fWoAcNVdSvgcYvwTU=;
-        b=CbV9MTVsGDBS+Z6Yu3svDEK+nDxaEYbotlPjYVSlnmELXoaCLCuT8hi3YgwRT6FYtr
-         nVRICeQAEpe91w+4wtN7xWu+Wbf72FzbcItFNPKdOMB0TwsUVRxYlRjf7wLYO+a2DKSI
-         yf4amLbAvdnIITglMgZ1ACr44lKNUYHVNkyR1Mp6Gg4Qf33Ps0c7x1AcoLr/4DKJ+znw
-         VgEh4WeowZ8Ft/qLiHe6r44XbdOqPTU8tEp9JYQG1boZN339WHiOW1HSu2rF/ClcLGfe
-         LUTdYUcmAVe/6idVrDi9hT2FkzhGo/Vg7nAnEJR/qW4qklVXj7c8ggiqtwAwaGr0ypU4
-         woVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701080513; x=1701685313;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pdLtdlAxwlfuzRgMg9yvM6i/A8fWoAcNVdSvgcYvwTU=;
-        b=X3Pvoht6Dha9vLGkkXu/wGQVtVwhVTK2tbVwIFRk50lgIfg8utK71kqPZ1SdkL1BnQ
-         wqOAgR/e6A9N0GkHt1oBsnOCudtBgoO+PnJTzH58VjqaEgO4bppBhhxJg9UC/xlRS8w1
-         QgrDUqzdQw/KBbpX3GIOMpO29sLDOx1dHYt2s2DSQoyXeFqU4pxz0PDZG4tOh4dMOal6
-         Kjwz1XdImdec9+BVKfgCo/WmhgR+oslFmuEp1dVwSJXgVJww2caA3qr8iTY+9ZInD+u+
-         DoeqGA8pU/XIXvkWK60J82pge7tZ+ITx5ECQ822tUpY943DkRYzN4whwH+cXmQaiDVdy
-         Q7uA==
-X-Gm-Message-State: AOJu0YwXCqXvZQMQ/QDKRW3FvtDc7sil4pO9TOwsrG5FievpYJ9cosp1
-	ikHXqFhfArNqlCcWIA3kGMdx9rAplqxxQk807ys/20IVX6I=
-X-Google-Smtp-Source: AGHT+IFeEGJUekFmdMD9yPNy7w5rY0GVVsrEVbsvRUtlK1EYHgYfZp0KtaCQYmqv0iJ0NerucFuG9AEmVoBkQumzlu4=
-X-Received: by 2002:a2e:9d8c:0:b0:2c8:744e:dced with SMTP id
- c12-20020a2e9d8c000000b002c8744edcedmr7052145ljj.35.1701080512973; Mon, 27
- Nov 2023 02:21:52 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+Received: from fwd75.aul.t-online.de (fwd75.aul.t-online.de [10.223.144.101])
+	by mailout08.t-online.de (Postfix) with SMTP id BD8D023FD0
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 11:24:53 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.163.41.136]) by fwd75.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1r7YnM-2S7LQP0; Mon, 27 Nov 2023 11:24:52 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCHv2] default-providers.inc: add PREFERRED_PROVIDER variables for llvm
+Date: Mon, 27 Nov 2023 11:24:49 +0100
+Message-ID: <20231127102449.521512-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-References: <0101018c104b4641-881711a3-37e2-4c84-8227-1d728515a3d7-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018c104b4641-881711a3-37e2-4c84-8227-1d728515a3d7-000000@us-west-2.amazonses.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 27 Nov 2023 11:21:41 +0100
-Message-ID: <CANNYZj9M9_JZdTsLP3N23N1LXKM2ZP5LdT15jpCoiGpgLiEpwA@mail.gmail.com>
-Subject: Re: Patchtest results for [oe-core][PATCH] add PREFERRED_PROVIDER
- variables for llvm
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-TOI-EXPURGATEID: 150726::1701080692-FAFFA850-C74FF91E/0/0 CLEAN NORMAL
+X-TOI-MSGID: c0e54bfa-ce08-4ce2-b869-e86fa2a65fca
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:21:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191288
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:24:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191289
 
-Better shortlog:
+gallium-llvm needs to be built with clang if you, for example
+want to have support for opencl or want to build the intel-clc compiler.
+meta-clang recommends to set
 
-default-providers.inc: add PREFERRED_PROVIDER variables for llvm
+PREFERRED_PROVIDER_llvm =3D "clang"
+PREFERRED_PROVIDER_llvm-native =3D "clang-native"
 
-Alex
+The current problem is that this is not taken into account in mesa and th=
+erefore
+both llvm and clang are included. This leads to files that are provided b=
+y both
+packages and would also unnecessarily increase the build time.
 
-On Mon, 27 Nov 2023 at 11:20, Patchtest
-<patchtest@automation.yoctoproject.org> wrote:
->
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch /home/patchtest/share/mboxes/add-PREFERRED_PROVIDER-variables-for-llvm.patch
->
-> FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
->
-> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-> PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
->
-> SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-> SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-> SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-> SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-> SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-> SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-> SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-> SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-> SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-> SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-> SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
->
-> ---
->
-> Please address the issues identified and
-> submit a new revision of the patch, or alternatively, reply to this
-> email with an explanation of why the patch should be accepted. If you
-> believe these results are due to an error in patchtest, please submit a
-> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-> under 'Yocto Project Subprojects'). For more information on specific
-> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> you!
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#191287): https://lists.openembedded.org/g/openembedded-core/message/191287
-> Mute This Topic: https://lists.openembedded.org/mt/102826394/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Add PREFERRED_PROVIDER_llvm and PREFERRED_PROVIDER_llvm-native and make s=
+ure that the mesa recipe takes these variables into account.
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/conf/distro/include/default-providers.inc | 2 ++
+ meta/recipes-graphics/mesa/mesa.inc            | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/d=
+istro/include/default-providers.inc
+index d18173c744..819d71628b 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -37,6 +37,8 @@ PREFERRED_PROVIDER_dbus-glib ?=3D "dbus-glib"
+ PREFERRED_PROVIDER_dbus-glib-native ?=3D "dbus-glib-native"
+ PREFERRED_PROVIDER_gdk-pixbuf ?=3D "gdk-pixbuf"
+ PREFERRED_PROVIDER_libgcc ?=3D "libgcc"
++PREFERRED_PROVIDER_llvm ?=3D "llvm"
++PREFERRED_PROVIDER_llvm-native ?=3D "llvm-native"
+ PREFERRED_PROVIDER_nativesdk-libgcc ?=3D "nativesdk-libgcc"
+ PREFERRED_PROVIDER_linux-libc-headers ?=3D "linux-libc-headers"
+ PREFERRED_PROVIDER_nativesdk-linux-libc-headers ?=3D "nativesdk-linux-li=
+bc-headers"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+index e5c405a972..1a971242c9 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -183,7 +183,7 @@ GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACK=
+AGECONFIG', 'r600', ',r600',
+ GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'virgl'=
+, ',virgl', '', d)}"
+=20
+ PACKAGECONFIG[gallium] =3D "-Dgallium-drivers=3D${@strip_comma('${GALLIU=
+MDRIVERS}')}, -Dgallium-drivers=3D'', libdrm"
+-PACKAGECONFIG[gallium-llvm] =3D "-Dllvm=3Denabled -Dshared-llvm=3Denable=
+d, -Dllvm=3Ddisabled, llvm llvm-native elfutils"
++PACKAGECONFIG[gallium-llvm] =3D "-Dllvm=3Denabled -Dshared-llvm=3Denable=
+d, -Dllvm=3Ddisabled, ${PREFERRED_PROVIDER_llvm} ${PREFERRED_PROVIDER_llv=
+m-native} elfutils"
+ PACKAGECONFIG[xa]  =3D "-Dgallium-xa=3Denabled, -Dgallium-xa=3Ddisabled"
+ PACKAGECONFIG[va] =3D "-Dgallium-va=3Denabled,-Dgallium-va=3Ddisabled,li=
+bva-initial"
+ PACKAGECONFIG[vdpau] =3D "-Dgallium-vdpau=3Denabled,-Dgallium-vdpau=3Ddi=
+sabled,libvdpau"
+--=20
+2.42.1
+
 
