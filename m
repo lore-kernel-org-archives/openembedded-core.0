@@ -1,99 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9BFC4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 13:45:49 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.94785.1701092745715578709
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 338CDC07CB1
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 13:49:39 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.95053.1701092970909863790
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 05:45:46 -0800
+ Mon, 27 Nov 2023 05:49:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Dti9mpRB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-331733acbacso2882872f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 05:45:45 -0800 (PST)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=Qlk43hez;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40b3e7f2fd9so17110305e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 05:49:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1701092744; x=1701697544; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JyRXfbTK77pbqDhjgOOQfJXL0DdO/IcmN/xnNJR+b6M=;
-        b=Dti9mpRBmYhvHoIoFxZcnv556wx5XDM99Yc0YPaMV5MLrNrBz7uN/3/yZbA4QjU9z6
-         iMdE8JCpnkxtFd3UjhhItdS/6Huh0qb2brKDMOOQVE8adY5NAUIa1DyUYnjnNhgOwZfV
-         nXCEkbDHSjtPJNJ57NzUcq/U6hzZsyKxnIvts=
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1701092969; x=1701697769; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QyhnO4Gc8H8Y9w+f6rWqQh9YPG3IFKCCK6TjWy+zpPE=;
+        b=Qlk43hezjjdfFCitD5h51n7VoBjVMaybbnki4N+io9qk6rDZGESqR+VaGkTLsESacS
+         SiheTxmTJh2SJ15mJBzeP+gKDUJLNZTthGj/6UAIQPVwbg4jj72gJ6p4xTXZ9WMxo5N8
+         6MmQizDozprW3llOfPt9CxJnA+0/STWV5eDNwtxTIh98xvwCRoWVcrnByLmj4vPnokhC
+         aTU7enFJJ125I6+xyyaXjOSzTXcZQrJxgCtjQFkMq72+NrS4VYwULDTS+2eK5JYmQIY6
+         JhjFRJRpH3SijHfZQvcsYBL4UCHZIo15ENcbM9tPgH5NETrAEoBsUpWZjtQW1ClJX1F4
+         g3Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701092744; x=1701697544;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JyRXfbTK77pbqDhjgOOQfJXL0DdO/IcmN/xnNJR+b6M=;
-        b=IbotEJD+andN7gI8TM+E8k2+hlhPESbiUYh6eBPzEzV+RByt32dNM9OfGteT/0on+y
-         NripjwE/Sa4gA/8tNHIgb+S5EXtFoPf9d18qBMwtD0nkjrdHM8eWuLA1YfR3m0dV944X
-         DQHYO8EjsnAIohPhSvmdNgN0vkimQuSjHbu0w3d9sAnFmO53pdUKDjuUAzwLiTIdc/7X
-         O6Nede4uZOVkU6DwuqltG7+KtVxrC5K2yVfxCI+jWsv/1fSBIM0AS1EP57P52O+Xaewn
-         fKq/Qs17Jcdf7R4oZEulRn1kVAYg0+jiRGmzYagK5Jw49eS/nYEnjq/AGcpVdPwaD6ng
-         VUgA==
-X-Gm-Message-State: AOJu0Yzgd6z/fVfrSzImT7W/vJKUBbIk7iGO2U06iWNX2UdjfDfm8VYj
-	I04jWUyW+1xqcdHb5SbqCLo6XA==
-X-Google-Smtp-Source: AGHT+IHK7FLmLXv86lhLD5h7xkgAJd8AMjE4oxZWU44jSlF/q6Ws80WQAAG7n69+4pRKg0YJEhR88w==
-X-Received: by 2002:a5d:530e:0:b0:332:d504:c138 with SMTP id e14-20020a5d530e000000b00332d504c138mr9056542wrv.1.1701092744013;
-        Mon, 27 Nov 2023 05:45:44 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:430c:b470:8466:3e0? ([2001:8b0:aba:5f3c:430c:b470:8466:3e0])
-        by smtp.gmail.com with ESMTPSA id s18-20020a5d6a92000000b00332eaede976sm9013265wru.86.2023.11.27.05.45.43
+        d=1e100.net; s=20230601; t=1701092969; x=1701697769;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QyhnO4Gc8H8Y9w+f6rWqQh9YPG3IFKCCK6TjWy+zpPE=;
+        b=nKcqLwAGGgRX4N4Sm6ZZ0iWxXgaBMxU3J3+ZBflt6xfjuNwt5UPOo2vl9ASMlpw1Sl
+         Wa9HFyv+pkB5DlOST3GG/orX6EQh8NJB6RUIdOIYQeQsvCklUNKg8XLj30FEHGC2ApbR
+         d1V94cGF7r0K8+lUacQmi3xPnAfVClQ2E9DNYB1Yq6SXItYxBdhp5Dh8wGqYjo2Oq8na
+         vAPeW+zKmw/LXCYsDgctcQg8aTVrK9vp8ofkq8k0lItcyrdKCm6i5+ua7SHMaSVM/o3J
+         +gB42JlZcKN1BNgZhDhqP5DhAI2VbLuy7fYw8riWQ2uA2/UGK/pSUnSPjhVi0cLWl1RN
+         cvWQ==
+X-Gm-Message-State: AOJu0Yw5vBVwD+Fw9r5+jcwTGLxJYizRAq3Gh1T8CHBBgy1DaguReHXn
+	quBbZ2YettbnHPvfeIBaBbKalDCrRZ6e+zqEXx0=
+X-Google-Smtp-Source: AGHT+IGXY3JZgJrxPE8DpWyvVjTN9ePtqmD0NiR8a5yhhkgtQFLyEgWNaAAJwSciOrG4Ns9mb+CUug==
+X-Received: by 2002:a05:600c:158a:b0:406:7021:7d8 with SMTP id r10-20020a05600c158a00b00406702107d8mr8029452wmf.20.1701092968667;
+        Mon, 27 Nov 2023 05:49:28 -0800 (PST)
+Received: from P-ASN-ECS-830T8C3.local ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id t8-20020a05600c198800b0040b481222e3sm2086440wmq.41.2023.11.27.05.49.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 05:45:43 -0800 (PST)
-Message-ID: <e784d0eeb3b0232f0df98b385ace92dfc625c191.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 0/2] patch: reduce changes during patch
- refresh
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Lukas Funke <lukas.funke-oss@weidmueller.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Lukas Funke
-	 <lukas.funke@weidmueller.com>
-Date: Mon, 27 Nov 2023 13:45:42 +0000
-In-Reply-To: <20231122140811.1021807-1-lukas.funke-oss@weidmueller.com>
-References: <20231122140811.1021807-1-lukas.funke-oss@weidmueller.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Mon, 27 Nov 2023 05:49:28 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] lib/oe/patch: handle creating patches for CRLF sources
+Date: Mon, 27 Nov 2023 14:49:03 +0100
+Message-Id: <20231127134903.1327808-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 13:45:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191302
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 13:49:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191303
 
-On Wed, 2023-11-22 at 15:08 +0100, Lukas Funke wrote:
-> From: Lukas Funke <lukas.funke@weidmueller.com>
->=20
-> The patch series aims to reduce the noise in patches created by devtools.=
- Some
-> diffs are just introduced due to an update in the hash or in the diffstat=
-s.
-> These changes are not important to a reviewer.
->=20
-> Stefan Herbrechtsmeier (2):
->   patch: extract patches without diffstats
->   patch: extract patches with all-zero hash
->=20
->  meta/lib/oe/patch.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+Using devtool to patch CRLF based sources creates patch files which have
+mixed end of lines : LF for headers and CRLF for source context and
+modified lines.
 
-I'm fairly sure but haven't conclusively proven this causes these
-failures:
+Python open(..., newline=None) (default for newline arg)does detect
+end-of-line in this mixed file but only outputs LF EOL data. This
+result in patch files that does not apply on the original sources.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6095/step=
-s/14/logs/stdio
+Switching to open(..., newline='') allows to detect end-of-line but keep
+the original end-of-line intact. This generate correct patches for CRLF
+based sources.
 
-2023-11-23 23:31:16,216 - oe-selftest - INFO - RESULTS - devtool.DevtoolUpd=
-ateTests.test_devtool_update_recipe_local_patch_gz: FAILED (65.60s)
-2023-11-23 23:31:16,216 - oe-selftest - INFO - RESULTS - devtool.DevtoolUpd=
-ateTests.test_devtool_update_recipe_long_filename: FAILED (53.35s)
-2023-11-23 23:31:16,216 - oe-selftest - INFO - RESULTS - devtool.DevtoolUpd=
-ateTests.test_devtool_update_recipe_with_gitignore: FAILED (44.11s)
+Fixes [YOCTO #15285]
 
-Cheers,
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/lib/oe/patch.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index ff9afc9df9..7bf660978e 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -477,7 +477,7 @@ class GitApplyTree(PatchTree):
+                         patchlines = []
+                         outfile = None
+                         try:
+-                            with open(srcfile, 'r', encoding=encoding) as f:
++                            with open(srcfile, 'r', encoding=encoding, newline='') as f:
+                                 for line in f:
+                                     if line.startswith(GitApplyTree.patch_line_prefix):
+                                         outfile = line.split()[-1].strip()
+-- 
+2.30.2
+
 
