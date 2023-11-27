@@ -2,39 +2,39 @@ Return-Path: <badganchipv@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28D84C4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 06:55:26 +0000 (UTC)
-Subject: Re: [meta][kirkstone][PATCH 2/2] rsync: Turn on -pedantic-errors at the end of 'configure'
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10506C4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 06:56:06 +0000 (UTC)
+Subject: Re: [meta][kirkstone][PATCH 1/2] rsync: Add missing prototypes to function declarations
 To: openembedded-core@lists.openembedded.org
 From: "Pawan Badganchi" <badganchipv@gmail.com>
 X-Originating-Location: US (136.226.233.17)
 X-Originating-Platform: Linux Chrome 119
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Sun, 26 Nov 2023 22:55:23 -0800
-References: <20230330060328.8654-2-badganchipv@gmail.com>
-In-Reply-To: <20230330060328.8654-2-badganchipv@gmail.com>
-Message-ID: <9575.1701068123696259232@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="4Lr1Zpzf15ZSxXByys2f"
+Date: Sun, 26 Nov 2023 22:55:57 -0800
+References: <20230330060328.8654-1-badganchipv@gmail.com>
+In-Reply-To: <20230330060328.8654-1-badganchipv@gmail.com>
+Message-ID: <9575.1701068157617019984@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="NxtAOchUnbNZebOXOkie"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 06:55:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191255
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 06:56:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191256
 
---4Lr1Zpzf15ZSxXByys2f
+--NxtAOchUnbNZebOXOkie
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Could you please take this change.
+Could you please take this change
 
---4Lr1Zpzf15ZSxXByys2f
+--NxtAOchUnbNZebOXOkie
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,<br /><br />Could you please take this change.
+Hi,<br /><br />Could you please take this change
 
---4Lr1Zpzf15ZSxXByys2f--
+--NxtAOchUnbNZebOXOkie--
 
