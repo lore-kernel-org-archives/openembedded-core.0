@@ -1,131 +1,88 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5916BC4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 07:33:46 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.88445.1701070425560118477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16A0AC4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 09:52:37 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web11.91304.1701078754537376279
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Nov 2023 23:33:45 -0800
+ Mon, 27 Nov 2023 01:52:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ks9uiNEL;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40b4023ea99so9773025e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Nov 2023 23:33:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j0m0fhC6;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: zboszor@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a00b056ca38so532246466b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 01:52:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701070424; x=1701675224; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1701078752; x=1701683552; darn=lists.openembedded.org;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WCm/Zn63CnIOoiDBAN7q9Oa6Z57+bLkRXP6DoMYe2oI=;
-        b=ks9uiNELU/vxCvhICROO2vA3Veok+ox0g8VVyHr79hg2JtGr1vzDLvkBxaDrfxGBWm
-         VITzqCxeXvRutaeHZP8WJXFWDq5GmWKkpvmp+sVmocg/TKe9Es1DadVCZOO3T3LRMR6v
-         spV8Q44AeXHy+gwMEuY+gJwGfO3Ofo0gP7uPxcx4Lf+dmIgA6Trv1LQUy/zF/ROqMQlo
-         3r6rdnwyz0jIVBg7X8iYwA4hvu8sRnTum5NfcB6RYhHNTA2dFYrjN3i5sUjtWcqOPmVe
-         t+epG+AfVBgaAyoF1T61wtUqT2lYJqZEMCmsH1/MlWChGRRfWuu/VcwgqYIcRsAymVbJ
-         wJHg==
+        bh=MzSbMrObNi0WZAdUGTz3rm/QAsxQj1V8sthOcTebCo8=;
+        b=j0m0fhC6aWPilUVjkk3qUQNnR59KbiX7kjhJhZkuMI7fyTQRIHwiZWjWXEmQ24kspH
+         8v/BogFsLeFaH9I68AV/xiZpRfad4ZsnuTLOjVYo2R6qIFWfZ8ehMqi6AEg5NpyCi9Pe
+         IbEDvE4krT6e4AFTc894H1WRPXTjeZrCIjNgRcyIzb1pc3rNC6wj8CVsVIXRB6B2rVup
+         eVJ9cxvWILh8JrBeWRrAU4mxvtpkYhy1FOszJynXNkt4YHj9lJywZqXnEHviIme0OO/y
+         fsh4ZYZjL9NQi77y/Y9b8wLGUTP8+RuUzZl6nx/PlQxjrxpHxlODLIlIdTh5ylInO5un
+         eRDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701070424; x=1701675224;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WCm/Zn63CnIOoiDBAN7q9Oa6Z57+bLkRXP6DoMYe2oI=;
-        b=aiWudOrmQA3DFzHNQG0FWItpWOAqtj+mrLuvNaBQmSBiVjUCITXyKncCdHVtZJkB9f
-         mEAkTOx3Uy5L6WPDV54yfoaKCnGpMS0/HfSB5uvyuIU5NFKDt9z4jHA93dMwqA+qieeJ
-         N/23ToilfIA7TqPlP88r2oDn8Ndlrjqq0SqDqloKdMfDb0963yALwMZsLEbRL5IgCs4p
-         DtiKYyKGJ0xhjbQPO+U48xqxJtp2AgG11dPQHLe8siBn2y189YW8c/W4WdfoMcI8ce/T
-         cAJqTloTNUzCpqg5lDbAtY/ZhuNPGn+kmHygbWvAFyA2A164kRXAQtlUQYKsbDx3ar1a
-         PclA==
-X-Gm-Message-State: AOJu0Ywtncr6rFqsb92qDM1p4+H+17dZd2YzeHUBIU7irrrHejLR8zu6
-	tJqupcZOeiBkUBGqacblUyrUM3vwdbc=
-X-Google-Smtp-Source: AGHT+IEw+t1P32Q3XuWvwoLQQB8zbVXZ0/arWEqRVKsbSMxqcwh/tjFeiwSCBKWzx/iU7ZnL3BDO8g==
-X-Received: by 2002:a05:600c:4589:b0:40b:357c:bb9f with SMTP id r9-20020a05600c458900b0040b357cbb9fmr3831732wmo.33.1701070423637;
-        Sun, 26 Nov 2023 23:33:43 -0800 (PST)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id p8-20020a05600c358800b0040b461550c4sm2710497wmq.42.2023.11.26.23.33.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 23:33:43 -0800 (PST)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 1/1] cmake-qemu.bbclass: support qemu for cmake
-Date: Mon, 27 Nov 2023 08:33:31 +0100
-Message-ID: <20231127073337.630358-2-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231127073337.630358-1-adrian.freihofer@siemens.com>
-References: <20231127073337.630358-1-adrian.freihofer@siemens.com>
+        d=1e100.net; s=20230601; t=1701078752; x=1701683552;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=MzSbMrObNi0WZAdUGTz3rm/QAsxQj1V8sthOcTebCo8=;
+        b=NJKEpoShV6K5/aeb8tWC0gHsCMS/VHLoRpeMAnGebXQATPrC2cSSbFhVda2EeZB7Mf
+         vWmasEy8B9eC4wfhHJ1Bl7zF4UYEMMLDKH24KdMDRMKqfqfg1dGcKXNV/CGqw48Yp2rF
+         lWHoQN52tZqfdMk70q8BgatFmXiqhkiUVx0hZljGSe4kZGPDa+sWNWAWysgB1OwfkRLu
+         hJZzRSS6Tkt9S80nf9L03l9QvgcfyMzv3mRMl9jQJ/iNHtb+m/P1h3pyK2yS2l9IGvOR
+         LX1MGqFfEITCXdpc2At3C/u+3Uu871vkPHV96A6AkVxTrjAnhatbi8nQ6t0C5VmDDzMv
+         pQnQ==
+X-Gm-Message-State: AOJu0YwqzWyXddNtw5iGxroZKrfI79itsfsS1FqGKh3IVAxRaQqKPXQe
+	puIluO8S6PBw8Oet7fWhMuaM4M44Szg=
+X-Google-Smtp-Source: AGHT+IEkTq/dR1+VXnO0IHSL4zDo583apMH85rYb0DFeNW+d2n0RNk7aplc7ddyn0DyP6uNU/o5FQQ==
+X-Received: by 2002:a17:906:1009:b0:a09:e781:97ef with SMTP id 9-20020a170906100900b00a09e78197efmr8244922ejm.73.1701078752035;
+        Mon, 27 Nov 2023 01:52:32 -0800 (PST)
+Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id e5-20020a17090681c500b00985ed2f1584sm5530595ejx.187.2023.11.27.01.52.31
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Nov 2023 01:52:31 -0800 (PST)
+Message-ID: <3cd66d19-6e0c-4b1b-a990-723cd445698f@gmail.com>
+Date: Mon, 27 Nov 2023 10:52:31 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: openembedded-core@lists.openembedded.org
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+Subject: bitbake-server does not exit after build ends
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 07:33:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191261
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 09:52:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191263
 
-Define the CMAKE_CROSSCOMPILING_EMULATOR variable similar to what the
-meson bbclass does. This allows for example to execute cross compilied
-unit tests on the build machine when using an SDK.
+Hi,
 
-CMAKE_CROSSCOMPILING_EMULATOR is a semi colon separated list of
-paramters which could directly handle the -L and the -E parameters.
-Creating a wrapper script is not absolutely mandatory. But anyway lets
-do it similar to what the meson.bbclass does and also disable pseudo.
+I am not sure what's the actual problem here.
 
-Further information can be found in the camke documentation in the
-CMAKE_CROSSCOMPILING_EMULATOR section.
+FWIW, I have recently upgraded my laptop to Fedora 39
+where I test recipe changes first.
 
-Keep the code optional, as the core does not need this function and does
-not intend to use it in the future.
+Now, whenever a build ends (no matter if successfully or
+if there was a recipe build failure) two bitbake-server
+processes stay running.
 
-[YOCTO #15214]
+As a result, the next bitbake run spits out messages about
+the previous instance holding bitbake.lock and retries.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/classes-recipe/cmake-qemu.bbclass | 32 ++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
- create mode 100644 meta/classes-recipe/cmake-qemu.bbclass
+Fedora 39 has Python 3.12 but maybe an outdated python
+module is the issue.
 
-diff --git a/meta/classes-recipe/cmake-qemu.bbclass b/meta/classes-recipe/cmake-qemu.bbclass
-new file mode 100644
-index 0000000000..482ad91895
---- /dev/null
-+++ b/meta/classes-recipe/cmake-qemu.bbclass
-@@ -0,0 +1,32 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+# Not all platforms are supported by Qemu. Using qemu-user therefore
-+# involves a certain risk, which is also the reason why this feature
-+# is not part of the main cmake class by default.
-+#
-+# One use case is the execution of cross-compiled unit tests with CTest
-+# on the build machine. If CMAKE_EXEWRAPPER_ENABLED is configured,
-+#   cmake --build --target test
-+# works transparently with qemu-user. If the cmake project is developed
-+# with this use case in mind this works very nicely also out of an IDE
-+# configured to use cmake-native for cross compiling.
-+
-+inherit qemu cmake
-+
-+DEPENDS:append:class-target = "${@' qemu-native' if bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, False, d) else ''}"
-+
-+cmake_do_generate_toolchain_file:append:class-target() {
-+    if [ "${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'True', 'False', d)}" ]; then
-+        # Write out a qemu wrapper that will be used as exe_wrapper so that camake
-+        # can run target helper binaries through that. This also allows to execute ctest.
-+        qemu_binary="${@qemu_wrapper_cmdline(d, '${STAGING_DIR_HOST}', ['${STAGING_DIR_HOST}/${libdir}','${STAGING_DIR_HOST}/${base_libdir}'])}"
-+        echo "#!/bin/sh" > "${WORKDIR}/cmake-qemuwrapper"
-+        echo "$qemu_binary \"\$@\"" >> "${WORKDIR}/cmake-qemuwrapper"
-+        chmod +x "${WORKDIR}/cmake-qemuwrapper"
-+        echo "set( CMAKE_CROSSCOMPILING_EMULATOR ${WORKDIR}/cmake-qemuwrapper)" \
-+          >> ${WORKDIR}/toolchain.cmake
-+    fi
-+}
--- 
-2.41.0
+I am happy to try any ideas.
+
+Thanks in advance,
+Zoltán
 
 
