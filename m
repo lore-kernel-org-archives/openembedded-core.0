@@ -1,118 +1,100 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40745C4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 17:18:00 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.100664.1701105472293741071
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A45EC0755A
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 17:20:30 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.100524.1701105629840080048
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 09:17:53 -0800
+ Mon, 27 Nov 2023 09:20:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=tq6iOHmp;
- spf=pass (domain: baylibre.com, ip: 209.85.208.179, mailfrom: jstephan@baylibre.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2c88750e7d1so54435831fa.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 09:17:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IUnN0PVT;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5bdb0be3591so3468261a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 09:20:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701105469; x=1701710269; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701105629; x=1701710429; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cR8fgXzAYG8r3dlL8iM8sIffn/d+SofYKH3MSNdWR0k=;
-        b=tq6iOHmp5HKRmyZ8pJOXPvttfpsavZ/gx3mvummOEs6QzQG2YVQGuNWb2kDLtDca7l
-         HNEbCGIcAV6mqn9EyNJGUVoPYkYoBhSbQsIbCG3IE/qWu5QIZ03UabXMUkyLRRlD3HVq
-         zJRRIaS/BEYinc5ISDRWaJ/s6UX8tHSrzB95mJAwt0DJGip0oChi5k2aSXiLdUEaBy5r
-         gQUIFnkw+5pkU/wSUu6NZX+FtY1FW4sBHNM5j3sg9+xcuDO2A0cR8CU6IQ6vIBPO8Xx/
-         wFRWy/71fYEOPOYfKY+nZQJgd5esEL4hL4wzsXGuQlW2uFff7HwQzQdHE09lVrlTDSd0
-         eQIw==
+        bh=x3rDw6Bjj52cBl+OZpGosY4t1kvXszTpsW0EaXzmF9M=;
+        b=IUnN0PVTXpeHTWlhYMXcyyh0DrMJFPyQEGHOrSatqOzsUxMan7WqHyyD18N52KBY1Q
+         XULMrKiQ4BDa++SXBHodLGRJLnEtjtmpqtRwhPLvATnXnsG02XZksoenyLR8UNhFLPSH
+         lSoKi27ybBOb/sITWmOMXJlvmIMl+h546TBwPZlmpcqghsJ3e75D5H9LcSBCB1RUV/WC
+         5JjU/GVa99f+9vwWJjarmPEqZZ3P++QB75NhLWtiVt4pviEwxaotuXvURVpUTZAhCKHK
+         xp6DgpmHwvo/018UEYhGV8qAWVdFATHb3sKAQsMa/Oyr2ZR8hclEa+Z4Ar5LsVDv60fD
+         KaGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701105469; x=1701710269;
+        d=1e100.net; s=20230601; t=1701105629; x=1701710429;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cR8fgXzAYG8r3dlL8iM8sIffn/d+SofYKH3MSNdWR0k=;
-        b=U243xGDwQaU3HNPJVt4UFih+z0rRK+X88iuWU7eA7z9teUIIC/r1bQK4KEgo/Uvc1n
-         iGMYmV8oXv21EgNIyu9hAWaZqdJfSwu5mPemfVzpEW03K/CedzzqQ/EY8AYABtYRijj+
-         mql2u03wGvXZ3zZ771l4iPj848y9xAzcDT8UtWLayBCPxICYIJWG4MEkNCfHge3m3aVx
-         jmg/4mEwSgBMNl+n2qo/HiH3eDj786n7jhZ3mnxSGXfbYv5FmHnYW0tQN8azm5pRwakN
-         BIuM4XWLrb5d0/wvhUfk7D7Nuf6UgZHB7Msn2RdAx85O4ESeL78cIlChnEJKpxTW7g/R
-         ITSg==
-X-Gm-Message-State: AOJu0Yz3U1BX1qqPFwmCjQvs/3a6sU7XjaEI3S4THwGyrZEliTPZID/g
-	MtZc6XqugrOmZkm0MQGdXNE6Co0x5Wgt5NrV8zUMcQ==
-X-Google-Smtp-Source: AGHT+IE6wapjC/xjhjSvbQEf7P+87on3F9VLMSGAHwb1DjAzMPfAUQ1g8HrQEl4TaVfumUE6fAbBBg==
-X-Received: by 2002:a2e:989a:0:b0:2c5:1e3f:7379 with SMTP id b26-20020a2e989a000000b002c51e3f7379mr8120751ljj.48.1701105469427;
-        Mon, 27 Nov 2023 09:17:49 -0800 (PST)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id r12-20020a05600c35cc00b0040b3e7569fcsm9156684wmq.11.2023.11.27.09.17.49
+        bh=x3rDw6Bjj52cBl+OZpGosY4t1kvXszTpsW0EaXzmF9M=;
+        b=QAJGPh79JUVE5ySN+TuMUsNmyfjubawe4Wh+hJ3oX4BS32R/WDEn1mhWnM+NNkrWLU
+         Sgl/8xGOOZCI98o7b5W3A9lFvrxUt76LOWp4Z1hew53VR3Kf9KX2LJwf5Dhu/J6oNI6j
+         SLaXXF1In6HhzwIiiQ3mxPZOOuMm9zz8A15FuoYUbyqkYtEYfxcbqXVF0UPHju8LhHMF
+         sA/9uGXF6gtP14tan6oV034iTyOb5m7tZ03k/bMjxUAQqm6vt8QwR/xcuYfAsgJcBE34
+         r5qvWS3q/Y7cLb+m1BPC1soWPZBNr1/f9XugH8fFmJ3RLRGOQXY+EkiEmZE93KsB40Jg
+         rUOg==
+X-Gm-Message-State: AOJu0YzQseHt9ZG+E3gs+5ADM5CLbvmST8Fkc1BU6h1Axq7pQGJmfuDv
+	kGa7GejjCijZuj5t3kJoNKHxQybQ4U2lXA==
+X-Google-Smtp-Source: AGHT+IGQIIdgWuoBS6Kw1QAmItBxzgt6K+qEqFUCbW3dtAuBtlbnW2+yQOXrkL0X8usNUKe/1Z/DaQ==
+X-Received: by 2002:a17:903:1207:b0:1cc:5cbf:50d2 with SMTP id l7-20020a170903120700b001cc5cbf50d2mr14068033plh.59.1701105628834;
+        Mon, 27 Nov 2023 09:20:28 -0800 (PST)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:74b2:9b5a:59cc:ad2])
+        by smtp.gmail.com with ESMTPSA id o16-20020a170902d4d000b001cfc2ec5de3sm3376080plg.24.2023.11.27.09.20.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 09:17:49 -0800 (PST)
-From: Julien Stephan <jstephan@baylibre.com>
+        Mon, 27 Nov 2023 09:20:28 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [RFC][PATCH 0/1] recipetool: add plugin to create recipe for rust based application
-Date: Mon, 27 Nov 2023 18:17:41 +0100
-Message-ID: <20231127171742.416913-1-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.42.0
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] vim: upgrade 9.0.2068 -> 9.0.2130
+Date: Mon, 27 Nov 2023 09:19:33 -0800
+Message-Id: <20231127171932.3974232-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 17:18:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191313
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 17:20:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191314
 
-Hi all,
+https://github.com/vim/vim/compare/v9.0.2068...v9.0.2130
 
-This is an RFC to add support of rust recipes in recipetool.
+CVE: CVE-2023-48231
+CVE: CVE-2023-48232
+CVE: CVE-2023-48233
+CVE: CVE-2023-48234
+CVE: CVE-2023-48235
+CVE: CVE-2023-48236
+CVE: CVE-2023-48237
 
-This first version is able to create a minimal working recipe for crates
-HAVING a Cargo.lock file (needed for reproducibility issues, see [1])
-and using the following commands (using simple_genetic as example):
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+Tested vim and vim.tiny on core-image-minimal on qemux86-64
+vim.tiny complains about defaults.vim, but that is not new
 
-  - devtool add https://github.com/ValpsZ/simple_genetic
-  - bitbake -c update_crates  simple-genetic
-  - devtool finish simple-genetic <layer>
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Limitations:
-  - maybe we should factorise the code inside update_crates to avoid
-    calling it after devtool add
-  - for now the created recipe contains "include ${BPN}-crate.inc"
-    instead of "require ${BPN}-crate.inc" because when the recipe is
-    created, devtool tries to build the recipe itself and with "require"
-    the parsing fails and the recipe is discarded. Maybe first point can
-    help here. Another solution may be to write an empty ${BPN}-crate.inc
-    next to the created recipe BUT right now I don't think it is possible
-    because the process callback does not know neither the output dir nor
-    ${BPN}. Maybe adding an optionnal post_process callback can help here? 
-
-Unfortunately, most of the crates I tried, do NOT version the Cargo.lock
-file, so we need a solution for that. Maybe the "update_crates" function
-should do that? If no Cargo.lock file is found, just create one, and
-create a patch for it. When a recipe is updated, the user upgrading SRCREV
-(or the version) must be resposible to also run bitbake -c update_crates
-to update the Cargo.lock and the ${BP}-crate.inc files. I think that
-should be ok for reproducible builds? What do you think?
-
-What's next:
-  - add support for "devtool add https://crates.io/crates/simple_genetic/0.1.1" 
-  - add oeqa selftest
-  - handle the no Cargo.lock case... 
-
-NOTE: created recipes are built tested but not tested at runtime for
-now.
-
-Dev branch on poky-contrib: [2] 
-
-[1]: https://git.yoctoproject.org/poky/tree/meta/classes-recipe/cargo.bbclass#n45
-[2]: https://git.yoctoproject.org/poky-contrib/log/?h=jstephan/devtool-add-rust-support
-
-Julien Stephan (1):
-  recipetool: create: add support for crates
-
- scripts/lib/recipetool/create_cargo.py | 122 +++++++++++++++++++++++++
- 1 file changed, 122 insertions(+)
- create mode 100644 scripts/lib/recipetool/create_cargo.py
-
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index a37310afd84..6b440d89472 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
+ 
+-PV .= ".2068"
+-SRCREV = "9198c1f2b1ddecde22af918541e0de2a32f0f45a"
++PV .= ".2130"
++SRCREV = "075ad7047457debfeef13442c01e74088b461092"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 -- 
-2.42.0
+2.34.1
 
 
