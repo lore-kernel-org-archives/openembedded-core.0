@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F695C10DAA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0855C10DC2
 	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:18:07 +0000 (UTC)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web10.91946.1701080284433288510
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web10.91942.1701080282224336175
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 02:18:04 -0800
+ Mon, 27 Nov 2023 02:18:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WiR16gNr;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-548d60a4d60so5364954a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:18:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fW2EUya8;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-54b7ef7f4d5so552692a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:18:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701080283; x=1701685083; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701080281; x=1701685081; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hqpsgy3ONaslkRCh5SCKL4UrcVlW4KbVc2Mjo73D30k=;
-        b=WiR16gNrJutKChQz3YadOZfyvN+S6X/qIXqYr7U4L9L/1abbBxOPiszEB5wt1Y2MjL
-         TQs+Ht4E/CJ15BVT04AaKaGMhLaI9lj06kfMBcp8bc8OzK0+E/Y1AePPVMeDjVzjFOqy
-         dQHe2REwHw4Urfx1271zjsmJdRrFmGvSQXzrYRv0S2cF/C3M3yyMUbBWHAVPLgDaCOow
-         6EeOVIZt4fn6YH7LqiM3W3waw3yhSpW+j7dfJNYNI8D+YvlxOjFoA82QVKvhT50PXLvX
-         MLNXunixyEqqMb3u9S8vuAvQhoMnMaOaMFmzqwJlg1Bf4vZSVdf0t6ELUBMXUIc+WCTd
-         BMVw==
+        bh=eKRV2p7W9Qsk1nn/93RpoBWcvMT8PsnUv62ShOAnmc4=;
+        b=fW2EUya8gCByf+WEjn5Zrz8N30AtRsqohSU1UGXxo26kltcS3OEJK/M4rDSi4qIVKG
+         noJC38DcO54wZRSj1NtfrQMYMs2332bdi+G/dYxGy4qbxbnz0dar7de5E4gj5C6EdppD
+         qM+D1PGIdSua81etme+TyyLkukiCpk9ReBSXBSJ3Q3Yi4AVXageor8jZBeFLRCPjp9yl
+         FGSLioZLxK7uBQDC1Lm4e7Jfwtv1llHqBtUtdZuKnOSqhzUUF4OTI8r0FDVVT/uMMppy
+         636oSqxVyDQ3UfmXkK7VNgvcdE0SNuqiOmgEJs3M39pGYDJjG6OL5xOdeG8wa7o26BmM
+         7qFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701080283; x=1701685083;
+        d=1e100.net; s=20230601; t=1701080281; x=1701685081;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hqpsgy3ONaslkRCh5SCKL4UrcVlW4KbVc2Mjo73D30k=;
-        b=NvXopX4UmEjdYecq6rXXRsVe+tZk7JNO0kjMTIYH9oXXffizRnSM01YSyVFwSf+93u
-         DKufZ8rR7A7dxYt/180DwwMrQqXsPQQBcFNxG5iKhpKB4mk1IUrdamHmt22p+U8xesEP
-         nG4RB5a1oo61yV8KJX3AOWwX6QlXkvH+TvsL3iuryHLHDMHHECf/GMw3LZyK9aZhOSL6
-         RPnIaMAq3zraS/4Cx9gYbYU+e9h95W7WSWk26YwbN0e5RaStkLPLdFSkkKnSdFbgii+p
-         F0bp6LuGyL64LXBaIZ4Hnh1/41UAHuyf6K39TWgSdmbo6fYDpI8qek8JTk5CPbOhHzE0
-         leXA==
-X-Gm-Message-State: AOJu0Yy+XyJDn07b6iuqD2flf2p9M5ZDSJXftp1oHYfIo9VjdoJOPwRf
-	rMFlHG1WiOWI8PJbvizAF5gYdzJr0gc=
-X-Google-Smtp-Source: AGHT+IF2oAHSsum4Z1qihNhK9Z3e2PT9lKfymPdDMg6lCySOKz0CKbwAwnWwMhhFSnXXDvEuuOQCVA==
-X-Received: by 2002:a17:906:b299:b0:a03:ad29:a00b with SMTP id q25-20020a170906b29900b00a03ad29a00bmr9114747ejz.36.1701080282925;
-        Mon, 27 Nov 2023 02:18:02 -0800 (PST)
+        bh=eKRV2p7W9Qsk1nn/93RpoBWcvMT8PsnUv62ShOAnmc4=;
+        b=M43IDmzuUcixHAAQbaWIBTYQjgzJuyKA/SPgxHFbdnn1QWEuO6yQmGf8Jt2kCJ5olu
+         6PHbvClGQh/J96R8JaNfhJakgC9Y/0F0tybksWu5f0FJRbWERGVBkA7KVNp4TDC9RZj7
+         KAvUqdv1suBHioValgWelHQLqQIPTv0B5uVbHP39CNmrWvY9ri/N6hcevtrHWt7+Dgbo
+         Hay2L8Z7kbD6XRo+V1DYXs6F3TPhj+GJB3kXfMM37Bz6qkrsH2Mu+IJUD+teHGniDUd/
+         b73+QZYqk2lYvH7nrj6OKeSRreLx6pjQ1NsDoXQfpGiZ9hqjuZtyQ3rkCOklfuWXfJwf
+         9Khg==
+X-Gm-Message-State: AOJu0Ywzj2eLKkgaaBI81nsiZ8ULNjLzB0jF1vQWDVeNNEHRDzUzKSym
+	ARXc64bJ+HWLlvQK7mM21l9WfWBKOwg=
+X-Google-Smtp-Source: AGHT+IHnX0CLLBvKeiBEPmDeREvQI31qd6FxcGn+/ASvqTtUlMe7c+riD/0A+oL52njn7CwU4w7yeA==
+X-Received: by 2002:a17:906:738e:b0:9ff:cdf3:553 with SMTP id f14-20020a170906738e00b009ffcdf30553mr8541997ejl.61.1701080280614;
+        Mon, 27 Nov 2023 02:18:00 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h26-20020a170906585a00b00a0bf09c9483sm2757203ejs.35.2023.11.27.02.18.02
+        by smtp.gmail.com with ESMTPSA id h26-20020a170906585a00b00a0bf09c9483sm2757203ejs.35.2023.11.27.02.18.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 02:18:02 -0800 (PST)
+        Mon, 27 Nov 2023 02:18:00 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 06/19] cmake: upgrade 3.27.5 -> 3.27.7
-Date: Mon, 27 Nov 2023 11:17:38 +0100
-Message-Id: <20231127101751.3187950-6-alex@linutronix.de>
+Subject: [PATCH 02/19] useradd.bbclass: list all needed items for package_setscene task
+Date: Mon, 27 Nov 2023 11:17:34 +0100
+Message-Id: <20231127101751.3187950-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231127101751.3187950-1-alex@linutronix.de>
 References: <20231127101751.3187950-1-alex@linutronix.de>
@@ -62,38 +62,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:18:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191273
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191269
+
+Latest shadow-native links with additional libraries;
+I was unable to find a way to resolve those in setscene context
+where tasks do not contain such dependencies.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../cmake/{cmake-native_3.27.5.bb => cmake-native_3.27.7.bb}    | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- .../recipes-devtools/cmake/{cmake_3.27.5.bb => cmake_3.27.7.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.27.5.bb => cmake-native_3.27.7.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.27.5.bb => cmake_3.27.7.bb} (100%)
+ meta/classes/useradd.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.27.5.bb b/meta/recipes-devtools/cmake/cmake-native_3.27.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.27.5.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.27.7.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index ef4eec5ab1b..ecb0e487df2 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
- "
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 4d3bd9a5f56..a35785c9c23 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -179,7 +179,13 @@ SSTATEPREINSTFUNCS:append:class-target = " useradd_sysroot_sstate"
  
--SRC_URI[sha256sum] = "5175e8fe1ca9b1dd09090130db7201968bcce1595971ff9e9998c2f0765004c9"
-+SRC_URI[sha256sum] = "08f71a106036bf051f692760ef9558c0577c42ac39e96ba097e7662bd4158d8e"
+ do_package_setscene[depends] += "${USERADDSETSCENEDEPS}"
+ do_populate_sysroot_setscene[depends] += "${USERADDSETSCENEDEPS}"
+-USERADDSETSCENEDEPS:class-target = "${MLPREFIX}base-passwd:do_populate_sysroot_setscene pseudo-native:do_populate_sysroot_setscene shadow-native:do_populate_sysroot_setscene ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
++USERADDSETSCENEDEPS:class-target = "${MLPREFIX}base-passwd:do_populate_sysroot_setscene \
++                                    pseudo-native:do_populate_sysroot_setscene \
++                                    shadow-native:do_populate_sysroot_setscene \
++                                    attr-native:do_populate_sysroot_setscene \
++                                    libbsd-native:do_populate_sysroot_setscene \
++                                    libmd-native:do_populate_sysroot_setscene \
++                                    ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
+ USERADDSETSCENEDEPS = ""
  
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.27.5.bb b/meta/recipes-devtools/cmake/cmake_3.27.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.27.5.bb
-rename to meta/recipes-devtools/cmake/cmake_3.27.7.bb
+ # Recipe parse-time sanity checks
 -- 
 2.39.2
 
