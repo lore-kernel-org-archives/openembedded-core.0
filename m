@@ -1,105 +1,63 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D01F2C0755A
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 19:56:40 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.web11.104944.1701114992716899465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B966C4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 20:24:11 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web11.107777.1701116640907553095
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 11:56:33 -0800
+ Mon, 27 Nov 2023 12:24:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=IbhrRY6R;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-20231127195630f96312b2be3609ee05-dx5x9_@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20231127195630f96312b2be3609ee05
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 27 Nov 2023 20:56:30 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=uJwX6SUGxfPvTT9sZaI1AzQ7IeSg8WyOUscBTlSpS9k=;
- b=IbhrRY6RoZBu4RWiHOcBSBN4gsquZ/LZwVDens84bSNbS1ASi1085AarfklEVl8yBy9c2p
- cpKsIRFG1x4+LO5cVeLxn6XcDC5sJuz17WwrRz3v3gNQwnpPdXyZQQ0tB2Y2Caxio9CTLwKN
- /meijAWVdKyN2kMC6Jctyn9+0cwt0=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH v2 2/2] cve-update-nvd2-native: make number of fetch attemtps configurable
-Date: Mon, 27 Nov 2023 20:55:36 +0100
-Message-Id: <20231127195536.428542-2-peter.marko@siemens.com>
-In-Reply-To: <20231127195536.428542-1-peter.marko@siemens.com>
-References: <20231127195536.428542-1-peter.marko@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd81.aul.t-online.de (fwd81.aul.t-online.de [10.223.144.107])
+	by mailout01.t-online.de (Postfix) with SMTP id 95D412D43B;
+	Mon, 27 Nov 2023 21:23:26 +0100 (CET)
+Received: from [192.168.178.67] ([84.163.41.136]) by fwd81.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1r7i8b-13RMcy0; Mon, 27 Nov 2023 21:23:26 +0100
+Date: Mon, 27 Nov 2023 21:23:19 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [oe-core][PATCHv2] default-providers.inc: add PREFERRED_PROVIDER
+ variables for llvm
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <VYTS4S.W2SK2KUWKFHM2@t-online.de>
+In-Reply-To: <202311271944012140dbb6@mail.local>
+References: <20231127102449.521512-1-f_l_k@t-online.de>
+	<202311271944012140dbb6@mail.local>
+X-Mailer: geary/44.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: multipart/alternative; boundary="=-Z27+15RXPFSDN2tiy7ZC"
+X-TOI-EXPURGATEID: 150726::1701116606-FE303990-2A8BB40C/0/0 CLEAN NORMAL
+X-TOI-MSGID: 932b6d27-46c0-475b-a54c-72cc6c6837d4
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 19:56:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191324
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 20:24:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191325
 
-From: Peter Marko <peter.marko@siemens.com>
+--=-Z27+15RXPFSDN2tiy7ZC
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Sometimes NVD servers are unstable and return too many errors.
+On Mon, Nov 27 2023 at 08:44:01 PM +01:00:00, Alexandre Belloni 
+<alexandre.belloni@bootlin.com> wrote:
+> Please always include a changelog here, especially when sending 
+> multiple
+> versions in rapid succession.
 
-Last time we increased number of attempts from 3 to 5, but
-further increasing is not reasonable as in normal case
-too many retries is just abusive.
+Technically there is nothing that needs to be included in the changelog.
+Its just that I was just to dumb to understand what make -e does at 
+first and v2 just was wrong, although it worked.
+But I didn't want to highlight that ;)
 
-Keep retries low as default and allow to increase as needed.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+--=-Z27+15RXPFSDN2tiy7ZC
+Content-Type: text/html; charset=us-ascii
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 64a96a46f0..dab0b69edc 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -26,6 +26,9 @@ NVDCVE_API_KEY ?= ""
- # Use a negative value to skip the update
- CVE_DB_UPDATE_INTERVAL ?= "86400"
- 
-+# Number of attmepts for each http query to nvd server before giving up
-+CVE_DB_UPDATE_ATTEMPTS ?= "5"
-+
- CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
- 
- CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
-@@ -111,7 +114,7 @@ def cleanup_db_download(db_file, db_tmp_file):
-     if os.path.exists(db_tmp_file):
-         os.remove(db_tmp_file)
- 
--def nvd_request_next(url, api_key, args):
-+def nvd_request_next(url, attempts, api_key, args):
-     """
-     Request next part of the NVD dabase
-     """
-@@ -127,7 +130,7 @@ def nvd_request_next(url, api_key, args):
-         request.add_header("apiKey", api_key)
-     bb.note("Requesting %s" % request.full_url)
- 
--    for attempt in range(5):
-+    for attempt in range(attempts):
-         try:
-             r = urllib.request.urlopen(request)
- 
-@@ -183,10 +186,11 @@ def update_db_file(db_tmp_file, d, database_time):
-         index = 0
-         url = d.getVar("NVDCVE_URL")
-         api_key = d.getVar("NVDCVE_API_KEY") or None
-+        attempts = int(d.getVar("CVE_DB_UPDATE_ATTEMPTS"))
- 
-         while True:
-             req_args['startIndex'] = index
--            raw_data = nvd_request_next(url, api_key, req_args)
-+            raw_data = nvd_request_next(url, attempts, api_key, req_args)
-             if raw_data is None:
-                 # We haven't managed to download data
-                 return False
--- 
-2.30.2
+<div id="geary-body" dir="auto">On Mon, Nov 27 2023 at 08:44:01 PM +01:00:00, Alexandre Belloni &lt;alexandre.belloni@bootlin.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Please always include a changelog here, especially when sending multiple
+versions in rapid succession.
+</div></blockquote><div><br></div><div>Technically there is nothing that needs to be included in the changelog.</div><div>Its just that I was just to dumb to understand what make -e does at first and v2 just was wrong, although it worked.</div><div>But I didn't want to highlight that ;)</div></div>
+--=-Z27+15RXPFSDN2tiy7ZC--
 
 
