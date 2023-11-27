@@ -1,97 +1,104 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 263AFC4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:24:58 +0000 (UTC)
-Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
- by mx.groups.io with SMTP id smtpd.web10.92037.1701080695990390440
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A72C4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:41:58 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web10.92241.1701081715927657109
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 02:24:56 -0800
+ Mon, 27 Nov 2023 02:41:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
-Received: from fwd75.aul.t-online.de (fwd75.aul.t-online.de [10.223.144.101])
-	by mailout08.t-online.de (Postfix) with SMTP id BD8D023FD0
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 11:24:53 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.163.41.136]) by fwd75.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1r7YnM-2S7LQP0; Mon, 27 Nov 2023 11:24:52 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv2] default-providers.inc: add PREFERRED_PROVIDER variables for llvm
-Date: Mon, 27 Nov 2023 11:24:49 +0100
-Message-ID: <20231127102449.521512-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.42.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PNvQkC5T;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2c897ba4057so48577051fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:41:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701081714; x=1701686514; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4ZU1pRaZxCCezX/mcaRdPGcEqDYzj1JNcLXkvnwF5LI=;
+        b=PNvQkC5TmkNVKgiUgg67K4Nl3AAN3HrFpOsOvQTu/wFXf3HeUtuWBLe27mD0nflyKh
+         xYzY0V92FmuOgDiYnS3nxeKUjB/jPeaAch5vKCYb7PCKycuc0xamehDZpwlqRvFvCYig
+         bymgENTEMZWXytGT20fGcvdFwiPiHHUNn0b3qtoz7IofVYqOQKqmtUUMOt5o49yuXom6
+         3f981Qk/UafL5FPt4gk2+40F3G9IqPQcj3+Ztbv088EiwGe3sg5gu7mlcOFrJ0c4wF3m
+         awf26Cw28eIy/58K2Z4WJC632RT61Gs43xPljsT3ssvfaBaYtqmfWe/UICKJn+MjcOVm
+         rjKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701081714; x=1701686514;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4ZU1pRaZxCCezX/mcaRdPGcEqDYzj1JNcLXkvnwF5LI=;
+        b=JpGOfkiSu17eRJU5ZcPW+RjraHliNeiQTNWV4PWyArT0rc3+YRqZ1nyaf+E+vNXdKJ
+         vEAUwFEvqHoIy63yz2rRdaz1g9L0edmDSRKZID8VYK6l3jcv02Gl2QjKzl3/QVzk/u0L
+         lTHF9KdHLjL5Io1Wn+CSKL0gZAFuZsB1F2QMIsIqh0pjtfNxoQUjEkfisz8Tf4WiUFhD
+         90HuZ+ZxsdqX45G1RImptpIPhWlOs8YlzwXgmAIDoTET8A2ZUGj5ssH0CD6x/buJF0in
+         Z/hK88BkxNg/jsVvos9MPahWGgZ1ZYX6ubaoDhK5mQRSYmoJNqoPUj2aOllQSku1zDQR
+         K66Q==
+X-Gm-Message-State: AOJu0Yyel0rHYYibDguC2PaMsUhbv4NwtvJUZUu7LWA1Of9DBr8UC8TF
+	2JKJ1s2heHbQ3VhJmcAeo22LylQyAXtX4zUI1zo=
+X-Google-Smtp-Source: AGHT+IG7nlu+j6RzhSWM4bGFD++Gb7RdbmRWkQmenY6Ven1FUSMPwmdSNlW0IORZx8c+euvYwuQjkCODvSlyUg3GLyY=
+X-Received: by 2002:a2e:545d:0:b0:2c9:a495:2a42 with SMTP id
+ y29-20020a2e545d000000b002c9a4952a42mr1141447ljd.16.1701081713965; Mon, 27
+ Nov 2023 02:41:53 -0800 (PST)
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1701080692-FAFFA850-C74FF91E/0/0 CLEAN NORMAL
-X-TOI-MSGID: c0e54bfa-ce08-4ce2-b869-e86fa2a65fca
+References: <3cd66d19-6e0c-4b1b-a990-723cd445698f@gmail.com>
+In-Reply-To: <3cd66d19-6e0c-4b1b-a990-723cd445698f@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 27 Nov 2023 11:41:42 +0100
+Message-ID: <CANNYZj9B1P+xPPvoZN7SfgodkWPuis78rBcU9yPrPfUbN820sA@mail.gmail.com>
+Subject: Re: [OE-core] bitbake-server does not exit after build ends
+To: Zoltan Boszormenyi <zboszor@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:24:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191289
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:41:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191290
 
-gallium-llvm needs to be built with clang if you, for example
-want to have support for opencl or want to build the intel-clc compiler.
-meta-clang recommends to set
+Fedora 39 isn't yet supported or tested, so it's almost certainly
+you've hit a python 3.12 compatibility issue. If you can look into,
+that would be very appreciated.
 
-PREFERRED_PROVIDER_llvm =3D "clang"
-PREFERRED_PROVIDER_llvm-native =3D "clang-native"
+Alex
 
-The current problem is that this is not taken into account in mesa and th=
-erefore
-both llvm and clang are included. This leads to files that are provided b=
-y both
-packages and would also unnecessarily increase the build time.
-
-Add PREFERRED_PROVIDER_llvm and PREFERRED_PROVIDER_llvm-native and make s=
-ure that the mesa recipe takes these variables into account.
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- meta/conf/distro/include/default-providers.inc | 2 ++
- meta/recipes-graphics/mesa/mesa.inc            | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/d=
-istro/include/default-providers.inc
-index d18173c744..819d71628b 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -37,6 +37,8 @@ PREFERRED_PROVIDER_dbus-glib ?=3D "dbus-glib"
- PREFERRED_PROVIDER_dbus-glib-native ?=3D "dbus-glib-native"
- PREFERRED_PROVIDER_gdk-pixbuf ?=3D "gdk-pixbuf"
- PREFERRED_PROVIDER_libgcc ?=3D "libgcc"
-+PREFERRED_PROVIDER_llvm ?=3D "llvm"
-+PREFERRED_PROVIDER_llvm-native ?=3D "llvm-native"
- PREFERRED_PROVIDER_nativesdk-libgcc ?=3D "nativesdk-libgcc"
- PREFERRED_PROVIDER_linux-libc-headers ?=3D "linux-libc-headers"
- PREFERRED_PROVIDER_nativesdk-linux-libc-headers ?=3D "nativesdk-linux-li=
-bc-headers"
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index e5c405a972..1a971242c9 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -183,7 +183,7 @@ GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACK=
-AGECONFIG', 'r600', ',r600',
- GALLIUMDRIVERS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'virgl'=
-, ',virgl', '', d)}"
-=20
- PACKAGECONFIG[gallium] =3D "-Dgallium-drivers=3D${@strip_comma('${GALLIU=
-MDRIVERS}')}, -Dgallium-drivers=3D'', libdrm"
--PACKAGECONFIG[gallium-llvm] =3D "-Dllvm=3Denabled -Dshared-llvm=3Denable=
-d, -Dllvm=3Ddisabled, llvm llvm-native elfutils"
-+PACKAGECONFIG[gallium-llvm] =3D "-Dllvm=3Denabled -Dshared-llvm=3Denable=
-d, -Dllvm=3Ddisabled, ${PREFERRED_PROVIDER_llvm} ${PREFERRED_PROVIDER_llv=
-m-native} elfutils"
- PACKAGECONFIG[xa]  =3D "-Dgallium-xa=3Denabled, -Dgallium-xa=3Ddisabled"
- PACKAGECONFIG[va] =3D "-Dgallium-va=3Denabled,-Dgallium-va=3Ddisabled,li=
-bva-initial"
- PACKAGECONFIG[vdpau] =3D "-Dgallium-vdpau=3Denabled,-Dgallium-vdpau=3Ddi=
-sabled,libvdpau"
---=20
-2.42.1
-
+On Mon, 27 Nov 2023 at 10:52, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
+>
+> Hi,
+>
+> I am not sure what's the actual problem here.
+>
+> FWIW, I have recently upgraded my laptop to Fedora 39
+> where I test recipe changes first.
+>
+> Now, whenever a build ends (no matter if successfully or
+> if there was a recipe build failure) two bitbake-server
+> processes stay running.
+>
+> As a result, the next bitbake run spits out messages about
+> the previous instance holding bitbake.lock and retries.
+>
+> Fedora 39 has Python 3.12 but maybe an outdated python
+> module is the issue.
+>
+> I am happy to try any ideas.
+>
+> Thanks in advance,
+> Zolt=C3=A1n
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191263): https://lists.openembedded.org/g/openembedde=
+d-core/message/191263
+> Mute This Topic: https://lists.openembedded.org/mt/102826186/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
