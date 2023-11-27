@@ -1,749 +1,400 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 313DAC4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:08:37 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.91452.1701079710343004793
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B91FC4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:10:37 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.91817.1701079832321999864
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 02:08:30 -0800
+ Mon, 27 Nov 2023 02:10:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=chVPycse;
- spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1cfc34b6890so7577685ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:08:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=emzSJjhR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2c887d1fb8fso49189951fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:10:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1701079709; x=1701684509; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pa/kShAOe1u2yQzjdeIGGHF4stn59OTibDXhuWJG6IY=;
-        b=chVPycsefnXbytB06Xso+1uYjZJAmuaJm5OKWnumJZI61nW3wlqRLG5ueADxTwqFRC
-         vP+tLV5EY7Tk2Yt2CJ4rrFdqmDck87K8g3yhzsJjcX9cc6aMbEs+1g1xlFZMfu2OEQks
-         b2c6c0PRAU6WbcvNcOIJbu6j3UTnGMCNaFMQs=
+        d=gmail.com; s=20230601; t=1701079830; x=1701684630; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Uxd0tkCwKcCnALEy6CMiue1rhcZlCeP9/28UTY/4o8=;
+        b=emzSJjhRTPTDnCsT7DISSD/Dbb/CEd7spq0SAwW+r6JsVh0PoHRlEqSDqGIBIputtv
+         GNv9hTuJ4tIcjHOBN/PoijkERxgxdXGUSz6r5zAGEo04DG+iqsuXoGHDA2G3XH9l4vHA
+         /u2i1o/7A6h2YtYikNix8cLPb3wnGZIZyJpU2NZyiR1nmRRk8PUd2eTL5AjHB8LsZk+4
+         rQS38Z6f6voqDb9NVzeBJXfZF+D0V8RZGJwq0mCxt/c223bhCZS0w9+Vw7W08ZVYziTU
+         rXe9R0hDL9On0lmG7xU8hI+URkB2T1TXSACaMzUQV7NWO47yBGKwzIiHTaqpWgX2XOMg
+         EzEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701079709; x=1701684509;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1701079830; x=1701684630;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pa/kShAOe1u2yQzjdeIGGHF4stn59OTibDXhuWJG6IY=;
-        b=tz1OWORfa119ZL9QmOHt6MtbiyaQoTIstg/kaEEhX4Kpl6vosnC5+WpMuT6v14bmm2
-         5zTkLoSFa57g1/0KdEG+5qlzqLirJSxHClsX73tk8kczQDW54+LN98hPonCKpx8EqbOz
-         KSAUILfMXiuBv/ThReistJnl+xtUQY5ETTqfgKdpOX+YwCGI7UhuZ2VXptC1E5TiDNj2
-         1oVJDYeaOObO5jHkAybUW5dvoKgv5v6ALvo7KnkBz0CerMBV5OnRLiV3RBA9MS5bp6du
-         z0vP+za1tlqQSD0HRUF8zJzvF/6aCn7Qfa97nHF/NUNyaeVMh41aTdbk21mztMtY0EO/
-         TYRw==
-X-Gm-Message-State: AOJu0YzF07o0pejAAGCBRPQyiMPk/81IQHQei1bV0i9xye/jV9k8CEau
-	ETjOEe6MJ3GxbtnqKP4qVWXhj/WdyOHNkdfbrtk=
-X-Google-Smtp-Source: AGHT+IFTNKd1zCq2ov/a6DB/hg/Lx73W2C/qPosKoQr7LUQzXYlEzRHazHTH4SLcZ0k+sEGWz3GHiA==
-X-Received: by 2002:a17:902:d2cf:b0:1cf:d8c5:22a8 with SMTP id n15-20020a170902d2cf00b001cfd8c522a8mr1244312plc.21.1701079708708;
-        Mon, 27 Nov 2023 02:08:28 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:c01c:7c68:be78:1874:25fb:372e])
-        by smtp.gmail.com with ESMTPSA id n17-20020a170902d2d100b001cfcfe3c1e5sm1414486plc.173.2023.11.27.02.08.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 02:08:28 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][nanbield][PATCH] avahi: backport Debian patches to fix multiple CVE's
-Date: Mon, 27 Nov 2023 15:38:13 +0530
-Message-Id: <20231127100813.1743948-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=6Uxd0tkCwKcCnALEy6CMiue1rhcZlCeP9/28UTY/4o8=;
+        b=lUvme9cb9WnBBwKzRb/V/vbfltGnH4H/I317YG/BslE4F9NdI93dgq5BVocj1j0Lwh
+         a873NGQWZj8fQpoVnEPolUgzK6zzyBsjjkVMSev+OHwF3WAbUKN8JvFWepQ+R+3Mfv/a
+         NWaD4v2zk8DLxBqukIsKquEru0MfZaNIkDyRZGh4LUzc/TvBRpuGCDd37N/sa8OQxcmk
+         SrIpEwtIfnr1V5n4/TPKpIrt/g25CxJDM7KpfSvoa1yLsAl2r91o2CPX+/4TMasIOAxo
+         gmlmGvgdL++2ZixbIiAvrtSlchdNKav4qwEkVZv7vdrNJvEuu6u0JWxe51BEpXMJkcRt
+         tZvA==
+X-Gm-Message-State: AOJu0YxnJ2EQSzdqBB0qbzvSiPy82W2d9YljMepd8SwGv00HRnEhBSBw
+	+JEJozJmrFBdaJ0ggbGSTt8QEOUb7PVMrJArzAA=
+X-Google-Smtp-Source: AGHT+IFxBo2BdhQxIqHxgIbuYaCGKUuUhb0mGcdHCw5NqcbS3PHTKy6OPsma9+Z/wy005a6ns4L5/hbHE6yGnx8Hm9U=
+X-Received: by 2002:a2e:8387:0:b0:2c8:8745:8f0b with SMTP id
+ x7-20020a2e8387000000b002c887458f0bmr6336985ljg.47.1701079830085; Mon, 27 Nov
+ 2023 02:10:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231127035805.873005-1-qiutt@fujitsu.com>
+In-Reply-To: <20231127035805.873005-1-qiutt@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 27 Nov 2023 11:10:18 +0100
+Message-ID: <CANNYZj8KuFotmyBiW3fWzO0bpUiS1k1O8C9bCwmP+gP04XmSQQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V2] cairo: upgrade 1.16.0 -> 1.18.0
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org, fnstml-fujitsuten@fujitsu.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:08:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191266
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:10:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191267
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Thank you, the patch is fine now. The next step is that if there are
+integration issues on the autobuilder, you will get links to them and
+the expectation is that they are resolved by you, and the adjusted
+patch is resubmitted.
 
-import patches from ubuntu to fix
- CVE-2023-1981
- CVE-2023-38469
- CVE-2023-38470
- CVE-2023-38471
- CVE-2023-38472
- CVE-2023-38473
+Alex
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches?h=ubuntu/jammy-security
-Upstream commit
-https://github.com/lathiat/avahi/commit/a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f
-&
-https://github.com/lathiat/avahi/commit/a337a1ba7d15853fb56deef1f464529af6e3a1cf
-&
-https://github.com/lathiat/avahi/commit/c6cab87df290448a63323c8ca759baa516166237
-&
-https://github.com/lathiat/avahi/commit/94cb6489114636940ac683515417990b55b5d66c
-&
-https://github.com/lathiat/avahi/commit/20dec84b2480821704258bc908e7b2bd2e883b24
-&
-https://github.com/lathiat/avahi/commit/894f085f402e023a98cbb6f5a3d117bd88d93b09
-&
-https://github.com/lathiat/avahi/commit/b675f70739f404342f7f78635d6e2dcd85a13460
-&
-https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40
-&
-https://github.com/lathiat/avahi/commit/b448c9f771bada14ae8de175695a9729f8646797]
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- meta/recipes-connectivity/avahi/avahi_0.8.bb  |   8 ++
- .../avahi/files/CVE-2023-1981.patch           |  58 ++++++++++
- .../avahi/files/CVE-2023-38469-1.patch        |  48 ++++++++
- .../avahi/files/CVE-2023-38469-2.patch        |  65 +++++++++++
- .../avahi/files/CVE-2023-38470-1.patch        |  57 +++++++++
- .../avahi/files/CVE-2023-38470-2.patch        |  52 +++++++++
- .../avahi/files/CVE-2023-38471-1.patch        |  73 ++++++++++++
- .../avahi/files/CVE-2023-38471-2.patch        |  52 +++++++++
- .../avahi/files/CVE-2023-38472.patch          |  45 ++++++++
- .../avahi/files/CVE-2023-38473.patch          | 109 ++++++++++++++++++
- 10 files changed, 567 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
-
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index 4c830cc058..aa395beaf9 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -26,6 +26,14 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/avahi-${PV}.tar.gz \
-            file://handle-hup.patch \
-            file://local-ping.patch \
-            file://invalid-service.patch \
-+           file://CVE-2023-1981.patch \
-+           file://CVE-2023-38469-1.patch \
-+           file://CVE-2023-38469-2.patch \
-+           file://CVE-2023-38470-1.patch \
-+           file://CVE-2023-38470-2.patch \
-+           file://CVE-2023-38471-1.patch \
-+           file://CVE-2023-38471-2.patch \
-+           file://CVE-2023-38472.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/lathiat/avahi/releases/"
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
-new file mode 100644
-index 0000000000..4d7924d13a
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
-@@ -0,0 +1,58 @@
-+From a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Petr=20Men=C5=A1=C3=ADk?= <pemensik@redhat.com>
-+Date: Thu, 17 Nov 2022 01:51:53 +0100
-+Subject: [PATCH] Emit error if requested service is not found
-+
-+It currently just crashes instead of replying with error. Check return
-+value and emit error instead of passing NULL pointer to reply.
-+
-+Fixes #375
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-1981.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f]
-+CVE: CVE-2023-1981
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-daemon/dbus-protocol.c | 20 ++++++++++++++------
-+ 1 file changed, 14 insertions(+), 6 deletions(-)
-+
-+diff --git a/avahi-daemon/dbus-protocol.c b/avahi-daemon/dbus-protocol.c
-+index 70d7687bc..406d0b441 100644
-+--- a/avahi-daemon/dbus-protocol.c
-++++ b/avahi-daemon/dbus-protocol.c
-+@@ -375,10 +375,14 @@ static DBusHandlerResult dbus_get_alternative_host_name(DBusConnection *c, DBusM
-+     }
-+ 
-+     t = avahi_alternative_host_name(n);
-+-    avahi_dbus_respond_string(c, m, t);
-+-    avahi_free(t);
-++    if (t) {
-++        avahi_dbus_respond_string(c, m, t);
-++        avahi_free(t);
-+ 
-+-    return DBUS_HANDLER_RESULT_HANDLED;
-++        return DBUS_HANDLER_RESULT_HANDLED;
-++    } else {
-++        return avahi_dbus_respond_error(c, m, AVAHI_ERR_NOT_FOUND, "Hostname not found");
-++    }
-+ }
-+ 
-+ static DBusHandlerResult dbus_get_alternative_service_name(DBusConnection *c, DBusMessage *m, DBusError *error) {
-+@@ -389,10 +393,14 @@ static DBusHandlerResult dbus_get_alternative_service_name(DBusConnection *c, DB
-+     }
-+ 
-+     t = avahi_alternative_service_name(n);
-+-    avahi_dbus_respond_string(c, m, t);
-+-    avahi_free(t);
-++    if (t) {
-++        avahi_dbus_respond_string(c, m, t);
-++        avahi_free(t);
-+ 
-+-    return DBUS_HANDLER_RESULT_HANDLED;
-++        return DBUS_HANDLER_RESULT_HANDLED;
-++    } else {
-++        return avahi_dbus_respond_error(c, m, AVAHI_ERR_NOT_FOUND, "Service not found");
-++    }
-+ }
-+ 
-+ static DBusHandlerResult dbus_create_new_entry_group(DBusConnection *c, DBusMessage *m, DBusError *error) {
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
-new file mode 100644
-index 0000000000..85345edc10
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
-@@ -0,0 +1,48 @@
-+From a337a1ba7d15853fb56deef1f464529af6e3a1cf Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Mon, 23 Oct 2023 20:29:31 +0000
-+Subject: [PATCH] core: reject overly long TXT resource records
-+
-+Closes https://github.com/lathiat/avahi/issues/455
-+
-+CVE-2023-38469
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38469-1.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/a337a1ba7d15853fb56deef1f464529af6e3a1cf]
-+CVE: CVE-2023-38469
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-core/rr.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
-+
-+Index: avahi-0.8/avahi-core/rr.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-core/rr.c
-++++ avahi-0.8/avahi-core/rr.c
-+@@ -32,6 +32,7 @@
-+ #include <avahi-common/malloc.h>
-+ #include <avahi-common/defs.h>
-+ 
-++#include "dns.h"
-+ #include "rr.h"
-+ #include "log.h"
-+ #include "util.h"
-+@@ -688,11 +689,17 @@ int avahi_record_is_valid(AvahiRecord *r
-+         case AVAHI_DNS_TYPE_TXT: {
-+ 
-+             AvahiStringList *strlst;
-++            size_t used = 0;
-+ 
-+-            for (strlst = r->data.txt.string_list; strlst; strlst = strlst->next)
-++            for (strlst = r->data.txt.string_list; strlst; strlst = strlst->next) {
-+                 if (strlst->size > 255 || strlst->size <= 0)
-+                     return 0;
-+ 
-++                used += 1+strlst->size;
-++                if (used > AVAHI_DNS_RDATA_MAX)
-++                    return 0;
-++            }
-++
-+             return 1;
-+         }
-+     }
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
-new file mode 100644
-index 0000000000..f8f60ddca1
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
-@@ -0,0 +1,65 @@
-+From c6cab87df290448a63323c8ca759baa516166237 Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Wed, 25 Oct 2023 18:15:42 +0000
-+Subject: [PATCH] tests: pass overly long TXT resource records
-+
-+to make sure they don't crash avahi any more.
-+It reproduces https://github.com/lathiat/avahi/issues/455
-+
-+Canonical notes:
-+nickgalanis> removed first hunk since there is no .github dir in this release
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38469-2.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/c6cab87df290448a63323c8ca759baa516166237]
-+CVE: CVE-2023-38469
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-client/client-test.c       | 14 ++++++++++++++
-+ 1 files changed, 14 insertions(+)
-+
-+Index: avahi-0.8/avahi-client/client-test.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-client/client-test.c
-++++ avahi-0.8/avahi-client/client-test.c
-+@@ -22,6 +22,7 @@
-+ #endif
-+ 
-+ #include <stdio.h>
-++#include <string.h>
-+ #include <assert.h>
-+ 
-+ #include <avahi-client/client.h>
-+@@ -33,6 +34,8 @@
-+ #include <avahi-common/malloc.h>
-+ #include <avahi-common/timeval.h>
-+ 
-++#include <avahi-core/dns.h>
-++
-+ static const AvahiPoll *poll_api = NULL;
-+ static AvahiSimplePoll *simple_poll = NULL;
-+ 
-+@@ -222,6 +225,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
-+     uint32_t cookie;
-+     struct timeval tv;
-+     AvahiAddress a;
-++    uint8_t rdata[AVAHI_DNS_RDATA_MAX+1];
-++    AvahiStringList *txt = NULL;
-++    int r;
-+ 
-+     simple_poll = avahi_simple_poll_new();
-+     poll_api = avahi_simple_poll_get(simple_poll);
-+@@ -258,6 +264,14 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
-+     printf("%s\n", avahi_strerror(avahi_entry_group_add_service (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "Lathiat's Site", "_http._tcp", NULL, NULL, 80, "foo=bar", NULL)));
-+     printf("add_record: %d\n", avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "\5booya", 6));
-+ 
-++    memset(rdata, 1, sizeof(rdata));
-++    r = avahi_string_list_parse(rdata, sizeof(rdata), &txt);
-++    assert(r >= 0);
-++    assert(avahi_string_list_serialize(txt, NULL, 0) == sizeof(rdata));
-++    error = avahi_entry_group_add_service_strlst(group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", "_qotd._tcp", NULL, NULL, 123, txt);
-++    assert(error == AVAHI_ERR_INVALID_RECORD);
-++    avahi_string_list_free(txt);
-++
-+     avahi_entry_group_commit (group);
-+ 
-+     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
-new file mode 100644
-index 0000000000..4cca81698b
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
-@@ -0,0 +1,57 @@
-+From 94cb6489114636940ac683515417990b55b5d66c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Petr=20Men=C5=A1=C3=ADk?= <pemensik@redhat.com>
-+Date: Tue, 11 Apr 2023 15:29:59 +0200
-+Subject: [PATCH] Ensure each label is at least one byte long
-+
-+The only allowed exception is single dot, where it should return empty
-+string.
-+
-+Fixes #454.
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38470-1.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/94cb6489114636940ac683515417990b55b5d66c]
-+CVE: CVE-2023-38470
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-common/domain-test.c | 14 ++++++++++++++
-+ avahi-common/domain.c      |  2 +-
-+ 2 files changed, 15 insertions(+), 1 deletion(-)
-+
-+Index: avahi-0.8/avahi-common/domain-test.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-common/domain-test.c
-++++ avahi-0.8/avahi-common/domain-test.c
-+@@ -45,6 +45,20 @@ int main(AVAHI_GCC_UNUSED int argc, AVAH
-+     printf("%s\n", s = avahi_normalize_name_strdup("fo\\\\o\\..f oo."));
-+     avahi_free(s);
-+ 
-++    printf("%s\n", s = avahi_normalize_name_strdup("."));
-++    avahi_free(s);
-++
-++    s = avahi_normalize_name_strdup(",.=.}.=.?-.}.=.?.?.}.}.?.?.?.z.?.?.}.}."
-++		    "}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.=.=.?.?.}.}.?.?.}.}.}"
-++		    ".?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.=.=.?.?.}.}.?.?.?.zM.?`"
-++		    "?.}.}.}.?.?.?.r.=.?.}.=.?.?.}.?.?.?.}.=.?.?.}??.}.}.?.?."
-++		    "?.z.?.?.}.}.}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.?`?.}.}.}."
-++		    "??.?.zM.?`?.}.}.}.?.?.?.r.=.?.}.=.?.?.}.?.?.?.}.=.?.?.}?"
-++		    "?.}.}.?.?.?.z.?.?.}.}.}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM."
-++		    "?`?.}.}.}.?.?.?.r.=.=.?.?`.?.?}.}.}.?.?.?.r.=.?.}.=.?.?."
-++		    "}.?.?.?.}.=.?.?.}");
-++    assert(s == NULL);
-++
-+     printf("%i\n", avahi_domain_equal("\\065aa bbb\\.\\046cc.cc\\\\.dee.fff.", "Aaa BBB\\.\\.cc.cc\\\\.dee.fff"));
-+     printf("%i\n", avahi_domain_equal("A", "a"));
-+ 
-+Index: avahi-0.8/avahi-common/domain.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-common/domain.c
-++++ avahi-0.8/avahi-common/domain.c
-+@@ -201,7 +201,7 @@ char *avahi_normalize_name(const char *s
-+         }
-+ 
-+         if (!empty) {
-+-            if (size < 1)
-++            if (size < 2)
-+                 return NULL;
-+ 
-+             *(r++) = '.';
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
-new file mode 100644
-index 0000000000..e0736bf210
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
-@@ -0,0 +1,52 @@
-+From 20dec84b2480821704258bc908e7b2bd2e883b24 Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Tue, 19 Sep 2023 03:21:25 +0000
-+Subject: [PATCH] [common] bail out when escaped labels can't fit into ret
-+
-+Fixes:
-+```
-+==93410==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f9e76f14c16 at pc 0x00000047208d bp 0x7ffee90a6a00 sp 0x7ffee90a61c8
-+READ of size 1110 at 0x7f9e76f14c16 thread T0
-+    #0 0x47208c in __interceptor_strlen (out/fuzz-domain+0x47208c) (BuildId: 731b20c1eef22c2104e75a6496a399b10cfc7cba)
-+    #1 0x534eb0 in avahi_strdup avahi/avahi-common/malloc.c:167:12
-+    #2 0x53862c in avahi_normalize_name_strdup avahi/avahi-common/domain.c:226:12
-+```
-+and
-+```
-+fuzz-domain: fuzz/fuzz-domain.c:38: int LLVMFuzzerTestOneInput(const uint8_t *, size_t): Assertion `avahi_domain_equal(s, t)' failed.
-+==101571== ERROR: libFuzzer: deadly signal
-+    #0 0x501175 in __sanitizer_print_stack_trace (/home/vagrant/avahi/out/fuzz-domain+0x501175) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
-+    #1 0x45ad2c in fuzzer::PrintStackTrace() (/home/vagrant/avahi/out/fuzz-domain+0x45ad2c) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
-+    #2 0x43fc07 in fuzzer::Fuzzer::CrashCallback() (/home/vagrant/avahi/out/fuzz-domain+0x43fc07) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
-+    #3 0x7f1581d7ebaf  (/lib64/libc.so.6+0x3dbaf) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #4 0x7f1581dcf883 in __pthread_kill_implementation (/lib64/libc.so.6+0x8e883) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #5 0x7f1581d7eafd in gsignal (/lib64/libc.so.6+0x3dafd) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #6 0x7f1581d6787e in abort (/lib64/libc.so.6+0x2687e) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #7 0x7f1581d6779a in __assert_fail_base.cold (/lib64/libc.so.6+0x2679a) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #8 0x7f1581d77186 in __assert_fail (/lib64/libc.so.6+0x36186) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #9 0x5344a4 in LLVMFuzzerTestOneInput /home/vagrant/avahi/fuzz/fuzz-domain.c:38:9
-+```
-+
-+It's a follow-up to 94cb6489114636940ac683515417990b55b5d66c
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38470-2.patch?h=ubuntu/jammy-security
-+CVE: CVE-2023-38470 #Follow-up patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-common/domain.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+Index: avahi-0.8/avahi-common/domain.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-common/domain.c
-++++ avahi-0.8/avahi-common/domain.c
-+@@ -210,7 +210,8 @@ char *avahi_normalize_name(const char *s
-+         } else
-+             empty = 0;
-+ 
-+-        avahi_escape_label(label, strlen(label), &r, &size);
-++        if (!(avahi_escape_label(label, strlen(label), &r, &size)))
-++            return NULL;
-+     }
-+ 
-+     return ret_s;
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
-new file mode 100644
-index 0000000000..07cd3246e8
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
-@@ -0,0 +1,73 @@
-+From 894f085f402e023a98cbb6f5a3d117bd88d93b09 Mon Sep 17 00:00:00 2001
-+From: Michal Sekletar <msekleta@redhat.com>
-+Date: Mon, 23 Oct 2023 13:38:35 +0200
-+Subject: [PATCH] core: extract host name using avahi_unescape_label()
-+
-+Previously we could create invalid escape sequence when we split the
-+string on dot. For example, from valid host name "foo\\.bar" we have
-+created invalid name "foo\\" and tried to set that as the host name
-+which crashed the daemon.
-+
-+Fixes #453
-+
-+CVE-2023-38471
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38471-1.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/894f085f402e023a98cbb6f5a3d117bd88d93b09]
-+CVE: CVE-2023-38471
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-core/server.c | 27 +++++++++++++++++++++------
-+ 1 file changed, 21 insertions(+), 6 deletions(-)
-+
-+Index: avahi-0.8/avahi-core/server.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-core/server.c
-++++ avahi-0.8/avahi-core/server.c
-+@@ -1295,7 +1295,11 @@ static void update_fqdn(AvahiServer *s)
-+ }
-+ 
-+ int avahi_server_set_host_name(AvahiServer *s, const char *host_name) {
-+-    char *hn = NULL;
-++    char label_escaped[AVAHI_LABEL_MAX*4+1];
-++    char label[AVAHI_LABEL_MAX];
-++    char *hn = NULL, *h;
-++    size_t len;
-++
-+     assert(s);
-+ 
-+     AVAHI_CHECK_VALIDITY(s, !host_name || avahi_is_valid_host_name(host_name), AVAHI_ERR_INVALID_HOST_NAME);
-+@@ -1305,17 +1309,28 @@ int avahi_server_set_host_name(AvahiServ
-+     else
-+         hn = avahi_normalize_name_strdup(host_name);
-+ 
-+-    hn[strcspn(hn, ".")] = 0;
-++    h = hn;
-++    if (!avahi_unescape_label((const char **)&hn, label, sizeof(label))) {
-++        avahi_free(h);
-++        return AVAHI_ERR_INVALID_HOST_NAME;
-++    }
-++
-++    avahi_free(h);
-+ 
-+-    if (avahi_domain_equal(s->host_name, hn) && s->state != AVAHI_SERVER_COLLISION) {
-+-        avahi_free(hn);
-++    h = label_escaped;
-++    len = sizeof(label_escaped);
-++    if (!avahi_escape_label(label, strlen(label), &h, &len))
-++        return AVAHI_ERR_INVALID_HOST_NAME;
-++
-++    if (avahi_domain_equal(s->host_name, label_escaped) && s->state != AVAHI_SERVER_COLLISION)
-+         return avahi_server_set_errno(s, AVAHI_ERR_NO_CHANGE);
-+-    }
-+ 
-+     withdraw_host_rrs(s);
-+ 
-+     avahi_free(s->host_name);
-+-    s->host_name = hn;
-++    s->host_name = avahi_strdup(label_escaped);
-++    if (!s->host_name)
-++        return AVAHI_ERR_NO_MEMORY;
-+ 
-+     update_fqdn(s);
-+ 
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
-new file mode 100644
-index 0000000000..44737bfc2e
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
-@@ -0,0 +1,52 @@
-+From b675f70739f404342f7f78635d6e2dcd85a13460 Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Tue, 24 Oct 2023 22:04:51 +0000
-+Subject: [PATCH] core: return errors from avahi_server_set_host_name properly
-+
-+It's a follow-up to 894f085f402e023a98cbb6f5a3d117bd88d93b09
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38471-2.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/b675f70739f404342f7f78635d6e2dcd85a13460]
-+CVE: CVE-2023-38471 #Follow-up Patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-core/server.c | 9 ++++++---
-+ 1 file changed, 6 insertions(+), 3 deletions(-)
-+
-+Index: avahi-0.8/avahi-core/server.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-core/server.c
-++++ avahi-0.8/avahi-core/server.c
-+@@ -1309,10 +1309,13 @@ int avahi_server_set_host_name(AvahiServ
-+     else
-+         hn = avahi_normalize_name_strdup(host_name);
-+ 
-++    if (!hn)
-++        return avahi_server_set_errno(s, AVAHI_ERR_NO_MEMORY);
-++
-+     h = hn;
-+     if (!avahi_unescape_label((const char **)&hn, label, sizeof(label))) {
-+         avahi_free(h);
-+-        return AVAHI_ERR_INVALID_HOST_NAME;
-++        return avahi_server_set_errno(s, AVAHI_ERR_INVALID_HOST_NAME);
-+     }
-+ 
-+     avahi_free(h);
-+@@ -1320,7 +1323,7 @@ int avahi_server_set_host_name(AvahiServ
-+     h = label_escaped;
-+     len = sizeof(label_escaped);
-+     if (!avahi_escape_label(label, strlen(label), &h, &len))
-+-        return AVAHI_ERR_INVALID_HOST_NAME;
-++        return avahi_server_set_errno(s, AVAHI_ERR_INVALID_HOST_NAME);
-+ 
-+     if (avahi_domain_equal(s->host_name, label_escaped) && s->state != AVAHI_SERVER_COLLISION)
-+         return avahi_server_set_errno(s, AVAHI_ERR_NO_CHANGE);
-+@@ -1330,7 +1333,7 @@ int avahi_server_set_host_name(AvahiServ
-+     avahi_free(s->host_name);
-+     s->host_name = avahi_strdup(label_escaped);
-+     if (!s->host_name)
-+-        return AVAHI_ERR_NO_MEMORY;
-++        return avahi_server_set_errno(s, AVAHI_ERR_NO_MEMORY);
-+ 
-+     update_fqdn(s);
-+ 
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
-new file mode 100644
-index 0000000000..5c63edb31f
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
-@@ -0,0 +1,45 @@
-+From b024ae5749f4aeba03478e6391687c3c9c8dee40 Mon Sep 17 00:00:00 2001
-+From: Michal Sekletar <msekleta@redhat.com>
-+Date: Thu, 19 Oct 2023 17:36:44 +0200
-+Subject: [PATCH] core: make sure there is rdata to process before parsing it
-+
-+Fixes #452
-+
-+CVE-2023-38472
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38472.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40]
-+CVE: CVE-2023-38472
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-client/client-test.c      | 3 +++
-+ avahi-daemon/dbus-entry-group.c | 2 +-
-+ 2 files changed, 4 insertions(+), 1 deletion(-)
-+
-+Index: avahi-0.8/avahi-client/client-test.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-client/client-test.c
-++++ avahi-0.8/avahi-client/client-test.c
-+@@ -272,6 +272,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
-+     assert(error == AVAHI_ERR_INVALID_RECORD);
-+     avahi_string_list_free(txt);
-+ 
-++    error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
-++    assert(error != AVAHI_OK);
-++
-+     avahi_entry_group_commit (group);
-+ 
-+     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
-+Index: avahi-0.8/avahi-daemon/dbus-entry-group.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-daemon/dbus-entry-group.c
-++++ avahi-0.8/avahi-daemon/dbus-entry-group.c
-+@@ -340,7 +340,7 @@ DBusHandlerResult avahi_dbus_msg_entry_g
-+         if (!(r = avahi_record_new_full (name, clazz, type, ttl)))
-+             return avahi_dbus_respond_error(c, m, AVAHI_ERR_NO_MEMORY, NULL);
-+ 
-+-        if (avahi_rdata_parse (r, rdata, size) < 0) {
-++        if (!rdata || avahi_rdata_parse (r, rdata, size) < 0) {
-+             avahi_record_unref (r);
-+             return avahi_dbus_respond_error(c, m, AVAHI_ERR_INVALID_RDATA, NULL);
-+         }
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
-new file mode 100644
-index 0000000000..d7c69225b1
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
-@@ -0,0 +1,109 @@
-+From b448c9f771bada14ae8de175695a9729f8646797 Mon Sep 17 00:00:00 2001
-+From: Michal Sekletar <msekleta@redhat.com>
-+Date: Wed, 11 Oct 2023 17:45:44 +0200
-+Subject: [PATCH] common: derive alternative host name from its unescaped
-+ version
-+
-+Normalization of input makes sure we don't have to deal with special
-+cases like unescaped dot at the end of label.
-+
-+Fixes #451 #487
-+CVE-2023-38473
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38473.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/b448c9f771bada14ae8de175695a9729f8646797]
-+CVE: CVE-2023-38473
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-common/alternative-test.c |  3 +++
-+ avahi-common/alternative.c      | 27 +++++++++++++++++++--------
-+ 2 files changed, 22 insertions(+), 8 deletions(-)
-+
-+Index: avahi-0.8/avahi-common/alternative-test.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-common/alternative-test.c
-++++ avahi-0.8/avahi-common/alternative-test.c
-+@@ -31,6 +31,9 @@ int main(AVAHI_GCC_UNUSED int argc, AVAH
-+     const char* const test_strings[] = {
-+         "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-+         "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXüüüüüüü",
-++        ").",
-++        "\\.",
-++        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\\\\",
-+         "gurke",
-+         "-",
-+         " #",
-+Index: avahi-0.8/avahi-common/alternative.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-common/alternative.c
-++++ avahi-0.8/avahi-common/alternative.c
-+@@ -49,15 +49,20 @@ static void drop_incomplete_utf8(char *c
-+ }
-+ 
-+ char *avahi_alternative_host_name(const char *s) {
-++    char label[AVAHI_LABEL_MAX], alternative[AVAHI_LABEL_MAX*4+1];
-++    char *alt, *r, *ret;
-+     const char *e;
-+-    char *r;
-++    size_t len;
-+ 
-+     assert(s);
-+ 
-+     if (!avahi_is_valid_host_name(s))
-+         return NULL;
-+ 
-+-    if ((e = strrchr(s, '-'))) {
-++    if (!avahi_unescape_label(&s, label, sizeof(label)))
-++        return NULL;
-++
-++    if ((e = strrchr(label, '-'))) {
-+         const char *p;
-+ 
-+         e++;
-+@@ -74,19 +79,18 @@ char *avahi_alternative_host_name(const
-+ 
-+     if (e) {
-+         char *c, *m;
-+-        size_t l;
-+         int n;
-+ 
-+         n = atoi(e)+1;
-+         if (!(m = avahi_strdup_printf("%i", n)))
-+             return NULL;
-+ 
-+-        l = e-s-1;
-++        len = e-label-1;
-+ 
-+-        if (l >= AVAHI_LABEL_MAX-1-strlen(m)-1)
-+-            l = AVAHI_LABEL_MAX-1-strlen(m)-1;
-++        if (len >= AVAHI_LABEL_MAX-1-strlen(m)-1)
-++            len = AVAHI_LABEL_MAX-1-strlen(m)-1;
-+ 
-+-        if (!(c = avahi_strndup(s, l))) {
-++        if (!(c = avahi_strndup(label, len))) {
-+             avahi_free(m);
-+             return NULL;
-+         }
-+@@ -100,7 +104,7 @@ char *avahi_alternative_host_name(const
-+     } else {
-+         char *c;
-+ 
-+-        if (!(c = avahi_strndup(s, AVAHI_LABEL_MAX-1-2)))
-++        if (!(c = avahi_strndup(label, AVAHI_LABEL_MAX-1-2)))
-+             return NULL;
-+ 
-+         drop_incomplete_utf8(c);
-+@@ -109,6 +113,13 @@ char *avahi_alternative_host_name(const
-+         avahi_free(c);
-+     }
-+ 
-++    alt = alternative;
-++    len = sizeof(alternative);
-++    ret = avahi_escape_label(r, strlen(r), &alt, &len);
-++
-++    avahi_free(r);
-++    r = avahi_strdup(ret);
-++
-+     assert(avahi_is_valid_host_name(r));
-+ 
-+     return r;
--- 
-2.25.1
-
+On Mon, 27 Nov 2023 at 05:02, qiutt@fujitsu.com <qiutt@fujitsu.com> wrote:
+>
+> From: qiutt <qiutt@fujitsu.com>
+>
+> Changelog for 1.18.0 [1]:
+>   The cairo-sphinx tool has been removed
+>   Cairo now implements Type 3 color fonts for PDF
+>   The XML surface has been removed
+>   The Tee surface is now automatically enabled
+>   The Quartz surface is improved
+>   Cairo now hides all private symbols by default on every platform
+>   Fixed multiple issues
+>
+> As a part of 1.18.0, the following patches should be dropped.
+>   CVE-2018-19876.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/90e85c2493fdfa3551f202ff10282463f1e36645
+>   CVE-2019-6461.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/09643ee1abdd5daacebfcb564448f29be9a79bac
+>   CVE-2019-6462.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/bbeaf08190d3006a80b80a77724801cd477a37b8
+>   CVE-2020-35492.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/c986a7310bb06582b7d8a566d5f007ba4e5e75bf
+>
+> These options are all gone [2]: directfb, valgrind, egl, glesv2, opengl, trace
+>
+> Build tool is changed : autotools -> meson
+>
+> [1] https://www.cairographics.org/news/cairo-1.18.0/
+> [2] https://gitlab.freedesktop.org/cairo/cairo/-/blob/master/meson_options.txt
+>
+> Signed-off-by: qiutt <qiutt@fujitsu.com>
+> ---
+>  .../cairo/cairo/CVE-2018-19876.patch          | 34 ----------
+>  .../cairo/cairo/CVE-2019-6461.patch           | 20 ------
+>  .../cairo/cairo/CVE-2019-6462.patch           | 40 ------------
+>  .../cairo/cairo/CVE-2020-35492.patch          | 60 ------------------
+>  .../{cairo_1.16.0.bb => cairo_1.18.0.bb}      | 63 +++++--------------
+>  5 files changed, 16 insertions(+), 201 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+>  rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.18.0.bb} (51%)
+>
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+> deleted file mode 100644
+> index 4252a5663b..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -CVE: CVE-2018-19876
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
+> -From: Carlos Garcia Campos <cgarcia@igalia.com>
+> -Date: Mon, 19 Nov 2018 12:33:07 +0100
+> -Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
+> - cairo_ft_apply_variations
+> -
+> -Fixes a crash when using freetype >= 2.9
+> ----
+> - src/cairo-ft-font.c | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
+> -index 325dd61b4..981973f78 100644
+> ---- a/src/cairo-ft-font.c
+> -+++ b/src/cairo-ft-font.c
+> -@@ -2393,7 +2393,11 @@ skip:
+> - done:
+> -         free (coords);
+> -         free (current_coords);
+> -+#if HAVE_FT_DONE_MM_VAR
+> -+        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
+> -+#else
+> -         free (ft_mm_var);
+> -+#endif
+> -     }
+> - }
+> -
+> ---
+> -2.11.0
+> -
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+> deleted file mode 100644
+> index a2dba6cb20..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -There is an assertion in function _cairo_arc_in_direction().
+> -
+> -CVE: CVE-2019-6461
+> -Upstream-Status: Pending
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+> -index 390397bae..1bde774a4 100644
+> ---- a/src/cairo-arc.c
+> -+++ b/src/cairo-arc.c
+> -@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t     *cr,
+> -     if (cairo_status (cr))
+> -         return;
+> -
+> --    assert (angle_max >= angle_min);
+> -+    if (angle_max < angle_min)
+> -+       return;
+> -
+> -     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
+> -       angle_max = fmod (angle_max - angle_min, 2 * M_PI);
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+> deleted file mode 100644
+> index 7c3209291b..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -CVE: CVE-2019-6462
+> -Upstream-Status: Backport
+> -Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> -
+> -From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
+> -From: Heiko Lewin <hlewin@gmx.de>
+> -Date: Sun, 1 Aug 2021 11:16:03 +0000
+> -Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
+> -
+> ----
+> - src/cairo-arc.c | 4 +++-
+> - 1 file changed, 3 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+> -index 390397bae..1c891d1a0 100644
+> ---- a/src/cairo-arc.c
+> -+++ b/src/cairo-arc.c
+> -@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
+> -       { M_PI / 11.0,  9.81410988043554039085e-09 },
+> -     };
+> -     int table_size = ARRAY_LENGTH (table);
+> -+    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
+> -
+> -     for (i = 0; i < table_size; i++)
+> -       if (table[i].error < tolerance)
+> -           return table[i].angle;
+> -
+> -     ++i;
+> -+
+> -     do {
+> -       angle = M_PI / i++;
+> -       error = _arc_error_normalized (angle);
+> --    } while (error > tolerance);
+> -+    } while (error > tolerance && i < max_segments);
+> -
+> -     return angle;
+> - }
+> ---
+> -2.38.1
+> -
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+> deleted file mode 100644
+> index fb6ce5cfdf..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+> +++ /dev/null
+> @@ -1,60 +0,0 @@
+> -Fix stack buffer overflow.
+> -
+> -CVE: CVE-2020-35492
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
+> -From: Heiko Lewin <heiko.lewin@worldiety.de>
+> -Date: Tue, 15 Dec 2020 16:48:19 +0100
+> -Subject: [PATCH] Fix mask usage in image-compositor
+> -
+> ----
+> - src/cairo-image-compositor.c                |   8 ++--
+> - test/Makefile.sources                       |   1 +
+> - test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
+> - test/reference/bug-image-compositor.ref.png | Bin 0 -> 185 bytes
+> - 4 files changed, 44 insertions(+), 4 deletions(-)
+> - create mode 100644 test/bug-image-compositor.c
+> - create mode 100644 test/reference/bug-image-compositor.ref.png
+> -
+> -diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
+> -index 79ad69f68..4f8aaed99 100644
+> ---- a/src/cairo-image-compositor.c
+> -+++ b/src/cairo-image-compositor.c
+> -@@ -2601,14 +2601,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+> -                   unsigned num_spans)
+> - {
+> -     cairo_image_span_renderer_t *r = abstract_renderer;
+> --    uint8_t *m;
+> -+    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
+> -     int x0;
+> -
+> -     if (num_spans == 0)
+> -       return CAIRO_STATUS_SUCCESS;
+> -
+> -     x0 = spans[0].x;
+> --    m = r->_buf;
+> -+    m = base;
+> -     do {
+> -       int len = spans[1].x - spans[0].x;
+> -       if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
+> -@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+> -                                     spans[0].x, y,
+> -                                     spans[1].x - spans[0].x, h);
+> -
+> --          m = r->_buf;
+> -+          m = base;
+> -           x0 = spans[1].x;
+> -       } else if (spans[0].coverage == 0x0) {
+> -           if (spans[0].x != x0) {
+> -@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+> - #endif
+> -           }
+> -
+> --          m = r->_buf;
+> -+          m = base;
+> -           x0 = spans[1].x;
+> -       } else {
+> -           *m++ = spans[0].coverage;
+> ---
+> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
+> similarity index 51%
+> rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> rename to meta/recipes-graphics/cairo/cairo_1.18.0.bb
+> index ffb813d290..7547a3c412 100644
+> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> +++ b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
+> @@ -7,7 +7,7 @@ optional translucence (opacity/alpha) and combined using the \
+>  extended Porter/Duff compositing algebra as found in the X Render \
+>  Extension."
+>  HOMEPAGE = "http://cairographics.org"
+> -BUGTRACKER = "http://bugs.freedesktop.org"
+> +BUGTRACKER = "https://gitlab.freedesktop.org/cairo/cairo/-/issues"
+>  SECTION = "libs"
+>
+>  LICENSE = "(MPL-1.1 | LGPL-2.1-only) & GPL-3.0-or-later"
+> @@ -26,62 +26,31 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77 \
+>                      ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504', '', d)}"
+>
+>
+> -DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+> +DEPENDS = "fontconfig freetype glib-2.0 libpng pixman zlib"
+>
+>  SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+>             file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
+> -           file://CVE-2018-19876.patch \
+> -           file://CVE-2019-6461.patch \
+> -           file://CVE-2019-6462.patch \
+> -           file://CVE-2020-35492.patch \
+>            "
+>
+> -SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
+> -SRC_URI[sha256sum] = "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
+> +SRC_URI[sha256sum] = "243a0736b978a33dee29f9cca7521733b78a65b5418206fef7bd1c3d4cf10b64"
+>
+> -inherit autotools pkgconfig upstream-version-is-even gtk-doc multilib_script
+> +inherit meson pkgconfig upstream-version-is-even gtk-doc multilib_script
+> +
+> +GTKDOC_MESON_OPTION = "gtk_doc"
+>
+>  MULTILIB_SCRIPTS = "${PN}-perf-utils:${bindir}/cairo-trace"
+>
+> -X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+> -
+> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
+> -                   trace"
+> -PACKAGECONFIG:class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+> -PACKAGECONFIG:class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+> -
+> -PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+> -PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+> -PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
+> -PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
+> -PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+> -PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
+> -PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
+> -# trace is under GPLv3
+> -PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+> -
+> -EXTRA_OECONF += " \
+> -    ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
+> -    --enable-tee \
+> -"
+> -
+> -# We don't depend on binutils so we need to disable this
+> -export ac_cv_lib_bfd_bfd_openr="no"
+> -# Ensure we don't depend on LZO
+> -export ac_cv_lib_lzo2_lzo2a_decompress="no"
+> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xlib xcb', '', d)} trace"
+> +PACKAGECONFIG[xlib] = "-Dxlib=enabled,-Dxlib=disabled,virtual/libx11 libxrender libxext"
+> +PACKAGECONFIG[xcb] = "-Dxcb=enabled,-Dxcb=disabled,libxcb"
+> +# cairo-trace is GPLv3 so add an option to remove it
+> +PACKAGECONFIG[trace] = ""
+>
+>  do_install:append () {
+> -       rm -rf ${D}${bindir}/cairo-sphinx
+> -       rm -rf ${D}${libdir}/cairo/cairo-fdr*
+> -       rm -rf ${D}${libdir}/cairo/cairo-sphinx*
+> -       rm -rf ${D}${libdir}/cairo/.debug/cairo-fdr*
+> -       rm -rf ${D}${libdir}/cairo/.debug/cairo-sphinx*
+> -       [ ! -d ${D}${bindir} ] ||
+> -               rmdir -p --ignore-fail-on-non-empty ${D}${bindir}
+> -       [ ! -d ${D}${libdir}/cairo ] ||
+> -               rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
+> +    if ! ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'true', 'false', d)}; then
+> +        rm ${D}${bindir}/cairo-trace ${D}${libdir}/cairo/libcairo-trace.so
+> +        rmdir --ignore-fail-on-non-empty ${D}${bindir} ${D}${libdir}/cairo
+> +    fi
+>  }
+>
+>  PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
+> @@ -99,7 +68,7 @@ DESCRIPTION:cairo-perf-utils = "The Cairo library performance utilities"
+>  FILES:${PN} = "${libdir}/libcairo.so.*"
+>  FILES:${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
+>  FILES:${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
+> -FILES:${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so"
+> +FILES:${PN}-perf-utils = "${bindir}/cairo-* ${libdir}/cairo/libcairo-trace.so ${libdir}/cairo/libcairo-fdr.so"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+>
+> --
+> 2.25.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191248): https://lists.openembedded.org/g/openembedded-core/message/191248
+> Mute This Topic: https://lists.openembedded.org/mt/102823544/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
