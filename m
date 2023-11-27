@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E8CC07D5A
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:18:17 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web11.91600.1701080291531739930
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CDD5C07E97
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:18:18 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.91592.1701080288171254633
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 02:18:11 -0800
+ Mon, 27 Nov 2023 02:18:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=R9GGerce;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a011e9bf336so550777266b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:18:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PpkVv6a7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5488bf9e193so5529781a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:18:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701080290; x=1701685090; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701080286; x=1701685086; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CaJiiVjcni57c3zek6VKdf4USKXatzmMCjFjglOT6Og=;
-        b=R9GGerceAo9QaRV+MtbfXBCtCFka+eiMYbS9+0kNO/ky8xvLjDgwuAdhTznVfJCc5f
-         OfhG+huTSTdAe8IDqgN6FXiRyp+4X2MY5ckTXkyAK+2h4di1SJQbktqPpiTnjbp09Unt
-         7LDoPurMHaeLzoo8l8+xfmDg98UxNf4YKSXdM38zLF/zDniFBVfla7HNJcGL77mVDT8w
-         nsj7iQ+0oJFcTJkmrTb1JA0yOLeMw9jd4pWduDHUub8/UAKm3sq/zM5Bir/qGuwF4zya
-         mqsKxLK6Ap99/czq4tXvcLZ3hF8Dkzh77e3qHTtGH39DtEmNG1o4VJ8obtCfDcCUsksn
-         XhiQ==
+        bh=bslA+CXrK7064boo5AbekifOd/qWeSEFX7mJOUC6b5U=;
+        b=PpkVv6a7caYmtliwecvtPdxDOkQRM3hT5i4U3X9X8E+RtDvjWjIYFTuhSWGPUI4HXL
+         HtMLYAxZllIkjXvphb1cEu5pcyECCgj1bGEcn+Z3ucEtxFjvhXkGdewHHb/IfFLvzRh+
+         fDl6zbGufhphHKg8eTBe4ne0M8o1QFXOtzR0ufoVHEcN0xfy0gp0b+tuNXkBsUlc9a9u
+         oMeoWo2xOS+mzqtrrrjwdBDoES76am3lyhdXaLXrA/+lKfAXlzPD2gKeBhPIuc5Zsb0g
+         vEADwd/86rdNnlJ5f85YfyGYFWwDGXP1JsaXFSj678ztgrm5gjI3op8MFeMWZ/M8OUh8
+         ntXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701080290; x=1701685090;
+        d=1e100.net; s=20230601; t=1701080286; x=1701685086;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CaJiiVjcni57c3zek6VKdf4USKXatzmMCjFjglOT6Og=;
-        b=V8g6Ne5VavleKiZhcftrICufeIzjZEV6DErEGhx35b6jHf4VeVulsHa2efpUTlPSD3
-         1s8MaCFFpz6bLgAeKC4xpSI4Gwstydul1YeA9Qx9zr0yog/2ClDrZw1jcDQIr4icqg6M
-         ABstfmX4WdIZ2AyOuDWuTS9n9J8SanNAFTtneiv45+qdP0I1hx2kVfZww1Pq03C097R3
-         ztDoEKKdM9xJA4+B9XIGAjtg2XXMXLoJwANxE6/thjBfPqz+QTlLbqqlZFzejWOPHz1o
-         3Sh4LNzeYGqcluq2PuZQGJHAXw2XHQyWsgj4fjla5x4pZgCA93ELjB+ICULu8fvgayMz
-         1DbA==
-X-Gm-Message-State: AOJu0YxCSRzbomZpIeg9UluXKTvrqvzIKfrNQ29MPs7b7PpXIVSsamQK
-	wwoRTHZlPhZ8cyL11WsVmwuoL5BX80g=
-X-Google-Smtp-Source: AGHT+IGmLr5xWdiNmEBpZx4EuWhjN/PKJP1LkLyFQcsfULSwXOJgbAJF/LNILJs95p5uM1/bj46KlQ==
-X-Received: by 2002:a17:906:71cd:b0:a01:c7de:9704 with SMTP id i13-20020a17090671cd00b00a01c7de9704mr8122502ejk.68.1701080289726;
-        Mon, 27 Nov 2023 02:18:09 -0800 (PST)
+        bh=bslA+CXrK7064boo5AbekifOd/qWeSEFX7mJOUC6b5U=;
+        b=pZcIeqfCmfsXcwrRqA3ik+xKgp73t/SbSHNiYeBQORB25Ns9grn/QhshS0dKwD0t3F
+         XkwXDCBgMkVJBUDblBBXtdhJSXFPXoeR+L5EzmbiISy6W4PSN5fGYo0ChXaKYNJq8f62
+         gLq+It79eL4WfWsn8oQS08luwUZlevYaN7VbincTKH5umDkNCI3E5NiCV6/lWPisGNpW
+         O/5MQAtWe7GLh3Y92V6kJ27gKp7lyBGGUyVvietzWNSYX+ETtUW4eEYCoBYrQSKrCHJ+
+         JvXZpT5yg+bEgnTfUYzWjdV+KjZh0BquhFZ/nSRq4o+T0jHAcbs61XggVUU4A9e8+IDz
+         NHig==
+X-Gm-Message-State: AOJu0Yxep8j7cfIeVeEossyg9g5gy2tAS4ShaAkRIhELMkOHpZeT/Z3v
+	2R8Mi6u/SMWz7205nE+IBIagEc3DWJM=
+X-Google-Smtp-Source: AGHT+IEObBAQMj2T+rD/hEePIzn2QLhc/hLHrAPda/fMHfgoGmMnLt/1ynkm5uy69gXE3ds1L+iwRA==
+X-Received: by 2002:a17:906:b248:b0:a04:cc0e:ff3b with SMTP id ce8-20020a170906b24800b00a04cc0eff3bmr8302867ejb.27.1701080286617;
+        Mon, 27 Nov 2023 02:18:06 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h26-20020a170906585a00b00a0bf09c9483sm2757203ejs.35.2023.11.27.02.18.09
+        by smtp.gmail.com with ESMTPSA id h26-20020a170906585a00b00a0bf09c9483sm2757203ejs.35.2023.11.27.02.18.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 02:18:09 -0800 (PST)
+        Mon, 27 Nov 2023 02:18:06 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 19/19] rt-tests: update 2.5 -> 2.6
-Date: Mon, 27 Nov 2023 11:17:51 +0100
-Message-Id: <20231127101751.3187950-19-alex@linutronix.de>
+Subject: [PATCH 13/19] mpg123: upgrade 1.31.3 -> 1.32.3
+Date: Mon, 27 Nov 2023 11:17:45 +0100
+Message-Id: <20231127101751.3187950-13-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231127101751.3187950-1-alex@linutronix.de>
 References: <20231127101751.3187950-1-alex@linutronix.de>
@@ -61,51 +61,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:18:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191286
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:18:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191280
+
+--disable-lfs-alias removed upstream.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch | 6 +++---
- meta/recipes-rt/rt-tests/rt-tests.inc                       | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ .../mpg123/{mpg123_1.31.3.bb => mpg123_1.32.3.bb}              | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.31.3.bb => mpg123_1.32.3.bb} (95%)
 
-diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-index e9967767a0f..a1fc9e26a03 100644
---- a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-+++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-@@ -1,4 +1,4 @@
--From 174fd202f2c85e43261139d71ad18908cc29b586 Mon Sep 17 00:00:00 2001
-+From 7cf4cf097895bd4c3f3d3a6f783c766b3173cf1a Mon Sep 17 00:00:00 2001
- From: Randy Witt <randy.e.witt@intel.com>
- Date: Fri, 16 Oct 2020 16:54:30 -0700
- Subject: [PATCH] Makefile: Allow for CC and AR to be overridden
-@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate [other]
-  1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb b/meta/recipes-multimedia/mpg123/mpg123_1.32.3.bb
+similarity index 95%
+rename from meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb
+rename to meta/recipes-multimedia/mpg123/mpg123_1.32.3.bb
+index b03ee9f71a9..3ea68b12a8c 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.31.3.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.32.3.bb
+@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
  
- diff --git a/Makefile b/Makefile
--index 4df61ec..a229986 100644
-+index 223a839..a735584 100644
- --- a/Makefile
- +++ b/Makefile
- @@ -1,6 +1,6 @@
-- VERSION = 2.5
-+ VERSION = 2.6
- -CC = $(CROSS_COMPILE)gcc
- -AR = $(CROSS_COMPILE)ar
- +CC ?= $(CROSS_COMPILE)gcc
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 527e14ad546..70315c46941 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,5 +1,5 @@
--SRCREV = "4579b9a6d85ae528f76e92421eb5e7b33cd26b17"
--PV = "2.5"
-+SRCREV = "217cd8518c5f7777d490892aa9c765a6b2782cb5"
-+PV = "2.6"
- PE = "1"
+ SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
+-SRC_URI[sha256sum] = "1ca77d3a69a5ff845b7a0536f783fee554e1041139a6b978f6afe14f5814ad1a"
++SRC_URI[sha256sum] = "2d9913a57d4ee8f497a182c6e82582602409782a4fb481e989feebf4435867b4"
  
- SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=main;protocol=https"
+ UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+@@ -40,7 +40,6 @@ CACHED_CONFIGUREVARS:libc-musl = "ac_cv_sys_file_offset_bits=no"
+ EXTRA_OECONF = " \
+     --enable-shared \
+     --enable-largefile \
+-    --disable-lfs-alias \
+     --with-audio='${AUDIOMODS}' \
+     ${@bb.utils.contains('TUNE_FEATURES', 'neon', '--with-cpu=neon', '', d)} \
+     ${@bb.utils.contains('TUNE_FEATURES', 'altivec', '--with-cpu=altivec', '', d)} \
 -- 
 2.39.2
 
