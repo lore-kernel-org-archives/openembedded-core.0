@@ -1,221 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E461DC46CA9
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:18:17 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.91596.1701080289154553606
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 227A8C4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 10:20:28 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.91988.1701080419079150813
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 02:18:09 -0800
+ Mon, 27 Nov 2023 02:20:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ljj1folt;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a00a9c6f1e9so574393366b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 02:18:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701080287; x=1701685087; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2BmTYZegMcUsaHpjdP/G5E/ZFwlOwU7XUSksiWTnmQc=;
-        b=ljj1foltd7TFazJROxM4P1rBeSTaGUldzj7wKuxhNy5aCKh/VFc86QLeedzNMn9OuR
-         /GfBDXko+ANCC7zRa0ciy7kk3PnmvJtaH4E3bcPVWSl+gCuguA7WlsMwsAY4A/GACH63
-         8zUyw/L7rjp3/0fzCpdloe9A/VgrfqLmeX0DTIUA92SfSk+kH8uhrgXlDzFpwQhImeBL
-         ATdrKLZsRxrclabvKWd0gjb4ZQQcVmhbhxPjmRjAGcb5yvc02qsXXUn+Wj4ais7Ef7QH
-         p7zFRbO0SP3kfJem+lkCNFK/rB8VUbauYEKspBvAb1VVXiP8X5pu6tMgyYbsIJ4PXS++
-         hD6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701080287; x=1701685087;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2BmTYZegMcUsaHpjdP/G5E/ZFwlOwU7XUSksiWTnmQc=;
-        b=lLNM5CsSnu6PKdimhGmZB1YJsm7CfIH0+afW51iT+CgloKECf+SgCkGB1pfz3wiwwC
-         lkdT8ZkXu6RlwuZEJRJoKD8JzMjtYYGiq7WjIFo8OJ7FKzIZisa6zlB1FKNzAyQU9TD+
-         68WlIu5vHGVk2iZrnEbNj72i2AQNVVnoqwkERab5Bz8gAK17ZrXGa7sbKOVEch8r7W/6
-         jO4htds8VbDI14JzCpf2zfqJGdW3hkA6pZpL/SniLyJoC8AqZpU8kA7pP5Sme3vunu9B
-         +mvpQOoT93Ugcepw91xhFwqkdKGVKjQB4Pk1zfYmCafMCqwsvPN7+8avQ6hs09sppJkB
-         ch4A==
-X-Gm-Message-State: AOJu0Yy4z9G8qPsHb50BzwvMp2V6RcShb5ND0c6rn1MCKDxZxSzkFmiz
-	qJJZMtPsHj4hSBqDdEwdUq2AQSZ2iYk=
-X-Google-Smtp-Source: AGHT+IHVZyie/jgziFAFgFQIRFfNfWYkzF0I++qJhA9lnQjGd82VxhxfANhyDUR5Nu0hTpMsG7im+w==
-X-Received: by 2002:a17:906:d28e:b0:9e5:cef:6ff with SMTP id ay14-20020a170906d28e00b009e50cef06ffmr9039465ejb.33.1701080287569;
-        Mon, 27 Nov 2023 02:18:07 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id h26-20020a170906585a00b00a0bf09c9483sm2757203ejs.35.2023.11.27.02.18.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 02:18:07 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 15/19] p11-kit: upgrade 0.25.0 -> 0.25.2
-Date: Mon, 27 Nov 2023 11:17:47 +0100
-Message-Id: <20231127101751.3187950-15-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231127101751.3187950-1-alex@linutronix.de>
-References: <20231127101751.3187950-1-alex@linutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DoWaEeOj;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TUBU9b1E;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c104b4641-881711a3-37e2-4c84-8227-1d728515a3d7-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701080418; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=azLfjaOXWt3l82Ri/U7CT96x2ZOWmGmjguls0XRKtmU=;
+	b=DoWaEeOj6i1la1ecU1LCBOkmEQlrop96j9zyyc8YVpS/Lv/QInSQ6/h7eimy5waT
+	u+MecbY0lSMoTW7BQ0rcXsLq//st0k59Z6XskML6lc8PqaAQP9sOwV2gxrWPHh0SGEt
+	kT1mDXr6pQfwGvJllKtWVTTvXlG9PA7JiWLP699o=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701080418;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=azLfjaOXWt3l82Ri/U7CT96x2ZOWmGmjguls0XRKtmU=;
+	b=TUBU9b1EY1BaRJNacArEuKbV6MOA4y8yJmPTeYumXgTeKghs6TMCv2ny60bn3ubH
+	LYyD/9I5a8oyMMzibnKYaVGvd3sYkvhOiVGoZxL0r5qZzVz7BK2tUL4+DX+Z9l6fygd
+	RKgY8pA81mqwp0LPZnwDtaU+QLrBM0EB9K/Xk8FI=
+From: patchtest@automation.yoctoproject.org
+To: Markus Volk <f_l_k@t-online.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [oe-core][PATCH] add PREFERRED_PROVIDER variables for llvm
+In-Reply-To: 20231127100204.236485-1-f_l_k@t-online.de
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c104b4641-881711a3-37e2-4c84-8227-1d728515a3d7-000000@us-west-2.amazonses.com>
+Date: Mon, 27 Nov 2023 10:20:17 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.27-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:18:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191282
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 10:20:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191287
 
-Switch to gitsm:// to fetch https://github.com/p11-glue/pkcs11-json.git
-as a submodule (otherwise meson will try to do that in do_configure).
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../p11-kit/files/strerror-1.patch            | 76 -------------------
- .../p11-kit/files/strerror-2.patch            | 30 --------
- .../{p11-kit_0.25.0.bb => p11-kit_0.25.2.bb}  |  6 +-
- 3 files changed, 2 insertions(+), 110 deletions(-)
- delete mode 100644 meta/recipes-support/p11-kit/files/strerror-1.patch
- delete mode 100644 meta/recipes-support/p11-kit/files/strerror-2.patch
- rename meta/recipes-support/p11-kit/{p11-kit_0.25.0.bb => p11-kit_0.25.2.bb} (85%)
+Testing patch /home/patchtest/share/mboxes/add-PREFERRED_PROVIDER-variables-for-llvm.patch
 
-diff --git a/meta/recipes-support/p11-kit/files/strerror-1.patch b/meta/recipes-support/p11-kit/files/strerror-1.patch
-deleted file mode 100644
-index 6af4fee7249..00000000000
---- a/meta/recipes-support/p11-kit/files/strerror-1.patch
-+++ /dev/null
-@@ -1,76 +0,0 @@
--From 3ba2c55dfdc8ff20de369f07f6c57d08718d3add Mon Sep 17 00:00:00 2001
--From: Adam Sampson <ats@offog.org>
--Date: Sun, 2 Jul 2023 15:22:49 +0100
--Subject: [PATCH] Check for GNU strerror_r using the compiler only
--
--The new test that was added to distinguish GNU/XSI strerror_r ran a
--compiled program, which doesn't work when cross-compiling. The only
--difference at compile time is that the GNU version returns char * and
--the XSI version returns int, so detect it by compiling a program that
--dereferences the return value.
--
--Signed-off-by: Adam Sampson <ats@offog.org>
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- configure.ac | 19 +++++++------------
-- meson.build  | 10 +++++-----
-- 2 files changed, 12 insertions(+), 17 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 40f5a583..29890622 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -146,19 +146,14 @@ if test "$os_unix" = "yes"; then
-- 
-- 	AC_CHECK_FUNC(
-- 		[strerror_r],
---		[AC_RUN_IFELSE(
---			[AC_LANG_SOURCE([[
---				#include <errno.h>
---				#include <string.h>
---
---				int main (void)
---				{
---					char buf[32];
---					return strerror_r (EINVAL, buf, 32);
---				}
---			]])],
---                        [AC_DEFINE([HAVE_XSI_STRERROR_R], 1, [Whether XSI-compliant strerror_r() is available])],
--+		[AC_COMPILE_IFELSE(
--+			[AC_LANG_PROGRAM([[#include <errno.h>
--+					   #include <string.h>]],
--+					 [[/* GNU strerror_r returns char *, XSI returns int */
--+					    char buf[32];
--+					    return *strerror_r (EINVAL, buf, 32);]])],
-- 			[AC_DEFINE([HAVE_GNU_STRERROR_R], 1, [Whether GNU-specific strerror_r() is available])],
--+                        [AC_DEFINE([HAVE_XSI_STRERROR_R], 1, [Whether XSI-compliant strerror_r() is available])],
-- 			[])],
-- 		[])
-- 
--diff --git a/meson.build b/meson.build
--index 0f8c8da0..4cc3f89a 100644
----- a/meson.build
--+++ b/meson.build
--@@ -306,15 +306,15 @@ if cc.has_function('strerror_r', prefix: '#include <string.h>')
-- 
-- int main (void)
-- {
--+    /* GNU strerror_r returns char *, XSI returns int */
--     char buf[32];
---    return strerror_r (EINVAL, buf, 32);
--+    return *strerror_r (EINVAL, buf, 32);
-- }
-- '''
---  strerror_r_check = cc.run(strerror_r_code, name : 'strerror_r check')
---  if strerror_r_check.returncode() == 0
---    conf.set('HAVE_XSI_STRERROR_R', 1)
---  else
--+  if cc.compiles(strerror_r_code, name : 'GNU strerror_r check')
--     conf.set('HAVE_GNU_STRERROR_R', 1)
--+  else
--+    conf.set('HAVE_XSI_STRERROR_R', 1)
--   endif
-- endif
-- 
-diff --git a/meta/recipes-support/p11-kit/files/strerror-2.patch b/meta/recipes-support/p11-kit/files/strerror-2.patch
-deleted file mode 100644
-index 1a9180b508c..00000000000
---- a/meta/recipes-support/p11-kit/files/strerror-2.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 7aa6251bf4ce36d027d53c9c96bb05f90ef7eb5b Mon Sep 17 00:00:00 2001
--From: Adam Sampson <ats@offog.org>
--Date: Sun, 2 Jul 2023 15:44:06 +0100
--Subject: [PATCH] Define _GNU_SOURCE when testing for strerror_r
--
--The Meson check for GNU/XSI strerror_r didn't inherit the project
--options that include _GNU_SOURCE (unlike the autoconf version), so the
--result didn't match how the code that uses it will be compiled. Add
--_GNU_SOURCE explicitly as with the following checks.
--
--Signed-off-by: Adam Sampson <ats@offog.org>
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- meson.build | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/meson.build b/meson.build
--index 4cc3f89a..9a72e148 100644
----- a/meson.build
--+++ b/meson.build
--@@ -301,6 +301,7 @@ endforeach
-- 
-- if cc.has_function('strerror_r', prefix: '#include <string.h>')
--   strerror_r_code = '''
--+#define _GNU_SOURCE
-- #include <errno.h>
-- #include <string.h>
-- 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.25.0.bb b/meta/recipes-support/p11-kit/p11-kit_0.25.2.bb
-similarity index 85%
-rename from meta/recipes-support/p11-kit/p11-kit_0.25.0.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.25.2.bb
-index ad1fda3f3b7..d00ef2daf55 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.25.0.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.25.2.bb
-@@ -10,10 +10,8 @@ DEPENDS = "libtasn1 libtasn1-native libffi"
- 
- DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
- 
--SRC_URI = "git://github.com/p11-glue/p11-kit;branch=master;protocol=https \
--           file://strerror-1.patch \
--           file://strerror-2.patch"
--SRCREV = "a8cce8bd8065bbf80bd47219f85f0cd9cf27dd0c"
-+SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https"
-+SRCREV = "66d6b42ef8dd84fcd8e199ac9f23f822f1a058c9"
- S = "${WORKDIR}/git"
- 
- PACKAGECONFIG ??= ""
--- 
-2.39.2
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
