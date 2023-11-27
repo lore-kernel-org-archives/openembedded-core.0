@@ -1,71 +1,99 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20C91C4167B
-	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 13:33:39 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.94528.1701092013962673247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9BFC4167B
+	for <webhook@archiver.kernel.org>; Mon, 27 Nov 2023 13:45:49 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.94785.1701092745715578709
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 05:33:34 -0800
+ Mon, 27 Nov 2023 05:45:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TCJUiYmG;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=V1KKzUJB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018c10fc33e6-6df3ff32-13c7-48ff-aac3-24978e69be2a-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701092013; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=KWhxroiJJoeoqpvynYtMmvAL/4733YeeIo5LgCAKjhw=;
-	b=TCJUiYmGwYbiG2ylbcI2bMIam2TE9u4HXpqjEYEmMHCOt/Rgg6Ai8Gg0zoO7lr/9
-	2AbDyj/fMb2ggphMV024837K0SBt/jEVGIgK2ssxPElfMxj1a6hl/k4VfPmz7NfDnD4
-	6qvMGy+wBcm/RFm9cL49Buxf7bfQT86fTnotMgq0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701092013;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=KWhxroiJJoeoqpvynYtMmvAL/4733YeeIo5LgCAKjhw=;
-	b=V1KKzUJBJM0pThb8QjmDM4K6fFXIZFcXm6O5MVEFEjwd+dRC66GMN8eF8VOGgfAK
-	1pwcNz8rracQhoewKhBP7Oi0zEDpsH3Jt4LDvYIiP5aipvJqvcy5nnKLi7ETSGPPq7n
-	J89SrMXKOM1lxyXLyH5K4KUiyVNNR+1ujGlHw2Mk=
-From: patchtest@automation.yoctoproject.org
-To: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] systemd-boot: fix build issues on armv7a-linux
-In-Reply-To: 20231127131927.710690-2-quic_vkraleti@quicinc.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c10fc33e6-6df3ff32-13c7-48ff-aac3-24978e69be2a-000000@us-west-2.amazonses.com>
-Date: Mon, 27 Nov 2023 13:33:33 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.27-54.240.27.45
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Dti9mpRB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-331733acbacso2882872f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 05:45:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1701092744; x=1701697544; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JyRXfbTK77pbqDhjgOOQfJXL0DdO/IcmN/xnNJR+b6M=;
+        b=Dti9mpRBmYhvHoIoFxZcnv556wx5XDM99Yc0YPaMV5MLrNrBz7uN/3/yZbA4QjU9z6
+         iMdE8JCpnkxtFd3UjhhItdS/6Huh0qb2brKDMOOQVE8adY5NAUIa1DyUYnjnNhgOwZfV
+         nXCEkbDHSjtPJNJ57NzUcq/U6hzZsyKxnIvts=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701092744; x=1701697544;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JyRXfbTK77pbqDhjgOOQfJXL0DdO/IcmN/xnNJR+b6M=;
+        b=IbotEJD+andN7gI8TM+E8k2+hlhPESbiUYh6eBPzEzV+RByt32dNM9OfGteT/0on+y
+         NripjwE/Sa4gA/8tNHIgb+S5EXtFoPf9d18qBMwtD0nkjrdHM8eWuLA1YfR3m0dV944X
+         DQHYO8EjsnAIohPhSvmdNgN0vkimQuSjHbu0w3d9sAnFmO53pdUKDjuUAzwLiTIdc/7X
+         O6Nede4uZOVkU6DwuqltG7+KtVxrC5K2yVfxCI+jWsv/1fSBIM0AS1EP57P52O+Xaewn
+         fKq/Qs17Jcdf7R4oZEulRn1kVAYg0+jiRGmzYagK5Jw49eS/nYEnjq/AGcpVdPwaD6ng
+         VUgA==
+X-Gm-Message-State: AOJu0Yzgd6z/fVfrSzImT7W/vJKUBbIk7iGO2U06iWNX2UdjfDfm8VYj
+	I04jWUyW+1xqcdHb5SbqCLo6XA==
+X-Google-Smtp-Source: AGHT+IHK7FLmLXv86lhLD5h7xkgAJd8AMjE4oxZWU44jSlF/q6Ws80WQAAG7n69+4pRKg0YJEhR88w==
+X-Received: by 2002:a5d:530e:0:b0:332:d504:c138 with SMTP id e14-20020a5d530e000000b00332d504c138mr9056542wrv.1.1701092744013;
+        Mon, 27 Nov 2023 05:45:44 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:430c:b470:8466:3e0? ([2001:8b0:aba:5f3c:430c:b470:8466:3e0])
+        by smtp.gmail.com with ESMTPSA id s18-20020a5d6a92000000b00332eaede976sm9013265wru.86.2023.11.27.05.45.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 05:45:43 -0800 (PST)
+Message-ID: <e784d0eeb3b0232f0df98b385ace92dfc625c191.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 0/2] patch: reduce changes during patch
+ refresh
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Lukas Funke <lukas.funke-oss@weidmueller.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Lukas Funke
+	 <lukas.funke@weidmueller.com>
+Date: Mon, 27 Nov 2023 13:45:42 +0000
+In-Reply-To: <20231122140811.1021807-1-lukas.funke-oss@weidmueller.com>
+References: <20231122140811.1021807-1-lukas.funke-oss@weidmueller.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 13:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191301
+ <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 13:45:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191302
 
---NextPart
-Content-Type: text/plain
+On Wed, 2023-11-22 at 15:08 +0100, Lukas Funke wrote:
+> From: Lukas Funke <lukas.funke@weidmueller.com>
+>=20
+> The patch series aims to reduce the noise in patches created by devtools.=
+ Some
+> diffs are just introduced due to an update in the hash or in the diffstat=
+s.
+> These changes are not important to a reviewer.
+>=20
+> Stefan Herbrechtsmeier (2):
+>   patch: extract patches without diffstats
+>   patch: extract patches with all-zero hash
+>=20
+>  meta/lib/oe/patch.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I'm fairly sure but haven't conclusively proven this causes these
+failures:
 
----
-Tests failed for the patch, but the results log could not be processed due to excessive result line length.
----
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6095/step=
+s/14/logs/stdio
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+2023-11-23 23:31:16,216 - oe-selftest - INFO - RESULTS - devtool.DevtoolUpd=
+ateTests.test_devtool_update_recipe_local_patch_gz: FAILED (65.60s)
+2023-11-23 23:31:16,216 - oe-selftest - INFO - RESULTS - devtool.DevtoolUpd=
+ateTests.test_devtool_update_recipe_long_filename: FAILED (53.35s)
+2023-11-23 23:31:16,216 - oe-selftest - INFO - RESULTS - devtool.DevtoolUpd=
+ateTests.test_devtool_update_recipe_with_gitignore: FAILED (44.11s)
 
---NextPart
+Cheers,
 
-
---NextPart--
+Richard
 
