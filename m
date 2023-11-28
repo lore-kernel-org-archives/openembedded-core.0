@@ -2,76 +2,79 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D111C4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 23:42:28 +0000 (UTC)
-Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
- by mx.groups.io with SMTP id smtpd.web10.14245.1701214947360403313
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAEFC4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 23:43:18 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.web10.14260.1701214989698653306
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 15:42:27 -0800
+ Tue, 28 Nov 2023 15:43:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="120655813"
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="140768633"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695654000"; 
-   d="scan'208";a="120655813"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 08:42:24 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 83B10D618D
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:42:22 +0900 (JST)
+   d="scan'208";a="140768633"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 08:43:08 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 6A9ADE8BE9
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:43:05 +0900 (JST)
 Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id BA63A7F8E8
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:42:21 +0900 (JST)
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 9F068AB5EE
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:43:04 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.149])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id AC123869FA;
-	Wed, 29 Nov 2023 08:42:20 +0900 (JST)
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8A119869FA;
+	Wed, 29 Nov 2023 08:43:03 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-sphinx-rtd-theme: upgrade 1.3.0 -> 2.0.0
-Date: Wed, 29 Nov 2023 07:41:45 +0800
-Message-Id: <1701214905-1791-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-trove-classifiers: upgrade 2023.11.14 -> 2023.11.22
+Date: Wed, 29 Nov 2023 07:42:21 +0800
+Message-Id: <1701214941-1848-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-28026.003
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-28026.003
-X-TMASE-Result: 10-0.832500-10.000000
-X-TMASE-MatchedRID: pFlEBMmIVU6jz0nOeth/yQPZZctd3P4B1cuIRwt/4MiysPB8dBBorXKn
-	6DBj/gsEIvrftAIhWmI/dksnGuGmFWMAzi+7d0ch3QqJN4m15UF9LQinZ4QefCP/VFuTOXUTae6
-	hIZpj4MuOhzOa6g8KrWR4f0xcAjyeUmvfeA5hbaa9tk7aKYSndiRRyJVS0U8LYvtXsZJ+0DH6FK
-	q5u7y6js0YHEUXS3wzXti0Io6SfuV2S0Zdruvysh0m4Rm5hspVxSSu8i52URmXTt0OuyJi/IIuE
-	VM/dBEMBtjAKW7+qHc=
+X-TMASE-Result: 10--1.630300-10.000000
+X-TMASE-MatchedRID: hsQjHHSArR6jz0nOeth/yUIIxwDaU5mregIHHX2L4YyU8ftiyKjZrdMj
+	jwb9QfV2CC8aAmGeO6lV00+whwxVQy/7QU2czuUNnVTWWiNp+v9uTKBinxl/umAN6i+va16uBqd
+	FRjHdIbhbJcQH3furV3k48PxckV+kHxPMjOKY7A+u65UDD0aDgsRB0bsfrpPIcSqbxBgG0w5PUV
+	0MVuD2VNi1BLeHi0Kto8srg52PRgwr4/nnYt+tYRUW/2pcLjcUoPRZ9HVvHJeViSpoGbBDgki8D
+	rQG14EU3xKP2ieeBhWCvqWrFsheUcLe0zBjeZrbFQOP52BRBXJMTsKj18q/fA==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 23:42:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191417
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 23:43:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191418
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+Changelog:
+  Add "Framework :: Sphinx :: Domain" classifier
+
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...inx-rtd-theme_1.3.0.bb => python3-sphinx-rtd-theme_2.0.0.bb} | 2 +-
+ ...rs_2023.11.14.bb => python3-trove-classifiers_2023.11.22.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-sphinx-rtd-theme_1.3.0.bb => python3-sphinx-rtd-theme_2.0.0.bb} (88%)
+ rename meta/recipes-devtools/python/{python3-trove-classifiers_2023.11.14.bb => python3-trove-classifiers_2023.11.22.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.3.0.bb b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_2.0.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.3.0.bb
-rename to meta/recipes-devtools/python/python3-sphinx-rtd-theme_2.0.0.bb
-index 83bf705766..46b46bf017 100644
---- a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_1.3.0.bb
-+++ b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_2.0.0.bb
-@@ -13,7 +13,7 @@ RDEPENDS:${PN} += " \
+diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.22.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb
+rename to meta/recipes-devtools/python/python3-trove-classifiers_2023.11.22.bb
+index a6c7e95c51..44a6f5de03 100644
+--- a/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb
++++ b/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.22.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
- PYPI_PACKAGE = "sphinx_rtd_theme"
+-SRC_URI[sha256sum] = "64b5e78305a5de347f2cd7ec8c12d704a3ef0cb85cc10c0ca5f73488d1c201f8"
++SRC_URI[sha256sum] = "c31a7e92f965f060a244b57d8ed5ee6f53fcb413ee17ce790e00577cb369ad99"
  
--SRC_URI[sha256sum] = "590b030c7abb9cf038ec053b95e5380b5c70d61591eb0b552063fbe7c41f0931"
-+SRC_URI[sha256sum] = "bd5d7b80622406762073a04ef8fadc5f9151261563d47027de09910ce03afe6b"
- UPSTREAM_CHECK_REGEX ?= "/sphinx-rtd-theme/(?P<pver>(\d+[\.\-_]*)+)/"
+ inherit pypi python_setuptools_build_meta ptest
  
- inherit setuptools3 pypi
 -- 
 2.34.1
 
