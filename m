@@ -1,97 +1,323 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 042CDC4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 12:02:56 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.31084.1701172971134788603
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 216FFC4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 12:32:46 +0000 (UTC)
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web10.31477.1701174756723113331
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 04:02:51 -0800
+ Tue, 28 Nov 2023 04:32:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ae80XT7P;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UE5tf4XY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c15cf8354-86c27ad4-9fd3-42f6-94a8-960a997a98f2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701172970; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=L/blujI7GHtZNyH06ae8rDzroU/NPH6gdVoZXmwx4mM=;
-	b=ae80XT7Pqa9NwTvcvSkuK1B4jSAUZKMyLHOxDeT3RVRsU83WpgalxOssAyJFdlte
-	2Qrq1sGzQCM5K5iyUdebwy0ZbyZcV/pUJY3nDlTdPAEOFKgWDPWz0nhfxenx+ooSATW
-	OcwNl2en4S1CimXXFLgfs6F/Z5/tNTFSrMaXbYwg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701172970;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=L/blujI7GHtZNyH06ae8rDzroU/NPH6gdVoZXmwx4mM=;
-	b=UE5tf4XY+A6yme3SICp8sWgigr3cZ11xMvUNCy/EmsM33JvGoQ1mrHwEBRy+tiG2
-	awxe8tUA4FqE3gdA4FHgSk5ukSREtW6fope5AYzA3nGNiWA5U+GkUqwf/WcItXQ1kI5
-	/6xJRvkQ1Dn93APF2xrk2loXoxpqDw6AjIJaZ3Ds=
-From: patchtest@automation.yoctoproject.org
-To: ross.burton@arm.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] genericx86: remove redundant assignments
-In-Reply-To: 20231128114333.1591098-1-ross.burton@arm.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c15cf8354-86c27ad4-9fd3-42f6-94a8-960a997a98f2-000000@us-west-2.amazonses.com>
-Date: Tue, 28 Nov 2023 12:02:50 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.28-54.240.27.33
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=F2EARwvM;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-54bbf08aa53so220542a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 04:32:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701174755; x=1701779555; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=o6vDUvKa6PVI9cYitR6eLykma8xVLirlF8u6hqZ3gZc=;
+        b=F2EARwvM4VvI7zEW8PpC8sNgAroR4MsQSQNtKYgocGEDAx0J1qA+fAY4tKx//1Wb1G
+         NF//2kohZZrMVi+po94UZjzfSn7+ibVsja8k0cN+AlaabTpR7Oq9I639VEE9uYSpKqeR
+         vKsooj68TZy6XHcmkKKXC54MPWtPQG/MDu8jTcnsyaDY78AZ8Lk8k5SJcIep1IxSY3tJ
+         n1LZpprfvOJgm/4UD0huWzGajbpfSFf+G2YcZW6i13cN9al5r7gy/nkRRkT/mc2L8P0P
+         VIJrUCJKac0WseoIajmuXNJ/SA2pX0MZgXiuu22QAykE6iTQyUj/xJWfumdfUvOEBW6L
+         0j7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701174755; x=1701779555;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o6vDUvKa6PVI9cYitR6eLykma8xVLirlF8u6hqZ3gZc=;
+        b=n8q7kF0gF7y8i1ETx9hIhF10f40xbUuS4pIo2WnYR6lsBw2Mreed8mou7QAsX9d6q8
+         3NutLtKBkKiAymZOl+fU5/zT48a9GCP8C4FmQ6XkYi2MUbgBCp9DEG/xUfGFXNz8bR8h
+         +GikXBqHc/WxxdNPlTx+6MTdZjHgoKNOYm5KKJ+CBUVAlzsqbB8mcUQ6BmWVKfd/8poJ
+         eXysI1JvXJ+TvxPDAoemXUYMybSugNh5b3m1aYp+DZl1D670Juv8ifWhFUISb9IENa1z
+         q1/sIidsFMnG7D39kJKM+Zge6vhZY1+SUvMqhJqmnIoDgUdn0cCiJETtwoLG0g27+biM
+         oW4A==
+X-Gm-Message-State: AOJu0YzYjCL0c8Y6VtvoJ+BLqOYXGfg2Yqmsso6n29hPKq+9ODzl13Dq
+	Wl6kyRVW/b7A+oMAHNRVkRRg1Fu9a4+1AflHG18=
+X-Google-Smtp-Source: AGHT+IFlLCIE135KJSMbZ3a312uQA848rSrQZ3Qo5PPXGR/14Vbrdw973qL5vQMstgAExLxsLc9dvIqhHbA6MKTutiI=
+X-Received: by 2002:a50:d4c5:0:b0:53e:1b:15f5 with SMTP id e5-20020a50d4c5000000b0053e001b15f5mr9446927edj.39.1701174754716;
+ Tue, 28 Nov 2023 04:32:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20230901233231.1109712-1-michelle.linto91@gmail.com>
+In-Reply-To: <20230901233231.1109712-1-michelle.linto91@gmail.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Tue, 28 Nov 2023 14:32:14 +0200
+Message-ID: <CALT56yM7fL9sSqW-mO64BoHz=SrJi8aOHCQqqbe64b+vpSSijw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] uki: Add support for building Unified Kernel Images
+To: Michelle Lin <michelle.linto91@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 12:02:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191363
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 12:32:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191364
 
---NextPart
-Content-Type: text/plain
+On Sat, 2 Sept 2023 at 02:32, Michelle Lin <michelle.linto91@gmail.com> wrote:
+>
+> Currently, there is not a class to support the building of unified kernel
+> images. Adding a uki.bbclass to support the creation of UKIs. This class calls
+> the systemd Ukify tool, which will combine the kernel/initrd/stub components to
+> build the UKI. To sign the UKI (i.e. SecureBoot, TPM PCR signing), the keys/cert
+> files are to be specified in a separate configuration file, and the path to the
+> file is passed to the Ukify tool. UKIs are supported by UEFI and can improve
+> security through predicted TPM PCR states, and reduce the build burden due to
+> its single PE binary format.
+>
+> Signed-off-by: Michelle Lin <michelle.linto91@gmail.com>
+> ---
+>  meta/classes/uki.bbclass                 | 140 +++++++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_254.bb |  23 ++++
+>  2 files changed, 163 insertions(+)
+>  create mode 100644 meta/classes/uki.bbclass
+>
+> diff --git a/meta/classes/uki.bbclass b/meta/classes/uki.bbclass
+> new file mode 100644
+> index 0000000000..2eff387c75
+> --- /dev/null
+> +++ b/meta/classes/uki.bbclass
+> @@ -0,0 +1,140 @@
+> +#
+> +# Unified kernel image (UKI) class
+> +#
+> +#
+> +# This bbclass is designed to repack an Overlake image as a UKI, to be booted on a qemuarm64 with SecureBoot
+> +# signing and embedded with TPM PCR measurements.
+> +#
+> +# The UKI is composed by:
+> +#   - an UEFI stub
+> +#     The linux kernel can generate a UEFI stub, however the one from systemd-boot can fetch
+> +#     the command line from a separate section of the EFI application, avoiding the need to
+> +#     rebuild the kernel.
+> +#   - the kernel
+> +#   - an initramfs
+> +#   - other metadata (e.g. PCR measurements)
+> +#
+> +#
+> +#
+> +
+> +# List build time dependencies
+> +DEPENDS += "systemd-native \
+> +            sbsigntool-native \
+> +            virtual/${TARGET_PREFIX}binutils \
+> +            "
+> +
+> +REQUIRED_DISTRO_FEATURES += "usrmerge systemd"
+> +
+> +inherit features_check
+> +require ../conf/image-uefi.conf
+> +
+> +INITRD_IMAGE ?= "core-image-minimal-initramfs"
+> +
+> +INITRD_LIVE ?= "${@ ('${DEPLOY_DIR_IMAGE}/' + d.getVar('INITRD_IMAGE') + '-${MACHINE}.cpio.gz') if d.getVar('INITRD_IMAGE') else ''}"
+> +
+> +UKI_CONFIG_FILE ?= "${WORKDIR}/core-image-minimal-uki.conf"
+> +UKI_FILENAME ?= "${@ 'UKI.signed.efi' if d.getVar('UKI_CONFIG_FILE') else 'UKI.unsigned.efi'}"
+> +
+> +do_uki[depends] += " \
+> +                        systemd-boot:do_deploy \
+> +                        virtual/kernel:do_deploy \
+> +                     "
+> +
+> +# INITRD_IMAGE is added to INITRD_LIVE, which we use to create our initrd, so depend on it if it is set
+> +# So we want to generate the initrd image if INITRD_IMAGE exists
+> +do_uki[depends] += "${@ '${INITRD_IMAGE}:do_image_complete' if d.getVar('INITRD_IMAGE') else ''}"
+> +
+> +# ensure that the build directory is empty everytime we generate a newly-created uki
+> +do_uki[cleandirs] = "${B}"
+> +# influence the build directory at the start of the builds
+> +do_uki[dirs] = "${B}"
+> +
+> +# we want to allow specifying files in SRC_URI, such as for signing the UKI
+> +python () {
+> +    d.delVarFlag("do_fetch","noexec")
+> +    d.delVarFlag("do_unpack","noexec")
+> +}
+> +
+> +# main task
+> +python do_uki() {
+> +    import glob
+> +    import subprocess
+> +
+> +    # Construct the ukify command
+> +    ukify_cmd = ("ukify build")
+> +
+> +    # Handle the creation of an initrd image by reading and concatenating multiple cpio files.
+> +    # If the INITRD_LIVE variable is defined and not empty, it opens the necessary files, reads their contents,
+> +    # and constructs a list.
+> +    if d.getVar('INITRD_LIVE'):
+> +        initrd_list = ""
+> +        for cpio in d.getVar('INITRD_LIVE').split():
+> +            # get a list of initrds
+> +            initrd_list += cpio + ' '
+> +
+> +        ukify_cmd += " --initrd=%s" % initrd_list
+> +    else:
+> +        bb.fatal("ERROR - Required argument: INITRD")
+> +
+> +    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
+> +
+> +    # Kernel
+> +    if d.getVar('KERNEL_IMAGETYPE'):
+> +        kernel = "%s/%s" % (deploy_dir_image, d.getVar('KERNEL_IMAGETYPE'))
+> +        kernel_version = d.getVar('KERNEL_VERSION')
+> +        if not os.path.exists(kernel):
+> +            bb.fatal(f"ERROR: cannot find {kernel}.")
+> +
+> +        ukify_cmd += " --linux=%s --uname %s" % (kernel, kernel_version)
+> +    else:
+> +        bb.fatal("ERROR - Required argument: KERNEL")
+> +
+> +    # Architecture
+> +    target_arch = d.getVar('EFI_ARCH')
+> +    ukify_cmd += " --efi-arch %s" % target_arch
+> +
+> +    # Stub
+> +    stub = "%s/linux%s.efi.stub" % (deploy_dir_image, target_arch)
+> +    if not os.path.exists(stub):
+> +        bb.fatal(f"ERROR: cannot find {stub}.")
+> +    ukify_cmd += " --stub %s" % stub
+> +
+> +    # Add option for dtb
+> +    if d.getVar('KERNEL_DEVICETREE'):
+> +        first_dtb = d.getVar('KERNEL_DEVICETREE').split()[0]
+> +        dtb_path = "%s/%s" % (deploy_dir_image, first_dtb)
+> +
+> +        if not os.path.exists(dtb_path):
+> +            bb.fatal(f"ERROR: cannot find {dtb_path}.")
+> +
+> +        ukify_cmd += " --devicetree %s" % dtb_path
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hmm, I have not noticed this before. This doesn't look generic enough.
+KERNEL_DEVICETREE can have several DT files and the first one is not
+in any way special. It should not be picked up for the UKI image.
+E.g. in our (meta-qcom / qcom-armv8a) case the KERNEL_DEVICETREE lists
+dtb for all supported machines, ranging from the old dragonboard410c
+up to the latest HDKs.
 
----
-Testing patch /home/patchtest/share/mboxes/genericx86-remove-redundant-assignments.patch
+> +
+> +    # Add option to pass a config file to sign the UKI.
+> +    if os.path.exists(d.getVar('UKI_CONFIG_FILE')):
+> +        ukify_cmd += " --config=%s" % d.getVar('UKI_CONFIG_FILE')
+> +        ukify_cmd += " --tools=%s%s/lib/systemd/tools" % (d.getVar("RECIPE_SYSROOT_NATIVE"), d.getVar("prefix"))
+> +        bb.note("Pulling keys from config file")
+> +    else:
+> +        bb.note("Generating unsigned UKI")
+> +
+> +    # Custom UKI name
+> +    output = " --output=%s" % d.getVar('UKI_FILENAME')
+> +    ukify_cmd += " %s" % output
+> +
+> +    # Set env to determine where bitbake should look for dynamic libraries
+> +    env = os.environ.copy() # get the env variables
+> +    env['LD_LIBRARY_PATH'] = d.expand("${RECIPE_SYSROOT_NATIVE}/usr/lib/systemd:${LD_LIBRARY_PATH}")
+> +
+> +    # Run the ukify command
+> +    subprocess.check_call(ukify_cmd, env=env, shell=True)
+> +}
+> +
+> +inherit deploy
+> +
+> +do_deploy () {
+> +    # Copy generated UKI into DEPLOYDIR
+> +       install ${B}/${UKI_FILENAME} ${DEPLOYDIR}
+> +}
+> +
+> +addtask uki before do_deploy do_image after do_rootfs
+> +addtask deploy before do_build after do_compile
+> \ No newline at end of file
+> diff --git a/meta/recipes-core/systemd/systemd_254.bb b/meta/recipes-core/systemd/systemd_254.bb
+> index 8d5cf13095..65f132abb8 100644
+> --- a/meta/recipes-core/systemd/systemd_254.bb
+> +++ b/meta/recipes-core/systemd/systemd_254.bb
+> @@ -6,6 +6,9 @@ PE = "1"
+>
+>  DEPENDS = "intltool-native gperf-native libcap util-linux python3-jinja2-native"
+>
+> +# The Ukify tool requires this module
+> +DEPENDS:append:class-native = " python3-pefile-native"
+> +
+>  SECTION = "base/shell"
+>
+>  inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives qemu systemd gettext bash-completion manpages features_check
+> @@ -18,6 +21,8 @@ REQUIRED_DISTRO_FEATURES += "usrmerge"
+>  # that we don't build both udev and systemd in world builds.
+>  REQUIRED_DISTRO_FEATURES += "systemd"
+>
+> +REQUIRED_DISTRO_FEATURES:class-native = ""
+> +
+>  SRC_URI += " \
+>             file://touchscreen.rules \
+>             file://00-create-volatile.conf \
+> @@ -120,6 +125,8 @@ PACKAGECONFIG:remove:libc-musl = " \
+>  # https://github.com/seccomp/libseccomp/issues/347
+>  PACKAGECONFIG:remove:mipsarch = "seccomp"
+>
+> +PACKAGECONFIG:class-native = "serial-getty-generator openssl tpm2 efi"
+> +
+>  TARGET_CC_ARCH:append:libc-musl = " -D__UAPI_DEF_ETHHDR=0 -D_LARGEFILE64_SOURCE"
+>
+>  # Some of the dependencies are weak-style recommends - if not available at runtime,
+> @@ -260,6 +267,9 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
+>                    -Dloadkeys-path=${bindir}/loadkeys \
+>                    -Dsetfont-path=${bindir}/setfont"
+>
+> +EXTRA_OEMESON:append:class-native = " -Dbootloader=true \
+> +                                      -Dman=false \
+> +                                    "
+>  # The 60 seconds is watchdog's default vaule.
+>  WATCHDOG_TIMEOUT ??= "60"
+>
+> @@ -380,6 +390,14 @@ do_install() {
+>      fi
+>  }
+>
+> +do_install:class-native() {
+> +       meson_do_install
+> +       install -d ${D}${bindir}
+> +       install -m 0755 ${S}/src/ukify/ukify.py ${D}${bindir}/ukify
+> +       install -d ${D}${prefix}/lib/systemd/tools
+> +       install -m 0755 ${B}/systemd-measure ${D}${prefix}/lib/systemd/tools
+> +}
+> +
+>  python populate_packages:prepend (){
+>      systemdlibdir = d.getVar("rootlibdir")
+>      do_split_packages(d, systemdlibdir, r'^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
+> @@ -702,6 +720,9 @@ RRECOMMENDS:${PN} += "systemd-extra-utils \
+>                        ${@bb.utils.contains('PACKAGECONFIG', 'logind', 'pam-plugin-umask', '', d)} \
+>  "
+>
+> +RRECOMMENDS:${PN}:class-native = ""
+> +RDEPENDS:${PN}:class-native = ""
+> +
+>  INSANE_SKIP:${PN} += "dev-so libdir"
+>  INSANE_SKIP:${PN}-dbg += "libdir"
+>  INSANE_SKIP:${PN}-doc += " libdir"
+> @@ -852,3 +873,5 @@ pkg_postinst:udev-hwdb () {
+>  pkg_prerm:udev-hwdb () {
+>         rm -f $D${sysconfdir}/udev/hwdb.bin
+>  }
+> +
+> +BBCLASSEXTEND += "native"
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#187017): https://lists.openembedded.org/g/openembedded-core/message/187017
+> Mute This Topic: https://lists.openembedded.org/mt/101106095/3618183
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [dbaryshkov@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+-- 
+With best wishes
+Dmitry
 
