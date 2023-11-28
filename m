@@ -1,267 +1,101 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E321C46CA0
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:42:15 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.29817.1701168126521696623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E50DC4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:45:45 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.29935.1701168338702565164
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 02:42:06 -0800
+ Tue, 28 Nov 2023 02:45:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=APnJRI/g;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-332f90a375eso1783411f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 02:42:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=G7mz1YRj;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a04196fc957so764827666b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 02:45:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701168125; x=1701772925; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701168337; x=1701773137; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jPtzIYpCQZkmdJxgBVrmIHfK3JbsiJb5wLBawd9Apdk=;
-        b=APnJRI/gFZQI19ntR5viK1lp3dtR5lowEuuK82a08Zy/GhdIQ4QAlFuoTUhfUCWdzI
-         /gvlvbnAEG4h/x7dwMdYngiU5quOwSeU1HhxuXEEstKZUDF5/Ylo7zxyzkDJVYYsxuuO
-         x13T6aIwwmvqo/DJXambUxZXYYi5ro2ij3DH2VQwJvjvpBpJ/WABgwMp6vPWKn8WuZeD
-         1v6703eiXiQe3HsxW6LBTJbpk/TQEs6HV2uaCmjmsyS82X08s5v8WJGe4AYjw2brXVEa
-         IljSEwINTBdIsra6SuqxkHXYcTbi2NYh7Qne1EwrNGLTXkpfu2nOFa/5D3n4ECGhuH6x
-         Whxg==
+        bh=aaOij2vlPQaskv0SurWX2hhU6fbs+d3w0uewF+ZgaIQ=;
+        b=G7mz1YRjB/fZGds7Oh9NeV+aEP93EbZiMU0ydg7z2MNIx9rXHLxHWJOCu3OspFOYZu
+         OeKUV3hiTJIyuNQDeJcvNuQqjmWV6Zc4fGlsncfrd82iPpul1ySCwGg4r9pcuv+Td4AG
+         v0b/Z6cxYkEp1RBA7MykXEmb1qL/HW3K/4PEaUBTwXEdhz0wO6Bl2pN1NWKlcN+moIVL
+         auk88Q6n/SxnsQ96AGjt0ae2s5ssxawy4G0JA+6isJMVqDDa1jdgqtKB3sKy1xdjN8ch
+         EQ7ztdHz4AmIbaBVkDmEyAQH7kNWX5t4426ogRKlTQFyl1/VJNErLHacOAAhO9wh1zEe
+         MfBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701168125; x=1701772925;
+        d=1e100.net; s=20230601; t=1701168337; x=1701773137;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jPtzIYpCQZkmdJxgBVrmIHfK3JbsiJb5wLBawd9Apdk=;
-        b=sB8loHBpfiFNIXB7cU2/GwXzgRGUyUFGGZ8eB7crIKgiipFeFE7EHAMvU9zHxCX8F8
-         30rf7yGFO7oKYYb7lm9scxYn+N+uiGj4yk1VUZ3U95Ov9PiCHyrtH2Iohu47bWWd4rMJ
-         T8Z9C8PQfC2/B4p7uRIcpxB0/qxltRXYH/S7OSwcS5dRYp26mw/lGX+sR7ER6kcR5sRi
-         msSXuvwAF3b2OuiaAZ2aBKRHpFupFH765j+t+Qrr0/toTR1Jfz91dMUksVbyS3d+5MN1
-         GH9sCtiuXXqLYP/9mCeGgfgacAyOSGq2NultezmSwsOKXmlHt9JQKB+b+Yzam2vnWVqy
-         XRLw==
-X-Gm-Message-State: AOJu0YxNSscPXyR/j402e2gGLnaJsxPWif7Kw7VGPLL9pFf9axVYzdbx
-	xNe6DK2KGiz4dcOmShXtC7k/DE63e6EY1pumpLI=
-X-Google-Smtp-Source: AGHT+IGuugHfoVSbpsZI/IAugdUqO26U6tiyNIZdRmH5pAZZXUQI/aaYDGarCzu7YYN0PwzvinBkBhNtdhQ6z0GeFjI=
-X-Received: by 2002:a5d:51c5:0:b0:332:ca67:b6a1 with SMTP id
- n5-20020a5d51c5000000b00332ca67b6a1mr10537105wrv.0.1701168124510; Tue, 28 Nov
- 2023 02:42:04 -0800 (PST)
+        bh=aaOij2vlPQaskv0SurWX2hhU6fbs+d3w0uewF+ZgaIQ=;
+        b=rSRsjpT829ezCNdkV4qQiwKGJRGvmzOCQiLpVr5Y5Y8ghOOnd6ciIsLt5wyHGnw/Ub
+         l+MyHAQK3JNehkNgfl/FyC98P7eoU+PExFX8tuLVXOM9xs98gNw8LEjeQV6rOAVjQjg5
+         uqwLLLnlZncf6QveRNeMgxeOZHFworxqxBvGhAje59ZepPlPCFYhfKsRbkpEeH5/8H8z
+         x2/DBm+jKnAGksFHofJsW4yT6StZyPb47gu4ptGtzTF9se1MD9IDeZpDFtjOOikKHCY8
+         8+7qiXNnUQqadKOcJ9t9Ryr+3P/Dsj68RiZCgW3ohPLxicHQlNbO0z6LUGWHYb41kVDa
+         IDww==
+X-Gm-Message-State: AOJu0YwRXU9iGYXSP+zYmIPUDvg0KXUKuPdi3WtvBH1IzuM+ykS5jdfQ
+	yKDdsRP7/LyeftyMtBrdg1TbupR5nUQBhrWrytQ=
+X-Google-Smtp-Source: AGHT+IEvj6j1W8Od2cNBHWrour1RSRLE509AuP9ijTMl+k57cmVOTmy+JRNjLEU4f2if5lwyVX42MtRZC1opCbkC0uE=
+X-Received: by 2002:a17:906:f6c4:b0:a10:f715:6f07 with SMTP id
+ jo4-20020a170906f6c400b00a10f7156f07mr3770819ejb.0.1701168336822; Tue, 28 Nov
+ 2023 02:45:36 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1678709427.git.Martin.Jansa@gmail.com> <06c7db2b170b9cf47c803ea12c83b58f886074b2.1678709427.git.Martin.Jansa@gmail.com>
- <45473015.fMDQidcC6G@linc> <CA+chaQdxp=E_mNZ15daXhb3EyHwqiStB09c2vWG-k2AWAQu28A@mail.gmail.com>
-In-Reply-To: <CA+chaQdxp=E_mNZ15daXhb3EyHwqiStB09c2vWG-k2AWAQu28A@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 28 Nov 2023 11:41:52 +0100
-Message-ID: <CA+chaQcBvfCJWaNOoj0YH3tk7GyuOSSf6ymcqDbz-1tmRS1Cpw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 09/14] image-artifact-names: add
- IMAGE_MACHINE_SUFFIX variable
-To: Paul Eggleton <bluelightning@bluelightning.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c3c849060b34118e"
+References: <0101018c10fc33e6-6df3ff32-13c7-48ff-aac3-24978e69be2a-000000@us-west-2.amazonses.com>
+In-Reply-To: <0101018c10fc33e6-6df3ff32-13c7-48ff-aac3-24978e69be2a-000000@us-west-2.amazonses.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Tue, 28 Nov 2023 12:45:25 +0200
+Message-ID: <CALT56yOkiWRvEh1nJOXrZ+JRLc+L2CO5rqxUe6o7q2yanU41=A@mail.gmail.com>
+Subject: Re: [OE-core] Patchtest results for [PATCH v2] systemd-boot: fix
+ build issues on armv7a-linux
+To: Patchtest <patchtest@automation.yoctoproject.org>
+Cc: Viswanath Kraleti <quic_vkraleti@quicinc.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:42:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191355
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:45:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191356
 
---000000000000c3c849060b34118e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Hi Paul,
-
-this was fixed in:
-https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D19541
-please check it and share your opinion about these changes, otherwise it
-won't get merged and https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D12=
-937
-will be closed as "won't fix".
-
-Cheers,
-
-On Thu, May 11, 2023 at 9:41=E2=80=AFAM Martin Jansa <martin.jansa@gmail.co=
-m> wrote:
-
-> Hi Paul,
+On Mon, 27 Nov 2023 at 15:33, Patchtest
+<patchtest@automation.yoctoproject.org> wrote:
 >
-> I'm sorry about that, will make sure this is supported again in final
-> state with all [YOCTO #12937] changes where the *_NAME and *_LINK_NAME
-> variables are reversed:
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
 >
-> -IMAGE_NAME ?=3D "${IMAGE_LINK_NAME}${IMAGE_VERSION_SUFFIX}"
-> -IMAGE_LINK_NAME ?=3D
-> "${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}"
-> +IMAGE_NAME ?=3D
-> "${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}"
-> +IMAGE_LINK_NAME ?=3D "${IMAGE_NAME}${IMAGE_VERSION_SUFFIX}"
->
-> and versioned hardlinks (instead of symlinks) *_LINK_NAME are created by
-> separate task. Which will respect *_LINK_NAME variables being set to empt=
-y
-> to disable creating them.
->
-> I've just added another commit to my [YOCTO #12937] staging branch
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/art=
-ifacts
-> to respect empty *_LINK_NAME variables also for kernel artifacts.
->
-> Cheers,
->
-> On Wed, Apr 19, 2023 at 12:43=E2=80=AFAM Paul Eggleton <
-> bluelightning@bluelightning.org> wrote:
->
->> Hi Martin
->>
->> On Tuesday, 14 March 2023 01:15:36 NZST Martin Jansa wrote:
->> > * to make it easier for projects to avoid default -${MACHINE} suffix i=
-f
->> >   the ${MACHINE} named DEPLOY_DIR_IMAGE works better for them
->> >
->> > * also use IMAGE_LINK_NAME in IMAGE_NAME to make it more clear
->> >   that IMAGE_NAME is the same as IMAGE_LINK_NAME but with version
->> >   suffix
->> >
->> > * adding it as separate variable helps us to catch the cases
->> >   where we didn't respect ${IMAGE_LINK_NAME} variable and just used
->> >   the common default ${IMAGE_BASENAME}-${MACHINE}.
->> >
->> > [YOCTO #12937]
->> >
->> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> > ---
->> >  meta/classes-recipe/image-artifact-names.bbclass  | 15 ++++++++++++--=
--
->> >  meta/classes-recipe/kernel-artifact-names.bbclass |  2 +-
->> >  2 files changed, 13 insertions(+), 4 deletions(-)
->> >
->> > diff --git a/meta/classes-recipe/image-artifact-names.bbclass
->> > b/meta/classes-recipe/image-artifact-names.bbclass index
->> > 9dc25b6dde..ac2376d59a 100644
->> > --- a/meta/classes-recipe/image-artifact-names.bbclass
->> > +++ b/meta/classes-recipe/image-artifact-names.bbclass
->> > @@ -11,11 +11,20 @@
->> >  IMAGE_BASENAME ?=3D "${PN}"
->> >  IMAGE_VERSION_SUFFIX ?=3D "-${DATETIME}"
->> >  IMAGE_VERSION_SUFFIX[vardepsexclude] +=3D "DATETIME SOURCE_DATE_EPOCH=
-"
->> > -IMAGE_NAME ?=3D "${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUFFIX}"
->> > -IMAGE_LINK_NAME ?=3D "${IMAGE_BASENAME}-${MACHINE}"
->> > +IMAGE_NAME ?=3D "${IMAGE_LINK_NAME}${IMAGE_VERSION_SUFFIX}"
->> > +IMAGE_LINK_NAME ?=3D "${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}"
->>
->> So there's a minor unfortunate side-effect of this in that you can no
->> longer
->> just set IMAGE_LINK_NAME =3D "" to drop the symlinks - a minority use ca=
-se,
->> but
->> something I have used. Of course you can just re-set the value of
->> IMAGE_NAME.
->> I am making a note in the manual and migration guide.
->>
->> Cheers
->> Paul
->>
->>
->>
->>
->>
+> ---
+> Tests failed for the patch, but the results log could not be processed due to excessive result line length.
 
---000000000000c3c849060b34118e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+How can we proceed? If we do not know, which tests have failed, there
+is no way to fix the issue.
 
-<div dir=3D"ltr">Hi Paul,<div><br></div><div>this was fixed in:</div><div><=
-a href=3D"https://patchwork.yoctoproject.org/project/oe-core/list/?series=
-=3D19541">https://patchwork.yoctoproject.org/project/oe-core/list/?series=
-=3D19541</a><br></div><div>please check it and share your opinion about the=
-se changes, otherwise it won&#39;t get merged and=C2=A0<a href=3D"https://b=
-ugzilla.yoctoproject.org/show_bug.cgi?id=3D12937">https://bugzilla.yoctopro=
-ject.org/show_bug.cgi?id=3D12937</a> will be closed as &quot;won&#39;t fix&=
-quot;.</div><div><br></div><div>Cheers,</div></div><br><div class=3D"gmail_=
-quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 11, 2023 at 9:41=
-=E2=80=AFAM Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">mart=
-in.jansa@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex"><div dir=3D"ltr">Hi Paul,<div><br></div><div>I&#39;m sorr=
-y about that, will make sure this is supported again in final state with al=
-l=C2=A0[YOCTO #12937] changes where the *_NAME and *_LINK_NAME variables ar=
-e reversed:</div><div><br></div><div>-IMAGE_NAME ?=3D &quot;${IMAGE_LINK_NA=
-ME}${IMAGE_VERSION_SUFFIX}&quot;<br>-IMAGE_LINK_NAME ?=3D &quot;${IMAGE_BAS=
-ENAME}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}&quot;<br>+IMAGE_NAME ?=3D=
- &quot;${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}&quot;<b=
-r>+IMAGE_LINK_NAME ?=3D &quot;${IMAGE_NAME}${IMAGE_VERSION_SUFFIX}&quot;<br=
-></div><div><br></div><div>and versioned hardlinks (instead of symlinks) *_=
-LINK_NAME are created by separate task. Which will respect *_LINK_NAME vari=
-ables being set to empty to disable creating them.</div><div><br></div><div=
->I&#39;ve just added another commit to my [YOCTO #12937] staging branch <a =
-href=3D"https://git.openembedded.org/openembedded-core-contrib/log/?h=3Djan=
-sa/artifacts" target=3D"_blank">https://git.openembedded.org/openembedded-c=
-ore-contrib/log/?h=3Djansa/artifacts</a> to respect empty *_LINK_NAME varia=
-bles also for kernel artifacts.</div><div><br></div><div>Cheers,</div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On We=
-d, Apr 19, 2023 at 12:43=E2=80=AFAM Paul Eggleton &lt;<a href=3D"mailto:blu=
-elightning@bluelightning.org" target=3D"_blank">bluelightning@bluelightning=
-.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">Hi Martin<br>
-<br>
-On Tuesday, 14 March 2023 01:15:36 NZST Martin Jansa wrote:<br>
-&gt; * to make it easier for projects to avoid default -${MACHINE} suffix i=
-f<br>
-&gt;=C2=A0 =C2=A0the ${MACHINE} named DEPLOY_DIR_IMAGE works better for the=
-m<br>
-&gt; <br>
-&gt; * also use IMAGE_LINK_NAME in IMAGE_NAME to make it more clear<br>
-&gt;=C2=A0 =C2=A0that IMAGE_NAME is the same as IMAGE_LINK_NAME but with ve=
-rsion<br>
-&gt;=C2=A0 =C2=A0suffix<br>
-&gt; <br>
-&gt; * adding it as separate variable helps us to catch the cases<br>
-&gt;=C2=A0 =C2=A0where we didn&#39;t respect ${IMAGE_LINK_NAME} variable an=
-d just used<br>
-&gt;=C2=A0 =C2=A0the common default ${IMAGE_BASENAME}-${MACHINE}.<br>
-&gt; <br>
-&gt; [YOCTO #12937]<br>
-&gt; <br>
-&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.c=
-om" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes-recipe/image-artifact-names.bbclass=C2=A0 | 15 ++++=
-++++++++---<br>
-&gt;=C2=A0 meta/classes-recipe/kernel-artifact-names.bbclass |=C2=A0 2 +-<b=
-r>
-&gt;=C2=A0 2 files changed, 13 insertions(+), 4 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes-recipe/image-artifact-names.bbclass<br>
-&gt; b/meta/classes-recipe/image-artifact-names.bbclass index<br>
-&gt; 9dc25b6dde..ac2376d59a 100644<br>
-&gt; --- a/meta/classes-recipe/image-artifact-names.bbclass<br>
-&gt; +++ b/meta/classes-recipe/image-artifact-names.bbclass<br>
-&gt; @@ -11,11 +11,20 @@<br>
-&gt;=C2=A0 IMAGE_BASENAME ?=3D &quot;${PN}&quot;<br>
-&gt;=C2=A0 IMAGE_VERSION_SUFFIX ?=3D &quot;-${DATETIME}&quot;<br>
-&gt;=C2=A0 IMAGE_VERSION_SUFFIX[vardepsexclude] +=3D &quot;DATETIME SOURCE_=
-DATE_EPOCH&quot;<br>
-&gt; -IMAGE_NAME ?=3D &quot;${IMAGE_BASENAME}-${MACHINE}${IMAGE_VERSION_SUF=
-FIX}&quot;<br>
-&gt; -IMAGE_LINK_NAME ?=3D &quot;${IMAGE_BASENAME}-${MACHINE}&quot;<br>
-&gt; +IMAGE_NAME ?=3D &quot;${IMAGE_LINK_NAME}${IMAGE_VERSION_SUFFIX}&quot;=
-<br>
-&gt; +IMAGE_LINK_NAME ?=3D &quot;${IMAGE_BASENAME}${IMAGE_MACHINE_SUFFIX}&q=
-uot;<br>
-<br>
-So there&#39;s a minor unfortunate side-effect of this in that you can no l=
-onger <br>
-just set IMAGE_LINK_NAME =3D &quot;&quot; to drop the symlinks - a minority=
- use case, but <br>
-something I have used. Of course you can just re-set the value of IMAGE_NAM=
-E. <br>
-I am making a note in the manual and migration guide.<br>
-<br>
-Cheers<br>
-Paul<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-</blockquote></div>
+> ---
+>
+> Please address the issues identified and
+> submit a new revision of the patch, or alternatively, reply to this
+> email with an explanation of why the patch should be accepted. If you
+> believe these results are due to an error in patchtest, please submit a
+> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+> under 'Yocto Project Subprojects'). For more information on specific
+> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+> you!
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191301): https://lists.openembedded.org/g/openembedded-core/message/191301
+> Mute This Topic: https://lists.openembedded.org/mt/102828551/3618183
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [dbaryshkov@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
---000000000000c3c849060b34118e--
+
+-- 
+With best wishes
+Dmitry
 
