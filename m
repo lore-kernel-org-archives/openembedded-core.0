@@ -1,73 +1,87 @@
-Return-Path: <alexander.sverdlin@siemens.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF7AC4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 07:42:14 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web10.27774.1701157331047898971
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3806C4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 07:55:14 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.27892.1701158109390695497
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 23:42:12 -0800
+ Mon, 27 Nov 2023 23:55:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=alexander.sverdlin@siemens.com header.s=fm1 header.b=BCytUoYE;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-456497-20231128074208923fd331e156a4c517-jg_t43@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20231128074208923fd331e156a4c517
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 28 Nov 2023 08:42:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=alexander.sverdlin@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=jkipNKTccBSTNnA9nyKtQKtz8r1aWFRcY3R85BfTiTk=;
- b=BCytUoYEVF4UMPybQDOav08INRoiCnOqy6R1mdPUQFaca+g8Qwlxt1+i96H7dEqvZMvIYY
- Tm5XhdfJbjXd4h1G8cwWggPrRhGs3Atm+U/3Ec8oduMM46rqZGYrYIekD5D1GHmSMlhMDBjL
- Rh9PuVe+9jOIDNYx7ZwRbufy197rA=;
-From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-Subject: [meta-oe][PATCH] rdfind: remove (move to oe-core)
-Date: Tue, 28 Nov 2023 08:41:59 +0100
-Message-ID: <20231128074201.40056-1-alexander.sverdlin@siemens.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=YtNoDs6E;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9696e6ba9e=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AS5ujiY024661
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 07:55:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=X6q5i
+	Y20lCSi833HgKqcMoV3H+0YP+HGu3LgzxKxMMA=; b=YtNoDs6EJCO6vOA4BtTHe
+	oxpPkUF997dY/jwyrEk/QKlX0ylq/q5DRYGU6W6X1JWeIXQnMtpIkqRL1OrbXC9l
+	2znjIuRJapkYQ6mqu2NSMPk2j5a3vcBTNveOUS/JWEp2PYXi8sC91Zz06gzS8Oez
+	k5ieU/hJWvx7XxNSmkPQx7+Wk4PhPF1HkuW+mMn8vgUWjnzCNJRKcO4+JcBxUMg8
+	tfFrNOlU9Hv2tuE0/D18AD+yNRP8FfzpJ5sNNs39eWOwsAl176NCL2JEn7mu7rBX
+	C0NfvHq92RRRGg53HYzzGSe41NVTZ5ysbc9WBf0UZCPmw/d+ucGB4o4zAsvIRIDN
+	w==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uk7w6jdg4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 07:55:08 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.34; Mon, 27 Nov 2023 23:55:14 -0800
+Received: from ala-lpggp3.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.34 via Frontend Transport; Mon, 27 Nov 2023 23:55:14 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/2] Upgrade gnu-config and gettext
+Date: Mon, 27 Nov 2023 23:55:05 -0800
+Message-ID: <cover.1701157879.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-456497:519-21489:flowmailer
+Content-Type: text/plain
+X-Proofpoint-GUID: BxbCXOmFFAbU_l5G6EXdiHSgLzKXsmgs
+X-Proofpoint-ORIG-GUID: BxbCXOmFFAbU_l5G6EXdiHSgLzKXsmgs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ clxscore=1011 spamscore=0 suspectscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 phishscore=0 malwarescore=0 impostorscore=0 mlxlogscore=856
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311060001 definitions=main-2311280060
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 07:42:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191336
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 07:55:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191337
 
-From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+The following changes since commit 212affe748e2f628ecf11f26485b07dd303fe6e3:
 
-Newer linux-firmware (oe-core) requires rdfind-native, move the new
-dependency to oe-core as well.
+  Revert "binutils: Fix CVE-2022-47007" (2023-11-23 14:58:06 +0000)
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
----
- meta-oe/recipes-support/rdfind/rdfind_1.6.0.bb | 13 -------------
- 1 file changed, 13 deletions(-)
- delete mode 100644 meta-oe/recipes-support/rdfind/rdfind_1.6.0.bb
+are available in the Git repository at:
 
-diff --git a/meta-oe/recipes-support/rdfind/rdfind_1.6.0.bb b/meta-oe/recipes-support/rdfind/rdfind_1.6.0.bb
-deleted file mode 100644
-index 3a15fe6c9..000000000
---- a/meta-oe/recipes-support/rdfind/rdfind_1.6.0.bb
-+++ /dev/null
-@@ -1,13 +0,0 @@
--SUMMARY = "Rdfind is a program that finds duplicate files"
--HOMEPAGE = "https://rdfind.pauldreik.se/"
--LICENSE = "GPL-2.0-only"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fa22e16ebbe6638b2bd253338fbded9f"
--
--DEPENDS = "nettle autoconf-archive"
--
--SRC_URI = "https://rdfind.pauldreik.se/${BP}.tar.gz"
--SRC_URI[sha256sum] = "7a406e8ef1886a5869655604618dd98f672f12c6a6be4926d053be65070f3279"
--
--inherit autotools
--
--BBCLASSEXTEND = "native"
+  https://github.com/robertlinux/yocto rbt/upgrade
+  https://github.com/robertlinux/yocto/tree/rbt/upgrade
+
+Robert Yang (2):
+  gnu-config: Update to latest revision
+  gettext: Upgrade 0.22 -> 0.22.3
+
+ ...inimal-native_0.22.bb => gettext-minimal-native_0.22.3.bb} | 0
+ meta/recipes-core/gettext/gettext-sources.inc                 | 2 +-
+ .../gettext/{gettext_0.22.bb => gettext_0.22.3.bb}            | 0
+ meta/recipes-devtools/gnu-config/gnu-config_git.bb            | 4 ++--
+ 4 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/gettext/{gettext-minimal-native_0.22.bb => gettext-minimal-native_0.22.3.bb} (100%)
+ rename meta/recipes-core/gettext/{gettext_0.22.bb => gettext_0.22.3.bb} (100%)
+
 -- 
-2.43.0
+2.42.0
 
 
