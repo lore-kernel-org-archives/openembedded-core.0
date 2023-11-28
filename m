@@ -1,103 +1,258 @@
-Return-Path: <Lizhi.Xu@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE1EC07CB1
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 02:38:23 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.23516.1701139096103746855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C5F6C4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 05:00:04 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.25957.1701147601590254088
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 18:38:16 -0800
+ Mon, 27 Nov 2023 21:00:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Ny7F+E1V;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=96967bda7e=lizhi.xu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AS2SwBk002685;
-	Tue, 28 Nov 2023 02:38:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PPS06212021; bh=7J0yYiu424LgvworclCrhnYSgRyA0fPt7djalHTae5s=; b=
-	Ny7F+E1Vr0m6vOrGCKB4FOd0yrCTPxiyAvPLGHu0PyOymtQyb/yVWPU2tM4eUYAC
-	rj3J5UeDHBImp1uLfr+PwfSpg1LRTJe9854AG18XadM2QsBErFlyXfm01BveQRtz
-	Mg9NmfMMgZ2/4HdkhC3bGqPdlwUpoN/pzMMVeMD20QDfi/zQx4W0THpR3DtAXCWf
-	CdAjLXpozu2hWJC3IEJCfpp9moUNVIK5fJCqyl0b7Vm+TC5u/d2X29gUtC7j4MuC
-	38wcSVOxyq1flE6DHvI7GoukM9M4BkBjsPTh9cCOgUiPpbim8jcTqUIadv8gyruu
-	KmI2LHyP2IU8jyvCgBXR/Q==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uk64xj9nu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 28 Nov 2023 02:38:14 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Mon, 27 Nov 2023 18:38:20 -0800
-Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 27 Nov 2023 18:38:19 -0800
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <alex.kiernan@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] [OE-core] tzdata: Reduced time zone configuration
-Date: Tue, 28 Nov 2023 10:38:11 +0800
-Message-ID: <20231128023811.2475084-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAO5Uq5R5JP8FJWVnidjMCxRqiBME6_4rP9V6kqSPwciWkCmUZw@mail.gmail.com>
-References: <CAO5Uq5R5JP8FJWVnidjMCxRqiBME6_4rP9V6kqSPwciWkCmUZw@mail.gmail.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=MXM1wdOa;
+ spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1ce3084c2d1so42056855ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 21:00:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1701147601; x=1701752401; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LDqLAAwSeJnWAkKchnY14hWz/tUmZ8STjtGmVZ2rTSo=;
+        b=MXM1wdOahrNh6J0flFHI5eLLgB4uSJPRSijKZsxCzc0BXk96uA7PZd8L0IRfqTAqVt
+         pFIuTy2RHeKA8zLMKgv9ajlSPUGDVMV0I4jV5TPHISTy4rwICK68FqsYlMxYCscRIYnb
+         JWuAcEQ11K1DF1INGSRHn9AqdJhhUqLUDnMUg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701147601; x=1701752401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LDqLAAwSeJnWAkKchnY14hWz/tUmZ8STjtGmVZ2rTSo=;
+        b=oOobYADSbauDnleT45md0qRO+ZK1EVMgygsoB3h/m7t8ZheF+hT4Ag4x6hrGDbLpuH
+         D7kigI0gzIXjiNKKzVDzNmDI+9iS1aJ5upN9mOh5Rzvzcn5gwJCJ1GgDjKsv/zxWX4Ke
+         MIKxjw04Fy8ot5SAnLV+g103mTMfwrqvDYOt0TqC6nOvY1duGSYbmam1VMDHih9U3jyG
+         ha/t62490CkHIjycpzu+twwNGcgL0+NEt1c98PxOZH5qIPiQYkTVEB2Cp5qP4t1DQ/Eu
+         X6FzJgUYbjoirmuXiirrf4Tys//F0WTflamOZ0M/M1gpxn2M9ltB1C1Q7ImtJ7WeHoKa
+         58qw==
+X-Gm-Message-State: AOJu0YzAitWhJ+CH7f+opURsRH48rzIfLMrRr9d/Yzz9WFGPHFeo+1Ou
+	InbaA+0qAOu7JrXuir7zZCOHhREfAt+Da5ax6J/nVw==
+X-Google-Smtp-Source: AGHT+IGBk67eS9LDuabe4HmQT1rocfdZtPGRd2S6vUtRryeHtpb3myRYzBooYpypH3WDdlaEYS7f/Q==
+X-Received: by 2002:a17:903:41c6:b0:1cf:584e:d724 with SMTP id u6-20020a17090341c600b001cf584ed724mr19100290ple.10.1701147600666;
+        Mon, 27 Nov 2023 21:00:00 -0800 (PST)
+Received: from MVIN00016.mvista.com ([27.121.101.117])
+        by smtp.gmail.com with ESMTPSA id q2-20020a170902dac200b001cfc4d8eddesm3771312plx.180.2023.11.27.20.59.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 21:00:00 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [[dunfell][PATCH] grub: fix CVE-2023-4692 & CVE-2023-4693
+Date: Tue, 28 Nov 2023 10:29:52 +0530
+Message-Id: <20231128045952.61390-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: oXhaRBq_WoiMk_d9Dw-A1cm27Q9utA8g
-X-Proofpoint-GUID: oXhaRBq_WoiMk_d9Dw-A1cm27Q9utA8g
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 bulkscore=0 clxscore=1011 malwarescore=0
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311280018
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 02:38:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191333
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 05:00:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191334
 
-On Fri, 24 Nov 2023 16:50:04 +0000, Alex Kiernan wrote:
-> > > tzdata.bb by default pulls in all possible timezone data packages which
-> > > increases size of the final root filesystem considerably.
-> > > The customer would like to have extra timezones configurable so that only
-> > > tzdata-core is chosen by default and rest of the zones are optional.
-> > > This change would make the fs size a lot smaller.
-> > >
-> > > Comparison of customized package volume before and after:
-> > > When TZ_PACKAGES contains all tzdata packets, the image size of tzdata is 7.4MB.
-> > > The difference in mirror size between the two is 7MB.
-> > >
-> > > When TZ_PACKAGES only retains one tzdata-core, the image size generated by
-> > > tzdata is 320KB.
-> > >
-> > > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
-> >
-> > I get what you're trying to do, but this looks horrid. How about
-> > splitting into multiple packages based on top level directory (plus
-> > the few which sit in the top level directory) using a new
-> > PACKAGESPLITFUNCS so you don't have to hardcode the list of packages?
-> >
-> 
-> Foolishly, I didn't actually look at what was in the tzdata recipe
-> first and it already splits things... I'm lost, can't you just remove
-> things from TZ_PACKAGES to get what you're after?
-To achieve a final reduction in the size of the tzdata package, simply configuring 
-TZ_PACKAGES is not enough. It is also necessary to delete the corresponding zoneinfo 
-when generating the final package, this requires performing the corresponding deletion 
-operation in the do_install() task simultaneously, which is too complex for users. 
+Upstream-Status: Backport from https://git.savannah.gnu.org/cgit/grub.git/commit/?id=43651027d24e62a7a463254165e1e46e42aecdea && https://git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=0ed2458cc4eff6d9a9199527e2a0b6d445802f94
 
-Therefore, this patch is provided to simplify the step of reducing package size.
-After applying this patch, users only need to modify the OP_TZ in tzd.inc to 
-determine which time zones are needed in the final generated package, in order
-to facilitate customization of the final size of the tzdata package.
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../grub/files/CVE-2023-4692.patch            | 97 +++++++++++++++++++
+ .../grub/files/CVE-2023-4693.patch            | 62 ++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  2 +
+ 3 files changed, 161 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2023-4692.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2023-4693.patch
 
-Thanks,
-Lizhi
+diff --git a/meta/recipes-bsp/grub/files/CVE-2023-4692.patch b/meta/recipes-bsp/grub/files/CVE-2023-4692.patch
+new file mode 100644
+index 0000000000..0e74870ebf
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2023-4692.patch
+@@ -0,0 +1,97 @@
++From 43651027d24e62a7a463254165e1e46e42aecdea Mon Sep 17 00:00:00 2001
++From: Maxim Suhanov <dfirblog@gmail.com>
++Date: Mon, 28 Aug 2023 16:31:57 +0300
++Subject: [PATCH] fs/ntfs: Fix an OOB write when parsing the $ATTRIBUTE_LIST
++ attribute for the $MFT file
++
++When parsing an extremely fragmented $MFT file, i.e., the file described
++using the $ATTRIBUTE_LIST attribute, current NTFS code will reuse a buffer
++containing bytes read from the underlying drive to store sector numbers,
++which are consumed later to read data from these sectors into another buffer.
++
++These sectors numbers, two 32-bit integers, are always stored at predefined
++offsets, 0x10 and 0x14, relative to first byte of the selected entry within
++the $ATTRIBUTE_LIST attribute. Usually, this won't cause any problem.
++
++However, when parsing a specially-crafted file system image, this may cause
++the NTFS code to write these integers beyond the buffer boundary, likely
++causing the GRUB memory allocator to misbehave or fail. These integers contain
++values which are controlled by on-disk structures of the NTFS file system.
++
++Such modification and resulting misbehavior may touch a memory range not
++assigned to the GRUB and owned by firmware or another EFI application/driver.
++
++This fix introduces checks to ensure that these sector numbers are never
++written beyond the boundary.
++
++Fixes: CVE-2023-4692
++
++Reported-by: Maxim Suhanov <dfirblog@gmail.com>
++Signed-off-by: Maxim Suhanov <dfirblog@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=43651027d24e62a7a463254165e1e46e42aecdea]
++CVE: CVE-2023-4692
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/fs/ntfs.c | 18 +++++++++++++++++-
++ 1 file changed, 17 insertions(+), 1 deletion(-)
++
++diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
++index 2f34f76..c8d3683 100644
++--- a/grub-core/fs/ntfs.c
+++++ b/grub-core/fs/ntfs.c
++@@ -184,7 +184,7 @@ find_attr (struct grub_ntfs_attr *at, grub_uint8_t attr)
++     }
++   if (at->attr_end)
++     {
++-      grub_uint8_t *pa;
+++      grub_uint8_t *pa, *pa_end;
++ 
++       at->emft_buf = grub_malloc (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR);
++       if (at->emft_buf == NULL)
++@@ -209,11 +209,13 @@ find_attr (struct grub_ntfs_attr *at, grub_uint8_t attr)
++ 	    }
++ 	  at->attr_nxt = at->edat_buf;
++ 	  at->attr_end = at->edat_buf + u32at (pa, 0x30);
+++	  pa_end = at->edat_buf + n;
++ 	}
++       else
++ 	{
++ 	  at->attr_nxt = at->attr_end + u16at (pa, 0x14);
++ 	  at->attr_end = at->attr_end + u32at (pa, 4);
+++	  pa_end = at->mft->buf + (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR);
++ 	}
++       at->flags |= GRUB_NTFS_AF_ALST;
++       while (at->attr_nxt < at->attr_end)
++@@ -230,6 +232,13 @@ find_attr (struct grub_ntfs_attr *at, grub_uint8_t attr)
++ 	  at->flags |= GRUB_NTFS_AF_GPOS;
++ 	  at->attr_cur = at->attr_nxt;
++ 	  pa = at->attr_cur;
+++
+++	  if ((pa >= pa_end) || (pa_end - pa < 0x18))
+++	    {
+++	      grub_error (GRUB_ERR_BAD_FS, "can\'t parse attribute list");
+++	      return NULL;
+++	    }
+++
++ 	  grub_set_unaligned32 ((char *) pa + 0x10,
++ 				grub_cpu_to_le32 (at->mft->data->mft_start));
++ 	  grub_set_unaligned32 ((char *) pa + 0x14,
++@@ -240,6 +249,13 @@ find_attr (struct grub_ntfs_attr *at, grub_uint8_t attr)
++ 	    {
++ 	      if (*pa != attr)
++ 		break;
+++
+++              if ((pa >= pa_end) || (pa_end - pa < 0x18))
+++                {
+++	          grub_error (GRUB_ERR_BAD_FS, "can\'t parse attribute list");
+++	          return NULL;
+++	        }
+++
++ 	      if (read_attr
++ 		  (at, pa + 0x10,
++ 		   u32at (pa, 0x10) * (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR),
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/files/CVE-2023-4693.patch b/meta/recipes-bsp/grub/files/CVE-2023-4693.patch
+new file mode 100644
+index 0000000000..1e6b6efdec
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/CVE-2023-4693.patch
+@@ -0,0 +1,62 @@
++From 0ed2458cc4eff6d9a9199527e2a0b6d445802f94 Mon Sep 17 00:00:00 2001
++From: Maxim Suhanov <dfirblog@gmail.com>
++Date: Mon, 28 Aug 2023 16:32:33 +0300
++Subject: [PATCH] fs/ntfs: Fix an OOB read when reading data from the resident
++ $DATA attribute
++
++When reading a file containing resident data, i.e., the file data is stored in
++the $DATA attribute within the NTFS file record, not in external clusters,
++there are no checks that this resident data actually fits the corresponding
++file record segment.
++
++When parsing a specially-crafted file system image, the current NTFS code will
++read the file data from an arbitrary, attacker-chosen memory offset and of
++arbitrary, attacker-chosen length.
++
++This allows an attacker to display arbitrary chunks of memory, which could
++contain sensitive information like password hashes or even plain-text,
++obfuscated passwords from BS EFI variables.
++
++This fix implements a check to ensure that resident data is read from the
++corresponding file record segment only.
++
++Fixes: CVE-2023-4693
++
++Reported-by: Maxim Suhanov <dfirblog@gmail.com>
++Signed-off-by: Maxim Suhanov <dfirblog@gmail.com>
++Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/gitweb/?p=grub.git;a=commit;h=0ed2458cc4eff6d9a9199527e2a0b6d445802f94]
++CVE: CVE-2023-4693
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ grub-core/fs/ntfs.c | 13 ++++++++++++-
++ 1 file changed, 12 insertions(+), 1 deletion(-)
++
++diff --git a/grub-core/fs/ntfs.c b/grub-core/fs/ntfs.c
++index c8d3683..4d1fe42 100644
++--- a/grub-core/fs/ntfs.c
+++++ b/grub-core/fs/ntfs.c
++@@ -401,7 +401,18 @@ read_data (struct grub_ntfs_attr *at, grub_uint8_t *pa, grub_uint8_t *dest,
++     {
++       if (ofs + len > u32at (pa, 0x10))
++ 	return grub_error (GRUB_ERR_BAD_FS, "read out of range");
++-      grub_memcpy (dest, pa + u32at (pa, 0x14) + ofs, len);
+++
+++      if (u32at (pa, 0x10) > (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR))
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute too large");
+++
+++      if (pa >= at->mft->buf + (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR))
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute out of range");
+++
+++      if (u16at (pa, 0x14) + u32at (pa, 0x10) >
+++	  (grub_addr_t) at->mft->buf + (at->mft->data->mft_size << GRUB_NTFS_BLK_SHR) - (grub_addr_t) pa)
+++	return grub_error (GRUB_ERR_BAD_FS, "resident attribute out of range");
+++
+++      grub_memcpy (dest, pa + u16at (pa, 0x14) + ofs, len);
++       return 0;
++     }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index bfcda76c24..bea03f4fc1 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -109,6 +109,8 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://CVE-2020-27749.patch \
+            file://CVE-2021-20225.patch \
+            file://CVE-2021-20233.patch \
++           file://CVE-2023-4692.patch \
++           file://CVE-2023-4693.patch \
+            "
+ SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
+ SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
+-- 
+2.25.1
+
 
