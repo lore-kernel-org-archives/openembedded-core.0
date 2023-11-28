@@ -1,82 +1,120 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Lizhi.Xu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 571E3C4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:03:15 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.29377.1701165793403073046
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B65C4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:05:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.29420.1701165912350861447
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 02:03:13 -0800
+ Tue, 28 Nov 2023 02:05:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZSusikWL;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2c9b5b774f0so4411851fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 02:03:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701165791; x=1701770591; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mwUaeJ2/53aR8umlVn+WWN9YIf2mbEQhehAWPoZNUdY=;
-        b=ZSusikWL/7/r9hGzPz5Xf+pmOucQqUwo0fcq9TbStF4T75UfL2GUmYWTiZKdqNvN8/
-         Kj8bCaeIJbYajqNpX63h8zuyubePJOkzNj/Qv7vva+r3xSbzmvYi+cBu7jEJfPeiB6W/
-         uSnhZJ2NJc9HsJzIImCwAGT2GTLetz1Nt7KVP5pVWrXkv5JOAGKigaP1UsIFFzyVBQkp
-         P8d1I7DdUGqokdVC6VsT0Q0VwExzEnLLu2DnHOb0s5Q+udaFFkDXGum+iztkziUn2E4W
-         2TSnQb4FHnKHOS+QeWst0G08np4cKwQRiPnxg5G28yXgqWFdsEv3ene5nzixI8U2+KVb
-         H7bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701165791; x=1701770591;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mwUaeJ2/53aR8umlVn+WWN9YIf2mbEQhehAWPoZNUdY=;
-        b=iCMHmznWGGo/klJHGa2bDwpw/hcilBiCzcs2Q+pOT0SPdsT9BNLzzHbl877Ta55ERT
-         f8yhAtM63fFCK892d+9xuS1nLUtMrG8DHRBzQWdmY98xO9IYkyVfvimk8F1bxkjfUlIY
-         +icCQ3kFtHt2E6Q2oE6w0vDYg32Zk++UDZA1nFbCMuoBacwSObMw6gDhhDGEOL6AVJGr
-         5YHbDPnDVTPaVjoCZcqR75qGwF+sh+Bs5OBMVeBTNtGbHa7as7GMfnijBMyC+1Vb1Cqn
-         g4Vku2sGl0CCn8ZVxPDrWb7xOQzLHrhV7BOiVIjmeNRdEO5KgtK4/75A7MfoUH+BuBnW
-         uktA==
-X-Gm-Message-State: AOJu0YxvYA9HLVLP2YFl7/74YepT9McbdckrOIv7C+SY4WthHsLHPP8t
-	SPecDlssXe5givqcSOBueErAuGPRjtDVlhzY/sk=
-X-Google-Smtp-Source: AGHT+IF9hid3x9ibFmCIBMiITlPPeFBa8gxk3MH2UZEIQ4tQ8VblUFxIePzIPTWPypVTHgmZwFnriwtoISGtYZesIiU=
-X-Received: by 2002:a2e:9bc7:0:b0:2c5:1aae:400d with SMTP id
- w7-20020a2e9bc7000000b002c51aae400dmr10553929ljj.22.1701165791209; Tue, 28
- Nov 2023 02:03:11 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=iRH3Ngjm;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=96967bda7e=lizhi.xu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AS8W2gi014590;
+	Tue, 28 Nov 2023 10:05:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PPS06212021; bh=fPD0iPUoqrkVp7vBHdtSErLRVZs93WiOvU7vol4rvAc=; b=
+	iRH3NgjmplAJfOOFgP1BrXNCewm2n5HR3SP2YALLEZ8WAAo5glJ1oTgNsEHdhVWJ
+	tzAAcGNRH6wORsCe8q7rznhcqqyYNo4fDTei3r48ngtPtp58tkoQxgz5EQwlccLi
+	Jgf6fFfzLj7rUpH0uVw91+ob7V0veePc8yBGBkR95FrhuhDeU/dQtDFvvVc8N8ww
+	q0zq0zzJ2GNygR5IDuWKUDkTeKWxXDD4b6CCqeXaBY1SINgK5fNLZD/DgZmVChAC
+	ew3CISfbftmJt2qaPwndMP6D4aZ/kA2/00GncVvTuEdKaapKlQ1fK3EvG3pb8V1V
+	RCwDGXpP0kEBKa0axdLXfQ==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uk64xjk01-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 28 Nov 2023 10:05:10 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 28 Nov 2023 02:05:16 -0800
+Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Tue, 28 Nov 2023 02:05:15 -0800
+From: Lizhi Xu <lizhi.xu@windriver.com>
+To: <peter.marko@siemens.com>
+CC: <alex.kiernan@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] [OE-core] tzdata: Reduced time zone configuration
+Date: Tue, 28 Nov 2023 18:05:07 +0800
+Message-ID: <20231128100507.3662992-1-lizhi.xu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231128084446.880869-1-lizhi.xu@windriver.com>
+References: <20231128084446.880869-1-lizhi.xu@windriver.com>
 MIME-Version: 1.0
-References: <3cd66d19-6e0c-4b1b-a990-723cd445698f@gmail.com>
- <1be4aa623d61e40f52466e1cc3b65c4543b39b20.camel@linuxfoundation.org>
- <25c15f7d-d1e8-427f-a1ab-6edb854daaa0@gmail.com> <CA+chaQdMrEWZkXfyX=cGDt9uD0JodDFK68cedzGVN2fMDRh+Qg@mail.gmail.com>
- <29c6bdd6-72bf-48f6-9a8a-eb15c1225ba1@gmail.com> <ab819301dbf2bf4a669dfdbd937b21f0c7ec719c.camel@linuxfoundation.org>
-In-Reply-To: <ab819301dbf2bf4a669dfdbd937b21f0c7ec719c.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 28 Nov 2023 11:02:59 +0100
-Message-ID: <CANNYZj8Avg0H1JJgd-fDp-CCP-3a6Au2yq4_vX+y7c2nRXxAFw@mail.gmail.com>
-Subject: Re: [OE-core] bitbake-server does not exit after build ends
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>, 
-	Martin Jansa <martin.jansa@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: oXzcT0d1gxMcF6cDQfQh5NdmZDghU7Nl
+X-Proofpoint-GUID: oXzcT0d1gxMcF6cDQfQh5NdmZDghU7Nl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=999 impostorscore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 bulkscore=0 clxscore=1015 malwarescore=0
+ adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311060001 definitions=main-2311280078
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:03:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191352
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:05:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191353
 
-On Tue, 28 Nov 2023 at 11:00, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I'm not sure that is entirely true/fair. The way bitbake has executed
-> processes and handled threads was very carefully written deliberately
-> to avoid some of these kinds of issues so it wasn't "pure luck". What I
-> don't know is what changed in 3.12 to mean this now is potentially
-> breaking.
+On Tue, 28 Nov 2023 16:44:46 +0800, Lizhi wrote:
+> > > > > > tzdata.bb by default pulls in all possible timezone data packages
+> > > > > > which increases size of the final root filesystem considerably.
+> > > > > > The customer would like to have extra timezones configurable so
+> > > > > > that only tzdata-core is chosen by default and rest of the zones are optional.
+> > > > > > This change would make the fs size a lot smaller.
+> > > > > >
+> > > > > > Comparison of customized package volume before and after:
+> > > > > > When TZ_PACKAGES contains all tzdata packets, the image size of tzdata is 7.4MB.
+> > > > > > The difference in mirror size between the two is 7MB.
+> > > > > >
+> > > > > > When TZ_PACKAGES only retains one tzdata-core, the image size
+> > > > > > generated by tzdata is 320KB.
+> > > > > >
+> > > > > > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+> > > > >
+> > > > > I get what you're trying to do, but this looks horrid. How about
+> > > > > splitting into multiple packages based on top level directory (plus
+> > > > > the few which sit in the top level directory) using a new
+> > > > > PACKAGESPLITFUNCS so you don't have to hardcode the list of packages?
+> > > > >
+> > > >
+> > > > Foolishly, I didn't actually look at what was in the tzdata recipe
+> > > > first and it already splits things... I'm lost, can't you just remove
+> > > > things from TZ_PACKAGES to get what you're after?
+> > > To achieve a final reduction in the size of the tzdata package, simply configuring TZ_PACKAGES is not enough. It is also necessary to delete the corresponding zoneinfo when generating the final package, this requires performing the corresponding deletion operation in the do_install() task simultaneously, which is too complex for users.
+> > >
+> > > Therefore, this patch is provided to simplify the step of reducing package size.
+> > > After applying this patch, users only need to modify the OP_TZ in tzd.inc to determine which time zones are needed in the final generated package, in order to facilitate customization of the final size of the tzdata package.
+> > >
+> > > Thanks,
+> > > Lizhi
+> >
+> > This is the wrong way how to achieve smaller rootfs.
+> > If you grep oe-core and meta-oe for tzdata, you'll see that you break things (e.g. glib-2.0 ptest depends on specific tzdata you're trying to remove).
+> If the default value of "OP_TZ" is adjusted to the following value, the problem
+> you described will not occur:
+> OP_TZ = "tzdata-misc tzdata-posix tzdata-right tzdata-africa \
+>     tzdata-americas tzdata-antarctica tzdata-arctic tzdata-asia \
+>     tzdata-atlantic tzdata-australia tzdata-europe tzdata-pacific \
+>  "
+> >
+> > Yocto has concept of packages and tzdata is good example how to use them.
+> > Just install packages you need instead of generic tzdata package which pulls all.
+> > If you need the empty main tzdata package because of its postinst, then just reduce the list what is pulled here:
+> > RDEPENDS:${PN} = "${TZ_PACKAGES}"
+Yes, You are right.
+After only containing "tzdata-core" in RDEPENDS, only the data corresponding to
+"tzdata-core" will be included in rootfs, thereby reducing the volume of rootfs.
+> I didn't understand what you said.
+> If we don't adjust tzdata.bb and instead adjust all packages that depend on
+> tzdata at runtime, the customer may lose patience.
 
-With my python 3.12 recipe I'm getting a different issue when that
-recipe is used to produce python in buildtools, and much sooner:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/8593/steps/13/logs/stdio
-
-I've reproduced it locally, and looking into it. It seems as though
-hash server is not creating the unix socket file, but isn't failing to
-start either.
-
-Alex
+Lizhi
 
