@@ -2,78 +2,85 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAEFC4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 23:43:18 +0000 (UTC)
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
- by mx.groups.io with SMTP id smtpd.web10.14260.1701214989698653306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20876C4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 23:43:58 +0000 (UTC)
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.web10.14269.1701215029238359776
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 15:43:10 -0800
+ Tue, 28 Nov 2023 15:43:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="140768633"
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="141134741"
 X-IronPort-AV: E=Sophos;i="6.04,234,1695654000"; 
-   d="scan'208";a="140768633"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 08:43:08 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 6A9ADE8BE9
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:43:05 +0900 (JST)
+   d="scan'208";a="141134741"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 08:43:47 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id D8750D618A
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:43:44 +0900 (JST)
 Received: from aks-ab2.gw.nic.fujitsu.com (aks-ab2.gw.nic.fujitsu.com [192.51.207.12])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 9F068AB5EE
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:43:04 +0900 (JST)
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 1DE40D9743
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:43:44 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.149])
-	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id 8A119869FA;
-	Wed, 29 Nov 2023 08:43:03 +0900 (JST)
+	by aks-ab2.gw.nic.fujitsu.com (Postfix) with ESMTP id E15A8869FA;
+	Wed, 29 Nov 2023 08:43:42 +0900 (JST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] python3-trove-classifiers: upgrade 2023.11.14 -> 2023.11.22
-Date: Wed, 29 Nov 2023 07:42:21 +0800
-Message-Id: <1701214941-1848-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] python3-wheel: upgrade 0.41.3 -> 0.42.0
+Date: Wed, 29 Nov 2023 07:43:04 +0800
+Message-Id: <1701214984-1884-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1408-9.0.0.1002-28026.003
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1408-9.0.1002-28026.003
-X-TMASE-Result: 10--1.630300-10.000000
-X-TMASE-MatchedRID: hsQjHHSArR6jz0nOeth/yUIIxwDaU5mregIHHX2L4YyU8ftiyKjZrdMj
-	jwb9QfV2CC8aAmGeO6lV00+whwxVQy/7QU2czuUNnVTWWiNp+v9uTKBinxl/umAN6i+va16uBqd
-	FRjHdIbhbJcQH3furV3k48PxckV+kHxPMjOKY7A+u65UDD0aDgsRB0bsfrpPIcSqbxBgG0w5PUV
-	0MVuD2VNi1BLeHi0Kto8srg52PRgwr4/nnYt+tYRUW/2pcLjcUoPRZ9HVvHJeViSpoGbBDgki8D
-	rQG14EU3xKP2ieeBhWCvqWrFsheUcLe0zBjeZrbFQOP52BRBXJMTsKj18q/fA==
+X-TMASE-Result: 10-3.034400-10.000000
+X-TMASE-MatchedRID: R9NZgeCyXhKjz0nOeth/yUIIxwDaU5mrrOCEGIPhtwjVbZFdXapsKSvG
+	qScnsLro4/lM/D9d1hNGZriJw3Sdwe1a16oqp8B1/HTKStsDGMJHNQ8CqEKO2MC5DTEMxpeQD5+
+	EY120A3oWm/gAtjCd7AYUFsN5WfiF8plQwfMmRJSeAiCmPx4NwGmRqNBHmBveVDC1CbuJXmMqtq
+	5d3cxkNWvjt7RMoWhlceyc7rMzd0ZAdr9lbqkf3Yb3c8MxNy6tgndkDshB+Aqe4KIRzNu8uSPGM
+	enMloNZI9OgYtiVS98o3CVl65BtnujgMZI4KJ30U8mdcvbI1h2S6jzjuXTm0MTMzICazP4UehYt
+	aVdyxm8=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 23:43:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191418
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 23:43:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191419
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-  Add "Framework :: Sphinx :: Domain" classifier
+===========
+-Allowed removing build tag with wheel tags --build ""
+-Fixed wheel pack and wheel tags writing updated WHEEL fields after a blank
+ line, causing other tools to ignore them
+-Fixed wheel pack and wheel tags writing WHEEL with CRLF line endings or a
+ mix of CRLF and LF
+-Fixed wheel pack --build-number "" not removing build tag from WHEEL
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...rs_2023.11.14.bb => python3-trove-classifiers_2023.11.22.bb} | 2 +-
+ .../python/{python3-wheel_0.41.3.bb => python3-wheel_0.42.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-trove-classifiers_2023.11.14.bb => python3-trove-classifiers_2023.11.22.bb} (87%)
+ rename meta/recipes-devtools/python/{python3-wheel_0.41.3.bb => python3-wheel_0.42.0.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.22.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb
-rename to meta/recipes-devtools/python/python3-trove-classifiers_2023.11.22.bb
-index a6c7e95c51..44a6f5de03 100644
---- a/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.14.bb
-+++ b/meta/recipes-devtools/python/python3-trove-classifiers_2023.11.22.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+diff --git a/meta/recipes-devtools/python/python3-wheel_0.41.3.bb b/meta/recipes-devtools/python/python3-wheel_0.42.0.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-wheel_0.41.3.bb
+rename to meta/recipes-devtools/python/python3-wheel_0.42.0.bb
+index bdba98b8d5..807888e6c0 100644
+--- a/meta/recipes-devtools/python/python3-wheel_0.41.3.bb
++++ b/meta/recipes-devtools/python/python3-wheel_0.42.0.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7ffb0db04527cfe380e4f2726bd05ebf"
  
--SRC_URI[sha256sum] = "64b5e78305a5de347f2cd7ec8c12d704a3ef0cb85cc10c0ca5f73488d1c201f8"
-+SRC_URI[sha256sum] = "c31a7e92f965f060a244b57d8ed5ee6f53fcb413ee17ce790e00577cb369ad99"
+-SRC_URI[sha256sum] = "4d4987ce51a49370ea65c0bfd2234e8ce80a12780820d9dc462597a6e60d0841"
++SRC_URI[sha256sum] = "c45be39f7882c9d34243236f2d63cbd58039e360f85d0913425fbd7ceea617a8"
  
- inherit pypi python_setuptools_build_meta ptest
+ inherit python_flit_core pypi
  
 -- 
 2.34.1
