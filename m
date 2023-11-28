@@ -1,120 +1,112 @@
-Return-Path: <Lizhi.Xu@windriver.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B65C4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:05:15 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.29420.1701165912350861447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB85C07E98
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:31:25 +0000 (UTC)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web11.29735.1701167479158045065
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 02:05:12 -0800
+ Tue, 28 Nov 2023 02:31:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=iRH3Ngjm;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=96967bda7e=lizhi.xu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AS8W2gi014590;
-	Tue, 28 Nov 2023 10:05:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PPS06212021; bh=fPD0iPUoqrkVp7vBHdtSErLRVZs93WiOvU7vol4rvAc=; b=
-	iRH3NgjmplAJfOOFgP1BrXNCewm2n5HR3SP2YALLEZ8WAAo5glJ1oTgNsEHdhVWJ
-	tzAAcGNRH6wORsCe8q7rznhcqqyYNo4fDTei3r48ngtPtp58tkoQxgz5EQwlccLi
-	Jgf6fFfzLj7rUpH0uVw91+ob7V0veePc8yBGBkR95FrhuhDeU/dQtDFvvVc8N8ww
-	q0zq0zzJ2GNygR5IDuWKUDkTeKWxXDD4b6CCqeXaBY1SINgK5fNLZD/DgZmVChAC
-	ew3CISfbftmJt2qaPwndMP6D4aZ/kA2/00GncVvTuEdKaapKlQ1fK3EvG3pb8V1V
-	RCwDGXpP0kEBKa0axdLXfQ==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uk64xjk01-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 28 Nov 2023 10:05:10 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 28 Nov 2023 02:05:16 -0800
-Received: from pek-lpd-ccm6.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 28 Nov 2023 02:05:15 -0800
-From: Lizhi Xu <lizhi.xu@windriver.com>
-To: <peter.marko@siemens.com>
-CC: <alex.kiernan@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] [OE-core] tzdata: Reduced time zone configuration
-Date: Tue, 28 Nov 2023 18:05:07 +0800
-Message-ID: <20231128100507.3662992-1-lizhi.xu@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231128084446.880869-1-lizhi.xu@windriver.com>
-References: <20231128084446.880869-1-lizhi.xu@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ELrT7Om+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: zboszor@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a00cbb83c82so752658466b.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 02:31:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701167477; x=1701772277; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Heg1GJgFJovtAXCGL6TtTD00ootCE0UEeY7yh3pQggU=;
+        b=ELrT7Om+aRAJtATyueh164JeeY9Sz60j0o8Wy7p3QunNY7yhItj9O57Dl3dbFHvhTY
+         iC+JCCh3DOwB+z3ImWVHcr0IQ0+PXyg+ztGGcLBArIalF2qQWPs4j/jBRT7WeK/mDuWS
+         GtNBBC7/UG+ik2KHOLjrgxDRTH/5ZZ+fVJYqwiusoVl6c1PeYuT3bR4RLmBJbTgM28g9
+         aQPzqazr7POqjFx/p0dx3+ngi/ahWh75S3p3uK5pHXqA3WjTG4rw89DbtnwqYPidV13U
+         FRiNRFkc3F9fG9VgH46kLKpqRGmfVIY4xUlRZEVBMu0muUjCdxAys0KAxe8dWtFEvWAc
+         EtKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701167477; x=1701772277;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Heg1GJgFJovtAXCGL6TtTD00ootCE0UEeY7yh3pQggU=;
+        b=pM/HcGV84ueqp/CL2ks4GWISgLtmlb4b0N82DQXPgRmhJ2/jZBhmcMBUAcLgzRszUF
+         N78Ak/f8CMxp4ycrEf66IZd4Rf5LLtMCKyM1fyfgwVclKG2OI2LtuFG3K/edk1QRrD51
+         IgogeYFy1lhKlNc5tMnVf3BVYwzOuSYLOd5KHKNF1qZSmJbwOqA8VGBNcs9lgZxuUWpc
+         ToBdyxD/I2a4uWe+Xpia+HCD8PE+yO59QpTjqbTj+3/nnHxlBrS4a4rSxssUrFlr8u6p
+         /myL4Awy+10eB6W/XoBdrHJWEb4Z6gm1J0mFpGaBwzaUMueQrd9mBFKUbnRzU5lx/sPv
+         4YnA==
+X-Gm-Message-State: AOJu0YyJcgxIZ8XMtsbkjVHsEE3GyAffIu1uiEbcGfsCsUaQdWYHeV3W
+	JsxwayeozSEf2DwI9KuMmZE=
+X-Google-Smtp-Source: AGHT+IEMjXW2C408mMNyniz4czwpGBlY+iwVQ3MrKtal8vWB713m7j3fc+ZnpZdFBpp0vCJfVRKRCA==
+X-Received: by 2002:a17:907:d407:b0:9d0:51d4:4d87 with SMTP id vi7-20020a170907d40700b009d051d44d87mr13446915ejc.62.1701167477424;
+        Tue, 28 Nov 2023 02:31:17 -0800 (PST)
+Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id v12-20020a170906338c00b009f2b7282387sm6633498eja.46.2023.11.28.02.31.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 02:31:17 -0800 (PST)
+Message-ID: <d1479bd9-163c-4958-b1e2-6eb066fbe41a@gmail.com>
+Date: Tue, 28 Nov 2023 11:31:16 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] bitbake-server does not exit after build ends
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <3cd66d19-6e0c-4b1b-a990-723cd445698f@gmail.com>
+ <1be4aa623d61e40f52466e1cc3b65c4543b39b20.camel@linuxfoundation.org>
+ <25c15f7d-d1e8-427f-a1ab-6edb854daaa0@gmail.com>
+ <CA+chaQdMrEWZkXfyX=cGDt9uD0JodDFK68cedzGVN2fMDRh+Qg@mail.gmail.com>
+ <29c6bdd6-72bf-48f6-9a8a-eb15c1225ba1@gmail.com>
+ <ab819301dbf2bf4a669dfdbd937b21f0c7ec719c.camel@linuxfoundation.org>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <ab819301dbf2bf4a669dfdbd937b21f0c7ec719c.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: oXzcT0d1gxMcF6cDQfQh5NdmZDghU7Nl
-X-Proofpoint-GUID: oXzcT0d1gxMcF6cDQfQh5NdmZDghU7Nl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=999 impostorscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311280078
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:05:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191353
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:31:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191354
 
-On Tue, 28 Nov 2023 16:44:46 +0800, Lizhi wrote:
-> > > > > > tzdata.bb by default pulls in all possible timezone data packages
-> > > > > > which increases size of the final root filesystem considerably.
-> > > > > > The customer would like to have extra timezones configurable so
-> > > > > > that only tzdata-core is chosen by default and rest of the zones are optional.
-> > > > > > This change would make the fs size a lot smaller.
-> > > > > >
-> > > > > > Comparison of customized package volume before and after:
-> > > > > > When TZ_PACKAGES contains all tzdata packets, the image size of tzdata is 7.4MB.
-> > > > > > The difference in mirror size between the two is 7MB.
-> > > > > >
-> > > > > > When TZ_PACKAGES only retains one tzdata-core, the image size
-> > > > > > generated by tzdata is 320KB.
-> > > > > >
-> > > > > > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
-> > > > >
-> > > > > I get what you're trying to do, but this looks horrid. How about
-> > > > > splitting into multiple packages based on top level directory (plus
-> > > > > the few which sit in the top level directory) using a new
-> > > > > PACKAGESPLITFUNCS so you don't have to hardcode the list of packages?
-> > > > >
-> > > >
-> > > > Foolishly, I didn't actually look at what was in the tzdata recipe
-> > > > first and it already splits things... I'm lost, can't you just remove
-> > > > things from TZ_PACKAGES to get what you're after?
-> > > To achieve a final reduction in the size of the tzdata package, simply configuring TZ_PACKAGES is not enough. It is also necessary to delete the corresponding zoneinfo when generating the final package, this requires performing the corresponding deletion operation in the do_install() task simultaneously, which is too complex for users.
-> > >
-> > > Therefore, this patch is provided to simplify the step of reducing package size.
-> > > After applying this patch, users only need to modify the OP_TZ in tzd.inc to determine which time zones are needed in the final generated package, in order to facilitate customization of the final size of the tzdata package.
-> > >
-> > > Thanks,
-> > > Lizhi
-> >
-> > This is the wrong way how to achieve smaller rootfs.
-> > If you grep oe-core and meta-oe for tzdata, you'll see that you break things (e.g. glib-2.0 ptest depends on specific tzdata you're trying to remove).
-> If the default value of "OP_TZ" is adjusted to the following value, the problem
-> you described will not occur:
-> OP_TZ = "tzdata-misc tzdata-posix tzdata-right tzdata-africa \
->     tzdata-americas tzdata-antarctica tzdata-arctic tzdata-asia \
->     tzdata-atlantic tzdata-australia tzdata-europe tzdata-pacific \
->  "
-> >
-> > Yocto has concept of packages and tzdata is good example how to use them.
-> > Just install packages you need instead of generic tzdata package which pulls all.
-> > If you need the empty main tzdata package because of its postinst, then just reduce the list what is pulled here:
-> > RDEPENDS:${PN} = "${TZ_PACKAGES}"
-Yes, You are right.
-After only containing "tzdata-core" in RDEPENDS, only the data corresponding to
-"tzdata-core" will be included in rootfs, thereby reducing the volume of rootfs.
-> I didn't understand what you said.
-> If we don't adjust tzdata.bb and instead adjust all packages that depend on
-> tzdata at runtime, the customer may lose patience.
+2023. 11. 28. 11:00 keltezéssel, Richard Purdie írta:
+> On Tue, 2023-11-28 at 10:26 +0100, Böszörményi Zoltán wrote:
+>> So it's not just Fedora, but Python 3.12 in general.
+>>
+>> Googling for problem with threads + fork reveals that
+>> it is indeed an issue even in C / POSIX: only the thread
+>> executing fork() will become part of the new process,
+>> but not the main process starting the thread or any
+>> other threads from the original process.
+>>
+>> The warning is justified, and apparently the issue
+>> not occurring in bitbake with previous Python versions
+>> is pure luck.
+> I'm not sure that is entirely true/fair.
 
-Lizhi
+Maybe not fair. Still, true. See this piece:
+
+http://www.doublersolutions.com/docs/dce/osfdocs/htmls/develop/appdev/Appde193.htm
+
+Other discussions, like this one confirm the same:
+https://stackoverflow.com/questions/39890363/what-happens-when-a-thread-forks
+
+>   The way bitbake has executed
+> processes and handled threads was very carefully written deliberately
+> to avoid some of these kinds of issues so it wasn't "pure luck". What I
+> don't know is what changed in 3.12 to mean this now is potentially
+> breaking.
+
+The warning only occurs if os.fork() is called when
+there are already Python threads.
+
+I guess the general performance uplift in Python 3.12
+can trigger a pre-existing issue in bitbake more easily.
+
+It is entirely possible that the threads bitbake creates do not
+exist yet with Python 3.11 and earlier at the time of executing
+os.fork(). ¯\_(ツ)_/¯
+
 
