@@ -1,119 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA8EC4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 07:57:54 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.27929.1701158268311084827
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1523C07E98
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 08:06:34 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.28065.1701158784846011321
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Nov 2023 23:57:48 -0800
+ Tue, 28 Nov 2023 00:06:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cfskfH2k;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2c9b8363683so881871fa.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Nov 2023 23:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701158266; x=1701763066; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uv88HhsCrmnzPVTOCZ6jiCrx7NTdXfNfBmB/HB+NJWo=;
-        b=cfskfH2kzUv1z+iw6dVvv9X1jyi3C9VwrGN87TEWgxFBy9sqQhruUF6ulicAmMF/K/
-         t5K1tIVLfgM8WAhTh7bZwBFY4XCq6f7BRmLkYkz4LoP6fkSFfm4Xao9lV75iWCEgeEdc
-         kpZEPfrZ0axuzFJsK++nQG1ZvSoKzLJNXqiGgZpJ2iz0Qan3OFwoPSDC6px4REXPg8Cu
-         3YxY91prodStWKar4LhttM5SX5wgH42kPOv8NI7R7/henGfTiCo5pw47VqsIc56EaPuE
-         y93DjRIOuhvdy17fF2zB69hzar5frXsbiWKkqlL385ptYqOKPFsnr7CMz827Pjq7DdBm
-         /xqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701158266; x=1701763066;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uv88HhsCrmnzPVTOCZ6jiCrx7NTdXfNfBmB/HB+NJWo=;
-        b=Mbngx2sAnnsLvrLjep9Uo9TQGc9AN40vKKiFn36/MdajJt07htwQ8RKXSN5bVJ692i
-         RqCRFkgTwbNz3jR/dkHLK/+F2Dxe12mhoxDCgXCNaMGW6d/bwx30nIBxhex0KXCKTJwo
-         SaWalBj7eSf0OgG3c2RrM8iX1fQ92uTCptv000W00ft0gwT2HbdehophnA38apqtEGp+
-         V8ILAckdkBRF/18D4N+Ro1nH10SUd1RyF/JLVEJrFeqlgoOp70ELJ96Km8zlpPneomCb
-         pPilocC3rPU66dCRPSGssJNvPHA685BRbIMRN6mfBYZ0llqqbi/boTsTcjOeww7pCHd0
-         28cg==
-X-Gm-Message-State: AOJu0YyQupJPptb++CU2Bj16Ay26HwwxpVqkMpPSWzggF4odnzjGvPA8
-	pVtd500Qqzx7sknjFM9jvTnaNOOZORbtqAdYBG/ToLnxegk=
-X-Google-Smtp-Source: AGHT+IHw2KQlAGHp3/fDNaanYghUOKtMkBMgBZgD1CBo+nBTv+RURNkX8qt8aiZKkVxG7kfDEKUWOHJrm58zOk8Z3oc=
-X-Received: by 2002:a05:651c:106f:b0:2c9:9842:c1d0 with SMTP id
- y15-20020a05651c106f00b002c99842c1d0mr5348928ljm.26.1701158265929; Mon, 27
- Nov 2023 23:57:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20231128073632.38829-1-alexander.sverdlin@siemens.com>
-In-Reply-To: <20231128073632.38829-1-alexander.sverdlin@siemens.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 28 Nov 2023 08:57:34 +0100
-Message-ID: <CANNYZj8JtUhqErMKA7kAEd0n7gWYFy0zs-52dRxY0DkdRdJeKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rdfind: add version 1.6.0
-To: alexander.sverdlin@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hc33h7w4;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Fw4mJDP1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018c14f70a59-384c0070-9cd8-4c0b-8ada-b7c44b2d6291-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701158783; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=E6cr9htfJ2iL8sSY66BB6KysCe/Ky/OTZg6DxjGkkjM=;
+	b=hc33h7w4FJYmRwRq928j7pPgcW+ZY5eSR4qCV3Q5s8UYi5A6de12C4yS6D/TLRBg
+	RybJSVU5gaGAMfktoaLzsQJDHsN9ISbmVjKrLwaxl/FGC0snc4etpiarzm4wx60NHxo
+	q1P314kW32zbHU2SqEllI33ZshlnCqn29y3GPe/Q=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701158783;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=E6cr9htfJ2iL8sSY66BB6KysCe/Ky/OTZg6DxjGkkjM=;
+	b=Fw4mJDP1ZyfvpR8ICRB4wHe2zpAYT0Vg9Q5z3LMucBIblkmIB5a+2GIF4vEIz5TS
+	+c+RWck4GIrNJ04Pvh+f0glfjufr0mOhjInrEpzP41knMoVTeD+YZZagtvghyQRnH4z
+	yjjWsiAz/DM39PHEqqHmlQBTFCuR/FfLr/Z2xtnk=
+From: patchtest@automation.yoctoproject.org
+To: Robert Yang <liezhi.yang@windriver.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/2] gnu-config: Update to latest revision
+In-Reply-To: 7701bc572c2df6c9fb52f2a699b48b3afbafd343.1701157879.git.liezhi.yang@windriver.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c14f70a59-384c0070-9cd8-4c0b-8ada-b7c44b2d6291-000000@us-west-2.amazonses.com>
+Date: Tue, 28 Nov 2023 08:06:23 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.28-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 07:57:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191340
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 08:06:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191341
 
-How about using --ignore-duplicates?
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/copy-firmware.sh?id=4124f8f928d51a1437e2fd2636b20d540edc2836
+--NextPart
+Content-Type: text/plain
 
-Adding a new recipe means someone has to keep it working and updated
-(which means adding a maintainers.inc entry), and in this case it's
-easily avoidable.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Alex
+---
+Testing patch /home/patchtest/share/mboxes/1-2-gnu-config-Update-to-latest-revision.patch
 
-On Tue, 28 Nov 2023 at 08:36, A. Sverdlin via lists.openembedded.org
-<alexander.sverdlin=siemens.com@lists.openembedded.org> wrote:
->
-> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
->
-> Add 1.6.0 recipe from meta-oe as of commit 39dfcaceba36
-> ("rdfind: upgrade 1.5.0 -> 1.6.0"). It's required by linux-firmware
-> installer script starting from 20230919.
->
-> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> ---
-> Shall probably come before patch "linux-firmware: require rdfind-native".
-> Link: https://patchwork.yoctoproject.org/project/oe-core/patch/20231127203230.2704211-1-alexander.sverdlin@siemens.com/
->
->  meta/recipes-support/rdfind/rdfind_1.6.0.bb | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->  create mode 100644 meta/recipes-support/rdfind/rdfind_1.6.0.bb
->
-> diff --git a/meta/recipes-support/rdfind/rdfind_1.6.0.bb b/meta/recipes-support/rdfind/rdfind_1.6.0.bb
-> new file mode 100644
-> index 00000000000..3a15fe6c9a2
-> --- /dev/null
-> +++ b/meta/recipes-support/rdfind/rdfind_1.6.0.bb
-> @@ -0,0 +1,13 @@
-> +SUMMARY = "Rdfind is a program that finds duplicate files"
-> +HOMEPAGE = "https://rdfind.pauldreik.se/"
-> +LICENSE = "GPL-2.0-only"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=fa22e16ebbe6638b2bd253338fbded9f"
-> +
-> +DEPENDS = "nettle autoconf-archive"
-> +
-> +SRC_URI = "https://rdfind.pauldreik.se/${BP}.tar.gz"
-> +SRC_URI[sha256sum] = "7a406e8ef1886a5869655604618dd98f672f12c6a6be4926d053be65070f3279"
-> +
-> +inherit autotools
-> +
-> +BBCLASSEXTEND = "native"
-> --
-> 2.43.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#191335): https://lists.openembedded.org/g/openembedded-core/message/191335
-> Mute This Topic: https://lists.openembedded.org/mt/102846891/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
