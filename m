@@ -1,158 +1,206 @@
-Return-Path: <sundeep.kokkonda@windriver.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05FCDC4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 08:54:15 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.28705.1701161651093793741
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23664C07CA9
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 09:22:45 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.89])
+ by mx.groups.io with SMTP id smtpd.web11.29005.1701163363022355227
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 00:54:11 -0800
+ Tue, 28 Nov 2023 01:22:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=AO9lBw5h;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9696896673=sundeep.kokkonda@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AS5ujl0024661
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 08:54:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=EshW0nX9lZb7Ypr+4O
-	Sf7TxdV8w3yrHgZpoljVrj75o=; b=AO9lBw5hpdK/Dr8ao/J8jDByG/4uYzyQTe
-	ZIjQjFxteynecCZdSp+bbFf/rEELWyUagMiOCmVEn6o5wfj4pamsdrW0c3/h6FEl
-	pcgZIsimEtRRRhXVOu7px9sjwzu+PBSP/yqIkTb99srq8cdozbqiLIvrXVvCQO54
-	TxEcL5S1xHEo1JLElmQi0YNJT18jp9hhHThsbGh+5F2hSekQDVhO3WlTPQTgDuXR
-	/lsD+acI/Nx/yCpeBi/P1E/kJ73pFOtPN+2UyfBHwayqR65Uuphd5B525MYjeSxi
-	AelXxf98cEdpL/XmcYXJRSyRZhOR+sF6JJMMz0thFQGm1m6f7o5g==
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uk7w6jf97-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 08:54:10 +0000 (GMT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=G1j3jXnU;
+ spf=pass (domain: siemens.com, ip: 40.107.7.89, mailfrom: peter.marko@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KPp8AOtv7/b0iG97dPfJlwhgsWVS6jlta7kd6p0/81pJKbKyss2o+Z58wcdpYooG62HijD1JN7s7CSLfUWENPUezeBEMwKCo8v3swsvuvmXWuOaxKf1VCb4QJLzl5nfmmU5cYOCwTsx8Gd3hkooKISS7Vo8y1vd/7HsE6UtmZQMe/0KWVnNzUb11hRVO9UqhQb6We3Fs4BsyhlicWmxI03EZqHFezsOP5E4R4saH9SovAPE69Hv64d9OHEtAIdNW8O4efaJFgbme/uwsijXTxwtxTuXyf2BBVXrPA2qvVSoEXOuXU6JQuC7dnw7vP20XqALGYmGVgepnqM4K2oYdmA==
+ b=Iq2dL639lZNrZiN3ggptJGNnrul88hZE/NX82NCXGlWJ9peLxElRFaC/Wz/4jM3hPJSslGI/S3ZuinDv9Tnkyv26Sp2R+/2U7v1WCvm8EOlseauFtz61+54uv/F71KZ+4uvRu6c0ZuXZpQiFcSNCMDFroJ6JYpWihFbGL7ZVva4iXf5kOqO2F+91O8dA7BLHc/oWEcFaafw6y/y9hUj3fhfuvjQC+2wQSR3f0LdgHqn38BmxkF45SY+fpeW6FOA7kbTsoNS3tNTBgcPVaoA0DZr7LkHaq07V3WAEn/666M5uB1hkh2MMVLsv66fmSKzltZ/V7OOEC4ucjxQGCe/Gog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EshW0nX9lZb7Ypr+4OSf7TxdV8w3yrHgZpoljVrj75o=;
- b=WHX8ZRizLpybNbyzt6l6Wt2A+M6iil3zJix/PXQizfFBtrGdTiHHXmbeOiFKe8gE2Wp8JcCOVmeHiXV4Cq6bciCU8BoEGC9XSe+lROqEZSK9tKVdvu0gSESroETiwO5bVzGMZSqiVA/PY7jaKXWVtGBjrFGbCu9E5TnO6qKl4gWfOGQT3wVWtEix0E1BTinYjvkC5izAkcZBEa+4nYlvEzt2bAzug/Qbutw9NZGt1vhleinfAz2oPZglOO1MfEXUAWd+evHyo3LAE4FUeVxNLJl/+jNqfjMylNlxjZO7as96/ObAKOgeViC468uhbdp9yiOOcuYJfjX6eVmBb1+8KQ==
+ bh=QqfKa4wKOu//hbvKr9o3IZioLHHH2ezLs12CYYGZfr4=;
+ b=Dr1yAXNPjwXmxAl/BeCfhW4c0UgTGNSYaUBhGUb0sjmiEs4M7nkmBKivmRF/UXtqA/7tFVqbarDH99Hsm64shcVtiH34ZeNi0tJsl2B5+sDGtbtj3mWzJm2Dq4ajLdkzLUdPPQBjenPzxmREtp0AP+LawURbfgi/oDaPhkIbQ8eOMBIi0leJYhM8BxKrjHGEg4a/lF/9zJ+wqDGwpeQdaofu0fOPW/KZASXhRlDLxS1xeM9zD8xIpKovXWbJnmKEVdvTQIU1mFBoC3WGiaE6znloayoRCYvkklBMOD4zVBnbSsgBPkA9SIeUGTXkG4bovQsPy4hnlqWxHl2fO7Bl2g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH2PR11MB4470.namprd11.prod.outlook.com (2603:10b6:610:4a::32)
- by SJ0PR11MB4989.namprd11.prod.outlook.com (2603:10b6:a03:2d9::22) with
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QqfKa4wKOu//hbvKr9o3IZioLHHH2ezLs12CYYGZfr4=;
+ b=G1j3jXnUc+xnMo4caCeVnw2yKPZWOFCsy02QkhCPvS98OP+1X+KsxbXQ+4vwI1b2wBKEPNWy0gs/9fcvyHTqe73w9EoQV7eYZc/96nZN3cLwY8x3ZuR41uvLgUMuOkQH3YrlsiTFdnhGlmF2QHol0EAnf5W3PnormalojwUMqlcNH2lYUsEtVn9htfN5CnAsyYf9li1zGyFIuBuSLQ7uI+ENYZhTYdL+fTH8S402IXGAqmNP3Q7XqQ+PbgutuUly24BwgUzi8cUhThxXZ0ErC6lZ6xScmNPCHZfE3Ts1i535olrIxPuvcN1q2kVWFbh8vPyC7pZkVgBtHLlrnVr4cw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by PAVPR10MB6887.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:324::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.27; Tue, 28 Nov
- 2023 08:54:05 +0000
-Received: from CH2PR11MB4470.namprd11.prod.outlook.com
- ([fe80::e78c:8c06:e457:7b40]) by CH2PR11MB4470.namprd11.prod.outlook.com
- ([fe80::e78c:8c06:e457:7b40%3]) with mapi id 15.20.7025.022; Tue, 28 Nov 2023
- 08:53:58 +0000
-From: sundeep.kokkonda@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: randy.macleod@windriver.com, naveen.gowda@windriver.com,
-        shivaprasad.moodalappa@windriver.com, yash.shinde@windriver.com,
-        deepthi.hemraj@windriver.com, umesh.kallapa@windriver.com
-Subject: [PATCH V2] glibc: stable 2.38 branch updates
-Date: Tue, 28 Nov 2023 00:53:39 -0800
-Message-ID: <20231128085339.3837196-1-sundeep.kokkonda@windriver.com>
-X-Mailer: git-send-email 2.42.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR02CA0043.namprd02.prod.outlook.com
- (2603:10b6:a03:54::20) To CH2PR11MB4470.namprd11.prod.outlook.com
- (2603:10b6:610:4a::32)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.28; Tue, 28 Nov
+ 2023 09:22:39 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::238a:d0f9:cdcb:d066]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::238a:d0f9:cdcb:d066%3]) with mapi id 15.20.7025.022; Tue, 28 Nov 2023
+ 09:22:39 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "Lizhi.Xu@windriver.com" <Lizhi.Xu@windriver.com>
+CC: "alex.kiernan@gmail.com" <alex.kiernan@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [PATCH V2] [OE-core] tzdata: Reduced time zone configuration
+Thread-Topic: [PATCH V2] [OE-core] tzdata: Reduced time zone configuration
+Thread-Index: AQHaHp6CD9Fv8LQgREaA2+Y7DfjfXbCJr2gtgAVbNoCAAFti0IAACwoAgAAJfEA=
+Date: Tue, 28 Nov 2023 09:22:39 +0000
+Message-ID: 
+ <AS1PR10MB56976CF4E49D53FACC1EA5A9FDBCA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: 
+ <AS1PR10MB5697DA509EB149355CE69BD4FDBCA@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <20231128084446.880869-1-lizhi.xu@windriver.com>
+In-Reply-To: <20231128084446.880869-1-lizhi.xu@windriver.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=40739a84-c2dc-4840-af74-a2b801291945;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2023-11-28T09:18:43Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAVPR10MB6887:EE_
+x-ms-office365-filtering-correlation-id: 2b7273ad-b32e-4b59-dd2a-08dbeff39124
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ nozIjT9Cb4sjsiFtSy4Ss/Ka/8uBWG6CEa23ZD5/KbV65FOnfXwzA98ULnlGIzWJAuJHayhd9Ick3IE7nppvrjIhyhsMUmkt/Pm438CxZwIbQWqSwjoFjcIJeLHO7j3njP8i53HPtoMIGR3/IRQjaEOcdNVkr74ooA7Z3Qywc4KvehcCwe5RHTbFZ6S7laz93mu/7056DfuwZ1xv04kB2v8M5qvMUhtGUSjD7SVS3+HJpVUkNtTaR1sIf9iW1yr/fqytzL0ig/i4x+eaL9c2nM4YRQcsvGt+1TES11qB0GlguuP/XIC7oda0Ft/ILue5Q4Zr1a0yxnJdSmyQNuDWt3x2CwOefVOyztdGYo1en32PYEUrtXfd7GvWpkbAIRAYQyRYNEtLdNmGiHpOsuRJ6R+PA+b7bCEMgSpYin8mgto/xTXTUjHQG8HA1FFS4hnSgBzC5kJx1uOK1k26kCmVsxj/i2S5pf6CRzp6kawomQmsyRQGfEaKVHHGXoFLNPe8TcIAvQrwPAYqxubitTlldMaoJxOSzEzIuBcFiS2fE1vfPwDgvw4mfIK4MzHpjF3BpUAtrU2Q0XSr0rzrW4XjnLABMr3iqdannYx+leo9b5xsU6J5fntOzN6jcsdgtHya
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(346002)(366004)(39860400002)(136003)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(55016003)(26005)(71200400001)(6506007)(7696005)(82960400001)(122000001)(33656002)(86362001)(38100700002)(38070700009)(5660300002)(83380400001)(8936002)(4326008)(52536014)(8676002)(2906002)(9686003)(53546011)(54906003)(316002)(76116006)(6916009)(66946007)(66556008)(66476007)(66446008)(64756008)(41300700001)(478600001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?1n8g+oUrR1qSHu7KST3PVwd0C2mPje3OlEyCcIUgcADkC/VKqkp1ZG2y/DkS?=
+ =?us-ascii?Q?Sa9ppypA0A/h1wPbc68r766asF+mUlDAroZZGmtDxetpMGD4ZSaJndTjYb1o?=
+ =?us-ascii?Q?x888McBiHJVP7MujZ2IE41Y9wsyunhAGvtC61lORm3VSAu9jMwXLPTJszLRt?=
+ =?us-ascii?Q?YSc/RSFbYmA7MhaLq0r3teSvqn5G/EO3LU8w3p5zkhUrKu1/WUEzO+itNctv?=
+ =?us-ascii?Q?l7vdZS7KqHwlTZQkLZnxJ0fzXMcwkPn42LoxbZifFVOlQgVWBBJfgxYFOSFv?=
+ =?us-ascii?Q?gJwe7lfIXQnY/FkM0H2z9wF//7B7lVFr/seWD3GV1NI60mtQmkdt3yVfvnMi?=
+ =?us-ascii?Q?gx6T+JBvVhHluis2ERPmT2pqIihuKy8REP55svZcsTpq3Nvr5+2OLrVVO8av?=
+ =?us-ascii?Q?6qC7AVfUcJJYyqWIuSES1T0WCOeEGjtnzxExdGiJkfiZ6Imfm+XHP+ZVJ/xj?=
+ =?us-ascii?Q?zRd4gUdnYLu1PAFtzVLPsuk7WOVxlyKfE7PP/6rJaEMTiC3oQ9+IVcSSnmfV?=
+ =?us-ascii?Q?DHOSYvzujqQdIBQovYEe93Nuf79qFhLA0VDAdt4u8qUijGcl3uDftZANqf0b?=
+ =?us-ascii?Q?LdVRVSVOaR6XHrNzSstyz5XQbSN4lnRbmgK13H7CsOEgCDsOP3TlQqqrJLPZ?=
+ =?us-ascii?Q?hVGDcFYwUQPGULNnu1i2vJBSowSW08In8ZxBEZ7eo8pIh8qBHpyUQR3sCCvU?=
+ =?us-ascii?Q?Xem2x2B2wz9s+vXd5gxyO0DE+VGccs9lfbrCnHKgc0CKBJ4aH0sU2zVz4gU2?=
+ =?us-ascii?Q?51a4RejbjW0ximeuCPxUPFU/S8wEpR4tExXaEz3TdxdusbvsHHBZYAiuPP3h?=
+ =?us-ascii?Q?6E3fRSBL5z+V51XfhY9wO7CFl2Z1m9OTaM243fRpIHpg0HRWgAbcFdstXnJa?=
+ =?us-ascii?Q?3eTmpZ+IrDr5ZBXhoX4+YL1jrv47wIar7JqngH2Wpvwmx/raKfaALPMoO75s?=
+ =?us-ascii?Q?riE3coXeNhz1DXx5YxT2uOV3SZKDtYXRY18TAjjsm7KfvO5qVHjbWxT3b/p4?=
+ =?us-ascii?Q?CEZdlqVeo1aTvAGZ98gnYM00jnd/zjgpiw5CYQoXTY0CJlSE8699CKW70iBn?=
+ =?us-ascii?Q?0GfHj3DrEBqt/bpPvGhdCNTlTWxGN/bGJz63wPN7mrriGkQmlEFDo3UZdZ46?=
+ =?us-ascii?Q?RIgI3rIW0zGmcvJKDVMOAoB0FIbwChbuXm+HJOI6LGvhVkevEUdYgvpDg4RI?=
+ =?us-ascii?Q?lLvd/xADJ6qp6JUdCDMnk2yJgkmpgV0yUVoFt3QDI78aF7vOkJwiq8OPvyed?=
+ =?us-ascii?Q?wdp9LKi2HUXW3IbbgIXLRiyMhhlU1UeUgZfN1FRrB7V1a0XAS0PQuyD61ACE?=
+ =?us-ascii?Q?WU+H8kP9kT+/ljObncJyCOUlL/EdCVpyNFRDJSig7hyWrny5O9EWX7M5XnCc?=
+ =?us-ascii?Q?6RGFSxSZl1tJJu0ITjw+gxHj863M+bLuMH/7+9/0u5oJH+fqar6qKXm6zUpz?=
+ =?us-ascii?Q?Ay7dDDbZlpF+mybQXlEkxj6GM1JpBvvlWKhQ/NdPympBwiZGk88lsZ39J8JA?=
+ =?us-ascii?Q?ZTUJuMMuxy+QqjyHxQ3M9E2l7gRql7TWgkGm23Jb6xejrlVzQf9lVIqcf0is?=
+ =?us-ascii?Q?8whn7I6z1LotNL5Ii71HLa3WaJ2ZQE6kV6J7HYvO?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR11MB4470:EE_|SJ0PR11MB4989:EE_
-X-MS-Office365-Filtering-Correlation-Id: 50debb83-a1f9-4010-4e0c-08dbefef8ed1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	VYHpuAiB16//PR5Uek8hryw5LTYHw34r4L5yxxxFTwC1bggrNdUMRMoK9kJGXJngfWURYfBw4M3v3Zt2T6rL+GnHunFXW3F1D4UoRYYNDSRtr0zjJeMLsSQhhmDx74MMeRIStFkwye16Ra7BewxLrntYLONEoUK6nLeRipngYxIQLqLqKL7xsmsi797oSfDNoXU17VKj8Nv1ulbpA9dOrN/yvVORVaDpqCk2yHdNiNwK+MbkHcEkRbpxrWvQ9BBOHdPKgx8QZ1wPcnh/FwfBenUtn+hy7iSsqKAOglXGxKfTBh+4/lTy1hNRVCfmUUjGH9PGtQJt1O8avf9QIOTxiynlHHhiHcK6jyUsGCTVZjvQA6WjnO5R2DGXZYECiUcSd4NDKYhHKspHSA9xHBNcjubFZNv5acTgSD1Ujc7wa0S2UTPALh6P+T7eXxPVUFGmi25AWMOrcE03oeOe92SsHfuD6lR1D7LO0oVapiRXGtUKyhBswzd1Mz06/Xku7eYHIXBjMIRmryr1si4rXiZLzZzXKOHGO9aYAHqGOYyALko+fcgBaB8FzWTN3WQ0QlpSz5ufOO54Jzgq82QIbiqoBf8OGgfCygEyY4cJh079+jmgdTpKMXkjwP4bz2DFy9ey
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR11MB4470.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(366004)(136003)(396003)(346002)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(38100700002)(41300700001)(36756003)(38350700005)(1076003)(15650500001)(83380400001)(5660300002)(26005)(86362001)(107886003)(2616005)(2906002)(66476007)(9686003)(6512007)(52116002)(6506007)(8936002)(6666004)(8676002)(4326008)(6486002)(478600001)(66556008)(6916009)(66946007)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?QEyPBVKp3dCDCEt3qyCOMPF7eT+sS0q0fOwOSSmod2MC6dgG9o+oMW0SGBkl?=
- =?us-ascii?Q?lYILVLYT6lTHZNJKYZ4DcEJily8Xs6tKT78eU9GqhivVhrFQ5AsTmZAoZksK?=
- =?us-ascii?Q?BFHxBEE+BcggULAE4m+blcVdipftf9q1uzP353Sz2GORfN37wvZvc1jovP76?=
- =?us-ascii?Q?4bofSdbzJbboV4bn0oQGYb7KFUKaSucCMMPpepcnflwuO2m/YAOIxVevygFX?=
- =?us-ascii?Q?hIKLnFTU1NdhsvgGCzr+MGTMYj8TlRG3X4iuL31rNFXoa6dFOyHU2mp3t+/q?=
- =?us-ascii?Q?jE48cg/+I5c4NBo52cZvYhkTcSXnLZaJtD7oe9Ad93eUAw5zf2bnggp8W1xl?=
- =?us-ascii?Q?2o20kZ0pUYn42E8px5Aej+0g/iQ2dUx6M5+PFGGcvtowRuz2mH86CEQEbeQA?=
- =?us-ascii?Q?jq1Xp1xZWgbu5t6SAjg7+LunK8gI5eP4r9dn8LLop3B9mUhSznP3Bsjs+zOz?=
- =?us-ascii?Q?t1oleej6Ydetxtvys8DVocK4F49BPaUbszLm7da9tWQh4OPuP1xpVeALBcYv?=
- =?us-ascii?Q?z2/4WxFbZk973ucGayz3Lzzoa9BIRHcCgWTXycpF9Tre7IFwNpOr0+Mm/n/D?=
- =?us-ascii?Q?NFnnQe0ZpjNMr7It3Zx3IRinhs7iZ99bqMoCE3CxAILekjT2cHiynukhtVn8?=
- =?us-ascii?Q?LfZTlqNT7+ECALvO9IjPgXUlZ5Mmvloh8FdjAEkkPVaV0IBW+vNSa/ummw+r?=
- =?us-ascii?Q?ryNO5u8Z3TM7KGmAEV6sCJll2UEPtCfvClsHCuuegV9Wv2dBrf+53EdLjwF5?=
- =?us-ascii?Q?tOnCOdC4kO2TLA4bM1padvqVKSxxsczoq13kEZqDBT8HwMcnYfquoWSoWWun?=
- =?us-ascii?Q?ouhWmPlNxc8j6hlkL3zyKGMrfuVDBETjei0i+WgYdtdw0ERakZ+T7KpZ+XAh?=
- =?us-ascii?Q?INntrEa/jCiIkXUlP/VezU8pm7u8crc8wATVRq2mnw+7Hid1vdJTzbHKokEN?=
- =?us-ascii?Q?h5cZu9YY9V2lcNO+0c6t9Gwm6lvzNRV9TnayHklprl/cF/MWQgeFw3v6oqZq?=
- =?us-ascii?Q?Q7phFQ7J72Z3vKn7jXfCz7FvGRqRQfehyyjiKDnSte8F4R2c1ZYVZHNHRJdJ?=
- =?us-ascii?Q?d2P7uVHIny6SHIJS+m1G4qZLunn+r5eNJIIS9pJBOYU9pFdotxa+EUGU+p+d?=
- =?us-ascii?Q?VIl2Wl1ov/TN0QOJs4/tx6+E7lAVXjpBoSqHLpq6PWiwPK767o/5qtMOGdoZ?=
- =?us-ascii?Q?2kMQsuDBU80SVA6GCR91G4L1yftI2+MOuAJ8n3xAqVwUoHVFX7CCuACl67PA?=
- =?us-ascii?Q?pZKdZTsG3oWLlW14K2mnIAZRZ6lDRBFhw3MSLf0wP/dPWpTdj7+r4h9sIcdY?=
- =?us-ascii?Q?5EhDhItMDSXMlWuB0X8EIx2AjWaWdIvR6e+fUKsXxO5NrjcSwrNaJwGSSr7W?=
- =?us-ascii?Q?R+xdxUhnNxUZb510YllO/ILxIIavZxfSdqSVs5/OzPivj1kM2JVPE/EiYSc/?=
- =?us-ascii?Q?f30sRdJDipNUJGV8SNrvL+H3WS1gHc14WjAxRXa+GZOTU7Ogdi/vzNrT5mxb?=
- =?us-ascii?Q?N5b3NNFHrGCqsiX+g50oMyqqy3T0JoT6igWXmNj7FqWC7A/gXZkC7eq1Z+on?=
- =?us-ascii?Q?qllle5w4mo63vu5Lnr4R6hydvjn90ng1uWVGEfA18DsjJKxdWQ911oSvbJ9y?=
- =?us-ascii?Q?VY1ss8KIDquopN632mJ+a/A=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50debb83-a1f9-4010-4e0c-08dbefef8ed1
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR11MB4470.namprd11.prod.outlook.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2023 08:53:57.9251
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b7273ad-b32e-4b59-dd2a-08dbeff39124
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2023 09:22:39.3907
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IEhV+fWXyYktyDu5swDVLwCxRW8UK4lyAiU4vzE2Fcfy9HCv2P+7+C8JDegdWSAfOIgxigFgGGYxC6hrz3ejAxTEHWYdGvnHtBqcEKVktPs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4989
-X-Proofpoint-GUID: QXl0iuzqFFJdQYJpEt1NNHuPa7A_G2DB
-X-Proofpoint-ORIG-GUID: QXl0iuzqFFJdQYJpEt1NNHuPa7A_G2DB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- clxscore=1015 spamscore=0 suspectscore=0 bulkscore=0 mlxscore=0
- adultscore=0 phishscore=0 malwarescore=0 impostorscore=0 mlxlogscore=779
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2311280069
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jCd9CAHuX1yjz690odgx7kCGHNty9LiIlG+JeHhVJ5GamKmhbOsh6SGhQ7mzNeJMMEbkOeL8IvWoKFp5nHeEqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR10MB6887
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 08:54:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191347
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 09:22:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191348
 
-From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Xu, Lizhi via lists.openembedded.org
+Sent: Tuesday, November 28, 2023 9:45
+To: Marko, Peter (ADV D EU SK BFS1) <Peter.Marko@siemens.com>
+Cc: alex.kiernan@gmail.com; openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] [OE-core] tzdata: Reduced time zone configuration
 
-Below commits on glibc-2.38 stable branch are updated.
-1e04dcec49 Revert "elf: Move l_init_called_next to old place of l_text_end in link map"
-719866ab2f Revert "elf: Always call destructors in reverse constructor order (bug 30785)"
-e0b6c9706c Revert "elf: Remove unused l_text_end field from struct link_map"
+> On Tue, 28 Nov 2023 08:13:57 +0000, Marko, Peter wrote:
+> > > > > > tzdata.bb by default pulls in all possible timezone data=20
+> > > > > > packages which increases size of the final root filesystem cons=
+iderably.
+> > > > > > The customer would like to have extra timezones configurable=20
+> > > > > > so that only tzdata-core is chosen by default and rest of the z=
+ones are optional.
+> > > > > > This change would make the fs size a lot smaller.
+> > > > > >
+> > > > > > Comparison of customized package volume before and after:
+> > > > > > When TZ_PACKAGES contains all tzdata packets, the image size of=
+ tzdata is 7.4MB.
+> > > > > > The difference in mirror size between the two is 7MB.
+> > > > > >
+> > > > > > When TZ_PACKAGES only retains one tzdata-core, the image size=20
+> > > > > > generated by tzdata is 320KB.
+> > > > > >
+> > > > > > Signed-off-by: Lizhi Xu <lizhi.xu@windriver.com>
+> > > > >
+> > > > > I get what you're trying to do, but this looks horrid. How about=
+=20
+> > > > > splitting into multiple packages based on top level directory=20
+> > > > > (plus the few which sit in the top level directory) using a new=20
+> > > > > PACKAGESPLITFUNCS so you don't have to hardcode the list of packa=
+ges?
+> > > > >
+> > > >
+> > > > Foolishly, I didn't actually look at what was in the tzdata recipe=
+=20
+> > > > first and it already splits things... I'm lost, can't you just=20
+> > > > remove things from TZ_PACKAGES to get what you're after?
+> > > To achieve a final reduction in the size of the tzdata package, simpl=
+y configuring TZ_PACKAGES is not enough. It is also necessary to delete the=
+ corresponding zoneinfo when generating the final package, this requires pe=
+rforming the corresponding deletion operation in the do_install() task simu=
+ltaneously, which is too complex for users.
+> > >
+> > > Therefore, this patch is provided to simplify the step of reducing pa=
+ckage size.
+> > > After applying this patch, users only need to modify the OP_TZ in tzd=
+.inc to determine which time zones are needed in the final generated packag=
+e, in order to facilitate customization of the final size of the tzdata pac=
+kage.
+> > >
+> > > Thanks,
+> > > Lizhi
+> >=20
+> > This is the wrong way how to achieve smaller rootfs.
+> > If you grep oe-core and meta-oe for tzdata, you'll see that you break t=
+hings (e.g. glib-2.0 ptest depends on specific tzdata you're trying to remo=
+ve).
+> If the default value of "OP_TZ" is adjusted to the following value, the p=
+roblem you described will not occur:
+> OP_TZ =3D "tzdata-misc tzdata-posix tzdata-right tzdata-africa \
+>     tzdata-americas tzdata-antarctica tzdata-arctic tzdata-asia \
+>     tzdata-atlantic tzdata-australia tzdata-europe tzdata-pacific \  "
+> >=20
+> > Yocto has concept of packages and tzdata is good example how to use the=
+m.
+> > Just install packages you need instead of generic tzdata package which =
+pulls all.
+> > If you need the empty main tzdata package because of its postinst, then=
+ just reduce the list what is pulled here:
+> > RDEPENDS:${PN} =3D "${TZ_PACKAGES}"
+> I didn't understand what you said.=20
+> If we don't adjust tzdata.bb and instead adjust all packages that depend =
+on tzdata at runtime, the customer may lose patience.
+>
+> Lizhi
 
-Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I meant that your patch can be probably reduced to following:
+- RDEPENDS:${PN} =3D "${TZ_PACKAGES}"
++ MAIN_TZ_PACKAGES ?=3D "${TZ_PACKAGES}"
++ RDEPENDS:${PN} =3D "${MAIN_TZ_PACKAGES}"
+And they you can just do following in your distro:
+MAIN_TZ_PACKAGES:pn-tzdata =3D "tzdata-americas tzdata-europe"
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index 19b98bc11a..ccf9d505c5 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.38/master"
- PV = "2.38+git"
--SRCREV_glibc ?= "750a45a783906a19591fb8ff6b7841470f1f5701"
-+SRCREV_glibc ?= "1e04dcec491bd8f48b5b74ce3e8414132578a645"
- SRCREV_localedef ?= "e0eca29583b9e0f62645c4316ced93cf4e4e26e1"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
--- 
-2.42.0
-
+Peter
 
