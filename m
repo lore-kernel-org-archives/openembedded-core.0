@@ -2,650 +2,758 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC4C5C07E98
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A073FC07CA9
 	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 22:53:07 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.10464.1701211986950869792
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.10460.1701211982844887214
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 14:53:07 -0800
+ Tue, 28 Nov 2023 14:53:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Tr3ySwX/;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5c239897895so4144931a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 14:53:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YZAF38K2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-285949d46d0so238116a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 14:53:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701211986; x=1701816786; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701211982; x=1701816782; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JuK0rXc0pvuknDehKoHn5yJXxo8k7q+CNsrX2CBIUiY=;
-        b=Tr3ySwX/YBhPa2vFBH4WoP/Z3BN/x8Vi0PjWSUmkoJCrsYyYQfsAfMjY9a+ggsneZ/
-         6Wj9y2tVsl/dvn0nxvxbighxW/TDRcYzcLPZClwk8ynUFj0vC4lJnDWsGtkfk6m6zYS3
-         dqeB4bmfaNeoa9WBcQ1Mttxbrn5JP19URFbkdD6OOUq+OuJuaaELcudoE9lr+t1tD6XZ
-         QBMr1d30JRwhru2bOJcBwN0eRjsnoM52xepuSVPHfd/IYrtzd8XfkPpmj5cOaRVp818M
-         7MKrw55wXeDtFvbCBP7pewEApwX+i328YgTc19gYCczQu2BESrjBWhYws80TQeLsZjR9
-         s+Wg==
+        bh=lp8qchRZ/4puxHda9HIagGMFnSP+B4wpcTLJXQngEaY=;
+        b=YZAF38K2O97nE3tw23qaW/laVWezmo8Kjvg+KZ18X2oQVbcChF11yrPSeyzKDHPGxU
+         C8GCKNO8S4i7H9YoZjz1m6PT8TJsWvGuhZB+j13w8Dbw1SsB+b7ZU5BRR2+BWfml9Dwm
+         wItgatGF1OYQdFMkmz3eH8Tid8J+jZKmtRk7i0x3XVCEs9n8iv5P9p6qtPeM2A0V43oz
+         JeIz1hg7CVyjMVctqeQz3Mxmg1sMGk4y8GnvX8fV87vF1yoZo77umw4yQFnZMPQZbKK3
+         lkoBQ402qa1S4RgLOi9yUMTPzS0TNJ+aTKSp1yRY69BlZLSf2cFMoVvDJNAFlF+uUDRT
+         lUDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701211986; x=1701816786;
+        d=1e100.net; s=20230601; t=1701211982; x=1701816782;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JuK0rXc0pvuknDehKoHn5yJXxo8k7q+CNsrX2CBIUiY=;
-        b=R61kIJ3u9ohfwRCEjy7smmCKyw9LvToIWnUmqwW8TxUvPLfZM6DxwbyroPPH+vZRcX
-         KvrIsLuu+JfkM3zHLlEIoyxdkec0pfuej5UhIbzMvsXEMjAwO5x9VrAuUpPbkgaelIyf
-         ULfCOdcFRhHbioMdZgEtsbaX4beuS6e29may9+4VKLDYujzh+fDKbn14nJG7iyXVIBUQ
-         eHSf8QqBxp7JtzXz8e1XFe8aMAIRuwRFWK8tqv9Sq6UdYgRxAsoYJG0bKiVTVcjUgm0m
-         4dASGc5xf1Uymi7i2DE19Xqj0mboNixpLzJX9TDp+DNRY7isOEoFxXvImcyCUFRH9gyj
-         MwAQ==
-X-Gm-Message-State: AOJu0YzBCk2F25RlzPQYraVhlawgJiPuW+DfWSDiKmi7pBQ0p1laN8XX
-	cRwI3Fsl2d+978u0ykzLYXKM4StH8xq7nNlNpMuvoQ==
-X-Google-Smtp-Source: AGHT+IEzkPk1pVf/DTyv0bz7IAz/VpCcWrMmiIujKMWfuSXaWPAVaM1vpPY5zuC8YHcpwvVFT8nwHA==
-X-Received: by 2002:a17:90b:4c50:b0:285:5dc3:a5bd with SMTP id np16-20020a17090b4c5000b002855dc3a5bdmr13609084pjb.24.1701211985758;
-        Tue, 28 Nov 2023 14:53:05 -0800 (PST)
+        bh=lp8qchRZ/4puxHda9HIagGMFnSP+B4wpcTLJXQngEaY=;
+        b=V/5PxGwNxg1cQhCAtT1F6qQcwiolQHdN4V0BJUtoD2GMvNX94fiPVSSKlxPcZig59n
+         UT0dqbysPz+LgMXvnYFuk9Wsq4fogJkgRBQge1cfDrGPnEZQE/7PUI7DQbO01nCXFhI9
+         m+nRVHTSqDlEZXctaxL9w9y5QJa/gR6tmRzhtJ2dhU6WqAkIX2912WhAtG28080hCQ2/
+         XEm8Nnb9+WhT6I5cM+FoHy7k2K4QR21gxWZeOnEpZ/dqh+DV7MxcY9a+z4AzCrqfqAtc
+         z4Fu9npclMwiLMuWY8EVYrWYf6rJlDoq9NJ5TBnZWtW7ucgYeRlZV92ZBwVsPwfCTos1
+         GXkQ==
+X-Gm-Message-State: AOJu0YyxBXxIUsw8IHQwJz1XvO5NDSW0qqbflRWOHvYEM+tM/I16/5GW
+	JDHRwCKuumsggtDNSpvAwDJ70B4JH/QPgxltI+r3Uw==
+X-Google-Smtp-Source: AGHT+IETpiolyi+wJxOtRku6E/DVFU6RjxGVeAK6UR/oSrBEgD4YO/t/91YVdpef7TUr7d9XvV6PNw==
+X-Received: by 2002:a17:90b:3e8d:b0:285:93d4:16c with SMTP id rj13-20020a17090b3e8d00b0028593d4016cmr21045437pjb.20.1701211981363;
+        Tue, 28 Nov 2023 14:53:01 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id cu20-20020a17090afa9400b00282ecb631a9sm9621898pjb.25.2023.11.28.14.53.04
+        by smtp.gmail.com with ESMTPSA id cu20-20020a17090afa9400b00282ecb631a9sm9621898pjb.25.2023.11.28.14.53.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 14:53:04 -0800 (PST)
+        Tue, 28 Nov 2023 14:53:01 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/13] tiff: backport Debian patch to fix CVE-2022-40090
-Date: Tue, 28 Nov 2023 12:52:36 -1000
-Message-Id: <999af9858676a0f5112ef3a9d9156be349f90cb4.1701210903.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 07/13] avahi: backport Debian patches to fix multiple CVE's
+Date: Tue, 28 Nov 2023 12:52:34 -1000
+Message-Id: <4771e335cd4d95e734d7f07a718319f4543ce2f1.1701210903.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1701210903.git.steve@sakoman.com>
 References: <cover.1701210903.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 22:53:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191404
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191402
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-import patch from ubuntu to fix
- CVE-2022-40090
+import patches from ubuntu to fix
+ CVE-2023-1981
+ CVE-2023-38469
+ CVE-2023-38470
+ CVE-2023-38471
+ CVE-2023-38472
+ CVE-2023-38473
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/tiff/tree/debian/patches?h=ubuntu/focal-security
+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches?h=ubuntu/focal-security
 Upstream commit
-https://gitlab.com/libtiff/libtiff/-/commit/c7caec9a4d8f24c17e667480d2c7d0d51c9fae41]
+https://github.com/lathiat/avahi/commit/a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f
+&
+https://github.com/lathiat/avahi/commit/a337a1ba7d15853fb56deef1f464529af6e3a1cf
+&
+https://github.com/lathiat/avahi/commit/c6cab87df290448a63323c8ca759baa516166237
+&
+https://github.com/lathiat/avahi/commit/94cb6489114636940ac683515417990b55b5d66c
+&
+https://github.com/lathiat/avahi/commit/20dec84b2480821704258bc908e7b2bd2e883b24
+&
+https://github.com/lathiat/avahi/commit/894f085f402e023a98cbb6f5a3d117bd88d93b09
+&
+https://github.com/lathiat/avahi/commit/b675f70739f404342f7f78635d6e2dcd85a13460
+&
+https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40
+&
+https://github.com/lathiat/avahi/commit/b448c9f771bada14ae8de175695a9729f8646797]
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libtiff/files/CVE-2022-40090.patch        | 548 ++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |   1 +
- 2 files changed, 549 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2022-40090.patch
+ meta/recipes-connectivity/avahi/avahi.inc     |   9 ++
+ .../avahi/files/CVE-2023-1981.patch           |  60 ++++++++++
+ .../avahi/files/CVE-2023-38469-1.patch        |  48 ++++++++
+ .../avahi/files/CVE-2023-38469-2.patch        |  65 +++++++++++
+ .../avahi/files/CVE-2023-38470-1.patch        |  57 +++++++++
+ .../avahi/files/CVE-2023-38470-2.patch        |  53 +++++++++
+ .../avahi/files/CVE-2023-38471-1.patch        |  73 ++++++++++++
+ .../avahi/files/CVE-2023-38471-2.patch        |  52 +++++++++
+ .../avahi/files/CVE-2023-38472.patch          |  45 ++++++++
+ .../avahi/files/CVE-2023-38473.patch          | 109 ++++++++++++++++++
+ 10 files changed, 571 insertions(+)
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
+ create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/files/CVE-2022-40090.patch b/meta/recipes-multimedia/libtiff/files/CVE-2022-40090.patch
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 25bb41b738..e1dfc7a861 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -22,6 +22,15 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+ SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz \
+            file://fix-CVE-2017-6519.patch \
+            file://CVE-2021-3468.patch \
++           file://CVE-2023-1981.patch \
++           file://CVE-2023-38469-1.patch \
++           file://CVE-2023-38469-2.patch \
++           file://CVE-2023-38470-1.patch \
++           file://CVE-2023-38470-2.patch \
++           file://CVE-2023-38471-1.patch \
++           file://CVE-2023-38471-2.patch \
++           file://CVE-2023-38472.patch \
++           file://CVE-2023-38473.patch \
+            "
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
 new file mode 100644
-index 0000000000..0a88f59553
+index 0000000000..1209864402
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/files/CVE-2022-40090.patch
-@@ -0,0 +1,548 @@
-+From d385738335deb0c4bb70449f12e411f2203c0d01 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 2 Sep 2022 21:20:28 +0200
-+Subject: [PATCH 1/4] Improved IFD-Loop Handling (fixes #455)
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
+@@ -0,0 +1,60 @@
++Backport of:
 +
-+Basic approach:
-+- The order in the entire chain must be checked, and not only whether an offset has already been read once.
-+- To do this, pairs of directory number and offset are stored and checked.
-+- The offset of a directory number can change.
-+- TIFFAdvanceDirectory() must also perform an IFD loop check.
-+- TIFFCheckDirOffset() is replaced by _TIFFCheckDirNumberAndOffset().
++From a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Petr=20Men=C5=A1=C3=ADk?= <pemensik@redhat.com>
++Date: Thu, 17 Nov 2022 01:51:53 +0100
++Subject: [PATCH] Emit error if requested service is not found
 +
-+Rules for the check:
-+- If an offset is already in the list, it must have the same IFD number. Otherwise it is an IDF loop.
-+- If the offset is not in the list and the IFD number is greater than there are list entries, a new list entry is added.
-+- Otherwise, the offset of the IFD number is updated.
++It currently just crashes instead of replying with error. Check return
++value and emit error instead of passing NULL pointer to reply.
 +
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/tiff/tree/debian/patches/CVE-2022-40090.patch?h=ubuntu/focal-security
-+Upstream commit
-+https://gitlab.com/libtiff/libtiff/-/commit/c7caec9a4d8f24c17e667480d2c7d0d51c9fae41]
-+CVE: CVE-2022-40090
++Fixes #375
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-1981.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f]
++CVE: CVE-2023-1981
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libtiff/tif_close.c   |  6 ++-
-+ libtiff/tif_dir.c     | 91 +++++++++++++++++++++++++----------------
-+ libtiff/tif_dir.h     |  1 +
-+ libtiff/tif_dirread.c | 94 ++++++++++++++++++++++++++++++-------------
-+ libtiff/tif_open.c    |  3 +-
-+ libtiff/tiffiop.h     |  3 +-
-+ 6 files changed, 131 insertions(+), 67 deletions(-)
++ avahi-daemon/dbus-protocol.c | 20 ++++++++++++++------
++ 1 file changed, 14 insertions(+), 6 deletions(-)
 +
-+--- tiff-4.1.0+git191117.orig/libtiff/tif_close.c
-++++ tiff-4.1.0+git191117/libtiff/tif_close.c
-+@@ -52,8 +52,10 @@ TIFFCleanup(TIFF* tif)
-+ 	(*tif->tif_cleanup)(tif);
-+ 	TIFFFreeDirectory(tif);
++--- a/avahi-daemon/dbus-protocol.c
+++++ b/avahi-daemon/dbus-protocol.c
++@@ -391,10 +391,14 @@ static DBusHandlerResult msg_server_impl
++         }
 + 
-+-	if (tif->tif_dirlist)
-+-		_TIFFfree(tif->tif_dirlist);
-++	if (tif->tif_dirlistoff)
-++		_TIFFfree(tif->tif_dirlistoff);
-++	if (tif->tif_dirlistdirn)
-++		_TIFFfree(tif->tif_dirlistdirn);
-+ 
-+ 	/*
-+          * Clean up client info links.
-+--- tiff-4.1.0+git191117.orig/libtiff/tif_dir.c
-++++ tiff-4.1.0+git191117/libtiff/tif_dir.c
-+@@ -1463,12 +1463,22 @@ TIFFDefaultDirectory(TIFF* tif)
-+ }
-+ 
-+ static int
-+-TIFFAdvanceDirectory(TIFF* tif, uint64* nextdir, uint64* off)
-++TIFFAdvanceDirectory(TIFF* tif, uint64* nextdiroff, uint64* off, uint16* nextdirnum)
-+ {
-+ 	static const char module[] = "TIFFAdvanceDirectory";
-++
-++	/* Add this directory to the directory list, if not already in. */
-++	if (!_TIFFCheckDirNumberAndOffset(tif, *nextdirnum, *nextdiroff)) {
-++		TIFFErrorExt(tif->tif_clientdata, module, "Starting directory %hu at offset 0x%lx (%lu) might cause an IFD loop",
-++			*nextdirnum, *nextdiroff, *nextdiroff);
-++		*nextdiroff = 0;
-++		*nextdirnum = 0;
-++		return(0);
-++	}
-++
-+ 	if (isMapped(tif))
-+ 	{
-+-		uint64 poff=*nextdir;
-++		uint64 poff=*nextdiroff;
-+ 		if (!(tif->tif_flags&TIFF_BIGTIFF))
-+ 		{
-+ 			tmsize_t poffa,poffb,poffc,poffd;
-+@@ -1479,7 +1489,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64*
-+ 			if (((uint64)poffa!=poff)||(poffb<poffa)||(poffb<(tmsize_t)sizeof(uint16))||(poffb>tif->tif_size))
-+ 			{
-+ 				TIFFErrorExt(tif->tif_clientdata,module,"Error fetching directory count");
-+-                                  *nextdir=0;
-++                                  *nextdiroff=0;
-+ 				return(0);
-+ 			}
-+ 			_TIFFmemcpy(&dircount,tif->tif_base+poffa,sizeof(uint16));
-+@@ -1497,7 +1507,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64*
-+ 			_TIFFmemcpy(&nextdir32,tif->tif_base+poffc,sizeof(uint32));
-+ 			if (tif->tif_flags&TIFF_SWAB)
-+ 				TIFFSwabLong(&nextdir32);
-+-			*nextdir=nextdir32;
-++			*nextdiroff=nextdir32;
-+ 		}
-+ 		else
-+ 		{
-+@@ -1529,11 +1539,10 @@ TIFFAdvanceDirectory(TIFF* tif, uint64*
-+ 			}
-+ 			if (off!=NULL)
-+ 				*off=(uint64)poffc;
-+-			_TIFFmemcpy(nextdir,tif->tif_base+poffc,sizeof(uint64));
-++			_TIFFmemcpy(nextdiroff,tif->tif_base+poffc,sizeof(uint64));
-+ 			if (tif->tif_flags&TIFF_SWAB)
-+-				TIFFSwabLong8(nextdir);
-++				TIFFSwabLong8(nextdiroff);
-+ 		}
-+-		return(1);
-+ 	}
-+ 	else
-+ 	{
-+@@ -1541,7 +1550,7 @@ TIFFAdvanceDirectory(TIFF* tif, uint64*
-+ 		{
-+ 			uint16 dircount;
-+ 			uint32 nextdir32;
-+-			if (!SeekOK(tif, *nextdir) ||
-++			if (!SeekOK(tif, *nextdiroff) ||
-+ 			    !ReadOK(tif, &dircount, sizeof (uint16))) {
-+ 				TIFFErrorExt(tif->tif_clientdata, module, "%s: Error fetching directory count",
-+ 				    tif->tif_name);
-+@@ -1562,13 +1571,13 @@ TIFFAdvanceDirectory(TIFF* tif, uint64*
-+ 			}
-+ 			if (tif->tif_flags & TIFF_SWAB)
-+ 				TIFFSwabLong(&nextdir32);
-+-			*nextdir=nextdir32;
-++			*nextdiroff=nextdir32;
-+ 		}
-+ 		else
-+ 		{
-+ 			uint64 dircount64;
-+ 			uint16 dircount16;
-+-			if (!SeekOK(tif, *nextdir) ||
-++			if (!SeekOK(tif, *nextdiroff) ||
-+ 			    !ReadOK(tif, &dircount64, sizeof (uint64))) {
-+ 				TIFFErrorExt(tif->tif_clientdata, module, "%s: Error fetching directory count",
-+ 				    tif->tif_name);
-+@@ -1588,17 +1597,27 @@ TIFFAdvanceDirectory(TIFF* tif, uint64*
-+ 			else
-+ 				(void) TIFFSeekFile(tif,
-+ 				    dircount16*20, SEEK_CUR);
-+-			if (!ReadOK(tif, nextdir, sizeof (uint64))) {
-++			if (!ReadOK(tif, nextdiroff, sizeof (uint64))) {
-+ 				TIFFErrorExt(tif->tif_clientdata, module,
-+                                              "%s: Error fetching directory link",
-+ 				    tif->tif_name);
-+ 				return (0);
-+ 			}
-+ 			if (tif->tif_flags & TIFF_SWAB)
-+-				TIFFSwabLong8(nextdir);
-++				TIFFSwabLong8(nextdiroff);
-+ 		}
-+-		return (1);
-+ 	}
-++	if (*nextdiroff != 0) {
-++		(*nextdirnum)++;
-++		/* Check next directory for IFD looping and if so, set it as last directory. */
-++		if (!_TIFFCheckDirNumberAndOffset(tif, *nextdirnum, *nextdiroff)) {
-++			TIFFWarningExt(tif->tif_clientdata, module, "the next directory %hu at offset 0x%lx (%lu) might be an IFD loop. Treating directory %hu as last directory",
-++				*nextdirnum, *nextdiroff, *nextdiroff, *nextdirnum-1);
-++			*nextdiroff = 0;
-++			(*nextdirnum)--;
-++		}
-++	}
-++	return (1);
-+ }
-+ 
-+ /*
-+@@ -1608,14 +1627,16 @@ uint16
-+ TIFFNumberOfDirectories(TIFF* tif)
-+ {
-+ 	static const char module[] = "TIFFNumberOfDirectories";
-+-	uint64 nextdir;
-++	uint64 nextdiroff;
-++	uint16 nextdirnum;
-+ 	uint16 n;
-+ 	if (!(tif->tif_flags&TIFF_BIGTIFF))
-+-		nextdir = tif->tif_header.classic.tiff_diroff;
-++		nextdiroff = tif->tif_header.classic.tiff_diroff;
-+ 	else
-+-		nextdir = tif->tif_header.big.tiff_diroff;
-++		nextdiroff = tif->tif_header.big.tiff_diroff;
-++	nextdirnum = 0;
-+ 	n = 0;
-+-	while (nextdir != 0 && TIFFAdvanceDirectory(tif, &nextdir, NULL))
-++	while (nextdiroff != 0 && TIFFAdvanceDirectory(tif, &nextdiroff, NULL, &nextdirnum))
-+         {
-+                 if (n != 65535) {
-+                         ++n;
-+@@ -1638,28 +1659,30 @@ TIFFNumberOfDirectories(TIFF* tif)
-+ int
-+ TIFFSetDirectory(TIFF* tif, uint16 dirn)
-+ {
-+-	uint64 nextdir;
-++	uint64 nextdiroff;
-++	uint16 nextdirnum;
-+ 	uint16 n;
-+ 
-+ 	if (!(tif->tif_flags&TIFF_BIGTIFF))
-+-		nextdir = tif->tif_header.classic.tiff_diroff;
-++		nextdiroff = tif->tif_header.classic.tiff_diroff;
-+ 	else
-+-		nextdir = tif->tif_header.big.tiff_diroff;
-+-	for (n = dirn; n > 0 && nextdir != 0; n--)
-+-		if (!TIFFAdvanceDirectory(tif, &nextdir, NULL))
-++		nextdiroff = tif->tif_header.big.tiff_diroff;
-++	nextdirnum = 0;
-++	for (n = dirn; n > 0 && nextdiroff != 0; n--)
-++		if (!TIFFAdvanceDirectory(tif, &nextdiroff, NULL, &nextdirnum))
-+ 			return (0);
-+-	tif->tif_nextdiroff = nextdir;
-++	/* If the n-th directory could not be reached (does not exist), 
-++	 * return here without touching anything further. */
-++	if (nextdiroff == 0 || n > 0)
-++		return (0);
-++
-++	tif->tif_nextdiroff = nextdiroff;
-+ 	/*
-+ 	 * Set curdir to the actual directory index.  The
-+ 	 * -1 is because TIFFReadDirectory will increment
-+ 	 * tif_curdir after successfully reading the directory.
-+ 	 */
-+ 	tif->tif_curdir = (dirn - n) - 1;
-+-	/*
-+-	 * Reset tif_dirnumber counter and start new list of seen directories.
-+-	 * We need this to prevent IFD loops.
-+-	 */
-+-	tif->tif_dirnumber = 0;
-+ 	return (TIFFReadDirectory(tif));
-+ }
-+ 
-+@@ -1672,13 +1695,42 @@ TIFFSetDirectory(TIFF* tif, uint16 dirn)
-+ int
-+ TIFFSetSubDirectory(TIFF* tif, uint64 diroff)
-+ {
-+-	tif->tif_nextdiroff = diroff;
-+-	/*
-+-	 * Reset tif_dirnumber counter and start new list of seen directories.
-+-	 * We need this to prevent IFD loops.
-++	/* Match nextdiroff and curdir for consistent IFD-loop checking. 
-++	 * Only with TIFFSetSubDirectory() the IFD list can be corrupted with invalid offsets
-++	 * within the main IFD tree.
-++	 * In the case of several subIFDs of a main image, 
-++	 * there are two possibilities that are not even mutually exclusive.
-++	 * a.) The subIFD tag contains an array with all offsets of the subIFDs.
-++	 * b.) The SubIFDs are concatenated with their NextIFD parameters.
-++	 * (refer to https://www.awaresystems.be/imaging/tiff/specification/TIFFPM6.pdf.)
-+ 	 */
-+-	tif->tif_dirnumber = 0;
-+-	return (TIFFReadDirectory(tif));
-++	int retval;
-++	uint16 curdir = 0;
-++	int8 probablySubIFD = 0;
-++	if (diroff == 0) {
-++		/* Special case to invalidate the tif_lastdiroff member. */
-++		tif->tif_curdir = 65535;
-++	} else {
-++		if (!_TIFFGetDirNumberFromOffset(tif, diroff, &curdir)) {
-++			/* Non-existing offsets might point to a SubIFD or invalid IFD.*/
-++			probablySubIFD = 1;
-++		}
-++		/* -1 because TIFFReadDirectory() will increment tif_curdir. */
-++		tif->tif_curdir = curdir - 1;
-++	}
-++
-++	tif->tif_nextdiroff = diroff;
-++	retval = TIFFReadDirectory(tif);
-++	/* If failed, curdir was not incremented in TIFFReadDirectory(), so set it back. */
-++	if (!retval )tif->tif_curdir++; 
-++	if (retval && probablySubIFD) {
-++		/* Reset IFD list to start new one for SubIFD chain and also start SubIFD chain with tif_curdir=0. */
-++		tif->tif_dirnumber = 0; 
-++		tif->tif_curdir = 0; /* first directory of new chain */
-++		/* add this offset to new IFD list */
-++		_TIFFCheckDirNumberAndOffset(tif, tif->tif_curdir, diroff);
-++	}
-++	return (retval);
-+ }
-+ 
-+ /*
-+@@ -1702,12 +1754,15 @@ TIFFLastDirectory(TIFF* tif)
-+ 
-+ /*
-+  * Unlink the specified directory from the directory chain.
-++ * Note: First directory starts with number dirn=1. 
-++ * This is different to TIFFSetDirectory() where the first directory starts with zero.
-+  */
-+ int
-+ TIFFUnlinkDirectory(TIFF* tif, uint16 dirn)
-+ {
-+ 	static const char module[] = "TIFFUnlinkDirectory";
-+ 	uint64 nextdir;
-++	uint16 nextdirnum;
-+ 	uint64 off;
-+ 	uint16 n;
-+ 
-+@@ -1731,19 +1786,21 @@ TIFFUnlinkDirectory(TIFF* tif, uint16 di
-+ 		nextdir = tif->tif_header.big.tiff_diroff;
-+ 		off = 8;
-+ 	}
-++	nextdirnum = 0;		/* First directory is dirn=0 */
-++
-+ 	for (n = dirn-1; n > 0; n--) {
-+ 		if (nextdir == 0) {
-+ 			TIFFErrorExt(tif->tif_clientdata, module, "Directory %d does not exist", dirn);
-+ 			return (0);
-+ 		}
-+-		if (!TIFFAdvanceDirectory(tif, &nextdir, &off))
-++		if (!TIFFAdvanceDirectory(tif, &nextdir, &off, &nextdirnum))
-+ 			return (0);
-+ 	}
-+ 	/*
-+ 	 * Advance to the directory to be unlinked and fetch
-+ 	 * the offset of the directory that follows.
-+ 	 */
-+-	if (!TIFFAdvanceDirectory(tif, &nextdir, NULL))
-++	if (!TIFFAdvanceDirectory(tif, &nextdir, NULL, &nextdirnum))
-+ 		return (0);
-+ 	/*
-+ 	 * Go back and patch the link field of the preceding
-+--- tiff-4.1.0+git191117.orig/libtiff/tif_dir.h
-++++ tiff-4.1.0+git191117/libtiff/tif_dir.h
-+@@ -300,6 +300,8 @@ extern int _TIFFMergeFields(TIFF*, const
-+ extern const TIFFField* _TIFFFindOrRegisterField(TIFF *, uint32, TIFFDataType);
-+ extern  TIFFField* _TIFFCreateAnonField(TIFF *, uint32, TIFFDataType);
-+ extern int _TIFFCheckFieldIsValidForCodec(TIFF *tif, ttag_t tag);
-++extern int _TIFFCheckDirNumberAndOffset(TIFF *tif, uint16 dirn, uint64 diroff);
-++extern int _TIFFGetDirNumberFromOffset(TIFF *tif, uint64 diroff, uint16 *dirn);
-+ 
-+ #if defined(__cplusplus)
-+ }
-+--- tiff-4.1.0+git191117.orig/libtiff/tif_dirread.c
-++++ tiff-4.1.0+git191117/libtiff/tif_dirread.c
-+@@ -158,7 +158,6 @@ static void TIFFReadDirectoryFindFieldIn
-+ 
-+ static int EstimateStripByteCounts(TIFF* tif, TIFFDirEntry* dir, uint16 dircount);
-+ static void MissingRequired(TIFF*, const char*);
-+-static int TIFFCheckDirOffset(TIFF* tif, uint64 diroff);
-+ static int CheckDirCount(TIFF*, TIFFDirEntry*, uint32);
-+ static uint16 TIFFFetchDirectory(TIFF* tif, uint64 diroff, TIFFDirEntry** pdir, uint64* nextdiroff);
-+ static int TIFFFetchNormalTag(TIFF*, TIFFDirEntry*, int recover);
-+@@ -3584,12 +3583,19 @@ TIFFReadDirectory(TIFF* tif)
-+     int bitspersample_read = FALSE;
-+         int color_channels;
-+ 
-+-	tif->tif_diroff=tif->tif_nextdiroff;
-+-	if (!TIFFCheckDirOffset(tif,tif->tif_nextdiroff))
-+-		return 0;           /* last offset or bad offset (IFD looping) */
-+-	(*tif->tif_cleanup)(tif);   /* cleanup any previous compression state */
-+-	tif->tif_curdir++;
-+-        nextdiroff = tif->tif_nextdiroff;
-++	if (tif->tif_nextdiroff == 0) {
-++		/* In this special case, tif_diroff needs also to be set to 0. */
-++		tif->tif_diroff = tif->tif_nextdiroff;
-++		return 0;           /* last offset, thus no checking necessary */
-++	}
-++
-++	nextdiroff = tif->tif_nextdiroff;
-++	/* tif_curdir++ and tif_nextdiroff should only be updated after SUCCESSFUL reading of the directory. Otherwise, invalid IFD offsets could corrupt the IFD list. */
-++	if (!_TIFFCheckDirNumberAndOffset(tif, tif->tif_curdir + 1, nextdiroff)) {
-++		TIFFWarningExt(tif->tif_clientdata, module,
-++			"Didn't read next directory due to IFD looping at offset 0x%lx (%lu) to offset 0x%lx (%lu)", tif->tif_diroff, tif->tif_diroff, nextdiroff, nextdiroff);
-++		return 0;           /* bad offset (IFD looping) */
-++	}
-+ 	dircount=TIFFFetchDirectory(tif,nextdiroff,&dir,&tif->tif_nextdiroff);
-+ 	if (!dircount)
-+ 	{
-+@@ -3597,6 +3603,11 @@ TIFFReadDirectory(TIFF* tif)
-+ 		    "Failed to read directory at offset " TIFF_UINT64_FORMAT,nextdiroff);
-+ 		return 0;
-+ 	}
-++	/* Set global values after a valid directory has been fetched.
-++	 * tif_diroff is already set to nextdiroff in TIFFFetchDirectory() in the beginning. */
-++	tif->tif_curdir++;
-++	(*tif->tif_cleanup)(tif);   /* cleanup any previous compression state */
-++
-+ 	TIFFReadDirectoryCheckOrder(tif,dir,dircount);
-+ 
-+         /*
-+@@ -4628,13 +4639,17 @@ MissingRequired(TIFF* tif, const char* t
-+ }
-+ 
-+ /*
-+- * Check the directory offset against the list of already seen directory
-+- * offsets. This is a trick to prevent IFD looping. The one can create TIFF
-+- * file with looped directory pointers. We will maintain a list of already
-+- * seen directories and check every IFD offset against that list.
-++ * Check the directory number and offset against the list of already seen
-++ * directory numbers and offsets. This is a trick to prevent IFD looping.
-++ * The one can create TIFF file with looped directory pointers. We will
-++ * maintain a list of already seen directories and check every IFD offset
-++ * and its IFD number against that list. However, the offset of an IFD number
-++ * can change - e.g. when writing updates to file.
-++ * Returns 1 if all is ok; 0 if last directory or IFD loop is encountered,
-++ * or an error has occured.
-+  */
-+-static int
-+-TIFFCheckDirOffset(TIFF* tif, uint64 diroff)
-++int
-++_TIFFCheckDirNumberAndOffset(TIFF* tif, uint16 dirn, uint64 diroff)
-+ {
-+ 	uint16 n;
-+ 
-+@@ -4646,35 +4661,64 @@ TIFFCheckDirOffset(TIFF* tif, uint64 dir
-+ 	    return 0;
-+ 	}
-+ 
-+-	for (n = 0; n < tif->tif_dirnumber && tif->tif_dirlist; n++) {
-+-		if (tif->tif_dirlist[n] == diroff)
-+-			return 0;
-++	/* Check if offset is already in the list:
-++	 * - yes: check, if offset is at the same IFD number - if not, it is an IFD loop
-++	 * -  no: add to list or update offset at that IFD number
-++	 */
-++	for (n = 0; n < tif->tif_dirnumber && tif->tif_dirlistdirn && tif->tif_dirlistoff; n++) {
-++		if (tif->tif_dirlistoff[n] == diroff) {
-++			if (tif->tif_dirlistdirn[n] == dirn) {
-++				return 1;
-++			} else {
-++				TIFFWarningExt(tif->tif_clientdata, "_TIFFCheckDirNumberAndOffset",
-++					"TIFF directory %hu has IFD looping to directory %hu at offset 0x%lx (%lu)",
-++					dirn-1, tif->tif_dirlistdirn[n], diroff, diroff);
-++				return 0;
-++			}
-++		}
-++	}
-++	/* Check if offset of an IFD has been changed and update offset of that IFD number. */
-++	if (dirn < tif->tif_dirnumber && tif->tif_dirlistdirn && tif->tif_dirlistoff) {
-++		/* tif_dirlistdirn can have IFD numbers dirn in random order */
-++		for (n = 0; n < tif->tif_dirnumber; n++) {
-++			if (tif->tif_dirlistdirn[n] == dirn) {
-++				tif->tif_dirlistoff[n] = diroff;
-++				return 1;
-++			}
-++		}
-+ 	}
-+ 
-++	/* Add IFD offset and dirn to IFD directory list */
-+ 	tif->tif_dirnumber++;
-+ 
-+-	if (tif->tif_dirlist == NULL || tif->tif_dirnumber > tif->tif_dirlistsize) {
-+-		uint64* new_dirlist;
++         t = avahi_alternative_host_name(n);
++-        avahi_dbus_respond_string(c, m, t);
++-        avahi_free(t);
 +-
-++	if (tif->tif_dirlistoff == NULL || tif->tif_dirlistdirn == NULL || tif->tif_dirnumber > tif->tif_dirlistsize) {
-++		uint64 *new_dirlist;
-+ 		/*
-+ 		 * XXX: Reduce memory allocation granularity of the dirlist
-+ 		 * array.
-+ 		 */
-+-		new_dirlist = (uint64*)_TIFFCheckRealloc(tif, tif->tif_dirlist,
-+-		    tif->tif_dirnumber, 2 * sizeof(uint64), "for IFD list");
-++		if (tif->tif_dirnumber >= 32768)
-++			tif->tif_dirlistsize = 65535;
-++		else
-++			tif->tif_dirlistsize = 2 * tif->tif_dirnumber;
++-        return DBUS_HANDLER_RESULT_HANDLED;
+++        if (t) {
+++            avahi_dbus_respond_string(c, m, t);
+++            avahi_free(t);
 ++
-++		new_dirlist = (uint64 *)_TIFFCheckRealloc(tif, tif->tif_dirlistoff,
-++			tif->tif_dirlistsize, sizeof(uint64), "for IFD offset list");
-+ 		if (!new_dirlist)
-+ 			return 0;
-+-		if( tif->tif_dirnumber >= 32768 )
-+-		    tif->tif_dirlistsize = 65535;
-+-		else
-+-		    tif->tif_dirlistsize = 2 * tif->tif_dirnumber;
-+-		tif->tif_dirlist = new_dirlist;
-++		tif->tif_dirlistoff = new_dirlist;
-++		new_dirlist = (uint64 *)_TIFFCheckRealloc(tif, tif->tif_dirlistdirn,
-++			tif->tif_dirlistsize, sizeof(uint16), "for IFD dirnumber list");
-++		if (!new_dirlist)
-++			return 0;
-++		tif->tif_dirlistdirn = (uint16 *)new_dirlist;
-+ 	}
+++            return DBUS_HANDLER_RESULT_HANDLED;
+++        } else {
+++            return avahi_dbus_respond_error(c, m, AVAHI_ERR_NOT_FOUND, "Hostname not found");
+++        }
 + 
-+-	tif->tif_dirlist[tif->tif_dirnumber - 1] = diroff;
-++	tif->tif_dirlistoff[tif->tif_dirnumber - 1] = diroff;
-++	tif->tif_dirlistdirn[tif->tif_dirnumber - 1] = dirn;
++     } else if (dbus_message_is_method_call(m, AVAHI_DBUS_INTERFACE_SERVER, "GetAlternativeServiceName")) {
++         char *n, *t;
++@@ -405,10 +409,14 @@ static DBusHandlerResult msg_server_impl
++         }
 + 
-+ 	return 1;
-+-}
-++}	/* --- _TIFFCheckDirNumberAndOffset() ---*/
++         t = avahi_alternative_service_name(n);
++-        avahi_dbus_respond_string(c, m, t);
++-        avahi_free(t);
++-
++-        return DBUS_HANDLER_RESULT_HANDLED;
+++        if (t) {
+++            avahi_dbus_respond_string(c, m, t);
+++            avahi_free(t);
+++
+++            return DBUS_HANDLER_RESULT_HANDLED;
+++        } else {
+++            return avahi_dbus_respond_error(c, m, AVAHI_ERR_NOT_FOUND, "Service not found");
+++        }
 + 
-+ /*
-+  * Check the count field of a directory entry against a known value.  The
-+@@ -4703,6 +4747,47 @@ CheckDirCount(TIFF* tif, TIFFDirEntry* d
++     } else if (dbus_message_is_method_call(m, AVAHI_DBUS_INTERFACE_SERVER, "EntryGroupNew")) {
++         Client *client;
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
+new file mode 100644
+index 0000000000..12dad9ef6f
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
+@@ -0,0 +1,48 @@
++From a337a1ba7d15853fb56deef1f464529af6e3a1cf Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Mon, 23 Oct 2023 20:29:31 +0000
++Subject: [PATCH] core: reject overly long TXT resource records
++
++Closes https://github.com/lathiat/avahi/issues/455
++
++CVE-2023-38469
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38469-1.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/a337a1ba7d15853fb56deef1f464529af6e3a1cf]
++CVE: CVE-2023-38469
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-core/rr.c | 9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
++
++Index: avahi-0.7/avahi-core/rr.c
++===================================================================
++--- avahi-0.7.orig/avahi-core/rr.c
+++++ avahi-0.7/avahi-core/rr.c
++@@ -32,6 +32,7 @@
++ #include <avahi-common/malloc.h>
++ #include <avahi-common/defs.h>
++ 
+++#include "dns.h"
++ #include "rr.h"
++ #include "log.h"
++ #include "util.h"
++@@ -688,11 +689,17 @@ int avahi_record_is_valid(AvahiRecord *r
++         case AVAHI_DNS_TYPE_TXT: {
++ 
++             AvahiStringList *strlst;
+++            size_t used = 0;
++ 
++-            for (strlst = r->data.txt.string_list; strlst; strlst = strlst->next)
+++            for (strlst = r->data.txt.string_list; strlst; strlst = strlst->next) {
++                 if (strlst->size > 255 || strlst->size <= 0)
++                     return 0;
++ 
+++                used += 1+strlst->size;
+++                if (used > AVAHI_DNS_RDATA_MAX)
+++                    return 0;
+++            }
+++
++             return 1;
++         }
++     }
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
+new file mode 100644
+index 0000000000..a62c718ebe
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
+@@ -0,0 +1,65 @@
++From c6cab87df290448a63323c8ca759baa516166237 Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Wed, 25 Oct 2023 18:15:42 +0000
++Subject: [PATCH] tests: pass overly long TXT resource records
++
++to make sure they don't crash avahi any more.
++It reproduces https://github.com/lathiat/avahi/issues/455
++
++Canonical notes:
++nickgalanis> removed first hunk since there is no .github dir in this release
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38469-2.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/c6cab87df290448a63323c8ca759baa516166237]
++CVE: CVE-2023-38469
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-client/client-test.c       | 14 ++++++++++++++
++ 1 files changed, 14 insertions(+)
++
++Index: avahi-0.7/avahi-client/client-test.c
++===================================================================
++--- avahi-0.7.orig/avahi-client/client-test.c
+++++ avahi-0.7/avahi-client/client-test.c
++@@ -22,6 +22,7 @@
++ #endif
++ 
++ #include <stdio.h>
+++#include <string.h>
++ #include <assert.h>
++ 
++ #include <avahi-client/client.h>
++@@ -33,6 +34,8 @@
++ #include <avahi-common/malloc.h>
++ #include <avahi-common/timeval.h>
++ 
+++#include <avahi-core/dns.h>
+++
++ static const AvahiPoll *poll_api = NULL;
++ static AvahiSimplePoll *simple_poll = NULL;
++ 
++@@ -222,6 +225,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
++     uint32_t cookie;
++     struct timeval tv;
++     AvahiAddress a;
+++    uint8_t rdata[AVAHI_DNS_RDATA_MAX+1];
+++    AvahiStringList *txt = NULL;
+++    int r;
++ 
++     simple_poll = avahi_simple_poll_new();
++     poll_api = avahi_simple_poll_get(simple_poll);
++@@ -258,6 +264,14 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
++     printf("%s\n", avahi_strerror(avahi_entry_group_add_service (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "Lathiat's Site", "_http._tcp", NULL, NULL, 80, "foo=bar", NULL)));
++     printf("add_record: %d\n", avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "\5booya", 6));
++ 
+++    memset(rdata, 1, sizeof(rdata));
+++    r = avahi_string_list_parse(rdata, sizeof(rdata), &txt);
+++    assert(r >= 0);
+++    assert(avahi_string_list_serialize(txt, NULL, 0) == sizeof(rdata));
+++    error = avahi_entry_group_add_service_strlst(group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", "_qotd._tcp", NULL, NULL, 123, txt);
+++    assert(error == AVAHI_ERR_INVALID_RECORD);
+++    avahi_string_list_free(txt);
+++
++     avahi_entry_group_commit (group);
++ 
++     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
+new file mode 100644
+index 0000000000..82fb1ab40b
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
+@@ -0,0 +1,57 @@
++From 94cb6489114636940ac683515417990b55b5d66c Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Petr=20Men=C5=A1=C3=ADk?= <pemensik@redhat.com>
++Date: Tue, 11 Apr 2023 15:29:59 +0200
++Subject: [PATCH] Ensure each label is at least one byte long
++
++The only allowed exception is single dot, where it should return empty
++string.
++
++Fixes #454.
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38470-1.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/94cb6489114636940ac683515417990b55b5d66c]
++CVE: CVE-2023-38470
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-common/domain-test.c | 14 ++++++++++++++
++ avahi-common/domain.c      |  2 +-
++ 2 files changed, 15 insertions(+), 1 deletion(-)
++
++Index: avahi-0.7/avahi-common/domain-test.c
++===================================================================
++--- avahi-0.7.orig/avahi-common/domain-test.c
+++++ avahi-0.7/avahi-common/domain-test.c
++@@ -45,6 +45,20 @@ int main(AVAHI_GCC_UNUSED int argc, AVAH
++     printf("%s\n", s = avahi_normalize_name_strdup("fo\\\\o\\..f oo."));
++     avahi_free(s);
++ 
+++    printf("%s\n", s = avahi_normalize_name_strdup("."));
+++    avahi_free(s);
+++
+++    s = avahi_normalize_name_strdup(",.=.}.=.?-.}.=.?.?.}.}.?.?.?.z.?.?.}.}."
+++		    "}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.=.=.?.?.}.}.?.?.}.}.}"
+++		    ".?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.=.=.?.?.}.}.?.?.?.zM.?`"
+++		    "?.}.}.}.?.?.?.r.=.?.}.=.?.?.}.?.?.?.}.=.?.?.}??.}.}.?.?."
+++		    "?.z.?.?.}.}.}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM.?`?.}.}.}."
+++		    "??.?.zM.?`?.}.}.}.?.?.?.r.=.?.}.=.?.?.}.?.?.?.}.=.?.?.}?"
+++		    "?.}.}.?.?.?.z.?.?.}.}.}.?.?.?.r.=.=.}.=.?.}}.}.?.?.?.zM."
+++		    "?`?.}.}.}.?.?.?.r.=.=.?.?`.?.?}.}.}.?.?.?.r.=.?.}.=.?.?."
+++		    "}.?.?.?.}.=.?.?.}");
+++    assert(s == NULL);
+++
++     printf("%i\n", avahi_domain_equal("\\065aa bbb\\.\\046cc.cc\\\\.dee.fff.", "Aaa BBB\\.\\.cc.cc\\\\.dee.fff"));
++     printf("%i\n", avahi_domain_equal("A", "a"));
++ 
++Index: avahi-0.7/avahi-common/domain.c
++===================================================================
++--- avahi-0.7.orig/avahi-common/domain.c
+++++ avahi-0.7/avahi-common/domain.c
++@@ -201,7 +201,7 @@ char *avahi_normalize_name(const char *s
++         }
++ 
++         if (!empty) {
++-            if (size < 1)
+++            if (size < 2)
++                 return NULL;
++ 
++             *(r++) = '.';
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
+new file mode 100644
+index 0000000000..403ed6fd6a
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
+@@ -0,0 +1,53 @@
++From 20dec84b2480821704258bc908e7b2bd2e883b24 Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Tue, 19 Sep 2023 03:21:25 +0000
++Subject: [PATCH] [common] bail out when escaped labels can't fit into ret
++
++Fixes:
++```
++==93410==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f9e76f14c16 at pc 0x00000047208d bp 0x7ffee90a6a00 sp 0x7ffee90a61c8
++READ of size 1110 at 0x7f9e76f14c16 thread T0
++    #0 0x47208c in __interceptor_strlen (out/fuzz-domain+0x47208c) (BuildId: 731b20c1eef22c2104e75a6496a399b10cfc7cba)
++    #1 0x534eb0 in avahi_strdup avahi/avahi-common/malloc.c:167:12
++    #2 0x53862c in avahi_normalize_name_strdup avahi/avahi-common/domain.c:226:12
++```
++and
++```
++fuzz-domain: fuzz/fuzz-domain.c:38: int LLVMFuzzerTestOneInput(const uint8_t *, size_t): Assertion `avahi_domain_equal(s, t)' failed.
++==101571== ERROR: libFuzzer: deadly signal
++    #0 0x501175 in __sanitizer_print_stack_trace (/home/vagrant/avahi/out/fuzz-domain+0x501175) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
++    #1 0x45ad2c in fuzzer::PrintStackTrace() (/home/vagrant/avahi/out/fuzz-domain+0x45ad2c) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
++    #2 0x43fc07 in fuzzer::Fuzzer::CrashCallback() (/home/vagrant/avahi/out/fuzz-domain+0x43fc07) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
++    #3 0x7f1581d7ebaf  (/lib64/libc.so.6+0x3dbaf) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #4 0x7f1581dcf883 in __pthread_kill_implementation (/lib64/libc.so.6+0x8e883) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #5 0x7f1581d7eafd in gsignal (/lib64/libc.so.6+0x3dafd) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #6 0x7f1581d6787e in abort (/lib64/libc.so.6+0x2687e) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #7 0x7f1581d6779a in __assert_fail_base.cold (/lib64/libc.so.6+0x2679a) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #8 0x7f1581d77186 in __assert_fail (/lib64/libc.so.6+0x36186) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
++    #9 0x5344a4 in LLVMFuzzerTestOneInput /home/vagrant/avahi/fuzz/fuzz-domain.c:38:9
++```
++
++It's a follow-up to 94cb6489114636940ac683515417990b55b5d66c
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38471-2.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/20dec84b2480821704258bc908e7b2bd2e883b24]
++CVE: CVE-2023-38470 #Follow-up patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-common/domain.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++Index: avahi-0.7/avahi-common/domain.c
++===================================================================
++--- avahi-0.7.orig/avahi-common/domain.c
+++++ avahi-0.7/avahi-common/domain.c
++@@ -210,7 +210,8 @@ char *avahi_normalize_name(const char *s
++         } else
++             empty = 0;
++ 
++-        avahi_escape_label(label, strlen(label), &r, &size);
+++        if (!(avahi_escape_label(label, strlen(label), &r, &size)))
+++            return NULL;
++     }
++ 
++     return ret_s;
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
+new file mode 100644
+index 0000000000..c8d6a66174
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
+@@ -0,0 +1,73 @@
++From 894f085f402e023a98cbb6f5a3d117bd88d93b09 Mon Sep 17 00:00:00 2001
++From: Michal Sekletar <msekleta@redhat.com>
++Date: Mon, 23 Oct 2023 13:38:35 +0200
++Subject: [PATCH] core: extract host name using avahi_unescape_label()
++
++Previously we could create invalid escape sequence when we split the
++string on dot. For example, from valid host name "foo\\.bar" we have
++created invalid name "foo\\" and tried to set that as the host name
++which crashed the daemon.
++
++Fixes #453
++
++CVE-2023-38471
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38471-1.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/894f085f402e023a98cbb6f5a3d117bd88d93b09]
++CVE: CVE-2023-38471
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-core/server.c | 27 +++++++++++++++++++++------
++ 1 file changed, 21 insertions(+), 6 deletions(-)
++
++Index: avahi-0.7/avahi-core/server.c
++===================================================================
++--- avahi-0.7.orig/avahi-core/server.c
+++++ avahi-0.7/avahi-core/server.c
++@@ -1253,7 +1253,11 @@ static void update_fqdn(AvahiServer *s)
 + }
 + 
-+ /*
-++ * Retrieve the matching IFD directory number of a given IFD offset
-++ * from the list of directories already seen.
-++ * Returns 1 if the offset was in the list and the directory number
-++ * can be returned.
-++ * Otherwise returns 0 or if an error occured.
-++ */
-++int
-++_TIFFGetDirNumberFromOffset(TIFF *tif, uint64 diroff, uint16* dirn)
-++{
-++	uint16 n;
++ int avahi_server_set_host_name(AvahiServer *s, const char *host_name) {
++-    char *hn = NULL;
+++    char label_escaped[AVAHI_LABEL_MAX*4+1];
+++    char label[AVAHI_LABEL_MAX];
+++    char *hn = NULL, *h;
+++    size_t len;
 ++
-++	if (diroff == 0)			/* no more directories */
-++		return 0;
-++	if (tif->tif_dirnumber == 65535) {
-++		TIFFErrorExt(tif->tif_clientdata, "_TIFFGetDirNumberFromOffset",
-++			"Cannot handle more than 65535 TIFF directories");
-++		return 0;
-++	}
++     assert(s);
++ 
++     AVAHI_CHECK_VALIDITY(s, !host_name || avahi_is_valid_host_name(host_name), AVAHI_ERR_INVALID_HOST_NAME);
++@@ -1263,17 +1267,28 @@ int avahi_server_set_host_name(AvahiServ
++     else
++         hn = avahi_normalize_name_strdup(host_name);
++ 
++-    hn[strcspn(hn, ".")] = 0;
+++    h = hn;
+++    if (!avahi_unescape_label((const char **)&hn, label, sizeof(label))) {
+++        avahi_free(h);
+++        return AVAHI_ERR_INVALID_HOST_NAME;
+++    }
 ++
-++	/* Check if offset is already in the list and return matching directory number.
-++	 * Otherwise update IFD list using TIFFNumberOfDirectories() 
-++	 * and search again in IFD list.
-++	 */
-++	for (n = 0; n < tif->tif_dirnumber && tif->tif_dirlistoff && tif->tif_dirlistdirn; n++) {
-++		if (tif->tif_dirlistoff[n] == diroff) {
-++			*dirn = tif->tif_dirlistdirn[n];
-++			return 1;
-++		}
-++	}
-++	TIFFNumberOfDirectories(tif);
-++	for (n = 0; n < tif->tif_dirnumber && tif->tif_dirlistoff && tif->tif_dirlistdirn; n++) {
-++		if (tif->tif_dirlistoff[n] == diroff) {
-++			*dirn = tif->tif_dirlistdirn[n];
-++			return 1;
-++		}
-++	}
-++	return 0;
-++} /*--- _TIFFGetDirNumberFromOffset() ---*/
+++    avahi_free(h);
++ 
++-    if (avahi_domain_equal(s->host_name, hn) && s->state != AVAHI_SERVER_COLLISION) {
++-        avahi_free(hn);
+++    h = label_escaped;
+++    len = sizeof(label_escaped);
+++    if (!avahi_escape_label(label, strlen(label), &h, &len))
+++        return AVAHI_ERR_INVALID_HOST_NAME;
 ++
+++    if (avahi_domain_equal(s->host_name, label_escaped) && s->state != AVAHI_SERVER_COLLISION)
++         return avahi_server_set_errno(s, AVAHI_ERR_NO_CHANGE);
++-    }
++ 
++     withdraw_host_rrs(s);
++ 
++     avahi_free(s->host_name);
++-    s->host_name = hn;
+++    s->host_name = avahi_strdup(label_escaped);
+++    if (!s->host_name)
+++        return AVAHI_ERR_NO_MEMORY;
++ 
++     update_fqdn(s);
++ 
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
+new file mode 100644
+index 0000000000..a789b144ed
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
+@@ -0,0 +1,52 @@
++From b675f70739f404342f7f78635d6e2dcd85a13460 Mon Sep 17 00:00:00 2001
++From: Evgeny Vereshchagin <evvers@ya.ru>
++Date: Tue, 24 Oct 2023 22:04:51 +0000
++Subject: [PATCH] core: return errors from avahi_server_set_host_name properly
++
++It's a follow-up to 894f085f402e023a98cbb6f5a3d117bd88d93b09
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38471-2.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/b675f70739f404342f7f78635d6e2dcd85a13460]
++CVE: CVE-2023-38471 #Follow-up Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-core/server.c | 9 ++++++---
++ 1 file changed, 6 insertions(+), 3 deletions(-)
++
++Index: avahi-0.7/avahi-core/server.c
++===================================================================
++--- avahi-0.7.orig/avahi-core/server.c
+++++ avahi-0.7/avahi-core/server.c
++@@ -1267,10 +1267,13 @@ int avahi_server_set_host_name(AvahiServ
++     else
++         hn = avahi_normalize_name_strdup(host_name);
++ 
+++    if (!hn)
+++        return avahi_server_set_errno(s, AVAHI_ERR_NO_MEMORY);
 ++
-++/*
-+  * Read IFD structure from the specified offset. If the pointer to
-+  * nextdiroff variable has been specified, read it too. Function returns a
-+  * number of fields in the directory or 0 if failed.
-+--- tiff-4.1.0+git191117.orig/libtiff/tif_open.c
-++++ tiff-4.1.0+git191117/libtiff/tif_open.c
-+@@ -353,7 +353,8 @@ TIFFClientOpen(
-+ 		if (!TIFFDefaultDirectory(tif))
-+ 			goto bad;
-+ 		tif->tif_diroff = 0;
-+-		tif->tif_dirlist = NULL;
-++		tif->tif_dirlistoff = NULL;
-++		tif->tif_dirlistdirn = NULL;
-+ 		tif->tif_dirlistsize = 0;
-+ 		tif->tif_dirnumber = 0;
-+ 		return (tif);
-+--- tiff-4.1.0+git191117.orig/libtiff/tiffiop.h
-++++ tiff-4.1.0+git191117/libtiff/tiffiop.h
-+@@ -145,7 +145,8 @@ struct tiff {
-+         #define TIFF_CHOPPEDUPARRAYS 0x4000000U /* set when allocChoppedUpStripArrays() has modified strip array */
-+ 	uint64               tif_diroff;       /* file offset of current directory */
-+ 	uint64               tif_nextdiroff;   /* file offset of following directory */
-+-	uint64*              tif_dirlist;      /* list of offsets to already seen directories to prevent IFD looping */
-++	uint64*              tif_dirlistoff;   /* list of offsets to already seen directories to prevent IFD looping */
-++	uint16*              tif_dirlistdirn;  /* list of directory numbers to already seen directories to prevent IFD looping */
-+ 	uint16               tif_dirlistsize;  /* number of entries in offset list */
-+ 	uint16               tif_dirnumber;    /* number of already seen directories */
-+ 	TIFFDirectory        tif_dir;          /* internal rep of current directory */
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-index 2697a28463..8b130826e3 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.1.0.bb
-@@ -47,6 +47,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2023-3618.patch \
-            file://CVE-2023-40745.patch \
-            file://CVE-2023-41175.patch \
-+           file://CVE-2022-40090.patch \
-           "
- SRC_URI[md5sum] = "2165e7aba557463acc0664e71a3ed424"
- SRC_URI[sha256sum] = "5d29f32517dadb6dbcd1255ea5bbc93a2b54b94fbf83653b4d65c7d6775b8634"
++     h = hn;
++     if (!avahi_unescape_label((const char **)&hn, label, sizeof(label))) {
++         avahi_free(h);
++-        return AVAHI_ERR_INVALID_HOST_NAME;
+++        return avahi_server_set_errno(s, AVAHI_ERR_INVALID_HOST_NAME);
++     }
++ 
++     avahi_free(h);
++@@ -1278,7 +1281,7 @@ int avahi_server_set_host_name(AvahiServ
++     h = label_escaped;
++     len = sizeof(label_escaped);
++     if (!avahi_escape_label(label, strlen(label), &h, &len))
++-        return AVAHI_ERR_INVALID_HOST_NAME;
+++        return avahi_server_set_errno(s, AVAHI_ERR_INVALID_HOST_NAME);
++ 
++     if (avahi_domain_equal(s->host_name, label_escaped) && s->state != AVAHI_SERVER_COLLISION)
++         return avahi_server_set_errno(s, AVAHI_ERR_NO_CHANGE);
++@@ -1288,7 +1291,7 @@ int avahi_server_set_host_name(AvahiServ
++     avahi_free(s->host_name);
++     s->host_name = avahi_strdup(label_escaped);
++     if (!s->host_name)
++-        return AVAHI_ERR_NO_MEMORY;
+++        return avahi_server_set_errno(s, AVAHI_ERR_NO_MEMORY);
++ 
++     update_fqdn(s);
++ 
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
+new file mode 100644
+index 0000000000..f49d990a42
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
+@@ -0,0 +1,45 @@
++From b024ae5749f4aeba03478e6391687c3c9c8dee40 Mon Sep 17 00:00:00 2001
++From: Michal Sekletar <msekleta@redhat.com>
++Date: Thu, 19 Oct 2023 17:36:44 +0200
++Subject: [PATCH] core: make sure there is rdata to process before parsing it
++
++Fixes #452
++
++CVE-2023-38472
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38472.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40]
++CVE: CVE-2023-38472
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-client/client-test.c      | 3 +++
++ avahi-daemon/dbus-entry-group.c | 2 +-
++ 2 files changed, 4 insertions(+), 1 deletion(-)
++
++Index: avahi-0.7/avahi-client/client-test.c
++===================================================================
++--- avahi-0.7.orig/avahi-client/client-test.c
+++++ avahi-0.7/avahi-client/client-test.c
++@@ -272,6 +272,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
++     assert(error == AVAHI_ERR_INVALID_RECORD);
++     avahi_string_list_free(txt);
++ 
+++    error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
+++    assert(error != AVAHI_OK);
+++
++     avahi_entry_group_commit (group);
++ 
++     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
++Index: avahi-0.7/avahi-daemon/dbus-entry-group.c
++===================================================================
++--- avahi-0.7.orig/avahi-daemon/dbus-entry-group.c
+++++ avahi-0.7/avahi-daemon/dbus-entry-group.c
++@@ -340,7 +340,7 @@ DBusHandlerResult avahi_dbus_msg_entry_g
++         if (!(r = avahi_record_new_full (name, clazz, type, ttl)))
++             return avahi_dbus_respond_error(c, m, AVAHI_ERR_NO_MEMORY, NULL);
++ 
++-        if (avahi_rdata_parse (r, rdata, size) < 0) {
+++        if (!rdata || avahi_rdata_parse (r, rdata, size) < 0) {
++             avahi_record_unref (r);
++             return avahi_dbus_respond_error(c, m, AVAHI_ERR_INVALID_RDATA, NULL);
++         }
+diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
+new file mode 100644
+index 0000000000..59f6806c85
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38473.patch
+@@ -0,0 +1,109 @@
++From b448c9f771bada14ae8de175695a9729f8646797 Mon Sep 17 00:00:00 2001
++From: Michal Sekletar <msekleta@redhat.com>
++Date: Wed, 11 Oct 2023 17:45:44 +0200
++Subject: [PATCH] common: derive alternative host name from its unescaped
++ version
++
++Normalization of input makes sure we don't have to deal with special
++cases like unescaped dot at the end of label.
++
++Fixes #451 #487
++CVE-2023-38473
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38473.patch?h=ubuntu/focal-security
++Upstream commit https://github.com/lathiat/avahi/commit/b448c9f771bada14ae8de175695a9729f8646797]
++CVE: CVE-2023-38473
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ avahi-common/alternative-test.c |  3 +++
++ avahi-common/alternative.c      | 27 +++++++++++++++++++--------
++ 2 files changed, 22 insertions(+), 8 deletions(-)
++
++Index: avahi-0.7/avahi-common/alternative-test.c
++===================================================================
++--- avahi-0.7.orig/avahi-common/alternative-test.c
+++++ avahi-0.7/avahi-common/alternative-test.c
++@@ -31,6 +31,9 @@ int main(AVAHI_GCC_UNUSED int argc, AVAH
++     const char* const test_strings[] = {
++         "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
++         "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXüüüüüüü",
+++        ").",
+++        "\\.",
+++        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\\\\",
++         "gurke",
++         "-",
++         " #",
++Index: avahi-0.7/avahi-common/alternative.c
++===================================================================
++--- avahi-0.7.orig/avahi-common/alternative.c
+++++ avahi-0.7/avahi-common/alternative.c
++@@ -49,15 +49,20 @@ static void drop_incomplete_utf8(char *c
++ }
++ 
++ char *avahi_alternative_host_name(const char *s) {
+++    char label[AVAHI_LABEL_MAX], alternative[AVAHI_LABEL_MAX*4+1];
+++    char *alt, *r, *ret;
++     const char *e;
++-    char *r;
+++    size_t len;
++ 
++     assert(s);
++ 
++     if (!avahi_is_valid_host_name(s))
++         return NULL;
++ 
++-    if ((e = strrchr(s, '-'))) {
+++    if (!avahi_unescape_label(&s, label, sizeof(label)))
+++        return NULL;
+++
+++    if ((e = strrchr(label, '-'))) {
++         const char *p;
++ 
++         e++;
++@@ -74,19 +79,18 @@ char *avahi_alternative_host_name(const
++ 
++     if (e) {
++         char *c, *m;
++-        size_t l;
++         int n;
++ 
++         n = atoi(e)+1;
++         if (!(m = avahi_strdup_printf("%i", n)))
++             return NULL;
++ 
++-        l = e-s-1;
+++        len = e-label-1;
++ 
++-        if (l >= AVAHI_LABEL_MAX-1-strlen(m)-1)
++-            l = AVAHI_LABEL_MAX-1-strlen(m)-1;
+++        if (len >= AVAHI_LABEL_MAX-1-strlen(m)-1)
+++            len = AVAHI_LABEL_MAX-1-strlen(m)-1;
++ 
++-        if (!(c = avahi_strndup(s, l))) {
+++        if (!(c = avahi_strndup(label, len))) {
++             avahi_free(m);
++             return NULL;
++         }
++@@ -100,7 +104,7 @@ char *avahi_alternative_host_name(const
++     } else {
++         char *c;
++ 
++-        if (!(c = avahi_strndup(s, AVAHI_LABEL_MAX-1-2)))
+++        if (!(c = avahi_strndup(label, AVAHI_LABEL_MAX-1-2)))
++             return NULL;
++ 
++         drop_incomplete_utf8(c);
++@@ -109,6 +113,13 @@ char *avahi_alternative_host_name(const
++         avahi_free(c);
++     }
++ 
+++    alt = alternative;
+++    len = sizeof(alternative);
+++    ret = avahi_escape_label(r, strlen(r), &alt, &len);
+++
+++    avahi_free(r);
+++    r = avahi_strdup(ret);
+++
++     assert(avahi_is_valid_host_name(r));
++ 
++     return r;
 -- 
 2.34.1
 
