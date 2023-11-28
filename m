@@ -1,83 +1,86 @@
-Return-Path: <quic_vkraleti@quicinc.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75ADCC4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:48:45 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web11.29978.1701168524828075566
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7308C4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 11:06:15 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.30302.1701169568104662045
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 02:48:44 -0800
+ Tue, 28 Nov 2023 03:06:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=NFpdptcB;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_vkraleti@quicinc.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ASAc78s014253;
-	Tue, 28 Nov 2023 10:48:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=YZszArH+RywE0RjuxEZ5FdqK5xOBxS1F5uRI3kb5ytE=;
- b=NFpdptcBaZ18LG/crQAZMXDtqcwzW6PdY5JkH2MA7MoQR1ZKForLkb4BZl3f2XB1KGKf
- rC2f+FKmfSaW7hzM3/pM8Nd08Iuf8/Nlij/G5iAq2L5x52LW+URFDKvJq+ypoM2Ictbh
- Aqdb6Dr9U95ub1n2RdslI0HKtuS9bYbHY+++FpZ45R/OaT//eeqgOWkQn0u6icReOv59
- h3bCMjD3aR3OVQknZPOFbWzNd2wl2MfAPqBvSPd6yf/rf/9F+Sx9ZweXQ0QkE6XYuYJi
- OGBS5nVs6GR+4Tildh8FAanOR7jL425FerKGN2a7yf+0bXScRrrh2Mfx5Sp6hjh4tmeX GA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3unekyg0p7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Nov 2023 10:48:43 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ASAmgOB019953
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Nov 2023 10:48:42 GMT
-Received: from [10.214.226.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 28 Nov
- 2023 02:48:40 -0800
-Message-ID: <41999db7-47e3-4ba7-b184-dadad299c368@quicinc.com>
-Date: Tue, 28 Nov 2023 16:18:31 +0530
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NRdavaX+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2c9b1839e90so4869681fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 03:06:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701169566; x=1701774366; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3c+re9x4cGqXvhyWbWOeOiIR/FP+bcnC/gzKg1apdqw=;
+        b=NRdavaX+FzfVc3UISMX9D2QrY0ubtVRLnyY1XkEsnlsbymqIPpnezhhcLv07xulFPN
+         XH8nMDs/Gq5jY9SagrYiEDGhrgh2j18xAayug0cHcbcLZnfIiTCFVWpXOXJP1adP0QRw
+         xHCZMSv105jc48BUu72X2Bi1sg35E5cNmNOSp1JCu9N///bKqpLFpK8o6OBEtHN6MbgP
+         5mEM9ebVBByK6w1j1CXl/AfYcv9UqJ/xBNv9mHhzICHtR3DFObJkADnyvAynFuVQR8Ix
+         DH0VRTwNhM+RSXPaZiIyJ+8N4Oppbe9rn2thbk4iM3XpjIyv70JJJL0vR4KONML9T4sb
+         M0rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701169566; x=1701774366;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3c+re9x4cGqXvhyWbWOeOiIR/FP+bcnC/gzKg1apdqw=;
+        b=jYk2/jXXJm2OxK+uTOMrR54xD9c2d17kOFaiSCpbyeWdV+0fzDoOLnYTQkUtpSnmYC
+         vFWiymUddat203InTH1dy8TQOX5YtYcSfqkJk1hLrUIhkNzlq9ieFp5mKxw8QiyD4SK3
+         +njKt1O/PsnPEEpmx4a5unWhxlfqzSof9XxXZz/skZpVnDe54JIIaumlomiZ88lI1gSw
+         8F4jbBOAuG34DWWkSrs9bejDSby7RdC5KgB5ew50+qBdGq5gqZZvqZRyNgE8kkWZOjTQ
+         zT+ieBRm6rboqYf9IdvsoKqMzD5+F4Arz9IgNVZU325V5IxeyA9EO0Kq0FgmLJhMb+z9
+         Zgiw==
+X-Gm-Message-State: AOJu0YwRa5jQkRuyJvWXPh5vDKwiC4LPYDXw1kWBh33qBobxr8x72+mi
+	pBmKObHzKEoXARse5ucm4xY7J9I4w8yPTDNDXDI=
+X-Google-Smtp-Source: AGHT+IFlBSclBqLXuUZu3UHoKCFAqZ22NNqrlWlZJubgiedU3KbqHnpfKOZ9PICqseJ0RV4ap28yjkAq1qrKFFBmrtk=
+X-Received: by 2002:a2e:97ca:0:b0:2c0:13d5:e463 with SMTP id
+ m10-20020a2e97ca000000b002c013d5e463mr5041327ljj.7.1701169565991; Tue, 28 Nov
+ 2023 03:06:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <0101018c10fc33e6-6df3ff32-13c7-48ff-aac3-24978e69be2a-000000@us-west-2.amazonses.com>
+ <CALT56yOkiWRvEh1nJOXrZ+JRLc+L2CO5rqxUe6o7q2yanU41=A@mail.gmail.com> <41999db7-47e3-4ba7-b184-dadad299c368@quicinc.com>
+In-Reply-To: <41999db7-47e3-4ba7-b184-dadad299c368@quicinc.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 28 Nov 2023 12:05:54 +0100
+Message-ID: <CANNYZj_u8CC-Mj64dfHKFn6NCsNmXSwbfYJ2XtM1XxBaxG1xPg@mail.gmail.com>
 Subject: Re: [OE-core] Patchtest results for [PATCH v2] systemd-boot: fix
  build issues on armv7a-linux
-Content-Language: en-US
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>,
-        Patchtest
-	<patchtest@automation.yoctoproject.org>
-CC: <openembedded-core@lists.openembedded.org>
-References: <0101018c10fc33e6-6df3ff32-13c7-48ff-aac3-24978e69be2a-000000@us-west-2.amazonses.com>
- <CALT56yOkiWRvEh1nJOXrZ+JRLc+L2CO5rqxUe6o7q2yanU41=A@mail.gmail.com>
-From: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-Organization: Qualcomm
-In-Reply-To: <CALT56yOkiWRvEh1nJOXrZ+JRLc+L2CO5rqxUe6o7q2yanU41=A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: QEUlJsNQdVWvU3fnfx-hOIY38jg8XQSe
-X-Proofpoint-ORIG-GUID: QEUlJsNQdVWvU3fnfx-hOIY38jg8XQSe
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-28_10,2023-11-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=859
- mlxscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 impostorscore=0 bulkscore=0 clxscore=1011 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311280084
+To: Viswanath Kraleti <quic_vkraleti@quicinc.com>, Trevor Gamblin <tgamblin@baylibre.com>
+Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:48:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191358
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 11:06:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191359
 
-I figured it by running patchtest. S-o-B trailer missing in .patch. I am 
-updating it.
+But what was the excessive line that caused patchtest to not say
+anything useful? Can patchtest trim it or otherwise do better?
 
-On 11/28/2023 4:15 PM, Dmitry Baryshkov wrote:
-> not know, which tests have failed, there
-> is no way to fix the issue.
+Alex
+
+On Tue, 28 Nov 2023 at 11:48, Viswanath Kraleti
+<quic_vkraleti@quicinc.com> wrote:
+>
+> I figured it by running patchtest. S-o-B trailer missing in .patch. I am
+> updating it.
+>
+> On 11/28/2023 4:15 PM, Dmitry Baryshkov wrote:
+> > not know, which tests have failed, there
+> > is no way to fix the issue.
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191358): https://lists.openembedded.org/g/openembedded-core/message/191358
+> Mute This Topic: https://lists.openembedded.org/mt/102828551/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
