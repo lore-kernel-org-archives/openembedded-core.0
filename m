@@ -1,90 +1,175 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 963AEC4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 14:01:16 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.33083.1701180073312021512
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5ADEC4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 14:21:36 +0000 (UTC)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web10.33608.1701181291786675502
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 06:01:13 -0800
+ Tue, 28 Nov 2023 06:21:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l1yF7j9e;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2c9b8aa4fc7so4323141fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 06:01:13 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Suwn7s8H;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.180, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-41f155c862bso28621551cf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 06:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701180071; x=1701784871; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ase3Nbu92BN6MYizCj5N7DlIPG8prWq2JeuwWkMsAGQ=;
-        b=l1yF7j9ehIT50kxIe9SYi06uiTP+nZKVJmo9AeFJt1+zXEgqmHJVZiF2VEZiv+GLAJ
-         DjO6cnfgH6l4Ola5jDb7QCF6Zhjpc5lCq+2PRxrIMNWoHBdbVvzAyh622lCz48iiemIa
-         m1jqlPnm49EFVwC9vBcs0o57bTc6TUdqmGhA5wqO8NKNjDjx8QoRkQbKupVHF/2+Ty36
-         S6C758i3yslb3bXilCIII4G8nfzZgLT9VBDTABQ5T1JIIBrubLpseiZubX5tzcrjpHLH
-         J6saoHpkMTlgmgINkgnfOz6bCluwOW9mi0svQYqovdK3ewpBklqJcHCWpdnmZKpvK2IA
-         YwPQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701181290; x=1701786090; darn=lists.openembedded.org;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sFo1p/Q9v364BxMpsv22XKpZ5lWnfO3Dl3je9tkCo+Q=;
+        b=Suwn7s8HUnb/GNM6mNUnbU6PyhoAJ8elQBfLMxmC0zEa1eF1N5bIse7DZCtXrinZDX
+         UQdm3fCRmeABFMuECsqDxshW3opHSUqr722dBPDHJKchFHoihNk/eomSyTRGn2rntpKQ
+         Ky1TFZM7nVjzdlEsy3srKKhX8sQVYlXD/ZD1cGHt7688bzorzouusTGoGc/qYk/lo9c7
+         j/Fk/nRASA3+1LVKBtEJIPBDg8eNG7XbyJWNzwv804zQjGdMCuCb1z2XfE4bvhmPcjIP
+         gkEwU1rIxJAJ9WM7d49ispkLG4oryBLFIFw1sVY2QJZSSqiSsAk/uD77cy2TJnZFqX1K
+         cDEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701180071; x=1701784871;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ase3Nbu92BN6MYizCj5N7DlIPG8prWq2JeuwWkMsAGQ=;
-        b=ObAEjTvGwtca0lvREqZBYMrBxL8hwtvbPQkkLpVvY+bbKjKebqOCpeUHA2caN0U5u9
-         M7KzfSPibl4KSFn0qsMb2Pqq0+l2YoaTARst4z5Yt1NUW8YjQOBYwDz1frEp9fxf7/CF
-         F3CEiqPtgn3JNKFN+RjW3V2OcCi5v+m61CWZVXUblZxf65SbHXKmJI8N+4+MDqu70Iec
-         8R61eaHxE9plMM6P6K6Yu3hsxKgLMY/Jt6ApskU3G69zm8c44EsmvRbhbV6UzQWAiCSK
-         5PnN1RrXMTUZJszc7LWrNgoSMqbcOAZuo0bMM5OUpZURywWigZzeRCidiR2sv2cnSCXt
-         lFzQ==
-X-Gm-Message-State: AOJu0YwNx8llzDx6fDhbBsKqGyEVazw4XlJAe4MD0TPMpFIA/7zGkYlk
-	5oE/3TywHeiEOwC3H7oJP3TDpn5PtHboQgNufTA=
-X-Google-Smtp-Source: AGHT+IEtpro1q9Are4un5ouee84gvh0VsCLT050burBg2heaEuXXrS8vFnGxYNMLLdKTYeB7sYdtzJoUCnMAKjNlJXI=
-X-Received: by 2002:a2e:a692:0:b0:2c9:a08a:ba3f with SMTP id
- q18-20020a2ea692000000b002c9a08aba3fmr4867791lje.2.1701180070680; Tue, 28 Nov
- 2023 06:01:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701181290; x=1701786090;
+        h=in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=sFo1p/Q9v364BxMpsv22XKpZ5lWnfO3Dl3je9tkCo+Q=;
+        b=LDYuv5r41ak468QECcF2gy36O84Dwojusf77OIVx1YrPTn9XOPK2MiS/3XLZOvrtQo
+         /NstTwjoyZwWxy8NxoE88j+XkP0335KzD0uaPKaxQq/H9oP/8kp8mAd1zgg3jyivzltv
+         wJaL+YaeVj095oW2eOVVqWTXUrRZ9WdpMURfexsP7j9jj2Xt6N140R2QIKxYPF9ESrH1
+         JJnEyh1efZRdxIc25eEvTCnn1kFeHJfAYMDufqV6Z5LJykh5+l1HBuP9hCR0sRkCfqN9
+         TWR3i6kiTSj9+Hzq/PF92o1rBz4Yjol7qCG3VMZwhf1QBx8DJCQSE2M5RNY5xI24vyzE
+         cCeQ==
+X-Gm-Message-State: AOJu0Yycit8/VTEZXJATcY+eZee1EW4wL2oa7o2Qm/R61mDRRioYFVKu
+	dwSw5PVdGwOI7Ih9so9MaulawQ==
+X-Google-Smtp-Source: AGHT+IH33uUvg+gPUjYOUhi8stkMfYHAjADiS2J5ZF1EOAuBe9kHM9Bg38WioToJ+Yjm7WqCjmdPsg==
+X-Received: by 2002:a05:622a:2513:b0:423:aac7:3e80 with SMTP id cm19-20020a05622a251300b00423aac73e80mr12929632qtb.25.1701181290643;
+        Tue, 28 Nov 2023 06:21:30 -0800 (PST)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id t2-20020ac87602000000b00421c272bcbasm4586420qtq.11.2023.11.28.06.21.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 06:21:30 -0800 (PST)
+Content-Type: multipart/alternative;
+ boundary="------------Yx1vO2290rifKisa1BCQfgBt"
+Message-ID: <ceb980e4-1d6d-44f3-ba0f-e309b82fe169@baylibre.com>
+Date: Tue, 28 Nov 2023 09:21:28 -0500
 MIME-Version: 1.0
-References: <20231128131954.337015-1-alexander.sverdlin@siemens.com>
- <CANNYZj92XtmcpJpyo1eo04X1dpqPmU6cCKVhpP7aJnMK6RWPTQ@mail.gmail.com> <e0c37461b71d6159a2867726388fbc052bb4f624.camel@siemens.com>
-In-Reply-To: <e0c37461b71d6159a2867726388fbc052bb4f624.camel@siemens.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 28 Nov 2023 15:00:57 +0100
-Message-ID: <CANNYZj9PeVWsM9SFoTG_F7rPjB5dhq8ZN0uGMP9hqU0XumCDpg@mail.gmail.com>
-Subject: Re: [PATCH] linux-firmware: use install-nodedup make target
-To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"Marko, Peter" <Peter.Marko@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] Patchtest results for [PATCH v2] systemd-boot: fix
+ build issues on armv7a-linux
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ Viswanath Kraleti <quic_vkraleti@quicinc.com>
+Cc: Dmitry Baryshkov <dbaryshkov@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <0101018c10fc33e6-6df3ff32-13c7-48ff-aac3-24978e69be2a-000000@us-west-2.amazonses.com>
+ <CALT56yOkiWRvEh1nJOXrZ+JRLc+L2CO5rqxUe6o7q2yanU41=A@mail.gmail.com>
+ <41999db7-47e3-4ba7-b184-dadad299c368@quicinc.com>
+ <CANNYZj_u8CC-Mj64dfHKFn6NCsNmXSwbfYJ2XtM1XxBaxG1xPg@mail.gmail.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <CANNYZj_u8CC-Mj64dfHKFn6NCsNmXSwbfYJ2XtM1XxBaxG1xPg@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 14:01:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191373
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 14:21:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191374
 
-On Tue, 28 Nov 2023 at 14:50, Sverdlin, Alexander
-<alexander.sverdlin@siemens.com> wrote:
-> > In general, || in shell scripts should be avoided because it ignores
-> > the reason for the failure (ignoring some fails may be ok, ignoring
-> > all fails is not ok, as it will cause silent regressions).
+This is a multi-part message in MIME format.
+--------------Yx1vO2290rifKisa1BCQfgBt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+On 2023-11-28 06:05, Alexander Kanavin wrote:
+> But what was the excessive line that caused patchtest to not say
+> anything useful? Can patchtest trim it or otherwise do better?
+
+Looks like the usual warning line about not having a S-o-B became too 
+long because it included the full path for the patch:
+
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag. Sign off the added patch file (meta/recipes-core/systemd/systemd/0001-meson-Pass-all-static-pie-args-to-linker.patch) (test_patch.TestPatch.test_signed_off_by_presence)
+
+I thought I had caught all of these, but I'll have to tweak it so that 
+it only uses the actual patch name.
+
 >
-> 20231111 will be problematic because rdfind will be required, but there is
-> no make target yet. My patch is at least falling back to "make install",
-> so it supports both 20231030 and versions after 20231111. It's not ignoring
-> the errors, falling back to "|| make install" will eventually fail the whole
-> build.
+> Alex
+>
+> On Tue, 28 Nov 2023 at 11:48, Viswanath Kraleti
+> <quic_vkraleti@quicinc.com>  wrote:
+>> I figured it by running patchtest. S-o-B trailer missing in .patch. I am
+>> updating it.
+>>
+>> On 11/28/2023 4:15 PM, Dmitry Baryshkov wrote:
+>>> not know, which tests have failed, there
+>>> is no way to fix the issue.
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#191358):https://lists.openembedded.org/g/openembedded-core/message/191358
+>> Mute This Topic:https://lists.openembedded.org/mt/102828551/1686489
+>> Group Owner:openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [alex.kanavin@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+--------------Yx1vO2290rifKisa1BCQfgBt
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-So once someone sends an update to 20231111, they should also backport
-the patch that introduces the new make target, and use that target.
-And if there's an update to an even newer version, then the new target
-can be used without any patching. But for now, I think nothing needs
-to be done?
-
-The problem with || is this: imagine that you have specified A || B,
-and you introduced A in addition to B, assuming some specific reason X
-that A can fail. What if it starts failing for some other reason Y?
-Then the fall-through to B may be valid, or it may not, and whatever
-had caused Y needs to be fixed some other way than executing B. This
-fall-through will happen quietly and no one is going to notice it, and
-that's where the regression is.
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2023-11-28 06:05, Alexander Kanavin
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CANNYZj_u8CC-Mj64dfHKFn6NCsNmXSwbfYJ2XtM1XxBaxG1xPg@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">But what was the excessive line that caused patchtest to not say
+anything useful? Can patchtest trim it or otherwise do better?</pre>
+    </blockquote>
+    <p>Looks like the usual warning line about not having a S-o-B became
+      too long because it included the full path for the patch:</p>
+    <pre>FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag. Sign off the added patch file (meta/recipes-core/systemd/systemd/0001-meson-Pass-all-static-pie-args-to-linker.patch) (test_patch.TestPatch.test_signed_off_by_presence)</pre>
+    <p></p>
+    <p>I thought I had caught all of these, but I'll have to tweak it so
+      that it only uses the actual patch name.<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CANNYZj_u8CC-Mj64dfHKFn6NCsNmXSwbfYJ2XtM1XxBaxG1xPg@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">
 
 Alex
+
+On Tue, 28 Nov 2023 at 11:48, Viswanath Kraleti
+<a class="moz-txt-link-rfc2396E" href="mailto:quic_vkraleti@quicinc.com">&lt;quic_vkraleti@quicinc.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+I figured it by running patchtest. S-o-B trailer missing in .patch. I am
+updating it.
+
+On 11/28/2023 4:15 PM, Dmitry Baryshkov wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">not know, which tests have failed, there
+is no way to fix the issue.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#191358): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/191358">https://lists.openembedded.org/g/openembedded-core/message/191358</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/102828551/1686489">https://lists.openembedded.org/mt/102828551/1686489</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------Yx1vO2290rifKisa1BCQfgBt--
 
