@@ -1,87 +1,83 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <quic_vkraleti@quicinc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E4D0C4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:46:55 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.29870.1701168407088650241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75ADCC4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 10:48:45 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web11.29978.1701168524828075566
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 02:46:47 -0800
+ Tue, 28 Nov 2023 02:48:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nsWeYc9J;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: dbaryshkov@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-507be298d2aso7178598e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 02:46:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701168405; x=1701773205; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vjEZkvNQTMW4QyXyxjCzMFQh8Nw9c4ZyIM2lt2XKqQ8=;
-        b=nsWeYc9JgFrlmxv62a2Kl6zBZyG7lyJX29UyY/+YiIXg2TjCF+wkQsrh6sUg/WKF9Q
-         sxtTKTI9ZJEo6LLCKVDjssOzEncb2tQIEo7rBI+fgwddKHkLhQsVnDSGstqwu7T2Avhy
-         1w81X2eLNKtVDYHSMo0zTqjm8LW4Uxu1yEd00884cZWD0fijoNFn6U4hVyEf7yK57juQ
-         jDVv0JBDt6M4VjwHTMyBDtsDg8T8XDqkKH9qH8Gwn6GRwzZNPzDE3QnVSIcHCc1fu1QW
-         So9SksvKbgHcnDafY/i32G61QV7Uq+xb+sOy+K/ngMuOK7bTsr/G5G9pEhEY+8KkNwrN
-         vvhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701168405; x=1701773205;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vjEZkvNQTMW4QyXyxjCzMFQh8Nw9c4ZyIM2lt2XKqQ8=;
-        b=meBk5oX09kEXHPCmGPE8zdFOTE1dW5l+sqSQo5g17E2QMb7iGqhfZ2Hg3o0NM8n5ni
-         HmxiekH6aZ4Crm4EwSocU2TLfALtVvtpMwu5/T9JRsJxx3i+IUpi6qOOv6gobKLlA9ky
-         qgBFMM6Y9YzZadPmQuMas+ukG9yHFY37LTSV35/IQ0S7KGfkRBlqDv0sxwDMty3Jrh/f
-         tZaTN8WbdICzuFzPsn1CjPRsCCJZpDuAawM4VELXP0ApjwG0GuudJo2VR77Eoa5AjrfX
-         +eswX/fF04Y8rfhk3BakWSv6hmy40mhwwU3DMdrdF02/AiGOuz/iR2aP9WTQeDlW2A0a
-         ZBMg==
-X-Gm-Message-State: AOJu0YxP215qdQ9//Zs4VAEpuGMrtGZPcDiYgd6/eDDhF1Sjft5wVswA
-	w409nBSwYLBqnSWwozZZo6sKHJESVP1yMXBnfd8=
-X-Google-Smtp-Source: AGHT+IHQaMDwuOcCO7nCswEiHkIoqY3cY5uupSwS4uEw0Ay/CMH6a7TrPg+oKockRY9TtFnww+GJjC+qmCeFAfthkkQ=
-X-Received: by 2002:a05:6512:1390:b0:50a:2710:d207 with SMTP id
- fc16-20020a056512139000b0050a2710d207mr12235638lfb.53.1701168404916; Tue, 28
- Nov 2023 02:46:44 -0800 (PST)
+ dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=NFpdptcB;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_vkraleti@quicinc.com)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ASAc78s014253;
+	Tue, 28 Nov 2023 10:48:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=YZszArH+RywE0RjuxEZ5FdqK5xOBxS1F5uRI3kb5ytE=;
+ b=NFpdptcBaZ18LG/crQAZMXDtqcwzW6PdY5JkH2MA7MoQR1ZKForLkb4BZl3f2XB1KGKf
+ rC2f+FKmfSaW7hzM3/pM8Nd08Iuf8/Nlij/G5iAq2L5x52LW+URFDKvJq+ypoM2Ictbh
+ Aqdb6Dr9U95ub1n2RdslI0HKtuS9bYbHY+++FpZ45R/OaT//eeqgOWkQn0u6icReOv59
+ h3bCMjD3aR3OVQknZPOFbWzNd2wl2MfAPqBvSPd6yf/rf/9F+Sx9ZweXQ0QkE6XYuYJi
+ OGBS5nVs6GR+4Tildh8FAanOR7jL425FerKGN2a7yf+0bXScRrrh2Mfx5Sp6hjh4tmeX GA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3unekyg0p7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Nov 2023 10:48:43 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3ASAmgOB019953
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 28 Nov 2023 10:48:42 GMT
+Received: from [10.214.226.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 28 Nov
+ 2023 02:48:40 -0800
+Message-ID: <41999db7-47e3-4ba7-b184-dadad299c368@quicinc.com>
+Date: Tue, 28 Nov 2023 16:18:31 +0530
 MIME-Version: 1.0
-References: <20231127131927.710690-1-quic_vkraleti@quicinc.com> <20231127131927.710690-2-quic_vkraleti@quicinc.com>
-In-Reply-To: <20231127131927.710690-2-quic_vkraleti@quicinc.com>
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Date: Tue, 28 Nov 2023 12:46:33 +0200
-Message-ID: <CALT56yP_w6e4rNa54CPL9p7QBPrcFUprr5jnPYm9d-YRRjFxMg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] systemd-boot: fix build issues on armv7a-linux
-To: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] Patchtest results for [PATCH v2] systemd-boot: fix
+ build issues on armv7a-linux
+Content-Language: en-US
+To: Dmitry Baryshkov <dbaryshkov@gmail.com>,
+        Patchtest
+	<patchtest@automation.yoctoproject.org>
+CC: <openembedded-core@lists.openembedded.org>
+References: <0101018c10fc33e6-6df3ff32-13c7-48ff-aac3-24978e69be2a-000000@us-west-2.amazonses.com>
+ <CALT56yOkiWRvEh1nJOXrZ+JRLc+L2CO5rqxUe6o7q2yanU41=A@mail.gmail.com>
+From: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+Organization: Qualcomm
+In-Reply-To: <CALT56yOkiWRvEh1nJOXrZ+JRLc+L2CO5rqxUe6o7q2yanU41=A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: QEUlJsNQdVWvU3fnfx-hOIY38jg8XQSe
+X-Proofpoint-ORIG-GUID: QEUlJsNQdVWvU3fnfx-hOIY38jg8XQSe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-28_10,2023-11-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=859
+ mlxscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 clxscore=1011 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311280084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:46:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191357
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 10:48:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191358
 
-On Mon, 27 Nov 2023 at 15:20, Viswanath Kraleti
-<quic_vkraleti@quicinc.com> wrote:
->
-> From: Viswanath Kraleti <vkraleti@qti.qualcomm.com>
+I figured it by running patchtest. S-o-B trailer missing in .patch. I am 
+updating it.
 
-Please skip this patch for now, this email address needs to be changed
-to follow the S-o-B trailer.
-
->
-> Backport a fix to address the build failure on armv7a introduced
-> in systemd v254-rc1.
->
-> see
-> https://github.com/systemd/systemd/issues/29381
->
-> Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-> ---
->  meta/recipes-core/systemd/systemd.inc         |  4 ++-
->  ...n-Pass-all-static-pie-args-to-linker.patch | 35 +++++++++++++++++++
->  2 files changed, 38 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-meson-Pass-all-static-pie-args-to-linker.patch
-
-
--- 
-With best wishes
-Dmitry
+On 11/28/2023 4:15 PM, Dmitry Baryshkov wrote:
+> not know, which tests have failed, there
+> is no way to fix the issue.
 
