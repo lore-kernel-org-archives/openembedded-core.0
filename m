@@ -1,98 +1,83 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <m.felsch@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65651C4167B
-	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 22:35:17 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.6363.1701210915201512322
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 597B8C4167B
+	for <webhook@archiver.kernel.org>; Tue, 28 Nov 2023 22:49:17 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.9920.1701211749997833595
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 14:35:15 -0800
+ Tue, 28 Nov 2023 14:49:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GEp3K/+m;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nAB4NtTR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018c18127be7-076d5f40-eebd-49e2-976d-bb7b84c0f767-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701210914; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=PvUavho2lp+SF94OSO1wvjLTPKV6YKUQRIy5OiisHA0=;
-	b=GEp3K/+mlSelGeFKwyBHrFutZz/5GVw10H93QiiiwBrS0YdB+TA0v05uDubC6rfR
-	LQfUTZJycTaQ3NeAaJKFSscwsH6HjVyd8ty+nPlu8rDbS4ZPjuzTkNs622gefvQXF6D
-	vdlXQsH+6VzEsHWN7gd8zt5G75qB/LjawGgG2+fY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701210914;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=PvUavho2lp+SF94OSO1wvjLTPKV6YKUQRIy5OiisHA0=;
-	b=nAB4NtTRuUZYXib1BeTVJ3/VbP+0DqHpoKPjsqyJyKFqoMdQ8XG0nJ2EDmIAZkCL
-	bKyFBsSf57WcsMhAfY3vqZ73I6Zne7kWp617imMA7boMFWFHduwzbN8JdDXoXW1MKP6
-	nmACrksYHZ6HW5DaDjGnbdickVewuTglWVgbGNpM=
-From: patchtest@automation.yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][PATCHv3] default-providers.inc: add PREFERRED_PROVIDER
- variables for llvm
-In-Reply-To: 20231128221754.2830475-1-f_l_k@t-online.de
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c18127be7-076d5f40-eebd-49e2-976d-bb7b84c0f767-000000@us-west-2.amazonses.com>
-Date: Tue, 28 Nov 2023 22:35:13 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.28-54.240.27.31
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: mfe@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1r86t8-0004Vj-8f; Tue, 28 Nov 2023 23:49:06 +0100
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1r86t7-00CGye-9e; Tue, 28 Nov 2023 23:49:05 +0100
+Received: from mfe by dude02.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1r86t7-00C34N-0l;
+	Tue, 28 Nov 2023 23:49:05 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de,
+	mfe@pengutronix.de
+Subject: [PATCH] json-c: fix icecc compilation
+Date: Tue, 28 Nov 2023 23:47:44 +0100
+Message-Id: <20231128224743.2854095-1-m.felsch@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 22:35:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191393
+ <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 22:49:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191394
 
---NextPart
-Content-Type: text/plain
+Skip -Werror to make it possible to compile this recipe with ICECC else
+all fallthrough comments will be removed since we pre-process the files
+on the host before sending them to the compile nodes which then cause
+errors because of default -Werror switch.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Fixes: caf64f85b5c5 ("json-c: update 0.13.1 - > 0.14")
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
-Testing patch /home/patchtest/share/mboxes/PATCHv3-default-providers.inc-add-PREFERRED_PROVIDER-variables-for-llvm.patch
+Hi,
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+I'm not familar with the stable material but IMHO this would be somthing
+for kirkstone.
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+Regards,
+  Marco
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+ meta/recipes-devtools/json-c/json-c_0.17.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
----
+diff --git a/meta/recipes-devtools/json-c/json-c_0.17.bb b/meta/recipes-devtools/json-c/json-c_0.17.bb
+index f4b7a32cea01..20bcece7685d 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.17.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.17.bb
+@@ -17,6 +17,9 @@ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
+ 
+ RPROVIDES:${PN} = "libjson"
+ 
++# Required for ICECC builds
++EXTRA_OECMAKE = "-DDISABLE_WERROR=ON"
++
+ inherit cmake ptest
+ 
+ do_install_ptest() {
+-- 
+2.39.2
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
