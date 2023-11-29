@@ -1,151 +1,140 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <quic_vkraleti@quicinc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A3ADC4167B
-	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 06:12:31 +0000 (UTC)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
- by mx.groups.io with SMTP id smtpd.web11.25511.1701238344661855541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94CF7C4167B
+	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 06:53:21 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.25981.1701240799721576671
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 22:12:24 -0800
+ Tue, 28 Nov 2023 22:53:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QRmx6hue;
- spf=pass (domain: gmail.com, ip: 209.85.166.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-35cb62e3905so13243405ab.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 22:12:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701238344; x=1701843144; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KiZkophRm4c/OG30hj7RAPgzyLj64c6ujNDa7Av8jak=;
-        b=QRmx6hue2/AvzOnAdAPcD0Bnz9kpWb2b2PnTHgKJArSXUFKwK4LzLxdMS/+xB0uucH
-         0FclZi132Tius8Abco6UDp4qjMcqJP2BlzS4m6g8/gk0lPWPoS2+icQeu7sgqNFYQzQ8
-         ySzxGa9bw6T7odMRHpcnlTIG4o5+lHyEsbAiUV+LU9n0VdzSnlrbUReEU+luP18L9+re
-         u8hurmI9A+84a3lkxCn/dcSu7U1WIXvLHYQo1oDiA6PYzFm6xusSXKkJEp9yaGjgBskb
-         LXc559N+9RL6nIkVASLW0b74zYm8MH9Bltswyutkqhhf5NZX/Hy5ElgLITqfT/fV3Zzx
-         /JeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701238344; x=1701843144;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KiZkophRm4c/OG30hj7RAPgzyLj64c6ujNDa7Av8jak=;
-        b=g1r2qe68Rmm6FucJ+u82hSXaJ5DQFnOJvCE2wbzd3isdNkltDrz02Mm4kTCx+CgUel
-         CMyx/OdP8VTD/AbCI+6iKLZHnb771GNX2f/EhPfmrSwMCVz9/7/utXfNI6Vt+PT2hoBO
-         DmzcaQ6kb9NdQLl2OXWxcu2/OB1n6p9dyhfoEHQg3yvw02mcvSyMKeVzl/VqvQd9YO0c
-         cCm+5IKnMKA7WDpjX5fSS74zroI3eG9tIY2RpJ6hHwa/NLEYtDgNjKMQoDn47kgvz/B8
-         NB+IAY8KSKYrmY5WRaEbLh7pC7ZkNorKc56mpFNd/Hu4Bl6bndiRArcBZ1uBvqNmBvEP
-         ZNeA==
-X-Gm-Message-State: AOJu0YxUBdzb80ei4hOE9Sc7kzPiooOORJU323mqhKrw0tef7Y7ddp1i
-	sYT4s3DcEcvS6bl27LE8PrXVNf2ex+fKHw==
-X-Google-Smtp-Source: AGHT+IH+lgrvcBA/DJNWULtONd0JDPj7CyaBvoI2NMR/kJdmUK1EqOivu4YNH7ysfv7oYtu5Sd+eqQ==
-X-Received: by 2002:a92:d585:0:b0:35c:8c73:b42e with SMTP id a5-20020a92d585000000b0035c8c73b42emr13254721iln.3.1701238343600;
-        Tue, 28 Nov 2023 22:12:23 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::2c3f])
-        by smtp.gmail.com with ESMTPSA id j2-20020aa783c2000000b006c3069547bfsm345124pfn.79.2023.11.28.22.12.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 22:12:22 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] virglrenderer: Fix build with clang
-Date: Tue, 28 Nov 2023 22:12:20 -0800
-Message-ID: <20231129061220.445046-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=nQDFzD9d;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_vkraleti@quicinc.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AT2LcN6025125
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 06:53:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=rQN2L2TYDU5Pfs7pY0tSy8IZSHGTCcPf5N14IFD134o=;
+ b=nQDFzD9ddQihVrDoM6bayBlsqQQ3fqmX0xGgts3XiFnxpIJ6O0qyFg7t1GA+IABBizNL
+ qTtyjgc0rRYUgf01PxgRocwlmrVo2P7BUBvAiuSdOgyLNPmgi/UQq6WAqAfzUThf2Q8s
+ 8QulT3qPkuCu2llr6TuMtcUXPXLyLy8FW1+Ru1nIKAsOfeRz9fpDiQHmkY/N6BCC+9pN
+ uDKn17SDe3ck8AHNOAxkOibUxQ5erH2e3Mu4dtul/xiixok9OSKRAYq8pXoCrRl8UALs
+ 0yCkr0uqel63i7Tv/sh4fvEWbQE9JZ6LxJLIP7CsNnssPlA7Bs2+1sTWP07UqD3SnYzr ZQ== 
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3unvetrjhd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 06:53:18 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AT6rHej019600
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 06:53:17 GMT
+Received: from hu-vkraleti-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 28 Nov 2023 22:53:16 -0800
+From: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v3] systemd-boot: Fix build issues on armv7a-linux
+Date: Wed, 29 Nov 2023 12:22:51 +0530
+Message-ID: <20231129065251.1418864-1-quic_vkraleti@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: DTnN-Vyn1DNVMifsZxP2bstA_0LwRdGb
+X-Proofpoint-ORIG-GUID: DTnN-Vyn1DNVMifsZxP2bstA_0LwRdGb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-29_03,2023-11-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ spamscore=0 mlxscore=0 impostorscore=0 phishscore=0 mlxlogscore=990
+ bulkscore=0 priorityscore=1501 clxscore=1015 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311290049
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 06:12:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191428
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 06:53:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191429
 
-Fix warnigns seen with -Wembedded-directive -D_FORTIFY_SOURCE=2
+Backport a fix to address the build failure on armv7a introduced
+in systemd v254-rc1.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex@linutronix.de>
+see
+https://github.com/systemd/systemd/issues/29381
+
+Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
 ---
- ...st-Fix-undefined-behavior-with-clang.patch | 56 +++++++++++++++++++
- .../virglrenderer/virglrenderer_1.0.0.bb      |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-Fix-undefined-behavior-with-clang.patch
+ .../systemd/systemd-boot_254.4.bb             |  4 +++
+ ...n-Pass-all-static-pie-args-to-linker.patch | 35 +++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0030-meson-Pass-all-static-pie-args-to-linker.patch
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-Fix-undefined-behavior-with-clang.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-Fix-undefined-behavior-with-clang.patch
-new file mode 100644
-index 00000000000..48488d7be12
---- /dev/null
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-Fix-undefined-behavior-with-clang.patch
-@@ -0,0 +1,56 @@
-+From ea328b246d093477cf26a68b42e975aaaef6abad Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 28 Nov 2023 21:55:36 -0800
-+Subject: [PATCH] vtest: Fix undefined behavior with clang
-+
-+This is seen when compiling with CC="clang -D_FORTIFY_SOURCE=2"
-+Move #ifdef outside of printf() call.
-+
-+Fixes
-+
-+| ../git/vtest/vtest_server.c:244:2: error: embedding a directive within macro arguments has undefined behavior [-Werror,-Wembedded-directive]
-+|   244 | #ifdef ENABLE_VENUS
-+|       |  ^
-+| ../git/vtest/vtest_server.c:246:2: error: embedding a directive within macro arguments has undefined behavior [-Werror,-Wembedded-directive]
-+|   246 | #endif
-+|       |  ^
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1309]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ vtest/vtest_server.c | 12 ++++++++----
-+ 1 file changed, 8 insertions(+), 4 deletions(-)
-+
-+diff --git a/vtest/vtest_server.c b/vtest/vtest_server.c
-+index 1ca7f74f..93d949d7 100644
-+--- a/vtest/vtest_server.c
-++++ b/vtest/vtest_server.c
-+@@ -197,6 +197,12 @@ static void vtest_server_parse_args(int argc, char **argv)
-+    /* getopt_long stores the option index here. */
-+    int option_index = 0;
-+ 
-++#ifdef ENABLE_VENUS
-++   char* ven = " [--venus]";
-++#else
-++   char* ven = "";
-++#endif
-++
-+    do {
-+       ret = getopt_long(argc, argv, "", long_options, &option_index);
-+ 
-+@@ -244,10 +250,8 @@ static void vtest_server_parse_args(int argc, char **argv)
-+          printf("Usage: %s [--no-fork] [--no-loop-or-fork] [--multi-clients] "
-+                 "[--use-glx] [--use-egl-surfaceless] [--use-gles] [--no-virgl]"
-+                 "[--rendernode <dev>] [--socket-path <path>] "
-+-#ifdef ENABLE_VENUS
-+-                " [--venus]"
-+-#endif
-+-                " [file]\n", argv[0]);
-++                "%s"
-++                " [file]\n", argv[0], ven);
-+          exit(EXIT_FAILURE);
-+          break;
-+       }
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
-index ffe30a9c525..eb7ba1089f6 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
-@@ -12,6 +12,7 @@ DEPENDS = "libdrm libepoxy virtual/egl virtual/libgbm"
- SRCREV = "9c9d55ecbe502e0d71ee99529709efcca69aac42"
- SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https \
-            file://0001-meson.build-use-python3-directly-for-python.patch \
-+           file://0001-vtest-Fix-undefined-behavior-with-clang.patch \
-            "
+diff --git a/meta/recipes-core/systemd/systemd-boot_254.4.bb b/meta/recipes-core/systemd/systemd-boot_254.4.bb
+index 4ee25ee72f..2b43ccf243 100644
+--- a/meta/recipes-core/systemd/systemd-boot_254.4.bb
++++ b/meta/recipes-core/systemd/systemd-boot_254.4.bb
+@@ -8,6 +8,10 @@ DEPENDS = "intltool-native libcap util-linux gperf-native python3-jinja2-native
+ inherit meson pkgconfig gettext
+ inherit deploy
  
- S = "${WORKDIR}/git"
++SRC_URI += " \
++           file://0030-meson-Pass-all-static-pie-args-to-linker.patch \
++           "
++
+ LDFLAGS:prepend = "${@ " ".join(d.getVar('LD').split()[1:])} "
+ 
+ EFI_LD = "bfd"
+diff --git a/meta/recipes-core/systemd/systemd/0030-meson-Pass-all-static-pie-args-to-linker.patch b/meta/recipes-core/systemd/systemd/0030-meson-Pass-all-static-pie-args-to-linker.patch
+new file mode 100644
+index 0000000000..8e563238ef
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0030-meson-Pass-all-static-pie-args-to-linker.patch
+@@ -0,0 +1,35 @@
++From f85a387a67900b02c69abccb88c2ef7191c67277 Mon Sep 17 00:00:00 2001
++From: Jan Janssen <medhefgo@web.de>
++Date: Sun, 1 Oct 2023 09:55:48 +0200
++Subject: [PATCH] meson: Pass all -static-pie args to linker
++
++Fixes: #29381
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/cecbb162a3134b43d2ca160e13198c73ff34c3ef]
++Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
++---
++ src/boot/efi/meson.build | 11 ++++++++---
++ 1 file changed, 8 insertions(+), 3 deletions(-)
++
++diff --git a/src/boot/efi/meson.build b/src/boot/efi/meson.build
++index 2773eaf286..9a60a57329 100644
++--- a/src/boot/efi/meson.build
+++++ b/src/boot/efi/meson.build
++@@ -161,9 +161,14 @@ efi_c_ld_args = [
++         '-Wl,--entry=efi_main',
++         '-Wl,--fatal-warnings',
++ 
++-        # These flags should be passed by -static-pie, but seem to be missing sometimes.
++-        '-Wl,--no-dynamic-linker',
++-        '-z', 'text',
+++        # These flags should be passed by -static-pie, but for whatever reason the flag translation
+++        # is not enabled on all architectures. Not passing `-static` would just allow the linker to
+++        # use dynamic libraries, (which we can't/don't use anyway). But if `-pie` is missing and the
+++        # gcc build does not default to `-pie` we get a regular (no-pie) binary that will be
+++        # rightfully rejected by elf2efi. Note that meson also passes `-pie` to the linker driver,
+++        # but it is overridden by our `-static-pie`. We also need to pass these directly to the
+++        # linker as `-static`+`-pie` seem to get translated differently.
+++        '-Wl,-static,-pie,--no-dynamic-linker,-z,text',
++ 
++         # EFI has 4KiB pages.
++         '-z', 'common-page-size=4096',
 -- 
-2.43.0
+2.25.1
 
 
