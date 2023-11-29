@@ -2,63 +2,63 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B443C4167B
-	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 20:47:27 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.50265.1701290839823095096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C2AEC4167B
+	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 20:50:07 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.50287.1701291002082211144
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Nov 2023 12:47:20 -0800
+ Wed, 29 Nov 2023 12:50:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T2uOK3c4;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3331974c2d2so167968f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 12:47:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZLNEfIl3;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so161656f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 12:50:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701290838; x=1701895638; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701291000; x=1701895800; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Efd1ntxaghza0os3p3/SEmdWe2sLaMvw4lXVnaJ6JOg=;
-        b=T2uOK3c4TWud7BEdRaaGfEHHpAoc5kaaUZnMCwAbt+UxtDU+IoVAyACymehFjKDFKo
-         A5KytRJKjcd7M5KPYn0Oxdvwnout/LVuzNribgblaiMmpTnx1IsBT+cxMQ+rba9MPf8R
-         xHG9NShSK8QDK1kaHffu6zlTXaDgMwVr+QYXXgfxDNkR28dPr30KHbTfFGCGhHQHfg7b
-         x57GutZVoo2JtTm/uYjkVufyxUyMVFFeW23S7a9RlWPrw8aTooCyavGzdP+Wo/++DIve
-         C236vIKny3yshpWRC5Zq4Z03z8yJNTi2ZiteAAu8V5O7NJVZIKyuo5Glh94BDInoghDR
-         wBsQ==
+        bh=qGA+Mukyu/q1jznX2UpUwwfNyhHPPLptl+96ENsYGgU=;
+        b=ZLNEfIl3OVZEhWPtOSPqDG6GHWsOMNF2e3CbdxDGqz515nDibsB+N+ScHP/aDgPG6t
+         iFuVls+XJTctvmp2sbwMPIWhRtmVqZ9W9RMnJ7UcISxYFQPJ3ZSE8OoQVQqQx6+FGTmy
+         XKE/Rcl5t7Wb+k0DIYKqcvwS2+5DVaUfyTvJX+Q823cB8N9weGlZ+pctiCp4SRZUFc3y
+         Uqh7i+vVe5rQYBOplfHK39ZASCTqfnC7w5msU5IzLpCYKC5sM5mw35yVRpwn2KkFSHDZ
+         gR4LGEjp/VDMaBsZjQIVnjwwezj6nOIcRDWrOO/S7LTFpWnTX6H66n/1DSShvE6GBdWS
+         9XzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701290838; x=1701895638;
+        d=1e100.net; s=20230601; t=1701291000; x=1701895800;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Efd1ntxaghza0os3p3/SEmdWe2sLaMvw4lXVnaJ6JOg=;
-        b=fnv06u2Ag5R9brILcqyyewjva3JCKWUIR/7OI+p8SYKuFWhDFhDYShr1kpYEVOnqBJ
-         oKxx+UyW2KPgUaGiWFDmbJV3h+VzWOiB+zuIRtoD6ZCbeG1KR759uEkntur1gZhEs8CH
-         HzwS0t1Ti1o5tgyQel37W+wQ8dO67yZe69JgyRzMzEQHbhZ9E4LtMgJHyZ3wXfZKHC31
-         Wrtg+emdBkfcM43SO1ejOJLDMWaIAmgX7inDBZZpVBmgrduzirLase9owKUiDdzJExFQ
-         0rpXq0c5ngymrRXutm7JX66f/3Azj5iZek6TY5ztvbEzx3br56Jm2J3ZaHfl0lYK5UHF
-         OSTA==
-X-Gm-Message-State: AOJu0YyZlOSjY3R5Vcfvbj+vLB5qe4CMQm1EPwnJe3x+rJ4xiOT06AVS
-	PBF3lwPOXN/A1E05lhNfytG+A3Y7KoI=
-X-Google-Smtp-Source: AGHT+IFeF0L+hJZJYY9hvsae1+HhbdtZ0Tf3IcZvAOi5RgV/NU86LjseZfX4/lm4UvTfRpca60Rc8g==
-X-Received: by 2002:a5d:40c8:0:b0:332:cf3d:a041 with SMTP id b8-20020a5d40c8000000b00332cf3da041mr14779457wrq.8.1701290837693;
-        Wed, 29 Nov 2023 12:47:17 -0800 (PST)
+        bh=qGA+Mukyu/q1jznX2UpUwwfNyhHPPLptl+96ENsYGgU=;
+        b=mZLd5eewTkQMuqx2neumAHTra5BCqnOZjeyHIg84B3AjcrihZ/+5wHj4v+mGDvB/B9
+         rBim8T8ZnNnKyoxtBi3WD1tQtE12mAsLyGhZVwdg7uAzO9syDCxMy1qONM5QnKeUxsX0
+         wepDMzTb5cKi8pHF4qGYPmvL6AGxe07FN5o6lEnSFnuCi33KHJAhh9RcOe7n/Gp7JgOM
+         6Dh0Mv8fhiwnQWDVfQPQMUnCD9XvJp8Tah2A9n0TaG9kszECkZFm95R50Yf+u7oVc4u0
+         +s4zZ9VGqyabFthrXoG0WBxzsE/AoLgmXrLL7aeJ8MRTS6SjZZnJhlLmjVrR8wVbXFKi
+         kIKg==
+X-Gm-Message-State: AOJu0YwLSIbwKkJ4VRCuXYtJ5q/ykMdXfsd11TzwPT2O6QJHK1ajbtmo
+	GS0dh8xT3UsWaq6uNJf1IVriE9Kdzig=
+X-Google-Smtp-Source: AGHT+IFJ+g3pJsO6H83XdkU0/dfhNvjxW5aTp5kx5Di0yjy22rj42GhQ+2d6VoL1rDcaLVeP2vSF2Q==
+X-Received: by 2002:a5d:4648:0:b0:333:b8a:8e9a with SMTP id j8-20020a5d4648000000b003330b8a8e9amr4820372wrs.47.1701291000007;
+        Wed, 29 Nov 2023 12:50:00 -0800 (PST)
 Received: from Zuma-000004PC.lan ([2a02:390:9c57:0:9801:d2b1:600e:600f])
-        by smtp.gmail.com with ESMTPSA id e11-20020a5d500b000000b0032d2489a399sm18550840wrt.49.2023.11.29.12.47.17
+        by smtp.gmail.com with ESMTPSA id z2-20020a5d4402000000b003331a5b8df0sm2278588wrq.6.2023.11.29.12.49.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 12:47:17 -0800 (PST)
+        Wed, 29 Nov 2023 12:49:59 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH] eudev: Upgrade 3.2.12 -> 3.12.14
-Date: Wed, 29 Nov 2023 20:47:09 +0000
-Message-Id: <20231129204709.17778-1-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v2] eudev: Upgrade 3.2.12 -> 3.2.14
+Date: Wed, 29 Nov 2023 20:49:56 +0000
+Message-Id: <20231129204956.17967-1-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 20:47:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191460
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 20:50:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191461
 
 Drop merged patches:
 
@@ -93,6 +93,9 @@ Vivien Kraus (6):
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
+
+Changes in v2:
+- Correct new version in commit subject (3.2.14)
 
  .../udev/eudev/0001-Export-dummies-for.patch  | 82 -------------------
  .../eudev/0002-Bump-udev-version-to-251.patch | 23 ------
