@@ -2,62 +2,62 @@ Return-Path: <mail2szahir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DADF0C4167B
-	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 11:29:32 +0000 (UTC)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
- by mx.groups.io with SMTP id smtpd.web10.30617.1701257369191224008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B29DC4167B
+	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 11:33:03 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web10.30666.1701257578671471502
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Nov 2023 03:29:29 -0800
+ Wed, 29 Nov 2023 03:32:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cPwm07us;
- spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: mail2szahir@gmail.com)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1fa0885e1c2so2943635fac.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 03:29:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cJMUkSAx;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: mail2szahir@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6cdde2aeb64so49744b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 03:32:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701257368; x=1701862168; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701257578; x=1701862378; darn=lists.openembedded.org;
         h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1bYYxF0YT/Ol190YPiU05f3uNr5FYf191dDbbI4JJss=;
-        b=cPwm07usnGV4Wjr91fHL0rr3clvIEpGAII3/QNe388V8QUMgjSpgw+8yLSbAt8hK/A
-         Ybm+x5SBS4EvIBjaO7nbkZ7XV8F0UF8mFKCDT36xlBfLIW2lAM9FrOqyF8t1g68ULzhQ
-         d76WnljWROmzc9jhOCe5MKeScd00fq9cVJAew/VOtf0j1slKBsarX3VAhldS2aukLxoM
-         mA/biLFJL1Y9TJ0X+UxhGkxchspjxo2sgOWU3vG2yYj4vQTY7Q2VTW0BZn+YfieJSLaH
-         wmDksrBebqrjlNsMZSTzVJ+SNUgyXd602MzgPBS5TA9uLhP0d9zeEBupcqszAYbIsaTE
-         xAcA==
+        bh=BOKqGYd2qKWktu2lhhBTe4/tc0Firxd0LOTGrysbz78=;
+        b=cJMUkSAx2lDd1cIspkYLzk/lJeikUsefVw7nipogEB/qM5gBDCXIY3t7iF9zf3NwyR
+         k2+ZQP/2cRqLNyFLwnrQOb8+c9igm0JbJfOLJgTqeN6rX68YLDR//Qxku52uaWmUDAU8
+         9NoBi2BjxRRRiK44qo02r7tfpKx1gPvSlyM5bU/2b4DqhFzqmUWOwHtUeryBcp7JNOlv
+         tuAaNx3mSM4WF3Vw5LmC87GdyIEtBs1YXiFAtcyTzEtbajEt+rqsyrBjYhZkCDimgYXQ
+         g6gXu5JOGlTYr/XNklRO54brudjm8VNTjfa6aIf8CP2bosaLC+LlHsnoD5NfLB6Zwjob
+         GM7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701257368; x=1701862168;
+        d=1e100.net; s=20230601; t=1701257578; x=1701862378;
         h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1bYYxF0YT/Ol190YPiU05f3uNr5FYf191dDbbI4JJss=;
-        b=NVxEldpTfKX9jj5WXjk5kIh6lw5o6OkK6IziwKwF8GfGFMqIuHky1dG3R2HL/nQKVK
-         2e1V5BUi5r7UKnxo7dP0L4mehER5oLti4yF2bBe52brxTbNQEvDMw4Hxd/qYRtk7VIe9
-         N5MYcLMXium7X9XbFSRd0OPYTXAbY/8cJE15RAuXN1fer8U1suAKDu7kXBJDIPfvxsEK
-         LiJ4q/XTSIixdcCuCrGoTiyAMMtsTvucRjKjHIaE0rV9bAxzaLmiAKe/IXzXeXNr2SsU
-         iunN/3e4AnaQCflNTwGTn2st0cTdV7WH+sbxiu5VTwDkdOirb2MCtApeYPFebCtfjswY
-         3esw==
-X-Gm-Message-State: AOJu0YzdsW2tbmTF6kKMk6j00bbckyZtfiXOLz69PzkmWhlU07wb1jDr
-	cqCr0kDGUacIwJY1BSwwrfQpqujzKwI=
-X-Google-Smtp-Source: AGHT+IEFae4lobA8lDHAjvimNWAbMTpMI9IgDaABXgfqAkLviQW5Ne+fS4F+ddhgxKHredOHGBNSsw==
-X-Received: by 2002:a05:6870:5d94:b0:1f9:90b5:be2d with SMTP id fu20-20020a0568705d9400b001f990b5be2dmr25098414oab.25.1701257368287;
-        Wed, 29 Nov 2023 03:29:28 -0800 (PST)
+        bh=BOKqGYd2qKWktu2lhhBTe4/tc0Firxd0LOTGrysbz78=;
+        b=ge1VisqewKDgnoe8VBE+kbnzTkur19reoj2P9GfvJLAnZEvU72n+3jkzMQ2VUsu3bW
+         NloDXN83KyrROBBXZ+jqLbDf9ZPpVguFlvLAMhTAGpxPNeEd+W6ZcHPC/9CFG90raegw
+         Cc09KygpDkkSXZT5VRNrvViFuE39oo74/p5IVw2JGJBi63oPh7eFK2N67q/7pipojeOD
+         lEC6cYOQ5HnCC0VE9oh3v0SR5Eo0FTOuM6X6u8Nd7kBKGElpYZzwRb2uaWM+YrYTP45G
+         0RWMSJWNMNJsNBK0DUl+Tkcr/5YkE3PHWshlz+z27iGY+VOtmf7iUT5QCEQpyHwZb2TP
+         X1Vg==
+X-Gm-Message-State: AOJu0YzIP4XXgCBAfYI8aO0QL1K2nTwWngpvr528QxEzAI3y/oS31bqY
+	tuGqVQNVTIWG22eMlNxzUUyAPa1qKXY=
+X-Google-Smtp-Source: AGHT+IHPRM3EIOracDPJl2+uf853mH4raCC+4DGjMGWbOA/z2xwM8DCptiMbj1LWWJnB78y6Lgr8bQ==
+X-Received: by 2002:a05:6a00:2d86:b0:6cd:daa5:138f with SMTP id fb6-20020a056a002d8600b006cddaa5138fmr512393pfb.0.1701257577801;
+        Wed, 29 Nov 2023 03:32:57 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:e034:50d0:d5e2:ec67:9541:eb86])
-        by smtp.gmail.com with ESMTPSA id ey25-20020a056a0038d900b006cb88e7c005sm10562858pfb.203.2023.11.29.03.29.26
+        by smtp.gmail.com with ESMTPSA id w2-20020aa78582000000b006cbbfeec4e0sm10838165pfn.92.2023.11.29.03.32.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 03:29:28 -0800 (PST)
+        Wed, 29 Nov 2023 03:32:57 -0800 (PST)
 From: aszh07 <mail2szahir@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	mail2szahir@gmail.com
 Cc: ranjitsinh.rathod@kpit.com,
 	Zahir Hussain <zahir.basha@kpit.com>
-Subject: [OE-core][master][PATCH] cmake: Unset CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES variable definition from toolchain file
-Date: Wed, 29 Nov 2023 16:58:43 +0530
-Message-Id: <20231129112843.4368-1-mail2szahir@gmail.com>
+Subject: [OE-core][dunfell][PATCH] cmake: Unset CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES variable definition from toolchain file
+Date: Wed, 29 Nov 2023 17:02:06 +0530
+Message-Id: <20231129113206.4582-1-mail2szahir@gmail.com>
 X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 11:29:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191439
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 11:33:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191440
 
 From: Zahir Hussain <zahir.basha@kpit.com>
 
@@ -85,10 +85,10 @@ Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-index d6a1e0464c..6434b27371 100644
+index a7020da9c7..870009c2ba 100644
 --- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
 +++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-@@ -18,3 +18,6 @@ file( GLOB toolchain_config_files "${CMAKE_CURRENT_LIST_FILE}.d/*.cmake" )
+@@ -19,3 +19,6 @@ file( GLOB toolchain_config_files "${CMAKE_TOOLCHAIN_FILE}.d/*.cmake" )
  foreach(config ${toolchain_config_files})
      include(${config})
  endforeach()
