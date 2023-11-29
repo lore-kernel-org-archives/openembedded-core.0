@@ -1,153 +1,400 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E840AC10DC1
-	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 23:05:28 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.57647.1701299126102952493
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D36CC4167B
+	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 23:17:59 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.57861.1701299868726427186
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Nov 2023 15:05:26 -0800
+ Wed, 29 Nov 2023 15:17:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AUEcS8AA;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1cf80a7be0aso3465575ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 15:05:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701299125; x=1701903925; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a/umzPpFMv3ik3YrL7xum2IO2Ep4r8XYhwzpNxlpaiQ=;
-        b=AUEcS8AAtFp3dOQ1vIqrvPXvU2pLapjgHPlXviDTAD//ijVAmFCZSPxx1ACGIVsmji
-         bqFHRT8/GuwyUjB7CloeT1BGVhUYHnwNcjFkwOwoohWZCVg2i15YsjKcIWSM9UJnR9kh
-         C6rlPuE1Q9PHJQuL6PUKtnbB02GvBEWTf96mjPF6Sm9zkGOfPlvFxW/SEfqMJpEWPx1E
-         RbimY4X/mBVTyOPw8TpHbSLoNZO/PdqQ+kgvswPyBJ/vOCbkTmZkCfJkLxOWxwurTCmO
-         D5049hTTQogpmMnlZIoiByrDGs6UQPwoM+VMccI/WabBqTrGn+AezhXRRx/48PxNROUo
-         7X3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701299125; x=1701903925;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a/umzPpFMv3ik3YrL7xum2IO2Ep4r8XYhwzpNxlpaiQ=;
-        b=w4CB/cvfbu7i7yQhmpQ0gFVMy6Rmah2Xi9WLqrYmYTZs9OPdZ7hzSYt5s+AI63wUQw
-         0UwiHtMXu9HEigQhzwiRuJYR1gzayJTQdT2govd0LK8cjBjv4CFauugANokmvTRMbagL
-         AK5jIa+JRim7soyCqeRXYDn6A2pc3khA0r9vpRcYA4GYlzt8TPtt2I7NmlUjH2busEj2
-         AwvaoGH9Y8sH+ZYpeneDmuMjoSQAHi+dwaJuVfQG66ec7j6MyV3t0wMyiVKCi9+8F2QQ
-         p4bscy+mPHOPjXklZSelvv6hkMJBWGvJ99EgdNZmyieruW/ZRNh71nPBYjz3+dIUnmc9
-         LU7g==
-X-Gm-Message-State: AOJu0YzkhrS61zCjR0Q96ei6UQ75+xpxA6prP2j7pIoVJdgIodwlsmzj
-	kWh8z4Nbm4XfmtEgp/8NTXBczyly8GtVQF9qJJslWg==
-X-Google-Smtp-Source: AGHT+IEQytTmtHOJCBUSaWrp3WKAT1KT9P+P8vOeyqwhowoLB7QYre6Ahd7HTiG3ud9bl10sbn1zTg==
-X-Received: by 2002:a17:902:c38c:b0:1cf:d0fe:8e51 with SMTP id g12-20020a170902c38c00b001cfd0fe8e51mr12590819plg.29.1701299125215;
-        Wed, 29 Nov 2023 15:05:25 -0800 (PST)
-Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id u4-20020a17090341c400b001cfc9c926b7sm6918999ple.75.2023.11.29.15.05.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 15:05:24 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 8/8] systemtap_git: fix used uninitialized error
-Date: Wed, 29 Nov 2023 13:05:01 -1000
-Message-Id: <11da43b58e19583a9bc16044309610cfb2e86469.1701299008.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1701299008.git.steve@sakoman.com>
-References: <cover.1701299008.git.steve@sakoman.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=TGfn/fFD;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 61E871BF205;
+	Wed, 29 Nov 2023 23:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701299866;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=73G+HVlnDTtuSXA796QIaqNEy4vtwQQnL6l3gwW1pc4=;
+	b=TGfn/fFDtx4TzcRpoULf9xqA5ISS12i0yQD6KAyobN+Dk9X4cLPNdxYadNJzTqO8tnHbNV
+	j3cHF+LtgMXmoe88oDbnwC1yWtD5NSHrlj+G/ZdIPZKKR9wDvKvooAIpBbxaKobDqQCKLW
+	KbAN+19We4SYrUw3x54nDHNC583Ajyasg0Dg9Sq9JKhxJT3aXqltEjb67yg6HfusoIhGRU
+	vJNkh1jfsvL439WCvh1hrlxUKo2MRwUM/eh2APhi+Av/QpeMm4hLHIYXctDiCj76YG38zb
+	8+SE5a9fu33TGv6kzyAsoE8SGqkGZNmy0YuxpzKeg9CHaKTcPiT1afG5d2z+IQ==
+Date: Thu, 30 Nov 2023 00:17:46 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org, fnstml-fujitsuten@fujitsu.com
+Subject: Re: [OE-core] [PATCH V2] cairo: upgrade 1.16.0 -> 1.18.0
+Message-ID: <20231129231746576cb4eb@mail.local>
+References: <20231127035805.873005-1-qiutt@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231127035805.873005-1-qiutt@fujitsu.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 23:05:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191472
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 23:17:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191473
 
-From: Li Wang <li.wang@windriver.com>
+Hello,
 
-bpf-translate.cxx: error: 'this_column_size' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-bpf-translate.cxx: error: 'num' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+This seems to fail for qemux86-64-x32:
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...x-Prevent-Werror-maybe-uninitialized.patch | 53 +++++++++++++++++++
- .../recipes-kernel/systemtap/systemtap_git.bb |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch
+https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/8073/steps/12/logs/stdio
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch b/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch
-new file mode 100644
-index 0000000000..130eefab5d
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch
-@@ -0,0 +1,53 @@
-+From df3425f51a512f65522522daf1f78c7fab0a63fd Mon Sep 17 00:00:00 2001
-+From: Aaron Merey <amerey@redhat.com>
-+Date: Fri, 25 Feb 2022 19:18:29 -0500
-+Subject: [PATCH] bpf-translate.cxx: Prevent -Werror=maybe-uninitialized
-+
-+Two variables in bpf-translate.cxx can trigger -Werror=maybe-uninitialized.
-+The code is designed so that uninitialized uses are not actually possible,
-+but to convince gcc of this we move a throw statement and initialize one
-+of the variables with a value.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=df3425f51a512f65522522daf1f78c7fab0a63fd]
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ bpf-translate.cxx | 8 +++++---
-+ 1 file changed, 5 insertions(+), 3 deletions(-)
-+
-+diff --git a/bpf-translate.cxx b/bpf-translate.cxx
-+index 3f45c721f..1b63d6078 100644
-+--- a/bpf-translate.cxx
-++++ b/bpf-translate.cxx
-+@@ -1203,7 +1203,7 @@ bpf_unparser::emit_asm_arg (const asm_stmt &stmt, const std::string &arg,
-+     {
-+       /* arg is a register number */
-+       std::string reg = arg[0] == 'r' ? arg.substr(1) : arg;
-+-      unsigned long num;
-++      unsigned long num = ULONG_MAX;
-+       bool parsed = false;
-+       try {
-+         num = stoul(reg, 0, 0);
-+@@ -1941,8 +1941,6 @@ bpf_unparser::visit_foreach_loop(foreach_loop* s)
-+   for (unsigned k = 0; k < arraydecl->index_types.size(); k++)
-+     {
-+       auto type = arraydecl->index_types[k];
-+-      if (type != pe_long && type != pe_string)
-+-        throw SEMANTIC_ERROR(_("unhandled foreach index type"), s->tok);
-+       int this_column_size;
-+       // PR23875: foreach should handle string keys
-+       if (type == pe_long)
-+@@ -1953,6 +1951,10 @@ bpf_unparser::visit_foreach_loop(foreach_loop* s)
-+         {
-+           this_column_size = BPF_MAXSTRINGLEN;
-+         }
-++      else
-++        {
-++          throw SEMANTIC_ERROR(_("unhandled foreach index type"), s->tok);
-++        }
-+       if (info.sort_column == k + 1) // record sort column
-+         {
-+           info.sort_column_size = this_column_size;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index ce86d5274d..c84fc27001 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -9,6 +9,7 @@ require systemtap_git.inc
- SRC_URI += "file://0001-improve-reproducibility-for-c-compiling.patch \
-             file://0001-staprun-address-ncurses-6.3-failures.patch \
-             file://0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch \
-+            file://0001-bpf-translate.cxx-Prevent-Werror-maybe-uninitialized.patch \
-            "
- 
- DEPENDS = "elfutils"
+| ../cairo-1.18.0/meson.build:381:13: ERROR: Can not run test applications in this cross environment.
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.964839:175 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.964839, line 175
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.964839, line 164
+| 	#3: do_configure, /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.964839, line 150
+| 	#4: main, /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.964839, line 188
+
+On 27/11/2023 11:58:05+0800, qiutt@fujitsu.com wrote:
+> From: qiutt <qiutt@fujitsu.com>
+> 
+> Changelog for 1.18.0 [1]:
+>   The cairo-sphinx tool has been removed
+>   Cairo now implements Type 3 color fonts for PDF
+>   The XML surface has been removed
+>   The Tee surface is now automatically enabled
+>   The Quartz surface is improved
+>   Cairo now hides all private symbols by default on every platform
+>   Fixed multiple issues
+> 
+> As a part of 1.18.0, the following patches should be dropped.
+>   CVE-2018-19876.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/90e85c2493fdfa3551f202ff10282463f1e36645
+>   CVE-2019-6461.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/09643ee1abdd5daacebfcb564448f29be9a79bac
+>   CVE-2019-6462.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/bbeaf08190d3006a80b80a77724801cd477a37b8
+>   CVE-2020-35492.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/c986a7310bb06582b7d8a566d5f007ba4e5e75bf
+> 
+> These options are all gone [2]: directfb, valgrind, egl, glesv2, opengl, trace
+> 
+> Build tool is changed : autotools -> meson
+> 
+> [1] https://www.cairographics.org/news/cairo-1.18.0/
+> [2] https://gitlab.freedesktop.org/cairo/cairo/-/blob/master/meson_options.txt
+> 
+> Signed-off-by: qiutt <qiutt@fujitsu.com>
+> ---
+>  .../cairo/cairo/CVE-2018-19876.patch          | 34 ----------
+>  .../cairo/cairo/CVE-2019-6461.patch           | 20 ------
+>  .../cairo/cairo/CVE-2019-6462.patch           | 40 ------------
+>  .../cairo/cairo/CVE-2020-35492.patch          | 60 ------------------
+>  .../{cairo_1.16.0.bb => cairo_1.18.0.bb}      | 63 +++++--------------
+>  5 files changed, 16 insertions(+), 201 deletions(-)
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+>  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+>  rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.18.0.bb} (51%)
+> 
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+> deleted file mode 100644
+> index 4252a5663b..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -CVE: CVE-2018-19876
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
+> -From: Carlos Garcia Campos <cgarcia@igalia.com>
+> -Date: Mon, 19 Nov 2018 12:33:07 +0100
+> -Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
+> - cairo_ft_apply_variations
+> -
+> -Fixes a crash when using freetype >= 2.9
+> ----
+> - src/cairo-ft-font.c | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
+> -index 325dd61b4..981973f78 100644
+> ---- a/src/cairo-ft-font.c
+> -+++ b/src/cairo-ft-font.c
+> -@@ -2393,7 +2393,11 @@ skip:
+> - done:
+> -         free (coords);
+> -         free (current_coords);
+> -+#if HAVE_FT_DONE_MM_VAR
+> -+        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
+> -+#else
+> -         free (ft_mm_var);
+> -+#endif
+> -     }
+> - }
+> - 
+> --- 
+> -2.11.0
+> -
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+> deleted file mode 100644
+> index a2dba6cb20..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -There is an assertion in function _cairo_arc_in_direction().
+> -
+> -CVE: CVE-2019-6461
+> -Upstream-Status: Pending
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+> -index 390397bae..1bde774a4 100644
+> ---- a/src/cairo-arc.c
+> -+++ b/src/cairo-arc.c
+> -@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
+> -     if (cairo_status (cr))
+> -         return;
+> - 
+> --    assert (angle_max >= angle_min);
+> -+    if (angle_max < angle_min)
+> -+       return;
+> - 
+> -     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
+> - 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+> deleted file mode 100644
+> index 7c3209291b..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -CVE: CVE-2019-6462
+> -Upstream-Status: Backport
+> -Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> -
+> -From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
+> -From: Heiko Lewin <hlewin@gmx.de>
+> -Date: Sun, 1 Aug 2021 11:16:03 +0000
+> -Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
+> -
+> ----
+> - src/cairo-arc.c | 4 +++-
+> - 1 file changed, 3 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+> -index 390397bae..1c891d1a0 100644
+> ---- a/src/cairo-arc.c
+> -+++ b/src/cairo-arc.c
+> -@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
+> - 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
+> -     };
+> -     int table_size = ARRAY_LENGTH (table);
+> -+    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
+> - 
+> -     for (i = 0; i < table_size; i++)
+> - 	if (table[i].error < tolerance)
+> - 	    return table[i].angle;
+> - 
+> -     ++i;
+> -+
+> -     do {
+> - 	angle = M_PI / i++;
+> - 	error = _arc_error_normalized (angle);
+> --    } while (error > tolerance);
+> -+    } while (error > tolerance && i < max_segments);
+> - 
+> -     return angle;
+> - }
+> --- 
+> -2.38.1
+> -
+> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+> deleted file mode 100644
+> index fb6ce5cfdf..0000000000
+> --- a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+> +++ /dev/null
+> @@ -1,60 +0,0 @@
+> -Fix stack buffer overflow.
+> -
+> -CVE: CVE-2020-35492
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> -
+> -From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
+> -From: Heiko Lewin <heiko.lewin@worldiety.de>
+> -Date: Tue, 15 Dec 2020 16:48:19 +0100
+> -Subject: [PATCH] Fix mask usage in image-compositor
+> -
+> ----
+> - src/cairo-image-compositor.c                |   8 ++--
+> - test/Makefile.sources                       |   1 +
+> - test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
+> - test/reference/bug-image-compositor.ref.png | Bin 0 -> 185 bytes
+> - 4 files changed, 44 insertions(+), 4 deletions(-)
+> - create mode 100644 test/bug-image-compositor.c
+> - create mode 100644 test/reference/bug-image-compositor.ref.png
+> -
+> -diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
+> -index 79ad69f68..4f8aaed99 100644
+> ---- a/src/cairo-image-compositor.c
+> -+++ b/src/cairo-image-compositor.c
+> -@@ -2601,14 +2601,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+> - 		    unsigned num_spans)
+> - {
+> -     cairo_image_span_renderer_t *r = abstract_renderer;
+> --    uint8_t *m;
+> -+    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
+> -     int x0;
+> - 
+> -     if (num_spans == 0)
+> - 	return CAIRO_STATUS_SUCCESS;
+> - 
+> -     x0 = spans[0].x;
+> --    m = r->_buf;
+> -+    m = base;
+> -     do {
+> - 	int len = spans[1].x - spans[0].x;
+> - 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
+> -@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+> - 				      spans[0].x, y,
+> - 				      spans[1].x - spans[0].x, h);
+> - 
+> --	    m = r->_buf;
+> -+	    m = base;
+> - 	    x0 = spans[1].x;
+> - 	} else if (spans[0].coverage == 0x0) {
+> - 	    if (spans[0].x != x0) {
+> -@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+> - #endif
+> - 	    }
+> - 
+> --	    m = r->_buf;
+> -+	    m = base;
+> - 	    x0 = spans[1].x;
+> - 	} else {
+> - 	    *m++ = spans[0].coverage;
+> --- 
+> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
+> similarity index 51%
+> rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> rename to meta/recipes-graphics/cairo/cairo_1.18.0.bb
+> index ffb813d290..7547a3c412 100644
+> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> +++ b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
+> @@ -7,7 +7,7 @@ optional translucence (opacity/alpha) and combined using the \
+>  extended Porter/Duff compositing algebra as found in the X Render \
+>  Extension."
+>  HOMEPAGE = "http://cairographics.org"
+> -BUGTRACKER = "http://bugs.freedesktop.org"
+> +BUGTRACKER = "https://gitlab.freedesktop.org/cairo/cairo/-/issues"
+>  SECTION = "libs"
+>  
+>  LICENSE = "(MPL-1.1 | LGPL-2.1-only) & GPL-3.0-or-later"
+> @@ -26,62 +26,31 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77 \
+>                      ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504', '', d)}"
+>  
+>  
+> -DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
+> +DEPENDS = "fontconfig freetype glib-2.0 libpng pixman zlib"
+>  
+>  SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+>             file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
+> -           file://CVE-2018-19876.patch \
+> -           file://CVE-2019-6461.patch \
+> -           file://CVE-2019-6462.patch \
+> -           file://CVE-2020-35492.patch \
+>            "
+>  
+> -SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
+> -SRC_URI[sha256sum] = "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
+> +SRC_URI[sha256sum] = "243a0736b978a33dee29f9cca7521733b78a65b5418206fef7bd1c3d4cf10b64"
+>  
+> -inherit autotools pkgconfig upstream-version-is-even gtk-doc multilib_script
+> +inherit meson pkgconfig upstream-version-is-even gtk-doc multilib_script
+> +
+> +GTKDOC_MESON_OPTION = "gtk_doc"
+>  
+>  MULTILIB_SCRIPTS = "${PN}-perf-utils:${bindir}/cairo-trace"
+>  
+> -X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+> -
+> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
+> -                   trace"
+> -PACKAGECONFIG:class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+> -PACKAGECONFIG:class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+> -
+> -PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+> -PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+> -PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
+> -PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
+> -PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+> -PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
+> -PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
+> -# trace is under GPLv3
+> -PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+> -
+> -EXTRA_OECONF += " \
+> -    ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
+> -    --enable-tee \
+> -"
+> -
+> -# We don't depend on binutils so we need to disable this
+> -export ac_cv_lib_bfd_bfd_openr="no"
+> -# Ensure we don't depend on LZO
+> -export ac_cv_lib_lzo2_lzo2a_decompress="no"
+> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xlib xcb', '', d)} trace"
+> +PACKAGECONFIG[xlib] = "-Dxlib=enabled,-Dxlib=disabled,virtual/libx11 libxrender libxext"
+> +PACKAGECONFIG[xcb] = "-Dxcb=enabled,-Dxcb=disabled,libxcb"
+> +# cairo-trace is GPLv3 so add an option to remove it
+> +PACKAGECONFIG[trace] = ""
+>  
+>  do_install:append () {
+> -	rm -rf ${D}${bindir}/cairo-sphinx
+> -	rm -rf ${D}${libdir}/cairo/cairo-fdr*
+> -	rm -rf ${D}${libdir}/cairo/cairo-sphinx*
+> -	rm -rf ${D}${libdir}/cairo/.debug/cairo-fdr*
+> -	rm -rf ${D}${libdir}/cairo/.debug/cairo-sphinx*
+> -	[ ! -d ${D}${bindir} ] ||
+> -		rmdir -p --ignore-fail-on-non-empty ${D}${bindir}
+> -	[ ! -d ${D}${libdir}/cairo ] ||
+> -		rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
+> +    if ! ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'true', 'false', d)}; then
+> +        rm ${D}${bindir}/cairo-trace ${D}${libdir}/cairo/libcairo-trace.so
+> +        rmdir --ignore-fail-on-non-empty ${D}${bindir} ${D}${libdir}/cairo
+> +    fi
+>  }
+>  
+>  PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
+> @@ -99,7 +68,7 @@ DESCRIPTION:cairo-perf-utils = "The Cairo library performance utilities"
+>  FILES:${PN} = "${libdir}/libcairo.so.*"
+>  FILES:${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
+>  FILES:${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
+> -FILES:${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so"
+> +FILES:${PN}-perf-utils = "${bindir}/cairo-* ${libdir}/cairo/libcairo-trace.so ${libdir}/cairo/libcairo-fdr.so"
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+>  
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191248): https://lists.openembedded.org/g/openembedded-core/message/191248
+> Mute This Topic: https://lists.openembedded.org/mt/102823544/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
