@@ -1,101 +1,91 @@
-Return-Path: <mail2szahir@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB39EC4167B
-	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 11:46:32 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.30907.1701258390842771559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEADFC46CA3
+	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 11:48:42 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.30932.1701258513899154610
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Nov 2023 03:46:30 -0800
+ Wed, 29 Nov 2023 03:48:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ftNE3ScN;
- spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: mail2szahir@gmail.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1cfb4d28c43so35230985ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 03:46:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701258390; x=1701863190; darn=lists.openembedded.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1bYYxF0YT/Ol190YPiU05f3uNr5FYf191dDbbI4JJss=;
-        b=ftNE3ScNoSulGR63AaZi8OA3VasIVYBodoQfAgFMvTjN6IAhZcFV2MPxa7OB21VCxt
-         PynXmA8uXLJwwDJLAwB8N1YObJo455ez/VgVj1q8R25flmld/fePWmN/KbKQv9WSHMdb
-         0ECdgS4vv9+EjH9e4g8byUWfNvktWeqD4E5L/hGRMA4dnzP7m7L6bieKOVxXk59jTlII
-         69MNPfOwIJ9PgcczZe2hUkJBHaZRxrGoF3tkl6olGAyBxuRcFDY3MnJYyEMEru4iIaD1
-         TCjYszcEoZLlCgMyf4ZRPkbNIFMbAALelzJ4qFMgnnbUlmRr5UuX6hkt/b9b7QS40VkP
-         zcuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701258390; x=1701863190;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1bYYxF0YT/Ol190YPiU05f3uNr5FYf191dDbbI4JJss=;
-        b=XBBgBz3hIKMMevDrOjH11EUjyM26oAuCeu7ih+o4FfHrvUoT46bL8P9OwaIBu2sheq
-         7AoZ6iBjNRooAaTn6RvVNMBMffE/gRtylcOVzEGsPti+wNIIeuMETYyxJrVB7Gvckpvd
-         dTPmQQZjZhzdGCxdghZFijlvBt5N1CMB03sSRWpaGcAqu5jqPLZL1wyd4/w/AfykEeRA
-         rqgAPwOxMHWV6xHRmIBEVIYHSsIchLUQuFWoCYh/WG8kLXNzDWMTfaMn1LHa3AD3EHAT
-         UAb5nYBa43Ecd+FXfQHuCkO8pfJI4LmISNqLEISA1W5k/idnjvc+rMFlomFGnuH9TKzO
-         6I8g==
-X-Gm-Message-State: AOJu0YxN0+EZP7rD5CrZH0z4v08DenttEbS0TUw9H+AI1jEIVkxtfaS0
-	0YnEdAuKc0qup/IjZ0IR24blQVeCFKE=
-X-Google-Smtp-Source: AGHT+IFfxqs42ECOsrH0Si4L7Vy8MMvoeeXSNRgwULsMbCzRANUmkSuP4yG3n0ujC1f6OzIyo/g4lg==
-X-Received: by 2002:a17:902:ecc5:b0:1cf:c2c8:7f96 with SMTP id a5-20020a170902ecc500b001cfc2c87f96mr13348454plh.48.1701258390007;
-        Wed, 29 Nov 2023 03:46:30 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:e034:50d0:d5e2:ec67:9541:eb86])
-        by smtp.gmail.com with ESMTPSA id b12-20020a170903228c00b001cfce833b6fsm5758024plh.204.2023.11.29.03.46.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 03:46:29 -0800 (PST)
-From: aszh07 <mail2szahir@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	mail2szahir@gmail.com
-Cc: ranjitsinh.rathod@kpit.com,
-	Zahir Hussain <zahir.basha@kpit.com>
-Subject: [OE-core][kirkstone][PATCH] cmake: Unset CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES variable definition from toolchain file
-Date: Wed, 29 Nov 2023 17:15:38 +0530
-Message-Id: <20231129114538.4819-1-mail2szahir@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dphvRC8u;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VC/XwTq+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c1ae8c57f-66b42eb3-c955-448e-a782-1197d39c9ac5-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701258511; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=bRvq5v6Opw3of/YzDU/hbb6BQ0ObSOZTjKzj2ifYvXo=;
+	b=dphvRC8uTCs+5Fxqa9zWA9JhQZ6iiAnsIG8Vz6o6fz5/PTkLzt1eRsacKU//B2yX
+	sT3n8z6dyOhx25Eaa1fiHVm+X0vtrOeSMWTVpeEnLJDYb3LOmebSLbfVszaPHp4KsOU
+	epvCurm1WEJ2CEv9/ttVixPewiFcoE5l7dgWQe8A=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701258511;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=bRvq5v6Opw3of/YzDU/hbb6BQ0ObSOZTjKzj2ifYvXo=;
+	b=VC/XwTq+m2lNmYr5zVuV5gmytRspg6RhzUvkgesKZOjBf1xy0JEtQhigo5fyb6Ir
+	Wru7O8fVnYIpNbA++r8ko4UZHwcO2N8Vj9IX+XyZVk5avl7Hao1bgTT+6UQKPhzGKoT
+	0hVJuzox3nP89tSPgqpvCSEHtc60qL5uv4J02WPQ=
+From: patchtest@automation.yoctoproject.org
+To: aszh07 <mail2szahir@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][dunfell][PATCH] cmake: Unset
+ CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES variable definition from toolchain
+ file
+In-Reply-To: 20231129113206.4582-1-mail2szahir@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c1ae8c57f-66b42eb3-c955-448e-a782-1197d39c9ac5-000000@us-west-2.amazonses.com>
+Date: Wed, 29 Nov 2023 11:48:31 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.11.29-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 11:46:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191441
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 11:48:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191443
 
-From: Zahir Hussain <zahir.basha@kpit.com>
+--NextPart
+Content-Type: text/plain
 
-As discussion in [YOCTO #14717] cmake contains a OEToolchainConfig.cmake
-file to configure the toolchain correctly in cross-compile build for recipes
-using cmake.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-The variable CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES value updates incorrectly
-during do_compile the code. Due to this getting sporadic error like below,
-
-fatal error: stdlib.h: No such file or directory
-|    75 | #include_next <stdlib.h>
-|       |               ^~~~~~~~~~
-| compilation terminated.
-| ninja: build stopped: subcommand failed.
-| WARNING: exit code 1 from a shell command.
-
-As cmake already correctly initializes the variable from environment, So we have to
-unset it in the toolchain file to avoid overwriting the variable definition again.
-
-Signed-off-by: aszh07 <mail2szahir@gmail.com>
-Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
 ---
- meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 3 +++
- 1 file changed, 3 insertions(+)
+Testing patch /home/patchtest/share/mboxes/dunfell-cmake-Unset-CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES-variable-definition-from-toolchain-file.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-index d6a1e0464c..6434b27371 100644
---- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-+++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
-@@ -18,3 +18,6 @@ file( GLOB toolchain_config_files "${CMAKE_CURRENT_LIST_FILE}.d/*.cmake" )
- foreach(config ${toolchain_config_files})
-     include(${config})
- endforeach()
-+
-+unset(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES)
-+unset(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES)
--- 
-2.17.1
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 108 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test bugzilla entry format (test_mbox.TestMbox.test_bugzilla_entry_format)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
