@@ -1,171 +1,229 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0849C4167B
-	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 04:12:50 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.23866.1701231164532752317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D56D8C07E98
+	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 04:22:50 +0000 (UTC)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web11.24176.1701231765636157937
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 20:12:44 -0800
+ Tue, 28 Nov 2023 20:22:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W6SJ+ryp;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6cdd4aab5f5so79719b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 20:12:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hrCCYCLn;
+ spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1fa486a0e10so1939013fac.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 20:22:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701231163; x=1701835963; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1701231765; x=1701836565; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SrI4q0/T/nEwdHWxAZ0Uc1qJzIXSZZ5Zr4P8nS5Jdb8=;
-        b=W6SJ+ryp2X4XWoQR3FMbVzySW9stUCwEXA+SClxx+jwn5E2RUD9ZZa6AK/xVA7gzCw
-         sci16724peQaQQAcWNoZb2ZeyFIx5TVLU4oerV034u2uUJHg/do0CHbMFEts3S8xoyH0
-         irX+MRRXf39dtvXKNypcoHke1TkjnEgrTUqOvYHKWuR4Kly+8iZQm3PhoBTmJFHZTxFo
-         Rs8hsj46j/wRJkFKaLqL8gf8atj/BEh6cwAyU1LS6ojtIKwMO8mNTiGoYqs/Yq5bs3O+
-         wceDwZ2M6zqEk+PBPexBsp9M59pQRJ3T34eSuz5LIpItYuB/7SvjjNsW+4x0RYtg/+ac
-         Do8g==
+        bh=RHNHZ609O66tVkYUyDfVbtprSXXVa3r3D/+AhA3d6WE=;
+        b=hrCCYCLnB4kQSB/aOnBCu6b17za7aakTAqUIWnfwJGSTBj5++xKljO4X1yX/XN5PsD
+         iNuyRFdSdQqb11PphbfgWUdhVPzukZ0GUeUPIVJaCIiKeeWZjYuXvbsauSOkUBQ/88dj
+         NT5ZRbeXwrTSZi7E5BxX7FwdZaqL9/snpH8/QiixKViYhps6oCP+RmfVV1Nbq5OvR90z
+         pJTkEpNuPlRNqg7/HrseQv8O+UmXPAAL0OVETajwr234bfbbCSdFvn62/8JgVfjPMHTu
+         Zk6QzifChDGkCMTINuX0qRJmNqmkzk6fVRTOG6XWoJ7hvQnJTITvRduzfyziLZGpQHzV
+         XR8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701231163; x=1701835963;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1701231765; x=1701836565;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SrI4q0/T/nEwdHWxAZ0Uc1qJzIXSZZ5Zr4P8nS5Jdb8=;
-        b=u3nOz/M2IzteR4akL9HlFRgmbRyvdTrEFLCgKQoGYw01Vb4XpieZ7x2aOeMmyfhDL+
-         dYWnkNiXbghucrjgtVSxzatHCe8XIW2zNyXAUFlUAOKzfux3g8mK6L+G/nztZlEhrY6J
-         HSYrbaHQt9ccCZh7QBlEAvinF1Wgv+WIPRkk5BSpgy1+uLc38WFmZVOylsYgiqtV+xnG
-         6blzNuv7FEy7OFq2tR/OMsh7zw9E/Dljv7rrDX6Ikvur8oCDXClRzCJSWiBcCW+j3KlD
-         iQqAAVhCxD4HwRjfiDij0SbvuMJTYXI73ldqw9DLrM9ROMQaOjZ4EkmIdJyXo5OICbxC
-         29+A==
-X-Gm-Message-State: AOJu0YzwUMVuWzJOtIe3tY4xwcOeVUu/h2cKkQ/pa2rIXwH10rp4dgzB
-	4bsOKROA5gpW3hJiFCqjHSu6vNqDGm7lIg==
-X-Google-Smtp-Source: AGHT+IFdlNuPmF0mRmjsUspp7iB167Aeg1FLAYEXcznSMjzPMKzkzrBvCQfB0Sbcflxf63rsmyf2XA==
-X-Received: by 2002:a05:6a00:1914:b0:6c4:db03:d20f with SMTP id y20-20020a056a00191400b006c4db03d20fmr22682336pfi.17.1701231163439;
-        Tue, 28 Nov 2023 20:12:43 -0800 (PST)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:cbf8:fa1a:a573:44e6])
-        by smtp.gmail.com with ESMTPSA id q3-20020a056a00088300b006cb64908070sm9912716pfj.93.2023.11.28.20.12.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 20:12:43 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 2/2] python3-cryptography{-vectors}: 41.0.5 -> 41.0.7
-Date: Tue, 28 Nov 2023 20:11:38 -0800
-Message-Id: <20231129041137.2280657-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231129041137.2280657-1-tim.orling@konsulko.com>
-References: <20231129041137.2280657-1-tim.orling@konsulko.com>
+        bh=RHNHZ609O66tVkYUyDfVbtprSXXVa3r3D/+AhA3d6WE=;
+        b=FwvCPPtinWUkaZGOvCWTp+Sszb17eTCtCZdogHrgu+FWQcL+Prq4L9QSq+4RAsBPqd
+         AphHM8Rk1QaK8RQZXl6c9NYHU1WkB5xfZyxWxTGZhyzy8xyZMYt02+KZEoSno1MykxVK
+         uw1fPOcRp3Mz7fs8CPCcTT+S8u3nw8mdNBQYK9ihYhB8hHIfteun9X06p++BX1kJwElc
+         kvhgRgwPVCa04ZgHGWKHlanxy8DV48Niri4HEjw3SECGMJJayhAvSqbBaqHmOuKmk2ZZ
+         YSlfUSEQZi3wKyntF1iT7xleFG3r5lmmyh2PNUNATCTr7V6MhLfkN4F+qJoYzVUFtpof
+         dwzQ==
+X-Gm-Message-State: AOJu0YzQFOdS8xKUZ6GK+BVBBNNBKyS/hqjosHikhYhOo5g2LHotdGNj
+	kEmScDzLuk/fB+rdDgkgeRrZsxURAl/cMGcoZb8=
+X-Google-Smtp-Source: AGHT+IFCY9tuVXd2gATRh8H6uthDumUwSvWv+y01OXzfM98H66f4NxFFfNcjU1MfUUowJ1nzfNojeDaHMBldWSI9Hzc=
+X-Received: by 2002:a05:6871:5824:b0:1fa:26b7:af18 with SMTP id
+ oj36-20020a056871582400b001fa26b7af18mr15213971oac.17.1701231764742; Tue, 28
+ Nov 2023 20:22:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231127101751.3187950-1-alex@linutronix.de> <20231127101751.3187950-11-alex@linutronix.de>
+In-Reply-To: <20231127101751.3187950-11-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Nov 2023 20:22:18 -0800
+Message-ID: <CAMKF1sqQv078nu1BD91+Lx=c8xSS+7J=MND55ocWEuEDucNT0Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 11/19] virglrenderer: upgrade 0.10.4 -> 1.0.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 04:12:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191425
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 04:22:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191426
 
-https://github.com/pyca/cryptography/compare/41.0.5...41.0.7
+This fails to compile with clang as it finds undefined behavior
+similar to vim -
+https://github.com/vim/vim/commit/d315cf551f1d15609c4d7cf724e471de55f5cdac
 
-https://cryptography.io/en/latest/changelog/#v41-0-7
-https://cryptography.io/en/latest/changelog/#v41-0-6
+| x86_64-yoe-linux-clang -target x86_64-yoe-linux -m64 -march=3Dcore2
+-mtune=3Dcore2 -msse3 -mfpmath=3Dsse -mlittle-endian --dyld-prefix=3D/usr
+-Qunused-arguments -fstack-protector-strong -O2 -D_F
+ORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-security
+--sysroot=3D/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux/virglrender=
+er/1.0.0/recipe-sysroot
+-Ivtest/virgl_test_serve
+r.p -Ivtest -I../git/vtest -I../git/src/gallium/include
+-I../git/src/gallium/auxiliary -I../git/src/gallium/auxiliary/util -I.
+-I../git -Isrc -I../git/src -I../git/src/venus -I../git/src/d
+rm -Isrc/mesa -I../git/src/mesa -I../git/src/mesa/compat
+-I../git/src/mesa/pipe -I../git/src/mesa/util
+-fdiagnostics-color=3Dalways -DNDEBUG -D_FILE_OFFSET_BITS=3D64 -Wall
+-Winvalid-pch -Wextr
+a -Wpedantic -std=3Dgnu11 -Werror=3Dimplicit-function-declaration
+-Werror=3Dmissing-prototypes -Werror=3Dpedantic -Wmissing-prototypes
+-Werror=3Dincompatible-pointer-types -Werror=3Dint-to-pointer-cas
+t -Werror=3Dswitch -Wno-overlength-strings
+-Wno-missing-field-initializers -fvisibility=3Dhidden -imacros
+/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux/virglrenderer/1.0.0/bui=
+ld/config.h
+-DHAVE_CONFIG_H=3D1 -O2 -pipe -g -feliminate-unused-debug-types
+-fmacro-prefix-map=3D/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux/vi=
+rglrenderer/1.0.0/git=3D/usr/src/debug/virglrenderer/1
+.0.0 -fdebug-prefix-map=3D/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-lin=
+ux/virglrenderer/1.0.0/git=3D/usr/src/debug/virglrenderer/1.0.0
+-fmacro-prefix-map=3D/mnt/b/yoe/master/build/tmp/work/c
+ore2-64-yoe-linux/virglrenderer/1.0.0/build=3D/usr/src/debug/virglrenderer/=
+1.0.0
+-fdebug-prefix-map=3D/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux/vi=
+rglrenderer/1.0.0/build=3D/usr/src/deb
+ug/virglrenderer/1.0.0
+-fdebug-prefix-map=3D/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux/vi=
+rglrenderer/1.0.0/recipe-sysroot=3D
+-fmacro-prefix-map=3D/mnt/b/yoe/master/build/tmp/work/core2-
+64-yoe-linux/virglrenderer/1.0.0/recipe-sysroot=3D
+-fdebug-prefix-map=3D/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux/vi=
+rglrenderer/1.0.0/recipe-sysroot-native=3D
+-pthread -MD -MQ vtest/vi
+rgl_test_server.p/vtest_server.c.o -MF
+vtest/virgl_test_server.p/vtest_server.c.o.d -o
+vtest/virgl_test_server.p/vtest_server.c.o -c
+../git/vtest/vtest_server.c
+| ../git/vtest/vtest_server.c:244:2: error: embedding a directive
+within macro arguments has undefined behavior
+[-Werror,-Wembedded-directive]
+|   244 | #ifdef ENABLE_VENUS
+|       |  ^
+| ../git/vtest/vtest_server.c:246:2: error: embedding a directive
+within macro arguments has undefined behavior
+[-Werror,-Wembedded-directive]
+|   246 | #endif
+|       |  ^
+| 2 errors generated.
 
-41.0.7 - 2023-11-27
-Fixed compilation when using LibreSSL 3.8.2.
-
-41.0.6 - 2023-11-27
-Fixed a null-pointer-dereference and segfault that could occur when loading
-certificates from a PKCS#7 bundle. Credit to pkuzco for reporting the issue.
-
-CVE: CVE-2023-49083
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
-Tested with core-image-ptest-python3-crytography on qemux86-64 (all tests pass)
-
- .../python/python3-cryptography-crates.inc             | 10 ++++++----
- ...1.0.5.bb => python3-cryptography-vectors_41.0.7.bb} |  2 +-
- ...graphy_41.0.5.bb => python3-cryptography_41.0.7.bb} |  2 +-
- 3 files changed, 8 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/python/{python3-cryptography-vectors_41.0.5.bb => python3-cryptography-vectors_41.0.7.bb} (91%)
- rename meta/recipes-devtools/python/{python3-cryptography_41.0.5.bb => python3-cryptography_41.0.7.bb} (95%)
-
-diff --git a/meta/recipes-devtools/python/python3-cryptography-crates.inc b/meta/recipes-devtools/python/python3-cryptography-crates.inc
-index da0a3f2ee86..3a5edaa3494 100644
---- a/meta/recipes-devtools/python/python3-cryptography-crates.inc
-+++ b/meta/recipes-devtools/python/python3-cryptography-crates.inc
-@@ -9,6 +9,7 @@ SRC_URI += " \
-     crate://crates.io/autocfg/1.1.0 \
-     crate://crates.io/base64/0.13.1 \
-     crate://crates.io/bitflags/1.3.2 \
-+    crate://crates.io/bitflags/2.4.1 \
-     crate://crates.io/cc/1.0.79 \
-     crate://crates.io/cfg-if/1.0.0 \
-     crate://crates.io/foreign-types/0.3.2 \
-@@ -18,9 +19,9 @@ SRC_URI += " \
-     crate://crates.io/lock_api/0.4.9 \
-     crate://crates.io/memoffset/0.8.0 \
-     crate://crates.io/once_cell/1.17.2 \
--    crate://crates.io/openssl/0.10.54 \
-+    crate://crates.io/openssl/0.10.60 \
-     crate://crates.io/openssl-macros/0.1.1 \
--    crate://crates.io/openssl-sys/0.9.88 \
-+    crate://crates.io/openssl-sys/0.9.96 \
-     crate://crates.io/ouroboros/0.15.6 \
-     crate://crates.io/ouroboros_macro/0.15.6 \
-     crate://crates.io/parking_lot/0.12.1 \
-@@ -64,6 +65,7 @@ SRC_URI[asn1_derive-0.15.2.sha256sum] = "a045c3ccad89f244a86bd1e6cf1a7bf645296e7
- SRC_URI[autocfg-1.1.0.sha256sum] = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
- SRC_URI[base64-0.13.1.sha256sum] = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
- SRC_URI[bitflags-1.3.2.sha256sum] = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
-+SRC_URI[bitflags-2.4.1.sha256sum] = "327762f6e5a765692301e5bb513e0d9fef63be86bbc14528052b1cd3e6f03e07"
- SRC_URI[cc-1.0.79.sha256sum] = "50d30906286121d95be3d479533b458f87493b30a4b5f79a607db8f5d11aa91f"
- SRC_URI[cfg-if-1.0.0.sha256sum] = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
- SRC_URI[foreign-types-0.3.2.sha256sum] = "f6f339eb8adc052cd2ca78910fda869aefa38d22d5cb648e6485e4d3fc06f3b1"
-@@ -73,9 +75,9 @@ SRC_URI[libc-0.2.144.sha256sum] = "2b00cc1c228a6782d0f076e7b232802e0c5689d41bb5d
- SRC_URI[lock_api-0.4.9.sha256sum] = "435011366fe56583b16cf956f9df0095b405b82d76425bc8981c0e22e60ec4df"
- SRC_URI[memoffset-0.8.0.sha256sum] = "d61c719bcfbcf5d62b3a09efa6088de8c54bc0bfcd3ea7ae39fcc186108b8de1"
- SRC_URI[once_cell-1.17.2.sha256sum] = "9670a07f94779e00908f3e686eab508878ebb390ba6e604d3a284c00e8d0487b"
--SRC_URI[openssl-0.10.54.sha256sum] = "69b3f656a17a6cbc115b5c7a40c616947d213ba182135b014d6051b73ab6f019"
-+SRC_URI[openssl-0.10.60.sha256sum] = "79a4c6c3a2b158f7f8f2a2fc5a969fa3a068df6fc9dbb4a43845436e3af7c800"
- SRC_URI[openssl-macros-0.1.1.sha256sum] = "a948666b637a0f465e8564c73e89d4dde00d72d4d473cc972f390fc3dcee7d9c"
--SRC_URI[openssl-sys-0.9.88.sha256sum] = "c2ce0f250f34a308dcfdbb351f511359857d4ed2134ba715a4eadd46e1ffd617"
-+SRC_URI[openssl-sys-0.9.96.sha256sum] = "3812c071ba60da8b5677cc12bcb1d42989a65553772897a7e0355545a819838f"
- SRC_URI[ouroboros-0.15.6.sha256sum] = "e1358bd1558bd2a083fed428ffeda486fbfb323e698cdda7794259d592ca72db"
- SRC_URI[ouroboros_macro-0.15.6.sha256sum] = "5f7d21ccd03305a674437ee1248f3ab5d4b1db095cf1caf49f1713ddf61956b7"
- SRC_URI[parking_lot-0.12.1.sha256sum] = "3742b2c103b9f06bc9fff0a37ff4912935851bee6d36f3c02bcc755bcfec228f"
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.5.bb b/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.7.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-cryptography-vectors_41.0.5.bb
-rename to meta/recipes-devtools/python/python3-cryptography-vectors_41.0.7.bb
-index e304c4261a2..eda492d312a 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors_41.0.7.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
- #       Upgrade both recipes at the same time
- 
--SRC_URI[sha256sum] = "75e82aea2982729312af735adb2983f347bb21fff88ad5dda3673ed70e1d1caf"
-+SRC_URI[sha256sum] = "7b36f976b6e58cc1801310e1c93c584c6539d371da7f8538edd8fc463dc80d5b"
- 
- PYPI_PACKAGE = "cryptography_vectors"
- 
-diff --git a/meta/recipes-devtools/python/python3-cryptography_41.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_41.0.7.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-cryptography_41.0.5.bb
-rename to meta/recipes-devtools/python/python3-cryptography_41.0.7.bb
-index 17b08f05cdf..45856774403 100644
---- a/meta/recipes-devtools/python/python3-cryptography_41.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_41.0.7.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
-                    "
- LDSHARED += "-pthread"
- 
--SRC_URI[sha256sum] = "392cb88b597247177172e02da6b7a63deeff1937fa6fec3bbf902ebd75d97ec7"
-+SRC_URI[sha256sum] = "13f93ce9bea8016c253b34afc6bd6a75993e5c40672ed5405a9c832f0d4a00bc"
- 
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://0001-Fix-include-directory-when-cross-compiling-9129.patch \
--- 
-2.34.1
-
+On Mon, Nov 27, 2023 at 2:18=E2=80=AFAM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> venus (virtual vulkan support) is no longer experimental.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  ...1-meson.build-use-python3-directly-for-python.patch | 10 +++++-----
+>  ...{virglrenderer_0.10.4.bb =3D> virglrenderer_1.0.0.bb} |  8 ++++----
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+>  rename meta/recipes-graphics/virglrenderer/{virglrenderer_0.10.4.bb =3D>=
+ virglrenderer_1.0.0.bb} (84%)
+>
+> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson=
+.build-use-python3-directly-for-python.patch b/meta/recipes-graphics/virglr=
+enderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patc=
+h
+> index 8230ba588b5..06379ee7166 100644
+> --- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-=
+use-python3-directly-for-python.patch
+> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-=
+use-python3-directly-for-python.patch
+> @@ -1,4 +1,4 @@
+> -From c853c9e5c44f1b23a15a7ba629ee02f7d8ec23a0 Mon Sep 17 00:00:00 2001
+> +From 2afe24fc95dbb89e99df29ccbe73afa835f58202 Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Mon, 6 Jan 2020 12:44:42 +0100
+>  Subject: [PATCH] meson.build: use 'python3' directly for python
+> @@ -14,15 +14,15 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.=
+com>
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>  diff --git a/meson.build b/meson.build
+> -index 13d95bb..b241eb2 100644
+> +index de6d16b5..79cedbf6 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+> -@@ -64,7 +64,7 @@ flags =3D [
+> +@@ -68,7 +68,7 @@ flags =3D [
+>
+>   add_project_arguments(cc.get_supported_arguments(flags), language : 'c'=
+)
+>
+>  -prog_python =3D import('python').find_installation('python3')
+>  +prog_python =3D 'python3'
+>
+> - libdrm_dep =3D dependency('libdrm', version : '>=3D2.4.50')
+> - thread_dep =3D dependency('threads')
+> + not_found =3D dependency('', required: false)
+> + libdrm_dep =3D dependency('libdrm', version : '>=3D2.4.50', required: g=
+et_option('drm').enabled() or get_option('venus'))
+> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.10.4.bb =
+b/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
+> similarity index 84%
+> rename from meta/recipes-graphics/virglrenderer/virglrenderer_0.10.4.bb
+> rename to meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
+> index f76e7cb1b94..ffe30a9c525 100644
+> --- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.10.4.bb
+> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
+> @@ -9,8 +9,8 @@ LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc81c08eeefd9418fca8f88309a76d=
+b10"
+>
+>  DEPENDS =3D "libdrm libepoxy virtual/egl virtual/libgbm"
+> -SRCREV =3D "88b9fe3bfc64b23a701e4875006dbc0e769f14f6"
+> -SRC_URI =3D "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=
+=3Dmaster;protocol=3Dhttps \
+> +SRCREV =3D "9c9d55ecbe502e0d71ee99529709efcca69aac42"
+> +SRC_URI =3D "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=
+=3Dmain;protocol=3Dhttps \
+>             file://0001-meson.build-use-python3-directly-for-python.patch=
+ \
+>             "
+>
+> @@ -18,9 +18,9 @@ S =3D "${WORKDIR}/git"
+>
+>  inherit meson pkgconfig features_check
+>
+> -PACKAGECONFIG ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'v=
+enus-experimental', '', d)}"
+> +PACKAGECONFIG ?=3D "${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'v=
+enus', '', d)}"
+>
+> -PACKAGECONFIG[venus-experimental] =3D "-Dvenus-experimental=3Dtrue,-Dven=
+us-experimental=3Dfalse,vulkan-loader vulkan-headers"
+> +PACKAGECONFIG[venus] =3D "-Dvenus=3Dtrue,-Dvenus=3Dfalse,vulkan-loader v=
+ulkan-headers"
+>  PACKAGECONFIG[va] =3D "-Dvideo=3Dtrue,-Dvideo=3Dfalse,libva"
+>  PACKAGECONFIG[render-server] =3D "-Drender-server=3Dtrue,-Drender-server=
+=3Dfalse"
+>  PACKAGECONFIG[drm-msm-experimental] =3D "-Ddrm-msm-experimental=3Dtrue,-=
+Ddrm-msm-experimental=3Dfalse"
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191278): https://lists.openembedded.org/g/openembedde=
+d-core/message/191278
+> Mute This Topic: https://lists.openembedded.org/mt/102826378/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
