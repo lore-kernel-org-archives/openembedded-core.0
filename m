@@ -1,106 +1,110 @@
-Return-Path: <zboszor@gmail.com>
+Return-Path: <m.felsch@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DFC0C4167B
-	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 08:51:12 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.27821.1701247866375541859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E98AC4167B
+	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 09:36:22 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.28509.1701250573771051798
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Nov 2023 00:51:06 -0800
+ Wed, 29 Nov 2023 01:36:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RcoQS549;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: zboszor@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a00f67f120aso876697766b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 00:51:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701247865; x=1701852665; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aPOaNQDjLVGzlwj7NMLkHW3pwnOd6EGwokNz4AQ/M2g=;
-        b=RcoQS549dIC5FN1zPIAw6wu7eq52p9ohFti0O18iE9OMdD3uu4YNd1/DgUgxn9bP44
-         Gm8tl6iz9zXsCSCE3XRnxoI8BDX1ABxen+qn2EZGAKTloAUkJ4yN4N1n0JS51bRaked0
-         /sHJMPakd77FFR0rbNhxOVuXqKmKHSenO5VYqX8CFqJVz8ME04rmDQz0wAUsm3/lbnpG
-         BQAPR23IwGcOLgjMJ3pONmKpUdRwXeSYR/717XqPm1dNnRmnwNqSQuDRV6PQFhBfQ9Cl
-         J9sVHUln2C+hU86sqH0mn94X/nDiCLeZfxJYjlqFVKoTW34qJJqneiFts3/YfTZpb7DD
-         Qcjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701247865; x=1701852665;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aPOaNQDjLVGzlwj7NMLkHW3pwnOd6EGwokNz4AQ/M2g=;
-        b=j5zv+pET/mcsqN1GJM+cAECEVgWvI89VyqF3rxfVcgGwMDtsLcUfGloebTZOUD55Yr
-         oHTWV55ZJvt+MqLzVIqxF8JmBHRdL9pqcwVnC199uiAPqNw4btaEC/ZxzhcRXldEU2Dx
-         nVNYJ5ZX7FeahKg9XNwYEAgETHj2njL3qJtndoc7SfvMiSyOcuWnkZ5pXawjnAUjnSxh
-         bNWHDwagP/qKrsgbsz7GhNYLAtUGz7ztSuBLTvWM4nRMgzo5S26vOTvZK+pjCfmuIWnb
-         bX460lPxKta0p5anz3OsBBoO24CLEwgrglWSqD2ZeqTtqyoDeh2kVAO0nxU9Pkk35ovG
-         Uhag==
-X-Gm-Message-State: AOJu0YyivmJDVf0uZY/ipbeU3LHskOa++e+dPP+lNznlRSnajOTIA0CU
-	NyX1e6q1SGIKlTGNykniQu0=
-X-Google-Smtp-Source: AGHT+IEvXygIhO8u9j64jfdkeIgoFSO8E4/uzuMzJJxPxrM5c0yGArUWFMf5JuKmeUVrCjbhUVcaPA==
-X-Received: by 2002:a17:906:2dc:b0:a12:78b5:3d81 with SMTP id 28-20020a17090602dc00b00a1278b53d81mr3123481ejk.1.1701247864577;
-        Wed, 29 Nov 2023 00:51:04 -0800 (PST)
-Received: from [192.168.2.2] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id n18-20020a17090625d200b009fe1d575365sm7670613ejb.55.2023.11.29.00.51.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 00:51:04 -0800 (PST)
-Message-ID: <ce32a68f-d5f6-476e-a233-d1d603225752@gmail.com>
-Date: Wed, 29 Nov 2023 09:51:03 +0100
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: mfe@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1r8GzL-0002mA-IT; Wed, 29 Nov 2023 10:36:11 +0100
+Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1r8GzK-00CNDi-Ln; Wed, 29 Nov 2023 10:36:10 +0100
+Received: from mfe by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1r8GzK-004Pvg-JU; Wed, 29 Nov 2023 10:36:10 +0100
+Date: Wed, 29 Nov 2023 10:36:10 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
+	"yocto@pengutronix.de" <yocto@pengutronix.de>
+Subject: Re: [OE-core] [PATCH] json-c: fix icecc compilation
+Message-ID: <20231129093610.34gr6zwe26xkiyii@pengutronix.de>
+References: <20231128224743.2854095-1-m.felsch@pengutronix.de>
+ <AS1PR10MB569750733E9544DDFF316DC0FD83A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] bitbake-server does not exit after build ends
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Martin Jansa <martin.jansa@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <3cd66d19-6e0c-4b1b-a990-723cd445698f@gmail.com>
- <1be4aa623d61e40f52466e1cc3b65c4543b39b20.camel@linuxfoundation.org>
- <25c15f7d-d1e8-427f-a1ab-6edb854daaa0@gmail.com>
- <CA+chaQdMrEWZkXfyX=cGDt9uD0JodDFK68cedzGVN2fMDRh+Qg@mail.gmail.com>
- <29c6bdd6-72bf-48f6-9a8a-eb15c1225ba1@gmail.com>
- <ab819301dbf2bf4a669dfdbd937b21f0c7ec719c.camel@linuxfoundation.org>
- <d1479bd9-163c-4958-b1e2-6eb066fbe41a@gmail.com>
- <CANNYZj_--bt3Nw96O8QDSb8hyr5-BoSmkmOC0_BMAb-vsL8UJA@mail.gmail.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
-In-Reply-To: <CANNYZj_--bt3Nw96O8QDSb8hyr5-BoSmkmOC0_BMAb-vsL8UJA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AS1PR10MB569750733E9544DDFF316DC0FD83A@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+User-Agent: NeoMutt/20180716
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 08:51:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191433
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 09:36:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191434
 
-2023. 11. 28. 15:50 keltezéssel, Alexander Kanavin írta:
-> On Tue, 28 Nov 2023 at 11:31, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
->> The warning only occurs if os.fork() is called when
->> there are already Python threads.
->>
->> I guess the general performance uplift in Python 3.12
->> can trigger a pre-existing issue in bitbake more easily.
->>
->> It is entirely possible that the threads bitbake creates do not
->> exist yet with Python 3.11 and earlier at the time of executing
->> os.fork(). ¯\_(ツ)_/¯
-> I think you might be too quick to jump to conclusions here.
+On 23-11-29, Marko, Peter wrote:
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Marco Felsch via lists.openembedded.org
+> Sent: Tuesday, November 28, 2023 23:48
+> To: openembedded-core@lists.openembedded.org
+> Cc: yocto@pengutronix.de; mfe@pengutronix.de
+> Subject: [OE-core] [PATCH] json-c: fix icecc compilation
+> 
+> > Skip -Werror to make it possible to compile this recipe with ICECC else all fallthrough comments will be removed since we pre-process the files on the host before sending them to the compile nodes which then cause errors because of default -Werror switch.
+> >
+> > Fixes: caf64f85b5c5 ("json-c: update 0.13.1 - > 0.14")
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> > Hi,
+> >
+> > I'm not familar with the stable material but IMHO this would be somthing for kirkstone.
+> 
+> You need to send a separate patch for kirkstone as this one does not apply there.
 
-Indeed.
-I should have added "assuming Python is not the buggy party here".
-Sorry.
+Thanks for the information. So there are no stable maintainers
+backporting this patch?
 
->   I've fixed
-> the async issue I've been observing (backporting
-> https://github.com/python/cpython/commit/2e5d4e24ebcd671915427b6fd35a5b0eea412c4a
-> ), and when running bitbake with 3.12 from buildtools-tarball,
-> everything works fine, and I'm not seeing any leftover processes. Poky
-> revision is current master:
-> https://git.yoctoproject.org/poky/commit/?h=master&id=3e50e45917831d9da2d86e69fb908a1a78483b62
+> > Regards,
+> >   Marco
+> >
+> >  meta/recipes-devtools/json-c/json-c_0.17.bb | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/meta/recipes-devtools/json-c/json-c_0.17.bb b/meta/recipes-devtools/json-c/json-c_0.17.bb
+> > index f4b7a32cea01..20bcece7685d 100644
+> > --- a/meta/recipes-devtools/json-c/json-c_0.17.bb
+> > +++ b/meta/recipes-devtools/json-c/json-c_0.17.bb
+> > @@ -17,6 +17,9 @@ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
+> >  
+> >  RPROVIDES:${PN} = "libjson"
+> >  
+> > +# Required for ICECC builds
+> > +EXTRA_OECMAKE = "-DDISABLE_WERROR=ON"
+> 
+> I don't like removing WERROR unconditionally which decreases quality checks.
+> Can we do it only in case ICECC is used?
+> Something like "${@'-DDISABLE_WERROR=ON' if bb.data.inherits_class(icecc, d) else ''}"
 
-This means that 3.12.1 should fix this problem, and that release
-is supposedly "imminent": 3.12.0 was released on 2023-10-02 and
-subsequent bugfix releases are scheduled every two months.
+Good point, but IMHO IMHO Werror builds are for the project itself. It's
+not oe-core's purpose to check each package that Werror builds do
+succeed else you would need to enable it for all packages.
 
+Regards,
+  Marco
+
+
+> 
+> > +
+> >  inherit cmake ptest
+> >  
+> >  do_install_ptest() {
+> --
+> 2.39.2
+> 
+> 
 
