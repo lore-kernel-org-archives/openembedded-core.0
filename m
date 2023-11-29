@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEADFC46CA3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED89EC4167B
 	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 11:48:42 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.30932.1701258513899154610
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.30931.1701258513014476572
  for <openembedded-core@lists.openembedded.org>;
  Wed, 29 Nov 2023 03:48:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dphvRC8u;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VC/XwTq+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c1ae8c57f-66b42eb3-c955-448e-a782-1197d39c9ac5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bJ3bamwq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=l5aCSurG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018c1ae8c751-8ade3550-f1c5-404a-ab57-bcb2e40c0a01-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701258511; i=@automation.yoctoproject.org;
+	t=1701258512; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=bRvq5v6Opw3of/YzDU/hbb6BQ0ObSOZTjKzj2ifYvXo=;
-	b=dphvRC8uTCs+5Fxqa9zWA9JhQZ6iiAnsIG8Vz6o6fz5/PTkLzt1eRsacKU//B2yX
-	sT3n8z6dyOhx25Eaa1fiHVm+X0vtrOeSMWTVpeEnLJDYb3LOmebSLbfVszaPHp4KsOU
-	epvCurm1WEJ2CEv9/ttVixPewiFcoE5l7dgWQe8A=
+	bh=7S7kY9g5UkEs4pt1fsP0CP2XQyNHjUKrtE0gGh61/fY=;
+	b=bJ3bamwqRzFa/awSIDznUFIxFF3G8MSQEPqCXonyjNZgeitGSL3az2u4NjgzpcYr
+	iHYU35UPTz/+/MqBO7flpJn8pHq6/L9trWjvtKi6cKJlH8KqJjhW1eRH49cWH9P4tnB
+	HxZdI7HxsYYxWal/gj+j3Ia39iHC1QitaubD0GEI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701258511;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701258512;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=bRvq5v6Opw3of/YzDU/hbb6BQ0ObSOZTjKzj2ifYvXo=;
-	b=VC/XwTq+m2lNmYr5zVuV5gmytRspg6RhzUvkgesKZOjBf1xy0JEtQhigo5fyb6Ir
-	Wru7O8fVnYIpNbA++r8ko4UZHwcO2N8Vj9IX+XyZVk5avl7Hao1bgTT+6UQKPhzGKoT
-	0hVJuzox3nP89tSPgqpvCSEHtc60qL5uv4J02WPQ=
+	bh=7S7kY9g5UkEs4pt1fsP0CP2XQyNHjUKrtE0gGh61/fY=;
+	b=l5aCSurGzCraF9WBAo+rw6mnAtmlsJcX7oSjszVaJndYeCba8Qv863Hta3uQ+ZPN
+	MnMiXrco6HFl4Y/Bb3KNA3NfGShx5dp4uj5rG8V9g8VwaOW/WQyhTBPj2MuCqi/Yai9
+	KzQNCn1H/vMnp53DqYI8WUnZXltzBbHXosW7TyrI=
 From: patchtest@automation.yoctoproject.org
 To: aszh07 <mail2szahir@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][dunfell][PATCH] cmake: Unset
+Subject: Patchtest results for [OE-core][master][PATCH] cmake: Unset
  CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES variable definition from toolchain
  file
-In-Reply-To: 20231129113206.4582-1-mail2szahir@gmail.com
+In-Reply-To: 20231129112843.4368-1-mail2szahir@gmail.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c1ae8c57f-66b42eb3-c955-448e-a782-1197d39c9ac5-000000@us-west-2.amazonses.com>
-Date: Wed, 29 Nov 2023 11:48:31 +0000
+Message-ID: <0101018c1ae8c751-8ade3550-f1c5-404a-ab57-bcb2e40c0a01-000000@us-west-2.amazonses.com>
+Date: Wed, 29 Nov 2023 11:48:32 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.29-54.240.27.33
+X-SES-Outgoing: 2023.11.29-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 11:48:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191443
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191442
 
 --NextPart
 Content-Type: text/plain
@@ -54,23 +54,31 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/dunfell-cmake-Unset-CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES-variable-definition-from-toolchain-file.patch
+Testing patch /home/patchtest/share/mboxes/master-cmake-Unset-CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES-variable-definition-from-toolchain-file.patch
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 108 characters) (test_mbox.TestMbox.test_shortlog_length)
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 107 characters) (test_mbox.TestMbox.test_shortlog_length)
 
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test bugzilla entry format (test_mbox.TestMbox.test_bugzilla_entry_format)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
 PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
 
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
 SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
 SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
 SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
 SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
 ---
