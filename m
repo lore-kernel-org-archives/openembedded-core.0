@@ -1,124 +1,151 @@
-Return-Path: <pooadire@cisco.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0744C4167B
-	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 04:56:40 +0000 (UTC)
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.web11.24668.1701233791785737897
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A3ADC4167B
+	for <webhook@archiver.kernel.org>; Wed, 29 Nov 2023 06:12:31 +0000 (UTC)
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+ by mx.groups.io with SMTP id smtpd.web11.25511.1701238344661855541
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Nov 2023 20:56:32 -0800
+ Tue, 28 Nov 2023 22:12:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=N14vGIkW;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: pooadire@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=2644; q=dns/txt; s=iport;
-  t=1701233791; x=1702443391;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=nqbrtcqaqtCONWTilpX0AtHvGtKi9q5IdVgvz5jUi2M=;
-  b=N14vGIkWY8aHcLhky5DHebeiHxqCQoDDL28uEQkOioTaRBtHoyjQNdj2
-   5Hi17u2DnjappwtYxQm2y99+PFaVUL7v3U7xiA0upPl1siiROa4cDFLmL
-   vnwslBgOMA3qBMp5ccmFYVZaCFMxBKVG9BNM2Pc9cLnZ/WU8MmPf79SYV
-   I=;
-X-CSE-ConnectionGUID: pIq/tLifQO+cwk2P8tI2TA==
-X-CSE-MsgGUID: nF4wTd84RhirdU3F+0KC2Q==
-X-IronPort-AV: E=Sophos;i="6.04,234,1695686400"; 
-   d="scan'208";a="148517756"
-Received: from rcdn-core-9.cisco.com ([173.37.93.145])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 04:56:31 +0000
-Received: from sjc-ads-3769.cisco.com (sjc-ads-3769.cisco.com [171.68.250.216])
-	by rcdn-core-9.cisco.com (8.15.2/8.15.2) with ESMTPS id 3AT4uUIX025206
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 29 Nov 2023 04:56:30 GMT
-Received: by sjc-ads-3769.cisco.com (Postfix, from userid 1807045)
-	id 51843CC1293; Tue, 28 Nov 2023 20:56:30 -0800 (PST)
-From: poojitha adireddy <pooadire@cisco.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QRmx6hue;
+ spf=pass (domain: gmail.com, ip: 209.85.166.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-35cb62e3905so13243405ab.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Nov 2023 22:12:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701238344; x=1701843144; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KiZkophRm4c/OG30hj7RAPgzyLj64c6ujNDa7Av8jak=;
+        b=QRmx6hue2/AvzOnAdAPcD0Bnz9kpWb2b2PnTHgKJArSXUFKwK4LzLxdMS/+xB0uucH
+         0FclZi132Tius8Abco6UDp4qjMcqJP2BlzS4m6g8/gk0lPWPoS2+icQeu7sgqNFYQzQ8
+         ySzxGa9bw6T7odMRHpcnlTIG4o5+lHyEsbAiUV+LU9n0VdzSnlrbUReEU+luP18L9+re
+         u8hurmI9A+84a3lkxCn/dcSu7U1WIXvLHYQo1oDiA6PYzFm6xusSXKkJEp9yaGjgBskb
+         LXc559N+9RL6nIkVASLW0b74zYm8MH9Bltswyutkqhhf5NZX/Hy5ElgLITqfT/fV3Zzx
+         /JeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701238344; x=1701843144;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KiZkophRm4c/OG30hj7RAPgzyLj64c6ujNDa7Av8jak=;
+        b=g1r2qe68Rmm6FucJ+u82hSXaJ5DQFnOJvCE2wbzd3isdNkltDrz02Mm4kTCx+CgUel
+         CMyx/OdP8VTD/AbCI+6iKLZHnb771GNX2f/EhPfmrSwMCVz9/7/utXfNI6Vt+PT2hoBO
+         DmzcaQ6kb9NdQLl2OXWxcu2/OB1n6p9dyhfoEHQg3yvw02mcvSyMKeVzl/VqvQd9YO0c
+         cCm+5IKnMKA7WDpjX5fSS74zroI3eG9tIY2RpJ6hHwa/NLEYtDgNjKMQoDn47kgvz/B8
+         NB+IAY8KSKYrmY5WRaEbLh7pC7ZkNorKc56mpFNd/Hu4Bl6bndiRArcBZ1uBvqNmBvEP
+         ZNeA==
+X-Gm-Message-State: AOJu0YxUBdzb80ei4hOE9Sc7kzPiooOORJU323mqhKrw0tef7Y7ddp1i
+	sYT4s3DcEcvS6bl27LE8PrXVNf2ex+fKHw==
+X-Google-Smtp-Source: AGHT+IH+lgrvcBA/DJNWULtONd0JDPj7CyaBvoI2NMR/kJdmUK1EqOivu4YNH7ysfv7oYtu5Sd+eqQ==
+X-Received: by 2002:a92:d585:0:b0:35c:8c73:b42e with SMTP id a5-20020a92d585000000b0035c8c73b42emr13254721iln.3.1701238343600;
+        Tue, 28 Nov 2023 22:12:23 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::2c3f])
+        by smtp.gmail.com with ESMTPSA id j2-20020aa783c2000000b006c3069547bfsm345124pfn.79.2023.11.28.22.12.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 22:12:22 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com, pooadire@cisco.com
-Subject: [OE-core] [dunfell] [PATCH] binutils 2.34: Fix CVE-2021-46174
-Date: Tue, 28 Nov 2023 20:56:26 -0800
-Message-Id: <20231129045626.1211447-1-pooadire@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] virglrenderer: Fix build with clang
+Date: Tue, 28 Nov 2023 22:12:20 -0800
+Message-ID: <20231129061220.445046-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-SMTP-Client: 171.68.250.216, sjc-ads-3769.cisco.com
-X-Outbound-Node: rcdn-core-9.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 04:56:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191427
+ <openembedded-core@lists.openembedded.org>; Wed, 29 Nov 2023 06:12:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191428
 
-Upstream Repository: https://sourceware.org/git/binutils-gdb.git
+Fix warnigns seen with -Wembedded-directive -D_FORTIFY_SOURCE=2
 
-Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2021-46174
-Type: Security Fix
-CVE: CVE-2021-46174
-Score: 7.5
-Patch: https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=cad4d6b91e97
-
-Signed-off-by: poojitha adireddy <pooadire@cisco.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex@linutronix.de>
 ---
- .../binutils/binutils-2.34.inc                |  1 +
- .../binutils/binutils/CVE-2021-46174.patch    | 35 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
+ ...st-Fix-undefined-behavior-with-clang.patch | 56 +++++++++++++++++++
+ .../virglrenderer/virglrenderer_1.0.0.bb      |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-Fix-undefined-behavior-with-clang.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-index a9a2bf332f..371e8e9fa4 100644
---- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -54,5 +54,6 @@ SRC_URI = "\
-      file://0001-CVE-2021-45078.patch \
-      file://CVE-2022-38533.patch \
-      file://CVE-2023-25588.patch \
-+     file://CVE-2021-46174.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch b/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-Fix-undefined-behavior-with-clang.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-Fix-undefined-behavior-with-clang.patch
 new file mode 100644
-index 0000000000..2addf5139e
+index 00000000000..48488d7be12
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
-@@ -0,0 +1,35 @@
-+From 46322722ad40ac1a75672ae0f62f4969195f1368 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Thu, 20 Jan 2022 13:58:38 +1030
-+Subject: [PATCH] PR28753, buffer overflow in read_section_stabs_debugging_info
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vtest-Fix-undefined-behavior-with-clang.patch
+@@ -0,0 +1,56 @@
++From ea328b246d093477cf26a68b42e975aaaef6abad Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 28 Nov 2023 21:55:36 -0800
++Subject: [PATCH] vtest: Fix undefined behavior with clang
 +
-+	PR 28753
-+	* rddbg.c (read_section_stabs_debugging_info): Don't read past
-+	end of section when concatentating stab strings.
++This is seen when compiling with CC="clang -D_FORTIFY_SOURCE=2"
++Move #ifdef outside of printf() call.
 +
-+CVE: CVE-2021-46174
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=cad4d6b91e97]
++Fixes
 +
-+(cherry picked from commit 085b299b71721e15f5c5c5344dc3e4e4536dadba)
-+(cherry picked from commit cad4d6b91e97b6962807d33c04ed7e7797788438)
-+Signed-off-by: poojitha adireddy <pooadire@cisco.com>
++| ../git/vtest/vtest_server.c:244:2: error: embedding a directive within macro arguments has undefined behavior [-Werror,-Wembedded-directive]
++|   244 | #ifdef ENABLE_VENUS
++|       |  ^
++| ../git/vtest/vtest_server.c:246:2: error: embedding a directive within macro arguments has undefined behavior [-Werror,-Wembedded-directive]
++|   246 | #endif
++|       |  ^
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1309]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ binutils/rddbg.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ vtest/vtest_server.c | 12 ++++++++----
++ 1 file changed, 8 insertions(+), 4 deletions(-)
 +
-+diff --git a/binutils/rddbg.c b/binutils/rddbg.c
-+index 72e934055b5..5e76d94a3c4 100644
-+--- a/binutils/rddbg.c
-++++ b/binutils/rddbg.c
-+@@ -207,7 +207,7 @@ read_section_stabs_debugging_info (bfd *abfd, asymbol **syms, long symcount,
-+ 		     an attempt to read the byte before 'strings' would occur.  */
-+ 		  while ((len = strlen (s)) > 0
-+ 			 && s[len  - 1] == '\\'
-+-			 && stab + 12 < stabs + stabsize)
-++			 && stab + 16 <= stabs + stabsize)
-+ 		    {
-+ 		      char *p;
++diff --git a/vtest/vtest_server.c b/vtest/vtest_server.c
++index 1ca7f74f..93d949d7 100644
++--- a/vtest/vtest_server.c
+++++ b/vtest/vtest_server.c
++@@ -197,6 +197,12 @@ static void vtest_server_parse_args(int argc, char **argv)
++    /* getopt_long stores the option index here. */
++    int option_index = 0;
 + 
+++#ifdef ENABLE_VENUS
+++   char* ven = " [--venus]";
+++#else
+++   char* ven = "";
+++#endif
+++
++    do {
++       ret = getopt_long(argc, argv, "", long_options, &option_index);
++ 
++@@ -244,10 +250,8 @@ static void vtest_server_parse_args(int argc, char **argv)
++          printf("Usage: %s [--no-fork] [--no-loop-or-fork] [--multi-clients] "
++                 "[--use-glx] [--use-egl-surfaceless] [--use-gles] [--no-virgl]"
++                 "[--rendernode <dev>] [--socket-path <path>] "
++-#ifdef ENABLE_VENUS
++-                " [--venus]"
++-#endif
++-                " [file]\n", argv[0]);
+++                "%s"
+++                " [file]\n", argv[0], ven);
++          exit(EXIT_FAILURE);
++          break;
++       }
 +-- 
-+2.23.1
++2.43.0
 +
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
+index ffe30a9c525..eb7ba1089f6 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.0.bb
+@@ -12,6 +12,7 @@ DEPENDS = "libdrm libepoxy virtual/egl virtual/libgbm"
+ SRCREV = "9c9d55ecbe502e0d71ee99529709efcca69aac42"
+ SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https \
+            file://0001-meson.build-use-python3-directly-for-python.patch \
++           file://0001-vtest-Fix-undefined-behavior-with-clang.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
 -- 
-2.35.6
+2.43.0
 
 
