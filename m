@@ -1,121 +1,102 @@
-Return-Path: <h4nn35.work@gmail.com>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EF3EC10DC1
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 09:46:12 +0000 (UTC)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
- by mx.groups.io with SMTP id smtpd.web11.68967.1701337562874415574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63271C07CA9
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 10:10:52 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.69206.1701339051761370222
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 01:46:03 -0800
+ Thu, 30 Nov 2023 02:10:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lwMQ3xeF;
- spf=pass (domain: gmail.com, ip: 209.85.219.180, mailfrom: h4nn35.work@gmail.com)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-db538b07865so454771276.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 01:46:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=E7uQoUgL;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a013d22effcso103443266b.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 02:10:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701337562; x=1701942362; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9NHoN410PzzDHhNc/ZyKxYZ5K7CD6z/so443DfCzsgI=;
-        b=lwMQ3xeFjPQK1cv221RXqth1co1U6CS2KqP4LymBMYnaPCsE1dhI5rTJvPzu/KXQPp
-         F8d/ONV0cAHKDqX3tLR+dWL9rFSZm5XZAN0EtrwrhQbllpE27SIUlTssR1PjjlvPdUp3
-         xQm/DUoEEiGhwebxpJBikgP/6g0FSZkm3PDLUwQwthv4SOVsJYDQ/H5NovD4vISiXB7s
-         ssAAILpDJMWl2LJkG2VksK7CnwmZHHAgd8atY9vlYZ6QqZxg/lqxneGCyGzMTRagwdKj
-         gLgA4rIf5wjM92x1wnjE4aQ6N+GjUTYKjaScTCcBzHmz0Mr8jfBkA95rV6phzx2BaZsX
-         CFXQ==
+        d=gmail.com; s=20230601; t=1701339050; x=1701943850; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BAJleN46drXTmdGtrm/LEgnqNdHRkKMsnkKCu9Go0to=;
+        b=E7uQoUgL4uKbNrgMTrT4p+BCk/pSPLWFZaF2K8SPuURi5sZSsHGgYGRijCb9sOa6tG
+         5F0Na3FAFmROW32kHUYYUVCnpqVz9QuKNVZOxn85ED6EMvGTsutXnIh2GZnyIvom1f7j
+         cFLHxN64kZ2qyNWj9ZWqsXI2KEkWY9edzUw/pjXVYwqF2E5wfRJ//aEjMmO5X/QbKjgd
+         eDYnha0RWPNfowRvZ4zQEWxMiOPvEmUBuA00Ue0mcV/0MbcSypleURX3pZZT80ylBaT1
+         sbiIKPtAEtNgPeYHUKHN1URcEbeIa+ypOTOHSnntbSZfPihL4waHRjG0Pz2Ksr5n19q2
+         p1rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701337562; x=1701942362;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9NHoN410PzzDHhNc/ZyKxYZ5K7CD6z/so443DfCzsgI=;
-        b=BwbbQGp60IINxEfc6b2v4kLH5tafcbJ5bXd4bquOSCR+grrLPnjSMw7B0gyDBsI93m
-         N+iByTDRj2EJVhfraTf2zWaw3k4Ot+ktj81J6H9QxgS7zqMedi5LJfAnhKg5L+huz/FF
-         ypCfVgzK5l4SyegmzpSuQ08afqeGNFo9nHrY5xz3Ue0/Sir+5WU9dTJqqkuVwh6zq8XO
-         PbFnuv6V5yMWzAVswG7gu5MyXbKMXoBUImYeKGKMhZU9tggNCGZoPNY88afA6NwOFgtD
-         4444vnfl8+WF33jCCV6bmt2WNPXs0OyGCfB3wIxWNu3EjXVm1/bMLP//ufGfT16Fy8Lh
-         FTqQ==
-X-Gm-Message-State: AOJu0YzyD9Zqdrgq4f5NIxyS89TCIeECSHpMsdXaFfLsvegi0U4a8XDL
-	uoycM0UiDVzW5q9bonVvkWTM+MTHyQtGfbo/Yw==
-X-Google-Smtp-Source: AGHT+IExiOBUZgUoz/T66wavVk2696l5R0p+ss6ZPaNNqk10KqS9T3lRjaaLjTY0n89UFZRhSdH3sMilIfT4NR8A9Jk=
-X-Received: by 2002:a25:6f46:0:b0:da0:cb88:b890 with SMTP id
- k67-20020a256f46000000b00da0cb88b890mr20786222ybc.60.1701337562041; Thu, 30
- Nov 2023 01:46:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701339050; x=1701943850;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BAJleN46drXTmdGtrm/LEgnqNdHRkKMsnkKCu9Go0to=;
+        b=ZcFfdeF0sc2wo4bBLjzSdwx7Bp7IlWsCt7dnGj85N72DXxv0bVtmBDSl2Dj1iNtTV6
+         ahyGuyKp0GUXmpsNgwtoFdROObXkKzBKMmijtFDKZ0vvHsRmAv52+w4K0WmhgzdxAT53
+         JzRoNR95rXHDnygWC+Q9ail/Kl2Fxwe/h//wq3eFX9mOz7n9QtDclqMIKaZd6nOK33Jc
+         9/k5PLFTI+Wisz1ZsZ2QbEOS1nJU151v9VfWm9hamkFdeFzM1E7aNVtHoW9FvpA2PzHr
+         d8+Blva/UZoLg6fQSH/p3TWaDSlY45mNw4BRwOoPyGnAzrn7ZW60lF9URVF4ZLjZEbAz
+         LjvQ==
+X-Gm-Message-State: AOJu0YwObghqf6fGwqwgJ8+TmujW9Lg3ZviHtobjeXRhE34yLcxHYrf2
+	OeAHeTc8/7vbGgyRqv6fndBLnEzO6TQ=
+X-Google-Smtp-Source: AGHT+IH8uBQKABnUspdtocd63RI+BOoI/xftipZd7C0s+eAnv+S2fS45+aCAlaGbD3vhICIzY09l9Q==
+X-Received: by 2002:a17:907:30d5:b0:9a5:a0c6:9e8e with SMTP id vl21-20020a17090730d500b009a5a0c69e8emr14066207ejb.31.1701339049941;
+        Thu, 30 Nov 2023 02:10:49 -0800 (PST)
+Received: from NVC4181.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id r18-20020a17090609d200b00a015eac52dcsm497191eje.108.2023.11.30.02.10.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 02:10:49 -0800 (PST)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [kirkstone][PATCH 0/2] Failure for rust-cross for arm(v5)
+Date: Thu, 30 Nov 2023 11:08:39 +0100
+Message-ID: <20231130101010.1696-1-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.42.0.windows.2
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
-References: <CAHvQdo1KaZ2S1srqjvyj=R0tVroUieExEXmfBpiEBq9J1RZxDQ@mail.gmail.com>
- <CAMKF1sqXJRha2wXUoMu_M9opLT2FCB+-36L9uvx-YDZRO3BQ7Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sqXJRha2wXUoMu_M9opLT2FCB+-36L9uvx-YDZRO3BQ7Q@mail.gmail.com>
-From: Johannes Pointner <h4nn35.work@gmail.com>
-Date: Thu, 30 Nov 2023 10:45:50 +0100
-Message-ID: <CAHvQdo0ewRcxj=dznV+ChSBHFp_WpOe2-YRv3KZ9iR=OFQGEWQ@mail.gmail.com>
-Subject: Re: rootfs.py generates wrong ld.so.cache in case of usrmerge distro feature
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 09:46:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191489
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 10:10:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191490
 
-On Fri, Nov 24, 2023 at 6:03=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
->
->
-> On Fri, Nov 24, 2023 at 2:34=E2=80=AFAM Johannes Pointner <h4nn35.work@gm=
-ail.com> wrote:
->>
->> Hello,
->>
->> I did recently my first Nanbield build which required the distro
->> feature usrmerge because of using systemd and as a result QtWebEngine
->> didn't work anymore.
->> I reported this to Qt(https://bugreports.qt.io/browse/QTBUG-119140),
->> but looking deeper into this it turned out to be an issue related to
->> the generated ld.so.cache in the rootfs.py.
->> At the moment in the ldconfig-native which is used to generate this,
->> are the paths to LIBDIR("/usr/lib") and SLIBDIR("/lib") hardcoded, but
->> that isn't correct if usrmerge is enabled, at least I think so.
->> The resulting ld.so.cache looks like this:
->> 236 libs found in cache `/etc/ld.so.cache'
->>        libzstd.so.1 (libc6) =3D> /lib/libzstd.so.1
->>        libz.so.1 (libc6) =3D> /lib/libz.so.1
->>        libxtables.so.12 (libc6) =3D> /lib/libxtables.so.12
->>        libxslt.so.1 (libc6) =3D> /lib/libxslt.so.1
->>        libxml2.so.2 (libc6) =3D> /lib/libxml2.so.2
->> ...
->>
->> Would it be OK to configure the paths LIBDIR SLIBDIR using base_libdir
->> and libdir?
->
->
-> I think it should check for usrmerge feature and generate the correct val=
-ues during build
-This is already done in bitbake.conf:
-root_prefix =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',
-'${exec_prefix}', '${base_prefix}', d)}"
-Do you really think we should check again in ldconfig-native for
-usrmerge, can't we just do something like that:
- Add in ldconfig.c:
-+#ifndef LIBDIR
-#define LIBDIR "/usr/lib"
-+#endif
-+#ifndef SLIBDIR
-#define SLIBDIR "/lib"
-+#endif
-and build it like this:
-do_compile () {
-$CC ldconfig.c -std=3Dgnu99 -DLIBDIR=3D\"${nonarch_libdir}\"
--DSLIBDIR=3D\"${nonarch_base_libdir}\" chroot_canon.c xmalloc.c
-xstrdup.c cache.c readlib.c  -I. dl-cache.c -o ldconfig
-}
->
->>
->>
->> Thanks,
->> Hannes
+From: Jermain Horsman <jermain.horsman@nedap.com>
+
+I ran into the following when trying to compile rust for arm (on kirkstone):
+
+Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+
+After some investigation I notices some patches on master which were not
+available on kirkstone.
+Using the patches included here I am able to compile successfully.
+
+However, some additional patches are not on kirkstone,
+I am unsure whether or not these should be backported too,
+maybe someone, who has a better understanding of these, can comment on that.
+
+It's about the following patches:
+https://git.openembedded.org/openembedded-core/commit/?id=0f83d959465e0d99f98ade6803281585931d1b02
+https://git.openembedded.org/openembedded-core/commit/?id=2d4b35a0db1220e7a7f1b6776223aa4d40a3f246
+
+The following patch is also not on kirkstone,
+based on the commit message I think it might be desired to have this one as well:
+https://git.openembedded.org/openembedded-core/commit/?id=d554161a045d12411f288394e253c54aa4c1257c
+
+
+
+Richard Purdie (2):
+  rust-cross/rust-common: Merge arm target handling code to fix
+    cross-canadian
+  rust-cross: Simplfy the rust_gen_target calls
+
+ meta/recipes-devtools/rust/rust-common.inc | 18 ++++++++++++------
+ meta/recipes-devtools/rust/rust-cross.inc  | 21 ++++-----------------
+ 2 files changed, 16 insertions(+), 23 deletions(-)
+
+-- 
+2.42.0.windows.2
+
 
