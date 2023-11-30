@@ -1,98 +1,136 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <h4nn35.work@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD24C10DC1
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 12:33:03 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.71051.1701347572325922575
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAED5C4167B
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 12:35:42 +0000 (UTC)
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+ by mx.groups.io with SMTP id smtpd.web10.71103.1701347737104503842
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 04:32:53 -0800
+ Thu, 30 Nov 2023 04:35:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GCDNwt44;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Toob+D/1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018c2037b67b-2551c0c8-7662-4d74-bcf2-89fab5a7eedd-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701347571; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=B1gEIaEdq295IHHrLVssBlI+BY9O72G0MSxE9NBO6G0=;
-	b=GCDNwt44XQwPEupjH8XbQk4cUdzDKTKaDt5tprNsO8Ii59H6QbBG0ttcpMxFB1mK
-	73sR1cG8rUH/9UXCLKHqIe3N0NJOXTKER6ESf4PhXGpRJaA+a2IUZk6QI8QXdmAvaKm
-	UfBRiGrcC+Z3TLCaojYxWq9li1F6CrKcfGuEyqgU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701347571;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=B1gEIaEdq295IHHrLVssBlI+BY9O72G0MSxE9NBO6G0=;
-	b=Toob+D/1CIhD4xJMSR601wCWFO3MdmRCfVm6Gk6eHCVjpF+BBVFbgblsgA7ZUTQf
-	45YOgkt4PO7NBncZJXDYHOOsu08UG8hG+AjJIfwFSfl+qKhFVZM0eb0zTvPcLaP1PIp
-	t8Yj1bFfT8Gf3Jt7ZoAED5LGDIJxGdibVpnoXTOE=
-From: patchtest@automation.yoctoproject.org
-To: Andrey Popov <andrey.popov@yadro.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [kirkstone][PATCH v3] image-live: Add support for building
- EFI-bootable ISO images for non-x86-based archs
-In-Reply-To: 20231130122313.65635-1-andrey.popov@yadro.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c2037b67b-2551c0c8-7662-4d74-bcf2-89fab5a7eedd-000000@us-west-2.amazonses.com>
-Date: Thu, 30 Nov 2023 12:32:51 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.30-54.240.27.45
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=acMlQTc4;
+ spf=pass (domain: gmail.com, ip: 209.85.128.172, mailfrom: h4nn35.work@gmail.com)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5d28f5bbd6cso8652367b3.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 04:35:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701347736; x=1701952536; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xoM95YT1JUWrZgHf5Rw0Gf+74r0DCNiSct9t37Yy4C8=;
+        b=acMlQTc4hhTxIQw86N6OtuLzaY27FWWv5zwK43kqb0aGy8jNK+h+/MDOnXWQ6kxpWk
+         kZauEzA1xpTdTjGnvrynU+ljs/zOG7mWxaArdLirCDBBabP/CkWIESHS7eLK/gjgbZZd
+         wZe2STdFPmGySzYOrViXoJ8z1mbRi01AVF4Pe2p6gINZGgseM1837bIwf9nUe2dftJ6n
+         KoMUyD48fqURLuTPVIGyfHAMbVI0QrFIrn81lwNrEuqHEBdPZYyEGHl8+KSqX7Wb5/8D
+         rFdI+GCiLZAtEjcwkSPuohpgeBNMaN7ikKPsxqyM3JSsZRp9GdkSG/uEMMa+ok7fsKpM
+         cLJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701347736; x=1701952536;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xoM95YT1JUWrZgHf5Rw0Gf+74r0DCNiSct9t37Yy4C8=;
+        b=tnfSSbU85wp3e8+QWWewzynnkLKFbmwnge8xQB/FMgnJ1o71ZEX9B8p68VkaL40fTG
+         oRxwVYgjTFiVLkN20ONETuLkg2F5xeuNTktD2Rm96ztfo3MAESV9Kk8lveMROse4Wyb8
+         eIs4yHEHG+GDU2mP2STQzBXFySgVa7gwiRLO/RsSo+FOn/Wu2jI4TsY349uYqFoTtasc
+         64HgC+U/wW4LpoE+jfytUvl2ty8k08KZ1AqiE84feD9eAeHyTEBu9xXsCvy9Q4EcbkHb
+         grxx4hXdBlN9s8a3zhlI4DzFOlux0ow7n10dcbpj7RYvAXwCmGL6HnWiFXaT0PZGgSUs
+         Iezw==
+X-Gm-Message-State: AOJu0Yyc7NW8h+H7LU02WHSR7UtKJJOEsWyZym2aOic3Be7eBcUUS/Zo
+	DCMnltKYwwROTO+ikzdG+wxHXuG3YEmHCE2elw==
+X-Google-Smtp-Source: AGHT+IF/9c0lVWDB6f/wgGmPZOgqr2TprEsU5R0X9Dg1ke2VnWJh7Den0t455vNJhvhynQf7GhAAlomCUYw4EF8eRYg=
+X-Received: by 2002:a25:f602:0:b0:d9a:6c74:49b with SMTP id
+ t2-20020a25f602000000b00d9a6c74049bmr19591464ybd.2.1701347736300; Thu, 30 Nov
+ 2023 04:35:36 -0800 (PST)
+MIME-Version: 1.0
+References: <CAHvQdo1KaZ2S1srqjvyj=R0tVroUieExEXmfBpiEBq9J1RZxDQ@mail.gmail.com>
+ <CAMKF1sqXJRha2wXUoMu_M9opLT2FCB+-36L9uvx-YDZRO3BQ7Q@mail.gmail.com> <CAHvQdo0ewRcxj=dznV+ChSBHFp_WpOe2-YRv3KZ9iR=OFQGEWQ@mail.gmail.com>
+In-Reply-To: <CAHvQdo0ewRcxj=dznV+ChSBHFp_WpOe2-YRv3KZ9iR=OFQGEWQ@mail.gmail.com>
+From: Johannes Pointner <h4nn35.work@gmail.com>
+Date: Thu, 30 Nov 2023 13:35:25 +0100
+Message-ID: <CAHvQdo2WX_07CF3yFGvZMa2Kjky_kQdY5JZnynkrbw=e+NVgxA@mail.gmail.com>
+Subject: Re: rootfs.py generates wrong ld.so.cache in case of usrmerge distro feature
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:33:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191504
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:35:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191505
 
---NextPart
-Content-Type: text/plain
-
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-v3-image-live-Add-support-for-building-EFI-bootable-ISO-images-for-non-x86-based-archs.patch
-
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 95 characters) (test_mbox.TestMbox.test_shortlog_length)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Thu, Nov 30, 2023 at 10:45=E2=80=AFAM Johannes Pointner
+<h4nn35.work@gmail.com> wrote:
+>
+> On Fri, Nov 24, 2023 at 6:03=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wro=
+te:
+> >
+> >
+> >
+> > On Fri, Nov 24, 2023 at 2:34=E2=80=AFAM Johannes Pointner <h4nn35.work@=
+gmail.com> wrote:
+> >>
+> >> Hello,
+> >>
+> >> I did recently my first Nanbield build which required the distro
+> >> feature usrmerge because of using systemd and as a result QtWebEngine
+> >> didn't work anymore.
+> >> I reported this to Qt(https://bugreports.qt.io/browse/QTBUG-119140),
+> >> but looking deeper into this it turned out to be an issue related to
+> >> the generated ld.so.cache in the rootfs.py.
+> >> At the moment in the ldconfig-native which is used to generate this,
+> >> are the paths to LIBDIR("/usr/lib") and SLIBDIR("/lib") hardcoded, but
+> >> that isn't correct if usrmerge is enabled, at least I think so.
+> >> The resulting ld.so.cache looks like this:
+> >> 236 libs found in cache `/etc/ld.so.cache'
+> >>        libzstd.so.1 (libc6) =3D> /lib/libzstd.so.1
+> >>        libz.so.1 (libc6) =3D> /lib/libz.so.1
+> >>        libxtables.so.12 (libc6) =3D> /lib/libxtables.so.12
+> >>        libxslt.so.1 (libc6) =3D> /lib/libxslt.so.1
+> >>        libxml2.so.2 (libc6) =3D> /lib/libxml2.so.2
+> >> ...
+> >>
+> >> Would it be OK to configure the paths LIBDIR SLIBDIR using base_libdir
+> >> and libdir?
+> >
+> >
+> > I think it should check for usrmerge feature and generate the correct v=
+alues during build
+> This is already done in bitbake.conf:
+> root_prefix =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',
+> '${exec_prefix}', '${base_prefix}', d)}"
+> Do you really think we should check again in ldconfig-native for
+> usrmerge, can't we just do something like that:
+>  Add in ldconfig.c:
+> +#ifndef LIBDIR
+> #define LIBDIR "/usr/lib"
+> +#endif
+> +#ifndef SLIBDIR
+> #define SLIBDIR "/lib"
+> +#endif
+> and build it like this:
+> do_compile () {
+> $CC ldconfig.c -std=3Dgnu99 -DLIBDIR=3D\"${nonarch_libdir}\"
+> -DSLIBDIR=3D\"${nonarch_base_libdir}\" chroot_canon.c xmalloc.c
+> xstrdup.c cache.c readlib.c  -I. dl-cache.c -o ldconfig
+> }
+OK, after testing this I have seen that the paths are adjusted by the
+native class so this won't work.
+But another approach using something like this
+LDCONFIG_SLIBIDR=3D${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',
+'/usr/lib', '/lib', d)}
+$CC ldconfig.c -std=3Dgnu99 -DSLIBDIR=3D\"${LDCONFIG_SLIBIDR}\"
+chroot_canon.c xmalloc.c xstrdup.c cache.c readlib.c  -I. dl-cache.c
+-o ldconfig
+doesn't work either because usrmerge isn't in the DISTRO_FEATURES in
+case of native, at least it seems so.
+DISTRO_FEATURES_NATIVE:append =3D " usrmerge" fixes this but I have no
+idea if this is the right approach.
+> >
+> >>
+> >>
+> >> Thanks,
+> >> Hannes
 
