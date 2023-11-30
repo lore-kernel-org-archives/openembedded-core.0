@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6CF3C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECB01C10DC1
 	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 20:58:30 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.5178.1701377902826582051
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web10.5289.1701377901255389073
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 12:58:22 -0800
+ Thu, 30 Nov 2023 12:58:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Xrtdi+C3;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6cdd214bce1so1400106b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:58:22 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ovPgTVBm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5bcfc508d14so1113442a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:58:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701377902; x=1701982702; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701377900; x=1701982700; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9bVOuwccodtqtSfFuZZoqFTmDOPlj4kwpQWNjff27KU=;
-        b=Xrtdi+C3hfhV0skFPFOihkDRcCkpZeskLtTgZJlgosh218rZfwAsHl0/bef+BLQ1mR
-         Lm3VFvPmKDVORz/e7gcrvnvzv6ld4aC8pwCw9gTsrG5kvXUJhv/bHTQzFmC5mLUmt82T
-         yrohQxb8MLWhkQuSBpRBLW3kiNmOxqOgbh0wy9II7zSlhIbmEBmTBeNbRR2YewzRzgRu
-         kCZe1PBg7nu4zcSUnRTs5VT9ccdxBCfPH/YJFtATI4mdRKPdWgGHDHpQz4Y3p7kTpttj
-         tdxOH9CWW8my2Qa8y/8V1s4RkZdYgKU7yWqNvMgNXUSqQ5RXbfQz+BXgcD4rWHXn3K6Z
-         T+zg==
+        bh=3Ilvx18+AnOjbtGxIYMpn2T9yKtEujUBJIRBC8tXgPc=;
+        b=ovPgTVBmePC6bg4hDa5R1GfGebMjkyKUYyFjz4fGhDuhUUyjMHodySrUO4k4ZvSrCZ
+         bDAAT+mTbxi9RNhLBkfEzNBlo2/XlaDdNdQThBU9KDfoAeOew4lf8MfguI5F00f5V0Zz
+         FJL2gM3e0WKCbBdRkJEc31GhIWTfCAbfsqHuSjPh1RezNNy5LWYlDcqGFH0pEcFCPB5x
+         PRp955q4bMbm0hAFl+vzVGvDT6HuhvHf1AMrgpjW4lXr0P9EYy3BKFI0fPqZ9zRklNbf
+         2iCW9QRwu15hR9+ygdhmjxmGoZph2xy8elVHGIqePaHP5w+t9Zj4wwjiOJkS/9jzqGtg
+         br0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701377902; x=1701982702;
+        d=1e100.net; s=20230601; t=1701377900; x=1701982700;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9bVOuwccodtqtSfFuZZoqFTmDOPlj4kwpQWNjff27KU=;
-        b=pE6HNBgm37UviwqIBQF/nUzwjPfsw/zlnaUAX1iziRhsSTyJv8ljpHv2Cov9cR3yJo
-         TZgKRthEwKFAiImEnneuqZVaEcZT26vKeTSPQ70wsvbbq98UjT1ki78Fo95JyFs4A1x6
-         x0tXgYguQJTSN/FMFYe6P5n13zkWbzS75/jWK6zyk5bquv2EuOYqqDhJrm0g+nTdD2BH
-         dKqdqbJafyHDkV5X6utrpcBPpCeBPCBY5yydGQspO9k3T9eVqYMnRbWsdNEVU9BOJODZ
-         rLB9bJ/AwbI41zc8Fz0+TDcT96xRBakoc7aNg7HTvqmQ5Kz1qH3PAhxCLS9vLG+fQtkX
-         vtAA==
-X-Gm-Message-State: AOJu0YwljkPbBFxG4u/92bsfJx4jN8bcu3uWmii621AFBA422Q4TdkA5
-	CQqkBGj+Omi0h/wOQgo/g4+FHCduoOYNJ8jQd5ovHA==
-X-Google-Smtp-Source: AGHT+IGT2tJg0YZNCEE1uc2q5CIimefy4oAm3cco+yw4Kn+EuLN2ivfIi39KFIiQ+mSokH0v6FXpCw==
-X-Received: by 2002:a05:6a00:999:b0:6cd:fcef:5d94 with SMTP id u25-20020a056a00099900b006cdfcef5d94mr218714pfg.16.1701377901929;
-        Thu, 30 Nov 2023 12:58:21 -0800 (PST)
+        bh=3Ilvx18+AnOjbtGxIYMpn2T9yKtEujUBJIRBC8tXgPc=;
+        b=VgGcEnOTFFOcw/kC0PBM4kU7J07bukwvX/tY85u7Jbp2+SE9xrdfONvdO4elhAQMW/
+         bX2/AS5iI9mNFOZenKVtR5Q4LzpzC//wZiTrMUziPkpKKSMisp0mFCKpAjREpuklyliH
+         tWWttOSIXxvPUR5zLU4y0KWLiUQU+Wkfd6SmJQrmZIIUITfcJ0QXS8YAbdw+ZeaBmgbq
+         2NHHJ5Y7aAVPM5Q4Cv5VvmLd4E7/pEdK472ivj7gxMm0AZFOVtNNds76V8kOp3P/tCIM
+         qG5KzuT8/GEPD0yQia2Af5XfMNvgF3p2GPVpmbYjRJ6CXDW2DlyyBvu3NP0I5DK0RSDc
+         x2hA==
+X-Gm-Message-State: AOJu0YwhoKPp9yw000b0w5cBAeX1OlsM9As4x0u/z9U16xf2SF/w7uyd
+	PaJJ3IpH6kEVAZAfGCaZYxqb98gYB8gebHcLemOmBw==
+X-Google-Smtp-Source: AGHT+IG3WurXgMfcEM3xee2Ml0GG3T45P6fV/fTR1qBtaE6Fvalifl4q8KdFQ1xsb+laAsLOHNoQAA==
+X-Received: by 2002:a05:6a20:7d9a:b0:18c:44d3:d314 with SMTP id v26-20020a056a207d9a00b0018c44d3d314mr23349606pzj.10.1701377900450;
+        Thu, 30 Nov 2023 12:58:20 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id f18-20020aa79d92000000b006cbbc07a1c0sm1635418pfq.156.2023.11.30.12.58.21
+        by smtp.gmail.com with ESMTPSA id f18-20020aa79d92000000b006cbbc07a1c0sm1635418pfq.156.2023.11.30.12.58.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 12:58:21 -0800 (PST)
+        Thu, 30 Nov 2023 12:58:20 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 25/25] lib/oe/path: Deploy files can start only with a dot
-Date: Thu, 30 Nov 2023 10:57:33 -1000
-Message-Id: <c45f3e00189e034157996b88103a83efec3e0cf6.1701377676.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 24/25] lib/oe/buildcfg.py: Remove unused parameter
+Date: Thu, 30 Nov 2023 10:57:32 -1000
+Message-Id: <ea871e7920726c7b2e57161092e21c62e6a5d91e.1701377676.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1701377676.git.steve@sakoman.com>
 References: <cover.1701377676.git.steve@sakoman.com>
@@ -61,40 +61,60 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 20:58:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191543
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191542
 
-From: Vyacheslav Yurkov <Vyacheslav.Yurkov@wika.com>
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-There might be only hidden files deployed. In that case we don't need a
-generic wildcard present in copy command, otherwise it fails with:
+Several functions included the 'd' parameter but never used it,
+additionally the value passed is always None.
 
-Exception: subprocess.CalledProcessError: Command 'cp -afl --preserve=xattr ./.??* ./* <BUILDDIR>/tmp/deploy/images/qemux86-64' returned non-zero exit status 1.
-
-Subprocess output:
-cp: cannot stat './*': No such file or directory
-
-Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@wika.com>
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit f92c751281609ea6bd6b838307de4bc70bf26ab9)
+(cherry picked from commit 9e03ce0426576ebef3739dc1dfec4f7cd73ae094)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/path.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oe/buildcfg.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 0dc8f172d5..e2f1913a35 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -125,7 +125,8 @@ def copyhardlinktree(src, dst):
-         if os.path.isdir(src):
-             if len(glob.glob('%s/.??*' % src)) > 0:
-                 source = './.??* '
--            source += './*'
-+            if len(glob.glob('%s/**' % src)) > 0:
-+                source += './*'
-             s_dir = src
-         else:
-             source = src
+diff --git a/meta/lib/oe/buildcfg.py b/meta/lib/oe/buildcfg.py
+index b9d32c7cc1..b3fe510309 100644
+--- a/meta/lib/oe/buildcfg.py
++++ b/meta/lib/oe/buildcfg.py
+@@ -5,23 +5,23 @@ import bb.process
+ 
+ def detect_revision(d):
+     path = get_scmbasepath(d)
+-    return get_metadata_git_revision(path, d)
++    return get_metadata_git_revision(path)
+ 
+ def detect_branch(d):
+     path = get_scmbasepath(d)
+-    return get_metadata_git_branch(path, d)
++    return get_metadata_git_branch(path)
+ 
+ def get_scmbasepath(d):
+     return os.path.join(d.getVar('COREBASE'), 'meta')
+ 
+-def get_metadata_git_branch(path, d):
++def get_metadata_git_branch(path):
+     try:
+         rev, _ = bb.process.run('git rev-parse --abbrev-ref HEAD', cwd=path)
+     except bb.process.ExecutionError:
+         rev = '<unknown>'
+     return rev.strip()
+ 
+-def get_metadata_git_revision(path, d):
++def get_metadata_git_revision(path):
+     try:
+         rev, _ = bb.process.run('git rev-parse HEAD', cwd=path)
+     except bb.process.ExecutionError:
+@@ -46,5 +46,5 @@ def get_layer_revisions(d):
+     layers = (d.getVar("BBLAYERS") or "").split()
+     revisions = []
+     for i in layers:
+-        revisions.append((i, os.path.basename(i), get_metadata_git_branch(i, None).strip(), get_metadata_git_revision(i, None), is_layer_modified(i)))
++        revisions.append((i, os.path.basename(i), get_metadata_git_branch(i).strip(), get_metadata_git_revision(i), is_layer_modified(i)))
+     return revisions
 -- 
 2.34.1
 
