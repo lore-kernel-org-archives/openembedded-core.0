@@ -2,100 +2,125 @@ Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63271C07CA9
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 10:10:52 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.69206.1701339051761370222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 441A4C4167B
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 10:11:22 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.69210.1701339076627159454
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 02:10:52 -0800
+ Thu, 30 Nov 2023 02:11:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=E7uQoUgL;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: jhatnedap@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a013d22effcso103443266b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 02:10:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=O6PQs4J2;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a132acb67b5so102105966b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 02:11:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701339050; x=1701943850; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BAJleN46drXTmdGtrm/LEgnqNdHRkKMsnkKCu9Go0to=;
-        b=E7uQoUgL4uKbNrgMTrT4p+BCk/pSPLWFZaF2K8SPuURi5sZSsHGgYGRijCb9sOa6tG
-         5F0Na3FAFmROW32kHUYYUVCnpqVz9QuKNVZOxn85ED6EMvGTsutXnIh2GZnyIvom1f7j
-         cFLHxN64kZ2qyNWj9ZWqsXI2KEkWY9edzUw/pjXVYwqF2E5wfRJ//aEjMmO5X/QbKjgd
-         eDYnha0RWPNfowRvZ4zQEWxMiOPvEmUBuA00Ue0mcV/0MbcSypleURX3pZZT80ylBaT1
-         sbiIKPtAEtNgPeYHUKHN1URcEbeIa+ypOTOHSnntbSZfPihL4waHRjG0Pz2Ksr5n19q2
-         p1rQ==
+        d=gmail.com; s=20230601; t=1701339075; x=1701943875; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ji+dGUPFBLz19p4K1/58jxud2TAHvrFYQK1jmwW1ibk=;
+        b=O6PQs4J28hd3KBb3kDjcsd+yPa7tLS2BG9uMWRvb+RjK50vt+x7D3FG+NjgJCPAi+z
+         x5Lfzqg/pFFISpZhQMNB3mEBduFfgz1nAuwNevFVejxmzPQypuqrhi8lWYmb5X4mOmcP
+         cj04bdIAUyIAYBoS0ZhqLeQr1ndDG+yXhyxAdcAUhPPssaB8M5eOzXJ6VDFeEb1m9vci
+         abSU1iRZ8B1hO85g2yRq+hDbmlHpLsoY6hk8G06A4VJhWQLi3/QHh1ycrW0BUZK6UueD
+         fhi+Q78TW79A0aiU0O7fpqP2BIcC9O+k5d4E2lW0AHx3rAYxfgajChoz1mEeBG6pPpFA
+         V6gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701339050; x=1701943850;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BAJleN46drXTmdGtrm/LEgnqNdHRkKMsnkKCu9Go0to=;
-        b=ZcFfdeF0sc2wo4bBLjzSdwx7Bp7IlWsCt7dnGj85N72DXxv0bVtmBDSl2Dj1iNtTV6
-         ahyGuyKp0GUXmpsNgwtoFdROObXkKzBKMmijtFDKZ0vvHsRmAv52+w4K0WmhgzdxAT53
-         JzRoNR95rXHDnygWC+Q9ail/Kl2Fxwe/h//wq3eFX9mOz7n9QtDclqMIKaZd6nOK33Jc
-         9/k5PLFTI+Wisz1ZsZ2QbEOS1nJU151v9VfWm9hamkFdeFzM1E7aNVtHoW9FvpA2PzHr
-         d8+Blva/UZoLg6fQSH/p3TWaDSlY45mNw4BRwOoPyGnAzrn7ZW60lF9URVF4ZLjZEbAz
-         LjvQ==
-X-Gm-Message-State: AOJu0YwObghqf6fGwqwgJ8+TmujW9Lg3ZviHtobjeXRhE34yLcxHYrf2
-	OeAHeTc8/7vbGgyRqv6fndBLnEzO6TQ=
-X-Google-Smtp-Source: AGHT+IH8uBQKABnUspdtocd63RI+BOoI/xftipZd7C0s+eAnv+S2fS45+aCAlaGbD3vhICIzY09l9Q==
-X-Received: by 2002:a17:907:30d5:b0:9a5:a0c6:9e8e with SMTP id vl21-20020a17090730d500b009a5a0c69e8emr14066207ejb.31.1701339049941;
-        Thu, 30 Nov 2023 02:10:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701339075; x=1701943875;
+        h=content-transfer-encoding:mime-version:reply-to:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ji+dGUPFBLz19p4K1/58jxud2TAHvrFYQK1jmwW1ibk=;
+        b=pS/eEVy1pfnvVD3knJzXOKAAU+usn9/VZTPLU1bz3GPlHgJbnVJMMXAoZDZALvM1u8
+         qTkJNlBGyESE8eivTCoNs8yPL+AiueT+1snrzPnhud8kR+z5/cS1a3U8vmUGCgP/fhbz
+         yK0aN9Lgp8tBnU9QEOdYNbHavfLVJL6splQEcBp9yWUaxx37oaam32uWjcM9Bu81bXfE
+         IUxYPtzik0qLhGI5NtY5JifaTfkQy+A12PnBoMH0/SPxyGjtpF9hD65Pwr4lhhz/msE+
+         H7iQXLz66twIbraIf1ooY7H7Au3+LsUbV1svHBxlLhPqORbNWW6Lh7D4WZaQf7swB1Eh
+         L0aQ==
+X-Gm-Message-State: AOJu0YwPkeihqVaAvByx3f7iwkNAJbVvkzgt3j8pP15c6ubnGZ0zq/Yl
+	jYbOvHUNMd1gtu42d8p6LeKzyNuj5Gg=
+X-Google-Smtp-Source: AGHT+IGiY+F08Oq0wKROQWZe6s5FZkDreG/urd4hP20pWmmr24LWGFfQPGacHb02tDnwgR/1txnrYA==
+X-Received: by 2002:a17:906:8d2:b0:a18:db59:d060 with SMTP id o18-20020a17090608d200b00a18db59d060mr565512eje.66.1701339075026;
+        Thu, 30 Nov 2023 02:11:15 -0800 (PST)
 Received: from NVC4181.nedap.local ([149.3.168.10])
-        by smtp.gmail.com with ESMTPSA id r18-20020a17090609d200b00a015eac52dcsm497191eje.108.2023.11.30.02.10.49
+        by smtp.gmail.com with ESMTPSA id r18-20020a17090609d200b00a015eac52dcsm497191eje.108.2023.11.30.02.11.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 02:10:49 -0800 (PST)
+        Thu, 30 Nov 2023 02:11:14 -0800 (PST)
 From: jhatnedap@gmail.com
 X-Google-Original-From: jermain.horsman@nedap.com
 To: openembedded-core@lists.openembedded.org
-Cc: Jermain Horsman <jermain.horsman@nedap.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH 0/2] Failure for rust-cross for arm(v5)
-Date: Thu, 30 Nov 2023 11:08:39 +0100
-Message-ID: <20231130101010.1696-1-jermain.horsman@nedap.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [kirkstone][PATCH 1/2] rust-cross/rust-common: Merge arm target handling code to fix cross-canadian
+Date: Thu, 30 Nov 2023 11:08:41 +0100
+Message-ID: <20231130101010.1696-3-jermain.horsman@nedap.com>
 X-Mailer: git-send-email 2.42.0.windows.2
+In-Reply-To: <20231130101010.1696-1-jermain.horsman@nedap.com>
+References: <20231130101010.1696-1-jermain.horsman@nedap.com>
 Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 10:10:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191490
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 10:11:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191491
 
-From: Jermain Horsman <jermain.horsman@nedap.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-I ran into the following when trying to compile rust for arm (on kirkstone):
+rust-cross had special handling for armv7 targets but we also need this
+for cross-canadian. Merge the code into the main function so everything is
+consistent.
 
-Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+Also then fix the arm definition to be arm-eabi since ABI is correctly
+being looked up.
 
-After some investigation I notices some patches on master which were not
-available on kirkstone.
-Using the patches included here I am able to compile successfully.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ff3c3dbbd2bf1bb7bb70b55cca203e9eedcf14a8)
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
+ meta/recipes-devtools/rust/rust-common.inc | 6 ++++++
+ meta/recipes-devtools/rust/rust-cross.inc  | 7 +------
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-However, some additional patches are not on kirkstone,
-I am unsure whether or not these should be backported too,
-maybe someone, who has a better understanding of these, can comment on that.
-
-It's about the following patches:
-https://git.openembedded.org/openembedded-core/commit/?id=0f83d959465e0d99f98ade6803281585931d1b02
-https://git.openembedded.org/openembedded-core/commit/?id=2d4b35a0db1220e7a7f1b6776223aa4d40a3f246
-
-The following patch is also not on kirkstone,
-based on the commit message I think it might be desired to have this one as well:
-https://git.openembedded.org/openembedded-core/commit/?id=d554161a045d12411f288394e253c54aa4c1257c
-
-
-
-Richard Purdie (2):
-  rust-cross/rust-common: Merge arm target handling code to fix
-    cross-canadian
-  rust-cross: Simplfy the rust_gen_target calls
-
- meta/recipes-devtools/rust/rust-common.inc | 18 ++++++++++++------
- meta/recipes-devtools/rust/rust-cross.inc  | 21 ++++-----------------
- 2 files changed, 16 insertions(+), 23 deletions(-)
-
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index db0bd8fc1b..3cf8a70470 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -297,6 +297,12 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
+     sys = sys_for(d, thing)
+     prefix = prefix_for(d, thing)
+ 
++    if thing == "TARGET":
++        abi = d.getVar('ABIEXTENSION')
++        # arm and armv7 have different targets in llvm
++        if arch == "arm" and target_is_armv7(d):
++            arch = 'armv7'
++
+     rust_arch = oe.rust.arch_to_rust_arch(arch)
+ 
+     if abi:
+diff --git a/meta/recipes-devtools/rust/rust-cross.inc b/meta/recipes-devtools/rust/rust-cross.inc
+index f6babfeeda..4c026b1f38 100644
+--- a/meta/recipes-devtools/rust/rust-cross.inc
++++ b/meta/recipes-devtools/rust/rust-cross.inc
+@@ -8,15 +8,10 @@ python do_rust_gen_targets () {
+         features = ""
+         cpu = "generic"
+         arch = d.getVar('{}_ARCH'.format(thing))
+-        abi = ""
+         if thing is "TARGET":
+-            abi = d.getVar('ABIEXTENSION')
+-            # arm and armv7 have different targets in llvm
+-            if arch == "arm" and target_is_armv7(d):
+-                arch = 'armv7'
+             features = d.getVar('TARGET_LLVM_FEATURES') or ""
+             cpu = d.getVar('TARGET_LLVM_CPU')
+-        rust_gen_target(d, thing, wd, features, cpu, arch, abi)
++        rust_gen_target(d, thing, wd, features, cpu, arch)
+ }
+ 
+ # Otherwise we'll depend on what we provide
 -- 
 2.42.0.windows.2
 
