@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75374C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B02AC46CA3
 	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 20:58:00 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.5144.1701377878578196136
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.5135.1701377870361395985
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 12:57:58 -0800
+ Thu, 30 Nov 2023 12:57:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2VsnlcNO;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6cbe716b511so1407162b3a.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:57:58 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0lG+HDH1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6cde4aeea29so1183600b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:57:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701377877; x=1701982677; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701377869; x=1701982669; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CWjoAO92hMADJzgu5K7k88QUSg63MHURWf8XwQs8s58=;
-        b=2VsnlcNOUS967OWGjGG/Zi5CotF7wpa3nklDRJyxOiBajg4TrsCcUS8bEsQUWt16GA
-         7eM089+9UKBqpfTgDALDCB6XVTMe5Rb/Vsjbwsq2XpCeiUQJ/Ny1QOae79612fOP18fu
-         eqAwdyyDnf+b5gnOBZf/qTOXa4F8YgF617c9ngTofpV8poAemj37bQRvqRkBB6ZAcU0D
-         hq/EfrUYpAa3nYdf6UwLPj/0pteORWCcbFGvSJEXznT3qul0kiGA8FosnXYw+KWmjEt0
-         xj8w9MSru39uJU3wOj1maIMKoDnpLYZDJnYC19vF5MFGefizt4KivuEDKAr0VnzsXHMp
-         XDsA==
+        bh=/48nr0ez3BWOos+vY3tHm3qySJMAMuS0ho8rIIEdTo4=;
+        b=0lG+HDH1XFHh97r6g5adzPxWjBMUoCInZ+K4MQEwJF/GwxCxQSSd9W3VT/DrTNphi4
+         KelrQS/LCZjAmmhHQ4Wsv6YtYnSZpOAZ4fyDBllqDo08oC1kydDE1Qf6ePRMrhVXQbyE
+         6rWlCex/MCKMHhzeyTA4cUZYzEyvXqrlKp+uzrCfwnJlrdj24Vbniwk0uLcS6w6Z2eKl
+         TypijS+X/UOH217fzqLVoSXhHVJzst+BBRJ49V3OVffVdogJ6E2UgLK5lXDUmDiRSvbw
+         eD8bsHzxneVDqui2sWtsrQxJ6HyhrP72ajsPhaCwtblNSM9EeFLhahET6ZpJ1HWyPzIn
+         ST0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701377877; x=1701982677;
+        d=1e100.net; s=20230601; t=1701377869; x=1701982669;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CWjoAO92hMADJzgu5K7k88QUSg63MHURWf8XwQs8s58=;
-        b=cvxGNMjvrk3m4fmZWzZw5TeK57eUF98aaS7PWbq7lnxxgp8utjyiy4cnZFNXDjW9mk
-         dDL37WmfG37EbsqEYS0FZcq3pxQygR3EnIM/XTJvW/KyRb4sduxTZUPUJlVDbYVKsHvl
-         Pc1mz8UbsmS/UMGSaKF6mk+/vmx6RlYqb89ORotVOpV3yWGnnwOrfmMCgAROhh9/2xiX
-         PQBH1WhEEiTZPTiHgiEtu2gpzH+eN9S/wVhTk4lKQLLENvmpdKdIBm3EL+T6bombUI9l
-         shhSRpp9L2gEn7wIH67sPwEoMSAYKUywCQBQ4ox4E2BOboTPbQNW23RujWKqKWTLnbh5
-         hu8g==
-X-Gm-Message-State: AOJu0Yz83x/9yC8SIdDroR41GAyupGnb3UnIv+cMfMsi366lXn2L+dAS
-	7lqs7409vAO4XRWzIKJ4VfBUkGK3r9LszdMO02f8Cg==
-X-Google-Smtp-Source: AGHT+IGpXtvsslQGDdT/1ZyRGJXo5c25X8OlPhPqpT4WiY5IPA4vf2IXgC3Oxei0eqVFu2a2LLZoJw==
-X-Received: by 2002:a05:6a00:854:b0:68f:ece2:ac2a with SMTP id q20-20020a056a00085400b0068fece2ac2amr25036662pfk.27.1701377877691;
-        Thu, 30 Nov 2023 12:57:57 -0800 (PST)
+        bh=/48nr0ez3BWOos+vY3tHm3qySJMAMuS0ho8rIIEdTo4=;
+        b=LAiswgRMJMPuwqYsqOk1zWrxuKyxGvSwXdQsMOEhWHxE9lVdTeyOLpKuUqpXvHizro
+         v0+vQbLFOMSKFkO/jnhpPBk8NVfKQFiL+rVM4J38fi7uuAqvdpft2ZZiQ1dLqPxUxbRh
+         8zYWJpPY4XvNAfA3OrzPrJenw2zFbBgK32poeJxSszC0YGWZP8ovbebrXF93btVjwfGh
+         AXU1vFVFt6E2iCUVZUIgOi5ZVTm1Dj4ULKr6JiJdfJzaAdBfp+r7Uq0MlVF+UDgjKoEb
+         oD9P/CjjY6Dxvz4o9CyvPlJYgylV1/NfDGdQepxY4/1ZYBA0Q2PNRaLSqYZ3UeI5ut8u
+         7GzQ==
+X-Gm-Message-State: AOJu0Yz0JkntDJeBO9AsxItgjcGDRLmWXQctkoGMKcREIoG+Al+d8AY5
+	7EXWpkhOf6PoVJcRlH/W5ZwR6wvTAFr1UhpIkVhe5Q==
+X-Google-Smtp-Source: AGHT+IG2LzaM/Sk0q0Vc3/akvqey5NM44PhpknGZpIHXDiE8XtWDKK7KwURtjcAL74Aw8IPF+WA+FQ==
+X-Received: by 2002:a05:6a00:21c4:b0:6cb:a1fe:18c0 with SMTP id t4-20020a056a0021c400b006cba1fe18c0mr23721127pfj.8.1701377869319;
+        Thu, 30 Nov 2023 12:57:49 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id f18-20020aa79d92000000b006cbbc07a1c0sm1635418pfq.156.2023.11.30.12.57.56
+        by smtp.gmail.com with ESMTPSA id f18-20020aa79d92000000b006cbbc07a1c0sm1635418pfq.156.2023.11.30.12.57.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 12:57:57 -0800 (PST)
+        Thu, 30 Nov 2023 12:57:48 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 10/25] linux-firmware: add new fw file to ${PN}-rtl8821
-Date: Thu, 30 Nov 2023 10:57:18 -1000
-Message-Id: <753a56079375b542e0e22a5bfb76804aa975eeb3.1701377676.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 05/25] libjpeg-turbo: upgrade 3.0.0 -> 3.0.1
+Date: Thu, 30 Nov 2023 10:57:13 -1000
+Message-Id: <c86d9c34aea1e735c9c828029ce0ae1501928e4c.1701377676.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1701377676.git.steve@sakoman.com>
 References: <cover.1701377676.git.steve@sakoman.com>
@@ -61,34 +61,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 20:58:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191528
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191523
 
-From: Bastian Krause <bst@pengutronix.de>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Extend the linux-firmware-rtl8821 package with rtw8821 firmware files for
-Realtek RTL8821 variants.
+Changelog:
+=============
+1. The x86-64 SIMD functions now use a standard stack frame, prologue, and
+epilogue so that debuggers and profilers can reliably capture backtraces from
+within the functions.
 
-Signed-off-by: Bastian Krause <bst@pengutronix.de>
+2. Fixed two minor issues in the interblock smoothing algorithm that caused
+mathematical (but not necessarily perceptible) edge block errors when
+decompressing progressive JPEG images exactly two MCU blocks in width or that
+use vertical chrominance subsampling.
+
+3. Fixed a regression introduced by 3.0 beta2[6] that, in rare cases, caused
+the C Huffman encoder (which is not used by default on x86 and Arm CPUs) to
+generate incorrect results if the Neon SIMD extensions were explicitly disabled
+at build time (by setting the 'WITH_SIMD' CMake variable to '0') in an AArch64
+build of libjpeg-turbo.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 23c945938f8d8bcf5fbd6d9b840ec319aaa40c62)
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+(cherry picked from commit f1d2ffb6c7282751919a7057ffc445db71866f96)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../jpeg/{libjpeg-turbo_3.0.0.bb => libjpeg-turbo_3.0.1.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/jpeg/{libjpeg-turbo_3.0.0.bb => libjpeg-turbo_3.0.1.bb} (97%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-index 0e8005bfc9..33be741a0a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20230804.bb
-@@ -825,6 +825,7 @@ FILES:${PN}-rtl8723 = " \
- "
- FILES:${PN}-rtl8821 = " \
-   ${nonarch_base_libdir}/firmware/rtlwifi/rtl8821*.bin \
-+  ${nonarch_base_libdir}/firmware/rtw88/rtw8821*.bin \
- "
- FILES:${PN}-rtl8761 = " \
-   ${nonarch_base_libdir}/firmware/rtl_bt/rtl8761*.bin \
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
+similarity index 97%
+rename from meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb
+rename to meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
+index 146d80008c..99ed82dac4 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.0.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb
+@@ -10,7 +10,7 @@ DEPENDS:append:x86:class-target = " nasm-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "c77c65fcce3d33417b2e90432e7a0eb05f59a7fff884022a9d931775d583bfaa"
++SRC_URI[sha256sum] = "22429507714ae147b3acacd299e82099fce5d9f456882fc28e252e4579ba2a75"
+ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/libjpeg-turbo/files/"
+ UPSTREAM_CHECK_REGEX = "/libjpeg-turbo/files/(?P<pver>(\d+[\.\-_]*)+)/"
+ 
 -- 
 2.34.1
 
