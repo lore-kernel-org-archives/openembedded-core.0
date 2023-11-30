@@ -1,134 +1,118 @@
-Return-Path: <jermain.horsman@nedap.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45C0CC4167B
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 10:11:32 +0000 (UTC)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.69215.1701339087641105000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90331C4167B
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 10:59:12 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.69773.1701341951092415951
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 02:11:27 -0800
+ Thu, 30 Nov 2023 02:59:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=g8W9MVZg;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: jhatnedap@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-54bb9024378so683847a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 02:11:27 -0800 (PST)
+ dkim=pass header.i=@snap.com header.s=google header.b=aqU8bRhD;
+ spf=pass (domain: snapchat.com, ip: 209.85.128.54, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-409299277bbso6210895e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 02:59:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701339086; x=1701943886; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=cZnA3OdapVlfVZRspIl/k+98G3N552tMVRfF4jeAiUs=;
-        b=g8W9MVZgTOasxTF0ups4ysF41/nBcxF50CipXD/goG2M44E2wQfkX1wv2c5s8emKd8
-         ruJjzU7yyXGbvUbj+QJc87GxFcjWjG2VZpBF1W+CbYI4cz1Zb+veqLDkt81K7msEKtRK
-         5VANLYgEbOTMCNzavcMBv53dMXUlwiDOT1CsvajRYnaZTkEd9hjwK3gNHAKMoHlnxYEW
-         laBzwX7hS+QzrTuz93hKBZ31R26WZ/larAQLxIQYYNYHl3FekRXA6h017p2LWSRRd2PP
-         HfZssH7I09QgwqnIwEDkntaL96f5e+T0VkinkVNohLbL3r/HhU64DOC6XLtLc5c9Y3zI
-         LoOQ==
+        d=snap.com; s=google; t=1701341948; x=1701946748; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xbFPayfL5SrgY1m8mLE7U05jgZaZeN66iJQuhKKBxfs=;
+        b=aqU8bRhD1mLtFLeuyZH1iF+5M7umpUSSzDyZECl8ntzY46F8OIBGs5Vicd8u0UlErW
+         8H6LWJBqTw1kspMmQyGBVyOdMpFjU/fDLlpjaqA1qV8mj5JUr19BK0DFzTf/TubelDTn
+         5nSFE98+sQ/De/3A6DjuMr8VupRN7a1Yo9u/w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701339086; x=1701943886;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cZnA3OdapVlfVZRspIl/k+98G3N552tMVRfF4jeAiUs=;
-        b=P7h+XQ0Od3ap60waVjq0yd2JA70Hm0ShekrpWc8+STeJYydFMtXLdCBqqFulSxrsCs
-         3LeUze2ceKpe5ZTRYiNP7AUQJJuIG7NNq8WVGyFQHrBbYj+uFcWuD6sDgbaUvhHaGTfb
-         YSnyI9jDcgK88dS+xSQB5IPuo0fLwGC9qpBh5uJCkxpmcXcJ3uiBFkIk9+d1oANe5ljG
-         WT2O8fEx3FEpSBR5DBoV+p0vNGpLokmTzsrcZyF46RmVFC2N2CPmzLFsIHH6Lt4hysRG
-         zvow/S3I+T/R/79hyCzgi+uSZHgRqsNkWYcyP010x+byWAcKrwIlISQoM7nMViG/4oEt
-         stWw==
-X-Gm-Message-State: AOJu0YyLLp3CmoqUBCWfpCqaUhfYTLy7xanXGwAPbbhbgcx+lF3nx3WH
-	S3PafqxzQ6at71WIF9qHl2Tl4b3itOM=
-X-Google-Smtp-Source: AGHT+IGYOnoibOFSbUwRZ56ed4OOZr10Pm9YtO8L0Ed8q1dmcoNU2NzeeUx+Bq8ZA7XA7DY34YCtpQ==
-X-Received: by 2002:a17:906:24c:b0:a18:5d42:991e with SMTP id 12-20020a170906024c00b00a185d42991emr1380854ejl.11.1701339085734;
-        Thu, 30 Nov 2023 02:11:25 -0800 (PST)
-Received: from NVC4181.nedap.local ([149.3.168.10])
-        by smtp.gmail.com with ESMTPSA id r18-20020a17090609d200b00a015eac52dcsm497191eje.108.2023.11.30.02.11.25
+        d=1e100.net; s=20230601; t=1701341948; x=1701946748;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xbFPayfL5SrgY1m8mLE7U05jgZaZeN66iJQuhKKBxfs=;
+        b=At1i05MpRZZeMS9qab/e0xqSW7a3iD7hV0emwsFhgEuh5MnWYnH32tqNalb/PFYYca
+         5163Eocaq06kA8CY1xrNhFJaLOwg91RsvZVyFu9ZODphdorG1mBssS3Hp5cLEtznKAc0
+         osyj+o325hUxrNIs6tF95gNtC5DDsxyYDyQjMvjTBu5pu/+bPkUgriRhPS01flIQYJbn
+         sPYrkgPKebsWKxZ3c0CxnSeRBm0usb0Rz7kxRZozSw9K4wpKtT7+Kr9YrtuggNe4gaBu
+         ERRq4lgGit8hgfwE08AXris/KgovMMXK7jbYAAJlAbc+h2rW7c3N0JfuC5nwYWgfvwNd
+         P3FQ==
+X-Gm-Message-State: AOJu0YxJaLCIti7YP7FOL5r71Fj5L3QddBk5/nuTTfA4iuPr7O/c3wv5
+	NbI4tSgvXJoEGMsMqrYlpGz0x5YOFzbux2xXzrA7/Q==
+X-Google-Smtp-Source: AGHT+IEOl0QsO1wcQUfeIPt8+teTPIM9y7WHuZLVVzCjiod9lYZdqL4S3KapAl+rWp/xqFCSXdOM6A==
+X-Received: by 2002:adf:ec90:0:b0:332:f889:39ef with SMTP id z16-20020adfec90000000b00332f88939efmr11409487wrn.11.1701341948475;
+        Thu, 30 Nov 2023 02:59:08 -0800 (PST)
+Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
+        by smtp.gmail.com with ESMTPSA id z4-20020a5d6404000000b00332e5624a31sm1194415wru.84.2023.11.30.02.59.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 02:11:25 -0800 (PST)
-From: jhatnedap@gmail.com
-X-Google-Original-From: jermain.horsman@nedap.com
+        Thu, 30 Nov 2023 02:59:08 -0800 (PST)
+From: ecordonnier@snap.com
 To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Jermain Horsman <jermain.horsman@nedap.com>
-Subject: [kirkstone][PATCH 2/2] rust-cross: Simplfy the rust_gen_target calls
-Date: Thu, 30 Nov 2023 11:08:43 +0100
-Message-ID: <20231130101010.1696-5-jermain.horsman@nedap.com>
-X-Mailer: git-send-email 2.42.0.windows.2
-In-Reply-To: <20231130101010.1696-1-jermain.horsman@nedap.com>
-References: <20231130101010.1696-1-jermain.horsman@nedap.com>
-Reply-To: jermain.horsman@nedap.com
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] gdb/systemd: enable minidebuginfo support conditionally
+Date: Thu, 30 Nov 2023 11:59:01 +0100
+Message-Id: <20231130105901.369788-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 10:11:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191492
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 10:59:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191493
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-Match the code in rust-cross-canadian so that further simplifications
-can be considered in future.
+Enabling minidebuginfo is not useful if gdb and systemd-coredump
+are unable to parse it.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5cb62d0a33777cb9afb1eea5f736a2580ce50dc7)
-Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+In order to parse it, gdb needs xz support. Systemd needs coredump enabled, as
+well as elfutil enabled as well (systemd-coredump loads libdw which is part of elfutils using dlopen).
+
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- meta/recipes-devtools/rust/rust-common.inc | 12 ++++++------
- meta/recipes-devtools/rust/rust-cross.inc  | 16 ++++------------
- 2 files changed, 10 insertions(+), 18 deletions(-)
+ meta/recipes-core/systemd/systemd_254.4.bb       | 1 +
+ meta/recipes-devtools/elfutils/elfutils_0.189.bb | 3 ++-
+ meta/recipes-devtools/gdb/gdb-common.inc         | 3 ++-
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
-index 3cf8a70470..3efec3e72d 100644
---- a/meta/recipes-devtools/rust/rust-common.inc
-+++ b/meta/recipes-devtools/rust/rust-common.inc
-@@ -119,12 +119,12 @@ def llvm_features(d):
+diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_254.4.bb
+index ecf693ef92..f3e56bf94c 100644
+--- a/meta/recipes-core/systemd/systemd_254.4.bb
++++ b/meta/recipes-core/systemd/systemd_254.4.bb
+@@ -70,6 +70,7 @@ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', 'link-udev-shared', d)} \
++    ${@'coredump elfutils' if d.getVar('PACKAGE_MINIDEBUGINFO') == '1' else ''} \
+     backlight \
+     binfmt \
+     gshadow \
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.189.bb b/meta/recipes-devtools/elfutils/elfutils_0.189.bb
+index d8bf82b022..4f097e5b5c 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.189.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.189.bb
+@@ -39,7 +39,8 @@ BUILD_CFLAGS += "-Wno-error=stringop-overflow"
+ DEPENDS_BZIP2 = "bzip2-replacement-native"
+ DEPENDS_BZIP2:class-target = "bzip2"
  
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'debuginfod', 'debuginfod libdebuginfod', '', d)}"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'debuginfod', 'debuginfod libdebuginfod', '', d)} \
++                   ${@'xz' if d.getVar('PACKAGE_MINIDEBUGINFO') == '1' else ''}"
+ PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,${DEPENDS_BZIP2}"
+ PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
+ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
+diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+index 3349719a6b..c444af62b3 100644
+--- a/meta/recipes-devtools/gdb/gdb-common.inc
++++ b/meta/recipes-devtools/gdb/gdb-common.inc
+@@ -30,7 +30,8 @@ EXTRA_OECONF = "--disable-gdbtk --disable-x --disable-werror \
+                 --with-libgmp-prefix=${STAGING_EXECPREFIXDIR} \
+ "
  
- ## arm-unknown-linux-gnueabihf
--DATA_LAYOUT[arm] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
--TARGET_ENDIAN[arm] = "little"
--TARGET_POINTER_WIDTH[arm] = "32"
--TARGET_C_INT_WIDTH[arm] = "32"
--MAX_ATOMIC_WIDTH[arm] = "64"
--FEATURES[arm] = "+v6,+vfp2"
-+DATA_LAYOUT[arm-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-+TARGET_ENDIAN[arm-eabi] = "little"
-+TARGET_POINTER_WIDTH[arm-eabi] = "32"
-+TARGET_C_INT_WIDTH[arm-eabi] = "32"
-+MAX_ATOMIC_WIDTH[arm-eabi] = "64"
-+FEATURES[arm-eabi] = "+v6,+vfp2"
- 
- ## armv7-unknown-linux-gnueabihf
- DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
-diff --git a/meta/recipes-devtools/rust/rust-cross.inc b/meta/recipes-devtools/rust/rust-cross.inc
-index 4c026b1f38..2e47a3aa5f 100644
---- a/meta/recipes-devtools/rust/rust-cross.inc
-+++ b/meta/recipes-devtools/rust/rust-cross.inc
-@@ -1,17 +1,9 @@
- python do_rust_gen_targets () {
-     wd = d.getVar('WORKDIR') + '/targets/'
--    # It is important 'TARGET' is last here so that it overrides our less
--    # informed choices for BUILD & HOST if TARGET happens to be the same as
--    # either of them.
--    for thing in ['BUILD', 'HOST', 'TARGET']:
--        bb.debug(1, "rust_gen_target for " + thing)
--        features = ""
--        cpu = "generic"
--        arch = d.getVar('{}_ARCH'.format(thing))
--        if thing is "TARGET":
--            features = d.getVar('TARGET_LLVM_FEATURES') or ""
--            cpu = d.getVar('TARGET_LLVM_CPU')
--        rust_gen_target(d, thing, wd, features, cpu, arch)
-+    # Order of BUILD, HOST, TARGET is important in case the files overwrite, most specific last
-+    rust_gen_target(d, 'BUILD', wd, "", "generic", d.getVar('BUILD_ARCH'))
-+    rust_gen_target(d, 'HOST', wd, "", "generic", d.getVar('HOST_ARCH'))
-+    rust_gen_target(d, 'TARGET', wd, d.getVar('TARGET_LLVM_FEATURES') or "", d.getVar('TARGET_LLVM_CPU'), d.getVar('TARGET_ARCH'))
- }
- 
- # Otherwise we'll depend on what we provide
+-PACKAGECONFIG ??= "readline ${@bb.utils.filter('DISTRO_FEATURES', 'debuginfod', d)} python"
++PACKAGECONFIG ??= "readline ${@bb.utils.filter('DISTRO_FEATURES', 'debuginfod', d)} python \
++                   ${@'xz' if d.getVar('PACKAGE_MINIDEBUGINFO') == '1' else ''}"
+ # Use --without-system-readline to compile with readline 5.
+ PACKAGECONFIG[readline] = "--with-system-readline,--without-system-readline,readline"
+ PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python3,python3-codecs"
 -- 
-2.42.0.windows.2
+2.36.1.vfs.0.0
 
 
