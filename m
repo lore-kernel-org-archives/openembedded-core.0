@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F239C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 913EAC10F04
 	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 23:11:12 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.10013.1701385871057502770
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.9886.1701385871491628736
  for <openembedded-core@lists.openembedded.org>;
  Thu, 30 Nov 2023 15:11:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XgnVskos;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XjEktia4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c22801adc-e08da865-e5bf-430b-a801-b4461f9b2050-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EI8dqvLi;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qIawpdlE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018c22801cd5-80d929d0-ba9d-4c3b-8d16-bce245b3909f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1701385870; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=IVdrJrq2H8yki6lNXxvf2QX6yhR35UUpbPldYPEzmSg=;
-	b=XgnVskosBiE+FTM7aLmN48pUzzwbJAEf0UPJgk7FxXQM21EDezNPTsYY3i1JWssn
-	nLT/hQ43ax73A/nicSwDE43mwrjYx7HXlUCRv992UuezuyEZaJav42Tm9PPWs1lDX5H
-	MA7zd9LSG3Tbr6eclUhZKDd/psvQuGTwCBKTGHzA=
+	bh=tU+6dXoirpjBDNgBeIYUEFQ40mVdahOzvFFXdH7BbHY=;
+	b=EI8dqvLiIY/0onRQIbegpidyXgC9gfqH5XwMrcAhXNxyF1QDKEjXwRJI0nPITO5I
+	koeEidr7yn3zfCY8ZW4jNAl1Lkt1cNr7cYozkKkN7WnGvT/pyBIO0eYuhkNllbgj/Zc
+	19mvp6xTuhO+mxshEhqdOBzRKz13KWdlVAqgHLNs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701385870;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=IVdrJrq2H8yki6lNXxvf2QX6yhR35UUpbPldYPEzmSg=;
-	b=XjEktia4+TKvsJfVQfSdRaWIma/FNCvcA9WQzx05KcfFG2HRlnEjzxupuN6Gg8bY
-	7rkj82KA/BStri+DHAy5pQ3wmelJTLgVws7QxNlI9nfLqB1U2dWiPMZY9cexBWK0272
-	KOnCTyj8MgXrc6ltw3xVDTQdWtRUmopYLS4vAkeA=
+	bh=tU+6dXoirpjBDNgBeIYUEFQ40mVdahOzvFFXdH7BbHY=;
+	b=qIawpdlEbSGlnf9rg2kyiAfCaITX2UaDqF7im8xp0/qKfgkJnplaAe+scxQdMe+l
+	jHMTj9tA+x3GnmgdEsa1sV/dSpYrN/MUdVPmeFgEzgaNDgS9nJ/x4FlMBDKZSxHm3gp
+	J+bEbcmIxd4kovGwjEYbGfx+kUR/dxCAxdNnuZG0=
 From: patchtest@automation.yoctoproject.org
 To: Julien Stephan <jstephan@baylibre.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 4/8] recipetool: appendsrcfile(s): use params instead of
- extraline
-In-Reply-To: 20231130220156.726263-5-jstephan@baylibre.com
+Subject: Patchtest results for [PATCH 5/8] recipeutils: bbappend_recipe: allow to patch the recipe
+ itself
+In-Reply-To: 20231130220156.726263-6-jstephan@baylibre.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c22801adc-e08da865-e5bf-430b-a801-b4461f9b2050-000000@us-west-2.amazonses.com>
+Message-ID: <0101018c22801cd5-80d929d0-ba9d-4c3b-8d16-bce245b3909f-000000@us-west-2.amazonses.com>
 Date: Thu, 30 Nov 2023 23:11:10 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.11.30-54.240.27.29
+X-SES-Outgoing: 2023.11.30-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 23:11:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191553
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191554
 
 --NextPart
 Content-Type: text/plain
@@ -53,9 +53,9 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/4-8-recipetool-appendsrcfile-s-use-params-instead-of-extraline.patch
+Testing patch /home/patchtest/share/mboxes/5-8-recipeutils-bbappend_recipe-allow-to-patch-the-recipe-itself.patch
 
-FAIL: test max line length: Patch line too long (current length 214, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+FAIL: test max line length: Patch line too long (current length 310, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
 PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
