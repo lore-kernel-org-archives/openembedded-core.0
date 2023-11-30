@@ -1,172 +1,414 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5B1C46CA3
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 12:47:43 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by mx.groups.io with SMTP id smtpd.web10.71282.1701348461299727853
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29754C4167B
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 12:58:33 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web11.71488.1701349108148380392
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 04:47:41 -0800
+ Thu, 30 Nov 2023 04:58:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Q9YHj6Li;
- spf=pass (domain: intel.com, ip: 192.198.163.10, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701348462; x=1732884462;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=W/orPRK9nentRu5DkkUx4DPTbTb0ov5JYQ5+waf8xLw=;
-  b=Q9YHj6Li980R6jUoNKDecw5/GGUuPLhAfwFghponjozRQFBflEHbhUs5
-   ln5d67g3pIv0xDZshkaxgvS4GZFkrt8EsZWdSVY6xtRHYWFTPimoll3An
-   QrhUN6BBKGGx7obmN4zUlk97/aM4l7JGDftQVa9J4bEzxPorzeCRLI5t7
-   heqDFbDEJUde+BQp4twRtmpUrcE+SqCKqyhNef3q43B8mNBYw+AJX+4Iw
-   wsw2cB7G2IrzXQekj/bgzj69l0zK2N7M+rChc+10o1QYDnzkTOcwUDb01
-   LkLGnWC9gO4n3ph7vANNi4B8262AyzQkjolxcX5v1KS9N3v51QLkYthAx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="312353"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="312353"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 04:47:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="773054919"
-X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
-   d="scan'208";a="773054919"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Nov 2023 04:47:40 -0800
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [kirkstone][PATCH 2/2] xwayland: fix CVE-2023-5367
-Date: Thu, 30 Nov 2023 20:28:01 +0800
-Message-Id: <20231130122801.2596033-2-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20231130122801.2596033-1-chee.yang.lee@intel.com>
-References: <20231130122801.2596033-1-chee.yang.lee@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=m0rI9aOM;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50bba815f30so1237772e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 04:58:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701349106; x=1701953906; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DK6jkec186aY+ZKfgqZjvI/oEE6myoDA5kfP/IKw8Ck=;
+        b=m0rI9aOMTEoC8kk9ky34JGg42HgqKw7qiExfFkaNon+5Q9pxkkIS5o3DLBmRkIjB4Q
+         iASsYmqUMRT8OPHuITYBh6bvC89RMZg15d8vwR+vAR18sBx55NSTKpbFcoHz5Bu9xMTo
+         xZcwEhjnR2UaOwCpx2Z1rSUY86vPTtByhWFcom7GWtoEo5YD871mKlDR2UyjpBKD1ORy
+         9Y7Wokq/IsUww6C8Z+Aq313z131MuY/Wzx+EDw58ArbyVH18dkk+YKa/i+OzKWFX4QXs
+         fxIxz+usIVUaJSZ9iklKS3Kw7xN+8ODtCMD7l99dzvDHlBqLLKsAhgYxBugsvIjIcOVi
+         SC0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701349106; x=1701953906;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DK6jkec186aY+ZKfgqZjvI/oEE6myoDA5kfP/IKw8Ck=;
+        b=MtGYqa6uId/FbB3pxtTJLPGaOXFF2iJTj4kwWs0cS4MlBiun5AmR9s/LPA8RxN5Nd/
+         5/wmBqtA6KEnjpVkJkLioHUeNELMji1XSby3Kn/avBVohxOvwitIkwK3ndnHtN1na1vu
+         Znw/fTt0gBMRShqKJD1I9P1cAzewgFbU3ko1DKtc2zHaJKpsordLoVCF2B3l2hUNk0qG
+         6OSNRTX05fjcRVCwJ0ePXCvQ0hg+VkKsv3HHdOdgotn79EvBwvjYgC91DhO1KqIFccP7
+         vMS83wdgVinGgqy/+mWZZxQjUgm2GN0Ux3rmOyiaYPRkkBGqVRK1A+iUEnNVC2s11wzp
+         cdhA==
+X-Gm-Message-State: AOJu0Yy4EgxHsJ1VXR7oCRQzbj1pWoiZRIGHKRQfoc2oOO22yqZx07kd
+	ZECD7mHK9b8GMGahgWalVwBWKJk8yEzJatMuJR0=
+X-Google-Smtp-Source: AGHT+IFYJmI21eaa0TICgYD9LkDIUwnW1XnDcXPP3z1y6fLUs3iPTqSadu8IspDvMH8pmOgDBHu8dDBFXStmbfhDPCw=
+X-Received: by 2002:ac2:495b:0:b0:50b:c13f:744f with SMTP id
+ o27-20020ac2495b000000b0050bc13f744fmr4557187lfi.59.1701349105990; Thu, 30
+ Nov 2023 04:58:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231130081525.2537624-1-tobiasha@axis.com> <20231130081525.2537624-2-tobiasha@axis.com>
+In-Reply-To: <20231130081525.2537624-2-tobiasha@axis.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 30 Nov 2023 05:58:14 -0700
+Message-ID: <CAJdd5GZQcvFdLgXyyxuSBsi576MdYY_idXgELpQYzcP4tsGH_A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] hashserv: Unihash cache
+To: Tobias Hagelborn <tobias.hagelborn@axis.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:47:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191507
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:58:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191508
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+On Thu, Nov 30, 2023 at 1:15=E2=80=AFAM Tobias Hagelborn
+<tobias.hagelborn@axis.com> wrote:
+>
+> Cache unihashes to off-load reads of existing unihashes.
+> Due to non reproducible builds, the output hash has to be considered.
+> Only return a unihash if the output hash matches.
+> The cache is least-recently-used (LRU) and bound in size.
+>
+> Data from handle_report and query_equivalent are inserted in the
+> unihash cache. This caches unihashes from the database that have
+> not been written during the current session.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../xwayland/xwayland/CVE-2023-5367.patch     | 85 +++++++++++++++++++
- .../xwayland/xwayland_22.1.8.bb               |  4 +-
- 2 files changed, 88 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch
+Is the purpose of this to prevent needing to talk to the database?
+Clients are generally doing client side caching, which means they
+won't request unihashes they already know about in the first place.
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch
-new file mode 100644
-index 00000000000..d4da1ecb4b2
---- /dev/null
-+++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch
-@@ -0,0 +1,85 @@
-+CVE: CVE-2023-5367
-+Upstream-Status: Backport [ https://gitlab.freedesktop.org/xorg/xserver/-/commit/541ab2ecd41d4d8689e71855d93e492bc554719a ]
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+
-+
-+From 541ab2ecd41d4d8689e71855d93e492bc554719a Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Tue, 3 Oct 2023 11:53:05 +1000
-+Subject: [PATCH] Xi/randr: fix handling of PropModeAppend/Prepend
-+
-+The handling of appending/prepending properties was incorrect, with at
-+least two bugs: the property length was set to the length of the new
-+part only, i.e. appending or prepending N elements to a property with P
-+existing elements always resulted in the property having N elements
-+instead of N + P.
-+
-+Second, when pre-pending a value to a property, the offset for the old
-+values was incorrect, leaving the new property with potentially
-+uninitalized values and/or resulting in OOB memory writes.
-+For example, prepending a 3 element value to a 5 element property would
-+result in this 8 value array:
-+  [N, N, N, ?, ?, P, P, P ] P, P
-+                            ^OOB write
-+
-+The XI2 code is a copy/paste of the RandR code, so the bug exists in
-+both.
-+
-+CVE-2023-5367, ZDI-CAN-22153
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+---
-+ Xi/xiproperty.c    | 4 ++--
-+ randr/rrproperty.c | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/Xi/xiproperty.c b/Xi/xiproperty.c
-+index 066ba21fba..d315f04d0e 100644
-+--- a/Xi/xiproperty.c
-++++ b/Xi/xiproperty.c
-+@@ -730,7 +730,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type,
-+                 XIDestroyDeviceProperty(prop);
-+             return BadAlloc;
-+         }
-+-        new_value.size = len;
-++        new_value.size = total_len;
-+         new_value.type = type;
-+         new_value.format = format;
-+ 
-+@@ -747,7 +747,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type,
-+         case PropModePrepend:
-+             new_data = new_value.data;
-+             old_data = (void *) (((char *) new_value.data) +
-+-                                  (prop_value->size * size_in_bytes));
-++                                  (len * size_in_bytes));
-+             break;
-+         }
-+         if (new_data)
-+diff --git a/randr/rrproperty.c b/randr/rrproperty.c
-+index c2fb9585c6..25469f57b2 100644
-+--- a/randr/rrproperty.c
-++++ b/randr/rrproperty.c
-+@@ -209,7 +209,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type,
-+                 RRDestroyOutputProperty(prop);
-+             return BadAlloc;
-+         }
-+-        new_value.size = len;
-++        new_value.size = total_len;
-+         new_value.type = type;
-+         new_value.format = format;
-+ 
-+@@ -226,7 +226,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type,
-+         case PropModePrepend:
-+             new_data = new_value.data;
-+             old_data = (void *) (((char *) new_value.data) +
-+-                                  (prop_value->size * size_in_bytes));
-++                                  (len * size_in_bytes));
-+             break;
-+         }
-+         if (new_data)
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-index 6919ba421b4..94797be8e05 100644
---- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
-@@ -9,7 +9,9 @@ HOMEPAGE = "https://fedoraproject.org/wiki/Changes/XwaylandStandalone"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
- 
--SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
-+SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
-+           file://CVE-2023-5367.patch \
-+"
- SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
- 
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
--- 
-2.37.3
+The tricky part here is that we are trying to keep the server
+stateless (stats excluded, but on the TODO list) so that multiple
+instances can be run at the same time while talking to the same
+backend SQL server for load-balancing and redundancy. Not to say that
+caching can't work, but it still needs to be correct even if this
+server doesn't see all of the RPC calls that manipulate the database.
+If we are going to add state, I think we'll need to expand the test
+suite to test the different API calls across multiple server (TBH, we
+should probably be doing this already, but since the server is
+stateless it's a lot easier to prove it works).
 
+I'll look this over and see if I can reason through its correctness
+w.r.t multiple server (or if you've done that please reply with your
+assertions), but tests for that would help _substantially_ :)
+
+>
+> Stats have been added for hits, misses and size of the unihash cache.
+>
+> Signed-off-by: Tobias Hagelborn <tobias.hagelborn@axis.com>
+> ---
+>  lib/hashserv/server.py | 188 ++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 159 insertions(+), 29 deletions(-)
+>
+> diff --git a/lib/hashserv/server.py b/lib/hashserv/server.py
+> index a8650783..3bfd4e2f 100644
+> --- a/lib/hashserv/server.py
+> +++ b/lib/hashserv/server.py
+> @@ -4,6 +4,8 @@
+>  #
+>
+>  from datetime import datetime, timedelta
+> +from collections import OrderedDict
+> +from collections.abc import MutableMapping
+>  import asyncio
+>  import logging
+>  import math
+> @@ -95,17 +97,34 @@ class Sample(object):
+>
+>
+>  class Stats(object):
+> -    def __init__(self):
+> +
+> +    named_stats =3D (
+> +        'average',
+> +        'equivs',
+> +        'max_time',
+> +        'num',
+> +        'stdev',
+> +        'total_time',
+> +        'unihash_cache_hits',
+> +        'unihash_cache_inserts',
+> +        'unihash_cache_misses',
+> +        'unihash_cache_size',
+> +    )
+> +
+> +    def __init__(self, unihash_cache):
+>          self.reset()
+> +        self.unihash_cache =3D unihash_cache
+>
+>      def reset(self):
+> -        self.num =3D 0
+> -        self.total_time =3D 0
+> -        self.max_time =3D 0
+>          self.m =3D 0
+>          self.s =3D 0
+>          self.current_elapsed =3D None
+>
+> +        self.num =3D 0
+> +        self.total_time =3D 0
+> +        self.max_time =3D 0
+> +        self.equivs =3D 0
+> +
+>      def add(self, elapsed):
+>          self.num +=3D 1
+>          if self.num =3D=3D 1:
+> @@ -136,12 +155,24 @@ class Stats(object):
+>              return 0
+>          return math.sqrt(self.s / (self.num - 1))
+>
+> -    def todict(self):
+> -        return {
+> -            k: getattr(self, k)
+> -            for k in ("num", "total_time", "max_time", "average", "stdev=
+")
+> -        }
+> +    @property
+> +    def unihash_cache_hits(self):
+> +        return self.unihash_cache.stats_hits
+>
+> +    @property
+> +    def unihash_cache_inserts(self):
+> +        return self.unihash_cache.stats_inserts
+> +
+> +    @property
+> +    def unihash_cache_misses(self):
+> +        return self.unihash_cache.stats_misses
+> +
+> +    @property
+> +    def unihash_cache_size(self):
+> +        return len(self.unihash_cache)
+> +
+> +    def todict(self):
+> +        return {k: getattr(self, k) for k in self.named_stats}
+>
+>  token_refresh_semaphore =3D asyncio.Lock()
+>
+> @@ -232,6 +263,7 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection)=
+:
+>          upstream,
+>          read_only,
+>          anon_perms,
+> +        unihash_cache
+>      ):
+>          super().__init__(socket, "OEHASHEQUIV", logger)
+>          self.db_engine =3D db_engine
+> @@ -242,6 +274,7 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection)=
+:
+>          self.read_only =3D read_only
+>          self.user =3D None
+>          self.anon_perms =3D anon_perms
+> +        self.unihash_cache =3D unihash_cache
+>
+>          self.handlers.update(
+>              {
+> @@ -413,20 +446,23 @@ class ServerClient(bb.asyncrpc.AsyncServerConnectio=
+n):
+>
+>                  (method, taskhash) =3D l.split()
+>                  # self.logger.debug('Looking up %s %s' % (method, taskha=
+sh))
+> -                row =3D await self.db.get_equivalent(method, taskhash)
+> -
+> -                if row is not None:
+> -                    msg =3D row["unihash"]
+> -                    # self.logger.debug('Found equivalent task %s -> %s'=
+, (row['taskhash'], row['unihash']))
+> -                elif self.upstream_client is not None:
+> -                    upstream =3D await self.upstream_client.get_unihash(=
+method, taskhash)
+> -                    if upstream:
+> -                        msg =3D upstream
+> -                    else:
+> -                        msg =3D ""
+> -                else:
+> -                    msg =3D ""
+> -
+> +                unihash =3D self.unihash_cache.get_hash(method,taskhash)
+> +                if not unihash:
+> +                    row =3D await self.db.get_equivalent(method, taskhas=
+h)
+> +
+> +                    if row is not None:
+> +                        unihash =3D row['unihash']
+> +                        # self.logger.debug('Found equivalent task %s ->=
+ %s', (row['taskhash'], row['unihash']))
+> +                        self.request_stats.equivs+=3D1
+> +                    elif self.upstream_client is not None:
+> +                        upstream =3D await self.upstream_client.get_unih=
+ash(method, taskhash)
+> +                        if upstream:
+> +                            unihash =3D upstream
+> +                # Cache the found item in the read cache
+> +                msg =3D ""
+> +                if unihash:
+> +                    self.unihash_cache.insert_hash(method, taskhash, uni=
+hash, outhash=3DNone)
+> +                    msg =3D unihash
+>                  await self.socket.send(msg)
+>              finally:
+>                  request_measure.end()
+> @@ -461,6 +497,16 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection=
+):
+>      # report is made inside the function
+>      @permissions(READ_PERM)
+>      async def handle_report(self, data):
+> +
+> +        unihash =3D self.unihash_cache.get_hash(data['method'],data['tas=
+khash'],data['outhash'])
+> +        if unihash:
+> +            d =3D {
+> +                'taskhash': data['taskhash'],
+> +                'method': data['method'],
+> +                'unihash': unihash,
+> +            }
+> +            return d
+> +
+>          if self.read_only or not self.user_has_permissions(REPORT_PERM):
+>              return await self.report_readonly(data)
+>
+> @@ -511,11 +557,13 @@ class ServerClient(bb.asyncrpc.AsyncServerConnectio=
+n):
+>          else:
+>              unihash =3D data["unihash"]
+>
+> -        return {
+> -            "taskhash": data["taskhash"],
+> -            "method": data["method"],
+> -            "unihash": unihash,
+> -        }
+> +        d =3D {
+> +                'taskhash': data['taskhash'],
+> +                'method': data['method'],
+> +                'unihash': unihash,
+> +            }
+> +        self.unihash_cache.insert_hash(d['method'], d['taskhash'], uniha=
+sh, data['outhash'])
+> +        return d
+>
+>      @permissions(READ_PERM, REPORT_PERM)
+>      async def handle_equivreport(self, data):
+> @@ -738,6 +786,85 @@ class ServerClient(bb.asyncrpc.AsyncServerConnection=
+):
+>              "permissions": self.return_perms(self.user.permissions),
+>          }
+>
+> +# LRU Cache Dict based on work by Alex Martelli and martineau used under=
+ CC BY 4.0
+> +# https://stackoverflow.com/a/2438926
+> +class LRUCache(MutableMapping):
+> +    def __init__(self, maxlen, items=3DNone):
+> +        self._maxlen =3D maxlen
+> +        self.d =3D OrderedDict()
+> +        if items:
+> +            for k, v in items:
+> +                self[k] =3D v
+> +
+> +    @property
+> +    def maxlen(self):
+> +        return self._maxlen
+> +
+> +    def __getitem__(self, key):
+> +        self.d.move_to_end(key)
+> +        return self.d[key]
+> +
+> +    def __setitem__(self, key, value):
+> +        if key in self.d:
+> +            self.d.move_to_end(key)
+> +        elif len(self.d) =3D=3D self.maxlen:
+> +            self.d.popitem(last=3DFalse)
+> +        self.d[key] =3D value
+> +
+> +    def __delitem__(self, key):
+> +        del self.d[key]
+> +
+> +    def __iter__(self):
+> +        return self.d.__iter__()
+> +
+> +    def __len__(self):
+> +        return len(self.d)
+> +
+> +
+> +class UnihashCache():
+> +    """
+> +    Size limited LRU cache (dict) of taskhash->(unihash,output-hash)
+> +    if output-hash is provided, take it into account when matching,
+> +    otherwise only map task-hash to unihash.
+> +    """
+> +
+> +    def __init__(self, maxlen=3D0x20000):
+> +        self.hash_cache =3D LRUCache(maxlen)
+> +        self.stats_hits =3D 0
+> +        self.stats_inserts =3D 0
+> +        self.stats_misses =3D 0
+> +
+> +    def get_hash(self, method, taskhash, outhash=3DNone):
+> +        method_hash =3D hash(method)
+> +        taskhash_hash =3D hash(taskhash)
+> +        cache_entry =3D self.hash_cache.get((method_hash,taskhash_hash))
+> +        result =3D None
+> +        if cache_entry:
+> +            if not outhash:
+> +                result =3D cache_entry[0]
+> +            else:
+> +                outhash_hash =3D hash(outhash)
+> +                if outhash_hash =3D=3D cache_entry[1]:
+> +                    result =3D cache_entry[0]
+> +                else:
+> +                    result =3D None
+> +        if result:
+> +            self.stats_hits +=3D 1
+> +        else:
+> +            self.stats_misses +=3D 1
+> +        return result
+> +
+> +    def insert_hash(self, method, taskhash, unihash, outhash=3DNone):
+> +        method_hash =3D hash(method)
+> +        taskhash_hash =3D hash(taskhash)
+> +        outhash_hash =3D hash(outhash) if outhash else None
+> +        cache_key=3D(method_hash,taskhash_hash)
+> +        if not self.hash_cache.get(cache_key):
+> +            self.hash_cache[cache_key] =3D (unihash, outhash_hash)
+> +            self.stats_inserts +=3D 1
+> +
+> +    def __len__(self):
+> +        return len(self.hash_cache)
+>
+>  class Server(bb.asyncrpc.AsyncServer):
+>      def __init__(
+> @@ -765,11 +892,13 @@ class Server(bb.asyncrpc.AsyncServer):
+>
+>          super().__init__(logger)
+>
+> -        self.request_stats =3D Stats()
+>          self.db_engine =3D db_engine
+>          self.upstream =3D upstream
+>          self.read_only =3D read_only
+>          self.backfill_queue =3D None
+> +        self.unihash_cache =3D UnihashCache()
+> +        self.request_stats =3D Stats(self.unihash_cache)
+> +
+>          self.anon_perms =3D set(anon_perms)
+>          self.admin_username =3D admin_username
+>          self.admin_password =3D admin_password
+> @@ -787,6 +916,7 @@ class Server(bb.asyncrpc.AsyncServer):
+>              self.upstream,
+>              self.read_only,
+>              self.anon_perms,
+> +            self.unihash_cache,
+>          )
+>
+>      async def create_admin_user(self):
+> --
+> 2.30.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191480): https://lists.openembedded.org/g/openembedde=
+d-core/message/191480
+> Mute This Topic: https://lists.openembedded.org/mt/102890273/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
