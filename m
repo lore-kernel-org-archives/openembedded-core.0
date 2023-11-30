@@ -1,302 +1,397 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <wenlin.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ECDBC4167B
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 09:28:12 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.68738.1701336491706378584
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F27C07CA9
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 09:31:42 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.68781.1701336692243096552
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 01:28:11 -0800
+ Thu, 30 Nov 2023 01:31:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0698bd4b2f=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AU8r58v002266
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 01:28:11 -0800
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uph6dgbgp-1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=E/IdeLQF;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0698233ea9=wenlin.kang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3AU7rnQr014143
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 09:31:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=Aziaw0iWZ1s6q06OMq
+	8xPcnidIp7Cf/uXlG1QIxfR7E=; b=E/IdeLQFdToJoEvoPv69tSwGnka/txBKp7
+	AsN0wYNH8gV567Lrw3q7JdtnpPQjrVjD6zcOOlzpjcYHhe1iBNWTLfMO//sK6mmw
+	tBKSzQCXV7T7aGxX4jBzBjtskVZkQqaxNk7FmqFMX/Va+rOE4Tq/WSinR6l0pmZN
+	bo5qMgz/TFa1n/2Yz3u0BUWbc5YIFH3Y0E9ZGuO4IhEMFrGMFt7KKSIi1nwZhx3n
+	RYIw8//h64vVB22unDg5RPpCxm9niTQu/8IZ8G31kQPMsCWXqEVgt9e22y82OZhy
+	7dVTWoHf+8QZ/j4G6r4VH6lW4vPSRFUdu0gmzCFUgeB9FaxqwRuQ==
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uph108bfq-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 01:28:11 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 09:31:31 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ait0wkGBkE2XkH3B8lgFgjrq3dIslslXTjzg0e0qcT7ApHnKW2fGQNCg9hOBTznvXHSY6/P+jfv6yhSKVi4xGmpsAOAXnP1zHf+c2Lu+zGDCzKZUolj4jRTv09T86UmeZb+A1oGJO8AfWnurzhZ7izRuKp279G0dhsjHnh+4XBNIlFPwiPy+NoQdN4q6QDMkAzC2uTelHSM9X0gADmCN7DtN8mKom1UoH4dwpBa4Db0ZmzEV5uLK4g8sRQtEMnXWY3bDDSmuLk1yzuz9v2GnoEItQbPwH/sPzv+PhmXzy5qwQsYaHOMJranacNUTrozJYYShT7uhXjH1XvQRC+GJmA==
+ b=cRitDM/sISdvTVeH05RgcCe0zpzg1ybZ0AxM8zR1cvijlDTXB5VU+SNza7E4FO6Hodv1BT4J1D5s8eGUjZDkkaGUQs/OzgJXp4h+1Bpc0KQ5IdqVCy4n3b+YIrDjrXAZXycF4P6J3Hm5gQCm591FC92+3uPHMNlxOBMc1nLidr6UwOjGkLPXvX+0mhICwAtqApdcGVgx1d/EOhOd/4lRsP98xrXBGhlrxWj6qF+yYnq9AMFasOSMuNyQ7Rk+WLDROWrFjJakJ8jl/8Oq/JHXVOmyeuP1xbrYIdYz1kBc2Q5J2TPL+7XM1R2Rz0zefHfAN3j25U2BiIcXuk0chgD/5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QqGLGjIG9sYl8T14zF5VSPP0bt8bSLuNQdnlPOPlNhk=;
- b=ZF15u6mfbpiBl9HJiYGbqOpOssHpgv13RtGkvJ72+XqRQap6Oiq1+gxx04THBMB85rLWxEbQOVux1hNrXPK5XqkzpkK3cr4UAmfNhk9y72iMmhK0JSiZPqck3rufOx1FkZU2n5quHwkS37GFaTd8GIwjq5NeoUy97WW9wscf6pdgFsWaVNkFqHhq8uSjgJL4KkuLbdhqLFULGd8sDK+UP5ycpNCWN4vanS97G7WXWIxEdWQaiFBAXxsfS4CTp+wrMZfv+G1ygQN2cNpyja6cpOeaADRJJHGmz7bquqQV8NUwD+du2IR0A2Xzdx49sF35cX1S+xEnWcI6saMXbgTRaw==
+ bh=Aziaw0iWZ1s6q06OMq8xPcnidIp7Cf/uXlG1QIxfR7E=;
+ b=QhdA5fg3xVsvW3Ekri8O99IgEFljgOk12L1ygazEBcpC7zrTD1JFMdhB73rors2PNWkl97PMUheWY8R+FkJj3Hq3iptuSeg9E654xUUL2L7YnDEsVwJs6fLHCIA4nJoWKmWaRyQFa+YE94PuMRCLC91jm3+LFEKXB5syHwkFtFwHaosmnsRHELYtGd7crhxKcojm7XlE6EaGrpI50fzbL7WwyWLJ/wgyJL5yNzynDFmWw8JSvdh6wo4Yh9xTLrnuqDLGbBncwmOsFFfPXySxlrV1wscRIvZzXtwJjWRaBPopwAhww0BoLWuF5IblpVmsJHIp3o/Jr2z9nHHhPwxDmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by IA1PR11MB6218.namprd11.prod.outlook.com (2603:10b6:208:3ea::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.24; Thu, 30 Nov
- 2023 09:28:06 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::6162:ed58:51f5:efd]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
- 09:28:06 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB6325.namprd11.prod.outlook.com (2603:10b6:8:cf::11) by
+ CO6PR11MB5586.namprd11.prod.outlook.com (2603:10b6:5:35d::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7046.24; Thu, 30 Nov 2023 09:31:29 +0000
+Received: from DS0PR11MB6325.namprd11.prod.outlook.com
+ ([fe80::2cd5:2aa3:c5d6:ee75]) by DS0PR11MB6325.namprd11.prod.outlook.com
+ ([fe80::2cd5:2aa3:c5d6:ee75%7]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
+ 09:31:29 +0000
+From: Kang Wenlin <wenlin.kang@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-Core][PATCH] shadow: Fix for CVE-2023-4641
-Date: Thu, 30 Nov 2023 17:27:51 +0800
-Message-Id: <20231130092751.1382519-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][kirkstone][PATCH] bash: changes to SIGINT handler while waiting for a child
+Date: Thu, 30 Nov 2023 01:31:22 -0800
+Message-Id: <20231130093122.3068620-1-wenlin.kang@windriver.com>
+X-Mailer: git-send-email 2.39.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SL2PR01CA0004.apcprd01.prod.exchangelabs.com
- (2603:1096:100:41::16) To MW4PR11MB5824.namprd11.prod.outlook.com
- (2603:10b6:303:187::19)
+X-ClientProxiedBy: PH8PR07CA0043.namprd07.prod.outlook.com
+ (2603:10b6:510:2cf::28) To DS0PR11MB6325.namprd11.prod.outlook.com
+ (2603:10b6:8:cf::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|IA1PR11MB6218:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc365aa3-ce94-449c-4d64-08dbf186a8a2
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6325:EE_|CO6PR11MB5586:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ae00156-440b-4f6a-c73b-08dbf187219b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	bNC431NGtqNlQQ1oP1hYk246lARtefa5401mUtOHbBDNYtzAoH6TLydKGoR2cFdp0byvwEQxEdnXpCUjWPF0pOx/83DA7ZlXaVmJj/AGC+fdLBy61c6QbsEJ2dDoOQyVL/4Gu/EXurF52/1iAnfSfsfnrrg/vvZa97XyNWmwkON4mfLKZRSNYemyPu3hIpYUipMySgQ7nOxUFUkFNdapGiWOCcf2FW1pN8godvBFuTaaSQoX6RR8ix5VPDn/Wwo7m2gMAPdkAyoERNPmfgdMGAXQID1qBnDHodDmM5XSw2SRNHea1OkpMEyiJQI4Kr6URqzrJxKzafs6xPoBdwR7jxCdZ6yQUtkKnRb7kM0gGVfEBq6+TiyypqpPekh3iykFIs+JX8z3afOj4sBVWMddYM+M7FufpDJzDxDXqJM/rU0g1ZF6CYdFmE8XVWF3ApOrGlD5H/wjwT0UhxWciqieQGzIQVsDiyWOIE6tVi//CgEv6FEYc5N6O4YRBp297Vt3zrp2G8yr/1ZOjUydOgkHa/330t7tNfNc7hW9+bfqHFzXcyWyjWIou3y9McilRUtoiG36dXu//AkaY3lShlZ0EyEb24UohbAfAvT0CK1aUfC8nhYZpnx9Jrrilv54w2cLIQGACF+1WlbNc0wR277qsQ==
+	JbjZL4RY9lSkcpMgGO1gfCZwljVWLcXzHdMN4UIxCN/68ThdbU1NNHRs8m1lgQbLJvtewMiJVS9he5cn3z4TLF1+OQtt7xvMDZOthSIJ8xK+Me+R0s+lY39uNqGnLQ52t9M9x1u7wGwxNDVuGQY/uC9RcoIVU3TEXo/VQMr80tiuqyZNxbWfwGq4saWzdvizhL0vRiaZML/0fG4XQXRftam3jhji2i/tlE65IhF0xiNEKbSBv6OzbyXcEYXq8vcAEhnWRSldc/8LcKMq5B5T1nETnJCv0EV81onTpccnTyCSVsftK9YiFk9zxjigZIpWQ0e9qQYpbVTZsmsr4BJ2OW4/tsKs/FF4ZXkFuOVKpLaagNrQ+A2AWeR4cwiDUvMi5U2nOIUoChmpoFEJhm0YRyc3i5LRaB0d49ufl17ZfHIyyF/xoD9OR3MraeTtKWcrup+DvZLNo/mSPkprUNaihYxaDw1rK6NKMkyRw64hW2cTpk+9WB+iJv9lwKNFvHhNz7t0WLRU7MPmiBvI5Bi8BziQyo6Wi4RpzzCLxUT32sQwCXWvsH9AJ2GUbJ09mDW+am7jUNv3znv2Xp5acRkrsg+HjV5Sb+5h14kcmRrbEQY/ViiDHzm7KQXUabUjmvz2UCo7920/pJXCF+ICkCJVKRUHl4vmo6t0GNF3JOTqkxjGA2jD4UlqvTtdKqQgQk/ylgwdvkCi+dIel51vn9eGo1MS3Euc0I8IuN+6E0r6+f0EGXjerpSPQu3q5HWhYyV8
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(346002)(376002)(136003)(39850400004)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(66946007)(6916009)(8936002)(8676002)(316002)(66556008)(44832011)(66476007)(6486002)(478600001)(41300700001)(38350700005)(2906002)(5660300002)(38100700002)(83170400001)(2616005)(1076003)(6512007)(52116002)(6506007)(6666004)(83380400001)(66574015)(202311291699003)(26005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6325.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(376002)(396003)(346002)(39850400004)(230922051799003)(230273577357003)(230173577357003)(1800799012)(186009)(64100799003)(451199024)(1076003)(6506007)(26005)(83380400001)(6666004)(52116002)(2616005)(6512007)(5660300002)(8676002)(8936002)(41300700001)(478600001)(2906002)(966005)(6486002)(316002)(6916009)(66476007)(66556008)(66946007)(202311291699003)(86362001)(36756003)(38100700002)(38350700005)(21314003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?A9u1KoiWncRHlCM7DK7VhbGtG+w+7dat3vvi1A+wmH8JWPU1qrl+Qck9nO0j?=
- =?us-ascii?Q?/7zR8hsGETrFN1B2dMrxdQ2LkSdJqPI8G+9R6KUfjqzkEQl2V7IZqRmGnbPl?=
- =?us-ascii?Q?/0K/B3P7GmFW4TDZ9VexBvtungHSOcoI2/nm1ZsRCgxdgNiwuVKaWJ/eJopY?=
- =?us-ascii?Q?C6kgHf7/i4QsbCYrk45+bjMl6bmN+LDX1Vbv69jEpFD9TUJ08ZPQNphQrvQq?=
- =?us-ascii?Q?+HznAr7r6avp27EM8dA8aUGbkQvD5d082GN3Wd4tIa0ZdUiYu0fHfqymnc/M?=
- =?us-ascii?Q?UAtEURgvwPjj8bLraRZ7XpKTV5IEqwL5j6f3X4iybr95ycBECkUE9ZCXBYi8?=
- =?us-ascii?Q?dR+6qDeI3X8r1nC2qgkxxKFVG5qqvuKYkUy8G9DLDy4buhxisap0GOqT1qKt?=
- =?us-ascii?Q?liqAPTm4O+0K2uAyGV5NY5qkW4I9D8qOEgEVVpoisjpGiFssPOPmgh1zw2h9?=
- =?us-ascii?Q?Po5/EyDea40G5pJ/jJt4PNjU0HguIRvMcJybmXnGy8bnzZjsj9qe7NkiJfkB?=
- =?us-ascii?Q?VeWMPRZ60HrFQ6q/6j/vKQaK/vFcNKuzEc/+DEMP4jS5Vxnw16/yhvo+lpxg?=
- =?us-ascii?Q?saFFU+hLKRx1Dp4JFSflk8o6/a3XicWCh53uF/EwRbuBZ+DmI7UR+D0gBxiN?=
- =?us-ascii?Q?cQWYov6woU0ZPNFwH6AyvnOtR0Zqtvi8WzqyBc0D3uZGjbT89LQGlR74qsDc?=
- =?us-ascii?Q?AVXZqpR9oJIWzlisFOlE3a8uTPIrEHw94Ex42dGfky67hzvVJhJKqVv9DU0L?=
- =?us-ascii?Q?dwfe8zX3sF/x3BO9gawAurfsmZt4O+9q9URjQGtYtpuOibc6jQWOKKdHB2Z7?=
- =?us-ascii?Q?51QOqHOA6qycEtvYWetTHk3sGLRMdIM8PQhKCnkv6QKxcagH1xIIo10NuyuA?=
- =?us-ascii?Q?8ZICYiueYO/Z9Xw0o2hHw8ZinIXWhQ9hPY8Wo084eNxcFLPfKCR34bEpNJT/?=
- =?us-ascii?Q?6508VvHgXKEtcRFa8to9cqQJJReVXdu+WVWtCWBaoALeOaltWL8/EQfRUhRr?=
- =?us-ascii?Q?ykgMOBG3HvqkhIiAheuo6wRmOcukXFS0OAMMcJEHgChvrHocdJiy4SRZESwI?=
- =?us-ascii?Q?d2oCmRUtfOgOhE9+0uFCf+U50UYSD4VrouoTxI6ZjQusZHNg7c+ADb5+wRYE?=
- =?us-ascii?Q?zyRQYACa3qdcHEFVStrO+UHqS/B75HO/lq23ylrix/H/Ua9F9+oLm2oWnA7Q?=
- =?us-ascii?Q?NW1KlcHAY+1+Jlh69IimPDqB4cMii6e+0n7SQirCutn4EjeBLiwoeRlc0X+O?=
- =?us-ascii?Q?Ofjr9epA8Gci4FtSjJmdjynbdsD3FqbhIBnFhfP6iARsmSN4xXoTnoK+Ct8n?=
- =?us-ascii?Q?oQXRYkRNhZEDoOb0QH6GkwRkMqcmMapV+OeKMHii/oE11+YxgkfPaFxhAJe+?=
- =?us-ascii?Q?BDs4Ku1VnH4+0tV4N+P9yd0qdR1U9+e6q5Fl8H1/QNW6RxLZpMZo1UH2khU8?=
- =?us-ascii?Q?u7eHDrVEBCgGxGZRgKghqlwJ5XRrCCWVAFROu/XEVDSRk4VNnzcwX5u1YDb/?=
- =?us-ascii?Q?fsrn4K5KzAsM50h/TLXJs1hAaAqqwFq+4usn9kcQpVciEDRlEjBZl/yRBu1V?=
- =?us-ascii?Q?A1SeptO+RCHKF9JQKlgfSJr246rGWaZVaRxAeaRioXDzxBScBfXKiWc5c09w?=
- =?us-ascii?Q?uw=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc365aa3-ce94-449c-4d64-08dbf186a8a2
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+	=?us-ascii?Q?ydfUeotXxXls3spo/VSvHJ+VRrLjuv9HjTMbdd6yRmOqsMebqNHXmD7021Eh?=
+ =?us-ascii?Q?BFaDlkuO4pc6VXKQzp3g/wOuucVTqcIfdnmCza40swZ7gdAK5+L346PfxM/8?=
+ =?us-ascii?Q?Kg0g6YK24mDleU9XwLWzF6MlLakHdz2orbJ7a+17WahupKfvRt2ZH7Y75AX8?=
+ =?us-ascii?Q?h2p0dhkGeEaKMhqPOpk6O6wEEFtX5+opNLf173F12Db46MxhTx2f1Q3qUqHm?=
+ =?us-ascii?Q?XiOEUmqGCV7NJijf+hg6JBeWc2huhCKqnz8oU5rGNJAenb2GX0cLxKesvNbt?=
+ =?us-ascii?Q?6/4g5zaZHSIZJfmBsQIXiBRvIbxylklIgvC+ARcutRlie8EiIRxR5elvA9uN?=
+ =?us-ascii?Q?iThDC1+5wXSxIbj1JSaDMEmlQr7hVZx2V8mkXuYQrKWvR0yxplt7BGEBGK/p?=
+ =?us-ascii?Q?ifJafMfe3FWAm4Qnv4zzxiYfT03AqB3+50FglM5M0ulbTofr58fJ+dPLj7PA?=
+ =?us-ascii?Q?za2yelvvwTBzUZHwWgA8BLEqS7AUbqurk3xiyXYzDhjhy8XB+P40NEsKBqFT?=
+ =?us-ascii?Q?NKGtSQzqwnHQMo012n2kGqe54tgUdhgTNzi0sT2FVakcfKGuCFaaZRL9EB8U?=
+ =?us-ascii?Q?K5Jp6fD9rRyonRV36gJwP+lQcOGLWjczYkAP6qwLBVvmda707SrGtE1vQ9ij?=
+ =?us-ascii?Q?XbZSs6OdlylJqCoKNLn9APukgCJuxmQxNzA3ODB2+IErC1KfNGhwg/1yuTcD?=
+ =?us-ascii?Q?Q4l/VtAKkSCvavvkDnjxUgQOk0Qi+FU4WHm2i0grrtj8elVTXOFsvrjMylJ3?=
+ =?us-ascii?Q?y3YR0r1y5uIsCctl8v5xDrx1aovo33KrgiV4y1y1DJRBY4Fmxw/X3Aiyyael?=
+ =?us-ascii?Q?mKAWl0qmyZyxL72Re1OxFptVj6sjvoa2FeKA+6qW+fh7aVwtUq9r7CQi1/op?=
+ =?us-ascii?Q?QuujTS8Mxmbg2tEms37lCdJhw93utKIKkjRfr0oJtEErqgVuOIU5D4lrBG5E?=
+ =?us-ascii?Q?IjeXqCsycx783eqFBzG0L+fv7Hyxd42E1WN+lwhM76so7vUcLrsrlcl2ANpY?=
+ =?us-ascii?Q?c6Zu4wZW2K+Q7fl56lqlp4s8mcEYDRALHrrx9y6wwr2NOLrQX/Vk1gr8SlbZ?=
+ =?us-ascii?Q?wmy8FFEdqQalyDSj2nJ0WH58yiTNKyENsWbRzJZQu+dhdvwqvnMzIfiKFEBn?=
+ =?us-ascii?Q?4emImTJi1m68v1SQQsof2h8grDuT5ywUEpozEW7ctbjXxsfIhXcnCV4qZG5F?=
+ =?us-ascii?Q?DZgvMoOSybH/SjsIuUigkHUXLYAAZsI5kOQxVY3uA3rY2aanWDNctBEaSucs?=
+ =?us-ascii?Q?AfjnKguSdJ4yiAvvihuApGdTyEVjkrgeB6wHloiM2363xtN7pYyTWc0THm4/?=
+ =?us-ascii?Q?xWd0cS8yjpsu39rbDrw0Lgp6blsaM4lEuJLrJDHtORhWi74JrK7UfmwtZPCZ?=
+ =?us-ascii?Q?OgPz5zZCnnxgOD4nYCkckm/E/jGCw42otXVBCNqfh2BFBfNU039AH+pG3N3p?=
+ =?us-ascii?Q?5XooS9chF2Q0cpO/fMr3mtOa/6Wdf2yUw5N/4pkjGmOxH0ni7uhAIAvKR3hh?=
+ =?us-ascii?Q?Fa/rU/QzQjsAEUjszmgXAb5S+g5wsCLp1gct8Vi2yHRdYuc2aZQrkiuTYnzz?=
+ =?us-ascii?Q?lOYWeTRMrR240Gs7CE6IQGJwOrbqeTsrJ0EfaZVJ2g15aR0J1j6KQt1tRWqi?=
+ =?us-ascii?Q?1g=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ae00156-440b-4f6a-c73b-08dbf187219b
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6325.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 09:28:06.2409
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 09:31:29.0934
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bc/fyvQFETgzEmxux38UrCAteNjzEXyb0XYfc4/92Vjb5wf5O/7Xrvb8xUkbWhJeIMi/ZYlcKWEE6GLOnFHyttnyai36EI1TbGVLol6tfnM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6218
-X-Proofpoint-GUID: tE8UTB_6WqfLi8lBk0_T2IgQLGeo3tqp
-X-Proofpoint-ORIG-GUID: tE8UTB_6WqfLi8lBk0_T2IgQLGeo3tqp
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3ud/R7zfArNXjtSeMUkag3qwm+QXzyE8nbRh6T8oMHFc/Oov6gOJ539KbHdmzRdZULCqasBM3KsDzyC/wc3DVuYIeoxLVV5/YUm/cooqM3g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5586
+X-Proofpoint-ORIG-GUID: 1gxaPr9T_-B7jFjZUbT5ohsdObLbCTaX
+X-Proofpoint-GUID: 1gxaPr9T_-B7jFjZUbT5ohsdObLbCTaX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 mlxlogscore=999 adultscore=0 bulkscore=0 clxscore=1015
- malwarescore=0 spamscore=0 suspectscore=0 phishscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
+ mlxlogscore=999 malwarescore=0 priorityscore=1501 clxscore=1015
+ suspectscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311060001 definitions=main-2311300070
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 09:28:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191484
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 09:31:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191485
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+From: Wenlin Kang <wenlin.kang@windriver.com>
 
-shadow-utils: possible password leak during passwd(1) change
+It rarely observes the problem while running shell script aborting
+test repeatedly, at the problem, the test shell script never returns
+to shell
 
-CVE: CVE-2023-4641
+Steps to reproduce:
+1. Run test script and ctrl-c repeatedly
+2. Observe whether returns to shell after ctrl-c
 
-Upstream-Status: Backport
-[https://github.com/shadow-maint/shadow/commit/65c88a43a23c2391dcc90c0abda3e839e9c57904]
+Fixed issue:
+https://lists.gnu.org/archive/html/bug-bash/2023-10/msg00131.html
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
 ---
- .../shadow/files/CVE-2023-4641.patch          | 147 ++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |   1 +
- 2 files changed, 148 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641.patch
+ ...T-handler-while-waiting-for-a-child-.patch | 229 ++++++++++++++++++
+ meta/recipes-extended/bash/bash_5.1.16.bb     |   1 +
+ 2 files changed, 230 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
 
-diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641.patch b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
+diff --git a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
 new file mode 100644
-index 0000000000..1fabfe928e
+index 0000000000..c12b4b7766
 --- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
-@@ -0,0 +1,147 @@
-+From 25dbe2ce166a13322b7536ff2f738786ea2e61e7 Mon Sep 17 00:00:00 2001
-+From: Alejandro Colomar <alx@kernel.org>
-+Date: Sat, 10 Jun 2023 16:20:05 +0200
-+Subject: [PATCH] gpasswd(1): Fix password leak
++++ b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
+@@ -0,0 +1,229 @@
++From 7e84276e07c0835a8729d6fe1265e70eedb2a7f7 Mon Sep 17 00:00:00 2001
++From: Chet Ramey <chet.ramey@case.edu>
++Date: Mon, 30 Oct 2023 12:16:07 -0400
++Subject: [PATCH] changes to SIGINT handler while waiting for a child; skip
++ vertical whitespace after translating an integer
 +
-+How to trigger this password leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++Upstream-Status: Backport
++https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=fe24a6a55e8850298b496c5b9d82f1866eba190e
 +
-+When gpasswd(1) asks for the new password, it asks twice (as is usual
-+for confirming the new password).  Each of those 2 password prompts
-+uses agetpass() to get the password.  If the second agetpass() fails,
-+the first password, which has been copied into the 'static' buffer
-+'pass' via STRFCPY(), wasn't being zeroed.
-+
-+agetpass() is defined in <./libmisc/agetpass.c> (around line 91), and
-+can fail for any of the following reasons:
-+
-+-  malloc(3) or readpassphrase(3) failure.
-+
-+   These are going to be difficult to trigger.  Maybe getting the system
-+   to the limits of memory utilization at that exact point, so that the
-+   next malloc(3) gets ENOMEM, and possibly even the OOM is triggered.
-+   About readpassphrase(3), ENFILE and EINTR seem the only plausible
-+   ones, and EINTR probably requires privilege or being the same user;
-+   but I wouldn't discard ENFILE so easily, if a process starts opening
-+   files.
-+
-+-  The password is longer than PASS_MAX.
-+
-+   The is plausible with physical access.  However, at that point, a
-+   keylogger will be a much simpler attack.
-+
-+And, the attacker must be able to know when the second password is being
-+introduced, which is not going to be easy.
-+
-+How to read the password after the leak?
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Provoking the leak yourself at the right point by entering a very long
-+password is easy, and inspecting the process stack at that point should
-+be doable.  Try to find some consistent patterns.
-+
-+Then, search for those patterns in free memory, right after the victim
-+leaks their password.
-+
-+Once you get the leak, a program should read all the free memory
-+searching for patterns that gpasswd(1) leaves nearby the leaked
-+password.
-+
-+On 6/10/23 03:14, Seth Arnold wrote:
-+> An attacker process wouldn't be able to use malloc(3) for this task.
-+> There's a handful of tools available for userspace to allocate memory:
-+>
-+> -  brk / sbrk
-+> -  mmap MAP_ANONYMOUS
-+> -  mmap /dev/zero
-+> -  mmap some other file
-+> -  shm_open
-+> -  shmget
-+>
-+> Most of these return only pages of zeros to a process.  Using mmap of an
-+> existing file, you can get some of the contents of the file demand-loaded
-+> into the memory space on the first use.
-+>
-+> The MAP_UNINITIALIZED flag only works if the kernel was compiled with
-+> CONFIG_MMAP_ALLOW_UNINITIALIZED.  This is rare.
-+>
-+> malloc(3) doesn't zero memory, to our collective frustration, but all the
-+> garbage in the allocations is from previous allocations in the current
-+> process.  It isn't leftover from other processes.
-+>
-+> The avenues available for reading the memory:
-+> -  /dev/mem and /dev/kmem (requires root, not available with Secure Boot)
-+> -  /proc/pid/mem (requires ptrace privileges, mediated by YAMA)
-+> -  ptrace (requires ptrace privileges, mediated by YAMA)
-+> -  causing memory to be swapped to disk, and then inspecting the swap
-+>
-+> These all require a certain amount of privileges.
-+
-+How to fix it?
-+~~~~~~~~~~~~~~
-+
-+memzero(), which internally calls explicit_bzero(3), or whatever
-+alternative the system provides with a slightly different name, will
-+make sure that the buffer is zeroed in memory, and optimizations are not
-+allowed to impede this zeroing.
-+
-+This is not really 100% effective, since compilers may place copies of
-+the string somewhere hidden in the stack.  Those copies won't get zeroed
-+by explicit_bzero(3).  However, that's arguably a compiler bug, since
-+compilers should make everything possible to avoid optimizing strings
-+that are later passed to explicit_bzero(3).  But we all know that
-+sometimes it's impossible to have perfect knowledge in the compiler, so
-+this is plausible.  Nevertheless, there's nothing we can do against such
-+issues, except minimizing the time such passwords are stored in plain
-+text.
-+
-+Security concerns
-+~~~~~~~~~~~~~~~~~
-+
-+We believe this isn't easy to exploit.  Nevertheless, and since the fix
-+is trivial, this fix should probably be applied soon, and backported to
-+all supported distributions, to prevent someone else having more
-+imagination than us to find a way.
-+
-+Affected versions
-+~~~~~~~~~~~~~~~~~
-+
-+All.  Bug introduced in shadow 19990709.  That's the second commit in
-+the git history.
-+
-+Fixes: 45c6603cc86c ("[svn-upgrade] Integrating new upstream version, shadow (19990709)")
-+
-+CVE: CVE-2023-4641
-+Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/65c88a43a23c2391dcc90c0abda3e839e9c57904]
-+
-+Reported-by: Alejandro Colomar <alx@kernel.org>
-+Cc: Serge Hallyn <serge@hallyn.com>
-+Cc: Iker Pedrosa <ipedrosa@redhat.com>
-+Cc: Seth Arnold <seth.arnold@canonical.com>
-+Cc: Christian Brauner <christian@brauner.io>
-+Cc: Balint Reczey <rbalint@debian.org>
-+Cc: Sam James <sam@gentoo.org>
-+Cc: David Runge <dvzrv@archlinux.org>
-+Cc: Andreas Jaeger <aj@suse.de>
-+Cc: <~hallyn/shadow@lists.sr.ht>
-+Signed-off-by: Alejandro Colomar <alx@kernel.org>
-+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++[Adjust and drop some codes to be applicable the tree]
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
 +---
-+ src/gpasswd.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ general.c         |  5 +++--
++ jobs.c            | 26 ++++++++++++++++----------
++ tests/redir.right |  4 ++--
++ tests/redir11.sub |  2 ++
++ tests/type.right  | 16 ++++++++--------
++ tests/type.tests  | 24 ++++++++++++------------
++ 6 files changed, 43 insertions(+), 34 deletions(-)
 +
-+diff --git a/src/gpasswd.c b/src/gpasswd.c
-+index 5983f787..2d8869ef 100644
-+--- a/src/gpasswd.c
-++++ b/src/gpasswd.c
-+@@ -896,6 +896,7 @@ static void change_passwd (struct group *gr)
-+ 		strzero (cp);
-+ 		cp = getpass (_("Re-enter new password: "));
-+ 		if (NULL == cp) {
-++			memzero (pass, sizeof pass);
-+ 			exit (1);
-+ 		}
++diff --git a/general.c b/general.c
++index 50d5216..68987e2 100644
++--- a/general.c
+++++ b/general.c
++@@ -262,8 +262,9 @@ legal_number (string, result)
++   if (errno || ep == string)
++     return 0;	/* errno is set on overflow or underflow */
 + 
++-  /* Skip any trailing whitespace, since strtoimax does not. */
++-  while (whitespace (*ep))
+++  /* Skip any trailing whitespace, since strtoimax does not, using the same
+++     test that strtoimax uses for leading whitespace. */
+++  while (isspace ((unsigned char) *ep))
++     ep++;
++ 
++   /* If *string is not '\0' but *ep is '\0' on return, the entire string
++diff --git a/jobs.c b/jobs.c
++index 7c3b6e8..84dab4d 100644
++--- a/jobs.c
+++++ b/jobs.c
++@@ -2727,6 +2727,10 @@ wait_for_background_pids (ps)
++ #define INVALID_SIGNAL_HANDLER (SigHandler *)wait_for_background_pids
++ static SigHandler *old_sigint_handler = INVALID_SIGNAL_HANDLER;
++ 
+++/* The current SIGINT handler as set by restore_sigint_handler. Only valid
+++   immediately after restore_sigint_handler, used for continuations. */
+++static SigHandler *cur_sigint_handler = INVALID_SIGNAL_HANDLER;   
+++
++ static int wait_sigint_received;
++ static int child_caught_sigint;
++ 
++@@ -2743,6 +2747,7 @@ wait_sigint_cleanup ()
++ static void
++ restore_sigint_handler ()
++ {
+++  cur_sigint_handler = old_sigint_handler;
++   if (old_sigint_handler != INVALID_SIGNAL_HANDLER)
++     {
++       set_signal_handler (SIGINT, old_sigint_handler);
++@@ -2766,8 +2771,7 @@ wait_sigint_handler (sig)
++       restore_sigint_handler ();
++       /* If we got a SIGINT while in `wait', and SIGINT is trapped, do
++ 	 what POSIX.2 says (see builtins/wait.def for more info). */
++-      if (this_shell_builtin && this_shell_builtin == wait_builtin &&
++-	  signal_is_trapped (SIGINT) &&
+++	if (signal_is_trapped (SIGINT) &&
++ 	  ((sigint_handler = trap_to_sighandler (SIGINT)) == trap_handler))
++ 	{
++ 	  trap_handler (SIGINT);	/* set pending_traps[SIGINT] */
++@@ -2792,6 +2796,8 @@ wait_sigint_handler (sig)
++     {
++       set_exit_status (128+SIGINT);
++       restore_sigint_handler ();
+++      if (cur_sigint_handler == INVALID_SIGNAL_HANDLER)
+++		set_sigint_handler ();		/* XXX - only do this in one place */
++       kill (getpid (), SIGINT);
++     }
++ 
++@@ -2934,15 +2940,15 @@ wait_for (pid, flags)
++     {
++       SigHandler *temp_sigint_handler;
++ 
++-      temp_sigint_handler = set_signal_handler (SIGINT, wait_sigint_handler);
++-      if (temp_sigint_handler == wait_sigint_handler)
++-	{
+++      temp_sigint_handler = old_sigint_handler;
+++      old_sigint_handler = set_signal_handler (SIGINT, wait_sigint_handler);
+++      if (old_sigint_handler == wait_sigint_handler)
+++		{
++ #if defined (DEBUG)
++-	  internal_warning ("wait_for: recursively setting old_sigint_handler to wait_sigint_handler: running_trap = %d", running_trap);
+++			internal_debug ("wait_for: recursively setting old_sigint_handler to wait_sigint_handler: running_trap = %d", running_trap);
++ #endif
++-	}
++-      else
++-	old_sigint_handler = temp_sigint_handler;
+++			old_sigint_handler = temp_sigint_handler;
+++		}
++       waiting_for_child = 0;
++       if (old_sigint_handler == SIG_IGN)
++ 	set_signal_handler (SIGINT, old_sigint_handler);
++@@ -4148,7 +4154,7 @@ set_job_status_and_cleanup (job)
++ 		 SIGINT (if we reset the sighandler to the default).
++ 		 In this case, we have to fix things up.  What a crock. */
++ 	      if (temp_handler == trap_handler && signal_is_trapped (SIGINT) == 0)
++-		  temp_handler = trap_to_sighandler (SIGINT);
+++		temp_handler = trap_to_sighandler (SIGINT);
++ 	      restore_sigint_handler ();
++ 	      if (temp_handler == SIG_DFL)
++ 		termsig_handler (SIGINT);	/* XXX */
++diff --git a/tests/redir.right b/tests/redir.right
++index 8db1041..9e1403c 100644
++--- a/tests/redir.right
+++++ b/tests/redir.right
++@@ -154,10 +154,10 @@ foo
++ 1
++ 7
++ after: 42
++-./redir11.sub: line 53: $(ss= declare -i ss): ambiguous redirect
+++./redir11.sub: line 55: $(ss= declare -i ss): ambiguous redirect
++ after: 42
++ a+=3
++ foo
++ foo
++-./redir11.sub: line 75: 42: No such file or directory
+++./redir11.sub: line 77: 42: No such file or directory
++ 42
++diff --git a/tests/redir11.sub b/tests/redir11.sub
++index d417cdb..2a9f2b8 100644
++--- a/tests/redir11.sub
+++++ b/tests/redir11.sub
++@@ -56,6 +56,8 @@ foo()
++ a=4 b=7 foo
++ echo after: $a
++ 
+++exec 7>&- 4>&-
+++
++ unset a
++ typeset -i a
++ a=4 eval echo $(echo a+=3)
++diff --git a/tests/type.right b/tests/type.right
++index f876715..c09ab73 100644
++--- a/tests/type.right
+++++ b/tests/type.right
++@@ -24,15 +24,15 @@ func ()
++ }
++ while
++ while is a shell keyword
++-./type.tests: line 56: type: m: not found
++-alias m='more'
++-alias m='more'
++-m is aliased to `more'
+++./type.tests: line 56: type: morealias: not found
+++alias morealias='more'
+++alias morealias='more'
+++morealias is aliased to `more'
++ alias
++-alias m='more'
++-alias m='more'
++-alias m='more'
++-m is aliased to `more'
+++alias morealias='more'
+++alias morealias='more'
+++alias morealias='more'
+++morealias is aliased to `more'
++ builtin
++ builtin is a shell builtin
++ /bin/sh
++diff --git a/tests/type.tests b/tests/type.tests
++index fd39c18..ddc1540 100644
++--- a/tests/type.tests
+++++ b/tests/type.tests
++@@ -25,8 +25,6 @@ type -r ${THIS_SH}
++ type notthere
++ command -v notthere
++ 
++-alias m=more
++-
++ unset -f func 2>/dev/null
++ func() { echo this is func; }
++ 
++@@ -49,24 +47,26 @@ command -V func
++ command -v while
++ command -V while
++ 
+++alias morealias=more
+++
++ # the following two lines should produce the same output
++ # post-3.0 patch makes command -v silent, as posix specifies
++ # first test with alias expansion off (should all fail or produce no output)
++-type -t m
++-type m
++-command -v m
+++type -t morealias
+++type morealias
+++command -v morealias
++ alias -p
++-alias m
+++alias morealias
++ 
++ # then test with alias expansion on 
++ shopt -s expand_aliases
++-type m
++-type -t m
++-command -v m
+++type morealias
+++type -t morealias
+++command -v morealias
++ alias -p
++-alias m
+++alias morealias
++ 
++-command -V m
+++command -V morealias
++ shopt -u expand_aliases
++ 
++ command -v builtin
++@@ -76,7 +76,7 @@ command -V /bin/sh
++ 
++ unset -f func
++ type func
++-unalias m
+++unalias morealias
++ type m
++ 
++ hash -r
 +-- 
-+2.34.1
++2.25.1
 +
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 83e1a84769..ce3ce62715 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -17,6 +17,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
- 	   file://0001-Fix-can-not-print-full-login.patch \
-            file://CVE-2023-29383.patch \
-            file://0001-Overhaul-valid_field.patch \
-+           file://CVE-2023-4641.patch \
+diff --git a/meta/recipes-extended/bash/bash_5.1.16.bb b/meta/recipes-extended/bash/bash_5.1.16.bb
+index 11c2314fbf..ab1ecffb3d 100644
+--- a/meta/recipes-extended/bash/bash_5.1.16.bb
++++ b/meta/recipes-extended/bash/bash_5.1.16.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            file://makerace.patch \
+            file://makerace2.patch \
+            file://CVE-2022-3715.patch \
++           file://0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch \
             "
  
- SRC_URI:append:class-target = " \
+ SRC_URI[tarball.sha256sum] = "5bac17218d3911834520dad13cd1f85ab944e1c09ae1aba55906be1f8192f558"
 -- 
-2.34.1
+2.39.0
 
 
