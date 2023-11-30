@@ -1,113 +1,104 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 478F1C4167B
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 20:12:40 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.4123.1701375158733655551
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67FC5C46CA3
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 20:57:50 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web11.5134.1701377868481508253
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 12:12:38 -0800
+ Thu, 30 Nov 2023 12:57:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=k5Q9mjP/;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1cf98ffc257so13181035ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:12:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EpAxE0+C;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6cddc148285so1402569b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701375158; x=1701979958; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jzgGcht6WyBFi9Mlmeko+w4O1YMVo3B5tKlCb83zqx0=;
-        b=k5Q9mjP/U+zVE9sNMPChMIxrbVuDLfRu4epSxQVLGo5kge7zIEbIpeGap7AGO3UCwO
-         xIpK2Ob7z9a0oCLe+QEbXnh4rjImb477bLKomBvR6mKRN/k7tJuQppRkhlXhPLrJC4Kx
-         aDrHbD/d/Tz4ls5sWiyhEKGK92tEJ0f5RJbqkXItM3vU0QfaxXH9RN3X/b/9P6I1uLy8
-         +0S1gjBcq91e1+q6N4xdtjs7IGq3GQIx93F1NEcxrjSCF7c/+o41ysqur2YfGl0tPoc4
-         COZs4IuZgIIUG2mx3zHiK7ebIcPAPtwY/S/dg33snexYPbjoq5Edb1nFSTEksinzjgrz
-         5i9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701375158; x=1701979958;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701377867; x=1701982667; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jzgGcht6WyBFi9Mlmeko+w4O1YMVo3B5tKlCb83zqx0=;
-        b=SKdSd6YyI77+gx8Q8/dhBRxunbb1rwvytvg1kfodLUYhuanVOz4HT5olVjKd5YmGK/
-         a/zancTjM7lwJi4q47yU8WdLj0J/tLEXH7UdbT0og8P8EwUlnYjvCl3VvGmeoXIaslJP
-         Y5FVbb6flnSGxDHdiSF1W5nHhK7WNZwN4QMq1eUuUbklQMo14OepWNhGttUqOjux6s+s
-         UrHr0tBUU2hL87sZ4lH2CrYdfNEo6RaYboWY8xzDqivqe1lBcDPGubQwSlJRX2VPEtb1
-         B8pA0i0itC2Jf4xF41o2nr0RnpxiRc2YY0Hgm2oJeoTenEuoL9K2CPqxIHc2eIW3S3fc
-         2kZw==
-X-Gm-Message-State: AOJu0YwUM7Fo2tO4iJYNri/jGqvTV1C6V+8GrquyagDE8gxeXXmFWfKU
-	tuwVOR9uyiRdukmBCbAiCrKymeVmAovfhQ==
-X-Google-Smtp-Source: AGHT+IEmSt8OQdJzN/F6/3SVur5OEyzALeVphSfTjt2vXrPlTLUlqpgcOehAeBcbA7cZrm7PsjMgJA==
-X-Received: by 2002:a17:902:a384:b0:1d0:18b4:92d with SMTP id x4-20020a170902a38400b001d018b4092dmr5385428pla.25.1701375157634;
-        Thu, 30 Nov 2023 12:12:37 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::2c3f])
-        by smtp.gmail.com with ESMTPSA id 6-20020a170902c10600b001c61901ed2esm1789177pli.219.2023.11.30.12.12.37
+        bh=zOCVirXEJrougbL26dLFCdLXOzDK0fFdFy7ZV2MzId0=;
+        b=EpAxE0+CfY+prolLCXeFfEvWFwyVr+e/dvLr0nwGs86esLdmKeoD0hB/tJb/bZxhj8
+         Iuq9g7h/GKdMoxyRGH+SOgFqR34jViS5GQKxLFu441hBaEzs9NKHwEXP5B9Dvh5b5nR3
+         pLbqK6WE77FBS125AEjyqcL5nGjBkoB7kdtbMicrvmc0ua1H+i/LYzBZ+bxnXj/s04zW
+         uSYHuxLfPfFL4eLRY4/+WHUSw8732S67uaw/BHrMUU18c6iAOiqiuuwx7gEt4Wv4Pxr5
+         fNjXgQmqUk5tji1VFQu95SOix8gGEij+nWnze0jHMSCuFPfaXEUFjWQcayRs9mr8IqdA
+         UP8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701377867; x=1701982667;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zOCVirXEJrougbL26dLFCdLXOzDK0fFdFy7ZV2MzId0=;
+        b=aA26nXtQf6vYym7cJXCZrNv4U2SmnEg9Uk0wCzehLwwA5hB/vRbfwMCcmguwHUVZp6
+         mf+gDWkY2TThQJf/60jP3CqYelaSnZ4Q9Qq0UNYnFfhxlbr2iR9xZvEPfe3yfffraTYC
+         uhTJ1PtZoGWcmnxPW3R8i/Uitat4HZqGsSr7ZIiEl7JTVyiOMI3Cf41iQ/JXC5uYev+G
+         V/StfO+L33HUddpZewCIk729/HPcKPsTUVQWEX6tdwszvSJEb2arkAAkd4yvwP4CpSoq
+         UjGyAYOXYQEivUSGxduQfoxXtUW+iKEJIrVE0UcNJBLpg3Un0bomwLgmFDduJGV5zbqd
+         nvFg==
+X-Gm-Message-State: AOJu0YzCk7pkxuru6HYcsEFdaGiB9hRwENcOaLKFKWiNq9QpBeT6mwhr
+	0glAlmNfVTH1ZvN2CU9dlH4Ug4M/AmvqM46jljvrAQ==
+X-Google-Smtp-Source: AGHT+IFewzTNdhglqET/CzY+5LcqoQn9acR5aluF+UrGFDB67JtWGFSECOdb4u9O8I98FbXVg302kQ==
+X-Received: by 2002:a05:6a00:3907:b0:6c4:d76a:68ff with SMTP id fh7-20020a056a00390700b006c4d76a68ffmr28873455pfb.17.1701377867177;
+        Thu, 30 Nov 2023 12:57:47 -0800 (PST)
+Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id f18-20020aa79d92000000b006cbbc07a1c0sm1635418pfq.156.2023.11.30.12.57.46
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 12:12:37 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+        Thu, 30 Nov 2023 12:57:46 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] llvm: Upgrade to 17.0.6
-Date: Thu, 30 Nov 2023 12:12:35 -0800
-Message-ID: <20231130201235.13057-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [OE-core][nanbield 04/25] harfbuzz: upgrade 8.2.1 -> 8.2.2
+Date: Thu, 30 Nov 2023 10:57:12 -1000
+Message-Id: <d33248db045b6959c641630dda1aa35aaf702648.1701377676.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1701377676.git.steve@sakoman.com>
+References: <cover.1701377676.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 20:12:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191517
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 20:57:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191522
 
-Bring in these changes
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-* 6009708b4367 Revert "[runtimes] Add missing test dependencies to check-all (#72955)"
-* 04caadc61fa2 [Driver] Enable __float128 support on X86 on FreeBSD / NetBSD (#72788)
-* e919a83f96fe eliminate python SyntaxWarnings from check-all output.
-* f6c231c15ec8 [clang-format] Fix crashes in AlignArrayOfStructures (#72520)
-* f74f3e6f58d3 [clang] Fix sorting module headers (#73146)
-* 7e30ce9528d9 [JITLink][aarch32] Change writeRegister's return type to void.
-* 03373fd9cb6c [CMake] Support building shared library for NetBSD
-* 21af3b62b632 workflows/release-binaries: Do a preliminary build to fill ccache (#72576)
-* 201faeca595e Add RV64 constraint to SRLIW (#69416)
-* e957e6dcb29d [runtimes] Add missing test dependencies to check-all (#72955)
-* f8575ff46f89 [clang-format] Fix a bug in aligning comments above PPDirective (#72791)
-* a71237b9f67f [clangd] Avoid null result in FindRecordTypeAt()
-* 308c816de5a4 Bump version to 17.0.6
-* 442401f7c0ca remove tests from bad merge
-* 76c7e0e1e2d1 Use the correct namespace for looking up matching operator!= (#68922)
-* b5cbb35408a3 [libc++] Use correct size for deallocation of arrays in shared_ptr (#68233)
-* e6de86cb9ef8 Revert "Reland [clang] Canonicalize system headers in dependency file when -canonical-prefixes" (#71697)
-* bb66d8f8f73b [clang][WebAssembly] Link crt1 even in case of -shared
+Changelog:
+===========
+- Fix regression from 8.1.0 in shaping fonts with duplicate feature tags.
+- Fix regression from 8.2.0 in parsing CSS-style feature strings.
+- Variable fonts instanciation now handles more tables.
+- Various CMake build improvements.
+- various fixes to build without errors with gcc 4.9.2.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 7380afcb41db7b1a93c716af567d4a30a71dddcd)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/llvm/llvm_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../harfbuzz/{harfbuzz_8.2.1.bb => harfbuzz_8.2.2.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_8.2.1.bb => harfbuzz_8.2.2.bb} (95%)
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index de8d4116868..9a88549260a 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -14,14 +14,14 @@ RDEPENDS:${PN}:append:class-target = " ncurses-terminfo"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb
+index df41af29f9..ce1a6bed65 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_8.2.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
  
- inherit cmake pkgconfig
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "0fec78f98c9c8faf228957a201c8846f809452c20f8445eb092a1ba6f22dbea5"
++SRC_URI[sha256sum] = "e433ad85fbdf57f680be29479b3f964577379aaf319f557eb76569f0ecbc90f3"
  
--PV = "17.0.5"
-+PV = "17.0.6"
+ DEPENDS += "glib-2.0-native"
  
- MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
- 
- LLVM_RELEASE = "${PV}"
- 
- BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "98bfdac5ce82d1679f8af9a57501471812ab68d7"
-+SRCREV = "6009708b4367171ccdbf4b5905cb6a803753fe18"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
 -- 
-2.43.0
+2.34.1
 
 
