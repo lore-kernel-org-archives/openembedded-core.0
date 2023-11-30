@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8BAEC10DC1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF454C46CA3
 	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 20:58:20 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.5286.1701377897989523503
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.5161.1701377891520341757
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 12:58:18 -0800
+ Thu, 30 Nov 2023 12:58:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JBYjtGcC;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5bdf5a025c1so1190305a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:58:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=OTAAngy5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6cdd584591eso1409532b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 12:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701377897; x=1701982697; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701377891; x=1701982691; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Cbd+Cl+Qj7bYuZe7b2CXOk3eawraFJqgmZymdAdB/ns=;
-        b=JBYjtGcChEjzAIi2QoQU45y6rVzT6FKo+Wll7R5ZvLGTNUw6ANOU/8/MsRE6Urisvc
-         TuT/bES6KEldkvrO2E0/vtTbJi1NO1qMFQAl6o8Xu/xpq8TnPp6jbxkGe16H9nmANZII
-         L5F6gTpoNew2fQ3qmvsG7mMguE3sRjUdWrvWOhU7c2GWyWclM9B2+JyTpILG2B+oyFaW
-         anpLZzB0EnA61UAjYOaIHuR2qG31SVmAU7vRfnTI0tAj4ZmtJ3EK+43Ss8SP86tumIN0
-         Yais2fhkq9tfUoNxFfx06PPbfrZ/uzXVDE19t2jg9X0ycAEj0i5OHkkkP5qAk512qmuY
-         SnaQ==
+        bh=2lI6E/nOQcSKeEVxiKH+5zcL7ZBC1AY8HXqBv+wmwLY=;
+        b=OTAAngy5w/ipQk0Ef9EZCYFLQW+JeOPPvQXis4SxSw0qXNDD2LJeNHwvUXizn9Vqo2
+         aaiuRSLyEmzbePrmvN59Qq81N5QSBgsWl2J2p9c1QLIgYHRUd6vKSXgS7Pu06yah//KT
+         Uh9vYVWc0AHFkT9UgDo+Vl/t+VvpqbDckYT+VmjZkHexXs+v7PfIUHiXxB6PdFMBPkQS
+         9VQtu2rLN1sUQNLmhSMx5TaTRnGhApOjjv9kjI56hzkq33jApcwVlZB1UH+9bITA0gec
+         TXJHKJm3khYocGH4KIpENNDuea2/XuH43pbCyKeR1Hwg1kYafxpWT707MSOK8izBsdRE
+         vVsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701377897; x=1701982697;
+        d=1e100.net; s=20230601; t=1701377891; x=1701982691;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Cbd+Cl+Qj7bYuZe7b2CXOk3eawraFJqgmZymdAdB/ns=;
-        b=UKdrIrNHThwKwhi4btoxb2Xe8zHu6Ib051rPKRHU7HYMKXHOPAu4KBW8yCjm8QWzJC
-         8kuUSh4ABo6onEJ2qpz3av278ZCKjh7xNJSyyK3XvuFvAH5uh7tVX0DEI/BO2UAsiMVK
-         SuD1L9ymR5dbYOIXGjGGmYk3vtdI7ZskhnnSZjr7aLFeiDlsnW5aV006BL0fyJBFM2g6
-         XDrAwBmh+H3zalPA/fELGmuHnZp6K7HjUFQ2b71tuNBi0vuRl14D25n5QPAZMc8nXBqs
-         OULtDqVJI/rk7Li1xpGVAFs1R9J79MDHdhQbXrUbooNJOdgP2LPQTlOHbgfizJVObF7T
-         9kNw==
-X-Gm-Message-State: AOJu0YxeQOM+xr/H0JwhPC/oSREjqiLlFbIpIzeTg1ex7sjeTSLJNMr6
-	8KiEHi2BQHpDwND4yHnHCixuw/0D4EAwBxrsjTO7tA==
-X-Google-Smtp-Source: AGHT+IFK7S1XTUois8CtD/WDl3qliAv9jpQIR3tqpP8cdUcGSg14P7sYSxNaKBb6g4DfLnX7dl8fSQ==
-X-Received: by 2002:a05:6a20:6a22:b0:18c:346c:d59f with SMTP id p34-20020a056a206a2200b0018c346cd59fmr21732220pzk.62.1701377897124;
-        Thu, 30 Nov 2023 12:58:17 -0800 (PST)
+        bh=2lI6E/nOQcSKeEVxiKH+5zcL7ZBC1AY8HXqBv+wmwLY=;
+        b=eudiYLuJ1Tbq8trM8NeKWqQxqiZ0mN9GaUKiFjwDOoFrlOQ0o+UnEws1+FAx1faICg
+         E41VNFKg0s476dgdDguETdfj/B8SlaYen7dSb3YuwFlvRwPG4SA+6DWTwv4yzf3cL4Kq
+         Lcxj3WgjUP1a9nQpMXrBzsW/WNfzOLz+KjSzavpREBS+Ybj9FjHl6JUddLdaCisi1RgE
+         iFHIiE/RytluVyxJmUDpYPWu77QzUuwdp5O5tNKxJNHfDYVoGLrmK4jPg7yw/r66x4Re
+         WAA92ILWXOHdeinPlzjvq7tdxlCxA0vi6jTldGmKfJKZJOPiwbZ7nMVd3JtyQ8VVIrRK
+         hFPw==
+X-Gm-Message-State: AOJu0YxnxNLgrRm7FuOQkkUiIY6m8coNicnKQHGo5E5L6ga4nTszMjtY
+	GRX8McMEotTDoRQ8mdvpa+e1f4Tgkpo/yxOYJO1bTQ==
+X-Google-Smtp-Source: AGHT+IG7rs8lRdeAVDKWbNCrzxB4jmjcAd9db64CPoqJkJUENThNx9X78Vv3eupk3+e5kA4C4C3MCA==
+X-Received: by 2002:a05:6a00:2d28:b0:6cb:daec:8b75 with SMTP id fa40-20020a056a002d2800b006cbdaec8b75mr23254964pfb.22.1701377890685;
+        Thu, 30 Nov 2023 12:58:10 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id f18-20020aa79d92000000b006cbbc07a1c0sm1635418pfq.156.2023.11.30.12.58.16
+        by smtp.gmail.com with ESMTPSA id f18-20020aa79d92000000b006cbbc07a1c0sm1635418pfq.156.2023.11.30.12.58.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 12:58:16 -0800 (PST)
+        Thu, 30 Nov 2023 12:58:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 22/25] systemd: fix DynamicUser issue
-Date: Thu, 30 Nov 2023 10:57:30 -1000
-Message-Id: <5420215a3415f08c1d961fca2e3d8258f82fb7f1.1701377676.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 18/25] linux-firmware: package Robotics RB5 sensors DSP firmware
+Date: Thu, 30 Nov 2023 10:57:26 -1000
+Message-Id: <3c33f44d7f4a13bb5ae734bc38de894f0acae783.1701377676.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1701377676.git.steve@sakoman.com>
 References: <cover.1701377676.git.steve@sakoman.com>
@@ -61,73 +61,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 20:58:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191540
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191536
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-The DynamicUser needs libnss-systemd to be installed to function
-well. The tweaks to nsswitch.conf should be conditional on PACKAGECONFIG
-values.
+Add package with sensors DSP firmware for Qualcomm Robotics RB5
+platform.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit ba3a78c08cb0ce08afde049610d3172b9e3b0695)
+(cherry picked from commit 195df10fcbfa1ef7e073d3332943458064519ae0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/systemd/systemd_254.4.bb | 30 +++++++++++++++++-----
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_254.4.bb
-index 77724eb822..285ca92e68 100644
---- a/meta/recipes-core/systemd/systemd_254.4.bb
-+++ b/meta/recipes-core/systemd/systemd_254.4.bb
-@@ -178,7 +178,7 @@ PACKAGECONFIG[microhttpd] = "-Dmicrohttpd=true,-Dmicrohttpd=false,libmicrohttpd"
- PACKAGECONFIG[myhostname] = "-Dnss-myhostname=true,-Dnss-myhostname=false,,libnss-myhostname"
- PACKAGECONFIG[networkd] = "-Dnetworkd=true,-Dnetworkd=false"
- PACKAGECONFIG[no-dns-fallback] = "-Ddns-servers="
--PACKAGECONFIG[nss] = "-Dnss-systemd=true,-Dnss-systemd=false"
-+PACKAGECONFIG[nss] = "-Dnss-systemd=true,-Dnss-systemd=false,,libnss-systemd"
- PACKAGECONFIG[nss-mymachines] = "-Dnss-mymachines=true,-Dnss-mymachines=false"
- PACKAGECONFIG[nss-resolve] = "-Dnss-resolve=true,-Dnss-resolve=false"
- PACKAGECONFIG[oomd] = "-Doomd=true,-Doomd=false"
-@@ -826,15 +826,31 @@ ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
- ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
+index be8cb9b3e9..c0394b9b3b 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
+@@ -378,6 +378,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
+              ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
+              ${PN}-qcom-sm8250-adreno ${PN}-qcom-sm8250-audio ${PN}-qcom-sm8250-compute \
++             ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
+              ${PN}-qla2xxx ${PN}-qla2xxx-license \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+              ${PN}-lt9611uxc ${PN}-lontium-license \
+@@ -1344,6 +1345,7 @@ LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8250-compute = "Firmware-qcom"
++LICENSE:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "Firmware-qcom"
  
- pkg_postinst:${PN}:libc-glibc () {
--	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
--		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
--		-i $D${sysconfdir}/nsswitch.conf
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'true', 'false', d)}; then
-+		sed -e '/^hosts:/s/\s*\<myhostname\>//' \
-+			-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
-+			-i $D${sysconfdir}/nsswitch.conf
-+	fi
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'nss', 'true', 'false', d)}; then
-+		sed -e 's#\(^passwd:.*\)#\1 systemd#' \
-+			-e 's#\(^group:.*\)#\1 systemd#' \
-+			-e 's#\(^shadow:.*\)#\1 systemd#' \
-+			-i $D${sysconfdir}/nsswitch.conf
-+	fi
- }
+ FILES:${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
+ FILES:${PN}-qcom-yamato-license = "${nonarch_base_libdir}/firmware/LICENSE.qcom_yamato"
+@@ -1389,6 +1391,7 @@ FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${nonarch_base_libdir}/fir
+ FILES:${PN}-qcom-sm8250-adreno = "${nonarch_base_libdir}/firmware/qcom/sm8250/a650*.*"
+ FILES:${PN}-qcom-sm8250-audio = "${nonarch_base_libdir}/firmware/qcom/sm8250/adsp*.*"
+ FILES:${PN}-qcom-sm8250-compute = "${nonarch_base_libdir}/firmware/qcom/sm8250/cdsp*.*"
++FILES:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${nonarch_base_libdir}/firmware/qcom/sm8250/Thundercomm/RB5/slpi*.*"
  
- pkg_prerm:${PN}:libc-glibc () {
--	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
--		-e '/^hosts:/s/\s*myhostname//' \
--		-i $D${sysconfdir}/nsswitch.conf
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'true', 'false', d)}; then
-+		sed -e '/^hosts:/s/\s*\<myhostname\>//' \
-+			-e '/^hosts:/s/\s*myhostname//' \
-+			-i $D${sysconfdir}/nsswitch.conf
-+	fi
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'nss', 'true', 'false', d)}; then
-+		sed -e '/^passwd:/s#\s*systemd##' \
-+			-e '/^group:/s#\s*systemd##' \
-+			-e '/^shadow:/s#\s*systemd##' \
-+			-i $D${sysconfdir}/nsswitch.conf
-+	fi
- }
+ RDEPENDS:${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
+@@ -1431,6 +1434,7 @@ RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8250-compute = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${PN}-qcom-license"
  
- PACKAGE_WRITE_DEPS += "qemu-native"
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
 -- 
 2.34.1
 
