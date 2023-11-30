@@ -1,73 +1,91 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4EF2C4167B
-	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 15:10:13 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.74564.1701357004274653767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1B9DC4167B
+	for <webhook@archiver.kernel.org>; Thu, 30 Nov 2023 15:28:13 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web11.75063.1701358085809574409
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 07:10:04 -0800
+ Thu, 30 Nov 2023 07:28:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MY5wMu8x;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: joaomarcos.costa@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5EC4E1C001C;
-	Thu, 30 Nov 2023 15:10:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701357002;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Gy/4rdWTwWpFAbJKZIOxNgD5futlCUZS+VD08S4YlIA=;
-	b=MY5wMu8xM3rtGl+ertXSIFR6Ljo5XvKetMNHy8JGcAUJU/dxdP2kS3l5Wie7kIk1bDc8e4
-	7ZzjkK/7Yg3R6Ykxnyby/EyTrz6/GIitnXo7Z2o+P0eLyWN8P6TVPyBSw8vex2khg/jnJm
-	+/Qg/3ZaOleuDDQfyFyalzOgqQqbrfu/Zx9l7CGu3wGc0AZETxQ3fYpBwS8Duydn8nAhj0
-	2n9+Fh2WQrTBqXjp3oiKL6wkbg5dOI7uEZcM9iDpQpM90oAEI3ViyJr3RJpDDghh0lbuLM
-	+bgybcSnk2Tm9karA+8GXcB/XhLBI61duWFGMTvJhjIZGOrrNKwrEkZlWNu6SA==
-From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	alexandre.belloni@bootlin.com,
-	Joao Marcos Costa <joaomarcos.costa@bootlin.com>
-Subject: [PATCH v1] documentation.conf: fix do_menuconfig description
-Date: Thu, 30 Nov 2023 16:09:43 +0100
-Message-ID: <20231130150944.1023969-1-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Nf9evNVS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.47, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-54c11430624so1110066a12.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 07:28:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701358084; x=1701962884; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gLbIHlCWhRPBVvfbYsVh0Z9ARHXr0xsAdKyRfQR4PSY=;
+        b=Nf9evNVSkW/qImGfFzBDTThdAwzKha8NVQQTLgpHPWgBMbWSpTH41G8beNsaLDfK66
+         Skhj7ORvu78+SzRz3FuMgqI/kGDp/UFgeIskYSXfP0zKXCvIY75hPmzN7XSAPJal+yCl
+         /G7d81hhVvMB6WS/j12SAIn3/55CK5CKVt0b0ws8RzS+DDmaH2+EmPPafx2qtGDvIRG9
+         zBLeO8jbW9MfMIds+FX0xM6CX+PlfW1FB5dGV0KqxDN0BEpTcoYTa3L0nQWa2Mue4WAH
+         4mHJclCUM6bl9FuScjSA+dXASSe+IDdBBH8PKSHKlpHWGp0p2Z3cqwW6PzkvJmbCufRk
+         NXqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701358084; x=1701962884;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gLbIHlCWhRPBVvfbYsVh0Z9ARHXr0xsAdKyRfQR4PSY=;
+        b=od/uALiWxZ7QayYRZWLk0sUB04EDXEh1HLZMUrNg/l8BdHEpNzu3A5gsUP0vJFbTgp
+         XEPKsZn1DGgCpHzsgoTqpRKgTUvWtY8pTpY0gNWs5h7baM7iKHZtmPfbWIjSekR7pLEU
+         XEuqeZciC/Z5e8UnCKlIq9fPDGy9u/xxNWStn9aNKB3wpjUXeGOYKxBotFci+H2vfPdq
+         W/9hkcexgaxRe94KhwsCHUiqq5YQWOu7shESuKpPSfC62/7vmwBTrjnWb0J2j6txr0y+
+         OxFUvBjfI6REzX9mSHL70/I2qh+MLQHV7sMTo8TczvGZA6IeIQLnbWcypzhNdGpruw1X
+         C4Xg==
+X-Gm-Message-State: AOJu0YyNGVYElKAgceBKb0nci4ibl5EVNyom97qXRxCczVqhru2V15Kt
+	nJP1/NNJlrL0SaNvRnhNarck5zdLJWth9WLiWlxzVw==
+X-Google-Smtp-Source: AGHT+IHTHcFHkmEnYh9Iy0nPjT/7mi4i5Lms5oxTF6omqTifOhu8LeYEYEa8cmNTI8cUNpiKZLSeP+SY8NQEQnslSpg=
+X-Received: by 2002:a17:906:b810:b0:a04:eac3:2812 with SMTP id
+ dv16-20020a170906b81000b00a04eac32812mr22411928ejb.26.1701358083717; Thu, 30
+ Nov 2023 07:28:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: joaomarcos.costa@bootlin.com
+References: <CCD6EA53-BA66-4547-AA4A-2CAC0387D934@arm.com> <5820.1701278764780793764@lists.openembedded.org>
+In-Reply-To: <5820.1701278764780793764@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 30 Nov 2023 05:27:52 -1000
+Message-ID: <CAOSpxdYyDGRD_w4=uokdLZ6MyM23TrnSD_J6zSGM_aeq1cFEaw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] image-live: Add support for building
+ EFI-bootable ISO images for non-x86-based archs
+To: Andrey Popov <andrey.popov@yadro.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 15:10:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191509
+ <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 15:28:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191510
 
-The current description is only pertinent to the kernel, even though
-do_menuconfig task is used by other projects, such as Busybox and
-U-Boot.
+On Wed, Nov 29, 2023 at 7:26=E2=80=AFAM Andrey Popov <andrey.popov@yadro.co=
+m> wrote:
+>
+> Hello, Ross!
+>
+> Since it's no longer possible to use xorriso in recent versions, I would =
+like to ask if it's possible to apply an updated version of this patch to t=
+he kirkstone branch.
+> If so, I will send the new version matching that branch.
 
-Replace "for the kernel" by an agnostic alternative (i.e., "in the
-compilation directory").
+Since this adds a new feature it isn't something that I can take for kirkst=
+one.
 
-Signed-off-by: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
----
- meta/conf/documentation.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Steve
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index ab2addb321..05e4b8bc7f 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -28,7 +28,7 @@ do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yoc
- do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
- do_kernel_link_images[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux and vmlinuz kernel images"
- do_listtasks[doc] = "Lists all defined tasks for a target"
--do_menuconfig[doc] = "Runs 'make menuconfig' for the kernel"
-+do_menuconfig[doc] = "Runs 'make menuconfig' in the compilation directory"
- do_package[doc] = "Analyzes the content of the holding area and splits it into subsets based on available packages and files"
- do_package_index[doc] = "Creates or updates the index in the Package Feed area"
- do_package_qa[doc] = "Runs QA checks on packaged files"
--- 
-2.43.0
-
+>
+> Best regards, Andrey.
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191459): https://lists.openembedded.org/g/openembedde=
+d-core/message/191459
+> Mute This Topic: https://lists.openembedded.org/mt/102444305/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
