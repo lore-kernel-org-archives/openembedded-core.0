@@ -1,122 +1,136 @@
-Return-Path: <quic_vkraleti@quicinc.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB5EEC4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 07:02:04 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.17345.1701414123729785491
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ADD6C4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 07:24:35 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web10.17830.1701415473033435568
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 23:02:03 -0800
+ Thu, 30 Nov 2023 23:24:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=XV42UtsW;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_vkraleti@quicinc.com)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B15efcY011244;
-	Fri, 1 Dec 2023 07:01:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=B+sA2/+29x6qGR5+1hS6J1Y5E197Y2RQOZzzpy+eUzE=;
- b=XV42UtsWt4VnXpId5osNdTibo6xpfjSjrq792qukyswk6hpyRlF3uYF4cFgMMLY1ZH49
- 8rq+6ZHt4WHOikK9jqbbr4Wg5peDtKS73DYOn0QV2GLcG6i99XWg/Nw/4CKeM428gMms
- gao8KCbhWlaHy09qnxGH9Il70rHLeBluzXmDAMD+cIZuAURA51c+DuYcsNk3V63QOnA0
- yy/L0u5ZA2pN7vbfMGZC94UUcJd8JvxoSSAR+9scK7gPJFfBLTIp5nTx0pb6XDBqGaAe
- aG6srv5dTYyv1aqfhbXImZkl8DTu6FIcJDD3sM4z6sN+Lco/sCIZfoPzjijhZj5WM4Cf 9w== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uq9hyg4er-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 01 Dec 2023 07:01:58 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B171vYK003711
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 1 Dec 2023 07:01:57 GMT
-Received: from [10.214.226.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 30 Nov
- 2023 23:01:55 -0800
-Message-ID: <e4a002d5-eb1e-4a27-9146-cd61d43c80e5@quicinc.com>
-Date: Fri, 1 Dec 2023 12:31:52 +0530
+ dkim=pass header.i=@linaro.org header.s=google header.b=QlF0ONls;
+ spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2c9bbb30c34so22442431fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 23:24:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701415471; x=1702020271; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GVngzSae4lY60h+EcAg7pq5XtvvBtPBdFDGdlEIFQ2Q=;
+        b=QlF0ONlsp8Hi8VmRbihi8DpT0DymNbk1SQmAuCC1Arbcrq9TA92nEPFTi+ocTejD/4
+         L8rJF8vtC11AeUVxwQMQPcfzq2KzDqO30BZ+CqaJhsUutR2QCdBKXqowwvoeLuqKR3Dz
+         GF309ZJkSwRcenr75P4xWFS2SYUXq8K4+Yt8941pFyKK8PnU+kGUY/YYV8v+BOfhz05N
+         SG6xZvHheiP+u9qx2ps+alkKmWo4307PfulFCp+SZmxLV0A5I7YNgEdDdRs6cXXOLrSZ
+         /kDtJ9jR9M9i+KuBoEdnb1ClyaScbLZSrUpR4ry5UYc821kBeuc7e/x26g18WZQNC05c
+         uP+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701415471; x=1702020271;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GVngzSae4lY60h+EcAg7pq5XtvvBtPBdFDGdlEIFQ2Q=;
+        b=Ho0BuG4O0DxC55iO1NCREGHOQjRCvTM8zrATH+otVi6bmBNKUwgq4K4HTBg7XDPQuO
+         P0pLDwd9OeEwvvMhPpU27j30ZyOMma+gfFfcLgK1iCm8kgw403ZOnNkCVh3Zp9U+KR+z
+         CM9p/yhdXNnfusTj1q1k22VwukpapICmhZZtwPU/3EmqRNIwX6CACaqRdu3LMt6oxCLi
+         QFlO7cEJMHaMl7B2EFdpZgPotvSvGFAgs5PwM1mua8yeh56nxnxEt3vtmokFavBxqYQC
+         DTIAlYiY7ACfQ2OhNd4ziz/fWNKapgX3u6wAxrWExBlXA31DmSO6BeDV1q+OXwEnW64x
+         tLYg==
+X-Gm-Message-State: AOJu0YxzyKiCQOyZREXygVbdMFim1Wv2eVtypSusWvAMU+cekltqFZcz
+	V72vgVA3cMPUQUnL4SQRGUXgRQ==
+X-Google-Smtp-Source: AGHT+IHFrjHpzyQxM6q0wnQfe65CgOcWAHgXQzXeIucbujZHOdPcCjuYaSAyYIO0+Xh/R5Uhkhq0mA==
+X-Received: by 2002:a2e:978c:0:b0:2c9:996b:3b54 with SMTP id y12-20020a2e978c000000b002c9996b3b54mr413361lji.53.1701415471017;
+        Thu, 30 Nov 2023 23:24:31 -0800 (PST)
+Received: from nuoska (dc7g6tyyyyyyyyyyyyhbt-3.rev.dnainternet.fi. [2001:14ba:16cb:a800::183])
+        by smtp.gmail.com with ESMTPSA id n20-20020a2e8794000000b002c50b040e94sm335071lji.85.2023.11.30.23.24.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 23:24:30 -0800 (PST)
+Date: Fri, 1 Dec 2023 09:24:25 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] systemd-boot: Add recipe to compile native
+Message-ID: <ZWmKKacNvYu-ao5r@nuoska>
+References: <20231201065336.1362984-1-quic_vkraleti@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] systemd-boot: Extend recipe to compile native
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-        Dmitry Baryshkov
-	<dbaryshkov@gmail.com>,
-        Ross Burton <ross.burton@arm.com>
-CC: OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <20231127145643.986904-1-quic_vkraleti@quicinc.com>
- <56AF193C-6DA6-435A-8C6B-06EF0F5B15F3@arm.com>
- <CALT56yNtJMP8rv+7MGOCL-bPn2XnDVLDVa2SBhVmTiFZUGDp5g@mail.gmail.com>
- <DB5PR02MB10213D5B2D471CCC65EFAA4ABEFBDA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-Content-Language: en-US
-From: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-Organization: Qualcomm
-In-Reply-To: <DB5PR02MB10213D5B2D471CCC65EFAA4ABEFBDA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: f7NzNAJtgUkP7XjBMCtj2p7puXMRs1-E
-X-Proofpoint-ORIG-GUID: f7NzNAJtgUkP7XjBMCtj2p7puXMRs1-E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-01_04,2023-11-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 impostorscore=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- mlxlogscore=799 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2312010042
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231201065336.1362984-1-quic_vkraleti@quicinc.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 07:02:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191558
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 07:24:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191559
 
+Hi,
 
+On Fri, Dec 01, 2023 at 12:23:36PM +0530, Viswanath Kraleti wrote:
+> systemd has ukify, a native tool, which will combine the kernel/initrd/stub
+> components to build the UKI (unified kernel images). systemd-boot recipe
+> isn't providing this tool.
+> 
+> To use ukify, one need systemd-boot native recipe so that a dependency can
+> be added on populate_sysroot task to get the tool under sysroot-native.
 
-On 11/28/2023 4:38 AM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core@lists.openembedded.org <openembedded-
->> core@lists.openembedded.org> On Behalf Of Dmitry Baryshkov
->> Sent: den 27 november 2023 22:05
->> To: Ross Burton <ross.burton@arm.com>
->> Cc: quic_vkraleti@quicinc.com; OE Core mailing list <openembedded-
->> core@lists.openembedded.org>
->> Subject: Re: [OE-core] [PATCH] systemd-boot: Extend recipe to compile
->> native
->>
->> On Mon, 27 Nov 2023 at 18:49, Ross Burton <ross.burton@arm.com> wrote:
->>>
->>> On 27 Nov 2023, at 14:56, Viswanath Kraleti via lists.openembedded.org
->> <quic_vkraleti=quicinc.com@lists.openembedded.org> wrote:
->>>>
->>>> systemd has ukify, a native tool, which will combine the kernel/initrd/stub
->>>> components to build the UKI (unified kernel images). systemd-boot recipe
->>>> isn't providing this tool.
->>>>
->>>> In order to use ukify, one need systemd-boot native recipe that can be
->>>> added as a dependency to get the tool under recipe-sysroot-native.
->>>
->>> Feels like it might be neater to just have a new recipe that builds that
->> one binary, instead of a mess of overrides in an other wise simple recipe.
->>
->> This was one of the concerns during patch development. I suggested
->> patching the existing .bb on the premises of having the same version
->> for native and target recipes.
->>
->> --
->> With best wishes
->> Dmitry
+Why not call the recipe systemd-ukify then? systemd-boot doesn't provide more than that.
+
+Then, when using ukify, one needs to have the .efi binaries from target systemd recipe which
+for aarch64 are:
+
+/usr/lib/systemd/boot/efi/addonaa64.efi.stub
+/usr/lib/systemd/boot/efi/linuxaa64.efi.stub
+/usr/lib/systemd/boot/efi/systemd-bootaa64.efi
+
+and these could IMO be in a systemd-boot binary package because these files are not needed
+in the main systemd binary package and rootfs.
+
+The recipe itself looks neat and small, thanks!
+
+For secure boot sbsign-native would be needed, but maybe a separate issue.
+
+Cheers,
+
+-Mikko
+
+> Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+> ---
+>  .../systemd/systemd-boot-native_254.4.bb          | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd-boot-native_254.4.bb
 > 
-> That should be taken care of by requiring the systemd.inc file.
+> diff --git a/meta/recipes-core/systemd/systemd-boot-native_254.4.bb b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
+> new file mode 100644
+> index 0000000000..6d89e493b6
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
+> @@ -0,0 +1,15 @@
+> +require systemd.inc
+> +
+> +inherit native
+> +
+> +RRECOMMENDS:${PN} += "python3-pefile-native"
+> +
+> +COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*)-linux"
+> +
+> +do_configure[noexec] = "1"
+> +do_compile[noexec] = "1"
+> +
+> +do_install () {
+> +	install -d ${D}${bindir}
+> +	install -m 0755 ${S}/src/ukify/ukify.py ${D}${bindir}/ukify
+> +}
+> -- 
+> 2.25.1
 > 
-> //Peter
+
 > 
-Submitted 
-https://lists.openembedded.org/g/openembedded-core/message/191557 to add 
-a native recipe.
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191557): https://lists.openembedded.org/g/openembedded-core/message/191557
+> Mute This Topic: https://lists.openembedded.org/mt/102910738/7159507
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 
