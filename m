@@ -1,121 +1,114 @@
-Return-Path: <johannes.pointner@br-automation.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05AF2C4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 10:54:46 +0000 (UTC)
-Received: from inet11.abb.com (inet11.abb.com [138.225.1.77])
- by mx.groups.io with SMTP id smtpd.web10.20147.1701428079067787207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B6EC4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 11:49:46 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.20821.1701431384855010261
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 02:54:39 -0800
+ Fri, 01 Dec 2023 03:49:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: br-automation.com, ip: 138.225.1.77, mailfrom: johannes.pointner@br-automation.com)
-Received: from brsmtp01.br-automation.co.at ([10.15.2.36])
-	by inet11.abb.com (8.14.7/8.14.7) with ESMTP id 3B1Asamv006310
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>; Fri, 1 Dec 2023 11:54:36 +0100
-Received: from extmail.br-automation.com ([192.168.112.26])
-          by brsmtp01.br-automation.co.at (HCL Domino Release 12.0.2FP1)
-          with ESMTP id 2023120111543540-51656 ;
-          Fri, 1 Dec 2023 11:54:35 +0100 
-Received: from ategge3723.brdev.net ([192.168.62.18])
-          by extmail.br-automation.com (HCL Domino Build V1202_05192022)
-          with ESMTP id 2023120111543587-23800 ;
-          Fri, 1 Dec 2023 11:54:35 +0100 
-From: "Johannes Pointner" <johannes.pointner@br-automation.com>
-To: openembedded-core@lists.openembedded.org
-Cc: "Johannes Pointner" <johannes.pointner@br-automation.com>
-Subject: [PATCH] ldconfig-native: Add usrmerge support
-Date: Fri, 1 Dec 2023 11:53:59 +0100
-Message-ID: <20231201105359.409068-1-johannes.pointner@br-automation.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bW7aDCyk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50bce40bc4aso2268340e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 03:49:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1701431382; x=1702036182; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sl0ULcig6IYh4x5fDK3Roj7cRuLocUkyBAJQc4F/ces=;
+        b=bW7aDCykaM+Axnpd/GmkQ1EA0+sLqCFM2qZJCfEw7IFnHuao3PusxiE/RHf8hFqEpI
+         967bA9EPhsPvJZOHvhesfAXvVR3SvLb/OFJDvU3qAzhfpCSLV8YSm+EDifycNDoyVs7H
+         ONxsZaXI0JAT2JeEed0jFp1RM5MHqapm/taMY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701431382; x=1702036182;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sl0ULcig6IYh4x5fDK3Roj7cRuLocUkyBAJQc4F/ces=;
+        b=pj8NhXdl3GzSeTUmjZj13jkszAHiTbq/aFAqAZpwTKNLX6256qHYjza9S8ayuj602P
+         zeJy9DU+KlXnJukGmZZ0BZHGIym+06eMfys7w5DxHWj81+EzWG/yXK35WGhTRciYgkBK
+         TZAv3pA4C8t/iNKJG+JP83sb9ZAGuxh7y8emCgqjp8N2puQcByI+fcVDwvejEnD3QW7Y
+         xzy6+Nj7M8EtX9qGRYyUs34hI6o4s0Skl8/Kcqj7dTTXQ7ReUBC0Ei/ku4N3KQnQryr0
+         KAR1bbgysxscLILz8REjO+nx4nLyRCMtQVmV4OKdcGRr+JPdTsOwcZG4qc2wikD7MSb4
+         lhzw==
+X-Gm-Message-State: AOJu0YxASJ3NnzUWUX0JuGV85GWuFKpelJnisD5E9l3dEZXnaPqXzpQf
+	GbQBUM1de6Z0CkOeTqxbVi85xg==
+X-Google-Smtp-Source: AGHT+IFWi7wpXVY9tsJsO/zl+ZfMahfhpsJ4stViU+gsw/woGKk1L2bx5bpliNuCtTofVw2yOLaPgw==
+X-Received: by 2002:ac2:4837:0:b0:50b:cbfe:ee67 with SMTP id 23-20020ac24837000000b0050bcbfeee67mr649023lft.27.1701431382523;
+        Fri, 01 Dec 2023 03:49:42 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:201d:dd04:f9b4:3c83? ([2001:8b0:aba:5f3c:201d:dd04:f9b4:3c83])
+        by smtp.gmail.com with ESMTPSA id z3-20020a05600c0a0300b0040839fcb217sm5298734wmp.8.2023.12.01.03.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 03:49:42 -0800 (PST)
+Message-ID: <91187fbd5c1bfeb33b7e1bcd8c2afbf324bb3c90.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 05/19] usbutils: upgrade 015 -> 017
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Fri, 01 Dec 2023 11:49:41 +0000
+In-Reply-To: <20231127101751.3187950-5-alex@linutronix.de>
+References: <20231127101751.3187950-1-alex@linutronix.de>
+	 <20231127101751.3187950-5-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: git-send-email 2.43.0
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on BRSMTPINTERN2/InternSMTP(Build V1202_05192022|May
- 19, 2022) at 12/01/2023 11:54:35 AM,Serialize by Router on BRSMTPINTERN2/InternSMTP(Build V1202_05192022|May 19, 2022) at
- 12/01/2023 11:54:35 AM,Itemize by SMTP Server on BRSMTP01/Eggelsberg/AT/B&R(Release 12.0.2FP1|April
- 06, 2023) at 12/01/2023 11:54:35 AM
-X-TNEFEvaluated: 1
-X-Disclaimed: 17975
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 10:54:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191566
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 11:49:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191567
 
-If DISTRO=5FFEATURE usrmerge is enabled, SLIBDIR is just a symlink to LIBDI=
-R,
-therefore don't add SLIBDIR for parsing in this case.
+On Mon, 2023-11-27 at 11:17 +0100, Alexander Kanavin wrote:
+> Drop CFLAGS (containing host paths) from installed pkg-config file.
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  .../usbutils/{usbutils_015.bb =3D> usbutils_017.bb}           | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>  rename meta/recipes-bsp/usbutils/{usbutils_015.bb =3D> usbutils_017.bb} =
+(86%)
+>=20
+> diff --git a/meta/recipes-bsp/usbutils/usbutils_015.bb b/meta/recipes-bsp=
+/usbutils/usbutils_017.bb
+> similarity index 86%
+> rename from meta/recipes-bsp/usbutils/usbutils_015.bb
+> rename to meta/recipes-bsp/usbutils/usbutils_017.bb
+> index a30037b6938..c62c6256fc8 100644
+> --- a/meta/recipes-bsp/usbutils/usbutils_015.bb
+> +++ b/meta/recipes-bsp/usbutils/usbutils_017.bb
+> @@ -13,7 +13,7 @@ DEPENDS =3D "libusb1 virtual/libiconv udev"
+> =20
+>  SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}=
+.tar.gz \
+>            "
+> -SRC_URI[sha256sum] =3D "2b8140664578f39c3f6f0166a1b950f8655304e63e3d7f89=
+899acb99bc5cb8e7"
+> +SRC_URI[sha256sum] =3D "f704c4cb78a060db88b43aac6ebfd3d93c2c5cf1d6dd0e42=
+936faaf00814ab00"
+> =20
+>  inherit autotools pkgconfig update-alternatives
+> =20
+> @@ -30,3 +30,7 @@ RRECOMMENDS:${PN} =3D "udev-hwdb"
+>  PACKAGE_BEFORE_PN =3D+ "${PN}-python"
+>  FILES:${PN}-python +=3D "${bindir}/lsusb.py"
+>  RDEPENDS:${PN}-python =3D "python3-core"
+> +
+> +do_install:append() {
+> +    sed -i -e "s,${WORKDIR},,g" ${D}/${libdir}/pkgconfig/*.pc
+> +}
 
-Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
----
- .../ldconfig-add-usrmerge-support.patch       | 37 +++++++++++++++++++
- .../glibc/ldconfig-native=5F2.12.1.bb           |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig=
--add-usrmerge-support.patch
+This looks like it removes WORKDIR, not CFLAGS so it doesn't quite
+match the commit message?
 
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-us=
-rmerge-support.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldcon=
-fig-add-usrmerge-support.patch
-new file mode 100644
-index 0000000000..3041d433fd
---- /dev/null
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-usrmerge-=
-support.patch
-@@ -0,0 +1,37 @@
-+From 6e543f39f6bec6eb2e02eea02029c7f4ec533b66 Mon Sep 17 00:00:00 2001
-+From: Johannes Pointner <johannes.pointner@br-automation.com>
-+Date: Fri, 1 Dec 2023 11:02:39 +0100
-+Subject: [PATCH] ldconfig: add usrmerge support
-+
-+Check whether SLIBDIR is a symlink, which is the case if usrmerge
-+is enabled, and if so, ignore it.
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
-+---
-+ ldconfig.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/ldconfig.c b/ldconfig.c
-+index e826410..72ac67b 100644
-+--- a/ldconfig.c
-++++ b/ldconfig.c
-+@@ -1371,10 +1371,16 @@ main (int argc, char **argv)
-+=20
-+   if (!opt=5Fonly=5Fcline)
-+     {
-++      struct stat buf;
-++      int ret;
-+       parse=5Fconf (config=5Ffile, true);
-+=20
-+       /* Always add the standard search paths.  */
-+-      add=5Fsystem=5Fdir (SLIBDIR);
-++      /* Check whether SLIBDIR is a symlink, which is the case if usrmerge
-++       is enabled, and if so, ignore it. */
-++      ret =3D lstat(SLIBDIR ,&buf);
-++      if(ret =3D=3D -1 || !S=5FISLNK(buf.st=5Fmode))
-++        add=5Fsystem=5Fdir (SLIBDIR);
-+       if (strcmp (SLIBDIR, LIBDIR))
-+ 	add=5Fsystem=5Fdir (LIBDIR);
-+       add=5Fsystem=5Fdir (SLIBDIR32);
-diff --git a/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb b/meta/rec=
-ipes-core/glibc/ldconfig-native=5F2.12.1.bb
-index 4db67c3ad4..85fc87257d 100644
---- a/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb
-+++ b/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb
-@@ -16,6 +16,7 @@ SRC=5FURI =3D "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://add-64-bit-flag-for-ELF64-entries.patch \
-            file://no-aux-cache.patch \
-            file://add-riscv-support.patch \
-+           file://ldconfig-add-usrmerge-support.patch \
- "
-=20
-=20
---=20
-2.43.0
+I think it might be wise to put a comment in the code here saying
+exactly what its doing so we can know in future too.
 
+Cheers,
 
+Richard
 
