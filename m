@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1021C18E16
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 13:14:57 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.22209.1701436492756974357
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 121BBC18E18
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 13:14:58 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.22206.1701436492650182311
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Dec 2023 05:14:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ADdLiAz4;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OBykxfqv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018c2584899d-54728b92-ce3c-49ad-83f1-7fea30304a9c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Iu/+Ncat;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SMzbAWUH;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c25848947-a5046604-c015-4f6d-b804-693e30947c18-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1701436492;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iFQSVLtjCRzs9nLj3stOFfiYzja3CQMtBh1QRZqh3ZM=;
-	b=ADdLiAz4gzVh2VUPJdFzP1bDgJvckWM3/P5hJg8s8DFYAuVoypj51ki83TiMG7kl
-	gG2Gwo4S1I18jrZgYnPrY9zsgnmfgDDqPd2Ip3KxLRzJqC55BNUHVEAJQfja6nx+wsM
-	IfXphj/a95IIaNpcF7FF6NyqSYnOl52QUt2uFbcM=
+	bh=zwWhxSpZBMiWJq1LvJR06oxVyp1gVADUf+xjTLBYr2Y=;
+	b=Iu/+Ncatope28f4UlpxSXH4Loa6dYIyhrfO7fKyOD1jk6ILyOBNg057j0s76R+Dg
+	mGocg3SXBc9VpfuCJpdb0Ek4QyGB3e0jm3rm++ccWwunTfqkGqvSUPHURtbiy3q9/Ht
+	ct/DpKKxSQ+e5w3QX3AHRVx5OFaK80n19Mex3/zg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701436492;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iFQSVLtjCRzs9nLj3stOFfiYzja3CQMtBh1QRZqh3ZM=;
-	b=OBykxfqvafaUbpIXlaCBCEHZucjQ0KZ6O+QVgIztcU3lX7S5uWjD4hunJNnXhkL7
-	hxFewgtlmI2IyicFfQ6FW/GA1QBriKtl3eSEDjqyGvirp5ozxt1TR5Y1nr04pdUY5i9
-	e6itI8OPL1kpysZz4OReNafNcepEx/jNeWV1MY2I=
-Content-Type: multipart/mixed; boundary="===============3806562376162487900=="
+	bh=zwWhxSpZBMiWJq1LvJR06oxVyp1gVADUf+xjTLBYr2Y=;
+	b=SMzbAWUHQc+Ozm7SY9GLhq9TOEqQ4QVE8GDf8BbSIvhrGDC8lJfskP4cRg7Ey6Mx
+	nGPg9MArWdUAWt7xQGUskrVmaoVgwnCfSwZ90UEuil/PzmOWZcD9GZuBUX5LYZPXDYY
+	FFx5QO2ViXFNLDrbp/CEacN37NoFC1/nqTu1K42g=
+Content-Type: multipart/mixed; boundary="===============2662567936518173994=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shadow: upgrading to 4.14.2 FAILED
-Message-ID: <0101018c2584899d-54728b92-ce3c-49ad-83f1-7fea30304a9c-000000@us-west-2.amazonses.com>
+Subject: [AUH] libsolv: upgrading to 0.7.27 SUCCEEDED
+Message-ID: <0101018c25848947-a5046604-c015-4f6d-b804-693e30947c18-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Dec 2023 13:14:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.01-54.240.27.23
+X-SES-Outgoing: 2023.12.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 13:14:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191643
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 13:14:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191639
 
---===============3806562376162487900==
+--===============2662567936518173994==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,116 +51,114 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *shadow* to *4.14.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libsolv* to *0.7.27* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libsolv-upgrade-0.7.26-0.7.27.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe shadow failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1845 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-7abfca03368ffc1bdb95aeed4719808c907fc5a4"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7abfca03368ffc1bdb95aeed4719808c907fc5a4"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 4 Local 4 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1845 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 913 .bb files complete (911 cached, 2 parsed). 1845 targets, 38 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-7abfca03368ffc1bdb95aeed4719808c907fc5a4"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7abfca03368ffc1bdb95aeed4719808c907fc5a4"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  13% |####                                | ETA:  0:00:00
-Adding changed files:  26% |#########                           | ETA:  0:00:00
-Adding changed files:  39% |##############                      | ETA:  0:00:00
-Adding changed files:  52% |##################                  | ETA:  0:00:00
-Adding changed files:  65% |#######################             | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files:  91% |################################    | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/shadow-maint/shadow/releases/download/4.14.2/shadow-4.14.2.tar.gz...
-INFO: Rebasing devtool onto 27f74e0c750e7b96e0e6f81dcf369f5ff331e4a1
-WARNING: Command 'git rebase 27f74e0c750e7b96e0e6f81dcf369f5ff331e4a1' failed:
-Auto-merging src/login.c
-CONFLICT (content): Merge conflict in src/login.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto 27f74e0c750e7b96e0e6f81dcf369f5ff331e4a1
-WARNING: Command 'git rebase 27f74e0c750e7b96e0e6f81dcf369f5ff331e4a1' failed:
-Auto-merging src/login.c
-CONFLICT (content): Merge conflict in src/login.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-nativesdk onto 27f74e0c750e7b96e0e6f81dcf369f5ff331e4a1
-WARNING: Command 'git rebase 27f74e0c750e7b96e0e6f81dcf369f5ff331e4a1' failed:
-Auto-merging src/login.c
-CONFLICT (content): Merge conflict in src/login.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-target onto 27f74e0c750e7b96e0e6f81dcf369f5ff331e4a1
-WARNING: Command 'git rebase 27f74e0c750e7b96e0e6f81dcf369f5ff331e4a1' failed:
-Auto-merging src/login.c
-CONFLICT (content): Merge conflict in src/login.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/shadow
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/shadow/shadow_4.14.2.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============3806562376162487900==--
+
+-- >8 --
+From 48721381822965e78e1290a692a9d00409e8536d Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Dec 2023 10:43:33 +0000
+Subject: [PATCH] libsolv: upgrade 0.7.26 -> 0.7.27
+
+---
+ .../libsolv/{libsolv_0.7.26.bb => libsolv_0.7.27.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/libsolv/{libsolv_0.7.26.bb => libsolv_0.7.27.bb} (95%)
+
+diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.26.bb b/meta/recipes-extended/libsolv/libsolv_0.7.27.bb
+similarity index 95%
+rename from meta/recipes-extended/libsolv/libsolv_0.7.26.bb
+rename to meta/recipes-extended/libsolv/libsolv_0.7.27.bb
+index bae7960138..2ea80c6ce9 100644
+--- a/meta/recipes-extended/libsolv/libsolv_0.7.26.bb
++++ b/meta/recipes-extended/libsolv/libsolv_0.7.27.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/openSUSE/libsolv.git;branch=master;protocol=https \
+            file://0001-utils-Conside-musl-when-wrapping-qsort_r.patch \
+ "
+ 
+-SRCREV = "48c985375134d2443eee551613161cadc278af2f"
++SRCREV = "0caa2edb94ba228003bf18960e4574256e92f8fb"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.39.2
+
+
+--===============2662567936518173994==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libsolv: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolv-dbg: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolv-dbg: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolv-dbg: PKGSIZE changed from 2745208 to 2742176 (-0%)
+packages/core2-64-poky-linux/libsolv/libsolv-dev: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolv-dev: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolv-doc: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolv-doc: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolv-locale: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolv-locale: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolv-src: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolv-src: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolv-src: PKGSIZE changed from 1646147 to 1644958 (-0%)
+packages/core2-64-poky-linux/libsolv/libsolv-staticdev: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolv-staticdev: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolv-tools: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolv-tools: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolv: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolv: PV changed from "0.7.26" to "0.7.27"
+packages/core2-64-poky-linux/libsolv/libsolvext: PKGV changed from 0.7.26 [default] to 0.7.27 [default]
+packages/core2-64-poky-linux/libsolv/libsolvext: PV changed from "0.7.26" to "0.7.27"
+
+--===============2662567936518173994==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libsolv-upgrade-0.7.26-0.7.27.patch"
+
+RnJvbSA0ODcyMTM4MTgyMjk2NWU3OGUxMjkwYTY5MmE5ZDAwNDA5ZTg1MzZkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAxMDo0MzozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnNvbHY6IHVwZ3JhZGUgMC43LjI2IC0+IDAuNy4yNwoKLS0tCiAuLi4vbGlic29sdi97bGlic29s
+dl8wLjcuMjYuYmIgPT4gbGlic29sdl8wLjcuMjcuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvbGlic29sdi97bGlic29sdl8wLjcuMjYuYmIgPT4gbGlic29sdl8wLjcu
+MjcuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnNvbHYv
+bGlic29sdl8wLjcuMjYuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlic29sdi9saWJzb2x2
+XzAuNy4yNy5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQvbGlic29sdi9saWJzb2x2XzAuNy4yNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2xpYnNvbHYvbGlic29sdl8wLjcuMjcuYmIKaW5kZXggYmFlNzk2MDEzOC4uMmVh
+ODBjNmNlOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnNvbHYvbGlic29s
+dl8wLjcuMjYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnNvbHYvbGlic29sdl8w
+LjcuMjcuYmIKQEAgLTEyLDcgKzEyLDcgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL29w
+ZW5TVVNFL2xpYnNvbHYuZ2l0O2JyYW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMgXAogICAgICAg
+ICAgICBmaWxlOi8vMDAwMS11dGlscy1Db25zaWRlLW11c2wtd2hlbi13cmFwcGluZy1xc29ydF9y
+LnBhdGNoIFwKICIKIAotU1JDUkVWID0gIjQ4Yzk4NTM3NTEzNGQyNDQzZWVlNTUxNjEzMTYxY2Fk
+YzI3OGFmMmYiCitTUkNSRVYgPSAiMGNhYTJlZGI5NGJhMjI4MDAzYmYxODk2MGU0NTc0MjU2ZTky
+ZjhmYiIKIAogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+XGQrKFwuXGQr
+KSspIgogCi0tIAoyLjM5LjIKCg==
+
+--===============2662567936518173994==--
 
