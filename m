@@ -1,96 +1,97 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7652C4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 18:34:39 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.442.1701455675229108121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A824FC4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 18:35:29 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.452.1701455720225228722
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 10:34:35 -0800
+ Fri, 01 Dec 2023 10:35:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BOZxyy9x;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4079ed65582so23320005e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 10:34:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701455673; x=1702060473; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oG7i8Ft/XusmWn9rDNphoZQnuEWUVT9Ltxn6eZjC3Yw=;
-        b=BOZxyy9xrivww/TzVP8kDjLJE+ee34GDgbvGzjrK33+VzRkC90hPbI6NNCuvBqapP+
-         lK3gvJfpzD7a0u4PJ9OvX/+gaXQ17mXRMnhMAQ7a379nF/SjN3lWxHakgZv30kIl39mP
-         +YVcYZeC40BeTI0dm+xto08lC1+DMtMc2lN8hG35/vsufFjoQQbui2QUrXRmxdv2Oaxq
-         HLmhRkuPJ+puq8RA7o+JYgT30jHDbfMwEEOlnfI67/FzJcoK/7SWCuy1d6+pwEm98TW7
-         nQDqeOVHwWqOaG2iN6SgieLsQdeA4QceBqCQFurk4h6c/9JhrAWnuP2aG6yR+EjSIZim
-         rSbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701455673; x=1702060473;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oG7i8Ft/XusmWn9rDNphoZQnuEWUVT9Ltxn6eZjC3Yw=;
-        b=S5Mtxfs2U/VX3A3qgPpAMvTBGyqN2/Od+h7CMs7zlRIFj4YwPJjM/AcFkLBydR7fUO
-         jie9rBFYiUgBDumPuwUN99JDHHL4+kQZJWMsx+gB7ZrAeWZz9+8i3d407ikKDfu+sjhu
-         XfOfFPLr1aHuq4s3sojGg+qryEj4Vr9wzKi/IpTLuEAidGbxGvSk1Cs7Q6NbBj/o6Aes
-         cIOoFxcsobo3PzjtlTFA6WBVv7tsvnWiO4tKBXZwz3T5LYvKMF20H9Gusm/80CU3EwxL
-         rNhj1c9vD3RSYbyhKHTsuIA9XCS0c8ZhcHBRUdbB+BILN4lQAnedGsqJHzdoSteyLgd2
-         Z9mA==
-X-Gm-Message-State: AOJu0Yz52k90Ywqf5EVIiQ2de8oP7MefNJ0ABGTE2ycehQ4dar98FvMs
-	qt1dZKOObw9xW4mXh5cmj9uyH68/crY=
-X-Google-Smtp-Source: AGHT+IGmpnQF/manRMn7d7sgJQ/ZDljYPt8Hl++jYRIaR+Y9FITnys/8zPPXevk9NQSeUOPwKjPfew==
-X-Received: by 2002:a5d:404e:0:b0:333:265e:8bb9 with SMTP id w14-20020a5d404e000000b00333265e8bb9mr1046116wrp.30.1701455672796;
-        Fri, 01 Dec 2023 10:34:32 -0800 (PST)
-Received: from Zuma-000004PC.lan ([2a02:390:9c57:0:2050:5414:adff:4362])
-        by smtp.gmail.com with ESMTPSA id dl17-20020a0560000b9100b003316debbde4sm4857229wrb.48.2023.12.01.10.34.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 10:34:31 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH] rust: Drop targets and hosts override magic
-Date: Fri,  1 Dec 2023 18:34:19 +0000
-Message-Id: <20231201183418.4188-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.39.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GkpTrvsg;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fAqOjEA5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c26a9ebf0-484c908b-8b23-491c-be98-3229067d518d-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701455719; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=OIBoeRlonc8G7W7xw7luoe2KQ8NamSPiZ5IhX1YKfOo=;
+	b=GkpTrvsg568pxDOP6S8gyjMug2KyIHFDu1DSnF8KyboA7IWlLG6DeFcWya9wst4o
+	AL38zeUrXa3AxK5CRmOwK4mvGFFBlIJRAcXQogH0pJY+w1GeSL2XILQDUmmmZ/bG4mC
+	2Vl75Px4ugnhxkRzu9oTOhwSJXn5fs7jF87rO2q4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701455719;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=OIBoeRlonc8G7W7xw7luoe2KQ8NamSPiZ5IhX1YKfOo=;
+	b=fAqOjEA5N3S6wbeo4bKcgGreHiBCCiT/Lmi0DwSe9CRlfdiDCxKR6IdPaD9+wZni
+	2mVuBRc8vqFc3ed7B5IvQ/oBq6TH+qm6BiMaoQu0CDm5JmDTg76hJZkkjv2C2sa37+9
+	0IjhwndBpp/s8cSbT6oy/Lkmw1d1UOIX4ORzX6sw=
+From: patchtest@automation.yoctoproject.org
+To: Patrick Williams <patrick@stwcx.xyz>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2] shared-mime-info-native: handle old GCC for AlmaLinux8
+In-Reply-To: 20231201182234.3347749-1-patrick@stwcx.xyz
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c26a9ebf0-484c908b-8b23-491c-be98-3229067d518d-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Dec 2023 18:35:19 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 18:34:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191683
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 18:35:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191684
 
-`targets` and `hosts` could be overridden prior to 0a01b5ab973e
-("rust-cross-canadian: Simplify and fix"), that commit deleted this
-usage, remove the remnant of it from here.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
+---
+Testing patch /home/patchtest/share/mboxes/v2-shared-mime-info-native-handle-old-GCC-for-AlmaLinux8.patch
+
+FAIL: test Upstream-Status presence: Added patch file is missing Upstream-Status: <Valid status> in the commit message (test_patch.TestPatch.test_upstream_status_presence_format)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
 ---
 
- meta/recipes-devtools/rust/rust_1.70.0.bb | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-diff --git a/meta/recipes-devtools/rust/rust_1.70.0.bb b/meta/recipes-devtools/rust/rust_1.70.0.bb
-index 6a28dc926ed2..3d176e54c15c 100644
---- a/meta/recipes-devtools/rust/rust_1.70.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.70.0.bb
-@@ -154,13 +154,9 @@ python do_configure() {
- 
-     config.set("build", "vendor", e(True))
- 
--    if not "targets" in locals():
--        targets = [d.getVar("RUST_TARGET_SYS")]
--    config.set("build", "target", e(targets))
-+    config.set("build", "target", e([d.getVar("RUST_TARGET_SYS")]))
- 
--    if not "hosts" in locals():
--        hosts = [d.getVar("RUST_HOST_SYS")]
--    config.set("build", "host", e(hosts))
-+    config.set("build", "host", e([d.getVar("RUST_HOST_SYS")]))
- 
-     # We can't use BUILD_SYS since that is something the rust snapshot knows
-     # nothing about when trying to build some stage0 tools (like fabricate)
--- 
-2.39.0
+--NextPart
 
+
+--NextPart--
 
