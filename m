@@ -1,107 +1,121 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <johannes.pointner@br-automation.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E030EC4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 10:31:25 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.19841.1701426680829830539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05AF2C4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 10:54:46 +0000 (UTC)
+Received: from inet11.abb.com (inet11.abb.com [138.225.1.77])
+ by mx.groups.io with SMTP id smtpd.web10.20147.1701428079067787207
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 02:31:21 -0800
+ Fri, 01 Dec 2023 02:54:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WaESqqhJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40b4a8db314so19488805e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 02:31:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1701426679; x=1702031479; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oSHB/oLwTmI8grxi9Q72zcpvCmKe/3ewTibOSICUims=;
-        b=WaESqqhJATWXXqB7m5/UIvupOHbdK4nK/fThHYQg+KEer4ESuoyvZr324D8eAIQQhp
-         QPT2W5EjmQfrKJj3O+cGaq5S+jVPimfKZeh+yvEhwRPN0es4YFLXpKZClgsZsSHRn4O6
-         uTnVlFlBiG2oKEMfY8keGWXXIoSbV5y0whUFM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701426679; x=1702031479;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=oSHB/oLwTmI8grxi9Q72zcpvCmKe/3ewTibOSICUims=;
-        b=xDXGI7Tq1Y3o9RG3sDx5Anz5IK/Tr9r3R8uRqPh/4/TdJ89LsQB9WnjCRaA0SbvDE9
-         RYSLjmfqsbrp+LWq/64TwEsF22VR+ETkh6Oe2RbpdaTuhjrZ6Ci+Z9qGsZLT2NHOEsmK
-         jXJGaFW0CpMvzu8loWVj4MwtWhH6h5brAlleFUSIcFdC3/fpe+RJo5Gdg2VzCiFtHYzW
-         A9hOOwOTDp635uYLxSsJeQZ1bR5X2ob4ttPg2lhwUsJfmMMd3wHbviNjl/22dH71SjBG
-         tGXDHd5NEnMz+ncymBYDUThc9R5T822lhGp75gXWu0X56HHOTnlQnKBwFYc+eZSJjiav
-         dmsQ==
-X-Gm-Message-State: AOJu0YwOP4D+wWVhU2JZ9WdOvqcDPmXN7KKnEwXSgJgnC2W8No+rOUEO
-	UmfbICzLqkoBW1sVa9en9qSa+A==
-X-Google-Smtp-Source: AGHT+IHYz/aGQ9A6ths6hCrdpB+yJSsjiB3sG4oMi/Geg+mzL8aCoFA4Jy2RTEgzGq60MZYSLdi4Nw==
-X-Received: by 2002:a5d:58ca:0:b0:333:3117:c487 with SMTP id o10-20020a5d58ca000000b003333117c487mr267029wrf.280.1701426678862;
-        Fri, 01 Dec 2023 02:31:18 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:201d:dd04:f9b4:3c83? ([2001:8b0:aba:5f3c:201d:dd04:f9b4:3c83])
-        by smtp.gmail.com with ESMTPSA id l7-20020a5d6747000000b003316db2d48dsm3828478wrw.34.2023.12.01.02.31.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 02:31:18 -0800 (PST)
-Message-ID: <14ad570d4b0a8b74d8fd7d2e43796982573e6b40.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC] [PATCH 0/7] Several fixes around recipetool
- appendsrcfile(s) and oe.recipeutils.bbappend_recipe
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Julien Stephan <jstephan@baylibre.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 01 Dec 2023 10:31:17 +0000
-In-Reply-To: <20231130220156.726263-1-jstephan@baylibre.com>
-References: <20231130220156.726263-1-jstephan@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=none (message not signed); spf=pass (domain: br-automation.com, ip: 138.225.1.77, mailfrom: johannes.pointner@br-automation.com)
+Received: from brsmtp01.br-automation.co.at ([10.15.2.36])
+	by inet11.abb.com (8.14.7/8.14.7) with ESMTP id 3B1Asamv006310
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>; Fri, 1 Dec 2023 11:54:36 +0100
+Received: from extmail.br-automation.com ([192.168.112.26])
+          by brsmtp01.br-automation.co.at (HCL Domino Release 12.0.2FP1)
+          with ESMTP id 2023120111543540-51656 ;
+          Fri, 1 Dec 2023 11:54:35 +0100 
+Received: from ategge3723.brdev.net ([192.168.62.18])
+          by extmail.br-automation.com (HCL Domino Build V1202_05192022)
+          with ESMTP id 2023120111543587-23800 ;
+          Fri, 1 Dec 2023 11:54:35 +0100 
+From: "Johannes Pointner" <johannes.pointner@br-automation.com>
+To: openembedded-core@lists.openembedded.org
+Cc: "Johannes Pointner" <johannes.pointner@br-automation.com>
+Subject: [PATCH] ldconfig-native: Add usrmerge support
+Date: Fri, 1 Dec 2023 11:53:59 +0100
+Message-ID: <20231201105359.409068-1-johannes.pointner@br-automation.com>
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+X-MIMETrack: Itemize by SMTP Server on BRSMTPINTERN2/InternSMTP(Build V1202_05192022|May
+ 19, 2022) at 12/01/2023 11:54:35 AM,Serialize by Router on BRSMTPINTERN2/InternSMTP(Build V1202_05192022|May 19, 2022) at
+ 12/01/2023 11:54:35 AM,Itemize by SMTP Server on BRSMTP01/Eggelsberg/AT/B&R(Release 12.0.2FP1|April
+ 06, 2023) at 12/01/2023 11:54:35 AM
+X-TNEFEvaluated: 1
+X-Disclaimed: 17975
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 10:31:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191565
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 10:54:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191566
 
-On Thu, 2023-11-30 at 23:01 +0100, Julien Stephan wrote:
-> Hi all,
->=20
-> I was trying to use recipetool appendsrcfile to add a file to a recipe an=
-d I noticed several issues:
-> * -m is not correctly supported
-> * recipetool appendsrfile(s) are missing a usefull dry-run mode
-> * appendsrc function relies on oe.recipeutils.bbappend_recipe but
->   duplicates some code: it constructs itself the new src_uri entry
->   although oe.recipeutils.bbappend_recipe is already doing it
-> * we are lacking a mode to patch the recipe itself
->=20
-> So this series tries to fix the issues above, fix the selftest
-> accordingly and add new test for -m and for "patch mode" (update recipe)
-> and also add a way to specify the name of the file to add
-> (in oe.recipeutils.bbappend_recipe)
->=20
-> There is still one point I would like to discuss:
-> I skip test_recipetool_appendsrcfile_existing_in_src_uri_diff_params
-> test because recipetool appendsrcfile(s) used to not add new src_uri entr=
-y
-> if the entry already exist even with different parameters while
-> oe.recipeutils.bbappend_recipe adds it if parameters are different. So
-> we need to figure out if we want to keep the old behaviour and if we need
-> to patch oe.recipeutils.bbappend_recipe, and update the test or remove
-> it.
-> I feel like if the parameters are different then we should add the new
-> src_entry (so old behaviour was not correct) and remove old entry so
-> either use "SRC_URI:remove" in bbapend file or completely remove the old
-> entry in patch mode
->=20
-> What do you think?
+If DISTRO=5FFEATURE usrmerge is enabled, SLIBDIR is just a symlink to LIBDI=
+R,
+therefore don't add SLIBDIR for parsing in this case.
 
-I don't know the code well but I think that adding the src_uri if the
-parameters are different is the right thing to do. We should probably
-therefore update the tests accordingly.
+Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
+---
+ .../ldconfig-add-usrmerge-support.patch       | 37 +++++++++++++++++++
+ .../glibc/ldconfig-native=5F2.12.1.bb           |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig=
+-add-usrmerge-support.patch
 
-Thanks for working through these kinds of details!
+diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-us=
+rmerge-support.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldcon=
+fig-add-usrmerge-support.patch
+new file mode 100644
+index 0000000000..3041d433fd
+--- /dev/null
++++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-usrmerge-=
+support.patch
+@@ -0,0 +1,37 @@
++From 6e543f39f6bec6eb2e02eea02029c7f4ec533b66 Mon Sep 17 00:00:00 2001
++From: Johannes Pointner <johannes.pointner@br-automation.com>
++Date: Fri, 1 Dec 2023 11:02:39 +0100
++Subject: [PATCH] ldconfig: add usrmerge support
++
++Check whether SLIBDIR is a symlink, which is the case if usrmerge
++is enabled, and if so, ignore it.
++
++Upstream-Status: Inappropriate [embedded specific]
++
++Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
++---
++ ldconfig.c | 8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/ldconfig.c b/ldconfig.c
++index e826410..72ac67b 100644
++--- a/ldconfig.c
+++++ b/ldconfig.c
++@@ -1371,10 +1371,16 @@ main (int argc, char **argv)
++=20
++   if (!opt=5Fonly=5Fcline)
++     {
+++      struct stat buf;
+++      int ret;
++       parse=5Fconf (config=5Ffile, true);
++=20
++       /* Always add the standard search paths.  */
++-      add=5Fsystem=5Fdir (SLIBDIR);
+++      /* Check whether SLIBDIR is a symlink, which is the case if usrmerge
+++       is enabled, and if so, ignore it. */
+++      ret =3D lstat(SLIBDIR ,&buf);
+++      if(ret =3D=3D -1 || !S=5FISLNK(buf.st=5Fmode))
+++        add=5Fsystem=5Fdir (SLIBDIR);
++       if (strcmp (SLIBDIR, LIBDIR))
++ 	add=5Fsystem=5Fdir (LIBDIR);
++       add=5Fsystem=5Fdir (SLIBDIR32);
+diff --git a/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb b/meta/rec=
+ipes-core/glibc/ldconfig-native=5F2.12.1.bb
+index 4db67c3ad4..85fc87257d 100644
+--- a/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb
++++ b/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb
+@@ -16,6 +16,7 @@ SRC=5FURI =3D "file://ldconfig-native-2.12.1.tar.bz2 \
+            file://add-64-bit-flag-for-ELF64-entries.patch \
+            file://no-aux-cache.patch \
+            file://add-riscv-support.patch \
++           file://ldconfig-add-usrmerge-support.patch \
+ "
+=20
+=20
+--=20
+2.43.0
 
-Cheers,
 
-Richard
 
