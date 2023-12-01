@@ -1,147 +1,133 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 647CCC4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 08:43:05 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web10.18657.1701420176463581589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AEE2C4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 08:50:15 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.18490.1701420612770949529
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 00:42:56 -0800
+ Fri, 01 Dec 2023 00:50:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=SgDV4f0j;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3b88c29a995so168267b6e.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 00:42:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OMkUbbZW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-50bc39dcbcbso2609476e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 00:50:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701420176; x=1702024976; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LVVDH9qFYEIeqfYPoaM1FPlpBgU8t3qSFmeE8DbNGsI=;
-        b=SgDV4f0jl63IBvMT2ZtJ0x4XX40tBBf8gVK0q1I1CEuiXKXhVacbGsXbcTuwW6SLLg
-         1WHYkGXpw2lM+BRYqxcHqvSuZ2r9Q+rCISJKRF2GGzgObVa6lWlwtiBXnGbSzhfAUHme
-         n9/RBj8tJZYkxcfJ/YXbIRt17QMd+5Z6yrHofk+tc4BRVGqFYDNMYgplpt2KzDPH85uF
-         khU0caY5fkvyfVoSgJrap+QBRjchcfGG9YUShaJh7O+R7iz6AbVh5rhI3i54uCPW2WG+
-         Qf5FJrYkT+rBt5ieodFBAZQ1+6KW/rQiTvtbHzk7ouAscofrvB/8IHUed3lApkVC5P7h
-         K/XQ==
+        d=gmail.com; s=20230601; t=1701420611; x=1702025411; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AUm9mTEh0j9C9U13LNTHk5EgdJcyB3zxTqUr+0ccNlk=;
+        b=OMkUbbZWdxZrtJVRohjR6C8mubAFxBn8lZuiNB4WM6TfXlyt13T5ZTLUs3WIryd/AH
+         8gIkszihG0/SEIsiwHiaC+vizGpua51FOgHc8Yh4Dm2QHrnq1TlygOJ42rbpt3GckZMq
+         MT/Z7IZ6EeEni+xVzFr6G/no1UJSknCPqVx/+94WuhQNNEJScmuUvATzj41VA7RLe5ei
+         yu3XmoIaN4ScvDESu/idEH6A5U1M2sHXM3otiGtQ8uhCjIAmUG0WvRifDLXsEn2VENGA
+         kvno55Xg5DmvuShbD2IP4jtpxYYIP3HIxSAKkBSvCGpNvqSQRsVlDZ3YQpzgzfMIhpqH
+         LOYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701420176; x=1702024976;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LVVDH9qFYEIeqfYPoaM1FPlpBgU8t3qSFmeE8DbNGsI=;
-        b=w3h3IF0BeWyUBZr104Ruw0U6XSDYmQv5+ejj0dCwQkyc1BHniLLKF82YmpzqB1kySy
-         UrE/p2V3g8hoAKGu6mWy0pAnr0BdLBvXJ8qX6hhH9BPe8LBrahzRpMOFL+zxw+D8yn1d
-         Rk4/sutarUurxghqGVAy0BUq7yQse5/FA3M49wytt3iDUoDUKiuyWuArVG7uyVHkIxhr
-         zVEXDmsyLzwYxlEJ8UXKI55kT/OkQ7opfDIyA8ZiMvpkoVGUlp1lRW0S3cmZJipiz0zv
-         EA7zN+cn1Htrh1UACfl3F6FTOMGLpknRYacZhhGazhVPihkehRzXF1Eyb9D7/FKPcaiH
-         j1gQ==
-X-Gm-Message-State: AOJu0YwII4q4T8kmBamFANjL2Bsom2/w0TZj9MrKUDj/ZPmBoq+36VC3
-	pPXdH9jnUDdZ9gM5v8yQEWi5WJ4Jpff6u/inIzE=
-X-Google-Smtp-Source: AGHT+IG0ZQ21i7ozW4TR4iMNOT3Z/agsCLnhNjlU9xy5uh6zpDA+o8Ma7vQdwAnseGCVbQJChFn6ntkdqAv603gKnWE=
-X-Received: by 2002:a05:6870:6c19:b0:1fa:f81d:2402 with SMTP id
- na25-20020a0568706c1900b001faf81d2402mr147059oab.12.1701420175643; Fri, 01
- Dec 2023 00:42:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701420611; x=1702025411;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AUm9mTEh0j9C9U13LNTHk5EgdJcyB3zxTqUr+0ccNlk=;
+        b=Yd1E+29nivv9Oo8+ZGhu8LpJRTHGDzhjQB9Nm/QBPAIR/0UBZTMtreu4dQfCwNEM0x
+         54OQh+VyOlmEQDOxO4LUJyFY0+mdl1KXQYYtXzoe0nPTmwqfFLjjshWHs5a/X1FWXZwA
+         VOBh9s1eJkQ5jhRVG1P7bsdr16/XLsz/JFzJ7Y7iErlGv0Pn4Nc+mrjPb870DrIu42MN
+         yUUVqEH3PcUzbMBwqfQGh/CwFZQM6G8sO5JWXtjHAjbwTqjxo+ydM9fSoybg7tu133eh
+         0A5/luuiio76u8CYwo4C4gldhXvQDNhVgWG2qxc55vQwkqB+SeCZERuoLY/e9cgZtd6o
+         +1Kw==
+X-Gm-Message-State: AOJu0YxGutxRuEAXH7j6T6F5NVAoVwsvc1KtCxlLXzZLZ75kX/RVOIb1
+	cr0sCaF/kjvi0VL+EKlD/XieSKSYqQ4yueXLPPRuC3GA
+X-Google-Smtp-Source: AGHT+IFxrK5bgjToR71/qyUnZf4g/PAoL7QN8pZMNyBIELyrvwMm8DKfGprSUfgvLzGqwGaYDlMEjbmmOYmRdrCaigk=
+X-Received: by 2002:ac2:5982:0:b0:507:c872:7f84 with SMTP id
+ w2-20020ac25982000000b00507c8727f84mr492355lfn.29.1701420610713; Fri, 01 Dec
+ 2023 00:50:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20231128000701.3180126-1-raj.khem@gmail.com> <2023120107480246bc6385@mail.local>
-In-Reply-To: <2023120107480246bc6385@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 1 Dec 2023 00:42:29 -0800
-Message-ID: <CAMKF1srr3AkHo50JYVp5Yn8swTpnKgwPn_X6gkUGYDR1j9xpWA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v11] vte: Separate out gtk4 pieces of vte into
- individual packages
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Ross Burton <ross.burton@arm.com>
+References: <20231130220156.726263-1-jstephan@baylibre.com>
+In-Reply-To: <20231130220156.726263-1-jstephan@baylibre.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 1 Dec 2023 09:49:58 +0100
+Message-ID: <CANNYZj-J4NXTqFaErdwhEpkPB4dmH+Nvy6Vzi3DFUt-v-we=rg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC] [PATCH 0/7] Several fixes around recipetool
+ appendsrcfile(s) and oe.recipeutils.bbappend_recipe
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 08:43:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191562
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 08:50:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191563
 
-On Thu, Nov 30, 2023 at 11:48=E2=80=AFPM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> Hello Khem,
->
-> The vte upgrade causes librsvg to fail on qemux86-64-x32:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/8077/st=
-eps/11/logs/stdio
->
+Hello Julien,
 
-I think it could be that os and libc are not computed correctly for rust on=
- x32
-Can you try this patch on top of these three.
+thanks again for making devtool better. I don't think there are any
+particularly strong opinions about the finer points; at this point you
+know the code better than anyone else, and so I trust you make the
+right calls :)
 
-https://snips.sh/f/WuMM_2WYXh
+Alex
 
-> I'm not sure how and I was suspecting other rust changes but I confirmed
-> this is the 3 patches series as this one was successful:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/8083
+On Thu, 30 Nov 2023 at 23:02, Julien Stephan <jstephan@baylibre.com> wrote:
 >
+> Hi all,
 >
-> On 27/11/2023 16:07:01-0800, Khem Raj wrote:
-> > This avoids adding gtk4 dependencies when image may only desire the gtk=
-3
-> > pieces of vte.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Ross Burton <ross.burton@arm.com>
-> > ---
-> > v11: Package Vte-3.91.gir into ${PN}-gtk4-dev
-> >
-> >  meta/recipes-support/vte/vte_0.74.1.bb | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-support/vte/vte_0.74.1.bb b/meta/recipes-supp=
-ort/vte/vte_0.74.1.bb
-> > index 8a7054a13cd..071f6684644 100644
-> > --- a/meta/recipes-support/vte/vte_0.74.1.bb
-> > +++ b/meta/recipes-support/vte/vte_0.74.1.bb
-> > @@ -36,7 +36,16 @@ PACKAGECONFIG[gtk4] =3D "-Dgtk4=3Dtrue,-Dgtk4=3Dfals=
-e,gtk4"
-> >  PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
-> >  PACKAGECONFIG[systemd] =3D "-D_systemd=3Dtrue,-D_systemd=3Dfalse,syste=
-md"
-> >
-> > -PACKAGES =3D+ "libvte ${PN}-prompt"
-> > +PACKAGES =3D+ "libvte-gtk4 ${PN}-gtk4 ${PN}-gtk4-dev libvte ${PN}-prom=
-pt"
-> > +FILES:libvte-gtk4 =3D "${libdir}/lib*gtk4.so.* ${libdir}/girepository-=
-1.0/Vte-3.91.typelib"
-> > +FILES:${PN}-gtk4 =3D"${bindir}/vte-2.91-gtk4"
-> > +FILES:${PN}-gtk4-dev =3D "${libdir}/lib*gtk4.so \
-> > +                        ${libdir}/pkgconfig/vte-2.91-gtk4.pc \
-> > +                        ${datadir}/gir-1.0/Vte-3.91.gir \
-> > +                        ${datadir}/vala/vapi/vte-2.91-gtk4.deps \
-> > +                        ${datadir}/vala/vapi/vte-2.91-gtk4.vapi \
-> > +                        ${includedir}/vte-2.91-gtk4 \
-> > +                        "
-> >  FILES:${PN} +=3D"${systemd_user_unitdir}"
-> >  FILES:libvte =3D "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
-> >  FILES:${PN}-prompt =3D " \
-> > --
-> > 2.43.0
-> >
+> I was trying to use recipetool appendsrcfile to add a file to a recipe and I noticed several issues:
+> * -m is not correctly supported
+> * recipetool appendsrfile(s) are missing a usefull dry-run mode
+> * appendsrc function relies on oe.recipeutils.bbappend_recipe but
+>   duplicates some code: it constructs itself the new src_uri entry
+>   although oe.recipeutils.bbappend_recipe is already doing it
+> * we are lacking a mode to patch the recipe itself
 >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#191330): https://lists.openembedded.org/g/openembed=
-ded-core/message/191330
-> > Mute This Topic: https://lists.openembedded.org/mt/102841833/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+> So this series tries to fix the issues above, fix the selftest
+> accordingly and add new test for -m and for "patch mode" (update recipe)
+> and also add a way to specify the name of the file to add
+> (in oe.recipeutils.bbappend_recipe)
 >
+> There is still one point I would like to discuss:
+> I skip test_recipetool_appendsrcfile_existing_in_src_uri_diff_params
+> test because recipetool appendsrcfile(s) used to not add new src_uri entry
+> if the entry already exist even with different parameters while
+> oe.recipeutils.bbappend_recipe adds it if parameters are different. So
+> we need to figure out if we want to keep the old behaviour and if we need
+> to patch oe.recipeutils.bbappend_recipe, and update the test or remove
+> it.
+> I feel like if the parameters are different then we should add the new
+> src_entry (so old behaviour was not correct) and remove old entry so
+> either use "SRC_URI:remove" in bbapend file or completely remove the old
+> entry in patch mode
+>
+> What do you think?
+>
+> Cheers
+> Julien
+>
+> Julien Stephan (7):
+>   recipetool: appendsrcfile(s): add dry-run mode
+>   recipeutils: bbappend_recipe: fix undefined variable
+>   recipetool: appendsrcfile(s): use params instead of extraline
+>   recipeutils: bbappend_recipe: fix file not added to SRC_URI if name is
+>     specified
+>   recipeutils: bbappend_recipe: allow to patch the recipe itself
+>   recipetool: appendsrcfile(s): add a mode to update the recipe itself
+>   oeqa/selftest/recipetool: appendsrfile: add test for machine
+>
+>  meta/lib/oe/recipeutils.py                 | 51 +++++++++++-------
+>  meta/lib/oeqa/selftest/cases/recipetool.py | 30 +++++++++--
+>  scripts/lib/recipetool/append.py           | 60 ++++++++++++++++------
+>  3 files changed, 103 insertions(+), 38 deletions(-)
 >
 > --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> 2.42.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191544): https://lists.openembedded.org/g/openembedded-core/message/191544
+> Mute This Topic: https://lists.openembedded.org/mt/102903929/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
