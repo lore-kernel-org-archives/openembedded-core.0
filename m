@@ -1,98 +1,97 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D63C4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 15:25:40 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.2169.1701444339448699123
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE80FC07E97
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 15:25:59 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.2175.1701444356415045885
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 07:25:39 -0800
+ Fri, 01 Dec 2023 07:25:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GscRcKxd;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=HE9EctF8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018c25fc4309-193d5f29-9314-4d21-af26-3d689cf9e0bc-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701444338; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=AwiVIUpu97uWnKhflC/iQ7MF2LmuuQt42+FwYES08ZY=;
-	b=GscRcKxdbJiXecKsYunPmPkZj8Ipib2IekiOJdb4q2+ewBCuGEB9jzh0mZO0XI9h
-	wsGZ75ycBVzGSLMvwLC2xmVo7ggX3cgrRqMhctkP6xuiLEkS5W5CXUw4cbZbtBtsoii
-	/LDw6MV9u1ah3JCkH0SOYtf0P7WUwxqFXDVlAbOs=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701444338;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=AwiVIUpu97uWnKhflC/iQ7MF2LmuuQt42+FwYES08ZY=;
-	b=HE9EctF8nooC0Om5Y5OMVXtoYNP/BOlmatFC0XZ7ugnRg86rwvPRP2BL2ztayMkG
-	jMkmGHe0B7gbj09XI/01fnd5BvKb34vhJaQOsYHe+hRQ0bijurzTRJV5mswLK6OpP+z
-	iRxjFQCQJJ96gxtC2nVerJd9QiS+R2+5ibSHKoOk=
-From: patchtest@automation.yoctoproject.org
-To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH] openssh: shrinking to a new PACKAGECONFIG line to
- set systemd readiness notification support
-In-Reply-To: 20231201140947.792594-1-xiangyu.chen@eng.windriver.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c25fc4309-193d5f29-9314-4d21-af26-3d689cf9e0bc-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Dec 2023 15:25:38 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.01-54.240.27.191
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=i3quH4G+;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50aab20e828so3088724e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 07:25:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701444354; x=1702049154; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=8/1GPj3IolxXYdj+HP2h5kZLJvGW9mW8lIkpcl5DAa4=;
+        b=i3quH4G+DRG96jiBIDjq+puTajgkyBH7jkd82JopiDK+gfKLNrRi5nesbId1T2u8UQ
+         Cr0eh6A4MKkQ0hm2j9rfzt8BDyQNQg4tOQ71Pg+XOxWU8IPw7HBsmd4xWj5tzBsTvBnx
+         x7Swve75ac32SDR3ZuCCs8vJ1BS0+Fak9EJe9FmnM/YoVAII5KWvevz5R9cArpK4mxhi
+         Os/a9wz/Vyjb8eT2Ii4NtuJJ1L8JBWEx7/N3CRDNqr2D7M17ad8Wf6PvWzDTkzkNcu1n
+         YaY/ifKHDFjcY47JtjSnYo/irlIQAWXQ0iWalxu2J5ZLO44ejucLCHgFiXDuHLWt/mqj
+         AtsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701444354; x=1702049154;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8/1GPj3IolxXYdj+HP2h5kZLJvGW9mW8lIkpcl5DAa4=;
+        b=gsrrqTgZyxoAi1/ZNtCqU59Bncn1fphLfmZ8a96E4y8iOjOidmnI7GQeMGZXuaursB
+         ve4JCI4NYzV5hQqU/DlMB7jCDShd7qssxV+Fue4mvZGrp3B1cA80ZdEhlvuE2o0HebdB
+         rGpiLSSAXO9gEwYnBbt1goF4gSsoDSmmOJlepLCJG/voV3/gLeyTBE1ZJYw78DFNvPvn
+         SBCpZTRXxzDP6hF8ZRi6AaUekZCGFA9tYXTBKA5kZ8O+e+4bAXri86h6F5crc8CHLyBV
+         Jrmm74xBd0SREiaudjFVAI2/E0yXhmdaDskfKH8l8ZvgJesc4TxYyh+pnCj8D9gPHYLO
+         a6lQ==
+X-Gm-Message-State: AOJu0YyvZ+eo9/aD5585K5cstdlPUlNvWMRain4EHwUnL+/TOhdii6Qa
+	bQzQO6xjVcgFCYgyGwL1N02LVPJ7CGbdeUVqx9M=
+X-Google-Smtp-Source: AGHT+IEf3rvU1CmlKMVMeAzgAHsm5Bqxh2EUBY6cDUjodO0tMx+/Ru5/SWQMB7+LZLCMUfYgo6diBDKHNmWKyUPqZEc=
+X-Received: by 2002:a05:6512:21c:b0:50b:d764:64d5 with SMTP id
+ a28-20020a056512021c00b0050bd76464d5mr858715lfo.138.1701444354378; Fri, 01
+ Dec 2023 07:25:54 -0800 (PST)
+MIME-Version: 1.0
+References: <20231201151924.874316-1-JPEWhacker@gmail.com>
+In-Reply-To: <20231201151924.874316-1-JPEWhacker@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 1 Dec 2023 16:25:43 +0100
+Message-ID: <CANNYZj-hjCnn4qPbopoUD=Ly_km8o_DkrFFrWqjbrzr8s2o0Yg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] classes-global/insane: Skip sstate creation for do_image_qa
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 15:25:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191672
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 15:25:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191673
 
---NextPart
-Content-Type: text/plain
+Please see my latest comment in the bug, I don't think recipe_qa is to
+blame, and it's not going to solve the issue.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Also, we do plan to actually register the outcome of recipe_qa into
+sstate, that's why there's a placeholder for it
 
----
-Testing patch /home/patchtest/share/mboxes/openssh-shrinking-to-a-new-PACKAGECONFIG-line-to-set-systemd-readiness-notification-support.patch
+Alex
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 100 characters) (test_mbox.TestMbox.test_shortlog_length)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Fri, 1 Dec 2023 at 16:19, Joshua Watt <jpewhacker@gmail.com> wrote:
+>
+> do_image_qa doens't produce any actual sstate output, so it should skip
+> the sstate creation (similar to do_image_qa)
+>
+> [YOCTO #15289]
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes-global/insane.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+> index b78bb6f445d..5ce4216f3e0 100644
+> --- a/meta/classes-global/insane.bbclass
+> +++ b/meta/classes-global/insane.bbclass
+> @@ -1556,6 +1556,7 @@ python do_recipe_qa() {
+>  addtask do_recipe_qa before do_fetch do_package_qa do_build
+>
+>  SSTATETASKS += "do_recipe_qa"
+> +SSTATE_SKIP_CREATION:task-recipe-qa = '1'
+>  do_recipe_qa[sstate-inputdirs] = ""
+>  do_recipe_qa[sstate-outputdirs] = ""
+>  python do_recipe_qa_setscene () {
+> --
+> 2.34.1
+>
 
