@@ -1,167 +1,240 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <christian.taedcke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D09B1C4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 13:35:31 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.22993.1701437720689971689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EC4C4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 14:18:59 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.63])
+ by mx.groups.io with SMTP id smtpd.web10.279.1701440334882749168
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 05:35:20 -0800
+ Fri, 01 Dec 2023 06:18:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0699760636=xiangyu.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B1CQ665008490
-	for <openembedded-core@lists.openembedded.org>; Fri, 1 Dec 2023 05:35:20 -0800
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3upgxthrue-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 05:35:20 -0800 (PST)
-Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 3B1DZJu5023952;
-	Fri, 1 Dec 2023 05:35:19 -0800
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3upgxthrud-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 01 Dec 2023 05:35:19 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=4XTHt5qu;
+ spf=pass (domain: weidmueller.com, ip: 40.107.22.63, mailfrom: christian.taedcke-oss@weidmueller.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F28ASpSKpMOf8kFRT6i6jz52amQg5HCDVFph3DkoUr05w10I2Cer451vc7l0LDU1d2HmcXDNtr3b7K1S2YBuw73JDeg2f0NY5Q6B4F7K4n5VjMyrcoMa4Nu6rB9M2gfLwYh2swfNjOOtpoFBmGZsTWm7UMBzT2xJakf835vrEOXkwOjonWeuPEYarP1zkoXCCaiQaRueJdL54kwS4Tu+yee9wk7A+0fpWy9U8sQIGuyfbkNnUf56iIg1Bjp0OGbykaPaQDvMby9lbstuKQP/rHWWpxyQmqkviOie9IQnvgQsnPdv1kabRQ9x4m2wxUxUw/tIBAswYzKM9EsktFQUmg==
+ b=e7+i8gut11sWPe24fjjvwmJeCwnTacpn/p1nXVOp1ssXFTZoouT4UthjPPDu6YU1lPO+tv7/EmZLzd0KOdcTMpDkJWDnzQS0fiLDGM0Jb9J44QFIYv6doMjtWuM+mX804QrOJ4uSm9PsBY070H8rpyB2w/zqcsrOBR9RYpeEGGKOyJtDv2Ew/MXJkCNboXdmydg9wUDlKK5I3Hab2+c0Lt+QrbT/kOa90E34c3diL1ljCMaHc2aoCNKi8ODJVokzKvf1PWKHAn2z+BUelqrf48hZFW5YMyvmCEafLB4UL7Q8zraEZcCxFZ6+FlQTBLw017WZXcmKYcj73SQjfc0PHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3quKPLy2PyIi+r3Te9OBqD2ZoyeTXmJVXs+pMDg6brE=;
- b=ClfUXCtLYgx6B6h1Ar8EwbpOMv6JuabefmzA+0Jb2mb22facS+AFxZy651lEiFhkQav1BJLgr7TSLnV0uXj0VAoyu0j5upPCTNwXxg4B7dVDhgEBFnCEPgehieRLun/WN2MHAG6XdofDJhqeRqMH/1jWnbvx5egITxHuk+OdUNg9XBMwAnDHIjHZ5NC+afMHEcsL7FcotkCkGLHpRnGVjVyjYX4zSkcC88xR+hjmkGyVho8xfDNCUFK9fUjHRTsIYnV9KOA5CC11RcNOfBzm7qzCKsFzaPgXdTqdFZVfMZ6r8DCeqSvybrFT1dIsh4wrVbImY1SNlefNSaHDn0C99A==
+ bh=0kDQJ+U07KLodnfR5R/Ft4Pt/x8Yt+kyf3gMBeSEjA4=;
+ b=gDwoUnwZWeFrlu3c9fQG+k1n8r6QxpFkI2vyB1Zb/uahBVb5nweoTdT6InIcqAsN6x4QNrFzVm5DcujV0tWBwzLGqmcnPQXbdDlgefETBbY8LkoAmVcDB41gEY1MvXhPrChnsWRsmIqegur05Codu1fZUHXHZ5A/p5YtXgQYcgu1NPhhc1SO3ntuJMhMIdxdoGFRRPmqIKrhMCTmUwc3kJDKpDC8nTnfZdie2OuCmhafJiOq3XT55+rF4M4zW+r1vXTH0MDI3Q0Z6IkP20QM98lJRNiYJDy7P6Rt5A26LEdLIytcbOv6Ywi/ZLt8uSEleK2yx0uKxy1fg/Q5AB5kKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by PH8PR11MB6856.namprd11.prod.outlook.com (2603:10b6:510:22b::7) with
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0kDQJ+U07KLodnfR5R/Ft4Pt/x8Yt+kyf3gMBeSEjA4=;
+ b=4XTHt5quhbdl5Vi0fGMYm2/GUfBFQ4wTPxjKR7qWLNZndt9uSFqzOFFn5iSEeFzOftUJltodPbJOrZ3vxvGtE7TuFxHIQsE5aLbp95ZZph39H7S6HHz8sV1WWU8gRqa8PFsOLSEK3s5SlgXwSnUrpMgTdSY+k5XtNqMD3PfVQqA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from AM0PR08MB4946.eurprd08.prod.outlook.com (2603:10a6:208:165::13)
+ by PAXPR08MB6397.eurprd08.prod.outlook.com (2603:10a6:102:12f::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.27; Fri, 1 Dec
- 2023 13:35:15 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::6162:ed58:51f5:efd]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.7046.024; Fri, 1 Dec 2023
- 13:35:15 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-To: quaresma.jose@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] openssh: shrinking to a new PACKAGECONFIG line to set systemd readiness notification support
-Date: Fri,  1 Dec 2023 22:09:47 +0800
-Message-Id: <20231201140947.792594-1-xiangyu.chen@eng.windriver.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.26; Fri, 1 Dec
+ 2023 14:03:50 +0000
+Received: from AM0PR08MB4946.eurprd08.prod.outlook.com
+ ([fe80::a732:6327:19b0:b4d5]) by AM0PR08MB4946.eurprd08.prod.outlook.com
+ ([fe80::a732:6327:19b0:b4d5%3]) with mapi id 15.20.7025.022; Fri, 1 Dec 2023
+ 14:03:50 +0000
+From: christian.taedcke-oss@weidmueller.com
+To: openembedded-core@lists.openembedded.org
+CC: Kareem Zarka <zarkakareem@gmail.com>,
+	Kareem Zarka <kareem.zarka@huawei.com>,
+	Christian Taedcke <christian.taedcke@weidmueller.com>
+Subject: [OE-core][PATCH v1 2/2] oeqa/selftest/wic: Add tests for kernel image installation
+Date: Fri,  1 Dec 2023 15:03:32 +0100
+Message-ID: <20231201140332.2145367-3-christian.taedcke-oss@weidmueller.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231201140332.2145367-1-christian.taedcke-oss@weidmueller.com>
+References: <20231201140332.2145367-1-christian.taedcke-oss@weidmueller.com>
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0048.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::17) To MW4PR11MB5824.namprd11.prod.outlook.com
- (2603:10b6:303:187::19)
+X-ClientProxiedBy: FR4P281CA0425.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:d1::12) To AM0PR08MB4946.eurprd08.prod.outlook.com
+ (2603:10a6:208:165::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|PH8PR11MB6856:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3bdf2bd8-bd62-490f-05a7-08dbf27259ce
+X-MS-TrafficTypeDiagnostic: AM0PR08MB4946:EE_|PAXPR08MB6397:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55de96f9-5feb-4ed9-4263-08dbf276580a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	PPntK7xalwDRrrrLHDkjJi2bkJOMrIxZkKHgvOYYunqXrEquXnDOOkv2hP/r6wtLkjEPDeR75oDDdrkjLacRmq9hrpwWUpIHdMX4OUjQ3imgRLeQpY0pNFs3wChUTZYSTYKzbSR5WSKQL/4FPayXQtM37nF5i3HIUsYl8+dGVwVu6TbNfLu2OQ4/DtLp91X9NL5yzaoS5LrFhogndhqEWHByT3NyhqpZDmfRyQ0NjbPgPAkwglQZy5NqEI3bXO/zMKk+0OLe7jvtBXlSKWahcxZAcBS2RIVcu/nEemTMQJ6Nd3ycDO6Shj/2hNIpmMR/lyPybV+n67IS4UzDs/E1O0nuvItQP284G8jSer9Ny2X6U5YLGrEQ2EVjdIoFkr2SNPkId7q1MRXzQc2OOiX50j0ZgnTHrKqd8Rcz6sq611AJYsq+rNF9JKf4Uyasg3BQkJXr6F3Id4/McbFXg9Y564ymT6VJ9HTr6lBU2yc3blbCmwR+PTrG3uTwEfgJnn6TOjNNlb7aeipmEYLfCP/kvdzUBc2u15MJ1FwFCLIqe/uEPQJ4SdSJjuI1daa79Loczt8iR4RexJt/YJD9N1aBFesLZXx186/5nN545iheFwrzI6fnBSU1QDNTp9StcCBP
+	JOxiIxb7OAd7evr9vjdh06mEu7N2JuZYQ6gN8Dk/rpdAj+CQQyy7VgMHHIx26ShhDEpNOMZoEO8rRovJ0V5n8EBjOYuRClSOtucbm9iTy7JQ7UpxsdkXW2lVo/XUwQ26ys0itvjE1pbRLEjDTYrH6W4n4JsZ0yODjrUrQiBbAX/erDYFffYekxTfjvVX5hY0RjcLjz7YXCZl8Eg47RNdOweRBe/ptS2AOmG5hm+tp4JN//WVbPEiEUCypwudYXrakhXw4sqNZfIfEl1TxvlZMnVoA6Ai/0NNJEqjqhuKwuc5LMNRLnxpxfPrbDBxZOynDoMLPVWrMDxWijRpOPvcVZ62ZKsvFla5Gcc3khQ8A2Z30RmmGcV0yVt+CFq0gJ7OD2bQr2t7AlTi/BB40UqOXVPJRTYmpOVrsMcJHiR2//pzE4sUTFZ962cqpk3zu3nKpV5ULMlZdUVuzdzM46O9/3ZdsskNvkKr6BfqzkCkH48yURDz+bpLASUdj/6K6N96d5qAOvvqUnlwcUiMUS4XCr0PIzW3dytBM2qF6T+7Jk50ZAKqcm8+aq/zXHNJ0NTEYuJd9ozMDPLK542+6/H2o9ptzznB22gKcpifcyGeSevwh7fa+JafBzt+2jGALj2f
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39850400004)(366004)(346002)(136003)(376002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(38100700002)(83170400001)(38350700005)(478600001)(6486002)(6666004)(316002)(6916009)(66946007)(66556008)(66476007)(41300700001)(26005)(2616005)(6512007)(6506007)(52116002)(5660300002)(1076003)(2906002)(44832011)(15650500001)(4326008)(8936002)(8676002)(83380400001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR08MB4946.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(39860400002)(396003)(136003)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(6512007)(9686003)(1076003)(107886003)(26005)(2616005)(478600001)(6666004)(6506007)(6486002)(52116002)(55236004)(83380400001)(2906002)(66946007)(5660300002)(54906003)(41300700001)(66476007)(316002)(8936002)(4326008)(6916009)(66556008)(8676002)(38100700002)(38350700005)(86362001)(36756003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?9uNfppzGkGxXDtt8xBWM+WB4AnQ+wdLokAgt8sulKGqLO48TApCUQzPWgdm9?=
- =?us-ascii?Q?S3c+1boS3ylvRQtQy/C1sDoukJlcfmZO539gNg99ZZextZHeUAdjqCY/Z7sL?=
- =?us-ascii?Q?4d7qgneFxNHKZI9zxmjVeWjIOcqepQ28VcqwAuk/qTWqnSPzSaes5r06Bn/h?=
- =?us-ascii?Q?ktPhJi6c7+Ur9KyIKO6Aoeah8KQBb03BknOUj/ggHnAeimTtaRo/xjw90u1/?=
- =?us-ascii?Q?x7fkS94zyXXPjblboCJpQ1yjHNlvBUk8heCRO2GJm+YaMgYDWcIM2BbwO2/1?=
- =?us-ascii?Q?S58uL9qCEQdqiIvZXOD9UXFU/sfcgEF/KJd1xLV03xYGM3CKSmD6guAm3fGl?=
- =?us-ascii?Q?EbJwpv4pZ9oW20itE5i/OAFrGCiftYKXfAfPw8RbXaewKuZ4Maqn9at8wrn0?=
- =?us-ascii?Q?R1U4SJoDe6z9LumatFE7Euhm06IxJUZcG0ByLQpIRfqHN089zfVsZ8UqSaCO?=
- =?us-ascii?Q?0rKcHWtGFTZTEeFuVx/77GGPlziU3481aFxYdt19WXk3EGh2KaV8JFqFUZ/j?=
- =?us-ascii?Q?YCxHUOxPfYdpTfqauFr+eHljAAGyMdE/mrPr9KEvKfUKdSzxbntv4TO89RwD?=
- =?us-ascii?Q?fLeWHfmDlf3dS6Kxpq6obIxfNqyg8dKf+PuA/SnqDbO13Q8nDnOKvIHHRsmp?=
- =?us-ascii?Q?h0L4FiA2vGuld4p+3wkj6ga7mph5I8Vz3n/xw7AfQEclW4g31LgHEAams8IK?=
- =?us-ascii?Q?mhGu+wKyr8H/JQDgNtfGLi2AQdq2yMZNownk6iXHAXRQ789cKWS4ctGOw9yn?=
- =?us-ascii?Q?GNSXLsfhG6QwummfFnC+WmDImyLERm8kdm0gwJWStsZliq7kZUIFk9sZZy1M?=
- =?us-ascii?Q?nlh0l0SmrxUwupiBxbStEjVB1Gt8YkV5OSDCgtr0bAkgrsOExh2IuaddB0gV?=
- =?us-ascii?Q?p3CkdbnFBc74nlXeGRJsRDV8+jNDgUM2RJ55CPtyookNxmJzsS8qtJlNJWf8?=
- =?us-ascii?Q?CsiSSVXOxJsmg6RnPkTGQKeoJDmbPXnNa3mXGjIt4mj37AoisuXVxgWMcvan?=
- =?us-ascii?Q?IzrKnag2H45/PhamkluzbTfETeG5xiVF8ENfVc4B+Sd2+VlasDQAxv7yOgwt?=
- =?us-ascii?Q?EuwoBAMB6eyWDQRyylZL9scrQ19rm2HuhSthPt7gA5qwW6EyXjZGlJLT6yrQ?=
- =?us-ascii?Q?SYoU2Cyq08o8endx98a8xqgjVD3GtjbT73FqTaX5FstnX2u6kLCG7hT/ua/n?=
- =?us-ascii?Q?63VrqRaF3qPljX6FnIVi+I9y3PIVFRbJoZDiduppUeC2T62cgNU5PLtPxfMg?=
- =?us-ascii?Q?lOD9WNSJCeg2nOIcoMkBiZ2YgI2LJ06UR9Bp123OC2+v1krkINeTsLJO1MNv?=
- =?us-ascii?Q?e4AUVbztPo4AFmjlg3qF3yIXihNuG6EP3GSXo5m6XXoPiEkSTe2pP9xW96lC?=
- =?us-ascii?Q?kcmEBi47hsCGpnGO5lm7ay9F8JPvHd1GVif3eWIqxUrzxRz9/w0R/TEXAeKp?=
- =?us-ascii?Q?TFank69rL1dD7qvt6dVjyv271gBDzupA9iEBkzJ9D2FjGGsiL8SqrIEpr6YT?=
- =?us-ascii?Q?loXziD0xB0bcYOVp/u2o6E92GYVPIOJqCk9V35ISGV1rAQ5K9lYCvJ/PqLwD?=
- =?us-ascii?Q?2Aindl0i9M0Y1dNbh57uLcrder7i5kT3vMWKAo71xdU2u9CQBm02mpro5faQ?=
- =?us-ascii?Q?UQ=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bdf2bd8-bd62-490f-05a7-08dbf27259ce
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+	=?us-ascii?Q?ZvN3rL3JWIP8F4NEEsXKRwDDJkOX/GDFJR4ye6N25Yw3ATBP9QAbDjpKJJHR?=
+ =?us-ascii?Q?4fSsEhwxj+XPKYStqpMg6EfivMVdXgQfSxhbcvIFSrRvLpDMdECwfpxnQuPI?=
+ =?us-ascii?Q?6WuF1ZPIMR1n95Mto+aKqMZiRCbbOPGEhIxMtHHwrNKpE2Ya/KMPRAniZreB?=
+ =?us-ascii?Q?kAVTGSewV4BfuqSPyj+bfs4mJBb+yY0WxmWaZATcXdvaROtO+/Trrraq28cX?=
+ =?us-ascii?Q?O/R0w6Pt2b5Xep19Mxwq4DVSqlcIoXVrdY6rAYqL+p2j4gD2z+kd/d+HeK9N?=
+ =?us-ascii?Q?/gs/n8XlkrAAgYuvAk3CBZLHnHDlxYW3HVFN77YQ/2KEWABFbAZyhVjOrD9L?=
+ =?us-ascii?Q?vnDHT7oD63y8S7oLwcA9sF8BOGmw4qlhJWurofXa3azRNC0jCOsdCJZ54LKr?=
+ =?us-ascii?Q?YspICn8Byz+72ZeetJ8Z53BhO6kk/BPbr583akztsuG22CLAbT++cn7tjQNX?=
+ =?us-ascii?Q?4b/4Lpoqb0wk8IfLxcbIDwftvq2z6AqBoA89IoPSdoTl6IxfFr5A5vZm3D0o?=
+ =?us-ascii?Q?almWsBygyNzxTofVKeYDAPHQYY9q6PgirMCZ2VgCFsC+yM5R7N/pPd4DFwhB?=
+ =?us-ascii?Q?Gmx2j5GGlH1n3biCPYTKCnZi9ZdoGQ8ZTRpELZibvDqSxbg8E5gdegdvPhIy?=
+ =?us-ascii?Q?IpcagyyUpKQExVB6bUKfI88eF+LX/+uOqmg9DpjeexEQCv9x9MRuRVZZ+VFa?=
+ =?us-ascii?Q?kN4Qnzm+G0rD8EHmpcBte1b56k46wL5PfRjIGJa5j8hZy6nUTodhWtYOM+bA?=
+ =?us-ascii?Q?VYWgLO+coQ68ltzsrzCEBCt6Qp0dTcXVnGDB0XT+/OXyXqZwbVWykJQjb9gh?=
+ =?us-ascii?Q?FQk9AG5nBzU2px+Uo2iRa0zITO1SqxtviB7GxgGkzQqISnMUDp+MdN+oJU1D?=
+ =?us-ascii?Q?ypMQ7hRQGpdxYI1CJxJ+VWyuApsB+IKqPOiw/5XBofQYeCBAwIuC2bWhjKiq?=
+ =?us-ascii?Q?XF3yKtuA+SudH3uKpPq48njBA+GwCspvMlkX7ZgMw8aEHPxE3vgaZRozq1eY?=
+ =?us-ascii?Q?k89sN+QNc1UQvmmM9nC2Q7MDxhZ3XVbIKjYA2nQC36prYnnVEJZ13VEUnNlw?=
+ =?us-ascii?Q?RonOIm/Hy06xtzae2HRWeCDluMmfA3Z2AkQn5aezxIxAMDwChmBv9pFj1eZB?=
+ =?us-ascii?Q?9oa/rKY3flmIlgLdFCoCvcWsTmmB/AA0uK9dgTNutOycaqI0mQx4C3Nt4lY9?=
+ =?us-ascii?Q?yuchRCKY3Q3ugtlqpzo0YeDT7OodeSBkjmoArKuZNlO/iRx4UmCdktHc9nKF?=
+ =?us-ascii?Q?0h/Te8tISwZ2sd22XNaXgtLgQUy0B1NtZjUyHIPWHikeK8VRzuo/0LClcqV1?=
+ =?us-ascii?Q?qsoid5Gs1J253CkU9PVZtX9fYEtWeBeBF4JkRtK6bVpa8ofD8CqMONlqqKa9?=
+ =?us-ascii?Q?zjGGx3jK/qbEWhZVBP0q0ORP8+4367kNj/dKH4KJEm3mH8dzH2EETJu+/7uG?=
+ =?us-ascii?Q?GxvAPU+V7eHV8JHAl+dzfADtlQEVikpND6ZJzDRzwt/MHFgBy9C/C0UidYJU?=
+ =?us-ascii?Q?cpXR306AaaYBQhFjjXGvkvdq4M+iLqhm5HqRR/LW2EFVUvQXoF1M9BzRI+sN?=
+ =?us-ascii?Q?4V5mMvgtMHVi4MQA/Sn2Hl4IxBpX6p0vxWDRp3ye1aFej7pv8uhdrjQTQOKK?=
+ =?us-ascii?Q?3E7gKEivLcUbSwYC3EVQU5E8ggGDukrJFSDaG0/Pw978?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55de96f9-5feb-4ed9-4263-08dbf276580a
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB4946.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2023 13:35:15.1521
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2023 14:03:50.1057
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: guqrqQuzabsLhu6StIIDlLrysY6FBwYRbXGwewq72NJSGbIZgPdrpN7AWIhgB/+7rQEdZ55YWL6S+gtMPhc1rLcahxvuwchQuRckP9ScTs4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6856
-X-Proofpoint-GUID: 5dmFHYe23vFiYaf_7EQcmv6TKEmybU6A
-X-Proofpoint-ORIG-GUID: XAsUkC7zL5gHoXgOZkLPObnnhy9rhqnY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- priorityscore=1501 clxscore=1015 spamscore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=900 mlxscore=0 impostorscore=0 adultscore=0
- bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311060001 definitions=main-2312010093
+X-MS-Exchange-CrossTenant-UserPrincipalName: DJwOEc64iOqkYonDyLH58vQphq66r+VIZg/uPr5E8b+zM3YLcgIBiiMQ3cXLS1zpdxZOgKUmDvkVai9z6mjZQ+sraXGUbOUONp9EReJNmJcP8JDFQmnIuc127Waftn8U
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6397
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 13:35:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191666
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 14:18:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191667
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+From: Kareem Zarka <zarkakareem@gmail.com>
 
-Using PACKAGECONFIG line to set the patch of systemd readiness notification
-support, it can make the .bb file more clearly.
+- test_skip_kernel_install: This test verifies that the kernel is not
+installed in the boot partition when the
+'install-kernel-into-boot-dir' parameter is set to false.
+- test_kernel_install: This test verifies that the kernel is installed
+in the boot partition when the 'install-kernel-into-boot-dir'
+parameter is set to true.
 
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Both tests use a WKS (Kickstart) file to specify the desired
+configuration, build a disk image using WIC, and extract the disk
+image to a temporary directory to verify the results.
+
+Signed-off-by: Kareem Zarka <kareem.zarka@huawei.com>
+Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
 ---
- meta/recipes-connectivity/openssh/openssh_9.5p1.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-index bbb8fb091a..2c1c821ea9 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-@@ -53,13 +53,13 @@ SYSTEMD_PACKAGES = "${PN}-sshd"
- SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket sshd.service"
- 
- inherit autotools-brokensep ptest pkgconfig
--DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
- 
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
- PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
- PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
- PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
-+PACKAGECONFIG[systemd] = "--with-systemd,--without-systemd,systemd"
- 
- EXTRA_AUTORECONF += "--exclude=aclocal"
- 
-@@ -71,7 +71,6 @@ EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
-                 --sysconfdir=${sysconfdir}/ssh \
-                 --with-xauth=${bindir}/xauth \
-                 --disable-strip \
--                ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--with-systemd', '--without-systemd', d)} \
-                 "
- 
- # musl doesn't implement wtmp/utmp and logwtmp
--- 
-2.25.1
+ meta/lib/oeqa/selftest/cases/wic.py | 68 +++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/c=
+ases/wic.py
+index ab248c5898..4ebcb76cc4 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -16,6 +16,7 @@ import hashlib
+ from glob import glob
+ from shutil import rmtree, copy
+ from tempfile import NamedTemporaryFile
++from tempfile import TemporaryDirectory
+=20
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.core.decorator import OETestTag
+@@ -146,6 +147,73 @@ class CLITests(OESelftestTestCase):
+         self.assertEqual(1, runCmd('wic', ignore_status=3DTrue).status)
+=20
+ class Wic(WicTestCase):
++    def test_skip_kernel_install(self):
++        """Test the functionality of not installing the kernel in the boot=
+ directory using the wic plugin"""
++        # create a temporary file for the WKS content
++        with NamedTemporaryFile("w", suffix=3D".wks") as wks:
++            wks.write(
++                'part --source bootimg-efi '
++                '--sourceparams=3D"loader=3Dgrub-efi,install-kernel-into-b=
+oot-dir=3Dfalse" '
++                '--label boot --active\n'
++            )
++            wks.flush()
++            # create a temporary directory to extract the disk image to
++            with TemporaryDirectory() as tmpdir:
++                img =3D 'core-image-minimal'
++                # build the image using the WKS file
++                cmd =3D "wic create %s -e %s -o %s" % (
++                    wks.name, img, self.resultdir)
++                runCmd(cmd)
++                wksname =3D os.path.splitext(os.path.basename(wks.name))[0=
+]
++                out =3D glob(os.path.join(
++                    self.resultdir, "%s-*.direct" % wksname))
++                self.assertEqual(1, len(out))
++                sysroot =3D get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools=
+')
++                # extract the content of the disk image to the temporary d=
+irectory
++                cmd =3D "wic cp %s:1 %s -n %s" % (out[0], tmpdir, sysroot)
++                runCmd(cmd)
++                # check if the kernel is installed or not
++                kimgtype =3D get_bb_var('KERNEL_IMAGETYPE', img)
++                for file in os.listdir(tmpdir):
++                    if file =3D=3D kimgtype:
++                        raise AssertionError(
++                            "The kernel image '{}' was found in the partit=
+ion".format(kimgtype)
++                        )
++
++    def test_kernel_install(self):
++        """Test the installation of the kernel to the boot directory in th=
+e wic plugin"""
++        # create a temporary file for the WKS content
++        with NamedTemporaryFile("w", suffix=3D".wks") as wks:
++            wks.write(
++                'part --source bootimg-efi '
++                '--sourceparams=3D"loader=3Dgrub-efi,install-kernel-into-b=
+oot-dir=3Dtrue" '
++                '--label boot --active\n'
++            )
++            wks.flush()
++            # create a temporary directory to extract the disk image to
++            with TemporaryDirectory() as tmpdir:
++                img =3D 'core-image-minimal'
++                # build the image using the WKS file
++                cmd =3D "wic create %s -e %s -o %s" % (wks.name, img, self=
+.resultdir)
++                runCmd(cmd)
++                wksname =3D os.path.splitext(os.path.basename(wks.name))[0=
+]
++                out =3D glob(os.path.join(self.resultdir, "%s-*.direct" % =
+wksname))
++                self.assertEqual(1, len(out))
++                sysroot =3D get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools=
+')
++                # extract the content of the disk image to the temporary d=
+irectory
++                cmd =3D "wic cp %s:1 %s -n %s" % (out[0], tmpdir, sysroot)
++                runCmd(cmd)
++                # check if the kernel is installed or not
++                kimgtype =3D get_bb_var('KERNEL_IMAGETYPE', img)
++                found =3D False
++                for file in os.listdir(tmpdir):
++                    if file =3D=3D kimgtype:
++                        found =3D True
++                        break
++                self.assertTrue(
++                    found, "The kernel image '{}' was not found in the boo=
+t partition".format(kimgtype)
++                )
++
+     def test_build_image_name(self):
+         """Test wic create wictestdisk --image-name=3Dcore-image-minimal""=
+"
+         cmd =3D "wic create wictestdisk --image-name=3Dcore-image-minimal =
+-o %s" % self.resultdir
+--=20
+2.34.1
 
 
