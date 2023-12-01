@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97D56C25B45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DCBC25B4B
 	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 13:14:59 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.22339.1701436493618467899
+ by mx.groups.io with SMTP id smtpd.web11.22205.1701436492474955081
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Dec 2023 05:14:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SlpHJuEm;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=RQxpPhWK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c25848c68-d7344755-d7b6-4628-a057-8d2dd7d60a13-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Qpv4rVuu;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NkKw0utV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c25848bba-498df8f5-1670-4048-8ca4-f90f77c10663-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1701436493;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bac6Pp7F01fCY/j4FCxxyh/P0xHchXiqXuzy1nE+qSM=;
-	b=SlpHJuEm+LL+1BlH26UNNgdjOUUYpexVEJd5mavTKT0hLXyj5VWWkr8jYjKDsvcx
-	qlV76RPW662e6d6fx/+M2B5/T3UIHfK6A7OcTOqYMM+R3DD/ZnxebBFTQqNAoamqFfn
-	Np57a2WQl3C15RqlHX+NEN7BISS5K//x02B2MrDc=
+	bh=t6DP12+1maVc0ZVyo1KUb4kUDMMVCBfCA3U74NC5TDQ=;
+	b=Qpv4rVuu6Jsxw14/VwHGooxyNszWHibCThWoC8fqjMwISo3AIiK5zYSfuR7d1iFE
+	jZNrr8Ci8Np00ieK8nmGWg3LtFQo5cXcLS886TQ0Q5y0dnCzq/onZygktHoQOZZ3mgH
+	6Xz/OJeFm0cO/WxRlBpBQkgtVMOZckosbUd9nlFw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701436493;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bac6Pp7F01fCY/j4FCxxyh/P0xHchXiqXuzy1nE+qSM=;
-	b=RQxpPhWKeE/Hcvq564fF9rt6Q4O+cFDDld4Z8nVMhcxhEQYpNfg6Fv1mnospy5MS
-	zKQPoCrfIAbltQBXhOc/V8lAJrjy8+ZljgeyQE4SJcv3FUNA4XpObFBS+Z9IwFUhklf
-	UY2bKojiKwWYI09tVBNPVIeZ4TYodky4xEeliAzI=
-Content-Type: multipart/mixed; boundary="===============1312778045243731832=="
+	bh=t6DP12+1maVc0ZVyo1KUb4kUDMMVCBfCA3U74NC5TDQ=;
+	b=NkKw0utVl3j+zhXBFef9i820c8A10MPly2n7I7sq3Z1L+az738KVuflsCXqCOUNV
+	tlAZ8ESd0IH0PVcKJ26KVHAIXj0vkuFfWsJ9ynXSXLXQlePLKQ7B+F15VkMAo669FVG
+	q5k/Se4vVhtYZDrS7TYqYvIPXFhVNJtOt/zSdYvQ=
+Content-Type: multipart/mixed; boundary="===============3211305370352448378=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Victor Kamensky <victor.kamensky7@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nghttp2: upgrading to 1.58.0 SUCCEEDED
-Message-ID: <0101018c25848c68-d7344755-d7b6-4628-a057-8d2dd7d60a13-000000@us-west-2.amazonses.com>
+Subject: [AUH] systemtap-uprobes: upgrading to 5.0 SUCCEEDED
+Message-ID: <0101018c25848bba-498df8f5-1670-4048-8ca4-f90f77c10663-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Dec 2023 13:14:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.12.01-54.240.27.30
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 13:14:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191660
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191662
 
---===============1312778045243731832==
+--===============3211305370352448378==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *nghttp2* to *1.58.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *systemtap-uprobes* to *5.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-nghttp2-upgrade-1.57.0-1.58.0.patch
+    - apply the patch: git am 0001-systemtap-uprobes-upgrade-4.9-5.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,100 +72,233 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b304ceeba37de38e4afa653070edd42443438af5 Mon Sep 17 00:00:00 2001
+From e2d1b534c4a3d75eea0eba86ddf64dcdd4c4f245 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Dec 2023 12:49:54 +0000
-Subject: [PATCH] nghttp2: upgrade 1.57.0 -> 1.58.0
+Date: Fri, 1 Dec 2023 12:32:22 +0000
+Subject: [PATCH] systemtap-uprobes: upgrade 4.9 -> 5.0
 
 ---
- .../nghttp2/{nghttp2_1.57.0.bb => nghttp2_1.58.0.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/nghttp2/{nghttp2_1.57.0.bb => nghttp2_1.58.0.bb} (91%)
+ .../systemtap/systemtap-uprobes_git.bb        |  1 +
+ .../systemtap/0001-release-date-fix.patch     | 37 -------------------
+ .../systemtap/systemtap_git.inc               |  5 +--
+ 3 files changed, 3 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-release-date-fix.patch
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
-similarity index 91%
-rename from meta/recipes-support/nghttp2/nghttp2_1.57.0.bb
-rename to meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
-index 0cf1e3e34c..7b2ff4b778 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.57.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.58.0.bb
-@@ -8,7 +8,7 @@ SRC_URI = "\
-     ${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz \
-     file://0001-fetch-ocsp-response-use-python3.patch \
- "
--SRC_URI[sha256sum] = "9210b0113109f43be526ac5835d58a701411821a4d39e155c40d67c40f47a958"
-+SRC_URI[sha256sum] = "4a68a3040da92fd9872c056d0f6b0cd60de8410de10b578f8ade9ecc14d297e0"
+diff --git a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+index 3d35481bdc..f0838bb4f9 100644
+--- a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+@@ -40,3 +40,4 @@ do_install() {
+ 		install -m 0644 ${S}/runtime/uprobes/uprobes.ko ${D}${datadir}/systemtap/runtime/uprobes/
+ 	fi
+ }
++
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-release-date-fix.patch b/meta/recipes-kernel/systemtap/systemtap/0001-release-date-fix.patch
+deleted file mode 100644
+index 3dcb369ec3..0000000000
+--- a/meta/recipes-kernel/systemtap/systemtap/0001-release-date-fix.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From ebb424eee5599fcc131901c0d82d0bfc0d2f57ab Mon Sep 17 00:00:00 2001
+-From: "Frank Ch. Eigler" <fche@redhat.com>
+-Date: Fri, 28 Apr 2023 13:51:27 -0400
+-Subject: [PATCH] release date fix
+-
+-Upstream-Status: Backport
+----
+- NEWS           | 2 +-
+- systemtap.spec | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/NEWS b/NEWS
+-index 695bc990c..46859e304 100644
+---- a/NEWS
+-+++ b/NEWS
+-@@ -1,4 +1,4 @@
+--* What's new in version 4.9, 2023-04-27
+-+* What's new in version 4.9, 2023-04-28
+- 
+- - ISystemtap: the new interactive systemtap jupyter kernel. This provides
+-   a simple GUI for writing/running Systemtap scripts in an easy, incremental
+-diff --git a/systemtap.spec b/systemtap.spec
+-index 59814f112..fd8023264 100644
+---- a/systemtap.spec
+-+++ b/systemtap.spec
+-@@ -1307,7 +1307,7 @@ exit 0
+- 
+- # PRERELEASE
+- %changelog
+--* Thu Apr 27 2023 Frank Ch. Eigler <fche@redhat.com> - 4.9-1
+-+* Fri Apr 28 2023 Frank Ch. Eigler <fche@redhat.com> - 4.9-1
+- - Upstream release, see wiki page below for detailed notes.
+-   https://sourceware.org/systemtap/wiki/SystemTapReleases
+- 
+--- 
+-2.40.1
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index de3750ff04..1ebbdbf16e 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,13 +1,12 @@
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "418f0a45ca4473491385b5c7eef777607bbdb3b7"
+-PV = "4.9"
++SRCREV = "e72dc118e563c645d93a1a2d771e8d90e8fec1ae"
++PV = "5.0"
  
- inherit cmake manpages python3native github-releases
- PACKAGECONFIG[manpages] = ""
+ SRC_URI = "git://sourceware.org/git/systemtap.git;branch=master;protocol=https \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+            file://0001-Install-python-modules-to-correct-library-dir.patch \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
+-           file://0001-release-date-fix.patch \
+            "
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64).*-linux'
 -- 
 2.39.2
 
 
---===============1312778045243731832==
-Content-Type: application/octet-stream
+--===============3211305370352448378==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-nghttp2-upgrade-1.57.0-1.58.0.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
 
-RnJvbSBiMzA0Y2VlYmEzN2RlMzhlNGFmYTY1MzA3MGVkZDQyNDQzNDM4YWY1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAxMjo0OTo1NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
-aHR0cDI6IHVwZ3JhZGUgMS41Ny4wIC0+IDEuNTguMAoKLS0tCiAuLi4vbmdodHRwMi97bmdodHRw
-Ml8xLjU3LjAuYmIgPT4gbmdodHRwMl8xLjU4LjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9uZ2h0dHAyL3tuZ2h0dHAyXzEuNTcuMC5iYiA9PiBuZ2h0dHAyXzEuNTgu
-MC5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25n
-aHR0cDJfMS41Ny4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
-NTguMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41Ny4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9uZ2h0dHAyL25naHR0cDJfMS41OC4wLmJiCmluZGV4IDBjZjFlM2UzNGMuLjdiMmZmNGI3
-NzggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjU3
-LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTguMC5i
-YgpAQCAtOCw3ICs4LDcgQEAgU1JDX1VSSSA9ICJcCiAgICAgJHtHSVRIVUJfQkFTRV9VUkl9L2Rv
-d25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9LnRhci54eiBcCiAgICAgZmlsZTovLzAwMDEtZmV0
-Y2gtb2NzcC1yZXNwb25zZS11c2UtcHl0aG9uMy5wYXRjaCBcCiAiCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiOTIxMGIwMTEzMTA5ZjQzYmU1MjZhYzU4MzVkNThhNzAxNDExODIxYTRkMzllMTU1YzQw
-ZDY3YzQwZjQ3YTk1OCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0YTY4YTMwNDBkYTkyZmQ5ODcy
-YzA1NmQwZjZiMGNkNjBkZTg0MTBkZTEwYjU3OGY4YWRlOWVjYzE0ZDI5N2UwIgogCiBpbmhlcml0
-IGNtYWtlIG1hbnBhZ2VzIHB5dGhvbjNuYXRpdmUgZ2l0aHViLXJlbGVhc2VzCiBQQUNLQUdFQ09O
-RklHW21hbnBhZ2VzXSA9ICIiCi0tIAoyLjM5LjIKCg==
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 912 .bb files complete (0 cached, 912 parsed). 1845 targets, 50 skipped, 0 masked, 0 errors.
+Removing 45 recipes from the core2-64 sysroot...done.
+Removing 47 recipes from the qemux86_64 sysroot...done.
 
---===============1312778045243731832==
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'systemtap-uprobes'
+systemtap-uprobes was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
+
+--===============3211305370352448378==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/nghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.57.0/nghttp2-1.57.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.58.0/nghttp2-1.58.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
-packages/core2-64-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/libnghttp2: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.25.0", added "/usr/lib/libnghttp2.so.14.25.1"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.25.0", added "/usr/lib/.debug/libnghttp2.so.14.25.1"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 174430 to 174307 (-0%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1029395 to 1029569 (+0%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2: PV changed from "1.57.0" to "1.58.0"
-Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.25.0 to libnghttp2.so.14.25.1
-  /usr/lib/libnghttp2.so.14.25.0 moved to /usr/lib/libnghttp2.so.14.25.1
+packages/core2-64-poky-linux/systemtap: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap: SRC_URI changed from "git://sourceware.org/git/systemtap.git;branch=master;protocol=https file://0001-Do-not-let-configure-write-a-python-location-into-th.patch file://0001-Install-python-modules-to-correct-library-dir.patch file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch file://0001-release-date-fix.patch file://0001-improve-reproducibility-for-c-compiling.patch file://0001-staprun-address-ncurses-6.3-failures.patch" to "git://sourceware.org/git/systemtap.git;branch=master;protocol=https file://0001-Do-not-let-configure-write-a-python-location-into-th.patch file://0001-Install-python-modules-to-correct-library-dir.patch file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch file://0001-improve-reproducibility-for-c-compiling.patch file://0001-staprun-address-ncurses-6.3-failures.patch"
+packages/core2-64-poky-linux/systemtap: PV changed from "4.9" to "5.0"
+Changes to packages/core2-64-poky-linux/systemtap (sysroot):
+  /usr/share/systemtap/examples/security-band-aids/cve-2023-4911.meta was added
+  /usr/share/systemtap/examples/security-band-aids/cve-2023-4911.stp was added
+  /usr/share/systemtap/interactive-notebook/RedHatBlog.ipynb was added
+  /usr/share/systemtap/runtime/linux/autoconf-asm-access-ok.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-asm-tlbflush-h.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-d-real-inode.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_page_vma_remote.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-module_memory.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-nmi-uaccess-okay.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-stacktrace_h.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-twa_resume.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-user-access-begin-2-args.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-user-access-begin-3-args.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-user-access-end.c was added
+  /usr/share/systemtap/runtime/linux/stap_fs.h was added
+  /usr/share/systemtap/runtime/linux/uprobes2/config.h was added
+  /usr/share/systemtap/runtime/linux/uprobes2/git_version.h was added
+  /usr/share/systemtap/runtime/linux/uprobes/config.h was added
+  /usr/share/systemtap/runtime/linux/uprobes/git_version.h was added
+  /usr/share/systemtap/runtime/sym2.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-uprobe-get-pc.c was removed
+  /usr/share/systemtap/runtime/linux/autoconf-utrace-regset.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arch.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arch.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arm.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arm.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_x86.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_x86.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes-inc.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_arch.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_arch.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_i386.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_i386.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_ppc.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_ppc.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_s390.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_s390.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86_64.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86_64.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86.h was removed
+packages/core2-64-poky-linux/systemtap/systemtap-dbg: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-dbg: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-dbg: PKGSIZE changed from 64734176 to 64389032 (-1%)
+packages/core2-64-poky-linux/systemtap/systemtap-dev: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-dev: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-doc: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-doc: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-doc: PKGSIZE changed from 472286 to 472653 (+0%)
+packages/core2-64-poky-linux/systemtap/systemtap-examples: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-examples: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-examples: PKGSIZE changed from 1484455 to 1483852 (-0%)
+packages/core2-64-poky-linux/systemtap/systemtap-examples: FILELIST: added "/usr/share/systemtap/examples/security-band-aids/cve-2023-4911.meta /usr/share/systemtap/examples/security-band-aids/cve-2023-4911.stp"
+packages/core2-64-poky-linux/systemtap/systemtap-exporter: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-exporter: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-locale-cs: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-locale-cs: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-locale-cs: PKGSIZE changed from 85210 to 84762 (-1%)
+packages/core2-64-poky-linux/systemtap/systemtap-locale-en: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-locale-en: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-locale-fr: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-locale-fr: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-locale-fr: PKGSIZE changed from 18106 to 17959 (-1%)
+packages/core2-64-poky-linux/systemtap/systemtap-locale-pl: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-locale-pl: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-python: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-python: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-runtime: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-runtime: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-runtime: PKGSIZE changed from 308840 to 312936 (+1%)
+packages/core2-64-poky-linux/systemtap/systemtap-src: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-src: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap-src: PKGSIZE changed from 2972227 to 3013532 (+1%)
+packages/core2-64-poky-linux/systemtap/systemtap-src: FILELIST: directory renamed /usr/src/debug/systemtap/4.9/language-server -> /usr/src/debug/systemtap/5.0/language-server, directory renamed /usr/src/debug/systemtap/4.9/python/HelperSDT -> /usr/src/debug/systemtap/5.0/python/HelperSDT, directory renamed /usr/src/debug/systemtap/4.9/includes/sys -> /usr/src/debug/systemtap/5.0/includes/sys, directory renamed /usr/src/debug/systemtap/4.9/stapbpf -> /usr/src/debug/systemtap/5.0/stapbpf, directory renamed /usr/src/debug/systemtap/4.9/runtime/transport -> /usr/src/debug/systemtap/5.0/runtime/transport, removed "/usr/src/debug/systemtap/4.9/staprun/start_cmd.c /usr/src/debug/systemtap/4.9/translator-output.cxx /usr/src/debug/systemtap/4.9/staprun/stapio.c /usr/src/debug/systemtap/4.9/stringtable.cxx /usr/src/debug/systemtap/4.9/loc2stap.cxx /usr/src/debug/systemtap/4.9/stapregex-tree.h /usr/src/debug/systemtap/4.9/translate.h /usr/src/debug/systemtap/4.9/elaborate.h /usr/src/debug/syste
+ mtap/4.9/staprun/stapsh.c /usr/src/debug/systemtap/4.9/tapset-perfmon.cxx /usr/src/debug/systemtap/4.9/coveragedb.h /usr/src/debug/systemtap/4.9/tapset-method.cxx /usr/src/debug/systemtap/4.9/stapregex-dfa.cxx /usr/src/debug/systemtap/4.9/cmdline.h /usr/src/debug/systemtap/4.9/loc2stap.h /usr/src/debug/systemtap/4.9/staprun/staprun_funcs.c /usr/src/debug/systemtap/4.9/parse.cxx /usr/src/debug/systemtap/4.9/tapset-been.cxx /usr/src/debug/systemtap/4.9/stapregex-dfa.h /usr/src/debug/systemtap/4.9/tapset-mark.cxx /usr/src/debug/systemtap/4.9/hash.h /usr/src/debug/systemtap/4.9/buildrun.cxx /usr/src/debug/systemtap/4.9/staprun/staprun.c /usr/src/debug/systemtap/4.9/cache.cxx /usr/src/debug/systemtap/4.9/staprun/staprun.h /usr/src/debug/systemtap/4.9/bpf-internal.h /usr/src/debug/systemtap/4.9/tapset-netfilter.cxx /usr/src/debug/systemtap/4.9/staprun/monitor.c /usr/src/debug/systemtap/4.9/buildrun.h /usr/src/debug/systemtap/4.9/elaborate.cxx /usr/src/debug/systemtap/4.9/dwflpp.cxx /usr/s
+ rc/debug/systemtap/4.9/task_finder.h /usr/src/debug/systemtap/4.9/bpf.h /usr/src/debug/systemtap/4.9/util.cxx /usr/src/debug/systemtap/4.9/tapset-timers.cxx /usr/src/debug/systemtap/4.9/stapregex.h /usr/src/debug/systemtap/4.9/setupdwfl.cxx /usr/src/debug/systemtap/4.9/tapset-dynprobe.cxx /usr/src/debug/systemtap/4.9/staprun/stap_merge.c /usr/src/debug/systemtap/4.9/staprun/strfloctime.c /usr/src/debug/systemtap/4.9/translate.cxx /usr/src/debug/systemtap/4.9/staprun/mainloop.c /usr/src/debug/systemtap/4.9/remote.h /usr/src/debug/systemtap/4.9/rpm_finder.cxx /usr/src/debug/systemtap/4.9/staprun/common.c /usr/src/debug/systemtap/4.9/tapsets.cxx /usr/src/debug/systemtap/4.9/bpf-bitset.cxx /usr/src/debug/systemtap/4.9/privilege.h /usr/src/debug/systemtap/4.9/tapset-itrace.cxx /usr/src/debug/systemtap/4.9/tapset-utrace.cxx /usr/src/debug/systemtap/4.9/dwarf_wrappers.cxx /usr/src/debug/systemtap/4.9/dwflpp.h /usr/src/debug/systemtap/4.9/stapregex-tree.cxx /usr/src/debug/systemtap/4.9/rpm_
+ finder.h /usr/src/debug/systemtap/4.9/main.cxx /usr/src/debug/systemtap/4.9/parse.h /usr/src/debug/systemtap/4.9/staprun/ctl.c /usr/src/debug/systemtap/4.9/remote.cxx /usr/src/debug/systemtap/4.9/staprun/relay.c /usr/src/debug/systemtap/4.9/cache.h /usr/src/debug/systemtap/4.9/sdt_types.h /usr/src/debug/systemtap/4.9/bpf-base.cxx /usr/src/debug/systemtap/4.9/bpf-shared-globals.h /usr/src/debug/systemtap/4.9/cmdline.cxx /usr/src/debug/systemtap/4.9/coveragedb.cxx /usr/src/debug/systemtap/4.9/translator-output.h /usr/src/debug/systemtap/4.9/bpf-bitset.h /usr/src/debug/systemtap/4.9/tapset-python.cxx /usr/src/debug/systemtap/4.9/hash.cxx /usr/src/debug/systemtap/4.9/stapregex-parse.cxx /usr/src/debug/systemtap/4.9/bpf-translate.cxx /usr/src/debug/systemtap/4.9/setupdwfl.h /usr/src/debug/systemtap/4.9/staptree.h /usr/src/debug/systemtap/4.9/session.cxx /usr/src/debug/systemtap/4.9/tapset-procfs.cxx /usr/src/debug/systemtap/4.9/util.h /usr/src/debug/systemtap/4.9/staptree.cxx /usr/src/de
+ bug/systemtap/4.9/task_finder.cxx /usr/src/debug/systemtap/4.9/session.h /usr/src/debug/systemtap/4.9/bpf-opt.cxx /usr/src/debug/systemtap/4.9/stapregex-parse.h /usr/src/debug/systemtap/4.9/tapsets.h /usr/src/debug/systemtap/4.9/privilege.cxx /usr/src/debug/systemtap/4.9/mdfour.h /usr/src/debug/systemtap/4.9/stapregex.cxx /usr/src/debug/systemtap/4.9/dwarf_wrappers.h /usr/src/debug/systemtap/4.9/mdfour.c /usr/src/debug/systemtap/4.9/stringtable.h /usr/src/debug/systemtap/4.9/tapset-dynprobe.h", added "/usr/src/debug/systemtap/5.0/rpm_finder.cxx /usr/src/debug/systemtap/5.0/staprun/common.c /usr/src/debug/systemtap/5.0/tapsets.cxx /usr/src/debug/systemtap/5.0/bpf-bitset.cxx /usr/src/debug/systemtap/5.0/privilege.h /usr/src/debug/systemtap/5.0/tapset-utrace.cxx /usr/src/debug/systemtap/5.0/dwarf_wrappers.cxx /usr/src/debug/systemtap/5.0/dwflpp.h /usr/src/debug/systemtap/5.0/stapregex-tree.cxx /usr/src/debug/systemtap/5.0/rpm_finder.h /usr/src/debug/systemtap/5.0/main.cxx /usr/src/debu
+ g/systemtap/5.0/parse.h /usr/src/debug/systemtap/5.0/staprun/ctl.c /usr/src/debug/systemtap/5.0/remote.cxx /usr/src/debug/systemtap/5.0/staprun/relay.c /usr/src/debug/systemtap/5.0/cache.h /usr/src/debug/systemtap/5.0/sdt_types.h /usr/src/debug/systemtap/5.0/bpf-base.cxx /usr/src/debug/systemtap/5.0/bpf-shared-globals.h /usr/src/debug/systemtap/5.0/cmdline.cxx /usr/src/debug/systemtap/5.0/coveragedb.cxx /usr/src/debug/systemtap/5.0/translator-output.h /usr/src/debug/systemtap/5.0/bpf-bitset.h /usr/src/debug/systemtap/5.0/tapset-python.cxx /usr/src/debug/systemtap/5.0/hash.cxx /usr/src/debug/systemtap/5.0/stapregex-parse.cxx /usr/src/debug/systemtap/5.0/bpf-translate.cxx /usr/src/debug/systemtap/5.0/setupdwfl.h /usr/src/debug/systemtap/5.0/staptree.h /usr/src/debug/systemtap/5.0/session.cxx /usr/src/debug/systemtap/5.0/tapset-procfs.cxx /usr/src/debug/systemtap/5.0/util.h /usr/src/debug/systemtap/5.0/staptree.cxx /usr/src/debug/systemtap/5.0/task_finder.cxx /usr/src/debug/systemtap/5
+ .0/session.h /usr/src/debug/systemtap/5.0/bpf-opt.cxx /usr/src/debug/systemtap/5.0/stapregex-parse.h /usr/src/debug/systemtap/5.0/tapsets.h /usr/src/debug/systemtap/5.0/privilege.cxx /usr/src/debug/systemtap/5.0/mdfour.h /usr/src/debug/systemtap/5.0/stapregex.cxx /usr/src/debug/systemtap/5.0/dwarf_wrappers.h /usr/src/debug/systemtap/5.0/mdfour.c /usr/src/debug/systemtap/5.0/stringtable.h /usr/src/debug/systemtap/5.0/tapset-dynprobe.h /usr/src/debug/systemtap/5.0/staprun/start_cmd.c /usr/src/debug/systemtap/5.0/translator-output.cxx /usr/src/debug/systemtap/5.0/staprun/stapio.c /usr/src/debug/systemtap/5.0/stringtable.cxx /usr/src/debug/systemtap/5.0/loc2stap.cxx /usr/src/debug/systemtap/5.0/stapregex-tree.h /usr/src/debug/systemtap/5.0/translate.h /usr/src/debug/systemtap/5.0/elaborate.h /usr/src/debug/systemtap/5.0/staprun/stapsh.c /usr/src/debug/systemtap/5.0/tapset-perfmon.cxx /usr/src/debug/systemtap/5.0/coveragedb.h /usr/src/debug/systemtap/5.0/tapset-method.cxx /usr/src/debug/
+ systemtap/5.0/cmdline.h /usr/src/debug/systemtap/5.0/stapregex-dfa.cxx /usr/src/debug/systemtap/5.0/staprun/gheap.h /usr/src/debug/systemtap/5.0/tapset-debuginfod.cxx /usr/src/debug/systemtap/5.0/loc2stap.h /usr/src/debug/systemtap/5.0/staprun/staprun_funcs.c /usr/src/debug/systemtap/5.0/parse.cxx /usr/src/debug/systemtap/5.0/tapset-been.cxx /usr/src/debug/systemtap/5.0/stapregex-dfa.h /usr/src/debug/systemtap/5.0/tapset-mark.cxx /usr/src/debug/systemtap/5.0/hash.h /usr/src/debug/systemtap/5.0/buildrun.cxx /usr/src/debug/systemtap/5.0/staprun/staprun.c /usr/src/debug/systemtap/5.0/cache.cxx /usr/src/debug/systemtap/5.0/staprun/staprun.h /usr/src/debug/systemtap/5.0/bpf-internal.h /usr/src/debug/systemtap/5.0/tapset-netfilter.cxx /usr/src/debug/systemtap/5.0/staprun/monitor.c /usr/src/debug/systemtap/5.0/buildrun.h /usr/src/debug/systemtap/5.0/elaborate.cxx /usr/src/debug/systemtap/5.0/dwflpp.cxx /usr/src/debug/systemtap/5.0/task_finder.h /usr/src/debug/systemtap/5.0/bpf.h /usr/src/d
+ ebug/systemtap/5.0/util.cxx /usr/src/debug/systemtap/5.0/tapset-timers.cxx /usr/src/debug/systemtap/5.0/stapregex.h /usr/src/debug/systemtap/5.0/setupdwfl.cxx /usr/src/debug/systemtap/5.0/tapset-dynprobe.cxx /usr/src/debug/systemtap/5.0/staprun/stap_merge.c /usr/src/debug/systemtap/5.0/staprun/strfloctime.c /usr/src/debug/systemtap/5.0/translate.cxx /usr/src/debug/systemtap/5.0/staprun/mainloop.c /usr/src/debug/systemtap/5.0/remote.h"
+packages/core2-64-poky-linux/systemtap/systemtap-staticdev: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap-staticdev: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/core2-64-poky-linux/systemtap/systemtap: PV changed from "4.9" to "5.0"
+packages/core2-64-poky-linux/systemtap/systemtap: PKGSIZE changed from 17732611 to 17530363 (-1%)
+packages/core2-64-poky-linux/systemtap/systemtap: FILELIST: removed "/usr/share/systemtap/runtime/linux/uprobes/uprobes_arch.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_i386.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_s390.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_arch.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_i386.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_s390.c /usr/share/systemtap/runtime/linux/autoconf-utrace-regset.c /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arch.h /usr/share/systemtap/runtime/linux/uprobes/uprobes.c /usr/share/systemtap/runtime/linux/uprobes/uprobes.h /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arch.c /usr/share/systemtap/runtime/linux/uprobes2/uprobes.c /usr/share/systemtap/runtime/linux/uprobes2/uprobes.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_ppc.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86_64.h /usr/share/syst
+ emtap/runtime/linux/uprobes/uprobes_x86_64.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_ppc.c /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arm.h /usr/share/systemtap/runtime/linux/uprobes2/uprobes_x86.h /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arm.c /usr/share/systemtap/runtime/linux/uprobes2/uprobes_x86.c /usr/share/systemtap/runtime/linux/autoconf-uprobe-get-pc.c /usr/share/systemtap/runtime/linux/uprobes-inc.h", added "/usr/share/systemtap/runtime/linux/uprobes/config.h /usr/share/systemtap/runtime/linux/autoconf-user-access-end.c /usr/share/systemtap/runtime/linux/stap_fs.h /usr/share/systemtap/runtime/linux/uprobes2/config.h /usr/share/systemtap/runtime/linux/autoconf-get_user_page_vma_remote.c /usr/share/systemtap/runtime/linux/autoconf-twa_resume.c /usr/share/systemtap/runtime/linux/autoconf-module_memory.c /usr/share/systemtap/runtime/linux/uprobes2/git_version.h /usr/share/systemtap/runtime/l
+ inux/autoconf-stacktrace_h.c /usr/share/systemtap/runtime/sym2.c /usr/share/systemtap/runtime/linux/autoconf-asm-access-ok.c /usr/share/systemtap/runtime/linux/autoconf-user-access-begin-3-args.c /usr/share/systemtap/runtime/linux/autoconf-nmi-uaccess-okay.c /usr/share/systemtap/runtime/linux/autoconf-user-access-begin-2-args.c /usr/share/systemtap/runtime/linux/uprobes/git_version.h /usr/share/systemtap/runtime/linux/autoconf-d-real-inode.c /usr/share/systemtap/interactive-notebook/RedHatBlog.ipynb /usr/share/systemtap/runtime/linux/autoconf-asm-tlbflush-h.c"
+packages/qemux86_64-poky-linux/systemtap-uprobes: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/qemux86_64-poky-linux/systemtap-uprobes: SRC_URI changed from "git://sourceware.org/git/systemtap.git;branch=master;protocol=https file://0001-Do-not-let-configure-write-a-python-location-into-th.patch file://0001-Install-python-modules-to-correct-library-dir.patch file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch file://0001-release-date-fix.patch" to "git://sourceware.org/git/systemtap.git;branch=master;protocol=https file://0001-Do-not-let-configure-write-a-python-location-into-th.patch file://0001-Install-python-modules-to-correct-library-dir.patch file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch"
+packages/qemux86_64-poky-linux/systemtap-uprobes: PV changed from "4.9" to "5.0"
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-dbg: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-dbg: PV changed from "4.9" to "5.0"
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-dev: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-dev: PV changed from "4.9" to "5.0"
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-doc: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-doc: PV changed from "4.9" to "5.0"
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-locale: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-locale: PV changed from "4.9" to "5.0"
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-src: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-src: PV changed from "4.9" to "5.0"
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-staticdev: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes-staticdev: PV changed from "4.9" to "5.0"
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes: PKGV changed from 4.9 [default] to 5.0 [default]
+packages/qemux86_64-poky-linux/systemtap-uprobes/systemtap-uprobes: PV changed from "4.9" to "5.0"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1803,16 +1936,62 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============1312778045243731832==
+--===============3211305370352448378==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.25.0", added "/usr/lib/libnghttp2.so.14.25.1"
-Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.25.0 to libnghttp2.so.14.25.1
-  /usr/lib/libnghttp2.so.14.25.0 moved to /usr/lib/libnghttp2.so.14.25.1
+Changes to packages/core2-64-poky-linux/systemtap (sysroot):
+  /usr/share/systemtap/examples/security-band-aids/cve-2023-4911.meta was added
+  /usr/share/systemtap/examples/security-band-aids/cve-2023-4911.stp was added
+  /usr/share/systemtap/interactive-notebook/RedHatBlog.ipynb was added
+  /usr/share/systemtap/runtime/linux/autoconf-asm-access-ok.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-asm-tlbflush-h.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-d-real-inode.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_page_vma_remote.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-module_memory.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-nmi-uaccess-okay.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-stacktrace_h.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-twa_resume.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-user-access-begin-2-args.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-user-access-begin-3-args.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-user-access-end.c was added
+  /usr/share/systemtap/runtime/linux/stap_fs.h was added
+  /usr/share/systemtap/runtime/linux/uprobes2/config.h was added
+  /usr/share/systemtap/runtime/linux/uprobes2/git_version.h was added
+  /usr/share/systemtap/runtime/linux/uprobes/config.h was added
+  /usr/share/systemtap/runtime/linux/uprobes/git_version.h was added
+  /usr/share/systemtap/runtime/sym2.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-uprobe-get-pc.c was removed
+  /usr/share/systemtap/runtime/linux/autoconf-utrace-regset.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arch.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arch.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arm.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arm.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_x86.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes2/uprobes_x86.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes-inc.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_arch.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_arch.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_i386.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_i386.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_ppc.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_ppc.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_s390.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_s390.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86_64.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86_64.h was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86.c was removed
+  /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86.h was removed
+packages/core2-64-poky-linux/systemtap/systemtap-examples: FILELIST: added "/usr/share/systemtap/examples/security-band-aids/cve-2023-4911.stp /usr/share/systemtap/examples/security-band-aids/cve-2023-4911.meta"
+packages/core2-64-poky-linux/systemtap/systemtap: FILELIST: removed "/usr/share/systemtap/runtime/linux/uprobes/uprobes_ppc.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_ppc.h /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arm.h /usr/share/systemtap/runtime/linux/uprobes2/uprobes_x86.h /usr/share/systemtap/runtime/linux/autoconf-uprobe-get-pc.c /usr/share/systemtap/runtime/linux/uprobes2/uprobes_x86.c /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arm.c /usr/share/systemtap/runtime/linux/autoconf-utrace-regset.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86_64.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_x86_64.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_arch.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_i386.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_s390.h /usr/share/systemtap/runtime/linux/uprobes/uprobes_arch
+ .c /usr/share/systemtap/runtime/linux/uprobes/uprobes_i386.c /usr/share/systemtap/runtime/linux/uprobes/uprobes_s390.c /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arch.c /usr/share/systemtap/runtime/linux/uprobes/uprobes.c /usr/share/systemtap/runtime/linux/uprobes-inc.h /usr/share/systemtap/runtime/linux/uprobes/uprobes.h /usr/share/systemtap/runtime/linux/uprobes2/uprobes_arch.h /usr/share/systemtap/runtime/linux/uprobes2/uprobes.h /usr/share/systemtap/runtime/linux/uprobes2/uprobes.c", added "/usr/share/systemtap/runtime/linux/autoconf-module_memory.c /usr/share/systemtap/runtime/linux/uprobes/config.h /usr/share/systemtap/interactive-notebook/RedHatBlog.ipynb /usr/share/systemtap/runtime/linux/autoconf-twa_resume.c /usr/share/systemtap/runtime/linux/stap_fs.h /usr/share/systemtap/runtime/sym2.c /usr/share/systemtap/runtime/linux/autoconf-user-access-begin-2-args.c /usr/share/systemtap/runtime/linux/autoconf-user-access-end.c /usr/share/systemtap/runtime/linux/uprobes2/co
+ nfig.h /usr/share/systemtap/runtime/linux/autoconf-asm-tlbflush-h.c /usr/share/systemtap/runtime/linux/autoconf-user-access-begin-3-args.c /usr/share/systemtap/runtime/linux/autoconf-d-real-inode.c /usr/share/systemtap/runtime/linux/autoconf-asm-access-ok.c /usr/share/systemtap/runtime/linux/autoconf-nmi-uaccess-okay.c /usr/share/systemtap/runtime/linux/autoconf-stacktrace_h.c /usr/share/systemtap/runtime/linux/uprobes2/git_version.h /usr/share/systemtap/runtime/linux/autoconf-get_user_page_vma_remote.c /usr/share/systemtap/runtime/linux/uprobes/git_version.h"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3450,5 +3629,73 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============1312778045243731832==--
+--===============3211305370352448378==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-systemtap-uprobes-upgrade-4.9-5.0.patch"
+
+RnJvbSBlMmQxYjUzNGM0YTNkNzVlZWEwZWJhODZkZGY2NGRjZGQ0YzRmMjQ1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAxMjozMjoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHN5
+c3RlbXRhcC11cHJvYmVzOiB1cGdyYWRlIDQuOSAtPiA1LjAKCi0tLQogLi4uL3N5c3RlbXRhcC9z
+eXN0ZW10YXAtdXByb2Jlc19naXQuYmIgICAgICAgIHwgIDEgKwogLi4uL3N5c3RlbXRhcC8wMDAx
+LXJlbGVhc2UtZGF0ZS1maXgucGF0Y2ggICAgIHwgMzcgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
+L3N5c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmluYyAgICAgICAgICAgICAgIHwgIDUgKy0tCiAzIGZp
+bGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgNDAgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9k
+ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFwLzAwMDEtcmVs
+ZWFzZS1kYXRlLWZpeC5wYXRjaAoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwvc3lz
+dGVtdGFwL3N5c3RlbXRhcC11cHJvYmVzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1rZXJuZWwvc3lz
+dGVtdGFwL3N5c3RlbXRhcC11cHJvYmVzX2dpdC5iYgppbmRleCAzZDM1NDgxYmRjLi5mMDgzOGJi
+NGY5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL3N5c3RlbXRhcC9zeXN0ZW10YXAt
+dXByb2Jlc19naXQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVt
+dGFwLXVwcm9iZXNfZ2l0LmJiCkBAIC00MCwzICs0MCw0IEBAIGRvX2luc3RhbGwoKSB7CiAJCWlu
+c3RhbGwgLW0gMDY0NCAke1N9L3J1bnRpbWUvdXByb2Jlcy91cHJvYmVzLmtvICR7RH0ke2RhdGFk
+aXJ9L3N5c3RlbXRhcC9ydW50aW1lL3Vwcm9iZXMvCiAJZmkKIH0KKwpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFwLzAwMDEtcmVsZWFzZS1kYXRlLWZp
+eC5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwvc3lzdGVtdGFwL3N5c3RlbXRhcC8wMDAxLXJl
+bGVhc2UtZGF0ZS1maXgucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDNkY2Iz
+NjllYzMuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lz
+dGVtdGFwLzAwMDEtcmVsZWFzZS1kYXRlLWZpeC5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDM3
+ICswLDAgQEAKLUZyb20gZWJiNDI0ZWVlNTU5OWZjYzEzMTkwMWMwZDgyZDBiZmMwZDJmNTdhYiBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206ICJGcmFuayBDaC4gRWlnbGVyIiA8ZmNoZUBy
+ZWRoYXQuY29tPgotRGF0ZTogRnJpLCAyOCBBcHIgMjAyMyAxMzo1MToyNyAtMDQwMAotU3ViamVj
+dDogW1BBVENIXSByZWxlYXNlIGRhdGUgZml4Ci0KLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQK
+LS0tLQotIE5FV1MgICAgICAgICAgIHwgMiArLQotIHN5c3RlbXRhcC5zcGVjIHwgMiArLQotIDIg
+ZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQotCi1kaWZmIC0t
+Z2l0IGEvTkVXUyBiL05FV1MKLWluZGV4IDY5NWJjOTkwYy4uNDY4NTllMzA0IDEwMDY0NAotLS0t
+IGEvTkVXUwotKysrIGIvTkVXUwotQEAgLTEsNCArMSw0IEBACi0tKiBXaGF0J3MgbmV3IGluIHZl
+cnNpb24gNC45LCAyMDIzLTA0LTI3Ci0rKiBXaGF0J3MgbmV3IGluIHZlcnNpb24gNC45LCAyMDIz
+LTA0LTI4Ci0gCi0gLSBJU3lzdGVtdGFwOiB0aGUgbmV3IGludGVyYWN0aXZlIHN5c3RlbXRhcCBq
+dXB5dGVyIGtlcm5lbC4gVGhpcyBwcm92aWRlcwotICAgYSBzaW1wbGUgR1VJIGZvciB3cml0aW5n
+L3J1bm5pbmcgU3lzdGVtdGFwIHNjcmlwdHMgaW4gYW4gZWFzeSwgaW5jcmVtZW50YWwKLWRpZmYg
+LS1naXQgYS9zeXN0ZW10YXAuc3BlYyBiL3N5c3RlbXRhcC5zcGVjCi1pbmRleCA1OTgxNGYxMTIu
+LmZkODAyMzI2NCAxMDA2NDQKLS0tLSBhL3N5c3RlbXRhcC5zcGVjCi0rKysgYi9zeXN0ZW10YXAu
+c3BlYwotQEAgLTEzMDcsNyArMTMwNyw3IEBAIGV4aXQgMAotIAotICMgUFJFUkVMRUFTRQotICVj
+aGFuZ2Vsb2cKLS0qIFRodSBBcHIgMjcgMjAyMyBGcmFuayBDaC4gRWlnbGVyIDxmY2hlQHJlZGhh
+dC5jb20+IC0gNC45LTEKLSsqIEZyaSBBcHIgMjggMjAyMyBGcmFuayBDaC4gRWlnbGVyIDxmY2hl
+QHJlZGhhdC5jb20+IC0gNC45LTEKLSAtIFVwc3RyZWFtIHJlbGVhc2UsIHNlZSB3aWtpIHBhZ2Ug
+YmVsb3cgZm9yIGRldGFpbGVkIG5vdGVzLgotICAgaHR0cHM6Ly9zb3VyY2V3YXJlLm9yZy9zeXN0
+ZW10YXAvd2lraS9TeXN0ZW1UYXBSZWxlYXNlcwotIAotLS0gCi0yLjQwLjEKLQpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFwX2dpdC5pbmMgYi9tZXRh
+L3JlY2lwZXMta2VybmVsL3N5c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmluYwppbmRleCBkZTM3NTBm
+ZjA0Li4xZWJiZGJmMTZlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL3N5c3RlbXRh
+cC9zeXN0ZW10YXBfZ2l0LmluYworKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL3N5c3RlbXRhcC9z
+eXN0ZW10YXBfZ2l0LmluYwpAQCAtMSwxMyArMSwxMiBAQAogTElDRU5TRSA9ICJHUEwtMi4wLW9u
+bHkiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1iMjM0ZWU0ZDY5ZjVm
+Y2U0NDg2YTgwZmRhZjRhNDI2MyIKLVNSQ1JFViA9ICI0MThmMGE0NWNhNDQ3MzQ5MTM4NWI1Yzdl
+ZWY3Nzc2MDdiYmRiM2I3IgotUFYgPSAiNC45IgorU1JDUkVWID0gImU3MmRjMTE4ZTU2M2M2NDVk
+OTNhMWEyZDc3MWU4ZDkwZThmZWMxYWUiCitQViA9ICI1LjAiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8v
+c291cmNld2FyZS5vcmcvZ2l0L3N5c3RlbXRhcC5naXQ7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1o
+dHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURvLW5vdC1sZXQtY29uZmlndXJlLXdyaXRl
+LWEtcHl0aG9uLWxvY2F0aW9uLWludG8tdGgucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAw
+MS1JbnN0YWxsLXB5dGhvbi1tb2R1bGVzLXRvLWNvcnJlY3QtbGlicmFyeS1kaXIucGF0Y2ggXAog
+ICAgICAgICAgICBmaWxlOi8vMDAwMS1zdGFwcnVuLXN0YXBicGYtZG9uLXQtc3VwcG9ydC1pbnN0
+YWxsaW5nLWEtbm9uLXJvb3QucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwMS1yZWxlYXNl
+LWRhdGUtZml4LnBhdGNoIFwKICAgICAgICAgICAgIgogCiBDT01QQVRJQkxFX0hPU1QgPSAnKHg4
+Nl82NHxpLjg2fHBvd2VycGN8YXJtfGFhcmNoNjR8bWljcm9ibGF6ZWVsfG1pcHN8cmlzY3Y2NCku
+Ki1saW51eCcKLS0gCjIuMzkuMgoK
+
+--===============3211305370352448378==--
 
