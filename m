@@ -1,116 +1,96 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B49A7C10F04
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 18:34:09 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.425.1701455646472713660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7652C4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 18:34:39 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.442.1701455675229108121
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 10:34:06 -0800
+ Fri, 01 Dec 2023 10:34:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=et1qcurs;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6cdcef8b400so2397071b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 10:34:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BOZxyy9x;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4079ed65582so23320005e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 10:34:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701455645; x=1702060445; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jzgGcht6WyBFi9Mlmeko+w4O1YMVo3B5tKlCb83zqx0=;
-        b=et1qcursnb74MgfWbxqTS3pOd6mn2OdMNsJ9EVq8Flj2mE8bVYzweGnbT1Zo+BmkVH
-         TJ3GJAd3Jaz9Bqmle7xgHqgkCLFQLba4f34nEYf/zMdEPZLQZ1MILkAT/pXNDwbx6bu0
-         JmmWh3f95sboePiG6Zrq40dBE2My85B75NQKFDrq5a4v3d/UlDiIPO++WxsW3/2m+fy5
-         oNX3TZTRT3Yrc+G0noDoz5V8w/Vj+54/sHxIFC+xQlc64YhI6DYT5Xg7R7L4YVIpg7/1
-         Y0dv95XMWiX4j8d978SySHYBhgrdin4x+sefzD210D1XmWBAdJ4cj7JiREtW7/GEIopr
-         1YSg==
+        d=gmail.com; s=20230601; t=1701455673; x=1702060473; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oG7i8Ft/XusmWn9rDNphoZQnuEWUVT9Ltxn6eZjC3Yw=;
+        b=BOZxyy9xrivww/TzVP8kDjLJE+ee34GDgbvGzjrK33+VzRkC90hPbI6NNCuvBqapP+
+         lK3gvJfpzD7a0u4PJ9OvX/+gaXQ17mXRMnhMAQ7a379nF/SjN3lWxHakgZv30kIl39mP
+         +YVcYZeC40BeTI0dm+xto08lC1+DMtMc2lN8hG35/vsufFjoQQbui2QUrXRmxdv2Oaxq
+         HLmhRkuPJ+puq8RA7o+JYgT30jHDbfMwEEOlnfI67/FzJcoK/7SWCuy1d6+pwEm98TW7
+         nQDqeOVHwWqOaG2iN6SgieLsQdeA4QceBqCQFurk4h6c/9JhrAWnuP2aG6yR+EjSIZim
+         rSbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701455645; x=1702060445;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jzgGcht6WyBFi9Mlmeko+w4O1YMVo3B5tKlCb83zqx0=;
-        b=jO8to4XWdIBi9uZj/of+ohrojRP3jCI9Q89yRFxGuusnr2Wkseq1639yxmlcNTVFTP
-         z1r+Z85Hf16ypfz1s+GT+DUoK8OoLq2XJ7jB+Y3oKrVmZ4ZM3X5zovwahB22tY8y5yrR
-         mPtp1DN8wd6j+8A1HYPB+aytZi4S9PaEKDetHG7QKcx76h9W4RVLTSAzyZutjQYEpEkD
-         4SDeFOIH6RV8vqTExTb6n1yE26JJ5KIWIFRDI+igJteTtH2GfEXufk4mEjs355kHOG66
-         3XvTU0aSa42D5eCgYsFbyeXe0uX3zlOsUn5dqp3cynIGYovnI/L459fIxt3Z+vZVOqvf
-         4ZWw==
-X-Gm-Message-State: AOJu0YzMmBU0gRk6nOxrZ0obEaJvlDAOvgES9DLGgXTmhiPahLNpGAg+
-	/tQ/QawZx6N03KLUTaKARWTsIjoGF44=
-X-Google-Smtp-Source: AGHT+IHilbcUNYCEWRRT+ecGsLnyqlCEbuLzGW+WqjIgWPPaLbK0HVEuK5TiorKOIqXJCfBdIg/NeQ==
-X-Received: by 2002:a05:6a20:158b:b0:18d:b43:78e8 with SMTP id h11-20020a056a20158b00b0018d0b4378e8mr10572452pzj.32.1701455645465;
-        Fri, 01 Dec 2023 10:34:05 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::2c3f])
-        by smtp.gmail.com with ESMTPSA id g24-20020a056a00079800b006cde7dd80cbsm3297126pfu.191.2023.12.01.10.34.04
+        d=1e100.net; s=20230601; t=1701455673; x=1702060473;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oG7i8Ft/XusmWn9rDNphoZQnuEWUVT9Ltxn6eZjC3Yw=;
+        b=S5Mtxfs2U/VX3A3qgPpAMvTBGyqN2/Od+h7CMs7zlRIFj4YwPJjM/AcFkLBydR7fUO
+         jie9rBFYiUgBDumPuwUN99JDHHL4+kQZJWMsx+gB7ZrAeWZz9+8i3d407ikKDfu+sjhu
+         XfOfFPLr1aHuq4s3sojGg+qryEj4Vr9wzKi/IpTLuEAidGbxGvSk1Cs7Q6NbBj/o6Aes
+         cIOoFxcsobo3PzjtlTFA6WBVv7tsvnWiO4tKBXZwz3T5LYvKMF20H9Gusm/80CU3EwxL
+         rNhj1c9vD3RSYbyhKHTsuIA9XCS0c8ZhcHBRUdbB+BILN4lQAnedGsqJHzdoSteyLgd2
+         Z9mA==
+X-Gm-Message-State: AOJu0Yz52k90Ywqf5EVIiQ2de8oP7MefNJ0ABGTE2ycehQ4dar98FvMs
+	qt1dZKOObw9xW4mXh5cmj9uyH68/crY=
+X-Google-Smtp-Source: AGHT+IGmpnQF/manRMn7d7sgJQ/ZDljYPt8Hl++jYRIaR+Y9FITnys/8zPPXevk9NQSeUOPwKjPfew==
+X-Received: by 2002:a5d:404e:0:b0:333:265e:8bb9 with SMTP id w14-20020a5d404e000000b00333265e8bb9mr1046116wrp.30.1701455672796;
+        Fri, 01 Dec 2023 10:34:32 -0800 (PST)
+Received: from Zuma-000004PC.lan ([2a02:390:9c57:0:2050:5414:adff:4362])
+        by smtp.gmail.com with ESMTPSA id dl17-20020a0560000b9100b003316debbde4sm4857229wrb.48.2023.12.01.10.34.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 10:34:05 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+        Fri, 01 Dec 2023 10:34:31 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 6/6] llvm: Upgrade to 17.0.6
-Date: Fri,  1 Dec 2023 10:33:54 -0800
-Message-ID: <20231201183356.311137-6-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231201183356.311137-1-raj.khem@gmail.com>
-References: <20231201183356.311137-1-raj.khem@gmail.com>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH] rust: Drop targets and hosts override magic
+Date: Fri,  1 Dec 2023 18:34:19 +0000
+Message-Id: <20231201183418.4188-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 18:34:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191682
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 18:34:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191683
 
-Bring in these changes
+`targets` and `hosts` could be overridden prior to 0a01b5ab973e
+("rust-cross-canadian: Simplify and fix"), that commit deleted this
+usage, remove the remnant of it from here.
 
-* 6009708b4367 Revert "[runtimes] Add missing test dependencies to check-all (#72955)"
-* 04caadc61fa2 [Driver] Enable __float128 support on X86 on FreeBSD / NetBSD (#72788)
-* e919a83f96fe eliminate python SyntaxWarnings from check-all output.
-* f6c231c15ec8 [clang-format] Fix crashes in AlignArrayOfStructures (#72520)
-* f74f3e6f58d3 [clang] Fix sorting module headers (#73146)
-* 7e30ce9528d9 [JITLink][aarch32] Change writeRegister's return type to void.
-* 03373fd9cb6c [CMake] Support building shared library for NetBSD
-* 21af3b62b632 workflows/release-binaries: Do a preliminary build to fill ccache (#72576)
-* 201faeca595e Add RV64 constraint to SRLIW (#69416)
-* e957e6dcb29d [runtimes] Add missing test dependencies to check-all (#72955)
-* f8575ff46f89 [clang-format] Fix a bug in aligning comments above PPDirective (#72791)
-* a71237b9f67f [clangd] Avoid null result in FindRecordTypeAt()
-* 308c816de5a4 Bump version to 17.0.6
-* 442401f7c0ca remove tests from bad merge
-* 76c7e0e1e2d1 Use the correct namespace for looking up matching operator!= (#68922)
-* b5cbb35408a3 [libc++] Use correct size for deallocation of arrays in shared_ptr (#68233)
-* e6de86cb9ef8 Revert "Reland [clang] Canonicalize system headers in dependency file when -canonical-prefixes" (#71697)
-* bb66d8f8f73b [clang][WebAssembly] Link crt1 even in case of -shared
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-devtools/llvm/llvm_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index de8d4116868..9a88549260a 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -14,14 +14,14 @@ RDEPENDS:${PN}:append:class-target = " ncurses-terminfo"
+ meta/recipes-devtools/rust/rust_1.70.0.bb | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-devtools/rust/rust_1.70.0.bb b/meta/recipes-devtools/rust/rust_1.70.0.bb
+index 6a28dc926ed2..3d176e54c15c 100644
+--- a/meta/recipes-devtools/rust/rust_1.70.0.bb
++++ b/meta/recipes-devtools/rust/rust_1.70.0.bb
+@@ -154,13 +154,9 @@ python do_configure() {
  
- inherit cmake pkgconfig
+     config.set("build", "vendor", e(True))
  
--PV = "17.0.5"
-+PV = "17.0.6"
+-    if not "targets" in locals():
+-        targets = [d.getVar("RUST_TARGET_SYS")]
+-    config.set("build", "target", e(targets))
++    config.set("build", "target", e([d.getVar("RUST_TARGET_SYS")]))
  
- MAJOR_VERSION = "${@oe.utils.trim_version("${PV}", 1)}"
+-    if not "hosts" in locals():
+-        hosts = [d.getVar("RUST_HOST_SYS")]
+-    config.set("build", "host", e(hosts))
++    config.set("build", "host", e([d.getVar("RUST_HOST_SYS")]))
  
- LLVM_RELEASE = "${PV}"
- 
- BRANCH = "release/${MAJOR_VERSION}.x"
--SRCREV = "98bfdac5ce82d1679f8af9a57501471812ab68d7"
-+SRCREV = "6009708b4367171ccdbf4b5905cb6a803753fe18"
- SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH};protocol=https \
-            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-            file://0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch;striplevel=2 \
+     # We can't use BUILD_SYS since that is something the rust snapshot knows
+     # nothing about when trying to build some stage0 tools (like fabricate)
 -- 
-2.43.0
+2.39.0
 
 
