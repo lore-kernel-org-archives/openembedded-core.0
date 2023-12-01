@@ -2,49 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 961C9C27C60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 966ECC27C62
 	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 13:15:01 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.22312.1701436490558185201
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.22319.1701436491463306986
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 05:14:50 -0800
+ Fri, 01 Dec 2023 05:14:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NFkqvk0b;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=WQomCTci;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c2584827e-cfd9f3c6-75c3-4476-a9a0-4f6245f63838-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KZ88MFkG;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CCe2yehO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018c25848376-4226cc81-0ed1-4911-ae91-dbc343d2d369-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1701436490;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gR6VsYpfwffpV0Hp0uUtDmKh7P2ZnNTNBNMCKhO79ME=;
-	b=NFkqvk0b+14agqlFfg5b1F9lRYTC4qJI0z40wpjcPKn0wpBmdN0QskzT+5ZOlch8
-	DKqDdOhaFV5d/WEJF4LJ3JrmKfE1zTZm+e6mMHVco2aCn5rF5+3n8l/RYhQajp6H3eW
-	EJ/heRLwCwdQbguB75J6pY36kYB8w4qAOToQ1jn0=
+	bh=B5xfrd55IUjijtGr/zyd704WlAYsVyC9gKFA/KYDfBY=;
+	b=KZ88MFkGS6F8MA/UznhTcOEJ5JfP3W6iK/il3ghbb4ITKH650ZdiAJixx6D4Ws3f
+	R7DrNY4N6UZDXrB4mp3pQc8oNoZTgQXnE+fW43l7QJpt9mHSOA4nFcqE96bjk5dNNzk
+	GiXjjHHWZk/77jvlZlrJhPPuD8pzEoPcwjXYzLQE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701436490;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gR6VsYpfwffpV0Hp0uUtDmKh7P2ZnNTNBNMCKhO79ME=;
-	b=WQomCTciPNs245NIm5O6PKSSt5FhJ4rRCzNzFHc5Q+w+MCx5yRyibTqPkQkgO709
-	VGOavzbGjqYfhtHBkbHyEJS4y8u1jTJ0BAIVwQbI+anHkxmjfXePCvbs1BUU1PcVL0U
-	RoBWr3k0QS37a9PAJ6bWGR4rNIDPJcC0BpLFMvsQ=
-Content-Type: multipart/mixed; boundary="===============1370489992516294240=="
+	bh=B5xfrd55IUjijtGr/zyd704WlAYsVyC9gKFA/KYDfBY=;
+	b=CCe2yehOfbnAwE2WMj+mt2Kw9j/TR4cOKF1zYQi9ahdmJOPepZan2I6cttPVWkt4
+	QGPufZiaI5PbCqBYld4HJi21/LDLhTrm90hniyJY0a2c9EYtX3fFGGKJtnDdDPDRkF4
+	RACKAYvzFeW9vJ9kBveshcKa+4FaypAy06Pb+lq4=
+Content-Type: multipart/mixed; boundary="===============2364588709209853333=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] psplash: upgrading to ecc1913756698d0c87ad8fa10e44b29537f09ad1
- FAILED
-Message-ID: <0101018c2584827e-cfd9f3c6-75c3-4476-a9a0-4f6245f63838-000000@us-west-2.amazonses.com>
+Subject: [AUH] update-rc.d: upgrading to
+ b8f950105010270a768aa12245d6abf166346015 SUCCEEDED
+Message-ID: <0101018c25848376-4226cc81-0ed1-4911-ae91-dbc343d2d369-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Dec 2023 13:14:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.01-54.240.27.33
+X-SES-Outgoing: 2023.12.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 13:15:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191576
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191588
 
---===============1370489992516294240==
+--===============2364588709209853333==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,50 +52,77 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *psplash* to *ecc1913756698d0c87ad8fa10e44b29537f09ad1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *update-rc.d* to *b8f950105010270a768aa12245d6abf166346015* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-update-rc.d-upgrade-to-latest-revision.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade psplash -S ecc1913756698d0c87ad8fa10e44b29537f09ad1
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1844 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-6f5f3356e20fc01c16a5bdf1c829fac2a2105fa3"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:6f5f3356e20fc01c16a5bdf1c829fac2a2105fa3"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 4 Local 4 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-INFO: Extracting current version source...
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto ecc1913756698d0c87ad8fa10e44b29537f09ad1
-ERROR: Could not decode SRC_URI: The URL: '${SPLASH_IMAGES}' is invalid and cannot be interpreted
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1370489992516294240==--
+
+-- >8 --
+From eae0382a38426482c1f0d6fb91e782ed1d6e636f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Dec 2023 06:34:11 +0000
+Subject: [PATCH] update-rc.d: upgrade to latest revision
+
+---
+ meta/recipes-core/update-rc.d/update-rc.d_0.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+index 043cb3f13e..ba622fe716 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
++++ b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=d40a07c27f535425934bb5001f2037d9"
+ 
+ SRC_URI = "git://git.yoctoproject.org/update-rc.d;branch=master;protocol=https"
+-SRCREV = "8636cf478d426b568c1be11dbd9346f67e03adac"
++SRCREV = "b8f950105010270a768aa12245d6abf166346015"
+ 
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+-- 
+2.39.2
+
+
+--===============2364588709209853333==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-update-rc.d-upgrade-to-latest-revision.patch"
+
+RnJvbSBlYWUwMzgyYTM4NDI2NDgyYzFmMGQ2ZmI5MWU3ODJlZDFkNmU2MzZmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAwNjozNDoxMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHVw
+ZGF0ZS1yYy5kOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMt
+Y29yZS91cGRhdGUtcmMuZC91cGRhdGUtcmMuZF8wLjguYmIgfCAyICstCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtY29yZS91cGRhdGUtcmMuZC91cGRhdGUtcmMuZF8wLjguYmIgYi9tZXRhL3JlY2lwZXMtY29y
+ZS91cGRhdGUtcmMuZC91cGRhdGUtcmMuZF8wLjguYmIKaW5kZXggMDQzY2IzZjEzZS4uYmE2MjJm
+ZTcxNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvdXBkYXRlLXJjLmQvdXBkYXRlLXJj
+LmRfMC44LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3VwZGF0ZS1yYy5kL3VwZGF0ZS1yYy5k
+XzAuOC5iYgpAQCAtNyw3ICs3LDcgQEAgTElDRU5TRSA9ICJHUEwtMi4wLW9yLWxhdGVyIgogTElD
+X0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vdXBkYXRlLXJjLmQ7YmVnaW5saW5lPTU7ZW5kbGluZT0x
+NTttZDU9ZDQwYTA3YzI3ZjUzNTQyNTkzNGJiNTAwMWYyMDM3ZDkiCiAKIFNSQ19VUkkgPSAiZ2l0
+Oi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvdXBkYXRlLXJjLmQ7YnJhbmNoPW1hc3Rlcjtwcm90b2Nv
+bD1odHRwcyIKLVNSQ1JFViA9ICI4NjM2Y2Y0NzhkNDI2YjU2OGMxYmUxMWRiZDkzNDZmNjdlMDNh
+ZGFjIgorU1JDUkVWID0gImI4Zjk1MDEwNTAxMDI3MGE3NjhhYTEyMjQ1ZDZhYmYxNjYzNDYwMTUi
+CiAKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMgPSAiMSIKIAotLSAKMi4zOS4yCgo=
+
+--===============2364588709209853333==--
 
