@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AC5C25B66
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79753C25B61
 	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 13:15:00 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.22314.1701436490888601934
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.22190.1701436491534103698
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 05:14:52 -0800
+ Fri, 01 Dec 2023 05:14:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HsQXEQDa;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KnttOO4d;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018c258488be-70333bd5-00f4-43a1-b725-0cab53e10ef8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=M11B4nhW;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=RAXWt/Ta;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c258484ae-cb2780a6-6d82-4e38-8508-447b85b4199c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701436492;
+	t=1701436491;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=oXJUR9VO6ixN/gdp1cAV198mC0zr3a3kxccu7E8l068=;
-	b=HsQXEQDaXBhLSZqtkxAPgxzH/X5mrJlQFB0D21I6D8Th0E4L/eLN+XLqyPuN9EVD
-	Upa2afvTgfeRrOlmyo2dBkBy33i3GxQVaCBKrnavII/uOKqp4RvWmxM1bRQG4w30vei
-	10x1JUhWS88xrGBwraGSDSNhNDyIDP4A/gv1/PaU=
+	bh=ZBxHd3KkeFCLx7QFUGgNXky9YFZegHA90Xfaog4uMhk=;
+	b=M11B4nhWiFsYK0jF2tE/hyKC5BhpzbsWTIgL7bdklv6tRgxTTaeL5HQ96BLmkR9z
+	CuxtQYD1AO9nqqFLUU+JWV5BcQzlBntyR650YSWrmn+qrRlMJtwaHXKwopB4xSruYUy
+	cmxYLxVUZcjIafzryr4Uor6hqOwzrtyO2bRoYYPA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701436492;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701436491;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=oXJUR9VO6ixN/gdp1cAV198mC0zr3a3kxccu7E8l068=;
-	b=KnttOO4dbmUAf35F/tepIbjr07V3S0EgFaSOZXES+cBu5uBh/qLmYOAomH+ymk19
-	GKkfH9qTIhaP6qIa5UKoCrsqX1RKHDae4TBLBU4ae1plA5LMBwKnZhgvmPdwW8P3hY2
-	kNcqDCCWMZPMifSDI4fdriTWUsbxEUwQONv3pQ5c=
-Content-Type: multipart/mixed; boundary="===============0238599517856304868=="
+	bh=ZBxHd3KkeFCLx7QFUGgNXky9YFZegHA90Xfaog4uMhk=;
+	b=RAXWt/Tai15T+S0mhfU9g7NwYzJ/W/r6bnGsbJnJKhaK4Bk4VsZK7yKXdpcPi3Ho
+	I/yX4JqHNmMuQXXLM85BkeKP+nW+zwvo0M3/wV03+EUW07wJtEFcWmn8Bk2bs5GUaiP
+	gVBovtR7QV67T2WrtUvvo9nJVMrHxrEuI4Iaw8sI=
+Content-Type: multipart/mixed; boundary="===============1624164739961950741=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] valgrind: upgrading to 3.22.0 FAILED
-Message-ID: <0101018c258488be-70333bd5-00f4-43a1-b725-0cab53e10ef8-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Dec 2023 13:14:51 +0000
+Subject: [AUH] pkgconf: upgrading to 2.1.0 SUCCEEDED
+Message-ID: <0101018c258484ae-cb2780a6-6d82-4e38-8508-447b85b4199c-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Dec 2023 13:14:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.01-54.240.27.193
+X-SES-Outgoing: 2023.12.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 13:15:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191620
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191593
 
---===============0238599517856304868==
+--===============1624164739961950741==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *valgrind* to *3.22.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *pkgconf* to *2.1.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-valgrind-upgrade-3.21.0-3.22.0.patch
+    - apply the patch: git am 0001-pkgconf-upgrade-2.0.3-2.1.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,861 +72,91 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b561c2f937e284ba272a73fa4a1d5dbd32841a1b Mon Sep 17 00:00:00 2001
+From 42c99e57547cd278956ca607fb98030c687e662c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Dec 2023 10:30:50 +0000
-Subject: [PATCH] valgrind: upgrade 3.21.0 -> 3.22.0
+Date: Fri, 1 Dec 2023 08:17:43 +0000
+Subject: [PATCH] pkgconf: upgrade 2.0.3 -> 2.1.0
 
 ---
- ...inux-seg_override.c-add-missing-incl.patch |  30 --
- ...020-Committing-changes-from-do_patch.patch | 332 ++++++++++++++++++
- ...{valgrind_3.21.0.bb => valgrind_3.22.0.bb} |   4 +-
- 3 files changed, 334 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0020-Committing-changes-from-do_patch.patch
- rename meta/recipes-devtools/valgrind/{valgrind_3.21.0.bb => valgrind_3.22.0.bb} (98%)
+ .../pkgconf/{pkgconf_2.0.3.bb => pkgconf_2.1.0.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_2.0.3.bb => pkgconf_2.1.0.bb} (96%)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
-deleted file mode 100644
-index 5e36c28523..0000000000
---- a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 978d9ed7f857f2cdcd2a8632f3c2feb56b99c825 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex@linutronix.de>
--Date: Mon, 8 May 2023 11:56:35 +0200
--Subject: [PATCH] none/tests/x86-linux/seg_override.c: add missing include for
-- musl builds
--
--Otherwise SYS_modify_ldt is undefined.
--
--Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=382034]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
--
-----
-- none/tests/x86-linux/seg_override.c | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/none/tests/x86-linux/seg_override.c b/none/tests/x86-linux/seg_override.c
--index ca8fbfe..4ef4394 100644
----- a/none/tests/x86-linux/seg_override.c
--+++ b/none/tests/x86-linux/seg_override.c
--@@ -3,6 +3,10 @@
-- #include <errno.h>
-- #include <string.h>
-- #include "../../../config.h"
--+#if defined(MUSL_LIBC)
--+#include <syscall.h>
--+#include <unistd.h>
--+#endif
-- 
-- 
-- /* Stuff from Wine. */
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0020-Committing-changes-from-do_patch.patch b/meta/recipes-devtools/valgrind/valgrind/0020-Committing-changes-from-do_patch.patch
-new file mode 100644
-index 0000000000..8f03e2b36c
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0020-Committing-changes-from-do_patch.patch
-@@ -0,0 +1,332 @@
-+From 5b8c1af69976771c2b3368b96aa094265edbbd77 Mon Sep 17 00:00:00 2001
-+From: OpenEmbedded <oe.patch@oe>
-+Date: Fri, 1 Dec 2023 10:29:44 +0000
-+Subject: [PATCH] Committing changes from do_patch
-+
-+---
-+ memcheck/tests/badfree3.stderr.exp |   4 +-
-+ memcheck/tests/varinfo5.stderr.exp | 216 ++++++++++++++---------------
-+ 2 files changed, 110 insertions(+), 110 deletions(-)
-+
-+diff --git a/memcheck/tests/badfree3.stderr.exp b/memcheck/tests/badfree3.stderr.exp
-+index 20e48a6..b518703 100644
-+--- a/memcheck/tests/badfree3.stderr.exp
-++++ b/memcheck/tests/badfree3.stderr.exp
-+@@ -1,11 +1,11 @@
-+ Invalid free() / delete / delete[] / realloc()
-+    at 0x........: free (vg_replace_malloc.c:...)
-+-   by 0x........: main (tests/badfree.c:12)
-++   by 0x........: main (badfree.c:12)
-+  Address 0x........ is not stack'd, malloc'd or (recently) free'd
-+ 
-+ Invalid free() / delete / delete[] / realloc()
-+    at 0x........: free (vg_replace_malloc.c:...)
-+-   by 0x........: main (tests/badfree.c:15)
-++   by 0x........: main (badfree.c:15)
-+  Address 0x........ is on thread 1's stack
-+  in frame #1, created by main (badfree.c:7)
-+ 
-+diff --git a/memcheck/tests/varinfo5.stderr.exp b/memcheck/tests/varinfo5.stderr.exp
-+index 1a10d03..0fd1190 100644
-+--- a/memcheck/tests/varinfo5.stderr.exp
-++++ b/memcheck/tests/varinfo5.stderr.exp
-+@@ -1,191 +1,191 @@
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: varinfo1_main (tests/varinfo5so.c:52)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:154)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: varinfo1_main (varinfo5so.c:52)
-++   by 0x........: varinfo5_main (varinfo5so.c:154)
-++   by 0x........: main (varinfo5.c:5)
-+  Address 0x........ is 1 bytes inside a block of size 3 alloc'd
-+    at 0x........: malloc (vg_replace_malloc.c:...)
-+-   by 0x........: varinfo1_main (tests/varinfo5so.c:50)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:154)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   by 0x........: varinfo1_main (varinfo5so.c:50)
-++   by 0x........: varinfo5_main (varinfo5so.c:154)
-++   by 0x........: main (varinfo5.c:5)
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: varinfo1_main (tests/varinfo5so.c:55)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:154)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: varinfo1_main (varinfo5so.c:55)
-++   by 0x........: varinfo5_main (varinfo5so.c:154)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside global var "global_u1"
-+  declared at varinfo5so.c:38
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: varinfo1_main (tests/varinfo5so.c:56)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:154)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: varinfo1_main (varinfo5so.c:56)
-++   by 0x........: varinfo5_main (varinfo5so.c:154)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside global var "global_i1"
-+  declared at varinfo5so.c:40
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: varinfo1_main (tests/varinfo5so.c:57)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:154)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: varinfo1_main (varinfo5so.c:57)
-++   by 0x........: varinfo5_main (varinfo5so.c:154)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside global_u2[3],
-+  a global variable declared at varinfo5so.c:42
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: varinfo1_main (tests/varinfo5so.c:58)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:154)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: varinfo1_main (varinfo5so.c:58)
-++   by 0x........: varinfo5_main (varinfo5so.c:154)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside global_i2[7],
-+  a global variable declared at varinfo5so.c:44
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: varinfo1_main (tests/varinfo5so.c:59)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:154)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: varinfo1_main (varinfo5so.c:59)
-++   by 0x........: varinfo5_main (varinfo5so.c:154)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside local var "local"
-+  declared at varinfo5so.c:49, in frame #X of thread 1
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: foo2 (tests/varinfo5so.c:71)
-+-   by 0x........: varinfo2_main (tests/varinfo5so.c:81)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:155)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: foo2 (varinfo5so.c:71)
-++   by 0x........: varinfo2_main (varinfo5so.c:81)
-++   by 0x........: varinfo5_main (varinfo5so.c:155)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside var[7],
-+  declared at varinfo5so.c:69, in frame #X of thread 1
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: foo2 (tests/varinfo5so.c:73)
-+-   by 0x........: varinfo2_main (tests/varinfo5so.c:81)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:155)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: foo2 (varinfo5so.c:73)
-++   by 0x........: varinfo2_main (varinfo5so.c:81)
-++   by 0x........: varinfo5_main (varinfo5so.c:155)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 2 bytes inside var.bar,
-+  declared at varinfo5so.c:72, in frame #X of thread 1
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: foo2 (tests/varinfo5so.c:76)
-+-   by 0x........: varinfo2_main (tests/varinfo5so.c:81)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:155)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: foo2 (varinfo5so.c:76)
-++   by 0x........: varinfo2_main (varinfo5so.c:81)
-++   by 0x........: varinfo5_main (varinfo5so.c:155)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 1 byte inside local var "var"
-+  declared at varinfo5so.c:67, in frame #X of thread 1
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: foo3 (tests/varinfo5so.c:106)
-+-   by 0x........: varinfo3_main (tests/varinfo5so.c:118)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:156)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: foo3 (varinfo5so.c:106)
-++   by 0x........: varinfo3_main (varinfo5so.c:118)
-++   by 0x........: varinfo5_main (varinfo5so.c:156)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside static_global_def[1],
-+  a global variable declared at varinfo5so.c:87
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: foo3 (tests/varinfo5so.c:107)
-+-   by 0x........: varinfo3_main (tests/varinfo5so.c:118)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:156)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: foo3 (varinfo5so.c:107)
-++   by 0x........: varinfo3_main (varinfo5so.c:118)
-++   by 0x........: varinfo5_main (varinfo5so.c:156)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside nonstatic_global_def[2],
-+  a global variable declared at varinfo5so.c:88
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: foo3 (tests/varinfo5so.c:108)
-+-   by 0x........: varinfo3_main (tests/varinfo5so.c:118)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:156)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: foo3 (varinfo5so.c:108)
-++   by 0x........: varinfo3_main (varinfo5so.c:118)
-++   by 0x........: varinfo5_main (varinfo5so.c:156)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside static_global_undef[3],
-+  a global variable declared at varinfo5so.c:89
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: foo3 (tests/varinfo5so.c:109)
-+-   by 0x........: varinfo3_main (tests/varinfo5so.c:118)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:156)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: foo3 (varinfo5so.c:109)
-++   by 0x........: varinfo3_main (varinfo5so.c:118)
-++   by 0x........: varinfo5_main (varinfo5so.c:156)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside nonstatic_global_undef[4],
-+  a global variable declared at varinfo5so.c:90
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: bar3 (tests/varinfo5so.c:94)
-+-   by 0x........: foo3 (tests/varinfo5so.c:110)
-+-   by 0x........: varinfo3_main (tests/varinfo5so.c:118)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:156)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: bar3 (varinfo5so.c:94)
-++   by 0x........: foo3 (varinfo5so.c:110)
-++   by 0x........: varinfo3_main (varinfo5so.c:118)
-++   by 0x........: varinfo5_main (varinfo5so.c:156)
-++   by 0x........: main (varinfo5.c:5)
-+  Address 0x........ is 5 bytes inside data symbol "static_local_def.XXXX"
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: bar3 (tests/varinfo5so.c:95)
-+-   by 0x........: foo3 (tests/varinfo5so.c:110)
-+-   by 0x........: varinfo3_main (tests/varinfo5so.c:118)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:156)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: bar3 (varinfo5so.c:95)
-++   by 0x........: foo3 (varinfo5so.c:110)
-++   by 0x........: varinfo3_main (varinfo5so.c:118)
-++   by 0x........: varinfo5_main (varinfo5so.c:156)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside nonstatic_local_def[6],
-+  declared at varinfo5so.c:103, in frame #X of thread 1
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: bar3 (tests/varinfo5so.c:96)
-+-   by 0x........: foo3 (tests/varinfo5so.c:110)
-+-   by 0x........: varinfo3_main (tests/varinfo5so.c:118)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:156)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: bar3 (varinfo5so.c:96)
-++   by 0x........: foo3 (varinfo5so.c:110)
-++   by 0x........: varinfo3_main (varinfo5so.c:118)
-++   by 0x........: varinfo5_main (varinfo5so.c:156)
-++   by 0x........: main (varinfo5.c:5)
-+  Address 0x........ is 7 bytes inside data symbol "static_local_undef.XXXX"
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: bar3 (tests/varinfo5so.c:97)
-+-   by 0x........: foo3 (tests/varinfo5so.c:110)
-+-   by 0x........: varinfo3_main (tests/varinfo5so.c:118)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:156)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: bar3 (varinfo5so.c:97)
-++   by 0x........: foo3 (varinfo5so.c:110)
-++   by 0x........: varinfo3_main (varinfo5so.c:118)
-++   by 0x........: varinfo5_main (varinfo5so.c:156)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside nonstatic_local_undef[8],
-+  declared at varinfo5so.c:105, in frame #X of thread 1
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: blah4 (tests/varinfo5so.c:137)
-+-   by 0x........: varinfo4_main (tests/varinfo5so.c:146)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:157)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: blah4 (varinfo5so.c:137)
-++   by 0x........: varinfo4_main (varinfo5so.c:146)
-++   by 0x........: varinfo5_main (varinfo5so.c:157)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 1 byte inside a[3].xyzzy[21].c1,
-+  declared at varinfo5so.c:135, in frame #X of thread 1
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: blah4 (tests/varinfo5so.c:138)
-+-   by 0x........: varinfo4_main (tests/varinfo5so.c:146)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:157)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: blah4 (varinfo5so.c:138)
-++   by 0x........: varinfo4_main (varinfo5so.c:146)
-++   by 0x........: varinfo5_main (varinfo5so.c:157)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 0 bytes inside a[5].bong,
-+  declared at varinfo5so.c:135, in frame #X of thread 1
-+ 
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: blah4 (tests/varinfo5so.c:139)
-+-   by 0x........: varinfo4_main (tests/varinfo5so.c:146)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:157)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: blah4 (varinfo5so.c:139)
-++   by 0x........: varinfo4_main (varinfo5so.c:146)
-++   by 0x........: varinfo5_main (varinfo5so.c:157)
-++   by 0x........: main (varinfo5.c:5)
-+  Location 0x........ is 1 byte inside a[3].xyzzy[21].c2[2],
-+  declared at varinfo5so.c:135, in frame #X of thread 1
-+ 
-+ answer is 0
-+ Uninitialised byte(s) found during client check request
-+-   at 0x........: croak (tests/varinfo5so.c:29)
-+-   by 0x........: fun_c (tests/varinfo5so.c:164)
-+-   by 0x........: fun_b (tests/varinfo5so.c:168)
-+-   by 0x........: fun_a (tests/varinfo5so.c:172)
-+-   by 0x........: inlinetest (tests/varinfo5so.c:178)
-+-   by 0x........: varinfo5_main (tests/varinfo5so.c:158)
-+-   by 0x........: main (tests/varinfo5.c:5)
-++   at 0x........: croak (varinfo5so.c:29)
-++   by 0x........: fun_c (varinfo5so.c:164)
-++   by 0x........: fun_b (varinfo5so.c:168)
-++   by 0x........: fun_a (varinfo5so.c:172)
-++   by 0x........: inlinetest (varinfo5so.c:178)
-++   by 0x........: varinfo5_main (varinfo5so.c:158)
-++   by 0x........: main (varinfo5.c:5)
-+  Address 0x........ is on thread 1's stack
-+  in frame #X, created by varinfo5_main (varinfo5so.c:153)
-+ 
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
-similarity index 98%
-rename from meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-rename to meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
-index 67a197c509..612bec190b 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
-@@ -36,9 +36,9 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-            file://0001-docs-Disable-manual-validation.patch \
--           file://0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch \
-+           file://0020-Committing-changes-from-do_patch.patch \
-            "
--SRC_URI[sha256sum] = "10ce1618bb3e33fad16eb79552b0a3e1211762448a0d7fce11c8a6243b9ac971"
-+SRC_URI[sha256sum] = "c811db5add2c5f729944caf47c4e7a65dcaabb9461e472b578765dd7bf6d2d4c"
- UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.0.3.bb b/meta/recipes-devtools/pkgconf/pkgconf_2.1.0.bb
+similarity index 96%
+rename from meta/recipes-devtools/pkgconf/pkgconf_2.0.3.bb
+rename to meta/recipes-devtools/pkgconf/pkgconf_2.1.0.bb
+index 5aa5a191f2..1921f3a086 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_2.0.3.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_2.1.0.bb
+@@ -20,7 +20,7 @@ SRC_URI = "\
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+ "
+-SRC_URI[sha256sum] = "cabdf3c474529854f7ccce8573c5ac68ad34a7e621037535cbc3981f6b23836c"
++SRC_URI[sha256sum] = "266d5861ee51c52bc710293a1d36622ae16d048d71ec56034a02eb9cf9677761"
  
- COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
+ inherit autotools
+ 
 -- 
 2.39.2
 
 
---===============0238599517856304868==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1845 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 912 .bb files complete (911 cached, 1 parsed). 1844 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-aa83649152888a7f6b79627f02a66e2212d4128b"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:aa83649152888a7f6b79627f02a66e2212d4128b"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 494 Local 479 Mirrors 0 Missed 15 Current 513 (96% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 793 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/boost/boost_1.83.0.bb:do_create_spdx_setscene)
-NOTE: recipe boost-1.83.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe boost-1.83.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 984 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 986 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 603 of 2728 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb:do_recipe_qa)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 989 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 990 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 992 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe valgrind-3.22.0-r0: task do_recipe_qa: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe valgrind-3.22.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1460 of 2728 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb:do_fetch)
-NOTE: recipe valgrind-3.22.0-r0: task do_fetch: Started
-NOTE: recipe valgrind-3.22.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1736 of 2728 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb:do_unpack)
-NOTE: recipe valgrind-3.22.0-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1002 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1004 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1007 of 1007 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2198 of 2728 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe valgrind-3.22.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe valgrind-3.22.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe valgrind-3.22.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2709 of 2728 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb:do_patch)
-NOTE: Running task 2710 of 2728 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb:do_collect_spdx_deps)
-NOTE: recipe valgrind-3.22.0-r0: task do_patch: Started
-NOTE: recipe valgrind-3.22.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe valgrind-3.22.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe valgrind-3.22.0-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 2710 tasks of which 2704 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231201103026.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231201103026.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb:do_patch
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: valgrind-3.22.0-r0 do_patch: QA Issue: Missing Upstream-Status in patch
-/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind/0020-Committing-changes-from-do_patch.patch
-Please add according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status . [patch-status]
-ERROR: valgrind-3.22.0-r0 do_patch: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/valgrind/3.22.0/temp/log.do_patch.1654061
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb:do_patch) failed with exit code '1'
-
---===============0238599517856304868==
+--===============1624164739961950741==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-valgrind-upgrade-3.21.0-3.22.0.patch"
+ filename="0001-pkgconf-upgrade-2.0.3-2.1.0.patch"
 
-RnJvbSBiNTYxYzJmOTM3ZTI4NGJhMjcyYTczZmE0YTFkNWRiZDMyODQxYTFiIE1vbiBTZXAgMTcg
+RnJvbSA0MmM5OWU1NzU0N2NkMjc4OTU2Y2E2MDdmYjk4MDMwYzY4N2U2NjJjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAxMDozMDo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZh
-bGdyaW5kOiB1cGdyYWRlIDMuMjEuMCAtPiAzLjIyLjAKCi0tLQogLi4uaW51eC1zZWdfb3ZlcnJp
-ZGUuYy1hZGQtbWlzc2luZy1pbmNsLnBhdGNoIHwgIDMwIC0tCiAuLi4wMjAtQ29tbWl0dGluZy1j
-aGFuZ2VzLWZyb20tZG9fcGF0Y2gucGF0Y2ggfCAzMzIgKysrKysrKysrKysrKysrKysrCiAuLi57
-dmFsZ3JpbmRfMy4yMS4wLmJiID0+IHZhbGdyaW5kXzMuMjIuMC5iYn0gfCAgIDQgKy0KIDMgZmls
-ZXMgY2hhbmdlZCwgMzM0IGluc2VydGlvbnMoKyksIDMyIGRlbGV0aW9ucygtKQogZGVsZXRlIG1v
-ZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy92YWxncmluZC92YWxncmluZC8wMDAxLW5v
-bmUtdGVzdHMteDg2LWxpbnV4LXNlZ19vdmVycmlkZS5jLWFkZC1taXNzaW5nLWluY2wucGF0Y2gK
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdmFsZ3JpbmQvdmFsZ3Jp
-bmQvMDAyMC1Db21taXR0aW5nLWNoYW5nZXMtZnJvbS1kb19wYXRjaC5wYXRjaAogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy92YWxncmluZC97dmFsZ3JpbmRfMy4yMS4wLmJiID0+IHZhbGdy
-aW5kXzMuMjIuMC5iYn0gKDk4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-dmFsZ3JpbmQvdmFsZ3JpbmQvMDAwMS1ub25lLXRlc3RzLXg4Ni1saW51eC1zZWdfb3ZlcnJpZGUu
-Yy1hZGQtbWlzc2luZy1pbmNsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3ZhbGdyaW5k
-L3ZhbGdyaW5kLzAwMDEtbm9uZS10ZXN0cy14ODYtbGludXgtc2VnX292ZXJyaWRlLmMtYWRkLW1p
-c3NpbmctaW5jbC5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNWUzNmMyODUy
-My4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdmFsZ3JpbmQvdmFsZ3Jp
-bmQvMDAwMS1ub25lLXRlc3RzLXg4Ni1saW51eC1zZWdfb3ZlcnJpZGUuYy1hZGQtbWlzc2luZy1p
-bmNsLnBhdGNoCisrKyAvZGV2L251bGwKQEAgLTEsMzAgKzAsMCBAQAotRnJvbSA5NzhkOWVkN2Y4
-NTdmMmNkY2QyYTg2MzJmM2MyZmViNTZiOTljODI1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQot
-RnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KLURhdGU6IE1vbiwg
-OCBNYXkgMjAyMyAxMTo1NjozNSArMDIwMAotU3ViamVjdDogW1BBVENIXSBub25lL3Rlc3RzL3g4
-Ni1saW51eC9zZWdfb3ZlcnJpZGUuYzogYWRkIG1pc3NpbmcgaW5jbHVkZSBmb3IKLSBtdXNsIGJ1
-aWxkcwotCi1PdGhlcndpc2UgU1lTX21vZGlmeV9sZHQgaXMgdW5kZWZpbmVkLgotCi1VcHN0cmVh
-bS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9idWdzLmtkZS5vcmcvc2hvd19idWcuY2dpP2lk
-PTM4MjAzNF0KLVNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9u
-aXguZGU+Ci0KLS0tLQotIG5vbmUvdGVzdHMveDg2LWxpbnV4L3NlZ19vdmVycmlkZS5jIHwgNCAr
-KysrCi0gMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQotCi1kaWZmIC0tZ2l0IGEvbm9u
-ZS90ZXN0cy94ODYtbGludXgvc2VnX292ZXJyaWRlLmMgYi9ub25lL3Rlc3RzL3g4Ni1saW51eC9z
-ZWdfb3ZlcnJpZGUuYwotaW5kZXggY2E4ZmJmZS4uNGVmNDM5NCAxMDA2NDQKLS0tLSBhL25vbmUv
-dGVzdHMveDg2LWxpbnV4L3NlZ19vdmVycmlkZS5jCi0rKysgYi9ub25lL3Rlc3RzL3g4Ni1saW51
-eC9zZWdfb3ZlcnJpZGUuYwotQEAgLTMsNiArMywxMCBAQAotICNpbmNsdWRlIDxlcnJuby5oPgot
-ICNpbmNsdWRlIDxzdHJpbmcuaD4KLSAjaW5jbHVkZSAiLi4vLi4vLi4vY29uZmlnLmgiCi0rI2lm
-IGRlZmluZWQoTVVTTF9MSUJDKQotKyNpbmNsdWRlIDxzeXNjYWxsLmg+Ci0rI2luY2x1ZGUgPHVu
-aXN0ZC5oPgotKyNlbmRpZgotIAotIAotIC8qIFN0dWZmIGZyb20gV2luZS4gKi8KZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy92YWxncmluZC92YWxncmluZC8wMDIwLUNvbW1pdHRp
-bmctY2hhbmdlcy1mcm9tLWRvX3BhdGNoLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Zh
-bGdyaW5kL3ZhbGdyaW5kLzAwMjAtQ29tbWl0dGluZy1jaGFuZ2VzLWZyb20tZG9fcGF0Y2gucGF0
-Y2gKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMC4uOGYwM2UyYjM2YwotLS0g
-L2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy92YWxncmluZC92YWxncmluZC8w
-MDIwLUNvbW1pdHRpbmctY2hhbmdlcy1mcm9tLWRvX3BhdGNoLnBhdGNoCkBAIC0wLDAgKzEsMzMy
-IEBACitGcm9tIDViOGMxYWY2OTk3Njc3MWMyYjMzNjhiOTZhYTA5NDI2NWVkYmJkNzcgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCitGcm9tOiBPcGVuRW1iZWRkZWQgPG9lLnBhdGNoQG9lPgorRGF0
-ZTogRnJpLCAxIERlYyAyMDIzIDEwOjI5OjQ0ICswMDAwCitTdWJqZWN0OiBbUEFUQ0hdIENvbW1p
-dHRpbmcgY2hhbmdlcyBmcm9tIGRvX3BhdGNoCisKKy0tLQorIG1lbWNoZWNrL3Rlc3RzL2JhZGZy
-ZWUzLnN0ZGVyci5leHAgfCAgIDQgKy0KKyBtZW1jaGVjay90ZXN0cy92YXJpbmZvNS5zdGRlcnIu
-ZXhwIHwgMjE2ICsrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tCisgMiBmaWxlcyBjaGFuZ2Vk
-LCAxMTAgaW5zZXJ0aW9ucygrKSwgMTEwIGRlbGV0aW9ucygtKQorCitkaWZmIC0tZ2l0IGEvbWVt
-Y2hlY2svdGVzdHMvYmFkZnJlZTMuc3RkZXJyLmV4cCBiL21lbWNoZWNrL3Rlc3RzL2JhZGZyZWUz
-LnN0ZGVyci5leHAKK2luZGV4IDIwZTQ4YTYuLmI1MTg3MDMgMTAwNjQ0CistLS0gYS9tZW1jaGVj
-ay90ZXN0cy9iYWRmcmVlMy5zdGRlcnIuZXhwCisrKysgYi9tZW1jaGVjay90ZXN0cy9iYWRmcmVl
-My5zdGRlcnIuZXhwCitAQCAtMSwxMSArMSwxMSBAQAorIEludmFsaWQgZnJlZSgpIC8gZGVsZXRl
-IC8gZGVsZXRlW10gLyByZWFsbG9jKCkKKyAgICBhdCAweC4uLi4uLi4uOiBmcmVlICh2Z19yZXBs
-YWNlX21hbGxvYy5jOi4uLikKKy0gICBieSAweC4uLi4uLi4uOiBtYWluICh0ZXN0cy9iYWRmcmVl
-LmM6MTIpCisrICAgYnkgMHguLi4uLi4uLjogbWFpbiAoYmFkZnJlZS5jOjEyKQorICBBZGRyZXNz
-IDB4Li4uLi4uLi4gaXMgbm90IHN0YWNrJ2QsIG1hbGxvYydkIG9yIChyZWNlbnRseSkgZnJlZSdk
-CisgCisgSW52YWxpZCBmcmVlKCkgLyBkZWxldGUgLyBkZWxldGVbXSAvIHJlYWxsb2MoKQorICAg
-IGF0IDB4Li4uLi4uLi46IGZyZWUgKHZnX3JlcGxhY2VfbWFsbG9jLmM6Li4uKQorLSAgIGJ5IDB4
-Li4uLi4uLi46IG1haW4gKHRlc3RzL2JhZGZyZWUuYzoxNSkKKysgICBieSAweC4uLi4uLi4uOiBt
-YWluIChiYWRmcmVlLmM6MTUpCisgIEFkZHJlc3MgMHguLi4uLi4uLiBpcyBvbiB0aHJlYWQgMSdz
-IHN0YWNrCisgIGluIGZyYW1lICMxLCBjcmVhdGVkIGJ5IG1haW4gKGJhZGZyZWUuYzo3KQorIAor
-ZGlmZiAtLWdpdCBhL21lbWNoZWNrL3Rlc3RzL3ZhcmluZm81LnN0ZGVyci5leHAgYi9tZW1jaGVj
-ay90ZXN0cy92YXJpbmZvNS5zdGRlcnIuZXhwCitpbmRleCAxYTEwZDAzLi4wZmQxMTkwIDEwMDY0
-NAorLS0tIGEvbWVtY2hlY2svdGVzdHMvdmFyaW5mbzUuc3RkZXJyLmV4cAorKysrIGIvbWVtY2hl
-Y2svdGVzdHMvdmFyaW5mbzUuc3RkZXJyLmV4cAorQEAgLTEsMTkxICsxLDE5MSBAQAorIFVuaW5p
-dGlhbGlzZWQgYnl0ZShzKSBmb3VuZCBkdXJpbmcgY2xpZW50IGNoZWNrIHJlcXVlc3QKKy0gICBh
-dCAweC4uLi4uLi4uOiBjcm9hayAodGVzdHMvdmFyaW5mbzVzby5jOjI5KQorLSAgIGJ5IDB4Li4u
-Li4uLi46IHZhcmluZm8xX21haW4gKHRlc3RzL3ZhcmluZm81c28uYzo1MikKKy0gICBieSAweC4u
-Li4uLi4uOiB2YXJpbmZvNV9tYWluICh0ZXN0cy92YXJpbmZvNXNvLmM6MTU0KQorLSAgIGJ5IDB4
-Li4uLi4uLi46IG1haW4gKHRlc3RzL3ZhcmluZm81LmM6NSkKKysgICBhdCAweC4uLi4uLi4uOiBj
-cm9hayAodmFyaW5mbzVzby5jOjI5KQorKyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm8xX21haW4g
-KHZhcmluZm81c28uYzo1MikKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNV9tYWluICh2YXJp
-bmZvNXNvLmM6MTU0KQorKyAgIGJ5IDB4Li4uLi4uLi46IG1haW4gKHZhcmluZm81LmM6NSkKKyAg
-QWRkcmVzcyAweC4uLi4uLi4uIGlzIDEgYnl0ZXMgaW5zaWRlIGEgYmxvY2sgb2Ygc2l6ZSAzIGFs
-bG9jJ2QKKyAgICBhdCAweC4uLi4uLi4uOiBtYWxsb2MgKHZnX3JlcGxhY2VfbWFsbG9jLmM6Li4u
-KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm8xX21haW4gKHRlc3RzL3ZhcmluZm81c28uYzo1
-MCkKKy0gICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNV9tYWluICh0ZXN0cy92YXJpbmZvNXNvLmM6
-MTU0KQorLSAgIGJ5IDB4Li4uLi4uLi46IG1haW4gKHRlc3RzL3ZhcmluZm81LmM6NSkKKysgICBi
-eSAweC4uLi4uLi4uOiB2YXJpbmZvMV9tYWluICh2YXJpbmZvNXNvLmM6NTApCisrICAgYnkgMHgu
-Li4uLi4uLjogdmFyaW5mbzVfbWFpbiAodmFyaW5mbzVzby5jOjE1NCkKKysgICBieSAweC4uLi4u
-Li4uOiBtYWluICh2YXJpbmZvNS5jOjUpCisgCisgVW5pbml0aWFsaXNlZCBieXRlKHMpIGZvdW5k
-IGR1cmluZyBjbGllbnQgY2hlY2sgcmVxdWVzdAorLSAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh0
-ZXN0cy92YXJpbmZvNXNvLmM6MjkpCistICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzFfbWFpbiAo
-dGVzdHMvdmFyaW5mbzVzby5jOjU1KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4g
-KHRlc3RzL3ZhcmluZm81c28uYzoxNTQpCistICAgYnkgMHguLi4uLi4uLjogbWFpbiAodGVzdHMv
-dmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh2YXJpbmZvNXNvLmM6Mjkp
-CisrICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzFfbWFpbiAodmFyaW5mbzVzby5jOjU1KQorKyAg
-IGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHZhcmluZm81c28uYzoxNTQpCisrICAgYnkg
-MHguLi4uLi4uLjogbWFpbiAodmFyaW5mbzUuYzo1KQorICBMb2NhdGlvbiAweC4uLi4uLi4uIGlz
-IDAgYnl0ZXMgaW5zaWRlIGdsb2JhbCB2YXIgImdsb2JhbF91MSIKKyAgZGVjbGFyZWQgYXQgdmFy
-aW5mbzVzby5jOjM4CisgCisgVW5pbml0aWFsaXNlZCBieXRlKHMpIGZvdW5kIGR1cmluZyBjbGll
-bnQgY2hlY2sgcmVxdWVzdAorLSAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh0ZXN0cy92YXJpbmZv
-NXNvLmM6MjkpCistICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzFfbWFpbiAodGVzdHMvdmFyaW5m
-bzVzby5jOjU2KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHRlc3RzL3Zhcmlu
-Zm81c28uYzoxNTQpCistICAgYnkgMHguLi4uLi4uLjogbWFpbiAodGVzdHMvdmFyaW5mbzUuYzo1
-KQorKyAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh2YXJpbmZvNXNvLmM6MjkpCisrICAgYnkgMHgu
-Li4uLi4uLjogdmFyaW5mbzFfbWFpbiAodmFyaW5mbzVzby5jOjU2KQorKyAgIGJ5IDB4Li4uLi4u
-Li46IHZhcmluZm81X21haW4gKHZhcmluZm81c28uYzoxNTQpCisrICAgYnkgMHguLi4uLi4uLjog
-bWFpbiAodmFyaW5mbzUuYzo1KQorICBMb2NhdGlvbiAweC4uLi4uLi4uIGlzIDAgYnl0ZXMgaW5z
-aWRlIGdsb2JhbCB2YXIgImdsb2JhbF9pMSIKKyAgZGVjbGFyZWQgYXQgdmFyaW5mbzVzby5jOjQw
-CisgCisgVW5pbml0aWFsaXNlZCBieXRlKHMpIGZvdW5kIGR1cmluZyBjbGllbnQgY2hlY2sgcmVx
-dWVzdAorLSAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh0ZXN0cy92YXJpbmZvNXNvLmM6MjkpCist
-ICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzFfbWFpbiAodGVzdHMvdmFyaW5mbzVzby5jOjU3KQor
-LSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNTQp
-CistICAgYnkgMHguLi4uLi4uLjogbWFpbiAodGVzdHMvdmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4
-Li4uLi4uLi46IGNyb2FrICh2YXJpbmZvNXNvLmM6MjkpCisrICAgYnkgMHguLi4uLi4uLjogdmFy
-aW5mbzFfbWFpbiAodmFyaW5mbzVzby5jOjU3KQorKyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81
-X21haW4gKHZhcmluZm81c28uYzoxNTQpCisrICAgYnkgMHguLi4uLi4uLjogbWFpbiAodmFyaW5m
-bzUuYzo1KQorICBMb2NhdGlvbiAweC4uLi4uLi4uIGlzIDAgYnl0ZXMgaW5zaWRlIGdsb2JhbF91
-MlszXSwKKyAgYSBnbG9iYWwgdmFyaWFibGUgZGVjbGFyZWQgYXQgdmFyaW5mbzVzby5jOjQyCisg
-CisgVW5pbml0aWFsaXNlZCBieXRlKHMpIGZvdW5kIGR1cmluZyBjbGllbnQgY2hlY2sgcmVxdWVz
-dAorLSAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh0ZXN0cy92YXJpbmZvNXNvLmM6MjkpCistICAg
-YnkgMHguLi4uLi4uLjogdmFyaW5mbzFfbWFpbiAodGVzdHMvdmFyaW5mbzVzby5jOjU4KQorLSAg
-IGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNTQpCist
-ICAgYnkgMHguLi4uLi4uLjogbWFpbiAodGVzdHMvdmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4u
-Li4uLi46IGNyb2FrICh2YXJpbmZvNXNvLmM6MjkpCisrICAgYnkgMHguLi4uLi4uLjogdmFyaW5m
-bzFfbWFpbiAodmFyaW5mbzVzby5jOjU4KQorKyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21h
-aW4gKHZhcmluZm81c28uYzoxNTQpCisrICAgYnkgMHguLi4uLi4uLjogbWFpbiAodmFyaW5mbzUu
-Yzo1KQorICBMb2NhdGlvbiAweC4uLi4uLi4uIGlzIDAgYnl0ZXMgaW5zaWRlIGdsb2JhbF9pMls3
-XSwKKyAgYSBnbG9iYWwgdmFyaWFibGUgZGVjbGFyZWQgYXQgdmFyaW5mbzVzby5jOjQ0CisgCisg
-VW5pbml0aWFsaXNlZCBieXRlKHMpIGZvdW5kIGR1cmluZyBjbGllbnQgY2hlY2sgcmVxdWVzdAor
-LSAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh0ZXN0cy92YXJpbmZvNXNvLmM6MjkpCistICAgYnkg
-MHguLi4uLi4uLjogdmFyaW5mbzFfbWFpbiAodGVzdHMvdmFyaW5mbzVzby5jOjU5KQorLSAgIGJ5
-IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNTQpCistICAg
-YnkgMHguLi4uLi4uLjogbWFpbiAodGVzdHMvdmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4uLi4u
-Li46IGNyb2FrICh2YXJpbmZvNXNvLmM6MjkpCisrICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzFf
-bWFpbiAodmFyaW5mbzVzby5jOjU5KQorKyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4g
-KHZhcmluZm81c28uYzoxNTQpCisrICAgYnkgMHguLi4uLi4uLjogbWFpbiAodmFyaW5mbzUuYzo1
-KQorICBMb2NhdGlvbiAweC4uLi4uLi4uIGlzIDAgYnl0ZXMgaW5zaWRlIGxvY2FsIHZhciAibG9j
-YWwiCisgIGRlY2xhcmVkIGF0IHZhcmluZm81c28uYzo0OSwgaW4gZnJhbWUgI1ggb2YgdGhyZWFk
-IDEKKyAKKyBVbmluaXRpYWxpc2VkIGJ5dGUocykgZm91bmQgZHVyaW5nIGNsaWVudCBjaGVjayBy
-ZXF1ZXN0CistICAgYXQgMHguLi4uLi4uLjogY3JvYWsgKHRlc3RzL3ZhcmluZm81c28uYzoyOSkK
-Ky0gICBieSAweC4uLi4uLi4uOiBmb28yICh0ZXN0cy92YXJpbmZvNXNvLmM6NzEpCistICAgYnkg
-MHguLi4uLi4uLjogdmFyaW5mbzJfbWFpbiAodGVzdHMvdmFyaW5mbzVzby5jOjgxKQorLSAgIGJ5
-IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNTUpCistICAg
-YnkgMHguLi4uLi4uLjogbWFpbiAodGVzdHMvdmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4uLi4u
-Li46IGNyb2FrICh2YXJpbmZvNXNvLmM6MjkpCisrICAgYnkgMHguLi4uLi4uLjogZm9vMiAodmFy
-aW5mbzVzby5jOjcxKQorKyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm8yX21haW4gKHZhcmluZm81
-c28uYzo4MSkKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNV9tYWluICh2YXJpbmZvNXNvLmM6
-MTU1KQorKyAgIGJ5IDB4Li4uLi4uLi46IG1haW4gKHZhcmluZm81LmM6NSkKKyAgTG9jYXRpb24g
-MHguLi4uLi4uLiBpcyAwIGJ5dGVzIGluc2lkZSB2YXJbN10sCisgIGRlY2xhcmVkIGF0IHZhcmlu
-Zm81c28uYzo2OSwgaW4gZnJhbWUgI1ggb2YgdGhyZWFkIDEKKyAKKyBVbmluaXRpYWxpc2VkIGJ5
-dGUocykgZm91bmQgZHVyaW5nIGNsaWVudCBjaGVjayByZXF1ZXN0CistICAgYXQgMHguLi4uLi4u
-LjogY3JvYWsgKHRlc3RzL3ZhcmluZm81c28uYzoyOSkKKy0gICBieSAweC4uLi4uLi4uOiBmb28y
-ICh0ZXN0cy92YXJpbmZvNXNvLmM6NzMpCistICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzJfbWFp
-biAodGVzdHMvdmFyaW5mbzVzby5jOjgxKQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21h
-aW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNTUpCistICAgYnkgMHguLi4uLi4uLjogbWFpbiAodGVz
-dHMvdmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh2YXJpbmZvNXNvLmM6
-MjkpCisrICAgYnkgMHguLi4uLi4uLjogZm9vMiAodmFyaW5mbzVzby5jOjczKQorKyAgIGJ5IDB4
-Li4uLi4uLi46IHZhcmluZm8yX21haW4gKHZhcmluZm81c28uYzo4MSkKKysgICBieSAweC4uLi4u
-Li4uOiB2YXJpbmZvNV9tYWluICh2YXJpbmZvNXNvLmM6MTU1KQorKyAgIGJ5IDB4Li4uLi4uLi46
-IG1haW4gKHZhcmluZm81LmM6NSkKKyAgTG9jYXRpb24gMHguLi4uLi4uLiBpcyAyIGJ5dGVzIGlu
-c2lkZSB2YXIuYmFyLAorICBkZWNsYXJlZCBhdCB2YXJpbmZvNXNvLmM6NzIsIGluIGZyYW1lICNY
-IG9mIHRocmVhZCAxCisgCisgVW5pbml0aWFsaXNlZCBieXRlKHMpIGZvdW5kIGR1cmluZyBjbGll
-bnQgY2hlY2sgcmVxdWVzdAorLSAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh0ZXN0cy92YXJpbmZv
-NXNvLmM6MjkpCistICAgYnkgMHguLi4uLi4uLjogZm9vMiAodGVzdHMvdmFyaW5mbzVzby5jOjc2
-KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm8yX21haW4gKHRlc3RzL3ZhcmluZm81c28uYzo4
-MSkKKy0gICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNV9tYWluICh0ZXN0cy92YXJpbmZvNXNvLmM6
-MTU1KQorLSAgIGJ5IDB4Li4uLi4uLi46IG1haW4gKHRlc3RzL3ZhcmluZm81LmM6NSkKKysgICBh
-dCAweC4uLi4uLi4uOiBjcm9hayAodmFyaW5mbzVzby5jOjI5KQorKyAgIGJ5IDB4Li4uLi4uLi46
-IGZvbzIgKHZhcmluZm81c28uYzo3NikKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvMl9tYWlu
-ICh2YXJpbmZvNXNvLmM6ODEpCisrICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzVfbWFpbiAodmFy
-aW5mbzVzby5jOjE1NSkKKysgICBieSAweC4uLi4uLi4uOiBtYWluICh2YXJpbmZvNS5jOjUpCisg
-IExvY2F0aW9uIDB4Li4uLi4uLi4gaXMgMSBieXRlIGluc2lkZSBsb2NhbCB2YXIgInZhciIKKyAg
-ZGVjbGFyZWQgYXQgdmFyaW5mbzVzby5jOjY3LCBpbiBmcmFtZSAjWCBvZiB0aHJlYWQgMQorIAor
-IFVuaW5pdGlhbGlzZWQgYnl0ZShzKSBmb3VuZCBkdXJpbmcgY2xpZW50IGNoZWNrIHJlcXVlc3QK
-Ky0gICBhdCAweC4uLi4uLi4uOiBjcm9hayAodGVzdHMvdmFyaW5mbzVzby5jOjI5KQorLSAgIGJ5
-IDB4Li4uLi4uLi46IGZvbzMgKHRlc3RzL3ZhcmluZm81c28uYzoxMDYpCistICAgYnkgMHguLi4u
-Li4uLjogdmFyaW5mbzNfbWFpbiAodGVzdHMvdmFyaW5mbzVzby5jOjExOCkKKy0gICBieSAweC4u
-Li4uLi4uOiB2YXJpbmZvNV9tYWluICh0ZXN0cy92YXJpbmZvNXNvLmM6MTU2KQorLSAgIGJ5IDB4
-Li4uLi4uLi46IG1haW4gKHRlc3RzL3ZhcmluZm81LmM6NSkKKysgICBhdCAweC4uLi4uLi4uOiBj
-cm9hayAodmFyaW5mbzVzby5jOjI5KQorKyAgIGJ5IDB4Li4uLi4uLi46IGZvbzMgKHZhcmluZm81
-c28uYzoxMDYpCisrICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzNfbWFpbiAodmFyaW5mbzVzby5j
-OjExOCkKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNV9tYWluICh2YXJpbmZvNXNvLmM6MTU2
-KQorKyAgIGJ5IDB4Li4uLi4uLi46IG1haW4gKHZhcmluZm81LmM6NSkKKyAgTG9jYXRpb24gMHgu
-Li4uLi4uLiBpcyAwIGJ5dGVzIGluc2lkZSBzdGF0aWNfZ2xvYmFsX2RlZlsxXSwKKyAgYSBnbG9i
-YWwgdmFyaWFibGUgZGVjbGFyZWQgYXQgdmFyaW5mbzVzby5jOjg3CisgCisgVW5pbml0aWFsaXNl
-ZCBieXRlKHMpIGZvdW5kIGR1cmluZyBjbGllbnQgY2hlY2sgcmVxdWVzdAorLSAgIGF0IDB4Li4u
-Li4uLi46IGNyb2FrICh0ZXN0cy92YXJpbmZvNXNvLmM6MjkpCistICAgYnkgMHguLi4uLi4uLjog
-Zm9vMyAodGVzdHMvdmFyaW5mbzVzby5jOjEwNykKKy0gICBieSAweC4uLi4uLi4uOiB2YXJpbmZv
-M19tYWluICh0ZXN0cy92YXJpbmZvNXNvLmM6MTE4KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmlu
-Zm81X21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNTYpCistICAgYnkgMHguLi4uLi4uLjogbWFp
-biAodGVzdHMvdmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh2YXJpbmZv
-NXNvLmM6MjkpCisrICAgYnkgMHguLi4uLi4uLjogZm9vMyAodmFyaW5mbzVzby5jOjEwNykKKysg
-ICBieSAweC4uLi4uLi4uOiB2YXJpbmZvM19tYWluICh2YXJpbmZvNXNvLmM6MTE4KQorKyAgIGJ5
-IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHZhcmluZm81c28uYzoxNTYpCisrICAgYnkgMHgu
-Li4uLi4uLjogbWFpbiAodmFyaW5mbzUuYzo1KQorICBMb2NhdGlvbiAweC4uLi4uLi4uIGlzIDAg
-Ynl0ZXMgaW5zaWRlIG5vbnN0YXRpY19nbG9iYWxfZGVmWzJdLAorICBhIGdsb2JhbCB2YXJpYWJs
-ZSBkZWNsYXJlZCBhdCB2YXJpbmZvNXNvLmM6ODgKKyAKKyBVbmluaXRpYWxpc2VkIGJ5dGUocykg
-Zm91bmQgZHVyaW5nIGNsaWVudCBjaGVjayByZXF1ZXN0CistICAgYXQgMHguLi4uLi4uLjogY3Jv
-YWsgKHRlc3RzL3ZhcmluZm81c28uYzoyOSkKKy0gICBieSAweC4uLi4uLi4uOiBmb28zICh0ZXN0
-cy92YXJpbmZvNXNvLmM6MTA4KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm8zX21haW4gKHRl
-c3RzL3ZhcmluZm81c28uYzoxMTgpCistICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzVfbWFpbiAo
-dGVzdHMvdmFyaW5mbzVzby5jOjE1NikKKy0gICBieSAweC4uLi4uLi4uOiBtYWluICh0ZXN0cy92
-YXJpbmZvNS5jOjUpCisrICAgYXQgMHguLi4uLi4uLjogY3JvYWsgKHZhcmluZm81c28uYzoyOSkK
-KysgICBieSAweC4uLi4uLi4uOiBmb28zICh2YXJpbmZvNXNvLmM6MTA4KQorKyAgIGJ5IDB4Li4u
-Li4uLi46IHZhcmluZm8zX21haW4gKHZhcmluZm81c28uYzoxMTgpCisrICAgYnkgMHguLi4uLi4u
-LjogdmFyaW5mbzVfbWFpbiAodmFyaW5mbzVzby5jOjE1NikKKysgICBieSAweC4uLi4uLi4uOiBt
-YWluICh2YXJpbmZvNS5jOjUpCisgIExvY2F0aW9uIDB4Li4uLi4uLi4gaXMgMCBieXRlcyBpbnNp
-ZGUgc3RhdGljX2dsb2JhbF91bmRlZlszXSwKKyAgYSBnbG9iYWwgdmFyaWFibGUgZGVjbGFyZWQg
-YXQgdmFyaW5mbzVzby5jOjg5CisgCisgVW5pbml0aWFsaXNlZCBieXRlKHMpIGZvdW5kIGR1cmlu
-ZyBjbGllbnQgY2hlY2sgcmVxdWVzdAorLSAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh0ZXN0cy92
-YXJpbmZvNXNvLmM6MjkpCistICAgYnkgMHguLi4uLi4uLjogZm9vMyAodGVzdHMvdmFyaW5mbzVz
-by5jOjEwOSkKKy0gICBieSAweC4uLi4uLi4uOiB2YXJpbmZvM19tYWluICh0ZXN0cy92YXJpbmZv
-NXNvLmM6MTE4KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHRlc3RzL3Zhcmlu
-Zm81c28uYzoxNTYpCistICAgYnkgMHguLi4uLi4uLjogbWFpbiAodGVzdHMvdmFyaW5mbzUuYzo1
-KQorKyAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh2YXJpbmZvNXNvLmM6MjkpCisrICAgYnkgMHgu
-Li4uLi4uLjogZm9vMyAodmFyaW5mbzVzby5jOjEwOSkKKysgICBieSAweC4uLi4uLi4uOiB2YXJp
-bmZvM19tYWluICh2YXJpbmZvNXNvLmM6MTE4KQorKyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81
-X21haW4gKHZhcmluZm81c28uYzoxNTYpCisrICAgYnkgMHguLi4uLi4uLjogbWFpbiAodmFyaW5m
-bzUuYzo1KQorICBMb2NhdGlvbiAweC4uLi4uLi4uIGlzIDAgYnl0ZXMgaW5zaWRlIG5vbnN0YXRp
-Y19nbG9iYWxfdW5kZWZbNF0sCisgIGEgZ2xvYmFsIHZhcmlhYmxlIGRlY2xhcmVkIGF0IHZhcmlu
-Zm81c28uYzo5MAorIAorIFVuaW5pdGlhbGlzZWQgYnl0ZShzKSBmb3VuZCBkdXJpbmcgY2xpZW50
-IGNoZWNrIHJlcXVlc3QKKy0gICBhdCAweC4uLi4uLi4uOiBjcm9hayAodGVzdHMvdmFyaW5mbzVz
-by5jOjI5KQorLSAgIGJ5IDB4Li4uLi4uLi46IGJhcjMgKHRlc3RzL3ZhcmluZm81c28uYzo5NCkK
-Ky0gICBieSAweC4uLi4uLi4uOiBmb28zICh0ZXN0cy92YXJpbmZvNXNvLmM6MTEwKQorLSAgIGJ5
-IDB4Li4uLi4uLi46IHZhcmluZm8zX21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxMTgpCistICAg
-YnkgMHguLi4uLi4uLjogdmFyaW5mbzVfbWFpbiAodGVzdHMvdmFyaW5mbzVzby5jOjE1NikKKy0g
-ICBieSAweC4uLi4uLi4uOiBtYWluICh0ZXN0cy92YXJpbmZvNS5jOjUpCisrICAgYXQgMHguLi4u
-Li4uLjogY3JvYWsgKHZhcmluZm81c28uYzoyOSkKKysgICBieSAweC4uLi4uLi4uOiBiYXIzICh2
-YXJpbmZvNXNvLmM6OTQpCisrICAgYnkgMHguLi4uLi4uLjogZm9vMyAodmFyaW5mbzVzby5jOjEx
-MCkKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvM19tYWluICh2YXJpbmZvNXNvLmM6MTE4KQor
-KyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHZhcmluZm81c28uYzoxNTYpCisrICAg
-YnkgMHguLi4uLi4uLjogbWFpbiAodmFyaW5mbzUuYzo1KQorICBBZGRyZXNzIDB4Li4uLi4uLi4g
-aXMgNSBieXRlcyBpbnNpZGUgZGF0YSBzeW1ib2wgInN0YXRpY19sb2NhbF9kZWYuWFhYWCIKKyAK
-KyBVbmluaXRpYWxpc2VkIGJ5dGUocykgZm91bmQgZHVyaW5nIGNsaWVudCBjaGVjayByZXF1ZXN0
-CistICAgYXQgMHguLi4uLi4uLjogY3JvYWsgKHRlc3RzL3ZhcmluZm81c28uYzoyOSkKKy0gICBi
-eSAweC4uLi4uLi4uOiBiYXIzICh0ZXN0cy92YXJpbmZvNXNvLmM6OTUpCistICAgYnkgMHguLi4u
-Li4uLjogZm9vMyAodGVzdHMvdmFyaW5mbzVzby5jOjExMCkKKy0gICBieSAweC4uLi4uLi4uOiB2
-YXJpbmZvM19tYWluICh0ZXN0cy92YXJpbmZvNXNvLmM6MTE4KQorLSAgIGJ5IDB4Li4uLi4uLi46
-IHZhcmluZm81X21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNTYpCistICAgYnkgMHguLi4uLi4u
-LjogbWFpbiAodGVzdHMvdmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh2
-YXJpbmZvNXNvLmM6MjkpCisrICAgYnkgMHguLi4uLi4uLjogYmFyMyAodmFyaW5mbzVzby5jOjk1
-KQorKyAgIGJ5IDB4Li4uLi4uLi46IGZvbzMgKHZhcmluZm81c28uYzoxMTApCisrICAgYnkgMHgu
-Li4uLi4uLjogdmFyaW5mbzNfbWFpbiAodmFyaW5mbzVzby5jOjExOCkKKysgICBieSAweC4uLi4u
-Li4uOiB2YXJpbmZvNV9tYWluICh2YXJpbmZvNXNvLmM6MTU2KQorKyAgIGJ5IDB4Li4uLi4uLi46
-IG1haW4gKHZhcmluZm81LmM6NSkKKyAgTG9jYXRpb24gMHguLi4uLi4uLiBpcyAwIGJ5dGVzIGlu
-c2lkZSBub25zdGF0aWNfbG9jYWxfZGVmWzZdLAorICBkZWNsYXJlZCBhdCB2YXJpbmZvNXNvLmM6
-MTAzLCBpbiBmcmFtZSAjWCBvZiB0aHJlYWQgMQorIAorIFVuaW5pdGlhbGlzZWQgYnl0ZShzKSBm
-b3VuZCBkdXJpbmcgY2xpZW50IGNoZWNrIHJlcXVlc3QKKy0gICBhdCAweC4uLi4uLi4uOiBjcm9h
-ayAodGVzdHMvdmFyaW5mbzVzby5jOjI5KQorLSAgIGJ5IDB4Li4uLi4uLi46IGJhcjMgKHRlc3Rz
-L3ZhcmluZm81c28uYzo5NikKKy0gICBieSAweC4uLi4uLi4uOiBmb28zICh0ZXN0cy92YXJpbmZv
-NXNvLmM6MTEwKQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm8zX21haW4gKHRlc3RzL3Zhcmlu
-Zm81c28uYzoxMTgpCistICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzVfbWFpbiAodGVzdHMvdmFy
-aW5mbzVzby5jOjE1NikKKy0gICBieSAweC4uLi4uLi4uOiBtYWluICh0ZXN0cy92YXJpbmZvNS5j
-OjUpCisrICAgYXQgMHguLi4uLi4uLjogY3JvYWsgKHZhcmluZm81c28uYzoyOSkKKysgICBieSAw
-eC4uLi4uLi4uOiBiYXIzICh2YXJpbmZvNXNvLmM6OTYpCisrICAgYnkgMHguLi4uLi4uLjogZm9v
-MyAodmFyaW5mbzVzby5jOjExMCkKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvM19tYWluICh2
-YXJpbmZvNXNvLmM6MTE4KQorKyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHZhcmlu
-Zm81c28uYzoxNTYpCisrICAgYnkgMHguLi4uLi4uLjogbWFpbiAodmFyaW5mbzUuYzo1KQorICBB
-ZGRyZXNzIDB4Li4uLi4uLi4gaXMgNyBieXRlcyBpbnNpZGUgZGF0YSBzeW1ib2wgInN0YXRpY19s
-b2NhbF91bmRlZi5YWFhYIgorIAorIFVuaW5pdGlhbGlzZWQgYnl0ZShzKSBmb3VuZCBkdXJpbmcg
-Y2xpZW50IGNoZWNrIHJlcXVlc3QKKy0gICBhdCAweC4uLi4uLi4uOiBjcm9hayAodGVzdHMvdmFy
-aW5mbzVzby5jOjI5KQorLSAgIGJ5IDB4Li4uLi4uLi46IGJhcjMgKHRlc3RzL3ZhcmluZm81c28u
-Yzo5NykKKy0gICBieSAweC4uLi4uLi4uOiBmb28zICh0ZXN0cy92YXJpbmZvNXNvLmM6MTEwKQor
-LSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm8zX21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxMTgp
-CistICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzVfbWFpbiAodGVzdHMvdmFyaW5mbzVzby5jOjE1
-NikKKy0gICBieSAweC4uLi4uLi4uOiBtYWluICh0ZXN0cy92YXJpbmZvNS5jOjUpCisrICAgYXQg
-MHguLi4uLi4uLjogY3JvYWsgKHZhcmluZm81c28uYzoyOSkKKysgICBieSAweC4uLi4uLi4uOiBi
-YXIzICh2YXJpbmZvNXNvLmM6OTcpCisrICAgYnkgMHguLi4uLi4uLjogZm9vMyAodmFyaW5mbzVz
-by5jOjExMCkKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvM19tYWluICh2YXJpbmZvNXNvLmM6
-MTE4KQorKyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHZhcmluZm81c28uYzoxNTYp
-CisrICAgYnkgMHguLi4uLi4uLjogbWFpbiAodmFyaW5mbzUuYzo1KQorICBMb2NhdGlvbiAweC4u
-Li4uLi4uIGlzIDAgYnl0ZXMgaW5zaWRlIG5vbnN0YXRpY19sb2NhbF91bmRlZls4XSwKKyAgZGVj
-bGFyZWQgYXQgdmFyaW5mbzVzby5jOjEwNSwgaW4gZnJhbWUgI1ggb2YgdGhyZWFkIDEKKyAKKyBV
-bmluaXRpYWxpc2VkIGJ5dGUocykgZm91bmQgZHVyaW5nIGNsaWVudCBjaGVjayByZXF1ZXN0Cist
-ICAgYXQgMHguLi4uLi4uLjogY3JvYWsgKHRlc3RzL3ZhcmluZm81c28uYzoyOSkKKy0gICBieSAw
-eC4uLi4uLi4uOiBibGFoNCAodGVzdHMvdmFyaW5mbzVzby5jOjEzNykKKy0gICBieSAweC4uLi4u
-Li4uOiB2YXJpbmZvNF9tYWluICh0ZXN0cy92YXJpbmZvNXNvLmM6MTQ2KQorLSAgIGJ5IDB4Li4u
-Li4uLi46IHZhcmluZm81X21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNTcpCistICAgYnkgMHgu
-Li4uLi4uLjogbWFpbiAodGVzdHMvdmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4uLi4uLi46IGNy
-b2FrICh2YXJpbmZvNXNvLmM6MjkpCisrICAgYnkgMHguLi4uLi4uLjogYmxhaDQgKHZhcmluZm81
-c28uYzoxMzcpCisrICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzRfbWFpbiAodmFyaW5mbzVzby5j
-OjE0NikKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNV9tYWluICh2YXJpbmZvNXNvLmM6MTU3
-KQorKyAgIGJ5IDB4Li4uLi4uLi46IG1haW4gKHZhcmluZm81LmM6NSkKKyAgTG9jYXRpb24gMHgu
-Li4uLi4uLiBpcyAxIGJ5dGUgaW5zaWRlIGFbM10ueHl6enlbMjFdLmMxLAorICBkZWNsYXJlZCBh
-dCB2YXJpbmZvNXNvLmM6MTM1LCBpbiBmcmFtZSAjWCBvZiB0aHJlYWQgMQorIAorIFVuaW5pdGlh
-bGlzZWQgYnl0ZShzKSBmb3VuZCBkdXJpbmcgY2xpZW50IGNoZWNrIHJlcXVlc3QKKy0gICBhdCAw
-eC4uLi4uLi4uOiBjcm9hayAodGVzdHMvdmFyaW5mbzVzby5jOjI5KQorLSAgIGJ5IDB4Li4uLi4u
-Li46IGJsYWg0ICh0ZXN0cy92YXJpbmZvNXNvLmM6MTM4KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZh
-cmluZm80X21haW4gKHRlc3RzL3ZhcmluZm81c28uYzoxNDYpCistICAgYnkgMHguLi4uLi4uLjog
-dmFyaW5mbzVfbWFpbiAodGVzdHMvdmFyaW5mbzVzby5jOjE1NykKKy0gICBieSAweC4uLi4uLi4u
-OiBtYWluICh0ZXN0cy92YXJpbmZvNS5jOjUpCisrICAgYXQgMHguLi4uLi4uLjogY3JvYWsgKHZh
-cmluZm81c28uYzoyOSkKKysgICBieSAweC4uLi4uLi4uOiBibGFoNCAodmFyaW5mbzVzby5jOjEz
-OCkKKysgICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNF9tYWluICh2YXJpbmZvNXNvLmM6MTQ2KQor
-KyAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4gKHZhcmluZm81c28uYzoxNTcpCisrICAg
-YnkgMHguLi4uLi4uLjogbWFpbiAodmFyaW5mbzUuYzo1KQorICBMb2NhdGlvbiAweC4uLi4uLi4u
-IGlzIDAgYnl0ZXMgaW5zaWRlIGFbNV0uYm9uZywKKyAgZGVjbGFyZWQgYXQgdmFyaW5mbzVzby5j
-OjEzNSwgaW4gZnJhbWUgI1ggb2YgdGhyZWFkIDEKKyAKKyBVbmluaXRpYWxpc2VkIGJ5dGUocykg
-Zm91bmQgZHVyaW5nIGNsaWVudCBjaGVjayByZXF1ZXN0CistICAgYXQgMHguLi4uLi4uLjogY3Jv
-YWsgKHRlc3RzL3ZhcmluZm81c28uYzoyOSkKKy0gICBieSAweC4uLi4uLi4uOiBibGFoNCAodGVz
-dHMvdmFyaW5mbzVzby5jOjEzOSkKKy0gICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNF9tYWluICh0
-ZXN0cy92YXJpbmZvNXNvLmM6MTQ2KQorLSAgIGJ5IDB4Li4uLi4uLi46IHZhcmluZm81X21haW4g
-KHRlc3RzL3ZhcmluZm81c28uYzoxNTcpCistICAgYnkgMHguLi4uLi4uLjogbWFpbiAodGVzdHMv
-dmFyaW5mbzUuYzo1KQorKyAgIGF0IDB4Li4uLi4uLi46IGNyb2FrICh2YXJpbmZvNXNvLmM6Mjkp
-CisrICAgYnkgMHguLi4uLi4uLjogYmxhaDQgKHZhcmluZm81c28uYzoxMzkpCisrICAgYnkgMHgu
-Li4uLi4uLjogdmFyaW5mbzRfbWFpbiAodmFyaW5mbzVzby5jOjE0NikKKysgICBieSAweC4uLi4u
-Li4uOiB2YXJpbmZvNV9tYWluICh2YXJpbmZvNXNvLmM6MTU3KQorKyAgIGJ5IDB4Li4uLi4uLi46
-IG1haW4gKHZhcmluZm81LmM6NSkKKyAgTG9jYXRpb24gMHguLi4uLi4uLiBpcyAxIGJ5dGUgaW5z
-aWRlIGFbM10ueHl6enlbMjFdLmMyWzJdLAorICBkZWNsYXJlZCBhdCB2YXJpbmZvNXNvLmM6MTM1
-LCBpbiBmcmFtZSAjWCBvZiB0aHJlYWQgMQorIAorIGFuc3dlciBpcyAwCisgVW5pbml0aWFsaXNl
-ZCBieXRlKHMpIGZvdW5kIGR1cmluZyBjbGllbnQgY2hlY2sgcmVxdWVzdAorLSAgIGF0IDB4Li4u
-Li4uLi46IGNyb2FrICh0ZXN0cy92YXJpbmZvNXNvLmM6MjkpCistICAgYnkgMHguLi4uLi4uLjog
-ZnVuX2MgKHRlc3RzL3ZhcmluZm81c28uYzoxNjQpCistICAgYnkgMHguLi4uLi4uLjogZnVuX2Ig
-KHRlc3RzL3ZhcmluZm81c28uYzoxNjgpCistICAgYnkgMHguLi4uLi4uLjogZnVuX2EgKHRlc3Rz
-L3ZhcmluZm81c28uYzoxNzIpCistICAgYnkgMHguLi4uLi4uLjogaW5saW5ldGVzdCAodGVzdHMv
-dmFyaW5mbzVzby5jOjE3OCkKKy0gICBieSAweC4uLi4uLi4uOiB2YXJpbmZvNV9tYWluICh0ZXN0
-cy92YXJpbmZvNXNvLmM6MTU4KQorLSAgIGJ5IDB4Li4uLi4uLi46IG1haW4gKHRlc3RzL3Zhcmlu
-Zm81LmM6NSkKKysgICBhdCAweC4uLi4uLi4uOiBjcm9hayAodmFyaW5mbzVzby5jOjI5KQorKyAg
-IGJ5IDB4Li4uLi4uLi46IGZ1bl9jICh2YXJpbmZvNXNvLmM6MTY0KQorKyAgIGJ5IDB4Li4uLi4u
-Li46IGZ1bl9iICh2YXJpbmZvNXNvLmM6MTY4KQorKyAgIGJ5IDB4Li4uLi4uLi46IGZ1bl9hICh2
-YXJpbmZvNXNvLmM6MTcyKQorKyAgIGJ5IDB4Li4uLi4uLi46IGlubGluZXRlc3QgKHZhcmluZm81
-c28uYzoxNzgpCisrICAgYnkgMHguLi4uLi4uLjogdmFyaW5mbzVfbWFpbiAodmFyaW5mbzVzby5j
-OjE1OCkKKysgICBieSAweC4uLi4uLi4uOiBtYWluICh2YXJpbmZvNS5jOjUpCisgIEFkZHJlc3Mg
-MHguLi4uLi4uLiBpcyBvbiB0aHJlYWQgMSdzIHN0YWNrCisgIGluIGZyYW1lICNYLCBjcmVhdGVk
-IGJ5IHZhcmluZm81X21haW4gKHZhcmluZm81c28uYzoxNTMpCisgCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvdmFsZ3JpbmQvdmFsZ3JpbmRfMy4yMS4wLmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3ZhbGdyaW5kL3ZhbGdyaW5kXzMuMjIuMC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdmFsZ3JpbmQvdmFsZ3JpbmRf
-My4yMS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdmFsZ3JpbmQvdmFsZ3Jp
-bmRfMy4yMi4wLmJiCmluZGV4IDY3YTE5N2M1MDkuLjYxMmJlYzE5MGIgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy92YWxncmluZC92YWxncmluZF8zLjIxLjAuYmIKKysrIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3ZhbGdyaW5kL3ZhbGdyaW5kXzMuMjIuMC5iYgpAQCAtMzYsOSAr
-MzYsOSBAQCBTUkNfVVJJID0gImh0dHBzOi8vc291cmNld2FyZS5vcmcvcHViL3ZhbGdyaW5kL3Zh
-bGdyaW5kLSR7UFZ9LnRhci5iejIgXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1ub25lLXRlc3Rz
-LWZkbGVha19jbXNnLnN0ZGVyci5leHAtYWRqdXN0LXRtcC1wYXRocy5wYXRjaCBcCiAgICAgICAg
-ICAgIGZpbGU6Ly8wMDAxLW1lbWNoZWNrLXRlc3RzLUZpeC10aW1lcmZkLXN5c2NhbGwtdGVzdC5w
-YXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWRvY3MtRGlzYWJsZS1tYW51YWwtdmFsaWRh
-dGlvbi5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLW5vbmUtdGVzdHMteDg2LWxpbnV4
-LXNlZ19vdmVycmlkZS5jLWFkZC1taXNzaW5nLWluY2wucGF0Y2ggXAorICAgICAgICAgICBmaWxl
-Oi8vMDAyMC1Db21taXR0aW5nLWNoYW5nZXMtZnJvbS1kb19wYXRjaC5wYXRjaCBcCiAgICAgICAg
-ICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxMGNlMTYxOGJiM2UzM2ZhZDE2ZWI3OTU1MmIw
-YTNlMTIxMTc2MjQ0OGEwZDdmY2UxMWM4YTYyNDNiOWFjOTcxIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gImM4MTFkYjVhZGQyYzVmNzI5OTQ0Y2FmNDdjNGU3YTY1ZGNhYWJiOTQ2MWU0NzJiNTc4NzY1
-ZGQ3YmY2ZDJkNGMiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJ2YWxncmluZC0oP1A8cHZlcj5c
-ZCsoXC5cZCspKylcLnRhciIKIAogQ09NUEFUSUJMRV9IT1NUID0gJyhpLjg2fHg4Nl82NHxhcm18
-YWFyY2g2NHxtaXBzfHBvd2VycGN8cG93ZXJwYzY0KS4qLWxpbnV4JwotLSAKMi4zOS4yCgo=
+CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAwODoxNzo0MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBr
+Z2NvbmY6IHVwZ3JhZGUgMi4wLjMgLT4gMi4xLjAKCi0tLQogLi4uL3BrZ2NvbmYve3BrZ2NvbmZf
+Mi4wLjMuYmIgPT4gcGtnY29uZl8yLjEuMC5iYn0gICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3BrZ2NvbmYve3BrZ2NvbmZfMi4wLjMuYmIgPT4gcGtnY29uZl8yLjEuMC5i
+Yn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2dj
+b25mXzIuMC4zLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjEu
+MC5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGtnY29uZi9wa2djb25mXzIuMC4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGtnY29uZi9wa2djb25mXzIuMS4wLmJiCmluZGV4IDVhYTVhMTkxZjIuLjE5MjFmM2EwODYg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMi4wLjMu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjEuMC5iYgpA
+QCAtMjAsNyArMjAsNyBAQCBTUkNfVVJJID0gIlwKICAgICBmaWxlOi8vcGtnLWNvbmZpZy1uYXRp
+dmUuaW4gXAogICAgIGZpbGU6Ly9wa2ctY29uZmlnLWVzZGsuaW4gXAogIgotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImNhYmRmM2M0NzQ1Mjk4NTRmN2NjY2U4NTczYzVhYzY4YWQzNGE3ZTYyMTAzNzUz
+NWNiYzM5ODFmNmIyMzgzNmMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjY2ZDU4NjFlZTUxYzUy
+YmM3MTAyOTNhMWQzNjYyMmFlMTZkMDQ4ZDcxZWM1NjAzNGEwMmViOWNmOTY3Nzc2MSIKIAogaW5o
+ZXJpdCBhdXRvdG9vbHMKIAotLSAKMi4zOS4yCgo=
 
---===============0238599517856304868==--
+--===============1624164739961950741==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-2.0.3.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-2.1.0.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
+packages/core2-64-poky-linux/pkgconf: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 310288 to 314232 (+1%)
+packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 24195 to 24354 (+1%)
+packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-doc: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-locale: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-src: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 269541 to 273448 (+1%)
+packages/core2-64-poky-linux/pkgconf/pkgconf-src: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 154025 to 154057 (+0%)
+packages/core2-64-poky-linux/pkgconf/pkgconf: PV changed from "2.0.3" to "2.1.0"
+
+--===============1624164739961950741==--
 
