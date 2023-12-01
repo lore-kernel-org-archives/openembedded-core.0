@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0540FC27C47
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04F79C25B70
 	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 13:15:01 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.22324.1701436491930778867
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.22184.1701436491052799886
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Dec 2023 05:14:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HptuleWX;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=pIVLejZM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018c2584852a-01f57c3a-bde0-4162-b11e-0b18aadb7711-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NrEk5wKt;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZSxfSf+y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c25848797-3453ef18-0770-4cf6-b627-79fb44216649-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1701436491;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hgek5Q3RsUHaVUUNoDWzb9yuqOKHNGgXQM+yWO9g9pg=;
-	b=HptuleWXLnCe5CTLQLfn5sunzms+lsnaNnObzevrb80CDvq0d7QyE2iNKSQe7JsE
-	VNJLtI7M5DLMJeZ8C0IW46580juI1UIPpB27LllbeWFLWQF7WaJUC4QQZ+zKxpeeDER
-	WqyqhXqRVukmsGIHrg1r6sNcF6fmLJaXxA5kbCSk=
+	bh=011orPuDEp1onkzrZo5e6jgp+nULdvBGTrMy8XN2V5A=;
+	b=NrEk5wKtcx+TrNNzh/uv1kE59QK0cuN/+nhG9DIBI01Vc7R+qKuyQ8JHckc5DtaC
+	XZ1nDMYXZtxTcicyDGqXOhl1OkMBrjsUxhfyTXNdvotm0iZyzS4Kv/o2Kago8MvtSzF
+	3jsMu5kW+sjeNdMdxP+FF5M8E8dSszgCzMCkHQ9w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701436491;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hgek5Q3RsUHaVUUNoDWzb9yuqOKHNGgXQM+yWO9g9pg=;
-	b=pIVLejZMISGl4CrYcl4D25iHjn+ufmRIKs0XX1tLieV3yI2bHAJ31jOa+7mp+ZlH
-	iJ9KaZ6lpdZDKC9V9hhijbAaOYAzO2OtXpotelcZ33EJOKdcc127aJ1zkbZ2jOS1/ZF
-	6uxo6bbYQG9zdkHU+d+je2l9oRlleQcP+KK7B1Ag=
-Content-Type: multipart/mixed; boundary="===============8070095727586303957=="
+	bh=011orPuDEp1onkzrZo5e6jgp+nULdvBGTrMy8XN2V5A=;
+	b=ZSxfSf+yDoHv+d/76HQe3ZA55sOLMEDGgZWiV5KbwQeuuVS5YidRmsIWdjh7lDJJ
+	qB7VncYQm09EQag5Qycg7dVJEQaQG5InJTsEbmu4nRSfKxi5tKIzwZeHKy2Mf1DDxwp
+	pkBrHlsFFmPLzK+cB+cJeiDYq+cHqcqb6qdPAkRw=
+Content-Type: multipart/mixed; boundary="===============5520936026048431277=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cython: upgrading to 3.0.6 SUCCEEDED
-Message-ID: <0101018c2584852a-01f57c3a-bde0-4162-b11e-0b18aadb7711-000000@us-west-2.amazonses.com>
+Subject: [AUH] qemu: upgrading to 8.1.3 FAILED
+Message-ID: <0101018c25848797-3453ef18-0770-4cf6-b627-79fb44216649-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Dec 2023 13:14:51 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.01-54.240.27.191
+X-SES-Outgoing: 2023.12.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 13:15:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191608
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191611
 
---===============8070095727586303957==
+--===============5520936026048431277==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-cython* to *3.0.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *qemu* to *8.1.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-cython-upgrade-0.29.36-3.0.6.patch
+    - apply the patch: git am 0001-qemu-upgrade-8.1.2-8.1.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,407 +78,710 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 902fbe4fa1d858ca700708d361203f6d62d06c94 Mon Sep 17 00:00:00 2001
+From 4117d27959108c56d54d45a56d328f97f35c3c8a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Dec 2023 08:37:12 +0000
-Subject: [PATCH] python3-cython: upgrade 0.29.36 -> 3.0.6
+Date: Fri, 1 Dec 2023 09:35:18 +0000
+Subject: [PATCH] qemu: upgrade 8.1.2 -> 8.1.3
 
 ---
- .../recipes-devtools/python/python-cython.inc |  4 ++--
- ...hon_0.29.36.bb => python3-cython_3.0.6.bb} | 21 +++++++++++++++++++
- 2 files changed, 23 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-cython_0.29.36.bb => python3-cython_3.0.6.bb} (63%)
+ meta/recipes-devtools/qemu/qemu.inc                         | 2 +-
+ meta/recipes-devtools/qemu/{qemu_8.1.2.bb => qemu_8.1.3.bb} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/qemu/{qemu_8.1.2.bb => qemu_8.1.3.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
-index 6aec6b012f..0b0e148cb6 100644
---- a/meta/recipes-devtools/python/python-cython.inc
-+++ b/meta/recipes-devtools/python/python-cython.inc
-@@ -5,11 +5,11 @@ It's designed to bridge the gap between the nice, high-level, easy-to-use world
- and the messy, low-level world of C."
- SECTION = "devel/python"
- LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
- PYPI_PACKAGE = "Cython"
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 5ab2cb83b4..d6a3cf47b9 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -37,7 +37,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--SRC_URI[sha256sum] = "41c0cfd2d754e383c9eeb95effc9aa4ab847d0c9747077ddd7c0dcb68c3bc01f"
-+SRC_URI[sha256sum] = "399d185672c667b26eabbdca420c98564583798af3bc47670a8a09e9f19dd660"
- UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
  
- inherit pypi
-diff --git a/meta/recipes-devtools/python/python3-cython_0.29.36.bb b/meta/recipes-devtools/python/python3-cython_3.0.6.bb
-similarity index 63%
-rename from meta/recipes-devtools/python/python3-cython_0.29.36.bb
-rename to meta/recipes-devtools/python/python3-cython_3.0.6.bb
-index 07638d7ad7..8594024fc7 100644
---- a/meta/recipes-devtools/python/python3-cython_0.29.36.bb
-+++ b/meta/recipes-devtools/python/python3-cython_3.0.6.bb
-@@ -1,3 +1,24 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE.txt
-+# +++ LICENSE.txt
-+# @@ -1,6 +1,6 @@
-+#                                   Apache License
-+#                             Version 2.0, January 2004
-+# -                        http://www.apache.org/licenses/
-+# +                        https://www.apache.org/licenses/
-+#  
-+#     TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
-+#  
-+# 
-+#
-+
- inherit setuptools3
- require python-cython.inc
+-SRC_URI[sha256sum] = "541526a764576eb494d2ff5ec46aeb253e62ea29035d1c23c0a8af4e6cd4f087"
++SRC_URI[sha256sum] = "43cc176804105586f74f90398f34e9f85787dff400d3b640d81f7779fbe265bb"
  
+ SRC_URI:append:class-target = " file://cross.patch"
+ SRC_URI:append:class-nativesdk = " file://cross.patch"
+diff --git a/meta/recipes-devtools/qemu/qemu_8.1.2.bb b/meta/recipes-devtools/qemu/qemu_8.1.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu_8.1.2.bb
+rename to meta/recipes-devtools/qemu/qemu_8.1.3.bb
 -- 
 2.39.2
 
 
---===============8070095727586303957==
+--===============5520936026048431277==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1847 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 912 .bb files complete (909 cached, 3 parsed). 1844 targets, 38 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-002fb1c0c14cf790171fca93ebe557289e9d4927"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:002fb1c0c14cf790171fca93ebe557289e9d4927"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+done.
+Sstate summary: Wanted 480 Local 300 Mirrors 0 Missed 180 Current 584 (62% match, 83% complete)
+Removing 74 stale sstate objects for arch core2-64...done.
+Removing 3 stale sstate objects for arch x86_64...done.
+Removing 41 stale sstate objects for arch qemux86_64...done.
+Removing 2 stale sstate objects for arch allarch...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 648 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/slirp/libslirp_git.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 691 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.118.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 692 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_23.2.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 699 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.268.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 704 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 705 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 710 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 715 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 720 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 725 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 730 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 735 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 740 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 761 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 764 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 766 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx_setscene)
+NOTE: recipe libslirp-4.7.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpciaccess-0.17-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libdrm-2.4.118-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx_setscene: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe dtc-1.7.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe readline-8.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_23.2.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libslirp-4.7.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 767 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.5.bb:do_create_spdx_setscene)
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xrandr-1_1.5.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 779 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_create_spdx_setscene)
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 783 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 784 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_create_spdx_setscene)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 786 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_31.bb:do_create_spdx_setscene)
+NOTE: recipe libdrm-2.4.118-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe dtc-1.7.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe mobile-broadband-provider-info-1_20230416-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libpciaccess-0.17-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe readline-8.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 837 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.70.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 838 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 841 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 842 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.60.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 844 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_254.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 849 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 852 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 855 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 857 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe mesa-2_23.2.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 858 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 862 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe zstd-1.5.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xtrans-1_1.5.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xcb-proto-1.16.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe kmod-31-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ell-0.60-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe wayland-protocols-1.32-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe bluez5-5.70-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe dbus-1.14.10-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe wayland-1.22.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe zstd-1.5.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 867 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe systemd-1_254.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpthread-stubs-0.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xcb-proto-1.16.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xtrans-1_1.5.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe kmod-31-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe wayland-protocols-1.32-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe ell-0.60-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 872 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libice-1_1.1.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 879 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 881 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 882 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 883 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 884 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 886 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe bluez5-5.70-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 892 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 893 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_create_spdx_setscene)
+NOTE: recipe ofono-2.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe dbus-1.14.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 900 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 917 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.11.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 921 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 923 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_74-1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 924 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_create_spdx_setscene)
+NOTE: recipe systemd-1_254.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 935 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.13.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libx11-1_1.8.7-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxcb-1.16-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xkeyboard-config-2.40-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxml2-2.11.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libx11-1_1.8.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 938 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe util-linux-2.39.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vala-0.56.13-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe icu-74-1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 942 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxcb-1.16-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 943 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.17.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libxtst-1_1.2.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 944 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 948 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: recipe xorgproto-2023.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe xkeyboard-config-2.40-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 996 of 1064 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 999 of 1064 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1011 of 1064 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.39.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 1012 of 1064 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.39.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxml2-2.11.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vala-0.56.13-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe icu-74-1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libical-3.0.17-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libpcre2-10.42-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe util-linux-2.39.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: Running setscene task 1032 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_create_spdx_setscene)
+NOTE: recipe util-macros-native-1_1.20.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxslt-native-1.1.39-r0: task do_create_spdx_setscene: Started
+NOTE: recipe xorgproto-native-2023.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxslt-native-1.1.39-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libical-3.0.17-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 1047 of 1064 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_create_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_create_spdx_setscene: Started
+NOTE: recipe util-macros-native-1_1.20.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xorgproto-native-2023.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxslt-native-1.1.39-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libxslt-native-1.1.39-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 1054 of 1064 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libxslt/libxslt_1.1.39.bb:do_recipe_qa_setscene)
+NOTE: recipe libpam-1.5.3-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libxslt-native-1.1.39-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libxslt-native-1.1.39-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1086 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb:do_recipe_qa)
+NOTE: Running task 1156 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_fetch)
+NOTE: Running task 1160 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_fetch)
+NOTE: Running task 1164 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_fetch)
+NOTE: Running task 1209 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_write_config)
+NOTE: Running task 1216 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_write_config)
+NOTE: Running task 1234 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_write_config)
+NOTE: Running task 1265 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_fetch)
+NOTE: Running task 1266 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_fetch)
+NOTE: Running task 1270 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_fetch)
+NOTE: recipe qemu-native-8.1.2-r0: task do_recipe_qa: Started
+NOTE: Running task 1360 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_fetch)
+NOTE: Running task 1362 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_fetch)
+NOTE: Running task 1371 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb:do_fetch)
+NOTE: Running task 1375 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_fetch)
+NOTE: Running task 1388 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_254.4.bb:do_fetch)
+NOTE: recipe xorgproto-2023.2-r0: task do_fetch: Started
+NOTE: Running task 1394 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_fetch)
+NOTE: recipe wayland-1.22.0-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_fetch: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_fetch: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_write_config: Started
+NOTE: Running task 1395 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_unpack)
+NOTE: recipe wayland-1.22.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1396 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_unpack)
+NOTE: recipe libxau-1_1.0.11-r0: task do_fetch: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_fetch: Started
+NOTE: recipe wayland-1.22.0-r0: task do_write_config: Started
+NOTE: recipe libxcb-1.16-r0: task do_fetch: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_write_config: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1397 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_unpack)
+NOTE: recipe libxau-1_1.0.11-r0: task do_fetch: Succeeded
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_fetch: Succeeded
+NOTE: recipe qemu-native-8.1.2-r0: task do_recipe_qa: Succeeded
+NOTE: recipe libxcb-1.16-r0: task do_fetch: Succeeded
+NOTE: Running task 1398 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_unpack)
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb:do_recipe_qa unihash changed to 3fea657db3fabd8abb5b664558d5b31861d2c942b7b490d2d9dfed4c548ce3a9
+NOTE: recipe wayland-protocols-1.32-r0: task do_fetch: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_write_config: Succeeded
+NOTE: recipe libx11-1_1.8.7-r0: task do_fetch: Started
+NOTE: recipe xkeyboard-config-2.40-r0: task do_fetch: Started
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_fetch: Started
+NOTE: recipe wayland-1.22.0-r0: task do_write_config: Succeeded
+NOTE: recipe wayland-protocols-1.32-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_write_config: Succeeded
+NOTE: recipe libx11-1_1.8.7-r0: task do_fetch: Succeeded
+NOTE: recipe xkeyboard-config-2.40-r0: task do_fetch: Succeeded
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_fetch: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_fetch: Started
+NOTE: recipe xorgproto-2023.2-r0: task do_unpack: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_fetch: Succeeded
+NOTE: recipe systemd-1_254.4-r0: task do_fetch: Started
+NOTE: recipe wayland-1.22.0-r0: task do_unpack: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_unpack: Started
+NOTE: recipe systemd-1_254.4-r0: task do_fetch: Succeeded
+NOTE: recipe xorgproto-2023.2-r0: task do_unpack: Succeeded
+NOTE: recipe wayland-1.22.0-r0: task do_unpack: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_unpack: Succeeded
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_unpack: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1399 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb:do_fetch)
+NOTE: Running task 1400 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_patch)
+NOTE: Running task 1401 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_patch)
+NOTE: Running task 1402 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_patch)
+NOTE: Running task 1403 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_unpack)
+NOTE: Running task 1404 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_patch)
+NOTE: Running task 1405 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_unpack)
+NOTE: Running task 1407 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_fetch)
+NOTE: Running task 1409 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_fetch)
+NOTE: Running task 1412 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_unpack)
+NOTE: Running task 1425 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_unpack)
+NOTE: Running task 1428 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb:do_unpack)
+NOTE: Running task 1431 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_unpack)
+NOTE: Running task 1466 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_254.4.bb:do_unpack)
+NOTE: Running task 1499 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_unpack)
+NOTE: Running task 1509 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_write_config)
+NOTE: recipe qemu-native-8.1.2-r0: task do_fetch: Started
+WARNING: qemu-native-8.1.2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/qemu-8.1.2.tar.xz
+Cleaning and trying again.
+WARNING: qemu-native-8.1.2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/qemu-8.1.2.tar.xz to /srv/autobuilder/autobuilder.yocto.io/current_sources/qemu-8.1.2.tar.xz_bad-checksum_541526a764576eb494d2ff5ec46aeb253e62ea29035d1c23c0a8af4e6cd4f087
+NOTE: recipe xorgproto-2023.2-r0: task do_patch: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_unpack: Started
+NOTE: recipe libxau-1_1.0.11-r0: task do_patch: Started
+NOTE: recipe libxcb-1.16-r0: task do_unpack: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_fetch: Started
+NOTE: recipe wayland-1.22.0-r0: task do_patch: Started
+NOTE: recipe wayland-protocols-1.32-r0: task do_unpack: Started
+NOTE: recipe libx11-1_1.8.7-r0: task do_unpack: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_patch: Started
+NOTE: recipe dbus-1.14.10-r0: task do_fetch: Started
+NOTE: recipe xkeyboard-config-2.40-r0: task do_unpack: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_fetch: Succeeded
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_unpack: Started
+NOTE: Running task 1510 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_unpack)
+NOTE: recipe xorgproto-2023.2-r0: task do_patch: Succeeded
+NOTE: recipe libxau-1_1.0.11-r0: task do_patch: Succeeded
+NOTE: Running task 1518 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb:do_write_config)
+NOTE: recipe dbus-1.14.10-r0: task do_fetch: Succeeded
+NOTE: Running task 1526 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_unpack)
+NOTE: Running task 1528 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_write_config)
+NOTE: recipe wayland-protocols-1.32-r0: task do_write_config: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_unpack: Started
+NOTE: recipe systemd-1_254.4-r0: task do_unpack: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_unpack: Succeeded
+NOTE: recipe wayland-protocols-1.32-r0: task do_unpack: Succeeded
+NOTE: recipe wayland-protocols-1.32-r0: task do_write_config: Succeeded
+NOTE: Running task 1529 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_patch)
+NOTE: Running task 1530 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb:do_patch)
+NOTE: recipe libxcb-1.16-r0: task do_unpack: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_unpack: Started
+NOTE: Running task 1550 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_patch)
+NOTE: Running task 1571 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_254.4.bb:do_warn_musl)
+NOTE: recipe xkeyboard-config-2.40-r0: task do_write_config: Started
+NOTE: recipe wayland-1.22.0-r0: task do_patch: Succeeded
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1573 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_254.4.bb:do_write_config)
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_write_config: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1574 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.6.0.bb:do_patch)
+NOTE: Running task 1575 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_patch)
+NOTE: recipe dbus-1.14.10-r0: task do_unpack: Started
+NOTE: recipe xkeyboard-config-2.40-r0: task do_unpack: Succeeded
+NOTE: Running task 1576 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.40.bb:do_patch)
+NOTE: recipe xkeyboard-config-2.40-r0: task do_write_config: Succeeded
+NOTE: recipe wayland-protocols-1.32-r0: task do_patch: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_patch: Started
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_write_config: Succeeded
+NOTE: Running task 1601 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.17.bb:do_fetch)
+NOTE: recipe libsm-1_1.2.4-r0: task do_unpack: Succeeded
+NOTE: Running task 1612 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_fetch)
+NOTE: Running task 1613 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_patch)
+NOTE: recipe libxcb-1.16-r0: task do_patch: Started
+NOTE: recipe libxdmcp-1_1.1.4-r0: task do_patch: Succeeded
+NOTE: recipe libice-1_1.1.1-r0: task do_patch: Started
+NOTE: recipe wayland-protocols-1.32-r0: task do_patch: Succeeded
+NOTE: recipe libx11-1_1.8.7-r0: task do_unpack: Succeeded
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_patch: Started
+NOTE: Running task 1624 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_patch)
+NOTE: Running task 1626 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.13.bb:do_fetch)
+NOTE: recipe systemd-1_254.4-r0: task do_warn_musl: Started
+NOTE: recipe systemd-1_254.4-r0: task do_warn_musl: Succeeded
+NOTE: Running task 1646 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.70.bb:do_fetch)
+NOTE: Running task 1648 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_fetch)
+NOTE: recipe systemd-1_254.4-r0: task do_write_config: Started
+NOTE: recipe xkeyboard-config-2.40-r0: task do_patch: Started
+NOTE: recipe libice-1_1.1.1-r0: task do_patch: Succeeded
+NOTE: recipe libical-3.0.17-r0: task do_fetch: Started
+NOTE: Running task 1658 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_fetch)
+NOTE: recipe libxkbcommon-1.6.0-r0: task do_patch: Succeeded
+NOTE: recipe libsm-1_1.2.4-r0: task do_patch: Started
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_fetch: Started
+NOTE: recipe libical-3.0.17-r0: task do_fetch: Succeeded
+NOTE: Running task 1670 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_write_config)
+NOTE: Running task 1671 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.17.bb:do_unpack)
+NOTE: recipe libxcb-1.16-r0: task do_patch: Succeeded
+NOTE: recipe systemd-1_254.4-r0: task do_write_config: Succeeded
+NOTE: Running task 1675 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_fetch)
+NOTE: recipe xkeyboard-config-2.40-r0: task do_patch: Succeeded
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1677 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_fetch)
+NOTE: Running task 1679 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_unpack)
+NOTE: recipe dbus-1.14.10-r0: task do_unpack: Succeeded
+NOTE: recipe libx11-1_1.8.7-r0: task do_patch: Started
+NOTE: recipe libsm-1_1.2.4-r0: task do_patch: Succeeded
+NOTE: Running task 1700 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_patch)
+NOTE: recipe vala-0.56.13-r0: task do_fetch: Started
+NOTE: recipe bluez5-5.70-r0: task do_fetch: Started
+NOTE: recipe vala-0.56.13-r0: task do_fetch: Succeeded
+NOTE: Running task 1741 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.268.0.bb:do_fetch)
+NOTE: recipe libxext-1_1.3.5-r0: task do_fetch: Started
+NOTE: Running task 1748 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.13.bb:do_unpack)
+NOTE: recipe libxrender-1_0.9.11-r0: task do_fetch: Started
+NOTE: Running task 1764 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.118.bb:do_fetch)
+NOTE: recipe bluez5-5.70-r0: task do_fetch: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_fetch: Succeeded
+NOTE: Running task 1765 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.70.bb:do_unpack)
+NOTE: Running task 1766 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_unpack)
+NOTE: recipe libxrender-1_0.9.11-r0: task do_fetch: Succeeded
+NOTE: Running task 1767 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_unpack)
+NOTE: recipe libical-3.0.17-r0: task do_unpack: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_fetch: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_fetch: Started
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_fetch: Succeeded
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_patch: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1768 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_unpack)
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_write_config: Started
+NOTE: Running task 1770 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_unpack)
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_unpack: Started
+NOTE: recipe dbus-1.14.10-r0: task do_patch: Started
+NOTE: Running task 1791 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_fetch)
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_fetch: Started
+NOTE: recipe vala-0.56.13-r0: task do_unpack: Started
+NOTE: recipe libx11-1_1.8.7-r0: task do_patch: Succeeded
+NOTE: Running task 1793 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_fetch)
+NOTE: recipe libdrm-2.4.118-r0: task do_fetch: Started
+NOTE: recipe libical-3.0.17-r0: task do_unpack: Succeeded
+NOTE: Running task 1794 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.17.bb:do_patch)
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_write_config: Succeeded
+NOTE: recipe libxext-1_1.3.5-r0: task do_unpack: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_unpack: Started
+NOTE: recipe libdrm-2.4.118-r0: task do_fetch: Succeeded
+NOTE: Running task 1795 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_fetch)
+NOTE: Running task 1796 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_fetch)
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_fetch: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_unpack: Started
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_unpack: Started
+NOTE: Running task 1797 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.268.0.bb:do_unpack)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_fetch: Started
+NOTE: recipe dbus-1.14.10-r0: task do_patch: Succeeded
+NOTE: recipe bluez5-5.70-r0: task do_unpack: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_fetch: Succeeded
+NOTE: Running task 1825 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_23.2.1.bb:do_fetch)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_fetch: Started
+NOTE: Running task 1837 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.118.bb:do_unpack)
+NOTE: recipe libical-3.0.17-r0: task do_patch: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_fetch: Succeeded
+NOTE: recipe libxrender-1_0.9.11-r0: task do_unpack: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_fetch: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_fetch: Started
+NOTE: Running task 1845 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_unpack)
+NOTE: Running task 1846 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_patch)
+NOTE: recipe libxext-1_1.3.5-r0: task do_unpack: Succeeded
+NOTE: Running task 1847 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb:do_patch)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_fetch: Succeeded
+NOTE: recipe xrandr-1_1.5.2-r0: task do_fetch: Succeeded
+NOTE: Running task 1848 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_unpack)
+NOTE: Running task 1849 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_unpack)
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_unpack: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_unpack: Succeeded
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_unpack: Started
+NOTE: Running task 1850 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb:do_patch)
+NOTE: Running task 1851 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_patch)
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1852 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb:do_patch)
+NOTE: recipe libdrm-2.4.118-r0: task do_unpack: Started
+NOTE: recipe mesa-2_23.2.1-r0: task do_fetch: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_unpack: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_patch: Started
+NOTE: recipe libxext-1_1.3.5-r0: task do_patch: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_unpack: Started
+NOTE: recipe mesa-2_23.2.1-r0: task do_fetch: Succeeded
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_unpack: Started
+NOTE: Running task 1853 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_unpack)
+NOTE: recipe libical-3.0.17-r0: task do_patch: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_patch: Started
+NOTE: recipe libxrender-1_0.9.11-r0: task do_patch: Succeeded
+NOTE: Running task 1854 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.17.bb:do_generate_toolchain_file)
+NOTE: recipe libxext-1_1.3.5-r0: task do_patch: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_patch: Started
+NOTE: Running task 1886 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_23.2.1.bb:do_unpack)
+NOTE: Running task 1899 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_fetch)
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_patch: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_unpack: Succeeded
+NOTE: recipe libxfixes-1_6.0.1-r0: task do_patch: Succeeded
+NOTE: recipe libdrm-2.4.118-r0: task do_unpack: Succeeded
+NOTE: Running task 1900 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_patch)
+NOTE: Running task 1902 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.118.bb:do_patch)
+NOTE: Running task 1903 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.60.bb:do_fetch)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_unpack: Succeeded
+NOTE: recipe libxrandr-1_1.5.3-r0: task do_patch: Succeeded
+NOTE: recipe xrandr-1_1.5.2-r0: task do_unpack: Started
+NOTE: Running task 1904 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_patch)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1923 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_fetch)
+NOTE: Running task 1924 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_patch)
+NOTE: recipe libical-3.0.17-r0: task do_generate_toolchain_file: Started
+NOTE: recipe bluez5-5.70-r0: task do_unpack: Succeeded
+NOTE: Running task 1925 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.70.bb:do_patch)
+NOTE: recipe gobject-introspection-1.78.1-r0: task do_patch: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_fetch: Started
+NOTE: Running task 1928 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_fetch)
+NOTE: recipe vala-0.56.13-r0: task do_unpack: Succeeded
+NOTE: recipe libical-3.0.17-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1929 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.13.bb:do_patch)
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_patch: Started
+NOTE: recipe mesa-2_23.2.1-r0: task do_unpack: Started
+NOTE: recipe ell-0.60-r0: task do_fetch: Started
+NOTE: Running task 1934 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.118.bb:do_write_config)
+NOTE: recipe xrandr-1_1.5.2-r0: task do_unpack: Succeeded
+NOTE: Running task 1951 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_unpack)
+NOTE: recipe libdrm-2.4.118-r0: task do_patch: Started
+NOTE: Running task 1952 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_patch)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_patch: Started
+NOTE: recipe ell-0.60-r0: task do_fetch: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_fetch: Started
+NOTE: Running task 1953 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.60.bb:do_unpack)
+NOTE: recipe libxshmfence-1.3.2-r0: task do_patch: Started
+NOTE: recipe libxdamage-1_1.1.6-r0: task do_patch: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_fetch: Succeeded
+NOTE: recipe libdrm-2.4.118-r0: task do_patch: Succeeded
+NOTE: Running task 1977 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_unpack)
+NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_patch: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_fetch: Started
+NOTE: Running task 2034 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_23.2.1.bb:do_write_config)
+NOTE: recipe bluez5-5.70-r0: task do_patch: Started
+NOTE: recipe vala-0.56.13-r0: task do_patch: Started
+NOTE: Running task 2062 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_fetch)
+NOTE: Running task 2064 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/slirp/libslirp_git.bb:do_fetch)
+NOTE: recipe ofono-2.1-r0: task do_fetch: Succeeded
+NOTE: recipe libxi-1_1.8.1-r0: task do_unpack: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_patch: Started
+NOTE: Running task 2065 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_unpack)
+NOTE: recipe libdrm-2.4.118-r0: task do_write_config: Started
+NOTE: recipe ell-0.60-r0: task do_unpack: Started
+NOTE: recipe libxshmfence-1.3.2-r0: task do_patch: Succeeded
+NOTE: Running task 2067 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_fetch)
+NOTE: recipe vala-0.56.13-r0: task do_patch: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_unpack: Started
+NOTE: recipe xrandr-1_1.5.2-r0: task do_patch: Succeeded
+NOTE: Running task 2073 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu_8.1.3.bb:do_recipe_qa)
+NOTE: recipe libdrm-2.4.118-r0: task do_write_config: Succeeded
+NOTE: recipe libslirp-4.7.0-r0: task do_fetch: Started
+NOTE: recipe dtc-1.7.0-r0: task do_fetch: Started
+NOTE: Running task 2167 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_write_config)
+NOTE: Running task 2172 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/slirp/libslirp_git.bb:do_write_config)
+NOTE: recipe ofono-2.1-r0: task do_unpack: Started
+NOTE: recipe mesa-2_23.2.1-r0: task do_write_config: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2173 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.1.bb:do_patch)
+NOTE: recipe pixman-1_0.42.2-r0: task do_fetch: Started
+NOTE: recipe qemu-8.1.3-r0: task do_recipe_qa: Started
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2174 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.268.0.bb:do_patch)
+NOTE: recipe ell-0.60-r0: task do_unpack: Succeeded
+NOTE: recipe bluez5-5.70-r0: task do_patch: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2175 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.60.bb:do_patch)
+NOTE: recipe mesa-2_23.2.1-r0: task do_write_config: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_fetch: Succeeded
+NOTE: Running task 2177 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.4.bb:do_patch)
+NOTE: Running task 2178 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_write_config)
+NOTE: Running task 2179 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_unpack)
+NOTE: recipe libslirp-4.7.0-r0: task do_write_config: Started
+NOTE: recipe libslirp-4.7.0-r0: task do_fetch: Succeeded
+NOTE: recipe dtc-1.7.0-r0: task do_write_config: Started
+NOTE: Running task 2217 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/slirp/libslirp_git.bb:do_unpack)
+NOTE: recipe dtc-1.7.0-r0: task do_fetch: Succeeded
+NOTE: Running task 2254 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_unpack)
+NOTE: recipe libxi-1_1.8.1-r0: task do_patch: Started
+NOTE: recipe dtc-1.7.0-r0: task do_write_config: Succeeded
+NOTE: recipe libslirp-4.7.0-r0: task do_write_config: Succeeded
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_patch: Started
+NOTE: recipe libxi-1_1.8.1-r0: task do_patch: Succeeded
+NOTE: recipe libxtst-1_1.2.4-r0: task do_patch: Started
+NOTE: recipe ofono-2.1-r0: task do_unpack: Succeeded
+NOTE: recipe qemu-8.1.3-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2437 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.1.bb:do_patch)
+NOTE: Running task 2447 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu_8.1.3.bb:do_fetch)
+NOTE: recipe pixman-1_0.42.2-r0: task do_write_config: Started
+NOTE: recipe libslirp-4.7.0-r0: task do_unpack: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_unpack: Started
+NOTE: recipe ell-0.60-r0: task do_patch: Started
+NOTE: recipe dtc-1.7.0-r0: task do_unpack: Started
+NOTE: recipe libxtst-1_1.2.4-r0: task do_patch: Succeeded
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_patch: Succeeded
+NOTE: recipe pixman-1_0.42.2-r0: task do_write_config: Succeeded
+NOTE: Running task 2449 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.268.0.bb:do_generate_toolchain_file)
+NOTE: recipe pixman-1_0.42.2-r0: task do_unpack: Succeeded
+NOTE: recipe ell-0.60-r0: task do_patch: Succeeded
+NOTE: Running task 2451 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_patch)
+NOTE: recipe ofono-2.1-r0: task do_patch: Started
+NOTE: recipe qemu-8.1.3-r0: task do_fetch: Started
+NOTE: recipe systemd-1_254.4-r0: task do_unpack: Succeeded
+NOTE: Running task 2453 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_254.4.bb:do_patch)
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe qemu-8.1.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2454 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu_8.1.3.bb:do_unpack)
+NOTE: recipe pixman-1_0.42.2-r0: task do_patch: Started
+NOTE: recipe vulkan-loader-1.3.268.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe ofono-2.1-r0: task do_patch: Succeeded
+NOTE: recipe systemd-1_254.4-r0: task do_patch: Started
+NOTE: recipe qemu-8.1.3-r0: task do_unpack: Started
+NOTE: recipe pixman-1_0.42.2-r0: task do_patch: Succeeded
+NOTE: recipe libslirp-4.7.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2457 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/slirp/libslirp_git.bb:do_patch)
+NOTE: recipe dtc-1.7.0-r0: task do_unpack: Succeeded
+NOTE: Running task 2458 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.0.bb:do_patch)
+NOTE: recipe libslirp-4.7.0-r0: task do_patch: Started
+NOTE: recipe dtc-1.7.0-r0: task do_patch: Started
+NOTE: recipe systemd-1_254.4-r0: task do_patch: Succeeded
+NOTE: recipe libslirp-4.7.0-r0: task do_patch: Succeeded
+NOTE: recipe dtc-1.7.0-r0: task do_patch: Succeeded
+NOTE: recipe mesa-2_23.2.1-r0: task do_unpack: Succeeded
+NOTE: Running task 2462 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_23.2.1.bb:do_patch)
+NOTE: recipe mesa-2_23.2.1-r0: task do_patch: Started
+WARNING: qemu-native-8.1.2-r0 do_fetch: Checksum failure encountered with download of https://download.qemu.org/qemu-8.1.2.tar.xz - will attempt other sources if available
+NOTE: recipe mesa-2_23.2.1-r0: task do_patch: Succeeded
+WARNING: qemu-native-8.1.2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/qemu-8.1.2.tar.xz
+Cleaning and trying again.
+WARNING: qemu-native-8.1.2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/qemu-8.1.2.tar.xz to /srv/autobuilder/autobuilder.yocto.io/current_sources/qemu-8.1.2.tar.xz_bad-checksum_541526a764576eb494d2ff5ec46aeb253e62ea29035d1c23c0a8af4e6cd4f087
+NOTE: recipe qemu-8.1.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2464 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu_8.1.3.bb:do_patch)
+NOTE: recipe qemu-8.1.3-r0: task do_patch: Started
+NOTE: recipe qemu-8.1.3-r0: task do_patch: Succeeded
+NOTE: Running task 2465 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu_8.1.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2466 of 2875 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu_8.1.3.bb:do_populate_lic)
+NOTE: recipe qemu-8.1.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe qemu-8.1.3-r0: task do_populate_lic: Started
+NOTE: recipe qemu-8.1.3-r0: task do_populate_lic: Succeeded
+NOTE: recipe qemu-8.1.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe qemu-native-8.1.2-r0: task do_fetch: Failed
+NOTE: Tasks Summary: Attempted 2466 tasks of which 2334 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231201093447.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231201093447.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb:do_fetch
+Summary: There were 5 WARNING messages.
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: qemu-native-8.1.2-r0 do_fetch: Checksum failure fetching https://download.qemu.org/qemu-8.1.2.tar.xz
+ERROR: qemu-native-8.1.2-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/qemu-8.1.2.tar.xz\' has sha256 checksum \'541526a764576eb494d2ff5ec46aeb253e62ea29035d1c23c0a8af4e6cd4f087\' when \'43cc176804105586f74f90398f34e9f85787dff400d3b640d81f7779fbe265bb\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "541526a764576eb494d2ff5ec46aeb253e62ea29035d1c23c0a8af4e6cd4f087"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://download.qemu.org/qemu-8.1.2.tar.xz')
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/qemu-native/8.1.2/temp/log.do_fetch.741377
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb:do_fetch) failed with exit code '1'
+
+--===============5520936026048431277==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-cython-upgrade-0.29.36-3.0.6.patch"
+ filename="0001-qemu-upgrade-8.1.2-8.1.3.patch"
 
-RnJvbSA5MDJmYmU0ZmExZDg1OGNhNzAwNzA4ZDM2MTIwM2Y2ZDYyZDA2Yzk0IE1vbiBTZXAgMTcg
+RnJvbSA0MTE3ZDI3OTU5MTA4YzU2ZDU0ZDQ1YTU2ZDMyOGY5N2YzNWMzYzhhIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAwODozNzoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtY3l0aG9uOiB1cGdyYWRlIDAuMjkuMzYgLT4gMy4wLjYKCi0tLQogLi4uL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1jeXRob24uaW5jIHwgIDQgKystLQogLi4uaG9uXzAuMjku
-MzYuYmIgPT4gcHl0aG9uMy1jeXRob25fMy4wLjYuYmJ9IHwgMjEgKysrKysrKysrKysrKysrKysr
-KwogMiBmaWxlcyBjaGFuZ2VkLCAyMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY3l0aG9uXzAuMjkuMzYu
-YmIgPT4gcHl0aG9uMy1jeXRob25fMy4wLjYuYmJ9ICg2MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYyBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uLWN5dGhvbi5pbmMKaW5kZXggNmFlYzZiMDEyZi4uMGIwZTE0
-OGNiNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0
-aG9uLmluYworKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1jeXRob24u
-aW5jCkBAIC01LDExICs1LDExIEBAIEl0J3MgZGVzaWduZWQgdG8gYnJpZGdlIHRoZSBnYXAgYmV0
-d2VlbiB0aGUgbmljZSwgaGlnaC1sZXZlbCwgZWFzeS10by11c2Ugd29ybGQKIGFuZCB0aGUgbWVz
-c3ksIGxvdy1sZXZlbCB3b3JsZCBvZiBDLiIKIFNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgogTElD
-RU5TRSA9ICJBcGFjaGUtMi4wIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS50
-eHQ7bWQ1PWUyM2ZhZGQ2Y2VlZjhjNjE4ZmMxYzY1MTkxZDg0NmZhIgorTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vTElDRU5TRS50eHQ7bWQ1PTYxYzNlZTg5NjE1NzU4NjFmYTg2YzdlNjJiYzlm
-NjljIgogUFlQSV9QQUNLQUdFID0gIkN5dGhvbiIKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5h
-dGl2ZXNkayIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQxYzBjZmQyZDc1NGUzODNjOWVlYjk1
-ZWZmYzlhYTRhYjg0N2QwYzk3NDcwNzdkZGQ3YzBkY2I2OGMzYmMwMWYiCitTUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiMzk5ZDE4NTY3MmM2NjdiMjZlYWJiZGNhNDIwYzk4NTY0NTgzNzk4YWYzYmM0NzY3
-MGE4YTA5ZTlmMTlkZDY2MCIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gIkN5dGhvbi0oP1A8cHZl
-cj4uKilcLnRhciIKIAogaW5oZXJpdCBweXBpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0aG9uXzAuMjkuMzYuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0aG9uXzMuMC42LmJiCnNpbWlsYXJpdHkgaW5kZXggNjMl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jeXRob25f
-MC4yOS4zNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LWN5dGhvbl8zLjAuNi5iYgppbmRleCAwNzYzOGQ3YWQ3Li44NTk0MDI0ZmM3IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0aG9uXzAuMjkuMzYuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8zLjAuNi5i
-YgpAQCAtMSwzICsxLDI0IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMg
-aGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcg
-aXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4
-dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1t
-YXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1V
-cGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFy
-cyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRS50eHQKKyMg
-KysrIExJQ0VOU0UudHh0CisjIEBAIC0xLDYgKzEsNiBAQAorIyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgQXBhY2hlIExpY2Vuc2UKKyMgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIFZlcnNpb24gMi4wLCBKYW51YXJ5IDIwMDQKKyMgLSAgICAgICAgICAgICAgICAgICAgICAg
-IGh0dHA6Ly93d3cuYXBhY2hlLm9yZy9saWNlbnNlcy8KKyMgKyAgICAgICAgICAgICAgICAgICAg
-ICAgIGh0dHBzOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5zZXMvCisjICAKKyMgICAgIFRFUk1TIEFO
-RCBDT05ESVRJT05TIEZPUiBVU0UsIFJFUFJPRFVDVElPTiwgQU5EIERJU1RSSUJVVElPTgorIyAg
-CisjIAorIworCiBpbmhlcml0IHNldHVwdG9vbHMzCiByZXF1aXJlIHB5dGhvbi1jeXRob24uaW5j
-CiAKLS0gCjIuMzkuMgoK
+CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAwOTozNToxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHFl
+bXU6IHVwZ3JhZGUgOC4xLjIgLT4gOC4xLjMKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Fl
+bXUvcWVtdS5pbmMgICAgICAgICAgICAgICAgICAgICAgICAgfCAyICstCiBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcWVtdS97cWVtdV84LjEuMi5iYiA9PiBxZW11XzguMS4zLmJifSB8IDAKIDIgZmls
+ZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcWVtdS97cWVtdV84LjEuMi5iYiA9PiBxZW11XzguMS4zLmJifSAoMTAw
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jCmluZGV4IDVhYjJjYjgzYjQuLmQ2YTNj
+ZjQ3YjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jCisr
+KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jCkBAIC0zNyw3ICszNyw3IEBA
+IFNSQ19VUkkgPSAiaHR0cHM6Ly9kb3dubG9hZC5xZW11Lm9yZy8ke0JQTn0tJHtQVn0udGFyLnh6
+IFwKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInFlbXUtKD9QPHB2ZXI+XGQrKFwuXGQrKSspXC50
+YXIiCiAKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU0MTUyNmE3NjQ1NzZlYjQ5NGQyZmY1ZWM0
+NmFlYjI1M2U2MmVhMjkwMzVkMWMyM2MwYThhZjRlNmNkNGYwODciCitTUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiNDNjYzE3NjgwNDEwNTU4NmY3NGY5MDM5OGYzNGU5Zjg1Nzg3ZGZmNDAwZDNiNjQwZDgx
+Zjc3NzlmYmUyNjViYiIKIAogU1JDX1VSSTphcHBlbmQ6Y2xhc3MtdGFyZ2V0ID0gIiBmaWxlOi8v
+Y3Jvc3MucGF0Y2giCiBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIGZpbGU6Ly9j
+cm9zcy5wYXRjaCIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXVf
+OC4xLjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11XzguMS4zLmJiCnNpbWls
+YXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9x
+ZW11XzguMS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11Xzgu
+MS4zLmJiCi0tIAoyLjM5LjIKCg==
 
---===============8070095727586303957==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.36.tar.gz;downloadfilename=Cython-0.29.36.tar.gz" to "https://files.pythonhosted.org/packages/source/C/Cython/Cython-3.0.6.tar.gz;downloadfilename=Cython-3.0.6.tar.gz"
-packages/core2-64-poky-linux/python3-cython: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
-packages/core2-64-poky-linux/python3-cython: PV changed from "0.29.36" to "3.0.6"
-packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: FILELIST: added "/usr/lib/python3.11/site-packages/Cython/.debug/Utils.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/.debug/StringIOTree.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/.debug/Code.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/DFA.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/Machines.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/.debug/Parsing.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/Transitions.cpython-311-x86_64-linux-gnu.so"
-packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
-packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 8859712 to 23066248 (+160%)
-packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.36" to "3.0.6"
-packages/core2-64-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
-packages/core2-64-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.36" to "3.0.6"
-packages/core2-64-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
-packages/core2-64-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.36" to "3.0.6"
-packages/core2-64-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
-packages/core2-64-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.36" to "3.0.6"
-packages/core2-64-poky-linux/python3-cython/python3-cython-src: FILELIST: directory renamed /usr/src/debug/python3-cython/0.29.36/Cython/Tempita -> /usr/src/debug/python3-cython/3.0.6/Cython/Tempita, directory renamed /usr/src/debug/python3-cython/0.29.36/Cython/Runtime -> /usr/src/debug/python3-cython/3.0.6/Cython/Runtime, removed "/usr/src/debug/python3-cython/0.29.36/Cython/Compiler/FlowControl.c /usr/src/debug/python3-cython/0.29.36/Cython/Compiler/FusedNode.c /usr/src/debug/python3-cython/0.29.36/Cython/Plex/Scanners.c /usr/src/debug/python3-cython/0.29.36/Cython/Compiler/Visitor.c /usr/src/debug/python3-cython/0.29.36/Cython/Compiler/Scanning.c /usr/src/debug/python3-cython/0.29.36/Cython/Plex/Actions.c", added "/usr/src/debug/python3-cython/3.0.6/Cython/Plex/Scanners.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/Code.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/Visitor.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/FlowControl.c /usr/src/debug/python3-c
- ython/3.0.6/Cython/Plex/DFA.c /usr/src/debug/python3-cython/3.0.6/Cython/Plex/Actions.c /usr/src/debug/python3-cython/3.0.6/Cython/StringIOTree.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/Scanning.c /usr/src/debug/python3-cython/3.0.6/Cython/Utils.c /usr/src/debug/python3-cython/3.0.6/Cython/Plex/Transitions.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/FusedNode.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/Parsing.c /usr/src/debug/python3-cython/3.0.6/Cython/Plex/Machines.c"
-packages/core2-64-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
-packages/core2-64-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8490367 to 22896287 (+170%)
-packages/core2-64-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.36" to "3.0.6"
-packages/core2-64-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
-packages/core2-64-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.36" to "3.0.6"
-packages/core2-64-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info -> /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info, removed "/usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd /usr/lib/python3.11/
- site-packages/Cython/Includes/Deprecated/python_float.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd /usr/lib/p
- ython3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd /usr/lib
- /python3.11/site-packages/Cython/Utility/Capsule.c /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd", added "/usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Shadow.pyi /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpytho
- n-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd /usr/lib/pyt
- hon3.11/site-packages/Cython/Includes/libcpp/execution.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/s
- ite-packages/Cython/Build/Tests/TestDependencies.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd /usr/lib/pytho
- n3.11/site-packages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc"
-packages/core2-64-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
-packages/core2-64-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10199583 to 14434252 (+42%)
-packages/core2-64-poky-linux/python3-cython/python3-cython: PV changed from "0.29.36" to "3.0.6"
-Changes to packages/core2-64-poky-linux/python3-cython (sysroot):
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/COPYING.txt was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/entry_points.txt was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/LICENSE.txt was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Shadow.pyi was added
-  /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx was added
-  /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py was added
-  /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py was added
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/COPYING.txt was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/entry_points.txt was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/WHEEL was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py was removed
-  /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py was removed
-  /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c was removed
-
---===============8070095727586303957==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 8859712 to 23066248 (+160%)
-packages/core2-64-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8490367 to 22896287 (+170%)
-packages/core2-64-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10199583 to 14434252 (+42%)
-packages/core2-64-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info -> /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info, removed "/usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc /usr/lib/python
- 3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd /usr/lib/python3.11/
- site-packages/Cython/Includes/Deprecated/python_bool.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd /usr
- /lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd", added "/usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py /usr/lib/py
- thon3.11/site-packages/pyximport/_pyximport3.py /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Incl
- udes/posix/uio.pxd /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd /usr/lib/python3.11/site-packages/Cython/Shadow.pyi /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-package
- s/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py /usr/l
- ib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-x86_64-linux-gnu.so"
-Changes to packages/core2-64-poky-linux/python3-cython (sysroot):
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/COPYING.txt was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/entry_points.txt was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/LICENSE.txt was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py was added
-  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py was added
-  /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd was added
-  /usr/lib/python3.11/site-packages/Cython/Shadow.pyi was added
-  /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c was added
-  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx was added
-  /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-x86_64-linux-gnu.so was added
-  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py was added
-  /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py was added
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/COPYING.txt was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/entry_points.txt was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/WHEEL was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd was removed
-  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc was removed
-  /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py was removed
-  /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py was removed
-  /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c was removed
-
---===============8070095727586303957==--
+--===============5520936026048431277==--
 
