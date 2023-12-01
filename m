@@ -1,136 +1,110 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ADD6C4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 07:24:35 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web10.17830.1701415473033435568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29692C4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 07:48:15 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.17833.1701416885613198748
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Nov 2023 23:24:33 -0800
+ Thu, 30 Nov 2023 23:48:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=QlF0ONls;
- spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2c9bbb30c34so22442431fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Nov 2023 23:24:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701415471; x=1702020271; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GVngzSae4lY60h+EcAg7pq5XtvvBtPBdFDGdlEIFQ2Q=;
-        b=QlF0ONlsp8Hi8VmRbihi8DpT0DymNbk1SQmAuCC1Arbcrq9TA92nEPFTi+ocTejD/4
-         L8rJF8vtC11AeUVxwQMQPcfzq2KzDqO30BZ+CqaJhsUutR2QCdBKXqowwvoeLuqKR3Dz
-         GF309ZJkSwRcenr75P4xWFS2SYUXq8K4+Yt8941pFyKK8PnU+kGUY/YYV8v+BOfhz05N
-         SG6xZvHheiP+u9qx2ps+alkKmWo4307PfulFCp+SZmxLV0A5I7YNgEdDdRs6cXXOLrSZ
-         /kDtJ9jR9M9i+KuBoEdnb1ClyaScbLZSrUpR4ry5UYc821kBeuc7e/x26g18WZQNC05c
-         uP+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701415471; x=1702020271;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GVngzSae4lY60h+EcAg7pq5XtvvBtPBdFDGdlEIFQ2Q=;
-        b=Ho0BuG4O0DxC55iO1NCREGHOQjRCvTM8zrATH+otVi6bmBNKUwgq4K4HTBg7XDPQuO
-         P0pLDwd9OeEwvvMhPpU27j30ZyOMma+gfFfcLgK1iCm8kgw403ZOnNkCVh3Zp9U+KR+z
-         CM9p/yhdXNnfusTj1q1k22VwukpapICmhZZtwPU/3EmqRNIwX6CACaqRdu3LMt6oxCLi
-         QFlO7cEJMHaMl7B2EFdpZgPotvSvGFAgs5PwM1mua8yeh56nxnxEt3vtmokFavBxqYQC
-         DTIAlYiY7ACfQ2OhNd4ziz/fWNKapgX3u6wAxrWExBlXA31DmSO6BeDV1q+OXwEnW64x
-         tLYg==
-X-Gm-Message-State: AOJu0YxzyKiCQOyZREXygVbdMFim1Wv2eVtypSusWvAMU+cekltqFZcz
-	V72vgVA3cMPUQUnL4SQRGUXgRQ==
-X-Google-Smtp-Source: AGHT+IHFrjHpzyQxM6q0wnQfe65CgOcWAHgXQzXeIucbujZHOdPcCjuYaSAyYIO0+Xh/R5Uhkhq0mA==
-X-Received: by 2002:a2e:978c:0:b0:2c9:996b:3b54 with SMTP id y12-20020a2e978c000000b002c9996b3b54mr413361lji.53.1701415471017;
-        Thu, 30 Nov 2023 23:24:31 -0800 (PST)
-Received: from nuoska (dc7g6tyyyyyyyyyyyyhbt-3.rev.dnainternet.fi. [2001:14ba:16cb:a800::183])
-        by smtp.gmail.com with ESMTPSA id n20-20020a2e8794000000b002c50b040e94sm335071lji.85.2023.11.30.23.24.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 23:24:30 -0800 (PST)
-Date: Fri, 1 Dec 2023 09:24:25 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] systemd-boot: Add recipe to compile native
-Message-ID: <ZWmKKacNvYu-ao5r@nuoska>
-References: <20231201065336.1362984-1-quic_vkraleti@quicinc.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Wav/Plxv;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3021E24000C;
+	Fri,  1 Dec 2023 07:48:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701416883;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Kh15Zy7cKTOm6BNbdeZUnOPkA7Flt58mStxzv2nV7y8=;
+	b=Wav/PlxvxFvHHAfQemYztywG8L2ZS1tDC3ExT06yPoN+cBgp6iU5LK6tLH7AYAAQnTglUN
+	qmsK3cVtaxkaooqT5rNb3NwcwOzw+IxhgH8slZdctrdRahgusYDReeAPZjYGp2W763VBND
+	hFz8YOwQSjBRo8grcE4iIwwSHDUjON0q6CP1vzN1uSjQRWYQnY0sIfqMxtHudXszD6y8Yz
+	idcQJKDJlBZ+D78Nf6/J2QAz3ECGSLxLIu2suNmijzMt2TiUP8XmXPYYsJNtDC98vmk2AD
+	UCasRWl6rvc2fOoFNi+w5vk4D4BVD7hURzHjfVfUyButztTE3uMjT4IojBmu4g==
+Date: Fri, 1 Dec 2023 08:48:02 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Ross Burton <ross.burton@arm.com>
+Subject: Re: [OE-core] [PATCH v11] vte: Separate out gtk4 pieces of vte into
+ individual packages
+Message-ID: <2023120107480246bc6385@mail.local>
+References: <20231128000701.3180126-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201065336.1362984-1-quic_vkraleti@quicinc.com>
+In-Reply-To: <20231128000701.3180126-1-raj.khem@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 07:24:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191559
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 07:48:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191560
 
-Hi,
+Hello Khem,
 
-On Fri, Dec 01, 2023 at 12:23:36PM +0530, Viswanath Kraleti wrote:
-> systemd has ukify, a native tool, which will combine the kernel/initrd/stub
-> components to build the UKI (unified kernel images). systemd-boot recipe
-> isn't providing this tool.
+The vte upgrade causes librsvg to fail on qemux86-64-x32:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/8077/steps/11/logs/stdio
+
+I'm not sure how and I was suspecting other rust changes but I confirmed
+this is the 3 patches series as this one was successful:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/8083
+
+
+On 27/11/2023 16:07:01-0800, Khem Raj wrote:
+> This avoids adding gtk4 dependencies when image may only desire the gtk3
+> pieces of vte.
 > 
-> To use ukify, one need systemd-boot native recipe so that a dependency can
-> be added on populate_sysroot task to get the tool under sysroot-native.
-
-Why not call the recipe systemd-ukify then? systemd-boot doesn't provide more than that.
-
-Then, when using ukify, one needs to have the .efi binaries from target systemd recipe which
-for aarch64 are:
-
-/usr/lib/systemd/boot/efi/addonaa64.efi.stub
-/usr/lib/systemd/boot/efi/linuxaa64.efi.stub
-/usr/lib/systemd/boot/efi/systemd-bootaa64.efi
-
-and these could IMO be in a systemd-boot binary package because these files are not needed
-in the main systemd binary package and rootfs.
-
-The recipe itself looks neat and small, thanks!
-
-For secure boot sbsign-native would be needed, but maybe a separate issue.
-
-Cheers,
-
--Mikko
-
-> Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Ross Burton <ross.burton@arm.com>
 > ---
->  .../systemd/systemd-boot-native_254.4.bb          | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd-boot-native_254.4.bb
+> v11: Package Vte-3.91.gir into ${PN}-gtk4-dev
 > 
-> diff --git a/meta/recipes-core/systemd/systemd-boot-native_254.4.bb b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
-> new file mode 100644
-> index 0000000000..6d89e493b6
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
-> @@ -0,0 +1,15 @@
-> +require systemd.inc
-> +
-> +inherit native
-> +
-> +RRECOMMENDS:${PN} += "python3-pefile-native"
-> +
-> +COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*)-linux"
-> +
-> +do_configure[noexec] = "1"
-> +do_compile[noexec] = "1"
-> +
-> +do_install () {
-> +	install -d ${D}${bindir}
-> +	install -m 0755 ${S}/src/ukify/ukify.py ${D}${bindir}/ukify
-> +}
+>  meta/recipes-support/vte/vte_0.74.1.bb | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-support/vte/vte_0.74.1.bb b/meta/recipes-support/vte/vte_0.74.1.bb
+> index 8a7054a13cd..071f6684644 100644
+> --- a/meta/recipes-support/vte/vte_0.74.1.bb
+> +++ b/meta/recipes-support/vte/vte_0.74.1.bb
+> @@ -36,7 +36,16 @@ PACKAGECONFIG[gtk4] = "-Dgtk4=true,-Dgtk4=false,gtk4"
+>  PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
+>  PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
+>  
+> -PACKAGES =+ "libvte ${PN}-prompt"
+> +PACKAGES =+ "libvte-gtk4 ${PN}-gtk4 ${PN}-gtk4-dev libvte ${PN}-prompt"
+> +FILES:libvte-gtk4 = "${libdir}/lib*gtk4.so.* ${libdir}/girepository-1.0/Vte-3.91.typelib"
+> +FILES:${PN}-gtk4 ="${bindir}/vte-2.91-gtk4"
+> +FILES:${PN}-gtk4-dev = "${libdir}/lib*gtk4.so \
+> +                        ${libdir}/pkgconfig/vte-2.91-gtk4.pc \
+> +                        ${datadir}/gir-1.0/Vte-3.91.gir \
+> +                        ${datadir}/vala/vapi/vte-2.91-gtk4.deps \
+> +                        ${datadir}/vala/vapi/vte-2.91-gtk4.vapi \
+> +                        ${includedir}/vte-2.91-gtk4 \
+> +                        "
+>  FILES:${PN} +="${systemd_user_unitdir}"
+>  FILES:libvte = "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+>  FILES:${PN}-prompt = " \
 > -- 
-> 2.25.1
+> 2.43.0
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#191557): https://lists.openembedded.org/g/openembedded-core/message/191557
-> Mute This Topic: https://lists.openembedded.org/mt/102910738/7159507
+> View/Reply Online (#191330): https://lists.openembedded.org/g/openembedded-core/message/191330
+> Mute This Topic: https://lists.openembedded.org/mt/102841833/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 > 
 
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
