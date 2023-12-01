@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7FB0C46CC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 972B7C46CA0
 	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 13:14:57 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.22211.1701436493030763498
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.22335.1701436492995047964
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Dec 2023 05:14:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QSS3dObL;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UQ26r6XJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018c258488e7-fc7da198-104e-4d0a-a8d4-06020ebf37ce-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HNUOU0mG;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ThbQZxU1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018c258489d9-b9a5f130-352b-43ae-b366-302de5da6c6c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1701436492;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PmZ6R4Wc0swLclizX/T57s9u+RM1qksvV/4NLUh1UeI=;
-	b=QSS3dObL+LlfuD6wuAjOf5a4zWG/dMdtaERgXxFm8uOh65QR0yK1Rm4pOOTVzDEd
-	2WogNDNY+1MFieZ27QMqrxP8cWafMb3Zd1/bbJClQXD89iUtwCa1C4T3v5gMKS/Ae+c
-	gVaM5Nh8VtW8mk4Ll3r+mhkcAHvP9fgHrZm6up24=
+	bh=s3GhDUy+3YpzuDvZmqUv//TyRFhwdu1JszS60xQ4+Bo=;
+	b=HNUOU0mGAxp6TcGgaSqTMxSif3JwywyAPMDR+qMrWR7Mr5oaS9I26KInkU8hcR1u
+	7mjQiP3mr4wSUGJjCDXXyKC2MoNgPXqV8WdMoGv6DR1qQaM0Z8R6dLEQO0Oes9eY0Vt
+	hxsng3oHqTpoJoN3BFQMkQaiiqYpRth+C7WA2UTk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701436492;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PmZ6R4Wc0swLclizX/T57s9u+RM1qksvV/4NLUh1UeI=;
-	b=UQ26r6XJWiEOCKwvBUH7zchrQqPlNEYVogG3oz5TvphVDYTylUHAo55k7OVeuanP
-	FaHrTorOJnKTAi1XNQvkq92MflZGxAOimy3pXRCB4GudvD+ek7W7YzeC+yd8967gjV/
-	yeL42b098DKdG/d1jMwd0gf/6yTBiTXRLa2h2xRI=
-Content-Type: multipart/mixed; boundary="===============7764717583228310004=="
+	bh=s3GhDUy+3YpzuDvZmqUv//TyRFhwdu1JszS60xQ4+Bo=;
+	b=ThbQZxU1j5LfSeYCUolJyE727uKg82jtNMnwOIbc8XK0flyjql7HMdqtulVuUXEV
+	WJTHTE8vTKOq2HMa6inXStCKhSvNgsjBVBhm4PLfVQFz3NwKoIzEvYqYjeUbu0WmseN
+	sOKH6TmtgthZRdkGFcf3cebpY/rMaNWVdfSwjUD0=
+Content-Type: multipart/mixed; boundary="===============4921411127461823495=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-helloworld: upgrading to
- 1d6d2400d4027025cb8edc86a139c9c581d672f7 FAILED
-Message-ID: <0101018c258488e7-fc7da198-104e-4d0a-a8d4-06020ebf37ce-000000@us-west-2.amazonses.com>
+Subject: [AUH] xz: upgrading to 5.4.5 SUCCEEDED
+Message-ID: <0101018c258489d9-b9a5f130-352b-43ae-b366-302de5da6c6c-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Dec 2023 13:14:52 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.01-54.240.27.191
+X-SES-Outgoing: 2023.12.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 13:14:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191647
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191648
 
---===============7764717583228310004==
+--===============4921411127461823495==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,50 +51,185 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go-helloworld* to *1d6d2400d4027025cb8edc86a139c9c581d672f7* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *xz* to *5.4.5* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-xz-upgrade-5.4.4-5.4.5.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade go-helloworld -S 1d6d2400d4027025cb8edc86a139c9c581d672f7
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1844 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-addf01ab1c6fe65f73dfb22a4b0a3f37a8ad884d"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:addf01ab1c6fe65f73dfb22a4b0a3f37a8ad884d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 4 Local 4 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-ERROR: Execution of 'git checkout 1d6d2400d4027025cb8edc86a139c9c581d672f7' failed with exit code 128:
-fatal: reference is not a tree: 1d6d2400d4027025cb8edc86a139c9c581d672f7
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7764717583228310004==--
+
+-- >8 --
+From c6e2b8ba96e3c7bf0c00fe6c0dc4d206d9f6e256 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 1 Dec 2023 11:09:07 +0000
+Subject: [PATCH] xz: upgrade 5.4.4 -> 5.4.5
+
+---
+ meta/recipes-extended/xz/{xz_5.4.4.bb => xz_5.4.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/xz/{xz_5.4.4.bb => xz_5.4.5.bb} (95%)
+
+diff --git a/meta/recipes-extended/xz/xz_5.4.4.bb b/meta/recipes-extended/xz/xz_5.4.5.bb
+similarity index 95%
+rename from meta/recipes-extended/xz/xz_5.4.4.bb
+rename to meta/recipes-extended/xz/xz_5.4.5.bb
+index 90f4c3d82c..09eade8be0 100644
+--- a/meta/recipes-extended/xz/xz_5.4.4.bb
++++ b/meta/recipes-extended/xz/xz_5.4.5.bb
+@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c8ea84ebe7b93cce676b54355dc6b2c0 \
+                     "
+ 
+ SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "aae39544e254cfd27e942d35a048d592959bd7a79f9a624afb0498bb5613bdf8"
++SRC_URI[sha256sum] = "135c90b934aee8fbc0d467de87a05cb70d627da36abe518c357a873709e5b7d6"
+ UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ CACHED_CONFIGUREVARS += "gl_cv_posix_shell=/bin/sh"
+-- 
+2.39.2
+
+
+--===============4921411127461823495==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/xz: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz: SRC_URI changed from "https://tukaani.org/xz/xz-5.4.4.tar.gz" to "https://tukaani.org/xz/xz-5.4.5.tar.gz"
+packages/core2-64-poky-linux/xz: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/liblzma: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.4", added "/usr/lib/liblzma.so.5.4.5"
+packages/core2-64-poky-linux/xz/liblzma: PV changed from "5.4.4" to "5.4.5"
+Changes to packages/core2-64-poky-linux/xz (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.4 to liblzma.so.5.4.5
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.4 to liblzma.so.5.4.5
+  /usr/lib/liblzma.so.5.4.4 moved to /usr/lib/liblzma.so.5.4.5
+packages/core2-64-poky-linux/xz/xz-dbg: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-dbg: FILELIST: removed "/usr/lib/.debug/liblzma.so.5.4.4", added "/usr/lib/.debug/liblzma.so.5.4.5"
+packages/core2-64-poky-linux/xz/xz-dbg: PKGSIZE changed from 1048912 to 1047928 (-0%)
+packages/core2-64-poky-linux/xz/xz-dbg: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-dev: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-dev: PKGSIZE changed from 225642 to 225688 (+0%)
+packages/core2-64-poky-linux/xz/xz-dev: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-doc: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-doc: PKGSIZE changed from 1790015 to 1792415 (+0%)
+packages/core2-64-poky-linux/xz/xz-doc: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-ca: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-ca: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-cs: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-cs: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-da: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-da: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-de: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-de: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-eo: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-eo: PKGSIZE changed from 26104 to 26139 (+0%)
+packages/core2-64-poky-linux/xz/xz-locale-eo: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-es: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-es: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-fi: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-fi: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-fr: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-fr: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-hr: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-hr: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-hu: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-hu: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-it: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-it: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-ko: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-ko: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-pl: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-pl: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-pt-br: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-pt-br: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-pt: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-pt: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-ro: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-ro: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-sr: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-sr: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-sv: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-sv: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-tr: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-tr: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-uk: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-uk: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-vi: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-vi: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-zh-cn: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-locale-zh-tw: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-src: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-src: PKGSIZE changed from 1326020 to 1331834 (+0%)
+packages/core2-64-poky-linux/xz/xz-src: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz-staticdev: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz-staticdev: PV changed from "5.4.4" to "5.4.5"
+packages/core2-64-poky-linux/xz/xz: PKGV changed from 5.4.4 [default] to 5.4.5 [default]
+packages/core2-64-poky-linux/xz/xz: PV changed from "5.4.4" to "5.4.5"
+Changes to packages/x86_64-linux/xz-native (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.4 to liblzma.so.5.4.5
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.4 to liblzma.so.5.4.5
+  /usr/lib/liblzma.so.5.4.4 moved to /usr/lib/liblzma.so.5.4.5
+
+--===============4921411127461823495==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.4.4", added "/usr/lib/liblzma.so.5.4.5"
+Changes to packages/core2-64-poky-linux/xz (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.4 to liblzma.so.5.4.5
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.4 to liblzma.so.5.4.5
+  /usr/lib/liblzma.so.5.4.4 moved to /usr/lib/liblzma.so.5.4.5
+Changes to packages/x86_64-linux/xz-native (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.4.4 to liblzma.so.5.4.5
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.4.4 to liblzma.so.5.4.5
+  /usr/lib/liblzma.so.5.4.4 moved to /usr/lib/liblzma.so.5.4.5
+
+--===============4921411127461823495==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-xz-upgrade-5.4.4-5.4.5.patch"
+
+RnJvbSBjNmUyYjhiYTk2ZTNjN2JmMGMwMGZlNmMwZGM0ZDIwNmQ5ZjZlMjU2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBEZWMgMjAyMyAxMTowOTowNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHh6
+OiB1cGdyYWRlIDUuNC40IC0+IDUuNC41CgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC94ei97
+eHpfNS40LjQuYmIgPT4geHpfNS40LjUuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6
+L3t4el81LjQuNC5iYiA9PiB4el81LjQuNS5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQveHoveHpfNS40LjQuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHov
+eHpfNS40LjUuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL3h6L3h6XzUuNC40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
+eHoveHpfNS40LjUuYmIKaW5kZXggOTBmNGMzZDgyYy4uMDllYWRlOGJlMCAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuNC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1l
+eHRlbmRlZC94ei94el81LjQuNS5iYgpAQCAtMjUsNyArMjUsNyBAQCBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9DT1BZSU5HO21kNT1jOGVhODRlYmU3YjkzY2NlNjc2YjU0MzU1ZGM2YjJjMCBc
+CiAgICAgICAgICAgICAgICAgICAgICIKIAogU1JDX1VSSSA9ICJodHRwczovL3R1a2Fhbmkub3Jn
+L3h6L3h6LSR7UFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhYWUzOTU0NGUyNTRj
+ZmQyN2U5NDJkMzVhMDQ4ZDU5Mjk1OWJkN2E3OWY5YTYyNGFmYjA0OThiYjU2MTNiZGY4IgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjEzNWM5MGI5MzRhZWU4ZmJjMGQ0NjdkZTg3YTA1Y2I3MGQ2Mjdk
+YTM2YWJlNTE4YzM1N2E4NzM3MDllNWI3ZDYiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJ4ei0o
+P1A8cHZlcj5cZCsoXC5cZCspKylcLnRhciIKIAogQ0FDSEVEX0NPTkZJR1VSRVZBUlMgKz0gImds
+X2N2X3Bvc2l4X3NoZWxsPS9iaW4vc2giCi0tIAoyLjM5LjIKCg==
+
+--===============4921411127461823495==--
 
