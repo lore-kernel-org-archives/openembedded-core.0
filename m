@@ -1,91 +1,98 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11176C46CA3
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 15:19:50 +0000 (UTC)
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
- by mx.groups.io with SMTP id smtpd.web11.2055.1701443983424980301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D63C4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 15:25:40 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.2169.1701444339448699123
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 07:19:43 -0800
+ Fri, 01 Dec 2023 07:25:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nWRiL+HC;
- spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-1fae23895c9so334376fac.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 07:19:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701443982; x=1702048782; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S6LSJR1w/L5K+w63xVRz1k1jMb93K+gaNVSWnWBgDrE=;
-        b=nWRiL+HCXi0wdVcbi1s0rkWcgNXWhSmUQjHiA57pZSUNoeZO3G0ax+4vgCTQXsqbo1
-         +JLbRsP6eQpFW/2GSB5nI/ggZy/cvcGuj/opjkUxGrgy0s/l5cMoNWp3RqgdaeO0Cqb+
-         yC6y38S5yK8gqVjQtZNpHYzlHiHvZykrCfnbB50YQOi6Y//I78ay/OEVMJdS7PMa4wgF
-         kwVARLGacLTlesmbP/0RfSUGAvCqQzPS1USOJHklukZ+tlTlbu7DPDeas4zrbWxnJ0k5
-         R/HPncL143WymANRbHI7V7lLx8W8+2CACQtUbp4EM+HFImA+NJNqi/AjXet+buTCU7Z2
-         m0JA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701443982; x=1702048782;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S6LSJR1w/L5K+w63xVRz1k1jMb93K+gaNVSWnWBgDrE=;
-        b=rT34S00ByLy1mzOsiWPmvgJ4Med7illhAHqCpNvm4qVc8RIqg2tYc0xfQOK4G60aFC
-         7HP7KERhqhdqUckwtLUTzOz7nv/wx84hFfTaNHd4A8yMNp+OBrHganlZ2pWfdVcLw9sZ
-         AgFtt5+6i/9ASfFkbFM7vRATTA7/LM/n7FXgiDN9H0e7RDWjtN1KyNtkVEj3ueNWhDHB
-         eGnnTGCnU5LKTJqAeimTRmEIQ7nFP1B7R3Mf2aRtz6sbZv3UKP2SnVAccdDjVdZ+roPI
-         8SQUJGBXQYFG88fcqFFJ9JQZgkK2YTp/oTjk3I1npgDFqn3mR9FBWsiQW5K9eBf7gjuQ
-         7LrA==
-X-Gm-Message-State: AOJu0Yy8LrhNceJSecMGmlGhmiVaNMS9EnE93N0adsgzTwypqcwBL6nG
-	J9+lQyMKC2Mg/dACx0FtN1C7h4VJlG4=
-X-Google-Smtp-Source: AGHT+IGVb2qT42kDoWSckA4dzpusEZ9f8Va9CCusauk+Avx1BxF68qbCqUFQCiomaoDFljaZta/e9A==
-X-Received: by 2002:a05:6871:88c:b0:1fa:fcd5:9ba2 with SMTP id r12-20020a056871088c00b001fafcd59ba2mr751769oaq.35.1701443982104;
-        Fri, 01 Dec 2023 07:19:42 -0800 (PST)
-Received: from localhost.localdomain ([2601:282:4300:19e0::2176])
-        by smtp.gmail.com with ESMTPSA id pk28-20020a0568704c1c00b001fafc32e808sm95317oab.0.2023.12.01.07.19.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 07:19:41 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com,
-	richard.purdie@linuxfoundation.org,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes-global/insane: Skip sstate creation for do_image_qa
-Date: Fri,  1 Dec 2023 08:19:24 -0700
-Message-Id: <20231201151924.874316-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GscRcKxd;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=HE9EctF8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018c25fc4309-193d5f29-9314-4d21-af26-3d689cf9e0bc-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701444338; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=AwiVIUpu97uWnKhflC/iQ7MF2LmuuQt42+FwYES08ZY=;
+	b=GscRcKxdbJiXecKsYunPmPkZj8Ipib2IekiOJdb4q2+ewBCuGEB9jzh0mZO0XI9h
+	wsGZ75ycBVzGSLMvwLC2xmVo7ggX3cgrRqMhctkP6xuiLEkS5W5CXUw4cbZbtBtsoii
+	/LDw6MV9u1ah3JCkH0SOYtf0P7WUwxqFXDVlAbOs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701444338;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=AwiVIUpu97uWnKhflC/iQ7MF2LmuuQt42+FwYES08ZY=;
+	b=HE9EctF8nooC0Om5Y5OMVXtoYNP/BOlmatFC0XZ7ugnRg86rwvPRP2BL2ztayMkG
+	jMkmGHe0B7gbj09XI/01fnd5BvKb34vhJaQOsYHe+hRQ0bijurzTRJV5mswLK6OpP+z
+	iRxjFQCQJJ96gxtC2nVerJd9QiS+R2+5ibSHKoOk=
+From: patchtest@automation.yoctoproject.org
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH] openssh: shrinking to a new PACKAGECONFIG line to
+ set systemd readiness notification support
+In-Reply-To: 20231201140947.792594-1-xiangyu.chen@eng.windriver.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c25fc4309-193d5f29-9314-4d21-af26-3d689cf9e0bc-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Dec 2023 15:25:38 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 15:19:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191671
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 15:25:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191672
 
-do_image_qa doens't produce any actual sstate output, so it should skip
-the sstate creation (similar to do_image_qa)
+--NextPart
+Content-Type: text/plain
 
-[YOCTO #15289]
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes-global/insane.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Testing patch /home/patchtest/share/mboxes/openssh-shrinking-to-a-new-PACKAGECONFIG-line-to-set-systemd-readiness-notification-support.patch
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index b78bb6f445d..5ce4216f3e0 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -1556,6 +1556,7 @@ python do_recipe_qa() {
- addtask do_recipe_qa before do_fetch do_package_qa do_build
- 
- SSTATETASKS += "do_recipe_qa"
-+SSTATE_SKIP_CREATION:task-recipe-qa = '1'
- do_recipe_qa[sstate-inputdirs] = ""
- do_recipe_qa[sstate-outputdirs] = ""
- python do_recipe_qa_setscene () {
--- 
-2.34.1
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 100 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
