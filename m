@@ -1,164 +1,110 @@
-Return-Path: <patrick@stwcx.xyz>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDF4C4167B
-	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 18:22:39 +0000 (UTC)
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
- by mx.groups.io with SMTP id smtpd.web11.153.1701454956702591246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41184C4167B
+	for <webhook@archiver.kernel.org>; Fri,  1 Dec 2023 18:34:09 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.422.1701455642786062546
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Dec 2023 10:22:36 -0800
+ Fri, 01 Dec 2023 10:34:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stwcx.xyz header.s=fm3 header.b=kaVIXsIM;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=BBFZVy0b;
- spf=pass (domain: stwcx.xyz, ip: 66.111.4.27, mailfrom: patrick@stwcx.xyz)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 0B3285C00DB;
-	Fri,  1 Dec 2023 13:22:36 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 01 Dec 2023 13:22:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1701454956; x=1701541356; bh=8N5feLAZDM
-	hVgNh4l76YNQek5CoHOBouR4+tVc9gp3c=; b=kaVIXsIMIU/HVqPoZzu6/lk/61
-	D3Dw9FWFFMXWIFGO7dNO4y6Kbwnxobs+MCRQ0Tnj9jUlWgX89760pRUpkCaGZHF8
-	O3/guSdrzlbdZNXsAFWoC//axz82q5rLUn6MEOVLx0Et7o0bI4CLgYU8ar43as0t
-	EQ0U2DF44Njh+lCAQORsLkSesyY8DrmDmEfbsc4CL7c4Nsz9SjdNuJlZTMyxfGiC
-	cmWgMtWsBvo7OX2mXvT1MNPaFEQUC4DXGJUxwcOEa2SQUaeaJRNbG9THB3BEz/aF
-	ysLCEdQXvd86Ne5qMEWEJXn+/QLPW8Fy+I5CzS01HBZYZ4jthOV4BrDqllNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1701454956; x=1701541356; bh=8N5feLAZDMhVg
-	Nh4l76YNQek5CoHOBouR4+tVc9gp3c=; b=BBFZVy0bLeLN91pzoVgP+J6W2ErFV
-	xDC+yat/iWnE01R313h/spg8aXKKlb/kl2gaXJcWFIUOqFkzH8nqvNqaUIqZMrj4
-	K2x/yCEzL70REGcaOB1uBs6RfJZsJM93rxiAyHozk1gkeo6ibryY60NGLaYdv2Lj
-	Vyr8J2U3eOQ7wO1d99UVWD0w4QaP+tiAULWMxPvm3CqEFvML1EfgcqGQDGB8E6EL
-	tDeEwzCE4KZnN5am91Ttw3FL2dWZMytrVMf67u54PGAm0M1H9HBHLzAxV0hh9HV+
-	ZdHJqlnjZoaMiy9DzcyjvWvj+k4411QiSyOLWPy+vheRzOtoKs06kBxMA==
-X-ME-Sender: <xms:ayRqZSrhS2B-lrO6O4KbRrDyD4mAWKuQPZcQ5_nWXS1d1o8nHwdvIA>
-    <xme:ayRqZQq3SHNaPp39FolCMYJfdOtqt_a3P3RMPI8GZXJnfXKc_js59jLe2g4SDeMpC
-    _4be6dnbQziQjq2GNw>
-X-ME-Received: <xmr:ayRqZXNDAcu0WnIQRQOlD1y91O9YmBMMR5aQX3gWKKpT0op1YZ48Zodi_FFj3zq2zgHSe3jwV-FMSoP7vWtmL_Hice9TJg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudeiledgudduvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecufghrlhcuvffnffculdejtddmnecujfgurhephf
-    fvvefufffkofgggfestdekredtredttdenucfhrhhomheprfgrthhrihgtkhcuhghilhhl
-    ihgrmhhsuceophgrthhrihgtkhesshhtfigtgidrgiihiieqnecuggftrfgrthhtvghrnh
-    eptddvgfefjeevgeelgffglefhkedvgfegfeekffeihfettdfftdelveefiedvleffnecu
-    ffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepphgrthhrihgtkhesshhtfigtgidrgiih
-    ii
-X-ME-Proxy: <xmx:ayRqZR52Cr9Oex8KWNTz8uiTX1HF62_v-gkNp3nz8_IF8sbPIs20iw>
-    <xmx:ayRqZR4Df-FGqqm9_nWS82Zv55GT4ds1q6md8YjG7xuxTh1KrkBGWg>
-    <xmx:ayRqZRjkb4R7IhkVp8ujBPqR17hTwF0WOKUL5jJDWizGdRYj9ygyJw>
-    <xmx:bCRqZeg7-kiN7QUDe6X4Re82UDB9ZVmHr2asz1rrC468-VVs4kgbGQ>
-Feedback-ID: i68a1478a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Dec 2023 13:22:35 -0500 (EST)
-From: Patrick Williams <patrick@stwcx.xyz>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=juYFVQAj;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6cdd405ca77so2411918b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 10:34:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701455642; x=1702060442; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vZKieG5nRBjqtgSF5qSWlNZhynaQkVr51NbwFHbaHdE=;
+        b=juYFVQAjw3U/YZMz+tnUBwSn7hHrhHfW9VPsFa+ssA9a55o+gsUGzXizNT1zG9/nE1
+         HVidCSpS0YktBBrx+A7zKIG6+uQxvMx+oIIp/W6Bu5YwEnR9JJztit7fL5F+J0D0N2Qs
+         QtnSynSoVw1zgkvLA3laSMwaatVzbQnW4YF7oNJZpx6ufwEL0KAORkIBEQTcarzUGub5
+         d3WsbgaavCAWLwLkksjLbajw/E1ytDFI4pqTrlu8bIgp1LNgYtVD6wbPn0OXXw6+JQPX
+         P6fd/LD90RJIHd66AY+XEM7IDKgNB9zLaPOcvNZV04vvilt2vJfJstpd3a0D60KuN0ZE
+         WshA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701455642; x=1702060442;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vZKieG5nRBjqtgSF5qSWlNZhynaQkVr51NbwFHbaHdE=;
+        b=Ntdgw8z1/kkISnuwvoUH1WrVM8zPaM0m5F2aujushfFGxJSXZ5MviGl6pmLYjBgiqD
+         L/y4ixq5QU8XdfLmigk2h0XLEvxJnifTwBn+qK4zdASA6oQ5tUnQX2Rom/aGImMdIUUN
+         SmtP+wgFp3E04qEdP5JkoMyAi4K8o7mM+k5dQLR9b3AN33QKuxi2fVD1cuZ63Plv/iuD
+         9hRQuJx24Lk+wosJO1m6OtalOL5JjEC3jt/+QHMDkRIB5iRSW7aCN9Z/4v0E1ClvJnNe
+         QFJHjpXWMHm5tFUHfNgFS0HSKqYOT4kMnxk11d/bz6okAJWpXhFwkuilK0dKCjMhyVqq
+         qDyA==
+X-Gm-Message-State: AOJu0YwJwV9JWkRo+23f+DvTuT1kKJkjP/yeX+JClJGQHxKuGmq6UBvF
+	jSeiTcSQTZCgSNe1KzxzIdY5MrdwJ3U=
+X-Google-Smtp-Source: AGHT+IGUAabClU1AY35VE9nt1dMEBScGsuw92zqmfJQ8ULXzzpB1byZTMdEfMPtY7FK0lRlXju8zYQ==
+X-Received: by 2002:a05:6a20:158b:b0:18d:b43:78e8 with SMTP id h11-20020a056a20158b00b0018d0b4378e8mr10572280pzj.32.1701455641816;
+        Fri, 01 Dec 2023 10:34:01 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::2c3f])
+        by smtp.gmail.com with ESMTPSA id g24-20020a056a00079800b006cde7dd80cbsm3297126pfu.191.2023.12.01.10.34.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 10:34:01 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Patrick Williams <patrick@stwcx.xyz>
-Subject: [PATCH v2] shared-mime-info-native: handle old GCC for AlmaLinux8
-Date: Fri,  1 Dec 2023 12:22:34 -0600
-Message-ID: <20231201182234.3347749-1-patrick@stwcx.xyz>
-X-Mailer: git-send-email 2.41.0
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [PATCH v12 2/6] vte: Upgrade to 0.74.1
+Date: Fri,  1 Dec 2023 10:33:50 -0800
+Message-ID: <20231201183356.311137-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231201183356.311137-1-raj.khem@gmail.com>
+References: <20231201183356.311137-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 18:22:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191676
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Dec 2023 18:34:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191678
 
-shared-mime-info-native fails to build on AlmaLinux 8 due to its use of
-GCC-8 and the upstream package missing a required `-lstdc++fs` on that
-compiler.  Submitted a patch upstream which fixes this and am porting.
+* Inherit systemd class
+* Add packageconfig for fribidi support
 
-Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
+(From OE-Core rev: 29c91d1572cddc861bc2caf725aeedc4276e6d0b)
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- ...dle-build-with-older-versions-of-GCC.patch | 53 +++++++++++++++++++
- .../shared-mime-info/shared-mime-info_2.4.bb  |  3 +-
- 2 files changed, 55 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/shared-mime-info/shared-mime-info/0002-Handle-build-with-older-versions-of-GCC.patch
+ meta/recipes-support/vte/{vte_0.74.0.bb => vte_0.74.1.bb} | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.74.0.bb => vte_0.74.1.bb} (89%)
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info/0002-Handle-build-with-older-versions-of-GCC.patch b/meta/recipes-support/shared-mime-info/shared-mime-info/0002-Handle-build-with-older-versions-of-GCC.patch
-new file mode 100644
-index 0000000000..919e12b144
---- /dev/null
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info/0002-Handle-build-with-older-versions-of-GCC.patch
-@@ -0,0 +1,53 @@
-+From 461d00fcd5c5842b9a56f7462d55d46bf21163cc Mon Sep 17 00:00:00 2001
-+From: Patrick Williams <patrick@stwcx.xyz>
-+Date: Fri, 1 Dec 2023 11:19:02 -0600
-+Subject: [PATCH] Handle build with older versions of GCC
-+
-+Older versions of GCC (prior to 9.1) did not put the `std::filesystem`
-+support directly into libstdcpp, but in a separate `libstdc++fs`.  Add
-+meson logic to detect if an extra linker flag is necessary.
-+
-+Fixes #223.
-+
-+Tested on AlmaLinux 8 which uses GCC-8.
-+
-+Signed-off-by: Patrick Williams <patrick@stwcx.xyz>
-+---
-+ meson.build | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
-+
-+diff --git a/meson.build b/meson.build
-+index ecc012f..93acd40 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -11,6 +11,7 @@ config = configuration_data()
-+ i18n = import('i18n')
-+ 
-+ cc = meson.get_compiler('c')
-++cxx = meson.get_compiler('cpp')
-+ 
-+ ###############################################################################
-+ # Project configuration
-+@@ -46,6 +47,19 @@ if not xdgmime_found
-+     ''')
-+ endif
-+ 
-++###############################################################################
-++# Check if GCC needs -lstdc++fs (before 9.1)
-++
-++if not cxx.links('''
-++        #include <filesystem>
-++        int main() {
-++            return std::filesystem::is_directory(
-++                std::filesystem::status("/tmp")) ? 0 : 1;
-++        }
-++        ''', name: 'std++fs-check')
-++    add_project_link_arguments('-lstdc++fs', language : 'cpp')
-++endif
-++
-+ ###############################################################################
-+ # Dependencies
-+ 
-+-- 
-+2.41.0
-+
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb
-index c7da0ca2d2..ef5df44ad6 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb
-@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- DEPENDS = "libxml2 itstool-native glib-2.0 shared-mime-info-native xmlto-native"
+diff --git a/meta/recipes-support/vte/vte_0.74.0.bb b/meta/recipes-support/vte/vte_0.74.1.bb
+similarity index 89%
+rename from meta/recipes-support/vte/vte_0.74.0.bb
+rename to meta/recipes-support/vte/vte_0.74.1.bb
+index 21203adcf79..8a7054a13cd 100644
+--- a/meta/recipes-support/vte/vte_0.74.0.bb
++++ b/meta/recipes-support/vte/vte_0.74.1.bb
+@@ -16,10 +16,10 @@ DEPENDS = "glib-2.0 glib-2.0-native gtk+3 libpcre2 libxml2-native gperf-native i
+ GIR_MESON_OPTION = 'gir'
+ GIDOCGEN_MESON_OPTION = "docs"
  
- SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https;branch=master \
--           file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch"
-+           file://0001-Fix-build-with-libxml2-2.12.0-and-clang-17.patch \
-+           file://0002-Handle-build-with-older-versions-of-GCC.patch"
- SRCREV = "9a6d6b8e963935f145f3a1ef446552de6996dada"
+-inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection vala
++inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-introspection systemd vala
  
- S = "${WORKDIR}/git"
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+-SRC_URI[archive.sha256sum] = "9ae08f777952ba793221152d360550451580f42d3b570e3341ebb6841984c76b"
++SRC_URI[archive.sha256sum] = "2328c3f1c998350a18e0e513348e9fc581d57ea4e7b89aedf11e0e3c65042b4f"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+@@ -31,6 +31,7 @@ PACKAGECONFIG ??= " \
+ 	${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
+ 	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gtk4', '', d)} \
+ "
++PACKAGECONFIG[fribidi] = "-Dfribidi=true,-Dfribidi=false,fribidi"
+ PACKAGECONFIG[gtk4] = "-Dgtk4=true,-Dgtk4=false,gtk4"
+ PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
+ PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
 -- 
-2.41.0
+2.43.0
 
 
