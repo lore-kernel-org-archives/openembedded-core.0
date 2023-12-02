@@ -2,34 +2,34 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DF95C4167B
-	for <webhook@archiver.kernel.org>; Sat,  2 Dec 2023 15:10:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B166C4167B
+	for <webhook@archiver.kernel.org>; Sat,  2 Dec 2023 15:13:17 +0000 (UTC)
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.19594.1701529806590180728
+ by mx.groups.io with SMTP id smtpd.web11.19483.1701529993431026406
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Dec 2023 07:10:07 -0800
+ Sat, 02 Dec 2023 07:13:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nAbhYWNt;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=NfS6bHoB;
  spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C5DC61C0006;
-	Sat,  2 Dec 2023 15:10:03 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5BA311C0003;
+	Sat,  2 Dec 2023 15:13:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701529804;
+	t=1701529991;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PDgfV62ZkcZxJrdeM2VDT40SvCNgXOj215dzhKHkObU=;
-	b=nAbhYWNtVi9LsUvqLvxWYqLHTjZxTG/u3VKxQWjrj4A0YawwkK3GAwWsSTLDJAGONMmf/W
-	nfIVuziQVX4YO6wTFwfXUjlwUG1t4GRZ7FUodY1n4ARyUQdmJotbA3Rda0UZ+w4nWyC9F/
-	khS7UDJo/0n3jHdc3nIFE1aAWEELITFQR/U5sg1T87OLrhxW/brylVx+JEKR7t4efISQvh
-	ndL5m5iPVCpciigdrWHSljSZ8lyt9MetdXrxM9Zvc4G+/HjeO4W7I6CAXtGq8BTxPvMGOG
-	YJxm8e+CwqA34vT9Nm0WYVpkhgTlwh3/SAbFNGBzUpd82xNfvhhz1nSM0Inj7Q==
-Date: Sat, 2 Dec 2023 16:10:03 +0100
+	bh=vF38Gei1lnU+TeXxFfprMzYlXdtJnqASPR+p9p/1IkU=;
+	b=NfS6bHoBkr03Ci+w/K4i3E+NmCcMbJZsREnMGl7few2JOnxxPG42H/f75+qyUgGnJjjPa9
+	BrdRziT8wURXMs52cjrCh+LHmBgkz0wQcLsgm8b8pM5Fwy5jS2GsEVO5hgKoJDQKoN+K0k
+	hxfvTRrDoQcNbZKEESsuqS2MD1GspGueuRqdKzc0iIWgttEGMkhbHOX0JE0Wyh6CI8lmIO
+	Ul5pPW7U5kVQpe+Qp+tLlRP3GuFRH/XzsEypFHc5VkOQEa9HYUx3BOM89iC7qLIXhIk1DL
+	kEhXbsamH3hp27tElH8XOcO4uwevuOuHxDoijF2o63Y6kYQIuPDaUlJH0OoyPA==
+Date: Sat, 2 Dec 2023 16:13:11 +0100
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 To: johannes.pointner@br-automation.com
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [OE-core] [PATCH] ldconfig-native: Add usrmerge support
-Message-ID: <202312021510037e9eb087@mail.local>
+Message-ID: <20231202151311e74fca40@mail.local>
 References: <20231201105359.409068-1-johannes.pointner@br-automation.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -39,12 +39,8 @@ X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Dec 2023 15:10:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191701
-
-Hello,
-
-Please follow https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.html#fixing-your-from-identity
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Dec 2023 15:13:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191702
 
 On 01/12/2023 11:53:59+0100, Johannes Pointner via lists.openembedded.org wrote:
 > If DISTRO_FEATURE usrmerge is enabled, SLIBDIR is just a symlink to LIBDIR,
@@ -72,6 +68,10 @@ On 01/12/2023 11:53:59+0100, Johannes Pointner via lists.openembedded.org wrote:
 > +is enabled, and if so, ignore it.
 > +
 > +Upstream-Status: Inappropriate [embedded specific]
+
+I'm not sure how this is embedded specific, why doesn't it affect desktop
+distribution that have usrmerge (e.g. Fedora) ?
+
 > +
 > +Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
 > +---
