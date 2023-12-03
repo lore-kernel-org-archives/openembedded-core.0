@@ -2,558 +2,116 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6660AC4167B
-	for <webhook@archiver.kernel.org>; Sun,  3 Dec 2023 16:20:45 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.42495.1701620442317528208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68C0FC4167B
+	for <webhook@archiver.kernel.org>; Sun,  3 Dec 2023 16:25:15 +0000 (UTC)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web10.42595.1701620706179107001
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Dec 2023 08:20:42 -0800
+ Sun, 03 Dec 2023 08:25:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=E7NF4AJd;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5c66bbb3d77so146953a12.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 Dec 2023 08:20:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HcktHa4H;
+ spf=pass (domain: gmail.com, ip: 209.85.210.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6d81faeefc4so1891093a34.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 Dec 2023 08:25:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701620441; x=1702225241; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=avJynhqHUD3tbf7wmOuWs47pfv8Ot5eIySv6RTpGgao=;
-        b=E7NF4AJd/TlTYhw03eFSYeQql9mnqhofFmtZS5HPTHwp2J7JEO4VARxfNBWzpdupHh
-         LWitNjZcgNRWWx/PBezANzq0v58CQd7UOH/dg9Z4dlbspBTwwpWEU2ONzohnpvrP+sfr
-         yy0tk/Cdsq7U7U7TyQv4jlGJXD6Sd7WV7bHunWRJ0ho3WJvP2nb6DWiQJ+zYBW5+1xo8
-         /o5F3tzuQp2CqNcrvjAMFdbqf9r9BVxEj4Gq7iYPGEg7iwXMj3+VdrCITTG7cUMxdCVr
-         v+5R1i3OtwLYT7NWdZiVl2Ig4+m0wJOxsRminQ2RszWUti5/+12x7w5KYcvNAnzimtkn
-         nKDw==
+        d=gmail.com; s=20230601; t=1701620705; x=1702225505; darn=lists.openembedded.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FDpxHVomDy0eKnWjfJscSgeNL+5bT/qqJMmLRdg1Bmg=;
+        b=HcktHa4HTQOHNKuT+6WA6FayVMiog9Cme4aBs8Qk6d4r7LZBe8tHZA1CsK6y3I1XJQ
+         JO7USQK83/kI4BlSFcDBcWI8vXv45LRaXzwF8qSpC54XFpoKpMWxPA42PKqQP5zWB+wc
+         rEtpAeHoGFLE2x6P0Dup/tnpAR8hUTSGDjqzGA5idL1bs8AX/RRpLGko4Qj0pSL7lZDG
+         aHJc7Iii1hz1eGaiZG3biPq9YEeecl0rxh1Bc3RZeLMooPQZd/TGz4y4rPPEPWbAVrUi
+         bjpHyiRt86DkAiKS0TUxS41f99hdwLURVhDrJRaXvXPY2Ztvf66IEJ/0a53+MscAUZyA
+         FrOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701620441; x=1702225241;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=avJynhqHUD3tbf7wmOuWs47pfv8Ot5eIySv6RTpGgao=;
-        b=mJBeTe0757PWcjONDxvqOgxL9puxNQvS2vyQc/tdC87jThkXxhnOuj1+wMHDf7DhEx
-         QnicXI4dvBnXKsaH0gwhc3cR+6rk5Q1rniyKas0nG3nFxRAPa8W0S71LuqLJdeI8ynrc
-         hm1tH6be4TK6ivfhLx9ojA6RoN5seSENmVSumdr1gMs5qKYJ2kkTkeTeUTGCeHDpM79C
-         55oFn8kXLDy9bhexbHAgaH9JlOFAEnr20hYFQlCeV8OPTXlg3ydF9bNT0jrgt/1rEs0d
-         jUdos/QNb9crqCmPl1VITwX/2IirGUFr2p2zS7U/zGov1M4f1armB7xD6ns3LzysFcHS
-         dwRg==
-X-Gm-Message-State: AOJu0YxjxBmlHxIGNHlATsN0o57JpDoj9mkeGSwVoKqOYmjkLFXFSPbS
-	gjC8p+MxaHAZUjSN090O64BRW6rpQnA=
-X-Google-Smtp-Source: AGHT+IFS8VNe4AmM2hgeaWtvkpBEqeXNBDYDeXZ45Pdr99UoVTNrFywfpJqmB3SKpVFcZFdHqPO6Dg==
-X-Received: by 2002:a17:90b:1c02:b0:286:793e:cc68 with SMTP id oc2-20020a17090b1c0200b00286793ecc68mr598792pjb.22.1701620441104;
-        Sun, 03 Dec 2023 08:20:41 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:2cb0::2c3f])
-        by smtp.gmail.com with ESMTPSA id m16-20020a17090ab79000b00285150e5ee1sm5731558pjr.56.2023.12.03.08.20.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Dec 2023 08:20:40 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] tiff: Backport fixes for CVE-2023-6277
-Date: Sun,  3 Dec 2023 08:20:37 -0800
-Message-ID: <20231203162038.3434707-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1701620705; x=1702225505;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FDpxHVomDy0eKnWjfJscSgeNL+5bT/qqJMmLRdg1Bmg=;
+        b=HN+JQezh/5k4os4htQ0XRkgii7uz6AIStE2lQaCT3kSJMOBxM4chTXgZK02aYjd1q1
+         YDHQuH6M3z2VIlh8eGN6hNnFidRN7y70XkIe6VUUOeUuY2tYGHa0RGAhNeME9qGtT/Ty
+         xvacvBXMhBtUi/cNPyWMeAzR6vB66avEkpY+BMP26POxwGjANGcajKtSWdYy5JIfvBFd
+         Gw0XCBRBXKUTiZj//ynF9b6B7A4Pg5BBSP6GVO2dFG0QxigKNeO3ydRkrLKgE+C2DB43
+         YVhOh4ChMYXwp98zyJunCPDXT4JYrVUUCPsMBMhIoZOHTg9LmhwBK9DyHW6k5H7DkkrR
+         QUXw==
+X-Gm-Message-State: AOJu0YzbOd2huZnSz+NNE8VQ/d0aN30S1GnT3aRECyqZgGA1HcEcgdNJ
+	mCo/49Rejif3gvqifpaQ1JtaHIHlOffgk9JyWJ2Ve84DqjI=
+X-Google-Smtp-Source: AGHT+IFctfk9i21w9bXDRVHMTTrXJK69UQG/lsM9xvTz9DRoZMoM0UiKNRTjWfVzt+wE/OwAhh/kqGMNJWcHn3Ot6u8=
+X-Received: by 2002:a05:6870:171e:b0:1fb:75a:6d1b with SMTP id
+ h30-20020a056870171e00b001fb075a6d1bmr3528242oae.66.1701620705075; Sun, 03
+ Dec 2023 08:25:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231202065754.3646660-1-raj.khem@gmail.com>
+In-Reply-To: <20231202065754.3646660-1-raj.khem@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 3 Dec 2023 08:24:38 -0800
+Message-ID: <CAMKF1sp5MaNo=VshZA3A-Gdmkbu0rEfK3_u4PSshy1-jLKWYNQ@mail.gmail.com>
+Subject: Re: [PATCH] musl: Update to latest tip of trunk
+To: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Dec 2023 16:20:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191716
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Dec 2023 16:25:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191717
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../recipes-multimedia/libtiff/tiff/545.patch | 216 ++++++++++++++++++
- ...277-Apply-1-suggestion-s-to-1-file-s.patch |  27 +++
- ...ompare-data-size-of-some-tags-data-2.patch |  36 +++
- ...-compare-data-size-of-some-tags-data.patch | 162 +++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |   3 +
- 5 files changed, 444 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/545.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch
+There are two issues with this
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/545.patch b/meta/recipes-multimedia/libtiff/tiff/545.patch
-new file mode 100644
-index 00000000000..d5d56cdf789
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/545.patch
-@@ -0,0 +1,216 @@
-+From d6bbe53a96b031ab8b53d20241825ddf9e8bf8f1 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 27 Oct 2023 22:11:10 +0200
-+Subject: [PATCH 1/3] At image reading, compare data size of some tags / data
-+ structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) with
-+ file size to prevent provoked out-of-memory attacks.
-+
-+See issue #614.
-+---
-+ libtiff/tif_dirread.c | 90 +++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 90 insertions(+)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index 2c49dc6a..c52d41f0 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -1308,6 +1308,21 @@ TIFFReadDirEntryArrayWithLimit(TIFF *tif, TIFFDirEntry *direntry,
-+     datasize = (*count) * typesize;
-+     assert((tmsize_t)datasize > 0);
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of requested memory is not greater than file size.
-++     */
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    if (datasize > filesize)
-++    {
-++        TIFFWarningExtR(tif, "ReadDirEntryArray",
-++                        "Requested memory size for tag %d (0x%x) %" PRIu32
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated, tag not read",
-++                        direntry->tdir_tag, direntry->tdir_tag, datasize,
-++                        filesize);
-++        return (TIFFReadDirEntryErrAlloc);
-++    }
-++
-+     if (isMapped(tif) && datasize > (uint64_t)tif->tif_size)
-+         return TIFFReadDirEntryErrIo;
-+ 
-+@@ -5266,6 +5281,20 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     if (!_TIFFFillStrilesInternal(tif, 0))
-+         return -1;
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of requested memory is not greater than file size. */
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    uint64_t allocsize = (uint64_t)td->td_nstrips * sizeof(uint64_t);
-++    if (allocsize > filesize)
-++    {
-++        TIFFWarningExtR(tif, module,
-++                        "Requested memory size for StripByteCounts of %" PRIu64
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated",
-++                        allocsize, filesize);
-++        return -1;
-++    }
-++
-+     if (td->td_stripbytecount_p)
-+         _TIFFfreeExt(tif, td->td_stripbytecount_p);
-+     td->td_stripbytecount_p = (uint64_t *)_TIFFCheckMalloc(
-+@@ -5807,6 +5836,20 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+             dircount16 = (uint16_t)dircount64;
-+             dirsize = 20;
-+         }
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)dircount16 * dirsize;
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(
-++                tif, module,
-++                "Requested memory size for TIFF directory of %" PRIu64
-++                " is greather than filesize %" PRIu64
-++                ". Memory not allocated, TIFF directory not read",
-++                allocsize, filesize);
-++            return 0;
-++        }
-+         origdir = _TIFFCheckMalloc(tif, dircount16, dirsize,
-+                                    "to read TIFF directory");
-+         if (origdir == NULL)
-+@@ -5921,6 +5964,20 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+                           "directories not supported");
-+             return 0;
-+         }
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)dircount16 * dirsize;
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(
-++                tif, module,
-++                "Requested memory size for TIFF directory of %" PRIu64
-++                " is greather than filesize %" PRIu64
-++                ". Memory not allocated, TIFF directory not read",
-++                allocsize, filesize);
-++            return 0;
-++        }
-+         origdir = _TIFFCheckMalloc(tif, dircount16, dirsize,
-+                                    "to read TIFF directory");
-+         if (origdir == NULL)
-+@@ -5968,6 +6025,8 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+             }
-+         }
-+     }
-++    /* No check against filesize needed here because "dir" should have same size
-++     * than "origdir" checked above. */
-+     dir = (TIFFDirEntry *)_TIFFCheckMalloc(
-+         tif, dircount16, sizeof(TIFFDirEntry), "to read TIFF directory");
-+     if (dir == 0)
-+@@ -7164,6 +7223,20 @@ static int TIFFFetchStripThing(TIFF *tif, TIFFDirEntry *dir, uint32_t nstrips,
-+             return (0);
-+         }
-+ 
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t);
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(tif, module,
-++                            "Requested memory size for StripArray of %" PRIu64
-++                            " is greather than filesize %" PRIu64
-++                            ". Memory not allocated",
-++                            allocsize, filesize);
-++            _TIFFfreeExt(tif, data);
-++            return (0);
-++        }
-+         resizeddata = (uint64_t *)_TIFFCheckMalloc(
-+             tif, nstrips, sizeof(uint64_t), "for strip array");
-+         if (resizeddata == 0)
-+@@ -7263,6 +7336,23 @@ static void allocChoppedUpStripArrays(TIFF *tif, uint32_t nstrips,
-+     }
-+     bytecount = last_offset + last_bytecount - offset;
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of StripByteCount and StripOffset tags is not greater than
-++     * file size.
-++     */
-++    uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t) * 2;
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    if (allocsize > filesize)
-++    {
-++        TIFFWarningExtR(tif, "allocChoppedUpStripArrays",
-++                        "Requested memory size for StripByteCount and "
-++                        "StripOffsets %" PRIu64
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated",
-++                        allocsize, filesize);
-++        return;
-++    }
-++
-+     newcounts =
-+         (uint64_t *)_TIFFCheckMalloc(tif, nstrips, sizeof(uint64_t),
-+                                      "for chopped \"StripByteCounts\" array");
-+-- 
-+GitLab
-+
-+
-+From 264a28eff71cf0038ba7b235238512fa594fa42f Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Mon, 30 Oct 2023 21:21:57 +0100
-+Subject: [PATCH 2/3] At image reading, compare data size of some tags / data
-+ structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) with
-+ file size to prevent provoked out-of-memory attacks.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+See issue #614.
-+
-+Correct declaration of ‘filesize’ shadows a previous local.
-+---
-+ libtiff/tif_dirread.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index c52d41f0..fe8d6f80 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -5305,7 +5305,6 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     if (td->td_compression != COMPRESSION_NONE)
-+     {
-+         uint64_t space;
-+-        uint64_t filesize;
-+         uint16_t n;
-+         filesize = TIFFGetFileSize(tif);
-+         if (!(tif->tif_flags & TIFF_BIGTIFF))
-+-- 
-+GitLab
-+
-+
-+From abb4476fd2be87fc8ded3078e019f22f84ee0e8c Mon Sep 17 00:00:00 2001
-+From: Even Rouault <even.rouault@spatialys.com>
-+Date: Tue, 31 Oct 2023 15:04:37 +0000
-+Subject: [PATCH 3/3] Apply 1 suggestion(s) to 1 file(s)
-+
-+---
-+ libtiff/tif_dirread.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index fe8d6f80..58a42760 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -5306,7 +5306,6 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     {
-+         uint64_t space;
-+         uint16_t n;
-+-        filesize = TIFFGetFileSize(tif);
-+         if (!(tif->tif_flags & TIFF_BIGTIFF))
-+             space = sizeof(TIFFHeaderClassic) + 2 + dircount * 12 + 4;
-+         else
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch
-new file mode 100644
-index 00000000000..5d15dff1d9b
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch
-@@ -0,0 +1,27 @@
-+From e1640519208121f916da1772a5efb6ca28971b86 Mon Sep 17 00:00:00 2001
-+From: Even Rouault <even.rouault@spatialys.com>
-+Date: Tue, 31 Oct 2023 15:04:37 +0000
-+Subject: [PATCH 3/3] Apply 1 suggestion(s) to 1 file(s)
-+
-+CVE: CVE-2023-6277
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_requests/545]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libtiff/tif_dirread.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index fe8d6f8..58a4276 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -5306,7 +5306,6 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     {
-+         uint64_t space;
-+         uint16_t n;
-+-        filesize = TIFFGetFileSize(tif);
-+         if (!(tif->tif_flags & TIFF_BIGTIFF))
-+             space = sizeof(TIFFHeaderClassic) + 2 + dircount * 12 + 4;
-+         else
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch
-new file mode 100644
-index 00000000000..9fc8182fef3
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch
-@@ -0,0 +1,36 @@
-+From f500facf7723f1cae725dd288b2daad15e45131c Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Mon, 30 Oct 2023 21:21:57 +0100
-+Subject: [PATCH 2/3] At image reading, compare data size of some tags / data
-+ structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) with
-+ file size to prevent provoked out-of-memory attacks.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+See issue #614.
-+
-+Correct declaration of ‘filesize’ shadows a previous local.
-+
-+CVE: CVE-2023-6277
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_requests/545]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libtiff/tif_dirread.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index c52d41f..fe8d6f8 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -5305,7 +5305,6 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     if (td->td_compression != COMPRESSION_NONE)
-+     {
-+         uint64_t space;
-+-        uint64_t filesize;
-+         uint16_t n;
-+         filesize = TIFFGetFileSize(tif);
-+         if (!(tif->tif_flags & TIFF_BIGTIFF))
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch
-new file mode 100644
-index 00000000000..d5854a9059b
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch
-@@ -0,0 +1,162 @@
-+From b33baa5d9c6aac8ce49b5180dd48e39697ab7a11 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 27 Oct 2023 22:11:10 +0200
-+Subject: [PATCH 1/3] At image reading, compare data size of some tags / data
-+ structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) with
-+ file size to prevent provoked out-of-memory attacks.
-+
-+See issue #614.
-+
-+CVE: CVE-2023-6277
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_requests/545]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libtiff/tif_dirread.c | 90 +++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 90 insertions(+)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index 2c49dc6..c52d41f 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -1308,6 +1308,21 @@ TIFFReadDirEntryArrayWithLimit(TIFF *tif, TIFFDirEntry *direntry,
-+     datasize = (*count) * typesize;
-+     assert((tmsize_t)datasize > 0);
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of requested memory is not greater than file size.
-++     */
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    if (datasize > filesize)
-++    {
-++        TIFFWarningExtR(tif, "ReadDirEntryArray",
-++                        "Requested memory size for tag %d (0x%x) %" PRIu32
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated, tag not read",
-++                        direntry->tdir_tag, direntry->tdir_tag, datasize,
-++                        filesize);
-++        return (TIFFReadDirEntryErrAlloc);
-++    }
-++
-+     if (isMapped(tif) && datasize > (uint64_t)tif->tif_size)
-+         return TIFFReadDirEntryErrIo;
-+ 
-+@@ -5266,6 +5281,20 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     if (!_TIFFFillStrilesInternal(tif, 0))
-+         return -1;
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of requested memory is not greater than file size. */
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    uint64_t allocsize = (uint64_t)td->td_nstrips * sizeof(uint64_t);
-++    if (allocsize > filesize)
-++    {
-++        TIFFWarningExtR(tif, module,
-++                        "Requested memory size for StripByteCounts of %" PRIu64
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated",
-++                        allocsize, filesize);
-++        return -1;
-++    }
-++
-+     if (td->td_stripbytecount_p)
-+         _TIFFfreeExt(tif, td->td_stripbytecount_p);
-+     td->td_stripbytecount_p = (uint64_t *)_TIFFCheckMalloc(
-+@@ -5807,6 +5836,20 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+             dircount16 = (uint16_t)dircount64;
-+             dirsize = 20;
-+         }
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)dircount16 * dirsize;
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(
-++                tif, module,
-++                "Requested memory size for TIFF directory of %" PRIu64
-++                " is greather than filesize %" PRIu64
-++                ". Memory not allocated, TIFF directory not read",
-++                allocsize, filesize);
-++            return 0;
-++        }
-+         origdir = _TIFFCheckMalloc(tif, dircount16, dirsize,
-+                                    "to read TIFF directory");
-+         if (origdir == NULL)
-+@@ -5921,6 +5964,20 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+                           "directories not supported");
-+             return 0;
-+         }
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)dircount16 * dirsize;
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(
-++                tif, module,
-++                "Requested memory size for TIFF directory of %" PRIu64
-++                " is greather than filesize %" PRIu64
-++                ". Memory not allocated, TIFF directory not read",
-++                allocsize, filesize);
-++            return 0;
-++        }
-+         origdir = _TIFFCheckMalloc(tif, dircount16, dirsize,
-+                                    "to read TIFF directory");
-+         if (origdir == NULL)
-+@@ -5968,6 +6025,8 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+             }
-+         }
-+     }
-++    /* No check against filesize needed here because "dir" should have same size
-++     * than "origdir" checked above. */
-+     dir = (TIFFDirEntry *)_TIFFCheckMalloc(
-+         tif, dircount16, sizeof(TIFFDirEntry), "to read TIFF directory");
-+     if (dir == 0)
-+@@ -7164,6 +7223,20 @@ static int TIFFFetchStripThing(TIFF *tif, TIFFDirEntry *dir, uint32_t nstrips,
-+             return (0);
-+         }
-+ 
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t);
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(tif, module,
-++                            "Requested memory size for StripArray of %" PRIu64
-++                            " is greather than filesize %" PRIu64
-++                            ". Memory not allocated",
-++                            allocsize, filesize);
-++            _TIFFfreeExt(tif, data);
-++            return (0);
-++        }
-+         resizeddata = (uint64_t *)_TIFFCheckMalloc(
-+             tif, nstrips, sizeof(uint64_t), "for strip array");
-+         if (resizeddata == 0)
-+@@ -7263,6 +7336,23 @@ static void allocChoppedUpStripArrays(TIFF *tif, uint32_t nstrips,
-+     }
-+     bytecount = last_offset + last_bytecount - offset;
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of StripByteCount and StripOffset tags is not greater than
-++     * file size.
-++     */
-++    uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t) * 2;
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    if (allocsize > filesize)
-++    {
-++        TIFFWarningExtR(tif, "allocChoppedUpStripArrays",
-++                        "Requested memory size for StripByteCount and "
-++                        "StripOffsets %" PRIu64
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated",
-++                        allocsize, filesize);
-++        return;
-++    }
-++
-+     newcounts =
-+         (uint64_t *)_TIFFCheckMalloc(tif, nstrips, sizeof(uint64_t),
-+                                      "for chopped \"StripByteCounts\" array");
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-index 49984f1125e..4c472f8ef6f 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-@@ -9,6 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=a3e32d664d6db1386b4689c8121531c3"
- CVE_PRODUCT = "libtiff"
- 
- SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-+           file://CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch \
-+           file://CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch \
-+           file://CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch \
-            "
- 
- SRC_URI[sha256sum] = "88b3979e6d5c7e32b50d7ec72fb15af724f6ab2cbf7e10880c360a77e4b5d99a"
--- 
-2.43.0
+1. SRC_URI needs to fall back to using git protocol
+2. basename has been removed from string.h which causes few recipes to buil=
+d [1]
 
+I will see to work though them before we apply this patch
+
+[1] https://errors.yoctoproject.org/Errors/Build/175430/
+
+On Fri, Dec 1, 2023 at 10:57=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>
+> * f314e133 mntent: fields are delimited only by tabs or spaces, not gener=
+al whitespace
+> * ee1d39bc mntent: unescape octal sequences
+> * e17b9d74 ldso: fix TLSDESC addend processing on archs with backwards de=
+scriptors
+> * 039d3c34 ldso: convert TLSDESC_BACKWARDS from "#ifdef" to "if" logic
+> * 7b6a6516 byte-based printf family: emit a nul byte for %lc with argumen=
+t zero
+> * 8c086e76 remove arbitrary limit from dns result parsing
+> * 2265a4c9 pass AT_NO_AUTOMOUNT when emulating fstatat via statx
+> * 2d84486a __year_to_secs: fix dangling pointer
+> * c5459df1 timer_create: volatile static -> static volatile
+> * 7bb11f75 ensure valid setxid return value in an unexpected error case
+> * 7f3a2925 synccall: add separate exit_sem to fix thread release logic bu=
+g
+> * 5baf2d92 ldso: use __ehdr_start if available to locate its own ELF head=
+ers
+> * 725e17ed remove non-prototype declaration of basename from string.h
+> * 6be76895 elf.h: add typedefs for Elf64_Relr and Elf32_Relr
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/=
+musl_git.bb
+> index 7dd949ffafd..87ac1641af1 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -4,7 +4,7 @@
+>  require musl.inc
+>  inherit linuxloader
+>
+> -SRCREV =3D "79bdacff83a6bd5b70ff5ae5eb8b6de82c2f7c30"
+> +SRCREV =3D "f314e133929b6379eccc632bef32eaebb66a7335"
+>
+>  BASEVER =3D "1.2.4"
+>
+> --
+> 2.43.0
+>
 
