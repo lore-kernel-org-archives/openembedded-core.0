@@ -1,120 +1,98 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E236AC10F09
-	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 15:59:52 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.72357.1701705583932054731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26429C4167B
+	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 16:28:33 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.73274.1701707306817869587
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Dec 2023 07:59:44 -0800
+ Mon, 04 Dec 2023 08:28:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=dR3Sijx4;
- spf=pass (domain: baylibre.com, ip: 209.85.221.46, mailfrom: jstephan@baylibre.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3333a3a599fso1092989f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 07:59:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701705581; x=1702310381; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nIx7YvnjCa/8+Bz2qxleueOV9KZV5Mvl+9gLDQ8rN2w=;
-        b=dR3Sijx4y8e63zESkUva7cD+iJcMuzldXahdlgnB8r5iGcsBO39E33exR9XOmad40o
-         Og4YdWDRvJK324U/wEbgA+WlHh7eBoQPBohLbrtEf8coPhXvnbb5lsua+K+dR+bd3Uvo
-         VIbPpFK6vrGBX2poszWP1XneyiDj20wvfRVthKd4lyszjb566aky+eKx3EoLpaOiAyTx
-         291akOSVl7sqmpa7k4iC4+x+Vxv95U1vG3mFTUea7QqE2PUyNj6pfAXechqcUzY8vdDV
-         yjaCE6xyqgrX+MzlBqMRTEsSqovu7z+e6hvhB2WD02+4+vYq1Ommy0vZtw84VnoNbbH9
-         Dsrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701705581; x=1702310381;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nIx7YvnjCa/8+Bz2qxleueOV9KZV5Mvl+9gLDQ8rN2w=;
-        b=dJrxNG5iYAunzXXc3JM5l+o7L4LdJmwq1fapIk6To6MM/6fizFTbxewLUT9y2Rnus0
-         /akeApJ6NwLoIUpr1OiT33C3gIBEHxacZDpll66hazb2asH2IkpuhlCyLgijUO5kXg+1
-         tqjrTlz44ekDqdO5zRPOKnHHP632axTS05/0YAwFOns6xUs3OLHIYIOLt2arg7lRG48i
-         et4c3yibPnNiotIPyFJaDiAC+oMoVjAKAREXKIpxVzT4TaxXiO8MlP4rRCGbRmiT+ebK
-         IpnlV/aw5AZwpIIr9r40pxhWLScadwhAdTBt7Y1cDJx4hYm7pxn8/VIeHL04F0UANgke
-         LQIw==
-X-Gm-Message-State: AOJu0YwmMTDh6uBcpxrbNetMhgGSladcsYOPmTAlHWwhWOjKNizOLqzV
-	TPLs7S8NIq2zFeyP0lHHQhXn9rhj0ZRmWNTQtBmJxQ==
-X-Google-Smtp-Source: AGHT+IGmQn2IjNp5m4uin6ibYRW3IWPpdvNCX+Jxe788HB6UCerJmBRSo0ckjaCLowNyZTpxbWbudA==
-X-Received: by 2002:a05:600c:155:b0:40b:5e56:7b46 with SMTP id w21-20020a05600c015500b0040b5e567b46mr2980376wmm.143.1701705581624;
-        Mon, 04 Dec 2023 07:59:41 -0800 (PST)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040b47c53610sm15479595wmq.14.2023.12.04.07.59.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 07:59:41 -0800 (PST)
-From: Julien Stephan <jstephan@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [RESEND][PATCH 0/7] Devtool/Recipetool: adding pypi support 
-Date: Mon,  4 Dec 2023 16:59:27 +0100
-Message-ID: <20231204155934.836992-1-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.42.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QAAfUiJj;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=U8zd5qea;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c35a8d87e-d7677fc1-1250-46cf-95f4-248f5038a203-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701707307; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=eqf66ghT/zMb207+4OwC43L6Rq8ulr9Vjvygycl8OVw=;
+	b=QAAfUiJjoXav9Dt6GVN/n7VxKlUFYQmNoKjuBrBeNOBZddljGhOd44q7XFRps5bI
+	wMDTbqRlY/0HSKNo5F5wGcGajEMGDB+9t8djcZKgTR64vPvn3g7FhaoKrr6AtRW/rIb
+	/1DD0nPgs8KmhO7OsUWpM6cdm6Y/DgpCMFUhjs2Q=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701707307;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=eqf66ghT/zMb207+4OwC43L6Rq8ulr9Vjvygycl8OVw=;
+	b=U8zd5qeapgnhHMV/72C3Vpb2j6sIzQoUwcLq1b01L06fbikkzPz7rllbE8KP2WEm
+	Lnr2helVBDvafwKKkwUt5L1N7WfZ54NZ0wbcoiavW2zQv3MJFMIiQmIAZADJCvSswfR
+	P2RDc6aW1lV7yp8suSEBPvq9OKR4x1cz+CLLmXRM=
+From: patchtest@automation.yoctoproject.org
+To: Julien Stephan <jstephan@baylibre.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [RESEND][PATCH 6/7] oeqa/selftest/recipetool: remove spaces on empty
+ lines
+In-Reply-To: 20231204155934.836992-7-jstephan@baylibre.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c35a8d87e-d7677fc1-1250-46cf-95f4-248f5038a203-000000@us-west-2.amazonses.com>
+Date: Mon, 4 Dec 2023 16:28:27 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.04-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 15:59:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191755
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 16:28:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191763
 
-Hello all,
+--NextPart
+Content-Type: text/plain
 
-This series adds basic support for the pypi class in devtool/recipetool.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-The idea is to be able to detect that a package is available on pypi and
-in that case inherits from pypi class. This helps to produce cleaner
-recipes for pypi packages.
+---
+Testing patch /home/patchtest/share/mboxes/RESEND-6-7-oeqa-selftest-recipetool-remove-spaces-on-empty-lines.patch
 
-To do this, I am adding a new optional callback "process_url" that
-plugin can register to implement some logic on matching url.
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-By implementing this callback in create_buildsys_python we can match on
-pypi URLs directly or on release tarballs hosted on "files.pythonhosted.org".
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
 
-To create a recipe taking advantage of the pypi class we can use one of the
-following new syntax:
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
-* recipetool create https://pypi.org/project/<package>
-* recipetool create https://pypi.org/project/<package>/<version>
-* recipetool create https://pypi.org/project/<package> --version <version>
+---
 
-or the old syntax:
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-* recipetool create https://files.pythonhosted.org/packages/<...>
+--NextPart
 
-If the URL points to a github URL or a release tarball not coming from
-"files.pythonhosted.org", the created recipe is the same as before.
-One can also use the newly added "--no-pypi" switch to NOT inherit 
-from pypi class on matching URL, to keep legacy behaviour.
 
-This series also contains some bug fixes I found during my testing.
-
-Pushed my dev branch here: https://git.yoctoproject.org/poky-contrib/log/?h=jstephan/devtool-add-pypi-support 
-
-Cheers
-Julien
-
-Julien Stephan (7):
-  bitbake: utils: remove spaces on empty lines
-  recipetool: create_buildsys_python.py: initialize metadata
-  recipetool: create: add trailing newlines
-  recipetool: create: add new optional process_url callback for plugins
-  recipetool: create_buildsys_python: add pypi support
-  oeqa/selftest/recipetool: remove spaces on empty lines
-  oeqa/selftest/recipetool/devtool: add test for pypi class
-
- bitbake/lib/bb/utils.py                       |  16 +--
- meta/lib/oeqa/selftest/cases/devtool.py       |   4 +-
- meta/lib/oeqa/selftest/cases/recipetool.py    | 114 +++++++++++++-----
- scripts/lib/devtool/standard.py               |   3 +
- scripts/lib/recipetool/create.py              |  63 ++++++----
- .../lib/recipetool/create_buildsys_python.py  |  73 +++++++++++
- 6 files changed, 208 insertions(+), 65 deletions(-)
-
--- 
-2.42.0
-
+--NextPart--
 
