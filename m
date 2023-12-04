@@ -1,85 +1,100 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8D1DC4167B
-	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 10:54:50 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.66742.1701687282306187135
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBCC9C4167B
+	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 11:07:30 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.66219.1701688043790517054
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Dec 2023 02:54:42 -0800
+ Mon, 04 Dec 2023 03:07:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QHMaFb0e;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2c9f099cf3aso24506841fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 02:54:42 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RUByJD9y;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c09f4bea8so9706425e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 03:07:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701687280; x=1702292080; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3rj1pNQa3L9gvh6cjUwpO0Bg6xqZhPgeXDckHB3dWDg=;
-        b=QHMaFb0eyHLtmOq8FcjjVMNi3s503JMC46lDtpa6IZnOlhz4DT0uzRugg/X29JpeaG
-         Op9YzYB9hakg6U0Nsmywx8CGGlQhQDEMFgfMPDVmUTl3kn3JyN4pcpAAezxOzzi6P7GC
-         3ByY94hiYWYQzpwCKfc6m9HAWINRiMvWVh3whOopXGIorPNZeyu8dknSBR1XLXsug2Di
-         x97QhjR1BfR1tc0QF6GqgLD8Osd55MhTt0X0jUep422dlIsq8uFnSy61eKvurfLcVuVO
-         spMOgCufZGhyU1FtobNUA4K7D8SdtaC5JMyyeK55kZWbZKdHCofKxf6qDLWaZDCJVgX/
-         wSvw==
+        d=linuxfoundation.org; s=google; t=1701688042; x=1702292842; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gpD+fK6GbhArd4e2eZx44waYCDNwnhNERp/FFtS6Wkw=;
+        b=RUByJD9ywhTR83TC83hU+qW8lAy4avevic2EK0iKsZSi4jU3w3VdnKVAwwnpDc+Flj
+         a0JL9Q5yVajwrDgCX7CtVH9BLzkwJmrungZ7993yq8q7uum2VIZd6xWErsvfSvOp6juy
+         aHLdkQKfattkIQWA9KPoAra+pQLpUGdcorXmE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701687280; x=1702292080;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3rj1pNQa3L9gvh6cjUwpO0Bg6xqZhPgeXDckHB3dWDg=;
-        b=QKBuPE9K/ZahccrrXGu/CM9gAo40HzJh3JvTu5mwjoU84rIbGWbfWjitRqQjA3Vc4D
-         kpZDkeEzBv557VkTm78zRU1r/3pedc7eRwph+tlWEI9dvjlwtoWBRsDgU8DpBrSz18bc
-         xn/MZJKh2KJlBB2qihW96Q5ZiYxFlSTnI+IfUe0KkKS22RvIwQQmOca9Waj/AVQocDTr
-         veRgXl8nlieEU6I+uyEuN8npeJiwm2KsRcNeA+lUSa31hUr7ieyCcnE33p3ZXNsPQKox
-         eeoWxx2Lp1Nukr+Xfh2Lt5Ifxe4F2dv1D/Rdb0lL+ClvyT9YC4N+1PrQ7Y3iuFnPgyPl
-         znrw==
-X-Gm-Message-State: AOJu0Yxmlbt4NTECyN9N327Aubgold+kbMBubLG6gUhkpXFrQVHt5RnL
-	rD6KDm3rfzUEbF3V7IxTje2K26maDPmgR6UvJ5w=
-X-Google-Smtp-Source: AGHT+IFQAK+GRxXnnkKAZQEUH38oS26BVdvQbLFLBvpagDQAm9tGGTOGOuD2XrDYXjhqRxELDrNbBD98JMTGrDIyRPc=
-X-Received: by 2002:a2e:9c14:0:b0:2ca:d14:96d0 with SMTP id
- s20-20020a2e9c14000000b002ca0d1496d0mr217108lji.71.1701687280020; Mon, 04 Dec
- 2023 02:54:40 -0800 (PST)
-MIME-Version: 1.0
-References: <20231122140811.1021807-1-lukas.funke-oss@weidmueller.com>
- <e784d0eeb3b0232f0df98b385ace92dfc625c191.camel@linuxfoundation.org> <8ca92320-0ab3-4679-9de1-74f38ad0f8a7@weidmueller.com>
-In-Reply-To: <8ca92320-0ab3-4679-9de1-74f38ad0f8a7@weidmueller.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 4 Dec 2023 11:54:28 +0100
-Message-ID: <CANNYZj_kV6ZEnFa3-dnFQqhSUGUy7ZE6DyGU9fzqZwsKGw=6tg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/2] patch: reduce changes during patch refresh
-To: Lukas Funke <lukas.funke-oss@weidmueller.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Lukas Funke <lukas.funke@weidmueller.com>
+        d=1e100.net; s=20230601; t=1701688042; x=1702292842;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gpD+fK6GbhArd4e2eZx44waYCDNwnhNERp/FFtS6Wkw=;
+        b=UWrRy8ri63/NSaXEmvheU2VJNWN/wu5u6znL/CqY8o3E/HIyrhEK/xPFjf3IuJ306i
+         AB73CTGUjFKjglzYbfIez4PM0I2vKNTkwsCxcDb4QouUcC3Z+GWw9WVAnq9q1o+ch57s
+         VkehHdzfVQAF5FuQYmX87B+SA7+5jIuSL0BJn0SSC/Hh7vQu/Wkb8hvO+tG1QNMjxhLO
+         qBHDB8CnKVs25k9T27glHmvWGgv/16uVvJWS88NoZOSDB95VbEldxmxr8f558demQU91
+         GzfrlrJPQfOq9/kzC3QbsWzlFHu5Bgl7Igvqe9YWT0ql33FlngyaCmOledp+xFKxJ3vQ
+         lgFA==
+X-Gm-Message-State: AOJu0Yz7y2gubKg+2YHcE3DZeIEsOXNR9/clVnvmwx7asCIL8aLnwDTH
+	bxM1MZikBQm4drgrfztVjkKRvQ==
+X-Google-Smtp-Source: AGHT+IE+4VDpx4DrLP0kjPjhccz6mdg3YJuqKGx3zyCbBgCzM9v7JoJYLyvTzdBKxPSiJmkIaeo0yg==
+X-Received: by 2002:a05:600c:35c8:b0:40b:5e21:e266 with SMTP id r8-20020a05600c35c800b0040b5e21e266mr2234901wmq.83.1701688042033;
+        Mon, 04 Dec 2023 03:07:22 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8764:964d:4cf8:1001? ([2001:8b0:aba:5f3c:8764:964d:4cf8:1001])
+        by smtp.gmail.com with ESMTPSA id hg10-20020a05600c538a00b0040b398f0585sm14828070wmb.9.2023.12.04.03.07.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Dec 2023 03:07:21 -0800 (PST)
+Message-ID: <6170bfa781bf455736f763a3bc4e4978f916c96a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] openssh: Add SSHD_SERVICE_TYPE variable
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Yu, Mingli" <mingli.yu@eng.windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 04 Dec 2023 11:07:19 +0000
+In-Reply-To: <20231204085408.2125531-1-mingli.yu@windriver.com>
+References: <20231204085408.2125531-1-mingli.yu@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 10:54:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191733
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 11:07:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191734
 
-On Mon, 4 Dec 2023 at 11:48, Lukas Funke
-<lukas.funke-oss@weidmueller.com> wrote:
-> Unfortunately, the patch indeed causes the tests to fail. The
-> problamatic lines are in the 'lib\devtool\standard.py':
->
-> if len(firstlineitems) > 1 and len(firstlineitems[1]) == 40:
->         if not firstlineitems[1] in changed_revs:
->                 continue
->
-> When the commit-hash becomes all zero, there is no way for devtools to
-> detect the change. I'm a little puzzled how to handle this situation.
-> However, I still think the all zero hash is usefull since it will reduce
-> the noise when developers review their changed in git(lab|hub). Maybe it
-> would be for the best to remove the check?
+On Mon, 2023-12-04 at 16:54 +0800, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+>=20
+> There are two types of sshd server now, one is based on socket
+> activation(sshd.socket) and another is service activation(sshd.service).
+> And the default sshd service type is based on socket by default as below.
 
-It would help if you provide the context for that code snippet, so we
-can see why is it there, and what is it trying to do, without having
-to go and separately study the code ourselves. Patch review is hard,
-please do not make it harder.
+Firstly, I'm a little frustrated about how these changes are being
+proposed in pieces. The original patches made no mention that this was
+eventually going to be controlled by a new variable. I did wonder if
+something like this was going to happen but the didn't push back. Now
+we're "pinned" into a corner with the direction this code takes now
+we've already merged the on target configuration change.
 
-Alex
+> But it's more convenient to determine the service type at build time
+> if there are so many devices.
+
+Why did we merge a patch which made this an on target decision then?
+
+> So add SSHD_SERVICE_TYPE variable to enable sshd.socket or sshd.service
+> at build time and we still enable sshd.socket by default now.
+
+No, we're not adding randomly named variables which take magic options.
+
+I cannot look at SSHD_SERVICE_TYPE and know that "1" means socket
+activation and not setting it means service activation (or whatever,
+the fact I can't check what I've written easily proves my point). What
+happens if I set it to "true", or "socket", or "apples"?
+
+I'd suggest thinking about a PACKAGECONFIG option such as systemd-sshd-
+socket-mode and systemd-sshd-service-mode which at least uses naming
+users are mode used to and says what it does.
+
+Cheers,
+
+Richard
 
