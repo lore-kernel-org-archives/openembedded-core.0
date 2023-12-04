@@ -2,56 +2,56 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29ED9C10DC1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D1FC10F05
 	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 15:26:22 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web10.72249.1701703578236799893
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.72248.1701703578125144295
  for <openembedded-core@lists.openembedded.org>;
  Mon, 04 Dec 2023 07:26:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=GZt1uYZO;
- spf=pass (domain: baylibre.com, ip: 209.85.221.45, mailfrom: jstephan@baylibre.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3335397607dso376943f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 07:26:18 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=QKCJJ0DK;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.42, mailfrom: jstephan@baylibre.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c0a0d068bso12426655e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 07:26:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701703576; x=1702308376; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=liqggH+EgGCA3UCpWpXePVLNfUzms3eiOsEddC9yAyE=;
-        b=GZt1uYZOL1Fw045WpeiGIZO5hmHy7gCTs9MW4nMvuYLUPEaFgFuijlPOC0TzaUbjfg
-         PnFXs1TVVzpQFT+1VbG3ievmsPRKaSRFTSPQiSefBYUfFVNeGa2gqP914QbrfK66sjj5
-         KXzQhoLf7eaJUizOvdRCWxHe9oFZT0Lr4aHdvi3ZN8VBOaCRFMfUEP5swggpq2QUeVWJ
-         3EN3nIueth1FNUAPDjOMPAmUiQt7PjQPEamsoXMGDohfFE276IOkUsulZyl4KNvi0pp3
-         JXfCzdbtnGF4XwXfQfTXj2yH8Gue4JMjGgcHSLfxRLZFZP635/GoE9Z+yUhUtZJc5Waq
-         LasQ==
+        bh=B7E0X1BrF0yRxoyN/2tLqacemtLMSRM0Alj0fdSRIA8=;
+        b=QKCJJ0DKoQGU+T4Pmt2hEjLnGzWk217XZC2Lnb2tWTM6ldPC4NZzUHYI1vxj/f0bqz
+         VmKhCjeA6AfWXmld8lb3SW9ZumI5yRNo1WBUv5Vj57+NqzvI/sPxIlLKscog99cqHJ0v
+         YiMO2KAIuK99fxYg5pI2wSK+OMmBKMAOUgVD2pSJ7WnE3K6GKfCSBkb4RtvWQAHRiFDe
+         V/O54pMj2jSvsxLHGSvxBFXm03Ih2NE1qGQrlREp2SQ2AZCvxKv2yKJL1RWqeQdilbma
+         QEUvHhudb1Zqu81p/waFSlVmdIQNGOElIOhYSVWps2NCz0YadPTJ8vRtD+BAchrbK5F1
+         inhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1701703576; x=1702308376;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=liqggH+EgGCA3UCpWpXePVLNfUzms3eiOsEddC9yAyE=;
-        b=uS6QPZf7lRANij62JCopaOggVCM8nACcV99Zuw7viAm3P7O/hPWYTMMcSIrhNJx42p
-         9EDFa7cJHdMPZ16oMNdLMaIKm/fpSdbUVm1+R+K1UvQiB3Q1rJbXSwRpA+9zcwRj3OHP
-         fJhRZqYdASAYNJ8dBTtQZUNP65uQC7e4nN691DWj0OPgMBKeq83UHVoEogVZkb+j+bAs
-         7avdLtRBcZTpkmVkgUwTe3UAROGjUtJ3euVqQtrTiIT2rlb/+rQ8xA+S2ShfIOfCZP47
-         D91dWZHqjs1HB7Ry4l5SePsxvu6dtL0nzKdcJOORD1hmxP3jAZ1m3/A++CdQ+5z4GukZ
-         fb4w==
-X-Gm-Message-State: AOJu0YwyvmY//isIm/JCttHT6eQWuvciPc12SRjMkdzPHRe0aD+N86R7
-	8/wPjOeT+wlNLphb321jOEM3aHHdBnh3zyCDxBXO6g==
-X-Google-Smtp-Source: AGHT+IEwOa6w9gJnqipUZm00LQXQPBCGCOjqcq4eN4HAUasNM5JsXAWS5zGwjBb2BmqPm08yM0oTFg==
-X-Received: by 2002:a05:600c:35d6:b0:40b:5e21:bdb8 with SMTP id r22-20020a05600c35d600b0040b5e21bdb8mr2175149wmq.71.1701703576117;
+        bh=B7E0X1BrF0yRxoyN/2tLqacemtLMSRM0Alj0fdSRIA8=;
+        b=Snj2GDvOMSawgfZU++XXeZu6o1a9YpV4H4OI4jdL4qFmrIzYFVhiK3p920xZhIPbDi
+         y/RLc6zP98zIyeVwLdM7XT9+mBC8Gm3YTQOq2E1GtxOvz/GxxhVwk4/EB2CXh87LfwVR
+         N9AlRUsRii4gQs8t5NDNxgEwSm4y7oFxk73/yG+/Q5r12v1N3IyAU4Gf13vPgL7dKzg/
+         boesn+AP2oi57MGjoGCXHft/pr7gQEuZ+4iAIiABC63zRLyvmdWLlbrKMGcqrNs0lfMB
+         LHZuhozbwyGhbdJQ+Zmo28OFj2n4yZPmRf4rCnqOlyorDctUve+YQWH51b4dDVDzGmos
+         h5rw==
+X-Gm-Message-State: AOJu0YyhGevjxx43+P4hO1O9GFEZiHvZebFOK6UTcI6xBpwfVDvVYA0+
+	GYt2GG8jTUhqKBaMWOpltRO4fYFyBFufrCpZF7j1NA==
+X-Google-Smtp-Source: AGHT+IEZGdJ994mKGDtoY91Bq5nK6X9BulSm9201o2gGAGqWWHOLCudjMsXSjYfFqq5SfjLwkO4q1w==
+X-Received: by 2002:a1c:7716:0:b0:40b:50f5:3e6e with SMTP id t22-20020a1c7716000000b0040b50f53e6emr3204340wmi.24.1701703576506;
         Mon, 04 Dec 2023 07:26:16 -0800 (PST)
 Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id w7-20020a5d6087000000b0033340937da6sm5257341wrt.95.2023.12.04.07.26.15
+        by smtp.gmail.com with ESMTPSA id w7-20020a5d6087000000b0033340937da6sm5257341wrt.95.2023.12.04.07.26.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 07:26:15 -0800 (PST)
+        Mon, 04 Dec 2023 07:26:16 -0800 (PST)
 From: Julien Stephan <jstephan@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v2 6/9] recipeutils: bbappend_recipe: allow to patch the recipe itself
-Date: Mon,  4 Dec 2023 16:26:00 +0100
-Message-ID: <20231204152603.831495-7-jstephan@baylibre.com>
+Subject: [PATCH v2 7/9] recipetool: appendsrcfile(s): add a mode to update the recipe itself
+Date: Mon,  4 Dec 2023 16:26:01 +0100
+Message-ID: <20231204152603.831495-8-jstephan@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231204152603.831495-1-jstephan@baylibre.com>
 References: <20231204152603.831495-1-jstephan@baylibre.com>
@@ -61,96 +61,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 15:26:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191750
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191749
 
-Add a new parameter update_original_recipe to allow to patch a recipe
-instead of creating/updating a bbappend
+Add a new option -u/--update-recipe to update the recipe itself instead
+of creating/updating a bbappend file
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- meta/lib/oe/recipeutils.py | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+ scripts/lib/recipetool/append.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index 8aa82396c86..013b7412742 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -664,7 +664,7 @@ def get_bbappend_path(d, destlayerdir, wildcardver=False):
-     return (appendpath, pathok)
+diff --git a/scripts/lib/recipetool/append.py b/scripts/lib/recipetool/append.py
+index 7e56290a0ab..66ed160a0a6 100644
+--- a/scripts/lib/recipetool/append.py
++++ b/scripts/lib/recipetool/append.py
+@@ -357,7 +357,9 @@ def appendsrc(args, files, rd, extralines=None):
+         dry_run_outdir = dry_run_output.name
  
- 
--def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False, machine=None, extralines=None, removevalues=None, redirect_output=None, params=None):
-+def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False, machine=None, extralines=None, removevalues=None, redirect_output=None, params=None, update_original_recipe=False):
-     """
-     Writes a bbappend file for a recipe
-     Parameters:
-@@ -698,19 +698,29 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
-         params:
-             Parameters to use when adding entries to SRC_URI. If specified,
-             should be a list of dicts with the same length as srcfiles.
-+        update_original_recipe:
-+            Force to update the original recipe instead of creating/updating
-+            a bbapend. destlayerdir must contain the original recipe
-     """
- 
-     if not removevalues:
-         removevalues = {}
- 
-     recipefile = rd.getVar('FILE')
--    # Determine how the bbappend should be named
--    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
--    if not appendpath:
--        bb.error('Unable to determine layer directory containing %s' % recipefile)
--        return (None, None)
--    if not pathok:
--        bb.warn('Unable to determine correct subdirectory path for bbappend file - check that what %s adds to BBFILES also matches .bbappend files. Using %s for now, but until you fix this the bbappend will not be applied.' % (os.path.join(destlayerdir, 'conf', 'layer.conf'), os.path.dirname(appendpath)))
-+    if update_original_recipe:
-+        if destlayerdir not in recipefile:
-+            bb.error("destlayerdir %s doesn't contain the original recipe (%s), cannot update it" % (destlayerdir, recipefile))
-+            return (None, None)
-+
-+        appendpath = recipefile
-+    else:
-+        # Determine how the bbappend should be named
-+        appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
-+        if not appendpath:
-+            bb.error('Unable to determine layer directory containing %s' % recipefile)
-+            return (None, None)
-+        if not pathok:
-+            bb.warn('Unable to determine correct subdirectory path for bbappend file - check that what %s adds to BBFILES also matches .bbappend files. Using %s for now, but until you fix this the bbappend will not be applied.' % (os.path.join(destlayerdir, 'conf', 'layer.conf'), os.path.dirname(appendpath)))
- 
-     appenddir = os.path.dirname(appendpath)
-     if not redirect_output:
-@@ -755,7 +765,7 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
-             bbappendlines.append((varname, op, value))
- 
-     destsubdir = rd.getVar('PN')
--    if srcfiles:
-+    if not update_original_recipe and srcfiles:
-         bbappendlines.append(('FILESEXTRAPATHS:prepend', ':=', '${THISDIR}/${PN}:'))
- 
-     appendoverride = ''
-@@ -789,7 +799,10 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
-                         appendline('SRC_URI:append%s' % appendoverride, '=', ' ' + srcurientry)
-                     else:
-                         if oldentry:
--                            appendline('SRC_URI:remove', '=', oldentry)
-+                            if update_original_recipe:
-+                                removevalues['SRC_URI'] = oldentry
-+                            else:
-+                                appendline('SRC_URI:remove', '=', oldentry)
-                         appendline('SRC_URI', '+=', srcurientry)
-             copyfiles[newfile] = srcfile
-             if install:
-@@ -811,6 +824,8 @@ def bbappend_recipe(rd, destlayerdir, srcfiles, install=None, wildcardver=False,
-         # multiple times per operation when we're handling overrides)
-         if os.path.exists(appendpath) and not os.path.exists(outfile):
-             shutil.copy2(appendpath, outfile)
-+    elif update_original_recipe:
-+        outfile = recipefile
-     else:
-         bb.note('Writing append file %s' % appendpath)
-         outfile = appendpath
+     appendfile, _ = oe.recipeutils.bbappend_recipe(rd, args.destlayer, copyfiles, None, wildcardver=args.wildcard_version, machine=args.machine, extralines=extralines, params=params,
+-                                                   redirect_output=dry_run_outdir)
++                                                   redirect_output=dry_run_outdir, update_original_recipe=args.update_recipe)
++    if not appendfile:
++        return
+     if args.dry_run:
+         output = ''
+         appendfilename = os.path.basename(appendfile)
+@@ -459,6 +461,7 @@ def register_commands(subparsers):
+                                    help='Create/update a bbappend to add or replace source files',
+                                    description='Creates a bbappend (or updates an existing one) to add or replace the specified file in the recipe sources, either those in WORKDIR or those in the source tree. This command lets you specify multiple files with a destination directory, so cannot specify the destination filename. See the `appendsrcfile` command for the other behavior.')
+     parser.add_argument('-D', '--destdir', help='Destination directory (relative to S or WORKDIR, defaults to ".")', default='', type=destination_path)
++    parser.add_argument('-u', '--update-recipe', help='Update recipe instead of creating (or updating) a bbapend file. DESTLAYER must contains the recipe to update', action='store_true')
+     parser.add_argument('-n', '--dry-run', help='Dry run mode', action='store_true')
+     parser.add_argument('files', nargs='+', metavar='FILE', help='File(s) to be added to the recipe sources (WORKDIR or S)', type=existing_path)
+     parser.set_defaults(func=lambda a: appendsrcfiles(parser, a), parserecipes=True)
+@@ -467,6 +470,7 @@ def register_commands(subparsers):
+                                    parents=[common_src],
+                                    help='Create/update a bbappend to add or replace a source file',
+                                    description='Creates a bbappend (or updates an existing one) to add or replace the specified files in the recipe sources, either those in WORKDIR or those in the source tree. This command lets you specify the destination filename, not just destination directory, but only works for one file. See the `appendsrcfiles` command for the other behavior.')
++    parser.add_argument('-u', '--update-recipe', help='Update recipe instead of creating (or updating) a bbapend file. DESTLAYER must contains the recipe to update', action='store_true')
+     parser.add_argument('-n', '--dry-run', help='Dry run mode', action='store_true')
+     parser.add_argument('file', metavar='FILE', help='File to be added to the recipe sources (WORKDIR or S)', type=existing_path)
+     parser.add_argument('destfile', metavar='DESTFILE', nargs='?', help='Destination path (relative to S or WORKDIR, optional)', type=destination_path)
 -- 
 2.42.0
 
