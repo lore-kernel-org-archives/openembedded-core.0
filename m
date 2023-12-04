@@ -2,97 +2,90 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A49EC4167B
-	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 09:50:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81C28C4167B
+	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 09:58:10 +0000 (UTC)
 Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.66004.1701683446275134239
+ by mx.groups.io with SMTP id smtpd.web10.66086.1701683885600964884
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Dec 2023 01:50:46 -0800
+ Mon, 04 Dec 2023 01:58:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CUObt/6A;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CLSBnUYT;
  spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2c9f166581dso20151531fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 01:50:46 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2c9f572c4c5so21038231fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 01:58:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701683444; x=1702288244; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701683884; x=1702288684; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v9IyTbDdq02w8D1YtNVENeI2l1E5C8MwW0IZED92jew=;
-        b=CUObt/6AtmmqKm7KjLAlz+YzvQlV2KJgRM/b75KqmqZgm3KMtWL3Rsnlo5etdepQQr
-         fmUzVtqD83sbV07o1LGsjyRmzci4+nhz9wxsNt0CS0Myf5BCfke+Lk3rGxMN3VEKoSNR
-         a/zAG6TrOCELOgMbza9ojP0In68GOXjH+RjB8AIpFSaeotOAEqBiR/Q7U0UyEkAB1gP9
-         j0FadvHVlgkLJm2KTZ2IdZ2p4XdhWLRbT1wlKqB6w9d3X3Fe2EEu4OZ93yfCAeSm7FmP
-         B5bggQfvw8o1XcAxaCfXrdbBE/7sqG+zdhZXRBJwkgZw5ln+Fayx1WZgUVaYD6qy87s1
-         vExA==
+        bh=IoIbWGFLKkWK8nM81Ka9Wp+7TKMsDQCsIAmNwEE37dc=;
+        b=CLSBnUYTGovX8Tyl2rZc4f+i15+5MMX/lsYy3bAACePKaz+6KqSgdouQaS2Dcugmh3
+         xCmAiAKIArVTEyANIqtJtwKpWVsriKaR2ZhP4OoWhokc23kvzPAFjdid1DEtG3mpQzoJ
+         Hiz5PXBlxK7XqGNXIVdbD4NPosiBEU3QwD7RoQHbhoZy4LEvmv0ErYybnPnzy50OJ6uV
+         43lmKtE644WIYR9EdMkapWBA/HQIMJzSps1J7j5yC3kVuQqI3U08m803sFmNXSgWTnZO
+         sCqEsLNzdr/4vmTZLVWcXVRT05qSfrpmvuO79OMwbntVlnEXrg/usWg8kiCoo3Y9/o6x
+         fB6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701683444; x=1702288244;
+        d=1e100.net; s=20230601; t=1701683884; x=1702288684;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v9IyTbDdq02w8D1YtNVENeI2l1E5C8MwW0IZED92jew=;
-        b=jk2/8fyTHgajFr409L+VnBOpA3IXYUFTN1QwrSDZae8K7HEZCNWXCDKmwAHvAXvPqR
-         ajXdYsE6tB8ty0QpeG7LO+FcgM/Ij+DEGjdqbcWL/626ATtNBdSYLxYOxlxk/bO81Gs/
-         tASS4OK85IXWW5+NZTnqw2vd9wXl5jFSx9f0yO7kFE6igAc8CzIc4nffUVxe3PklGduu
-         5O+IciL2YSuhPOG8rBUzukQ9j1wV4zRxS0DiGV7gs7Fkp39DsXj8njuD5j8fUlKfOCYT
-         XhIiDn6cOX17p5JtIxh3F2Vg29lWknmE4TiHB7R+FVR33HJh2ZFb7n3qtok9mPdirDqe
-         ZrZg==
-X-Gm-Message-State: AOJu0YyTv+s3BkfFWC5/lUCl9c01mNE6Ha33nYjdTw8vU5MWfLcW8/W0
-	55s9XPTiF/tu8cNWIfZUvj0r1Sz/BrFHQbzTeZs=
-X-Google-Smtp-Source: AGHT+IGHksUgU3JW9FNKTYSltbJ52Lndx8/RPmFs7eRKSOyDqQpvKz2RRWR6cgcBSOlG/rVfnlF6kxHuXpGQ57ckRSU=
-X-Received: by 2002:a2e:9009:0:b0:2c9:c2f3:b2cc with SMTP id
- h9-20020a2e9009000000b002c9c2f3b2ccmr2794942ljg.9.1701683443873; Mon, 04 Dec
- 2023 01:50:43 -0800 (PST)
+        bh=IoIbWGFLKkWK8nM81Ka9Wp+7TKMsDQCsIAmNwEE37dc=;
+        b=Ly7H62AsksLo0LEjT/XeC6doYJ5xtZB85VdZwldp/qdI+QauF/PSufvyJ+RkYRAKue
+         BMRQQlalHX+lc4JdFU1oL8HGajfLf/fvkW6CZigbZGri08JjkLHQZTpIxWPS+yhZmqDz
+         4DH2EptysEK8G/nb+aOJH2JM2nGA3GbvuYaZmDyxRPfgICj7drDydDsp8JkF2AckfiG9
+         O4jJS32v4fTetJMt8a6eCWU8rHun0tUCPZ/qqgoF97H3zjLQo56sjx16KP7AnzBwXak5
+         OI8Zg2JxknihfjhaynggoWaB7SHndZbvKCS/XOU7broU+/rmYRAC0DHEUTXh6JvR40Ac
+         2h2g==
+X-Gm-Message-State: AOJu0Yw9wwf0pByjXM9Y+Bh/3I+couIlW4y+A3pm+uVKSeP8mN/KmZFw
+	29C2VKC6Xxq+7KTI0fER0hzHtNkGfzjhCFUcnJc=
+X-Google-Smtp-Source: AGHT+IEnZURSuDwMRr0Qc+xWAzd0n6ozrwMpYs9RGdModjfx4eS+ozbDSShHwdTYspzlCCIvBAFo0bx6jP7ZbJAXul4=
+X-Received: by 2002:a2e:9dda:0:b0:2c9:f25d:8a9c with SMTP id
+ x26-20020a2e9dda000000b002c9f25d8a9cmr1566256ljj.24.1701683883441; Mon, 04
+ Dec 2023 01:58:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20231202000942.3162961-1-raj.khem@gmail.com>
-In-Reply-To: <20231202000942.3162961-1-raj.khem@gmail.com>
+References: <0101018c30874843-c31eae1e-0aa2-41f0-832a-7c03e92ab619-000000@us-west-2.amazonses.com>
+In-Reply-To: <0101018c30874843-c31eae1e-0aa2-41f0-832a-7c03e92ab619-000000@us-west-2.amazonses.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 4 Dec 2023 10:50:32 +0100
-Message-ID: <CANNYZj-LOd=4BOVNwq_M6QXsDcdMJdRfjW88bmHJZ9XTbvy_Dw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] rust-common.bbclass: Define rust arch for
- x32 platforms
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 4 Dec 2023 10:57:52 +0100
+Message-ID: <CANNYZj_ffhYrDfG+rcjG=UbokBa-pRw+zc4gxqK1Jv5Nwnhhkw@mail.gmail.com>
+Subject: Re: [OE-core] Patchtest results for [PATCH] tiff: Backport fixes for CVE-2023-6277
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 09:50:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191728
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 09:58:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191729
 
-Thanks for this one, I hope we can finally get that vte update in :)
+Is this a different patchtest issue to the one that was fixed?
 
 Alex
 
-On Sat, 2 Dec 2023 at 01:09, Khem Raj <raj.khem@gmail.com> wrote:
+On Sun, 3 Dec 2023 at 17:33, Patchtest
+<patchtest@automation.yoctoproject.org> wrote:
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
+>
 > ---
-> v2: Change 'if' to 'elif' to make it part of if else block
+> Tests failed for the patch, but the results log could not be processed due to excessive result line length.
+> ---
 >
->  meta/classes-recipe/rust-common.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/classes-recipe/rust-common.bbclass b/meta/classes-recipe/rust-common.bbclass
-> index 3d73a370ec8..ae96d9c5b1f 100644
-> --- a/meta/classes-recipe/rust-common.bbclass
-> +++ b/meta/classes-recipe/rust-common.bbclass
-> @@ -63,6 +63,8 @@ def rust_base_triple(d, thing):
->      # This catches ARM targets and appends the necessary hard float bits
->      if os == "linux-gnueabi" or os == "linux-musleabi":
->          libc = bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'hf', '', d)
-> +    elif os == "linux-gnux32" or os == "linux-muslx32":
-> +        libc = ""
->      elif "musl" in os:
->          libc = "-musl"
->          os = "linux"
-> --
-> 2.43.0
->
+> Please address the issues identified and
+> submit a new revision of the patch, or alternatively, reply to this
+> email with an explanation of why the patch should be accepted. If you
+> believe these results are due to an error in patchtest, please submit a
+> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+> under 'Yocto Project Subprojects'). For more information on specific
+> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+> you!
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#191696): https://lists.openembedded.org/g/openembedded-core/message/191696
-> Mute This Topic: https://lists.openembedded.org/mt/102928304/1686489
+> View/Reply Online (#191718): https://lists.openembedded.org/g/openembedded-core/message/191718
+> Mute This Topic: https://lists.openembedded.org/mt/102954001/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
