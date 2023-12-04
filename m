@@ -1,107 +1,98 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E47C10F14
-	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 15:26:22 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.71448.1701703573379005214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92181C4167B
+	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 15:41:32 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.71897.1701704485973019752
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Dec 2023 07:26:14 -0800
+ Mon, 04 Dec 2023 07:41:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=cGpGJUr0;
- spf=pass (domain: baylibre.com, ip: 209.85.221.46, mailfrom: jstephan@baylibre.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33338c47134so1925431f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 07:26:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701703571; x=1702308371; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xiSkY5+SxoaDP6o3REx5sDZJK9DoMvueq7Fz1WULP9w=;
-        b=cGpGJUr0weL7ZXvhkiRoVeE5Teg6bpzBUNsmMZUm76d7CgqSIu+wOMN2ec2OWzZEuH
-         +s4GVh5U4NnSpJWvrmbQ+efvknqn8acYeC9WZrbJgT+fHex+eApKFqgU777AD2P1u1HC
-         SJVUje+EF6WWvTIgL6usrigdKfSTtMTgjrGVCg+tsjp9LGAxu5YZ/UldvZqhn0or5qok
-         fEDzzfgP+IrYHJUA0RgrQ6GurWBwbX55/cK5sOw0iKGa7r+4mUo0Bx029rwXcoS8k3SP
-         7LRa89zp1GKvUh+1wEpArvZ+1rzy3ug8uKJm6nySoQoNRcsp+BXA0YAKaDjor+p7WVe2
-         bpBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701703571; x=1702308371;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xiSkY5+SxoaDP6o3REx5sDZJK9DoMvueq7Fz1WULP9w=;
-        b=Lf+kzcQBu+6f30o6MpjxViC7feZxbYNa2FyheDx0NsfjJwQZk9F8MJOLNRkR2P7DLf
-         ivyGXOfhe++ckYLk2FhmP97M0FAT6E0OK6lhrrJsaU4zUwgXZIsuFJi7X1i0mf4ObuWZ
-         y/sykmUESnR2NULUma/iGDeIpR2Av3nKgX9Wz6pt9SC59il2xiINgMNyZuCGTDR4LY7f
-         4PwPTeroLgWhakFg48/vWCwhKPkYt4zq8NSXdsIpF0+DBK6L/8I/xCi2Zegjl7juvLZt
-         y7ZuJ/bgWwAbAOcgYHuW6TOxTW2vNngXFxwffN3uXlR+RLYaCR729j/YiS2isQq4mkLt
-         sr3g==
-X-Gm-Message-State: AOJu0YzcVutrSG7u5+0Fl7cN2wfUAVADTZGeX8Z2Y3EzlXcpqIlidiST
-	AhcPKq2st95oDzd6ImNscleWw9U720IuwKj4t9CkDQ==
-X-Google-Smtp-Source: AGHT+IHF83Y927RSk3KSG77nwwUXe9/EetjPeVmKOPBqwP8yHdNtOOEtVRwIh5FwLEHqaU67uV1Y/Q==
-X-Received: by 2002:adf:fa92:0:b0:332:ef1e:bb89 with SMTP id h18-20020adffa92000000b00332ef1ebb89mr3684671wrr.57.1701703571554;
-        Mon, 04 Dec 2023 07:26:11 -0800 (PST)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id w7-20020a5d6087000000b0033340937da6sm5257341wrt.95.2023.12.04.07.26.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 07:26:11 -0800 (PST)
-From: Julien Stephan <jstephan@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v2 0/9] Several fixes around recipetool appendsrcfile(s) and oe.recipeutils.bbappend_recipe
-Date: Mon,  4 Dec 2023 16:25:54 +0100
-Message-ID: <20231204152603.831495-1-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.42.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=P+1/ZlCg;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Jw88D+uQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018c357dc8e5-ff75b13f-cce3-4bf9-a6ca-fe35252df80a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701704485; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=vz+AaRg2Yqj7Xwy0h6lHW7hBi/zWwQnfCYi1igCiyy0=;
+	b=P+1/ZlCg4gSunGUU/QawEWQgstK2OWhXkEkuC0ktBrinhL46gomM6b5MqHJlP/Ut
+	yufJbrB/AAKJY9z5TYEaIigme+HrBzVSH7SlvU5BUKezuh4CpWCOhoHt24rxXN62YCi
+	czhGhJDNQ6o+KYbJirPNK+YC0joo89JV6hPCWzX4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701704485;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=vz+AaRg2Yqj7Xwy0h6lHW7hBi/zWwQnfCYi1igCiyy0=;
+	b=Jw88D+uQ08NUgvV7VI+KQYWNfJ2IHf+csLHdTjkx6ppvNw1+e+hZocpdbW6+OQkT
+	KeChf0aRJhvrOm6m8G1J00fXlvRw7lVD5eU3RYFkvp4V9vtCRzL6bBnk4JWwXaquqwS
+	bQysvi4bSTqee5R2VjGV4ulB8t9ONPp9mFve5+Wg=
+From: patchtest@automation.yoctoproject.org
+To: Julien Stephan <jstephan@baylibre.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 6/9] recipeutils: bbappend_recipe: allow to patch the
+ recipe itself
+In-Reply-To: 20231204152603.831495-7-jstephan@baylibre.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c357dc8e5-ff75b13f-cce3-4bf9-a6ca-fe35252df80a-000000@us-west-2.amazonses.com>
+Date: Mon, 4 Dec 2023 15:41:25 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.04-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 15:26:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191744
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 15:41:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191753
 
-Hi all,
+--NextPart
+Content-Type: text/plain
 
-I was trying to use recipetool appendsrcfile to add a file to a recipe and I noticed several issues:
-* -m is not correctly supported
-* recipetool appendsrfile(s) are missing a usefull dry-run mode
-* appendsrc function relies on oe.recipeutils.bbappend_recipe but
-  duplicates some code: it constructs itself the new src_uri entry
-  although oe.recipeutils.bbappend_recipe is already doing it
-* we are lacking a mode to patch the recipe itself
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-So this series tries to fix the issues above, fix the selftest
-accordingly and add new test for -m and for "patch mode" (update recipe)
-and also add a way to specify the name of the file to add
-(in oe.recipeutils.bbappend_recipe)
+---
+Testing patch /home/patchtest/share/mboxes/v2-6-9-recipeutils-bbappend_recipe-allow-to-patch-the-recipe-itself.patch
 
-Improvements from v1:
-- in bbappend_recipe function remove old entry if an entry with different parameters already exists 
-to avoid duplicate entries with different parameters
+FAIL: test max line length: Patch line too long (current length 310, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
-Link to v1: https://lists.openembedded.org/g/openembedded-core/message/191544
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
-Julien Stephan (9):
-  recipetool: appendsrcfile(s): add dry-run mode
-  recipeutils: bbappend_recipe: fix undefined variable
-  recipeutils: bbappend_recipe: add a way to specify the name of the
-    file to add
-  recipeutils: bbappend_recipe: remove old srcuri entry if parameters
-    are different
-  recipetool: appendsrcfile(s): use params instead of extraline
-  recipeutils: bbappend_recipe: allow to patch the recipe itself
-  recipetool: appendsrcfile(s): add a mode to update the recipe itself
-  oeqa/selftest/recipetool: appendsrfile: add test for machine
-  oeqa/selftest/recipetool: appendsrc: add test for update mode
-
- meta/lib/oe/recipeutils.py                 | 62 +++++++++++-----
- meta/lib/oeqa/selftest/cases/recipetool.py | 83 +++++++++++++++++++---
- scripts/lib/devtool/standard.py            |  6 +-
- scripts/lib/recipetool/append.py           | 63 +++++++++++-----
- 4 files changed, 168 insertions(+), 46 deletions(-)
-
--- 
-2.42.0
-
+--NextPart--
 
