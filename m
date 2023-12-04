@@ -1,185 +1,92 @@
-Return-Path: <zangruochen@loongson.cn>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD83C4167B
-	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 02:36:08 +0000 (UTC)
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by mx.groups.io with SMTP id smtpd.web11.60076.1701657363655465477
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6329C4167B
+	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 03:36:28 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.61046.1701660982508321288
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Dec 2023 18:36:04 -0800
+ Sun, 03 Dec 2023 19:36:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: zangruochen@loongson.cn)
-Received: from loongson.cn (unknown [112.81.42.212])
-	by gateway (Coremail) with SMTP id _____8Dxg_ALO21lXaM+AA--.59640S3;
-	Mon, 04 Dec 2023 10:35:56 +0800 (CST)
-Received: from ubuntu.localdomain (unknown [112.81.42.212])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxO9wHO21lWc5TAA--.53514S2;
-	Mon, 04 Dec 2023 10:35:52 +0800 (CST)
-From: zangruochen@loongson.cn
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] [OE-core] [PATCHv2] elfutils: upgrade 0.189 -> 0.190
-Date: Sun,  3 Dec 2023 18:35:51 -0800
-Message-Id: <20231204023551.3588992-1-zangruochen@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=U3T16sXe;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0702e6dcf2=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B43WsUW016740
+	for <openembedded-core@lists.openembedded.org>; Sun, 3 Dec 2023 19:36:22 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=ypWXM
+	UJB6GGlNDKqlMpDZrlCRahpKciVWTHgcnR4/nw=; b=U3T16sXeJkqeBH8QZvKSS
+	v4iYAizK4AxibLcOgYaDz4CtdCLyTYd31qSzT6yT3UQhHbUpe300wQiNalgWQuqE
+	vIEIAk64O5z+ayKmf5WzzLUX90aVcEJQHWgnFPM2lUJDDRMTB9VmONlWnc4bgBJ3
+	TPPUKP4ETOQMFwJ91r6qMlI8Jn43eDQchTqd2K4MuVMmGE5Y+vFu/tSReHtUG0Ps
+	7m3HzcsqpPqsBAEGls8PV4mnuOn7AxH04+05/XKjPm2M+CAgyt6FBIw+mUAh8hgB
+	CkU4aULUC1hdqSNPes9FaBkdCapPIrqgk9eddAAC4G+WHFh77sy2xmZRdfMklh7w
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ur0r4h2hk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 03 Dec 2023 19:36:21 -0800 (PST)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 3 Dec 2023 19:36:23 -0800
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH 1/1] go: ignore CVE-2023-45283 and CVE-2023-45284
+Date: Mon, 4 Dec 2023 03:36:03 +0000
+Message-ID: <20231204033603.1720931-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxO9wHO21lWc5TAA--.53514S2
-X-CM-SenderInfo: p2dqw2xxrfxv3q6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3WFy3ZryDGw45CFy8GFyUurX_yoW7uF4DpF
-	ZIkFyfGw48Ja1Iqr97CF1rXw40qa9Fvas8ZFy8CrWj9ryUZw15Wr43tFyIqFZ8Xa4DWFW8
-	ZrWDGFy5tw4DuagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUkEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
-	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE
-	14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwAKzVCY07xG64
-	k0F24l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
-	xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1j6r15MIIYrx
-	kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
-	6r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
-	CI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jUa9-UUUUU
-	=
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: 6IxBCihr4qxWn8bqW8pZ3ocYfVY0lZ-Q
+X-Proofpoint-ORIG-GUID: 6IxBCihr4qxWn8bqW8pZ3ocYfVY0lZ-Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ priorityscore=1501 mlxlogscore=502 adultscore=0 impostorscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311060001
+ definitions=main-2312040025
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 02:36:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191719
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 03:36:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191720
 
-From: Zang Ruochen <zangruochen@loongson.cn>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-The following patches have been fixed:
-0001-libasm-may-link-with-libbz2-if-found.patch
+These CVEs affect path handling on Windows.
 
-Refresh the following patch:
-0001-dso-link-change.patch
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-45283
+https://nvd.nist.gov/vuln/detail/CVE-2023-45284
+https://security-tracker.debian.org/tracker/CVE-2023-45283
+https://security-tracker.debian.org/tracker/CVE-2023-45284
 
-Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../{elfutils_0.189.bb => elfutils_0.190.bb}  |  3 +-
- .../elfutils/files/0001-dso-link-change.patch | 14 ++++----
- ...libasm-may-link-with-libbz2-if-found.patch | 36 -------------------
- 3 files changed, 9 insertions(+), 44 deletions(-)
- rename meta/recipes-devtools/elfutils/{elfutils_0.189.bb => elfutils_0.190.bb} (98%)
- delete mode 100644 meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
+ meta/recipes-devtools/go/go-1.20.10.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.189.bb b/meta/recipes-devtools/elfutils/elfutils_0.190.bb
-similarity index 98%
-rename from meta/recipes-devtools/elfutils/elfutils_0.189.bb
-rename to meta/recipes-devtools/elfutils/elfutils_0.190.bb
-index d8bf82b022..8657080830 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.189.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.190.bb
-@@ -16,7 +16,6 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0002-Fix-elf_cvt_gunhash-if-dest-and-src-are-same.patch \
-            file://0003-fixheadercheck.patch \
-            file://0006-Fix-build-on-aarch64-musl.patch \
--           file://0001-libasm-may-link-with-libbz2-if-found.patch \
-            file://0001-libelf-elf_end.c-check-data_list.data.d.d_buf-before.patch \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-            file://ptest.patch \
-@@ -25,7 +24,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-            "
--SRC_URI[sha256sum] = "39bd8f1a338e2b7cd4abc3ff11a0eddc6e690f69578a57478d8179b4148708c8"
-+SRC_URI[sha256sum] = "8e00a3a9b5f04bc1dc273ae86281d2d26ed412020b391ffcc23198f10231d692"
- 
- inherit autotools gettext ptest pkgconfig
- 
-diff --git a/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch b/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
-index 6acc036406..8ccfcb7bd5 100644
---- a/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-dso-link-change.patch
-@@ -16,18 +16,18 @@ more details.
- Rebase to 0.170
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
-+Signed-off-by: Zang Ruochen <zangruochen@loongson.cn>
- ---
-  src/Makefile.am   | 2 +-
-  tests/Makefile.am | 2 +-
-  2 files changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/src/Makefile.am b/src/Makefile.am
--index 88d0ac8..c28d81f 100644
-+index d3d9d40..ea61616 100644
- --- a/src/Makefile.am
- +++ b/src/Makefile.am
- @@ -45,7 +45,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -ldl -lpthread
-- libelf = ../libelf/libelf.a -lz
-+ libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
-  else
-  libasm = ../libasm/libasm.so
- -libdw = ../libdw/libdw.so
-@@ -36,11 +36,11 @@ index 88d0ac8..c28d81f 100644
-  endif
-  libebl = ../libebl/libebl.a ../backends/libebl_backends.a ../libcpu/libcpu.a
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index c145720..72afd0e 100644
-+index 7fb8efb..71c1a61 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -554,7 +554,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl -lpthread
-- libelf = ../libelf/libelf.a -lz
-+@@ -680,7 +680,7 @@ libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) $(libebl) -ldl -lpthread
-+ libelf = ../libelf/libelf.a -lz $(zstd_LIBS)
-  libasm = ../libasm/libasm.a
-  else
- -libdw = ../libdw/libdw.so
-@@ -48,3 +48,5 @@ index c145720..72afd0e 100644
-  libelf = ../libelf/libelf.so
-  libasm = ../libasm/libasm.so
-  endif
-+--
-+2.25.1
-diff --git a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch b/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
-deleted file mode 100644
-index 09c9d3ea24..0000000000
---- a/meta/recipes-devtools/elfutils/files/0001-libasm-may-link-with-libbz2-if-found.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From ed1975deeaa47f98d212fd144c8bda075b1a5d36 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 4 Oct 2017 22:30:46 -0700
--Subject: [PATCH] libasm may link with libbz2 if found
--
--This can fail to link binaries like objdump
--where indirect libraries may be not found by linker
--
--| /mnt/a/oe/build/tmp/work/riscv64-bec-linux/elfutils/0.170-r0/recipe-sysroot/usr/lib/libbz2.so.1: error adding symbols: DSO missing from command line
--| collect2: error: ld returned 1 exit status
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- src/Makefile.am | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/src/Makefile.am b/src/Makefile.am
--index c28d81f..951e978 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -40,11 +40,11 @@ EXTRA_DIST += make-debug-archive.in
-- CLEANFILES += make-debug-archive
-- 
-- if BUILD_STATIC
---libasm = ../libasm/libasm.a
--+libasm = ../libasm/libasm.a $(zip_LIBS)
-- libdw = ../libdw/libdw.a -lz $(zip_LIBS) $(libelf) -ldl -lpthread
-- libelf = ../libelf/libelf.a -lz
-- else
---libasm = ../libasm/libasm.so
--+libasm = ../libasm/libasm.so $(zip_LIBS)
-- libdw = ../libdw/libdw.so $(zip_LIBS) $(libelf) $(libebl) -ldl
-- libelf = ../libelf/libelf.so
-- endif
+diff --git a/meta/recipes-devtools/go/go-1.20.10.inc b/meta/recipes-devtools/go/go-1.20.10.inc
+index 39509ed986..b240da3f86 100644
+--- a/meta/recipes-devtools/go/go-1.20.10.inc
++++ b/meta/recipes-devtools/go/go-1.20.10.inc
+@@ -16,3 +16,6 @@ SRC_URI += "\
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+ "
+ SRC_URI[main.sha256sum] = "72d2f51805c47150066c103754c75fddb2c19d48c9219fa33d1e46696c841dbb"
++
++# Microsoft Windows specific CVEs
++CVE_CHECK_IGNORE += "CVE-2023-45283 CVE-2023-45284"
 -- 
-2.25.1
+2.40.0
 
 
