@@ -2,56 +2,56 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0DF5C10F07
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB60C10F05
 	for <webhook@archiver.kernel.org>; Mon,  4 Dec 2023 15:59:52 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.73100.1701705585550210147
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.73102.1701705587783915818
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Dec 2023 07:59:45 -0800
+ Mon, 04 Dec 2023 07:59:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=qFxLOUTd;
- spf=pass (domain: baylibre.com, ip: 209.85.128.46, mailfrom: jstephan@baylibre.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40838915cecso47118765e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 07:59:45 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=cF8zCIgE;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.42, mailfrom: jstephan@baylibre.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40a4848c6e1so48107815e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 07:59:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701705583; x=1702310383; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701705585; x=1702310385; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/f9cm/lL6ltdCUfGCbC8zquWoEImJOxxnBFdz4FribU=;
-        b=qFxLOUTdse4t+ThtTg1scap5d3LuiEW27QNhezzJRdxfmcwGQIcN6bSyLT4ijfSpMy
-         mjWQktV+cY1Ee0HgwYgJa7M0MpqvzBf9MZ6GvrqQ4qKHc/6hGXH+RMr6eN9EBvbtBVWi
-         Nq0ght4m4E8lz9JW1/uyncyO3ucqywWPd4x/DJKTca6V9f571IJElfuevNvCod1KCMO0
-         Wc84biK91epAN/ipwRG+91iz2KyEz815PSBrrlufk4vGRmKGVIcDZDu4TisVIRNvkMrj
-         wmpvCnT+hQa75ri15E8ZaKul6wCvYqLmgH/lptBXH7h5ALO8+z/AneJ9xCUFNzAREnr9
-         Txlw==
+        bh=FBbEqi6s9no++CKjmIJSgIW7ZpeYRQv6BzDLZ4a8D3c=;
+        b=cF8zCIgEOXdfaZAXhYSsA5MydT860WBYtrV1nSawNgLCbH+pqD00MDks2HNpn9mbxK
+         9swuOD58xfXab7EewolmmEukjrOf9SPhUL3T/nCoSEDHNvAcghBfWOTMKAclBkrG4HeJ
+         ecQywta1+Di7PsxLXuuh54MBmk0VdJmqyhM7uPbeNEaSAUHleKf6ll+Y8U0iI2tVbgX2
+         PFnMadp1QeelVDkOkJFw75IDmtOCPQ5z94txGrSAMTkXiEw4+SKk41oeBSmK4Z1l0TxV
+         ChIvUGfjtOUGArnZJS5cti/YDEigBmeGuY3zook55BYX11/LjKobajJ+DCtnd2JRqYWh
+         OPkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701705583; x=1702310383;
+        d=1e100.net; s=20230601; t=1701705585; x=1702310385;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/f9cm/lL6ltdCUfGCbC8zquWoEImJOxxnBFdz4FribU=;
-        b=Wl6us9PX6jxOviioAJ0UClvt7SpLr4juwtpXDZA20W4O2nwPqG01h1F1ER2SWTJgz6
-         ZNmrK87uMmrhCO3TpyR/TlIIJMQwkGWonmtYu0SthZ5bv1bK9kDDw/I/lQ8Aalv5+Qn9
-         Fiz8kquCpPLTtp54954ROukCNMWph1Pj9/A2H/Qlz2oAvT2HNGZtfaO1tq6YkxuqEtPX
-         s8obSgqzpaD0dsvtVNdR1tq6SJxpwOF7nnYG5EbfGqPGQopQMdA0dBkYbCz+AcYwxQqQ
-         VUEnCfdPISMVPTAb8+oOwolvL2701aLLyLB4otXrjAdz0QZbC9eqTJf6FolWcOyqdBQ7
-         AKxw==
-X-Gm-Message-State: AOJu0YwyQJKk0VEQPh6LNhcM2o9EJcV8/BzutqehiV2/zAqdvEARpyCS
-	nsojzEvgMIwzwJ6DKQpoOIa87HWdHV2nJA2wtIjqpg==
-X-Google-Smtp-Source: AGHT+IF4qI41TphjhYzqszwpkZd4gpH5hUa5k9KezyCfZjI8ITnQKVnI/IeTaM4vz5ObKsUR/RWGHQ==
-X-Received: by 2002:a7b:cd0e:0:b0:40c:ec3:fbd0 with SMTP id f14-20020a7bcd0e000000b0040c0ec3fbd0mr405050wmj.85.1701705583436;
-        Mon, 04 Dec 2023 07:59:43 -0800 (PST)
+        bh=FBbEqi6s9no++CKjmIJSgIW7ZpeYRQv6BzDLZ4a8D3c=;
+        b=ndb68BfyyfdkrNFo8mFvA4TNgylH8RpKw9vFg/XX0WP8pumkvirKG0RdTBwtU6AQ2r
+         TCemVfEaFGodOGrvKAANOOQYK3U2Fw5KgDnQ0mvDEimTIl/LVsw7rtm4VLCbVtBDtJZc
+         Pn7o3X9ignS+peBaWDb3PpIQvZV1t4RBaQcNgYSzGZFyqdB/rwIE2M3jKEWCNa4pNSsT
+         0w17JoRLVILkIuO+b4f51JajGswdviK6Fnjq8IhxcDGyXX6pSfCUkuboQVXM4M5Gyykl
+         +RmFqxC/3tKJbM1Xq9P+hTFKPWHQYuAylPPkx8QMLU6HBJM35sJY0S0VEhTmbY48L3v4
+         2LBg==
+X-Gm-Message-State: AOJu0YxhmXDsaGf2Z5hQox94SOkfEWzSxYmbH9zdFON9yU+xrLFi8pfF
+	9JZE/mLFOjDrCkdm9oRo7rD+TtTwmDu4rfTGVHPyzQ==
+X-Google-Smtp-Source: AGHT+IHxd9IfDIS0zRJIq13/t09INSVU5c+lU+oGoPyogKuBstLpH+C9+BENV5Gf8dkgFuYqbsscTw==
+X-Received: by 2002:a7b:cb42:0:b0:40b:5e4a:40a2 with SMTP id v2-20020a7bcb42000000b0040b5e4a40a2mr2348191wmj.194.1701705585607;
+        Mon, 04 Dec 2023 07:59:45 -0800 (PST)
 Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040b47c53610sm15479595wmq.14.2023.12.04.07.59.42
+        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040b47c53610sm15479595wmq.14.2023.12.04.07.59.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 07:59:43 -0800 (PST)
+        Mon, 04 Dec 2023 07:59:44 -0800 (PST)
 From: Julien Stephan <jstephan@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [RESEND][PATCH 3/7] recipetool: create: add trailing newlines
-Date: Mon,  4 Dec 2023 16:59:30 +0100
-Message-ID: <20231204155934.836992-4-jstephan@baylibre.com>
+Subject: [RESEND][PATCH 5/7] recipetool: create_buildsys_python: add pypi support
+Date: Mon,  4 Dec 2023 16:59:32 +0100
+Message-ID: <20231204155934.836992-6-jstephan@baylibre.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231204155934.836992-1-jstephan@baylibre.com>
 References: <20231204155934.836992-1-jstephan@baylibre.com>
@@ -61,53 +61,171 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 15:59:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191757
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191759
 
-create_recipe() function relies on oe.recipeutils.patch_recipe_lines()
-which relies on bb.utils.edit_metadata(). edit_metada expect lines to
-have trailing newlines, so add it to each lines before calling
-patch_recipe_lines, otherwise edit_metadata will not be able to squash
-blank line if there are two consecutive blanks after a removal
+Today, we can use devtool/recipetool to create recipes for python projects
+using the github url or the direct release tarball of the project, but the
+create_buildsys_python plugin doesn't support the pypi class, since we cannot
+know from the extracted source if the package is available on pypi or not.
+
+By implementing the new optional process_url callback, we can detect
+that the url is a pypi one (i.e 'https://pypi.org/project/<package>')
+and retrieve the release tarball location.
+Also detect if the url points to a release tarball hosted on
+"files.pythonhosted.iorg" (i.e https://files.pythonhosted.org/packages/...)
+
+In both cases, adds the pypi class, remove 'S' and 'SRC_URIxxx'
+variables from the created recipe as they will be handled by the pypi class
+and add the PYPI_PACKAGE variable
+
+This helps to produce cleaner recipes when package is hosted on pypi.
+
+If the url points to a github url or a release tarball not coming from
+"files.pythonhosted.org", the created recipe is the same as before.
+One can also use the newly added "--no-pypi" switch to NOT inherit
+from pypi class on matching url, to keep legacy behaviour.
+
+To create a recipe for a pypi package, one can now use one of the
+new following syntax (using recipetool create / devtool add):
+
+* recipetool create https://pypi.org/project/<package>
+* recipetool create https://pypi.org/project/<package>/<version>
+* recipetool create https://pypi.org/project/<package> --version <version>
+
+or the old syntax:
+* recipetool create https://files.pythonhosted.org/packages/<...>
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- scripts/lib/recipetool/create.py | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ scripts/lib/devtool/standard.py               |  3 +
+ scripts/lib/recipetool/create.py              |  1 +
+ .../lib/recipetool/create_buildsys_python.py  | 72 +++++++++++++++++++
+ 3 files changed, 76 insertions(+)
 
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index d53fb810071..f18ebaa70d3 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -147,6 +147,8 @@ def add(args, config, basepath, workspace):
+         extracmdopts += ' -a'
+     if args.npm_dev:
+         extracmdopts += ' --npm-dev'
++    if args.no_pypi:
++        extracmdopts += ' --no-pypi'
+     if args.mirrors:
+         extracmdopts += ' --mirrors'
+     if args.srcrev:
+@@ -2260,6 +2262,7 @@ def register_commands(subparsers, context):
+     group.add_argument('--no-same-dir', help='Force build in a separate build directory', action="store_true")
+     parser_add.add_argument('--fetch', '-f', help='Fetch the specified URI and extract it to create the source tree (deprecated - pass as positional argument instead)', metavar='URI')
+     parser_add.add_argument('--npm-dev', help='For npm, also fetch devDependencies', action="store_true")
++    parser_add.add_argument('--no-pypi', help='Do not inherit pypi class', action="store_true")
+     parser_add.add_argument('--version', '-V', help='Version to use within recipe (PV)')
+     parser_add.add_argument('--no-git', '-g', help='If fetching source, do not set up source tree as a git repository', action="store_true")
+     group = parser_add.add_mutually_exclusive_group()
 diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 293198d1c88..f5d541eb6c1 100644
+index 5c5ac7ae403..963aa91421e 100644
 --- a/scripts/lib/recipetool/create.py
 +++ b/scripts/lib/recipetool/create.py
-@@ -873,8 +873,10 @@ def create_recipe(args):
-         outlines.append('')
-     outlines.extend(lines_after)
+@@ -1413,6 +1413,7 @@ def register_commands(subparsers):
+     parser_create.add_argument('-B', '--srcbranch', help='Branch in source repository if fetching from an SCM such as git (default master)')
+     parser_create.add_argument('--keep-temp', action="store_true", help='Keep temporary directory (for debugging)')
+     parser_create.add_argument('--npm-dev', action="store_true", help='For npm, also fetch devDependencies')
++    parser_create.add_argument('--no-pypi', action="store_true", help='Do not inherit pypi class')
+     parser_create.add_argument('--devtool', action="store_true", help=argparse.SUPPRESS)
+     parser_create.add_argument('--mirrors', action="store_true", help='Enable PREMIRRORS and MIRRORS for source tree fetching (disabled by default).')
+     parser_create.set_defaults(func=create_recipe)
+diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+index b620e3271b1..5e07222ece1 100644
+--- a/scripts/lib/recipetool/create_buildsys_python.py
++++ b/scripts/lib/recipetool/create_buildsys_python.py
+@@ -18,7 +18,11 @@ import os
+ import re
+ import sys
+ import subprocess
++import json
++import urllib.request
+ from recipetool.create import RecipeHandler
++from urllib.parse import urldefrag
++from recipetool.create import determine_from_url
  
-+    outlines = [ line.rstrip('\n') +"\n" for line in outlines]
+ logger = logging.getLogger('recipetool')
+ 
+@@ -111,6 +115,74 @@ class PythonRecipeHandler(RecipeHandler):
+     def __init__(self):
+         pass
+ 
++    def process_url(self, args, classes, handled, extravalues):
++        """
++        Convert any pypi url https://pypi.org/project/<package>/<version> into https://files.pythonhosted.org/packages/source/...
++        which corresponds to the archive location, and add pypi class
++        """
 +
-     if extravalues:
--        _, outlines = oe.recipeutils.patch_recipe_lines(outlines, extravalues, trailing_newline=False)
-+        _, outlines = oe.recipeutils.patch_recipe_lines(outlines, extravalues, trailing_newline=True)
++        if 'url' in handled:
++            return None
++
++        fetch_uri = None
++        source = args.source
++        required_version = args.version if args.version else None
++        match = re.match(r'https?://pypi.org/project/([^/]+)(?:/([^/]+))?/?$', urldefrag(source)[0])
++        if match:
++            package = match.group(1)
++            version = match.group(2) if match.group(2) else required_version
++
++            json_url = f"https://pypi.org/pypi/%s/json" % package
++            response = urllib.request.urlopen(json_url)
++            if response.status == 200:
++                data = json.loads(response.read())
++                if not version:
++                    # grab latest version
++                    version = data["info"]["version"]
++                pypi_package = data["info"]["name"]
++                for release in reversed(data["releases"][version]):
++                    if release["packagetype"] == "sdist":
++                        fetch_uri = release["url"]
++                        break
++            else:
++                logger.warning("Cannot handle pypi url %s: cannot fetch package information using %s", source, json_url)
++                return None
++        else:
++            match = re.match(r'^https?://files.pythonhosted.org/packages.*/(.*)-.*$', source)
++            if match:
++                fetch_uri = source
++                pypi_package = match.group(1)
++                _, version = determine_from_url(fetch_uri)
++
++        if match and not args.no_pypi:
++            if required_version and version != required_version:
++                raise Exception("Version specified using --version/-V (%s) and version specified in the url (%s) do not match" % (required_version, version))
++            # This is optionnal if BPN looks like "python-<pypi_package>" or "python3-<pypi_package>" (see pypi.bbclass)
++            # but at this point we cannot know because because user can specify the output name of the recipe on the command line
++            extravalues["PYPI_PACKAGE"] = pypi_package
++            # If the tarball extension is not 'tar.gz' (default value in pypi.bblcass) whe should set PYPI_PACKAGE_EXT in the recipe
++            pypi_package_ext = re.match(r'.*%s-%s\.(.*)$' % (pypi_package, version), fetch_uri)
++            if pypi_package_ext:
++                pypi_package_ext = pypi_package_ext.group(1)
++                if pypi_package_ext != "tar.gz":
++                    extravalues["PYPI_PACKAGE_EXT"] = pypi_package_ext
++
++            # Pypi class will handle S and SRC_URIxxx variables, so remove them
++            # TODO: allow oe.recipeutils.patch_recipe_lines() to accept regexp so we can simplify the following to:
++            # extravalues['SRC_URI(?:\[.*?\])?'] = None
++            extravalues['S'] = None
++            extravalues['SRC_URI'] = None
++            extravalues['SRC_URI[md5sum]'] = None
++            extravalues['SRC_URI[sha1sum]'] = None
++            extravalues['SRC_URI[sha256sum]'] = None
++            extravalues['SRC_URI[sha384sum]'] = None
++            extravalues['SRC_URI[sha512sum]'] = None
++
++            classes.append('pypi')
++
++        handled.append('url')
++        return fetch_uri
++
+     def handle_classifier_license(self, classifiers, existing_licenses=""):
  
-     if args.extract_to:
-         scriptutils.git_convert_standalone_clone(srctree)
-@@ -890,7 +892,7 @@ def create_recipe(args):
-         log_info_cond('Source extracted to %s' % args.extract_to, args.devtool)
- 
-     if outfile == '-':
--        sys.stdout.write('\n'.join(outlines) + '\n')
-+        sys.stdout.write(''.join(outlines) + '\n')
-     else:
-         with open(outfile, 'w') as f:
-             lastline = None
-@@ -898,7 +900,7 @@ def create_recipe(args):
-                 if not lastline and not line:
-                     # Skip extra blank lines
-                     continue
--                f.write('%s\n' % line)
-+                f.write('%s' % line)
-                 lastline = line
-         log_info_cond('Recipe %s has been created; further editing may be required to make it fully functional' % outfile, args.devtool)
-         tinfoil.modified_files()
+         licenses = []
 -- 
 2.42.0
 
