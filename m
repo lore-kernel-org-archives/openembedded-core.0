@@ -1,85 +1,209 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <h4nn35.work@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C415C4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 09:44:09 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web10.96905.1701769439198472562
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2528EC4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 09:44:19 +0000 (UTC)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+ by mx.groups.io with SMTP id smtpd.web10.96911.1701769454771094662
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 01:43:59 -0800
+ Tue, 05 Dec 2023 01:44:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZAcJ583u;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2c9f42ccb55so35461671fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 01:43:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OEukoYnW;
+ spf=pass (domain: gmail.com, ip: 209.85.128.176, mailfrom: h4nn35.work@gmail.com)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5d05ff42db0so60915147b3.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 01:44:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701769437; x=1702374237; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3fWjVWgKcahSf4Fnw5IVhllC3mOJ/nWZo77eW4CjXEU=;
-        b=ZAcJ583u4NQsoWfijjp2v7ETtbF2+53KQgsoBCijoRfGespdHSA56j8InZ9DJ+2BIB
-         ZLJ+HT0mA9IJvtIG8Bl4JShK3kZNjjqbZDK7AV3OTRdNiEiEyEBFPqz6pQ+oNd5thjOc
-         9S9fDm1MCpmW9D2++XvWaKNlKeqt+WueBYesypOtFTx0Zbpi7i69bCypd/rylHQBdEqt
-         KA91gNxODofPTr7jxBHY3EMzcDz6BYgYvRF7rg3gag+mxs2R0qBDfjbY5Kx86JHJGER3
-         BRaCUUxs44Pr4nIhLVnuPCgLQSOVp1cq+bQVbLv4E9xicEBT/tax9DbyHYA2SQZdIpmq
-         qmEg==
+        d=gmail.com; s=20230601; t=1701769454; x=1702374254; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c0Bflh7Y9YLA9suZk3QZxXjwwMy5XD+TH48lOGeQs7k=;
+        b=OEukoYnW+2V1nJy7z45W6m/HEFiKNeA6bLkvBwAD2hcpcMdWbI7OBDcXnQQgA54j3b
+         pw1iXG1A42yoLYt3bWC5qbjKwRSGNsPVg2/WN+L/IOvxOVFY6ysJQAQC5MlllVNr78b2
+         oAOJh432nuvPppVz/s20ETBABlcSgeInbUSFb2V6wRX7ehT6IsY9Jdzr6Zh2KMl5bH1+
+         rRiVLmgppJbW1pMYtaObTRfEdvJIBuPGg4NOeTYwBfkqnUvBqBF8awrQltSZ/mcRBJqS
+         23mdH81Z9gAlNSdOr8XlHkREEK0gLTx0F188Ss70vI8G6v3ye+Ip+VrInxQfHBE/lJRw
+         JU0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701769437; x=1702374237;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3fWjVWgKcahSf4Fnw5IVhllC3mOJ/nWZo77eW4CjXEU=;
-        b=A8V83rVwdHCCXad9v2/PBZrbuSWMXYRakhkKXprW2CQlaExCCPHFS5XkCsfIM7cod8
-         cADb7i7dhx8BNvl/khWoP9wtwOuhmGdmpoypsM9OtGakTLVXZmQ1FtN7iG/nrMJ/XoyT
-         i5vMyY8UoH2XUrbfF06W2i0Kk5IyGgRv3S+XL9vt6nBE/qly19aEg9P0MKM5nJzW/qOL
-         Y/n87cqmc367b6IYF0+oE3AhRDvQnTX+trAahEPtTfMU5AXz96t3hcfzwKqFb/G+0wgM
-         STRJ5+Biix+zG9vI7p7D9/jR+V6jWCoWsGfM+6Valu+63x9Lw++6XqVOgKbUaxnwisLu
-         cpZw==
-X-Gm-Message-State: AOJu0YzWwV83JCStjRIF2gNidwwA0GBRlVEDX7brV5JLratmOcTAfzH3
-	lpyQLg2wBQPFXtK5ZjJv2XTkuGhD9OCn2jf3D/k=
-X-Google-Smtp-Source: AGHT+IGVbia5UZ+aJ+8RKqWama6n1ODLZxqm6WiNpqVZMo0wn8SD8bzL5u0i4xYfZgtiNc6AQPyR4PPhbTOMMPiIWgU=
-X-Received: by 2002:a2e:9c07:0:b0:2c9:ffd9:5bd6 with SMTP id
- s7-20020a2e9c07000000b002c9ffd95bd6mr1803614lji.85.1701769436929; Tue, 05 Dec
- 2023 01:43:56 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701769454; x=1702374254;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=c0Bflh7Y9YLA9suZk3QZxXjwwMy5XD+TH48lOGeQs7k=;
+        b=NzGStj+yhxRYrseJypNBDZjboCFIDBz3CYKkrb25voa60Z9xLD3OLOj8Eubet3B9uY
+         0EJ4fZKPgQiMI26pdMKQEfstb6HOWyVWhE2ZnYG/x9QuOjTGOzITkuQNY4PvRm9iwuXd
+         2UkyWuw6DPkOCN3wNlltmSF/p6CVDt/5+PHuLftmhjKfAycYZQii9ZR4r749QHC1e4ho
+         qcsw4woiDwZHZ4cwOzeDZqgFv3/RSkieJ25PExfQ7hTxFvGCMi0DX9eir44jioaIXh0Z
+         Opa/bvh3mI+bhqdMd7I9eMI3hBseiThFYYfW+FbTmOMJ3GEV8D1wdmCIR9nFRGLupYrv
+         KjJg==
+X-Gm-Message-State: AOJu0YwisI0lrax+wdAi4C9Q9c6wLUUESHhMnYtXRDeRNHRO628KCsHp
+	+EO6DZ6c/XfKwZ31PS3XGO1RVbMajGh6K+a9qA==
+X-Google-Smtp-Source: AGHT+IH4Jj2TMcco4Oqdp3o2IubhEQM/SJeHOgqHlqFLGE2cH2G/F5WKRrsBL0wmlKYmCmy5l0nOjkJamWKNrD8XPtc=
+X-Received: by 2002:a81:4ccd:0:b0:5d3:e2a2:8bcd with SMTP id
+ z196-20020a814ccd000000b005d3e2a28bcdmr3810438ywa.5.1701769453835; Tue, 05
+ Dec 2023 01:44:13 -0800 (PST)
 MIME-Version: 1.0
-References: <CANNYZj_MaSkVc9SS5vJ4TBDZ7oMV-iXfqDi54U6cMyxuqEL-bQ@mail.gmail.com>
- <358.1701701188844188611@lists.openembedded.org>
-In-Reply-To: <358.1701701188844188611@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 5 Dec 2023 10:43:45 +0100
-Message-ID: <CANNYZj9tW+8sF4JZUiDFY81h0EkpbDLu=v4uoVjrHc4G3dZ8DQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] image-live: Add support for building
- EFI-bootable ISO images for non-x86-based archs
-To: Andrey Popov <andrey.popov@yadro.com>
+References: <20231201105359.409068-1-johannes.pointner@br-automation.com>
+ <20231202151311e74fca40@mail.local> <CAHvQdo2FqMHUaKOpXHcOimVGQk40b=6A9xRXVh-zHwEQ_SvQwA@mail.gmail.com>
+ <CANNYZj99HsYjDgWeKwK8KsU1=cZDZ8g3rtc7vGiY9NizdA+_7g@mail.gmail.com>
+In-Reply-To: <CANNYZj99HsYjDgWeKwK8KsU1=cZDZ8g3rtc7vGiY9NizdA+_7g@mail.gmail.com>
+From: Johannes Pointner <h4nn35.work@gmail.com>
+Date: Tue, 5 Dec 2023 10:44:02 +0100
+Message-ID: <CAHvQdo1+2xLfA4DMHbS3x6MparmAT+EAGUUNwJ1p+kst9dUOug@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ldconfig-native: Add usrmerge support
+To: Alexander Kanavin <alex.kanavin@gmail.com>, alexandre.belloni@bootlin.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 09:44:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191810
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 09:44:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191811
 
-Then it's probably best to write a recipe, so that the code can be
-hosted externally and maintained independently of oe-core?
+On Mon, Dec 4, 2023 at 11:00=E2=80=AFAM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Generally if you mark something as inappropriate, it's best to write
+> an extended description of why in the patch. The barrier to adding
+> patches that we can never upstream is high.
+>
+Thanks, I understand that, but ldconfig-native seemed very special to me, s=
+o
+I tried to take an example from the existing patches.
 
-Alex
+So the next step would be a v2 with a better explanation and obviously a
+fixed sendemail.from?
+Or are there any other things I should change?
 
-On Mon, 4 Dec 2023 at 15:46, Andrey Popov <andrey.popov@yadro.com> wrote:
+Hannes
+> Alex
 >
-> Hello, Alex!
->
-> I have doubts that the entire isoparser class set could be inlined, that would occupy around 1200 lines in total.
-> https://github.com/barneygale/isoparser/tree/master/isoparser
-> Three functions that are used to find the file using this class set are 32 lines long in total.
->
-> Best regards, Andrey.
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#191742): https://lists.openembedded.org/g/openembedded-core/message/191742
-> Mute This Topic: https://lists.openembedded.org/mt/102896781/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> On Mon, 4 Dec 2023 at 07:53, Johannes Pointner <h4nn35.work@gmail.com> wr=
+ote:
+> >
+> > Hello,
+> >
+> > On Sat, Dec 2, 2023 at 4:13=E2=80=AFPM Alexandre Belloni via
+> > lists.openembedded.org
+> > <alexandre.belloni=3Dbootlin.com@lists.openembedded.org> wrote:
+> > >
+> > > On 01/12/2023 11:53:59+0100, Johannes Pointner via lists.openembedded=
+.org wrote:
+> > > > If DISTRO_FEATURE usrmerge is enabled, SLIBDIR is just a symlink to=
+ LIBDIR,
+> > > > therefore don't add SLIBDIR for parsing in this case.
+> > > >
+> > > > Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.c=
+om>
+> > > > ---
+> > > >  .../ldconfig-add-usrmerge-support.patch       | 37 +++++++++++++++=
+++++
+> > > >  .../glibc/ldconfig-native_2.12.1.bb           |  1 +
+> > > >  2 files changed, 38 insertions(+)
+> > > >  create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/=
+ldconfig-add-usrmerge-support.patch
+> > > >
+> > > > diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfi=
+g-add-usrmerge-support.patch b/meta/recipes-core/glibc/ldconfig-native-2.12=
+.1/ldconfig-add-usrmerge-support.patch
+> > > > new file mode 100644
+> > > > index 0000000000..3041d433fd
+> > > > --- /dev/null
+> > > > +++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-u=
+srmerge-support.patch
+> > > > @@ -0,0 +1,37 @@
+> > > > +From 6e543f39f6bec6eb2e02eea02029c7f4ec533b66 Mon Sep 17 00:00:00 =
+2001
+> > > > +From: Johannes Pointner <johannes.pointner@br-automation.com>
+> > > > +Date: Fri, 1 Dec 2023 11:02:39 +0100
+> > > > +Subject: [PATCH] ldconfig: add usrmerge support
+> > > > +
+> > > > +Check whether SLIBDIR is a symlink, which is the case if usrmerge
+> > > > +is enabled, and if so, ignore it.
+> > > > +
+> > > > +Upstream-Status: Inappropriate [embedded specific]
+> > >
+> > > I'm not sure how this is embedded specific, why doesn't it affect des=
+ktop
+> > > distribution that have usrmerge (e.g. Fedora) ?
+> > Because this is just a workaround for the standalone ldconfig-native.
+> > https://lists.openembedded.org/g/openembedded-core/message/191566
+> > I also looked at the reason for the patches that are already used by
+> > ldconfig-native.
+> > But I am open to suggestions, what would you prefer?
+> > >
+> > > > +
+> > > > +Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.=
+com>
+> > > > +---
+> > > > + ldconfig.c | 8 +++++++-
+> > > > + 1 file changed, 7 insertions(+), 1 deletion(-)
+> > > > +
+> > > > +diff --git a/ldconfig.c b/ldconfig.c
+> > > > +index e826410..72ac67b 100644
+> > > > +--- a/ldconfig.c
+> > > > ++++ b/ldconfig.c
+> > > > +@@ -1371,10 +1371,16 @@ main (int argc, char **argv)
+> > > > +
+> > > > +   if (!opt_only_cline)
+> > > > +     {
+> > > > ++      struct stat buf;
+> > > > ++      int ret;
+> > > > +       parse_conf (config_file, true);
+> > > > +
+> > > > +       /* Always add the standard search paths.  */
+> > > > +-      add_system_dir (SLIBDIR);
+> > > > ++      /* Check whether SLIBDIR is a symlink, which is the case if=
+ usrmerge
+> > > > ++       is enabled, and if so, ignore it. */
+> > > > ++      ret =3D lstat(SLIBDIR ,&buf);
+> > > > ++      if(ret =3D=3D -1 || !S_ISLNK(buf.st_mode))
+> > > > ++        add_system_dir (SLIBDIR);
+> > > > +       if (strcmp (SLIBDIR, LIBDIR))
+> > > > +     add_system_dir (LIBDIR);
+> > > > +       add_system_dir (SLIBDIR32);
+> > > > diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/me=
+ta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+> > > > index 4db67c3ad4..85fc87257d 100644
+> > > > --- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+> > > > +++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
+> > > > @@ -16,6 +16,7 @@ SRC_URI =3D "file://ldconfig-native-2.12.1.tar.bz=
+2 \
+> > > >             file://add-64-bit-flag-for-ELF64-entries.patch \
+> > > >             file://no-aux-cache.patch \
+> > > >             file://add-riscv-support.patch \
+> > > > +           file://ldconfig-add-usrmerge-support.patch \
+> > > >  "
+> > > >
+> > > >
+> > > > --
+> > > > 2.43.0
+> > > >
+> > > >
+> > >
+> > > >
+> > > >
+> > > >
+> > >
+> > >
+> > > --
+> > > Alexandre Belloni, co-owner and COO, Bootlin
+> > > Embedded Linux and Kernel engineering
+> > > https://bootlin.com
+> > >
+> > >
+> > >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#191722): https://lists.openembedded.org/g/openembed=
+ded-core/message/191722
+> > Mute This Topic: https://lists.openembedded.org/mt/102912756/1686489
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+alex.kanavin@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
