@@ -2,102 +2,93 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4681C4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 07:47:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACD82C10DC3
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 07:49:08 +0000 (UTC)
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.94503.1701762471329616289
+ by mx.groups.io with SMTP id smtpd.web10.95405.1701762539782428036
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Dec 2023 23:47:51 -0800
+ Mon, 04 Dec 2023 23:49:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Zea1gxqu;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=SIsjs5W9;
  spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AC5D91C0006;
-	Tue,  5 Dec 2023 07:47:48 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 581811C0009;
+	Tue,  5 Dec 2023 07:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701762469;
+	t=1701762538;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oRFVrhHnZ00a85mCpezHF6vuvqJ6cT4t1e7jzl5HhJU=;
-	b=Zea1gxqun5X3x0j8+acrZ5uriLUaWs5rKl7wXlBc/I+SNZNAo7RkEp0CIx4YNXa5yevJkW
-	krfizvr8afpPFFB6G9uWJSousRh7YDnTl7J6w1pZ/Ne1aL92vLTtarfM+5NJxyQC/E9MCl
-	vyML2art3dDDYl2pXAoxPdS9PgoerGt8UeZ41oQgjEBuhUO7rknWH0BntqQMQNIejNG425
-	fr78sYpJCOdOsxcf5lmXvq51k9O2V0MAcFn/V62IjIhXmfPZ2KNLAd/a8sjxy+7E4Gm2cA
-	XtEDnYhvcOmD/MTM1MtG+Nj5GQdLSwo1wyRZJ9R0J8SqOSH62XValsRsmpRVFA==
-Date: Tue, 5 Dec 2023 08:47:48 +0100
+	bh=oUl3/ertL95zSxAl7gkXajSLucuVfh3t9LCf1QD6SOE=;
+	b=SIsjs5W9hiL6Ny8wwRY79FY+8EOaZ8A2Oa9/Zq/c4va/zUlUGgEabxg8sfjRO/bd6s/lTY
+	tsx9AQ/r1S7dTCKJP0N7n8eccv3DPHGNY62659THKV7IX2DA2SzoQ90CKTYfKqEHQVVHiT
+	OMXLnK95YjMBPItD3HTPMTBN8esfouti74dx8VLOyHfrKr7zpeC/p2Yo1X/NYWyl8O0mOl
+	Y3aXRhlAG9rFmX2x58B1l2QqFOubXBMzwWe5ybLt6mZiai4ykk0k0Y61eYyprRFqTJZDws
+	akrFUb+EDYMEPq/pnCz5Z+drz0eWTRlMZE6Mj1zsvonjWFVojn52KWgtL90fig==
+Date: Tue, 5 Dec 2023 08:48:58 +0100
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Julien Stephan <jstephan@baylibre.com>
+To: Yoann Congal <yoann.congal@smile.fr>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2 0/9] Several fixes around recipetool
- appendsrcfile(s) and oe.recipeutils.bbappend_recipe
-Message-ID: <202312050747484b944cf9@mail.local>
-References: <20231204152603.831495-1-jstephan@baylibre.com>
+Subject: Re: [OE-core] [PATCH] lib/oe/patch: handle creating patches for CRLF
+ sources
+Message-ID: <2023120507485824c14f37@mail.local>
+References: <20231127134903.1327808-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231204152603.831495-1-jstephan@baylibre.com>
+In-Reply-To: <20231127134903.1327808-1-yoann.congal@smile.fr>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 07:47:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191804
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 07:49:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191805
 
 Hello,
 
-The series doesn't apply on master, can you rebase?
+This doesn't apply on master, can you rebase?
 
-On 04/12/2023 16:25:54+0100, Julien Stephan wrote:
-> Hi all,
+On 27/11/2023 14:49:03+0100, Yoann Congal wrote:
+> Using devtool to patch CRLF based sources creates patch files which have
+> mixed end of lines : LF for headers and CRLF for source context and
+> modified lines.
 > 
-> I was trying to use recipetool appendsrcfile to add a file to a recipe and I noticed several issues:
-> * -m is not correctly supported
-> * recipetool appendsrfile(s) are missing a usefull dry-run mode
-> * appendsrc function relies on oe.recipeutils.bbappend_recipe but
->   duplicates some code: it constructs itself the new src_uri entry
->   although oe.recipeutils.bbappend_recipe is already doing it
-> * we are lacking a mode to patch the recipe itself
+> Python open(..., newline=None) (default for newline arg)does detect
+> end-of-line in this mixed file but only outputs LF EOL data. This
+> result in patch files that does not apply on the original sources.
 > 
-> So this series tries to fix the issues above, fix the selftest
-> accordingly and add new test for -m and for "patch mode" (update recipe)
-> and also add a way to specify the name of the file to add
-> (in oe.recipeutils.bbappend_recipe)
+> Switching to open(..., newline='') allows to detect end-of-line but keep
+> the original end-of-line intact. This generate correct patches for CRLF
+> based sources.
 > 
-> Improvements from v1:
-> - in bbappend_recipe function remove old entry if an entry with different parameters already exists 
-> to avoid duplicate entries with different parameters
+> Fixes [YOCTO #15285]
 > 
-> Link to v1: https://lists.openembedded.org/g/openembedded-core/message/191544
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  meta/lib/oe/patch.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 
-> Julien Stephan (9):
->   recipetool: appendsrcfile(s): add dry-run mode
->   recipeutils: bbappend_recipe: fix undefined variable
->   recipeutils: bbappend_recipe: add a way to specify the name of the
->     file to add
->   recipeutils: bbappend_recipe: remove old srcuri entry if parameters
->     are different
->   recipetool: appendsrcfile(s): use params instead of extraline
->   recipeutils: bbappend_recipe: allow to patch the recipe itself
->   recipetool: appendsrcfile(s): add a mode to update the recipe itself
->   oeqa/selftest/recipetool: appendsrfile: add test for machine
->   oeqa/selftest/recipetool: appendsrc: add test for update mode
-> 
->  meta/lib/oe/recipeutils.py                 | 62 +++++++++++-----
->  meta/lib/oeqa/selftest/cases/recipetool.py | 83 +++++++++++++++++++---
->  scripts/lib/devtool/standard.py            |  6 +-
->  scripts/lib/recipetool/append.py           | 63 +++++++++++-----
->  4 files changed, 168 insertions(+), 46 deletions(-)
-> 
+> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+> index ff9afc9df9..7bf660978e 100644
+> --- a/meta/lib/oe/patch.py
+> +++ b/meta/lib/oe/patch.py
+> @@ -477,7 +477,7 @@ class GitApplyTree(PatchTree):
+>                          patchlines = []
+>                          outfile = None
+>                          try:
+> -                            with open(srcfile, 'r', encoding=encoding) as f:
+> +                            with open(srcfile, 'r', encoding=encoding, newline='') as f:
+>                                  for line in f:
+>                                      if line.startswith(GitApplyTree.patch_line_prefix):
+>                                          outfile = line.split()[-1].strip()
 > -- 
-> 2.42.0
+> 2.30.2
 > 
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#191744): https://lists.openembedded.org/g/openembedded-core/message/191744
-> Mute This Topic: https://lists.openembedded.org/mt/102972288/3617179
+> View/Reply Online (#191303): https://lists.openembedded.org/g/openembedded-core/message/191303
+> Mute This Topic: https://lists.openembedded.org/mt/102828787/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
