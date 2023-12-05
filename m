@@ -2,98 +2,110 @@ Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB7CBC4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 14:28:40 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web10.101894.1701786515917295881
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83886C4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 14:28:50 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.100705.1701786526609770977
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 06:28:36 -0800
+ Tue, 05 Dec 2023 06:28:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PmLCjNdM;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: jhatnedap@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-54c70c70952so4566895a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 06:28:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=f8JMCvbn;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: jhatnedap@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50bef9b7a67so3474279e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 06:28:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701786514; x=1702391314; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rYF3zcTwWpQQJpvCs6MVvCLwabYvWtwLashpYr18kyc=;
-        b=PmLCjNdMjgF6gIL2FabzV6dNprjmU/G1qgmimjhPsjaw3ykchAnP3eqLaRL5nF3Lnw
-         VVVMP/YtkIKQvkme3haRI0mrbt1JLWETUuOBqT+thNmuG2ucJwwnGfHOeBCO45aHM7G3
-         eo4zRISHRaxF+uUqa8bZtF7Hw8+WqUhL59IlYpy1g4Hk39Dpw71PYdEMuC2m6+lRq980
-         Kj6JNepuBlEcNiWYzdly6shjXsHjyf4IEXpa9MGEnGCRpeTh580WF55jQyw4FeuRR9dG
-         u/jkQNIm+anKB9MBq2BoLVMBejPqSKaA/ze3sEMc+LgG0wdenMt9xEpA0/7HayyaH9/H
-         SItw==
+        d=gmail.com; s=20230601; t=1701786525; x=1702391325; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=iqD+05fDDF8h/8Rgh1OXmOVczzWr3DM9jKd7zs8LVLg=;
+        b=f8JMCvbns2nRgdxea6PYu02PHHpLxt0qZs2wlfGFTRD7Krhr/U6EHSM4epKtUEfYbX
+         KJRxzP011dVlxqXkp6n9cz5K+cWcrOhR5hNamxwDKeh2seD8ccl0K/RbJ+VqEzT6tksq
+         Zm/n7O4OVtxkWO+ha7svtw8JFIfPtI1n1m0NRRg2NkhYAAsMr9k71YswDZYs+/5ZPCLi
+         4RPLf8Co0G/4mUEbDKImBQZyruzvwsRR6n6FdiqsxfxTwc6hzH2DvZb2lcsYIid2yCo2
+         OmEGKlrWjURmoyVutcdJjqWtSFhCtzjYGN1hkKsRG9MBkrn2lvmYJX3cTXu9+Aogm8cp
+         Zi4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701786514; x=1702391314;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rYF3zcTwWpQQJpvCs6MVvCLwabYvWtwLashpYr18kyc=;
-        b=ZJC4xhChq9/tWBXggLCdYCKpdtoFeYnqThWxH1UwVYPp4S6eo1wdLWyv0jQhOVmyWr
-         IqJwqoDe8cxTP+IbprW4eg4vadnAXuqKh6zKRWa4Uw3lyRfpOjnjft9Y76vPiKoW5IyK
-         2eMAX68svcz9oHVHDQ3Wrni/8wCqbxCttb3Fghx/Pi8tqpehX31wLUAR+xEgjW1O/4XB
-         SBws3HVsYtF6ws08JqNAKEjBsZIiY26GyOz0QFZ+8TY+KSEp5fCQvLsYlYLjD+Uwql98
-         klpd6/+w5BDkRHB/FbvTTMW2sLoV/Y3zLWqe/ClX49BvoDUrzgOfKYR5FQ4XkDi0+hEb
-         XY1g==
-X-Gm-Message-State: AOJu0Yw8XB8NN9pkpRH48kLbpsJEvvp7Nk9wqbK5zZ5LSJ152Ot0wvOD
-	e13vezogpb1JCLcMd8gkid3iqKs8i8M=
-X-Google-Smtp-Source: AGHT+IFKvE7ubtdoxqOPEvqYRzvHCWaFrgdQGQN9PGIx4YPfCl7rgk5h4CEotH8L8sx89SSrRmms8w==
-X-Received: by 2002:a50:d787:0:b0:54c:4837:7d3b with SMTP id w7-20020a50d787000000b0054c48377d3bmr2792632edi.122.1701786514173;
-        Tue, 05 Dec 2023 06:28:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701786525; x=1702391325;
+        h=content-transfer-encoding:mime-version:reply-to:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iqD+05fDDF8h/8Rgh1OXmOVczzWr3DM9jKd7zs8LVLg=;
+        b=S1jZZqmP4f3RmlwILLwQhaK8bIVgdGlK/DiS5mGrDpYN+RazNxSW4dnk/fCKdW2FmF
+         N++4W7fVAmIf8/BmvYVOS/EvrjEMVf+iORxnDFGm4PhKPHhg1jn42K8ZfCYp4dnqH4za
+         zrfO6gLIlbCxcelW+CmhfnnzEFmK2wIobtNsvFEwNUuNafmQkH1MGMHVbmzlpBAQCKdA
+         s3/gnYZqhvObUPDSaXwJeDI8/cIYXyTTUpG9Dp85OtGDHvYMTy/M6DQKelM8EeLYbh8Z
+         yKlrImtGdOviiTQtV6WL4fRYnoFKcdAkpjpkD72ACO4H3oXMAcICBX+ThyOtDPUseiZS
+         otmg==
+X-Gm-Message-State: AOJu0YwB00WpAk+kNnF6Kbo54tSRZbg80qx/LNY6hFrsH5mo69aERAaN
+	amW9m2PJXZWeq23ulxUWz0+8jTeiCbY=
+X-Google-Smtp-Source: AGHT+IHzIiHIGNSgKioj5Ddcu65kqMoqYltSJKge4E9abMRF8jVaXGroHfaD32kCEtIG247Twnew6Q==
+X-Received: by 2002:a05:6512:3b9b:b0:50b:fcdb:8df5 with SMTP id g27-20020a0565123b9b00b0050bfcdb8df5mr1594350lfv.24.1701786524555;
+        Tue, 05 Dec 2023 06:28:44 -0800 (PST)
 Received: from NVC4181.nedap.local ([149.3.168.10])
-        by smtp.gmail.com with ESMTPSA id v12-20020aa7cd4c000000b0054c52a78f56sm1174043edw.56.2023.12.05.06.28.33
+        by smtp.gmail.com with ESMTPSA id v12-20020aa7cd4c000000b0054c52a78f56sm1174043edw.56.2023.12.05.06.28.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 06:28:33 -0800 (PST)
+        Tue, 05 Dec 2023 06:28:44 -0800 (PST)
 From: jhatnedap@gmail.com
 X-Google-Original-From: jermain.horsman@nedap.com
 To: openembedded-core@lists.openembedded.org
-Cc: Jermain Horsman <jermain.horsman@nedap.com>
-Subject: [kirkstone][PATCH v2 0/5] Failure for rust-cross for arm(v5)
-Date: Tue,  5 Dec 2023 15:27:15 +0100
-Message-ID: <20231205142810.826-1-jermain.horsman@nedap.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [kirkstone][PATCH v2 1/5] rust-common: Set llvm-target correctly for cross SDK targets
+Date: Tue,  5 Dec 2023 15:27:16 +0100
+Message-ID: <20231205142810.826-2-jermain.horsman@nedap.com>
 X-Mailer: git-send-email 2.42.0.windows.2
+In-Reply-To: <20231205142810.826-1-jermain.horsman@nedap.com>
+References: <20231205142810.826-1-jermain.horsman@nedap.com>
 Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 14:28:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191822
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 14:28:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191823
 
-From: Jermain Horsman <jermain.horsman@nedap.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-I ran into the following when trying to compile rust for arm (on kirkstone):
+When a 'BUILD' target is requested we shouldn't be looking at TARGET_SYS but
+at BUILD_SYS. Due to the way rust mangles triplets, we need the HOST_SYS triplet
+to work with existing code - fixing that issue is a separate patch.
 
-Exception: TypeError: int() argument must be a string, a bytes-like object or a number, not 'NoneType'
+Also drop the arch_abi argument, it doens't make any sense to a getVar() call
+and was a copy and paste error.
 
-After some investigation I notices some patches on master which were not
-available on kirkstone.
-Using the patches included here I am able to compile successfully.
+Based on a patch from Otavio Salvador <otavio@ossystems.com.br> but separated out
+and tweaked.
 
-v2:
-I've included all patches that were originally send as a series on the
-mailing list.
-I've also included a single patch that should prevent the issue with the
-oe-selftest reported on the first version.
+Fixes: bd36593ba3 ("rust-common: Drop LLVM_TARGET and simplify")
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d554161a045d12411f288394e253c54aa4c1257c)
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
+ meta/recipes-devtools/rust/rust-common.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-
-Richard Purdie (5):
-  rust-common: Set llvm-target correctly for cross SDK targets
-  rust-cross-canadian: Fix ordering of target json config generation
-  rust-cross/rust-common: Merge arm target handling code to fix
-    cross-canadian
-  rust-cross: Simplfy the rust_gen_target calls
-  native: Clear TUNE_FEATURES/ABIEXTENSION
-
- meta/classes/native.bbclass                   |  2 ++
- meta/recipes-devtools/rust/rust-common.inc    | 24 +++++++++++++------
- .../rust/rust-cross-canadian-common.inc       |  5 ++--
- meta/recipes-devtools/rust/rust-cross.inc     | 21 ++++------------
- 4 files changed, 26 insertions(+), 26 deletions(-)
-
+diff --git a/meta/recipes-devtools/rust/rust-common.inc b/meta/recipes-devtools/rust/rust-common.inc
+index db0bd8fc1b..ac00fd3d43 100644
+--- a/meta/recipes-devtools/rust/rust-common.inc
++++ b/meta/recipes-devtools/rust/rust-common.inc
+@@ -307,9 +307,13 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
+     features = features or d.getVarFlag('FEATURES', arch_abi) or ""
+     features = features.strip()
+ 
++    llvm_target = d.getVar('RUST_TARGET_SYS')
++    if thing == "BUILD":
++        llvm_target = d.getVar('RUST_HOST_SYS')
++
+     # build tspec
+     tspec = {}
+-    tspec['llvm-target'] = d.getVar('RUST_TARGET_SYS', arch_abi)
++    tspec['llvm-target'] = llvm_target
+     tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
+     tspec['max-atomic-width'] = int(d.getVarFlag('MAX_ATOMIC_WIDTH', arch_abi))
+     tspec['target-pointer-width'] = d.getVarFlag('TARGET_POINTER_WIDTH', arch_abi)
 -- 
 2.42.0.windows.2
 
