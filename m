@@ -1,98 +1,98 @@
-Return-Path: <jermain.horsman@nedap.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A032DC4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 14:29:10 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web11.100714.1701786544146590075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BE2C4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 14:52:21 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.102515.1701787931095042313
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 06:29:04 -0800
+ Tue, 05 Dec 2023 06:52:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T/BQDwxN;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: jhatnedap@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-54c846da5e9so2828315a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 06:29:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701786542; x=1702391342; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=X41lwEq/6kvpJ43B530gzZLUch6eeA2glD7DPPnGEv0=;
-        b=T/BQDwxNOjoRRvem6bRBJFVdBxjUDkf3uOCj4KdiE61oybzjYEF4KDHNZjd4htLFSD
-         95UMwGfHSo+seL2DgMhaCOrXIJd46e3GL0jv9gkmwwrZ0iGMi/AUDUHJKyUzdDUeLiks
-         2BKzEUEhPz9Nj9sNgYlMUII+DiynAB6cAwFjnV2qJRqoszGeL0WVu+NcthXIuzSAai70
-         hPOFczr+v8008G6nWRS/MP5Pb2dRUnwj/a8atz/0nKuMvx/ZIzsVi1YHLjjlxBC1eDqs
-         MNZOjwHzPnSTvGqbmhJLsQxgikGsWSwxBxBE/iizNCvQeRLpUgfdQtVnvghI1iO0PsPO
-         lMTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701786542; x=1702391342;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X41lwEq/6kvpJ43B530gzZLUch6eeA2glD7DPPnGEv0=;
-        b=PI9rZPmOGdvyf5VF2k070D9kdcNYiqU28Z6nnTFNYd4/jpM7/HqD2EPuI3IaXJYgJw
-         OQAVsuh5S2h0NI3ga62ttFg+zWrtKPpVSyZqTMBsjH17LlNn/Q8Sd33j7a/5ovXaP0SI
-         ATLBt8nx7wswkYp2vS8RAy4BTolzf3QnjOeRbePHRhHyaf4rEmxOHejYAlkWHgZTpNNH
-         Jb2OcAcX60zux9hEuwKxfV5Ceze/GByE2dpTo9EXZ9M74cKqEF8kifrxnFMQjOew+ZhI
-         namqWLMcA4o+h4q9T/rs8MZhw2JraRtNbbSXfP+Jr9yDVQptcskianaUaWGltk/CWEoq
-         6tfA==
-X-Gm-Message-State: AOJu0YwnT4InUKYdpGFCLm5ZNfn2uBmgRJ44VTC/Y7VmckNdkSQ1wqH7
-	j2Hh9HxlkLtEcdbpSYNgWFjVlzhbJwE=
-X-Google-Smtp-Source: AGHT+IFmf/ZD/pBeR64wfR/bsMZ7DlurNJuqnB60BKxwbL+U/Dc/fvxOctjtSPFriyInGnYQgQJ4RA==
-X-Received: by 2002:a50:d01a:0:b0:54b:922:1f4f with SMTP id j26-20020a50d01a000000b0054b09221f4fmr3911682edf.28.1701786542565;
-        Tue, 05 Dec 2023 06:29:02 -0800 (PST)
-Received: from NVC4181.nedap.local ([149.3.168.10])
-        by smtp.gmail.com with ESMTPSA id v12-20020aa7cd4c000000b0054c52a78f56sm1174043edw.56.2023.12.05.06.29.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 06:29:02 -0800 (PST)
-From: jhatnedap@gmail.com
-X-Google-Original-From: jermain.horsman@nedap.com
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Jermain Horsman <jermain.horsman@nedap.com>
-Subject: [kirkstone][PATCH v2 5/5] native: Clear TUNE_FEATURES/ABIEXTENSION
-Date: Tue,  5 Dec 2023 15:27:20 +0100
-Message-ID: <20231205142810.826-6-jermain.horsman@nedap.com>
-X-Mailer: git-send-email 2.42.0.windows.2
-In-Reply-To: <20231205142810.826-1-jermain.horsman@nedap.com>
-References: <20231205142810.826-1-jermain.horsman@nedap.com>
-Reply-To: jermain.horsman@nedap.com
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RzR1biE0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Ax8B6Nyo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018c3a770c61-910e6587-6ff6-4e36-9f57-00f0bb152e4a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701787930; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=1NG6cS0b/2j8kOhqHYQE+nNgCGGfwnv6rolfy7t+Pew=;
+	b=RzR1biE0iNWO8imPfLhqVhSZanBLQdlsF4UcvdJzm8QGo99nXIOBZRXOrgBuPJtd
+	IRaAO5RSoq387gbRHoYae2YcqVntyKIigHWBHyvm5rsnqI2A7INF8erbKBvmnVemw1C
+	MjFhE+QVohqFNFtG5chqZ0K2Pq1t1cTDkiuTDT8E=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701787930;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=1NG6cS0b/2j8kOhqHYQE+nNgCGGfwnv6rolfy7t+Pew=;
+	b=Ax8B6NyoEDG4kj2KlJHBMRdLCQ8AJ3rytZTqqJWLZBE51bunGO3dTHIydOdFmhzr
+	FaIN5lAaHc95Zb/2FcJpAWNSf9dN9dlBRpb5QqN9V6g4xCfOQ3UqHAwiYUBQY8/bAal
+	o5p8RNp++I5EStvzwL9wN3zNPzjgS3HmphDqqqeY=
+From: patchtest@automation.yoctoproject.org
+To: jhatnedap@gmail.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [kirkstone][PATCH v2 3/5] rust-cross/rust-common: Merge arm target
+ handling code to fix cross-canadian
+In-Reply-To: 20231205142810.826-4-jermain.horsman@nedap.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c3a770c61-910e6587-6ff6-4e36-9f57-00f0bb152e4a-000000@us-west-2.amazonses.com>
+Date: Tue, 5 Dec 2023 14:52:09 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.05-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 14:29:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191827
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 14:52:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191828
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+--NextPart
+Content-Type: text/plain
 
-Some recipes reference these. Rather than continually trying to chase down the references
-and taskhash issues, clear the variables for an easier life and simpler code. These
-wouldn't convey anything useful in a native build.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f8edeead263708889d31a7ff578ef8274cb678b4)
-Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 ---
- meta/classes/native.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+Testing patch /home/patchtest/share/mboxes/kirkstone-v2-3-5-rust-cross-rust-common-Merge-arm-target-handling-code-to-fix-cross-canadian.patch
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 4de96cd59b..56726301bd 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -23,6 +23,8 @@ TARGET_CFLAGS = "${BUILD_CFLAGS}"
- TARGET_CXXFLAGS = "${BUILD_CXXFLAGS}"
- TARGET_LDFLAGS = "${BUILD_LDFLAGS}"
- TARGET_FPU = ""
-+TUNE_FEATURES = ""
-+ABIEXTENSION = ""
- 
- HOST_ARCH = "${BUILD_ARCH}"
- HOST_OS = "${BUILD_OS}"
--- 
-2.42.0.windows.2
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 91 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
