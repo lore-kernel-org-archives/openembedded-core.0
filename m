@@ -1,116 +1,135 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BDEC4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 17:55:31 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.464.1701798926012307259
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E972C10DCE
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 18:03:01 +0000 (UTC)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web10.645.1701799372299954074
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 09:55:26 -0800
+ Tue, 05 Dec 2023 10:02:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MtO7rLvf;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E9F55C0005;
-	Tue,  5 Dec 2023 17:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701798924;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QOddXETYf/+wBs6MWs2gsgHijnVYCCwDB5XkibUJv4M=;
-	b=MtO7rLvfO5xIUx/cTA8sPlwUOitgAP8UV8iXCyA5ujbl/M4Wg9hZuJ+cCcHy4BRpHMx1+K
-	pDq+QZdjtS9FJd1+a0BYgkhpnC1ql8OHd1Wm3ZlEKXZfbMiDLmkGiha3rwlu0yGgGDJ3Ug
-	2Nb0MSoVMs6W4ET8Ved+tc3pQ3B8Je5OyxfSfz7YwCima2z9GP71UBxPOgnPnxZVPSoqNi
-	dvXeFw9mTr/Fztb6sdy5jba1L7XqnAH8obUGZrRjhxnmzD9JSxX5Hk7oXGVJPD3zTc7pja
-	RPUd1A9SnXBWLGHyy2b7TVfcOYnon0OcRS+JHyJuyUP3UxKIk+t/3wQh+RNO+Q==
-Date: Tue, 5 Dec 2023 18:55:23 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 0/7] linux-yocto: consolidated pull request
-Message-ID: <20231205175523baa0bc72@mail.local>
-References: <cover.1701750230.git.bruce.ashfield@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hxyerdgg;
+ spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-423c944352fso40745701cf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 10:02:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701799371; x=1702404171; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DQGsMEs9+0nWfVCfrFj7nfN1RfIZTo6NdG3mAvKR+Qg=;
+        b=hxyerdggCEwsfBxKScp34F1Ik0ZFQyfoMnIZK+ViyqZ7hhpbGvwLOHy2V/6cnbb4T0
+         3kB/ZSPHILXeuos6CMnjsRr5jNq9zkJ9CK1kBWGnuI1mjDCaDrdwsjlPL3fWDdwLscje
+         BoDOxu9usbBcBQC6VRROiqcLvYv1VZtufs6q5BKtMCI7tC+muDC2Nvxz3uGCteYmqnhS
+         dG2J/gyi1xq3Zd2YQLyShRikohKmL8kNYo8pQE3fKrJmXrLdCQOZPASqfP9QcYlOD3fP
+         iYxme7MBOUfp0WS5PCrXk+6N8pIfSh89kFu9W3ePP2TBEO1LncAIJ6SLcd0F2UkNjIaV
+         kBmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701799371; x=1702404171;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DQGsMEs9+0nWfVCfrFj7nfN1RfIZTo6NdG3mAvKR+Qg=;
+        b=sp6iF9E0aug4K0ptTKyPIDIfhZ5jqWTS+Tr8t8khVEJuwrOZAM4P+kCqCy0kgqhiDV
+         1RENYDylVitdvlApWtE/ekzAsTpyckJxgxhymzJMoVW9o9l9uulao1Rq3AOTBzM5c+NE
+         Zqfra3uLBWokj5ON4uZs1BydiUbfDYOE0hGyGy49rYA+Tbq0vuBmhMBzrrhgIMNOqxgU
+         0FMnpFIeM4SXjw1NS+SMS4cf261CJKWr8lm5diLYHVvLdRJo71tOoP93QzBQjjfdiWQo
+         9Pj1hp3cwofHpyoHhTpeKfkA4wJhNHrP3VY3KmWTww8VXVIYI2dqTqFtT++nTcLtRiRf
+         /jMQ==
+X-Gm-Message-State: AOJu0Yz9Y8nElYkUcD7UceZSXqj5ea7VUfN07Wc/w3704rmrvlEQH5S3
+	ZA1vXRu0TIlnKOxgpcBUZc0=
+X-Google-Smtp-Source: AGHT+IGRrFEb4ysBY3bOcBCsHqCFB87TUFKt1XfHXYTdOPRvDWQjFvdx0a6ESvzZt5qSpfhpbZuVOA==
+X-Received: by 2002:a05:622a:cf:b0:400:a2b8:1c97 with SMTP id p15-20020a05622a00cf00b00400a2b81c97mr1857639qtw.17.1701799370978;
+        Tue, 05 Dec 2023 10:02:50 -0800 (PST)
+Received: from gmail.com ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id w2-20020ac87182000000b00423de58d3d8sm5328494qto.40.2023.12.05.10.02.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Dec 2023 10:02:50 -0800 (PST)
+Date: Tue, 5 Dec 2023 13:02:48 -0500
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][kirkstone 0/4] linux-yocto: -stable updates
+Message-ID: <ZW9lyDoHaQiG1VZf@gmail.com>
+References: <20231205044036.4163615-1-bruce.ashfield@gmail.com>
+ <CAOSpxdZDYpzoaK01uMKmgzjPqm=Tup2EZO2+w39DSvz3HY1Vrg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cover.1701750230.git.bruce.ashfield@gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOSpxdZDYpzoaK01uMKmgzjPqm=Tup2EZO2+w39DSvz3HY1Vrg@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 17:55:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191852
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 18:03:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191853
 
-Hello Bruce,
+In message: Re: [OE-core][kirkstone 0/4] linux-yocto: -stable updates
+on 05/12/2023 Steve Sakoman wrote:
 
-I got this: Unable to find revision 867a6bdef9701f378f5a9ce66a713daa22598649 in branch yocto-6.5
-This seems correct, did you forget to push anything?
+> On Mon, Dec 4, 2023 at 6:40 PM <bruce.ashfield@gmail.com> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Steve,
+> >
+> > Much like my last pull request to Richard, this has been
+> > generated from a newly provisioned machine after my old machine
+> > of 10 years had a disk failure.
+> >
+> > Let me know if you have any issues with this, and I'll debug
+> > what I missed when configuring the new box.
+> 
+> Hi Bruce,
+> 
+> I'm also seeing an issue with 5.15.141.
+> 
+> Local testing fails with:
+> 
+> WARNING: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
+> do_fetch: Failed to fetch URL
+> git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=kernel-meta,
+> attempting MIRRORS if available
+> ERROR: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
+> do_fetch: Fetcher failure: Unable to find revision
+> 92bd0a656f0f9db955fb53c52be71cce9296bdb2 in branch yocto-5.15 even
+> from upstream
+> ERROR: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
+> do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from
+> any source.', 'git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=kernel-meta')
+> ERROR: Logfile of failure stored in:
+> /home/steve/builds/poky-contrib-kirkstone/build/tmp/work/qemux86_64-poky-linux/linux-yocto/5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0/temp/log.do_fetch.3515498
 
-On 04/12/2023 23:26:55-0500, Bruce Ashfield wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> 
-> Richard,
-> 
-> Here's my latest -stable updates for 6.1 and 6.5 as well as the bump
-> of the dev kernel to v6.7
-> 
-> I have more pending changes: the 6.6 reference kernel and associated
-> libc-headers updates, as well as the eventual drop of 6.1 from the
-> tree.
-> 
-> But this is my first full cycle on my new configured and cobbled
-> together builder after my disk failure. So to keep things simple,
-> I've limited this first pull request to try and see if anything
-> has been missed in my setup.
-> 
-> Bruce
-> 
-> The following changes since commit f89d9240b1208e9df28afed840376ca91842e5dd:
-> 
->   vte: Separate out gtk4 pieces of vte into individual packages (2023-12-04 12:45:27 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://git.yoctoproject.org/poky-contrib zedd/kernel
->   https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
-> 
-> Bruce Ashfield (7):
->   linux-yocto/6.5: cfg: split runtime and symbol debug
->   linux-yocto/6.5: update to v6.5.11
->   linux-yocto/6.1: update to v6.1.62
->   linux-yocto-dev: bump to v6.7
->   linux-yocto/6.5: update to v6.5.12
->   linux-yocto/6.5: update to v6.5.13
->   linux-yocto/6.1: update to v6.1.65
-> 
->  meta/recipes-kernel/linux/linux-yocto-dev.bb  |  4 +--
->  .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
->  .../linux/linux-yocto-rt_6.5.bb               |  6 ++--
->  .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
->  .../linux/linux-yocto-tiny_6.5.bb             |  6 ++--
->  meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
->  meta/recipes-kernel/linux/linux-yocto_6.5.bb  | 28 +++++++++----------
->  7 files changed, 42 insertions(+), 42 deletions(-)
-> 
-> -- 
-> 2.39.2
-> 
+This was a repository misconfiguration. Only the current
+branch of the kernel-cache was pushed, where I've always
+had all branches to be pushed by default before.
+
+I've tweaked it, and the revision should be in place now.
+
+Bruce
 
 > 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#191777): https://lists.openembedded.org/g/openembedded-core/message/191777
-> Mute This Topic: https://lists.openembedded.org/mt/102986376/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Steve
 > 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> >
+> > Bruce
+> >
+> > Bruce Ashfield (4):
+> >   linux-yocto/5.10: update to v5.10.198
+> >   linux-yocto/5.10: update to v5.10.200
+> >   linux-yocto/5.10: update to v5.10.202
+> >   linux-yocto/5.15: update to v5.15.141
+> >
+> >  .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
+> >  .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+> >  .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
+> >  .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
+> >  meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
+> >  meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
+> >  6 files changed, 38 insertions(+), 38 deletions(-)
+> >
+> > --
+> > 2.39.2
+> >
 
