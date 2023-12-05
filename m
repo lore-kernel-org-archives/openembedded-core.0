@@ -1,122 +1,191 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4AF5C4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 15:53:31 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.104334.1701791608905425657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEBA9C4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 16:15:21 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.103868.1701792912761459012
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 07:53:29 -0800
+ Tue, 05 Dec 2023 08:15:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sgdCJNpI;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.54, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a1b75f59a12so292652466b.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 07:53:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701791607; x=1702396407; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QiFWd4PSa7O70VGJRu5HLQIjq1CUvNcrEC3M+36N8ig=;
-        b=sgdCJNpIj4AK9UYr7f9X7CMD0T/ci0rka6emFIxxoeFaIyQWdSLs1Vi5ZatXABHrFh
-         2AnOuoT6x59myhg1llXt7ux19Squ2RQZeEV1prota4SxDpU/Gu9kELcLk4mf1UOTCwb/
-         dp6y5t/rkU8EVknA0RkXZROPWQu2goqEqfpHeKP0X33SXOzLn0fT2wvNMwCZiv+lBG8F
-         fILY3AWdLrCSGRmmryQJGAB6TAMrG8iR0aWWaXgBQygqbQ1giMKqu43H8WtWIsLOM/LA
-         1B2UAoy9Oaynrnt//YJyKwZjwgFF3yjn9b4+TvJtUfospS87lzIdrDhoeQCgSYV2r+62
-         Drrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701791607; x=1702396407;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QiFWd4PSa7O70VGJRu5HLQIjq1CUvNcrEC3M+36N8ig=;
-        b=M/lkczY8Py0m6PwOD3BQ853FBCYimplCSrULse9Z2HCl8xJkkH46/m7Q5tQoOgycOw
-         SZ2LjvcR5HbF9Ollcckpk5TozPVZx9htas+0cviz6/et+W+mCL+B/FhCWZKKLDXa3PUh
-         T76bp8xkBASiWnvtRURiSZXsSjpBUcOqGx91FxtClJnL0GSBBLNvK1hvidFKHPMPO6An
-         upvuo6mIrkynqOsnShM5LvJMDMwu+763HRNkgBsBqooSz34zJ+y4qRo5RVLUo3qjC6c1
-         QTbLyxBZuH9Cr8zvHTRd3kxf3PdQ7YVFnO4z/KVEHXfrf2Lq3H7YcSuf0QehBGf0pspz
-         8iqg==
-X-Gm-Message-State: AOJu0YzTXSaCNIoLFhboxF95SH9lyRSw2PXkDTKi0q+v/Iurstgkoefe
-	4GfY8NKfE3GlPj38lC4w4uW365gQshjosLncwuSE1A==
-X-Google-Smtp-Source: AGHT+IG+6G/V+lzURtKn8E6zmmmM29XujRKfMelLfFy3drpcQpwVQMhZ9XysLpbOaEc4J45Vyfube8zgRPB6TQdMi/0=
-X-Received: by 2002:a17:906:1099:b0:a1a:582b:8c99 with SMTP id
- u25-20020a170906109900b00a1a582b8c99mr1752602eju.234.1701791607177; Tue, 05
- Dec 2023 07:53:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20231205044036.4163615-1-bruce.ashfield@gmail.com>
-In-Reply-To: <20231205044036.4163615-1-bruce.ashfield@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 5 Dec 2023 05:53:16 -1000
-Message-ID: <CAOSpxdZDYpzoaK01uMKmgzjPqm=Tup2EZO2+w39DSvz3HY1Vrg@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone 0/4] linux-yocto: -stable updates
-To: bruce.ashfield@gmail.com
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MqMwQp5n;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 698A41BF207;
+	Tue,  5 Dec 2023 16:15:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701792910;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w1LUNpuJEOLtm6IC+PWeB8HBZKBNA7yager0LhiNEk0=;
+	b=MqMwQp5nFL2f9V/p5X/MXtw+x+tx2J/yNB7mcRFpk+bMeINEMd9+C96sd3Rnj8bQJC7gKU
+	AFi8UIM61OCsgXtyjMMPpo79l7Y/nxkm6kRyqne4XgAvXl3jXK5HfY9OZ2FXum87aZWmz2
+	nAncm5qkPdbKUqOuDh0dQIKQ8o0d6jcHwKUCLaYeltwLRSHOit1YZtYT7eca4mTjwpyQ3U
+	lpg1CHb18FVn5at355Ur2toS/+B6IeXyac91EvNsgHpxwtj2szsNKR4bUpaOFpf6qT4ZcM
+	8J8vseHTBhusUuUW03n55X4CUhcfVK/ci/1IrGnTMVfG6ezRgqQ/gpQKB2ojuw==
+Date: Tue, 5 Dec 2023 17:15:10 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: liezhi.yang@windriver.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [OE-core] [PATCH 2/2] nfs-utils: Upgrade 2.6.3 -> 2.6.4
+Message-ID: <2023120516151051240b68@mail.local>
+References: <cover.1701758555.git.liezhi.yang@windriver.com>
+ <934ad5f4e633993781ba459bfda8183d95749e00.1701758555.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <934ad5f4e633993781ba459bfda8183d95749e00.1701758555.git.liezhi.yang@windriver.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 15:53:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191845
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 16:15:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191846
 
-On Mon, Dec 4, 2023 at 6:40=E2=80=AFPM <bruce.ashfield@gmail.com> wrote:
->
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> Steve,
->
-> Much like my last pull request to Richard, this has been
-> generated from a newly provisioned machine after my old machine
-> of 10 years had a disk failure.
->
-> Let me know if you have any issues with this, and I'll debug
-> what I missed when configuring the new box.
+Hello,
 
-Hi Bruce,
+This fail for musl:
 
-I'm also seeing an issue with 5.15.141.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/8237/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/8267/steps/12/logs/stdio
 
-Local testing fails with:
-
-WARNING: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
-do_fetch: Failed to fetch URL
-git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;name=3Dmeta;bran=
-ch=3Dyocto-5.15;destsuffix=3Dkernel-meta,
-attempting MIRRORS if available
-ERROR: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
-do_fetch: Fetcher failure: Unable to find revision
-92bd0a656f0f9db955fb53c52be71cce9296bdb2 in branch yocto-5.15 even
-from upstream
-ERROR: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
-do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from
-any source.', 'git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;n=
-ame=3Dmeta;branch=3Dyocto-5.15;destsuffix=3Dkernel-meta')
-ERROR: Logfile of failure stored in:
-/home/steve/builds/poky-contrib-kirkstone/build/tmp/work/qemux86_64-poky-li=
-nux/linux-yocto/5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0/temp/log.do_fe=
-tch.3515498
-
-Steve
-
->
-> Bruce
->
-> Bruce Ashfield (4):
->   linux-yocto/5.10: update to v5.10.198
->   linux-yocto/5.10: update to v5.10.200
->   linux-yocto/5.10: update to v5.10.202
->   linux-yocto/5.15: update to v5.15.141
->
->  .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
->  .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
->  .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
->  .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
->  meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
->  meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
->  6 files changed, 38 insertions(+), 38 deletions(-)
->
+On 04/12/2023 22:44:10-0800, Robert Yang via lists.openembedded.org wrote:
+> From: Robert Yang <liezhi.yang@windriver.com>
+> 
+> Remove backported patch 0001-configure.ac-libevent-and-libsqlite3-checked-when-nf.patch.
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  ...event-and-libsqlite3-checked-when-nf.patch | 80 -------------------
+>  ...{nfs-utils_2.6.3.bb => nfs-utils_2.6.4.bb} |  3 +-
+>  2 files changed, 1 insertion(+), 82 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-libevent-and-libsqlite3-checked-when-nf.patch
+>  rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.6.3.bb => nfs-utils_2.6.4.bb} (97%)
+> 
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-libevent-and-libsqlite3-checked-when-nf.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-libevent-and-libsqlite3-checked-when-nf.patch
+> deleted file mode 100644
+> index 5afc714f190..00000000000
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-libevent-and-libsqlite3-checked-when-nf.patch
+> +++ /dev/null
+> @@ -1,80 +0,0 @@
+> -From b62a3fe424026b73ec6b1934483b16863c7dff23 Mon Sep 17 00:00:00 2001
+> -From: Wiktor Jaskulski <wjaskulski@adva.com>
+> -Date: Thu, 11 May 2023 15:28:23 -0400
+> -Subject: [PATCH] configure.ac: libevent and libsqlite3 checked when nfsv4 is
+> - disabled
+> -
+> -Upstream-Status: Backport
+> -(http://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=bc4a5deef9f820c55fdac3c0070364c17cd91cca)
+> -
+> -Signed-off-by: Steve Dickson <steved@redhat.com>
+> -Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ----
+> - configure.ac | 38 +++++++++++++++-----------------------
+> - 1 file changed, 15 insertions(+), 23 deletions(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 4ade528d..519cacbf 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -335,42 +335,34 @@ AC_CHECK_HEADER(rpc/rpc.h, ,
+> -                 AC_MSG_ERROR([Header file rpc/rpc.h not found - maybe try building with --enable-tirpc]))
+> - CPPFLAGS="${nfsutils_save_CPPFLAGS}"
+> - 
+> -+dnl check for libevent libraries and headers
+> -+AC_LIBEVENT
+> -+
+> -+dnl Check for sqlite3
+> -+AC_SQLITE3_VERS
+> -+
+> -+case $libsqlite3_cv_is_recent in
+> -+yes) ;;
+> -+unknown)
+> -+   dnl do not fail when cross-compiling
+> -+   AC_MSG_WARN([assuming sqlite is at least v3.3]) ;;
+> -+*)
+> -+   AC_MSG_ERROR([nfsdcld requires sqlite-devel]) ;;
+> -+esac
+> -+
+> - if test "$enable_nfsv4" = yes; then
+> --  dnl check for libevent libraries and headers
+> --  AC_LIBEVENT
+> - 
+> -   dnl check for the keyutils libraries and headers
+> -   AC_KEYUTILS
+> - 
+> --  dnl Check for sqlite3
+> --  AC_SQLITE3_VERS
 > --
-> 2.39.2
->
+> -   if test "$enable_nfsdcld" = "yes"; then
+> - 	AC_CHECK_HEADERS([libgen.h sys/inotify.h], ,
+> - 		AC_MSG_ERROR([Cannot find header needed for nfsdcld]))
+> --
+> --    case $libsqlite3_cv_is_recent in
+> --    yes) ;;
+> --    unknown)
+> --      dnl do not fail when cross-compiling
+> --      AC_MSG_WARN([assuming sqlite is at least v3.3]) ;;
+> --    *)
+> --      AC_MSG_ERROR([nfsdcld requires sqlite-devel]) ;;
+> --    esac
+> -   fi
+> - 
+> -   if test "$enable_nfsdcltrack" = "yes"; then
+> - 	AC_CHECK_HEADERS([libgen.h sys/inotify.h], ,
+> - 		AC_MSG_ERROR([Cannot find header needed for nfsdcltrack]))
+> --
+> --    case $libsqlite3_cv_is_recent in
+> --    yes) ;;
+> --    unknown)
+> --      dnl do not fail when cross-compiling
+> --      AC_MSG_WARN([assuming sqlite is at least v3.3]) ;;
+> --    *)
+> --      AC_MSG_ERROR([nfsdcltrack requires sqlite-devel]) ;;
+> --    esac
+> -   fi
+> - 
+> - else
+> --- 
+> -2.41.0
+> -
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> similarity index 97%
+> rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb
+> rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> index 35cf6af6d46..31290f6d44c 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.3.bb
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+> @@ -30,11 +30,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+>             file://bugfix-adjust-statd-service-name.patch \
+>             file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+>             file://clang-warnings.patch \
+> -           file://0001-configure.ac-libevent-and-libsqlite3-checked-when-nf.patch \
+>  	   file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
+>  	   file://0001-tools-locktest-Use-intmax_t-to-print-off_t.patch \
+>             "
+> -SRC_URI[sha256sum] = "38d89e853a71d3c560ff026af3d969d75e24f782ff68324e76261fe0344459e1"
+> +SRC_URI[sha256sum] = "01b3b0fb9c7d0bbabf5114c736542030748c788ec2fd9734744201e9b0a1119d"
+>  
+>  # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
+>  # pull in the remainder of the dependencies.
+> -- 
+> 2.42.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191800): https://lists.openembedded.org/g/openembedded-core/message/191800
+> Mute This Topic: https://lists.openembedded.org/mt/102987610/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
