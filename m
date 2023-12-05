@@ -1,100 +1,101 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <quic_vkraleti@quicinc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF022C4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 08:44:48 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.96185.1701765882110783122
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44644C4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 09:35:49 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web10.96824.1701768943640623101
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 00:44:42 -0800
+ Tue, 05 Dec 2023 01:35:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=rgjba3Fu;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40bd5eaa66eso35197825e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 00:44:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1701765880; x=1702370680; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zu8Wkh+a+0pk8VNk+zEvAuFdaqzBOkBJD4KEL9X4WLw=;
-        b=rgjba3FufgxRUSIcsL+nD6YQcYOQlO5H+Qhaqli8O+GA38N0efw/fFA9yReweqHM93
-         O7U490fuMulWQYCnHD0XsPy9rNh29/BrzyA8AoOvCvwB2tPu4DMg9X0tjK9Q2u6riaA4
-         EOb979I35dv1cffK8isST0JUOq3jwdy5e7RImByDR+2cEtO1OAGdyQIv1p2aterajix6
-         8dYzBXnFCAJ8iMlg31IafGA961WOXb/R9bkb+n/KMyOX11m1S+Zb+QJAa34oSNYz4t6r
-         m3aM7+9hAiwlft62Nwg8bGOwgeLz4dStlm5pRfrTm3GKiHA02d5jBVu40nSKE1WE3ubt
-         ZNEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701765880; x=1702370680;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zu8Wkh+a+0pk8VNk+zEvAuFdaqzBOkBJD4KEL9X4WLw=;
-        b=IiQxCqp7hC705bvIZ3YHJialB1yBZpCjgjdn8LEl/hLVbz5ALukW12OOAAY1hpAXYb
-         lDhpHLqaoL8N3sbwf3j0/RJOdaItVLaBRgn32AYSRtWXfl8lUIQAsQEWFhmTK5XiZJWG
-         H6BZysQd4nvCUQ/jKRh1wiCZe1A5K6cy/SPGAuCfcYwwTboHfTYScgan/9xtSdZqNmGn
-         OzlMSEMcRNeC0hUeb8IDKKKbgsndbstC1QtbrXyC6q3bhLSW0ZV5szPbozgrutBYmhDZ
-         v/yf9LIgjTkG3kFRn8OzJ27l2sZeh6WGZEOsgoYTpxdsJJlJGDENwYy8nsfS20WUhV/9
-         kRGw==
-X-Gm-Message-State: AOJu0YxEF0vmwHT4cgHDg7PIHXa0SQUzTkE725wJ9bTH9v9Du2zkFXpL
-	bwdX5rydngLGJIR7roepFMieCnEQs5lSvIQef4w=
-X-Google-Smtp-Source: AGHT+IEPTTS7TmvErpygKxtXiFu4M7opYwsZ9//bVk+X0tXOIRhzv/uqvh5QLLA85BpFgYehHTawMw==
-X-Received: by 2002:a7b:c5c6:0:b0:40b:5e21:ec24 with SMTP id n6-20020a7bc5c6000000b0040b5e21ec24mr239481wmk.86.1701765879933;
-        Tue, 05 Dec 2023 00:44:39 -0800 (PST)
-Received: from P-ASN-ECS-830T8C3.local ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id ay10-20020a05600c1e0a00b0040b397787d3sm21705216wmb.24.2023.12.05.00.44.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 00:44:39 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH v2] lib/oe/patch: handle creating patches for CRLF sources
-Date: Tue,  5 Dec 2023 09:44:18 +0100
-Message-Id: <20231205084418.2008541-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=a8yszv+N;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_vkraleti@quicinc.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B58ph5e032326
+	for <openembedded-core@lists.openembedded.org>; Tue, 5 Dec 2023 09:35:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : subject
+ : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=qcppdkim1;
+ bh=oL5/wlwsBRUxECwZ7uixD6q93xlOnf3Mz/NHSf6kKtI=;
+ b=a8yszv+N4taBMvA67CKpqTH5FjoI4dogQ0vSOKS3O0Ef7KhVA5kBASJYgYfZzGYFyZ1W
+ mSchUAEl/otqk6B0bi34okOtjncpjsFVkoss43DWvqn4gnSHdJHEqug5Y1qAuiJvfXdD
+ f1wxyjsphk3iEmfsJZqbl6mggLHUGfv6aXmcypoFAvRcJ33RauBdTwZENNw083TCEXSg
+ MXPLNMq4kho1GNI6dj7V8imggHB6WYx/CeWFcOfygkBJYDE9JaVXJv2Km+5x2qaMC9K0
+ 2FGOv2dmsMR7Lms7ZfBg99KBB9u7rLouByYOaG73ERzLjSLZjszZSuTg28Diy+EAAB91 Jw== 
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3usmw01e45-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 09:35:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B59ZfLM005631
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 5 Dec 2023 09:35:41 GMT
+Received: from hu-vkraleti-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 5 Dec 2023 01:35:40 -0800
+From: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] image-uefi.conf: Add EFI_UKI_PATH variable
+Date: Tue, 5 Dec 2023 15:04:41 +0530
+Message-ID: <20231205093441.3898052-1-quic_vkraleti@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: lr8BXM_C-1rktIqlwjWwBZtjIaR1qm-J
+X-Proofpoint-GUID: lr8BXM_C-1rktIqlwjWwBZtjIaR1qm-J
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-05_03,2023-12-04_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ mlxscore=0 mlxlogscore=677 impostorscore=0 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2312050077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 08:44:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191808
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 09:35:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191809
 
-Using devtool to patch CRLF based sources creates patch files which have
-mixed end of lines : LF for headers and CRLF for source context and
-modified lines.
+UEFI bootloader specification says the primary place for UKI images
+is the /EFI/Linux/ directory under $boot. Defining a varaible for
+the same to reuse in all UEFI-related packages.
 
-Python open(..., newline=None) (default for newline arg)does detect
-end-of-line in this mixed file but only outputs LF EOL data. This
-result in patch files that does not apply on the original sources.
-
-Switching to open(..., newline='') allows to detect end-of-line but keep
-the original end-of-line intact. This generate correct patches for CRLF
-based sources.
-
-Fixes [YOCTO #15285]
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
 ---
-v1->v2: Rebased to solve conflicts with 900129cbdf
----
- meta/lib/oe/patch.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/image-uefi.conf | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index e4bb5a7839..d5ad4f3dc1 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -478,7 +478,7 @@ class GitApplyTree(PatchTree):
-                             patchlines = []
-                             outfile = None
-                             try:
--                                with open(srcfile, 'r', encoding=encoding) as f:
-+                                with open(srcfile, 'r', encoding=encoding, newline='') as f:
-                                     for line in f:
-                                         if line.startswith(GitApplyTree.patch_line_prefix):
-                                             outfile = line.split()[-1].strip()
+diff --git a/meta/conf/image-uefi.conf b/meta/conf/image-uefi.conf
+index 18351e7e3c..aec91bcfe2 100644
+--- a/meta/conf/image-uefi.conf
++++ b/meta/conf/image-uefi.conf
+@@ -1,12 +1,16 @@
+ # Location of EFI files inside EFI System Partition
+ EFIDIR ?= "/EFI/BOOT"
+ 
++# Location of UKI inside EFI System Partition
++EFI_UKI_DIR ?= "/EFI/Linux"
++
+ # Prefix where ESP is mounted inside rootfs. Set to empty if package is going
+ # to be installed to ESP directly
+ EFI_PREFIX ?= "/boot"
+ 
+ # Location inside rootfs.
+ EFI_FILES_PATH = "${EFI_PREFIX}${EFIDIR}"
++EFI_UKI_PATH = "${EFI_PREFIX}${EFI_UKI_DIR}"
+ 
+ # The EFI name for the architecture
+ EFI_ARCH ?= "INVALID"
 -- 
-2.30.2
+2.25.1
 
 
