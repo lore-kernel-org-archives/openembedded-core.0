@@ -1,101 +1,85 @@
-Return-Path: <quic_vkraleti@quicinc.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44644C4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 09:35:49 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.96824.1701768943640623101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C415C4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 09:44:09 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.96905.1701769439198472562
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 01:35:43 -0800
+ Tue, 05 Dec 2023 01:43:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=a8yszv+N;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.180.131, mailfrom: quic_vkraleti@quicinc.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B58ph5e032326
-	for <openembedded-core@lists.openembedded.org>; Tue, 5 Dec 2023 09:35:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=qcppdkim1;
- bh=oL5/wlwsBRUxECwZ7uixD6q93xlOnf3Mz/NHSf6kKtI=;
- b=a8yszv+N4taBMvA67CKpqTH5FjoI4dogQ0vSOKS3O0Ef7KhVA5kBASJYgYfZzGYFyZ1W
- mSchUAEl/otqk6B0bi34okOtjncpjsFVkoss43DWvqn4gnSHdJHEqug5Y1qAuiJvfXdD
- f1wxyjsphk3iEmfsJZqbl6mggLHUGfv6aXmcypoFAvRcJ33RauBdTwZENNw083TCEXSg
- MXPLNMq4kho1GNI6dj7V8imggHB6WYx/CeWFcOfygkBJYDE9JaVXJv2Km+5x2qaMC9K0
- 2FGOv2dmsMR7Lms7ZfBg99KBB9u7rLouByYOaG73ERzLjSLZjszZSuTg28Diy+EAAB91 Jw== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3usmw01e45-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 09:35:42 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3B59ZfLM005631
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 5 Dec 2023 09:35:41 GMT
-Received: from hu-vkraleti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Tue, 5 Dec 2023 01:35:40 -0800
-From: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] image-uefi.conf: Add EFI_UKI_PATH variable
-Date: Tue, 5 Dec 2023 15:04:41 +0530
-Message-ID: <20231205093441.3898052-1-quic_vkraleti@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZAcJ583u;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2c9f42ccb55so35461671fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 01:43:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701769437; x=1702374237; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3fWjVWgKcahSf4Fnw5IVhllC3mOJ/nWZo77eW4CjXEU=;
+        b=ZAcJ583u4NQsoWfijjp2v7ETtbF2+53KQgsoBCijoRfGespdHSA56j8InZ9DJ+2BIB
+         ZLJ+HT0mA9IJvtIG8Bl4JShK3kZNjjqbZDK7AV3OTRdNiEiEyEBFPqz6pQ+oNd5thjOc
+         9S9fDm1MCpmW9D2++XvWaKNlKeqt+WueBYesypOtFTx0Zbpi7i69bCypd/rylHQBdEqt
+         KA91gNxODofPTr7jxBHY3EMzcDz6BYgYvRF7rg3gag+mxs2R0qBDfjbY5Kx86JHJGER3
+         BRaCUUxs44Pr4nIhLVnuPCgLQSOVp1cq+bQVbLv4E9xicEBT/tax9DbyHYA2SQZdIpmq
+         qmEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701769437; x=1702374237;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3fWjVWgKcahSf4Fnw5IVhllC3mOJ/nWZo77eW4CjXEU=;
+        b=A8V83rVwdHCCXad9v2/PBZrbuSWMXYRakhkKXprW2CQlaExCCPHFS5XkCsfIM7cod8
+         cADb7i7dhx8BNvl/khWoP9wtwOuhmGdmpoypsM9OtGakTLVXZmQ1FtN7iG/nrMJ/XoyT
+         i5vMyY8UoH2XUrbfF06W2i0Kk5IyGgRv3S+XL9vt6nBE/qly19aEg9P0MKM5nJzW/qOL
+         Y/n87cqmc367b6IYF0+oE3AhRDvQnTX+trAahEPtTfMU5AXz96t3hcfzwKqFb/G+0wgM
+         STRJ5+Biix+zG9vI7p7D9/jR+V6jWCoWsGfM+6Valu+63x9Lw++6XqVOgKbUaxnwisLu
+         cpZw==
+X-Gm-Message-State: AOJu0YzWwV83JCStjRIF2gNidwwA0GBRlVEDX7brV5JLratmOcTAfzH3
+	lpyQLg2wBQPFXtK5ZjJv2XTkuGhD9OCn2jf3D/k=
+X-Google-Smtp-Source: AGHT+IGVbia5UZ+aJ+8RKqWama6n1ODLZxqm6WiNpqVZMo0wn8SD8bzL5u0i4xYfZgtiNc6AQPyR4PPhbTOMMPiIWgU=
+X-Received: by 2002:a2e:9c07:0:b0:2c9:ffd9:5bd6 with SMTP id
+ s7-20020a2e9c07000000b002c9ffd95bd6mr1803614lji.85.1701769436929; Tue, 05 Dec
+ 2023 01:43:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: lr8BXM_C-1rktIqlwjWwBZtjIaR1qm-J
-X-Proofpoint-GUID: lr8BXM_C-1rktIqlwjWwBZtjIaR1qm-J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-05_03,2023-12-04_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
- mlxscore=0 mlxlogscore=677 impostorscore=0 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
- definitions=main-2312050077
+References: <CANNYZj_MaSkVc9SS5vJ4TBDZ7oMV-iXfqDi54U6cMyxuqEL-bQ@mail.gmail.com>
+ <358.1701701188844188611@lists.openembedded.org>
+In-Reply-To: <358.1701701188844188611@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 5 Dec 2023 10:43:45 +0100
+Message-ID: <CANNYZj9tW+8sF4JZUiDFY81h0EkpbDLu=v4uoVjrHc4G3dZ8DQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] image-live: Add support for building
+ EFI-bootable ISO images for non-x86-based archs
+To: Andrey Popov <andrey.popov@yadro.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 09:35:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191809
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 09:44:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191810
 
-UEFI bootloader specification says the primary place for UKI images
-is the /EFI/Linux/ directory under $boot. Defining a varaible for
-the same to reuse in all UEFI-related packages.
+Then it's probably best to write a recipe, so that the code can be
+hosted externally and maintained independently of oe-core?
 
-Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
----
- meta/conf/image-uefi.conf | 4 ++++
- 1 file changed, 4 insertions(+)
+Alex
 
-diff --git a/meta/conf/image-uefi.conf b/meta/conf/image-uefi.conf
-index 18351e7e3c..aec91bcfe2 100644
---- a/meta/conf/image-uefi.conf
-+++ b/meta/conf/image-uefi.conf
-@@ -1,12 +1,16 @@
- # Location of EFI files inside EFI System Partition
- EFIDIR ?= "/EFI/BOOT"
- 
-+# Location of UKI inside EFI System Partition
-+EFI_UKI_DIR ?= "/EFI/Linux"
-+
- # Prefix where ESP is mounted inside rootfs. Set to empty if package is going
- # to be installed to ESP directly
- EFI_PREFIX ?= "/boot"
- 
- # Location inside rootfs.
- EFI_FILES_PATH = "${EFI_PREFIX}${EFIDIR}"
-+EFI_UKI_PATH = "${EFI_PREFIX}${EFI_UKI_DIR}"
- 
- # The EFI name for the architecture
- EFI_ARCH ?= "INVALID"
--- 
-2.25.1
-
+On Mon, 4 Dec 2023 at 15:46, Andrey Popov <andrey.popov@yadro.com> wrote:
+>
+> Hello, Alex!
+>
+> I have doubts that the entire isoparser class set could be inlined, that would occupy around 1200 lines in total.
+> https://github.com/barneygale/isoparser/tree/master/isoparser
+> Three functions that are used to find the file using this class set are 32 lines long in total.
+>
+> Best regards, Andrey.
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191742): https://lists.openembedded.org/g/openembedded-core/message/191742
+> Mute This Topic: https://lists.openembedded.org/mt/102896781/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
