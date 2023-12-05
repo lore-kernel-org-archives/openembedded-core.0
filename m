@@ -1,97 +1,158 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C899C4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 18:03:51 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.675.1701799421884262729
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79EBAC4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 18:16:31 +0000 (UTC)
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+ by mx.groups.io with SMTP id smtpd.web11.998.1701800181867495617
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 10:03:42 -0800
+ Tue, 05 Dec 2023 10:16:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Wc6M4cqA;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cXNEmgsz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c3b266495-d31b4099-502a-4d8a-ba99-2d129f3fcc46-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701799421; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=/4gu8cmK950mAGnIhGrBTkP9Gia3mxvMSELfwobgITk=;
-	b=Wc6M4cqA2PaUlstdQ9CyiUhf4w/L7ojIe7+I5fg81XXQAhdawEHjGJ69AMtI8a3Q
-	IzeG9jp0JKai7p8VBn/Y+Q4gm3vMCRx+IPIRjIsiVUD/DRf/TbDF6Mj6JnUb3kjhvLe
-	otvet5YaG/hpT2cbubTWGmn5FKA4CemY5xFmSmDk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701799421;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=/4gu8cmK950mAGnIhGrBTkP9Gia3mxvMSELfwobgITk=;
-	b=cXNEmgszerjwdTw3IbrJ+G4W139HGXLNkGRB0Nm/u5uCXF4mMLur+oz438VecIci
-	mNWuXGRl9cHOaP30ET27v41oZTZgLAAc3wFk6BuxMQT5Phtfk+ew78EaRePz5hQwQIh
-	8+MiQ9BUR7z8qFen9CTO7Ln9uNVCD+4YtsbGnXsU=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] tiff: Backport fixes for CVE-2023-6277
-In-Reply-To: 20231205175351.2013236-1-raj.khem@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c3b266495-d31b4099-502a-4d8a-ba99-2d129f3fcc46-000000@us-west-2.amazonses.com>
-Date: Tue, 5 Dec 2023 18:03:41 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.05-54.240.27.30
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CNuCHnpn;
+ spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-io1-f47.google.com with SMTP id ca18e2360f4ac-7b3854d7270so233764339f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 10:16:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701800181; x=1702404981; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CaG0Qk8iEJLNx00CDIcofIeVi2hPaFaD9019Q/118t8=;
+        b=CNuCHnpnxhv7+2dliL2UDIP0m35vhNIZcniJU5WoImHnhzVa5D9ld/RTNFNg9VqLhN
+         USBKXtuL4d+eGixxq2UDYWvQPZ6v4XHAQ/HqKtiAPwmSb7Gw/I/8t2Fk8/LfD5j38v+Z
+         Hj4Mi/ghU3+crZRDwvRKrLX0BZ827xMzhzeVki3hi2B0dx9zBycvopFsaBNFZzph1fOx
+         nkmSBTXdqnx9Un8X3O4hlvjkAM3kDxUJJOYTA5UpNKKFpLfCnjC2RzDj0kmgNOCqMqti
+         sXVAEtiVfxmCSIFi+qQD7gK+BOw6aceNnXJgXXvsa5epmc6+GQCIdsX7CsKcup2n7ti1
+         fQ1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701800181; x=1702404981;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CaG0Qk8iEJLNx00CDIcofIeVi2hPaFaD9019Q/118t8=;
+        b=Ryu60d5roT183lHBdVAkzfR3LXz21blJcXR6DtzgNpJi68G+EQxmohZvMKvpBVk+lq
+         aiuqLE2UTXMepjoydkd58p3lE0Wkqo1X4Ho5f8LA8AH1VLaaYEdealplaKbwaJbjNFBx
+         VMwfpb12T2w3ZTAqRIL1bdTRhuKvtTM2aeLJzM40xZ7vViRdCc4H0zaDKpQJI8Ggsffl
+         jba0ttCm4/xS9MSwpAHf1t4hkBiP6gwec2YiTKmR4di48+T+9/PU2UtX8FlHrhEAf3LC
+         BRmXx+JDWk1bQALSr79mfvqwhA07IMTdPIOyAzdb5j66EyjvtB7/zIY7Eh3kNh2UIsZ9
+         91pQ==
+X-Gm-Message-State: AOJu0YyrpvwXUDfdTIXzIIvguOpJDD0SpU86rTa2Vo47yvQQ7Bkck8MA
+	y8mUSBbZpgANGGPyXN3103wjMW/IyD1JZ3DFyAM=
+X-Google-Smtp-Source: AGHT+IHTJmPrRbO9iLhYc2lTzBGld3efhX2eaPdjXiDikPbHQSlz4P3gASJqMhJbZ0fGu03rKmFg+3Qg11zRLm/K7NI=
+X-Received: by 2002:a6b:913:0:b0:7b4:28f8:d8 with SMTP id t19-20020a6b0913000000b007b428f800d8mr8236855ioi.33.1701800181039;
+ Tue, 05 Dec 2023 10:16:21 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1701750230.git.bruce.ashfield@gmail.com> <20231205175523baa0bc72@mail.local>
+In-Reply-To: <20231205175523baa0bc72@mail.local>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 5 Dec 2023 13:16:09 -0500
+Message-ID: <CADkTA4MRfq0W4iT400FQfczhYnem=Y+W6chL717BzezrBSiKAQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/7] linux-yocto: consolidated pull request
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 18:03:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191854
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 18:16:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191855
 
---NextPart
-Content-Type: text/plain
+On Tue, Dec 5, 2023 at 12:55=E2=80=AFPM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hello Bruce,
+>
+> I got this: Unable to find revision 867a6bdef9701f378f5a9ce66a713daa22598=
+649 in branch yocto-6.5
+> This seems correct, did you forget to push anything?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I just replied to Steve.
 
----
-Testing patch /home/patchtest/share/mboxes/v2-tiff-Backport-fixes-for-CVE-2023-6277.patch
+It's my new machine having different defaults, so not all branches pushed
+when I ran my scripts.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+It should be in place now.
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+Bruce
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+>
+> On 04/12/2023 23:26:55-0500, Bruce Ashfield wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Richard,
+> >
+> > Here's my latest -stable updates for 6.1 and 6.5 as well as the bump
+> > of the dev kernel to v6.7
+> >
+> > I have more pending changes: the 6.6 reference kernel and associated
+> > libc-headers updates, as well as the eventual drop of 6.1 from the
+> > tree.
+> >
+> > But this is my first full cycle on my new configured and cobbled
+> > together builder after my disk failure. So to keep things simple,
+> > I've limited this first pull request to try and see if anything
+> > has been missed in my setup.
+> >
+> > Bruce
+> >
+> > The following changes since commit f89d9240b1208e9df28afed840376ca91842=
+e5dd:
+> >
+> >   vte: Separate out gtk4 pieces of vte into individual packages (2023-1=
+2-04 12:45:27 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://git.yoctoproject.org/poky-contrib zedd/kernel
+> >   https://git.yoctoproject.org/poky-contrib/log/?h=3Dzedd/kernel
+> >
+> > Bruce Ashfield (7):
+> >   linux-yocto/6.5: cfg: split runtime and symbol debug
+> >   linux-yocto/6.5: update to v6.5.11
+> >   linux-yocto/6.1: update to v6.1.62
+> >   linux-yocto-dev: bump to v6.7
+> >   linux-yocto/6.5: update to v6.5.12
+> >   linux-yocto/6.5: update to v6.5.13
+> >   linux-yocto/6.1: update to v6.1.65
+> >
+> >  meta/recipes-kernel/linux/linux-yocto-dev.bb  |  4 +--
+> >  .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+> >  .../linux/linux-yocto-rt_6.5.bb               |  6 ++--
+> >  .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+> >  .../linux/linux-yocto-tiny_6.5.bb             |  6 ++--
+> >  meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
+> >  meta/recipes-kernel/linux/linux-yocto_6.5.bb  | 28 +++++++++----------
+> >  7 files changed, 42 insertions(+), 42 deletions(-)
+> >
+> > --
+> > 2.39.2
+> >
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#191777): https://lists.openembedded.org/g/openembed=
+ded-core/message/191777
+> > Mute This Topic: https://lists.openembedded.org/mt/102986376/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+alexandre.belloni@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
 
 
---NextPart--
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
