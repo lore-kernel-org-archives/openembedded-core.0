@@ -2,56 +2,56 @@ Return-Path: <victor.kamensky7@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE7CC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC78C10DC3
 	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 06:33:18 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.93654.1701757996151988627
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.94618.1701757995239371864
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Dec 2023 22:33:16 -0800
+ Mon, 04 Dec 2023 22:33:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kT6EoPwg;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: victor.kamensky7@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d06d4d685aso15219135ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 22:33:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XGRAq3Pr;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: victor.kamensky7@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5c2066accc5so2104449a12.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Dec 2023 22:33:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701757995; x=1702362795; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701757994; x=1702362794; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CIyxMwVC4RLHaKytyiKXQ/Q8Xve/1CQF6M+MT0+TzBk=;
-        b=kT6EoPwg6PlcwxB7j5fWjB+5fkAb8j8bWocR+fPat0pxXk06M0jfXXJQkfWdJ8kZ0t
-         U4UHuxjX8FyO8pdL3gnoFhlgZLqXdGlUeduKGnqXZWxjFqMRo0vhhF/Dtq0htjjcDp4i
-         hcq8+c9lLNEeDKUx/k0Ee0KDoqUlaWJJ3+ErvYJZP7BibDICIm5Taw/Go4Owt9nxetZQ
-         q90mUUbyVP6xV5EcMXDQCiL3Ikg3V4puNq/ILU+XVR6YMUzZzWvrMsWb3MiBvDB3HMo3
-         Znv0LByEBZPm+gbY+6aiNlBqZCZSEhp0Ie9KBY5PBVIwnm7+jdsZJbGi6WjuBvSFBMla
-         GE2A==
+        bh=BO2XlT5AkTZtJOXBcY7sBfHpFGiG6m9DwZtBO7KaNck=;
+        b=XGRAq3Pro3/E0YoKvwG7slJQdk5QXgTj/rBc67lCKlz5c/YpQuWG9TPWaCZ/cSEx3w
+         /WB3AUr4vznuCyBNMOIcEql/HDTm52PLXnlHCAqzlK1/76fK2OXxaicvDNaT4c0QJttq
+         +mfrfL+mBksdTHBH7t335qtaLAEEmr0WzS0Po8hoRMWlPSJJ5mLpESGpi8kxN6s33OU9
+         yQgdITwWf5KRKLnjukIVV04qKb5kNwjW6+VAjWCUPx/WO12HlntQzqHjoWIOFIvXtcBU
+         jBki1nbmhzXZ52PgLutGWnOCH0tH5TF2q0xIMWH82sJL99Wn4XvOxHm+4p4POcdXGN2I
+         2F2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701757995; x=1702362795;
+        d=1e100.net; s=20230601; t=1701757994; x=1702362794;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CIyxMwVC4RLHaKytyiKXQ/Q8Xve/1CQF6M+MT0+TzBk=;
-        b=oYZiEurvUeMcshlYE4VX2tUvzFLgR3jEf4kQaVs5CsFkiEzOuLZbCylNnjI9tS9gaH
-         1BhDEKgY9eH+3FAg2c7cc8Rf21EHG0PXyjk13FhfdpfCm5XJT007rAibRNBOriXmYtr0
-         EjqxPdaDlWvUFCVXbRAFDlVNdHf56FkD5U8B/jmCJ+MSK9JsG7w+WB8AnlM4YKVEnJzy
-         kNtcKFYXdMVK793NIavdpa15CNRnLN/0ttjS6Mdg83+WJl2APQ7S/Hkll8/5ZTlImEng
-         Q2yu2KGeq1zQOBwGcimQUTBoBe/mQ/xHnkFa8gCf6hNY/aMhDkriNj1PWJlo4Fc/6RLN
-         /xcQ==
-X-Gm-Message-State: AOJu0YylUX7sPGczaX5aS/+5xPCUjqf3qqMh5TDtRQbIzxGW+QGPoVsX
-	TyBJnAJxCjLXgjj5QTuGAQcCcXGuuME=
-X-Google-Smtp-Source: AGHT+IHw2VUx7T/y6uTfsaWOf0KICBE0F5Kv9QG5pIUpeAHii96Imx96Ekrht1gCZlwCuBRu9CPXGg==
-X-Received: by 2002:a17:902:e851:b0:1d0:9471:8084 with SMTP id t17-20020a170902e85100b001d094718084mr2505988plg.99.1701757995188;
-        Mon, 04 Dec 2023 22:33:15 -0800 (PST)
-Received: from kamensky-p15s.cisco.com ([2601:641:8080:1a70::7dab])
-        by smtp.gmail.com with ESMTPSA id e12-20020a170902ed8c00b001d0915435f8sm3722206plj.16.2023.12.04.22.33.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=BO2XlT5AkTZtJOXBcY7sBfHpFGiG6m9DwZtBO7KaNck=;
+        b=D5iL+b8yvY8ZoqR6Qi3mKOJIXpdhgyme1qUKBfrqSTF3b4aRiP1pnBDlUhNriOwn2t
+         kLrXV32eQtsxakvIcvMMTujpzqwrToA2VYUe+Gr9j0bW86APduju+95oOP4fUj3ngBFP
+         uFf6ivXZSh5UgYKXtwUOWMnRMmH1o5nRtYHkrSnqm8TxrJLQU/jAhYUqwiyNtRuURVcz
+         f8N/WH/dIfNxdaUvU/UAVZR4hu6iJ+GIHdLRwupA6fHHDs7d1TefKu0I+L5gGvlngB9M
+         q2S7zyrVvAcYiBLUImrdRHahyoqleg0drI2FluA8JO5CH9yeVxF0K5yH425YcUGn3bNw
+         evfQ==
+X-Gm-Message-State: AOJu0YxfFpc2wrBdUmrWXR/zSuNn//nGSv33KW/AGTJ9o85L6OmRMMeJ
+	kPXaUlIPdosdihT0lVB+ccfUgzHTfJ4=
+X-Google-Smtp-Source: AGHT+IHWUM9CmX89mppo9HjACkakbECO3n2uGSj0x3mLD3P2KO7gqWQFQECZtOKf4s+v7NI/1menrw==
+X-Received: by 2002:a05:6a20:230b:b0:187:7590:7f11 with SMTP id n11-20020a056a20230b00b0018775907f11mr2130840pzc.43.1701757994302;
         Mon, 04 Dec 2023 22:33:14 -0800 (PST)
+Received: from kamensky-p15s.cisco.com ([2601:641:8080:1a70::7dab])
+        by smtp.gmail.com with ESMTPSA id e12-20020a170902ed8c00b001d0915435f8sm3722206plj.16.2023.12.04.22.33.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Dec 2023 22:33:13 -0800 (PST)
 From: Victor Kamensky <victor.kamensky7@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Victor Kamensky <victor.kamensky7@gmail.com>
-Subject: [PATCH 3/3] systemtap-uprobes: removed as obsolete
-Date: Mon,  4 Dec 2023 22:32:49 -0800
-Message-Id: <20231205063249.3433-3-victor.kamensky7@gmail.com>
+Subject: [PATCH 2/3] systemtap: do not install uprobes and uprobes sources
+Date: Mon,  4 Dec 2023 22:32:48 -0800
+Message-Id: <20231205063249.3433-2-victor.kamensky7@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20231205063249.3433-1-victor.kamensky7@gmail.com>
 References: <20231205063249.3433-1-victor.kamensky7@gmail.com>
@@ -61,95 +61,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 06:33:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191797
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191796
 
-systemtap-uprobes package was not used for a long time - since kernel
-itself provided uprobes support. Now source code of old uprobes kernel
-module was removed from systemtap git repo by "PR30434 continuation:
-Removed old uprobes, uprobes2 implementation, uprobes-inc.h & any
- mentions of CONFIG_UTRACE." it is good time for us to gid rid of it
-too.
+Addresses the following do_package_qa warning:
+
+WARNING: systemtap-5.0-r0 do_package_qa: QA Issue: File /usr/share/systemtap/runtime/linux/uprobes/Makefile in package systemtap contains reference to TMPDIR
+File /usr/share/systemtap/runtime/linux/uprobes/git_version.h in package systemtap contains reference to TMPDIR
+File /usr/share/systemtap/runtime/linux/uprobes2/git_version.h in package systemtap contains reference to TMPDIR [buildpaths]
 
 Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
 ---
- meta/conf/distro/include/distro_alias.inc     |  1 -
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../systemtap/systemtap-uprobes_git.bb        | 42 -------------------
- 3 files changed, 44 deletions(-)
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
+ ...ve-runtime-linux-uprobes-and-runtime.patch | 40 +++++++++++++++++++
+ .../systemtap/systemtap_git.inc               |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
 
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index e43c0acd80..e6131c815a 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -317,7 +317,6 @@ DISTRO_PN_ALIAS:pn-sysprof = "Fedora=sysprof Debian=sysprof"
- DISTRO_PN_ALIAS:pn-systemd-compat-units = "Fedora=systemd Ubuntu=systemd"
- DISTRO_PN_ALIAS:pn-systemd-systemctl = "OE-Core"
- DISTRO_PN_ALIAS:pn-systemd-systemdctl = "Fedora=systemd Ubuntu=systemd"
--DISTRO_PN_ALIAS:pn-systemtap-uprobes = "Ubuntu=systemtap Debian=systemtap"
- DISTRO_PN_ALIAS:pn-sysvinit-inittab = "OE-Core"
- DISTRO_PN_ALIAS:pn-tar-replacement = "Fedora=tar Ubuntu=tar"
- DISTRO_PN_ALIAS:pn-tcf-agent = "Windriver upstream=http://www.eclipse.org/dsdp/tm/"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 2c59db56ac..445f797bcb 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -794,7 +794,6 @@ RECIPE_MAINTAINER:pn-systemd-serialgetty = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-systemd-systemctl-native = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-systemtap = "Victor Kamensky <victor.kamensky7@gmail.com>"
- RECIPE_MAINTAINER:pn-systemtap-native = "Victor Kamensky <victor.kamensky7@gmail.com>"
--RECIPE_MAINTAINER:pn-systemtap-uprobes = "Victor Kamensky <victor.kamensky7@gmail.com>"
- RECIPE_MAINTAINER:pn-sysvinit = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-sysvinit-inittab = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-taglib = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb b/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
-deleted file mode 100644
-index 3d35481bdc..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap-uprobes_git.bb
-+++ /dev/null
-@@ -1,42 +0,0 @@
--SUMMARY = "UProbes kernel module for SystemTap"
--HOMEPAGE = "https://sourceware.org/systemtap/"
--require systemtap_git.inc
--
--DEPENDS = "systemtap virtual/kernel"
--
--# On systems without CONFIG_UTRACE, this package is empty.
--ALLOW_EMPTY:${PN} = "1"
--
--inherit module-base gettext
--
--FILESEXTRAPATHS =. "${FILE_DIRNAME}/systemtap:"
--
--FILES:${PN} += "${datadir}/systemtap/runtime/uprobes"
--
--# Compile and install the uprobes kernel module on machines with utrace
--# support.  Note that staprun expects it in the systemtap/runtime directory,
--# not in /lib/modules.
--do_compile() {
--	if grep -q "CONFIG_UTRACE=y" ${STAGING_KERNEL_BUILDDIR}/.config
--	then
--		unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS CC LD CPP
--		oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
--			   AR="${KERNEL_AR}" OBJCOPY="${KERNEL_OBJCOPY}" \
--			   STRIP="${KERNEL_STRIP}" \
--			   -C ${STAGING_KERNEL_DIR} scripts
--		oe_runmake KDIR=${STAGING_KERNEL_DIR}   \
--			   M="${S}/runtime/uprobes/" \
--			   CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
--			   AR="${KERNEL_AR}" OBJCOPY="${KERNEL_OBJCOPY}" \
--			   STRIP="${KERNEL_STRIP}" \
--			   -C "${S}/runtime/uprobes/"
--	fi
--}
--
--do_install() {
--	if [ -e "${S}/runtime/uprobes/uprobes.ko" ]
--	then
--		install -d ${D}${datadir}/systemtap/runtime/uprobes/
--		install -m 0644 ${S}/runtime/uprobes/uprobes.ko ${D}${datadir}/systemtap/runtime/uprobes/
--	fi
--}
+diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
+new file mode 100644
+index 0000000000..2d46a3962d
+--- /dev/null
++++ b/meta/recipes-kernel/systemtap/systemtap/0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch
+@@ -0,0 +1,40 @@
++From 5a01e28bd806326b2143e3e6bb28d4780c5d879d Mon Sep 17 00:00:00 2001
++From: Victor Kamensky <victor.kamensky7@gmail.com>
++Date: Sun, 3 Dec 2023 18:40:05 -0800
++Subject: [PATCH] Makefile.am: remove runtime/linux/uprobes and
++ runtime/linux/uprobes2 install
++
++"PR30434 continuation:  Removed old uprobes, uprobes2 implementation,
++uprobes-inc.h & any mentions of CONFIG_UTRACE." commit removed uprobes,
++and uprobes2 sources and directories, but Makefile.am still tries to
++install them. In fact after failing to 'cd' into runtime/linux/uprobes
++directory it copies top level *.[ch] files into
++${prefix}/share/systemtap/runtime/linux/uprobes directory.
++
++The issue was caught by OpenEmbedded project do_package_qa checks.
++
++Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
++
++Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2023q4/027880.html] 
++---
++ Makefile.am | 4 ----
++ 1 file changed, 4 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 5737c6b20..2ba896088 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -277,10 +277,6 @@ endif
++ 		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/softfloat/$$f; done)
++ 	(cd $(srcdir)/runtime/linux; for f in *.[ch]; \
++ 		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/$$f; done)
++-	(cd $(srcdir)/runtime/linux/uprobes; for f in Makefile *.[ch]; \
++-		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/uprobes/$$f; done)
++-	(cd $(srcdir)/runtime/linux/uprobes2; for f in *.[ch]; \
++-		do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/runtime/linux/uprobes2/$$f; done)
++ 	(cd $(srcdir)/tapset; find . \( -name '*.stp' -o -name '*.stpm' -o -name README \) -print \
++ 		| while read f; do $(INSTALL_DATA) -D $$f $(DESTDIR)$(pkgdatadir)/tapset/$$f; done)
++ 	(cd $(srcdir)/testsuite/systemtap.examples; find . -type f -print \
++-- 
++2.31.1
++
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index bc2a9ff434..9fe85676fc 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -7,6 +7,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git;branch=master;protocol=https \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+            file://0001-Install-python-modules-to-correct-library-dir.patch \
+            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
++           file://0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch \
+            file://0001-prerelease-datestamp-fixes.patch \
+            "
+ 
 -- 
 2.31.1
 
