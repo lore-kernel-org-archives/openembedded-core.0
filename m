@@ -1,97 +1,144 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75F29C4167B
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 07:05:18 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.94010.1701759917207916172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC080C4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 07:43:28 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.94452.1701762204932906408
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Dec 2023 23:05:17 -0800
+ Mon, 04 Dec 2023 23:43:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GuaySzOV;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SGm/hdJm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c38cb98a1-726b6529-9325-4c76-8447-56ac045f1de4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701759916; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=ucNVckfiLNqSmB1Lgl6PQtaCrkvH61OqfUBCPbDge60=;
-	b=GuaySzOVdRLLYhACFmTXYPUlJBE2CcYYb0SdoqMA9mrq+7eByffBG7cIUcXMj0SM
-	1S0B7WRKhUDw4ziMEJKqqIlbNlyFKPfhwH5KGJFy1ToDAKoYwB392UbLnxydPdy2kNN
-	5jcCzklna6NnwkAUg3qw7vWKzJZ4dW0AnwjnPNWA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701759916;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ucNVckfiLNqSmB1Lgl6PQtaCrkvH61OqfUBCPbDge60=;
-	b=SGm/hdJmxJsB2Q1WMsra9Hr2J97UKwPYhWo0gDSiGfxgtD87WBLR8r3wTghBsHrh
-	tfs+60pVaYydWddGVahMHVFIhBl71xye8jfR4Q/jgNdu2Ke7HXFWg5kwhNM/HpMN9/k
-	WL7s+vEAS+H5cwhHezUrtb9RzigJt88K/Jrxnrb4=
-From: patchtest@automation.yoctoproject.org
-To: liezhi.yang@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] gettext: Upgrade 0.22.3 -> 0.22.4
-In-Reply-To: e132753bd1e09d0e6eb276b2ad9302a7d7a184df.1701758555.git.liezhi.yang@windriver.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c38cb98a1-726b6529-9325-4c76-8447-56ac045f1de4-000000@us-west-2.amazonses.com>
-Date: Tue, 5 Dec 2023 07:05:16 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.05-54.240.27.33
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Mx2POhrO;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BA8C060002;
+	Tue,  5 Dec 2023 07:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701762203;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P44wqyLWGORLwblfxx0xyqn9DWWY4ybcbz9WSCDsWcY=;
+	b=Mx2POhrOQ4B9dnyPjWPpNgQ4NnB9LLX1ryFcIQ32l5hkECENbUGihXFQYZbWgIaThFbcI8
+	LZxclTC9eofb5m1SZOSJ4/4UIw+ZoGvpxIaTgnGKlZXZhY5NaNJkSQmD4/1hxqQ8a8Sjw/
+	1tbRcTk9gYdEyv7eszMTB/TLXxeJATBKxbtS0dQRyJ7sGomVT3tOotAnTDR8j0CPbY6QEh
+	1SyEf9ao+9ZNgZdwzVnX84h8a5BOhCI78TjkBn8P8UtJhJIwp2PJkPa8aRsjXjHshXwVvt
+	4yzqBJzpVCiSoAhTBOyaMCylgUNZRPA6ENADfkdb84tDWshmf0upHRaePfssNA==
+Date: Tue, 5 Dec 2023 08:43:22 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] openssh: Add PACKAGECONFIG option to
+ customize sshd mode
+Message-ID: <20231205074322881971a5@mail.local>
+References: <ef31fe38-2390-ecb8-405a-570895ef1ab9@windriver.com>
+ <20231205055201.1738005-1-mingli.yu@windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205055201.1738005-1-mingli.yu@windriver.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 07:05:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191802
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 07:43:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191803
 
---NextPart
-Content-Type: text/plain
+Hello,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On 05/12/2023 13:52:01+0800, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Add systemd-sshd-socket-mode PACKAGECONFIG option to choose sshd.socket
+> and systemd-sshd-service-mode PACKAGECONFIG option to choose installing
+> sshd.service.
+> 
+> The systemd-sshd-socket-mode PACKAGECONFIG option is enabled by default
+> and user can customize the above two PACKAGECONFIG option to choose the
+> sshd mode.
+> 
 
----
-Testing patch /home/patchtest/share/mboxes/1-2-gettext-Upgrade-0.22.3---0.22.4.patch
+This doesn't apply after https://lore.kernel.org/all/20231201140947.792594-1-xiangyu.chen@eng.windriver.com/
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+Can you synchronize and provide a working series?
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  .../openssh/openssh_9.5p1.bb                  | 24 ++++++++++++++-----
+>  1 file changed, 18 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> index bbb8fb091a..a10f5c5a61 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> @@ -50,16 +50,20 @@ INITSCRIPT_NAME:${PN}-sshd = "sshd"
+>  INITSCRIPT_PARAMS:${PN}-sshd = "defaults 9"
+>  
+>  SYSTEMD_PACKAGES = "${PN}-sshd"
+> -SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket sshd.service"
+> +SYSTEMD_SERVICE:${PN}-sshd = "${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','sshd.socket', '', d)} ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','sshd.service', '', d)}"
+>  
+>  inherit autotools-brokensep ptest pkgconfig
+>  DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+>  
+> -PACKAGECONFIG ??= ""
+> +# systemd-sshd-socket-mode means sshd.socket and systemd-sshd-service-mode
+> +# corresponding to sshd.service
+> +PACKAGECONFIG ??= " systemd-sshd-socket-mode"
+>  PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
+>  PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
+>  PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
+>  PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
+> +PACKAGECONFIG[systemd-sshd-socket-mode] = ""
+> +PACKAGECONFIG[systemd-sshd-service-mode] = ""
+>  
+>  EXTRA_AUTORECONF += "--exclude=aclocal"
+>  
+> @@ -125,15 +129,23 @@ do_install:append () {
+>  	echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+>  
+>  	install -d ${D}${systemd_system_unitdir}
+> -	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
+> -	install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
+> -	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
+> +	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','true','false',d)}; then
+> +	    install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
+> +	    install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
+> +	    sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+> +		    -e 's,@SBINDIR@,${sbindir},g' \
+> +		    -e 's,@BINDIR@,${bindir},g' \
+> +		    -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+> +            ${D}${systemd_system_unitdir}/sshd.socket
+> +	elif ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','true','false',d)}; then
+> +	    install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
+> +	fi
+>  	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_system_unitdir}
+>  	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+>  		-e 's,@SBINDIR@,${sbindir},g' \
+>  		-e 's,@BINDIR@,${bindir},g' \
+>  		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+> -		${D}${systemd_system_unitdir}/sshd.socket ${D}${systemd_system_unitdir}/*.service
+> +		${D}${systemd_system_unitdir}/*.service
+>  
+>  	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+>  		${D}${sysconfdir}/init.d/sshd
+> -- 
+> 2.25.1
+> 
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191794): https://lists.openembedded.org/g/openembedded-core/message/191794
+> Mute This Topic: https://lists.openembedded.org/mt/102987153/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---NextPart--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
