@@ -1,135 +1,97 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E972C10DCE
-	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 18:03:01 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web10.645.1701799372299954074
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C899C4167B
+	for <webhook@archiver.kernel.org>; Tue,  5 Dec 2023 18:03:51 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.675.1701799421884262729
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 10:02:52 -0800
+ Tue, 05 Dec 2023 10:03:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hxyerdgg;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-423c944352fso40745701cf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 10:02:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701799371; x=1702404171; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DQGsMEs9+0nWfVCfrFj7nfN1RfIZTo6NdG3mAvKR+Qg=;
-        b=hxyerdggCEwsfBxKScp34F1Ik0ZFQyfoMnIZK+ViyqZ7hhpbGvwLOHy2V/6cnbb4T0
-         3kB/ZSPHILXeuos6CMnjsRr5jNq9zkJ9CK1kBWGnuI1mjDCaDrdwsjlPL3fWDdwLscje
-         BoDOxu9usbBcBQC6VRROiqcLvYv1VZtufs6q5BKtMCI7tC+muDC2Nvxz3uGCteYmqnhS
-         dG2J/gyi1xq3Zd2YQLyShRikohKmL8kNYo8pQE3fKrJmXrLdCQOZPASqfP9QcYlOD3fP
-         iYxme7MBOUfp0WS5PCrXk+6N8pIfSh89kFu9W3ePP2TBEO1LncAIJ6SLcd0F2UkNjIaV
-         kBmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701799371; x=1702404171;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DQGsMEs9+0nWfVCfrFj7nfN1RfIZTo6NdG3mAvKR+Qg=;
-        b=sp6iF9E0aug4K0ptTKyPIDIfhZ5jqWTS+Tr8t8khVEJuwrOZAM4P+kCqCy0kgqhiDV
-         1RENYDylVitdvlApWtE/ekzAsTpyckJxgxhymzJMoVW9o9l9uulao1Rq3AOTBzM5c+NE
-         Zqfra3uLBWokj5ON4uZs1BydiUbfDYOE0hGyGy49rYA+Tbq0vuBmhMBzrrhgIMNOqxgU
-         0FMnpFIeM4SXjw1NS+SMS4cf261CJKWr8lm5diLYHVvLdRJo71tOoP93QzBQjjfdiWQo
-         9Pj1hp3cwofHpyoHhTpeKfkA4wJhNHrP3VY3KmWTww8VXVIYI2dqTqFtT++nTcLtRiRf
-         /jMQ==
-X-Gm-Message-State: AOJu0Yz9Y8nElYkUcD7UceZSXqj5ea7VUfN07Wc/w3704rmrvlEQH5S3
-	ZA1vXRu0TIlnKOxgpcBUZc0=
-X-Google-Smtp-Source: AGHT+IGRrFEb4ysBY3bOcBCsHqCFB87TUFKt1XfHXYTdOPRvDWQjFvdx0a6ESvzZt5qSpfhpbZuVOA==
-X-Received: by 2002:a05:622a:cf:b0:400:a2b8:1c97 with SMTP id p15-20020a05622a00cf00b00400a2b81c97mr1857639qtw.17.1701799370978;
-        Tue, 05 Dec 2023 10:02:50 -0800 (PST)
-Received: from gmail.com ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id w2-20020ac87182000000b00423de58d3d8sm5328494qto.40.2023.12.05.10.02.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 10:02:50 -0800 (PST)
-Date: Tue, 5 Dec 2023 13:02:48 -0500
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][kirkstone 0/4] linux-yocto: -stable updates
-Message-ID: <ZW9lyDoHaQiG1VZf@gmail.com>
-References: <20231205044036.4163615-1-bruce.ashfield@gmail.com>
- <CAOSpxdZDYpzoaK01uMKmgzjPqm=Tup2EZO2+w39DSvz3HY1Vrg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOSpxdZDYpzoaK01uMKmgzjPqm=Tup2EZO2+w39DSvz3HY1Vrg@mail.gmail.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Wc6M4cqA;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cXNEmgsz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c3b266495-d31b4099-502a-4d8a-ba99-2d129f3fcc46-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1701799421; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=/4gu8cmK950mAGnIhGrBTkP9Gia3mxvMSELfwobgITk=;
+	b=Wc6M4cqA2PaUlstdQ9CyiUhf4w/L7ojIe7+I5fg81XXQAhdawEHjGJ69AMtI8a3Q
+	IzeG9jp0JKai7p8VBn/Y+Q4gm3vMCRx+IPIRjIsiVUD/DRf/TbDF6Mj6JnUb3kjhvLe
+	otvet5YaG/hpT2cbubTWGmn5FKA4CemY5xFmSmDk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701799421;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=/4gu8cmK950mAGnIhGrBTkP9Gia3mxvMSELfwobgITk=;
+	b=cXNEmgszerjwdTw3IbrJ+G4W139HGXLNkGRB0Nm/u5uCXF4mMLur+oz438VecIci
+	mNWuXGRl9cHOaP30ET27v41oZTZgLAAc3wFk6BuxMQT5Phtfk+ew78EaRePz5hQwQIh
+	8+MiQ9BUR7z8qFen9CTO7Ln9uNVCD+4YtsbGnXsU=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2] tiff: Backport fixes for CVE-2023-6277
+In-Reply-To: 20231205175351.2013236-1-raj.khem@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c3b266495-d31b4099-502a-4d8a-ba99-2d129f3fcc46-000000@us-west-2.amazonses.com>
+Date: Tue, 5 Dec 2023 18:03:41 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.05-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 18:03:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191853
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Dec 2023 18:03:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191854
 
-In message: Re: [OE-core][kirkstone 0/4] linux-yocto: -stable updates
-on 05/12/2023 Steve Sakoman wrote:
+--NextPart
+Content-Type: text/plain
 
-> On Mon, Dec 4, 2023 at 6:40 PM <bruce.ashfield@gmail.com> wrote:
-> >
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > Steve,
-> >
-> > Much like my last pull request to Richard, this has been
-> > generated from a newly provisioned machine after my old machine
-> > of 10 years had a disk failure.
-> >
-> > Let me know if you have any issues with this, and I'll debug
-> > what I missed when configuring the new box.
-> 
-> Hi Bruce,
-> 
-> I'm also seeing an issue with 5.15.141.
-> 
-> Local testing fails with:
-> 
-> WARNING: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
-> do_fetch: Failed to fetch URL
-> git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=kernel-meta,
-> attempting MIRRORS if available
-> ERROR: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
-> do_fetch: Fetcher failure: Unable to find revision
-> 92bd0a656f0f9db955fb53c52be71cce9296bdb2 in branch yocto-5.15 even
-> from upstream
-> ERROR: linux-yocto-5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0
-> do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from
-> any source.', 'git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=kernel-meta')
-> ERROR: Logfile of failure stored in:
-> /home/steve/builds/poky-contrib-kirkstone/build/tmp/work/qemux86_64-poky-linux/linux-yocto/5.15.141+gitAUTOINC+92bd0a656f_54a3472506-r0/temp/log.do_fetch.3515498
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-This was a repository misconfiguration. Only the current
-branch of the kernel-cache was pushed, where I've always
-had all branches to be pushed by default before.
+---
+Testing patch /home/patchtest/share/mboxes/v2-tiff-Backport-fixes-for-CVE-2023-6277.patch
 
-I've tweaked it, and the revision should be in place now.
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-Bruce
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
 
-> 
-> Steve
-> 
-> >
-> > Bruce
-> >
-> > Bruce Ashfield (4):
-> >   linux-yocto/5.10: update to v5.10.198
-> >   linux-yocto/5.10: update to v5.10.200
-> >   linux-yocto/5.10: update to v5.10.202
-> >   linux-yocto/5.15: update to v5.15.141
-> >
-> >  .../linux/linux-yocto-rt_5.10.bb              |  6 ++---
-> >  .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
-> >  .../linux/linux-yocto-tiny_5.10.bb            |  8 +++---
-> >  .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
-> >  meta/recipes-kernel/linux/linux-yocto_5.10.bb | 24 ++++++++---------
-> >  meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
-> >  6 files changed, 38 insertions(+), 38 deletions(-)
-> >
-> > --
-> > 2.39.2
-> >
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
