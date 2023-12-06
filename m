@@ -2,90 +2,141 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F77C4167B
-	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 09:41:36 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.28057.1701855695246203891
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE220C4167B
+	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 10:08:16 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.28192.1701857289266769433
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Dec 2023 01:41:35 -0800
+ Wed, 06 Dec 2023 02:08:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aJhvJ9K8;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50bf82f4409so722862e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 01:41:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jZsTFwKs;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2ca02def690so43022201fa.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 02:08:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701855693; x=1702460493; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1701857287; x=1702462087; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=E2CMAuNxzb7RWv+KkBI5TcoovPD0KOxZwoyT4+YoPhQ=;
-        b=aJhvJ9K8PT/EC6zdP5MnHJyAvGBJP+rdGKBdHAWcmcp3jH7KMuYEvunv48T1T46HAB
-         a+cbnDDA1Fy2cNiH26YAI9gUZ8Ai2TUqJVOf50qPfbY5o79QqkFOR0UImZASOYKQ78Cq
-         gT8mhfEbSe5sJE/KrUly6bmQa2TfyhyMrDKS1hEB/EdeaNrnGajsCgguSyZj/sQ2mfrX
-         7BOjA6emWbjrhO/aPXW+XYEUJilcymxAYGbVZSHN+mFuiT8+KrEHEhW8i5jj6aZAggoy
-         lEabx74xypvOcLGW8Bx6NQiSSxdxBg5y5oLDfThEAPFTzYD664guUiAspYrcS4cQU3NM
-         S+ZQ==
+        bh=PS8XdNRLKkfXISkUMYi7Lun1FcNPBRhG/zWrisZreNI=;
+        b=jZsTFwKsF2+nMpM9oFmIQr1al8mPDlx+tg+DE1O7tcdaZzPGWP8iBlOfIryygELsOd
+         2coAQEDvxpGmXhCvYo967FvngVVuNQUcgfbDz4aPFz9o41Q26niMQw02OSzBwFTQgTHJ
+         kLSpOSM60EA4t4rZ7sIhh+PiXFjhbb/wDTkg3f953mctf41WGF8k2lRJ1mN9ksThKrq+
+         /WEZ8AbI3BuTEsSm9ZU8NKIM1mX3FZTOvm/d3sJ8sPj6P4TXb98RXaDImp2Ou1a76vz6
+         D1VUiyoxfIBvEBs11B4EhA1P2RBERkpT/dJaAiKbABmvUC5kh/hQqr8zXJYWoeD5tdAH
+         4xZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701855693; x=1702460493;
+        d=1e100.net; s=20230601; t=1701857287; x=1702462087;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E2CMAuNxzb7RWv+KkBI5TcoovPD0KOxZwoyT4+YoPhQ=;
-        b=mVmimjBdXYU3k1FqxpWZAPsVN8AO1lqrNMREQUTDkK76MSlJ/OhNDjEFRpaojDYj6T
-         yYljb5f/DDNghBP43CB+/V06qwQ1f6iTlT5Y1aeUUd0xw5I/htiv6M3tMVnLATmAJi6L
-         x0VY7k4ILIgRWkny25gReFJDLKH8+4CrSJXGJCWO1Z27LI7AP8o90/6uMx70Rj8O4AqR
-         4qGiLhaspGi4h4SFmxO0WScTAJvSvu3mOzO9Jz5WnSPWpIunNJNBpAxtmjZg2s1fU+fs
-         rq7ByW/anme0n9ENE0oglQfjWRemtYZLoSTYoE/CxKpskwk2bpMmJ4WiLaBC08H/NHPy
-         6bzA==
-X-Gm-Message-State: AOJu0YxxiHGN+G3lccrMMF1UyF3z8JVZNnfjfk75J837qkTOl/CRIDCj
-	C0JFrlw7ZjI6z07YGX1Au7WF8wDH6oLcPzqL+5c=
-X-Google-Smtp-Source: AGHT+IEjRa+bWpxogMujh3lwCKn+U+zalg4HX6qpKz/OUss3eKSgd0/tt3+S+XJ/2LBfDZ0wmldeJdJ9a98qLoZZOuw=
-X-Received: by 2002:a05:6512:2203:b0:50b:f88d:f848 with SMTP id
- h3-20020a056512220300b0050bf88df848mr2108104lfu.23.1701855693162; Wed, 06 Dec
- 2023 01:41:33 -0800 (PST)
+        bh=PS8XdNRLKkfXISkUMYi7Lun1FcNPBRhG/zWrisZreNI=;
+        b=qywqvCNtNs6jWHxpvKUCE2+FbbPSXU7G9sAWsOcKgeaqGdWkrqNQy8Ku0VOL0uWLgS
+         izjd6eZKdVSWXCrJsYouzU6qDLbVOO2yvDANzuTZo2Ga1TK6CkcCVUlryEfleujdkcHz
+         2omBXuOWjvLe+KcKi+gmcOG6NCjgEYqQhjnvBz/5V+25vFOJ8kG9Ic3/zOhQTkh8zQdY
+         sUsNG2LF8WGmfd7WEYY9jvg4aBV02AlL+Vsl/jrf9UGdCTUYYOW48vslsKCWu0PelaBT
+         AinNZTQ0Ly1GrllWYY9+PeMf4ob3bFWbv2GOO/+MqMLeFhQaZ7opR7beg9h2t94OL8lj
+         YerQ==
+X-Gm-Message-State: AOJu0Yy2LXq/SbOJM8IkuejTrgRQSYKNSMjcsDez19fDa7CCYlaqSPsE
+	NG/3hEqZ2AGvMkOuXIyd/UBrWbDBtUdOixEA/CQ=
+X-Google-Smtp-Source: AGHT+IG3UzwTIVzwy7bYf1vGKHD1kXnykVsFtgCNvIi4u+eqnlg3e/0mnG6xZKP/O1nsJbmk1X3u9W9aCUvFv+WySX8=
+X-Received: by 2002:a2e:7202:0:b0:2ca:5e:d16a with SMTP id n2-20020a2e7202000000b002ca005ed16amr461634ljc.17.1701857287136;
+ Wed, 06 Dec 2023 02:08:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20230630091451.3331563-1-changqing.li@windriver.com>
- <20230630091451.3331563-2-changqing.li@windriver.com> <CANNYZj-6GkQ-udC+Nd0zyQbwKtkfrr0hNKZ-AaMEUzgnTCNT1A@mail.gmail.com>
- <328B87A9-2B41-4B96-ACBE-C84E3575E1FC@arm.com> <9ef53c61-7238-f500-ba98-dab28b7fff12@windriver.com>
- <CANNYZj-jeX1Km0BYSS0HYDAeC+Fckmw0QA2u41iqA2PTmjuy6w@mail.gmail.com>
- <07dd26ce-3ffc-4799-9d6e-0d910477622e@windriver.com> <CANNYZj-L-fycO7KaV_zM9QXnkOwKpC_7-UEsioqbSuroA=CQ4Q@mail.gmail.com>
- <f997b989-a4f5-4691-a94b-625afdcf0936@windriver.com>
-In-Reply-To: <f997b989-a4f5-4691-a94b-625afdcf0936@windriver.com>
+References: <20231206092536.2874022-1-andrey.z@gmail.com>
+In-Reply-To: <20231206092536.2874022-1-andrey.z@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 6 Dec 2023 10:41:21 +0100
-Message-ID: <CANNYZj9JjMv8jFvRzZD83KVvuS_bLchhSAb09A+MCNnerhYRxw@mail.gmail.com>
-Subject: Re: [OE-core] [master][PATCH 2/2] rootfs-postcommands.bbclass: add
- post func remove_unused_dnf_log_lock
-To: Changqing Li <changqing.li@eng.windriver.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Dec 2023 11:07:55 +0100
+Message-ID: <CANNYZj8x2t2H9rj0jjjYW-GZqnqn_x6mNOJtydqUakO1sLU=ag@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] scripts/oe-setup-layers: add option to skip
+ revs in json
+To: Andrey Zhizhikin <andrey.z@gmail.com>, Jermain Horsman <jermain.horsman@nedap.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 09:41:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191880
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 10:08:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191881
 
-On Wed, 6 Dec 2023 at 03:39, Changqing Li
-<changqing.li@eng.windriver.com> wrote:
-> The review comments that led to the revert are still valid, and this
-> message does not address them. The concern was that the removal via
-> rootfs postprocess is too late. If dnf leaves lock files around, they
-> should be removed just after the dnf execution.
-> Thanks.  Agree that the lock file should be removed after dnf execution.   This is a bug of dnf. I had raise a bug upstream in Jul:
->
-> https://github.com/rpm-software-management/dnf/issues/1963.
+Unfortunately I have to say no to this. The problem is that this will
+update to latest revisions on all the layers, which I believe is not
+what people would want, as everything including poky etc. will be
+shifting uncontrollably.
 
-Looks like it's not something upstream is going to fix quickly - low
-priority, no comments.
+Conceptually, I would not want oe-setup-layers to suffer from feature
+creep and become bloated and difficult to maintain. Every little
+enhancement is pushing in that direction. It has a json, it does what
+the json prescribes, end of story.
 
-> This patch more like an workaround before dnf fix this issue, and this log_lock.pid in rootfs
->
-> has no function impact, just a dirty file in rootfs.
-
-If you can rework the patch so that the stale files are removed
-immediately after running dnf, I think no one is going to object. The
-location is somewhere in meta/lib/oe/package_manager/rpm/.
+We've previously discussed with Jermain how this can be solved on the
+bitbake-layers side, e.g. that tool would write out a json where some
+layers don't have a hardcoded revision. I think work to implement that
+has stalled, not sure. But it's not difficult to add.
 
 Alex
+
+
+
+On Wed, 6 Dec 2023 at 10:25, Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+>
+> Current script implementation uses revisions recorded in JSON file to
+> replicate previously recorded setup. While this is useful for complete
+> layer setup reproducibility, this does not allow the setup "upgrade" where
+> this script can be used to use remote branch information and latest HEAD,
+> have the setup restored, and then saved using updated revisions.
+>
+> Add new '--skip-revs' parameter which can be used to obtain the updated
+> layer setup.
+>
+> Following set of operations could be executed to achieve this:
+> 1. Restore initial layer setup using remote branch HEAD instead of recorded
+>    revisions by specifying --skip-revs.
+> 2. After layer setup is created, JSON file containing updated revisions is
+>    retrieved via `bitbake-layers create-layers-setup`
+> 3. Updated JSON file can be checked in to bootstrap repository and used
+>    later without '--skip-revs' to replicated updated setup.
+>
+> Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+> ---
+>  scripts/oe-setup-layers | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
+> index 6d49688a32..a4941450d3 100755
+> --- a/scripts/oe-setup-layers
+> +++ b/scripts/oe-setup-layers
+> @@ -69,6 +69,13 @@ def _do_checkout(args, json):
+>          remotes = r_remote['remotes']
+>
+>          print('\nSetting up source {}, revision {}, branch {}'.format(r_name, desc, branch))
+> +        if args['skip_revs']:
+> +            if branch and (branch != 'HEAD'):
+> +                print('\nSkip revision option used, remote {} branch {} HEAD will be used instead of {}'.format(r_name, branch, rev))
+> +                rev = branch
+> +            else:
+> +                print('\nBranch info is missing in json, --skip-revs option is not used')
+> +
+>          if not _is_repo_git_repo(repodir):
+>              cmd = 'git init -q {}'.format(repodir)
+>              print("Running '{}'".format(cmd))
+> @@ -108,6 +115,7 @@ except subprocess.CalledProcessError as e:
+>
+>  parser.add_argument('--destdir', default=defaultdest, help='Where to check out the layers (default is {defaultdest}).'.format(defaultdest=defaultdest))
+>  parser.add_argument('--jsondata', default=__file__+".json", help='File containing the layer data in json format (default is {defaultjson}).'.format(defaultjson=__file__+".json"))
+> +parser.add_argument('--skip-revs', action='store_true', help='Skip revisions recorded in json manifest, and use latest revision on branch to restore setup')
+>
+>  args = parser.parse_args()
+>
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191879): https://lists.openembedded.org/g/openembedded-core/message/191879
+> Mute This Topic: https://lists.openembedded.org/mt/103009912/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
