@@ -2,136 +2,141 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F79C4167B
-	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 13:56:07 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.32044.1701870963577433173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A87C4167B
+	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 13:56:17 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.32051.1701870970148264360
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Dec 2023 05:56:03 -0800
+ Wed, 06 Dec 2023 05:56:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lX42ICgW;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2868605fa4aso2580061a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 05:56:03 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wt4rBlVj;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d0ccda19eeso11789245ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 05:56:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701870962; x=1702475762; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701870969; x=1702475769; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ky6qEPTNRO5Po6hgZeN5yORxT9lvbxUJR/76M1ao7oo=;
-        b=lX42ICgWCDBzFM8hIHpUJvQsDLDE/unlANYIqYtr9duvGVb9WDn0F4zyCnCiMWwp8I
-         XNnQ0xffM6YX5h8E2ap9QzhzO65/MPwFvWpsZHgycD9GH1JmQZKlhayDPXFNj5VsHJtn
-         3qwcdWrm9IYudr7EDqslzl2Po5RZ5aVq//TfT/tAmkqUyUcLaPzNgdU8dAfR640BkAjJ
-         EJUJ9WjQmHMa5IkG9wd8qaYt6vMyzJ5nja2aFI1+Yc2F6F8C7Eikm6wFOZdUM3eqbxLA
-         7YdnAYr70NIv2i2G45vdzFzrX+RzqMH1eY+rgAuvKTypStk6OP7YfOazigwd6ye4UJ4r
-         knFA==
+        bh=0V0yHWQOrd7ybJ3NJBC0l9bzH7fj5dU32VERJVx+rfk=;
+        b=wt4rBlVjaLAiikxag/fXZu7J6+1EovuX47ceiq3YQ41Xvwu6I2gRyi9Ruuq5/nkBG9
+         cgWug5hmWqdvThgAnOrmexWLay/PShorn3wzkC4iu6Z8OJAkxIsgMfWDqOVkMGA3aoZz
+         LVC3xtygzepArdTa722Tdk90/xcccIS8QKl0A+4Y4k3tNeECrQDfYTUCoKYj2umM980X
+         NNgPtEdCXPWt4q+UToDz5OHQTesWodjkO4olgGulBa02Vccx84CcI68NFdl4whmogWdV
+         VSPg5SHHKHrLTHM44B5zHix2bl4jtItigDyXxzvNen730yaIYGEZ5KsR0zBeNmDtiDJ1
+         mVmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701870962; x=1702475762;
+        d=1e100.net; s=20230601; t=1701870969; x=1702475769;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ky6qEPTNRO5Po6hgZeN5yORxT9lvbxUJR/76M1ao7oo=;
-        b=X/2vPK0H1hCnvPJ9SuKuu8REOf5vBsl001Mw1Z8mriqsjIkyZqVTH6pvIndHUPVOrP
-         VqEMMaq/NtVE4M+AMxGeuEbDBEER7EqwUY/8JqGV4Aq3AclE76C6yLKHg8reO2fV8cBN
-         10tSC7UOsN4F/Qb0CxUGKjNyIa/GmerI4H+TZhp3ktIMRjr0VYuN2kePwYDMtnh34D7j
-         0pPEPJyOVTaAc7sq7o9ODPOdScOvWRBzojn6I75IoQDeHcs6cTZiE6nm2RFjKTfekn5K
-         60+dYAesqk4HdWb2cpExRlxM+l3n4px+exxVgPDHbuH359WGQReB9I7Ec+279/espMgA
-         4xCg==
-X-Gm-Message-State: AOJu0YwK/wnBaZHnCme1X6g8WZFoPKrwZlJxiyATD8OtZfEeGkk9ibi8
-	20xmdKE6LVu5Apn/0D6KCe/EDhEmERgw7NcFxm0=
-X-Google-Smtp-Source: AGHT+IGk05BjJa9JTG3amKPJBwA1jLloxL5UEw0B1Ex7M6XestyCcrsRPpFQopPBWzSZuzLalZ6L8A==
-X-Received: by 2002:a17:90b:1b45:b0:286:a734:be6a with SMTP id nv5-20020a17090b1b4500b00286a734be6amr551624pjb.17.1701870962145;
-        Wed, 06 Dec 2023 05:56:02 -0800 (PST)
+        bh=0V0yHWQOrd7ybJ3NJBC0l9bzH7fj5dU32VERJVx+rfk=;
+        b=BJQosSJsVXSSQIJXjsLTkepGCzGmUFa3NiZLZgkcpbvETgVj73lAwt7pbXTQL3dUdi
+         e/OMmLOwhM5nCFHeyt/EyQm5JM7I1q/K+lGN20jrJ03LPFcblCXArKEiQYLujfndnftq
+         4t/1QFwXDvKN8l5CL8rCnQWXmhJYlG2mEQYqDS+pN6yhbD+xka72YUVLrqGwuowCmQHN
+         lxGbZxgFMiRfUjsPfciZPvwiYZy1ECxtoG8+uSHXiXENs6M93ko+Kt3BWIormMEGkbkb
+         y6enaL/1DPBPbq/EV4ur7jUBS6l4E6yQNJ7NCF6vYTL2vmCfYrabgBAYccixwOIs437J
+         oR2w==
+X-Gm-Message-State: AOJu0YxRpsznft9XlHqJKCSXL4KF7MNDmsPkFjwApumCmcZnvt/MSYPu
+	2oi1YMh9806KXYfGzQfOJ1pbw6ctKuBhLePEpbo=
+X-Google-Smtp-Source: AGHT+IGbtC0Cnsd2UT9HMi/xm38cx+1m6Z4jJvUr7KVwtqvddHmMB6hmwV9CgVNQg8zjTcnkHC3cbA==
+X-Received: by 2002:a17:902:b20a:b0:1d0:8d57:482 with SMTP id t10-20020a170902b20a00b001d08d570482mr652794plr.50.1701870968800;
+        Wed, 06 Dec 2023 05:56:08 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id h14-20020a170902680e00b001d07b659f91sm7887650plk.6.2023.12.06.05.56.01
+        by smtp.gmail.com with ESMTPSA id h14-20020a170902680e00b001d07b659f91sm7887650plk.6.2023.12.06.05.56.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 05:56:01 -0800 (PST)
+        Wed, 06 Dec 2023 05:56:08 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/11] binutils 2.34: Fix CVE-2021-46174
-Date: Wed,  6 Dec 2023 03:55:44 -1000
-Message-Id: <94f2468de191f8c1dd236efb91f3094a76ddffc9.1701870718.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/11] epiphany: fix CVE-2022-29536
+Date: Wed,  6 Dec 2023 03:55:48 -1000
+Message-Id: <eaf965fec36810014ce2e8a4a270a9348660e3d8.1701870718.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1701870718.git.steve@sakoman.com>
 References: <cover.1701870718.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 13:56:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191887
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 13:56:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191891
 
-From: poojitha adireddy <pooadire@cisco.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Upstream Repository: https://sourceware.org/git/binutils-gdb.git
-
-Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2021-46174
-Type: Security Fix
-CVE: CVE-2021-46174
-Score: 7.5
-Patch: https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=cad4d6b91e97
-
-Signed-off-by: poojitha adireddy <pooadire@cisco.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.34.inc                |  1 +
- .../binutils/binutils/CVE-2021-46174.patch    | 35 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
+ .../recipes-gnome/epiphany/epiphany_3.34.4.bb |  1 +
+ .../epiphany/files/CVE-2022-29536.patch       | 46 +++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-index a9a2bf332f..371e8e9fa4 100644
---- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -54,5 +54,6 @@ SRC_URI = "\
-      file://0001-CVE-2021-45078.patch \
-      file://CVE-2022-38533.patch \
-      file://CVE-2023-25588.patch \
-+     file://CVE-2021-46174.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch b/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
+index e2afb29c12..f43bfd6a67 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
+@@ -16,6 +16,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
++           file://CVE-2022-29536.patch \
+            "
+ SRC_URI[archive.md5sum] = "a559f164bb7d6cbeceb348648076830b"
+ SRC_URI[archive.sha256sum] = "60e190fc07ec7e33472e60c7e633e04004f7e277a0ffc5e9cd413706881e598d"
+diff --git a/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch b/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
 new file mode 100644
-index 0000000000..2addf5139e
+index 0000000000..7b8adeafcc
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
-@@ -0,0 +1,35 @@
-+From 46322722ad40ac1a75672ae0f62f4969195f1368 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Thu, 20 Jan 2022 13:58:38 +1030
-+Subject: [PATCH] PR28753, buffer overflow in read_section_stabs_debugging_info
++++ b/meta/recipes-gnome/epiphany/files/CVE-2022-29536.patch
+@@ -0,0 +1,46 @@
++VE: CVE-2022-29536
++Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/epiphany/-/commit/486da133569ebfc436c959a7419565ab102e8525 ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +
-+	PR 28753
-+	* rddbg.c (read_section_stabs_debugging_info): Don't read past
-+	end of section when concatentating stab strings.
++From 486da133569ebfc436c959a7419565ab102e8525 Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Fri, 15 Apr 2022 18:09:46 -0500
++Subject: [PATCH] Fix memory corruption in ephy_string_shorten()
 +
-+CVE: CVE-2021-46174
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=cad4d6b91e97]
++This fixes a regression that I introduced in 232c613472b38ff0d0d97338f366024ddb9cd228.
 +
-+(cherry picked from commit 085b299b71721e15f5c5c5344dc3e4e4536dadba)
-+(cherry picked from commit cad4d6b91e97b6962807d33c04ed7e7797788438)
-+Signed-off-by: poojitha adireddy <pooadire@cisco.com>
++I got my browser stuck in a crash loop today while visiting a website
++with a page title greater than ephy-embed.c's MAX_TITLE_LENGTH, the only
++condition in which ephy_string_shorten() is ever used. Turns out this
++commit is wrong: an ellipses is a multibyte character (three bytes in
++UTF-8) and so we're writing past the end of the buffer when calling
++strcat() here. Ooops.
++
++Shame it took nearly four years to notice and correct this.
++
++Part-of: <https://gitlab.gnome.org/GNOME/epiphany/-/merge_requests/1106>
 +---
-+ binutils/rddbg.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ lib/ephy-string.c | 5 ++---
++ 1 file changed, 2 insertions(+), 3 deletions(-)
 +
-+diff --git a/binutils/rddbg.c b/binutils/rddbg.c
-+index 72e934055b5..5e76d94a3c4 100644
-+--- a/binutils/rddbg.c
-++++ b/binutils/rddbg.c
-+@@ -207,7 +207,7 @@ read_section_stabs_debugging_info (bfd *abfd, asymbol **syms, long symcount,
-+ 		     an attempt to read the byte before 'strings' would occur.  */
-+ 		  while ((len = strlen (s)) > 0
-+ 			 && s[len  - 1] == '\\'
-+-			 && stab + 12 < stabs + stabsize)
-++			 && stab + 16 <= stabs + stabsize)
-+ 		    {
-+ 		      char *p;
++diff --git a/lib/ephy-string.c b/lib/ephy-string.c
++index 35a148ab32..8e524d52ca 100644
++--- a/lib/ephy-string.c
+++++ b/lib/ephy-string.c
++@@ -114,11 +114,10 @@ ephy_string_shorten (char  *str,
++   /* create string */
++   bytes = GPOINTER_TO_UINT (g_utf8_offset_to_pointer (str, target_length - 1) - str);
++ 
++-  /* +1 for ellipsis, +1 for trailing NUL */
++-  new_str = g_new (gchar, bytes + 1 + 1);
+++  new_str = g_new (gchar, bytes + strlen ("…") + 1);
++ 
++   strncpy (new_str, str, bytes);
++-  strcat (new_str, "…");
+++  strncpy (new_str + bytes, "…", strlen ("…") + 1);
++ 
++   g_free (str);
 + 
 +-- 
-+2.23.1
++GitLab
 +
 -- 
 2.34.1
