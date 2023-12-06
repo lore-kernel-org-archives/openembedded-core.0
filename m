@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB19C10F07
-	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 13:56:08 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.32046.1701870966303556892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F79C4167B
+	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 13:56:07 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.32044.1701870963577433173
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Dec 2023 05:56:06 -0800
+ Wed, 06 Dec 2023 05:56:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KjyQE5GD;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5c6b9583dcbso1049088a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 05:56:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lX42ICgW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2868605fa4aso2580061a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 05:56:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701870965; x=1702475765; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701870962; x=1702475762; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JRWfzu3Wnt87v8DEAKCmKFk1CDwpZMCZ+ZfWBk/t0SE=;
-        b=KjyQE5GDwY6KqW2M5HIGuAnVDjJX7XZpn5QnEfXxbOWQIhL3JJf3/hijiVn4exkbG5
-         UtZbVRul5ANFa0Lu5ZjUFssvuT8OFaA2yGbvzAaZVK7uLvP0BGk7eILuyeqgkTaQ6Y6H
-         /2nCCgSNIWce4HSP3V3+sQ6qkFobj5j9JYjv53zqi5M4m0JckLdiMm9bcwEq1JXP9ccL
-         UzA3n/0y/tiHr2WUKf2Mdj6nBp9m4uBdY2xh3r61kdf/79SsT23z650xskaw324sMlQa
-         Ysi8DKSvAJT64PMKu4UZ+XauQVHJGlBo/Ua8+O+7EH0/2g6GOweZQrWCbtzRSpm4Ybrr
-         Xwkw==
+        bh=ky6qEPTNRO5Po6hgZeN5yORxT9lvbxUJR/76M1ao7oo=;
+        b=lX42ICgWCDBzFM8hIHpUJvQsDLDE/unlANYIqYtr9duvGVb9WDn0F4zyCnCiMWwp8I
+         XNnQ0xffM6YX5h8E2ap9QzhzO65/MPwFvWpsZHgycD9GH1JmQZKlhayDPXFNj5VsHJtn
+         3qwcdWrm9IYudr7EDqslzl2Po5RZ5aVq//TfT/tAmkqUyUcLaPzNgdU8dAfR640BkAjJ
+         EJUJ9WjQmHMa5IkG9wd8qaYt6vMyzJ5nja2aFI1+Yc2F6F8C7Eikm6wFOZdUM3eqbxLA
+         7YdnAYr70NIv2i2G45vdzFzrX+RzqMH1eY+rgAuvKTypStk6OP7YfOazigwd6ye4UJ4r
+         knFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701870965; x=1702475765;
+        d=1e100.net; s=20230601; t=1701870962; x=1702475762;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JRWfzu3Wnt87v8DEAKCmKFk1CDwpZMCZ+ZfWBk/t0SE=;
-        b=VFMCcRluVjtRWhUgy55uSg8LJRnw0ChjH0hm5CuM8RHNLFdcpYBiM9mLD4NHbas4Kt
-         5bpcKWuIfBjjHplnwn0bB6iafVnuMBqrhFC9vOTt/34ChHGLIBq7SVdRulk7ipWom5/b
-         V/KS7EbHf7JjeMjaofiJjivnb6pLClPTgRyBkdfycSK9A1O8baBIClOTMKEvPQjyYBBU
-         e5Uf/I0eYQvemXkMpfhqws1t1y5ai1QVwmuYPu1CU3tAopC8RQ42XTAIA3LyGOKD2exw
-         TReXTx0YXzh6P4OFuw1toxn9EeJTxHJupMLGVor0K+RgtTFH34t3wRI/WZUSPClnNveT
-         5Yfw==
-X-Gm-Message-State: AOJu0YwEFSf3B+bxGTxrvK6txHfp31OWE1TCRFXihUWvTF28kjGc/chE
-	t0L6MwcNdEspnI3+m2eZpS+I6hvYiry4ZHtt4iI=
-X-Google-Smtp-Source: AGHT+IE+qsaycRiRGTLRuEf1UnAQJGAEFBFQt8ScUZSlVw4f8THmGJ/A2YswJcvqxz9MXiQdhvFYgA==
-X-Received: by 2002:a05:6a20:3c90:b0:18b:902f:88fe with SMTP id b16-20020a056a203c9000b0018b902f88femr1021691pzj.9.1701870965303;
-        Wed, 06 Dec 2023 05:56:05 -0800 (PST)
+        bh=ky6qEPTNRO5Po6hgZeN5yORxT9lvbxUJR/76M1ao7oo=;
+        b=X/2vPK0H1hCnvPJ9SuKuu8REOf5vBsl001Mw1Z8mriqsjIkyZqVTH6pvIndHUPVOrP
+         VqEMMaq/NtVE4M+AMxGeuEbDBEER7EqwUY/8JqGV4Aq3AclE76C6yLKHg8reO2fV8cBN
+         10tSC7UOsN4F/Qb0CxUGKjNyIa/GmerI4H+TZhp3ktIMRjr0VYuN2kePwYDMtnh34D7j
+         0pPEPJyOVTaAc7sq7o9ODPOdScOvWRBzojn6I75IoQDeHcs6cTZiE6nm2RFjKTfekn5K
+         60+dYAesqk4HdWb2cpExRlxM+l3n4px+exxVgPDHbuH359WGQReB9I7Ec+279/espMgA
+         4xCg==
+X-Gm-Message-State: AOJu0YwK/wnBaZHnCme1X6g8WZFoPKrwZlJxiyATD8OtZfEeGkk9ibi8
+	20xmdKE6LVu5Apn/0D6KCe/EDhEmERgw7NcFxm0=
+X-Google-Smtp-Source: AGHT+IGk05BjJa9JTG3amKPJBwA1jLloxL5UEw0B1Ex7M6XestyCcrsRPpFQopPBWzSZuzLalZ6L8A==
+X-Received: by 2002:a17:90b:1b45:b0:286:a734:be6a with SMTP id nv5-20020a17090b1b4500b00286a734be6amr551624pjb.17.1701870962145;
+        Wed, 06 Dec 2023 05:56:02 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id h14-20020a170902680e00b001d07b659f91sm7887650plk.6.2023.12.06.05.56.04
+        by smtp.gmail.com with ESMTPSA id h14-20020a170902680e00b001d07b659f91sm7887650plk.6.2023.12.06.05.56.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 05:56:05 -0800 (PST)
+        Wed, 06 Dec 2023 05:56:01 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/11] mdadm: Backport fix for CVE-2023-28938
-Date: Wed,  6 Dec 2023 03:55:46 -1000
-Message-Id: <8cf02e6b60e2916b9e4832590257d5d184258e9c.1701870718.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/11] binutils 2.34: Fix CVE-2021-46174
+Date: Wed,  6 Dec 2023 03:55:44 -1000
+Message-Id: <94f2468de191f8c1dd236efb91f3094a76ddffc9.1701870718.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1701870718.git.steve@sakoman.com>
 References: <cover.1701870718.git.steve@sakoman.com>
@@ -60,119 +60,79 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 13:56:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191889
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 13:56:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191887
 
-From: Ashish Sharma <asharma@mvista.com>
+From: poojitha adireddy <pooadire@cisco.com>
 
-Upstream-Status: Backport from [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/patch/?id=7d374a1869d3a84971d027a7f4233878c8f25a62]
-CVE: CVE-2023-28938
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Upstream Repository: https://sourceware.org/git/binutils-gdb.git
+
+Bug Details: https://nvd.nist.gov/vuln/detail/CVE-2021-46174
+Type: Security Fix
+CVE: CVE-2021-46174
+Score: 7.5
+Patch: https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=cad4d6b91e97
+
+Signed-off-by: poojitha adireddy <pooadire@cisco.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../mdadm/files/CVE-2023-28938.patch          | 80 +++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb      |  1 +
- 2 files changed, 81 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/CVE-2023-28938.patch
+ .../binutils/binutils-2.34.inc                |  1 +
+ .../binutils/binutils/CVE-2021-46174.patch    | 35 +++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
 
-diff --git a/meta/recipes-extended/mdadm/files/CVE-2023-28938.patch b/meta/recipes-extended/mdadm/files/CVE-2023-28938.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index a9a2bf332f..371e8e9fa4 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -54,5 +54,6 @@ SRC_URI = "\
+      file://0001-CVE-2021-45078.patch \
+      file://CVE-2022-38533.patch \
+      file://CVE-2023-25588.patch \
++     file://CVE-2021-46174.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch b/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
 new file mode 100644
-index 0000000000..1e2990d79a
+index 0000000000..2addf5139e
 --- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/CVE-2023-28938.patch
-@@ -0,0 +1,80 @@
-+From 7d374a1869d3a84971d027a7f4233878c8f25a62 Mon Sep 17 00:00:00 2001
-+From: Mateusz Grzonka <mateusz.grzonka@intel.com>
-+Date: Tue, 27 Jul 2021 10:25:18 +0200
-+Subject: Fix memory leak after "mdadm --detail"
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2021-46174.patch
+@@ -0,0 +1,35 @@
++From 46322722ad40ac1a75672ae0f62f4969195f1368 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 20 Jan 2022 13:58:38 +1030
++Subject: [PATCH] PR28753, buffer overflow in read_section_stabs_debugging_info
 +
-+Signed-off-by: Mateusz Grzonka <mateusz.grzonka@intel.com>
-+Signed-off-by: Jes Sorensen <jsorensen@fb.com>
++	PR 28753
++	* rddbg.c (read_section_stabs_debugging_info): Don't read past
++	end of section when concatentating stab strings.
++
++CVE: CVE-2021-46174
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=cad4d6b91e97]
++
++(cherry picked from commit 085b299b71721e15f5c5c5344dc3e4e4536dadba)
++(cherry picked from commit cad4d6b91e97b6962807d33c04ed7e7797788438)
++Signed-off-by: poojitha adireddy <pooadire@cisco.com>
 +---
-+Upstream-Status: Backport from [https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/patch/?id=7d374a1869d3a84971d027a7f4233878c8f25a62]
-+CVE: CVE-2023-28938
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+ 
-+ Detail.c | 20 +++++++++-----------
-+ 1 file changed, 9 insertions(+), 11 deletions(-)
++ binutils/rddbg.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Detail.c b/Detail.c
-+index ad56344f..d3af0ab5 100644
-+--- a/Detail.c
-++++ b/Detail.c
-+@@ -66,11 +66,11 @@ int Detail(char *dev, struct context *c)
-+ 	int spares = 0;
-+ 	struct stat stb;
-+ 	int failed = 0;
-+-	struct supertype *st;
-++	struct supertype *st = NULL;
-+ 	char *subarray = NULL;
-+ 	int max_disks = MD_SB_DISKS; /* just a default */
-+ 	struct mdinfo *info = NULL;
-+-	struct mdinfo *sra;
-++	struct mdinfo *sra = NULL;
-+ 	struct mdinfo *subdev;
-+ 	char *member = NULL;
-+ 	char *container = NULL;
-+@@ -93,8 +93,7 @@ int Detail(char *dev, struct context *c)
-+ 	if (!sra) {
-+ 		if (md_get_array_info(fd, &array)) {
-+ 			pr_err("%s does not appear to be an md device\n", dev);
-+-			close(fd);
-+-			return rv;
-++			goto out;
-+ 		}
-+ 	}
-+ 	external = (sra != NULL && sra->array.major_version == -1 &&
-+@@ -108,16 +107,13 @@ int Detail(char *dev, struct context *c)
-+ 			    sra->devs == NULL) {
-+ 				pr_err("Array associated with md device %s does not exist.\n",
-+ 				       dev);
-+-				close(fd);
-+-				sysfs_free(sra);
-+-				return rv;
-++				goto out;
-+ 			}
-+ 			array = sra->array;
-+ 		} else {
-+ 			pr_err("cannot get array detail for %s: %s\n",
-+ 			       dev, strerror(errno));
-+-			close(fd);
-+-			return rv;
-++			goto out;
-+ 		}
-+ 	}
-+ 
-+@@ -827,10 +823,12 @@ out:
-+ 	close(fd);
-+ 	free(subarray);
-+ 	free(avail);
-+-	for (d = 0; d < n_devices; d++)
-+-		free(devices[d]);
-++	if (devices)
-++		for (d = 0; d < n_devices; d++)
-++			free(devices[d]);
-+ 	free(devices);
-+ 	sysfs_free(sra);
-++	free(st);
-+ 	return rv;
-+ }
++diff --git a/binutils/rddbg.c b/binutils/rddbg.c
++index 72e934055b5..5e76d94a3c4 100644
++--- a/binutils/rddbg.c
+++++ b/binutils/rddbg.c
++@@ -207,7 +207,7 @@ read_section_stabs_debugging_info (bfd *abfd, asymbol **syms, long symcount,
++ 		     an attempt to read the byte before 'strings' would occur.  */
++ 		  while ((len = strlen (s)) > 0
++ 			 && s[len  - 1] == '\\'
++-			 && stab + 12 < stabs + stabsize)
+++			 && stab + 16 <= stabs + stabsize)
++ 		    {
++ 		      char *p;
 + 
 +-- 
-+cgit 
++2.23.1
 +
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 5238a41df2..ca326fd1cb 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://include_sysmacros.patch \
-            file://0001-mdadm-skip-test-11spare-migration.patch \
-            file://CVE-2023-28736.patch \
-+           file://CVE-2023-28938.patch \
-            "
- 
- SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
 -- 
 2.34.1
 
