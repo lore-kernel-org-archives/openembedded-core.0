@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC3BC10F07
-	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 13:56:18 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.32054.1701870973549472568
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AD3C46CA3
+	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 13:56:17 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.32049.1701870968366395881
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Dec 2023 05:56:13 -0800
+ Wed, 06 Dec 2023 05:56:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aBENVaao;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d0bcc0c313so17708435ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 05:56:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Sx6muxRi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d05199f34dso34772655ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 05:56:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701870972; x=1702475772; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1701870967; x=1702475767; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kW5Lve7qI9OpKfNY1KPLWcf76FRMj9SPgU1yTeaaZx0=;
-        b=aBENVaao3VPA2u6UJ1DX1ISCBBbDRr4IPXXPJJW0Sm9bBOg6LMxrUXNQtFixam77Ly
-         Lm3mKmftg35I+xTtw8fPIDy4wqQR6DnLiPSCq05qwXU5l5i6I/xws1L04wF77SYiiyFN
-         1hcT4s4R4PLsANnHb0hsGk/mhTx8EUeQaJU3dknX9uoRNwyIFre0rbqZ4fmXeUNFxRs3
-         Kjii6OfJBowINSInkb34d2CW6z5Pcj7Lg8i9s76kczWH+zIRSqJi40lACp63Qt00qFIx
-         tptJVhSgVvlPk57bweVU3Cj9hoOl3vfe0kNeSmrKzZlRKhC9IECOf1/FKlfHdQiN2oVV
-         3Yjg==
+        bh=dtz42OUAjFHcsJGp0kS3sklzIxo0exg1meDzWLcrarY=;
+        b=Sx6muxRihs8oMKKlUvVv/6CSn3vBc02RRGMSUxaFBVwGbjocBO2pzdgzuaZCny9o2B
+         3Jt/hypm1vTyA4nlsuk9HA76nzhi47gejSwFaxIlgKDV+YH4bN/zRZjfN+R9qdNM1M37
+         li6mKUCSXvKGG0Luip3q6crB0GFlmkwxvyVeCPwCQjDqm4XG+WWOxfghJhQtXVTIp6yX
+         KAorjMKu2/+0G2rwPQVwS7FdSYGQz1KYgI1mpoGSjoZMye7PMfMnzmMCrVDuuhkD1oFr
+         I2zQG86qipGKjQEbn+d5yPl+xeHsKt6TjJhf6wlWwH+A3e8CLS+uWPrkobRq1MNJ1Dzy
+         SQ0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701870972; x=1702475772;
+        d=1e100.net; s=20230601; t=1701870967; x=1702475767;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kW5Lve7qI9OpKfNY1KPLWcf76FRMj9SPgU1yTeaaZx0=;
-        b=srOVaxxhxuBWgpHqBMBsH3M61k2MhH0PY42mcS1QBjDH6YCbi/B6flHtBf5fmI4zcq
-         NeIk4a0aHOrV0Bl631QtSl+TPevAzQNJKa1K6J2Sl29nfbXcetzyhuNRBdrK4En5cvCW
-         DSRwg6BJw9XS7fqK8aD4eMw6RbBHr+o/QSovWL73uPzc7ORBtBqXOe1XKA5PYgibmIOW
-         USPEeFEl6sIfLS4zUvt2EYfHVZgtfMH1tYCM3RgD9RMAt1FNSnTHEPeM+8LTRL30lukn
-         KDT2Z+SDuQbzRCRyU3rYz9PiHZbr3XDnZgvo7bauIIbwKJ+piAKlY4TrdpavpEaV9uTl
-         K4Gw==
-X-Gm-Message-State: AOJu0YzrWyzVCea/+QCHRfdJ1CGss9wAg0j1bXxM8a9Mvc3OQkqP9Yoj
-	hPFo+0ITWdYTjP5ohnt9pJ0OGa3q4EPUgKOKT0A=
-X-Google-Smtp-Source: AGHT+IHbKG97znL845WXypDLjxhc7vFfwoH7La6NSU0BDVi5lM0R7Nn3Bdv5Rl7QXWg4lfYTpbz7yg==
-X-Received: by 2002:a17:902:c402:b0:1d0:cfdc:10b8 with SMTP id k2-20020a170902c40200b001d0cfdc10b8mr628627plk.76.1701870972235;
-        Wed, 06 Dec 2023 05:56:12 -0800 (PST)
+        bh=dtz42OUAjFHcsJGp0kS3sklzIxo0exg1meDzWLcrarY=;
+        b=quHaGcgrTxaDqA0s6dr/MbyANmUAIaMqwfeliA6K5An1ESjg2vlSuP6uvBKK/N45YI
+         bbKUkT0CQI7ZLbNnvc6fZmtV7iPM0Ob84QUnd5/FWWafma20/FLOYxjUhna3gmbEYFv6
+         vYPqeF4sxkz45p7fLrG8+KUngQxdq80LJdTWfb2QYhSjp+NkHhnr7C3PRG8f3mRCqCHN
+         Oq0qlMuzV+ZEbDWkJXY2yfiHp4T6BkamHpGxxiF6xR0zfnJjjUX9bBiAklZVblqF42x0
+         4if9UNEQRjlF1jiXI5jNqJg/R/qY2tkgDw3qkAYJMpo2NbXNL70LNyEiJwacWHxP20BW
+         dX7g==
+X-Gm-Message-State: AOJu0Yw8t4wfUzBi1Gkar85UOHiAU9nZtw9c7prML/ixUJw/qDvQaued
+	3bi+N4HgTugvbG6nPypPiSnd/0U0HIqg6i7kYQE=
+X-Google-Smtp-Source: AGHT+IGkacOrystYy7I2DfAIjvBtjJGfS1Qz13jLITW9s03qUROW1tYHcVc1+uf30LwJlimeoy9JNA==
+X-Received: by 2002:a17:903:1105:b0:1d0:6b95:9bfe with SMTP id n5-20020a170903110500b001d06b959bfemr713711plh.1.1701870966996;
+        Wed, 06 Dec 2023 05:56:06 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id h14-20020a170902680e00b001d07b659f91sm7887650plk.6.2023.12.06.05.56.11
+        by smtp.gmail.com with ESMTPSA id h14-20020a170902680e00b001d07b659f91sm7887650plk.6.2023.12.06.05.56.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 05:56:11 -0800 (PST)
+        Wed, 06 Dec 2023 05:56:06 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/11] vim: upgrade 9.0.2068 -> 9.0.2130
-Date: Wed,  6 Dec 2023 03:55:50 -1000
-Message-Id: <9cbfeac4aa8b9d3b8e73b27ac32a015b7982803d.1701870718.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/11] libsndfile: fix CVE-2022-33065 Signed integer overflow in src/mat4.c
+Date: Wed,  6 Dec 2023 03:55:47 -1000
+Message-Id: <f9cc32ed3c67c8fe60debbc23b579e120038b2e9.1701870718.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1701870718.git.steve@sakoman.com>
 References: <cover.1701870718.git.steve@sakoman.com>
@@ -60,44 +60,85 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 13:56:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191893
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 13:56:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191890
 
-From: Tim Orling <ticotimo@gmail.com>
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 
-https://github.com/vim/vim/compare/v9.0.2068...v9.0.2130
-
-CVE: CVE-2023-48231
-CVE: CVE-2023-48232
-CVE: CVE-2023-48233
-CVE: CVE-2023-48234
-CVE: CVE-2023-48235
-CVE: CVE-2023-48236
-CVE: CVE-2023-48237
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 5978d565a9e700485fc563dfe2e3c0045dd74b59)
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../libsndfile1/CVE-2022-33065.patch          | 46 +++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb          |  3 +-
+ 2 files changed, 48 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 0662822202..e6735d5881 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
+new file mode 100644
+index 0000000000..e22b4e9389
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
+@@ -0,0 +1,46 @@
++From 0754562e13d2e63a248a1c82f90b30bc0ffe307c Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Tue, 10 Oct 2023 16:10:34 -0400
++Subject: [PATCH] mat4/mat5: fix int overflow in dataend calculation
++
++The clang sanitizer warns of a possible signed integer overflow when
++calculating the `dataend` value in `mat4_read_header()`.
++
++```
++src/mat4.c:323:41: runtime error: signed integer overflow: 205 * -100663296 cannot be represented in type 'int'
++SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mat4.c:323:41 in
++src/mat4.c:323:48: runtime error: signed integer overflow: 838860800 * 4 cannot be represented in type 'int'
++SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mat4.c:323:48 in
++```
++
++Cast the offending `rows` and `cols` ints to `sf_count_t` (the type of
++`dataend` before performing the calculation, to avoid the issue.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/789
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++
++Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/0754562e13d2e63a248a1c82f90b30bc0ffe307c]
++CVE: CVE-2022-33065
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ src/mat4.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/mat4.c b/src/mat4.c
++index 3c73680..e2f98b7 100644
++--- a/src/mat4.c
+++++ b/src/mat4.c
++@@ -320,7 +320,7 @@ mat4_read_header (SF_PRIVATE *psf)
++				psf->filelength - psf->dataoffset, psf->sf.channels * psf->sf.frames * psf->bytewidth) ;
++		}
++	else if ((psf->filelength - psf->dataoffset) > psf->sf.channels * psf->sf.frames * psf->bytewidth)
++-		psf->dataend = psf->dataoffset + rows * cols * psf->bytewidth ;
+++		psf->dataend = psf->dataoffset + (sf_count_t) rows * (sf_count_t) cols * psf->bytewidth ;
++
++	psf->datalength = psf->filelength - psf->dataoffset - psf->dataend ;
++
++--
++2.40.1
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 2525af8fe0..32b678ce90 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -22,7 +22,8 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2019-3832.patch \
+            file://CVE-2021-3246_1.patch \
+            file://CVE-2021-3246_2.patch \
+-          "
++           file://CVE-2022-33065.patch \
++           "
  
--PV .= ".2068"
--SRCREV = "9198c1f2b1ddecde22af918541e0de2a32f0f45a"
-+PV .= ".2130"
-+SRCREV = "075ad7047457debfeef13442c01e74088b461092"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
+ SRC_URI[sha256sum] = "1ff33929f042fa333aed1e8923aa628c3ee9e1eb85512686c55092d1e5a9dfa9"
 -- 
 2.34.1
 
