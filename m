@@ -1,281 +1,363 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CADC10F13
-	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 19:22:40 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.61])
- by mx.groups.io with SMTP id smtpd.web10.42350.1701890557773064591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A9E9C4167B
+	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 19:25:40 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web11.42058.1701890730954037307
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Dec 2023 11:22:38 -0800
+ Wed, 06 Dec 2023 11:25:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=Zu2xE8HW;
- spf=pass (domain: axis.com, ip: 40.107.22.61, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JdqDXZR/lETYGEkFAiidwjUKOLq6vO3NPzZGY6hk7LqQHrqtutTRNAES244DUewlWcOOJef3KrE6Mho//yUByTxokU4HVcEdNtJcwy4Sarlhf6WR7SehbI4zTBpj6uu7b7BEatqYK7lcxwafMCStdZMjzAoJ/6NVempAJtDk545ohRvzGA6iYrJ7WAKDG1jvBL74Cw5Ksv4fQvStxBktrjeKXswJuEF7S5zTAardR1wjBs9PKKi/AdVtpq0BmHhN/cIGDAZn1XblbhuNBLr4WaEmP6Vm4Ip+dbnhzXqXAqZMkkQRQ43E/jgjMbOVfv2+8xXpV1h/6K7u8c8CXagglg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N+KmaAhglqfZ9SeY7uzgEDpigOK+XbwEi76JV8HJEm0=;
- b=lCsb/dAMOqbY463zXJn/RweORHifrGSai7vTiKtdn5hMbdrSIGmxA0tPBk5t/+hCIyNx1fzoDq7nOibrnhnxTzOB90D9LJvVMacptkgfuPEUWvpzoD2sE7PtZxXfxrGWtxIsdP3VYpR6JkWanAY1Tzd+WZZrtODgou3pm1+0vkGoowZdspY8fPMdqk/cQyK5KnQcR6E88n+BZ/iF/gBkC3Bqx8v/DuvdYfQYtD2Sz42hgcePRsym2ppKMwZrrPxC7mrnB9csBUZ6LlQ21afPOZbuDbHLd7/yTiXzo+Nwkv55V5FIUthUL6iznDnOcSifMyNVnjMYfqxgBoUjoC8kpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=fail (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N+KmaAhglqfZ9SeY7uzgEDpigOK+XbwEi76JV8HJEm0=;
- b=Zu2xE8HWOLXRZWzBZjxtcexS04I3J+gAnEzYD1jm1Ws7qGpHxQ0fTNbdnZqyhieZex/71cguoetmmTQJiwvveUFCynxMrAvLBWeZq02PO7QWGJ/K1QDCahhs1oND24EXPvNmXPOAZWDpK5U7t0XVWEmhg/aj0a5pbAoMb7AZPwM=
-Received: from DB7PR02CA0021.eurprd02.prod.outlook.com (2603:10a6:10:52::34)
- by AS4PR02MB7926.eurprd02.prod.outlook.com (2603:10a6:20b:4b5::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.25; Wed, 6 Dec
- 2023 19:22:35 +0000
-Received: from DU6PEPF0000B621.eurprd02.prod.outlook.com
- (2603:10a6:10:52:cafe::e9) by DB7PR02CA0021.outlook.office365.com
- (2603:10a6:10:52::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34 via Frontend
- Transport; Wed, 6 Dec 2023 19:22:35 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=axis.com;
-Received-SPF: Fail (protection.outlook.com: domain of axis.com does not
- designate 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com;
-Received: from mail.axis.com (195.60.68.100) by
- DU6PEPF0000B621.mail.protection.outlook.com (10.167.8.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7068.20 via Frontend Transport; Wed, 6 Dec 2023 19:22:35 +0000
-Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 6 Dec
- 2023 20:22:33 +0100
-Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Wed, 6 Dec 2023 20:22:33 +0100
-Received: from saur (saur.se.axis.com [10.92.3.10])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 14F77F5C4
-	for <openembedded-core@lists.openembedded.org>; Wed,  6 Dec 2023 20:22:33 +0100 (CET)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur (8.17.1/8.15.2) with ESMTPS id 3B6JMWBf2838193
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 6 Dec 2023 20:22:33 +0100
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 3B6JMWjh2838192
-	for openembedded-core@lists.openembedded.org; Wed, 6 Dec 2023 20:22:32 +0100
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 6/9] recipetool: create: Improve identification of licenses
-Date: Wed, 6 Dec 2023 20:22:04 +0100
-Message-ID: <20231206192207.2838077-7-pkj@axis.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231206192207.2838077-1-pkj@axis.com>
-References: <20231206192207.2838077-1-pkj@axis.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ExlMN1G5;
+ spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50bdec453c8so156226e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 11:25:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701890729; x=1702495529; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yr1BYg/wmi62+bZ30nVm7XQRQbtramGUTtl39RIiO3s=;
+        b=ExlMN1G5kJKWOhxCKJ6hg79XWm7tieU9skeH42bL3j3/BwlkaRHOdB4s540Gzx2Dx+
+         s7WiFej0xWzD3JAuYpfh68tow28iRAGXiFlvDwAp8UVOIkPUqt5xqN73RcNTly2GLGdm
+         AnzINn14ASUmlpBCyRqrn54sXfCq3C786G8Qv1aQjiavmBBz5bAGJOHMVkntEEYeqyU5
+         mvb/U4jX4JuU7T54D+uATXLLPOQ23RBslUS8yDFSp8yWF8ROaG4CXXp/p4n2zk9Uz3cR
+         H3SjWxwC2m73Qa0p+EaInp+dg1letm+Z+8XiwaxfNd+jlQoYIuu8Xt9Cb7zpVIy60Zd3
+         VINg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701890729; x=1702495529;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yr1BYg/wmi62+bZ30nVm7XQRQbtramGUTtl39RIiO3s=;
+        b=rPi5iSMEJbkHFMiPb/EzCbzcWevQVQ2qDtnadAKoYVLNcSN/jOIk0fzMIJztAS8nu6
+         zLrtatFyJvtvh1PFLQ6O92S/qEvziwuzITPWYjCvtEnGEKowZbPabbUQ7FHQ6m9nKMUh
+         8BAbZSBD9T2oMkqouXAXhWF/LWH6GrrgWo4qMifDXryQD9C05rEBf7D4A+ZX1vfZQGOS
+         1E6SwywNA5IGfmmjLDClx6cszOvyPV4KeVBGu8i0XQKj5+Zd/05iX6B1X0YNc0RK5QhE
+         rwlNwy6Kkfy5M0plEa8SY2yCXUUcyhjqYkx7M6NiZ6/0EJGsMf7tok5fCJpzh62uxZto
+         yDLw==
+X-Gm-Message-State: AOJu0YwdwBx5czj3BnjXSuVZjQ+OReRe8TkcUz1OHKXmholQLybVEHhA
+	NTW47NWTmnzGJxk5HsMvO7SJw9Ul27gn5/iG13Y=
+X-Google-Smtp-Source: AGHT+IHdSWD7N088NHKEL305TrfOU2u0rnkz4wqEo3rNBpuoIfqB0XQKXZ0ofxInWhcE6vUGXGJHXj0pBs/EpG/y+Mk=
+X-Received: by 2002:a05:6512:3b07:b0:50c:bbb:ed78 with SMTP id
+ f7-20020a0565123b0700b0050c0bbbed78mr1088172lfv.87.1701890728642; Wed, 06 Dec
+ 2023 11:25:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000B621:EE_|AS4PR02MB7926:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a7a54ca-c65e-464f-29d9-08dbf690b385
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	74FXmB+m6X3tyZbZxQX+JgDx+lzgopT29T2lzcltR/v6ysFu71Mmy5MhjC1pWA+BHVHVPgs3JDujWbXwo980Ldd9p9SXZZvxOcrDQD6jT30mdEX8QYcfBqdV+INM7E43Ctsy7QwOKj7pyQNJsbNJKE95u2rdOZMjzKTtNKiIYVb4G2BOdRNxJ3/e3V3DJnoK+BUHr6LX73FPAwyyikpb8aNed/k3t4v9HAwiuhMRekUTmDTefaNBXjJFwdf+qqjbggiaT8HuTcCKIUKv+mCOPlpDbOnQpX8RGPnMwSriR0l2o+SvxjRRmhl6qWTCFxwLAirhJKQsFnyeomYE6dtsjLFnB26hC1Gg20ip/9/JBVE3CbF7WGyjtg1Jt1EmyU9/XXC44KNopJtSBBoZ81BhIIrkZ0uJy0ryI+8w73xACOF/5ccW87Euh/GbgH+bxIsrQH6BxoiOn1jx1dwmYALUop579aaHOpNfMbGq4idP5sgtw1exAwauflGhqvebT9sel02PaPRb3J7v157x3ltY3Yr0yREcpVUTMKVTRHpCwKOED6x7d5+5TMgKVqzlzB6gso42R5k7mzXp/6oCtZEU6paf0OBpnUE2fFayF3mqYs9suQr9ExK67eCcdlNtnVTrbgeDLPmRfc+ucdNv3tqX+0Zjo3C6HJDRFw1NKyved2Hzeppkucg4mxH37q0eFFlgcG4gCEwZuuRKuiQPCIi/vvoe2zpaIFMnelnNDjDBbA6Peu2bi3n/X1lBxHlD5f2mGzurHMl+o2ouDGGykk2ltfeJ89/iod1Hpa5GU+yKdLLDoisFSX3zlnvMfQtnvmN6
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(396003)(136003)(376002)(39860400002)(230373577357003)(230922051799003)(230473577357003)(451199024)(64100799003)(82310400011)(186009)(1800799012)(46966006)(40470700004)(36840700001)(83380400001)(426003)(40460700003)(6666004)(1076003)(2616005)(26005)(336012)(316002)(70206006)(42186006)(70586007)(6916009)(40480700001)(5660300002)(2906002)(8676002)(8936002)(36756003)(41300700001)(966005)(478600001)(81166007)(356005)(82740400003)(36860700001)(47076005)(2004002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2023 19:22:35.0004
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a7a54ca-c65e-464f-29d9-08dbf690b385
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000B621.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR02MB7926
+References: <20231206192207.2838077-1-pkj@axis.com> <20231206192207.2838077-9-pkj@axis.com>
+In-Reply-To: <20231206192207.2838077-9-pkj@axis.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 6 Dec 2023 20:25:17 +0100
+Message-ID: <CANNYZj9OBN=911raynt6_47+kbyWBh_TH_JhZjBc==oq8G-VXQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 8/9] devtool: upgrade: Update all existing
+ checksums for the SRC_URI
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 19:22:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191911
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 19:25:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191917
 
-Rather than having a static list of crunched MD5 checksums for some of
-the most common licenses, calculate it for all common licenses. This
-should improve the identification of license text variantions.
+We've been relying on this to actually remove md5sums on version
+updates, so please do not regress that.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- scripts/lib/recipetool/create.py | 91 ++++++++++++++++----------------
- 1 file changed, 45 insertions(+), 46 deletions(-)
+Alex
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/crea=
-te.py
-index 293198d1c8..66b985487a 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -1059,54 +1059,18 @@ def get_license_md5sums(d, static_only=3DFalse, lin=
-enumbers=3DFalse):
-=20
-     return md5sums
-=20
--def crunch_license(licfile):
-+def crunch_known_licenses(d):
-     '''
--    Remove non-material text from a license file and then check
--    its md5sum against a known list. This works well for licenses
--    which contain a copyright statement, but is also a useful way
--    to handle people's insistence upon reformatting the license text
--    slightly (with no material difference to the text of the
--    license).
-+    Calculate the MD5 checksums for the crunched versions of all common
-+    licenses. Also add additional known checksums.
-     '''
--
--    import oe.utils
--
--    # Note: these are carefully constructed!
--    license_title_re =3D re.compile(r'^#*\(? *(This is )?([Tt]he )?.{0,15}=
- ?[Ll]icen[sc]e( \(.{1,10}\))?\)?[:\.]? ?#*$')
--    license_statement_re =3D re.compile(r'^((This (project|software)|.{1,1=
-0}) is( free software)? (released|licen[sc]ed)|(Released|Licen[cs]ed)) unde=
-r the .{1,10} [Ll]icen[sc]e:?$')
--    copyright_re =3D re.compile('^ *[#\*]* *(Modified work |MIT LICENSED )=
-?Copyright ?(\([cC]\))? .*$')
--    disclaimer_re =3D re.compile('^ *\*? ?All [Rr]ights [Rr]eserved\.$')
--    email_re =3D re.compile('^.*<[\w\.-]*@[\w\.\-]*>$')
--    header_re =3D re.compile('^(\/\**!?)? ?[\-=3D\*]* ?(\*\/)?$')
--    tag_re =3D re.compile('^ *@?\(?([Ll]icense|MIT)\)?$')
--    url_re =3D re.compile('^ *[#\*]* *https?:\/\/[\w\.\/\-]+$')
--
-+   =20
-     crunched_md5sums =3D {}
-=20
-     # common licenses
--    crunched_md5sums['89f3bf322f30a1dcfe952e09945842f0'] =3D 'Apache-2.0'
--    crunched_md5sums['13b6fe3075f8f42f2270a748965bf3a1'] =3D '0BSD'
--    crunched_md5sums['ba87a7d7c20719c8df4b8beed9b78c43'] =3D 'BSD-2-Clause=
-'
--    crunched_md5sums['7f8892c03b72de419c27be4ebfa253f8'] =3D 'BSD-3-Clause=
-'
--    crunched_md5sums['21128c0790b23a8a9f9e260d5f6b3619'] =3D 'BSL-1.0'
--    crunched_md5sums['975742a59ae1b8abdea63a97121f49f4'] =3D 'EDL-1.0'
--    crunched_md5sums['5322cee4433d84fb3aafc9e253116447'] =3D 'EPL-1.0'
--    crunched_md5sums['6922352e87de080f42419bed93063754'] =3D 'EPL-2.0'
--    crunched_md5sums['793475baa22295cae1d3d4046a3a0ceb'] =3D 'GPL-2.0-only=
-'
--    crunched_md5sums['ff9047f969b02c20f0559470df5cb433'] =3D 'GPL-2.0-or-l=
-ater'
--    crunched_md5sums['ea6de5453fcadf534df246e6cdafadcd'] =3D 'GPL-3.0-only=
-'
--    crunched_md5sums['b419257d4d153a6fde92ddf96acf5b67'] =3D 'GPL-3.0-or-l=
-ater'
--    crunched_md5sums['228737f4c49d3ee75b8fb3706b090b84'] =3D 'ISC'
--    crunched_md5sums['c6a782e826ca4e85bf7f8b89435a677d'] =3D 'LGPL-2.0-onl=
-y'
--    crunched_md5sums['32d8f758a066752f0db09bd7624b8090'] =3D 'LGPL-2.0-or-=
-later'
--    crunched_md5sums['4820937eb198b4f84c52217ed230be33'] =3D 'LGPL-2.1-onl=
-y'
--    crunched_md5sums['db13fe9f3a13af7adab2dc7a76f9e44a'] =3D 'LGPL-2.1-or-=
-later'
--    crunched_md5sums['d7a0f2e4e0950e837ac3eabf5bd1d246'] =3D 'LGPL-3.0-onl=
-y'
--    crunched_md5sums['abbf328e2b434f9153351f06b9f79d02'] =3D 'LGPL-3.0-or-=
-later'
--    crunched_md5sums['eecf6429523cbc9693547cf2db790b5c'] =3D 'MIT'
--    crunched_md5sums['b218b0e94290b9b818c4be67c8e1cc82'] =3D 'MIT-0'
--    crunched_md5sums['ddc18131d6748374f0f35a621c245b49'] =3D 'Unlicense'
--    crunched_md5sums['51f9570ff32571fc0a443102285c5e33'] =3D 'WTFPL'
-+    crunched_md5sums['ad4e9d34a2e966dfe9837f18de03266d'] =3D 'GFDL-1.1-onl=
-y'
-+    crunched_md5sums['d014fb11a34eb67dc717fdcfc97e60ed'] =3D 'GFDL-1.2-onl=
-y'
-+    crunched_md5sums['e020ca655b06c112def28e597ab844f1'] =3D 'GFDL-1.3-onl=
-y'
-=20
-     # The following two were gleaned from the "forever" npm package
-     crunched_md5sums['0a97f8e4cbaf889d6fa51f84b89a79f6'] =3D 'ISC'
-@@ -1162,6 +1126,39 @@ def crunch_license(licfile):
-     # https://raw.githubusercontent.com/stackgl/gl-mat3/v2.0.0/LICENSE.md
-     crunched_md5sums['75512892d6f59dddb6d1c7e191957e9c'] =3D 'Zlib'
-=20
-+    commonlicdir =3D d.getVar('COMMON_LICENSE_DIR')
-+    for fn in sorted(os.listdir(commonlicdir)):
-+        md5value, lictext =3D crunch_license(os.path.join(commonlicdir, fn=
-))
-+        if md5value not in crunched_md5sums:
-+            crunched_md5sums[md5value] =3D fn
-+        elif fn !=3D crunched_md5sums[md5value]:
-+            bb.debug(2, "crunched_md5sums['%s'] is already set to '%s' rat=
-her than '%s'" % (md5value, crunched_md5sums[md5value], fn))
-+        else:
-+            bb.debug(2, "crunched_md5sums['%s'] is already set to '%s'" % =
-(md5value, crunched_md5sums[md5value]))
-+
-+    return crunched_md5sums
-+
-+def crunch_license(licfile):
-+    '''
-+    Remove non-material text from a license file and then calculate its
-+    md5sum. This works well for licenses that contain a copyright statemen=
-t,
-+    but is also a useful way to handle people's insistence upon reformatti=
-ng
-+    the license text slightly (with no material difference to the text of =
-the
-+    license).
-+    '''
-+
-+    import oe.utils
-+
-+    # Note: these are carefully constructed!
-+    license_title_re =3D re.compile(r'^#*\(? *(This is )?([Tt]he )?.{0,15}=
- ?[Ll]icen[sc]e( \(.{1,10}\))?\)?[:\.]? ?#*$')
-+    license_statement_re =3D re.compile(r'^((This (project|software)|.{1,1=
-0}) is( free software)? (released|licen[sc]ed)|(Released|Licen[cs]ed)) unde=
-r the .{1,10} [Ll]icen[sc]e:?$')
-+    copyright_re =3D re.compile('^ *[#\*]* *(Modified work |MIT LICENSED )=
-?Copyright ?(\([cC]\))? .*$')
-+    disclaimer_re =3D re.compile('^ *\*? ?All [Rr]ights [Rr]eserved\.$')
-+    email_re =3D re.compile('^.*<[\w\.-]*@[\w\.\-]*>$')
-+    header_re =3D re.compile('^(\/\**!?)? ?[\-=3D\*]* ?(\*\/)?$')
-+    tag_re =3D re.compile('^ *@?\(?([Ll]icense|MIT)\)?$')
-+    url_re =3D re.compile('^ *[#\*]* *https?:\/\/[\w\.\/\-]+$')
-+
-     lictext =3D []
-     with open(licfile, 'r', errors=3D'surrogateescape') as f:
-         for line in f:
-@@ -1203,13 +1200,14 @@ def crunch_license(licfile):
-     except UnicodeEncodeError:
-         md5val =3D None
-         lictext =3D ''
--    license =3D crunched_md5sums.get(md5val, None)
--    return license, md5val, lictext
-+    return md5val, lictext
-=20
- def guess_license(srctree, d):
-     import bb
-     md5sums =3D get_license_md5sums(d)
-=20
-+    crunched_md5sums =3D crunch_known_licenses(d)
-+
-     licenses =3D []
-     licspecs =3D ['*LICEN[CS]E*', 'COPYING*', '*[Ll]icense*', 'LEGAL*', '[=
-Ll]egal*', '*GPL*', 'README.lic*', 'COPYRIGHT*', '[Cc]opyright*', 'e[dp]l-v=
-10']
-     skip_extensions =3D (".html", ".js", ".json", ".svg", ".ts", ".go")
-@@ -1227,7 +1225,8 @@ def guess_license(srctree, d):
-         md5value =3D bb.utils.md5_file(licfile)
-         license =3D md5sums.get(md5value, None)
-         if not license:
--            license, crunched_md5, lictext =3D crunch_license(licfile)
-+            crunched_md5, lictext =3D crunch_license(licfile)
-+            license =3D crunched_md5sums.get(crunched_md5, None)
-             if lictext and not license:
-                 license =3D 'Unknown'
-                 logger.info("Please add the following line for '%s' to a '=
-lib/recipetool/licenses.csv' " \
+On Wed, 6 Dec 2023 at 20:22, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+>
+> Rather than only updating the sha256sum and removing the md5sum, update
+> all existing checksums. If the only existing checksum is md5sum, then
+> replace it with the default expected checksums.
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  .../devtool/devtool-upgrade-test3_1.5.3.bb    | 16 ++++++
+>  .../devtool-upgrade-test3_1.5.3.bb.upgraded   | 15 ++++++
+>  .../devtool/devtool-upgrade-test4_1.5.3.bb    | 22 ++++++++
+>  .../devtool-upgrade-test4_1.5.3.bb.upgraded   | 19 +++++++
+>  meta/lib/oeqa/selftest/cases/devtool.py       | 48 +++++++++++++++++
+>  scripts/lib/devtool/upgrade.py                | 51 ++++++++++---------
+>  6 files changed, 148 insertions(+), 23 deletions(-)
+>  create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb
+>  create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded
+>  create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb
+>  create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded
+>
+> diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb
+> new file mode 100644
+> index 0000000000..69c0d351ec
+> --- /dev/null
+> +++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb
+> @@ -0,0 +1,16 @@
+> +SUMMARY = "Pipe viewer test recipe for devtool upgrade test"
+> +LICENSE = "Artistic-2.0"
+> +LIC_FILES_CHKSUM = "file://doc/COPYING;md5=9c50db2589ee3ef10a9b7b2e50ce1d02"
+> +
+> +SRC_URI = "http://www.ivarch.com/programs/sources/pv-${PV}.tar.gz"
+> +UPSTREAM_CHECK_URI = "http://www.ivarch.com/programs/pv.shtml"
+> +RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+> +
+> +SRC_URI[md5sum] = "9365d86bd884222b4bf1039b5a9ed1bd"
+> +
+> +S = "${WORKDIR}/pv-${PV}"
+> +
+> +EXCLUDE_FROM_WORLD = "1"
+> +
+> +inherit autotools
+> +
+> diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded
+> new file mode 100644
+> index 0000000000..3ce7e85e10
+> --- /dev/null
+> +++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.upgraded
+> @@ -0,0 +1,15 @@
+> +SUMMARY = "Pipe viewer test recipe for devtool upgrade test"
+> +LICENSE = "Artistic-2.0"
+> +LIC_FILES_CHKSUM = "file://doc/COPYING;md5=9c50db2589ee3ef10a9b7b2e50ce1d02"
+> +
+> +SRC_URI[sha256sum] = "9dd45391806b0ed215abee4c5ac1597d018c386fe9c1f5afd2f6bc3b07fd82c3"
+> +SRC_URI = "http://www.ivarch.com/programs/sources/pv-${PV}.tar.gz"
+> +UPSTREAM_CHECK_URI = "http://www.ivarch.com/programs/pv.shtml"
+> +RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+> +
+> +S = "${WORKDIR}/pv-${PV}"
+> +
+> +EXCLUDE_FROM_WORLD = "1"
+> +
+> +inherit autotools
+> +
+> diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb
+> new file mode 100644
+> index 0000000000..9abf80e6ed
+> --- /dev/null
+> +++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb
+> @@ -0,0 +1,22 @@
+> +SUMMARY = "Pipe viewer test recipe for devtool upgrade test"
+> +LICENSE = "Artistic-2.0"
+> +LIC_FILES_CHKSUM = "file://doc/COPYING;md5=9c50db2589ee3ef10a9b7b2e50ce1d02"
+> +
+> +SRC_URI = "http://www.ivarch.com/programs/sources/pv-${PV}.tar.gz"
+> +UPSTREAM_CHECK_URI = "http://www.ivarch.com/programs/pv.shtml"
+> +RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+> +
+> +SRC_URI[md5sum] = "9365d86bd884222b4bf1039b5a9ed1bd"
+> +SRC_URI[sha1sum] = "63a0801350e812541c7f8e9ad74e0d6b629d0b39"
+> +SRC_URI[sha256sum] = "681bcca9784bf3cb2207e68236d1f68e2aa7b80f999b5750dc77dcd756e81fbc"
+> +SRC_URI[sha384sum] = "5fff6390465ff23dbf573fcf39dfad3aed2f92074a35e6c02abe58b7678858d90fa6572ff4cb56df8b3e217c739cdbe3"
+> +SRC_URI[sha512sum] = "32efe7071a363f547afc74e96774f711795edda1d2702823a347d0f9953e859b7d8c45b3e63e18ffb9e0d5ed5910be652d7d727c8676e81b6cb3aed0b13aec00"
+> +
+> +PR = "r5"
+> +
+> +S = "${WORKDIR}/pv-${PV}"
+> +
+> +EXCLUDE_FROM_WORLD = "1"
+> +
+> +inherit autotools
+> +
+> diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded
+> new file mode 100644
+> index 0000000000..cd2a0842f4
+> --- /dev/null
+> +++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.upgraded
+> @@ -0,0 +1,19 @@
+> +SUMMARY = "Pipe viewer test recipe for devtool upgrade test"
+> +LICENSE = "Artistic-2.0"
+> +LIC_FILES_CHKSUM = "file://doc/COPYING;md5=9c50db2589ee3ef10a9b7b2e50ce1d02"
+> +
+> +SRC_URI = "http://www.ivarch.com/programs/sources/pv-${PV}.tar.gz"
+> +UPSTREAM_CHECK_URI = "http://www.ivarch.com/programs/pv.shtml"
+> +RECIPE_NO_UPDATE_REASON = "This recipe is used to test devtool upgrade feature"
+> +
+> +SRC_URI[sha1sum] = "395ce62f4f3e035b86c77038f04b96c5aa233595"
+> +SRC_URI[sha256sum] = "9dd45391806b0ed215abee4c5ac1597d018c386fe9c1f5afd2f6bc3b07fd82c3"
+> +SRC_URI[sha384sum] = "218c8d2d097aeba5310be759bc20573f18ffa0b11701eac6dd2e7e14ddf13c6e0e094ca7ca026eaa05ef92a056402e36"
+> +SRC_URI[sha512sum] = "1cf9d7376fceefcd594d0a8b591afc8e11ce89f7210d10ad74438974ecebe9cc5d9ec4db9cc79e0566bfd2b0278c0cc263c07547803e7536432cd1ffd32d8a45"
+> +
+> +S = "${WORKDIR}/pv-${PV}"
+> +
+> +EXCLUDE_FROM_WORLD = "1"
+> +
+> +inherit autotools
+> +
+> diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+> index e01ab01869..4e65484d81 100644
+> --- a/meta/lib/oeqa/selftest/cases/devtool.py
+> +++ b/meta/lib/oeqa/selftest/cases/devtool.py
+> @@ -1883,6 +1883,54 @@ class DevtoolUpgradeTests(DevtoolBase):
+>          self.assertNotIn(recipe, result.output)
+>          self.assertNotExists(os.path.join(self.workspacedir, 'recipes', recipe), 'Recipe directory should not exist after resetting')
+>
+> +    def test_devtool_upgrade_drop_md5sum(self):
+> +        # Check preconditions
+> +        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
+> +        self.track_for_cleanup(self.workspacedir)
+> +        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+> +        # For the moment, we are using a real recipe.
+> +        recipe = 'devtool-upgrade-test3'
+> +        version = '1.6.0'
+> +        oldrecipefile = get_bb_var('FILE', recipe)
+> +        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+> +        self.track_for_cleanup(tempdir)
+> +        # Check upgrade. Code does not check if new PV is older or newer that current PV, so, it may be that
+> +        # we are downgrading instead of upgrading.
+> +        result = runCmd('devtool upgrade %s %s -V %s' % (recipe, tempdir, version))
+> +        # Check new recipe file is present
+> +        newrecipefile = os.path.join(self.workspacedir, 'recipes', recipe, '%s_%s.bb' % (recipe, version))
+> +        self.assertExists(newrecipefile, 'Recipe file should exist after upgrade')
+> +        # Check recipe got changed as expected
+> +        with open(oldrecipefile + '.upgraded', 'r') as f:
+> +            desiredlines = f.readlines()
+> +        with open(newrecipefile, 'r') as f:
+> +            newlines = f.readlines()
+> +        self.assertEqual(desiredlines, newlines)
+> +
+> +    def test_devtool_upgrade_all_checksums(self):
+> +        # Check preconditions
+> +        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
+> +        self.track_for_cleanup(self.workspacedir)
+> +        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+> +        # For the moment, we are using a real recipe.
+> +        recipe = 'devtool-upgrade-test4'
+> +        version = '1.6.0'
+> +        oldrecipefile = get_bb_var('FILE', recipe)
+> +        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
+> +        self.track_for_cleanup(tempdir)
+> +        # Check upgrade. Code does not check if new PV is older or newer that current PV, so, it may be that
+> +        # we are downgrading instead of upgrading.
+> +        result = runCmd('devtool upgrade %s %s -V %s' % (recipe, tempdir, version))
+> +        # Check new recipe file is present
+> +        newrecipefile = os.path.join(self.workspacedir, 'recipes', recipe, '%s_%s.bb' % (recipe, version))
+> +        self.assertExists(newrecipefile, 'Recipe file should exist after upgrade')
+> +        # Check recipe got changed as expected
+> +        with open(oldrecipefile + '.upgraded', 'r') as f:
+> +            desiredlines = f.readlines()
+> +        with open(newrecipefile, 'r') as f:
+> +            newlines = f.readlines()
+> +        self.assertEqual(desiredlines, newlines)
+> +
+>      def test_devtool_layer_plugins(self):
+>          """Test that devtool can use plugins from other layers.
+>
+> diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
+> index 10827a762b..a98370bc10 100644
+> --- a/scripts/lib/devtool/upgrade.py
+> +++ b/scripts/lib/devtool/upgrade.py
+> @@ -192,8 +192,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
+>          __run('git submodule foreach \'git tag -f devtool-base-new\'')
+>          (stdout, _) = __run('git submodule --quiet foreach \'echo $sm_path\'')
+>          paths += [os.path.join(srctree, p) for p in stdout.splitlines()]
+> -        md5 = None
+> -        sha256 = None
+> +        checksums = {}
+>          _, _, _, _, _, params = bb.fetch2.decodeurl(uri)
+>          srcsubdir_rel = params.get('destsuffix', 'git')
+>          if not srcbranch:
+> @@ -226,9 +225,6 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
+>          if ftmpdir and keep_temp:
+>              logger.info('Fetch temp directory is %s' % ftmpdir)
+>
+> -        md5 = checksums['md5sum']
+> -        sha256 = checksums['sha256sum']
+> -
+>          tmpsrctree = _get_srctree(tmpdir)
+>          srctree = os.path.abspath(srctree)
+>          srcsubdir_rel = os.path.relpath(tmpsrctree, tmpdir)
+> @@ -297,7 +293,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
+>              if tmpdir != tmpsrctree:
+>                  shutil.rmtree(tmpdir)
+>
+> -    return (revs, md5, sha256, srcbranch, srcsubdir_rel)
+> +    return (revs, checksums, srcbranch, srcsubdir_rel)
+>
+>  def _add_license_diff_to_recipe(path, diff):
+>      notice_text = """# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
+> @@ -318,7 +314,7 @@ def _add_license_diff_to_recipe(path, diff):
+>          f.write("\n#\n\n".encode())
+>          f.write(orig_content)
+>
+> -def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, srcsubdir_new, workspace, tinfoil, rd, license_diff, new_licenses, srctree, keep_failure):
+> +def _create_new_recipe(newpv, checksums, srcrev, srcbranch, srcsubdir_old, srcsubdir_new, workspace, tinfoil, rd, license_diff, new_licenses, srctree, keep_failure):
+>      """Creates the new recipe under workspace"""
+>
+>      bpn = rd.getVar('BPN')
+> @@ -390,30 +386,39 @@ def _create_new_recipe(newpv, md5, sha256, srcrev, srcbranch, srcsubdir_old, src
+>                  addnames.append(params['name'])
+>      # Find what's been set in the original recipe
+>      oldnames = []
+> +    oldsums = []
+>      noname = False
+>      for varflag in rd.getVarFlags('SRC_URI'):
+> -        if varflag.endswith(('.md5sum', '.sha256sum')):
+> -            name = varflag.rsplit('.', 1)[0]
+> -            if name not in oldnames:
+> -                oldnames.append(name)
+> -        elif varflag in ['md5sum', 'sha256sum']:
+> -            noname = True
+> +        for checksum in checksums:
+> +            if varflag.endswith('.' + checksum):
+> +                name = varflag.rsplit('.', 1)[0]
+> +                if name not in oldnames:
+> +                    oldnames.append(name)
+> +                oldsums.append(checksum)
+> +            elif varflag == checksum:
+> +                noname = True
+> +                oldsums.append(checksum)
+>      # Even if SRC_URI has named entries it doesn't have to actually use the name
+>      if noname and addnames and addnames[0] not in oldnames:
+>          addnames = []
+>      # Drop any old names (the name actually might include ${PV})
+>      for name in oldnames:
+>          if name not in newnames:
+> -            newvalues['SRC_URI[%s.md5sum]' % name] = None
+> -            newvalues['SRC_URI[%s.sha256sum]' % name] = None
+> +            for checksum in oldsums:
+> +                newvalues['SRC_URI[%s.%s]' % (name, checksum)] = None
+>
+> -    if sha256:
+> -        if addnames:
+> -            nameprefix = '%s.' % addnames[0]
+> -        else:
+> -            nameprefix = ''
+> +    nameprefix = '%s.' % addnames[0] if addnames else ''
+> +
+> +    # md5sum is deprecated, remove any traces of it. If it was the only old
+> +    # checksum, then replace it with the default checksums.
+> +    if 'md5sum' in oldsums:
+>          newvalues['SRC_URI[%smd5sum]' % nameprefix] = None
+> -        newvalues['SRC_URI[%ssha256sum]' % nameprefix] = sha256
+> +        oldsums.remove('md5sum')
+> +        if not oldsums:
+> +            oldsums = ["%ssum" % s for s in bb.fetch2.SHOWN_CHECKSUM_LIST]
+> +
+> +    for checksum in oldsums:
+> +        newvalues['SRC_URI[%s%s]' % (nameprefix, checksum)] = checksums[checksum]
+>
+>      if srcsubdir_new != srcsubdir_old:
+>          s_subdir_old = os.path.relpath(os.path.abspath(rd.getVar('S')), rd.getVar('WORKDIR'))
+> @@ -571,12 +576,12 @@ def upgrade(args, config, basepath, workspace):
+>              rev1, srcsubdir1 = standard._extract_source(srctree, False, 'devtool-orig', False, config, basepath, workspace, args.fixed_setup, rd, tinfoil, no_overrides=args.no_overrides)
+>              old_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
+>              logger.info('Extracting upgraded version source...')
+> -            rev2, md5, sha256, srcbranch, srcsubdir2 = _extract_new_source(args.version, srctree, args.no_patch,
+> +            rev2, checksums, srcbranch, srcsubdir2 = _extract_new_source(args.version, srctree, args.no_patch,
+>                                                      args.srcrev, args.srcbranch, args.branch, args.keep_temp,
+>                                                      tinfoil, rd)
+>              new_licenses = _extract_licenses(srctree_s, (rd.getVar('LIC_FILES_CHKSUM') or ""))
+>              license_diff = _generate_license_diff(old_licenses, new_licenses)
+> -            rf, copied = _create_new_recipe(args.version, md5, sha256, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd, license_diff, new_licenses, srctree, args.keep_failure)
+> +            rf, copied = _create_new_recipe(args.version, checksums, args.srcrev, srcbranch, srcsubdir1, srcsubdir2, config.workspace_path, tinfoil, rd, license_diff, new_licenses, srctree, args.keep_failure)
+>          except (bb.process.CmdError, DevtoolError) as e:
+>              recipedir = os.path.join(config.workspace_path, 'recipes', rd.getVar('BPN'))
+>              _upgrade_error(e, recipedir, srctree, args.keep_failure)
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191913): https://lists.openembedded.org/g/openembedded-core/message/191913
+> Mute This Topic: https://lists.openembedded.org/mt/103019944/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
