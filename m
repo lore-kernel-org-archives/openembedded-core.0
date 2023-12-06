@@ -1,144 +1,159 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <narpat.mali@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 888E0C4167B
-	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 08:56:16 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.27405.1701852966855604411
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84430C4167B
+	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 09:00:16 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.27194.1701853215181906784
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Dec 2023 00:56:06 -0800
+ Wed, 06 Dec 2023 01:00:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=rA6oXuaf;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=070494c48b=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B67EudN025469
-	for <openembedded-core@lists.openembedded.org>; Wed, 6 Dec 2023 00:56:06 -0800
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=tLIsSlZY;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0704bb62dd=narpat.mali@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B66UxIU005929
+	for <openembedded-core@lists.openembedded.org>; Wed, 6 Dec 2023 09:00:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PPS06212021; bh=Ey7GgRpcfNZVFH6dQCuRL5Q01MKxleIp/ZFU8dl0B2U=; b=
-	rA6oXuafPu7l7A6G97vQhqQW4kZQvoCiA6iP1tK+dexvblj3LqpPH/FUCUNT1SNS
-	HfL1+cvco9qh4r9Q9RG3GDkPUnu4J8E4GqHOGXDcBoX+iBUxUkPlXgfvxILf2eAN
-	9UwK2DIathnYwlnoUEAZxcGtw4LddDyQ0RDtBfJYYfXdrvErCImj213djZ85R4cg
-	Ht96nK6svAo/x8InKNFO/H9up08J/9R3VDxHzqNBxU/lCXGkM6jOMcaia7mXoydn
-	dJZCxo/IAAhvqU/IUZ/g5QyhLrH15XPuNUdb7HdC6tIBADs3PuDByPxmdUDbjvh9
-	bzXEQDTvWWoKZZ2NcAwFrQ==
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=JM477
+	++rdUy5216HFAQxhtHbXMyjaTRI8KC8RY/utFE=; b=tLIsSlZYBF8Cvz8iCbedT
+	qjf1oPa8C0yoh4SL5kh/cnCGWau+mk/Q4NopM1X5zuZVTwP3Zahx7VrTo2eEEKC5
+	SgbR9zY++ELOY67eDWr6/DNgzY93/XWBYbx+5jFLXr5EgrLSdQlD+RBB8aYtwzqU
+	1Csrqe0WyMfwOTvES9N78i1qa4JCXCKWi1s4stzcf5ce+04MoLX6NykcgeYbm+ES
+	dD1T1yi4jTAZY+a5frvp/QcDiYsXz7Xn83E8wVjzra4T/DMi0y64Df5zFfo1/KXs
+	KX+1cSzCdrxvki2QepbceHwKe/79VW/yFjuMQi5KkdQLRyL+dE6tkaOroNCZBpt9
+	w==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3utd2r0bj1-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3utd53gbqt-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 00:56:06 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+	for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 09:00:14 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 6 Dec 2023 00:56:09 -0800
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 6 Dec 2023 00:56:08 -0800
-From: <mingli.yu@windriver.com>
+ 15.1.2507.35; Wed, 6 Dec 2023 01:00:15 -0800
+From: nmali <narpat.mali@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v4] openssh: Add PACKAGECONFIG option to customize sshd mode
-Date: Wed, 6 Dec 2023 16:56:04 +0800
-Message-ID: <20231206085604.3286804-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231205074322881971a5@mail.local>
-References: <20231205074322881971a5@mail.local>
+Subject: [OE-core][kirkstone][PATCH 1/1] python3-cryptography: fix CVE-2023-49083
+Date: Wed, 6 Dec 2023 08:59:00 +0000
+Message-ID: <20231206085900.2432186-1-narpat.mali@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: kLEzvq_UbSQxTvzebsixQdGKYQ0BrOZM
-X-Proofpoint-GUID: kLEzvq_UbSQxTvzebsixQdGKYQ0BrOZM
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: t7ZBErPisnlgz2AkF1wo5Z0qz2ZsDkBX
+X-Proofpoint-GUID: t7ZBErPisnlgz2AkF1wo5Z0qz2ZsDkBX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- priorityscore=1501 clxscore=1015 bulkscore=0 adultscore=0 spamscore=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312060072
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 mlxlogscore=801 mlxscore=0
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 clxscore=1011
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312060073
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 08:56:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191874
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 09:00:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191875
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Narpat Mali <narpat.mali@windriver.com>
 
-Add systemd-sshd-socket-mode PACKAGECONFIG option to choose sshd.socket
-and systemd-sshd-service-mode PACKAGECONFIG option to choose installing
-sshd.service.
+cryptography is a package designed to expose cryptographic primitives
+and recipes to Python developers. Calling `load_pem_pkcs7_certificates`
+or `load_der_pkcs7_certificates` could lead to a NULL-pointer dereference
+and segfault. Exploitation of this vulnerability poses a serious risk of
+Denial of Service (DoS) for any application attempting to deserialize a
+PKCS7 blob/certificate. The consequences extend to potential disruptions
+in system availability and stability. This vulnerability has been patched
+in version 41.0.6.
 
-The systemd-sshd-socket-mode PACKAGECONFIG option is enabled by default
-and user can customize the above two PACKAGECONFIG option to choose the
-sshd mode.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-49083
+https://security-tracker.debian.org/tracker/CVE-2023-49083
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
 ---
-Changed in v3:
-rebase based on https://lore.kernel.org/all/20231201140947.792594-1-xiangyu.chen@eng.windriver.com/
+ .../python3-cryptography/CVE-2023-49083.patch | 53 +++++++++++++++++++
+ .../python/python3-cryptography_36.0.2.bb     |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2023-49083.patch
 
-Changed in v4:
-make it possible to install both sshd.socket and sshd.service
-.../openssh/openssh_9.5p1.bb                  | 25 ++++++++++++++-----
- 1 file changed, 19 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-index 2c1c821ea9..58dd030c64 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-@@ -50,16 +50,20 @@ INITSCRIPT_NAME:${PN}-sshd = "sshd"
- INITSCRIPT_PARAMS:${PN}-sshd = "defaults 9"
+diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2023-49083.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2023-49083.patch
+new file mode 100644
+index 0000000000..d398eea1d9
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2023-49083.patch
+@@ -0,0 +1,53 @@
++From 627ac5e314303acc00a19d58f09eb1eabd029fd1 Mon Sep 17 00:00:00 2001
++From: Alex Gaynor <alex.gaynor@gmail.com>
++Date: Wed, 6 Dec 2023 08:04:53 +0000
++Subject: [PATCH] Fixed crash when loading a PKCS#7 bundle with no certificates
++ (#9926)
++
++CVE: CVE-2023-49083
++
++Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/1e7b4d074e14c4e694d3ce69ad6754a6039fd6ff]
++
++Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
++---
++ src/cryptography/hazmat/backends/openssl/backend.py | 5 ++++-
++ tests/hazmat/primitives/test_pkcs7.py               | 6 ++++++
++ 2 files changed, 10 insertions(+), 1 deletion(-)
++
++diff --git a/src/cryptography/hazmat/backends/openssl/backend.py b/src/cryptography/hazmat/backends/openssl/backend.py
++index 5606fe6..c43fea0 100644
++--- a/src/cryptography/hazmat/backends/openssl/backend.py
+++++ b/src/cryptography/hazmat/backends/openssl/backend.py
++@@ -2189,9 +2189,12 @@ class Backend(BackendInterface):
++                 _Reasons.UNSUPPORTED_SERIALIZATION,
++             )
++
+++        certs: list[x509.Certificate] = []
+++        if p7.d.sign == self._ffi.NULL:
+++            return certs
+++
++         sk_x509 = p7.d.sign.cert
++         num = self._lib.sk_X509_num(sk_x509)
++-        certs = []
++         for i in range(num):
++             x509 = self._lib.sk_X509_value(sk_x509, i)
++             self.openssl_assert(x509 != self._ffi.NULL)
++diff --git a/tests/hazmat/primitives/test_pkcs7.py b/tests/hazmat/primitives/test_pkcs7.py
++index 91ac842..b98a9f1 100644
++--- a/tests/hazmat/primitives/test_pkcs7.py
+++++ b/tests/hazmat/primitives/test_pkcs7.py
++@@ -81,6 +81,12 @@ class TestPKCS7Loading(object):
++                 mode="rb",
++             )
++
+++    def test_load_pkcs7_empty_certificates(self):
+++        der = b"\x30\x0B\x06\x09\x2A\x86\x48\x86\xF7\x0D\x01\x07\x02"
+++
+++        certificates = pkcs7.load_der_pkcs7_certificates(der)
+++        assert certificates == []
+++
++
++ # We have no public verification API and won't be adding one until we get
++ # some requirements from users so this function exists to give us basic
++--
++2.40.0
+diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+index c3ae0c1ab9..c429c75e1b 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+@@ -18,6 +18,7 @@ SRC_URI += " \
+     file://0002-Cargo.toml-edition-2018-2021.patch \
+     file://fix-leak-metric.patch \
+     file://CVE-2023-23931.patch \
++    file://CVE-2023-49083.patch \
+ "
  
- SYSTEMD_PACKAGES = "${PN}-sshd"
--SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket sshd.service"
-+SYSTEMD_SERVICE:${PN}-sshd = "${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','sshd.socket', '', d)} ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','sshd.service', '', d)}"
- 
- inherit autotools-brokensep ptest pkgconfig
- 
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
-+# systemd-sshd-socket-mode means sshd.socket and systemd-sshd-service-mode
-+# corresponding to sshd.service
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} systemd-sshd-socket-mode"
- PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
- PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
- PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
- PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
- PACKAGECONFIG[systemd] = "--with-systemd,--without-systemd,systemd"
-+PACKAGECONFIG[systemd-sshd-socket-mode] = ""
-+PACKAGECONFIG[systemd-sshd-service-mode] = ""
- 
- EXTRA_AUTORECONF += "--exclude=aclocal"
- 
-@@ -124,15 +128,24 @@ do_install:append () {
- 	echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
- 
- 	install -d ${D}${systemd_system_unitdir}
--	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
--	install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
--	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
-+	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','true','false',d)}; then
-+	    install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
-+	    install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
-+	    sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-+		    -e 's,@SBINDIR@,${sbindir},g' \
-+		    -e 's,@BINDIR@,${bindir},g' \
-+		    -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-+            ${D}${systemd_system_unitdir}/sshd.socket
-+	fi
-+	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','true','false',d)}; then
-+	    install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
-+	fi
- 	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_system_unitdir}
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
- 		-e 's,@SBINDIR@,${sbindir},g' \
- 		-e 's,@BINDIR@,${bindir},g' \
- 		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
--		${D}${systemd_system_unitdir}/sshd.socket ${D}${systemd_system_unitdir}/*.service
-+		${D}${systemd_system_unitdir}/*.service
- 
- 	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
- 		${D}${sysconfdir}/init.d/sshd
+ inherit pypi python_setuptools3_rust
 -- 
-2.25.1
+2.40.0
 
 
