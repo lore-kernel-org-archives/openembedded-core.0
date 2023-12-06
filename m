@@ -1,141 +1,206 @@
-Return-Path: <johannes.pointner@br-automation.com>
+Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36881C4167B
-	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 07:44:16 +0000 (UTC)
-Received: from inet13.abb.com (inet13.abb.com [138.225.1.76])
- by mx.groups.io with SMTP id smtpd.web11.26341.1701848649084746200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59615C4167B
+	for <webhook@archiver.kernel.org>; Wed,  6 Dec 2023 08:24:36 +0000 (UTC)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.27059.1701851073551036141
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Dec 2023 23:44:09 -0800
+ Wed, 06 Dec 2023 00:24:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: br-automation.com, ip: 138.225.1.76, mailfrom: johannes.pointner@br-automation.com)
-Received: from brsmtp01.br-automation.co.at ([10.15.2.36])
-	by inet13.abb.com (8.14.7/8.14.7) with ESMTP id 3B67i631015099
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 6 Dec 2023 08:44:06 +0100
-Received: from extmail.br-automation.com ([192.168.112.26])
-          by brsmtp01.br-automation.co.at (HCL Domino Release 12.0.2FP1)
-          with ESMTP id 2023120608440455-91893 ;
-          Wed, 6 Dec 2023 08:44:04 +0100 
-Received: from ategge3723.brdev.net ([192.168.62.129])
-          by extmail.br-automation.com (HCL Domino Build V1202_05192022)
-          with ESMTP id 2023120608440552-28755 ;
-          Wed, 6 Dec 2023 08:44:05 +0100 
-From: johannes.pointner@br-automation.com
-To: openembedded-core@lists.openembedded.org
-Cc: "Johannes Pointner" <johannes.pointner@br-automation.com>
-Subject: [PATCH v2] ldconfig-native: Add usrmerge support
-Date: Wed, 6 Dec 2023 08:40:58 +0100
-Message-ID: <20231206074307.21110-1-johannes.pointner@br-automation.com>
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=BTs6bIAy;
+ spf=pass (domain: baylibre.com, ip: 209.85.218.52, mailfrom: jstephan@baylibre.com)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a1ca24776c3so106943866b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 00:24:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701851071; x=1702455871; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gEIVFnUQjZDZNDa6hW/22QjPvBGjt8NKIMKm0kUuPe0=;
+        b=BTs6bIAySFktaYHcOz4QxXvIDUjDQqzkRpMULf48X3b6Xfnysg7Z/R372hOc+T7F1p
+         foUbaR+Un4eaSK0mhxickZWr2OY2Lmuoo3WJ8iiwl48VqlNC+EXbIWUf9vB+tmL+atIf
+         Jt+n68F8wHKSFmlXVkte1jafj+qcPJSZw4c+WbjmsUXJeouuQOdiBmNhSTTv1ztoafzo
+         UnzP3Mpl0SU4jNKdWxh8czy2ySWh6mMdvPUBYn2FJpDAKj6M9vEzZoWFiXA4LJYxEahN
+         xmC3jHt9Lb6uD9czcv8Fxnh255QEbwZVAGfjXMAhtApfP5KVZj9ruK8F4osmu/k+Ti+X
+         p0Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701851071; x=1702455871;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gEIVFnUQjZDZNDa6hW/22QjPvBGjt8NKIMKm0kUuPe0=;
+        b=SWkiZO+KTNczd1BBzcLhMMjbvkNtP8Sfp830TRFXNTMaxRPZJKGv2UPrHSX35q0Z6C
+         VKpJWNGSDwWVF5SiNjUkgAccKmWUn9BVfTUsuOMI58Blnsf6XkH2I+jS2cFalyyCJy30
+         3ilDNNltA5Kc3pNXEDrLlSGS9mpjbgC4ORrUOdLJoum8TMCypPo6MKETxitp+OG3NeyM
+         uDQD/4sGJyaHBf4Hcby8kR8e4hNRD56dabYnmFma68x7ykce0nKPH0CRAhPd+DgL30KC
+         ydDKo9yu1cH6KQGTdXcTKP6AH7MNDg8U6iSoss058gIMJuI2BhG1kr0kjMO+am6KU/H7
+         vM7w==
+X-Gm-Message-State: AOJu0YxTew/vDoo9rcd64AbQm5EYQBNuNP6bh6zCb5eZPo9/MyypsrjW
+	3xEgXSuF3BFQAwkT/lnHBl+PLzmqfPj+sxqAq2P/mA==
+X-Google-Smtp-Source: AGHT+IHvYAcCwdkB/vZ7Lcgoj9KpLEAIETn+MSIcfLfWg1W1Sc6rCEKYEg5oaRFnV+wYM8v2QqHsh4eB4dFnh1OCNMk=
+X-Received: by 2002:a17:906:4910:b0:a1d:3511:6674 with SMTP id
+ b16-20020a170906491000b00a1d35116674mr1593767ejq.13.1701851071510; Wed, 06
+ Dec 2023 00:24:31 -0800 (PST)
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on BRSMTPINTERN2/InternSMTP(Build V1202_05192022|May
- 19, 2022) at 12/06/2023 08:44:05 AM,Serialize by Router on BRSMTPINTERN2/InternSMTP(Build V1202_05192022|May 19, 2022) at
- 12/06/2023 08:44:05 AM,Itemize by SMTP Server on BRSMTP01/Eggelsberg/AT/B&R(Release 12.0.2FP1|April
- 06, 2023) at 12/06/2023 08:44:04 AM
-X-TNEFEvaluated: 1
-X-Disclaimed: 7579
+References: <20231204155934.836992-1-jstephan@baylibre.com>
+ <20231204155934.836992-2-jstephan@baylibre.com> <202312050750270cac2691@mail.local>
+ <CAEHHSvb2aKwWmS50G4QZ57oaBJmdkHME01ju4Wa-Nuo+Unnz0A@mail.gmail.com>
+ <20231205154519437ea7da@mail.local> <179DFC50B5886FE5.18076@lists.openembedded.org>
+In-Reply-To: <179DFC50B5886FE5.18076@lists.openembedded.org>
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Wed, 6 Dec 2023 09:24:15 +0100
+Message-ID: <CAEHHSvZ0o+2xxR7xNzohAmSx3mXBekAgV6AE7G8cAkorH-3e1A@mail.gmail.com>
+Subject: Re: [OE-core] [RESEND][PATCH 1/7] bitbake: utils: remove spaces on
+ empty lines
+To: jstephan@baylibre.com
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 07:44:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191870
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Dec 2023 08:24:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191871
 
-From: Johannes Pointner <johannes.pointner@br-automation.com>
+Le mar. 5 d=C3=A9c. 2023 =C3=A0 17:27, Julien Stephan via lists.openembedde=
+d.org
+<jstephan=3Dbaylibre.com@lists.openembedded.org> a =C3=A9crit :
+>
+> Le mar. 5 d=C3=A9c. 2023 =C3=A0 16:45, Alexandre Belloni
+> <alexandre.belloni@bootlin.com> a =C3=A9crit :
+> >
+> > On 05/12/2023 15:57:58+0100, Julien Stephan wrote:
+> > > Le mar. 5 d=C3=A9c. 2023 =C3=A0 08:50, Alexandre Belloni
+> > > <alexandre.belloni@bootlin.com> a =C3=A9crit :
+> > > >
+> > > > Please do not send bitbake patches in the same series as oe-core pa=
+tches
+> > > > if there is no dependency. Those patches are applied on different
+> > > > repositories.
+> > >
+> > > Hi Alexandre,
+> > >
+> > > Noted! Do you want me to resend the series without the bitbake patch?
+> >
+> > No but  didn't take the bitbake patch because it doesn't do what the
+> > commit message says. (i.e. it touches non empty lines)
+> >
+>
+> oups, I will update the commit message and send it to the appropriate lis=
+t.
+>
 
-If DISTRO=5FFEATURE usrmerge is enabled, SLIBDIR is just a symlink to LIBDI=
-R.
-ldconfig-native uses hardcoded paths for SLIBDIR and LIBDIR that are fine f=
-or
-the not usrmerge case. But if usrmerge is enabled ldconfig-native generates=
- a
-ld.so.cache, which is done in rootfs.py, that looks like this:
-236 libs found in cache `/etc/ld.so.cache'
-       libzstd.so.1 (libc6) =3D> /lib/libzstd.so.1
-       libz.so.1 (libc6) =3D> /lib/libz.so.1
-       libxtables.so.12 (libc6) =3D> /lib/libxtables.so.12
-       libxslt.so.1 (libc6) =3D> /lib/libxslt.so.1
-       libxml2.so.2 (libc6) =3D> /lib/libxml2.so.2
+It has already been merged with the incorrect commit message :( sorry for t=
+hat
 
-This breaks for example the Qt QLibraryInfo paths if Qt is configured
-'relocatable' and leads to the issue that the QtWebEngine can find the
-QtWebEngineProcess, Qt WebEngine resources,...
-
-Therefore don't let ldconfig-native parse SLIBDIR if it is a symlink.
-
-Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
----
-v2: fixed sendemail.from and enhanced explanation
-
- .../ldconfig-add-usrmerge-support.patch       | 37 +++++++++++++++++++
- .../glibc/ldconfig-native=5F2.12.1.bb           |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig=
--add-usrmerge-support.patch
-
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-us=
-rmerge-support.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldcon=
-fig-add-usrmerge-support.patch
-new file mode 100644
-index 0000000000..3041d433fd
---- /dev/null
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-usrmerge-=
-support.patch
-@@ -0,0 +1,37 @@
-+From 6e543f39f6bec6eb2e02eea02029c7f4ec533b66 Mon Sep 17 00:00:00 2001
-+From: Johannes Pointner <johannes.pointner@br-automation.com>
-+Date: Fri, 1 Dec 2023 11:02:39 +0100
-+Subject: [PATCH] ldconfig: add usrmerge support
-+
-+Check whether SLIBDIR is a symlink, which is the case if usrmerge
-+is enabled, and if so, ignore it.
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
-+---
-+ ldconfig.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/ldconfig.c b/ldconfig.c
-+index e826410..72ac67b 100644
-+--- a/ldconfig.c
-++++ b/ldconfig.c
-+@@ -1371,10 +1371,16 @@ main (int argc, char **argv)
-+=20
-+   if (!opt=5Fonly=5Fcline)
-+     {
-++      struct stat buf;
-++      int ret;
-+       parse=5Fconf (config=5Ffile, true);
-+=20
-+       /* Always add the standard search paths.  */
-+-      add=5Fsystem=5Fdir (SLIBDIR);
-++      /* Check whether SLIBDIR is a symlink, which is the case if usrmerge
-++       is enabled, and if so, ignore it. */
-++      ret =3D lstat(SLIBDIR ,&buf);
-++      if(ret =3D=3D -1 || !S=5FISLNK(buf.st=5Fmode))
-++        add=5Fsystem=5Fdir (SLIBDIR);
-+       if (strcmp (SLIBDIR, LIBDIR))
-+ 	add=5Fsystem=5Fdir (LIBDIR);
-+       add=5Fsystem=5Fdir (SLIBDIR32);
-diff --git a/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb b/meta/rec=
-ipes-core/glibc/ldconfig-native=5F2.12.1.bb
-index 4db67c3ad4..85fc87257d 100644
---- a/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb
-+++ b/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb
-@@ -16,6 +16,7 @@ SRC=5FURI =3D "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://add-64-bit-flag-for-ELF64-entries.patch \
-            file://no-aux-cache.patch \
-            file://add-riscv-support.patch \
-+           file://ldconfig-add-usrmerge-support.patch \
- "
-=20
-=20
---=20
-2.43.0
-
-
+Cheers
+Julien
+> > >
+> > > Cheers
+> > > Julien
+> > > >
+> > > > On 04/12/2023 16:59:28+0100, Julien Stephan wrote:
+> > > > > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> > > > > ---
+> > > > >  bitbake/lib/bb/utils.py | 16 ++++++++--------
+> > > > >  1 file changed, 8 insertions(+), 8 deletions(-)
+> > > > >
+> > > > > diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
+> > > > > index b401fa5ec7a..61ffad92ce3 100644
+> > > > > --- a/bitbake/lib/bb/utils.py
+> > > > > +++ b/bitbake/lib/bb/utils.py
+> > > > > @@ -50,7 +50,7 @@ def clean_context():
+> > > > >
+> > > > >  def get_context():
+> > > > >      return _context
+> > > > > -
+> > > > > +
+> > > > >
+> > > > >  def set_context(ctx):
+> > > > >      _context =3D ctx
+> > > > > @@ -212,8 +212,8 @@ def explode_dep_versions2(s, *, sort=3DTrue):
+> > > > >              inversion =3D True
+> > > > >              # This list is based on behavior and supported compa=
+risons from deb, opkg and rpm.
+> > > > >              #
+> > > > > -            # Even though =3D<, <<, =3D=3D, !=3D, =3D>, and >> m=
+ay not be supported,
+> > > > > -            # we list each possibly valid item.
+> > > > > +            # Even though =3D<, <<, =3D=3D, !=3D, =3D>, and >> m=
+ay not be supported,
+> > > > > +            # we list each possibly valid item.
+> > > > >              # The build system is responsible for validation of =
+what it supports.
+> > > > >              if i.startswith(('<=3D', '=3D<', '<<', '=3D=3D', '!=
+=3D', '>=3D', '=3D>', '>>')):
+> > > > >                  lastcmp =3D i[0:2]
+> > > > > @@ -347,7 +347,7 @@ def _print_exception(t, value, tb, realfile, =
+text, context):
+> > > > >          exception =3D traceback.format_exception_only(t, value)
+> > > > >          error.append('Error executing a python function in %s:\n=
+' % realfile)
+> > > > >
+> > > > > -        # Strip 'us' from the stack (better_exec call) unless th=
+at was where the
+> > > > > +        # Strip 'us' from the stack (better_exec call) unless th=
+at was where the
+> > > > >          # error came from
+> > > > >          if tb.tb_next is not None:
+> > > > >              tb =3D tb.tb_next
+> > > > > @@ -746,9 +746,9 @@ def prunedir(topdir, ionice=3DFalse):
+> > > > >  # but thats possibly insane and suffixes is probably going to be=
+ small
+> > > > >  #
+> > > > >  def prune_suffix(var, suffixes, d):
+> > > > > -    """
+> > > > > +    """
+> > > > >      See if var ends with any of the suffixes listed and
+> > > > > -    remove it if found
+> > > > > +    remove it if found
+> > > > >      """
+> > > > >      for suffix in suffixes:
+> > > > >          if suffix and var.endswith(suffix):
+> > > > > @@ -1001,9 +1001,9 @@ def umask(new_mask):
+> > > > >          os.umask(current_mask)
+> > > > >
+> > > > >  def to_boolean(string, default=3DNone):
+> > > > > -    """
+> > > > > +    """
+> > > > >      Check input string and return boolean value True/False/None
+> > > > > -    depending upon the checks
+> > > > > +    depending upon the checks
+> > > > >      """
+> > > > >      if not string:
+> > > > >          return default
+> > > > > --
+> > > > > 2.42.0
+> > > > >
+> > > >
+> > > > >
+> > > > >
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > Alexandre Belloni, co-owner and COO, Bootlin
+> > > > Embedded Linux and Kernel engineering
+> > > > https://bootlin.com
+> >
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191847): https://lists.openembedded.org/g/openembedde=
+d-core/message/191847
+> Mute This Topic: https://lists.openembedded.org/mt/102972946/4356723
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [js=
+tephan@baylibre.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
