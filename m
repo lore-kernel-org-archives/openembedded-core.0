@@ -1,135 +1,215 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73902C4167B
-	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 16:55:29 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web10.89609.1701968120755698716
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACC2FC4167B
+	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 17:38:39 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web10.90809.1701970709581338218
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 08:55:21 -0800
+ Thu, 07 Dec 2023 09:38:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MeZ9aTLz;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a1f5cb80a91so49956566b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 08:55:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fRDQ5Ah3;
+ spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5d2d0661a8dso10653487b3.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 09:38:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701968119; x=1702572919; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IWn58KAdGLC/VrMYgzDaCtq4ESxDEvwmL9EAHZPex74=;
-        b=MeZ9aTLzwzSb37t+r5hhLTgC5949q9WwnX+FAQRVJivFt9rfJZiTQAeFl2S5uht3vH
-         ckWlCiK1hBQkBFtwvpHTym540tw8yLQBcULho1t1Vq3KXzwQKEFdLLMBFahxd6g5geyN
-         +SUGsSbNkK1SXUSKzPAq015LVNqkEYbrwsA6iLQFgTkt9lm8l6MFDHr06tprUWuK16Bn
-         B55qwKSMKEhgv+A8aBQKGK2nm8lfn4toqEnXPWPfOyylyBV0aO7IUfjFkdll0RX2hCmm
-         QoAscRnyuxAmdv6Ki6jxssWmuBuvA9H8LXVmO4ISnYjGE1or2cpJIlBH4lyCt1vp8GVV
-         2G5A==
+        d=gmail.com; s=20230601; t=1701970709; x=1702575509; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7DYf/edvE7F3XFVSFyq+hXDE55AlPuDHKcxkAu9Lt0U=;
+        b=fRDQ5Ah3cHqLC9ct2UJXX3QFsx04C68CIZxZbA7FLqDUhbR6bJ3p9DjFD64Y/nynvj
+         ZCncBk/HWOmAUaaeTuwk1bW9Lp5XP3oI7zLBKOqwyYfXsogmtAA5WOods3TS58M9jyQw
+         N4pm8RqGvOYI2T/VlTCIUrEvuGAAYsgCn86pu5pglqnCXU84ciThWhKi8cymGzKeSHgj
+         eGv/Txy241xkylk9U89JomcDNJ3T2967WACJqY4pH/CfmRWD/mol9sgJBv2CvM5bFUAd
+         5okJExOvennawwe0Ue6qYOnyI/6Hnhupk4LpuKF0bKXQSQ9a6PGE+3OOXYtWhezcW3IB
+         4bdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701968119; x=1702572919;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IWn58KAdGLC/VrMYgzDaCtq4ESxDEvwmL9EAHZPex74=;
-        b=r8TY/zUdEc94jG9qfGXSv8Zh4iE1qeRx6aOwc3ATPh2EBAnSfJS2Hz50MoEjCiq4W4
-         zqD5WxWUsSkTvAsYO5OMAOsIWGzTdYAGRZ1SeEhd6y0BIzLuBqI+wc/lALMBxdECTQYk
-         wFwBOAdqk1Y01bAf8r1UOaIqunFivVjsyVoGiWQllvNvVpwW7sYXMKt04EVXMq/iknTm
-         kAnIkr6HfseAhF9MmwwQbuRnG0VVrQUcy0723lbExdUAFC6Qfo3lLZ5mhfD+AIGWwEUU
-         J64v2nTiSEpCd3b3WIQqVJ9gAXavxCXxk9srz3XFFZgxughvv0X75U35LhXq/x/zdUYQ
-         lerg==
-X-Gm-Message-State: AOJu0YyomQOyvgkl68mqim/YSBQAzXi4dghpifHGw3LOs/wgTvSG5Skj
-	Ay+nSXTFpIUhksLvKuHlMOw=
-X-Google-Smtp-Source: AGHT+IG+F5gneUzWpZGZ3RFsNL8ON1maXFjhnFuW36jiNMM3VjD7p6emVAp4GHSGGpnrR5cWm8xSUA==
-X-Received: by 2002:a17:906:3657:b0:a18:fde5:c791 with SMTP id r23-20020a170906365700b00a18fde5c791mr1217865ejb.62.1701968119005;
-        Thu, 07 Dec 2023 08:55:19 -0800 (PST)
-Received: from [192.168.1.70] (0x57346aa5.static.cust.fastspeed.dk. [87.52.106.165])
-        by smtp.gmail.com with ESMTPSA id p7-20020a170906140700b00a1b65958c54sm1037713ejc.125.2023.12.07.08.55.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 08:55:18 -0800 (PST)
-Message-ID: <faee78194ea836dd3f889c673f170b633a967ec6.camel@gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] gstreamer1.0-plugins-base: enable
- glx/opengl support
-From: Claus Stovgaard <claus.stovgaard@gmail.com>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex.kanavin@gmail.com>, Alexander Kanavin <alex@linutronix.de>, Richard
-	Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 07 Dec 2023 17:55:17 +0100
-In-Reply-To: <CAOSpxdYJ6g3P6=0uBJSaCRQLJNHQq-C2BvJS3gPu_10xaoZUQA@mail.gmail.com>
-References: <20231206091249.1357218-1-claus.stovgaard@gmail.com>
-	 <CAOSpxdYJ6g3P6=0uBJSaCRQLJNHQq-C2BvJS3gPu_10xaoZUQA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 
+        d=1e100.net; s=20230601; t=1701970709; x=1702575509;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7DYf/edvE7F3XFVSFyq+hXDE55AlPuDHKcxkAu9Lt0U=;
+        b=hE/KioLadYJXMGge7P/FV3AYgPgMvA3tecK30E6bhb3KGpYDXWD9HPoffYKy5lQmTu
+         GhQhUGyXJj7Sp1Wuca483hWspleXG9rwQzPcFchHiumWXA7fEylBTSoxtGl/47AvlXGl
+         hhUhfl4zT1IG3n91EX3y29fXKPmWa8lz+0A7If2d9PH8qRNRwAYuCeBJz+AFLdPPnCSh
+         sikWkHMz9yL9HVZz5IoWOcB6QjPOmOGDJr0ct7NWFu0/ueX+mnN6OO1M3s748+kF8o0c
+         rsBNwHWJc1whDOE0S6XZNUq0sqVkRAhRdAPh7LzjYV70ha720JWG7RLAe2p+Ll9aWkzO
+         mnnA==
+X-Gm-Message-State: AOJu0YxLhnsy0+v8cmbQnyHkFtJlrEchzLSV+p3DxNqkXJqA6sCxTAHO
+	LMFnRS4fl2rCM+cqe6EZeOiX9SeGbOtOqeQmcCI=
+X-Google-Smtp-Source: AGHT+IEjfQPcu0Xm4NHxCXgqV6dhwlMSoYoT9IqAkf0dpF7CPBuljOatreZVuyTfdzuc9K1EIiZT4PSQ3x8QllFxDmg=
+X-Received: by 2002:a81:b048:0:b0:5d7:70a0:ea04 with SMTP id
+ x8-20020a81b048000000b005d770a0ea04mr2715397ywk.7.1701970708620; Thu, 07 Dec
+ 2023 09:38:28 -0800 (PST)
 MIME-Version: 1.0
+References: <cover.1701959631.git.pidge@baylibre.com> <25d25aac54efcb8afe5a6d17f70800b57a0d0a21.1701959631.git.pidge@baylibre.com>
+In-Reply-To: <25d25aac54efcb8afe5a6d17f70800b57a0d0a21.1701959631.git.pidge@baylibre.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Thu, 7 Dec 2023 09:38:17 -0800
+Message-ID: <CANx9H-DTVzzHb8p=U-igt8AwdM5Uwf80QTVyr0XSS74JK1bWXA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/4] python3-qemu-qmp: Add recipe
+To: =?UTF-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?= <pidge@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Ross Burton <ross.burton@arm.com>
+Content-Type: multipart/alternative; boundary="000000000000816dba060beeef5d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 16:55:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191968
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 17:38:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191969
 
-On Thu, 2023-12-07 at 05:07 -1000, Steve Sakoman wrote:
-> On Tue, Dec 5, 2023 at 11:13=E2=80=AFPM Claus Stovgaard
-> <claus.stovgaard@gmail.com> wrote:
-> >=20
-> > From: Alexander Kanavin <alex.kanavin@gmail.com>
-> >=20
-> > This is required by latest webkit when built with x11 support.
->=20
-> Is this an issue for the version of webkit in kirkstone?=C2=A0 i.e. is it
-> currently broken?
->=20
-> Steve
+--000000000000816dba060beeef5d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+This will also need a maintainer entry in:
+https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/includ=
+e/maintainers.inc
 
-I should properly update the message, though as it was a backport from
-master, I kept the commit message.
+On Thu, Dec 7, 2023 at 6:36=E2=80=AFAM Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=
+=C3=A1in <
+pidge@baylibre.com> wrote:
 
-The issue in kirkstone is more general.
+> From: Ross Burton <ross.burton@arm.com>
+>
+> Add a recipe for python QEMU Monitor Protocol. This will be needed for
+> qemu screendumps for qemu screendump testing.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibr=
+e.com>
+> ---
+>  .../python/python3-qemu-qmp_0.0.2.bb               | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.b=
+b
+>
+> diff --git a/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
+> b/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
+> new file mode 100644
+> index 00000000000..faa0cc69738
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
+> @@ -0,0 +1,14 @@
+> +SUMMARY =3D "asyncio library for communicating with QEMU Monitor Protoco=
+l
+> (QMP) servers"
+> +LICENSE =3D "LGPLv2+ & GPLv2"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4cf66a4984120007c9881cc871cf4=
+9db \
+> +
+> file://LICENSE_GPL2;md5=3D441c28d2cf86e15a37fa47e15a72fbac"
+> +
+> +SRC_URI[sha256sum] =3D
+> "c918e9e3ae09abdf70c7ece67637a93ac4583d940bbf48d24ff77987f74f1b8b"
+> +
+> +inherit pypi python_setuptools_build_meta
+> +
+> +PYPI_PACKAGE =3D "qemu.qmp"
+> +
+> +DEPENDS +=3D "python3-setuptools-scm-native"
+> +
+> +BBCLASSEXTEND =3D "native nativesdk"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191960):
+> https://lists.openembedded.org/g/openembedded-core/message/191960
+> Mute This Topic: https://lists.openembedded.org/mt/103035077/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
-An example - if I have a distro without wayland / vulkan, but have
-opengl / x11 enabled.
+--000000000000816dba060beeef5d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-And then look in the log from " bitbake -c configure gstreamer1.0-
-plugins-base" and search for gl_api you will find.
+<div dir=3D"ltr">This will also need a maintainer entry in:<div><a href=3D"=
+https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/includ=
+e/maintainers.inc">https://git.openembedded.org/openembedded-core/tree/meta=
+/conf/distro/include/maintainers.inc</a><br></div></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 7, 2023 at 6:=
+36=E2=80=AFAM Eil=C3=ADs &#39;pidge&#39; N=C3=AD Fhlannag=C3=A1in &lt;<a hr=
+ef=3D"mailto:pidge@baylibre.com">pidge@baylibre.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">From: Ross Burton &lt;<a=
+ href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com<=
+/a>&gt;<br>
+<br>
+Add a recipe for python QEMU Monitor Protocol. This will be needed for<br>
+qemu screendumps for qemu screendump testing.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+Signed-off-by: Eil=C3=ADs &#39;pidge&#39; N=C3=AD Fhlannag=C3=A1in &lt;<a h=
+ref=3D"mailto:pidge@baylibre.com" target=3D"_blank">pidge@baylibre.com</a>&=
+gt;<br>
+---<br>
+=C2=A0.../python/<a href=3D"http://python3-qemu-qmp_0.0.2.bb" rel=3D"norefe=
+rrer" target=3D"_blank">python3-qemu-qmp_0.0.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 ++++++++++++++<br>
+=C2=A01 file changed, 14 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"http://pyt=
+hon3-qemu-qmp_0.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-qemu-q=
+mp_0.0.2.bb</a><br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-qemu-qm=
+p_0.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-qemu-qmp_0.0.2.bb<=
+/a> b/meta/recipes-devtools/python/<a href=3D"http://python3-qemu-qmp_0.0.2=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-qemu-qmp_0.0.2.bb</a><br>
+new file mode 100644<br>
+index 00000000000..faa0cc69738<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-qemu-qmp_0.0.2=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-qemu-qmp_0.0.2.bb</a><br>
+@@ -0,0 +1,14 @@<br>
++SUMMARY =3D &quot;asyncio library for communicating with QEMU Monitor Prot=
+ocol (QMP) servers&quot;<br>
++LICENSE =3D &quot;LGPLv2+ &amp; GPLv2&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D4cf66a4984120007c9881cc871=
+cf49db \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://LICENSE_GPL2;md5=3D441c28d2cf86e15a37fa47e15a72fbac&quot;<br>
++<br>
++SRC_URI[sha256sum] =3D &quot;c918e9e3ae09abdf70c7ece67637a93ac4583d940bbf4=
+8d24ff77987f74f1b8b&quot;<br>
++<br>
++inherit pypi python_setuptools_build_meta<br>
++<br>
++PYPI_PACKAGE =3D &quot;qemu.qmp&quot;<br>
++<br>
++DEPENDS +=3D &quot;python3-setuptools-scm-native&quot;<br>
++<br>
++BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#191960): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/191960" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/191960</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103035077/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/103035077/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
 
-"-Dgl_api=3Dgles2 -Dgl_platform=3Degl -Dgl_winsys=3Degl,x11 -Dalsa=3Denable=
-d"
-
-And when running configure for gstreamer1.0-plugins-good you find.
-
-gstreamer1.0-plugins-good/1.20.7-r0/temp $ grep OpenGL log.do_configure
-Message: GStreamer OpenGL window systems: egl x11
-Message: GStreamer OpenGL platforms: egl
-Message: GStreamer OpenGL apis: gles2
-
-Notice the lag of glx / opengl support.
-
-After this change and running the same plugins-base / plugins-good
-configuration you see.
-
-"-Dgl_api=3Dopengl,gles2 -Dgl_platform=3Degl,glx -Dgl_winsys=3Degl,x11 -
-Dalsa=3Denabled"
-
-and for good plugins.
-
-gstreamer1.0-plugins-good/1.20.7-r0/temp $ grep OpenGL log.do_configure
-Message: GStreamer OpenGL window systems: egl x11
-Message: GStreamer OpenGL platforms: egl glx
-Message: GStreamer OpenGL apis: gles2 gl
-
-Notice we now have gl api and glx platform.
-
-This is an issue when having application using qmlgl plugin as an
-example.
-
-In short it fixes so gstreamer1.0 follow the DISTRO_fEATURES, and make
-it possible to have x11 support in plugins using glx/gl features like
-qmlgl plugin
-
-Hope it make it clear why I see it as a bug needing fixed in kirkstone.
-
-Regards
-Claus
-
+--000000000000816dba060beeef5d--
 
