@@ -1,97 +1,99 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54560C10DCE
-	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 12:15:36 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.82123.1701951335069473247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7537FC4167B
+	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 12:45:46 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.82661.1701953145229466077
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 04:15:35 -0800
+ Thu, 07 Dec 2023 04:45:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=VvtpSbsG;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-332f90a375eso845842f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 04:15:34 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=u4/fMpE/;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.43, mailfrom: pidge@baylibre.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40a4848c6e1so11266845e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 04:45:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1701951333; x=1702556133; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=517GrC3EtmbG8PQBoKRZrnYTIsDMhi5CGfa4GWIwYCQ=;
-        b=VvtpSbsGUCbeKIqgEIbkqqBhkeoCvEFwM+l68koCikp+m1UTsaR5EbeKRNP2ds20BS
-         jZeVetjyj6m/rElMQXxINCt2A34uQ8rs8RNGg4+MsfnYgMo/XtB0oZWoxsvwWxGTYCoS
-         HmZNLexqL3GLI/suvERYE2WYxlBfOnLel8KOYXiXOQWpgnnSRi+oTvYbDufzSjGgv/Ny
-         Ew9PCNPBQmhHzIngBmlXxVQ+uIU8HMKnAqpFZzv8sWjHp0yNU4aEWLvwBJKqdgckEwoL
-         6+zhqBdTi58RrpCSH1A+ZWy+Y0f9mZ7zmJBLXI2U+I2AKQPPCyI8djAFZ6sHxwcomyZA
-         cRrg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701953143; x=1702557943; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cM5yb8eebTAHLvICcl48pbrpjXEYwP+Dhi8PAM2Des0=;
+        b=u4/fMpE/D2hrftMfXa/dQGnsaLBqPO7KXs5jJW6NmJP0ggnyxZmQnBXa0ExRXe1PPM
+         fU3FztznGKyNHLUisSxWHHA/XL+wxKGJLH41lSkT3FWYn4DR/WvCWdpZIaPZnQnD8OJk
+         BgMNy7zOBDR93o4k+1hZCb7U7EJNTRTktTwyYI/wNYdcE9iy9ZGa+ZTDE/jT3omxCLGP
+         6LYI62hq6sZ0jr6hwS9hIxmG5E4bZg5OdEMyxLcLzDne2qlF0jYsx4gvNNcX80dD1o7L
+         COv57HzCIxTUYIf6JhBuuDrfo87q5aYNPDovtqSvfG8dElUUVWwSoZtBsuhJW1KQJxFZ
+         4KZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701951333; x=1702556133;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=517GrC3EtmbG8PQBoKRZrnYTIsDMhi5CGfa4GWIwYCQ=;
-        b=LPxxTJhSodNSmIhIo70zR46kb3FFGK0JuEYn1kBSld1uD8e2GbtcgEOquq0k0yFs17
-         JqmqEanxhuARnzBzct8yUsu+38KwAFt8kuIJipyk5HK0T1VCmUp2aG/OgbLU8kDxSUL8
-         hI1vNaORF5Ol4ScLYWdsMwI2igBuN9SfRfEV3fIiSD+B4Iu9yHT0FZvJ66vx8I0bQqSq
-         w3L8MbnZPA+fSGBoTjp+13gZDWJlBinYDPpDCsYJyOvaeqsHOsksmryIVHZpfQ9xsxEj
-         hAHPUEz7nsAF87X4jTBT09kXrRopPSXZtWyfKvoPdDrioV2L9YCoi7h36yf9+nnqnxt8
-         8B0g==
-X-Gm-Message-State: AOJu0YxIZiFNdzWmaEB7j7Snc+M379qfAvQ32wg0d6aSXLP7RVzXAckd
-	vtKLeilwovsooYyDG1HxKWYu6xRFZxPrjWN5guM=
-X-Google-Smtp-Source: AGHT+IFFMbamBt9eN+h/RpG+hdJqKW81m7TF9LqvTxv+7X+PK/Pq+94Ovf8pTMdCLuiAPjrbLzknkA==
-X-Received: by 2002:a05:600c:5190:b0:40c:1da4:3c68 with SMTP id fa16-20020a05600c519000b0040c1da43c68mr1570482wmb.102.1701951333486;
-        Thu, 07 Dec 2023 04:15:33 -0800 (PST)
-Received: from [10.1.75.166] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id v14-20020a05600c444e00b0040b47c53610sm1718944wmn.14.2023.12.07.04.15.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 04:15:33 -0800 (PST)
-Message-ID: <7199f571-bed6-4b2f-837d-252b3fcc24e0@smile.fr>
-Date: Thu, 7 Dec 2023 13:15:32 +0100
+        d=1e100.net; s=20230601; t=1701953143; x=1702557943;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cM5yb8eebTAHLvICcl48pbrpjXEYwP+Dhi8PAM2Des0=;
+        b=XGck/TO/ACj7PLMjE9O8jajKpyzvU5iURiBpBcMhih2gFrZKSFrKks6No2GtQWd28n
+         gi3z9laGjhiELW76P4rD3vi6LzIQzicV3PwUztMKBE0N9aFumWlsKNR8nNF7kLegOWH2
+         vddciBwH8ckIjoHLqsXKM0ZVtctgtoJGg8lpYFaY6Ham8xguJbrF/t91dLD1e+6oKoJZ
+         NGNSlzkWAvJ/tZseJL8co4gi6ZEhD/P+Heuzr2gpCj8D/w22g/KegiL60pA/stONbVdE
+         2m+y4BYk3gtms2L4iL0wfGUD3eGbwfUQI68dqp/fAzc2xFIt3YFryyyqNcdx7TrXG0xZ
+         NN/w==
+X-Gm-Message-State: AOJu0YyCbgRgbjJNKKlko5M2pGawKn6BF8TECeJ8bT/Pl6RZBov0PamH
+	iR30VU49/NI01siKU5YFcVn6g4RLCfubig/exXZkLQ==
+X-Google-Smtp-Source: AGHT+IG/wAipmBHAcbR+MEajQW+/DOpbhaoo34/pPw/87/dQJOx5LDpt/eiJPU/iINMIg8DKowsrYw==
+X-Received: by 2002:a05:600c:ac6:b0:40c:2670:f42d with SMTP id c6-20020a05600c0ac600b0040c2670f42dmr779159wmr.225.1701953143116;
+        Thu, 07 Dec 2023 04:45:43 -0800 (PST)
+Received: from orm.fritz.box ([194.110.145.184])
+        by smtp.gmail.com with ESMTPSA id jg8-20020a05600ca00800b0040b54335d57sm1901449wmb.17.2023.12.07.04.45.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 04:45:42 -0800 (PST)
+From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+Subject: [PATCH 0/3] useradd fixes, tests and documentation
+Date: Thu,  7 Dec 2023 12:45:31 +0000
+Message-Id: <cover.1701952927.git.pidge@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][mickledore][PATCH 1/1] python3-cryptography: fix
- CVE-2023-49083
-Content-Language: en-US
-To: narpat.mali@windriver.com, openembedded-core@lists.openembedded.org
-References: <20231207115815.532553-1-narpat.mali@windriver.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <20231207115815.532553-1-narpat.mali@windriver.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 12:15:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191947
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 12:45:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191948
 
-Hi,
+This patch series fixes and/or tests for some issues in useradd dependencies. It
+adds a new variable "USERADD_DEPENDS" that is required now for recipes that have
+dependencies on other recipes useradd.
 
-Le 07/12/2023 à 12:58, Narpat Mali via lists.openembedded.org a écrit :
-> From: Narpat Mali <narpat.mali@windriver.com>
-> 
-> cryptography is a package designed to expose cryptographic primitives
-> and recipes to Python developers. Calling `load_pem_pkcs7_certificates`
-> or `load_der_pkcs7_certificates` could lead to a NULL-pointer dereference
-> and segfault. Exploitation of this vulnerability poses a serious risk of
-> Denial of Service (DoS) for any application attempting to deserialize a
-> PKCS7 blob/certificate. The consequences extend to potential disruptions
-> in system availability and stability. This vulnerability has been patched
-> in version 41.0.6.
-> 
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2023-49083
-> https://security-tracker.debian.org/tracker/CVE-2023-49083
-> 
-> Signed-off-by: Narpat Mali <narpat.mali@windriver.com>
+Fixes/Tests:
+Bug 13419 - recipes that add users to groups cannot rely on other recipes creating those groups (when population from sstate happens)
+Bug 13904 - do_prepare_recipe_sysroot: postinst-useradd-* does not run in order of dependency and sometimes fails
+Bug 13279 - Make sure users/groups exist for package_write_* tasks
+Bug 15084 - For some reason using of same user in two recipes does not work properly
 
-FYI, this is a patch for mickledore branch but this branch is EOL (End-of-life). See :
-https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#LTS_.E2.80.9CMixin.E2.80.9D_repositories
-https://wiki.yoctoproject.org/wiki/Releases
+Tests:
+Bug 14961 - addtask between do_populate_sysroot and do_package breaks useradd class
 
-Regards,
+Documentation for useradd is also included.
+
+Eilís 'pidge' Ní Fhlannagáin (3):
+  useradd: Fix issues with useradd dependencies
+  usergrouptests.py: Add test for switching between static-ids
+  variables.rst: Add USERADD_DEPENDS
+
+ documentation/ref-manual/variables.rst        | 15 +++++
+ .../selftest-users/creategroup1.bb            | 32 +++++++++++
+ .../selftest-users/creategroup2.bb            | 33 +++++++++++
+ .../selftest-users/useraddbadtask.bb          | 20 +++++++
+ meta/classes/useradd.bbclass                  |  4 +-
+ .../lib/oeqa/selftest/cases/usergrouptests.py | 55 +++++++++++++++++++
+ 6 files changed, 158 insertions(+), 1 deletion(-)
+ create mode 100644 meta-selftest/recipes-test/selftest-users/creategroup1.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/creategroup2.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/useraddbadtask.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/usergrouptests.py
+
 -- 
-Yoann Congal
-Smile ECS - Tech Expert
+2.34.1
+
 
