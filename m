@@ -1,215 +1,163 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACC2FC4167B
-	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 17:38:39 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.web10.90809.1701970709581338218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9273C4167B
+	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 17:48:49 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.42])
+ by mx.groups.io with SMTP id smtpd.web11.90873.1701971326974636447
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 09:38:29 -0800
+ Thu, 07 Dec 2023 09:48:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fRDQ5Ah3;
- spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5d2d0661a8dso10653487b3.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 09:38:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701970709; x=1702575509; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7DYf/edvE7F3XFVSFyq+hXDE55AlPuDHKcxkAu9Lt0U=;
-        b=fRDQ5Ah3cHqLC9ct2UJXX3QFsx04C68CIZxZbA7FLqDUhbR6bJ3p9DjFD64Y/nynvj
-         ZCncBk/HWOmAUaaeTuwk1bW9Lp5XP3oI7zLBKOqwyYfXsogmtAA5WOods3TS58M9jyQw
-         N4pm8RqGvOYI2T/VlTCIUrEvuGAAYsgCn86pu5pglqnCXU84ciThWhKi8cymGzKeSHgj
-         eGv/Txy241xkylk9U89JomcDNJ3T2967WACJqY4pH/CfmRWD/mol9sgJBv2CvM5bFUAd
-         5okJExOvennawwe0Ue6qYOnyI/6Hnhupk4LpuKF0bKXQSQ9a6PGE+3OOXYtWhezcW3IB
-         4bdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701970709; x=1702575509;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7DYf/edvE7F3XFVSFyq+hXDE55AlPuDHKcxkAu9Lt0U=;
-        b=hE/KioLadYJXMGge7P/FV3AYgPgMvA3tecK30E6bhb3KGpYDXWD9HPoffYKy5lQmTu
-         GhQhUGyXJj7Sp1Wuca483hWspleXG9rwQzPcFchHiumWXA7fEylBTSoxtGl/47AvlXGl
-         hhUhfl4zT1IG3n91EX3y29fXKPmWa8lz+0A7If2d9PH8qRNRwAYuCeBJz+AFLdPPnCSh
-         sikWkHMz9yL9HVZz5IoWOcB6QjPOmOGDJr0ct7NWFu0/ueX+mnN6OO1M3s748+kF8o0c
-         rsBNwHWJc1whDOE0S6XZNUq0sqVkRAhRdAPh7LzjYV70ha720JWG7RLAe2p+Ll9aWkzO
-         mnnA==
-X-Gm-Message-State: AOJu0YxLhnsy0+v8cmbQnyHkFtJlrEchzLSV+p3DxNqkXJqA6sCxTAHO
-	LMFnRS4fl2rCM+cqe6EZeOiX9SeGbOtOqeQmcCI=
-X-Google-Smtp-Source: AGHT+IEjfQPcu0Xm4NHxCXgqV6dhwlMSoYoT9IqAkf0dpF7CPBuljOatreZVuyTfdzuc9K1EIiZT4PSQ3x8QllFxDmg=
-X-Received: by 2002:a81:b048:0:b0:5d7:70a0:ea04 with SMTP id
- x8-20020a81b048000000b005d770a0ea04mr2715397ywk.7.1701970708620; Thu, 07 Dec
- 2023 09:38:28 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=UP3Q/b73;
+ spf=pass (domain: axis.com, ip: 40.107.8.42, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aEQu9ivXQg1/Aj9q7lu1sKpPj31GZcVsdolwPn8gveSkXdJ1/aSfAJZRLmkkpL/+Vz65zujhmp/m7ku3MJbSvTBGxIYr21mOD7C5sE0exD2EdJ46l2KkX6+Ip+OwkvkHvAbvH4TdCi3+w9WED/0DimIIEX9K5zx4Xq04ACVG13fkHeO23pNiirIsKF6D/vkCHcn+IerQDWyrBIkpGzbW6hK1aGt6IGFFu4Z8Wm5S3vFG7oyb0xvaoMGSGs75zntpeo6+63faeoXuYbqcfNC/QHY1PIocErpYNGML6Bwt5EI385e3fhC2Dc6tw5UYq8wUOIC2Wa48LfCPCFQtrXmRJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jsibqySQ+4iXqNmzSWpo+GlbUYMVpKLn8vxLB9o5zsk=;
+ b=IddPopGI9a3WABoWHcQYpp66s0aO9rP1NDcD/rCbjYpWCjZwnSyngFUpkStIXMnGE6Zl6K+FbBlX6g9aVdhvAwpilfePpLUuVEmvCZXO4WOqO++QCu0/qyDrmseFw56v/Rn5qmTxLzfFFQVFXgYh5ob1Hu+JN9Kms0X1UYUwqPts6YCrjgsVRDSv1iZoc4vGly3LJsAFkZENDTK/fX4i2Y260CNP1ifPrUYc8j78dI/IxTi7fBuZXmBy6PfFaee68HYf7sFnu9Mz2C4NWvDuYPPDZt0KcrbcVSDxnx/KDhHzmMx8aGZYUdwRda3wNFW/d/Z8GMSnDv3ClYe3wNfPqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jsibqySQ+4iXqNmzSWpo+GlbUYMVpKLn8vxLB9o5zsk=;
+ b=UP3Q/b736W35DHdh5lQVIAoLRyGzcRLxDKZCxNlV9C/vetu99FCMJYwfX0VrIswGJ1wQFuBv4J7q5k7PAHMNhKlBNOz2pwLfysXswDTo7rEPGIu+l6D5ngMi3zxZos86y2IevoffGEK9nh4xSEZMyzBT9wa+ANvVITedIxRIeLw=
+Received: from AS4P189CA0016.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5db::8)
+ by AM9PR02MB6803.eurprd02.prod.outlook.com (2603:10a6:20b:2c2::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.27; Thu, 7 Dec
+ 2023 17:48:43 +0000
+Received: from AM4PEPF00025F9C.EURPRD83.prod.outlook.com
+ (2603:10a6:20b:5db:cafe::43) by AS4P189CA0016.outlook.office365.com
+ (2603:10a6:20b:5db::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.35 via Frontend
+ Transport; Thu, 7 Dec 2023 17:48:43 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=axis.com;
+Received-SPF: Fail (protection.outlook.com: domain of axis.com does not
+ designate 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com;
+Received: from mail.axis.com (195.60.68.100) by
+ AM4PEPF00025F9C.mail.protection.outlook.com (10.167.16.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7091.2 via Frontend Transport; Thu, 7 Dec 2023 17:48:43 +0000
+Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
+ (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 7 Dec
+ 2023 18:48:42 +0100
+Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail01w.axis.com
+ (10.20.40.7) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Thu, 7 Dec 2023 18:48:42 +0100
+Received: from saur (saur.se.axis.com [10.92.3.10])
+	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 9D1AFF6F1
+	for <openembedded-core@lists.openembedded.org>; Thu,  7 Dec 2023 18:48:42 +0100 (CET)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur (8.17.1/8.15.2) with ESMTPS id 3B7HmgrC810110
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 7 Dec 2023 18:48:42 +0100
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 3B7HmgHs810013
+	for openembedded-core@lists.openembedded.org; Thu, 7 Dec 2023 18:48:42 +0100
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCHv3 7/9] recipetool: create: Only include the expected SRC_URI checksums
+Date: Thu, 7 Dec 2023 18:48:39 +0100
+Message-ID: <20231207174839.809315-1-pkj@axis.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <cover.1701959631.git.pidge@baylibre.com> <25d25aac54efcb8afe5a6d17f70800b57a0d0a21.1701959631.git.pidge@baylibre.com>
-In-Reply-To: <25d25aac54efcb8afe5a6d17f70800b57a0d0a21.1701959631.git.pidge@baylibre.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 7 Dec 2023 09:38:17 -0800
-Message-ID: <CANx9H-DTVzzHb8p=U-igt8AwdM5Uwf80QTVyr0XSS74JK1bWXA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/4] python3-qemu-qmp: Add recipe
-To: =?UTF-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?= <pidge@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Ross Burton <ross.burton@arm.com>
-Content-Type: multipart/alternative; boundary="000000000000816dba060beeef5d"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM4PEPF00025F9C:EE_|AM9PR02MB6803:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b119f72-8e19-4a93-c445-08dbf74cc0ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tRMeUeMXuLoS1ZZrLr6OV7uvEk0ulsL/zAhJr6eI9bOrV1M5zRtOI3fswzhmH7xumbz7CHij2LEvya5teMw+aHPZHSBU1RmME0KEhR5cPn3w5s+QFm+JdcTb5fHKycvOQH2ZtydgJB1KiV5szJxDJsMS/0cmtIRpI+QZ9z5y26nLEnhCQ/Iad+R9Q1o4L+OfDMbcpnpKpOBRZ6JY485YnwG/x/bX1pYrxJa2XEAQXZ2uIVJGm4tp5GiPjs+0yYYOyU/Ywe+VXbqiD5dgkc3pQkANbHx72dXTRq5/BAXluF2tGy0U47sXBuMzFlG9PHRmIHRTjKkV38Vkg5Cg5rq2XC3lJK2muyARwlf2FqwuAV3dYnS8SKUuds2GDb6Q1v7IO89mlBw/upnqrTNUoGsmOPj05nlFloi7cZQ8TW0jVsF+RID6ROTaMaojonUGR323XVisL1qjuJ7vfCkX9tsxn5W/vG7X/5TGtKVxw2CI4kQ2ZZU8QWEji3VWB6suGTeLydirZ8yMd7FXCOgnEenhrSGz00FO3KWFtdnzaPtM+3DFfSKB/Rp0g7mmAfRqOsWqJvkyPSFnVtrOGwlZvTRfVdr5dHUtBJjH7I9sEdPQMNsfqdXl9EmFdIXXnRicT2Fcfh1ujB8N8RY6WQ1JiufKGYz6mPfqlwuBzOffY9RN05Jen6qYaby8bMqHj5zRhJu4Orh77ktQzETfm0eiNCwGUzjygCEhJZ2mmojcvrEnEGLO3b76oMG8SldjuAmAVNkh3uv6PrJyzIyu7pwEjMwV9cnZZPUi5XemRDCesIDSPxo=
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(346002)(396003)(376002)(230922051799003)(230173577357003)(230273577357003)(451199024)(82310400011)(186009)(1800799012)(64100799003)(36840700001)(40470700004)(46966006)(40460700003)(356005)(8676002)(8936002)(82740400003)(6916009)(81166007)(42186006)(316002)(70586007)(70206006)(41300700001)(36756003)(5660300002)(36860700001)(2616005)(1076003)(47076005)(26005)(2906002)(83380400001)(336012)(426003)(478600001)(6666004)(40480700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2023 17:48:43.0307
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b119f72-8e19-4a93-c445-08dbf74cc0ff
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM4PEPF00025F9C.EURPRD83.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR02MB6803
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 17:38:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191969
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 17:48:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191970
 
---000000000000816dba060beeef5d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Rather than including all SRC_URI checksums, include the ones that are
+expected. These are the same as are output if no checksums are included
+when building the recipe.
 
-This will also need a maintainer entry in:
-https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/includ=
-e/maintainers.inc
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
 
-On Thu, Dec 7, 2023 at 6:36=E2=80=AFAM Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=
-=C3=A1in <
-pidge@baylibre.com> wrote:
+This is based on abelloni/master-next.
 
-> From: Ross Burton <ross.burton@arm.com>
->
-> Add a recipe for python QEMU Monitor Protocol. This will be needed for
-> qemu screendumps for qemu screendump testing.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibr=
-e.com>
-> ---
->  .../python/python3-qemu-qmp_0.0.2.bb               | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.b=
-b
->
-> diff --git a/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
-> b/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
-> new file mode 100644
-> index 00000000000..faa0cc69738
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
-> @@ -0,0 +1,14 @@
-> +SUMMARY =3D "asyncio library for communicating with QEMU Monitor Protoco=
-l
-> (QMP) servers"
-> +LICENSE =3D "LGPLv2+ & GPLv2"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4cf66a4984120007c9881cc871cf4=
-9db \
-> +
-> file://LICENSE_GPL2;md5=3D441c28d2cf86e15a37fa47e15a72fbac"
-> +
-> +SRC_URI[sha256sum] =3D
-> "c918e9e3ae09abdf70c7ece67637a93ac4583d940bbf48d24ff77987f74f1b8b"
-> +
-> +inherit pypi python_setuptools_build_meta
-> +
-> +PYPI_PACKAGE =3D "qemu.qmp"
-> +
-> +DEPENDS +=3D "python3-setuptools-scm-native"
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#191960):
-> https://lists.openembedded.org/g/openembedded-core/message/191960
-> Mute This Topic: https://lists.openembedded.org/mt/103035077/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+ meta/lib/oeqa/selftest/cases/recipetool.py | 2 --
+ scripts/lib/recipetool/create.py           | 4 +++-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
---000000000000816dba060beeef5d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">This will also need a maintainer entry in:<div><a href=3D"=
-https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/includ=
-e/maintainers.inc">https://git.openembedded.org/openembedded-core/tree/meta=
-/conf/distro/include/maintainers.inc</a><br></div></div><br><div class=3D"g=
-mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 7, 2023 at 6:=
-36=E2=80=AFAM Eil=C3=ADs &#39;pidge&#39; N=C3=AD Fhlannag=C3=A1in &lt;<a hr=
-ef=3D"mailto:pidge@baylibre.com">pidge@baylibre.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">From: Ross Burton &lt;<a=
- href=3D"mailto:ross.burton@arm.com" target=3D"_blank">ross.burton@arm.com<=
-/a>&gt;<br>
-<br>
-Add a recipe for python QEMU Monitor Protocol. This will be needed for<br>
-qemu screendumps for qemu screendump testing.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
-Signed-off-by: Eil=C3=ADs &#39;pidge&#39; N=C3=AD Fhlannag=C3=A1in &lt;<a h=
-ref=3D"mailto:pidge@baylibre.com" target=3D"_blank">pidge@baylibre.com</a>&=
-gt;<br>
----<br>
-=C2=A0.../python/<a href=3D"http://python3-qemu-qmp_0.0.2.bb" rel=3D"norefe=
-rrer" target=3D"_blank">python3-qemu-qmp_0.0.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 ++++++++++++++<br>
-=C2=A01 file changed, 14 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"http://pyt=
-hon3-qemu-qmp_0.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-qemu-q=
-mp_0.0.2.bb</a><br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-qemu-qm=
-p_0.0.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-qemu-qmp_0.0.2.bb<=
-/a> b/meta/recipes-devtools/python/<a href=3D"http://python3-qemu-qmp_0.0.2=
-.bb" rel=3D"noreferrer" target=3D"_blank">python3-qemu-qmp_0.0.2.bb</a><br>
-new file mode 100644<br>
-index 00000000000..faa0cc69738<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-qemu-qmp_0.0.2=
-.bb" rel=3D"noreferrer" target=3D"_blank">python3-qemu-qmp_0.0.2.bb</a><br>
-@@ -0,0 +1,14 @@<br>
-+SUMMARY =3D &quot;asyncio library for communicating with QEMU Monitor Prot=
-ocol (QMP) servers&quot;<br>
-+LICENSE =3D &quot;LGPLv2+ &amp; GPLv2&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D4cf66a4984120007c9881cc871=
-cf49db \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
-://LICENSE_GPL2;md5=3D441c28d2cf86e15a37fa47e15a72fbac&quot;<br>
-+<br>
-+SRC_URI[sha256sum] =3D &quot;c918e9e3ae09abdf70c7ece67637a93ac4583d940bbf4=
-8d24ff77987f74f1b8b&quot;<br>
-+<br>
-+inherit pypi python_setuptools_build_meta<br>
-+<br>
-+PYPI_PACKAGE =3D &quot;qemu.qmp&quot;<br>
-+<br>
-+DEPENDS +=3D &quot;python3-setuptools-scm-native&quot;<br>
-+<br>
-+BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#191960): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/191960" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/191960</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103035077/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/103035077/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000816dba060beeef5d--
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/sel=
+ftest/cases/recipetool.py
+index 20dd41f492..08da029e6e 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -349,7 +349,6 @@ class RecipetoolCreateTests(RecipetoolBase):
+         checkvars['LICENSE'] =3D 'GPL-2.0-only'
+         checkvars['LIC_FILES_CHKSUM'] =3D 'file://COPYING;md5=3Db234ee4d69=
+f5fce4486a80fdaf4a4263'
+         checkvars['SRC_URI'] =3D 'https://github.com/logrotate/logrotate/r=
+eleases/download/${PV}/logrotate-${PV}.tar.xz'
+-        checkvars['SRC_URI[md5sum]'] =3D 'a560c57fac87c45b2fc17406cdf79288=
+'
+         checkvars['SRC_URI[sha256sum]'] =3D '2e6a401cac9024db2288297e3be1a=
+8ab60e7401ba8e91225218aaf4a27e82a07'
+         self._test_recipe_contents(recipefile, checkvars, [])
+=20
+@@ -407,7 +406,6 @@ class RecipetoolCreateTests(RecipetoolBase):
+         checkvars =3D {}
+         checkvars['LICENSE'] =3D set(['LGPL-2.1-only', 'MPL-1.1-only'])
+         checkvars['SRC_URI'] =3D 'http://taglib.github.io/releases/taglib-=
+${PV}.tar.gz'
+-        checkvars['SRC_URI[md5sum]'] =3D 'cee7be0ccfc892fa433d6c837df9522a=
+'
+         checkvars['SRC_URI[sha256sum]'] =3D 'b6d1a5a610aae6ff39d93de5efd0f=
+dc787aa9e9dc1e7026fa4c961b26563526b'
+         checkvars['DEPENDS'] =3D set(['boost', 'zlib'])
+         inherits =3D ['cmake']
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/crea=
+te.py
+index 6e15326c55..d2997cc242 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -706,8 +706,10 @@ def create_recipe(args):
+     if not srcuri:
+         lines_before.append('# No information for SRC_URI yet (only an ext=
+ernal source tree was specified)')
+     lines_before.append('SRC_URI =3D "%s"' % srcuri)
++    shown_checksums =3D ["%ssum" % s for s in bb.fetch2.SHOWN_CHECKSUM_LIS=
+T]
+     for key, value in sorted(checksums.items()):
+-        lines_before.append('SRC_URI[%s] =3D "%s"' % (key, value))
++        if key in shown_checksums:
++            lines_before.append('SRC_URI[%s] =3D "%s"' % (key, value))
+     if srcuri and supports_srcrev(srcuri):
+         lines_before.append('')
+         lines_before.append('# Modify these as desired')
 
