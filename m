@@ -1,245 +1,228 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40338C4167B
-	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 08:47:45 +0000 (UTC)
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.40])
- by mx.groups.io with SMTP id smtpd.web10.79730.1701938862128996089
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2AC3C10DC3
+	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 10:07:35 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.80271.1701943651559167509
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 00:47:42 -0800
+ Thu, 07 Dec 2023 02:07:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector1 header.b=OVgr79eD;
- spf=pass (domain: infinera.com, ip: 40.107.236.40, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F3n0JBGAUW3FNey5neyETmaOuBMtWaKcK7RQ8daveLE/hrG5KF/gnA+6eKEbvglnA0AybTyFCgdUZ1RDiICMSk9FaCfieALVcaj1yKsAEbrIi16D8iN40gRIXBKzDsdNmw/hxO92uAStm88Jla7plfVJ5MjrIsRqTRFa0hBYs4uTaTfqIeTuZwTsCrb2lDFCgU5r2leXdj5UCRgH3xlAsLxr6v5LLUsJczbp3pfxBT9Bh0/5MwohyL6xXOJuNQADNCyNCgQxVYjgpHxzoPK+lyGs8SvfO+a78PIOmMy3RSDuGPbi/N85f/zlbil//o/ts+6S03d5cchbi7nLZV2i2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P3gSHHAoeJmBfY4KPCDLh7pTmOtiuhRYCWKd78Z0lxM=;
- b=mWHN6hnYC/YFWrnsCbWNuRzXIxdLgVV0CaAcISyKhD+pac3ippfLYFB2r3GdCZRwhAWgYv1558D87Ff+FrFRsN/Mwz5O/q0tTLJTzyyr4U2dgTRygeTDH7KfaC8hFK78dg1VcDlgJx5Ipa0IVsGrEsJHPt3kNirEi9zUAKuKGg+KEC/Oh2yZCCBPv9Od8IOJ7KjyzHTS2d5iNH6km7UY6onOkx7TmI/Amja8M8De8jYxSu7TdxuNhsZG2l0wNeBckp3Tx0zDgf7mWjJxXRazZiwcK4e6MK2d3r5Fkmr1aDkESTsoQo2/wXMtrnAC/A8/aq62TrmawR/WGN4KRV430g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P3gSHHAoeJmBfY4KPCDLh7pTmOtiuhRYCWKd78Z0lxM=;
- b=OVgr79eDzBhgfxI91NPMCXj9y6YI7NGD7YMMiQ636WSMVQjgh2dP3jyB1rcFv698iiE7RPmGniTYv3gzyZAAl2v5JufEqRHeIxfPLgZc+wjJPPgqaoxb+5WHFWxSc/BLxW3NnpMh7XUFsO+CrwG7QGBZLF1mu2oH9xy9dTUyb8V2Q4XH4A0/eL0AtmFJ06cv0bCU9/BJ+ZNHWDrKQsG30024ECBIxE+pmvw4+YwnOx8jZcLVADRjkM8tFgdT7CmTtkjbmf9IlN32zpEMAW4vhqMwcEfwjX8SWJjMgS74Rwd30gXydPYI/W3pGxZyX4DXm0VUKLQd3c1I76ktyHKemw==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by DM4PR10MB6040.namprd10.prod.outlook.com (2603:10b6:8:b9::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.27; Thu, 7 Dec
- 2023 08:47:37 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5%7]) with mapi id 15.20.7068.025; Thu, 7 Dec 2023
- 08:47:37 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "peter.kjellerstedt@axis.com"
-	<peter.kjellerstedt@axis.com>
-Subject: Re: [OE-core] [kirkstone][PATCH 2/4] base-passwd: Add PW_SUBDIR
-Thread-Topic: [OE-core] [kirkstone][PATCH 2/4] base-passwd: Add PW_SUBDIR
-Thread-Index: AQHaHuAXCrrFZvI8jkyM7fz89I1/wrCNH2aAgAQMZgCAC5oEAIAA0HuA
-Date: Thu, 7 Dec 2023 08:47:36 +0000
-Message-ID: <18bee985b951ad26ad2e4d6fed55dd61278ff131.camel@infinera.com>
-References: <20231124141108.1397342-1-joakim.tjernlund@infinera.com>
-	 <20231124141108.1397342-3-joakim.tjernlund@infinera.com>
-	 <DB5PR02MB10213D2E9905D5D115A8F4EF9EFBEA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-	 <cb756de9310b460726d56f962293d8a3dec54a31.camel@infinera.com>
-	 <DB5PR02MB10213740CA5468417797679CCEF84A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: 
- <DB5PR02MB10213740CA5468417797679CCEF84A@DB5PR02MB10213.eurprd02.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.1 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|DM4PR10MB6040:EE_
-x-ms-office365-filtering-correlation-id: 96f5a82d-6cea-41b8-efed-08dbf70129b6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 7/DOmAMETBd62/tJXrmiQ8oZzgRJfImYagDMdo6DWGMNdHPYqA+vHfmjS4RUFY65Y7Lj9qzHpK6qECqkEhBIO1asWVf7aRLEWDA4KDtKbaoyo+REZB5d0H5u1Xd6a10XXerOI/pFJ2AHrtD24KcwJKaYjs7cWIAMV5DfZp+pbO9itPPhCeg/N+3sroGTg44F2mmXhUQE8Ga9fgAcgI820zdc0nOwDp0Zf+3qd1XSfixXUE4QwP7DYCCBWXPElb0pKtOVJNm0S8hGWu0uxNBKoAJ/gBsh3AofJkTVi8dQ83MrqGwTWm18DDUG/c7/4umgaNo5POY98yvzTVdYFwMoW8ml3mXYxzKQ8CfTgcUEAFDtRjLQKA6K3des2kimgX68jhAW7ZulhpAf/fjXK9i+o/q0n3NlbT1viNlyuLRrNJ8mQhbmA10JGMJhOsHyJUY7+hAELNsMUudVn4mpfrpzqO9TnzBFPgg2LiX19gfFiZ0n9bbMGOT3uDf4C2OezOwkpiEwdFl+2PfIdLEINcDju6ngRPE/LW7fOtjQbIPaupI5MGGxRqkZarlR9MCzP5a0cuopqdjQOBv/kIfOn4D8Q8YMWZURXeV+I0YMNAA2OM8=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(39860400002)(376002)(346002)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(6512007)(26005)(2616005)(53546011)(45080400002)(6486002)(478600001)(6506007)(71200400001)(83380400001)(4001150100001)(2906002)(5660300002)(41300700001)(91956017)(110136005)(64756008)(66446008)(66476007)(66556008)(66946007)(76116006)(8676002)(8936002)(316002)(122000001)(38100700002)(38070700009)(86362001)(36756003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?RnovdDJyaENqazR4dDlQTW16QitSRDN1c0VwL1E1M2tuaE9pdFdrVVdHdkQ4?=
- =?utf-8?B?RTRqUmZqRityT0FXaDV5MGQ1SmdsU2pIR282b3ZNM1dtbUtXUzVQY1VWVGtt?=
- =?utf-8?B?UEc5VzNsTXdoY0xSditPQVZxcFpRZENEcUJmb00yUmU4cDZJRGRoRWZ5SUhh?=
- =?utf-8?B?R1hUVTRJR0JxOUlqV3daUDVLSzRlMCtYM281RU9tcEJxbE1qdGNidkhUQ3Mw?=
- =?utf-8?B?UVM3MFM1ZDNmdVV0WWVQQTVrbGk5Nzg5WlVVQzNlMUJ2WllLT3ZJdFdLa3lk?=
- =?utf-8?B?ZllWKytKWlRIdFMySlZDZThMbGo1Zzk2amVCOWJpVnJ6ZWhFTFk1cEZyM01X?=
- =?utf-8?B?TTk3RVE4TWlZL3FrZ3lLbW52My9RMlhoMUNTQjRib2srTHlLWE9RckYyclUy?=
- =?utf-8?B?TC9aYnduYkNkemNzN0NzSzE5d3UvVTdqMHdsRk5keGpzek9hbytQbFQyaHJN?=
- =?utf-8?B?VS94UG5mNWY2UURhU3crR3c3WHgra2ZBTnJJWHJIRDUwMXlMaTArTlNLR1ZC?=
- =?utf-8?B?emRKTjdJTjFUQ2Vwb2pSeVFUd09RYklOK0Y0N0ZPdHlFYzYzeVFpbDhWcG8x?=
- =?utf-8?B?TFo5M3gwTTRrN2lFNGZ3TjdJbDU5aUc2b0EvQW5tS2t6NmUzT3VFZ0NRRTJG?=
- =?utf-8?B?TVpYVzNyajBHRlROTy9rT2Q0UjRFbGthRTNveWdOWCt4eCsvUWRXNllSZ0g5?=
- =?utf-8?B?dmxiUk4raVZTMDVMeWFzWEdnN1BsYVV3c1ptclRqZjk2T3BvdEZuMzQ5S1kx?=
- =?utf-8?B?SnNRcmV4OHgzOFpKQitnME9rL1YyekZKQ1BoNDJWNTZGZmNZbHJuRmtwSGx6?=
- =?utf-8?B?MDROVnVFUlp3MnIwdVNHRjd3QnlqT09OdUxjODBwcjhPL3U0N043VXk2S0la?=
- =?utf-8?B?K0UvM1lIOTE0RkhtcC9GS1QvTDVPdGpyMlQ3b0h6MXBRM3lWUnd2MG11bG5i?=
- =?utf-8?B?MU5DL01ob21jQ1BKVENBd0pZaWJmUU9QOWxtamNqelR5NTlrbVhHNGhRT2lh?=
- =?utf-8?B?eCtnTlNlb1dYNklIVDlrdEJCcXVVWnBCczBXR3VKSE9GTzZIeGtVZzhQcmU4?=
- =?utf-8?B?OWhqRmdIU1ljR2FQaHJDWHN5VzZIY1JvNWhCU21BRzBYVmZFYTZwWmtFa0hW?=
- =?utf-8?B?dkNVWXJ5TzlyRUkraVNFYU1EU2JpWDJ3bndLY2prKzl3blphWFA3ZFNZSWY4?=
- =?utf-8?B?ektHRjJRV2Z6S0xJMmlCa2JjUW5Xbmd6blQzeGVDMVVXUStDbXFqZnYwdElU?=
- =?utf-8?B?eFkvd0x5M3l5eGFzSlkxOUpEOFBuWnF0T2xUNnl1ZWdsTk1jRFZTSTlzQ1ha?=
- =?utf-8?B?UHhHaDQvR0lBRkVNNm5PR0RsczBNR1Z6SW5CcmhtZFJHUVlCY3VQQmhFS2dl?=
- =?utf-8?B?NkNjMVpDczI1bzBRb1VuKy8wV1ZZSE9BdFZ5T2h3ZlhBblBQWjdVRFdiYXg5?=
- =?utf-8?B?Mi9GSXYrWG5VdXVkQjVocDlseWdGUHVGQitEZitBU2ZtV1c0V281bndJV3BL?=
- =?utf-8?B?bzZkYTVHQkwxUjRzY1ZqemVNaUpMVWQ1c2tjMDc5WU8xNllWcHFLWnpHSE11?=
- =?utf-8?B?eHE0Smd1dU92MUFTK3ZmMk9hNnZLZGxxeHRGVndSaGpmcC8xYm1LMmFnL0dr?=
- =?utf-8?B?V1M4ZmsybkhnQ1dmSVVqYzUrampGdm1iaEViT2ZxVjR4Tndsa1ZLRjdzSEY0?=
- =?utf-8?B?TmRhUHFpeFRDSnVFbU5KZG5SNlAwZEZyK2ZFb0lBeW9uN0t4bXkzYzBTTlE1?=
- =?utf-8?B?WklRRmJHdVhQZlUySTdzVGY2dko4U0JoR1ZyWWVaRFdyRFNBbnVMT0ZyS3pt?=
- =?utf-8?B?MmZTZHQ4VThhQTVVSDdzVDlDYzlGdnY0NEtyNmFOdS9TWi9oVTR0V2dkdlJx?=
- =?utf-8?B?Qk5ISmFsS0lyNXB3d3ZSYzRlOTFia3oyL0xkdk40dS8xTWVNYjRZQmIydE5v?=
- =?utf-8?B?c0ZLSTZjMWU2enRXYUNNWlBNZG5yRzlZSGRHN1BFcFBocWRhZUpGL0czYlBE?=
- =?utf-8?B?Y0NuZVVraWFabVloWW0xa3VkQWdGNE1DVTdFYnlrOFg2R2RNcUVRb0FwVmNQ?=
- =?utf-8?B?QVdyRS9maEhNdFBmaTFJRml3UTk3MnNEUFI4SlhDZVpUQ2FzM25nbkp3ck9j?=
- =?utf-8?Q?eNXnxtJKGhZV0yGn3TJxpIB8A?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B074CF49F203444399B90E6950D4EF69@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OMWRYHOh;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40c09f4814eso10642815e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 02:07:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701943650; x=1702548450; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e16RFmX24ZbV17yEMn1YI5LPs24VmZoIU3wpGPg2kkI=;
+        b=OMWRYHOh6dxtMbNl7PO5Y+93PUc0JF2nouBcGQi6OE8kIcUEiSN6BllzqcsiLaasI5
+         GLlWA2QsLE+fzUKE+Xvh3un1hLyIASKohB7CRjsz/cALElqRAI3U30Y9ukxjpWoi4nwS
+         /7rQ0PCXkSh0k59dZ6TfWJilR9bnsk2roBEqQL1jwh5O3DlGnLS7fyWMqxJdpynrtpIg
+         mxNrU5h6eih81EXinJR29J7yU7mWR1XACGznoWxbcDhQNKCfBWCvYJfOy0MWzPamnaMK
+         EnPE3ppzT04tqSSNnQEiJm0+oqqIX0D9ShG86aUJXlCkLV/LTeF97y0C6MpLb+ol/mp2
+         uuGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701943650; x=1702548450;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e16RFmX24ZbV17yEMn1YI5LPs24VmZoIU3wpGPg2kkI=;
+        b=Fc5ISk8+bKDYv1L9Qxepla1hF9g/3R13DnLJ8AR3xV1I/VGa7ErUGFYjtYlQGfOYlD
+         BFa6+mgJZ7UzyYGoazpOcyTFqoWZrKICA/WL6yIi09QI/ia+BiEKbODb2oQqIKzgpAcg
+         V/ZwgW7tJk5W3sRvW6FXdZ9zCcbpwU1LiCA2MizxrovrGEl1C6LQ0RduoRNy7CTldlV2
+         y7IeWz0w7CQioDgev2Nv935ZlQGAYpqTIpnMVnu+SBxpof/t/Lci0Fuvwpx0HN1sO5D/
+         pQsOdguZ9TrJJ2B2+0pMFLgW1Xuv64gVKbEhTSNB9g+865grERcqt+WFyhrkrzJPkw7t
+         iTew==
+X-Gm-Message-State: AOJu0YweVanSiX9pDVwfgkUUjNXeesCU9plA0N/3JcOwkcCRc1JaYG0b
+	xPyGdZmDzkr/7QljyZAv6yWNZBbzsnY=
+X-Google-Smtp-Source: AGHT+IHeNVmUvKT8AfU0PJcdQ5ler1N/e9lyGlM+3n5MvGeMDp/Pu6lDyyquYFz16rkyBVr6b+qo0A==
+X-Received: by 2002:a05:600c:5408:b0:40b:5e59:ccdb with SMTP id he8-20020a05600c540800b0040b5e59ccdbmr1533003wmb.188.1701943649669;
+        Thu, 07 Dec 2023 02:07:29 -0800 (PST)
+Received: from toster.lan (bl23-105-200.dsl.telepac.pt. [144.64.105.200])
+        by smtp.gmail.com with ESMTPSA id g1-20020a5d5541000000b003333e71ef9asm1010620wrw.115.2023.12.07.02.07.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 02:07:29 -0800 (PST)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: ricardo@foundries.io,
+	Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [PATCH 2/2] go: upgrade 1.21.0 -> 1.21.5
+Date: Thu,  7 Dec 2023 10:07:12 +0000
+Message-ID: <20231207100712.67076-2-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231207100712.67076-1-jose.quaresma@foundries.io>
+References: <20231207100712.67076-1-jose.quaresma@foundries.io>
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96f5a82d-6cea-41b8-efed-08dbf70129b6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2023 08:47:36.9666
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kAmuWIDeo88Bx5Orr5DAJiQI1KHs4cqkXpSPzVQP4SL4sdmykyQhsmIPvD6X3nVpCdqTyxlI/2B1KRWFSjgWYQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB6040
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 08:47:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191942
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 10:07:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191944
 
-T24gV2VkLCAyMDIzLTEyLTA2IGF0IDIwOjIxICswMDAwLCBQZXRlciBLamVsbGVyc3RlZHQgd3Jv
-dGU6DQo+IFNpbmNlIEkndmUgc2VlbiBSaWNoYXJkJ3MgcmVwbHkgYW5kIGhpcyByZWx1Y3RhbmNl
-IHRvIG1lcmdlIHRoaXMsDQo+IHRoaXMgaXMgbW9zdGx5IHRlY2huaWNhbC4NCg0KSSBrbm93IGJ1
-dCBJIGRvbid0IHVuZGVyc3RhbmQgd2hhdCAiYmF0dGVyIHdheXMiIHRvIGRvIHRoaXMgaXMsIEkg
-aGF2ZSB0ZXN0ZWQgc3ltbGlua3MvLS1wcmVmaXgvLS1yb290IGFuZCBiaW5kIG1vdW50aW5nIHRo
-ZSBwYXNzd2Qvc2hhZG93DQpmaWxlcyBhbmQgbm9uZSBvZiB0aGVuIHdvcmsuIFVzaW5nIG92ZXJs
-YXlzZnMgaXMgYW4gaW5mZXJpb3Igc29sdXRpb24gdG8gbWUgdGhhdCBtYWtlcyB0aGUgd2hvbGUg
-L2V0YyB3cml0ZWFibGUsIG1heSBicmVhayB3aGVuIFJGUyB1bmRlcm5lYXRoIGlzDQp1cGdyYWRl
-ZCBhbmQgSSBhbSB1bnN1cmUgaG93IHJlc2lsaWVudCBvdmVybGF5ZnMgaXMgaW4gY2FzZSAgb2Yg
-cG93ZXIgZmFpbHVyZS4gV2hhdCBlbHNlIGlzIHRoZXJlID8NCg0KPg0KPiBJIHdvdWxkIHVzZSBl
-aXRoZXIgUFdfRElSID0gIiR7c3lzY29uZmRpcn0vcHdkYiIgb3IgUFdfRElSOmFwcGVuZCA9ICIv
-cHdkYiIuDQo+IFVzaW5nICIvZXRjIiAoYW5kIG90aGVyIGhhcmRjb2RlZCBwYXRocykgc2hvdWxk
-IGJlIGF2b2lkZWQgd2hlcmV2ZXINCj4gcG9zc2libGUuDQoNClRoYW5rcywgd2lsbCB0cnUgdGhl
-cmUgb3V0Lg0KDQogSm9ja2UNCg0KPg0KPiAvL1BldGVyDQo+DQo+ID4gLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBKb2FraW0gVGplcm5sdW5kIDxKb2FraW0uVGplcm5sdW5k
-QGluZmluZXJhLmNvbT4NCj4gPiBTZW50OiBkZW4gMjkgbm92ZW1iZXIgMjAyMyAxMjoxMQ0KPiA+
-IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBQZXRlciBLamVs
-bGVyc3RlZHQNCj4gPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+IFN1YmplY3Q6
-IFJlOiBbT0UtY29yZV0gW2tpcmtzdG9uZV1bUEFUQ0ggMi80XSBiYXNlLXBhc3N3ZDogQWRkIFBX
-X1NVQkRJUg0KPiA+DQo+ID4gSGkgUGV0ZXIgOikNCj4gPg0KPiA+IEFsbCBnb29kIGNvbW1lbnRz
-LCB3aWxsIGZpeCBhY2NvcmRpbmdseS4gTm90IHN1cmUgaG93IFBXX0RJUiA/PQ0KPiA+ICIke3N5
-c2NvbmZkaXJ9IiB3aWxsIHdvcmsgdGhvdWdoLg0KPiA+DQo+ID4gSG93IGRvIHlvdSBlbnZpc2lv
-biBvbmUgc2hvdWxkIHNldCBQV19ESVIgaW4gZGlzdHJvIC5jb25mIG9yIGxheWVyLmNvbmY/DQo+
-ID4gSnVzdCBQV19ESVIgPSAiL2V0Yy9wd2RiIiBvciBQV19ESVIgPSAiJHtzeXNjb25mZGlyfS9w
-d2RiIiA/DQo+ID4NCj4gPiAgSm9ja2UNCj4gPg0KPiA+IE9uIFN1biwgMjAyMy0xMS0yNiBhdCAy
-MToyMSArMDAwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+ID4gPiAtLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+ID4gY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiBPbiBCZWhhbGYgT2YgSm9ha2ltIFRqZXJubHVuZCB2aWENCj4gPiBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+ID4gPiA+IFNlbnQ6IGRlbiAyNCBub3ZlbWJlciAyMDIzIDE1OjExDQo+
-ID4gPiA+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4g
-PiA+IENjOiBKb2FraW0gVGplcm5sdW5kIDxqb2FraW0udGplcm5sdW5kQGluZmluZXJhLmNvbT4N
-Cj4gPiA+ID4gU3ViamVjdDogW09FLWNvcmVdIFtraXJrc3RvbmVdW1BBVENIIDIvNF0gYmFzZS1w
-YXNzd2Q6IEFkZCBQV19TVUJESVINCj4gPiA+ID4NCj4gPiA+ID4gQWRkIHN1cHBvcnQgZm9yIGNy
-ZWF0aW5nIHBhc3N3ZCBmaWxlcyBpbiBhIC9ldGMgc3ViZGlyDQo+ID4gPiA+IFNldCBQV19TVUJJ
-UiB0byBwd2RiIHRvIGdldCBwYXNzd2QgIGZpbGVzIGluIC9ldGMvcHdkYg0KPiA+ID4gPg0KPiA+
-ID4gPiBTaWduZWQtb2ZmLWJ5OiBKb2FraW0gVGplcm5sdW5kIDxqb2FraW0udGplcm5sdW5kQGlu
-ZmluZXJhLmNvbT4NCj4gPiA+ID4gLS0tDQo+ID4gPiA+ICAuLi4vYmFzZS1wYXNzd2QvYmFzZS1w
-YXNzd2RfMy41LjI5LmJiICAgICAgICAgfCAyNCArKysrKysrKysrKystLS0tLS0NCj4gPiAtDQo+
-ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkN
-Cj4gPiA+ID4NCj4gPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFz
-c3dkL2Jhc2UtcGFzc3dkXzMuNS4yOS5iYg0KPiA+IGIvbWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1w
-YXNzd2QvYmFzZS1wYXNzd2RfMy41LjI5LmJiDQo+ID4gPiA+IGluZGV4IGVmNzc5MmFlNDkuLmU0
-NTNiZTA3NjMgMTAwNjQ0DQo+ID4gPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFz
-c3dkL2Jhc2UtcGFzc3dkXzMuNS4yOS5iYg0KPiA+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtY29y
-ZS9iYXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZF8zLjUuMjkuYmINCj4gPiA+ID4gQEAgLTIwLDYgKzIw
-LDkgQEAgU1JDX1VSSSA9DQo+ID4gImh0dHBzOi8vbGF1bmNocGFkLm5ldC9kZWJpYW4vK2FyY2hp
-dmUvcHJpbWFyeS8rZmlsZXMvJHtCUE59XyR7UFZ9LnRhcg0KPiA+ID4gPiAgU1JDX1VSSVttZDVz
-dW1dID0gIjZiZWNjYWM0ODA4M2ZlOGFlNTA0OGFjZDA2MmU1NDIxIg0KPiA+ID4gPiAgU1JDX1VS
-SVtzaGEyNTZzdW1dID0NCj4gPiAiZjBiNjYzODhiMmM4ZTQ5YzE1NjkyNDM5ZDJiZWU2M2JjZGQ0
-YmJiZjdhNzgyYzdmNjRhY2NjNTU5ODZiNmEzNiINCj4gPiA+ID4NCj4gPiA+ID4gKyNTZXQgUFdf
-U1VCRElSIHRvIHB3ZGIgdG8gZ2V0IHBhc3N3ZCAgZmlsZXMgaW4gL2V0Yy9wd2RiDQo+ID4gPiA+
-ICtQV19TVUJESVIgPz0gIiINCj4gPiA+ID4gKw0KPiA+ID4NCj4gPiA+IFJhdGhlciB0aGFuIGRl
-ZmluaW5nIGEgc3ViZGlyZWN0b3J5LCBJIHdvdWxkIHJlY29tbWVuZCBkZWZpbmluZyB0aGUgZnVs
-bA0KPiA+ID4gcGF0aCwgZS5nLjoNCj4gPiA+DQo+ID4gPiBQV19ESVIgPz0gIiR7c3lzY29uZmRp
-cn0iDQo+ID4gPg0KPiA+ID4gVGhpcyBhdm9pZHMgZ2VuZXJhdGluZyBhIGxvdCBvZiAiLy8iIGlu
-IHRoZSBtaWRkbGUgb2YgcGF0aHMgZm9yIHRoZQ0KPiA+IG1ham9yaXR5DQo+ID4gPiBvZiB1cyB3
-aG8gZG8gbm90IHVzZSBhIHN1YmRpcmVjdG9yeSBmb3IgdGhlIHBhc3N3b3JkIGZpbGVzLg0KPiA+
-ID4NCj4gPiA+ID4gICMgdGhlIHBhY2thZ2UgaXMgdGFrZW4gZnJvbSBsYXVuY2hwYWQ7IHRoYXQg
-c291cmNlIGlzIHN0YXRpYyBhbmQgZ29lcw0KPiA+IHN0YWxlDQo+ID4gPiA+ICAjIHNvIHdlIGNo
-ZWNrIHRoZSBsYXRlc3QgdXBzdHJlYW0gZnJvbSBhIGRpcmVjdG9yeSB0aGF0IGRvZXMgZ2V0DQo+
-ID4gdXBkYXRlZA0KPiA+ID4gPiAgVVBTVFJFQU1fQ0hFQ0tfVVJJID0gIiR7REVCSUFOX01JUlJP
-Un0vbWFpbi9iL2Jhc2UtcGFzc3dkLyINCj4gPiA+ID4gQEAgLTUwLDEwICs1MywxMSBAQCBiYXNl
-cGFzc3dkX3N5c3Jvb3RfcG9zdGluc3QoKSB7DQo+ID4gPiA+ICAjIS9iaW4vc2gNCj4gPiA+ID4N
-Cj4gPiA+ID4gICMgSW5zdGFsbCBwYXNzd2QubWFzdGVyIGFuZCBncm91cC5tYXN0ZXIgdG8gc3lz
-Y29uZmRpcg0KPiA+ID4gPiAtaW5zdGFsbCAtZCAtbSA3NTUgJHtTVEFHSU5HX0RJUl9UQVJHRVR9
-JHtzeXNjb25mZGlyfQ0KPiA+ID4gPiAraW5zdGFsbCAtZCAtbSA3NTUgJHtTVEFHSU5HX0RJUl9U
-QVJHRVR9JHtzeXNjb25mZGlyfS8ke1BXX1NVQkRJUn0NCj4gPiA+ID4gIGZvciBpIGluIHBhc3N3
-ZCBncm91cDsgZG8NCj4gPiA+ID4gICAgIGluc3RhbGwgLXAgLW0gNjQ0ICR7U1RBR0lOR19ESVJf
-VEFSR0VUfSR7ZGF0YWRpcn0vYmFzZS0NCj4gPiBwYXNzd2QvXCRpLm1hc3RlciBcDQo+ID4gPiA+
-IC0gICAgICAgICAgICR7U1RBR0lOR19ESVJfVEFSR0VUfSR7c3lzY29uZmRpcn0vXCRpDQo+ID4g
-PiA+ICsgICAgICAgICAgICR7U1RBR0lOR19ESVJfVEFSR0VUfSR7c3lzY29uZmRpcn0vJHtQV19T
-VUJESVJ9L1wkaQ0KPiA+ID4gPiArICAgWyAtbiAiJHtQV19TVUJESVJ9IiBdICYmIGxuIC1mcyAk
-e1BXX1NVQkRJUn0vXCRpDQo+ID4gJHtTVEFHSU5HX0RJUl9UQVJHRVR9JHtzeXNjb25mZGlyfS9c
-JGkNCj4gPiA+DQo+ID4gPiBJIGdlbmVyYWxseSByZWNvbW1lbmRlZCB0byB1c2UgYFsgISAuLi4g
-XSB8fCAuLi5gIGluc3RlYWQgb2YgYFsgLi4uIF0gJiYNCj4gPiAuLi5gOg0KPiA+ID4NCj4gPiA+
-ICAgICAgIFsgLXogIiR7UFdfU1VCRElSfSIgXSB8fCBsbiAtZnMgJHtQV19TVUJESVJ9L1wkaQ0K
-PiA+ICR7U1RBR0lOR19ESVJfVEFSR0VUfSR7c3lzY29uZmRpcn0vXCRpDQo+ID4gPg0KPiA+ID4g
-T3IsIGFzc3VtaW5nIG15IHJlY29tbWVuZGF0aW9uIGFib3ZlIGlzIGZvbGxvd2VkOg0KPiA+ID4N
-Cj4gPiA+ICAgICAgIFsgIiR7UFdfRElSfSIgPSAiJHtzeXNjb25mZGlyfSIgXSB8fA0KPiA+ID4g
-ICAgICAgICAgICAgICBsbiAtZnNyICR7U1RBR0lOR19ESVJfVEFSR0VUfSR7UFdfRElSfS9cJGkN
-Cj4gPiAke1NUQUdJTkdfRElSX1RBUkdFVH0ke3N5c2NvbmZkaXJ9L1wkaQ0KPiA+ID4NCj4gPiA+
-IFRoZSByZWFzb24gaXMgdGhhdCB0aGUgcmV0dXJuIHN0YXR1cyAoJD8pIG9mIGBbIC4uLiBdICYm
-IC4uLmAgaXMgMSBpZg0KPiA+IHRoZQ0KPiA+ID4gdGVzdCBmYWlscywgd2hpbGUgaXQgaXMgMCBm
-b3IgYFsgISAuLi4gXSB8fCAuLi5gIHdoZW4gdGhlIHRlc3Qgc3VjY2VlZHMuDQo+ID4gPg0KPiA+
-ID4gPiAgZG9uZQ0KPiA+ID4gPg0KPiA+ID4gPiAgIyBSdW4gYW55IHVzZXJhZGQgcG9zdGluc3Rz
-DQo+ID4gPiA+IEBAIC04OSwxNSArOTMsMTkgQEAgcHl0aG9uIHBvcHVsYXRlX3BhY2thZ2VzOnBy
-ZXBlbmQoKSB7DQo+ID4gPiA+ICAgICAgZi5jbG9zZSgpDQo+ID4gPiA+DQo+ID4gPiA+ICAgICAg
-cHJlaW5zdCA9ICIiIiMhL2Jpbi9zaA0KPiA+ID4gPiAtbWtkaXIgLXAgJEQke3N5c2NvbmZkaXJ9
-DQo+ID4gPiA+IC1pZiBbICEgLWUgJEQke3N5c2NvbmZkaXJ9L3Bhc3N3ZCBdOyB0aGVuDQo+ID4g
-PiA+IC1cdGNhdCA8PCAnRU9GJyA+ICREJHtzeXNjb25mZGlyfS9wYXNzd2QNCj4gPiA+ID4gK21r
-ZGlyIC1wICREJHtzeXNjb25mZGlyfS8ke1BXX1NVQkRJUn0NCj4gPiA+ID4gK2lmIFsgISAtZSAk
-RCR7c3lzY29uZmRpcn0vJHtQV19TVUJESVJ9L3Bhc3N3ZCBdOyB0aGVuDQo+ID4gPiA+ICtcdGNh
-dCA8PCAnRU9GJyA+ICREJHtzeXNjb25mZGlyfS8ke1BXX1NVQkRJUn0vcGFzc3dkDQo+ID4gPiA+
-ICAiIiIgKyBwYXNzd2QgKyAiIiJFT0YNCj4gPiA+ID4gIGZpDQo+ID4gPiA+IC1pZiBbICEgLWUg
-JEQke3N5c2NvbmZkaXJ9L2dyb3VwIF07IHRoZW4NCj4gPiA+ID4gLVx0Y2F0IDw8ICdFT0YnID4g
-JEQke3N5c2NvbmZkaXJ9L2dyb3VwDQo+ID4gPiA+ICtpZiBbICEgLWUgJEQke3N5c2NvbmZkaXJ9
-LyR7UFdfU1VCRElSfS9ncm91cCBdOyB0aGVuDQo+ID4gPiA+ICtcdGNhdCA8PCAnRU9GJyA+ICRE
-JHtzeXNjb25mZGlyfS8ke1BXX1NVQkRJUn0vZ3JvdXANCj4gPiA+ID4gICIiIiArIGdyb3VwICsg
-IiIiRU9GDQo+ID4gPiA+ICBmaQ0KPiA+ID4gPiAraWYgWyAtbiAiJHtQV19TVUJESVJ9IiBdOyB0
-aGVuDQo+ID4gPiA+ICtsbiAtZnMgJHtQV19TVUJESVJ9L3Bhc3N3ZCAkRCR7c3lzY29uZmRpcn0v
-cGFzc3dkDQo+ID4gPiA+ICtsbiAtZnMgJHtQV19TVUJESVJ9L2dyb3VwICREJHtzeXNjb25mZGly
-fS9ncm91cA0KPiA+ID4NCj4gPiA+IFVzZSBcdCB0byBpbmRlbnQgdGhlIGFib3ZlIHR3byBsaW5l
-cyBsaWtlIHRoZSBjb2RlIGJlZm9yZS4NCj4gPiA+DQo+ID4gPiA+ICtmaQ0KPiA+ID4gPiAgIiIi
-DQo+ID4gPiA+ICAgICAgZC5zZXRWYXIoZC5leHBhbmQoJ3BrZ19wcmVpbnN0OiR7UE59JyksIHBy
-ZWluc3QpDQo+ID4gPiA+ICB9DQo+ID4gPiA+IEBAIC0xMTQsNSArMTIyLDUgQEAgcGtnX3Bvc3Rp
-bnN0OiR7UE59LXVwZGF0ZSAoKSB7DQo+ID4gPiA+ICBpZiBbIC1uICIkRCIgXTsgdGhlbg0KPiA+
-ID4gPiAgICAgZXhpdCAwDQo+ID4gPiA+ICBmaQ0KPiA+ID4gPiAtJHtzYmluZGlyfS91cGRhdGUt
-cGFzc3dkDQo+ID4gPiA+ICske3NiaW5kaXJ9L3VwZGF0ZS1wYXNzd2QgLVAgL2V0Yy8ke1BXX1NV
-QkRJUn0vcGFzc3dkIC1TDQo+ID4gL2V0Yy8ke1BXX1NVQkRJUn0vc2hhZG93IC1HIC9ldGMvJHtQ
-V19TVUJESVJ9L2dyb3VwDQo+ID4gPg0KPiA+ID4gUmVwbGFjZSAvZXRjIHdpdGggJHtzeXNjb25m
-ZGlyfS4NCj4gPiA+DQo+ID4gPiA+ICB9DQo+ID4gPiA+IC0tDQo+ID4gPiA+IDIuNDEuMA0KPiA+
-ID4NCj4gPiA+IC8vUGV0ZXINCj4gPiA+DQo+DQoNCg==
+Upgrade to latest 1.21.x release [1]:
+
+$ git --no-pager log --oneline go1.21.0..go1.21.5
+6018ad99a4 (tag: go1.21.5) [release-branch.go1.21] go1.21.5
+ec8c526e4b [release-branch.go1.21] net/http: limit chunked data overhead
+f7a79cb5fc [release-branch.go1.21] cmd/compile: fix findIndVar so it does not match disjointed loop headers
+3684d19c20 [release-branch.go1.21] runtime: call enableMetadataHugePages and its callees on the systemstack
+9e43850a32 [release-branch.go1.21] crypto/rand,runtime: switch RtlGenRandom for ProcessPrng
+8caf4bb3e7 [release-branch.go1.21] path/filepath: consider \\?\c: as a volume on Windows
+23c943e529 [release-branch.go1.21] cmd/go/internal/vcs: error out if the requested repo does not support a secure protocol
+4952f41180 [release-branch.go1.21] cmd/go: allow 'go mod download' to switch toolchains if called with explicit arguments
+f26fa05522 [release-branch.go1.21] os: report IO_REPARSE_TAG_DEDUP files as regular in Stat and Lstat
+8ae493b5b8 [release-branch.go1.21] internal/poll: add SPLICE_F_NONBLOCK flag for splice to avoid inconsistency with O_NONBLOCK
+b9f245b8d3 [release-branch.go1.21] cmd/compile: ensure pointer arithmetic happens after the nil check
+caacf3a09a [release-branch.go1.21] cmd/compile: handle constant pointer offsets in dead store elimination
+1e91861f67 [release-branch.go1.21] syscall: copy rlimit.go's build constraint to rlimit_test.go
+ed817f1c40 (tag: go1.21.4) [release-branch.go1.21] go1.21.4
+9e933c189c [release-branch.go1.21] path/filepath: fix various issues in parsing Windows paths
+434af8537e [release-branch.go1.21] net/http: pull http2 underflow fix from x/net/http2
+7b04d81cbc [release-branch.go1.21] runtime/cgo: avoid taking the address of crosscall2 in code
+f9a31cda3c [release-branch.go1.21] cmd/compile/internal/typecheck: fix closure field naming
+64b6c48107 [release-branch.go1.21] go/types, types2: don't use generics
+ef6993f327 [release-branch.go1.21] runtime: don't eagerly collapse hugepages
+bae01521f3 [release-branch.go1.21] go/types, types2: don't implicitly modify an argument function's type
+236c07c049 [release-branch.go1.21] cmd/link: split text sections for arm 32-bit
+9465990e0e [release-branch.go1.21] all: tidy dependency versioning after release
+883f062fc0 (tag: go1.21.3) [release-branch.go1.21] go1.21.3
+24ae2d9272 [release-branch.go1.21] net/http: regenerate h2_bundle.go
+26b5783b72 (tag: go1.21.2) [release-branch.go1.21] go1.21.2
+2ddfc04d12 [release-branch.go1.21] cmd/compile: use absolute file name in isCgo check
+a15ef1bb0f [release-branch.go1.21] cmd/compile: absorb InvertFlags into Noov comparisons
+41d71a5afa [release-branch.go1.21] cmd/compile: reset memcombine correctly between basic blocks
+0b6b0a275a [release-branch.go1.21] runtime: always lock OS thread in debugcall
+cd671a1180 [release-branch.go1.21] runtime: increase g0 stack size in non-cgo case
+fc57cc31a0 [release-branch.go1.21] cmd/link: suppress -bind_at_load deprecation warning for ld-prime
+9bec49cf52 [release-branch.go1.21] cmd/link: disable DWARF by default in c-shared mode on darwin
+3ef4f939c3 [release-branch.go1.21] cmd/link: force old Apple linker in plugin mode
+556e9c36ba [release-branch.go1.21] cmd/link: avoid deadcode of global map vars for programs using plugins
+b64dc5f499 [release-branch.go1.21] cmd/go: in TestScript/gotoolchain_path, remove the user's PATH
+cd66ca0636 [release-branch.go1.21] runtime/metrics: fix /gc/scan/* metrics
+d7a0626806 [release-branch.go1.21] runtime: ignore SPWrite on innermost traceback frame
+2c1e5b05fe (tag: go1.21.1) [release-branch.go1.21] go1.21.1
+bbd043ff0d [release-branch.go1.21] html/template: properly handle special tags within the script context
+b0e1d3ea26 [release-branch.go1.21] html/template: support HTML-like comments in script contexts
+d25a935574 [release-branch.go1.21] cmd/go: reject toolchain directives containing path separators
+e3ba569c78 [release-branch.go1.21] net/http: revert "support streaming POST content in wasm"
+8dc6ad1c61 [release-branch.go1.21] runtime: restore caller's frame pointer when recovering from panic
+06df3292a8 [release-branch.go1.21] runtime: avoid MADV_HUGEPAGE for heap memory
+b120517ffd [release-branch.go1.21] go/types, types2: remove order dependency in inference involving channels
+0a9582163c [release-branch.go1.21] cmd/go: retry ETXTBSY errors when running test binaries
+91a4e74b98 [release-branch.go1.21] crypto/tls: QUIC: fix panics when processing post-handshake messages
+6385a6fb18 [release-branch.go1.21] cmd/go: find GOROOT using os.Executable when installed to GOROOT/bin/GOOS_GOARCH
+2d07bb86f0 [release-branch.go1.21] encoding/xml: overriding by empty namespace when no new name declaration
+745b81b6e6 [release-branch.go1.21] encoding/gob: prevent panic from index out of range in Decoder.typeString
+13339c75b8 [release-branch.go1.21] runtime: fix maps.Clone bug when cloning a map mid-grow
+2977709875 [release-branch.go1.21] context: fix synchronization in ExampleAfterFunc_cond
+2d4746f37b [release-branch.go1.21] go/types, types2: disable interface inference for versions before Go 1.21
+2b8026f025 [release-branch.go1.21] cmd/compile: in expandCalls, move all arg marshalling into call block
+7c97cc7d97 [release-branch.go1.21] Revert "os: use handle based APIs to read directories on windows"
+cb6ea94996 [release-branch.go1.21] Revert "cmd/compile: omit redundant sign/unsign extension on arm64"
+45b98bfb79 [release-branch.go1.21] path/filepath: don't drop .. elements when cleaning invalid Windows paths
+bac083a584 [release-branch.go1.21] cmd/link: don't mangle string symbol names
+70aa116c4a [release-branch.go1.21] runtime/internal/wasitest: skip racy TCP echo test
+31c5a236bc [release-branch.go1.21] runtime: mark traceEnabled and traceShuttingDown as no:split
+25ec110e51 [release-branch.go1.21] cmd/compile: ensure empty blocks in write barriers are marked unpreemptible
+6634ce2f41 [release-branch.go1.21] runtime: profiling on Darwin cannot use blocking reads
+25c6dce188 [release-branch.go1.21] cmd/compile: make backingArrayPtrLen to return typecheck-ed nodes
+4e34f2e81d [release-branch.go1.21] go/types, types2: don't panic during interface completion
+d91843ff67 [release-branch.go1.21] go/types, types2: use correct parameter list when checking argument passing
+7437db1085 [release-branch.go1.21] go/types, types2: use exact unification when comparing interface methods
+ed527ecfb2 [release-branch.go1.21] cmd/api: rename api.go to main_test.go
+b78e8cc145 [release-branch.go1.21] crypto/tls: add GODEBUG to control max RSA key size
+3475e6af4c [release-branch.go1.21] cmd/go: fix missing case checking for empty slice
+179821c9e1 [release-branch.go1.21] net/http: permit requests with invalid Host headers
+9398951479 [release-branch.go1.21] cmd/distpack: include directory entries in tar files
+75d8be5fb4 [release-branch.go1.21] cmd/go/internal/web: release the net token when an HTTP request fails due to CheckRedirect
+1755d14559 [release-branch.go1.21] cmd/compile: fix missing init nodes for len(string([]byte)) optimization
+
+[1] https://github.com/golang/go/compare/go1.21.0...go1.21.5
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/recipes-devtools/go/{go-1.21.0.inc => go-1.21.5.inc}   | 2 +-
+ ...o-binary-native_1.21.0.bb => go-binary-native_1.21.5.bb} | 6 +++---
+ ...cross-canadian_1.21.0.bb => go-cross-canadian_1.21.5.bb} | 0
+ .../go/{go-cross_1.21.0.bb => go-cross_1.21.5.bb}           | 0
+ .../go/{go-crosssdk_1.21.0.bb => go-crosssdk_1.21.5.bb}     | 0
+ .../go/{go-native_1.21.0.bb => go-native_1.21.5.bb}         | 0
+ .../go/{go-runtime_1.21.0.bb => go-runtime_1.21.5.bb}       | 0
+ meta/recipes-devtools/go/{go_1.21.0.bb => go_1.21.5.bb}     | 0
+ 8 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.21.0.inc => go-1.21.5.inc} (89%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.21.0.bb => go-binary-native_1.21.5.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.21.0.bb => go-cross-canadian_1.21.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.21.0.bb => go-cross_1.21.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.21.0.bb => go-crosssdk_1.21.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.21.0.bb => go-native_1.21.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.21.0.bb => go-runtime_1.21.5.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.21.0.bb => go_1.21.5.bb} (100%)
+
+diff --git a/meta/recipes-devtools/go/go-1.21.0.inc b/meta/recipes-devtools/go/go-1.21.5.inc
+similarity index 89%
+rename from meta/recipes-devtools/go/go-1.21.0.inc
+rename to meta/recipes-devtools/go/go-1.21.5.inc
+index 2933793b8b..f009ea77c7 100644
+--- a/meta/recipes-devtools/go/go-1.21.0.inc
++++ b/meta/recipes-devtools/go/go-1.21.5.inc
+@@ -15,4 +15,4 @@ SRC_URI += "\
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+ "
+-SRC_URI[main.sha256sum] = "818d46ede85682dd551ad378ef37a4d247006f12ec59b5b755601d2ce114369a"
++SRC_URI[main.sha256sum] = "285cbbdf4b6e6e62ed58f370f3f6d8c30825d6e56c5853c66d3c23bcdb09db19"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.21.0.bb b/meta/recipes-devtools/go/go-binary-native_1.21.5.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.21.0.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.21.5.bb
+index 0b8086e7b9..fad2f34a3b 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.21.0.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.21.5.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "d0398903a16ba2232b389fb31032ddf57cac34efda306a0eebac34f0965a0742"
+-SRC_URI[go_linux_arm64.sha256sum] = "f3d4548edf9b22f26bbd49720350bbfe59d75b7090a1a2bff1afad8214febaf3"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "e938ffc81d8ebe5efc179240960ba22da6a841ff05d5cab7ce2547112b14a47f"
++SRC_URI[go_linux_amd64.sha256sum] = "e2bc0b3e4b64111ec117295c088bde5f00eeed1567999ff77bc859d7df70078e"
++SRC_URI[go_linux_arm64.sha256sum] = "841cced7ecda9b2014f139f5bab5ae31785f35399f236b8b3e75dff2a2978d96"
++SRC_URI[go_linux_ppc64le.sha256sum] = "1f6dd06aa34f292f33c2c70ea9b4456e3a9e5cbd1d99968f3f463a4805b40ece"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.21.0.bb b/meta/recipes-devtools/go/go-cross-canadian_1.21.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.21.0.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.21.5.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.21.0.bb b/meta/recipes-devtools/go/go-cross_1.21.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.21.0.bb
+rename to meta/recipes-devtools/go/go-cross_1.21.5.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.21.0.bb b/meta/recipes-devtools/go/go-crosssdk_1.21.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.21.0.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.21.5.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.21.0.bb b/meta/recipes-devtools/go/go-native_1.21.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.21.0.bb
+rename to meta/recipes-devtools/go/go-native_1.21.5.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.21.0.bb b/meta/recipes-devtools/go/go-runtime_1.21.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.21.0.bb
+rename to meta/recipes-devtools/go/go-runtime_1.21.5.bb
+diff --git a/meta/recipes-devtools/go/go_1.21.0.bb b/meta/recipes-devtools/go/go_1.21.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.21.0.bb
+rename to meta/recipes-devtools/go/go_1.21.5.bb
+-- 
+2.43.0
+
 
