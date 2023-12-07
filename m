@@ -1,128 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D4BDC10DC3
-	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 13:23:06 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.83421.1701955379561302698
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3E26C46CA3
+	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 13:41:06 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.83815.1701956466057460762
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 05:22:59 -0800
+ Thu, 07 Dec 2023 05:41:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JWutY/Kr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40c2bb872e2so4624035e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 05:22:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fnp1DGyZ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33340c50af9so943030f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 05:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1701955378; x=1702560178; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=yzAGpUrYDfYvaPwOo1QWp5vPEvRNsiYzI3EHmdkJMeQ=;
-        b=JWutY/Krb7sIjNaJ3r6H49/hRXn3mgpiMhMUGWVxH11ozx5U/XLfSr+WbSRqq/litA
-         jS2CcwZ2WzIC1I3FaqsuF08wI1lsD5wDCM9v3ekGUtTudlNUWcXhlVKDmImfN+c0HNBx
-         9oMubyttJuyEpkgnS955PxAc5NcO0Wz0l0+PM=
+        d=gmail.com; s=20230601; t=1701956464; x=1702561264; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2bluCtzrG6MPVdmkKsmp5U75Q81u66Uhs7WGpJldlmc=;
+        b=Fnp1DGyZbnlHNXMBC0+aeBLRxhp9QJB8bTznolgFff/tUycFoknaCyVLVPHRYoYNH1
+         i9MApUF7C3kOlmiofIzFV39SqQznH4Nz9q5IhdZgp1tzMdPq51pU10cG/jSVy0otsbe9
+         IL649Kz1KaLJaVUTUmNCY2nHKCGx0kNTliEIVM+7jPf/0v1hyJOMyp1eHT52i7Gup8zK
+         Z7f8ejcneY4M5dqlD51tvqAtkMFMHpzYWOoJ/DlE4LzwEUmULkcKBcVNj5BAEpbn1oQf
+         mVxQLokVZe5ExMK8krcnvZlKKx//KzTUKXETIjL7ThfD1rO9033tF1ED/qIiNzdtSZkn
+         BazA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701955378; x=1702560178;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yzAGpUrYDfYvaPwOo1QWp5vPEvRNsiYzI3EHmdkJMeQ=;
-        b=W+qEXEebt5ZfiaM0omd1uicDbl67c81X/hEXzsFkXB45kGP9pwqWeG5EZA9XxqS9yd
-         2FKbQOwdB0WEo5Xl16sH5ARYjTAVWSKGuAquRvRC+Tgf6rvh7+G48zYnXoMsagWg/uMf
-         TKtWMdOQTAD/HBiFIx8Z03nXMUgz/wbccF70MYIJ0g5MKtfT3xPKpu0vCdvAxL+CzyJZ
-         0z43qUSXGTBc7tefYXOjf7ciowzR5wEA4hN2ERn51xcRrGG+R7fNZ4R749oJsBSA0bN8
-         +9zdSYcjH2d4mpasoeWrCGbjn4NX50N7ckxL6bKA0dPhwIsZ/hoWUyNnz18VArfcdP97
-         /aeA==
-X-Gm-Message-State: AOJu0YxonY1eEhP6kthIY1w659DTjUV24myEW+Qtk6VK3KXh9OWSq1ed
-	rMq/q6HNFgKSgiRtD17xAhs69g==
-X-Google-Smtp-Source: AGHT+IE6H2X8HH4aiOT9xOONN5SjFtW8bnsGRLROMdw75juI5ngBF5FrTRmYeb8Ey5Ulv3TVF3nu5Q==
-X-Received: by 2002:a05:600c:364f:b0:40c:7a3:8606 with SMTP id y15-20020a05600c364f00b0040c07a38606mr736765wmq.326.1701955376264;
-        Thu, 07 Dec 2023 05:22:56 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:30b4:b44a:2cc6:3876? ([2001:8b0:aba:5f3c:30b4:b44a:2cc6:3876])
-        by smtp.gmail.com with ESMTPSA id az15-20020a05600c600f00b0040b481222e3sm1961062wmb.41.2023.12.07.05.22.55
+        d=1e100.net; s=20230601; t=1701956464; x=1702561264;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2bluCtzrG6MPVdmkKsmp5U75Q81u66Uhs7WGpJldlmc=;
+        b=XJwyqoCM7WKpoQJ1YJQQqP2c8Q9Q3pIAjH07KObnaCuyRGA+kqYjFhTd0m0I2Wc2lb
+         uWTsGOs4qOkA/SeXpi5qlgkdhQcD4xqxUQ71r4x/0GSCQ0gilJ0K9CQVjfzw+zvPhNKB
+         2JodxuqAfliX0raNJ6dfjZs4ENGdNiXJB/f6QXap0KP+8cHvSQlgs/D/RYBEAFuD6HOh
+         X+4s+pI+SJVRjSJdpO3sdnBcg37JIbfueeuRN+LLiIMvDR0uOkMs6Yv2IbSrWYXZeKwp
+         puo6QltTAUaBwhS9tH6u1gEYarFudsVkK90Bv+5Se6lI5nuHVaFsQ+dC9SeWpHjF9yR+
+         WoYA==
+X-Gm-Message-State: AOJu0YwFq/8i3n4H/8Mf4bcp/n63ZUJdJ4uVWb9cOU5wWswJDer29a3s
+	B8Z0GlJ+6pjEeXh9o1wBv9DHLkRG/NM=
+X-Google-Smtp-Source: AGHT+IH/Hhec2OeAoIcWQ8SY7WAGqhYBzTRWN0S3pkt5pTEn+CnLRjN7XmYOtrM2bv1Rsk+s4+GOSA==
+X-Received: by 2002:a5d:5689:0:b0:333:1adc:a381 with SMTP id f9-20020a5d5689000000b003331adca381mr938383wrv.31.1701956464282;
+        Thu, 07 Dec 2023 05:41:04 -0800 (PST)
+Received: from localhost.localdomain ([5.148.102.211])
+        by smtp.gmail.com with ESMTPSA id a4-20020a5d53c4000000b003333dd777a4sm1470312wrw.46.2023.12.07.05.41.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 05:22:55 -0800 (PST)
-Message-ID: <00ccaa59e55541e3294acdfe532379985a3cd22b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/3] useradd: Fix issues with useradd
- dependencies
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, =?ISO-8859-1?Q?Eil=EDs?=
-	'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
-	 <pidge@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 07 Dec 2023 13:22:54 +0000
-In-Reply-To: <CANNYZj-yakHq4q+TVONzN2GyYc8jxhC3Jb4hebbekKXv9WbJfg@mail.gmail.com>
-References: <cover.1701952927.git.pidge@baylibre.com>
-	 <1560cc968f5f93a925cc3ba9436f13210dc4e4c5.1701952927.git.pidge@baylibre.com>
-	 <CANNYZj-yakHq4q+TVONzN2GyYc8jxhC3Jb4hebbekKXv9WbJfg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Thu, 07 Dec 2023 05:41:02 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH 3/3] cargo: Add CARGO_LOCK_PATH for path to Cargo.lock
+Date: Thu,  7 Dec 2023 13:39:13 +0000
+Message-Id: <20231207133913.443-3-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20231207133913.443-1-alex.kiernan@gmail.com>
+References: <20231207133913.443-1-alex.kiernan@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 13:23:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191953
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 13:41:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191956
 
-On Thu, 2023-12-07 at 13:58 +0100, Alexander Kanavin wrote:
-> On Thu, 7 Dec 2023 at 13:45, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in
-> <pidge@baylibre.com> wrote:
-> > -USERADDSETSCENEDEPS:class-target =3D "${MLPREFIX}base-passwd:do_popula=
-te_sysroot_setscene pseudo-native:do_populate_sysroot_setscene shadow-nativ=
-e:do_populate_sysroot_setscene ${MLPREFIX}shadow-sysroot:do_populate_sysroo=
-t_setscene"
-> > +USERADDSETSCENEDEPS:class-target =3D "${MLPREFIX}base-passwd:do_popula=
-te_sysroot_setscene pseudo-native:do_populate_sysroot_setscene shadow-nativ=
-e:do_populate_sysroot_setscene ${MLPREFIX}shadow-sysroot:do_populate_sysroo=
-t_setscene ${@' '.join(['%s:do_populate_sysroot_setscene' % pkg for pkg in =
-d.getVar("USERADD_DEPENDS").split()])}"
->=20
-> I'd like to clarify: do all these recent fixes mean that we can also
-> add dynamic library dependencies of shadow-native into this list (it
-> becomes an issue with latest versions of shadow currently not in
-> oe-core)?
->=20
-> Specifically, this commit
->=20
-> https://git.yoctoproject.org/poky-contrib/commit/?h=3Dakanavin/package-ve=
-rsion-updates&id=3D9fdbe321fa53785cc35bd1bb4054366383ef20e5
->=20
-> doing
->=20
-> -USERADDSETSCENEDEPS:class-target =3D
-> "${MLPREFIX}base-passwd:do_populate_sysroot_setscene
-> pseudo-native:do_populate_sysroot_setscene
-> shadow-native:do_populate_sysroot_setscene
-> ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
-> +USERADDSETSCENEDEPS:class-target =3D
-> "${MLPREFIX}base-passwd:do_populate_sysroot_setscene \
-> + pseudo-native:do_populate_sysroot_setscene \
-> + shadow-native:do_populate_sysroot_setscene \
-> + attr-native:do_populate_sysroot_setscene \
-> + libbsd-native:do_populate_sysroot_setscene \
-> + libmd-native:do_populate_sysroot_setscene \
-> + ${MLPREFIX}shadow-sysroot:do_populate_sysroot_setscene"
->=20
-> has been rejected by RP with the suggestion that shadow should be
-> linked statically, but now I'm not sure if the argument still holds.
+When building a workspace enabled project, the Cargo.lock is found at
+the root of the project, not alongside the Cargo.toml. Expose
+CARGO_LOCK_PATH so it can be explicitly configured.
 
-After my recent change, we could in theory do this as bitbake might be
-able to make it work. It does run the risk of circular dependencies and
-these setscene inter-task dependencies are *horrible* in general from
-an sstate perspective though as my other comments about these
-dependencies leading to poor behaviour still stand.
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-To be clear about what you're saying above, you're saying that if any
-of those native dependencies are missing, we cannot use/install the
-sstate object. We have to defer installing that sstate until all the
-others are downloaded and available too.
+ meta/classes-recipe/cargo_common.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-My preference is still to statically link shadow to avoid this pretty
-horrible side effect.
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index c330c122a9d3..a236628664c8 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -40,6 +40,9 @@ CARGO_SRC_DIR ?= ""
+ # The actual path to the Cargo.toml
+ CARGO_MANIFEST_PATH ?= "${S}/${CARGO_SRC_DIR}/Cargo.toml"
+ 
++# Path to Cargo.lock
++CARGO_LOCK_PATH ?= "${@ os.path.join(os.path.dirname(d.getVar('CARGO_MANIFEST_PATH', True)), 'Cargo.lock')}"
++
+ CARGO_RUST_TARGET_CCLD ?= "${RUST_TARGET_CCLD}"
+ cargo_common_do_configure () {
+ 	mkdir -p ${CARGO_HOME}/bitbake
+@@ -168,8 +171,7 @@ python cargo_common_do_patch_paths() {
+     # here is better than letting cargo tell (in case the file is missing)
+     # "Cargo.lock should be modified but --frozen was given"
+ 
+-    manifest_path = d.getVar("CARGO_MANIFEST_PATH", True)
+-    lockfile = os.path.join(os.path.dirname(manifest_path), "Cargo.lock")
++    lockfile = d.getVar("CARGO_LOCK_PATH", True)
+     if not os.path.exists(lockfile):
+         bb.fatal(f"{lockfile} file doesn't exist")
+ 
+-- 
+2.39.0
 
-Cheers,
-
-Richard
 
