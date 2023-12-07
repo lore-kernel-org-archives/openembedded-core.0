@@ -1,118 +1,142 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06CDFC10F05
-	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 13:41:07 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.83814.1701956465287664396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 823E2C4167B
+	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 14:30:38 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.85596.1701959436758320550
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 05:41:05 -0800
+ Thu, 07 Dec 2023 06:30:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YYv8oAtN;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3333fbbeab9so883377f8f.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 05:41:04 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=lQTP/tFQ;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.54, mailfrom: pidge@baylibre.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3316d09c645so1019198f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 06:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701956463; x=1702561263; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UCwFnVhPNgOGWD6hUJQPBXN4gEzQIJMLtm391gAWpqU=;
-        b=YYv8oAtNc7lujzncsgtaHQPPf7vNJ5UG7o0xAKqi51jl24j1uamatH3YdDsGCdnKNX
-         m2lIy/WdS3jBiNlwarouls88IvKDJMdVvQI7NAql7soHjFzfRGsEbOJKA6DH8Kdo8KhA
-         +zTU3vabHZYfVQUdUrMAA+TjrbeZFyoNnGc/YUK5eGWNvJQoXumJnm29sXHwVmeQ35C4
-         RP/XkuCGJE/tCzukhFNeIPW0pDPdmt84nY4+DdzxcCu9+lqCLxPpwymWfwelrDMoJtLH
-         xynaiV2XltLAeo0MjHYUpi4ANIdlxWbdniz78fRuP/Pzd7hiK9vsUREih9ggeB5CBhdq
-         0ltA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701959435; x=1702564235; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xGxJeQubf8mD5P3jHdF6RW9NzyluMVWcVyaUv43p72o=;
+        b=lQTP/tFQxkJhPkfBEhxljEBFKt6Pvt84qKfd2XdptEeESfy6lFVYm12kzgPQO56ehI
+         xPJVJzIBrN2vUP+1vuDiDdsNQr1h4RhN9wo9J2x1cwomSrskE0IBlMH7/V13i6/SlLIc
+         KMjo6rgQy1VhNCTzZeif+QoB/KEi287OQLyVdLHBQUheUyoKb7wQ9Y9c5e2hDh/F3kxX
+         OxYlzRtCENmuryFvZ9tJSTn0UsSCTaAHV2bz4iYeI0trs/GQ9JaJeyOaEW+FqnTsh61/
+         D/VRIrUyvp9TKWDDFiHLfYIsLUkTt0kHGibxFXjKfa4z4Ax5jcim0aJjolMq/Js5STlM
+         3ZRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701956463; x=1702561263;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UCwFnVhPNgOGWD6hUJQPBXN4gEzQIJMLtm391gAWpqU=;
-        b=GvSvvHtwKBd55ykzAd7eGNA+OHhnP/5akqLvFs60ikZB+4AIIznATBlVLZ6A+zJGvi
-         o++7PXuSWF7w0tWAubqNL2jDzXQKL5dozhIywDqceqLwGteLZ/BaUDXAQ7CIlXdElkWz
-         MsCCLVi/TFvsR+Jx8Nk2rOeKSYEa1ClXDHHBilx49Qvpz6v+MPSpfZlFTc1o8BmsR5q4
-         ZKfWVtitdurkKHw456dQueSg0WO6bR96bbAlAhk7Qfq/Ohw2PmCTsmIHFr2+zCmRUozE
-         0Gv3mYoKIlLq0mKrM36ZgQcvOV2IoOgTwjmFtXd0cn8D3/6e4nEacHSb7R//R3rkj07L
-         HkVw==
-X-Gm-Message-State: AOJu0Yw7wN4NSnHepwXWwkR9sEM52dGiACEJLchMFkun7ZEq3KQ73zqa
-	NP3d3dSMsc/F7u9FbXbWyHVbOwNWC6U=
-X-Google-Smtp-Source: AGHT+IEYIGmOXtDe/bJYzIUXwEgRImVXYaPRoA8cFBGHmlZYEvj1eTtaI1dxmvj5Q1fT//ATsV1JHA==
-X-Received: by 2002:adf:f306:0:b0:333:529b:e71 with SMTP id i6-20020adff306000000b00333529b0e71mr1503919wro.83.1701956462610;
-        Thu, 07 Dec 2023 05:41:02 -0800 (PST)
-Received: from localhost.localdomain ([5.148.102.211])
-        by smtp.gmail.com with ESMTPSA id a4-20020a5d53c4000000b003333dd777a4sm1470312wrw.46.2023.12.07.05.41.02
+        d=1e100.net; s=20230601; t=1701959435; x=1702564235;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xGxJeQubf8mD5P3jHdF6RW9NzyluMVWcVyaUv43p72o=;
+        b=OzX3y96caDkwfYz/OZwMiuFJtZw/bSJ3A44soy+DcYARfJ6RjK4QCKjHvVaayc3UO/
+         WXh38R0S4UryZPe8AgjQaVGxLTEqeF99ppXwP1mOoKOoNFtLoPrhHOcfibRLfX8Q5vr/
+         JB70Lr6ulOxukaYJIg9stLJUYrr20fYeSkrpxITxq63yU0jBsARPvv5UK+FXIGJJGUSf
+         ZVP7cc8pMjZ6mr+1+PgtbigwxAQiHgvKm7nrZNkxKRZWGdhFS6fQUkudYw4zYquaHwI3
+         +v9jLftdFAtA+tvGjlmDG6haD/1lPKUfckCGQ3MJMbokAVOH/NfYNi2w1TVdtdEIO0fU
+         0Q7Q==
+X-Gm-Message-State: AOJu0Yx97sLXwsDCwumkZeLjO6+13alP4WUevXqTWA1TqCjT4yMmCM3D
+	VoYQtaNzkOm92i1w83FO1UFwxrhJqfBm6hRbLT+yfA==
+X-Google-Smtp-Source: AGHT+IFbKYeC+JBWY2yU5D7DSbDhEhT546HQxVvHFUbWdTLp9aeVUUVH0A3Mp6memCKabdNomC6bLg==
+X-Received: by 2002:a5d:69c9:0:b0:333:2fd2:4adf with SMTP id s9-20020a5d69c9000000b003332fd24adfmr1526416wrw.91.1701959434768;
+        Thu, 07 Dec 2023 06:30:34 -0800 (PST)
+Received: from orm.fritz.box ([194.110.145.184])
+        by smtp.gmail.com with ESMTPSA id q12-20020a5d658c000000b003333298eb4bsm1559270wru.61.2023.12.07.06.30.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 05:41:02 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
+        Thu, 07 Dec 2023 06:30:34 -0800 (PST)
+From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH 2/3] cargo: Move CARGO_MANIFEST_PATH/CARGO_SRC_DIR to cargo_common
-Date: Thu,  7 Dec 2023 13:39:12 +0000
-Message-Id: <20231207133913.443-2-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20231207133913.443-1-alex.kiernan@gmail.com>
-References: <20231207133913.443-1-alex.kiernan@gmail.com>
+Cc: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+Subject: [PATCH] subports: Use _GNU_SOURCE
+Date: Thu,  7 Dec 2023 14:30:31 +0000
+Message-Id: <20231207143031.1790457-1-pidge@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 13:41:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191955
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 14:30:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191957
 
-cargo_common_do_configure uses CARGO_MANIFEST_PATH (which depends on
-CARGO_SRC_DIR), but their definition was in cargo.bbclass.
+[YOCTO #15074]
 
-Match the other variables here and change to default values, rather
-than weak defaults.
+The syncfs probe in ports/unix/subports was failing if the compiler does not 
+support implicit function declarations. syncfs is protected and requires 
+_GNU_SOURCE, so the answer here is to pull it in.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
 ---
+ .../pseudo/files/syncfs-probe.patch           | 44 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/syncfs-probe.patch
 
- meta/classes-recipe/cargo.bbclass        | 7 -------
- meta/classes-recipe/cargo_common.bbclass | 7 +++++++
- 2 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/cargo.bbclass
-index 96a74e2ef1ec..0829a58dd90f 100644
---- a/meta/classes-recipe/cargo.bbclass
-+++ b/meta/classes-recipe/cargo.bbclass
-@@ -30,13 +30,6 @@ B = "${WORKDIR}/build"
- # where the issue occured
- export RUST_BACKTRACE = "1"
- 
--# The directory of the Cargo.toml relative to the root directory, per default
--# assume there's a Cargo.toml directly in the root directory
--CARGO_SRC_DIR ??= ""
--
--# The actual path to the Cargo.toml
--CARGO_MANIFEST_PATH ??= "${S}/${CARGO_SRC_DIR}/Cargo.toml"
--
- RUSTFLAGS ??= ""
- BUILD_MODE = "${@['--release', ''][d.getVar('DEBUG_BUILD') == '1']}"
- # --frozen flag will prevent network access (which is required since only
-diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
-index bf298e96c745..c330c122a9d3 100644
---- a/meta/classes-recipe/cargo_common.bbclass
-+++ b/meta/classes-recipe/cargo_common.bbclass
-@@ -33,6 +33,13 @@ CARGO_DISABLE_BITBAKE_VENDORING ?= "0"
- # Used by libstd-rs to point to the vendor dir included in rustc src
- CARGO_VENDORING_DIRECTORY ?= "${CARGO_HOME}/bitbake"
- 
-+# The directory of the Cargo.toml relative to the root directory, per default
-+# assume there's a Cargo.toml directly in the root directory
-+CARGO_SRC_DIR ?= ""
+diff --git a/meta/recipes-devtools/pseudo/files/syncfs-probe.patch b/meta/recipes-devtools/pseudo/files/syncfs-probe.patch
+new file mode 100644
+index 00000000000..23f01673e3c
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/syncfs-probe.patch
+@@ -0,0 +1,44 @@
++From e38b1fec2eb4a5dcefafdab7f1a240966f3632f1 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?=
++ <pidge@baylibre.com>
++Date: Wed, 6 Dec 2023 13:00:29 +0000
++Subject: [PATCH] subports: Add _GNU_SOURCE
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+# The actual path to the Cargo.toml
-+CARGO_MANIFEST_PATH ?= "${S}/${CARGO_SRC_DIR}/Cargo.toml"
++[YOCTO #15074]
 +
- CARGO_RUST_TARGET_CCLD ?= "${RUST_TARGET_CCLD}"
- cargo_common_do_configure () {
- 	mkdir -p ${CARGO_HOME}/bitbake
++The syncfs probe in ports/unix/subports was failing if the compiler does not 
++support implicit function declarations. syncfs is protected and requires 
++_GNU_SOURCE, so the answer here is to pull it in.
++
++Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
++
++---
++Upstream-Status: Pending
++
++ ports/unix/subports | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/ports/unix/subports b/ports/unix/subports
++index e41b036..bd5a2f6 100755
++--- a/ports/unix/subports
+++++ b/ports/unix/subports
++@@ -1,11 +1,13 @@
++ #!/bin/sh
++ cat > dummy.c <<EOF
+++#define _GNU_SOURCE
++ #include <unistd.h>
++ int main(void) {
++ 	syncfs(0);
++ 	return 0;
++ }
++ EOF
+++
++ if ${CC} -o dummy dummy.c > /dev/null 2>&1; then
++ 	echo "unix/syncfs"
++ fi
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 4a894ebdd0b..3ffbc311b74 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -2,6 +2,7 @@ require pseudo.inc
+ 
+ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
+            file://0001-configure-Prune-PIE-flags.patch \
++           file://syncfs-probe.patch \
+            file://glibc238.patch \
+            file://fallback-passwd \
+            file://fallback-group \
 -- 
-2.39.0
+2.34.1
 
 
