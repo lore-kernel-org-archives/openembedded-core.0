@@ -2,53 +2,52 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37944C4167B
-	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 23:36:07 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.84])
- by mx.groups.io with SMTP id smtpd.web11.26619.1702078560980797288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C12C4167B
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 23:38:57 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.77])
+ by mx.groups.io with SMTP id smtpd.web10.27096.1702078736095731913
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 15:36:01 -0800
+ Fri, 08 Dec 2023 15:38:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=gLGPhcSt;
- spf=pass (domain: axis.com, ip: 40.107.22.84, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=e8/XrR7E;
+ spf=pass (domain: axis.com, ip: 40.107.6.77, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iKdL9Eoak6iZJEUEEMK9h8/3/NcpsttbZJ8RzUVOsnl1Y9xWun+ds0cbC+cWjwaroe2ygDBzIJBuosOqfTj1JdV9RIrLeornJCeikzzLS243tz7Aaxc4W6nO9j2/3ZfLgKwsYl9t8veBNEWC/GijFG2YGczbd7A/fkJOccz7+aEMOR4eZ6AQnOrt5/N01W5Yl34iqks9UwG8V7T2ioVnyKzs4dk8LFr+gIHnDHcNpreI7kykS0yh8OrmtpYO04JEplA9eHqAHL6kPANXBASZIKUoqylAxksBjmThCZniciFtwfugnRPTigbrr2isv9GbrmgDqlN07rbaji7WxAsPwg==
+ b=FttrL/sT22+R+bNDrevvTbBFUE7edA31I06avAZyx9Myam4Wa8f6xn/TDXKmKrGXHfvtZFczOz36iKuxSwZT69hsp8vI9BSUpiOuMqI96YkYSCnIGWv4grd1aqBO3mRfdQvtuXYI6T9LdRJmpBCAc/PTQIM01hNMEhzq99S9ZO0taqdSJEvQ9yBGB0x7yd720iqycBJvl/fgm1lBH7KaCMGL+wvx8aDGzzcErhGbSZKSb9D/376ScMg4HT6fx/PDYswqU4xoo54U9uFp/wJKwRrawm3ECbykhurN6axjQtg5yH1GwKmkg+7DCuPaEcF2unXG6b8WJ+2JcObtzcAdLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vFij9zugaeKZAkUBLVseqhqbxIStWugX1kRNUq9JIEU=;
- b=etjFOi8KdGk1dOQwpj58SSLFvvAJPXoXER4Js1/kRjbJgTY+LloIjn2TT9bHnP5hISP+J+7XHs0dZh6C6KOsL+IUENAUHS6EXmbU8+fLGevnFnU7oqa89zTSXGxSQS88zwNmK1xzKJuzEA/keHgNEGejohQVJ3Wy8bWgXmUGAbl/Un0Zu4uTL08Skc6Qmhzmi7l59xSHQekgMt4gl1I4uejPJQzrKBV1cQYX6+1nw4LYwv4A33NqyChNvY2ffustXnG87UsHW7tp//TDwmO8V1FKYFNSR4MmiT2qR6jJksECg+10gXRKnFsgtUZsEpFl2JXTtYxt7QCNR2hafHSgLw==
+ bh=6e2QEsWIQSiebsqO1vAh2CdTzDM01P5vvAN51qdRfjQ=;
+ b=V+oIm76cB2+AfKsfQu8ti4k4UuTAcg68jFrL4/TlGVh5sFbiWEYr0cNVHwIyOB1BaRNO/m2j79FP/1mT0Z4cBK8vJXmlfYzCzqwegI9xqAE2mNSdfu3HuYD/sQcLCeovq3jmii9KfC7OdBqCacbbhx+4jrdmsPSQtGUL1tG00NcxDVpLAspRxXT/+XMpNEdA/8rVtZe7BPYpeIUI5mMrXOroZcaAQGVuddBSCn9oKcfinkjOFZGridxtScqQLQMT0Ou+COOSHOBGFaJqy0TyzQyfeEiMH+ypYpGp3e3EtlvOWdQk6aO2b2VAxu7FwsJ6ymRoVr/gookuM9YyMCkLLA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
  dkim=pass header.d=axis.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vFij9zugaeKZAkUBLVseqhqbxIStWugX1kRNUq9JIEU=;
- b=gLGPhcStaGtl9U1B/h08jGhtwfEVH1O4OX//0kx0Tb7VVoEYm66KkRqI4sgP100x69UEmV4BcAfLk7rDyVrrjd9ZMGmEQKtTacJFwCIMHJ/MmnY+71U9h3Yk5zr8yP3vBwElZ/itQ/1KA3qd3Y0cjh57kDrEJlAsHtE1o+39U90=
+ bh=6e2QEsWIQSiebsqO1vAh2CdTzDM01P5vvAN51qdRfjQ=;
+ b=e8/XrR7EWzyY0XeihSyvxxF8r1L0dgKgBj/mQiZ/+UAhsKxeuHtfnO/Up2oxft2/q5zFIjjAPPvDx8FUvEEjvTdHNV/HyklHRdbeyZhZxK2BO2I8dCa8F7DN+OQZFAynEIgWSgargKpR3mVKDoZchg2bGPZuaECJ7KaZ/0RlkAs=
 Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by DB9PR02MB6907.eurprd02.prod.outlook.com (2603:10a6:10:229::21) with
+ by DB9PR02MB7002.eurprd02.prod.outlook.com (2603:10a6:10:22b::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.29; Fri, 8 Dec
- 2023 23:35:57 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.28; Fri, 8 Dec
+ 2023 23:38:52 +0000
 Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
  ([fe80::7d13:15f0:2292:6962]) by DB5PR02MB10213.eurprd02.prod.outlook.com
  ([fe80::7d13:15f0:2292:6962%7]) with mapi id 15.20.7068.027; Fri, 8 Dec 2023
- 23:35:57 +0000
+ 23:38:52 +0000
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Changqing Li <changqing.li@eng.windriver.com>,
+To: Tim Orling <ticotimo@gmail.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 2/5] base-files: update dirs1777 and volatiles
- according to VOLATILE_TMP_DIR
-Thread-Topic: [OE-core] [PATCH 2/5] base-files: update dirs1777 and volatiles
- according to VOLATILE_TMP_DIR
-Thread-Index: AQHaKb819cbcBBs6TE6sfLi6OmR1yLCgCkwA
-Date: Fri, 8 Dec 2023 23:35:57 +0000
+Subject: RE: [OE-core] [PATCH 4/6] recipetool: add python_maturin support
+Thread-Topic: [OE-core] [PATCH 4/6] recipetool: add python_maturin support
+Thread-Index: AQHaKWMkH/bnyflKU0yuVN3hmADFfrCgC9wQ
+Date: Fri, 8 Dec 2023 23:38:52 +0000
 Message-ID: 
- <DB5PR02MB102131828BB5FA88EF7D86B59EF8AA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20231208101253.4042712-1-changqing.li@windriver.com>
- <20231208101253.4042712-4-changqing.li@windriver.com>
-In-Reply-To: <20231208101253.4042712-4-changqing.li@windriver.com>
+ <DB5PR02MB102131DCF2E3B74419CAE99C4EF8AA@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <cover.1701989368.git.tim.orling@konsulko.com>
+ <1c44ffa9837ab6c7a8ea24a2f69eafb38838fb45.1701989368.git.tim.orling@konsulko.com>
+In-Reply-To: 
+ <1c44ffa9837ab6c7a8ea24a2f69eafb38838fb45.1701989368.git.tim.orling@konsulko.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -56,135 +55,167 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=axis.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB9PR02MB6907:EE_
-x-ms-office365-filtering-correlation-id: d508a223-8e6b-459f-1aa8-08dbf8466da3
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB9PR02MB7002:EE_
+x-ms-office365-filtering-correlation-id: ed36463c-084a-4726-efd7-08dbf846d5f6
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- pQ3IRT4DGRSkwIxloWtUQv1uCDgO2wQtl4IYsilj6EmCNKAVlqlkCCrbSPYhGx6ARShO4VmRgBXRzUueoEO5ga7R1y7uDnDNe+KA2Z9dfBILBN4sM4Ap4IYuk8iDn4htDnJAQwh06ohFpcQ5tY4APqSd02tal0HWiycRflmAtC1Rka4bmdJS93wmEit2AL7YUiTWgEYr5RvWpe2i9IE9UYTkmb6OcU1Um3GCS6SyYkngGxAIRrGRVzPsdgvVpUuDA4yf7WzU7XxWAugH9XCBKYTso0nXoneHWtG3AejDasq7pjeqBm/oJsfHjRnVlwuWf27P5xphysbJdwPy3mX7uBCuPGFWEnCgooDv3CNv0ga21tfJNMo43N6DH454uGwL12VnKDuA8wgO3uZ3RHvp1foWu89j3jToIjffTAAGQigfYMdBJc4MgAATmeh2WmxRk2ic4BJeKyVyEq/EMYGTMqSH+ItwN7u8H8bT1OSVHVsIJQ8kKcESQ6RGkdBkQx/Es1zY8M+J7Q2rJ7PrLk5QzhtL6E8x9N1l+7aoSuF8rH9AkIz9HPiM5qtE+C6fEOnfsvCZoUyZoPqTYtWsIn+0AqDoH99rbaEEk2tH6AQ+bcWNRrFWbP5j73sDrkT8jK7o
+ hQrD1KDjtUdZ++1+VbXUM4ULTj8ktihHcuGCfKhZnie+HEqVTHQqZkvNysmRueSj+3OiYyLbygjIbCO5RmFI3pCa2LHu3QJ354b09o8AZfqqjhAtpCBSiaCappl4ki4jdxbP7mYXwRZM9M6KYuAYSPyI2smt5oRjpyfXFzpljXoPf3iMsmNE3JVJ+xLZ0r1rasYR0JHCwHrOu8zKTN3vsMoebCqGag2CEvbhJ4Y0CIecFuJLZFO0QwHiLPsLTaqkcUjWa9b62i4MoxAdbHVVyii5tPVpID6rz60ES+o+ViK2smoRbsKNPLG4bDG4BtY+EkJj/VZ9dl31+N4/nBUeX9Buqu4OnT1lbBbXB2cfffTE+67xGRIHhOxlB2so8C6KyPvxR2J2TfyFkRGjawMqPIAxP66OvI8SY22vELnVmf0QsJ4gnjViCF3GDO/RYLAJ8dC7to5Ije9NjuE/AgpIU6oftywzzA0avCra6Yy5BKrMvHPbEQiNfIjfDyaL+k70SfTTLLw95N4fG/wWq21AAnSLfgKqFU3Np6vJM9DeU+HyYzSTDLWIEdy3780x2kkE2mS1VEQaL47i79uFBBOcofBvDKMfOMHdcKtmk5Uut1Y=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(396003)(346002)(366004)(136003)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(83380400001)(316002)(66446008)(64756008)(66556008)(66946007)(66476007)(110136005)(76116006)(7696005)(6506007)(71200400001)(53546011)(86362001)(478600001)(55016003)(26005)(8936002)(8676002)(52536014)(5660300002)(9686003)(44832011)(15650500001)(122000001)(38100700002)(41300700001)(33656002)(2906002)(38070700009);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(39860400002)(136003)(376002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(2906002)(8936002)(8676002)(44832011)(52536014)(5660300002)(38070700009)(41300700001)(26005)(71200400001)(33656002)(83380400001)(55016003)(86362001)(38100700002)(122000001)(478600001)(110136005)(316002)(6506007)(66946007)(76116006)(66556008)(66476007)(66446008)(64756008)(53546011)(9686003)(7696005);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?N75y37h3SKMOfoyOAl9jKABOKjLEfPlEJa95cF5Ym8CGhCZEoQjV45y0PFvw?=
- =?us-ascii?Q?EDSN2SzFRLHJPW1jTwnGipTR4ylyNmQ8zleRaxvufZcdVUl2m1CxKEecb0FY?=
- =?us-ascii?Q?E01pKaZ2f3x3VjEbWsYTmZU8CEab/LvgnZhwzU+5zpMhqHmJBH2xqhfTgjmL?=
- =?us-ascii?Q?lZtmEXEE32md9NAfuqrm/4lndik8/zE3wdjQ7diy1X8SAA+NdypVLSPoakfK?=
- =?us-ascii?Q?hRHXa51gdTHj0FhXn20DbUFpVHBfTfVyFMGzKavm8nxktXp7ZPRXEHBPMBNN?=
- =?us-ascii?Q?OUUZQbQtRmo0hTVWxAAw15NY8mf8nm9VMFJi0nKKEtvED1QyJWvSJCunrCpx?=
- =?us-ascii?Q?U+PaybraqU7QR8/HyS4okH0A+PlYN9Yq1lM56d42dTRL/k3eeuuLGj5uW9hQ?=
- =?us-ascii?Q?ymEy23q1TrvuuuX/p5ygrPWpTwpHisFkaFhgboXuiPNUYgYClk3ur5VjCnQ2?=
- =?us-ascii?Q?87f8AXJ5AGDofsKLt36VTIpCU254Dkeesad72bNjcIJf4cWmbl36hD8IPFsa?=
- =?us-ascii?Q?erxPoIDesEfrbTNcLKAKVapyV53il1ObREoe2PvYC6bDEkimYzRas8z9CYC5?=
- =?us-ascii?Q?li0ddj3oIZQuusC3D89G2sd6KbleN+dSH9KTCfneTpAKeOS1WJ5NDTH0PI6P?=
- =?us-ascii?Q?xfxskOOhVsAwnZuUuzihZNYV7SZ2vqX5/B8kqX2LKJZUp/QwaiE1oiiYg/ft?=
- =?us-ascii?Q?7Pa4g/Uz99ze9G2juB69iFNRQXZx+LcqkG7BRPfAFAK9CP3XwnrhQJv6ib0d?=
- =?us-ascii?Q?6LMYVdhtnF+PP9CXdTWQ7roEbuP5fdfNFeTLnoUxv4GgRwY7kpIUV5fVwGJ0?=
- =?us-ascii?Q?5397i2IXiNx5knr8tZpY8LsfaugI81k7Ayt4myiJGIbqFskIYdnaNAL//iQn?=
- =?us-ascii?Q?d8uF6IrDAiLEdfU8qkThXPT+v39F74n8GLYiv9vaqpbtJ2hYXN5UoZyh6yDm?=
- =?us-ascii?Q?57auXjQ9sFVpMGBD6FgIrGuu2hj0w1qnOIIgFwvjVxeH3fwIKj6b74fMn52N?=
- =?us-ascii?Q?qfRx8zzVWr6yBcdl4EvaYiZsAbrXm2P48RZ1kBAZkiBinrqdvHMhmzk3IHql?=
- =?us-ascii?Q?u+wH+fTQUhic2+rm4GnmuY/tON66mySGHMSyvw+ONwEsZ5uFrASn11aCYt9s?=
- =?us-ascii?Q?kR2PFSgPi9mUV4nHbcnlwOpH8iCRdUgtKWnRX4Xl49YTgXCSjgo1llrC2AVw?=
- =?us-ascii?Q?O33rP2r+RhDP3m3OkmeFNYPu2Lddk5n1dzBugJKu77ab0l3SxrTPo+X5xKN4?=
- =?us-ascii?Q?ZKaiC/gc3xMv1QFVSGEJsxf1h6iof6O7ibIbo4aAHIAbSJDnpkMFoK+sVj3x?=
- =?us-ascii?Q?nFlqAuNBUsfeEzWt8BIoHZmPQU/TiRhXM8f8BPNLwiUp8G5e+RP2Kcy1LW5c?=
- =?us-ascii?Q?nuc5nMKGoSwynuZhO/tWS8tqG2wHCTKC4ZykrCAwp7fv7VyCGRbZpxbnYkmZ?=
- =?us-ascii?Q?EUb5BVIih7YeTOPm2nFFNOlI0L5OvodIcw7+/30stwOjmLzVPiIY4WpUysXa?=
- =?us-ascii?Q?1DKOsiUKklXB//21SVhnMrX4LCmXjThFL4V45OGdDNe+Y8vkpNeRLb8OXOOn?=
- =?us-ascii?Q?3YHUNif5DMU55x2+Cu0=3D?=
+ =?us-ascii?Q?c1yePWTW8NyvWhM4jrzotc/HIkS9gGfmry8gkphkssd4oB+9/+b/sbI2nY9b?=
+ =?us-ascii?Q?T1gtg5YuVo/C255GrXeJ65cJBcCyl2fmHOWhgx7YOS0HSzZ51wOBsorFjOZp?=
+ =?us-ascii?Q?wF8W722mcorgJdTLzbb10zHUSBcZJm7DWi0+zRtvu0WaXpx0ZJ1PwXKvN0Sn?=
+ =?us-ascii?Q?1u5pkXtEyBEzbBOanbEcgQbgW1j2u5byoPBNTnGfBkwkvXkWs66f2GJAyI3o?=
+ =?us-ascii?Q?dVMDcXfgahPKepEan9YfVh1GAxpBCHc8BRhJRaFUtAo1cNVyj4KD7NBGRdEL?=
+ =?us-ascii?Q?M1H6uLDDmgTzSkMeNpMPql2W8leJ6m7xSuLOQBDQ03wO4FvAQAAUFrgWWSfn?=
+ =?us-ascii?Q?InC6Vyr9DfrkDMpuX/BTcA724/go5s7tgZMxQfX70O8/aHKjZWYcN079s8Cr?=
+ =?us-ascii?Q?3dC6q4GjhUxiUPlUSitL/aVxYPhRBiRA0N9UJ8q4T0a3WviMC0hXt+SNTE6y?=
+ =?us-ascii?Q?hgW4cMh4xXOPUh9T7yt6C/hgy+E0zR85yvhqAlEIyJZJe2WrBVJdHBSxeeFl?=
+ =?us-ascii?Q?RJWRM3l08+THyVt5Uto7QwyTk1E/zZf+sFCosUXxo0h07XQt5+encBGoPPN6?=
+ =?us-ascii?Q?kMRsif1pWauz6RIWL1k1YMSc/ZJq+NkXaLLTm+WHsEwJOwY/qxyZvDQ08Pqe?=
+ =?us-ascii?Q?WWXZQOslO5mDTvUH8MnHpfj+3uxw8jl6MC778+5xj4QrkKoMNk1aYQ4ANAyp?=
+ =?us-ascii?Q?fxVxOn2iAKeBr1V4IboZKZ9vBxJuLgkcxEW7Qx5+JAsdZ6cIiOONRwX/qweL?=
+ =?us-ascii?Q?F8FS7skct21kLN3NC4PKDrtf2XE5KJ3w65qx4M4tgfhyCdlk7V37BC3PWD8G?=
+ =?us-ascii?Q?/LFV/in5xNcErYyTJw/x4yIRVMTW1edm+gR3bPSaDWEHyFgYkq/6eNRhGs2Z?=
+ =?us-ascii?Q?G6tG2jO3nbaanFpCCWsZPo9eEc8gCmrH/mmSaln7C6snODhCSSEsN5THU8SU?=
+ =?us-ascii?Q?I9rAnVCchIDMvUpyzLQOAqotUr3e9J3kPs9sP6SIXt7s1THwVBHK4egT+BaH?=
+ =?us-ascii?Q?82NZTBIoR9XnsxheuWUQ8a7n/lNUhxKZwfoGUydOIf3nY9X54arZnvErcwoE?=
+ =?us-ascii?Q?nsluX16HSebLFboEi8PIzzxBkIc5VORgF3edqgTqiNx7gtWL4xPbeqziBe9l?=
+ =?us-ascii?Q?Eotyrx4GIxA+xX4oRlXt9A8zUtQksYJWJmq3W8tJczDwraNzGsxQ0vPvRYGf?=
+ =?us-ascii?Q?DS/WbGOsB/e6eLqSJQjJzg0oLTKtwRjtKMyL7T3DGZz0xCWVpo6miJeKyLRj?=
+ =?us-ascii?Q?PIr1nE/MahIzwLQntm3aZd+QdCIdtEv3GqurXhsOE6/wTmc/i5Gt4gxsVsmF?=
+ =?us-ascii?Q?o+xsSv50pruB/sWH5brdDi3nIAQpJG2lVLY0lBx53u4nPKhhCAU7XghKi3CS?=
+ =?us-ascii?Q?ejPqR4YdUfdiZ+1sZdShjvxapoW2RaTgTMZr0apgSyZzlN1FzzWOvuAJW50V?=
+ =?us-ascii?Q?u91p2qeNcDc8ok8bkfPxTIiK1eOqgYgaiTJupXUZmPlf15zWIN5LYBL5g6OT?=
+ =?us-ascii?Q?LNQxyNYwIShzZ1CYZygXEPoE0YSX+JhESKE3ZmTwbz72l9+Mkx7cpd3zirTg?=
+ =?us-ascii?Q?kXnlJQG5gsTYjWC1yuw=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: axis.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d508a223-8e6b-459f-1aa8-08dbf8466da3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2023 23:35:57.3344
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed36463c-084a-4726-efd7-08dbf846d5f6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2023 23:38:52.3966
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: u49zqWIFOqcwRan2uDQhQShZ1g3Czpd2YTEUfy98/PcFvnZp7TZeqCDBNgWvqAWq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB6907
+X-MS-Exchange-CrossTenant-userprincipalname: tBQ4xh26S7P6c0RLa4It473/mZHmpuSPEoZrj6VQAR4yRWd5A5z8FvJtlQamgyZz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7002
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 23:36:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192086
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 23:38:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192087
 
 > -----Original Message-----
 > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Changqing Li
-> Sent: den 8 december 2023 11:13
+penembedded.org> On Behalf Of Tim Orling
+> Sent: den 8 december 2023 00:13
 > To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 2/5] base-files: update dirs1777 and volatiles =
-according to VOLATILE_TMP_DIR
+> Subject: [OE-core] [PATCH 4/6] recipetool: add python_maturin support
 >=20
-> From: Changqing Li <changqing.li@windriver.com>
+> Add the new python_maturin PEP-517 backend
 >=20
-> * update dirs1777 so that only create /var/volatiles/tmp when
-> VOLATILE_TMP_DIR set to yes, create /var/tmp when VOLATILE_TMP_DIR set
-> to no
+> Add selftest for 'pydantic-core' pypi package.
 >=20
-> * update volatiles so that only symlink /var/tmp to /var/volatiles/tmp
-> when VOLATILE_TMP_DIR set to yes
+> [YOCTO #15312]
 >=20
-> * mount /tmp as tmpfs fs when VOLATILE_TMP_DIR set to no and init
-> manager is sysvinit
->=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 > ---
->  meta/recipes-core/base-files/base-files_3.0.14.bb | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  meta/lib/oeqa/selftest/cases/recipetool.py    | 34 +++++++++++++++++++
+>  .../lib/recipetool/create_buildsys_python.py  |  1 +
+>  2 files changed, 35 insertions(+)
 >=20
-> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/rec=
-ipes-core/base-files/base-files_3.0.14.bb
-> index 9fab53ce63..01d076369d 100644
-> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> @@ -30,7 +30,7 @@ S =3D "${WORKDIR}"
->  INHIBIT_DEFAULT_DEPS =3D "1"
+> diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/s=
+elftest/cases/recipetool.py
+> index 55cbba9ca74..ddcacaa73c7 100644
+> --- a/meta/lib/oeqa/selftest/cases/recipetool.py
+> +++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+> @@ -611,6 +611,40 @@ class RecipetoolCreateTests(RecipetoolBase):
 >=20
->  docdir:append =3D "/${P}"
-> -dirs1777 =3D "/tmp ${localstatedir}/volatile/tmp"
-> +dirs1777 =3D "/tmp ${localstatedir}/${@'volatile/' if oe.types.boolean('=
-${VOLATILE_TMP_DIR}') else ''}tmp"
->  dirs2775 =3D ""
->  dirs555 =3D "/sys /proc"
->  dirs755 =3D "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
-> @@ -54,7 +54,8 @@ dirs755-lsb =3D "/srv  \
->                 ${prefix}/lib/locale"
->  dirs2775-lsb =3D "/var/mail"
+>          self._test_recipe_contents(recipefile, checkvars, inherits)
 >=20
-> -volatiles =3D "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else =
-''} tmp"
-> +volatiles =3D "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else =
-''} \
-> +             ${@'tmp' if oe.types.boolean('${VOLATILE_TMP_DIR}') else ''=
-}"
->  conffiles =3D "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
->               ${sysconfdir}/issue /${sysconfdir}/issue.net \
->               ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
-> @@ -122,6 +123,9 @@ do_install () {
->  	fi
->=20
->  	install -m 0644 ${WORKDIR}/fstab ${D}${sysconfdir}/fstab
-> +    if [ ${@ oe.types.boolean('${VOLATILE_TMP_DIR}') } =3D False ] && ${=
-@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'false', 'true', d)} ;then
-> +        echo "tmpfs   /tmp  tmpfs mode=3D1777,strictatime,nosuid,nodev,s=
-ize=3D50%,nr_inodes=3D1m   0  0" >> ${D}${sysconfdir}/fstab
-> +    fi
+> +    def test_recipetool_create_python3_pep517_maturin(self):
+> +        # This test require python 3.11 or above for the tomllib module
+> +        # or tomli module to be installed
+> +        try:
+> +            import tomllib
+> +        except ImportError:
+> +            try:
+> +                import tomli
+> +            except ImportError:
+> +                self.skipTest('Test requires python 3.11 or above for to=
+mllib module or tomli module')
+> +
+> +        # Test creating python3 package from tarball (using maturin clas=
+s)
+> +        temprecipe =3D os.path.join(self.tempdir, 'recipe')
+> +        os.makedirs(temprecipe)
+> +        pn =3D 'pydantic-core'
+> +        pv =3D '2.14.5'
+> +        recipefile =3D os.path.join(temprecipe, 'python3-%s_%s.bb' % (pn=
+, pv))
+> +        srcuri =3D 'https://files.pythonhosted.org/packages/64/26/cffb93=
+fe9c6b5a91c497f37fae14a4b073ecbc47fc36a9979c7aa888b245/pydantic_core-%s.tar=
+.gz' % pv
+> +        result =3D runCmd('recipetool create -o %s %s' % (temprecipe, sr=
+curi))
+> +        self.assertTrue(os.path.isfile(recipefile))
+> +        checkvars =3D {}
+> +        checkvars['HOMEPAGE'] =3D 'https://github.com/pydantic/pydantic-=
+core'
+> +        checkvars['LICENSE'] =3D set(['MIT'])
+> +        checkvars['LIC_FILES_CHKSUM'] =3D 'file://LICENSE;md5=3Dab599c18=
+8b4a314d2856b3a55030c75c'
+> +        checkvars['SRC_URI'] =3D 'https://files.pythonhosted.org/package=
+s/64/26/cffb93fe9c6b5a91c497f37fae14a4b073ecbc47fc36a9979c7aa888b245/pydant=
+ic_core-${PV}.tar.gz'
+> +        checkvars['SRC_URI[md5sum]'] =3D '1eb13c211147496c1c9484ff7f8ac4=
+38'
+> +        checkvars['SRC_URI[sha1sum]'] =3D '0803a731aa793f3eaf4d52f656d73=
+00408ca0b36'
+> +        checkvars['SRC_URI[sha256sum]'] =3D '6d30226dfc816dd0fdf120cae61=
+1dd2215117e4f9b124af8c60ab9093b6e8e71'
+> +        checkvars['SRC_URI[sha384sum]'] =3D 'cca6d9f0ba72ff92e16aaf3d6c6=
+28b8df33bdf244cc39c9d59cff9d541f35d4e87ec136e6 0e4b040ad73c5c69b27cec6'
+> +        checkvars['SRC_URI[sha512sum]'] =3D 'e6c3081dfa58d9b59f8c33dfe80=
+712d732ac3048a2f8240f9a0f5448d9bfc83e222c1e08b8bb49779b84f685c3bec3060cc935=
+c113a818b1ab8aa955f3df2238'
 
-Inconsistent indentation. Please use tabs to indent shell code in=20
-recipes in OE-Core. This also applies to patches 4 and 5 in this series.
+After my recent changes to recipetool, only the sha256sum shall be=20
+present here.
 
->  	install -m 0644 ${WORKDIR}/profile ${D}${sysconfdir}/profile
->  	sed -i 's#ROOTHOME#${ROOT_HOME}#' ${D}${sysconfdir}/profile
->          sed -i 's#@BINDIR@#${bindir}#g' ${D}${sysconfdir}/profile
+> +        inherits =3D ['python_maturin']
+> +
+> +        self._test_recipe_contents(recipefile, checkvars, inherits)
+> +
+>      def test_recipetool_create_github_tarball(self):
+>          # Basic test to ensure github URL mangling doesn't apply to rele=
+ase tarballs
+>          temprecipe =3D os.path.join(self.tempdir, 'recipe')
+> diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/l=
+ib/recipetool/create_buildsys_python.py
+> index 9312e4abf13..9bebb3061b1 100644
+> --- a/scripts/lib/recipetool/create_buildsys_python.py
+> +++ b/scripts/lib/recipetool/create_buildsys_python.py
+> @@ -668,6 +668,7 @@ class
+> PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+>          "poetry.core.masonry.api": "python_poetry_core",
+>          "flit_core.buildapi": "python_flit_core",
+>          "hatchling.build": "python_hatchling",
+> +        "maturin": "python_maturin",
+>      }
+>=20
+>      # setuptools.build_meta and flit declare project metadata into the "=
+project" section of pyproject.toml
 > --
-> 2.25.1
+> 2.34.1
 
 //Peter
 
