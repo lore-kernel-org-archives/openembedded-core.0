@@ -2,137 +2,141 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC2FCC46CC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB584C4167B
 	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 02:33:39 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web10.11136.1702002813982040324
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.11139.1702002815925041324
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 18:33:34 -0800
+ Thu, 07 Dec 2023 18:33:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gzOp3WIw;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5c6734e0c22so1167966a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 18:33:33 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rphJJlML;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d2e6e14865so6009385ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 18:33:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702002812; x=1702607612; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uub6B7b4qbOeTcqoIiU0NXw0t6wm3hPrKie4GIRcn2U=;
-        b=gzOp3WIwLw0V/Ss2wMRULODjBSdgTgRiZRrwnm3GXHYDB60N+/+RNeOEj26tVLzbMK
-         5yagRP3ROmTlw/GfNo53aeDtcPoPDbmSDNzNeIN0HsnP+tUQXcgOdsvwb7kXR0DDHHhG
-         syJD/vZ2tJY7LtcKRHET5scEyeSup2R9GaMAMVEsUvcVVmhx2Z6dsZRwfnjRhIBj+eZC
-         8Rq3wT0dJHMso0T9K9pgCCP66UQGtx9pLB2+Ab0pQuGqoR4j8lkMpJ/UuiZcOJpwmlpr
-         jMYdXA5Hgm9P2dIBWWce5I/7XYDzpdlLud+RdpgpzBL3puRjluuXhY9bq6UXVRnzMV1X
-         lXWw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702002815; x=1702607615; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r7VFDBjtjaVmrJ6UjzV2T4LIHWf7mIqdBLMiLsb0Sm4=;
+        b=rphJJlMLDZLmMNPl7uCboJFqYc8hkjiZ5/JJn83xogLf1vkNt25pgF6t9eiaCUNfDm
+         kfdw2VViDw9kwXK5WtSr4724lZXK9irEq3pfzphGegCDvhbx3BE9mnY0DfRDC3FBKcdo
+         Ymxu+JxFGcZzJHy7wsxXa6u2tvyfdUSFgYOwS79z/CTMIehjyt03GuH+tQ2K41d5psia
+         dCeMXGZ3IpV/h4seOSuWXnRfNti1vIx4nlU+mKwfB/lfI3rpcMmJ9rNO0cVeKVveP9zq
+         OegD6FmLRa+nPROsRo4QD62ArOYFiDQdwcgQW/Bs0KmdrhBy+6XdUxWxuUV66XGGz8Tp
+         6Y3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702002812; x=1702607612;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uub6B7b4qbOeTcqoIiU0NXw0t6wm3hPrKie4GIRcn2U=;
-        b=A+eNoqpQ2M+gJ6MhweH7XS4H27u0MCnkNsh0qwdq4/9HsQO5K2EtgemRGvhCNqD9nB
-         +rxEmCfOqAsfS3Ir9Q+ld2mB0CnREcPTP9sUYIvggMFte6hviypR9OpYXdmVnSUb8CME
-         t62p/IW0ROKjpTWmK9TgtVabDpW/tZ72x1DM2FBs9Hq7zPGeBO3dctgwjC0Rxam14eHB
-         cjFtK8UYWkPwSYRgwj0mHrUa8lmHBAHT7Qlq1LTqvKO3yzYzsDVvla+g3MWsO81W4LIP
-         oa4IbPyOS83soQXdzskwt9WhnLZzovdVogDPrXUmGX27MCaBngaWtu0I+sW3+V5AD5p2
-         flsw==
-X-Gm-Message-State: AOJu0YxSji1jgkYUMZHv381CdF9UITYpq4mF6plYPr8o0S8DN6ajpkiN
-	Yq5ZPXMU6kdh9PUWXSY83YVU9/87E9VpXe6Fdvo=
-X-Google-Smtp-Source: AGHT+IG3/Xx1N11PCWfBC6DuTxVDvHeSHw3jRhDReweW36UBhTL2F2HXyqrlVEdpVRmVKDb8an22tw==
-X-Received: by 2002:a17:90b:4b86:b0:286:d464:687e with SMTP id lr6-20020a17090b4b8600b00286d464687emr3263020pjb.18.1702002812385;
-        Thu, 07 Dec 2023 18:33:32 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702002815; x=1702607615;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r7VFDBjtjaVmrJ6UjzV2T4LIHWf7mIqdBLMiLsb0Sm4=;
+        b=TzqGdsy0cfv1c7DtV1MPBMUINwXQd2BQCrZ/szKoqFkqRJ9rP2Z66ppgQknbemtPd0
+         wZ8xpD5p9lbPVr5AfiOroiCTVTnEtxNi7kQAtpHGScDk26k11anyCAFW7DplyMLKOSHk
+         FxnEqqLy4fuB1YGbv7yYeO/+c+/qz+iND5CUJow0UWYJr227UU5uhc9ug4/LRamGOFa4
+         TuCHH7vcTU9vV/7LJGNc+ms1Kk89MWu6/FpME4RYH6TFjflG+tVAmcRthv/p+z77d3h0
+         hFx+AyApFR44SbJOLJFlbi2154URvGbgIGppaEOY6aXiu37reqRNQSsmTkpFg9OeJFDO
+         qS7w==
+X-Gm-Message-State: AOJu0Yx5fE9HUwrQXufGDlJl0DmmFJ7knW4iVwbrAOk7ompyP0TpkuK6
+	zK+Iv9NWZwdPVUSv27PImFd0SDoX8zwtvpXg7Lo=
+X-Google-Smtp-Source: AGHT+IGU7MQFSheWUrSVeb/uAH95N/QTyYTlqOPDGlYytBx29Ine21S99DeGJEoJPpcV0brVR1Cvqg==
+X-Received: by 2002:a17:903:555:b0:1d0:6ffd:6e53 with SMTP id jo21-20020a170903055500b001d06ffd6e53mr3093249plb.75.1702002815067;
+        Thu, 07 Dec 2023 18:33:35 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id i11-20020a170902c94b00b001c9bc811d4dsm499752pla.295.2023.12.07.18.33.31
+        by smtp.gmail.com with ESMTPSA id i11-20020a170902c94b00b001c9bc811d4dsm499752pla.295.2023.12.07.18.33.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 18:33:32 -0800 (PST)
+        Thu, 07 Dec 2023 18:33:34 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/15] Patch review
-Date: Thu,  7 Dec 2023 16:33:06 -1000
-Message-Id: <cover.1702002667.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/15] libsndfile: fix CVE-2022-33065 Signed integer overflow in src/mat4.c
+Date: Thu,  7 Dec 2023 16:33:07 -1000
+Message-Id: <0dc086b37b1c333adf99c01ce4ecb717df48d6f9.1702002667.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1702002667.git.steve@sakoman.com>
+References: <cover.1702002667.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 02:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191992
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191993
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Monday, December 11
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 
-Passed a-full on autobuilder:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6300
-
-The following changes since commit 11da43b58e19583a9bc16044309610cfb2e86469:
-
-  systemtap_git: fix used uninitialized error (2023-11-28 05:11:52 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Bruce Ashfield (3):
-  linux-yocto/5.10: update to v5.10.198
-  linux-yocto/5.10: update to v5.10.200
-  linux-yocto/5.10: update to v5.10.202
-
-Lee Chee Yang (1):
-  xwayland: fix CVE-2023-5367
-
-Narpat Mali (1):
-  python3-cryptography: fix CVE-2023-49083
-
-Niko Mauno (1):
-  rust-llvm: Allow overriding LLVM target archs
-
-Richard Purdie (5):
-  rust-common: Set llvm-target correctly for cross SDK targets
-  rust-cross-canadian: Fix ordering of target json config generation
-  rust-cross/rust-common: Merge arm target handling code to fix
-    cross-canadian
-  rust-cross: Simplfy the rust_gen_target calls
-  native: Clear TUNE_FEATURES/ABIEXTENSION
-
-Steve Sakoman (1):
-  cve-exclusion_5.10.inc: update for 5.10.202
-
-Tim Orling (1):
-  vim: upgrade 9.0.2068 -> 9.0.2130
-
-Vivek Kumbhar (1):
-  libsndfile: fix CVE-2022-33065 Signed integer overflow in src/mat4.c
-
-Wenlin Kang (1):
-  bash: changes to SIGINT handler while waiting for a child
-
- meta/classes/native.bbclass                   |   2 +
- .../python3-cryptography/CVE-2023-49083.patch |  53 ++++
- .../python/python3-cryptography_36.0.2.bb     |   1 +
- meta/recipes-devtools/rust/rust-common.inc    |  24 +-
- .../rust/rust-cross-canadian-common.inc       |   5 +-
- meta/recipes-devtools/rust/rust-cross.inc     |  21 +-
- meta/recipes-devtools/rust/rust-llvm.inc      |   4 +-
- ...T-handler-while-waiting-for-a-child-.patch | 229 ++++++++++++++++++
- meta/recipes-extended/bash/bash_5.1.16.bb     |   1 +
- .../xwayland/xwayland/CVE-2023-5367.patch     |  85 +++++++
- .../xwayland/xwayland_22.1.8.bb               |   4 +-
- .../linux/cve-exclusion_5.10.inc              |  92 +++++--
- .../linux/linux-yocto-rt_5.10.bb              |   6 +-
- .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
- .../libsndfile1/CVE-2022-33065.patch          |  46 ++++
- .../libsndfile/libsndfile1_1.0.31.bb          |   1 +
- meta/recipes-support/vim/vim.inc              |   4 +-
- 18 files changed, 542 insertions(+), 68 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2023-49083.patch
- create mode 100644 meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
- create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libsndfile1/CVE-2022-33065.patch          | 46 +++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.31.bb          |  1 +
+ 2 files changed, 47 insertions(+)
  create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
 
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
+new file mode 100644
+index 0000000000..c5fba4d6b5
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
+@@ -0,0 +1,46 @@
++From 0754562e13d2e63a248a1c82f90b30bc0ffe307c Mon Sep 17 00:00:00 2001
++From: Alex Stewart <alex.stewart@ni.com>
++Date: Tue, 10 Oct 2023 16:10:34 -0400
++Subject: [PATCH] mat4/mat5: fix int overflow in dataend calculation
++
++The clang sanitizer warns of a possible signed integer overflow when
++calculating the `dataend` value in `mat4_read_header()`.
++
++```
++src/mat4.c:323:41: runtime error: signed integer overflow: 205 * -100663296 cannot be represented in type 'int'
++SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mat4.c:323:41 in
++src/mat4.c:323:48: runtime error: signed integer overflow: 838860800 * 4 cannot be represented in type 'int'
++SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mat4.c:323:48 in
++```
++
++Cast the offending `rows` and `cols` ints to `sf_count_t` (the type of
++`dataend` before performing the calculation, to avoid the issue.
++
++CVE: CVE-2022-33065
++Fixes: https://github.com/libsndfile/libsndfile/issues/789
++Fixes: https://github.com/libsndfile/libsndfile/issues/833
++
++Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++
++Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/0754562e13d2e63a248a1c82f90b30bc0ffe307c]
++CVE: CVE-2022-33065
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++---
++ src/mat4.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/mat4.c b/src/mat4.c
++index 0b1b414..575683b 100644
++--- a/src/mat4.c
+++++ b/src/mat4.c
++@@ -320,7 +320,7 @@ mat4_read_header (SF_PRIVATE *psf)
++				psf->filelength - psf->dataoffset, psf->sf.channels * psf->sf.frames * psf->bytewidth) ;
++		}
++	else if ((psf->filelength - psf->dataoffset) > psf->sf.channels * psf->sf.frames * psf->bytewidth)
++-		psf->dataend = psf->dataoffset + rows * cols * psf->bytewidth ;
+++		psf->dataend = psf->dataoffset + (sf_count_t) rows * (sf_count_t) cols * psf->bytewidth ;
++
++	psf->datalength = psf->filelength - psf->dataoffset - psf->dataend ;
++
++--
++2.40.1
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
+index f6ea585e34..0c654fd853 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
+@@ -11,6 +11,7 @@ LICENSE = "LGPL-2.1-only"
+ SRC_URI = "https://github.com/libsndfile/libsndfile/releases/download/${PV}/libsndfile-${PV}.tar.bz2 \
+            file://noopus.patch \
+            file://0001-flac-Fix-improper-buffer-reusing-732.patch \
++           file://CVE-2022-33065.patch \
+           "
+ UPSTREAM_CHECK_URI = "https://github.com/libsndfile/libsndfile/releases/"
+ 
 -- 
 2.34.1
 
