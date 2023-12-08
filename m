@@ -1,460 +1,212 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <zangruochen@loongson.cn>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0828C4167B
-	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 05:31:50 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.13994.1702013504489365126
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 219E0C4167B
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 06:44:11 +0000 (UTC)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+ by mx.groups.io with SMTP id smtpd.web11.14805.1702017840053679552
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 21:31:44 -0800
+ Thu, 07 Dec 2023 22:44:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ihyj1pPw;
- spf=pass (domain: mvista.com, ip: 209.85.215.182, mailfrom: vanusuri@mvista.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5c1f8b0c149so1245245a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 21:31:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1702013503; x=1702618303; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6b/zm/9h9mSQGGlXW5YA3UBbWtKwg21SGt9SQBSEjBk=;
-        b=ihyj1pPwfl54qkHRpDF2agS/KFGc/2H3zZjslKgV4M04SVIP71mpmJzubYsdcDJ+ss
-         XWFPoLzJBI+KQd361bERpBAddCr/hABZzAo/q1Wo5KT5YDUKs3WymrSupGPtEP6fh1Kr
-         cwpsEco0PA1VrngnGkn9L+xbKzGjyTcOkKwPg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702013503; x=1702618303;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6b/zm/9h9mSQGGlXW5YA3UBbWtKwg21SGt9SQBSEjBk=;
-        b=NW3zApoH6HFbRK7lSYB9X5oN6Om7lxwGFzVRgA3Bp5mxl81LGKdwWWEUyHRtGJjflS
-         7QBy0Nno+61no1NWj0WZtB965diRUFUQ8OIWLIVMmNsb1UBDLtMoLzy7JZWXyKulmtmz
-         AF1PWqR/mZQYpwpmlYA0PkkEbxotf4kjClqU06YL5JRMQx1tw8fpZ8AJ1P4HKg7pLGD4
-         E0CzVGvWhe3eHvOw78Plk2uKzkbVXP3dmoO5xcu7vVG3lzOxc+OBErA5Zl2VjCTAuFkH
-         KN0qRzzpAVBenmWfdQEHQnppDym9vcn4ZHHDqgqt0uRO4cuoKDPFijWZVU90Jqq0zCb+
-         zjHg==
-X-Gm-Message-State: AOJu0Yx8jxN69CcukQGLV0mTC8Yy6TcRYyZ9Aty7ZzqPzEb7Vs/Mz3QC
-	tgOs4eYZYSA6oZJpSBkFjk82GPK3DMeVabhkWOQ=
-X-Google-Smtp-Source: AGHT+IFADrBBpXm+FPe2But0/Gl0AspLF+9o7CH/YC2TEwakO3KMlnjVKbFL5JHpQbyPvM6CCfwGRA==
-X-Received: by 2002:a05:6a20:261d:b0:18f:afc:4e03 with SMTP id i29-20020a056a20261d00b0018f0afc4e03mr2393960pze.91.1702013502608;
-        Thu, 07 Dec 2023 21:31:42 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:1cb0:d30:3c0c:b84b:3f8:32dd])
-        by smtp.gmail.com with ESMTPSA id bv19-20020a17090af19300b002868abc0e6dsm2389923pjb.11.2023.12.07.21.31.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 21:31:42 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] avahi: backport CVE-2023-1981 & CVE's follow-up patches
-Date: Fri,  8 Dec 2023 11:01:33 +0530
-Message-Id: <20231208053133.1790432-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=none (message not signed); spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: zangruochen@loongson.cn)
+Received: from loongson.cn (unknown [112.81.42.212])
+	by gateway (Coremail) with SMTP id _____8AxTesku3JlfOU_AA--.57019S3;
+	Fri, 08 Dec 2023 14:43:49 +0800 (CST)
+Received: from zangruochen$loongson.cn ( [112.81.42.212] ) by
+ ajax-webmail-localhost.localdomain (Coremail) ; Fri, 8 Dec 2023 14:43:44
+ +0800 (GMT+08:00)
+X-Originating-IP: [112.81.42.212]
+Date: Fri, 8 Dec 2023 14:43:44 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?6Ien6Iul5bCY?= <zangruochen@loongson.cn>
+To: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Re: [PATCH] [OE-core] [PATCHv2] elfutils: upgrade 0.189 ->
+ 0.190
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2023.1-cmXT5 build
+ 20230523(b0518e05) Copyright (c) 2002-2023 www.mailtech.cn .loongson.cn
+In-Reply-To: <202312042235301e989686@mail.local>
+References: <20231204023551.3588992-1-zangruochen@loongson.cn>
+ <202312042235301e989686@mail.local>
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: YSfTBmZvb3Rlcl90eHQ9NzQ4MDo2MTI=
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <46eaff5a.a963.18c482af77d.Coremail.zangruochen@loongson.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: AQAAf8CxgN0gu3JlxyxYAA--.14664W
+X-CM-SenderInfo: p2dqw2xxrfxv3q6o00pqjv00gofq/1tbiAQASA2VxK6wLWwAxsi
+X-Coremail-Antispam: 1Uk129KBj93XoW3Gr15CrW5Cr1UXr43WFy5Jrc_yoW3Cr4rpa
+	9akFy3Aw48tayIvrZ2kr1rXw40qa9Fv3Z8Xr1UGrW09ryqv3WrXF1fKFyIgFWDXryUuay8
+	ZFWkGFyUXwnruagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBab4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
+	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFcxC0VAYjx
+	AxZF0Ew4CEw7xC0wACY4xI67k04243AVC20s07MxAIw28IcxkI7VAKI48JMxC20s026xCa
+	FVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_Jr
+	Wlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j
+	6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr
+	0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JwCE
+	64xvF2IEb7IF0Fy7YxBIdaVFxhVjvjDU0xZFpf9x07jnVysUUUUU=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 05:31:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192011
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 06:44:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192012
 
-From: Vijay Anusuri <vanusuri@mvista.com>
-
-import patches from ubuntu to fix
- CVE-2023-1981
- CVE-2023-38469-2
- CVE-2023-38470-2
- CVE-2023-38471-2
-
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches?h=ubuntu/jammy-security
-Upstream commit
-https://github.com/lathiat/avahi/commit/a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f
-&
-https://github.com/lathiat/avahi/commit/c6cab87df290448a63323c8ca759baa516166237
-&
-https://github.com/lathiat/avahi/commit/94cb6489114636940ac683515417990b55b5d66c
-&
-https://github.com/lathiat/avahi/commit/b675f70739f404342f7f78635d6e2dcd85a13460]
-
-Ref: https://git.openembedded.org/openembedded-core-contrib/commit/?h=stable/nanbield-nut&id=a9203c46cd64c3ec5e5b00e381bbac85733f85df
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- meta/recipes-connectivity/avahi/avahi_0.8.bb  | 10 ++-
- .../avahi/files/CVE-2023-1981.patch           | 58 +++++++++++++++++
- ...023-38469.patch => CVE-2023-38469-1.patch} |  0
- .../avahi/files/CVE-2023-38469-2.patch        | 65 +++++++++++++++++++
- ...023-38470.patch => CVE-2023-38470-1.patch} |  0
- .../avahi/files/CVE-2023-38470-2.patch        | 52 +++++++++++++++
- ...023-38471.patch => CVE-2023-38471-1.patch} |  0
- .../avahi/files/CVE-2023-38471-2.patch        | 52 +++++++++++++++
- .../avahi/files/CVE-2023-38472.patch          | 44 ++++++-------
- 9 files changed, 256 insertions(+), 25 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
- rename meta/recipes-connectivity/avahi/files/{CVE-2023-38469.patch => CVE-2023-38469-1.patch} (100%)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
- rename meta/recipes-connectivity/avahi/files/{CVE-2023-38470.patch => CVE-2023-38470-1.patch} (100%)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
- rename meta/recipes-connectivity/avahi/files/{CVE-2023-38471.patch => CVE-2023-38471-1.patch} (100%)
- create mode 100644 meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
-
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-index af5284a252..5d1c86978a 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -26,9 +26,13 @@ SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}
-            file://0001-Fix-opening-etc-resolv.conf-error.patch \
-            file://handle-hup.patch \
-            file://local-ping.patch \
--           file://CVE-2023-38471.patch \
--           file://CVE-2023-38470.patch \
--           file://CVE-2023-38469.patch \
-+           file://CVE-2023-1981.patch \
-+           file://CVE-2023-38469-1.patch \
-+           file://CVE-2023-38469-2.patch \
-+           file://CVE-2023-38470-1.patch \
-+           file://CVE-2023-38470-2.patch \
-+           file://CVE-2023-38471-1.patch \
-+           file://CVE-2023-38471-2.patch \
-            file://CVE-2023-38472.patch \
-            file://CVE-2023-38473.patch \
-            "
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
-new file mode 100644
-index 0000000000..4d7924d13a
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-1981.patch
-@@ -0,0 +1,58 @@
-+From a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Petr=20Men=C5=A1=C3=ADk?= <pemensik@redhat.com>
-+Date: Thu, 17 Nov 2022 01:51:53 +0100
-+Subject: [PATCH] Emit error if requested service is not found
-+
-+It currently just crashes instead of replying with error. Check return
-+value and emit error instead of passing NULL pointer to reply.
-+
-+Fixes #375
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-1981.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/a2696da2f2c50ac43b6c4903f72290d5c3fa9f6f]
-+CVE: CVE-2023-1981
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-daemon/dbus-protocol.c | 20 ++++++++++++++------
-+ 1 file changed, 14 insertions(+), 6 deletions(-)
-+
-+diff --git a/avahi-daemon/dbus-protocol.c b/avahi-daemon/dbus-protocol.c
-+index 70d7687bc..406d0b441 100644
-+--- a/avahi-daemon/dbus-protocol.c
-++++ b/avahi-daemon/dbus-protocol.c
-+@@ -375,10 +375,14 @@ static DBusHandlerResult dbus_get_alternative_host_name(DBusConnection *c, DBusM
-+     }
-+ 
-+     t = avahi_alternative_host_name(n);
-+-    avahi_dbus_respond_string(c, m, t);
-+-    avahi_free(t);
-++    if (t) {
-++        avahi_dbus_respond_string(c, m, t);
-++        avahi_free(t);
-+ 
-+-    return DBUS_HANDLER_RESULT_HANDLED;
-++        return DBUS_HANDLER_RESULT_HANDLED;
-++    } else {
-++        return avahi_dbus_respond_error(c, m, AVAHI_ERR_NOT_FOUND, "Hostname not found");
-++    }
-+ }
-+ 
-+ static DBusHandlerResult dbus_get_alternative_service_name(DBusConnection *c, DBusMessage *m, DBusError *error) {
-+@@ -389,10 +393,14 @@ static DBusHandlerResult dbus_get_alternative_service_name(DBusConnection *c, DB
-+     }
-+ 
-+     t = avahi_alternative_service_name(n);
-+-    avahi_dbus_respond_string(c, m, t);
-+-    avahi_free(t);
-++    if (t) {
-++        avahi_dbus_respond_string(c, m, t);
-++        avahi_free(t);
-+ 
-+-    return DBUS_HANDLER_RESULT_HANDLED;
-++        return DBUS_HANDLER_RESULT_HANDLED;
-++    } else {
-++        return avahi_dbus_respond_error(c, m, AVAHI_ERR_NOT_FOUND, "Service not found");
-++    }
-+ }
-+ 
-+ static DBusHandlerResult dbus_create_new_entry_group(DBusConnection *c, DBusMessage *m, DBusError *error) {
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
-similarity index 100%
-rename from meta/recipes-connectivity/avahi/files/CVE-2023-38469.patch
-rename to meta/recipes-connectivity/avahi/files/CVE-2023-38469-1.patch
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
-new file mode 100644
-index 0000000000..f8f60ddca1
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38469-2.patch
-@@ -0,0 +1,65 @@
-+From c6cab87df290448a63323c8ca759baa516166237 Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Wed, 25 Oct 2023 18:15:42 +0000
-+Subject: [PATCH] tests: pass overly long TXT resource records
-+
-+to make sure they don't crash avahi any more.
-+It reproduces https://github.com/lathiat/avahi/issues/455
-+
-+Canonical notes:
-+nickgalanis> removed first hunk since there is no .github dir in this release
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38469-2.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/c6cab87df290448a63323c8ca759baa516166237]
-+CVE: CVE-2023-38469
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-client/client-test.c       | 14 ++++++++++++++
-+ 1 files changed, 14 insertions(+)
-+
-+Index: avahi-0.8/avahi-client/client-test.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-client/client-test.c
-++++ avahi-0.8/avahi-client/client-test.c
-+@@ -22,6 +22,7 @@
-+ #endif
-+ 
-+ #include <stdio.h>
-++#include <string.h>
-+ #include <assert.h>
-+ 
-+ #include <avahi-client/client.h>
-+@@ -33,6 +34,8 @@
-+ #include <avahi-common/malloc.h>
-+ #include <avahi-common/timeval.h>
-+ 
-++#include <avahi-core/dns.h>
-++
-+ static const AvahiPoll *poll_api = NULL;
-+ static AvahiSimplePoll *simple_poll = NULL;
-+ 
-+@@ -222,6 +225,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
-+     uint32_t cookie;
-+     struct timeval tv;
-+     AvahiAddress a;
-++    uint8_t rdata[AVAHI_DNS_RDATA_MAX+1];
-++    AvahiStringList *txt = NULL;
-++    int r;
-+ 
-+     simple_poll = avahi_simple_poll_new();
-+     poll_api = avahi_simple_poll_get(simple_poll);
-+@@ -258,6 +264,14 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
-+     printf("%s\n", avahi_strerror(avahi_entry_group_add_service (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "Lathiat's Site", "_http._tcp", NULL, NULL, 80, "foo=bar", NULL)));
-+     printf("add_record: %d\n", avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "\5booya", 6));
-+ 
-++    memset(rdata, 1, sizeof(rdata));
-++    r = avahi_string_list_parse(rdata, sizeof(rdata), &txt);
-++    assert(r >= 0);
-++    assert(avahi_string_list_serialize(txt, NULL, 0) == sizeof(rdata));
-++    error = avahi_entry_group_add_service_strlst(group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", "_qotd._tcp", NULL, NULL, 123, txt);
-++    assert(error == AVAHI_ERR_INVALID_RECORD);
-++    avahi_string_list_free(txt);
-++
-+     avahi_entry_group_commit (group);
-+ 
-+     domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38470.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
-similarity index 100%
-rename from meta/recipes-connectivity/avahi/files/CVE-2023-38470.patch
-rename to meta/recipes-connectivity/avahi/files/CVE-2023-38470-1.patch
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
-new file mode 100644
-index 0000000000..e0736bf210
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38470-2.patch
-@@ -0,0 +1,52 @@
-+From 20dec84b2480821704258bc908e7b2bd2e883b24 Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Tue, 19 Sep 2023 03:21:25 +0000
-+Subject: [PATCH] [common] bail out when escaped labels can't fit into ret
-+
-+Fixes:
-+```
-+==93410==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f9e76f14c16 at pc 0x00000047208d bp 0x7ffee90a6a00 sp 0x7ffee90a61c8
-+READ of size 1110 at 0x7f9e76f14c16 thread T0
-+    #0 0x47208c in __interceptor_strlen (out/fuzz-domain+0x47208c) (BuildId: 731b20c1eef22c2104e75a6496a399b10cfc7cba)
-+    #1 0x534eb0 in avahi_strdup avahi/avahi-common/malloc.c:167:12
-+    #2 0x53862c in avahi_normalize_name_strdup avahi/avahi-common/domain.c:226:12
-+```
-+and
-+```
-+fuzz-domain: fuzz/fuzz-domain.c:38: int LLVMFuzzerTestOneInput(const uint8_t *, size_t): Assertion `avahi_domain_equal(s, t)' failed.
-+==101571== ERROR: libFuzzer: deadly signal
-+    #0 0x501175 in __sanitizer_print_stack_trace (/home/vagrant/avahi/out/fuzz-domain+0x501175) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
-+    #1 0x45ad2c in fuzzer::PrintStackTrace() (/home/vagrant/avahi/out/fuzz-domain+0x45ad2c) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
-+    #2 0x43fc07 in fuzzer::Fuzzer::CrashCallback() (/home/vagrant/avahi/out/fuzz-domain+0x43fc07) (BuildId: 682bf6400aff9d41b64b6e2cc3ef5ad600216ea8)
-+    #3 0x7f1581d7ebaf  (/lib64/libc.so.6+0x3dbaf) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #4 0x7f1581dcf883 in __pthread_kill_implementation (/lib64/libc.so.6+0x8e883) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #5 0x7f1581d7eafd in gsignal (/lib64/libc.so.6+0x3dafd) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #6 0x7f1581d6787e in abort (/lib64/libc.so.6+0x2687e) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #7 0x7f1581d6779a in __assert_fail_base.cold (/lib64/libc.so.6+0x2679a) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #8 0x7f1581d77186 in __assert_fail (/lib64/libc.so.6+0x36186) (BuildId: c9f62793b9e886eb1b95077d4f26fe2b4aa1ac25)
-+    #9 0x5344a4 in LLVMFuzzerTestOneInput /home/vagrant/avahi/fuzz/fuzz-domain.c:38:9
-+```
-+
-+It's a follow-up to 94cb6489114636940ac683515417990b55b5d66c
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38470-2.patch?h=ubuntu/jammy-security
-+CVE: CVE-2023-38470 #Follow-up patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-common/domain.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+Index: avahi-0.8/avahi-common/domain.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-common/domain.c
-++++ avahi-0.8/avahi-common/domain.c
-+@@ -210,7 +210,8 @@ char *avahi_normalize_name(const char *s
-+         } else
-+             empty = 0;
-+ 
-+-        avahi_escape_label(label, strlen(label), &r, &size);
-++        if (!(avahi_escape_label(label, strlen(label), &r, &size)))
-++            return NULL;
-+     }
-+ 
-+     return ret_s;
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
-similarity index 100%
-rename from meta/recipes-connectivity/avahi/files/CVE-2023-38471.patch
-rename to meta/recipes-connectivity/avahi/files/CVE-2023-38471-1.patch
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
-new file mode 100644
-index 0000000000..44737bfc2e
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38471-2.patch
-@@ -0,0 +1,52 @@
-+From b675f70739f404342f7f78635d6e2dcd85a13460 Mon Sep 17 00:00:00 2001
-+From: Evgeny Vereshchagin <evvers@ya.ru>
-+Date: Tue, 24 Oct 2023 22:04:51 +0000
-+Subject: [PATCH] core: return errors from avahi_server_set_host_name properly
-+
-+It's a follow-up to 894f085f402e023a98cbb6f5a3d117bd88d93b09
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38471-2.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/b675f70739f404342f7f78635d6e2dcd85a13460]
-+CVE: CVE-2023-38471 #Follow-up Patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ avahi-core/server.c | 9 ++++++---
-+ 1 file changed, 6 insertions(+), 3 deletions(-)
-+
-+Index: avahi-0.8/avahi-core/server.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-core/server.c
-++++ avahi-0.8/avahi-core/server.c
-+@@ -1309,10 +1309,13 @@ int avahi_server_set_host_name(AvahiServ
-+     else
-+         hn = avahi_normalize_name_strdup(host_name);
-+ 
-++    if (!hn)
-++        return avahi_server_set_errno(s, AVAHI_ERR_NO_MEMORY);
-++
-+     h = hn;
-+     if (!avahi_unescape_label((const char **)&hn, label, sizeof(label))) {
-+         avahi_free(h);
-+-        return AVAHI_ERR_INVALID_HOST_NAME;
-++        return avahi_server_set_errno(s, AVAHI_ERR_INVALID_HOST_NAME);
-+     }
-+ 
-+     avahi_free(h);
-+@@ -1320,7 +1323,7 @@ int avahi_server_set_host_name(AvahiServ
-+     h = label_escaped;
-+     len = sizeof(label_escaped);
-+     if (!avahi_escape_label(label, strlen(label), &h, &len))
-+-        return AVAHI_ERR_INVALID_HOST_NAME;
-++        return avahi_server_set_errno(s, AVAHI_ERR_INVALID_HOST_NAME);
-+ 
-+     if (avahi_domain_equal(s->host_name, label_escaped) && s->state != AVAHI_SERVER_COLLISION)
-+         return avahi_server_set_errno(s, AVAHI_ERR_NO_CHANGE);
-+@@ -1330,7 +1333,7 @@ int avahi_server_set_host_name(AvahiServ
-+     avahi_free(s->host_name);
-+     s->host_name = avahi_strdup(label_escaped);
-+     if (!s->host_name)
-+-        return AVAHI_ERR_NO_MEMORY;
-++        return avahi_server_set_errno(s, AVAHI_ERR_NO_MEMORY);
-+ 
-+     update_fqdn(s);
-+ 
-diff --git a/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
-index 2f172622c9..85dbded73b 100644
---- a/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
-+++ b/meta/recipes-connectivity/avahi/files/CVE-2023-38472.patch
-@@ -1,46 +1,46 @@
--From 4e2537500dd0a1333845482f1f4147ef906030dd Mon Sep 17 00:00:00 2001
-+From b024ae5749f4aeba03478e6391687c3c9c8dee40 Mon Sep 17 00:00:00 2001
- From: Michal Sekletar <msekleta@redhat.com>
- Date: Thu, 19 Oct 2023 17:36:44 +0200
--Subject: [PATCH]core: make sure there is rdata to process before
-- parsing it
-+Subject: [PATCH] core: make sure there is rdata to process before parsing it
- 
- Fixes #452
- 
--Upstream-Status: Backport [https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40]
--CVE: CVE-2023-38472
-+CVE-2023-38472
- 
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/avahi/tree/debian/patches/CVE-2023-38472.patch?h=ubuntu/jammy-security
-+Upstream commit https://github.com/lathiat/avahi/commit/b024ae5749f4aeba03478e6391687c3c9c8dee40]
-+CVE: CVE-2023-38472
- Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
- ---
-  avahi-client/client-test.c      | 3 +++
-  avahi-daemon/dbus-entry-group.c | 2 +-
-  2 files changed, 4 insertions(+), 1 deletion(-)
- 
--diff --git a/avahi-client/client-test.c b/avahi-client/client-test.c
--index 7d04a6a..57750a4 100644
----- a/avahi-client/client-test.c
--+++ b/avahi-client/client-test.c
--@@ -258,6 +258,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char *argv[]) {
--     printf("%s\n", avahi_strerror(avahi_entry_group_add_service (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "Lathiat's Site", "_http._tcp", NULL, NULL, 80, "foo=bar", NULL)));
--     printf("add_record: %d\n", avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "\5booya", 6));
--
-+Index: avahi-0.8/avahi-client/client-test.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-client/client-test.c
-++++ avahi-0.8/avahi-client/client-test.c
-+@@ -272,6 +272,9 @@ int main (AVAHI_GCC_UNUSED int argc, AVA
-+     assert(error == AVAHI_ERR_INVALID_RECORD);
-+     avahi_string_list_free(txt);
-+ 
- +    error = avahi_entry_group_add_record (group, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, 0, "TestX", 0x01, 0x10, 120, "", 0);
- +    assert(error != AVAHI_OK);
- +
-      avahi_entry_group_commit (group);
--
-+ 
-      domain = avahi_domain_browser_new (avahi, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, NULL, AVAHI_DOMAIN_BROWSER_BROWSE, 0, avahi_domain_browser_callback, (char*) "omghai3u");
--diff --git a/avahi-daemon/dbus-entry-group.c b/avahi-daemon/dbus-entry-group.c
--index 4e879a5..aa23d4b 100644
----- a/avahi-daemon/dbus-entry-group.c
--+++ b/avahi-daemon/dbus-entry-group.c
--@@ -340,7 +340,7 @@ DBusHandlerResult avahi_dbus_msg_entry_group_impl(DBusConnection *c, DBusMessage
-+Index: avahi-0.8/avahi-daemon/dbus-entry-group.c
-+===================================================================
-+--- avahi-0.8.orig/avahi-daemon/dbus-entry-group.c
-++++ avahi-0.8/avahi-daemon/dbus-entry-group.c
-+@@ -340,7 +340,7 @@ DBusHandlerResult avahi_dbus_msg_entry_g
-          if (!(r = avahi_record_new_full (name, clazz, type, ttl)))
-              return avahi_dbus_respond_error(c, m, AVAHI_ERR_NO_MEMORY, NULL);
--
-+ 
- -        if (avahi_rdata_parse (r, rdata, size) < 0) {
- +        if (!rdata || avahi_rdata_parse (r, rdata, size) < 0) {
-              avahi_record_unref (r);
-              return avahi_dbus_respond_error(c, m, AVAHI_ERR_INVALID_RDATA, NULL);
-          }
----
--2.40.0
--- 
-2.25.1
+SGVsbG8uClRoaXMgZXJyb3IgaXMgY2F1c2VkIGJ5IGEgbGFjayBvZiB0eXBlZGVmcyBpbiBtdXNs
+LiBJJ2xsIHN1Ym1pdCBhIGZpeCBwYXRjaCBmb3IgbXVzbCBsYXRlci4KaHR0cHM6Ly9naXQubXVz
+bC1saWJjLm9yZy9jZ2l0L211c2wvY29tbWl0L2luY2x1ZGUvZWxmLmg/aWQ9NmJlNzY4OTVmNjg2
+MzEwMGEzMTFkNDc0YTQyYWJkYmI2NDY2MTg5ZAoKCj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+
+IOWPkeS7tuS6ujogIkFsZXhhbmRyZSBCZWxsb25pIiA8YWxleGFuZHJlLmJlbGxvbmlAYm9vdGxp
+bi5jb20+Cj4g5Y+R6YCB5pe26Ze0OjIwMjMtMTItMDUgMDY6MzU6MzAgKOaYn+acn+S6jCkKPiDm
+lLbku7bkuro6ICJaYW5nIFJ1b2NoZW4iIDx6YW5ncnVvY2hlbkBsb29uZ3Nvbi5jbj4KPiDmioTp
+gIE6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcKPiDkuLvpopg6IFJl
+OiBbUEFUQ0hdIFtPRS1jb3JlXSBbUEFUQ0h2Ml0gZWxmdXRpbHM6IHVwZ3JhZGUgMC4xODkgLT4g
+MC4xOTAKPiAKPiBIZWxsbywKPiAKPiBUaGlzIGZhaWxzIHdpdGggbXVzbDoKPiAKPiBodHRwczov
+L2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzY0L2J1aWxk
+cy84MjMyL3N0ZXBzLzExL2xvZ3Mvc3RkaW8KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJv
+amVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzQ1L2J1aWxkcy84MjYyL3N0ZXBzLzEyL2xvZ3Mv
+c3RkaW8KPiAKPiBOZXcgcHRlc3QgZmFpbHVyZToKPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3Rv
+cHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzgxL2J1aWxkcy81OTg4L3N0ZXBzLzEyL2xv
+Z3Mvc3RkaW8KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8j
+L2J1aWxkZXJzLzgyL2J1aWxkcy81ODA4L3N0ZXBzLzEyL2xvZ3Mvc3RkaW8KPiAKPiBPbiAwMy8x
+Mi8yMDIzIDE4OjM1OjUxLTA4MDAsIFphbmcgUnVvY2hlbiB3cm90ZToKPiA+IEZyb206IFphbmcg
+UnVvY2hlbiA8emFuZ3J1b2NoZW5AbG9vbmdzb24uY24+Cj4gPiAKPiA+IFRoZSBmb2xsb3dpbmcg
+cGF0Y2hlcyBoYXZlIGJlZW4gZml4ZWQ6Cj4gPiAwMDAxLWxpYmFzbS1tYXktbGluay13aXRoLWxp
+YmJ6Mi1pZi1mb3VuZC5wYXRjaAo+ID4gCj4gPiBSZWZyZXNoIHRoZSBmb2xsb3dpbmcgcGF0Y2g6
+Cj4gPiAwMDAxLWRzby1saW5rLWNoYW5nZS5wYXRjaAo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBa
+YW5nIFJ1b2NoZW4gPHphbmdydW9jaGVuQGxvb25nc29uLmNuPgo+ID4gLS0tCj4gPiAgLi4uL3tl
+bGZ1dGlsc18wLjE4OS5iYiA9PiBlbGZ1dGlsc18wLjE5MC5iYn0gIHwgIDMgKy0KPiA+ICAuLi4v
+ZWxmdXRpbHMvZmlsZXMvMDAwMS1kc28tbGluay1jaGFuZ2UucGF0Y2ggfCAxNCArKysrLS0tLQo+
+ID4gIC4uLmxpYmFzbS1tYXktbGluay13aXRoLWxpYmJ6Mi1pZi1mb3VuZC5wYXRjaCB8IDM2IC0t
+LS0tLS0tLS0tLS0tLS0tLS0KPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwg
+NDQgZGVsZXRpb25zKC0pCj4gPiAgcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9lbGZ1dGls
+cy97ZWxmdXRpbHNfMC4xODkuYmIgPT4gZWxmdXRpbHNfMC4xOTAuYmJ9ICg5OCUpCj4gPiAgZGVs
+ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9lbGZ1dGlscy9maWxlcy8wMDAx
+LWxpYmFzbS1tYXktbGluay13aXRoLWxpYmJ6Mi1pZi1mb3VuZC5wYXRjaAo+ID4gCj4gPiBkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2VsZnV0aWxzL2VsZnV0aWxzXzAuMTg5LmJi
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2VsZnV0aWxzL2VsZnV0aWxzXzAuMTkwLmJiCj4gPiBz
+aW1pbGFyaXR5IGluZGV4IDk4JQo+ID4gcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2VsZnV0aWxzL2VsZnV0aWxzXzAuMTg5LmJiCj4gPiByZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2VsZnV0aWxzL2VsZnV0aWxzXzAuMTkwLmJiCj4gPiBpbmRleCBkOGJmODJiMDIyLi44
+NjU3MDgwODMwIDEwMDY0NAo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2VsZnV0aWxz
+L2VsZnV0aWxzXzAuMTg5LmJiCj4gPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZWxmdXRp
+bHMvZWxmdXRpbHNfMC4xOTAuYmIKPiA+IEBAIC0xNiw3ICsxNiw2IEBAIFNSQ19VUkkgPSAiaHR0
+cHM6Ly9zb3VyY2V3YXJlLm9yZy9lbGZ1dGlscy9mdHAvJHtQVn0vJHtCUH0udGFyLmJ6MiBcCj4g
+PiAgICAgICAgICAgICBmaWxlOi8vMDAwMi1GaXgtZWxmX2N2dF9ndW5oYXNoLWlmLWRlc3QtYW5k
+LXNyYy1hcmUtc2FtZS5wYXRjaCBcCj4gPiAgICAgICAgICAgICBmaWxlOi8vMDAwMy1maXhoZWFk
+ZXJjaGVjay5wYXRjaCBcCj4gPiAgICAgICAgICAgICBmaWxlOi8vMDAwNi1GaXgtYnVpbGQtb24t
+YWFyY2g2NC1tdXNsLnBhdGNoIFwKPiA+IC0gICAgICAgICAgIGZpbGU6Ly8wMDAxLWxpYmFzbS1t
+YXktbGluay13aXRoLWxpYmJ6Mi1pZi1mb3VuZC5wYXRjaCBcCj4gPiAgICAgICAgICAgICBmaWxl
+Oi8vMDAwMS1saWJlbGYtZWxmX2VuZC5jLWNoZWNrLWRhdGFfbGlzdC5kYXRhLmQuZF9idWYtYmVm
+b3JlLnBhdGNoIFwKPiA+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXNraXAtdGhlLXRlc3Qtd2hl
+bi1nY2Mtbm90LWRlcGxveWVkLnBhdGNoIFwKPiA+ICAgICAgICAgICAgIGZpbGU6Ly9wdGVzdC5w
+YXRjaCBcCj4gPiBAQCAtMjUsNyArMjQsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vc291cmNld2Fy
+ZS5vcmcvZWxmdXRpbHMvZnRwLyR7UFZ9LyR7QlB9LnRhci5iejIgXAo+ID4gIFNSQ19VUkk6YXBw
+ZW5kOmxpYmMtbXVzbCA9ICIgXAo+ID4gICAgICAgICAgICAgZmlsZTovLzAwMDMtbXVzbC11dGls
+cy5wYXRjaCBcCj4gPiAgICAgICAgICAgICAiCj4gPiAtU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM5
+YmQ4ZjFhMzM4ZTJiN2NkNGFiYzNmZjExYTBlZGRjNmU2OTBmNjk1NzhhNTc0NzhkODE3OWI0MTQ4
+NzA4YzgiCj4gPiArU1JDX1VSSVtzaGEyNTZzdW1dID0gIjhlMDBhM2E5YjVmMDRiYzFkYzI3M2Fl
+ODYyODFkMmQyNmVkNDEyMDIwYjM5MWZmY2MyMzE5OGYxMDIzMWQ2OTIiCj4gPiAgCj4gPiAgaW5o
+ZXJpdCBhdXRvdG9vbHMgZ2V0dGV4dCBwdGVzdCBwa2djb25maWcKPiA+ICAKPiA+IGRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZWxmdXRpbHMvZmlsZXMvMDAwMS1kc28tbGluay1j
+aGFuZ2UucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZWxmdXRpbHMvZmlsZXMvMDAwMS1k
+c28tbGluay1jaGFuZ2UucGF0Y2gKPiA+IGluZGV4IDZhY2MwMzY0MDYuLjhjY2ZjYjdiZDUgMTAw
+NjQ0Cj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZWxmdXRpbHMvZmlsZXMvMDAwMS1k
+c28tbGluay1jaGFuZ2UucGF0Y2gKPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lbGZ1
+dGlscy9maWxlcy8wMDAxLWRzby1saW5rLWNoYW5nZS5wYXRjaAo+ID4gQEAgLTE2LDE4ICsxNiwx
+OCBAQCBtb3JlIGRldGFpbHMuCj4gPiAgUmViYXNlIHRvIDAuMTcwCj4gPiAgCj4gPiAgU2lnbmVk
+LW9mZi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgo+ID4gLQo+ID4g
+K1NpZ25lZC1vZmYtYnk6IFphbmcgUnVvY2hlbiA8emFuZ3J1b2NoZW5AbG9vbmdzb24uY24+Cj4g
+PiAgLS0tCj4gPiAgIHNyYy9NYWtlZmlsZS5hbSAgIHwgMiArLQo+ID4gICB0ZXN0cy9NYWtlZmls
+ZS5hbSB8IDIgKy0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVs
+ZXRpb25zKC0pCj4gPiAgCj4gPiAgZGlmZiAtLWdpdCBhL3NyYy9NYWtlZmlsZS5hbSBiL3NyYy9N
+YWtlZmlsZS5hbQo+ID4gLWluZGV4IDg4ZDBhYzguLmMyOGQ4MWYgMTAwNjQ0Cj4gPiAraW5kZXgg
+ZDNkOWQ0MC4uZWE2MTYxNiAxMDA2NDQKPiA+ICAtLS0gYS9zcmMvTWFrZWZpbGUuYW0KPiA+ICAr
+KysgYi9zcmMvTWFrZWZpbGUuYW0KPiA+ICBAQCAtNDUsNyArNDUsNyBAQCBsaWJkdyA9IC4uL2xp
+YmR3L2xpYmR3LmEgLWx6ICQoemlwX0xJQlMpICQobGliZWxmKSAtbGRsIC1scHRocmVhZAo+ID4g
+LSBsaWJlbGYgPSAuLi9saWJlbGYvbGliZWxmLmEgLWx6Cj4gPiArIGxpYmVsZiA9IC4uL2xpYmVs
+Zi9saWJlbGYuYSAtbHogJCh6c3RkX0xJQlMpCj4gPiAgIGVsc2UKPiA+ICAgbGliYXNtID0gLi4v
+bGliYXNtL2xpYmFzbS5zbwo+ID4gIC1saWJkdyA9IC4uL2xpYmR3L2xpYmR3LnNvCj4gPiBAQCAt
+MzYsMTEgKzM2LDExIEBAIGluZGV4IDg4ZDBhYzguLmMyOGQ4MWYgMTAwNjQ0Cj4gPiAgIGVuZGlm
+Cj4gPiAgIGxpYmVibCA9IC4uL2xpYmVibC9saWJlYmwuYSAuLi9iYWNrZW5kcy9saWJlYmxfYmFj
+a2VuZHMuYSAuLi9saWJjcHUvbGliY3B1LmEKPiA+ICBkaWZmIC0tZ2l0IGEvdGVzdHMvTWFrZWZp
+bGUuYW0gYi90ZXN0cy9NYWtlZmlsZS5hbQo+ID4gLWluZGV4IGMxNDU3MjAuLjcyYWZkMGUgMTAw
+NjQ0Cj4gPiAraW5kZXggN2ZiOGVmYi4uNzFjMWE2MSAxMDA2NDQKPiA+ICAtLS0gYS90ZXN0cy9N
+YWtlZmlsZS5hbQo+ID4gICsrKyBiL3Rlc3RzL01ha2VmaWxlLmFtCj4gPiAtQEAgLTU1NCw3ICs1
+NTQsNyBAQCBsaWJkdyA9IC4uL2xpYmR3L2xpYmR3LmEgLWx6ICQoemlwX0xJQlMpICQobGliZWxm
+KSAkKGxpYmVibCkgLWxkbCAtbHB0aHJlYWQKPiA+IC0gbGliZWxmID0gLi4vbGliZWxmL2xpYmVs
+Zi5hIC1sego+ID4gK0BAIC02ODAsNyArNjgwLDcgQEAgbGliZHcgPSAuLi9saWJkdy9saWJkdy5h
+IC1seiAkKHppcF9MSUJTKSAkKGxpYmVsZikgJChsaWJlYmwpIC1sZGwgLWxwdGhyZWFkCj4gPiAr
+IGxpYmVsZiA9IC4uL2xpYmVsZi9saWJlbGYuYSAtbHogJCh6c3RkX0xJQlMpCj4gPiAgIGxpYmFz
+bSA9IC4uL2xpYmFzbS9saWJhc20uYQo+ID4gICBlbHNlCj4gPiAgLWxpYmR3ID0gLi4vbGliZHcv
+bGliZHcuc28KPiA+IEBAIC00OCwzICs0OCw1IEBAIGluZGV4IGMxNDU3MjAuLjcyYWZkMGUgMTAw
+NjQ0Cj4gPiAgIGxpYmVsZiA9IC4uL2xpYmVsZi9saWJlbGYuc28KPiA+ICAgbGliYXNtID0gLi4v
+bGliYXNtL2xpYmFzbS5zbwo+ID4gICBlbmRpZgo+ID4gKy0tCj4gPiArMi4yNS4xCj4gPiBkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2VsZnV0aWxzL2ZpbGVzLzAwMDEtbGliYXNt
+LW1heS1saW5rLXdpdGgtbGliYnoyLWlmLWZvdW5kLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2VsZnV0aWxzL2ZpbGVzLzAwMDEtbGliYXNtLW1heS1saW5rLXdpdGgtbGliYnoyLWlmLWZv
+dW5kLnBhdGNoCj4gPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKPiA+IGluZGV4IDA5YzlkM2Vh
+MjQuLjAwMDAwMDAwMDAKPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lbGZ1dGlscy9m
+aWxlcy8wMDAxLWxpYmFzbS1tYXktbGluay13aXRoLWxpYmJ6Mi1pZi1mb3VuZC5wYXRjaAo+ID4g
+KysrIC9kZXYvbnVsbAo+ID4gQEAgLTEsMzYgKzAsMCBAQAo+ID4gLUZyb20gZWQxOTc1ZGVlYWE0
+N2Y5OGQyMTJmZDE0NGM4YmRhMDc1YjFhNWQzNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKPiA+
+IC1Gcm9tOiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgo+ID4gLURhdGU6IFdlZCwgNCBP
+Y3QgMjAxNyAyMjozMDo0NiAtMDcwMAo+ID4gLVN1YmplY3Q6IFtQQVRDSF0gbGliYXNtIG1heSBs
+aW5rIHdpdGggbGliYnoyIGlmIGZvdW5kCj4gPiAtCj4gPiAtVGhpcyBjYW4gZmFpbCB0byBsaW5r
+IGJpbmFyaWVzIGxpa2Ugb2JqZHVtcAo+ID4gLXdoZXJlIGluZGlyZWN0IGxpYnJhcmllcyBtYXkg
+YmUgbm90IGZvdW5kIGJ5IGxpbmtlcgo+ID4gLQo+ID4gLXwgL21udC9hL29lL2J1aWxkL3RtcC93
+b3JrL3Jpc2N2NjQtYmVjLWxpbnV4L2VsZnV0aWxzLzAuMTcwLXIwL3JlY2lwZS1zeXNyb290L3Vz
+ci9saWIvbGliYnoyLnNvLjE6IGVycm9yIGFkZGluZyBzeW1ib2xzOiBEU08gbWlzc2luZyBmcm9t
+IGNvbW1hbmQgbGluZQo+ID4gLXwgY29sbGVjdDI6IGVycm9yOiBsZCByZXR1cm5lZCAxIGV4aXQg
+c3RhdHVzCj4gPiAtCj4gPiAtVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCj4gPiAtU2lnbmVkLW9m
+Zi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KPiA+IC0KPiA+IC0tLS0KPiA+IC0g
+c3JjL01ha2VmaWxlLmFtIHwgNCArKy0tCj4gPiAtIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
+bnMoKyksIDIgZGVsZXRpb25zKC0pCj4gPiAtCj4gPiAtZGlmZiAtLWdpdCBhL3NyYy9NYWtlZmls
+ZS5hbSBiL3NyYy9NYWtlZmlsZS5hbQo+ID4gLWluZGV4IGMyOGQ4MWYuLjk1MWU5NzggMTAwNjQ0
+Cj4gPiAtLS0tIGEvc3JjL01ha2VmaWxlLmFtCj4gPiAtKysrIGIvc3JjL01ha2VmaWxlLmFtCj4g
+PiAtQEAgLTQwLDExICs0MCwxMSBAQCBFWFRSQV9ESVNUICs9IG1ha2UtZGVidWctYXJjaGl2ZS5p
+bgo+ID4gLSBDTEVBTkZJTEVTICs9IG1ha2UtZGVidWctYXJjaGl2ZQo+ID4gLSAKPiA+IC0gaWYg
+QlVJTERfU1RBVElDCj4gPiAtLWxpYmFzbSA9IC4uL2xpYmFzbS9saWJhc20uYQo+ID4gLStsaWJh
+c20gPSAuLi9saWJhc20vbGliYXNtLmEgJCh6aXBfTElCUykKPiA+IC0gbGliZHcgPSAuLi9saWJk
+dy9saWJkdy5hIC1seiAkKHppcF9MSUJTKSAkKGxpYmVsZikgLWxkbCAtbHB0aHJlYWQKPiA+IC0g
+bGliZWxmID0gLi4vbGliZWxmL2xpYmVsZi5hIC1sego+ID4gLSBlbHNlCj4gPiAtLWxpYmFzbSA9
+IC4uL2xpYmFzbS9saWJhc20uc28KPiA+IC0rbGliYXNtID0gLi4vbGliYXNtL2xpYmFzbS5zbyAk
+KHppcF9MSUJTKQo+ID4gLSBsaWJkdyA9IC4uL2xpYmR3L2xpYmR3LnNvICQoemlwX0xJQlMpICQo
+bGliZWxmKSAkKGxpYmVibCkgLWxkbAo+ID4gLSBsaWJlbGYgPSAuLi9saWJlbGYvbGliZWxmLnNv
+Cj4gPiAtIGVuZGlmCj4gPiAtLSAKPiA+IDIuMjUuMQo+ID4gCj4gCj4gPiAKPiA+IC09LT0tPS09
+LT0tPS09LT0tPS09LT0tCj4gPiBMaW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQg
+dG8gdGhpcyBncm91cC4KPiA+IFZpZXcvUmVwbHkgT25saW5lICgjMTkxNzE5KTogaHR0cHM6Ly9s
+aXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xOTE3MTkK
+PiA+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL210LzEw
+Mjk2NDAyMS8zNjE3MTc5Cj4gPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZwo+ID4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIFthbGV4YW5kcmUuYmVsbG9u
+aUBib290bGluLmNvbV0KPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tCj4gPiAKPiAKPiAKPiAt
+LSAKPiBBbGV4YW5kcmUgQmVsbG9uaSwgY28tb3duZXIgYW5kIENPTywgQm9vdGxpbgo+IEVtYmVk
+ZGVkIExpbnV4IGFuZCBLZXJuZWwgZW5naW5lZXJpbmcKPiBodHRwczovL2Jvb3RsaW4uY29tCg0K
+DQrmnKzpgq7ku7blj4rlhbbpmYTku7blkKvmnInpvpnoiq/kuK3np5HnmoTllYbkuJrnp5jlr4bk
+v6Hmga/vvIzku4XpmZDkuo7lj5HpgIHnu5nkuIrpnaLlnLDlnYDkuK3liJflh7rnmoTkuKrkurrm
+iJbnvqTnu4TjgILnpoHmraLku7vkvZXlhbbku5bkurrku6Xku7vkvZXlvaLlvI/kvb/nlKjvvIjl
+jIXmi6zkvYbkuI3pmZDkuo7lhajpg6jmiJbpg6jliIblnLDms4TpnLLjgIHlpI3liLbmiJbmlaPl
+j5HvvInmnKzpgq7ku7blj4rlhbbpmYTku7bkuK3nmoTkv6Hmga/jgILlpoLmnpzmgqjplJnmlLbm
+nKzpgq7ku7bvvIzor7fmgqjnq4vljbPnlLXor53miJbpgq7ku7bpgJrnn6Xlj5Hku7bkurrlubbl
+iKDpmaTmnKzpgq7ku7bjgIIgDQpUaGlzIGVtYWlsIGFuZCBpdHMgYXR0YWNobWVudHMgY29udGFp
+biBjb25maWRlbnRpYWwgaW5mb3JtYXRpb24gZnJvbSBMb29uZ3NvbiBUZWNobm9sb2d5ICwgd2hp
+Y2ggaXMgaW50ZW5kZWQgb25seSBmb3IgdGhlIHBlcnNvbiBvciBlbnRpdHkgd2hvc2UgYWRkcmVz
+cyBpcyBsaXN0ZWQgYWJvdmUuIEFueSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRhaW5lZCBo
+ZXJlaW4gaW4gYW55IHdheSAoaW5jbHVkaW5nLCBidXQgbm90IGxpbWl0ZWQgdG8sIHRvdGFsIG9y
+IHBhcnRpYWwgZGlzY2xvc3VyZSwgcmVwcm9kdWN0aW9uIG9yIGRpc3NlbWluYXRpb24pIGJ5IHBl
+cnNvbnMgb3RoZXIgdGhhbiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KHMpIGlzIHByb2hpYml0ZWQu
+IElmIHlvdSByZWNlaXZlIHRoaXMgZW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNl
+bmRlciBieSBwaG9uZSBvciBlbWFpbCBpbW1lZGlhdGVseSBhbmQgZGVsZXRlIGl0LiA=
 
 
