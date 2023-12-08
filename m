@@ -2,103 +2,86 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 907E5C10F05
-	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 10:15:32 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.17184.1702030531672695527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADA7CC4167B
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 10:21:32 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web10.17272.1702030887237261689
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 02:15:31 -0800
+ Fri, 08 Dec 2023 02:21:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dOPFev2P;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40c236624edso20166235e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 02:15:31 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KoNMFvpw;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2c9f9db9567so21113771fa.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 02:21:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702030530; x=1702635330; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oJIW+94NEVtrivuuZeCZTyNeE6Plg7E7ozfJj+P4UHM=;
-        b=dOPFev2PSvuKksLQ9k4JP77kSwWOceoc/kWPbWL8v8n/JV8NsSeNGfHKVEX1y4knzV
-         pvkq++s63q7V+ZXa40vmeRG30kzBScusdR5wSMtaT10y05rUm8rYcJEiGGNc5JETv8IZ
-         5S5CVIHqRyj7f2vpZ1f0TE2qIzDVqqa51n6j+Siqh96AxPcZcqgQw9LNZCEj97rKjCi5
-         fjoU2ERGN50Ql0fmdeB9iuW1JOnPu91RB3BfEnikTDTovZFC947zsmIxiKZa6k6hcw8p
-         TFq2xdu25+t4yEQRw3uo/xOEFPhlmlp0EHuIJJh0V+t9Z/QymaxQXr8DCaJ/9IjQyuef
-         O0yg==
+        d=gmail.com; s=20230601; t=1702030885; x=1702635685; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RCGHDFk+o4ahPrru/vN+5ehsD/vnbygw2/R5jE0INiY=;
+        b=KoNMFvpwyv0r1aqtBHVrt3k+8kJdsk9XLTlVK3BptMKIBFBAOfTOCKBEDbv8445rPh
+         6im8Upm459PWVuuUp1gBx55YBV860TUeVAIpVHH3ChzGeRl+saOzHN25uOcOfT870oZu
+         FBGvZ7UiMKxXMRh2xfSAjcTwDeJAHoX5/p7yezb1c6QMX3Sb40h3TLYtAtkrhLwBSigK
+         7LgJIpEY0n6we9OWWoge1FpJX+4ALbfObrvgONCOrgpJ3tjhBZLsJ17KiMUTtheGVwNA
+         mfDJYnCqhkgOsixHDOtcBV80Ek3xHquIW+9IGJhFs6c4MBiqLlais0B6ylwjKKtryztR
+         zFVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702030530; x=1702635330;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oJIW+94NEVtrivuuZeCZTyNeE6Plg7E7ozfJj+P4UHM=;
-        b=LOFaK6jPHZTg1Q5Kv+bSqWzvz035/7dAkJuHfOAddVBAaCU1tPCJ+P1Z5h5pDL3WnM
-         4C+vEU2EK6nxSuKyZ/n+XmKSn0XkE9L80z6GhYM14PX7UXGuCb2+nLpx+jAi5lN1GqPy
-         xfuxUsSZiT3QiFq6cKEaD3JnvdVdFsU3btkj9cm+xzONBc6lA7s3a0+APgshRGxs28bX
-         PPNYXmaXDrt3cgW0fqIlL7fMKdBZ//6Y/lMLKlXoU70DM5CJupis5d388O93SkCDAXNV
-         6FKpjOUikUYgJNPL6RlpFdBXpMV8JSy2agIU5UJBIDQqsRn72VvTs8dQFUxH/tF6sl+M
-         396A==
-X-Gm-Message-State: AOJu0YzN3aCicVZJ7vIInzL7AUMBYimemDDkhH6+BCIBBbOLPWeMp9FW
-	ltWRdA/xnUbnKAP0IZa8o3SjZdXylRk=
-X-Google-Smtp-Source: AGHT+IGG6Og7WKrQ/tiW/5F3beFwyai8QgOT+0BMOvp1vEr4syhBeB4QaJaSmnRmHAdoNjOY5oFkyQ==
-X-Received: by 2002:a7b:c396:0:b0:40c:24e1:b6bb with SMTP id s22-20020a7bc396000000b0040c24e1b6bbmr1878538wmj.128.1702030529967;
-        Fri, 08 Dec 2023 02:15:29 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id b16-20020a05600c4e1000b0040c310abc4bsm2746707wmq.43.2023.12.08.02.15.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 02:15:29 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 6/6] oeqa/selftest/sstatetests: re-disable CDN tests
-Date: Fri,  8 Dec 2023 11:15:22 +0100
-Message-Id: <20231208101522.198832-6-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231208101522.198832-1-alex@linutronix.de>
-References: <20231208101522.198832-1-alex@linutronix.de>
+        d=1e100.net; s=20230601; t=1702030885; x=1702635685;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RCGHDFk+o4ahPrru/vN+5ehsD/vnbygw2/R5jE0INiY=;
+        b=b7E6y2+6ISIA+9/MN9vlpW7eeA5iqzly635qwOjFonEJE0tsgIoDw2Le0OxLzY5sZ8
+         otAizv+eT5MXaj1vBcaki/gsiSYf+qxuQAG56x5zFk+jJTvvmcMybGXyJI+x58rd+J+E
+         MJKXYTaBWg8ItrdpxH8efx5aI//9A+r+gWgBVdar/WgK2+3m9dY2Yt7T+GDZ4X8h9On9
+         1pTCHBLty6v5Cu+/YG/Q0vWHIRi25lR3vuHxfTUz/adJncdeNgfOZ1ptRZUkF0N47FEv
+         VBLsqkA16sT/NsrkSS/02atPA19Kn6Saq6TAkDfnE+EEv3fpRETSQDe60g2xWlGK8iXl
+         BB9A==
+X-Gm-Message-State: AOJu0YwdCmoUqPbGDx8EeDubdi7zqjX+NWxL+FX0SIejqNq0CB1qc2W0
+	HsnH87DrovAFygkYp8hQgAOFuR9VROV+cN7IOOQ=
+X-Google-Smtp-Source: AGHT+IGjYxZ/Q4Uq7lW9oHjFR3xZruJeuzKpuSrw3OylagDFwqoFX36XZ9ng6zqhiWFoCZgqrIjtFDnYzJ+rhdEI5hs=
+X-Received: by 2002:a05:651c:19a2:b0:2ca:34cd:77e4 with SMTP id
+ bx34-20020a05651c19a200b002ca34cd77e4mr1264722ljb.103.1702030884940; Fri, 08
+ Dec 2023 02:21:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231208101253.4042712-1-changqing.li@windriver.com> <20231208101253.4042712-3-changqing.li@windriver.com>
+In-Reply-To: <20231208101253.4042712-3-changqing.li@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 8 Dec 2023 11:21:13 +0100
+Message-ID: <CANNYZj-OuHemaODiLGi+KpUyGCwGF1GvyEjzekRxYjUEOJOzRg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] rpm: workaround to remove dnf lock file
+To: Changqing Li <changqing.li@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 10:15:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192033
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 10:21:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192034
 
-With the rework of printdiff, it is not longer useful for checking
-absence of sstate objects in a remote http cache, as it would only
-report the top level missing signatures, and leave the recursive
-investigation to diffsigs (which relies on ability to list cache
-files - not available over http).
+On Fri, 8 Dec 2023 at 11:13, Changqing Li
+<changqing.li@eng.windriver.com> wrote:
+> dnf has a bug, refer [1], it cause that log_lock.pid may not removed
+> after dnf exit. And for native dnf, since we change the lock file path
+> to /, it will never be removed, and make the rootfs not clean,refer
+> [2][3].  This patch is a workaround to fix above issue.
 
-The CDN check will be performed via a separate 'printmissing'
-function, which would be written specifically for the purpose,
-and so until then disable the test as it would only persistently fail.
+> @@ -420,3 +422,7 @@ class RpmPM(PackageManager):
+>          os.chdir(current_dir)
+>
+>          return tmp_dir
+> +
+> +    def _remove_dnf_lock_file(self):
+> +       if os.path.exists(self.rootfs_dir + "/log_lock.pid")
+> +            os.remove(self.rootfs_dir + "/log_lock.pid")
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/lib/oeqa/selftest/cases/sstatetests.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Both the description and the code in the patch seem to imply that
+sometimes dnf leaves the lock file behind and sometimes it does not.
+If that is the case, we need to dig deeper into the reasons why.
 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 07e82d25c62..97ac0d2e9d9 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -930,12 +930,12 @@ SSTATE_MIRRORS ?= "file://.* http://cdn.jsdelivr.net/yocto/sstate/all/PATH;downl
-         result = bitbake("-D -S printdiff {}".format(targets))
-         self.check_bb_output(result.output, exceptions)
- 
--    def test_cdn_mirror_qemux86_64(self):
-+    def _test_cdn_mirror_qemux86_64(self):
-         # Example:
-         # exceptions = [ ["packagegroup-core-sdk","do_package"] ]
-         exceptions = []
-         self.run_test_cdn_mirror("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
- 
--    def test_cdn_mirror_qemuarm64(self):
-+    def _test_cdn_mirror_qemuarm64(self):
-         exceptions = []
-         self.run_test_cdn_mirror("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
--- 
-2.39.2
+If that is not the case, please change the removal to be deterministic
+(remove the existence check), so that it produces an error if the lock
+file is not actually left behind by dnf. That way we'll also know when
+upstream resolved the issue, if ever.
 
+Alex
 
