@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB584C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7D93C10F04
 	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 02:33:39 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.11139.1702002815925041324
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.11143.1702002818471187046
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 18:33:35 -0800
+ Thu, 07 Dec 2023 18:33:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rphJJlML;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d2e6e14865so6009385ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 18:33:35 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=osVevNZz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d08a924fcfso14843585ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 18:33:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702002815; x=1702607615; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702002817; x=1702607617; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r7VFDBjtjaVmrJ6UjzV2T4LIHWf7mIqdBLMiLsb0Sm4=;
-        b=rphJJlMLDZLmMNPl7uCboJFqYc8hkjiZ5/JJn83xogLf1vkNt25pgF6t9eiaCUNfDm
-         kfdw2VViDw9kwXK5WtSr4724lZXK9irEq3pfzphGegCDvhbx3BE9mnY0DfRDC3FBKcdo
-         Ymxu+JxFGcZzJHy7wsxXa6u2tvyfdUSFgYOwS79z/CTMIehjyt03GuH+tQ2K41d5psia
-         dCeMXGZ3IpV/h4seOSuWXnRfNti1vIx4nlU+mKwfB/lfI3rpcMmJ9rNO0cVeKVveP9zq
-         OegD6FmLRa+nPROsRo4QD62ArOYFiDQdwcgQW/Bs0KmdrhBy+6XdUxWxuUV66XGGz8Tp
-         6Y3A==
+        bh=c79vRigKah5WGQ+zaQb4Whks6tKwpTVaF1sgLWxe/og=;
+        b=osVevNZzM3AGV75tfmnPsQFZ/HxJt4BciQpR62g4U0OXaEOjBa/UmogkoniafV5xt5
+         ejR9ao/6yCGbPhNUDspGKJRQee4GEscI55aGbmz5GGxBR/90PzQxjT4CMmZRw5r0O6hY
+         0B+M2Opff1xwScseMftJBvlfhCrUm2YTBAFRos5Yhiy4JgKEtHdUcndAlfkFlJaB+pXW
+         SP+zpaByNNA4Wl3GjBhtqzrYVTbQqKF5v21zJ8Us+ZuL4SM/hE90hvw2c2i00ygRzvE0
+         OTi7wW6lHqWGjWlfFq7pKK7Rtyl0eFqf3a3IZ/nACNOrhFROdBf06ZuecP4Y4wJ75Esp
+         qerA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702002815; x=1702607615;
+        d=1e100.net; s=20230601; t=1702002817; x=1702607617;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r7VFDBjtjaVmrJ6UjzV2T4LIHWf7mIqdBLMiLsb0Sm4=;
-        b=TzqGdsy0cfv1c7DtV1MPBMUINwXQd2BQCrZ/szKoqFkqRJ9rP2Z66ppgQknbemtPd0
-         wZ8xpD5p9lbPVr5AfiOroiCTVTnEtxNi7kQAtpHGScDk26k11anyCAFW7DplyMLKOSHk
-         FxnEqqLy4fuB1YGbv7yYeO/+c+/qz+iND5CUJow0UWYJr227UU5uhc9ug4/LRamGOFa4
-         TuCHH7vcTU9vV/7LJGNc+ms1Kk89MWu6/FpME4RYH6TFjflG+tVAmcRthv/p+z77d3h0
-         hFx+AyApFR44SbJOLJFlbi2154URvGbgIGppaEOY6aXiu37reqRNQSsmTkpFg9OeJFDO
-         qS7w==
-X-Gm-Message-State: AOJu0Yx5fE9HUwrQXufGDlJl0DmmFJ7knW4iVwbrAOk7ompyP0TpkuK6
-	zK+Iv9NWZwdPVUSv27PImFd0SDoX8zwtvpXg7Lo=
-X-Google-Smtp-Source: AGHT+IGU7MQFSheWUrSVeb/uAH95N/QTyYTlqOPDGlYytBx29Ine21S99DeGJEoJPpcV0brVR1Cvqg==
-X-Received: by 2002:a17:903:555:b0:1d0:6ffd:6e53 with SMTP id jo21-20020a170903055500b001d06ffd6e53mr3093249plb.75.1702002815067;
-        Thu, 07 Dec 2023 18:33:35 -0800 (PST)
+        bh=c79vRigKah5WGQ+zaQb4Whks6tKwpTVaF1sgLWxe/og=;
+        b=nDA7fVEmkekC/KfqTC6L971PZh2iL759ygIuWQRUkVMhWtDsPlb/JSwlTor/E6wZdr
+         dgZJ3knttgviO9NlIIDrXMFZR6JX8F/icQrYPOGDH59MgGNoPmQHEcyRuNqtmqHn3qjK
+         g1IyzmKYvEDkMdme5VIDhtohWhy2ckbM2YDM7ln5ZT+BPjS5bEiG8UMZiGbu+zCA0FPy
+         zxrwI5XI9wet4nn/f5DUsUUbV3ZUPQr6FqK9PYWfx6Sy5pAn/nvuew/z1u5EX+VzKfof
+         4VThkTyob9KVx32nnQD2V7nf0ZnsCBqQYAugDZcaS6CD4x06gAQevuNs2BCxPCcDfEbl
+         N7rA==
+X-Gm-Message-State: AOJu0YzzW5qwA+mzuWq4m5V4NffADpM4yAtLioPppNw1gNoN5Y3pbACR
+	YPgFefleuxrb5tOv95UA5orjQXUTyq72u9VDK1Q=
+X-Google-Smtp-Source: AGHT+IHLRxZOfQfByrGdpHnYjV1O794wzSqvn5wU66+89YCr1KIqkKe+h+ljc0baqC2wfBtikb0oJQ==
+X-Received: by 2002:a17:902:e88a:b0:1d0:68a:4a46 with SMTP id w10-20020a170902e88a00b001d0068a4a46mr4359214plg.3.1702002817070;
+        Thu, 07 Dec 2023 18:33:37 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id i11-20020a170902c94b00b001c9bc811d4dsm499752pla.295.2023.12.07.18.33.34
+        by smtp.gmail.com with ESMTPSA id i11-20020a170902c94b00b001c9bc811d4dsm499752pla.295.2023.12.07.18.33.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 18:33:34 -0800 (PST)
+        Thu, 07 Dec 2023 18:33:36 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/15] libsndfile: fix CVE-2022-33065 Signed integer overflow in src/mat4.c
-Date: Thu,  7 Dec 2023 16:33:07 -1000
-Message-Id: <0dc086b37b1c333adf99c01ce4ecb717df48d6f9.1702002667.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/15] xwayland: fix CVE-2023-5367
+Date: Thu,  7 Dec 2023 16:33:08 -1000
+Message-Id: <9c21b08c18414bb61abebcbbb8704946ea288a7b.1702002667.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1702002667.git.steve@sakoman.com>
 References: <cover.1702002667.git.steve@sakoman.com>
@@ -61,82 +61,124 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 02:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191993
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191994
 
-From: Vivek Kumbhar <vkumbhar@mvista.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsndfile1/CVE-2022-33065.patch          | 46 +++++++++++++++++++
- .../libsndfile/libsndfile1_1.0.31.bb          |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
+ .../xwayland/xwayland/CVE-2023-5367.patch     | 85 +++++++++++++++++++
+ .../xwayland/xwayland_22.1.8.bb               |  4 +-
+ 2 files changed, 88 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
+diff --git a/meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch b/meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch
 new file mode 100644
-index 0000000000..c5fba4d6b5
+index 0000000000..d4da1ecb4b
 --- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
-@@ -0,0 +1,46 @@
-+From 0754562e13d2e63a248a1c82f90b30bc0ffe307c Mon Sep 17 00:00:00 2001
-+From: Alex Stewart <alex.stewart@ni.com>
-+Date: Tue, 10 Oct 2023 16:10:34 -0400
-+Subject: [PATCH] mat4/mat5: fix int overflow in dataend calculation
++++ b/meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch
+@@ -0,0 +1,85 @@
++CVE: CVE-2023-5367
++Upstream-Status: Backport [ https://gitlab.freedesktop.org/xorg/xserver/-/commit/541ab2ecd41d4d8689e71855d93e492bc554719a ]
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +
-+The clang sanitizer warns of a possible signed integer overflow when
-+calculating the `dataend` value in `mat4_read_header()`.
 +
-+```
-+src/mat4.c:323:41: runtime error: signed integer overflow: 205 * -100663296 cannot be represented in type 'int'
-+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mat4.c:323:41 in
-+src/mat4.c:323:48: runtime error: signed integer overflow: 838860800 * 4 cannot be represented in type 'int'
-+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mat4.c:323:48 in
-+```
++From 541ab2ecd41d4d8689e71855d93e492bc554719a Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Tue, 3 Oct 2023 11:53:05 +1000
++Subject: [PATCH] Xi/randr: fix handling of PropModeAppend/Prepend
 +
-+Cast the offending `rows` and `cols` ints to `sf_count_t` (the type of
-+`dataend` before performing the calculation, to avoid the issue.
++The handling of appending/prepending properties was incorrect, with at
++least two bugs: the property length was set to the length of the new
++part only, i.e. appending or prepending N elements to a property with P
++existing elements always resulted in the property having N elements
++instead of N + P.
 +
-+CVE: CVE-2022-33065
-+Fixes: https://github.com/libsndfile/libsndfile/issues/789
-+Fixes: https://github.com/libsndfile/libsndfile/issues/833
++Second, when pre-pending a value to a property, the offset for the old
++values was incorrect, leaving the new property with potentially
++uninitalized values and/or resulting in OOB memory writes.
++For example, prepending a 3 element value to a 5 element property would
++result in this 8 value array:
++  [N, N, N, ?, ?, P, P, P ] P, P
++                            ^OOB write
 +
-+Signed-off-by: Alex Stewart <alex.stewart@ni.com>
++The XI2 code is a copy/paste of the RandR code, so the bug exists in
++both.
 +
-+Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/0754562e13d2e63a248a1c82f90b30bc0ffe307c]
-+CVE: CVE-2022-33065
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
++CVE-2023-5367, ZDI-CAN-22153
++
++This vulnerability was discovered by:
++Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
 +---
-+ src/mat4.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ Xi/xiproperty.c    | 4 ++--
++ randr/rrproperty.c | 4 ++--
++ 2 files changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/src/mat4.c b/src/mat4.c
-+index 0b1b414..575683b 100644
-+--- a/src/mat4.c
-++++ b/src/mat4.c
-+@@ -320,7 +320,7 @@ mat4_read_header (SF_PRIVATE *psf)
-+				psf->filelength - psf->dataoffset, psf->sf.channels * psf->sf.frames * psf->bytewidth) ;
-+		}
-+	else if ((psf->filelength - psf->dataoffset) > psf->sf.channels * psf->sf.frames * psf->bytewidth)
-+-		psf->dataend = psf->dataoffset + rows * cols * psf->bytewidth ;
-++		psf->dataend = psf->dataoffset + (sf_count_t) rows * (sf_count_t) cols * psf->bytewidth ;
++diff --git a/Xi/xiproperty.c b/Xi/xiproperty.c
++index 066ba21fba..d315f04d0e 100644
++--- a/Xi/xiproperty.c
+++++ b/Xi/xiproperty.c
++@@ -730,7 +730,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type,
++                 XIDestroyDeviceProperty(prop);
++             return BadAlloc;
++         }
++-        new_value.size = len;
+++        new_value.size = total_len;
++         new_value.type = type;
++         new_value.format = format;
++ 
++@@ -747,7 +747,7 @@ XIChangeDeviceProperty(DeviceIntPtr dev, Atom property, Atom type,
++         case PropModePrepend:
++             new_data = new_value.data;
++             old_data = (void *) (((char *) new_value.data) +
++-                                  (prop_value->size * size_in_bytes));
+++                                  (len * size_in_bytes));
++             break;
++         }
++         if (new_data)
++diff --git a/randr/rrproperty.c b/randr/rrproperty.c
++index c2fb9585c6..25469f57b2 100644
++--- a/randr/rrproperty.c
+++++ b/randr/rrproperty.c
++@@ -209,7 +209,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type,
++                 RRDestroyOutputProperty(prop);
++             return BadAlloc;
++         }
++-        new_value.size = len;
+++        new_value.size = total_len;
++         new_value.type = type;
++         new_value.format = format;
++ 
++@@ -226,7 +226,7 @@ RRChangeOutputProperty(RROutputPtr output, Atom property, Atom type,
++         case PropModePrepend:
++             new_data = new_value.data;
++             old_data = (void *) (((char *) new_value.data) +
++-                                  (prop_value->size * size_in_bytes));
+++                                  (len * size_in_bytes));
++             break;
++         }
++         if (new_data)
++-- 
++GitLab
 +
-+	psf->datalength = psf->filelength - psf->dataoffset - psf->dataend ;
-+
-+--
-+2.40.1
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-index f6ea585e34..0c654fd853 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-@@ -11,6 +11,7 @@ LICENSE = "LGPL-2.1-only"
- SRC_URI = "https://github.com/libsndfile/libsndfile/releases/download/${PV}/libsndfile-${PV}.tar.bz2 \
-            file://noopus.patch \
-            file://0001-flac-Fix-improper-buffer-reusing-732.patch \
-+           file://CVE-2022-33065.patch \
-           "
- UPSTREAM_CHECK_URI = "https://github.com/libsndfile/libsndfile/releases/"
+diff --git a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
+index 6919ba421b..94797be8e0 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_22.1.8.bb
+@@ -9,7 +9,9 @@ HOMEPAGE = "https://fedoraproject.org/wiki/Changes/XwaylandStandalone"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
  
+-SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
++SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz \
++           file://CVE-2023-5367.patch \
++"
+ SRC_URI[sha256sum] = "d11eeee73290b88ea8da42a7d9350dedfaba856ce4ae44e58c045ad9ecaa2f73"
+ 
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
 -- 
 2.34.1
 
