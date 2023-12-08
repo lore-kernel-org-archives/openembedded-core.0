@@ -1,165 +1,198 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A642C4167B
-	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 08:15:31 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.15792.1702023324912072277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B8B4C4167B
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 08:22:21 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.15854.1702023734839135046
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 00:15:25 -0800
+ Fri, 08 Dec 2023 00:22:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=m1ufXhOG;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2cb20c82a79so6229261fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 00:15:24 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cGA0qV3w;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3333224c7b9so1741588f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 00:22:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702023323; x=1702628123; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1702023733; x=1702628533; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e2FpbCtMxPJ69EQHQPI7tNccHejsiFWv4C1rbSX55bQ=;
-        b=m1ufXhOGnUSnF1QbhesHtiURnYe8YuFo9y0kzu/CSZ2976fBmHGBj4UgiGT2hYYZm1
-         40ghp5glZeP039+4nhu96c4rNJAFu+MTaYPKq0u3eurZdEAgtwVxuALJ4iT7mzx/86mD
-         eMMGyDlYjl8z1DRVemJpj6qrQReZT6nqsEXW1Du/7rk9WxoRypgQ9ZLzuDlaT4LAJPlw
-         EF5p44XT5Lp/klMyKF2uVEshhMIz/mcPHxt07OfII0mq2miWByx5LjofeQkDL3W97W9o
-         T/pDx76C7XCz3AMNtuL/gRO1AX+qXfflr7Im26etm6h7my5zria9hqEFbKsuP7QAVHu5
-         K7Xg==
+        bh=Z+qNDsdwkJVqw0+qu6GirJSHKsqkMlhYvxDXD8IO9fQ=;
+        b=cGA0qV3wiO5wqpvSoPuFm+PXXbNKtRZ2xS+19lPdpmjipslEVTeXlZDoLJVckRSXnI
+         OUEVUypRJovjRwyo8Raeysy2VU5S5v1Y+rKLRmaIj4aSIk19XaQ4EXYbZFxqxkV+ULAG
+         XZIrD7n+ip+S1b+nmbHyfwq3NiwyuZ8WOCG+Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702023323; x=1702628123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e2FpbCtMxPJ69EQHQPI7tNccHejsiFWv4C1rbSX55bQ=;
-        b=j5BHInO/e6hpaIPGxFGtTJMAl9C8PIbXdKtNoPUSTqrH/sM8Eg7a2wFmXNSHCLE5/x
-         sE7Qz0kxfV95Ou+dZn0WuI+Sn/2YjgHVclvrNNatE0sLoV+1HixhUs7UC2vD12/XXt8P
-         TTOrfW+FfYn4Fp5m7wbSEEzWgTQZvuumOKWHtqam314uhhdLCMARu7aKgYlYSn0V6ca6
-         +QvMG9as33CJi1lOKoo1Qso616s9Tvum+dawNXr7yP9COy6EKTfeSBvBWiApp57JTJlY
-         GWFOZsM7Ecwp8pNdH64cDSEYXpNmMTIvRtgqOLwC52GA81qVN60aQ7zl/cwP5IBvg+pH
-         EyKg==
-X-Gm-Message-State: AOJu0YxdtK7777kBpXSj7fxyZrYjZAWlt/gIXNUC2I1G8Nd+vF3vpkGh
-	rLmERfMdRBPqEKOAIBryue4BY1bYF9IKGLrn+Po=
-X-Google-Smtp-Source: AGHT+IExMuOU8zu1I1e+XkaYpd4bSUxgVTV3cKaPeD934hkZD1+dDaD1epv4BWVsUiTbqmmXRe8trprgNn1jE6JrKQ0=
-X-Received: by 2002:a2e:a0d1:0:b0:2ca:cb:4275 with SMTP id f17-20020a2ea0d1000000b002ca00cb4275mr2037576ljm.87.1702023322650;
- Fri, 08 Dec 2023 00:15:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20231207133913.443-1-alex.kiernan@gmail.com> <20231207133913.443-2-alex.kiernan@gmail.com>
- <58a265ee08706c7d5e0b9c5678dfbe44b63c96cb.camel@linuxfoundation.org>
-In-Reply-To: <58a265ee08706c7d5e0b9c5678dfbe44b63c96cb.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 8 Dec 2023 08:15:10 +0000
-Message-ID: <CAO5Uq5T2OdiJS_HvZJBVGNqaS5gA7MxQUx2-5embGX9jMKs_gQ@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 2/3] cargo: Move CARGO_MANIFEST_PATH/CARGO_SRC_DIR
- to cargo_common
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1702023733; x=1702628533;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Z+qNDsdwkJVqw0+qu6GirJSHKsqkMlhYvxDXD8IO9fQ=;
+        b=IZr/OVUbBylmt4xpZ6RqkooT/ADAHWlwbuPSp8DSeOeBNkLkv2o4mPFTjbQKY5/sYQ
+         TorSVCctHpvGXoV8rGqPs0s5TQQVeZRRoJRJBjdaFmLy9R/RbA2oSDtIYHBOiQ9PmSPx
+         VfANlscRGVVY5VNWeHpAea6O1k9veXqMfQoBxCtkWhous2BaF5PGcxvYLBzF1GRAtsT+
+         Ml2dHpdaWVPrVpsp3AgQNpIHnhH5UjGuelJHSXGa/eyzamk1VeokvsTfUYwJGRRiTKUo
+         /Rh+OGTqTDKZJQbLeMBtBnJQz57/rSHnrUEQJnjQACW8J1KmgBEkYMw0+sHNUczdtxCF
+         Zl0g==
+X-Gm-Message-State: AOJu0YzQihPNmHa9zOJqDWVrTQsoypM+OBbMqAVcxojsHhQ5GycW+iR/
+	xbbQRD7BJj/CmumR8ii5pJIWHg==
+X-Google-Smtp-Source: AGHT+IHoLQbOH7Oir7I3iz/hgsagQYqoG9YkYGqQSvByRLeTUxKNqxc/6CpQOvYSkg9RPlM0rB2AbQ==
+X-Received: by 2002:a5d:61d0:0:b0:334:b369:2b18 with SMTP id q16-20020a5d61d0000000b00334b3692b18mr1394423wrv.60.1702023733166;
+        Fri, 08 Dec 2023 00:22:13 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7bab:5c16:7781:6a4b? ([2001:8b0:aba:5f3c:7bab:5c16:7781:6a4b])
+        by smtp.gmail.com with ESMTPSA id c1-20020a5d4cc1000000b0033350f5f94dsm1459580wrt.101.2023.12.08.00.22.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 00:22:12 -0800 (PST)
+Message-ID: <3226028e5f4054034bc5b76e9170065e4b823db8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 09/10] oeqa/selftest/recipetool:
+ appendsrfile: add test for machine
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Julien Stephan <jstephan@baylibre.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 08 Dec 2023 08:22:12 +0000
+In-Reply-To: <20231205145636.960819-10-jstephan@baylibre.com>
+References: <20231205145636.960819-1-jstephan@baylibre.com>
+	 <20231205145636.960819-10-jstephan@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 08:15:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192014
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 08:22:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192015
 
-On Thu, Dec 7, 2023 at 10:40=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2023-12-07 at 13:39 +0000, Alex Kiernan wrote:
-> > cargo_common_do_configure uses CARGO_MANIFEST_PATH (which depends on
-> > CARGO_SRC_DIR), but their definition was in cargo.bbclass.
-> >
-> > Match the other variables here and change to default values, rather
-> > than weak defaults.
->
-> FWIW "single value" class variables tend to work much better as ??=3D
-> (which I'd call default value) since than it doesn't matter if the
-> recipe setting comes before or after the inherit and the inherit
-> position in the recipe doesn't matter.
->
+On Tue, 2023-12-05 at 15:56 +0100, Julien Stephan wrote:
+> Add a new test for machine specific bbappend override
+>=20
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/recipetool.py | 44 +++++++++++++++++++---
+>  1 file changed, 38 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/s=
+elftest/cases/recipetool.py
+> index 21cb350e8a6..c55025e7df6 100644
+> --- a/meta/lib/oeqa/selftest/cases/recipetool.py
+> +++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+> @@ -1056,7 +1056,7 @@ class RecipetoolAppendsrcBase(RecipetoolBase):
+>              if p.scheme =3D=3D 'file':
+>                  return p.netloc + p.path, uri
+> =20
+> -    def _test_appendsrcfile(self, testrecipe, filename=3DNone, destdir=
+=3DNone, has_src_uri=3DTrue, srcdir=3DNone, newfile=3DNone, remove=3DNone, =
+options=3D''):
+> +    def _test_appendsrcfile(self, testrecipe, filename=3DNone, destdir=
+=3DNone, has_src_uri=3DTrue, srcdir=3DNone, newfile=3DNone, remove=3DNone, =
+machine=3DNone , options=3D''):
+>          if newfile is None:
+>              newfile =3D self.testfile
+> =20
+> @@ -1084,17 +1084,39 @@ class RecipetoolAppendsrcBase(RecipetoolBase):
+>          expectedlines =3D ['FILESEXTRAPATHS:prepend :=3D "${THISDIR}/${P=
+N}:"\n',
+>                           '\n']
+> =20
+> +        override =3D ""
+> +        if machine:
+> +            options +=3D ' -m %s' % machine
+> +            override =3D ':append:%s' % machine
+> +            expectedlines.extend(['PACKAGE_ARCH =3D "${MACHINE_ARCH}"\n'=
+,
+> +                                  '\n'])
+> +
+>          if remove:
+>              for entry in remove:
+> -                expectedlines.extend(['SRC_URI:remove =3D "%s"\n' % entr=
+y,
+> +                if machine:
+> +                    entry_remove_line =3D 'SRC_URI:remove:%s =3D " %s"\n=
+' % (machine, entry)
+> +                else:
+> +                    entry_remove_line =3D 'SRC_URI:remove =3D "%s"\n' % =
+entry
+> +
+> +                expectedlines.extend([entry_remove_line,
+>                                         '\n'])
+> =20
+>          if has_src_uri:
+>              uri =3D 'file://%s' % filename
+>              if expected_subdir:
+>                  uri +=3D ';subdir=3D%s' % expected_subdir
+> -            expectedlines.extend(['SRC_URI +=3D "%s"\n' % uri,
+> -                                  '\n'])
+> +            if machine:
+> +                src_uri_line =3D 'SRC_URI%s =3D " %s"\n' % (override, ur=
+i)
+> +            else:
+> +                src_uri_line =3D 'SRC_URI +=3D "%s"\n' % uri
+> +
+> +            expectedlines.extend([src_uri_line, '\n'])
+> +
+> +        with open("/tmp/tmp.txt", "w") as file:
+> +            print(expectedlines, file=3Dfile)
+> +
+> +        if machine:
+> +            filename =3D '%s/%s' % (machine, filename)
+> =20
+>          return self._try_recipetool_appendsrcfile(testrecipe, newfile, d=
+estpath, options, expectedlines, [filename])
+> =20
+> @@ -1153,13 +1175,23 @@ class RecipetoolAppendsrcTests(RecipetoolAppendsr=
+cBase):
+>          self.assertTrue(filepath, 'Unable to test, no file:// uri found =
+in SRC_URI for %s' % testrecipe)
+>          self._test_appendsrcfile(testrecipe, filepath, has_src_uri=3DFal=
+se)
+> =20
+> -    def test_recipetool_appendsrcfile_existing_in_src_uri_diff_params(se=
+lf):
+> +    def test_recipetool_appendsrcfile_existing_in_src_uri_diff_params(se=
+lf, machine=3DNone):
+>          testrecipe =3D 'base-files'
+>          subdir =3D 'tmp'
+>          filepath, srcuri_entry =3D self._get_first_file_uri(testrecipe)
+>          self.assertTrue(filepath, 'Unable to test, no file:// uri found =
+in SRC_URI for %s' % testrecipe)
+> =20
+> -        self._test_appendsrcfile(testrecipe, filepath, subdir, remove=3D=
+[srcuri_entry])
+> +        self._test_appendsrcfile(testrecipe, filepath, subdir, machine=
+=3Dmachine, remove=3D[srcuri_entry])
+> +
+> +    def test_recipetool_appendsrcfile_machine(self):
+> +        # A very basic test
+> +        self._test_appendsrcfile('base-files', 'a-file', machine=3D'myma=
+chine')
+> +
 
-Ah, I guess that makes sense - for "single value" :append/:remove
-aren't really useful, so leaving the actual assignment as late as
-possible works?
-
-TBH I've never really been very clear what the "right" thing to use is
-between ?=3D and ??=3D
-
-> I'd call ?=3D a weak assignment or weak default.
->
-> Thanks for working on cleaning some of these things up. I got so far
-> with it originally and then ran out of time (and too frustrated with
-> the long build/test cycles!).
->
-
-I'll go back and do the opposite cleanup and send a v2.
-
-> Cheers,
->
-> Richard
->
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> >
-> >  meta/classes-recipe/cargo.bbclass        | 7 -------
-> >  meta/classes-recipe/cargo_common.bbclass | 7 +++++++
-> >  2 files changed, 7 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/meta/classes-recipe/cargo.bbclass b/meta/classes-recipe/ca=
-rgo.bbclass
-> > index 96a74e2ef1ec..0829a58dd90f 100644
-> > --- a/meta/classes-recipe/cargo.bbclass
-> > +++ b/meta/classes-recipe/cargo.bbclass
-> > @@ -30,13 +30,6 @@ B =3D "${WORKDIR}/build"
-> >  # where the issue occured
-> >  export RUST_BACKTRACE =3D "1"
-> >
-> > -# The directory of the Cargo.toml relative to the root directory, per =
-default
-> > -# assume there's a Cargo.toml directly in the root directory
-> > -CARGO_SRC_DIR ??=3D ""
-> > -
-> > -# The actual path to the Cargo.toml
-> > -CARGO_MANIFEST_PATH ??=3D "${S}/${CARGO_SRC_DIR}/Cargo.toml"
-> > -
-> >  RUSTFLAGS ??=3D ""
-> >  BUILD_MODE =3D "${@['--release', ''][d.getVar('DEBUG_BUILD') =3D=3D '1=
-']}"
-> >  # --frozen flag will prevent network access (which is required since o=
-nly
-> > diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-re=
-cipe/cargo_common.bbclass
-> > index bf298e96c745..c330c122a9d3 100644
-> > --- a/meta/classes-recipe/cargo_common.bbclass
-> > +++ b/meta/classes-recipe/cargo_common.bbclass
-> > @@ -33,6 +33,13 @@ CARGO_DISABLE_BITBAKE_VENDORING ?=3D "0"
-> >  # Used by libstd-rs to point to the vendor dir included in rustc src
-> >  CARGO_VENDORING_DIRECTORY ?=3D "${CARGO_HOME}/bitbake"
-> >
-> > +# The directory of the Cargo.toml relative to the root directory, per =
-default
-> > +# assume there's a Cargo.toml directly in the root directory
-> > +CARGO_SRC_DIR ?=3D ""
-> > +
-> > +# The actual path to the Cargo.toml
-> > +CARGO_MANIFEST_PATH ?=3D "${S}/${CARGO_SRC_DIR}/Cargo.toml"
-> > +
-> >  CARGO_RUST_TARGET_CCLD ?=3D "${RUST_TARGET_CCLD}"
-> >  cargo_common_do_configure () {
-> >       mkdir -p ${CARGO_HOME}/bitbake
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#191955): https://lists.openembedded.org/g/openembed=
-ded-core/message/191955
-> > Mute This Topic: https://lists.openembedded.org/mt/103034028/1686473
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-richard.purdie@linuxfoundation.org]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
+I think this is causing problems with other selftests, e.g. this set of
+failures here:
 
 
---=20
-Alex Kiernan
+https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2559/ste=
+ps/14/logs/stdio
+
+with errors like:
+
+ERROR: When reparsing /home/pokybuild/yocto-worker/oe-selftest-armhost/buil=
+d/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch, the basehash =
+value changed from b720db5f2039a9a72917b5d400acd7f874d37014fec362112a44f905=
+04ba79cd to 1b5f5a1ec1552e4a1e5798b2a1c23c062be5054be287d79c98e0e29da780c3b=
+0. The metadata is not deterministic and this needs to be fixed.
+ERROR: The following commands may help:
+ERROR: $ bitbake base-files -cdo_fetch -Snone
+ERROR: Then:
+ERROR: $ bitbake base-files -cdo_fetch -Sprintdiff
+
+
+since this test is running on the same metadata as the other tests are
+using. We need to keep modifications isolated from the other tests that
+could be running.
+
+Cheers,
+
+Richard
+
 
