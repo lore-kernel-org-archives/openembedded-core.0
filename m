@@ -1,103 +1,98 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD20C4167B
-	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 12:57:43 +0000 (UTC)
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
- by mx.groups.io with SMTP id smtpd.web11.34517.1702040261796087093
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFA25C10DCE
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 13:12:53 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.34818.1702041166436803634
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 04:57:41 -0800
+ Fri, 08 Dec 2023 05:12:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=fm1 header.b=AFPoJ5gr;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=x+airqEs;
- spf=pass (domain: zhukoff.net, ip: 64.147.123.21, mailfrom: pavel@zhukoff.net)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 26F383200A13;
-	Fri,  8 Dec 2023 07:57:41 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 08 Dec 2023 07:57:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1702040260; x=1702126660; bh=GIl53FBk5Z
-	V5TKmbxMhx9ntkigDi5nZdw7oKjHSFIKU=; b=AFPoJ5grdWw1VnS46dWJlgINyp
-	ZHhwhpafAS5l3OZjvXuBJ4JtGlhWYjPXrhdXJnNdWN3ckPoYKBNjDzNA/2R6NVUP
-	tW20JD4dAZZethFhAVB2+gYuDL16O4ApSdocJWHnnuC+0pbSw4vIWwaqD0LL2WyG
-	BYQMRwO4+wO3nu9QZZKfxJDJddld35FZ5Lc/MKFWD8MlEELtcVbpKvjtftwBPlh8
-	ZfEx6Dww7xTRoQb6II7GwlTsVZD9ofNHzBPT69/WsF2ApexRTRQt8IMsvAnENLGn
-	winUn4OanshHasFRUa+HslP+UJAMY7V2MWtVqpmxuA79tHBcGr0l5Hgu/FtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1702040260; x=1702126660; bh=GIl53FBk5ZV5T
-	KmbxMhx9ntkigDi5nZdw7oKjHSFIKU=; b=x+airqEsXG4XG6YZQyGA+RFdhz+jT
-	UwqWUkTnr7nnAqDhi1ljcT9QWdNv2+Egwh/ApVJaw4kJWMsgWuCLnPA9L0hb9SWN
-	ZnxK4n29HIsFrCVPPUvFAOo9gOE3Jt67VF9A8QM2VIW6srxGxRVyIn/nXGX7sMxO
-	zvcHhCh6wK6EOJpcJ/Fu3Hy8aV/whua7GcC6mprVXMYpPNep0LoDtqSL+mcJBDDz
-	EeJJEIqxwyxMcRpEFE44QuUPxmpNufABAFhjVcJHn73WfRRwjzERCk7SNZsLWGsK
-	GhgDK4K94Sk8vkThv99ku2jCBHfQ2v87cDFZbEf9gfBR9QR23SZXF2lqw==
-X-ME-Sender: <xms:xBJzZRLM3xQt6hnw8VrOwgsXRT3mqi0yX4U-Zg35oR1NtAx5uqIgMg>
-    <xme:xBJzZdIrMPlJjlvYGfgW9-bSJnGLOtmAoKdN07pMAgR1w3e_RZxdvGyAIAors5Deu
-    pNZ_dQIdYlELt_mnE4>
-X-ME-Received: <xmr:xBJzZZus2dmUQyCnuCqtuXjiNNomR881PjgE8wM3hVh4ILm9KezLEk_BSKjVrrxDBH9DeuYs56GU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudekiedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
-    ertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcuoehprghvvghlseiihhhukhho
-    fhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeevfeejkeejudegledtkeejhfettdefje
-    euffehieekvddugfdtffffledvvdefhfenucevlhhushhtvghrufhiiigvpedtnecurfgr
-    rhgrmhepmhgrihhlfhhrohhmpehprghvvghlseiihhhukhhofhhfrdhnvght
-X-ME-Proxy: <xmx:xBJzZSYsiSAxTTh5HoWuSVqSq8tseuo3fOLDeA5YW8JjgawIw9L-Yw>
-    <xmx:xBJzZYa0XfuVmygT7aKJJBZqF45vCOlN5edPibefatqqgpEiui1VNA>
-    <xmx:xBJzZWDdhFd9o68hDupF3HZD7EMmULxCk1mO-gGKfRCd2uNaV-cYYA>
-    <xmx:xBJzZRCi96Y8ZAvkbNEZSOoMtIgbP5Cco5VYpICqvRXqQGry6HbRLQ>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 Dec 2023 07:57:39 -0500 (EST)
-From: Pavel Zhukov <pavel@zhukoff.net>
-To: openembedded-core@lists.openembedded.org
-Cc: Pavel Zhukov <pavel@zhukoff.net>
-Subject: [PATCH v3] bbtests.py: Add test for unexpanded variables in the dirname
-Date: Fri,  8 Dec 2023 13:57:41 +0100
-Message-ID: <20231208125741.772372-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.41.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Soab07ST;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=U5gbP/en;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018c498f1e55-5da45765-5fff-4f29-be2b-09fadd59a1fa-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1702041165; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=6CfQqtTUHxYXgZOR6LoYH+BX7xt2QbdyeGtUXGm8RrI=;
+	b=Soab07SThLImyrfV3FD1JNLNMIIaSmAxrnEJ6GkETPWO2opNLmusbsdxiISUHsZd
+	dEA66h+pYsL0kNPmBDTaZf+ayuWUHsU/+xHXDJaSO1llIuZ5omA36byFhvSsRlRsKYf
+	RNYQE51NFQ00lTC6qqUxzzWk83wckBUJvLL0B/VI=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702041165;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=6CfQqtTUHxYXgZOR6LoYH+BX7xt2QbdyeGtUXGm8RrI=;
+	b=U5gbP/en3JagYw18sUQ6N7ZH8tA8Q8187crVG0QMfVgIqr17hfvkxn5yJpdIWIG4
+	kHaeY5+3/m9nSXiphAhBQFjbHYaOUchMuDnTFv/4R22WXapo3HPPv/UzK8cCagj4Hpn
+	Zk5mUs1TYPaz5o/KfnEmXQ+SlkO173Lu39LHlzZ8=
+From: patchtest@automation.yoctoproject.org
+To: Pavel Zhukov <pavel@zhukoff.net>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2] bbtests.py: Add test for unexpanded variables in the
+ dirname
+In-Reply-To: 20231208125531.772229-1-pavel@zhukoff.net
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c498f1e55-5da45765-5fff-4f29-be2b-09fadd59a1fa-000000@us-west-2.amazonses.com>
+Date: Fri, 8 Dec 2023 13:12:45 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.08-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 12:57:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192056
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 13:12:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192058
 
-Regression test for [Yocto #15255]
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/lib/oeqa/selftest/cases/bbtests.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Testing patch /home/patchtest/share/mboxes/v2-bbtests.py-Add-test-for-unexpanded-variables-in-the-dirname.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index d242352ea2..2bc1898f2b 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -362,3 +362,13 @@ INHERIT:remove = \"report-error\"
- 
-         result = bitbake('gitunpackoffline-fail -c fetch', ignore_status=True)
-         self.assertTrue(re.search("Recipe uses a floating tag/branch .* for repo .* without a fixed SRCREV yet doesn't call bb.fetch2.get_srcrev()", result.output), msg = "Recipe without PV set to SRCPV should have failed: %s" % result.output)
-+
-+    def test_unexpanded_variable_in_path(self):
-+        """
-+            Test that bitbake fails if directory contains unexpanded bitbake variable in the name
-+        """
-+        recipe_name = "gitunpackoffline"
-+        self.write_config('PV:pn-gitunpackoffline:append = "+${UNDEFVAL}"')
-+        result = bitbake('{}'.format(recipe_name), ignore_status=True)
-+        self.assertGreater(result.status, 0, "Build should have failed if ${ is in the path")
-+        self.assertTrue(re.search("ERROR: Directory name /.* contains unexpanded bitbake variable. This may cause build failures and WORKDIR polution", result.output), msg = "mkdirhier with unexpanded variable should have failed: %s" % result.output)
--- 
-2.41.0
+FAIL: test max line length: Patch line too long (current length 250, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
