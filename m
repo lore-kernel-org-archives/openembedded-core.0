@@ -2,47 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A44DEC4167B
-	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 13:12:53 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.34817.1702041164878328470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A84C4167B
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 13:18:33 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.34923.1702041505618880324
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 05:12:45 -0800
+ Fri, 08 Dec 2023 05:18:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gYpy4A5O;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Dzia1iVz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c498f18cf-27ac4c58-2cb4-4e3f-956b-42e345717504-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RkjAMtvv;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=HlJoj4Od;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c49944c08-7d88f16f-2cd2-4228-977d-1f354c6f7c86-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702041164; i=@automation.yoctoproject.org;
+	t=1702041504; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=2drvpHw1mThNLPIhrVbL4GilayCAV/Q8mKqqQWnAALE=;
-	b=gYpy4A5O2rypcCqbWal3Y7ycRV/cUMM7PzD38BALB35RzZ2gEKrYLeGBpBD24hok
-	jOMLYS9Iabt8pAZUFR/wZMRyXFg//oktFamBJCb6Hmwjzxkb+xDijmTPqClaR7jaIYE
-	O/rxLhC5YNr7iEvSpPUjDgEvd/jo8vx/p+Kh2h90=
+	bh=6qv7gbb91j6mced+ZdITscW7MMO7B8E+v2VlZAQYvZE=;
+	b=RkjAMtvvcvBiQxGP0XiTbxLg3sJEF8t9OZnTGAfLbz5J2TW+AiH92IjO38qeTrUZ
+	tNL7dGY4cc50SifZk8TsZm1PBR8OIo8LR1E3Sdtl213g9NvjFW+/N+/WpPEo7SP3MSx
+	foualO5zL11FPWXvTqukB4PNbWvXdWnGtiXPVRbU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702041164;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702041504;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=2drvpHw1mThNLPIhrVbL4GilayCAV/Q8mKqqQWnAALE=;
-	b=Dzia1iVzR1DggwuSgsgM5UySnenwRWR7VGob7jx1H3+Q1nPLNBz6XQuD+SB1k4pH
-	+9s+a4RDRbJF4YJET8GiW9I8K7TeCnaQYfIIOa3+Fmq2dp/ussC/Z7QIDJWOE/E+6aL
-	iau8vHW1jR70ZYhjPC7ZYCJSCECPjLaV8s1i//Yc=
+	bh=6qv7gbb91j6mced+ZdITscW7MMO7B8E+v2VlZAQYvZE=;
+	b=HlJoj4OdXMDsOaUkAY6GWC8pNYCLvIC0c2Y6a8QJP/o/80R3cwOb9q8zU8n/Jf/w
+	sGd1MsZ6fpyHHvcZ2W5Ogam8uy3igWee7L/K3iekhSWScANZDlXCox8nh0VhkA6G7yK
+	jqjrdg2bUAlYs3IsU2+cUVkwtJCeSFS/aknGQSxQ=
 From: patchtest@automation.yoctoproject.org
 To: Pavel Zhukov <pavel@zhukoff.net>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] bbtests.py: Add test for unexpanded variables in the dirname
-In-Reply-To: 20231208113813.766894-1-pavel@zhukoff.net
+Subject: Patchtest results for [PATCH v3] bbtests.py: Add test for unexpanded variables in the
+ dirname
+In-Reply-To: 20231208125741.772372-1-pavel@zhukoff.net
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c498f18cf-27ac4c58-2cb4-4e3f-956b-42e345717504-000000@us-west-2.amazonses.com>
-Date: Fri, 8 Dec 2023 13:12:43 +0000
+Message-ID: <0101018c49944c08-7d88f16f-2cd2-4228-977d-1f354c6f7c86-000000@us-west-2.amazonses.com>
+Date: Fri, 8 Dec 2023 13:18:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.08-54.240.27.29
+X-SES-Outgoing: 2023.12.08-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 13:12:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192057
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 13:18:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192059
 
 --NextPart
 Content-Type: text/plain
@@ -52,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/bbtests.py-Add-test-for-unexpanded-variables-in-the-dirname.patch
+Testing patch /home/patchtest/share/mboxes/v3-bbtests.py-Add-test-for-unexpanded-variables-in-the-dirname.patch
 
 FAIL: test max line length: Patch line too long (current length 250, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
