@@ -2,41 +2,41 @@ Return-Path: <archana.polampalli@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 174B2C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 187BFC10DCE
 	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 11:45:03 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.29843.1702035895097144389
+ by mx.groups.io with SMTP id smtpd.web10.29844.1702035895572373701
  for <openembedded-core@lists.openembedded.org>;
  Fri, 08 Dec 2023 03:44:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=o2U2NDmr;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gkEvpXfF;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=07065978db=archana.polampalli@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B894DAk007693
-	for <openembedded-core@lists.openembedded.org>; Fri, 8 Dec 2023 11:44:54 GMT
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B894DAl007693
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 Dec 2023 11:44:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=KBVoP
-	Fs6o3pL361YbKQxJcTBCf8N1MjeKfIsFGY5r8o=; b=o2U2NDmrBH/+D4tdw5y34
-	Qr/Vtn4rrtvFjoq9FIpRyBhUw9qikjPjV+QcCPhC3UptW0UmvQYPeZdkro7jkWlI
-	FaEcxKBW5oeGsKp977reUi1uzxdThEbYO8R/mxrl+SXKqJfuxYGW2H34oNKgN4Tt
-	vEA1AO87DM/aQCtJ5WwjixL9KXPSDsQI6iv2ec7chHq0ySXstmY5Al5WwxJgV/Z3
-	Pjw0bZ0aMH4cKptn13kgciQ1sYXGyNdkeiE6hVm1tSKBbRLE/tpIFhdAozxhaKhK
-	O0l+RaDlMkUyyTALmfpbH2RZ3EaAoY3q2CEmV342u4yJCv0QVJKGrKPFreOn3dSh
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=ikq13
+	+kFT3YVOpPqafq5fFuglagKEl1qcOhpmAr5oSE=; b=gkEvpXfFdat9roaN00XR+
+	l54sl6RU+eilOCrezBvgrTNv5GQxskhZHrxK54k8JdJ0us1VConWnJUr44Ys1C4O
+	1zLo+SP/XuFh1I5wGqxE3TdI5uKhBQkCH62jR42kLz40IOZrdV3VyijwSX07uLav
+	1vurVfjRgU7PvzNZZTp5Kn/9r+3K4uEGG39gJQrjGywWjAjUdeLWyEiYB4bQwro+
+	dWYEH/QrsAkv8RdzejM9/4RjRdGord+2p4qs76aaJT/7WZwxWocxUpefHECuWpqC
+	Kru1htf2F87dxjK1D8lC+MKS1ooE3D0R07lwnfyHLRC8iwRnP/Ckrwq4R07x6c72
 	Q==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3utd53tswx-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3utd53tswx-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 11:44:54 +0000 (GMT)
 Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 8 Dec 2023 03:44:46 -0800
+ 15.1.2507.35; Fri, 8 Dec 2023 03:44:52 -0800
 From: <archana.polampalli@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][PATCH 1/1] bluez5: fix CVE-2023-45866
-Date: Fri, 8 Dec 2023 11:44:15 +0000
-Message-ID: <20231208114415.416204-1-archana.polampalli@windriver.com>
+Subject: [oe-core][kirkstone][PATCH 1/1] bluez5: fix CVE-2023-45866
+Date: Fri, 8 Dec 2023 11:44:35 +0000
+Message-ID: <20231208114435.416415-1-archana.polampalli@windriver.com>
 X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,8 +44,8 @@ Content-Type: text/plain
 X-Originating-IP: [147.11.136.210]
 X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
  ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: bwUCD_OEsHFGXonaBpT_yxMszWvaCipz
-X-Proofpoint-ORIG-GUID: bwUCD_OEsHFGXonaBpT_yxMszWvaCipz
+X-Proofpoint-GUID: xCgPxV3DFMxIjG6Q3InGcnkJL5ekPQm4
+X-Proofpoint-ORIG-GUID: xCgPxV3DFMxIjG6Q3InGcnkJL5ekPQm4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
@@ -58,7 +58,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 11:45:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192045
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192046
 
 From: Archana Polampalli <archana.polampalli@windriver.com>
 
@@ -83,13 +83,13 @@ Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
 
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index a23e4e58a6..0bb157e202 100644
+index a8eaba1dd6..7786b65670 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -56,6 +56,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+@@ -54,6 +54,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
             file://0001-test-gatt-Fix-hung-issue.patch \
-            file://0004-src-shared-util.c-include-linux-limits.h.patch \
-            file://0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch \
 +	   file://CVE-2023-45866.patch \
             "
  S = "${WORKDIR}/bluez-${PV}"
