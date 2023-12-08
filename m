@@ -2,115 +2,214 @@ Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 434ACC46CA3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29371C10DCE
 	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 10:13:02 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.17128.1702030380564440440
+ by mx.groups.io with SMTP id smtpd.web10.17120.1702030377093542199
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 02:13:00 -0800
+ Fri, 08 Dec 2023 02:12:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=MhPXnHPX;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=AU3FQaKI;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=07066c4dc9=changqing.li@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B88FJ8k007072
-	for <openembedded-core@lists.openembedded.org>; Fri, 8 Dec 2023 10:12:59 GMT
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3B89VmOu007262
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 Dec 2023 10:12:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=from:to:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	PPS06212021; bh=BwFZxKQEkjBFkseDOCTz+xQmS/EfSL8OIq/o5N/rS/w=; b=
-	MhPXnHPXiGjABR03PXB/veLlHkVkV044HdgXA2XocnvlrPw0+NKYaF5nQbnZ9i/b
-	bBj0+n98W46zcss9MdOo9BsGfS04wUHs02WG2QCUor4/gvhTHFFQh1mOnUvMFlIb
-	0Q7eyCytqPFUvfi6UVXeg7uQVTLF21cZ8SjnJ0GY/q9QfoBauR+u2FFjXQUk1jiW
-	hsxp3fDxUYByIYRdxKxRbvzmMceEpgVc/5kFC2Mi8a8KbieIWJGEIMqRqCpfcxKJ
-	7O9jvNroQH3s+IFI8jtaZ/S6kU0XNMRhkZejXr/Cd1Mz/CNF3MoiameQUOev7Nhh
-	cgqKAVeqzAbCDRdWwODXPQ==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3utd53jq3t-1
+	PPS06212021; bh=iyVtMYaGjCL6AiTy5VcAS+zb7ourZjMIVijhhK6u9ao=; b=
+	AU3FQaKIx7t5HOml1nVV8cI9TqcEixoX0E3JCHner8xttxZcuUVgwGm0fKONa8FK
+	9vfeNvcUFH1DbqV8qAJW5bZiSvkU7uEOBAW9ldDPipbTZDz0L1Sr0TVzpzkCIE4Q
+	rzGEkUsFJG8j2n4ZnBgydICeiWbgCdA7fn+EU8NY/7c/2/aMiZoB8jS6JlfStc+H
+	rtihJ5PqU/lwKwoQuPigdFBvljNGwO4nUkwtXqGkN1az5djg41ybOPQrR+nt0rwv
+	nTQRklp2K8C4Q6hIeQ/tyhK36hVyLKkuA1lP+la4R9clJGsiGkBGpiTbOphnQ7xl
+	6auswSx/fwC3PEQZX1sTOg==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3utd53tqhu-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 10:12:59 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 10:12:56 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 8 Dec 2023 02:13:02 -0800
+ 15.1.2507.35; Fri, 8 Dec 2023 02:12:59 -0800
 Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Fri, 8 Dec 2023 02:13:01 -0800
+ 15.1.2507.35 via Frontend Transport; Fri, 8 Dec 2023 02:12:58 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 3/5] initscripts: support persistent tmp
-Date: Fri, 8 Dec 2023 18:12:51 +0800
-Message-ID: <20231208101253.4042712-5-changqing.li@windriver.com>
+Subject: [PATCH 1/5] bitbake.conf: set correct FILESYSTEM_PERMS_TABLES
+Date: Fri, 8 Dec 2023 18:12:48 +0800
+Message-ID: <20231208101253.4042712-2-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231208101253.4042712-1-changqing.li@windriver.com>
 References: <20231208101253.4042712-1-changqing.li@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Ba02rkT_i747M1Cuzy8sxjnWLnGWAIAG
-X-Proofpoint-GUID: Ba02rkT_i747M1Cuzy8sxjnWLnGWAIAG
+X-Proofpoint-GUID: md3tGc717Cqsy_za-1tPUBkzBwqt9GFB
+X-Proofpoint-ORIG-GUID: md3tGc717Cqsy_za-1tPUBkzBwqt9GFB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- malwarescore=0 bulkscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 clxscore=1015
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312080083
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ adultscore=0 mlxlogscore=959 malwarescore=0 suspectscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312080084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 10:13:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192025
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192022
 
 From: Changqing Li <changqing.li@windriver.com>
 
-* default volatiles file is for VOLATILE_TMP_DIR=yes, and
-VOLATILE_LOG_DIR=yes, if they set to no, remove volatile related config
-
-* replace /var/volatile/tmp with /var/tmp for populate-volatile.sh
+* Update fs-perms.txt as an common fs-perms file
+* Remove fs-perms-persistent-log.txt
+* Add fs-perms-volatile-log.txt and fs-perms-volatile-tmp.txt
+  to be used when VOLATILE_LOG_DIR/VOLATILE_TMP_DIR set to yes
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../initscripts/initscripts-1.0/volatiles            |  1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb     | 12 +++++++-----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ meta/conf/bitbake.conf                        |  5 ++-
+ ...fs-perms.txt => fs-perms-volatile-log.txt} | 32 -------------------
+ ...tent-log.txt => fs-perms-volatile-tmp.txt} | 27 ----------------
+ meta/files/fs-perms.txt                       |  3 --
+ 4 files changed, 4 insertions(+), 63 deletions(-)
+ copy meta/files/{fs-perms.txt => fs-perms-volatile-log.txt} (53%)
+ rename meta/files/{fs-perms-persistent-log.txt => fs-perms-volatile-tmp.txt} (59%)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-index cd8a4be05f..a280c47dda 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -28,6 +28,7 @@ d root root 0755 /var/volatile/log none
- d root root 1777 /var/volatile/tmp none
- l root root 1777 /var/lock /run/lock
- l root root 0755 /var/run /run
-+l root root 0755 /var/log /var/volatile/log
- l root root 1777 /var/tmp /var/volatile/tmp
- l root root 1777 /tmp /var/tmp
- d root root 0755 /var/lock/subsys none
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 4b34c6a67f..c2eff7e02f 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -103,12 +103,14 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/read-only-rootfs-hook.sh ${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
--	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = True ]; then
--		sed -i -e '\@^d root root 0755 /var/volatile/log none$@ a\l root root 0755 /var/log /var/volatile/log' \
--			${D}${sysconfdir}/default/volatiles/00_core
-+	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = False ]; then
-+		sed -i -e '/^[d|l].*\/var\/volatile\/log/d' ${D}${sysconfdir}/default/volatiles/00_core
- 	fi
--	if [ "${VOLATILE_TMP_DIR}" != "yes" ]; then
--		sed -i -e "/\<tmp\>/d" ${D}${sysconfdir}/default/volatiles/00_core
-+	if  [ ${@ oe.types.boolean('${VOLATILE_TMP_DIR}') } = False ]; then
-+		sed -i -e "/^[d|l].*\/var\/volatile\/tmp/d" ${D}${sysconfdir}/default/volatiles/00_core
-+		sed -i -e "/^l.*\/tmp/d" ${D}${sysconfdir}/default/volatiles/00_core
-+		sed -i -e 's;TMPROOT="${ROOT_DIR}/var/volatile/tmp";TMPROOT="${ROOT_DIR}/var/tmp";g' \
-+			${D}${sysconfdir}/init.d/populate-volatile.sh
- 	fi
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e7826e7af9..2a8dd2f972 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -384,7 +384,10 @@ FILESEXTRAPATHS ?= "__default:"
+ #  datadir, sysconfdir, servicedir, sharedstatedir, localstatedir, infodir,
+ #  mandir, docdir, bindir, sbindir, libexecdir, libdir, includedir and
+ #  oldincludedir
+-FILESYSTEM_PERMS_TABLES ?= "${@'files/fs-perms.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else 'files/fs-perms-persistent-log.txt'}"
++FILESYSTEM_PERMS_TABLES ?=  " files/fs-perms.txt \
++                              ${@'files/fs-perms-volatile-log.txt' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else ''} \
++                              ${@'files/fs-perms-volatile-tmp.txt' if oe.types.boolean(d.getVar('VOLATILE_TMP_DIR')) else ''} \
++                            "
+ 
+ ##################################################################
+ # General work and output directories for the build system.
+diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms-volatile-log.txt
+similarity index 53%
+copy from meta/files/fs-perms.txt
+copy to meta/files/fs-perms-volatile-log.txt
+index 48191f504c..fc846bbdc5 100644
+--- a/meta/files/fs-perms.txt
++++ b/meta/files/fs-perms-volatile-log.txt
+@@ -28,39 +28,7 @@
+ # Note: all standard config directories are automatically assigned "0755 root root false - - -"
+ 
+ # Documentation should always be corrected
+-${mandir}		0755	root	root	true	0644	root	root
+-${infodir}		0755	root	root	true	0644	root	root
+-${docdir}		0755	root	root	true	0644	root	root
+-${datadir}/gtk-doc	0755	root	root	true	0644	root	root
+-
+-# Fixup locales
+-${datadir}/locale	0755	root	root	true	0644	root	root
+-
+-# Cleanup headers
+-${includedir}		0755	root	root	true	0644	root	root
+-
+-# Cleanup debug src
+-/usr/src/debug		0755	root	root	true	0644	root	root
+ 
+ # Items from base-files
+ # Links
+-${localstatedir}/run	link	/run
+ ${localstatedir}/log	link	volatile/log
+-${localstatedir}/lock	link	/run/lock
+-${localstatedir}/tmp	link	volatile/tmp
+-
+-/home				0755	root	root	false - - -
+-/srv				0755	root	root	false - - -
+-${prefix}/src			0755	root	root	false - - -
+-${localstatedir}/local		0755	root	root	false - - -
+-
+-# Special permissions from base-files
+-# Set 1777
+-/tmp				01777	root	root	false - - -
+-${localstatedir}/volatile/tmp	01777	root	root	false - - -
+-
+-# Set 0700
+-${ROOT_HOME}			0700	root	root	false - - -
+-
+-# Set 2775-lsb
+-${localstatedir}/mail		02775	root	mail	false - - -
+diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-volatile-tmp.txt
+similarity index 59%
+rename from meta/files/fs-perms-persistent-log.txt
+rename to meta/files/fs-perms-volatile-tmp.txt
+index 61f0a6e26a..26247acda8 100644
+--- a/meta/files/fs-perms-persistent-log.txt
++++ b/meta/files/fs-perms-volatile-tmp.txt
+@@ -28,38 +28,11 @@
+ # Note: all standard config directories are automatically assigned "0755 root root false - - -"
+ 
+ # Documentation should always be corrected
+-${mandir}		0755	root	root	true	0644	root	root
+-${infodir}		0755	root	root	true	0644	root	root
+-${docdir}		0755	root	root	true	0644	root	root
+-${datadir}/gtk-doc	0755	root	root	true	0644	root	root
+-
+-# Fixup locales
+-${datadir}/locale	0755	root	root	true	0644	root	root
+-
+-# Cleanup headers
+-${includedir}		0755	root	root	true	0644	root	root
+-
+-# Cleanup debug src
+-/usr/src/debug		0755	root	root	true	0644	root	root
+ 
+ # Items from base-files
+ # Links
+-${localstatedir}/run	link	/run
+-${localstatedir}/lock	link	/run/lock
+ ${localstatedir}/tmp	link	volatile/tmp
+ 
+-/home				0755	root	root	false - - -
+-/srv				0755	root	root	false - - -
+-${prefix}/src			0755	root	root	false - - -
+-${localstatedir}/local		0755	root	root	false - - -
+-
+ # Special permissions from base-files
+ # Set 1777
+-/tmp				01777	root	root	false - - -
+ ${localstatedir}/volatile/tmp	01777	root	root	false - - -
+-
+-# Set 0700
+-${ROOT_HOME}			0700	root	root	false - - -
+-
+-# Set 2775-lsb
+-${localstatedir}/mail		02775	root	mail	false - - -
+diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+index 48191f504c..d2266c1b26 100644
+--- a/meta/files/fs-perms.txt
++++ b/meta/files/fs-perms.txt
+@@ -45,9 +45,7 @@ ${includedir}		0755	root	root	true	0644	root	root
+ # Items from base-files
+ # Links
+ ${localstatedir}/run	link	/run
+-${localstatedir}/log	link	volatile/log
+ ${localstatedir}/lock	link	/run/lock
+-${localstatedir}/tmp	link	volatile/tmp
+ 
+ /home				0755	root	root	false - - -
+ /srv				0755	root	root	false - - -
+@@ -57,7 +55,6 @@ ${localstatedir}/local		0755	root	root	false - - -
+ # Special permissions from base-files
+ # Set 1777
+ /tmp				01777	root	root	false - - -
+-${localstatedir}/volatile/tmp	01777	root	root	false - - -
+ 
+ # Set 0700
+ ${ROOT_HOME}			0700	root	root	false - - -
 -- 
 2.25.1
 
