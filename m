@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83119C46CC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 686E3C46CA3
 	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 10:15:32 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.17062.1702030530654850610
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.17060.1702030529908686140
  for <openembedded-core@lists.openembedded.org>;
  Fri, 08 Dec 2023 02:15:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XVHkLO6D;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40c09f4814eso25545355e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 02:15:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hrGNZ25t;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40c2308faedso19726215e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 02:15:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702030529; x=1702635329; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702030528; x=1702635328; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WwMmJq+BWUg+eqoxdQ+B4BP01uLc9pERMwKRbjyZ0QI=;
-        b=XVHkLO6DR4alTeTQKrrpdqXISRwr//b3AlZpYNgr6N6Jgo1HNyZFgHDdGqMdKR9dcM
-         L0Bn/FheXKtcsgTuqhS6vw2NafEII8CQ6W/pldmkBNj5CUQkoKuLfy4HdgmhUMZcx9sc
-         zilnbsG2Jcy49vX4YtjPXVGmJdW/5DYPcfIB1CXAjajEVoU/di6VlbHqM4HxR00KQ8gQ
-         KDy6nMbJJ9BoRuEWig6kfiM5J0baeJe+9xaHdYGNkTZas+q26X29QbcaY7dWdk6tcZXY
-         /vwQKIqcVm4uKDw0UM25DAgCln8QEeFUXlC7lQioSItre2b4LT1RGXoY4V8Qh1tDsJXN
-         pgrQ==
+        bh=ouPqT8stXnd/8PZJ4mPjocEERjQu7mN7hq+NnHCnA40=;
+        b=hrGNZ25tCJ05uXkICi34N0EGFsjvAeh7g7KPn0a/4mc8S8s3PDLCGHaMCgPS0//l+n
+         kDe/Jbj1H60mp56knjnIP/hOOwfmdd6K4EmPntEqtUXo8YH60Rmo8AyVTKXQzsUL2o0q
+         YdP+mCxcr16216FF4GiXK7uHyUzucNPfxWcEhS36BV8phG/tluMmju4wfVr1snJuxyUa
+         CgJauFXsIMyH8oDi1Jk4P1fkCOYUywKjrTYA9At2dhrFxXC5q8+Ik6y1y5WZBygjFnCK
+         u2uM9OhJOrNKJXG54kgay2DRk1JURSmln7vXlL8oraXT7Rw7GnnWntEsf3RwKdJdDvmT
+         AHqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702030529; x=1702635329;
+        d=1e100.net; s=20230601; t=1702030528; x=1702635328;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WwMmJq+BWUg+eqoxdQ+B4BP01uLc9pERMwKRbjyZ0QI=;
-        b=istazMXZbj9MlMCWJ3QVsmkxghGd8LPCTLpV81/6zIaBhCZUUWuiSCw7OhLQMIIfLo
-         ODsa3HiIdd92ytYVf6G5KQzANFA5/FslMtPuR9j2YniOpTwpmvYiNUD9F4dOYZWDZUt+
-         lOwc4+dFzpuh6Zuu9b68gTDUuZ/IfqrjUbLU2DQmuhgMa2rdYEAO5tM43CTEj9lRAjKi
-         lBV2viWNTnjTAhrrjEMTHAkr67BaywpT4kPq11RdWT1tg9Vjx3jXaeNHD0uHrcSjqeF/
-         2JpUApPEFi/wAlMrVYKyBMm7mQpciq55WGUVEyb39enZc9ek1zFSnt830SOLnmLWSceD
-         I0Pg==
-X-Gm-Message-State: AOJu0YxzCYPXxObBIhWsdi8NR3pIA1aDn5lxSSfxe5Tg6fi2DjjK6Cp3
-	OugohF5G8VQw8fDo9Qfd5o5LGD0NdLI=
-X-Google-Smtp-Source: AGHT+IER9/UbFvlRL5I01ntDP9TdVE6zq5X+TuRvo5T53F/NH6CRrFGpdvU5dhsZMa8U412QfkFgxg==
-X-Received: by 2002:a05:600c:2946:b0:40c:2572:2017 with SMTP id n6-20020a05600c294600b0040c25722017mr1961749wmd.159.1702030528827;
-        Fri, 08 Dec 2023 02:15:28 -0800 (PST)
+        bh=ouPqT8stXnd/8PZJ4mPjocEERjQu7mN7hq+NnHCnA40=;
+        b=WrpsZjLLWBcHN8tR8KDz5SHINXFAiZCb+QBL0ecCSpGv4C3XiBW4yLxoD6YD0x46Bs
+         ja5sqZA+OEqPKfuBVO7DB0ZOJ9K9v+i8+qGnqaSVsYXt2XwT1qRwNdgcTh9I73AODnxH
+         MbyelnFeJzK7cxrYhu97Oqzp8sEyGQNm7k45cRUX2h/9GbE6Q4iXBTTlBzlGEByAh0bh
+         jgPVV+Eeu/gcy3jHLIabTJzF+ViABTYfxTykn+6LACdhFw+u3St1V4lIm2jVBGtjWxo0
+         abTmCcA89sXtyqeQYNGwdEsU0KzD4ITV9ETNhW2bGjvvfKoVuFVnyOyCzmcPL1tQdiPm
+         NOmA==
+X-Gm-Message-State: AOJu0Ywz4ApEJt40pq06SHkj4uL4qlZtBnTxpXW99AmYORAAjGoqN9Df
+	iiUJ0/bL10M9CxYUuG+JtNb/3L5KiXA=
+X-Google-Smtp-Source: AGHT+IH+9bEAL+DKGved3pX7cGyeVQOHmj7MyewHYH/K9cj1TbjyWGj8R3LV4syt2fCssF0z9hfzKA==
+X-Received: by 2002:a05:600c:220a:b0:40b:5e59:c557 with SMTP id z10-20020a05600c220a00b0040b5e59c557mr2191957wml.129.1702030527898;
+        Fri, 08 Dec 2023 02:15:27 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id b16-20020a05600c4e1000b0040c310abc4bsm2746707wmq.43.2023.12.08.02.15.28
+        by smtp.gmail.com with ESMTPSA id b16-20020a05600c4e1000b0040c310abc4bsm2746707wmq.43.2023.12.08.02.15.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 02:15:28 -0800 (PST)
+        Fri, 08 Dec 2023 02:15:27 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/6] gnu-config: add a do_compile task
-Date: Fri,  8 Dec 2023 11:15:20 +0100
-Message-Id: <20231208101522.198832-4-alex@linutronix.de>
+Subject: [PATCH 2/6] selftest/sstatetests: do not delete custom $TMPDIRs under build-st when testing printdiff
+Date: Fri,  8 Dec 2023 11:15:18 +0100
+Message-Id: <20231208101522.198832-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231208101522.198832-1-alex@linutronix.de>
 References: <20231208101522.198832-1-alex@linutronix.de>
@@ -62,35 +62,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 10:15:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192031
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192029
 
-noexec flag has an unfortunate side effect of not writing out the .siginfo
-file into sstate (because that is done in sstate bbclass
-from a task-completed event handler).
+If the tests fail, these contain useful artefacts, and so should
+be kept. If the test succeeds the whole build-st/ is deleted.
 
-In the absence of the siginfo file, diffsigs code is unable to trace back
-the change in task signatures if the change is really basic and
-affects tasks coming ahead of gnu-config-native:do_compile.
+Also, give them unique names, as otherwise the tests would
+step on each other.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/gnu-config/gnu-config_git.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 22 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-index 718f798a00e..c72de159ce2 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-@@ -19,7 +19,8 @@ UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 79001854501..795cd5bd85f 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -777,10 +777,10 @@ addtask tmptask2 before do_tmptask1
  
- CLEANBROKEN = "1"
+ class SStatePrintdiff(SStateBase):
+     def run_test_printdiff_changerecipe(self, target, change_recipe, change_bbtask, change_content, expected_sametmp_output, expected_difftmp_output):
++        import time
+         self.write_config("""
+-TMPDIR = "${TOPDIR}/tmp-sstateprintdiff"
+-""")
+-        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff")
++TMPDIR = "${{TOPDIR}}/tmp-sstateprintdiff-sametmp-{}"
++""".format(time.time()))
+         # Use runall do_build to ensure any indirect sstate is created, e.g. tzcode-native on both x86 and
+         # aarch64 hosts since only allarch target recipes depend upon it and it may not be built otherwise.
+         # A bitbake -c cleansstate tzcode-native would cause some of these tests to error for example.
+@@ -791,9 +791,8 @@ TMPDIR = "${TOPDIR}/tmp-sstateprintdiff"
+         result_sametmp = bitbake("-S printdiff {}".format(target))
  
--do_compile[noexec] = "1"
-+do_compile () {
-+}
+         self.write_config("""
+-TMPDIR = "${TOPDIR}/tmp-sstateprintdiff-2"
+-""")
+-        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff-2")
++TMPDIR = "${{TOPDIR}}/tmp-sstateprintdiff-difftmp-{}"
++""".format(time.time()))
+         result_difftmp = bitbake("-S printdiff {}".format(target))
  
- do_install () {
- 	install -d ${D}${datadir}/gnu-config \
+         self.delete_recipeinc(change_recipe)
+@@ -803,20 +802,19 @@ TMPDIR = "${TOPDIR}/tmp-sstateprintdiff-2"
+             self.assertIn(item, result_difftmp.output, msg = "Item {} not found in output:\n{}".format(item, result_difftmp.output))
+ 
+     def run_test_printdiff_changeconfig(self, target, change_content, expected_sametmp_output, expected_difftmp_output):
++        import time
+         self.write_config("""
+-TMPDIR = "${TOPDIR}/tmp-sstateprintdiff"
+-""")
+-        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff")
++TMPDIR = "${{TOPDIR}}/tmp-sstateprintdiff-sametmp-{}"
++""".format(time.time()))
+         bitbake("--runall build --runall deploy_source_date_epoch {}".format(target))
+         bitbake("-S none {}".format(target))
+         self.append_config(change_content)
+         result_sametmp = bitbake("-S printdiff {}".format(target))
+ 
+         self.write_config("""
+-TMPDIR = "${TOPDIR}/tmp-sstateprintdiff-2"
+-""")
++TMPDIR = "${{TOPDIR}}/tmp-sstateprintdiff-difftmp-{}"
++""".format(time.time()))
+         self.append_config(change_content)
+-        self.track_for_cleanup(self.topdir + "/tmp-sstateprintdiff-2")
+         result_difftmp = bitbake("-S printdiff {}".format(target))
+ 
+         for item in expected_sametmp_output:
 -- 
 2.39.2
 
