@@ -1,166 +1,114 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF4FC4167B
-	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 10:57:02 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.20193.1702033017774798856
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B59AC4167B
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 11:35:03 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.26957.1702035302174702038
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 02:56:57 -0800
+ Fri, 08 Dec 2023 03:35:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A96011FB;
-	Fri,  8 Dec 2023 02:57:43 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 10A603F762;
-	Fri,  8 Dec 2023 02:56:56 -0800 (PST)
-From: ross.burton@arm.com
-To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH] insane: ensure more paths have the workdir removed
-Date: Fri,  8 Dec 2023 10:56:55 +0000
-Message-Id: <20231208105655.3986590-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g4Bi+UIp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c09dfd82aso26543975e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 03:35:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1702035300; x=1702640100; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0toVOAM5aisYgc6/hPOvQP5Z2P59Kx/B6/fgAY/GuwY=;
+        b=g4Bi+UIpBt1TqYQXOz7SIDDjRa8v0XdaRaIS66dUvsmuF4iTQhmTYXN6a5Pm68E5os
+         Us2HgB6Z7CawNsG+exeft4qv3yKXTTOvmfwWp4UFBQeKBkxgBBYCotG90XBvCr2ko97p
+         ms2ZXtBfqC37MWgXtN++EpBHVymNO6FLP8pR0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702035300; x=1702640100;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0toVOAM5aisYgc6/hPOvQP5Z2P59Kx/B6/fgAY/GuwY=;
+        b=w5w3M9TqO4CUC417uFwvO6hfsrKXK8e0z1qK2BlYHix/dTuyOSD26qSqHlZtJMoWGi
+         nQgE3Pr4M7uQjoCJjyNiuj9r1DOinBWzg6LM/9AuP7BN+iuyBmm1lAI/dISqSqIPpF25
+         vuaAVKJgNnMZ5nsswufnbqJChmbKMRVPrC5G6NbRmNT4gxd+J3EzWvgRSDpvX9U+wIqb
+         EgPif/IvBvpYE7qm9koThQ6xCS8f9gANS70ShqPCYIupPp/2GVuaBFvX0iTrXJ0QRZpX
+         VGVE1Qvudi5RbJncP6VlO+YjGghAWa+lPC0UG3RRMIgYNlX46GHBmqky1IS0YXfBxaWL
+         g7Ew==
+X-Gm-Message-State: AOJu0YywpTXU8CpC63fca54OTG40bu4/0qS3+eDFphAgSSZbXD8lZK0E
+	8WzF2LCEFL6X0ZPjeRHc96bZhw==
+X-Google-Smtp-Source: AGHT+IHzGEf90uFU7iUb7K3SzrmJS4XE42m/ITmqqVlCBLOUZ75XnRD6THVxosZwTKasdbrPewh2Ug==
+X-Received: by 2002:a05:600c:246:b0:40b:5e59:ccb7 with SMTP id 6-20020a05600c024600b0040b5e59ccb7mr2872315wmj.152.1702035300397;
+        Fri, 08 Dec 2023 03:35:00 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7bab:5c16:7781:6a4b? ([2001:8b0:aba:5f3c:7bab:5c16:7781:6a4b])
+        by smtp.gmail.com with ESMTPSA id n21-20020a05600c3b9500b0040b2a52ecaasm4870976wms.2.2023.12.08.03.34.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 03:35:00 -0800 (PST)
+Message-ID: <e66b4cebf577218dfffb4dcfa812b69597c8650c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/6] gnu-config: add a do_compile task
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Fri, 08 Dec 2023 11:34:59 +0000
+In-Reply-To: <20231208101522.198832-4-alex@linutronix.de>
+References: <20231208101522.198832-1-alex@linutronix.de>
+	 <20231208101522.198832-4-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 10:57:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192042
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 11:35:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192043
 
-From: Ross Burton <ross.burton@arm.com>
+On Fri, 2023-12-08 at 11:15 +0100, Alexander Kanavin wrote:
+> noexec flag has an unfortunate side effect of not writing out the .siginf=
+o
+> file into sstate (because that is done in sstate bbclass
+> from a task-completed event handler).
+>=20
+> In the absence of the siginfo file, diffsigs code is unable to trace back
+> the change in task signatures if the change is really basic and
+> affects tasks coming ahead of gnu-config-native:do_compile.
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/recipes-devtools/gnu-config/gnu-config_git.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/re=
+cipes-devtools/gnu-config/gnu-config_git.bb
+> index 718f798a00e..c72de159ce2 100644
+> --- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+> +++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+> @@ -19,7 +19,8 @@ UPSTREAM_CHECK_COMMITS =3D "1"
+> =20
+>  CLEANBROKEN =3D "1"
+> =20
+> -do_compile[noexec] =3D "1"
+> +do_compile () {
+> +}
+> =20
+>  do_install () {
+>  	install -d ${D}${datadir}/gnu-config \
+>=20
 
-When showing paths to the user we don't want to include the whole build
-directory.  Passing the package name to package_qa_clean_path strips
-this completely.
+You have a good point here but by this logic, we need to remove *all*
+noexec tasks. We don't really want to do that and I'm not sure we want
+to set this precedent.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes-global/insane.bbclass | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+I wonder if we could just remove the compile task entirely and what
+that would break...
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
-ane.bbclass
-index b78bb6f445d..72fcf6b2544 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -104,7 +104,7 @@ def package_qa_check_shebang_size(path, name, d, elf,=
- messages):
-             return
-=20
-         if len(stanza) > 129:
--            oe.qa.add_message(messages, "shebang-size", "%s: %s maximum =
-shebang size exceeded, the maximum size is 128." % (name, package_qa_clea=
-n_path(path, d)))
-+            oe.qa.add_message(messages, "shebang-size", "%s: %s maximum =
-shebang size exceeded, the maximum size is 128." % (name, package_qa_clea=
-n_path(path, d, name)))
-             return
-=20
- QAPATHTEST[libexec] =3D "package_qa_check_libexec"
-@@ -116,7 +116,7 @@ def package_qa_check_libexec(path,name, d, elf, messa=
-ges):
-         return True
-=20
-     if 'libexec' in path.split(os.path.sep):
--        oe.qa.add_message(messages, "libexec", "%s: %s is using libexec =
-please relocate to %s" % (name, package_qa_clean_path(path, d), libexec))
-+        oe.qa.add_message(messages, "libexec", "%s: %s is using libexec =
-please relocate to %s" % (name, package_qa_clean_path(path, d, name), lib=
-exec))
-         return False
-=20
-     return True
-@@ -208,7 +208,7 @@ def package_qa_check_staticdev(path, name, d, elf, me=
-ssages):
-=20
-     if not name.endswith("-pic") and not name.endswith("-staticdev") and=
- not name.endswith("-ptest") and path.endswith(".a") and not path.endswit=
-h("_nonshared.a") and not '/usr/lib/debug-static/' in path and not '/.deb=
-ug-static/' in path:
-         oe.qa.add_message(messages, "staticdev", "non -staticdev package=
- contains static .a library: %s path '%s'" % \
--                 (name, package_qa_clean_path(path,d, name)))
-+                 (name, package_qa_clean_path(path, d, name)))
-=20
- QAPATHTEST[mime] =3D "package_qa_check_mime"
- def package_qa_check_mime(path, name, d, elf, messages):
-@@ -219,7 +219,7 @@ def package_qa_check_mime(path, name, d, elf, message=
-s):
-=20
-     if d.getVar("datadir") + "/mime/packages" in path and path.endswith(=
-'.xml') and not bb.data.inherits_class("mime", d):
-         oe.qa.add_message(messages, "mime", "package contains mime types=
- but does not inherit mime: %s path '%s'" % \
--                 (name, package_qa_clean_path(path,d)))
-+                 (name, package_qa_clean_path(path, d, name)))
-=20
- QAPATHTEST[mime-xdg] =3D "package_qa_check_mime_xdg"
- def package_qa_check_mime_xdg(path, name, d, elf, messages):
-@@ -239,7 +239,7 @@ def package_qa_check_mime_xdg(path, name, d, elf, mes=
-sages):
-         except:
-             # At least libreoffice installs symlinks with absolute paths=
- that are dangling here.
-             # We could implement some magic but for few (one) recipes it=
- is not worth the effort so just warn:
--            wstr =3D "%s cannot open %s - is it a symlink with absolute =
-path?\n" % (name, package_qa_clean_path(path,d))
-+            wstr =3D "%s cannot open %s - is it a symlink with absolute =
-path?\n" % (name, package_qa_clean_path(path, d, name))
-             wstr +=3D "Please check if (linked) file contains key 'MimeT=
-ype'.\n"
-             pkgname =3D name
-             if name =3D=3D d.getVar('PN'):
-@@ -247,8 +247,8 @@ def package_qa_check_mime_xdg(path, name, d, elf, mes=
-sages):
-             wstr +=3D "If yes: add \'inhert mime-xdg\' and \'MIME_XDG_PA=
-CKAGES +=3D \"%s\"\' / if no add \'INSANE_SKIP:%s +=3D \"mime-xdg\"\' to =
-recipe." % (pkgname, pkgname)
-             oe.qa.add_message(messages, "mime-xdg", wstr)
-         if mime_type_found:
--            oe.qa.add_message(messages, "mime-xdg", "package contains de=
-sktop file with key 'MimeType' but does not inhert mime-xdg: %s path '%s'=
-" % \
--                    (name, package_qa_clean_path(path,d)))
-+            oe.qa.add_message(messages, "mime-xdg", "%s: contains deskto=
-p file with key 'MimeType' but does not inhert mime-xdg: %s" % \
-+                    (name, package_qa_clean_path(path, d, name)))
-=20
- def package_qa_check_libdir(d):
-     """
-@@ -321,8 +321,8 @@ def package_qa_check_dbg(path, name, d, elf, messages=
-):
-=20
-     if not "-dbg" in name and not "-ptest" in name:
-         if '.debug' in path.split(os.path.sep):
--            oe.qa.add_message(messages, "debug-files", "non debug packag=
-e contains .debug directory: %s path %s" % \
--                     (name, package_qa_clean_path(path,d)))
-+            oe.qa.add_message(messages, "debug-files", "%s: non debug pa=
-ckage contains .debug directory %s" % \
-+                     (name, package_qa_clean_path(path, d, name)))
-=20
- QAPATHTEST[arch] =3D "package_qa_check_arch"
- def package_qa_check_arch(path,name,d, elf, messages):
-@@ -371,7 +371,7 @@ def package_qa_check_arch(path,name,d, elf, messages)=
-:
-                  (elf.abiSize(), bits, package_qa_clean_path(path, d, na=
-me)))
-     elif not ((littleendian =3D=3D elf.isLittleEndian()) or is_bpf):
-         oe.qa.add_message(messages, "arch", "Endiannes did not match (%d=
-, expected %d) in %s" % \
--                 (elf.isLittleEndian(), littleendian, package_qa_clean_p=
-ath(path,d, name)))
-+                 (elf.isLittleEndian(), littleendian, package_qa_clean_p=
-ath(path, d, name)))
-=20
- QAPATHTEST[desktop] =3D "package_qa_check_desktop"
- def package_qa_check_desktop(path, name, d, elf, messages):
---=20
-2.34.1
+Cheers,
+
+Richard
+
+
+
+
+
 
 
