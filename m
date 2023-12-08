@@ -1,165 +1,377 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F709C4167B
-	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 23:46:27 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.41])
- by mx.groups.io with SMTP id smtpd.web11.26817.1702079185801431655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EBD2C4167B
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 23:58:57 +0000 (UTC)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+ by mx.groups.io with SMTP id smtpd.web10.27457.1702079928450383143
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 15:46:26 -0800
+ Fri, 08 Dec 2023 15:58:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=OXB+mT16;
- spf=pass (domain: axis.com, ip: 40.107.8.41, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nDfzBtr8Pz9gLT42MNsP1gEaiCTXOMHlyrCllrVNulXyHG17xEcCGHVI0LZFImhOIsQBnaMm5OspBxXzG7Odd3MLz8k+I1NlhdRPsKfcISx4PvRrg1pBCNrfxUf3Mil4rf3BkEIfqIkeGQRfW/kIygX0jAX+QOl5cwdMR8r+SirKKiMMjppC1i/1WQ2LFeL/VByxPbsSFxU/cLMGb5E3YuAj5QHVXGj9xwauTXdfVvFwijf0TnN6k3DXzk2LgeLB+YairmiZl7ZYO9sU1PtLSsW5DQb1M6zJQo8qgqiYaO6NQbepMkFRmFJLZ8HsIwL0fNekS1bhZOM6D7nCBwhBMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SDL5l/3qxW8LyZgcXdeCK7+VTcyX0dvcSQswckMNv+Y=;
- b=maJeyB6tLVRrxxiLFgiweaKxnjyrxImv/z4SzPzYiC0n1l913h5T2G8KjiZ7xnCnLBiP0IJqqMvDO3ccHFk6seoIY+QCQsp8M9YnqDzJWjPb9pNgNlAaNEv/Q8+0btnI2maOHZn8qIAjzZjn+X4+6hISSg3WvtrynePXdx7Q7NmGex/VoNq+xDMpQSCsSaB9PKGM2wYJE2QS1oN5dMkuwKpgdi8R5x5tjIfvVtuEQki/giLgX1f7gWZbYm1EmBhS2nLp1xfzFi7aM+32B+bRP9cPCLRJgoJsGhu98tDdAVvx8PwZGskaJPQop/87YpuB3HKik5Z29dESLOBfFMC1ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SDL5l/3qxW8LyZgcXdeCK7+VTcyX0dvcSQswckMNv+Y=;
- b=OXB+mT16Ifx5MMuKR0JwzAtybsK8owvCLmBbaHlq33w4pm3JLa8taBAzIkAaTAc8gKD7P2bWfYShQMFRlGM/58H1FN/aVlEYw59INnCPtjdwGJmt3UVK5RJOswltPh4AFeknFI6RFX9nWtFvdbffPUnaEDPI8b2T3UyaUvbff1o=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by DB9PR02MB7002.eurprd02.prod.outlook.com (2603:10a6:10:22b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.28; Fri, 8 Dec
- 2023 23:46:22 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::7d13:15f0:2292:6962]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::7d13:15f0:2292:6962%7]) with mapi id 15.20.7068.027; Fri, 8 Dec 2023
- 23:46:22 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Alexander Kanavin
-	<alex.kanavin@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Alexander Kanavin <alex@linutronix.de>
-Subject: RE: [OE-core] [PATCH 4/6] gnu-config: add a do_compile task
-Thread-Topic: [OE-core] [PATCH 4/6] gnu-config: add a do_compile task
-Thread-Index: AQHaKb+Olp7VjtpR40mddkyYtJZVErCfQaeAgADKVkA=
-Date: Fri, 8 Dec 2023 23:46:21 +0000
-Message-ID: 
- <DB5PR02MB102138AC5B61021289BA6C5D4EF8AA@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20231208101522.198832-1-alex@linutronix.de>
-	 <20231208101522.198832-4-alex@linutronix.de>
- <e66b4cebf577218dfffb4dcfa812b69597c8650c.camel@linuxfoundation.org>
-In-Reply-To: 
- <e66b4cebf577218dfffb4dcfa812b69597c8650c.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB9PR02MB7002:EE_
-x-ms-office365-filtering-correlation-id: 39cae9ce-7598-47f6-c9af-08dbf847e1ea
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 9t86SRUUKG7OlZQOu85mZFHUHWR/KdVq3vCqZXPzFSMyGiLjdymJNxQWt/vmH3dDMqG1j9BCyBDk2vu/fL4Qq+WPugRppC1e+g6+PabAlQPqaYKmS8Ci8uNhrmQCmr304C+yYM4+FAfq3gXGg2/awBJXouRJOLGN3o/aeywaFpoRAniUE5bieMIGfXBe4o8ylBV80s8ySdlx86j5LDqO7Rpond+hQk8ypNYYS0NeuVRCZo8uT8uzvS1nsE+7DU8oxjmSkNlcMiCsG927r3+pnx7JLSSC6VABjJYBh15ahdsw+zPrNsISmgy/03rt+meGW/AImFTTnQ844FK9tp+uLPem/OHC1m3nwRMHsw6zJg6qqVRbbjqq0hLIA0FtcuXgIQUBuF1CCSsMxl1VX8aGPgJneAR/BFZjsLF/7LTn67qvZ//jsa/IHaiz+6mTtkoW65R4FxHzvnXEKaAwOBxlKDPzMYD/ZhLLdm+9oa+6OzyFpYf41jQ8+OGWBE4K8eKMpGEmza3OENhCkjfoB0ZNWS5VteTYbKzxX9JeXuGZYlMMnAMyrPxnpDpcsDBLlbeA6p89gDgVgDup11PtKHF1XS4hmXZF5sPKxpvFAC8c7Mv+UzZRbngBwxx8W1VRuXXT
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(39860400002)(136003)(376002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(2906002)(4326008)(8936002)(8676002)(44832011)(52536014)(5660300002)(38070700009)(41300700001)(26005)(71200400001)(33656002)(83380400001)(55016003)(86362001)(38100700002)(122000001)(478600001)(110136005)(316002)(6506007)(66946007)(76116006)(66556008)(66476007)(66446008)(64756008)(53546011)(9686003)(7696005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?Y1FlZkFzV0dteXcvQTVLZU43VGtvenVDbDNyblFlNHpvUUYycXZmL1Jvd3hl?=
- =?utf-8?B?ODlHaTZ5d2NqVmZjLzh3aHVrUWw5dks3elhwWWwzZE9uZlJ1QWR5UmpiZjN3?=
- =?utf-8?B?NHowVE5GYXE5VndLRERZR3huL2lrc2xwclhXRjR6NlhiOWZrc3R5ZGI0QXFX?=
- =?utf-8?B?YVhUbVpLNWI5Sk1qWmlxdEJMMWluRm5EYkdPakhLODN3M3dsaE5DZnh2UlFU?=
- =?utf-8?B?Z0dJd3hFUUVrSFF5N1owWDhwcUgzREYrR2wxUnduL3VjTEYyTjhLY2VDTDUx?=
- =?utf-8?B?REYvNTkrbFZNQy8vWm1LSTRpYVlsa1pwZWl1SWc0eDBoZWVUWlBpaTBxZzhx?=
- =?utf-8?B?djRzZ0dQNUd0Q2RBTzRSUWgxcTkvUVZENW8yazkxb0JDNk1RdTI4Z21sMTY4?=
- =?utf-8?B?enFpM1IrNXk3Y0N1MFI1TUkzeEJwNE1vbDlHUmdNRTBBVGQ5amtOT2hyK1NQ?=
- =?utf-8?B?QkFtemJuMkViZ1hZUXlUTy9xZ3d3RGFUVWZPR0hCVWRGUWpxK1lEbWN3Rklj?=
- =?utf-8?B?MmdBbTVEaFpyMkI0NlU4QTJxazg2SG1wdkdoNU5KUHo0bHdLUC9mbzBqTWd2?=
- =?utf-8?B?UCtOMlBFQ0ErTFhPTlhIMGhZOHRxbWJUMlF4SkEwRWpqamxJSlA0U00raGJl?=
- =?utf-8?B?UC9tOW9xdTFDNlJJakNoQTBwMzVRNk1EaVpycDdEcDBFbEVlRzVIV1VkNlFW?=
- =?utf-8?B?WlpYMnhNNzBQWU5LTklqYVpsTUNtM01Va040RGdKSHl6YThrbTVRUWNpN2dD?=
- =?utf-8?B?VVpJNzllNC80MC9TWS9yTnIyMzBmZlVBWG9qRjJVKzdCMmFVSEhDQlJNY1Zu?=
- =?utf-8?B?QWxjSU5jdm1wZHV1cEdlUlZ0WTBMVURWVEVxWVNBYTFDU0hzVitnWS84NU12?=
- =?utf-8?B?TnIyMnc3OXB4Q3lwcGk3bjVRbzhwQUlRaGtrWUxHNDhkbnhaU2pzNFE5QW51?=
- =?utf-8?B?UHU1eXc1TFdyZ2VITGN6YU9Dd1B5OGxpQ2IwdDQzYW5BMjZrRElhamd3bFIz?=
- =?utf-8?B?WHFqTWZjSzh2cXhwdlpsK3hWZDh0LzR1WlhpU0JSejEzUHJsWW9RUWVsTHU4?=
- =?utf-8?B?UjR3Q0xVeEZJZ044Z01BT3VuSGhtRUJTRXVUeVFjWkxxdUFrV256MXNuTDJT?=
- =?utf-8?B?ZTYrV3ZrSDRhdThXOFRYb2NhZjlZNEM5c2U4S1puWDRDdllxSlAzWDBKWGk5?=
- =?utf-8?B?T3lYbWdQdXVGRnRYWUJMYTFIc2NJTk1DeVVpUmtlQkRSNndMaGhKSGZ1Zkh4?=
- =?utf-8?B?Z004U211NTVOYVg2aEZJSmFPU0RwZ2pxb2IzSVJsZjlobkRHcXpKRWZnSEp6?=
- =?utf-8?B?YU9Gak95RjFVNFpGOVFCckdJK3lZSVRteHBPSkpQdk52bytUNnRGc3kvZ1lx?=
- =?utf-8?B?cDFmdHpBVW9BQ3ZoTFBuUGxnSUYzSzJqdG44QWYzeGpsLzE0MDYrR1N2c255?=
- =?utf-8?B?TkF4SEY1M1FPSE9WRk9aL3JYMXVNYzJnUS9aSWlmdHY1VUJOM1RJY2x0K3NE?=
- =?utf-8?B?TFFIUEtqQ2ErS21tL0ZRa1pHRmQzUlNIMjZaYW8wbTRjb2ZIUm9UU250ZUlH?=
- =?utf-8?B?R1Nyb1VONStrMWo0L2s0OVFqUGZtbE9xYmwwRnBhbDZ6Ukh4MmkwRTFvQlVv?=
- =?utf-8?B?NWp4V3dFaWl0ckRWMDU2ZnZyMDNHK1kweHI5SzAzbm03Zjlab3NxbWd3MVFY?=
- =?utf-8?B?alNNUnN3UEx5VDVZdFdGSDBaeXk0c05LdmhLVkFEaUdSb1V2b2doNW03RFNt?=
- =?utf-8?B?eGFNb0lRV2drYnJzQ3RnbEZLWDRPZ2htKzN2bk1BaUM0ZHRCTGlTTUduelM4?=
- =?utf-8?B?V3FkZEZiQnJWVU94NVFWRlNxOUZsR2F4aTlrUmJwZTN3Q1pURlp0VjBLNDI1?=
- =?utf-8?B?RU0zM3ZqSVlBenJUelRxdmNWbVZVdGVGL0cxbHlYU2hvdWw1M1lBa2crMWxP?=
- =?utf-8?B?OUM4RXpnRmVQQlNBY1IrZlJFaWllNGVpa2NlTHh2TkNYRDRYK3pKNEc5czhC?=
- =?utf-8?B?NVlrcmtDVzgzYnZLbVF3MFh1RjNaMjhxSVpEdkhQaVhIbkJoVmNoMXVWc2xr?=
- =?utf-8?B?V1dqa3MzYjlwS3BhbkhDWGlaZGxTQW80a0tFSEphU3loUzMwbVRmTHpiVk5E?=
- =?utf-8?Q?lqzo=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fLY8e75e;
+ spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5cece20f006so25539837b3.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 15:58:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702079927; x=1702684727; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=q6BIq1017ohCV7fcP8V4Irwz0hkI41rh+ptcPnmvOk0=;
+        b=fLY8e75e6T1iCsfjUJohpdhpRau3XaFAoGYmHyDJjgGc3c4Y6yetC7qGSvzrzvQ9ni
+         83J87nw8OK2dvdFna3F2mqF0gD5o5Bp8/jiPYG7gVmcQz+9swvGocmDCTeB3RxJw9DSj
+         Z1Z2WCvfLPlDZasUzWd7v6t7Ed0pt5EwdbQ1h5aHexKUl3J4LPlpLrY6rN0Jb95hdSxy
+         /uGgtwX04DMH/W2VyZTyZq7H7HtzEs0TdnEoXWkD4rpHdAZSAqTBFiXE8hUDUapFTx5Y
+         fZKbkK61Gdf+XSioaGQVzKq079VrbbB0yO1uzprZeujzxE66EInMrfx3wedqX6nUT32R
+         xlTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702079927; x=1702684727;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=q6BIq1017ohCV7fcP8V4Irwz0hkI41rh+ptcPnmvOk0=;
+        b=nh9ETQdj2HOtM3TBjxy+PV/ivFgs3KjBiiGNbZoCFkPYem2Sa3YAhk1YSPP8y8bLAI
+         l5zB/En9VA+MLyZPvyvt24hk028MNivyFxbp/YexfKqYH4bQ2WM9VNmOeU2n9vg13j1E
+         IrJU+l9V8DHsMrcMMCjpjM3J7V1Q5eopFjwK0sJn4TGGiIgwr/Xx51OG82acpTJqkL4t
+         zUdb9GwS4wls/TYvWasD6r/770qS6JxXlMDwXGtDJYRXohJQAeuHF36fp1NuJd3rj8mP
+         fFZbuPviQnyRK9rhGGB0XAmfFbRaTB14485qlHVlJruYWWttZdJ77MuNijpFpYyRq9Qw
+         eSZA==
+X-Gm-Message-State: AOJu0YxhizTxB6+WcQLNkvKZCS+mUA0GkS9jUqdTLGKc5kirfssgTorS
+	AiSdJVEzTpYr8wG6OAZFw6vkupHJXnrCTGCbInU=
+X-Google-Smtp-Source: AGHT+IETUR7+Mqr3bAnwhnGeDT+BjljgPI+ZmK9/bdP4b+4hrzO4FGIRBxnF3I3i1kdFJrhJKoiRsA2Q+gcwsmvg16M=
+X-Received: by 2002:a0d:eac5:0:b0:5d3:4ef0:8be with SMTP id
+ t188-20020a0deac5000000b005d34ef008bemr661481ywe.37.1702079927347; Fri, 08
+ Dec 2023 15:58:47 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39cae9ce-7598-47f6-c9af-08dbf847e1ea
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2023 23:46:21.9171
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: x48QvmtGZ2262nCjiILW9KiAppvVaCPGozrl+bTx8M4noolx1Nab8XpB4CSNKMiX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR02MB7002
+References: <cover.1701989368.git.tim.orling@konsulko.com> <20231208225036585d7237@mail.local>
+In-Reply-To: <20231208225036585d7237@mail.local>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Fri, 8 Dec 2023 15:58:36 -0800
+Message-ID: <CANx9H-Ajw=4F0=KUu=x-NHDcdyPz84Q=sA25WpdJZAbp8443Ww@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/6] Add 'maturin' python backend support
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000072ee6e060c085d74"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 23:46:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192088
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 23:58:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192089
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiBPbiBCZWhhbGYgT2YgUmljaGFyZCBQdXJkaWUNCj4gU2VudDogZGVuIDggZGVjZW1i
-ZXIgMjAyMyAxMjozNQ0KPiBUbzogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFp
-bC5jb20+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IENjOiBB
-bGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRlPg0KPiBTdWJqZWN0OiBSZTogW09F
-LWNvcmVdIFtQQVRDSCA0LzZdIGdudS1jb25maWc6IGFkZCBhIGRvX2NvbXBpbGUgdGFzaw0KPiAN
-Cj4gT24gRnJpLCAyMDIzLTEyLTA4IGF0IDExOjE1ICswMTAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3
-cm90ZToNCj4gPiBub2V4ZWMgZmxhZyBoYXMgYW4gdW5mb3J0dW5hdGUgc2lkZSBlZmZlY3Qgb2Yg
-bm90IHdyaXRpbmcgb3V0IHRoZSAuc2lnaW5mbw0KPiA+IGZpbGUgaW50byBzc3RhdGUgKGJlY2F1
-c2UgdGhhdCBpcyBkb25lIGluIHNzdGF0ZSBiYmNsYXNzDQo+ID4gZnJvbSBhIHRhc2stY29tcGxl
-dGVkIGV2ZW50IGhhbmRsZXIpLg0KPiA+DQo+ID4gSW4gdGhlIGFic2VuY2Ugb2YgdGhlIHNpZ2lu
-Zm8gZmlsZSwgZGlmZnNpZ3MgY29kZSBpcyB1bmFibGUgdG8gdHJhY2UgYmFjaw0KPiA+IHRoZSBj
-aGFuZ2UgaW4gdGFzayBzaWduYXR1cmVzIGlmIHRoZSBjaGFuZ2UgaXMgcmVhbGx5IGJhc2ljIGFu
-ZA0KPiA+IGFmZmVjdHMgdGFza3MgY29taW5nIGFoZWFkIG9mIGdudS1jb25maWctbmF0aXZlOmRv
-X2NvbXBpbGUuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
-eEBsaW51dHJvbml4LmRlPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ251
-LWNvbmZpZy9nbnUtY29uZmlnX2dpdC5iYiB8IDMgKystDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAy
-IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZ251LWNvbmZpZy9nbnUtY29uZmlnX2dpdC5iYiBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9nbnUtY29uZmlnL2dudS1jb25maWdfZ2l0LmJiDQo+ID4gaW5kZXggNzE4
-Zjc5OGEwMGUuLmM3MmRlMTU5Y2UyIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9nbnUtY29uZmlnL2dudS1jb25maWdfZ2l0LmJiDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2dudS1jb25maWcvZ251LWNvbmZpZ19naXQuYmINCj4gPiBAQCAtMTksNyArMTks
-OCBAQCBVUFNUUkVBTV9DSEVDS19DT01NSVRTID0gIjEiDQo+ID4NCj4gPiAgQ0xFQU5CUk9LRU4g
-PSAiMSINCj4gPg0KPiA+IC1kb19jb21waWxlW25vZXhlY10gPSAiMSINCj4gPiArZG9fY29tcGls
-ZSAoKSB7DQo+ID4gK30NCj4gPg0KPiA+ICBkb19pbnN0YWxsICgpIHsNCj4gPiAgCWluc3RhbGwg
-LWQgJHtEfSR7ZGF0YWRpcn0vZ251LWNvbmZpZyBcDQo+ID4NCj4gDQo+IFlvdSBoYXZlIGEgZ29v
-ZCBwb2ludCBoZXJlIGJ1dCBieSB0aGlzIGxvZ2ljLCB3ZSBuZWVkIHRvIHJlbW92ZSAqYWxsKg0K
-PiBub2V4ZWMgdGFza3MuIFdlIGRvbid0IHJlYWxseSB3YW50IHRvIGRvIHRoYXQgYW5kIEknbSBu
-b3Qgc3VyZSB3ZSB3YW50DQo+IHRvIHNldCB0aGlzIHByZWNlZGVudC4NCj4gDQo+IEkgd29uZGVy
-IGlmIHdlIGNvdWxkIGp1c3QgcmVtb3ZlIHRoZSBjb21waWxlIHRhc2sgZW50aXJlbHkgYW5kIHdo
-YXQNCj4gdGhhdCB3b3VsZCBicmVhay4uLg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0K
-DQpXb3VsZCBpdCBiZSBwb3NzaWJsZSB0byBjaGFuZ2UgdGhlIGNvZGUgc28gdGhhdCB0aGUgLnNp
-Z2luZm8gZmlsZXMgYXJlIA0Kc3RpbGwgcHJvZHVjZWQgZm9yIG5vZXhlYyB0YXNrcz8gT3RoZXJ3
-aXNlIGl0IHNlZW1zIHVzaW5nIG5vZXhlYyB0YXNrcyANCmlzIGEgcmVhbCBibG9ja2VyIGZvciBi
-ZWluZyBhYmxlIHRvIHRyYWNlIHRoZSBzaWduYXR1cmVzIGZvciBhbnkgDQpzdWJzZXF1ZW50IHRh
-c2suDQoNCi8vUGV0ZXINCg0K
+--00000000000072ee6e060c085d74
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Dec 8, 2023 at 2:50=E2=80=AFPM Alexandre Belloni <
+alexandre.belloni@bootlin.com> wrote:
+
+> Hello Tim,
+>
+> I got this failure, can you check?
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6166/st=
+eps/14/logs/stdio
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6159/st=
+eps/14/logs/stdio
+>
+> this is from Peter=E2=80=99s change which had not been merged when I sent=
+ this
+series.
+
+>
+> 2023-12-08 22:03:18,822 - oe-selftest - INFO - FAIL:
+> recipetool.RecipetoolCreateTests.test_recipetool_create_python3_pep517_ma=
+turin
+> (subunit.RemotedTestCase)
+> 2023-12-08 22:03:18,822 - oe-selftest - INFO -
+> ----------------------------------------------------------------------
+> 2023-12-08 22:03:18,823 - oe-selftest - INFO -
+> testtools.testresult.real._StringException: Traceback (most recent call
+> last):
+>   File
+> "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/self=
+test/cases/recipetool.py",
+> line 698, in test_recipetool_create_python3_pep517_maturin
+>     self._test_recipe_contents(recipefile, checkvars, inherits)
+>   File
+> "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/self=
+test/cases/devtool.py",
+> line 178, in _test_recipe_contents
+>     self.assertEqual(missingvars, {}, 'Some expected variables not found
+> in recipe: %s' % checkvars)
+>   File "/usr/lib64/python3.11/unittest/case.py", line 873, in assertEqual
+>     assertion_func(first, second, msg=3Dmsg)
+>   File "/usr/lib64/python3.11/unittest/case.py", line 1172, in
+> assertDictEqual
+>     self.fail(self._formatMessage(msg, standardMsg))
+>   File "/usr/lib64/python3.11/unittest/case.py", line 703, in fail
+>     raise self.failureException(msg)
+> AssertionError: {'SRC_URI': 'https://files.pythonhosted.or[586
+> chars]238'} !=3D {}
+> Diff is 656 characters long. Set self.maxDiff to None to see it. : Some
+> expected variables not found in recipe: {'SRC_URI': '
+> https://files.pythonhosted.org/packages/64/26/cffb93fe9c6b5a91c497f37fae1=
+4a4b073ecbc47fc36a9979c7aa888b245/pydantic_core-${PV}.tar.gz',
+> 'SRC_URI[md5sum]': '1eb13c211147496c1c9484ff7f8ac438', 'SRC_URI[sha1sum]'=
+:
+> '0803a731aa793f3eaf4d52f656d7300408ca0b36', 'SRC_URI[sha256sum]':
+> '6d30226dfc816dd0fdf120cae611dd2215117e4f9b124af8c60ab9093b6e8e71',
+> 'SRC_URI[sha384sum]':
+> 'cca6d9f0ba72ff92e16aaf3d6c628b8df33bdf244cc39c9d59cff9d541f35d4e87ec136e=
+60e4b040ad73c5c69b27cec6',
+> 'SRC_URI[sha512sum]':
+> 'e6c3081dfa58d9b59f8c33dfe80712d732ac3048a2f8240f9a0f5448d9bfc83e222c1e08=
+b8bb49779b84f685c3bec3060cc935c113a818b1ab8aa955f3df2238'}
+>
+>
+>
+>
+> On 07/12/2023 15:13:17-0800, Tim Orling wrote:
+> > We are increasingly seeing Rust extensions for Python added in the
+> > ecosystem. The current best practices approach has moved from using
+> > 'setuptools-rust' to using 'maturin'.
+> >
+> > * Add python3-maturin, including 'native' and 'nativesdk' support.
+> > * Add a 'python_maturin' bbclass for the PEP-517 backend.
+> > * Add recipetool support for the 'maturin' PEP-517 backend.
+> > * Add a very basic 'maturin list-python' smoke test added to oeqa for
+> >   both 'runtime' (-c testimage) and 'sdk' (-c testsdk).
+> >
+> > The following changes since commit
+> 70ad9b9b309575134834757468cb32c9e3b87448:
+> >
+> >   bitbake: hashserv: sqlite: Ensure sync propagates to database
+> connections (2023-12-04 22:36:09 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   https://git.yoctoproject.org/poky-contrib timo/maturin_1.3.2
+> >   https://git.yoctoproject.org/poky-contrib/log/?h=3Dtimo/maturin_1.3.2
+> >
+> > Tim Orling (6):
+> >   python3-setuptools-rust: BBCLASSEXTEND + nativesdk
+> >   python3-maturin: add v1.3.2
+> >   classes-recipe: add python_maturin.bbclass
+> >   recipetool: add python_maturin support
+> >   oe-selfest: add maturn runtime (testimage) test
+> >   python3-maturin: add sdk (testsdk) test case
+> >
+> >  meta/classes-recipe/python_maturin.bbclass    |  17 +
+> >  meta/conf/distro/include/maintainers.inc      |   1 +
+> >  meta/lib/oeqa/runtime/cases/maturin.py        |  23 +
+> >  meta/lib/oeqa/sdk/cases/maturin.py            |  33 +
+> >  meta/lib/oeqa/selftest/cases/recipetool.py    |  34 ++
+> >  .../python/python3-maturin-crates.inc         | 572 ++++++++++++++++++
+> >  .../python/python3-maturin_1.3.2.bb           |  40 ++
+> >  .../python/python3-setuptools-rust_1.8.1.bb   |   2 +-
+> >  .../lib/recipetool/create_buildsys_python.py  |   1 +
+> >  9 files changed, 722 insertions(+), 1 deletion(-)
+> >  create mode 100644 meta/classes-recipe/python_maturin.bbclass
+> >  create mode 100644 meta/lib/oeqa/runtime/cases/maturin.py
+> >  create mode 100644 meta/lib/oeqa/sdk/cases/maturin.py
+> >  create mode 100644
+> meta/recipes-devtools/python/python3-maturin-crates.inc
+> >  create mode 100644 meta/recipes-devtools/python/
+> python3-maturin_1.3.2.bb
+> >
+> > --
+> > 2.34.1
+> >
+>
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#191981):
+> https://lists.openembedded.org/g/openembedded-core/message/191981
+> > Mute This Topic: https://lists.openembedded.org/mt/103045095/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alexandre.belloni@bootlin.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+>
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
+>
+
+--00000000000072ee6e060c085d74
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Dec 8, 2023 at 2:50=E2=80=AFPM Alexandre Belloni &l=
+t;<a href=3D"mailto:alexandre.belloni@bootlin.com">alexandre.belloni@bootli=
+n.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;paddin=
+g-left:1ex;border-left-color:rgb(204,204,204)">Hello Tim,<br>
+<br>
+I got this failure, can you check?<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/86/build=
+s/6166/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6166/steps/14/logs/=
+stdio</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/79/build=
+s/6159/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
+tobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6159/steps/14/logs/=
+stdio</a><br>
+<br>
+</blockquote><div dir=3D"auto">this is from Peter=E2=80=99s change which ha=
+d not been merged when I sent this series.</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-=
+style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"><br>
+2023-12-08 22:03:18,822 - oe-selftest - INFO - FAIL: recipetool.RecipetoolC=
+reateTests.test_recipetool_create_python3_pep517_maturin (subunit.RemotedTe=
+stCase)<br>
+2023-12-08 22:03:18,822 - oe-selftest - INFO - ----------------------------=
+------------------------------------------<br>
+2023-12-08 22:03:18,823 - oe-selftest - INFO - testtools.testresult.real._S=
+tringException: Traceback (most recent call last):<br>
+=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-fedora/build/met=
+a/lib/oeqa/selftest/cases/recipetool.py&quot;, line 698, in test_recipetool=
+_create_python3_pep517_maturin<br>
+=C2=A0 =C2=A0 self._test_recipe_contents(recipefile, checkvars, inherits)<b=
+r>
+=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-fedora/build/met=
+a/lib/oeqa/selftest/cases/devtool.py&quot;, line 178, in _test_recipe_conte=
+nts<br>
+=C2=A0 =C2=A0 self.assertEqual(missingvars, {}, &#39;Some expected variable=
+s not found in recipe: %s&#39; % checkvars)<br>
+=C2=A0 File &quot;/usr/lib64/python3.11/unittest/case.py&quot;, line 873, i=
+n assertEqual<br>
+=C2=A0 =C2=A0 assertion_func(first, second, msg=3Dmsg)<br>
+=C2=A0 File &quot;/usr/lib64/python3.11/unittest/case.py&quot;, line 1172, =
+in assertDictEqual<br>
+=C2=A0 =C2=A0 self.fail(self._formatMessage(msg, standardMsg))<br>
+=C2=A0 File &quot;/usr/lib64/python3.11/unittest/case.py&quot;, line 703, i=
+n fail<br>
+=C2=A0 =C2=A0 raise self.failureException(msg)<br>
+AssertionError: {&#39;SRC_URI&#39;: &#39;<a href=3D"https://files.pythonhos=
+ted.or" rel=3D"noreferrer" target=3D"_blank">https://files.pythonhosted.or<=
+/a>[586 chars]238&#39;} !=3D {}<br>
+Diff is 656 characters long. Set self.maxDiff to None to see it. : Some exp=
+ected variables not found in recipe: {&#39;SRC_URI&#39;: &#39;<a href=3D"ht=
+tps://files.pythonhosted.org/packages/64/26/cffb93fe9c6b5a91c497f37fae14a4b=
+073ecbc47fc36a9979c7aa888b245/pydantic_core-$%7BPV%7D.tar.gz" rel=3D"norefe=
+rrer" target=3D"_blank">https://files.pythonhosted.org/packages/64/26/cffb9=
+3fe9c6b5a91c497f37fae14a4b073ecbc47fc36a9979c7aa888b245/pydantic_core-${PV}=
+.tar.gz</a>&#39;, &#39;SRC_URI[md5sum]&#39;: &#39;1eb13c211147496c1c9484ff7=
+f8ac438&#39;, &#39;SRC_URI[sha1sum]&#39;: &#39;0803a731aa793f3eaf4d52f656d7=
+300408ca0b36&#39;, &#39;SRC_URI[sha256sum]&#39;: &#39;6d30226dfc816dd0fdf12=
+0cae611dd2215117e4f9b124af8c60ab9093b6e8e71&#39;, &#39;SRC_URI[sha384sum]&#=
+39;: &#39;cca6d9f0ba72ff92e16aaf3d6c628b8df33bdf244cc39c9d59cff9d541f35d4e8=
+7ec136e60e4b040ad73c5c69b27cec6&#39;, &#39;SRC_URI[sha512sum]&#39;: &#39;e6=
+c3081dfa58d9b59f8c33dfe80712d732ac3048a2f8240f9a0f5448d9bfc83e222c1e08b8bb4=
+9779b84f685c3bec3060cc935c113a818b1ab8aa955f3df2238&#39;}<br>
+<br>
+<br>
+<br>
+<br>
+On 07/12/2023 15:13:17-0800, Tim Orling wrote:<br>
+&gt; We are increasingly seeing Rust extensions for Python added in the<br>
+&gt; ecosystem. The current best practices approach has moved from using<br=
+>
+&gt; &#39;setuptools-rust&#39; to using &#39;maturin&#39;.<br>
+&gt; <br>
+&gt; * Add python3-maturin, including &#39;native&#39; and &#39;nativesdk&#=
+39; support.<br>
+&gt; * Add a &#39;python_maturin&#39; bbclass for the PEP-517 backend.<br>
+&gt; * Add recipetool support for the &#39;maturin&#39; PEP-517 backend.<br=
+>
+&gt; * Add a very basic &#39;maturin list-python&#39; smoke test added to o=
+eqa for<br>
+&gt;=C2=A0 =C2=A0both &#39;runtime&#39; (-c testimage) and &#39;sdk&#39; (-=
+c testsdk).<br>
+&gt; <br>
+&gt; The following changes since commit 70ad9b9b309575134834757468cb32c9e3b=
+87448:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0bitbake: hashserv: sqlite: Ensure sync propagates to datab=
+ase connections (2023-12-04 22:36:09 +0000)<br>
+&gt; <br>
+&gt; are available in the Git repository at:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://git.yoctoproject.org/poky-contrib" rel=
+=3D"noreferrer" target=3D"_blank">https://git.yoctoproject.org/poky-contrib=
+</a> timo/maturin_1.3.2<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://git.yoctoproject.org/poky-contrib/log/?=
+h=3Dtimo/maturin_1.3.2" rel=3D"noreferrer" target=3D"_blank">https://git.yo=
+ctoproject.org/poky-contrib/log/?h=3Dtimo/maturin_1.3.2</a><br>
+&gt; <br>
+&gt; Tim Orling (6):<br>
+&gt;=C2=A0 =C2=A0python3-setuptools-rust: BBCLASSEXTEND + nativesdk<br>
+&gt;=C2=A0 =C2=A0python3-maturin: add v1.3.2<br>
+&gt;=C2=A0 =C2=A0classes-recipe: add python_maturin.bbclass<br>
+&gt;=C2=A0 =C2=A0recipetool: add python_maturin support<br>
+&gt;=C2=A0 =C2=A0oe-selfest: add maturn runtime (testimage) test<br>
+&gt;=C2=A0 =C2=A0python3-maturin: add sdk (testsdk) test case<br>
+&gt; <br>
+&gt;=C2=A0 meta/classes-recipe/python_maturin.bbclass=C2=A0 =C2=A0 |=C2=A0 =
+17 +<br>
+&gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A01 +<br>
+&gt;=C2=A0 meta/lib/oeqa/runtime/cases/maturin.py=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 23 +<br>
+&gt;=C2=A0 meta/lib/oeqa/sdk/cases/maturin.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 33 +<br>
+&gt;=C2=A0 meta/lib/oeqa/selftest/cases/recipetool.py=C2=A0 =C2=A0 |=C2=A0 =
+34 ++<br>
+&gt;=C2=A0 .../python/python3-maturin-crates.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 572 ++++++++++++++++++<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-maturin_1.3.2.bb" rel=3D"no=
+referrer" target=3D"_blank">python3-maturin_1.3.2.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 40 ++<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-setuptools-rust_1.8.1.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-setuptools-rust_1.8.1.bb</a>=C2=
+=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+&gt;=C2=A0 .../lib/recipetool/create_buildsys_python.py=C2=A0 |=C2=A0 =C2=
+=A01 +<br>
+&gt;=C2=A0 9 files changed, 722 insertions(+), 1 deletion(-)<br>
+&gt;=C2=A0 create mode 100644 meta/classes-recipe/python_maturin.bbclass<br=
+>
+&gt;=C2=A0 create mode 100644 meta/lib/oeqa/runtime/cases/maturin.py<br>
+&gt;=C2=A0 create mode 100644 meta/lib/oeqa/sdk/cases/maturin.py<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/python3-maturin-=
+crates.inc<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
+//python3-maturin_1.3.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-ma=
+turin_1.3.2.bb</a><br>
+&gt; <br>
+&gt; -- <br>
+&gt; 2.34.1<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#191981): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/191981" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/191981</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10304509=
+5/3617179" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/103045095/3617179</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alexandre.belloni@boo=
+tlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+Alexandre Belloni, co-owner and COO, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
+//bootlin.com</a><br>
+</blockquote></div></div>
+
+--00000000000072ee6e060c085d74--
 
