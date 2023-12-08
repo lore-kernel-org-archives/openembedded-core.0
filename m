@@ -1,97 +1,139 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B0AC10DCE
-	for <webhook@archiver.kernel.org>; Thu,  7 Dec 2023 23:40:52 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.117463.1701992451215703361
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC2FCC46CC5
+	for <webhook@archiver.kernel.org>; Fri,  8 Dec 2023 02:33:39 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.11136.1702002813982040324
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Dec 2023 15:40:51 -0800
+ Thu, 07 Dec 2023 18:33:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=I4vKp90q;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ahSYzKx1;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018c46a7c8a8-54664435-35be-43f2-8c0c-b8903b92cb36-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1701992450; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=SSYdhiVT+dqJAjAS2K34flKMlFsfUk2piEhUIIB4itA=;
-	b=I4vKp90qhXl9MPyaftDQMX565GWCK6mVkxKccB+4ECL4Ziw7OOkU8hWIfgHPw+ty
-	+ybrcxGXoGmvs6QZDwePP0CIK7C7BEvZx9DLUoQDtidXlX+D2iTyFz1OxwvELuXwTVi
-	oMlJtLhPRPXNyMf85D7tKRssKqeYPZKg213uz814=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1701992450;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=SSYdhiVT+dqJAjAS2K34flKMlFsfUk2piEhUIIB4itA=;
-	b=ahSYzKx1KJSNJhJBKrFCtTCXJRneev5IDJryrqxI1Ou4eCZb3tpK/3Ne/UVxiKbi
-	G96jUYcjDOLAFrak+q4NteKiprZXL/eGR16r8QV8cc6ERJ4mOsTZ0PhE2v9oQWmNXiE
-	X8K6Tc78LeFKqNzh8HJSq5y1Ntb+bttN9hfQHku4=
-From: patchtest@automation.yoctoproject.org
-To: Tim Orling <ticotimo@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 6/6] python3-maturin: add sdk (testsdk) test case
-In-Reply-To: 24841a7636bd1e83411c87ba4332f6f863542c6f.1701989368.git.tim.orling@konsulko.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c46a7c8a8-54664435-35be-43f2-8c0c-b8903b92cb36-000000@us-west-2.amazonses.com>
-Date: Thu, 7 Dec 2023 23:40:50 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.07-54.240.27.45
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gzOp3WIw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5c6734e0c22so1167966a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 18:33:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702002812; x=1702607612; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uub6B7b4qbOeTcqoIiU0NXw0t6wm3hPrKie4GIRcn2U=;
+        b=gzOp3WIwLw0V/Ss2wMRULODjBSdgTgRiZRrwnm3GXHYDB60N+/+RNeOEj26tVLzbMK
+         5yagRP3ROmTlw/GfNo53aeDtcPoPDbmSDNzNeIN0HsnP+tUQXcgOdsvwb7kXR0DDHHhG
+         syJD/vZ2tJY7LtcKRHET5scEyeSup2R9GaMAMVEsUvcVVmhx2Z6dsZRwfnjRhIBj+eZC
+         8Rq3wT0dJHMso0T9K9pgCCP66UQGtx9pLB2+Ab0pQuGqoR4j8lkMpJ/UuiZcOJpwmlpr
+         jMYdXA5Hgm9P2dIBWWce5I/7XYDzpdlLud+RdpgpzBL3puRjluuXhY9bq6UXVRnzMV1X
+         lXWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702002812; x=1702607612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uub6B7b4qbOeTcqoIiU0NXw0t6wm3hPrKie4GIRcn2U=;
+        b=A+eNoqpQ2M+gJ6MhweH7XS4H27u0MCnkNsh0qwdq4/9HsQO5K2EtgemRGvhCNqD9nB
+         +rxEmCfOqAsfS3Ir9Q+ld2mB0CnREcPTP9sUYIvggMFte6hviypR9OpYXdmVnSUb8CME
+         t62p/IW0ROKjpTWmK9TgtVabDpW/tZ72x1DM2FBs9Hq7zPGeBO3dctgwjC0Rxam14eHB
+         cjFtK8UYWkPwSYRgwj0mHrUa8lmHBAHT7Qlq1LTqvKO3yzYzsDVvla+g3MWsO81W4LIP
+         oa4IbPyOS83soQXdzskwt9WhnLZzovdVogDPrXUmGX27MCaBngaWtu0I+sW3+V5AD5p2
+         flsw==
+X-Gm-Message-State: AOJu0YxSji1jgkYUMZHv381CdF9UITYpq4mF6plYPr8o0S8DN6ajpkiN
+	Yq5ZPXMU6kdh9PUWXSY83YVU9/87E9VpXe6Fdvo=
+X-Google-Smtp-Source: AGHT+IG3/Xx1N11PCWfBC6DuTxVDvHeSHw3jRhDReweW36UBhTL2F2HXyqrlVEdpVRmVKDb8an22tw==
+X-Received: by 2002:a17:90b:4b86:b0:286:d464:687e with SMTP id lr6-20020a17090b4b8600b00286d464687emr3263020pjb.18.1702002812385;
+        Thu, 07 Dec 2023 18:33:32 -0800 (PST)
+Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id i11-20020a170902c94b00b001c9bc811d4dsm499752pla.295.2023.12.07.18.33.31
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 18:33:32 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/15] Patch review
+Date: Thu,  7 Dec 2023 16:33:06 -1000
+Message-Id: <cover.1702002667.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Dec 2023 23:40:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191991
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 02:33:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/191992
 
---NextPart
-Content-Type: text/plain
+Please review this set of changes for kirkstone and have comments back by
+end of day Monday, December 11
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Passed a-full on autobuilder:
 
----
-Testing patch /home/patchtest/share/mboxes/6-6-python3-maturin-add-sdk-testsdk-test-case.patch
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6300
 
-FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
+The following changes since commit 11da43b58e19583a9bc16044309610cfb2e86469:
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test bugzilla entry format (test_mbox.TestMbox.test_bugzilla_entry_format)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+  systemtap_git: fix used uninitialized error (2023-11-28 05:11:52 -1000)
 
-SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+are available in the Git repository at:
 
----
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Bruce Ashfield (3):
+  linux-yocto/5.10: update to v5.10.198
+  linux-yocto/5.10: update to v5.10.200
+  linux-yocto/5.10: update to v5.10.202
 
---NextPart
+Lee Chee Yang (1):
+  xwayland: fix CVE-2023-5367
 
+Narpat Mali (1):
+  python3-cryptography: fix CVE-2023-49083
 
---NextPart--
+Niko Mauno (1):
+  rust-llvm: Allow overriding LLVM target archs
+
+Richard Purdie (5):
+  rust-common: Set llvm-target correctly for cross SDK targets
+  rust-cross-canadian: Fix ordering of target json config generation
+  rust-cross/rust-common: Merge arm target handling code to fix
+    cross-canadian
+  rust-cross: Simplfy the rust_gen_target calls
+  native: Clear TUNE_FEATURES/ABIEXTENSION
+
+Steve Sakoman (1):
+  cve-exclusion_5.10.inc: update for 5.10.202
+
+Tim Orling (1):
+  vim: upgrade 9.0.2068 -> 9.0.2130
+
+Vivek Kumbhar (1):
+  libsndfile: fix CVE-2022-33065 Signed integer overflow in src/mat4.c
+
+Wenlin Kang (1):
+  bash: changes to SIGINT handler while waiting for a child
+
+ meta/classes/native.bbclass                   |   2 +
+ .../python3-cryptography/CVE-2023-49083.patch |  53 ++++
+ .../python/python3-cryptography_36.0.2.bb     |   1 +
+ meta/recipes-devtools/rust/rust-common.inc    |  24 +-
+ .../rust/rust-cross-canadian-common.inc       |   5 +-
+ meta/recipes-devtools/rust/rust-cross.inc     |  21 +-
+ meta/recipes-devtools/rust/rust-llvm.inc      |   4 +-
+ ...T-handler-while-waiting-for-a-child-.patch | 229 ++++++++++++++++++
+ meta/recipes-extended/bash/bash_5.1.16.bb     |   1 +
+ .../xwayland/xwayland/CVE-2023-5367.patch     |  85 +++++++
+ .../xwayland/xwayland_22.1.8.bb               |   4 +-
+ .../linux/cve-exclusion_5.10.inc              |  92 +++++--
+ .../linux/linux-yocto-rt_5.10.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  24 +-
+ .../libsndfile1/CVE-2022-33065.patch          |  46 ++++
+ .../libsndfile/libsndfile1_1.0.31.bb          |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 18 files changed, 542 insertions(+), 68 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2023-49083.patch
+ create mode 100644 meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
+ create mode 100644 meta/recipes-graphics/xwayland/xwayland/CVE-2023-5367.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2022-33065.patch
+
+-- 
+2.34.1
+
 
