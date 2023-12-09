@@ -2,64 +2,64 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DD52C4167B
-	for <webhook@archiver.kernel.org>; Sat,  9 Dec 2023 01:37:31 +0000 (UTC)
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web11.1457.1702085847903978339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E1FC4167B
+	for <webhook@archiver.kernel.org>; Sat,  9 Dec 2023 01:41:01 +0000 (UTC)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+ by mx.groups.io with SMTP id smtpd.web10.1581.1702086054677070227
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 17:37:28 -0800
+ Fri, 08 Dec 2023 17:40:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=h0JkGAJB;
- spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: ticotimo@gmail.com)
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3b9dbbaa9a9so1874825b6e.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 17:37:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iseCP1yP;
+ spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-35d67870032so13035765ab.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 17:40:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702085847; x=1702690647; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702086053; x=1702690853; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+6fYOmTyixqwpGNr5mtOT0SpU9Hwr8qfB0mEEN5jQeQ=;
-        b=h0JkGAJBzHleFekBwQCBtbtVidmHfj8/qtQ2onJqEftaA47/HQyjVKX1XZ5C/H6Pij
-         gv6qyNZFb3nNMhlOoW6yLpTXVwNjk/kob5LAd030mckVaQSZzNZKGcZ8oBqbguH32Wwg
-         ZUZI7GQf7A+XzBblR9CyIZf/0KTdve6AsuxTfSqa8YXvMc2eKLxgJticIggxyPjAX7MU
-         Cf80rvffwXW0jQloB+ANWn/X9ES+41w0GAhxOQBX7NvWDriUJxKJlVLs/LSFM3fjeOY5
-         OxXD2X61972FmKAfntbW1bYH8ZBB9T8XL4tmcY4hQwMk4r1U9MCJHwkcpCzgxU8fibEo
-         18mA==
+        bh=IbshQl0PZSINi8jQx2imUS46DssuYF8qwnCaOcRIN2c=;
+        b=iseCP1yPocrpBp1YREwlSWVApBPIdbR1SVO1aKWMHfyrdGExSvHZvWKOSVcWV9S2ER
+         LGLhSD4JDm00mfff5ZZvgZuXCdD7gvxbvASDsU6Skmkk7CN+XOuDxyUNGkPKalFxMlBq
+         A9G1urvuMotxmm+SRe6p2OX46yHBe9kaW++SMDyGVPfeaKDaZa/U4rT/s/kMPuqV7yO4
+         IuoDKTyqHUvsPeHY1Jp2VhoAQ5N/foRzxv7Gme5hYj8ocWLr5yNHJYCS3vFErt9ML1QZ
+         E43M9Pm7eggC692L3lr4syljTXoWcLSHfyar9q+9aOgEobS5ANYsHUG6KbQ/iL00tUAx
+         HtOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702085847; x=1702690647;
+        d=1e100.net; s=20230601; t=1702086053; x=1702690853;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+6fYOmTyixqwpGNr5mtOT0SpU9Hwr8qfB0mEEN5jQeQ=;
-        b=DAzgQ9p/2IwHU6GE/ZeJ+6CCeKhgzoqKep65ubXJKQ1aCpNrNieXGx2ps/PHhL0O5P
-         mlbzLrZBy96M35eYXlYV9XMmdDWBMM5Smmep/nUXsv9W3kmaTmo3sFGzSuhGRSrJ1uMi
-         egyPaTtloiSDB1mPhZzrppwPnfB0P1eN0s5u2/BGufMGfuKVwT3rH67eTbuHs1eobrV6
-         OY+KndNc6E/FcFRFZXH654hymUAuZE9B3Xn1W+d7T50QY+uZZdbXZ0YasGMlNmifqUAO
-         W5W+uXOsatK0lqOiMy/HfJyPWHTBYQJ+AMUI0QKiPMZ2vK5XJFtlTqiy1qBaBqNR2v2n
-         yuwg==
-X-Gm-Message-State: AOJu0YwAmw5y2g1pAj+SygKAkMYyGuR5luR1HPTCECryyWGj/3jQXxK1
-	WoYl2OQ9lBzxBsL0TCbhcXBGUyIxgw8=
-X-Google-Smtp-Source: AGHT+IFqTsrD2nU3z4ij5UjcEp+ZW4yN+9+33fyphBWRUG85aEXrSXo21eYqA1VbM1F/pZmI8Gdhwg==
-X-Received: by 2002:a05:6808:2181:b0:3b8:3f9f:4c73 with SMTP id be1-20020a056808218100b003b83f9f4c73mr1286499oib.26.1702085846868;
-        Fri, 08 Dec 2023 17:37:26 -0800 (PST)
+        bh=IbshQl0PZSINi8jQx2imUS46DssuYF8qwnCaOcRIN2c=;
+        b=R3L3CSEOptEc3aMEjNGqX8wbfoxk5fbIMbmfwHY7kTb2Gmb0EqfAc+AU5oN7nD4cyK
+         hdzvcbCXFSjmtS/Vl3Ske2Hh3eb081U/MMEe6fHPorJqtoRdzjYp+M/VmuYpv1cHttDc
+         dQROgKT8KADzYT4dfhdGDo2AwjYWA6+lKmMqQWWV2nhWk5USrycVHtog3+FHoHE78MLY
+         0Aodrz7qyP4kix4zPq2uHtCk+eOUZtqDTFUjdcZY/3F6EizR76StTlcb0VfgysK2kvkP
+         x71jR4eT9m+3VXGOcpM8NNfwS12mXKf81UxNEaTpfwfECkb0wKkP4EhrUYvFZCd26juD
+         7GLA==
+X-Gm-Message-State: AOJu0YzQk9vhUoeCXQMQj2Kt7ePKrIXwr83xcUz6M60UwO31nphjNFk7
+	uhZS1MiKEtyjgv8H5G2gLNR7L1mpDP0=
+X-Google-Smtp-Source: AGHT+IHCSwgIJguqPCSKskLZ+t64V9eV9t8Jh1qHAVe1EkS7pdPgICG2wzrjyk/ZYsSehNw1JjJMQA==
+X-Received: by 2002:a05:6e02:17c8:b0:35d:659d:1c70 with SMTP id z8-20020a056e0217c800b0035d659d1c70mr1326928ilu.89.1702086053463;
+        Fri, 08 Dec 2023 17:40:53 -0800 (PST)
 Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:7aea:237e:f2fd:77b])
-        by smtp.gmail.com with ESMTPSA id 4-20020a170902c24400b001cffd42711csm2335429plg.199.2023.12.08.17.37.26
+        by smtp.gmail.com with ESMTPSA id jj17-20020a170903049100b001d2f0985020sm1704718plb.294.2023.12.08.17.40.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 17:37:26 -0800 (PST)
+        Fri, 08 Dec 2023 17:40:52 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] recipetool: pypi: do not clobber SRC_URI checksums
-Date: Fri,  8 Dec 2023 17:37:15 -0800
-Message-Id: <20231209013715.1212333-1-tim.orling@konsulko.com>
+Subject: [PATCH v2] recipetool: pypi: do not clobber SRC_URI checksums
+Date: Fri,  8 Dec 2023 17:40:04 -0800
+Message-Id: <20231209014003.1213392-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Dec 2023 01:37:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192093
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Dec 2023 01:41:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192094
 
 The pypi change:
 "85a2a6f68af recipetool: create_buildsys_python: add pypi support"
@@ -73,14 +73,23 @@ Fix by only setting S and SRC_URI to None.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- scripts/lib/recipetool/create_buildsys_python.py | 5 -----
- 1 file changed, 5 deletions(-)
+Changes in v2:
+  - clarify the pypi.bbclass comment
+
+ scripts/lib/recipetool/create_buildsys_python.py | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-index 5e07222ece1..66de36ba3e4 100644
+index 5e07222ece1..a2af41fdda8 100644
 --- a/scripts/lib/recipetool/create_buildsys_python.py
 +++ b/scripts/lib/recipetool/create_buildsys_python.py
-@@ -172,11 +172,6 @@ class PythonRecipeHandler(RecipeHandler):
+@@ -167,16 +167,11 @@ class PythonRecipeHandler(RecipeHandler):
+                 if pypi_package_ext != "tar.gz":
+                     extravalues["PYPI_PACKAGE_EXT"] = pypi_package_ext
+ 
+-            # Pypi class will handle S and SRC_URIxxx variables, so remove them
++            # Pypi class will handle S and SRC_URI variables, so remove them
+             # TODO: allow oe.recipeutils.patch_recipe_lines() to accept regexp so we can simplify the following to:
              # extravalues['SRC_URI(?:\[.*?\])?'] = None
              extravalues['S'] = None
              extravalues['SRC_URI'] = None
