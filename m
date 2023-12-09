@@ -2,217 +2,297 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADD5C4167B
-	for <webhook@archiver.kernel.org>; Sat,  9 Dec 2023 01:00:21 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.web10.843.1702083610870713431
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDC6C10DCE
+	for <webhook@archiver.kernel.org>; Sat,  9 Dec 2023 01:15:31 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web11.1055.1702084525406481762
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Dec 2023 17:00:11 -0800
+ Fri, 08 Dec 2023 17:15:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oolnb5kB;
- spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5d7a47d06eeso25963197b3.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 17:00:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bdn+IDBB;
+ spf=pass (domain: gmail.com, ip: 209.85.167.178, mailfrom: ticotimo@gmail.com)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3b8903f7192so1782739b6e.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Dec 2023 17:15:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702083610; x=1702688410; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702084524; x=1702689324; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v0gk8NLq6n/kA6xcto++f/G8cOs13SJPmAVNip2u72U=;
-        b=Oolnb5kBLTK8V5J9H5GyQaM36/3dcKMAHL50CTFaiC3gmNHETglnqq25VLSJ0r+Zbb
-         6v2Az4qWqyeciG3pIOAD1lY5V5y/qJgFAk5qyzXqsfd/nhQ7JiJ6cG2VA72AU+d+SksN
-         JcbaR/l8BnV+RrdpDQvDSR3314m0EigfogkONicMmlhfdjuQxJVejbIxvUOYNSLwBQmA
-         UtDXYgMh+T+ImWcwoW3izmLgH7ZAKULr/Rj9JuEVNgNBAse6R0AE9i7DHgtGzdq2dIR4
-         jHHIlNfSSsq+jKk1CSzXNTP6vU+Rgwwsb7YKtEPjvi+x+DmlGraPirPKB0cozpJuneVd
-         LFQQ==
+        bh=Y0Jk1vNMCFTIBoD20x4rHhF5wOoeb50OvJdp8t5czE0=;
+        b=Bdn+IDBBeof1B63bX5nrAGEJil/ru0dTX0qAudmhtUqD5cyGFEtbspLYjrslSoVbfq
+         uwgQzO6OFRJhxhSjMBv04Bed1Q4iT8AAaSIPf79HzaVgOMM9x1QL1ghrOdCnVi91QGd/
+         xuY+a2HYxl5CMYFozC0ze/xSXhuEGabWRzANkkMJJ3K8sd2V5GWxswgRH4u+kyx6n83o
+         EQiII2uZMjWIcR6EIbrPonkSq3S0Sk4Qww0biPo8P7sOF1b7fZs1dfFdHm+Hd3rC5SBF
+         wA+Qi6DBJFGwd25wexSm9f6aYHR4zX3c2hU9FGGCKMC4HeePMNuPX6nUT4ZyXmU87P4o
+         E7KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702083610; x=1702688410;
+        d=1e100.net; s=20230601; t=1702084524; x=1702689324;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v0gk8NLq6n/kA6xcto++f/G8cOs13SJPmAVNip2u72U=;
-        b=KmuskHWZjUb0oAxgZG4UljVi95hdmu+2eTOjnY3ItRtPHha16Ofe/95Mby4xfaevcS
-         z93A0DN3LktaDj0Du4mzwu9WctObO8WFCIkBlX7Hb61OG1IHl+bnKoHNSqHwPy984UDU
-         R0ZEJNjhUS8ueCMXpjhkKvv3AJXIc61g9RtpGmEqYUIKMUe7+Z9MjTg3j6O8BVeuUYFu
-         nKbtddPfMOQGeEZFUbXZqF1a3zz/ZUgmSyUUnDsR5nPctgcJ/4K3MbC2k98rGkuBr8L3
-         dqDfPt0ySODrk0qbw98EvKY4KstVuHad8SEpXNfP/juZE+P1ZVdBREsFEmteIUJvXL9G
-         G/xg==
-X-Gm-Message-State: AOJu0YxW138GxQPifTzU1lyZL4NWvRRI/y6lCgen1ZuD/Q/VGywb0lKg
-	kH+0/AMt6xPuFQrsLChzCg0rFjW4jaZ7gn7vrow=
-X-Google-Smtp-Source: AGHT+IGjEFF3MxMAtarMjYPmr5enUQUDoYmPRyUNw4klur0a9ULBmGpI9Tddyj5cI5mMW6bfGPX9tbl5w7d0ALXpT9k=
-X-Received: by 2002:a81:6f09:0:b0:5d7:1940:f3dc with SMTP id
- k9-20020a816f09000000b005d71940f3dcmr643771ywc.68.1702083609833; Fri, 08 Dec
- 2023 17:00:09 -0800 (PST)
+        bh=Y0Jk1vNMCFTIBoD20x4rHhF5wOoeb50OvJdp8t5czE0=;
+        b=aUGh70Cb45IsszbjdKv8b55HZ4pR5qfetfqmHjMKQeCN4g/AzD5WQRwl5WxWH3WRjk
+         Plol+k8GJ2WB0gU5jsLKHfjzS6qBOiGHbxFkO6Ld4pkEThgab4T0Co2KeWMsnMsZaHs5
+         5WDzpxNJZmlmOSR4wUFbSw53TSkBzqBIRxczskjU9/bc7nJPbRNwRGGF5K3Xkvssjpa0
+         u0qMTMeiozwisVztwBYhO6n1coZxvlUC8VxWSErhaICO699uDcGO7iz0Z9DJKjQcoQKN
+         CsgbSrxNn1CT/37rm4ypOAqUxaLg//hkXoeW3bJy+mqlitfjBEqkz5dF+T7nGHzuvlj2
+         ISWA==
+X-Gm-Message-State: AOJu0Yzfvw2gOyhtrP7QbHLmklZtaoIvxjfHvlzleRMfNpb6582vt5oL
+	fl2A2rohwSqBmkXfqGzKSrfM9NnH1PtDrEF6KwU=
+X-Google-Smtp-Source: AGHT+IHlNQ+ViWdr20nlJNvUmL1LfEtCG2J6+Jdc5QbLDhkKJdefiquvRet0PbrDQ38AGr0hfG/nrOPVrQYbiIxyEbM=
+X-Received: by 2002:a05:6808:220c:b0:3b9:d8bb:8ff6 with SMTP id
+ bd12-20020a056808220c00b003b9d8bb8ff6mr1202443oib.31.1702084524567; Fri, 08
+ Dec 2023 17:15:24 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1701989368.git.tim.orling@konsulko.com> <20231208225036585d7237@mail.local>
- <179F00AD57313E1B.7956@lists.openembedded.org>
-In-Reply-To: <179F00AD57313E1B.7956@lists.openembedded.org>
+References: <20231204155934.836992-1-jstephan@baylibre.com> <20231204155934.836992-6-jstephan@baylibre.com>
+In-Reply-To: <20231204155934.836992-6-jstephan@baylibre.com>
 From: Tim Orling <ticotimo@gmail.com>
-Date: Fri, 8 Dec 2023 16:59:58 -0800
-Message-ID: <CANx9H-ARDSbdhWm6t1oKnbRE6kGfPSXKkJt7W-WK58Fjho8RrQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/6] Add 'maturin' python backend support
-To: ticotimo@gmail.com
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f14383060c093872"
+Date: Fri, 8 Dec 2023 17:15:13 -0800
+Message-ID: <CANx9H-DjDi8VApDYzH1tLxrrqY2tm2Nj3oNBB5bkdnNMV_4HGA@mail.gmail.com>
+Subject: Re: [OE-core] [RESEND][PATCH 5/7] recipetool: create_buildsys_python:
+ add pypi support
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000076eef1060c096f5d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Dec 2023 01:00:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192091
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Dec 2023 01:15:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192092
 
---000000000000f14383060c093872
+--00000000000076eef1060c096f5d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 8, 2023 at 3:58=E2=80=AFPM Tim Orling via lists.openembedded.or=
-g
-<ticotimo=3Dgmail.com@lists.openembedded.org> wrote:
+On Mon, Dec 4, 2023 at 7:59=E2=80=AFAM Julien Stephan <jstephan@baylibre.co=
+m> wrote:
 
+> Today, we can use devtool/recipetool to create recipes for python project=
+s
+> using the github url or the direct release tarball of the project, but th=
+e
+> create_buildsys_python plugin doesn't support the pypi class, since we
+> cannot
+> know from the extracted source if the package is available on pypi or not=
+.
+>
+> By implementing the new optional process_url callback, we can detect
+> that the url is a pypi one (i.e 'https://pypi.org/project/<package>')
+> and retrieve the release tarball location.
+> Also detect if the url points to a release tarball hosted on
+> "files.pythonhosted.iorg" (i.e https://files.pythonhosted.org/packages/..
+> .)
+>
+> In both cases, adds the pypi class, remove 'S' and 'SRC_URIxxx'
+> variables from the created recipe as they will be handled by the pypi cla=
+ss
+> and add the PYPI_PACKAGE variable
+>
+> This helps to produce cleaner recipes when package is hosted on pypi.
+>
+> If the url points to a github url or a release tarball not coming from
+> "files.pythonhosted.org", the created recipe is the same as before.
+> One can also use the newly added "--no-pypi" switch to NOT inherit
+> from pypi class on matching url, to keep legacy behaviour.
+>
+> To create a recipe for a pypi package, one can now use one of the
+> new following syntax (using recipetool create / devtool add):
+>
+> * recipetool create https://pypi.org/project/<package>
+> * recipetool create https://pypi.org/project/<package>/<version>
+> * recipetool create https://pypi.org/project/<package> --version <version=
 >
 >
-> On Fri, Dec 8, 2023 at 2:50=E2=80=AFPM Alexandre Belloni <
-> alexandre.belloni@bootlin.com> wrote:
+> or the old syntax:
+> * recipetool create https://files.pythonhosted.org/packages/<...>
 >
->> Hello Tim,
->>
->> I got this failure, can you check?
->>
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6166/s=
-teps/14/logs/stdio
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6159/s=
-teps/14/logs/stdio
->>
->> this is from Peter=E2=80=99s change which had not been merged when I sen=
-t this
-> series.
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  scripts/lib/devtool/standard.py               |  3 +
+>  scripts/lib/recipetool/create.py              |  1 +
+>  .../lib/recipetool/create_buildsys_python.py  | 72 +++++++++++++++++++
+>  3 files changed, 76 insertions(+)
 >
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py
+> index d53fb810071..f18ebaa70d3 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -147,6 +147,8 @@ def add(args, config, basepath, workspace):
+>          extracmdopts +=3D ' -a'
+>      if args.npm_dev:
+>          extracmdopts +=3D ' --npm-dev'
+> +    if args.no_pypi:
+> +        extracmdopts +=3D ' --no-pypi'
+>      if args.mirrors:
+>          extracmdopts +=3D ' --mirrors'
+>      if args.srcrev:
+> @@ -2260,6 +2262,7 @@ def register_commands(subparsers, context):
+>      group.add_argument('--no-same-dir', help=3D'Force build in a separat=
+e
+> build directory', action=3D"store_true")
+>      parser_add.add_argument('--fetch', '-f', help=3D'Fetch the specified
+> URI and extract it to create the source tree (deprecated - pass as
+> positional argument instead)', metavar=3D'URI')
+>      parser_add.add_argument('--npm-dev', help=3D'For npm, also fetch
+> devDependencies', action=3D"store_true")
+> +    parser_add.add_argument('--no-pypi', help=3D'Do not inherit pypi
+> class', action=3D"store_true")
+>      parser_add.add_argument('--version', '-V', help=3D'Version to use
+> within recipe (PV)')
+>      parser_add.add_argument('--no-git', '-g', help=3D'If fetching source=
+,
+> do not set up source tree as a git repository', action=3D"store_true")
+>      group =3D parser_add.add_mutually_exclusive_group()
+> diff --git a/scripts/lib/recipetool/create.py
+> b/scripts/lib/recipetool/create.py
+> index 5c5ac7ae403..963aa91421e 100644
+> --- a/scripts/lib/recipetool/create.py
+> +++ b/scripts/lib/recipetool/create.py
+> @@ -1413,6 +1413,7 @@ def register_commands(subparsers):
+>      parser_create.add_argument('-B', '--srcbranch', help=3D'Branch in
+> source repository if fetching from an SCM such as git (default master)')
+>      parser_create.add_argument('--keep-temp', action=3D"store_true",
+> help=3D'Keep temporary directory (for debugging)')
+>      parser_create.add_argument('--npm-dev', action=3D"store_true",
+> help=3D'For npm, also fetch devDependencies')
+> +    parser_create.add_argument('--no-pypi', action=3D"store_true", help=
+=3D'Do
+> not inherit pypi class')
+>      parser_create.add_argument('--devtool', action=3D"store_true",
+> help=3Dargparse.SUPPRESS)
+>      parser_create.add_argument('--mirrors', action=3D"store_true",
+> help=3D'Enable PREMIRRORS and MIRRORS for source tree fetching (disabled =
+by
+> default).')
+>      parser_create.set_defaults(func=3Dcreate_recipe)
+> diff --git a/scripts/lib/recipetool/create_buildsys_python.py
+> b/scripts/lib/recipetool/create_buildsys_python.py
+> index b620e3271b1..5e07222ece1 100644
+> --- a/scripts/lib/recipetool/create_buildsys_python.py
+> +++ b/scripts/lib/recipetool/create_buildsys_python.py
+> @@ -18,7 +18,11 @@ import os
+>  import re
+>  import sys
+>  import subprocess
+> +import json
+> +import urllib.request
+>  from recipetool.create import RecipeHandler
+> +from urllib.parse import urldefrag
+> +from recipetool.create import determine_from_url
+>
+>  logger =3D logging.getLogger('recipetool')
+>
+> @@ -111,6 +115,74 @@ class PythonRecipeHandler(RecipeHandler):
+>      def __init__(self):
+>          pass
+>
+> +    def process_url(self, args, classes, handled, extravalues):
+> +        """
+> +        Convert any pypi url https://pypi.org/project/<package>/<version=
+>
+> into https://files.pythonhosted.org/packages/source/...
+> +        which corresponds to the archive location, and add pypi class
+> +        """
+> +
+> +        if 'url' in handled:
+> +            return None
+> +
+> +        fetch_uri =3D None
+> +        source =3D args.source
+> +        required_version =3D args.version if args.version else None
+> +        match =3D re.match(r'https?://pypi.org/project/([
+> <http://pypi.org/project/(%5B>^/]+)(?:/([^/]+))?/?$',
+> urldefrag(source)[0])
+> +        if match:
+> +            package =3D match.group(1)
+> +            version =3D match.group(2) if match.group(2) else
+> required_version
+> +
+> +            json_url =3D f"https://pypi.org/pypi/%s/json" % package
+> +            response =3D urllib.request.urlopen(json_url)
+> +            if response.status =3D=3D 200:
+> +                data =3D json.loads(response.read())
+> +                if not version:
+> +                    # grab latest version
+> +                    version =3D data["info"]["version"]
+> +                pypi_package =3D data["info"]["name"]
+> +                for release in reversed(data["releases"][version]):
+> +                    if release["packagetype"] =3D=3D "sdist":
+> +                        fetch_uri =3D release["url"]
+> +                        break
+> +            else:
+> +                logger.warning("Cannot handle pypi url %s: cannot fetch
+> package information using %s", source, json_url)
+> +                return None
+> +        else:
+> +            match =3D re.match(r'^https?://
+> files.pythonhosted.org/packages.*/(.*)-.*$', source)
+> +            if match:
+> +                fetch_uri =3D source
+> +                pypi_package =3D match.group(1)
+> +                _, version =3D determine_from_url(fetch_uri)
+> +
+> +        if match and not args.no_pypi:
+> +            if required_version and version !=3D required_version:
+> +                raise Exception("Version specified using --version/-V
+> (%s) and version specified in the url (%s) do not match" %
+> (required_version, version))
+> +            # This is optionnal if BPN looks like "python-<pypi_package>=
+"
+> or "python3-<pypi_package>" (see pypi.bbclass)
+> +            # but at this point we cannot know because because user can
+> specify the output name of the recipe on the command line
+> +            extravalues["PYPI_PACKAGE"] =3D pypi_package
+> +            # If the tarball extension is not 'tar.gz' (default value in
+> pypi.bblcass) whe should set PYPI_PACKAGE_EXT in the recipe
+> +            pypi_package_ext =3D re.match(r'.*%s-%s\.(.*)$' %
+> (pypi_package, version), fetch_uri)
+> +            if pypi_package_ext:
+> +                pypi_package_ext =3D pypi_package_ext.group(1)
+> +                if pypi_package_ext !=3D "tar.gz":
+> +                    extravalues["PYPI_PACKAGE_EXT"] =3D pypi_package_ext
+> +
+> +            # Pypi class will handle S and SRC_URIxxx variables, so
+> remove them
+> +            # TODO: allow oe.recipeutils.patch_recipe_lines() to accept
+> regexp so we can simplify the following to:
+> +            # extravalues['SRC_URI(?:\[.*?\])?'] =3D None
+> +            extravalues['S'] =3D None
+> +            extravalues['SRC_URI'] =3D None
+> +            extravalues['SRC_URI[md5sum]'] =3D None
+> +            extravalues['SRC_URI[sha1sum]'] =3D None
+> +            extravalues['SRC_URI[sha256sum]'] =3D None
+> +            extravalues['SRC_URI[sha384sum]'] =3D None
+> +            extravalues['SRC_URI[sha512sum]'] =3D None
+> +
 
-Correction: it is from Julien=E2=80=99s pypi recipetool change. The pypi.bb=
-class
-does not create SRC_URI checksums. The inly test case other than mine with
-SRC_URI checksums was for =E2=80=94no-pypi setuptools3 and do we have zero =
-coverage.
+this was not correct. The pypi.bbclass does not create the
+SRC_URI[sha256sum]. It does create the SRC_URI. So new recipes will not
+have any check on the validity of the downloaded tarball.
 
+The only test case which checked for this was with =E2=80=94nopypi
+https://git.yoctoproject.org/poky-contrib/tree/meta/lib/oeqa/selftest/cases=
+/recipetool.py#n752
+
+
+> +            classes.append('pypi')
+> +
+> +        handled.append('url')
+> +        return fetch_uri
+> +
+>      def handle_classifier_license(self, classifiers,
+> existing_licenses=3D""):
 >
->> 2023-12-08 22:03:18,822 - oe-selftest - INFO - FAIL:
->> recipetool.RecipetoolCreateTests.test_recipetool_create_python3_pep517_m=
-aturin
->> (subunit.RemotedTestCase)
->> 2023-12-08 22:03:18,822 - oe-selftest - INFO -
->> ----------------------------------------------------------------------
->> 2023-12-08 22:03:18,823 - oe-selftest - INFO -
->> testtools.testresult.real._StringException: Traceback (most recent call
->> last):
->>   File
->> "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/sel=
-ftest/cases/recipetool.py",
->> line 698, in test_recipetool_create_python3_pep517_maturin
->>     self._test_recipe_contents(recipefile, checkvars, inherits)
->>   File
->> "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/sel=
-ftest/cases/devtool.py",
->> line 178, in _test_recipe_contents
->>     self.assertEqual(missingvars, {}, 'Some expected variables not found
->> in recipe: %s' % checkvars)
->>   File "/usr/lib64/python3.11/unittest/case.py", line 873, in assertEqua=
-l
->>     assertion_func(first, second, msg=3Dmsg)
->>   File "/usr/lib64/python3.11/unittest/case.py", line 1172, in
->> assertDictEqual
->>     self.fail(self._formatMessage(msg, standardMsg))
->>   File "/usr/lib64/python3.11/unittest/case.py", line 703, in fail
->>     raise self.failureException(msg)
->> AssertionError: {'SRC_URI': 'https://files.pythonhosted.or[586
->> chars]238'} !=3D {}
->> Diff is 656 characters long. Set self.maxDiff to None to see it. : Some
->> expected variables not found in recipe: {'SRC_URI': '
->> https://files.pythonhosted.org/packages/64/26/cffb93fe9c6b5a91c497f37fae=
-14a4b073ecbc47fc36a9979c7aa888b245/pydantic_core-${PV}.tar.gz',
->> 'SRC_URI[md5sum]': '1eb13c211147496c1c9484ff7f8ac438', 'SRC_URI[sha1sum]=
-':
->> '0803a731aa793f3eaf4d52f656d7300408ca0b36', 'SRC_URI[sha256sum]':
->> '6d30226dfc816dd0fdf120cae611dd2215117e4f9b124af8c60ab9093b6e8e71',
->> 'SRC_URI[sha384sum]':
->> 'cca6d9f0ba72ff92e16aaf3d6c628b8df33bdf244cc39c9d59cff9d541f35d4e87ec136=
-e60e4b040ad73c5c69b27cec6',
->> 'SRC_URI[sha512sum]':
->> 'e6c3081dfa58d9b59f8c33dfe80712d732ac3048a2f8240f9a0f5448d9bfc83e222c1e0=
-8b8bb49779b84f685c3bec3060cc935c113a818b1ab8aa955f3df2238'}
->>
->>
->>
->>
->> On 07/12/2023 15:13:17-0800, Tim Orling wrote:
->> > We are increasingly seeing Rust extensions for Python added in the
->> > ecosystem. The current best practices approach has moved from using
->> > 'setuptools-rust' to using 'maturin'.
->> >
->> > * Add python3-maturin, including 'native' and 'nativesdk' support.
->> > * Add a 'python_maturin' bbclass for the PEP-517 backend.
->> > * Add recipetool support for the 'maturin' PEP-517 backend.
->> > * Add a very basic 'maturin list-python' smoke test added to oeqa for
->> >   both 'runtime' (-c testimage) and 'sdk' (-c testsdk).
->> >
->> > The following changes since commit
->> 70ad9b9b309575134834757468cb32c9e3b87448:
->> >
->> >   bitbake: hashserv: sqlite: Ensure sync propagates to database
->> connections (2023-12-04 22:36:09 +0000)
->> >
->> > are available in the Git repository at:
->> >
->> >   https://git.yoctoproject.org/poky-contrib timo/maturin_1.3.2
->> >   https://git.yoctoproject.org/poky-contrib/log/?h=3Dtimo/maturin_1.3.=
-2
->> >
->> > Tim Orling (6):
->> >   python3-setuptools-rust: BBCLASSEXTEND + nativesdk
->> >   python3-maturin: add v1.3.2
->> >   classes-recipe: add python_maturin.bbclass
->> >   recipetool: add python_maturin support
->> >   oe-selfest: add maturn runtime (testimage) test
->> >   python3-maturin: add sdk (testsdk) test case
->> >
->> >  meta/classes-recipe/python_maturin.bbclass    |  17 +
->> >  meta/conf/distro/include/maintainers.inc      |   1 +
->> >  meta/lib/oeqa/runtime/cases/maturin.py        |  23 +
->> >  meta/lib/oeqa/sdk/cases/maturin.py            |  33 +
->> >  meta/lib/oeqa/selftest/cases/recipetool.py    |  34 ++
->> >  .../python/python3-maturin-crates.inc         | 572 +++++++++++++++++=
-+
->> >  .../python/python3-maturin_1.3.2.bb           |  40 ++
->> >  .../python/python3-setuptools-rust_1.8.1.bb   |   2 +-
->> >  .../lib/recipetool/create_buildsys_python.py  |   1 +
->> >  9 files changed, 722 insertions(+), 1 deletion(-)
->> >  create mode 100644 meta/classes-recipe/python_maturin.bbclass
->> >  create mode 100644 meta/lib/oeqa/runtime/cases/maturin.py
->> >  create mode 100644 meta/lib/oeqa/sdk/cases/maturin.py
->> >  create mode 100644
->> meta/recipes-devtools/python/python3-maturin-crates.inc
->> >  create mode 100644 meta/recipes-devtools/python/
->> python3-maturin_1.3.2.bb
->> >
->> > --
->> > 2.34.1
->> >
->>
->> >
->> >
->> >
->>
->>
->> --
->> Alexandre Belloni, co-owner and COO, Bootlin
->> Embedded Linux and Kernel engineering
->> https://bootlin.com
->>
+>          licenses =3D []
+> --
+> 2.42.0
+>
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#192089):
-> https://lists.openembedded.org/g/openembedded-core/message/192089
-> Mute This Topic: https://lists.openembedded.org/mt/103045095/924729
+> View/Reply Online (#191759):
+> https://lists.openembedded.org/g/openembedded-core/message/191759
+> Mute This Topic: https://lists.openembedded.org/mt/102972952/924729
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > ticotimo@gmail.com]
@@ -220,194 +300,307 @@ e60e4b040ad73c5c69b27cec6',
 >
 >
 
---000000000000f14383060c093872
+--00000000000076eef1060c096f5d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Dec 8, 2023 at 3:58=E2=80=AFPM Tim Orling via <a hr=
-ef=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;ticotim=
-o=3D<a href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.ope=
-nembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:soli=
-d;padding-left:1ex;border-left-color:rgb(204,204,204)"><div><br></div><div>=
-<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri=
-, Dec 8, 2023 at 2:50=E2=80=AFPM Alexandre Belloni &lt;<a href=3D"mailto:al=
-exandre.belloni@bootlin.com" target=3D"_blank">alexandre.belloni@bootlin.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-le=
-ft:1ex;border-left-color:rgb(204,204,204)">Hello Tim,<br>
+=3D"gmail_attr">On Mon, Dec 4, 2023 at 7:59=E2=80=AFAM Julien Stephan &lt;<=
+a href=3D"mailto:jstephan@baylibre.com">jstephan@baylibre.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-l=
+eft-color:rgb(204,204,204)">Today, we can use devtool/recipetool to create =
+recipes for python projects<br>
+using the github url or the direct release tarball of the project, but the<=
+br>
+create_buildsys_python plugin doesn&#39;t support the pypi class, since we =
+cannot<br>
+know from the extracted source if the package is available on pypi or not.<=
+br>
 <br>
-I got this failure, can you check?<br>
+By implementing the new optional process_url callback, we can detect<br>
+that the url is a pypi one (i.e &#39;<a href=3D"https://pypi.org/project/" =
+rel=3D"noreferrer" target=3D"_blank">https://pypi.org/project/</a>&lt;packa=
+ge&gt;&#39;)<br>
+and retrieve the release tarball location.<br>
+Also detect if the url points to a release tarball hosted on<br>
+&quot;files.pythonhosted.iorg&quot; (i.e <a href=3D"https://files.pythonhos=
+ted.org/packages/.." rel=3D"noreferrer" target=3D"_blank">https://files.pyt=
+honhosted.org/packages/..</a>.)<br>
 <br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/86/build=
-s/6166/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6166/steps/14/logs/=
-stdio</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/79/build=
-s/6159/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6159/steps/14/logs/=
-stdio</a><br>
+In both cases, adds the pypi class, remove &#39;S&#39; and &#39;SRC_URIxxx&=
+#39;<br>
+variables from the created recipe as they will be handled by the pypi class=
 <br>
-</blockquote><div dir=3D"auto">this is from Peter=E2=80=99s change which ha=
-d not been merged when I sent this series.</div></div></div></blockquote><d=
-iv dir=3D"auto"><br></div><div dir=3D"auto">Correction: it is from Julien=
-=E2=80=99s pypi recipetool change. The pypi.bbclass does not create SRC_URI=
- checksums. The inly test case other than mine with SRC_URI checksums was f=
-or =E2=80=94no-pypi setuptools3 and do we have zero coverage.</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
-th:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,2=
-04,204)"><div><div class=3D"gmail_quote"><div dir=3D"auto"></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width=
-:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204=
-,204)"><br></blockquote></div></div><div><div class=3D"gmail_quote"><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wi=
-dth:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,=
-204,204)">
-2023-12-08 22:03:18,822 - oe-selftest - INFO - FAIL: recipetool.RecipetoolC=
-reateTests.test_recipetool_create_python3_pep517_maturin (subunit.RemotedTe=
-stCase)<br>
-2023-12-08 22:03:18,822 - oe-selftest - INFO - ----------------------------=
-------------------------------------------<br>
-2023-12-08 22:03:18,823 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):<br>
-=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-fedora/build/met=
-a/lib/oeqa/selftest/cases/recipetool.py&quot;, line 698, in test_recipetool=
-_create_python3_pep517_maturin<br>
-=C2=A0 =C2=A0 self._test_recipe_contents(recipefile, checkvars, inherits)<b=
+and add the PYPI_PACKAGE variable<br>
+<br>
+This helps to produce cleaner recipes when package is hosted on pypi.<br>
+<br>
+If the url points to a github url or a release tarball not coming from<br>
+&quot;<a href=3D"http://files.pythonhosted.org" rel=3D"noreferrer" target=
+=3D"_blank">files.pythonhosted.org</a>&quot;, the created recipe is the sam=
+e as before.<br>
+One can also use the newly added &quot;--no-pypi&quot; switch to NOT inheri=
+t<br>
+from pypi class on matching url, to keep legacy behaviour.<br>
+<br>
+To create a recipe for a pypi package, one can now use one of the<br>
+new following syntax (using recipetool create / devtool add):<br>
+<br>
+* recipetool create <a href=3D"https://pypi.org/project/" rel=3D"noreferrer=
+" target=3D"_blank">https://pypi.org/project/</a>&lt;package&gt;<br>
+* recipetool create <a href=3D"https://pypi.org/project/" rel=3D"noreferrer=
+" target=3D"_blank">https://pypi.org/project/</a>&lt;package&gt;/&lt;versio=
+n&gt;<br>
+* recipetool create <a href=3D"https://pypi.org/project/" rel=3D"noreferrer=
+" target=3D"_blank">https://pypi.org/project/</a>&lt;package&gt; --version =
+&lt;version&gt;<br>
+<br>
+or the old syntax:<br>
+* recipetool create <a href=3D"https://files.pythonhosted.org/packages/" re=
+l=3D"noreferrer" target=3D"_blank">https://files.pythonhosted.org/packages/=
+</a>&lt;...&gt;<br>
+<br>
+Signed-off-by: Julien Stephan &lt;<a href=3D"mailto:jstephan@baylibre.com" =
+target=3D"_blank">jstephan@baylibre.com</a>&gt;<br>
+---<br>
+=C2=A0scripts/lib/devtool/standard.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 3 +<br>
+=C2=A0scripts/lib/recipetool/create.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A0.../lib/recipetool/create_buildsys_python.py=C2=A0 | 72 +++++++++++++=
+++++++<br>
+=C2=A03 files changed, 76 insertions(+)<br>
+<br>
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard=
+.py<br>
+index d53fb810071..f18ebaa70d3 100644<br>
+--- a/scripts/lib/devtool/standard.py<br>
++++ b/scripts/lib/devtool/standard.py<br>
+@@ -147,6 +147,8 @@ def add(args, config, basepath, workspace):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extracmdopts +=3D &#39; -a&#39;<br>
+=C2=A0 =C2=A0 =C2=A0if args.npm_dev:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extracmdopts +=3D &#39; --npm-dev&#39;<br=
+>
++=C2=A0 =C2=A0 if args.no_pypi:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 extracmdopts +=3D &#39; --no-pypi&#39;<br>
+=C2=A0 =C2=A0 =C2=A0if args.mirrors:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0extracmdopts +=3D &#39; --mirrors&#39;<br=
+>
+=C2=A0 =C2=A0 =C2=A0if args.srcrev:<br>
+@@ -2260,6 +2262,7 @@ def register_commands(subparsers, context):<br>
+=C2=A0 =C2=A0 =C2=A0group.add_argument(&#39;--no-same-dir&#39;, help=3D&#39=
+;Force build in a separate build directory&#39;, action=3D&quot;store_true&=
+quot;)<br>
+=C2=A0 =C2=A0 =C2=A0parser_add.add_argument(&#39;--fetch&#39;, &#39;-f&#39;=
+, help=3D&#39;Fetch the specified URI and extract it to create the source t=
+ree (deprecated - pass as positional argument instead)&#39;, metavar=3D&#39=
+;URI&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0parser_add.add_argument(&#39;--npm-dev&#39;, help=3D&#3=
+9;For npm, also fetch devDependencies&#39;, action=3D&quot;store_true&quot;=
+)<br>
++=C2=A0 =C2=A0 parser_add.add_argument(&#39;--no-pypi&#39;, help=3D&#39;Do =
+not inherit pypi class&#39;, action=3D&quot;store_true&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0parser_add.add_argument(&#39;--version&#39;, &#39;-V&#3=
+9;, help=3D&#39;Version to use within recipe (PV)&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0parser_add.add_argument(&#39;--no-git&#39;, &#39;-g&#39=
+;, help=3D&#39;If fetching source, do not set up source tree as a git repos=
+itory&#39;, action=3D&quot;store_true&quot;)<br>
+=C2=A0 =C2=A0 =C2=A0group =3D parser_add.add_mutually_exclusive_group()<br>
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/crea=
+te.py<br>
+index 5c5ac7ae403..963aa91421e 100644<br>
+--- a/scripts/lib/recipetool/create.py<br>
++++ b/scripts/lib/recipetool/create.py<br>
+@@ -1413,6 +1413,7 @@ def register_commands(subparsers):<br>
+=C2=A0 =C2=A0 =C2=A0parser_create.add_argument(&#39;-B&#39;, &#39;--srcbran=
+ch&#39;, help=3D&#39;Branch in source repository if fetching from an SCM su=
+ch as git (default master)&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0parser_create.add_argument(&#39;--keep-temp&#39;, actio=
+n=3D&quot;store_true&quot;, help=3D&#39;Keep temporary directory (for debug=
+ging)&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0parser_create.add_argument(&#39;--npm-dev&#39;, action=
+=3D&quot;store_true&quot;, help=3D&#39;For npm, also fetch devDependencies&=
+#39;)<br>
++=C2=A0 =C2=A0 parser_create.add_argument(&#39;--no-pypi&#39;, action=3D&qu=
+ot;store_true&quot;, help=3D&#39;Do not inherit pypi class&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0parser_create.add_argument(&#39;--devtool&#39;, action=
+=3D&quot;store_true&quot;, help=3Dargparse.SUPPRESS)<br>
+=C2=A0 =C2=A0 =C2=A0parser_create.add_argument(&#39;--mirrors&#39;, action=
+=3D&quot;store_true&quot;, help=3D&#39;Enable PREMIRRORS and MIRRORS for so=
+urce tree fetching (disabled by default).&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0parser_create.set_defaults(func=3Dcreate_recipe)<br>
+diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib=
+/recipetool/create_buildsys_python.py<br>
+index b620e3271b1..5e07222ece1 100644<br>
+--- a/scripts/lib/recipetool/create_buildsys_python.py<br>
++++ b/scripts/lib/recipetool/create_buildsys_python.py<br>
+@@ -18,7 +18,11 @@ import os<br>
+=C2=A0import re<br>
+=C2=A0import sys<br>
+=C2=A0import subprocess<br>
++import json<br>
++import urllib.request<br>
+=C2=A0from recipetool.create import RecipeHandler<br>
++from urllib.parse import urldefrag<br>
++from recipetool.create import determine_from_url<br>
+<br>
+=C2=A0logger =3D logging.getLogger(&#39;recipetool&#39;)<br>
+<br>
+@@ -111,6 +115,74 @@ class PythonRecipeHandler(RecipeHandler):<br>
+=C2=A0 =C2=A0 =C2=A0def __init__(self):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pass<br>
+<br>
++=C2=A0 =C2=A0 def process_url(self, args, classes, handled, extravalues):<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Convert any pypi url <a href=3D"https://pypi.o=
+rg/project/" rel=3D"noreferrer" target=3D"_blank">https://pypi.org/project/=
+</a>&lt;package&gt;/&lt;version&gt; into <a href=3D"https://files.pythonhos=
+ted.org/packages/source/." rel=3D"noreferrer" target=3D"_blank">https://fil=
+es.pythonhosted.org/packages/source/.</a>..<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 which corresponds to the archive location, and=
+ add pypi class<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;url&#39; in handled:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fetch_uri =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 source =3D args.source<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 required_version =3D args.version if args.vers=
+ion else None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 match =3D re.match(r&#39;https?://<a href=3D"h=
+ttp://pypi.org/project/(%5B" rel=3D"noreferrer" target=3D"_blank">pypi.org/=
+project/([</a>^/]+)(?:/([^/]+))?/?$&#39;, urldefrag(source)[0])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if match:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 package =3D match.group(1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 version =3D match.group(2) if ma=
+tch.group(2) else required_version<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 json_url =3D f&quot;<a href=3D"h=
+ttps://pypi.org/pypi/%s/json" rel=3D"noreferrer" target=3D"_blank">https://=
+pypi.org/pypi/%s/json</a>&quot; % package<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 response =3D urllib.request.urlo=
+pen(json_url)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if response.status =3D=3D 200:<b=
 r>
-=C2=A0 File &quot;/home/pokybuild/yocto-worker/oe-selftest-fedora/build/met=
-a/lib/oeqa/selftest/cases/devtool.py&quot;, line 178, in _test_recipe_conte=
-nts<br>
-=C2=A0 =C2=A0 self.assertEqual(missingvars, {}, &#39;Some expected variable=
-s not found in recipe: %s&#39; % checkvars)<br>
-=C2=A0 File &quot;/usr/lib64/python3.11/unittest/case.py&quot;, line 873, i=
-n assertEqual<br>
-=C2=A0 =C2=A0 assertion_func(first, second, msg=3Dmsg)<br>
-=C2=A0 File &quot;/usr/lib64/python3.11/unittest/case.py&quot;, line 1172, =
-in assertDictEqual<br>
-=C2=A0 =C2=A0 self.fail(self._formatMessage(msg, standardMsg))<br>
-=C2=A0 File &quot;/usr/lib64/python3.11/unittest/case.py&quot;, line 703, i=
-n fail<br>
-=C2=A0 =C2=A0 raise self.failureException(msg)<br>
-AssertionError: {&#39;SRC_URI&#39;: &#39;<a href=3D"https://files.pythonhos=
-ted.or" rel=3D"noreferrer" target=3D"_blank">https://files.pythonhosted.or<=
-/a>[586 chars]238&#39;} !=3D {}<br>
-Diff is 656 characters long. Set self.maxDiff to None to see it. : Some exp=
-ected variables not found in recipe: {&#39;SRC_URI&#39;: &#39;<a href=3D"ht=
-tps://files.pythonhosted.org/packages/64/26/cffb93fe9c6b5a91c497f37fae14a4b=
-073ecbc47fc36a9979c7aa888b245/pydantic_core-$%7BPV%7D.tar.gz" rel=3D"norefe=
-rrer" target=3D"_blank">https://files.pythonhosted.org/packages/64/26/cffb9=
-3fe9c6b5a91c497f37fae14a4b073ecbc47fc36a9979c7aa888b245/pydantic_core-${PV}=
-.tar.gz</a>&#39;, &#39;SRC_URI[md5sum]&#39;: &#39;1eb13c211147496c1c9484ff7=
-f8ac438&#39;, &#39;SRC_URI[sha1sum]&#39;: &#39;0803a731aa793f3eaf4d52f656d7=
-300408ca0b36&#39;, &#39;SRC_URI[sha256sum]&#39;: &#39;6d30226dfc816dd0fdf12=
-0cae611dd2215117e4f9b124af8c60ab9093b6e8e71&#39;, &#39;SRC_URI[sha384sum]&#=
-39;: &#39;cca6d9f0ba72ff92e16aaf3d6c628b8df33bdf244cc39c9d59cff9d541f35d4e8=
-7ec136e60e4b040ad73c5c69b27cec6&#39;, &#39;SRC_URI[sha512sum]&#39;: &#39;e6=
-c3081dfa58d9b59f8c33dfe80712d732ac3048a2f8240f9a0f5448d9bfc83e222c1e08b8bb4=
-9779b84f685c3bec3060cc935c113a818b1ab8aa955f3df2238&#39;}<br>
-<br>
-<br>
-<br>
-<br>
-On 07/12/2023 15:13:17-0800, Tim Orling wrote:<br>
-&gt; We are increasingly seeing Rust extensions for Python added in the<br>
-&gt; ecosystem. The current best practices approach has moved from using<br=
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 data =3D json.load=
+s(response.read())<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not version:<br=
 >
-&gt; &#39;setuptools-rust&#39; to using &#39;maturin&#39;.<br>
-&gt; <br>
-&gt; * Add python3-maturin, including &#39;native&#39; and &#39;nativesdk&#=
-39; support.<br>
-&gt; * Add a &#39;python_maturin&#39; bbclass for the PEP-517 backend.<br>
-&gt; * Add recipetool support for the &#39;maturin&#39; PEP-517 backend.<br=
->
-&gt; * Add a very basic &#39;maturin list-python&#39; smoke test added to o=
-eqa for<br>
-&gt;=C2=A0 =C2=A0both &#39;runtime&#39; (-c testimage) and &#39;sdk&#39; (-=
-c testsdk).<br>
-&gt; <br>
-&gt; The following changes since commit 70ad9b9b309575134834757468cb32c9e3b=
-87448:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0bitbake: hashserv: sqlite: Ensure sync propagates to datab=
-ase connections (2023-12-04 22:36:09 +0000)<br>
-&gt; <br>
-&gt; are available in the Git repository at:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0<a href=3D"https://git.yoctoproject.org/poky-contrib" rel=
-=3D"noreferrer" target=3D"_blank">https://git.yoctoproject.org/poky-contrib=
-</a> timo/maturin_1.3.2<br>
-&gt;=C2=A0 =C2=A0<a href=3D"https://git.yoctoproject.org/poky-contrib/log/?=
-h=3Dtimo/maturin_1.3.2" rel=3D"noreferrer" target=3D"_blank">https://git.yo=
-ctoproject.org/poky-contrib/log/?h=3Dtimo/maturin_1.3.2</a><br>
-&gt; <br>
-&gt; Tim Orling (6):<br>
-&gt;=C2=A0 =C2=A0python3-setuptools-rust: BBCLASSEXTEND + nativesdk<br>
-&gt;=C2=A0 =C2=A0python3-maturin: add v1.3.2<br>
-&gt;=C2=A0 =C2=A0classes-recipe: add python_maturin.bbclass<br>
-&gt;=C2=A0 =C2=A0recipetool: add python_maturin support<br>
-&gt;=C2=A0 =C2=A0oe-selfest: add maturn runtime (testimage) test<br>
-&gt;=C2=A0 =C2=A0python3-maturin: add sdk (testsdk) test case<br>
-&gt; <br>
-&gt;=C2=A0 meta/classes-recipe/python_maturin.bbclass=C2=A0 =C2=A0 |=C2=A0 =
-17 +<br>
-&gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 meta/lib/oeqa/runtime/cases/maturin.py=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 23 +<br>
-&gt;=C2=A0 meta/lib/oeqa/sdk/cases/maturin.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 33 +<br>
-&gt;=C2=A0 meta/lib/oeqa/selftest/cases/recipetool.py=C2=A0 =C2=A0 |=C2=A0 =
-34 ++<br>
-&gt;=C2=A0 .../python/python3-maturin-crates.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 572 ++++++++++++++++++<br>
-&gt;=C2=A0 .../python/<a href=3D"http://python3-maturin_1.3.2.bb" rel=3D"no=
-referrer" target=3D"_blank">python3-maturin_1.3.2.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 40 ++<br>
-&gt;=C2=A0 .../python/<a href=3D"http://python3-setuptools-rust_1.8.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">python3-setuptools-rust_1.8.1.bb</a>=C2=
-=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
-&gt;=C2=A0 .../lib/recipetool/create_buildsys_python.py=C2=A0 |=C2=A0 =C2=
-=A01 +<br>
-&gt;=C2=A0 9 files changed, 722 insertions(+), 1 deletion(-)<br>
-&gt;=C2=A0 create mode 100644 meta/classes-recipe/python_maturin.bbclass<br=
->
-&gt;=C2=A0 create mode 100644 meta/lib/oeqa/runtime/cases/maturin.py<br>
-&gt;=C2=A0 create mode 100644 meta/lib/oeqa/sdk/cases/maturin.py<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/python3-maturin-=
-crates.inc<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
-//python3-maturin_1.3.2.bb" rel=3D"noreferrer" target=3D"_blank">python3-ma=
-turin_1.3.2.bb</a><br>
-&gt; <br>
-&gt; -- <br>
-&gt; 2.34.1<br>
-&gt; <br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # gr=
+ab latest version<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vers=
+ion =3D data[&quot;info&quot;][&quot;version&quot;]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pypi_package =3D d=
+ata[&quot;info&quot;][&quot;name&quot;]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for release in rev=
+ersed(data[&quot;releases&quot;][version]):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if r=
+elease[&quot;packagetype&quot;] =3D=3D &quot;sdist&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 fetch_uri =3D release[&quot;url&quot;]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 break<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.warning(&qu=
+ot;Cannot handle pypi url %s: cannot fetch package information using %s&quo=
+t;, source, json_url)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 match =3D re.match(r&#39;^https?=
+://<a href=3D"http://files.pythonhosted.org/packages.*/(.*)-.*$" rel=3D"nor=
+eferrer" target=3D"_blank">files.pythonhosted.org/packages.*/(.*)-.*$</a>&#=
+39;, source)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if match:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fetch_uri =3D sour=
+ce<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pypi_package =3D m=
+atch.group(1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _, version =3D det=
+ermine_from_url(fetch_uri)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if match and not args.no_pypi:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if required_version and version =
+!=3D required_version:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise Exception(&q=
+uot;Version specified using --version/-V (%s) and version specified in the =
+url (%s) do not match&quot; % (required_version, version))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # This is optionnal if BPN looks=
+ like &quot;python-&lt;pypi_package&gt;&quot; or &quot;python3-&lt;pypi_pac=
+kage&gt;&quot; (see pypi.bbclass)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # but at this point we cannot kn=
+ow because because user can specify the output name of the recipe on the co=
+mmand line<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&quot;PYPI_PACKAGE&q=
+uot;] =3D pypi_package<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # If the tarball extension is no=
+t &#39;tar.gz&#39; (default value in pypi.bblcass) whe should set PYPI_PACK=
+AGE_EXT in the recipe<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pypi_package_ext =3D re.match(r&=
+#39;.*%s-%s\.(.*)$&#39; % (pypi_package, version), fetch_uri)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if pypi_package_ext:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pypi_package_ext =
+=3D pypi_package_ext.group(1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if pypi_package_ex=
+t !=3D &quot;tar.gz&quot;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extr=
+avalues[&quot;PYPI_PACKAGE_EXT&quot;] =3D pypi_package_ext<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Pypi class will handle S and S=
+RC_URIxxx variables, so remove them<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: allow oe.recipeutils.pat=
+ch_recipe_lines() to accept regexp so we can simplify the following to:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # extravalues[&#39;SRC_URI(?:\[.=
+*?\])?&#39;] =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&#39;S&#39;] =3D Non=
+e<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&#39;SRC_URI&#39;] =
+=3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&#39;SRC_URI[md5sum]=
+&#39;] =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&#39;SRC_URI[sha1sum=
+]&#39;] =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&#39;SRC_URI[sha256s=
+um]&#39;] =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&#39;SRC_URI[sha384s=
+um]&#39;] =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extravalues[&#39;SRC_URI[sha512s=
+um]&#39;] =3D None<br>
++</blockquote><div dir=3D"auto">this was not correct. The pypi.bbclass does=
+ not create the SRC_URI[sha256sum]. It does create the SRC_URI. So new reci=
+pes will not have any check on the validity of the downloaded tarball.</div=
+><div dir=3D"auto"><br></div><div dir=3D"auto">The only test case which che=
+cked for this was with =E2=80=94nopypi</div><div dir=3D"auto"><div><a href=
+=3D"https://git.yoctoproject.org/poky-contrib/tree/meta/lib/oeqa/selftest/c=
+ases/recipetool.py#n752">https://git.yoctoproject.org/poky-contrib/tree/met=
+a/lib/oeqa/selftest/cases/recipetool.py#n752</a></div><br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:=
+1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,=
+204)" dir=3D"auto"><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 classes.append(&#39;pypi&#39;)<b=
+r>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 handled.append(&#39;url&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return fetch_uri<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0def handle_classifier_license(self, classifiers, existi=
+ng_licenses=3D&quot;&quot;):<br>
 <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br></blockquote></div></div><div><div class=3D"gmail_quote"><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px=
-;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204=
-)">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0licenses =3D []<br>
 -- <br>
-Alexandre Belloni, co-owner and COO, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-</blockquote></div></div>
+2.42.0<br>
+<br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#192089): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/192089" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/192089</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103045095/924=
+View/Reply Online (#191759): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/191759" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/191759</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102972952/924=
 729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/103045095/924729</a><br>
+/102972952/924729</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -419,5 +612,5 @@ g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
 <br>
 </blockquote></div></div>
 
---000000000000f14383060c093872--
+--00000000000076eef1060c096f5d--
 
