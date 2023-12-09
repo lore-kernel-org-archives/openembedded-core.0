@@ -1,166 +1,90 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <deets@web.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DEA0C4167B
-	for <webhook@archiver.kernel.org>; Sat,  9 Dec 2023 11:59:54 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.8173.1702123186988891604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65E35C4167B
+	for <webhook@archiver.kernel.org>; Sat,  9 Dec 2023 12:13:04 +0000 (UTC)
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by mx.groups.io with SMTP id smtpd.web11.8336.1702123982413123462
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 Dec 2023 03:59:47 -0800
+ Sat, 09 Dec 2023 04:13:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Apo10Xam;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 002541C0004;
-	Sat,  9 Dec 2023 11:59:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1702123184;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3x+fdqQH+LrNIHqwOBT3Ya8WlQbmBBc3uYEW5rLN1NQ=;
-	b=Apo10XamBz0PKEkpIj8mG8o1CoQ4cDAydCI9GOmVVf6Oo+f0GqsHitgojtGmV0S0Ovy4/u
-	vjx6UxFY8Kql2nFRFRkqhk+dPJJrELZsKBm3zJuS85yyo6SqOZky77HfcnbuL7zO9/Bv2M
-	EqHRZr4JOInikpgvh5mXA/HyLElmSWKrwtbxAHcfSS71fNlTHbpsurs/WSvkLLa2770wLr
-	unJXe1ceNTjNbKCBbZevMVVn9qNCTR61RybKodY+e3Hf7gkvp5V2Omjimz/0qOfMNv9lrR
-	qguAibqNLThsKDhmvUBw5roTbSffjAF4Cjj/WpPDoawr7P6nQbCJO/dX1fSeVg==
-Date: Sat, 9 Dec 2023 12:59:43 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Tim Orling <ticotimo@gmail.com>,
-	openembedded-core@lists.openembedded.org,
-	Tim Orling <tim.orling@konsulko.com>
-Subject: Re: [OE-core] [PATCH v2 4/6] recipetool: add python_maturin support
-Message-ID: <20231209115943bd92e089@mail.local>
-References: <24841a7636bd1e83411c87ba4332f6f863542c6f.1701989368.git.tim.orling@konsulko.com>
- <ef9e58f253d371c8ae864f7cd89c1fb1dcd3602e.1701989368.git.tim.orling@konsulko.com>
- <20231209020223.1221046-1-tim.orling@konsulko.com>
- <179F2663983D88F3.26830@lists.openembedded.org>
+ dkim=pass header.i=deets@web.de header.s=s29768273 header.b=W3fxI1eq;
+ spf=pass (domain: web.de, ip: 212.227.17.11, mailfrom: deets@web.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1702123980; x=1702728780; i=deets@web.de;
+	bh=4T9Ffj5NkXx8FI0m8ynNdRuDdxLZ3JfpUwcCfOCeQok=;
+	h=X-UI-Sender-Class:Date:To:From:Subject;
+	b=W3fxI1eqCt5eTDWRyxW4LIi1QGZbBY8+LBfCBnOkC6oV7A5xzpNz54AB0HBVbQmO
+	 9Vu8XfA8DJ7r93GPdh/uE4ly3enlykOiH5jm+1dZiip7rMU/cXtueWLQVhi8Ec2QR
+	 GyC5QdVXEh8s6Jwn/3B7c+YrXmv0g0fzUg2SV00KvwAT3yLChHBPeVqO4Wx2btet6
+	 FXS2QI2FdRIRCt/MBr1GJdp2sco54Po9XE4pjzRNLTGgr6B+6Pla04V+mOMdPpbW3
+	 EGQFOsVhvJr0S90bsv7gy6daxsl3zAdJW9XeNux0a3tqn/IYtcMdJFUNkIKJxvEoL
+	 zrBD0xA6lAbaLbD3mQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.1.115] ([84.173.75.203]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MCGWe-1r3j0Y1r9e-009qzF for
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Dec 2023 13:13:00 +0100
+Message-ID: <514aa7db-7377-4784-b3e5-c8bab0d037fe@web.de>
+Date: Sat, 9 Dec 2023 13:12:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <179F2663983D88F3.26830@lists.openembedded.org>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+User-Agent: Mozilla Thunderbird
+To: openembedded-core@lists.openembedded.org
+Content-Language: en-US
+From: "Diez B. Roggisch" <deets@web.de>
+Subject: nativesdk-rust not producing working toolchain in SDK for me
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mSGpCchLpCDhCe94/TRT4TJ1rQfhQ4x+BUIM8N9LmMGY8Vmzm8W
+ wBzEy/Qk8HZX5Zg5fVJM+VUu3Bcrkk0oEbCczR8NT+l64UxBN+raICTw77R9S64zH6bPjzd
+ tiM9juk1bVWHCc2IPM4eB7DjZ1zcU6463E0fzvB34Bgo7Z3WXCjuvjrbVIwZ17l5O+q5R9t
+ dhwloST7174SUxSVa4v9g==
+UI-OutboundReport: notjunk:1;M01:P0:TW0K5/9vrZQ=;XwGyewOVMzkjHrtOOs2z1pUrJvs
+ XDIfzwaA/8s2e1YsMJMJBLte0LA1UBLMjua26xM2PpkNFpZJ+lfrbdxBXGnIU8HQcG9MlZlG9
+ 5uLbHYaiaX1yasmYRl8Cw5kuGzq+nqR62Uy0qw92MPI8ml/tGBb46WOXpgRV0IkvQRxycjtBo
+ Cwo+LMKpFMprtYFc/qdbrfycjnFFf92FiXS7+KcKR1lZL1/Y0OI4R352MWqJNKK0DqiRCznA3
+ 0By+wEXfqS/kbfFRbUeYfaoqBEQjkuOpsrDBIfpzDdXie1qNoVCJbka/aZKxsw5VELl47biTi
+ I6dnIYznk7J2KsBvJqu51srO67AcDn8SDwZL95gc5yxR73xpNuA5WvJQVSisNhv3YMI1anEB5
+ wlbJpPzMLNOAIgKvCZNTBC8EnQbEf9QyFKmcGNrXZueYX2YvUA/mklrUZfIzBs+clbTRbk1Cg
+ hcmFoKxD+tSjUAodK572AxYmZOgFHZYZWdOawYhLlbmwiS7qwztqEZWqWMrpHQ6jxQffg1a07
+ JMrkHeJeRjU9NHHlWjZLiUqBsGFe16277PU6XtxfgQFJTd9YgmWEsbpViCID/IRNlTp+Wxg/N
+ m6fh0DpuPXgXUgUXMgkCrlFJOwG1w9WP1KyAjvq2kWR8jpxKLJvwFPOdU5ARv7A/bmVeMp4FA
+ 53xjwNWb9co4XA7IRf24IRl1KktdULPZna3pnuJ3bGww82OfTtKi6eyE+jbrHWXGU9l1HJrPz
+ GoeiFM9Mb+LT1Zx2MRRq9/HbPgCAz4vV5CWsX6ppB2YNAB2hjViX8ALgc3ONnTQ7rFRyQrn5m
+ C2QlH+Q44mbZfh64RYapioqnN3B70IplFq2hCpcSgkAPqveSB2+ZdHISZK6fOwIcNwHVW6vlF
+ Rizojj552pjVEQ37z6PcsXQq69NeYOc7lT6AGy2Gi55RPJ2I1ym0wUn3QlkN/fuxJzfa/RlgX
+ gmGMTg==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Dec 2023 11:59:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192099
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Dec 2023 12:13:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192100
 
-On 09/12/2023 12:29:50+0100, Alexandre Belloni via lists.openembedded.org wrote:
-> Hello,
-> 
-> maturin is not reproducible:
-> 
-> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231208-rfbproj4/packages/diff-html/
+Hi,
 
+I'm running a Poky Middledore for the raspberrypi4-64 machine from
+meta-raspberry. I can successfully build a rust hello-world example
+within the image build.
 
-Probably related:
+I added
 
-WARNING: python3-maturin-1.3.2-r0 do_package_qa: QA Issue: File /usr/bin/.debug/maturin in package python3-maturin-dbg contains reference to TMPDIR
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/8267/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6018/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/8141/steps/11/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/5453/steps/11/logs/stdio
+TOOLCHAIN_HOST_TASK:append =3D "\
+         nativesdk-rust \
+         nativesdk-cargo \
+         nativesdk-libstd-rs \
+         nativesdk-rust-llvm \
+         "
 
+to my image and that gets me rustc and cargo superficially working, as
+in they are part of the SDK. But attempting to use them fails with
 
-> 
-> On 08/12/2023 18:02:24-0800, Tim Orling wrote:
-> > Add the new python_maturin PEP-517 backend
-> > 
-> > Add selftest for 'pydantic-core' pypi package.
-> > 
-> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> > ---
-> > Changes in v2:
-> >  - drop all SRC_URI checksums except sha256sum (Peter's change)
-> >    * requires "[PATCH v2] recipetool: pypi: do not clobber SRC_URI checksums"
-> >  - drop SRC_URI (Julien's change)
-> >  - add "inherit pypi" (Julien's change)
-> > 
-> >  meta/lib/oeqa/selftest/cases/recipetool.py    | 29 +++++++++++++++++++
-> >  .../lib/recipetool/create_buildsys_python.py  |  1 +
-> >  2 files changed, 30 insertions(+)
-> > 
-> > diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-> > index d10d61bc5b0..8d39f639acf 100644
-> > --- a/meta/lib/oeqa/selftest/cases/recipetool.py
-> > +++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-> > @@ -663,6 +663,35 @@ class RecipetoolCreateTests(RecipetoolBase):
-> >  
-> >          self._test_recipe_contents(recipefile, checkvars, inherits)
-> >  
-> > +    def test_recipetool_create_python3_pep517_maturin(self):
-> > +        # This test require python 3.11 or above for the tomllib module
-> > +        # or tomli module to be installed
-> > +        try:
-> > +            import tomllib
-> > +        except ImportError:
-> > +            try:
-> > +                import tomli
-> > +            except ImportError:
-> > +                self.skipTest('Test requires python 3.11 or above for tomllib module or tomli module')
-> > +
-> > +        # Test creating python3 package from tarball (using maturin class)
-> > +        temprecipe = os.path.join(self.tempdir, 'recipe')
-> > +        os.makedirs(temprecipe)
-> > +        pn = 'pydantic-core'
-> > +        pv = '2.14.5'
-> > +        recipefile = os.path.join(temprecipe, 'python3-%s_%s.bb' % (pn, pv))
-> > +        srcuri = 'https://files.pythonhosted.org/packages/64/26/cffb93fe9c6b5a91c497f37fae14a4b073ecbc47fc36a9979c7aa888b245/pydantic_core-%s.tar.gz' % pv
-> > +        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-> > +        self.assertTrue(os.path.isfile(recipefile))
-> > +        checkvars = {}
-> > +        checkvars['HOMEPAGE'] = 'https://github.com/pydantic/pydantic-core'
-> > +        checkvars['LICENSE'] = set(['MIT'])
-> > +        checkvars['LIC_FILES_CHKSUM'] = 'file://LICENSE;md5=ab599c188b4a314d2856b3a55030c75c'
-> > +        checkvars['SRC_URI[sha256sum]'] = '6d30226dfc816dd0fdf120cae611dd2215117e4f9b124af8c60ab9093b6e8e71'
-> > +        inherits = ['python_maturin', 'pypi']
-> > +
-> > +        self._test_recipe_contents(recipefile, checkvars, inherits)
-> > +
-> >      def test_recipetool_create_github_tarball(self):
-> >          # Basic test to ensure github URL mangling doesn't apply to release tarballs
-> >          temprecipe = os.path.join(self.tempdir, 'recipe')
-> > diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-> > index a2af41fdda8..60c59034504 100644
-> > --- a/scripts/lib/recipetool/create_buildsys_python.py
-> > +++ b/scripts/lib/recipetool/create_buildsys_python.py
-> > @@ -735,6 +735,7 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
-> >          "poetry.core.masonry.api": "python_poetry_core",
-> >          "flit_core.buildapi": "python_flit_core",
-> >          "hatchling.build": "python_hatchling",
-> > +        "maturin": "python_maturin",
-> >      }
-> >  
-> >      # setuptools.build_meta and flit declare project metadata into the "project" section of pyproject.toml
-> > -- 
-> > 2.34.1
-> > 
-> 
-> > 
-> > 
-> > 
-> 
-> 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+11:36 $ /../sdk/sysroots/x86_64-pokysdk-linux/usr/bin/rustc --print
+target-list
+error: Error loading target specification: Could not find specification
+for target "x86_64-pokysdk-linux-gnu". Run `rustc --print target-list`
+for a list of built-in targets
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192097): https://lists.openembedded.org/g/openembedded-core/message/192097
-> Mute This Topic: https://lists.openembedded.org/mt/103071823/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Any pointers are welcome,
 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Diez
 
