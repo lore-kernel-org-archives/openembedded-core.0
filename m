@@ -1,502 +1,150 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA917C46CA3
-	for <webhook@archiver.kernel.org>; Sun, 10 Dec 2023 20:25:59 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.62457.1702239954415422464
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04844C4167B
+	for <webhook@archiver.kernel.org>; Sun, 10 Dec 2023 20:28:40 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.63168.1702240118780251255
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Dec 2023 12:25:54 -0800
+ Sun, 10 Dec 2023 12:28:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=igQrtBHE;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6d089bc4e1aso209968b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 12:25:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dY8Tzz6o;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2c9f8faf57bso47951631fa.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 12:28:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702239953; x=1702844753; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1702240117; x=1702844917; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bFe1dTMOxpaX0ZfpZ9LI/wKB0cGLIr7qCKNOGhGPgcQ=;
-        b=igQrtBHEyfkLn3lBD9qoixjYy3FrCAEPlDmvmFqPV7crv0V5wOoMPx9jeKnWy+DvkO
-         ZV1Z//es3+7rxbFMmIMYjFs3zNduZ2sGY19aDNZ4XXKaIGmtmsX6nsY+qzXWzpGrAS8Q
-         vaaItHaqkn+Sm9YO3O3xqtkUq5P9ZkNPt7ONXVHXr6IHrkoo08KawaOXIha3A0uAh8hj
-         e/8C6pYgfs0A+CdIXEUnwI+RzTK1vO6Ru4O07wFNVJOyzw+25G6EYgZ0QQoyc6jQOZjO
-         cMk/v+wJbgYAFMq3sJFtrHi32cNqYOKJc5yiCB5Tyh1RaCApIK0mn88HYB3oegREEPGQ
-         hczw==
+        bh=J00uKbVR23XMxn17Bvr3kpw5td3ced+YydnJoQ5LBtU=;
+        b=dY8Tzz6otvcMhJJeMInjMBgiy8p0fbLZZwZlV83Nei31EHytTQxuK7TI7+LFUV6/zJ
+         3frqLv9X1d/Zyv6EwAVg2+4pwEFVcmceJyhA1fVkh4XK5XBiY8o5FwGGQxxlLFKwIoEL
+         q1vj1yhwTXlSXHgTH27mXq6Cyrwn83ETjk0sxZ8rytYXEGNJAtN4k5UC+E1RQJH7fSDf
+         v2s0ZP6stdb8a200IKJl7KV1tEhomw3spfAjLTChIbKaB/Y6tqIDbuzv9q8pQj8OeIZb
+         d3OQ0Vq4ywRWZB/Nxhobn+FhiGTSo0z/8pmMs9nVH+CDq9aKMEXDBz2O8z6EJzjPHdaj
+         W/oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702239953; x=1702844753;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1702240117; x=1702844917;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bFe1dTMOxpaX0ZfpZ9LI/wKB0cGLIr7qCKNOGhGPgcQ=;
-        b=fHkQBSgYDiEmto9U9tAvJHYZPRYuHYKCP2mtm2KA09LUFFyPhgPWRlJ8aqyaSSSZhZ
-         ydeclPpmP2UR9Lj6XllYSqOO+HJdAe+1plBRKVM0LNrDh/33t4eL5xlSNqjvL+H9NL/j
-         zW1f5WpAYYygl4qmYYPdJaTXYwkVmu7P8M/n5p7yNlvad9dVtJAi/9Sm5LN6d9gcuUc/
-         AqSp0GDy5JuK9SqQf3FNKq13Vf89pfDygtvBCXLTcCoIpoo2R5jtDk2qmd+iJj/TFk0Q
-         f91jeaHxoGqNdh43WpQgg76eirLjJuf696k9jqnJJ6vqS+KEsz77VWz16jVTSlzOj+J7
-         4ZZw==
-X-Gm-Message-State: AOJu0YzTGNchJeNULb3JRVzXAlx2mtpwkfksY6kJAxlsXr2+87ywLM2C
-	DBwpSeOQHvPEDtUVWn2dIiY8wQINQ3g=
-X-Google-Smtp-Source: AGHT+IHLEuFSRJGNQ5aYehoSuHVrF36hZPF0uuaSbJAAMi+Kz50zfNtM00xDY/IPSIRbMdUJfaLF0g==
-X-Received: by 2002:a05:6a20:560c:b0:190:2d3d:b08a with SMTP id ir12-20020a056a20560c00b001902d3db08amr3147324pzc.18.1702239953421;
-        Sun, 10 Dec 2023 12:25:53 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:3d00::76f0])
-        by smtp.gmail.com with ESMTPSA id y24-20020aa78558000000b006cee23e7677sm4246487pfn.210.2023.12.10.12.25.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Dec 2023 12:25:53 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/6] elfutils: Use own basename API implementation
-Date: Sun, 10 Dec 2023 12:25:46 -0800
-Message-ID: <20231210202549.155550-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231210202549.155550-1-raj.khem@gmail.com>
-References: <20231210202549.155550-1-raj.khem@gmail.com>
+        bh=J00uKbVR23XMxn17Bvr3kpw5td3ced+YydnJoQ5LBtU=;
+        b=lX/rSWIbcuKKekpHo8sy4SxwmGMEv9g16qcdezCV33JARlf8eOagiv3nHrONbCcUaU
+         vB0dpll1O1SkWUvaq9rKLJIlazFtIaapbcP+3RiXm+xM5xIjsKoVudl//fGHRM1GpabM
+         xi05pZ2/wjM2/Wq7dhw7ZIPhYX6+mzdeCDYUdBbP0djJgQMc0GUOXLk260UXgs5oujb5
+         CdbQLzyuU0+iZUPLk9Qd+5yLU4w0iW3nM6KvnoGy8uV5URUSNEwVPAHWo6qhteYNppC8
+         q8Kt66ai60Q4cjVXh/l5u66NkUlam6xr68mej1ZCMmCrXz8MLA2mxhCvsO5cHFxr17Bw
+         FTgw==
+X-Gm-Message-State: AOJu0YyVJonCvVTbvyfyexA0CzOIBSyuIJVyZU+ySiks6E+TdI1pg9T0
+	sTU9yhScRq88A4LGNN/dMmVTsIAiJWAq2Qd42fU=
+X-Google-Smtp-Source: AGHT+IGse5exhYbg5QAV8vlDm3lzgLLTGX3h4hLiG8HdFRZbojVUg/O4awCCf63evE5vcmv04lxLET8YNdinGtZKZ7A=
+X-Received: by 2002:a2e:2c01:0:b0:2c5:19ab:726e with SMTP id
+ s1-20020a2e2c01000000b002c519ab726emr1259315ljs.47.1702240116520; Sun, 10 Dec
+ 2023 12:28:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-3-alex.kiernan@gmail.com>
+ <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org>
+In-Reply-To: <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sun, 10 Dec 2023 20:28:24 +0000
+Message-ID: <CAO5Uq5RaQYvgye7a=qtwO2abDRP6WvggbKvjLpWuepJ1Rr3Z4A@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 3/7] rust: Upgrade 1.71.0 -> 1.71.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 20:25:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192121
+ <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 20:28:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192125
 
-This helps in building it for musl libc after this change [1]
+On Sun, Dec 10, 2023 at 7:39=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2023-12-08 at 14:03 +0000, Alex Kiernan wrote:
+> > https://blog.rust-lang.org/2023/08/03/Rust-1.71.1.html
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
+> >
+> >  meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.bb} | 0
+> >  .../rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_1.71.1.bb}           | 0
+> >  ...t-cross-canadian_1.71.0.bb =3D> rust-cross-canadian_1.71.1.bb} | 0
+> >  .../rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_1.71.1.bb}           | 0
+> >  meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
+> >  meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb}   | 0
+> >  6 files changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.b=
+b} (100%)
+> >  rename meta/recipes-devtools/rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_=
+1.71.1.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.71.0.bb =3D> =
+rust-cross-canadian_1.71.1.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_=
+1.71.1.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb}=
+ (100%)
+> >
+> > diff --git a/meta/recipes-devtools/rust/cargo_1.71.0.bb b/meta/recipes-=
+devtools/rust/cargo_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/cargo_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/cargo_1.71.1.bb
+> > diff --git a/meta/recipes-devtools/rust/libstd-rs_1.71.0.bb b/meta/reci=
+pes-devtools/rust/libstd-rs_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/libstd-rs_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/libstd-rs_1.71.1.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb b=
+/meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-llvm_1.71.0.bb b/meta/reci=
+pes-devtools/rust/rust-llvm_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust-llvm_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/rust-llvm_1.71.1.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-=
+devtools/rust/rust-source.inc
+> > index 3a192e42db7d..0729db6f0b45 100644
+> > --- a/meta/recipes-devtools/rust/rust-source.inc
+> > +++ b/meta/recipes-devtools/rust/rust-source.inc
+> > @@ -7,7 +7,7 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-$=
+{RUST_VERSION}-src.tar.xz;n
+> >              file://zlib-off64_t.patch;patchdir=3D${RUSTSRC} \
+> >              file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.pat=
+ch;patchdir=3D${RUSTSRC} \
+> >  "
+> > -SRC_URI[rust.sha256sum] =3D "5814699031aafdcc2e2f71fc9b389678cd7042350=
+d1583da061463d8e88681c7"
+> > +SRC_URI[rust.sha256sum] =3D "371af0fbe04051e20a74dbea6d4e4e548f10f1530=
+9c49cae2688afb882b6c7f1"
+> >
+> >  RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
+> >
+> > diff --git a/meta/recipes-devtools/rust/rust_1.71.0.bb b/meta/recipes-d=
+evtools/rust/rust_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/rust_1.71.1.bb
+>
+> I ran some testing and it looks like we could merge up to 1.71.1
+> without autobuilder failures in this series. Beyond that we have the
+> reproducibility and zvariant issues.
+>
 
-[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
+Thanks.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../elfutils/elfutils_0.189.bb                |   1 +
- ...001-Add-helper-function-for-basename.patch | 404 ++++++++++++++++++
- 2 files changed, 405 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/0001-Add-helper-function-for-basename.patch
+Was the failure at that point reproducibility or the zvariant trait
+failure? I just posted an update for zvariant which doesn't see the
+trait recursion failure, but at the same time it no longer exercises
+crates pulled from git which looked like it was the main purpose it
+was fulfilling for testing.
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.189.bb b/meta/recipes-devtools/elfutils/elfutils_0.189.bb
-index d69828131e4..220f747cb95 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.189.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.189.bb
-@@ -21,6 +21,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
-+           file://0001-Add-helper-function-for-basename.patch \
-            "
- SRC_URI:append:libc-musl = " \
-            file://0003-musl-utils.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/0001-Add-helper-function-for-basename.patch b/meta/recipes-devtools/elfutils/files/0001-Add-helper-function-for-basename.patch
-new file mode 100644
-index 00000000000..3e6033fd753
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/0001-Add-helper-function-for-basename.patch
-@@ -0,0 +1,404 @@
-+From 666372a5d8d5a23203c70d583904097c9e49c5a0 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 9 Dec 2023 18:23:03 -0800
-+Subject: [PATCH] Add helper function for basename
-+
-+musl does not provide GNU version of basename and lately have removed
-+the definiton from string.h [1] which exposes this problem. It can be
-+made to work by providing a local implementation of basename which
-+implements the GNU basename behavior, this makes it work across C
-+libraries which have POSIX implementation only.
-+
-+Upstream-Status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2023q4/006727.html]
-+[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ lib/Makefile.am                      |  2 +-
-+ lib/libeu.h                          |  1 +
-+ lib/{libeu.h => xbasename.c}         | 31 ++++++++++------------------
-+ libdw/dwarf_getsrc_file.c            |  3 ++-
-+ libdwfl/core-file.c                  |  3 ++-
-+ libdwfl/dwfl_module_getsrc_file.c    |  3 ++-
-+ libdwfl/dwfl_segment_report_module.c |  3 ++-
-+ libdwfl/find-debuginfo.c             |  7 ++++---
-+ libdwfl/link_map.c                   |  3 ++-
-+ libdwfl/linux-kernel-modules.c       |  3 ++-
-+ src/addr2line.c                      |  5 +++--
-+ src/ar.c                             |  5 +++--
-+ src/nm.c                             |  4 ++--
-+ src/stack.c                          |  3 ++-
-+ src/strip.c                          |  2 +-
-+ tests/show-die-info.c                |  2 +-
-+ tests/varlocs.c                      |  2 +-
-+ 17 files changed, 42 insertions(+), 40 deletions(-)
-+ copy lib/{libeu.h => xbasename.c} (57%)
-+
-+--- a/lib/Makefile.am
-++++ b/lib/Makefile.am
-+@@ -33,7 +33,7 @@ AM_CPPFLAGS += -I$(srcdir)/../libelf
-+ 
-+ noinst_LIBRARIES = libeu.a
-+ 
-+-libeu_a_SOURCES = xasprintf.c xstrdup.c xstrndup.c xmalloc.c next_prime.c \
-++libeu_a_SOURCES = xasprintf.c xbasename.c xstrdup.c xstrndup.c xmalloc.c next_prime.c \
-+ 		  crc32.c crc32_file.c \
-+ 		  color.c error.c printversion.c
-+ 
-+--- a/lib/libeu.h
-++++ b/lib/libeu.h
-+@@ -42,6 +42,7 @@ extern char *xstrndup (const char *, siz
-+ extern char *xasprintf(const char *fmt, ...)
-+ 	__attribute__ ((format (printf, 1, 2))) __attribute__ ((__malloc__));
-+ 
-++extern const char *xbasename(const char *s);
-+ extern uint32_t crc32 (uint32_t crc, unsigned char *buf, size_t len);
-+ extern int crc32_file (int fd, uint32_t *resp);
-+ 
-+--- /dev/null
-++++ b/lib/xbasename.c
-+@@ -0,0 +1,39 @@
-++/* Convenience function for basename extraction.
-++   Copyright (C) 2023 Khem Raj.
-++   This file is part of elfutils.
-++
-++   This file is free software; you can redistribute it and/or modify
-++   it under the terms of either
-++
-++     * the GNU Lesser General Public License as published by the Free
-++       Software Foundation; either version 3 of the License, or (at
-++       your option) any later version
-++
-++   or
-++
-++     * the GNU General Public License as published by the Free
-++       Software Foundation; either version 2 of the License, or (at
-++       your option) any later version
-++
-++   or both in parallel, as here.
-++
-++   elfutils is distributed in the hope that it will be useful, but
-++   WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   General Public License for more details.
-++
-++   You should have received copies of the GNU General Public License and
-++   the GNU Lesser General Public License along with this program.  If
-++   not, see <http://www.gnu.org/licenses/>.  */
-++
-++#ifdef HAVE_CONFIG_H
-++# include <config.h>
-++#endif
-++
-++#include <string.h>
-++
-++const char *
-++xbasename(const char *s) {
-++    const char *p = strrchr(s, '/');
-++    return p ? p+1 : s;
-++}
-+--- a/libdw/dwarf_getsrc_file.c
-++++ b/libdw/dwarf_getsrc_file.c
-+@@ -37,6 +37,7 @@
-+ #include <string.h>
-+ 
-+ #include "libdwP.h"
-++#include "libeu.h"
-+ 
-+ 
-+ int
-+@@ -98,7 +99,7 @@ dwarf_getsrc_file (Dwarf *dbg, const cha
-+ 	      /* Match the name with the name the user provided.  */
-+ 	      const char *fname2 = line->files->info[lastfile].name;
-+ 	      if (is_basename)
-+-		lastmatch = strcmp (basename (fname2), fname) == 0;
-++		lastmatch = strcmp (xbasename (fname2), fname) == 0;
-+ 	      else
-+ 		lastmatch = strcmp (fname2, fname) == 0;
-+ 	    }
-+--- a/libdwfl/core-file.c
-++++ b/libdwfl/core-file.c
-+@@ -29,6 +29,7 @@
-+ 
-+ #include <config.h>
-+ #include "libelfP.h"	/* For NOTE_ALIGN.  */
-++#include "libeu.h"
-+ #include "libdwflP.h"
-+ #include <gelf.h>
-+ 
-+@@ -595,7 +596,7 @@ dwfl_core_file_report (Dwfl *dwfl, Elf *
-+       if (! __libdwfl_dynamic_vaddr_get (module->elf, &file_dynamic_vaddr))
-+ 	continue;
-+       Dwfl_Module *mod;
-+-      mod = __libdwfl_report_elf (dwfl, basename (module->name), module->name,
-++      mod = __libdwfl_report_elf (dwfl, xbasename (module->name), module->name,
-+ 				  module->fd, module->elf,
-+ 				  module->l_ld - file_dynamic_vaddr,
-+ 				  true, true);
-+--- a/libdwfl/dwfl_module_getsrc_file.c
-++++ b/libdwfl/dwfl_module_getsrc_file.c
-+@@ -31,6 +31,7 @@
-+ #endif
-+ 
-+ #include "libdwflP.h"
-++#include "libeu.h"
-+ #include "libdwP.h"
-+ 
-+ 
-+@@ -103,7 +104,7 @@ dwfl_module_getsrc_file (Dwfl_Module *mo
-+ 		{
-+ 		  /* Match the name with the name the user provided.  */
-+ 		  lastfile = file;
-+-		  lastmatch = !strcmp (is_basename ? basename (file) : file,
-++		  lastmatch = !strcmp (is_basename ? xbasename (file) : file,
-+ 				       fname);
-+ 		}
-+ 	    }
-+--- a/libdwfl/dwfl_segment_report_module.c
-++++ b/libdwfl/dwfl_segment_report_module.c
-+@@ -29,6 +29,7 @@
-+ 
-+ #include <config.h>
-+ #include "libelfP.h"	/* For NOTE_ALIGN4 and NOTE_ALIGN8.  */
-++#include "libeu.h"
-+ #include "libdwflP.h"
-+ #include "common.h"
-+ 
-+@@ -718,7 +719,7 @@ dwfl_segment_report_module (Dwfl *dwfl,
-+ 	      bias += fixup;
-+ 	      if (module->name[0] != '\0')
-+ 		{
-+-		  name = basename (module->name);
-++		  name = xbasename (module->name);
-+ 		  name_is_final = true;
-+ 		}
-+ 	      break;
-+--- a/libdwfl/find-debuginfo.c
-++++ b/libdwfl/find-debuginfo.c
-+@@ -31,6 +31,7 @@
-+ #endif
-+ 
-+ #include "libdwflP.h"
-++#include "libeu.h"
-+ #include <stdio.h>
-+ #include <fcntl.h>
-+ #include <sys/stat.h>
-+@@ -164,7 +165,7 @@ find_debuginfo_in_path (Dwfl_Module *mod
-+ {
-+   bool cancheck = debuglink_crc != (GElf_Word) 0;
-+ 
-+-  const char *file_basename = file_name == NULL ? NULL : basename (file_name);
-++  const char *file_basename = file_name == NULL ? NULL : xbasename (file_name);
-+   char *localname = NULL;
-+ 
-+   /* We invent a debuglink .debug name if NULL, but then want to try the
-+@@ -278,7 +279,7 @@ find_debuginfo_in_path (Dwfl_Module *mod
-+ 	  else
-+ 	    {
-+ 	      subdir = NULL;
-+-	      file = basename (debuglink_file);
-++	      file = xbasename (debuglink_file);
-+ 	    }
-+ 	  try_file_basename = debuglink_null;
-+ 	  break;
-+@@ -306,7 +307,7 @@ find_debuginfo_in_path (Dwfl_Module *mod
-+ 	    if (mod->dw != NULL && (p[0] == '\0' || p[0] == '/'))
-+ 	      {
-+ 		fd = try_open (&main_stat, dir, ".dwz",
-+-			       basename (file), &fname);
-++			       xbasename (file), &fname);
-+ 		if (fd < 0)
-+ 		  {
-+ 		    if (errno != ENOENT && errno != ENOTDIR)
-+--- a/libdwfl/link_map.c
-++++ b/libdwfl/link_map.c
-+@@ -29,6 +29,7 @@
-+ 
-+ #include <config.h>
-+ #include "libdwflP.h"
-++#include "libeu.h"
-+ #include "memory-access.h"
-+ #include "system.h"
-+ 
-+@@ -469,7 +470,7 @@ report_r_debug (uint_fast8_t elfclass, u
-+ 		      if (r_debug_info_module == NULL)
-+ 			{
-+ 			  // XXX hook for sysroot
-+-			  mod = __libdwfl_report_elf (dwfl, basename (name),
-++			  mod = __libdwfl_report_elf (dwfl, xbasename (name),
-+ 						      name, fd, elf, base,
-+ 						      true, true);
-+ 			  if (mod != NULL)
-+--- a/libdwfl/linux-kernel-modules.c
-++++ b/libdwfl/linux-kernel-modules.c
-+@@ -40,6 +40,7 @@
-+ #include <system.h>
-+ 
-+ #include "libelfP.h"
-++#include "libeu.h"
-+ #include "libdwflP.h"
-+ #include <inttypes.h>
-+ #include <errno.h>
-+@@ -116,7 +117,7 @@ try_kernel_name (Dwfl *dwfl, char **fnam
-+ 	/* Try the file's unadorned basename as DEBUGLINK_FILE,
-+ 	   to look only for "vmlinux" files.  */
-+ 	fd = INTUSE(dwfl_standard_find_debuginfo) (&fakemod, NULL, NULL, 0,
-+-						   *fname, basename (*fname),
-++						   *fname, xbasename (*fname),
-+ 						   0, &fakemod.debug.name);
-+ 
-+       if (fakemod.debug.name != NULL)
-+--- a/src/addr2line.c
-++++ b/src/addr2line.c
-+@@ -38,6 +38,7 @@
-+ 
-+ #include <system.h>
-+ #include <printversion.h>
-++#include "libeu.h"
-+ 
-+ 
-+ /* Name and version of program.  */
-+@@ -385,7 +386,7 @@ print_dwarf_function (Dwfl_Module *mod,
-+ 		  if (file == NULL)
-+ 		    file = "???";
-+ 		  else if (only_basenames)
-+-		    file = basename (file);
-++		    file = xbasename (file);
-+ 		  else if (use_comp_dir && file[0] != '/')
-+ 		    {
-+ 		      const char *const *dirs;
-+@@ -568,7 +569,7 @@ print_src (const char *src, int lineno,
-+   const char *comp_dir_sep = "";
-+ 
-+   if (only_basenames)
-+-    src = basename (src);
-++    src = xbasename (src);
-+   else if (use_comp_dir && src[0] != '/')
-+     {
-+       Dwarf_Attribute attr;
-+--- a/src/ar.c
-++++ b/src/ar.c
-+@@ -42,6 +42,7 @@
-+ #include <printversion.h>
-+ 
-+ #include "arlib.h"
-++#include "libeu.h"
-+ 
-+ 
-+ /* Name and version of program.  */
-+@@ -1133,7 +1134,7 @@ do_oper_insert (int oper, const char *ar
-+       for (int cnt = 0; cnt < argc; ++cnt)
-+ 	{
-+ 	  ENTRY entry;
-+-	  entry.key = full_path ? argv[cnt] : basename (argv[cnt]);
-++	  entry.key = full_path ? argv[cnt] : (char*)xbasename (argv[cnt]);
-+ 	  entry.data = &argv[cnt];
-+ 	  if (hsearch (entry, ENTER) == NULL)
-+ 	    error_exit (errno, _("cannot insert into hash table"));
-+@@ -1242,7 +1243,7 @@ do_oper_insert (int oper, const char *ar
-+       /* Open all the new files, get their sizes and add all symbols.  */
-+       for (int cnt = 0; cnt < argc; ++cnt)
-+ 	{
-+-	  const char *bname = basename (argv[cnt]);
-++	  const char *bname = xbasename (argv[cnt]);
-+ 	  size_t bnamelen = strlen (bname);
-+ 	  if (found[cnt] == NULL)
-+ 	    {
-+--- a/src/nm.c
-++++ b/src/nm.c
-+@@ -1417,7 +1417,7 @@ show_symbols (int fd, Ebl *ebl, GElf_Ehd
-+ 			  int lineno;
-+ 			  (void) dwarf_lineno (line, &lineno);
-+ 			  const char *file = dwarf_linesrc (line, NULL, NULL);
-+-			  file = (file != NULL) ? basename (file) : "???";
-++			  file = (file != NULL) ? xbasename (file) : "???";
-+ 			  int n;
-+ 			  n = obstack_printf (&whereob, "%s:%d%c", file,
-+ 					      lineno, '\0');
-+@@ -1448,7 +1448,7 @@ show_symbols (int fd, Ebl *ebl, GElf_Ehd
-+ 		{
-+ 		  /* We found the line.  */
-+ 		  int n = obstack_printf (&whereob, "%s:%" PRIu64 "%c",
-+-					  basename ((*found)->file),
-++					  xbasename ((*found)->file),
-+ 					  (*found)->lineno,
-+ 					  '\0');
-+ 		  sym_mem[nentries_used].where = obstack_finish (&whereob);
-+--- a/src/stack.c
-++++ b/src/stack.c
-+@@ -31,6 +31,7 @@
-+ #include <system.h>
-+ #include <printversion.h>
-+ 
-++#include "libeu.h"
-+ /* Name and version of program.  */
-+ ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
-+ 
-+@@ -152,7 +153,7 @@ module_callback (Dwfl_Module *mod, void
-+ 
-+   int width = get_addr_width (mod);
-+   printf ("0x%0*" PRIx64 "-0x%0*" PRIx64 " %s\n",
-+-	  width, start, width, end, basename (name));
-++	  width, start, width, end, xbasename (name));
-+ 
-+   const unsigned char *id;
-+   GElf_Addr id_vaddr;
-+--- a/src/strip.c
-++++ b/src/strip.c
-+@@ -1807,7 +1807,7 @@ handle_elf (int fd, Elf *elf, const char
-+ 		      elf_errmsg (-1));
-+ 	}
-+ 
-+-      char *debug_basename = basename (debug_fname_embed ?: debug_fname);
-++      const char *debug_basename = xbasename (debug_fname_embed ?: debug_fname);
-+       off_t crc_offset = strlen (debug_basename) + 1;
-+       /* Align to 4 byte boundary */
-+       crc_offset = ((crc_offset - 1) & ~3) + 4;
-+--- a/tests/show-die-info.c
-++++ b/tests/show-die-info.c
-+@@ -26,6 +26,7 @@
-+ #include <string.h>
-+ #include <unistd.h>
-+ 
-++#include "../lib/libeu.h"
-+ #include "../libdw/known-dwarf.h"
-+ 
-+ static const char *
-+@@ -318,7 +319,7 @@ main (int argc, char *argv[])
-+       int fd = open (argv[cnt], O_RDONLY);
-+       Dwarf *dbg;
-+ 
-+-      printf ("file: %s\n", basename (argv[cnt]));
-++      printf ("file: %s\n", xbasename (argv[cnt]));
-+ 
-+       dbg = dwarf_begin (fd, DWARF_C_READ);
-+       if (dbg == NULL)
-+--- a/tests/varlocs.c
-++++ b/tests/varlocs.c
-+@@ -33,6 +33,7 @@
-+ 
-+ #include "system.h"
-+ #include "../libdw/known-dwarf.h"
-++#include "../lib/libeu.h"
-+ 
-+ // The Dwarf, Dwarf_CFIs and address bias of
-+ // cfi table to adjust DWARF addresses against.
-+@@ -1120,7 +1121,7 @@ main (int argc, char *argv[])
-+ 
-+ 	  const char *name = (modname[0] != '\0'
-+ 			      ? modname
-+-			      :  basename (mainfile));
-++			      :  xbasename (mainfile));
-+ 	  printf ("module '%s'\n", name);
-+ 	  print_die (&cudie, "CU", 0);
-+ 
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -692,7 +692,7 @@ update1_LDADD = $(libelf)
-+ update2_LDADD = $(libelf)
-+ update3_LDADD = $(libdw) $(libelf)
-+ update4_LDADD = $(libdw) $(libelf)
-+-show_die_info_LDADD = $(libdw) $(libelf)
-++show_die_info_LDADD = $(libeu) $(libdw) $(libelf)
-+ get_pubnames_LDADD = $(libdw) $(libelf)
-+ show_abbrev_LDADD = $(libdw) $(libelf)
-+ get_lines_LDADD = $(libdw) $(libelf)
--- 
-2.43.0
-
+--=20
+Alex Kiernan
 
