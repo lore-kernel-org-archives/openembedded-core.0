@@ -2,56 +2,56 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B35E1C4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C441FC10DCE
 	for <webhook@archiver.kernel.org>; Sun, 10 Dec 2023 20:25:59 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.62461.1702239957155269645
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+ by mx.groups.io with SMTP id smtpd.web10.62458.1702239955719920563
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Dec 2023 12:25:57 -0800
+ Sun, 10 Dec 2023 12:25:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MinUUKDP;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6ceb93fb381so2442481b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 12:25:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=joQhErtB;
+ spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-590a2a963baso1043010eaf.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 12:25:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702239956; x=1702844756; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702239954; x=1702844754; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=biIyLaBWX2odm7iShPtv1+uqjxPEXU/Ruo6Z+iyDpJU=;
-        b=MinUUKDPfChTDVeQaTXGPb4GgJ59gjaqgxDjhQA8ChRxqVHA56iA3qkffh57o8cmWp
-         JhdU9Ges9S1MPsBHpMbFinK6EO3tz2nk/YrK3277+DtyhJXNWGxYv3waG0eshy2uM7FC
-         BshjzKlsVmwoHdLrJKf5D6Kn/1qT9kW81J9z4+UXPY9l2xDIzB7vT7wyUasZcEM8GFEE
-         AP4TfsV3r/+3QhZFSIWPwjbbqJq5EV0SAbn3DvAWF5CBr9hChtPPwx6BFZhPetYc4cfR
-         gHJ9CwQG36Gex1rmLwCrOaLSyoxD8PEUd3sfcAYfoYsVweySkAL8bAsKJO+7xLlOExqA
-         /SHQ==
+        bh=S+Uz/3KFVeX3oRC1CajzwZ+q91STUa8qMEVE1M5Lzcw=;
+        b=joQhErtBP5DVQ6CrgJs5uWpJltJGARqUako0IgTCV35JjA2K+7YjVqRWRQsqsKwJon
+         htt7VQ5l6yw0BOjxlctJuc1uMChxxu4e+c65LzykfsgJcoIVrl4XxfvKI9AE+YMm5baw
+         mrzRj7SZQOayaw/bFKa9a+Fd69n3ZUzA15NMdzzL3HIRUbHaa6TtZnwe2fio5csAUm5m
+         We4JHo3ttxvutWVIfpfemHRa7vkWacqoAM6yLi/oV36YyDOuRYydWUO7WH44hkcmapdQ
+         tRz2AU5EPabw0A4wphfx6JPyTYhY08B5ppTgsNCicd5HEQK8+zM0Uge6yQuN7uImfWpD
+         T9lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702239956; x=1702844756;
+        d=1e100.net; s=20230601; t=1702239954; x=1702844754;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=biIyLaBWX2odm7iShPtv1+uqjxPEXU/Ruo6Z+iyDpJU=;
-        b=X2jI6RykUSuUEA11Xc7hYVEWbOwNMDOqQn5kWxDDQojV1gCztx3vAHmBEdgd4nzias
-         eXWiFvrFfVSHz6+nr7Rp/atGn0CzIkJ3C11BVpmzhRCQ8680crA+T0zeJivAmTtbAqrg
-         lQ5cTSBHiEFes8zhjYYWAz3O/X2tJT2raa9B9u5xEtCOrry4ga5S7KwriAwsMmG49Zb+
-         1eyFNAR+PWhqmInwEd4I8Hh6K79gn0XyXn9DT9bQ7AZ2+REJRfrsYuBtxtK6h5cXjIiK
-         6f4yPdgG8qgN3AmHkztBhWJfw+HBZ+b5STHH4usxIucFPeIHYgGC2DddtcZ6xl3++6op
-         oE1w==
-X-Gm-Message-State: AOJu0Yy38ykfNbdJ6NTcyE2ukyP7E3dguJGa5FN5yooHcMDoLvmyfxm1
-	bmGKX4HV5nii7CXOYVlmxqly3sGIth0=
-X-Google-Smtp-Source: AGHT+IER4yrgujxE/p4omZzXPxeHffYLdz0TJtHUS9BMmILYrdb3gb+ku7npkWSDNUZ4drCfvGxa7w==
-X-Received: by 2002:a05:6a00:b51:b0:6cb:cd66:2102 with SMTP id p17-20020a056a000b5100b006cbcd662102mr4174476pfo.4.1702239956258;
-        Sun, 10 Dec 2023 12:25:56 -0800 (PST)
+        bh=S+Uz/3KFVeX3oRC1CajzwZ+q91STUa8qMEVE1M5Lzcw=;
+        b=goUbku5cAuSfldH7Cpe9jsklhllAP42zkXS0s27aL/ci+EDwHZQHiUFHVyYQY9JLft
+         6A0dSHXV1WkUqGJAk6rXdqXxrKqKzT03ZRqeGm/qC4nqOhKBiyoFOx8zgJN/bJbgQ5y5
+         NNJDiZfXOj+9OBqxCgIYdLHC5lJIQTI1+0QHgNCll5ah6HA3B2iaDIxlhyMQkxrIIbTc
+         7r7Ii3iPXjQI85yLWsAWMZFmblAs9ybKH4s4vRY708ydiI+oXDGmdE+z5jax5digara1
+         N+KLwZ3eQwZUts0Wp3dnBgeTID2FkM8afKdAdwfShJn0vPWZhLRMLazodPExrsCftLHX
+         i1Dw==
+X-Gm-Message-State: AOJu0YzoFtAPjHLlno6zONRGB0e6ccvc9DhY6DtXOvMjHm0yKydcsRPG
+	RZL8fcv9SY21maNiupvVyPTXZlnwN4g=
+X-Google-Smtp-Source: AGHT+IE932hSHagjfVGp3WuqrIJ95pBq85zDTdsWZX6bCyjo8BNmpduIUFki8Usilh0R7007hzRMbg==
+X-Received: by 2002:a05:6808:3089:b0:3a9:ba39:6d6e with SMTP id bl9-20020a056808308900b003a9ba396d6emr3735317oib.0.1702239954515;
+        Sun, 10 Dec 2023 12:25:54 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:3d00::76f0])
-        by smtp.gmail.com with ESMTPSA id y24-20020aa78558000000b006cee23e7677sm4246487pfn.210.2023.12.10.12.25.55
+        by smtp.gmail.com with ESMTPSA id y24-20020aa78558000000b006cee23e7677sm4246487pfn.210.2023.12.10.12.25.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Dec 2023 12:25:55 -0800 (PST)
+        Sun, 10 Dec 2023 12:25:53 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 6/6] attr: Fix build with latest musl
-Date: Sun, 10 Dec 2023 12:25:49 -0800
-Message-ID: <20231210202549.155550-6-raj.khem@gmail.com>
+Subject: [PATCH 4/6] util-linux: Fix build with latest musl
+Date: Sun, 10 Dec 2023 12:25:47 -0800
+Message-ID: <20231210202549.155550-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231210202549.155550-1-raj.khem@gmail.com>
 References: <20231210202549.155550-1-raj.khem@gmail.com>
@@ -61,70 +61,93 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 20:25:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192124
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192122
 
-Include libgen.h to get basename() signature
+Musl has removed basename declaration in string.h which exposes this
+error.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/attr/attr.inc            |  1 +
- ...ibgen.h-for-posix-version-of-basenam.patch | 35 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-support/attr/attr/0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch
+ meta/recipes-core/util-linux/util-linux.inc   |  1 +
+ ...ls-include-libgen.h-for-basename-API.patch | 57 +++++++++++++++++++
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
 
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index e8835398afa..75d616893a5 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -16,6 +16,7 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 952a680a849..e3bef5acfc5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -36,6 +36,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
+            file://display_testname_for_subtest.patch \
+            file://avoid_parallel_tests.patch \
+            file://0001-lscpu-Use-4K-buffer-size-instead-of-BUFSIZ.patch \
++           file://0001-login-utils-include-libgen.h-for-basename-API.patch \
+            "
  
- SRC_URI = "${SAVANNAH_GNU_MIRROR}/attr/${BP}.tar.gz \
-            file://run-ptest \
-+           file://0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch \
- "
- 
- inherit ptest update-alternatives autotools gettext
-diff --git a/meta/recipes-support/attr/attr/0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch b/meta/recipes-support/attr/attr/0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch
+ SRC_URI[sha256sum] = "87abdfaa8e490f8be6dde976f7c80b9b5ff9f301e1b67e3899e1f05a59a1531f"
+diff --git a/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch b/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
 new file mode 100644
-index 00000000000..1e2bea5067e
+index 00000000000..2b9897ade12
 --- /dev/null
-+++ b/meta/recipes-support/attr/attr/0001-attr.c-Include-libgen.h-for-posix-version-of-basenam.patch
-@@ -0,0 +1,35 @@
-+From 6d9e827bcacf387bb3cfae64bd4fe520168ccad4 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
+@@ -0,0 +1,57 @@
++From 6581cf8ac95b99b5a35fea88c52646558d05b5e7 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 3 Dec 2023 19:29:27 -0800
-+Subject: [PATCH] attr.c: Include libgen.h for posix version of basename API
++Date: Sun, 3 Dec 2023 19:59:46 -0800
++Subject: [PATCH] login-utils: include libgen.h for basename API
 +
-+Musl has removed the definition from string.h [1] which results in
-+compile failures with clang
++musl has removed the non-prototype declaration of basename from string.h [1] which now results in build errors with clang-17+ compiler
 +
-+| ../attr-2.5.1/tools/attr.c:69:13: error: call to undeclared function 'basename'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-+|    69 |         progname = basename(argv[0]);
-+|       |                    ^
++include libgen.h for using the posix declaration of the funciton.
++
++Fixes
++
++../util-linux-2.39.2/login-utils/su-common.c:847:20: error: call to undeclared function 'basename'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
++  847 |                 shell_basename = basename(shell);
++      |                                  ^
 +
 +[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
 +
-+Upstream-Status: Submitted [https://savannah.nongnu.org/bugs/index.php?64972]
++Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/2615]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ tools/attr.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ login-utils/su-common.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
 +
-+diff --git a/tools/attr.c b/tools/attr.c
-+index 312aef1..90dab83 100644
-+--- a/tools/attr.c
-++++ b/tools/attr.c
++--- a/login-utils/su-common.c
+++++ b/login-utils/su-common.c
 +@@ -26,6 +26,7 @@
-+ #include <stdlib.h>
-+ #include <unistd.h>
-+ #include <errno.h>
++ #include <sys/types.h>
++ #include <pwd.h>
++ #include <grp.h>
 ++#include <libgen.h>
-+ #include <string.h>
-+ #include <locale.h>
++ #include <security/pam_appl.h>
++ #ifdef HAVE_SECURITY_PAM_MISC_H
++ # include <security/pam_misc.h>
++@@ -840,17 +841,20 @@ static void run_shell(
++ 				su->simulate_login ? " login" : "",
++ 				su->fast_startup ? " fast-start" : ""));
 + 
-+-- 
-+2.43.0
-+
+++  char* tmp = xstrdup(shell);
++ 	if (su->simulate_login) {
++ 		char *arg0;
++ 		char *shell_basename;
++ 
++-		shell_basename = basename(shell);
+++		shell_basename = basename(tmp);
++ 		arg0 = xmalloc(strlen(shell_basename) + 2);
++ 		arg0[0] = '-';
++ 		strcpy(arg0 + 1, shell_basename);
++ 		args[0] = arg0;
++-	} else
++-		args[0] = basename(shell);
+++	} else {
+++    args[0] = basename(tmp);
+++  }
+++  free(tmp);
++ 
++ 	if (su->fast_startup)
++ 		args[argno++] = "-f";
 -- 
 2.43.0
 
