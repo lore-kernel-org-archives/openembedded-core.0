@@ -2,221 +2,131 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B51E0C46CC5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8539C10F05
 	for <webhook@archiver.kernel.org>; Sun, 10 Dec 2023 20:25:59 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.63104.1702239952590929758
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web10.62459.1702239956444653511
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Dec 2023 12:25:52 -0800
+ Sun, 10 Dec 2023 12:25:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c7Ydh5RH;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6ce939ecfc2so3145050b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 12:25:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lWAZAe3o;
+ spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3ba00fe4e94so764025b6e.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 12:25:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702239951; x=1702844751; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3jO7A2PTVpybtGsQBvnypA23A2TCoIHZ9hsklKJx6+E=;
-        b=c7Ydh5RH2GaeEa60VJt+p9MEtWRk0bUwqbzmOE1BO2ASgU2n9zICPT/nUcboZvsO6E
-         3yr/tlL8AtaMFasdytY3xLTZgcYuvVWAqaLjlwqpXZSlGcwoh57rRDPJtOt1h1846MWz
-         PNRrGP52WRDWJZY/WFuIL8W5dxJUpqyhD4docoY/wP5VUEMjHSxpC4aSn+wjROWI7Hqm
-         3/uRiQq5Glos+8oYEd7koyoHaPc78UK9aA7vmFdgRwklnnN9xQaeLtqMqlN507gCtbfg
-         GCRyzC3qlWL+H2Rp49Q1Hv6/xExrPhOwNevg85iWXaO/hL0gWdUNmmU3zzoWutWb8TmU
-         +GLg==
+        d=gmail.com; s=20230601; t=1702239955; x=1702844755; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rRuwU74llJjKIV0kLILKg1+5kmC369o23nIKVTgdeZk=;
+        b=lWAZAe3oa8niyCMrGgJlfK0l9/x/bpOEM9Pt4yfDAiNeB+8fyUooaU3Tu4joly03aM
+         12d0/GzAVe8ot6HKiK1TL1ca4+xmoOZ7SEYVyW5dK1c3EretU/T5kwQOpqdEC4/Rw85D
+         pzeK4O8t9T00x4Vnydy06qfgP3Ns6/eQO5WaT0qiskjoNLb5t5QG4YAT7M9mOxf3o/cX
+         98KEtXXEdGXEthCSDlOFbNtSVcsoq2MD/zLFwLDqM5BO9IgitpAWp5AC0T4eTXaxkQKg
+         iKm3LUWAiflj1OXE7fNjhfRjvk4Q0rgjbsuFOp/xKjJ8kWDflGhsCaa4i38iyPgg7Kzh
+         qPCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702239951; x=1702844751;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3jO7A2PTVpybtGsQBvnypA23A2TCoIHZ9hsklKJx6+E=;
-        b=wvwhbxwnXMoWGc4TP8rcb4g+COkrCFcPJ39aDw6PfBJPcMfDxuAgDLQZ04OU+ogaNE
-         56aaN3/YMpa7KEXhV8ycPD8NpkJ3wVgfFxG27lL3GD7KF+pIuMD4Tlvl2YkKLHjfxq/N
-         HmDc70vk9PoGyVIPuv5zuQDXDgWg+6TQZkDciWmzD5Ln1esZd0pEN9qZhuu675A6CfZ1
-         /Taq6PgDDqcH91RhwpTh9oxVysju9jQPZoI7buZ6rsgEwb0KLvmX8AsleGXkcTOUC6hB
-         VPbv4aHspCglj+qxbzrVC/lYKo3jXMG3byKAnEXLzwEOeAghyXFDSHjeLeHlecLCN6x2
-         umbw==
-X-Gm-Message-State: AOJu0YyzDdF0dxqOtMYAfX1cKzUDloKL0tFyQc18xSbOt3lqX4BbcM+a
-	okm9czxFD+Mv9DYi3kK6V7qcZjwqcao=
-X-Google-Smtp-Source: AGHT+IFq1XnAsdAcXgAbRcwB1+lYkO3GqvvETLgtz1/VPLyJoUlLIQUgGO3N3byiDfxP+5fRWZYF7w==
-X-Received: by 2002:a05:6a00:3906:b0:6ce:fb65:3ceb with SMTP id fh6-20020a056a00390600b006cefb653cebmr2208522pfb.51.1702239951533;
-        Sun, 10 Dec 2023 12:25:51 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702239955; x=1702844755;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rRuwU74llJjKIV0kLILKg1+5kmC369o23nIKVTgdeZk=;
+        b=ir2uUW9cfYqWhlvgJH2G66utPzu52Us/m0XxcnBnVj0Bm3xczzrlQZRlCmSP+WtOnO
+         v7MQ18yxsOfpOgFvITPmXQ6IK0edwcXgGO5A1dAJo9a4XCeAR4ZgMWGnjitZdwbdteyb
+         0TTKjYq3nxzygzpMasAKVbZ/a2wfIqXDIiTF+uREUs8QkMDzjuFJ0H8AA/n3rwxOU3ua
+         /PteMsdMMa94TYfNrZXMHwmnWFBZZqRHkZm8kszEjujUjpjuiTeVIVolT6B3qQ1NRIXQ
+         2YCUG/YqbJ+tvDJKwt8Sx+ti+e3mhPwcz5IPLCK2awG8fBD7raAraRnGYvEG0VWgWKfS
+         enzg==
+X-Gm-Message-State: AOJu0YyshlCUgGncUSxqq/5ztRm8Fbm7FOAvNcTIffsso8AlsPncbtFC
+	cXpNNzG0lui5duyfoj3SJ3NWaG6xJyw=
+X-Google-Smtp-Source: AGHT+IEufExbUT89AjohcMqfkHxS9jSjyGern2ofNw/8/njNjZ6JGP001jP47CbQQ/n3Y7DmGQg2fw==
+X-Received: by 2002:a05:6808:158d:b0:3b9:bccd:1b08 with SMTP id t13-20020a056808158d00b003b9bccd1b08mr4402567oiw.32.1702239955485;
+        Sun, 10 Dec 2023 12:25:55 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9100:3d00::76f0])
-        by smtp.gmail.com with ESMTPSA id y24-20020aa78558000000b006cee23e7677sm4246487pfn.210.2023.12.10.12.25.50
+        by smtp.gmail.com with ESMTPSA id y24-20020aa78558000000b006cee23e7677sm4246487pfn.210.2023.12.10.12.25.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Dec 2023 12:25:51 -0800 (PST)
+        Sun, 10 Dec 2023 12:25:54 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/6] opkg: Use own version of portable basename function
-Date: Sun, 10 Dec 2023 12:25:44 -0800
-Message-ID: <20231210202549.155550-1-raj.khem@gmail.com>
+Subject: [PATCH 5/6] sysvinit: Include libgen.h for basename API
+Date: Sun, 10 Dec 2023 12:25:48 -0800
+Message-ID: <20231210202549.155550-5-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231210202549.155550-1-raj.khem@gmail.com>
+References: <20231210202549.155550-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 20:25:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192119
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192123
 
-Fixes build with upcoming musl release.
+This fixes build with latest musl which drops basename declaration API from string.h
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...Provide-basename-function-as-utility.patch | 131 ++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.6.2.bb      |   1 +
- 2 files changed, 132 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg/opkg/0001-libopkg-Provide-basename-function-as-utility.patch
+ ...wn-include-libgen.h-for-basename-API.patch | 38 +++++++++++++++++++
+ meta/recipes-core/sysvinit/sysvinit_3.04.bb   |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/sysvinit/sysvinit/0001-hddown-include-libgen.h-for-basename-API.patch
 
-diff --git a/meta/recipes-devtools/opkg/opkg/0001-libopkg-Provide-basename-function-as-utility.patch b/meta/recipes-devtools/opkg/opkg/0001-libopkg-Provide-basename-function-as-utility.patch
+diff --git a/meta/recipes-core/sysvinit/sysvinit/0001-hddown-include-libgen.h-for-basename-API.patch b/meta/recipes-core/sysvinit/sysvinit/0001-hddown-include-libgen.h-for-basename-API.patch
 new file mode 100644
-index 00000000000..91b00bb4085
+index 00000000000..5e4053bad1d
 --- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/0001-libopkg-Provide-basename-function-as-utility.patch
-@@ -0,0 +1,131 @@
-+From c3770c1254a288f1312a66ebf4a5da60a1ae215b Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/sysvinit/sysvinit/0001-hddown-include-libgen.h-for-basename-API.patch
+@@ -0,0 +1,38 @@
++From a07c1d94e79840c59563741b45e690e77d4f3dfa Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 9 Dec 2023 17:07:22 -0800
-+Subject: [PATCH] libopkg: Provide basename function as utility
++Date: Sun, 3 Dec 2023 20:09:30 -0800
++Subject: [PATCH] hddown: include libgen.h for basename API
 +
-+glibc provides two implementations one when string.h is used and Posix
-+compliant one from libgen.h when string.h is not included. Lets
-+implement gnu compliant version using strchr and use it Everywhere for
-+portability reasons. This will help compiling with next release of musl
-+where signature is removed from strin.h [1]
++musl has removed the non-prototype declaration of basename from string.h [1] which now results in build errors with clang-17+ compiler
++
++include libgen.h for using the posix declaration of the funciton.
++
++Fixes
++
++hddown.c:135:8: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
++  135 |                         ptr = basename(lnk);
++      |                             ^ ~~~~~~~~~~~~~
 +
 +[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
 +
-+Upstream-Status: Submitted [https://lists.yoctoproject.org/g/opkg/message/11]
++Upstream-Status: Submitted [https://github.com/slicer69/sysvinit/pull/21]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ libopkg/opkg_archive.c  | 2 +-
-+ libopkg/opkg_download.c | 6 ++----
-+ libopkg/opkg_remove.c   | 2 +-
-+ libopkg/pkg.c           | 4 +---
-+ libopkg/xfuncs.c        | 6 ++++++
-+ libopkg/xfuncs.h        | 1 +
-+ 6 files changed, 12 insertions(+), 9 deletions(-)
++ src/hddown.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/libopkg/opkg_archive.c b/libopkg/opkg_archive.c
-+index 03a4afb..da37d8a 100644
-+--- a/libopkg/opkg_archive.c
-++++ b/libopkg/opkg_archive.c
-+@@ -797,7 +797,7 @@ int gz_write_archive(const char *filename, const char *gz_filename)
-+     }
-+ 
-+     /* Remove path hierarchy, as we are only compressing a single file */
-+-    archive_entry_set_pathname(entry, basename(filename));
-++    archive_entry_set_pathname(entry, xbasename(filename));
-+ 
-+     r = archive_write_header(a, entry);
-+     if (r != ARCHIVE_OK) {
-+diff --git a/libopkg/opkg_download.c b/libopkg/opkg_download.c
-+index 4086f83..130a8c1 100644
-+--- a/libopkg/opkg_download.c
-++++ b/libopkg/opkg_download.c
-+@@ -158,7 +158,6 @@ static char *get_cache_location(const char *src)
-+     char *md5sum_hex;
-+     char *cache_location;
-+     char *short_file_name;
-+-    char *tmp = xstrdup(src);
-+ 
-+     md5_buffer(src, strlen(src), md5sum_bin);
-+     md5sum_hex = md5_to_string(md5sum_bin);
-+@@ -168,14 +167,13 @@ static char *get_cache_location(const char *src)
-+      * MAX_SHORT_FILE_NAME_LENGTH to ensure that the total cache file name
-+      * length is reasonable.
-+      */
-+-    short_file_name = basename(tmp);
-++    short_file_name = xbasename(src);
-+     if (strlen(short_file_name) > MAX_SHORT_FILE_NAME_LENGTH)
-+         short_file_name[MAX_SHORT_FILE_NAME_LENGTH] = '\0';
-+ 
-+     sprintf_alloc(&cache_location, "%s/%s_%s", opkg_config->cache_dir,
-+                   md5sum_hex, short_file_name);
-+     free(md5sum_hex);
-+-    free(tmp);
-+     return cache_location;
-+ }
-+ 
-+@@ -361,7 +359,7 @@ int opkg_download_pkg_to_dir(pkg_t * pkg, const char *dir)
-+     char *url = NULL;
-+     int err = 0;
-+ 
-+-    sprintf_alloc(&dest_file_name, "%s/%s", dir, basename(pkg->filename));
-++    sprintf_alloc(&dest_file_name, "%s/%s", dir, xbasename(pkg->filename));
-+ 
-+     if (opkg_config->volatile_cache) {
-+         url = get_pkg_url(pkg);
-+diff --git a/libopkg/opkg_remove.c b/libopkg/opkg_remove.c
-+index 889c672..e9d5714 100644
-+--- a/libopkg/opkg_remove.c
-++++ b/libopkg/opkg_remove.c
-+@@ -215,7 +215,7 @@ void remove_maintainer_scripts(pkg_t * pkg)
-+         return;
-+ 
-+     for (i = 0; i < globbuf.gl_pathc; i++) {
-+-        filename = xstrdup(basename(globbuf.gl_pathv[i]));
-++        filename = xstrdup(xbasename(globbuf.gl_pathv[i]));
-+         lastdot = strrchr(filename, '.');
-+         *lastdot = '\0';
-+         // Only delete files that match the package name (the glob may match files
-+diff --git a/libopkg/pkg.c b/libopkg/pkg.c
-+index 6b1bd8f..3d13fed 100644
-+--- a/libopkg/pkg.c
-++++ b/libopkg/pkg.c
-+@@ -271,10 +271,8 @@ int pkg_init_from_file(pkg_t * pkg, const char *filename)
-+ 
-+     pkg->local_filename = xstrdup(filename);
-+ 
-+-    tmp = xstrdup(filename);
-+     sprintf_alloc(&control_path, "%s/%s.control.XXXXXX", opkg_config->tmp_dir,
-+-                  basename(tmp));
-+-    free(tmp);
-++                  xbasename(filename));
-+     fd = mkstemp(control_path);
-+     if (fd == -1) {
-+         opkg_perror(ERROR, "Failed to make temp file %s", control_path);
-+diff --git a/libopkg/xfuncs.c b/libopkg/xfuncs.c
-+index 9ee1a7d..11e3d92 100644
-+--- a/libopkg/xfuncs.c
-++++ b/libopkg/xfuncs.c
-+@@ -110,3 +110,9 @@ extern char *xdirname(const char *path)
-+     free(pathcopy);
-+     return parent;
-+ }
-++/* implement Glibc basename behavior */
-++const char *xbasename(const char *path)
-++{
-++    const char *tmp = strrchr(path, '/');
-++    return tmp ? tmp+1 : path;
-++}
-+diff --git a/libopkg/xfuncs.h b/libopkg/xfuncs.h
-+index 5d278b4..0d4ef32 100644
-+--- a/libopkg/xfuncs.h
-++++ b/libopkg/xfuncs.h
-+@@ -30,5 +30,6 @@ extern void *xcalloc(size_t nmemb, size_t size);
-+ extern char *xstrdup(const char *s);
-+ extern char *xstrndup(const char *s, int n);
-+ extern char *xdirname(const char *path);
-++extern const char *xbasename(const char *path);
-+ 
-+ #endif                          /* XFUNCS_H */
++diff --git a/src/hddown.c b/src/hddown.c
++index 7a2cf28..3b31bc0 100644
++--- a/src/hddown.c
+++++ b/src/hddown.c
++@@ -24,6 +24,7 @@ char *v_hddown = "@(#)hddown.c  1.02  22-Apr-2003  miquels@cistron.nl";
++ #ifndef _GNU_SOURCE
++ #define _GNU_SOURCE
++ #endif
+++#include <libgen.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <unistd.h>
 +-- 
 +2.43.0
 +
-diff --git a/meta/recipes-devtools/opkg/opkg_0.6.2.bb b/meta/recipes-devtools/opkg/opkg_0.6.2.bb
-index 46be137354c..02f4a46561e 100644
---- a/meta/recipes-devtools/opkg/opkg_0.6.2.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.6.2.bb
-@@ -15,6 +15,7 @@ PE = "1"
- SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
-            file://opkg.conf \
-            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
-+           file://0001-libopkg-Provide-basename-function-as-utility.patch \
-            file://run-ptest \
+diff --git a/meta/recipes-core/sysvinit/sysvinit_3.04.bb b/meta/recipes-core/sysvinit/sysvinit_3.04.bb
+index 76b187c1961..6a612468f35 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_3.04.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_3.04.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.xz \
+            file://rcS \
+            file://bootlogd.init \
+            file://01_bootlogd \
++           file://0001-hddown-include-libgen.h-for-basename-API.patch \
             "
+ SRC_URI[sha256sum] = "2a621fe6e4528bc91308b74867ddaaebbdf7753f02395c0c5bae817bd2b7e3a5"
  
 -- 
 2.43.0
