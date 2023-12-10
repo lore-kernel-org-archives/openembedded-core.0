@@ -1,140 +1,139 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C6A7C4167B
-	for <webhook@archiver.kernel.org>; Sun, 10 Dec 2023 15:59:28 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web11.57344.1702223964474525816
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 506DBC4167B
+	for <webhook@archiver.kernel.org>; Sun, 10 Dec 2023 19:10:59 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.60846.1702235453537831685
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Dec 2023 07:59:25 -0800
+ Sun, 10 Dec 2023 11:10:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ieiyk7VZ;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 37A65E0003;
-	Sun, 10 Dec 2023 15:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1702223962;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ob0XDKe97EBZzNUS73uE0UUH2HW0geAwmesb1AzwRNc=;
-	b=Ieiyk7VZY208Bc18LCuaMT8M4sFTFfqOVrmps2KH/iWHtAmj62ZconKxM4mx1cRVdCFElh
-	S7AHouydDzOM4K/CiVf0yizih2wMa9os2dKfHGbcqVI9DTw2aKwa0TaHgxudkLm4BAhju9
-	rLQCEsNnfIpvpQUi4t547XiT80PsTfehf717mzmwXNsH5y4+39NhdSVzBNjp+61QDa0JJI
-	SDMxZ2jE98jsgp5K3bhV4EKy05/rWFn7XmUazZBIuL2x947BPBUlKkVyB5Al74GWG08izG
-	CaTpRAxZtkwxG6V8aUYE29bxvQDNZHL1OH4V15F8WEu1NnxKWI1l9XoM9WAPQA==
-Date: Sun, 10 Dec 2023 16:59:21 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] pseudo: drop syncfs probe patch
-Message-ID: <20231210155921f095cd29@mail.local>
-References: <20231209232710.1006536-1-alexandre.belloni@bootlin.com>
- <3d6053b7d1ab449db8882ee92496f32f52706d8b.camel@linuxfoundation.org>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KGYPnPY6;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-334b2ffaa3eso3511153f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 11:10:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702235451; x=1702840251; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vi4ZSqwO73yOjyvPNIcAmOP0/l70gPpMpWjSv243DBw=;
+        b=KGYPnPY6oSAjU5n9uVn1E1+FTA5uohyck25rwSa2lE8dD7PaoJ1n0fQGy54qZFco4r
+         BN+wIZUJKNGMT6J9m/fwlEMX2rQbo6EIZOJam03DRVKomFR4bEGoc6ZCyBBCUigXoRPX
+         DR3wY1joH+o+bP5FQYpEh3i9HpuF38tr0iMnpjnxteVefmQy1jGlpl8zeaUJv3pGXz0c
+         FzZ07ZUgijUkxfNwTzHp0g0ynbhI69GEnOgmapM/5VVrUqM8DDH+iMFvnR8XbtPLkG9x
+         kqb6/lY+JvH9Cfr/+9pd3ZrqRNvKub6kYTe1F27quST2scMsQIeSEGjDCff/quEmZudX
+         DKTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702235451; x=1702840251;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vi4ZSqwO73yOjyvPNIcAmOP0/l70gPpMpWjSv243DBw=;
+        b=hFzfmOakdnxGIlgFwWCR2M3tu+wDQr0y5x86gZXIJI8NsFF13wxrc/9yJGbvIqnGuD
+         xAhZxRERHlbG3r2ZYEKsgqregGLhDNKKif8NqY/7xweenN4zcSGuaDsu9dVoA73a2BIb
+         kxBhR+HH6MvM4PzWyCPtWYRt57dpKsN3pK2ILnFKCYA8ZZPYG92EMxgVZM5tcANsl3yP
+         rPsizqUp0vScViZWRpjmxVWLCtWCpwmo4Hl2QeemOnEEBKNf0y3kMYAr2+x+T0WtRjIr
+         jn1gSSbOYhAQQupLQa/diiOQdZDO9LZQSkGz+zElqmsScnnOalSH1yS85H2boijTj8/A
+         fETA==
+X-Gm-Message-State: AOJu0YyNZzzVBwXbWyqqPlk9cWq+zuxqCaq9BryWjdwrCTi7XZXNqGhD
+	yJ5VCIMft6qZMTK7eIpRyWHfR0v35RY=
+X-Google-Smtp-Source: AGHT+IHMLBO00VkxK44FkpLxpJsl6IM4aHD11VX56mEuuu0kfh5k1FiogAxoL/RhBF1coyUXxAyfMw==
+X-Received: by 2002:a5d:6e85:0:b0:336:18f6:aee with SMTP id k5-20020a5d6e85000000b0033618f60aeemr1217356wrz.48.1702235450878;
+        Sun, 10 Dec 2023 11:10:50 -0800 (PST)
+Received: from Zuma-000004PC.lan ([2a02:390:9c57:0:81c9:b637:ed55:7895])
+        by smtp.gmail.com with ESMTPSA id n13-20020adff08d000000b00333590f3bf9sm6893526wro.19.2023.12.10.11.10.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Dec 2023 11:10:50 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH 1/2] cargo-update-recipe-crates: Use CARGO_LOCK_PATH
+Date: Sun, 10 Dec 2023 19:10:45 +0000
+Message-Id: <20231210191046.4785-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3d6053b7d1ab449db8882ee92496f32f52706d8b.camel@linuxfoundation.org>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 15:59:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192115
+ <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 19:10:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192116
 
-On 10/12/2023 13:19:48+0000, Richard Purdie wrote:
-> On Sun, 2023-12-10 at 00:27 +0100, Alexandre Belloni via
-> lists.openembedded.org wrote:
-> > From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > 
-> > The patch is now upstream and SRCREV has already been bumped
-> > 
-> > Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > ---
-> >  .../pseudo/files/syncfs-probe.patch           | 44 -------------------
-> >  meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 -
-> >  2 files changed, 45 deletions(-)
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/syncfs-probe.patch
-> > 
-> > diff --git a/meta/recipes-devtools/pseudo/files/syncfs-probe.patch b/meta/recipes-devtools/pseudo/files/syncfs-probe.patch
-> > deleted file mode 100644
-> > index 23f01673e3c2..000000000000
-> > --- a/meta/recipes-devtools/pseudo/files/syncfs-probe.patch
-> > +++ /dev/null
-> > @@ -1,44 +0,0 @@
-> > -From e38b1fec2eb4a5dcefafdab7f1a240966f3632f1 Mon Sep 17 00:00:00 2001
-> > -From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?=
-> > - <pidge@baylibre.com>
-> > -Date: Wed, 6 Dec 2023 13:00:29 +0000
-> > -Subject: [PATCH] subports: Add _GNU_SOURCE
-> > -MIME-Version: 1.0
-> > -Content-Type: text/plain; charset=UTF-8
-> > -Content-Transfer-Encoding: 8bit
-> > -
-> > -[YOCTO #15074]
-> > -
-> > -The syncfs probe in ports/unix/subports was failing if the compiler does not 
-> > -support implicit function declarations. syncfs is protected and requires 
-> > -_GNU_SOURCE, so the answer here is to pull it in.
-> > -
-> > -Signed-off-by: Eil�s 'pidge' N� Fhlannag�in <pidge@baylibre.com>
-> > -
-> > ----
-> > -Upstream-Status: Pending
-> > -
-> > - ports/unix/subports | 2 ++
-> > - 1 file changed, 2 insertions(+)
-> > -
-> > -diff --git a/ports/unix/subports b/ports/unix/subports
-> > -index e41b036..bd5a2f6 100755
-> > ---- a/ports/unix/subports
-> > -+++ b/ports/unix/subports
-> > -@@ -1,11 +1,13 @@
-> > - #!/bin/sh
-> > - cat > dummy.c <<EOF
-> > -+#define _GNU_SOURCE
-> > - #include <unistd.h>
-> > - int main(void) {
-> > - 	syncfs(0);
-> > - 	return 0;
-> > - }
-> > - EOF
-> > -+
-> > - if ${CC} -o dummy dummy.c > /dev/null 2>&1; then
-> > - 	echo "unix/syncfs"
-> > - fi
-> > --- 
-> > -2.34.1
-> > -
-> > diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> > index 31b2d5fad20d..699cab11c668 100644
-> > --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> > +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> > @@ -2,7 +2,6 @@ require pseudo.inc
-> >  
-> >  SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
-> >             file://0001-configure-Prune-PIE-flags.patch \
-> > -           file://syncfs-probe.patch \
-> >             file://glibc238.patch \
-> >             file://fallback-passwd \
-> >             file://fallback-group \
-> 
-> I think this issue is only in your branch?
-> 
+Rather than searching for Cargo.lock, just use CARGO_LOCK_PATH, since we
+have to know where the lock file is, else cargo_common_do_patch_paths
+will fail. There should only ever be one lock file associated with a
+project, so trying to aggregate across all of them makes no sense.
 
-Yes, because I was still carrying the other patch, I realized after
-sending
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-> Cheers,
-> 
-> Richard
-> 
+ .../cargo-update-recipe-crates.bbclass        | 30 +++++--------------
+ 1 file changed, 8 insertions(+), 22 deletions(-)
 
+diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+index 8980137d02cf..59415ee8cb45 100644
+--- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
++++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+@@ -4,6 +4,8 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
++inherit cargo_common
++
+ ##
+ ## Purpose:
+ ## This class is used to update the list of crates in SRC_URI
+@@ -18,9 +20,6 @@ do_update_crates[depends] = "python3-native:do_populate_sysroot"
+ do_update_crates[nostamp] = "1"
+ do_update_crates[doc] = "Update the recipe by reading Cargo.lock and write in ${THISDIR}/${BPN}-crates.inc"
+ 
+-# The directory where to search for Cargo.lock files
+-CARGO_LOCK_SRC_DIR ??= "${S}"
+-
+ do_update_crates() {
+     TARGET_FILE="${THISDIR}/${BPN}-crates.inc"
+ 
+@@ -28,8 +27,7 @@ do_update_crates() {
+ 
+ def get_crates(f):
+     import tomllib
+-    c_list = '# from %s' % os.path.relpath(f, '${CARGO_LOCK_SRC_DIR}')
+-    c_list += '\nSRC_URI += " \\\'
++    c_list = 'SRC_URI += " \\\'
+     crates = tomllib.load(open(f, 'rb'))
+ 
+     # Build a list with crates info that have crates.io in the source
+@@ -55,23 +53,11 @@ def get_crates(f):
+ import os
+ crates = "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
+ found = False
+-for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
+-    # ignore git and patches directories
+-    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.pc')):
+-        continue
+-    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.git')):
+-        continue
+-    for file in files:
+-        if file == 'Cargo.lock':
+-            try:
+-                cargo_lock_path = os.path.join(root, file)
+-                crates += get_crates(os.path.join(root, file))
+-            except Exception as e:
+-                raise ValueError("Cannot parse '%s'" % cargo_lock_path) from e
+-            else:
+-                found = True
+-if not found:
+-    raise ValueError("Unable to find any Cargo.lock in ${CARGO_LOCK_SRC_DIR}")
++try:
++    cargo_lock_path = '${CARGO_LOCK_PATH}'
++    crates += get_crates(cargo_lock_path)
++except Exception as e:
++    raise ValueError("Cannot parse '%s'" % cargo_lock_path) from e
+ open("${TARGET_FILE}", 'w').write(crates)
+ EOF
+ 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.0
+
 
