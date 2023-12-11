@@ -1,158 +1,508 @@
-Return-Path: <Deepthi.Hemraj@windriver.com>
+Return-Path: <frederic.martinsons@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EBEC4167B
-	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 12:26:43 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.7133.1702297600343112329
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C5C6C4167B
+	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 12:58:23 +0000 (UTC)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+ by mx.groups.io with SMTP id smtpd.web11.7586.1702299494791844338
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Dec 2023 04:26:40 -0800
+ Mon, 11 Dec 2023 04:58:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=LshqXHJs;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0709de5e70=deepthi.hemraj@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BBBZ4aM002895
-	for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 04:26:40 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=at9YA3LYMfCaD7RyYZ
-	K+u2smdZ6kh//u0ooT+CLl1Sc=; b=LshqXHJsaVSaQDQG8aZPzexUjDZyr3eSe2
-	GTcxlJxPVBzuWZs/FjOKQulyOnZmKGK1JONRhvehqnBIVvXuz8NxJd6rsbq3njco
-	YifaRKCkIq0fe1cE+9ldRn6ZW+bBRgY/YHnyAzbowP0lfRj4eGtU9wkmHQJRnkxc
-	FEQLMoViaHY+GKJ2PJBfO0hPldmVcAVP46ayB5FrWQx2/a6AGrbnhbqh+mnCZS//
-	izyXSfANHrQd8jTqNGWmbs20ZrO9E0ydGHONEXmqZKAoT92+4Bag+owCQ1R9vBY8
-	7Ip2MavjU0xXnu4DGwtyEcS+FwGalt4NL0EmDHSElkVqxeReAqRw==
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uvmd49eyn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 04:26:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l4wXI3I0+b1x4/1myIJ2r70+XjvqhJEDgPLruVsQ1AwHxha2aa+zvD1HFklyaNC+4EybB2ScwJQPI8+d9xSh8p2C3dbuJxOdMSQB0HbwCdsxa5+AA8ViP0yXBuZ0rwL7SDHBwyVQWaTykK1LrRhxAT90yRKejW0g/nAJuC2d8Ak8dBdAnLB01d+MjpngFYHznQ3t3OApvrPbcbShXn5iVNyAGE53zdW8sWrxyXsOjh1TImmyF0acMm5Z/rvwST5lfGwSZ8FdzcskqIHXpEJcpJvLfZh+kPuAuimJykj6FXMHjLri1Cv5iQsV/2D8P2u3+MDuAOv0tt9d7Wsq8kCdrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=at9YA3LYMfCaD7RyYZK+u2smdZ6kh//u0ooT+CLl1Sc=;
- b=PN+cfBZB7ZuoCHoMb0js7+cw+zsWSfuQk7cpTHohbrRQRW+adxIp0koikX4Q3NrBa00jvVye2SPG60+IWSyfiPg00qNuycpPm/EU+KaoLA7/FfyUuP9ZP0kxS/uzzHyaUvzF2oIbLdnfHPHEWrcSqcq3sBJuaZmITWc4UBkZ/Or23ouHmCQOYGZ7jd+lkPXRtmY6DbBktF81E+ecQN/HjQk5x7+ECOTrQICSCfKQ63KXQhrfd0atXjZ1CCE3b3T0a1PyeVjqRnh06VAgpiZke80YWIDbJkfKP3sUXL0pk8aDoBZ+1df31g8hLUYdhtg32K5aeUMeNVwjYo7s2UC+iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH7PR11MB6449.namprd11.prod.outlook.com (2603:10b6:510:1f7::17)
- by SA1PR11MB8349.namprd11.prod.outlook.com (2603:10b6:806:383::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Mon, 11 Dec
- 2023 12:26:36 +0000
-Received: from PH7PR11MB6449.namprd11.prod.outlook.com
- ([fe80::d722:19c4:2468:6024]) by PH7PR11MB6449.namprd11.prod.outlook.com
- ([fe80::d722:19c4:2468:6024%5]) with mapi id 15.20.7068.031; Mon, 11 Dec 2023
- 12:26:36 +0000
-From: Deepthi.Hemraj@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
-        Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
-Subject: [kirkstone][PATCH] nativesdk-sdk-provides-dummy.bb: Update host tools for rust-cross-canadian
-Date: Mon, 11 Dec 2023 04:26:13 -0800
-Message-ID: <20231211122613.2429111-1-Deepthi.Hemraj@windriver.com>
-X-Mailer: git-send-email 2.42.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BYAPR05CA0006.namprd05.prod.outlook.com
- (2603:10b6:a03:c0::19) To PH7PR11MB6449.namprd11.prod.outlook.com
- (2603:10b6:510:1f7::17)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cjU1tEF+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: frederic.martinsons@gmail.com)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5d7692542beso42575707b3.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 04:58:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702299494; x=1702904294; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SCKVSNFg++oaHawTbcawa6jZ6iwYS/yD7A3CE4gAjcY=;
+        b=cjU1tEF+IG/8apH3FmzQ6b+9N2LPQs1NXHr5V9YJF+Xoi4y5I6XR2clx/umgg+MHF5
+         9a8302rQ30nEsLeLekkaMRsOB3rJRj0z4ZqAZy7P4aq6r9w1Fmq4uv+/9XCBYMvG1HE3
+         cMC/vmwnbbGHP9CGvaFz83XUd4odsO2Z0YKaXKiMKKCotcjlPWO8Cwf+WxzrYr+0FFJs
+         +9zeV9OyA+paB59bWVMBl9KWw3tO4tuBULbzB3j6nh7F5sepfybO1caznkHu2210C/+x
+         olKhKWfBv5KNPCx1LVt2eQvNFcdj8DJjedCfzj4YmoAebhhrYj+uTvCw0LgGjXgqjQCH
+         6Qpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702299494; x=1702904294;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SCKVSNFg++oaHawTbcawa6jZ6iwYS/yD7A3CE4gAjcY=;
+        b=ZrB0wSg+1mYGh6h7LswRsXk4R9nvyFq8co+GIX51P0XN997q9OjNTQKCjjEcS+f/pz
+         SIqHHQUHN8zrPtfSU75LA6tgfgp9x/EaHaW8CQmiuL6uuFi4u9OMRuG0bCn/yoHzeN6u
+         PWziWA+UC35mmGwZRuDtcMqdOwzc3ZHiYshA859vTGTFNS4zLm0mlLnDUzYvyhV2IJed
+         cx96fTL86P7QC2d3sffBUnN7YwQ+tHoWyDJsPeZl+FnLOKfTT8C0pvR2LFH6thimbEI0
+         jMx/7/H3vPWWzLh9Bz8RZZJhzwEOHv1PuN9lVRyLse0ZIc/f5+dJZDlufsCc2bsExWlm
+         q2nw==
+X-Gm-Message-State: AOJu0YzbVx4g4HeFl1HzjXXWCZ3TfAnREcpaiG0ePAybSZQJ39A+7MvF
+	Lw7u3wP54NxtI6KqonDw3j3nNl6cWoJy5r+087U=
+X-Google-Smtp-Source: AGHT+IEh8WL6NDaHdgOorMsc7MsoULteSmwr7GAKZIzwkpvMoU3q351hJF3zklzsTUCBklXKMoAxq90EsLdaGztgRmw=
+X-Received: by 2002:a5b:787:0:b0:d80:68d1:b826 with SMTP id
+ b7-20020a5b0787000000b00d8068d1b826mr3244611ybq.6.1702299493826; Mon, 11 Dec
+ 2023 04:58:13 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6449:EE_|SA1PR11MB8349:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49819e79-e94c-4084-c94c-08dbfa446af9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	aj67O/p4UPQaOik9kOamm3y0HON/IfY7OR1vT4I+jjyD4ZsnMUdgo14qB5HMDvxbflGAZlU2Mcr68J1BRyZ/YH02JwuOhqsFDRgvgD6G5QooswW+w99msjhA0XjqIc+mDtN55pYpjHZcNhA2XyDXGKgsmmBOal3j6sdqeTGzHfRA3yh4OIStyUIRxfdjPztAYoT+f5kzO1PAwyKkNbLQo0+cYGgVSJLVXdXrFhXOqznamOJVd7Cir7S/fWLjF+LYmpqFHr6/GhribDkT1TNfE4DzL8a+ZMP0YEJOgmILXWxJsBRA1e5OSi1KHAGdReMyQOiOpuYKnkDk2UCPCOrFF64zk0L7ylQU6wGYnevYV06KvVj1t9rkt9e4M8JYDBv6r0sLLLeimUzihsusd8SsTR+K78O8hrM5EkRfSCXyUg09hAz4OHnzBbB24aCc1XolD5zbbVrztrqvMEqMwvINKZxGBv2m2XBR4VI0trKo0N4tEtEKY8HUKrDWiNDo8B/dS08R/oTQdA0bOgu6M1ttT+qd0u/SqsmkpVJ4ufOoXqvUX2O/Os98J/cM/XFZ3qmoh6jjelLzZdwZICwn6D76T+8+qSiM0YmvC8ldfCXbXTntJyKbMwUBAfUdnAgSTAbZ
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6449.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(396003)(346002)(136003)(39850400004)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(83380400001)(2906002)(478600001)(38350700005)(41300700001)(66556008)(66476007)(6916009)(66946007)(6486002)(4744005)(316002)(38100700002)(6666004)(86362001)(52116002)(4326008)(8936002)(8676002)(6506007)(6512007)(9686003)(36756003)(5660300002)(1076003)(107886003)(26005)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ILl1Zuza5+pBNvjiOtIrG4tOKUZNAsX9eoziYefPDF/qXIZkwekCacUye07G?=
- =?us-ascii?Q?9BOzBl/QneV22d1M3PCMRVGpZBhBBbhnspVIB/A+CnwmN4aKmEE03bo0oCsi?=
- =?us-ascii?Q?ZZFdvVmy3g8QMo3sP1DrA/pGtYnb0QNlNZxEV4dSio9C7v2RBlUnBpOoZPUg?=
- =?us-ascii?Q?jXfd4xO/7Src/xP3hLHVAovHLiet7Z5qrWs59JrAkfRPF0dcIEAGpnk56+5J?=
- =?us-ascii?Q?2u5tqUbuq6Y77UMRKikTwu6F82hYkmnH7NfHsFVEXroLulB/7e+TUAnuNGB8?=
- =?us-ascii?Q?uie3Dk6nwvUjdIdIg/c+E7UYWyhYx6J6AxjrIoJlXIqSm4kZH5SupwkDY2vp?=
- =?us-ascii?Q?gOV3whgJ85/SfPGweWKXepyVu021XlgyFNOqr6PVaSYyK7xXOKo2GqscGbvm?=
- =?us-ascii?Q?zYWW/Vsj/e8nmjogWXQdu9XnH1EzHQiPA+VR5H7FAtXb4reydX2UaxNLpgvV?=
- =?us-ascii?Q?2AzGqjwvXpjc9hXXDOqP0e7IDQ1i2KC1Pxp0DMQi0ZNlj+fx4B+moR1gcYGO?=
- =?us-ascii?Q?3duiMxieukDg4IUqGaYQ7PfDq47aq8v54aZ5LmlUtvHHZc4rXE6izjrQHzsA?=
- =?us-ascii?Q?IS32UKxKH0CA52ZL7krpDHlOMqnl1TUdPW+zjq5MJciIS2gIzPiFlAzeJ/Qj?=
- =?us-ascii?Q?l/UhoiY6Iv2N/0k3kYhDl6kJHQIcgvzJWshSggksmW2Li/cmwEMm0drj7SpQ?=
- =?us-ascii?Q?wmzIkDod8ydvk0G/8qnWmpjoe7KNvgHYGD01xjAq7V0j62POmXY3CDICzxW5?=
- =?us-ascii?Q?Xc6HIA0K58zcMCS7/WxNgNrMTsW7bmiZKs9Xu880EOHilHpw9a0qRUENKO5O?=
- =?us-ascii?Q?ylnmoBWRLettySPcyLGjaBj9OK7Hd8B1M96wpfOuZnq3MPNraN3mkXv0ISQg?=
- =?us-ascii?Q?Jsgb4OoNgT+7/juXIgpivAWnR3HZ22aYGH5xT/Aha8VdN2uod8eQ9MuXAoHC?=
- =?us-ascii?Q?2YTuzOtbZISMVWFWx9yNhN7jin6iqjCG/iIwwS/fLgDKxuHQqxpDdWlEBgaa?=
- =?us-ascii?Q?EBDzskoauYQJ8AhLASg86VeS/k3S8jTCU+tJ0g6rDBMxbP3njxuboeXdw9v1?=
- =?us-ascii?Q?sgIyg6eqYpA2hqgfGi4f1f7JWNyIR4c2LYxOS88mxjRPJF6orn9Rvg3C8PyE?=
- =?us-ascii?Q?IC9GGv1Y3DejThIkX4IVHoRtZbohHWNwJ+VzpfAncFHVn6IVLRyJPV8gkJbe?=
- =?us-ascii?Q?1N6MIfDnIzyMLDihuzci3qRjZg85o1Cz67zo2oV1H/KGW5mnnhe1v+/SW+CG?=
- =?us-ascii?Q?zyNRHgxESEzBN72t6yS5Yk9n0Y4y5BkSgt5Cxs8DIzPDUIHqjg8W5eppgKYM?=
- =?us-ascii?Q?/WOjqYDlN+U7BOcZ7ECz6hVrOMmhwILgAL13jGG94PeVRYrZbjr9B8K641dO?=
- =?us-ascii?Q?t7bmJayMXcdMSNa0RtxUlIgnEVWxQgpwWWLJ3sZJR4nNSNT+0TagpF1h8ocY?=
- =?us-ascii?Q?tFx0gyL8oqonKpXzejRe162gAjo00oArqAVvQP1i7kSflcbX/h/lyAVLNB5/?=
- =?us-ascii?Q?i0LNji3nqcMKl2Kde7RAA5OHAFQDzjy3Y2qvX6E9X0OsMvoRtC0Zw6/C56N2?=
- =?us-ascii?Q?wiskX77n9sBwyT7ZucmZSEqz+LogadS4LRSSA36GdJE9zRBOEDcUQ3RGZYcl?=
- =?us-ascii?Q?Tw=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49819e79-e94c-4084-c94c-08dbfa446af9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6449.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2023 12:26:36.4508
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dHcVU1CZc0Y+76Dhya/lqiyM57GN1NIG9v3V2uRrUeC6bhIOcQRVp4JhjzUZ+lUbsKiPLPiMzeo28+zGsGG5+0eLf+iQbwRJz7KQh1KVtzg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8349
-X-Proofpoint-GUID: O26WOQOAMSdD02oxH06gJSLPYz3qzMnw
-X-Proofpoint-ORIG-GUID: O26WOQOAMSdD02oxH06gJSLPYz3qzMnw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=454 bulkscore=0
- phishscore=0 spamscore=0 adultscore=0 malwarescore=0 clxscore=1015
- mlxscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312110100
+References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-3-alex.kiernan@gmail.com>
+ <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org>
+ <CAO5Uq5RaQYvgye7a=qtwO2abDRP6WvggbKvjLpWuepJ1Rr3Z4A@mail.gmail.com>
+ <CA+cAkerS0D8ai-PhV=tiL=6kbbwbaSV2YTKS0oSrTksNpmDNqA@mail.gmail.com>
+ <CAO5Uq5S4S=e-zGNLbEscxjroX488=gM4nkT9RMAxdXxJ+uKU-A@mail.gmail.com>
+ <CA+cAkeoxd1eu8KzNbycBFwYYjuR-w8Wx+y+bSNc1u5qmhHFWSg@mail.gmail.com> <CAO5Uq5TLJuuEEKHx4PX395yB6=XpoYQ+FE_AWic3a+QS0YixRA@mail.gmail.com>
+In-Reply-To: <CAO5Uq5TLJuuEEKHx4PX395yB6=XpoYQ+FE_AWic3a+QS0YixRA@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Date: Mon, 11 Dec 2023 13:58:02 +0100
+Message-ID: <CA+cAkepHt9u-mVc-1NxFBTVyx2+ACagGcje8ujTBGHuHd4WxRA@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 3/7] rust: Upgrade 1.71.0 -> 1.71.1
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000a1850a060c3b7c90"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 12:26:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192164
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 12:58:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192165
 
-From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+--000000000000a1850a060c3b7c90
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #15082]
-Packagegroup-rust-cross-canadian package requires rust-cross-canadian, but the necessary libstdc++.so.6(GLIBCXX_3.4.30)(64bit) library is missing.
-The fix adds the libstdc++.so.6(GLIBCXX_3.4.30)(64bit) library requirement to the  SDK dummy package, resolving the dependency conflict.
+On Mon, 11 Dec 2023 at 12:44, Alex Kiernan <alex.kiernan@gmail.com> wrote:
 
-Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
----
- meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> On Mon, Dec 11, 2023 at 10:01=E2=80=AFAM Fr=C3=A9d=C3=A9ric Martinsons
+> <frederic.martinsons@gmail.com> wrote:
+> >
+> >
+> >
+> > On Mon, 11 Dec 2023 at 10:17, Alex Kiernan <alex.kiernan@gmail.com>
+> wrote:
+> >>
+> >> On Mon, Dec 11, 2023 at 7:15=E2=80=AFAM Fr=C3=A9d=C3=A9ric Martinsons
+> >> <frederic.martinsons@gmail.com> wrote:
+> >> >
+> >> >
+> >> >
+> >> > On Sun, 10 Dec 2023 at 21:28, Alex Kiernan <alex.kiernan@gmail.com>
+> wrote:
+> >> >>
+> >> >> On Sun, Dec 10, 2023 at 7:39=E2=80=AFPM Richard Purdie
+> >> >> <richard.purdie@linuxfoundation.org> wrote:
+> >> >> >
+> >> >> > On Fri, 2023-12-08 at 14:03 +0000, Alex Kiernan wrote:
+> >> >> > > https://blog.rust-lang.org/2023/08/03/Rust-1.71.1.html
+> >> >> > >
+> >> >> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> >> >> > > ---
+> >> >> > >
+> >> >> > >  meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.=
+bb}
+> | 0
+> >> >> > >  .../rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_1.71.1.bb}
+>  | 0
+> >> >> > >  ...t-cross-canadian_1.71.0.bb =3D> rust-cross-canadian_1.71.1.=
+bb}
+> | 0
+> >> >> > >  .../rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_1.71.1.bb}
+>  | 0
+> >> >> > >  meta/recipes-devtools/rust/rust-source.inc
+> | 2 +-
+> >> >> > >  meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb=
+}
+>  | 0
+> >> >> > >  6 files changed, 1 insertion(+), 1 deletion(-)
+> >> >> > >  rename meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D>
+> cargo_1.71.1.bb} (100%)
+> >> >> > >  rename meta/recipes-devtools/rust/{libstd-rs_1.71.0.bb =3D>
+> libstd-rs_1.71.1.bb} (100%)
+> >> >> > >  rename meta/recipes-devtools/rust/{
+> rust-cross-canadian_1.71.0.bb =3D> rust-cross-canadian_1.71.1.bb} (100%)
+> >> >> > >  rename meta/recipes-devtools/rust/{rust-llvm_1.71.0.bb =3D>
+> rust-llvm_1.71.1.bb} (100%)
+> >> >> > >  rename meta/recipes-devtools/rust/{rust_1.71.0.bb =3D>
+> rust_1.71.1.bb} (100%)
+> >> >> > >
+> >> >> > > diff --git a/meta/recipes-devtools/rust/cargo_1.71.0.bb
+> b/meta/recipes-devtools/rust/cargo_1.71.1.bb
+> >> >> > > similarity index 100%
+> >> >> > > rename from meta/recipes-devtools/rust/cargo_1.71.0.bb
+> >> >> > > rename to meta/recipes-devtools/rust/cargo_1.71.1.bb
+> >> >> > > diff --git a/meta/recipes-devtools/rust/libstd-rs_1.71.0.bb
+> b/meta/recipes-devtools/rust/libstd-rs_1.71.1.bb
+> >> >> > > similarity index 100%
+> >> >> > > rename from meta/recipes-devtools/rust/libstd-rs_1.71.0.bb
+> >> >> > > rename to meta/recipes-devtools/rust/libstd-rs_1.71.1.bb
+> >> >> > > diff --git a/meta/recipes-devtools/rust/
+> rust-cross-canadian_1.71.0.bb b/meta/recipes-devtools/rust/
+> rust-cross-canadian_1.71.1.bb
+> >> >> > > similarity index 100%
+> >> >> > > rename from meta/recipes-devtools/rust/
+> rust-cross-canadian_1.71.0.bb
+> >> >> > > rename to meta/recipes-devtools/rust/
+> rust-cross-canadian_1.71.1.bb
+> >> >> > > diff --git a/meta/recipes-devtools/rust/rust-llvm_1.71.0.bb
+> b/meta/recipes-devtools/rust/rust-llvm_1.71.1.bb
+> >> >> > > similarity index 100%
+> >> >> > > rename from meta/recipes-devtools/rust/rust-llvm_1.71.0.bb
+> >> >> > > rename to meta/recipes-devtools/rust/rust-llvm_1.71.1.bb
+> >> >> > > diff --git a/meta/recipes-devtools/rust/rust-source.inc
+> b/meta/recipes-devtools/rust/rust-source.inc
+> >> >> > > index 3a192e42db7d..0729db6f0b45 100644
+> >> >> > > --- a/meta/recipes-devtools/rust/rust-source.inc
+> >> >> > > +++ b/meta/recipes-devtools/rust/rust-source.inc
+> >> >> > > @@ -7,7 +7,7 @@ SRC_URI +=3D "
+> https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+> >> >> > >              file://zlib-off64_t.patch;patchdir=3D${RUSTSRC} \
+> >> >> > >
+> file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.patch;patchdir=3D$=
+{RUSTSRC}
+> \
+> >> >> > >  "
+> >> >> > > -SRC_URI[rust.sha256sum] =3D
+> "5814699031aafdcc2e2f71fc9b389678cd7042350d1583da061463d8e88681c7"
+> >> >> > > +SRC_URI[rust.sha256sum] =3D
+> "371af0fbe04051e20a74dbea6d4e4e548f10f15309c49cae2688afb882b6c7f1"
+> >> >> > >
+> >> >> > >  RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
+> >> >> > >
+> >> >> > > diff --git a/meta/recipes-devtools/rust/rust_1.71.0.bb
+> b/meta/recipes-devtools/rust/rust_1.71.1.bb
+> >> >> > > similarity index 100%
+> >> >> > > rename from meta/recipes-devtools/rust/rust_1.71.0.bb
+> >> >> > > rename to meta/recipes-devtools/rust/rust_1.71.1.bb
+> >> >> >
+> >> >> > I ran some testing and it looks like we could merge up to 1.71.1
+> >> >> > without autobuilder failures in this series. Beyond that we have
+> the
+> >> >> > reproducibility and zvariant issues.
+> >> >> >
+> >> >>
+> >> >> Thanks.
+> >> >>
+> >> >> Was the failure at that point reproducibility or the zvariant trait
+> >> >> failure? I just posted an update for zvariant which doesn't see the
+> >> >> trait recursion failure, but at the same time it no longer exercise=
+s
+> >> >> crates pulled from git which looked like it was the main purpose it
+> >> >> was fulfilling for testing.
+> >> >>
+> >> > I didn't follow issues about this upgrade, but yes, the zvariant
+> recipe
+> >> > was a demonstration on how to handle crates dependencies that come
+> from git.
+> >> > (there is a specific crate fetcher url parameter: 'git-dependency')
+> >> >
+> >>
+> >> 3.12 (which was what we had) exploded with unbounded recursion inside
+> >> a trait on later compilers, upgrading to 3.15 fixes it, but they've
+> >> dropped the git dependency crate and just used upstream crates:
+> >>
+> >> commit 9e34dd510bf1a50f5168d5164578ebe8958928e3
+> >> Author: Zeeshan Ali Khan <zeeshanak@gnome.org>
+> >> Date:   Wed May 10 20:45:26 2023 +0200
+> >>
+> >>     zv: Swtich glib from git to latest released version
+> >>
+> >>     We don't need the git version and cargo caching action doesn't hel=
+p
+> with
+> >>     cloning of git repos so the build takes longer in the CI than it
+> needs
+> >>     to.
+> >>
+> >> > If, for some reason, this is no more possible, the whole recipe can
+> be removed
+> >> > (unless there is a direct dependency to zvariant in some  other
+> recipes)
+> >> >
+> >>
+> >> Sounds like just deleting it might be the thing to do. I did go on a
+> >> search for something else which had git dependency crates and didn't
+> >> find anything (and I suspect even if we did, we might well be back
+> >> here in 6 months if upstream churn deletes it). Maybe we just need
+> >> something synthetic which is used here?
+> >
+> >
+> >  I can come up with a simple recipe which will have sources locally
+> > and a dependencies to some of crates fetched by git if you think
+> > it would be useful.
+> >
+> > I have lot of these kind (git crate dependency) because we have
+> internally a lot of unpublished (private)
+> > crates in our git repo.
+> >
+>
+> Just discovered we have one in meta-oe - thin-provisioning-tools uses
+> a git dep. Though for test purposes in oe-core, I think I'd still lean
+> towards something synthetic which we know won't move.
+>
 
-diff --git a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
-index 1d71f373a4..dc3ae1edaf 100644
---- a/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
-+++ b/meta/recipes-core/meta/nativesdk-sdk-provides-dummy.bb
-@@ -10,7 +10,8 @@ DUMMYPROVIDES = "\
-     /usr/bin/env \
-     libGL.so()(64bit) \
-     libGL.so \
--"
-+    libstdc++.so.6(GLIBCXX_3.4.30)(64bit) \
-+" 
- 
- require dummy-sdk-package.inc
- 
--- 
-2.42.0
+ok , great.
 
+> --
+> Alex Kiernan
+>
+
+--000000000000a1850a060c3b7c90
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, 11 Dec 2023 at 12:44, Alex Ki=
+ernan &lt;<a href=3D"mailto:alex.kiernan@gmail.com">alex.kiernan@gmail.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
+n Mon, Dec 11, 2023 at 10:01=E2=80=AFAM Fr=C3=A9d=C3=A9ric Martinsons<br>
+&lt;<a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_blank">fred=
+eric.martinsons@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, 11 Dec 2023 at 10:17, Alex Kiernan &lt;<a href=3D"mailto:alex.=
+kiernan@gmail.com" target=3D"_blank">alex.kiernan@gmail.com</a>&gt; wrote:<=
+br>
+&gt;&gt;<br>
+&gt;&gt; On Mon, Dec 11, 2023 at 7:15=E2=80=AFAM Fr=C3=A9d=C3=A9ric Martins=
+ons<br>
+&gt;&gt; &lt;<a href=3D"mailto:frederic.martinsons@gmail.com" target=3D"_bl=
+ank">frederic.martinsons@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; On Sun, 10 Dec 2023 at 21:28, Alex Kiernan &lt;<a href=3D"mai=
+lto:alex.kiernan@gmail.com" target=3D"_blank">alex.kiernan@gmail.com</a>&gt=
+; wrote:<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; On Sun, Dec 10, 2023 at 7:39=E2=80=AFPM Richard Purdie<br=
+>
+&gt;&gt; &gt;&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
+ target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; On Fri, 2023-12-08 at 14:03 +0000, Alex Kiernan wrot=
+e:<br>
+&gt;&gt; &gt;&gt; &gt; &gt; <a href=3D"https://blog.rust-lang.org/2023/08/0=
+3/Rust-1.71.1.html" rel=3D"noreferrer" target=3D"_blank">https://blog.rust-=
+lang.org/2023/08/03/Rust-1.71.1.html</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; &gt; Signed-off-by: Alex Kiernan &lt;<a href=3D"mail=
+to:alex.kiernan@gmail.com" target=3D"_blank">alex.kiernan@gmail.com</a>&gt;=
+<br>
+&gt;&gt; &gt;&gt; &gt; &gt; ---<br>
+&gt;&gt; &gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 meta/recipes-devtools/rust/{<a href=3D"ht=
+tp://cargo_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71.0.bb<=
+/a> =3D&gt; <a href=3D"http://cargo_1.71.1.bb" rel=3D"noreferrer" target=3D=
+"_blank">cargo_1.71.1.bb</a>} | 0<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 .../rust/{<a href=3D"http://libstd-rs_1.7=
+1.0.bb" rel=3D"noreferrer" target=3D"_blank">libstd-rs_1.71.0.bb</a> =3D&gt=
+; <a href=3D"http://libstd-rs_1.71.1.bb" rel=3D"noreferrer" target=3D"_blan=
+k">libstd-rs_1.71.1.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 ...<a href=3D"http://t-cross-canadian_1.7=
+1.0.bb" rel=3D"noreferrer" target=3D"_blank">t-cross-canadian_1.71.0.bb</a>=
+ =3D&gt; <a href=3D"http://rust-cross-canadian_1.71.1.bb" rel=3D"noreferrer=
+" target=3D"_blank">rust-cross-canadian_1.71.1.bb</a>} | 0<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 .../rust/{<a href=3D"http://rust-llvm_1.7=
+1.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-llvm_1.71.0.bb</a> =3D&gt=
+; <a href=3D"http://rust-llvm_1.71.1.bb" rel=3D"noreferrer" target=3D"_blan=
+k">rust-llvm_1.71.1.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 meta/recipes-devtools/rust/rust-source.in=
+c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 2 +-<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 meta/recipes-devtools/rust/{<a href=3D"ht=
+tp://rust_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.0.bb</a=
+> =3D&gt; <a href=3D"http://rust_1.71.1.bb" rel=3D"noreferrer" target=3D"_b=
+lank">rust_1.71.1.bb</a>}=C2=A0 =C2=A0| 0<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 6 files changed, 1 insertion(+), 1 deleti=
+on(-)<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a hre=
+f=3D"http://cargo_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.7=
+1.0.bb</a> =3D&gt; <a href=3D"http://cargo_1.71.1.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">cargo_1.71.1.bb</a>} (100%)<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a hre=
+f=3D"http://libstd-rs_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">libst=
+d-rs_1.71.0.bb</a> =3D&gt; <a href=3D"http://libstd-rs_1.71.1.bb" rel=3D"no=
+referrer" target=3D"_blank">libstd-rs_1.71.1.bb</a>} (100%)<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a hre=
+f=3D"http://rust-cross-canadian_1.71.0.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">rust-cross-canadian_1.71.0.bb</a> =3D&gt; <a href=3D"http://rust-cross=
+-canadian_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust-cross-canadi=
+an_1.71.1.bb</a>} (100%)<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a hre=
+f=3D"http://rust-llvm_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-=
+llvm_1.71.0.bb</a> =3D&gt; <a href=3D"http://rust-llvm_1.71.1.bb" rel=3D"no=
+referrer" target=3D"_blank">rust-llvm_1.71.1.bb</a>} (100%)<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a hre=
+f=3D"http://rust_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.=
+0.bb</a> =3D&gt; <a href=3D"http://rust_1.71.1.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">rust_1.71.1.bb</a>} (100%)<br>
+&gt;&gt; &gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=
+=3D"http://cargo_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71=
+.0.bb</a> b/meta/recipes-devtools/rust/<a href=3D"http://cargo_1.71.1.bb" r=
+el=3D"noreferrer" target=3D"_blank">cargo_1.71.1.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; similarity index 100%<br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename from meta/recipes-devtools/rust/<a href=
+=3D"http://cargo_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71=
+.0.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D=
+"http://cargo_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71.1.=
+bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=
+=3D"http://libstd-rs_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">libstd=
+-rs_1.71.0.bb</a> b/meta/recipes-devtools/rust/<a href=3D"http://libstd-rs_=
+1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">libstd-rs_1.71.1.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; similarity index 100%<br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename from meta/recipes-devtools/rust/<a href=
+=3D"http://libstd-rs_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">libstd=
+-rs_1.71.0.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D=
+"http://libstd-rs_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">libstd-rs=
+_1.71.1.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=
+=3D"http://rust-cross-canadian_1.71.0.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">rust-cross-canadian_1.71.0.bb</a> b/meta/recipes-devtools/rust/<a href=
+=3D"http://rust-cross-canadian_1.71.1.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">rust-cross-canadian_1.71.1.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; similarity index 100%<br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename from meta/recipes-devtools/rust/<a href=
+=3D"http://rust-cross-canadian_1.71.0.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">rust-cross-canadian_1.71.0.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D=
+"http://rust-cross-canadian_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank"=
+>rust-cross-canadian_1.71.1.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=
+=3D"http://rust-llvm_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-l=
+lvm_1.71.0.bb</a> b/meta/recipes-devtools/rust/<a href=3D"http://rust-llvm_=
+1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust-llvm_1.71.1.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; similarity index 100%<br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename from meta/recipes-devtools/rust/<a href=
+=3D"http://rust-llvm_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-l=
+lvm_1.71.0.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D=
+"http://rust-llvm_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust-llvm=
+_1.71.1.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; diff --git a/meta/recipes-devtools/rust/rust-so=
+urce.inc b/meta/recipes-devtools/rust/rust-source.inc<br>
+&gt;&gt; &gt;&gt; &gt; &gt; index 3a192e42db7d..0729db6f0b45 100644<br>
+&gt;&gt; &gt;&gt; &gt; &gt; --- a/meta/recipes-devtools/rust/rust-source.in=
+c<br>
+&gt;&gt; &gt;&gt; &gt; &gt; +++ b/meta/recipes-devtools/rust/rust-source.in=
+c<br>
+&gt;&gt; &gt;&gt; &gt; &gt; @@ -7,7 +7,7 @@ SRC_URI +=3D &quot;<a href=3D"h=
+ttps://static.rust-lang.org/dist/rustc-$%7BRUST_VERSION%7D-src.tar.xz;n" re=
+l=3D"noreferrer" target=3D"_blank">https://static.rust-lang.org/dist/rustc-=
+${RUST_VERSION}-src.tar.xz;n</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ file://zlib-off64_t.patch;patchdir=3D${RUSTSRC} \<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.patch;patchdir=3D${=
+RUSTSRC} \<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 &quot;<br>
+&gt;&gt; &gt;&gt; &gt; &gt; -SRC_URI[rust.sha256sum] =3D &quot;5814699031aa=
+fdcc2e2f71fc9b389678cd7042350d1583da061463d8e88681c7&quot;<br>
+&gt;&gt; &gt;&gt; &gt; &gt; +SRC_URI[rust.sha256sum] =3D &quot;371af0fbe040=
+51e20a74dbea6d4e4e548f10f15309c49cae2688afb882b6c7f1&quot;<br>
+&gt;&gt; &gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; &gt;=C2=A0 RUSTSRC =3D &quot;${WORKDIR}/rustc-${RUST=
+_VERSION}-src&quot;<br>
+&gt;&gt; &gt;&gt; &gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=
+=3D"http://rust_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.0=
+.bb</a> b/meta/recipes-devtools/rust/<a href=3D"http://rust_1.71.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">rust_1.71.1.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; similarity index 100%<br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename from meta/recipes-devtools/rust/<a href=
+=3D"http://rust_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.0=
+.bb</a><br>
+&gt;&gt; &gt;&gt; &gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D=
+"http://rust_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.1.bb=
+</a><br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; &gt; I ran some testing and it looks like we could merge =
+up to 1.71.1<br>
+&gt;&gt; &gt;&gt; &gt; without autobuilder failures in this series. Beyond =
+that we have the<br>
+&gt;&gt; &gt;&gt; &gt; reproducibility and zvariant issues.<br>
+&gt;&gt; &gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; Thanks.<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; Was the failure at that point reproducibility or the zvar=
+iant trait<br>
+&gt;&gt; &gt;&gt; failure? I just posted an update for zvariant which doesn=
+&#39;t see the<br>
+&gt;&gt; &gt;&gt; trait recursion failure, but at the same time it no longe=
+r exercises<br>
+&gt;&gt; &gt;&gt; crates pulled from git which looked like it was the main =
+purpose it<br>
+&gt;&gt; &gt;&gt; was fulfilling for testing.<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt; I didn&#39;t follow issues about this upgrade, but yes, the z=
+variant recipe<br>
+&gt;&gt; &gt; was a demonstration on how to handle crates dependencies that=
+ come from git.<br>
+&gt;&gt; &gt; (there is a specific crate fetcher url parameter: &#39;git-de=
+pendency&#39;)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt; 3.12 (which was what we had) exploded with unbounded recursion ins=
+ide<br>
+&gt;&gt; a trait on later compilers, upgrading to 3.15 fixes it, but they&#=
+39;ve<br>
+&gt;&gt; dropped the git dependency crate and just used upstream crates:<br=
+>
+&gt;&gt;<br>
+&gt;&gt; commit 9e34dd510bf1a50f5168d5164578ebe8958928e3<br>
+&gt;&gt; Author: Zeeshan Ali Khan &lt;<a href=3D"mailto:zeeshanak@gnome.org=
+" target=3D"_blank">zeeshanak@gnome.org</a>&gt;<br>
+&gt;&gt; Date:=C2=A0 =C2=A0Wed May 10 20:45:26 2023 +0200<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0zv: Swtich glib from git to latest released ver=
+sion<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0We don&#39;t need the git version and cargo cac=
+hing action doesn&#39;t help with<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0cloning of git repos so the build takes longer =
+in the CI than it needs<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0to.<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; If, for some reason, this is no more possible, the whole reci=
+pe can be removed<br>
+&gt;&gt; &gt; (unless there is a direct dependency to zvariant in some=C2=
+=A0 other recipes)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Sounds like just deleting it might be the thing to do. I did go on=
+ a<br>
+&gt;&gt; search for something else which had git dependency crates and didn=
+&#39;t<br>
+&gt;&gt; find anything (and I suspect even if we did, we might well be back=
+<br>
+&gt;&gt; here in 6 months if upstream churn deletes it). Maybe we just need=
+<br>
+&gt;&gt; something synthetic which is used here?<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 I can come up with a simple recipe which will have sources local=
+ly<br>
+&gt; and a dependencies to some of crates fetched by git if you think<br>
+&gt; it would be useful.<br>
+&gt;<br>
+&gt; I have lot of these kind (git crate dependency) because we have intern=
+ally a lot of unpublished (private)<br>
+&gt; crates in our git repo.<br>
+&gt;<br>
+<br>
+Just discovered we have one in meta-oe - thin-provisioning-tools uses<br>
+a git dep. Though for test purposes in oe-core, I think I&#39;d still lean<=
+br>
+towards something synthetic which we know won&#39;t move.<br></blockquote><=
+div><br></div><div>ok , great.</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+-- <br>
+Alex Kiernan<br>
+</blockquote></div></div>
+
+--000000000000a1850a060c3b7c90--
 
