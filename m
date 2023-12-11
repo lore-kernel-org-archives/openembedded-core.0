@@ -2,134 +2,143 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A28F5C4167B
-	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 16:36:19 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.192.1702312574503003754
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA8DC4167B
+	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 16:44:49 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web10.495.1702313088379906246
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Dec 2023 08:36:14 -0800
+ Mon, 11 Dec 2023 08:44:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CKPT7Xjl;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2cc2238f597so13732181fa.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 08:36:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c8rNmZEf;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50c04ebe1bbso4559972e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 08:44:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702312573; x=1702917373; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702313086; x=1702917886; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ntVoq22fbdp5XZGY9UEFF9miax2UcFwxcFwdwr/jItE=;
-        b=CKPT7XjlCFOvvl/YQVz6CunEsh/lyprXhV7TuHabFYaaZsA3WeGRMOKUZG4PU/KRHY
-         VPOlFpfVzuhPb7SZ5NRAn5KZUSXFvSAeMTjVlSJETTyeEEhdo6Q0xXw6jMDd8H6ujDiZ
-         M3jhn8IXOkUgemkdScp9yu81DIzNJKFJ4peE1FWmJbxw007rje4+HHOzkUlAdhwyftXP
-         ztR8pKhvUjZ8ZTEz6WyRaUA2Y+dvO2K4QDmfQHvXVYAHIUZWcMDj0XBGn8cAQtznnhwE
-         nCJr5Cj9C5ih2Di4/d90vi8bzjkiGkejYC0MdBUyESztF7AGRqVD06RylP/aOSTw1Ns4
-         zTOA==
+        bh=ub7Mllhz30RQ/hZGsRf/f2gjR3SNvAL35bIUmBqZTZg=;
+        b=c8rNmZEffTciDMSvZpHYMuisEJ5Ea47O2N35V44zGsmVtxhGWABzcLRVM8UI327O8Z
+         jnTzhg/wU71IyY9kbYq43y05E76d/R1r+LNEUz663tR3BMlCwnU3qFJgt9l3++cgXyFT
+         gJ/cvDgp4zxWBXT/6L4LHE5x/1WlTHlhBKgaPT0vpdgbCYESsoX7+K8QY2NahlqhZV3D
+         KOUuKHLnQCj1jaS4nMgY1Ug3OoFze5BJTJHXNL8vdorlag8pA62VhzdzF3kezlJ2fyOH
+         OtC/sMund8mX4ZYJ7HbTm31Jb+jiywPc2HCTHcag+jVHbO6UvI6+LpFETxtvW7E8J9xv
+         UJIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702312573; x=1702917373;
+        d=1e100.net; s=20230601; t=1702313086; x=1702917886;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ntVoq22fbdp5XZGY9UEFF9miax2UcFwxcFwdwr/jItE=;
-        b=lDN0JJG+394bRVtnDDkT5impPRu1k3EDOxUHO31OhQBYpHDv0holcmbfDHi47ewSMm
-         8zezQ8dvyzw1K5P0j1vEh07uwMPCmDOC/nJU7Njmjy8EYMQXH/0AmhKVCYwCsRpl5nRM
-         ctAJ7UvW3fg4lZYhJWuYPufER9fu/GqFaSvRa7+So0p8E3VhmoEdbsWaA5sI98halSKL
-         7DXYTRK/wcmIEvtDBIKcA+vAARFePjcLvPc4Es6q66sRFegRqaB7vpWr7sE7w42eOO/O
-         pPJSCPdaSA0gS13yys13pPBgrwXnF4qiJF1AeZQ+WjR5/jAxDaBObve2jcRLiFCFDRRw
-         mQ3Q==
-X-Gm-Message-State: AOJu0Yzb3/NwfUcLgbi2QMPqqSdEZFqL4Ethj3I1B29zDzrko0KdfTOT
-	M13ONGfDgBZDEwm02LyJJdj3y8aHb+MPqdJyaCY=
-X-Google-Smtp-Source: AGHT+IFHrMt3QGG7i/Oo74AtbDIxN9JGQ9RbcRqbuEI7L3Lh15WNalI/e4paZFjHmXIuClw9lcQeWGlExq7HwfZW5xA=
-X-Received: by 2002:a2e:9790:0:b0:2c9:fa37:c53 with SMTP id
- y16-20020a2e9790000000b002c9fa370c53mr599917lji.52.1702312572394; Mon, 11 Dec
- 2023 08:36:12 -0800 (PST)
+        bh=ub7Mllhz30RQ/hZGsRf/f2gjR3SNvAL35bIUmBqZTZg=;
+        b=mmGQHjP+Wjj5YL3j/yxwSPB83qPIyE/crJDsR0fbm1KCi0b8y1wG+ZUcqwCabmdqVH
+         nyXrkZHeyJJBXY2r23TCDJytBBWZdAzifxlN5GpocrbnF8DNtc+JUq+45oaUraIUfoeI
+         /H8qSct6Jf1jToJJw2oveAhCIAeMNUZONo3dIwqe7zbVp+mHUcQmwONonrQv/RDo3LDF
+         OBi1nRaIylRvXJvJgME5OGPopijBupJw19gwQbugRkvE5Zcu8L19uQVQwcgBb2J4VkZg
+         STXnuqS/NFg9Xd3znIwVBk9mmOtEHcESNdE7RUiCpI1wsyjUO7MVaAzpObZ20TyXllGY
+         BDGA==
+X-Gm-Message-State: AOJu0YzmqWp0IfdbVJ6juLnSKV0A6Ee/43u1dGsc5VBMErAENFI1inH4
+	nYxZ3Duvt9U8KpHNKmqyfd9L1gW9oRKEhPB57gs=
+X-Google-Smtp-Source: AGHT+IGcCz8x77zDQgFwm8iI84MPW6R9v/i/vzHIoBxIsYcLb/a4dIlFBuoAS7/UdAQ4fEh5PZL/gP9k06k+be5S1tU=
+X-Received: by 2002:ac2:5edc:0:b0:50d:176e:b276 with SMTP id
+ d28-20020ac25edc000000b0050d176eb276mr2579795lfq.31.1702313086324; Mon, 11
+ Dec 2023 08:44:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20231210191046.4785-1-alex.kiernan@gmail.com> <CANNYZj-Z9apFWXOw6J63fQn+CRn-dLUEEer-oW7nieVHJ+M0pQ@mail.gmail.com>
- <CAO5Uq5SPRKNTSACY6X7+8FcswTNMkg2JEL5ub7oBJfSWoNCDow@mail.gmail.com>
- <CANNYZj_6KHT0=WDhcUqL7tEY0kZmhkU4wvRKGRp_cHcgN-Q=QA@mail.gmail.com>
- <CAO5Uq5Q=MJVhmo7cWBm23C05RnLW6eNCQXTo_=4zoDgmb9vLKg@mail.gmail.com> <179FC17C79673844.24323@lists.openembedded.org>
-In-Reply-To: <179FC17C79673844.24323@lists.openembedded.org>
+References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-3-alex.kiernan@gmail.com>
+ <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org>
+In-Reply-To: <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org>
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 11 Dec 2023 16:35:59 +0000
-Message-ID: <CAO5Uq5TXRTB=ZTLWrN3g=n_bu2Pz+Ht8pGz-JoVQMiwoNb7zfw@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 1/2] cargo-update-recipe-crates: Use CARGO_LOCK_PATH
-To: alex.kiernan@gmail.com
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org, 
-	Frederic Martinsons <frederic.martinsons@gmail.com>
+Date: Mon, 11 Dec 2023 16:44:34 +0000
+Message-ID: <CAO5Uq5QkxEXtjpe7PigzHXSZ6HQ-ic0EH9NN+_vD1t3kxArF0A@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 3/7] rust: Upgrade 1.71.0 -> 1.71.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 16:36:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192179
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 16:44:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192180
 
-On Mon, Dec 11, 2023 at 10:52=E2=80=AFAM Alex Kiernan via
-lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org>
-wrote:
+On Sun, Dec 10, 2023 at 7:39=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Mon, Dec 11, 2023 at 9:43=E2=80=AFAM Alex Kiernan <alex.kiernan@gmail.=
-com> wrote:
+> On Fri, 2023-12-08 at 14:03 +0000, Alex Kiernan wrote:
+> > https://blog.rust-lang.org/2023/08/03/Rust-1.71.1.html
 > >
-> > On Mon, Dec 11, 2023 at 9:28=E2=80=AFAM Alexander Kanavin
-> > <alex.kanavin@gmail.com> wrote:
-> > >
-> > > On Mon, 11 Dec 2023 at 10:09, Alex Kiernan <alex.kiernan@gmail.com> w=
-rote:
-> > > > In a single project there are (potentially) multiple Cargo.toml, bu=
-t
-> > > > just one Cargo.lock. If there's multiple Cargo.lock files in a repo=
-,
-> > > > that implies multiple projects which I don't think we've any way of
-> > > > building from a single recipe.
-> > >
-> > > I'm thinking of projects like librsvg, python3-bcrypt or
-> > > python3-cryptography where the build is orchestrated by meson,
-> > > autoconf or setuptools, and where we don't run cargo directly and
-> > > leave it to those tools. They may have single Cargo.lock now, but wil=
-l
-> > > that hold? Also, that Cargo.lock is not necessarily in the root of
-> > > ${S}, so you'd have to set the location manually, instead of not
-> > > having to worry about it. Is CARGO_LOCK_PATH or its parent variables
-> > > already set correctly for all of them? I see this is not done from
-> > > python3-cryptography; shouldn't the build error out, if
-> > > cargo_common_do_patch_paths requires the location? Something doesn't
-> > > compute fully here.
-> > >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> > ---
 > >
-> > That's exactly the one I was going to look at next, as I agree
-> > something doesn't add up there.
+> >  meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.bb} | 0
+> >  .../rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_1.71.1.bb}           | 0
+> >  ...t-cross-canadian_1.71.0.bb =3D> rust-cross-canadian_1.71.1.bb} | 0
+> >  .../rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_1.71.1.bb}           | 0
+> >  meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
+> >  meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb}   | 0
+> >  6 files changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.b=
+b} (100%)
+> >  rename meta/recipes-devtools/rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_=
+1.71.1.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.71.0.bb =3D> =
+rust-cross-canadian_1.71.1.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_=
+1.71.1.bb} (100%)
+> >  rename meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb}=
+ (100%)
 > >
+> > diff --git a/meta/recipes-devtools/rust/cargo_1.71.0.bb b/meta/recipes-=
+devtools/rust/cargo_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/cargo_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/cargo_1.71.1.bb
+> > diff --git a/meta/recipes-devtools/rust/libstd-rs_1.71.0.bb b/meta/reci=
+pes-devtools/rust/libstd-rs_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/libstd-rs_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/libstd-rs_1.71.1.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb b=
+/meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-llvm_1.71.0.bb b/meta/reci=
+pes-devtools/rust/rust-llvm_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust-llvm_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/rust-llvm_1.71.1.bb
+> > diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-=
+devtools/rust/rust-source.inc
+> > index 3a192e42db7d..0729db6f0b45 100644
+> > --- a/meta/recipes-devtools/rust/rust-source.inc
+> > +++ b/meta/recipes-devtools/rust/rust-source.inc
+> > @@ -7,7 +7,7 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-$=
+{RUST_VERSION}-src.tar.xz;n
+> >              file://zlib-off64_t.patch;patchdir=3D${RUSTSRC} \
+> >              file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.pat=
+ch;patchdir=3D${RUSTSRC} \
+> >  "
+> > -SRC_URI[rust.sha256sum] =3D "5814699031aafdcc2e2f71fc9b389678cd7042350=
+d1583da061463d8e88681c7"
+> > +SRC_URI[rust.sha256sum] =3D "371af0fbe04051e20a74dbea6d4e4e548f10f1530=
+9c49cae2688afb882b6c7f1"
+> >
+> >  RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
+> >
+> > diff --git a/meta/recipes-devtools/rust/rust_1.71.0.bb b/meta/recipes-d=
+evtools/rust/rust_1.71.1.bb
+> > similarity index 100%
+> > rename from meta/recipes-devtools/rust/rust_1.71.0.bb
+> > rename to meta/recipes-devtools/rust/rust_1.71.1.bb
 >
-> cargo_common_do_patch_paths isn't in the call graph for
-> python3-cryptography, it gets patched in like this:
->
-> do_configure[postfuncs] +=3D "cargo_common_do_patch_paths"
->
-> I'm unclear why that doesn't execute, I'm wondering if its related to
-> the autogenerated do_configure and this is a usage that just doesn't
-> work?
->
-> # line: 1, file: autogenerated
-> do_configure() {
->         setup_target_config
->     python_setuptools3_rust_do_configure
-> }
->
-> However even if it was in the call graph, we wouldn't have errored in
-> it as there's no patches to apply to the cargo config as the crates
-> are all satisfied from the vendored sources we deliver.
->
-> It does feel like we're missing a piece in our python/rust integration
-> since if you did have a crate delivered from git then we wouldn't
-> patch up the cargo config correctly and I guess end up erroring out.
+> I ran some testing and it looks like we could merge up to 1.71.1
+> without autobuilder failures in this series. Beyond that we have the
+> reproducibility and zvariant issues.
 >
 
-Okay, I'm wrong. The pieces are all there, just we have no git crates
-to patch in for python3-cryptography so the existence check for
-Cargo.lock never runs. Maybe that should be hoisted earlier in the
-function so you see the failure if Cargo.lock isn't where it would be
-expected to be.
+https://github.com/rust-lang/cargo/issues/8140 looks possibly
+relevant. I wonder if we're just getting lucky somehow.
 
 --=20
 Alex Kiernan
