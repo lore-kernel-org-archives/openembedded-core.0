@@ -2,93 +2,196 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FFEFC4167B
-	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 09:10:02 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.4405.1702285800069189633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11B0DC4167B
+	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 09:18:02 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.4493.1702286271444435203
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Dec 2023 01:10:00 -0800
+ Mon, 11 Dec 2023 01:17:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cPRMF/8J;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2c9f9db9567so47223501fa.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 01:09:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Jgirc4TS;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2c9bd3ec4f6so51318221fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 01:17:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702285798; x=1702890598; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702286269; x=1702891069; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MUXxXqm+zSjGkUpf7Jt9bj6jpPI7/7S6KVbKmxkbXEs=;
-        b=cPRMF/8JuNhEfTTEwunRuNV52FzJ5NjeVVk4SaXd4LVButOkLNjNvZX8oHEBA5ucOz
-         g4S7eC8aa1Vu8FtVx3lS7XaSX/xo9QOQ1YodThDSFS0gM2rjI/7MJ0zDUB5R3M5NL3dl
-         e1f+2vok2qX538oQdjxV+2fHSHhzugo9vVRQ3s7W+YNEzspaMv6teSmC17cIadl9KLIp
-         5zt/zPq9u0gaFrmLWC3V62QH94LTQbutCmWRm7yA4o0A4z+VhsNJDIH5/KMH0b5XbFho
-         au1fSj+QXPfGrhhe6Go5T2qTRkXBU3Iak7szbKy04q9q1XGKO8jYYY1sEizATHu50hVM
-         wd/Q==
+        bh=qTujFADx0tieT2dmz1jmUFfFHa76Nh6OCsKp+++wRZs=;
+        b=Jgirc4TSpm6COBYoeMiYTjZgkhPSxBZhoKJiwEIyOja0IqtFBLGuPEcPY4DErM9hN6
+         HVPwktT6cC4CNkMlHpJEZ6qdtWJfBtS7JEpXyijLdtCc0pCL+OqM3sc4B/Ou2rm3SOhO
+         RL+5XjrNlU9ncVcuBl/LCK8lPZjC1xtdnog8aqBF85sQ1/QuStODTJ8zFoLx00RHKgG/
+         YcXmyAZblHkTuY7RoF9t4dZxDji4kiypQeSBgPqX644JfnVFSvgk4VGOqAJiuUTn/2nA
+         YmTScWuoowGafWKciVu9xB2dvK0QbUtqCrn4FozLzmfZSY/C8VINQp/TyI0+dQ2lCTjT
+         4u/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702285798; x=1702890598;
+        d=1e100.net; s=20230601; t=1702286269; x=1702891069;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MUXxXqm+zSjGkUpf7Jt9bj6jpPI7/7S6KVbKmxkbXEs=;
-        b=b6jkW/CgEKavpvRnjwrD6rJ0DwpZ5VBjD1Y6VViLpvSePnFr0bMb0rUERLSb4pJ+cv
-         aFz6pXsNgUspv9tCgB65yv7YRgCWT9rr+OWQkp5gpecz5+3PK5kttlK/gZTNBq2rivez
-         uoWNdU4dRwTkwk2mAgv0mjANemz6V+0ZW1SmSp/ov6ZNkh4DclepjNKBCeeKocwRKIoL
-         uPZEiBLOzh0C9AGSmUqA4RSIgxDVpMSN97kcfXUWGEGcpoattJr2LHf2qITDpwR0MiBv
-         MxY7LHacovWK4ABdyibCpRcccWxS8vuw5L8HpmvbwDvurb1QhVk1HBNlQUfMnz56nLcX
-         vuPA==
-X-Gm-Message-State: AOJu0YxU0Ls2GJsfNNG9G0kLhNWEtfBmNsV3OHGCHgdPuKn7yboOPywe
-	punwxa/1O+g57KHKivuzXuksrKFxl4twxPuZktU=
-X-Google-Smtp-Source: AGHT+IGfZHg65H7DcL7z33gTpAXhW+4kYJjus2a6L1YWIbpkBZNYtDNF8neIHrPScZJI92v0OnlnhaC8CHs79tsUQDs=
-X-Received: by 2002:a2e:a783:0:b0:2cb:2b39:8646 with SMTP id
- c3-20020a2ea783000000b002cb2b398646mr1531599ljf.16.1702285797826; Mon, 11 Dec
- 2023 01:09:57 -0800 (PST)
+        bh=qTujFADx0tieT2dmz1jmUFfFHa76Nh6OCsKp+++wRZs=;
+        b=Fgg3BlmmvPPJnamnOQCZ8HgiSd4+RqauUojWie3MMqsGhEfELkmCiORyeyjQg9qwv2
+         BR0NqccndJTgoj5FsDIaQ05qDVjsuSA98sXCpVlw5ysIUzbbC3nD8Jxh7tL4y8dZlPCt
+         oC0n7owUAJ/MvPrdrCz/uE+lFwgvDARRZHkVlu7ogPEPWHY93eIBOjkvJ9iSP2FCOOzm
+         rbbVvC0B4ypy8VHicuWhRllJ+9ppsYDnj1+Wa5P9CtcNOf1EiB/Hq7Q5OSDCNFbkTXln
+         OnmIKMJ55I3GGcprTcJtUNWe6zdj4ZZ3qKhVP6UfLp5hATCmlH6wOZbQHeKGpaeizOCx
+         0itw==
+X-Gm-Message-State: AOJu0YzbQs+fM/7SXd58Or4p2E6Rbai/bXhTUEPFX9MD0LBIdjyDNkBz
+	GIe5/2AQVD+VF9YPCsmYa154JlS9Mc32t9fv/zU=
+X-Google-Smtp-Source: AGHT+IHW57ZitAPmG8Nxv489+t8zy+E9S3TIN/9s54UU8Ow4oKy12wko99HT+yolbGJCdnoY0ZLLHwmk5vWl9KeVWN0=
+X-Received: by 2002:a2e:9891:0:b0:2c9:fa22:b611 with SMTP id
+ b17-20020a2e9891000000b002c9fa22b611mr956313ljj.68.1702286269274; Mon, 11 Dec
+ 2023 01:17:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20231210191046.4785-1-alex.kiernan@gmail.com> <CANNYZj-Z9apFWXOw6J63fQn+CRn-dLUEEer-oW7nieVHJ+M0pQ@mail.gmail.com>
-In-Reply-To: <CANNYZj-Z9apFWXOw6J63fQn+CRn-dLUEEer-oW7nieVHJ+M0pQ@mail.gmail.com>
+References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-3-alex.kiernan@gmail.com>
+ <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org>
+ <CAO5Uq5RaQYvgye7a=qtwO2abDRP6WvggbKvjLpWuepJ1Rr3Z4A@mail.gmail.com> <CA+cAkerS0D8ai-PhV=tiL=6kbbwbaSV2YTKS0oSrTksNpmDNqA@mail.gmail.com>
+In-Reply-To: <CA+cAkerS0D8ai-PhV=tiL=6kbbwbaSV2YTKS0oSrTksNpmDNqA@mail.gmail.com>
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 11 Dec 2023 09:09:46 +0000
-Message-ID: <CAO5Uq5SPRKNTSACY6X7+8FcswTNMkg2JEL5ub7oBJfSWoNCDow@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 1/2] cargo-update-recipe-crates: Use CARGO_LOCK_PATH
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Dec 2023 09:17:38 +0000
+Message-ID: <CAO5Uq5S4S=e-zGNLbEscxjroX488=gM4nkT9RMAxdXxJ+uKU-A@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 3/7] rust: Upgrade 1.71.0 -> 1.71.1
+To: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 09:10:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192148
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 09:18:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192149
 
-On Sun, Dec 10, 2023 at 8:35=E2=80=AFPM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+On Mon, Dec 11, 2023 at 7:15=E2=80=AFAM Fr=C3=A9d=C3=A9ric Martinsons
+<frederic.martinsons@gmail.com> wrote:
 >
->  I have to say, I struggle to see this as an improvement, and I want
-> to object to it.
+>
+>
+> On Sun, 10 Dec 2023 at 21:28, Alex Kiernan <alex.kiernan@gmail.com> wrote=
+:
+>>
+>> On Sun, Dec 10, 2023 at 7:39=E2=80=AFPM Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > On Fri, 2023-12-08 at 14:03 +0000, Alex Kiernan wrote:
+>> > > https://blog.rust-lang.org/2023/08/03/Rust-1.71.1.html
+>> > >
+>> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+>> > > ---
+>> > >
+>> > >  meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.bb} |=
+ 0
+>> > >  .../rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_1.71.1.bb}           |=
+ 0
+>> > >  ...t-cross-canadian_1.71.0.bb =3D> rust-cross-canadian_1.71.1.bb} |=
+ 0
+>> > >  .../rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_1.71.1.bb}           |=
+ 0
+>> > >  meta/recipes-devtools/rust/rust-source.inc                      | 2=
+ +-
+>> > >  meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb}   |=
+ 0
+>> > >  6 files changed, 1 insertion(+), 1 deletion(-)
+>> > >  rename meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.=
+1.bb} (100%)
+>> > >  rename meta/recipes-devtools/rust/{libstd-rs_1.71.0.bb =3D> libstd-=
+rs_1.71.1.bb} (100%)
+>> > >  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.71.0.bb =
+=3D> rust-cross-canadian_1.71.1.bb} (100%)
+>> > >  rename meta/recipes-devtools/rust/{rust-llvm_1.71.0.bb =3D> rust-ll=
+vm_1.71.1.bb} (100%)
+>> > >  rename meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.=
+bb} (100%)
+>> > >
+>> > > diff --git a/meta/recipes-devtools/rust/cargo_1.71.0.bb b/meta/recip=
+es-devtools/rust/cargo_1.71.1.bb
+>> > > similarity index 100%
+>> > > rename from meta/recipes-devtools/rust/cargo_1.71.0.bb
+>> > > rename to meta/recipes-devtools/rust/cargo_1.71.1.bb
+>> > > diff --git a/meta/recipes-devtools/rust/libstd-rs_1.71.0.bb b/meta/r=
+ecipes-devtools/rust/libstd-rs_1.71.1.bb
+>> > > similarity index 100%
+>> > > rename from meta/recipes-devtools/rust/libstd-rs_1.71.0.bb
+>> > > rename to meta/recipes-devtools/rust/libstd-rs_1.71.1.bb
+>> > > diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.b=
+b b/meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
+>> > > similarity index 100%
+>> > > rename from meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb
+>> > > rename to meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
+>> > > diff --git a/meta/recipes-devtools/rust/rust-llvm_1.71.0.bb b/meta/r=
+ecipes-devtools/rust/rust-llvm_1.71.1.bb
+>> > > similarity index 100%
+>> > > rename from meta/recipes-devtools/rust/rust-llvm_1.71.0.bb
+>> > > rename to meta/recipes-devtools/rust/rust-llvm_1.71.1.bb
+>> > > diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recip=
+es-devtools/rust/rust-source.inc
+>> > > index 3a192e42db7d..0729db6f0b45 100644
+>> > > --- a/meta/recipes-devtools/rust/rust-source.inc
+>> > > +++ b/meta/recipes-devtools/rust/rust-source.inc
+>> > > @@ -7,7 +7,7 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rust=
+c-${RUST_VERSION}-src.tar.xz;n
+>> > >              file://zlib-off64_t.patch;patchdir=3D${RUSTSRC} \
+>> > >              file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.=
+patch;patchdir=3D${RUSTSRC} \
+>> > >  "
+>> > > -SRC_URI[rust.sha256sum] =3D "5814699031aafdcc2e2f71fc9b389678cd7042=
+350d1583da061463d8e88681c7"
+>> > > +SRC_URI[rust.sha256sum] =3D "371af0fbe04051e20a74dbea6d4e4e548f10f1=
+5309c49cae2688afb882b6c7f1"
+>> > >
+>> > >  RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
+>> > >
+>> > > diff --git a/meta/recipes-devtools/rust/rust_1.71.0.bb b/meta/recipe=
+s-devtools/rust/rust_1.71.1.bb
+>> > > similarity index 100%
+>> > > rename from meta/recipes-devtools/rust/rust_1.71.0.bb
+>> > > rename to meta/recipes-devtools/rust/rust_1.71.1.bb
+>> >
+>> > I ran some testing and it looks like we could merge up to 1.71.1
+>> > without autobuilder failures in this series. Beyond that we have the
+>> > reproducibility and zvariant issues.
+>> >
+>>
+>> Thanks.
+>>
+>> Was the failure at that point reproducibility or the zvariant trait
+>> failure? I just posted an update for zvariant which doesn't see the
+>> trait recursion failure, but at the same time it no longer exercises
+>> crates pulled from git which looked like it was the main purpose it
+>> was fulfilling for testing.
+>>
+> I didn't follow issues about this upgrade, but yes, the zvariant recipe
+> was a demonstration on how to handle crates dependencies that come from g=
+it.
+> (there is a specific crate fetcher url parameter: 'git-dependency')
 >
 
-I have to admit I kinda thought this might be controversial.
+3.12 (which was what we had) exploded with unbounded recursion inside
+a trait on later compilers, upgrading to 3.15 fixes it, but they've
+dropped the git dependency crate and just used upstream crates:
 
-> Why set the path manually, if the code to find where Cargo.lock is
-> just works, and handles the situations where upstreams move it around
-> in source trees?
+commit 9e34dd510bf1a50f5168d5164578ebe8958928e3
+Author: Zeeshan Ali Khan <zeeshanak@gnome.org>
+Date:   Wed May 10 20:45:26 2023 +0200
+
+    zv: Swtich glib from git to latest released version
+
+    We don't need the git version and cargo caching action doesn't help wit=
+h
+    cloning of git repos so the build takes longer in the CI than it needs
+    to.
+
+> If, for some reason, this is no more possible, the whole recipe can be re=
+moved
+> (unless there is a direct dependency to zvariant in some  other recipes)
 >
 
-We have to know where Cargo.lock is else cargo_common_do_patch_paths
-fails. Searching for it one class and requiring to know where it is
-another seems odd to me - my first pass on this change was to just set
-CARGO_LOCK_SRC_DIR based on the directory name of CARGO_LOCK_PATH;
-I'll resurrect that patch.
-
-> Also, is the assumption that there's only one Cargo.lock valid? I'm
-> not so sure. Note that the code was specifically written to pull in
-> items from multiple files.
->
-
-In a single project there are (potentially) multiple Cargo.toml, but
-just one Cargo.lock. If there's multiple Cargo.lock files in a repo,
-that implies multiple projects which I don't think we've any way of
-building from a single recipe.
+Sounds like just deleting it might be the thing to do. I did go on a
+search for something else which had git dependency crates and didn't
+find anything (and I suspect even if we did, we might well be back
+here in 6 months if upstream churn deletes it). Maybe we just need
+something synthetic which is used here?
 
 --=20
 Alex Kiernan
