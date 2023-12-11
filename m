@@ -1,114 +1,150 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2572C4167B
-	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 17:01:55 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web11.329.1702314107664222914
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26004C4167B
+	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 17:36:06 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.1386.1702316157088719800
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Dec 2023 09:01:48 -0800
+ Mon, 11 Dec 2023 09:35:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=K0umi1fS;
- spf=pass (domain: baylibre.com, ip: 209.85.208.54, mailfrom: jstephan@baylibre.com)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-54da61eb366so6316610a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 09:01:47 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QJEz0ssy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40c339d2b88so33681355e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 09:35:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1702314105; x=1702918905; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hb/xRNBoBwhGI47H2boklsAwez6yYnOtj72NwzIRAMA=;
-        b=K0umi1fSpLw1j9sTLO66xe1y9grZi0lrKA23T/Sa1UDs0ZFmznkx0s8mc8bY2rG8V6
-         lMNK6sz49uEX2dXhiHE+bWaJcMfmxwz+rXwwEakS/5SBj3HHQ86sX906DG8FEFcnw7sS
-         d2u4R4qFBS2z7VjHnl/MccgONGP4T+6PomLXng7pYMh2/G5xT8DruP9BgE0zMTfJ1eQA
-         l9d3k5H0hOI+Z/FY7laU1CBu14VAu+sMVQSM+PRsCZbMh+5IcWE5fEoe/440efJ6SR1g
-         VGxjM8G2ypzQHVLcKRcw5hguY3ODJ+RpXR8rhqSBQP2/Ce6nuzRJ4iKoA86Jtvg/q+Ur
-         qFjA==
+        d=linuxfoundation.org; s=google; t=1702316155; x=1702920955; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l4JdpdXVeHEtzLccVGASZ9QNpDKXQXKqGzVV+u4luMs=;
+        b=QJEz0ssyc/Neqgr+5S+yun5qf8Hs3QcxCGaqpFj33H2ukEWn8iU1+J9/AeAdea2ueQ
+         A4Bs4sC/p8AiycMJe9WczTByG0/w74PlN9NQSuGDPdxD+G5c+++x4kgdXB1/wSGHkori
+         +AtALPAXdz9aIIc7zSYJPahUYeYiI+Gh6j6nc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702314105; x=1702918905;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Hb/xRNBoBwhGI47H2boklsAwez6yYnOtj72NwzIRAMA=;
-        b=fSLsKD+Bm8qGtRcPRwQDAdUVQSgmKLtrMyIWNpmWD2nRcqXc0sydq02o1XTxt8lIyT
-         1ofqrM4Kv8wHZ4kQEwyUdgs7BVnTjD85xHAeFRqkaXihW2pfyScdIkAlgiKbb290aL5o
-         OCLxXUNVAy5sV0M+xYu9Apuub3O2NSyP3taLgvXfXCjJ1r8rt8aQmxgOyIWDWnyEBuuV
-         4wNn1HzQ6+h61EQMCjXwtXdh5UxBRa80EQy0RkwPcnyxXrZ/Mdhfw3+2Kq6naUr4rL9y
-         vEu7DC5YBrj3OCQ5i+fMYuJ81IJ/9UBoTjxCo6gBxxFNj0KV/hAibv3K2S/l7NBhdpkp
-         7XEA==
-X-Gm-Message-State: AOJu0Yy2C/hsXkHD2PQRnLW2p+j0/dqS/G/aSok1UuoJA4TiF6ZTmNim
-	TYn9Aa7Ej8wVsD32sJ2vPSFjiKH/fcBJLG25+hEt5A==
-X-Google-Smtp-Source: AGHT+IHPkB+guju5ppM0Dwa9jHG+0HgsTvfFvxIXVOWq7CkYyQwxjJKed8sXuN+kqsmFidhhNR7OCA==
-X-Received: by 2002:a17:906:4ece:b0:a19:a19b:c70b with SMTP id i14-20020a1709064ece00b00a19a19bc70bmr2832559ejv.91.1702314104755;
-        Mon, 11 Dec 2023 09:01:44 -0800 (PST)
-Received: from jstephan-bl.baylibre (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id mn6-20020a1709077b0600b00a1dbda310f4sm5060879ejc.158.2023.12.11.09.01.44
+        d=1e100.net; s=20230601; t=1702316155; x=1702920955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l4JdpdXVeHEtzLccVGASZ9QNpDKXQXKqGzVV+u4luMs=;
+        b=kphfTO5zVfled3Wx8YWAVV7UwxqdA0C+mD8u91350XB6qOwrh0wecEgzIOna4zphz8
+         Y1Q7r/m5r49hoHRnQPZi8+4/o2mzCtdGPChqoZZaSr2r8lH/1GfUbnp9tHjegX7oE2KF
+         wGRvsyB0y9iKRIRU/kr1aWWMUc4mNWacYDrVE8DNYhFIR+IkcfL0NFRTGQuLLtPA3zkR
+         1pMFJX6hCEcNnwTCC4jU0NHa2SNo1xp30nI8R0wlh6DmrmCNTi20q1AOSuUmOyU3yvrX
+         fiJvdOrnKfj2RzeQbc/Fkg7/C2VTn1NJM3pjTao/PeB3FwE/gaTD9JmdpACgeRFfvoCn
+         Atfg==
+X-Gm-Message-State: AOJu0Yy3VX3laaTAmZk7UvNwICFLcrdFemZe7E2nRXpmC2guEnj1zgjC
+	OLR2H1RoVoQlLTAEUsjYPOD5W/UM/x5W3qfKIzY=
+X-Google-Smtp-Source: AGHT+IHA7fwixu7iHBnoyHB+jkQxsCtPl3jHCdZfEhhB3deAsEpZomV7ObH0Kssb9+rSZHaZgoNYFA==
+X-Received: by 2002:a05:600c:1688:b0:40c:1db4:3a53 with SMTP id k8-20020a05600c168800b0040c1db43a53mr2339159wmn.157.1702316154452;
+        Mon, 11 Dec 2023 09:35:54 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:cd7b:e198:4dbb:2063])
+        by smtp.gmail.com with ESMTPSA id t9-20020a05600c198900b0040c490db950sm3435170wmq.47.2023.12.11.09.35.53
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 09:01:44 -0800 (PST)
-From: Julien Stephan <jstephan@baylibre.com>
+        Mon, 11 Dec 2023 09:35:54 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [OE-core][PATCH] oeqa/selftest/recipetool: fix metadata corruption on meta layer
-Date: Mon, 11 Dec 2023 18:01:38 +0100
-Message-ID: <20231211170138.2554156-1-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [PATCH RFC] bitbake.conf/pseudo: Switch from exclusion list to inclusion list
+Date: Mon, 11 Dec 2023 17:35:53 +0000
+Message-Id: <20231211173553.2421931-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 17:01:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192182
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 17:36:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192183
 
-[YOCTO #15314]
+Currently, pseudo tracks all files referenced within it's presence unless
+they're listed in an exclusion list. The exclusion list has grown to be
+fairly unwieldy.
 
-test_recipetool_appendsrcfile_update_recipe_basic is using base-files as
-test recipe but modifies it directly which can corrupt metadata for other
-tests relying on this recipe.
+This patch swaps PSEUDO_IGNORE_PATHS for PSEUDO_INCLUDE_PATHS which in
+theory should be easier and more explicit to maintain.
 
-So use mtd-utils-selftest as test recipe from meta-selftest to avoid
-this kind of issues
-
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-depends on https://lists.openembedded.org/g/openembedded-core/message/192176
----
- meta/lib/oeqa/selftest/cases/recipetool.py | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ meta/conf/bitbake.conf                     | 11 ++++-------
+ meta/recipes-core/glibc/glibc-locale.inc   |  2 ++
+ meta/recipes-devtools/pseudo/pseudo_git.bb |  4 ++--
+ 3 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index c7f7a066f3a..d7719da70e3 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -1260,23 +1260,16 @@ class RecipetoolAppendsrcTests(RecipetoolAppendsrcBase):
-         self.test_recipetool_appendsrcfile_existing_in_src_uri_diff_params(machine='mymachine')
+For now I'm sharing this as an experiment to see if this is a change we want to
+make. I'd be interested if anyone wanted to compare performance in particular. We
+do need to run it through oe-selftest as I suspect there are issues to be identified
+and tracked down. This patch was tested with basic image generation.
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index e7826e7af96..bf639fe4f2a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -745,18 +745,15 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR}"
+-PSEUDO_IGNORE_PATHS .= ",${TMPDIR}/sstate-control,${TMPDIR}/buildstats,${TMPDIR}/sysroots-components,${TMPDIR}/pkgdata"
+-PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/deploy-,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/pkgdata-sysroot"
+-PSEUDO_IGNORE_PATHS .= ",${DEPLOY_DIR},${BUILDHISTORY_DIR},${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
++PSEUDO_INCLUDE_PATHS = "/tmp,/proc,/dev,${WORKDIR}/image,${WORKDIR}/package,${WORKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-package/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo"
  
-     def test_recipetool_appendsrcfile_update_recipe_basic(self):
--        testrecipe = "base-files"
-+        testrecipe = "mtd-utils-selftest"
-         recipefile = get_bb_var('FILE', testrecipe)
--        result = runCmd('bitbake-layers show-layers')
--        layerrecipe = None
--        for line in result.output.splitlines()[3:]:
--            layer = line.split()[1]
--            if layer in recipefile:
--                layerrecipe = layer
--                break
--        self.assertTrue(layerrecipe, 'Unable to find the layer containing %s' % testrecipe)
--        cmd = 'recipetool appendsrcfile -u %s %s %s' % (layerrecipe, testrecipe, self.testfile)
-+        self.assertIn('meta-selftest', recipefile, 'This test expect %s recipe to be in meta-selftest')
-+        cmd = 'recipetool appendsrcfile -W -u meta-selftest %s %s' % (testrecipe, self.testfile)
-         result = runCmd(cmd)
-         self.assertNotIn('Traceback', result.output)
-         self.add_command_to_tearDown('cd %s; rm -f %s/%s; git checkout .' % (os.path.dirname(recipefile), testrecipe, os.path.basename(self.testfile)))
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+ #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+-FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
++FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_INCLUDE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_INCLUDE_PATHS'))} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
+ FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+-FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0"
++FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_INCLUDE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_INCLUDE_PATHS'))} PSEUDO_DISABLED=0"
+ FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ FAKEROOTLOGS = "${WORKDIR}/pseudo/pseudo.log"
+@@ -951,7 +948,7 @@ BB_HASHEXCLUDE_COMMON ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
+     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
+     SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES \
+     OMP_NUM_THREADS BB_CURRENTTASK"
+-BB_BASEHASH_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS BUILDHISTORY_DIR \
++BB_BASEHASH_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_INCLUDE_PATHS BUILDHISTORY_DIR \
+     SSTATE_DIR SOURCE_DATE_EPOCH RUST_BUILD_SYS RUST_HOST_SYS RUST_TARGET_SYS"
+ BB_HASHCONFIG_IGNORE_VARS ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
+     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_PASSTHROUGH_ADDITIONS DISABLE_SANITY_CHECKS \
+diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+index 289f58d4df9..d946b939ec3 100644
+--- a/meta/recipes-core/glibc/glibc-locale.inc
++++ b/meta/recipes-core/glibc/glibc-locale.inc
+@@ -64,6 +64,8 @@ FILES:localedef = "${bindir}/localedef"
  
-         expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
--                           ('??', '.*/%s/%s/%s$' % (testrecipe, testrecipe, os.path.basename(self.testfile)))]
-+                           ('??', '.*/%s/%s$' % (testrecipe, os.path.basename(self.testfile)))]
-         self._check_repo_status(os.path.dirname(recipefile), expected_status)
-         result = runCmd('git diff %s' % os.path.basename(recipefile), cwd=os.path.dirname(recipefile))
-         removelines = []
+ LOCALETREESRC = "${COMPONENTS_DIR}/${PACKAGE_ARCH}/glibc-stash-locale"
+ 
++PSEUDO_INCLUDE_PATHS .= ",${WORKDIR}/locale-tree"
++
+ copy_locale_files() {
+ 	local dir=$1 mode=$2
+ 
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 699cab11c66..daecb1554f5 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,6 +1,6 @@
+ require pseudo.inc
+ 
+-SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
++SRC_URI = "git://git.yoctoproject.org/pseudo;branch=rpurdie/include;protocol=https \
+            file://0001-configure-Prune-PIE-flags.patch \
+            file://glibc238.patch \
+            file://fallback-passwd \
+@@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+ 
+-SRCREV = "a8453eea4d902bbb0e01c786f1cb4a178c3bbee3"
++SRCREV = "97f343ddacdd308c54d298a9dde7019968aa959d"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git"
+ 
 -- 
-2.43.0
+2.39.2
 
 
