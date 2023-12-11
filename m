@@ -1,145 +1,94 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA8DC4167B
-	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 16:44:49 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web10.495.1702313088379906246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF25BC4167B
+	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 16:54:05 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web10.536.1702313163432655280
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Dec 2023 08:44:48 -0800
+ Mon, 11 Dec 2023 08:46:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c8rNmZEf;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-50c04ebe1bbso4559972e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 08:44:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702313086; x=1702917886; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ub7Mllhz30RQ/hZGsRf/f2gjR3SNvAL35bIUmBqZTZg=;
-        b=c8rNmZEffTciDMSvZpHYMuisEJ5Ea47O2N35V44zGsmVtxhGWABzcLRVM8UI327O8Z
-         jnTzhg/wU71IyY9kbYq43y05E76d/R1r+LNEUz663tR3BMlCwnU3qFJgt9l3++cgXyFT
-         gJ/cvDgp4zxWBXT/6L4LHE5x/1WlTHlhBKgaPT0vpdgbCYESsoX7+K8QY2NahlqhZV3D
-         KOUuKHLnQCj1jaS4nMgY1Ug3OoFze5BJTJHXNL8vdorlag8pA62VhzdzF3kezlJ2fyOH
-         OtC/sMund8mX4ZYJ7HbTm31Jb+jiywPc2HCTHcag+jVHbO6UvI6+LpFETxtvW7E8J9xv
-         UJIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702313086; x=1702917886;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ub7Mllhz30RQ/hZGsRf/f2gjR3SNvAL35bIUmBqZTZg=;
-        b=mmGQHjP+Wjj5YL3j/yxwSPB83qPIyE/crJDsR0fbm1KCi0b8y1wG+ZUcqwCabmdqVH
-         nyXrkZHeyJJBXY2r23TCDJytBBWZdAzifxlN5GpocrbnF8DNtc+JUq+45oaUraIUfoeI
-         /H8qSct6Jf1jToJJw2oveAhCIAeMNUZONo3dIwqe7zbVp+mHUcQmwONonrQv/RDo3LDF
-         OBi1nRaIylRvXJvJgME5OGPopijBupJw19gwQbugRkvE5Zcu8L19uQVQwcgBb2J4VkZg
-         STXnuqS/NFg9Xd3znIwVBk9mmOtEHcESNdE7RUiCpI1wsyjUO7MVaAzpObZ20TyXllGY
-         BDGA==
-X-Gm-Message-State: AOJu0YzmqWp0IfdbVJ6juLnSKV0A6Ee/43u1dGsc5VBMErAENFI1inH4
-	nYxZ3Duvt9U8KpHNKmqyfd9L1gW9oRKEhPB57gs=
-X-Google-Smtp-Source: AGHT+IGcCz8x77zDQgFwm8iI84MPW6R9v/i/vzHIoBxIsYcLb/a4dIlFBuoAS7/UdAQ4fEh5PZL/gP9k06k+be5S1tU=
-X-Received: by 2002:ac2:5edc:0:b0:50d:176e:b276 with SMTP id
- d28-20020ac25edc000000b0050d176eb276mr2579795lfq.31.1702313086324; Mon, 11
- Dec 2023 08:44:46 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=QMVQA/Bu;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id D903B240027
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 17:46:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1702313161; bh=Y5khD6DuKzx0CO/9W8HoA1synkCvEoJSAUeDVe6JO5g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=QMVQA/BuqGRC9Jxn2Xh5+ozPrT9a2uP7sTZgqHMsIC6AMQHCyuJhbnyJku/sw/AC0
+	 oRGR1kGkkEFwBigoYK19ASRZZ/KICRB3U8h8WF1ub+Ka+5N5/4hsQp8NYrdlEabtwW
+	 CsyRszqxQRQWkOpD6oPFEtmpOnuJxiWPydTR02Gd4yKysi/ONIY5t8a87ea+r0/4Gv
+	 q3LGVY5pytVCY4NSTQrd59cSKShwgsN0HvCzuTvZxqqc7xmFq4aHpmoyjWJCkK8lPn
+	 xeEBpTGtzMbl5xhSaypmdaZ/YtSo7t8N3aVpwB5d0GevKaA8Wtfupb9skyM5NoPLhE
+	 baPAyccE3vLEg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4SpngY3Y5Pz9rxF;
+	Mon, 11 Dec 2023 17:46:01 +0100 (CET)
+From: simone.p.weiss@posteo.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] patchtest: Add test for deprecated CVE_CHECK_IGNORE
+Date: Mon, 11 Dec 2023 16:45:53 +0000
+Message-Id: <20231211164553.12425-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-3-alex.kiernan@gmail.com>
- <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org>
-In-Reply-To: <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 11 Dec 2023 16:44:34 +0000
-Message-ID: <CAO5Uq5QkxEXtjpe7PigzHXSZ6HQ-ic0EH9NN+_vD1t3kxArF0A@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 3/7] rust: Upgrade 1.71.0 -> 1.71.1
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 16:44:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192180
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 16:54:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192181
 
-On Sun, Dec 10, 2023 at 7:39=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2023-12-08 at 14:03 +0000, Alex Kiernan wrote:
-> > https://blog.rust-lang.org/2023/08/03/Rust-1.71.1.html
-> >
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> >
-> >  meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.bb} | 0
-> >  .../rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_1.71.1.bb}           | 0
-> >  ...t-cross-canadian_1.71.0.bb =3D> rust-cross-canadian_1.71.1.bb} | 0
-> >  .../rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_1.71.1.bb}           | 0
-> >  meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
-> >  meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb}   | 0
-> >  6 files changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.b=
-b} (100%)
-> >  rename meta/recipes-devtools/rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_=
-1.71.1.bb} (100%)
-> >  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.71.0.bb =3D> =
-rust-cross-canadian_1.71.1.bb} (100%)
-> >  rename meta/recipes-devtools/rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_=
-1.71.1.bb} (100%)
-> >  rename meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb}=
- (100%)
-> >
-> > diff --git a/meta/recipes-devtools/rust/cargo_1.71.0.bb b/meta/recipes-=
-devtools/rust/cargo_1.71.1.bb
-> > similarity index 100%
-> > rename from meta/recipes-devtools/rust/cargo_1.71.0.bb
-> > rename to meta/recipes-devtools/rust/cargo_1.71.1.bb
-> > diff --git a/meta/recipes-devtools/rust/libstd-rs_1.71.0.bb b/meta/reci=
-pes-devtools/rust/libstd-rs_1.71.1.bb
-> > similarity index 100%
-> > rename from meta/recipes-devtools/rust/libstd-rs_1.71.0.bb
-> > rename to meta/recipes-devtools/rust/libstd-rs_1.71.1.bb
-> > diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb b=
-/meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
-> > similarity index 100%
-> > rename from meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb
-> > rename to meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
-> > diff --git a/meta/recipes-devtools/rust/rust-llvm_1.71.0.bb b/meta/reci=
-pes-devtools/rust/rust-llvm_1.71.1.bb
-> > similarity index 100%
-> > rename from meta/recipes-devtools/rust/rust-llvm_1.71.0.bb
-> > rename to meta/recipes-devtools/rust/rust-llvm_1.71.1.bb
-> > diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-=
-devtools/rust/rust-source.inc
-> > index 3a192e42db7d..0729db6f0b45 100644
-> > --- a/meta/recipes-devtools/rust/rust-source.inc
-> > +++ b/meta/recipes-devtools/rust/rust-source.inc
-> > @@ -7,7 +7,7 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-$=
-{RUST_VERSION}-src.tar.xz;n
-> >              file://zlib-off64_t.patch;patchdir=3D${RUSTSRC} \
-> >              file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.pat=
-ch;patchdir=3D${RUSTSRC} \
-> >  "
-> > -SRC_URI[rust.sha256sum] =3D "5814699031aafdcc2e2f71fc9b389678cd7042350=
-d1583da061463d8e88681c7"
-> > +SRC_URI[rust.sha256sum] =3D "371af0fbe04051e20a74dbea6d4e4e548f10f1530=
-9c49cae2688afb882b6c7f1"
-> >
-> >  RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
-> >
-> > diff --git a/meta/recipes-devtools/rust/rust_1.71.0.bb b/meta/recipes-d=
-evtools/rust/rust_1.71.1.bb
-> > similarity index 100%
-> > rename from meta/recipes-devtools/rust/rust_1.71.0.bb
-> > rename to meta/recipes-devtools/rust/rust_1.71.1.bb
->
-> I ran some testing and it looks like we could merge up to 1.71.1
-> without autobuilder failures in this series. Beyond that we have the
-> reproducibility and zvariant issues.
->
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-https://github.com/rust-lang/cargo/issues/8140 looks possibly
-relevant. I wonder if we're just getting lucky somehow.
+If a recipes was modified recommand the use of `CVE_STATUS` instead if
+`CVE_CHECK_IGNORE` is used. This is a depreacted variable and will
+result in a warning from the cve-check.class and should hence not be
+used anymore. [YOCTO #15311]
 
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+---
+ meta/lib/patchtest/tests/test_metadata.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchte=
+st/tests/test_metadata.py
+index b6f4456ad2..174dfc31c6 100644
+--- a/meta/lib/patchtest/tests/test_metadata.py
++++ b/meta/lib/patchtest/tests/test_metadata.py
+@@ -25,6 +25,8 @@ class TestMetadata(base.Metadata):
+     sha256sum =3D 'sha256sum'
+     git_regex =3D pyparsing.Regex('^git\:\/\/.*')
+     metadata_summary =3D 'SUMMARY'
++    cve_check_ignore_var =3D 'CVE_CHECK_IGNORE'
++    cve_status_var =3D 'CVE_STATUS'
+=20
+     def test_license_presence(self):
+         if not self.added:
+@@ -178,3 +180,16 @@ class TestMetadata(base.Metadata):
+             # "${PN} version ${PN}-${PR}" is the default, so fail if def=
+ault
+             if summary.startswith('%s version' % pn):
+                 self.fail('%s is missing in newly added recipe' % self.m=
+etadata_summary)
++
++    def test_cve_check_ignore(self):
++        if not self.modified:
++            self.skip('No modified recipes, skipping test')
++        for pn in self.modified:
++            # we are not interested in images
++            if 'core-image' in pn:
++                continue
++            rd =3D self.tinfoil.parse_recipe(pn)
++            cve_check_ignore =3D rd.getVar(self.cve_check_ignore_var)
++
++            if cve_check_ignore is not None:
++                self.fail('%s is deprecated and should be replaced by %s=
+' % (self.cve_check_ignore_var, self.cve_status_var))
 --=20
-Alex Kiernan
+2.39.2
+
 
