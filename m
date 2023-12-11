@@ -1,374 +1,206 @@
-Return-Path: <frederic.martinsons@gmail.com>
+Return-Path: <hayama@lineo.co.jp>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA78C4167B
-	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 07:15:41 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.3211.1702278933460230022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90EC8C4167B
+	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 07:51:51 +0000 (UTC)
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (JPN01-OS0-obe.outbound.protection.outlook.com [40.107.113.132])
+ by mx.groups.io with SMTP id smtpd.web10.3570.1702281103719662867
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Dec 2023 23:15:33 -0800
+ Sun, 10 Dec 2023 23:51:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=njPsnhQ2;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: frederic.martinsons@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-67ad531686eso41684536d6.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Dec 2023 23:15:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702278932; x=1702883732; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CJwL4GnNwXK06jsg+O6BWHbi21MhKPGSoUGVaFllbv0=;
-        b=njPsnhQ2dH/BSiCDmTXI8Z8VK58iW/7I3lvfhx1zPlWD8Km42iyor8nr+tsIFa6u+d
-         OllZa0FqZ/D/FRHWfQrSSivY0XHFxU+GeN78qT3jNfDJScnhqj78mWniCoDltGtyCmmD
-         BJuGMkUnDiww2KGuPglgMShIhuJc7IJDpDN6CGiZcUN0WtfIWhl92t8QTGMN9z+VJ3iT
-         kbBY74573oC0Xd7zLnw1IhglM7pjdQI9ddfKXcW+XMBhmQdLD04/GDcjdgRs1PL7eAHg
-         Yrh9yFb7AoCXbSa+0M8KUNp/HCvYTNkO6j/zOwq61pHRuQmO4FSFBcKd2cAtWdIx/6bd
-         vWXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702278932; x=1702883732;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CJwL4GnNwXK06jsg+O6BWHbi21MhKPGSoUGVaFllbv0=;
-        b=vF02X84mNk0t8U6bTvCNb9Zt1c06bQC2XigBTLl8UyxUxW8vGjGN60prrFg78DsqWp
-         B6/nOI58fTzTp5e7X9ciAD4FvSPwDybnj3GRHrQktMyRWqx5+I0l/B76jaQ5EptVbzsl
-         ALQ/cVeM1kqobBZHQ6UAUyPe3FS3EKZbKE3DRVMzZssN3WQEUuY3d2Boop2TG7JVAYWk
-         hcm6WhVgpJoIYvibe71nN3MHo0rk2hOXXUQY3/V42qY8D0vSWKVYgiF0mWvRu8YcQTGR
-         08M3derq3AF5IO1Bv+sZwcXqX9JwpbEquZYt46C9UvwA6eOauROc6wkLeEjzOTvovc1e
-         cxvA==
-X-Gm-Message-State: AOJu0Yz6eD+nhMlay313OnJT7tEuyzR/8W8X9vhj3O3SIbg/ad5ku6wm
-	iCpjddrJ3AmreMozsJ+3XqwtpMThqHARcQCBru8=
-X-Google-Smtp-Source: AGHT+IEYexo/Jg6h/6UrOn2hidbvXvbHOzWUGXu70+z4cgRDGmYejbVfy4kL94mAsqJBBXqsMKr+3/npowypXAhrm4M=
-X-Received: by 2002:a05:6214:dcf:b0:67a:a72d:fbb2 with SMTP id
- 15-20020a0562140dcf00b0067aa72dfbb2mr7072849qvt.48.1702278931575; Sun, 10 Dec
- 2023 23:15:31 -0800 (PST)
+ dkim=pass header.i=@lineo.co.jp header.s=selector2 header.b=AKR9lTiB;
+ spf=pass (domain: lineo.co.jp, ip: 40.107.113.132, mailfrom: hayama@lineo.co.jp)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SR66AXlxBqe1d6Qefzg7D2drYEVrfWe3idyFhxe8e52vpjoazS60fGGZnsvbX1V8diN4a5zHWRgiZ4wKdWblsvVhHRS+udbOCOsdXrTn7+arln5kSJCY1UFgM3q9MKO0AxY/6Fh8PhPAY89C3qKJHud7OEmBor3NS/CBMqKsDGdQKhh+Pqo1+JdMnjHh88dxuKKkifJbxK/PAotyqQcdXhqQPZjKltuyrRsozoomdj0KnOFgfKa1bLyueP+HDzKcmlHUHTUS0qN74g4gvwaYjRB92euUI9j6UWJhRNuTnf3hGXY2e6d8xqurPN1HPtEXa+1gMlwIuFLSax/ZY52iow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RkgXDqg3iCX7q0FrCkktqZngV5ZC71+3i4ikZlqOY2U=;
+ b=Cec4KlDcTMQM1mPTzLbiP4fzbeAW4NAgvto597CwTCFvOxaqRPfoVM4+qDETL96fc7i9sdAdUr3As213qnvx63G1bOZo0SU9tITfI3W/5S2vtsnl5PzZ1GdVURLH1QANfhuvjeFh8G7wVoHPlFv4KnUJANBBkx4RIqEPxCqpjVH4ExOyV7LDtAGLkNzC2RYLZds5et/1x7piqIkOG+CucK33droYat5zpeSm5NbZhDU93ZfLPrsJbQQQTjBVYDM6vdgr1w0FXa7q5Rib8SK2z1mjcEFLBAq0+kchBTlcpg2RkEnKO+CG6+dqgbBHxZtHQ0rB21oKxmyO7w7A9Zxp5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=lineo.co.jp; dmarc=pass action=none header.from=lineo.co.jp;
+ dkim=pass header.d=lineo.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lineo.co.jp;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RkgXDqg3iCX7q0FrCkktqZngV5ZC71+3i4ikZlqOY2U=;
+ b=AKR9lTiBU9Uf/27bZS9ECRt2GkhupGETUw4ChVaYeiqVCa4y/TscVgm4eeDS54nR2zSJMmilwkaWgWdDXfiLpvUOa7GYIxoStexn32WyGr4DyJ31kV/3O+qrsx8sgqY+LOmykp4SP0x5MBLrh6LOeaf4vSAODAZ/uOFl1pX1LZhEWQluECoPoNb7OjuSHJsW8x8YZVEqk7PufvrI1YU58PSNSTNgcu9g3XbuwtoVPYIs/8Qvm0n/f5NT472S1BdcPGInruCpwdJq7F/ZGL7BQ2LIab3VdgNltpn8DLGy3JNrXkgPHS46grXpai/BnZZRyxNEGo7hlFwpyXwl7GW6xQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=lineo.co.jp;
+Received: from OS3PR01MB8115.jpnprd01.prod.outlook.com (2603:1096:604:171::9)
+ by TYYPR01MB7901.jpnprd01.prod.outlook.com (2603:1096:400:114::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.21; Mon, 11 Dec
+ 2023 07:51:38 +0000
+Received: from OS3PR01MB8115.jpnprd01.prod.outlook.com
+ ([fe80::9538:79a:d7:b2a8]) by OS3PR01MB8115.jpnprd01.prod.outlook.com
+ ([fe80::9538:79a:d7:b2a8%3]) with mapi id 15.20.7091.020; Mon, 11 Dec 2023
+ 07:51:38 +0000
+Message-ID: <581f915c-39e0-41fe-8258-84739b5ace41@lineo.co.jp>
+Date: Mon, 11 Dec 2023 16:51:37 +0900
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [master] [PATCH] cve-update-nvd2-native: increase the
+ delay between subsequent request failures
+To: dnagodra@cisco.com, openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com
+References: <20231208050439.461257-1-dnagodra@cisco.com>
+Content-Language: en-US
+From: Yuta Hayama <hayama@lineo.co.jp>
+In-Reply-To: <20231208050439.461257-1-dnagodra@cisco.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYCPR01CA0019.jpnprd01.prod.outlook.com (2603:1096:405::31)
+ To OS3PR01MB8115.jpnprd01.prod.outlook.com (2603:1096:604:171::9)
 MIME-Version: 1.0
-References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-3-alex.kiernan@gmail.com>
- <a394853b1f2302baab431afe6fd0a1880b8238bd.camel@linuxfoundation.org> <CAO5Uq5RaQYvgye7a=qtwO2abDRP6WvggbKvjLpWuepJ1Rr3Z4A@mail.gmail.com>
-In-Reply-To: <CAO5Uq5RaQYvgye7a=qtwO2abDRP6WvggbKvjLpWuepJ1Rr3Z4A@mail.gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBNYXJ0aW5zb25z?= <frederic.martinsons@gmail.com>
-Date: Mon, 11 Dec 2023 08:15:20 +0100
-Message-ID: <CA+cAkerS0D8ai-PhV=tiL=6kbbwbaSV2YTKS0oSrTksNpmDNqA@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 3/7] rust: Upgrade 1.71.0 -> 1.71.1
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000006790e060c36b3e7"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OS3PR01MB8115:EE_|TYYPR01MB7901:EE_
+X-MS-Office365-Filtering-Correlation-Id: 853d3676-7e1f-4d76-82cd-08dbfa1e017f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	7TKQixoARq5+3HuU9CtesNQPB5lT19b37RPqc3ZHqdqPVeeEKUd+Wl+7A6k4Xxm7/QKSUHuB9dAXAuiTqro/jPeeLuUDgV4DkNRmyITSeChUkw8C2lK8xs68KxYMt1TAoORgxvQDduVmviefu9UN0oIhDifbC6RW6bgS+14ik7F2ZgBHq1Ti/peBSo5AqnkqV0KLv0t/tJoRLo4Gsfv1rzB7BSNWx2dHsjUkroCtx+pxUFz0IOCzkHHNkqLdjshkamZGY20pIHz612OSZ5Vljv9SckfhhcP0XCKZLVG6zhXxl72h3jS7eM+qejvwTM+SH5ER9GnN4/ieHXLqxEXrfV7USDwgwJ/MaIbZmF3CrQNyflwQAHqFdAyCdHR8Hs9Y1Eg0+jBMYcdOMIjfLp/9yz4RFKSgLHi5SUwVqrjXdkTZmHiDIEObDX9j08OaMtsydyT6qbnkmjvtHq8gpU+0bg+3I1xAFDm4w34BbJxgAODb6SBMtgnNfdgSYdNTQ1Sv5GjreL9eGHcwvjqm37BOPV1dKpKlEZOWisidddQPa3MXwubbVUIivzCBbc6PXIx6NIvpIuMc8EljD2mEVqCrdsIieSfLQ6iD1amfF3l9UXlYNpVK8dGti/b5r+2PUsi0/LPsozyaQHuJD1VRDBEP6o/DcspYa2nSXcszVdOMfsw/jqmGv5WbEObVCRGQw9NK
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8115.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(376002)(39840400004)(346002)(230273577357003)(230922051799003)(230173577357003)(1800799012)(186009)(64100799003)(451199024)(31686004)(26005)(2616005)(36756003)(38100700002)(31696002)(86362001)(83380400001)(5660300002)(15650500001)(6512007)(53546011)(6506007)(8936002)(8676002)(66946007)(6486002)(966005)(66476007)(316002)(66556008)(41300700001)(2906002)(478600001)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?aWM5Zk5wT2w4Ym1oMFV3Tm9Fa0JzejZaemZpZ2I0Z3NieDNuc0FTU0NmdDl6?=
+ =?utf-8?B?VThkamk1T0tVT1B2TzN6dmhqenZYYy9iUnVXVlR6M2NEV1kzajR5aGQvUWk1?=
+ =?utf-8?B?eWZ1QThKbE5yREwwWXpnczVLbjNNWUZaSW0wTi9qWVIveW1vbFdpR3lUMXU5?=
+ =?utf-8?B?b0Z2ZDNoTWR1MUF4bEFHdjFCOTNQSXBTTjVsNGdFTEZnejFzNEw3SWUraFpW?=
+ =?utf-8?B?c2hmZ3E5alFocml1RERtQ2ttVEJwaUhDcGtCRitqK2cvT3B4TU8rcUZUNjJF?=
+ =?utf-8?B?SlB2MXdpVy9iK0hxQXEvUXJjdzZzUGswOWVtRzVNZmJBeTNHTHJ4ZjlRQ3RZ?=
+ =?utf-8?B?ejZ0SklQOVp0WlpEV1B4WGpBWE9wdXRHV0dsK2k1akduZFhaVXBwcTUzcFVF?=
+ =?utf-8?B?Zlg2L2R3OEI0bzJla0Y1YlZBMXYrSURsVGZxbFhPTThuL1pDdHU1RG9WSWtp?=
+ =?utf-8?B?enlxZVAvZWRmTVFlVTJBWTA0MVIyekRCQ3dXZGF3SkMyRGcwWWpoTmdoMGdK?=
+ =?utf-8?B?a3B2VHQxZmw2MGU2WXZHbkQzeS8zN1NjR2hmMWU5U1MydXNIQUx6YnNPWWxy?=
+ =?utf-8?B?bXAxbkNSTUdIaXhNbjYxaGk3cm84VVlnVkVPaGR1YU5pR2dyVElOSWs2VWlW?=
+ =?utf-8?B?UzlPTUErSEFtOVY2RjZoNllQQ1ZwM090aTQ4MWZEZ2FzbEY2L3NjeXRNLzNG?=
+ =?utf-8?B?bE1EL0g3T1NUVnpoTWR3bWpUek1MVU8rV3F5TGNuN2JmM09YU1BmVUZ3WGFM?=
+ =?utf-8?B?bFRFdlprUUZIazhZTkpzR2E2ZGpiNjhZVnkrSkVkeTBoQVRuc2VOazV6V2ll?=
+ =?utf-8?B?bzlBUE5GVDl4VWZYNStyMnBrZFBTL3FpWGlidVBBVDMvNHl6blkrazNobmQv?=
+ =?utf-8?B?L0FMSVJMOE83M0xpZGFUV3VKQkRqTTQyY0lucmZxU0dCZDNYaCtlZElOWUMy?=
+ =?utf-8?B?VERMMjlwUi9aQ1lEODFBUTdDVVZpM1dmZi9BbTRHcmJKVGJsMXlWRXRHTnM5?=
+ =?utf-8?B?ZW15UjlkVTArbitIUHFsczByMS9SOFZES1NxcVFUTStvbXhPZkJ1MUxibndW?=
+ =?utf-8?B?NGpPeDd4VDlkNlZVdWh5Skt5RTZ5czA1eHlyMnJCUkZLQmZBL3NiUnpVUmYy?=
+ =?utf-8?B?T1VCZ0RmRHJ3YjVCRkg1NXYzbVYxTDk1V1BwaEJwbTYyYzJFU3BEejZJZDVk?=
+ =?utf-8?B?V3VJZG5yTndRdnNveEgwUFBZWFJXZUlIV3piOGc0cW5qcnl2SzFvaHhlZ09X?=
+ =?utf-8?B?NTlFNDBmUmN1NFpHdDluYkZKTVZvMjVWNDBhbUVJcGxzSmVqZ2hNem1zV052?=
+ =?utf-8?B?RUNqRkRFcDB4dmFndXFuRWNsWXMybzVXL3JJWTVETHZSaHg2aXE0a09lV1o0?=
+ =?utf-8?B?cHRNdkNwSk5EdWorZEpjQ2V4aTJOTTBRM1BVV3B6NldiTHZuV0lwdVVFeTFC?=
+ =?utf-8?B?anlyQnZrRlZxdVMrR2RCbjhrcUh2dFF2V2xZMC9KRVBNYWhUY00rN0ZiSXh2?=
+ =?utf-8?B?Tzh5eEhCbThkaUhid3ZYNzVmUjdwMUZ2OE40cjYyVHpMMVBOVVRCYS8waHl5?=
+ =?utf-8?B?QlhNWXArRGxrRFBEZzR0SXlIUEVvcnBEbks0VGlZN1FZMWF2S2w0KzZRZ1Qr?=
+ =?utf-8?B?WDgwVUFwbEFRUytMMmFJdUdIY2lTUzlGMCtxWUZQNDd3Yk1aaWJiVUI1aHRM?=
+ =?utf-8?B?OEV2TlJ1eGNOOFlTSkk4Z3VqMjVENzZRRm8xaDJsTnZjZkZwTE9kNE1oUU5Y?=
+ =?utf-8?B?dlFhUVlmRGRySUg1OWNhcWlwa0VZQTVEcWh5UlFibXBIbGJIYlQxajNMenZw?=
+ =?utf-8?B?TkU2T04xNHd3ZEFLdWx4eHI2NHVVZTVDMG9hZUN2cFd4d0w4TTVaY2Q5Tit2?=
+ =?utf-8?B?OEJKVHlzN2E4ZE93bVBzdG5FZEIzeFNsbkVxczJvclBzeGpXUHlzWEFxN1hs?=
+ =?utf-8?B?bW1DaWpBcTVOKzBMZlhuaUxRQllpcjh0cTBRUUdybDdzQmdoTEh4MEplRzR3?=
+ =?utf-8?B?anA0RmNPc2MwcENHb1JCOTlBZkRBR216dGRSWVEwS2lwTG5jaU5NWVlHMytJ?=
+ =?utf-8?B?MmFQcDQ0TzRrN0N4NWlaTHROQ3o0aGJKSEVOV0J1Z2VIbjJhaWdDRjZlY0Fl?=
+ =?utf-8?Q?rtEDSHp01av3lJ0UkVj47QM6p?=
+X-OriginatorOrg: lineo.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 853d3676-7e1f-4d76-82cd-08dbfa1e017f
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8115.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2023 07:51:38.5278
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 850e1ad4-d43d-42a8-82ab-c68675f36887
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SWYBnL3l9Qw3hmzR/Ag9QEOmqVZ8VPA00ul6M1dwW+gCn8qyR+/S85eoepdnHRloGfYulH7BXXnsd83TTQkfyA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB7901
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 07:15:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192144
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 07:51:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192145
 
---00000000000006790e060c36b3e7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Sun, 10 Dec 2023 at 21:28, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+On 2023/12/08 14:04, Dhairya Nagodra via lists.openembedded.org wrote:
+> Sometimes NVD servers are unstable and return too many errors.
+> There is an option to have higher fetch attempts to increase the chances
+> of successfully fetching the CVE data.
+> 
+> Additionally, it also makes sense to progressively increase the delay
+> after a failed request to an already unstable or busy server.
+> The increase in delay is reset after every successful request and
+> the maximum delay is limited to 30 seconds.
+> 
+> Also, the logs are improved to give more clarity.
+> 
+> Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
 
-> On Sun, Dec 10, 2023 at 7:39=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Fri, 2023-12-08 at 14:03 +0000, Alex Kiernan wrote:
-> > > https://blog.rust-lang.org/2023/08/03/Rust-1.71.1.html
-> > >
-> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > > ---
-> > >
-> > >  meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1.bb} | =
-0
-> > >  .../rust/{libstd-rs_1.71.0.bb =3D> libstd-rs_1.71.1.bb}           | =
-0
-> > >  ...t-cross-canadian_1.71.0.bb =3D> rust-cross-canadian_1.71.1.bb} | =
-0
-> > >  .../rust/{rust-llvm_1.71.0.bb =3D> rust-llvm_1.71.1.bb}           | =
-0
-> > >  meta/recipes-devtools/rust/rust-source.inc                      | 2 =
-+-
-> > >  meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.bb}   | =
-0
-> > >  6 files changed, 1 insertion(+), 1 deletion(-)
-> > >  rename meta/recipes-devtools/rust/{cargo_1.71.0.bb =3D> cargo_1.71.1=
-.bb}
-> (100%)
-> > >  rename meta/recipes-devtools/rust/{libstd-rs_1.71.0.bb =3D>
-> libstd-rs_1.71.1.bb} (100%)
-> > >  rename meta/recipes-devtools/rust/{rust-cross-canadian_1.71.0.bb =3D=
->
-> rust-cross-canadian_1.71.1.bb} (100%)
-> > >  rename meta/recipes-devtools/rust/{rust-llvm_1.71.0.bb =3D>
-> rust-llvm_1.71.1.bb} (100%)
-> > >  rename meta/recipes-devtools/rust/{rust_1.71.0.bb =3D> rust_1.71.1.b=
-b}
-> (100%)
-> > >
-> > > diff --git a/meta/recipes-devtools/rust/cargo_1.71.0.bb
-> b/meta/recipes-devtools/rust/cargo_1.71.1.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/cargo_1.71.0.bb
-> > > rename to meta/recipes-devtools/rust/cargo_1.71.1.bb
-> > > diff --git a/meta/recipes-devtools/rust/libstd-rs_1.71.0.bb
-> b/meta/recipes-devtools/rust/libstd-rs_1.71.1.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/libstd-rs_1.71.0.bb
-> > > rename to meta/recipes-devtools/rust/libstd-rs_1.71.1.bb
-> > > diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb
-> b/meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/rust-cross-canadian_1.71.0.bb
-> > > rename to meta/recipes-devtools/rust/rust-cross-canadian_1.71.1.bb
-> > > diff --git a/meta/recipes-devtools/rust/rust-llvm_1.71.0.bb
-> b/meta/recipes-devtools/rust/rust-llvm_1.71.1.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/rust-llvm_1.71.0.bb
-> > > rename to meta/recipes-devtools/rust/rust-llvm_1.71.1.bb
-> > > diff --git a/meta/recipes-devtools/rust/rust-source.inc
-> b/meta/recipes-devtools/rust/rust-source.inc
-> > > index 3a192e42db7d..0729db6f0b45 100644
-> > > --- a/meta/recipes-devtools/rust/rust-source.inc
-> > > +++ b/meta/recipes-devtools/rust/rust-source.inc
-> > > @@ -7,7 +7,7 @@ SRC_URI +=3D "
-> https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-> > >              file://zlib-off64_t.patch;patchdir=3D${RUSTSRC} \
-> > >
-> file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.patch;patchdir=3D$=
-{RUSTSRC}
-> \
-> > >  "
-> > > -SRC_URI[rust.sha256sum] =3D
-> "5814699031aafdcc2e2f71fc9b389678cd7042350d1583da061463d8e88681c7"
-> > > +SRC_URI[rust.sha256sum] =3D
-> "371af0fbe04051e20a74dbea6d4e4e548f10f15309c49cae2688afb882b6c7f1"
-> > >
-> > >  RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
-> > >
-> > > diff --git a/meta/recipes-devtools/rust/rust_1.71.0.bb
-> b/meta/recipes-devtools/rust/rust_1.71.1.bb
-> > > similarity index 100%
-> > > rename from meta/recipes-devtools/rust/rust_1.71.0.bb
-> > > rename to meta/recipes-devtools/rust/rust_1.71.1.bb
-> >
-> > I ran some testing and it looks like we could merge up to 1.71.1
-> > without autobuilder failures in this series. Beyond that we have the
-> > reproducibility and zvariant issues.
-> >
->
-> Thanks.
->
-> Was the failure at that point reproducibility or the zvariant trait
-> failure? I just posted an update for zvariant which doesn't see the
-> trait recursion failure, but at the same time it no longer exercises
-> crates pulled from git which looked like it was the main purpose it
-> was fulfilling for testing.
->
-> I didn't follow issues about this upgrade, but yes, the zvariant recipe
-was a demonstration on how to handle crates dependencies that come from git=
-.
-(there is a specific crate fetcher url parameter: 'git-dependency')
+I was just working on a similar issue.
+As a specific example, multiple cve-update-nvd2-native:do_fetch runs in
+parallel can easily reach the rate limit. It can be assumed that this situation
+will occur if several people run bitbake in one office. (often unaware of each
+other...)
 
-If, for some reason, this is no more possible, the whole recipe can be
-removed
-(unless there is a direct dependency to zvariant in some  other recipes)
+I have observed the do_fetch logs and found that HTTP 403 errors are returned
+if the request is blocked, probably due to rate limitation.
+
+NOTE: Requesting https://services.nvd.nist.gov/rest/json/cves/2.0?startIndex=6000
+NOTE: CVE database: received error (HTTP Error 403: Forbidden), retrying
+NOTE: CVE database: received error (HTTP Error 403: Forbidden), retrying
+NOTE: CVE database: received error (HTTP Error 403: Forbidden), retrying
+NOTE: CVE database: received error (HTTP Error 403: Forbidden), retrying
+NOTE: CVE database: received error (HTTP Error 403: Forbidden), retrying
+WARNING: CVE database update failed
+DEBUG: Python function do_fetch finished
+
+Other times a request may fail with IncompleteRead, but this is clearly
+distinguishable from an HTTP error.
+
+Here, we can think of the following ideas.
+If an HTTP error occurs, assume that the rate limit has already been reached
+and wait 30 seconds to ensure that the next window starts. The patch will be
+something like this.
+
+---
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 9ab8dc6050..34fcc0317e 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -121,6 +121,7 @@ def nvd_request_next(url, attempts, api_key, args):
+
+     import urllib.request
+     import urllib.parse
++    import urllib.error
+     import gzip
+     import http
+     import time
+@@ -142,10 +143,12 @@ def nvd_request_next(url, attempts, api_key, args):
+
+             r.close()
+
++        except urllib.error.HTTPError as e:
++            bb.note("CVE database: received error (%s), wait until the next window" % (e))
++            time.sleep(30)
+         except Exception as e:
+             bb.note("CVE database: received error (%s), retrying" % (e))
+             time.sleep(6)
+-            pass
+         else:
+             return raw_data
+     else:
+--
+
+The time taken to fetch is likely to increase further, but the probability
+of failure due to error is expected to decrease greatly. Unfortunately, if
+the number of parallel executions is too large, this is still not good enough...
+
+I will consider what to do with this patch after your patches are merged.
+Since it may be enough to just extend the delay each time.
 
 
-> --
-> Alex Kiernan
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192125):
-> https://lists.openembedded.org/g/openembedded-core/message/192125
-> Mute This Topic: https://lists.openembedded.org/mt/103055164/6213388
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> frederic.martinsons@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Regards,
 
---00000000000006790e060c36b3e7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, 10 Dec 2023 at 21:28, Alex Ki=
-ernan &lt;<a href=3D"mailto:alex.kiernan@gmail.com">alex.kiernan@gmail.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
-n Sun, Dec 10, 2023 at 7:39=E2=80=AFPM Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Fri, 2023-12-08 at 14:03 +0000, Alex Kiernan wrote:<br>
-&gt; &gt; <a href=3D"https://blog.rust-lang.org/2023/08/03/Rust-1.71.1.html=
-" rel=3D"noreferrer" target=3D"_blank">https://blog.rust-lang.org/2023/08/0=
-3/Rust-1.71.1.html</a><br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Alex Kiernan &lt;<a href=3D"mailto:alex.kiernan@gm=
-ail.com" target=3D"_blank">alex.kiernan@gmail.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/rust/{<a href=3D"http://cargo_1.71.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71.0.bb</a> =3D&gt; <a hre=
-f=3D"http://cargo_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.7=
-1.1.bb</a>} | 0<br>
-&gt; &gt;=C2=A0 .../rust/{<a href=3D"http://libstd-rs_1.71.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">libstd-rs_1.71.0.bb</a> =3D&gt; <a href=3D"http:=
-//libstd-rs_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">libstd-rs_1.71.=
-1.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
-&gt; &gt;=C2=A0 ...<a href=3D"http://t-cross-canadian_1.71.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">t-cross-canadian_1.71.0.bb</a> =3D&gt; <a href=
-=3D"http://rust-cross-canadian_1.71.1.bb" rel=3D"noreferrer" target=3D"_bla=
-nk">rust-cross-canadian_1.71.1.bb</a>} | 0<br>
-&gt; &gt;=C2=A0 .../rust/{<a href=3D"http://rust-llvm_1.71.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">rust-llvm_1.71.0.bb</a> =3D&gt; <a href=3D"http:=
-//rust-llvm_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust-llvm_1.71.=
-1.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/rust/rust-source.inc=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt; &gt;=C2=A0 meta/recipes-devtools/rust/{<a href=3D"http://rust_1.71.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">rust_1.71.0.bb</a> =3D&gt; <a href=
-=3D"http://rust_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.1=
-.bb</a>}=C2=A0 =C2=A0| 0<br>
-&gt; &gt;=C2=A0 6 files changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a href=3D"http://cargo_=
-1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71.0.bb</a> =3D&gt;=
- <a href=3D"http://cargo_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">ca=
-rgo_1.71.1.bb</a>} (100%)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a href=3D"http://libstd=
--rs_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">libstd-rs_1.71.0.bb</a>=
- =3D&gt; <a href=3D"http://libstd-rs_1.71.1.bb" rel=3D"noreferrer" target=
-=3D"_blank">libstd-rs_1.71.1.bb</a>} (100%)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a href=3D"http://rust-c=
-ross-canadian_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-cross-ca=
-nadian_1.71.0.bb</a> =3D&gt; <a href=3D"http://rust-cross-canadian_1.71.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">rust-cross-canadian_1.71.1.bb</a>} =
-(100%)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a href=3D"http://rust-l=
-lvm_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-llvm_1.71.0.bb</a>=
- =3D&gt; <a href=3D"http://rust-llvm_1.71.1.bb" rel=3D"noreferrer" target=
-=3D"_blank">rust-llvm_1.71.1.bb</a>} (100%)<br>
-&gt; &gt;=C2=A0 rename meta/recipes-devtools/rust/{<a href=3D"http://rust_1=
-.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.0.bb</a> =3D&gt; <=
-a href=3D"http://rust_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust_=
-1.71.1.bb</a>} (100%)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=3D"http://cargo_1=
-.71.0.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71.0.bb</a> b/meta/r=
-ecipes-devtools/rust/<a href=3D"http://cargo_1.71.1.bb" rel=3D"noreferrer" =
-target=3D"_blank">cargo_1.71.1.bb</a><br>
-&gt; &gt; similarity index 100%<br>
-&gt; &gt; rename from meta/recipes-devtools/rust/<a href=3D"http://cargo_1.=
-71.0.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71.0.bb</a><br>
-&gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D"http://cargo_1.71=
-.1.bb" rel=3D"noreferrer" target=3D"_blank">cargo_1.71.1.bb</a><br>
-&gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=3D"http://libstd-=
-rs_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">libstd-rs_1.71.0.bb</a> =
-b/meta/recipes-devtools/rust/<a href=3D"http://libstd-rs_1.71.1.bb" rel=3D"=
-noreferrer" target=3D"_blank">libstd-rs_1.71.1.bb</a><br>
-&gt; &gt; similarity index 100%<br>
-&gt; &gt; rename from meta/recipes-devtools/rust/<a href=3D"http://libstd-r=
-s_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">libstd-rs_1.71.0.bb</a><b=
-r>
-&gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D"http://libstd-rs_=
-1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">libstd-rs_1.71.1.bb</a><br>
-&gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=3D"http://rust-cr=
-oss-canadian_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-cross-can=
-adian_1.71.0.bb</a> b/meta/recipes-devtools/rust/<a href=3D"http://rust-cro=
-ss-canadian_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust-cross-cana=
-dian_1.71.1.bb</a><br>
-&gt; &gt; similarity index 100%<br>
-&gt; &gt; rename from meta/recipes-devtools/rust/<a href=3D"http://rust-cro=
-ss-canadian_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-cross-cana=
-dian_1.71.0.bb</a><br>
-&gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D"http://rust-cross=
--canadian_1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust-cross-canadi=
-an_1.71.1.bb</a><br>
-&gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=3D"http://rust-ll=
-vm_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-llvm_1.71.0.bb</a> =
-b/meta/recipes-devtools/rust/<a href=3D"http://rust-llvm_1.71.1.bb" rel=3D"=
-noreferrer" target=3D"_blank">rust-llvm_1.71.1.bb</a><br>
-&gt; &gt; similarity index 100%<br>
-&gt; &gt; rename from meta/recipes-devtools/rust/<a href=3D"http://rust-llv=
-m_1.71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust-llvm_1.71.0.bb</a><b=
-r>
-&gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D"http://rust-llvm_=
-1.71.1.bb" rel=3D"noreferrer" target=3D"_blank">rust-llvm_1.71.1.bb</a><br>
-&gt; &gt; diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/re=
-cipes-devtools/rust/rust-source.inc<br>
-&gt; &gt; index 3a192e42db7d..0729db6f0b45 100644<br>
-&gt; &gt; --- a/meta/recipes-devtools/rust/rust-source.inc<br>
-&gt; &gt; +++ b/meta/recipes-devtools/rust/rust-source.inc<br>
-&gt; &gt; @@ -7,7 +7,7 @@ SRC_URI +=3D &quot;<a href=3D"https://static.rust=
--lang.org/dist/rustc-$%7BRUST_VERSION%7D-src.tar.xz;n" rel=3D"noreferrer" t=
-arget=3D"_blank">https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-sr=
-c.tar.xz;n</a><br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://zlib-off64=
-_t.patch;patchdir=3D${RUSTSRC} \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-musl-=
-Define-SOCK_SEQPACKET-in-common-place.patch;patchdir=3D${RUSTSRC} \<br>
-&gt; &gt;=C2=A0 &quot;<br>
-&gt; &gt; -SRC_URI[rust.sha256sum] =3D &quot;5814699031aafdcc2e2f71fc9b3896=
-78cd7042350d1583da061463d8e88681c7&quot;<br>
-&gt; &gt; +SRC_URI[rust.sha256sum] =3D &quot;371af0fbe04051e20a74dbea6d4e4e=
-548f10f15309c49cae2688afb882b6c7f1&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 RUSTSRC =3D &quot;${WORKDIR}/rustc-${RUST_VERSION}-src&quot=
-;<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-devtools/rust/<a href=3D"http://rust_1.=
-71.0.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.0.bb</a> b/meta/rec=
-ipes-devtools/rust/<a href=3D"http://rust_1.71.1.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">rust_1.71.1.bb</a><br>
-&gt; &gt; similarity index 100%<br>
-&gt; &gt; rename from meta/recipes-devtools/rust/<a href=3D"http://rust_1.7=
-1.0.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.0.bb</a><br>
-&gt; &gt; rename to meta/recipes-devtools/rust/<a href=3D"http://rust_1.71.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">rust_1.71.1.bb</a><br>
-&gt;<br>
-&gt; I ran some testing and it looks like we could merge up to 1.71.1<br>
-&gt; without autobuilder failures in this series. Beyond that we have the<b=
-r>
-&gt; reproducibility and zvariant issues.<br>
-&gt;<br>
-<br>
-Thanks.<br>
-<br>
-Was the failure at that point reproducibility or the zvariant trait<br>
-failure? I just posted an update for zvariant which doesn&#39;t see the<br>
-trait recursion failure, but at the same time it no longer exercises<br>
-crates pulled from git which looked like it was the main purpose it<br>
-was fulfilling for testing.<br>
-<br></blockquote><div>I didn&#39;t follow issues about this upgrade, but ye=
-s, the zvariant recipe</div><div>was a demonstration on how to handle crate=
-s dependencies that come from git.</div><div>(there is a specific crate fet=
-cher url parameter: &#39;git-dependency&#39;)</div><div><br></div><div>If, =
-for some reason, this is no more possible, the whole recipe can be removed<=
-/div><div>(unless there is a direct dependency to zvariant in some=C2=A0 ot=
-her recipes)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
--- <br>
-Alex Kiernan<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#192125): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/192125" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/192125</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103055164/621=
-3388" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/103055164/6213388</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:frederic.martinsons@gmail.=
-com" target=3D"_blank">frederic.martinsons@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000006790e060c36b3e7--
+Yuta Hayama
 
