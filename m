@@ -1,255 +1,353 @@
-Return-Path: <dnagodra@cisco.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59479C4167B
-	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 10:28:52 +0000 (UTC)
-Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
- by mx.groups.io with SMTP id smtpd.web11.5438.1702290522602814351
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66AB4C4167B
+	for <webhook@archiver.kernel.org>; Mon, 11 Dec 2023 10:35:42 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.5527.1702290935080243625
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Dec 2023 02:28:42 -0800
+ Mon, 11 Dec 2023 02:35:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=ZgQG40MH;
- spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: dnagodra@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4070; q=dns/txt; s=iport;
-  t=1702290522; x=1703500122;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Dv7VVq+Dj8eKb3oqZviZAKvPk/oAPClDZFNbVKLNMck=;
-  b=ZgQG40MHFgy21jDVq3xE9OQPljU7ppElSJ0z7uo0a5QFo1x8M4Afvzak
-   tBIihCr78/+/C+QBIChEiTzjHieicpGC44wAnbHtzv9ky3kvf3dixQrEH
-   eTdwbZmDM3aWQRzSimQEHmU6LWyULmKEli8Us0mNSYbsFhTwDI4vW8y+8
-   E=;
-X-CSE-ConnectionGUID: Cl6Zg3gQS+CNfp+GyJL4vA==
-X-CSE-MsgGUID: YX3Ny7t1RJes9zWbtGl49A==
-X-IPAS-Result: =?us-ascii?q?A0ADAAD/4nZlmJFdJa1aGgEBAQEBAQEBAQEDAQEBARIBA?=
- =?us-ascii?q?QEBAgIBAQEBQCWBFgUBAQEBCwGBZlJ5Alo8SAOET4NMA4ROX4hnA5E7jEMUg?=
- =?us-ascii?q?REDVg8BAQENAQEuCwsEAQGFBgIWhxYCJjQJDgECBAEBAQEDAgMBAQEBAQEBA?=
- =?us-ascii?q?QYBAQUBAQECAQcEFAEBAQEBAQEBHhkFEA4nhWgNhkUBAQEBAwERERE3DhACA?=
- =?us-ascii?q?QgYAgIfBwICAiYKFRACBAENBQgagl4Bgl4DARChQgGBQAKKKHqBMoEBghUFg?=
- =?us-ascii?q?U5BsGoYgQIuAYd3GgEFY2iDWjkBhDsnG0CBTYEVQoJoPmsaAYFbBAEXgQ0QA?=
- =?us-ascii?q?Q8BGhWDRDmCLwSDYoFig1YHMoIhgygpgSuPOglBCipGcBsDBwN/DysHBDAbB?=
- =?us-ascii?q?wYJFC0jBlEEKCEJExJAgWCBUgp/Pw8OEYI+HwIHNjYZSIJaFQw1BEZ1ECoEF?=
- =?us-ascii?q?BeBEgRqBRYSHjcREhcNAwh0HQIyPAMFAwQzChINCyEFFEIDQgZJCwMCGgUDA?=
- =?us-ascii?q?wSBMwUNHgIQGgYMJwMDEkkCEBQDOwMDBgMLMQMwVUQMTwMRXR82CTwPDB0CG?=
- =?us-ascii?q?x4NJyMCLEIDAg8FEgIWAyQWBDYRCQsoAy8GOAITDAYGCV4mFgkEJwMIBANWA?=
- =?us-ascii?q?yQsA0QdQAMLbT0UIQYOGwUEOylZBaBzgTYBgXJDYRMHEQIrAQkXLQIsDyVPO?=
- =?us-ascii?q?T6SQ4NxjV2BQ58aCieDaIwCjRyIJBeEAYFWix2ZE5hCIIIwixiVBCQgAheEZ?=
- =?us-ascii?q?gIEAgQFAg4BAQaBYzotG4ETcBWDIglJGQ+OOR+CG4MkgxWKZXYCAQ8pAgcBC?=
- =?us-ascii?q?gEBAwmIbgEngUsBAQ?=
-IronPort-PHdr: A9a23:FXta1BwtdtpHV1PXCzMRngc9DxPP853uNQITr50/hK0LLuKo/o/pO
- wrU4vA+xFPKXICO8/tfkKKWqKHvX2Uc/IyM+G4Pap1CVhIJyI0WkgUsDdTDCBjTJ//xZCt8F
- 8NHBxd+53/uCUFOA47lYkHK5Hi77DocABL6YAZzL+vyFpTbp8+2zOu1vZbUZlYAiD+0e7gnN
- Byttk2RrpwPnIJ4I6Atyx3E6ndJYLFQwmVlZBqfyh39/cy3upVk9kxt
-IronPort-Data: A9a23:kQFgbKvSY+1XeLKayDO0szfOAufnVEZeMUV32f8akzHdYApBsoF/q
- tZmKW/Xb6zfZmL8f9lzO4mwoEgPuZ/QnNQxSFdurypjQn8bgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0rrav656yAkiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuHZDdJ5xYuajhPsvja8Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 44vG5ngows1Vz90Yj+Uuu6Tnn8iG9Y+DiDS4pZiYJVOtzAZzsAEPgnXA9JHAatfo23hc9mcU
- 7yhv7ToIesiFvWkdOjwz3C0HgkmVZCq9oMrLlCUtZKhwBbJSkCv6NNgFAIZLK88pvheVDQmG
- fwwcFjhbziZjO6whbm8UOQp14IoLdLgO8UUvXQIITPxVKl9B8ucBfSRo4YEgV/chegWdRraT
- 8YfYDVoYA7JSxZOIVwQTpk5mY9Eg1GmLm0D9QjI+/ZfD277/Twq9qmyLIPvWNGRFNdqlFq3o
- j6X1jGsav0dHIfCkWXeqC3EavX0tSTjVYQfEbe1+vJnjBiYwXYeIBkXTkeg5/6hh0izXthSJ
- 0AZ9mwpt6dayaCwZsP2Uxv9q3mes1tNHdFRCOY9rgqKz8I4/jp1GEAvSmBzZ4cpjfR1bhokz
- hymjvHNWSJG5ej9pW2myp+Yqja7OC4wJGAEZDMZQQZt3zUFiNxi5v4oZog7eJNZnuHI9SfML
- ydmRRXSap0JhsINkq68512C0nSnp4PCSUg+4QC/soOZAuFROt7Ni2+AsASzARN8wGCxFQbpU
- J8sx5L20Qz2JcvR/BFhuc1UdF1T296LMSfHnXlkFIQ7+jKm9haLJN8Iumslfx82bptUIVcFh
- XM/XysMtfe/21P0NMdKj36ZUp1CIVXITI26Ca6MNrKinLAqLFfZlM2RWaJg9zuwyBd3y/5X1
- Wazese3BnFSErV80DezXK8c17Rtrh3SNkuNLa0XOy+PiOLEDFbMEO9tGALXPogRsvjeyC2Lq
- Ik3Cid/40gFOAEISnOJodd7wJFjBSVTOK0aXOQOLbHZf1A7Rz59YxITqJt4E7FYc21uvr6g1
- lm2W1RTzxz0gnivFOlAQikLhG/HNXqnkU8GAA==
-IronPort-HdrOrdr: A9a23:/89uraHADq4sNHT2pLqFrZLXdLJyesId70hD6qkvc203TiXIra
- CTdaogtCMc0AxhJk3I+ertBEGBKUmsk6KdkrNhTItKOzOW9ldATbsSorcKrAeQYREWmtQtsZ
- uINpIOd+EYbmIKzPoSgjPIburIqePvmMvH9IWuqkuFDzsaF52IhD0JczpzZ3cGPzWucqBJbK
- Z0iPA3wAZIUE5nHfiTNz0uZcSGjdvNk57tfB4BADAayCTmt1mVwY+/OSK1mjMFXR1y4ZpKyw
- X4egrCiZmLgrWe8FvxxmXT55NZlJ/K0d1YHvGBjcATN3HFlhuoTJ4JYczAgBkF5MWUrHo6mt
- jFpBkte+5p7WnKQ22zqRzxnyH9zTcV7WP4w1PwuwqgnSW5fkN+NyNyv/MfTvLr0TtngDi66t
- MT44utjesSMfoHplWk2zGHbWAwqqP+mwtTrQdatQ0sbWJZUs4QkWTal3klTavp20nBmdoaOf
- grA8fG6PlMd1SGK3jfo2l02dSpGm8+BxGcXyE5y4aoOhVt7ThEJnEjtYcit2ZF8Ih4R4hP5u
- zCPKgtnLZSTtUOZaY4AOsaW8O4BmHEXBqJaQupUBjaPbBCP2iIp4/84b0z6u3vcJsUzIEqkJ
- CEVF9Dr2Y9d0/nFMXL1pxW9RLGRnm7QF3Wu4xjzok8vqe5SKvgMCWFRlxrm8y8o+8HCsmeQP
- q3MII+OY6rEYIvI/c+4+TTYegkFZBFarxhhj8SYSP7nv72
-X-Talos-CUID: =?us-ascii?q?9a23=3AN/jin2pMPVCQMFydni3g/F/mUeshLE/Sl3jpGAy?=
- =?us-ascii?q?TL2hxC5KEa3vM5ooxxg=3D=3D?=
-X-Talos-MUID: 9a23:5xJUawsMafQkelrPrc2ntQE5EtY3//2UKk0WwIc5sdWrMXAhEmLI
-X-IronPort-Anti-Spam-Filtered: true
-Received: from rcdn-core-9.cisco.com ([173.37.93.145])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 10:28:41 +0000
-Received: from rcdn-opgw-4.cisco.com (rcdn-opgw-4.cisco.com [72.163.7.165])
-	by rcdn-core-9.cisco.com (8.15.2/8.15.2) with ESMTPS id 3BBASf0Q028459
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 10:28:41 GMT
-X-CSE-ConnectionGUID: dGnxemqDSa+5L6YrSxLBVw==
-X-CSE-MsgGUID: u0yGTKjPSN60BaewKRe8tg==
-Authentication-Results: rcdn-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com; spf=Pass smtp.mailfrom=dnagodra@cisco.com; dmarc=pass (p=quarantine dis=none) d=cisco.com
-X-IronPort-AV: E=Sophos;i="6.04,267,1695686400"; 
-   d="scan'208";a="18659151"
-Received: from mail-mw2nam12lp2040.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.40])
-  by rcdn-opgw-4.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 10:28:40 +0000
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JakVyOC9;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=07090768a2=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BB6K1aW029238
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 10:35:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:mime-version; s=PPS06212021; bh=Xhk5J2w9+Tam67BUNo
+	ITmMpVCtIP+1nBfzQp3h5lX1k=; b=JakVyOC9AGTo4tisDueoI1mSdFCEXdVE/9
+	PTJ9wIuHsY1q4h8Gdyv+K59t7hy4/ZMtKp0UBfEmPdklFCLa/tHONw2RusSpCsby
+	RaueTg3aVPfXwMqekDMyj1+7QcKN8U7dzRPYx+QO+EaxgDtT+2nqN+w3TEwgU9fF
+	iONWdtao+CIAGV/rL3/oph8S3WPCZeFUeusqoOF5zpk3KGBz89w+AJ7HchRJ4CTt
+	Jp3FO870/Trm6fAg7XspaYJV7tCU6W0VRrg/hbnbyxaK1Ha2oD1X1m6dROfQDcId
+	ZYxTQ1itDvInAyAeYcxWCbw5qelLLZZsm9FLG0XTOJTEllypJnMg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uvf761jb6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 10:35:34 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 3BBAZXHQ025268
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 10:35:33 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uvf761jb4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 11 Dec 2023 10:35:33 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=feTvyaquBFy5fs3unInfGF42aHK2U/+7RbNgPiNBTN9azDWdAH7xGkZVtf22ymd48u/lkPayzO7agcSiHQ7QnFLaUJ3eD7wCU/yaZigPZbRwQ3L7WPYQQ6HzSoL4GaKLDfvXE8GOfGBnz/dsHvkkoyJ31HiiHy8ABVmWz8k/0WWrZj66O+SxGbww8aXVFn0gXi83RjQAUm+F5sI4DJZZzS2XME1HRFY+0uw5ARNp6dCJuJx9OdbJ2UIWFOFyl3IlMP7vU4JLbVAq+1s79cR1HMuGALjnz/qtH3PYh5iJ4PgSMkiR00tydwxo0Op5Y6/1+nbP1w2cKxvWbOVT+fKMCg==
+ b=R++j2p7onG/lqFxtT2ppIKeVxAmRUB7v/UXbL4oKC4kLWSZLTeQKT/BlxvuQVjkLDuSHkjRYmtivmVpXd67UdmScD7kQ45Lja9D88Foa5d5HmT2fV91LmOz8Nd2fACJlKNUnM5Vp2F5ogrbwINNpDcQNFc1sRpDmyRa8r7NCO1qLefzt6b5FgFWXf/J592PyGGuHAFjYykkMmsD/lvnsw4zq9J2avFL0AH5wktmyIacUoJOFq4fMLLqmFOP5/SmxAlDXcULrt57MeHZSD/UxiS2dEV1jG4XQy/YB9apVitmzpQKHxPlXOcUfiqdAcXpHtLeSDMfMxd7fIkb9fiWZgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dv7VVq+Dj8eKb3oqZviZAKvPk/oAPClDZFNbVKLNMck=;
- b=fyRQGkayFoqLAYs1WjS98l+RpcteX/LVvCAbwGTp5nVtSy6hLPdQikelHwGILY+siNgk5uPwkpUaenVLJUQXs8Ht9EXgQquCxi+lI1qHoGEr5EowuOijGYLELEx94a4SZhK0DMaPI53deuZemlrL49/vdYiP/IIYWLznLuEDSbymgOUmA++VqG8a44jQIHziZRdXp/woxQube04TPAQfou5sL2Ogz9uf13rsvomhxj1JFfSIQrNHhWJpX3rkLwii7NDm+jd1vHGzmVnlhqo7ozavFlvDOhiPidxmv/88RBKWlOxiJx7QZaxwayfAs5T7J1yvpGCPYyotGrP5qE6Oig==
+ bh=Xhk5J2w9+Tam67BUNoITmMpVCtIP+1nBfzQp3h5lX1k=;
+ b=EIz1AemK/EKIJcwPBvRzBzTpN+Pji9azcqtb0cR0+1Ap7bnfkFGqwq9AvLgNSEzlWKzr+VVsZzkRXb/n3kUzJStu9mjVQxywuCIIZaOEkjxDFTPNdDq/i9UX+JiPzkoaCqxkDNsNMXJrtLzN3wX2eFIXq5JJK93VTqn1PmXNW1Hi5XfmGpORtk25j8uzQ3wy1cEc2AmEjJgMZmxuyz1FWCNluz1HQttqXtK/7mCGVNxwTNtAdvFvQj35/8OgR9/jb0mYt96C3ZdN9p7Qm8Y1PiREsm5tT7r0UptSOlpmU3k0nZtSe1x6u0SKdNW25g8XLbNZ77DGzVTHLTMnOHOkaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from SN7PR11MB6971.namprd11.prod.outlook.com (2603:10b6:806:2ab::21)
- by PH0PR11MB4821.namprd11.prod.outlook.com (2603:10b6:510:34::5) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from BYAPR11MB3397.namprd11.prod.outlook.com (2603:10b6:a03:1b::29)
+ by IA1PR11MB8175.namprd11.prod.outlook.com (2603:10b6:208:44f::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.32; Mon, 11 Dec
- 2023 10:28:38 +0000
-Received: from SN7PR11MB6971.namprd11.prod.outlook.com
- ([fe80::3af6:ccd1:145b:83bb]) by SN7PR11MB6971.namprd11.prod.outlook.com
- ([fe80::3af6:ccd1:145b:83bb%6]) with mapi id 15.20.7068.031; Mon, 11 Dec 2023
- 10:28:38 +0000
-From: "Dhairya Nagodra -X (dnagodra - E-INFO CHIPS INC at Cisco)"
-	<dnagodra@cisco.com>
-To: Yoann Congal <yoann.congal@smile.fr>, Yuta Hayama <hayama@lineo.co.jp>,
-        "openembedded-core@lists.openembedded.org"
+ 2023 10:35:29 +0000
+Received: from BYAPR11MB3397.namprd11.prod.outlook.com
+ ([fe80::4f9d:3b80:9e57:685e]) by BYAPR11MB3397.namprd11.prod.outlook.com
+ ([fe80::4f9d:3b80:9e57:685e%3]) with mapi id 15.20.7068.033; Mon, 11 Dec 2023
+ 10:35:29 +0000
+From: "Sambu, Soumya" <Soumya.Sambu@windriver.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-CC: "xe-linux-external(mailer list)" <xe-linux-external@cisco.com>
-Subject: RE: [OE-core] [master] [PATCH] cve-update-nvd2-native: increase the
- delay between subsequent request failures
-Thread-Topic: [OE-core] [master] [PATCH] cve-update-nvd2-native: increase the
- delay between subsequent request failures
-Thread-Index: AQHaKZQaEqipV94GmE+eR+r9SB9O9LCjupSAgAADBQCAACRfgA==
-Date: Mon, 11 Dec 2023 10:28:37 +0000
+Subject: Re: [OE-core][PATCH v2 1/1] go: ignore CVE-2023-45283 and
+ CVE-2023-45284
+Thread-Topic: [OE-core][PATCH v2 1/1] go: ignore CVE-2023-45283 and
+ CVE-2023-45284
+Thread-Index: AQHaKprdhDnJPrEseUu3rSlToZ2Zu7Cj4rH6
+Date: Mon, 11 Dec 2023 10:35:28 +0000
 Message-ID: 
- <SN7PR11MB6971B5B0381A29B57317419FD48FA@SN7PR11MB6971.namprd11.prod.outlook.com>
-References: <20231208050439.461257-1-dnagodra@cisco.com>
- <581f915c-39e0-41fe-8258-84739b5ace41@lineo.co.jp>
- <a11d36d5-5151-404d-8065-f68cb2eadd19@smile.fr>
-In-Reply-To: <a11d36d5-5151-404d-8065-f68cb2eadd19@smile.fr>
+ <BYAPR11MB3397689BFA5B883B5E49BC60818FA@BYAPR11MB3397.namprd11.prod.outlook.com>
+References: <20231208104215.1425474-1-soumya.sambu@windriver.com>
+ <202312091225509233e4be@mail.local>
+In-Reply-To: <202312091225509233e4be@mail.local>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-MS-TNEF-Correlator: 
+msip_labels: 
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR11MB6971:EE_|PH0PR11MB4821:EE_
-x-ms-office365-filtering-correlation-id: b6c463da-ccf5-4007-69ed-08dbfa33effa
+x-ms-traffictypediagnostic: BYAPR11MB3397:EE_|IA1PR11MB8175:EE_
+x-ms-office365-filtering-correlation-id: 8145de7b-c9d3-4d79-56da-08dbfa34e48d
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- 8fR1q7R72EWHDd4DjJKgfmC79V7gckM/CBdvw3AM3nNrVUyhRmrr5JVRPjXxQ50dFxkdJKj5SdIx7j0fu3iW3ha8/rbi8JLg4JGvgL/mIpxkxCxbCsyWTYZmpq4XHJIcUpC2BP8jFXRN6IPewnuUD2zuSyUznGQ+zokAOB3MvKnHB45Br8NJnKMDgM7OF2TSBOYQsW51ZeEE8YQoIdqzc64gHHB46J33EjLiIcJfuNY42PMkiTLNpNKZTD2opVQrlwyTYLAdZ15bqUZez7ADdyR/kiANmGIDfaSp/zOTTEFTkA+tsHcxznYykMxYLEcPv63rlkdJz7/SRtgPWHqmH/qVcQOrAGkhS2chJ35ZC0bF845xTQSkx21/gAzYKnDs8W5zxW7z+cZ8SRcS9CLffFcWVJTL8RSaaeutXTJCzAiKuXW+W49RJ3JRpmJqHNm2DLF79kFJMwytR/pjXcnQj3Q9cH1MVWF0mu0phVYUT5NeSzQ0IGasVURVZK1PLPZHJ9EdbbOeilzvkhfFLC6RzNu3fEUJBy7artu4RFO1zijeSQEeYH0KOHJQclx9iaSO8AZwfDj2BuoQlRo4tXCH85HYftrYvJtntWvAjoDI/vkz4jNud/FbAO2n1PUkMh4E9Rq2TNhsSGFLdIbru+hZAw==
+ +W6XdBJV/jlHm+agW818MXt10AwlGYDXdXJMlELPL0+0y17dZZ+L/8SJoYG8OoBHHSEvzjtsQ5/Saipx8ePT/lmaWTvvl0aFU9UqKOBjhBk2Z1YMoG7fc2VfbDNYtyfmW21e3gPLGU8fGqtbH7BKU7NnFwMe4aR+94YNJQAW4M+RVUW111VvnTdYOFOw+sdhlR+AMm4oVf6LVeOZp0gQ1izG8u4SS1AlN6kyZHjZxF/yABYYz51xVrE3pEOaZA5eyD6yzNmKwAFBidFAX2lu0Y0628r+oIpy9eyjMW4uOv8D7E8mOIepUBU0hFaT3q/z/OZBIQ78raJhafZqCyHIgv62eSozBjkhKeFn19OKFVTyeF0DxxBEMVMMqss904+5E4Vg4WXAfB+UKo3AZqBXO9WP82SbimLcId24oOC1kleLpOk5oktqQ3PsgR4qCSkPmsY57MSIM+7XREsD/WWL6DyoWJKU+eifUltMofAs3oZ8yS33P7mvuHfNebfCFIBMf1+U9WMAA3zx1Qhkc2OOIvO0KTvWjzSXAocUNli0cpmD9afNZn0j0SQf98nmz65BnUsve1OisSS9DQ8j7GIb+NmDk0KOhpON3HdqbMsd7kQNW0Vaf0woTJDmvHHaqb6JAj4nsCcn+W0yR3r5gony+SrRbOf0UwiPtMTLM8zTiRXYO+rDg9P/xnufocrnouFr
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB6971.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(136003)(376002)(366004)(346002)(230273577357003)(230173577357003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(6506007)(7696005)(2906002)(55236004)(64756008)(66446008)(66476007)(66556008)(66946007)(52536014)(53546011)(9686003)(71200400001)(122000001)(38100700002)(86362001)(33656002)(316002)(15650500001)(8936002)(4326008)(8676002)(5660300002)(55016003)(76116006)(110136005)(966005)(478600001)(41300700001)(66574015)(107886003)(38070700009)(26005)(83380400001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3397.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(366004)(376002)(346002)(136003)(396003)(230922051799003)(230173577357003)(230273577357003)(451199024)(186009)(64100799003)(1800799012)(66899024)(41300700001)(26005)(83380400001)(38070700009)(33656002)(86362001)(38100700002)(122000001)(166002)(5660300002)(316002)(8676002)(8936002)(4326008)(2906002)(7696005)(6506007)(9686003)(71200400001)(53546011)(6916009)(52536014)(66556008)(66476007)(66446008)(64756008)(66946007)(76116006)(478600001)(966005)(55016003)(19627405001);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?cXZ0bjVlcEhWWU5UL0g1V3JwN1NvRUFvZWdLLzc3Tm5xRzVTV0hkMzhZTExk?=
- =?utf-8?B?cElTRTZlWTduVU9wdFVhOFNnTHFrZ0dacndCa3pGWXZSYS9XK0ZIMnRnZlZa?=
- =?utf-8?B?ODBsUWRsNFRMdU00dUlndS8zZHdBenY5MmZyUmxnWWtmS1l6K0tNN0FYd0Ry?=
- =?utf-8?B?Zmd5OUY0ZGtrYWR5TGFlOXkwN2h6Q1Jycy9TVWY0ZHdqL01zSEJOYlpFZVVh?=
- =?utf-8?B?UkZtenBtVnB4bTNTK0RRRnhuRW9BWGpZQWhTdzBnRGJSVnBWN0lpQ1A1NG5O?=
- =?utf-8?B?TStldDBXSGtmcjQvNUNuZG4xOEt2WDZXTXI1RzVvbmdzUnhKNjFqcVkwd1VG?=
- =?utf-8?B?V254dlRFd2xMSm9ReEI2ZGFtL011UldBUkpoNExQMnp1QWE0TWFaV0VBTEww?=
- =?utf-8?B?REVoNWlyM05tTUFZRkM4RExMeU1BMzFBRzRNS3RzUUt0RTdRRUJiYW90K283?=
- =?utf-8?B?LzNSRzNodDkzYjR4OHdkN2JSVW9WdzlRMlhKaEd0aUowSFk2ditQYzVDNVFF?=
- =?utf-8?B?eHlwMzdJTkFpYjB0bk9QMG5LaFd5UUtEU0tDcmtxVCtqQk5saG4wekZldi9D?=
- =?utf-8?B?ZGJyRDdCMHI3UGU3VnVBS0l6TnUwc1R4NXM4cFd5NHoyb2NjOGpIYUZzTW1h?=
- =?utf-8?B?NzU4R2lqdExhQXNSLzhsM2pOWkdWNVBkTlJNYlNGQ3h2M2FBM2gxUlRGVGk5?=
- =?utf-8?B?S1JHbmFhR2ZVWENNaWpkblZDTkhqTnhneHhFTE0vSU1NQUxRWkhhemQrY1Fq?=
- =?utf-8?B?ejdzakNmQS90NE9RdThjRGhHSmRNKzF6UGd0TWdZSEplSHZIeHM3Y3dwcTRj?=
- =?utf-8?B?dXFBN1l3Uit4bjFzUlJWbDBlZUVPbkwyRFE4OWlnS2lzVFpsNW1TSXBuTUxy?=
- =?utf-8?B?cGpMV1A4WWw2OFpQL1FWbzU1SG9zZC9oRnNIY0VnNHk5RjhzdktDZ2VaeW40?=
- =?utf-8?B?QTlDejIwM0RGd1kwTi9SeGk1Ky9RZDNGbGpFT0pwZWFkYVhrZDdWdmJxQUNn?=
- =?utf-8?B?TEZJZ0swSzJ3WjFIZ21MQjhxd0UyVGVKeFYxTU1uM2NZaFl6QytnR0I1ZUxU?=
- =?utf-8?B?Ymd3dWhpV0h1WHhNejlSb0JmVVMyMXFESjhuWk9XcGNWUTJUSXloSm1JbjV6?=
- =?utf-8?B?aUVtYXNOMmpiODZzTW4rcCtMWSthR04wSERpdzBNUXNLeGpOZkdHRVlXTUlk?=
- =?utf-8?B?ZzRuTWVMU25XV3YrQ3FUOWNid1RIMVNTbXdMTXh2YmhVUGM1anVod3dndW0w?=
- =?utf-8?B?OXJ1VXVIS2FvTjYySThEdmQ0WG1oOWQ4RURwRHZmUjBnZG03R0lreEtkNldR?=
- =?utf-8?B?VXR1a1Y5T0taWWVxWGx5TDcyNjVsZDhFOGpmSmhwdEcwa1gwejdOUE11V05J?=
- =?utf-8?B?RE1MTnc0cVl4ZUN0YUxhNzRVWDM1cjJQMTFDMU9VSkR1SkpTZEo1VUdHaGJG?=
- =?utf-8?B?UVUwMFhlZUNhVFdpcmVyMzcwZ1RuTGVNb0pVZWh4Y0pIN3BhZFF3L3ZwU2xy?=
- =?utf-8?B?ZW8rQzg2andNdkNuSVVOTm9CVWxQaE1sUnczNTFsc0ljR0M3NTFPUkl6YW9Y?=
- =?utf-8?B?L2xUVlY5R2R0YWs5dzR4TGxTOXp3RG1OMFYwMHYzVFNXQkk4bzhvdkg0bjl6?=
- =?utf-8?B?bzNuZmFaaUxqWUhnbGUzMjBqdTNXeUIzYnV6amkvYzdjejdmdUNNY1pkR25j?=
- =?utf-8?B?RlhxZVRJaWIwTEJuTExISnBaamdhTWY3N1QxU3ZrU2J0Nzl2ejBObDAvcDJO?=
- =?utf-8?B?ejJva29acEplckREeE1JSG1XRStMRUJrSHRXMDNXcWpSTDZva05NVFV2NHI1?=
- =?utf-8?B?M3BGaDhDNzJxUGRPYXQzeVdVYktIUGdKa0RlaW1YQ21ZdzkyYXN1NU5BTjVK?=
- =?utf-8?B?aHJxaHJVQ25qUE9vbzdDcHRsQkRBSXVXWGh0YmtOeS9PRDJ0bGNYMndILzFP?=
- =?utf-8?B?Skc5eTJhK2ZiTlJ5ajVyd0d4VjdCNW53U2hTS0J6Yk53elRUN2lvR1NKM3NN?=
- =?utf-8?B?MUNERE1pTjk1V3lVTHJEbTFLWWFsR3BQZFNuVStsNko1RzdMREdIWVBEQVQx?=
- =?utf-8?B?WHFPd2dOWll0WXU0R3E3R1JqclNYT2hwM1Q3NFU3dWdNcGZ6Q2Z5ZWZGYXFY?=
- =?utf-8?Q?Z1vcYoyewGB/LhrazBsn++w9t?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ =?us-ascii?Q?Ih8hk4Z5kpIOIb+9smpb6lGEMKAnf7LSUZak2WiwY8RB6DaEUnnKzCmi9Oml?=
+ =?us-ascii?Q?DLYH3mSbKDUAowWp9Hyzao5p0N4MGFh6BJcmtJtzEAq0Y0nHqEKLyJegH8Bm?=
+ =?us-ascii?Q?j9sck6ydKHO/7Y62UibgUF/8q1hmLAyvMe4dAFfPCxwfIG6NdOa7wJLqmbE+?=
+ =?us-ascii?Q?CwYLkbrP57sxjXBSSFr6cvgdWvSGixiUktq277aYwY56DRZNT3l9S9uYdNwY?=
+ =?us-ascii?Q?A9FRRX+9N4X+gc8ySiGVN9lo9J1QLh5KT5+z0E46O/pdBBw1ZIq0LzhCPa9g?=
+ =?us-ascii?Q?QFyH0VEumyTK7NODexcIClE0aag88q2kC1IlbqQyJcn7dbGkbS9uT9vpcS3l?=
+ =?us-ascii?Q?kObhpVFwUobztv/Gi5Ssf6q6U/QZ4+vD7g03MIhODgVl6zq1qDnlyj7yKboV?=
+ =?us-ascii?Q?q3n3FJ+ZDnu2KGn4Qx9X/JJjlNJTiedjq7ZFvzcIX7LIGN0VpWsbMBy/+2V4?=
+ =?us-ascii?Q?Hs/yxtjDMrbDbY2qFn4CNLM6a0OLj642XGOh17nQzu831ICkw04TAgROpkwF?=
+ =?us-ascii?Q?TC0+PAdg9J0r/uPa6gDmb3xoniASfJSVuQ/B9CjS0vpQbIMqpllqm+082yKl?=
+ =?us-ascii?Q?AEWHRCLoAoa1TsSIj1H0n3EL04b364rl1AczyRTVjDu8hX+VJTu6m4a73KSW?=
+ =?us-ascii?Q?ruuedrkDlOX04P0Wejhl2g75jGi36v3SpOjIe/jBYL/Jg3ppMXo+CsJ+Nynh?=
+ =?us-ascii?Q?GcZ2hO0e9ImQUnl6Ctq0UqSIBauDGr8vXDlN3p0n7z+lo1/V3rcwvr1kYNVI?=
+ =?us-ascii?Q?dP9c8wNvTUQPlMk6JIqY83GomcyqsYdPTeK8negNbk/KedRfLhsbE1/savVF?=
+ =?us-ascii?Q?UGu0IbDGJRvQ1z6IAA0pH3LxoABVfQ1q9Q2KhHaIzN82C+zru2P3FyM1zWIi?=
+ =?us-ascii?Q?BODn7KoHKjgyvF8UQXC85J+3msCkh3el9V/+af3RzuPlT4KXJn+zxCh3k5lH?=
+ =?us-ascii?Q?YqMy5SX/KWGWVCeYL2eJ5yPBubi47JJs7GEqW3lmjIBGSM8of/qxzMCw21mE?=
+ =?us-ascii?Q?gL5aoqfUMgWmGphqL6BongtXyIOOzIMaO+6MUU6mrrmjI0uUSV3evG+yBPv3?=
+ =?us-ascii?Q?eXG4ieYJnfB03ytrX/eQ5cVmX60vk6B0/wkIWl+ZE18Km0DCkc3ZHtwpdNZa?=
+ =?us-ascii?Q?nG5dyd299HF/HeT2alVR99gVSq+qVjo7hym/lCuW+e8+M0UpCmZX10LMpC8b?=
+ =?us-ascii?Q?LN4uGuoRCcAYZtD7SuPyyQCyOfHO4qzMZ0/yTBmFk2PhToHobk9I7HFg7aau?=
+ =?us-ascii?Q?nfLHzyki5ZN0GDRUJvptsmnwcuQ1cIv/SbY4UswBI/39vOwOuH4t0+YkyNGX?=
+ =?us-ascii?Q?p0w48GKgCPsQ3ENTUeEN5Up9PwY7hErwUAwFar/mEYEYRtCknLH/ZfMqgl1v?=
+ =?us-ascii?Q?h8w9sx//3G/OeNUhazhWdkOv9WoEopxBHqvfOaHgAiuGJoRTUSE5DGAPL691?=
+ =?us-ascii?Q?Ggh6Ix+PXvAWNhDjwfuoU9s8p2fYfKYS51YEv7oED9aH2DGnnwChnKoqmZDN?=
+ =?us-ascii?Q?NozlqWWYfA0jWPZU8QQHTooNaPTDFDhtXHEpwCCBeZ3vISxTQDpLQViBdj6k?=
+ =?us-ascii?Q?QaEFzXb276I4wssLHjzRQe864doLk6WQzFLYykW0?=
+Content-Type: multipart/alternative;
+	boundary="_000_BYAPR11MB3397689BFA5B883B5E49BC60818FABYAPR11MB3397namp_"
 MIME-Version: 1.0
-X-OriginatorOrg: cisco.com
+X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6971.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6c463da-ccf5-4007-69ed-08dbfa33effa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2023 10:28:37.9139
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3397.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8145de7b-c9d3-4d79-56da-08dbfa34e48d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2023 10:35:28.2628
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JOOWl6rthG81zK8zXcbT2qEOXZpeoUcMYO9WIWKDA8Wtaih16e4dhscUx1q4+I4q8xcDBLVbdJAts/exuIBigw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4821
-X-Outbound-SMTP-Client: 72.163.7.165, rcdn-opgw-4.cisco.com
-X-Outbound-Node: rcdn-core-9.cisco.com
+X-MS-Exchange-CrossTenant-userprincipalname: 8OkVGNCsGufFbye7j+eV2h4MZVtHetkfWRri+2QRWhjCdX+Vm75wClCiS/c1Yob0AWze91SjM0qeXua0pTYhKAnvrsLbvt3Kn++7puQ79Eo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8175
+X-Proofpoint-GUID: Wq31vXBRmxh-LCtY5rcZzi4TeYjIw_22
+X-Proofpoint-ORIG-GUID: H-_LHS4F-hkXFWnEpWhTkYFxdJXJFtMH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ mlxlogscore=919 priorityscore=1501 spamscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 phishscore=0 mlxscore=0 adultscore=0
+ clxscore=1015 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2311290000 definitions=main-2312110085
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 10:28:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192157
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Dec 2023 10:35:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192158
 
-SGksDQoNCk9uIDIwMjMvMTIvMTEgMTA6MDIsIFlvYW5uIENvbmdhbCB3cm90ZToNCj5IZWxsbywN
-Cj4NCj5MZSAxMS8xMi8yMDIzIMOgIDA4OjUxLCBZdXRhIEhheWFtYSBhIMOpY3JpdMKgOg0KPj4g
-SGksDQo+Pg0KPj4gT24gMjAyMy8xMi8wOCAxNDowNCwgRGhhaXJ5YSBOYWdvZHJhIHZpYSBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KPj4+IFNvbWV0aW1lcyBOVkQgc2VydmVycyBhcmUg
-dW5zdGFibGUgYW5kIHJldHVybiB0b28gbWFueSBlcnJvcnMuDQo+Pj4gVGhlcmUgaXMgYW4gb3B0
-aW9uIHRvIGhhdmUgaGlnaGVyIGZldGNoIGF0dGVtcHRzIHRvIGluY3JlYXNlIHRoZQ0KPj4+IGNo
-YW5jZXMgb2Ygc3VjY2Vzc2Z1bGx5IGZldGNoaW5nIHRoZSBDVkUgZGF0YS4NCj4+Pg0KPj4+IEFk
-ZGl0aW9uYWxseSwgaXQgYWxzbyBtYWtlcyBzZW5zZSB0byBwcm9ncmVzc2l2ZWx5IGluY3JlYXNl
-IHRoZSBkZWxheQ0KPj4+IGFmdGVyIGEgZmFpbGVkIHJlcXVlc3QgdG8gYW4gYWxyZWFkeSB1bnN0
-YWJsZSBvciBidXN5IHNlcnZlci4NCj4+PiBUaGUgaW5jcmVhc2UgaW4gZGVsYXkgaXMgcmVzZXQg
-YWZ0ZXIgZXZlcnkgc3VjY2Vzc2Z1bCByZXF1ZXN0IGFuZCB0aGUNCj4+PiBtYXhpbXVtIGRlbGF5
-IGlzIGxpbWl0ZWQgdG8gMzAgc2Vjb25kcy4NCj4+Pg0KPj4+IEFsc28sIHRoZSBsb2dzIGFyZSBp
-bXByb3ZlZCB0byBnaXZlIG1vcmUgY2xhcml0eS4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IERo
-YWlyeWEgTmFnb2RyYSA8ZG5hZ29kcmFAY2lzY28uY29tPg0KPj4NCj4+IEkgd2FzIGp1c3Qgd29y
-a2luZyBvbiBhIHNpbWlsYXIgaXNzdWUuDQo+PiBBcyBhIHNwZWNpZmljIGV4YW1wbGUsIG11bHRp
-cGxlIGN2ZS11cGRhdGUtbnZkMi1uYXRpdmU6ZG9fZmV0Y2ggcnVucw0KPj4gaW4gcGFyYWxsZWwg
-Y2FuIGVhc2lseSByZWFjaCB0aGUgcmF0ZSBsaW1pdC4gSXQgY2FuIGJlIGFzc3VtZWQgdGhhdA0K
-Pj4gdGhpcyBzaXR1YXRpb24gd2lsbCBvY2N1ciBpZiBzZXZlcmFsIHBlb3BsZSBydW4gYml0YmFr
-ZSBpbiBvbmUgb2ZmaWNlLg0KPj4gKG9mdGVuIHVuYXdhcmUgb2YgZWFjaA0KPj4gb3RoZXIuLi4p
-DQo+Pg0KPj4gSSBoYXZlIG9ic2VydmVkIHRoZSBkb19mZXRjaCBsb2dzIGFuZCBmb3VuZCB0aGF0
-IEhUVFAgNDAzIGVycm9ycyBhcmUNCj4+IHJldHVybmVkIGlmIHRoZSByZXF1ZXN0IGlzIGJsb2Nr
-ZWQsIHByb2JhYmx5IGR1ZSB0byByYXRlIGxpbWl0YXRpb24uDQoNCkFzIHBlciBteSBrbm93bGVk
-Z2UsIEhUVFAgNDAzIGlzIHJlbGF0ZWQgdG8gYSBwZXJtaXNzaW9uIGlzc3VlIHJhdGhlciB0aGFu
-IGEgcmF0ZSBsaW1pdGF0aW9uLg0KSSBoYXZlIG5vdCBzZWVuIGFuIEhUVFAgNDAzIGVycm9yLCBh
-bnl0aW1lLiBDYW4geW91IHBsZWFzZSBoZWxwIGNsYXJpZnkgaG93IHdhcyBpdCBnZW5lcmF0ZWQ/
-IElzIGl0IHJlcHJvZHVjaWJsZT8NCkkgdHJpZWQgcmVtb3ZpbmcgYm90aCBzbGVlcCBkZWxheXMg
-YWx0b2dldGhlciAoYW5kIHdpdGhvdXQgQVBJIGtleXMpIHRvIHRyeSBhbmQgZ2VuZXJhdGUgYW4g
-ZXJyb3IuIEluIHRoYXQsIEkgY291bGRuJ3QgZ2VuZXJhdGUgYW55IGVycm9ycyBpbnN0ZWFkLCBn
-b3QgdGhlIHJlc3BvbnNlIHdpdGggYSAxNS0yMCBzZWMgZGVsYXkuIFNvLCBJIGd1ZXNzIGl0IHN0
-YXllZCB3aXRoaW4gdGhlIHJhdGUgbGltaXQuDQoNCj4NCj5TaG91bGRuJ3Qgd2UgYXNrIHRoZSBO
-VkQgdG8gcmV0dXJuICI0MjkgVG9vIE1hbnkgUmVxdWVzdHMiIGluc3RlYWQ/DQo+aHR0cHM6Ly9k
-ZXZlbG9wZXIubW96aWxsYS5vcmcvZW4tVVMvZG9jcy9XZWIvSFRUUC9TdGF0dXMvNDI5DQo+DQo+
-PiBOT1RFOiBSZXF1ZXN0aW5nDQo+PiBodHRwczovL3NlcnZpY2VzLm52ZC5uaXN0Lmdvdi9yZXN0
-L2pzb24vY3Zlcy8yLjA/c3RhcnRJbmRleD02MDAwDQo+PiBOT1RFOiBDVkUgZGF0YWJhc2U6IHJl
-Y2VpdmVkIGVycm9yIChIVFRQIEVycm9yIDQwMzogRm9yYmlkZGVuKSwNCj4+IHJldHJ5aW5nDQo+
-PiBOT1RFOiBDVkUgZGF0YWJhc2U6IHJlY2VpdmVkIGVycm9yIChIVFRQIEVycm9yIDQwMzogRm9y
-YmlkZGVuKSwNCj4+IHJldHJ5aW5nDQo+PiBOT1RFOiBDVkUgZGF0YWJhc2U6IHJlY2VpdmVkIGVy
-cm9yIChIVFRQIEVycm9yIDQwMzogRm9yYmlkZGVuKSwNCj4+IHJldHJ5aW5nDQo+PiBOT1RFOiBD
-VkUgZGF0YWJhc2U6IHJlY2VpdmVkIGVycm9yIChIVFRQIEVycm9yIDQwMzogRm9yYmlkZGVuKSwN
-Cj4+IHJldHJ5aW5nDQo+PiBOT1RFOiBDVkUgZGF0YWJhc2U6IHJlY2VpdmVkIGVycm9yIChIVFRQ
-IEVycm9yIDQwMzogRm9yYmlkZGVuKSwNCj4+IHJldHJ5aW5nDQo+PiBXQVJOSU5HOiBDVkUgZGF0
-YWJhc2UgdXBkYXRlIGZhaWxlZA0KPj4gREVCVUc6IFB5dGhvbiBmdW5jdGlvbiBkb19mZXRjaCBm
-aW5pc2hlZA0KPj4NCj4+IE90aGVyIHRpbWVzIGEgcmVxdWVzdCBtYXkgZmFpbCB3aXRoIEluY29t
-cGxldGVSZWFkLCBidXQgdGhpcyBpcw0KPj4gY2xlYXJseSBkaXN0aW5ndWlzaGFibGUgZnJvbSBh
-biBIVFRQIGVycm9yLg0KPj4NCj4+IEhlcmUsIHdlIGNhbiB0aGluayBvZiB0aGUgZm9sbG93aW5n
-IGlkZWFzLg0KPj4gSWYgYW4gSFRUUCBlcnJvciBvY2N1cnMsIGFzc3VtZSB0aGF0IHRoZSByYXRl
-IGxpbWl0IGhhcyBhbHJlYWR5IGJlZW4NCj4+IHJlYWNoZWQgYW5kIHdhaXQgMzAgc2Vjb25kcyB0
-byBlbnN1cmUgdGhhdCB0aGUgbmV4dCB3aW5kb3cgc3RhcnRzLiBUaGUNCj4+IHBhdGNoIHdpbGwg
-YmUgc29tZXRoaW5nIGxpa2UgdGhpcy4NCj4+DQo+PiAtLS0NCj4+ICBtZXRhL3JlY2lwZXMtY29y
-ZS9tZXRhL2N2ZS11cGRhdGUtbnZkMi1uYXRpdmUuYmIgfCA1ICsrKystDQo+PiAgMSBmaWxlIGNo
-YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPg0KPlJlZ2FyZHMsDQo+DQo+
-LS0NCj5Zb2FubiBDb25nYWwNCj5TbWlsZSBFQ1MgLSBUZWNoIEV4cGVydA0KDQpSZWdhcmRzLA0K
-RGhhaXJ5YQ0K
+--_000_BYAPR11MB3397689BFA5B883B5E49BC60818FABYAPR11MB3397namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Alexandre,
+
+I see that current go version is 1.20.12 which is not vulnerable to these C=
+VEs. Kindly ignore this patch.
+
+Regards,
+Soumya
+
+
+
+
+________________________________
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Sent: Saturday, December 9, 2023 5:55 PM
+To: Sambu, Soumya <Soumya.Sambu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Subject: Re: [OE-core][PATCH v2 1/1] go: ignore CVE-2023-45283 and CVE-2023=
+-45284
+
+CAUTION: This email comes from a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.
+
+Hello,
+
+We had go upgrades in between, can you rebase (and check if this is
+still needed)?
+
+On 08/12/2023 10:42:15+0000, Soumya via lists.openembedded.org wrote:
+> From: Soumya Sambu <soumya.sambu@windriver.com>
+>
+> These CVEs affect path handling on Windows.
+>
+> References:
+> https://nvd.nist.gov/vuln/detail/CVE-2023-45283
+> https://nvd.nist.gov/vuln/detail/CVE-2023-45284
+>
+> Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+> ---
+>  meta/recipes-devtools/go/go-1.20.10.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/go/go-1.20.10.inc b/meta/recipes-devto=
+ols/go/go-1.20.10.inc
+> index 39509ed986..0c0a736084 100644
+> --- a/meta/recipes-devtools/go/go-1.20.10.inc
+> +++ b/meta/recipes-devtools/go/go-1.20.10.inc
+> @@ -16,3 +16,6 @@ SRC_URI +=3D "\
+>      file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+>  "
+>  SRC_URI[main.sha256sum] =3D "72d2f51805c47150066c103754c75fddb2c19d48c92=
+19fa33d1e46696c841dbb"
+> +
+> +CVE_STATUS[CVE-2023-45283] =3D "not-applicable-platform: Issue only appl=
+ies on Windows"
+> +CVE_STATUS[CVE-2023-45284] =3D "not-applicable-platform: Issue only appl=
+ies on Windows"
+> --
+> 2.40.0
+>
+
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192038): https://lists.openembedded.org/g/openembedde=
+d-core/message/192038
+> Mute This Topic: https://lists.openembedded.org/mt/103052741/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+exandre.belloni@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+
+
+--
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--_000_BYAPR11MB3397689BFA5B883B5E49BC60818FABYAPR11MB3397namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof"><span style=3D"font-family: Aptos, Aptos_Embe=
+ddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 1=
+2pt; color: rgb(0, 0, 0);">Hi
+</span><span style=3D"letter-spacing: normal; font-family: Aptos, Aptos_Emb=
+eddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: =
+12pt; font-weight: 400; color: rgb(66, 66, 66); background-color: rgb(255, =
+255, 255);">Alexandre</span><span style=3D"font-family: Aptos, Aptos_Embedd=
+edFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12p=
+t; color: rgb(0, 0, 0);">,</span></div>
+<div class=3D"elementToProof"><span style=3D"font-family: Aptos, Aptos_Embe=
+ddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 1=
+2pt; color: rgb(0, 0, 0);"><br>
+I see that current&nbsp;go version is 1.20.12 which is not vulnerable to th=
+ese CVEs. Kindly ignore this patch.<br>
+<br>
+Regards,<br>
+Soumya<br>
+<br>
+<br>
+<br>
+<br>
+</span></div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Alexandre Belloni &lt=
+;alexandre.belloni@bootlin.com&gt;<br>
+<b>Sent:</b> Saturday, December 9, 2023 5:55 PM<br>
+<b>To:</b> Sambu, Soumya &lt;Soumya.Sambu@windriver.com&gt;<br>
+<b>Cc:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core][PATCH v2 1/1] go: ignore CVE-2023-45283 and C=
+VE-2023-45284</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">CAUTION: This email comes from a non Wind River em=
+ail account!<br>
+Do not click links or open attachments unless you recognize the sender and =
+know the content is safe.<br>
+<br>
+Hello,<br>
+<br>
+We had go upgrades in between, can you rebase (and check if this is<br>
+still needed)?<br>
+<br>
+On 08/12/2023 10:42:15+0000, Soumya via lists.openembedded.org wrote:<br>
+&gt; From: Soumya Sambu &lt;soumya.sambu@windriver.com&gt;<br>
+&gt;<br>
+&gt; These CVEs affect path handling on Windows.<br>
+&gt;<br>
+&gt; References:<br>
+&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-45283">https://nv=
+d.nist.gov/vuln/detail/CVE-2023-45283</a><br>
+&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-45284">https://nv=
+d.nist.gov/vuln/detail/CVE-2023-45284</a><br>
+&gt;<br>
+&gt; Signed-off-by: Soumya Sambu &lt;soumya.sambu@windriver.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; meta/recipes-devtools/go/go-1.20.10.inc | 3 +++<br>
+&gt;&nbsp; 1 file changed, 3 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/go/go-1.20.10.inc b/meta/recipes-de=
+vtools/go/go-1.20.10.inc<br>
+&gt; index 39509ed986..0c0a736084 100644<br>
+&gt; --- a/meta/recipes-devtools/go/go-1.20.10.inc<br>
+&gt; +++ b/meta/recipes-devtools/go/go-1.20.10.inc<br>
+&gt; @@ -16,3 +16,6 @@ SRC_URI +=3D &quot;\<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"file://0009-go-Filter-build-p=
+aths-on-staticly-linked-arches.patch">
+file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch</a> \<br>
+&gt;&nbsp; &quot;<br>
+&gt;&nbsp; SRC_URI[main.sha256sum] =3D &quot;72d2f51805c47150066c103754c75f=
+ddb2c19d48c9219fa33d1e46696c841dbb&quot;<br>
+&gt; +<br>
+&gt; +CVE_STATUS[CVE-2023-45283] =3D &quot;not-applicable-platform: Issue o=
+nly applies on Windows&quot;<br>
+&gt; +CVE_STATUS[CVE-2023-45284] =3D &quot;not-applicable-platform: Issue o=
+nly applies on Windows&quot;<br>
+&gt; --<br>
+&gt; 2.40.0<br>
+&gt;<br>
+<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#192038): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/192038">
+https://lists.openembedded.org/g/openembedded-core/message/192038</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10305274=
+1/3617179">
+https://lists.openembedded.org/mt/103052741/3617179</a><br>
+&gt; Group Owner: openembedded-core+owner@lists.openembedded.org<br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub">
+https://lists.openembedded.org/g/openembedded-core/unsub</a> [alexandre.bel=
+loni@bootlin.com]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+<br>
+<br>
+--<br>
+Alexandre Belloni, co-owner and COO, Bootlin<br>
+Embedded Linux and Kernel engineering<br>
+<a href=3D"https://bootlin.com">https://bootlin.com</a><br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_BYAPR11MB3397689BFA5B883B5E49BC60818FABYAPR11MB3397namp_--
 
