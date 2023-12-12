@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0EB0C3DA6E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD977C3DA79
 	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 14:09:21 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.2356.1702390157619260728
+ by mx.groups.io with SMTP id smtpd.web10.2451.1702390158895866973
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 06:09:17 -0800
+ Tue, 12 Dec 2023 06:09:18 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B48121474;
-	Tue, 12 Dec 2023 06:10:03 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 064421474;
+	Tue, 12 Dec 2023 06:10:05 -0800 (PST)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E2B313F738;
-	Tue, 12 Dec 2023 06:09:16 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 343E83F738;
+	Tue, 12 Dec 2023 06:09:18 -0800 (PST)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 6/9] gtk-doc: don't use docdir set in environment in gtkdocize
-Date: Tue, 12 Dec 2023 14:08:17 +0000
-Message-Id: <20231212140820.2900963-7-ross.burton@arm.com>
+Subject: [PATCH 8/9] kmod: fix configure with autopoint calling gtkdocize
+Date: Tue, 12 Dec 2023 14:08:19 +0000
+Message-Id: <20231212140820.2900963-9-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231212140820.2900963-1-ross.burton@arm.com>
 References: <20231212140820.2900963-1-ross.burton@arm.com>
@@ -31,71 +31,88 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:09:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192199
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192201
 
 From: Ross Burton <ross.burton@arm.com>
 
-The gtkdocize script was accidentally respecting $docdir from the
-environment as the default documentation directory. This is a problem as
-bitbake.conf exports $docdir, resulting in configure failures.
+GTKDOC_DOCDIR is obsolete now, so fix the build by passing the
+documentation directory in the GTK_DOC_CHECK call.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- ...01-Don-t-use-docdir-from-environment.patch | 24 +++++++++++++++++++
- meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb  |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk-doc/files/0001-Don-t-use-docdi=
-r-from-environment.patch
+ meta/recipes-kernel/kmod/kmod/gtkdocdir.patch | 33 +++++++++++++++++++
+ meta/recipes-kernel/kmod/kmod_31.bb           |  3 +-
+ 2 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-Don-t-use-docdir-from-=
-environment.patch b/meta/recipes-gnome/gtk-doc/files/0001-Don-t-use-docdi=
-r-from-environment.patch
+diff --git a/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch b/meta/recipes=
+-kernel/kmod/kmod/gtkdocdir.patch
 new file mode 100644
-index 00000000000..f40124877c3
+index 00000000000..a34ea466e8e
 --- /dev/null
-+++ b/meta/recipes-gnome/gtk-doc/files/0001-Don-t-use-docdir-from-environ=
-ment.patch
-@@ -0,0 +1,24 @@
-+From 72dfeec0e49478b0bfb471c4155044391bad8e6c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
+@@ -0,0 +1,33 @@
++From dd59095f70f774f6d1e767010e25b35ef6db4c4b Mon Sep 17 00:00:00 2001
 +From: Ross Burton <ross.burton@arm.com>
-+Date: Fri, 8 Dec 2023 10:35:25 +0000
-+Subject: [PATCH] Don't use docdir from environment
++Date: Fri, 8 Dec 2023 22:35:45 +0000
++Subject: [PATCH] configure: set docdir in GTK_DOC_CHECK
 +
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gtk-doc/-/mer=
-ge_requests/73]
++By passing --docdir in the GTK_DOC_CHECK arguments (to match
++autogen.sh) autoreconf will work out of the box.
++
++Without this autoreconf fails due to the documentation not being in
++./docs, the default location.
++
++Upstream-Status: Submitted [https://lore.kernel.org/linux-modules/202312=
+08224511.1363066-1-ross.burton@arm.com/T/#u]
 +Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
-+ buildsystems/autotools/gtkdocize.in | 2 +-
++ configure.ac | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/buildsystems/autotools/gtkdocize.in b/buildsystems/autotool=
-s/gtkdocize.in
-+index 83127bf..76dcbfd 100755
-+--- a/buildsystems/autotools/gtkdocize.in
-++++ b/buildsystems/autotools/gtkdocize.in
-+@@ -39,7 +39,7 @@ set - $args
++diff --git a/configure.ac b/configure.ac
++index de01e08..67696c4 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -255,7 +255,7 @@ AS_IF([test "x$enable_coverage" =3D "xyes"], [
++ AM_CONDITIONAL([ENABLE_COVERAGE], [test "x$enable_coverage" =3D "xyes"]=
+)
 +=20
-+ # assume working directory if srcdir is not set
-+ test "$srcdir" || srcdir=3D.
-+-test "$docdir" || docdir=3D"$srcdir"
-++docdir=3D"$srcdir"
++ m4_ifdef([GTK_DOC_CHECK], [
++-GTK_DOC_CHECK([1.14],[--flavour no-tmpl-flat])
+++GTK_DOC_CHECK([1.14],[--flavour no-tmpl-flat --docdir libkmod/docs])
++ ], [
++ AM_CONDITIONAL([ENABLE_GTK_DOC], false)])
 +=20
-+ # detect configure script
-+ no_configure_found=3D0
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb b/meta/recipes-=
-gnome/gtk-doc/gtk-doc_1.33.2.bb
-index 2e8ab1c771a..7c366737da5 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb
-@@ -26,6 +26,7 @@ SRC_URI +=3D "file://0001-Do-not-hardocode-paths-to-per=
-l-python-in-scripts.patch \
-            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-            file://conditionaltests.patch \
-            file://no-clobber.patch \
-+           file://0001-Don-t-use-docdir-from-environment.patch \
++--=20
++2.34.1
++
+diff --git a/meta/recipes-kernel/kmod/kmod_31.bb b/meta/recipes-kernel/km=
+od/kmod_31.bb
+index 934a678a062..f8e83d5db63 100644
+--- a/meta/recipes-kernel/kmod/kmod_31.bb
++++ b/meta/recipes-kernel/kmod/kmod_31.bb
+@@ -20,6 +20,7 @@ SRCREV =3D "aff617ea871d0568cc491bd116c0be1e857463bb"
+ SRC_URI =3D "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;bra=
+nch=3Dmaster;protocol=3Dhttps \
+            file://depmod-search.conf \
+            file://avoid_parallel_tests.patch \
++           file://gtkdocdir.patch \
             "
- SRC_URI:append:class-native =3D " file://pkg-config-native.patch"
 =20
+ S =3D "${WORKDIR}/git"
+@@ -35,8 +36,6 @@ PACKAGECONFIG[xz] =3D "--with-xz,--without-xz,xz"
+ PACKAGECONFIG[zlib] =3D "--with-zlib,--without-zlib,zlib"
+ PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,zstd"
+=20
+-GTKDOC_DOCDIR =3D "${S}/libkmod/docs"
+-
+ PROVIDES +=3D "module-init-tools-insmod-static module-init-tools-depmod =
+module-init-tools"
+ RPROVIDES:${PN} +=3D "module-init-tools-insmod-static module-init-tools-=
+depmod module-init-tools"
+ RCONFLICTS:${PN} +=3D "module-init-tools-insmod-static module-init-tools=
+-depmod module-init-tools"
 --=20
 2.34.1
 
