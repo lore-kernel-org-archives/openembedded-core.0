@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E3AC4167B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75AB3C4167D
 	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 14:28:42 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.2858.1702391318629333772
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.2948.1702391315343209512
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 06:28:38 -0800
+ Tue, 12 Dec 2023 06:28:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=orhAEtbp;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ce972ac39dso3546715b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 06:28:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EcSaq4AI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6ceba6c4b8dso4486402b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 06:28:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702391318; x=1702996118; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702391314; x=1702996114; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RbJY9JikY9IYu+tmDOAf5xamg3GHtjsrFebWtsbJrtg=;
-        b=orhAEtbpSf3EXiymk8rK9Znckp9WkjxWmuvUYoZ6om7tsw1ki8tKh/Gu7q4Y+sPoql
-         T8Z9knXzSu8/onI/DFPwrcZl2QobUk9CFXuqxrRVpcC6AJ39ENciHBahxiXA3xkaW0eX
-         EXp9VKBophZmjy+afeSJT02P2jBVYLQLifN4tJ/o5iEQmC1eWplyDzm+tDBgU4RYPHrb
-         MT8SyOdm+Kz9TmyA/wU2PWB+uKrds9nZUZWLQYhTgBS0is2vql4+7JzLRbNampEsv/1A
-         yswSAHhEUSXDhol35W9qQea72k5AkEGum5qVQZolhLg+f0Assv67jKcCvp3Ua0fEhn3y
-         nqag==
+        bh=VU/MF/yQpb4h+XLGZimi8I0wZZ8BgX0ViWXV7HcYreQ=;
+        b=EcSaq4AImPU2vgRQRPYG5YkxbU4dP1qchzUzCpoAXaDEMeG2udlp1+lLzpiLIedCyH
+         Pbc6NTxhXXFoifR4hkBEGudC0+6PRz5KZdJZIu74v5cYT3Ox0XslGBdXaMatPkurOV5Q
+         Kn1aS5e3Ig/GTcpDFRuKPEkb5/oKf92IctWQvjykLSnJd4Awih/K8pz4QSSaMM5Ekxo4
+         1vru8b2Uha1o5vUzI+u7STrAxTF9AQepMv8Nnd0UXDP+xlUT7nl4MrqejmfDvSQkdqDI
+         6XjrcseNhU8rfUTAaMLCl1shxyMCn8t12eLMF/V+8z7quY05JYcJGQyK5efoSVmiIiMX
+         Ciqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702391318; x=1702996118;
+        d=1e100.net; s=20230601; t=1702391314; x=1702996114;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RbJY9JikY9IYu+tmDOAf5xamg3GHtjsrFebWtsbJrtg=;
-        b=sPK2MXembnlzLfB0/2H6XdKwcy1bIwLMFR8P8v+dH8r+qY3RSKpUO1Tlqk+ZkB6Gkm
-         kfuF958zzGSyUFxW5Vhg9EAERBzipgkr/8kMpatFtZa0DY1lhTpgGrKoYeD57SFOrF/X
-         fJa3150zEU4C0MkW5CnmlRk44uXEevspRdmtIdH/CMVfswmhMuB5fchQhaa6308Swn39
-         dNqVJM7JNQTqWuLpc4qcpjfha7O+vzjKWAl0j5Xbwb/rsfPQJTHky5h4tk2t4roARrPV
-         purIlOWr2Dy4n/RX0a/Hsy+uB1VFZuNPjzwHfqfVsDHmwSnqgsE9EBfUKmmdfADIUGIc
-         +QDg==
-X-Gm-Message-State: AOJu0Yz4OfhQfgM4iGNvb8LSm1J+TB/PLa26LGzqH7xfm2ecDg1BP4Wz
-	lEqWFPkv8SIY9b6CLwss8DGCcCrwtswYYCh2eI8=
-X-Google-Smtp-Source: AGHT+IGRjOWqj2vdKXRRamp4NpeO7agMvkP56KcuikforKaZk8AwSZv+RU6JVH/2/QfcBheqBwygiQ==
-X-Received: by 2002:a05:6a00:9388:b0:6ce:2732:278 with SMTP id ka8-20020a056a00938800b006ce27320278mr3317362pfb.39.1702391317747;
-        Tue, 12 Dec 2023 06:28:37 -0800 (PST)
+        bh=VU/MF/yQpb4h+XLGZimi8I0wZZ8BgX0ViWXV7HcYreQ=;
+        b=GI3s7RVpPsEmEf8eYKwT/biQt5WFUKopijvFEybn08WxS5X6LzPfgdLqbPlPZRyLuf
+         CvmFTIql1Q+apljR6zQkwk6zkK9NFAvaMcGnQdcCjY/D7AtAfW9ccreXfdF3L2bPKvrG
+         zGNXA4qbudeQ82z5aiKps6mYUA2eLdIQlCCYmt3csre0X4O8uzw0bRxuVBTNX5IeO/GV
+         ekG9/Jqfb3lXu1zKs2KW6Zav1TW7vM3PildxOIUmITkLLopENPqXETnvu40dvz57JmQQ
+         fJYHIss/8kOerWNMLmbyg/q1u26Zqqd+r7N0EGRGCSclhRIdg6CaOKER0UAucZXpRomG
+         CgLg==
+X-Gm-Message-State: AOJu0YyYgmnw9Fyiwtr2NQV+8+Wut5X8OuSUyotsgblFzrAwIsGb809B
+	GplMbitrnmX6aLRp+QguAMLQ1hlo3zZVZD2Cg/U=
+X-Google-Smtp-Source: AGHT+IFygM0/XmfAxODiRHaYjp5rAuUZOcHttfdzpqnbv2wsWfxvYpHpAS1KnHRUB8up9a8COOetuQ==
+X-Received: by 2002:a05:6a20:6a03:b0:18c:b464:ec5b with SMTP id p3-20020a056a206a0300b0018cb464ec5bmr7968223pzk.61.1702391314136;
+        Tue, 12 Dec 2023 06:28:34 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id n23-20020a056a000d5700b006cbb40669b1sm8188928pfv.23.2023.12.12.06.28.36
+        by smtp.gmail.com with ESMTPSA id n23-20020a056a000d5700b006cbb40669b1sm8188928pfv.23.2023.12.12.06.28.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 06:28:37 -0800 (PST)
+        Tue, 12 Dec 2023 06:28:33 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 29/29] sstate: Ensure sstate searches update file mtime
-Date: Tue, 12 Dec 2023 04:27:35 -1000
-Message-Id: <427c43d8e3315fa6872feaa71d135de60c810de7.1702391115.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 27/29] oeqa/selftest/tinfoil: Add tests that parse virtual recipes
+Date: Tue, 12 Dec 2023 04:27:33 -1000
+Message-Id: <f415c97ad538ce046c87af3fc9eeec6599313764.1702391115.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1702391115.git.steve@sakoman.com>
 References: <cover.1702391115.git.steve@sakoman.com>
@@ -61,84 +61,77 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:28:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192233
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192231
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Commands like "bitbake XXX -S printdiff" search for sstate files but don't download
-them. This means that local files aren't touched as the download code would do, meaning
-the sstate cleanup scripts can delete them. This can then lead to obtuse build failures.
+Running `devtool search gcc` would result in errors for virtual recipes.
+The reason was the newly introduced :layer-<layername> override.
 
-Have the search code touch local files in the same way as the main code paths would to
-avoid these files disappearing.
+When tinfoil parsed the recipes using the parseRecipeFile() function, it
+failed to properly identify the layername for virtual recipes, which
+resulted in the errors.
 
-Move the function to a common touch() function in lib/oe instead of duplicating code.
+Add tests that exercise these code paths through parseRecipeFile().
 
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a27fc0bd5706ab5b9c68a0271fcf57377a678cdf)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/sstate.bbclass | 12 ++----------
- meta/lib/oe/utils.py               | 12 ++++++++++++
- 2 files changed, 14 insertions(+), 10 deletions(-)
+ meta/lib/oeqa/selftest/cases/tinfoil.py | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 2676f18e0a..5b27a1f0f9 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -937,6 +937,7 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         sstatefile = d.expand("${SSTATE_DIR}/" + getsstatefile(tid, siginfo, d))
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index dd13c20402..21c8686b2a 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -48,6 +48,17 @@ class TinfoilTests(OESelftestTestCase):
+             rd = tinfoil.parse_recipe_file(best[3])
+             self.assertEqual(testrecipe, rd.getVar('PN'))
  
-         if os.path.exists(sstatefile):
-+            oe.utils.touch(sstatefile)
-             found.add(tid)
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-         else:
-@@ -1183,16 +1184,7 @@ python sstate_eventhandler() {
-         if not os.path.exists(siginfo):
-             bb.siggen.dump_this_task(siginfo, d)
-         else:
--            try:
--                os.utime(siginfo, None)
--            except PermissionError:
--                pass
--            except OSError as e:
--                # Handle read-only file systems gracefully
--                import errno
--                if e.errno != errno.EROFS:
--                    raise e
--
-+            oe.utils.touch(siginfo)
- }
- 
- SSTATE_PRUNE_OBSOLETEWORKDIR ?= "1"
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index a3b1bb1087..14a7d07ef0 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -7,6 +7,7 @@
- import subprocess
- import multiprocessing
- import traceback
-+import errno
- 
- def read_file(filename):
-     try:
-@@ -528,3 +529,14 @@ def directory_size(root, blocksize=4096):
-         total += sum(roundup(getsize(os.path.join(root, name))) for name in files)
-         total += roundup(getsize(root))
-     return total
++    def test_parse_virtual_recipe(self):
++        with bb.tinfoil.Tinfoil() as tinfoil:
++            tinfoil.prepare(config_only=False, quiet=2)
++            testrecipe = 'nativesdk-gcc'
++            best = tinfoil.find_best_provider(testrecipe)
++            if not best:
++                self.fail('Unable to find recipe providing %s' % testrecipe)
++            rd = tinfoil.parse_recipe_file(best[3])
++            self.assertEqual(testrecipe, rd.getVar('PN'))
++            self.assertIsNotNone(rd.getVar('FILE_LAYERNAME'))
 +
-+# Update the mtime of a file, skip if permission/read-only issues
-+def touch(filename):
-+    try:
-+        os.utime(filename, None)
-+    except PermissionError:
-+        pass
-+    except OSError as e:
-+        # Handle read-only file systems gracefully
-+        if e.errno != errno.EROFS:
-+            raise e
+     def test_parse_recipe_copy_expand(self):
+         with bb.tinfoil.Tinfoil() as tinfoil:
+             tinfoil.prepare(config_only=False, quiet=2)
+@@ -66,7 +77,7 @@ class TinfoilTests(OESelftestTestCase):
+             localdata.setVar('PN', 'hello')
+             self.assertEqual('hello', localdata.getVar('BPN'))
+ 
+-    # The config_data API tp parse_recipe_file is used by:
++    # The config_data API to parse_recipe_file is used by:
+     # layerindex-web layerindex/update_layer.py
+     def test_parse_recipe_custom_data(self):
+         with bb.tinfoil.Tinfoil() as tinfoil:
+@@ -80,6 +91,18 @@ class TinfoilTests(OESelftestTestCase):
+             rd = tinfoil.parse_recipe_file(best[3], config_data=localdata)
+             self.assertEqual("testval", rd.getVar('TESTVAR'))
+ 
++    def test_parse_virtual_recipe_custom_data(self):
++        with bb.tinfoil.Tinfoil() as tinfoil:
++            tinfoil.prepare(config_only=False, quiet=2)
++            localdata = bb.data.createCopy(tinfoil.config_data)
++            localdata.setVar("TESTVAR", "testval")
++            testrecipe = 'nativesdk-gcc'
++            best = tinfoil.find_best_provider(testrecipe)
++            if not best:
++                self.fail('Unable to find recipe providing %s' % testrecipe)
++            rd = tinfoil.parse_recipe_file(best[3], config_data=localdata)
++            self.assertEqual("testval", rd.getVar('TESTVAR'))
++
+     def test_list_recipes(self):
+         with bb.tinfoil.Tinfoil() as tinfoil:
+             tinfoil.prepare(config_only=False, quiet=2)
 -- 
 2.34.1
 
