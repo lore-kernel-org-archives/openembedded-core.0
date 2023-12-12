@@ -2,26 +2,26 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6728EC41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 841C7C35278
 	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 14:09:21 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.2354.1702390155178309083
+ by mx.groups.io with SMTP id smtpd.web10.2448.1702390156327470307
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 06:09:15 -0800
+ Tue, 12 Dec 2023 06:09:16 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 169AF143D;
-	Tue, 12 Dec 2023 06:10:01 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6EA2B1516;
+	Tue, 12 Dec 2023 06:10:02 -0800 (PST)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 44C343F738;
-	Tue, 12 Dec 2023 06:09:14 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 93C023F738;
+	Tue, 12 Dec 2023 06:09:15 -0800 (PST)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com
-Subject: [PATCH 2/9] glib-2.0: no need to depend on target gtk-doc
-Date: Tue, 12 Dec 2023 14:08:13 +0000
-Message-Id: <20231212140820.2900963-3-ross.burton@arm.com>
+Subject: [PATCH 4/9] autotools: don't exclude gtkdocize
+Date: Tue, 12 Dec 2023 14:08:15 +0000
+Message-Id: <20231212140820.2900963-5-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231212140820.2900963-1-ross.burton@arm.com>
 References: <20231212140820.2900963-1-ross.burton@arm.com>
@@ -31,85 +31,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:09:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192195
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192197
 
 From: Ross Burton <ross.burton@arm.com>
 
-The meson.build looks for a target gtk-doc, but it should be looking for
-the native package.
-
-Fixing this means we can drop the need for a target gtk-doc package.
+gtkdocize can now be ran successfully from autoreconf, so there's no
+need to exclude it and run it manually.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../glib-2.0/glib-2.0/native-gtkdoc.patch     | 21 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb |  1 +
- meta/recipes-core/glib-2.0/glib.inc           |  2 --
- 3 files changed, 22 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/native-gtkdoc.pat=
-ch
+ meta/classes-recipe/autotools.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/native-gtkdoc.patch b/me=
-ta/recipes-core/glib-2.0/glib-2.0/native-gtkdoc.patch
-new file mode 100644
-index 00000000000..f56c2b85640
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/native-gtkdoc.patch
-@@ -0,0 +1,21 @@
-+docs/reference: depend on a native gtk-doc
-+
-+In a cross-compiled environment we don't need a target gtk-doc, but a
-+native gtk-doc.
-+
-+Upstream-Status: Backport [f3ff370d1b24f8afb51cd4e865593d5b678188a9]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git a/docs/reference/meson.build b/docs/reference/meson.build
-+index c417ffecb..67c1dda56 100644
-+--- a/docs/reference/meson.build
-++++ b/docs/reference/meson.build
-+@@ -42,7 +42,7 @@ ignore_decorators =3D '|'.join(ignore_decorators)
-+ if get_option('gtk_doc')
-+   # Check we have the minimum gtk-doc version required. Older versions =
-won't
-+   # generate correct documentation.
-+-  dependency('gtk-doc', version : '>=3D1.32.1',
-++  dependency('gtk-doc', version : '>=3D1.32.1', native: true,
-+     fallback : ['gtk-doc', 'dummy_dep'],
-+     default_options : ['tests=3Dfalse'])
-+=20
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb b/meta/recipes=
--core/glib-2.0/glib-2.0_2.78.1.bb
-index a4902621122..3a1dc5ff0c9 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb
-@@ -14,6 +14,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
-}.tar.xz \
-            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
-ly-.patch \
-+           file://native-gtkdoc.patch \
-            "
- SRC_URI:append:class-native =3D " file://relocate-modules.patch \=20
-                                 file://0001-meson.build-do-not-enable-pi=
-dfd-features-on-native-g.patch \
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
--2.0/glib.inc
-index fbf3a39b15f..a2ce7de20d4 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -30,8 +30,6 @@ LEAD_SONAME =3D "libglib-2.0.*"
+diff --git a/meta/classes-recipe/autotools.bbclass b/meta/classes-recipe/=
+autotools.bbclass
+index 12881a31ec9..ca76cde0e74 100644
+--- a/meta/classes-recipe/autotools.bbclass
++++ b/meta/classes-recipe/autotools.bbclass
+@@ -37,7 +37,7 @@ inherit siteinfo
+ export CONFIG_SITE
 =20
- inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-=
-even bash-completion gio-module-cache manpages
+ acpaths ?=3D "default"
+-EXTRA_AUTORECONF +=3D "--exclude=3Dautopoint --exclude=3Dgtkdocize"
++EXTRA_AUTORECONF +=3D "--exclude=3Dautopoint"
 =20
--DEPENDS:append:class-target =3D "${@' gtk-doc' if d.getVar('GTKDOC_ENABL=
-ED') =3D=3D 'True' else ''}"
--
- GTKDOC_MESON_OPTION =3D "gtk_doc"
+ export lt_cv_sys_lib_dlsearch_path_spec =3D "${libdir} ${base_libdir}"
 =20
- S =3D "${WORKDIR}/glib-${PV}"
 --=20
 2.34.1
 
