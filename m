@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD49CC35274
-	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 22:40:36 +0000 (UTC)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web10.10217.1702420836278802708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0ECAC4332F
+	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 22:40:46 +0000 (UTC)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web11.9988.1702420839581131274
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 14:40:36 -0800
+ Tue, 12 Dec 2023 14:40:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AE8QgegQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.173, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3b9f111c114so2892676b6e.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:40:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u4xFzDHr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6d9f9fbfd11so2865368a34.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:40:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702420835; x=1703025635; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702420838; x=1703025638; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=w+GrvasqrhEEz08lO+XbXSA0sLxwDyuNjo6TD/ci7ok=;
-        b=AE8QgegQ1fMrAXk/cbQRGCa/jHwMypwecxM1zfB+HnbPJCyhatSMD3ozkZdqwiNyYz
-         rl4/ircU3XPPIxKZ8IEnB1tr2Dj5xX/DhT14H75zsv2AWSVT/Udk4ABxlcB3356APatA
-         R03PaIP50Oaa6oyorNluJkBKtOXCLLNoKJFqh1PxPbuqXW7Ur7tb01ifUhspiztKvM+l
-         EOZQsM5ehZ8UqmOu4CZrt+N2/UDEUH3gcrr+J42lY2VZ9idrM4d855ftc0elvx4oFj7T
-         bdM5Tcu6MFlhUr7SVg01qoYEZRCV3vJjSQ9zxmI1VjkuyJRaxbzlJxuITI7FEL2MTPUO
-         MTlg==
+        bh=N2aAaiZ85/tbtR505dDO+52SRxmv3lq+6HzNhrs9t7w=;
+        b=u4xFzDHr7kStXSE1YvpEh6+pkVpFRM1ScH11MhXwxMma4kMbuqOI/J3tmJKKEb+13p
+         O9ZVX+JNKkgkzFKBJsywjRF1Lk8jrNz8pqZXiR6WEjPVFfg6AXN7qIQKkAMGRB+WDffc
+         Hr8jWyec0sGz4jcozKJIrIMyYQVyZZwffpFhtAnCA2c9I7IP2+gs2V5mzz6D+WOnQ+Ov
+         XRBd3plgvqegBiqiy4LcW1FrTqRntfAoBsH2qcT7d1XhiYniqpM9BWLl/rdkEJuXN346
+         76xILbHRQG3lhqtMDeH/1ljmA16YYzSKhCydbiZBgN1Q/nXvOmXV7nnlPlD0MNYUvDwV
+         C+jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702420835; x=1703025635;
+        d=1e100.net; s=20230601; t=1702420838; x=1703025638;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=w+GrvasqrhEEz08lO+XbXSA0sLxwDyuNjo6TD/ci7ok=;
-        b=MbDqNJNRg7CgaIdpRbUfTXiATxJTN3GIDGUVC5WTgue5sFAuemZ9hucgvq5IaQX4pq
-         HJM6L7bEjE0DTe9uKfSZOb/O5MzewW5j5EgmVs89tPu0JYLqySS4fjeM7ejnH0La5FAS
-         nUB7MgW/0sS+4AziJENdkmZrI5xopIC8ZkqsId5hiYsNPWgQgem9OWr4uRhqDtq6M3Kq
-         HSz6KwGaITipoTWXEGYzTYrscd7xasKWKUTkFLpVnebbeB4pxhyfxN8mQRMxp6ZLNi/z
-         34BroLHIz9X7JSdQ1L7Iay0eu93Ovg0erWrKxJGezeG1BRlIUirRsniez2/elDToqc+L
-         NXBQ==
-X-Gm-Message-State: AOJu0YzpwcFw6poQfkLFs3HKThsnCGgEM2FJB3Boz9Er1h7FXJt1/JkN
-	b0rLjEiKZJRyiHjria7QlRzhnutK2LtJeHZZ1AA=
-X-Google-Smtp-Source: AGHT+IEmqn6Csv8OHn25BL2xu3ZewxrgEYi+a4SCcf43EztfZyCYBVaRoIWn/ePJ3LkCU3xSfOW5EQ==
-X-Received: by 2002:a05:6808:1307:b0:3b9:ee89:541b with SMTP id y7-20020a056808130700b003b9ee89541bmr8369309oiv.28.1702420834774;
-        Tue, 12 Dec 2023 14:40:34 -0800 (PST)
+        bh=N2aAaiZ85/tbtR505dDO+52SRxmv3lq+6HzNhrs9t7w=;
+        b=QAzAU7C+uuXusahMpMMlDxT49A8B+9u/DtCiovyCWP0u/uKv8n14ngokGo9XbT5oRi
+         jdAmjViWI6r3Z43kOwYWkEbr0WyL8KkpcjLxJpxFENe3n9IMjrYbC4F1RWglEUnQq0Fm
+         XGnFTweFYJBJMHrvu/4c3g/pfo47m5cs/yoZbUfGgk4jTLn4j5a+E80OtQlr86PYFDFg
+         4LvprUGzASa8F8iYmceQbUWGjvntP7xbIXdFILdBLRPR6bMnEHwQoGQQ4LfNsdt7Grh6
+         iLAPhhoFtxgOAZxs6RXikylptdDVCRGB+KKrFEqOgI+U9j081uZ6MwiXb7C5HsOeEl51
+         2gqA==
+X-Gm-Message-State: AOJu0YwKhHtAWR4ZMW4HmZx/9NprhnRMoAb82p/xbk6yb3BI+Gt7CKbq
+	MJu5tWsoUZy19VDiQiDaULVf7UQxUCJQfvD7T68=
+X-Google-Smtp-Source: AGHT+IHiF9XMt+0yfwrDrJLwcVALEpI2hl8GU23Is7NX8l8GTP3uHnZtoe+somnlwIpvCw7YtVpa+Q==
+X-Received: by 2002:a05:6830:16c5:b0:6cd:a989:c7ea with SMTP id l5-20020a05683016c500b006cda989c7eamr6320843otr.16.1702420838182;
+        Tue, 12 Dec 2023 14:40:38 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006d0951e74cbsm3847974pfo.178.2023.12.12.14.40.34
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006d0951e74cbsm3847974pfo.178.2023.12.12.14.40.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 14:40:34 -0800 (PST)
+        Tue, 12 Dec 2023 14:40:37 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/5] gnutls: Backport fix for CVE-2023-5981
-Date: Tue, 12 Dec 2023 12:40:18 -1000
-Message-Id: <626d267806841fae2423e8c595ec7c41dc91e6af.1702420654.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 5/5] openssh: drop sudo from ptest dependencies
+Date: Tue, 12 Dec 2023 12:40:20 -1000
+Message-Id: <96888cdac83ecc328ee4039bd1dd3f29b775cb40.1702420654.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1702420654.git.steve@sakoman.com>
 References: <cover.1702420654.git.steve@sakoman.com>
@@ -60,249 +60,54 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 22:40:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192249
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 22:40:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192251
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 
-Upstream-Status: Backport [import from debian https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/gnutls28/3.7.3-4ubuntu1.3/gnutls28_3.7.3-4ubuntu1.3.debian.tar.xz
-Upstream-Commit: https://gitlab.com/gnutls/gnutls/-/commit/29d6298d0b04cfff970b993915db71ba3f580b6d]
+The tests don't actually need sudo on core-image-ptest-openssh.
+Based on logs seen in
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178 it seems
+that socket errors from sudo are creeping into stderr which are failing
+the banner ptest from openssh. Removing sudo should help removing
+the stderr messages and possibly cure the banner test failures.
 
-References:
-https://ubuntu.com/security/CVE-2023-5981
+(From OE-Core rev: 47e754f483b674b207bfddcc8d4c5d9a3008e102)
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../gnutls/gnutls/CVE-2023-5981.patch         | 206 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   1 +
- 2 files changed, 207 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2023-5981.patch
+ meta/recipes-connectivity/openssh/openssh/run-ptest | 2 +-
+ meta/recipes-connectivity/openssh/openssh_8.9p1.bb  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2023-5981.patch b/meta/recipes-support/gnutls/gnutls/CVE-2023-5981.patch
-new file mode 100644
-index 0000000000..33e498b8e5
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2023-5981.patch
-@@ -0,0 +1,206 @@
-+Backport of:
-+
-+From 29d6298d0b04cfff970b993915db71ba3f580b6d Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <ueno@gnu.org>
-+Date: Mon, 23 Oct 2023 09:26:57 +0900
-+Subject: [PATCH] auth/rsa_psk: side-step potential side-channel
-+
-+This removes branching that depends on secret data, porting changes
-+for regular RSA key exchange from
-+4804febddc2ed958e5ae774de2a8f85edeeff538 and
-+80a6ce8ddb02477cd724cd5b2944791aaddb702a.  This also removes the
-+allow_wrong_pms as it was used sorely to control debug output
-+depending on the branching.
-+
-+Signed-off-by: Daiki Ueno <ueno@gnu.org>
-+
-+Upstream-Status: Backport [import from debian https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/gnutls28/3.7.3-4ubuntu1.3/gnutls28_3.7.3-4ubuntu1.3.debian.tar.xz
-+Upstream-Commit: https://gitlab.com/gnutls/gnutls/-/commit/29d6298d0b04cfff970b993915db71ba3f580b6d]
-+CVE: CVE-2023-5981
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ lib/auth/rsa.c     |  2 +-
-+ lib/auth/rsa_psk.c | 90 ++++++++++++++++++----------------------------
-+ lib/gnutls_int.h   |  4 ---
-+ lib/priority.c     |  1 -
-+ 4 files changed, 35 insertions(+), 62 deletions(-)
-+
-+--- a/lib/auth/rsa.c
-++++ b/lib/auth/rsa.c
-+@@ -207,7 +207,7 @@ proc_rsa_client_kx(gnutls_session_t sess
-+ 				     session->key.key.size);
-+ 	/* After this point, any conditional on failure that cause differences
-+ 	 * in execution may create a timing or cache access pattern side
-+-	 * channel that can be used as an oracle, so treat very carefully */
-++	 * channel that can be used as an oracle, so tread carefully */
-+ 
-+ 	/* Error handling logic:
-+ 	 * In case decryption fails then don't inform the peer. Just use the
-+--- a/lib/auth/rsa_psk.c
-++++ b/lib/auth/rsa_psk.c
-+@@ -264,14 +264,13 @@ _gnutls_proc_rsa_psk_client_kx(gnutls_se
-+ {
-+ 	gnutls_datum_t username;
-+ 	psk_auth_info_t info;
-+-	gnutls_datum_t plaintext;
-+ 	gnutls_datum_t ciphertext;
-+ 	gnutls_datum_t pwd_psk = { NULL, 0 };
-+ 	int ret, dsize;
-+-	int randomize_key = 0;
-+ 	ssize_t data_size = _data_size;
-+ 	gnutls_psk_server_credentials_t cred;
-+ 	gnutls_datum_t premaster_secret = { NULL, 0 };
-++	volatile uint8_t ver_maj, ver_min;
-+ 
-+ 	cred = (gnutls_psk_server_credentials_t)
-+ 	    _gnutls_get_cred(session, GNUTLS_CRD_PSK);
-+@@ -327,71 +326,47 @@ _gnutls_proc_rsa_psk_client_kx(gnutls_se
-+ 	}
-+ 	ciphertext.size = dsize;
-+ 
-+-	ret =
-+-	    gnutls_privkey_decrypt_data(session->internals.selected_key, 0,
-+-					&ciphertext, &plaintext);
-+-	if (ret < 0 || plaintext.size != GNUTLS_MASTER_SIZE) {
-+-		/* In case decryption fails then don't inform
-+-		 * the peer. Just use a random key. (in order to avoid
-+-		 * attack against pkcs-1 formatting).
-+-		 */
-+-		gnutls_assert();
-+-		_gnutls_debug_log
-+-		    ("auth_rsa_psk: Possible PKCS #1 format attack\n");
-+-		if (ret >= 0) {
-+-			gnutls_free(plaintext.data);
-+-		}
-+-		randomize_key = 1;
-+-	} else {
-+-		/* If the secret was properly formatted, then
-+-		 * check the version number.
-+-		 */
-+-		if (_gnutls_get_adv_version_major(session) !=
-+-		    plaintext.data[0]
-+-		    || (session->internals.allow_wrong_pms == 0
-+-			&& _gnutls_get_adv_version_minor(session) !=
-+-			plaintext.data[1])) {
-+-			/* No error is returned here, if the version number check
-+-			 * fails. We proceed normally.
-+-			 * That is to defend against the attack described in the paper
-+-			 * "Attacking RSA-based sessions in SSL/TLS" by Vlastimil Klima,
-+-			 * Ondej Pokorny and Tomas Rosa.
-+-			 */
-+-			gnutls_assert();
-+-			_gnutls_debug_log
-+-			    ("auth_rsa: Possible PKCS #1 version check format attack\n");
-+-		}
-+-	}
-++	ver_maj = _gnutls_get_adv_version_major(session);
-++	ver_min = _gnutls_get_adv_version_minor(session);
-+ 
-++	premaster_secret.data = gnutls_malloc(GNUTLS_MASTER_SIZE);
-++	if (premaster_secret.data == NULL) {
-++		gnutls_assert();
-++		return GNUTLS_E_MEMORY_ERROR;
-++	}
-++	premaster_secret.size = GNUTLS_MASTER_SIZE;
-+ 
-+-	if (randomize_key != 0) {
-+-		premaster_secret.size = GNUTLS_MASTER_SIZE;
-+-		premaster_secret.data =
-+-		    gnutls_malloc(premaster_secret.size);
-+-		if (premaster_secret.data == NULL) {
-+-			gnutls_assert();
-+-			return GNUTLS_E_MEMORY_ERROR;
-+-		}
-+-
-+-		/* we do not need strong random numbers here.
-+-		 */
-+-		ret = gnutls_rnd(GNUTLS_RND_NONCE, premaster_secret.data,
-+-				  premaster_secret.size);
-+-		if (ret < 0) {
-+-			gnutls_assert();
-+-			goto cleanup;
-+-		}
-+-	} else {
-+-		premaster_secret.data = plaintext.data;
-+-		premaster_secret.size = plaintext.size;
-++	/* Fallback value when decryption fails. Needs to be unpredictable. */
-++	ret = gnutls_rnd(GNUTLS_RND_NONCE, premaster_secret.data,
-++			 premaster_secret.size);
-++	if (ret < 0) {
-++		gnutls_assert();
-++		goto cleanup;
-+ 	}
-+ 
-++	gnutls_privkey_decrypt_data2(session->internals.selected_key, 0,
-++				     &ciphertext, premaster_secret.data,
-++				     premaster_secret.size);
-++	/* After this point, any conditional on failure that cause differences
-++	 * in execution may create a timing or cache access pattern side
-++	 * channel that can be used as an oracle, so tread carefully */
-++
-++	/* Error handling logic:
-++	 * In case decryption fails then don't inform the peer. Just use the
-++	 * random key previously generated. (in order to avoid attack against
-++	 * pkcs-1 formatting).
-++	 *
-++	 * If we get version mismatches no error is returned either. We
-++	 * proceed normally. This is to defend against the attack described
-++	 * in the paper "Attacking RSA-based sessions in SSL/TLS" by
-++	 * Vlastimil Klima, Ondej Pokorny and Tomas Rosa.
-++	 */
-++
-+ 	/* This is here to avoid the version check attack
-+ 	 * discussed above.
-+ 	 */
-+-
-+-	premaster_secret.data[0] = _gnutls_get_adv_version_major(session);
-+-	premaster_secret.data[1] = _gnutls_get_adv_version_minor(session);
-++	premaster_secret.data[0] = ver_maj;
-++	premaster_secret.data[1] = ver_min;
-+ 
-+ 	/* find the key of this username
-+ 	 */
-+--- a/lib/gnutls_int.h
-++++ b/lib/gnutls_int.h
-+@@ -974,7 +974,6 @@ struct gnutls_priority_st {
-+ 	bool _no_etm;
-+ 	bool _no_ext_master_secret;
-+ 	bool _allow_key_usage_violation;
-+-	bool _allow_wrong_pms;
-+ 	bool _dumbfw;
-+ 	unsigned int _dh_prime_bits;	/* old (deprecated) variable */
-+ 
-+@@ -992,7 +991,6 @@ struct gnutls_priority_st {
-+ 	      (x)->no_etm = 1; \
-+ 	      (x)->no_ext_master_secret = 1; \
-+ 	      (x)->allow_key_usage_violation = 1; \
-+-	      (x)->allow_wrong_pms = 1; \
-+ 	      (x)->dumbfw = 1
-+ 
-+ #define ENABLE_PRIO_COMPAT(x) \
-+@@ -1001,7 +999,6 @@ struct gnutls_priority_st {
-+ 	      (x)->_no_etm = 1; \
-+ 	      (x)->_no_ext_master_secret = 1; \
-+ 	      (x)->_allow_key_usage_violation = 1; \
-+-	      (x)->_allow_wrong_pms = 1; \
-+ 	      (x)->_dumbfw = 1
-+ 
-+ /* DH and RSA parameters types.
-+@@ -1126,7 +1123,6 @@ typedef struct {
-+ 	bool no_etm;
-+ 	bool no_ext_master_secret;
-+ 	bool allow_key_usage_violation;
-+-	bool allow_wrong_pms;
-+ 	bool dumbfw;
-+ 
-+ 	/* old (deprecated) variable. This is used for both srp_prime_bits
-+--- a/lib/priority.c
-++++ b/lib/priority.c
-+@@ -690,7 +690,6 @@ gnutls_priority_set(gnutls_session_t ses
-+ 	COPY_TO_INTERNALS(no_etm);
-+ 	COPY_TO_INTERNALS(no_ext_master_secret);
-+ 	COPY_TO_INTERNALS(allow_key_usage_violation);
-+-	COPY_TO_INTERNALS(allow_wrong_pms);
-+ 	COPY_TO_INTERNALS(dumbfw);
-+ 	COPY_TO_INTERNALS(dh_prime_bits);
-+ 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-index fcd9af05dc..25f730b801 100644
---- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
-@@ -23,6 +23,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://arm_eabi.patch \
-            file://CVE-2022-2509.patch \
-            file://CVE-2023-0361.patch \
-+           file://CVE-2023-5981.patch \
-            "
+diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest b/meta/recipes-connectivity/openssh/openssh/run-ptest
+index 8a9b770d59..9a406e9b65 100755
+--- a/meta/recipes-connectivity/openssh/openssh/run-ptest
++++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
+@@ -5,7 +5,7 @@ export SKIP_UNIT=1
  
- SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
+ cd regress
+ sed -i "/\t\tagent-ptrace /d" Makefile
+-make -k BUILDDIR=`pwd`/.. .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="sudo" tests \
++make -k BUILDDIR=`pwd`/.. .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="" tests \
+         | sed -u -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e 's/^failed/FAIL: /g'
+ 
+ SSHAGENT=`which ssh-agent`
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+index da7ab7716c..32761b8bb8 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+@@ -170,7 +170,7 @@ RDEPENDS:${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pa
+ # conflict with each other
+ RDEPENDS:${PN}-dev = ""
+ # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
+-RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
++RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed coreutils"
+ 
+ RPROVIDES:${PN}-ssh = "ssh"
+ RPROVIDES:${PN}-sshd = "sshd"
 -- 
 2.34.1
 
