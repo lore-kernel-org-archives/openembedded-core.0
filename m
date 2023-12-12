@@ -1,215 +1,135 @@
-Return-Path: <pidge@baylibre.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B474C4332F
-	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 17:17:25 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.2127.1702401437709104288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A3C6C4167B
+	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 17:43:35 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.2803.1702403013030282973
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 09:17:18 -0800
+ Tue, 12 Dec 2023 09:43:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=FrTL4G+b;
- spf=pass (domain: baylibre.com, ip: 209.85.128.50, mailfrom: pidge@baylibre.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40c41df5577so28754135e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 09:17:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XGj6tQEN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ca208940b3so75765811fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 09:43:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1702401436; x=1703006236; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1702403011; x=1703007811; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qz5T0QU9mlG0kMbPtXkAc0KJmBeWJdDtXQAYPsiDKik=;
-        b=FrTL4G+bES+/Z5jdJCsnBm7tgqC4sKf1HUSC4aLH0dtL0FyMegdRSHIOHBoVBElZgm
-         8ZdjvTfnmek9RioVSYivsuxNMHFU3H180g/eaIq5g+6s9xRZ0lSuyil5iowkegawPSHU
-         nqdw4V2q1/gTZ1hI67NIvtnZ7fSPSOnSaPGuQBKtI04P8iy+Uq1+v5WcN7mKpceyxjuh
-         N7nC5z4iSK+vzF415nI26Kic8sbCvpSjSI7RYhAtUPSWrsLzRY7CmFzmnJ7L8ksEhBco
-         8QQBms4x8ITDibW08X7cNFInGgCfJXegKzg23cggKlU8IS74lD5J08lrIVDPOYmZzZZT
-         xzSw==
+        bh=L1P/liK+3WvDIpUOIBl5I1s7jFxbMteCD05Mpi6d4sk=;
+        b=XGj6tQENGFiLWVIKktUv16rLBxlgyIGsn+9adjTg4vOl4UKqtBKF1fUv2VbNWSGa++
+         OFIJ/cQfFCVSQ2TyVz3fKBWEYoq4QWDQlVclwT0o0MwisF0y8eE29n3kWByQmZsHhhSy
+         uaRbvACjTtCsrax6u7RM2LO3AbWt4eAmF42TADH+t/+I48RdihoF4yw7YgIerF1EjcVG
+         6Y3oZ5/RCuUbLhTon3Q5xSCIIhSE/wDIUftKZGOwX+awFyPBhNisejh/7pcfAj5TiFCj
+         9PRJYGnwpgzqZopekJD/e9r48uWhD57Tn27FxCs2M6iTWFPSfJAk6LcjFWkQ9OatPWf9
+         JcMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702401436; x=1703006236;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1702403011; x=1703007811;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qz5T0QU9mlG0kMbPtXkAc0KJmBeWJdDtXQAYPsiDKik=;
-        b=uwkgf1uLe9H/7p7Fb6Y6hNntAP+r8OKv1mCuEbSpNAzpvO+mSkb/fYbNQYJjfCSPLr
-         9l1wXqH/hjQDJjJDWGWwOlyfha63CTP/L/mAKWj7mUx5nTeQwzuhAP5Q3HxPhAwijLLT
-         fmQxLiWE9bqNJDbEaUBl4HHp9zBGkFMS80x8HMy7g44YiGWadQT3HDn3d9BM0byvGXzV
-         dZysdStE53wfb7I0CTtYh2+kye5vG2CKycFOWIE8hQE5zrixVxjpaoNdWrdyFLQjmHF1
-         byFcGjc/d4x+pBuhvl0+NKKheW+HznZpx3FC9i4GwZszruCQv5hISsL55nL9eiVlv7yz
-         GKpg==
-X-Gm-Message-State: AOJu0YxLndnzoRd61xpyDy44eqHmNbi1Hm1R38TP8wEzhXqWVFyvsDDy
-	DxHaSVGnm+eqowuBC9BOHrVvDjLriyKd121pQwbavQ==
-X-Google-Smtp-Source: AGHT+IGcbFMoARHIDvdlyvQVOoJKtPGEfkG5bOSSUuLBXQFvRVdiPB/SUQmzzdLY03UMhCLi/3OSgA==
-X-Received: by 2002:a05:600c:5106:b0:40c:2395:1faf with SMTP id o6-20020a05600c510600b0040c23951fafmr1783604wms.300.1702401435805;
-        Tue, 12 Dec 2023 09:17:15 -0800 (PST)
-Received: from localhost.localdomain ([194.110.145.184])
-        by smtp.gmail.com with ESMTPSA id g17-20020a05600c311100b0040c4535f1a2sm9286079wmo.39.2023.12.12.09.17.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 09:17:15 -0800 (PST)
-From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
-Subject: [PATCH 2/2] staging: ensure postinst-useradd is run in order
-Date: Tue, 12 Dec 2023 17:17:11 +0000
-Message-Id: <61e920d844db42f06c851db862e713fb6efd61d1.1702401361.git.pidge@baylibre.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <add845338f015b4fce34a9e68a7be4ba304d74fa.1702401361.git.pidge@baylibre.com>
-References: <add845338f015b4fce34a9e68a7be4ba304d74fa.1702401361.git.pidge@baylibre.com>
+        bh=L1P/liK+3WvDIpUOIBl5I1s7jFxbMteCD05Mpi6d4sk=;
+        b=azt5FPf5TLpXAJQU9Ic5NvcbbCeRUr8nZh3UBlNucAui0OL8OeJd8Nf8R0BeYMoG2n
+         YsYcq5VakLvBFprliGL5kTP719wPGHyLBnrxlYZIwnUloA5d7TYtm/AbkFcwZqmJ5LAm
+         1rvmrK3VvDb8Qxz1A5N44cahA2St2XRoYH6UY0TE2ybi62AaEKiNoYskwXNdfoDeep/l
+         bj1HIgz4u8jleN7/ZjOdlz80vUHqQbCdTfe9XM4Pfyh8cW1P2HHf6uc8/Czi6A0wDX89
+         PX10mzmOCvrKgwZx5qq1sUe+KVWcSrtHRpb8LwMS93lCDQqMrjDVElJVeV4Lq8qE0jrj
+         tuvA==
+X-Gm-Message-State: AOJu0Yz3v4VxYrEuMugPb7fLxcxZpTAl7yuo5jwQ6nPpl1j2vD4iP+Zi
+	hKZVpps6u2JSWKd/XtwGYebUxkKUj9jd8FRO6/w=
+X-Google-Smtp-Source: AGHT+IESrEFVyS78BVq+ey/1uQq9diVOf9wXAdfZM3Db/iXhWfwL90A8aISPs+gA9QUIwYKj70TefkLJjiCJP0nOm/U=
+X-Received: by 2002:a05:651c:106f:b0:2cc:30dd:16b8 with SMTP id
+ y15-20020a05651c106f00b002cc30dd16b8mr403547ljm.17.1702403011090; Tue, 12 Dec
+ 2023 09:43:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-7-alex.kiernan@gmail.com>
+ <20231209121845ed0bfb0d@mail.local> <179F2EEFE21E3032.26830@lists.openembedded.org>
+ <CAO5Uq5QA+YaNQtOgtzjNRNLc4_YBG9CxNhopgvqie6OBAo-HOQ@mail.gmail.com>
+ <7cdd0aca-025f-4561-96a0-87c7fd02fbdd@windriver.com> <0fd78419-41d3-4337-b378-76d337fd2e29@windriver.com>
+ <17A023B3B3F04048.13329@lists.openembedded.org>
+In-Reply-To: <17A023B3B3F04048.13329@lists.openembedded.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 12 Dec 2023 17:43:18 +0000
+Message-ID: <CAO5Uq5RRBtJOY5Cwif2Y-UUM-VSNkTTATuKUVCg0NGHHg7i9Hw@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 7/7] rust: Upgrade 1.73.0 -> 1.74.0
+To: alex.kiernan@gmail.com
+Cc: randy.macleod@windriver.com, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org, 
+	Tim Orling <tim.orling@konsulko.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 17:17:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192239
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 17:43:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192240
 
-This patch is based off the work of Piotr Łobacz found here:
-https://bugzilla.yoctoproject.org/attachment.cgi?id=4972&action=diff
+On Tue, Dec 12, 2023 at 4:51=E2=80=AFPM Alex Kiernan via
+lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> On Tue, Dec 12, 2023 at 4:27=E2=80=AFPM Randy MacLeod via
+> lists.openembedded.org
+> <randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+> >
+> > On 2023-12-12 11:25 a.m., Randy MacLeod wrote:
+> >
+> > On 2023-12-12 5:41 a.m., Alex Kiernan via lists.openembedded.org wrote:
+> >
+> > On Sat, Dec 9, 2023 at 2:06=E2=80=AFPM Alex Kiernan via lists.openembed=
+ded.org
+> > <alex.kiernan=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > On Sat, Dec 9, 2023 at 12:18=E2=80=AFPM Alexandre Belloni
+> > <alexandre.belloni@bootlin.com> wrote:
+> >
+> > Hello Alex,
+> >
+> > rust 1.74.0 is not reproducible:
+> > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231208-rf=
+bproj4/packages/diff-html/
+> >
+> > Thanks, I think :)
+> >
+> > One observation, which might be useful, these failures are all inside
+> > the same module src/llvm-project/compiler-rt/lib/builtins which are
+> > just a bunch of intrinsics. And as far as I can see it looks like it's
+> > just the object name mangling that's not reproducible.
+> >
+> > FYI:
+> >
+> > In the weekly YP tech call, we talked about Rust and Richard said that =
+he'd merge
+> > 1.71 to master since it's progress and it unblocks some ptest works tha=
+t Tim was working on.
+> >
+> > We can then just jump directly from 1.71 to 1.74 if ( when! ) we can ma=
+ke that reproducible.
+> >
+> > Or even  to rust-1.74.1:
+> >
+> >    https://blog.rust-lang.org/2023/12/07/Rust-1.74.1.html
+> >
+>
+> Yeah, I did 1.74.1 earlier today
+> (https://github.com/akiernan/poky/commit/f408e74e37ac8cd6d0e4d9715317f69a=
+039ad50f)
+> - can post a patch for that if we want to give it a whirl? There's
+> definitely some reproducibility fixes in there (e.g.
+> https://github.com/rust-lang/rust/issues/112586) but I'm not convinced
+> any of them are what we're seeing (which appear to really be in pieces
+> of LLVM).
+>
 
-The one issue with this is I'm not entirely certain that errors are
-filtering up from postinsts, as the test for base-passwd's postinst
-declares that if it's not found, we'll just call it later, but if so,
-I'm not seeing where exactly that's happening.
+I just realised that because we now have two consecutive versions,
+diffing the 1.71.1...1.72.0 trees was feasible... for the llvm-project
+submodule, the changes are tiny (10 files, mostly RISCV specific or
+tests, nothing that looks even slightly like the issue we're seeing).
+So I suspect wherever the problem comes from its not actually inside
+here.
 
-Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
----
- meta/classes-global/staging.bbclass |  6 +--
- meta/classes/useradd.bbclass        | 74 ++++++++++++++++++-----------
- 2 files changed, 49 insertions(+), 31 deletions(-)
-
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index cf1e4600fd6..e879333aeb9 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -245,7 +245,7 @@ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d):
-                         continue
- 
-     staging_processfixme(fixme, targetdir, targetsysroot, nativesysroot, d)
--    for p in postinsts:
-+    for p in sorted(postinsts):
-         subprocess.check_output(p, shell=True, stderr=subprocess.STDOUT)
- 
- #
-@@ -629,9 +629,9 @@ python extend_recipe_sysroot() {
-     for f in fixme:
-         staging_processfixme(fixme[f], f, recipesysroot, recipesysrootnative, d)
- 
--    for p in postinsts:
-+    for p in sorted(postinsts):
-         subprocess.check_output(p, shell=True, stderr=subprocess.STDOUT)
--
-+        
-     for dep in manifests:
-         c = setscenedeps[dep][0]
-         os.symlink(manifests[dep], depdir + "/" + c + ".complete")
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 0997b3da7a5..b044b926d99 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -103,6 +103,18 @@ fi
- }
- 
- useradd_sysroot () {
-+	user_group_groupmems_add_sysroot user
-+}
-+
-+groupadd_sysroot () {
-+	user_group_groupmems_add_sysroot group
-+}
-+
-+groupmemsadd_sysroot () {
-+	user_group_groupmems_add_sysroot groupmems
-+}
-+
-+user_group_groupmems_add_sysroot () {
- 	# Pseudo may (do_prepare_recipe_sysroot) or may not (do_populate_sysroot_setscene) be running 
- 	# at this point so we're explicit about the environment so pseudo can load if 
- 	# not already present.
-@@ -130,10 +142,19 @@ useradd_sysroot () {
- 		exit 0
- 	fi
- 
--	# Add groups and users defined for all recipe packages
--	GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
--	USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
--	GROUPMEMS_PARAM="${@get_all_cmd_params(d, 'groupmems')}"
-+	if test "x$1" = "xgroup"; then
-+		GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
-+	fi
-+	if test "x$1" = "xuser"; then
-+		USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
-+	fi
-+	if test "x$1" = "xgroupmems"; then
-+		GROUPMEMS_PARAM="${@get_all_cmd_params(d, 'groupmems')}"
-+	fi
-+	if test "x$1" = "x"; then
-+		bbwarn "missing type of passwd db action"
-+		exit 0
-+	fi
- 
- 	# Tell the system to use the environment vars
- 	UA_SYSROOT=1
-@@ -148,29 +169,26 @@ useradd_sysroot () {
- EXTRA_STAGING_FIXMES += "PSEUDO_SYSROOT PSEUDO_LOCALSTATEDIR LOGFIFO"
- 
- python useradd_sysroot_sstate () {
--    scriptfile = None
--    task = d.getVar("BB_CURRENTTASK")
--    if task == "package_setscene":
--        bb.build.exec_func("useradd_sysroot", d)
--    elif task == "prepare_recipe_sysroot":
--        # Used to update this recipe's own sysroot so the user/groups are available to do_install
--
--        # If do_populate_sysroot is triggered and we write the file here, there would be an overlapping
--        # files. See usergrouptests.UserGroupTests.test_add_task_between_p_sysroot_and_package
--        scriptfile = d.expand("${RECIPE_SYSROOT}${bindir}/postinst-useradd-${PN}-recipedebug")
--
--        bb.build.exec_func("useradd_sysroot", d)
--    elif task == "populate_sysroot":
--        # Used when installed in dependent task sysroots
--        scriptfile = d.expand("${SYSROOT_DESTDIR}${bindir}/postinst-useradd-${PN}")
--
--    if scriptfile:
--        bb.utils.mkdirhier(os.path.dirname(scriptfile))
--        with open(scriptfile, 'w') as script:
--            script.write("#!/bin/sh\n")
--            bb.data.emit_func("useradd_sysroot", script, d)
--            script.write("useradd_sysroot\n")
--        os.chmod(scriptfile, 0o755)
-+    for type, sort_prefix in [("group", "01"), ("user", "02"), ("groupmems", "03")]:
-+        scriptfile = None
-+        task = d.getVar("BB_CURRENTTASK")
-+        if task == "package_setscene":
-+            bb.build.exec_func(f"{type}add_sysroot", d)
-+        elif task == "prepare_recipe_sysroot":
-+            # Used to update this recipe's own sysroot so the user/groups are available to do_install
-+            scriptfile = d.expand("${RECIPE_SYSROOT}${bindir}/" f"postinst-useradd-{sort_prefix}{type}" "-${PN}")
-+            bb.build.exec_func(f"{type}add_sysroot", d)
-+        elif task == "populate_sysroot":
-+            # Used when installed in dependent task sysroots
-+            scriptfile = d.expand("${SYSROOT_DESTDIR}${bindir}/" f"postinst-useradd-{sort_prefix}{type}" "-${PN}")
-+    
-+        if scriptfile:
-+            bb.utils.mkdirhier(os.path.dirname(scriptfile))
-+            with open(scriptfile, 'w') as script:
-+                script.write("#!/bin/sh\n")
-+                bb.data.emit_func(f"{type}add_sysroot", script, d)
-+                script.write(f"{type}add_sysroot\n")
-+            os.chmod(scriptfile, 0o755)
- }
- 
- do_prepare_recipe_sysroot[postfuncs] += "${SYSROOTFUNC}"
-@@ -235,7 +253,7 @@ fakeroot python populate_packages:prepend () {
-         preinst = d.getVar('pkg_preinst:%s' % pkg) or d.getVar('pkg_preinst')
-         if not preinst:
-             preinst = '#!/bin/sh\n'
--        preinst += 'bbnote () {\n\techo "NOTE: $*"\n}\n'
-+        preinst += 'set -e \n bbnote () {\n\techo "NOTE: $*"\n}\n'
-         preinst += 'bbwarn () {\n\techo "WARNING: $*"\n}\n'
-         preinst += 'bbfatal () {\n\techo "ERROR: $*"\n\texit 1\n}\n'
-         preinst += 'perform_groupadd () {\n%s}\n' % d.getVar('perform_groupadd')
--- 
-2.34.1
-
+--=20
+Alex Kiernan
 
