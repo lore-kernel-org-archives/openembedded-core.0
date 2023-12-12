@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0ECAC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0EFAC4167B
 	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 22:40:46 +0000 (UTC)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web11.9988.1702420839581131274
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+ by mx.groups.io with SMTP id smtpd.web11.9987.1702420837419327286
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 14:40:39 -0800
+ Tue, 12 Dec 2023 14:40:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u4xFzDHr;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6d9f9fbfd11so2865368a34.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:40:39 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DwNSO1dm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.41, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6d9d0d0e083so4957334a34.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:40:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702420838; x=1703025638; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702420836; x=1703025636; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=N2aAaiZ85/tbtR505dDO+52SRxmv3lq+6HzNhrs9t7w=;
-        b=u4xFzDHr7kStXSE1YvpEh6+pkVpFRM1ScH11MhXwxMma4kMbuqOI/J3tmJKKEb+13p
-         O9ZVX+JNKkgkzFKBJsywjRF1Lk8jrNz8pqZXiR6WEjPVFfg6AXN7qIQKkAMGRB+WDffc
-         Hr8jWyec0sGz4jcozKJIrIMyYQVyZZwffpFhtAnCA2c9I7IP2+gs2V5mzz6D+WOnQ+Ov
-         XRBd3plgvqegBiqiy4LcW1FrTqRntfAoBsH2qcT7d1XhiYniqpM9BWLl/rdkEJuXN346
-         76xILbHRQG3lhqtMDeH/1ljmA16YYzSKhCydbiZBgN1Q/nXvOmXV7nnlPlD0MNYUvDwV
-         C+jQ==
+        bh=grF2cvE7YYp2oRWRLciESNqd9x5VgFrkjD5u5pUZu2g=;
+        b=DwNSO1dm84bkra7/oOooXI6lXJo7WjaxyKsTA1+aF8fyb5wUphf3EzocKk7Zp8CneO
+         yQhtwmHCcj3K8VSXG26ED4hVy+WSFOYEvWFb8AfHsmmpvWKKP9dPZhW+OcXmVkVr4/tW
+         LGYNOxhcbWVfgU0nSkOvTlniXty0juP3JE7yRWAcDBT/wFbQD6FR9CWNKLzqjTkjfIbR
+         DNfP4nf/v+wbmq3oeV2HtYV9/+/VNDTlaPwUQdSELihr/dMgeA2U4SmpbpKROp2Ok1pt
+         yO0gxd0hPozm+uhJwDAcE0RySPywfOO6soue1x25b/j62WQm1OcKaVHQ8LFHtQnG0iQv
+         1Mzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702420838; x=1703025638;
+        d=1e100.net; s=20230601; t=1702420836; x=1703025636;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N2aAaiZ85/tbtR505dDO+52SRxmv3lq+6HzNhrs9t7w=;
-        b=QAzAU7C+uuXusahMpMMlDxT49A8B+9u/DtCiovyCWP0u/uKv8n14ngokGo9XbT5oRi
-         jdAmjViWI6r3Z43kOwYWkEbr0WyL8KkpcjLxJpxFENe3n9IMjrYbC4F1RWglEUnQq0Fm
-         XGnFTweFYJBJMHrvu/4c3g/pfo47m5cs/yoZbUfGgk4jTLn4j5a+E80OtQlr86PYFDFg
-         4LvprUGzASa8F8iYmceQbUWGjvntP7xbIXdFILdBLRPR6bMnEHwQoGQQ4LfNsdt7Grh6
-         iLAPhhoFtxgOAZxs6RXikylptdDVCRGB+KKrFEqOgI+U9j081uZ6MwiXb7C5HsOeEl51
-         2gqA==
-X-Gm-Message-State: AOJu0YwKhHtAWR4ZMW4HmZx/9NprhnRMoAb82p/xbk6yb3BI+Gt7CKbq
-	MJu5tWsoUZy19VDiQiDaULVf7UQxUCJQfvD7T68=
-X-Google-Smtp-Source: AGHT+IHiF9XMt+0yfwrDrJLwcVALEpI2hl8GU23Is7NX8l8GTP3uHnZtoe+somnlwIpvCw7YtVpa+Q==
-X-Received: by 2002:a05:6830:16c5:b0:6cd:a989:c7ea with SMTP id l5-20020a05683016c500b006cda989c7eamr6320843otr.16.1702420838182;
-        Tue, 12 Dec 2023 14:40:38 -0800 (PST)
+        bh=grF2cvE7YYp2oRWRLciESNqd9x5VgFrkjD5u5pUZu2g=;
+        b=N78h2HUVN7NGN+yuwl6UtCwgpjeBsGi3E2zlnHCuIUoe+cPRl4Sg1IH5yhAZGAwcjM
+         2Hru3dGcn0e9iGWdZcvxlVZ85thZ4EYc39v0u8yGvO5hWWdvJSSv7bgGpZPB4rYuv47j
+         mKE9xMX3i8ZK9QlzUCR7Q2kB+ZpXl1acBcGqWpTBZ59wrJiuwwIijAruA7LYUPpJGfZs
+         Yp0RiAZbTvwMeo7jETI/7eDwsmcizdhwH2SRZEuEnyfyf/d8wEhTLxpNKZfAuW/2G+qd
+         b6bdQCiz7eEaeDnkqKnT6my/J0qqOYq5HzEDXrkfW2Vh7Mc72TCY6FM4R9dLtBmOZlVm
+         Y8Hg==
+X-Gm-Message-State: AOJu0YyFL3myNlbm60VLYDtmIcj9vvYDH1yiOnF5TJrjaoklq8rdLSqr
+	tdEtqVHyN6fPzyRwB7fBAefPqsU2kzcZCbXAxr4=
+X-Google-Smtp-Source: AGHT+IENgf+Xb8AZcuOlb7AXUcSl0xv6YupJWtXAfa1o0hcxZSCxuZH/8ezKwBZvf/Uwf7g8qp5PAQ==
+X-Received: by 2002:a05:6808:14d5:b0:3b9:e3d7:1271 with SMTP id f21-20020a05680814d500b003b9e3d71271mr9395930oiw.9.1702420836473;
+        Tue, 12 Dec 2023 14:40:36 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006d0951e74cbsm3847974pfo.178.2023.12.12.14.40.37
+        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006d0951e74cbsm3847974pfo.178.2023.12.12.14.40.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 14:40:37 -0800 (PST)
+        Tue, 12 Dec 2023 14:40:36 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 5/5] openssh: drop sudo from ptest dependencies
-Date: Tue, 12 Dec 2023 12:40:20 -1000
-Message-Id: <96888cdac83ecc328ee4039bd1dd3f29b775cb40.1702420654.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/5] gstreamer1.0-plugins-base: enable glx/opengl support
+Date: Tue, 12 Dec 2023 12:40:19 -1000
+Message-Id: <eb9eccb08f00e413959ebbe115f79b36fef7c484.1702420654.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1702420654.git.steve@sakoman.com>
 References: <cover.1702420654.git.steve@sakoman.com>
@@ -61,53 +61,53 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 22:40:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192251
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192250
 
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-The tests don't actually need sudo on core-image-ptest-openssh.
-Based on logs seen in
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178 it seems
-that socket errors from sudo are creeping into stderr which are failing
-the banner ptest from openssh. Removing sudo should help removing
-the stderr messages and possibly cure the banner test failures.
+This is required by latest webkit when built with x11 support.
 
-(From OE-Core rev: 47e754f483b674b207bfddcc8d4c5d9a3008e102)
+(From OE-Core rev: 024edebf6f722ae4d05411be348730d9eeb3bd7c)
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/openssh/openssh/run-ptest | 2 +-
- meta/recipes-connectivity/openssh/openssh_8.9p1.bb  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../gstreamer/gstreamer1.0-plugins-base_1.20.7.bb           | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest b/meta/recipes-connectivity/openssh/openssh/run-ptest
-index 8a9b770d59..9a406e9b65 100755
---- a/meta/recipes-connectivity/openssh/openssh/run-ptest
-+++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
-@@ -5,7 +5,7 @@ export SKIP_UNIT=1
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
+index 8822c6a905..8dfa70aea3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
+@@ -21,7 +21,8 @@ inherit gobject-introspection
  
- cd regress
- sed -i "/\t\tagent-ptrace /d" Makefile
--make -k BUILDDIR=`pwd`/.. .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="sudo" tests \
-+make -k BUILDDIR=`pwd`/.. .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="" tests \
-         | sed -u -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e 's/^failed/FAIL: /g'
+ # opengl packageconfig factored out to make it easy for distros
+ # and BSP layers to choose OpenGL APIs/platforms/window systems
+-PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 egl', '', d)}"
++PACKAGECONFIG_X11 = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'opengl glx', '', d)}"
++PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 egl ${PACKAGECONFIG_X11}', '', d)}"
  
- SSHAGENT=`which ssh-agent`
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-index da7ab7716c..32761b8bb8 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
-@@ -170,7 +170,7 @@ RDEPENDS:${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pa
- # conflict with each other
- RDEPENDS:${PN}-dev = ""
- # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
--RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
-+RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed coreutils"
+ PACKAGECONFIG ??= " \
+     ${GSTREAMER_ORC} \
+@@ -32,7 +33,7 @@ PACKAGECONFIG ??= " \
+ "
  
- RPROVIDES:${PN}-ssh = "ssh"
- RPROVIDES:${PN}-sshd = "sshd"
+ OPENGL_APIS = 'opengl gles2'
+-OPENGL_PLATFORMS = 'egl'
++OPENGL_PLATFORMS = 'egl glx'
+ 
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxv"
+ X11ENABLEOPTS = "-Dx11=enabled -Dxvideo=enabled -Dxshm=enabled"
+@@ -61,6 +62,7 @@ PACKAGECONFIG[gles2]        = ",,virtual/libgles2"
+ 
+ # OpenGL platform packageconfigs
+ PACKAGECONFIG[egl]          = ",,virtual/egl"
++PACKAGECONFIG[glx]          = ",,virtual/libgl"
+ 
+ # OpenGL window systems (except for X11)
+ PACKAGECONFIG[gbm]          = ",,virtual/libgbm libgudev libdrm"
 -- 
 2.34.1
 
