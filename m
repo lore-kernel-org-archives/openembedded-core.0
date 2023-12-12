@@ -1,121 +1,236 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16699C4332F
-	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 16:51:55 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.1424.1702399913466564470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B4A5C4167B
+	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 17:17:25 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.2173.1702401437277627470
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 08:51:53 -0800
+ Tue, 12 Dec 2023 09:17:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=h096Rd6s;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ca09601127so79713161fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 08:51:53 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=0WPj7XIN;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.46, mailfrom: pidge@baylibre.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40c1e3ea2f2so60018395e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 09:17:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702399912; x=1703004712; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a46EjRPdYQD2SEqcigsmGA9Y0taMFLTq46RBP4/HOGg=;
-        b=h096Rd6s8u9bfEa352GLPOwE36jkb6+3JOUwG7CNOHoByux5HihAgXAZSgE6TiwLsy
-         tQOeWk8JyVMAt3Thm0osJ4s3TJR+t4HXhNcjjex1gabgQU9e7Wa4DgEEhvyBm4vgNtsD
-         UmLLZFzlyHW2om61Zdd7QrmTQSDDNL2hw7y2vevfWbg4NPMlzwbWipWfxQyYJYmmCkZq
-         lO3I215Cr4UIBN8EHinCteviJsMoGJ/zvskmTb8OI+iIDFexatLxJ8ulFsArwJ0MnY50
-         I3TeUmYF/YUJtCz+ya6ML6PvaGjNnMcLKb8LVFE/7kNv6b9Ve4fKUnSJFLfk3KUQpWVG
-         l6qg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1702401435; x=1703006235; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QbtaYay3r2CFHrBltUQOrXcrCpr6nCsgJf2zq5hOflo=;
+        b=0WPj7XINNE4FT9CQcxgTWO2AK5hxFF17hnTD56guXZwcjE1la17jSKES+Au3624FNA
+         tXQsfiH519u/3MytZU1ySsr7sJIAegwIwZcGPkhtyLQFgtMVBgwKZe3HOhlmxRDdqYLV
+         s0nh+bhZ7hd3+DmIr/9ESyoBuFnzaFyTIvxE7wbuLCK+rWwX/0a+irzrEQrEOkqDUREO
+         mpYgKy0SbMTq0rD+c5NwoCUC/ScGNMv9LyMefwuU9wVurnWDLm8jDTDQKrsLPmmuM4l1
+         z4oay98nYiTqSFt+eQPHTuYj1FWlytEXZrOkhk/QjDlGAQiU0aSuYKzVOC5WRn/G7VXx
+         4fzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702399912; x=1703004712;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a46EjRPdYQD2SEqcigsmGA9Y0taMFLTq46RBP4/HOGg=;
-        b=ceeS1J1mdQPsakE+qGmjMNgWWjaDNRMFo4OPD+S8+tbeI/ZI8eNXKr1M9Tn+JqAbM1
-         NSmsdivBfXsbNyKh2Be0L/Ny+e9aYz7XozPWNVFDUufffrdc59bDoYwBc302S4ZIhvsn
-         EUqcJQIDXNQ5yarEcR5mEjLzJ6KYbqnu6NMXvNr4uJ0kBnWMmsYvhOMO8JgU9uIjF824
-         72635IVDUjCgoRbwcYyiwpejRmHcIRxUOgsbelriYnU6TBP0Nqtb5X3kH8n/c4zDtG/b
-         esz+kmVEiNMYeY9Hh/FFUlUwse8sw0/JlgTs0AIqoAhK/VsopNo3zpW7o7YZ2UYULFPm
-         n7lg==
-X-Gm-Message-State: AOJu0YxcILRgk0BrP/M7vLjiAZYv3kgAkt3CP2MPvOcLP92e2BviAPRa
-	k11ir1cX73iMyNdM8RYuMVcwqFtHkfIH5Oz8lVg=
-X-Google-Smtp-Source: AGHT+IE11tQT95RHQNG+mDoJpHV3BoN56Ab3xoROcAX4+gP9Ss/hm6kb6I/UMgmCVrzWh+kY6sUbiu8DK8igqVzHa3Q=
-X-Received: by 2002:a05:651c:983:b0:2cb:54ac:e712 with SMTP id
- b3-20020a05651c098300b002cb54ace712mr3729892ljq.39.1702399911357; Tue, 12 Dec
- 2023 08:51:51 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702401435; x=1703006235;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QbtaYay3r2CFHrBltUQOrXcrCpr6nCsgJf2zq5hOflo=;
+        b=gRvU6nwlC+veKYbMZ4m5ZTocf+z8F9JAJu4zkpx6iTyf9XjqTkQkADfVDQLeHxi5TL
+         4Evlp8ev99PynVQgbANO8r/Nw7Ut0LBfxdl2Uq1z/pRi3ZmyunCY0oBLc5/t0iLYfA0g
+         VTk4syhVo+xW7cN2q90vn+nV0IkHf7spqda9lnk4LOfJyk53JwtoYhdT8fV6kA87WXSW
+         9DgrkY6RQE+7XxoTgM3e8SM9wRWGWwfxNgZEccLVbkoC4qoL+qTL84BiuHSLaDpSGhSM
+         IBXQC1ihDeuo4AWhDc4g1OcgN39/4X7kgDERpSLpDgw38Y41sT9C818dfIsdv5zFmDd4
+         l5Jw==
+X-Gm-Message-State: AOJu0YyLrCq/edY5gSK0Y/DzJLNXWoODfcPCV9L0V5i1AVto5vnURwcy
+	16thw25nVg+YC0OckIg1Of+MmAdWb1hA6VXUg2PsvA==
+X-Google-Smtp-Source: AGHT+IG1qDQCSpj7zwVMPvc9wezUmNse+6ah7qlLMh1gM6H6WTL6jGivjQf2oIiFrA97CVMHXjx+Ew==
+X-Received: by 2002:a7b:ce0f:0:b0:40c:3103:2eb1 with SMTP id m15-20020a7bce0f000000b0040c31032eb1mr3476396wmc.22.1702401435045;
+        Tue, 12 Dec 2023 09:17:15 -0800 (PST)
+Received: from localhost.localdomain ([194.110.145.184])
+        by smtp.gmail.com with ESMTPSA id g17-20020a05600c311100b0040c4535f1a2sm9286079wmo.39.2023.12.12.09.17.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 09:17:14 -0800 (PST)
+From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+Subject: [PATCH 1/2] usergrouptests.py: Test that postinst-useradd-* run in order
+Date: Tue, 12 Dec 2023 17:17:10 +0000
+Message-Id: <add845338f015b4fce34a9e68a7be4ba304d74fa.1702401361.git.pidge@baylibre.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-7-alex.kiernan@gmail.com>
- <20231209121845ed0bfb0d@mail.local> <179F2EEFE21E3032.26830@lists.openembedded.org>
- <CAO5Uq5QA+YaNQtOgtzjNRNLc4_YBG9CxNhopgvqie6OBAo-HOQ@mail.gmail.com>
- <7cdd0aca-025f-4561-96a0-87c7fd02fbdd@windriver.com> <0fd78419-41d3-4337-b378-76d337fd2e29@windriver.com>
-In-Reply-To: <0fd78419-41d3-4337-b378-76d337fd2e29@windriver.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 12 Dec 2023 16:51:39 +0000
-Message-ID: <CAO5Uq5SpbNihNp=7VqgKfnYwRc77A_6DDe_YJ=nykKJHRbs8Jg@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 7/7] rust: Upgrade 1.73.0 -> 1.74.0
-To: randy.macleod@windriver.com
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org, 
-	Tim Orling <tim.orling@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 16:51:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192237
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 17:17:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192238
 
-On Tue, Dec 12, 2023 at 4:27=E2=80=AFPM Randy MacLeod via
-lists.openembedded.org
-<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> On 2023-12-12 11:25 a.m., Randy MacLeod wrote:
->
-> On 2023-12-12 5:41 a.m., Alex Kiernan via lists.openembedded.org wrote:
->
-> On Sat, Dec 9, 2023 at 2:06=E2=80=AFPM Alex Kiernan via lists.openembedde=
-d.org
-> <alex.kiernan=3Dgmail.com@lists.openembedded.org> wrote:
->
-> On Sat, Dec 9, 2023 at 12:18=E2=80=AFPM Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
->
-> Hello Alex,
->
-> rust 1.74.0 is not reproducible:
-> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231208-rfbp=
-roj4/packages/diff-html/
->
-> Thanks, I think :)
->
-> One observation, which might be useful, these failures are all inside
-> the same module src/llvm-project/compiler-rt/lib/builtins which are
-> just a bunch of intrinsics. And as far as I can see it looks like it's
-> just the object name mangling that's not reproducible.
->
-> FYI:
->
-> In the weekly YP tech call, we talked about Rust and Richard said that he=
-'d merge
-> 1.71 to master since it's progress and it unblocks some ptest works that =
-Tim was working on.
->
-> We can then just jump directly from 1.71 to 1.74 if ( when! ) we can make=
- that reproducible.
->
-> Or even  to rust-1.74.1:
->
->    https://blog.rust-lang.org/2023/12/07/Rust-1.74.1.html
->
+This tests for 13904, that postinst-useradd-* run in order.
 
-Yeah, I did 1.74.1 earlier today
-(https://github.com/akiernan/poky/commit/f408e74e37ac8cd6d0e4d9715317f69a03=
-9ad50f)
-- can post a patch for that if we want to give it a whirl? There's
-definitely some reproducibility fixes in there (e.g.
-https://github.com/rust-lang/rust/issues/112586) but I'm not convinced
-any of them are what we're seeing (which appear to really be in pieces
-of LLVM).
+Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
+---
+ .../selftest-users/asecondgroup.bb            | 31 +++++++++++++++++++
+ .../selftest-users/bfirstgroup.bb             | 29 +++++++++++++++++
+ .../selftest-users/cthirdgroup.bb             | 30 ++++++++++++++++++
+ .../recipes-test/selftest-users/groupdep.bb   | 25 +++++++++++++++
+ .../lib/oeqa/selftest/cases/usergrouptests.py |  7 +++++
+ 5 files changed, 122 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/selftest-users/asecondgroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/bfirstgroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/cthirdgroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/groupdep.bb
 
---=20
-Alex Kiernan
+diff --git a/meta-selftest/recipes-test/selftest-users/asecondgroup.bb b/meta-selftest/recipes-test/selftest-users/asecondgroup.bb
+new file mode 100644
+index 00000000000..0ab4ba2a81f
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-users/asecondgroup.bb
+@@ -0,0 +1,31 @@
++SUMMARY = "asecondgroup"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++LICENSE = "MIT"
++
++DEPENDS = "coreutils-native"
++
++
++S = "${WORKDIR}"
++
++inherit useradd allarch
++USERADD_DEPENDS = "bfirstgroup"
++
++USERADD_PACKAGES = "${PN}"
++
++USERADD_PARAM:${PN} = "-r -g grouptest3 -G grouptest2 -s /sbin/nologin gt4"
++GROUPADD_PARAM:${PN} = "-r grouptest3"
++
++TESTDIR = "${D}${sysconfdir}/creategroup"
++
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
++}
++
++FILES:${PN} = "${sysconfdir}/creategroup/*"
++
+diff --git a/meta-selftest/recipes-test/selftest-users/bfirstgroup.bb b/meta-selftest/recipes-test/selftest-users/bfirstgroup.bb
+new file mode 100644
+index 00000000000..e9e2ab21d57
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-users/bfirstgroup.bb
+@@ -0,0 +1,29 @@
++SUMMARY = "bfirstgroup"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++LICENSE = "MIT"
++
++DEPENDS = "coreutils-native"
++
++S = "${WORKDIR}"
++
++inherit useradd allarch
++
++
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM:${PN} = "-r -g grouptest2 -s /sbin/nologin gt3"
++GROUPADD_PARAM:${PN} = "-r grouptest2"
++
++TESTDIR = "${D}${sysconfdir}/creategroup"
++
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
++
++}
++
++FILES:${PN} = "${sysconfdir}/creategroup/*"
+diff --git a/meta-selftest/recipes-test/selftest-users/cthirdgroup.bb b/meta-selftest/recipes-test/selftest-users/cthirdgroup.bb
+new file mode 100644
+index 00000000000..fda4b670ef5
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-users/cthirdgroup.bb
+@@ -0,0 +1,30 @@
++SUMMARY = "asecondgroup"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++LICENSE = "MIT"
++
++DEPENDS = "coreutils-native"
++
++
++S = "${WORKDIR}"
++
++inherit useradd allarch
++USERADD_DEPENDS = "asecondgroup"
++
++USERADD_PACKAGES = "${PN}"
++
++USERADD_PARAM:${PN} = "-r -g grouptest4 -G grouptest3 -s /sbin/nologin gt5"
++GROUPADD_PARAM:${PN} = "-r grouptest4"
++
++TESTDIR = "${D}${sysconfdir}/creategroup"
++
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
++}
++
++FILES:${PN} = "${sysconfdir}/creategroup/*"
+diff --git a/meta-selftest/recipes-test/selftest-users/groupdep.bb b/meta-selftest/recipes-test/selftest-users/groupdep.bb
+new file mode 100644
+index 00000000000..ef2f0865725
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-users/groupdep.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "groupdep"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++LICENSE = "MIT"
++
++DEPENDS = "coreutils-native cthirdgroup"
++
++S = "${WORKDIR}"
++
++TESTDIR = "${D}${sysconfdir}/creategroup"
++
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
++	chown  gt3:grouptest2 ${TESTDIR}/file
++	chown -R gt3:grouptest2 ${TESTDIR}/dir
++	chown -h gt4:grouptest3 ${TESTDIR}/symlink
++	chown -R gt4:grouptest3 ${TESTDIR}/fifotest
++}
++
++FILES:${PN} = "${sysconfdir}/creategroup/*"
+diff --git a/meta/lib/oeqa/selftest/cases/usergrouptests.py b/meta/lib/oeqa/selftest/cases/usergrouptests.py
+index a331ca9f2c4..3beccc5ce7e 100644
+--- a/meta/lib/oeqa/selftest/cases/usergrouptests.py
++++ b/meta/lib/oeqa/selftest/cases/usergrouptests.py
+@@ -51,3 +51,10 @@ class UserGroupTests(OESelftestTestCase):
+         self.write_config("USERADD_GID_TABLES += \"files/static-group\"")
+         self.logger.info("Rebuild with other staticids")
+         self.assertTrue(bitbake(' core-image-minimal'))
++        
++    def test_postinst_order(self):
++        # Test for YOCTO #13904
++        bitbake(' bfirstgroup asecondgroup cthirdgroup groupdep -c clean')
++        self.logger.info("Building groupdep do_prepare_recipe_sysroot")
++        self.assertTrue(bitbake(' groupdep -c do_prepare_recipe_sysroot'))
++
+-- 
+2.34.1
+
 
