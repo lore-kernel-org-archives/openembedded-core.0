@@ -1,65 +1,88 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89116C4332F
-	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 10:28:25 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.13621.1702376904602348179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F26C4332F
+	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 10:42:05 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.13803.1702377720074491136
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 02:28:24 -0800
+ Tue, 12 Dec 2023 02:42:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X7Y1yCEL;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: dbaryshkov@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a1c7d8f89a5so728125366b.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 02:28:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YFWvPPsI;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2c9f4bb2e5eso76030031fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 02:41:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702376903; x=1702981703; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UKFz33JKgfzevFfwrx3Omq1y2QEkW+9mtMAa1zjOZ3s=;
-        b=X7Y1yCELYXRc2F9ijEU8F79R0dljMH8QzWgqOdbSe/vzm597RwI8ObfUD90V2MBZOV
-         ZK9QYDfblO1dRGzGG3O4rN5HQht3/omlgQBZO8E/YCG1Pn0NO9E+6AHwJxW6O9a8x0+2
-         A0mW6h83MJBE297c1GX3BWLEnnzgmlv8idxM3ANzJ0TVwdI9PT0WzAI7v7bW6lsKzaoS
-         vmnisPuiXgR1+sIDhIGAbOfCnlQGkD1BPkgeJ0oE4hqJYKNHsKLvJFsuJ3cmb5JddR2c
-         kCNN+qACFNegoXcXK4+GdQrwD12Lq8KkoJ0i/OhFwL5uqAbu2PT95jbiigm5HbkLP7FG
-         aZhA==
+        d=gmail.com; s=20230601; t=1702377718; x=1702982518; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b9f79EOcqvICZYJDN9c+sMN4OVfI/e99MYn8r7WPDq0=;
+        b=YFWvPPsIzX6NN5PxCn9iBu+8L9YhDhNtNNtie9jLg6vXHmYkJgiCFGc4BPVVdCrVxr
+         OqWIZJn3Nep6IWX8wqVNqaSJqH7kIiDK2eFCBxjzLfQlNB/A+YYcLOKj0jxgDxVVDGQF
+         wsPi4hguhgvB3Rfxy93ElpAAV4p6Xo7IkPAQO4NduklA73dwQrDzS5V4CF4bevOA3evP
+         izaWzSs9VdE4XpcUYDx1WiLs3JsZhWu01cGCRa+nKn7hC3Y7nzOm3Lw0upv83kmzBSnL
+         2os2nWZifF489Wl7JM8CBLgtmTn2hr+D3+TuFdZF+1BZtOeZiSYJAWczP4rUQ4dlo9UX
+         xgVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702376903; x=1702981703;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UKFz33JKgfzevFfwrx3Omq1y2QEkW+9mtMAa1zjOZ3s=;
-        b=quGZAfYF6FoFvoT9+nKdK8IrTEzbehk9meAuPFDbfTnPEZlggWgWfu/lxyDML0Ay/a
-         msY8mt2XbRMfjacSJWauTLPP5Lfik8T6tyLDeA6e+y27HCEeNZTr66P9eUbIgIHsYvlx
-         leG3FdSpqacXoBbGyXxw7y1JWJQ4CPOj87JBdWgvdJ1kQjBY0Q2RE9kRuCtsrZD6HLwW
-         0LiDIyhn4aATua61VMhqL/dc7TwpMXG5wlxe892AFuiSA48i9811zHpKgtvfP5OmM7Gl
-         yQst1jQ7ZZBHM75E7VfB1QzBvaC/1L+FPzt/c0f/Q62Vwq2Cz2yYm9df87NWcVJjF4zv
-         PCzw==
-X-Gm-Message-State: AOJu0YxxJXCtbZiIRPIrhB0lK4q4GrwGZb8biLpUx08RW0p36wi8n+7W
-	N8niWyMLUlHjbDOD10Mk+B1ME9/TclTiFDFOCyjBkiMuMkY=
-X-Google-Smtp-Source: AGHT+IFnvruDq37N2xJwku+piEq5q50X60mkLyBDFHhMUF/SdRp/GTGHovDJqjVRZt46tCeXIe0Z988xxrUq8geszDo=
-X-Received: by 2002:a17:906:c14f:b0:a1c:f8db:c6a5 with SMTP id
- dp15-20020a170906c14f00b00a1cf8dbc6a5mr3522513ejc.46.1702376902637; Tue, 12
- Dec 2023 02:28:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702377718; x=1702982518;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b9f79EOcqvICZYJDN9c+sMN4OVfI/e99MYn8r7WPDq0=;
+        b=ZN6uZ9otpQ0lvJLrz9dOyvBykjYxsJWsJfwN47vD2/+lkEO8V8HzeqXEWfNBMtgKap
+         k9sNAXxlt5Z68H3VSRBuRwaQxcM9BOq3OTEJPHUNoUMPDNxg+E3+WhuaGgLBcs7n7hif
+         R4/tXQOnn4TszYqXhCrxiUOnbWzl3qbkfa65jSjaCjli1YHNU6TXEMqHXE28ChCMgEPv
+         Q2+iCu+OviUYXb2DqEBluCu+sBpvZcU9jFtOSrGaOQTCYdZOIeTuK3/pun/90NezzQlR
+         SGHNJSXsuC7op7/OqvKjZK0OMtOSZ2S2GJtfaezldvQXoxcPzn2Suo1TyN0R9gKvlW9m
+         0iHw==
+X-Gm-Message-State: AOJu0YyNZLREtVwSjroXGUEdXjJRfbvpGI3nCb/gU+4UpGtQs7t8nBPC
+	9yUHH1a60rNzbgddBvNxyRY6XvgGIF5pHtCrjHw=
+X-Google-Smtp-Source: AGHT+IF3Bi7NjmZvh4JtrfyxhKZ6G+s6VQtpvB8dT0A7+HRlxikPLgSnqS8XAgBPKwahAfMZzrEeSaatGNYttAiBNOU=
+X-Received: by 2002:a2e:a907:0:b0:2cc:2751:a6b7 with SMTP id
+ j7-20020a2ea907000000b002cc2751a6b7mr1705094ljq.21.1702377717983; Tue, 12 Dec
+ 2023 02:41:57 -0800 (PST)
 MIME-Version: 1.0
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Date: Tue, 12 Dec 2023 12:28:11 +0200
-Message-ID: <CALT56yM414xkWEHMf1+uXo5dwJKN2MSnnuL5Ltwu+0pYRxspfw@mail.gmail.com>
-Subject: linux-yocto 6.6
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20231208140349.3576-1-alex.kiernan@gmail.com> <20231208140349.3576-7-alex.kiernan@gmail.com>
+ <20231209121845ed0bfb0d@mail.local> <179F2EEFE21E3032.26830@lists.openembedded.org>
+In-Reply-To: <179F2EEFE21E3032.26830@lists.openembedded.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 12 Dec 2023 10:41:45 +0000
+Message-ID: <CAO5Uq5QA+YaNQtOgtzjNRNLc4_YBG9CxNhopgvqie6OBAo-HOQ@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 7/7] rust: Upgrade 1.73.0 -> 1.74.0
+To: alex.kiernan@gmail.com
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 10:28:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192190
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 10:42:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192191
 
-Hello,
+On Sat, Dec 9, 2023 at 2:06=E2=80=AFPM Alex Kiernan via lists.openembedded.=
+org
+<alex.kiernan=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> On Sat, Dec 9, 2023 at 12:18=E2=80=AFPM Alexandre Belloni
+> <alexandre.belloni@bootlin.com> wrote:
+> >
+> > Hello Alex,
+> >
+> > rust 1.74.0 is not reproducible:
+> > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231208-rf=
+bproj4/packages/diff-html/
+> >
+>
+> Thanks, I think :)
+>
 
-Granted that 6.5 is declared EOL, is there any timeline for the
-linux-yocto 6.6 recipe?
+One observation, which might be useful, these failures are all inside
+the same module src/llvm-project/compiler-rt/lib/builtins which are
+just a bunch of intrinsics. And as far as I can see it looks like it's
+just the object name mangling that's not reproducible.
 
--- 
-With best wishes
-Dmitry
+--=20
+Alex Kiernan
 
