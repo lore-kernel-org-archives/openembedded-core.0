@@ -1,114 +1,161 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.bennee@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0EFAC4167B
-	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 22:40:46 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web11.9987.1702420837419327286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09F75C4332F
+	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 22:57:17 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.10579.1702421827768966245
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 14:40:37 -0800
+ Tue, 12 Dec 2023 14:57:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DwNSO1dm;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.41, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6d9d0d0e083so4957334a34.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:40:37 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=pg8z4mk0;
+ spf=pass (domain: linaro.org, ip: 209.85.221.49, mailfrom: alex.bennee@linaro.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33634d2e059so831243f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:57:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702420836; x=1703025636; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=grF2cvE7YYp2oRWRLciESNqd9x5VgFrkjD5u5pUZu2g=;
-        b=DwNSO1dm84bkra7/oOooXI6lXJo7WjaxyKsTA1+aF8fyb5wUphf3EzocKk7Zp8CneO
-         yQhtwmHCcj3K8VSXG26ED4hVy+WSFOYEvWFb8AfHsmmpvWKKP9dPZhW+OcXmVkVr4/tW
-         LGYNOxhcbWVfgU0nSkOvTlniXty0juP3JE7yRWAcDBT/wFbQD6FR9CWNKLzqjTkjfIbR
-         DNfP4nf/v+wbmq3oeV2HtYV9/+/VNDTlaPwUQdSELihr/dMgeA2U4SmpbpKROp2Ok1pt
-         yO0gxd0hPozm+uhJwDAcE0RySPywfOO6soue1x25b/j62WQm1OcKaVHQ8LFHtQnG0iQv
-         1Mzw==
+        d=linaro.org; s=google; t=1702421826; x=1703026626; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yt6tJiIM7qrIUYxhqYLddwUbjwUxr8YJALWBVfiOSD4=;
+        b=pg8z4mk0cXdll8AO602PLgWDNbUMd8MKvNz4vtvRjmxDB4/Yr1fuuaK75PU5NLKueD
+         bOpX7OQsN0QoTVIicEhi6Jr751zxElvuBGhGPkufYFnRvAdC0KQM6G6V5DLfQ6YH5Bv/
+         gfAvm0U87QtRitk03SQzgAzJ4tEi5YtZO6iFUWl96i6JMGoGNbNhAJ9oBtO3Ug4t2xv0
+         a3xk1REe8eEfykn7vRccGGz4UddrWKXuKM4WS85el5v0GX9UJxk7EkQJJxzJKhQ33Qib
+         zSNTtZ0Fpgp6MgLmyB0iS2pGjaX3R/R3dyzh/xmn9BQEVzeRgDaJRdXBzs9iu1iqw82C
+         uFrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702420836; x=1703025636;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=grF2cvE7YYp2oRWRLciESNqd9x5VgFrkjD5u5pUZu2g=;
-        b=N78h2HUVN7NGN+yuwl6UtCwgpjeBsGi3E2zlnHCuIUoe+cPRl4Sg1IH5yhAZGAwcjM
-         2Hru3dGcn0e9iGWdZcvxlVZ85thZ4EYc39v0u8yGvO5hWWdvJSSv7bgGpZPB4rYuv47j
-         mKE9xMX3i8ZK9QlzUCR7Q2kB+ZpXl1acBcGqWpTBZ59wrJiuwwIijAruA7LYUPpJGfZs
-         Yp0RiAZbTvwMeo7jETI/7eDwsmcizdhwH2SRZEuEnyfyf/d8wEhTLxpNKZfAuW/2G+qd
-         b6bdQCiz7eEaeDnkqKnT6my/J0qqOYq5HzEDXrkfW2Vh7Mc72TCY6FM4R9dLtBmOZlVm
-         Y8Hg==
-X-Gm-Message-State: AOJu0YyFL3myNlbm60VLYDtmIcj9vvYDH1yiOnF5TJrjaoklq8rdLSqr
-	tdEtqVHyN6fPzyRwB7fBAefPqsU2kzcZCbXAxr4=
-X-Google-Smtp-Source: AGHT+IENgf+Xb8AZcuOlb7AXUcSl0xv6YupJWtXAfa1o0hcxZSCxuZH/8ezKwBZvf/Uwf7g8qp5PAQ==
-X-Received: by 2002:a05:6808:14d5:b0:3b9:e3d7:1271 with SMTP id f21-20020a05680814d500b003b9e3d71271mr9395930oiw.9.1702420836473;
-        Tue, 12 Dec 2023 14:40:36 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id g25-20020aa78759000000b006d0951e74cbsm3847974pfo.178.2023.12.12.14.40.35
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1702421826; x=1703026626;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Yt6tJiIM7qrIUYxhqYLddwUbjwUxr8YJALWBVfiOSD4=;
+        b=l2rB88MWZBsOEFu7sxKlBtBT2KXY6VG+wYqDChgiXBDV7FCpMMb5yIbGtIWVzEVNw2
+         rLPLf9PS0ZKY5wSbBLZMoqScZABBK206ui43tZmg8BPLoRrqbp1bg4dTIQYFd4nb9L5l
+         xS0qKqSRRae3UcqC5tF+OBDcx6LbPXizQ6Ikt1PN2sQPBQXtOrvk+idam55nW4nwif1k
+         Ls65wEd8pSFHIXQJW8qF5rzomh7ScnEdKDYU0MD/l0kYelOValB+ogbyYhZZVabGYxTX
+         BruumnNXJlHH62ebPSObrAIigC/nA+y1jIckuprPXmdVdLNGPxWepJJmpm1IbpEdgLRw
+         N9qg==
+X-Gm-Message-State: AOJu0YzzxjCSE0Hswv6R/w9OUNyNBl45TJFNGMVXsYaxYKSBLRqQgx7E
+	6sN++ueC07e0fadSn/R2jORcqA==
+X-Google-Smtp-Source: AGHT+IHofKA6JmE/fKJGqRDpm9EN9Gi9R1JVed63QBNmbFwQC9W9IfAtnGdy7DG6tkHentWsSI8Aog==
+X-Received: by 2002:a5d:6203:0:b0:333:2fd2:51d0 with SMTP id y3-20020a5d6203000000b003332fd251d0mr2910857wru.73.1702421826153;
+        Tue, 12 Dec 2023 14:57:06 -0800 (PST)
+Received: from draig.lan ([85.9.250.243])
+        by smtp.gmail.com with ESMTPSA id e16-20020adfa450000000b003332febec90sm11912594wra.7.2023.12.12.14.57.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 14:40:36 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/5] gstreamer1.0-plugins-base: enable glx/opengl support
-Date: Tue, 12 Dec 2023 12:40:19 -1000
-Message-Id: <eb9eccb08f00e413959ebbe115f79b36fef7c484.1702420654.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1702420654.git.steve@sakoman.com>
-References: <cover.1702420654.git.steve@sakoman.com>
+        Tue, 12 Dec 2023 14:57:05 -0800 (PST)
+Received: from draig (localhost [IPv6:::1])
+	by draig.lan (Postfix) with ESMTP id 68FE45F7A0;
+	Tue, 12 Dec 2023 22:57:05 +0000 (GMT)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+  richard.purdie@linuxfoundation.org,  alexandre.belloni@bootlin.com,
+  Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: Re: [OE-core] [RFC PATCH v2] qemurunner.py: continue to drain
+ stdout after login:
+In-Reply-To: <CAMKF1soweYSeFZ6f-bw7RBDuXyORHOb244YsgpcqzuH47vkbTA@mail.gmail.com>
+	(Khem Raj's message of "Tue, 12 Dec 2023 11:43:24 -0800")
+References: <20231211155729.106010-1-alex.bennee@linaro.org>
+	<CAMKF1spkcbVQj=Mvv37TRnMWEcF5BuEjUYYnOmHmfrQkOqzo1g@mail.gmail.com>
+	<87fs07b6g3.fsf@draig.linaro.org>
+	<CAMKF1soweYSeFZ6f-bw7RBDuXyORHOb244YsgpcqzuH47vkbTA@mail.gmail.com>
+User-Agent: mu4e 1.11.26; emacs 29.1
+Date: Tue, 12 Dec 2023 22:57:05 +0000
+Message-ID: <874jgnav26.fsf@draig.linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 22:40:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192250
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 22:57:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192252
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Khem Raj <raj.khem@gmail.com> writes:
 
-This is required by latest webkit when built with x11 support.
+> I am on arch so no py-bt with gdb out of box but here is bt
+>
+> #0  0x00007fa1e54ee367 in wait4 () from
+> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6
+> #1  0x00007fa1e5a858b9 in ?? () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #2  0x00007fa1e598e94a in ?? () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #3  0x00007fa1e594bf03 in PyObject_Vectorcall () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #4  0x00007fa1e5900063 in _PyEval_EvalFrameDefault () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #5  0x00007fa1e5a1da40 in ?? () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #6  0x00007fa1e5a1daf5 in PyEval_EvalCode () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #7  0x00007fa1e5a5deb3 in ?? () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #8  0x00007fa1e5a5e0d6 in ?? () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #9  0x00007fa1e5a5e1b0 in ?? () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #10 0x00007fa1e5a60b9b in _PyRun_SimpleFileObject () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #11 0x00007fa1e5a6111c in _PyRun_AnyFileObject () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #12 0x00007fa1e5a7ddf0 in Py_RunMain () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #13 0x00007fa1e5a7e32a in Py_BytesMain () from
+> /mnt/b/yoe/master/build/tmp/work/qemux86_64-yoe-linux/core-image-ptest-gs=
+treamer1.0/1.0/recipe-sysroot-native/usr/bin/python3-native/../../lib/libpy=
+thon3.11.so.1.0
+> #14 0x00007fa1e5423efb in __libc_start_call_main () from
+> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6
+> #15 0x00007fa1e5423fb9 in __libc_start_main () from
+> /mnt/b/yoe/master/build/tmp/sysroots-uninative/x86_64-linux/lib/libc.so.6
+> #16 0x00005581e2c53075 in _start ()
+>
+> since its using native libs and bins there is no debug info perhaps
+> due to it being stripped and not kept around as well.
 
-(From OE-Core rev: 024edebf6f722ae4d05411be348730d9eeb3bd7c)
+No - it won't work without debug symbols to poke around in pythons
+runtime. Can you share the log?
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../gstreamer/gstreamer1.0-plugins-base_1.20.7.bb           | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Do you see anything from:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
-index 8822c6a905..8dfa70aea3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.20.7.bb
-@@ -21,7 +21,8 @@ inherit gobject-introspection
- 
- # opengl packageconfig factored out to make it easy for distros
- # and BSP layers to choose OpenGL APIs/platforms/window systems
--PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 egl', '', d)}"
-+PACKAGECONFIG_X11 = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'opengl glx', '', d)}"
-+PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 egl ${PACKAGECONFIG_X11}', '', d)}"
- 
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-@@ -32,7 +33,7 @@ PACKAGECONFIG ??= " \
- "
- 
- OPENGL_APIS = 'opengl gles2'
--OPENGL_PLATFORMS = 'egl'
-+OPENGL_PLATFORMS = 'egl glx'
- 
- X11DEPENDS = "virtual/libx11 libsm libxrender libxv"
- X11ENABLEOPTS = "-Dx11=enabled -Dxvideo=enabled -Dxshm=enabled"
-@@ -61,6 +62,7 @@ PACKAGECONFIG[gles2]        = ",,virtual/libgles2"
- 
- # OpenGL platform packageconfigs
- PACKAGECONFIG[egl]          = ",,virtual/egl"
-+PACKAGECONFIG[glx]          = ",,virtual/libgl"
- 
- # OpenGL window systems (except for X11)
- PACKAGECONFIG[gbm]          = ",,virtual/libgbm libgudev libdrm"
--- 
-2.34.1
+                    self.logger.warning('Extra log data read: %s\n' % (data=
+.decode('utf-8', errors=3D'backslashreplace')))
+                except Exception as e:
+                    self.logger.warning('Extra log data exception %s' % rep=
+r(e))
 
+
+maybe we should have a: self.stop_thread() once we catch the exception?
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
