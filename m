@@ -2,102 +2,103 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71FABC4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8040AC41535
 	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 14:28:42 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.2854.1702391313425797118
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.2950.1702391316722018096
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 06:28:33 -0800
+ Tue, 12 Dec 2023 06:28:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1ySo3i7Y;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6ce934e9d51so3552211b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 06:28:33 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nKbh+2R0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6ce934e9d51so3552259b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 06:28:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702391312; x=1702996112; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702391316; x=1702996116; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f1z9CwmikODnfGtaNgDDPL8QkZGV9rRJjAtzNaHRlhQ=;
-        b=1ySo3i7YbCRiLDl2JY6HZ7n/yQ2A/9OnsxFB3q4k2Htvz248URtj8S5bjDDgLa4Xx7
-         7NV/kELuJyP8zmAoxfpQue2FSKJsaIVIe2+MkGo4rtInXM9psUNjRK/DU46qxHQlBBhE
-         GL4/+4oECSDgm+EbOa9LJ/utyQfwpOuKltBe31/KeVSaxjR3qaMOZLQMBM7A7WXR0sZm
-         i9O12rWIaEngZI1nJMWyG13gU8MuPdjrEcwi2l24cHLOTF6vgUF/vzejMqODTasJ7SDl
-         J4MO05jUEgd4lzz/nDvAoVIvniPPw1k+ouGf0DuVspjMe2xyhpZ+mOcbVqpUqWjL/13o
-         HwHg==
+        bh=ScTPqKJN+Op7i4pPSGIaP3uLwQB3Q6xCWuKq43CATro=;
+        b=nKbh+2R0h87Wqk/I/FIjYvZDKN2sKCCfyrtZaOzyfW5rqiz7Xp3sh6rxuTRm9t3zER
+         EU4Ee3wgpYTeQcXBs5GAwxLUMcSlrrGR74yJpptglkf+YHikGv8684orEeBe+oa5LNID
+         E3AFnroIz6h96fRcBFF1LvTDRCMUMPj1NrHUuRMBR6XKMjn5vUuulzRuvwLnPkJD58ua
+         YxqniDwTAtlXTeNnya3gYpq2S07d2xtAgaQbkAqBaXhXMGCt99YV8Ef0zoLdbJeQxIrz
+         HICsN+GtBGUNQ1BhBatx70HEDWN1nFw7ESG/ndUijdPiYAMz3e2kxdOydW3azCwvoW0e
+         o35g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702391312; x=1702996112;
+        d=1e100.net; s=20230601; t=1702391316; x=1702996116;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f1z9CwmikODnfGtaNgDDPL8QkZGV9rRJjAtzNaHRlhQ=;
-        b=LKQ2b200Oy6wYnGyJBf4FaQGp7DdytYFZFyZfkDFyRGbMEpyhsN9ywkIUg7Lm3TlbK
-         jD9tb0bFW6yOLLQE2MK2Ovdo6opQZXRI30xcYme2tNY4jpsNdpjV6DI/YpenNq2FXizV
-         mkVrxzCcyCIAkev4QT+pdjwoaHa6lXu6a/RDb5GdUKWgQAIu04usevsUkhfgBnv6w3wu
-         M/NFxxXoIyfUdqrPU9GNeddq0q0Bat3IqBtzAjC8oy6YEZjyrOL5DByt26M+2B724WN3
-         h3GqIr2zFz8cmGgdQenEKetb1PI2mTcw3UZvh9wSbhOGKYiDkIMNrBlI8cMqOSyarGAH
-         tSyw==
-X-Gm-Message-State: AOJu0YyQx31QgDXIhoYWEZvNueI2RdrNLBi1BmjP4boSqX6Y/e1ZJH83
-	ZfRbDtQ8xG1oZwNFc319dWRqlkNNNXtb3nUX9qw=
-X-Google-Smtp-Source: AGHT+IHgyOY8xOlXGzTA/8iFh2Hqwj+62h6lewmQRwYTHaMw1rm9u3CBx0Sa2CzjSbSBAMi1+1z6kg==
-X-Received: by 2002:a05:6a20:1006:b0:18f:97c:9293 with SMTP id gs6-20020a056a20100600b0018f097c9293mr2929835pzc.120.1702391312183;
-        Tue, 12 Dec 2023 06:28:32 -0800 (PST)
+        bh=ScTPqKJN+Op7i4pPSGIaP3uLwQB3Q6xCWuKq43CATro=;
+        b=tqBVLbnenvIflO/XdoFiG8V2nqW/JQ4E5GQ3mfKNT1mNYZo9CqDAZxei/UUl8m/6A8
+         2zgckf5FsVoB5J9AnXZ5aeTFHo1aXNJn76ouO3egZx6hhhv7TigIC6RNjePfEO+5bamL
+         kmcXSVi+MGcPU7lDyh5/15TjrLW4udncn24afrz4/eMqDm57lNOY0ggwz8R3S7luS37J
+         gT5dsm/8V8E78ZjoIX8FQiAGDS+mdS5Y+7oBA9qQhUQszK5che0xE0nLrnJXRWnxJiuF
+         Lw7I5JrcHOQb5wOGsj0Ra0teYeMEi0gUQ6PC4E7Ivdt/ZaPKg8CbJf2LLy5wDgqdxk5V
+         qTqQ==
+X-Gm-Message-State: AOJu0Yywy5HMQ/cB+Xri7GvyYQcXmcbUpqN5a8SfO/4synR5nyfhdaKN
+	surVHUOUuRZfygAdHxM1soOQkAecVy+rAhxMYjg=
+X-Google-Smtp-Source: AGHT+IHnbHdOuRWEmSMoJX6cqFbSDttJTpPzkMUglFptpuAzK2ukO85m5VMSozmHsCkhq5T+QVXA2Q==
+X-Received: by 2002:aa7:8881:0:b0:6cd:faa6:fc36 with SMTP id z1-20020aa78881000000b006cdfaa6fc36mr3966924pfe.30.1702391315856;
+        Tue, 12 Dec 2023 06:28:35 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id n23-20020a056a000d5700b006cbb40669b1sm8188928pfv.23.2023.12.12.06.28.31
+        by smtp.gmail.com with ESMTPSA id n23-20020a056a000d5700b006cbb40669b1sm8188928pfv.23.2023.12.12.06.28.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 06:28:31 -0800 (PST)
+        Tue, 12 Dec 2023 06:28:35 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 26/29] update_gtk_icon_cache: Fix for GTK4-only builds
-Date: Tue, 12 Dec 2023 04:27:32 -1000
-Message-Id: <9de44606319c1bcf5a0a80399073e391954dfdbe.1702391115.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 28/29] meson: use correct targets for rust binaries
+Date: Tue, 12 Dec 2023 04:27:34 -1000
+Message-Id: <ea5e46a627dc7385c4d7732299618b6392b7a407.1702391115.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1702391115.git.steve@sakoman.com>
 References: <cover.1702391115.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:28:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192230
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192232
 
-From: Zoltán Böszörményi <zboszor@gmail.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
 
-Try to execute both gtk-update-icon-cache and
-gtk4-update-icon-cache after checking whether the
-commands are available.
+Follow the example of rust and cargo classes and pass RUST_HOST_SYS and
+RUST_BUILD_SYS to rustc's --target argument instead of bare HOST_SYS and
+BUILD_SYS.
 
-This attempts to match what gtk-icon-cache.bbclass is doing.
-
-This fixes running update_gtk_icon_cache during do_rootfs
-for an image that contains only GTK4 related packages.
-
-Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 1471c6c076f544ccd6f0722c82878311199881a7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/postinst-intercepts/update_gtk_icon_cache | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/classes-recipe/meson.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/postinst-intercepts/update_gtk_icon_cache b/scripts/postinst-intercepts/update_gtk_icon_cache
-index 99367a2855..a92bd840c6 100644
---- a/scripts/postinst-intercepts/update_gtk_icon_cache
-+++ b/scripts/postinst-intercepts/update_gtk_icon_cache
-@@ -11,7 +11,11 @@ $STAGING_DIR_NATIVE/${libdir_native}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --u
+diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meson.bbclass
+index d08a83d555..a85d120d77 100644
+--- a/meta/classes-recipe/meson.bbclass
++++ b/meta/classes-recipe/meson.bbclass
+@@ -79,7 +79,7 @@ llvm-config = 'llvm-config'
+ cups-config = 'cups-config'
+ g-ir-scanner = '${STAGING_BINDIR}/g-ir-scanner-wrapper'
+ g-ir-compiler = '${STAGING_BINDIR}/g-ir-compiler-wrapper'
+-${@rust_tool(d, "HOST_SYS")}
++${@rust_tool(d, "RUST_HOST_SYS")}
+ ${@"exe_wrapper = '${WORKDIR}/meson-qemuwrapper'" if d.getVar('EXEWRAPPER_ENABLED') == 'True' else ""}
  
- for icondir in $D/usr/share/icons/*/ ; do
-     if [ -d $icondir ] ; then
--        gtk-update-icon-cache -fqt  $icondir
-+        for gtkuic_cmd in gtk-update-icon-cache gtk4-update-icon-cache ; do
-+            if [ -n "$(which $gtkuic_cmd)" ]; then
-+                $gtkuic_cmd -fqt  $icondir
-+            fi
-+        done
-     fi
- done
+ [built-in options]
+@@ -116,7 +116,7 @@ readelf = ${@meson_array('BUILD_READELF', d)}
+ objcopy = ${@meson_array('BUILD_OBJCOPY', d)}
+ llvm-config = '${STAGING_BINDIR_NATIVE}/llvm-config'
+ pkgconfig = 'pkg-config-native'
+-${@rust_tool(d, "BUILD_SYS")}
++${@rust_tool(d, "RUST_BUILD_SYS")}
  
+ [built-in options]
+ c_args = ${@meson_array('BUILD_CFLAGS', d)}
 -- 
 2.34.1
 
