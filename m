@@ -1,119 +1,111 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD977C3DA79
-	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 14:09:21 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.2451.1702390158895866973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EA6C4332F
+	for <webhook@archiver.kernel.org>; Tue, 12 Dec 2023 14:11:21 +0000 (UTC)
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web10.2496.1702390278975393643
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 06:09:18 -0800
+ Tue, 12 Dec 2023 06:11:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 064421474;
-	Tue, 12 Dec 2023 06:10:05 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 343E83F738;
-	Tue, 12 Dec 2023 06:09:18 -0800 (PST)
-From: ross.burton@arm.com
+ dkim=none (message not signed); spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1rD3Tg-008ayF-1O;
+	Tue, 12 Dec 2023 16:11:16 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1rD3Tg-0059oH-5n; Tue, 12 Dec 2023 16:11:16 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Subject: [PATCH 8/9] kmod: fix configure with autopoint calling gtkdocize
-Date: Tue, 12 Dec 2023 14:08:19 +0000
-Message-Id: <20231212140820.2900963-9-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231212140820.2900963-1-ross.burton@arm.com>
-References: <20231212140820.2900963-1-ross.burton@arm.com>
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH][kirkstone] openssh: drop sudo from ptest dependencies
+Date: Tue, 12 Dec 2023 16:11:01 +0200
+Message-Id: <20231212141101.1227602-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Rspam-Score: -1.4 (-)
+X-Rspam-Report: Action: no action
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: R_SPF_ALLOW(-0.20)
+ Symbol: ARC_NA(0.00)
+ Symbol: ASN(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: NEURAL_SPAM(0.00)
+ Symbol: RCPT_COUNT_THREE(0.00)
+ Symbol: R_MISSING_CHARSET(0.50)
+ Message-ID: 20231212141101.1227602-1-mikko.rapeli@linaro.org
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:09:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192201
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 14:11:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192203
 
-From: Ross Burton <ross.burton@arm.com>
+The tests don't actually need sudo on core-image-ptest-openssh.
+Based on logs seen in
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178 it seems
+that socket errors from sudo are creeping into stderr which are failing
+the banner ptest from openssh. Removing sudo should help removing
+the stderr messages and possibly cure the banner test failures.
 
-GTKDOC_DOCDIR is obsolete now, so fix the build by passing the
-documentation directory in the GTK_DOC_CHECK call.
+(From OE-Core rev: 47e754f483b674b207bfddcc8d4c5d9a3008e102)
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/kmod/kmod/gtkdocdir.patch | 33 +++++++++++++++++++
- meta/recipes-kernel/kmod/kmod_31.bb           |  3 +-
- 2 files changed, 34 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
+ meta/recipes-connectivity/openssh/openssh/run-ptest | 2 +-
+ meta/recipes-connectivity/openssh/openssh_8.9p1.bb  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch b/meta/recipes=
--kernel/kmod/kmod/gtkdocdir.patch
-new file mode 100644
-index 00000000000..a34ea466e8e
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
-@@ -0,0 +1,33 @@
-+From dd59095f70f774f6d1e767010e25b35ef6db4c4b Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Fri, 8 Dec 2023 22:35:45 +0000
-+Subject: [PATCH] configure: set docdir in GTK_DOC_CHECK
-+
-+By passing --docdir in the GTK_DOC_CHECK arguments (to match
-+autogen.sh) autoreconf will work out of the box.
-+
-+Without this autoreconf fails due to the documentation not being in
-+./docs, the default location.
-+
-+Upstream-Status: Submitted [https://lore.kernel.org/linux-modules/202312=
-08224511.1363066-1-ross.burton@arm.com/T/#u]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index de01e08..67696c4 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -255,7 +255,7 @@ AS_IF([test "x$enable_coverage" =3D "xyes"], [
-+ AM_CONDITIONAL([ENABLE_COVERAGE], [test "x$enable_coverage" =3D "xyes"]=
-)
-+=20
-+ m4_ifdef([GTK_DOC_CHECK], [
-+-GTK_DOC_CHECK([1.14],[--flavour no-tmpl-flat])
-++GTK_DOC_CHECK([1.14],[--flavour no-tmpl-flat --docdir libkmod/docs])
-+ ], [
-+ AM_CONDITIONAL([ENABLE_GTK_DOC], false)])
-+=20
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-kernel/kmod/kmod_31.bb b/meta/recipes-kernel/km=
-od/kmod_31.bb
-index 934a678a062..f8e83d5db63 100644
---- a/meta/recipes-kernel/kmod/kmod_31.bb
-+++ b/meta/recipes-kernel/kmod/kmod_31.bb
-@@ -20,6 +20,7 @@ SRCREV =3D "aff617ea871d0568cc491bd116c0be1e857463bb"
- SRC_URI =3D "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;bra=
-nch=3Dmaster;protocol=3Dhttps \
-            file://depmod-search.conf \
-            file://avoid_parallel_tests.patch \
-+           file://gtkdocdir.patch \
-            "
-=20
- S =3D "${WORKDIR}/git"
-@@ -35,8 +36,6 @@ PACKAGECONFIG[xz] =3D "--with-xz,--without-xz,xz"
- PACKAGECONFIG[zlib] =3D "--with-zlib,--without-zlib,zlib"
- PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,zstd"
-=20
--GTKDOC_DOCDIR =3D "${S}/libkmod/docs"
--
- PROVIDES +=3D "module-init-tools-insmod-static module-init-tools-depmod =
-module-init-tools"
- RPROVIDES:${PN} +=3D "module-init-tools-insmod-static module-init-tools-=
-depmod module-init-tools"
- RCONFLICTS:${PN} +=3D "module-init-tools-insmod-static module-init-tools=
--depmod module-init-tools"
---=20
-2.34.1
+v1: Issue https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178 was still seen on kirkstone
+    branch so cherry-pick the master/nanbield commit
+
+diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest b/meta/recipes-connectivity/openssh/openssh/run-ptest
+index 8a9b770d59..9a406e9b65 100755
+--- a/meta/recipes-connectivity/openssh/openssh/run-ptest
++++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
+@@ -5,7 +5,7 @@ export SKIP_UNIT=1
+ 
+ cd regress
+ sed -i "/\t\tagent-ptrace /d" Makefile
+-make -k BUILDDIR=`pwd`/.. .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="sudo" tests \
++make -k BUILDDIR=`pwd`/.. .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="" tests \
+         | sed -u -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e 's/^failed/FAIL: /g'
+ 
+ SSHAGENT=`which ssh-agent`
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+index da7ab7716c..32761b8bb8 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+@@ -170,7 +170,7 @@ RDEPENDS:${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pa
+ # conflict with each other
+ RDEPENDS:${PN}-dev = ""
+ # gdb would make attach-ptrace test pass rather than skip but not worth the build dependencies
+-RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed sudo coreutils"
++RDEPENDS:${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed coreutils"
+ 
+ RPROVIDES:${PN}-ssh = "ssh"
+ RPROVIDES:${PN}-sshd = "sshd"
+-- 
+2.39.2
 
 
