@@ -1,1085 +1,179 @@
-Return-Path: <ppjadhav456@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A18C4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 11:15:21 +0000 (UTC)
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web11.33413.1702466117463472208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1782C4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 11:19:41 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.73])
+ by mx.groups.io with SMTP id smtpd.web11.33490.1702466372006145723
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 03:15:17 -0800
+ Wed, 13 Dec 2023 03:19:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Blfr1i+D;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: ppjadhav456@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7b72d574399so298142239f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 03:15:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702466116; x=1703070916; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zsEhJo9VlukVLZe66wALkMlNDBLlCwuof4q59rWyrz8=;
-        b=Blfr1i+DRXHSDjpG/+VyM/ryHbpIGmA2E1Bj7Exl3WNfddkLH0MHt0RQXpjmBRHKIn
-         8APEXLj8EcKlzkHl/5n1esc7A8UtmLac/JAhyvzLe/SFZAsfn4I7cSNVRQyaRC2Ndc3S
-         KYtz22FFiS3FtUW5uMtNDT3UFNEzqzg8N1J786USrT8hofkI/MiszY7ZcE1QRNuYyZH9
-         X1B12pTa9fll5K2oXmjF24dznSFLtF9Z3ucCdxnF6x8DCoaKxEjWUjsFCnmG5cR5spge
-         PXEJ4MEdGFf2kPacvXIYejq74HRnlNb4Jx7r0gXnRz2eASaDzpVuR/KhkJVjPwbvmZ4v
-         JwDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702466116; x=1703070916;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zsEhJo9VlukVLZe66wALkMlNDBLlCwuof4q59rWyrz8=;
-        b=qVf4ki23zPDaEBs+CBU0S5My65qEDCpcUPctSwhF90D85QIh9Om8G9CTmMHP5tLR1X
-         r4yg1Wy1QjZZ05oExD3f2GBWhUo2UdvDh/hDikH/KOTZwt6dikTLnKv0QbuP/rWaaPYy
-         StC6VTzB+6KtzomUmj7zd5lI7mBqs/9yJcliHFcUen3NF870TCVj6/0nZ2w65HwHY3Ej
-         6jRu3sO464ANAY0SADXGMtYiLdbRHI7P1kK5/sXKzVlrzdQq9phOfo9BdCp04WVtnp0b
-         /OMvWoMkGbIagNaktXb5+0RVIfhwpjo8q/8FNtOjQHFMXib1GspMJRlAmOAknwtCXMqm
-         TtXQ==
-X-Gm-Message-State: AOJu0YyWLBD+0s2lIY2mw7MFzhnknaPe5HDYAFJ6mLBGFT7zRehpUo5G
-	S3eNgQ/Rnbf2M9E+TPIb8MQZY3EW8yo=
-X-Google-Smtp-Source: AGHT+IE769FbwtHpP8gtIXU5E/1l8N4wdnidFQtT+IiHCSHuegVxE6Q2Z23HK4sdVEXTa2brcBeM4A==
-X-Received: by 2002:a92:c269:0:b0:35f:7715:6cdd with SMTP id h9-20020a92c269000000b0035f77156cddmr240861ild.33.1702466116198;
-        Wed, 13 Dec 2023 03:15:16 -0800 (PST)
-Received: from L-14805.kpit.com ([43.231.237.213])
-        by smtp.gmail.com with ESMTPSA id a9-20020a654189000000b005c683937cc5sm8483283pgq.44.2023.12.13.03.15.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 03:15:15 -0800 (PST)
-From: Poonam Jadhav <ppjadhav456@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	bhabu.bindu@kpit.com
-Cc: Poonam Jadhav <ppjadhav456@gmail.com>
-Subject: [OE-core][dunfell][PATCH] glibc: Fix CVE-2023-4813
-Date: Wed, 13 Dec 2023 16:45:08 +0530
-Message-Id: <20231213111508.106362-1-ppjadhav456@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=1fpjnsw9;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=1fpjnsw9;
+ spf=pass (domain: arm.com, ip: 40.107.20.73, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=jnppKgYydfVm/CBJc2RBA6IF75PiFvRuePFX4RD1XxIWRIqL1BnwLwNmtYU8Mwik8sY0ij5EVS7jp6Ng593P6vFw8ZeKhDxXwGLVd2UffmOrtiscK9IITpXC7VdWeVqiTp1/fOfR/oPzOi9oKj60HfCEeLgTyw2V4i+6r46WoGDVErBNaHk7smAyOFeF9PyzP41X4VmqrY4j56OMZsjj70+HzrFZYb4ifOMOFwyC0L2VzBg36fPnSOohn6nYCbxK8nJxSnu95VH50tGfpkZULc5hY6B13Swra68FmFakWQelhpbHEhdH7krFn3xmhRydESqQkqCNfs402oLsK262Lg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2j3d5HPfqSciQW+rS1x18mGx++nHEkSYXW22VhyL3p4=;
+ b=ZDqeStw0pKf3/qsUQvzrrzxR1vZSctQUtsJA9YFN/gUJRCcjn2QMeFUZTT1bF4kkbT8rUbe689EQCRvbetX9S3ziODlKHvpaIejdLxrx1NsB0BGCea9LO6urrhDTf70gQOy5i98UpU1qyrfMQdv8LqImlJfTgxe4oOoskNcKbFEudJLpNFGjQ1ZcLO2Zy9A1GJVGLAIsIZ5459I6OjVJavefCvAY6+icM0pgjrl6IzohsYy9in1eLGMWltWMox0unZcIvoFkhEOpCFOMiSI4gmkbYQNKkMCY7tsI5Tcn2orw7TUwGseYC4d+aqfPEHRFjRi2ZrqOgeXQal//ObtUWw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2j3d5HPfqSciQW+rS1x18mGx++nHEkSYXW22VhyL3p4=;
+ b=1fpjnsw95RQl0pneFyfpxeSTA23v9WzhJEv/+N6qIZlLPbcXdGjlp+omYIC4d8S4LITyQOQqbfpK6a1LFVmx99HFSSV4h77KqtA/uljEiaKoRqV76ga8fvKTgMVb+E1ephRe2piDhlUhyKIYfZaPS/x25hVgUwJT4TFdOXBwesE=
+Received: from DUZPR01CA0007.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c3::11) by AS2PR08MB8901.eurprd08.prod.outlook.com
+ (2603:10a6:20b:5f0::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
+ 2023 11:19:25 +0000
+Received: from DB5PEPF00014B99.eurprd02.prod.outlook.com
+ (2603:10a6:10:3c3:cafe::35) by DUZPR01CA0007.outlook.office365.com
+ (2603:10a6:10:3c3::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26 via Frontend
+ Transport; Wed, 13 Dec 2023 11:19:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5PEPF00014B99.mail.protection.outlook.com (10.167.8.166) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7091.26 via Frontend Transport; Wed, 13 Dec 2023 11:19:24 +0000
+Received: ("Tessian outbound 20615a7e7970:v228"); Wed, 13 Dec 2023 11:19:24 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 317d1898c5dda1cc
+X-CR-MTA-TID: 64aa7808
+Received: from 108e5a5ec799.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id D576906F-AFBE-485C-BAA8-FFEC3B3C7E29.1;
+	Wed, 13 Dec 2023 11:19:18 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 108e5a5ec799.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 13 Dec 2023 11:19:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AU/h4XqPIeYQ7AjfXo3yI8W+Gk+h7nBFeNJa8587+n1VAvRl00+wONj7qfVX1/CxcNnHteaI6gu8IYEo9AWP3lVfHRdSE09+Lbaxx9unzeLwPFSuMbVPUAJUpTbdBjZoStNjwxEh2RIj51YsJMd4AL+b7aJQcoGdSdjhxAfl89SqdH9S0Ajpw2K9a/anTR1R7+Yi/nYNxECtXhLDBgQfgZBXoQbVEYaBkvycTzW/zRgUP0YG5k42HbZHXedcc6w5VV/xOfgogp40yrVAA+ae18oevezRFwNDG/yMnrw3XVTRAq2suHPaHE+GzlLVuZL/uQQ++llS6NWnmx2Tmyk/aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2j3d5HPfqSciQW+rS1x18mGx++nHEkSYXW22VhyL3p4=;
+ b=JyzlgECZXUmyeqs/LOvunqzCO2muQRdGZQv6QcShbV7rqnUBhCdLvwKa0trXxFTTg99kVBv5A1pHZorSQhb7ZDmau6i8MhBDF+MF1WYk/Cp5+079csToLPCqpgxPB1n+8Nm1pkeIf0r2Ag4LswoNtf6HoLb+DzD6lk5fYr0S6CcFN4wz9WA3SM3xtam2qKd10P+sQVY14lqtDxTeGgdtm0+n5CpoTgPVWKT+I+GKbzWhiqhEzaE8XfOFpb+oqyGzCjC04r4zh3pn7OYscDM0ZblZvYhcs8HjJiDJIhJzEbjl67Ug85JMQMv0UDjYqxlxbyihuDL0bPHCKAEpoOityw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2j3d5HPfqSciQW+rS1x18mGx++nHEkSYXW22VhyL3p4=;
+ b=1fpjnsw95RQl0pneFyfpxeSTA23v9WzhJEv/+N6qIZlLPbcXdGjlp+omYIC4d8S4LITyQOQqbfpK6a1LFVmx99HFSSV4h77KqtA/uljEiaKoRqV76ga8fvKTgMVb+E1ephRe2piDhlUhyKIYfZaPS/x25hVgUwJT4TFdOXBwesE=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by GVXPR08MB10809.eurprd08.prod.outlook.com (2603:10a6:150:158::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Wed, 13 Dec
+ 2023 11:19:15 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::ef47:2c42:1ef6:fe5c]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::ef47:2c42:1ef6:fe5c%6]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
+ 11:19:15 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "liezhi.yang@windriver.com" <liezhi.yang@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v3 1/1] nfs-utils: Upgrade 2.6.3 -> 2.6.4
+Thread-Topic: [OE-core] [PATCH v3 1/1] nfs-utils: Upgrade 2.6.3 -> 2.6.4
+Thread-Index: AQHaLEFdhMHK3PZUiUGhTqf5OsFSFLCnE9qA
+Date: Wed, 13 Dec 2023 11:19:15 +0000
+Message-ID: <08A00A79-3042-4BE0-B549-6D4395067DB3@arm.com>
+References: <cover.1702306082.git.liezhi.yang@windriver.com>
+ <fbf5151e16f5c406e752c3e221d8ebdb5286c7be.1702306082.git.liezhi.yang@windriver.com>
+In-Reply-To: 
+ <fbf5151e16f5c406e752c3e221d8ebdb5286c7be.1702306082.git.liezhi.yang@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.200.91.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|GVXPR08MB10809:EE_|DB5PEPF00014B99:EE_|AS2PR08MB8901:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b94f847-1c41-4754-7b5c-08dbfbcd5ce9
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ AjTjim/dVlEXV7oNfmd+hhO7hNtORVqN6wDe1UFP9836zuo4crdgDYSCork42Bq+fabFkurW4LXthSLB1Wu9WCuWhI6onyl3Y8oYESo/r1dd6jkGs3+WfzUN5DhCSUK8OxP/KzkaOywqNo7B2f12EQ3k7dAbEP12gPXMBwOtj2OL5FAB10ITRS4FpDSfDly78qdHQLwzM2gPYT23t6G40YLIUqA9KpyKg/lKIioS7/SGkT332avr6iE2U0hc4ivTWyNlcWm6yKqJ6hRqxgUNsxHrMQALSG+N3Juez82njQMbrYTvXYzHBogc8vX8HcTAhZEegzw83SNsGK5BzDZRh8mfLbEzhn6Y6G0mNjtdQvox+GP0C01Ox8A+jqiKmofYYqaMfatvFSISa6ovu/X99Ymmmjvq/GoE2El+8uPRD3v6S2/1427rFukHimUONQcn82dRETlNA9AcK5OE3v7NGPwWGbYb894d5378c1DC5Eb1lrK+8BepMGh9/ZHVpqh617sbzkaP/Hc6DVUC9n0Qy6q/6vHDxRbwK8675RMdGdpC24SK+TutS+TU9kh9ovBPmmhQkKk6nHOUx4Iyv0jnrHMoQ395eXOR/ZuzMdXChJm9QeiWYcKdI4WPTvi/7mpoPHqz1SMu1n8Vdr5XMgLjPg==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(396003)(366004)(346002)(136003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(53546011)(6512007)(26005)(2616005)(6486002)(71200400001)(6506007)(478600001)(76116006)(316002)(5660300002)(4744005)(91956017)(41300700001)(2906002)(64756008)(66556008)(66446008)(6916009)(66476007)(66946007)(4326008)(8936002)(8676002)(38100700002)(38070700009)(122000001)(33656002)(36756003)(86362001)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <78E3970D5C995E4789D1B872422A8F72@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB10809
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B99.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	632572cb-96ad-404c-8169-08dbfbcd5773
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	migxjWNwhRVXjvgzkwrGOlsOqgX/CCZL7JRcZWxU1m+tNbd52FewBZ9Wb8DWHrozSoxVW5N8TfKkK/1jutLFUCzrwF+yYIluRi8uE9jbWHHyHP6vpeKg0CDsgQ4ogcs3jSFwnN9qnLEv0rhdYF2nFpExC895kCrv17vpNBHtkAsV735VDAf/miIWsIfkmYfTRrZr/0+4ilbXAVWBv3ZC9ZlB1F+GMQTLd7jswqW+pUmcojWXYshDs1dHYHT9t+fe+WiNKqvOM4D5FVQ2lc1CcL/hLEzy9fCdDGvtaFx4h2XNshdeQFUwEuGIToyL+lsOjbUNgMKjAemq4qQyNrBTDSseoIjJzaUl1PJvZJyWUpabZcbTdOMCX33Djq3yhy28l91VxbfUGgRLOF/Sc6PwdqtOJTYTNHmrVOExKuyCe0ODMM7+cH8bYEkY+E0VRgo5rZ0FGuR/aZ5tf+OW9VEgTm3jCmEKFcllVe2C/yZpF5bdCFcdtYbfaklwsiplCw7136aNvXy7aV7mF4qe5qQ3spIb1on/4QRvWTW+5ZNZVzzYBmxmUVMCLwvgz+wYSutnZ8MZztDPW2q2NAx8wAQtdJiGZFcUxADyXw/zK0HTzMmQgGu8lAFWv0I+YdgsoQ9zcrKH8wE4cX/WUPJjxFlH1wGqQh3Z8BTimFOOWL6e0EDPKDelrGmsb/xN6ysIX9l0vZ3djb/kxrpr8U5MPcX122krFhZcQN+SlPN7uJuYI4o=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(39860400002)(376002)(346002)(230922051799003)(1800799012)(186009)(64100799003)(82310400011)(451199024)(36840700001)(46966006)(40470700004)(40460700003)(26005)(2616005)(336012)(6512007)(6506007)(53546011)(36860700001)(70206006)(47076005)(5660300002)(70586007)(41300700001)(4326008)(2906002)(4744005)(6862004)(478600001)(6486002)(316002)(8676002)(8936002)(82740400003)(33656002)(86362001)(81166007)(36756003)(356005)(40480700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 11:19:24.8729
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b94f847-1c41-4754-7b5c-08dbfbcd5ce9
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B99.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8901
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 11:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192284
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 11:19:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192285
 
-From: Bhabu Bindu <bhabu.bindu@kpit.com>
+On 11 Dec 2023, at 14:49, Robert Yang via lists.openembedded.org <liezhi.ya=
+ng=3Dwindriver.com@lists.openembedded.org> wrote:
+>=20
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-reexport.h-Inclu=
+de-unistd.h-to-compile-with-musl.patch
+> @@ -0,0 +1,34 @@
+> +From 45597a58e98f351b18db8444292b1cf6dd0cd810 Mon Sep 17 00:00:00 2001
+> +From: Robert Yang <liezhi.yang@windriver.com>
+> +Date: Sat, 9 Dec 2023 23:34:08 -0800
+> +Subject: [PATCH] reexport.h: Include unistd.h to compile with musl
+> +
+> +Fixed error when compile with musl
+> +reexport.c: In function 'reexpdb_init':
+> +reexport.c:62:17: error: implicit declaration of function 'sleep' [-Werr=
+or=3Dimplicit-function-declaration]
+> +   62 |                 sleep(1);
+> +
+> +
+> +Upstream-Status: Pending
 
-Add patch to fix CVE-2023-4813
+Can you upstream this please?
 
-Link: https://security-tracker.debian.org/tracker/CVE-2023-4813
-
-Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
-Signed-off-by: Poonam Jadhav <ppjadhav456@gmail.com>
----
- .../glibc/glibc/CVE-2023-4813.patch           | 986 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
- 2 files changed, 987 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch b/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
-new file mode 100644
-index 0000000000..c7db4038c2
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
-@@ -0,0 +1,986 @@
-+From 1c37b8022e8763fedbb3f79c02e05c6acfe5a215 Mon Sep 17 00:00:00 2001
-+From: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Date: Thu, 17 Mar 2022 11:44:34 +0530
-+Subject: [PATCH] Simplify allocations and fix merge and continue actions [BZ
-+ #28931]
-+
-+Allocations for address tuples is currently a bit confusing because of
-+the pointer chasing through PAT, making it hard to observe the sequence
-+in which allocations have been made.  Narrow scope of the pointer
-+chasing through PAT so that it is only used where necessary.
-+
-+This also tightens actions behaviour with the hosts database in
-+getaddrinfo to comply with the manual text.  The "continue" action
-+discards previous results and the "merge" action results in an immedate
-+lookup failure.  Consequently, chaining of allocations across modules is
-+no longer necessary, thus opening up cleanup opportunities.
-+
-+A test has been added that checks some combinations to ensure that they
-+work correctly.
-+
-+Resolves: BZ #28931
-+
-+CVE: CVE-2023-4813
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=1c37b8022e8763fedbb3f79c02e05c6acfe5a215]
-+Comments: Hunks refreshed
-+
-+Signed-off-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Reviewed-by: DJ Delorie <dj@redhat.com>
-+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
-+---
-+ nss/Makefile                               |   1 +
-+ nss/tst-nss-gai-actions.c                  | 149 ++++++
-+ nss/tst-nss-gai-actions.root/etc/host.conf |   1 +
-+ nss/tst-nss-gai-actions.root/etc/hosts     | 508 +++++++++++++++++++++
-+ sysdeps/posix/getaddrinfo.c                | 143 +++---
-+ 5 files changed, 750 insertions(+), 52 deletions(-)
-+ create mode 100644 nss/tst-nss-gai-actions.c
-+ create mode 100644 nss/tst-nss-gai-actions.root/etc/host.conf
-+ create mode 100644 nss/tst-nss-gai-actions.root/etc/hosts
-+
-+diff --git a/nss/Makefile b/nss/Makefile
-+index 42a59535cb..d8b06b44fb 100644
-+--- a/nss/Makefile
-++++ b/nss/Makefile
-+@@ -61,6 +61,7 @@
-+ 
-+ tests-container = \
-+ 			  tst-nss-test3 \
-++			  tst-nss-gai-actions \
-+ 			  tst-nss-files-hosts-long \
-+ 			  tst-nss-db-endpwent \
-+ 			  tst-nss-db-endgrent
-+diff --git a/nss/tst-nss-gai-actions.c b/nss/tst-nss-gai-actions.c
-+new file mode 100644
-+index 0000000000..efca6cd183
-+--- /dev/null
-++++ b/nss/tst-nss-gai-actions.c
-+@@ -0,0 +1,149 @@
-++/* Test continue and merge NSS actions for getaddrinfo.
-++   Copyright The GNU Toolchain Authors.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <dlfcn.h>
-++#include <gnu/lib-names.h>
-++#include <nss.h>
-++#include <stdio.h>
-++#include <stdlib.h>
-++#include <string.h>
-++
-++#include <support/check.h>
-++#include <support/format_nss.h>
-++#include <support/support.h>
-++#include <support/xstdio.h>
-++#include <support/xunistd.h>
-++
-++enum
-++{
-++  ACTION_MERGE = 0,
-++  ACTION_CONTINUE,
-++};
-++
-++static const char *
-++family_str (int family)
-++{
-++  switch (family)
-++    {
-++    case AF_UNSPEC:
-++      return "AF_UNSPEC";
-++    case AF_INET:
-++      return "AF_INET";
-++    default:
-++      __builtin_unreachable ();
-++    }
-++}
-++
-++static const char *
-++action_str (int action)
-++{
-++  switch (action)
-++    {
-++    case ACTION_MERGE:
-++      return "merge";
-++    case ACTION_CONTINUE:
-++      return "continue";
-++    default:
-++      __builtin_unreachable ();
-++    }
-++}
-++
-++static void
-++do_one_test (int action, int family, bool canon)
-++{
-++  struct addrinfo hints =
-++    {
-++      .ai_family = family,
-++    };
-++
-++  struct addrinfo *ai;
-++
-++  if (canon)
-++    hints.ai_flags = AI_CANONNAME;
-++
-++  printf ("***** Testing \"files [SUCCESS=%s] files\" for family %s, %s\n",
-++	  action_str (action), family_str (family),
-++	  canon ? "AI_CANONNAME" : "");
-++
-++  int ret = getaddrinfo ("example.org", "80", &hints, &ai);
-++
-++  switch (action)
-++    {
-++    case ACTION_MERGE:
-++      if (ret == 0)
-++	{
-++	  char *formatted = support_format_addrinfo (ai, ret);
-++
-++	  printf ("merge unexpectedly succeeded:\n %s\n", formatted);
-++	  support_record_failure ();
-++	  free (formatted);
-++	}
-++      else
-++	return;
-++    case ACTION_CONTINUE:
-++	{
-++	  char *formatted = support_format_addrinfo (ai, ret);
-++
-++	  /* Verify that the result appears exactly once.  */
-++	  const char *expected = "address: STREAM/TCP 192.0.0.1 80\n"
-++	    "address: DGRAM/UDP 192.0.0.1 80\n"
-++	    "address: RAW/IP 192.0.0.1 80\n";
-++
-++	  const char *contains = strstr (formatted, expected);
-++	  const char *contains2 = NULL;
-++
-++	  if (contains != NULL)
-++	    contains2 = strstr (contains + strlen (expected), expected);
-++
-++	  if (contains == NULL || contains2 != NULL)
-++	    {
-++	      printf ("continue failed:\n%s\n", formatted);
-++	      support_record_failure ();
-++	    }
-++
-++	  free (formatted);
-++	  break;
-++	}
-++    default:
-++      __builtin_unreachable ();
-++    }
-++}
-++
-++static void
-++do_one_test_set (int action)
-++{
-++  char buf[32];
-++
-++  snprintf (buf, sizeof (buf), "files [SUCCESS=%s] files",
-++	    action_str (action));
-++  __nss_configure_lookup ("hosts", buf);
-++
-++  do_one_test (action, AF_UNSPEC, false);
-++  do_one_test (action, AF_INET, false);
-++  do_one_test (action, AF_INET, true);
-++}
-++
-++static int
-++do_test (void)
-++{
-++  do_one_test_set (ACTION_CONTINUE);
-++  do_one_test_set (ACTION_MERGE);
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/nss/tst-nss-gai-actions.root/etc/host.conf b/nss/tst-nss-gai-actions.root/etc/host.conf
-+new file mode 100644
-+index 0000000000..d1a59f73a9
-+--- /dev/null
-++++ b/nss/tst-nss-gai-actions.root/etc/host.conf
-+@@ -0,0 +1 @@
-++multi on
-+diff --git a/nss/tst-nss-gai-actions.root/etc/hosts b/nss/tst-nss-gai-actions.root/etc/hosts
-+new file mode 100644
-+index 0000000000..50ce9774dc
-+--- /dev/null
-++++ b/nss/tst-nss-gai-actions.root/etc/hosts
-+@@ -0,0 +1,508 @@
-++192.0.0.1	example.org
-++192.0.0.2	example.org
-++192.0.0.3	example.org
-++192.0.0.4	example.org
-++192.0.0.5	example.org
-++192.0.0.6	example.org
-++192.0.0.7	example.org
-++192.0.0.8	example.org
-++192.0.0.9	example.org
-++192.0.0.10	example.org
-++192.0.0.11	example.org
-++192.0.0.12	example.org
-++192.0.0.13	example.org
-++192.0.0.14	example.org
-++192.0.0.15	example.org
-++192.0.0.16	example.org
-++192.0.0.17	example.org
-++192.0.0.18	example.org
-++192.0.0.19	example.org
-++192.0.0.20	example.org
-++192.0.0.21	example.org
-++192.0.0.22	example.org
-++192.0.0.23	example.org
-++192.0.0.24	example.org
-++192.0.0.25	example.org
-++192.0.0.26	example.org
-++192.0.0.27	example.org
-++192.0.0.28	example.org
-++192.0.0.29	example.org
-++192.0.0.30	example.org
-++192.0.0.31	example.org
-++192.0.0.32	example.org
-++192.0.0.33	example.org
-++192.0.0.34	example.org
-++192.0.0.35	example.org
-++192.0.0.36	example.org
-++192.0.0.37	example.org
-++192.0.0.38	example.org
-++192.0.0.39	example.org
-++192.0.0.40	example.org
-++192.0.0.41	example.org
-++192.0.0.42	example.org
-++192.0.0.43	example.org
-++192.0.0.44	example.org
-++192.0.0.45	example.org
-++192.0.0.46	example.org
-++192.0.0.47	example.org
-++192.0.0.48	example.org
-++192.0.0.49	example.org
-++192.0.0.50	example.org
-++192.0.0.51	example.org
-++192.0.0.52	example.org
-++192.0.0.53	example.org
-++192.0.0.54	example.org
-++192.0.0.55	example.org
-++192.0.0.56	example.org
-++192.0.0.57	example.org
-++192.0.0.58	example.org
-++192.0.0.59	example.org
-++192.0.0.60	example.org
-++192.0.0.61	example.org
-++192.0.0.62	example.org
-++192.0.0.63	example.org
-++192.0.0.64	example.org
-++192.0.0.65	example.org
-++192.0.0.66	example.org
-++192.0.0.67	example.org
-++192.0.0.68	example.org
-++192.0.0.69	example.org
-++192.0.0.70	example.org
-++192.0.0.71	example.org
-++192.0.0.72	example.org
-++192.0.0.73	example.org
-++192.0.0.74	example.org
-++192.0.0.75	example.org
-++192.0.0.76	example.org
-++192.0.0.77	example.org
-++192.0.0.78	example.org
-++192.0.0.79	example.org
-++192.0.0.80	example.org
-++192.0.0.81	example.org
-++192.0.0.82	example.org
-++192.0.0.83	example.org
-++192.0.0.84	example.org
-++192.0.0.85	example.org
-++192.0.0.86	example.org
-++192.0.0.87	example.org
-++192.0.0.88	example.org
-++192.0.0.89	example.org
-++192.0.0.90	example.org
-++192.0.0.91	example.org
-++192.0.0.92	example.org
-++192.0.0.93	example.org
-++192.0.0.94	example.org
-++192.0.0.95	example.org
-++192.0.0.96	example.org
-++192.0.0.97	example.org
-++192.0.0.98	example.org
-++192.0.0.99	example.org
-++192.0.0.100	example.org
-++192.0.0.101	example.org
-++192.0.0.102	example.org
-++192.0.0.103	example.org
-++192.0.0.104	example.org
-++192.0.0.105	example.org
-++192.0.0.106	example.org
-++192.0.0.107	example.org
-++192.0.0.108	example.org
-++192.0.0.109	example.org
-++192.0.0.110	example.org
-++192.0.0.111	example.org
-++192.0.0.112	example.org
-++192.0.0.113	example.org
-++192.0.0.114	example.org
-++192.0.0.115	example.org
-++192.0.0.116	example.org
-++192.0.0.117	example.org
-++192.0.0.118	example.org
-++192.0.0.119	example.org
-++192.0.0.120	example.org
-++192.0.0.121	example.org
-++192.0.0.122	example.org
-++192.0.0.123	example.org
-++192.0.0.124	example.org
-++192.0.0.125	example.org
-++192.0.0.126	example.org
-++192.0.0.127	example.org
-++192.0.0.128	example.org
-++192.0.0.129	example.org
-++192.0.0.130	example.org
-++192.0.0.131	example.org
-++192.0.0.132	example.org
-++192.0.0.133	example.org
-++192.0.0.134	example.org
-++192.0.0.135	example.org
-++192.0.0.136	example.org
-++192.0.0.137	example.org
-++192.0.0.138	example.org
-++192.0.0.139	example.org
-++192.0.0.140	example.org
-++192.0.0.141	example.org
-++192.0.0.142	example.org
-++192.0.0.143	example.org
-++192.0.0.144	example.org
-++192.0.0.145	example.org
-++192.0.0.146	example.org
-++192.0.0.147	example.org
-++192.0.0.148	example.org
-++192.0.0.149	example.org
-++192.0.0.150	example.org
-++192.0.0.151	example.org
-++192.0.0.152	example.org
-++192.0.0.153	example.org
-++192.0.0.154	example.org
-++192.0.0.155	example.org
-++192.0.0.156	example.org
-++192.0.0.157	example.org
-++192.0.0.158	example.org
-++192.0.0.159	example.org
-++192.0.0.160	example.org
-++192.0.0.161	example.org
-++192.0.0.162	example.org
-++192.0.0.163	example.org
-++192.0.0.164	example.org
-++192.0.0.165	example.org
-++192.0.0.166	example.org
-++192.0.0.167	example.org
-++192.0.0.168	example.org
-++192.0.0.169	example.org
-++192.0.0.170	example.org
-++192.0.0.171	example.org
-++192.0.0.172	example.org
-++192.0.0.173	example.org
-++192.0.0.174	example.org
-++192.0.0.175	example.org
-++192.0.0.176	example.org
-++192.0.0.177	example.org
-++192.0.0.178	example.org
-++192.0.0.179	example.org
-++192.0.0.180	example.org
-++192.0.0.181	example.org
-++192.0.0.182	example.org
-++192.0.0.183	example.org
-++192.0.0.184	example.org
-++192.0.0.185	example.org
-++192.0.0.186	example.org
-++192.0.0.187	example.org
-++192.0.0.188	example.org
-++192.0.0.189	example.org
-++192.0.0.190	example.org
-++192.0.0.191	example.org
-++192.0.0.192	example.org
-++192.0.0.193	example.org
-++192.0.0.194	example.org
-++192.0.0.195	example.org
-++192.0.0.196	example.org
-++192.0.0.197	example.org
-++192.0.0.198	example.org
-++192.0.0.199	example.org
-++192.0.0.200	example.org
-++192.0.0.201	example.org
-++192.0.0.202	example.org
-++192.0.0.203	example.org
-++192.0.0.204	example.org
-++192.0.0.205	example.org
-++192.0.0.206	example.org
-++192.0.0.207	example.org
-++192.0.0.208	example.org
-++192.0.0.209	example.org
-++192.0.0.210	example.org
-++192.0.0.211	example.org
-++192.0.0.212	example.org
-++192.0.0.213	example.org
-++192.0.0.214	example.org
-++192.0.0.215	example.org
-++192.0.0.216	example.org
-++192.0.0.217	example.org
-++192.0.0.218	example.org
-++192.0.0.219	example.org
-++192.0.0.220	example.org
-++192.0.0.221	example.org
-++192.0.0.222	example.org
-++192.0.0.223	example.org
-++192.0.0.224	example.org
-++192.0.0.225	example.org
-++192.0.0.226	example.org
-++192.0.0.227	example.org
-++192.0.0.228	example.org
-++192.0.0.229	example.org
-++192.0.0.230	example.org
-++192.0.0.231	example.org
-++192.0.0.232	example.org
-++192.0.0.233	example.org
-++192.0.0.234	example.org
-++192.0.0.235	example.org
-++192.0.0.236	example.org
-++192.0.0.237	example.org
-++192.0.0.238	example.org
-++192.0.0.239	example.org
-++192.0.0.240	example.org
-++192.0.0.241	example.org
-++192.0.0.242	example.org
-++192.0.0.243	example.org
-++192.0.0.244	example.org
-++192.0.0.245	example.org
-++192.0.0.246	example.org
-++192.0.0.247	example.org
-++192.0.0.248	example.org
-++192.0.0.249	example.org
-++192.0.0.250	example.org
-++192.0.0.251	example.org
-++192.0.0.252	example.org
-++192.0.0.253	example.org
-++192.0.0.254	example.org
-++192.0.1.1	example.org
-++192.0.1.2	example.org
-++192.0.1.3	example.org
-++192.0.1.4	example.org
-++192.0.1.5	example.org
-++192.0.1.6	example.org
-++192.0.1.7	example.org
-++192.0.1.8	example.org
-++192.0.1.9	example.org
-++192.0.1.10	example.org
-++192.0.1.11	example.org
-++192.0.1.12	example.org
-++192.0.1.13	example.org
-++192.0.1.14	example.org
-++192.0.1.15	example.org
-++192.0.1.16	example.org
-++192.0.1.17	example.org
-++192.0.1.18	example.org
-++192.0.1.19	example.org
-++192.0.1.20	example.org
-++192.0.1.21	example.org
-++192.0.1.22	example.org
-++192.0.1.23	example.org
-++192.0.1.24	example.org
-++192.0.1.25	example.org
-++192.0.1.26	example.org
-++192.0.1.27	example.org
-++192.0.1.28	example.org
-++192.0.1.29	example.org
-++192.0.1.30	example.org
-++192.0.1.31	example.org
-++192.0.1.32	example.org
-++192.0.1.33	example.org
-++192.0.1.34	example.org
-++192.0.1.35	example.org
-++192.0.1.36	example.org
-++192.0.1.37	example.org
-++192.0.1.38	example.org
-++192.0.1.39	example.org
-++192.0.1.40	example.org
-++192.0.1.41	example.org
-++192.0.1.42	example.org
-++192.0.1.43	example.org
-++192.0.1.44	example.org
-++192.0.1.45	example.org
-++192.0.1.46	example.org
-++192.0.1.47	example.org
-++192.0.1.48	example.org
-++192.0.1.49	example.org
-++192.0.1.50	example.org
-++192.0.1.51	example.org
-++192.0.1.52	example.org
-++192.0.1.53	example.org
-++192.0.1.54	example.org
-++192.0.1.55	example.org
-++192.0.1.56	example.org
-++192.0.1.57	example.org
-++192.0.1.58	example.org
-++192.0.1.59	example.org
-++192.0.1.60	example.org
-++192.0.1.61	example.org
-++192.0.1.62	example.org
-++192.0.1.63	example.org
-++192.0.1.64	example.org
-++192.0.1.65	example.org
-++192.0.1.66	example.org
-++192.0.1.67	example.org
-++192.0.1.68	example.org
-++192.0.1.69	example.org
-++192.0.1.70	example.org
-++192.0.1.71	example.org
-++192.0.1.72	example.org
-++192.0.1.73	example.org
-++192.0.1.74	example.org
-++192.0.1.75	example.org
-++192.0.1.76	example.org
-++192.0.1.77	example.org
-++192.0.1.78	example.org
-++192.0.1.79	example.org
-++192.0.1.80	example.org
-++192.0.1.81	example.org
-++192.0.1.82	example.org
-++192.0.1.83	example.org
-++192.0.1.84	example.org
-++192.0.1.85	example.org
-++192.0.1.86	example.org
-++192.0.1.87	example.org
-++192.0.1.88	example.org
-++192.0.1.89	example.org
-++192.0.1.90	example.org
-++192.0.1.91	example.org
-++192.0.1.92	example.org
-++192.0.1.93	example.org
-++192.0.1.94	example.org
-++192.0.1.95	example.org
-++192.0.1.96	example.org
-++192.0.1.97	example.org
-++192.0.1.98	example.org
-++192.0.1.99	example.org
-++192.0.1.100	example.org
-++192.0.1.101	example.org
-++192.0.1.102	example.org
-++192.0.1.103	example.org
-++192.0.1.104	example.org
-++192.0.1.105	example.org
-++192.0.1.106	example.org
-++192.0.1.107	example.org
-++192.0.1.108	example.org
-++192.0.1.109	example.org
-++192.0.1.110	example.org
-++192.0.1.111	example.org
-++192.0.1.112	example.org
-++192.0.1.113	example.org
-++192.0.1.114	example.org
-++192.0.1.115	example.org
-++192.0.1.116	example.org
-++192.0.1.117	example.org
-++192.0.1.118	example.org
-++192.0.1.119	example.org
-++192.0.1.120	example.org
-++192.0.1.121	example.org
-++192.0.1.122	example.org
-++192.0.1.123	example.org
-++192.0.1.124	example.org
-++192.0.1.125	example.org
-++192.0.1.126	example.org
-++192.0.1.127	example.org
-++192.0.1.128	example.org
-++192.0.1.129	example.org
-++192.0.1.130	example.org
-++192.0.1.131	example.org
-++192.0.1.132	example.org
-++192.0.1.133	example.org
-++192.0.1.134	example.org
-++192.0.1.135	example.org
-++192.0.1.136	example.org
-++192.0.1.137	example.org
-++192.0.1.138	example.org
-++192.0.1.139	example.org
-++192.0.1.140	example.org
-++192.0.1.141	example.org
-++192.0.1.142	example.org
-++192.0.1.143	example.org
-++192.0.1.144	example.org
-++192.0.1.145	example.org
-++192.0.1.146	example.org
-++192.0.1.147	example.org
-++192.0.1.148	example.org
-++192.0.1.149	example.org
-++192.0.1.150	example.org
-++192.0.1.151	example.org
-++192.0.1.152	example.org
-++192.0.1.153	example.org
-++192.0.1.154	example.org
-++192.0.1.155	example.org
-++192.0.1.156	example.org
-++192.0.1.157	example.org
-++192.0.1.158	example.org
-++192.0.1.159	example.org
-++192.0.1.160	example.org
-++192.0.1.161	example.org
-++192.0.1.162	example.org
-++192.0.1.163	example.org
-++192.0.1.164	example.org
-++192.0.1.165	example.org
-++192.0.1.166	example.org
-++192.0.1.167	example.org
-++192.0.1.168	example.org
-++192.0.1.169	example.org
-++192.0.1.170	example.org
-++192.0.1.171	example.org
-++192.0.1.172	example.org
-++192.0.1.173	example.org
-++192.0.1.174	example.org
-++192.0.1.175	example.org
-++192.0.1.176	example.org
-++192.0.1.177	example.org
-++192.0.1.178	example.org
-++192.0.1.179	example.org
-++192.0.1.180	example.org
-++192.0.1.181	example.org
-++192.0.1.182	example.org
-++192.0.1.183	example.org
-++192.0.1.184	example.org
-++192.0.1.185	example.org
-++192.0.1.186	example.org
-++192.0.1.187	example.org
-++192.0.1.188	example.org
-++192.0.1.189	example.org
-++192.0.1.190	example.org
-++192.0.1.191	example.org
-++192.0.1.192	example.org
-++192.0.1.193	example.org
-++192.0.1.194	example.org
-++192.0.1.195	example.org
-++192.0.1.196	example.org
-++192.0.1.197	example.org
-++192.0.1.198	example.org
-++192.0.1.199	example.org
-++192.0.1.200	example.org
-++192.0.1.201	example.org
-++192.0.1.202	example.org
-++192.0.1.203	example.org
-++192.0.1.204	example.org
-++192.0.1.205	example.org
-++192.0.1.206	example.org
-++192.0.1.207	example.org
-++192.0.1.208	example.org
-++192.0.1.209	example.org
-++192.0.1.210	example.org
-++192.0.1.211	example.org
-++192.0.1.212	example.org
-++192.0.1.213	example.org
-++192.0.1.214	example.org
-++192.0.1.215	example.org
-++192.0.1.216	example.org
-++192.0.1.217	example.org
-++192.0.1.218	example.org
-++192.0.1.219	example.org
-++192.0.1.220	example.org
-++192.0.1.221	example.org
-++192.0.1.222	example.org
-++192.0.1.223	example.org
-++192.0.1.224	example.org
-++192.0.1.225	example.org
-++192.0.1.226	example.org
-++192.0.1.227	example.org
-++192.0.1.228	example.org
-++192.0.1.229	example.org
-++192.0.1.230	example.org
-++192.0.1.231	example.org
-++192.0.1.232	example.org
-++192.0.1.233	example.org
-++192.0.1.234	example.org
-++192.0.1.235	example.org
-++192.0.1.236	example.org
-++192.0.1.237	example.org
-++192.0.1.238	example.org
-++192.0.1.239	example.org
-++192.0.1.240	example.org
-++192.0.1.241	example.org
-++192.0.1.242	example.org
-++192.0.1.243	example.org
-++192.0.1.244	example.org
-++192.0.1.245	example.org
-++192.0.1.246	example.org
-++192.0.1.247	example.org
-++192.0.1.248	example.org
-++192.0.1.249	example.org
-++192.0.1.250	example.org
-++192.0.1.251	example.org
-++192.0.1.252	example.org
-++192.0.1.253	example.org
-++192.0.1.254	example.org
-+diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
-+index 18dccd5924..3d9bea60c6 100644
-+--- a/sysdeps/posix/getaddrinfo.c
-++++ b/sysdeps/posix/getaddrinfo.c
-+@@ -458,11 +458,6 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 
-+   if (name != NULL)
-+     {
-+-      at = alloca_account (sizeof (struct gaih_addrtuple), alloca_used);
-+-      at->family = AF_UNSPEC;
-+-      at->scopeid = 0;
-+-      at->next = NULL;
-+-
-+       if (req->ai_flags & AI_IDN)
-+ 	{
-+ 	  char *out;
-+@@ -473,13 +468,21 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 	  malloc_name = true;
-+ 	}
-+ 
-+-      if (__inet_aton_exact (name, (struct in_addr *) at->addr) != 0)
-++      uint32_t addr[4];
-++      if (__inet_aton_exact (name, (struct in_addr *) addr) != 0)
-+ 	{
-++	  at = alloca_account (sizeof (struct gaih_addrtuple), alloca_used);
-++	  at->scopeid = 0;
-++	  at->next = NULL;
-++
-+ 	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET)
-+-	    at->family = AF_INET;
-++	    {
-++	      memcpy (at->addr, addr, sizeof (at->addr));
-++	      at->family = AF_INET;
-++	    }
-+ 	  else if (req->ai_family == AF_INET6 && (req->ai_flags & AI_V4MAPPED))
-+ 	    {
-+-	      at->addr[3] = at->addr[0];
-++	      at->addr[3] = addr[0];
-+ 	      at->addr[2] = htonl (0xffff);
-+ 	      at->addr[1] = 0;
-+ 	      at->addr[0] = 0;
-+@@ -505,49 +505,62 @@
-+ 
-+ 	  if (req->ai_flags & AI_CANONNAME)
-+ 	    canon = name;
-++
-++	  goto process_list;
-+ 	}
-+-      else if (at->family == AF_UNSPEC)
-++
-++      char *scope_delim = strchr (name, SCOPE_DELIMITER);
-++      int e;
-++
-++      if (scope_delim == NULL)
-++	e = inet_pton (AF_INET6, name, addr);
-++      else
-++	e = __inet_pton_length (AF_INET6, name, scope_delim - name, addr);
-++
-++      if (e > 0)
-+ 	{
-+-	  char *scope_delim = strchr (name, SCOPE_DELIMITER);
-+-	  int e;
-+-	  if (scope_delim == NULL)
-+-	    e = inet_pton (AF_INET6, name, at->addr);
-++	  at = alloca_account (sizeof (struct gaih_addrtuple),
-++			       alloca_used);
-++	  at->scopeid = 0;
-++	  at->next = NULL;
-++
-++	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
-++	    {
-++	      memcpy (at->addr, addr, sizeof (at->addr));
-++	      at->family = AF_INET6;
-++	    }
-++	  else if (req->ai_family == AF_INET
-++		   && IN6_IS_ADDR_V4MAPPED (addr))
-++	    {
-++	      at->addr[0] = addr[3];
-++	      at->addr[1] = addr[1];
-++	      at->addr[2] = addr[2];
-++	      at->addr[3] = addr[3];
-++	      at->family = AF_INET;
-++	    }
-+ 	  else
-+-	    e = __inet_pton_length (AF_INET6, name, scope_delim - name,
-+-				    at->addr);
-+-	  if (e > 0)
-+ 	    {
-+-	      if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
-+-		at->family = AF_INET6;
-+-	      else if (req->ai_family == AF_INET
-+-		       && IN6_IS_ADDR_V4MAPPED (at->addr))
-+-		{
-+-		  at->addr[0] = at->addr[3];
-+-		  at->family = AF_INET;
-+-		}
-+-	      else
-+-		{
-+-		  result = -EAI_ADDRFAMILY;
-+-		  goto free_and_return;
-+-		}
-+-
-+-	      if (scope_delim != NULL
-+-		  && __inet6_scopeid_pton ((struct in6_addr *) at->addr,
-+-					   scope_delim + 1,
-+-					   &at->scopeid) != 0)
-+-		{
-+-		  result = -EAI_NONAME;
-+-		  goto free_and_return;
-+-		}
-++	      result = -EAI_ADDRFAMILY;
-++	      goto free_and_return;
-++	    }
-+ 
-+-	      if (req->ai_flags & AI_CANONNAME)
-+-		canon = name;
-++	  if (scope_delim != NULL
-++	      && __inet6_scopeid_pton ((struct in6_addr *) at->addr,
-++				       scope_delim + 1,
-++				       &at->scopeid) != 0)
-++	    {
-++	      result = -EAI_NONAME;
-++	      goto free_and_return;
-+ 	    }
-++
-++	  if (req->ai_flags & AI_CANONNAME)
-++	    canon = name;
-++
-++	  goto process_list;
-+ 	}
-+ 
-+-      if (at->family == AF_UNSPEC && (req->ai_flags & AI_NUMERICHOST) == 0)
-++      if ((req->ai_flags & AI_NUMERICHOST) == 0)
-+ 	{
-+-	  struct gaih_addrtuple **pat = &at;
-+ 	  int no_data = 0;
-+ 	  int no_inet6_data = 0;
-+ 	  service_user *nip;
-+@@ -543,6 +559,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 	  enum nss_status status = NSS_STATUS_UNAVAIL;
-+ 	  int no_more;
-+ 	  struct resolv_context *res_ctx = NULL;
-++	  bool do_merge = false;
-+ 
-+ 	  /* If we do not have to look for IPv6 addresses or the canonical
-+ 	     name, use the simple, old functions, which do not support
-+@@ -579,7 +596,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 			  result = -EAI_MEMORY;
-+ 			  goto free_and_return;
-+ 			}
-+-		      *pat = addrmem;
-++		      at = addrmem;
-+ 		    }
-+ 		  else
-+ 		    {
-+@@ -632,6 +649,8 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 		    }
-+ 
-+ 		  struct gaih_addrtuple *addrfree = addrmem;
-++		  struct gaih_addrtuple **pat = &at;
-++
-+ 		  for (int i = 0; i < air->naddrs; ++i)
-+ 		    {
-+ 		      socklen_t size = (air->family[i] == AF_INET
-+@@ -695,12 +714,6 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 
-+ 		  free (air);
-+ 
-+-		  if (at->family == AF_UNSPEC)
-+-		    {
-+-		      result = -EAI_NONAME;
-+-		      goto free_and_return;
-+-		    }
-+-
-+ 		  goto process_list;
-+ 		}
-+ 	      else if (err == 0)
-+@@ -750,6 +763,22 @@
-+ 
-+ 	  while (!no_more)
-+ 	    {
-++	      /* Always start afresh; continue should discard previous results
-++		 and the hosts database does not support merge.  */
-++	      at = NULL;
-++	      free (canonbuf);
-++	      free (addrmem);
-++	      canon = canonbuf = NULL;
-++	      addrmem = NULL;
-++	      got_ipv6 = false;
-++
-++	      if (do_merge)
-++		{
-++		  __set_h_errno (NETDB_INTERNAL);
-++		  __set_errno (EBUSY);
-++		  break;
-++		}
-++
-+ 	      no_data = 0;
-+ 	      nss_gethostbyname4_r fct4 = NULL;
-+ 
-+@@ -744,12 +773,14 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 		{
-+ 		  while (1)
-+ 		    {
-+-		      status = DL_CALL_FCT (fct4, (name, pat,
-++		      status = DL_CALL_FCT (fct4, (name, &at,
-+ 						   tmpbuf->data, tmpbuf->length,
-+ 						   &errno, &h_errno,
-+ 						   NULL));
-+ 		      if (status == NSS_STATUS_SUCCESS)
-+ 			break;
-++		      /* gethostbyname4_r may write into AT, so reset it.  */
-++		      at = NULL;
-+ 		      if (status != NSS_STATUS_TRYAGAIN
-+ 			  || errno != ERANGE || h_errno != NETDB_INTERNAL)
-+ 			{
-+@@ -774,7 +805,9 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 		      no_data = 1;
-+ 
-+ 		      if ((req->ai_flags & AI_CANONNAME) != 0 && canon == NULL)
-+-			canon = (*pat)->name;
-++			canon = at->name;
-++
-++		      struct gaih_addrtuple **pat = &at;
-+ 
-+ 		      while (*pat != NULL)
-+ 			{
-+@@ -826,6 +859,8 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 
-+ 		  if (fct != NULL)
-+ 		    {
-++		      struct gaih_addrtuple **pat = &at;
-++
-+ 		      if (req->ai_family == AF_INET6
-+ 			  || req->ai_family == AF_UNSPEC)
-+ 			{
-+@@ -917,6 +946,10 @@
-+ 	      if (nss_next_action (nip, status) == NSS_ACTION_RETURN)
-+ 		break;
-+ 
-++	      /* The hosts database does not support MERGE.  */
-++	      if (nss_next_action (nip, status) == NSS_ACTION_MERGE)
-++		do_merge = true;
-++
-+ 	      if (nip->next == NULL)
-+ 		no_more = -1;
-+ 	      else
-+@@ -930,7 +969,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 	}
-+ 
-+     process_list:
-+-      if (at->family == AF_UNSPEC)
-++      if (at == NULL)
-+ 	{
-+ 	  result = -EAI_NONAME;
-+ 	  goto free_and_return;
-+-- 
-+2.39.3
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index 8298088323..296c892994 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -88,6 +88,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0037-Avoid-deadlock-between-pthread_create-and-ctors.patch \
-            file://CVE-2023-0687.patch \
-            file://CVE-2023-4911.patch \
-+           file://CVE-2023-4813.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
--- 
-2.25.1
-
+Ross=
 
