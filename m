@@ -1,107 +1,141 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34743C4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 07:43:51 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.31452.1702453425772705042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 353C1C4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 08:30:51 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.31893.1702456249323683988
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 23:43:46 -0800
+ Wed, 13 Dec 2023 00:30:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=beX+JdwR;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40c2718a768so65493775e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 23:43:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1702453423; x=1703058223; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yjD0ZLkqvMCh0mi7rBmCVMGu8tIdYIj0pp8boRnEDz8=;
-        b=beX+JdwRtaxP1RnR0kvuNu4gk6yO89jplkRZdnTng9WA6UxZe7/JMdwebvNuWrPWq4
-         sQDSaWmgBi8ZdroHaywlD4RCMR9iaUOdQWjrHFt4bX5OalzDYFRJDpVw8GpUH04mVdHg
-         QxvLym7JokaSAmpINCEs/57Za8tH9TfRTQHaznoBnnWdhN3Q/p+kVGEr4Ee73XUcr6KM
-         wpkIJ9KYiGNNIBbT4UWJ0yHAGXZ0dSws1ohAmVn6C9tDLU2nbLuhmcbIhwXyyiXedWzg
-         CdSN4vX0/mRxES3MLH29SL2Va1Lirv2DM9sjnUbQX9hGEdxWjR4RtgJhTbWlT582j+FE
-         gQxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702453423; x=1703058223;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yjD0ZLkqvMCh0mi7rBmCVMGu8tIdYIj0pp8boRnEDz8=;
-        b=nAJIojm6+XMt53iNXBa/HqM6+3NeaseLEqZUCwMOK+y+F0ga1pMSNJJStQFhJ50D2R
-         k6uXlR2QtaSOtYkjOC4cCJLcg1GMfgDZixn/2WAoCJtbmmHVnMcrInYb/LYC7W7P+GJc
-         8Fd91v+louKntQNpfAjb0hg3EzG12oeMtdWxeazWNQ2hfNZcBt3pA1CZ/WL4U+hbrzw+
-         I6XT3HZIu5wwCAxl3t0Bj53H5ItctMLtkgdX/17Yd/7GY0dHYaf5MjjcGWbO4Gh0z+ep
-         KV5bJ+POU6xM89GN3l2x/PLD2jM0EzCN6bGfeUGFzUm0B8isML2c+hglWElEPhGkugeV
-         jXvA==
-X-Gm-Message-State: AOJu0Yyh61iL7NW938Sh1GFl8I0/GeDeIiPGRARN6l++hG0uTiybPCjc
-	x0Mqc8IjHkLsGJyqssa2jjEp6yUFf6KDaBj0wyPCnw==
-X-Google-Smtp-Source: AGHT+IESDypCrraXd4kXh321BGc+M+lAJk86HnguSiCvADWYuq5yN5Zw+nelJrb/0zGW0hUctFlzEw==
-X-Received: by 2002:a05:600c:1da1:b0:40c:2aeb:a7e1 with SMTP id p33-20020a05600c1da100b0040c2aeba7e1mr4050308wms.65.1702453423492;
-        Tue, 12 Dec 2023 23:43:43 -0800 (PST)
-Received: from P-ASN-ECS-830T8C3.local ([2a02:8440:b218:5da4:7981:9acb:97b:5af4])
-        by smtp.gmail.com with ESMTPSA id j12-20020a5d452c000000b003363db0399asm617488wra.94.2023.12.12.23.43.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 23:43:43 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <ticotimo@gmail.com>,
-	Yoann Congal <yoann.congal@smile.fr>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [PATCH v2] strace: Disable bluetooth support by default
-Date: Wed, 13 Dec 2023 08:43:23 +0100
-Message-Id: <20231213074323.2547894-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.30.2
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=tICQCxiw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=071127d753=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BD7UlDY030916
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 08:30:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=1XqUK
+	2mzFyp2DNdNbXgxLL6uBwIXjHfOfZ0Au7jVN2M=; b=tICQCxiwlrmlJiMU26/kM
+	DLVcs516q6R1Rj2qVn/zR27Eet82Z69xGFRYSdWkwRVetfdRZyKg8HGS9qml+Zl5
+	2++czVa5f2tXGqtVBB8Es99pa9AYOsdl9QE/rYY0KrNiPYgKllbIh/HbYwzIkbXQ
+	w4h9Xvyl1W+AsoP5js3y+gUVlWDH+wLztzolhVi+Rjrh+2LyYSZZDaG9Joz5BqDq
+	HxdtnzXvIhFyPNfvsbSO4wVF/hUpKbCxFULwU5b4tViY4AT1Qo1oR2ZqXkiBW12P
+	Z4Y1MEQiLaV/nGQfLTVUbRsP7Uhu66/0ATOSxqbkqDGz5SD1UM3XhE8ylPnjccCq
+	Q==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uvdexuxj0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 08:30:48 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 13 Dec 2023 00:30:52 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Wed, 13 Dec 2023 00:30:51 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] rxvt-unicode: set correct outdir for tic
+Date: Wed, 13 Dec 2023 16:30:45 +0800
+Message-ID: <20231213083045.194148-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 3OtORchfMLEDAYc2GT8YCMhu5Aqmv6MY
+X-Proofpoint-GUID: 3OtORchfMLEDAYc2GT8YCMhu5Aqmv6MY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=575 priorityscore=1501 impostorscore=0 bulkscore=0 mlxscore=0
+ malwarescore=0 adultscore=0 lowpriorityscore=0 spamscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312130061
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 07:43:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192269
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 08:30:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192270
 
-The bluetooth support adds a bluez5 dependency (and,recursively, a lot
-of other stuff). Disable it by default to avoid having to build all of
-this when it is not needed.
+From: Changqing Li <changqing.li@windriver.com>
 
-This decrease the number of tasks run for a core-image-minimal build by
-~1000 (-21%).
+tic is from ncurses-native, and set TERMINFO as
+${RECIPE_SYSROOT_NATIVE}/${datadir}/terminfo of ncurses-native, so the
+rxvt-unicode terminfo will be wrongly installed in there.  set the
+outdir explicitly to install them to correct dir.
 
-To re-enable bluetooth support in strace, add "bluez" to strace
-PACKAGECONFIG. For example, in local.conf:
-  PACKAGECONFIG:append:pn-strace = "bluez"
-
-Fixes [YOCTO #15323]
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Suggested-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-v1->v2:
-* Fixed local.conf example (thanks Tim)
-* Added Suggested-by: Ross (thanks Ross)
-* Removed an extra empty line
----
- meta/recipes-devtools/strace/strace_6.6.bb | 4 ----
- 1 file changed, 4 deletions(-)
+ .../rxvt-unicode/rxvt-unicode.inc             |  5 +--
+ .../0001-Makefile.in-set-outdir-for-tic.patch | 35 +++++++++++++++++++
+ 2 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-tic.patch
 
-diff --git a/meta/recipes-devtools/strace/strace_6.6.bb b/meta/recipes-devtools/strace/strace_6.6.bb
-index a3de7941cf..eeffe477b3 100644
---- a/meta/recipes-devtools/strace/strace_6.6.bb
-+++ b/meta/recipes-devtools/strace/strace_6.6.bb
-@@ -22,10 +22,6 @@ inherit autotools ptest
- # Not yet ported to rv32
- COMPATIBLE_HOST:riscv32 = "null"
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+index e7d520ebef..2f01f54305 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+@@ -11,7 +11,8 @@ DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu libptytty"
+ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
+ 	   file://xwc.patch \
+ 	   file://rxvt.desktop \
+-	   file://rxvt.png"
++	   file://rxvt.png \
++	   file://0001-Makefile.in-set-outdir-for-tic.patch "
  
--PACKAGECONFIG:class-target ??= "\
--    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
--"
--
- PACKAGECONFIG[bluez] = "ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,bluez5"
- PACKAGECONFIG[libunwind] = "--with-libunwind,--without-libunwind,libunwind"
+ inherit autotools pkgconfig update-alternatives
  
+@@ -55,4 +56,4 @@ do_install:append () {
+ 	install -m 0644 ${WORKDIR}/rxvt.desktop ${D}/${datadir}/applications
+ }
+ 
+-FILES:${PN} += "${datadir}/applications/rxvt.desktop ${datadir}/pixmaps/rxvt.png"
++FILES:${PN} += "${datadir}/applications/rxvt.desktop ${datadir}/pixmaps/rxvt.png ${datadir}/terminfo"
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-tic.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-tic.patch
+new file mode 100644
+index 0000000000..7ba0e668dc
+--- /dev/null
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-tic.patch
+@@ -0,0 +1,35 @@
++From 1b7d547453fc57806ef86f64c86706530a23e62e Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 13 Dec 2023 11:53:18 +0800
++Subject: [PATCH] Makefile.in: set outdir for tic
++
++tic is from ncurses-native, and set TERMINFO as
++${RECIPE_SYSROOT_NATIVE}/${datadir}/terminfo of ncurses-native, so the
++rxvt-unicode terminfo will be wrongly installed in there.  set the
++outdir explicitly to install them to correct dir.
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ doc/Makefile.in | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/doc/Makefile.in b/doc/Makefile.in
++index e3d1fe8..1de56d3 100644
++--- a/doc/Makefile.in
+++++ b/doc/Makefile.in
++@@ -100,8 +100,8 @@ install: all
++ 	$(INSTALL_DATA) rxvtd.1.man   $(DESTDIR)$(man1dir)/$(RXVTNAME)d.$(man1ext)
++ 	$(INSTALL_DATA) rxvt.7.man    $(DESTDIR)$(man7dir)/$(RXVTNAME).$(man7ext)
++ 	$(INSTALL_DATA) rclock.1.man  $(DESTDIR)$(man1dir)/urclock.$(man1ext)
++-	@TIC@ -x $(srcdir)/etc/rxvt-unicode.terminfo || \
++-           @TIC@ $(srcdir)/etc/rxvt-unicode.terminfo
+++	@TIC@ -x $(srcdir)/etc/rxvt-unicode.terminfo -o $(DESTDIR)$(datadir)/terminfo || \
+++           @TIC@ $(srcdir)/etc/rxvt-unicode.terminfo -o $(DESTDIR)$(datadir)/terminfo
++ 
++ distdepend: alldoc
++ 
++-- 
++2.25.1
++
 -- 
-2.30.2
+2.25.1
 
 
