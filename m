@@ -2,92 +2,145 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C3C5C4167B
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 20:41:05 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.47989.1702500060600364946
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D8AC4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 20:45:45 +0000 (UTC)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+ by mx.groups.io with SMTP id smtpd.web11.48105.1702500343701341514
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 12:41:00 -0800
+ Wed, 13 Dec 2023 12:45:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JMborFCg;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-28abca51775so1571079a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 12:41:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WIlEZYkY;
+ spf=pass (domain: gmail.com, ip: 209.85.210.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6d852e06b07so3813666a34.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 12:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702500060; x=1703104860; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1702500343; x=1703105143; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OzSw2YCtEJSX0/0Kkq5JYtv8OPieCzN3LS8ySre2KnM=;
-        b=JMborFCgjV+I5LwOjIgxWvz18X3JNRz0LlENOtYXDsvKIysrdmNUHHlk1PspOGn+Aa
-         3EDLSX/CuQom4ekUC/Wfd5mM627hKQ2k9vMZOaJzQzlsIULH2aC4XDb24pV49PR6wl9g
-         NJsvQlUxNLI8eshJN8AtpaK/IGVYPPt23Y7x5l3G6owXPmzoQpQISzvMt0F1ubRpnikv
-         yUBs7D2D8D+qtmsjYiZfRRbXlZknAsKD7tr5xbI350cX8ICyrO8/zJ5BPqa32TfNQkCO
-         7LtIeZng7m3OdbiwaLbOB1wBKVJD1/jD26Fita8smYuf3+XR9650BuG00LQgsKz1ptmE
-         YIdw==
+        bh=k1JP6DfbGhE4Bs2JcdAEgUpyi1/E1Q0TLYuAxsibH1I=;
+        b=WIlEZYkYGg9SUFYCVqW8gUF6DbVjLO64NKd9b5SIahOeVOizxqQaF6a49gO3FkP7Wl
+         aS1uppc5NktlUQ13HLS+o4sEp7fyGnhgnhzyd8+0hdxKmzob1Xm2Qfy6xjGe/L5a7dQc
+         KjdvNumDUKo+oJ5r1WJwVLhofv0Y3VwjyJMmX8hSE1jyyJEZt9IaQHBxk+vus7bTC5kH
+         HUmvk1vzM796GTBI6AWcuoxLv2nDdpDLe0QZxfQD360iXXoSSw5tN+rzMGTulKIZ6JUJ
+         UnP2Yt2Rssz9Y1ilQiQ83MQAgFPOqlkw0gMJLeHNTwbhCJ3DAIFwbOERHUUbRD1O/Vbw
+         RVTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702500060; x=1703104860;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1702500343; x=1703105143;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OzSw2YCtEJSX0/0Kkq5JYtv8OPieCzN3LS8ySre2KnM=;
-        b=WMv+CVU7WPVa3IWeTXHSTI5QDYYsHfB1bCXquQWK3yMJdOn7fITZ5gG3cc6mdliPfN
-         BW+aJbZ37+03SFSaaqe2mWhSdvUEJCIvtBQE5fP6dg0nIiroRabqQ3ncC6ErF2B2b+qd
-         4lOsSGnGA/Nleo1uK6AQGHPVKp3GhDuJbNHrKnmJKsuzmwrjTIWm9wyAo70uwIZZgo6Z
-         DaFSeWeANFXNUij/pmVFWHGjs3wRwbCHU2+te5BlmMLdGnkjbOnpDLRwJe6KccG1gsKW
-         W8cXFSOzIw5ntT/Ktj5xsSt2+6OmASVMJsklK5A12rlPujvWZ423SNWyHogBz2hD84Pt
-         PekQ==
-X-Gm-Message-State: AOJu0YynK4X4wPBXe/qHfgQpjq0utJWclDLZ8yR5KPkhuruHlnJbr23h
-	oE0TBmKYIRD8KBGZDT2Uk9acaXAiGJk=
-X-Google-Smtp-Source: AGHT+IEkptvTVBXzTOULzS8Hw66OAbLBcMYA4039CWeOzNFNB7EgvmtIKMe+BYxIEHQxDH/iHovvwA==
-X-Received: by 2002:a17:90b:f8c:b0:28a:c38b:5b03 with SMTP id ft12-20020a17090b0f8c00b0028ac38b5b03mr1527425pjb.43.1702500059755;
-        Wed, 13 Dec 2023 12:40:59 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::4b6f])
-        by smtp.gmail.com with ESMTPSA id 5-20020a17090a018500b0028658657e9csm12497570pjc.46.2023.12.13.12.40.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 12:40:59 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] qemu: Add packageconfig knob to enable pipewire support
-Date: Wed, 13 Dec 2023 12:40:55 -0800
-Message-ID: <20231213204055.4183701-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231213204055.4183701-1-raj.khem@gmail.com>
-References: <20231213204055.4183701-1-raj.khem@gmail.com>
+        bh=k1JP6DfbGhE4Bs2JcdAEgUpyi1/E1Q0TLYuAxsibH1I=;
+        b=VecvOjNNUsxuuZWZpnP3jASXknaMUxlB7q9ezOvh7I1KdY8WHOVwsInIxbkMwpb9tE
+         ECKDjgFPcB8sbex4oZI4jABFkerjaSNqV6rpwhjHQjimyMcFXs+HjRnz5VWzdtZ9wHhX
+         UsZHmauSkCLrTK3mJOv7G56AGbzFqDmFnabqUU4B5imgOumn6kTIZiFBlQvfHVWTXUz3
+         4Tm0IWnyFcQbFHr3qqRR0Q3xNc+jft2obAol6+hw55XVa3llk6KapdDoKdeOSxSnSQtE
+         NHOTJR6wJWXTDne91nHuQvqbBKXTMH7TMXREcc+g5G5MkcO49jvJooLwQQcBpKws7Rxt
+         yKVA==
+X-Gm-Message-State: AOJu0Yyn/CO9ccYhxC/bvwmRvN5lIy1KHJ9s05p0f8jJjmQYxyTEuvpb
+	DGTyvWZkr3AnUpQNV5by1UripcmyK9QFqdYEyIzcK8NS
+X-Google-Smtp-Source: AGHT+IFBm8Gtp9rbLWVUmAX9XDH1obcHXB/Z+WzWHplA0QI1UfC/eCE1u7GmnQAGccOGJBbRwLzFnaq+01gIor5EmN4=
+X-Received: by 2002:a05:6871:453:b0:1fa:ea88:9b9a with SMTP id
+ e19-20020a056871045300b001faea889b9amr5631435oag.43.1702500342783; Wed, 13
+ Dec 2023 12:45:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CXNASYPMN4HU.28KB1ZM3347U5@joggee.fr> <CXNASYPMNU9N.2AKRQ4ODCZYTH@joggee.fr>
+In-Reply-To: <CXNASYPMNU9N.2AKRQ4ODCZYTH@joggee.fr>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 13 Dec 2023 12:45:16 -0800
+Message-ID: <CAMKF1sqUzNwDkevyhYvFdCgTMWOagqzhA=s4P9qXrSn2+_c05w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/3] lib/oe/package: add LOCALEEXTRADIRS to
+ define extra locations for locales
+To: Jonathan GUILLOT <jonathan@joggee.fr>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 20:41:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192319
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 20:45:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192320
 
-This gets into a quessing mode if not specified and it it probelamactic
-for native version since it maybe built on a machine having pipewire
-  installed and used on another where pipewire is not installed (
-  minimal CI builder ) it ends up with
+On Wed, Dec 13, 2023 at 7:07=E2=80=AFAM Jonathan GUILLOT <jonathan@joggee.f=
+r> wrote:
+>
+> Some packages may contain localized files not located in
+> /usr/share/locale. This new variables allows to add these directories in
+> dedicated locale packages.
 
-runqemu - ERROR - Failed to run qemu: /mnt/b/yoe/master/build/tmp/work/x86_64-linux/qemu-helper-native/1.0/recipe-sysroot-native/usr/bin/qemu-system-x86_64: error while loading shared libraries: libpipewire-0.3.so.0: cannot open shared object file: No such file or directory
+I think using _ to separate the words would make it more readable so
+call it LOCALE_EXTRA_PATHS or something.
+secondly, it needs to be documented as well.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index cc508d961dd..58284ef9937 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -233,6 +233,7 @@ PACKAGECONFIG[slirp] = "--enable-slirp,--disable-slirp,libslirp"
- PACKAGECONFIG[brlapi] = "--enable-brlapi,--disable-brlapi"
- PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack,"
- PACKAGECONFIG[debuginfo] = "--enable-libdw,--disable-libdw,elfutils"
-+PACKAGECONFIG[pipewire] = "--enable-pipewire,--disable-pipewire,pipewire"
- 
- INSANE_SKIP:${PN}-common = "arch"
- 
--- 
-2.43.0
-
+>
+> Signed-off-by: Jonathan GUILLOT <jonathan@joggee.fr>
+> ---
+>  meta/lib/oe/package.py | 23 ++++++++++++++++++-----
+>  1 file changed, 18 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+> index 2f7a50e144..fc8b20324e 100644
+> --- a/meta/lib/oe/package.py
+> +++ b/meta/lib/oe/package.py
+> @@ -653,24 +653,37 @@ def split_locales(d):
+>      except ValueError:
+>          locale_index =3D len(packages)
+>
+> -    localedir =3D os.path.join(dvar + datadir, 'locale')
+> +    localedirs =3D [os.path.join(dvar + datadir, 'locale')]
+>
+> -    if not cpath.isdir(localedir):
+> +    for localedir in (d.getVar('LOCALEEXTRADIRS') or "").split():
+> +        localedirs.append(dvar + localedir)
+> +
+> +    locales =3D set()
+> +    locale_found =3D False
+> +    for localedir in localedirs:
+> +        if cpath.isdir(localedir):
+> +            locale_found =3D True
+> +            locales.update(os.listdir(localedir))
+> +
+> +    if not locale_found:
+>          bb.debug(1, "No locale files in this package")
+>          return
+>
+> -    locales =3D os.listdir(localedir)
+> -
+>      summary =3D d.getVar('SUMMARY') or pn
+>      description =3D d.getVar('DESCRIPTION') or ""
+>      locale_section =3D d.getVar('LOCALE_SECTION')
+>      mlprefix =3D d.getVar('MLPREFIX') or ""
+> +    dvar_len =3D len(dvar)
+>      for l in sorted(locales):
+>          ln =3D legitimize_package_name(l)
+>          pkg =3D pn + '-locale-' + ln
+>          packages.insert(locale_index, pkg)
+>          locale_index +=3D 1
+> -        d.setVar('FILES:' + pkg, os.path.join(datadir, 'locale', l))
+> +        files =3D []
+> +        for localedir in localedirs:
+> +            # Remove dvar prefix
+> +            files.append(os.path.join(localedir[dvar_len:], l))
+> +        d.setVar('FILES:' + pkg, " ".join(files))
+>          d.setVar('RRECOMMENDS:' + pkg, '%svirtual-locale-%s' % (mlprefix=
+, ln))
+>          d.setVar('RPROVIDES:' + pkg, '%s-locale %s%s-translation' % (pn,=
+ mlprefix, ln))
+>          d.setVar('SUMMARY:' + pkg, '%s - %s translations' % (summary, l)=
+)
+> --
+> 2.43.0
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192302): https://lists.openembedded.org/g/openembedde=
+d-core/message/192302
+> Mute This Topic: https://lists.openembedded.org/mt/103150560/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
