@@ -2,110 +2,151 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FA50C4167D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EC47C4332F
 	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 20:41:05 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.48310.1702500058569929922
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.48312.1702500059630398601
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 12:40:58 -0800
+ Wed, 13 Dec 2023 12:40:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FVvx3j43;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-28b012f93eeso386496a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 12:40:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iquGTDyO;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-28694702c18so7211049a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 12:40:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702500058; x=1703104858; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nN8LSKuaDIDJIHiYs4+4AGFZle5FPmcdw3t10r6Zvho=;
-        b=FVvx3j43uhjFP5997W6eBtV0rRxNKsvKX/wRn2ACfbbNW79J6HixmkF2EInVBeNITf
-         ogU1H0+jh7yvV4EzR5QvyRvxUa4fQiIzxFDPAlsotaMywz3hVzcDAnKuOE18fGExY/UV
-         3N4PndfYElUT//18jov3K2h5PnwELON2qcW0eM0Tfyy6pRIHWpphp1pv0k8nKO30DGuq
-         ruKmJ9481gMiN5/c9ERJmeINGCYHjj7riusDHzF2n8px7WK9ZI3jmLUkkVk99MxSXvdA
-         Q/ok6rEoOM4k9XGpyojk2qg0c7Hy20iGVQfkwc6wzxGXrLa+YZkeJe2evd/H+XjtQBjH
-         r6uA==
+        d=gmail.com; s=20230601; t=1702500059; x=1703104859; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lRgmtNfZ5muHysQmAIFLhDQFY5as9TazanwEFqSN6x0=;
+        b=iquGTDyOyJ7wOgLb1NYVgrVpw7gF6JddxFPg+y3qmSjwqrckCOooF4lYclxuh9uZ1t
+         lK/zrLXvsjvAHlcVJII54qsQgsRpC2oYQC9Q9fH1x1rn9hT6fIOz8gWINHFdUI3EKA1B
+         b7APWOCFl8WUtT5jm40V2h4gbYvc95WYaog0RViOuL6b8laHSDtxmSzWyiiPx90iXBY+
+         YK4y3RYMxEhhFNKyUSUtF3d37+4e5dl9lJ4Ru7hkkNESJGfaVvBFci1efqbFMa2qHVO0
+         RQVRSOLkKz+dNDCuMvJp5r1AQqVVjI6R5uwJwE8PqODY9zFjkX4R6H8hJiaEYHvrfXRE
+         jbgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702500058; x=1703104858;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nN8LSKuaDIDJIHiYs4+4AGFZle5FPmcdw3t10r6Zvho=;
-        b=YzgkrjAO7/skLmPdFuse/uHD0ZJntfjPZoNiEenoHh7MQvneD02ynZVDSHRM3tD0aw
-         oPjvsqdvcPC/vVNbfSDwur7pGFHrmIkjH8MYQF67xG7HT2gPeNULNUyAdZZ9yX8s438L
-         M04R1Tf65UQd6SDWeRU7OUdw1Mf9HbJY1d6LWAQ1ODYScYfHrGxxjpPRvFVtSXmbbW7o
-         9b8y0SJXTaYqAMUS5Ji14Kio15rGWZZETiS1zDum7g8NEpKrG5/svfgO4ar+WSc/fN+9
-         ESSAURmqIguz1Zp4WX91oC2qmMTzki05UgzXcoZnFiijC4M0kX6rZKmXu0JH4BbnFRX3
-         /tog==
-X-Gm-Message-State: AOJu0Ywua3evOaHbhiPF30yBk2yzos9ygHSLi6gTfQGdnF1sa/oeDBOo
-	FiyJ3JslyJL+RZgT9TyaVD9TTZsc+PI=
-X-Google-Smtp-Source: AGHT+IHncpe9/kpdLJX+uUv80pXmxTCeq8XaI6p6Tlk/3ArdZgfGw2KwtI9IiGzUPdoMNreU6xn/wQ==
-X-Received: by 2002:a17:90a:bc94:b0:28b:3d1:b372 with SMTP id x20-20020a17090abc9400b0028b03d1b372mr236560pjr.96.1702500057597;
-        Wed, 13 Dec 2023 12:40:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702500059; x=1703104859;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lRgmtNfZ5muHysQmAIFLhDQFY5as9TazanwEFqSN6x0=;
+        b=P377ic4Gv3Wn3K0IHu/1JEUa9+jcUf1C4smr2BVU+UFSH6ShnGx58Bi5KO5roirq0v
+         7vZONCMmYuAIqedJ1m675CLsYGru2lA2Cu/lqy3+1iDPV27i/h7WhJWKWRpwq0RFR9rw
+         sw4b0rdQmox5QC7c+PgmFNe9KtJnFRGsjlwBYlO+QOK3nbqZtsPD0mz8gj5qXDFjzYHD
+         7uuYPD6D3KOj8YI5TQRLpbPzJcjAtFt7cBJibzwz6nVEk9DeHzSYw8DaiVYcYXkxQhea
+         f+2sxE0UuD6aR8YKhEanxjyAQpWq1kjrSR98u390In9au9LByxX3/++1qGRTmguuPolp
+         K6rg==
+X-Gm-Message-State: AOJu0YzoguYDjNp4hj+e743ElUDJL33bJAJCX5TPl9mvvGLeyR9kEoOY
+	HE8g9+6/w3XPo8Jb1Ny/WtV1HEYP0Sw=
+X-Google-Smtp-Source: AGHT+IEVhU6j+LAr9oJ1Xn0CHaDW/0AAio6S2sigTK+JsqL3w69wP6kVmScpoeDi52TocSMn3Wp4Sg==
+X-Received: by 2002:a17:90b:394b:b0:286:a94a:867c with SMTP id oe11-20020a17090b394b00b00286a94a867cmr7034260pjb.79.1702500058690;
+        Wed, 13 Dec 2023 12:40:58 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::4b6f])
-        by smtp.gmail.com with ESMTPSA id 5-20020a17090a018500b0028658657e9csm12497570pjc.46.2023.12.13.12.40.56
+        by smtp.gmail.com with ESMTPSA id 5-20020a17090a018500b0028658657e9csm12497570pjc.46.2023.12.13.12.40.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 12:40:57 -0800 (PST)
+        Wed, 13 Dec 2023 12:40:58 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] systemd: Fix build with latest musl
-Date: Wed, 13 Dec 2023 12:40:53 -0800
-Message-ID: <20231213204055.4183701-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] qemu: Fix build with latest musl
+Date: Wed, 13 Dec 2023 12:40:54 -0800
+Message-ID: <20231213204055.4183701-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231213204055.4183701-1-raj.khem@gmail.com>
+References: <20231213204055.4183701-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 20:41:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192317
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192318
 
-musl has removed basename from string.h [1] which leads to build
-failures now as declaration is gone and it should be coming from
-libgen.h
-
-[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
+musl dropped basename() from string.h, adjust for that
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...patible-basename-for-non-glibc-syste.patch | 22 +++++++------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ ...io-Include-libgen.h-for-basename-API.patch | 57 +++++++++++++++++++
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-vfio-Include-libgen.h-for-basename-API.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/0017-Define-glibc-compatible-basename-for-non-glibc-syste.patch b/meta/recipes-core/systemd/systemd/0017-Define-glibc-compatible-basename-for-non-glibc-syste.patch
-index 7d74cfcc245..24dd6b0df17 100644
---- a/meta/recipes-core/systemd/systemd/0017-Define-glibc-compatible-basename-for-non-glibc-syste.patch
-+++ b/meta/recipes-core/systemd/systemd/0017-Define-glibc-compatible-basename-for-non-glibc-syste.patch
-@@ -13,22 +13,16 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  src/machine/machine-dbus.c | 5 +++++
-  1 file changed, 5 insertions(+)
- 
--diff --git a/src/machine/machine-dbus.c b/src/machine/machine-dbus.c
--index 45bc056326..aee51d5da5 100644
----- a/src/machine/machine-dbus.c
--+++ b/src/machine/machine-dbus.c
--@@ -4,6 +4,11 @@
-- #include <sys/mount.h>
-- #include <sys/wait.h>
-+--- a/src/basic/string-util.h
-++++ b/src/basic/string-util.h
-+@@ -26,6 +26,10 @@
-+ #define URI_UNRESERVED      ALPHANUMERICAL "-._~"       /* [RFC3986] */
-+ #define URI_VALID           URI_RESERVED URI_UNRESERVED /* [RFC3986] */
-  
- +#if !defined(__GLIBC__)
--+#include <string.h>
- +#define basename(src) (strrchr(src,'/') ? strrchr(src,'/')+1 : src)
- +#endif
- +
-- #include "alloc-util.h"
-- #include "bus-common-errors.h"
-- #include "bus-get-properties.h"
---- 
--2.39.2
--
-+ static inline char* strstr_ptr(const char *haystack, const char *needle) {
-+         if (!haystack || !needle)
-+                 return NULL;
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 5ab2cb83b4d..cc508d961dd 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -31,6 +31,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0002-linux-user-Replace-use-of-lfs64-related-functions-an.patch \
+            file://fixedmeson.patch \
+            file://fixmips.patch \
++           file://0001-vfio-Include-libgen.h-for-basename-API.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            "
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-vfio-Include-libgen.h-for-basename-API.patch b/meta/recipes-devtools/qemu/qemu/0001-vfio-Include-libgen.h-for-basename-API.patch
+new file mode 100644
+index 00000000000..5b8b638736a
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-vfio-Include-libgen.h-for-basename-API.patch
+@@ -0,0 +1,57 @@
++From e31c67ef65a4217f35f6cd40926251054094dff9 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 11 Dec 2023 16:44:16 -0800
++Subject: [PATCH v2] vfio: Include libgen.h for basename API
++
++Glibc has two implementation one based on POSIX which is used when
++libgen.h is included and second implementation is GNU implementation
++which is used when string.h is included. The functions are no identical
++in behavior. Musl C library does not implement the GNU version, but it
++has provided a declaration in string.h but this has been corrected in
++latest musl [1] which exposes places where it was being used from
++string.h to error out especially when -Wimplicit-function-declaration is
++treated as error.
++
++| ../qemu-8.1.2/hw/vfio/pci.c:3030:18: error: call to undeclared function 'basename'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
++|  3030 |     group_name = basename(group_path);
++
++clang-17 treats this warning as error by default
++
++[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
++
++Upstream-Status: Submitted [https://lists.nongnu.org/archive/html/qemu-devel/2023-12/msg01438.html]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++v2: Add missing link for [1]
++
++ hw/vfio/pci.c      | 1 +
++ hw/vfio/platform.c | 1 +
++ 2 files changed, 2 insertions(+)
++
++diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
++index c62c02f7b6..f043c93b9e 100644
++--- a/hw/vfio/pci.c
+++++ b/hw/vfio/pci.c
++@@ -19,6 +19,7 @@
++  */
++ 
++ #include "qemu/osdep.h"
+++#include <libgen.h>
++ #include <linux/vfio.h>
++ #include <sys/ioctl.h>
++ 
++diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
++index 8e3d4ac458..a835ab03be 100644
++--- a/hw/vfio/platform.c
+++++ b/hw/vfio/platform.c
++@@ -16,6 +16,7 @@
++ 
++ #include "qemu/osdep.h"
++ #include "qapi/error.h"
+++#include <libgen.h>
++ #include <sys/ioctl.h>
++ #include <linux/vfio.h>
++ 
++-- 
++2.43.0
++
 -- 
 2.43.0
 
