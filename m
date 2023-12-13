@@ -1,129 +1,137 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF778C4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 04:33:38 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.29459.1702442015939354606
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDD15C4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 07:34:40 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.31018.1702452873302186617
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 20:33:36 -0800
+ Tue, 12 Dec 2023 23:34:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=T2LeVro9;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=07118c8f6f=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BD4K2eH027878
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 20:33:35 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=uWToK
-	kzX9a0UnreLpIdyfgCoWo7JWUK5JelCOJLbVik=; b=T2LeVro9N1GOs+AzJ4hoe
-	D8XubS6Y24Pk/N5NqnQCtt+ZTehL35ZSuEhSdWPCWtRSMgU27BFFTAjnLY2AQ5W8
-	/0P2SyOiJEJy3o1w9z18cS4gY8l+brO2pNhO1PfPLZ/SiwfOpEBRoP27ZTwGL24a
-	PWj7PKcNt72ODlApO09ll32YR119Hoc+icQbyrfc7Ql2+lAfUuZcEHvHrmTUTUy4
-	qrip4LJnLn0D89BKXFaUZBGeSuP7ZsoAoq0Qi60h6kMqfGjSk1s3BnBD4oCrYuSN
-	5eSfB3qgk+deAMGcUUmwSUjHQA5RJsY8uPbvRV5oYQssEZ3SPZBWCkGwcM8M5eI4
-	A==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uvmd4behc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 20:33:35 -0800 (PST)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 12 Dec 2023 20:33:38 -0800
-From: ssambu <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][kirkstone][PATCH 1/1] perl: update 5.34.1 -> 5.34.3
-Date: Wed, 13 Dec 2023 04:33:08 +0000
-Message-ID: <20231213043308.1766415-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=AJh7WACr;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40c2bb872e2so61607305e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 23:34:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1702452871; x=1703057671; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=rNc7sFBVxePirD7oLpIrEZnIuJSqe4l+3OGcxgqSoXc=;
+        b=AJh7WACr/gEI9xXjE7W6S1mwjfeKx0dUU6L09/3j9BUo15nLZxLrUToOBcg4HrUZdz
+         LqGG6j9sJTdA1Ib1ZCG1z8FDItvBIjrWT/JHLmB3NDk0vA4dyKtu1QrelBGjg7BorBPL
+         VVV7nOF1d4nahSTAgTXSgMtjijqfOHckIT2xqkGIfNGLTQn9ssZD7Klf1/F5WeJKyR6Y
+         yd1z/zI+vekoPsHEk93tmEEHKdQx9Vyi90tJTY1YfT+0c1GU5m6rA4opLK+uMaaTAc72
+         ggV5PySg99L36AsQ5Gcdke/lQCumCUwjz2XXfQ38N9O6rdc03heCxnQ3ZrtLGWz3GytR
+         H65Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702452871; x=1703057671;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rNc7sFBVxePirD7oLpIrEZnIuJSqe4l+3OGcxgqSoXc=;
+        b=WchAmJgZKZ62TjsBfu1WJsszvKWyw86Rx5F6GWAR89xE/EmEg1qll3+Wn/oBeZDft+
+         ewj3SqZsvx7MsTj/DEh2TFhbr0aK3Y+/48YbThTc1kA+WlxQ9AS4UBZ+FDCGme2T4/0T
+         5c6gVZ4UcSIOksfddCzBJlw8GgXmiu68WhIZ9/kZ3EvqB+QK+SZzobhZQIz5RUlz4D79
+         9VgX4l11MOeBbBbcdtEGjWQ86T4MRnbVRPiRFAwVTHs56MwGpF1j7FfLMpNm/iLcUNRO
+         DZqwFrpPMLlS17epacS8iTjJgTdFbZs/ZZAYk8TnaO4PjAr0IaqSs1SnENGj65HwVdKW
+         0fwA==
+X-Gm-Message-State: AOJu0Yyb9rKHniQB/yXiZn1tmBjDJTfi30Up+/VHck5nmSr85wvnFgns
+	PwvrvGIzlwTv5h0QGehhCnhWhA==
+X-Google-Smtp-Source: AGHT+IGX9r/tudEs2uio1IgythLu9V5NeVW22MhawXFxqG7zcbcVf5sK+HnOUkR0gWsMeueeWT1Tzg==
+X-Received: by 2002:a05:600c:35c8:b0:40b:5f03:b3b4 with SMTP id r8-20020a05600c35c800b0040b5f03b3b4mr1904394wmq.214.1702452871339;
+        Tue, 12 Dec 2023 23:34:31 -0800 (PST)
+Received: from ?IPV6:2a02:8440:b217:4eae:e294:ede:ee4a:560a? ([2a02:8440:b217:4eae:e294:ede:ee4a:560a])
+        by smtp.gmail.com with ESMTPSA id l39-20020a05600c1d2700b0040c2c5f5844sm19329485wms.21.2023.12.12.23.34.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Dec 2023 23:34:31 -0800 (PST)
+Message-ID: <2067cfc3-3ab2-4496-ba25-f922bc119859@smile.fr>
+Date: Wed, 13 Dec 2023 08:34:29 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] strace: Disable bluetooth support by default
+To: Tim Orling <ticotimo@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20231212233723.2543380-1-yoann.congal@smile.fr>
+ <CANx9H-Bju7jVxihXMdKSzDB91iijtLbzY+X9NkP3m4LvxaSdYg@mail.gmail.com>
+Content-Language: en-US
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <CANx9H-Bju7jVxihXMdKSzDB91iijtLbzY+X9NkP3m4LvxaSdYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: dBw0IejmTb4SbIO6GyA2mYWd4o-yPXsm
-X-Proofpoint-ORIG-GUID: dBw0IejmTb4SbIO6GyA2mYWd4o-yPXsm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 bulkscore=0
- phishscore=0 spamscore=0 adultscore=0 malwarescore=0 clxscore=1015
- mlxscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312130029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 04:33:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192267
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 07:34:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192268
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
 
-This includes security fix for CVE-2023-47038
 
-Changes:
-https://metacpan.org/release/PEVANS/perl-5.34.3/changes
+Le 13/12/2023 à 04:45, Tim Orling a écrit :
+> 
+> 
+> On Tue, Dec 12, 2023 at 3:37 PM Yoann Congal <yoann.congal@smile.fr <mailto:yoann.congal@smile.fr>> wrote:
+> 
+>     The bluetooth support adds a bluez5 dependency (and,recursively, a lot
+>     of other stuff). Disable it by default to avoid having to build all of
+>     this when it is not needed.
+> 
+>     This decrease the number of tasks run for a core-image-minimal build by
+>     ~1000 (-21%).
+> 
+>     To re-enable bluetooth support in strace, add "bluez" to strace
+>     PACKAGECONFIG. For example, in local.conf:
+>       PACKAGECONFIG:append:pn-strace = "bluetooth"
+> 
+> typo: = “bluez” unless you meant to reference the DISTRO_FEATURE?
 
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
----
- .../0001-Makefile-check-the-file-if-patched-or-not.patch      | 4 ++--
- .../perl-cross/{perlcross_1.3.7.bb => perlcross_1.5.2.bb}     | 2 +-
- meta/recipes-devtools/perl/{perl_5.34.1.bb => perl_5.34.3.bb} | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/perl-cross/{perlcross_1.3.7.bb => perlcross_1.5.2.bb} (92%)
- rename meta/recipes-devtools/perl/{perl_5.34.1.bb => perl_5.34.3.bb} (99%)
+You are right, I meant
+  PACKAGECONFIG:append:pn-strace = "bluez"
+I've tested it, fixed it... and forgot to fix the commit -_-
 
-diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
-index 8c8f3b717c..0ef9b27439 100644
---- a/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
-+++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
-@@ -21,8 +21,8 @@ index f4a26f5..7bc748e 100644
-  # Original versions are not saved anymore; patch generally takes care of this,
-  # and if that fails, reaching for the source tarball is the safest option.
-  $(CROSSPATCHED): %.applied: %.patch
---	patch -p1 -i $< && touch $@
--+	test ! -f $@ && (patch -p1 -i $< && touch $@) || echo "$@ exist"
-+-	$(cpatch) -p1 -i $< && touch $@
-++	test ! -f $@ && ($(cpatch) -p1 -i $< && touch $@) || echo "$@ exist"
-  
-  # ---[ common ]-----------------------------------------------------------------
-  
-diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb b/meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
-similarity index 92%
-rename from meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb
-rename to meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
-index 99a9ca1027..ac4dff33bb 100644
---- a/meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb
-+++ b/meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
-@@ -18,7 +18,7 @@ SRC_URI = "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
-            "
- UPSTREAM_CHECK_URI = "https://github.com/arsv/perl-cross/releases/"
- 
--SRC_URI[perl-cross.sha256sum] = "77f13ca84a63025053852331b72d4046c1f90ded98bd45ccedea738621907335"
-+SRC_URI[perl-cross.sha256sum] = "584dc54c48dca25e032b676a15bef377c1fed9de318b4fc140292a5dbf326e90"
- 
- S = "${WORKDIR}/perl-cross-${PV}"
- 
-diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-devtools/perl/perl_5.34.3.bb
-similarity index 99%
-rename from meta/recipes-devtools/perl/perl_5.34.1.bb
-rename to meta/recipes-devtools/perl/perl_5.34.3.bb
-index db306d0be3..e8b518adc9 100644
---- a/meta/recipes-devtools/perl/perl_5.34.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.34.3.bb
-@@ -29,7 +29,7 @@ SRC_URI:append:class-target = " \
-            file://encodefix.patch \
- "
- 
--SRC_URI[perl.sha256sum] = "357951a491b0ba1ce3611263922feec78ccd581dddc24a446b033e25acf242a1"
-+SRC_URI[perl.sha256sum] = "5b12f62863332b2a5f54102af9cdf8c010877e4bf3294911edbd594b2a1e8ede"
- 
- S = "${WORKDIR}/perl-${PV}"
- 
+Thanks! I will send a v2 shortly
+
+> 
+> 
+> 
+>     Fixes [YOCTO #15323]
+> 
+>     Signed-off-by: Yoann Congal <yoann.congal@smile.fr <mailto:yoann.congal@smile.fr>>
+>     ---
+>      meta/recipes-devtools/strace/strace_6.6.bb <http://strace_6.6.bb> | 3 ---
+>      1 file changed, 3 deletions(-)
+> 
+>     diff --git a/meta/recipes-devtools/strace/strace_6.6.bb <http://strace_6.6.bb> b/meta/recipes-devtools/strace/strace_6.6.bb <http://strace_6.6.bb>
+>     index a3de7941cf..c355b45b20 100644
+>     --- a/meta/recipes-devtools/strace/strace_6.6.bb <http://strace_6.6.bb>
+>     +++ b/meta/recipes-devtools/strace/strace_6.6.bb <http://strace_6.6.bb>
+>     @@ -22,9 +22,6 @@ inherit autotools ptest
+>      # Not yet ported to rv32
+>      COMPATIBLE_HOST:riscv32 = "null"
+> 
+>     -PACKAGECONFIG:class-target ??= "\
+>     -    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+>     -"
+> 
+>      PACKAGECONFIG[bluez] = "ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,bluez5"
+>      PACKAGECONFIG[libunwind] = "--with-libunwind,--without-libunwind,libunwind"
+>     -- 
+>     2.30.2
+> 
+> 
+>     -=-=-=-=-=-=-=-=-=-=-=-
+>     Links: You receive all messages sent to this group.
+>     View/Reply Online (#192253): https://lists.openembedded.org/g/openembedded-core/message/192253 <https://lists.openembedded.org/g/openembedded-core/message/192253>
+>     Mute This Topic: https://lists.openembedded.org/mt/103140540/924729 <https://lists.openembedded.org/mt/103140540/924729>
+>     Group Owner: openembedded-core+owner@lists.openembedded.org <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+>     Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub <https://lists.openembedded.org/g/openembedded-core/unsub> [ticotimo@gmail.com <mailto:ticotimo@gmail.com>]
+>     -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
 -- 
-2.40.0
-
+Yoann Congal
+Smile ECS - Tech Expert
 
