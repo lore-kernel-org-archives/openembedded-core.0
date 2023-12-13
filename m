@@ -1,67 +1,72 @@
-Return-Path: <jonathan@joggee.fr>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E9ACC4167D
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 15:07:23 +0000 (UTC)
-Received: from 1.mo576.mail-out.ovh.net (1.mo576.mail-out.ovh.net [178.33.251.173])
- by mx.groups.io with SMTP id smtpd.web10.38427.1702480039926472576
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D9BBC4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 15:54:03 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.web11.39296.1702482838974227010
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 07:07:20 -0800
+ Wed, 13 Dec 2023 07:53:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=softfail (domain: joggee.fr, ip: 178.33.251.173, mailfrom: jonathan@joggee.fr)
-Received: from director8.ghost.mail-out.ovh.net (unknown [10.109.176.72])
-	by mo576.mail-out.ovh.net (Postfix) with ESMTP id A338C30F9D
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 15:07:17 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-s8sv4 (unknown [10.110.178.109])
-	by director8.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 835AC1FE91
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 15:07:17 +0000 (UTC)
-Received: from joggee.fr ([37.59.142.102])
-	by ghost-submission-6684bf9d7b-s8sv4 with ESMTPSA
-	id SJRPH6XIeWXXtQAAm3lx3g
-	(envelope-from <jonathan@joggee.fr>)
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 15:07:17 +0000
-Authentication-Results: garm.ovh; auth=pass (GARM-102R004c6886dec-77ea-4c21-84a6-624d53695faf,
-                    8AE51020AAF3E055EAEAC9529530B6D231DC969C) smtp.auth=jonathan@joggee.fr
-X-OVh-ClientIp: 84.14.185.34
-In-Reply-To: <CXNASYPMN4HU.28KB1ZM3347U5@joggee.fr>
-Message-Id: <CXNASYPMO258.10FQBXN3ZW5G9@joggee.fr>
-To: <openembedded-core@lists.openembedded.org>
-From: "Jonathan GUILLOT" <jonathan@joggee.fr>
-Date: Wed, 6 Dec 2023 16:06:43 +0000
-Subject: [PATCH v2 3/3] cups: use LOCALEEXTRADIRS to split localized HTML
- templates
-X-Ovh-Tracer-Id: 14457962178906360955
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudeljedgudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpegjkffvhfffufestddtredttddttdenucfhrhhomhepfdflohhnrghthhgrnhcuifgfkffnnffqvfdfuceojhhonhgrthhhrghnsehjohhgghgvvgdrfhhrqeenucggtffrrghtthgvrhhnpeeludeijeetvdevvedtgfehjefhtdehveehjefhjeejgefghefhffegtefhvdeukeenucfkphepuddvjedrtddrtddruddpkeegrddugedrudekhedrfeegpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhonhgrthhhrghnsehjohhgghgvvgdrfhhrqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdpoffvtefjohhsthepmhhoheejiedpmhhouggvpehsmhhtphhouhht
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=A+SqxUfY;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=lqo4LT2vIHlOO6+zfYSYCCY2Tdx1cT7oMkYurLBP84k=; b=A+SqxUfYCN3b9CMsckGgLhVJjg
+	y+/Tx+9THy5Gp3RpvQJeeXca4/9t9Kn/fn7t0wOcllwA5kRL7bzdP7AarQcI3WPmGqBndvkTuGR9F
+	3JUaL5x2Ly7qdOiioXVAxLfhy4B5ICRfi4fqYh/epKuO2MEt8KP2qUoma0yciYGSiTCRmJKxkY2EA
+	Y8533jzBZOLer5BMaV2SDVzRfLy1g9M9tta85Vp8zl81KWKfmO3q6CPpMgOaqL7+lP67lq+u43Dj/
+	mXsPrm00cyg4AQ8dHK+ZcqIC+cqFwidG8m3HH7vArQuuqoIBbntW4Big66xwkbtNRIgLGvD3tA9oi
+	K/QTaLew==;
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:39928 helo=fedora)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1rDRYW-009Wsd-0p
+	for openembedded-core@lists.openembedded.org;
+	Wed, 13 Dec 2023 10:53:53 -0500
+Date: Wed, 13 Dec 2023 10:53:46 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: why does using ${AUTOREV} with kernel recipe rebuild every time?
+Message-ID: <68402d42-2ab-a052-3f2f-bee4a87382ed@crashcourse.ca>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 15:07:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192301
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 15:54:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192303
 
-Localized HTML templates in /usr/share/cups/templates are now part of
-locale packages.
 
-Signed-off-by: Jonathan GUILLOT <jonathan@joggee.fr>
----
- meta/recipes-extended/cups/cups.inc | 2 ++
- 1 file changed, 2 insertions(+)
+  i *know* i should know the answer to this, but someone just showed
+me a build (WRLinux-based, but still relevant) where the linux kernel
+recipe uses:
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 31f686cdfd..560bd67cf6 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -110,6 +110,8 @@ CONFFILES:${PN} += "${sysconfdir}/cups/cupsd.conf"
- 
- MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/cups-config"
- 
-+LOCALEEXTRADIRS = "${datadir}/cups/templates/"
-+
- SYSROOT_PREPROCESS_FUNCS += "cups_sysroot_preprocess"
- cups_sysroot_preprocess () {
- 	sed -i ${SYSROOT_DESTDIR}${bindir_crossscripts}/cups-config -e 's:cups_datadir=.*:cups_datadir=${datadir}/cups:' -e 's:cups_serverbin=.*:cups_serverbin=${libexecdir}/cups:'
--- 
-2.43.0
+  SRCREV_machine = ${AUTOREV}
+
+which is what one reads in the WRL version of linux-yocto-custom.bb,
+but also makes it clear in that recipe file that that is discouraged.
+
+  in any event, this appears to be forcing an entire rebuild of the
+kernel every time, even in the presence of sstate-cache, so the
+obvious question is, what is it about using ${AUTOREV} that defeats
+the use of sstate-cache? apologies if this should be obvious.
+
+rday
 
