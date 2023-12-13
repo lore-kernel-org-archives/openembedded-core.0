@@ -1,116 +1,133 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF9FC4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 03:54:08 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web10.25923.1702439641288059366
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBDD7C4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 04:02:38 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.27999.1702440148536724064
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 19:54:01 -0800
+ Tue, 12 Dec 2023 20:02:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Gg9xBfnz;
- spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702439641; x=1733975641;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=VN2WXfF6TIx6p4sJD4hNbpBVY6daqCT2JpS3HKX1GwE=;
-  b=Gg9xBfnz+bXDWsZANisGBj4jFCB2JCCEMAJBNF9+0KWlJWQcmJ12kfQo
-   JDiOqSvuzBhMalVBWH+ELT6sLP42505vJh1WtM+zrqKEsJx8O+QS+9f6s
-   /DjFk8qXRqP3pn0NzvNolvzN0K2J3n8CkWzgJJrIPKjJzG7P9bMA75Xxf
-   /S6ipoe1cDn8D6cSjIGlHgrO1Qp8FoidMhpg1UOEvZIp3HarX8vZcwEwa
-   2QQ8/Q6f7AnmNidr9sXM5ro1MvEbeLMrRdgn6rvQB6Gu0yAcWila4lCYX
-   dP3tZ2hHAkHYlc6Z6NxoKrN15JFe4KG9O3VeUB6ownTkk87dsBCxsYj51
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="481109799"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="481109799"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 19:53:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="917523944"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="917523944"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by fmsmga001.fm.intel.com with ESMTP; 12 Dec 2023 19:53:51 -0800
-From: chee.yang.lee@intel.com
+ dkim=pass header.i=@mvista.com header.s=google header.b=P45tCwKL;
+ spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d345b187bbso9344365ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 20:02:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1702440147; x=1703044947; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pqOO5SE8UppgpHoK264uUeD6s/fPClRn424aTYe3+eA=;
+        b=P45tCwKLkce+FFvf80qFqmXpakNYpPXei2NZOgihh4Tvc8nd5iFnVr1JGJSS5w+0Ih
+         crpLCVmr7msNGHxAZpM1ZRIysud86Ug/zng2OqN/Qjhky0pEepLSoRkHpImBfXcHE1Kr
+         igj2hQ1DvDLpCIyEbHe+ptfqIUEpOO70TVJa8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702440147; x=1703044947;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pqOO5SE8UppgpHoK264uUeD6s/fPClRn424aTYe3+eA=;
+        b=ksVGc+uNJ+KHK2sDGRs7FvegC+U13G9Kn/fOP8cpZ4Lv6EsQ+57diXxK8VERNU515s
+         RLAe2NQd00paZ8wXtnYpDzA1ipI4L48Ju7pOzfi8T6tvsA1y1R3zyfbv3shVvd7f+Pfi
+         /hASVSKgMsYPSMnV/iP31AaS3GkecWWUae3bEovs5xSBtwtPSGJu4Ae3pcF0S2iZ81nJ
+         AGTLVlZSNBa5KUPH7VrjIVYQQlK+1yNeGeA1EhaSpui+pUCt0Yi66A4CM9QrcRJ+1UK2
+         7HPw5B6Bcom8PfsP9JTV8HYGMqX1Sp8oIhU77CQKWMmZFmnIVXh6xpbtq49mgrdXtsN4
+         m6CQ==
+X-Gm-Message-State: AOJu0Yzi3s1Il/ADPrc1iASeg80WldowojgeqSf4cw8jAGXgzy3O9pPs
+	0cObBtMouoCeOEMwuINVWUgYDSKPJnJjC/ibHbE=
+X-Google-Smtp-Source: AGHT+IEXi3RtmyHNhymw9rvqbQ4X4+KRd75wTYzHNZA94O5WoeNztSTGWS6Tkb25QiyAP/t2C1pFYQ==
+X-Received: by 2002:a17:902:7fc8:b0:1d3:488e:a4c3 with SMTP id t8-20020a1709027fc800b001d3488ea4c3mr898892plb.96.1702440147092;
+        Tue, 12 Dec 2023 20:02:27 -0800 (PST)
+Received: from MVIN00020.mvista.com ([223.230.81.28])
+        by smtp.gmail.com with ESMTPSA id 13-20020a170902e9cd00b001d33369bd86sm2489690plk.194.2023.12.12.20.02.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 20:02:26 -0800 (PST)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Subject: [nanbield][patch 6/6] perf: lift TARGET_CC_ARCH modification out of security_flags.inc
-Date: Wed, 13 Dec 2023 11:34:09 +0800
-Message-Id: <20231213033409.2101308-6-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20231213033409.2101308-1-chee.yang.lee@intel.com>
-References: <20231213033409.2101308-1-chee.yang.lee@intel.com>
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] ghostscript: Backport fix for CVE-2023-46751
+Date: Wed, 13 Dec 2023 09:30:12 +0530
+Message-Id: <20231213040012.151047-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 03:54:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192265
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 04:02:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192266
 
-From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Building perf without security_flags.inc being included in one's
-distro results in the buildpaths warning
+Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=5d2da96e81c7455338302c71a291088a8396245a]
 
-WARNING: perf-1.0-r9 do_package_qa: QA Issue: File /usr/bin/trace in
-package perf contains reference to TMPDIR
-
-because the ${DEBUG_PREFIX_MAP} does not get used. Most recipes get
-that from CFLAGS, but the perf recipe explicitly unsets that.
-
-Now ${SELECTED_OPTIMIZATION} of course contains more than just
-${DEBUG_FLAGS}/${DEBUG_PREFIX_MAP}. For most TUs, perf's build system
-adds its own optimization flags (-O6 for odd reasons), so for those
-including the -O2 or -Og doesn't change anything. But looking at the
-.o.cmd files show that there are some TUs which currently get built
-without any -O flag. So for those adding the distro's
-SELECTED_OPTIMIZATION seem to be the right thing to do.
-
-(cherry-picked from Oe-Core rev: aa01c9122ef4a2159df503ef6ed25e802277f13a)
-
-Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- meta/conf/distro/include/security_flags.inc | 1 -
- meta/recipes-kernel/perf/perf.bb            | 9 +++++++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ .../ghostscript/CVE-2023-46751.patch          | 41 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.55.0.bb         |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 2972f05b4e..d97a6edb0f 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -69,4 +69,3 @@ SECURITY_LDFLAGS:pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
- TARGET_CC_ARCH:append:pn-binutils = " ${SELECTED_OPTIMIZATION}"
- TARGET_CC_ARCH:append:pn-gcc = " ${SELECTED_OPTIMIZATION}"
- TARGET_CC_ARCH:append:pn-gdb = " ${SELECTED_OPTIMIZATION}"
--TARGET_CC_ARCH:append:pn-perf = " ${SELECTED_OPTIMIZATION}"
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 675acfaf26..a392166e73 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -73,6 +73,15 @@ SPDX_S = "${S}/tools/perf"
- # supported kernel.
- LDFLAGS="-ldl -lutil"
- 
-+# Perf's build system adds its own optimization flags for most TUs,
-+# overriding the flags included here. But for some, perf does not add
-+# any -O option, so ensure the distro's chosen optimization gets used
-+# for those. Since ${SELECTED_OPTIMIZATION} always includes
-+# ${DEBUG_FLAGS} which in turn includes ${DEBUG_PREFIX_MAP}, this also
-+# ensures perf is built with appropriate -f*-prefix-map options,
-+# avoiding the 'buildpaths' QA warning.
-+TARGET_CC_ARCH += "${SELECTED_OPTIMIZATION}"
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch
+new file mode 100644
+index 0000000000..6fe5590892
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch
+@@ -0,0 +1,41 @@
++From 5d2da96e81c7455338302c71a291088a8396245a Mon Sep 17 00:00:00 2001
++From: Chris Liddell <chris.liddell@artifex.com>
++Date: Mon, 16 Oct 2023 16:49:40 +0100
++Subject: [PATCH] Bug 707264: Fix tiffsep(1) requirement for seekable output
++ files
 +
- EXTRA_OEMAKE = '\
-     V=1 \
-     VF=1 \
++In the device initialization redesign, tiffsep and tiffsep1 lost the requirement
++for the output files to be seekable.
++
++Fixing that highlighted a problem with the error handling in
++gdev_prn_open_printer_seekable() where closing the erroring file would leave a
++dangling pointer, and lead to a crash.
++
++Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=5d2da96e81c7455338302c71a291088a8396245a]
++CVE: CVE-2023-46751
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ base/gdevprn.c     | 1 +
++ devices/gdevtsep.c | 1 +
++ 2 files changed, 2 insertions(+)
++
++--- a/base/gdevprn.c
+++++ b/base/gdevprn.c
++@@ -1251,6 +1251,7 @@ gdev_prn_open_printer_seekable(gx_device
++               && !IS_LIBCTX_STDERR(pdev->memory, gp_get_file(ppdev->file))) {
++ 
++                 code = gx_device_close_output_file(pdev, ppdev->fname, ppdev->file);
+++                ppdev->file = NULL;
++                 if (code < 0)
++                     return code;
++             }
++--- a/devices/gdevtsep.c
+++++ b/devices/gdevtsep.c
++@@ -738,6 +738,7 @@ tiffsep_initialize_device_procs(gx_devic
++ {
++     gdev_prn_initialize_device_procs(dev);
++ 
+++    set_dev_proc(dev, output_page, gdev_prn_output_page_seekable);
++     set_dev_proc(dev, open_device, tiffsep_prn_open);
++     set_dev_proc(dev, close_device, tiffsep_prn_close);
++     set_dev_proc(dev, map_color_rgb, tiffsep_decode_color);
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index 7f4050755c..e0d1e4618f 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -42,6 +42,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2023-36664-0002.patch \
+                 file://CVE-2023-38559.patch \
+                 file://CVE-2023-43115.patch \
++                file://CVE-2023-46751.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
 -- 
-2.37.3
+2.25.1
 
 
