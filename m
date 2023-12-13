@@ -1,73 +1,1085 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC165C4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 11:05:31 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.33680.1702465521980740504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A18C4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 11:15:21 +0000 (UTC)
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web11.33413.1702466117463472208
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 03:05:22 -0800
+ Wed, 13 Dec 2023 03:15:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=LnzAqCmC;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F06F76000B;
-	Wed, 13 Dec 2023 11:05:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1702465520;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=H0t4tkJM7nmbeG0Si3NsIN3OgSAU1Ujl1r7AqtyhZuw=;
-	b=LnzAqCmCIxq0q9wYvv4kL9bIeIhvpJlJsXLPrkVZnld49k9z1lbjLztaXkh1u4D+KhrxsW
-	ip83r//CdPgqE4to8g4cRf7m2esA/M4xeqQMAN33U5FDOpUK+oPCmLx5pE1kKLAi8Ex+0y
-	BFezYNIjNAFxASp5TEWSh2eqKgk8HfA3MNsK/dW+XtDlMX0NHbE/N3SQPGL3jOEmZCV2JG
-	bsF3s4ESj4fPvQ+AvyymvwHKwI+6H7RCfwL5w3vILrmYX2xYcZ1w7qYurbksgH3CCcP+fs
-	D/1hOOmCzw0xCePsmnVRVLQi88GGbDu/cabV2xgUyBwZEKlyJehFclq/U0+HcA==
-Message-ID: <5ad9de1e-6a75-4198-8b61-027f0be9e5e5@bootlin.com>
-Date: Wed, 13 Dec 2023 12:05:18 +0100
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Blfr1i+D;
+ spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7b72d574399so298142239f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 03:15:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702466116; x=1703070916; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zsEhJo9VlukVLZe66wALkMlNDBLlCwuof4q59rWyrz8=;
+        b=Blfr1i+DRXHSDjpG/+VyM/ryHbpIGmA2E1Bj7Exl3WNfddkLH0MHt0RQXpjmBRHKIn
+         8APEXLj8EcKlzkHl/5n1esc7A8UtmLac/JAhyvzLe/SFZAsfn4I7cSNVRQyaRC2Ndc3S
+         KYtz22FFiS3FtUW5uMtNDT3UFNEzqzg8N1J786USrT8hofkI/MiszY7ZcE1QRNuYyZH9
+         X1B12pTa9fll5K2oXmjF24dznSFLtF9Z3ucCdxnF6x8DCoaKxEjWUjsFCnmG5cR5spge
+         PXEJ4MEdGFf2kPacvXIYejq74HRnlNb4Jx7r0gXnRz2eASaDzpVuR/KhkJVjPwbvmZ4v
+         JwDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702466116; x=1703070916;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zsEhJo9VlukVLZe66wALkMlNDBLlCwuof4q59rWyrz8=;
+        b=qVf4ki23zPDaEBs+CBU0S5My65qEDCpcUPctSwhF90D85QIh9Om8G9CTmMHP5tLR1X
+         r4yg1Wy1QjZZ05oExD3f2GBWhUo2UdvDh/hDikH/KOTZwt6dikTLnKv0QbuP/rWaaPYy
+         StC6VTzB+6KtzomUmj7zd5lI7mBqs/9yJcliHFcUen3NF870TCVj6/0nZ2w65HwHY3Ej
+         6jRu3sO464ANAY0SADXGMtYiLdbRHI7P1kK5/sXKzVlrzdQq9phOfo9BdCp04WVtnp0b
+         /OMvWoMkGbIagNaktXb5+0RVIfhwpjo8q/8FNtOjQHFMXib1GspMJRlAmOAknwtCXMqm
+         TtXQ==
+X-Gm-Message-State: AOJu0YyWLBD+0s2lIY2mw7MFzhnknaPe5HDYAFJ6mLBGFT7zRehpUo5G
+	S3eNgQ/Rnbf2M9E+TPIb8MQZY3EW8yo=
+X-Google-Smtp-Source: AGHT+IE769FbwtHpP8gtIXU5E/1l8N4wdnidFQtT+IiHCSHuegVxE6Q2Z23HK4sdVEXTa2brcBeM4A==
+X-Received: by 2002:a92:c269:0:b0:35f:7715:6cdd with SMTP id h9-20020a92c269000000b0035f77156cddmr240861ild.33.1702466116198;
+        Wed, 13 Dec 2023 03:15:16 -0800 (PST)
+Received: from L-14805.kpit.com ([43.231.237.213])
+        by smtp.gmail.com with ESMTPSA id a9-20020a654189000000b005c683937cc5sm8483283pgq.44.2023.12.13.03.15.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 03:15:15 -0800 (PST)
+From: Poonam Jadhav <ppjadhav456@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	bhabu.bindu@kpit.com
+Cc: Poonam Jadhav <ppjadhav456@gmail.com>
+Subject: [OE-core][dunfell][PATCH] glibc: Fix CVE-2023-4813
+Date: Wed, 13 Dec 2023 16:45:08 +0530
+Message-Id: <20231213111508.106362-1-ppjadhav456@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: michael.opdenacker@bootlin.com
-Content-Language: en-US
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: Issue with relative DEPLOY_DIR in meta/lib/oeqa/runtime/cases/rpm.py
-Organization: Bootlin
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: michael.opdenacker@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 11:05:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192283
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 11:15:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192284
 
-Greetings,
+From: Bhabu Bindu <bhabu.bindu@kpit.com>
 
-Using the latest poky master branch, I'm running:
-bitbake -c testimage core-image-full-cmdline
+Add patch to fix CVE-2023-4813
 
-I'm getting errors in the RPM tests:
-AttributeError: 'RpmInstallRemoveTest' object has no attribute 'test_file'
+Link: https://security-tracker.debian.org/tracker/CVE-2023-4813
 
-Tracing the code, this happens because the code in rpm.py is trying to 
-access DEPLOY_DIR/rpm, which is a relative path (tmp/deploy/rpm), and 
-this path doesn't exist because I'm not running BitBake from TOPDIR. Of 
-course, if I'm running BitBake from TOPDIR, the test works.
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+Signed-off-by: Poonam Jadhav <ppjadhav456@gmail.com>
+---
+ .../glibc/glibc/CVE-2023-4813.patch           | 986 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
+ 2 files changed, 987 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
 
-Why doesn't this module see an absolute path for DEPLOY_DIR, like the 
-value I get from "bitbake-getvar"?
-
-This would make the test modules more robust.
-
-Thanks in advance
-Cheers
-Michael.
-
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch b/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
+new file mode 100644
+index 0000000000..c7db4038c2
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
+@@ -0,0 +1,986 @@
++From 1c37b8022e8763fedbb3f79c02e05c6acfe5a215 Mon Sep 17 00:00:00 2001
++From: Siddhesh Poyarekar <siddhesh@sourceware.org>
++Date: Thu, 17 Mar 2022 11:44:34 +0530
++Subject: [PATCH] Simplify allocations and fix merge and continue actions [BZ
++ #28931]
++
++Allocations for address tuples is currently a bit confusing because of
++the pointer chasing through PAT, making it hard to observe the sequence
++in which allocations have been made.  Narrow scope of the pointer
++chasing through PAT so that it is only used where necessary.
++
++This also tightens actions behaviour with the hosts database in
++getaddrinfo to comply with the manual text.  The "continue" action
++discards previous results and the "merge" action results in an immedate
++lookup failure.  Consequently, chaining of allocations across modules is
++no longer necessary, thus opening up cleanup opportunities.
++
++A test has been added that checks some combinations to ensure that they
++work correctly.
++
++Resolves: BZ #28931
++
++CVE: CVE-2023-4813
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=1c37b8022e8763fedbb3f79c02e05c6acfe5a215]
++Comments: Hunks refreshed
++
++Signed-off-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
++Reviewed-by: DJ Delorie <dj@redhat.com>
++Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
++---
++ nss/Makefile                               |   1 +
++ nss/tst-nss-gai-actions.c                  | 149 ++++++
++ nss/tst-nss-gai-actions.root/etc/host.conf |   1 +
++ nss/tst-nss-gai-actions.root/etc/hosts     | 508 +++++++++++++++++++++
++ sysdeps/posix/getaddrinfo.c                | 143 +++---
++ 5 files changed, 750 insertions(+), 52 deletions(-)
++ create mode 100644 nss/tst-nss-gai-actions.c
++ create mode 100644 nss/tst-nss-gai-actions.root/etc/host.conf
++ create mode 100644 nss/tst-nss-gai-actions.root/etc/hosts
++
++diff --git a/nss/Makefile b/nss/Makefile
++index 42a59535cb..d8b06b44fb 100644
++--- a/nss/Makefile
+++++ b/nss/Makefile
++@@ -61,6 +61,7 @@
++ 
++ tests-container = \
++ 			  tst-nss-test3 \
+++			  tst-nss-gai-actions \
++ 			  tst-nss-files-hosts-long \
++ 			  tst-nss-db-endpwent \
++ 			  tst-nss-db-endgrent
++diff --git a/nss/tst-nss-gai-actions.c b/nss/tst-nss-gai-actions.c
++new file mode 100644
++index 0000000000..efca6cd183
++--- /dev/null
+++++ b/nss/tst-nss-gai-actions.c
++@@ -0,0 +1,149 @@
+++/* Test continue and merge NSS actions for getaddrinfo.
+++   Copyright The GNU Toolchain Authors.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <https://www.gnu.org/licenses/>.  */
+++
+++#include <dlfcn.h>
+++#include <gnu/lib-names.h>
+++#include <nss.h>
+++#include <stdio.h>
+++#include <stdlib.h>
+++#include <string.h>
+++
+++#include <support/check.h>
+++#include <support/format_nss.h>
+++#include <support/support.h>
+++#include <support/xstdio.h>
+++#include <support/xunistd.h>
+++
+++enum
+++{
+++  ACTION_MERGE = 0,
+++  ACTION_CONTINUE,
+++};
+++
+++static const char *
+++family_str (int family)
+++{
+++  switch (family)
+++    {
+++    case AF_UNSPEC:
+++      return "AF_UNSPEC";
+++    case AF_INET:
+++      return "AF_INET";
+++    default:
+++      __builtin_unreachable ();
+++    }
+++}
+++
+++static const char *
+++action_str (int action)
+++{
+++  switch (action)
+++    {
+++    case ACTION_MERGE:
+++      return "merge";
+++    case ACTION_CONTINUE:
+++      return "continue";
+++    default:
+++      __builtin_unreachable ();
+++    }
+++}
+++
+++static void
+++do_one_test (int action, int family, bool canon)
+++{
+++  struct addrinfo hints =
+++    {
+++      .ai_family = family,
+++    };
+++
+++  struct addrinfo *ai;
+++
+++  if (canon)
+++    hints.ai_flags = AI_CANONNAME;
+++
+++  printf ("***** Testing \"files [SUCCESS=%s] files\" for family %s, %s\n",
+++	  action_str (action), family_str (family),
+++	  canon ? "AI_CANONNAME" : "");
+++
+++  int ret = getaddrinfo ("example.org", "80", &hints, &ai);
+++
+++  switch (action)
+++    {
+++    case ACTION_MERGE:
+++      if (ret == 0)
+++	{
+++	  char *formatted = support_format_addrinfo (ai, ret);
+++
+++	  printf ("merge unexpectedly succeeded:\n %s\n", formatted);
+++	  support_record_failure ();
+++	  free (formatted);
+++	}
+++      else
+++	return;
+++    case ACTION_CONTINUE:
+++	{
+++	  char *formatted = support_format_addrinfo (ai, ret);
+++
+++	  /* Verify that the result appears exactly once.  */
+++	  const char *expected = "address: STREAM/TCP 192.0.0.1 80\n"
+++	    "address: DGRAM/UDP 192.0.0.1 80\n"
+++	    "address: RAW/IP 192.0.0.1 80\n";
+++
+++	  const char *contains = strstr (formatted, expected);
+++	  const char *contains2 = NULL;
+++
+++	  if (contains != NULL)
+++	    contains2 = strstr (contains + strlen (expected), expected);
+++
+++	  if (contains == NULL || contains2 != NULL)
+++	    {
+++	      printf ("continue failed:\n%s\n", formatted);
+++	      support_record_failure ();
+++	    }
+++
+++	  free (formatted);
+++	  break;
+++	}
+++    default:
+++      __builtin_unreachable ();
+++    }
+++}
+++
+++static void
+++do_one_test_set (int action)
+++{
+++  char buf[32];
+++
+++  snprintf (buf, sizeof (buf), "files [SUCCESS=%s] files",
+++	    action_str (action));
+++  __nss_configure_lookup ("hosts", buf);
+++
+++  do_one_test (action, AF_UNSPEC, false);
+++  do_one_test (action, AF_INET, false);
+++  do_one_test (action, AF_INET, true);
+++}
+++
+++static int
+++do_test (void)
+++{
+++  do_one_test_set (ACTION_CONTINUE);
+++  do_one_test_set (ACTION_MERGE);
+++  return 0;
+++}
+++
+++#include <support/test-driver.c>
++diff --git a/nss/tst-nss-gai-actions.root/etc/host.conf b/nss/tst-nss-gai-actions.root/etc/host.conf
++new file mode 100644
++index 0000000000..d1a59f73a9
++--- /dev/null
+++++ b/nss/tst-nss-gai-actions.root/etc/host.conf
++@@ -0,0 +1 @@
+++multi on
++diff --git a/nss/tst-nss-gai-actions.root/etc/hosts b/nss/tst-nss-gai-actions.root/etc/hosts
++new file mode 100644
++index 0000000000..50ce9774dc
++--- /dev/null
+++++ b/nss/tst-nss-gai-actions.root/etc/hosts
++@@ -0,0 +1,508 @@
+++192.0.0.1	example.org
+++192.0.0.2	example.org
+++192.0.0.3	example.org
+++192.0.0.4	example.org
+++192.0.0.5	example.org
+++192.0.0.6	example.org
+++192.0.0.7	example.org
+++192.0.0.8	example.org
+++192.0.0.9	example.org
+++192.0.0.10	example.org
+++192.0.0.11	example.org
+++192.0.0.12	example.org
+++192.0.0.13	example.org
+++192.0.0.14	example.org
+++192.0.0.15	example.org
+++192.0.0.16	example.org
+++192.0.0.17	example.org
+++192.0.0.18	example.org
+++192.0.0.19	example.org
+++192.0.0.20	example.org
+++192.0.0.21	example.org
+++192.0.0.22	example.org
+++192.0.0.23	example.org
+++192.0.0.24	example.org
+++192.0.0.25	example.org
+++192.0.0.26	example.org
+++192.0.0.27	example.org
+++192.0.0.28	example.org
+++192.0.0.29	example.org
+++192.0.0.30	example.org
+++192.0.0.31	example.org
+++192.0.0.32	example.org
+++192.0.0.33	example.org
+++192.0.0.34	example.org
+++192.0.0.35	example.org
+++192.0.0.36	example.org
+++192.0.0.37	example.org
+++192.0.0.38	example.org
+++192.0.0.39	example.org
+++192.0.0.40	example.org
+++192.0.0.41	example.org
+++192.0.0.42	example.org
+++192.0.0.43	example.org
+++192.0.0.44	example.org
+++192.0.0.45	example.org
+++192.0.0.46	example.org
+++192.0.0.47	example.org
+++192.0.0.48	example.org
+++192.0.0.49	example.org
+++192.0.0.50	example.org
+++192.0.0.51	example.org
+++192.0.0.52	example.org
+++192.0.0.53	example.org
+++192.0.0.54	example.org
+++192.0.0.55	example.org
+++192.0.0.56	example.org
+++192.0.0.57	example.org
+++192.0.0.58	example.org
+++192.0.0.59	example.org
+++192.0.0.60	example.org
+++192.0.0.61	example.org
+++192.0.0.62	example.org
+++192.0.0.63	example.org
+++192.0.0.64	example.org
+++192.0.0.65	example.org
+++192.0.0.66	example.org
+++192.0.0.67	example.org
+++192.0.0.68	example.org
+++192.0.0.69	example.org
+++192.0.0.70	example.org
+++192.0.0.71	example.org
+++192.0.0.72	example.org
+++192.0.0.73	example.org
+++192.0.0.74	example.org
+++192.0.0.75	example.org
+++192.0.0.76	example.org
+++192.0.0.77	example.org
+++192.0.0.78	example.org
+++192.0.0.79	example.org
+++192.0.0.80	example.org
+++192.0.0.81	example.org
+++192.0.0.82	example.org
+++192.0.0.83	example.org
+++192.0.0.84	example.org
+++192.0.0.85	example.org
+++192.0.0.86	example.org
+++192.0.0.87	example.org
+++192.0.0.88	example.org
+++192.0.0.89	example.org
+++192.0.0.90	example.org
+++192.0.0.91	example.org
+++192.0.0.92	example.org
+++192.0.0.93	example.org
+++192.0.0.94	example.org
+++192.0.0.95	example.org
+++192.0.0.96	example.org
+++192.0.0.97	example.org
+++192.0.0.98	example.org
+++192.0.0.99	example.org
+++192.0.0.100	example.org
+++192.0.0.101	example.org
+++192.0.0.102	example.org
+++192.0.0.103	example.org
+++192.0.0.104	example.org
+++192.0.0.105	example.org
+++192.0.0.106	example.org
+++192.0.0.107	example.org
+++192.0.0.108	example.org
+++192.0.0.109	example.org
+++192.0.0.110	example.org
+++192.0.0.111	example.org
+++192.0.0.112	example.org
+++192.0.0.113	example.org
+++192.0.0.114	example.org
+++192.0.0.115	example.org
+++192.0.0.116	example.org
+++192.0.0.117	example.org
+++192.0.0.118	example.org
+++192.0.0.119	example.org
+++192.0.0.120	example.org
+++192.0.0.121	example.org
+++192.0.0.122	example.org
+++192.0.0.123	example.org
+++192.0.0.124	example.org
+++192.0.0.125	example.org
+++192.0.0.126	example.org
+++192.0.0.127	example.org
+++192.0.0.128	example.org
+++192.0.0.129	example.org
+++192.0.0.130	example.org
+++192.0.0.131	example.org
+++192.0.0.132	example.org
+++192.0.0.133	example.org
+++192.0.0.134	example.org
+++192.0.0.135	example.org
+++192.0.0.136	example.org
+++192.0.0.137	example.org
+++192.0.0.138	example.org
+++192.0.0.139	example.org
+++192.0.0.140	example.org
+++192.0.0.141	example.org
+++192.0.0.142	example.org
+++192.0.0.143	example.org
+++192.0.0.144	example.org
+++192.0.0.145	example.org
+++192.0.0.146	example.org
+++192.0.0.147	example.org
+++192.0.0.148	example.org
+++192.0.0.149	example.org
+++192.0.0.150	example.org
+++192.0.0.151	example.org
+++192.0.0.152	example.org
+++192.0.0.153	example.org
+++192.0.0.154	example.org
+++192.0.0.155	example.org
+++192.0.0.156	example.org
+++192.0.0.157	example.org
+++192.0.0.158	example.org
+++192.0.0.159	example.org
+++192.0.0.160	example.org
+++192.0.0.161	example.org
+++192.0.0.162	example.org
+++192.0.0.163	example.org
+++192.0.0.164	example.org
+++192.0.0.165	example.org
+++192.0.0.166	example.org
+++192.0.0.167	example.org
+++192.0.0.168	example.org
+++192.0.0.169	example.org
+++192.0.0.170	example.org
+++192.0.0.171	example.org
+++192.0.0.172	example.org
+++192.0.0.173	example.org
+++192.0.0.174	example.org
+++192.0.0.175	example.org
+++192.0.0.176	example.org
+++192.0.0.177	example.org
+++192.0.0.178	example.org
+++192.0.0.179	example.org
+++192.0.0.180	example.org
+++192.0.0.181	example.org
+++192.0.0.182	example.org
+++192.0.0.183	example.org
+++192.0.0.184	example.org
+++192.0.0.185	example.org
+++192.0.0.186	example.org
+++192.0.0.187	example.org
+++192.0.0.188	example.org
+++192.0.0.189	example.org
+++192.0.0.190	example.org
+++192.0.0.191	example.org
+++192.0.0.192	example.org
+++192.0.0.193	example.org
+++192.0.0.194	example.org
+++192.0.0.195	example.org
+++192.0.0.196	example.org
+++192.0.0.197	example.org
+++192.0.0.198	example.org
+++192.0.0.199	example.org
+++192.0.0.200	example.org
+++192.0.0.201	example.org
+++192.0.0.202	example.org
+++192.0.0.203	example.org
+++192.0.0.204	example.org
+++192.0.0.205	example.org
+++192.0.0.206	example.org
+++192.0.0.207	example.org
+++192.0.0.208	example.org
+++192.0.0.209	example.org
+++192.0.0.210	example.org
+++192.0.0.211	example.org
+++192.0.0.212	example.org
+++192.0.0.213	example.org
+++192.0.0.214	example.org
+++192.0.0.215	example.org
+++192.0.0.216	example.org
+++192.0.0.217	example.org
+++192.0.0.218	example.org
+++192.0.0.219	example.org
+++192.0.0.220	example.org
+++192.0.0.221	example.org
+++192.0.0.222	example.org
+++192.0.0.223	example.org
+++192.0.0.224	example.org
+++192.0.0.225	example.org
+++192.0.0.226	example.org
+++192.0.0.227	example.org
+++192.0.0.228	example.org
+++192.0.0.229	example.org
+++192.0.0.230	example.org
+++192.0.0.231	example.org
+++192.0.0.232	example.org
+++192.0.0.233	example.org
+++192.0.0.234	example.org
+++192.0.0.235	example.org
+++192.0.0.236	example.org
+++192.0.0.237	example.org
+++192.0.0.238	example.org
+++192.0.0.239	example.org
+++192.0.0.240	example.org
+++192.0.0.241	example.org
+++192.0.0.242	example.org
+++192.0.0.243	example.org
+++192.0.0.244	example.org
+++192.0.0.245	example.org
+++192.0.0.246	example.org
+++192.0.0.247	example.org
+++192.0.0.248	example.org
+++192.0.0.249	example.org
+++192.0.0.250	example.org
+++192.0.0.251	example.org
+++192.0.0.252	example.org
+++192.0.0.253	example.org
+++192.0.0.254	example.org
+++192.0.1.1	example.org
+++192.0.1.2	example.org
+++192.0.1.3	example.org
+++192.0.1.4	example.org
+++192.0.1.5	example.org
+++192.0.1.6	example.org
+++192.0.1.7	example.org
+++192.0.1.8	example.org
+++192.0.1.9	example.org
+++192.0.1.10	example.org
+++192.0.1.11	example.org
+++192.0.1.12	example.org
+++192.0.1.13	example.org
+++192.0.1.14	example.org
+++192.0.1.15	example.org
+++192.0.1.16	example.org
+++192.0.1.17	example.org
+++192.0.1.18	example.org
+++192.0.1.19	example.org
+++192.0.1.20	example.org
+++192.0.1.21	example.org
+++192.0.1.22	example.org
+++192.0.1.23	example.org
+++192.0.1.24	example.org
+++192.0.1.25	example.org
+++192.0.1.26	example.org
+++192.0.1.27	example.org
+++192.0.1.28	example.org
+++192.0.1.29	example.org
+++192.0.1.30	example.org
+++192.0.1.31	example.org
+++192.0.1.32	example.org
+++192.0.1.33	example.org
+++192.0.1.34	example.org
+++192.0.1.35	example.org
+++192.0.1.36	example.org
+++192.0.1.37	example.org
+++192.0.1.38	example.org
+++192.0.1.39	example.org
+++192.0.1.40	example.org
+++192.0.1.41	example.org
+++192.0.1.42	example.org
+++192.0.1.43	example.org
+++192.0.1.44	example.org
+++192.0.1.45	example.org
+++192.0.1.46	example.org
+++192.0.1.47	example.org
+++192.0.1.48	example.org
+++192.0.1.49	example.org
+++192.0.1.50	example.org
+++192.0.1.51	example.org
+++192.0.1.52	example.org
+++192.0.1.53	example.org
+++192.0.1.54	example.org
+++192.0.1.55	example.org
+++192.0.1.56	example.org
+++192.0.1.57	example.org
+++192.0.1.58	example.org
+++192.0.1.59	example.org
+++192.0.1.60	example.org
+++192.0.1.61	example.org
+++192.0.1.62	example.org
+++192.0.1.63	example.org
+++192.0.1.64	example.org
+++192.0.1.65	example.org
+++192.0.1.66	example.org
+++192.0.1.67	example.org
+++192.0.1.68	example.org
+++192.0.1.69	example.org
+++192.0.1.70	example.org
+++192.0.1.71	example.org
+++192.0.1.72	example.org
+++192.0.1.73	example.org
+++192.0.1.74	example.org
+++192.0.1.75	example.org
+++192.0.1.76	example.org
+++192.0.1.77	example.org
+++192.0.1.78	example.org
+++192.0.1.79	example.org
+++192.0.1.80	example.org
+++192.0.1.81	example.org
+++192.0.1.82	example.org
+++192.0.1.83	example.org
+++192.0.1.84	example.org
+++192.0.1.85	example.org
+++192.0.1.86	example.org
+++192.0.1.87	example.org
+++192.0.1.88	example.org
+++192.0.1.89	example.org
+++192.0.1.90	example.org
+++192.0.1.91	example.org
+++192.0.1.92	example.org
+++192.0.1.93	example.org
+++192.0.1.94	example.org
+++192.0.1.95	example.org
+++192.0.1.96	example.org
+++192.0.1.97	example.org
+++192.0.1.98	example.org
+++192.0.1.99	example.org
+++192.0.1.100	example.org
+++192.0.1.101	example.org
+++192.0.1.102	example.org
+++192.0.1.103	example.org
+++192.0.1.104	example.org
+++192.0.1.105	example.org
+++192.0.1.106	example.org
+++192.0.1.107	example.org
+++192.0.1.108	example.org
+++192.0.1.109	example.org
+++192.0.1.110	example.org
+++192.0.1.111	example.org
+++192.0.1.112	example.org
+++192.0.1.113	example.org
+++192.0.1.114	example.org
+++192.0.1.115	example.org
+++192.0.1.116	example.org
+++192.0.1.117	example.org
+++192.0.1.118	example.org
+++192.0.1.119	example.org
+++192.0.1.120	example.org
+++192.0.1.121	example.org
+++192.0.1.122	example.org
+++192.0.1.123	example.org
+++192.0.1.124	example.org
+++192.0.1.125	example.org
+++192.0.1.126	example.org
+++192.0.1.127	example.org
+++192.0.1.128	example.org
+++192.0.1.129	example.org
+++192.0.1.130	example.org
+++192.0.1.131	example.org
+++192.0.1.132	example.org
+++192.0.1.133	example.org
+++192.0.1.134	example.org
+++192.0.1.135	example.org
+++192.0.1.136	example.org
+++192.0.1.137	example.org
+++192.0.1.138	example.org
+++192.0.1.139	example.org
+++192.0.1.140	example.org
+++192.0.1.141	example.org
+++192.0.1.142	example.org
+++192.0.1.143	example.org
+++192.0.1.144	example.org
+++192.0.1.145	example.org
+++192.0.1.146	example.org
+++192.0.1.147	example.org
+++192.0.1.148	example.org
+++192.0.1.149	example.org
+++192.0.1.150	example.org
+++192.0.1.151	example.org
+++192.0.1.152	example.org
+++192.0.1.153	example.org
+++192.0.1.154	example.org
+++192.0.1.155	example.org
+++192.0.1.156	example.org
+++192.0.1.157	example.org
+++192.0.1.158	example.org
+++192.0.1.159	example.org
+++192.0.1.160	example.org
+++192.0.1.161	example.org
+++192.0.1.162	example.org
+++192.0.1.163	example.org
+++192.0.1.164	example.org
+++192.0.1.165	example.org
+++192.0.1.166	example.org
+++192.0.1.167	example.org
+++192.0.1.168	example.org
+++192.0.1.169	example.org
+++192.0.1.170	example.org
+++192.0.1.171	example.org
+++192.0.1.172	example.org
+++192.0.1.173	example.org
+++192.0.1.174	example.org
+++192.0.1.175	example.org
+++192.0.1.176	example.org
+++192.0.1.177	example.org
+++192.0.1.178	example.org
+++192.0.1.179	example.org
+++192.0.1.180	example.org
+++192.0.1.181	example.org
+++192.0.1.182	example.org
+++192.0.1.183	example.org
+++192.0.1.184	example.org
+++192.0.1.185	example.org
+++192.0.1.186	example.org
+++192.0.1.187	example.org
+++192.0.1.188	example.org
+++192.0.1.189	example.org
+++192.0.1.190	example.org
+++192.0.1.191	example.org
+++192.0.1.192	example.org
+++192.0.1.193	example.org
+++192.0.1.194	example.org
+++192.0.1.195	example.org
+++192.0.1.196	example.org
+++192.0.1.197	example.org
+++192.0.1.198	example.org
+++192.0.1.199	example.org
+++192.0.1.200	example.org
+++192.0.1.201	example.org
+++192.0.1.202	example.org
+++192.0.1.203	example.org
+++192.0.1.204	example.org
+++192.0.1.205	example.org
+++192.0.1.206	example.org
+++192.0.1.207	example.org
+++192.0.1.208	example.org
+++192.0.1.209	example.org
+++192.0.1.210	example.org
+++192.0.1.211	example.org
+++192.0.1.212	example.org
+++192.0.1.213	example.org
+++192.0.1.214	example.org
+++192.0.1.215	example.org
+++192.0.1.216	example.org
+++192.0.1.217	example.org
+++192.0.1.218	example.org
+++192.0.1.219	example.org
+++192.0.1.220	example.org
+++192.0.1.221	example.org
+++192.0.1.222	example.org
+++192.0.1.223	example.org
+++192.0.1.224	example.org
+++192.0.1.225	example.org
+++192.0.1.226	example.org
+++192.0.1.227	example.org
+++192.0.1.228	example.org
+++192.0.1.229	example.org
+++192.0.1.230	example.org
+++192.0.1.231	example.org
+++192.0.1.232	example.org
+++192.0.1.233	example.org
+++192.0.1.234	example.org
+++192.0.1.235	example.org
+++192.0.1.236	example.org
+++192.0.1.237	example.org
+++192.0.1.238	example.org
+++192.0.1.239	example.org
+++192.0.1.240	example.org
+++192.0.1.241	example.org
+++192.0.1.242	example.org
+++192.0.1.243	example.org
+++192.0.1.244	example.org
+++192.0.1.245	example.org
+++192.0.1.246	example.org
+++192.0.1.247	example.org
+++192.0.1.248	example.org
+++192.0.1.249	example.org
+++192.0.1.250	example.org
+++192.0.1.251	example.org
+++192.0.1.252	example.org
+++192.0.1.253	example.org
+++192.0.1.254	example.org
++diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
++index 18dccd5924..3d9bea60c6 100644
++--- a/sysdeps/posix/getaddrinfo.c
+++++ b/sysdeps/posix/getaddrinfo.c
++@@ -458,11 +458,6 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 
++   if (name != NULL)
++     {
++-      at = alloca_account (sizeof (struct gaih_addrtuple), alloca_used);
++-      at->family = AF_UNSPEC;
++-      at->scopeid = 0;
++-      at->next = NULL;
++-
++       if (req->ai_flags & AI_IDN)
++ 	{
++ 	  char *out;
++@@ -473,13 +468,21 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 	  malloc_name = true;
++ 	}
++ 
++-      if (__inet_aton_exact (name, (struct in_addr *) at->addr) != 0)
+++      uint32_t addr[4];
+++      if (__inet_aton_exact (name, (struct in_addr *) addr) != 0)
++ 	{
+++	  at = alloca_account (sizeof (struct gaih_addrtuple), alloca_used);
+++	  at->scopeid = 0;
+++	  at->next = NULL;
+++
++ 	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET)
++-	    at->family = AF_INET;
+++	    {
+++	      memcpy (at->addr, addr, sizeof (at->addr));
+++	      at->family = AF_INET;
+++	    }
++ 	  else if (req->ai_family == AF_INET6 && (req->ai_flags & AI_V4MAPPED))
++ 	    {
++-	      at->addr[3] = at->addr[0];
+++	      at->addr[3] = addr[0];
++ 	      at->addr[2] = htonl (0xffff);
++ 	      at->addr[1] = 0;
++ 	      at->addr[0] = 0;
++@@ -505,49 +505,62 @@
++ 
++ 	  if (req->ai_flags & AI_CANONNAME)
++ 	    canon = name;
+++
+++	  goto process_list;
++ 	}
++-      else if (at->family == AF_UNSPEC)
+++
+++      char *scope_delim = strchr (name, SCOPE_DELIMITER);
+++      int e;
+++
+++      if (scope_delim == NULL)
+++	e = inet_pton (AF_INET6, name, addr);
+++      else
+++	e = __inet_pton_length (AF_INET6, name, scope_delim - name, addr);
+++
+++      if (e > 0)
++ 	{
++-	  char *scope_delim = strchr (name, SCOPE_DELIMITER);
++-	  int e;
++-	  if (scope_delim == NULL)
++-	    e = inet_pton (AF_INET6, name, at->addr);
+++	  at = alloca_account (sizeof (struct gaih_addrtuple),
+++			       alloca_used);
+++	  at->scopeid = 0;
+++	  at->next = NULL;
+++
+++	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
+++	    {
+++	      memcpy (at->addr, addr, sizeof (at->addr));
+++	      at->family = AF_INET6;
+++	    }
+++	  else if (req->ai_family == AF_INET
+++		   && IN6_IS_ADDR_V4MAPPED (addr))
+++	    {
+++	      at->addr[0] = addr[3];
+++	      at->addr[1] = addr[1];
+++	      at->addr[2] = addr[2];
+++	      at->addr[3] = addr[3];
+++	      at->family = AF_INET;
+++	    }
++ 	  else
++-	    e = __inet_pton_length (AF_INET6, name, scope_delim - name,
++-				    at->addr);
++-	  if (e > 0)
++ 	    {
++-	      if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
++-		at->family = AF_INET6;
++-	      else if (req->ai_family == AF_INET
++-		       && IN6_IS_ADDR_V4MAPPED (at->addr))
++-		{
++-		  at->addr[0] = at->addr[3];
++-		  at->family = AF_INET;
++-		}
++-	      else
++-		{
++-		  result = -EAI_ADDRFAMILY;
++-		  goto free_and_return;
++-		}
++-
++-	      if (scope_delim != NULL
++-		  && __inet6_scopeid_pton ((struct in6_addr *) at->addr,
++-					   scope_delim + 1,
++-					   &at->scopeid) != 0)
++-		{
++-		  result = -EAI_NONAME;
++-		  goto free_and_return;
++-		}
+++	      result = -EAI_ADDRFAMILY;
+++	      goto free_and_return;
+++	    }
++ 
++-	      if (req->ai_flags & AI_CANONNAME)
++-		canon = name;
+++	  if (scope_delim != NULL
+++	      && __inet6_scopeid_pton ((struct in6_addr *) at->addr,
+++				       scope_delim + 1,
+++				       &at->scopeid) != 0)
+++	    {
+++	      result = -EAI_NONAME;
+++	      goto free_and_return;
++ 	    }
+++
+++	  if (req->ai_flags & AI_CANONNAME)
+++	    canon = name;
+++
+++	  goto process_list;
++ 	}
++ 
++-      if (at->family == AF_UNSPEC && (req->ai_flags & AI_NUMERICHOST) == 0)
+++      if ((req->ai_flags & AI_NUMERICHOST) == 0)
++ 	{
++-	  struct gaih_addrtuple **pat = &at;
++ 	  int no_data = 0;
++ 	  int no_inet6_data = 0;
++ 	  service_user *nip;
++@@ -543,6 +559,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 	  enum nss_status status = NSS_STATUS_UNAVAIL;
++ 	  int no_more;
++ 	  struct resolv_context *res_ctx = NULL;
+++	  bool do_merge = false;
++ 
++ 	  /* If we do not have to look for IPv6 addresses or the canonical
++ 	     name, use the simple, old functions, which do not support
++@@ -579,7 +596,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 			  result = -EAI_MEMORY;
++ 			  goto free_and_return;
++ 			}
++-		      *pat = addrmem;
+++		      at = addrmem;
++ 		    }
++ 		  else
++ 		    {
++@@ -632,6 +649,8 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 		    }
++ 
++ 		  struct gaih_addrtuple *addrfree = addrmem;
+++		  struct gaih_addrtuple **pat = &at;
+++
++ 		  for (int i = 0; i < air->naddrs; ++i)
++ 		    {
++ 		      socklen_t size = (air->family[i] == AF_INET
++@@ -695,12 +714,6 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 
++ 		  free (air);
++ 
++-		  if (at->family == AF_UNSPEC)
++-		    {
++-		      result = -EAI_NONAME;
++-		      goto free_and_return;
++-		    }
++-
++ 		  goto process_list;
++ 		}
++ 	      else if (err == 0)
++@@ -750,6 +763,22 @@
++ 
++ 	  while (!no_more)
++ 	    {
+++	      /* Always start afresh; continue should discard previous results
+++		 and the hosts database does not support merge.  */
+++	      at = NULL;
+++	      free (canonbuf);
+++	      free (addrmem);
+++	      canon = canonbuf = NULL;
+++	      addrmem = NULL;
+++	      got_ipv6 = false;
+++
+++	      if (do_merge)
+++		{
+++		  __set_h_errno (NETDB_INTERNAL);
+++		  __set_errno (EBUSY);
+++		  break;
+++		}
+++
++ 	      no_data = 0;
++ 	      nss_gethostbyname4_r fct4 = NULL;
++ 
++@@ -744,12 +773,14 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 		{
++ 		  while (1)
++ 		    {
++-		      status = DL_CALL_FCT (fct4, (name, pat,
+++		      status = DL_CALL_FCT (fct4, (name, &at,
++ 						   tmpbuf->data, tmpbuf->length,
++ 						   &errno, &h_errno,
++ 						   NULL));
++ 		      if (status == NSS_STATUS_SUCCESS)
++ 			break;
+++		      /* gethostbyname4_r may write into AT, so reset it.  */
+++		      at = NULL;
++ 		      if (status != NSS_STATUS_TRYAGAIN
++ 			  || errno != ERANGE || h_errno != NETDB_INTERNAL)
++ 			{
++@@ -774,7 +805,9 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 		      no_data = 1;
++ 
++ 		      if ((req->ai_flags & AI_CANONNAME) != 0 && canon == NULL)
++-			canon = (*pat)->name;
+++			canon = at->name;
+++
+++		      struct gaih_addrtuple **pat = &at;
++ 
++ 		      while (*pat != NULL)
++ 			{
++@@ -826,6 +859,8 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 
++ 		  if (fct != NULL)
++ 		    {
+++		      struct gaih_addrtuple **pat = &at;
+++
++ 		      if (req->ai_family == AF_INET6
++ 			  || req->ai_family == AF_UNSPEC)
++ 			{
++@@ -917,6 +946,10 @@
++ 	      if (nss_next_action (nip, status) == NSS_ACTION_RETURN)
++ 		break;
++ 
+++	      /* The hosts database does not support MERGE.  */
+++	      if (nss_next_action (nip, status) == NSS_ACTION_MERGE)
+++		do_merge = true;
+++
++ 	      if (nip->next == NULL)
++ 		no_more = -1;
++ 	      else
++@@ -930,7 +969,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 	}
++ 
++     process_list:
++-      if (at->family == AF_UNSPEC)
+++      if (at == NULL)
++ 	{
++ 	  result = -EAI_NONAME;
++ 	  goto free_and_return;
++-- 
++2.39.3
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index 8298088323..296c892994 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -88,6 +88,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0037-Avoid-deadlock-between-pthread_create-and-ctors.patch \
+            file://CVE-2023-0687.patch \
+            file://CVE-2023-4911.patch \
++           file://CVE-2023-4813.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
-Michael Opdenacker, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
 
 
