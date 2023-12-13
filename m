@@ -2,57 +2,57 @@ Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43977C41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50BBEC4167D
 	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 20:30:25 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.47320.1702499423037257817
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.47321.1702499423821962983
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 12:30:23 -0800
+ Wed, 13 Dec 2023 12:30:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Z+BUKg30;
- spf=pass (domain: baylibre.com, ip: 209.85.128.47, mailfrom: pidge@baylibre.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40c2a444311so71294245e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 12:30:22 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=ZOADuElb;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.44, mailfrom: pidge@baylibre.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3332fc9b9b2so6404074f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 12:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1702499421; x=1703104221; darn=lists.openembedded.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1702499422; x=1703104222; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QfiVc2MKaS5cW844ETfhIGlWvofp8nKVnvJPp3prqEU=;
-        b=Z+BUKg30Zcx3eznQN5v2lZ5F1UN3Cn8bqt2bHjMeUPnN3AFBtyDbMc8QBjw4pfdGDk
-         gTME9G9P4ZYcrt0u9UAJ9gZwDIPMvfHgas2Zk9UWF7zKrUcDP8eto6skFL5GTGySn8RU
-         mA8YA67zHaw2EqffwMPUmpq+AgXeRpJWyRRqUFtBsdpKZBwYBmaXh5GG4cYJzfmbVdky
-         2yy+wuAv6hWLRVGGRRFcXcxzJt5oJukZafATI4kxF7IX2QMv68jsKwgLYpa6fZwJLB6e
-         dxPor5Qu7Xb9ITo5OE8IaUMVEqytUoI6oJui7ePQ5VfPqgP3DCflB0dyMM9KOMmix/Bx
-         g67A==
+        bh=0D995P5tXxmICE12H8lX0ufijPEAuOzHgGQJYBY5Wmo=;
+        b=ZOADuElbr9swgZRL3AE3GUhmJTT43CES22fNIV+W5jcrVAgmvbr8+m0jr5GVjW7oLC
+         sFcXSNZtFC39vvhKRqRIlHhYpOueKYwBRmsEg4d1TttVVVXTqGth51KP4cpu0tnreFAE
+         61lsmZd7pMv5DoYhbAYepLm3dv+xonDq1Ldof938tZoYHCXJnnTxRHRRqfZDMxLcR5ac
+         reMmGRq1nRzs+OMvSWfWbJnx4HHMxvAWcYhifF+eUvK2SVFDcqeF1UQ8Tp7s3I2H0gvv
+         S8zVH8Fa/RWKztbAYpY0oDGrKpg3xv3xabiVQtyTyB3XkXaLBP0wuQVlct+Ii8Ks7CJG
+         KsTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702499421; x=1703104221;
+        d=1e100.net; s=20230601; t=1702499422; x=1703104222;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QfiVc2MKaS5cW844ETfhIGlWvofp8nKVnvJPp3prqEU=;
-        b=Ex+JI6A1PwFo9euSe8WNrI14cS2garfWz9EsKpFN0JRGSU6n2CzzCK0veiaEARz7dd
-         +WqB1opSBATfvv+8a6xj9Q28a91bKvcfDy2Qc4vXtt7IBbSt9ZnEi7qb9J88ifxncFVq
-         zhEcl9sGpisC0I5i9KX97k8pIPO6uv1lvobyFp3xorxRxH9ohXDihOWpc4w/56c/fHB9
-         uEo4uOoB5TAzRGYkW59Cn2ddICZtO/QleEv0ZSpywNYLMFiZkiYURS90Kqcku54YkSZK
-         X/kfMCrhqYycN0zZDqIvyQvECHZAk6DB/7WBMcW/ZX59pe0jG4MtCflmZ+bxlVZ6xH0y
-         HRgA==
-X-Gm-Message-State: AOJu0YyumTiEz63xQdtZc+/9ewpO3gSQjtLZ/ySwtrC+vtekkd5pzK1y
-	7xJhQON+UoGGzYz00671x6k7EHx/AfksMWySyrO/uw==
-X-Google-Smtp-Source: AGHT+IFe07HuaXA+6hsiedXrnmH0fvS6F+uAyzHOpyD5AW3NnU0+AnOMDzdm5h8nP4lQDXhZVDmy0Q==
-X-Received: by 2002:a05:600c:44e:b0:40b:5e22:2e0 with SMTP id s14-20020a05600c044e00b0040b5e2202e0mr2254879wmb.76.1702499421268;
-        Wed, 13 Dec 2023 12:30:21 -0800 (PST)
+        bh=0D995P5tXxmICE12H8lX0ufijPEAuOzHgGQJYBY5Wmo=;
+        b=RpVYbnWnxpfZPXTvRJyroNXtAlzKHnLe7gstSYwii9mbtQx9CGWZhmDFKGmtlvPopI
+         gO2DK8GWyPhjpulBEI/9Jpaaa8JE0hn4DlI85rMSBV1ih3Nsi0/XJfLG4hHHtK3YxJmW
+         hkGIzgQH+Z+CZdLGKHb1O/FPo7dgFpQrqurK2l0YCLBFfcVresehapJfVsChOH6DyVvp
+         25QfEqcpGIOttIsLuCbN9LoZZc3qB1u+J/cH3DlrgwOFN4/QHOfqIGVpXwtPq6KigUts
+         J8hP8EkjNq7rmHxZ3GzPoVNZgDMRAh8fo/O9uoipQ+kHgVSPYw+mXmNT9RZ4uG36Cly6
+         l/gw==
+X-Gm-Message-State: AOJu0YzKKZ5Mi2yM9ktub0slN/c8aeA1NqjGxTWji4Zn+bWg7+gj6cYT
+	Ha9K5Qw54S1YkMPoV4bO3eKfk96PgIlbWmyPc1kt2g==
+X-Google-Smtp-Source: AGHT+IFb5l+/QZ6UUeLCDFmtd6KMAypHSOSvhIVBJXaOQytomyKENbM6cvrDHSsVBMmgCztn/JbmvA==
+X-Received: by 2002:a5d:5234:0:b0:333:3c19:d3cb with SMTP id i20-20020a5d5234000000b003333c19d3cbmr2114043wra.149.1702499422306;
+        Wed, 13 Dec 2023 12:30:22 -0800 (PST)
 Received: from orm.fritz.box ([194.110.145.184])
-        by smtp.gmail.com with ESMTPSA id x10-20020a5d444a000000b00336371fafe6sm2945312wrr.16.2023.12.13.12.30.20
+        by smtp.gmail.com with ESMTPSA id x10-20020a5d444a000000b00336371fafe6sm2945312wrr.16.2023.12.13.12.30.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 12:30:20 -0800 (PST)
+        Wed, 13 Dec 2023 12:30:22 -0800 (PST)
 From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Ross Burton <ross.burton@arm.com>,
 	=?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
-Subject: [PATCHv2 2/4] python3-qemu-qmp: Add recipe
-Date: Wed, 13 Dec 2023 20:30:13 +0000
-Message-Id: <e7c107503fb1a3cb60b8f91b1150099f8377ca86.1702499299.git.pidge@baylibre.com>
+Subject: [PATCHv2 3/4] runqemu: add qmp socket support
+Date: Wed, 13 Dec 2023 20:30:14 +0000
+Message-Id: <a1f6c49d8fc25e6e4cb7e975014342ba3d0c214e.1702499299.git.pidge@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1702499299.git.pidge@baylibre.com>
 References: <cover.1702499299.git.pidge@baylibre.com>
@@ -63,40 +63,68 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 20:30:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192314
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192315
 
 From: Ross Burton <ross.burton@arm.com>
 
-Add a recipe for python QEMU Monitor Protocol. This will be needed for
-qemu screendumps for qemu screendump testing.
+Add support for qmp sockets and defaults to unix:qmp.sock if unspecified
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
 ---
- .../python/python3-qemu-qmp_0.0.2.bb               | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
+ scripts/runqemu | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb b/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
-new file mode 100644
-index 00000000000..faa0cc69738
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
-@@ -0,0 +1,14 @@
-+SUMMARY = "asyncio library for communicating with QEMU Monitor Protocol (QMP) servers"
-+LICENSE = "LGPLv2+ & GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4cf66a4984120007c9881cc871cf49db \
-+                    file://LICENSE_GPL2;md5=441c28d2cf86e15a37fa47e15a72fbac"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 18aeb7f5f0c..6a5a6451daf 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -84,6 +84,7 @@ of the following environment variables (in any order):
+     publicvnc - enable a VNC server open to all hosts
+     audio - enable audio
+     guestagent - enable guest agent communication
++    qmp=<path> - create a QMP socket (defaults to unix:qmp.sock if unspecified)
+     [*/]ovmf* - OVMF firmware file or base name for booting with UEFI
+   tcpserial=<port> - specify tcp serial port number
+   qemuparams=<xyz> - specify custom parameters to QEMU
+@@ -221,6 +222,7 @@ class BaseConfig(object):
+         self.cleaned = False
+         # Files to cleanup after run
+         self.cleanup_files = []
++        self.qmp = None
+         self.guest_agent = False
+         self.guest_agent_sockpath = '/tmp/qga.sock'
+ 
+@@ -536,6 +538,10 @@ to your build configuration.
+                 self.qemu_opt_script += ' -vnc :0'
+             elif arg == 'guestagent':
+                 self.guest_agent = True
++            elif arg == "qmp":
++                self.qmp = "unix:qmp.sock"
++            elif arg.startswith("qmp="):
++                self.qmp = arg[len('qmp='):]
+             elif arg.startswith('guestagent-sockpath='):
+                 self.guest_agent_sockpath = '%s' % arg[len('guestagent-sockpath='):]
+             elif arg.startswith('tcpserial='):
+@@ -1406,6 +1412,10 @@ to your build configuration.
+             self.qemu_opt += ' -device virtio-serial '
+             self.qemu_opt += ' -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0 '
+ 
++    def setup_qmp(self):
++        if self.qmp:
++            self.qemu_opt += " -qmp %s,server,nowait" % self.qmp
 +
-+SRC_URI[sha256sum] = "c918e9e3ae09abdf70c7ece67637a93ac4583d940bbf48d24ff77987f74f1b8b"
-+
-+inherit pypi python_setuptools_build_meta
-+
-+PYPI_PACKAGE = "qemu.qmp"
-+
-+DEPENDS += "python3-setuptools-scm-native"
-+
-+BBCLASSEXTEND = "native nativesdk"
+     def setup_vga(self):
+         if self.nographic == True:
+             if self.sdl == True:
+@@ -1547,6 +1557,7 @@ to your build configuration.
+             self.qemu_opt += " -snapshot"
+ 
+         self.setup_guest_agent()
++        self.setup_qmp()
+         self.setup_serial()
+         self.setup_vga()
+ 
 -- 
 2.34.1
 
