@@ -1,156 +1,121 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C337CC4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 20:58:32 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web11.276.1702501107651900652
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C69ADC4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 21:00:32 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.387.1702501228212327513
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 12:58:27 -0800
+ Wed, 13 Dec 2023 13:00:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cbmRA9Rw;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-20292b5ca69so3436208fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 12:58:27 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ap2qPsWh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40c4846847eso36589655e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 13:00:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702501107; x=1703105907; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K3+wC9Ey7QHU2aBlamD/zg+1jgTR+GAw/et6xzPR3+E=;
-        b=cbmRA9Rwbqhd18lobGE8P2P5Qg0QPnM6NYB1TDC4t8s6c7YltSpTifSRcTjmI6+XGF
-         JrTswO2NmuwO60B8XyUYIS3MCwTjuIfqme+HXbr1DnjqIBhnt1uk4l95BcIH+NQjpoFR
-         T9mi+jMkzFXmdNA9bMKKFZymTnAy1A0J2iRXTYi+ZGueh/bvpdDGifQkK5F/dFEb5OWm
-         Iy5ikUYV/hMpqYgpeXKXd9Mt/aH4y18EAE5LQF1AdvlRUcAsxn3IE+K7jz0Hv0rjzw0V
-         YHOgrzc5Kc2qxMwzwxjjOFSOV3eCySLpSt1cWcHbFx+zm5k+oqCoY4JrSPEf+ryqWOJO
-         vEwg==
+        d=linuxfoundation.org; s=google; t=1702501226; x=1703106026; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=sGiSIRaDyUN91yVAa37aDkenTCfq/lYAotqItj3Qe2w=;
+        b=Ap2qPsWhHCaT7tVc4p0Yf0ANRmqsKvSSWbtXum0e4dE0vw01Qp7DVxvtzNdnmWDMXC
+         lM0if2OqGTMJRx68s3UNx4mAfQKk6zQ5z4XoGAD6tJ+5p4JjKQGk1fImwnMB5ONUuaRV
+         s29ydTDcghYeAd9PoR5TFEc2U9Q2UXfN97ETw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702501107; x=1703105907;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K3+wC9Ey7QHU2aBlamD/zg+1jgTR+GAw/et6xzPR3+E=;
-        b=LcDTJnpJIT97KtPAfGm1SQMt/Zqjfyl2yR/EbJVCZ9ywPUKiO1GqvqVIdTcOBVWzDm
-         p54WMzUU5f/JlRnj96bJx9l7u9v5KqvmC3DHZqcM7xhLdxu/0FOPcvU5zlDGSxpcqWN1
-         VqseRzdf5ULCMsnYSZ6+miIPebIIejuiu4YBmIDUslHXg+g6qCYB516ZPH/XkNUm4G5U
-         HDcS0kuYEcKs5TJ4Q+HvdNp4XTcC7UCJg5r/+PjOznw6a1TyjJ2wtGA8ipnFkXBaYsgd
-         9MyOA+v2J1Ajttjjm/lqqOlwZlqtlGJ1eWhYiFr2k7x7nD+eqQki5GoJV6nF/BiW+5ft
-         ZcNA==
-X-Gm-Message-State: AOJu0Yy9v5/bLWsc+T7yo1mYoUIFXw+CXWUbYWUezIAbT7wTTWsg/h5u
-	Gpa0AoA9/0yf+QClE8pmiLonlphB8QXOQe92fHA=
-X-Google-Smtp-Source: AGHT+IGQW+3pKKvW1pkpwDcwwiW6XulSUAFPKMhRa5VxvNrO6KTwnlgt7Dxl17s+94h802HnubOnwtxT5ApwgFeWNWw=
-X-Received: by 2002:a05:6870:392c:b0:203:13ec:ab01 with SMTP id
- b44-20020a056870392c00b0020313ecab01mr2914678oap.86.1702501106837; Wed, 13
- Dec 2023 12:58:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20231213104755.3895396-1-ross.burton@arm.com>
-In-Reply-To: <20231213104755.3895396-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 13 Dec 2023 12:58:01 -0800
-Message-ID: <CAMKF1spmQz3DWpeDotCzMf05Ax0Drskad8ahoCyc7gX-CzWBXA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssl: mark assembler sections as call
- targets for PAC/BTI support on aarch64
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
+        d=1e100.net; s=20230601; t=1702501226; x=1703106026;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sGiSIRaDyUN91yVAa37aDkenTCfq/lYAotqItj3Qe2w=;
+        b=ZjeQB75DbLUyLIg6eCq4nWsdFVA8jPZf2QewcTgN0UdsofVGqW4bE3/lHjO18uyZa+
+         qWw0KRvHCz5/zYQIRMOfkZmYutN1ReEHbSEmpvwCwJUR5So2Y3wo10E7/NoQ9fDSNr7r
+         gKpRADkkRxCADidPsgBjUr8mJgXzFWwzWdujdWn8XfhFqMCeFA8Dw2KaBiw8MZZmx4ua
+         FWH1yg8y3fEQEUDYTf5ZIFOe82Ac/8xx/lzDkMdueLRyFd+uvIdihs7SLPG71MsalAp2
+         zPaa1wWYDhq3i0cJLoipiTBGSwRbbbZRBYgLBEtwnpP86buZYr7G58tJtbmn27ZtYniI
+         4UxA==
+X-Gm-Message-State: AOJu0Yz9EiAa0ivg/QccI2jZtQrAoA6tWgAQDPj7Sk859orhkl8psZBo
+	7ZXa71s3Y57SS5ZsKEO7hckKVKeKiEOcOdNLgDg=
+X-Google-Smtp-Source: AGHT+IEqAV2DGXu7fqJh8v6LrT/+F64sRYats4suz5y1KhPeI8kBww0NM2kAaFtRjpZvLUKIhcL/4A==
+X-Received: by 2002:a05:600c:474c:b0:40c:4575:204c with SMTP id w12-20020a05600c474c00b0040c4575204cmr3311387wmo.176.1702501226608;
+        Wed, 13 Dec 2023 13:00:26 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7173:bb34:6d69:83d3? ([2001:8b0:aba:5f3c:7173:bb34:6d69:83d3])
+        by smtp.gmail.com with ESMTPSA id l6-20020a05600c4f0600b0040b45282f88sm23994440wmq.36.2023.12.13.13.00.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 13:00:26 -0800 (PST)
+Message-ID: <58828ff743cb7eeb8f848ddde7bff1405cf542b4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCHv2 2/4] python3-qemu-qmp: Add recipe
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
+	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross.burton@arm.com>
+Date: Wed, 13 Dec 2023 21:00:25 +0000
+In-Reply-To: <e7c107503fb1a3cb60b8f91b1150099f8377ca86.1702499299.git.pidge@baylibre.com>
+References: <cover.1702499299.git.pidge@baylibre.com>
+	 <e7c107503fb1a3cb60b8f91b1150099f8377ca86.1702499299.git.pidge@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 20:58:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192323
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 21:00:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192324
 
-On Wed, Dec 13, 2023 at 2:48=E2=80=AFAM Ross Burton <ross.burton@arm.com> w=
-rote:
->
+On Wed, 2023-12-13 at 20:30 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
+=A1in wrote:
 > From: Ross Burton <ross.burton@arm.com>
->
-> The assembler sections in OpenSSL were not marked as valid call targets,
-> so branch protection could not be enabled for libcrypto.so.
->
+>=20
+> Add a recipe for python QEMU Monitor Protocol. This will be needed for
+> qemu screendumps for qemu screendump testing.
+>=20
 > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibr=
+e.com>
 > ---
->  .../openssl/openssl/aarch64-bti.patch         | 35 +++++++++++++++++++
->  .../openssl/openssl_3.2.0.bb                  |  1 +
->  2 files changed, 36 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/aarch64-bti=
-.patch
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl/aarch64-bti.patch =
-b/meta/recipes-connectivity/openssl/openssl/aarch64-bti.patch
+>  .../python/python3-qemu-qmp_0.0.2.bb               | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.b=
+b
+>=20
+> diff --git a/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb b/met=
+a/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
 > new file mode 100644
-> index 00000000000..2a16debb76e
+> index 00000000000..faa0cc69738
 > --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl/aarch64-bti.patch
-> @@ -0,0 +1,35 @@
-> +From ad347c9ff0fd93bdd2fa2085611c65b88e94829f Mon Sep 17 00:00:00 2001
-> +From: "fangming.fang" <fangming.fang@arm.com>
-> +Date: Thu, 7 Dec 2023 06:17:51 +0000
-> +Subject: [PATCH] Enable BTI feature for md5 on aarch64
+> +++ b/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
+> @@ -0,0 +1,14 @@
+> +SUMMARY =3D "asyncio library for communicating with QEMU Monitor Protoco=
+l (QMP) servers"
+> +LICENSE =3D "LGPLv2+ & GPLv2"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4cf66a4984120007c9881cc871cf4=
+9db \
+> +                    file://LICENSE_GPL2;md5=3D441c28d2cf86e15a37fa47e15a=
+72fbac"
 > +
-> +Fixes: #22959
+> +SRC_URI[sha256sum] =3D "c918e9e3ae09abdf70c7ece67637a93ac4583d940bbf48d2=
+4ff77987f74f1b8b"
 > +
-> +Reviewed-by: Tom Cosgrove <tom.cosgrove@arm.com>
-> +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-> +(Merged from https://github.com/openssl/openssl/pull/22971)
+> +inherit pypi python_setuptools_build_meta
 > +
-> +Upstream-Status: Backport
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +---
-> + crypto/md5/asm/md5-aarch64.pl | 3 +++
-> + 1 file changed, 3 insertions(+)
+> +PYPI_PACKAGE =3D "qemu.qmp"
 > +
-> +diff --git a/crypto/md5/asm/md5-aarch64.pl b/crypto/md5/asm/md5-aarch64.=
-pl
-> +index 3200a0fa9bff0..5a8608069691d 100755
-> +--- a/crypto/md5/asm/md5-aarch64.pl
-> ++++ b/crypto/md5/asm/md5-aarch64.pl
-> +@@ -28,10 +28,13 @@
-> + *STDOUT=3D*OUT;
+> +DEPENDS +=3D "python3-setuptools-scm-native"
 > +
-> + $code .=3D <<EOF;
-> ++#include "arm_arch.h"
-> ++
-> + .text
-> + .globl  ossl_md5_block_asm_data_order
-> + .type   ossl_md5_block_asm_data_order,\@function
-> + ossl_md5_block_asm_data_order:
-> ++        AARCH64_VALID_CALL_TARGET
-> +         // Save all callee-saved registers
-> +         stp     x19,x20,[sp,#-80]!
-> +         stp     x21,x22,[sp,#16]
-> diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb b/meta/re=
-cipes-connectivity/openssl/openssl_3.2.0.bb
-> index ab0562bd730..1c97d853f11 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-> @@ -12,6 +12,7 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV=
-}.tar.gz \
->             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from=
--co.patch \
->             file://0001-Configure-do-not-tweak-mips-cflags.patch \
->             file://0001-Added-handshake-history-reporting-when-test-fails=
-.patch \
-> +                  file://aarch64-bti.patch \
+> +BBCLASSEXTEND =3D "native nativesdk"
 
-it looks funnily indented :)
+None of the errors Alexandre reported originally from the autobuilder
+have been fixed here :(
 
->             "
->
->  SRC_URI:append:class-nativesdk =3D " \
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192280): https://lists.openembedded.org/g/openembedde=
-d-core/message/192280
-> Mute This Topic: https://lists.openembedded.org/mt/103147125/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+(HOMEPAGE, missing maintainer entry and so on)
+
+Also, I'm not sure what qmp is doing on the target with this recipe?
+Does qmp trigger remote command execution inside the guest? I'd
+previously assumed the framedump was from the external presentation
+rather than internal to the guest.
+
+Cheers,
+
+Richard
 
