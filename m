@@ -1,121 +1,141 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C69ADC4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 21:00:32 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.387.1702501228212327513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3BA0C4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 21:07:52 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.584.1702501663461501729
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 13:00:28 -0800
+ Wed, 13 Dec 2023 13:07:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ap2qPsWh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40c4846847eso36589655e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 13:00:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1702501226; x=1703106026; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=sGiSIRaDyUN91yVAa37aDkenTCfq/lYAotqItj3Qe2w=;
-        b=Ap2qPsWhHCaT7tVc4p0Yf0ANRmqsKvSSWbtXum0e4dE0vw01Qp7DVxvtzNdnmWDMXC
-         lM0if2OqGTMJRx68s3UNx4mAfQKk6zQ5z4XoGAD6tJ+5p4JjKQGk1fImwnMB5ONUuaRV
-         s29ydTDcghYeAd9PoR5TFEc2U9Q2UXfN97ETw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702501226; x=1703106026;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sGiSIRaDyUN91yVAa37aDkenTCfq/lYAotqItj3Qe2w=;
-        b=ZjeQB75DbLUyLIg6eCq4nWsdFVA8jPZf2QewcTgN0UdsofVGqW4bE3/lHjO18uyZa+
-         qWw0KRvHCz5/zYQIRMOfkZmYutN1ReEHbSEmpvwCwJUR5So2Y3wo10E7/NoQ9fDSNr7r
-         gKpRADkkRxCADidPsgBjUr8mJgXzFWwzWdujdWn8XfhFqMCeFA8Dw2KaBiw8MZZmx4ua
-         FWH1yg8y3fEQEUDYTf5ZIFOe82Ac/8xx/lzDkMdueLRyFd+uvIdihs7SLPG71MsalAp2
-         zPaa1wWYDhq3i0cJLoipiTBGSwRbbbZRBYgLBEtwnpP86buZYr7G58tJtbmn27ZtYniI
-         4UxA==
-X-Gm-Message-State: AOJu0Yz9EiAa0ivg/QccI2jZtQrAoA6tWgAQDPj7Sk859orhkl8psZBo
-	7ZXa71s3Y57SS5ZsKEO7hckKVKeKiEOcOdNLgDg=
-X-Google-Smtp-Source: AGHT+IEqAV2DGXu7fqJh8v6LrT/+F64sRYats4suz5y1KhPeI8kBww0NM2kAaFtRjpZvLUKIhcL/4A==
-X-Received: by 2002:a05:600c:474c:b0:40c:4575:204c with SMTP id w12-20020a05600c474c00b0040c4575204cmr3311387wmo.176.1702501226608;
-        Wed, 13 Dec 2023 13:00:26 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:7173:bb34:6d69:83d3? ([2001:8b0:aba:5f3c:7173:bb34:6d69:83d3])
-        by smtp.gmail.com with ESMTPSA id l6-20020a05600c4f0600b0040b45282f88sm23994440wmq.36.2023.12.13.13.00.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 13:00:26 -0800 (PST)
-Message-ID: <58828ff743cb7eeb8f848ddde7bff1405cf542b4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCHv2 2/4] python3-qemu-qmp: Add recipe
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
-	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>
-Date: Wed, 13 Dec 2023 21:00:25 +0000
-In-Reply-To: <e7c107503fb1a3cb60b8f91b1150099f8377ca86.1702499299.git.pidge@baylibre.com>
-References: <cover.1702499299.git.pidge@baylibre.com>
-	 <e7c107503fb1a3cb60b8f91b1150099f8377ca86.1702499299.git.pidge@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=UZUGLbxX;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20231213210740fe59ae7a40b634c357-oahxxi@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20231213210740fe59ae7a40b634c357
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 13 Dec 2023 22:07:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=9PbhlvWg1EBy3WxAHGgpBk/TGw9VhER1UlbboMyFbbI=;
+ b=UZUGLbxXqRMCPhRQQJF04Er14FOaB61x3jyaIaXjBnZpYM+pSXy7CzXxXg5S5z3fKdXRVw
+ zdlkI+JhbeQS5wIIccopFdeEdJRRAb3HDN8B6WDsg00ukPiiOVLTdhvP6miQz1HIonzptZK8
+ g4kANJf+WmBL4nuUKuWDeADBhWfyw=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] dtc: pass version as parameter instead of querying git
+Date: Wed, 13 Dec 2023 22:07:03 +0100
+Message-Id: <20231213210703.667740-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 21:00:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192324
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 21:07:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192325
 
-On Wed, 2023-12-13 at 20:30 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
-=A1in wrote:
-> From: Ross Burton <ross.burton@arm.com>
->=20
-> Add a recipe for python QEMU Monitor Protocol. This will be needed for
-> qemu screendumps for qemu screendump testing.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibr=
-e.com>
-> ---
->  .../python/python3-qemu-qmp_0.0.2.bb               | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.b=
-b
->=20
-> diff --git a/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb b/met=
-a/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
-> new file mode 100644
-> index 00000000000..faa0cc69738
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-qemu-qmp_0.0.2.bb
-> @@ -0,0 +1,14 @@
-> +SUMMARY =3D "asyncio library for communicating with QEMU Monitor Protoco=
-l (QMP) servers"
-> +LICENSE =3D "LGPLv2+ & GPLv2"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4cf66a4984120007c9881cc871cf4=
-9db \
-> +                    file://LICENSE_GPL2;md5=3D441c28d2cf86e15a37fa47e15a=
-72fbac"
-> +
-> +SRC_URI[sha256sum] =3D "c918e9e3ae09abdf70c7ece67637a93ac4583d940bbf48d2=
-4ff77987f74f1b8b"
-> +
-> +inherit pypi python_setuptools_build_meta
-> +
-> +PYPI_PACKAGE =3D "qemu.qmp"
-> +
-> +DEPENDS +=3D "python3-setuptools-scm-native"
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
+From: Peter Marko <peter.marko@siemens.com>
 
-None of the errors Alexandre reported originally from the autobuilder
-have been fixed here :(
+Since switch from Makefile to meson based build,
+the version is no longer hardcoded but queried from git tag.
 
-(HOMEPAGE, missing maintainer entry and so on)
+This works only if git history is available.
+When shallow tarballs are used, tag is not available.
 
-Also, I'm not sure what qmp is doing on the target with this recipe?
-Does qmp trigger remote command execution inside the guest? I'd
-previously assumed the framedump was from the external presentation
-rather than internal to the guest.
+Example error for trusted-firmware-a from meta-arm:
+dtc version too old (039a994), you need at least version 1.4.4
 
-Cheers,
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ ...n-as-parameter-instead-of-querying-g.patch | 49 +++++++++++++++++++
+ meta/recipes-kernel/dtc/dtc_1.7.0.bb          |  7 ++-
+ 2 files changed, 54 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-kernel/dtc/dtc/0001-meson-get-version-as-parameter-instead-of-querying-g.patch
 
-Richard
+diff --git a/meta/recipes-kernel/dtc/dtc/0001-meson-get-version-as-parameter-instead-of-querying-g.patch b/meta/recipes-kernel/dtc/dtc/0001-meson-get-version-as-parameter-instead-of-querying-g.patch
+new file mode 100644
+index 0000000000..d7906bd6f9
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/dtc/0001-meson-get-version-as-parameter-instead-of-querying-g.patch
+@@ -0,0 +1,49 @@
++From f32056f825b926b5820d43478d11e92eee1ec91f Mon Sep 17 00:00:00 2001
++From: Peter Marko <peter.marko@siemens.com>
++Date: Wed, 13 Dec 2023 21:18:14 +0100
++Subject: [PATCH] meson: get version as parameter instead of querying git
++
++When using shallow tarballs, git tag is not available.
++This causes version to be git hash.
++This prevents application from checking minimal required version.
++
++Example error for trusted-firmware-a from meta-arm:
++dtc version too old (039a994), you need at least version 1.4.4
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ meson.build       | 3 ++-
++ meson_options.txt | 2 ++
++ 2 files changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 78251eb..8a25163 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -55,9 +55,10 @@ py = import('python')
++ py = py.find_installation(required: get_option('python'))
++ swig = find_program('swig', required: get_option('python'))
++ 
++-version_gen_h = vcs_tag(
+++version_gen_h = configure_file(
++   input: 'version_gen.h.in',
++   output: 'version_gen.h',
+++  configuration: { 'VCS_TAG': get_option('PV')},
++ )
++ 
++ subdir('libfdt')
++diff --git a/meson_options.txt b/meson_options.txt
++index 82621c3..c313d32 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -10,3 +10,5 @@ option('python', type: 'feature', value: 'auto',
++        description: 'Build pylibfdt Python library')
++ option('static-build', type: 'boolean', value: false,
++        description: 'Build static binaries')
+++option('PV', type: 'string', value: 'undefined',
+++       description: 'version string to be used instead of getting it from git')
++-- 
++2.30.2
++
+diff --git a/meta/recipes-kernel/dtc/dtc_1.7.0.bb b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
+index 1a78a0c079..586a5f91bd 100644
+--- a/meta/recipes-kernel/dtc/dtc_1.7.0.bb
++++ b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
+@@ -8,7 +8,10 @@ LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://BSD-2-Clause;md5=5d6306d1b08f8df623178dfd81880927 \
+                     file://README.license;md5=a1eb22e37f09df5b5511b8a278992d0e"
+ 
+-SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=main;protocol=https" 
++SRC_URI = " \
++    git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=main;protocol=https \
++    file://0001-meson-get-version-as-parameter-instead-of-querying-g.patch \
++"
+ SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+@@ -17,7 +20,7 @@ S = "${WORKDIR}/git"
+ 
+ inherit meson pkgconfig
+ 
+-EXTRA_OEMESON = "-Dpython=disabled -Dvalgrind=disabled"
++EXTRA_OEMESON = "-Dpython=disabled -Dvalgrind=disabled -DPV=v${PV}"
+ 
+ PACKAGECONFIG ??= "tools"
+ PACKAGECONFIG[tools] = "-Dtools=true,-Dtools=false,flex-native bison-native"
+-- 
+2.30.2
+
 
