@@ -1,133 +1,129 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBDD7C4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 04:02:38 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.27999.1702440148536724064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF778C4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 04:33:38 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.29459.1702442015939354606
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Dec 2023 20:02:28 -0800
+ Tue, 12 Dec 2023 20:33:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=P45tCwKL;
- spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d345b187bbso9344365ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 20:02:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1702440147; x=1703044947; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pqOO5SE8UppgpHoK264uUeD6s/fPClRn424aTYe3+eA=;
-        b=P45tCwKLkce+FFvf80qFqmXpakNYpPXei2NZOgihh4Tvc8nd5iFnVr1JGJSS5w+0Ih
-         crpLCVmr7msNGHxAZpM1ZRIysud86Ug/zng2OqN/Qjhky0pEepLSoRkHpImBfXcHE1Kr
-         igj2hQ1DvDLpCIyEbHe+ptfqIUEpOO70TVJa8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702440147; x=1703044947;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pqOO5SE8UppgpHoK264uUeD6s/fPClRn424aTYe3+eA=;
-        b=ksVGc+uNJ+KHK2sDGRs7FvegC+U13G9Kn/fOP8cpZ4Lv6EsQ+57diXxK8VERNU515s
-         RLAe2NQd00paZ8wXtnYpDzA1ipI4L48Ju7pOzfi8T6tvsA1y1R3zyfbv3shVvd7f+Pfi
-         /hASVSKgMsYPSMnV/iP31AaS3GkecWWUae3bEovs5xSBtwtPSGJu4Ae3pcF0S2iZ81nJ
-         AGTLVlZSNBa5KUPH7VrjIVYQQlK+1yNeGeA1EhaSpui+pUCt0Yi66A4CM9QrcRJ+1UK2
-         7HPw5B6Bcom8PfsP9JTV8HYGMqX1Sp8oIhU77CQKWMmZFmnIVXh6xpbtq49mgrdXtsN4
-         m6CQ==
-X-Gm-Message-State: AOJu0Yzi3s1Il/ADPrc1iASeg80WldowojgeqSf4cw8jAGXgzy3O9pPs
-	0cObBtMouoCeOEMwuINVWUgYDSKPJnJjC/ibHbE=
-X-Google-Smtp-Source: AGHT+IEXi3RtmyHNhymw9rvqbQ4X4+KRd75wTYzHNZA94O5WoeNztSTGWS6Tkb25QiyAP/t2C1pFYQ==
-X-Received: by 2002:a17:902:7fc8:b0:1d3:488e:a4c3 with SMTP id t8-20020a1709027fc800b001d3488ea4c3mr898892plb.96.1702440147092;
-        Tue, 12 Dec 2023 20:02:27 -0800 (PST)
-Received: from MVIN00020.mvista.com ([223.230.81.28])
-        by smtp.gmail.com with ESMTPSA id 13-20020a170902e9cd00b001d33369bd86sm2489690plk.194.2023.12.12.20.02.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 20:02:26 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] ghostscript: Backport fix for CVE-2023-46751
-Date: Wed, 13 Dec 2023 09:30:12 +0530
-Message-Id: <20231213040012.151047-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=T2LeVro9;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=07118c8f6f=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BD4K2eH027878
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 20:33:35 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=uWToK
+	kzX9a0UnreLpIdyfgCoWo7JWUK5JelCOJLbVik=; b=T2LeVro9N1GOs+AzJ4hoe
+	D8XubS6Y24Pk/N5NqnQCtt+ZTehL35ZSuEhSdWPCWtRSMgU27BFFTAjnLY2AQ5W8
+	/0P2SyOiJEJy3o1w9z18cS4gY8l+brO2pNhO1PfPLZ/SiwfOpEBRoP27ZTwGL24a
+	PWj7PKcNt72ODlApO09ll32YR119Hoc+icQbyrfc7Ql2+lAfUuZcEHvHrmTUTUy4
+	qrip4LJnLn0D89BKXFaUZBGeSuP7ZsoAoq0Qi60h6kMqfGjSk1s3BnBD4oCrYuSN
+	5eSfB3qgk+deAMGcUUmwSUjHQA5RJsY8uPbvRV5oYQssEZ3SPZBWCkGwcM8M5eI4
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uvmd4behc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 Dec 2023 20:33:35 -0800 (PST)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 12 Dec 2023 20:33:38 -0800
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 1/1] perl: update 5.34.1 -> 5.34.3
+Date: Wed, 13 Dec 2023 04:33:08 +0000
+Message-ID: <20231213043308.1766415-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: dBw0IejmTb4SbIO6GyA2mYWd4o-yPXsm
+X-Proofpoint-ORIG-GUID: dBw0IejmTb4SbIO6GyA2mYWd4o-yPXsm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 bulkscore=0
+ phishscore=0 spamscore=0 adultscore=0 malwarescore=0 clxscore=1015
+ mlxscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312130029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 04:02:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192266
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 04:33:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192267
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=5d2da96e81c7455338302c71a291088a8396245a]
+This includes security fix for CVE-2023-47038
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Changes:
+https://metacpan.org/release/PEVANS/perl-5.34.3/changes
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ghostscript/CVE-2023-46751.patch          | 41 +++++++++++++++++++
- .../ghostscript/ghostscript_9.55.0.bb         |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch
+ .../0001-Makefile-check-the-file-if-patched-or-not.patch      | 4 ++--
+ .../perl-cross/{perlcross_1.3.7.bb => perlcross_1.5.2.bb}     | 2 +-
+ meta/recipes-devtools/perl/{perl_5.34.1.bb => perl_5.34.3.bb} | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/perl-cross/{perlcross_1.3.7.bb => perlcross_1.5.2.bb} (92%)
+ rename meta/recipes-devtools/perl/{perl_5.34.1.bb => perl_5.34.3.bb} (99%)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch
-new file mode 100644
-index 0000000000..6fe5590892
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch
-@@ -0,0 +1,41 @@
-+From 5d2da96e81c7455338302c71a291088a8396245a Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Mon, 16 Oct 2023 16:49:40 +0100
-+Subject: [PATCH] Bug 707264: Fix tiffsep(1) requirement for seekable output
-+ files
-+
-+In the device initialization redesign, tiffsep and tiffsep1 lost the requirement
-+for the output files to be seekable.
-+
-+Fixing that highlighted a problem with the error handling in
-+gdev_prn_open_printer_seekable() where closing the erroring file would leave a
-+dangling pointer, and lead to a crash.
-+
-+Upstream-Status: Backport [https://git.ghostscript.com/?p=ghostpdl.git;a=commit;h=5d2da96e81c7455338302c71a291088a8396245a]
-+CVE: CVE-2023-46751
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ base/gdevprn.c     | 1 +
-+ devices/gdevtsep.c | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+--- a/base/gdevprn.c
-++++ b/base/gdevprn.c
-+@@ -1251,6 +1251,7 @@ gdev_prn_open_printer_seekable(gx_device
-+               && !IS_LIBCTX_STDERR(pdev->memory, gp_get_file(ppdev->file))) {
-+ 
-+                 code = gx_device_close_output_file(pdev, ppdev->fname, ppdev->file);
-++                ppdev->file = NULL;
-+                 if (code < 0)
-+                     return code;
-+             }
-+--- a/devices/gdevtsep.c
-++++ b/devices/gdevtsep.c
-+@@ -738,6 +738,7 @@ tiffsep_initialize_device_procs(gx_devic
-+ {
-+     gdev_prn_initialize_device_procs(dev);
-+ 
-++    set_dev_proc(dev, output_page, gdev_prn_output_page_seekable);
-+     set_dev_proc(dev, open_device, tiffsep_prn_open);
-+     set_dev_proc(dev, close_device, tiffsep_prn_close);
-+     set_dev_proc(dev, map_color_rgb, tiffsep_decode_color);
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index 7f4050755c..e0d1e4618f 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -42,6 +42,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2023-36664-0002.patch \
-                 file://CVE-2023-38559.patch \
-                 file://CVE-2023-43115.patch \
-+                file://CVE-2023-46751.patch \
+diff --git a/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
+index 8c8f3b717c..0ef9b27439 100644
+--- a/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
++++ b/meta/recipes-devtools/perl-cross/files/0001-Makefile-check-the-file-if-patched-or-not.patch
+@@ -21,8 +21,8 @@ index f4a26f5..7bc748e 100644
+  # Original versions are not saved anymore; patch generally takes care of this,
+  # and if that fails, reaching for the source tarball is the safest option.
+  $(CROSSPATCHED): %.applied: %.patch
+--	patch -p1 -i $< && touch $@
+-+	test ! -f $@ && (patch -p1 -i $< && touch $@) || echo "$@ exist"
++-	$(cpatch) -p1 -i $< && touch $@
+++	test ! -f $@ && ($(cpatch) -p1 -i $< && touch $@) || echo "$@ exist"
+  
+  # ---[ common ]-----------------------------------------------------------------
+  
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb b/meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
+similarity index 92%
+rename from meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb
+rename to meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
+index 99a9ca1027..ac4dff33bb 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.3.7.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.5.2.bb
+@@ -18,7 +18,7 @@ SRC_URI = "https://github.com/arsv/perl-cross/releases/download/${PV}/perl-cross
+            "
+ UPSTREAM_CHECK_URI = "https://github.com/arsv/perl-cross/releases/"
+ 
+-SRC_URI[perl-cross.sha256sum] = "77f13ca84a63025053852331b72d4046c1f90ded98bd45ccedea738621907335"
++SRC_URI[perl-cross.sha256sum] = "584dc54c48dca25e032b676a15bef377c1fed9de318b4fc140292a5dbf326e90"
+ 
+ S = "${WORKDIR}/perl-cross-${PV}"
+ 
+diff --git a/meta/recipes-devtools/perl/perl_5.34.1.bb b/meta/recipes-devtools/perl/perl_5.34.3.bb
+similarity index 99%
+rename from meta/recipes-devtools/perl/perl_5.34.1.bb
+rename to meta/recipes-devtools/perl/perl_5.34.3.bb
+index db306d0be3..e8b518adc9 100644
+--- a/meta/recipes-devtools/perl/perl_5.34.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.34.3.bb
+@@ -29,7 +29,7 @@ SRC_URI:append:class-target = " \
+            file://encodefix.patch \
  "
  
- SRC_URI = "${SRC_URI_BASE} \
+-SRC_URI[perl.sha256sum] = "357951a491b0ba1ce3611263922feec78ccd581dddc24a446b033e25acf242a1"
++SRC_URI[perl.sha256sum] = "5b12f62863332b2a5f54102af9cdf8c010877e4bf3294911edbd594b2a1e8ede"
+ 
+ S = "${WORKDIR}/perl-${PV}"
+ 
 -- 
-2.25.1
+2.40.0
 
 
