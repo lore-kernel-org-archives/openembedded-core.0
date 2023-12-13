@@ -1,104 +1,126 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 723B7C4332F
-	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 18:22:54 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.43760.1702491767103411503
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA78C4332F
+	for <webhook@archiver.kernel.org>; Wed, 13 Dec 2023 20:15:15 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.46965.1702498510948250693
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 10:22:47 -0800
+ Wed, 13 Dec 2023 12:15:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 445DFC15
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 10:23:32 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1F3AF3F762
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 10:22:46 -0800 (PST)
-From: ross.burton@arm.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] images: add core-image-initramfs-boot
-Date: Wed, 13 Dec 2023 18:22:37 +0000
-Message-Id: <20231213182237.792790-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hj3/CoJA;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40c29f7b068so69431155e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 12:15:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702498509; x=1703103309; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NJn5Nx6PP26Au7WNfvCnL0TnuvhzU3lF2PWgxdYqWSE=;
+        b=Hj3/CoJAdC3eonN7ivtcoRcbxDrUJTp68d52hGZebGMYjeJolGXmorebjVBPInjD2R
+         lY6cVpTCAX1De71M++4KYlqJns8DdEqzrYS3H5B4dg+qfoVt9GVFhzob5tTHi01PgrQh
+         pYismI8Uwb77RPPqc6VM/8L4jZnP88Q7QUUaoR+Ik/vipXTDn7GwhQbCHtoxP4nULX0U
+         GZh6V8TDQj1lbtTZ/geG+vO0hatEIjRwsSChdn/g3TpQbcbNo+hcR7QD46OOIbeD3zaG
+         p/eAKq5Iqt8ZzqurCPHvv52ShYKt0voO/71vVym3BuPHXVAN6xiyw7EMfrFG5zEbVG9v
+         TWMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702498509; x=1703103309;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NJn5Nx6PP26Au7WNfvCnL0TnuvhzU3lF2PWgxdYqWSE=;
+        b=CZlu9ezKNGCmPf0mXBpZX5U3hK0AYMH0uXYFvvHwVC1WFLmxxm83zZWtEjffEOtRdg
+         7AefNbhMny78WyfUFeXhH8MgfjKjDY6OY2u5hok+dZ/2xDn4qwo5hTRUstT+cm7KBIpH
+         tVrKPUUg1e2F7iJ6+/053dPjdPQT7Pln3DxPLry7m2/SuXLUh/l78Vjd+dVT0Hq0UYUB
+         +HtvG2ekNinVdLUiWtETX9EuGjaOdhwyThLs2h9XQ1TU+MLy6dTKDBE85p7ZnH8h49Ac
+         l8wvoc8ZhIbnPLpVa9K/n/wF4hOs0FeWbAt9ku0Cp/nL1WRoezBd6fdjLIqcd8jfaC+K
+         Yyjg==
+X-Gm-Message-State: AOJu0YzLLTw+o+7kvSUGaWxzVCrBTB+hQcVKqTs+9BVxMrSKBGyA8UXv
+	U8OSROg/PjUrNai3vpSEG/8=
+X-Google-Smtp-Source: AGHT+IGjpsAHHYm3nG2Q8KtrMmkdrMbXXP0Uuu94s4ESZkQPf9xcEdgEERYlVxLGCAjb8Gf2YEKI1Q==
+X-Received: by 2002:a7b:ce13:0:b0:40c:3820:f002 with SMTP id m19-20020a7bce13000000b0040c3820f002mr4446509wmc.94.1702498508936;
+        Wed, 13 Dec 2023 12:15:08 -0800 (PST)
+Received: from ?IPv6:2a02:169:59a6:0:dcf2:2f65:9442:83f? ([2a02:169:59a6:0:dcf2:2f65:9442:83f])
+        by smtp.gmail.com with ESMTPSA id fa17-20020a05600c519100b0040c46719966sm12909651wmb.25.2023.12.13.12.15.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 12:15:08 -0800 (PST)
+Message-ID: <84e13099e7017137aa17511e693f302e19c04b36.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH 2/4] oe-selftest: add a cpp-example recipe
+From: adrian.freihofer@gmail.com
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Dec 2023 21:15:07 +0100
+In-Reply-To: <4835257B-EEB2-4772-AA64-B787E99CFC8B@arm.com>
+References: <20231207205251.4152034-1-adrian.freihofer@siemens.com>
+	 <20231207205251.4152034-2-adrian.freihofer@siemens.com>
+	 <4835257B-EEB2-4772-AA64-B787E99CFC8B@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 18:22:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192310
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 20:15:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192311
 
-From: Ross Burton <ross.burton@arm.com>
+On Wed, 2023-12-13 at 11:10 +0000, Ross Burton wrote:
+>=20
+>=20
+> > On 7 Dec 2023, at 20:52, Adrian Freihofer via
+> > lists.openembedded.org
+> > <adrian.freihofer=3Dgmail.com@lists.openembedded.org> wrote:
+> >=20
+> > +do_run_tests () {
+> > +=C2=A0=C2=A0=C2=A0 meson test -C "${B}" --no-rebuild
+> > +}
+>=20
+> Somewhere in <gestures at 100+ feature branches on poky-contrib> is a
+> partial implementation of a generic =E2=80=9Crun the test suite at build =
+time
+> in qemu-user=E2=80=9D which failed miserably because qemu-user is pretty
+> limited.=C2=A0 I suspect it was _too_ generic, by trying to run the tests
+> via =E2=80=98qemu-user make check=E2=80=99.
 
-Add a minimal initramfs image recipe that just contains enough initramfs
-to find the real root filesystem and pivot to it.
+Maybe you mean this one which is older:
+https://lists.openembedded.org/g/openembedded-core/topic/89289917
 
-BSPs can use MACHINE_EXTRA_RRECOMMENDS to pull in any kernel module
-packages that are required to bring up the hardware so that the rootfs
-can be found.
+And here is a more recent discussion related to my patches:
+https://lists.openembedded.org/g/openembedded-core/topic/102708283#190925
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../images/core-image-initramfs-boot.bb       | 22 +++++++++++++++++++
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-core/images/core-image-initramfs-boot.bb
+>=20
+> Have you had success with non-trivial test suites managed by
+> cmake/meson where the tooling invokes qemu directly? Generalising
+> this would be very interesting.
+>=20
+I probably haven't run some non-trivial test suites yet. But the simple
+examples I tried worked very well. Running the tests is also
+transparently supported by IDEs with support for cmake and meson
+(because cmake and meson integrate qemu). Debugging doesn't work yet,
+but as far as I know qemu-usermode would also provide a gdbstub, which
+would at least theoretically allow seamless debugger integration.
+Especially for the SDK use case with IDE integration I see some
+potential in this approach. It allows to develop some unit tests on the
+host and finally test and deploy the application and the test binaries
+on the remote target device. At least in theory, this could hide the
+additional complexity of Cross as much as possible.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-index 445f797bcb7..de68b32192f 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -101,6 +101,7 @@ RECIPE_MAINTAINER:pn-connman-conf =3D "Ross Burton <r=
-oss.burton@arm.com>"
- RECIPE_MAINTAINER:pn-connman-gnome =3D "Ross Burton <ross.burton@arm.com=
->"
- RECIPE_MAINTAINER:pn-consolekit =3D "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-core-image-base =3D "Richard Purdie <richard.purdie=
-@linuxfoundation.org>"
-+RECIPE_MAINTAINER:pn-core-image-initramfs-boot =3D "Ross Burton <ross.bu=
-rton@arm.com>"
- RECIPE_MAINTAINER:pn-core-image-minimal =3D "Richard Purdie <richard.pur=
-die@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-core-image-minimal-dev =3D "Richard Purdie <richard=
-.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER:pn-core-image-minimal-initramfs =3D "Richard Purdie <r=
-ichard.purdie@linuxfoundation.org>"
-diff --git a/meta/recipes-core/images/core-image-initramfs-boot.bb b/meta=
-/recipes-core/images/core-image-initramfs-boot.bb
-new file mode 100644
-index 00000000000..72589447513
---- /dev/null
-+++ b/meta/recipes-core/images/core-image-initramfs-boot.bb
-@@ -0,0 +1,22 @@
-+SUMMARY =3D "Basic initramfs to boot a fully-featured rootfs"
-+DESCRIPTION =3D "Small initramfs that contains just udev and init, to fi=
-nd the real rootfs."
-+LICENSE =3D "MIT"
-+
-+INITRAMFS_SCRIPTS ?=3D "initramfs-framework-base initramfs-module-udev"
-+
-+PACKAGE_INSTALL =3D "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} =
-base-passwd"
-+
-+# Ensure the initramfs only contains the bare minimum
-+IMAGE_FEATURES =3D ""
-+IMAGE_LINGUAS =3D ""
-+
-+# Don't allow the initramfs to contain a kernel, as kernel modules will =
-depend
-+# on the kernel image.
-+PACKAGE_EXCLUDE =3D "kernel-image-*"
-+
-+IMAGE_FSTYPES =3D "${INITRAMFS_FSTYPES}"
-+IMAGE_NAME_SUFFIX ?=3D ""
-+IMAGE_ROOTFS_SIZE =3D "8192"
-+IMAGE_ROOTFS_EXTRA_SPACE =3D "0"
-+
-+inherit image
---=20
-2.34.1
+However, since there are some corner cases where it does not work, it
+is fully optionally integrated. cmake recipes that are known to benefit
+from qemu-usermode and work reliably with it can inherit cmake-qemu
+instead of cmake. Also the new oe-selftests can be seen as tests for
+qemu-usermode, which is a dependency of the kernel anyway and should
+therefore be tested somehow.
+
+My intention is to introduce this feature in a very limited scope, at
+least in this first step.
+
+Adrian
+
+
+
+> Ross
 
 
