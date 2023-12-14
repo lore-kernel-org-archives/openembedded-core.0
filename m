@@ -1,179 +1,103 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25BE7C4332F
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 19:33:51 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web11.37677.1702582428638233859
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A5AC4332F
+	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 19:34:40 +0000 (UTC)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.37656.1702582479460343536
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Dec 2023 11:33:49 -0800
+ Thu, 14 Dec 2023 11:34:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=KGeGKzIE;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A27140004;
-	Thu, 14 Dec 2023 19:33:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1702582426;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j8Xt5fGoJKj3BmV9WxY/VvS9XEEdzRsXcbr4tanMZMM=;
-	b=KGeGKzIEgBk3z6DqlKchXEGtWXFN+DCBUJEgyfUSOGa0r2o2XcVpWYZDVDI37p/BhXh5m8
-	y2Pgf2M+kL/29dPjP3tGPHSy43NzllQek8DRdgzL9afbUSwpb2CAdByOAgXXG1VT4V3x3I
-	/bvgdcvO8It346Ui5jZw422lbma+v5zijcwUf/rSy9mIZujYIEBI/xhNuNLMG19D65eYtX
-	mUP1sdMsBjx5rf20fMlxHzI0muaPIuuNVcxx3MhR7gzGH4Z1OinzOyjJE72vWu5QYK8l6E
-	h2OavFpnezPWStkSeng4Qha4KxD7UOG24cCw9PDORzenfOnrndHbFqcCvMfAKg==
-Date: Thu, 14 Dec 2023 20:33:46 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Yoann Congal <yoann.congal@smile.fr>,
-	openembedded-core@lists.openembedded.org,
-	Tim Orling <ticotimo@gmail.com>,
-	Martin Jansa <martin.jansa@gmail.com>,
-	Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] strace: Disable bluetooth support by default
-Message-ID: <20231214193346baddfca0@mail.local>
-References: <20231213085657.2552223-1-yoann.congal@smile.fr>
- <CANNYZj9mWiEZRf_snYJ0eRcirn746GbkZSekLV3-XVcHjaR6bw@mail.gmail.com>
- <CAMKF1spsMdx55xzBT9VEb51my-fE4GeLCq5m3do-5-8AKr-BqQ@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dP/eAZSm;
+ spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d098b87eeeso76640205ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 11:34:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702582478; x=1703187278; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0A94I7gXSObO2wz0+mN6nowwHnhFjXIhxb9ZpH0OCpg=;
+        b=dP/eAZSmgNtauCNnz0Ra/PjHkZebOX/xjUwSu0ragX2gh2qEbYBF06a+sFLgnZOMk9
+         ngA/iz4R78GlNWQO4eXXD7ub4NtMgHrccpPJXNCu7/RrF4MPt+lpeVe1GuhZ5QzLh4m/
+         iVS6hNKaF5oQPtfqF0WLQoxAciJCfpqCJ+jBit3cwlkn7WfiOfKY6EYR8k7psgmYxaYt
+         wvEV3DeXALy5bQAc5UoXFrQq77hBOWBNEjgxn1wSQCk10/hjkTrCEgIYRYPkNNFZkj6o
+         3UabA+Px8T2XL/TbdbiHb6cxcLU3C9bo+oLLgNZ93CfQBWhPb87cICWvHQnCsB5Q26yv
+         SQwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702582478; x=1703187278;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0A94I7gXSObO2wz0+mN6nowwHnhFjXIhxb9ZpH0OCpg=;
+        b=kSx0DAP0Eph35QaUHYkz0xMMkmOpw9bA+9jO0d//KEAuSVC1Zpul/g4nDRPs6Wu9we
+         TJWaGgSBkn6Mh8d0SU2x4yOvAhRpQpZz+TelvmRC2ettQRHJ6WY5BAW2IU9oy2BMpHJL
+         QfVeLFcIa+Szi/sxgKVeKXIH/icohV/UY0z11tS3NftouYOqlU/WWh+Tnw0HbJOTEZhe
+         wy1uPvGbdegC0jko7xrwWTK+nvYfjkyhCd+aTm1ixYASn2duDk5IiGmh0cshTgT5ab+p
+         cyIRp5ydrMAVvVZ2+oqwqg4Pm3fBzCnzz0tKKqovsHPHrSifU76c3p8iC+zGtfjKdQfd
+         63lg==
+X-Gm-Message-State: AOJu0YxzpshWafQtRQn5PTyqm8G1cVYrqbXHWOkynK9AgW0AnWcN88ot
+	aoM5dL9sSK4jWDgKL4ciDJkhlIp+hz0=
+X-Google-Smtp-Source: AGHT+IEHZLNMaO5PuwVaJs1eIKJ2RJ/Qden7L6NtTItfUJAQjOu6EMSuPf9YGAJtkSQFtnVaISB7QQ==
+X-Received: by 2002:a17:902:da89:b0:1d3:5a7b:7ced with SMTP id j9-20020a170902da8900b001d35a7b7cedmr3399613plx.63.1702582478553;
+        Thu, 14 Dec 2023 11:34:38 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::4b6f])
+        by smtp.gmail.com with ESMTPSA id n6-20020a170902e54600b001d1cd7e4ad2sm12719897plf.125.2023.12.14.11.34.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 11:34:38 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] util-linux: Delete md-raid tests
+Date: Thu, 14 Dec 2023 11:34:36 -0800
+Message-ID: <20231214193436.224539-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMKF1spsMdx55xzBT9VEb51my-fE4GeLCq5m3do-5-8AKr-BqQ@mail.gmail.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 19:33:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192401
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 19:34:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192402
 
-On 14/12/2023 10:53:05-0800, Khem Raj wrote:
-> On Thu, Dec 14, 2023 at 1:10 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > On Wed, 13 Dec 2023 at 09:57, Yoann Congal <yoann.congal@smile.fr> wrote:
-> > >
-> > > The bluetooth support adds a bluez5 dependency (and,recursively, a lot
-> > > of other stuff). Disable it by default to avoid having to build all of
-> > > this when it is not needed.
-> > >
-> > > This decrease the number of tasks run for a core-image-minimal build by
-> > > ~1000 (-21%).
-> > >
-> > > To re-enable bluetooth support in strace, add "bluez" to strace
-> > > PACKAGECONFIG. For example, in local.conf:
-> > >   PACKAGECONFIG:append:pn-strace = " bluez"
-> > >
-> > > Fixes [YOCTO #15323]
-> >
-> > I'm afraid I have to raise objections.
-> >
-> > First, this needs an explanation: what functionality in strace does
-> > this disable? Is that functionality important from the point of having
-> > bluetooth in DISTRO_FEATURES? Not respecting DISTRO_FEATURES sets a
-> > bad precedent, and should be more carefully justified and treated as
-> > an exception.
-> >
-> > Second, why is strace even needed in the context of
-> > core-image-minimal? It's not installed into the image, so I went and
-> > checked:
-> > util-linux-ptest needs mdadm
-> > mdadm-ptest needs strace.
-> 
-> I looked briefly into util-linux pertaining to mdadm needs in tests, there
-> are 4 tests needing it.
-> md-raid0-whole, md-raid1-part, md-raid1-whole, align-512-4K-md
-> 
-> and all of them are marked as
-> TS_KNOWN_FAIL="yes"
-> 
-> See https://github.com/util-linux/util-linux/commit/7519c3edab120b14623931d5ddb16fdc6e7cad5d
-> 
-> I think we can skip running these tests as well and safely avoid
-> depending upon mdadm for util-linux ptests which can break the depchain as well.
-> 
+These tests are marked as known failures upstream as well [1]
+if we delete them then we can drop dependency on mdadm for ptests which
+can further reduce the dependency chain for ptest enabled minimal images
 
-I think dropping the mdam ptests was the plan seeing the amount of
-breakage this does on the AB.
+[1] https://github.com/util-linux/util-linux/commit/7519c3edab120b14623931d5ddb16fdc6e7cad5d
 
-> >
-> > Which begs the question. Should we continue to enable ptest by default
-> > in poky? Should we create and use a ptest-less distro configuration?
-> > It does pull in a ton of extra stuff all over the place which
-> > lengthens the builds a lot. And the resulting ptest packages aren't
-> > even used until one explicitly requests one of the ptest images.
-> >
-> > As an example, I saw an oe-selftest-armhost yesterday, which ran
-> > nearly 17 hours:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2587
-> >
-> > If you go and look at what tests in it took the longest time, you see:
-> > 2023-12-13 15:45:22,812 - oe-selftest - INFO - RESULTS -
-> > runtime_test.Postinst.test_postinst_rootfs_and_boot_systemd: PASSED
-> > (32620.46s)
-> > 2023-12-13 15:45:22,794 - oe-selftest - INFO - RESULTS -
-> > prservice.BitbakePrTests.test_import_export_override_db: PASSED
-> > (12789.45s)
-> > 2023-12-13 15:45:22,789 - oe-selftest - INFO - RESULTS -
-> > overlayfs.OverlayFSEtcRunTimeTests.test_all_required_variables_set:
-> > PASSED (35205.79s)
-> > 2023-12-13 15:45:22,781 - oe-selftest - INFO - RESULTS -
-> > minidebuginfo.Minidebuginfo.test_minidebuginfo: PASSED (15395.76s)
-> > 2023-12-13 15:45:22,782 - oe-selftest - INFO - RESULTS -
-> > multiconfig.MultiConfig.test_multiconfig: PASSED (11098.06s)
-> > 2023-12-13 15:45:22,776 - oe-selftest - INFO - RESULTS -
-> > incompatible_lic.IncompatibleLicensePerImageTests.test_bash_and_license:
-> > PASSED (24012.67s)
-> > 2023-12-13 15:45:22,775 - oe-selftest - INFO - RESULTS -
-> > imagefeatures.ImageFeatures.test_mandb: PASSED (19394.74s)
-> > 2023-12-13 15:45:22,762 - oe-selftest - INFO - RESULTS -
-> > devtool.DevtoolExtractTests.test_devtool_build_image: PASSED
-> > (27341.75s)
-> > 2023-12-13 15:45:22,760 - oe-selftest - INFO - RESULTS -
-> > debuginfod.Debuginfod.test_debuginfod_qemu: PASSED (25784.11s)
-> > 2023-12-13 15:45:22,759 - oe-selftest - INFO - RESULTS -
-> > containerimage.ContainerImageTests.test_expected_files: PASSED
-> > (19453.84s)
-> > 2023-12-13 15:45:22,758 - oe-selftest - INFO - RESULTS -
-> > buildoptions.SanityOptionsTest.test_options_warnqa_errorqa_switch:
-> > PASSED (10492.68s)
-> > 2023-12-13 15:45:22,758 - oe-selftest - INFO - RESULTS -
-> > buildoptions.ToolchainOptions.test_toolchain_fortran: PASSED
-> > (11367.46s)
-> > 2023-12-13 15:45:22,743 - oe-selftest - INFO - RESULTS -
-> > baremetal.BaremetalTest.test_baremetal: PASSED (24196.04s)
-> >
-> > The same a-full selftest, but on a x86 host has these times, quicker
-> > than arm but still measured in hours:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6179/steps/15/logs/stdio
-> >
-> > What do most of these tests do? They do indeed build
-> > core-image-minimal (sometimes full-cmdline or some other images), and
-> > sometimes in multiple variants within a single test. But they never
-> > use ptest. And so we need to find a way to make it happen faster.
-> >
-> > I'm going to get some numbers, first without any changes, then with
-> > your proposed change, then with ptest dropped - this will take a bit
-> > of time, so I wanted to get the concerns written and sent first.
-> >
-> > Alex
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#192339): https://lists.openembedded.org/g/openembedded-core/message/192339
-> > Mute This Topic: https://lists.openembedded.org/mt/103146402/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/util-linux/util-linux_2.39.2.bb | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/util-linux/util-linux_2.39.2.bb b/meta/recipes-core/util-linux/util-linux_2.39.2.bb
+index 927037a3429..8c081674017 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.39.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.39.2.bb
+@@ -137,7 +137,7 @@ RDEPENDS:${PN}-dev += " util-linux-libuuid-dev"
+ RPROVIDES:${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev"
+ 
+ RDEPENDS:${PN}-bash-completion += "${PN}-lsblk"
+-RDEPENDS:${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs findutils grep iproute2 kmod mdadm procps sed socat which xz"
++RDEPENDS:${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs findutils grep iproute2 kmod procps sed socat which xz"
+ RRECOMMENDS:${PN}-ptest += "kernel-module-scsi-debug kernel-module-sd-mod kernel-module-loop kernel-module-algif-hash"
+ RDEPENDS:${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
+ ALLOW_EMPTY:${PN}-swaponoff = "1"
+@@ -320,6 +320,12 @@ do_install_ptest() {
+     if ! ${@bb.utils.contains('PACKAGECONFIG', 'pam', 'true', 'false', d)}; then
+         rm -rf ${D}${PTEST_PATH}/tests/ts/chfn
+     fi
++    # remove raid tests, known failures and avoid dependency on mdadm therefore
++    # See https://github.com/util-linux/util-linux/commit/7519c3edab120b14623931d5ddb16fdc6e7cad5d
++    rm -rf ${D}${PTEST_PATH}/tests/ts/blkid/md-raid0-whole
++    rm -rf ${D}${PTEST_PATH}/tests/ts/blkid/md-raid1-part
++    rm -rf ${D}${PTEST_PATH}/tests/ts/blkid/md-raid1-whole
++    rm -rf ${D}${PTEST_PATH}/tests/ts/fdisk/align-512-4K-md
+ }
+ 
+ # Delete tests not working on musl
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
+
 
