@@ -2,207 +2,155 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A71AC46CA2
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 13:46:08 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.22349.1702561567308503693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33CD9C4332F
+	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 13:46:18 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.22367.1702561568431675765
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Dec 2023 05:46:07 -0800
+ Thu, 14 Dec 2023 05:46:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bir1bOuw;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40c339d2b88so66467065e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 05:46:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=E2/BNBuH;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40c317723a8so72267825e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 05:46:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702561566; x=1703166366; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XJR42CGzTFw2B2GH1aFPyryGB0RLjblm/6vFcLY+p9s=;
-        b=Bir1bOuwxnH5yenfU95FeIQt6QrlR1LQ14rzdcv9JveQnhJB/gQagYPU0QqvWpnn7v
-         SOB2NalM+ahVElFyxwiUJhj64siULc844g3eqqWdVKCwBe9AwemSU2Cuw452mncz0Ftc
-         P8ABcLKIHqp04Hucrjd0Q+jo6YxqODJ3IXI+ldNoTijEMmyCgiquY0/MVPWI2u0f3xrQ
-         n6aF46X2qNUfAREsH0BUxCRATDtn6A5vvIgP3FVHNdb9uuvOtUGsqHxndNSXU7cCmOV3
-         J/n7JV+L/lHPlcs7lLcNlHvYh1V2NP0AVzXxyNaWy4a04qn5RcM1NCzenb3oMrrBUnsl
-         p0uw==
+        d=gmail.com; s=20230601; t=1702561567; x=1703166367; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZSIOQHxTW7Q1ug0nYc2sFbb8sNYhkwypp10lmfNd4UQ=;
+        b=E2/BNBuHjWTb/2semOz2A1nJBKY3MQeK/eUUP7xrJSu1oGwJ9dOtWkkS0rCrMH/SB5
+         MyD5wCPbY81A4jPn2EGEoQluuX3YYQbweLzs/NcszIpTOMTka4AWVe5gkeQN5nDqoldN
+         AgaUkCKpuNIK1l6SMjwkTsSANCVgMbWQCuZmM7zR8jIp4eQkqXYZEssz/nBvkeYtYuFR
+         s1X1KPcXEvDvFY0XLkxI6Ty98MP0G7lRvgQKlrDsHtnXyhVFoSYADHvAv4B16B2EE407
+         p5NjitiJaMSCtgedkAHoSONy1LBDYEc/cMi0WwPjQN5uN4ZfBOOzBGoa+bFSvtzZVup2
+         2bxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702561566; x=1703166366;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XJR42CGzTFw2B2GH1aFPyryGB0RLjblm/6vFcLY+p9s=;
-        b=byXGvWxN3y1XbD1BU3LfM5e/fhahnq3lrid7Fc3ify8bd+24gKo84cyiekP7ZE3UQX
-         yLwt5n7yTgtkLIwLR9vEH1IDy1ZFOIxgLeItxOee6aB0UZN0She3UXkKiTYSELbn9rd5
-         PZldnu/vl5IBixeDiwgCdOoOr77yzZvyv9BKcuMWqkffZEIa4+SSeggRL8O4Yu8vvCtc
-         7J95yyq4A/Za98vZ/JNaTlaAxWQnhoED1eH3splOCoy5uW9RcwCzcfM9tnkVU/UFX90N
-         MRWVP68S91DMyaXwE1Y407CIHBOWoIU+QonWdlBFozyd72QjFq+AykigKOl/9l+0puC5
-         69YQ==
-X-Gm-Message-State: AOJu0YzpXgoyoENXXIFSRQ7pNC4rGqOAQWP2eHzZF0MhAGtrS2Xnn4Oq
-	VCgMhgkXqyqYuAqx+ticsFWPg8DfBCM=
-X-Google-Smtp-Source: AGHT+IFeDGdCQgbKG07QkR8Xog+rvHVIepX8eQnBngvTyT9bjbvzFiIgup8XnDxIsq/BhP9rbhF5BA==
-X-Received: by 2002:a05:600c:3b06:b0:40b:2a15:9b30 with SMTP id m6-20020a05600c3b0600b0040b2a159b30mr4927963wms.1.1702561565477;
-        Thu, 14 Dec 2023 05:46:05 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702561567; x=1703166367;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZSIOQHxTW7Q1ug0nYc2sFbb8sNYhkwypp10lmfNd4UQ=;
+        b=Ka1YnzmTzxMEVXuZQiN1zOyRgeg/oU1MhuCSu02tftxr9j03lYbj/5wuoCG5utCqQj
+         sK0ifLiR/zqC8s4CtXaWdqgkDGiB56PKop1H1p281BbcL2kzEX2XQ1/6czHUOE6ZSZj1
+         /nBdnLe383YnqLJgdkc5G4L7c7YBMZ4VbvMzimERebQkDXdGucZ1oxNTC0VkdB/+uRjU
+         hYacNsSjesKonxjeA8LYVXUGvsEsHyBqqsxemc+n6ZRCi/7gSz47zE822MFjE/qdeATB
+         i+DDeuzRzF7Nl3JelCnoY477P8TU3RXymVhkHP9UKT9O5Um50L50wPYxInnntiOSuO/x
+         Z3WQ==
+X-Gm-Message-State: AOJu0YwkukoOAoLHgNUo115sisctvhqwVROJ1oJjY/4jzgSHoVEtHDMO
+	6HLZaT85JUUKRk6K1ip1DL8ckpHJwpM=
+X-Google-Smtp-Source: AGHT+IHOIjbFvMof4RT0277Qyg++xwfrHR819JEo8d6KdBIWdHkfjKd6pwfRDNjHA7rDnp6faPrKYA==
+X-Received: by 2002:a05:600c:21c1:b0:40c:78c:f864 with SMTP id x1-20020a05600c21c100b0040c078cf864mr4685164wmj.16.1702561566871;
+        Thu, 14 Dec 2023 05:46:06 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l15-20020a05600c1d0f00b003feae747ff2sm27293710wms.35.2023.12.14.05.46.05
+        by smtp.gmail.com with ESMTPSA id l15-20020a05600c1d0f00b003feae747ff2sm27293710wms.35.2023.12.14.05.46.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 05:46:05 -0800 (PST)
+        Thu, 14 Dec 2023 05:46:06 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/9] oeqa/selftest/sstatetests: re-work CDN tests, add local cache tests
-Date: Thu, 14 Dec 2023 14:45:20 +0100
-Message-Id: <20231214134528.1973602-1-alex@linutronix.de>
+Subject: [PATCH 4/9] bitbake/runqueue: rework 'bitbake -S printdiff' logic
+Date: Thu, 14 Dec 2023 14:45:23 +0100
+Message-Id: <20231214134528.1973602-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231214134528.1973602-1-alex@linutronix.de>
+References: <20231214134528.1973602-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 13:46:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192371
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 13:46:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192374
 
-With the rework of printdiff, it is not longer useful for checking
-absence of sstate objects in a remote http cache, as it would only
-report the top level missing signatures, and leave the recursive
-investigation to diffsigs (which relies on ability to list cache
-files - not available over http).
+Previously printdiff code would iterate over tasks that were reported as invalid or absent,
+trying to follow dependency chains that would reach the most basic invalid items in the tree.
 
-The CDN check can be performed by simply running 'bitbake -DD -n'
-which is very verbose, but neverthless reports the amount
-of missing sstate objects and what they are in a way that can
-be programmatically extracted and checked (as suggested by RP).
+While this works in tightly controlled local builds, it can lead to bizarre reports
+against industrial-sized sstate caches, as the code would not consider whether the
+overall target can be fulfilled from valid sstate objects, and instead report
+missing sstate signature files that perhaps were never even created due to hash
+equivalency providing shortcuts in builds.
 
-This also adds local sstate tests, as they can be useful to
-determine whether the missing cdn objects were never created or
-erroneously cleaned up, or if they were created but didn't propagate
-to cdn.
+This commit reworks the logic in two ways:
 
-[YOCTO #15303]
+- start the iteration over final targets rather than missing objects
+and stop at the first invalid object (1)
+
+- if a given object can be fulfilled from sstate, recurse only into
+its setscene dependencies; bitbake wouldn't care if dependencies
+for the actual task are absent, and neither should printdiff
+
+(1) there's a further improvement I'd like to make here: instead of
+stopping, recurse into dependencies, with the goal of finding and reporting
+the 'root' invalid objects. Otherwise tracking down the difference to its root
+relies on finding the most 'recent' signature in stamps or sstate in a
+different function later, and recursively comparing that to the current signature,
+which is unreliable on real world caches. For the sake of fixing the test failures
+I'd like to not delay the patchset any further for now.
+
+[YOCTO #15289]
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oeqa/selftest/cases/sstatetests.py | 99 ++++++++++++++-------
- 1 file changed, 67 insertions(+), 32 deletions(-)
+ bitbake/lib/bb/runqueue.py | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 795cd5bd85f..f52ca77c09c 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -884,47 +884,82 @@ expected_sametmp_output, expected_difftmp_output)
+diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
+index 1f59d18b71a..61effe24fae 100644
+--- a/bitbake/lib/bb/runqueue.py
++++ b/bitbake/lib/bb/runqueue.py
+@@ -1717,35 +1717,34 @@ class RunQueue:
+                     valid_new.add(dep)
  
- @OETestTag("yocto-mirrors")
- class SStateMirrors(SStateBase):
--    def check_bb_output(self, output, exceptions):
--        in_tasks = False
--        missing_objects = []
--        checked_urls = []
--        for l in output.splitlines():
--            if "Testing URL" in l:
--                checked_urls.append(l.split()[3])
--            if "The differences between the current build and any cached tasks start at the following tasks" in l:
--                in_tasks = True
--                continue
--            if "Writing task signature files" in l:
--                in_tasks = False
--                continue
--            if in_tasks:
--                recipe_task = l.split("/")[-1]
--                recipe, task = recipe_task.split(":")
--                for e in exceptions:
--                    if e[0] in recipe and task == e[1]:
-+    def check_bb_output(self, output, exceptions, check_cdn):
-+        def is_exception(object, exceptions):
-+            for e in exceptions:
-+                if re.search(e, object):
-+                    return True
-+            return False
-+
-+        output_l = output.splitlines()
-+        for l in output_l:
-+            if l.startswith("Sstate summary"):
-+                for idx, item in enumerate(l.split()):
-+                    if item == 'Missed':
-+                        missing_objects = int(l.split()[idx+1])
-                         break
-                 else:
--                    missing_objects.append(recipe_task)
--        self.assertTrue(len(missing_objects) == 0, "URLs checked:\n{}\nMissing objects in the cache:\n{}".format("\n".join(checked_urls), "\n".join(missing_objects)))
--
--    def run_test_cdn_mirror(self, machine, targets, exceptions):
--        exceptions = exceptions + [[t, "do_deploy_source_date_epoch"] for t in targets.split()]
--        exceptions = exceptions + [[t, "do_image_qa"] for t in targets.split()]
--        self.config_sstate(True)
--        self.append_config("""
-+                    self.fail("Did not find missing objects amount in sstate summary: {}".format(l))
-+                break
-+        else:
-+            self.fail("Did not find 'Sstate summary' line in bitbake output")
-+
-+        failed_urls = []
-+        for l in output_l:
-+            if "SState: Unsuccessful fetch test for" in l and check_cdn:
-+                missing_object = l.split()[6]
-+            elif "SState: Looked for but didn't find file" in l and not check_cdn:
-+                missing_object = l.split()[8]
-+            else:
-+                missing_object = None
-+            if missing_object:
-+                if not is_exception(missing_object, exceptions):
-+                    failed_urls.append(missing_object)
-+                else:
-+                    missing_objects -= 1
-+
-+        self.assertEqual(len(failed_urls), missing_objects, "Amount of reported missing objects does not match failed URLs: {}\nFailed URLs:\n{}".format(missing_objects, "\n".join(failed_urls)))
-+        self.assertEqual(len(failed_urls), 0, "Missing objects in the cache:\n{}".format("\n".join(failed_urls)))
-+
-+    def run_test(self, machine, targets, exceptions, check_cdn = True):
-+        # sstate is checked for existence of these, but they never get written out to begin with
-+        exceptions += ["{}.*image_qa".format(t) for t in targets.split()]
-+        exceptions += ["{}.*deploy_source_date_epoch".format(t) for t in targets.split()]
-+        exceptions += ["{}.*image_complete".format(t) for t in targets.split()]
-+        exceptions += ["linux-yocto.*shared_workdir"]
-+        # these get influnced by IMAGE_FSTYPES tweaks in yocto-autobuilder-helper's config.json (on x86-64)
-+        # additionally, they depend on noexec (thus, absent stamps) package, install, etc. image tasks,
-+        # which makes tracing other changes difficult
-+        exceptions += ["{}.*create_spdx".format(t) for t in targets.split()]
-+        exceptions += ["{}.*create_runtime_spdx".format(t) for t in targets.split()]
-+
-+        if check_cdn:
-+            self.config_sstate(True)
-+            self.append_config("""
- MACHINE = "{}"
- BB_HASHSERVE_UPSTREAM = "hashserv.yocto.io:8687"
- SSTATE_MIRRORS ?= "file://.* http://cdn.jsdelivr.net/yocto/sstate/all/PATH;downloadfilename=PATH"
- """.format(machine))
--        result = bitbake("-D -S printdiff {}".format(targets))
--        self.check_bb_output(result.output, exceptions)
-+        else:
-+            self.append_config("""
-+MACHINE = "{}"
-+""".format(machine))
-+        result = bitbake("-DD -n {}".format(targets))
-+        bitbake("-S none {}".format(targets))
-+        self.check_bb_output(result.output, exceptions, check_cdn)
+         invalidtasks = set()
+-        for tid in self.rqdata.runtaskentries:
+-            if tid not in valid_new and tid not in noexec:
+-                invalidtasks.add(tid)
  
-     def test_cdn_mirror_qemux86_64(self):
--        # Example:
--        # exceptions = [ ["packagegroup-core-sdk","do_package"] ]
-         exceptions = []
--        self.run_test_cdn_mirror("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
-+        self.run_test("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
+-        found = set()
+-        processed = set()
+-        for tid in invalidtasks:
++        toptasks = set(["{}:{}".format(t[3], t[2]) for t in self.rqdata.targets])
++        for tid in toptasks:
+             toprocess = set([tid])
+             while toprocess:
+                 next = set()
+                 for t in toprocess:
+-                    for dep in self.rqdata.runtaskentries[t].depends:
+-                        if dep in invalidtasks:
+-                            found.add(tid)
+-                        if dep not in processed:
+-                            processed.add(dep)
++                    if t not in valid_new and t not in noexec:
++                        invalidtasks.add(t)
++                        continue
++                    if t in self.rqdata.runq_setscene_tids:
++                        for dep in self.rqexe.sqdata.sq_deps[t]:
+                             next.add(dep)
++                        continue
++
++                    for dep in self.rqdata.runtaskentries[t].depends:
++                        next.add(dep)
++
+                 toprocess = next
+-                if tid in found:
+-                    toprocess = set()
  
-     def test_cdn_mirror_qemuarm64(self):
-         exceptions = []
--        self.run_test_cdn_mirror("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
-+        self.run_test("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
-+
-+    def test_local_cache_qemux86_64(self):
-+        exceptions = []
-+        self.run_test("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions, check_cdn = False)
-+
-+    def test_local_cache_qemuarm64(self):
-+        exceptions = []
-+        self.run_test("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions, check_cdn = False)
+         tasklist = []
+-        for tid in invalidtasks.difference(found):
++        for tid in invalidtasks:
+             tasklist.append(tid)
+ 
+         if tasklist:
+             bb.plain("The differences between the current build and any cached tasks start at the following tasks:\n" + "\n".join(tasklist))
+ 
+-        return invalidtasks.difference(found)
++        return invalidtasks
+ 
+     def write_diffscenetasks(self, invalidtasks):
+ 
 -- 
 2.39.2
 
