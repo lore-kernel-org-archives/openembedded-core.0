@@ -1,197 +1,120 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15F79C4167B
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 13:02:28 +0000 (UTC)
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
- by mx.groups.io with SMTP id smtpd.web11.21404.1702558945649111139
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30E01C4332F
+	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 13:23:28 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.21804.1702560200661222183
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Dec 2023 05:02:25 -0800
+ Thu, 14 Dec 2023 05:23:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dvMvkApQ;
- spf=pass (domain: gmail.com, ip: 209.85.161.44, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-58d1b767b2bso5292296eaf.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 05:02:25 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=efLYeXCU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40c46d6784eso41493235e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 05:23:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702558945; x=1703163745; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dVkbHPZFZwIsDYOtntH4x+LTQHN8m9nJ5zIEuMK8Zy4=;
-        b=dvMvkApQNhkOhHhKOyRCtdT3zn2VxCEtN0NaM/lbiHXVDCB0ljdRUjIaCg7r97vSIn
-         zD+C1c81+qxGLdP+vbqCI11Y9/uDrJ1s3suUB494iL/Q0JdzS7YwOeUO63uXC5AbWmjS
-         DsxU1oMoKNujWKKXPmaRRqk2R1ynsHvgVOp2QpVmIXJpQ7KYMwxehNAgXqsyuo2jWo0m
-         GQ1m1Z26Yd09+nzAuhiqGTOYS1t59/0i9dzYto1CilkniwcMWCaDIWCSXl8YDont28mh
-         N5Gvn2V6S198lE5YvM70shtI6l6QDL7YwQVIWqlPgZ7UuqSDeTK8lPtgzRaUfXpoPXy9
-         wSOw==
+        d=linuxfoundation.org; s=google; t=1702560199; x=1703164999; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yzY5nUq2gSbBl0N1iARQihZEXR13r+mCGWr3g78HW5M=;
+        b=efLYeXCUqs/88b5ZmFe/MkhBmYqiN48QTOWkx7IZthqn7JDZgoxdotdv87ljOsinci
+         MmWJ25pbJBuaFcOE6zdTiXH79tXyiFCWKguvJHvWrSZlv0bwFCgVqm7GhnlnUCUZVpDk
+         zfK1VQnXEOTosSEePZm+NnDat8aMo0tSA4PXo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702558945; x=1703163745;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dVkbHPZFZwIsDYOtntH4x+LTQHN8m9nJ5zIEuMK8Zy4=;
-        b=IjpwHgknMdEDr+6H+P1KJN5cVNRZVKSNp+e8+mBzrqdc/QqSQjXesXSgd2KyzoIRWp
-         iz8/JN6ppvSNOSjDbNhkHGYruwRSb9NmcJgulohNVaeK1+8d6k4pELs1Wi/HlN/qVAcA
-         qA2ekZz56nDyMANhCwV5uZPSuTOmaGpR9/wyW84UwDndkTng3W+884g/Sy2x7xrv4EnD
-         fLHtHjDW4Rz1WNBf+rJBlwi82a80oh0OLTO/0cU+tHRJOST+/qu0M3lDOLlGK73SlH0N
-         CabHKrLbO2lOh2nK5Sav2rZds/+PYiZlSspVx3X4TwBrxBVhSxSIy74EhCpNvxSDgtuP
-         C0Kw==
-X-Gm-Message-State: AOJu0YzThdiMBkoOnSk75z06sFbji4cQaOCCwhUgv06mfm3LMxm0Iw7x
-	OZo55Eqd1JNz5RvdExGysymJVajxiDN0SABuAuw=
-X-Google-Smtp-Source: AGHT+IEqItGZ0Gf3DsVsFZnS4Xoe4NF5ybLCyXi0aHMDDgMO5vnMzPvZiDoFCsafu7N8kNFNvhF47AmR9718ipPEBKI=
-X-Received: by 2002:a05:6359:2c43:b0:16b:9480:41c8 with SMTP id
- qv3-20020a0563592c4300b0016b948041c8mr7724096rwb.1.1702558944749; Thu, 14 Dec
- 2023 05:02:24 -0800 (PST)
-MIME-Version: 1.0
+        d=1e100.net; s=20230601; t=1702560199; x=1703164999;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yzY5nUq2gSbBl0N1iARQihZEXR13r+mCGWr3g78HW5M=;
+        b=wjJvS3Thtq3YIalUpOgsMlVL6ac9XDAvWfu89Iohz16BBI/Knys0mSt2qsP4qINOfq
+         jt21LCfNsl+ZYQJZ5x13NIg+cwQelfNsP4pORIPYBTXXmpVFvTSVBxaB1TQZY2axHr1J
+         AWYz/u7J8EdEyqvfH4PLnDbKCvCkV5ZFA1JN4blgySpvLAOCr7EdU2aXY8fQa5EOTqbS
+         XLCID9DGFabYQgXf6n59EQTs0omdvBQtshSAQUWti+yn9wz+Ojk8ds692oxcf9i4BC/F
+         jzJ1hNv7p3wrGDZhePEdaiTzeiNPaBv9O4+qCj0SpV1jxu9YD5md6gHZxJdXBtz/GW/g
+         ZOEA==
+X-Gm-Message-State: AOJu0YyEoh1Sc9xi3eUnPWH56uBD8hGOsk8WQ9VjdClvIHqDvoU9q6KG
+	c9FrpwMvl6C8nRdipqiA1TkEvA==
+X-Google-Smtp-Source: AGHT+IFgqdg2pJCuEj/OOKLa36/w1RRpn/ZqRd5bOdgZwgH2rjpsRw7YP93ECh+5lQHGRlAzBvyovQ==
+X-Received: by 2002:a05:600c:492f:b0:40b:5e21:ec28 with SMTP id f47-20020a05600c492f00b0040b5e21ec28mr5225081wmp.90.1702560198998;
+        Thu, 14 Dec 2023 05:23:18 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e972:7f32:1182:98d2? ([2001:8b0:aba:5f3c:e972:7f32:1182:98d2])
+        by smtp.gmail.com with ESMTPSA id fm14-20020a05600c0c0e00b00407b93d8085sm27038911wmb.27.2023.12.14.05.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 05:23:18 -0800 (PST)
+Message-ID: <2a45421d4e4cbcf17df57df128af58346e576fed.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3] strace: Disable bluetooth support by
+ default
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yoann Congal <yoann.congal@smile.fr>, 
+	openembedded-core@lists.openembedded.org
+Cc: Tim Orling <ticotimo@gmail.com>, Martin Jansa <martin.jansa@gmail.com>, 
+	Ross Burton <ross.burton@arm.com>
+Date: Thu, 14 Dec 2023 13:23:16 +0000
+In-Reply-To: <20231213085657.2552223-1-yoann.congal@smile.fr>
 References: <20231213085657.2552223-1-yoann.congal@smile.fr>
- <CANNYZj9mWiEZRf_snYJ0eRcirn746GbkZSekLV3-XVcHjaR6bw@mail.gmail.com>
- <6cfb111def75c0f1549e7f004deac4e8a44365cf.camel@linuxfoundation.org>
- <CANNYZj8iD+LQRz8Sqb=QbYEXd6W_rnXz11pEVmzk9mGFKywfyA@mail.gmail.com>
- <7924018e34e7e6e76d5e1be046e8aa65481e15af.camel@linuxfoundation.org>
- <CANNYZj8bin4UjXK=gj-aR35t=ajQmNFsD8LKsiX_7x2-z08fYg@mail.gmail.com>
- <32526832f7e19b83551e786f0ab185cf7b879d1b.camel@linuxfoundation.org>
- <CANNYZj9umd8trnf1BaBC0TBxtE44oYzkHUNAmVj+is7mP94Tnw@mail.gmail.com> <ff1629d4d4fef4f3e8db9bad3fad4220d08f01ef.camel@linuxfoundation.org>
-In-Reply-To: <ff1629d4d4fef4f3e8db9bad3fad4220d08f01ef.camel@linuxfoundation.org>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Thu, 14 Dec 2023 13:02:13 +0000
-Message-ID: <CANPvuR=vFFBkEp6eH8JiM36wgi=BWHYBYm0hrvqib07jcn=djg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] strace: Disable bluetooth support by default
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Yoann Congal <yoann.congal@smile.fr>, 
-	openembedded-core@lists.openembedded.org, Tim Orling <ticotimo@gmail.com>, 
-	Martin Jansa <martin.jansa@gmail.com>, Ross Burton <ross.burton@arm.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: multipart/alternative; boundary="0000000000001c6d01060c77e5aa"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 13:02:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192367
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 13:23:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192368
 
---0000000000001c6d01060c77e5aa
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2023-12-13 at 09:56 +0100, Yoann Congal wrote:
+> The bluetooth support adds a bluez5 dependency (and,recursively, a lot
+> of other stuff). Disable it by default to avoid having to build all of
+> this when it is not needed.
+>=20
+> This decrease the number of tasks run for a core-image-minimal build by
+> ~1000 (-21%).
+>=20
+> To re-enable bluetooth support in strace, add "bluez" to strace
+> PACKAGECONFIG. For example, in local.conf:
+>   PACKAGECONFIG:append:pn-strace =3D " bluez"
+>=20
+> Fixes [YOCTO #15323]
+>=20
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> Suggested-by: Ross Burton <ross.burton@arm.com>
+> ---
+> v1->v2:
+> * Fixed local.conf example (thanks Tim)
+> * Added Suggested-by: Ross (thanks Ross)
+> * Removed an extra empty line
+> v2->v3:
+> * Added missing leading space in local.conf suggestion (thanks Martin)
+> ---
+>  meta/recipes-devtools/strace/strace_6.6.bb | 4 ----
+>  1 file changed, 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/strace/strace_6.6.bb b/meta/recipes-de=
+vtools/strace/strace_6.6.bb
+> index a3de7941cf..eeffe477b3 100644
+> --- a/meta/recipes-devtools/strace/strace_6.6.bb
+> +++ b/meta/recipes-devtools/strace/strace_6.6.bb
+> @@ -22,10 +22,6 @@ inherit autotools ptest
+>  # Not yet ported to rv32
+>  COMPATIBLE_HOST:riscv32 =3D "null"
+> =20
+> -PACKAGECONFIG:class-target ??=3D "\
+> -    ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)=
+} \
+> -"
+> -
+>  PACKAGECONFIG[bluez] =3D "ac_cv_header_bluetooth_bluetooth_h=3Dyes,ac_cv=
+_header_bluetooth_bluetooth_h=3Dno,bluez5"
+>  PACKAGECONFIG[libunwind] =3D "--with-libunwind,--without-libunwind,libun=
+wind"
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia quinta,
-14/12/2023 =C3=A0(s) 12:37:
+Thanks. I've tweaked the version I queued in master-next to leave a
+comment in the recipe about why we've done this so someone in a few
+years time understands.
 
-> On Thu, 2023-12-14 at 13:34 +0100, Alexander Kanavin wrote:
-> > On Thu, 14 Dec 2023 at 13:30, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > I think it would have a huge impact on the throughput of patches :( A=
-n
-> > > hour or two before the majority of the tests even start.
-> >
-> > Then the only remaining idea I have is adding more hardware. So that
-> > there's enough of it to rarely if ever have a situation where several
-> > builds run on the same worker.
->
-> We are in the process of trying to work out which direction the
-> infrastructure will take as we are due a hardware refresh FWIW.
->
-> I do still also think we need to take a look at the sstate
-> matches/mismatches...
->
+Cheers,
 
-I've thought a few times that having an argument on bitbake or something
-else to just
-execute the native targets would be very useful.
-With something like that we can split the builds for multiple machines in
-two steps building first the common part,
-In this first step we have some of the havey like clang-native rust-native
-rust-llvm-native.
-
-To conclude the first build would only run and build the native targets and
-the following builds will get all from the sstate.
-
-Jose
-
-
-> Cheers,
->
-> Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192364):
-> https://lists.openembedded.org/g/openembedded-core/message/192364
-> Mute This Topic: https://lists.openembedded.org/mt/103146402/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---=20
-Best regards,
-
-Jos=C3=A9 Quaresma
-
---0000000000001c6d01060c77e5aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
-richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
-gt; escreveu no dia quinta, 14/12/2023 =C3=A0(s) 12:37:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Thu, 2023-12-14 at 13:34 +0100, =
-Alexander Kanavin wrote:<br>
-&gt; On Thu, 14 Dec 2023 at 13:30, Richard Purdie<br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
-lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; I think it would have a huge impact on the throughput of patches =
-:( An<br>
-&gt; &gt; hour or two before the majority of the tests even start.<br>
-&gt; <br>
-&gt; Then the only remaining idea I have is adding more hardware. So that<b=
-r>
-&gt; there&#39;s enough of it to rarely if ever have a situation where seve=
-ral<br>
-&gt; builds run on the same worker.<br>
-<br>
-We are in the process of trying to work out which direction the<br>
-infrastructure will take as we are due a hardware refresh FWIW.<br>
-<br>
-I do still also think we need to take a look at the sstate<br>
-matches/mismatches...<br></blockquote><div><br></div><div>I&#39;ve thought =
-a few times that having an argument on bitbake or something else to just</d=
-iv><div>execute the native targets would be very useful.<br>With something =
-like that we can split the builds for multiple machines in two steps buildi=
-ng first the common part,</div><div>In this first step we have some of the =
-havey like clang-native rust-native rust-llvm-native.<br><br>To conclude th=
-e first build would only run and build the native targets and the following=
- builds will get all from the sstate.<br><br>Jose</div><div><br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#192364): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/192364" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/192364</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103146402/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/103146402/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
-
---0000000000001c6d01060c77e5aa--
+Richard
 
