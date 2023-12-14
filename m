@@ -1,42 +1,90 @@
-Return-Path: <sundeep.kokkonda@windriver.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90E8AC4332F
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 11:30:57 +0000 (UTC)
-Subject: Re: [nanbield][PATCH] glibc: stable 2.38 branch updates
-To: openembedded-core@lists.openembedded.org
-From: "Sundeep KOKKONDA" <sundeep.kokkonda@windriver.com>
-X-Originating-Location: Hyderabad, Telangana, IN (49.205.249.28)
-X-Originating-Platform: Windows Chrome 120
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Thu, 14 Dec 2023 03:30:52 -0800
-References: <20231214112940.3809874-1-sundeep.kokkonda@windriver.com>
-In-Reply-To: <20231214112940.3809874-1-sundeep.kokkonda@windriver.com>
-Message-ID: <24207.1702553452260856233@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="t5caqFtXSHj90LAXDkqT"
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C9D2C4332F
+	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 11:31:47 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.19892.1702553502623948775
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 14 Dec 2023 03:31:42 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NhvLsys5;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=N7wsCkze;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018c6818c061-ab2ff2e1-e8c8-4d9a-9544-43d164ef32d1-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1702553501; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=gapbIj/52oA1yJ9Kpe/DYecFkNdYtwIqSzcoRH5mnvM=;
+	b=NhvLsys52Dh4Xwn1HWC22NWNSdFw+27QKdIUjtXSdVzzPfOjBUlbmLDtivZPt4CQ
+	GQehIL7tS/MdplBpibp06b7b6FDFLqTiu1PAUizWTnjbW04no4PH6uxjeVhTtii9ROg
+	4uqhW/V/hvXHNlrJjgrcCJsz2Pmh1ZaSs85+yOzA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702553501;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=gapbIj/52oA1yJ9Kpe/DYecFkNdYtwIqSzcoRH5mnvM=;
+	b=N7wsCkzeyXSxg9BwgKSfRfs5JdicCQ+vfpdak+524D+ESyuUHcO0vrJqOKtWcUOE
+	jODy5889zSMsUV+YvYSeFchcSOhO95SdLgqhY4mTkAYrIA8RZWW/OryXqdox82xZBvQ
+	wX25T+yYgipnMBHrUTEzXbzg/ueUqj6tAuaYlFzE=
+From: patchtest@automation.yoctoproject.org
+To: Vivek Kumbhar <vkumbhar@mvista.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][dunfell][PATCH] libsndfile: fix CVE-2021-4156 heap
+ out-of-bounds read in src/flac.c in flac_buffer_copy
+In-Reply-To: 20231214112542.165571-1-vkumbhar@mvista.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c6818c061-ab2ff2e1-e8c8-4d9a-9544-43d164ef32d1-000000@us-west-2.amazonses.com>
+Date: Thu, 14 Dec 2023 11:31:41 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.14-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 11:30:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192355
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 11:31:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192356
 
---t5caqFtXSHj90LAXDkqT
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+--NextPart
+Content-Type: text/plain
 
-Testing is done and no regressions found.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
---t5caqFtXSHj90LAXDkqT
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+---
+Testing patch /home/patchtest/share/mboxes/dunfell-libsndfile-fix-CVE-2021-4156-heap-out-of-bounds-read-in-src-flac.c-in-flac_buffer_copy.patch
 
-Testing is done and no regressions found.
-<div id=3D"gtx-trans" style=3D"position: absolute; left: -110px; top: -16px=
-;">
-<div class=3D"gtx-trans-icon">&nbsp;</div>
-</div>
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 104 characters) (test_mbox.TestMbox.test_shortlog_length)
 
---t5caqFtXSHj90LAXDkqT--
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
