@@ -1,223 +1,223 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64198C4332F
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 17:29:50 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.28841.1702574987070618107
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C42A2C4332F
+	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 18:30:20 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web11.30895.1702578613322498351
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Dec 2023 09:29:47 -0800
+ Thu, 14 Dec 2023 10:30:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GRpg7uBI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40c2bb872e2so78864145e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 09:29:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZNN90sEu;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-20308664c13so2203299fac.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 10:30:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1702574985; x=1703179785; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=P2JUgrWIkQMPDB2m3wlW1g9uL+rSAq/AQwXVczyoeb8=;
-        b=GRpg7uBItyQb8e9EPirCaWd6icII+CBu0VcVSXYMX11IA7f191HO98QlYJuOL/0pgc
-         nqaAnokOepnCYaUKteaOXS2HcMds6W4HaJzfPA2f4dwJFx6i1d3PjNqCWx/PJDfni6d4
-         vxhHY7s5QqnozNwjqLXdmrWlQrrl1vCNMVzso=
+        d=gmail.com; s=20230601; t=1702578612; x=1703183412; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QetASKZewsl/SVZaczrwOedB50SATM0BRAON9Ictf9o=;
+        b=ZNN90sEu1AaFmB8IeltCmjKJ9Orh92GymKiZQ/yC0tQhLYoV4sxu02axoAVWQUUaaA
+         Vdgtv3uLiL1sfbSZRPwp2Flmw2+/okxXVhShVSm7zH7WfOXHWf1StkOMf2AW2rA7tRlS
+         +e3dAtU4jKCyDlURnspmwPOvmph8SUlkXmBFFadQtdDqtrEJc/X7utrmVSAVIyf6ONOL
+         2q/yOiKKwDnMdDOvYVYPklNjKwhqkyi6uEYIRHqFD2rtFGmNRRp8Fqxe/saVGrZOS5lN
+         7KUkIPPkNRjKRYrdhMP+IRqefoIY6pgvvfEQQzUrBC9b8luyyaG/amF6QLkQCrISPEG4
+         SAAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702574985; x=1703179785;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P2JUgrWIkQMPDB2m3wlW1g9uL+rSAq/AQwXVczyoeb8=;
-        b=fYhLTgwBQftdEcyQ2rdElS2WdpfY6dVR+MzSs1i3cQKEdPcoKYwGBeg159lZVzl9Ve
-         Kpya2U6P1knS8Zpf+TpxfKSs7sWnjl46SJK8d4L7zYX857Fy8KcZ8fhC0vEonC32RdUx
-         V7YTVLf0nAKhZe937qShLEeqN3CIyO8il2pvMC6vxpJs/PkuUuvvyKleXoE6JYcQmmKA
-         sTE96NRQILwjbqs5r8oPX0rBiIlFPAQYiQ7IawkrB+5jVDQ4/HOe11qdqi32RqiRxr+8
-         hPVAIzLSePCyDy72guFsecIiFcLgXnD/kbTGgpPPt0xccb3b5On4x9sKdowsEB0K1z0Q
-         a3Iw==
-X-Gm-Message-State: AOJu0YxfzUwomvdT6L97AxYJqTl+JWvlLrVLjDs3y96DK6Uf9vWT0FXh
-	jbfih+pEH75FsglYDSDU05VP6g==
-X-Google-Smtp-Source: AGHT+IG7mugJ/ncox7624YxA0QgwY4vwSrDsJ/devJH+XEDCpXSJMmU95Z+vy5WUBw019LAfqB6kyA==
-X-Received: by 2002:a05:600c:22c3:b0:40c:61fe:383c with SMTP id 3-20020a05600c22c300b0040c61fe383cmr368664wmg.198.1702574985474;
-        Thu, 14 Dec 2023 09:29:45 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:e972:7f32:1182:98d2? ([2001:8b0:aba:5f3c:e972:7f32:1182:98d2])
-        by smtp.gmail.com with ESMTPSA id bd21-20020a05600c1f1500b0040c25abd724sm28133976wmb.9.2023.12.14.09.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 09:29:45 -0800 (PST)
-Message-ID: <d82201043114b03ea7b2cdc5fd65da7084b1c443.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCHv2 4/4] login.py: Proof of concept for
- screenshot testcases
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
-	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>
-Date: Thu, 14 Dec 2023 17:29:44 +0000
-In-Reply-To: <c5ad4f86-5aa9-4529-9a6d-44641b65600b@baylibre.com>
-References: <cover.1702499299.git.pidge@baylibre.com>
-	 <e43f9d74edb8a9504075964ac9a277dc031560cb.1702499299.git.pidge@baylibre.com>
-	 <dc83ff18c96bd6bd5326e07139043699b0fb099e.camel@linuxfoundation.org>
-	 <c5ad4f86-5aa9-4529-9a6d-44641b65600b@baylibre.com>
+        d=1e100.net; s=20230601; t=1702578612; x=1703183412;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QetASKZewsl/SVZaczrwOedB50SATM0BRAON9Ictf9o=;
+        b=OPg/P2S3Q5bnpXy2ixf2Zd9w9HddQe0zDxABda3W24k9a6KaXrwxcJPpDsLxONIGfT
+         CQ/JHfT1Dq4QUeNLaFifpk2Wje8fITX5Ytpmbclz3Hdu1fS1XndjAi12Vdx7QVKSgRUO
+         DMRFXEoAVSIbRrZAqvYqj21zidnorZu7NS/ngPpBdn7dQ6lAlSq+kyDF584Vcg71Wt4D
+         Xs5bC+IC3KigMSMGPmyeuLyJExp/S8OmN5Q1fM/cpquOut6whQsUeKdyG3FQ1nkoP6n/
+         VPit/INf3XlBS0JkzdyCmkEiB+pra/lfhXK3w9OTgrdcbQ+5MdSP7wbLk54oF+22/bF5
+         2Eqg==
+X-Gm-Message-State: AOJu0YzWSOxzacX7VRFEMaq3I/zlYOk3Gekb6s3IBKAeLVwV4Ic/R4hs
+	LqGGiH6lZ+pupb4s03e/nRzkSn+0mJXQ1/LnDMk=
+X-Google-Smtp-Source: AGHT+IGVsR3Bg2SIRUa6nru9SsS8PdT0VqdQPiZEXmMUqVJ326Gxz4LS/aCBDFKbPI9vyzmiOs24sJ4sbZcJhr0Vs5o=
+X-Received: by 2002:a05:6870:9708:b0:203:39f3:3a2 with SMTP id
+ n8-20020a056870970800b0020339f303a2mr2730097oaq.119.1702578612498; Thu, 14
+ Dec 2023 10:30:12 -0800 (PST)
+MIME-Version: 1.0
+References: <20231213085657.2552223-1-yoann.congal@smile.fr>
+ <CANNYZj9mWiEZRf_snYJ0eRcirn746GbkZSekLV3-XVcHjaR6bw@mail.gmail.com> <6cfb111def75c0f1549e7f004deac4e8a44365cf.camel@linuxfoundation.org>
+In-Reply-To: <6cfb111def75c0f1549e7f004deac4e8a44365cf.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 14 Dec 2023 10:29:46 -0800
+Message-ID: <CAMKF1sp0W6W7dkGYCF--VVMqSvMKJBrWh=yRjRAX4s2Tfhj+wA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] strace: Disable bluetooth support by default
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Yoann Congal <yoann.congal@smile.fr>, 
+	openembedded-core@lists.openembedded.org, Tim Orling <ticotimo@gmail.com>, 
+	Martin Jansa <martin.jansa@gmail.com>, Ross Burton <ross.burton@arm.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 17:29:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192397
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 18:30:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192398
 
-On Thu, 2023-12-14 at 16:32 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
-=A1in wrote:
-> On 13/12/2023 20:55, Richard Purdie wrote:
-> > On Wed, 2023-12-13 at 20:30 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=
-=C3=A1in wrote:
-> > > This takes the work rburton did on image screenshot testing and
-> > > expands it.
-> > >=20
-> > > Right now this only works for qemux86-64. Some standardization
-> > > of screensize/resolution needs to happen with runqemu params for othe=
-r
-> > > machines. There is an issue in qemux86-64 (and possibly others) where
-> > > the screenswitch icon is only half present. This causes the test to
-> > > fail.
-> > >=20
-> > > This test takes a screendump of a qemu image (for now, just
-> > > core-image-sato for qemux86-64), and compares it to an image we
-> > > have on record. Some normalisation of the different qemu configs
-> > > need to happen to be able to support all machines. Example, the
-> > > qemuarm64 screen size is much larger than the qemux86-64.
-> > >=20
-> > > The image we have on record contains a blanked out clock. We do
-> > > the same blanking out process for the screenshot, so the images shoul=
-d
-> > > have zero differences. If they do, we fail.
-> > >=20
-> > > In order to enable this test, you will need meta-openembedded/meta-oe=
- in
-> > > your bblayers.conf and the following in local.conf:
-> > >=20
-> > > IMAGE_CLASSES +=3D "testimage"
-> > > TEST_SUITES =3D "login"
-> > > IMAGE_INSTALL:append =3D " python3-qemu-qmp "
-> > > TESTIMAGEDEPENDS:append:qemuall =3D " imagemagick-native:do_populate_=
-sysroot "
-> > >=20
-> > > Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@bay=
-libre.com>
-> > > Co-authored-by: Ross Burton <ross.burton@arm.com>
-> > > Co-authored-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@ba=
-ylibre.com>
-> > > ---
-> > >   .../core-image-sato-qemux86-64.png            | Bin 0 -> 46986 byte=
-s
-> > >   meta/lib/oeqa/runtime/cases/login.py          |  34 +++++++++++++++=
-+++
-> > >   2 files changed, 34 insertions(+)
-> > >   create mode 100644 meta/files/image-tests/core-image-sato-qemux86-6=
-4.png
-> > >   create mode 100644 meta/lib/oeqa/runtime/cases/login.py
-> > >=20
-> > > diff --git a/meta/lib/oeqa/runtime/cases/login.py b/meta/lib/oeqa/run=
-time/cases/login.py
-> > > new file mode 100644
-> > > index 00000000000..9e351fdeb29
-> > > --- /dev/null
-> > > +++ b/meta/lib/oeqa/runtime/cases/login.py
-> > > @@ -0,0 +1,34 @@
-> > > +#
-> > > +# Copyright OpenEmbedded Contributors
-> > > +#
-> > > +# SPDX-License-Identifier: MIT
-> > > +#
-> > > +
-> > > +import subprocess
-> > > +from oeqa.runtime.case import OERuntimeTestCase
-> > > +import tempfile
-> > > +from oeqa.runtime.decorator.package import OEHasPackage
-> > > +
-> > > +class LoginTest(OERuntimeTestCase):
-> > > +
-> > > +    @OEHasPackage(['python3-qemu-qmp'])
-> >=20
-> > This only works if we have python3-qemu-qmp in the target? I thought
-> > the monitor was external?
-> >=20
-> > > +    def test_screenshot(self):
-> > > +        if self.td.get('MACHINE') !=3D "qemux86-64":
-> > > +            self.fail
-> >=20
-> > So we're going to throw failures on all other machines? Wouldn't a skip
-> > be more appropriate? Can we provide images for other machines?
->=20
-> I can get images for other machines, but it's going to take a bit to run=
-=20
-> everything. I've debug code to grab those images. The other option is to=
-=20
-> ensure the other qemu machines have something like QB_GRAPHICS =3D=20
-> "-device virtio-gpu-pci, xres=3D800,yres=3D600" to normalise the resoluti=
-ons
+On Thu, Dec 14, 2023 at 1:50=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2023-12-14 at 10:09 +0100, Alexander Kanavin wrote:
+> > On Wed, 13 Dec 2023 at 09:57, Yoann Congal <yoann.congal@smile.fr> wrot=
+e:
+> > >
+> > > The bluetooth support adds a bluez5 dependency (and,recursively, a lo=
+t
+> > > of other stuff). Disable it by default to avoid having to build all o=
+f
+> > > this when it is not needed.
+> > >
+> > > This decrease the number of tasks run for a core-image-minimal build =
+by
+> > > ~1000 (-21%).
+> > >
+> > > To re-enable bluetooth support in strace, add "bluez" to strace
+> > > PACKAGECONFIG. For example, in local.conf:
+> > >   PACKAGECONFIG:append:pn-strace =3D " bluez"
+> > >
+> > > Fixes [YOCTO #15323]
+> >
+> > I'm afraid I have to raise objections.
+> >
+> > First, this needs an explanation: what functionality in strace does
+> > this disable? Is that functionality important from the point of having
+> > bluetooth in DISTRO_FEATURES? Not respecting DISTRO_FEATURES sets a
+> > bad precedent, and should be more carefully justified and treated as
+> > an exception.
+>
+> This was raised as a question on the call on Tuesday. I appreciate you
+> weren't there and the commit message above does give the reasoning but
+> let me elaborate.
+>
+> The bluez support in strace is basically for protocol decoding. This is
+> not something most users of strace use, I personally can never remember
+> using it. Yes, if you need it, it is extremely useful. If you know how
+> to debug bluetooth wireless, you can probably work out how to turn on
+> the packageconfig.
 
-One step at a time I guess but I would like this to ultimately work
-with our commonly used machines.
+For more context see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D88=
+2413
 
-> >=20
-> > Have a look at things like:
-> >     @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific curr=
-ently")
-> >=20
-> > > +
-> > > +        if bb.utils.which(os.getenv('PATH'), "convert") is not None =
-and bb.utils.which(os.getenv('PATH'), "compare") is not None:
-> >=20
-> > This works for nativesdk-imagemagick but it would need convert+compare
-> > in HOSTTOOLS to work for a host binary. I'm torn on the best way to
-> > find that otherwise.
->=20
-> Fixed to rely on the imagemagicks provided by TESTIMAGEDEPENDS:append.
->=20
-> >=20
-> > > +            with tempfile.NamedTemporaryFile(prefix=3D"oeqa-screensh=
-ot-login", suffix=3D".png") as t:
-> > > +                ret =3D self.target.runner.run_monitor("screendump",=
- args=3D{"filename": t.name, "format":"png"})
-> > > +                # Use the meta-oe version of convert, along with it'=
-s suffix
-> > > +                cmd =3D "convert.im7 {0} -fill white -draw 'rectangl=
-e 600,10 640,22' {1}".format(t.name, t.name)
-> > > +                proc =3D subprocess.Popen(cmd, shell=3DTrue, stdout=
-=3Dsubprocess.PIPE, stderr=3Dsubprocess.PIPE)
-> > > +                output, error =3D proc.communicate()
-> >=20
-> > You probably want subprocess.check_result()
-> >=20
->=20
-> check_output, but yes, that works here.... but...
-
-I meant check_call() since you don't use the output.
-
-> > > +
-> > > +                # Use the meta-oe version of compare, along with it'=
-s suffix
-> > > +                cmd =3D "compare.im7 -metric MSE {0} {1}/meta/files/=
-image-tests/core-image-sato-{2}.png /dev/null".format(t.name, self.td.get('=
-COREBASE'), self.td.get('MACHINE'))
-> > > +                proc =3D subprocess.Popen(cmd, shell=3DTrue, stdout=
-=3Dsubprocess.PIPE, stderr=3Dsubprocess.PIPE)
-> > > +                output, error =3D proc.communicate()
-> >=20
-> > and check_output()
->=20
-> ...doesn't here. In this case, we should probably either use run() or=20
-> Popen() because imagemagick returns non-failing output on stderr (which=
-=20
-> is what we need) as well stdout (which we don't really want). Using=20
-> Popen allows us to do this a bit cleaner as opposed to check_output.
-
-
-You can use  stderr=3Dsubprocess.STDOUT with check_output?
-
-Cheers,
-
-Richard
-
+>
+> The downside to having this enabled by default is a significant
+> dependency chain increase (21%). Sometimes we need to think about the
+> big picture and whether one single packageconfig is really worth the
+> increased build cycles it places upon everyone by default.
+>
+> > Second, why is strace even needed in the context of
+> > core-image-minimal? It's not installed into the image, so I went and
+> > checked:
+> > util-linux-ptest needs mdadm
+> > mdadm-ptest needs strace.
+> >
+> > Which begs the question. Should we continue to enable ptest by default
+> > in poky? Should we create and use a ptest-less distro configuration?
+> > It does pull in a ton of extra stuff all over the place which
+> > lengthens the builds a lot. And the resulting ptest packages aren't
+> > even used until one explicitly requests one of the ptest images.
+>
+> This was also asked. We did use to have it off by default but then
+> nearly every package upgrade broke ptest since the upgraders didn't
+> remember to turn it on for testing. I decided on for poky, off for oe-
+> core was a better compromise.
+>
+> > As an example, I saw an oe-selftest-armhost yesterday, which ran
+> > nearly 17 hours:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2587
+> >
+> > If you go and look at what tests in it took the longest time, you see:
+> > 2023-12-13 15:45:22,812 - oe-selftest - INFO - RESULTS -
+> > runtime_test.Postinst.test_postinst_rootfs_and_boot_systemd: PASSED
+> > (32620.46s)
+> > 2023-12-13 15:45:22,794 - oe-selftest - INFO - RESULTS -
+> > prservice.BitbakePrTests.test_import_export_override_db: PASSED
+> > (12789.45s)
+> > 2023-12-13 15:45:22,789 - oe-selftest - INFO - RESULTS -
+> > overlayfs.OverlayFSEtcRunTimeTests.test_all_required_variables_set:
+> > PASSED (35205.79s)
+> > 2023-12-13 15:45:22,781 - oe-selftest - INFO - RESULTS -
+> > minidebuginfo.Minidebuginfo.test_minidebuginfo: PASSED (15395.76s)
+> > 2023-12-13 15:45:22,782 - oe-selftest - INFO - RESULTS -
+> > multiconfig.MultiConfig.test_multiconfig: PASSED (11098.06s)
+> > 2023-12-13 15:45:22,776 - oe-selftest - INFO - RESULTS -
+> > incompatible_lic.IncompatibleLicensePerImageTests.test_bash_and_license=
+:
+> > PASSED (24012.67s)
+> > 2023-12-13 15:45:22,775 - oe-selftest - INFO - RESULTS -
+> > imagefeatures.ImageFeatures.test_mandb: PASSED (19394.74s)
+> > 2023-12-13 15:45:22,762 - oe-selftest - INFO - RESULTS -
+> > devtool.DevtoolExtractTests.test_devtool_build_image: PASSED
+> > (27341.75s)
+> > 2023-12-13 15:45:22,760 - oe-selftest - INFO - RESULTS -
+> > debuginfod.Debuginfod.test_debuginfod_qemu: PASSED (25784.11s)
+> > 2023-12-13 15:45:22,759 - oe-selftest - INFO - RESULTS -
+> > containerimage.ContainerImageTests.test_expected_files: PASSED
+> > (19453.84s)
+> > 2023-12-13 15:45:22,758 - oe-selftest - INFO - RESULTS -
+> > buildoptions.SanityOptionsTest.test_options_warnqa_errorqa_switch:
+> > PASSED (10492.68s)
+> > 2023-12-13 15:45:22,758 - oe-selftest - INFO - RESULTS -
+> > buildoptions.ToolchainOptions.test_toolchain_fortran: PASSED
+> > (11367.46s)
+> > 2023-12-13 15:45:22,743 - oe-selftest - INFO - RESULTS -
+> > baremetal.BaremetalTest.test_baremetal: PASSED (24196.04s)
+> >
+> > The same a-full selftest, but on a x86 host has these times, quicker
+> > than arm but still measured in hours:
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6179/=
+steps/15/logs/stdio
+> >
+> > What do most of these tests do? They do indeed build
+> > core-image-minimal (sometimes full-cmdline or some other images), and
+> > sometimes in multiple variants within a single test. But they never
+> > use ptest. And so we need to find a way to make it happen faster.
+>
+> Once a given build has run through the system, things do run much
+> faster but this is basically the performance issue I've been mentioning
+> in the weekly status reports. Even the above packageconfig change in
+> this patch would actually speed a lot of these up, but you're objecting
+> to that.
+>
+> The tests themselves are actually quite valuable as we're way beyond
+> the point I can work out which patch will break which features. Some of
+> the tests could undoubtedly be improved. If we disable the ptests for
+> the selftests, we run the risk of not reusing sstate so a better
+> question might be, why are all the tests not reusing sstate more
+> efficiently?
+>
+> > I'm going to get some numbers, first without any changes, then with
+> > your proposed change, then with ptest dropped - this will take a bit
+> > of time, so I wanted to get the concerns written and sent first.
+>
+> I don't think dropping the ptests is the right approach, we should
+> likely focus on sstate reuse?
+>
+> I am also pretty in favour of this patch.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192343): https://lists.openembedded.org/g/openembedde=
+d-core/message/192343
+> Mute This Topic: https://lists.openembedded.org/mt/103146402/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
