@@ -1,111 +1,273 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B614C4167B
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 08:02:16 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.17249.1702540933188361540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C518CC4332F
+	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 08:36:06 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.17591.1702542956320025459
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Dec 2023 00:02:13 -0800
+ Thu, 14 Dec 2023 00:35:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=QpyXks3G;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7AF7FFF80D;
-	Thu, 14 Dec 2023 08:02:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1702540930;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XigIwJn/UrPVRUGE0EmbPNjLYjZ0gu5/M6vMd0y9o/0=;
-	b=QpyXks3GoI2L/ehHL1wN5IZ68Hy5w4OJNwKzzcTcXe9XpWnmOQ4X1J2UbWY28ShXhxO5Fs
-	RmNNQr7w0YzqMDvotG6v730TLGPFgZ60t83zDoTA9q4tf96Gx3/rfKHbHC/JfkCH/hiL3l
-	obmvt3TVzcLWBlLod9FPaD0fWzeLbfXALxxTh6NlsG85UPyetjPugblzIO2D6+GFBlQlvh
-	pDpTiVISojJ/dYg78g912ftkNjHMDqGGk+9piOgr6ARoO+DVK+BZqJCP6ij/GTThxjQXNP
-	ZaD+u5Mkhdv5JiNnKMeeB+81gKTu1il0qrCoOmT/CiDdfpx/PV4PU5MmJWTmxQ==
-Date: Thu, 14 Dec 2023 09:02:09 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2 1/2] systemd-boot: Add recipe to compile
- native
-Message-ID: <20231214080209d1f89221@mail.local>
-References: <20231213115748.487216-1-quic_vkraleti@quicinc.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=R54222x7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2c9f84533beso89776281fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 00:35:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702542954; x=1703147754; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x8AXnhonR8OM33m2ujex0z42dWiQ3ESjxoalt7avH3I=;
+        b=R54222x7c3saSOhPCmeyW+KEx8yT+rYHSthNl7Ajgq5VtzqVDZmMSiVovGHwmw5agA
+         cHWgjPEIZ5punKbHBWU7ZQJ7NiG2lmCcRC/OQhdHD5I8sHmrwvxoX/eayp3XQ4YtNGGc
+         ZoiRncDf/4PRUuZz3YXBs0eABxANaVZgc5Dt8GyWko3TOgJJEqs6wGushKGyLuvC6v+e
+         +GkpVK9fkLcImV62+vm5gD0tTCvH1xIqmbJn7rw9jIOHs3oKtuHv0gzGQrEbteWEGCOK
+         Ep6w+jfXslhTsjxs2XWrnK6w78zYvrqj+uHddCi+p3WQ+dgP2MvL7RsvGlNnROpWkCJR
+         qf3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702542954; x=1703147754;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x8AXnhonR8OM33m2ujex0z42dWiQ3ESjxoalt7avH3I=;
+        b=wBTiNw1qrad2u7Qg9w6cFmSQgF7XM1fo4N9WJNW3RchRf1mliWRiJ8l4k44R9z2lae
+         Ox28Y7cVRHVtZB+Hr25BpQyrbHg6XY77WK5b46aPTUQixFhhXJgTCgw9mur55nEKbw/w
+         j57TyJc3wc7LGCyYylFM/WA2s4e95HVfG/ebCxeasG+8kNrE3UJji0HQSZ92eQqU0WnF
+         oly8vw8VQf6t18jiwuRQ4tU6bn+FpRBCcqJ3iIvvWQAbKOUyEg9xR7h0OwNjpqxTOsqM
+         2dnzKqziEq1r7zsCHA8tV0qoDPgyj0LdA5g0pYM+X7Yg78/hfGtL2OPkjsr+owoUk6ur
+         FUmA==
+X-Gm-Message-State: AOJu0Ywa6Fh8+MX3t5gHRdUBVx4RorEzdlfqugjD/NtNCM+d+orCrF4P
+	UTYsAX6yFnZJTRY1Zla+Su+4fj143/1KXBOrrQI=
+X-Google-Smtp-Source: AGHT+IH5iyg9CggjJpEUofHKkRMFcohhv7PeHeAgcUMJPZTRrBvzhT+9HTdEH/hFhqLq00hp7fG7DSqTynI37igPkKA=
+X-Received: by 2002:a2e:7c0d:0:b0:2cc:451d:83cc with SMTP id
+ x13-20020a2e7c0d000000b002cc451d83ccmr171876ljc.81.1702542953947; Thu, 14 Dec
+ 2023 00:35:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231213115748.487216-1-quic_vkraleti@quicinc.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+References: <20231213102129.618430-1-mingli.yu@windriver.com>
+ <CANNYZj-gPhJLyOiMrPib6QqqHiWpcakvb_bOxZXcbw5=-CeFGQ@mail.gmail.com>
+ <CANNYZj_dMRQe9LfO3fnbRsgxBP5r24deRvTNoj-_U=mAK3bHqw@mail.gmail.com> <CO1PR11MB5009E6328640784502A94DDEF18CA@CO1PR11MB5009.namprd11.prod.outlook.com>
+In-Reply-To: <CO1PR11MB5009E6328640784502A94DDEF18CA@CO1PR11MB5009.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 14 Dec 2023 09:35:42 +0100
+Message-ID: <CANNYZj8Up+UhiQo96T5OMxp+seYj6d8VyAGeF4vCCTj7mt764g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-license-expression: Fix the ptest failure
+To: "Yu, Mingli" <Mingli.Yu@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 08:02:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192337
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 08:36:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192338
 
-Hello, this causes:
+This doesn't answer the question I asked: does the pytest command
+return a zero exit code when some of the tests fail? If so, that is
+incorrect behaviour.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/8617/steps/11/logs/warnings
+It's expected that we can catch the overall failiure from the exit
+code even if there's no output that can point to specific test cases
+failing (because upstreams change the output without telling us, sed
+processing in run-ptest quietly regress etc).
 
-WARNING: Nothing RPROVIDES 'python3-pefile-native' (but /home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb RDEPENDS on or otherwise requires it)
-WARNING: Nothing RPROVIDES 'systemd-boot-native-dev' (but /home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb RDEPENDS on or otherwise requires it)
-WARNING: Nothing RPROVIDES 'systemd-boot-native' (but /home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb RDEPENDS on or otherwise requires it)
+Alex
 
-and:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/6133/steps/14/logs/stdio
-
-The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
-systemd-boot-native (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb)
-
-On 13/12/2023 17:27:47+0530, Viswanath Kraleti wrote:
-> systemd-boot native recipe provides ukify tool to build
-> UKI images for systemd-boot
-> 
-> Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-> ---
->  .../systemd/systemd-boot-native_254.4.bb          | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd-boot-native_254.4.bb
-> 
-> diff --git a/meta/recipes-core/systemd/systemd-boot-native_254.4.bb b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
-> new file mode 100644
-> index 0000000000..0cdd7e7045
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
-> @@ -0,0 +1,15 @@
-> +require systemd.inc
-> +
-> +inherit native
-> +
-> +RRECOMMENDS:${PN} += "python3-pefile-native"
-> +
-> +COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*)-linux"
-> +
-> +do_configure[noexec] = "1"
-> +do_compile[noexec] = "1"
-> +
-> +do_install () {
-> +       install -d ${D}${bindir}
-> +       install -m 0755 ${S}/src/ukify/ukify.py ${D}${bindir}/ukify
-> +}
-> -- 
-> 2.25.1
-> 
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192289): https://lists.openembedded.org/g/openembedded-core/message/192289
-> Mute This Topic: https://lists.openembedded.org/mt/103147679/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+On Thu, 14 Dec 2023 at 04:35, Yu, Mingli <Mingli.Yu@windriver.com> wrote:
+>
+> Hi Alex,
+>
+> The single command is enough to indicate the build failure such as:
+>  root@qemux86-64:/usr/lib64/python3-license-expression/ptest# ./run-ptest
+> [snip]
+> PASS: tests/test_license_expression.py::CombineExpressionTest::test_combi=
+ne_expressions_with_empty_input
+> PASS: tests/test_license_expression.py::CombineExpressionTest::test_combi=
+ne_expressions_with_or_relationship
+> PASS: tests/test_license_expression.py::CombineExpressionTest::test_combi=
+ne_expressions_with_regular
+> FAIL: tests/test_skeleton_codestyle.py::BaseTests::test_skeleton_codestyl=
+e
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D FAILURES =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ______________________ BaseTests.test_skeleton_codestyle ________________=
+_______
+>
+> self =3D <test_skeleton_codestyle.BaseTests testMethod=3Dtest_skeleton_co=
+destyle>
+>
+>     def test_skeleton_codestyle(self):
+>         """
+>         This test shouldn't run in proliferated repositories.
+>         """
+>         setup_cfg =3D configparser.ConfigParser()
+>         setup_cfg.read("setup.cfg")
+> >       if setup_cfg["metadata"]["name"] !=3D "skeleton":
+>
+> tests/test_skeleton_codestyle.py:22:
+> _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _=
+ _ _ _
+>
+> self =3D <configparser.ConfigParser object at 0x7f04c0473610>, key =3D 'm=
+etadata'
+>
+>     def __getitem__(self, key):
+>         if key !=3D self.default_section and not self.has_section(key):
+> >           raise KeyError(key)
+> E           KeyError: 'metadata'
+>
+> ../../python3.11/configparser.py:979: KeyError
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D short test summary info =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> FAIL tests/test_skeleton_codestyle.py::BaseTests::test_skeleton_codestyle
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+1 failed, 174 passed in 7.08s =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Thanks,
+> ________________________________
+> From: Alexander Kanavin <alex.kanavin@gmail.com>
+> Sent: Thursday, December 14, 2023 00:39
+> To: Yu, Mingli <Mingli.Yu@windriver.com>
+> Cc: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org>
+> Subject: Re: [OE-core] [PATCH] python3-license-expression: Fix the ptest =
+failure
+>
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
+>
+> I see that run-ptest consists of a single pytest command; does that
+> command return a zero exit code even it fails?
+>
+> Alex
+>
+> On Wed, 13 Dec 2023 at 17:38, Alexander Kanavin <alex.kanavin@gmail.com> =
+wrote:
+> >
+> > Why isn't the ptest failure reported by the autobuilder? Shouldn't we
+> > first fix the ptest so that the failure is reported correctly, if it
+> > starts occurring again?
+> >
+> > Alex
+> >
+> > On Wed, 13 Dec 2023 at 11:21, Yu, Mingli <mingli.yu@eng.windriver.com> =
+wrote:
+> > >
+> > > From: Mingli Yu <mingli.yu@windriver.com>
+> > >
+> > > Fix the below ptest failure:
+> > >  self =3D <test_skeleton_codestyle.BaseTests testMethod=3Dtest_skelet=
+on_codestyle>
+> > >  def test_skeleton_codestyle(self):
+> > >  """
+> > >  This test shouldn't run in proliferated repositories.
+> > >  """
+> > >  setup_cfg =3D configparser.ConfigParser()
+> > >  setup_cfg.read("setup.cfg")
+> > >  > if setup_cfg["metadata"]["name"] !=3D "skeleton":
+> > >  tests/test_skeleton_codestyle.py:22:
+> > >  self =3D <configparser.ConfigParser object at 0x7fd87cf55110>, key =
+=3D 'metadata'
+> > >  def _getitem_(self, key):
+> > >  if key !=3D self.default_section and not self.has_section(key):
+> > >  > raise KeyError(key)
+> > >  E KeyError: 'metadata'
+> > >
+> > > After the patch:
+> > >  # ./run-ptest
+> > >  [snip]
+> > >  PASS: tests/test_license_expression.py::LicensingValidateTest::test_=
+validation_bad_syntax
+> > >  PASS: tests/test_license_expression.py::LicensingValidateTest::test_=
+validation_exception_as_regular_key
+> > >  PASS: tests/test_license_expression.py::LicensingValidateTest::test_=
+validation_exception_with_choice
+> > >  PASS: tests/test_license_expression.py::LicensingValidateTest::test_=
+validation_invalid_license_exception
+> > >  PASS: tests/test_license_expression.py::LicensingValidateTest::test_=
+validation_invalid_license_exception_strict_false
+> > >  PASS: tests/test_license_expression.py::LicensingValidateTest::test_=
+validation_invalid_license_key
+> > >  PASS: tests/test_license_expression.py::UtilTest::test_build_licensi=
+ng
+> > >  PASS: tests/test_license_expression.py::UtilTest::test_build_spdx_li=
+censing
+> > >  PASS: tests/test_license_expression.py::UtilTest::test_get_license_k=
+ey_info
+> > >  PASS: tests/test_license_expression.py::UtilTest::test_get_license_k=
+ey_info_vendored
+> > >  PASS: tests/test_license_expression.py::CombineExpressionTest::test_=
+combine_expressions_with_duplicated_elements
+> > >  PASS: tests/test_license_expression.py::CombineExpressionTest::test_=
+combine_expressions_with_empty_input
+> > >  PASS: tests/test_license_expression.py::CombineExpressionTest::test_=
+combine_expressions_with_or_relationship
+> > >  PASS: tests/test_license_expression.py::CombineExpressionTest::test_=
+combine_expressions_with_regular
+> > >  PASS: tests/test_skeleton_codestyle.py::BaseTests::test_skeleton_cod=
+estyle
+> > >
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D 175 passed in 10.36s =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >
+> > > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> > > ---
+> > >  .../python/python3-license-expression/run-ptest                 | 2 =
++-
+> > >  .../python/python3-license-expression_30.1.1.bb                 | 1 =
++
+> > >  2 files changed, 2 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-devtools/python/python3-license-expression/=
+run-ptest b/meta/recipes-devtools/python/python3-license-expression/run-pte=
+st
+> > > index 5cec711696..3385d68939 100644
+> > > --- a/meta/recipes-devtools/python/python3-license-expression/run-pte=
+st
+> > > +++ b/meta/recipes-devtools/python/python3-license-expression/run-pte=
+st
+> > > @@ -1,3 +1,3 @@
+> > >  #!/bin/sh
+> > >
+> > > -pytest
+> > > +pytest -o log_cli=3Dtrue -o log_cli_level=3DINFO | sed -e 's/\[...%\=
+]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPED/=
+SKIP/g'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" ||=
+ $NF=3D=3D"XFAIL" || $NF=3D=3D"XPASS"){printf "%s: %s\n", $NF, $0}else{prin=
+t}}'| awk '{if ($NF=3D=3D"PASS" || $NF=3D=3D"FAIL" || $NF=3D=3D"SKIP" || $N=
+F=3D=3D"XFAIL" || $NF=3D=3D"XPASS") {$NF=3D"";print $0}else{print}}'
+> > > diff --git a/meta/recipes-devtools/python/python3-license-expression_=
+30.1.1.bb b/meta/recipes-devtools/python/python3-license-expression_30.1.1.=
+bb
+> > > index 31fb88d6e5..5d3923d487 100644
+> > > --- a/meta/recipes-devtools/python/python3-license-expression_30.1.1.=
+bb
+> > > +++ b/meta/recipes-devtools/python/python3-license-expression_30.1.1.=
+bb
+> > > @@ -33,4 +33,5 @@ do_install_ptest() {
+> > >      install -d ${D}${PTEST_PATH}/src
+> > >      cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+> > >      cp -rf ${S}/src/* ${D}${PTEST_PATH}/src/
+> > > +    cp -rf ${S}/setup.cfg ${D}${PTEST_PATH}/
+> > >  }
+> > > --
+> > > 2.25.1
+> > >
+> > >
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#192278): https://lists.openembedded.org/g/openemb=
+edded-core/message/192278
+> > > Mute This Topic: https://lists.openembedded.org/mt/103146950/1686489
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
+ [alex.kanavin@gmail.com]
+> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >
 
