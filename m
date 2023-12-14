@@ -1,449 +1,176 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C446EC4332F
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 00:29:03 +0000 (UTC)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
- by mx.groups.io with SMTP id smtpd.web11.10164.1702513738623747050
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51B82C4332F
+	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 01:44:14 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.12347.1702518245563433065
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Dec 2023 16:28:58 -0800
+ Wed, 13 Dec 2023 17:44:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dnQJlLnV;
- spf=pass (domain: gmail.com, ip: 209.85.128.172, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5d6b9143782so68807347b3.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Dec 2023 16:28:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702513738; x=1703118538; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=N6lTUetz6mQ+wTBI1DWQe9+gTKBu6iURkBp4NcdqH5U=;
-        b=dnQJlLnVaHMYcfUMYJEqEiLuprY9lIRmAIHpEGetT41qqihNRXsj56epbai13yOml1
-         qlqY4gS/y4BLJdj7UeFIQptiDsln6L7ylXAfszCLznGHcz5PP+D9IhxW0C0NcMMgMiRL
-         /N5W/xmVDXs9Go3HZoEq8G46G7iwuwg+qYQ/3K+ua4/jsO9WDkC+R+2kkMB28dcco6Pc
-         AUAHHJbqPSQ5mV2kCPsCgx/KHbOKfiplYDTNdJe+GHsuk6fQVmTIqbGOBCu3mv1vyitH
-         6jawSgHrHPPC5xqaiAkZtDdlbkHJd6tl3XWkUIpHsFkdDVKdHMs4KFKMK6smrFtVZKnG
-         /eeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702513738; x=1703118538;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N6lTUetz6mQ+wTBI1DWQe9+gTKBu6iURkBp4NcdqH5U=;
-        b=dyEPMTuzAcA+e9KqqfhQByCjr62buCQ76N44S6KiDp1iEMPgR1QNf9PHMmuIaSdbGO
-         CoV/uLjBZvP4UoDGSzrrR3ORzIvU1GWdfBQDtPdP+7ZO0vz591FRhqCRf4nl/TWUdpxL
-         E8SceT3KK90Bl2tM3S6dYrntWHs9UYrMXGiHVtvcGvrsh/CsLAc0C+81D8V/FMjPAnNm
-         5H67B1kYyzdXv6XkWftUcoRMNMRH+nxkwL1QC3hZ2mYxDMeSAGINEKBkrW3e2yVpVpUL
-         AMc0rmCvHlOU/CB+PlUGCshvCclb5pi5WjFcc6/P7w79nFeKJJaiWmXGbncaT2pR6rb8
-         uAVw==
-X-Gm-Message-State: AOJu0YzNKV43zO5uoeWhqExoyEeayAz/6d6m2ktPh55unqx2/CaApr5/
-	fEvPMmocmOFWvh2gQaeyHq1DdoTF+9pq5AIINtY=
-X-Google-Smtp-Source: AGHT+IEbcQPsG2La6B57upCJFSNJtJM5B98XRh8d1NDT2rHA2+jhByG8MndVTeQfwlavP0lp228e/lbawji/xTyxEts=
-X-Received: by 2002:a0d:d98b:0:b0:5e3:1b93:3c9e with SMTP id
- b133-20020a0dd98b000000b005e31b933c9emr1031544ywe.41.1702513737636; Wed, 13
- Dec 2023 16:28:57 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0712141339=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BE1cNZi008081
+	for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 01:44:04 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uyr7fg03v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 01:44:04 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 3BE1i4he013921
+	for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 01:44:04 GMT
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uyr7fg03u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 14 Dec 2023 01:44:04 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kRhQHPx9PzIvg8uwdDNvngCO8jrc+B+P0pytmwf4BNPFeFOj7L1xvFYxPXY/eW6SBj/nDp0zEdE+FBWtE++Gaq8ZkmoR5VJDNGNe+BAAiSD1ehhc+Lf70hm+WPH4PWsdHkf4NpYj2C86lbP5yBj0TGH385x5UmKKfuNFINFpKucY6xoxaw1Ci9VXEya7Rk/dYNiyIxOqlzVGBcFKlcHq863hdpjQaz0IpWv800FGnY9vxCObl9S00Z5Y0He1g1mk+rSECBrCPt2t+ELSRnHI1rklx1O3WxMlDOI7NSGoa7JC7l3B/wHSMdKCk3m9XKHyB5sfZyX7h42Qj1YCGmHFkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PvrncsHHpJ7YQv50z0eY6Q5XkSF1jwXM/sH7unjuWE8=;
+ b=NFVJ3fS39UiXRhy6NsqNbEzlKcs7mUUHpX4cw3Bw+6SU8UqXkh1sIUGvNhJ+TDVrSdGxbL7VTja57DPVqjEhdCQ8xFt/E3yInG3bMWNsKMruFJ1Wr1t3gdqHH24EPEpO7y8Oel0IKmQlBQIYHKcalhEc6QYul3ZUcQ0NQqcgM1+R3dWhlMsAebXp2XIU8Uhpozj+6y5lXN6CgIlLcwqhd7Q8Z9SA3f5/2N3rl1FxK1g3ZM1Ml5fEcSCB71JzgcPXxiaEhZk9NhN0jvhac33OXztFDHPI9gqzfFGLXIWl4+2Y5KYZvgg+OuJ2F0YTn+WkK6kO5putMDqiUUu5miKPDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by CY8PR11MB7315.namprd11.prod.outlook.com (2603:10b6:930:9e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.36; Thu, 14 Dec
+ 2023 01:44:02 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::6162:ed58:51f5:efd]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::6162:ed58:51f5:efd%4]) with mapi id 15.20.7091.028; Thu, 14 Dec 2023
+ 01:44:02 +0000
+Message-ID: <3b1244d5-9d4a-4dd1-8113-cfb071ffe993@eng.windriver.com>
+Date: Thu, 14 Dec 2023 09:43:56 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH] lttng-tools: add a flag to test the userspace
+ only
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20231201140430.792362-1-xiangyu.chen@eng.windriver.com>
+ <DE373712-4DD5-41A8-AB9C-5D4B0BC083F8@arm.com>
+Content-Language: en-US
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+In-Reply-To: <DE373712-4DD5-41A8-AB9C-5D4B0BC083F8@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYCP286CA0154.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:383::19) To MW4PR11MB5824.namprd11.prod.outlook.com
+ (2603:10b6:303:187::19)
 MIME-Version: 1.0
-References: <24841a7636bd1e83411c87ba4332f6f863542c6f.1701989368.git.tim.orling@konsulko.com>
- <ef9e58f253d371c8ae864f7cd89c1fb1dcd3602e.1701989368.git.tim.orling@konsulko.com>
- <20231209020223.1221046-1-tim.orling@konsulko.com> <179F2663983D88F3.26830@lists.openembedded.org>
- <20231209115943bd92e089@mail.local>
-In-Reply-To: <20231209115943bd92e089@mail.local>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Wed, 13 Dec 2023 16:28:46 -0800
-Message-ID: <CANx9H-B51GdGBT+CEzt8E8vNM67=tYZ3CQi3zxewU7qTyuRnOQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 4/6] recipetool: add python_maturin support
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Tim Orling <tim.orling@konsulko.com>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000008ea231060c6d5e9e"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|CY8PR11MB7315:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19e25aae-57ca-440a-87e5-08dbfc462651
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tWmv4s+oJBXrXBAnbVt0TKGKOZd7yqwNNr1hk0Lu5eEp1+qdZBv5N4KNmk+LQy50ZfSmpF6Lk1hMtqL/WlaQYwiycuJKmyWYrJ3KOrUSGRyHPT1lwl3Zr039PW+FgbCN38UNK9XN+I8JCWhJn/FGLWsg4jvz0EfEQQau7rZ+JBagVyU0S5gC9N6bwMwMlktCaQuNg5CV6QU7TFZfH+dBBYvAY8f7wIA3/pz3kdnj8JlpUyW/+4EIgBnN+LN6KAaS4jsz8xCo8YQWpCTAqB2vxNt8rO006ebFe+xLGnJ/VXWXsmEY2pJ6d5nW5wMSFCGXOOFJBnso+1fO91K4vIa28vb8sDn/DDOSOoc2/bueD4Bn5ua5HDwqFwPEtTOGYiue/VWliHE3Mkg39mKnrKPwcOqnjXU2/gjhi90HNILD5w80yYTjSmLkpNLjHTkXn8d8tQrRcm0VE341xe0FgFOaLax1rWteayBU4EVxWklAQpfwds3EeXYcp9KwfA9xN2KGjIfCnTQeiAaFLg07y2S8QoW2UcuDJrLLZTbH8gMfYU3To42jgAjm32Z3fgK293d407XKbx0SbfCFVTj3FiyD6PTMu0DWBuc4g3j7ZM04zujBz8cE3/1ItSlWOWE5KiMeFl/MZGVwBNzQKCmbVmjpLVdVnPUmRO8YOBA+6ypoP8l2KVTAFiuYzsNVCZ0pvt5A
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(366004)(39860400002)(136003)(396003)(230173577357003)(230922051799003)(230273577357003)(1800799012)(451199024)(64100799003)(186009)(53546011)(83380400001)(6486002)(6512007)(2616005)(6506007)(44832011)(5660300002)(8936002)(4326008)(8676002)(41300700001)(6666004)(2906002)(38100700002)(478600001)(26005)(316002)(66556008)(66476007)(6916009)(66946007)(31696002)(83170400001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?N0hCY0Z2OFhISGljMGtSc3hXRlFMbGVqSmRwZjlNSU1zSm82TGhVUmttdExX?=
+ =?utf-8?B?ald5a2MvcDVLOVN0SkZOYkhwVWdUTlY2MVJBSkt5V2JkMGZrQ1FLZ1RDT0Nw?=
+ =?utf-8?B?WUxweDhkUzFjdG9BNXZmNHZUbGhpOXlzdkRYYzR3SFJXR09UL21jbFUvZUts?=
+ =?utf-8?B?VmI3eG5BdVRRQ3ZteVlGSnJOVk5kWVhzL0hncERnNzY0MXlySGZnTzloUmdV?=
+ =?utf-8?B?WDFYTTk5V04rL3NUWTgvN3pQNm80ZTVEQlJtaXhEdFl5c3BjOVAvZ2lqcldL?=
+ =?utf-8?B?d3J5T1dud3FETHEzN2E5b1ExWFpyWkF4eWtocmpYT3ljOTlPT3NLMXFoWTZs?=
+ =?utf-8?B?MHdReVRTQVdzTG9NQkNxWk1uVmx6M0V6bFJQc3BhUkRKcEE5bmlJOHFPTlli?=
+ =?utf-8?B?eDkrY2NTQVRXazFrcVgwbjJBV0piVFV2c1Erc2RLZVNwZmVseHJhSC9STFJr?=
+ =?utf-8?B?RjFERkxPa0k1b3VYbXBPVTI4S2NaRU01VUJOTlRIYlVUYnlnRmpLdi9LekFW?=
+ =?utf-8?B?RldHZlVBV0EyVmZoY21SS28xNmRGOWFOK2hleDlaR0hwZmNzYW9wS05hQmcv?=
+ =?utf-8?B?N2t4ejl1UHh3THE2K3g5U0xtQ1hjZmg3Um9KcTZnc0tqck54VERQZldUUDB0?=
+ =?utf-8?B?OTUxdWNZYzEzUldJNCtTdytKajhhOFZtblNMS1NUSVQ5dnBmMWRsUHJUWFpS?=
+ =?utf-8?B?SnVSaytaNHA3dTdrZCtmVlZkOG9nUTlyWHF6RHJuMysrc3JoeHJ3VldONlhV?=
+ =?utf-8?B?UFd1aVNCZFdnZlZWU0ZWMG9pcytJQm5YbnlDRE1HTVNGUG5DbnNDbTRDb29t?=
+ =?utf-8?B?N2hXUCtXMWhQaG9FNVRkSEZSd25zQUdieEFnZzA2Zi96UWlnY2VWWHpRaDNG?=
+ =?utf-8?B?a0RYUkhhQ3JHVFh0UjBSMHIrYWFtOXR4WWJmWGJLQXFGS2llSFVDeThCOXo2?=
+ =?utf-8?B?R2U1dTF1QkFUelRmMmhqeU93KzVPbnQwT2FaOFpma21jYUpRbytmV0NNekpo?=
+ =?utf-8?B?MDNBV0VmSFJtTGtneXpXdDBjUVpDNVZ6RU9KM0s0YUJ2eUZBRmx4ZDB4QjdT?=
+ =?utf-8?B?RDFKRExMeXN2bERSL0d4amN5Z3hzZFp2bFQreHlCSVhLQjFUbmZWVWpseHlt?=
+ =?utf-8?B?MWRhNy9JYVhISFFpLzR5QzBkY2taQTJab3RlSU9udHpyTGpYMUFXRldNOXVL?=
+ =?utf-8?B?d1pkRk5SYzF5bmJ6c0FzSW1SWGJiNWpvOEJ2elJXdE5ncW1jTGtwZVM2S0hG?=
+ =?utf-8?B?S2NRRU9Ic1VFaFNkQy8xTTdKdkh1SVkyK2xYMFk5VGx0bEhweEI0WkZqb2JW?=
+ =?utf-8?B?NzFQQTN6eFQrMnFwazNNc0E1L2FrcjZQTlVoWlBaSVRCeWRCNHZkVzdLN3lM?=
+ =?utf-8?B?TWU2NURqU3RBc2UrK21FcjRZbUtpSjN5bGw3NDFHRjN2bDRMQ3EybkJVcUhX?=
+ =?utf-8?B?eXpLVlRvL2hkOFV6QjJYdXFzMHBhWmVVaHg5N2lmaFlEUFRENGlNNUYyaHBC?=
+ =?utf-8?B?SmZUQ3FNM1JmRlJmTHJQcDIzVUZuRnUwcHVwenpobVZaYlN4ZFk3Qmc3c21Q?=
+ =?utf-8?B?S3JxcW92TTBJdU5UMW00Y0NuWDEyRWU0OFdNcG1mUXpZYnpWMWRFR0Vma3p1?=
+ =?utf-8?B?cVFqNlpRSXpuVmZlK3JoZFo5ajRVZXZkVEFKSkRMWlNOcUpqMnlZZXYxYXJV?=
+ =?utf-8?B?YUNORDZTaEhlS1QvZFJxdFpGNmJLeU1WQkwwK0MzVlNvUTMzWFZ3K3FTSDBz?=
+ =?utf-8?B?dWVBWUNIZE5rM1JVNWxsUGIxRXVpVnArMjF6THVaRDMxM0tmWExiNzdnc3Ny?=
+ =?utf-8?B?OW9WTVlRUzd3dmp1OHoxamd2QTR0djhLUXN6N2ErSFpWeTNpVmY4SDRaRkJV?=
+ =?utf-8?B?MkhxcnMyM0h0NFBUTVpTbTRoRU56VndkOUFTUktSZHlGN01qNjUyWXRGd2F1?=
+ =?utf-8?B?TWpRaU45RmNXL0NPYUdUcWV6OUtlY2wwSlptUWxlcVNjSkJmYWRubFhqYnpm?=
+ =?utf-8?B?cStTZWRzUVVNWmJYQi92dE81V2ZPU29ycXpidzdBalFNa2hDbEZnZG9ZSDZk?=
+ =?utf-8?B?R2pSQVFFZDJOcDVkdEJlc3lET0VDTllDUHpqQmZGL3dhSHZYRUoxSm9HV1g1?=
+ =?utf-8?B?RElVQWFuMHRlQXZ0cllBdWNKOGlPZ3ozajJPM3dNYkpQMW5rQnVmTm05QjRW?=
+ =?utf-8?B?Mmc9PQ==?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19e25aae-57ca-440a-87e5-08dbfc462651
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2023 01:44:02.5072
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3MtBjrmmZSHqqSSFGEKjvvCc05AxY+qEebnPoeN6OG73dc78S/jSD8isXS4RpurfsvjRplSpiR8R4CgqX+Yh+u7KS9ok3253hj/mIykA9tY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7315
+X-Proofpoint-ORIG-GUID: iLdR-zgr3XaqF8s0kytshW4tt8eBCrHO
+X-Proofpoint-GUID: VEtwNBQVVIqJRcs1-AV_HlKOJVrvMhio
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=999
+ suspectscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312140008
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 00:29:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192333
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 01:44:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192334
 
---0000000000008ea231060c6d5e9e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Ross,
 
-On Sat, Dec 9, 2023 at 3:59=E2=80=AFAM Alexandre Belloni <
-alexandre.belloni@bootlin.com> wrote:
 
-> On 09/12/2023 12:29:50+0100, Alexandre Belloni via lists.openembedded.org
-> wrote:
-> > Hello,
-> >
-> > maturin is not reproducible:
-> >
-> >
-> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231208-rfbp=
-roj4/packages/diff-html/
+On 12/13/23 18:56, Ross Burton wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
 >
->
-> Probably related:
->
-> WARNING: python3-maturin-1.3.2-r0 do_package_qa: QA Issue: File
-> /usr/bin/.debug/maturin in package python3-maturin-dbg contains reference
-> to TMPDIR
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/8267/st=
-eps/14/logs/stdio
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6018/st=
-eps/12/logs/stdio
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/8141/st=
-eps/11/logs/stdio
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/5453/s=
-teps/11/logs/stdio
->
-> I think at least this part is sorted:
-https://github.com/alexcrichton/bzip2-rs/pull/101
+> On 1 Dec 2023, at 14:04, Xiangyu Chen via lists.openembedded.org <xiangyu.chen=eng.windriver.com@lists.openembedded.org> wrote:
+>> If running the userspace test, just raise an environment variant
+>> "export SKIP_KERNEL_TEST=1" before running the ptest, it would skip
+>> lttng modules related test. Without SKIP_KERNEL_TEST=1, the ptest
+>> would run all test cases.
+> Is this something we want to automatically do?  Checking if the module can be loaded before running the ptest, or something.
 
-Thank you to khem for making me realize the options passed to the =E2=80=98=
-cc=E2=80=99
-crate were the issue in this case. (The Makefile is not used, nor are
-CFLAGS from the environment)
+How about make the kernel module detection as an function encapsulation 
+in testing script instead of
 
-The reordering bits might be a different problem. If anybody has any
-thoughts on that I=E2=80=99m all ears.
+export environment variant by manual? Calling the kernel module detector 
+function before
+
+testing kernel related features in test scripts, if kernel module is 
+normal run the test, otherwise, skip it.
+
+That can keep ptest automatically to test both all cases and userspace 
+cases only.
+
+
+Thanks,
+
+Xiangyu
+
 
 >
-> >
-> > On 08/12/2023 18:02:24-0800, Tim Orling wrote:
-> > > Add the new python_maturin PEP-517 backend
-> > >
-> > > Add selftest for 'pydantic-core' pypi package.
-> > >
-> > > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> > > ---
-> > > Changes in v2:
-> > >  - drop all SRC_URI checksums except sha256sum (Peter's change)
-> > >    * requires "[PATCH v2] recipetool: pypi: do not clobber SRC_URI
-> checksums"
-> > >  - drop SRC_URI (Julien's change)
-> > >  - add "inherit pypi" (Julien's change)
-> > >
-> > >  meta/lib/oeqa/selftest/cases/recipetool.py    | 29 +++++++++++++++++=
-++
-> > >  .../lib/recipetool/create_buildsys_python.py  |  1 +
-> > >  2 files changed, 30 insertions(+)
-> > >
-> > > diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py
-> b/meta/lib/oeqa/selftest/cases/recipetool.py
-> > > index d10d61bc5b0..8d39f639acf 100644
-> > > --- a/meta/lib/oeqa/selftest/cases/recipetool.py
-> > > +++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-> > > @@ -663,6 +663,35 @@ class RecipetoolCreateTests(RecipetoolBase):
-> > >
-> > >          self._test_recipe_contents(recipefile, checkvars, inherits)
-> > >
-> > > +    def test_recipetool_create_python3_pep517_maturin(self):
-> > > +        # This test require python 3.11 or above for the tomllib
-> module
-> > > +        # or tomli module to be installed
-> > > +        try:
-> > > +            import tomllib
-> > > +        except ImportError:
-> > > +            try:
-> > > +                import tomli
-> > > +            except ImportError:
-> > > +                self.skipTest('Test requires python 3.11 or above fo=
-r
-> tomllib module or tomli module')
-> > > +
-> > > +        # Test creating python3 package from tarball (using maturin
-> class)
-> > > +        temprecipe =3D os.path.join(self.tempdir, 'recipe')
-> > > +        os.makedirs(temprecipe)
-> > > +        pn =3D 'pydantic-core'
-> > > +        pv =3D '2.14.5'
-> > > +        recipefile =3D os.path.join(temprecipe, 'python3-%s_%s.bb' %
-> (pn, pv))
-> > > +        srcuri =3D '
-> https://files.pythonhosted.org/packages/64/26/cffb93fe9c6b5a91c497f37fae1=
-4a4b073ecbc47fc36a9979c7aa888b245/pydantic_core-%s.tar.gz'
-> % pv
-> > > +        result =3D runCmd('recipetool create -o %s %s' % (temprecipe=
-,
-> srcuri))
-> > > +        self.assertTrue(os.path.isfile(recipefile))
-> > > +        checkvars =3D {}
-> > > +        checkvars['HOMEPAGE'] =3D '
-> https://github.com/pydantic/pydantic-core'
-> > > +        checkvars['LICENSE'] =3D set(['MIT'])
-> > > +        checkvars['LIC_FILES_CHKSUM'] =3D
-> 'file://LICENSE;md5=3Dab599c188b4a314d2856b3a55030c75c'
-> > > +        checkvars['SRC_URI[sha256sum]'] =3D
-> '6d30226dfc816dd0fdf120cae611dd2215117e4f9b124af8c60ab9093b6e8e71'
-> > > +        inherits =3D ['python_maturin', 'pypi']
-> > > +
-> > > +        self._test_recipe_contents(recipefile, checkvars, inherits)
-> > > +
-> > >      def test_recipetool_create_github_tarball(self):
-> > >          # Basic test to ensure github URL mangling doesn't apply to
-> release tarballs
-> > >          temprecipe =3D os.path.join(self.tempdir, 'recipe')
-> > > diff --git a/scripts/lib/recipetool/create_buildsys_python.py
-> b/scripts/lib/recipetool/create_buildsys_python.py
-> > > index a2af41fdda8..60c59034504 100644
-> > > --- a/scripts/lib/recipetool/create_buildsys_python.py
-> > > +++ b/scripts/lib/recipetool/create_buildsys_python.py
-> > > @@ -735,6 +735,7 @@ class
-> PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
-> > >          "poetry.core.masonry.api": "python_poetry_core",
-> > >          "flit_core.buildapi": "python_flit_core",
-> > >          "hatchling.build": "python_hatchling",
-> > > +        "maturin": "python_maturin",
-> > >      }
-> > >
-> > >      # setuptools.build_meta and flit declare project metadata into
-> the "project" section of pyproject.toml
-> > > --
-> > > 2.34.1
-> > >
-> >
-> > >
-> > >
-> > >
-> >
-> >
-> >
-> > --
-> > Alexandre Belloni, co-owner and COO, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#192097):
-> https://lists.openembedded.org/g/openembedded-core/message/192097
-> > Mute This Topic: https://lists.openembedded.org/mt/103071823/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-
---0000000000008ea231060c6d5e9e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Dec 9, 2023 at 3:59=E2=80=AFAM Alexandre Belloni &l=
-t;<a href=3D"mailto:alexandre.belloni@bootlin.com">alexandre.belloni@bootli=
-n.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;paddin=
-g-left:1ex;border-left-color:rgb(204,204,204)">On 09/12/2023 12:29:50+0100,=
- Alexandre Belloni via <a href=3D"http://lists.openembedded.org" rel=3D"nor=
-eferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; Hello,<br>
-&gt; <br>
-&gt; maturin is not reproducible:<br>
-&gt; <br>
-&gt; <a href=3D"https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible=
--20231208-rfbproj4/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank=
-">https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231208-rfbp=
-roj4/packages/diff-html/</a><br>
-<br>
-<br>
-Probably related:<br>
-<br>
-WARNING: python3-maturin-1.3.2-r0 do_package_qa: QA Issue: File /usr/bin/.d=
-ebug/maturin in package python3-maturin-dbg contains reference to TMPDIR<br=
->
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/40/build=
-s/8267/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/40/builds/8267/steps/14/logs/=
-stdio</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
-s/6018/steps/12/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6018/steps/12/logs/=
-stdio</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/52/build=
-s/8141/steps/11/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://au=
-tobuilder.yoctoproject.org/typhoon/#/builders/52/builds/8141/steps/11/logs/=
-stdio</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/108/buil=
-ds/5453/steps/11/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://a=
-utobuilder.yoctoproject.org/typhoon/#/builders/108/builds/5453/steps/11/log=
-s/stdio</a><br>
-<br>
-</blockquote><div dir=3D"auto">I think at least this part is sorted:</div><=
-div dir=3D"auto"><div><a href=3D"https://github.com/alexcrichton/bzip2-rs/p=
-ull/101">https://github.com/alexcrichton/bzip2-rs/pull/101</a></div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Thank you to khem for making me real=
-ize the options passed to the =E2=80=98cc=E2=80=99 crate were the issue in =
-this case. (The Makefile is not used, nor are CFLAGS from the environment)<=
-/div><br></div><div dir=3D"auto">The reordering bits might be a different p=
-roblem. If anybody has any thoughts on that I=E2=80=99m all ears.</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(2=
-04,204,204)"><br>
-&gt; <br>
-&gt; On 08/12/2023 18:02:24-0800, Tim Orling wrote:<br>
-&gt; &gt; Add the new python_maturin PEP-517 backend<br>
-&gt; &gt; <br>
-&gt; &gt; Add selftest for &#39;pydantic-core&#39; pypi package.<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsul=
-ko.com" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; Changes in v2:<br>
-&gt; &gt;=C2=A0 - drop all SRC_URI checksums except sha256sum (Peter&#39;s =
-change)<br>
-&gt; &gt;=C2=A0 =C2=A0 * requires &quot;[PATCH v2] recipetool: pypi: do not=
- clobber SRC_URI checksums&quot;<br>
-&gt; &gt;=C2=A0 - drop SRC_URI (Julien&#39;s change)<br>
-&gt; &gt;=C2=A0 - add &quot;inherit pypi&quot; (Julien&#39;s change)<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 meta/lib/oeqa/selftest/cases/recipetool.py=C2=A0 =C2=A0 | 2=
-9 +++++++++++++++++++<br>
-&gt; &gt;=C2=A0 .../lib/recipetool/create_buildsys_python.py=C2=A0 |=C2=A0 =
-1 +<br>
-&gt; &gt;=C2=A0 2 files changed, 30 insertions(+)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/li=
-b/oeqa/selftest/cases/recipetool.py<br>
-&gt; &gt; index d10d61bc5b0..8d39f639acf 100644<br>
-&gt; &gt; --- a/meta/lib/oeqa/selftest/cases/recipetool.py<br>
-&gt; &gt; +++ b/meta/lib/oeqa/selftest/cases/recipetool.py<br>
-&gt; &gt; @@ -663,6 +663,35 @@ class RecipetoolCreateTests(RecipetoolBase):=
-<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._test_recipe_contents(reci=
-pefile, checkvars, inherits)<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt; +=C2=A0 =C2=A0 def test_recipetool_create_python3_pep517_maturin(=
-self):<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # This test require python 3.11 or a=
-bove for the tomllib module<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # or tomli module to be installed<br=
->
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 import tomllib<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ImportError:<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 import t=
-omli<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except ImportError:<br=
->
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.ski=
-pTest(&#39;Test requires python 3.11 or above for tomllib module or tomli m=
-odule&#39;)<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Test creating python3 package from=
- tarball (using maturin class)<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 temprecipe =3D os.path.join(self.tem=
-pdir, &#39;recipe&#39;)<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.makedirs(temprecipe)<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pn =3D &#39;pydantic-core&#39;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pv =3D &#39;2.14.5&#39;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 recipefile =3D os.path.join(tempreci=
-pe, &#39;python3-%s_%<a href=3D"http://s.bb" rel=3D"noreferrer" target=3D"_=
-blank">s.bb</a>&#39; % (pn, pv))<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcuri =3D &#39;<a href=3D"https://f=
-iles.pythonhosted.org/packages/64/26/cffb93fe9c6b5a91c497f37fae14a4b073ecbc=
-47fc36a9979c7aa888b245/pydantic_core-%s.tar.gz" rel=3D"noreferrer" target=
-=3D"_blank">https://files.pythonhosted.org/packages/64/26/cffb93fe9c6b5a91c=
-497f37fae14a4b073ecbc47fc36a9979c7aa888b245/pydantic_core-%s.tar.gz</a>&#39=
-; % pv<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D runCmd(&#39;recipetool cr=
-eate -o %s %s&#39; % (temprecipe, srcuri))<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertTrue(os.path.isfile(recip=
-efile))<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 checkvars =3D {}<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 checkvars[&#39;HOMEPAGE&#39;] =3D &#=
-39;<a href=3D"https://github.com/pydantic/pydantic-core" rel=3D"noreferrer"=
- target=3D"_blank">https://github.com/pydantic/pydantic-core</a>&#39;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 checkvars[&#39;LICENSE&#39;] =3D set=
-([&#39;MIT&#39;])<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 checkvars[&#39;LIC_FILES_CHKSUM&#39;=
-] =3D &#39;file://LICENSE;md5=3Dab599c188b4a314d2856b3a55030c75c&#39;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 checkvars[&#39;SRC_URI[sha256sum]&#3=
-9;] =3D &#39;6d30226dfc816dd0fdf120cae611dd2215117e4f9b124af8c60ab9093b6e8e=
-71&#39;<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 inherits =3D [&#39;python_maturin&#3=
-9;, &#39;pypi&#39;]<br>
-&gt; &gt; +<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._test_recipe_contents(recipefil=
-e, checkvars, inherits)<br>
-&gt; &gt; +<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 def test_recipetool_create_github_tarball(sel=
-f):<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Basic test to ensure github U=
-RL mangling doesn&#39;t apply to release tarballs<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 temprecipe =3D os.path.join(sel=
-f.tempdir, &#39;recipe&#39;)<br>
-&gt; &gt; diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/s=
-cripts/lib/recipetool/create_buildsys_python.py<br>
-&gt; &gt; index a2af41fdda8..60c59034504 100644<br>
-&gt; &gt; --- a/scripts/lib/recipetool/create_buildsys_python.py<br>
-&gt; &gt; +++ b/scripts/lib/recipetool/create_buildsys_python.py<br>
-&gt; &gt; @@ -735,6 +735,7 @@ class PythonPyprojectTomlRecipeHandler(Python=
-RecipeHandler):<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;poetry.core.masonry.api&q=
-uot;: &quot;python_poetry_core&quot;,<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;flit_core.buildapi&quot;:=
- &quot;python_flit_core&quot;,<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;hatchling.build&quot;: &q=
-uot;python_hatchling&quot;,<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;maturin&quot;: &quot;python_ma=
-turin&quot;,<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; &gt;=C2=A0 <br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 # setuptools.build_meta and flit declare proj=
-ect metadata into the &quot;project&quot; section of pyproject.toml<br>
-&gt; &gt; -- <br>
-&gt; &gt; 2.34.1<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; -- <br>
-&gt; Alexandre Belloni, co-owner and COO, Bootlin<br>
-&gt; Embedded Linux and Kernel engineering<br>
-&gt; <a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://bootlin.com</a><br>
-<br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#192097): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/192097" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/192097</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10307182=
-3/3617179" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/103071823/3617179</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alexandre.belloni@boo=
-tlin.com" target=3D"_blank">alexandre.belloni@bootlin.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-<br>
-<br>
--- <br>
-Alexandre Belloni, co-owner and COO, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-</blockquote></div></div>
-
---0000000000008ea231060c6d5e9e--
+> Cheers,
+> Ross
 
