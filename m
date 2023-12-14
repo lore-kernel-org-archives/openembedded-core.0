@@ -2,8 +2,8 @@ Return-Path: <an010@live.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B56C4332F
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 21:32:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 630E0C4167B
+	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 21:34:42 +0000 (UTC)
 Subject: install-buildtools fails #poky
 To: openembedded-core@lists.openembedded.org
 From: "Aleksandar Nikolic" <an010@live.com>
@@ -11,17 +11,19 @@ X-Originating-Location: CH (147.161.250.119)
 X-Originating-Platform: Windows Chrome 120
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Thu, 14 Dec 2023 13:32:10 -0800
+Date: Thu, 14 Dec 2023 13:34:37 -0800
 Message-ID: <aQyg.1702589530747273993.VOVe@lists.openembedded.org>
+X-Old-Date: Thu, 14 Dec 2023 13:32:10 -0800
 Content-Type: multipart/alternative; boundary="BVVYhtmcprmhyrzfPSOY"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 21:32:12 -0000
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 21:34:42 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192405
+Message-ID: <20231214213437.ifoaU35vHMfxdLIUQpU1eqbe8ScjrnlQLDLb4t84RK4@z>
 
 --BVVYhtmcprmhyrzfPSOY
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
@@ -31,7 +33,8 @@ ols script, however the call fails. The issue I found seems a bit weird, as=
  IMHO the script would always fail, hence I am not sure whether it's really=
  an issue or I am misusing the script. Anyway, I am using the script from t=
 he openembedded-core - OpenEmbedded Core layer ( https://git.openembedded.o=
-rg/openembedded-core ) repository, commit=C2=A041390f52.
+rg/openembedded-core ) repository, commit=C2=A041390f52 (latest at the time=
+ of writing).
 
 The command executed:
 
@@ -52,10 +55,10 @@ s are read from build-tools/environment-setup-x86_64-pokysdk-linux (see [2]=
  for its content), some of them are read with double quotes (e.g. PATH ) an=
 d as such written in os.environ ( here ( https://git.openembedded.org/opene=
 mbedded-core/tree/scripts/install-buildtools#n306 ) ), which makes them not=
- correctly used later on. Some come without quotes and are fine to be used =
-(e.g., PKG_CONFIG_LIBDIR ). A solution to this problem is removing the doub=
-le quotes from envvar if present in the envvar, e.g., ENVVAR=3D"foo" become=
-s ENVVAR=3Dfoo and as such is written in os.environ.
+ correctly used later on. Some come without the double quotes and are fine =
+to be used (e.g., PKG_CONFIG_LIBDIR ). A solution to this problem is removi=
+ng the double quotes from envvar if present in the envvar, e.g., ENVVAR=3D"=
+foo" becomes ENVVAR=3Dfoo and as such is written in os.environ.
 
 2. Another issue I found is related to this line ( https://git.openembedded=
 .org/openembedded-core/tree/scripts/install-buildtools#n334 ). If the comma=
@@ -68,7 +71,7 @@ f whether which_tool starts with install_dir.
 
 Now my question is am I misunderstanding something or am I misusing the ins=
 tall-buildtools script somehow? If this is really an issue I'd be more than=
- glad to provide a patch.
+ happy to provide a patch.
 
 Cheers
 Aleksandar
@@ -233,7 +236,7 @@ T_PKG_PATH:-/usr/lib/pkgconfig:/usr/share/pkgconfig}
 >
 
 --BVVYhtmcprmhyrzfPSOY
-Content-Type: text/html; charset="utf-8"
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 Hi,<br /><br />I was trying to install the <span style=3D"font-family: cour=
@@ -242,9 +245,10 @@ t-family: courier_newregular, courier;">scripts/install-buildtools</span> s=
 cript, however the call fails. The issue I found seems a bit weird, as IMHO=
  the script would always fail, hence I am not sure whether it's really an i=
 ssue or I am misusing the script. Anyway, I am using the script from the <a=
- href=3D"https://git.openembedded.org/openembedded-core">openembedded-core =
-- OpenEmbedded Core layer</a>&nbsp;repository, commit&nbsp;41390f52.<br /><=
-br />The command executed:<br />
+ href=3D"https://git.openembedded.org/openembedded-core" target=3D"_blank" =
+rel=3D"nofollow noopener">openembedded-core - OpenEmbedded Core layer</a>&n=
+bsp;repository, commit&nbsp;41390f52 (latest at the time of writing).<br />=
+<br />The command executed:<br />
 <blockquote>./scripts/install-buildtools --debug --without-extended-buildto=
 ols --directory ./build-tools --base-url https://downloads.yoctoproject.org=
 /releases/yocto --release yocto-4.0.14 --installer-version 4.0.14</blockquo=
@@ -253,46 +257,47 @@ The command fails and its output is given in [1].<br /><br />Now, I dug a b=
 it deeper and found two potential issues (if they are even issues, I am not=
  sure anymore).<br /><br />1. First one is in <a href=3D"https://git.openem=
 bedded.org/openembedded-core/tree/scripts/install-buildtools#n304" target=
-=3D"_blank" rel=3D"noopener">here</a>. Basically, while environment variabl=
-es are read from&nbsp;<span style=3D"font-family: courier_newregular, couri=
-er;">build-tools/environment-setup-x86_64-pokysdk-linux</span>&nbsp;(see [2=
-] for its content), some of them are read with double quotes (e.g. <span st=
-yle=3D"font-family: courier_newregular, courier;">PATH</span>) and as such =
-written in <span style=3D"font-family: courier_newregular, courier;">os.env=
-iron</span> (<a href=3D"https://git.openembedded.org/openembedded-core/tree=
-/scripts/install-buildtools#n306" target=3D"_blank" rel=3D"noopener">here</=
-a>), which makes them not correctly used later on. Some come without quotes=
- and are fine to be used (e.g., <span style=3D"font-family: courier_newregu=
-lar, courier;">PKG_CONFIG_LIBDIR</span>). A solution to this problem is rem=
-oving the double quotes from envvar if present in the envvar, e.g., <span s=
-tyle=3D"font-family: courier_newregular, courier;">ENVVAR=3D"foo"</span> be=
-comes <span style=3D"font-family: courier_newregular, courier;">ENVVAR=3Dfo=
-o</span> and as such is written in <span style=3D"font-family: courier_newr=
-egular, courier;">os.environ</span>.<br /><br />2. Another issue I found is=
- related to <a href=3D"https://git.openembedded.org/openembedded-core/tree/=
-scripts/install-buildtools#n334" target=3D"_blank" rel=3D"noopener">this li=
-ne</a>. If the command is called with <span style=3D"font-family: courier_n=
-ewregular, courier;">--directory</span>, as in my case, the function <span =
-style=3D"font-family: courier_newregular, courier;">starts_with</span> will=
- always fail because <span style=3D"font-family: courier_newregular, courie=
-r;">which_tool</span> will never start with <span style=3D"color: #000000; =
-font-family: Menlo, Monaco, Consolas, 'Courier New', monospace; font-size: =
-13.3333px;"><span style=3D"font-family: courier_newregular, courier;">insta=
-ll_dir</span>.</span>&nbsp;The only case where this is not an issue is in w=
-hen <span style=3D"font-family: courier_newregular, courier;">--directory</=
-span> is omitted, since <span style=3D"font-family: courier_newregular, cou=
-rier;">INSTALL_DIR</span> is used in that case and its a full path already.=
- A solution is also simple, we can just check if&nbsp;<span style=3D"color:=
- #000000; font-family: courier_newregular, courier; font-size: 13.3333px;">=
-install_dir&nbsp;</span>is in <span style=3D"font-family: courier_newregula=
-r, courier;">which_tool<span style=3D"font-family: helvetica;">, instead of=
- whether <span style=3D"font-family: courier_newregular, courier;">which_to=
-ol</span> starts with <span style=3D"font-family: courier_newregular, couri=
-er;">install_dir</span>.</span></span><br /><br />Now my question is am I m=
-isunderstanding something or am I misusing the <span style=3D"font-family: =
-courier_newregular, courier;">install-buildtools</span> script somehow? If =
-this is really an issue I'd be more than glad to provide a patch.<br /><br =
-/>Cheers<br />Aleksandar<br /><br />[1]<br />
+=3D"_blank" rel=3D"nofollow noopener">here</a>. Basically, while environmen=
+t variables are read from&nbsp;<span style=3D"font-family: courier_newregul=
+ar, courier;">build-tools/environment-setup-x86_64-pokysdk-linux</span>&nbs=
+p;(see [2] for its content), some of them are read with double quotes (e.g.=
+ <span style=3D"font-family: courier_newregular, courier;">PATH</span>) and=
+ as such written in <span style=3D"font-family: courier_newregular, courier=
+;">os.environ</span> (<a href=3D"https://git.openembedded.org/openembedded-=
+core/tree/scripts/install-buildtools#n306" target=3D"_blank" rel=3D"nofollo=
+w noopener">here</a>), which makes them not correctly used later on. Some c=
+ome without the double quotes and are fine to be used (e.g., <span style=3D=
+"font-family: courier_newregular, courier;">PKG_CONFIG_LIBDIR</span>). A so=
+lution to this problem is removing the double quotes from envvar if present=
+ in the envvar, e.g., <span style=3D"font-family: courier_newregular, couri=
+er;">ENVVAR=3D"foo"</span> becomes <span style=3D"font-family: courier_newr=
+egular, courier;">ENVVAR=3Dfoo</span> and as such is written in <span style=
+=3D"font-family: courier_newregular, courier;">os.environ</span>.<br /><br =
+/>2. Another issue I found is related to <a href=3D"https://git.openembedde=
+d.org/openembedded-core/tree/scripts/install-buildtools#n334" target=3D"_bl=
+ank" rel=3D"nofollow noopener">this line</a>. If the command is called with=
+ <span style=3D"font-family: courier_newregular, courier;">--directory</spa=
+n>, as in my case, the function <span style=3D"font-family: courier_newregu=
+lar, courier;">starts_with</span> will always fail because <span style=3D"f=
+ont-family: courier_newregular, courier;">which_tool</span> will never star=
+t with <span style=3D"color: #000000; font-family: Menlo, Monaco, Consolas,=
+ 'Courier New', monospace; font-size: 13.3333px;"><span style=3D"font-famil=
+y: courier_newregular, courier;">install_dir</span>.</span>&nbsp;The only c=
+ase where this is not an issue is in when <span style=3D"font-family: couri=
+er_newregular, courier;">--directory</span> is omitted, since <span style=
+=3D"font-family: courier_newregular, courier;">INSTALL_DIR</span> is used i=
+n that case and its a full path already. A solution is also simple, we can =
+just check if&nbsp;<span style=3D"color: #000000; font-family: courier_newr=
+egular, courier; font-size: 13.3333px;">install_dir&nbsp;</span>is in <span=
+ style=3D"font-family: courier_newregular, courier;">which_tool<span style=
+=3D"font-family: helvetica;">, instead of whether <span style=3D"font-famil=
+y: courier_newregular, courier;">which_tool</span> starts with <span style=
+=3D"font-family: courier_newregular, courier;">install_dir</span>.</span></=
+span><br /><br />Now my question is am I misunderstanding something or am I=
+ misusing the <span style=3D"font-family: courier_newregular, courier;">ins=
+tall-buildtools</span> script somehow? If this is really an issue I'd be mo=
+re than happy to provide a patch.<br /><br />Cheers<br />Aleksandar<br /><b=
+r />[1]<br />
 <blockquote>
 <div>DEBUG: milestone regex: None</div>
 <div>INFO: Fetching buildtools installer</div>
