@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD85EC48287
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C57DAC48288
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:52 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.63599.1702649862998530236
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.63144.1702649863874242427
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Dec 2023 06:17:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZgWDQI1O;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=j3kbTzYK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c6dd71b7a-34c966e6-8a9e-4a35-ab7e-ed20228dd10b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Dzlu6emw;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=m1DBdM/t;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018c6dd71b6a-96bb628c-5a37-40fb-aab6-c726b4cd129d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1702649863;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=HHEmTOx9y2zlHQTNgTz+HcZTy0X1NQnwUIL5UngLHW0=;
-	b=ZgWDQI1OB77uCRkoywjpiVS7dB7Sbcs4R17KdyTfyvQgjLG2MYSeTHXKE2rhe1q7
-	6Hfvdhj+CTwzClker3KMloDS45B1WSveqBPqkVMqn9r3z2Vd2sKBg8Sf6H5g9iQg357
-	0I4bSpsHrIPvjQvFfMzXufxL0LC+VI0qRgu/cDVk=
+	bh=fY3wUjUJJniFXvIB3izOytYbt6bB+2Q0oaBIl3+UNqU=;
+	b=Dzlu6emwHcPMVzjdsGyWcOI9LL5zgkN9wyx2dvstrJShsdqaWnWl9Yo8yWf3D3LT
+	reBz3yvG+6YwWHuOfN1k/hlwo/dU0PBTgv2SNWxBkdSuXQsL6ZeqwWKRn/iCwJd0NZk
+	EBs2vy8INtrky2L5w3C/djeDyfv035XNUO7r6C2k=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649863;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=HHEmTOx9y2zlHQTNgTz+HcZTy0X1NQnwUIL5UngLHW0=;
-	b=j3kbTzYKNK1UGQ1yEkHEgsJ/8gdpjIJrgQJWVweIUZ/qgOC1QmhrM1ROVEKedOvz
-	n0mG7fENNlCQo3L+TLFe2ui4tiy8oM9gqAwtb8aT8q9vcCeLYUYE7QWPXSEUmCfezZW
-	ZDqiPcHFBvdWDIb7FlWEYae0fyH8S5gwL/uDeAJg=
-Content-Type: multipart/mixed; boundary="===============1257177929656219363=="
+	bh=fY3wUjUJJniFXvIB3izOytYbt6bB+2Q0oaBIl3+UNqU=;
+	b=m1DBdM/tbK4C4RYdzayUCCY2XNXOpmWJKTVC3KCJnIXZ4v/oM7wWqIAzqSix48K7
+	PbJc3yaPNiAkVQ2Ib+2rGE158vYYggSnwn+Q0UifdsGqN9s5TKrIdPrBNOGGKWjTkUC
+	9gI617uR4Jfp36LK+QsiJoxqP+Is1Ye9i1epOTXA=
+Content-Type: multipart/mixed; boundary="===============2969537818168677214=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-babel: upgrading to 2.14.0 SUCCEEDED
-Message-ID: <0101018c6dd71b7a-34c966e6-8a9e-4a35-ab7e-ed20228dd10b-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-cython: upgrading to 3.0.6 SUCCEEDED
+Message-ID: <0101018c6dd71b6a-96bb628c-5a37-40fb-aab6-c726b4cd129d-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Dec 2023 14:17:43 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.30
+X-SES-Outgoing: 2023.12.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192465
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192462
 
---===============1257177929656219363==
+--===============2969537818168677214==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-babel* to *2.14.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-cython* to *3.0.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-babel-upgrade-2.13.1-2.14.0.patch
+    - apply the patch: git am 0001-python3-cython-upgrade-0.29.36-3.0.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,294 +72,221 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b3c9339fa81d621c00d353110db788c1ecd0e612 Mon Sep 17 00:00:00 2001
+From a875cbcf92f762bebe06c5e2d31cd27207edcd0b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 07:31:29 +0000
-Subject: [PATCH] python3-babel: upgrade 2.13.1 -> 2.14.0
+Date: Fri, 15 Dec 2023 07:41:58 +0000
+Subject: [PATCH] python3-cython: upgrade 0.29.36 -> 3.0.6
 
 ---
- .../python/{python3-babel_2.13.1.bb => python3-babel_2.14.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-babel_2.13.1.bb => python3-babel_2.14.0.bb} (86%)
+ .../recipes-devtools/python/python-cython.inc |  4 ++--
+ ...hon_0.29.36.bb => python3-cython_3.0.6.bb} | 21 +++++++++++++++++++
+ 2 files changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-cython_0.29.36.bb => python3-cython_3.0.6.bb} (63%)
 
-diff --git a/meta/recipes-devtools/python/python3-babel_2.13.1.bb b/meta/recipes-devtools/python/python3-babel_2.14.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-babel_2.13.1.bb
-rename to meta/recipes-devtools/python/python3-babel_2.14.0.bb
-index 6908d81326..2e736107f9 100644
---- a/meta/recipes-devtools/python/python3-babel_2.13.1.bb
-+++ b/meta/recipes-devtools/python/python3-babel_2.14.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://babel.edgewall.org/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=0f97d9a63e91407b4c0d01efde91cfc0"
+diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
+index 6aec6b012f..0b0e148cb6 100644
+--- a/meta/recipes-devtools/python/python-cython.inc
++++ b/meta/recipes-devtools/python/python-cython.inc
+@@ -5,11 +5,11 @@ It's designed to bridge the gap between the nice, high-level, easy-to-use world
+ and the messy, low-level world of C."
+ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
+ PYPI_PACKAGE = "Cython"
+ BBCLASSEXTEND = "native nativesdk"
  
--SRC_URI[sha256sum] = "33e0952d7dd6374af8dbf6768cc4ddf3ccfefc244f9986d4074704f2fbd18900"
-+SRC_URI[sha256sum] = "6919867db036398ba21eb5c7a0f6b28ab8cbc3ae7a73a44ebe34ae74a4e7d363"
+-SRC_URI[sha256sum] = "41c0cfd2d754e383c9eeb95effc9aa4ab847d0c9747077ddd7c0dcb68c3bc01f"
++SRC_URI[sha256sum] = "399d185672c667b26eabbdca420c98564583798af3bc47670a8a09e9f19dd660"
+ UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
  
- PYPI_PACKAGE = "Babel"
+ inherit pypi
+diff --git a/meta/recipes-devtools/python/python3-cython_0.29.36.bb b/meta/recipes-devtools/python/python3-cython_3.0.6.bb
+similarity index 63%
+rename from meta/recipes-devtools/python/python3-cython_0.29.36.bb
+rename to meta/recipes-devtools/python/python3-cython_3.0.6.bb
+index 07638d7ad7..8594024fc7 100644
+--- a/meta/recipes-devtools/python/python3-cython_0.29.36.bb
++++ b/meta/recipes-devtools/python/python3-cython_3.0.6.bb
+@@ -1,3 +1,24 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.txt
++# +++ LICENSE.txt
++# @@ -1,6 +1,6 @@
++#                                   Apache License
++#                             Version 2.0, January 2004
++# -                        http://www.apache.org/licenses/
++# +                        https://www.apache.org/licenses/
++#  
++#     TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
++#  
++# 
++#
++
+ inherit setuptools3
+ require python-cython.inc
  
 -- 
 2.42.0
 
 
---===============1257177929656219363==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-babel-upgrade-2.13.1-2.14.0.patch"
-
-RnJvbSBiM2M5MzM5ZmE4MWQ2MjFjMDBkMzUzMTEwZGI3ODhjMWVjZDBlNjEyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDc6MzE6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWJhYmVsOiB1cGdyYWRlIDIuMTMuMSAtPiAyLjE0LjAKCi0tLQogLi4uL3B5dGhvbi97
-cHl0aG9uMy1iYWJlbF8yLjEzLjEuYmIgPT4gcHl0aG9uMy1iYWJlbF8yLjE0LjAuYmJ9IHwgMiAr
-LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1iYWJlbF8yLjEzLjEuYmIgPT4g
-cHl0aG9uMy1iYWJlbF8yLjE0LjAuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWJhYmVsXzIuMTMuMS5iYiBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1iYWJlbF8yLjE0LjAuYmIKc2ltaWxhcml0eSBpbmRleCA4
-NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWJhYmVs
-XzIuMTMuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LWJhYmVsXzIuMTQuMC5iYgppbmRleCA2OTA4ZDgxMzI2Li4yZTczNjEwN2Y5IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtYmFiZWxfMi4xMy4xLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1iYWJlbF8yLjE0LjAuYmIK
-QEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHA6Ly9iYWJlbC5lZGdld2FsbC5vcmcvIgog
-TElDRU5TRSA9ICJCU0QtMy1DbGF1c2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNF
-TlNFO21kNT0wZjk3ZDlhNjNlOTE0MDdiNGMwZDAxZWZkZTkxY2ZjMCIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjMzZTA5NTJkN2RkNjM3NGFmOGRiZjY3NjhjYzRkZGYzY2NmZWZjMjQ0Zjk5ODZk
-NDA3NDcwNGYyZmJkMTg5MDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjkxOTg2N2RiMDM2Mzk4
-YmEyMWViNWM3YTBmNmIyOGFiOGNiYzNhZTdhNzNhNDRlYmUzNGFlNzRhNGU3ZDM2MyIKIAogUFlQ
-SV9QQUNLQUdFID0gIkJhYmVsIgogCi0tIAoyLjQyLjAKCg==
-
---===============1257177929656219363==
+--===============2969537818168677214==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-babel: PKGV changed from 2.13.1 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/python3-babel: SRC_URI changed from "https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.13.1.tar.gz;downloadfilename=Babel-2.13.1.tar.gz" to "https://files.pythonhosted.org/packages/source/B/Babel/Babel-2.14.0.tar.gz;downloadfilename=Babel-2.14.0.tar.gz"
-packages/core2-64-poky-linux/python3-babel: PV changed from "2.13.1" to "2.14.0"
-packages/core2-64-poky-linux/python3-babel/python3-babel-dbg: PKGV changed from 2.13.1 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/python3-babel/python3-babel-dbg: PV changed from "2.13.1" to "2.14.0"
-packages/core2-64-poky-linux/python3-babel/python3-babel-dev: PKGV changed from 2.13.1 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/python3-babel/python3-babel-dev: PV changed from "2.13.1" to "2.14.0"
-packages/core2-64-poky-linux/python3-babel/python3-babel-doc: PKGV changed from 2.13.1 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/python3-babel/python3-babel-doc: PV changed from "2.13.1" to "2.14.0"
-packages/core2-64-poky-linux/python3-babel/python3-babel-locale: PKGV changed from 2.13.1 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/python3-babel/python3-babel-locale: PV changed from "2.13.1" to "2.14.0"
-packages/core2-64-poky-linux/python3-babel/python3-babel-src: PKGV changed from 2.13.1 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/python3-babel/python3-babel-src: PV changed from "2.13.1" to "2.14.0"
-packages/core2-64-poky-linux/python3-babel/python3-babel-staticdev: PKGV changed from 2.13.1 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/python3-babel/python3-babel-staticdev: PV changed from "2.13.1" to "2.14.0"
-packages/core2-64-poky-linux/python3-babel/python3-babel: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Babel-2.13.1.dist-info -> /usr/lib/python3.11/site-packages/Babel-2.14.0.dist-info, added "/usr/lib/python3.11/site-packages/babel/locale-data/lij.dat /usr/lib/python3.11/site-packages/babel/locale-data/lmo.dat /usr/lib/python3.11/site-packages/babel/locale-data/nso_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal_Arab.dat /usr/lib/python3.11/site-packages/babel/locale-data/vo.dat /usr/lib/python3.11/site-packages/babel/locale-data/an.dat /usr/lib/python3.11/site-packages/babel/locale-data/ss.dat /usr/lib/python3.11/site-packages/babel/locale-data/tn.dat /usr/lib/python3.11/site-packages/babel/locale-data/nr.dat /usr/lib/python3.11/site-packages/babel/locale-data/nv.dat /usr/lib/python3.11/site-packages/babel/locale-data/dv.dat /usr/lib/python3.11/site-packages/babel/locale-data/co.dat /usr/lib/python3.11/site-packages/babel/locale-data/cu.dat /usr/lib
- /python3.11/site-packages/babel/locale-data/ss_SZ.dat /usr/lib/python3.11/site-packages/babel/locale-data/en_Dsrt_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/ba_RU.dat /usr/lib/python3.11/site-packages/babel/locale-data/cu_RU.dat /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong.dat /usr/lib/python3.11/site-packages/babel/locale-data/aa_DJ.dat /usr/lib/python3.11/site-packages/babel/locale-data/nv_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/st_LS.dat /usr/lib/python3.11/site-packages/babel/locale-data/an_ES.dat /usr/lib/python3.11/site-packages/babel/locale-data/en_Dsrt.dat /usr/lib/python3.11/site-packages/babel/locale-data/blt_VN.dat /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg.dat /usr/lib/python3.11/site-packages/babel/locale-data/byn_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/gez_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/ssy_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/tig_ER.
- dat /usr/lib/python3.11/site-packages/babel/locale-data/arn_CL.dat /usr/lib/python3.11/site-packages/babel/locale-data/shn_MM.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_OM.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_AF.dat /usr/lib/python3.11/site-packages/babel/locale-data/cho_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/cic_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/mus_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/osa_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/cad_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal_Arab_PK.dat /usr/lib/python3.11/site-packages/babel/locale-data/pap_CW.dat /usr/lib/python3.11/site-packages/babel/locale-data/quc.dat /usr/lib/python3.11/site-packages/babel/locale-data/apc.dat /usr/lib/python3.11/site-packages/babel/locale-data/arn.dat /usr/lib/python3.11/site-packages/babel/locale-data/rif.dat /usr/lib/python3.11/site-packages/babel/locale-data/moh
- .dat /usr/lib/python3.11/site-packages/babel/locale-data/mus.dat /usr/lib/python3.11/site-packages/babel/locale-data/myv.dat /usr/lib/python3.11/site-packages/babel/locale-data/rhg.dat /usr/lib/python3.11/site-packages/babel/locale-data/shn.dat /usr/lib/python3.11/site-packages/babel/locale-data/wal.dat /usr/lib/python3.11/site-packages/babel/locale-data/wbp.dat /usr/lib/python3.11/site-packages/babel/locale-data/hnj.dat /usr/lib/python3.11/site-packages/babel/locale-data/jbo.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal_Latn.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_PK.dat /usr/lib/python3.11/site-packages/babel/locale-data/trw_PK.dat /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_IQ.dat /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_IR.dat /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_TR.dat /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab_NG.dat /usr/lib/python3.11/site-packages/babel/locale-data/h
- a_Arab_SD.dat /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab_BN.dat /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab_MY.dat /usr/lib/python3.11/site-packages/babel/locale-data/sma_NO.dat /usr/lib/python3.11/site-packages/babel/locale-data/smj_NO.dat /usr/lib/python3.11/site-packages/babel/locale-data/lij_IT.dat /usr/lib/python3.11/site-packages/babel/locale-data/lmo_IT.dat /usr/lib/python3.11/site-packages/babel/locale-data/scn_IT.dat /usr/lib/python3.11/site-packages/babel/locale-data/sma_SE.dat /usr/lib/python3.11/site-packages/babel/locale-data/smj_SE.dat /usr/lib/python3.11/site-packages/babel/locale-data/gez_ET.dat /usr/lib/python3.11/site-packages/babel/locale-data/sid_ET.dat /usr/lib/python3.11/site-packages/babel/locale-data/wal_ET.dat /usr/lib/python3.11/site-packages/babel/locale-data/vec_IT.dat /usr/lib/python3.11/site-packages/babel/locale-data/iu_Latn.dat /usr/lib/python3.11/site-packages/babel/locale-data/iu_Latn_CA.dat /usr/lib/python3.11/site-
- packages/babel/locale-data/co_FR.dat /usr/lib/python3.11/site-packages/babel/locale-data/aa_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/szl.dat /usr/lib/python3.11/site-packages/babel/locale-data/vec.dat /usr/lib/python3.11/site-packages/babel/locale-data/kpe.dat /usr/lib/python3.11/site-packages/babel/locale-data/kcg.dat /usr/lib/python3.11/site-packages/babel/locale-data/ken.dat /usr/lib/python3.11/site-packages/babel/locale-data/tig.dat /usr/lib/python3.11/site-packages/babel/locale-data/tpi.dat /usr/lib/python3.11/site-packages/babel/locale-data/trv.dat /usr/lib/python3.11/site-packages/babel/locale-data/sat_Deva_IN.dat /usr/lib/python3.11/site-packages/babel/locale-data/trw.dat /usr/lib/python3.11/site-packages/babel/messages/setuptools_frontend.py /usr/lib/python3.11/site-packages/babel/locale-data/ny_MW.dat /usr/lib/python3.11/site-packages/babel/locale-data/tn_BW.dat /usr/lib/python3.11/site-packages/babel/locale-data/bm_Nkoo.dat /usr/lib/python3.11/site-packa
- ges/babel/locale-data/gaa_GH.dat /usr/lib/python3.11/site-packages/babel/locale-data/nso.dat /usr/lib/python3.11/site-packages/babel/locale-data/el_POLYTON.dat /usr/lib/python3.11/site-packages/babel/locale-data/byn.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal.dat /usr/lib/python3.11/site-packages/babel/locale-data/ts.dat /usr/lib/python3.11/site-packages/babel/locale-data/wa.dat /usr/lib/python3.11/site-packages/babel/locale-data/mni_Mtei_IN.dat /usr/lib/python3.11/site-packages/babel/locale-data/cch_NG.dat /usr/lib/python3.11/site-packages/babel/locale-data/kaj_NG.dat /usr/lib/python3.11/site-packages/babel/locale-data/kcg_NG.dat /usr/lib/python3.11/site-packages/babel/locale-data/gn_PY.dat /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg_BD.dat /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg_MM.dat /usr/lib/python3.11/site-packages/babel/locale-data/mni_Mtei.dat /usr/lib/python3.11/site-packages/babel/locale-data/tpi_PG.dat /usr/lib/python3
- .11/site-packages/babel/locale-data/hnj_Hmnp_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/kpe_GN.dat /usr/lib/python3.11/site-packages/babel/locale-data/nqo_GN.dat /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab.dat /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab.dat /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab.dat /usr/lib/python3.11/site-packages/babel/locale-data/rif_MA.dat /usr/lib/python3.11/site-packages/babel/messages/__pycache__/setuptools_frontend.cpython-311.pyc /usr/lib/python3.11/site-packages/babel/locale-data/bss.dat /usr/lib/python3.11/site-packages/babel/locale-data/ba.dat /usr/lib/python3.11/site-packages/babel/locale-data/aa.dat /usr/lib/python3.11/site-packages/babel/locale-data/ab.dat /usr/lib/python3.11/site-packages/babel/locale-data/io.dat /usr/lib/python3.11/site-packages/babel/locale-data/st.dat /usr/lib/python3.11/site-packages/babel/locale-data/iu.dat /usr/lib/python3.11/site-packages/babel/locale-data/l
- a.dat /usr/lib/python3.11/site-packages/babel/locale-data/gn.dat /usr/lib/python3.11/site-packages/babel/locale-data/ny.dat /usr/lib/python3.11/site-packages/babel/locale-data/ve.dat /usr/lib/python3.11/site-packages/babel/locale-data/bm_Nkoo_ML.dat /usr/lib/python3.11/site-packages/babel/locale-data/szl_PL.dat /usr/lib/python3.11/site-packages/babel/locale-data/cic.dat /usr/lib/python3.11/site-packages/babel/locale-data/jbo_001.dat /usr/lib/python3.11/site-packages/babel/locale-data/prg_001.dat /usr/lib/python3.11/site-packages/babel/locale-data/pap_AW.dat /usr/lib/python3.11/site-packages/babel/locale-data/quc_GT.dat /usr/lib/python3.11/site-packages/babel/locale-data/gaa.dat /usr/lib/python3.11/site-packages/babel/locale-data/gez.dat /usr/lib/python3.11/site-packages/babel/locale-data/scn.dat /usr/lib/python3.11/site-packages/babel/locale-data/sdh.dat /usr/lib/python3.11/site-packages/babel/locale-data/en_Shaw.dat /usr/lib/python3.11/site-packages/babel/locale-data/cad.dat /usr/l
- ib/python3.11/site-packages/babel/locale-data/cch.dat /usr/lib/python3.11/site-packages/babel/locale-data/osa.dat /usr/lib/python3.11/site-packages/babel/locale-data/cho.dat /usr/lib/python3.11/site-packages/babel/locale-data/apc_SY.dat /usr/lib/python3.11/site-packages/babel/locale-data/syr_SY.dat /usr/lib/python3.11/site-packages/babel/locale-data/ab_GE.dat /usr/lib/python3.11/site-packages/babel/locale-data/wa_BE.dat /usr/lib/python3.11/site-packages/babel/locale-data/io_001.dat /usr/lib/python3.11/site-packages/babel/locale-data/vo_001.dat /usr/lib/python3.11/site-packages/babel/locale-data/sdh_IQ.dat /usr/lib/python3.11/site-packages/babel/locale-data/dv_MV.dat /usr/lib/python3.11/site-packages/babel/locale-data/syr_IQ.dat /usr/lib/python3.11/site-packages/babel/locale-data/myv_RU.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal_Latn_PK.dat /usr/lib/python3.11/site-packages/babel/locale-data/aa_ET.dat /usr/lib/python3.11/site-packages/babel/locale-data/kpe_LR.dat /us
- r/lib/python3.11/site-packages/babel/locale-data/bgn_IR.dat /usr/lib/python3.11/site-packages/babel/locale-data/sdh_IR.dat /usr/lib/python3.11/site-packages/babel/locale-data/sat_Deva.dat /usr/lib/python3.11/site-packages/babel/locale-data/hnj_Hmnp.dat /usr/lib/python3.11/site-packages/babel/locale-data/shn_TH.dat /usr/lib/python3.11/site-packages/babel/locale-data/trv_TW.dat /usr/lib/python3.11/site-packages/babel/locale-data/en_Shaw_GB.dat /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong_CN.dat /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong_MN.dat /usr/lib/python3.11/site-packages/babel/locale-data/kaj.dat /usr/lib/python3.11/site-packages/babel/locale-data/pap.dat /usr/lib/python3.11/site-packages/babel/locale-data/prg.dat /usr/lib/python3.11/site-packages/babel/locale-data/sid.dat /usr/lib/python3.11/site-packages/babel/locale-data/sma.dat /usr/lib/python3.11/site-packages/babel/locale-data/smj.dat /usr/lib/python3.11/site-packages/babel/locale-data/ssy.d
- at /usr/lib/python3.11/site-packages/babel/locale-data/syr.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn.dat /usr/lib/python3.11/site-packages/babel/locale-data/blt.dat /usr/lib/python3.11/site-packages/babel/locale-data/moh_CA.dat /usr/lib/python3.11/site-packages/babel/locale-data/wbp_AU.dat /usr/lib/python3.11/site-packages/babel/locale-data/nqo.dat /usr/lib/python3.11/site-packages/babel/locale-data/ve_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/la_VA.dat /usr/lib/python3.11/site-packages/babel/locale-data/nr_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/ss_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/st_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/tn_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/ts_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/ken_CM.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_AE.dat /usr/lib/python3.11/site-packages/babel/locale-data/iu_CA.dat /usr/l
- ib/python3.11/site-packages/babel/locale-data/bss_CM.dat"
-packages/core2-64-poky-linux/python3-babel/python3-babel: PKGV changed from 2.13.1 [default] to 2.14.0 [default]
-packages/core2-64-poky-linux/python3-babel/python3-babel: PKGSIZE changed from 32464910 to 35727785 (+10%)
-packages/core2-64-poky-linux/python3-babel/python3-babel: PV changed from "2.13.1" to "2.14.0"
-Changes to packages/core2-64-poky-linux/python3-babel (sysroot):
-  /usr/lib/python3.11/site-packages/Babel-2.13.1.dist-info moved to /usr/lib/python3.11/site-packages/Babel-2.14.0.dist-info
-  /usr/lib/python3.11/site-packages/babel/locale-data/aa.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/aa_DJ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/aa_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/aa_ET.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ab_GE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/an.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/an_ES.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/apc.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/apc_SY.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/arn_CL.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/arn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_IQ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_IR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_TR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ba.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal_Arab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal_Arab_PK.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal_Latn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal_Latn_PK.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ba_RU.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_AE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_AF.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_IR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_OM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_PK.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/blt.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/blt_VN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bm_Nkoo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bm_Nkoo_ML.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bss_CM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bss.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/byn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/byn_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cad.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cad_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cch.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cch_NG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cho.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cho_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cic.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cic_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/co.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/co_FR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cu.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cu_RU.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/dv.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/dv_MV.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/el_POLYTON.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/en_Dsrt.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/en_Dsrt_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/en_Shaw.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/en_Shaw_GB.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gaa.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gaa_GH.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gez.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gez_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gez_ET.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gn_PY.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab_NG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab_SD.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/hnj.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/hnj_Hmnp.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/hnj_Hmnp_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/io_001.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/io.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/iu_CA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/iu.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/iu_Latn_CA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/iu_Latn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/jbo_001.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/jbo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kaj.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kaj_NG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kcg.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kcg_NG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ken_CM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ken.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kpe.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kpe_GN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kpe_LR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/la.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/la_VA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/lij.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/lij_IT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/lmo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/lmo_IT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mni_Mtei.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mni_Mtei_IN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong_CN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong_MN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/moh_CA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/moh.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab_BN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab_MY.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mus.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mus_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/myv.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/myv_RU.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nqo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nqo_GN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nr.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nr_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nso.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nso_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nv.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nv_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ny.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ny_MW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/osa.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/osa_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/pap_AW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/pap_CW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/pap.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/prg_001.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/prg.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/quc.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/quc_GT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rhg.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg_BD.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg_MM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rif.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rif_MA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sat_Deva.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sat_Deva_IN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/scn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/scn_IT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sdh.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sdh_IQ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sdh_IR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/shn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/shn_MM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/shn_TH.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sid.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sid_ET.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sma.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sma_NO.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sma_SE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/smj.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/smj_NO.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/smj_SE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ss.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ss_SZ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ssy.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ssy_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ss_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/st.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/st_LS.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/st_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/syr.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/syr_IQ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/syr_SY.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/szl.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/szl_PL.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tig.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tig_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tn_BW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tn_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tpi.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tpi_PG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/trv.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/trv_TW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/trw.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/trw_PK.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ts.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ts_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/vec.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/vec_IT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ve.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ve_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/vo_001.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/vo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wa_BE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wa.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wal.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wal_ET.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wbp_AU.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wbp.dat was added
-  /usr/lib/python3.11/site-packages/babel/messages/__pycache__/setuptools_frontend.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/babel/messages/setuptools_frontend.py was added
+packages/core2-64-poky-linux/python3-cython: SRC_URI changed from "https://files.pythonhosted.org/packages/source/C/Cython/Cython-0.29.36.tar.gz;downloadfilename=Cython-0.29.36.tar.gz" to "https://files.pythonhosted.org/packages/source/C/Cython/Cython-3.0.6.tar.gz;downloadfilename=Cython-3.0.6.tar.gz"
+packages/core2-64-poky-linux/python3-cython: PV changed from "0.29.36" to "3.0.6"
+packages/core2-64-poky-linux/python3-cython: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
+packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: FILELIST: added "/usr/lib/python3.11/site-packages/Cython/.debug/StringIOTree.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/Machines.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/DFA.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/.debug/Parsing.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/.debug/Code.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/.debug/Transitions.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/.debug/Utils.cpython-311-x86_64-linux-gnu.so"
+packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: PV changed from "0.29.36" to "3.0.6"
+packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 8859712 to 23066248 (+160%)
+packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
+packages/core2-64-poky-linux/python3-cython/python3-cython-dev: PV changed from "0.29.36" to "3.0.6"
+packages/core2-64-poky-linux/python3-cython/python3-cython-dev: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
+packages/core2-64-poky-linux/python3-cython/python3-cython-doc: PV changed from "0.29.36" to "3.0.6"
+packages/core2-64-poky-linux/python3-cython/python3-cython-doc: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
+packages/core2-64-poky-linux/python3-cython/python3-cython-locale: PV changed from "0.29.36" to "3.0.6"
+packages/core2-64-poky-linux/python3-cython/python3-cython-locale: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
+packages/core2-64-poky-linux/python3-cython/python3-cython-src: FILELIST: directory renamed /usr/src/debug/python3-cython/0.29.36/Cython/Tempita -> /usr/src/debug/python3-cython/3.0.6/Cython/Tempita, directory renamed /usr/src/debug/python3-cython/0.29.36/Cython/Runtime -> /usr/src/debug/python3-cython/3.0.6/Cython/Runtime, removed "/usr/src/debug/python3-cython/0.29.36/Cython/Plex/Scanners.c /usr/src/debug/python3-cython/0.29.36/Cython/Compiler/FlowControl.c /usr/src/debug/python3-cython/0.29.36/Cython/Compiler/Visitor.c /usr/src/debug/python3-cython/0.29.36/Cython/Compiler/Scanning.c /usr/src/debug/python3-cython/0.29.36/Cython/Plex/Actions.c /usr/src/debug/python3-cython/0.29.36/Cython/Compiler/FusedNode.c", added "/usr/src/debug/python3-cython/3.0.6/Cython/Compiler/Parsing.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/FusedNode.c /usr/src/debug/python3-cython/3.0.6/Cython/Plex/DFA.c /usr/src/debug/python3-cython/3.0.6/Cython/Plex/Machines.c /usr/src/debug/python3-cython/3
+ .0.6/Cython/Compiler/Scanning.c /usr/src/debug/python3-cython/3.0.6/Cython/StringIOTree.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/Code.c /usr/src/debug/python3-cython/3.0.6/Cython/Plex/Scanners.c /usr/src/debug/python3-cython/3.0.6/Cython/Plex/Actions.c /usr/src/debug/python3-cython/3.0.6/Cython/Plex/Transitions.c /usr/src/debug/python3-cython/3.0.6/Cython/Utils.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/FlowControl.c /usr/src/debug/python3-cython/3.0.6/Cython/Compiler/Visitor.c"
+packages/core2-64-poky-linux/python3-cython/python3-cython-src: PV changed from "0.29.36" to "3.0.6"
+packages/core2-64-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8490367 to 22896287 (+170%)
+packages/core2-64-poky-linux/python3-cython/python3-cython-src: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
+packages/core2-64-poky-linux/python3-cython/python3-cython-staticdev: PV changed from "0.29.36" to "3.0.6"
+packages/core2-64-poky-linux/python3-cython/python3-cython-staticdev: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
+packages/core2-64-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info -> /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info, removed "/usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd /usr/lib/python3.11
+ /site-packages/Cython/Includes/Deprecated/stl.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd /usr/lib/python3.11/site-packa
+ ges/Cython/Includes/Deprecated/python_exc.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd /usr/lib/python3.
+ 11/site-packages/Cython/Includes/Deprecated/python_complex.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd", added "/usr/lib/python3.11/site-packages/pyximport/_pyximport2.py /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd /usr/lib/python3.11/site-pa
+ ckages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py /usr/lib/python3.11/site-packages/Cython/Build
+ /Tests/TestDependencies.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-x86_6
+ 4-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Shadow.pyi 
+ /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd"
+packages/core2-64-poky-linux/python3-cython/python3-cython: PV changed from "0.29.36" to "3.0.6"
+packages/core2-64-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10199583 to 14434252 (+42%)
+packages/core2-64-poky-linux/python3-cython/python3-cython: PKGV changed from 0.29.36 [default] to 3.0.6 [default]
+Changes to packages/core2-64-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/COPYING.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/LICENSE.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Shadow.pyi was added
+  /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx was added
+  /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py was added
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/COPYING.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/WHEEL was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1997,217 +1924,191 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============1257177929656219363==
+--===============2969537818168677214==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-cython-upgrade-0.29.36-3.0.6.patch"
+
+RnJvbSBhODc1Y2JjZjkyZjc2MmJlYmUwNmM1ZTJkMzFjZDI3MjA3ZWRjZDBiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDc6NDE6NTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWN5dGhvbjogdXBncmFkZSAwLjI5LjM2IC0+IDMuMC42CgotLS0KIC4uLi9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9uLmluYyB8ICA0ICsrLS0KIC4uLmhvbl8wLjI5
+LjM2LmJiID0+IHB5dGhvbjMtY3l0aG9uXzMuMC42LmJifSB8IDIxICsrKysrKysrKysrKysrKysr
+KysKIDIgZmlsZXMgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWN5dGhvbl8wLjI5LjM2
+LmJiID0+IHB5dGhvbjMtY3l0aG9uXzMuMC42LmJifSAoNjMlKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWN5dGhvbi5pbmMgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1jeXRob24uaW5jCmluZGV4IDZhZWM2YjAxMmYuLjBiMGUx
+NDhjYjYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWN5
+dGhvbi5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tY3l0aG9u
+LmluYwpAQCAtNSwxMSArNSwxMSBAQCBJdCdzIGRlc2lnbmVkIHRvIGJyaWRnZSB0aGUgZ2FwIGJl
+dHdlZW4gdGhlIG5pY2UsIGhpZ2gtbGV2ZWwsIGVhc3ktdG8tdXNlIHdvcmxkCiBhbmQgdGhlIG1l
+c3N5LCBsb3ctbGV2ZWwgd29ybGQgb2YgQy4iCiBTRUNUSU9OID0gImRldmVsL3B5dGhvbiIKIExJ
+Q0VOU0UgPSAiQXBhY2hlLTIuMCIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0Uu
+dHh0O21kNT1lMjNmYWRkNmNlZWY4YzYxOGZjMWM2NTE5MWQ4NDZmYSIKK0xJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0xJQ0VOU0UudHh0O21kNT02MWMzZWU4OTYxNTc1ODYxZmE4NmM3ZTYyYmM5
+ZjY5YyIKIFBZUElfUEFDS0FHRSA9ICJDeXRob24iCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBu
+YXRpdmVzZGsiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0MWMwY2ZkMmQ3NTRlMzgzYzllZWI5
+NWVmZmM5YWE0YWI4NDdkMGM5NzQ3MDc3ZGRkN2MwZGNiNjhjM2JjMDFmIgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjM5OWQxODU2NzJjNjY3YjI2ZWFiYmRjYTQyMGM5ODU2NDU4Mzc5OGFmM2JjNDc2
+NzBhOGEwOWU5ZjE5ZGQ2NjAiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJDeXRob24tKD9QPHB2
+ZXI+LiopXC50YXIiCiAKIGluaGVyaXQgcHlwaQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8wLjI5LjM2LmJiIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8zLjAuNi5iYgpzaW1pbGFyaXR5IGluZGV4IDYz
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3l0aG9u
+XzAuMjkuMzYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1jeXRob25fMy4wLjYuYmIKaW5kZXggMDc2MzhkN2FkNy4uODU5NDAyNGZjNyAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWN5dGhvbl8wLjI5LjM2LmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jeXRob25fMy4wLjYu
+YmIKQEAgLTEsMyArMSwyNCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVz
+IGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5n
+IGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRl
+eHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3Vt
+bWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2Ut
+VXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVh
+cnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UudHh0Cisj
+ICsrKyBMSUNFTlNFLnR4dAorIyBAQCAtMSw2ICsxLDYgQEAKKyMgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIEFwYWNoZSBMaWNlbnNlCisjICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBWZXJzaW9uIDIuMCwgSmFudWFyeSAyMDA0CisjIC0gICAgICAgICAgICAgICAgICAgICAg
+ICBodHRwOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5zZXMvCisjICsgICAgICAgICAgICAgICAgICAg
+ICAgICBodHRwczovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzLworIyAgCisjICAgICBURVJNUyBB
+TkQgQ09ORElUSU9OUyBGT1IgVVNFLCBSRVBST0RVQ1RJT04sIEFORCBESVNUUklCVVRJT04KKyMg
+IAorIyAKKyMKKwogaW5oZXJpdCBzZXR1cHRvb2xzMwogcmVxdWlyZSBweXRob24tY3l0aG9uLmlu
+YwogCi0tIAoyLjQyLjAKCg==
+
+--===============2969537818168677214==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-babel/python3-babel: PKGSIZE changed from 32464910 to 35727785 (+10%)
-packages/core2-64-poky-linux/python3-babel/python3-babel: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Babel-2.13.1.dist-info -> /usr/lib/python3.11/site-packages/Babel-2.14.0.dist-info, added "/usr/lib/python3.11/site-packages/babel/messages/setuptools_frontend.py /usr/lib/python3.11/site-packages/babel/locale-data/apc_SY.dat /usr/lib/python3.11/site-packages/babel/locale-data/syr_SY.dat /usr/lib/python3.11/site-packages/babel/locale-data/moh_CA.dat /usr/lib/python3.11/site-packages/babel/locale-data/rif_MA.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_AF.dat /usr/lib/python3.11/site-packages/babel/locale-data/shn_TH.dat /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong.dat /usr/lib/python3.11/site-packages/babel/locale-data/sid.dat /usr/lib/python3.11/site-packages/babel/locale-data/wal.dat /usr/lib/python3.11/site-packages/babel/locale-data/wbp.dat /usr/lib/python3.11/site-packages/babel/locale-data/sma.dat /usr/lib/python3.11/site-packages
- /babel/locale-data/smj.dat /usr/lib/python3.11/site-packages/babel/locale-data/jbo.dat /usr/lib/python3.11/site-packages/babel/locale-data/quc.dat /usr/lib/python3.11/site-packages/babel/locale-data/hnj.dat /usr/lib/python3.11/site-packages/babel/locale-data/kcg.dat /usr/lib/python3.11/site-packages/babel/locale-data/ken.dat /usr/lib/python3.11/site-packages/babel/locale-data/hnj_Hmnp_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/byn_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/gez_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/pap_AW.dat /usr/lib/python3.11/site-packages/babel/locale-data/ssy_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/tig_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/dv_MV.dat /usr/lib/python3.11/site-packages/babel/locale-data/st_LS.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal_Arab_PK.dat /usr/lib/python3.11/site-packages/babel/locale-data/szl.dat /usr/lib/python3.11/site-packages/b
- abel/locale-data/rhg.dat /usr/lib/python3.11/site-packages/babel/locale-data/rif.dat /usr/lib/python3.11/site-packages/babel/locale-data/kpe.dat /usr/lib/python3.11/site-packages/babel/locale-data/lij.dat /usr/lib/python3.11/site-packages/babel/locale-data/lmo.dat /usr/lib/python3.11/site-packages/babel/locale-data/ssy.dat /usr/lib/python3.11/site-packages/babel/locale-data/moh.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal.dat /usr/lib/python3.11/site-packages/babel/locale-data/gaa.dat /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg.dat /usr/lib/python3.11/site-packages/babel/locale-data/wbp_AU.dat /usr/lib/python3.11/site-packages/babel/locale-data/shn_MM.dat /usr/lib/python3.11/site-packages/babel/locale-data/nv_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/an_ES.dat /usr/lib/python3.11/site-packages/babel/locale-data/ts.dat /usr/lib/python3.11/site-packages/babel/locale-data/co.dat /usr/lib/python3.11/site-packages/babel/locale-data/cu.dat 
- /usr/lib/python3.11/site-packages/babel/locale-data/ve.dat /usr/lib/python3.11/site-packages/babel/locale-data/vo.dat /usr/lib/python3.11/site-packages/babel/locale-data/nr.dat /usr/lib/python3.11/site-packages/babel/locale-data/nv.dat /usr/lib/python3.11/site-packages/babel/locale-data/st.dat /usr/lib/python3.11/site-packages/babel/locale-data/ab.dat /usr/lib/python3.11/site-packages/babel/locale-data/tn.dat /usr/lib/python3.11/site-packages/babel/locale-data/gez.dat /usr/lib/python3.11/site-packages/babel/locale-data/pap.dat /usr/lib/python3.11/site-packages/babel/locale-data/cch.dat /usr/lib/python3.11/site-packages/babel/locale-data/apc.dat /usr/lib/python3.11/site-packages/babel/locale-data/arn.dat /usr/lib/python3.11/site-packages/babel/locale-data/mni_Mtei_IN.dat /usr/lib/python3.11/site-packages/babel/locale-data/aa_ET.dat /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab.dat /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab.dat /usr/lib/python3.11/site-p
- ackages/babel/locale-data/ken_CM.dat /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab.dat /usr/lib/python3.11/site-packages/babel/locale-data/bss_CM.dat /usr/lib/python3.11/site-packages/babel/locale-data/prg.dat /usr/lib/python3.11/site-packages/babel/locale-data/vec.dat /usr/lib/python3.11/site-packages/babel/locale-data/sdh.dat /usr/lib/python3.11/site-packages/babel/locale-data/shn.dat /usr/lib/python3.11/site-packages/babel/locale-data/mus.dat /usr/lib/python3.11/site-packages/babel/locale-data/myv.dat /usr/lib/python3.11/site-packages/babel/locale-data/scn.dat /usr/lib/python3.11/site-packages/babel/locale-data/cho.dat /usr/lib/python3.11/site-packages/babel/locale-data/cic.dat /usr/lib/python3.11/site-packages/babel/locale-data/osa.dat /usr/lib/python3.11/site-packages/babel/locale-data/cu_RU.dat /usr/lib/python3.11/site-packages/babel/locale-data/ba_RU.dat /usr/lib/python3.11/site-packages/babel/messages/__pycache__/setuptools_frontend.cpython-311.pyc /usr/lib/pyt
- hon3.11/site-packages/babel/locale-data/kaj.dat /usr/lib/python3.11/site-packages/babel/locale-data/ab_GE.dat /usr/lib/python3.11/site-packages/babel/locale-data/gaa_GH.dat /usr/lib/python3.11/site-packages/babel/locale-data/wa_BE.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal_Latn_PK.dat /usr/lib/python3.11/site-packages/babel/locale-data/cad_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/cho_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/cic_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/mus_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/osa_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/kpe_LR.dat /usr/lib/python3.11/site-packages/babel/locale-data/sma_NO.dat /usr/lib/python3.11/site-packages/babel/locale-data/smj_NO.dat /usr/lib/python3.11/site-packages/babel/locale-data/arn_CL.dat /usr/lib/python3.11/site-packages/babel/locale-data/jbo_001.dat /usr/lib/python3.11/site-packages/babel/locale-data/prg_001.dat
-  /usr/lib/python3.11/site-packages/babel/locale-data/gn_PY.dat /usr/lib/python3.11/site-packages/babel/locale-data/quc_GT.dat /usr/lib/python3.11/site-packages/babel/locale-data/sma_SE.dat /usr/lib/python3.11/site-packages/babel/locale-data/smj_SE.dat /usr/lib/python3.11/site-packages/babel/locale-data/en_Dsrt.dat /usr/lib/python3.11/site-packages/babel/locale-data/co_FR.dat /usr/lib/python3.11/site-packages/babel/locale-data/aa_ER.dat /usr/lib/python3.11/site-packages/babel/locale-data/hnj_Hmnp.dat /usr/lib/python3.11/site-packages/babel/locale-data/cch_NG.dat /usr/lib/python3.11/site-packages/babel/locale-data/kaj_NG.dat /usr/lib/python3.11/site-packages/babel/locale-data/kcg_NG.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_OM.dat /usr/lib/python3.11/site-packages/babel/locale-data/aa_DJ.dat /usr/lib/python3.11/site-packages/babel/locale-data/tpi_PG.dat /usr/lib/python3.11/site-packages/babel/locale-data/lij_IT.dat /usr/lib/python3.11/site-packages/babel/locale-data/
- lmo_IT.dat /usr/lib/python3.11/site-packages/babel/locale-data/scn_IT.dat /usr/lib/python3.11/site-packages/babel/locale-data/vec_IT.dat /usr/lib/python3.11/site-packages/babel/locale-data/nso_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/bm_Nkoo_ML.dat /usr/lib/python3.11/site-packages/babel/locale-data/mni_Mtei.dat /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg_BD.dat /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg_MM.dat /usr/lib/python3.11/site-packages/babel/locale-data/trv_TW.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_AE.dat /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab_BN.dat /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab_MY.dat /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_IQ.dat /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_IR.dat /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_TR.dat /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab_NG.dat /
- usr/lib/python3.11/site-packages/babel/locale-data/io.dat /usr/lib/python3.11/site-packages/babel/locale-data/iu.dat /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab_SD.dat /usr/lib/python3.11/site-packages/babel/locale-data/gez_ET.dat /usr/lib/python3.11/site-packages/babel/locale-data/sid_ET.dat /usr/lib/python3.11/site-packages/babel/locale-data/wal_ET.dat /usr/lib/python3.11/site-packages/babel/locale-data/an.dat /usr/lib/python3.11/site-packages/babel/locale-data/aa.dat /usr/lib/python3.11/site-packages/babel/locale-data/ba.dat /usr/lib/python3.11/site-packages/babel/locale-data/ss.dat /usr/lib/python3.11/site-packages/babel/locale-data/pap_CW.dat /usr/lib/python3.11/site-packages/babel/locale-data/blt_VN.dat /usr/lib/python3.11/site-packages/babel/locale-data/syr_IQ.dat /usr/lib/python3.11/site-packages/babel/locale-data/sdh_IQ.dat /usr/lib/python3.11/site-packages/babel/locale-data/sat_Deva_IN.dat /usr/lib/python3.11/site-packages/babel/locale-data/ve_ZA.dat /usr/l
- ib/python3.11/site-packages/babel/locale-data/tn_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/ts_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/iu_CA.dat /usr/lib/python3.11/site-packages/babel/locale-data/la_VA.dat /usr/lib/python3.11/site-packages/babel/locale-data/nr_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/ss_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/myv_RU.dat /usr/lib/python3.11/site-packages/babel/locale-data/st_ZA.dat /usr/lib/python3.11/site-packages/babel/locale-data/iu_Latn.dat /usr/lib/python3.11/site-packages/babel/locale-data/iu_Latn_CA.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal_Arab.dat /usr/lib/python3.11/site-packages/babel/locale-data/sat_Deva.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_PK.dat /usr/lib/python3.11/site-packages/babel/locale-data/trw_PK.dat /usr/lib/python3.11/site-packages/babel/locale-data/bm_Nkoo.dat /usr/lib/python3.11/site-packages/babel/locale-data/gn.
- dat /usr/lib/python3.11/site-packages/babel/locale-data/wa.dat /usr/lib/python3.11/site-packages/babel/locale-data/ny.dat /usr/lib/python3.11/site-packages/babel/locale-data/la.dat /usr/lib/python3.11/site-packages/babel/locale-data/dv.dat /usr/lib/python3.11/site-packages/babel/locale-data/en_Shaw_GB.dat /usr/lib/python3.11/site-packages/babel/locale-data/szl_PL.dat /usr/lib/python3.11/site-packages/babel/locale-data/en_Dsrt_US.dat /usr/lib/python3.11/site-packages/babel/locale-data/ss_SZ.dat /usr/lib/python3.11/site-packages/babel/locale-data/el_POLYTON.dat /usr/lib/python3.11/site-packages/babel/locale-data/tn_BW.dat /usr/lib/python3.11/site-packages/babel/locale-data/ny_MW.dat /usr/lib/python3.11/site-packages/babel/locale-data/en_Shaw.dat /usr/lib/python3.11/site-packages/babel/locale-data/bal_Latn.dat /usr/lib/python3.11/site-packages/babel/locale-data/kpe_GN.dat /usr/lib/python3.11/site-packages/babel/locale-data/nqo_GN.dat /usr/lib/python3.11/site-packages/babel/locale-data/
- nqo.dat /usr/lib/python3.11/site-packages/babel/locale-data/nso.dat /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong_CN.dat /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong_MN.dat /usr/lib/python3.11/site-packages/babel/locale-data/io_001.dat /usr/lib/python3.11/site-packages/babel/locale-data/vo_001.dat /usr/lib/python3.11/site-packages/babel/locale-data/tig.dat /usr/lib/python3.11/site-packages/babel/locale-data/tpi.dat /usr/lib/python3.11/site-packages/babel/locale-data/trv.dat /usr/lib/python3.11/site-packages/babel/locale-data/trw.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn.dat /usr/lib/python3.11/site-packages/babel/locale-data/blt.dat /usr/lib/python3.11/site-packages/babel/locale-data/bss.dat /usr/lib/python3.11/site-packages/babel/locale-data/byn.dat /usr/lib/python3.11/site-packages/babel/locale-data/cad.dat /usr/lib/python3.11/site-packages/babel/locale-data/syr.dat /usr/lib/python3.11/site-packages/babel/locale-data/bgn_IR.dat /usr/l
- ib/python3.11/site-packages/babel/locale-data/sdh_IR.dat"
-Changes to packages/core2-64-poky-linux/python3-babel (sysroot):
-  /usr/lib/python3.11/site-packages/Babel-2.13.1.dist-info moved to /usr/lib/python3.11/site-packages/Babel-2.14.0.dist-info
-  /usr/lib/python3.11/site-packages/babel/locale-data/aa.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/aa_DJ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/aa_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/aa_ET.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ab_GE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/an.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/an_ES.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/apc.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/apc_SY.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/arn_CL.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/arn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_IQ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_IR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/az_Arab_TR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ba.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal_Arab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal_Arab_PK.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal_Latn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bal_Latn_PK.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ba_RU.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_AE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_AF.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_IR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_OM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bgn_PK.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/blt.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/blt_VN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bm_Nkoo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bm_Nkoo_ML.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bss_CM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/bss.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/byn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/byn_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cad.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cad_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cch.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cch_NG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cho.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cho_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cic.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cic_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/co.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/co_FR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cu.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/cu_RU.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/dv.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/dv_MV.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/el_POLYTON.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/en_Dsrt.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/en_Dsrt_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/en_Shaw.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/en_Shaw_GB.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gaa.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gaa_GH.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gez.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gez_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gez_ET.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/gn_PY.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab_NG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ha_Arab_SD.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/hnj.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/hnj_Hmnp.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/hnj_Hmnp_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/io_001.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/io.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/iu_CA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/iu.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/iu_Latn_CA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/iu_Latn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/jbo_001.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/jbo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kaj.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kaj_NG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kcg.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kcg_NG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ken_CM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ken.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kpe.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kpe_GN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/kpe_LR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/la.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/la_VA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/lij.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/lij_IT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/lmo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/lmo_IT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mni_Mtei.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mni_Mtei_IN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong_CN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mn_Mong_MN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/moh_CA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/moh.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab_BN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ms_Arab_MY.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mus.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/mus_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/myv.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/myv_RU.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nqo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nqo_GN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nr.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nr_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nso.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nso_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nv.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/nv_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ny.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ny_MW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/osa.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/osa_US.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/pap_AW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/pap_CW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/pap.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/prg_001.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/prg.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/quc.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/quc_GT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rhg.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg_BD.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rhg_Rohg_MM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rif.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/rif_MA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sat_Deva.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sat_Deva_IN.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/scn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/scn_IT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sdh.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sdh_IQ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sdh_IR.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/shn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/shn_MM.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/shn_TH.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sid.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sid_ET.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sma.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sma_NO.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/sma_SE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/smj.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/smj_NO.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/smj_SE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ss.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ss_SZ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ssy.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ssy_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ss_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/st.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/st_LS.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/st_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/syr.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/syr_IQ.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/syr_SY.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/szl.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/szl_PL.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tig.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tig_ER.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tn_BW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tn.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tn_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tpi.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/tpi_PG.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/trv.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/trv_TW.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/trw.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/trw_PK.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ts.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ts_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/vec.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/vec_IT.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ve.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/ve_ZA.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/vo_001.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/vo.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wa_BE.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wa.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wal.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wal_ET.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wbp_AU.dat was added
-  /usr/lib/python3.11/site-packages/babel/locale-data/wbp.dat was added
-  /usr/lib/python3.11/site-packages/babel/messages/__pycache__/setuptools_frontend.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/babel/messages/setuptools_frontend.py was added
+packages/core2-64-poky-linux/python3-cython/python3-cython-dbg: PKGSIZE changed from 8859712 to 23066248 (+160%)
+packages/core2-64-poky-linux/python3-cython/python3-cython-src: PKGSIZE changed from 8490367 to 22896287 (+170%)
+packages/core2-64-poky-linux/python3-cython/python3-cython: PKGSIZE changed from 10199583 to 14434252 (+42%)
+packages/core2-64-poky-linux/python3-cython/python3-cython: FILELIST: directory renamed /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info -> /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info, removed "/usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd /usr/li
+ b/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd /usr/lib/python3.11/site-packages/C
+ ython/Includes/Deprecated/python_int.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd /usr/lib/python3.11/sit
+ e-packages/Cython/Includes/Deprecated/python_type.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd", added "/usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Comp
+ iler/Code.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd /usr/lib/python3.11/site-packages/Cython/Shadow.pyi /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Utilit
+ y/Dataclasses.py /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py /usr/lib/python3.11/site-
+ packages/Cython/Utility/UFuncs.pyx /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd /usr/lib/p
+ ython3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd"
+Changes to packages/core2-64-poky-linux/python3-cython (sysroot):
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/COPYING.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/LICENSE.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/Cython-3.0.6.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestCythonizeArgsParser.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestDependencies.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/__pycache__/TestRecythonize.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestCythonizeArgsParser.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestDependencies.py was added
+  /usr/lib/python3.11/site-packages/Cython/Build/Tests/TestRecythonize.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Code.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Dataclass.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Parsing.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/Dataclass.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/__pycache__/UFuncs.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/TestScanning.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/__pycache__/Utils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/TestScanning.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/Tests/Utils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Compiler/UFuncs.py was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/contextvars.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/descr.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/fileobject.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/marshal.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/pyport.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/cpython/time.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libc/complex.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/any.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/atomic.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/bit.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/cmath.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/execution.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numbers.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/numeric.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/optional.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/libcpp/random.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Includes/posix/uio.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/DFA.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Machines.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Plex/Transitions.pxd was added
+  /usr/lib/python3.11/site-packages/Cython/Shadow.pyi was added
+  /usr/lib/python3.11/site-packages/Cython/StringIOTree.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/__pycache__/TestTestUtils.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Tests/TestTestUtils.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/Dataclasses.py was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/NumpyImportArray.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/__pycache__/Dataclasses.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs_C.c was added
+  /usr/lib/python3.11/site-packages/Cython/Utility/UFuncs.pyx was added
+  /usr/lib/python3.11/site-packages/Cython/Utils.cpython-311-x86_64-linux-gnu.so was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport2.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/__pycache__/_pyximport3.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport2.py was added
+  /usr/lib/python3.11/site-packages/pyximport/_pyximport3.py was added
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/COPYING.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/LICENSE.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/Cython-0.29.36.dist-info/WHEEL was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bool.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_buffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_bytes.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_cobject.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_complex.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_dict.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_exc.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_float.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_function.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_getargs.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_instance.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_int.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_iterator.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_list.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_long.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mapping.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_mem.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_method.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_module.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_number.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_object.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_oldbuffer.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_pycapsule.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_ref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_sequence.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_set.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_string.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_tuple.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_type.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_unicode.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_version.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/python_weakref.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdio.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stdlib.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Includes/Deprecated/stl.pxd was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Timing.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/__pycache__/Traditional.cpython-311.pyc was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Timing.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Plex/Traditional.py was removed
+  /usr/lib/python3.11/site-packages/Cython/Utility/Capsule.c was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3845,5 +3746,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============1257177929656219363==--
+--===============2969537818168677214==--
 
