@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E942DC47DD7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D599C47DBA
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:51 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.63600.1702649863096188826
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.63620.1702649864947165378
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 06:17:43 -0800
+ Fri, 15 Dec 2023 06:17:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bYPsS2aq;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JE5OHeCJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c6dd7182c-6d04aecc-c6fa-4801-8689-4a7934868420-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UScF1oNH;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=WocDEj8s;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c6dd71d40-a09b61c0-f876-4e3f-b1a8-9289c11443ab-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702649862;
+	t=1702649863;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Mieya8K4hx84a8DwYjZZB1V0ITq+q4pbABc5Byj43eQ=;
-	b=bYPsS2aqeDNy3sD03nz0vv/E40lrQLihWIUcfDcfciFFtlrbufVMZ9gHXcDSH8Ob
-	cj5grN4FusI5woz4pLe2XNQ4kiVbDX34T6/3/AAPJmHHBqsOFckdwn8qUeqGIOqBVYV
-	PJz49nTNoZ+kiEA0UUODNGPISN6uoZG/WiTuPbtY=
+	bh=EiWwaW4mDwNZZtSTpAJG7AvL0zLGdtBCpNDEr5cDATw=;
+	b=UScF1oNHRfdVGJq+OWHgOtI0oU8SrZgKxvVxq967mHs6aQEJ16Hent99+DEt3nF0
+	7k3ILs/I5ApEvhB9TXb46E8UPs1YMNQjaVFT1+yYV3clqtZe6k4qBKa7iACaRCD9gAD
+	V443LizgKxENeUVxSicbpy8RJpdB2nc3aVXGKYEg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649862;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649863;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Mieya8K4hx84a8DwYjZZB1V0ITq+q4pbABc5Byj43eQ=;
-	b=JE5OHeCJ/Ils4z2CY8pypbTRaSaIE2MmDsAjcMTC+jQvMpTII8Cz1gjeWEbmXyLo
-	/er+Zsfbgm/AXR1XRyRiFwXAOFcZWzg7uXJrFpfREfPUiIW+yHu/VncY0BIhxFqfozN
-	u8Nuq+Re081YR3fGEeI65Zhk9u8566BoTnauYBnc=
-Content-Type: multipart/mixed; boundary="===============5498396010882872920=="
+	bh=EiWwaW4mDwNZZtSTpAJG7AvL0zLGdtBCpNDEr5cDATw=;
+	b=WocDEj8s7WuvktMj2nACOGuNrhjrSfl/mcNJaEk0/qj7udwOulsbuvWdrMtjsHj2
+	rFDL2n45FsIXUi0FAvyw/HM7AbJOmIC2pNzUhbZZmxfcr6NXANzTnHe+13zNUSZuLLp
+	p6UQuBfNtQE4wfE1svnVKZe8X7A03iozhWufrVuU=
+Content-Type: multipart/mixed; boundary="===============6481635415109089625=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxml2: upgrading to 2.12.3 SUCCEEDED
-Message-ID: <0101018c6dd7182c-6d04aecc-c6fa-4801-8689-4a7934868420-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Dec 2023 14:17:42 +0000
+Subject: [AUH] python3-markdown: upgrading to 3.5.1 SUCCEEDED
+Message-ID: <0101018c6dd71d40-a09b61c0-f876-4e3f-b1a8-9289c11443ab-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Dec 2023 14:17:43 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.30
+X-SES-Outgoing: 2023.12.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192445
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192485
 
---===============5498396010882872920==
+--===============6481635415109089625==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxml2* to *2.12.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-markdown* to *3.5.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxml2-upgrade-2.11.5-2.12.3.patch
+    - apply the patch: git am 0001-python3-markdown-upgrade-3.5-3.5.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,175 +72,106 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2d024feed34d5f58ce8e6ad1c13da727ac598a32 Mon Sep 17 00:00:00 2001
+From ce4bf98d3c9b329205e429652098c0bb074468de Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 06:01:15 +0000
-Subject: [PATCH] libxml2: upgrade 2.11.5 -> 2.12.3
+Date: Fri, 15 Dec 2023 08:06:31 +0000
+Subject: [PATCH] python3-markdown: upgrade 3.5 -> 3.5.1
 
 ---
- .../libxml/libxml2/install-tests.patch        |  8 +--
- .../{libxml2_2.11.5.bb => libxml2_2.12.3.bb}  | 50 +++++++++++++++++--
- 2 files changed, 50 insertions(+), 8 deletions(-)
- rename meta/recipes-core/libxml/{libxml2_2.11.5.bb => libxml2_2.12.3.bb} (69%)
+ .../{python3-markdown_3.5.bb => python3-markdown_3.5.1.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-markdown_3.5.bb => python3-markdown_3.5.1.bb} (81%)
 
-diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
-index 14ccce5873..136b3099be 100644
---- a/meta/recipes-core/libxml/libxml2/install-tests.patch
-+++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
-@@ -1,4 +1,4 @@
--From 3fc716357ce1372d9418dc86f24315b34d9808de Mon Sep 17 00:00:00 2001
-+From 58af7c060392b21597399ab457eaa600d577b7be Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Mon, 5 Dec 2022 17:02:32 +0000
- Subject: [PATCH] add yocto-specific install-ptest target
-@@ -13,11 +13,11 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 10 insertions(+)
+diff --git a/meta/recipes-devtools/python/python3-markdown_3.5.bb b/meta/recipes-devtools/python/python3-markdown_3.5.1.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-markdown_3.5.bb
+rename to meta/recipes-devtools/python/python3-markdown_3.5.1.bb
+index 1ad3f7828d..ccd8ccfc7e 100644
+--- a/meta/recipes-devtools/python/python3-markdown_3.5.bb
++++ b/meta/recipes-devtools/python/python3-markdown_3.5.1.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=745aaad0c69c60039e638bff9ffc59ed"
+ inherit pypi python_setuptools_build_meta
  
- diff --git a/Makefile.am b/Makefile.am
--index 5bc4018..57d27af 100644
-+index 0a49d37..1097c63 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -26,6 +26,16 @@ check_PROGRAMS = \
-- 	testlimits \
-+@@ -27,6 +27,16 @@ check_PROGRAMS = \
-+ 	testparser \
-  	testrecurse
-  
- +ptestdir=$(libexecdir)
-diff --git a/meta/recipes-core/libxml/libxml2_2.11.5.bb b/meta/recipes-core/libxml/libxml2_2.12.3.bb
-similarity index 69%
-rename from meta/recipes-core/libxml/libxml2_2.11.5.bb
-rename to meta/recipes-core/libxml/libxml2_2.12.3.bb
-index 319833f053..dc61d5f862 100644
---- a/meta/recipes-core/libxml/libxml2_2.11.5.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.3.bb
-@@ -1,13 +1,55 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- Copyright
-+# +++ Copyright
-+# @@ -1,4 +1,4 @@
-+# -Except where otherwise noted in the source code (e.g. the files hash.c,
-+# +Except where otherwise noted in the source code (e.g. the files dict.c,
-+#  list.c and the trio files, which are covered by a similar licence but
-+#  with different Copyright notices) all the files are:
-+#  
-+# --- hash.c
-+# +++ hash.c
-+# @@ -1,10 +1,10 @@
-+# - * Copyright (C) 2000,2012 Bjorn Reese and Daniel Veillard.
-+#   *
-+# - * Permission to use, copy, modify, and distribute this software for any
-+# - * purpose with or without fee is hereby granted, provided that the above
-+# - * copyright notice and this permission notice appear in all copies.
-+# - *
-+# - * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
-+# - * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
-+# - * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE AUTHORS AND
-+# - * CONTRIBUTORS ACCEPT NO RESPONSIBILITY IN ANY CONCEIVABLE MANNER.
-+# + * See Copyright for the status of this software.
-+# + */
-+# +
-+# +#define IN_LIBXML
-+# +#include "libxml.h"
-+# +
-+# +#include <string.h>
-+# +#include <limits.h>
-+# +
-+# 
-+#
-+
- SUMMARY = "XML C Parser Library and Toolkit"
- DESCRIPTION = "The XML Parser Library allows for manipulation of XML files.  Libxml2 exports Push and Pull type parser interfaces for both XML and HTML.  It can do DTD validation at parse time, on a parsed document instance or with an arbitrary DTD.  Libxml2 includes complete XPath, XPointer and Xinclude implementations.  It also has a SAX like interface, which is designed to be compatible with Expat."
- HOMEPAGE = "https://gitlab.gnome.org/GNOME/libxml2"
- BUGTRACKER = "http://bugzilla.gnome.org/buglist.cgi?product=libxml2"
- SECTION = "libs"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
--                    file://hash.c;beginline=6;endline=15;md5=e77f77b12cb69e203d8b4090a0eee879 \
-+LIC_FILES_CHKSUM = "file://Copyright;md5=fec7ecfe714722b2bb0aaff7d200c701 \
-+                    file://hash.c;beginline=6;endline=15;md5=9af9349d0ead24569dc332f2116ef5f8 \
-                     file://list.c;beginline=4;endline=13;md5=b9c25b021ccaf287e50060602d20f3a7 \
--                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f"
-+                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f \
-+                    "
+ PYPI_PACKAGE = "Markdown"
+-SRC_URI[sha256sum] = "a807eb2e4778d9156c8f07876c6e4d50b5494c5665c4834f67b06459dfd877b3"
++SRC_URI[sha256sum] = "b65d7beb248dc22f2e8a31fb706d93798093c308dc1aba295aedeb9d41a813bd"
  
- DEPENDS = "zlib virtual/libiconv"
+ BBCLASSEXTEND = "native nativesdk"
  
-@@ -19,7 +61,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
-            "
- 
--SRC_URI[archive.sha256sum] = "3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6"
-+SRC_URI[archive.sha256sum] = "8c8f1092340a89ff32bc44ad5c9693aff9bc8a7a3e161bb239666e5d15ac9aaa"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
- 
- # Disputed as a security issue, but fixed in d39f780
 -- 
 2.42.0
 
 
---===============5498396010882872920==
+--===============6481635415109089625==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-markdown-upgrade-3.5-3.5.1.patch"
+
+RnJvbSBjZTRiZjk4ZDNjOWIzMjkyMDVlNDI5NjUyMDk4YzBiYjA3NDQ2OGRlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDg6MDY6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLW1hcmtkb3duOiB1cGdyYWRlIDMuNSAtPiAzLjUuMQoKLS0tCiAuLi4ve3B5dGhvbjMt
+bWFya2Rvd25fMy41LmJiID0+IHB5dGhvbjMtbWFya2Rvd25fMy41LjEuYmJ9ICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLW1hcmtkb3duXzMuNS5iYiA9PiBw
+eXRob24zLW1hcmtkb3duXzMuNS4xLmJifSAoODElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXJrZG93bl8zLjUuYmIgYi9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbWFya2Rvd25fMy41LjEuYmIKc2ltaWxhcml0eSBpbmRl
+eCA4MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1h
+cmtkb3duXzMuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
+b24zLW1hcmtkb3duXzMuNS4xLmJiCmluZGV4IDFhZDNmNzgyOGQuLmNjZDhjY2ZjN2UgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXJrZG93bl8zLjUu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1hcmtkb3duXzMu
+NS4xLmJiCkBAIC02LDcgKzYsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNF
+Lm1kO21kNT03NDVhYWFkMGM2OWM2MDAzOWU2MzhiZmY5ZmZjNTllZCIKIGluaGVyaXQgcHlwaSBw
+eXRob25fc2V0dXB0b29sc19idWlsZF9tZXRhCiAKIFBZUElfUEFDS0FHRSA9ICJNYXJrZG93biIK
+LVNSQ19VUklbc2hhMjU2c3VtXSA9ICJhODA3ZWIyZTQ3NzhkOTE1NmM4ZjA3ODc2YzZlNGQ1MGI1
+NDk0YzU2NjVjNDgzNGY2N2IwNjQ1OWRmZDg3N2IzIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImI2
+NWQ3YmViMjQ4ZGMyMmYyZThhMzFmYjcwNmQ5Mzc5ODA5M2MzMDhkYzFhYmEyOTVhZWRlYjlkNDFh
+ODEzYmQiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotLSAKMi40Mi4w
+Cgo=
+
+--===============6481635415109089625==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxml2: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2: SRC_URI changed from "https://download.gnome.org/sources//libxml2/2.11/libxml2-2.11.5.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.11.5;name=testtar file://run-ptest file://install-tests.patch" to "https://download.gnome.org/sources//libxml2/2.12/libxml2-2.12.3.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.12.3;name=testtar file://run-ptest file://install-tests.patch"
-packages/core2-64-poky-linux/libxml2: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: FILELIST: removed "/usr/lib/.debug/libxml2.so.2.11.5", added "/usr/lib/libxml2/ptest/.debug/testparser /usr/lib/.debug/libxml2.so.2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGSIZE changed from 7413008 to 7478128 (+1%)
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGSIZE changed from 417112 to 415228 (-0%)
-packages/core2-64-poky-linux/libxml2/libxml2-doc: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-doc: FILELIST: added "/usr/share/doc/libxml2/python/examples/setup_test.py"
-packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGSIZE changed from 3132415 to 3119076 (-0%)
-packages/core2-64-poky-linux/libxml2/libxml2-locale: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-locale: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/test/issue626.xml /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html.sax /usr/lib/libxml2/ptest/testparser /usr/lib/libxml2/ptest/test/errors/unclosed-element.xml /usr/lib/libxml2/ptest/result/errors/attr6.xml.err /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.ent /usr/lib/libxml2/ptest/result/errors/name3.xml.err /usr/lib/libxml2/ptest/result/issue626.xml /usr/lib/libxml2/ptest/result/issue643.xml /usr/lib/libxml2/ptest/test/valid/dtds/pe-latin1.ent /usr/lib/libxml2/ptest/result/noent/ns-ent.xml /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.err /usr/lib/libxml2/ptest/result/errors/extra-content.xml.err /usr/lib/libxml2/ptest/test/errors/trailing-null-2.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.ent /usr/lib/libxml2/ptest/result/ns-ent.xml /usr/lib/libxml2/ptest/result/ns-ent.x
- ml.sax2 /usr/lib/libxml2/ptest/result/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.err /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.err /usr/lib/libxml2/ptest/result/issue626.xml.sax /usr/lib/libxml2/ptest/test/ns-ent.xml /usr/lib/libxml2/ptest/result/issue643.xml.sax /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.str /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.str /usr/lib/libxml2/ptest/result/errors/attr5.xml.str /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.err /usr/lib/libxml2/ptest/python/tests/setup_test.py /usr/lib/libxml2/ptest/result/errors/empty.xml.err /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-2.xml /usr/lib/libxml2/ptest/test/errors/trailing-null-1.xml /usr/lib/libxml2/ptest/test/errors/quadratic-defattr.xml /usr/lib/libxml2/ptest/test/errors/truncated-utf16.xml /usr/lib/libxml2/p
- test/result/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.sax /usr/lib/libxml2/ptest/result/errors/attr6.xml.ent /usr/lib/libxml2/ptest/test/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/test/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/errors/name3.xml.ent /usr/lib/libxml2/ptest/result/ns-ent.xml.rde /usr/lib/libxml2/ptest/test/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/errors/extra-content.xml.ent /usr/lib/libxml2/ptest/result/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/noent/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue626.xml.sax2 /usr/lib/libxml2/ptest/test/errors/name3.xml /usr/lib/libxml2/ptest/test/errors/attr5.xml /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.ent /usr/lib/libxml2/ptest/result/ns-ent.xml.rdr /usr/lib/libxml2/ptest/test/errors/attr6.xml /usr/lib/libxml2/ptest/test/errors/empty.xml /usr/lib/libxml2/ptest/result/errors/attr
- 5.xml.err /usr/lib/libxml2/ptest/test/errors/extra-content.xml /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.str /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.err /usr/lib/libxml2/ptest/test/valid/huge.xml /usr/lib/libxml2/ptest/result/issue626.xml.rdr /usr/lib/libxml2/ptest/result/issue643.xml.rdr /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.str /usr/lib/libxml2/ptest/result/errors/empty.xml.str /usr/lib/libxml2/ptest/result/issue643.xml.rde /usr/lib/libxml2/ptest/result/issue626.xml.rde /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.str /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.ent /usr/lib/libxml2/ptest/result/valid/huge.xml /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.dtd /usr/lib/libxml2/ptest/result/noent/issue626.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.err /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.ent /usr/lib/libxml2/ptest/test/issue643.xml /usr/lib/libxml2/ptest/re
- sult/errors/quadratic-defattr.xml.str /usr/lib/libxml2/ptest/result/noent/issue643.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.ent /usr/lib/libxml2/ptest/result/errors/attr6.xml.str /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/errors/name3.xml.str /usr/lib/libxml2/ptest/result/errors/extra-content.xml.str /usr/lib/libxml2/ptest/result/errors/empty.xml.ent /usr/lib/libxml2/ptest/result/noent/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/test/valid/dtds/huge.ent /usr/lib/libxml2/ptest/result/errors/attr5.xml.ent /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.str"
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGSIZE changed from 16156913 to 16278948 (+1%)
-packages/core2-64-poky-linux/libxml2/libxml2-python: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-python: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-python: PKGSIZE changed from 1748462 to 1747394 (-0%)
-packages/core2-64-poky-linux/libxml2/libxml2-src: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-src: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-src: FILELIST: directory renamed /usr/src/debug/libxml2/2.11.5/include/libxml -> /usr/src/debug/libxml2/2.12.3/include/libxml, directory renamed /usr/src/debug/libxml2/2.11.5/python -> /usr/src/debug/libxml2/2.12.3/python, directory renamed /usr/src/debug/libxml2/2.11.5/include/private -> /usr/src/debug/libxml2/2.12.3/include/private, removed "/usr/src/debug/libxml2/2.11.5/parser.c /usr/src/debug/libxml2/2.11.5/nanohttp.c /usr/src/debug/libxml2/2.11.5/catalog.c /usr/src/debug/libxml2/2.11.5/timsort.h /usr/src/debug/libxml2/2.11.5/pattern.c /usr/src/debug/libxml2/2.11.5/testdict.c /usr/src/debug/libxml2/2.11.5/valid.c /usr/src/debug/libxml2/2.11.5/xmlsave.c /usr/src/debug/libxml2/2.11.5/dict.c /usr/src/debug/libxml2/2.11.5/runxmlconf.c /usr/src/debug/libxml2/2.11.5/encoding.c /usr/src/debug/libxml2/2.11.5/runtest.c /usr/src/debug/libxml2/2.11.5/globals.c /usr/src/debug/libxml2/2.11.5/schematron.c /usr/src/debug/libxml2/2.11.5/uri.c /usr/src
- /debug/libxml2/2.11.5/list.c /usr/src/debug/libxml2/2.11.5/xmlmemory.c /usr/src/debug/libxml2/2.11.5/xmlmodule.c /usr/src/debug/libxml2/2.11.5/runsuite.c /usr/src/debug/libxml2/2.11.5/xmlreader.c /usr/src/debug/libxml2/2.11.5/xmlregexp.c /usr/src/debug/libxml2/2.11.5/xmlstring.c /usr/src/debug/libxml2/2.11.5/xmlwriter.c /usr/src/debug/libxml2/2.11.5/buf.c /usr/src/debug/libxml2/2.11.5/testThreads.c /usr/src/debug/libxml2/2.11.5/error.c /usr/src/debug/libxml2/2.11.5/HTMLtree.c /usr/src/debug/libxml2/2.11.5/relaxng.c /usr/src/debug/libxml2/2.11.5/xinclude.c /usr/src/debug/libxml2/2.11.5/xmlcatalog.c /usr/src/debug/libxml2/2.11.5/xmlschemas.c /usr/src/debug/libxml2/2.11.5/xmlschemastypes.c /usr/src/debug/libxml2/2.11.5/xmlunicode.c /usr/src/debug/libxml2/2.11.5/testModule.c /usr/src/debug/libxml2/2.11.5/testlimits.c /usr/src/debug/libxml2/2.11.5/xlink.c /usr/src/debug/libxml2/2.11.5/tree.c /usr/src/debug/libxml2/2.11.5/threads.c /usr/src/debug/libxml2/2.11.5/testchar.c /usr/src/debug/l
- ibxml2/2.11.5/c14n.c /usr/src/debug/libxml2/2.11.5/entities.c /usr/src/debug/libxml2/2.11.5/HTMLparser.c /usr/src/debug/libxml2/2.11.5/xpath.c /usr/src/debug/libxml2/2.11.5/hash.c /usr/src/debug/libxml2/2.11.5/xmllint.c /usr/src/debug/libxml2/2.11.5/xpointer.c /usr/src/debug/libxml2/2.11.5/xmlIO.c /usr/src/debug/libxml2/2.11.5/parserInternals.c /usr/src/debug/libxml2/2.11.5/testapi.c /usr/src/debug/libxml2/2.11.5/chvalid.c /usr/src/debug/libxml2/2.11.5/testrecurse.c /usr/src/debug/libxml2/2.11.5/SAX2.c", added "/usr/src/debug/libxml2/2.12.3/parser.c /usr/src/debug/libxml2/2.12.3/nanohttp.c /usr/src/debug/libxml2/2.12.3/catalog.c /usr/src/debug/libxml2/2.12.3/timsort.h /usr/src/debug/libxml2/2.12.3/pattern.c /usr/src/debug/libxml2/2.12.3/testdict.c /usr/src/debug/libxml2/2.12.3/valid.c /usr/src/debug/libxml2/2.12.3/xmlsave.c /usr/src/debug/libxml2/2.12.3/dict.c /usr/src/debug/libxml2/2.12.3/runxmlconf.c /usr/src/debug/libxml2/2.12.3/encoding.c /usr/src/debug/libxml2/2.12.3/runtest.c 
- /usr/src/debug/libxml2/2.12.3/globals.c /usr/src/debug/libxml2/2.12.3/schematron.c /usr/src/debug/libxml2/2.12.3/uri.c /usr/src/debug/libxml2/2.12.3/list.c /usr/src/debug/libxml2/2.12.3/xmlmemory.c /usr/src/debug/libxml2/2.12.3/xmlmodule.c /usr/src/debug/libxml2/2.12.3/runsuite.c /usr/src/debug/libxml2/2.12.3/xmlreader.c /usr/src/debug/libxml2/2.12.3/xmlregexp.c /usr/src/debug/libxml2/2.12.3/xmlstring.c /usr/src/debug/libxml2/2.12.3/xmlwriter.c /usr/src/debug/libxml2/2.12.3/buf.c /usr/src/debug/libxml2/2.12.3/testThreads.c /usr/src/debug/libxml2/2.12.3/error.c /usr/src/debug/libxml2/2.12.3/HTMLtree.c /usr/src/debug/libxml2/2.12.3/relaxng.c /usr/src/debug/libxml2/2.12.3/xinclude.c /usr/src/debug/libxml2/2.12.3/xmlcatalog.c /usr/src/debug/libxml2/2.12.3/xmlschemas.c /usr/src/debug/libxml2/2.12.3/xmlschemastypes.c /usr/src/debug/libxml2/2.12.3/xmlunicode.c /usr/src/debug/libxml2/2.12.3/testModule.c /usr/src/debug/libxml2/2.12.3/testlimits.c /usr/src/debug/libxml2/2.12.3/testparser.c /u
- sr/src/debug/libxml2/2.12.3/xlink.c /usr/src/debug/libxml2/2.12.3/tree.c /usr/src/debug/libxml2/2.12.3/threads.c /usr/src/debug/libxml2/2.12.3/testchar.c /usr/src/debug/libxml2/2.12.3/c14n.c /usr/src/debug/libxml2/2.12.3/entities.c /usr/src/debug/libxml2/2.12.3/HTMLparser.c /usr/src/debug/libxml2/2.12.3/xpath.c /usr/src/debug/libxml2/2.12.3/hash.c /usr/src/debug/libxml2/2.12.3/xmllint.c /usr/src/debug/libxml2/2.12.3/xpointer.c /usr/src/debug/libxml2/2.12.3/xmlIO.c /usr/src/debug/libxml2/2.12.3/parserInternals.c /usr/src/debug/libxml2/2.12.3/testapi.c /usr/src/debug/libxml2/2.12.3/chvalid.c /usr/src/debug/libxml2/2.12.3/testrecurse.c /usr/src/debug/libxml2/2.12.3/SAX2.c"
-packages/core2-64-poky-linux/libxml2/libxml2-src: PKGSIZE changed from 7846177 to 7760859 (-1%)
-packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-utils: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGSIZE changed from 91040 to 95208 (+5%)
-packages/core2-64-poky-linux/libxml2/libxml2: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.11.5", added "/usr/lib/libxml2.so.2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2: PKGSIZE changed from 1383977 to 1379977 (-0%)
-Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
+packages/core2-64-poky-linux/python3-markdown: PV changed from "3.5" to "3.5.1"
+packages/core2-64-poky-linux/python3-markdown: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.5.tar.gz;downloadfilename=Markdown-3.5.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.5.1.tar.gz;downloadfilename=Markdown-3.5.1.tar.gz"
+packages/core2-64-poky-linux/python3-markdown: PKGV changed from 3.5 [default] to 3.5.1 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-dbg: PV changed from "3.5" to "3.5.1"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-dbg: PKGV changed from 3.5 [default] to 3.5.1 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-dev: PV changed from "3.5" to "3.5.1"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-dev: PKGV changed from 3.5 [default] to 3.5.1 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-doc: PV changed from "3.5" to "3.5.1"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-doc: PKGV changed from 3.5 [default] to 3.5.1 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-locale: PV changed from "3.5" to "3.5.1"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-locale: PKGV changed from 3.5 [default] to 3.5.1 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-src: PV changed from "3.5" to "3.5.1"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-src: PKGV changed from 3.5 [default] to 3.5.1 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-staticdev: PV changed from "3.5" to "3.5.1"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown-staticdev: PKGV changed from 3.5 [default] to 3.5.1 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown: PV changed from "3.5" to "3.5.1"
+packages/core2-64-poky-linux/python3-markdown/python3-markdown: PKGV changed from 3.5 [default] to 3.5.1 [default]
+packages/core2-64-poky-linux/python3-markdown/python3-markdown: PKGSIZE changed from 681387 to 685353 (+1%)
+Changes to packages/core2-64-poky-linux/python3-markdown (sysroot):
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/LICENSE.md was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/LICENSE.md was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/WHEEL was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1877,127 +1808,28 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/libxml2-native (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 
---===============5498396010882872920==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxml2-upgrade-2.11.5-2.12.3.patch"
-
-RnJvbSAyZDAyNGZlZWQzNGQ1ZjU4Y2U4ZTZhZDFjMTNkYTcyN2FjNTk4YTMyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDY6MDE6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4bWwyOiB1cGdyYWRlIDIuMTEuNSAtPiAyLjEyLjMKCi0tLQogLi4uL2xpYnhtbC9saWJ4bWwy
-L2luc3RhbGwtdGVzdHMucGF0Y2ggICAgICAgIHwgIDggKy0tCiAuLi4ve2xpYnhtbDJfMi4xMS41
-LmJiID0+IGxpYnhtbDJfMi4xMi4zLmJifSAgfCA1MCArKysrKysrKysrKysrKysrKy0tCiAyIGZp
-bGVzIGNoYW5nZWQsIDUwIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLWNvcmUvbGlieG1sL3tsaWJ4bWwyXzIuMTEuNS5iYiA9PiBsaWJ4bWwyXzIuMTIu
-My5iYn0gKDY5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1s
-Mi9pbnN0YWxsLXRlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDIv
-aW5zdGFsbC10ZXN0cy5wYXRjaAppbmRleCAxNGNjY2U1ODczLi4xMzZiMzA5OWJlIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9pbnN0YWxsLXRlc3RzLnBhdGNo
-CisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyL2luc3RhbGwtdGVzdHMucGF0
-Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDNmYzcxNjM1N2NlMTM3MmQ5NDE4ZGM4NmYyNDMxNWIz
-NGQ5ODA4ZGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDU4YWY3YzA2MDM5MmIyMTU5
-NzM5OWFiNDU3ZWFhNjAwZDU3N2I3YmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBS
-b3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIERhdGU6IE1vbiwgNSBEZWMgMjAyMiAx
-NzowMjozMiArMDAwMAogU3ViamVjdDogW1BBVENIXSBhZGQgeW9jdG8tc3BlY2lmaWMgaW5zdGFs
-bC1wdGVzdCB0YXJnZXQKQEAgLTEzLDExICsxMywxMSBAQCBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1
-cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9u
-cygrKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUuYW0gYi9NYWtlZmlsZS5hbQotaW5kZXggNWJj
-NDAxOC4uNTdkMjdhZiAxMDA2NDQKK2luZGV4IDBhNDlkMzcuLjEwOTdjNjMgMTAwNjQ0CiAtLS0g
-YS9NYWtlZmlsZS5hbQogKysrIGIvTWFrZWZpbGUuYW0KLUBAIC0yNiw2ICsyNiwxNiBAQCBjaGVj
-a19QUk9HUkFNUyA9IFwKLSAJdGVzdGxpbWl0cyBcCitAQCAtMjcsNiArMjcsMTYgQEAgY2hlY2tf
-UFJPR1JBTVMgPSBcCisgCXRlc3RwYXJzZXIgXAogIAl0ZXN0cmVjdXJzZQogIAogK3B0ZXN0ZGly
-PSQobGliZXhlY2RpcikKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4
-bWwyXzIuMTEuNS5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyXzIuMTIuMy5i
-YgpzaW1pbGFyaXR5IGluZGV4IDY5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9saWJ4
-bWwvbGlieG1sMl8yLjExLjUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9s
-aWJ4bWwyXzIuMTIuMy5iYgppbmRleCAzMTk4MzNmMDUzLi5kYzYxZDVmODYyIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjExLjUuYmIKKysrIGIvbWV0YS9y
-ZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDJfMi4xMi4zLmJiCkBAIC0xLDEzICsxLDU1IEBACisj
-IEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkg
-J2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0
-d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0
-aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4K
-KyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFt
-cGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRo
-ZSBjaGFuZ2VzOgorIworIyAtLS0gQ29weXJpZ2h0CisjICsrKyBDb3B5cmlnaHQKKyMgQEAgLTEs
-NCArMSw0IEBACisjIC1FeGNlcHQgd2hlcmUgb3RoZXJ3aXNlIG5vdGVkIGluIHRoZSBzb3VyY2Ug
-Y29kZSAoZS5nLiB0aGUgZmlsZXMgaGFzaC5jLAorIyArRXhjZXB0IHdoZXJlIG90aGVyd2lzZSBu
-b3RlZCBpbiB0aGUgc291cmNlIGNvZGUgKGUuZy4gdGhlIGZpbGVzIGRpY3QuYywKKyMgIGxpc3Qu
-YyBhbmQgdGhlIHRyaW8gZmlsZXMsIHdoaWNoIGFyZSBjb3ZlcmVkIGJ5IGEgc2ltaWxhciBsaWNl
-bmNlIGJ1dAorIyAgd2l0aCBkaWZmZXJlbnQgQ29weXJpZ2h0IG5vdGljZXMpIGFsbCB0aGUgZmls
-ZXMgYXJlOgorIyAgCisjIC0tLSBoYXNoLmMKKyMgKysrIGhhc2guYworIyBAQCAtMSwxMCArMSwx
-MCBAQAorIyAtICogQ29weXJpZ2h0IChDKSAyMDAwLDIwMTIgQmpvcm4gUmVlc2UgYW5kIERhbmll
-bCBWZWlsbGFyZC4KKyMgICAqCisjIC0gKiBQZXJtaXNzaW9uIHRvIHVzZSwgY29weSwgbW9kaWZ5
-LCBhbmQgZGlzdHJpYnV0ZSB0aGlzIHNvZnR3YXJlIGZvciBhbnkKKyMgLSAqIHB1cnBvc2Ugd2l0
-aCBvciB3aXRob3V0IGZlZSBpcyBoZXJlYnkgZ3JhbnRlZCwgcHJvdmlkZWQgdGhhdCB0aGUgYWJv
-dmUKKyMgLSAqIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2UgYXBw
-ZWFyIGluIGFsbCBjb3BpZXMuCisjIC0gKgorIyAtICogVEhJUyBTT0ZUV0FSRSBJUyBQUk9WSURF
-RCBgYEFTIElTJycgQU5EIFdJVEhPVVQgQU5ZIEVYUFJFU1MgT1IgSU1QTElFRAorIyAtICogV0FS
-UkFOVElFUywgSU5DTFVESU5HLCBXSVRIT1VUIExJTUlUQVRJT04sIFRIRSBJTVBMSUVEIFdBUlJB
-TlRJRVMgT0YKKyMgLSAqIE1FUkNIQU5UQUJJTElUWSBBTkQgRklUTkVTUyBGT1IgQSBQQVJUSUNV
-TEFSIFBVUlBPU0UuIFRIRSBBVVRIT1JTIEFORAorIyAtICogQ09OVFJJQlVUT1JTIEFDQ0VQVCBO
-TyBSRVNQT05TSUJJTElUWSBJTiBBTlkgQ09OQ0VJVkFCTEUgTUFOTkVSLgorIyArICogU2VlIENv
-cHlyaWdodCBmb3IgdGhlIHN0YXR1cyBvZiB0aGlzIHNvZnR3YXJlLgorIyArICovCisjICsKKyMg
-KyNkZWZpbmUgSU5fTElCWE1MCisjICsjaW5jbHVkZSAibGlieG1sLmgiCisjICsKKyMgKyNpbmNs
-dWRlIDxzdHJpbmcuaD4KKyMgKyNpbmNsdWRlIDxsaW1pdHMuaD4KKyMgKworIyAKKyMKKwogU1VN
-TUFSWSA9ICJYTUwgQyBQYXJzZXIgTGlicmFyeSBhbmQgVG9vbGtpdCIKIERFU0NSSVBUSU9OID0g
-IlRoZSBYTUwgUGFyc2VyIExpYnJhcnkgYWxsb3dzIGZvciBtYW5pcHVsYXRpb24gb2YgWE1MIGZp
-bGVzLiAgTGlieG1sMiBleHBvcnRzIFB1c2ggYW5kIFB1bGwgdHlwZSBwYXJzZXIgaW50ZXJmYWNl
-cyBmb3IgYm90aCBYTUwgYW5kIEhUTUwuICBJdCBjYW4gZG8gRFREIHZhbGlkYXRpb24gYXQgcGFy
-c2UgdGltZSwgb24gYSBwYXJzZWQgZG9jdW1lbnQgaW5zdGFuY2Ugb3Igd2l0aCBhbiBhcmJpdHJh
-cnkgRFRELiAgTGlieG1sMiBpbmNsdWRlcyBjb21wbGV0ZSBYUGF0aCwgWFBvaW50ZXIgYW5kIFhp
-bmNsdWRlIGltcGxlbWVudGF0aW9ucy4gIEl0IGFsc28gaGFzIGEgU0FYIGxpa2UgaW50ZXJmYWNl
-LCB3aGljaCBpcyBkZXNpZ25lZCB0byBiZSBjb21wYXRpYmxlIHdpdGggRXhwYXQuIgogSE9NRVBB
-R0UgPSAiaHR0cHM6Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL2xpYnhtbDIiCiBCVUdUUkFDS0VS
-ID0gImh0dHA6Ly9idWd6aWxsYS5nbm9tZS5vcmcvYnVnbGlzdC5jZ2k/cHJvZHVjdD1saWJ4bWwy
-IgogU0VDVElPTiA9ICJsaWJzIgogTElDRU5TRSA9ICJNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0g
-ImZpbGU6Ly9Db3B5cmlnaHQ7bWQ1PTIwNDQ0MTdlMmU1MDA2YjY1YThiOTA2N2I2ODNmY2YxIFwK
-LSAgICAgICAgICAgICAgICAgICAgZmlsZTovL2hhc2guYztiZWdpbmxpbmU9NjtlbmRsaW5lPTE1
-O21kNT1lNzdmNzdiMTJjYjY5ZTIwM2Q4YjQwOTBhMGVlZTg3OSBcCitMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9Db3B5cmlnaHQ7bWQ1PWZlYzdlY2ZlNzE0NzIyYjJiYjBhYWZmN2QyMDBjNzAx
-IFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTovL2hhc2guYztiZWdpbmxpbmU9NjtlbmRsaW5l
-PTE1O21kNT05YWY5MzQ5ZDBlYWQyNDU2OWRjMzMyZjIxMTZlZjVmOCBcCiAgICAgICAgICAgICAg
-ICAgICAgIGZpbGU6Ly9saXN0LmM7YmVnaW5saW5lPTQ7ZW5kbGluZT0xMzttZDU9YjljMjViMDIx
-Y2NhZjI4N2U1MDA2MDYwMmQyMGYzYTcgXAotICAgICAgICAgICAgICAgICAgICBmaWxlOi8vdHJp
-by5jO2JlZ2lubGluZT01O2VuZGxpbmU9MTQ7bWQ1PWNkNGY2MWUyN2Y4OGMxZDQzZGYxMTI5NjZi
-MWNkMjhmIgorICAgICAgICAgICAgICAgICAgICBmaWxlOi8vdHJpby5jO2JlZ2lubGluZT01O2Vu
-ZGxpbmU9MTQ7bWQ1PWNkNGY2MWUyN2Y4OGMxZDQzZGYxMTI5NjZiMWNkMjhmIFwKKyAgICAgICAg
-ICAgICAgICAgICAgIgogCiBERVBFTkRTID0gInpsaWIgdmlydHVhbC9saWJpY29udiIKIApAQCAt
-MTksNyArNjEsNyBAQCBTUkNfVVJJICs9ICJodHRwOi8vd3d3LnczLm9yZy9YTUwvVGVzdC94bWx0
-czIwMTMwOTIzLnRhcjtzdWJkaXI9JHtCUH07bmFtZT10ZXN0dAogICAgICAgICAgICBmaWxlOi8v
-aW5zdGFsbC10ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVthcmNoaXZlLnNo
-YTI1NnN1bV0gPSAiMzcyN2IwNzhjMzYwZWM2OWZhODY5ZGUxNGJkNmY3NWQ3ZWU4ZDM2OTg3YjA3
-MWU2OTI4ZDQ3MjBhMjhkZjNhNiIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjhjOGYx
-MDkyMzQwYTg5ZmYzMmJjNDRhZDVjOTY5M2FmZjliYzhhN2EzZTE2MWJiMjM5NjY2ZTVkMTVhYzlh
-YWEiCiBTUkNfVVJJW3Rlc3R0YXIuc2hhMjU2c3VtXSA9ICJjNmIyZDQyZWU1MGI4YjIzNmU3MTFh
-OTdkNjhlNmM0YjVjOGQ4M2U2OWEyYmU0NzIyMzc5ZjA4NzAyZWE3MjczIgogCiAjIERpc3B1dGVk
-IGFzIGEgc2VjdXJpdHkgaXNzdWUsIGJ1dCBmaXhlZCBpbiBkMzlmNzgwCi0tIAoyLjQyLjAKCg==
-
---===============5498396010882872920==
+--===============6481635415109089625==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libxml2/libxml2-doc: FILELIST: added "/usr/share/doc/libxml2/python/examples/setup_test.py"
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/test/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/errors/attr6.xml.err /usr/lib/libxml2/ptest/test/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.ent /usr/lib/libxml2/ptest/result/ns-ent.xml.rdr /usr/lib/libxml2/ptest/testparser /usr/lib/libxml2/ptest/result/ns-ent.xml.rde /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-2.xml /usr/lib/libxml2/ptest/result/noent/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue643.xml.sax2 /usr/lib/libxml2/ptest/test/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/errors/empty.xml.err /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.err /usr/lib/libxml2/ptest/result/erro
- rs/trailing-null-1.xml.err /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.ent /usr/lib/libxml2/ptest/result/issue626.xml.sax /usr/lib/libxml2/ptest/result/issue643.xml.sax /usr/lib/libxml2/ptest/result/errors/attr5.xml.str /usr/lib/libxml2/ptest/result/errors/name3.xml.ent /usr/lib/libxml2/ptest/test/ns-ent.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.str /usr/lib/libxml2/ptest/result/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.err /usr/lib/libxml2/ptest/test/errors/empty.xml /usr/lib/libxml2/ptest/test/errors/name3.xml /usr/lib/libxml2/ptest/test/errors/attr5.xml /usr/lib/libxml2/ptest/test/errors/attr6.xml /usr/lib/libxml2/ptest/result/errors/empty.xml.str /usr/lib/libxml2/ptest/result/errors/attr5.xml.ent /usr/lib/libxml2/ptest/result/issue626.xml /usr/lib/libxml2/ptest/result/issue643.xml /usr/lib/libxml2/ptest/test/valid/dtds/huge.ent /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.err /usr/lib/libxml2/ptest/r
- esult/errors/truncated-utf16.xml.ent /usr/lib/libxml2/ptest/result/noent/issue643.xml /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.err /usr/lib/libxml2/ptest/result/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/errors/attr5.xml.err /usr/lib/libxml2/ptest/test/valid/huge.xml /usr/lib/libxml2/ptest/test/errors/quadratic-defattr.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.str /usr/lib/libxml2/ptest/result/ns-ent.xml.sax /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.str /usr/lib/libxml2/ptest/result/errors/empty.xml.ent /usr/lib/libxml2/ptest/result/valid/huge.xml /usr/lib/libxml2/ptest/result/issue626.xml.rdr /usr/lib/libxml2/ptest/result/issue643.xml.rdr /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/issue626.xml.rde /usr/lib/libxml2/ptest/result/issue643.xml.rde /usr/lib/libxml2/ptest/test/errors/unclosed-element.xml /usr/lib/libx
- ml2/ptest/result/errors/extra-content.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.ent /usr/lib/libxml2/ptest/result/errors/name3.xml.str /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.dtd /usr/lib/libxml2/ptest/test/errors/trailing-null-2.xml /usr/lib/libxml2/ptest/test/issue643.xml /usr/lib/libxml2/ptest/test/errors/truncated-utf16.xml /usr/lib/libxml2/ptest/python/tests/setup_test.py /usr/lib/libxml2/ptest/test/issue626.xml /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html.sax /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.err /usr/lib/libxml2/ptest/result/ns-ent.xml /usr/lib/libxml2/ptest/result/errors/attr6.xml.str /usr/lib/libxml2/ptest/test/valid/dtds/pe-latin1.ent /usr/lib/libxml2/ptest/result/errors/extra-content.xml.err /usr/lib/libxml2/ptest/result/noent/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.str /usr/lib/libxml2/ptest/result/errors/t
- railing-null-1.xml.str /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.str /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.ent /usr/lib/libxml2/ptest/test/errors/trailing-null-1.xml /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.str /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.str /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.ent /usr/lib/libxml2/ptest/result/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/errors/attr6.xml.ent /usr/lib/libxml2/ptest/test/errors/extra-content.xml /usr/lib/libxml2/ptest/result/noent/ns-ent.xml /usr/lib/libxml2/ptest/result/noent/issue626.xml /usr/lib/libxml2/ptest/result/errors/name3.xml.err"
-packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.11.5", added "/usr/lib/libxml2.so.2.12.3"
-Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
+Changes to packages/core2-64-poky-linux/python3-markdown (sysroot):
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/entry_points.txt was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/LICENSE.md was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.1.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/entry_points.txt was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/LICENSE.md was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/Markdown-3.5.dist-info/WHEEL was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3634,10 +3466,6 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/libxml2-native (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 
---===============5498396010882872920==--
+--===============6481635415109089625==--
 
