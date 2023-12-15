@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40C0BC48BEE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A78C48BF2
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:54 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.63130.1702649861996945090
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.63630.1702649869594933821
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 06:17:42 -0800
+ Fri, 15 Dec 2023 06:17:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HMhTCJtY;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TecPN2Hg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018c6dd7141e-5f37d14e-0038-4703-9840-695520e8c95f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NrIdRYif;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZzEaVIBV;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018c6dd73245-747f58e4-0e2a-4f5c-b433-937c1f1552de-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702649861;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=M3x+MTVHo6aT6LudWPRLBnonMySNja1AKJoWTyQTnlQ=;
-	b=HMhTCJtYHLmLghTNLT6LKzosR64OOTXOwn4vfLawQ037K00r9Z3jcyBG/m0QXSsJ
-	q3V+BqddAjS3ow5J0P2DAr++QTCiLJW+a4c8As8Pzsy7k4qgoWq0aQKwGgE4K4JlLNl
-	gV6GnMqPyGAJ3VLHKXvildCLiIVDNxOyet0f9M/8=
+	t=1702649869;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=AeELF1apo01eMxFYNqj2Rb467kRX2DUgVbAErUkr4hA=;
+	b=NrIdRYifDHExFzPTYAgV7ctRRVJqUWirNobd7pdWKl2VBth3B4m745pEYpIIjiZ2
+	2KZSLQxRdQQf44F2xN3AgQBV0okYI/8clRLdLMMOFEGwflAN5PYWVVrvlPvE6jtYAKy
+	6hfNwdOyXPtwYYk8OMCsvCztV4Sb9GuDhRneOP6M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649861;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=M3x+MTVHo6aT6LudWPRLBnonMySNja1AKJoWTyQTnlQ=;
-	b=TecPN2Hgi2hnqEgaHms83CLeN/r337HTyP1UyBGG8K30DsYc1l50xfjXtBTH+EqI
-	CKXS/zZcgWicTwSoUztDaUXGpN2Zp+QCNbdM47vyp1h+SAQmWpmnrqxqVMtwQF+X2T5
-	rgRcaGhert3efd9XBpJWqLTfTOBtSRnnxNqURHWk=
-Content-Type: multipart/mixed; boundary="===============9183872283153099170=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649869;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=AeELF1apo01eMxFYNqj2Rb467kRX2DUgVbAErUkr4hA=;
+	b=ZzEaVIBVGyQdQGROFntMW/NStVs65Qze6lgtJk3wZosJ46fVLuzNu4VGiCGaXZGm
+	lO26abXp4nq4TtsU+tMzJ91jZpQECoL8c1Y3TTBKBFEeYM23xAMakvdCFWRG5GlA3+n
+	zru6aDtDdff2XLwbmc6aRHqwIR887yIFu46oZEvQ=
+Content-Type: multipart/mixed; boundary="===============2561077924019089625=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] kea: upgrading to 2.4.1 SUCCEEDED
-Message-ID: <0101018c6dd7141e-5f37d14e-0038-4703-9840-695520e8c95f-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Dec 2023 14:17:41 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] sqlite3: upgrading to 3.44.2 SUCCEEDED
+Message-ID: <0101018c6dd73245-747f58e4-0e2a-4f5c-b433-937c1f1552de-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Dec 2023 14:17:48 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.193
+X-SES-Outgoing: 2023.12.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192435
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192528
 
---===============9183872283153099170==
+--===============2561077924019089625==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *kea* to *2.4.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *sqlite3* to *3.44.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-kea-upgrade-2.4.0-2.4.1.patch
+    - apply the patch: git am 0001-sqlite3-upgrade-3.44.0-3.44.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,170 +72,63 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6d14e891e8240941a4c7f56f85a503cb0754df26 Mon Sep 17 00:00:00 2001
+From 78b378b89897e5c9d3b20f5467b5b723307e1741 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 05:34:43 +0000
-Subject: [PATCH] kea: upgrade 2.4.0 -> 2.4.1
+Date: Fri, 15 Dec 2023 14:11:50 +0000
+Subject: [PATCH] sqlite3: upgrade 3.44.0 -> 3.44.2
 
 ---
- .../files/0001-kea-fix-reproducible-build-failure.patch   | 6 ++----
- ...lib-log-logger_unittest_support.cc-do-not-write-.patch | 2 +-
- .../kea/files/fix-multilib-conflict.patch                 | 8 ++++----
- meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch | 6 +++---
- .../kea/{kea_2.4.0.bb => kea_2.4.1.bb}                    | 2 +-
- 5 files changed, 11 insertions(+), 13 deletions(-)
- rename meta/recipes-connectivity/kea/{kea_2.4.0.bb => kea_2.4.1.bb} (97%)
+ .../sqlite/{sqlite3_3.44.0.bb => sqlite3_3.44.2.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.44.0.bb => sqlite3_3.44.2.bb} (78%)
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-kea-fix-reproducible-build-failure.patch b/meta/recipes-connectivity/kea/files/0001-kea-fix-reproducible-build-failure.patch
-index 8a5bd00302..b0e44dae46 100644
---- a/meta/recipes-connectivity/kea/files/0001-kea-fix-reproducible-build-failure.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-kea-fix-reproducible-build-failure.patch
-@@ -1,4 +1,4 @@
--From f9bcfed5a1d44d9211c5f6eba403a9898c8c9057 Mon Sep 17 00:00:00 2001
-+From 35e1dc4b46753143de029fad224b1f2ea292461e Mon Sep 17 00:00:00 2001
- From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
- Date: Tue, 8 Aug 2023 19:03:13 +0100
- Subject: [PATCH] kea: fix reproducible build failure
-@@ -14,6 +14,7 @@ Upstream has confirmed the patch will not be accepted but discussions
- with upstream is still going on, we might have a proper solution later.
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.44.0.bb b/meta/recipes-support/sqlite/sqlite3_3.44.2.bb
+similarity index 78%
+rename from meta/recipes-support/sqlite/sqlite3_3.44.0.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.44.2.bb
+index d498154889..459884a558 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.44.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.44.2.bb
+@@ -4,7 +4,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- Signed-off-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-+
- ---
-  src/bin/admin/kea-admin.in | 8 ++++----
-  1 file changed, 4 insertions(+), 4 deletions(-)
-@@ -57,6 +58,3 @@ index 034a0ee..8ab11ab 100644
-  
-          # Check if the scripts directory exists at all.
-          if [ ! -d ${upgrade_scripts_dir} ]; then
---- 
--2.39.2
--
-diff --git a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-index 94fbd12737..453e78a141 100644
---- a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-+++ b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-@@ -1,4 +1,4 @@
--From 841924e1fe8db2bff3eab8d37634ef08f86c00ec Mon Sep 17 00:00:00 2001
-+From aa2c562a36aef4fd8cd3028ddfe0d32d4a9a61cc Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 10 Nov 2020 15:57:03 +0000
- Subject: [PATCH] src/lib/log/logger_unittest_support.cc: do not write build
-diff --git a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-index 451b409c88..7875cf1c00 100644
---- a/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-+++ b/meta/recipes-connectivity/kea/files/fix-multilib-conflict.patch
-@@ -1,4 +1,4 @@
--From d027b1d85a8c1a0193b6e4a00083d3038d699a59 Mon Sep 17 00:00:00 2001
-+From 1a58649fbf0f0f8db10ea40e68eb4ebbad532680 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Tue, 22 Sep 2020 15:02:33 +0800
- Subject: [PATCH] There are conflict of config files between kea and lib32-kea:
-@@ -35,10 +35,10 @@ index e6ae8b8..50a3092 100644
-  //          "param1": "foo"
-  //      }
- diff --git a/src/bin/keactrl/kea-dhcp4.conf.pre b/src/bin/keactrl/kea-dhcp4.conf.pre
--index 26bf163..49ddb0a 100644
-+index 6edb8a1..b2a7385 100644
- --- a/src/bin/keactrl/kea-dhcp4.conf.pre
- +++ b/src/bin/keactrl/kea-dhcp4.conf.pre
--@@ -252,7 +252,7 @@
-+@@ -255,7 +255,7 @@
-      //       // of all devices serviced by Kea, including their identifiers
-      //       // (like MAC address), their location in the network, times
-      //       // when they were active etc.
-@@ -47,7 +47,7 @@ index 26bf163..49ddb0a 100644
-      //       "parameters": {
-      //           "path": "/var/lib/kea",
-      //           "base-name": "kea-forensic4"
--@@ -269,7 +269,7 @@
-+@@ -272,7 +272,7 @@
-      //       // of specific options or perhaps even a combination of several
-      //       // options and fields to uniquely identify a client. Those scenarios
-      //       // are addressed by the Flexible Identifiers hook application.
-diff --git a/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch b/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-index b7c2fd4f0d..87305e1da2 100644
---- a/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-+++ b/meta/recipes-connectivity/kea/files/fix_pid_keactrl.patch
-@@ -1,4 +1,4 @@
--From 18f4f6206c248d6169aa67b3ecf16bf54e9292e8 Mon Sep 17 00:00:00 2001
-+From 8ecc12a3b03d2e8509c2cbcdbfe1ff71b6afcad2 Mon Sep 17 00:00:00 2001
- From: Armin kuster <akuster808@gmail.com>
- Date: Wed, 14 Oct 2020 22:48:31 -0700
- Subject: [PATCH] Busybox does not support ps -p so use pgrep
-@@ -13,10 +13,10 @@ Signed-off-by: Armin kuster <akuster808@gmail.com>
-  1 file changed, 2 insertions(+), 2 deletions(-)
+ SRC_URI = "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "b9cd386e7cd22af6e0d2a0f06d0404951e1bef109e42ea06cc0450e10cd15550"
++SRC_URI[sha256sum] = "1c6719a148bc41cf0f2bbbe3926d7ce3f5ca09d878f1246fcc20767b175bb407"
  
- diff --git a/src/bin/keactrl/keactrl.in b/src/bin/keactrl/keactrl.in
--index ae5bd8e..e9f9b73 100644
-+index 450e997..c353ca9 100644
- --- a/src/bin/keactrl/keactrl.in
- +++ b/src/bin/keactrl/keactrl.in
--@@ -151,8 +151,8 @@ check_running() {
-+@@ -149,8 +149,8 @@ check_running() {
-      # Get the PID from the PID file (if it exists)
-      get_pid_from_file "${proc_name}"
-      if [ ${_pid} -gt 0 ]; then
-diff --git a/meta/recipes-connectivity/kea/kea_2.4.0.bb b/meta/recipes-connectivity/kea/kea_2.4.1.bb
-similarity index 97%
-rename from meta/recipes-connectivity/kea/kea_2.4.0.bb
-rename to meta/recipes-connectivity/kea/kea_2.4.1.bb
-index 316468754e..c3aa4dc8f0 100644
---- a/meta/recipes-connectivity/kea/kea_2.4.0.bb
-+++ b/meta/recipes-connectivity/kea/kea_2.4.1.bb
-@@ -19,7 +19,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
-            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
-            file://0001-kea-fix-reproducible-build-failure.patch \
-            "
--SRC_URI[sha256sum] = "3a33cd08dc3319ff544e6bbf2c0429042106f4051ebe115dc1bb2625c95003f7"
-+SRC_URI[sha256sum] = "815c61f5c271caa4a1db31dd656eb50a7f6ea973da3690f7c8581408e180131a"
- 
- inherit autotools systemd update-rc.d upstream-version-is-even
+ CVE_STATUS[CVE-2023-36191] = "disputed: The error is a bug. It has been fixed upstream. But it is not a vulnerability"
  
 -- 
 2.42.0
 
 
---===============9183872283153099170==
+--===============2561077924019089625==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/kea/kea-dbg: PKGSIZE changed from 322286808 to 322259776 (-0%)
-packages/core2-64-poky-linux/kea/kea-dbg: PV changed from "2.4.0" to "2.4.1"
-packages/core2-64-poky-linux/kea/kea-dbg: FILELIST: removed "/usr/lib/.debug/libkea-dhcp++.so.73.0.0 /usr/lib/.debug/libkea-hooks.so.77.0.0 /usr/lib/.debug/libkea-dhcpsrv.so.89.0.0", added "/usr/lib/.debug/libkea-dhcpsrv.so.90.0.0 /usr/lib/.debug/libkea-hooks.so.78.0.0 /usr/lib/.debug/libkea-dhcp++.so.74.0.0"
-packages/core2-64-poky-linux/kea/kea-dbg: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
-packages/core2-64-poky-linux/kea/kea-dev: PKGSIZE changed from 3983647 to 3983538 (-0%)
-packages/core2-64-poky-linux/kea/kea-dev: PV changed from "2.4.0" to "2.4.1"
-packages/core2-64-poky-linux/kea/kea-dev: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
-packages/core2-64-poky-linux/kea/kea-doc: PKGSIZE changed from 1322079 to 1322472 (+0%)
-packages/core2-64-poky-linux/kea/kea-doc: PV changed from "2.4.0" to "2.4.1"
-packages/core2-64-poky-linux/kea/kea-doc: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
-packages/core2-64-poky-linux/kea/kea-locale: PV changed from "2.4.0" to "2.4.1"
-packages/core2-64-poky-linux/kea/kea-locale: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
-packages/core2-64-poky-linux/kea/kea-src: PKGSIZE changed from 12452496 to 12450507 (-0%)
-packages/core2-64-poky-linux/kea/kea-src: PV changed from "2.4.0" to "2.4.1"
-packages/core2-64-poky-linux/kea/kea-src: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
-packages/core2-64-poky-linux/kea/kea-staticdev: PV changed from "2.4.0" to "2.4.1"
-packages/core2-64-poky-linux/kea/kea-staticdev: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
-packages/core2-64-poky-linux/kea/kea: PKGSIZE changed from 17838191 to 17842287 (+0%)
-packages/core2-64-poky-linux/kea/kea: PV changed from "2.4.0" to "2.4.1"
-packages/core2-64-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-dhcp++.so.73.0.0 /usr/lib/libkea-hooks.so.77.0.0 /usr/lib/libkea-dhcpsrv.so.89.0.0 /usr/lib/libkea-dhcpsrv.so.89 /usr/lib/libkea-dhcp++.so.73 /usr/lib/libkea-hooks.so.77", added "/usr/lib/libkea-dhcp++.so.74.0.0 /usr/lib/libkea-dhcpsrv.so.90 /usr/lib/libkea-hooks.so.78.0.0 /usr/lib/libkea-dhcp++.so.74 /usr/lib/libkea-dhcpsrv.so.90.0.0 /usr/lib/libkea-hooks.so.78"
-packages/core2-64-poky-linux/kea/kea: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
-packages/core2-64-poky-linux/kea: PV changed from "2.4.0" to "2.4.1"
-packages/core2-64-poky-linux/kea: SRC_URI changed from "http://ftp.isc.org/isc/kea/2.4.0/kea-2.4.0.tar.gz file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch file://0001-kea-fix-reproducible-build-failure.patch" to "http://ftp.isc.org/isc/kea/2.4.1/kea-2.4.1.tar.gz file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch file://0001-kea-fix-reproducible-build-failure.patch"
-packages/core2-64-poky-linux/kea: PKGV changed from 2.4.0 [default] to 2.4.1 [default]
-Changes to packages/core2-64-poky-linux/kea (sysroot):
-  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.73.0.0 to libkea-dhcp++.so.74.0.0
-  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.89.0.0 to libkea-dhcpsrv.so.90.0.0
-  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.77.0.0 to libkea-hooks.so.78.0.0
-  /usr/lib/libkea-dhcp++.so.73.0.0 moved to /usr/lib/libkea-dhcp++.so.74.0.0
-  /usr/lib/libkea-dhcp++.so.73 moved to /usr/lib/libkea-dhcp++.so.74
-  /usr/lib/libkea-dhcpsrv.so.89.0.0 moved to /usr/lib/libkea-dhcpsrv.so.90.0.0
-  /usr/lib/libkea-dhcpsrv.so.89 moved to /usr/lib/libkea-dhcpsrv.so.90
-  /usr/lib/libkea-hooks.so.77.0.0 moved to /usr/lib/libkea-hooks.so.78.0.0
-  /usr/lib/libkea-hooks.so.77 moved to /usr/lib/libkea-hooks.so.78
+packages/core2-64-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2023/sqlite-autoconf-3440000.tar.gz" to "http://www.sqlite.org/2023/sqlite-autoconf-3440200.tar.gz"
+packages/core2-64-poky-linux/sqlite3: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
+packages/core2-64-poky-linux/sqlite3: PV changed from "3.44.0" to "3.44.2"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.44.0" to "3.44.2"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 673521 to 676080 (+0%)
+packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.44.0" to "3.44.2"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.44.0" to "3.44.2"
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PV changed from "3.44.0" to "3.44.2"
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.44.0" to "3.44.2"
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 5941936 to 5896616 (-1%)
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PV changed from "3.44.0" to "3.44.2"
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10438076 to 10461436 (+0%)
+packages/core2-64-poky-linux/sqlite3/sqlite3: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3: PV changed from "3.44.0" to "3.44.2"
+packages/core2-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 290560 to 290720 (+0%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1872,23 +1766,43 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============9183872283153099170==
+--===============2561077924019089625==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-sqlite3-upgrade-3.44.0-3.44.2.patch"
+
+RnJvbSA3OGIzNzhiODk4OTdlNWM5ZDNiMjBmNTQ2N2I1YjcyMzMwN2UxNzQxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMTQ6MTE6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cWxpdGUzOiB1cGdyYWRlIDMuNDQuMCAtPiAzLjQ0LjIKCi0tLQogLi4uL3NxbGl0ZS97c3FsaXRl
+M18zLjQ0LjAuYmIgPT4gc3FsaXRlM18zLjQ0LjIuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3tzcWxpdGUzXzMuNDQuMC5iYiA9PiBzcWxpdGUzXzMuNDQu
+Mi5iYn0gKDc4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3Fs
+aXRlM18zLjQ0LjAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQ0
+LjIuYmIKc2ltaWxhcml0eSBpbmRleCA3OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvc3FsaXRlL3NxbGl0ZTNfMy40NC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9zcWxpdGUvc3FsaXRlM18zLjQ0LjIuYmIKaW5kZXggZDQ5ODE1NDg4OS4uNDU5ODg0YTU1OCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40NC4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDQuMi5iYgpAQCAt
+NCw3ICs0LDcgQEAgTElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3Nx
+bGl0ZTMuaDtlbmRsaW5lPTExO21kNT03ODZkM2RjNTgxZWZmMDNmNGZkOWU0YTc3ZWQwMGM2NiIK
+IAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LnNxbGl0ZS5vcmcvMjAyMy9zcWxpdGUtYXV0b2NvbmYt
+JHtTUUxJVEVfUFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiOWNkMzg2ZTdjZDIy
+YWY2ZTBkMmEwZjA2ZDA0MDQ5NTFlMWJlZjEwOWU0MmVhMDZjYzA0NTBlMTBjZDE1NTUwIgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjFjNjcxOWExNDhiYzQxY2YwZjJiYmJlMzkyNmQ3Y2UzZjVjYTA5
+ZDg3OGYxMjQ2ZmNjMjA3NjdiMTc1YmI0MDciCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMjMtMzYxOTFd
+ID0gImRpc3B1dGVkOiBUaGUgZXJyb3IgaXMgYSBidWcuIEl0IGhhcyBiZWVuIGZpeGVkIHVwc3Ry
+ZWFtLiBCdXQgaXQgaXMgbm90IGEgdnVsbmVyYWJpbGl0eSIKIAotLSAKMi40Mi4wCgo=
+
+--===============2561077924019089625==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-hooks.so.77 /usr/lib/libkea-dhcp++.so.73.0.0 /usr/lib/libkea-dhcpsrv.so.89 /usr/lib/libkea-dhcpsrv.so.89.0.0 /usr/lib/libkea-hooks.so.77.0.0 /usr/lib/libkea-dhcp++.so.73", added "/usr/lib/libkea-hooks.so.78 /usr/lib/libkea-hooks.so.78.0.0 /usr/lib/libkea-dhcpsrv.so.90.0.0 /usr/lib/libkea-dhcp++.so.74.0.0 /usr/lib/libkea-dhcp++.so.74 /usr/lib/libkea-dhcpsrv.so.90"
-Changes to packages/core2-64-poky-linux/kea (sysroot):
-  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.73.0.0 to libkea-dhcp++.so.74.0.0
-  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.89.0.0 to libkea-dhcpsrv.so.90.0.0
-  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.77.0.0 to libkea-hooks.so.78.0.0
-  /usr/lib/libkea-dhcp++.so.73.0.0 moved to /usr/lib/libkea-dhcp++.so.74.0.0
-  /usr/lib/libkea-dhcp++.so.73 moved to /usr/lib/libkea-dhcp++.so.74
-  /usr/lib/libkea-dhcpsrv.so.89.0.0 moved to /usr/lib/libkea-dhcpsrv.so.90.0.0
-  /usr/lib/libkea-dhcpsrv.so.89 moved to /usr/lib/libkea-dhcpsrv.so.90
-  /usr/lib/libkea-hooks.so.77.0.0 moved to /usr/lib/libkea-hooks.so.78.0.0
-  /usr/lib/libkea-hooks.so.77 moved to /usr/lib/libkea-hooks.so.78
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3526,123 +3440,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============9183872283153099170==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-kea-upgrade-2.4.0-2.4.1.patch"
-
-RnJvbSA2ZDE0ZTg5MWU4MjQwOTQxYTRjN2Y1NmY4NWE1MDNjYjA3NTRkZjI2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDU6MzQ6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
-ZWE6IHVwZ3JhZGUgMi40LjAgLT4gMi40LjEKCi0tLQogLi4uL2ZpbGVzLzAwMDEta2VhLWZpeC1y
-ZXByb2R1Y2libGUtYnVpbGQtZmFpbHVyZS5wYXRjaCAgIHwgNiArKy0tLS0KIC4uLmxpYi1sb2ct
-bG9nZ2VyX3VuaXR0ZXN0X3N1cHBvcnQuY2MtZG8tbm90LXdyaXRlLS5wYXRjaCB8IDIgKy0KIC4u
-Li9rZWEvZmlsZXMvZml4LW11bHRpbGliLWNvbmZsaWN0LnBhdGNoICAgICAgICAgICAgICAgICB8
-IDggKysrKy0tLS0KIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzL2ZpeF9waWRf
-a2VhY3RybC5wYXRjaCB8IDYgKysrLS0tCiAuLi4va2VhL3trZWFfMi40LjAuYmIgPT4ga2VhXzIu
-NC4xLmJifSAgICAgICAgICAgICAgICAgICAgfCAyICstCiA1IGZpbGVzIGNoYW5nZWQsIDExIGlu
-c2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkva2VhL3trZWFfMi40LjAuYmIgPT4ga2VhXzIuNC4xLmJifSAoOTclKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzLzAwMDEta2VhLWZpeC1yZXBy
-b2R1Y2libGUtYnVpbGQtZmFpbHVyZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-a2VhL2ZpbGVzLzAwMDEta2VhLWZpeC1yZXByb2R1Y2libGUtYnVpbGQtZmFpbHVyZS5wYXRjaApp
-bmRleCA4YTViZDAwMzAyLi5iMGU0NGRhZTQ2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29u
-bmVjdGl2aXR5L2tlYS9maWxlcy8wMDAxLWtlYS1maXgtcmVwcm9kdWNpYmxlLWJ1aWxkLWZhaWx1
-cmUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvMDAwMS1r
-ZWEtZml4LXJlcHJvZHVjaWJsZS1idWlsZC1mYWlsdXJlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
-RnJvbSBmOWJjZmVkNWExZDQ0ZDkyMTFjNWY2ZWJhNDAzYTk4OThjOGM5MDU3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbSAzNWUxZGM0YjQ2NzUzMTQzZGUwMjlmYWQyMjRiMWYyZWEyOTI0
-NjFlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogU3VkaXAgTXVraGVyamVlIDxzdWRp
-cG0ubXVraGVyamVlQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgOCBBdWcgMjAyMyAxOTowMzoxMyAr
-MDEwMAogU3ViamVjdDogW1BBVENIXSBrZWE6IGZpeCByZXByb2R1Y2libGUgYnVpbGQgZmFpbHVy
-ZQpAQCAtMTQsNiArMTQsNyBAQCBVcHN0cmVhbSBoYXMgY29uZmlybWVkIHRoZSBwYXRjaCB3aWxs
-IG5vdCBiZSBhY2NlcHRlZCBidXQgZGlzY3Vzc2lvbnMKIHdpdGggdXBzdHJlYW0gaXMgc3RpbGwg
-Z29pbmcgb24sIHdlIG1pZ2h0IGhhdmUgYSBwcm9wZXIgc29sdXRpb24gbGF0ZXIuCiAKIFNpZ25l
-ZC1vZmYtYnk6IFN1ZGlwIE11a2hlcmplZSA8c3VkaXBtLm11a2hlcmplZUBnbWFpbC5jb20+CisK
-IC0tLQogIHNyYy9iaW4vYWRtaW4va2VhLWFkbWluLmluIHwgOCArKysrLS0tLQogIDEgZmlsZSBj
-aGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCkBAIC01Nyw2ICs1OCwzIEBA
-IGluZGV4IDAzNGEwZWUuLjhhYjExYWIgMTAwNjQ0CiAgCiAgICAgICAgICAjIENoZWNrIGlmIHRo
-ZSBzY3JpcHRzIGRpcmVjdG9yeSBleGlzdHMgYXQgYWxsLgogICAgICAgICAgaWYgWyAhIC1kICR7
-dXBncmFkZV9zY3JpcHRzX2Rpcn0gXTsgdGhlbgotLS0gCi0yLjM5LjIKLQpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvMDAwMS1zcmMtbGliLWxvZy1sb2dn
-ZXJfdW5pdHRlc3Rfc3VwcG9ydC5jYy1kby1ub3Qtd3JpdGUtLnBhdGNoIGIvbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvMDAwMS1zcmMtbGliLWxvZy1sb2dnZXJfdW5pdHRlc3Rf
-c3VwcG9ydC5jYy1kby1ub3Qtd3JpdGUtLnBhdGNoCmluZGV4IDk0ZmJkMTI3MzcuLjQ1M2U3OGEx
-NDEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzLzAwMDEt
-c3JjLWxpYi1sb2ctbG9nZ2VyX3VuaXR0ZXN0X3N1cHBvcnQuY2MtZG8tbm90LXdyaXRlLS5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9maWxlcy8wMDAxLXNyYy1saWIt
-bG9nLWxvZ2dlcl91bml0dGVzdF9zdXBwb3J0LmNjLWRvLW5vdC13cml0ZS0ucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIDg0MTkyNGUxZmU4ZGIyYmZmM2VhYjhkMzc2MzRlZjA4Zjg2YzAwZWMg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGFhMmM1NjJhMzZhZWY0ZmQ4Y2QzMDI4ZGRm
-ZTBkMzJkNGE5YTYxY2MgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIg
-S2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFR1ZSwgMTAgTm92IDIwMjAg
-MTU6NTc6MDMgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gc3JjL2xpYi9sb2cvbG9nZ2VyX3VuaXR0
-ZXN0X3N1cHBvcnQuY2M6IGRvIG5vdCB3cml0ZSBidWlsZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvZml4LW11bHRpbGliLWNvbmZsaWN0LnBhdGNoIGIv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvZml4LW11bHRpbGliLWNvbmZsaWN0
-LnBhdGNoCmluZGV4IDQ1MWI0MDljODguLjc4NzVjZjFjMDAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkva2VhL2ZpbGVzL2ZpeC1tdWx0aWxpYi1jb25mbGljdC5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9maWxlcy9maXgtbXVsdGlsaWItY29u
-ZmxpY3QucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQwMjdiMWQ4NWE4YzFhMDE5M2I2ZTRh
-MDAwODNkMzAzOGQ2OTlhNTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDFhNTg2NDlm
-YmYwZjBmOGRiMTBlYTQwZTY4ZWI0ZWJiYWQ1MzI2ODAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4KIERhdGU6IFR1ZSwgMjIg
-U2VwIDIwMjAgMTU6MDI6MzMgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gVGhlcmUgYXJlIGNvbmZs
-aWN0IG9mIGNvbmZpZyBmaWxlcyBiZXR3ZWVuIGtlYSBhbmQgbGliMzIta2VhOgpAQCAtMzUsMTAg
-KzM1LDEwIEBAIGluZGV4IGU2YWU4YjguLjUwYTMwOTIgMTAwNjQ0CiAgLy8gICAgICAgICAgInBh
-cmFtMSI6ICJmb28iCiAgLy8gICAgICB9CiBkaWZmIC0tZ2l0IGEvc3JjL2Jpbi9rZWFjdHJsL2tl
-YS1kaGNwNC5jb25mLnByZSBiL3NyYy9iaW4va2VhY3RybC9rZWEtZGhjcDQuY29uZi5wcmUKLWlu
-ZGV4IDI2YmYxNjMuLjQ5ZGRiMGEgMTAwNjQ0CitpbmRleCA2ZWRiOGExLi5iMmE3Mzg1IDEwMDY0
-NAogLS0tIGEvc3JjL2Jpbi9rZWFjdHJsL2tlYS1kaGNwNC5jb25mLnByZQogKysrIGIvc3JjL2Jp
-bi9rZWFjdHJsL2tlYS1kaGNwNC5jb25mLnByZQotQEAgLTI1Miw3ICsyNTIsNyBAQAorQEAgLTI1
-NSw3ICsyNTUsNyBAQAogICAgICAvLyAgICAgICAvLyBvZiBhbGwgZGV2aWNlcyBzZXJ2aWNlZCBi
-eSBLZWEsIGluY2x1ZGluZyB0aGVpciBpZGVudGlmaWVycwogICAgICAvLyAgICAgICAvLyAobGlr
-ZSBNQUMgYWRkcmVzcyksIHRoZWlyIGxvY2F0aW9uIGluIHRoZSBuZXR3b3JrLCB0aW1lcwogICAg
-ICAvLyAgICAgICAvLyB3aGVuIHRoZXkgd2VyZSBhY3RpdmUgZXRjLgpAQCAtNDcsNyArNDcsNyBA
-QCBpbmRleCAyNmJmMTYzLi40OWRkYjBhIDEwMDY0NAogICAgICAvLyAgICAgICAicGFyYW1ldGVy
-cyI6IHsKICAgICAgLy8gICAgICAgICAgICJwYXRoIjogIi92YXIvbGliL2tlYSIsCiAgICAgIC8v
-ICAgICAgICAgICAiYmFzZS1uYW1lIjogImtlYS1mb3JlbnNpYzQiCi1AQCAtMjY5LDcgKzI2OSw3
-IEBACitAQCAtMjcyLDcgKzI3Miw3IEBACiAgICAgIC8vICAgICAgIC8vIG9mIHNwZWNpZmljIG9w
-dGlvbnMgb3IgcGVyaGFwcyBldmVuIGEgY29tYmluYXRpb24gb2Ygc2V2ZXJhbAogICAgICAvLyAg
-ICAgICAvLyBvcHRpb25zIGFuZCBmaWVsZHMgdG8gdW5pcXVlbHkgaWRlbnRpZnkgYSBjbGllbnQu
-IFRob3NlIHNjZW5hcmlvcwogICAgICAvLyAgICAgICAvLyBhcmUgYWRkcmVzc2VkIGJ5IHRoZSBG
-bGV4aWJsZSBJZGVudGlmaWVycyBob29rIGFwcGxpY2F0aW9uLgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvZml4X3BpZF9rZWFjdHJsLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEvZmlsZXMvZml4X3BpZF9rZWFjdHJsLnBhdGNoCmlu
-ZGV4IGI3YzJmZDRmMGQuLjg3MzA1ZTFkYTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25u
-ZWN0aXZpdHkva2VhL2ZpbGVzL2ZpeF9waWRfa2VhY3RybC5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L2tlYS9maWxlcy9maXhfcGlkX2tlYWN0cmwucGF0Y2gKQEAgLTEsNCAr
-MSw0IEBACi1Gcm9tIDE4ZjRmNjIwNmMyNDhkNjE2OWFhNjdiM2VjZjE2YmY1NGU5MjkyZTggTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDhlY2MxMmEzYjAzZDJlODUwOWMyY2JjZGJmZTFm
-ZjcxYjZhZmNhZDIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBcm1pbiBrdXN0ZXIg
-PGFrdXN0ZXI4MDhAZ21haWwuY29tPgogRGF0ZTogV2VkLCAxNCBPY3QgMjAyMCAyMjo0ODozMSAt
-MDcwMAogU3ViamVjdDogW1BBVENIXSBCdXN5Ym94IGRvZXMgbm90IHN1cHBvcnQgcHMgLXAgc28g
-dXNlIHBncmVwCkBAIC0xMywxMCArMTMsMTAgQEAgU2lnbmVkLW9mZi1ieTogQXJtaW4ga3VzdGVy
-IDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL2Jpbi9rZWFjdHJsL2tlYWN0cmwu
-aW4gYi9zcmMvYmluL2tlYWN0cmwva2VhY3RybC5pbgotaW5kZXggYWU1YmQ4ZS4uZTlmOWI3MyAx
-MDA2NDQKK2luZGV4IDQ1MGU5OTcuLmMzNTNjYTkgMTAwNjQ0CiAtLS0gYS9zcmMvYmluL2tlYWN0
-cmwva2VhY3RybC5pbgogKysrIGIvc3JjL2Jpbi9rZWFjdHJsL2tlYWN0cmwuaW4KLUBAIC0xNTEs
-OCArMTUxLDggQEAgY2hlY2tfcnVubmluZygpIHsKK0BAIC0xNDksOCArMTQ5LDggQEAgY2hlY2tf
-cnVubmluZygpIHsKICAgICAgIyBHZXQgdGhlIFBJRCBmcm9tIHRoZSBQSUQgZmlsZSAoaWYgaXQg
-ZXhpc3RzKQogICAgICBnZXRfcGlkX2Zyb21fZmlsZSAiJHtwcm9jX25hbWV9IgogICAgICBpZiBb
-ICR7X3BpZH0gLWd0IDAgXTsgdGhlbgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9rZWEva2VhXzIuNC4wLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9rZWEva2Vh
-XzIuNC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkva2VhL2tlYV8yLjQuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9rZWEva2VhXzIuNC4xLmJiCmluZGV4IDMxNjQ2ODc1NGUuLmMzYWE0ZGM4ZjAgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkva2VhL2tlYV8yLjQuMC5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2tlYS9rZWFfMi40LjEuYmIKQEAgLTE5LDcgKzE5
-LDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vZnRwLmlzYy5vcmcvaXNjL2tlYS8ke1BWfS8ke0JQfS50
-YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1zcmMtbGliLWxvZy1sb2dnZXJfdW5pdHRl
-c3Rfc3VwcG9ydC5jYy1kby1ub3Qtd3JpdGUtLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovLzAw
-MDEta2VhLWZpeC1yZXByb2R1Y2libGUtYnVpbGQtZmFpbHVyZS5wYXRjaCBcCiAgICAgICAgICAg
-ICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzYTMzY2QwOGRjMzMxOWZmNTQ0ZTZiYmYyYzA0Mjkw
-NDIxMDZmNDA1MWViZTExNWRjMWJiMjYyNWM5NTAwM2Y3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjgxNWM2MWY1YzI3MWNhYTRhMWRiMzFkZDY1NmViNTBhN2Y2ZWE5NzNkYTM2OTBmN2M4NTgxNDA4
-ZTE4MDEzMWEiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHN5c3RlbWQgdXBkYXRlLXJjLmQgdXBzdHJl
-YW0tdmVyc2lvbi1pcy1ldmVuCiAKLS0gCjIuNDIuMAoK
-
---===============9183872283153099170==--
+--===============2561077924019089625==--
 
