@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A78C48BF2
-	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:54 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.63630.1702649869594933821
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B1AC4829C
+	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:53 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.63130.1702649861996945090
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 06:17:49 -0800
+ Fri, 15 Dec 2023 06:17:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NrIdRYif;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZzEaVIBV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018c6dd73245-747f58e4-0e2a-4f5c-b433-937c1f1552de-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GVlYWyfG;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=m9/sQu7a;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018c6dd717d1-6c5a9c59-5270-4e7c-9967-b1c3e16f30b7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702649869;
+	t=1702649862;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=AeELF1apo01eMxFYNqj2Rb467kRX2DUgVbAErUkr4hA=;
-	b=NrIdRYifDHExFzPTYAgV7ctRRVJqUWirNobd7pdWKl2VBth3B4m745pEYpIIjiZ2
-	2KZSLQxRdQQf44F2xN3AgQBV0okYI/8clRLdLMMOFEGwflAN5PYWVVrvlPvE6jtYAKy
-	6hfNwdOyXPtwYYk8OMCsvCztV4Sb9GuDhRneOP6M=
+	bh=N5i+JnUpCLwLVw79RCV6oLHe2HQ7EAfcxqjKWOLHfUU=;
+	b=GVlYWyfGrKJe4IngnzanodZ4g4hKDcaNiyrQj0upb6fQat9gNC+RBpWf0TiadMp5
+	rLYr1/cwttiOlLNBdJorx67qa5bto+kPY+TZuC553eElxHLrvKGxHU3NNL0Lub7Zx/c
+	0MrEh1jWuJe7Xur5/WfEkFJYz2XJQegpoXnHGMk8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649869;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649862;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=AeELF1apo01eMxFYNqj2Rb467kRX2DUgVbAErUkr4hA=;
-	b=ZzEaVIBVGyQdQGROFntMW/NStVs65Qze6lgtJk3wZosJ46fVLuzNu4VGiCGaXZGm
-	lO26abXp4nq4TtsU+tMzJ91jZpQECoL8c1Y3TTBKBFEeYM23xAMakvdCFWRG5GlA3+n
-	zru6aDtDdff2XLwbmc6aRHqwIR887yIFu46oZEvQ=
-Content-Type: multipart/mixed; boundary="===============2561077924019089625=="
+	bh=N5i+JnUpCLwLVw79RCV6oLHe2HQ7EAfcxqjKWOLHfUU=;
+	b=m9/sQu7aqAvcjIjl3+uD+1ZNvQg7gglmkIJdP1n9Lz3VQczFHmgfPCAKscyvqrsh
+	PAVP6W1cytkoBkGnorwKBLtxNeznqWv3M5RPMsp9zf6mXy30DQzOBXEeNfroWx+kftX
+	hbGTkEUMqPM3OrVcewVZEN5pB75eWcvJb9q+sNjo=
+Content-Type: multipart/mixed; boundary="===============8965479598020663690=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.44.2 SUCCEEDED
-Message-ID: <0101018c6dd73245-747f58e4-0e2a-4f5c-b433-937c1f1552de-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Dec 2023 14:17:48 +0000
+Subject: [AUH] glib-networking: upgrading to 2.78.0 SUCCEEDED
+Message-ID: <0101018c6dd717d1-6c5a9c59-5270-4e7c-9967-b1c3e16f30b7-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Dec 2023 14:17:42 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.23
+X-SES-Outgoing: 2023.12.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192528
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192438
 
---===============2561077924019089625==
+--===============8965479598020663690==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *sqlite3* to *3.44.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *glib-networking* to *2.78.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.44.0-3.44.2.patch
+    - apply the patch: git am 0001-glib-networking-upgrade-2.76.1-2.78.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,63 +72,1226 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 78b378b89897e5c9d3b20f5467b5b723307e1741 Mon Sep 17 00:00:00 2001
+From e224a43249979d185a0c6a6a60b2055cba4b092e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 14:11:50 +0000
-Subject: [PATCH] sqlite3: upgrade 3.44.0 -> 3.44.2
+Date: Fri, 15 Dec 2023 05:53:33 +0000
+Subject: [PATCH] glib-networking: upgrade 2.76.1 -> 2.78.0
 
 ---
- .../sqlite/{sqlite3_3.44.0.bb => sqlite3_3.44.2.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.44.0.bb => sqlite3_3.44.2.bb} (78%)
+ ...sable-PKCS-11-tests-if-not-available.patch | 113 ------------------
+ .../glib-networking/eagain.patch              |  20 +++-
+ ...ng_2.76.1.bb => glib-networking_2.78.0.bb} |   6 +-
+ 3 files changed, 15 insertions(+), 124 deletions(-)
+ delete mode 100644 meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
+ rename meta/recipes-core/glib-networking/{glib-networking_2.76.1.bb => glib-networking_2.78.0.bb} (89%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.44.0.bb b/meta/recipes-support/sqlite/sqlite3_3.44.2.bb
-similarity index 78%
-rename from meta/recipes-support/sqlite/sqlite3_3.44.0.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.44.2.bb
-index d498154889..459884a558 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.44.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.44.2.bb
-@@ -4,7 +4,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch b/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
+deleted file mode 100644
+index 7b003588c8..0000000000
+--- a/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
++++ /dev/null
+@@ -1,113 +0,0 @@
+-From 04728a5b73e870b4695c5e7ba42fa41c00471944 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Fri, 12 May 2023 20:19:35 +0100
+-Subject: [PATCH] tls/tests: disable PKCS#11 tests if not available
+-
+-GnuTLS can be built without PKCS#11, which means the symbols
+-gnutls_pkcs11_init and gnutls_pkcs11_add_provider are not part of the
+-library.
+-
+-If these symbols don't exist in GnuTLS then we can't add a mock pkcs#11
+-provider for testing, and several tests which need the mock provider
+-will fail.
+-
+-Solve this by checking for the symbols at build time and disabling the
+-provider and tests which need it.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- meson.build             |  4 ++++
+- tls/tests/certificate.c | 11 +++++++----
+- tls/tests/connection.c  |  4 +++-
+- 3 files changed, 14 insertions(+), 5 deletions(-)
+-
+-diff --git a/meson.build b/meson.build
+-index 0fa9027..d2a023a 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -84,6 +84,10 @@ gnutls_dep = dependency('gnutls', version: '>= 3.7.4', required: get_option('gnu
+- 
+- if gnutls_dep.found()
+-   backends += ['gnutls']
+-+  # test-specific, maybe move to tls/tests
+-+  if cc.has_function('gnutls_pkcs11_init', prefix: '#include <gnutls/pkcs11.h>', dependencies: gnutls_dep)
+-+    config_h.set10('HAVE_GNUTLS_PKCS11', true)
+-+  endif
+- endif
+- 
+- # *** Checks for OpenSSL    ***
+-diff --git a/tls/tests/certificate.c b/tls/tests/certificate.c
+-index e820ba1..dd2412b 100644
+---- a/tls/tests/certificate.c
+-+++ b/tls/tests/certificate.c
+-@@ -24,6 +24,7 @@
+-  * Author: Stef Walter <stefw@collabora.co.uk>
+-  */
+- 
+-+#include "config.h"
+- #include "certificate.h"
+- 
+- #include <gio/gio.h>
+-@@ -911,7 +912,7 @@ int
+- main (int   argc,
+-       char *argv[])
+- {
+--#ifdef BACKEND_IS_GNUTLS
+-+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
+-   char *module_path;
+- #endif
+- 
+-@@ -921,7 +922,7 @@ main (int   argc,
+-   g_setenv ("GIO_USE_TLS", BACKEND, TRUE);
+-   g_assert_cmpint (g_ascii_strcasecmp (G_OBJECT_TYPE_NAME (g_tls_backend_get_default ()), "GTlsBackend" BACKEND), ==, 0);
+- 
+--#ifdef BACKEND_IS_GNUTLS
+-+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
+-   module_path = g_test_build_filename (G_TEST_BUILT, "mock-pkcs11.so", NULL);
+-   g_assert_true (g_file_test (module_path, G_FILE_TEST_EXISTS));
+- 
+-@@ -942,12 +943,14 @@ main (int   argc,
+-               setup_certificate, test_create_certificate_with_issuer, teardown_certificate);
+-   g_test_add ("/tls/" BACKEND "/certificate/create-with-garbage-input", TestCertificate, NULL,
+-               setup_certificate, test_create_certificate_with_garbage_input, teardown_certificate);
+--  g_test_add ("/tls/" BACKEND "/certificate/pkcs11", TestCertificate, NULL,
+--              setup_certificate, test_create_certificate_pkcs11, teardown_certificate);
+-   g_test_add ("/tls/" BACKEND "/certificate/private-key", TestCertificate, NULL,
+-               setup_certificate, test_private_key, teardown_certificate);
+-+#if HAVE_GNUTLS_PKCS11
+-+  g_test_add ("/tls/" BACKEND "/certificate/pkcs11", TestCertificate, NULL,
+-+              setup_certificate, test_create_certificate_pkcs11, teardown_certificate);
+-   g_test_add ("/tls/" BACKEND "/certificate/private-key-pkcs11", TestCertificate, NULL,
+-               setup_certificate, test_private_key_pkcs11, teardown_certificate);
+-+#endif
+- 
+-   g_test_add_func ("/tls/" BACKEND "/certificate/create-chain", test_create_certificate_chain);
+-   g_test_add_func ("/tls/" BACKEND "/certificate/create-no-chain", test_create_certificate_no_chain);
+-diff --git a/tls/tests/connection.c b/tls/tests/connection.c
+-index 17efe1b..62a7fbb 100644
+---- a/tls/tests/connection.c
+-+++ b/tls/tests/connection.c
+-@@ -3376,7 +3376,7 @@ main (int   argc,
+- 
+-   g_assert_true (g_ascii_strcasecmp (G_OBJECT_TYPE_NAME (g_tls_backend_get_default ()), "GTlsBackend" BACKEND) == 0);
+- 
+--#ifdef BACKEND_IS_GNUTLS
+-+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
+-   module_path = g_test_build_filename (G_TEST_BUILT, "mock-pkcs11.so", NULL);
+-   g_assert_true (g_file_test (module_path, G_FILE_TEST_EXISTS));
+- 
+-@@ -3438,8 +3438,10 @@ main (int   argc,
+-               setup_connection, test_client_auth_request_fail, teardown_connection);
+-   g_test_add ("/tls/" BACKEND "/connection/client-auth-request-none", TestConnection, NULL,
+-               setup_connection, test_client_auth_request_none, teardown_connection);
+-+#if HAVE_GNUTLS_PKCS11
+-   g_test_add ("/tls/" BACKEND "/connection/client-auth-pkcs11", TestConnection, NULL,
+-               setup_connection, test_client_auth_pkcs11_connection, teardown_connection);
+-+#endif
+-   g_test_add ("/tls/" BACKEND "/connection/no-database", TestConnection, NULL,
+-               setup_connection, test_connection_no_database, teardown_connection);
+-   g_test_add ("/tls/" BACKEND "/connection/failed", TestConnection, NULL,
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-core/glib-networking/glib-networking/eagain.patch b/meta/recipes-core/glib-networking/glib-networking/eagain.patch
+index ee5b6a7beb..062fc0191b 100644
+--- a/meta/recipes-core/glib-networking/glib-networking/eagain.patch
++++ b/meta/recipes-core/glib-networking/glib-networking/eagain.patch
+@@ -1,4 +1,8 @@
+-In autobuilder testing we regularly see glib-networking ptest fail with:
++From 025bb39dfdb81dd2852deaefea228b197ef3cd8d Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Sat, 6 May 2023 12:18:50 +0100
++Subject: [PATCH] In autobuilder testing we regularly see glib-networking ptest
++ fail with:
  
- SRC_URI = "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "b9cd386e7cd22af6e0d2a0f06d0404951e1bef109e42ea06cc0450e10cd15550"
-+SRC_URI[sha256sum] = "1c6719a148bc41cf0f2bbbe3926d7ce3f5ca09d878f1246fcc20767b175bb407"
+ GLib-Net:ERROR:/usr/src/debug/glib-networking/2.74.0-r0/tls/tests/connection.c:1944:simul_read_thread: assertion failed (error == NULL): Resource temporarily unavailable (g-io-error-quark, 27)
+ Bail out! GLib-Net:ERROR:/usr/src/debug/glib-networking/2.74.0-r0/tls/tests/connection.c:1944:simul_read_thread: assertion failed (error == NULL): Resource temporarily unavailable (g-io-error-quark, 27)
+@@ -12,11 +16,15 @@ Upstream-Status: Pending [testing to see if patch resolves the issue]
  
- CVE_STATUS[CVE-2023-36191] = "disputed: The error is a bug. It has been fixed upstream. But it is not a vulnerability"
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  
+-Index: glib-networking-2.74.0/tls/tests/connection.c
+-===================================================================
+---- glib-networking-2.74.0.orig/tls/tests/connection.c
+-+++ glib-networking-2.74.0/tls/tests/connection.c
+-@@ -1941,6 +1941,10 @@ simul_read_thread (gpointer user_data)
++---
++ tls/tests/connection.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/tls/tests/connection.c b/tls/tests/connection.c
++index 62a7fbb..3447c80 100644
++--- a/tls/tests/connection.c
+++++ b/tls/tests/connection.c
++@@ -2210,6 +2210,10 @@ simul_read_thread (gpointer user_data)
+                                     test->buf + test->nread,
+                                     MIN (TEST_DATA_LENGTH / 2, TEST_DATA_LENGTH - test->nread),
+                                     NULL, &error);
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
+similarity index 89%
+rename from meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
+index 0f8822e160..59eb715d93 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ SECTION = "libs"
+ DEPENDS = "glib-2.0-native glib-2.0"
+ 
+-SRC_URI[archive.sha256sum] = "5c698a9994dde51efdfb1026a56698a221d6250e89dc50ebcddda7b81480a42b"
++SRC_URI[archive.sha256sum] = "52fe4ce93f7dc51334b102894599858d23c8a65ac4a1110b30920565d68d3aba"
+ 
+ # Upstream note that for the openssl backend, half the tests where this backend don't return
+ # the expected error code or don't work as expected so default to gnutls
+@@ -29,10 +29,6 @@ PACKAGECONFIG[gnomeproxy] = "-Dgnome_proxy=enabled,-Dgnome_proxy=disabled,gsetti
+ 
+ inherit gnomebase gettext upstream-version-is-even gio-module-cache ptest-gnome
+ 
+-SRC_URI += "file://run-ptest"
+-SRC_URI += "file://eagain.patch"
+-SRC_URI += "file://0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch"
+-
+ FILES:${PN} += "\
+                 ${libdir}/gio/modules/libgio*.so \
+                 ${datadir}/dbus-1/services/ \
 -- 
 2.42.0
 
 
---===============2561077924019089625==
+--===============8965479598020663690==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 911 .bb files complete (0 cached, 911 parsed). 1843 targets, 49 skipped, 0 masked, 0 errors.
+Removing 29 recipes from the core2-64 sysroot...done.
+Removing 65 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-b9e4e0c0f0f9a3120f7e9d446b1cae9a6834b43b"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:b9e4e0c0f0f9a3120f7e9d446b1cae9a6834b43b"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+done.
+Sstate summary: Wanted 400 Local 378 Mirrors 0 Missed 22 Current 185 (94% match, 96% complete)
+Removing 5 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 198 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 204 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 208 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 209 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 210 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.38.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 211 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
+NOTE: Running setscene task 214 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 218 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 219 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 220 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 221 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 222 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 223 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 224 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_package_write_rpm_setscene)
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe perl-5.38.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe bash-5.2.21-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe coreutils-9.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gnutls-3.8.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_create_spdx_setscene: Started
+NOTE: Running task 339 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_write_config)
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glib-networking-2.78.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running task 358 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_fetch)
+NOTE: Running setscene task 326 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 327 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
+NOTE: recipe bash-5.2.21-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 328 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_packagedata_setscene)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 329 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_setscene)
+NOTE: recipe gnutls-3.8.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe glib-networking-2.78.0-r0: task do_write_config: Started
+NOTE: recipe gnutls-3.8.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe psmisc-23.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_fetch: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_write_config: Succeeded
+NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Started
+NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe glib-networking-2.78.0-r0: task do_fetch: Succeeded
+NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.2+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe coreutils-9.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 345 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 348 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 351 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
+NOTE: Running setscene task 362 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 367 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 368 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 372 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-passwd-3.6.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe psmisc-23.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gnutls-3.8.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 381 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 382 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 383 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 387 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
+NOTE: recipe gnutls-3.8.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 395 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 396 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 398 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 399 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 400 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 401 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 402 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 403 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.9.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 404 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.9.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 408 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 411 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe nettle-3.9.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Started
+NOTE: Running task 391 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
+NOTE: recipe gnutls-3.8.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Started
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-5.2.21-r0: task do_package_setscene: Started
+NOTE: recipe gnutls-3.8.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 417 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 419 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe libidn2-2.3.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libtasn1-4.19.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 421 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 423 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.4.bb:do_recipe_qa_setscene)
+NOTE: recipe nettle-3.9.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 424 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 426 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.9.1.bb:do_recipe_qa_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
+NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 432 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 433 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 434 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libseccomp-2.5.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe nettle-3.9.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 435 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 436 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 437 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libidn2-2.3.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe nettle-3.9.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libidn2-2.3.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 452 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 454 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libunistring-1.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 456 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.1.bb:do_recipe_qa_setscene)
+NOTE: Running task 791 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_unpack)
+NOTE: Running task 795 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
+NOTE: Running task 806 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libunistring-1.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_unpack: Started
+NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 850 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_fetch)
+NOTE: recipe libunistring-1.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
+NOTE: Running task 857 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
+NOTE: recipe glib-networking-2.78.0-r0: task do_unpack: Succeeded
+NOTE: Running task 858 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_patch)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Started
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
+NOTE: recipe bash-5.2.21-r0: task do_package_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_fetch: Succeeded
+NOTE: Running task 859 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_unpack)
+NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
+NOTE: Running setscene task 457 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe glib-networking-2.78.0-r0: task do_patch: Started
+NOTE: Running task 860 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
+NOTE: recipe glib-networking-2.78.0-r0: task do_patch: Succeeded
+NOTE: Running task 861 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 862 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_populate_lic)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
+NOTE: recipe bash-5.2.21-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
+NOTE: Running task 863 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
+NOTE: recipe glib-networking-2.78.0-r0: task do_populate_lic: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe bash-5.2.21-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 458 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_recipe_qa_setscene)
+WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/glib-2.0/2.78.1/temp/log.do_packagedata_setscene.3080914
+WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 459 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_package_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_install: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe bash-5.2.21-r0: task do_recipe_qa_setscene: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_populate_lic unihash changed to ef44204a3835f0aa5722f96366e1d5b88cd46df67c9e25db37a787c94a0f9962
+NOTE: recipe glib-networking-2.78.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_deploy_source_date_epoch unihash changed to 310a82b33fd741ae0ab82aeeb6d50c17064b1046d7a1442eca6d57ab232f5c92
+NOTE: recipe bash-5.2.21-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_unpack: Succeeded
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_package_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 453 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_recipe_qa_setscene)
+NOTE: recipe perl-5.38.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 462 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 463 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 467 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
+NOTE: Running setscene task 469 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 470 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 471 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_packagedata_setscene)
+NOTE: Running setscene task 472 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1028 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.39.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-2.39.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_package: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 478 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_recipe_qa_setscene)
+NOTE: recipe libpcre2-10.42-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 480 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: Running setscene task 481 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 483 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.42.bb:do_recipe_qa_setscene)
+NOTE: recipe util-linux-2.39.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpcre2-10.42-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpcre2-10.42-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 489 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-2.39.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 491 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
+NOTE: Running setscene task 492 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 493 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 494 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 496 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 497 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 498 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 499 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 500 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 501 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 502 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-2.39.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe util-linux-2.39.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 507 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_recipe_qa_setscene)
+NOTE: recipe bash-completion-2.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 509 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 511 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.3.bb:do_recipe_qa_setscene)
+NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 514 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 515 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 516 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcap-ng-0.8.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.6.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.6.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bash-completion-2.11-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libcap-ng-0.8.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe opkg-utils-0.6.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 519 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.6.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.6.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 521 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
+NOTE: Running setscene task 522 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 524 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_recipe_qa_setscene)
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.5.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libpam-1.5.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
+NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 526 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_packagedata_setscene)
+NOTE: Running setscene task 527 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 532 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_recipe_qa_setscene)
+NOTE: Running task 1125 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
+NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
+NOTE: recipe cracklib-2.9.11-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 537 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
+NOTE: recipe zlib-1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 539 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 540 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe zlib-1.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to e644ec3722734ea60494db1182afab8d0334f493c3dc1fb845b731f7ca727b46
+NOTE: Reported task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx as unihash 60f0f74f74b5ae67ad335dadd51802d0ea90c78d1d58bacd08565bf6771fce9f to hashserv.yocto.io:8686 ({'taskhash': 'e8f55dcab29fcc7344a79ccfea957de58b1f1d3926f56d6b98096de93494c5ea', 'method': 'oe.sstatesig.OEOuthashBasic', 'unihash': '60f0f74f74b5ae67ad335dadd51802d0ea90c78d1d58bacd08565bf6771fce9f'})
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx unihash changed e8f55dcab29fcc7344a79ccfea957de58b1f1d3926f56d6b98096de93494c5ea -> 60f0f74f74b5ae67ad335dadd51802d0ea90c78d1d58bacd08565bf6771fce9f as wanted
+NOTE: Already covered setscene for /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx so ignoring rehash (remap)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 542 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 544 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 545 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 547 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 548 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 550 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 552 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 553 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 554 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_packagedata_setscene)
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-libc-headers-6.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 558 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 559 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 561 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 566 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 567 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 569 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 572 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 574 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 575 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 577 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 585 of 585 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1434 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1479 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb:do_packagedata)
+NOTE: Running task 1623 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_ipk)
+NOTE: Running task 1624 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_deb)
+NOTE: Running task 1625 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_rpm)
+NOTE: recipe glib-networking-2.78.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_packagedata: Started
+NOTE: recipe bash-5.2.21-r0: task do_package_write_ipk: Started
+NOTE: recipe bash-5.2.21-r0: task do_package_write_deb: Started
+NOTE: recipe bash-5.2.21-r0: task do_package_write_rpm: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1629 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_configure)
+NOTE: recipe glib-networking-2.78.0-r0: task do_configure: Started
+NOTE: recipe glib-2.0-1_2.78.1-r0: task do_packagedata: Succeeded
+NOTE: Running task 1633 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_collect_spdx_deps)
+NOTE: Running task 1634 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_collect_spdx_deps)
+NOTE: Running task 1635 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_ipk)
+NOTE: Running task 1636 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_deb)
+NOTE: Running task 1637 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm)
+NOTE: recipe glib-networking-2.78.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_ipk: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_deb: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1638 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_create_spdx)
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_create_spdx: Started
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_ipk unihash changed to 35b208f611f24ac393f94d3b0e0f86e3e7691e407f3c109b7dd26f9dc298c578
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_create_spdx: Succeeded
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_deb: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_deb unihash changed to fe38a96d436bdd18c36182268a7c526461e4364af529a18ac78e1dc37726436e
+NOTE: recipe gnome-desktop-testing-2021.1-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2021.1.bb:do_package_write_rpm unihash changed to 9818474a5922578ee4bfb13ae49f9039b92d186754bb51e2b13e8c29c5288e30
+NOTE: recipe glib-networking-2.78.0-r0: task do_configure: Succeeded
+NOTE: Running task 1639 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_configure_ptest_base)
+NOTE: recipe glib-networking-2.78.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe bash-5.2.21-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_ipk unihash changed to 55a71c425289f3e038448ceea48cc6b59594e8a8d1db231181d77a0e23e1889f
+NOTE: recipe glib-networking-2.78.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1640 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_compile)
+NOTE: recipe glib-networking-2.78.0-r0: task do_compile: Started
+NOTE: recipe bash-5.2.21-r0: task do_package_write_deb: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_deb unihash changed to 59b3a81004bd5adacec9892062fce524170913681727bedaac591be06c5ba2ce
+NOTE: recipe glib-networking-2.78.0-r0: task do_compile: Succeeded
+NOTE: Running task 1641 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_compile_ptest_base)
+NOTE: recipe glib-networking-2.78.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1642 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_install)
+NOTE: recipe bash-5.2.21-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_rpm unihash changed to 38aa0c0a4c04d1873172be2900cd9da86f7fdde27ca6da4a2ef60b106ec892e9
+NOTE: recipe glib-networking-2.78.0-r0: task do_install: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_install: Succeeded
+NOTE: Running task 1643 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_install_ptest_base)
+NOTE: recipe glib-networking-2.78.0-r0: task do_install_ptest_base: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1644 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package)
+NOTE: Running task 1645 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_populate_sysroot)
+NOTE: recipe glib-networking-2.78.0-r0: task do_package: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_populate_sysroot: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe glib-networking-2.78.0-r0: task do_package: Succeeded
+NOTE: Running task 1646 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_packagedata)
+NOTE: recipe glib-networking-2.78.0-r0: task do_packagedata: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_packagedata: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_packagedata unihash changed to bf4a23ec5fa33725460f7dce2d2579f1762bbb685d57ff7851bf04f7c9565af1
+NOTE: Setscene tasks completed
+NOTE: Running task 1647 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_create_spdx)
+NOTE: Running task 1648 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package_write_ipk)
+NOTE: Running task 1649 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package_write_deb)
+NOTE: Running task 1650 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package_write_rpm)
+NOTE: Running task 1651 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package_qa)
+NOTE: recipe glib-networking-2.78.0-r0: task do_create_spdx: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_package_write_ipk: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_package_write_deb: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_package_write_rpm: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_package_qa: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1652 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_create_runtime_spdx)
+NOTE: recipe glib-networking-2.78.0-r0: task do_create_runtime_spdx: Started
+NOTE: recipe glib-networking-2.78.0-r0: task do_package_qa: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package_qa unihash changed to 2fd7664888d51455b9fdafdb7fe941d10e9a33d482f90b0b6b011bb56de3e8f6
+NOTE: recipe glib-networking-2.78.0-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package_write_ipk unihash changed to ab9aefee5c11a4c1b4869bef3d77c9b6eac79c5b1370096bd6ec4b8d643fffd1
+NOTE: recipe glib-networking-2.78.0-r0: task do_create_runtime_spdx: Succeeded
+NOTE: recipe glib-networking-2.78.0-r0: task do_package_write_deb: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package_write_deb unihash changed to de065d5270da742bffd5b9c426642f1733acb01b287294ae213a440523b80b52
+NOTE: recipe glib-networking-2.78.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_package_write_rpm unihash changed to 9fe2650bd776a10586d471f41784f481111f228d296e283c4c0e0eb8768f2970
+NOTE: Running noexec task 1653 of 1653 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1653 tasks of which 1609 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+
+Summary: There were 111 ERROR messages, returning a non-zero exit code.
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-src went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-dbg went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-ptest went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-staticdev went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-dev went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-doc went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0 went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-codegen went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-utils went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-bash-completion went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ab went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-af went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-am went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-an went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ar went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-as went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ast went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-az went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-be went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-be+latin went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-bg went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-bn went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-bn-in went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-bs went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ca went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ca+valencia went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-cs went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-cy went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-da went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-de went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-dz went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-el went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-en+shaw went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-en-ca went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-en-gb went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-eo went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-es went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-et went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-eu went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-fa went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-fi went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-fr went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-fur went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ga went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-gd went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-gl went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-gu went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-he went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-hi went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-hr went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-hu went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-hy went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-id went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ie went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-is went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-it went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ja went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ka went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-kk went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-kn went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ko went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ku went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-lt went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-lv went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-mai went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-mg went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-mk went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ml went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-mn went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-mr went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ms went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-nb went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-nds went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ne went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-nl went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-nn went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-oc went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-or went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-pa went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-pl went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ps went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-pt went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-pt-br went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ro went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ru went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-rw went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-si went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-sk went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-sl went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-sq went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-sr went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-sr+ije went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-sr+latin went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-sv went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ta went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-te went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-tg went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-th went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-tl went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-tr went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-tt went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-ug went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-uk went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-vi went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-wa went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-xh went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-yi went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-zh-cn went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-zh-hk went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: QA Issue: Package version for package glib-2.0-locale-zh-tw went backwards which would break package feeds (from 1:2.78.3-r0 to 1:2.78.1-r0) [version-going-backwards]
+ERROR: glib-2.0-1_2.78.1-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============8965479598020663690==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-glib-networking-upgrade-2.76.1-2.78.0.patch"
+
+RnJvbSBlMjI0YTQzMjQ5OTc5ZDE4NWEwYzZhNmE2MGIyMDU1Y2JhNGIwOTJlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDU6NTM6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bGliLW5ldHdvcmtpbmc6IHVwZ3JhZGUgMi43Ni4xIC0+IDIuNzguMAoKLS0tCiAuLi5zYWJsZS1Q
+S0NTLTExLXRlc3RzLWlmLW5vdC1hdmFpbGFibGUucGF0Y2ggfCAxMTMgLS0tLS0tLS0tLS0tLS0t
+LS0tCiAuLi4vZ2xpYi1uZXR3b3JraW5nL2VhZ2Fpbi5wYXRjaCAgICAgICAgICAgICAgfCAgMjAg
+KysrLQogLi4ubmdfMi43Ni4xLmJiID0+IGdsaWItbmV0d29ya2luZ18yLjc4LjAuYmJ9IHwgICA2
+ICstCiAzIGZpbGVzIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyksIDEyNCBkZWxldGlvbnMoLSkK
+IGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xp
+Yi1uZXR3b3JraW5nLzAwMDEtdGxzLXRlc3RzLWRpc2FibGUtUEtDUy0xMS10ZXN0cy1pZi1ub3Qt
+YXZhaWxhYmxlLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5n
+L3tnbGliLW5ldHdvcmtpbmdfMi43Ni4xLmJiID0+IGdsaWItbmV0d29ya2luZ18yLjc4LjAuYmJ9
+ICg4OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2ds
+aWItbmV0d29ya2luZy8wMDAxLXRscy10ZXN0cy1kaXNhYmxlLVBLQ1MtMTEtdGVzdHMtaWYtbm90
+LWF2YWlsYWJsZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGli
+LW5ldHdvcmtpbmcvMDAwMS10bHMtdGVzdHMtZGlzYWJsZS1QS0NTLTExLXRlc3RzLWlmLW5vdC1h
+dmFpbGFibGUucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDdiMDAzNTg4Yzgu
+LjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2dsaWIt
+bmV0d29ya2luZy8wMDAxLXRscy10ZXN0cy1kaXNhYmxlLVBLQ1MtMTEtdGVzdHMtaWYtbm90LWF2
+YWlsYWJsZS5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDExMyArMCwwIEBACi1Gcm9tIDA0NzI4
+YTViNzNlODcwYjQ2OTVjNWU3YmE0MmZhNDFjMDA0NzE5NDQgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCi1Gcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KLURhdGU6IEZyaSwg
+MTIgTWF5IDIwMjMgMjA6MTk6MzUgKzAxMDAKLVN1YmplY3Q6IFtQQVRDSF0gdGxzL3Rlc3RzOiBk
+aXNhYmxlIFBLQ1MjMTEgdGVzdHMgaWYgbm90IGF2YWlsYWJsZQotCi1HbnVUTFMgY2FuIGJlIGJ1
+aWx0IHdpdGhvdXQgUEtDUyMxMSwgd2hpY2ggbWVhbnMgdGhlIHN5bWJvbHMKLWdudXRsc19wa2Nz
+MTFfaW5pdCBhbmQgZ251dGxzX3BrY3MxMV9hZGRfcHJvdmlkZXIgYXJlIG5vdCBwYXJ0IG9mIHRo
+ZQotbGlicmFyeS4KLQotSWYgdGhlc2Ugc3ltYm9scyBkb24ndCBleGlzdCBpbiBHbnVUTFMgdGhl
+biB3ZSBjYW4ndCBhZGQgYSBtb2NrIHBrY3MjMTEKLXByb3ZpZGVyIGZvciB0ZXN0aW5nLCBhbmQg
+c2V2ZXJhbCB0ZXN0cyB3aGljaCBuZWVkIHRoZSBtb2NrIHByb3ZpZGVyCi13aWxsIGZhaWwuCi0K
+LVNvbHZlIHRoaXMgYnkgY2hlY2tpbmcgZm9yIHRoZSBzeW1ib2xzIGF0IGJ1aWxkIHRpbWUgYW5k
+IGRpc2FibGluZyB0aGUKLXByb3ZpZGVyIGFuZCB0ZXN0cyB3aGljaCBuZWVkIGl0LgotCi1VcHN0
+cmVhbS1TdGF0dXM6IEJhY2twb3J0Ci1TaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5i
+dXJ0b25AYXJtLmNvbT4KLS0tLQotIG1lc29uLmJ1aWxkICAgICAgICAgICAgIHwgIDQgKysrKwot
+IHRscy90ZXN0cy9jZXJ0aWZpY2F0ZS5jIHwgMTEgKysrKysrKy0tLS0KLSB0bHMvdGVzdHMvY29u
+bmVjdGlvbi5jICB8ICA0ICsrKy0KLSAzIGZpbGVzIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKyks
+IDUgZGVsZXRpb25zKC0pCi0KLWRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxk
+Ci1pbmRleCAwZmE5MDI3Li5kMmEwMjNhIDEwMDY0NAotLS0tIGEvbWVzb24uYnVpbGQKLSsrKyBi
+L21lc29uLmJ1aWxkCi1AQCAtODQsNiArODQsMTAgQEAgZ251dGxzX2RlcCA9IGRlcGVuZGVuY3ko
+J2dudXRscycsIHZlcnNpb246ICc+PSAzLjcuNCcsIHJlcXVpcmVkOiBnZXRfb3B0aW9uKCdnbnUK
+LSAKLSBpZiBnbnV0bHNfZGVwLmZvdW5kKCkKLSAgIGJhY2tlbmRzICs9IFsnZ251dGxzJ10KLSsg
+ICMgdGVzdC1zcGVjaWZpYywgbWF5YmUgbW92ZSB0byB0bHMvdGVzdHMKLSsgIGlmIGNjLmhhc19m
+dW5jdGlvbignZ251dGxzX3BrY3MxMV9pbml0JywgcHJlZml4OiAnI2luY2x1ZGUgPGdudXRscy9w
+a2NzMTEuaD4nLCBkZXBlbmRlbmNpZXM6IGdudXRsc19kZXApCi0rICAgIGNvbmZpZ19oLnNldDEw
+KCdIQVZFX0dOVVRMU19QS0NTMTEnLCB0cnVlKQotKyAgZW5kaWYKLSBlbmRpZgotIAotICMgKioq
+IENoZWNrcyBmb3IgT3BlblNTTCAgICAqKioKLWRpZmYgLS1naXQgYS90bHMvdGVzdHMvY2VydGlm
+aWNhdGUuYyBiL3Rscy90ZXN0cy9jZXJ0aWZpY2F0ZS5jCi1pbmRleCBlODIwYmExLi5kZDI0MTJi
+IDEwMDY0NAotLS0tIGEvdGxzL3Rlc3RzL2NlcnRpZmljYXRlLmMKLSsrKyBiL3Rscy90ZXN0cy9j
+ZXJ0aWZpY2F0ZS5jCi1AQCAtMjQsNiArMjQsNyBAQAotICAqIEF1dGhvcjogU3RlZiBXYWx0ZXIg
+PHN0ZWZ3QGNvbGxhYm9yYS5jby51az4KLSAgKi8KLSAKLSsjaW5jbHVkZSAiY29uZmlnLmgiCi0g
+I2luY2x1ZGUgImNlcnRpZmljYXRlLmgiCi0gCi0gI2luY2x1ZGUgPGdpby9naW8uaD4KLUBAIC05
+MTEsNyArOTEyLDcgQEAgaW50Ci0gbWFpbiAoaW50ICAgYXJnYywKLSAgICAgICBjaGFyICphcmd2
+W10pCi0gewotLSNpZmRlZiBCQUNLRU5EX0lTX0dOVVRMUwotKyNpZiBkZWZpbmVkKEJBQ0tFTkRf
+SVNfR05VVExTKSAmJiBIQVZFX0dOVVRMU19QS0NTMTEKLSAgIGNoYXIgKm1vZHVsZV9wYXRoOwot
+ICNlbmRpZgotIAotQEAgLTkyMSw3ICs5MjIsNyBAQCBtYWluIChpbnQgICBhcmdjLAotICAgZ19z
+ZXRlbnYgKCJHSU9fVVNFX1RMUyIsIEJBQ0tFTkQsIFRSVUUpOwotICAgZ19hc3NlcnRfY21waW50
+IChnX2FzY2lpX3N0cmNhc2VjbXAgKEdfT0JKRUNUX1RZUEVfTkFNRSAoZ190bHNfYmFja2VuZF9n
+ZXRfZGVmYXVsdCAoKSksICJHVGxzQmFja2VuZCIgQkFDS0VORCksID09LCAwKTsKLSAKLS0jaWZk
+ZWYgQkFDS0VORF9JU19HTlVUTFMKLSsjaWYgZGVmaW5lZChCQUNLRU5EX0lTX0dOVVRMUykgJiYg
+SEFWRV9HTlVUTFNfUEtDUzExCi0gICBtb2R1bGVfcGF0aCA9IGdfdGVzdF9idWlsZF9maWxlbmFt
+ZSAoR19URVNUX0JVSUxULCAibW9jay1wa2NzMTEuc28iLCBOVUxMKTsKLSAgIGdfYXNzZXJ0X3Ry
+dWUgKGdfZmlsZV90ZXN0IChtb2R1bGVfcGF0aCwgR19GSUxFX1RFU1RfRVhJU1RTKSk7Ci0gCi1A
+QCAtOTQyLDEyICs5NDMsMTQgQEAgbWFpbiAoaW50ICAgYXJnYywKLSAgICAgICAgICAgICAgIHNl
+dHVwX2NlcnRpZmljYXRlLCB0ZXN0X2NyZWF0ZV9jZXJ0aWZpY2F0ZV93aXRoX2lzc3VlciwgdGVh
+cmRvd25fY2VydGlmaWNhdGUpOwotICAgZ190ZXN0X2FkZCAoIi90bHMvIiBCQUNLRU5EICIvY2Vy
+dGlmaWNhdGUvY3JlYXRlLXdpdGgtZ2FyYmFnZS1pbnB1dCIsIFRlc3RDZXJ0aWZpY2F0ZSwgTlVM
+TCwKLSAgICAgICAgICAgICAgIHNldHVwX2NlcnRpZmljYXRlLCB0ZXN0X2NyZWF0ZV9jZXJ0aWZp
+Y2F0ZV93aXRoX2dhcmJhZ2VfaW5wdXQsIHRlYXJkb3duX2NlcnRpZmljYXRlKTsKLS0gIGdfdGVz
+dF9hZGQgKCIvdGxzLyIgQkFDS0VORCAiL2NlcnRpZmljYXRlL3BrY3MxMSIsIFRlc3RDZXJ0aWZp
+Y2F0ZSwgTlVMTCwKLS0gICAgICAgICAgICAgIHNldHVwX2NlcnRpZmljYXRlLCB0ZXN0X2NyZWF0
+ZV9jZXJ0aWZpY2F0ZV9wa2NzMTEsIHRlYXJkb3duX2NlcnRpZmljYXRlKTsKLSAgIGdfdGVzdF9h
+ZGQgKCIvdGxzLyIgQkFDS0VORCAiL2NlcnRpZmljYXRlL3ByaXZhdGUta2V5IiwgVGVzdENlcnRp
+ZmljYXRlLCBOVUxMLAotICAgICAgICAgICAgICAgc2V0dXBfY2VydGlmaWNhdGUsIHRlc3RfcHJp
+dmF0ZV9rZXksIHRlYXJkb3duX2NlcnRpZmljYXRlKTsKLSsjaWYgSEFWRV9HTlVUTFNfUEtDUzEx
+Ci0rICBnX3Rlc3RfYWRkICgiL3Rscy8iIEJBQ0tFTkQgIi9jZXJ0aWZpY2F0ZS9wa2NzMTEiLCBU
+ZXN0Q2VydGlmaWNhdGUsIE5VTEwsCi0rICAgICAgICAgICAgICBzZXR1cF9jZXJ0aWZpY2F0ZSwg
+dGVzdF9jcmVhdGVfY2VydGlmaWNhdGVfcGtjczExLCB0ZWFyZG93bl9jZXJ0aWZpY2F0ZSk7Ci0g
+ICBnX3Rlc3RfYWRkICgiL3Rscy8iIEJBQ0tFTkQgIi9jZXJ0aWZpY2F0ZS9wcml2YXRlLWtleS1w
+a2NzMTEiLCBUZXN0Q2VydGlmaWNhdGUsIE5VTEwsCi0gICAgICAgICAgICAgICBzZXR1cF9jZXJ0
+aWZpY2F0ZSwgdGVzdF9wcml2YXRlX2tleV9wa2NzMTEsIHRlYXJkb3duX2NlcnRpZmljYXRlKTsK
+LSsjZW5kaWYKLSAKLSAgIGdfdGVzdF9hZGRfZnVuYyAoIi90bHMvIiBCQUNLRU5EICIvY2VydGlm
+aWNhdGUvY3JlYXRlLWNoYWluIiwgdGVzdF9jcmVhdGVfY2VydGlmaWNhdGVfY2hhaW4pOwotICAg
+Z190ZXN0X2FkZF9mdW5jICgiL3Rscy8iIEJBQ0tFTkQgIi9jZXJ0aWZpY2F0ZS9jcmVhdGUtbm8t
+Y2hhaW4iLCB0ZXN0X2NyZWF0ZV9jZXJ0aWZpY2F0ZV9ub19jaGFpbik7Ci1kaWZmIC0tZ2l0IGEv
+dGxzL3Rlc3RzL2Nvbm5lY3Rpb24uYyBiL3Rscy90ZXN0cy9jb25uZWN0aW9uLmMKLWluZGV4IDE3
+ZWZlMWIuLjYyYTdmYmIgMTAwNjQ0Ci0tLS0gYS90bHMvdGVzdHMvY29ubmVjdGlvbi5jCi0rKysg
+Yi90bHMvdGVzdHMvY29ubmVjdGlvbi5jCi1AQCAtMzM3Niw3ICszMzc2LDcgQEAgbWFpbiAoaW50
+ICAgYXJnYywKLSAKLSAgIGdfYXNzZXJ0X3RydWUgKGdfYXNjaWlfc3RyY2FzZWNtcCAoR19PQkpF
+Q1RfVFlQRV9OQU1FIChnX3Rsc19iYWNrZW5kX2dldF9kZWZhdWx0ICgpKSwgIkdUbHNCYWNrZW5k
+IiBCQUNLRU5EKSA9PSAwKTsKLSAKLS0jaWZkZWYgQkFDS0VORF9JU19HTlVUTFMKLSsjaWYgZGVm
+aW5lZChCQUNLRU5EX0lTX0dOVVRMUykgJiYgSEFWRV9HTlVUTFNfUEtDUzExCi0gICBtb2R1bGVf
+cGF0aCA9IGdfdGVzdF9idWlsZF9maWxlbmFtZSAoR19URVNUX0JVSUxULCAibW9jay1wa2NzMTEu
+c28iLCBOVUxMKTsKLSAgIGdfYXNzZXJ0X3RydWUgKGdfZmlsZV90ZXN0IChtb2R1bGVfcGF0aCwg
+R19GSUxFX1RFU1RfRVhJU1RTKSk7Ci0gCi1AQCAtMzQzOCw4ICszNDM4LDEwIEBAIG1haW4gKGlu
+dCAgIGFyZ2MsCi0gICAgICAgICAgICAgICBzZXR1cF9jb25uZWN0aW9uLCB0ZXN0X2NsaWVudF9h
+dXRoX3JlcXVlc3RfZmFpbCwgdGVhcmRvd25fY29ubmVjdGlvbik7Ci0gICBnX3Rlc3RfYWRkICgi
+L3Rscy8iIEJBQ0tFTkQgIi9jb25uZWN0aW9uL2NsaWVudC1hdXRoLXJlcXVlc3Qtbm9uZSIsIFRl
+c3RDb25uZWN0aW9uLCBOVUxMLAotICAgICAgICAgICAgICAgc2V0dXBfY29ubmVjdGlvbiwgdGVz
+dF9jbGllbnRfYXV0aF9yZXF1ZXN0X25vbmUsIHRlYXJkb3duX2Nvbm5lY3Rpb24pOwotKyNpZiBI
+QVZFX0dOVVRMU19QS0NTMTEKLSAgIGdfdGVzdF9hZGQgKCIvdGxzLyIgQkFDS0VORCAiL2Nvbm5l
+Y3Rpb24vY2xpZW50LWF1dGgtcGtjczExIiwgVGVzdENvbm5lY3Rpb24sIE5VTEwsCi0gICAgICAg
+ICAgICAgICBzZXR1cF9jb25uZWN0aW9uLCB0ZXN0X2NsaWVudF9hdXRoX3BrY3MxMV9jb25uZWN0
+aW9uLCB0ZWFyZG93bl9jb25uZWN0aW9uKTsKLSsjZW5kaWYKLSAgIGdfdGVzdF9hZGQgKCIvdGxz
+LyIgQkFDS0VORCAiL2Nvbm5lY3Rpb24vbm8tZGF0YWJhc2UiLCBUZXN0Q29ubmVjdGlvbiwgTlVM
+TCwKLSAgICAgICAgICAgICAgIHNldHVwX2Nvbm5lY3Rpb24sIHRlc3RfY29ubmVjdGlvbl9ub19k
+YXRhYmFzZSwgdGVhcmRvd25fY29ubmVjdGlvbik7Ci0gICBnX3Rlc3RfYWRkICgiL3Rscy8iIEJB
+Q0tFTkQgIi9jb25uZWN0aW9uL2ZhaWxlZCIsIFRlc3RDb25uZWN0aW9uLCBOVUxMLAotLS0gCi0y
+LjM0LjEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi1uZXR3b3JraW5nL2ds
+aWItbmV0d29ya2luZy9lYWdhaW4ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdv
+cmtpbmcvZ2xpYi1uZXR3b3JraW5nL2VhZ2Fpbi5wYXRjaAppbmRleCBlZTViNmE3YmViLi4wNjJm
+YzAxOTFiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xp
+Yi1uZXR3b3JraW5nL2VhZ2Fpbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLW5l
+dHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nL2VhZ2Fpbi5wYXRjaApAQCAtMSw0ICsxLDggQEAKLUlu
+IGF1dG9idWlsZGVyIHRlc3Rpbmcgd2UgcmVndWxhcmx5IHNlZSBnbGliLW5ldHdvcmtpbmcgcHRl
+c3QgZmFpbCB3aXRoOgorRnJvbSAwMjViYjM5ZGZkYjgxZGQyODUyZGVhZWZlYTIyOGIxOTdlZjNj
+ZDhkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hh
+cmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CitEYXRlOiBTYXQsIDYgTWF5IDIwMjMgMTI6
+MTg6NTAgKzAxMDAKK1N1YmplY3Q6IFtQQVRDSF0gSW4gYXV0b2J1aWxkZXIgdGVzdGluZyB3ZSBy
+ZWd1bGFybHkgc2VlIGdsaWItbmV0d29ya2luZyBwdGVzdAorIGZhaWwgd2l0aDoKIAogR0xpYi1O
+ZXQ6RVJST1I6L3Vzci9zcmMvZGVidWcvZ2xpYi1uZXR3b3JraW5nLzIuNzQuMC1yMC90bHMvdGVz
+dHMvY29ubmVjdGlvbi5jOjE5NDQ6c2ltdWxfcmVhZF90aHJlYWQ6IGFzc2VydGlvbiBmYWlsZWQg
+KGVycm9yID09IE5VTEwpOiBSZXNvdXJjZSB0ZW1wb3JhcmlseSB1bmF2YWlsYWJsZSAoZy1pby1l
+cnJvci1xdWFyaywgMjcpCiBCYWlsIG91dCEgR0xpYi1OZXQ6RVJST1I6L3Vzci9zcmMvZGVidWcv
+Z2xpYi1uZXR3b3JraW5nLzIuNzQuMC1yMC90bHMvdGVzdHMvY29ubmVjdGlvbi5jOjE5NDQ6c2lt
+dWxfcmVhZF90aHJlYWQ6IGFzc2VydGlvbiBmYWlsZWQgKGVycm9yID09IE5VTEwpOiBSZXNvdXJj
+ZSB0ZW1wb3JhcmlseSB1bmF2YWlsYWJsZSAoZy1pby1lcnJvci1xdWFyaywgMjcpCkBAIC0xMiwx
+MSArMTYsMTUgQEAgVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nIFt0ZXN0aW5nIHRvIHNlZSBpZiBw
+YXRjaCByZXNvbHZlcyB0aGUgaXNzdWVdCiAKIFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGll
+IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgogCi1JbmRleDogZ2xpYi1uZXR3
+b3JraW5nLTIuNzQuMC90bHMvdGVzdHMvY29ubmVjdGlvbi5jCi09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tLS0gZ2xp
+Yi1uZXR3b3JraW5nLTIuNzQuMC5vcmlnL3Rscy90ZXN0cy9jb25uZWN0aW9uLmMKLSsrKyBnbGli
+LW5ldHdvcmtpbmctMi43NC4wL3Rscy90ZXN0cy9jb25uZWN0aW9uLmMKLUBAIC0xOTQxLDYgKzE5
+NDEsMTAgQEAgc2ltdWxfcmVhZF90aHJlYWQgKGdwb2ludGVyIHVzZXJfZGF0YSkKKy0tLQorIHRs
+cy90ZXN0cy9jb25uZWN0aW9uLmMgfCA0ICsrKysKKyAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
+b25zKCspCisKK2RpZmYgLS1naXQgYS90bHMvdGVzdHMvY29ubmVjdGlvbi5jIGIvdGxzL3Rlc3Rz
+L2Nvbm5lY3Rpb24uYworaW5kZXggNjJhN2ZiYi4uMzQ0N2M4MCAxMDA2NDQKKy0tLSBhL3Rscy90
+ZXN0cy9jb25uZWN0aW9uLmMKKysrKyBiL3Rscy90ZXN0cy9jb25uZWN0aW9uLmMKK0BAIC0yMjEw
+LDYgKzIyMTAsMTAgQEAgc2ltdWxfcmVhZF90aHJlYWQgKGdwb2ludGVyIHVzZXJfZGF0YSkKICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRlc3QtPmJ1ZiArIHRlc3QtPm5yZWFk
+LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgTUlOIChURVNUX0RBVEFfTEVO
+R1RIIC8gMiwgVEVTVF9EQVRBX0xFTkdUSCAtIHRlc3QtPm5yZWFkKSwKICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIE5VTEwsICZlcnJvcik7CmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuNzYuMS5iYiBiL21l
+dGEvcmVjaXBlcy1jb3JlL2dsaWItbmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43OC4wLmJi
+CnNpbWlsYXJpdHkgaW5kZXggODklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2dsaWIt
+bmV0d29ya2luZy9nbGliLW5ldHdvcmtpbmdfMi43Ni4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
+ZXMtY29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuNzguMC5iYgppbmRleCAw
+Zjg4MjJlMTYwLi41OWViNzE1ZDkzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGli
+LW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuNzYuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMt
+Y29yZS9nbGliLW5ldHdvcmtpbmcvZ2xpYi1uZXR3b3JraW5nXzIuNzguMC5iYgpAQCAtMTQsNyAr
+MTQsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT00ZmJkNjUzODBj
+ZGQyNTU5NTEwNzkwMDhiMzY0NTE2YyBcCiBTRUNUSU9OID0gImxpYnMiCiBERVBFTkRTID0gImds
+aWItMi4wLW5hdGl2ZSBnbGliLTIuMCIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAi
+NWM2OThhOTk5NGRkZTUxZWZkZmIxMDI2YTU2Njk4YTIyMWQ2MjUwZTg5ZGM1MGViY2RkZGE3Yjgx
+NDgwYTQyYiIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjUyZmU0Y2U5M2Y3ZGM1MTMz
+NGIxMDI4OTQ1OTk4NThkMjNjOGE2NWFjNGExMTEwYjMwOTIwNTY1ZDY4ZDNhYmEiCiAKICMgVXBz
+dHJlYW0gbm90ZSB0aGF0IGZvciB0aGUgb3BlbnNzbCBiYWNrZW5kLCBoYWxmIHRoZSB0ZXN0cyB3
+aGVyZSB0aGlzIGJhY2tlbmQgZG9uJ3QgcmV0dXJuCiAjIHRoZSBleHBlY3RlZCBlcnJvciBjb2Rl
+IG9yIGRvbid0IHdvcmsgYXMgZXhwZWN0ZWQgc28gZGVmYXVsdCB0byBnbnV0bHMKQEAgLTI5LDEw
+ICsyOSw2IEBAIFBBQ0tBR0VDT05GSUdbZ25vbWVwcm94eV0gPSAiLURnbm9tZV9wcm94eT1lbmFi
+bGVkLC1EZ25vbWVfcHJveHk9ZGlzYWJsZWQsZ3NldHRpCiAKIGluaGVyaXQgZ25vbWViYXNlIGdl
+dHRleHQgdXBzdHJlYW0tdmVyc2lvbi1pcy1ldmVuIGdpby1tb2R1bGUtY2FjaGUgcHRlc3QtZ25v
+bWUKIAotU1JDX1VSSSArPSAiZmlsZTovL3J1bi1wdGVzdCIKLVNSQ19VUkkgKz0gImZpbGU6Ly9l
+YWdhaW4ucGF0Y2giCi1TUkNfVVJJICs9ICJmaWxlOi8vMDAwMS10bHMtdGVzdHMtZGlzYWJsZS1Q
+S0NTLTExLXRlc3RzLWlmLW5vdC1hdmFpbGFibGUucGF0Y2giCi0KIEZJTEVTOiR7UE59ICs9ICJc
+CiAgICAgICAgICAgICAgICAgJHtsaWJkaXJ9L2dpby9tb2R1bGVzL2xpYmdpbyouc28gXAogICAg
+ICAgICAgICAgICAgICR7ZGF0YWRpcn0vZGJ1cy0xL3NlcnZpY2VzLyBcCi0tIAoyLjQyLjAKCg==
+
+--===============8965479598020663690==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2023/sqlite-autoconf-3440000.tar.gz" to "http://www.sqlite.org/2023/sqlite-autoconf-3440200.tar.gz"
-packages/core2-64-poky-linux/sqlite3: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
-packages/core2-64-poky-linux/sqlite3: PV changed from "3.44.0" to "3.44.2"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.44.0" to "3.44.2"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 673521 to 676080 (+0%)
-packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.44.0" to "3.44.2"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.44.0" to "3.44.2"
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PV changed from "3.44.0" to "3.44.2"
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.44.0" to "3.44.2"
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 5941936 to 5896616 (-1%)
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PV changed from "3.44.0" to "3.44.2"
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10438076 to 10461436 (+0%)
-packages/core2-64-poky-linux/sqlite3/sqlite3: PKGV changed from 3.44.0 [default] to 3.44.2 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3: PV changed from "3.44.0" to "3.44.2"
-packages/core2-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 290560 to 290720 (+0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PKGSIZE changed from 837488 to 837392 (-0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-dbg: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-dev: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-dev: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-doc: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-doc: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ab: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ab: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-an: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-an: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ar: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ar: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-as: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-as: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-be: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-be: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bg: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bg: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bn-in: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bn-in: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bs: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-bs: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca+valencia: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PKGSIZE changed from 8348 to 8462 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ca: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PKGSIZE changed from 8018 to 8095 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-cs: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PKGSIZE changed from 7540 to 7631 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-da: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PKGSIZE changed from 8850 to 8338 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-de: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-el: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-ca: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-ca: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGSIZE changed from 7018 to 7261 (+3%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-en-gb: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PKGSIZE changed from 2665 to 6660 (+150%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PKGSIZE changed from 7853 to 7951 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-es: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-et: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-et: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PKGSIZE changed from 7569 to 7652 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eu: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PKGSIZE changed from 9405 to 9523 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fa: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fi: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fur: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-fur: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gd: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gd: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PKGSIZE changed from 8751 to 8313 (-5%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gl: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gu: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-gu: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PKGSIZE changed from 8974 to 9064 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-he: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hi: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hi: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PKGSIZE changed from 8634 to 8124 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-hu: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PKGSIZE changed from 7891 to 7414 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-id: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PKGSIZE changed from 8155 to 8047 (-1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-it: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ja: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ja: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PKGSIZE changed from 11677 to 11868 (+2%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ka: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kk: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-km: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-km: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kn: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-kn: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PKGSIZE changed from 8249 to 8342 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ko: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PKGSIZE changed from 7756 to 7830 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lt: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-lv: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ml: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ml: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-mr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-mr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ms: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ms: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nb: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nb: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ne: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ne: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PKGSIZE changed from 7545 to 7643 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-nl: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PKGSIZE changed from 8092 to 8173 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-oc: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-or: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-or: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pa: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pa: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PKGSIZE changed from 8136 to 8219 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pl: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt-br: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-pt: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PKGSIZE changed from 8422 to 8251 (-2%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ro: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ru: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sk: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sk: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PKGSIZE changed from 8128 to 8193 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sl: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr+latin: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr+latin: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PKGSIZE changed from 7673 to 7752 (+1%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-sv: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ta: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ta: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-te: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-te: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tg: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tg: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-th: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-th: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PKGSIZE changed from 7905 to 7403 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-tr: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ug: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-ug: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PKGSIZE changed from 11812 to 11136 (-6%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-uk: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-vi: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-vi: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-cn: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-hk: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-hk: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-tw: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-zh-tw: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PKGSIZE changed from 373431 to 373374 (-0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: FILELIST: removed "/usr/lib/glib-networking/ptest/run-ptest"
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PKGSIZE changed from 741522 to 741786 (+0%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-src: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking-staticdev: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking-staticdev: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking/glib-networking: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking/glib-networking: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking: PKGV changed from 2.76.1 [default] to 2.78.0 [default]
+packages/core2-64-poky-linux/glib-networking: PV changed from "2.76.1" to "2.78.0"
+packages/core2-64-poky-linux/glib-networking: SRC_URI changed from "https://download.gnome.org/sources//glib-networking/2.76/glib-networking-2.76.1.tar.xz;name=archive file://run-ptest file://eagain.patch file://0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch" to "https://download.gnome.org/sources//glib-networking/2.78/glib-networking-2.78.0.tar.xz;name=archive"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1766,43 +2929,14 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============2561077924019089625==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.44.0-3.44.2.patch"
-
-RnJvbSA3OGIzNzhiODk4OTdlNWM5ZDNiMjBmNTQ2N2I1YjcyMzMwN2UxNzQxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMTQ6MTE6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-cWxpdGUzOiB1cGdyYWRlIDMuNDQuMCAtPiAzLjQ0LjIKCi0tLQogLi4uL3NxbGl0ZS97c3FsaXRl
-M18zLjQ0LjAuYmIgPT4gc3FsaXRlM18zLjQ0LjIuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3tzcWxpdGUzXzMuNDQuMC5iYiA9PiBzcWxpdGUzXzMuNDQu
-Mi5iYn0gKDc4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3Fs
-aXRlM18zLjQ0LjAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQ0
-LjIuYmIKc2ltaWxhcml0eSBpbmRleCA3OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvc3FsaXRlL3NxbGl0ZTNfMy40NC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9zcWxpdGUvc3FsaXRlM18zLjQ0LjIuYmIKaW5kZXggZDQ5ODE1NDg4OS4uNDU5ODg0YTU1OCAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40NC4wLmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDQuMi5iYgpAQCAt
-NCw3ICs0LDcgQEAgTElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3Nx
-bGl0ZTMuaDtlbmRsaW5lPTExO21kNT03ODZkM2RjNTgxZWZmMDNmNGZkOWU0YTc3ZWQwMGM2NiIK
-IAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LnNxbGl0ZS5vcmcvMjAyMy9zcWxpdGUtYXV0b2NvbmYt
-JHtTUUxJVEVfUFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiOWNkMzg2ZTdjZDIy
-YWY2ZTBkMmEwZjA2ZDA0MDQ5NTFlMWJlZjEwOWU0MmVhMDZjYzA0NTBlMTBjZDE1NTUwIgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjFjNjcxOWExNDhiYzQxY2YwZjJiYmJlMzkyNmQ3Y2UzZjVjYTA5
-ZDg3OGYxMjQ2ZmNjMjA3NjdiMTc1YmI0MDciCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMjMtMzYxOTFd
-ID0gImRpc3B1dGVkOiBUaGUgZXJyb3IgaXMgYSBidWcuIEl0IGhhcyBiZWVuIGZpeGVkIHVwc3Ry
-ZWFtLiBCdXQgaXQgaXMgbm90IGEgdnVsbmVyYWJpbGl0eSIKIAotLSAKMi40Mi4wCgo=
-
---===============2561077924019089625==
+--===============8965479598020663690==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/glib-networking/glib-networking-locale-eo: PKGSIZE changed from 2665 to 6660 (+150%)
+packages/core2-64-poky-linux/glib-networking/glib-networking-ptest: FILELIST: removed "/usr/lib/glib-networking/ptest/run-ptest"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3440,5 +4574,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============2561077924019089625==--
+--===============8965479598020663690==--
 
