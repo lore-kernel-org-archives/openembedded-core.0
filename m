@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B2AC47DB4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 479B4C47DA9
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:51 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.63599.1702649862998530236
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.63137.1702649863339421572
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Dec 2023 06:17:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PUH/pgAr;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TEa5xqg+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c6dd72b24-0d562632-0a15-419f-8951-4b82a58be550-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JK6pNRHn;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=B7ierbT8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018c6dd72b89-c0d2e65c-08d2-4347-a310-a7fd6341734d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1702649867;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=lCqALlqc1Lh44ed7U2BOa4PgqJ13aPML3MGRBWIU82s=;
-	b=PUH/pgArl6oU88eoqSrrdE+OY9i1YkOPqOQ0rOFSG4Sh4idJLw4CveMtQBpFVTUn
-	W4jgoFzW9O9eUZUJDCSMab2elNH+svkp9uBfyCIe0M3eYpQ5++Bk1/rF5+SkkRAiU7X
-	c2O5mrHoJ8u85dHuHOrc1VJ2g42G8g+fnx2aSl4g=
+	bh=3NiOZce+JqaKlRHAAvrUvkzEJZ/dZqi3eLvKb9H2f5o=;
+	b=JK6pNRHnZftGIJT2wjiXw4/bAjR1zC8F7ZD98MtxGOmhU/qIQQwvxcURreyV5bG5
+	dr+9SfN8H0bF4vfamb17yqj+tiI/xcbC/ACxs4RjFE4q8t+SEem5SKMcVZ4Fao3uC0a
+	CxbShZyqKmbJo2c4JKwIR9mmLhrpWynk0pxTm5Eg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649867;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=lCqALlqc1Lh44ed7U2BOa4PgqJ13aPML3MGRBWIU82s=;
-	b=TEa5xqg+0Pl574d9JZK/uwm7XKRSAhdNXlhLEVglC8UmJDVWlvGSdmxgQN+q08dl
-	y7P3jWIrVv6V6PTA8ARQk8e6lyfCCjzwR1M1RbVVK9Y/HXTYL2vPswP3GGIYzQk9uNm
-	CJGo9ziD/u5Bo8Z0qZw+YXZOXfa/EakZkX014pZs=
-Content-Type: multipart/mixed; boundary="===============2099673223309801671=="
+	bh=3NiOZce+JqaKlRHAAvrUvkzEJZ/dZqi3eLvKb9H2f5o=;
+	b=B7ierbT8PgkPOcnfWrUAaVDk36ti3znYVGN73RZaLuXXOxxMGe2mdHMCbeX5GZsi
+	xb0Squj05fCWmNDAYdXM+dRYi7HBhgX/ZNRvdLbsn9f8sTDe2zsK1MZer5mdv3FqMJk
+	r4qvoC0jwoIWOG9wtAHluVCABXAt/I2iPg2vjt5I=
+Content-Type: multipart/mixed; boundary="===============3721570563587553103=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shadow: upgrading to 4.14.2 FAILED
-Message-ID: <0101018c6dd72b24-0d562632-0a15-419f-8951-4b82a58be550-000000@us-west-2.amazonses.com>
+Subject: [AUH] gawk: upgrading to 5.3.0 SUCCEEDED
+Message-ID: <0101018c6dd72b89-c0d2e65c-08d2-4347-a310-a7fd6341734d-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Dec 2023 14:17:47 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.30
+X-SES-Outgoing: 2023.12.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192488
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192493
 
---===============2099673223309801671==
+--===============3721570563587553103==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,116 +51,197 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *shadow* to *4.14.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gawk* to *5.3.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-gawk-upgrade-5.2.2-5.3.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe shadow failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1842 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-cba4f033a2e6938cb7535b739557f4d49c342ff4"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:cba4f033a2e6938cb7535b739557f4d49c342ff4"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1842 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 912 .bb files complete (910 cached, 2 parsed). 1843 targets, 38 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-cba4f033a2e6938cb7535b739557f4d49c342ff4"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:cba4f033a2e6938cb7535b739557f4d49c342ff4"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  13% |####                                | ETA:  0:00:00
-Adding changed files:  26% |#########                           | ETA:  0:00:00
-Adding changed files:  39% |##############                      | ETA:  0:00:00
-Adding changed files:  52% |##################                  | ETA:  0:00:00
-Adding changed files:  65% |#######################             | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files:  91% |################################    | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Adding local source files to srctree...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/shadow-maint/shadow/releases/download/4.14.2/shadow-4.14.2.tar.gz...
-INFO: Rebasing devtool onto 0722440aab5508c1acf0e027b22d97d4468708bd
-WARNING: Command 'git rebase 0722440aab5508c1acf0e027b22d97d4468708bd' failed:
-Auto-merging src/login.c
-CONFLICT (content): Merge conflict in src/login.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto 0722440aab5508c1acf0e027b22d97d4468708bd
-WARNING: Command 'git rebase 0722440aab5508c1acf0e027b22d97d4468708bd' failed:
-Auto-merging src/login.c
-CONFLICT (content): Merge conflict in src/login.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-nativesdk onto 0722440aab5508c1acf0e027b22d97d4468708bd
-WARNING: Command 'git rebase 0722440aab5508c1acf0e027b22d97d4468708bd' failed:
-Auto-merging src/login.c
-CONFLICT (content): Merge conflict in src/login.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-target onto 0722440aab5508c1acf0e027b22d97d4468708bd
-WARNING: Command 'git rebase 0722440aab5508c1acf0e027b22d97d4468708bd' failed:
-Auto-merging src/login.c
-CONFLICT (content): Merge conflict in src/login.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/shadow
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/shadow/shadow_4.14.2.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2099673223309801671==--
+
+-- >8 --
+From 37e9d664057b848fb3ff6a0560584d6145586a9d Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 15 Dec 2023 09:36:33 +0000
+Subject: [PATCH] gawk: upgrade 5.2.2 -> 5.3.0
+
+---
+ meta/recipes-extended/gawk/{gawk_5.2.2.bb => gawk_5.3.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/gawk/{gawk_5.2.2.bb => gawk_5.3.0.bb} (97%)
+
+diff --git a/meta/recipes-extended/gawk/gawk_5.2.2.bb b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+similarity index 97%
+rename from meta/recipes-extended/gawk/gawk_5.2.2.bb
+rename to meta/recipes-extended/gawk/gawk_5.3.0.bb
+index 3c18b6911a..3d652da6e5 100644
+--- a/meta/recipes-extended/gawk/gawk_5.2.2.bb
++++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+@@ -19,7 +19,7 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[sha256sum] = "945aef7ccff101f20b22a10802bc005e994ab2b8ea3e724cc1a197c62f41f650"
++SRC_URI[sha256sum] = "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1eb55e440d30273336"
+ 
+ inherit autotools gettext texinfo update-alternatives
+ 
+-- 
+2.42.0
+
+
+--===============3721570563587553103==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gawk-upgrade-5.2.2-5.3.0.patch"
+
+RnJvbSAzN2U5ZDY2NDA1N2I4NDhmYjNmZjZhMDU2MDU4NGQ2MTQ1NTg2YTlkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDk6MzY6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+YXdrOiB1cGdyYWRlIDUuMi4yIC0+IDUuMy4wCgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9n
+YXdrL3tnYXdrXzUuMi4yLmJiID0+IGdhd2tfNS4zLjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL2dhd2sve2dhd2tfNS4yLjIuYmIgPT4gZ2F3a181LjMuMC5iYn0gKDk3JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMi4yLmJiIGIvbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjMuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpy
+ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMi4yLmJiCnJlbmFt
+ZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMy4wLmJiCmluZGV4IDNjMThi
+NjkxMWEuLjNkNjUyZGE2ZTUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9nYXdr
+L2dhd2tfNS4yLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjMu
+MC5iYgpAQCAtMTksNyArMTksNyBAQCBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0vZ2F3ay9nYXdr
+LSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAg
+ICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5NDVhZWY3Y2NmZjEwMWYyMGIyMmExMDgwMmJj
+MDA1ZTk5NGFiMmI4ZWEzZTcyNGNjMWExOTdjNjJmNDFmNjUwIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjM3OGY4ODY0ZWMyMWNmY2VhYTA0OGY3ZTE4NjlhYzliNDU5N2I0NDkwODdjYWYxZWI1NWU0
+NDBkMzAyNzMzMzYiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQgdGV4aW5mbyB1cGRhdGUt
+YWx0ZXJuYXRpdmVzCiAKLS0gCjIuNDIuMAoK
+
+--===============3721570563587553103==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/gawk/gawk-dbg: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-dbg: PKGSIZE changed from 2538304 to 2552080 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-dbg: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-dev: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-dev: PKGSIZE changed from 42070 to 42138 (+0%)
+packages/core2-64-poky-linux/gawk/gawk-dev: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-doc: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-doc: PKGSIZE changed from 2338623 to 2352307 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-doc: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-gawkbug: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-gawkbug: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-bg: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-bg: PKGSIZE changed from 124398 to 125283 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-bg: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-ca: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ca: PKGSIZE changed from 51283 to 51046 (-0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-ca: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-da: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-da: PKGSIZE changed from 36122 to 36004 (-0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-da: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-de: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-de: PKGSIZE changed from 96121 to 96695 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-de: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-es: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-es: PKGSIZE changed from 94596 to 95192 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-es: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-fi: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-fi: PKGSIZE changed from 56651 to 56396 (-0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-fi: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-fr: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-fr: PKGSIZE changed from 96365 to 96983 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-fr: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-id: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-id: PKGSIZE changed from 47269 to 47007 (-1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-id: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-it: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-it: PKGSIZE changed from 92033 to 92886 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-it: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-ja: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ja: PKGSIZE changed from 36609 to 36469 (-0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-ja: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-ko: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ko: PKGSIZE changed from 99705 to 100387 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-ko: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-ms: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ms: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-nl: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-nl: PKGSIZE changed from 68931 to 68681 (-0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-nl: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-pl: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-pl: PKGSIZE changed from 93988 to 94551 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-pl: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PKGSIZE changed from 86740 to 86494 (-0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-pt: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-pt: PKGSIZE changed from 85495 to 85184 (-0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-pt: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-ro: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ro: PKGSIZE changed from 97245 to 97548 (+0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-ro: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-sr: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-sr: PKGSIZE changed from 115587 to 116380 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-sr: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-sv: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-sv: PKGSIZE changed from 91921 to 92545 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-sv: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-vi: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-vi: PKGSIZE changed from 64194 to 63942 (-0%)
+packages/core2-64-poky-linux/gawk/gawk-locale-vi: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PKGSIZE changed from 86163 to 86715 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-ptest: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-ptest: PKGSIZE changed from 1381652 to 1392505 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-ptest: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-ptest: FILELIST: added "/usr/lib/gawk/ptest/test/mtchi18n2.awk /usr/lib/gawk/ptest/test/gsubnulli18n.ok /usr/lib/gawk/ptest/test/lintplus3.ok /usr/lib/gawk/ptest/test/lintplus3.in /usr/lib/gawk/ptest/test/gensub4.awk /usr/lib/gawk/ptest/test/gsubnulli18n.awk /usr/lib/gawk/ptest/test/cmdlinefsbacknl2.sh /usr/lib/gawk/ptest/test/lintplus3.awk /usr/lib/gawk/ptest/test/unicode1.ok /usr/lib/gawk/ptest/test/regexpbad.ok /usr/lib/gawk/ptest/test/csvodd.awk /usr/lib/gawk/ptest/test/csv3.ok /usr/lib/gawk/ptest/test/cmdlinefsbacknl2.ok /usr/lib/gawk/ptest/test/lintplus2.awk /usr/lib/gawk/ptest/test/csv3.in /usr/lib/gawk/ptest/test/csv1.ok /usr/lib/gawk/ptest/test/mtchi18n2.ok /usr/lib/gawk/ptest/test/csv1.in /usr/lib/gawk/ptest/test/cmdlinefsbacknl.ok /usr/lib/gawk/ptest/test/unicode1.awk /usr/lib/gawk/ptest/test/csv2.ok /usr/lib/gawk/ptest/test/regexpbad.awk /usr/lib/gawk/ptest/test/csv1.awk /usr/lib/gawk/ptest/test/gensub4.ok /usr/lib/gawk/ptest/test/cs
+ v2.awk /usr/lib/gawk/ptest/test/csv3.awk /usr/lib/gawk/ptest/test/csvodd.in /usr/lib/gawk/ptest/test/csvodd.ok /usr/lib/gawk/ptest/test/lintplus2.ok /usr/lib/gawk/ptest/test/cmdlinefsbacknl.sh"
+packages/core2-64-poky-linux/gawk/gawk-src: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-src: PKGSIZE changed from 2367103 to 2379256 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-src: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk-staticdev: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk-staticdev: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk/gawk: PKGSIZE changed from 928188 to 929024 (+0%)
+packages/core2-64-poky-linux/gawk/gawk: PV changed from "5.2.2" to "5.3.0"
+packages/core2-64-poky-linux/gawk/gawk: FILELIST: removed "/usr/bin/gawk-5.2.2", added "/usr/bin/gawk-5.3.0 /usr/share/awk/tocsv.awk"
+packages/core2-64-poky-linux/gawk: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
+packages/core2-64-poky-linux/gawk: SRC_URI changed from "https://ftp.gnu.org/gnu/gawk/gawk-5.2.2.tar.gz file://run-ptest" to "https://ftp.gnu.org/gnu/gawk/gawk-5.3.0.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/gawk: PACKAGES: added "gawk-locale-uk"
+packages/core2-64-poky-linux/gawk: PV changed from "5.2.2" to "5.3.0"
+Changes to packages/core2-64-poky-linux/gawk (sysroot):
+  /usr/share/awk/tocsv.awk was added
+
+--===============3721570563587553103==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/gawk/gawk-ptest: FILELIST: added "/usr/lib/gawk/ptest/test/cmdlinefsbacknl.sh /usr/lib/gawk/ptest/test/regexpbad.awk /usr/lib/gawk/ptest/test/lintplus2.ok /usr/lib/gawk/ptest/test/gensub4.awk /usr/lib/gawk/ptest/test/csvodd.in /usr/lib/gawk/ptest/test/csv2.ok /usr/lib/gawk/ptest/test/lintplus2.awk /usr/lib/gawk/ptest/test/unicode1.awk /usr/lib/gawk/ptest/test/csvodd.ok /usr/lib/gawk/ptest/test/cmdlinefsbacknl2.ok /usr/lib/gawk/ptest/test/mtchi18n2.awk /usr/lib/gawk/ptest/test/lintplus3.in /usr/lib/gawk/ptest/test/gensub4.ok /usr/lib/gawk/ptest/test/csv1.awk /usr/lib/gawk/ptest/test/csv2.awk /usr/lib/gawk/ptest/test/csv3.awk /usr/lib/gawk/ptest/test/lintplus3.awk /usr/lib/gawk/ptest/test/cmdlinefsbacknl2.sh /usr/lib/gawk/ptest/test/csv3.ok /usr/lib/gawk/ptest/test/lintplus3.ok /usr/lib/gawk/ptest/test/csv1.ok /usr/lib/gawk/ptest/test/csv3.in /usr/lib/gawk/ptest/test/regexpbad.ok /usr/lib/gawk/ptest/test/unicode1.ok /usr/lib/gawk/ptest/test/gsubnulli18n.ok 
+ /usr/lib/gawk/ptest/test/cmdlinefsbacknl.ok /usr/lib/gawk/ptest/test/csvodd.awk /usr/lib/gawk/ptest/test/mtchi18n2.ok /usr/lib/gawk/ptest/test/csv1.in /usr/lib/gawk/ptest/test/gsubnulli18n.awk"
+packages/core2-64-poky-linux/gawk/gawk: FILELIST: removed "/usr/bin/gawk-5.2.2", added "/usr/share/awk/tocsv.awk /usr/bin/gawk-5.3.0"
+packages/core2-64-poky-linux/gawk: PACKAGES: added "gawk-locale-uk"
+Changes to packages/core2-64-poky-linux/gawk (sysroot):
+  /usr/share/awk/tocsv.awk was added
+
+--===============3721570563587553103==--
 
