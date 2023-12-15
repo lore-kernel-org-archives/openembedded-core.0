@@ -1,145 +1,206 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91893C4332F
-	for <webhook@archiver.kernel.org>; Thu, 14 Dec 2023 23:04:23 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.44215.1702595054908421257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C65EAC4332F
+	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 00:00:53 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.45347.1702598450948259978
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Dec 2023 15:04:15 -0800
+ Thu, 14 Dec 2023 16:00:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=R7fgbPJl;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BFE7660006;
-	Thu, 14 Dec 2023 23:04:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1702595053;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1wagevbYuLxnYwK7K1sz/Dc0iLak3OPgloSfFcyBClY=;
-	b=R7fgbPJl47JswNGRdjCIgjTz09Pg0XKV0ptKg4ijQPECgmNKugh3FGmJWiEwTLYEbCsI+B
-	Ww3SPo+SUEAyh81fq2UsWYdjKD5WsckQRscrOpMGijyCiCxfltFDAzWggpenJzsvJrixbF
-	bSFJMbJlQ94IjF0XvI4hEF51WKdwqDXuDpZhYet9l+EhWg/VEAYNmaCtG2+e3LvtPZx9SJ
-	i5MDEzd02iJaTXafGYJsAW2hzL+OMCZ6kZWhmMP3csqATp5lwDt0VZdIzge8+aiP58Zkfp
-	f2S66MHYiiQ/tS0nnwKWvWmskCfzHTl/kwHde6s6J0dA3YWspe6G3dQiYoPbXg==
-Date: Fri, 15 Dec 2023 00:04:12 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2 1/2] systemd-boot: Add recipe to compile
- native
-Message-ID: <2023121423041292dec8cb@mail.local>
-References: <20231213115748.487216-1-quic_vkraleti@quicinc.com>
- <20231214080209d1f89221@mail.local>
- <944c0685-ef03-4e58-bed6-30f888cef0b9@quicinc.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bsKmYQYy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40c69403b3eso1129865e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 16:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1702598449; x=1703203249; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=C3JHiAQz6/DflRCG+6Bqkja+7JTUJSMkI28IwWcHNmI=;
+        b=bsKmYQYyU0dbI8WvaP6Fe8Y1I07NdXMDYKyWNTf59ApIzDgEYQjfJcoLxNQmEhRA0K
+         QvNCazLcdNv13zeARiWiCPS/UJx2VMBikZfYkSeQyzO7yjEzzaJBw1w9tLJvGdtX5CLQ
+         X++DipRd4Nx64n7J2/IU45YUqv1+aLI4Gu3Lk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702598449; x=1703203249;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C3JHiAQz6/DflRCG+6Bqkja+7JTUJSMkI28IwWcHNmI=;
+        b=Wa1ltIUzpvCGRU2NVj5upXF7O75ME3JukdGwKVZTsSGxBapvlrddSMoHmw1xsc04Oa
+         egty1tpE5N6dBin8ZoVMMF2kW6iw2hJfwsOXrNI25xi7kYjziuxwOUDkenKtOQ99TP5f
+         qM7C8E+EvS6lX2i+pFJoQuenCjknZL2HebUMb9CBNx6/jtS7pKz9d8gKr8gegE7PYERw
+         RSBG6/iS2msxwFCGdhyxP/NjuHlPqLkepXFOYzoE9w8PBSUeXsClvIp5N6xzVRe/cIc0
+         pHgULgFpXH/Lb7QAHEoR68RQeenkkUvQshG2TkYIdNUr5hz+zdhGzTPVFwlnvP4GbX1k
+         hD2w==
+X-Gm-Message-State: AOJu0YwbgTA90xylLnElpPqXUUcHIc58rQ55rzUBIQ/pBJ5oVKjAL/yZ
+	mM3u8k5/42pjz40r++4H0LNdBA==
+X-Google-Smtp-Source: AGHT+IEJtEKP+bvO51iAV29nE3qyI/6E95rsTCXsa7dh0wQRhWO+jfqo2pNCa6TKeleEprh6yuAuVg==
+X-Received: by 2002:a1c:7210:0:b0:40c:3ea4:c0fe with SMTP id n16-20020a1c7210000000b0040c3ea4c0femr4442469wmc.100.1702598449175;
+        Thu, 14 Dec 2023 16:00:49 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a04:9eb3:3437:42f8? ([2001:8b0:aba:5f3c:a04:9eb3:3437:42f8])
+        by smtp.gmail.com with ESMTPSA id iv19-20020a05600c549300b0040b397787d3sm22964650wmb.24.2023.12.14.16.00.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 16:00:48 -0800 (PST)
+Message-ID: <89e37363ea3dff5ff5ad807912531b74c53831d1.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCHv3 1/1] login.py: Proof of concept for
+ screenshot testcases
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
+	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
+Cc: Ross Burton <ross.burton@arm.com>
+Date: Fri, 15 Dec 2023 00:00:48 +0000
+In-Reply-To: <20231214164651.1107120-1-pidge@baylibre.com>
+References: <20231214164651.1107120-1-pidge@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <944c0685-ef03-4e58-bed6-30f888cef0b9@quicinc.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 23:04:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192409
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 00:00:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192410
 
-On 14/12/2023 20:11:16+0530, Viswanath Kraleti wrote:
-> 
-> 
-> On 12/14/2023 1:32 PM, Alexandre Belloni via lists.openembedded.org wrote:
-> > Hello, this causes:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/8617/steps/11/logs/warnings
-> > 
-> > WARNING: Nothing RPROVIDES 'python3-pefile-native' (but /home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb RDEPENDS on or otherwise requires it)
-> > WARNING: Nothing RPROVIDES 'systemd-boot-native-dev' (but /home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb RDEPENDS on or otherwise requires it)
-> > WARNING: Nothing RPROVIDES 'systemd-boot-native' (but /home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb RDEPENDS on or otherwise requires it)
-> > 
-> 
-> Thanks for pointing.Uploaded a new patch-set to address these.
-> https://lists.openembedded.org/g/openembedded-core/message/192384
-> 
-> Some how in local build no warnings seen. Is there a way to run auto builder
-> locally before submitting patches to avoid this?
+On Thu, 2023-12-14 at 16:46 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
+=A1in wrote:
+> This takes the work rburton did on image screenshot testing and
+> expands it.
+>=20
+> Right now this only works for qemux86-64. Some standardization
+> of screensize/resolution needs to happen with runqemu params for other
+> machines.
 
-Well, this one is simply a checkout of poky with the following
-configuration:
+I suspect that we don't want to make everything the same so we may need
+to allow the code to adapt to the sizes we have, I think there are only
+a small number of different ones. The annoying part may be just working
+out the clock mask sizes for the different ones since we can easily
+have different machine specific references.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/8617/steps/10/logs/stdio
+>  There is an issue in qemux86-64 (and possibly others) where
+> the screenswitch/home icon is only half present. This causes the test to
+> fail. I'm unsure if this is a QMP/qemu issue but I've certainly seen
+> the half-rendered icon, so it's not Imagemagick.
 
-The failing command was then:
-bitbake universe -k -c fetch -k
+These are the kinds of issues we want to start catching and why this is
+important!
+
+> This test takes a screendump of a qemu image (for now, just
+> core-image-sato for qemux86-64), and compares it to an image we
+> have on record. Some normalisation of the different qemu configs
+> need to happen to be able to support all machines. Example, the
+> qemuarm64 screen size is much larger than the qemux86-64.
+>=20
+> The image we have on record contains a blanked out clock. We do
+> the same blanking out process for the screenshot, so the images should
+> have zero differences. If they do, we fail.
+>=20
+> In order to enable this test, you will need meta-openembedded/meta-oe in
+> your bblayers.conf and the following in local.conf:
+>=20
+> IMAGE_CLASSES +=3D "testimage"
+> TEST_SUITES =3D "login"
+> TESTIMAGEDEPENDS:append:qemuall =3D " imagemagick-native:do_populate_sysr=
+oot "
+
+or HOSTTOOLS +=3D "convert compare"
+
+?
+
+> diff --git a/meta/lib/oeqa/runtime/cases/login.py b/meta/lib/oeqa/runtime=
+/cases/login.py
+
+I just noticed the name. Does "login" make sense for a desktop
+screenshot? I can kind of see the logic but I'd not be looking in that
+file for this :/.
+
+> new file mode 100644
+> index 00000000000..30074f71b66
+> --- /dev/null
+> +++ b/meta/lib/oeqa/runtime/cases/login.py
+> @@ -0,0 +1,42 @@
+> +#
+> +# Copyright OpenEmbedded Contributors
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +
+> +import subprocess
+> +from oeqa.runtime.case import OERuntimeTestCase
+> +import tempfile
+> +from oeqa.runtime.decorator.package import OEHasPackage
+> +import shutil
+> +
+> +class LoginTest(OERuntimeTestCase):
+> +
+> +    def test_screenshot(self):
+> +        # Leaving this limited to qemux86-64, until I can get the same r=
+esolution
+> +        # on all the qemu machines.
+> +        if self.td.get('MACHINE') !=3D "qemux86-64":
+> +            self.skipTest("")
+
+You mean=C2=A0
+
+self.skipTest("Test only compatible with qemux86-64")
+
+right? ;-)
+
+> +
+> +        if bb.utils.which(os.getenv('PATH'), "convert.im7") is not None =
+and bb.utils.which(os.getenv('PATH'), "compare.im7") is not None:
+> +            with tempfile.NamedTemporaryFile(prefix=3D"oeqa-screenshot-l=
+ogin", suffix=3D".png") as t:
+> +                ret =3D self.target.runner.run_monitor("screendump", arg=
+s=3D{"filename": t.name, "format":"png"})
+> +                # Use the meta-oe version of convert, along with it's su=
+ffix
+> +                cmd =3D "convert.im7 {0} -fill white -draw 'rectangle 60=
+0,10 640,22' {1}".format(t.name, t.name)
+> +                subprocess.check_output(cmd.split(), shell=3DTrue, stder=
+r=3Dsubprocess.PIPE)
+> +               =20
+> +                # Uncomment for debugging/capturing other machine images=
+.
+> +                # shutil.copy(t.name, os.getenv('HOME')+"/"+self.td.get(=
+'MACHINE')+".png")
+> +
+> +                # Use the meta-oe version of compare, along with it's su=
+ffix              =20
+> +                cmd =3D "compare.im7 -metric MSE {0} {1}/meta/files/imag=
+e-tests/core-image-sato-{2}.png /dev/null".format(t.name, self.td.get('CORE=
+BASE'), self.td.get('MACHINE'))
+> +                # We use Popen here because compare outputs the values w=
+e care about on stderr.=20
+> +                proc =3D subprocess.Popen(cmd, shell=3DTrue, stdout=3Dsu=
+bprocess.PIPE, stderr=3Dsubprocess.PIPE)
+> +                output, error =3D proc.communicate()
+> +               =20
+> +                # In theory this should be 0, however I've seen some odd=
+ things with the Home icon/screen switcher.
+> +                # We should as some point, log the diff image for debugg=
+ing, but for now, just report that it's different.
+> +                diff=3Dfloat(error.decode('utf-8').replace("(", "").repl=
+ace(")","").split()[1])
+> +                self.assertEqual(0, diff, "Screenshot diff is %s." % (st=
+r(diff)))
+> +        else:
+> +            self.skipTest("Could not find imagemagick tools.")
+
+Upon failure do we want to copy to some randomly named file in /tmp/ so
+we can at least have a chance to see what went wrong (printing the name
+in the test failure message)? I think currently the image would be lost
+making debugging hard?
+
+The selftests use OEQA_DEBUGGING_SAVED_OUTPUT but I'm not sure that is
+available in the runtime test environment at present unfortunately.
+
+Cheers,
+
+Richard
 
 
-> 
-> > and:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/6133/steps/14/logs/stdio
-> > 
-> > The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
-> > systemd-boot-native (/home/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb)
-> > 
-> For updating maintainer, can I submit a change post patch acceptance?
-
-No, your patches need to pass the tests before they can be merged.
 
 
-> 
-> > On 13/12/2023 17:27:47+0530, Viswanath Kraleti wrote:
-> > > systemd-boot native recipe provides ukify tool to build
-> > > UKI images for systemd-boot
-> > > 
-> > > Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
-> > > ---
-> > >   .../systemd/systemd-boot-native_254.4.bb          | 15 +++++++++++++++
-> > >   1 file changed, 15 insertions(+)
-> > >   create mode 100644 meta/recipes-core/systemd/systemd-boot-native_254.4.bb
-> > > 
-> > > diff --git a/meta/recipes-core/systemd/systemd-boot-native_254.4.bb b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
-> > > new file mode 100644
-> > > index 0000000000..0cdd7e7045
-> > > --- /dev/null
-> > > +++ b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
-> > > @@ -0,0 +1,15 @@
-> > > +require systemd.inc
-> > > +
-> > > +inherit native
-> > > +
-> > > +RRECOMMENDS:${PN} += "python3-pefile-native"
-> > > +
-> > > +COMPATIBLE_HOST = "(aarch64.*|arm.*|x86_64.*|i.86.*)-linux"
-> > > +
-> > > +do_configure[noexec] = "1"
-> > > +do_compile[noexec] = "1"
-> > > +
-> > > +do_install () {
-> > > +       install -d ${D}${bindir}
-> > > +       install -m 0755 ${S}/src/ukify/ukify.py ${D}${bindir}/ukify
-> > > +}
-> > > -- 
-> > > 2.25.1
-> > > 
-> > 
-> > > 
-> > > 
-> > > 
-> > 
-> > 
-> > 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#192337): https://lists.openembedded.org/g/openembedded-core/message/192337
-> > Mute This Topic: https://lists.openembedded.org/mt/103147679/5192326
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [quic_vkraleti@quicinc.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
