@@ -1,91 +1,114 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <h4nn35.work@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A5DDC35274
-	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 12:24:09 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.61438.1702643048076866448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BAD5C35274
+	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 12:36:59 +0000 (UTC)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+ by mx.groups.io with SMTP id smtpd.web11.61646.1702643812531001913
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 04:24:08 -0800
+ Fri, 15 Dec 2023 04:36:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YtOFYLig;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40c3fe6c08fso6628975e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 04:24:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VIVlLEeO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.176, mailfrom: h4nn35.work@gmail.com)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5e36848f6c6so5142857b3.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 04:36:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1702643046; x=1703247846; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=jdmaTZtd+Ve/jhSdoBiW0dHhHk5UpvI8vsfybWBffzo=;
-        b=YtOFYLigDh32InvoJMtgNr/xrek8VIIZ3+fqDBUDv3eK5sumAcV1GgqbbrsWcvEoTU
-         h0XvBRCmfaFpcKhwdaOf3JLRsZ1Wq5PlnwnZ6FAOKFR9JLB/JU+QmmgHUYdEx9qQl1pU
-         W4XNj9+pfSxFvzunnit3JiWXEO2ejNxvvLpPA=
+        d=gmail.com; s=20230601; t=1702643811; x=1703248611; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tk27PKw4cToeAhCsMwBYzEXqHSOvC85UBYjRIbQScEQ=;
+        b=VIVlLEeOHBA2NAgvaaSriITrA+Lc/x3uIOv2l39RMGh6y0XyR72bL5077u+YIvZX5j
+         XWt/PB7k9sNFV0krFDTtoeZqlpNfZpo3WFu7H+yDuaPMQGgDhSvVDLg1M3QOipG3zoOs
+         bYt/5SORRg34KPv80pMJ18eMmj3PJUtJQlvg4yJyGrBKhnKD8EfmFnYle69IDRDRcy2X
+         YAGcEwlVFAc7Pq8CAWRGw66Re2WRpUf5KjfXZczfmasK3j0KF2Vlxkn25ddiP/LlKK7N
+         CBEFIMecBGIfseGiS3AxHzuoCK9JvsDey3qBA/lwlSTUDrIEnFFLnj+yEbF1lvSDiC5a
+         SXyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702643046; x=1703247846;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jdmaTZtd+Ve/jhSdoBiW0dHhHk5UpvI8vsfybWBffzo=;
-        b=p6HpHTt8EQGpSD7HeFZptK0DHGuwj1yCrbon6G2+f8MFwYRHXwUaoke9UeB1viJ0fk
-         /fF9YTBZs1ej6fvFYqFEBjB8LpLSuCHh976lU8Ty0kE9M8IXUsilotlQqK9ZbTudzbMy
-         5O9lfj585wyjyW3BcIEmb8i4KUPzLnebfzarq39OTU2g5RuXNoQQBl9rR0OyhB74k4Xp
-         JhnERX9HXx7VRI93lrzb43JuY7FGTA9DVGXAATeS5A9aZPrg9jZoLJYiA2qcjji8fPNj
-         3IfIOpGwTqraSveoQSnXUgpk6vPmDe7D7FzCI2FxiEctXHKNf4y6m2AdvH7vOW69WuWI
-         ZG/Q==
-X-Gm-Message-State: AOJu0Yxfak/Jd9wGNWdfhE34zMBLM1/IwCQelnIvHe95DHmoeMMl2Pmn
-	h65seV/o5UIc1a7TvduA0HgO3w==
-X-Google-Smtp-Source: AGHT+IFf+6FVjnS5ph8rTVJqu+9dr9hw5rtaMGERvHuEe6erpl7bNfOX9XKJBwQXMAYSw2oteZ0wtQ==
-X-Received: by 2002:a05:600c:4d0e:b0:40b:5641:4395 with SMTP id u14-20020a05600c4d0e00b0040b56414395mr4326466wmp.11.1702643046438;
-        Fri, 15 Dec 2023 04:24:06 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a04:9eb3:3437:42f8? ([2001:8b0:aba:5f3c:a04:9eb3:3437:42f8])
-        by smtp.gmail.com with ESMTPSA id he15-20020a05600c540f00b0040b5517ae31sm31028367wmb.6.2023.12.15.04.24.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Dec 2023 04:24:06 -0800 (PST)
-Message-ID: <3dc045e3b2ef9099dd85da35469053ad0384ce54.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] strace: Disable bluetooth support by
- default
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <Ross.Burton@arm.com>, Yoann Congal <yoann.congal@smile.fr>
-Cc: Khem Raj <raj.khem@gmail.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alexander Kanavin
- <alex.kanavin@gmail.com>,  OE Core mailing list
- <openembedded-core@lists.openembedded.org>, Tim Orling
- <ticotimo@gmail.com>, Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 15 Dec 2023 12:24:05 +0000
-In-Reply-To: <4F557F6F-8492-4027-AD2C-97773A476624@arm.com>
-References: <20231213085657.2552223-1-yoann.congal@smile.fr>
-	 <CANNYZj9mWiEZRf_snYJ0eRcirn746GbkZSekLV3-XVcHjaR6bw@mail.gmail.com>
-	 <CAMKF1spsMdx55xzBT9VEb51my-fE4GeLCq5m3do-5-8AKr-BqQ@mail.gmail.com>
-	 <20231214193346baddfca0@mail.local>
-	 <CAMKF1soTi3X-eZf6+pd+hS3FpTvxSO7kR4ievYgM_F2N_8AVFA@mail.gmail.com>
-	 <18825c98-a4bf-4918-833d-a797a9e5ac74@smile.fr>
-	 <4F557F6F-8492-4027-AD2C-97773A476624@arm.com>
+        d=1e100.net; s=20230601; t=1702643811; x=1703248611;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Tk27PKw4cToeAhCsMwBYzEXqHSOvC85UBYjRIbQScEQ=;
+        b=J3QF57ypuL/C+O5m8cMKO8Z9LORG323asGwFVC90nNqQAePwUuo2p+m3d30m7BNWzy
+         pA67LSv/HtNfCftAu8mYPRuQXCQG/KhTF/HeD2c7mNrJGZv0Yx+dpFO378nTMSeA5ZYw
+         zRob54EhZnGWeBqrAkpp2l+4brdBomCBCYaABgJs7kqcTTu2LJN/6qkNej9WF6AVdJjB
+         6xvpHFb0OSNK91Xw0XLWZw/t+qs7WbEqTA/kpl6kd8ocGOpcUqMJQMpCV+XTWy4mJfQU
+         Q2pxSrFm4kyw5Rn/r3mT/Zm4oG3fy+p6OgDNNw1wzK6pKobt/O9zTAK+gShD0++LEGqj
+         o4qA==
+X-Gm-Message-State: AOJu0YxEZEeoOoCvgXHz7LIJUt9oKnASOMuqfm9SLcJBa9m+vlVqhKTS
+	imdHfyYTEVUmk/JmBwqYX9NV2H+jcS7l7hI3DA==
+X-Google-Smtp-Source: AGHT+IHRpHh18AtDF47UmGJZpcrZqBFpydSEzP5N6bZd1c5VzmUMIc98zTcqys/THPqV3KA3r+sIbUNropZFZSk5YzQ=
+X-Received: by 2002:a25:baca:0:b0:db7:dad0:76a9 with SMTP id
+ a10-20020a25baca000000b00db7dad076a9mr6579192ybk.69.1702643811569; Fri, 15
+ Dec 2023 04:36:51 -0800 (PST)
+MIME-Version: 1.0
+References: <20231206074307.21110-1-johannes.pointner@br-automation.com> <654B156F-66BF-4AE7-A9C8-12FAD78EDEA2@arm.com>
+In-Reply-To: <654B156F-66BF-4AE7-A9C8-12FAD78EDEA2@arm.com>
+From: Johannes Pointner <h4nn35.work@gmail.com>
+Date: Fri, 15 Dec 2023 13:36:40 +0100
+Message-ID: <CAHvQdo223q=L2H-z1K_rNw5voD_dLE+PbUqQ1d1d=NAT8a2LuA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] ldconfig-native: Add usrmerge support
+To: Ross Burton <ross.burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 12:24:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192428
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 12:36:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192429
 
-On Fri, 2023-12-15 at 11:59 +0000, Ross Burton wrote:
-> On 15 Dec 2023, at 10:49, Yoann Congal <yoann.congal@smile.fr> wrote:
-> > FYI, since Khem's patch ([OE-core] [PATCH] util-linux: Delete md-
-> > raid tests) also prevent bluez to be built in a default core-image-
-> > minimal build, we can skip this one (strace: Disable bluetooth
-> > support by default) and still fix [YOCTO #15323].
->=20
-> I=E2=80=99m a fan of both.  Bluetooth support in strace is a niche usecas=
-e and easily enabled.
-
-I have a half drafted email saying I was thinking of both too! (I then
-got distracted).
-
-Cheers,
-
-Richard
+On Wed, Dec 13, 2023 at 12:01=E2=80=AFPM Ross Burton <ross.burton@arm.com> =
+wrote:
+>
+> On 6 Dec 2023, at 07:40, Johannes Pointner via lists.openembedded.org <jo=
+hannes.pointner=3Dbr-automation.com@lists.openembedded.org> wrote:
+> >
+> > From: Johannes Pointner <johannes.pointner@br-automation.com>
+> >
+> > If DISTRO_FEATURE usrmerge is enabled, SLIBDIR is just a symlink to LIB=
+DIR.
+> > ldconfig-native uses hardcoded paths for SLIBDIR and LIBDIR that are fi=
+ne for
+> > the not usrmerge case. But if usrmerge is enabled ldconfig-native gener=
+ates a
+> > ld.so.cache, which is done in rootfs.py, that looks like this:
+> > 236 libs found in cache `/etc/ld.so.cache'
+> >       libzstd.so.1 (libc6) =3D> /lib/libzstd.so.1
+> >       libz.so.1 (libc6) =3D> /lib/libz.so.1
+> >       libxtables.so.12 (libc6) =3D> /lib/libxtables.so.12
+> >       libxslt.so.1 (libc6) =3D> /lib/libxslt.so.1
+> >       libxml2.so.2 (libc6) =3D> /lib/libxml2.so.2
+> >
+> > This breaks for example the Qt QLibraryInfo paths if Qt is configured
+> > 'relocatable' and leads to the issue that the QtWebEngine can find the
+> > QtWebEngineProcess, Qt WebEngine resources,...
+> >
+> > Therefore don't let ldconfig-native parse SLIBDIR if it is a symlink.
+>
+> This still doesn=E2=80=99t explain *why* ldconfig is broken, why the work=
+around is a yocto-specific fix in ldconfig and not a general fix that other=
+ distros have, and why this isn=E2=80=99t a problem with Qt.
+As I wrote above ldconfig-native is broken for the usrmerge case
+because it uses hardcoded paths which are correct for the "not
+usrmerge case" but not for the "usrmerge case".
+Other distros as also the yocto ldconfig for the target system is
+configured at build time with the correct paths and works fine.
+This is an issue for Qt because it tries to determine the library
+locations using dladdr and this leads to incorrect paths that in my
+case broke QtWebEngine.
+>
+> Ross
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192282): https://lists.openembedded.org/g/openembedde=
+d-core/message/192282
+> Mute This Topic: https://lists.openembedded.org/mt/103009101/3617353
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [h4=
+nn35.work@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
