@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D9AEC48BEC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28D7CC48BED
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:54 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.63136.1702649863339255368
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.63599.1702649862998530236
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Dec 2023 06:17:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Xqko9f/t;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TmuxEkmb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c6dd7191c-6404ccef-5926-4d19-bbd5-08cb48975deb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eyXqdr1q;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=K2rBCIQ3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c6dd713fe-3959a5ab-5c29-43f1-b33b-d0b78b4b6c6f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702649862;
+	t=1702649861;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Vl2jnciW0Z94V6YegcbmXogitVxU9MhYAeJDC575Qqo=;
-	b=Xqko9f/tZb4Vapcx+o7tW3wrVjVSScUJ8BXlxHVAb2PVDT0zLQYtbfyygXnhUP5S
-	/h/l1Hw1oyBusHthVJEqrQg0gFD/m27AMHKU7K0+B+WKGjllpdfBk3/rZ2CPeiC47Lp
-	BORll1yHKWsRqf7ushzllYR9CdZ3EfeAKd1Gc+dE=
+	bh=Es2BAp/Au+vcdpwCHlYYR0XTS1zlb9Rm6wPx0IEvhNU=;
+	b=eyXqdr1qqtbhwKU31+Wy8Vfa9uW4pY+A7m+FyC26tfiUZU2s+zkcrG/cuyD1y3Od
+	O3iL+M5SVFmNE5+ZeQy3uk3iVdb8zi49eoVW26hQsl3LZk7xCuIhfE/ezC9Xtr8uDFN
+	sFSJkKFJ1nfn+S2oQbgjuuGRZ2LL659cpvxU5I3o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649862;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649861;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Vl2jnciW0Z94V6YegcbmXogitVxU9MhYAeJDC575Qqo=;
-	b=TmuxEkmbej4zF7dIbJLwXfLnljfbA2CYoYKmZ+7gSYS+ypLs2QIek6RXvDtI2s4n
-	vFthA6wM6HJUdLSWPV2RzjjYGxbz0sYRlBHB7e+FJxQQrvBrYlzhaI3AnKyloGfPLNr
-	Idv+1LjcArbErJZx5Q1Smu4t4GHRnSCLS2Wlx1HQ=
-Content-Type: multipart/mixed; boundary="===============8953066334356320920=="
+	bh=Es2BAp/Au+vcdpwCHlYYR0XTS1zlb9Rm6wPx0IEvhNU=;
+	b=K2rBCIQ3D1cfW8aSDn/67xPo5XFWtyXzZNpl4YTDG7jUheow47qOGWR83LeJLOx/
+	BHtQ2CQUVBDdF7Nwi/5tg8gIY0l1KYbu/YK8mJYR5GOL4z2YlYGiZoQeS+BwbMHpaKy
+	YX0FZOQqKvMY1lYbzSMFFQFE4RQklzIYX3ayyqnc=
+Content-Type: multipart/mixed; boundary="===============9108349123591876496=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] util-linux-libuuid: upgrading to 2.39.3 FAILED
-Message-ID: <0101018c6dd7191c-6404ccef-5926-4d19-bbd5-08cb48975deb-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Dec 2023 14:17:42 +0000
+Subject: [AUH] bluez5: upgrading to 5.71 SUCCEEDED
+Message-ID: <0101018c6dd713fe-3959a5ab-5c29-43f1-b33b-d0b78b4b6c6f-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Dec 2023 14:17:41 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.29
+X-SES-Outgoing: 2023.12.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192450
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192441
 
---===============8953066334356320920==
+--===============9108349123591876496==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *util-linux-libuuid* to *2.39.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *bluez5* to *5.71* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-util-linux-libuuid-upgrade-2.39.2-2.39.3.patch
+    - apply the patch: git am 0001-bluez5-upgrade-5.70-5.71.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,808 +72,901 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f2d399c227d3b098bdf1e8f12a60baa62df2ab55 Mon Sep 17 00:00:00 2001
+From 625ed6403eaae17065f7a7a136ec806e00b961d3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 06:15:39 +0000
-Subject: [PATCH] util-linux-libuuid: upgrade 2.39.2 -> 2.39.3
+Date: Fri, 15 Dec 2023 05:14:47 +0000
+Subject: [PATCH] bluez5: upgrade 5.70 -> 5.71
 
 ---
- ...2.39.2.bb => util-linux-libuuid_2.39.3.bb} | 29 ++++++++++++++
- meta/recipes-core/util-linux/util-linux.inc   |  5 +--
- ...ls-include-libgen.h-for-basename-API.patch |  9 +++--
- ...Use-4K-buffer-size-instead-of-BUFSIZ.patch | 38 -------------------
- .../util-linux/avoid_parallel_tests.patch     |  4 +-
- .../util-linux/configure-sbindir.patch        | 19 +++++++---
- .../display_testname_for_subtest.patch        | 12 +++---
- .../util-linux/util-linux/ptest.patch         |  4 +-
- 8 files changed, 61 insertions(+), 59 deletions(-)
- rename meta/recipes-core/util-linux/{util-linux-libuuid_2.39.2.bb => util-linux-libuuid_2.39.3.bb} (30%)
- delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-lscpu-Use-4K-buffer-size-instead-of-BUFSIZ.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   2 -
+ .../0001-test-gatt-Fix-hung-issue.patch       |   2 +-
+ ...et-for-building-tests-without-runnin.patch |   6 +-
+ ...e_probe-failing-if-SDP-record-is-not.patch | 313 ------------------
+ ...shared-util.c-include-linux-limits.h.patch |   7 +-
+ .../bluez5/bluez5/CVE-2023-45866.patch        |  56 ----
+ .../bluez5/{bluez5_5.70.bb => bluez5_5.71.bb} |   2 +-
+ 7 files changed, 9 insertions(+), 379 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.70.bb => bluez5_5.71.bb} (94%)
 
-diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb
-similarity index 30%
-rename from meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb
-rename to meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb
-index 5d759aed94..687e4327c8 100644
---- a/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb
-@@ -1,3 +1,32 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- README.licensing
-+# +++ README.licensing
-+# @@ -2,11 +2,13 @@
-+#  The project util-linux doesn't use the same license for all of the code.
-+#  There is code under:
-+#  
-+# -   * GPL-3.0-or-later   - GNU General Public License version 3, or any later version
-+# +   * GPL-1.0-or-later   - GNU General Public License version 1, or any later version
-+# +
-+# +   * GPL-2.0            - GNU General Public License version 2
-+#  
-+#     * GPL-2.0-or-later   - GNU General Public License version 2, or any later version
-+#  
-+# -   * GPL-2.0            - GNU General Public License version 2
-+# +   * GPL-3.0-or-later   - GNU General Public License version 3, or any later version
-+#  
-+#     * LGPL-2.1-or-later  - GNU Lesser General Public License 2.1 or any later version
-+#  
-+# 
-+#
-+
- # To allow util-linux to optionally build-depend on cryptsetup, libuuid is
- # split out of the main recipe, as it's needed by cryptsetup
- 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index e3bef5acfc..044d9861de 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -12,7 +12,7 @@ LICENSE:${PN}-libfdisk = "LGPL-2.1-or-later"
- LICENSE:${PN}-libmount = "LGPL-2.1-or-later"
- LICENSE:${PN}-libsmartcols = "LGPL-2.1-or-later"
- 
--LIC_FILES_CHKSUM = "file://README.licensing;md5=12ae7768a65ec8f2e44d930df9cb43fa \
-+LIC_FILES_CHKSUM = "file://README.licensing;md5=6b0e0a2320e66e62eef9b8149a6faec4 \
-                     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
-@@ -35,8 +35,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://run-ptest \
-            file://display_testname_for_subtest.patch \
-            file://avoid_parallel_tests.patch \
--           file://0001-lscpu-Use-4K-buffer-size-instead-of-BUFSIZ.patch \
-            file://0001-login-utils-include-libgen.h-for-basename-API.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 0bb157e202..e10158a6e5 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -55,8 +55,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+            file://0004-src-shared-util.c-include-linux-limits.h.patch \
+-           file://0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch \
+-	   file://CVE-2023-45866.patch \
             "
+ S = "${WORKDIR}/bluez-${PV}"
  
--SRC_URI[sha256sum] = "87abdfaa8e490f8be6dde976f7c80b9b5ff9f301e1b67e3899e1f05a59a1531f"
-+SRC_URI[sha256sum] = "7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f"
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch b/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
-index 2b9897ade1..6282991a98 100644
---- a/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
-+++ b/meta/recipes-core/util-linux/util-linux/0001-login-utils-include-libgen.h-for-basename-API.patch
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+index 06ebf1cde6..3546c7c305 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
 @@ -1,4 +1,4 @@
--From 6581cf8ac95b99b5a35fea88c52646558d05b5e7 Mon Sep 17 00:00:00 2001
-+From ebfc064070c11adb96f0d933ceb19e524cf9ec7e Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 3 Dec 2023 19:59:46 -0800
- Subject: [PATCH] login-utils: include libgen.h for basename API
-@@ -17,10 +17,13 @@ Fixes
+-From 7dcc5f46a31ac4eaa67c0ab3aaae38005db7458f Mon Sep 17 00:00:00 2001
++From e8808a2f5e17d375411c7409eaffb17e72f65022 Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <Mingli.Yu@windriver.com>
+ Date: Fri, 24 Aug 2018 12:04:03 +0800
+ Subject: [PATCH] test-gatt: Fix hung issue
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+index 7c47cc1a1e..be05093551 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+@@ -1,4 +1,4 @@
+-From a657fddd13a2e756b0af315301f1c44081e2f668 Mon Sep 17 00:00:00 2001
++From 3724958858b0ee430f37fb83388c3737d2039a3a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 1 Apr 2016 17:07:34 +0300
+ Subject: [PATCH] tests: add a target for building tests without running them
+@@ -11,10 +11,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 3 insertions(+)
  
- Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/2615]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- ---
-- login-utils/su-common.c | 8 ++++++--
-- 1 file changed, 6 insertions(+), 2 deletions(-)
-+ login-utils/su-common.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
- 
-+diff --git a/login-utils/su-common.c b/login-utils/su-common.c
-+index b674920..3297c78 100644
- --- a/login-utils/su-common.c
- +++ b/login-utils/su-common.c
- @@ -26,6 +26,7 @@
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-lscpu-Use-4K-buffer-size-instead-of-BUFSIZ.patch b/meta/recipes-core/util-linux/util-linux/0001-lscpu-Use-4K-buffer-size-instead-of-BUFSIZ.patch
+ diff --git a/Makefile.am b/Makefile.am
+-index 7041f8e..25966cd 100644
++index e7221bd..9595fd1 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -594,6 +594,9 @@ endif
++@@ -710,6 +710,9 @@ endif
+  TESTS = $(unit_tests)
+  AM_TESTS_ENVIRONMENT = MALLOC_CHECK_=3 MALLOC_PERTURB_=69
+  
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch b/meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch
 deleted file mode 100644
-index 4d7487c4f7..0000000000
---- a/meta/recipes-core/util-linux/util-linux/0001-lscpu-Use-4K-buffer-size-instead-of-BUFSIZ.patch
+index d0884338db..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch
 +++ /dev/null
-@@ -1,38 +0,0 @@
--From 95b0405338440cf5cd6d4b2b5c66cda8bf381b28 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 15 Sep 2023 00:18:18 -0700
--Subject: [PATCH] lscpu: Use 4K buffer size instead of BUFSIZ
+@@ -1,313 +0,0 @@
+-From 3a9c637010f8dc1ba3e8382abe01065761d4f5bb Mon Sep 17 00:00:00 2001
+-From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+-Date: Tue, 10 Oct 2023 12:38:29 -0700
+-Subject: [PATCH 02/40] input: Fix .device_probe failing if SDP record is not
+- found
 -
--Some lines in /proc/cpuinfo can be large e.g. flags and can then
--truncate them in displaying them
+-Due to changes introduced by 67a26abe53bf
+-("profile: Add probe_on_discover flag") profiles may get probed when
+-their profile UUID are discovered, rather than resolved, which means
+-the SDP record may not be available.
 -
--BUFSIZ can vary quite a bit  e.g. glibc/linux systems its 8192
--but on musl/linux and OSX its 1024, on mingW it is 256, some tests e.g.
--x86_64-64cpu-linux6.2.tar.gz has added really long line for cpu flags
--line which is greater than 1024 characters and hence this test fails
--on musl because lscpu -s reports truncated string
+-Fixes: https://github.com/bluez/bluez/issues/614
 -
--Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pull/2492]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Backport [https://github.com/bluez/bluez/commit/3a9c637010f8dc1ba3e8382abe01065761d4f5bb]
 ----
-- sys-utils/lscpu-cputype.c | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
+- profiles/input/device.c | 182 +++++++++++++++++++---------------------
+- 1 file changed, 84 insertions(+), 98 deletions(-)
 -
--diff --git a/sys-utils/lscpu-cputype.c b/sys-utils/lscpu-cputype.c
--index 3fd5f7a3c..c8f72ab8a 100644
----- a/sys-utils/lscpu-cputype.c
--+++ b/sys-utils/lscpu-cputype.c
--@@ -462,7 +462,9 @@ static int cpuinfo_parse_cache(struct lscpu_cxt *cxt, int keynum, char *data)
-- int lscpu_read_cpuinfo(struct lscpu_cxt *cxt)
+-diff --git a/profiles/input/device.c b/profiles/input/device.c
+-index e2ac6ea60..4a50ea992 100644
+---- a/profiles/input/device.c
+-+++ b/profiles/input/device.c
+-@@ -60,7 +60,7 @@ struct input_device {
+- 	char			*path;
+- 	bdaddr_t		src;
+- 	bdaddr_t		dst;
+--	uint32_t		handle;
+-+	const sdp_record_t	*rec;
+- 	GIOChannel		*ctrl_io;
+- 	GIOChannel		*intr_io;
+- 	guint			ctrl_watch;
+-@@ -754,7 +754,8 @@ static void epox_endian_quirk(unsigned char *data, int size)
+- 	}
+- }
+- 
+--static int create_hid_dev_name(sdp_record_t *rec, struct hidp_connadd_req *req)
+-+static int create_hid_dev_name(const sdp_record_t *rec,
+-+					struct hidp_connadd_req *req)
 - {
-- 	FILE *fp;
---	char buf[BUFSIZ];
--+	/* Used to be BUFSIZ which is small on some platforms e.g, musl,
--+	 * therefore hardcode to 4K */
--+	char buf[4096];
-- 	size_t i;
-- 	struct lscpu_cputype *ct;
-- 	struct cpuinfo_parser _pr = { .cxt = cxt }, *pr = &_pr;
+- 	char sdesc[sizeof(req->name) / 2];
+- 
+-@@ -776,7 +777,7 @@ static int create_hid_dev_name(sdp_record_t *rec, struct hidp_connadd_req *req)
+- 
+- /* See HID profile specification v1.0, "7.11.6 HIDDescriptorList" for details
+-  * on the attribute format. */
+--static int extract_hid_desc_data(sdp_record_t *rec,
+-+static int extract_hid_desc_data(const sdp_record_t *rec,
+- 						struct hidp_connadd_req *req)
+- {
+- 	sdp_data_t *d;
+-@@ -817,36 +818,40 @@ invalid_desc:
+- 	return -EINVAL;
+- }
+- 
+--static int extract_hid_record(sdp_record_t *rec, struct hidp_connadd_req *req)
+-+static int extract_hid_record(struct input_device *idev,
+-+					struct hidp_connadd_req *req)
+- {
+- 	sdp_data_t *pdlist;
+- 	uint8_t attr_val;
+- 	int err;
+- 
+--	err = create_hid_dev_name(rec, req);
+-+	if (!idev->rec)
+-+		return -ENOENT;
+-+
+-+	err = create_hid_dev_name(idev->rec, req);
+- 	if (err < 0)
+- 		DBG("No valid Service Name or Service Description found");
+- 
+--	pdlist = sdp_data_get(rec, SDP_ATTR_HID_PARSER_VERSION);
+-+	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_PARSER_VERSION);
+- 	req->parser = pdlist ? pdlist->val.uint16 : 0x0100;
+- 
+--	pdlist = sdp_data_get(rec, SDP_ATTR_HID_DEVICE_SUBCLASS);
+-+	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_DEVICE_SUBCLASS);
+- 	req->subclass = pdlist ? pdlist->val.uint8 : 0;
+- 
+--	pdlist = sdp_data_get(rec, SDP_ATTR_HID_COUNTRY_CODE);
+-+	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_COUNTRY_CODE);
+- 	req->country = pdlist ? pdlist->val.uint8 : 0;
+- 
+--	pdlist = sdp_data_get(rec, SDP_ATTR_HID_VIRTUAL_CABLE);
+-+	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_VIRTUAL_CABLE);
+- 	attr_val = pdlist ? pdlist->val.uint8 : 0;
+- 	if (attr_val)
+- 		req->flags |= (1 << HIDP_VIRTUAL_CABLE_UNPLUG);
+- 
+--	pdlist = sdp_data_get(rec, SDP_ATTR_HID_BOOT_DEVICE);
+-+	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_BOOT_DEVICE);
+- 	attr_val = pdlist ? pdlist->val.uint8 : 0;
+- 	if (attr_val)
+- 		req->flags |= (1 << HIDP_BOOT_PROTOCOL_MODE);
+- 
+--	err = extract_hid_desc_data(rec, req);
+-+	err = extract_hid_desc_data(idev->rec, req);
+- 	if (err < 0)
+- 		return err;
+- 
+-@@ -1035,11 +1040,6 @@ static gboolean encrypt_notify(GIOChannel *io, GIOCondition condition,
+- static int hidp_add_connection(struct input_device *idev)
+- {
+- 	struct hidp_connadd_req *req;
+--	sdp_record_t *rec;
+--	char src_addr[18], dst_addr[18];
+--	char filename[PATH_MAX];
+--	GKeyFile *key_file;
+--	char handle[11], *str;
+- 	GError *gerr = NULL;
+- 	int err;
+- 
+-@@ -1049,33 +1049,7 @@ static int hidp_add_connection(struct input_device *idev)
+- 	req->flags     = 0;
+- 	req->idle_to   = idle_timeout;
+- 
+--	ba2str(&idev->src, src_addr);
+--	ba2str(&idev->dst, dst_addr);
+--
+--	snprintf(filename, PATH_MAX, STORAGEDIR "/%s/cache/%s", src_addr,
+--								dst_addr);
+--	sprintf(handle, "0x%8.8X", idev->handle);
+--
+--	key_file = g_key_file_new();
+--	if (!g_key_file_load_from_file(key_file, filename, 0, &gerr)) {
+--		error("Unable to load key file from %s: (%s)", filename,
+--								gerr->message);
+--		g_clear_error(&gerr);
+--	}
+--	str = g_key_file_get_string(key_file, "ServiceRecords", handle, NULL);
+--	g_key_file_free(key_file);
+--
+--	if (!str) {
+--		error("Rejected connection from unknown device %s", dst_addr);
+--		err = -EPERM;
+--		goto cleanup;
+--	}
+--
+--	rec = record_from_string(str);
+--	g_free(str);
+--
+--	err = extract_hid_record(rec, req);
+--	sdp_record_free(rec);
+-+	err = extract_hid_record(idev, req);
+- 	if (err < 0) {
+- 		error("Could not parse HID SDP record: %s (%d)", strerror(-err),
+- 									-err);
+-@@ -1091,7 +1065,7 @@ static int hidp_add_connection(struct input_device *idev)
+- 
+- 	/* Make sure the device is bonded if required */
+- 	if (classic_bonded_only && !input_device_bonded(idev)) {
+--		error("Rejected connection from !bonded device %s", dst_addr);
+-+		error("Rejected connection from !bonded device %s", idev->path);
+- 		goto cleanup;
+- 	}
+- 
+-@@ -1161,6 +1135,68 @@ static int connection_disconnect(struct input_device *idev, uint32_t flags)
+- 		return ioctl_disconnect(idev, flags);
+- }
+- 
+-+static bool is_device_sdp_disable(const sdp_record_t *rec)
+-+{
+-+	sdp_data_t *data;
+-+
+-+	data = sdp_data_get(rec, SDP_ATTR_HID_SDP_DISABLE);
+-+
+-+	return data && data->val.uint8;
+-+}
+-+
+-+static enum reconnect_mode_t hid_reconnection_mode(bool reconnect_initiate,
+-+						bool normally_connectable)
+-+{
+-+	if (!reconnect_initiate && !normally_connectable)
+-+		return RECONNECT_NONE;
+-+	else if (!reconnect_initiate && normally_connectable)
+-+		return RECONNECT_HOST;
+-+	else if (reconnect_initiate && !normally_connectable)
+-+		return RECONNECT_DEVICE;
+-+	else /* (reconnect_initiate && normally_connectable) */
+-+		return RECONNECT_ANY;
+-+}
+-+
+-+static void extract_hid_props(struct input_device *idev,
+-+					const sdp_record_t *rec)
+-+{
+-+	/* Extract HID connectability */
+-+	bool reconnect_initiate, normally_connectable;
+-+	sdp_data_t *pdlist;
+-+
+-+	/* HIDNormallyConnectable is optional and assumed FALSE if not
+-+	 * present.
+-+	 */
+-+	pdlist = sdp_data_get(rec, SDP_ATTR_HID_RECONNECT_INITIATE);
+-+	reconnect_initiate = pdlist ? pdlist->val.uint8 : TRUE;
+-+
+-+	pdlist = sdp_data_get(rec, SDP_ATTR_HID_NORMALLY_CONNECTABLE);
+-+	normally_connectable = pdlist ? pdlist->val.uint8 : FALSE;
+-+
+-+	/* Update local values */
+-+	idev->reconnect_mode =
+-+		hid_reconnection_mode(reconnect_initiate, normally_connectable);
+-+}
+-+
+-+static void input_device_update_rec(struct input_device *idev)
+-+{
+-+	struct btd_profile *p = btd_service_get_profile(idev->service);
+-+	const sdp_record_t *rec;
+-+
+-+	rec = btd_device_get_record(idev->device, p->remote_uuid);
+-+	if (!rec || idev->rec == rec)
+-+		return;
+-+
+-+	idev->rec = rec;
+-+	idev->disable_sdp = is_device_sdp_disable(rec);
+-+
+-+	/* Initialize device properties */
+-+	extract_hid_props(idev, rec);
+-+
+-+	if (idev->disable_sdp)
+-+		device_set_refresh_discovery(idev->device, false);
+-+}
+-+
+- static int input_device_connected(struct input_device *idev)
+- {
+- 	int err;
+-@@ -1168,6 +1204,9 @@ static int input_device_connected(struct input_device *idev)
+- 	if (idev->intr_io == NULL || idev->ctrl_io == NULL)
+- 		return -ENOTCONN;
+- 
+-+	/* Attempt to update SDP record if it had changed */
+-+	input_device_update_rec(idev);
+-+
+- 	err = hidp_add_connection(idev);
+- 	if (err < 0)
+- 		return err;
+-@@ -1411,74 +1450,21 @@ int input_device_disconnect(struct btd_service *service)
+- 	return 0;
+- }
+- 
+--static bool is_device_sdp_disable(const sdp_record_t *rec)
+--{
+--	sdp_data_t *data;
+--
+--	data = sdp_data_get(rec, SDP_ATTR_HID_SDP_DISABLE);
+--
+--	return data && data->val.uint8;
+--}
+--
+--static enum reconnect_mode_t hid_reconnection_mode(bool reconnect_initiate,
+--						bool normally_connectable)
+--{
+--	if (!reconnect_initiate && !normally_connectable)
+--		return RECONNECT_NONE;
+--	else if (!reconnect_initiate && normally_connectable)
+--		return RECONNECT_HOST;
+--	else if (reconnect_initiate && !normally_connectable)
+--		return RECONNECT_DEVICE;
+--	else /* (reconnect_initiate && normally_connectable) */
+--		return RECONNECT_ANY;
+--}
+--
+--static void extract_hid_props(struct input_device *idev,
+--					const sdp_record_t *rec)
+--{
+--	/* Extract HID connectability */
+--	bool reconnect_initiate, normally_connectable;
+--	sdp_data_t *pdlist;
+--
+--	/* HIDNormallyConnectable is optional and assumed FALSE
+--	* if not present. */
+--	pdlist = sdp_data_get(rec, SDP_ATTR_HID_RECONNECT_INITIATE);
+--	reconnect_initiate = pdlist ? pdlist->val.uint8 : TRUE;
+--
+--	pdlist = sdp_data_get(rec, SDP_ATTR_HID_NORMALLY_CONNECTABLE);
+--	normally_connectable = pdlist ? pdlist->val.uint8 : FALSE;
+--
+--	/* Update local values */
+--	idev->reconnect_mode =
+--		hid_reconnection_mode(reconnect_initiate, normally_connectable);
+--}
+--
+- static struct input_device *input_device_new(struct btd_service *service)
+- {
+- 	struct btd_device *device = btd_service_get_device(service);
+--	struct btd_profile *p = btd_service_get_profile(service);
+- 	const char *path = device_get_path(device);
+--	const sdp_record_t *rec = btd_device_get_record(device, p->remote_uuid);
+- 	struct btd_adapter *adapter = device_get_adapter(device);
+- 	struct input_device *idev;
+- 
+--	if (!rec)
+--		return NULL;
+--
+- 	idev = g_new0(struct input_device, 1);
+- 	bacpy(&idev->src, btd_adapter_get_address(adapter));
+- 	bacpy(&idev->dst, device_get_address(device));
+- 	idev->service = btd_service_ref(service);
+- 	idev->device = btd_device_ref(device);
+- 	idev->path = g_strdup(path);
+--	idev->handle = rec->handle;
+--	idev->disable_sdp = is_device_sdp_disable(rec);
+--
+--	/* Initialize device properties */
+--	extract_hid_props(idev, rec);
+- 
+--	if (idev->disable_sdp)
+--		device_set_refresh_discovery(device, false);
+-+	input_device_update_rec(idev);
+- 
+- 	return idev;
+- }
 --- 
 -2.42.0
 -
-diff --git a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
-index f1cbdb3beb..a85d8a7bec 100644
---- a/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
-+++ b/meta/recipes-core/util-linux/util-linux/avoid_parallel_tests.patch
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch b/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
+index f954f6dab2..6ef135327d 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
++++ b/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
 @@ -1,4 +1,4 @@
--From ee3c7812e1efa6719af68b994804f0e6caceabd8 Mon Sep 17 00:00:00 2001
-+From 699d8640c235aea07977e6b7d66a17528a43332c Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Mon, 14 Jun 2021 14:00:31 +0200
- Subject: [PATCH] util-linux: Add ptest
-@@ -15,7 +15,7 @@ Upstream-Status: Inappropriate
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From 51584158b9a2e58f3790f8a7387b5cf167eca88b Mon Sep 17 00:00:00 2001
++From ad069fadfcce2cf70f45b1c4a42665448675297e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Mon, 12 Dec 2022 13:10:19 +0100
+ Subject: [PATCH] src/shared/util.c: include linux/limits.h
+@@ -8,15 +8,16 @@ systems such as those using musl.
  
- diff --git a/configure.ac b/configure.ac
--index 5664f9f..075ef27 100644
-+index 890212f..870e817 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -11,7 +11,7 @@ AC_CONFIG_MACRO_DIR([m4])
-diff --git a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
-index e475289f65..e0eb4d873b 100644
---- a/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
-+++ b/meta/recipes-core/util-linux/util-linux/configure-sbindir.patch
-@@ -1,3 +1,8 @@
-+From dca82b9f5cfd651aeefeeda9b531ff06116692ca Mon Sep 17 00:00:00 2001
-+From: Phil Blundell <pb@pbcl.net>
-+Date: Mon, 24 Sep 2012 07:24:51 +0100
-+Subject: [PATCH] util-linux: Ensure that ${sbindir} is respected
+ Upstream-Status: Submitted [to linux-bluetooth@vger.kernel.org,luiz.von.dentz@intel.com,frederic.danis@collabora.com]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 +
- util-linux: take ${sbindir} from the environment if it is set there
- fix the test, the [ ] syntax was getting eaten by autoconf
- 
-@@ -5,11 +10,15 @@ Signed-off-by: Phil Blundell <pb@pbcl.net>
- Signed-off-by: Saul Wold <sgw@linux.intel.com
- Upstream-Status: Inappropriate [configuration]
- 
--Index: util-linux-2.31/configure.ac
--===================================================================
----- util-linux-2.31.orig/configure.ac
--+++ util-linux-2.31/configure.ac
--@@ -89,7 +89,10 @@ AC_SUBST([runstatedir])
-+---
-+ configure.ac | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 36c24b4..890212f 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -102,7 +102,10 @@ AC_SUBST([runstatedir])
-  usrbin_execdir='${exec_prefix}/bin'
-  AC_SUBST([usrbin_execdir])
-  
-diff --git a/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch b/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
-index 417ca1d98f..1c30fbee2b 100644
---- a/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
-+++ b/meta/recipes-core/util-linux/util-linux/display_testname_for_subtest.patch
-@@ -1,4 +1,7 @@
--Display testname for subtest
-+From 89eccd862694903c926c594844974bcb5f2dcf6e Mon Sep 17 00:00:00 2001
-+From: Tudor Florea <tudor.florea@enea.com>
-+Date: Thu, 3 Dec 2015 04:08:00 +0100
-+Subject: [PATCH] Display testname for subtest
- 
- Signed-off-by: Tudor Florea <tudor.florea@enea.com>
- Upstream-Status: Pending
-@@ -8,10 +11,10 @@ Upstream-Status: Pending
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/tests/functions.sh b/tests/functions.sh
--index 5246605..b24dc15 100644
-+index 5a562a3..098145e 100644
- --- a/tests/functions.sh
- +++ b/tests/functions.sh
--@@ -320,7 +320,7 @@ function ts_init_subtest {
-+@@ -437,7 +437,7 @@ function ts_init_subtest {
-  
-  	if [ "$TS_PARSABLE" != "yes" ]; then
-  		[ $TS_NSUBTESTS -eq 1 ] && echo
-@@ -20,6 +23,3 @@ index 5246605..b24dc15 100644
-  	fi
-  }
-  
---- 
--2.8.3
--
-diff --git a/meta/recipes-core/util-linux/util-linux/ptest.patch b/meta/recipes-core/util-linux/util-linux/ptest.patch
-index ba2bd3f6ac..6b359025b3 100644
---- a/meta/recipes-core/util-linux/util-linux/ptest.patch
-+++ b/meta/recipes-core/util-linux/util-linux/ptest.patch
-@@ -1,4 +1,4 @@
--From af073c13ef184ca75811df688e0a0a25827b36c3 Mon Sep 17 00:00:00 2001
-+From 6ec5b79d7c4b001632685c879cbffb96a04f0076 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Thu, 3 Dec 2015 04:08:00 +0100
- Subject: [PATCH] Define TESTS variable
-@@ -11,7 +11,7 @@ Upstream-Status: Pending
+ ---
+  src/shared/util.c | 1 +
   1 file changed, 1 insertion(+)
  
- diff --git a/Makefile.am b/Makefile.am
--index 886598d..1cf4346 100644
-+index effbb02..7d2bd1e 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -57,6 +57,7 @@ systemdsystemunit_DATA =
+ diff --git a/src/shared/util.c b/src/shared/util.c
+-index 0a0308c..1f61314 100644
++index 34491f4..412f3ad 100644
+ --- a/src/shared/util.c
+ +++ b/src/shared/util.c
+-@@ -22,6 +22,7 @@
++@@ -23,6 +23,7 @@
+  #include <unistd.h>
+  #include <dirent.h>
+  #include <limits.h>
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
+deleted file mode 100644
+index 5bb31d866a..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 25a471a83e02e1effb15d5a488b3f0085eaeb675 Mon Sep 17 00:00:00 2001
+-From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+-Date: Tue, 10 Oct 2023 13:03:12 -0700
+-Subject: [PATCH] input.conf: Change default of ClassicBondedOnly
+-
+-This changes the default of ClassicBondedOnly since defaulting to false
+-is not inline with HID specification which mandates the of Security Mode
+-4:
+-
+-BLUETOOTH SPECIFICATION Page 84 of 123
+-Human Interface Device (HID) Profile:
+-
+-  5.4.3.4.2 Security Modes
+-  Bluetooth HID Hosts shall use Security Mode 4 when interoperating with
+-  Bluetooth HID devices that are compliant to the Bluetooth Core
+-  Specification v2.1+EDR[6].
+-
+-Upstream-Status: Backport
+-[https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/profiles/input?id=25a471a83e02e1effb15d5a488b3f0085eaeb675]
+-
+-CVE: CVE-2023-45866
+-
+-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+----
+- profiles/input/device.c   | 2 +-
+- profiles/input/input.conf | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/profiles/input/device.c b/profiles/input/device.c
+-index 4a50ea9..4310dd1 100644
+---- a/profiles/input/device.c
+-+++ b/profiles/input/device.c
+-@@ -81,7 +81,7 @@ struct input_device {
+-
+- static int idle_timeout = 0;
+- static bool uhid_enabled = false;
+--static bool classic_bonded_only = false;
+-+static bool classic_bonded_only = true;
+-
+- void input_set_idle_timeout(int timeout)
+- {
+-diff --git a/profiles/input/input.conf b/profiles/input/input.conf
+-index 4c70bc5..d8645f3 100644
+---- a/profiles/input/input.conf
+-+++ b/profiles/input/input.conf
+-@@ -17,7 +17,7 @@
+- # platforms may want to make sure that input connections only come from bonded
+- # device connections. Several older mice have been known for not supporting
+- # pairing/encryption.
+--# Defaults to false to maximize device compatibility.
+-+# Defaults to true for security.
+- #ClassicBondedOnly=true
+-
+- # LE upgrade security
+---
+-2.40.0
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.70.bb b/meta/recipes-connectivity/bluez5/bluez5_5.71.bb
+similarity index 94%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.70.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.71.bb
+index 2e3b782e6e..b9bc3dd1b6 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.70.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.71.bb
+@@ -1,6 +1,6 @@
+ require bluez5.inc
+ 
+-SRC_URI[sha256sum] = "37e372e916955e144cb882f888e4be40898f10ae3b7c213ddcdd55ee9c009278"
++SRC_URI[sha256sum] = "b828d418c93ced1f55b616fb5482cf01537440bfb34fbda1a564f3ece94735d8"
+ 
+ CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ 
 -- 
 2.42.0
 
 
---===============8953066334356320920==
+--===============9108349123591876496==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/bluez5/bluez5-dbg: PKGSIZE changed from 31877112 to 33496200 (+5%)
+packages/core2-64-poky-linux/bluez5/bluez5-dbg: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-dbg: FILELIST: removed "/usr/lib/.debug/libbluetooth.so.3.19.10", added "/usr/lib/.debug/libbluetooth.so.3.19.11 /usr/lib/bluez5/ptest/unit/.debug/test-micp /usr/lib/bluez5/ptest/unit/.debug/test-vcp"
+packages/core2-64-poky-linux/bluez5/bluez5-dbg: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-dev: PKGSIZE changed from 137083 to 137157 (+0%)
+packages/core2-64-poky-linux/bluez5/bluez5-dev: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-dev: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-doc: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-doc: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-locale: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-locale: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-noinst-tools: PKGSIZE changed from 5207896 to 5237016 (+1%)
+packages/core2-64-poky-linux/bluez5/bluez5-noinst-tools: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-noinst-tools: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-obex: PKGSIZE changed from 618841 to 618873 (+0%)
+packages/core2-64-poky-linux/bluez5/bluez5-obex: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-obex: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-ptest: PKGSIZE changed from 5366419 to 6198771 (+16%)
+packages/core2-64-poky-linux/bluez5/bluez5-ptest: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-ptest: FILELIST: added "/usr/lib/bluez5/ptest/unit/test-vcp /usr/lib/bluez5/ptest/unit/test-micp"
+packages/core2-64-poky-linux/bluez5/bluez5-ptest: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-src: PKGSIZE changed from 8139875 to 8313398 (+2%)
+packages/core2-64-poky-linux/bluez5/bluez5-src: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-src: FILELIST: directory renamed /usr/src/debug/bluez5/5.70/src -> /usr/src/debug/bluez5/5.71/src, directory renamed /usr/src/debug/bluez5/5.70/tools/parser -> /usr/src/debug/bluez5/5.71/tools/parser, directory renamed /usr/src/debug/bluez5/5.70/profiles/scanparam -> /usr/src/debug/bluez5/5.71/profiles/scanparam, directory renamed /usr/src/debug/bluez5/5.70/obexd/plugins -> /usr/src/debug/bluez5/5.71/obexd/plugins, directory renamed /usr/src/debug/bluez5/5.70/profiles/gap -> /usr/src/debug/bluez5/5.71/profiles/gap, directory renamed /usr/src/debug/bluez5/5.70/profiles/audio -> /usr/src/debug/bluez5/5.71/profiles/audio, directory renamed /usr/src/debug/bluez5/5.70/btio -> /usr/src/debug/bluez5/5.71/btio, directory renamed /usr/src/debug/bluez5/5.70/tools -> /usr/src/debug/bluez5/5.71/tools, directory renamed /usr/src/debug/bluez5/5.70/obexd/src -> /usr/src/debug/bluez5/5.71/obexd/src, directory renamed /usr/src/debug/bluez5/5.70/profiles/iap 
+ -> /usr/src/debug/bluez5/5.71/profiles/iap, directory renamed /usr/src/debug/bluez5/5.70/profiles/deviceinfo -> /usr/src/debug/bluez5/5.71/profiles/deviceinfo, directory renamed /usr/src/debug/bluez5/5.70/obexd/client -> /usr/src/debug/bluez5/5.71/obexd/client, directory renamed /usr/src/debug/bluez5/5.70/plugins -> /usr/src/debug/bluez5/5.71/plugins, directory renamed /usr/src/debug/bluez5/5.70/profiles/input -> /usr/src/debug/bluez5/5.71/profiles/input, directory renamed /usr/src/debug/bluez5/5.70/lib -> /usr/src/debug/bluez5/5.71/lib, directory renamed /usr/src/debug/bluez5/5.70/gobex -> /usr/src/debug/bluez5/5.71/gobex, directory renamed /usr/src/debug/bluez5/5.70/attrib -> /usr/src/debug/bluez5/5.71/attrib, directory renamed /usr/src/debug/bluez5/5.70/client -> /usr/src/debug/bluez5/5.71/client, directory renamed /usr/src/debug/bluez5/5.70/gdbus -> /usr/src/debug/bluez5/5.71/gdbus, directory renamed /usr/src/debug/bluez5/5.70/profiles/battery -> /usr/src/debug/bluez5/5.71/profi
+ les/battery, directory renamed /usr/src/debug/bluez5/5.70/profiles/health -> /usr/src/debug/bluez5/5.71/profiles/health, directory renamed /usr/src/debug/bluez5/5.70/profiles/network -> /usr/src/debug/bluez5/5.71/profiles/network, directory renamed /usr/src/debug/bluez5/5.70/monitor -> /usr/src/debug/bluez5/5.71/monitor, directory renamed /usr/src/debug/bluez5/5.70/android -> /usr/src/debug/bluez5/5.71/android, removed "/usr/src/debug/bluez5/5.70/src/shared/log.h /usr/src/debug/bluez5/5.70/src/shared/ringbuf.h /usr/src/debug/bluez5/5.70/src/shared/ringbuf.c /usr/src/debug/bluez5/5.70/unit/test-textfile.c /usr/src/debug/bluez5/5.70/src/shared/log.c /usr/src/debug/bluez5/5.70/src/shared/ad.c /usr/src/debug/bluez5/5.70/unit/test-gattrib.c /usr/src/debug/bluez5/5.70/unit/test-crypto.c /usr/src/debug/bluez5/5.70/src/shared/ad.h /usr/src/debug/bluez5/5.70/src/shared/io.h /usr/src/debug/bluez5/5.70/unit/test-gobex.c /usr/src/debug/bluez5/5.70/unit/test-uhid.c /usr/src/debug/bluez5/5.70/uni
+ t/test-uuid.c /usr/src/debug/bluez5/5.70/src/shared/mainloop.c /usr/src/debug/bluez5/5.70/src/shared/mainloop.h /usr/src/debug/bluez5/5.70/src/shared/tty.h /usr/src/debug/bluez5/5.70/unit/test-gobex-header.c /usr/src/debug/bluez5/5.70/src/shared/timeout-mainloop.c /usr/src/debug/bluez5/5.70/unit/test-avrcp.c /usr/src/debug/bluez5/5.70/src/shared/gatt-client.h /usr/src/debug/bluez5/5.70/src/shared/ascs.h /usr/src/debug/bluez5/5.70/src/shared/gatt-client.c /usr/src/debug/bluez5/5.70/unit/test-bass.c /usr/src/debug/bluez5/5.70/src/shared/mgmt.h /usr/src/debug/bluez5/5.70/src/shared/csip.c /usr/src/debug/bluez5/5.70/src/shared/csip.h /usr/src/debug/bluez5/5.70/src/shared/io-mainloop.c /usr/src/debug/bluez5/5.70/src/shared/mgmt.c /usr/src/debug/bluez5/5.70/src/shared/att-types.h /usr/src/debug/bluez5/5.70/src/shared/shell.c /usr/src/debug/bluez5/5.70/src/shared/shell.h /usr/src/debug/bluez5/5.70/src/shared/crypto.c /usr/src/debug/bluez5/5.70/unit/test-ringbuf.c /usr/src/debug/bluez5/5.70
+ /src/shared/crypto.h /usr/src/debug/bluez5/5.70/src/shared/io-glib.c /usr/src/debug/bluez5/5.70/src/shared/micp.h /usr/src/debug/bluez5/5.70/src/shared/tester.c /usr/src/debug/bluez5/5.70/src/shared/micp.c /usr/src/debug/bluez5/5.70/src/shared/tester.h /usr/src/debug/bluez5/5.70/src/shared/mainloop-notify.h /usr/src/debug/bluez5/5.70/src/shared/mainloop-notify.c /usr/src/debug/bluez5/5.70/src/shared/ecc.c /usr/src/debug/bluez5/5.70/src/shared/timeout.h /usr/src/debug/bluez5/5.70/src/shared/ecc.h /usr/src/debug/bluez5/5.70/unit/test-tester.c /usr/src/debug/bluez5/5.70/unit/test-gobex-apparam.c /usr/src/debug/bluez5/5.70/unit/util.c /usr/src/debug/bluez5/5.70/src/shared/hci.h /usr/src/debug/bluez5/5.70/unit/util.h /usr/src/debug/bluez5/5.70/src/shared/hci.c /usr/src/debug/bluez5/5.70/src/shared/gatt-helpers.c /usr/src/debug/bluez5/5.70/unit/test-queue.c /usr/src/debug/bluez5/5.70/src/shared/gatt-helpers.h /usr/src/debug/bluez5/5.70/src/shared/att.c /usr/src/debug/bluez5/5.70/src/share
+ d/att.h /usr/src/debug/bluez5/5.70/unit/test-sdp.c /usr/src/debug/bluez5/5.70/unit/test-bap.c /usr/src/debug/bluez5/5.70/unit/test-crc.c /usr/src/debug/bluez5/5.70/unit/test-ecc.c /usr/src/debug/bluez5/5.70/unit/test-eir.c /usr/src/debug/bluez5/5.70/src/shared/bass.c /usr/src/debug/bluez5/5.70/unit/test-hfp.c /usr/src/debug/bluez5/5.70/unit/test-hog.c /usr/src/debug/bluez5/5.70/unit/test-lib.c /usr/src/debug/bluez5/5.70/src/shared/bass.h /usr/src/debug/bluez5/5.70/src/shared/queue.c /usr/src/debug/bluez5/5.70/src/shared/uhid.h /usr/src/debug/bluez5/5.70/unit/test-gobex-transfer.c /usr/src/debug/bluez5/5.70/src/shared/mainloop-glib.c /usr/src/debug/bluez5/5.70/src/shared/queue.h /usr/src/debug/bluez5/5.70/src/shared/uhid.c /usr/src/debug/bluez5/5.70/src/shared/timeout-glib.c /usr/src/debug/bluez5/5.70/src/shared/bap.c /usr/src/debug/bluez5/5.70/src/shared/hfp.c /usr/src/debug/bluez5/5.70/src/shared/mcp.c /usr/src/debug/bluez5/5.70/src/shared/vcp.c /usr/src/debug/bluez5/5.70/src/share
+ d/bap.h /usr/src/debug/bluez5/5.70/src/shared/hfp.h /usr/src/debug/bluez5/5.70/src/shared/mcp.h /usr/src/debug/bluez5/5.70/src/shared/vcp.h /usr/src/debug/bluez5/5.70/unit/test-avctp.c /usr/src/debug/bluez5/5.70/unit/test-avdtp.c /usr/src/debug/bluez5/5.70/src/shared/gatt-db.c /usr/src/debug/bluez5/5.70/src/shared/gatt-db.h /usr/src/debug/bluez5/5.70/unit/test-gdbus-client.c /usr/src/debug/bluez5/5.70/src/shared/util.c /usr/src/debug/bluez5/5.70/src/shared/btsnoop.c /usr/src/debug/bluez5/5.70/src/shared/btsnoop.h /usr/src/debug/bluez5/5.70/src/shared/util.h /usr/src/debug/bluez5/5.70/unit/test-gatt.c /usr/src/debug/bluez5/5.70/unit/test-mgmt.c /usr/src/debug/bluez5/5.70/src/shared/gatt-server.h /usr/src/debug/bluez5/5.70/src/shared/gatt-server.c /usr/src/debug/bluez5/5.70/unit/test-gobex-packet.c", added "/usr/src/debug/bluez5/5.71/src/shared/ecc.c /usr/src/debug/bluez5/5.71/src/shared/timeout.h /usr/src/debug/bluez5/5.71/src/shared/ecc.h /usr/src/debug/bluez5/5.71/unit/test-tester.
+ c /usr/src/debug/bluez5/5.71/unit/test-gobex-apparam.c /usr/src/debug/bluez5/5.71/unit/util.c /usr/src/debug/bluez5/5.71/src/shared/hci.h /usr/src/debug/bluez5/5.71/unit/util.h /usr/src/debug/bluez5/5.71/src/shared/hci.c /usr/src/debug/bluez5/5.71/src/shared/gatt-helpers.c /usr/src/debug/bluez5/5.71/unit/test-queue.c /usr/src/debug/bluez5/5.71/src/shared/gatt-helpers.h /usr/src/debug/bluez5/5.71/src/shared/att.c /usr/src/debug/bluez5/5.71/src/shared/att.h /usr/src/debug/bluez5/5.71/unit/test-vcp.c /usr/src/debug/bluez5/5.71/unit/test-crc.c /usr/src/debug/bluez5/5.71/unit/test-ecc.c /usr/src/debug/bluez5/5.71/unit/test-eir.c /usr/src/debug/bluez5/5.71/unit/test-bap.c /usr/src/debug/bluez5/5.71/src/shared/bass.c /usr/src/debug/bluez5/5.71/unit/test-hfp.c /usr/src/debug/bluez5/5.71/unit/test-hog.c /usr/src/debug/bluez5/5.71/unit/test-lib.c /usr/src/debug/bluez5/5.71/unit/test-sdp.c /usr/src/debug/bluez5/5.71/src/shared/bass.h /usr/src/debug/bluez5/5.71/src/shared/queue.c /usr/src/debug
+ /bluez5/5.71/src/shared/uhid.h /usr/src/debug/bluez5/5.71/unit/test-gobex-transfer.c /usr/src/debug/bluez5/5.71/src/shared/mainloop-glib.c /usr/src/debug/bluez5/5.71/src/shared/queue.h /usr/src/debug/bluez5/5.71/src/shared/uhid.c /usr/src/debug/bluez5/5.71/unit/test-micp.c /usr/src/debug/bluez5/5.71/src/shared/bap-debug.c /usr/src/debug/bluez5/5.71/src/shared/timeout-glib.c /usr/src/debug/bluez5/5.71/src/shared/bap-debug.h /usr/src/debug/bluez5/5.71/src/shared/bap.c /usr/src/debug/bluez5/5.71/src/shared/hfp.c /usr/src/debug/bluez5/5.71/src/shared/mcp.c /usr/src/debug/bluez5/5.71/src/shared/vcp.c /usr/src/debug/bluez5/5.71/src/shared/bap.h /usr/src/debug/bluez5/5.71/src/shared/hfp.h /usr/src/debug/bluez5/5.71/src/shared/mcp.h /usr/src/debug/bluez5/5.71/src/shared/vcp.h /usr/src/debug/bluez5/5.71/unit/test-avctp.c /usr/src/debug/bluez5/5.71/unit/test-avdtp.c /usr/src/debug/bluez5/5.71/src/shared/gatt-db.c /usr/src/debug/bluez5/5.71/src/shared/gatt-db.h /usr/src/debug/bluez5/5.71/unit/
+ test-gdbus-client.c /usr/src/debug/bluez5/5.71/src/shared/util.c /usr/src/debug/bluez5/5.71/src/shared/btsnoop.c /usr/src/debug/bluez5/5.71/src/shared/btsnoop.h /usr/src/debug/bluez5/5.71/src/shared/util.h /usr/src/debug/bluez5/5.71/unit/test-mgmt.c /usr/src/debug/bluez5/5.71/unit/test-gatt.c /usr/src/debug/bluez5/5.71/src/shared/gatt-server.h /usr/src/debug/bluez5/5.71/src/shared/gatt-server.c /usr/src/debug/bluez5/5.71/unit/test-gobex-packet.c /usr/src/debug/bluez5/5.71/src/shared/log.h /usr/src/debug/bluez5/5.71/src/shared/ringbuf.h /usr/src/debug/bluez5/5.71/src/shared/ringbuf.c /usr/src/debug/bluez5/5.71/unit/test-textfile.c /usr/src/debug/bluez5/5.71/src/shared/log.c /usr/src/debug/bluez5/5.71/src/shared/ad.c /usr/src/debug/bluez5/5.71/unit/test-gattrib.c /usr/src/debug/bluez5/5.71/unit/test-crypto.c /usr/src/debug/bluez5/5.71/src/shared/ad.h /usr/src/debug/bluez5/5.71/src/shared/io.h /usr/src/debug/bluez5/5.71/unit/test-gobex.c /usr/src/debug/bluez5/5.71/unit/test-uhid.c /usr
+ /src/debug/bluez5/5.71/unit/test-uuid.c /usr/src/debug/bluez5/5.71/src/shared/mainloop.c /usr/src/debug/bluez5/5.71/src/shared/mainloop.h /usr/src/debug/bluez5/5.71/src/shared/tty.h /usr/src/debug/bluez5/5.71/unit/test-gobex-header.c /usr/src/debug/bluez5/5.71/src/shared/timeout-mainloop.c /usr/src/debug/bluez5/5.71/unit/test-avrcp.c /usr/src/debug/bluez5/5.71/src/shared/gatt-client.h /usr/src/debug/bluez5/5.71/src/shared/ascs.h /usr/src/debug/bluez5/5.71/src/shared/gatt-client.c /usr/src/debug/bluez5/5.71/unit/test-bass.c /usr/src/debug/bluez5/5.71/src/shared/mgmt.h /usr/src/debug/bluez5/5.71/src/shared/csip.c /usr/src/debug/bluez5/5.71/src/shared/csip.h /usr/src/debug/bluez5/5.71/src/shared/io-mainloop.c /usr/src/debug/bluez5/5.71/src/shared/mgmt.c /usr/src/debug/bluez5/5.71/src/shared/att-types.h /usr/src/debug/bluez5/5.71/src/shared/shell.c /usr/src/debug/bluez5/5.71/src/shared/shell.h /usr/src/debug/bluez5/5.71/src/shared/crypto.c /usr/src/debug/bluez5/5.71/unit/test-ringbuf.c 
+ /usr/src/debug/bluez5/5.71/src/shared/crypto.h /usr/src/debug/bluez5/5.71/src/shared/io-glib.c /usr/src/debug/bluez5/5.71/src/shared/micp.h /usr/src/debug/bluez5/5.71/src/shared/tester.c /usr/src/debug/bluez5/5.71/src/shared/micp.c /usr/src/debug/bluez5/5.71/src/shared/tester.h /usr/src/debug/bluez5/5.71/src/shared/mainloop-notify.h /usr/src/debug/bluez5/5.71/src/shared/mainloop-notify.c"
+packages/core2-64-poky-linux/bluez5/bluez5-src: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-staticdev: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-staticdev: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5-testtools: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5-testtools: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5/bluez5: PKGSIZE changed from 6057380 to 6115668 (+1%)
+packages/core2-64-poky-linux/bluez5/bluez5: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5/bluez5: FILELIST: removed "/usr/lib/libbluetooth.so.3.19.10", added "/usr/lib/libbluetooth.so.3.19.11"
+packages/core2-64-poky-linux/bluez5/bluez5: PKGV changed from 5.70 [default] to 5.71 [default]
+packages/core2-64-poky-linux/bluez5: PV changed from "5.70" to "5.71"
+packages/core2-64-poky-linux/bluez5: SRC_URI changed from "https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.70.tar.xz file://init file://run-ptest file://0001-tests-add-a-target-for-building-tests-without-runnin.patch file://0001-test-gatt-Fix-hung-issue.patch file://0004-src-shared-util.c-include-linux-limits.h.patch file://0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch file://CVE-2023-45866.patch" to "https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.71.tar.xz file://init file://run-ptest file://0001-tests-add-a-target-for-building-tests-without-runnin.patch file://0001-test-gatt-Fix-hung-issue.patch file://0004-src-shared-util.c-include-linux-limits.h.patch"
+packages/core2-64-poky-linux/bluez5: PKGV changed from 5.70 [default] to 5.71 [default]
+Changes to packages/core2-64-poky-linux/bluez5 (sysroot):
+  /usr/lib/libbluetooth.so.3 changed symlink target from libbluetooth.so.3.19.10 to libbluetooth.so.3.19.11
+  /usr/lib/libbluetooth.so changed symlink target from libbluetooth.so.3.19.10 to libbluetooth.so.3.19.11
+  /usr/lib/libbluetooth.so.3.19.10 moved to /usr/lib/libbluetooth.so.3.19.11
+
+--===============9108349123591876496==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-util-linux-libuuid-upgrade-2.39.2-2.39.3.patch"
+ filename="0001-bluez5-upgrade-5.70-5.71.patch"
 
-RnJvbSBmMmQzOTljMjI3ZDNiMDk4YmRmMWU4ZjEyYTYwYmFhNjJkZjJhYjU1IE1vbiBTZXAgMTcg
+RnJvbSA2MjVlZDY0MDNlYWFlMTcwNjVmN2E3YTEzNmVjODA2ZTAwYjk2MWQzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDY6MTU6MzkgKzAwMDAKU3ViamVjdDogW1BBVENIXSB1
-dGlsLWxpbnV4LWxpYnV1aWQ6IHVwZ3JhZGUgMi4zOS4yIC0+IDIuMzkuMwoKLS0tCiAuLi4yLjM5
-LjIuYmIgPT4gdXRpbC1saW51eC1saWJ1dWlkXzIuMzkuMy5iYn0gfCAyOSArKysrKysrKysrKysr
-KwogbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LmluYyAgIHwgIDUgKy0t
-CiAuLi5scy1pbmNsdWRlLWxpYmdlbi5oLWZvci1iYXNlbmFtZS1BUEkucGF0Y2ggfCAgOSArKyst
-LQogLi4uVXNlLTRLLWJ1ZmZlci1zaXplLWluc3RlYWQtb2YtQlVGU0laLnBhdGNoIHwgMzggLS0t
-LS0tLS0tLS0tLS0tLS0tLQogLi4uL3V0aWwtbGludXgvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0
-Y2ggICAgIHwgIDQgKy0KIC4uLi91dGlsLWxpbnV4L2NvbmZpZ3VyZS1zYmluZGlyLnBhdGNoICAg
-ICAgICB8IDE5ICsrKysrKystLS0KIC4uLi9kaXNwbGF5X3Rlc3RuYW1lX2Zvcl9zdWJ0ZXN0LnBh
-dGNoICAgICAgICB8IDEyICsrKy0tLQogLi4uL3V0aWwtbGludXgvdXRpbC1saW51eC9wdGVzdC5w
-YXRjaCAgICAgICAgIHwgIDQgKy0KIDggZmlsZXMgY2hhbmdlZCwgNjEgaW5zZXJ0aW9ucygrKSwg
-NTkgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC97dXRp
-bC1saW51eC1saWJ1dWlkXzIuMzkuMi5iYiA9PiB1dGlsLWxpbnV4LWxpYnV1aWRfMi4zOS4zLmJi
-fSAoMzAlKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgv
-dXRpbC1saW51eC8wMDAxLWxzY3B1LVVzZS00Sy1idWZmZXItc2l6ZS1pbnN0ZWFkLW9mLUJVRlNJ
-Wi5wYXRjaAoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1s
-aW51eC1saWJ1dWlkXzIuMzkuMi5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRp
-bC1saW51eC1saWJ1dWlkXzIuMzkuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDMwJQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgtbGlidXVpZF8yLjM5LjIu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC1saWJ1
-dWlkXzIuMzkuMy5iYgppbmRleCA1ZDc1OWFlZDk0Li42ODdlNDMyN2M4IDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgtbGlidXVpZF8yLjM5LjIuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4LWxpYnV1aWRfMi4z
-OS4zLmJiCkBAIC0xLDMgKzEsMzIgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZh
-bHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxv
-d2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5z
-ZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5k
-IHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNl
-bnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0
-IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBSRUFETUUubGlj
-ZW5zaW5nCisjICsrKyBSRUFETUUubGljZW5zaW5nCisjIEBAIC0yLDExICsyLDEzIEBACisjICBU
-aGUgcHJvamVjdCB1dGlsLWxpbnV4IGRvZXNuJ3QgdXNlIHRoZSBzYW1lIGxpY2Vuc2UgZm9yIGFs
-bCBvZiB0aGUgY29kZS4KKyMgIFRoZXJlIGlzIGNvZGUgdW5kZXI6CisjICAKKyMgLSAgICogR1BM
-LTMuMC1vci1sYXRlciAgIC0gR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgdmVyc2lvbiAzLCBv
-ciBhbnkgbGF0ZXIgdmVyc2lvbgorIyArICAgKiBHUEwtMS4wLW9yLWxhdGVyICAgLSBHTlUgR2Vu
-ZXJhbCBQdWJsaWMgTGljZW5zZSB2ZXJzaW9uIDEsIG9yIGFueSBsYXRlciB2ZXJzaW9uCisjICsK
-KyMgKyAgICogR1BMLTIuMCAgICAgICAgICAgIC0gR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2Ug
-dmVyc2lvbiAyCisjICAKKyMgICAgICogR1BMLTIuMC1vci1sYXRlciAgIC0gR05VIEdlbmVyYWwg
-UHVibGljIExpY2Vuc2UgdmVyc2lvbiAyLCBvciBhbnkgbGF0ZXIgdmVyc2lvbgorIyAgCisjIC0g
-ICAqIEdQTC0yLjAgICAgICAgICAgICAtIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIHZlcnNp
-b24gMgorIyArICAgKiBHUEwtMy4wLW9yLWxhdGVyICAgLSBHTlUgR2VuZXJhbCBQdWJsaWMgTGlj
-ZW5zZSB2ZXJzaW9uIDMsIG9yIGFueSBsYXRlciB2ZXJzaW9uCisjICAKKyMgICAgICogTEdQTC0y
-LjEtb3ItbGF0ZXIgIC0gR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIDIuMSBvciBh
-bnkgbGF0ZXIgdmVyc2lvbgorIyAgCisjIAorIworCiAjIFRvIGFsbG93IHV0aWwtbGludXggdG8g
-b3B0aW9uYWxseSBidWlsZC1kZXBlbmQgb24gY3J5cHRzZXR1cCwgbGlidXVpZCBpcwogIyBzcGxp
-dCBvdXQgb2YgdGhlIG1haW4gcmVjaXBlLCBhcyBpdCdzIG5lZWRlZCBieSBjcnlwdHNldHVwCiAK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC5pbmMg
-Yi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXguaW5jCmluZGV4IGUzYmVm
-NWFjZmMuLjA0NGQ5ODYxZGUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGlu
-dXgvdXRpbC1saW51eC5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGls
-LWxpbnV4LmluYwpAQCAtMTIsNyArMTIsNyBAQCBMSUNFTlNFOiR7UE59LWxpYmZkaXNrID0gIkxH
-UEwtMi4xLW9yLWxhdGVyIgogTElDRU5TRToke1BOfS1saWJtb3VudCA9ICJMR1BMLTIuMS1vci1s
-YXRlciIKIExJQ0VOU0U6JHtQTn0tbGlic21hcnRjb2xzID0gIkxHUEwtMi4xLW9yLWxhdGVyIgog
-Ci1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9SRUFETUUubGljZW5zaW5nO21kNT0xMmFlNzc2
-OGE2NWVjOGYyZTQ0ZDkzMGRmOWNiNDNmYSBcCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9S
-RUFETUUubGljZW5zaW5nO21kNT02YjBlMGEyMzIwZTY2ZTYyZWVmOWI4MTQ5YTZmYWVjNCBcCiAg
-ICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9DT1BZSU5HO21kNT1iMjM0ZWU0ZDY5ZjVmY2U0NDg2
-YTgwZmRhZjRhNDI2MyBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9Eb2N1bWVudGF0aW9u
-L2xpY2Vuc2VzL0NPUFlJTkcuR1BMLTIuMC1vci1sYXRlcjttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4
-NmE4MGZkYWY0YTQyNjMgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vRG9jdW1lbnRhdGlv
-bi9saWNlbnNlcy9DT1BZSU5HLkxHUEwtMi4xLW9yLWxhdGVyO21kNT00ZmJkNjUzODBjZGQyNTU5
-NTEwNzkwMDhiMzY0NTE2YyBcCkBAIC0zNSw4ICszNSw3IEBAIFNSQ19VUkkgPSAiJHtLRVJORUxP
-UkdfTUlSUk9SfS9saW51eC91dGlscy91dGlsLWxpbnV4L3Yke01BSk9SX1ZFUlNJT059L3V0aWwt
-bGluCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAgICBmaWxlOi8vZGlz
-cGxheV90ZXN0bmFtZV9mb3Jfc3VidGVzdC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9hdm9p
-ZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAxLWxzY3B1LVVz
-ZS00Sy1idWZmZXItc2l6ZS1pbnN0ZWFkLW9mLUJVRlNJWi5wYXRjaCBcCiAgICAgICAgICAgIGZp
-bGU6Ly8wMDAxLWxvZ2luLXV0aWxzLWluY2x1ZGUtbGliZ2VuLmgtZm9yLWJhc2VuYW1lLUFQSS5w
-YXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg3YWJkZmFhOGU0
-OTBmOGJlNmRkZTk3NmY3YzgwYjliNWZmOWYzMDFlMWI2N2UzODk5ZTFmMDVhNTlhMTUzMWYiCitT
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiN2I2NjA1ZTQ4ZDFhNDlmNDNjYzRiNGNmYzU5ZjMxM2QwZGQ1
-NDAyZmE0MGI5NjgxMGJkNTcyZTE2N2RmZWQwZiIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1j
-b3JlL3V0aWwtbGludXgvdXRpbC1saW51eC8wMDAxLWxvZ2luLXV0aWxzLWluY2x1ZGUtbGliZ2Vu
-LmgtZm9yLWJhc2VuYW1lLUFQSS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgv
-dXRpbC1saW51eC8wMDAxLWxvZ2luLXV0aWxzLWluY2x1ZGUtbGliZ2VuLmgtZm9yLWJhc2VuYW1l
-LUFQSS5wYXRjaAppbmRleCAyYjk4OTdhZGUxLi42MjgyOTkxYTk4IDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvMDAwMS1sb2dpbi11dGlscy1pbmNs
-dWRlLWxpYmdlbi5oLWZvci1iYXNlbmFtZS1BUEkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNv
-cmUvdXRpbC1saW51eC91dGlsLWxpbnV4LzAwMDEtbG9naW4tdXRpbHMtaW5jbHVkZS1saWJnZW4u
-aC1mb3ItYmFzZW5hbWUtQVBJLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2NTgxY2Y4YWM5
-NWI5OWI1YTM1ZmVhODhjNTI2NDY1NThkMDViNWU3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSBlYmZjMDY0MDcwYzExYWRiOTZmMGQ5MzNjZWIxOWU1MjRjZjllYzdlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6
-IFN1biwgMyBEZWMgMjAyMyAxOTo1OTo0NiAtMDgwMAogU3ViamVjdDogW1BBVENIXSBsb2dpbi11
-dGlsczogaW5jbHVkZSBsaWJnZW4uaCBmb3IgYmFzZW5hbWUgQVBJCkBAIC0xNywxMCArMTcsMTMg
-QEAgRml4ZXMKIAogVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0ZWQgW2h0dHBzOi8vZ2l0aHViLmNv
-bS91dGlsLWxpbnV4L3V0aWwtbGludXgvcHVsbC8yNjE1XQogU2lnbmVkLW9mZi1ieTogS2hlbSBS
-YWogPHJhai5raGVtQGdtYWlsLmNvbT4KKwogLS0tCi0gbG9naW4tdXRpbHMvc3UtY29tbW9uLmMg
-fCA4ICsrKysrKy0tCi0gMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
-bnMoLSkKKyBsb2dpbi11dGlscy9zdS1jb21tb24uYyB8IDEwICsrKysrKystLS0KKyAxIGZpbGUg
-Y2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogCitkaWZmIC0tZ2l0IGEv
-bG9naW4tdXRpbHMvc3UtY29tbW9uLmMgYi9sb2dpbi11dGlscy9zdS1jb21tb24uYworaW5kZXgg
-YjY3NDkyMC4uMzI5N2M3OCAxMDA2NDQKIC0tLSBhL2xvZ2luLXV0aWxzL3N1LWNvbW1vbi5jCiAr
-KysgYi9sb2dpbi11dGlscy9zdS1jb21tb24uYwogQEAgLTI2LDYgKzI2LDcgQEAKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC8wMDAxLWxzY3B1LVVz
-ZS00Sy1idWZmZXItc2l6ZS1pbnN0ZWFkLW9mLUJVRlNJWi5wYXRjaCBiL21ldGEvcmVjaXBlcy1j
-b3JlL3V0aWwtbGludXgvdXRpbC1saW51eC8wMDAxLWxzY3B1LVVzZS00Sy1idWZmZXItc2l6ZS1p
-bnN0ZWFkLW9mLUJVRlNJWi5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNGQ3
-NDg3YzRmNy4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0
-aWwtbGludXgvMDAwMS1sc2NwdS1Vc2UtNEstYnVmZmVyLXNpemUtaW5zdGVhZC1vZi1CVUZTSVou
-cGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSwzOCArMCwwIEBACi1Gcm9tIDk1YjA0MDUzMzg0NDBj
-ZjVjZDZkNGIyYjVjNjZjZGE4YmYzODFiMjggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9t
-OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgotRGF0ZTogRnJpLCAxNSBTZXAgMjAyMyAw
-MDoxODoxOCAtMDcwMAotU3ViamVjdDogW1BBVENIXSBsc2NwdTogVXNlIDRLIGJ1ZmZlciBzaXpl
-IGluc3RlYWQgb2YgQlVGU0laCi0KLVNvbWUgbGluZXMgaW4gL3Byb2MvY3B1aW5mbyBjYW4gYmUg
-bGFyZ2UgZS5nLiBmbGFncyBhbmQgY2FuIHRoZW4KLXRydW5jYXRlIHRoZW0gaW4gZGlzcGxheWlu
-ZyB0aGVtCi0KLUJVRlNJWiBjYW4gdmFyeSBxdWl0ZSBhIGJpdCAgZS5nLiBnbGliYy9saW51eCBz
-eXN0ZW1zIGl0cyA4MTkyCi1idXQgb24gbXVzbC9saW51eCBhbmQgT1NYIGl0cyAxMDI0LCBvbiBt
-aW5nVyBpdCBpcyAyNTYsIHNvbWUgdGVzdHMgZS5nLgoteDg2XzY0LTY0Y3B1LWxpbnV4Ni4yLnRh
-ci5neiBoYXMgYWRkZWQgcmVhbGx5IGxvbmcgbGluZSBmb3IgY3B1IGZsYWdzCi1saW5lIHdoaWNo
-IGlzIGdyZWF0ZXIgdGhhbiAxMDI0IGNoYXJhY3RlcnMgYW5kIGhlbmNlIHRoaXMgdGVzdCBmYWls
-cwotb24gbXVzbCBiZWNhdXNlIGxzY3B1IC1zIHJlcG9ydHMgdHJ1bmNhdGVkIHN0cmluZwotCi1V
-cHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9naXRodWIuY29tL3V0aWwtbGludXgv
-dXRpbC1saW51eC9wdWxsLzI0OTJdCi1TaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1A
-Z21haWwuY29tPgotLS0tCi0gc3lzLXV0aWxzL2xzY3B1LWNwdXR5cGUuYyB8IDQgKysrLQotIDEg
-ZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKLQotZGlmZiAtLWdp
-dCBhL3N5cy11dGlscy9sc2NwdS1jcHV0eXBlLmMgYi9zeXMtdXRpbHMvbHNjcHUtY3B1dHlwZS5j
-Ci1pbmRleCAzZmQ1ZjdhM2MuLmM4ZjcyYWI4YSAxMDA2NDQKLS0tLSBhL3N5cy11dGlscy9sc2Nw
-dS1jcHV0eXBlLmMKLSsrKyBiL3N5cy11dGlscy9sc2NwdS1jcHV0eXBlLmMKLUBAIC00NjIsNyAr
-NDYyLDkgQEAgc3RhdGljIGludCBjcHVpbmZvX3BhcnNlX2NhY2hlKHN0cnVjdCBsc2NwdV9jeHQg
-KmN4dCwgaW50IGtleW51bSwgY2hhciAqZGF0YSkKLSBpbnQgbHNjcHVfcmVhZF9jcHVpbmZvKHN0
-cnVjdCBsc2NwdV9jeHQgKmN4dCkKLSB7Ci0gCUZJTEUgKmZwOwotLQljaGFyIGJ1ZltCVUZTSVpd
-OwotKwkvKiBVc2VkIHRvIGJlIEJVRlNJWiB3aGljaCBpcyBzbWFsbCBvbiBzb21lIHBsYXRmb3Jt
-cyBlLmcsIG11c2wsCi0rCSAqIHRoZXJlZm9yZSBoYXJkY29kZSB0byA0SyAqLwotKwljaGFyIGJ1
-Zls0MDk2XTsKLSAJc2l6ZV90IGk7Ci0gCXN0cnVjdCBsc2NwdV9jcHV0eXBlICpjdDsKLSAJc3Ry
-dWN0IGNwdWluZm9fcGFyc2VyIF9wciA9IHsgLmN4dCA9IGN4dCB9LCAqcHIgPSAmX3ByOwotLS0g
-Ci0yLjQyLjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGls
-LWxpbnV4L2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRp
-bC1saW51eC91dGlsLWxpbnV4L2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCmluZGV4IGYxY2Jk
-YjNiZWIuLmE4NWQ4YTdiZWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGlu
-dXgvdXRpbC1saW51eC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gK
-QEAgLTEsNCArMSw0IEBACi1Gcm9tIGVlM2M3ODEyZTFlZmE2NzE5YWY2OGI5OTQ4MDRmMGU2Y2Fj
-ZWFiZDggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDY5OWQ4NjQwYzIzNWFlYTA3OTc3
-ZTZiN2Q2NmExNzUyOGE0MzMzMmMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBUdWRv
-ciBGbG9yZWEgPHR1ZG9yLmZsb3JlYUBlbmVhLmNvbT4KIERhdGU6IE1vbiwgMTQgSnVuIDIwMjEg
-MTQ6MDA6MzEgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gdXRpbC1saW51eDogQWRkIHB0ZXN0CkBA
-IC0xNSw3ICsxNSw3IEBAIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZQogIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29u
-ZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCA1NjY0ZjlmLi4wNzVlZjI3IDEwMDY0NAor
-aW5kZXggODkwMjEyZi4uODcwZTgxNyAxMDA2NDQKIC0tLSBhL2NvbmZpZ3VyZS5hYwogKysrIGIv
-Y29uZmlndXJlLmFjCiBAQCAtMTEsNyArMTEsNyBAQCBBQ19DT05GSUdfTUFDUk9fRElSKFttNF0p
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvY29u
-ZmlndXJlLXNiaW5kaXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwt
-bGludXgvY29uZmlndXJlLXNiaW5kaXIucGF0Y2gKaW5kZXggZTQ3NTI4OWY2NS4uZTBlYjRkODcz
-YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4L2Nv
-bmZpZ3VyZS1zYmluZGlyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgv
-dXRpbC1saW51eC9jb25maWd1cmUtc2JpbmRpci5wYXRjaApAQCAtMSwzICsxLDggQEAKK0Zyb20g
-ZGNhODJiOWY1Y2ZkNjUxYWVlZmVlZGE5YjUzMWZmMDYxMTY2OTJjYSBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb206IFBoaWwgQmx1bmRlbGwgPHBiQHBiY2wubmV0PgorRGF0ZTogTW9uLCAy
-NCBTZXAgMjAxMiAwNzoyNDo1MSArMDEwMAorU3ViamVjdDogW1BBVENIXSB1dGlsLWxpbnV4OiBF
-bnN1cmUgdGhhdCAke3NiaW5kaXJ9IGlzIHJlc3BlY3RlZAorCiB1dGlsLWxpbnV4OiB0YWtlICR7
-c2JpbmRpcn0gZnJvbSB0aGUgZW52aXJvbm1lbnQgaWYgaXQgaXMgc2V0IHRoZXJlCiBmaXggdGhl
-IHRlc3QsIHRoZSBbIF0gc3ludGF4IHdhcyBnZXR0aW5nIGVhdGVuIGJ5IGF1dG9jb25mCiAKQEAg
-LTUsMTEgKzEwLDE1IEBAIFNpZ25lZC1vZmYtYnk6IFBoaWwgQmx1bmRlbGwgPHBiQHBiY2wubmV0
-PgogU2lnbmVkLW9mZi1ieTogU2F1bCBXb2xkIDxzZ3dAbGludXguaW50ZWwuY29tCiBVcHN0cmVh
-bS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW2NvbmZpZ3VyYXRpb25dCiAKLUluZGV4OiB1dGlsLWxp
-bnV4LTIuMzEvY29uZmlndXJlLmFjCi09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tLS0gdXRpbC1saW51eC0yLjMxLm9y
-aWcvY29uZmlndXJlLmFjCi0rKysgdXRpbC1saW51eC0yLjMxL2NvbmZpZ3VyZS5hYwotQEAgLTg5
-LDcgKzg5LDEwIEBAIEFDX1NVQlNUKFtydW5zdGF0ZWRpcl0pCistLS0KKyBjb25maWd1cmUuYWMg
-fCA1ICsrKystCisgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
-KQorCitkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCitpbmRleCAzNmMy
-NGI0Li44OTAyMTJmIDEwMDY0NAorLS0tIGEvY29uZmlndXJlLmFjCisrKysgYi9jb25maWd1cmUu
-YWMKK0BAIC0xMDIsNyArMTAyLDEwIEBAIEFDX1NVQlNUKFtydW5zdGF0ZWRpcl0pCiAgdXNyYmlu
-X2V4ZWNkaXI9JyR7ZXhlY19wcmVmaXh9L2JpbicKICBBQ19TVUJTVChbdXNyYmluX2V4ZWNkaXJd
-KQogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxpbnV4
-L2Rpc3BsYXlfdGVzdG5hbWVfZm9yX3N1YnRlc3QucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS91
-dGlsLWxpbnV4L3V0aWwtbGludXgvZGlzcGxheV90ZXN0bmFtZV9mb3Jfc3VidGVzdC5wYXRjaApp
-bmRleCA0MTdjYTFkOThmLi4xYzMwZmJlZTJiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29y
-ZS91dGlsLWxpbnV4L3V0aWwtbGludXgvZGlzcGxheV90ZXN0bmFtZV9mb3Jfc3VidGVzdC5wYXRj
-aAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvZGlzcGxheV90
-ZXN0bmFtZV9mb3Jfc3VidGVzdC5wYXRjaApAQCAtMSw0ICsxLDcgQEAKLURpc3BsYXkgdGVzdG5h
-bWUgZm9yIHN1YnRlc3QKK0Zyb20gODllY2NkODYyNjk0OTAzYzkyNmM1OTQ4NDQ5NzRiY2I1ZjJk
-Y2Y2ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb206IFR1ZG9yIEZsb3JlYSA8dHVkb3Iu
-ZmxvcmVhQGVuZWEuY29tPgorRGF0ZTogVGh1LCAzIERlYyAyMDE1IDA0OjA4OjAwICswMTAwCitT
-dWJqZWN0OiBbUEFUQ0hdIERpc3BsYXkgdGVzdG5hbWUgZm9yIHN1YnRlc3QKIAogU2lnbmVkLW9m
-Zi1ieTogVHVkb3IgRmxvcmVhIDx0dWRvci5mbG9yZWFAZW5lYS5jb20+CiBVcHN0cmVhbS1TdGF0
-dXM6IFBlbmRpbmcKQEAgLTgsMTAgKzExLDEwIEBAIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwog
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0t
-Z2l0IGEvdGVzdHMvZnVuY3Rpb25zLnNoIGIvdGVzdHMvZnVuY3Rpb25zLnNoCi1pbmRleCA1MjQ2
-NjA1Li5iMjRkYzE1IDEwMDY0NAoraW5kZXggNWE1NjJhMy4uMDk4MTQ1ZSAxMDA2NDQKIC0tLSBh
-L3Rlc3RzL2Z1bmN0aW9ucy5zaAogKysrIGIvdGVzdHMvZnVuY3Rpb25zLnNoCi1AQCAtMzIwLDcg
-KzMyMCw3IEBAIGZ1bmN0aW9uIHRzX2luaXRfc3VidGVzdCB7CitAQCAtNDM3LDcgKzQzNyw3IEBA
-IGZ1bmN0aW9uIHRzX2luaXRfc3VidGVzdCB7CiAgCiAgCWlmIFsgIiRUU19QQVJTQUJMRSIgIT0g
-InllcyIgXTsgdGhlbgogIAkJWyAkVFNfTlNVQlRFU1RTIC1lcSAxIF0gJiYgZWNobwpAQCAtMjAs
-NiArMjMsMyBAQCBpbmRleCA1MjQ2NjA1Li5iMjRkYzE1IDEwMDY0NAogIAlmaQogIH0KICAKLS0t
-IAotMi44LjMKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGls
-LWxpbnV4L3B0ZXN0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvdXRpbC1saW51eC91dGlsLWxp
-bnV4L3B0ZXN0LnBhdGNoCmluZGV4IGJhMmJkM2Y2YWMuLjZiMzU5MDI1YjMgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1jb3JlL3V0aWwtbGludXgvdXRpbC1saW51eC9wdGVzdC5wYXRjaAorKysg
-Yi9tZXRhL3JlY2lwZXMtY29yZS91dGlsLWxpbnV4L3V0aWwtbGludXgvcHRlc3QucGF0Y2gKQEAg
-LTEsNCArMSw0IEBACi1Gcm9tIGFmMDczYzEzZWYxODRjYTc1ODExZGY2ODhlMGEwYTI1ODI3YjM2
-YzMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDZlYzViNzlkN2M0YjAwMTYzMjY4NWM4
-NzljYmZmYjk2YTA0ZjAwNzYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBUdWRvciBG
-bG9yZWEgPHR1ZG9yLmZsb3JlYUBlbmVhLmNvbT4KIERhdGU6IFRodSwgMyBEZWMgMjAxNSAwNDow
-ODowMCArMDEwMAogU3ViamVjdDogW1BBVENIXSBEZWZpbmUgVEVTVFMgdmFyaWFibGUKQEAgLTEx
-LDcgKzExLDcgQEAgVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCiAgMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFtCi1p
-bmRleCA4ODY1OThkLi4xY2Y0MzQ2IDEwMDY0NAoraW5kZXggZWZmYmIwMi4uN2QyYmQxZSAxMDA2
-NDQKIC0tLSBhL01ha2VmaWxlLmFtCiArKysgYi9NYWtlZmlsZS5hbQogQEAgLTU3LDYgKzU3LDcg
-QEAgc3lzdGVtZHN5c3RlbXVuaXRfREFUQSA9Ci0tIAoyLjQyLjAKCg==
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDU6MTQ6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
+bHVlejU6IHVwZ3JhZGUgNS43MCAtPiA1LjcxCgotLS0KIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvYmx1ZXo1L2JsdWV6NS5pbmMgICB8ICAgMiAtCiAuLi4vMDAwMS10ZXN0LWdhdHQtRml4LWh1
+bmctaXNzdWUucGF0Y2ggICAgICAgfCAgIDIgKy0KIC4uLmV0LWZvci1idWlsZGluZy10ZXN0cy13
+aXRob3V0LXJ1bm5pbi5wYXRjaCB8ICAgNiArLQogLi4uZV9wcm9iZS1mYWlsaW5nLWlmLVNEUC1y
+ZWNvcmQtaXMtbm90LnBhdGNoIHwgMzEzIC0tLS0tLS0tLS0tLS0tLS0tLQogLi4uc2hhcmVkLXV0
+aWwuYy1pbmNsdWRlLWxpbnV4LWxpbWl0cy5oLnBhdGNoIHwgICA3ICstCiAuLi4vYmx1ZXo1L2Js
+dWV6NS9DVkUtMjAyMy00NTg2Ni5wYXRjaCAgICAgICAgfCAgNTYgLS0tLQogLi4uL2JsdWV6NS97
+Ymx1ZXo1XzUuNzAuYmIgPT4gYmx1ZXo1XzUuNzEuYmJ9IHwgICAyICstCiA3IGZpbGVzIGNoYW5n
+ZWQsIDkgaW5zZXJ0aW9ucygrKSwgMzc5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0
+IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS8wMDAyLWlucHV0LUZpeC0u
+ZGV2aWNlX3Byb2JlLWZhaWxpbmctaWYtU0RQLXJlY29yZC1pcy1ub3QucGF0Y2gKIGRlbGV0ZSBt
+b2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvQ1ZFLTIw
+MjMtNDU4NjYucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS97
+Ymx1ZXo1XzUuNzAuYmIgPT4gYmx1ZXo1XzUuNzEuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LmluYyBiL21ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS5pbmMKaW5kZXggMGJiMTU3ZTIwMi4uZTEwMTU4YTZl
+NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1Lmlu
+YworKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUuaW5jCkBAIC01
+NSw4ICs1NSw2IEBAIFNSQ19VUkkgPSAiJHtLRVJORUxPUkdfTUlSUk9SfS9saW51eC9ibHVldG9v
+dGgvYmx1ZXotJHtQVn0udGFyLnh6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtdGVzdHMtYWRk
+LWEtdGFyZ2V0LWZvci1idWlsZGluZy10ZXN0cy13aXRob3V0LXJ1bm5pbi5wYXRjaCBcCiAgICAg
+ICAgICAgIGZpbGU6Ly8wMDAxLXRlc3QtZ2F0dC1GaXgtaHVuZy1pc3N1ZS5wYXRjaCBcCiAgICAg
+ICAgICAgIGZpbGU6Ly8wMDA0LXNyYy1zaGFyZWQtdXRpbC5jLWluY2x1ZGUtbGludXgtbGltaXRz
+LmgucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vMDAwMi1pbnB1dC1GaXgtLmRldmljZV9wcm9i
+ZS1mYWlsaW5nLWlmLVNEUC1yZWNvcmQtaXMtbm90LnBhdGNoIFwKLQkgICBmaWxlOi8vQ1ZFLTIw
+MjMtNDU4NjYucGF0Y2ggXAogICAgICAgICAgICAiCiBTID0gIiR7V09SS0RJUn0vYmx1ZXotJHtQ
+Vn0iCiAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6
+NS8wMDAxLXRlc3QtZ2F0dC1GaXgtaHVuZy1pc3N1ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS8wMDAxLXRlc3QtZ2F0dC1GaXgtaHVuZy1pc3N1ZS5wYXRj
+aAppbmRleCAwNmViZjFjZGU2Li4zNTQ2YzdjMzA1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvMDAwMS10ZXN0LWdhdHQtRml4LWh1bmctaXNzdWUu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDEt
+dGVzdC1nYXR0LUZpeC1odW5nLWlzc3VlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3ZGNj
+NWY0NmEzMWFjNGVhYTY3YzBhYjNhYWFlMzgwMDVkYjc0NThmIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQorRnJvbSBlODgwOGEyZjVlMTdkMzc1NDExYzc0MDllYWZmYjE3ZTcyZjY1MDIyIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWluZ2xpIFl1IDxNaW5nbGkuWXVAd2luZHJpdmVy
+LmNvbT4KIERhdGU6IEZyaSwgMjQgQXVnIDIwMTggMTI6MDQ6MDMgKzA4MDAKIFN1YmplY3Q6IFtQ
+QVRDSF0gdGVzdC1nYXR0OiBGaXggaHVuZyBpc3N1ZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDEtdGVzdHMtYWRkLWEtdGFyZ2V0LWZvci1i
+dWlsZGluZy10ZXN0cy13aXRob3V0LXJ1bm5pbi5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvYmx1ZXo1L2JsdWV6NS8wMDAxLXRlc3RzLWFkZC1hLXRhcmdldC1mb3ItYnVpbGRpbmct
+dGVzdHMtd2l0aG91dC1ydW5uaW4ucGF0Y2gKaW5kZXggN2M0N2NjMWExZS4uYmUwNTA5MzU1MSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDEt
+dGVzdHMtYWRkLWEtdGFyZ2V0LWZvci1idWlsZGluZy10ZXN0cy13aXRob3V0LXJ1bm5pbi5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvMDAwMS10ZXN0
+cy1hZGQtYS10YXJnZXQtZm9yLWJ1aWxkaW5nLXRlc3RzLXdpdGhvdXQtcnVubmluLnBhdGNoCkBA
+IC0xLDQgKzEsNCBAQAotRnJvbSBhNjU3ZmRkZDEzYTJlNzU2YjBhZjMxNTMwMWYxYzQ0MDgxZTJm
+NjY4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzNzI0OTU4ODU4YjBlZTQzMGYzN2Zi
+ODMzODhjMzczN2QyMDM5YTNhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFu
+ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDEgQXByIDIw
+MTYgMTc6MDc6MzQgKzAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IGFkZCBhIHRhcmdldCBm
+b3IgYnVpbGRpbmcgdGVzdHMgd2l0aG91dCBydW5uaW5nIHRoZW0KQEAgLTExLDEwICsxMSwxMCBA
+QCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
+bT4KICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS9NYWtl
+ZmlsZS5hbSBiL01ha2VmaWxlLmFtCi1pbmRleCA3MDQxZjhlLi4yNTk2NmNkIDEwMDY0NAoraW5k
+ZXggZTcyMjFiZC4uOTU5NWZkMSAxMDA2NDQKIC0tLSBhL01ha2VmaWxlLmFtCiArKysgYi9NYWtl
+ZmlsZS5hbQotQEAgLTU5NCw2ICs1OTQsOSBAQCBlbmRpZgorQEAgLTcxMCw2ICs3MTAsOSBAQCBl
+bmRpZgogIFRFU1RTID0gJCh1bml0X3Rlc3RzKQogIEFNX1RFU1RTX0VOVklST05NRU5UID0gTUFM
+TE9DX0NIRUNLXz0zIE1BTExPQ19QRVJUVVJCXz02OQogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDItaW5wdXQtRml4LS5kZXZpY2VfcHJv
+YmUtZmFpbGluZy1pZi1TRFAtcmVjb3JkLWlzLW5vdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS8wMDAyLWlucHV0LUZpeC0uZGV2aWNlX3Byb2JlLWZhaWxp
+bmctaWYtU0RQLXJlY29yZC1pcy1ub3QucGF0Y2gKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cmlu
+ZGV4IGQwODg0MzM4ZGIuLjAwMDAwMDAwMDAKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9ibHVlejUvYmx1ZXo1LzAwMDItaW5wdXQtRml4LS5kZXZpY2VfcHJvYmUtZmFpbGluZy1pZi1T
+RFAtcmVjb3JkLWlzLW5vdC5wYXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDMxMyArMCwwIEBACi1G
+cm9tIDNhOWM2MzcwMTBmOGRjMWJhM2U4MzgyYWJlMDEwNjU3NjFkNGY1YmIgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCi1Gcm9tOiBMdWl6IEF1Z3VzdG8gdm9uIERlbnR6IDxsdWl6LnZvbi5kZW50
+ekBpbnRlbC5jb20+Ci1EYXRlOiBUdWUsIDEwIE9jdCAyMDIzIDEyOjM4OjI5IC0wNzAwCi1TdWJq
+ZWN0OiBbUEFUQ0ggMDIvNDBdIGlucHV0OiBGaXggLmRldmljZV9wcm9iZSBmYWlsaW5nIGlmIFNE
+UCByZWNvcmQgaXMgbm90Ci0gZm91bmQKLQotRHVlIHRvIGNoYW5nZXMgaW50cm9kdWNlZCBieSA2
+N2EyNmFiZTUzYmYKLSgicHJvZmlsZTogQWRkIHByb2JlX29uX2Rpc2NvdmVyIGZsYWciKSBwcm9m
+aWxlcyBtYXkgZ2V0IHByb2JlZCB3aGVuCi10aGVpciBwcm9maWxlIFVVSUQgYXJlIGRpc2NvdmVy
+ZWQsIHJhdGhlciB0aGFuIHJlc29sdmVkLCB3aGljaCBtZWFucwotdGhlIFNEUCByZWNvcmQgbWF5
+IG5vdCBiZSBhdmFpbGFibGUuCi0KLUZpeGVzOiBodHRwczovL2dpdGh1Yi5jb20vYmx1ZXovYmx1
+ZXovaXNzdWVzLzYxNAotCi1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGh1
+Yi5jb20vYmx1ZXovYmx1ZXovY29tbWl0LzNhOWM2MzcwMTBmOGRjMWJhM2U4MzgyYWJlMDEwNjU3
+NjFkNGY1YmJdCi0tLS0KLSBwcm9maWxlcy9pbnB1dC9kZXZpY2UuYyB8IDE4MiArKysrKysrKysr
+KysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tCi0gMSBmaWxlIGNoYW5nZWQsIDg0IGluc2Vy
+dGlvbnMoKyksIDk4IGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvcHJvZmlsZXMvaW5wdXQv
+ZGV2aWNlLmMgYi9wcm9maWxlcy9pbnB1dC9kZXZpY2UuYwotaW5kZXggZTJhYzZlYTYwLi40YTUw
+ZWE5OTIgMTAwNjQ0Ci0tLS0gYS9wcm9maWxlcy9pbnB1dC9kZXZpY2UuYwotKysrIGIvcHJvZmls
+ZXMvaW5wdXQvZGV2aWNlLmMKLUBAIC02MCw3ICs2MCw3IEBAIHN0cnVjdCBpbnB1dF9kZXZpY2Ug
+ewotIAljaGFyCQkJKnBhdGg7Ci0gCWJkYWRkcl90CQlzcmM7Ci0gCWJkYWRkcl90CQlkc3Q7Ci0t
+CXVpbnQzMl90CQloYW5kbGU7Ci0rCWNvbnN0IHNkcF9yZWNvcmRfdAkqcmVjOwotIAlHSU9DaGFu
+bmVsCQkqY3RybF9pbzsKLSAJR0lPQ2hhbm5lbAkJKmludHJfaW87Ci0gCWd1aW50CQkJY3RybF93
+YXRjaDsKLUBAIC03NTQsNyArNzU0LDggQEAgc3RhdGljIHZvaWQgZXBveF9lbmRpYW5fcXVpcmso
+dW5zaWduZWQgY2hhciAqZGF0YSwgaW50IHNpemUpCi0gCX0KLSB9Ci0gCi0tc3RhdGljIGludCBj
+cmVhdGVfaGlkX2Rldl9uYW1lKHNkcF9yZWNvcmRfdCAqcmVjLCBzdHJ1Y3QgaGlkcF9jb25uYWRk
+X3JlcSAqcmVxKQotK3N0YXRpYyBpbnQgY3JlYXRlX2hpZF9kZXZfbmFtZShjb25zdCBzZHBfcmVj
+b3JkX3QgKnJlYywKLSsJCQkJCXN0cnVjdCBoaWRwX2Nvbm5hZGRfcmVxICpyZXEpCi0gewotIAlj
+aGFyIHNkZXNjW3NpemVvZihyZXEtPm5hbWUpIC8gMl07Ci0gCi1AQCAtNzc2LDcgKzc3Nyw3IEBA
+IHN0YXRpYyBpbnQgY3JlYXRlX2hpZF9kZXZfbmFtZShzZHBfcmVjb3JkX3QgKnJlYywgc3RydWN0
+IGhpZHBfY29ubmFkZF9yZXEgKnJlcSkKLSAKLSAvKiBTZWUgSElEIHByb2ZpbGUgc3BlY2lmaWNh
+dGlvbiB2MS4wLCAiNy4xMS42IEhJRERlc2NyaXB0b3JMaXN0IiBmb3IgZGV0YWlscwotICAqIG9u
+IHRoZSBhdHRyaWJ1dGUgZm9ybWF0LiAqLwotLXN0YXRpYyBpbnQgZXh0cmFjdF9oaWRfZGVzY19k
+YXRhKHNkcF9yZWNvcmRfdCAqcmVjLAotK3N0YXRpYyBpbnQgZXh0cmFjdF9oaWRfZGVzY19kYXRh
+KGNvbnN0IHNkcF9yZWNvcmRfdCAqcmVjLAotIAkJCQkJCXN0cnVjdCBoaWRwX2Nvbm5hZGRfcmVx
+ICpyZXEpCi0gewotIAlzZHBfZGF0YV90ICpkOwotQEAgLTgxNywzNiArODE4LDQwIEBAIGludmFs
+aWRfZGVzYzoKLSAJcmV0dXJuIC1FSU5WQUw7Ci0gfQotIAotLXN0YXRpYyBpbnQgZXh0cmFjdF9o
+aWRfcmVjb3JkKHNkcF9yZWNvcmRfdCAqcmVjLCBzdHJ1Y3QgaGlkcF9jb25uYWRkX3JlcSAqcmVx
+KQotK3N0YXRpYyBpbnQgZXh0cmFjdF9oaWRfcmVjb3JkKHN0cnVjdCBpbnB1dF9kZXZpY2UgKmlk
+ZXYsCi0rCQkJCQlzdHJ1Y3QgaGlkcF9jb25uYWRkX3JlcSAqcmVxKQotIHsKLSAJc2RwX2RhdGFf
+dCAqcGRsaXN0OwotIAl1aW50OF90IGF0dHJfdmFsOwotIAlpbnQgZXJyOwotIAotLQllcnIgPSBj
+cmVhdGVfaGlkX2Rldl9uYW1lKHJlYywgcmVxKTsKLSsJaWYgKCFpZGV2LT5yZWMpCi0rCQlyZXR1
+cm4gLUVOT0VOVDsKLSsKLSsJZXJyID0gY3JlYXRlX2hpZF9kZXZfbmFtZShpZGV2LT5yZWMsIHJl
+cSk7Ci0gCWlmIChlcnIgPCAwKQotIAkJREJHKCJObyB2YWxpZCBTZXJ2aWNlIE5hbWUgb3IgU2Vy
+dmljZSBEZXNjcmlwdGlvbiBmb3VuZCIpOwotIAotLQlwZGxpc3QgPSBzZHBfZGF0YV9nZXQocmVj
+LCBTRFBfQVRUUl9ISURfUEFSU0VSX1ZFUlNJT04pOwotKwlwZGxpc3QgPSBzZHBfZGF0YV9nZXQo
+aWRldi0+cmVjLCBTRFBfQVRUUl9ISURfUEFSU0VSX1ZFUlNJT04pOwotIAlyZXEtPnBhcnNlciA9
+IHBkbGlzdCA/IHBkbGlzdC0+dmFsLnVpbnQxNiA6IDB4MDEwMDsKLSAKLS0JcGRsaXN0ID0gc2Rw
+X2RhdGFfZ2V0KHJlYywgU0RQX0FUVFJfSElEX0RFVklDRV9TVUJDTEFTUyk7Ci0rCXBkbGlzdCA9
+IHNkcF9kYXRhX2dldChpZGV2LT5yZWMsIFNEUF9BVFRSX0hJRF9ERVZJQ0VfU1VCQ0xBU1MpOwot
+IAlyZXEtPnN1YmNsYXNzID0gcGRsaXN0ID8gcGRsaXN0LT52YWwudWludDggOiAwOwotIAotLQlw
+ZGxpc3QgPSBzZHBfZGF0YV9nZXQocmVjLCBTRFBfQVRUUl9ISURfQ09VTlRSWV9DT0RFKTsKLSsJ
+cGRsaXN0ID0gc2RwX2RhdGFfZ2V0KGlkZXYtPnJlYywgU0RQX0FUVFJfSElEX0NPVU5UUllfQ09E
+RSk7Ci0gCXJlcS0+Y291bnRyeSA9IHBkbGlzdCA/IHBkbGlzdC0+dmFsLnVpbnQ4IDogMDsKLSAK
+LS0JcGRsaXN0ID0gc2RwX2RhdGFfZ2V0KHJlYywgU0RQX0FUVFJfSElEX1ZJUlRVQUxfQ0FCTEUp
+OwotKwlwZGxpc3QgPSBzZHBfZGF0YV9nZXQoaWRldi0+cmVjLCBTRFBfQVRUUl9ISURfVklSVFVB
+TF9DQUJMRSk7Ci0gCWF0dHJfdmFsID0gcGRsaXN0ID8gcGRsaXN0LT52YWwudWludDggOiAwOwot
+IAlpZiAoYXR0cl92YWwpCi0gCQlyZXEtPmZsYWdzIHw9ICgxIDw8IEhJRFBfVklSVFVBTF9DQUJM
+RV9VTlBMVUcpOwotIAotLQlwZGxpc3QgPSBzZHBfZGF0YV9nZXQocmVjLCBTRFBfQVRUUl9ISURf
+Qk9PVF9ERVZJQ0UpOwotKwlwZGxpc3QgPSBzZHBfZGF0YV9nZXQoaWRldi0+cmVjLCBTRFBfQVRU
+Ul9ISURfQk9PVF9ERVZJQ0UpOwotIAlhdHRyX3ZhbCA9IHBkbGlzdCA/IHBkbGlzdC0+dmFsLnVp
+bnQ4IDogMDsKLSAJaWYgKGF0dHJfdmFsKQotIAkJcmVxLT5mbGFncyB8PSAoMSA8PCBISURQX0JP
+T1RfUFJPVE9DT0xfTU9ERSk7Ci0gCi0tCWVyciA9IGV4dHJhY3RfaGlkX2Rlc2NfZGF0YShyZWMs
+IHJlcSk7Ci0rCWVyciA9IGV4dHJhY3RfaGlkX2Rlc2NfZGF0YShpZGV2LT5yZWMsIHJlcSk7Ci0g
+CWlmIChlcnIgPCAwKQotIAkJcmV0dXJuIGVycjsKLSAKLUBAIC0xMDM1LDExICsxMDQwLDYgQEAg
+c3RhdGljIGdib29sZWFuIGVuY3J5cHRfbm90aWZ5KEdJT0NoYW5uZWwgKmlvLCBHSU9Db25kaXRp
+b24gY29uZGl0aW9uLAotIHN0YXRpYyBpbnQgaGlkcF9hZGRfY29ubmVjdGlvbihzdHJ1Y3QgaW5w
+dXRfZGV2aWNlICppZGV2KQotIHsKLSAJc3RydWN0IGhpZHBfY29ubmFkZF9yZXEgKnJlcTsKLS0J
+c2RwX3JlY29yZF90ICpyZWM7Ci0tCWNoYXIgc3JjX2FkZHJbMThdLCBkc3RfYWRkclsxOF07Ci0t
+CWNoYXIgZmlsZW5hbWVbUEFUSF9NQVhdOwotLQlHS2V5RmlsZSAqa2V5X2ZpbGU7Ci0tCWNoYXIg
+aGFuZGxlWzExXSwgKnN0cjsKLSAJR0Vycm9yICpnZXJyID0gTlVMTDsKLSAJaW50IGVycjsKLSAK
+LUBAIC0xMDQ5LDMzICsxMDQ5LDcgQEAgc3RhdGljIGludCBoaWRwX2FkZF9jb25uZWN0aW9uKHN0
+cnVjdCBpbnB1dF9kZXZpY2UgKmlkZXYpCi0gCXJlcS0+ZmxhZ3MgICAgID0gMDsKLSAJcmVxLT5p
+ZGxlX3RvICAgPSBpZGxlX3RpbWVvdXQ7Ci0gCi0tCWJhMnN0cigmaWRldi0+c3JjLCBzcmNfYWRk
+cik7Ci0tCWJhMnN0cigmaWRldi0+ZHN0LCBkc3RfYWRkcik7Ci0tCi0tCXNucHJpbnRmKGZpbGVu
+YW1lLCBQQVRIX01BWCwgU1RPUkFHRURJUiAiLyVzL2NhY2hlLyVzIiwgc3JjX2FkZHIsCi0tCQkJ
+CQkJCQlkc3RfYWRkcik7Ci0tCXNwcmludGYoaGFuZGxlLCAiMHglOC44WCIsIGlkZXYtPmhhbmRs
+ZSk7Ci0tCi0tCWtleV9maWxlID0gZ19rZXlfZmlsZV9uZXcoKTsKLS0JaWYgKCFnX2tleV9maWxl
+X2xvYWRfZnJvbV9maWxlKGtleV9maWxlLCBmaWxlbmFtZSwgMCwgJmdlcnIpKSB7Ci0tCQllcnJv
+cigiVW5hYmxlIHRvIGxvYWQga2V5IGZpbGUgZnJvbSAlczogKCVzKSIsIGZpbGVuYW1lLAotLQkJ
+CQkJCQkJZ2Vyci0+bWVzc2FnZSk7Ci0tCQlnX2NsZWFyX2Vycm9yKCZnZXJyKTsKLS0JfQotLQlz
+dHIgPSBnX2tleV9maWxlX2dldF9zdHJpbmcoa2V5X2ZpbGUsICJTZXJ2aWNlUmVjb3JkcyIsIGhh
+bmRsZSwgTlVMTCk7Ci0tCWdfa2V5X2ZpbGVfZnJlZShrZXlfZmlsZSk7Ci0tCi0tCWlmICghc3Ry
+KSB7Ci0tCQllcnJvcigiUmVqZWN0ZWQgY29ubmVjdGlvbiBmcm9tIHVua25vd24gZGV2aWNlICVz
+IiwgZHN0X2FkZHIpOwotLQkJZXJyID0gLUVQRVJNOwotLQkJZ290byBjbGVhbnVwOwotLQl9Ci0t
+Ci0tCXJlYyA9IHJlY29yZF9mcm9tX3N0cmluZyhzdHIpOwotLQlnX2ZyZWUoc3RyKTsKLS0KLS0J
+ZXJyID0gZXh0cmFjdF9oaWRfcmVjb3JkKHJlYywgcmVxKTsKLS0Jc2RwX3JlY29yZF9mcmVlKHJl
+Yyk7Ci0rCWVyciA9IGV4dHJhY3RfaGlkX3JlY29yZChpZGV2LCByZXEpOwotIAlpZiAoZXJyIDwg
+MCkgewotIAkJZXJyb3IoIkNvdWxkIG5vdCBwYXJzZSBISUQgU0RQIHJlY29yZDogJXMgKCVkKSIs
+IHN0cmVycm9yKC1lcnIpLAotIAkJCQkJCQkJCS1lcnIpOwotQEAgLTEwOTEsNyArMTA2NSw3IEBA
+IHN0YXRpYyBpbnQgaGlkcF9hZGRfY29ubmVjdGlvbihzdHJ1Y3QgaW5wdXRfZGV2aWNlICppZGV2
+KQotIAotIAkvKiBNYWtlIHN1cmUgdGhlIGRldmljZSBpcyBib25kZWQgaWYgcmVxdWlyZWQgKi8K
+LSAJaWYgKGNsYXNzaWNfYm9uZGVkX29ubHkgJiYgIWlucHV0X2RldmljZV9ib25kZWQoaWRldikp
+IHsKLS0JCWVycm9yKCJSZWplY3RlZCBjb25uZWN0aW9uIGZyb20gIWJvbmRlZCBkZXZpY2UgJXMi
+LCBkc3RfYWRkcik7Ci0rCQllcnJvcigiUmVqZWN0ZWQgY29ubmVjdGlvbiBmcm9tICFib25kZWQg
+ZGV2aWNlICVzIiwgaWRldi0+cGF0aCk7Ci0gCQlnb3RvIGNsZWFudXA7Ci0gCX0KLSAKLUBAIC0x
+MTYxLDYgKzExMzUsNjggQEAgc3RhdGljIGludCBjb25uZWN0aW9uX2Rpc2Nvbm5lY3Qoc3RydWN0
+IGlucHV0X2RldmljZSAqaWRldiwgdWludDMyX3QgZmxhZ3MpCi0gCQlyZXR1cm4gaW9jdGxfZGlz
+Y29ubmVjdChpZGV2LCBmbGFncyk7Ci0gfQotIAotK3N0YXRpYyBib29sIGlzX2RldmljZV9zZHBf
+ZGlzYWJsZShjb25zdCBzZHBfcmVjb3JkX3QgKnJlYykKLSt7Ci0rCXNkcF9kYXRhX3QgKmRhdGE7
+Ci0rCi0rCWRhdGEgPSBzZHBfZGF0YV9nZXQocmVjLCBTRFBfQVRUUl9ISURfU0RQX0RJU0FCTEUp
+OwotKwotKwlyZXR1cm4gZGF0YSAmJiBkYXRhLT52YWwudWludDg7Ci0rfQotKwotK3N0YXRpYyBl
+bnVtIHJlY29ubmVjdF9tb2RlX3QgaGlkX3JlY29ubmVjdGlvbl9tb2RlKGJvb2wgcmVjb25uZWN0
+X2luaXRpYXRlLAotKwkJCQkJCWJvb2wgbm9ybWFsbHlfY29ubmVjdGFibGUpCi0rewotKwlpZiAo
+IXJlY29ubmVjdF9pbml0aWF0ZSAmJiAhbm9ybWFsbHlfY29ubmVjdGFibGUpCi0rCQlyZXR1cm4g
+UkVDT05ORUNUX05PTkU7Ci0rCWVsc2UgaWYgKCFyZWNvbm5lY3RfaW5pdGlhdGUgJiYgbm9ybWFs
+bHlfY29ubmVjdGFibGUpCi0rCQlyZXR1cm4gUkVDT05ORUNUX0hPU1Q7Ci0rCWVsc2UgaWYgKHJl
+Y29ubmVjdF9pbml0aWF0ZSAmJiAhbm9ybWFsbHlfY29ubmVjdGFibGUpCi0rCQlyZXR1cm4gUkVD
+T05ORUNUX0RFVklDRTsKLSsJZWxzZSAvKiAocmVjb25uZWN0X2luaXRpYXRlICYmIG5vcm1hbGx5
+X2Nvbm5lY3RhYmxlKSAqLwotKwkJcmV0dXJuIFJFQ09OTkVDVF9BTlk7Ci0rfQotKwotK3N0YXRp
+YyB2b2lkIGV4dHJhY3RfaGlkX3Byb3BzKHN0cnVjdCBpbnB1dF9kZXZpY2UgKmlkZXYsCi0rCQkJ
+CQljb25zdCBzZHBfcmVjb3JkX3QgKnJlYykKLSt7Ci0rCS8qIEV4dHJhY3QgSElEIGNvbm5lY3Rh
+YmlsaXR5ICovCi0rCWJvb2wgcmVjb25uZWN0X2luaXRpYXRlLCBub3JtYWxseV9jb25uZWN0YWJs
+ZTsKLSsJc2RwX2RhdGFfdCAqcGRsaXN0OwotKwotKwkvKiBISUROb3JtYWxseUNvbm5lY3RhYmxl
+IGlzIG9wdGlvbmFsIGFuZCBhc3N1bWVkIEZBTFNFIGlmIG5vdAotKwkgKiBwcmVzZW50LgotKwkg
+Ki8KLSsJcGRsaXN0ID0gc2RwX2RhdGFfZ2V0KHJlYywgU0RQX0FUVFJfSElEX1JFQ09OTkVDVF9J
+TklUSUFURSk7Ci0rCXJlY29ubmVjdF9pbml0aWF0ZSA9IHBkbGlzdCA/IHBkbGlzdC0+dmFsLnVp
+bnQ4IDogVFJVRTsKLSsKLSsJcGRsaXN0ID0gc2RwX2RhdGFfZ2V0KHJlYywgU0RQX0FUVFJfSElE
+X05PUk1BTExZX0NPTk5FQ1RBQkxFKTsKLSsJbm9ybWFsbHlfY29ubmVjdGFibGUgPSBwZGxpc3Qg
+PyBwZGxpc3QtPnZhbC51aW50OCA6IEZBTFNFOwotKwotKwkvKiBVcGRhdGUgbG9jYWwgdmFsdWVz
+ICovCi0rCWlkZXYtPnJlY29ubmVjdF9tb2RlID0KLSsJCWhpZF9yZWNvbm5lY3Rpb25fbW9kZShy
+ZWNvbm5lY3RfaW5pdGlhdGUsIG5vcm1hbGx5X2Nvbm5lY3RhYmxlKTsKLSt9Ci0rCi0rc3RhdGlj
+IHZvaWQgaW5wdXRfZGV2aWNlX3VwZGF0ZV9yZWMoc3RydWN0IGlucHV0X2RldmljZSAqaWRldikK
+LSt7Ci0rCXN0cnVjdCBidGRfcHJvZmlsZSAqcCA9IGJ0ZF9zZXJ2aWNlX2dldF9wcm9maWxlKGlk
+ZXYtPnNlcnZpY2UpOwotKwljb25zdCBzZHBfcmVjb3JkX3QgKnJlYzsKLSsKLSsJcmVjID0gYnRk
+X2RldmljZV9nZXRfcmVjb3JkKGlkZXYtPmRldmljZSwgcC0+cmVtb3RlX3V1aWQpOwotKwlpZiAo
+IXJlYyB8fCBpZGV2LT5yZWMgPT0gcmVjKQotKwkJcmV0dXJuOwotKwotKwlpZGV2LT5yZWMgPSBy
+ZWM7Ci0rCWlkZXYtPmRpc2FibGVfc2RwID0gaXNfZGV2aWNlX3NkcF9kaXNhYmxlKHJlYyk7Ci0r
+Ci0rCS8qIEluaXRpYWxpemUgZGV2aWNlIHByb3BlcnRpZXMgKi8KLSsJZXh0cmFjdF9oaWRfcHJv
+cHMoaWRldiwgcmVjKTsKLSsKLSsJaWYgKGlkZXYtPmRpc2FibGVfc2RwKQotKwkJZGV2aWNlX3Nl
+dF9yZWZyZXNoX2Rpc2NvdmVyeShpZGV2LT5kZXZpY2UsIGZhbHNlKTsKLSt9Ci0rCi0gc3RhdGlj
+IGludCBpbnB1dF9kZXZpY2VfY29ubmVjdGVkKHN0cnVjdCBpbnB1dF9kZXZpY2UgKmlkZXYpCi0g
+ewotIAlpbnQgZXJyOwotQEAgLTExNjgsNiArMTIwNCw5IEBAIHN0YXRpYyBpbnQgaW5wdXRfZGV2
+aWNlX2Nvbm5lY3RlZChzdHJ1Y3QgaW5wdXRfZGV2aWNlICppZGV2KQotIAlpZiAoaWRldi0+aW50
+cl9pbyA9PSBOVUxMIHx8IGlkZXYtPmN0cmxfaW8gPT0gTlVMTCkKLSAJCXJldHVybiAtRU5PVENP
+Tk47Ci0gCi0rCS8qIEF0dGVtcHQgdG8gdXBkYXRlIFNEUCByZWNvcmQgaWYgaXQgaGFkIGNoYW5n
+ZWQgKi8KLSsJaW5wdXRfZGV2aWNlX3VwZGF0ZV9yZWMoaWRldik7Ci0rCi0gCWVyciA9IGhpZHBf
+YWRkX2Nvbm5lY3Rpb24oaWRldik7Ci0gCWlmIChlcnIgPCAwKQotIAkJcmV0dXJuIGVycjsKLUBA
+IC0xNDExLDc0ICsxNDUwLDIxIEBAIGludCBpbnB1dF9kZXZpY2VfZGlzY29ubmVjdChzdHJ1Y3Qg
+YnRkX3NlcnZpY2UgKnNlcnZpY2UpCi0gCXJldHVybiAwOwotIH0KLSAKLS1zdGF0aWMgYm9vbCBp
+c19kZXZpY2Vfc2RwX2Rpc2FibGUoY29uc3Qgc2RwX3JlY29yZF90ICpyZWMpCi0tewotLQlzZHBf
+ZGF0YV90ICpkYXRhOwotLQotLQlkYXRhID0gc2RwX2RhdGFfZ2V0KHJlYywgU0RQX0FUVFJfSElE
+X1NEUF9ESVNBQkxFKTsKLS0KLS0JcmV0dXJuIGRhdGEgJiYgZGF0YS0+dmFsLnVpbnQ4OwotLX0K
+LS0KLS1zdGF0aWMgZW51bSByZWNvbm5lY3RfbW9kZV90IGhpZF9yZWNvbm5lY3Rpb25fbW9kZShi
+b29sIHJlY29ubmVjdF9pbml0aWF0ZSwKLS0JCQkJCQlib29sIG5vcm1hbGx5X2Nvbm5lY3RhYmxl
+KQotLXsKLS0JaWYgKCFyZWNvbm5lY3RfaW5pdGlhdGUgJiYgIW5vcm1hbGx5X2Nvbm5lY3RhYmxl
+KQotLQkJcmV0dXJuIFJFQ09OTkVDVF9OT05FOwotLQllbHNlIGlmICghcmVjb25uZWN0X2luaXRp
+YXRlICYmIG5vcm1hbGx5X2Nvbm5lY3RhYmxlKQotLQkJcmV0dXJuIFJFQ09OTkVDVF9IT1NUOwot
+LQllbHNlIGlmIChyZWNvbm5lY3RfaW5pdGlhdGUgJiYgIW5vcm1hbGx5X2Nvbm5lY3RhYmxlKQot
+LQkJcmV0dXJuIFJFQ09OTkVDVF9ERVZJQ0U7Ci0tCWVsc2UgLyogKHJlY29ubmVjdF9pbml0aWF0
+ZSAmJiBub3JtYWxseV9jb25uZWN0YWJsZSkgKi8KLS0JCXJldHVybiBSRUNPTk5FQ1RfQU5ZOwot
+LX0KLS0KLS1zdGF0aWMgdm9pZCBleHRyYWN0X2hpZF9wcm9wcyhzdHJ1Y3QgaW5wdXRfZGV2aWNl
+ICppZGV2LAotLQkJCQkJY29uc3Qgc2RwX3JlY29yZF90ICpyZWMpCi0tewotLQkvKiBFeHRyYWN0
+IEhJRCBjb25uZWN0YWJpbGl0eSAqLwotLQlib29sIHJlY29ubmVjdF9pbml0aWF0ZSwgbm9ybWFs
+bHlfY29ubmVjdGFibGU7Ci0tCXNkcF9kYXRhX3QgKnBkbGlzdDsKLS0KLS0JLyogSElETm9ybWFs
+bHlDb25uZWN0YWJsZSBpcyBvcHRpb25hbCBhbmQgYXNzdW1lZCBGQUxTRQotLQkqIGlmIG5vdCBw
+cmVzZW50LiAqLwotLQlwZGxpc3QgPSBzZHBfZGF0YV9nZXQocmVjLCBTRFBfQVRUUl9ISURfUkVD
+T05ORUNUX0lOSVRJQVRFKTsKLS0JcmVjb25uZWN0X2luaXRpYXRlID0gcGRsaXN0ID8gcGRsaXN0
+LT52YWwudWludDggOiBUUlVFOwotLQotLQlwZGxpc3QgPSBzZHBfZGF0YV9nZXQocmVjLCBTRFBf
+QVRUUl9ISURfTk9STUFMTFlfQ09OTkVDVEFCTEUpOwotLQlub3JtYWxseV9jb25uZWN0YWJsZSA9
+IHBkbGlzdCA/IHBkbGlzdC0+dmFsLnVpbnQ4IDogRkFMU0U7Ci0tCi0tCS8qIFVwZGF0ZSBsb2Nh
+bCB2YWx1ZXMgKi8KLS0JaWRldi0+cmVjb25uZWN0X21vZGUgPQotLQkJaGlkX3JlY29ubmVjdGlv
+bl9tb2RlKHJlY29ubmVjdF9pbml0aWF0ZSwgbm9ybWFsbHlfY29ubmVjdGFibGUpOwotLX0KLS0K
+LSBzdGF0aWMgc3RydWN0IGlucHV0X2RldmljZSAqaW5wdXRfZGV2aWNlX25ldyhzdHJ1Y3QgYnRk
+X3NlcnZpY2UgKnNlcnZpY2UpCi0gewotIAlzdHJ1Y3QgYnRkX2RldmljZSAqZGV2aWNlID0gYnRk
+X3NlcnZpY2VfZ2V0X2RldmljZShzZXJ2aWNlKTsKLS0Jc3RydWN0IGJ0ZF9wcm9maWxlICpwID0g
+YnRkX3NlcnZpY2VfZ2V0X3Byb2ZpbGUoc2VydmljZSk7Ci0gCWNvbnN0IGNoYXIgKnBhdGggPSBk
+ZXZpY2VfZ2V0X3BhdGgoZGV2aWNlKTsKLS0JY29uc3Qgc2RwX3JlY29yZF90ICpyZWMgPSBidGRf
+ZGV2aWNlX2dldF9yZWNvcmQoZGV2aWNlLCBwLT5yZW1vdGVfdXVpZCk7Ci0gCXN0cnVjdCBidGRf
+YWRhcHRlciAqYWRhcHRlciA9IGRldmljZV9nZXRfYWRhcHRlcihkZXZpY2UpOwotIAlzdHJ1Y3Qg
+aW5wdXRfZGV2aWNlICppZGV2OwotIAotLQlpZiAoIXJlYykKLS0JCXJldHVybiBOVUxMOwotLQot
+IAlpZGV2ID0gZ19uZXcwKHN0cnVjdCBpbnB1dF9kZXZpY2UsIDEpOwotIAliYWNweSgmaWRldi0+
+c3JjLCBidGRfYWRhcHRlcl9nZXRfYWRkcmVzcyhhZGFwdGVyKSk7Ci0gCWJhY3B5KCZpZGV2LT5k
+c3QsIGRldmljZV9nZXRfYWRkcmVzcyhkZXZpY2UpKTsKLSAJaWRldi0+c2VydmljZSA9IGJ0ZF9z
+ZXJ2aWNlX3JlZihzZXJ2aWNlKTsKLSAJaWRldi0+ZGV2aWNlID0gYnRkX2RldmljZV9yZWYoZGV2
+aWNlKTsKLSAJaWRldi0+cGF0aCA9IGdfc3RyZHVwKHBhdGgpOwotLQlpZGV2LT5oYW5kbGUgPSBy
+ZWMtPmhhbmRsZTsKLS0JaWRldi0+ZGlzYWJsZV9zZHAgPSBpc19kZXZpY2Vfc2RwX2Rpc2FibGUo
+cmVjKTsKLS0KLS0JLyogSW5pdGlhbGl6ZSBkZXZpY2UgcHJvcGVydGllcyAqLwotLQlleHRyYWN0
+X2hpZF9wcm9wcyhpZGV2LCByZWMpOwotIAotLQlpZiAoaWRldi0+ZGlzYWJsZV9zZHApCi0tCQlk
+ZXZpY2Vfc2V0X3JlZnJlc2hfZGlzY292ZXJ5KGRldmljZSwgZmFsc2UpOwotKwlpbnB1dF9kZXZp
+Y2VfdXBkYXRlX3JlYyhpZGV2KTsKLSAKLSAJcmV0dXJuIGlkZXY7Ci0gfQotLS0gCi0yLjQyLjAK
+LQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAw
+MDQtc3JjLXNoYXJlZC11dGlsLmMtaW5jbHVkZS1saW51eC1saW1pdHMuaC5wYXRjaCBiL21ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS8wMDA0LXNyYy1zaGFyZWQtdXRpbC5j
+LWluY2x1ZGUtbGludXgtbGltaXRzLmgucGF0Y2gKaW5kZXggZjk1NGY2ZGFiMi4uNmVmMTM1MzI3
+ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAw
+MDQtc3JjLXNoYXJlZC11dGlsLmMtaW5jbHVkZS1saW51eC1saW1pdHMuaC5wYXRjaAorKysgYi9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvMDAwNC1zcmMtc2hhcmVkLXV0
+aWwuYy1pbmNsdWRlLWxpbnV4LWxpbWl0cy5oLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1
+MTU4NDE1OGI5YTJlNThmMzc5MGY4YTczODdiNWNmMTY3ZWNhODhiIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBhZDA2OWZhZGZjY2UyY2Y3MGY0NWIxYzRhNDI2NjU0NDg2NzUyOTdlIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGlu
+dXRyb25peC5kZT4KIERhdGU6IE1vbiwgMTIgRGVjIDIwMjIgMTM6MTA6MTkgKzAxMDAKIFN1Ympl
+Y3Q6IFtQQVRDSF0gc3JjL3NoYXJlZC91dGlsLmM6IGluY2x1ZGUgbGludXgvbGltaXRzLmgKQEAg
+LTgsMTUgKzgsMTYgQEAgc3lzdGVtcyBzdWNoIGFzIHRob3NlIHVzaW5nIG11c2wuCiAKIFVwc3Ry
+ZWFtLVN0YXR1czogU3VibWl0dGVkIFt0byBsaW51eC1ibHVldG9vdGhAdmdlci5rZXJuZWwub3Jn
+LGx1aXoudm9uLmRlbnR6QGludGVsLmNvbSxmcmVkZXJpYy5kYW5pc0Bjb2xsYWJvcmEuY29tXQog
+U2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KKwog
+LS0tCiAgc3JjL3NoYXJlZC91dGlsLmMgfCAxICsKICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKykKIAogZGlmZiAtLWdpdCBhL3NyYy9zaGFyZWQvdXRpbC5jIGIvc3JjL3NoYXJlZC91dGls
+LmMKLWluZGV4IDBhMDMwOGMuLjFmNjEzMTQgMTAwNjQ0CitpbmRleCAzNDQ5MWY0Li40MTJmM2Fk
+IDEwMDY0NAogLS0tIGEvc3JjL3NoYXJlZC91dGlsLmMKICsrKyBiL3NyYy9zaGFyZWQvdXRpbC5j
+Ci1AQCAtMjIsNiArMjIsNyBAQAorQEAgLTIzLDYgKzIzLDcgQEAKICAjaW5jbHVkZSA8dW5pc3Rk
+Lmg+CiAgI2luY2x1ZGUgPGRpcmVudC5oPgogICNpbmNsdWRlIDxsaW1pdHMuaD4KZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS9DVkUtMjAyMy00NTg2
+Ni5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS9DVkUtMjAy
+My00NTg2Ni5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNWJiMzFkODY2YS4u
+MDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUv
+Q1ZFLTIwMjMtNDU4NjYucGF0Y2gKKysrIC9kZXYvbnVsbApAQCAtMSw1NiArMCwwIEBACi1Gcm9t
+IDI1YTQ3MWE4M2UwMmUxZWZmYjE1ZDVhNDg4YjNmMDA4NWVhZWI2NzUgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCi1Gcm9tOiBMdWl6IEF1Z3VzdG8gdm9uIERlbnR6IDxsdWl6LnZvbi5kZW50ekBp
+bnRlbC5jb20+Ci1EYXRlOiBUdWUsIDEwIE9jdCAyMDIzIDEzOjAzOjEyIC0wNzAwCi1TdWJqZWN0
+OiBbUEFUQ0hdIGlucHV0LmNvbmY6IENoYW5nZSBkZWZhdWx0IG9mIENsYXNzaWNCb25kZWRPbmx5
+Ci0KLVRoaXMgY2hhbmdlcyB0aGUgZGVmYXVsdCBvZiBDbGFzc2ljQm9uZGVkT25seSBzaW5jZSBk
+ZWZhdWx0aW5nIHRvIGZhbHNlCi1pcyBub3QgaW5saW5lIHdpdGggSElEIHNwZWNpZmljYXRpb24g
+d2hpY2ggbWFuZGF0ZXMgdGhlIG9mIFNlY3VyaXR5IE1vZGUKLTQ6Ci0KLUJMVUVUT09USCBTUEVD
+SUZJQ0FUSU9OIFBhZ2UgODQgb2YgMTIzCi1IdW1hbiBJbnRlcmZhY2UgRGV2aWNlIChISUQpIFBy
+b2ZpbGU6Ci0KLSAgNS40LjMuNC4yIFNlY3VyaXR5IE1vZGVzCi0gIEJsdWV0b290aCBISUQgSG9z
+dHMgc2hhbGwgdXNlIFNlY3VyaXR5IE1vZGUgNCB3aGVuIGludGVyb3BlcmF0aW5nIHdpdGgKLSAg
+Qmx1ZXRvb3RoIEhJRCBkZXZpY2VzIHRoYXQgYXJlIGNvbXBsaWFudCB0byB0aGUgQmx1ZXRvb3Ro
+IENvcmUKLSAgU3BlY2lmaWNhdGlvbiB2Mi4xK0VEUls2XS4KLQotVXBzdHJlYW0tU3RhdHVzOiBC
+YWNrcG9ydAotW2h0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9ibHVldG9vdGgvYmx1ZXou
+Z2l0L2NvbW1pdC9wcm9maWxlcy9pbnB1dD9pZD0yNWE0NzFhODNlMDJlMWVmZmIxNWQ1YTQ4OGIz
+ZjAwODVlYWViNjc1XQotCi1DVkU6IENWRS0yMDIzLTQ1ODY2Ci0KLVNpZ25lZC1vZmYtYnk6IEFy
+Y2hhbmEgUG9sYW1wYWxsaSA8YXJjaGFuYS5wb2xhbXBhbGxpQHdpbmRyaXZlci5jb20+Ci0tLS0K
+LSBwcm9maWxlcy9pbnB1dC9kZXZpY2UuYyAgIHwgMiArLQotIHByb2ZpbGVzL2lucHV0L2lucHV0
+LmNvbmYgfCAyICstCi0gMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRp
+b25zKC0pCi0KLWRpZmYgLS1naXQgYS9wcm9maWxlcy9pbnB1dC9kZXZpY2UuYyBiL3Byb2ZpbGVz
+L2lucHV0L2RldmljZS5jCi1pbmRleCA0YTUwZWE5Li40MzEwZGQxIDEwMDY0NAotLS0tIGEvcHJv
+ZmlsZXMvaW5wdXQvZGV2aWNlLmMKLSsrKyBiL3Byb2ZpbGVzL2lucHV0L2RldmljZS5jCi1AQCAt
+ODEsNyArODEsNyBAQCBzdHJ1Y3QgaW5wdXRfZGV2aWNlIHsKLQotIHN0YXRpYyBpbnQgaWRsZV90
+aW1lb3V0ID0gMDsKLSBzdGF0aWMgYm9vbCB1aGlkX2VuYWJsZWQgPSBmYWxzZTsKLS1zdGF0aWMg
+Ym9vbCBjbGFzc2ljX2JvbmRlZF9vbmx5ID0gZmFsc2U7Ci0rc3RhdGljIGJvb2wgY2xhc3NpY19i
+b25kZWRfb25seSA9IHRydWU7Ci0KLSB2b2lkIGlucHV0X3NldF9pZGxlX3RpbWVvdXQoaW50IHRp
+bWVvdXQpCi0gewotZGlmZiAtLWdpdCBhL3Byb2ZpbGVzL2lucHV0L2lucHV0LmNvbmYgYi9wcm9m
+aWxlcy9pbnB1dC9pbnB1dC5jb25mCi1pbmRleCA0YzcwYmM1Li5kODY0NWYzIDEwMDY0NAotLS0t
+IGEvcHJvZmlsZXMvaW5wdXQvaW5wdXQuY29uZgotKysrIGIvcHJvZmlsZXMvaW5wdXQvaW5wdXQu
+Y29uZgotQEAgLTE3LDcgKzE3LDcgQEAKLSAjIHBsYXRmb3JtcyBtYXkgd2FudCB0byBtYWtlIHN1
+cmUgdGhhdCBpbnB1dCBjb25uZWN0aW9ucyBvbmx5IGNvbWUgZnJvbSBib25kZWQKLSAjIGRldmlj
+ZSBjb25uZWN0aW9ucy4gU2V2ZXJhbCBvbGRlciBtaWNlIGhhdmUgYmVlbiBrbm93biBmb3Igbm90
+IHN1cHBvcnRpbmcKLSAjIHBhaXJpbmcvZW5jcnlwdGlvbi4KLS0jIERlZmF1bHRzIHRvIGZhbHNl
+IHRvIG1heGltaXplIGRldmljZSBjb21wYXRpYmlsaXR5LgotKyMgRGVmYXVsdHMgdG8gdHJ1ZSBm
+b3Igc2VjdXJpdHkuCi0gI0NsYXNzaWNCb25kZWRPbmx5PXRydWUKLQotICMgTEUgdXBncmFkZSBz
+ZWN1cml0eQotLS0KLTIuNDAuMApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9ibHVlejUvYmx1ZXo1XzUuNzAuYmIgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6
+NS9ibHVlejVfNS43MS5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
+Y2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejVfNS43MC5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNzEuYmIKaW5kZXggMmUzYjc4MmU2
+ZS4uYjliYzNkZDFiNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVl
+ejUvYmx1ZXo1XzUuNzAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUv
+Ymx1ZXo1XzUuNzEuYmIKQEAgLTEsNiArMSw2IEBACiByZXF1aXJlIGJsdWV6NS5pbmMKIAotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjM3ZTM3MmU5MTY5NTVlMTQ0Y2I4ODJmODg4ZTRiZTQwODk4ZjEw
+YWUzYjdjMjEzZGRjZGQ1NWVlOWMwMDkyNzgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjgyOGQ0
+MThjOTNjZWQxZjU1YjYxNmZiNTQ4MmNmMDE1Mzc0NDBiZmIzNGZiZGExYTU2NGYzZWNlOTQ3MzVk
+OCIKIAogQ1ZFX1NUQVRVU1tDVkUtMjAyMC0yNDQ5MF0gPSAiY3BlLWluY29ycmVjdDogVGhpcyBp
+c3N1ZSBoYXMga2VybmVsIGZpeGVzIHJhdGhlciB0aGFuIGJsdWV6IGZpeGVzIgogCi0tIAoyLjQy
+LjAKCg==
 
---===============8953066334356320920==
+--===============9108349123591876496==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1845 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 911 .bb files complete (909 cached, 2 parsed). 1842 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/bluez5/bluez5-ptest: FILELIST: added "/usr/lib/bluez5/ptest/unit/test-vcp /usr/lib/bluez5/ptest/unit/test-micp"
+packages/core2-64-poky-linux/bluez5/bluez5-ptest: PKGSIZE changed from 5366419 to 6198771 (+16%)
+packages/core2-64-poky-linux/bluez5/bluez5: FILELIST: removed "/usr/lib/libbluetooth.so.3.19.10", added "/usr/lib/libbluetooth.so.3.19.11"
+Changes to packages/core2-64-poky-linux/bluez5 (sysroot):
+  /usr/lib/libbluetooth.so.3 changed symlink target from libbluetooth.so.3.19.10 to libbluetooth.so.3.19.11
+  /usr/lib/libbluetooth.so changed symlink target from libbluetooth.so.3.19.10 to libbluetooth.so.3.19.11
+  /usr/lib/libbluetooth.so.3.19.10 moved to /usr/lib/libbluetooth.so.3.19.11
 
-Build Configuration:
-BB_VERSION           = "2.6.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-7989e4a95bebdbfd2f94cf8ca2c6fd503416cc6e"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7989e4a95bebdbfd2f94cf8ca2c6fd503416cc6e"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 150 Local 109 Mirrors 0 Missed 41 Current 143 (72% match, 86% complete)
-Removing 11 stale sstate objects for arch x86_64...done.
-Removing 4 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 163 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 166 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 171 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.38.bb:do_stash_locale_setscene)
-NOTE: Running setscene task 172 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 173 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running noexec task 261 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_fetch)
-NOTE: Running noexec task 265 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_fetch)
-NOTE: Running task 268 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_recipe_qa)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glibc-2.38+git-r0: task do_stash_locale_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa: Started
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libgcc-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 231 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 233 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 286 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 234 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 238 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 240 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 243 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 244 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm/rpm_4.18.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 245 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rsync/rsync_3.2.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 246 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rsync/rsync_3.2.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 247 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/unifdef/unifdef_2.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 248 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/unifdef/unifdef_2.12.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 254 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 255 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 260 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 261 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe glibc-2.38+git-r0: task do_stash_locale_setscene: Succeeded
-NOTE: Running setscene task 262 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.38.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 263 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_fetch: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 269 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_create_spdx_setscene: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe unifdef-native-2.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe unifdef-native-2.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe rsync-native-3.2.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe rsync-native-3.2.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe rpm-native-1_4.18.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe elfutils-native-0.189-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libarchive-native-3.7.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glibc-2.38+git-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libidn2-native-2.3.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gnutls-native-3.8.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 270 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 272 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe unifdef-native-2.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe rpm-native-1_4.18.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe rsync-native-3.2.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe glibc-2.38+git-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libidn2-native-2.3.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe elfutils-native-0.189-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 377 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_fetch)
-NOTE: recipe gnutls-native-3.8.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libarchive-native-3.7.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 279 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_recipe_qa_setscene)
-NOTE: Running task 429 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_recipe_qa)
-NOTE: recipe unifdef-native-2.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 482 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.38.bb:do_fetch)
-NOTE: Running setscene task 281 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/unifdef/unifdef_2.12.bb:do_recipe_qa_setscene)
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-native-3.11.5-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 282 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 284 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running task 521 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_recipe_qa)
-NOTE: Running task 522 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_fetch)
-NOTE: Running task 531 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_fetch)
-NOTE: Running task 532 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.2.bb:do_fetch)
-NOTE: Running task 533 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_fetch)
-NOTE: recipe rsync-native-3.2.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 286 of 293 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rsync/rsync_3.2.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libtasn1-native-4.19.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libmicrohttpd-native-0.9.77-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_fetch: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_fetch: Succeeded
-NOTE: Running task 534 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_unpack)
-NOTE: recipe python3-native-3.11.5-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 535 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_fetch)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_recipe_qa: Started
-NOTE: recipe unifdef-native-2.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glibc-2.38+git-r0: task do_fetch: Started
-NOTE: recipe libtasn1-native-4.19.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libmicrohttpd-native-0.9.77-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 536 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_fetch)
-NOTE: Running task 537 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb:do_fetch)
-NOTE: recipe libidn2-native-2.3.4-r0: task do_fetch: Started
-NOTE: recipe rsync-native-3.2.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libarchive-native-3.7.2-r0: task do_fetch: Started
-NOTE: recipe gnutls-native-3.8.2-r0: task do_fetch: Started
-NOTE: recipe elfutils-native-0.189-r0: task do_fetch: Started
-NOTE: recipe libidn2-native-2.3.4-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-native-2.39.2-r0: task do_recipe_qa: Started
-NOTE: Running task 538 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_unpack)
-NOTE: recipe libgcc-initial-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libarchive-native-3.7.2-r0: task do_fetch: Succeeded
-NOTE: recipe linux-libc-headers-6.5-r0: task do_unpack: Started
-NOTE: Running task 547 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.2.bb:do_unpack)
-NOTE: recipe elfutils-native-0.189-r0: task do_fetch: Succeeded
-NOTE: recipe gnutls-native-3.8.2-r0: task do_fetch: Succeeded
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 564 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_unpack)
-NOTE: Running task 570 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm/rpm_4.18.1.bb:do_fetch)
-NOTE: recipe unifdef-native-2.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 572 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_fetch)
-NOTE: Running task 573 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_unpack)
-NOTE: Running task 586 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_fetch)
-NOTE: recipe rsync-native-3.2.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 597 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_prepare_recipe_sysroot)
-NOTE: recipe glibc-2.38+git-r0: task do_fetch: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 598 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.38.bb:do_unpack)
-NOTE: Running task 599 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_fetch)
-NOTE: recipe libtasn1-native-4.19.0-r0: task do_fetch: Started
-NOTE: recipe python3-native-3.11.5-r0: task do_fetch: Started
-NOTE: recipe util-linux-native-2.39.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libtasn1-native-4.19.0-r0: task do_fetch: Succeeded
-NOTE: Task virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_recipe_qa unihash changed to 33e85be94b48801385513c25d646dfc4e7d38d8441a660367f6ffe85f890dac8
-NOTE: recipe libidn2-native-2.3.4-r0: task do_unpack: Started
-NOTE: recipe libmicrohttpd-native-0.9.77-r0: task do_fetch: Started
-NOTE: recipe libarchive-native-3.7.2-r0: task do_unpack: Started
-NOTE: recipe python3-native-3.11.5-r0: task do_fetch: Succeeded
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_fetch: Started
-NOTE: recipe rpm-native-1_4.18.1-r0: task do_fetch: Started
-NOTE: recipe libmicrohttpd-native-0.9.77-r0: task do_fetch: Succeeded
-NOTE: recipe linux-libc-headers-6.5-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_fetch: Succeeded
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_fetch: Started
-NOTE: recipe elfutils-native-0.189-r0: task do_unpack: Started
-NOTE: recipe gnutls-native-3.8.2-r0: task do_unpack: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_fetch: Started
-NOTE: recipe rpm-native-1_4.18.1-r0: task do_fetch: Succeeded
-NOTE: recipe glibc-2.38+git-r0: task do_unpack: Started
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_fetch: Succeeded
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_fetch: Succeeded
-NOTE: recipe libidn2-native-2.3.4-r0: task do_unpack: Succeeded
-NOTE: recipe libarchive-native-3.7.2-r0: task do_unpack: Succeeded
-NOTE: Running task 600 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_unpack)
-NOTE: Running task 601 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_unpack)
-NOTE: Running task 602 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 603 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_fetch)
-NOTE: Running task 604 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_unpack)
-NOTE: Running task 605 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_patch)
-NOTE: Running task 606 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_unpack)
-NOTE: Running task 607 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb:do_unpack)
-NOTE: Running task 608 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.2.bb:do_patch)
-NOTE: Running task 624 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm/rpm_4.18.1.bb:do_unpack)
-NOTE: Running task 625 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_unpack)
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_unpack: Started
-NOTE: recipe libtasn1-native-4.19.0-r0: task do_unpack: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_unpack: Started
-NOTE: recipe libarchive-native-3.7.2-r0: task do_patch: Started
-NOTE: recipe libmicrohttpd-native-0.9.77-r0: task do_unpack: Started
-NOTE: recipe libidn2-native-2.3.4-r0: task do_patch: Started
-NOTE: recipe rpm-native-1_4.18.1-r0: task do_unpack: Started
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_unpack: Started
-NOTE: recipe util-linux-native-2.39.2-r0: task do_fetch: Started
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_unpack: Succeeded
-WARNING: util-linux-native-2.39.2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/util-linux-2.39.2.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-native-2.39.2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/util-linux-2.39.2.tar.xz to /srv/autobuilder/autobuilder.yocto.io/current_sources/util-linux-2.39.2.tar.xz_bad-checksum_87abdfaa8e490f8be6dde976f7c80b9b5ff9f301e1b67e3899e1f05a59a1531f
-NOTE: Running task 626 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:do_patch)
-NOTE: recipe python3-native-3.11.5-r0: task do_unpack: Started
-NOTE: recipe libidn2-native-2.3.4-r0: task do_patch: Succeeded
-NOTE: Running task 666 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_fetch)
-NOTE: recipe libmicrohttpd-native-0.9.77-r0: task do_unpack: Succeeded
-NOTE: Running task 667 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb:do_patch)
-NOTE: recipe libtasn1-native-4.19.0-r0: task do_unpack: Succeeded
-NOTE: Running task 668 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_patch)
-NOTE: recipe libarchive-native-3.7.2-r0: task do_patch: Succeeded
-NOTE: Running task 674 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_unpack)
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_fetch: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_fetch: Succeeded
-NOTE: recipe gnutls-native-3.8.2-r0: task do_unpack: Succeeded
-NOTE: Running task 702 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_unpack)
-NOTE: recipe dwarfsrcfiles-native-1.0-r0: task do_patch: Succeeded
-NOTE: Running task 703 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_patch)
-NOTE: recipe libmicrohttpd-native-0.9.77-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_unpack: Started
-NOTE: recipe libtasn1-native-4.19.0-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-WARNING: util-linux-native-2.39.2-r0 do_fetch: Checksum failure encountered with download of https://cdn.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.2.tar.xz - will attempt other sources if available
-NOTE: Running setscene task 287 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_gcc_stash_builddir_setscene)
-NOTE: recipe libmicrohttpd-native-0.9.77-r0: task do_patch: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_unpack: Started
-NOTE: recipe libtasn1-native-4.19.0-r0: task do_patch: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_gcc_stash_builddir_setscene: Started
-NOTE: recipe gnutls-native-3.8.2-r0: task do_patch: Started
-NOTE: recipe elfutils-native-0.189-r0: task do_unpack: Succeeded
-NOTE: Running task 707 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_patch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_unpack: Succeeded
-NOTE: recipe gnutls-native-3.8.2-r0: task do_patch: Succeeded
-NOTE: recipe elfutils-native-0.189-r0: task do_patch: Started
-NOTE: recipe rpm-native-1_4.18.1-r0: task do_unpack: Succeeded
-NOTE: Running task 711 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rpm/rpm_4.18.1.bb:do_patch)
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_unpack: Succeeded
-NOTE: Running task 712 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.0.bb:do_patch)
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_unpack: Succeeded
-NOTE: recipe rpm-native-1_4.18.1-r0: task do_patch: Started
-NOTE: Running task 713 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_patch)
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_patch: Started
-NOTE: recipe elfutils-native-0.189-r0: task do_patch: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_patch: Succeeded
-NOTE: recipe e2fsprogs-native-1.47.0-r0: task do_patch: Succeeded
-NOTE: Running task 715 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_deploy_source_date_epoch)
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_unpack: Succeeded
-NOTE: Running task 717 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_patch)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_patch: Started
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 718 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_configure)
-NOTE: recipe python3-native-3.11.5-r0: task do_unpack: Succeeded
-NOTE: Running task 719 of 888 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_patch)
-NOTE: recipe rpm-native-1_4.18.1-r0: task do_patch: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_configure: Started
-NOTE: recipe python3-native-3.11.5-r0: task do_patch: Started
-WARNING: util-linux-native-2.39.2-r0 do_fetch: Checksum mismatch for local file /srv/autobuilder/autobuilder.yocto.io/current_sources/util-linux-2.39.2.tar.xz
-Cleaning and trying again.
-WARNING: util-linux-native-2.39.2-r0 do_fetch: Renaming /srv/autobuilder/autobuilder.yocto.io/current_sources/util-linux-2.39.2.tar.xz to /srv/autobuilder/autobuilder.yocto.io/current_sources/util-linux-2.39.2.tar.xz_bad-checksum_87abdfaa8e490f8be6dde976f7c80b9b5ff9f301e1b67e3899e1f05a59a1531f
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_patch: Succeeded
-NOTE: Running task 721 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_deploy_source_date_epoch)
-NOTE: Running task 722 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_populate_lic)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_lic: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_lic: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe glibc-2.38+git-r0: task do_unpack: Succeeded
-NOTE: Running task 723 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.38.bb:do_patch)
-NOTE: recipe glibc-2.38+git-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_gcc_stash_builddir_setscene: Succeeded
-NOTE: Running setscene task 288 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 290 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running task 724 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-source_13.2.bb:do_fetch)
-NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_fetch: Started
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_fetch: Succeeded
-NOTE: Running task 725 of 888 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-source_13.2.bb:do_unpack)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_unpack: Started
-NOTE: recipe python3-native-3.11.5-r0: task do_patch: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 293 of 293 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe glibc-2.38+git-r0: task do_patch: Succeeded
-NOTE: recipe util-linux-native-2.39.2-r0: task do_fetch: Failed
-NOTE: recipe linux-libc-headers-6.5-r0: task do_unpack: Succeeded
-NOTE: recipe gcc-source-13.2.0-13.2.0-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-libuuid-native-2.39.3-r0: task do_configure: Succeeded
-NOTE: Tasks Summary: Attempted 741 tasks of which 684 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231215061502.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20231215061502.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_fetch
-Summary: There were 5 WARNING messages.
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: util-linux-native-2.39.2-r0 do_fetch: Checksum failure fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.2.tar.xz
-ERROR: util-linux-native-2.39.2-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/autobuilder/autobuilder.yocto.io/current_sources/util-linux-2.39.2.tar.xz\' has sha256 checksum \'87abdfaa8e490f8be6dde976f7c80b9b5ff9f301e1b67e3899e1f05a59a1531f\' when \'7b6605e48d1a49f43cc4b4cfc59f313d0dd5402fa40b96810bd572e167dfed0f\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[sha256sum] = "87abdfaa8e490f8be6dde976f7c80b9b5ff9f301e1b67e3899e1f05a59a1531f"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'https://cdn.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.2.tar.xz')
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/util-linux-native/2.39.2/temp/log.do_fetch.3302707
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.2.bb:do_fetch) failed with exit code '1'
-
---===============8953066334356320920==--
+--===============9108349123591876496==--
 
