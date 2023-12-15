@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ECD2C48298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60DB4C48296
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:53 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.63600.1702649863096188826
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.63601.1702649863141741502
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 06:17:44 -0800
+ Fri, 15 Dec 2023 06:17:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TEMB+y4h;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TClPVatt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c6dd71dc1-265861f8-4d97-4153-802a-5f48af14b1fb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=LyuwpgKq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gaAVlAKt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018c6dd717b5-aef20302-10e3-43ef-a893-fe14afcbe2d1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702649863;
+	t=1702649862;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zmmLNZG/m2waoJO6buCxeCY/syfwSGr3Kori6N2X5vk=;
-	b=TEMB+y4h+78M8UWZz/kLqjhG6uq7pRXHQ+7K6+sOO7MIygrPF2hx07YRAhuBUCfE
-	TWwtyC8AIShwoUvACJF/vkk1ylxwTsatW+F1OFIDOvDjAQLZLTISekHXU80473GqbGt
-	jHG9ynbhcpEiLt32/NqPgIn8oFzAk7zkqaA2ItOI=
+	bh=d6N1PhzSzlX7pvAzwV0IR0aNT/mYkVPgosvjfrrwVQM=;
+	b=LyuwpgKq8fCxvpox87LT2okfJPxuf60SOxJv2GUw005ojRTnof3YW8NZYrhWd7tf
+	/5vPZYyc11SuFR2Sw20OEDLeYxYtUwGL0RO1Rbd4NqiKzpuRmOJES11O1PvdhKy5rSf
+	S12HEJIayoWRHFre05bkDjrGBNOweNFqOj+XBwA4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649863;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649862;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zmmLNZG/m2waoJO6buCxeCY/syfwSGr3Kori6N2X5vk=;
-	b=TClPVattobRvz/9LMP/ZAYeuEkqJUs/fBTvbugV8zVImd6kiw5gc3tf0rWE/+kRM
-	qflFMkIKsEarY2rDP+PDx9dVxPE5y5Sf4V7nZwnqFPtT0rvvX0T4zWhZW1hlAbkEz6L
-	QBgGb3+8UrGnT8SdgXH7w/b1yEonWyh8amMTJC0s=
-Content-Type: multipart/mixed; boundary="===============7808085775262116277=="
+	bh=d6N1PhzSzlX7pvAzwV0IR0aNT/mYkVPgosvjfrrwVQM=;
+	b=gaAVlAKtJv9aNXqRsVupOaix4gO1laxYz9qNmcMtubB49y0+aFdkVsabCyisQhSd
+	0cq7UfhWqNZxJhZpooTqf85gvWRFAN4gCSSAI3ohU5HpsCqdLkoBqnSbJsx8xPC3ASW
+	Gpntxu8yuS1bLCweSs9tk8Ur8Uj0xUHG914P4qlE=
+Content-Type: multipart/mixed; boundary="===============1870798291560962010=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.5 SUCCEEDED
-Message-ID: <0101018c6dd71dc1-265861f8-4d97-4153-802a-5f48af14b1fb-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Dec 2023 14:17:43 +0000
+Subject: [AUH] glib-2.0: upgrading to 2.78.3 SUCCEEDED
+Message-ID: <0101018c6dd717b5-aef20302-10e3-43ef-a893-fe14afcbe2d1-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Dec 2023 14:17:42 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.30
+X-SES-Outgoing: 2023.12.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192468
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192451
 
---===============7808085775262116277==
+--===============1870798291560962010==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-ruamel-yaml* to *0.18.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *glib-2.0* to *2.78.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.17.35-0.18.5.patch
+    - apply the patch: git am 0001-glib-2.0-upgrade-2.78.1-2.78.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,329 +72,835 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 63eccacdd1bf15007fad936f7d0da206c0d1cefc Mon Sep 17 00:00:00 2001
+From ecfe4e81d9af2623e6594a92e838542093e40421 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 08:15:42 +0000
-Subject: [PATCH] python3-ruamel-yaml: upgrade 0.17.35 -> 0.18.5
+Date: Fri, 15 Dec 2023 05:49:48 +0000
+Subject: [PATCH] glib-2.0: upgrade 2.78.1 -> 2.78.3
 
 ---
- ...on3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.5.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.5.bb} (85%)
+ ...ot-write-bindir-into-pkg-config-files.patch |  4 ++--
+ .../0001-Fix-DATADIRNAME-on-uclibc-Linux.patch |  3 +--
+ ...l-gio-querymodules-as-libexec_PROGRAM.patch |  6 +++---
+ ...ing-about-deprecated-paths-in-schemas.patch |  4 ++--
+ ...e-correctly-when-building-with-mingw3.patch | 18 +++++++++---------
+ ...rces.c-comment-out-a-build-host-only-.patch |  6 +++---
+ ...son-Run-atomics-test-on-clang-as-well.patch |  6 +++---
+ ...not-enable-pidfd-features-on-native-g.patch |  8 +++-----
+ ...rdcode-python-path-into-various-tools.patch |  6 +++---
+ .../glib-2.0/glib-2.0/relocate-modules.patch   |  2 +-
+ .../{glib-2.0_2.78.1.bb => glib-2.0_2.78.3.bb} |  2 +-
+ 11 files changed, 31 insertions(+), 34 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.78.1.bb => glib-2.0_2.78.3.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.5.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
-rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.5.bb
-index 1760fec7ee..018ec88394 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.5.bb
-@@ -8,7 +8,7 @@ PYPI_PACKAGE = "ruamel.yaml"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+index 0d44ddf299..0e5f371cb5 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+@@ -1,4 +1,4 @@
+-From 9ec4eedeb3f67db0bff09f5d859318d05ff47964 Mon Sep 17 00:00:00 2001
++From cf7df91cc8c3b4811235ef8aec144c5f0cf90bdb Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 15 Feb 2019 11:17:27 +0100
+ Subject: [PATCH] Do not write $bindir into pkg-config files
+@@ -16,7 +16,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  2 files changed, 11 insertions(+), 11 deletions(-)
  
- inherit pypi setuptools3
+ diff --git a/gio/meson.build b/gio/meson.build
+-index a320c0f..86ce7c4 100644
++index 5f91586..1a95f4f 100644
+ --- a/gio/meson.build
+ +++ b/gio/meson.build
+ @@ -884,14 +884,14 @@ pkg.generate(libgio,
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+index 16f2d31496..1254466063 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+@@ -1,4 +1,4 @@
+-From c94e669de98a3892c699bd8d0d2b5164b2de747e Mon Sep 17 00:00:00 2001
++From b907a6681c4c24e5d3745538d9fcd471cf1c4c4a Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 15 Mar 2014 22:42:29 -0700
+ Subject: [PATCH] Fix DATADIRNAME on uclibc/Linux
+@@ -9,7 +9,6 @@ based systems therefore lets set DATADIRNAME to "share".
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Upstream-Status: Pending
  
--SRC_URI[sha256sum] = "801046a9caacb1b43acc118969b49b96b65e8847f29029563b29ac61d02db61b"
-+SRC_URI[sha256sum] = "61917e3a35a569c1133a8f772e1226961bf5a1198bea7e23f06a0841dea1ab0e"
+-
+ ---
+  m4macros/glib-gettext.m4 | 4 ++++
+  1 file changed, 4 insertions(+)
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+index 597864d9ac..50d369c24e 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+@@ -1,4 +1,4 @@
+-From 0015db45cd1bfefc04959dffab5dabeead93136f Mon Sep 17 00:00:00 2001
++From 6e2ddcb5465d10618345b12e0b4471ead0f14304 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 22 Mar 2016 15:14:58 +0200
+ Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
+@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate [OE specific]
+  1 file changed, 1 insertion(+)
  
- RDEPENDS:${PN} += "\
-     ${PYTHON_PN}-shell \
+ diff --git a/gio/meson.build b/gio/meson.build
+-index 2ef60ed..532b086 100644
++index f9fdf6e..5f91586 100644
+ --- a/gio/meson.build
+ +++ b/gio/meson.build
+-@@ -936,6 +936,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
++@@ -1005,6 +1005,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
+    c_args : gio_c_args,
+    # intl.lib is not compatible with SAFESEH
+    link_args : noseh_link_args,
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+index 6fd93526ce..f810574d97 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+@@ -1,4 +1,4 @@
+-From 4f47b8a8d650d185aa61aec2f56a283522a723c4 Mon Sep 17 00:00:00 2001
++From c8c223045821cac97f798cfa63f19853621a8a2a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 12 Jun 2015 17:08:46 +0300
+ Subject: [PATCH] Remove the warning about deprecated paths in schemas
+@@ -15,7 +15,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 13 deletions(-)
+ 
+ diff --git a/gio/glib-compile-schemas.c b/gio/glib-compile-schemas.c
+-index 7888120..7acbd5b 100644
++index 04ef404..e791ce2 100644
+ --- a/gio/glib-compile-schemas.c
+ +++ b/gio/glib-compile-schemas.c
+ @@ -1232,19 +1232,6 @@ parse_state_start_schema (ParseState  *state,
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+index 2e1e2313e8..e1d2fb0e54 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+@@ -1,4 +1,4 @@
+-From ba1728bc27c88597164957d000b70ec4be6edf28 Mon Sep 17 00:00:00 2001
++From bafde4eedc0a22b45e73ee6183b9a11393a1e400 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 13 Feb 2019 15:32:05 +0100
+ Subject: [PATCH] Set host_machine correctly when building with mingw32
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 8 insertions(+), 5 deletions(-)
+ 
+ diff --git a/gio/tests/meson.build b/gio/tests/meson.build
+-index f644aa2..64a8684 100644
++index 4ef3343..e498e7e 100644
+ --- a/gio/tests/meson.build
+ +++ b/gio/tests/meson.build
+ @@ -29,7 +29,7 @@ endif
+@@ -25,7 +25,7 @@ index f644aa2..64a8684 100644
+    common_gio_tests_deps += [iphlpapi_dep, winsock2, cc.find_library ('secur32')]
+  endif
+  
+-@@ -210,7 +210,7 @@ if have_dbus_daemon
++@@ -230,7 +230,7 @@ if have_dbus_daemon
+  endif
+  
+  #  Test programs buildable on UNIX only
+@@ -34,7 +34,7 @@ index f644aa2..64a8684 100644
+    gio_tests += {
+      'file' : {},
+      'gdbus-peer-object-manager' : {},
+-@@ -462,7 +462,7 @@ if host_machine.system() != 'windows'
++@@ -562,7 +562,7 @@ if host_machine.system() != 'windows'
+  endif # unix
+  
+  #  Test programs buildable on Windows only
+@@ -43,7 +43,7 @@ index f644aa2..64a8684 100644
+    gio_tests += {'win32-streams' : {}}
+  endif
+  
+-@@ -532,7 +532,7 @@ if cc.get_id() != 'msvc' and cc.get_id() != 'clang-cl'
++@@ -632,7 +632,7 @@ if cc.get_id() != 'msvc' and cc.get_id() != 'clang-cl'
+    }
+  endif
+  
+@@ -53,10 +53,10 @@ index f644aa2..64a8684 100644
+      'gdbus-example-unix-fd-client' : {
+        'install' : false,
+ diff --git a/glib/tests/meson.build b/glib/tests/meson.build
+-index db01b54..6950817 100644
++index d80c86e..5329cda 100644
+ --- a/glib/tests/meson.build
+ +++ b/glib/tests/meson.build
+-@@ -188,7 +188,7 @@ if glib_conf.has('HAVE_EVENTFD')
++@@ -216,7 +216,7 @@ if glib_conf.has('HAVE_EVENTFD')
+    }
+  endif
+  
+@@ -66,10 +66,10 @@ index db01b54..6950817 100644
+      glib_tests += {
+        'gpoll' : {
+ diff --git a/meson.build b/meson.build
+-index 43bb468..5f9b59c 100644
++index f7e936e..122f8b5 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -43,6 +43,9 @@ else
++@@ -54,6 +54,9 @@ else
+  endif
+  
+  host_system = host_machine.system()
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
+index d33fdd4d8b..e4c2f77459 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
+@@ -1,4 +1,4 @@
+-From 92de6c7eb30b961b24a2dce812d5276487b7d23d Mon Sep 17 00:00:00 2001
++From 3f05b9418c88bbb83c08b57cc5529b006f26fff4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 8 Jan 2020 18:22:46 +0100
+ Subject: [PATCH] gio/tests/resources.c: comment out a build host-only test
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/gio/tests/resources.c b/gio/tests/resources.c
+-index c44d214..e289a01 100644
++index f567914..b21b616 100644
+ --- a/gio/tests/resources.c
+ +++ b/gio/tests/resources.c
+-@@ -993,7 +993,7 @@ main (int   argc,
++@@ -1068,7 +1068,7 @@ main (int   argc,
+    g_test_add_func ("/resource/automatic", test_resource_automatic);
+    /* This only uses automatic resources too, so it tests the constructors and destructors */
+    g_test_add_func ("/resource/module", test_resource_module);
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
+index 44482dd2b7..071e4a7c4d 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
+@@ -1,4 +1,4 @@
+-From 4b97f457b7b44117e27d2a218c4b68e7fe3fe4ce Mon Sep 17 00:00:00 2001
++From 17d718640ae6f953e5eea714c1bd64eeb6e4799f Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 12 Oct 2019 17:46:26 -0700
+ Subject: [PATCH] meson: Run atomics test on clang as well
+@@ -15,10 +15,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index afb6eaa..6aa70f5 100644
++index 122f8b5..f055079 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -1692,7 +1692,7 @@ atomicdefine = '''
++@@ -1938,7 +1938,7 @@ atomicdefine = '''
+  # We know that we can always use real ("lock free") atomic operations with MSVC
+  if cc.get_id() == 'msvc' or cc.get_id() == 'clang-cl' or cc.links(atomictest, name : 'atomic ops')
+    have_atomic_lock_free = true
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
+index 788f420d11..e03f9a3c84 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
+@@ -1,4 +1,4 @@
+-From 9aa9574861fad39d0679025e35fe1e188345f685 Mon Sep 17 00:00:00 2001
++From 7865d698b5d392aac3a3d32e9ebd5fea45017d15 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sat, 16 Sep 2023 22:28:27 +0200
+ Subject: [PATCH] meson.build: do not enable pidfd features on native glib
+@@ -9,12 +9,13 @@ where these features are not implemented.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++
+ ---
+  meson.build | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 1c36993..bbf97fc 100644
++index f055079..77d78aa 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -981,7 +981,8 @@ if cc.links('''#include <sys/syscall.h>
+@@ -27,6 +28,3 @@ index 1c36993..bbf97fc 100644
+  endif
+  
+  # Check for __uint128_t (gcc) by checking for 128-bit division
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch b/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
+index 1c645f3a9a..4b75167da6 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
+@@ -1,4 +1,4 @@
+-From 79ce7e545dd3a93f77d2146d50b6fa061fbceed9 Mon Sep 17 00:00:00 2001
++From 53bcd4b6cd3fe3fe4246914462e6724761eecf51 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 3 Oct 2017 10:45:55 +0300
+ Subject: [PATCH] Do not hardcode python path into various tools
+@@ -23,7 +23,7 @@ index 67d3675..4e92a7a 100755
+  # GDBus - GLib D-Bus Library
+  #
+ diff --git a/gobject/glib-genmarshal.in b/gobject/glib-genmarshal.in
+-index 7380f24..c8abeaa 100755
++index aa5af43..56e8e2e 100755
+ --- a/gobject/glib-genmarshal.in
+ +++ b/gobject/glib-genmarshal.in
+ @@ -1,4 +1,4 @@
+@@ -33,7 +33,7 @@ index 7380f24..c8abeaa 100755
+  # pylint: disable=too-many-lines, missing-docstring, invalid-name
+  
+ diff --git a/gobject/glib-mkenums.in b/gobject/glib-mkenums.in
+-index 91ad779..3ebef62 100755
++index 353e53a..8ed6c39 100755
+ --- a/gobject/glib-mkenums.in
+ +++ b/gobject/glib-mkenums.in
+ @@ -1,4 +1,4 @@
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index 841fedef8a..95a73298d8 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -1,4 +1,4 @@
+-From b90d13900dd2777c2ab90c5b0be1a872c10a17da Mon Sep 17 00:00:00 2001
++From 03a069cb8066d3e8ef72a43f7b1db5c9625e9cc2 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 11 Mar 2016 15:35:55 +0000
+ Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+similarity index 96%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+index a490262112..13d4b38e22 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+@@ -19,7 +19,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
+ 
+-SRC_URI[sha256sum] = "915bc3d0f8507d650ead3832e2f8fb670fce59aac4d7754a7dab6f1e6fed78b2"
++SRC_URI[sha256sum] = "609801dd373796e515972bf95fc0b2daa44545481ee2f465c4f204d224b2bc21"
+ 
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 -- 
 2.42.0
 
 
---===============7808085775262116277==
+--===============1870798291560962010==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-glib-2.0-upgrade-2.78.1-2.78.3.patch"
+
+RnJvbSBlY2ZlNGU4MWQ5YWYyNjIzZTY1OTRhOTJlODM4NTQyMDkzZTQwNDIxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDU6NDk6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+bGliLTIuMDogdXBncmFkZSAyLjc4LjEgLT4gMi43OC4zCgotLS0KIC4uLm90LXdyaXRlLWJpbmRp
+ci1pbnRvLXBrZy1jb25maWctZmlsZXMucGF0Y2ggfCAgNCArKy0tCiAuLi4vMDAwMS1GaXgtREFU
+QURJUk5BTUUtb24tdWNsaWJjLUxpbnV4LnBhdGNoIHwgIDMgKy0tCiAuLi5sLWdpby1xdWVyeW1v
+ZHVsZXMtYXMtbGliZXhlY19QUk9HUkFNLnBhdGNoIHwgIDYgKysrLS0tCiAuLi5pbmctYWJvdXQt
+ZGVwcmVjYXRlZC1wYXRocy1pbi1zY2hlbWFzLnBhdGNoIHwgIDQgKystLQogLi4uZS1jb3JyZWN0
+bHktd2hlbi1idWlsZGluZy13aXRoLW1pbmd3My5wYXRjaCB8IDE4ICsrKysrKysrKy0tLS0tLS0t
+LQogLi4ucmNlcy5jLWNvbW1lbnQtb3V0LWEtYnVpbGQtaG9zdC1vbmx5LS5wYXRjaCB8ICA2ICsr
+Ky0tLQogLi4uc29uLVJ1bi1hdG9taWNzLXRlc3Qtb24tY2xhbmctYXMtd2VsbC5wYXRjaCB8ICA2
+ICsrKy0tLQogLi4ubm90LWVuYWJsZS1waWRmZC1mZWF0dXJlcy1vbi1uYXRpdmUtZy5wYXRjaCB8
+ICA4ICsrKy0tLS0tCiAuLi5yZGNvZGUtcHl0aG9uLXBhdGgtaW50by12YXJpb3VzLXRvb2xzLnBh
+dGNoIHwgIDYgKysrLS0tCiAuLi4vZ2xpYi0yLjAvZ2xpYi0yLjAvcmVsb2NhdGUtbW9kdWxlcy5w
+YXRjaCAgIHwgIDIgKy0KIC4uLi97Z2xpYi0yLjBfMi43OC4xLmJiID0+IGdsaWItMi4wXzIuNzgu
+My5iYn0gfCAgMiArLQogMTEgZmlsZXMgY2hhbmdlZCwgMzEgaW5zZXJ0aW9ucygrKSwgMzQgZGVs
+ZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAve2dsaWItMi4wXzIu
+NzguMS5iYiA9PiBnbGliLTIuMF8yLjc4LjMuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1Eby1ub3Qtd3JpdGUtYmluZGlyLWlu
+dG8tcGtnLWNvbmZpZy1maWxlcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2ds
+aWItMi4wLzAwMDEtRG8tbm90LXdyaXRlLWJpbmRpci1pbnRvLXBrZy1jb25maWctZmlsZXMucGF0
+Y2gKaW5kZXggMGQ0NGRkZjI5OS4uMGU1ZjM3MWNiNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1Eby1ub3Qtd3JpdGUtYmluZGlyLWludG8tcGtn
+LWNvbmZpZy1maWxlcy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGli
+LTIuMC8wMDAxLURvLW5vdC13cml0ZS1iaW5kaXItaW50by1wa2ctY29uZmlnLWZpbGVzLnBhdGNo
+CkBAIC0xLDQgKzEsNCBAQAotRnJvbSA5ZWM0ZWVkZWIzZjY3ZGIwYmZmMDlmNWQ4NTkzMThkMDVm
+ZjQ3OTY0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBjZjdkZjkxY2M4YzNiNDgxMTIz
+NWVmOGFlYzE0NGM1ZjBjZjkwYmRiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxl
+eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDE1IEZl
+YiAyMDE5IDExOjE3OjI3ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIERvIG5vdCB3cml0ZSAkYmlu
+ZGlyIGludG8gcGtnLWNvbmZpZyBmaWxlcwpAQCAtMTYsNyArMTYsNyBAQCBTaWduZWQtb2ZmLWJ5
+OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAyIGZpbGVzIGNo
+YW5nZWQsIDExIGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEv
+Z2lvL21lc29uLmJ1aWxkIGIvZ2lvL21lc29uLmJ1aWxkCi1pbmRleCBhMzIwYzBmLi44NmNlN2M0
+IDEwMDY0NAoraW5kZXggNWY5MTU4Ni4uMWE5NWY0ZiAxMDA2NDQKIC0tLSBhL2dpby9tZXNvbi5i
+dWlsZAogKysrIGIvZ2lvL21lc29uLmJ1aWxkCiBAQCAtODg0LDE0ICs4ODQsMTQgQEAgcGtnLmdl
+bmVyYXRlKGxpYmdpbywKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2ds
+aWItMi4wLzAwMDEtRml4LURBVEFESVJOQU1FLW9uLXVjbGliYy1MaW51eC5wYXRjaCBiL21ldGEv
+cmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wLzAwMDEtRml4LURBVEFESVJOQU1FLW9uLXVj
+bGliYy1MaW51eC5wYXRjaAppbmRleCAxNmYyZDMxNDk2Li4xMjU0NDY2MDYzIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC8wMDAxLUZpeC1EQVRBRElSTkFN
+RS1vbi11Y2xpYmMtTGludXgucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAv
+Z2xpYi0yLjAvMDAwMS1GaXgtREFUQURJUk5BTUUtb24tdWNsaWJjLUxpbnV4LnBhdGNoCkBAIC0x
+LDQgKzEsNCBAQAotRnJvbSBjOTRlNjY5ZGU5OGEzODkyYzY5OWJkOGQwZDJiNTE2NGIyZGU3NDdl
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiOTA3YTY2ODFjNGMyNGU1ZDM3NDU1Mzhk
+OWZjZDQ3MWNmMWM0YzRhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWog
+PHJhai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFNhdCwgMTUgTWFyIDIwMTQgMjI6NDI6MjkgLTA3
+MDAKIFN1YmplY3Q6IFtQQVRDSF0gRml4IERBVEFESVJOQU1FIG9uIHVjbGliYy9MaW51eApAQCAt
+OSw3ICs5LDYgQEAgYmFzZWQgc3lzdGVtcyB0aGVyZWZvcmUgbGV0cyBzZXQgREFUQURJUk5BTUUg
+dG8gInNoYXJlIi4KIFNpZ25lZC1vZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
+CiBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKIAotCiAtLS0KICBtNG1hY3Jvcy9nbGliLWdldHRl
+eHQubTQgfCA0ICsrKysKICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC8wMDAxLUluc3RhbGwtZ2lv
+LXF1ZXJ5bW9kdWxlcy1hcy1saWJleGVjX1BST0dSQU0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29y
+ZS9nbGliLTIuMC9nbGliLTIuMC8wMDAxLUluc3RhbGwtZ2lvLXF1ZXJ5bW9kdWxlcy1hcy1saWJl
+eGVjX1BST0dSQU0ucGF0Y2gKaW5kZXggNTk3ODY0ZDlhYy4uNTBkMzY5YzI0ZSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1JbnN0YWxsLWdpby1x
+dWVyeW1vZHVsZXMtYXMtbGliZXhlY19QUk9HUkFNLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1j
+b3JlL2dsaWItMi4wL2dsaWItMi4wLzAwMDEtSW5zdGFsbC1naW8tcXVlcnltb2R1bGVzLWFzLWxp
+YmV4ZWNfUFJPR1JBTS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMDAxNWRiNDVjZDFiZmVm
+YzA0OTU5ZGZmYWI1ZGFiZWVhZDkzMTM2ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
+NmUyZGRjYjU0NjVkMTA2MTgzNDViMTJlMGI0NDcxZWFkMGYxNDMwNCBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKIEZyb206IEp1c3NpIEt1a2tvbmVuIDxqdXNzaS5rdWtrb25lbkBpbnRlbC5jb20+
+CiBEYXRlOiBUdWUsIDIyIE1hciAyMDE2IDE1OjE0OjU4ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hd
+IEluc3RhbGwgZ2lvLXF1ZXJ5bW9kdWxlcyBhcyBsaWJleGVjX1BST0dSQU0KQEAgLTE0LDEwICsx
+NCwxMCBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW09FIHNwZWNpZmljXQogIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQogCiBkaWZmIC0tZ2l0IGEvZ2lvL21lc29uLmJ1
+aWxkIGIvZ2lvL21lc29uLmJ1aWxkCi1pbmRleCAyZWY2MGVkLi41MzJiMDg2IDEwMDY0NAoraW5k
+ZXggZjlmZGY2ZS4uNWY5MTU4NiAxMDA2NDQKIC0tLSBhL2dpby9tZXNvbi5idWlsZAogKysrIGIv
+Z2lvL21lc29uLmJ1aWxkCi1AQCAtOTM2LDYgKzkzNiw3IEBAIGdpb19xdWVyeW1vZHVsZXMgPSBl
+eGVjdXRhYmxlKCdnaW8tcXVlcnltb2R1bGVzJywgJ2dpby1xdWVyeW1vZHVsZXMuYycsICdnaW9t
+b2R1CitAQCAtMTAwNSw2ICsxMDA1LDcgQEAgZ2lvX3F1ZXJ5bW9kdWxlcyA9IGV4ZWN1dGFibGUo
+J2dpby1xdWVyeW1vZHVsZXMnLCAnZ2lvLXF1ZXJ5bW9kdWxlcy5jJywgJ2dpb21vZHUKICAgIGNf
+YXJncyA6IGdpb19jX2FyZ3MsCiAgICAjIGludGwubGliIGlzIG5vdCBjb21wYXRpYmxlIHdpdGgg
+U0FGRVNFSAogICAgbGlua19hcmdzIDogbm9zZWhfbGlua19hcmdzLApkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1SZW1vdmUtdGhlLXdhcm5pbmct
+YWJvdXQtZGVwcmVjYXRlZC1wYXRocy1pbi1zY2hlbWFzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNv
+cmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1SZW1vdmUtdGhlLXdhcm5pbmctYWJvdXQtZGVwcmVj
+YXRlZC1wYXRocy1pbi1zY2hlbWFzLnBhdGNoCmluZGV4IDZmZDkzNTI2Y2UuLmY4MTA1NzRkOTcg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wLzAwMDEtUmVt
+b3ZlLXRoZS13YXJuaW5nLWFib3V0LWRlcHJlY2F0ZWQtcGF0aHMtaW4tc2NoZW1hcy5wYXRjaAor
+KysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC8wMDAxLVJlbW92ZS10aGUt
+d2FybmluZy1hYm91dC1kZXByZWNhdGVkLXBhdGhzLWluLXNjaGVtYXMucGF0Y2gKQEAgLTEsNCAr
+MSw0IEBACi1Gcm9tIDRmNDdiOGE4ZDY1MGQxODVhYTYxYWVjMmY1NmEyODM1MjJhNzIzYzQgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGM4YzIyMzA0NTgyMWNhYzk3Zjc5OGNmYTYzZjE5
+ODUzNjIxYThhMmEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2Fu
+YXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IEZyaSwgMTIgSnVuIDIwMTUgMTc6
+MDg6NDYgKzAzMDAKIFN1YmplY3Q6IFtQQVRDSF0gUmVtb3ZlIHRoZSB3YXJuaW5nIGFib3V0IGRl
+cHJlY2F0ZWQgcGF0aHMgaW4gc2NoZW1hcwpAQCAtMTUsNyArMTUsNyBAQCBTaWduZWQtb2ZmLWJ5
+OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hh
+bmdlZCwgMTMgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9naW8vZ2xpYi1jb21waWxlLXNj
+aGVtYXMuYyBiL2dpby9nbGliLWNvbXBpbGUtc2NoZW1hcy5jCi1pbmRleCA3ODg4MTIwLi43YWNi
+ZDViIDEwMDY0NAoraW5kZXggMDRlZjQwNC4uZTc5MWNlMiAxMDA2NDQKIC0tLSBhL2dpby9nbGli
+LWNvbXBpbGUtc2NoZW1hcy5jCiArKysgYi9naW8vZ2xpYi1jb21waWxlLXNjaGVtYXMuYwogQEAg
+LTEyMzIsMTkgKzEyMzIsNiBAQCBwYXJzZV9zdGF0ZV9zdGFydF9zY2hlbWEgKFBhcnNlU3RhdGUg
+ICpzdGF0ZSwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4w
+LzAwMDEtU2V0LWhvc3RfbWFjaGluZS1jb3JyZWN0bHktd2hlbi1idWlsZGluZy13aXRoLW1pbmd3
+My5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wLzAwMDEtU2V0LWhv
+c3RfbWFjaGluZS1jb3JyZWN0bHktd2hlbi1idWlsZGluZy13aXRoLW1pbmd3My5wYXRjaAppbmRl
+eCAyZTFlMjMxM2U4Li5lMWQyZmIwZTU0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9n
+bGliLTIuMC9nbGliLTIuMC8wMDAxLVNldC1ob3N0X21hY2hpbmUtY29ycmVjdGx5LXdoZW4tYnVp
+bGRpbmctd2l0aC1taW5ndzMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAv
+Z2xpYi0yLjAvMDAwMS1TZXQtaG9zdF9tYWNoaW5lLWNvcnJlY3RseS13aGVuLWJ1aWxkaW5nLXdp
+dGgtbWluZ3czLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiYTE3MjhiYzI3Yzg4NTk3MTY0
+OTU3ZDAwMGI3MGVjNGJlNmVkZjI4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiYWZk
+ZTRlZWRjMGEyMmI0NWU3M2VlNjE4M2I5YTExMzkzYTFlNDAwIE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBE
+YXRlOiBXZWQsIDEzIEZlYiAyMDE5IDE1OjMyOjA1ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIFNl
+dCBob3N0X21hY2hpbmUgY29ycmVjdGx5IHdoZW4gYnVpbGRpbmcgd2l0aCBtaW5ndzMyCkBAIC0x
+Myw3ICsxMyw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
+aW5AZ21haWwuY29tPgogIDMgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA1IGRlbGV0
+aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvZ2lvL3Rlc3RzL21lc29uLmJ1aWxkIGIvZ2lvL3Rlc3Rz
+L21lc29uLmJ1aWxkCi1pbmRleCBmNjQ0YWEyLi42NGE4Njg0IDEwMDY0NAoraW5kZXggNGVmMzM0
+My4uZTQ5OGU3ZSAxMDA2NDQKIC0tLSBhL2dpby90ZXN0cy9tZXNvbi5idWlsZAogKysrIGIvZ2lv
+L3Rlc3RzL21lc29uLmJ1aWxkCiBAQCAtMjksNyArMjksNyBAQCBlbmRpZgpAQCAtMjUsNyArMjUs
+NyBAQCBpbmRleCBmNjQ0YWEyLi42NGE4Njg0IDEwMDY0NAogICAgY29tbW9uX2dpb190ZXN0c19k
+ZXBzICs9IFtpcGhscGFwaV9kZXAsIHdpbnNvY2syLCBjYy5maW5kX2xpYnJhcnkgKCdzZWN1cjMy
+JyldCiAgZW5kaWYKICAKLUBAIC0yMTAsNyArMjEwLDcgQEAgaWYgaGF2ZV9kYnVzX2RhZW1vbgor
+QEAgLTIzMCw3ICsyMzAsNyBAQCBpZiBoYXZlX2RidXNfZGFlbW9uCiAgZW5kaWYKICAKICAjICBU
+ZXN0IHByb2dyYW1zIGJ1aWxkYWJsZSBvbiBVTklYIG9ubHkKQEAgLTM0LDcgKzM0LDcgQEAgaW5k
+ZXggZjY0NGFhMi4uNjRhODY4NCAxMDA2NDQKICAgIGdpb190ZXN0cyArPSB7CiAgICAgICdmaWxl
+JyA6IHt9LAogICAgICAnZ2RidXMtcGVlci1vYmplY3QtbWFuYWdlcicgOiB7fSwKLUBAIC00NjIs
+NyArNDYyLDcgQEAgaWYgaG9zdF9tYWNoaW5lLnN5c3RlbSgpICE9ICd3aW5kb3dzJworQEAgLTU2
+Miw3ICs1NjIsNyBAQCBpZiBob3N0X21hY2hpbmUuc3lzdGVtKCkgIT0gJ3dpbmRvd3MnCiAgZW5k
+aWYgIyB1bml4CiAgCiAgIyAgVGVzdCBwcm9ncmFtcyBidWlsZGFibGUgb24gV2luZG93cyBvbmx5
+CkBAIC00Myw3ICs0Myw3IEBAIGluZGV4IGY2NDRhYTIuLjY0YTg2ODQgMTAwNjQ0CiAgICBnaW9f
+dGVzdHMgKz0geyd3aW4zMi1zdHJlYW1zJyA6IHt9fQogIGVuZGlmCiAgCi1AQCAtNTMyLDcgKzUz
+Miw3IEBAIGlmIGNjLmdldF9pZCgpICE9ICdtc3ZjJyBhbmQgY2MuZ2V0X2lkKCkgIT0gJ2NsYW5n
+LWNsJworQEAgLTYzMiw3ICs2MzIsNyBAQCBpZiBjYy5nZXRfaWQoKSAhPSAnbXN2YycgYW5kIGNj
+LmdldF9pZCgpICE9ICdjbGFuZy1jbCcKICAgIH0KICBlbmRpZgogIApAQCAtNTMsMTAgKzUzLDEw
+IEBAIGluZGV4IGY2NDRhYTIuLjY0YTg2ODQgMTAwNjQ0CiAgICAgICdnZGJ1cy1leGFtcGxlLXVu
+aXgtZmQtY2xpZW50JyA6IHsKICAgICAgICAnaW5zdGFsbCcgOiBmYWxzZSwKIGRpZmYgLS1naXQg
+YS9nbGliL3Rlc3RzL21lc29uLmJ1aWxkIGIvZ2xpYi90ZXN0cy9tZXNvbi5idWlsZAotaW5kZXgg
+ZGIwMWI1NC4uNjk1MDgxNyAxMDA2NDQKK2luZGV4IGQ4MGM4NmUuLjUzMjljZGEgMTAwNjQ0CiAt
+LS0gYS9nbGliL3Rlc3RzL21lc29uLmJ1aWxkCiArKysgYi9nbGliL3Rlc3RzL21lc29uLmJ1aWxk
+Ci1AQCAtMTg4LDcgKzE4OCw3IEBAIGlmIGdsaWJfY29uZi5oYXMoJ0hBVkVfRVZFTlRGRCcpCitA
+QCAtMjE2LDcgKzIxNiw3IEBAIGlmIGdsaWJfY29uZi5oYXMoJ0hBVkVfRVZFTlRGRCcpCiAgICB9
+CiAgZW5kaWYKICAKQEAgLTY2LDEwICs2NiwxMCBAQCBpbmRleCBkYjAxYjU0Li42OTUwODE3IDEw
+MDY0NAogICAgICBnbGliX3Rlc3RzICs9IHsKICAgICAgICAnZ3BvbGwnIDogewogZGlmZiAtLWdp
+dCBhL21lc29uLmJ1aWxkIGIvbWVzb24uYnVpbGQKLWluZGV4IDQzYmI0NjguLjVmOWI1OWMgMTAw
+NjQ0CitpbmRleCBmN2U5MzZlLi4xMjJmOGI1IDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsr
+KyBiL21lc29uLmJ1aWxkCi1AQCAtNDMsNiArNDMsOSBAQCBlbHNlCitAQCAtNTQsNiArNTQsOSBA
+QCBlbHNlCiAgZW5kaWYKICAKICBob3N0X3N5c3RlbSA9IGhvc3RfbWFjaGluZS5zeXN0ZW0oKQpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1naW8t
+dGVzdHMtcmVzb3VyY2VzLmMtY29tbWVudC1vdXQtYS1idWlsZC1ob3N0LW9ubHktLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1naW8tdGVzdHMtcmVzb3Vy
+Y2VzLmMtY29tbWVudC1vdXQtYS1idWlsZC1ob3N0LW9ubHktLnBhdGNoCmluZGV4IGQzM2ZkZDRk
+OGIuLmU0YzJmNzc0NTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2ds
+aWItMi4wLzAwMDEtZ2lvLXRlc3RzLXJlc291cmNlcy5jLWNvbW1lbnQtb3V0LWEtYnVpbGQtaG9z
+dC1vbmx5LS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC8w
+MDAxLWdpby10ZXN0cy1yZXNvdXJjZXMuYy1jb21tZW50LW91dC1hLWJ1aWxkLWhvc3Qtb25seS0u
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDkyZGU2YzdlYjMwYjk2MWIyNGEyZGNlODEyZDUy
+NzY0ODdiN2QyM2QgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDNmMDViOTQxOGM4OGJi
+YjgzYzA4YjU3Y2M1NTI5YjAwNmYyNmZmZjQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFdlZCwg
+OCBKYW4gMjAyMCAxODoyMjo0NiArMDEwMAogU3ViamVjdDogW1BBVENIXSBnaW8vdGVzdHMvcmVz
+b3VyY2VzLmM6IGNvbW1lbnQgb3V0IGEgYnVpbGQgaG9zdC1vbmx5IHRlc3QKQEAgLTE0LDEwICsx
+NCwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
+YWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IAogZGlmZiAtLWdpdCBhL2dpby90ZXN0cy9yZXNvdXJjZXMuYyBiL2dpby90ZXN0cy9yZXNvdXJj
+ZXMuYwotaW5kZXggYzQ0ZDIxNC4uZTI4OWEwMSAxMDA2NDQKK2luZGV4IGY1Njc5MTQuLmIyMWI2
+MTYgMTAwNjQ0CiAtLS0gYS9naW8vdGVzdHMvcmVzb3VyY2VzLmMKICsrKyBiL2dpby90ZXN0cy9y
+ZXNvdXJjZXMuYwotQEAgLTk5Myw3ICs5OTMsNyBAQCBtYWluIChpbnQgICBhcmdjLAorQEAgLTEw
+NjgsNyArMTA2OCw3IEBAIG1haW4gKGludCAgIGFyZ2MsCiAgICBnX3Rlc3RfYWRkX2Z1bmMgKCIv
+cmVzb3VyY2UvYXV0b21hdGljIiwgdGVzdF9yZXNvdXJjZV9hdXRvbWF0aWMpOwogICAgLyogVGhp
+cyBvbmx5IHVzZXMgYXV0b21hdGljIHJlc291cmNlcyB0b28sIHNvIGl0IHRlc3RzIHRoZSBjb25z
+dHJ1Y3RvcnMgYW5kIGRlc3RydWN0b3JzICovCiAgICBnX3Rlc3RfYWRkX2Z1bmMgKCIvcmVzb3Vy
+Y2UvbW9kdWxlIiwgdGVzdF9yZXNvdXJjZV9tb2R1bGUpOwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1tZXNvbi1SdW4tYXRvbWljcy10ZXN0LW9u
+LWNsYW5nLWFzLXdlbGwucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIu
+MC8wMDAxLW1lc29uLVJ1bi1hdG9taWNzLXRlc3Qtb24tY2xhbmctYXMtd2VsbC5wYXRjaAppbmRl
+eCA0NDQ4MmRkMmI3Li4wNzFlNGE3YzRkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9n
+bGliLTIuMC9nbGliLTIuMC8wMDAxLW1lc29uLVJ1bi1hdG9taWNzLXRlc3Qtb24tY2xhbmctYXMt
+d2VsbC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC8wMDAx
+LW1lc29uLVJ1bi1hdG9taWNzLXRlc3Qtb24tY2xhbmctYXMtd2VsbC5wYXRjaApAQCAtMSw0ICsx
+LDQgQEAKLUZyb20gNGI5N2Y0NTdiN2I0NDExN2UyN2QyYTIxOGM0YjY4ZTdmZTNmZTRjZSBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMTdkNzE4NjQwYWU2Zjk1M2U1ZWVhNzE0YzFiZDY0
+ZWViNmU0Nzk5ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWou
+a2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTYXQsIDEyIE9jdCAyMDE5IDE3OjQ2OjI2IC0wNzAwCiBT
+dWJqZWN0OiBbUEFUQ0hdIG1lc29uOiBSdW4gYXRvbWljcyB0ZXN0IG9uIGNsYW5nIGFzIHdlbGwK
+QEAgLTE1LDEwICsxNSwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+CiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5idWlsZAotaW5kZXggYWZiNmVhYS4u
+NmFhNzBmNSAxMDA2NDQKK2luZGV4IDEyMmY4YjUuLmYwNTUwNzkgMTAwNjQ0CiAtLS0gYS9tZXNv
+bi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKLUBAIC0xNjkyLDcgKzE2OTIsNyBAQCBhdG9taWNk
+ZWZpbmUgPSAnJycKK0BAIC0xOTM4LDcgKzE5MzgsNyBAQCBhdG9taWNkZWZpbmUgPSAnJycKICAj
+IFdlIGtub3cgdGhhdCB3ZSBjYW4gYWx3YXlzIHVzZSByZWFsICgibG9jayBmcmVlIikgYXRvbWlj
+IG9wZXJhdGlvbnMgd2l0aCBNU1ZDCiAgaWYgY2MuZ2V0X2lkKCkgPT0gJ21zdmMnIG9yIGNjLmdl
+dF9pZCgpID09ICdjbGFuZy1jbCcgb3IgY2MubGlua3MoYXRvbWljdGVzdCwgbmFtZSA6ICdhdG9t
+aWMgb3BzJykKICAgIGhhdmVfYXRvbWljX2xvY2tfZnJlZSA9IHRydWUKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wLzAwMDEtbWVzb24uYnVpbGQtZG8tbm90
+LWVuYWJsZS1waWRmZC1mZWF0dXJlcy1vbi1uYXRpdmUtZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1j
+b3JlL2dsaWItMi4wL2dsaWItMi4wLzAwMDEtbWVzb24uYnVpbGQtZG8tbm90LWVuYWJsZS1waWRm
+ZC1mZWF0dXJlcy1vbi1uYXRpdmUtZy5wYXRjaAppbmRleCA3ODhmNDIwZDExLi5lMDNmOWEzYzg0
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC8wMDAxLW1l
+c29uLmJ1aWxkLWRvLW5vdC1lbmFibGUtcGlkZmQtZmVhdHVyZXMtb24tbmF0aXZlLWcucGF0Y2gK
+KysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAwMS1tZXNvbi5idWls
+ZC1kby1ub3QtZW5hYmxlLXBpZGZkLWZlYXR1cmVzLW9uLW5hdGl2ZS1nLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSA5YWE5NTc0ODYxZmFkMzlkMDY3OTAyNWUzNWZlMWUxODgzNDVmNjg1IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3ODY1ZDY5OGI1ZDM5MmFhYzNhM2QzMmU5ZWJk
+NWZlYTQ1MDE3ZDE1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEth
+bmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IFNhdCwgMTYgU2VwIDIwMjMgMjI6Mjg6
+MjcgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gbWVzb24uYnVpbGQ6IGRvIG5vdCBlbmFibGUgcGlk
+ZmQgZmVhdHVyZXMgb24gbmF0aXZlIGdsaWIKQEAgLTksMTIgKzksMTMgQEAgd2hlcmUgdGhlc2Ug
+ZmVhdHVyZXMgYXJlIG5vdCBpbXBsZW1lbnRlZC4KIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
+cHJpYXRlIFtvZS1jb3JlIHNwZWNpZmljXQogU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2
+aW4gPGFsZXhAbGludXRyb25peC5kZT4KKwogLS0tCiAgbWVzb24uYnVpbGQgfCAzICsrLQogIDEg
+ZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdp
+dCBhL21lc29uLmJ1aWxkIGIvbWVzb24uYnVpbGQKLWluZGV4IDFjMzY5OTMuLmJiZjk3ZmMgMTAw
+NjQ0CitpbmRleCBmMDU1MDc5Li43N2Q3OGFhIDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsr
+KyBiL21lc29uLmJ1aWxkCiBAQCAtOTgxLDcgKzk4MSw4IEBAIGlmIGNjLmxpbmtzKCcnJyNpbmNs
+dWRlIDxzeXMvc3lzY2FsbC5oPgpAQCAtMjcsNiArMjgsMyBAQCBpbmRleCAxYzM2OTkzLi5iYmY5
+N2ZjIDEwMDY0NAogIGVuZGlmCiAgCiAgIyBDaGVjayBmb3IgX191aW50MTI4X3QgKGdjYykgYnkg
+Y2hlY2tpbmcgZm9yIDEyOC1iaXQgZGl2aXNpb24KLS0tIAotMi4zMC4yCi0KZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wLzAwMTAtRG8tbm90LWhhcmRjb2Rl
+LXB5dGhvbi1wYXRoLWludG8tdmFyaW91cy10b29scy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3Jl
+L2dsaWItMi4wL2dsaWItMi4wLzAwMTAtRG8tbm90LWhhcmRjb2RlLXB5dGhvbi1wYXRoLWludG8t
+dmFyaW91cy10b29scy5wYXRjaAppbmRleCAxYzY0NWYzYTlhLi40Yjc1MTY3ZGE2IDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC8wMDEwLURvLW5vdC1oYXJk
+Y29kZS1weXRob24tcGF0aC1pbnRvLXZhcmlvdXMtdG9vbHMucGF0Y2gKKysrIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvMDAxMC1Eby1ub3QtaGFyZGNvZGUtcHl0aG9uLXBh
+dGgtaW50by12YXJpb3VzLXRvb2xzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3OWNlN2U1
+NDVkZDNhOTNmNzdkMjE0NmQ1MGI2ZmEwNjFmYmNlZWQ5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSA1M2JjZDRiNmNkM2ZlM2ZlNDI0NjkxNDQ2MmU2NzI0NzYxZWVjZjUxIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
+bWFpbC5jb20+CiBEYXRlOiBUdWUsIDMgT2N0IDIwMTcgMTA6NDU6NTUgKzAzMDAKIFN1YmplY3Q6
+IFtQQVRDSF0gRG8gbm90IGhhcmRjb2RlIHB5dGhvbiBwYXRoIGludG8gdmFyaW91cyB0b29scwpA
+QCAtMjMsNyArMjMsNyBAQCBpbmRleCA2N2QzNjc1Li40ZTkyYTdhIDEwMDc1NQogICMgR0RCdXMg
+LSBHTGliIEQtQnVzIExpYnJhcnkKICAjCiBkaWZmIC0tZ2l0IGEvZ29iamVjdC9nbGliLWdlbm1h
+cnNoYWwuaW4gYi9nb2JqZWN0L2dsaWItZ2VubWFyc2hhbC5pbgotaW5kZXggNzM4MGYyNC4uYzhh
+YmVhYSAxMDA3NTUKK2luZGV4IGFhNWFmNDMuLjU2ZThlMmUgMTAwNzU1CiAtLS0gYS9nb2JqZWN0
+L2dsaWItZ2VubWFyc2hhbC5pbgogKysrIGIvZ29iamVjdC9nbGliLWdlbm1hcnNoYWwuaW4KIEBA
+IC0xLDQgKzEsNCBAQApAQCAtMzMsNyArMzMsNyBAQCBpbmRleCA3MzgwZjI0Li5jOGFiZWFhIDEw
+MDc1NQogICMgcHlsaW50OiBkaXNhYmxlPXRvby1tYW55LWxpbmVzLCBtaXNzaW5nLWRvY3N0cmlu
+ZywgaW52YWxpZC1uYW1lCiAgCiBkaWZmIC0tZ2l0IGEvZ29iamVjdC9nbGliLW1rZW51bXMuaW4g
+Yi9nb2JqZWN0L2dsaWItbWtlbnVtcy5pbgotaW5kZXggOTFhZDc3OS4uM2ViZWY2MiAxMDA3NTUK
+K2luZGV4IDM1M2U1M2EuLjhlZDZjMzkgMTAwNzU1CiAtLS0gYS9nb2JqZWN0L2dsaWItbWtlbnVt
+cy5pbgogKysrIGIvZ29iamVjdC9nbGliLW1rZW51bXMuaW4KIEBAIC0xLDQgKzEsNCBAQApkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvcmVsb2NhdGUtbW9k
+dWxlcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wL3JlbG9jYXRl
+LW1vZHVsZXMucGF0Y2gKaW5kZXggODQxZmVkZWY4YS4uOTVhNzMyOThkOCAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjAvcmVsb2NhdGUtbW9kdWxlcy5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLTIuMC9yZWxvY2F0ZS1tb2R1
+bGVzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiOTBkMTM5MDBkZDI3NzdjMmFiOTBjNWIw
+YmUxYTg3MmMxMGExN2RhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAwM2EwNjljYjgw
+NjZkM2U4ZWY3MmE0M2Y3YjFkYjVjOTYyNWU5Y2MyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
+RnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IEZyaSwgMTEg
+TWFyIDIwMTYgMTU6MzU6NTUgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZ2xpYi0yLjA6IHJlbG9j
+YXRlIHRoZSBHSU8gbW9kdWxlIGRpcmVjdG9yeSBmb3IgbmF0aXZlIGJ1aWxkcwpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjBfMi43OC4xLmJiIGIvbWV0YS9y
+ZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjBfMi43OC4zLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNzgu
+MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi0yLjBfMi43OC4z
+LmJiCmluZGV4IGE0OTAyNjIxMTIuLjEzZDRiMzhlMjIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1jb3JlL2dsaWItMi4wL2dsaWItMi4wXzIuNzguMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29y
+ZS9nbGliLTIuMC9nbGliLTIuMF8yLjc4LjMuYmIKQEAgLTE5LDcgKzE5LDcgQEAgU1JDX1VSSTph
+cHBlbmQ6Y2xhc3MtbmF0aXZlID0gIiBmaWxlOi8vcmVsb2NhdGUtbW9kdWxlcy5wYXRjaCBcCiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLW1lc29uLmJ1aWxkLWRv
+LW5vdC1lbmFibGUtcGlkZmQtZmVhdHVyZXMtb24tbmF0aXZlLWcucGF0Y2ggXAogICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTE1YmMzZDBm
+ODUwN2Q2NTBlYWQzODMyZTJmOGZiNjcwZmNlNTlhYWM0ZDc3NTRhN2RhYjZmMWU2ZmVkNzhiMiIK
+K1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2MDk4MDFkZDM3Mzc5NmU1MTU5NzJiZjk1ZmMwYjJkYWE0
+NDU0NTQ4MWVlMmY0NjVjNGYyMDRkMjI0YjJiYzIxIgogCiAjIEZpbmQgYW55IG1lc29uIGNyb3Nz
+IGZpbGVzIGluIEZJTEVTUEFUSCB0aGF0IGFyZSByZWxldmFudCBmb3IgdGhlIGN1cnJlbnQKICMg
+YnVpbGQgKHVzaW5nIHNpdGVpbmZvKSBhbmQgYWRkIHRoZW0gdG8gRVhUUkFfT0VNRVNPTi4KLS0g
+CjIuNDIuMAoK
+
+--===============1870798291560962010==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-ruamel-yaml: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.17.35.tar.gz;downloadfilename=ruamel.yaml-0.17.35.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.5.tar.gz;downloadfilename=ruamel.yaml-0.18.5.tar.gz"
-packages/core2-64-poky-linux/python3-ruamel-yaml: PV changed from "0.17.35" to "0.18.5"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.17.35" to "0.18.5"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.17.35" to "0.18.5"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.17.35" to "0.18.5"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.17.35" to "0.18.5"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.17.35" to "0.18.5"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.17.35" to "0.18.5"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info -> /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info, added "/usr/lib/python3.11/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-311.pyc /usr/lib/python3.11/site-packages/ruamel/yaml/docinfo.py"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1228939 to 1234164 (+0%)
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.17.35" to "0.18.5"
-Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/LICENSE was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/ruamel/yaml/docinfo.py was added
-  /usr/lib/python3.11/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/LICENSE was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-bash-completion: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-bash-completion: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-codegen: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-codegen: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-dbg: PKGSIZE changed from 26444017 to 26446745 (+0%)
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-dbg: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-dbg: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-dbg: FILELIST: removed "/usr/lib/.debug/libgmodule-2.0.so.0.7800.1 /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7800.1-gdb.py /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7800.1-gdb.py /usr/lib/.debug/libgthread-2.0.so.0.7800.1 /usr/lib/.debug/libgio-2.0.so.0.7800.1 /usr/lib/.debug/libglib-2.0.so.0.7800.1 /usr/lib/.debug/libgobject-2.0.so.0.7800.1", added "/usr/lib/.debug/libgmodule-2.0.so.0.7800.3 /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7800.3-gdb.py /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7800.3-gdb.py /usr/lib/.debug/libgthread-2.0.so.0.7800.3 /usr/lib/.debug/libgio-2.0.so.0.7800.3 /usr/lib/.debug/libgobject-2.0.so.0.7800.3 /usr/lib/.debug/libglib-2.0.so.0.7800.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-dev: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-dev: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-doc: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-doc: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ab: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ab: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-af: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-af: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-am: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-am: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-an: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-an: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ar: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ar: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-as: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-as: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ast: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ast: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-az: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-az: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-be+latin: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-be+latin: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-be: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-be: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-bg: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-bg: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-bn-in: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-bn-in: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-bn: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-bn: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-bs: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-bs: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ca+valencia: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ca+valencia: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ca: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ca: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-cs: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-cs: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-cy: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-cy: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-da: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-da: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-de: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-de: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-dz: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-dz: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-el: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-el: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-en+shaw: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-en+shaw: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-en-ca: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-en-ca: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-en-gb: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-en-gb: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-eo: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-eo: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-es: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-es: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-et: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-et: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-eu: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-eu: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-fa: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-fa: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-fi: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-fi: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-fr: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-fr: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-fur: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-fur: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ga: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ga: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-gd: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-gd: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-gl: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-gl: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-gu: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-gu: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-he: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-he: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-hi: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-hi: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-hr: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-hr: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-hu: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-hu: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-hy: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-hy: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-id: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-id: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ie: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ie: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-is: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-is: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-it: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-it: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ja: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ja: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ka: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ka: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-kk: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-kk: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-kn: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-kn: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ko: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ko: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ku: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ku: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-lt: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-lt: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-lv: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-lv: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mai: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mai: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mg: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mg: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mk: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mk: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ml: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ml: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mn: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mn: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mr: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-mr: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ms: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ms: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-nb: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-nb: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-nds: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-nds: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ne: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ne: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-nl: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-nl: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-nn: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-nn: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-oc: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-oc: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-or: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-or: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-pa: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-pa: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-pl: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-pl: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ps: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ps: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-pt-br: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-pt-br: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-pt: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-pt: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ro: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ro: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ru: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ru: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-rw: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-rw: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-si: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-si: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sk: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sk: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sl: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sl: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sq: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sq: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sr+ije: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sr+ije: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sr+latin: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sr+latin: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sr: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sr: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sv: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-sv: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ta: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ta: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-te: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-te: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-tg: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-tg: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-th: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-th: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-tl: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-tl: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-tr: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-tr: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-tt: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-tt: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ug: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-ug: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-uk: PKGSIZE changed from 178860 to 178864 (+0%)
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-uk: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-uk: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-vi: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-vi: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-wa: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-wa: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-xh: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-xh: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-yi: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-yi: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-zh-cn: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-zh-cn: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-zh-hk: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-zh-hk: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-zh-tw: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-locale-zh-tw: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-ptest: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-ptest: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-src: PKGSIZE changed from 23654455 to 23646556 (-0%)
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-src: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-src: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-staticdev: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-staticdev: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-utils: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0-utils: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0/glib-2.0: PV changed from "2.78.1" to "2.78.3"
+packages/core2-64-poky-linux/glib-2.0/glib-2.0: FILELIST: removed "/usr/lib/libglib-2.0.so.0.7800.1 /usr/lib/libgio-2.0.so.0.7800.1 /usr/lib/libgobject-2.0.so.0.7800.1 /usr/lib/libgthread-2.0.so.0.7800.1 /usr/lib/libgmodule-2.0.so.0.7800.1", added "/usr/lib/libglib-2.0.so.0.7800.3 /usr/lib/libgio-2.0.so.0.7800.3 /usr/lib/libgthread-2.0.so.0.7800.3 /usr/lib/libgobject-2.0.so.0.7800.3 /usr/lib/libgmodule-2.0.so.0.7800.3"
+packages/core2-64-poky-linux/glib-2.0: PKGV changed from 2.78.1 [default] to 2.78.3 [default]
+packages/core2-64-poky-linux/glib-2.0: SRC_URI changed from "https://download.gnome.org/sources//glib/2.78/glib-2.78.1.tar.xz file://run-ptest file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch file://0010-Do-not-hardcode-python-path-into-various-tools.patch file://0001-Set-host_machine-correctly-when-building-with-mingw3.patch file://0001-Do-not-write-bindir-into-pkg-config-files.patch file://0001-meson-Run-atomics-test-on-clang-as-well.patch file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch" to "https://download.gnome.org/sources//glib/2.78/glib-2.78.3.tar.xz file://run-ptest file://0001-Fix-DATADIRNAME-on-uclibc-Linux.patch file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch file://0001-Install-gio-querymodules-as-libexec_PROGRAM.patch file://0010-Do-not-hardcode-python-path-into-various-tools.patch file://0001-
+ Set-host_machine-correctly-when-building-with-mingw3.patch file://0001-Do-not-write-bindir-into-pkg-config-files.patch file://0001-meson-Run-atomics-test-on-clang-as-well.patch file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch"
+packages/core2-64-poky-linux/glib-2.0: PV changed from "2.78.1" to "2.78.3"
+Changes to packages/core2-64-poky-linux/glib-2.0 (sysroot):
+  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7800.1 to libgio-2.0.so.0.7800.3
+  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7800.1 to libglib-2.0.so.0.7800.3
+  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7800.1 to libgmodule-2.0.so.0.7800.3
+  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7800.1 to libgobject-2.0.so.0.7800.3
+  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7800.1 to libgthread-2.0.so.0.7800.3
+  /usr/lib/libgio-2.0.so.0.7800.1 moved to /usr/lib/libgio-2.0.so.0.7800.3
+  /usr/lib/libglib-2.0.so.0.7800.1 moved to /usr/lib/libglib-2.0.so.0.7800.3
+  /usr/lib/libgmodule-2.0.so.0.7800.1 moved to /usr/lib/libgmodule-2.0.so.0.7800.3
+  /usr/lib/libgobject-2.0.so.0.7800.1 moved to /usr/lib/libgobject-2.0.so.0.7800.3
+  /usr/lib/libgthread-2.0.so.0.7800.1 moved to /usr/lib/libgthread-2.0.so.0.7800.3
+  /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7800.1-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7800.3-gdb.py
+  /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7800.1-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7800.3-gdb.py
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1778,282 +2284,64 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7800.1 to libgio-2.0.so.0.7800.3
+  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7800.1 to libglib-2.0.so.0.7800.3
+  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7800.1 to libgmodule-2.0.so.0.7800.3
+  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7800.1 to libgobject-2.0.so.0.7800.3
+  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7800.1 to libgthread-2.0.so.0.7800.3
+  /usr/lib/libgio-2.0.so.0.7800.1 moved to /usr/lib/libgio-2.0.so.0.7800.3
+  /usr/lib/libglib-2.0.so.0.7800.1 moved to /usr/lib/libglib-2.0.so.0.7800.3
+  /usr/lib/libgmodule-2.0.so.0.7800.1 moved to /usr/lib/libgmodule-2.0.so.0.7800.3
+  /usr/lib/libgobject-2.0.so.0.7800.1 moved to /usr/lib/libgobject-2.0.so.0.7800.3
+  /usr/lib/libgthread-2.0.so.0.7800.1 moved to /usr/lib/libgthread-2.0.so.0.7800.3
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3 was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7800.3-gdb.py was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7800.3-gdb.py was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1 was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7800.1-gdb.py was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7800.1-gdb.py was removed
 
---===============7808085775262116277==
+--===============1870798291560962010==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info -> /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info, added "/usr/lib/python3.11/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-311.pyc /usr/lib/python3.11/site-packages/ruamel/yaml/docinfo.py"
-Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/LICENSE was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/METADATA was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/RECORD was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/top_level.txt was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/WHEEL was added
-  /usr/lib/python3.11/site-packages/ruamel/yaml/docinfo.py was added
-  /usr/lib/python3.11/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-311.pyc was added
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/LICENSE was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/METADATA was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/RECORD was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/top_level.txt was removed
-  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/WHEEL was removed
-Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
-  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
-  /usr/bin/x86_64-poky-linux was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
-  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
-  /usr/lib/x86_64-poky-linux was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins was added
-  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
-  /usr/lib/x86_64-poky-linux/ldscripts was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
-  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
-  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
-  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
-  /usr/bin/x86_64-poky-linux-musl was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
-  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
-  /usr/lib/x86_64-poky-linux-musl was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
-  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
-  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+packages/core2-64-poky-linux/glib-2.0/glib-2.0: FILELIST: removed "/usr/lib/libglib-2.0.so.0.7800.1 /usr/lib/libgmodule-2.0.so.0.7800.1 /usr/lib/libgobject-2.0.so.0.7800.1 /usr/lib/libgio-2.0.so.0.7800.1 /usr/lib/libgthread-2.0.so.0.7800.1", added "/usr/lib/libglib-2.0.so.0.7800.3 /usr/lib/libgmodule-2.0.so.0.7800.3 /usr/lib/libgio-2.0.so.0.7800.3 /usr/lib/libgobject-2.0.so.0.7800.3 /usr/lib/libgthread-2.0.so.0.7800.3"
+Changes to packages/core2-64-poky-linux/glib-2.0 (sysroot):
+  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7800.1 to libgio-2.0.so.0.7800.3
+  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7800.1 to libglib-2.0.so.0.7800.3
+  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7800.1 to libgmodule-2.0.so.0.7800.3
+  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7800.1 to libgobject-2.0.so.0.7800.3
+  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7800.1 to libgthread-2.0.so.0.7800.3
+  /usr/lib/libgio-2.0.so.0.7800.1 moved to /usr/lib/libgio-2.0.so.0.7800.3
+  /usr/lib/libglib-2.0.so.0.7800.1 moved to /usr/lib/libglib-2.0.so.0.7800.3
+  /usr/lib/libgmodule-2.0.so.0.7800.1 moved to /usr/lib/libgmodule-2.0.so.0.7800.3
+  /usr/lib/libgobject-2.0.so.0.7800.1 moved to /usr/lib/libgobject-2.0.so.0.7800.3
+  /usr/lib/libgthread-2.0.so.0.7800.1 moved to /usr/lib/libgthread-2.0.so.0.7800.3
+  /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7800.1-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libglib-2.0.so.0.7800.3-gdb.py
+  /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7800.1-gdb.py moved to /usr/share/gdb/auto-load/usr/lib/libgobject-2.0.so.0.7800.3-gdb.py
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3437,36 +3725,43 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/glib-2.0-native (sysroot):
+  /usr/lib/libgio-2.0.so.0 changed symlink target from libgio-2.0.so.0.7800.1 to libgio-2.0.so.0.7800.3
+  /usr/lib/libglib-2.0.so.0 changed symlink target from libglib-2.0.so.0.7800.1 to libglib-2.0.so.0.7800.3
+  /usr/lib/libgmodule-2.0.so.0 changed symlink target from libgmodule-2.0.so.0.7800.1 to libgmodule-2.0.so.0.7800.3
+  /usr/lib/libgobject-2.0.so.0 changed symlink target from libgobject-2.0.so.0.7800.1 to libgobject-2.0.so.0.7800.3
+  /usr/lib/libgthread-2.0.so.0 changed symlink target from libgthread-2.0.so.0.7800.1 to libgthread-2.0.so.0.7800.3
+  /usr/lib/libgio-2.0.so.0.7800.1 moved to /usr/lib/libgio-2.0.so.0.7800.3
+  /usr/lib/libglib-2.0.so.0.7800.1 moved to /usr/lib/libglib-2.0.so.0.7800.3
+  /usr/lib/libgmodule-2.0.so.0.7800.1 moved to /usr/lib/libgmodule-2.0.so.0.7800.3
+  /usr/lib/libgobject-2.0.so.0.7800.1 moved to /usr/lib/libgobject-2.0.so.0.7800.3
+  /usr/lib/libgthread-2.0.so.0.7800.1 moved to /usr/lib/libgthread-2.0.so.0.7800.3
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3 was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native/usr was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native/usr/lib was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7800.3-gdb.py was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.3/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7800.3-gdb.py was added
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1 was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native/usr was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native/usr/lib was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native/usr/lib/libglib-2.0.so.0.7800.1-gdb.py was removed
+  /usr/share/gdb/auto-load/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/x86_64-linux/glib-2.0-native/2.78.1/recipe-sysroot-native/usr/lib/libgobject-2.0.so.0.7800.1-gdb.py was removed
 
---===============7808085775262116277==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-ruamel-yaml-upgrade-0.17.35-0.18.5.patch"
-
-RnJvbSA2M2VjY2FjZGQxYmYxNTAwN2ZhZDkzNmY3ZDBkYTIwNmMwZDFjZWZjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDg6MTU6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXJ1YW1lbC15YW1sOiB1cGdyYWRlIDAuMTcuMzUgLT4gMC4xOC41CgotLS0KIC4uLm9u
-My1ydWFtZWwteWFtbF8wLjE3LjM1LmJiID0+IHB5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC41LmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcnVhbWVsLXlhbWxf
-MC4xNy4zNS5iYiA9PiBweXRob24zLXJ1YW1lbC15YW1sXzAuMTguNS5iYn0gKDg1JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxf
-MC4xNy4zNS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwt
-eWFtbF8wLjE4LjUuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTcuMzUuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4
-LjUuYmIKaW5kZXggMTc2MGZlYzdlZS4uMDE4ZWM4ODM5NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTcuMzUuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTguNS5i
-YgpAQCAtOCw3ICs4LDcgQEAgUFlQSV9QQUNLQUdFID0gInJ1YW1lbC55YW1sIgogCiBpbmhlcml0
-IHB5cGkgc2V0dXB0b29sczMKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjgwMTA0NmE5Y2FhY2Ix
-YjQzYWNjMTE4OTY5YjQ5Yjk2YjY1ZTg4NDdmMjkwMjk1NjNiMjlhYzYxZDAyZGI2MWIiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiNjE5MTdlM2EzNWE1NjljMTEzM2E4Zjc3MmUxMjI2OTYxYmY1YTEx
-OThiZWE3ZTIzZjA2YTA4NDFkZWExYWIwZSIKIAogUkRFUEVORFM6JHtQTn0gKz0gIlwKICAgICAk
-e1BZVEhPTl9QTn0tc2hlbGwgXAotLSAKMi40Mi4wCgo=
-
---===============7808085775262116277==--
+--===============1870798291560962010==--
 
