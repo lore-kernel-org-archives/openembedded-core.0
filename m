@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D229C47422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D3D1C47DA6
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:51 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.63136.1702649863339255368
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.63134.1702649863102937805
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Dec 2023 06:17:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CljIYehz;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Hpb7HRK8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c6dd72e50-34411fb6-f1ad-4f58-8837-25a01dddab70-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UYiCquB4;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TwXaCY3h;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c6dd72d65-e6b155cb-782a-4be1-a034-84549f730a54-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1702649867;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Xak4mwq6BR/qlyepD5Fs0MhS7giClsBoXVoP5H+tLZM=;
-	b=CljIYehzw0QVFe9K/8py0ZZb17gVXu782o5CHFLuPoarbJkubdbvPy22di5h/WIQ
-	FrsLsrJvEoVU2ykS+Q+EFi8ZPg2FjntUi/qnpFBoEapMsahbmeL9b46JG9xnt44KM6t
-	sT29Ll3ctvA6SFq8pYxKH07+qog0xFcIEPnDz1Wc=
+	bh=Wa4ufZ8A22HI6xJXIWKkxheC3pdxG0wmWQ/z3tQS/Zw=;
+	b=UYiCquB4A05tXF96/S7TfpmeFJJDagH97Do9wtBbbce7bt4ltt4wpaWxoczuqEbC
+	DdTW9V5u4ZAOmKQroIW6ZHXEz5MB08sLHDig8cqPJEkYaoQwaWdtLpWO1AmRj/yjqs2
+	YbbLgYG6KWnHMDABpsvzYAITxDfyBe9KvB1O+63c=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649867;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Xak4mwq6BR/qlyepD5Fs0MhS7giClsBoXVoP5H+tLZM=;
-	b=Hpb7HRK8ZT6wWWB39/9QH8qQXkZwmG/GC27GrRRJg5XBpf2FCeEAf6plT//aslO2
-	MrWI8E1HT62B8iX7mihmk1ALkouVyYYUjzh0iTNiOeGyRJgpXFWYhMbnVEB8iM08bk/
-	NjJWbyoz5JBPn1iWI2MsdQDB4fHxTFoCuIYVes+A=
-Content-Type: multipart/mixed; boundary="===============2413418064054992557=="
+	bh=Wa4ufZ8A22HI6xJXIWKkxheC3pdxG0wmWQ/z3tQS/Zw=;
+	b=TwXaCY3hRoCJJGj0AIYJ67rlnDBo0Pket0v1SR8uQHNqyZfCRjTApJ/LQnD2nfhV
+	iX8AalBArQ/AToLxoU/fhpCVeJWS5ROTOtR+L5g1jJ1O8VcTuMgDH0EZ8teAxMgalSs
+	zTSuhJK7ji3KM9Avjq/xJr9DT+lGDNoTR5TJW2H4=
+Content-Type: multipart/mixed; boundary="===============0686423835590029924=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-samples: upgrading to
- 2be6f826269be1731cf9f8631b4f4d97364164f8 FAILED
-Message-ID: <0101018c6dd72e50-34411fb6-f1ad-4f58-8837-25a01dddab70-000000@us-west-2.amazonses.com>
+Subject: [AUH] libva-utils: upgrading to 2.20.1 SUCCEEDED
+Message-ID: <0101018c6dd72d65-e6b155cb-782a-4be1-a034-84549f730a54-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Dec 2023 14:17:47 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.29
+X-SES-Outgoing: 2023.12.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192498
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192497
 
---===============2413418064054992557==
+--===============0686423835590029924==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,90 +51,111 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-samples* to *2be6f826269be1731cf9f8631b4f4d97364164f8* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libva-utils* to *2.20.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libva-utils-upgrade-2.20.0-2.20.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe vulkan-samples failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1842 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-cf470c5b663c79fa6d930dcbe6a37b93674afb59"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:cf470c5b663c79fa6d930dcbe6a37b93674afb59"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-done.
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 2be6f826269be1731cf9f8631b4f4d97364164f8
-WARNING: Command 'git rebase 2be6f826269be1731cf9f8631b4f4d97364164f8' failed:
-Failed to merge submodule third_party/spdlog
-CONFLICT (submodule): Merge conflict in third_party/spdlog
-Recursive merging with submodules currently only supports trivial cases.
-Please manually handle the merging of each conflicted submodule.
-This can be accomplished with the following steps:
- - go to submodule (third_party/spdlog), and either merge commit 81ac86e9
-   or update to an existing commit which has merged those changes
- - come back to superproject and run:
-
-      git add third_party/spdlog
-
-   to record the above merge or update
- - resolve any other conflicts in the superproject
- - commit the resulting index in the superproject
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool onto f55f67fd3c5a9f9208ab9e646b02ff11917fa4ce
-INFO: Rebasing devtool onto 437e135dbd94eb65b45533d9ce8ee28b5bd37b6d
-INFO: Rebasing devtool onto 4861c3db1ca50eb5f5767d95d1cd1bacb98ac8a5
-INFO: Rebasing devtool onto a6c48261d4fb62b232c46277acbcc3d14d5b7e14
-INFO: Rebasing devtool onto 8f470597d625ae28758c16b4293dd42d63e8a83a
-INFO: Rebasing devtool onto fce2abd01ce21063bd25ba67c9318be83bf48813
-INFO: Rebasing devtool onto 6d41bb9c557c5a0eec61ffba1f775dc5f717a8f7
-INFO: Rebasing devtool onto 5a0c3d0b527bea96154998f29177f3b449cebd3a
-INFO: Rebasing devtool onto c23a19c26fa9cc778f755e76799f0cafdcb5a13b
-INFO: Rebasing devtool onto 6a38a0694b4d73d22c5d1e22f865d03545e808ea
-INFO: Rebasing devtool onto 5e3df1cf058074145c6bc71e3e7cfc4314796b5c
-INFO: Rebasing devtool onto 7e635fca68d014934b4af8a1cf874f63989352b7
-WARNING: Command 'git rebase 7e635fca68d014934b4af8a1cf874f63989352b7' failed:
-Auto-merging include/spdlog/details/os.h
-CONFLICT (content): Merge conflict in include/spdlog/details/os.h
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool onto 7512345f61e5f9b543ebb87df678f3fe7735587b
-INFO: Rebasing devtool onto 2c2908f50515dcd939f24be261c3ccbcd277bb49
-INFO: Rebasing devtool onto c0d0251e2c7f2273a894aa1b125af9313a88eae4
-INFO: Rebasing devtool onto f9921aefddee2437cc2e3303d3175bd8ef23e22c
-INFO: Rebasing devtool onto 623a5504a9eb9314d9c18ba36d64ef3208c215a1
-INFO: Rebasing devtool onto 4f51aac14f65629dfe83702b806f740dbd7bd701
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/vulkan-samples
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/vulkan-samples/vulkan-samples_git.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2413418064054992557==--
+
+-- >8 --
+From f6ae04e26b6bee10947fe7423b143fa61aa99d7a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 15 Dec 2023 10:34:46 +0000
+Subject: [PATCH] libva-utils: upgrade 2.20.0 -> 2.20.1
+
+---
+ .../libva/{libva-utils_2.20.0.bb => libva-utils_2.20.1.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/libva/{libva-utils_2.20.0.bb => libva-utils_2.20.1.bb} (95%)
+
+diff --git a/meta/recipes-graphics/libva/libva-utils_2.20.0.bb b/meta/recipes-graphics/libva/libva-utils_2.20.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/libva/libva-utils_2.20.0.bb
+rename to meta/recipes-graphics/libva/libva-utils_2.20.1.bb
+index 2e1fd09406..3bce9a1e32 100644
+--- a/meta/recipes-graphics/libva/libva-utils_2.20.0.bb
++++ b/meta/recipes-graphics/libva/libva-utils_2.20.1.bb
+@@ -15,7 +15,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
+ 
+ SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.20-branch;protocol=https"
+-SRCREV = "0c8373e62af3e4d9a3831334c5402ad255797e67"
++SRCREV = "2ad888bb463dc9bfb3deb512ec9faf78f1d3bfa8"
+ S = "${WORKDIR}/git"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))$"
+-- 
+2.42.0
+
+
+--===============0686423835590029924==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libva-utils: PKGV changed from 2.20.0 [default] to 2.20.1 [default]
+packages/core2-64-poky-linux/libva-utils: PV changed from "2.20.0" to "2.20.1"
+packages/core2-64-poky-linux/libva-utils/libva-utils-dbg: PV changed from "2.20.0" to "2.20.1"
+packages/core2-64-poky-linux/libva-utils/libva-utils-dbg: PKGSIZE changed from 3195512 to 3200032 (+0%)
+packages/core2-64-poky-linux/libva-utils/libva-utils-dbg: PKGV changed from 2.20.0 [default] to 2.20.1 [default]
+packages/core2-64-poky-linux/libva-utils/libva-utils-dev: PV changed from "2.20.0" to "2.20.1"
+packages/core2-64-poky-linux/libva-utils/libva-utils-dev: PKGV changed from 2.20.0 [default] to 2.20.1 [default]
+packages/core2-64-poky-linux/libva-utils/libva-utils-doc: PV changed from "2.20.0" to "2.20.1"
+packages/core2-64-poky-linux/libva-utils/libva-utils-doc: PKGV changed from 2.20.0 [default] to 2.20.1 [default]
+packages/core2-64-poky-linux/libva-utils/libva-utils-locale: PV changed from "2.20.0" to "2.20.1"
+packages/core2-64-poky-linux/libva-utils/libva-utils-locale: PKGV changed from 2.20.0 [default] to 2.20.1 [default]
+packages/core2-64-poky-linux/libva-utils/libva-utils-src: PV changed from "2.20.0" to "2.20.1"
+packages/core2-64-poky-linux/libva-utils/libva-utils-src: PKGSIZE changed from 4446652 to 4447827 (+0%)
+packages/core2-64-poky-linux/libva-utils/libva-utils-src: PKGV changed from 2.20.0 [default] to 2.20.1 [default]
+packages/core2-64-poky-linux/libva-utils/libva-utils-staticdev: PV changed from "2.20.0" to "2.20.1"
+packages/core2-64-poky-linux/libva-utils/libva-utils-staticdev: PKGV changed from 2.20.0 [default] to 2.20.1 [default]
+packages/core2-64-poky-linux/libva-utils/libva-utils: PV changed from "2.20.0" to "2.20.1"
+packages/core2-64-poky-linux/libva-utils/libva-utils: PKGV changed from 2.20.0 [default] to 2.20.1 [default]
+
+--===============0686423835590029924==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libva-utils-upgrade-2.20.0-2.20.1.patch"
+
+RnJvbSBmNmFlMDRlMjZiNmJlZTEwOTQ3ZmU3NDIzYjE0M2ZhNjFhYTk5ZDdhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMTA6MzQ6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ2YS11dGlsczogdXBncmFkZSAyLjIwLjAgLT4gMi4yMC4xCgotLS0KIC4uLi9saWJ2YS97bGli
+dmEtdXRpbHNfMi4yMC4wLmJiID0+IGxpYnZhLXV0aWxzXzIuMjAuMS5iYn0gICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS97bGlidmEtdXRpbHNfMi4yMC4wLmJiID0+IGxpYnZh
+LXV0aWxzXzIuMjAuMS5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvbGlidmEvbGlidmEtdXRpbHNfMi4yMC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xp
+YnZhL2xpYnZhLXV0aWxzXzIuMjAuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtdXRpbHNfMi4yMC4wLmJiCnJlbmFt
+ZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmEtdXRpbHNfMi4yMC4xLmJiCmlu
+ZGV4IDJlMWZkMDk0MDYuLjNiY2U5YTFlMzIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9saWJ2YS9saWJ2YS11dGlsc18yLjIwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL2xpYnZhL2xpYnZhLXV0aWxzXzIuMjAuMS5iYgpAQCAtMTUsNyArMTUsNyBAQCBMSUNFTlNF
+ID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWIxNDhmYzhh
+ZGYxOWRjOWFlYzE3Y2Y5Y2QyOWE5YTVlIgogCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20v
+aW50ZWwvbGlidmEtdXRpbHMuZ2l0O2JyYW5jaD12Mi4yMC1icmFuY2g7cHJvdG9jb2w9aHR0cHMi
+Ci1TUkNSRVYgPSAiMGM4MzczZTYyYWYzZTRkOWEzODMxMzM0YzU0MDJhZDI1NTc5N2U2NyIKK1NS
+Q1JFViA9ICIyYWQ4ODhiYjQ2M2RjOWJmYjNkZWI1MTJlYzlmYWY3OGYxZDNiZmE4IgogUyA9ICIk
+e1dPUktESVJ9L2dpdCIKIAogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAiKD9QPHB2ZXI+
+KFxkKyhcLlxkKykrKSkkIgotLSAKMi40Mi4wCgo=
+
+--===============0686423835590029924==--
 
