@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 801D7C48297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ECD2C48298
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:53 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.63141.1702649863676764396
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.63600.1702649863096188826
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Dec 2023 06:17:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=coJloBZH;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QPHYwavl;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018c6dd71d26-861e11f7-6aaf-4f36-aef2-deef66a8bbdd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TEMB+y4h;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TClPVatt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c6dd71dc1-265861f8-4d97-4153-802a-5f48af14b1fb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1702649863;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=azn5QZioT1dqdV7ZWf0RtF38VfTO8pqL5syobKvn0j0=;
-	b=coJloBZHIDfgfcVBYf7w6YIX0GFSseE1nnHEoK+7Jdn1NY2AqBuebpn2xkgiurRk
-	KKpen40hCFN/AHs4IgCaBeT9f9JfiZWy8LpbWcP2482JXzg6Yjm6q7brb18cD3s3gw/
-	ZnV7PxBE5RvYQKTE4m1x0cU5G3rqJal5aSRK3SoY=
+	bh=zmmLNZG/m2waoJO6buCxeCY/syfwSGr3Kori6N2X5vk=;
+	b=TEMB+y4h+78M8UWZz/kLqjhG6uq7pRXHQ+7K6+sOO7MIygrPF2hx07YRAhuBUCfE
+	TWwtyC8AIShwoUvACJF/vkk1ylxwTsatW+F1OFIDOvDjAQLZLTISekHXU80473GqbGt
+	jHG9ynbhcpEiLt32/NqPgIn8oFzAk7zkqaA2ItOI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649863;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=azn5QZioT1dqdV7ZWf0RtF38VfTO8pqL5syobKvn0j0=;
-	b=QPHYwavl5DGeTR/wcOvXVgpEqC9CcW3TdS5sd/+PEfQ7UwTt1kcRrMjK4TM0N3+1
-	wCE3xJF07JsXnlEorjM8OIWhbGS+y0kXARG2Hfs3PbVpV4ska01ZckU2KrUH2i4mXCI
-	dpzoYhQjYe+uCmbr6UYlu8ZWGWtbCXQMVEVQtHfg=
-Content-Type: multipart/mixed; boundary="===============3727520706831046817=="
+	bh=zmmLNZG/m2waoJO6buCxeCY/syfwSGr3Kori6N2X5vk=;
+	b=TClPVattobRvz/9LMP/ZAYeuEkqJUs/fBTvbugV8zVImd6kiw5gc3tf0rWE/+kRM
+	qflFMkIKsEarY2rDP+PDx9dVxPE5y5Sf4V7nZwnqFPtT0rvvX0T4zWhZW1hlAbkEz6L
+	QBgGb3+8UrGnT8SdgXH7w/b1yEonWyh8amMTJC0s=
+Content-Type: multipart/mixed; boundary="===============7808085775262116277=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-license-expression: upgrading to 30.2.0 SUCCEEDED
-Message-ID: <0101018c6dd71d26-861e11f7-6aaf-4f36-aef2-deef66a8bbdd-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.5 SUCCEEDED
+Message-ID: <0101018c6dd71dc1-265861f8-4d97-4153-802a-5f48af14b1fb-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Dec 2023 14:17:43 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.193
+X-SES-Outgoing: 2023.12.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192470
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192468
 
---===============3727520706831046817==
+--===============7808085775262116277==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-license-expression* to *30.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-ruamel-yaml* to *0.18.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-license-expression-upgrade-30.1.1-30.2.0.patch
+    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.17.35-0.18.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,65 +72,76 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 8b0c80fdefd2e4e101c3dc52a7fa1b292993af02 Mon Sep 17 00:00:00 2001
+From 63eccacdd1bf15007fad936f7d0da206c0d1cefc Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 08:03:21 +0000
-Subject: [PATCH] python3-license-expression: upgrade 30.1.1 -> 30.2.0
+Date: Fri, 15 Dec 2023 08:15:42 +0000
+Subject: [PATCH] python3-ruamel-yaml: upgrade 0.17.35 -> 0.18.5
 
 ---
- ...xpression_30.1.1.bb => python3-license-expression_30.2.0.bb} | 2 +-
+ ...on3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.5.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-license-expression_30.1.1.bb => python3-license-expression_30.2.0.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.5.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb b/meta/recipes-devtools/python/python3-license-expression_30.2.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
-rename to meta/recipes-devtools/python/python3-license-expression_30.2.0.bb
-index 31fb88d6e5..dd55aeac39 100644
---- a/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
-+++ b/meta/recipes-devtools/python/python3-license-expression_30.2.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/nexB/license-expression"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://apache-2.0.LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.5.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
+rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.5.bb
+index 1760fec7ee..018ec88394 100644
+--- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
++++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.5.bb
+@@ -8,7 +8,7 @@ PYPI_PACKAGE = "ruamel.yaml"
  
--SRC_URI[sha256sum] = "42375df653ad85e6f5b4b0385138b2dbea1f5d66360783d8625c3e4f97f11f0c"
-+SRC_URI[sha256sum] = "599928edd995c43fc335e0af342076144dc71cb858afa1ed9c1c30c4e81794f5"
+ inherit pypi setuptools3
  
- inherit pypi ptest python_setuptools_build_meta
+-SRC_URI[sha256sum] = "801046a9caacb1b43acc118969b49b96b65e8847f29029563b29ac61d02db61b"
++SRC_URI[sha256sum] = "61917e3a35a569c1133a8f772e1226961bf5a1198bea7e23f06a0841dea1ab0e"
  
+ RDEPENDS:${PN} += "\
+     ${PYTHON_PN}-shell \
 -- 
 2.42.0
 
 
---===============3727520706831046817==
+--===============7808085775262116277==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-license-expression: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression: SRC_URI changed from "https://files.pythonhosted.org/packages/source/l/license-expression/license-expression-30.1.1.tar.gz;downloadfilename=license-expression-30.1.1.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/l/license-expression/license-expression-30.2.0.tar.gz;downloadfilename=license-expression-30.2.0.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-dbg: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-dbg: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-dev: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-dev: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-doc: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-doc: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-locale: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-locale: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-ptest: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-ptest: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-ptest: PKGSIZE changed from 1034966 to 1081920 (+5%)
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-src: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-src: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-staticdev: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-staticdev: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression: PV changed from "30.1.1" to "30.2.0"
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression: PKGV changed from 30.1.1 [default] to 30.2.0 [default]
-packages/core2-64-poky-linux/python3-license-expression/python3-license-expression: PKGSIZE changed from 1039674 to 1086744 (+5%)
-Changes to packages/core2-64-poky-linux/python3-license-expression (sysroot):
-  /usr/lib/python3.11/site-packages/license_expression-30.1.1.dist-info moved to /usr/lib/python3.11/site-packages/license_expression-30.2.0.dist-info
+packages/core2-64-poky-linux/python3-ruamel-yaml: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.17.35.tar.gz;downloadfilename=ruamel.yaml-0.17.35.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.5.tar.gz;downloadfilename=ruamel.yaml-0.18.5.tar.gz"
+packages/core2-64-poky-linux/python3-ruamel-yaml: PV changed from "0.17.35" to "0.18.5"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.17.35" to "0.18.5"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.17.35" to "0.18.5"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.17.35" to "0.18.5"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.17.35" to "0.18.5"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.17.35" to "0.18.5"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.17.35" to "0.18.5"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info -> /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info, added "/usr/lib/python3.11/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-311.pyc /usr/lib/python3.11/site-packages/ruamel/yaml/docinfo.py"
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.17.35 [default] to 0.18.5 [default]
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1228939 to 1234164 (+0%)
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.17.35" to "0.18.5"
+Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/LICENSE was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/ruamel/yaml/docinfo.py was added
+  /usr/lib/python3.11/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/LICENSE was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/WHEEL was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1768,14 +1779,28 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3727520706831046817==
+--===============7808085775262116277==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-license-expression (sysroot):
-  /usr/lib/python3.11/site-packages/license_expression-30.1.1.dist-info moved to /usr/lib/python3.11/site-packages/license_expression-30.2.0.dist-info
+packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info -> /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info, added "/usr/lib/python3.11/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-311.pyc /usr/lib/python3.11/site-packages/ruamel/yaml/docinfo.py"
+Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/LICENSE was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/METADATA was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/RECORD was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/top_level.txt was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.18.5.dist-info/WHEEL was added
+  /usr/lib/python3.11/site-packages/ruamel/yaml/docinfo.py was added
+  /usr/lib/python3.11/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-311.pyc was added
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/LICENSE was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/METADATA was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/RECORD was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/top_level.txt was removed
+  /usr/lib/python3.11/site-packages/ruamel.yaml-0.17.35.dist-info/WHEEL was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3413,38 +3438,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3727520706831046817==
+--===============7808085775262116277==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-license-expression-upgrade-30.1.1-30.2.0.patch"
+ filename="0001-python3-ruamel-yaml-upgrade-0.17.35-0.18.5.patch"
 
-RnJvbSA4YjBjODBmZGVmZDJlNGUxMDFjM2RjNTJhN2ZhMWIyOTI5OTNhZjAyIE1vbiBTZXAgMTcg
+RnJvbSA2M2VjY2FjZGQxYmYxNTAwN2ZhZDkzNmY3ZDBkYTIwNmMwZDFjZWZjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDg6MDM6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbjogdXBncmFkZSAzMC4xLjEgLT4gMzAuMi4wCgotLS0K
-IC4uLnhwcmVzc2lvbl8zMC4xLjEuYmIgPT4gcHl0aG9uMy1saWNlbnNlLWV4cHJlc3Npb25fMzAu
-Mi4wLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtbGljZW5z
-ZS1leHByZXNzaW9uXzMwLjEuMS5iYiA9PiBweXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC4y
-LjAuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC4xLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtbGljZW5zZS1leHByZXNzaW9uXzMwLjIuMC5iYgpzaW1pbGFyaXR5
-IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtbGljZW5zZS1leHByZXNzaW9uXzMwLjEuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC4yLjAuYmIKaW5kZXgg
-MzFmYjg4ZDZlNS4uZGQ1NWFlYWMzOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC4xLjEuYmIKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC4yLjAu
-YmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9uZXhCL2xp
-Y2Vuc2UtZXhwcmVzc2lvbiIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtT
-VU0gPSAiZmlsZTovL2FwYWNoZS0yLjAuTElDRU5TRTttZDU9ODZkM2YzYTk1YzMyNGM5NDc5YmQ4
-OTg2OTY4ZjQzMjciCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0MjM3NWRmNjUzYWQ4NWU2ZjVi
-NGIwMzg1MTM4YjJkYmVhMWY1ZDY2MzYwNzgzZDg2MjVjM2U0Zjk3ZjExZjBjIgorU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjU5OTkyOGVkZDk5NWM0M2ZjMzM1ZTBhZjM0MjA3NjE0NGRjNzFjYjg1OGFm
-YTFlZDljMWMzMGM0ZTgxNzk0ZjUiCiAKIGluaGVyaXQgcHlwaSBwdGVzdCBweXRob25fc2V0dXB0
-b29sc19idWlsZF9tZXRhCiAKLS0gCjIuNDIuMAoK
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDg6MTU6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXJ1YW1lbC15YW1sOiB1cGdyYWRlIDAuMTcuMzUgLT4gMC4xOC41CgotLS0KIC4uLm9u
+My1ydWFtZWwteWFtbF8wLjE3LjM1LmJiID0+IHB5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC41LmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcnVhbWVsLXlhbWxf
+MC4xNy4zNS5iYiA9PiBweXRob24zLXJ1YW1lbC15YW1sXzAuMTguNS5iYn0gKDg1JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxf
+MC4xNy4zNS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwt
+eWFtbF8wLjE4LjUuYmIKc2ltaWxhcml0eSBpbmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTcuMzUuYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4
+LjUuYmIKaW5kZXggMTc2MGZlYzdlZS4uMDE4ZWM4ODM5NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTcuMzUuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAuMTguNS5i
+YgpAQCAtOCw3ICs4LDcgQEAgUFlQSV9QQUNLQUdFID0gInJ1YW1lbC55YW1sIgogCiBpbmhlcml0
+IHB5cGkgc2V0dXB0b29sczMKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjgwMTA0NmE5Y2FhY2Ix
+YjQzYWNjMTE4OTY5YjQ5Yjk2YjY1ZTg4NDdmMjkwMjk1NjNiMjlhYzYxZDAyZGI2MWIiCitTUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiNjE5MTdlM2EzNWE1NjljMTEzM2E4Zjc3MmUxMjI2OTYxYmY1YTEx
+OThiZWE3ZTIzZjA2YTA4NDFkZWExYWIwZSIKIAogUkRFUEVORFM6JHtQTn0gKz0gIlwKICAgICAk
+e1BZVEhPTl9QTn0tc2hlbGwgXAotLSAKMi40Mi4wCgo=
 
---===============3727520706831046817==--
+--===============7808085775262116277==--
 
