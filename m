@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 479B4C47DA9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31943C47DA2
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:51 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.63137.1702649863339421572
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.63135.1702649863174295430
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 06:17:47 -0800
+ Fri, 15 Dec 2023 06:17:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JK6pNRHn;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=B7ierbT8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018c6dd72b89-c0d2e65c-08d2-4347-a310-a7fd6341734d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XtG+zB92;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Brq2U+qi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c6dd72d5b-b116d3ee-c8a6-4d35-b4e4-8e9743cb7f52-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1702649867;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3NiOZce+JqaKlRHAAvrUvkzEJZ/dZqi3eLvKb9H2f5o=;
-	b=JK6pNRHnZftGIJT2wjiXw4/bAjR1zC8F7ZD98MtxGOmhU/qIQQwvxcURreyV5bG5
-	dr+9SfN8H0bF4vfamb17yqj+tiI/xcbC/ACxs4RjFE4q8t+SEem5SKMcVZ4Fao3uC0a
-	CxbShZyqKmbJo2c4JKwIR9mmLhrpWynk0pxTm5Eg=
+	bh=4JI/Dt7VzW1fJ+qDHTDtK5oEXdBBWasHzktMEe+ovZs=;
+	b=XtG+zB92LYApKOfdNs8mhkdw7O5a4STCFlf0HQx/Wzk6no8K15VCTWFmZJ4iwafJ
+	cfaf+qKnSJ2dsOUC7VOIvwiK/6KF/eqXo3Y3YtERhGHmZW+MaTfg6XQ0QbBxZTTS2gB
+	3yGI96xqx9qH0EP5ikx9gjou66pTRy30qie99dHo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649867;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3NiOZce+JqaKlRHAAvrUvkzEJZ/dZqi3eLvKb9H2f5o=;
-	b=B7ierbT8PgkPOcnfWrUAaVDk36ti3znYVGN73RZaLuXXOxxMGe2mdHMCbeX5GZsi
-	xb0Squj05fCWmNDAYdXM+dRYi7HBhgX/ZNRvdLbsn9f8sTDe2zsK1MZer5mdv3FqMJk
-	r4qvoC0jwoIWOG9wtAHluVCABXAt/I2iPg2vjt5I=
-Content-Type: multipart/mixed; boundary="===============3721570563587553103=="
+	bh=4JI/Dt7VzW1fJ+qDHTDtK5oEXdBBWasHzktMEe+ovZs=;
+	b=Brq2U+qidL14tCu3PMYB+u2ymSEXU/DiGjFj67ng7NrOmIGha3MP9pXWZiQ+Vrf7
+	eIEFZGR3aDCFSSRbX9V8esukh5wWDCdma71FV660W35JYeCJhnD7g/7jWpq+fYOq8F+
+	YAfphcejesOE4CD9dI9BPnhUP7BmtguNmjt4qh0k=
+Content-Type: multipart/mixed; boundary="===============9133909040206557182=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gawk: upgrading to 5.3.0 SUCCEEDED
-Message-ID: <0101018c6dd72b89-c0d2e65c-08d2-4347-a310-a7fd6341734d-000000@us-west-2.amazonses.com>
+Subject: [AUH] libsecret: upgrading to 0.21.2 SUCCEEDED
+Message-ID: <0101018c6dd72d5b-b116d3ee-c8a6-4d35-b4e4-8e9743cb7f52-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Dec 2023 14:17:47 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.192
+X-SES-Outgoing: 2023.12.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192493
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192495
 
---===============3721570563587553103==
+--===============9133909040206557182==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gawk* to *5.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *libsecret* to *0.21.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gawk-upgrade-5.2.2-5.3.0.patch
+    - apply the patch: git am 0001-libsecret-upgrade-0.21.1-0.21.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,176 +72,211 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 37e9d664057b848fb3ff6a0560584d6145586a9d Mon Sep 17 00:00:00 2001
+From 3a31bf1adc800d3b9c404f6e4d1970c97d14bd00 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 09:36:33 +0000
-Subject: [PATCH] gawk: upgrade 5.2.2 -> 5.3.0
+Date: Fri, 15 Dec 2023 10:26:52 +0000
+Subject: [PATCH] libsecret: upgrade 0.21.1 -> 0.21.2
 
 ---
- meta/recipes-extended/gawk/{gawk_5.2.2.bb => gawk_5.3.0.bb} | 2 +-
+ .../libsecret/{libsecret_0.21.1.bb => libsecret_0.21.2.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/gawk/{gawk_5.2.2.bb => gawk_5.3.0.bb} (97%)
+ rename meta/recipes-gnome/libsecret/{libsecret_0.21.1.bb => libsecret_0.21.2.bb} (91%)
 
-diff --git a/meta/recipes-extended/gawk/gawk_5.2.2.bb b/meta/recipes-extended/gawk/gawk_5.3.0.bb
-similarity index 97%
-rename from meta/recipes-extended/gawk/gawk_5.2.2.bb
-rename to meta/recipes-extended/gawk/gawk_5.3.0.bb
-index 3c18b6911a..3d652da6e5 100644
---- a/meta/recipes-extended/gawk/gawk_5.2.2.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-            file://run-ptest \
-            "
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.21.1.bb b/meta/recipes-gnome/libsecret/libsecret_0.21.2.bb
+similarity index 91%
+rename from meta/recipes-gnome/libsecret/libsecret_0.21.1.bb
+rename to meta/recipes-gnome/libsecret/libsecret_0.21.2.bb
+index f762d7c343..2d8ea952c5 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.21.1.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.21.2.bb
+@@ -13,7 +13,7 @@ inherit gnomebase gi-docgen vala gobject-introspection manpages
  
--SRC_URI[sha256sum] = "945aef7ccff101f20b22a10802bc005e994ab2b8ea3e724cc1a197c62f41f650"
-+SRC_URI[sha256sum] = "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1eb55e440d30273336"
+ DEPENDS += "glib-2.0 libgcrypt gettext-native"
  
- inherit autotools gettext texinfo update-alternatives
+-SRC_URI[archive.sha256sum] = "674f51323a5f74e4cb7e3277da68b5afddd333eca25bc9fd2d820a92972f90b1"
++SRC_URI[archive.sha256sum] = "e4a341496a0815e64c8d3b8fabab33d7bae7efdeab77b843669731d5b181dcee"
+ 
+ GTKDOC_MESON_OPTION = 'gtk_doc'
  
 -- 
 2.42.0
 
 
---===============3721570563587553103==
+--===============9133909040206557182==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gawk-upgrade-5.2.2-5.3.0.patch"
+ filename="0001-libsecret-upgrade-0.21.1-0.21.2.patch"
 
-RnJvbSAzN2U5ZDY2NDA1N2I4NDhmYjNmZjZhMDU2MDU4NGQ2MTQ1NTg2YTlkIE1vbiBTZXAgMTcg
+RnJvbSAzYTMxYmYxYWRjODAwZDNiOWM0MDRmNmU0ZDE5NzBjOTdkMTRiZDAwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDk6MzY6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-YXdrOiB1cGdyYWRlIDUuMi4yIC0+IDUuMy4wCgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9n
-YXdrL3tnYXdrXzUuMi4yLmJiID0+IGdhd2tfNS4zLjAuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4
-dGVuZGVkL2dhd2sve2dhd2tfNS4yLjIuYmIgPT4gZ2F3a181LjMuMC5iYn0gKDk3JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMi4yLmJiIGIvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjMuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMi4yLmJiCnJlbmFt
-ZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMy4wLmJiCmluZGV4IDNjMThi
-NjkxMWEuLjNkNjUyZGE2ZTUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9nYXdr
-L2dhd2tfNS4yLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjMu
-MC5iYgpAQCAtMTksNyArMTksNyBAQCBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0vZ2F3ay9nYXdr
-LSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAogICAgICAgICAg
-ICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5NDVhZWY3Y2NmZjEwMWYyMGIyMmExMDgwMmJj
-MDA1ZTk5NGFiMmI4ZWEzZTcyNGNjMWExOTdjNjJmNDFmNjUwIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjM3OGY4ODY0ZWMyMWNmY2VhYTA0OGY3ZTE4NjlhYzliNDU5N2I0NDkwODdjYWYxZWI1NWU0
-NDBkMzAyNzMzMzYiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQgdGV4aW5mbyB1cGRhdGUt
-YWx0ZXJuYXRpdmVzCiAKLS0gCjIuNDIuMAoK
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMTA6MjY6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJzZWNyZXQ6IHVwZ3JhZGUgMC4yMS4xIC0+IDAuMjEuMgoKLS0tCiAuLi4vbGlic2VjcmV0L3ts
+aWJzZWNyZXRfMC4yMS4xLmJiID0+IGxpYnNlY3JldF8wLjIxLjIuYmJ9ICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZ25vbWUvbGlic2VjcmV0L3tsaWJzZWNyZXRfMC4yMS4xLmJiID0+IGxpYnNlY3Jl
+dF8wLjIxLjIuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnNl
+Y3JldC9saWJzZWNyZXRfMC4yMS4xLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnNlY3JldC9s
+aWJzZWNyZXRfMC4yMS4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1nbm9tZS9saWJzZWNyZXQvbGlic2VjcmV0XzAuMjEuMS5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLWdub21lL2xpYnNlY3JldC9saWJzZWNyZXRfMC4yMS4yLmJiCmluZGV4IGY3NjJk
+N2MzNDMuLjJkOGVhOTUyYzUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJzZWNy
+ZXQvbGlic2VjcmV0XzAuMjEuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvbGlic2VjcmV0
+L2xpYnNlY3JldF8wLjIxLjIuYmIKQEAgLTEzLDcgKzEzLDcgQEAgaW5oZXJpdCBnbm9tZWJhc2Ug
+Z2ktZG9jZ2VuIHZhbGEgZ29iamVjdC1pbnRyb3NwZWN0aW9uIG1hbnBhZ2VzCiAKIERFUEVORFMg
+Kz0gImdsaWItMi4wIGxpYmdjcnlwdCBnZXR0ZXh0LW5hdGl2ZSIKIAotU1JDX1VSSVthcmNoaXZl
+LnNoYTI1NnN1bV0gPSAiNjc0ZjUxMzIzYTVmNzRlNGNiN2UzMjc3ZGE2OGI1YWZkZGQzMzNlY2Ey
+NWJjOWZkMmQ4MjBhOTI5NzJmOTBiMSIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImU0
+YTM0MTQ5NmEwODE1ZTY0YzhkM2I4ZmFiYWIzM2Q3YmFlN2VmZGVhYjc3Yjg0MzY2OTczMWQ1YjE4
+MWRjZWUiCiAKIEdUS0RPQ19NRVNPTl9PUFRJT04gPSAnZ3RrX2RvYycKIAotLSAKMi40Mi4wCgo=
 
---===============3721570563587553103==
+--===============9133909040206557182==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gawk/gawk-dbg: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-dbg: PKGSIZE changed from 2538304 to 2552080 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-dbg: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-dev: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-dev: PKGSIZE changed from 42070 to 42138 (+0%)
-packages/core2-64-poky-linux/gawk/gawk-dev: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-doc: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-doc: PKGSIZE changed from 2338623 to 2352307 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-doc: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-gawkbug: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-gawkbug: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-bg: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-bg: PKGSIZE changed from 124398 to 125283 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-bg: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-ca: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-ca: PKGSIZE changed from 51283 to 51046 (-0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-ca: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-da: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-da: PKGSIZE changed from 36122 to 36004 (-0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-da: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-de: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-de: PKGSIZE changed from 96121 to 96695 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-de: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-es: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-es: PKGSIZE changed from 94596 to 95192 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-es: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-fi: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-fi: PKGSIZE changed from 56651 to 56396 (-0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-fi: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-fr: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-fr: PKGSIZE changed from 96365 to 96983 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-fr: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-id: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-id: PKGSIZE changed from 47269 to 47007 (-1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-id: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-it: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-it: PKGSIZE changed from 92033 to 92886 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-it: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-ja: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-ja: PKGSIZE changed from 36609 to 36469 (-0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-ja: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-ko: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-ko: PKGSIZE changed from 99705 to 100387 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-ko: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-ms: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-ms: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-nl: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-nl: PKGSIZE changed from 68931 to 68681 (-0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-nl: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-pl: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-pl: PKGSIZE changed from 93988 to 94551 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-pl: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PKGSIZE changed from 86740 to 86494 (-0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-pt: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-pt: PKGSIZE changed from 85495 to 85184 (-0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-pt: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-ro: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-ro: PKGSIZE changed from 97245 to 97548 (+0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-ro: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-sr: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-sr: PKGSIZE changed from 115587 to 116380 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-sr: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-sv: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-sv: PKGSIZE changed from 91921 to 92545 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-sv: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-vi: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-vi: PKGSIZE changed from 64194 to 63942 (-0%)
-packages/core2-64-poky-linux/gawk/gawk-locale-vi: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PKGSIZE changed from 86163 to 86715 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-ptest: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-ptest: PKGSIZE changed from 1381652 to 1392505 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-ptest: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-ptest: FILELIST: added "/usr/lib/gawk/ptest/test/mtchi18n2.awk /usr/lib/gawk/ptest/test/gsubnulli18n.ok /usr/lib/gawk/ptest/test/lintplus3.ok /usr/lib/gawk/ptest/test/lintplus3.in /usr/lib/gawk/ptest/test/gensub4.awk /usr/lib/gawk/ptest/test/gsubnulli18n.awk /usr/lib/gawk/ptest/test/cmdlinefsbacknl2.sh /usr/lib/gawk/ptest/test/lintplus3.awk /usr/lib/gawk/ptest/test/unicode1.ok /usr/lib/gawk/ptest/test/regexpbad.ok /usr/lib/gawk/ptest/test/csvodd.awk /usr/lib/gawk/ptest/test/csv3.ok /usr/lib/gawk/ptest/test/cmdlinefsbacknl2.ok /usr/lib/gawk/ptest/test/lintplus2.awk /usr/lib/gawk/ptest/test/csv3.in /usr/lib/gawk/ptest/test/csv1.ok /usr/lib/gawk/ptest/test/mtchi18n2.ok /usr/lib/gawk/ptest/test/csv1.in /usr/lib/gawk/ptest/test/cmdlinefsbacknl.ok /usr/lib/gawk/ptest/test/unicode1.awk /usr/lib/gawk/ptest/test/csv2.ok /usr/lib/gawk/ptest/test/regexpbad.awk /usr/lib/gawk/ptest/test/csv1.awk /usr/lib/gawk/ptest/test/gensub4.ok /usr/lib/gawk/ptest/test/cs
- v2.awk /usr/lib/gawk/ptest/test/csv3.awk /usr/lib/gawk/ptest/test/csvodd.in /usr/lib/gawk/ptest/test/csvodd.ok /usr/lib/gawk/ptest/test/lintplus2.ok /usr/lib/gawk/ptest/test/cmdlinefsbacknl.sh"
-packages/core2-64-poky-linux/gawk/gawk-src: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-src: PKGSIZE changed from 2367103 to 2379256 (+1%)
-packages/core2-64-poky-linux/gawk/gawk-src: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk-staticdev: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk-staticdev: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk/gawk: PKGSIZE changed from 928188 to 929024 (+0%)
-packages/core2-64-poky-linux/gawk/gawk: PV changed from "5.2.2" to "5.3.0"
-packages/core2-64-poky-linux/gawk/gawk: FILELIST: removed "/usr/bin/gawk-5.2.2", added "/usr/bin/gawk-5.3.0 /usr/share/awk/tocsv.awk"
-packages/core2-64-poky-linux/gawk: PKGV changed from 5.2.2 [default] to 5.3.0 [default]
-packages/core2-64-poky-linux/gawk: SRC_URI changed from "https://ftp.gnu.org/gnu/gawk/gawk-5.2.2.tar.gz file://run-ptest" to "https://ftp.gnu.org/gnu/gawk/gawk-5.3.0.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/gawk: PACKAGES: added "gawk-locale-uk"
-packages/core2-64-poky-linux/gawk: PV changed from "5.2.2" to "5.3.0"
-Changes to packages/core2-64-poky-linux/gawk (sysroot):
-  /usr/share/awk/tocsv.awk was added
+packages/core2-64-poky-linux/libsecret: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret: SRC_URI changed from "https://download.gnome.org/sources//libsecret/0.21/libsecret-0.21.1.tar.xz;name=archive" to "https://download.gnome.org/sources//libsecret/0.21/libsecret-0.21.2.tar.xz;name=archive"
+packages/core2-64-poky-linux/libsecret/libsecret-dbg: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-dbg: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-dbg: PKGSIZE changed from 1175720 to 1185384 (+1%)
+packages/core2-64-poky-linux/libsecret/libsecret-dev: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-dev: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-dev: PKGSIZE changed from 669619 to 673348 (+1%)
+packages/core2-64-poky-linux/libsecret/libsecret-doc: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-doc: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ab: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ab: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-an: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-an: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ar: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ar: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-as: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-as: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-be: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-be: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-bg: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-bg: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-bs: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-bs: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ca+valencia: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ca+valencia: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ca: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ca: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ckb: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ckb: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-cs: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-cs: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-da: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-da: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-de: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-de: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-el: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-el: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-en-gb: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-en-gb: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eo: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eo: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eo: PKGSIZE changed from 1528 to 1551 (+2%)
+packages/core2-64-poky-linux/libsecret/libsecret-locale-es: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-es: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eu: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eu: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fa: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fa: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fi: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fi: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fr: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fr: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fur: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fur: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-gl: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-gl: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-he: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-he: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-hr: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-hr: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-hu: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-hu: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-id: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-id: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ie: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ie: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-it: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-it: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ja: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ja: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ka: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ka: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-kk: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-kk: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ko: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ko: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-lt: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-lt: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-lv: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-lv: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ml: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ml: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ms: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ms: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-nb: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-nb: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ne: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ne: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-nl: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-nl: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-oc: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-oc: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pa: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pa: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pl: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pl: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pt-br: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pt-br: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pt: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pt: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ro: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ro: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ru: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ru: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sk: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sk: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sl: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sl: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sr+latin: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sr+latin: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sr: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sr: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sv: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sv: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-tg: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-tg: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-tr: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-tr: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-uk: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-uk: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-vi: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-vi: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-cn: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-cn: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-hk: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-hk: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-tw: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-tw: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-src: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-src: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret-src: PKGSIZE changed from 1165377 to 1177829 (+1%)
+packages/core2-64-poky-linux/libsecret/libsecret-src: FILELIST: directory renamed /usr/src/debug/libsecret/0.21.1/libsecret -> /usr/src/debug/libsecret/0.21.2/libsecret, directory renamed /usr/src/debug/libsecret/0.21.1/tool -> /usr/src/debug/libsecret/0.21.2/tool, removed "/usr/src/debug/libsecret/0.21.1/egg/egg-libgcrypt.h /usr/src/debug/libsecret/0.21.1/egg/egg-dh.c /usr/src/debug/libsecret/0.21.1/egg/egg-dh.h /usr/src/debug/libsecret/0.21.1/egg/egg-libgcrypt.c /usr/src/debug/libsecret/0.21.1/egg/egg-hkdf.h /usr/src/debug/libsecret/0.21.1/egg/egg-hkdf.c /usr/src/debug/libsecret/0.21.1/egg/egg-secure-memory.h /usr/src/debug/libsecret/0.21.1/egg/egg-secure-memory.c", added "/usr/src/debug/libsecret/0.21.2/egg/egg-libgcrypt.h /usr/src/debug/libsecret/0.21.2/egg/egg-dh.c /usr/src/debug/libsecret/0.21.2/egg/egg-dh-libgcrypt.c /usr/src/debug/libsecret/0.21.2/egg/egg-dh.h /usr/src/debug/libsecret/0.21.2/egg/egg-keyring1-libgcrypt.c /usr/src/debug/libsecret/0.21.2/egg/egg-libgcrypt.c /usr
+ /src/debug/libsecret/0.21.2/egg/egg-hkdf-libgcrypt.c /usr/src/debug/libsecret/0.21.2/egg/egg-keyring1.h /usr/src/debug/libsecret/0.21.2/egg/egg-hkdf.h /usr/src/debug/libsecret/0.21.2/egg/egg-secure-memory.h /usr/src/debug/libsecret/0.21.2/egg/egg-secure-memory.c"
+packages/core2-64-poky-linux/libsecret/libsecret-staticdev: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-staticdev: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret: PKGV changed from 0.21.1 [default] to 0.21.2 [default]
+packages/core2-64-poky-linux/libsecret/libsecret: PV changed from "0.21.1" to "0.21.2"
+packages/core2-64-poky-linux/libsecret/libsecret: PKGSIZE changed from 435568 to 440068 (+1%)
 
---===============3721570563587553103==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/gawk/gawk-ptest: FILELIST: added "/usr/lib/gawk/ptest/test/cmdlinefsbacknl.sh /usr/lib/gawk/ptest/test/regexpbad.awk /usr/lib/gawk/ptest/test/lintplus2.ok /usr/lib/gawk/ptest/test/gensub4.awk /usr/lib/gawk/ptest/test/csvodd.in /usr/lib/gawk/ptest/test/csv2.ok /usr/lib/gawk/ptest/test/lintplus2.awk /usr/lib/gawk/ptest/test/unicode1.awk /usr/lib/gawk/ptest/test/csvodd.ok /usr/lib/gawk/ptest/test/cmdlinefsbacknl2.ok /usr/lib/gawk/ptest/test/mtchi18n2.awk /usr/lib/gawk/ptest/test/lintplus3.in /usr/lib/gawk/ptest/test/gensub4.ok /usr/lib/gawk/ptest/test/csv1.awk /usr/lib/gawk/ptest/test/csv2.awk /usr/lib/gawk/ptest/test/csv3.awk /usr/lib/gawk/ptest/test/lintplus3.awk /usr/lib/gawk/ptest/test/cmdlinefsbacknl2.sh /usr/lib/gawk/ptest/test/csv3.ok /usr/lib/gawk/ptest/test/lintplus3.ok /usr/lib/gawk/ptest/test/csv1.ok /usr/lib/gawk/ptest/test/csv3.in /usr/lib/gawk/ptest/test/regexpbad.ok /usr/lib/gawk/ptest/test/unicode1.ok /usr/lib/gawk/ptest/test/gsubnulli18n.ok 
- /usr/lib/gawk/ptest/test/cmdlinefsbacknl.ok /usr/lib/gawk/ptest/test/csvodd.awk /usr/lib/gawk/ptest/test/mtchi18n2.ok /usr/lib/gawk/ptest/test/csv1.in /usr/lib/gawk/ptest/test/gsubnulli18n.awk"
-packages/core2-64-poky-linux/gawk/gawk: FILELIST: removed "/usr/bin/gawk-5.2.2", added "/usr/share/awk/tocsv.awk /usr/bin/gawk-5.3.0"
-packages/core2-64-poky-linux/gawk: PACKAGES: added "gawk-locale-uk"
-Changes to packages/core2-64-poky-linux/gawk (sysroot):
-  /usr/share/awk/tocsv.awk was added
-
---===============3721570563587553103==--
+--===============9133909040206557182==--
 
