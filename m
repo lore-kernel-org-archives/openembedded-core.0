@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED25C47DDA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FF6DC47DDF
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:52 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.63147.1702649864303385021
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.63624.1702649868411766910
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 06:17:44 -0800
+ Fri, 15 Dec 2023 06:17:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=epyVYekZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mjXIQ+ey;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018c6dd71dec-7494fb29-01cd-43c8-ad5f-10db72839f13-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=W5lJAQHY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GSVf2N5m;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018c6dd72da2-3baf78cf-906d-40da-a382-c7da4350a694-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702649863;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=HnGdxTC4sLnI+IAwqAxoKtJMxTjq9CizgmAE2qK0mlM=;
-	b=epyVYekZUUKUP3oQuN50uk5pQCVgtOzQ3Q3eYOSt9/IMHJpRn1gVew0EZlbSc+KB
-	g6+KXz+U5JLmvldr+8HPlJbRGGNeMqu7itD7MwlUj9kXT+oI9bM0KG0PRl0niG2fbd/
-	iWajb+E4hrgVRXhFD3RkFyDg2dJqLhK4BmOHmBeI=
+	t=1702649868;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=rrq9+sjn77b6gN8paijNi9aRx4ZhAlrWPV+3ggIceWs=;
+	b=W5lJAQHYe98IPg2pInn0Zx+mMbU9aCu08hasng3SeB2XH8gzShsy+L8PtKhmSYUY
+	3bIEHFdaeUBEe5k7DQnfzKGmVoQIuC0zGRGpwXRkr1wSKDyzmfeQ/IDOfAfgWl4cMju
+	qnacEiZVhuAGg3/NABV3hfpRS8yFdmi7BOwQ9mRE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649863;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=HnGdxTC4sLnI+IAwqAxoKtJMxTjq9CizgmAE2qK0mlM=;
-	b=mjXIQ+ey98dphIuj07nuYZLs0GCUDoq82ieqkwiEscFFAFeph6H5rl872ziIWO/L
-	lukzkJC02xq8OscKGE7dTjYGunFM0rosvpvvKCQee/IlvVLTrcRcHCtEXgycZLQQ5jR
-	GWGJNwcX6ITNYggMMOkjS727EF31pmLaOwDjupvo=
-Content-Type: multipart/mixed; boundary="===============9086578146284556168=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649868;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=rrq9+sjn77b6gN8paijNi9aRx4ZhAlrWPV+3ggIceWs=;
+	b=GSVf2N5m2f6xBxYs8TYekynqJpEYa+sjJexqafa4lpJ+6ojw7M/0/3WoxAofFpn9
+	CCAG3JCqoSs4K9dl1SFVaHRQa/uzsbIbJoJi7jvoP5w1OtzBwYawBR5jBux9MIOokN2
+	LF25yOquHVRMzaOeWS2+EDmalLu5/M2NL9Oz6Lms=
+Content-Type: multipart/mixed; boundary="===============8699578470784776816=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-subunit: upgrading to 1.4.4 SUCCEEDED
-Message-ID: <0101018c6dd71dec-7494fb29-01cd-43c8-ad5f-10db72839f13-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Dec 2023 14:17:43 +0000
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] sudo: upgrading to 1.9.15p3 SUCCEEDED
+Message-ID: <0101018c6dd72da2-3baf78cf-906d-40da-a382-c7da4350a694-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Dec 2023 14:17:47 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.23
+X-SES-Outgoing: 2023.12.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192475
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192512
 
---===============9086578146284556168==
+--===============8699578470784776816==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-subunit* to *1.4.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *sudo* to *1.9.15p3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-subunit-upgrade-1.4.2-1.4.4.patch
+    - apply the patch: git am 0001-sudo-upgrade-1.9.15p2-1.9.15p3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,93 +72,155 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From c229e51bc39140809072e62c6bd60ad4c219c140 Mon Sep 17 00:00:00 2001
+From 18416c337bf432072eed8a4ca6dde8298ea5f027 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 08:18:44 +0000
-Subject: [PATCH] python3-subunit: upgrade 1.4.2 -> 1.4.4
+Date: Fri, 15 Dec 2023 09:49:17 +0000
+Subject: [PATCH] sudo: upgrade 1.9.15p2 -> 1.9.15p3
 
 ---
- ...unit_1.4.2.bb => python3-subunit_1.4.4.bb} | 26 +++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-subunit_1.4.2.bb => python3-subunit_1.4.4.bb} (31%)
+ .../files/0001-sudo.conf.in-fix-conflict-with-multilib.patch    | 2 +-
+ .../sudo/{sudo_1.9.15p2.bb => sudo_1.9.15p3.bb}                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.15p2.bb => sudo_1.9.15p3.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-subunit_1.4.2.bb b/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
-similarity index 31%
-rename from meta/recipes-devtools/python/python3-subunit_1.4.2.bb
-rename to meta/recipes-devtools/python/python3-subunit_1.4.4.bb
-index a018ef1dc8..8eab656a46 100644
---- a/meta/recipes-devtools/python/python3-subunit_1.4.2.bb
-+++ b/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
-@@ -1,12 +1,34 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- README.rst
-+# +++ README.rst
-+# @@ -15,6 +15,6 @@
-+#  
-+#    See the COPYING file for full details on the licensing of Subunit.
-+#  
-+# -  subunit reuses iso8601 by Michael Twomey, distributed under an MIT style
-+# -  licence - see python/iso8601/LICENSE for details.
-+# +Subunit
-+# +-------
-+#  
-+# 
-+#
-+
- SUMMARY = "Python implementation of subunit test streaming protocol"
- HOMEPAGE = "https://pypi.org/project/python-subunit/"
- SECTION = "devel/python"
- LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://README.rst;beginline=1;endline=20;md5=909c08e291647fd985fbe5d9836d51b6"
-+LIC_FILES_CHKSUM = "file://README.rst;beginline=1;endline=20;md5=571e2d702e247b9d8a7745b3b54315ed"
+diff --git a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+index 041c717e00..c29c9fa34d 100644
+--- a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
++++ b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+@@ -1,4 +1,4 @@
+-From 6e835350b7413210c410d3578cfab804186b7a4f Mon Sep 17 00:00:00 2001
++From 618a52d2d56888e196a1db2ea84f9d8ebb90b813 Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Tue, 17 Nov 2020 11:13:40 +0800
+ Subject: [PATCH] sudo.conf.in: fix conflict with multilib
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.15p2.bb b/meta/recipes-extended/sudo/sudo_1.9.15p3.bb
+similarity index 96%
+rename from meta/recipes-extended/sudo/sudo_1.9.15p2.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.15p3.bb
+index 431dfba3c2..95ac12ed03 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.15p2.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.15p3.bb
+@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
- PYPI_PACKAGE = "python-subunit"
+ PAM_SRC_URI = "file://sudo.pam"
  
--SRC_URI[sha256sum] = "2988d324d55ec35dd037e502e3f74ac38f4e457bd44ee0edf5e898f7ee1134d4"
-+SRC_URI[sha256sum] = "1079363131aa1d3f45259237265bc2e61a77e35f20edfb6e3d1d2558a2cdea34"
+-SRC_URI[sha256sum] = "199c0cdbfa7efcfffa9c88684a8e2fb206a62b70a316507e4a91c89c873bbcc8"
++SRC_URI[sha256sum] = "78c87a1ccec42f7a095002fe2b1478a5106036359e362b867534a8e0056a0494"
  
- inherit pypi setuptools3
- 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.42.0
 
 
---===============9086578146284556168==
+--===============8699578470784776816==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-subunit: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-subunit/python-subunit-1.4.2.tar.gz;downloadfilename=python-subunit-1.4.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-subunit/python-subunit-1.4.4.tar.gz;downloadfilename=python-subunit-1.4.4.tar.gz"
-packages/core2-64-poky-linux/python3-subunit: PV changed from "1.4.2" to "1.4.4"
-packages/core2-64-poky-linux/python3-subunit: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-dbg: PV changed from "1.4.2" to "1.4.4"
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-dbg: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-dev: PV changed from "1.4.2" to "1.4.4"
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-dev: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-doc: PV changed from "1.4.2" to "1.4.4"
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-doc: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-locale: PV changed from "1.4.2" to "1.4.4"
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-locale: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-src: PV changed from "1.4.2" to "1.4.4"
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-src: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-staticdev: PV changed from "1.4.2" to "1.4.4"
-packages/core2-64-poky-linux/python3-subunit/python3-subunit-staticdev: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
-packages/core2-64-poky-linux/python3-subunit/python3-subunit: FILELIST: directory renamed /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info -> /usr/lib/python3.11/site-packages/python_subunit-1.4.4.dist-info, removed "/usr/lib/python3.11/site-packages/subunit/iso8601.py /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc"
-packages/core2-64-poky-linux/python3-subunit/python3-subunit: PKGSIZE changed from 932776 to 915101 (-2%)
-packages/core2-64-poky-linux/python3-subunit/python3-subunit: PV changed from "1.4.2" to "1.4.4"
-packages/core2-64-poky-linux/python3-subunit/python3-subunit: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
-Changes to packages/core2-64-poky-linux/python3-subunit (sysroot):
-  /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info moved to /usr/lib/python3.11/site-packages/python_subunit-1.4.4.dist-info
-  /usr/lib/python3.11/site-packages/subunit/iso8601.py was removed
-  /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc was removed
+packages/core2-64-poky-linux/sudo: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo: SRC_URI changed from "https://www.sudo.ws/dist/sudo-1.9.15p2.tar.gz file://sudo.pam file://0001-sudo.conf.in-fix-conflict-with-multilib.patch" to "https://www.sudo.ws/dist/sudo-1.9.15p3.tar.gz file://sudo.pam file://0001-sudo.conf.in-fix-conflict-with-multilib.patch"
+packages/core2-64-poky-linux/sudo/sudo-dbg: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-dbg: PKGSIZE changed from 5749928 to 5750872 (+0%)
+packages/core2-64-poky-linux/sudo/sudo-dbg: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-dev: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-dev: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-doc: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-doc: PKGSIZE changed from 3236514 to 3239314 (+0%)
+packages/core2-64-poky-linux/sudo/sudo-doc: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-lib: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-lib: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-ast: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-ast: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-ca: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-ca: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-cs: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-cs: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-da: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-da: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-de: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-de: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-el: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-el: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-eo: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-eo: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-es: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-es: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-eu: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-eu: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-fa: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-fa: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-fi: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-fi: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-fr: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-fr: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-fur: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-fur: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-gl: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-gl: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-hr: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-hr: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-hu: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-hu: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-id: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-id: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-it: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-it: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-ja: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-ja: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-ka: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-ka: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-ko: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-ko: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-lt: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-lt: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-nb: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-nb: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-nl: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-nl: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-nn: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-nn: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-pl: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-pl: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-pt-br: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-pt-br: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-pt: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-pt: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-ro: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-ro: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-ru: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-ru: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-sk: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-sk: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-sl: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-sl: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-sq: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-sq: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-sr: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-sr: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-sv: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-sv: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-tr: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-tr: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-uk: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-uk: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-vi: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-vi: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-zh-cn: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-zh-cn: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-locale-zh-tw: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-locale-zh-tw: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-src: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-src: PKGSIZE changed from 3603650 to 3604091 (+0%)
+packages/core2-64-poky-linux/sudo/sudo-src: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-staticdev: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-staticdev: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo-sudo: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo-sudo: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
+packages/core2-64-poky-linux/sudo/sudo: PV changed from "1.9.15p2" to "1.9.15p3"
+packages/core2-64-poky-linux/sudo/sudo: PKGV changed from 1.9.15p2 [default] to 1.9.15p3 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1795,17 +1858,12 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============9086578146284556168==
+--===============8699578470784776816==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-subunit/python3-subunit: FILELIST: directory renamed /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info -> /usr/lib/python3.11/site-packages/python_subunit-1.4.4.dist-info, removed "/usr/lib/python3.11/site-packages/subunit/iso8601.py /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc"
-Changes to packages/core2-64-poky-linux/python3-subunit (sysroot):
-  /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info moved to /usr/lib/python3.11/site-packages/python_subunit-1.4.4.dist-info
-  /usr/lib/python3.11/site-packages/subunit/iso8601.py was removed
-  /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3443,52 +3501,50 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============9086578146284556168==
+--===============8699578470784776816==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-subunit-upgrade-1.4.2-1.4.4.patch"
+ filename="0001-sudo-upgrade-1.9.15p2-1.9.15p3.patch"
 
-RnJvbSBjMjI5ZTUxYmMzOTE0MDgwOTA3MmU2MmM2YmQ2MGFkNGMyMTljMTQwIE1vbiBTZXAgMTcg
+RnJvbSAxODQxNmMzMzdiZjQzMjA3MmVlZDhhNGNhNmRkZTgyOThlYTVmMDI3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDg6MTg6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXN1YnVuaXQ6IHVwZ3JhZGUgMS40LjIgLT4gMS40LjQKCi0tLQogLi4udW5pdF8xLjQu
-Mi5iYiA9PiBweXRob24zLXN1YnVuaXRfMS40LjQuYmJ9IHwgMjYgKysrKysrKysrKysrKysrKyst
-LQogMSBmaWxlIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1zdWJ1bml0XzEuNC4yLmJi
-ID0+IHB5dGhvbjMtc3VidW5pdF8xLjQuNC5iYn0gKDMxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3VidW5pdF8xLjQuMi5iYiBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zdWJ1bml0XzEuNC40LmJiCnNpbWlsYXJpdHkg
-aW5kZXggMzElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1zdWJ1bml0XzEuNC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtc3VidW5pdF8xLjQuNC5iYgppbmRleCBhMDE4ZWYxZGM4Li44ZWFiNjU2YTQ2IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3VidW5pdF8x
-LjQuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3VidW5p
-dF8xLjQuNC5iYgpAQCAtMSwxMiArMSwzNCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtT
-VU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUg
-Zm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBs
-aWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVk
-LCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEg
-J0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5
-cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIFJFQURN
-RS5yc3QKKyMgKysrIFJFQURNRS5yc3QKKyMgQEAgLTE1LDYgKzE1LDYgQEAKKyMgIAorIyAgICBT
-ZWUgdGhlIENPUFlJTkcgZmlsZSBmb3IgZnVsbCBkZXRhaWxzIG9uIHRoZSBsaWNlbnNpbmcgb2Yg
-U3VidW5pdC4KKyMgIAorIyAtICBzdWJ1bml0IHJldXNlcyBpc284NjAxIGJ5IE1pY2hhZWwgVHdv
-bWV5LCBkaXN0cmlidXRlZCB1bmRlciBhbiBNSVQgc3R5bGUKKyMgLSAgbGljZW5jZSAtIHNlZSBw
-eXRob24vaXNvODYwMS9MSUNFTlNFIGZvciBkZXRhaWxzLgorIyArU3VidW5pdAorIyArLS0tLS0t
-LQorIyAgCisjIAorIworCiBTVU1NQVJZID0gIlB5dGhvbiBpbXBsZW1lbnRhdGlvbiBvZiBzdWJ1
-bml0IHRlc3Qgc3RyZWFtaW5nIHByb3RvY29sIgogSE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9y
-Zy9wcm9qZWN0L3B5dGhvbi1zdWJ1bml0LyIKIFNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgogTElD
-RU5TRSA9ICJBcGFjaGUtMi4wIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vUkVBRE1FLnJz
-dDtiZWdpbmxpbmU9MTtlbmRsaW5lPTIwO21kNT05MDljMDhlMjkxNjQ3ZmQ5ODVmYmU1ZDk4MzZk
-NTFiNiIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL1JFQURNRS5yc3Q7YmVnaW5saW5lPTE7
-ZW5kbGluZT0yMDttZDU9NTcxZTJkNzAyZTI0N2I5ZDhhNzc0NWIzYjU0MzE1ZWQiCiAKIFBZUElf
-UEFDS0FHRSA9ICJweXRob24tc3VidW5pdCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI5ODhk
-MzI0ZDU1ZWMzNWRkMDM3ZTUwMmUzZjc0YWMzOGY0ZTQ1N2JkNDRlZTBlZGY1ZTg5OGY3ZWUxMTM0
-ZDQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTA3OTM2MzEzMWFhMWQzZjQ1MjU5MjM3MjY1YmMy
-ZTYxYTc3ZTM1ZjIwZWRmYjZlM2QxZDI1NThhMmNkZWEzNCIKIAogaW5oZXJpdCBweXBpIHNldHVw
-dG9vbHMzCiAKLS0gCjIuNDIuMAoK
+CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDk6NDk6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+dWRvOiB1cGdyYWRlIDEuOS4xNXAyIC0+IDEuOS4xNXAzCgotLS0KIC4uLi9maWxlcy8wMDAxLXN1
+ZG8uY29uZi5pbi1maXgtY29uZmxpY3Qtd2l0aC1tdWx0aWxpYi5wYXRjaCAgICB8IDIgKy0KIC4u
+Li9zdWRvL3tzdWRvXzEuOS4xNXAyLmJiID0+IHN1ZG9fMS45LjE1cDMuYmJ9ICAgICAgICAgICAg
+ICAgICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
+cygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zdWRvL3tzdWRvXzEuOS4xNXAyLmJi
+ID0+IHN1ZG9fMS45LjE1cDMuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL3N1ZG8vZmlsZXMvMDAwMS1zdWRvLmNvbmYuaW4tZml4LWNvbmZsaWN0LXdpdGgtbXVs
+dGlsaWIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Vkby9maWxlcy8wMDAxLXN1ZG8u
+Y29uZi5pbi1maXgtY29uZmxpY3Qtd2l0aC1tdWx0aWxpYi5wYXRjaAppbmRleCAwNDFjNzE3ZTAw
+Li5jMjljOWZhMzRkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Vkby9maWxl
+cy8wMDAxLXN1ZG8uY29uZi5pbi1maXgtY29uZmxpY3Qtd2l0aC1tdWx0aWxpYi5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Vkby9maWxlcy8wMDAxLXN1ZG8uY29uZi5pbi1maXgt
+Y29uZmxpY3Qtd2l0aC1tdWx0aWxpYi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNmU4MzUz
+NTBiNzQxMzIxMGM0MTBkMzU3OGNmYWI4MDQxODZiN2E0ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gNjE4YTUyZDJkNTY4ODhlMTk2YTFkYjJlYTg0ZjlkOGViYjkwYjgxMyBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29t
+PgogRGF0ZTogVHVlLCAxNyBOb3YgMjAyMCAxMToxMzo0MCArMDgwMAogU3ViamVjdDogW1BBVENI
+XSBzdWRvLmNvbmYuaW46IGZpeCBjb25mbGljdCB3aXRoIG11bHRpbGliCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Vkby9zdWRvXzEuOS4xNXAyLmJiIGIvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL3N1ZG8vc3Vkb18xLjkuMTVwMy5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Vkby9zdWRvXzEuOS4xNXAyLmJiCnJlbmFt
+ZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Vkby9zdWRvXzEuOS4xNXAzLmJiCmluZGV4IDQz
+MWRmYmEzYzIuLjk1YWMxMmVkMDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9z
+dWRvL3N1ZG9fMS45LjE1cDIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N1ZG8vc3Vk
+b18xLjkuMTVwMy5iYgpAQCAtNyw3ICs3LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL3d3dy5zdWRv
+LndzL2Rpc3Qvc3Vkby0ke1BWfS50YXIuZ3ogXAogCiBQQU1fU1JDX1VSSSA9ICJmaWxlOi8vc3Vk
+by5wYW0iCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxOTljMGNkYmZhN2VmY2ZmZmE5Yzg4Njg0
+YThlMmZiMjA2YTYyYjcwYTMxNjUwN2U0YTkxYzg5Yzg3M2JiY2M4IgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjc4Yzg3YTFjY2VjNDJmN2EwOTUwMDJmZTJiMTQ3OGE1MTA2MDM2MzU5ZTM2MmI4Njc1
+MzRhOGUwMDU2YTA0OTQiCiAKIERFUEVORFMgKz0gIiB2aXJ0dWFsL2NyeXB0ICR7QGJiLnV0aWxz
+LmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAncGFtJywgJ2xpYnBhbScsICcnLCBkKX0iCiBS
+REVQRU5EUzoke1BOfSArPSAiICR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMn
+LCAncGFtJywgJ3BhbS1wbHVnaW4tbGltaXRzIHBhbS1wbHVnaW4ta2V5aW5pdCcsICcnLCBkKX0i
+Ci0tIAoyLjQyLjAKCg==
 
---===============9086578146284556168==--
+--===============8699578470784776816==--
 
