@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14D38C48BC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 343E9C48BEF
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 14:17:54 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.63133.1702649863045185363
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.63134.1702649863102937805
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Dec 2023 06:17:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fGA2Jx+b;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=f7dj1s7s;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c6dd7188c-59c6aa1f-5f44-4ed6-9199-578db7177708-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Pnt0nr+m;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JFauvNNp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018c6dd71833-ce1e7c3a-702a-4bc8-8a61-a7d3186af487-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1702649862;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cHPvsHX8ne5N+PRBysxKT4pejEXHtcWJa/DL57x/1mU=;
-	b=fGA2Jx+bWcQxDA1w+R5oG+pDGR8+Jb05Vx/3TXAgz22louidl1zNnBTNrMK3lGaI
-	apYs2OoKwnWVQhE9V5MVlwmm3jsmm8lBVkq/7vTRNUyYF6JVU7GaIGzrctL2dMR8+2j
-	8U/k0O434MDjl1tZg6RMKR3rH8K56XtYMKqcJzZQ=
+	bh=X/LyU0woaxF6hAV6Aaa2jLiIlLOMCJ99nmpIq29hDOM=;
+	b=Pnt0nr+mDr03cc9cnGRZdRs+Uvy7GRMksob5Qv8IP6bIQlhlcNtJdGtKm0mFvDqG
+	XktV9JAU1Mouos2sOszxvISTFCm2KgVWrLV9MicyXUYVCuoMPHPvLLZW3PsvRpvWzK/
+	99p/wAf0gryYLDG6eRjbX4ezOvSn68MBNB4Fkg2U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702649862;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cHPvsHX8ne5N+PRBysxKT4pejEXHtcWJa/DL57x/1mU=;
-	b=f7dj1s7smj2iPDXGNazXxmVHC7sgBm36VL6KAOACXTMRWEeAJjaY3VYRW8/17CLn
-	vwnSDyAo3N61EscNbceyrHsI4aaQ1cnzGDTsgOcGwO8PfuT+rQZdq4kkA0qBhy2BTTn
-	7NLOBR5tlstFEk4JtKCtmJErRUYJR3Gpm3bREcng=
-Content-Type: multipart/mixed; boundary="===============9168365686306765730=="
+	bh=X/LyU0woaxF6hAV6Aaa2jLiIlLOMCJ99nmpIq29hDOM=;
+	b=JFauvNNp9vjlkQM2Mq6vJortrmm1AwtU4axZWXacDDhvNAsRj6tLtIJ3RgpL/hSc
+	FoJ1TJAhcgABpCEsnO9UXRM8sdmyqvENto8jIIqTttpYfzNo6xerb6EshohHL+C6Q2w
+	xyARo0oOEN/TiVLAVM2epd0ecEVF49fZofMkVsyg=
+Content-Type: multipart/mixed; boundary="===============2227827290212813290=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] update-rc.d: upgrading to
- b8f950105010270a768aa12245d6abf166346015 SUCCEEDED
-Message-ID: <0101018c6dd7188c-59c6aa1f-5f44-4ed6-9199-578db7177708-000000@us-west-2.amazonses.com>
+Subject: [AUH] systemd-boot: upgrading to 255 FAILED
+Message-ID: <0101018c6dd71833-ce1e7c3a-702a-4bc8-8a61-a7d3186af487-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Dec 2023 14:17:42 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.15-54.240.27.33
+X-SES-Outgoing: 2023.12.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 14:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192440
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192442
 
---===============9168365686306765730==
+--===============2227827290212813290==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,77 +51,55 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *update-rc.d* to *b8f950105010270a768aa12245d6abf166346015* has Succeeded.
+that the automatic attempt to upgrade the recipe *systemd-boot* to *255* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-update-rc.d-upgrade-to-latest-revision.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe systemd-boot failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1842 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-63d160d3d0ef4c8e0f59a7b0265d2c77a4a022df"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:63d160d3d0ef4c8e0f59a7b0265d2c77a4a022df"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+done.
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto db11bab38ccf1ed257f310d29070843d4c58ea01
+WARNING: Command 'git rebase db11bab38ccf1ed257f310d29070843d4c58ea01' failed:
+Auto-merging src/hibernate-resume/hibernate-resume-generator.c
+CONFLICT (content): Merge conflict in src/hibernate-resume/hibernate-resume-generator.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/systemd-boot
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemd-boot/systemd-boot_255.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From c02d0fca6cc72c4bd1ccc9bef2e46a5237e6296a Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Dec 2023 06:13:23 +0000
-Subject: [PATCH] update-rc.d: upgrade to latest revision
-
----
- meta/recipes-core/update-rc.d/update-rc.d_0.8.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
-index 043cb3f13e..ba622fe716 100644
---- a/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
-+++ b/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb
-@@ -7,7 +7,7 @@ LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://update-rc.d;beginline=5;endline=15;md5=d40a07c27f535425934bb5001f2037d9"
- 
- SRC_URI = "git://git.yoctoproject.org/update-rc.d;branch=master;protocol=https"
--SRCREV = "8636cf478d426b568c1be11dbd9346f67e03adac"
-+SRCREV = "b8f950105010270a768aa12245d6abf166346015"
- 
- UPSTREAM_CHECK_COMMITS = "1"
- 
--- 
-2.42.0
-
-
---===============9168365686306765730==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-update-rc.d-upgrade-to-latest-revision.patch"
-
-RnJvbSBjMDJkMGZjYTZjYzcyYzRiZDFjY2M5YmVmMmU0NmE1MjM3ZTYyOTZhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgRGVjIDIwMjMgMDY6MTM6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB1
-cGRhdGUtcmMuZDogdXBncmFkZSB0byBsYXRlc3QgcmV2aXNpb24KCi0tLQogbWV0YS9yZWNpcGVz
-LWNvcmUvdXBkYXRlLXJjLmQvdXBkYXRlLXJjLmRfMC44LmJiIHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWNvcmUvdXBkYXRlLXJjLmQvdXBkYXRlLXJjLmRfMC44LmJiIGIvbWV0YS9yZWNpcGVzLWNv
-cmUvdXBkYXRlLXJjLmQvdXBkYXRlLXJjLmRfMC44LmJiCmluZGV4IDA0M2NiM2YxM2UuLmJhNjIy
-ZmU3MTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3VwZGF0ZS1yYy5kL3VwZGF0ZS1y
-Yy5kXzAuOC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS91cGRhdGUtcmMuZC91cGRhdGUtcmMu
-ZF8wLjguYmIKQEAgLTcsNyArNyw3IEBAIExJQ0VOU0UgPSAiR1BMLTIuMC1vci1sYXRlciIKIExJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3VwZGF0ZS1yYy5kO2JlZ2lubGluZT01O2VuZGxpbmU9
-MTU7bWQ1PWQ0MGEwN2MyN2Y1MzU0MjU5MzRiYjUwMDFmMjAzN2Q5IgogCiBTUkNfVVJJID0gImdp
-dDovL2dpdC55b2N0b3Byb2plY3Qub3JnL3VwZGF0ZS1yYy5kO2JyYW5jaD1tYXN0ZXI7cHJvdG9j
-b2w9aHR0cHMiCi1TUkNSRVYgPSAiODYzNmNmNDc4ZDQyNmI1NjhjMWJlMTFkYmQ5MzQ2ZjY3ZTAz
-YWRhYyIKK1NSQ1JFViA9ICJiOGY5NTAxMDUwMTAyNzBhNzY4YWExMjI0NWQ2YWJmMTY2MzQ2MDE1
-IgogCiBVUFNUUkVBTV9DSEVDS19DT01NSVRTID0gIjEiCiAKLS0gCjIuNDIuMAoK
-
---===============9168365686306765730==--
+--===============2227827290212813290==--
 
