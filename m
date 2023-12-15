@@ -2,92 +2,316 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1107C4332F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E113BC35274
 	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 17:30:25 +0000 (UTC)
-Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
- by mx.groups.io with SMTP id smtpd.web11.68644.1702661418813120093
+Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
+ by mx.groups.io with SMTP id smtpd.web11.68643.1702661418592188116
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Dec 2023 09:30:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.81, mailfrom: f_l_k@t-online.de)
 Received: from fwd70.aul.t-online.de (fwd70.aul.t-online.de [10.223.144.96])
-	by mailout08.t-online.de (Postfix) with SMTP id 202C7FC1C
+	by mailout03.t-online.de (Postfix) with SMTP id 2034727806
 	for <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 18:30:17 +0100 (CET)
 Received: from intel-corei7-64.fritz.box ([84.163.32.124]) by fwd70.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rEC0u-0kuDFB0; Fri, 15 Dec 2023 18:30:16 +0100
+	esmtp id 1rEC0u-0kuDFC0; Fri, 15 Dec 2023 18:30:16 +0100
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH 1/2] libadwaita: update 1.4.0 -> 1.4.2
-Date: Fri, 15 Dec 2023 18:30:55 +0100
-Message-ID: <20231215173056.2392-1-f_l_k@t-online.de>
+Subject: [oe-core][PATCH 2/2] appstream: Upgrade 0.16.3 -> 1.0.0
+Date: Fri, 15 Dec 2023 18:30:56 +0100
+Message-ID: <20231215173056.2392-2-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231215173056.2392-1-f_l_k@t-online.de>
+References: <20231215173056.2392-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1702661416-317F9937-862D82C2/0/0 CLEAN NORMAL
-X-TOI-MSGID: 06240b5f-0cad-4170-b988-5ce1bd2ee34a
+Content-Type: text/plain; charset=UTF-8
+X-TOI-EXPURGATEID: 150726::1702661416-317F9937-15EC39F3/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4761a4ab-a0b5-429a-b516-a5e18b1f237a
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 17:30:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192541
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192540
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Version 1.4.2
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+- remove backport patch
+- update 0001-remove-hardcoded-path.patch
+- fix api-documentation
 
-- Really fix build with libappstream 1.0
+Version 1.0.0
+~~~~~~~~~~~~~~
+Released: 2023-11-11
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Version 1.4.1
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Notes:
+ * This version breaks API and bumps the SONAME of libappstream!
+   Applications using AppStream will have to be ported to the new API.
+   The 1.0 release is coinstallable with the stable 0.16.x series.
 
-- Fix build with MSVC
-- Fix build with libappstream 1.0
-- AdwCarousel
-  - Fix carousel scroll behavior with page reordering
-- AdwComboRow
-  - Fix focus when opening the popover
-  - Set the correct state on the selected checkmark
-- AdwNavigationView
-  - Fix a warning message
-- AdwTabOverview
-  - Allow child focus on out animations
-- AdwTabView
-  - Keep view alive during ::page-detached
-  - Fix crashes when using :pages
-- Docs
-  - Fix erroneous <child> use in breakpoints migration guide
-- Translation updates
-  - Russian
-  - Serbian
+Features:
+ * Autoformat C and C++ sources
+ * Remove all deprecated symbols
+ * Drop support for many deprecated AppStream XML features
+ * Use GPtrArray to expose keywords list
+ * Add length argument to raw metadata parsing functions
+ * Add component array container class
+ * Remove named values for display_length relations
+ * Make AsPool only accept/return component boxes
+ * Port all API away from per-entity locale overrides
+ * Reduce appstream.conf to its essentials, make it work on stateless sys=
+tems
+ * Hide search engine details from public API
+ * Wrap release entries in AsReleaseList container class
+ * Make AsMetadata handle AsReleaseList objects
+ * Refactor is_satisfied result into new RelationCheckResult class
+ * Add a method to check all relations of a component and get the result
+ * Add algorithm to score compatibility with a system, add chassis templa=
+tes
+ * ascli: Add new check-syscompat command to check chassis compatibility
+ * Implement environment property for component screenshots
+ * Autogenerate translatable DE and gui-environment-style C arrays
+ * Expose more advanced markup conversion function, update function names
+ * Allow BLAKE3 and SHA512 checksums for release artifacts
+ * Stop supporting mailto: URLs in <url/> tags
+ * validator: Improve API and simplify it
+ * validator: Parse XML in pedantic mode when validating
+ * validator: Check screenshot environment property
+ * validator: Only apply summary-has-dot-suffix check to untranslated str=
+ings
+ * compose: Allow creating metadata with complete URLs and no base URL
+ * spdx: Add API to retrieve a translated license name from an SPDX ID
+ * qt: Switch to building with Qt6
+ * qt: Make it possible to iterate ComponentBox
+ * qt: Implement AppStream::ComponentBox::erase
+ * qt: Allow concatenating two ComponentBoxes
+ * qt: Allow loading Pool asynchronously
+ * qt: Use ComponentBox/Releases in Qt bindings as well
+ * qt: Add support for the new API to check relation satisfaction
+ * qt: Maintenance and namespace fixes, use cPtr() to get C pointers ever=
+ywhere
+ * bundle: Add linglong as a new type of bundle
+ * Add GUI environment IDs for macOS and Microsoft Windows
+ * validator: Check if Release Description is inside description tag
+ * validator: Add validation for content_rating
+ * Add support for building on Win32
+ * win32: change some file/path-related code for portability
+ * Implement the developer element for unique developer IDs
+ * Implement scaling factor for screenshots
+ * component-box: Allow removal of components by-index
+ * Implement support for external references and citations
+ * Implement usertags for release data as well
+ * Move ValueFlags to the context, instead of tieing them to components
+ * pool: search: Add additional weight for exact substring matches on nam=
+es
+ * sysinfo: Add memory size detection support for macOS
+ * Add support for Zstd for on-disk data compression
+ * utils: Make tar unpacker independent of zstd binary presence
+ * Drop Python2 provided tag support
+ * data: Add =E2=80=98Endless=E2=80=99 to the list of desktops
+ * Add NetBSD support
+
+Specification:
+ * Drop (most) deprecated information
+ * docs: Clarify environment-based screenshot ordering
+ * Add new  'snapshot' release kind
+ * docs: Build all API documentation with gi-docgen
+ * spec: Document the new "developer" element
+ * spec: Document the "reference" tag for registry references
+ * docs: Add example of YAML for references elements
+ * Allow hyphens in the last segment of a component-ID
+ * docs: Drop outdated information from l10n quickstart guide
+
+Bugfixes:
+ * meson: check for docbook xsl stylesheets
+ * Fix tweaking of appstream.pc when building as subproject
+ * Fix crash in asc_l10n_search_translations_qt()
+ * qt: Make Qt6 dependency a system dependency.
+ * meson: do not rely on an exe wrapper
+ * meson: do not -I/usr/include when !stemmer
+ * meson: Prevent building attempts with MSVC
+ * meson: Use an SPDX license indentifier in project(license:)
+ * Add meson overrides
+ * compose: Set lower-cased CID for synthesized components again
+ * compose: Set lower-cased CID in desktop-entry parse function
+ * compose: Honor prefix in font search
+ * compose: Select the correct default icon glyphs for fonts
+ * Don't crash when non-YAML documents are read as YAML
+ * Do not override default-priority when parsing multiple metadata files
+ * Ensure stemmer always has the right locale and token-search works
+ * Require a more recent libxmlb to avoid crashes
+ * Rename component get_releases to indicate that releases may not be loa=
+ded from the web
+ * Prevent string-id validation functions from matching source comments
+ * Don't define _POSIX_C_SOURCE when building for NetBSD
+
+Miscellaneous:
+ * Explain metainfo-ancient error in more detail
+ * Make sed invocation more portable
+ * Add FreeBSD CI
+ * Allow variable shadowing in C++ code
+ * Drop the catchall as-enums unit
+ * vapi: Drop unneeded metadata
+ * Make AsMetadata return a component box for multiple components
+ * apt: Make item descriptions more human-friendly
+ * Streamline README
+
+Contributors:
+ Aleix Pol, Alessandro Astone, Alexander Wilms, Dan Yeaw, Daniel Drake,
+ Gary Wang, Gleb Popov, Ingo Kl=C3=B6cker, JakobDev, Jeremy Whiting, Kai =
+Uwe Broulik,
+ Marc-Andr=C3=A9 Lureau, Matthias Klumpp, Philip Withnall, Tao Zuhong,
+ Thomas Klausner, Tristan Partin, and thanks to all translators mentioned
+ in the respective l10n files!
+
+Version 0.16.4
+~~~~~~~~~~~~~~
+Released: 2023-11-10
+
+Features:
+ * Allow hyphens in the last segment of a component-ID
+ * Implement the developer element for unique developer IDs
+ * Add meson overrides
+
+Bugfixes:
+ * meson: Prevent building attempts with MSVC
+ * meson: Avoid potentially bad sed backup filename when fixing .pc file
+
+Miscellaneous:
+ * Make sed invocation more portable
+
+Contributors:
+ Gleb Popov, Matthias Klumpp, Tristan Partin
 
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- .../libadwaita/{libadwaita_1.4.0.bb =3D> libadwaita_1.4.2.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.4.0.bb =3D> libadwait=
-a_1.4.2.bb} (88%)
+ ...-meson-do-not-rely-on-an-exe-wrapper.patch | 36 -------------------
+ .../0001-remove-hardcoded-path.patch          | 16 +++++----
+ ...appstream_0.16.3.bb =3D> appstream_1.0.0.bb} |  7 ++--
+ 3 files changed, 13 insertions(+), 46 deletions(-)
+ delete mode 100644 meta/recipes-support/appstream/appstream/0001-meson-d=
+o-not-rely-on-an-exe-wrapper.patch
+ rename meta/recipes-support/appstream/{appstream_0.16.3.bb =3D> appstrea=
+m_1.0.0.bb} (82%)
 
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb b/meta/rec=
-ipes-gnome/libadwaita/libadwaita_1.4.2.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.4.2.bb
-index cc05756805..edcfba54b6 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.4.0.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.4.2.bb
-@@ -11,7 +11,7 @@ DEPENDS =3D " \
+diff --git a/meta/recipes-support/appstream/appstream/0001-meson-do-not-r=
+ely-on-an-exe-wrapper.patch b/meta/recipes-support/appstream/appstream/00=
+01-meson-do-not-rely-on-an-exe-wrapper.patch
+deleted file mode 100644
+index d4f2951e7a..0000000000
+--- a/meta/recipes-support/appstream/appstream/0001-meson-do-not-rely-on-=
+an-exe-wrapper.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 79bf322768990b28c29a9d907edcca52ff48e0b8 Mon Sep 17 00:00:00 2001
+-From: =3D?UTF-8?q?Marc-Andr=3DC3=3DA9=3D20Lureau?=3D <marcandre.lureau@r=
+edhat.com>
+-Date: Wed, 26 Jul 2023 23:21:10 +0400
+-Subject: meson: do not rely on an exe wrapper
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=3DUTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+-
+-Upstream-Status: Backport [https://github.com/ximion/appstream/commit/79=
+bf322768990b28c29a9d907edcca52ff48e0b8]
+----
+- data/meson.build | 7 +++++++
+- 1 file changed, 7 insertions(+)
+-
+-diff --git a/data/meson.build b/data/meson.build
+-index aea0cb25..ec0e434f 100644
+---- a/data/meson.build
+-+++ b/data/meson.build
+-@@ -7,6 +7,13 @@ install_data('its/metainfo.its',
+- install_data('its/metainfo.loc',
+-               install_dir: join_paths(get_option('datadir'), 'gettext',=
+ 'its'))
+-=20
+-+# Do not rely on an exe wrapper for rel-info, use the system one in tha=
+t case
+-+if meson.is_cross_build()
+-+    dependency('appstream', version: '>=3D' + as_version, native: true,
+-+               not_found_message: 'Native appstream required for cross-=
+building')
+-+    ascli_exe =3D find_program('appstreamcli')
+-+endif
+-+
+- # NOTE: We do not translate the release notes on purpose here.
+- # If you do want to give translators a chance to translate them,
+- # ascli news-to-metainfo needs to produce a temporary file to translate
+---=20
+-2.41.0
+-
+diff --git a/meta/recipes-support/appstream/appstream/0001-remove-hardcod=
+ed-path.patch b/meta/recipes-support/appstream/appstream/0001-remove-hard=
+coded-path.patch
+index 9cbfaca82f..66687a5b89 100644
+--- a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path=
+.patch
++++ b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path=
+.patch
+@@ -17,15 +17,19 @@ diff --git a/meson.build b/meson.build
+ index fd0e3373..2f273ada 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -124,7 +124,7 @@ if get_option ('gir')
+-     dependency('gobject-introspection-1.0', version: '>=3D1.56')
+- endif
+-=20
+--stemmer_inc_dirs =3D include_directories(['/usr/include'])
+-+stemmer_inc_dirs =3D include_directories([''])
++@@ -185,10 +185,10 @@ endif
++ stemmer_inc_dirs =3D include_directories()
+  if get_option('stemming')
+      stemmer_lib =3D cc.find_library('stemmer', required: true)
++-    stemmer_inc_dirs =3D include_directories(['/usr/include'])
+++    stemmer_inc_dirs =3D include_directories([''])
+      if not cc.has_header('libstemmer.h')
++         if cc.has_header('libstemmer/libstemmer.h')
++-            stemmer_inc_dirs =3D include_directories('/usr/include/libs=
+temmer')
+++            stemmer_inc_dirs =3D include_directories('')
++         else
++             error('Unable to find Snowball header "libstemmer.h". Pleas=
+e ensure libstemmer/Snowball is installed properly in order to continue.'=
+)
++         endif
+ --=20
+ 2.34.1
 =20
- inherit gnomebase gobject-introspection gi-docgen vala features_check
+diff --git a/meta/recipes-support/appstream/appstream_0.16.3.bb b/meta/re=
+cipes-support/appstream/appstream_1.0.0.bb
+similarity index 82%
+rename from meta/recipes-support/appstream/appstream_0.16.3.bb
+rename to meta/recipes-support/appstream/appstream_1.0.0.bb
+index bde679e256..3f8bfcd263 100644
+--- a/meta/recipes-support/appstream/appstream_0.16.3.bb
++++ b/meta/recipes-support/appstream/appstream_1.0.0.bb
+@@ -19,17 +19,16 @@ DEPENDS =3D " \
+     python3-pygments-native \
+ "
 =20
--SRC_URI[archive.sha256sum] =3D "e51a098a54d43568218fc48fcf52e80e36f469b3=
-ce912d8ce9c308a37e9f47c2"
-+SRC_URI[archive.sha256sum] =3D "33fa16754e7370c841767298b3ff5f23003ee1d2=
-515cc2ff255e65ef3d4e8713"
+-inherit meson gobject-introspection gettext gtk-doc pkgconfig vala
++inherit meson gobject-introspection gettext gi-docgen pkgconfig vala
 =20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES =3D "opengl"
+ GIR_MESON_OPTION =3D "gir"
+-GTKDOC_MESON_OPTION =3D "apidocs"
++GIDOCGEN_MESON_OPTION =3D "apidocs"
+=20
+ SRC_URI =3D " \
+ 	https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}=
+.tar.xz \
+ 	file://0001-remove-hardcoded-path.patch \
+-	file://0001-meson-do-not-rely-on-an-exe-wrapper.patch \
+ "
+-SRC_URI[sha256sum] =3D "081c917646e94d7221c9e4aae54dacda95a27c607fa93cd8=
+e6344a2b318b98b1"
++SRC_URI[sha256sum] =3D "ef23477a380e8b525e92cfa87687f1146b9cef74c641349a=
+1ae11250be5401d0"
+=20
+ S =3D "${WORKDIR}/AppStream-${PV}"
+=20
 --=20
 2.43.0
 
