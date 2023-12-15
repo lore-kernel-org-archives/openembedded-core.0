@@ -2,57 +2,54 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C65EAC4332F
-	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 00:00:53 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.45347.1702598450948259978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BB69C4167D
+	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 00:45:44 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.46168.1702601140808504453
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Dec 2023 16:00:51 -0800
+ Thu, 14 Dec 2023 16:45:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bsKmYQYy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40c69403b3eso1129865e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 16:00:50 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VHkOUSSZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40c25973988so1509535e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Dec 2023 16:45:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1702598449; x=1703203249; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1702601139; x=1703205939; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=C3JHiAQz6/DflRCG+6Bqkja+7JTUJSMkI28IwWcHNmI=;
-        b=bsKmYQYyU0dbI8WvaP6Fe8Y1I07NdXMDYKyWNTf59ApIzDgEYQjfJcoLxNQmEhRA0K
-         QvNCazLcdNv13zeARiWiCPS/UJx2VMBikZfYkSeQyzO7yjEzzaJBw1w9tLJvGdtX5CLQ
-         X++DipRd4Nx64n7J2/IU45YUqv1+aLI4Gu3Lk=
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1OPmz2zkMnuKOwQiOiglhlwYuz11CyfeGXj5lN08gZc=;
+        b=VHkOUSSZmRjmTwz+GQROT9UzCgZEJ21nlpOv97wgowxJ4WfzWTAzd3cenhT1MK3+9a
+         irWYq+UTiM9le31hPRWe/uBsy9FdZ+aTNv5bp8ojAeishuhKF/9v9pfX3ygO23khTg8g
+         /CBzBWjBuMhrA7v1UQQHkxQyP+xmV8EKczosE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702598449; x=1703203249;
+        d=1e100.net; s=20230601; t=1702601139; x=1703205939;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=C3JHiAQz6/DflRCG+6Bqkja+7JTUJSMkI28IwWcHNmI=;
-        b=Wa1ltIUzpvCGRU2NVj5upXF7O75ME3JukdGwKVZTsSGxBapvlrddSMoHmw1xsc04Oa
-         egty1tpE5N6dBin8ZoVMMF2kW6iw2hJfwsOXrNI25xi7kYjziuxwOUDkenKtOQ99TP5f
-         qM7C8E+EvS6lX2i+pFJoQuenCjknZL2HebUMb9CBNx6/jtS7pKz9d8gKr8gegE7PYERw
-         RSBG6/iS2msxwFCGdhyxP/NjuHlPqLkepXFOYzoE9w8PBSUeXsClvIp5N6xzVRe/cIc0
-         pHgULgFpXH/Lb7QAHEoR68RQeenkkUvQshG2TkYIdNUr5hz+zdhGzTPVFwlnvP4GbX1k
-         hD2w==
-X-Gm-Message-State: AOJu0YwbgTA90xylLnElpPqXUUcHIc58rQ55rzUBIQ/pBJ5oVKjAL/yZ
-	mM3u8k5/42pjz40r++4H0LNdBA==
-X-Google-Smtp-Source: AGHT+IEJtEKP+bvO51iAV29nE3qyI/6E95rsTCXsa7dh0wQRhWO+jfqo2pNCa6TKeleEprh6yuAuVg==
-X-Received: by 2002:a1c:7210:0:b0:40c:3ea4:c0fe with SMTP id n16-20020a1c7210000000b0040c3ea4c0femr4442469wmc.100.1702598449175;
-        Thu, 14 Dec 2023 16:00:49 -0800 (PST)
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1OPmz2zkMnuKOwQiOiglhlwYuz11CyfeGXj5lN08gZc=;
+        b=bjg6u/La6CHSr+Sorb8w+YDTTCXLW2jLJxGcuvN2sXKe5yrh+tqQUpqopFO6OJ0ueH
+         YKoXUs5R1uMp+J5bc8q5JHwRwPqb06h9VvGiGSTYWrAfCPLA7TFqHdNzNSsWj9NluXTL
+         BoZp3glVtq1saHrz6lipEPQSVXoPud4xN9KtjLlUcy2cwzQuOpJexlu8Ghla+tblhFPv
+         AQmRYNenk7nOJzdaAkEr9qfnAPIrzOqkTgxQHXViDZkrzHGgrNQ+pIpvWYtl6HRxQAsW
+         GESli6xszMZc63yXan2mB6VphTZxNBnnTjcZxZuAlqd/jfvAC3XrJ/i4FWHmMtsAw9Kp
+         KmRg==
+X-Gm-Message-State: AOJu0YwrNdfWxrDOI1zOuxRO5Bo9SlabzwX32YkN6LNg2yskwtiTiU7X
+	MQDEW7lCFbYESymlG3d84tB7Lg==
+X-Google-Smtp-Source: AGHT+IFeK+vhwITDld7W46EHGdb6uUgivDnM/VJ2KZDwFv0zHBCPaxPDTvNgrf4+LLzjropcB9vWEg==
+X-Received: by 2002:a05:600c:4711:b0:40b:5e21:e26f with SMTP id v17-20020a05600c471100b0040b5e21e26fmr4902009wmo.92.1702601139048;
+        Thu, 14 Dec 2023 16:45:39 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:a04:9eb3:3437:42f8? ([2001:8b0:aba:5f3c:a04:9eb3:3437:42f8])
-        by smtp.gmail.com with ESMTPSA id iv19-20020a05600c549300b0040b397787d3sm22964650wmb.24.2023.12.14.16.00.48
+        by smtp.gmail.com with ESMTPSA id m14-20020a05600c4f4e00b0040b30be6244sm26635218wmq.24.2023.12.14.16.45.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 16:00:48 -0800 (PST)
-Message-ID: <89e37363ea3dff5ff5ad807912531b74c53831d1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCHv3 1/1] login.py: Proof of concept for
- screenshot testcases
+        Thu, 14 Dec 2023 16:45:38 -0800 (PST)
+Message-ID: <39e33a9ddaf716823c30792293002a211ea2181d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] util-linux: Delete md-raid tests
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
-	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>
-Date: Fri, 15 Dec 2023 00:00:48 +0000
-In-Reply-To: <20231214164651.1107120-1-pidge@baylibre.com>
-References: <20231214164651.1107120-1-pidge@baylibre.com>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 15 Dec 2023 00:45:38 +0000
+In-Reply-To: <20231214193436.224539-1-raj.khem@gmail.com>
+References: <20231214193436.224539-1-raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
@@ -60,147 +57,63 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 00:00:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192410
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 00:45:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192411
 
-On Thu, 2023-12-14 at 16:46 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
-=A1in wrote:
-> This takes the work rburton did on image screenshot testing and
-> expands it.
+On Thu, 2023-12-14 at 11:34 -0800, Khem Raj wrote:
+> These tests are marked as known failures upstream as well [1]
+> if we delete them then we can drop dependency on mdadm for ptests which
+> can further reduce the dependency chain for ptest enabled minimal images
 >=20
-> Right now this only works for qemux86-64. Some standardization
-> of screensize/resolution needs to happen with runqemu params for other
-> machines.
-
-I suspect that we don't want to make everything the same so we may need
-to allow the code to adapt to the sizes we have, I think there are only
-a small number of different ones. The annoying part may be just working
-out the clock mask sizes for the different ones since we can easily
-have different machine specific references.
-
->  There is an issue in qemux86-64 (and possibly others) where
-> the screenswitch/home icon is only half present. This causes the test to
-> fail. I'm unsure if this is a QMP/qemu issue but I've certainly seen
-> the half-rendered icon, so it's not Imagemagick.
-
-These are the kinds of issues we want to start catching and why this is
-important!
-
-> This test takes a screendump of a qemu image (for now, just
-> core-image-sato for qemux86-64), and compares it to an image we
-> have on record. Some normalisation of the different qemu configs
-> need to happen to be able to support all machines. Example, the
-> qemuarm64 screen size is much larger than the qemux86-64.
+> [1] https://github.com/util-linux/util-linux/commit/7519c3edab120b1462393=
+1d5ddb16fdc6e7cad5d
 >=20
-> The image we have on record contains a blanked out clock. We do
-> the same blanking out process for the screenshot, so the images should
-> have zero differences. If they do, we fail.
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/util-linux/util-linux_2.39.2.bb | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >=20
-> In order to enable this test, you will need meta-openembedded/meta-oe in
-> your bblayers.conf and the following in local.conf:
->=20
-> IMAGE_CLASSES +=3D "testimage"
-> TEST_SUITES =3D "login"
-> TESTIMAGEDEPENDS:append:qemuall =3D " imagemagick-native:do_populate_sysr=
-oot "
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.39.2.bb b/meta/rec=
+ipes-core/util-linux/util-linux_2.39.2.bb
+> index 927037a3429..8c081674017 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.39.2.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.39.2.bb
+> @@ -137,7 +137,7 @@ RDEPENDS:${PN}-dev +=3D " util-linux-libuuid-dev"
+>  RPROVIDES:${PN}-dev =3D "${PN}-libblkid-dev ${PN}-libmount-dev"
+> =20
+>  RDEPENDS:${PN}-bash-completion +=3D "${PN}-lsblk"
+> -RDEPENDS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs findu=
+tils grep iproute2 kmod mdadm procps sed socat which xz"
+> +RDEPENDS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs findu=
+tils grep iproute2 kmod procps sed socat which xz"
+>  RRECOMMENDS:${PN}-ptest +=3D "kernel-module-scsi-debug kernel-module-sd-=
+mod kernel-module-loop kernel-module-algif-hash"
+>  RDEPENDS:${PN}-swaponoff =3D "${PN}-swapon ${PN}-swapoff"
+>  ALLOW_EMPTY:${PN}-swaponoff =3D "1"
+> @@ -320,6 +320,12 @@ do_install_ptest() {
+>      if ! ${@bb.utils.contains('PACKAGECONFIG', 'pam', 'true', 'false', d=
+)}; then
+>          rm -rf ${D}${PTEST_PATH}/tests/ts/chfn
+>      fi
+> +    # remove raid tests, known failures and avoid dependency on mdadm th=
+erefore
+> +    # See https://github.com/util-linux/util-linux/commit/7519c3edab120b=
+14623931d5ddb16fdc6e7cad5d
+> +    rm -rf ${D}${PTEST_PATH}/tests/ts/blkid/md-raid0-whole
+> +    rm -rf ${D}${PTEST_PATH}/tests/ts/blkid/md-raid1-part
+> +    rm -rf ${D}${PTEST_PATH}/tests/ts/blkid/md-raid1-whole
+> +    rm -rf ${D}${PTEST_PATH}/tests/ts/fdisk/align-512-4K-md
+>  }
+> =20
+>  # Delete tests not working on musl
+> -
 
-or HOSTTOOLS +=3D "convert compare"
+This sounds good to me, thanks!
 
-?
-
-> diff --git a/meta/lib/oeqa/runtime/cases/login.py b/meta/lib/oeqa/runtime=
-/cases/login.py
-
-I just noticed the name. Does "login" make sense for a desktop
-screenshot? I can kind of see the logic but I'd not be looking in that
-file for this :/.
-
-> new file mode 100644
-> index 00000000000..30074f71b66
-> --- /dev/null
-> +++ b/meta/lib/oeqa/runtime/cases/login.py
-> @@ -0,0 +1,42 @@
-> +#
-> +# Copyright OpenEmbedded Contributors
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +import subprocess
-> +from oeqa.runtime.case import OERuntimeTestCase
-> +import tempfile
-> +from oeqa.runtime.decorator.package import OEHasPackage
-> +import shutil
-> +
-> +class LoginTest(OERuntimeTestCase):
-> +
-> +    def test_screenshot(self):
-> +        # Leaving this limited to qemux86-64, until I can get the same r=
-esolution
-> +        # on all the qemu machines.
-> +        if self.td.get('MACHINE') !=3D "qemux86-64":
-> +            self.skipTest("")
-
-You mean=C2=A0
-
-self.skipTest("Test only compatible with qemux86-64")
-
-right? ;-)
-
-> +
-> +        if bb.utils.which(os.getenv('PATH'), "convert.im7") is not None =
-and bb.utils.which(os.getenv('PATH'), "compare.im7") is not None:
-> +            with tempfile.NamedTemporaryFile(prefix=3D"oeqa-screenshot-l=
-ogin", suffix=3D".png") as t:
-> +                ret =3D self.target.runner.run_monitor("screendump", arg=
-s=3D{"filename": t.name, "format":"png"})
-> +                # Use the meta-oe version of convert, along with it's su=
-ffix
-> +                cmd =3D "convert.im7 {0} -fill white -draw 'rectangle 60=
-0,10 640,22' {1}".format(t.name, t.name)
-> +                subprocess.check_output(cmd.split(), shell=3DTrue, stder=
-r=3Dsubprocess.PIPE)
-> +               =20
-> +                # Uncomment for debugging/capturing other machine images=
-.
-> +                # shutil.copy(t.name, os.getenv('HOME')+"/"+self.td.get(=
-'MACHINE')+".png")
-> +
-> +                # Use the meta-oe version of compare, along with it's su=
-ffix              =20
-> +                cmd =3D "compare.im7 -metric MSE {0} {1}/meta/files/imag=
-e-tests/core-image-sato-{2}.png /dev/null".format(t.name, self.td.get('CORE=
-BASE'), self.td.get('MACHINE'))
-> +                # We use Popen here because compare outputs the values w=
-e care about on stderr.=20
-> +                proc =3D subprocess.Popen(cmd, shell=3DTrue, stdout=3Dsu=
-bprocess.PIPE, stderr=3Dsubprocess.PIPE)
-> +                output, error =3D proc.communicate()
-> +               =20
-> +                # In theory this should be 0, however I've seen some odd=
- things with the Home icon/screen switcher.
-> +                # We should as some point, log the diff image for debugg=
-ing, but for now, just report that it's different.
-> +                diff=3Dfloat(error.decode('utf-8').replace("(", "").repl=
-ace(")","").split()[1])
-> +                self.assertEqual(0, diff, "Screenshot diff is %s." % (st=
-r(diff)))
-> +        else:
-> +            self.skipTest("Could not find imagemagick tools.")
-
-Upon failure do we want to copy to some randomly named file in /tmp/ so
-we can at least have a chance to see what went wrong (printing the name
-in the test failure message)? I think currently the image would be lost
-making debugging hard?
-
-The selftests use OEQA_DEBUGGING_SAVED_OUTPUT but I'm not sure that is
-available in the runtime test environment at present unfortunately.
+Unwinding a few dependencies like this can make all the difference to
+build times.
 
 Cheers,
 
 Richard
-
-
-
-
 
