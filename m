@@ -1,218 +1,172 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C237AC4167B
-	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 10:49:38 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.60100.1702637370297142847
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF608C35274
+	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 12:00:18 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.55])
+ by mx.groups.io with SMTP id smtpd.web10.60711.1702641612853091691
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 02:49:30 -0800
+ Fri, 15 Dec 2023 04:00:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=k+y917gU;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40c2bb872e2so5327775e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 02:49:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1702637369; x=1703242169; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=int/T2wvNJQdguDTCtZnnLFS141ssUQZM4UaFMISW1s=;
-        b=k+y917gUQgZ/91xWoEIGt4Qd6jPGQ5XlMX1s4PXjTfUB+Ef9vXLu1bkURdHUc/AlGW
-         QzhAvjB3C+p5NtnyVlEFSAdR4+2kZanmhFIf6gyNHqNmV0lilp0rJz7hXkWfQIEVBJOl
-         0srIb9U6pXkdiBfqYRSa+nWbtnb+jC+gdI2AUnNCXz8v+znwp7PEdKzoddQKe/0KSkuF
-         NP/+sxcEXBTrZHThNnKdTAhST8eBLZUj66jUdB7sir9sid1rla2acWsoR40C6wkIYQaF
-         e//8OznwVEMVcoSqNuiPm2/6ydPBWeUGlRTcPbBFGQHv46uoI/O/JnYp0wiMjwyGkO8o
-         rvkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702637369; x=1703242169;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=int/T2wvNJQdguDTCtZnnLFS141ssUQZM4UaFMISW1s=;
-        b=GCENSxQvwwGRAmO/WZizJGDbAGUSWxmgPItmY1mzFAQwQZoQp2Ba/OWbC0Kyopqn4v
-         QG2AYzmO/Mnvs6ByZE0OaZYaV7iLj211+MVztfrdzq1D/LqFW5+COuaRlC38rzCPImQ1
-         IWpUr8S+aKo4/ljQh/tHu3S1fzrBHHqn0iYdkurTExd1kbP6ev9SQCSMpoFN7AQVIQJy
-         MG8reWRr4p2cDamaiA2jNknq8/SDwOV2H8AMwnVUlhN5KL4hG5L6IxZTM/CgSO9w7HDy
-         ZCwXobK3Lp/Vd8HJ7aHbn5fOUFyfgTBwMJ6XPgkChCIFrFuCGcuR3ckCmrqeXo0BWHN6
-         JMXg==
-X-Gm-Message-State: AOJu0YwaRRO1+PBqaCLDJCjmxTUc74GTrBXPXMk8wJCw1nFVZx3Fo4QZ
-	Dr1D+tJsE3lZynf7MpcELSk7Xw==
-X-Google-Smtp-Source: AGHT+IGGe9jB9VwaSq7ib8mINVy6q9MiPTXptI0wG9DgUoB4uyOZrgFUjAhqX9BZLsCDFh4avM8BSQ==
-X-Received: by 2002:a05:600c:45c8:b0:40c:6d83:4721 with SMTP id s8-20020a05600c45c800b0040c6d834721mr99575wmo.319.1702637368628;
-        Fri, 15 Dec 2023 02:49:28 -0800 (PST)
-Received: from [192.168.0.28] ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id bi11-20020a05600c3d8b00b0040c2963e5f3sm28399785wmb.38.2023.12.15.02.49.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Dec 2023 02:49:28 -0800 (PST)
-Message-ID: <18825c98-a4bf-4918-833d-a797a9e5ac74@smile.fr>
-Date: Fri, 15 Dec 2023 11:49:27 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Cni1nFIf;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Cni1nFIf;
+ spf=pass (domain: arm.com, ip: 40.107.105.55, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=dO8Cr+rzC579unehu6Da3tQexNhMPLI7komEghLQ5h+fFmbg8hTF6fsUoQp+1is786bu71lv0dt21+e5cSA99myBv3XIaBinEsLazibMwkKiaLjouMWLvHQ7nufU70oaE3BYk68tanIvNqjIIgSPDAnPlFfR/0eE55vcHPOpQS8UUJdh4eQKvtWSjNndGQzrt6Ec5DvB86642/UBsQ9cOBvnxLIbGGzQLs06sl3zX5UtYLBerJtlCV/7acoE3pf57U2IPOe1QCQ428oTLd1b5zwg4USoKKOi59Eq50ksC4sSiR0pu5r8/iYoETNxBvlojVkAIto7abis6XQ+So9hfA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=urW0f2tydnzg+OXnfa5jgsyX7d73Cgmcqt81iS9TelM=;
+ b=WtvzC8gtjrg0REIsvzHnnWVyvo4OcXiYI6tu+u1voSJofVzL/I9fQSn1bICUOz3OOH4qStXB9LtsnZMjFZUVBkApXJ0ZPplwMND0qtoHYMLTTjxl9W99nHdsSavRSYkDBjuGokIJOc9L/PqNMg54ixWtYm894trj4Usf6+wOcNFx5n9U/v8yTTyCbJizepYYoDfSF4L6kRXuV/O69z+iMHdO119H6NgZQCa2lhBVSz+2ckvpOF06ECG+SrPeJUL0oUhWrrnT8gbwF8eCZc+rV3UOAD0FabvTuDVUejf2DUgNaADjAHdpTiNhEXP3pp5OfSlLFY3By4kGj1adOWeH/Q==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=urW0f2tydnzg+OXnfa5jgsyX7d73Cgmcqt81iS9TelM=;
+ b=Cni1nFIfaJm3L63Zfzqe6XgxZsJFGKPha2pkL/svyFr2bLlN71CF5RZ0AXtRwW41V/46kjnqC4yR8gNRepSdLJWU/0HFWay60LM4W+/IAoEUeF1vtw+KDFW9NNAEEbAc51D5CEZFoo5TPSRlfu6727S8lCM02nZnA7cfb9Hyd9E=
+Received: from DUZPR01CA0118.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::29) by DB9PR08MB6650.eurprd08.prod.outlook.com
+ (2603:10a6:10:26d::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.31; Fri, 15 Dec
+ 2023 12:00:01 +0000
+Received: from DU6PEPF0000A7E3.eurprd02.prod.outlook.com
+ (2603:10a6:10:4bc:cafe::1d) by DUZPR01CA0118.outlook.office365.com
+ (2603:10a6:10:4bc::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.31 via Frontend
+ Transport; Fri, 15 Dec 2023 12:00:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DU6PEPF0000A7E3.mail.protection.outlook.com (10.167.8.41) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7091.26 via Frontend Transport; Fri, 15 Dec 2023 12:00:00 +0000
+Received: ("Tessian outbound 7c4ecdadb9e7:v228"); Fri, 15 Dec 2023 12:00:00 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 21708fd18acb67e8
+X-CR-MTA-TID: 64aa7808
+Received: from 7992a20d0baa.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 496D8966-540A-47C3-9ADA-FD603869C4EB.1;
+	Fri, 15 Dec 2023 11:59:53 +0000
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 7992a20d0baa.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 15 Dec 2023 11:59:53 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EekQn0I1+tivnNTA5rg/64zDynPnTXt1/q6WyTyXbRMZIZpLPb8+E8IZi+FmiOMedbfTg0YpTfMXbN4Vx+eK2QG2cgfTp1qTTqB3y6Cne3MtlqLDKgfPEOSW8HH3qCqM/uVUt2Q2RhBNUpDFZvzLuVltyhlAdH0TiIbRk7fjMGCvGt0oAF3Kr2Q2165zxIW0iLHzsabT3UcbGNzPQV/pk2IzF+tTkopVaV3M04ysBAKWwOCJZGXuIQ++dO1/lNBxu5L1++zloPBu+hN2Pz5C3HZhNuxafH/yM4Aq5nQ9F1+i0xFgpuXi/yT0C8MhZyWxKh+L/gRqdV2LDPlwWQOQFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=urW0f2tydnzg+OXnfa5jgsyX7d73Cgmcqt81iS9TelM=;
+ b=nDCoyHWHPGELsnl1Y6zFK1uAjTftDbL8qhq8rmBviFjtHptYArU7IMqgpv0sSdbFarRXVhxDyEgKLwxdS86OdwGV5nNvgkt1GocPJY3/9nSdh0BYW7SotA/tHRoWDKCgIpXpuFxn6gcpAzA1iM6SoE9uyCRsUvXtAPULBhpkx7DeUdpxOIFI7NGeNuBUDlPQgsj34AouhB5Xupy0gV2Di23uVrnc67z1a5ifiQVrsJ4tO8k3QS6oUUMZrCjqixqTR+trevE/5sEsOHUbi24Z/BclQDU7+9kQc2yFo8qRBt4VJTSRWSfqxuQUGDY9aRmsAOm+hmsjSHfDCZkvldoFqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=urW0f2tydnzg+OXnfa5jgsyX7d73Cgmcqt81iS9TelM=;
+ b=Cni1nFIfaJm3L63Zfzqe6XgxZsJFGKPha2pkL/svyFr2bLlN71CF5RZ0AXtRwW41V/46kjnqC4yR8gNRepSdLJWU/0HFWay60LM4W+/IAoEUeF1vtw+KDFW9NNAEEbAc51D5CEZFoo5TPSRlfu6727S8lCM02nZnA7cfb9Hyd9E=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DB9PR08MB7581.eurprd08.prod.outlook.com (2603:10a6:10:305::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.28; Fri, 15 Dec
+ 2023 11:59:50 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::ef47:2c42:1ef6:fe5c]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::ef47:2c42:1ef6:fe5c%6]) with mapi id 15.20.7091.028; Fri, 15 Dec 2023
+ 11:59:50 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: Yoann Congal <yoann.congal@smile.fr>
+CC: Khem Raj <raj.khem@gmail.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Alexander Kanavin <alex.kanavin@gmail.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>, Tim Orling
+	<ticotimo@gmail.com>, Martin Jansa <martin.jansa@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v3] strace: Disable bluetooth support by default
-Content-Language: en-US
-To: Khem Raj <raj.khem@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
- openembedded-core@lists.openembedded.org, Tim Orling <ticotimo@gmail.com>,
- Martin Jansa <martin.jansa@gmail.com>, Ross Burton <ross.burton@arm.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH v3] strace: Disable bluetooth support by
+ default
+Thread-Index: 
+ AQHaLaJrxWBVVeanE0G/jTU5fjiiJLCof1uAgACi6oCAAAteAIAAAKUAgAD/MoCAABOeAA==
+Date: Fri, 15 Dec 2023 11:59:50 +0000
+Message-ID: <4F557F6F-8492-4027-AD2C-97773A476624@arm.com>
 References: <20231213085657.2552223-1-yoann.congal@smile.fr>
  <CANNYZj9mWiEZRf_snYJ0eRcirn746GbkZSekLV3-XVcHjaR6bw@mail.gmail.com>
  <CAMKF1spsMdx55xzBT9VEb51my-fE4GeLCq5m3do-5-8AKr-BqQ@mail.gmail.com>
  <20231214193346baddfca0@mail.local>
  <CAMKF1soTi3X-eZf6+pd+hS3FpTvxSO7kR4ievYgM_F2N_8AVFA@mail.gmail.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <CAMKF1soTi3X-eZf6+pd+hS3FpTvxSO7kR4ievYgM_F2N_8AVFA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <18825c98-a4bf-4918-833d-a797a9e5ac74@smile.fr>
+In-Reply-To: <18825c98-a4bf-4918-833d-a797a9e5ac74@smile.fr>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.200.91.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DB9PR08MB7581:EE_|DU6PEPF0000A7E3:EE_|DB9PR08MB6650:EE_
+X-MS-Office365-Filtering-Correlation-Id: a423da61-3c25-4550-03d7-08dbfd655da4
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ F1Pjx4alN3HaHpr0nL7jqtauieLL+V26K2JuCChRIOPc78wNhQdb8gPDQpGbJ4Waj0BSB9YutffNDPkVIGjTgBGQzqyQWA5rGXS5e/vM7d7r+HcOMoDacjnw2hRHRrxZ1AlF9/bjSMHdryWm+fdwN/g5u50Wq1NUUehtInsc1xFnOKCzk2Or47jAMMRuZYALr8XIT/KOWwmNruJ7lSfQjTlkWt6Ayfk6/CNl0MkzO34V2D7RCcO3KnHTDasqbPYR974Y1XORJlYfUvbNXcWXck25RreLq2idyk7yilh7oVkuLX3AxzPI07MzW5uKYTIpY9yvhrNtKNPR3Wr7q0inHlIxCk3Lj4fuu+syVjzy9SXc5db5Em1tMcfvLqhuVttuBjGQVuSsudisG7Pfx7FiO2UKIDEpT5ckJS52B54ptaTH0NBHOsq7WRiXcgYOx0Be8SCsxY187OpiFyynTUf07YTxXVOiK9mBK9CBd8m9y0bLSnM9RG5TLMjkJdMMxfwzguaCpwoUWgYXXhIKoHu3UOZaD+F8v7ONN7p9XLDTpdZ3ZUmasb6y4dv2wAHJ7ZlJwXUkZsnZk6VWT4sZCUbiLiWsmhEVkDAsr1Np+3ASee1aWjERgvQZaKFrvqooLQ9/5Qvu9j2iU9+F/OHsuxg+Ag==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(376002)(39860400002)(136003)(346002)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(122000001)(38100700002)(26005)(83380400001)(2616005)(71200400001)(33656002)(36756003)(86362001)(38070700009)(53546011)(6486002)(6512007)(478600001)(6506007)(76116006)(66946007)(54906003)(316002)(6916009)(66556008)(66446008)(66476007)(64756008)(91956017)(4326008)(8676002)(8936002)(4744005)(2906002)(5660300002)(41300700001)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E98BD574DDF05742943527436E71575B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7581
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU6PEPF0000A7E3.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	4050fdfb-19de-4989-f2fe-08dbfd65579f
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	nTYyvQ4J9THUvrOeCwFqmloB6Nezhm7NHW+ZYNhqwOcn42wDkHki7sTK6l4B+MVuVLaZnppcokyL4UhH5R9d18sxOQ+frtwcfne6/TebHqb9qZIuqJ+4JlJifccXqqTcdqHMno+bAWjXEPUjmlo5X30kORalTUUcrkL+aTUmbSlyz+S7jigr6D29qEdyQ8vodYuMob+rwA1LJS7Qm+DRNrwzB3Pfsg5J1PW1IFOsd+rg4GD3CoU8IN+5lP6qdzNBc+UYj4iGm4TqMbDBMjin2ODiNkVGzuI+SF0Nd2zO8v9YXeEIJrmB3ScOVTmuFN6L6JihO5Ddv3LVdcDJIQe0wMke0B0Sc9gO1iLX4KDTh6EOXU+KEwoAY733uV6jKwiYFX+zO7aZKn/QwOff12Ssx2+e8fch2P3kPt3tIfE/H+btCkpDwG2n1qsBDS0vW/Fgc1LtYL02fv2gN/FiBBWBkRFnLjgOLB7BKjIoMy0TEINXPMbanIyOYKbOzCtaCgZebmO5X1EpKzmZNjvHzd/hZzZIEcChX8h3DE3Hgs03MlPNFjXI2rf8LDaFTwjhsV0xPXKqUE3N5Ieu7/nyJ+dstlbQzntU+O1FxNWnudb2M7aO+Ijve7UpddkcsNtL6CdXPOreoS3eyJWvH17ZNEB2Li7xM/w4aI+lCg8YlKq3B4GTNP1Z7IhXIWiHVZMUhyaWJ6hSZtFEigT1d9a6YFFjaQvrgzBoj83CNgNUS1b8aIjPkAL+Y5JJ4zcZHYB7g1EJ
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(39860400002)(396003)(376002)(346002)(136003)(230922051799003)(1800799012)(186009)(64100799003)(82310400011)(451199024)(46966006)(40470700004)(36840700001)(40480700001)(40460700003)(36860700001)(47076005)(81166007)(356005)(82740400003)(2906002)(4744005)(33656002)(36756003)(5660300002)(83380400001)(53546011)(336012)(6506007)(107886003)(26005)(2616005)(6512007)(478600001)(54906003)(70206006)(6486002)(70586007)(41300700001)(86362001)(4326008)(6862004)(8676002)(8936002)(316002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2023 12:00:00.7298
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a423da61-3c25-4550-03d7-08dbfd655da4
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU6PEPF0000A7E3.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6650
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 10:49:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192425
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 12:00:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192426
 
-
-
-Le 14/12/2023 à 20:36, Khem Raj a écrit :
-> On Thu, Dec 14, 2023 at 11:33 AM Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
->>
->> On 14/12/2023 10:53:05-0800, Khem Raj wrote:
->>> On Thu, Dec 14, 2023 at 1:10 AM Alexander Kanavin
->>> <alex.kanavin@gmail.com> wrote:
->>>>
->>>> On Wed, 13 Dec 2023 at 09:57, Yoann Congal <yoann.congal@smile.fr> wrote:
->>>>>
->>>>> The bluetooth support adds a bluez5 dependency (and,recursively, a lot
->>>>> of other stuff). Disable it by default to avoid having to build all of
->>>>> this when it is not needed.
->>>>>
->>>>> This decrease the number of tasks run for a core-image-minimal build by
->>>>> ~1000 (-21%).
->>>>>
->>>>> To re-enable bluetooth support in strace, add "bluez" to strace
->>>>> PACKAGECONFIG. For example, in local.conf:
->>>>>   PACKAGECONFIG:append:pn-strace = " bluez"
->>>>>
->>>>> Fixes [YOCTO #15323]
->>>>
->>>> I'm afraid I have to raise objections.
->>>>
->>>> First, this needs an explanation: what functionality in strace does
->>>> this disable? Is that functionality important from the point of having
->>>> bluetooth in DISTRO_FEATURES? Not respecting DISTRO_FEATURES sets a
->>>> bad precedent, and should be more carefully justified and treated as
->>>> an exception.
->>>>
->>>> Second, why is strace even needed in the context of
->>>> core-image-minimal? It's not installed into the image, so I went and
->>>> checked:
->>>> util-linux-ptest needs mdadm
->>>> mdadm-ptest needs strace.
->>>
->>> I looked briefly into util-linux pertaining to mdadm needs in tests, there
->>> are 4 tests needing it.
->>> md-raid0-whole, md-raid1-part, md-raid1-whole, align-512-4K-md
->>>
->>> and all of them are marked as
->>> TS_KNOWN_FAIL="yes"
->>>
->>> See https://github.com/util-linux/util-linux/commit/7519c3edab120b14623931d5ddb16fdc6e7cad5d
->>>
->>> I think we can skip running these tests as well and safely avoid
->>> depending upon mdadm for util-linux ptests which can break the depchain as well.
->>>
->>
->> I think dropping the mdam ptests was the plan seeing the amount of
->> breakage this does on the AB.
-> 
-> Good deal, I also see them happening on musl so I went ahead and cooked a patch
-> and posted it on ml. Musl util-linux ptests have 4 less fails now.
-
-FYI, since Khem's patch ([OE-core] [PATCH] util-linux: Delete md-raid tests) also prevent bluez to be built in a default core-image-minimal build, we can skip this one (strace: Disable bluetooth support by default) and still fix [YOCTO #15323].
-
->>
->>>>
->>>> Which begs the question. Should we continue to enable ptest by default
->>>> in poky? Should we create and use a ptest-less distro configuration?
->>>> It does pull in a ton of extra stuff all over the place which
->>>> lengthens the builds a lot. And the resulting ptest packages aren't
->>>> even used until one explicitly requests one of the ptest images.
->>>>
->>>> As an example, I saw an oe-selftest-armhost yesterday, which ran
->>>> nearly 17 hours:
->>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/2587
->>>>
->>>> If you go and look at what tests in it took the longest time, you see:
->>>> 2023-12-13 15:45:22,812 - oe-selftest - INFO - RESULTS -
->>>> runtime_test.Postinst.test_postinst_rootfs_and_boot_systemd: PASSED
->>>> (32620.46s)
->>>> 2023-12-13 15:45:22,794 - oe-selftest - INFO - RESULTS -
->>>> prservice.BitbakePrTests.test_import_export_override_db: PASSED
->>>> (12789.45s)
->>>> 2023-12-13 15:45:22,789 - oe-selftest - INFO - RESULTS -
->>>> overlayfs.OverlayFSEtcRunTimeTests.test_all_required_variables_set:
->>>> PASSED (35205.79s)
->>>> 2023-12-13 15:45:22,781 - oe-selftest - INFO - RESULTS -
->>>> minidebuginfo.Minidebuginfo.test_minidebuginfo: PASSED (15395.76s)
->>>> 2023-12-13 15:45:22,782 - oe-selftest - INFO - RESULTS -
->>>> multiconfig.MultiConfig.test_multiconfig: PASSED (11098.06s)
->>>> 2023-12-13 15:45:22,776 - oe-selftest - INFO - RESULTS -
->>>> incompatible_lic.IncompatibleLicensePerImageTests.test_bash_and_license:
->>>> PASSED (24012.67s)
->>>> 2023-12-13 15:45:22,775 - oe-selftest - INFO - RESULTS -
->>>> imagefeatures.ImageFeatures.test_mandb: PASSED (19394.74s)
->>>> 2023-12-13 15:45:22,762 - oe-selftest - INFO - RESULTS -
->>>> devtool.DevtoolExtractTests.test_devtool_build_image: PASSED
->>>> (27341.75s)
->>>> 2023-12-13 15:45:22,760 - oe-selftest - INFO - RESULTS -
->>>> debuginfod.Debuginfod.test_debuginfod_qemu: PASSED (25784.11s)
->>>> 2023-12-13 15:45:22,759 - oe-selftest - INFO - RESULTS -
->>>> containerimage.ContainerImageTests.test_expected_files: PASSED
->>>> (19453.84s)
->>>> 2023-12-13 15:45:22,758 - oe-selftest - INFO - RESULTS -
->>>> buildoptions.SanityOptionsTest.test_options_warnqa_errorqa_switch:
->>>> PASSED (10492.68s)
->>>> 2023-12-13 15:45:22,758 - oe-selftest - INFO - RESULTS -
->>>> buildoptions.ToolchainOptions.test_toolchain_fortran: PASSED
->>>> (11367.46s)
->>>> 2023-12-13 15:45:22,743 - oe-selftest - INFO - RESULTS -
->>>> baremetal.BaremetalTest.test_baremetal: PASSED (24196.04s)
->>>>
->>>> The same a-full selftest, but on a x86 host has these times, quicker
->>>> than arm but still measured in hours:
->>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6179/steps/15/logs/stdio
->>>>
->>>> What do most of these tests do? They do indeed build
->>>> core-image-minimal (sometimes full-cmdline or some other images), and
->>>> sometimes in multiple variants within a single test. But they never
->>>> use ptest. And so we need to find a way to make it happen faster.
->>>>
->>>> I'm going to get some numbers, first without any changes, then with
->>>> your proposed change, then with ptest dropped - this will take a bit
->>>> of time, so I wanted to get the concerns written and sent first.
->>>>
->>>> Alex
->>>>
->>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>> Links: You receive all messages sent to this group.
->>>> View/Reply Online (#192339): https://lists.openembedded.org/g/openembedded-core/message/192339
->>>> Mute This Topic: https://lists.openembedded.org/mt/103146402/1997914
->>>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [raj.khem@gmail.com]
->>>> -=-=-=-=-=-=-=-=-=-=-=-
->>>>
->>
->> --
->> Alexandre Belloni, co-owner and COO, Bootlin
->> Embedded Linux and Kernel engineering
->> https://bootlin.com
-
--- 
-Yoann Congal
-Smile ECS - Tech Expert
+T24gMTUgRGVjIDIwMjMsIGF0IDEwOjQ5LCBZb2FubiBDb25nYWwgPHlvYW5uLmNvbmdhbEBzbWls
+ZS5mcj4gd3JvdGU6DQo+IEZZSSwgc2luY2UgS2hlbSdzIHBhdGNoIChbT0UtY29yZV0gW1BBVENI
+XSB1dGlsLWxpbnV4OiBEZWxldGUgbWQtcmFpZCB0ZXN0cykgYWxzbyBwcmV2ZW50IGJsdWV6IHRv
+IGJlIGJ1aWx0IGluIGEgZGVmYXVsdCBjb3JlLWltYWdlLW1pbmltYWwgYnVpbGQsIHdlIGNhbiBz
+a2lwIHRoaXMgb25lIChzdHJhY2U6IERpc2FibGUgYmx1ZXRvb3RoIHN1cHBvcnQgYnkgZGVmYXVs
+dCkgYW5kIHN0aWxsIGZpeCBbWU9DVE8gIzE1MzIzXS4NCg0KSeKAmW0gYSBmYW4gb2YgYm90aC4g
+IEJsdWV0b290aCBzdXBwb3J0IGluIHN0cmFjZSBpcyBhIG5pY2hlIHVzZWNhc2UgYW5kIGVhc2ls
+eSBlbmFibGVkLg0KDQpSb3Nz
 
