@@ -1,151 +1,83 @@
-Return-Path: <l.stach@pengutronix.de>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66AB5C35274
-	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 13:37:49 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.62720.1702647459116339717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB49C41535
+	for <webhook@archiver.kernel.org>; Fri, 15 Dec 2023 13:47:29 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.62449.1702648048656939711
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Dec 2023 05:37:39 -0800
+ Fri, 15 Dec 2023 05:47:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: l.stach@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1rE8Nl-0007gh-1p
-	for openembedded-core@lists.openembedded.org; Fri, 15 Dec 2023 14:37:37 +0100
-Received: from [2a0a:edc0:0:1101:1d::54] (helo=dude05.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1rE8Nk-00G2X5-49
-	for openembedded-core@lists.openembedded.org; Fri, 15 Dec 2023 14:37:36 +0100
-From: Lucas Stach <l.stach@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa: upgrade 23.2.1 -> 23.3.1
-Date: Fri, 15 Dec 2023 14:37:36 +0100
-Message-Id: <20231215133736.117536-1-l.stach@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=YN6QsVic;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=07134bcac9=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BF9rmE5015843
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 05:47:28 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=Iv+ZG
+	rsVnjqQh3AYZh3+ysvmGIqTPadicvmKQI+qa6U=; b=YN6QsVicsSVzOU0iK3+DE
+	e+90TmhJ7agNVNq6ey+7sFOtT2Qm01gKCWduXlDh0jgc+MKxYuT/iZRE+U4CukTN
+	U1AfWkskH1J1hk8Ipk1YYIRC0fv/8sZP9Izkwd5EDuBDYCvyVl3Pi+Ph8otjdkSS
+	HRnzFWliRsrgqycPhPIVaManpn8GxdIYN4AB6xnzq4HmRgu7Sx83hALK85hhx51/
+	kht97wYRnbjvVNIta0pywIv05JimJabUU9TDBlcpOcm+5Vrv5en5AMgLxUg2pqDu
+	/L1zSg/vjYg+15yWiAzF3qIXABgG0vsLIeJ0JBIiObRYLqiLoaheg4LU6RBBuNV3
+	g==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3uyr7dhm7e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 05:47:28 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 15 Dec 2023 05:47:33 -0800
+Received: from ala-lpggp3.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Fri, 15 Dec 2023 05:47:33 -0800
+From: <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/1] nfs-utils: Update Upstream-Status
+Date: Fri, 15 Dec 2023 05:47:26 -0800
+Message-ID: <cover.1702647994.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: rICDfveDS_YMqV7_nKBIgjTlPu5Gr0bI
+X-Proofpoint-GUID: rICDfveDS_YMqV7_nKBIgjTlPu5Gr0bI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=791
+ impostorscore=0 adultscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1015 priorityscore=1501 mlxscore=0 bulkscore=0 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312150093
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 13:37:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192431
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Dec 2023 13:47:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192432
 
-- build amd vulkan driver for x86 platforms
-- drop included patch
-[https://gitlab.freedesktop.org/mesa/mesa/-/blob/1fbdd37d4c1133ced5eb9812daa1fff04cbf5daa/meson.build#L1711]
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
----
-Based on the 23.3.0 update patch [1] from Markus Volk, but bumped to 23.3.1
-and fixed sstate mismatches between 32bit and 64bit.
+The following changes since commit ae642a4b038c6946e6c8aa9778bf09099d938a31:
 
-[1] https://lore.kernel.org/openembedded-core/POQF5S.M9F40QH9IVRS1@t-online.de/
----
- ...e-cmake-dependency-detector-for-llvm.patch | 42 -------------------
- .../{mesa-gl_23.2.1.bb => mesa-gl_23.3.1.bb}  |  0
- meta/recipes-graphics/mesa/mesa.inc           |  9 ++--
- .../mesa/{mesa_23.2.1.bb => mesa_23.3.1.bb}   |  0
- 4 files changed, 4 insertions(+), 47 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-meson-Disable-cmake-dependency-detector-for-llvm.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_23.2.1.bb => mesa-gl_23.3.1.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_23.2.1.bb => mesa_23.3.1.bb} (100%)
+  sstate: Fix dir ownership issues in SSTATE_DIR (2023-12-15 11:14:29 +0000)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-Disable-cmake-dependency-detector-for-llvm.patch b/meta/recipes-graphics/mesa/files/0001-meson-Disable-cmake-dependency-detector-for-llvm.patch
-deleted file mode 100644
-index 4cded0546dc4..000000000000
---- a/meta/recipes-graphics/mesa/files/0001-meson-Disable-cmake-dependency-detector-for-llvm.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 00d41cd5aa3f4b494dc276c9b4ccdc096310c91f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 28 Sep 2023 15:34:22 -0700
--Subject: [PATCH] meson: use llvm-config instead of cmake to fix linking errors with meson 1.2.1
--
--meson dependency auto dependency detection uses cmake and then
--config-tool to process dependencies, in mesa the logic to detect llvm is
--using auto detection which means if it finds cmake then it will try to
--use cmake method. Cmake method works ok except a case when llvm-dev
--package is installed on the build host then it generates its own
--native.meson file and ignores OE supplied meson.native file which has
--correct llvm-config tool specified which is pointing to llvm-config from
--native sysroot. The generated meson.native file points to one found in
--/usr/bin and there onwards detector finds native install of llvm and
--configures that into building native mesa package.
--
--Since cmake detector does not always work, disable it by default and use
--config-tool which works in all cases. This is suggested in below issues
--too
--
--A similar issue is open in meson upstream [1] and mesa [2]
--
--[1] https://github.com/mesonbuild/meson/issues/10483
--[2] https://gitlab.freedesktop.org/mesa/mesa/-/issues/6738
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/25438]
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- meson.build | 1 +
-- 1 file changed, 1 insertion(+)
--
----- a/meson.build
--+++ b/meson.build
--@@ -1659,6 +1659,7 @@ with_llvm = false
-- if _llvm.allowed()
--   dep_llvm = dependency(
--     'llvm',
--+    method : host_machine.system() == 'windows' ? 'auto' : 'config-tool',
--     version : _llvm_version,
--     modules : llvm_modules,
--     optional_modules : llvm_optional_modules,
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.2.1.bb b/meta/recipes-graphics/mesa/mesa-gl_23.3.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_23.2.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_23.3.1.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index e5c405a9728c..5f5c8ceb4c84 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -18,10 +18,9 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-gallium-Fix-build-with-llvm-17.patch \
--           file://0001-meson-Disable-cmake-dependency-detector-for-llvm.patch \
- "
- 
--SRC_URI[sha256sum] = "64de0616fc2d801f929ab1ac2a4f16b3e2783c4309a724c8a259b20df8bbc1cc"
-+SRC_URI[sha256sum] = "6e48126d70fdb3f20ffeb246ca0c2e41ffdc835f0663a03d4526b8bf5db41de6"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-@@ -105,10 +104,10 @@ PACKAGECONFIG[dri3] = "-Ddri3=enabled, -Ddri3=disabled, xorgproto libxshmfence"
- # Vulkan drivers need dri3 enabled
- # amd could be enabled as well but requires gallium-llvm with llvm >= 3.9
- VULKAN_DRIVERS = ""
--VULKAN_DRIVERS:append:x86 = ",intel"
--VULKAN_DRIVERS:append:x86-64 = ",intel"
-+VULKAN_DRIVERS:append:x86 = ",intel,amd"
-+VULKAN_DRIVERS:append:x86-64 = ",intel,amd"
- # i686 is a 32 bit override for mesa-native
--VULKAN_DRIVERS:append:i686 = ",intel"
-+VULKAN_DRIVERS:append:i686 = ",intel,amd"
- VULKAN_DRIVERS:append ="${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ',freedreno', '', d)}"
- VULKAN_DRIVERS:append ="${@bb.utils.contains('PACKAGECONFIG', 'broadcom', ',broadcom', '', d)}"
- VULKAN_DRIVERS:append ="${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',swrast', '', d)}"
-diff --git a/meta/recipes-graphics/mesa/mesa_23.2.1.bb b/meta/recipes-graphics/mesa/mesa_23.3.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_23.2.1.bb
-rename to meta/recipes-graphics/mesa/mesa_23.3.1.bb
+are available in the Git repository at:
+
+  https://github.com/robertlinux/yocto rbt/nfs-utils
+  https://github.com/robertlinux/yocto/tree/rbt/nfs-utils
+
+Robert Yang (1):
+  nfs-utils: Update Upstream-Status
+
+ .../0001-reexport.h-Include-unistd.h-to-compile-with-musl.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.43.0
+2.42.0
 
 
