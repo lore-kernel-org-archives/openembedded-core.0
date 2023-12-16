@@ -1,97 +1,83 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82380C46CA2
-	for <webhook@archiver.kernel.org>; Sat, 16 Dec 2023 12:33:42 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.14184.1702730013677144509
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA10C46CA2
+	for <webhook@archiver.kernel.org>; Sat, 16 Dec 2023 13:12:42 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.14745.1702732358583939438
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Dec 2023 04:33:33 -0800
+ Sat, 16 Dec 2023 05:12:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AHyQyrZc;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Psw7RwLH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018c729e1859-72bb0a41-2f8a-4ac5-92e9-e87333fb36dd-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702730012; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=8wrHlQxOwfE+bWC7/rTSAwsj7qDJ5v/BPKLe0nygpW0=;
-	b=AHyQyrZc9Vnyu8ojdNhPGiv4bJ3odRm3oIsGaQ6+p1knJnXt/AJPSCPpDHQZV5+a
-	wIGui89AAVbcXxQQLLV6yJ1w6j2Ea3gZhNjdhv636pykmPPeGscqV976EL3DEkIsBQB
-	aLUcFURWKDJWpcWylFBPYnY05A89JQR5DKAtLB44=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702730012;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=8wrHlQxOwfE+bWC7/rTSAwsj7qDJ5v/BPKLe0nygpW0=;
-	b=Psw7RwLHSSvmxZcte+OQnF/PQs3WPWYiFYmipqqj/ZV+BEudVs/OMTVF0qkap0C8
-	v3OOAYx5iH/jeJSH6oGUVYINbYv2Zez/CW7B4RQ422zvH3nEBY62VY7M5GwtyFkRj1+
-	p9j35PcsNcrtYX5hOHNxcJY1+z2683OLcC2dsBWc=
-From: patchtest@automation.yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] debianutils: upgrade 5.14 -> 5.15
-In-Reply-To: 20231216121516.452373-1-yi.zhao@windriver.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c729e1859-72bb0a41-2f8a-4ac5-92e9-e87333fb36dd-000000@us-west-2.amazonses.com>
-Date: Sat, 16 Dec 2023 12:33:32 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.16-54.240.27.192
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RBJuHLhf;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3365f1326e4so318180f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 05:12:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1702732357; x=1703337157; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fa4hwyF1nCBbQdLOBgWiOLJt0iDuF5sSwX2b2561MLI=;
+        b=RBJuHLhfKsGfbQp1ZHMUQlvtrKzrTfZF0V3i9CDDC8bv55ijs3clh6yEi8hxXpUwt4
+         6jbXQccSo4McVtLGnQFrOjTC4lZNA3Ch0DE7pY3FXtqmFRv84wUe0XKWG/k+WCnsWztR
+         IyWt1e1VbcZW7DSVpHRLAhLNZxI/NcH1apoyA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702732357; x=1703337157;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fa4hwyF1nCBbQdLOBgWiOLJt0iDuF5sSwX2b2561MLI=;
+        b=SOcK6vhrj/7kxgCtiqsnnuz3fqzHOpHTgrAl4V/VGRQ8oeWdrQhtXK/uZnb39GMSlq
+         FauTrBU8IZ2DS195DZrzC6Ux6jI8ROm+SHcTXniF20NMfOycZPw3w7IoD4oQMd7jpZq7
+         NbRvc0DF8Y85L1llXOnFg/OX3ThZoYykAKxzIGeQHgo0Q7MFn5823xrs9I48YfT8G2lY
+         Sq+teDNPK+rlwA46+uJZrNKVGIwJTGi382OLTNAohF11zL3ty8OyM7UOYcs/SqATOjYC
+         BBge2Bz/n4sPES4Wodd5iNpGcR8ExECzKrD28MVcrnHfGvU10t9YQitpBXP0+vbTLPMK
+         /ofw==
+X-Gm-Message-State: AOJu0YxzI9Vcpf4AqgwjXUFbtG9g9h4Q5FZAO1kA7LXTYmFp6doioS44
+	3UV9sxI3BOslDmzoKSTWZXlMNUwX+1rNvqhPdnc=
+X-Google-Smtp-Source: AGHT+IFxxsJAMtm8QHhXKNFM2knxZL+5NGq1eg7B1aXtGNN5arxWx9vnNpwBpENQP2Nidm4uElDA4w==
+X-Received: by 2002:adf:edca:0:b0:336:4e95:bf57 with SMTP id v10-20020adfedca000000b003364e95bf57mr1267180wro.98.1702732356616;
+        Sat, 16 Dec 2023 05:12:36 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fec1:d6ff:46af:def5])
+        by smtp.gmail.com with ESMTPSA id n8-20020adfe788000000b003364448ae91sm8161619wrm.10.2023.12.16.05.12.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Dec 2023 05:12:36 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/sstatetests: Disable gcc source printdiff test for now
+Date: Sat, 16 Dec 2023 13:12:35 +0000
+Message-Id: <20231216131235.3083400-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 12:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192559
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 13:12:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192560
 
---NextPart
-Content-Type: text/plain
+There are some issues with the printdiff code this has identified, disable the
+test for now until we have patches to resolve them.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Testing patch /home/patchtest/share/mboxes/debianutils-upgrade-5.14---5.15.patch
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 795cd5bd85f..e6f3b03c82a 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -840,7 +840,7 @@ do_install:append() {
+ expected_sametmp_output, expected_difftmp_output)
+ 
+     # Check if changes to gcc-source (which uses tmp/work-shared) are correctly discovered
+-    def test_gcc_runtime_vs_gcc_source(self):
++    def _test_gcc_runtime_vs_gcc_source(self):
+         gcc_source_pn = 'gcc-source-%s' % get_bb_vars(['PV'], 'gcc')['PV']
+ 
+         expected_output = ("Task {}:do_preconfigure couldn't be used from the cache because:".format(gcc_source_pn),
+-- 
+2.39.2
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
