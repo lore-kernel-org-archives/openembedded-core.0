@@ -1,126 +1,140 @@
-Return-Path: <mattwood2000@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4565EC41535
-	for <webhook@archiver.kernel.org>; Sat, 16 Dec 2023 21:42:53 +0000 (UTC)
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web11.4701.1702762962986803904
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E12EC41535
+	for <webhook@archiver.kernel.org>; Sat, 16 Dec 2023 22:18:53 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.5380.1702765129513902174
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Dec 2023 13:42:43 -0800
+ Sat, 16 Dec 2023 14:18:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Am56YW9M;
- spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: mattwood2000@gmail.com)
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4259295ca72so16459651cf.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 13:42:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702762962; x=1703367762; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zHWL9zddC1FvJ6PIbcV/ouIvW+kN5l4KidOXT4dX8h4=;
-        b=Am56YW9MmFtErWAzrwOWPCFgBod0Rlz+VuZePvJaupxIxtV9lQ4v94buxixubR0sUl
-         jurXeeEFk7ZIygcDVWhwnZENxhJuLapCrAlpL5LRrsyGFivDXPZUnTjQcHZlsUpq49ux
-         7heL9XQFepORPTpMNXX7GNOQLQX4AXkvf3sXWScWMqqCcFXN7FkxbcyRaBMIkPpipa8D
-         YUEw3Wt7gHoGyxzgOnXnWdmX5i//ChcpCO4V1Q1EDBlkdaW8ZVHhX3DLCTz2CD+uDoHV
-         V6FLEJk1isLvtnNT7s7xipsP/O/Png0WBtD18kTUnfdLHFjRnYBNnp2mIdUZJMMN9DfM
-         HTpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702762962; x=1703367762;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zHWL9zddC1FvJ6PIbcV/ouIvW+kN5l4KidOXT4dX8h4=;
-        b=McRbsPvDErvwJFOEaBoFPNdtiZxBKZUiXnaQppYvdeoAp9cCNGUbDbaPz4k5jV6AD3
-         6uxFnuvBnJoKxN8T2GanZFHWnc7iwAvOAiMD3IAAobdD087V8uUNNF3vt9qnZWJ/NW4C
-         QWbCjnlKuYcoS0KMl2f34ZW7LQ+FcLqAY9M+Z3uT/IPMTm1+lVyNRYueFuqcf7g6uyyi
-         XQbP9LZbYJ0QosKPhPNLNZguT6WQA0ab0fcvDxV9t8HOtb/s2lKU95dPj/TwnDGCGJvz
-         gg+XtzyHqYdkQT59a6P4swEtogY9NguSeEKZHm309djyT8gv0BTNA1/2uG0Bx3Tlfsqw
-         J25w==
-X-Gm-Message-State: AOJu0YwpnDhIQf2SlFltj5RzUtzdMn4pzz34xe8SCTqPVVekkX4jppq2
-	VVSsFdNGw19O+jR+Hfl8OtE=
-X-Google-Smtp-Source: AGHT+IEG2hTZK1jtWgsdcXqGLSrgvj0JAPtZfZt7MYncNSIaE9ImAf2z6q8EiGFHBXlHgw3jVUlHsg==
-X-Received: by 2002:a05:622a:341:b0:425:a60b:4d94 with SMTP id r1-20020a05622a034100b00425a60b4d94mr19387830qtw.21.1702762961952;
-        Sat, 16 Dec 2023 13:42:41 -0800 (PST)
-Received: from [192.168.1.225] (pool-71-184-206-202.bstnma.fios.verizon.net. [71.184.206.202])
-        by smtp.gmail.com with ESMTPSA id k11-20020ac8604b000000b00425615e0df5sm7823556qtm.34.2023.12.16.13.42.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 16 Dec 2023 13:42:41 -0800 (PST)
-Message-ID: <81df8e01-1431-4a9d-b478-4256f70fd555@gmail.com>
-Date: Sat, 16 Dec 2023 16:42:41 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] mdns on musl
-Content-Language: en-US
-To: Tim Orling <ticotimo@gmail.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eEwYqwIf;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5F12860002;
+	Sat, 16 Dec 2023 22:18:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1702765127;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MvKvskxUGnoLclUp6AS6SHoYVPidhSzsLZe5MpVJNuQ=;
+	b=eEwYqwIf1gt8KXOcRvTx3CG9IXRZ1IePQWQd6iDEMyq32u7s66xLxWPKBuG0422TyPqnHz
+	S9hQFBgJbgvZ4qNf6BgkT2OcIY2mgLQWc45rIr/FBxTkMpfblocsAM0oP0f2/o5cAuc/qH
+	5INWor4KVZxh2Jos+Mg0Y7l/LD3K5TOW6sRoePX74hn+hs//nG7n85hJTGuz0+nq+88yXV
+	nv2sRqHe206c2Pja+gLj9440aPOkUyOTw2MQXcpSLmLsM2Wvx4t6pRSFqti//ngaI23vDX
+	nOQg2IBd0WuXt7LXclpLQeqtKvOBY6rI1/BSYkJfCd9PdZfzeu2Z2tbj9k0iPQ==
+Date: Sat, 16 Dec 2023 23:18:41 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: jpuhlman@mvista.com
 Cc: openembedded-core@lists.openembedded.org
-References: <CADjezmaJ2RDnRc0S34iMMrY+-Ey2zqZ59s_qLXGYBCJu5art5Q@mail.gmail.com>
- <CAMKF1souVOjHqkd15+FX3NMGvggFFrhhR9nGs-BN53Y=yzYbSw@mail.gmail.com>
- <CANx9H-Cts0d7vRqaKSW4rPk__4=iEOG7pffaoUQBFn6mWDfWwQ@mail.gmail.com>
-From: Matt Wood <mattwood2000@gmail.com>
-In-Reply-To: <CANx9H-Cts0d7vRqaKSW4rPk__4=iEOG7pffaoUQBFn6mWDfWwQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [OE-core] [PATCH] create-spdx-2.2: combine spdx can try to write
+ before dir creation
+Message-ID: <20231216221841b5eec19c@mail.local>
+References: <20231215171046.2926492-1-jpuhlman@mvista.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231215171046.2926492-1-jpuhlman@mvista.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 21:42:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192571
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 22:18:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192572
 
-This is a fundamental issue with musl:
-https://wiki.musl-libc.org/future-ideas
+Hello,
 
-I thought there was a solution using the mdns package (mDNSResponder from Apple), but I could be misinterpreting what I have read.
+Most of the builds failed do_rootfs with:
 
-I saw a go implementation of avahi2dns, but this is for an initramfs so trying to keep things small.
+ERROR: core-image-sato-1.0-r0 do_rootfs: Error executing a python function in exec_func_python() autogenerated:
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:image_combine_spdx(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/qemuarm64-ltp/build/meta/classes/create-spdx-2.2.bbclass', lineno: 964, function: image_combine_spdx
+     0960:    imgdeploydir = Path(d.getVar("IMGDEPLOYDIR"))
+     0961:    img_spdxid = oe.sbom.get_image_spdxid(image_name)
+     0962:    packages = image_list_installed_packages(d)
+     0963:
+ *** 0964:    combine_spdx(d, image_name, imgdeploydir, img_spdxid, packages, Path(d.getVar("SPDXIMAGEWORK")))
+     0965:
+     0966:    def make_image_link(target_path, suffix):
+     0967:        if image_link_name:
+     0968:            link = imgdeploydir / (image_link_name + suffix)
+File: '/home/pokybuild/yocto-worker/qemuarm64-ltp/build/meta/classes/create-spdx-2.2.bbclass', lineno: 1078, function: combine_spdx
+     1074:            "OTHER",
+     1075:            "%s:%s" % (runtime_ref.externalDocumentId, runtime_doc.SPDXID),
+     1076:            comment="Runtime dependencies for %s" % name
+     1077:        )
+ *** 1078:    bb.utils.mkdirhier(spdx_workdir)
+     1079:    image_spdx_path = spdx_workdir / (rootfs_name + ".spdx.json")
+     1080:
+     1081:    with image_spdx_path.open("wb") as f:
+     1082:        doc.to_json(f, sort_keys=True, indent=get_json_indent(d))
+File: '/home/pokybuild/yocto-worker/qemuarm64-ltp/build/bitbake/lib/bb/utils.py', lineno: 764, function: mkdirhier
+     0760:def mkdirhier(directory):
+     0761:    """Create a directory like 'mkdir -p', but does not complain if
+     0762:    directory already exists like os.makedirs
+     0763:    """
+ *** 0764:    if directory.find('${') != -1:
+     0765:        bb.fatal("Directory name {} contains unexpanded bitbake variable. This may cause build failures and WORKDIR polution.".format(directory))
+     0766:    try:
+     0767:        os.makedirs(directory)
+     0768:    except OSError as e:
+Exception: AttributeError: 'PosixPath' object has no attribute 'find'
 
-I'll keep looking around but if anyone else has any suggestions I'd appreciate it.
-
-Thanks, Matt
-
-On 12/16/23 15:42, Tim Orling wrote:
+On 15/12/2023 09:10:46-0800, Jeremy Puhlman via lists.openembedded.org wrote:
+> From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 > 
-> On Sat, Dec 16, 2023 at 12:16 PM Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.com>> wrote:
+> On occasion a file is attmpeded to be opened prior to the
+> creation of the spdx_workdir. Create the directory before
+> the open, just in case.
 > 
->     is this issue specific to musl systems?
->     Maybe try to reproduce it with glibc on qemu or something?
+> File: '/build/layers/poky/meta/classes/create-spdx-2.2.bbclass', lineno: 1081, function: combine_spdx
+>      1077:        )
+>      1078:
+>      1079:    image_spdx_path = spdx_workdir / (rootfs_name + ".spdx.json")
+>      1080:
+>  *** 1081:    with image_spdx_path.open("wb") as f:
+>      1082:        doc.to_json(f, sort_keys=True, indent=get_json_indent(d))
 > 
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> ---
+>  meta/classes/create-spdx-2.2.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> You might also search for mdns issues/solutions in Alpine Linux which is always musl.
-> 
-> 
->     On Sat, Dec 16, 2023 at 9:11 AM <mattwood2000@gmail.com <mailto:mattwood2000@gmail.com>> wrote:
->     >
->     > Hi all,
->     >
->     > I'm working on an embedded system and it needs mDNS in order to interact with .local hostnames.
->     >
->     > The image is based on musl so it cannot use the libnss-mdns library.
->     >
->     > From what I've read the mdns recipe is supposed to support mDNS on non-glibc systems.
->     >
->     > The recipe takes care of modifying /etc/nsswitch.conf and appends mdns to the hosts line.
->     >
->     > When the system boots it runs mdnsd and I can see it join the multicast group in wireshark, but I cannot ping any .local addresses.
->     >
->     > Is there some other configuration that needs to be done?
->     >
->     > Has anyone successfully done this with a musl system?
->     >
->     > Thanks, Matt.
->     >
->     >
->     >
->     >
->     >
-> 
->     -=-=-=-=-=-=-=-=-=-=-=-
->     Links: You receive all messages sent to this group.
->     View/Reply Online (#192569): https://lists.openembedded.org/g/openembedded-core/message/192569 <https://lists.openembedded.org/g/openembedded-core/message/192569>
->     Mute This Topic: https://lists.openembedded.org/mt/103211493/924729 <https://lists.openembedded.org/mt/103211493/924729>
->     Group Owner: openembedded-core+owner@lists.openembedded.org <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->     Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub <https://lists.openembedded.org/g/openembedded-core/unsub> [ticotimo@gmail.com <mailto:ticotimo@gmail.com>]
->     -=-=-=-=-=-=-=-=-=-=-=-
+> diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+> index b0aef80db1..486efadba9 100644
+> --- a/meta/classes/create-spdx-2.2.bbclass
+> +++ b/meta/classes/create-spdx-2.2.bbclass
+> @@ -1075,7 +1075,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+>              "%s:%s" % (runtime_ref.externalDocumentId, runtime_doc.SPDXID),
+>              comment="Runtime dependencies for %s" % name
+>          )
+> -
+> +    bb.utils.mkdirhier(spdx_workdir)
+>      image_spdx_path = spdx_workdir / (rootfs_name + ".spdx.json")
+>  
+>      with image_spdx_path.open("wb") as f:
+> -- 
+> 2.35.2
 > 
 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192536): https://lists.openembedded.org/g/openembedded-core/message/192536
+> Mute This Topic: https://lists.openembedded.org/mt/103194653/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
