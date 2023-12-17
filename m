@@ -1,85 +1,84 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EDB3C3DA6E
-	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 17:26:09 +0000 (UTC)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
- by mx.groups.io with SMTP id smtpd.web11.22935.1702833966817421327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 413DBC3DA6E
+	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 19:53:00 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web10.25501.1702842777141307692
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 09:26:06 -0800
+ Sun, 17 Dec 2023 11:52:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WMHugKKB;
- spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7b6f19f3af9so123536439f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 09:26:06 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hcy1eAcF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3363aa1b7d2so2161224f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 11:52:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702833966; x=1703438766; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1702842773; x=1703447573; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0ViKYz+UCTyzoybrENZfXzy2SimsIcG3H43w2fTzHPA=;
-        b=WMHugKKBprcgZp8U//idjLbg4UvT36YpPCTDrXKADoxJcp+34OlVzdKM4Fhs+j2a5x
-         YvFLRNw+kU1kAiOK+VeskrxWGbx/tbi9BB/E64InMH5qH+8L2sQRWeGEbyfRpGSS2U89
-         5Wp8sy3114slL3Mszq2t3BqUENiEioOqAlxJtIV6WHX+XPjXBoG/8XSVj4CM9PmqLMqF
-         RzBhKmTHlOEVLhS3iUpKP6xqyMgXvUgObl/AVOQ7GIhgwflZPQtZwEbu9v7gSln+mLl5
-         85MdZTbsaBOCAwaTthfU/Fb0jArenvcpZ18WxjiQOrO1ivJfyNL1iNLz+eNKkyIaPtec
-         mP4g==
+        bh=S3fiCzSU7ZhdOYpfMVLDspF+WKwUQHoHWrurO7uFeKk=;
+        b=hcy1eAcF7Xovh/OCO08ste8vLB01KJNqfvm4SaO+oqg45XMXx40xjB8lPxs6yfrq8/
+         UzFpEKOPcs6jnalHUXKxhxPyMXyDJZLgPk0yRdcXgJY5WTn0ul8UiHWRvQUhTXZj4i3W
+         mUx6FYH37N2u+/nhDzvNm1rwBWUogdfNY2UTs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702833966; x=1703438766;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0ViKYz+UCTyzoybrENZfXzy2SimsIcG3H43w2fTzHPA=;
-        b=BY+ZT2z77p4dqkHdGbAJozfvJTOffGk3itG6AVxR/zMsAubu62lcs+ZgGXUcPucWmW
-         +x0e8/rRFhIAwc80e0elTDvde/QHOt1D9M06k7QGEsqNlO3vQXpD5vZSVF9lheLNqEko
-         e/9uAFcAvcSJdJGrRzauLp6fmuc+yaaGmXHPurIjkDf0dywzFJGAC7xxxPgBBksY8bpN
-         4+20vAdusCb8M4UnDJO41OJFtbyN0mlie1GhnC7b/bekJYceKURVKdtcq775sOmFf9md
-         naEFd7/ra3FdtN8O6Jt2zhE6z3OnvxkGsBy4PfID5pJXLZIStGhtUrik5rbxS9//nWSS
-         xbzQ==
-X-Gm-Message-State: AOJu0YxNrTU2hxdCpNQLzZ34dwUzP86Xv862lTjCLJO/ra6WxcFDquML
-	Oa2KPg177J8H6iZPZwe61oQY8IdX3Jm+lNUElz4=
-X-Google-Smtp-Source: AGHT+IHVORn5XtTaw7/ii1qq5zh9Hjx3kQzgTE8YPnJAk9ezXNypL5JPiaecgtFrmpYs7UzFXpHBa3iYuav0dkFISPg=
-X-Received: by 2002:a6b:5803:0:b0:7b3:9e0d:7e83 with SMTP id
- m3-20020a6b5803000000b007b39e0d7e83mr20188624iob.6.1702833965999; Sun, 17 Dec
- 2023 09:26:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20231216135306.188070-1-ecordonnier@snap.com>
+        d=1e100.net; s=20230601; t=1702842773; x=1703447573;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=S3fiCzSU7ZhdOYpfMVLDspF+WKwUQHoHWrurO7uFeKk=;
+        b=Rds9zy2nIUriF007DRrSqMV8/w91vxD4q6XmWCm66FLrLCa3blxuZGNfqsvkz78A57
+         b21v1Z+wKhnvA7ObvsKzJLdXZvoYJK5ZNaYnDfyM9yWy6vosgw5g9tZ8lK5G3E9yNKCg
+         vMWENYg3HMKf23HBpcYxtsvTWgKbVXixd5mLhdlvFunE6iPyZsQ0ugO8MP9p5lVUWW29
+         SySU+l4MmmNwggwLiygESl+1KF6WTNkfWM9DFtdwBlLCoGnomDxxscI5B2siOratpyyw
+         dEm5JWMZDevU5+cCU/fk19ZK/Br5htA2AY8ZBnxMlSIxzJg49QygqjayxGHvE3DnJhZH
+         v5JQ==
+X-Gm-Message-State: AOJu0Yz2uZaqOPWEeIcyDrpy9gCiniH+nxYRhpgHBtdApvQ54J1wxn2d
+	3EP7Y/7EOQ8m9nHnZyAZB/khig==
+X-Google-Smtp-Source: AGHT+IGG/sgRFsVyyOskvSQAV6AsycACYPobKds7womePjZDOoKrAPE04tgf/RipP5ildO2ajQRkIw==
+X-Received: by 2002:adf:ed08:0:b0:336:5cfd:9c7e with SMTP id a8-20020adfed08000000b003365cfd9c7emr1063538wro.165.1702842773480;
+        Sun, 17 Dec 2023 11:52:53 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c690:9059:96b:687e? ([2001:8b0:aba:5f3c:c690:9059:96b:687e])
+        by smtp.gmail.com with ESMTPSA id u23-20020adfa197000000b0033666096650sm1917827wru.42.2023.12.17.11.52.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Dec 2023 11:52:52 -0800 (PST)
+Message-ID: <34bee488217f82e9575f52dff15447474bf63d00.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: make do_symlink_kernelsrc
+ reentrant
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
+Date: Sun, 17 Dec 2023 19:52:50 +0000
 In-Reply-To: <20231216135306.188070-1-ecordonnier@snap.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 17 Dec 2023 12:25:55 -0500
-Message-ID: <CADkTA4MtEWviatMwR8vO6TCH6nninLjbe2kjzVMHT9+-BDQsdQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: make do_symlink_kernelsrc reentrant
-To: ecordonnier@snap.com
-Cc: openembedded-core@lists.openembedded.org
+References: <20231216135306.188070-1-ecordonnier@snap.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 17:26:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192590
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 19:53:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192591
 
-On Sat, Dec 16, 2023 at 8:53=E2=80=AFAM Etienne Cordonnier via
-lists.openembedded.org <ecordonnier=3Dsnap.com@lists.openembedded.org>
-wrote:
->
+On Sat, 2023-12-16 at 14:53 +0100, Etienne Cordonnier via
+lists.openembedded.org wrote:
 > From: Etienne Cordonnier <ecordonnier@snap.com>
->
+>=20
 > The function do_symlink_kernsrc is not reentrant in the case where S is d=
 efined
 > to a non-default value. This causes build-failures e.g. when building lin=
 ux-yocto, then updating
 > poky to a commit which modifies kernel.bbclass, and then building linux-y=
 octo again.
->
+>=20
 > Bugzilla: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15325
->
+>=20
 > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 > ---
 >  meta/classes-recipe/kernel.bbclass | 5 +++++
 >  1 file changed, 5 insertions(+)
->
+>=20
 > diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
 nel.bbclass
 > index 9ff37f5c38..130bedd901 100644
@@ -95,36 +94,19 @@ mlink_kernsrc to run again
 > +                # after s was already moved to kernsrc
 > +                bb.warn("%s is already a symlink! Not symlinking kernel =
 sources" % s)
-
-I don't think this is a warning situation, perhaps bb.info() is better.
-
-Since nothing is wrong, no unexpected results will occur and I really
-don't see any side effects .. is why I don't see it as a warning.
-
-Bruce
-
 > +                return 0
 >              shutil.move(s, kernsrc)
 >              os.symlink(kernsrc, s)
 >  }
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192564): https://lists.openembedded.org/g/openembedde=
-d-core/message/192564
-> Mute This Topic: https://lists.openembedded.org/mt/103208527/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
+Usually what we recommend is that the first pass does something if "if
+not exists X.org; cp X X.orig; fi", then you can always copy from
+X.orig.
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+As Bruce says, it definitely shouldn't be a warning, this can happen
+quite normally.=20
+
+Cheers,
+
+Richard
 
