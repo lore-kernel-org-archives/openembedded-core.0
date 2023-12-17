@@ -1,222 +1,116 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0731CC3DA6E
-	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 06:29:56 +0000 (UTC)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
- by mx.groups.io with SMTP id smtpd.web11.14693.1702794586409938876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59763C3DA6E
+	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 11:17:57 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web10.16939.1702811866882778294
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Dec 2023 22:29:46 -0800
+ Sun, 17 Dec 2023 03:17:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AQTs+lzb;
- spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: ticotimo@gmail.com)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dbc666461daso1345700276.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 22:29:46 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=x26qxPks;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.41, mailfrom: steve@sakoman.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-67f27a4c6fbso13163676d6.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 03:17:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702794585; x=1703399385; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=z3zcrtri/DWzy6796n4pBsedwlQLXeJ5fJtYjZatM7w=;
-        b=AQTs+lzbGPpCryVqYpjq4nKbDUkAXSA1FocdQYoUx9q7YNo4iyQlSpVM6RXXG/EDRa
-         sJ1QD50+DYTAvP1t1WiMsn9lag4tCEqjqCr0EKt999gDkhza6MuleDPC4MZYSMEkdX0M
-         P658EQLunhhKXpq/AKzQYfpv8LXglrH9eF7yl1lefz5izdhRp9AOoQ1RtyIvnbTgwKX+
-         1Kr33FLekF2N9wtYp0OKMkAX8o6KZ4TCKPmOSSDIsuDXQSqftGVIVWZr6Ilg+wnlEXse
-         QPtPtS9lT+XWWNOnEhrwFxzjY6N5aEQSN/1mbw+AwMN+OzL0rYgUg/zMhrcoDKkw2Uvq
-         JiZw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702811865; x=1703416665; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tceA3z8Zu5oHguPKBRID1W0kQT+mGErxBxGw8eKZpBY=;
+        b=x26qxPksc464pX920mv6CooYpOH+BR/kR6usn1kqKsZAWJipueAD7R4wZuXxDyylRH
+         j9gVpzVJwhpxTjDXt4NLbVkf4AtolOrFfw14GUqbdWPKu+nnJSLZm1NITPK7I7OLYWL4
+         k+T6usCFU4zaAV72+tB2shy3yQKKO2yHLLtD5aDoKgxuGWtF8vZFQicjZZ4Pr1xkoqUs
+         qvNx9ViqVz4NiC2mCdPKQFzyB0ZsxQ+K8YQLxDnVZjXPeBfUzyoxQnG03TMnD93HY3ZT
+         u4pYM+eqkEsI0LXI0vyo73OBA43CrdLWxYq6HlDuXRNbY0Loj3SlaqOtFeor0bPJhuFk
+         sLsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702794585; x=1703399385;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z3zcrtri/DWzy6796n4pBsedwlQLXeJ5fJtYjZatM7w=;
-        b=ab35HLukhUx8ZAd9qJ9tKoTpBH4pzdS0R8t7cdSi76cCBwABjjtq3vgLohUxSCBjYr
-         61xAES0bUthVIFPH74d3YceDBeZ6jU1bBfTj51KNSzbW/OHmlHAFhEs+De/LUNQc4yz7
-         IvFDhsbO/B8pFs9DAg0Y14QfjwBIO9Xm6c7VA9G8AKrLa4puQbryo+UhB/LcZnUmAG4N
-         J7HXbXUfMGxhghED9S7GnwusMdst8XSF6ljaLO6SvMENdpjG/JCGFvEgOrVaadmhj7jj
-         2daIhZVehloVCZ2z/EtEyUlFilq+kc58h/90fhIdWXNo882zORC8QmGUvxBh6qIbY86y
-         VynA==
-X-Gm-Message-State: AOJu0YxvNFJIrTpDI6YjPTl9MV8qQfKh+3nz5ToC65425c4PSlS0v7Fq
-	vAsbvpg+p6ifeVZJyKZWrn1wIl4HexpauTQiqzQCv63o
-X-Google-Smtp-Source: AGHT+IFQHDq+9e3yeghW03gkg6/QQJ8MMSdGC+a8ymUHIhI2cE4g7/gIr8SWeR6E6ZJUE4J75HTof6VzRtpjviijxWQ=
-X-Received: by 2002:a0d:ea4b:0:b0:5e4:fa10:cef0 with SMTP id
- t72-20020a0dea4b000000b005e4fa10cef0mr1976345ywe.7.1702794585180; Sat, 16 Dec
- 2023 22:29:45 -0800 (PST)
-MIME-Version: 1.0
-References: <0101018c766677e7-75698dfe-728c-4fdd-866f-3ccc895d8b95-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018c766677e7-75698dfe-728c-4fdd-866f-3ccc895d8b95-000000@us-west-2.amazonses.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Sat, 16 Dec 2023 22:29:34 -0800
-Message-ID: <CANx9H-Ahc-u4Q_4RDbqqRt3biBHsJQ_Ox4R+Vdy2QUcALHArhw@mail.gmail.com>
-Subject: Re: Patchtest results for [PATCH 5/7] oe-selfest: add maturn runtime
- (testimage) test
-To: patchtest@automation.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000600fbb060caec28a"
+        d=1e100.net; s=20230601; t=1702811865; x=1703416665;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tceA3z8Zu5oHguPKBRID1W0kQT+mGErxBxGw8eKZpBY=;
+        b=G9riYOJad8ajORyJco1Xgo7sR7nNWCogpOqq1WSO0jjsxSbpISFyFAXerX0333u+FF
+         zoUuRQ+k40V9nASs2aRPhVZv5KzrfbhwSIDtWgdtNvixKQPDVxoE8CZLUTT/N2weyGTL
+         9yplPV85MOQyhVhphP6AUH/KhLaV4rL6VSv1ONwXWVKEwzQegMsUZ+vuH6y6mh9AmMrl
+         fZQsssBHrfNGcmBxWlLdu6APMvNw27g99WF3dknJ0AMfS+Ac6K0CJcvj4HbWEQkerXfN
+         ljweRh8p4hRXkMzu1PU0eIpHxGGF6eVLVtBxmV/eLQl10PVuQXlSZ8yvTMb54bOrEbaA
+         owFA==
+X-Gm-Message-State: AOJu0Ywvhb3lByOuy8B5jMHHTOtQfjeniq8DudECZsEaiZxXbD3b9CrK
+	3hRzabytb5ZqF1bJtP40irEQZHA9yZEOX5x/3ro=
+X-Google-Smtp-Source: AGHT+IGfPPJX159MOnkPY9jDQXFa+vtnQvdY7cLd8Uh6lVHDbqvScqBRvQjzhQN0PPZTzKX7wiIjKg==
+X-Received: by 2002:a05:6214:1c4a:b0:67f:56e:c8fb with SMTP id if10-20020a0562141c4a00b0067f056ec8fbmr9520610qvb.49.1702811864931;
+        Sun, 17 Dec 2023 03:17:44 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id k15-20020ad4420f000000b0067f38dd31c8sm493864qvp.17.2023.12.17.03.17.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Dec 2023 03:17:44 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 34234106A09; Sun, 17 Dec 2023 01:17:43 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 17 Dec 2023 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 17 Dec 2023 01:17:43 -1000
+Message-Id: <20231217111743.34234106A09@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 06:29:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192585
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 11:17:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192586
 
---000000000000600fbb060caec28a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Branch: master
 
-It appears patchtest gets confused when emoji Unicode characters are
-present.
+New this week: 8 CVEs
+CVE-2023-46218 (CVSS3: 6.5 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46218 *
+CVE-2023-46219 (CVSS3: 5.3 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46219 *
+CVE-2023-50431 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-50431 *
+CVE-2023-6560 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6560 *
+CVE-2023-6606 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6606 *
+CVE-2023-6610 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6610 *
+CVE-2023-6622 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6622 *
+CVE-2023-6679 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6679 *
 
-On Sat, Dec 16, 2023 at 10:11=E2=80=AFPM <patchtest@automation.yoctoproject=
-.org>
-wrote:
+Removed this week: 1 CVEs
+CVE-2023-49292 (CVSS3: 4.8 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-49292 *
 
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch
-> /home/patchtest/share/mboxes/5-7-oe-selfest-add-maturn-runtime-testimage-=
-test.patch
->
-> FAIL: test mbox format: Series has malformed diff lines. Create the serie=
-s
-> again using git-format-patch and ensure it applies using git am
-> (test_mbox.TestMbox.test_mbox_format)
->
-> PASS: test Signed-off-by presence
-> (test_mbox.TestMbox.test_signed_off_by_presence)
-> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> PASS: test commit message presence
-> (test_mbox.TestMbox.test_commit_message_presence)
-> PASS: test max line length
-> (test_metadata.TestMetadata.test_max_line_length)
-> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-> PASS: test target mailing list
-> (test_mbox.TestMbox.test_target_mailing_list)
->
-> SKIP: pretest pylint: Python-unidiff parse error
-> (test_python_pylint.PyLint.pretest_pylint)
-> SKIP: pretest src uri left files: Patch cannot be merged
-> (test_metadata.TestMetadata.pretest_src_uri_left_files)
-> SKIP: test CVE tag format: Parse error Hunk is shorter than expected
-> (test_patch.TestPatch.test_cve_tag_format)
-> SKIP: test Signed-off-by presence: Parse error Hunk is shorter than
-> expected (test_patch.TestPatch.test_signed_off_by_presence)
-> SKIP: test Upstream-Status presence: Parse error Hunk is shorter than
-> expected (test_patch.TestPatch.test_upstream_status_presence_format)
-> SKIP: test bugzilla entry format: No bug ID found
-> (test_mbox.TestMbox.test_bugzilla_entry_format)
-> SKIP: test lic files chksum modified not mentioned: No modified recipes,
-> skipping test
-> (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-> SKIP: test lic files chksum presence: No added recipes, skipping test
-> (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-> SKIP: test license presence: No added recipes, skipping test
-> (test_metadata.TestMetadata.test_license_presence)
-> SKIP: test pylint: Python-unidiff parse error
-> (test_python_pylint.PyLint.test_pylint)
-> SKIP: test series merge on head: Merge test is disabled for now
-> (test_mbox.TestMbox.test_series_merge_on_head)
-> SKIP: test src uri left files: Patch cannot be merged
-> (test_metadata.TestMetadata.test_src_uri_left_files)
-> SKIP: test summary presence: No added recipes, skipping test
-> (test_metadata.TestMetadata.test_summary_presence)
->
-> ---
->
-> Please address the issues identified and
-> submit a new revision of the patch, or alternatively, reply to this
-> email with an explanation of why the patch should be accepted. If you
-> believe these results are due to an error in patchtest, please submit a
-> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-> under 'Yocto Project Subprojects'). For more information on specific
-> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> you!
->
+Full list:  Found 37 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2023-0687 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0687 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
+CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
+CVE-2023-40030 (CVSS3: 6.1 MEDIUM): rust:rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40030 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-46218 (CVSS3: 6.5 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46218 *
+CVE-2023-46219 (CVSS3: 5.3 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46219 *
+CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
+CVE-2023-47100 (CVSS3: 9.8 CRITICAL): perl:perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47100 *
+CVE-2023-50431 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-50431 *
+CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
+CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
+CVE-2023-6238 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6560 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6560 *
+CVE-2023-6606 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6606 *
+CVE-2023-6610 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6610 *
+CVE-2023-6622 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6622 *
+CVE-2023-6679 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6679 *
 
---000000000000600fbb060caec28a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">It appears patchtest gets confused when emoji Unicode cha=
-racters are present.</div><div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Sat, Dec 16, 2023 at 10:11=E2=80=AFPM &lt;<a hr=
-ef=3D"mailto:patchtest@automation.yoctoproject.org">patchtest@automation.yo=
-ctoproject.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:sol=
-id;padding-left:1ex;border-left-color:rgb(204,204,204)">Thank you for your =
-submission. Patchtest identified one<br>
-or more issues with the patch. Please see the log below for<br>
-more information:<br>
-<br>
----<br>
-Testing patch /home/patchtest/share/mboxes/5-7-oe-selfest-add-maturn-runtim=
-e-testimage-test.patch<br>
-<br>
-FAIL: test mbox format: Series has malformed diff lines. Create the series =
-again using git-format-patch and ensure it applies using git am (test_mbox.=
-TestMbox.test_mbox_format)<br>
-<br>
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_pr=
-esence)<br>
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)<br>
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_=
-presence)<br>
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length=
-)<br>
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)<br>
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)<br>
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)<br>
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list=
-)<br>
-<br>
-SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint=
-.pretest_pylint)<br>
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.Tes=
-tMetadata.pretest_src_uri_left_files)<br>
-SKIP: test CVE tag format: Parse error Hunk is shorter than expected (test_=
-patch.TestPatch.test_cve_tag_format)<br>
-SKIP: test Signed-off-by presence: Parse error Hunk is shorter than expecte=
-d (test_patch.TestPatch.test_signed_off_by_presence)<br>
-SKIP: test Upstream-Status presence: Parse error Hunk is shorter than expec=
-ted (test_patch.TestPatch.test_upstream_status_presence_format)<br>
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_=
-bugzilla_entry_format)<br>
-SKIP: test lic files chksum modified not mentioned: No modified recipes, sk=
-ipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_=
-mentioned)<br>
-SKIP: test lic files chksum presence: No added recipes, skipping test (test=
-_metadata.TestMetadata.test_lic_files_chksum_presence)<br>
-SKIP: test license presence: No added recipes, skipping test (test_metadata=
-.TestMetadata.test_license_presence)<br>
-SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.te=
-st_pylint)<br>
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.=
-TestMbox.test_series_merge_on_head)<br>
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMe=
-tadata.test_src_uri_left_files)<br>
-SKIP: test summary presence: No added recipes, skipping test (test_metadata=
-.TestMetadata.test_summary_presence)<br>
-<br>
----<br>
-<br>
-Please address the issues identified and<br>
-submit a new revision of the patch, or alternatively, reply to this<br>
-email with an explanation of why the patch should be accepted. If you<br>
-believe these results are due to an error in patchtest, please submit a<br>
-bug at <a href=3D"https://bugzilla.yoctoproject.org/" rel=3D"noreferrer" ta=
-rget=3D"_blank">https://bugzilla.yoctoproject.org/</a> (use the &#39;Patcht=
-est&#39; category<br>
-under &#39;Yocto Project Subprojects&#39;). For more information on specifi=
-c<br>
-failures, see: <a href=3D"https://wiki.yoctoproject.org/wiki/Patchtest" rel=
-=3D"noreferrer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Patcht=
-est</a>. Thank<br>
-you!<br>
-</blockquote></div></div>
-
---000000000000600fbb060caec28a--
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
