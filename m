@@ -2,65 +2,68 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B394C3DA6E
-	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 22:52:41 +0000 (UTC)
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
- by mx.groups.io with SMTP id smtpd.web11.29097.1702853553109358928
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26794C3DA6E
+	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 23:00:31 +0000 (UTC)
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+ by mx.groups.io with SMTP id smtpd.web11.29345.1702854028155209601
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 14:52:33 -0800
+ Sun, 17 Dec 2023 15:00:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TUGuqxfX;
- spf=pass (domain: gmail.com, ip: 209.85.166.171, mailfrom: ticotimo@gmail.com)
-Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-35fb3f49bf6so340365ab.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 14:52:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MqCxeMpu;
+ spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: ticotimo@gmail.com)
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-591a6f1385eso1573977eaf.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 15:00:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702853552; x=1703458352; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iY8bvQ6ZUTttP2WRQb3H1CXPzXobrCe7wtRw+vktuzU=;
-        b=TUGuqxfXGNOKrvOxHLqutjGBoiNA+w5iO4fe9+kjVdUEa+tDPW3qhvv5jJMOG926zh
-         uDovMcvkd5XyhCT/WefUAELLGmB6o+xq+tThlMhZ8jstQnFYDgV67WHmCsJ0lTE8OZWz
-         ZLAm4pbm9dYIO+XtQizV/MSwOc8/3aDBhLoo3G089MLHiDAyrkoDfTc7sGGodxoWaJBZ
-         ZfiLl7eamqVbROPHz4UCipfu6eo3iyTm2jIyETL2U+sbR2bbJr0GFC1r9Nf2JGjUKqJ+
-         2rHn59z9X+2mEJOz+yGYvRaAtG0JGGtdCDwsbhOVJjYj7bKN8RDy4JPvVPTqvwaiDZwC
-         Wi1g==
+        d=gmail.com; s=20230601; t=1702854027; x=1703458827; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QbLqZjsWCHN+e2zE5A7nzhfCIICqUQomk60qSRq9Ixs=;
+        b=MqCxeMpu+86Vuoq89K55GazM3hTlxEgs2aVKH1q9BLv09cLzBrFqf2yWbMtjDVoptV
+         xmTAxyxz5c5YM000Rf4+dJXbf2vhJQ2bZhbfH6LzI2tkbVWwpM60to1IamcGkz/GWCMJ
+         /fLjtd2Y1wK+YUPOED6Zs+gMBtfBWfhPlry3EcGbTnDnS6Yu85m6HJduTgkq5zQu/hjj
+         +j3n+Fhu9WOn9YuXXa++vgAoHPZ6D8RF+VnQNZyPaVAvoVJQZTE47Sj2ExjbsIunVRDr
+         x+oxE41/VvOxLjIS8wG0FYCE/0G8yZcoXV2f+JopWG/nuVo1YEBySqRlzcgyHk9VeFci
+         OJKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702853552; x=1703458352;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iY8bvQ6ZUTttP2WRQb3H1CXPzXobrCe7wtRw+vktuzU=;
-        b=bNjaMQq6gldX1klXBt7yDWZ3r0OIdPtdAzpl/rLHzdPsv5So3E9Ar2Vx2HTDpLNvJW
-         RtE7bpxLjca4VuKtQKkOd6yOf9nHYWX0HMbzJC3coyeTHUDs2f4pR8PP4b8/OxKQ0QOF
-         m21uqbjWSv8gZ6fPXBDZFkLEbpS95tdr/OeP3BdqCzFDhhNz+5VV5Rl+mDRkt5c27DZA
-         V8psh1wynBHee5lee7kvkM1L0x9vcWqivg70LRWNWIDT3za6Dn5fx2P+Q3gNUa9AdWeI
-         qiBFebRpGKMpuhKp948+uV4pdTLLo99UIxr2Pc7TQ5dboiY+WgeHc0+T3PV7sGlbt7j7
-         GVOQ==
-X-Gm-Message-State: AOJu0YwNjXrnx8B4qnCQxdNQneL0RhZULB9ajQZRiFmAMHSTQFChMXze
-	CRbBOJmwRIYAV0EIv47/zoK2ioWlQHU=
-X-Google-Smtp-Source: AGHT+IFp5VtVBxPtqdFuhkO1FvHH63BvgAGkLpO4MGtBq4iLxqbkxoBeBmt8G1xFARI2wunAJPHD/w==
-X-Received: by 2002:a05:6e02:12e4:b0:35d:58ce:2322 with SMTP id l4-20020a056e0212e400b0035d58ce2322mr23107628iln.5.1702853551722;
-        Sun, 17 Dec 2023 14:52:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702854027; x=1703458827;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QbLqZjsWCHN+e2zE5A7nzhfCIICqUQomk60qSRq9Ixs=;
+        b=MG2FUUhiKzYBgudoLmnyqV0Ko8itrlPeJ+epjIGYneLTYyu2DpLAnSuFv6mmixNcGK
+         cE1lwLvmP88/Kgz28rM3BTLxbNuwHM+QkkBXTs7tMEFQ3iX0jMsEL9IX+xgqUJjVW3SW
+         6h5zZB1hp8J0YX3QMylO9J17Tes9IO8DkTYvnPpjnAgHe2g17hiUyiB45FpI7VSTgPbm
+         koS00fPXyKB4iXZlTOzy0PfTOG5zhM9rO23Ncj0slUayXGcLwQ+pGM0wJF7fAdE9+umB
+         o1g8oKDQQTOFww14WnU05OGGZeaQrhRoyUkVuywp5SxNi12C0Dh2CRRaujIZpSd0xN/f
+         SlWw==
+X-Gm-Message-State: AOJu0YyYGgXuEd7WCep+WtgGEAxx+iHvvN2cx2dZTGlnwpNM0Wo8HbKm
+	IFD8J/TxEM1f+629isj8cb6Rm1iEd4I=
+X-Google-Smtp-Source: AGHT+IGo2lQYxiOF6e10kLW+3bbJ6/zqrY8WOTV1BOBePg+er8q7NK3FEgcdcjuHM3U0557PrDu8bA==
+X-Received: by 2002:a05:6358:7e09:b0:170:17eb:2052 with SMTP id o9-20020a0563587e0900b0017017eb2052mr16638836rwm.59.1702854026719;
+        Sun, 17 Dec 2023 15:00:26 -0800 (PST)
 Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:6e3d:56d2:3c7b:de95])
-        by smtp.gmail.com with ESMTPSA id 29-20020a17090a005d00b0028b470be8b6sm3769944pjb.8.2023.12.17.14.52.30
+        by smtp.gmail.com with ESMTPSA id 14-20020a17090a19ce00b0028b92b6c657sm161787pjj.2.2023.12.17.15.00.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 14:52:31 -0800 (PST)
+        Sun, 17 Dec 2023 15:00:26 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] oeqa: add runtime 'maturin develop' test case
-Date: Sun, 17 Dec 2023 14:51:29 -0800
-Message-Id: <20231217225128.22995-1-tim.orling@konsulko.com>
+Subject: [PATCH v2] oeqa: add runtime 'maturin develop' test case
+Date: Sun, 17 Dec 2023 14:58:49 -0800
+Message-Id: <20231217225848.24271-1-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231217225128.22995-1-tim.orling@konsulko.com>
+References: <20231217225128.22995-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 22:52:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192592
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 23:00:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192593
 
 Similar to the sdk test case, build the "guessing-game" example from
 https://maturin.rs/tutorial
@@ -72,6 +75,10 @@ This test case:
 * fetches crates, builds guessing-game crate and wheel
 
 Put the following in your local.conf:
+
+EXTRA_IMAGE_FEATURES += "tools-sdk"
+SDK_INCLUDE_TOOLCHAIN = '1'
+SDK_TOOLCHAIN_LANGS += 'rust'
 
 IMAGE_INSTALL:append = " python3-maturin"
 
@@ -90,6 +97,12 @@ bitbake -c testimage core-image-full-cmdline
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
+Changes in v2:
+  Clarify that tools-sdk is required in the image, plus
+  we need the 'rust' toolchain lang
+
+Tested on qemuarm64 core-image-full-cmdline
+
  meta/lib/oeqa/runtime/cases/maturin.py | 35 ++++++++++++++++++++++++++
  1 file changed, 35 insertions(+)
 
