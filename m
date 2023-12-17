@@ -1,162 +1,97 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26794C3DA6E
-	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 23:00:31 +0000 (UTC)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
- by mx.groups.io with SMTP id smtpd.web11.29345.1702854028155209601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20FB5C3DA6E
+	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 23:02:41 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.29377.1702854155971355341
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 15:00:28 -0800
+ Sun, 17 Dec 2023 15:02:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MqCxeMpu;
- spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: ticotimo@gmail.com)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-591a6f1385eso1573977eaf.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 15:00:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702854027; x=1703458827; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QbLqZjsWCHN+e2zE5A7nzhfCIICqUQomk60qSRq9Ixs=;
-        b=MqCxeMpu+86Vuoq89K55GazM3hTlxEgs2aVKH1q9BLv09cLzBrFqf2yWbMtjDVoptV
-         xmTAxyxz5c5YM000Rf4+dJXbf2vhJQ2bZhbfH6LzI2tkbVWwpM60to1IamcGkz/GWCMJ
-         /fLjtd2Y1wK+YUPOED6Zs+gMBtfBWfhPlry3EcGbTnDnS6Yu85m6HJduTgkq5zQu/hjj
-         +j3n+Fhu9WOn9YuXXa++vgAoHPZ6D8RF+VnQNZyPaVAvoVJQZTE47Sj2ExjbsIunVRDr
-         x+oxE41/VvOxLjIS8wG0FYCE/0G8yZcoXV2f+JopWG/nuVo1YEBySqRlzcgyHk9VeFci
-         OJKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702854027; x=1703458827;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QbLqZjsWCHN+e2zE5A7nzhfCIICqUQomk60qSRq9Ixs=;
-        b=MG2FUUhiKzYBgudoLmnyqV0Ko8itrlPeJ+epjIGYneLTYyu2DpLAnSuFv6mmixNcGK
-         cE1lwLvmP88/Kgz28rM3BTLxbNuwHM+QkkBXTs7tMEFQ3iX0jMsEL9IX+xgqUJjVW3SW
-         6h5zZB1hp8J0YX3QMylO9J17Tes9IO8DkTYvnPpjnAgHe2g17hiUyiB45FpI7VSTgPbm
-         koS00fPXyKB4iXZlTOzy0PfTOG5zhM9rO23Ncj0slUayXGcLwQ+pGM0wJF7fAdE9+umB
-         o1g8oKDQQTOFww14WnU05OGGZeaQrhRoyUkVuywp5SxNi12C0Dh2CRRaujIZpSd0xN/f
-         SlWw==
-X-Gm-Message-State: AOJu0YyYGgXuEd7WCep+WtgGEAxx+iHvvN2cx2dZTGlnwpNM0Wo8HbKm
-	IFD8J/TxEM1f+629isj8cb6Rm1iEd4I=
-X-Google-Smtp-Source: AGHT+IGo2lQYxiOF6e10kLW+3bbJ6/zqrY8WOTV1BOBePg+er8q7NK3FEgcdcjuHM3U0557PrDu8bA==
-X-Received: by 2002:a05:6358:7e09:b0:170:17eb:2052 with SMTP id o9-20020a0563587e0900b0017017eb2052mr16638836rwm.59.1702854026719;
-        Sun, 17 Dec 2023 15:00:26 -0800 (PST)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:6e3d:56d2:3c7b:de95])
-        by smtp.gmail.com with ESMTPSA id 14-20020a17090a19ce00b0028b92b6c657sm161787pjj.2.2023.12.17.15.00.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 15:00:26 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH v2] oeqa: add runtime 'maturin develop' test case
-Date: Sun, 17 Dec 2023 14:58:49 -0800
-Message-Id: <20231217225848.24271-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231217225128.22995-1-tim.orling@konsulko.com>
-References: <20231217225128.22995-1-tim.orling@konsulko.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UyFPZ9o+;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kGAdAQZ1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018c7a045b3e-d452d2bf-f59f-4fbd-b462-637c5cc11d34-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1702854155; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=0BpdPYmNDlzNh9QDgwLhBpHJDP3D1tLJ7uL0YCmf+0Q=;
+	b=UyFPZ9o+E6avZH8ByoCZOnqCZvtvMEQky3BYL8FfXrtNj6xiqB8jXvrlx3LzkLsQ
+	c0vQkdx6bWgh+38HUx5wf9lELgoSii+AYQCJTiOb5rBo1t2pChI7a1I2ZLK6C3e34um
+	rhqlg9tPDd/hujWc+UcnHW0QraSzSqxpQ7KlcSTg=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702854155;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=0BpdPYmNDlzNh9QDgwLhBpHJDP3D1tLJ7uL0YCmf+0Q=;
+	b=kGAdAQZ1vgM84G2SMiK6oFjJ/ovGkFaBNcb1FwOAxzpm7EMjUCkMEuUA/swEqMCC
+	K2X/77P1xAIWpm4dmL+rIc6cRKVke8ZcA7KKQ9w7W2FqJ8n0wUEgIm2g0kiZfsmZzgz
+	Gbv/hk4d2W2EnoT+3ikdWpM2Y5EsqcKVesngmdgE=
+From: patchtest@automation.yoctoproject.org
+To: Tim Orling <ticotimo@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] oeqa: add runtime 'maturin develop' test case
+In-Reply-To: 20231217225128.22995-1-tim.orling@konsulko.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c7a045b3e-d452d2bf-f59f-4fbd-b462-637c5cc11d34-000000@us-west-2.amazonses.com>
+Date: Sun, 17 Dec 2023 23:02:35 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.17-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 23:00:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192593
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 23:02:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192594
 
-Similar to the sdk test case, build the "guessing-game" example from
-https://maturin.rs/tutorial
+--NextPart
+Content-Type: text/plain
 
-This test case:
-* creates a python3 venv
-* echoes "nameserver 8.8.8.8" to /etc/resolv.conf as we need to have
-  functional DNS to fetch the crates on target
-* fetches crates, builds guessing-game crate and wheel
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Put the following in your local.conf:
-
-EXTRA_IMAGE_FEATURES += "tools-sdk"
-SDK_INCLUDE_TOOLCHAIN = '1'
-SDK_TOOLCHAIN_LANGS += 'rust'
-
-IMAGE_INSTALL:append = " python3-maturin"
-
-IMAGE_CLASSES += "testimage"
-TEST_QEMUPARAMS ?= "-m 8192 -smp 4"
-IMAGE_ROOTFS_EXTRA_SPACE = "10000000"
-NOHDD="1"
-NOISO="1"
-
-TEST_SUITES = "ping ssh python maturin"
-
-Test with:
-
-bitbake core-image-full-cmdline
-bitbake -c testimage core-image-full-cmdline
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Changes in v2:
-  Clarify that tools-sdk is required in the image, plus
-  we need the 'rust' toolchain lang
+Testing patch /home/patchtest/share/mboxes/oeqa-add-runtime-maturin-develop-test-case.patch
 
-Tested on qemuarm64 core-image-full-cmdline
+FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
 
- meta/lib/oeqa/runtime/cases/maturin.py | 35 ++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-diff --git a/meta/lib/oeqa/runtime/cases/maturin.py b/meta/lib/oeqa/runtime/cases/maturin.py
-index b9a3b4acbcd..4e6384fe5e6 100644
---- a/meta/lib/oeqa/runtime/cases/maturin.py
-+++ b/meta/lib/oeqa/runtime/cases/maturin.py
-@@ -10,6 +10,7 @@ from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.runtime.decorator.package import OEHasPackage
- 
-+
- class MaturinTest(OERuntimeTestCase):
-     @OETestDepends(['ssh.SSHTest.test_ssh', 'python.PythonTest.test_python3'])
-     @OEHasPackage(['python3-maturin'])
-@@ -21,3 +22,37 @@ class MaturinTest(OERuntimeTestCase):
-         python_version = "%s.%s" % (py_major, py_minor)
-         self.assertEqual(output, "🐍 1 python interpreter found:\n"
-                                  " - CPython %s at /usr/bin/python%s" % (python_version, python_version))
-+
-+
-+class MaturinDevelopTest(OERuntimeTestCase):
-+    @classmethod
-+    def setUp(cls):
-+        dst = '/tmp'
-+        src = os.path.join(cls.tc.files_dir, "maturin/guessing-game")
-+        cls.tc.target.copyTo(src, dst)
-+
-+    @classmethod
-+    def tearDown(cls):
-+        cls.tc.target.run('rm -rf %s' %  '/tmp/guessing-game/target')
-+
-+    @OETestDepends(['ssh.SSHTest.test_ssh', 'python.PythonTest.test_python3'])
-+    @OEHasPackage(['python3-maturin'])
-+    def test_maturin_develop(self):
-+        """
-+        This test case requires:
-+          (1) that a .venv can been created.
-+          (2) DNS nameserver to resolve crate URIs for fetching
-+          (3) a functional 'rustc' and 'cargo'
-+        """
-+        targetdir = os.path.join("/tmp", "guessing-game")
-+        self.target.run("cd %s; python3 -m venv .venv" % targetdir)
-+        self.target.run("echo 'nameserver 8.8.8.8' > /etc/resolv.conf")
-+        cmd = "cd %s; maturin develop" % targetdir
-+        status, output = self.target.run(cmd)
-+        self.assertRegex(output, r"🔗 Found pyo3 bindings with abi3 support for Python ≥ 3.8")
-+        self.assertRegex(output, r"🐍 Not using a specific python interpreter")
-+        self.assertRegex(output, r"📡 Using build options features from pyproject.toml")
-+        self.assertRegex(output, r"Compiling guessing-game v0.1.0")
-+        self.assertRegex(output, r"📦 Built wheel for abi3 Python ≥ 3.8")
-+        self.assertRegex(output, r"🛠 Installed guessing-game-0.1.0")
-+        self.assertEqual(status, 0)
--- 
-2.34.1
+SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
