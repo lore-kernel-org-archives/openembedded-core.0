@@ -1,90 +1,130 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4538C41535
-	for <webhook@archiver.kernel.org>; Sat, 16 Dec 2023 23:15:43 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.6920.1702768540007145969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F02C3DA6E
+	for <webhook@archiver.kernel.org>; Sun, 17 Dec 2023 05:41:55 +0000 (UTC)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web10.14267.1702791709375770739
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Dec 2023 15:15:40 -0800
+ Sat, 16 Dec 2023 21:41:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=E/nrPz00;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 39ECAC0003;
-	Sat, 16 Dec 2023 23:15:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1702768537;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gbnjQWI+X4VlX9BRlfSsfs6rN3Y+XfLelboxcDTQhL4=;
-	b=E/nrPz000guaf+K+7JzGm8of/khWF5a36iEigIuecWjcr4FIyQH8lFuJdFnhs/YR/AZfjC
-	DAOke+Cu9TRqiRUkxA/X6fZJhS3cSeazhEhTk1yumd1aEDD4UlI/SmidPeRiEm/nk2UVHH
-	Gez2m2SrXv0CeF5tqdhlM4JDah6N8wf6lF4uQ2DnQIlkQMh8AEzZSqCXoZs6qiewqVEzqS
-	zdR1Dpg7hVDbL3RengrQHnfC7FNegrL4GIw3Ei3VYNYlXrc/m/Y+XXen0Ag8GTlU5jPJoB
-	/AYqQ3dbK9fVRS946zB/EjZ/xWDIJ31/0cu+ftDAWvihP+6NKakA3xZZLtt1pg==
-Date: Sun, 17 Dec 2023 00:15:36 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Yi Zhao <yi.zhao@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] debianutils: upgrade 5.14 -> 5.15
-Message-ID: <2023121623153695195ea4@mail.local>
-References: <20231216121516.452373-1-yi.zhao@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=d7u/HcaL;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: ticotimo@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6d9f879f784so1753127a34.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 21:41:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702791708; x=1703396508; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7mf+q9kva7Rh8/lsQdJJPNpe99s1cTgjyWbUiVh1t2Q=;
+        b=d7u/HcaLrCjs6wKEpJ7MunhD7CsWvDRgM5rMqcvkOPzry6zqYWyuOxfT0z4Pxu+oe8
+         BwcSKrPReiaAFh5Vw46Ine6edVCsAoZnasLHXZ72hOrJ8P9PTH6CbibDsxqcpRDAeS1w
+         w/uItnY+EXoylpdizLa2QpTmcbHfKRa7pS8GCl6mfMoMhJ2dQYxwdCk14Z/UkOMsX6PN
+         XocGIi0b5Ki5SQvkpsVOBe5QvPN2ipKDxtPUyOtOYtVgYqTzqimajBtM/UtWUq50hyTI
+         WaCDDfUPqPKdQ4r8TyKyA679v9xOxn0XyINd0GZesVhlbxpBSDIHrOHXL8Bx8+toeYGV
+         uAUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702791708; x=1703396508;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7mf+q9kva7Rh8/lsQdJJPNpe99s1cTgjyWbUiVh1t2Q=;
+        b=LMXPHQ+dt7gEu+WMKkUoTwq69vPl4VcQgDAQEI5co6IFFuLTTXU89Qe75u7N+n9AUC
+         yO9Diwqpi+b3foD2MtcRn+DINGpAbElLyM2Ks8/RubUOt+5Q4s3/QGF98IPv4re3/NWz
+         F3Ymnca05tYyvrBLpFZbXbsUs/xbRa3WHvuXFObm/xEwD8E6y/9/tiI+40+nZljFxf12
+         V8dvnHjiAkGyDTkDngBKzELx/W9WB/ktVxZu/SQkTgZvugmZYhQEXzb/JfhhrcKL5qyC
+         BNDEWsNQgzMu8/grxZRrS3SYd91ZyS2QXzCAIe+y++buK13yBaloM2avRnDXUrLHjxRH
+         zxqw==
+X-Gm-Message-State: AOJu0Yy4xSQQPMLlwS/DTiqGkSrZlsEOjLg2B8IrbOXYecsZNHt3Yr7/
+	6VcKCyKnV+uO3ricv83XJVAiFs+IFm8=
+X-Google-Smtp-Source: AGHT+IGntXwbheZQBX5WoOkuYQ/CWiA4I5zJPgzoym3xfu/2M5esYB/rRlIJZhCEEcq81p3az9StLw==
+X-Received: by 2002:a05:6830:119a:b0:6da:3070:1946 with SMTP id u26-20020a056830119a00b006da30701946mr7552498otq.71.1702791708071;
+        Sat, 16 Dec 2023 21:41:48 -0800 (PST)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:6e3d:56d2:3c7b:de95])
+        by smtp.gmail.com with ESMTPSA id f16-20020a056a001ad000b006cedd530420sm15365545pfv.52.2023.12.16.21.41.46
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Dec 2023 21:41:47 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 0/7] Add 'maturin' backend support
+Date: Sat, 16 Dec 2023 21:41:26 -0800
+Message-Id: <cover.1702791173.git.tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231216121516.452373-1-yi.zhao@windriver.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Dec 2023 23:15:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192573
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 05:41:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192574
 
-On 16/12/2023 20:15:16+0800, Yi Zhao wrote:
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+We are increasingly seeing Rust extensions for Python added in the
+ecosystem. The current best practices approach has moved from using
+'setuptools-rust' to using 'maturin'.
 
-The SoB must match you From:
+* Add python3-maturin, including 'native' and 'nativesdk' support.
+* Add a 'python_maturin' bbclass for the PEP-517 backend.
+* Add recipetool support for the 'maturin' PEP-517 backend.
+* Add a very basic 'maturin list-python' smoke test to oeqa for
+  both 'runtime' (-c testimage) and 'sdk' (-c testsdk).
 
-> ---
->  .../debianutils/{debianutils_5.14.bb => debianutils_5.15.bb}    | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-support/debianutils/{debianutils_5.14.bb => debianutils_5.15.bb} (97%)
-> 
-> diff --git a/meta/recipes-support/debianutils/debianutils_5.14.bb b/meta/recipes-support/debianutils/debianutils_5.15.bb
-> similarity index 97%
-> rename from meta/recipes-support/debianutils/debianutils_5.14.bb
-> rename to meta/recipes-support/debianutils/debianutils_5.15.bb
-> index deec8d1fe8..b1368a3b2e 100644
-> --- a/meta/recipes-support/debianutils/debianutils_5.14.bb
-> +++ b/meta/recipes-support/debianutils/debianutils_5.15.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://debian/copyright;md5=4b667f30411d21bc8fd7db85d502a8e9
->  SRC_URI = "git://salsa.debian.org/debian/debianutils.git;protocol=https;branch=master \
->             "
->  
-> -SRCREV = "7e63b32ea4126c70a5da958f0106add267810a94"
-> +SRCREV = "d886c15810b58e57411048f57d7fb941a6819987"
->  
->  inherit autotools update-alternatives
->  
-> -- 
-> 2.25.1
-> 
+Changes in v2:
+* Bump 'maturin' to v1.4.0
+* Fix the reproducible build of the bzip2-sys crate which was causing
+  python3-maturin to be non-reproducible.
+* Add a more exhaustive 'maturin develop' test case for oeqa 'sdk',
+  which exercises:
+  - Creation of a python3 virtual environment
+  - Fetching crates for the 'guessing-game' app from the maturin tutorial
+  - Building dev version of 'guessing-game' crate and wheel
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192558): https://lists.openembedded.org/g/openembedded-core/message/192558
-> Mute This Topic: https://lists.openembedded.org/mt/103207618/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+The following changes since commit 5815ccc1f6fd93690a684f7ff0f8a0a19758fdaa:
 
+  build-appliance-image: Update to master head revision (2023-12-16 13:12:52 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib timo/maturin_1.4.0
+  https://git.yoctoproject.org/poky-contrib/log/?h=timo/maturin_1.4.0
+
+Tim Orling (7):
+  python3-maturin: add v1.4.0
+  python3-maturin: bzip2-sys reproduciblility
+  classes-recipe: add python_maturin.bbclass
+  recipetool: add python_maturin support
+  oe-selfest: add maturn runtime (testimage) test
+  oeqa: add simple 'maturin' SDK (testsdk) test case
+  oeqa: add "maturin develop" SDK test case
+
+ meta/classes-recipe/python_maturin.bbclass    |  17 +
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ .../files/maturin/guessing-game/Cargo.toml    |  20 +
+ .../maturin/guessing-game/LICENSE-APACHE      | 201 ++++++
+ .../files/maturin/guessing-game/LICENSE-MIT   |  25 +
+ .../maturin/guessing-game/pyproject.toml      |   8 +
+ .../files/maturin/guessing-game/src/lib.rs    |  48 ++
+ meta/lib/oeqa/runtime/cases/maturin.py        |  23 +
+ meta/lib/oeqa/sdk/cases/maturin.py            |  79 +++
+ meta/lib/oeqa/selftest/cases/recipetool.py    |  29 +
+ .../python/python3-maturin-crates.inc         | 618 ++++++++++++++++++
+ .../python/python3-maturin_1.4.0.bb           |  42 ++
+ .../lib/recipetool/create_buildsys_python.py  |   1 +
+ 13 files changed, 1112 insertions(+)
+ create mode 100644 meta/classes-recipe/python_maturin.bbclass
+ create mode 100644 meta/lib/oeqa/files/maturin/guessing-game/Cargo.toml
+ create mode 100644 meta/lib/oeqa/files/maturin/guessing-game/LICENSE-APACHE
+ create mode 100644 meta/lib/oeqa/files/maturin/guessing-game/LICENSE-MIT
+ create mode 100644 meta/lib/oeqa/files/maturin/guessing-game/pyproject.toml
+ create mode 100644 meta/lib/oeqa/files/maturin/guessing-game/src/lib.rs
+ create mode 100644 meta/lib/oeqa/runtime/cases/maturin.py
+ create mode 100644 meta/lib/oeqa/sdk/cases/maturin.py
+ create mode 100644 meta/recipes-devtools/python/python3-maturin-crates.inc
+ create mode 100644 meta/recipes-devtools/python/python3-maturin_1.4.0.bb
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.34.1
+
 
