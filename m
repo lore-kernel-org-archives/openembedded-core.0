@@ -2,65 +2,65 @@ Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A1EC35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:39:03 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.38776.1702881537289940048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 576F6C35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:47:43 +0000 (UTC)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.39263.1702882061165866139
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 22:38:57 -0800
+ Sun, 17 Dec 2023 22:47:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I6FPIAEN;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: ppjadhav456@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6d532e4f6d6so225754b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 22:38:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mcSqLMEP;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6d5c4cb8aa3so844672b3a.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 22:47:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702881536; x=1703486336; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702882060; x=1703486860; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=COJYEvJc0rs0HtmZJ5pY8mL66XE0lzCn2zt18abV988=;
-        b=I6FPIAENkRQ0q+KqK0IZ+LIFY+6aUX7+8RkM2+gv5p8WR2jpjb5o+7FU942NFjgLMO
-         xc4vJkfRsyrnsoSXzmG+3SrgzwTf0clhlSlDM215yKE9t1XScMnOkU3tGKPnMqzaKoX5
-         zX6VJS3oWsAfGyC6cSGyPLej04VhAps7zriBKBHWFFpUgOUd6lbeZcVA9l9rgK4oc7td
-         Vo0ZH5NQvqjG1egF80ZE5xeno628EPZUVGVtg/MmEYxEQ/MIhvFMqSKeelXK3IJ+G3mi
-         KgjuL264WL/jtQbvA9dly+pjZllCpKQ5Tdco7IybCMl9u/D2YlQeQMQ0m7Y5Veu44J6+
-         kYjw==
+        b=mcSqLMEPO2+0Oh62bx3SZJI6ezsAhQv6hnBPW8TGEVuwPVQQd7s9+gW7LRMmzBvSNv
+         9J76SZww4w1ARNIRWaqeDgRiBZWiKYNn+uV6TbBH4CRjLI923X7qIxwCDFqTm1pvVgt5
+         v+SwG2J79d1ovF0jrQTKl2ZP53HEuYIIAmlPCLN5xMGPsL7VSVXDhCORfOk/+wYDc+ub
+         r1zP6EgBjULJHIfUrJcGcLl61Gg4bX/zJLhxehHH3i/kweqR9FD8xS6ZGAhQw9g2bfiN
+         FEZF/NfMr9g1pFX2Pf268jE/O/1r2mVxpOxePwoT0CHyjFKOi+sEMcA4L5g3NEhsuCmm
+         S/LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702881536; x=1703486336;
+        d=1e100.net; s=20230601; t=1702882060; x=1703486860;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=COJYEvJc0rs0HtmZJ5pY8mL66XE0lzCn2zt18abV988=;
-        b=ICTinG3IRuv4KtzVAapRM4CEEDRK/gww6SCn4TCU3dYKwmLf0lnkZGYQxDy6og/4Sd
-         u9t1l2JjtH7ZbmIvp5RjXH2sKG3lDatidCLdYB9PGySgZm+6yf5UoK38656Ax8nc0My4
-         0AFjYqFatKBwrio48jaR/a0dzYJXGOsvTyPIQ1DjrxzVbkJmK9mYrSS4tbbpLuyLTlX8
-         IJJwokEcyuepDpYbA92cMVDT4LnuJVnKSwRuXWhgyklaYGp5RSBPAb06hjVvu18tIYSC
-         jVfA/2IVeC6+bjhuyH4R/ZS3TL3f7UuyxcW2fRp3I9Alvb+6MmKU9vEiSz7T7ljOMAeO
-         UZaQ==
-X-Gm-Message-State: AOJu0YywlZhJdepthASk0q9KPtd0naK06cmg9MP7fEhA+AvgL7wZvAHk
-	PTJkG4EN2dqirAMFZaeXFdeGroMYasQ=
-X-Google-Smtp-Source: AGHT+IG5PhlEHF9pS9dl1N3JwR4dXXhv/sIdizMLKgmzxJFpsF6H0xpXNLjTOXWl4xLLgYYvxDSzbQ==
-X-Received: by 2002:a05:6a00:801a:b0:6d5:6a3b:270e with SMTP id eg26-20020a056a00801a00b006d56a3b270emr409429pfb.46.1702881536339;
-        Sun, 17 Dec 2023 22:38:56 -0800 (PST)
+        b=kpmPbl2SIdtdjZh7jd79E8xcPXjnQV7vKZ0+t+zWq34aqpohxYj0xtMcp61aH0EAUa
+         2GryG1YOV5KsaOX6k2Su9w6SK0QE50E61WMJr6kxILOWi3dRfZw2PMiO5ScY5yGHkkdb
+         xsh+iDxxVQB4zTINBSLY+NSMJXriqupMRUcKplesp+EIggJsc0BdAWMFQhoW29Tshoot
+         ZoscteOJIgnlQSo7ouPrirzeTiWQdoTCq/A5wZDi2WrXNJ2udz9SfD2ElU9hXnIvP2Y/
+         cYh+Y4+rLHAiNRBojSK5/9x4tV5Go5Gf+LztxmWyTJ0bRgPy4R0J7higFHJ+OYsOi3TK
+         ddag==
+X-Gm-Message-State: AOJu0YyfeBjQzHvkYAxdfPNEbyJk4/sHGFYtQpB+6g5A1Y5Nf5kUWk+P
+	xtSy2YojiUWCt5XCqAkNFsMTH8CApvw=
+X-Google-Smtp-Source: AGHT+IGrFIZ6AB07FdleA3mV9GBixT59xd0kTZfMl2TEfOF90r3HfVTvUkRnIxfxzWavbmheeAaiag==
+X-Received: by 2002:a05:6a00:10cc:b0:6ce:751b:81d9 with SMTP id d12-20020a056a0010cc00b006ce751b81d9mr18347522pfu.9.1702882060344;
+        Sun, 17 Dec 2023 22:47:40 -0800 (PST)
 Received: from L-14805.kpit.com ([43.231.237.210])
-        by smtp.gmail.com with ESMTPSA id v34-20020a634662000000b005c259cef481sm16926153pgk.59.2023.12.17.22.38.54
+        by smtp.gmail.com with ESMTPSA id g26-20020aa7875a000000b0068ff267f094sm17520012pfo.158.2023.12.17.22.47.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 22:38:55 -0800 (PST)
+        Sun, 17 Dec 2023 22:47:40 -0800 (PST)
 From: Poonam Jadhav <ppjadhav456@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	sourav.pramanik@kpit.com
 Cc: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
 Subject: [OE-core][kirkstone][PATCH] qemu: Fix CVE-2023-5088
-Date: Mon, 18 Dec 2023 12:07:02 +0530
-Message-Id: <20231218063702.24823-1-ppjadhav456@gmail.com>
+Date: Mon, 18 Dec 2023 12:17:24 +0530
+Message-Id: <20231218064724.25672-1-ppjadhav456@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:39:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192605
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:47:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192606
 
 From: Sourav Pramanik <sourav.pramanik@kpit.com>
 
