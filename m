@@ -1,127 +1,96 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <victor.kamensky7@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9A8EC35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 04:48:12 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.35541.1702874890962840850
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28694C35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:08:23 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.37563.1702879698144399016
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 20:48:11 -0800
+ Sun, 17 Dec 2023 22:08:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Zk6LqOio;
- spf=pass (domain: mvista.com, ip: 209.85.210.173, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6d7395ab92cso148974b3a.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 20:48:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kmc0FczN;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: victor.kamensky7@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6d7e67d31caso138498b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 22:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1702874889; x=1703479689; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702879697; x=1703484497; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o1wSUkUwAz7pbZSr3Yql6f9XBmobqclBJNEV1gt+Peg=;
-        b=Zk6LqOioRby4FVFueR95oil2fP43vDd0i6ynREH4/+Oca0eJPvLnTGYL3XrwxmogoU
-         ZiDlfiSYgEFk50SZoFSsUmjQe+Mm+NVPNjvt6hPfFkLiEUF14tSGr2b/txJeKlhJjP/e
-         1XphABPvSJj8EiFsu6TPlVADjsz2J5oGA0X4c=
+        bh=vSXScv1uWrzDGG/hTjj7TZfY7ppBHO+8VsBgmKph/S4=;
+        b=kmc0FczN3rOiu9sLRplgouQqG/KoY498WSWqX8IQPbYMjpVnrAYLCv29gRs5hD2h33
+         y1oqu3SarWudB+nXUDJtRItklSJvNUNFZYVr75zCYMrt49jT3qwtOhtCmgEuQCvNHE6k
+         ushbXCXxy7WMux0LJBgjvB4j2z8PD6HOyNdFK3XMw5G2LefBVJKWDJcgKvPh3jxCu2zc
+         jWxFsM15wmc1Uqj/Ac9To35mix0t95ae1Mw2usAtraKKB7jZzDgbZA9StzBOL5p1lyLi
+         +ComMSeCiWp5wdLGTW+VJIKYT9eXpGfTGicvNehfIj+OX1QoOJaCZutAaqldnykiI2J4
+         1h4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702874889; x=1703479689;
+        d=1e100.net; s=20230601; t=1702879697; x=1703484497;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o1wSUkUwAz7pbZSr3Yql6f9XBmobqclBJNEV1gt+Peg=;
-        b=eM1HcHBs4Eqgi9dgJtCMeBvseRPc4Z33vsgbTnZ/LcUeKZfOTbgUL0mbc55Qydayit
-         +5FVWrgHjYD6KCv2/VRL7T2ss6AclIK9vaD/IvH0NuZW1ti6bieU+ZhM+EddxponV5ge
-         FFnRUdoAKRQJrUMezyazdEI4VHfWTWaZoEq9zcFgWMi6NGSijgk5q7o2CWrm3GKqeoRV
-         sgy/mWUhr7OX0YtZq6CeKW6wJoQ4ZLR4cWnFSDBzUh0iLWuBWpD4RW61sYLbZEpvFmgc
-         dZxLp7hD2KUpvjYuF5tqVyg75iP+WEKaAZeTrbANgvkisj0xvvQRhjd7K6ZQkWB2LPCg
-         BvHA==
-X-Gm-Message-State: AOJu0YyT6ENHcVBNDHDm9g7mDfJJpWNAxDhCFkNuN3Amh7TMvIqVMk6R
-	BjmN2f6iVpeIlr5IDJyUolawRc2WqIWBOPvXjSU=
-X-Google-Smtp-Source: AGHT+IGYWaTDPuAac1QK34y6QwgrtUw/9LqAA23HjxhJMi9C0rePy16IHFbZ56zQoBB25jJr7c2ogA==
-X-Received: by 2002:a05:6a00:b4d:b0:6cb:b7b7:c04c with SMTP id p13-20020a056a000b4d00b006cbb7b7c04cmr8630182pfo.12.1702874889427;
-        Sun, 17 Dec 2023 20:48:09 -0800 (PST)
-Received: from MVIN00020.mvista.com ([182.65.249.64])
-        by smtp.gmail.com with ESMTPSA id t26-20020a056a00139a00b006d503ee309bsm2029792pfg.121.2023.12.17.20.48.07
+        bh=vSXScv1uWrzDGG/hTjj7TZfY7ppBHO+8VsBgmKph/S4=;
+        b=iFfqqzv22/IAlbsbIJepkaVYDosWsUY6DzNZ0/DSIhncM+z9xxwKriIP6GwcwxRkAn
+         vZT8iJZVSdJhwoJekYDgZUdAbx9YNn8LsTJxEZKVg7eFMcgcclwh/udlANbdI+jrNA4G
+         pvEpIm8KCBY6a/L8LzgZzBmSaqIDrivBtHnUEtT4C+UtQjtPhhp/XjdnIZxdkwuHQbfL
+         rLy0D2gxankDHaMiFtv+3xREsgBTXQzJU57vOJBibnmTIbME+Rikw8PdvDNTGZwMOBxx
+         tRt9I3tqeGtZSmAP+lGVKpPH2lwRRCLYd9mw1cD5Bbo4pp6FnRflegU3UtA6UHRddWtw
+         x2Ng==
+X-Gm-Message-State: AOJu0YxSaQ5irbbbZZdxt6pGyWnQoVrelF3Dsviw226iqEUAVgN9GCOJ
+	LKaKTZ7XNWIlBf+RlrnWJ7kKEXzn5U8=
+X-Google-Smtp-Source: AGHT+IECzr09n1xvYnEJYAqqrzDfv1T33zHhIdNIXphER0j25rX7ls28oRy+zGOq1AeFqLEJ/dmK+g==
+X-Received: by 2002:a17:902:7008:b0:1d0:b594:3367 with SMTP id y8-20020a170902700800b001d0b5943367mr6971685plk.63.1702879697219;
+        Sun, 17 Dec 2023 22:08:17 -0800 (PST)
+Received: from kamensky-p15s.cisco.com ([2601:641:8080:1a70::73a5])
+        by smtp.gmail.com with ESMTPSA id t18-20020a170902e85200b001d0675e59f9sm18128716plg.200.2023.12.17.22.08.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 20:48:09 -0800 (PST)
-From: vanusuri@mvista.com
+        Sun, 17 Dec 2023 22:08:16 -0800 (PST)
+From: Victor Kamensky <victor.kamensky7@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] libxml2: Backport fix for CVE-2021-3516
-Date: Mon, 18 Dec 2023 10:15:57 +0530
-Message-Id: <20231218044557.890733-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Victor Kamensky <victor.kamensky7@gmail.com>
+Subject: [PATCH 1/2] systemtap: explicit handling debuginfod library dependency
+Date: Sun, 17 Dec 2023 22:07:56 -0800
+Message-Id: <20231218060757.14170-1-victor.kamensky7@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 04:48:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192599
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:08:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192600
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+After systemtap commit 2e67b053e3796ee7cf29a39f9698729b52078406
+"configury: rework debuginfod searches" automatic detection of
+libdebuginfod is broken. Let's handle it explicitly with debuginfod
+package feature. It is good to have such feature anyway.
 
-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1358d157d0bd83be1dfe356a69213df9fac0b539]
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
 ---
- .../libxml/libxml2/CVE-2021-3516.patch        | 35 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
+ meta/recipes-kernel/systemtap/systemtap_git.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch b/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
-new file mode 100644
-index 0000000000..200f42091e
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
-@@ -0,0 +1,35 @@
-+From 1358d157d0bd83be1dfe356a69213df9fac0b539 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Wed, 21 Apr 2021 13:23:27 +0200
-+Subject: [PATCH] Fix use-after-free with `xmllint --html --push`
-+
-+Call htmlCtxtUseOptions to make sure that names aren't stored in
-+dictionaries.
-+
-+Note that this issue only affects xmllint using the HTML push parser.
-+
-+Fixes #230.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1358d157d0bd83be1dfe356a69213df9fac0b539]
-+CVE: CVE-2021-3516
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ xmllint.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/xmllint.c b/xmllint.c
-+index 6ca1bf54d..dbef273a8 100644
-+--- a/xmllint.c
-++++ b/xmllint.c
-+@@ -2213,7 +2213,7 @@ static void parseAndPrintFile(char *filename, xmlParserCtxtPtr rectxt) {
-+             if (res > 0) {
-+                 ctxt = htmlCreatePushParserCtxt(NULL, NULL,
-+                             chars, res, filename, XML_CHAR_ENCODING_NONE);
-+-                xmlCtxtUseOptions(ctxt, options);
-++                htmlCtxtUseOptions(ctxt, options);
-+                 while ((res = fread(chars, 1, pushsize, f)) > 0) {
-+                     htmlParseChunk(ctxt, chars, res, 0);
-+                 }
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index 5eac864098..aa17cd8cca 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -41,6 +41,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            file://CVE-2023-39615-pre.patch \
-            file://CVE-2023-39615-0001.patch \
-            file://CVE-2023-39615-0002.patch \
-+           file://CVE-2021-3516.patch \
-            "
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index d320a8a5e0..0a1349e128 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -24,12 +24,13 @@ STAP_DOCS ?= "--disable-docs --disable-publican --disable-refdocs"
  
- SRC_URI[archive.sha256sum] = "593b7b751dd18c2d6abcd0c4bcb29efc203d0b4373a6df98e3a455ea74ae2813"
+ EXTRA_OECONF += "${STAP_DOCS} "
+ 
+-PACKAGECONFIG ??= "translator sqlite monitor python3-probes"
++PACKAGECONFIG ??= "translator sqlite monitor python3-probes ${@bb.utils.filter('DISTRO_FEATURES', 'debuginfod', d)}"
+ PACKAGECONFIG[translator] = "--enable-translator,--disable-translator,boost,bash"
+ PACKAGECONFIG[libvirt] = "--enable-libvirt,--disable-libvirt,libvirt"
+ PACKAGECONFIG[sqlite] = "--enable-sqlite,--disable-sqlite,sqlite3"
+ PACKAGECONFIG[monitor] = "--enable-monitor,--disable-monitor,ncurses json-c"
+ PACKAGECONFIG[python3-probes] = "--with-python3-probes,--without-python3-probes,python3-setuptools-native"
++PACKAGECONFIG[debuginfod] = "--with-debuginfod, --without-debuginfod"
+ 
+ inherit autotools gettext pkgconfig systemd
+ inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3-probes', 'setuptools3-base', '', d)}
 -- 
-2.25.1
+2.31.1
 
 
