@@ -1,98 +1,146 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4083BC46CD2
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 09:12:54 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.40143.1702890768304404938
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E300C35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 09:13:44 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.40155.1702890815368312984
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 01:12:48 -0800
+ Mon, 18 Dec 2023 01:13:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EgkJQw7T;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gsI2LMQ9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c7c33043c-9fbbdfa7-effe-42bc-abf8-99095cb1bee8-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702890767; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=pP7uo+7kYg757YMYdTPuW1qSFMO1PMiC+hg0Cs/FOFI=;
-	b=EgkJQw7TdMa/pM0elks0akMgfGAqOr3/MszB0ftxBbcb2QK7S11S1YRTS0O2dvLp
-	YFanu1Ga7EaM12r8ik5CdBLBiC7UEUHbtWCZmuygs3lRlCUPb7cDFHIlGuARTF47tnN
-	w5To4Pv7O/lchkWI8IZAyRrH/GldOuIpgfIvi2k0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702890767;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=pP7uo+7kYg757YMYdTPuW1qSFMO1PMiC+hg0Cs/FOFI=;
-	b=gsI2LMQ9Vb1JqhZ5rCo/AA9v8xot89cW1KvgzFuAqqNl/d3Pvo1+s8NVSbmUaBIH
-	ptq8jG2h4ArznSwWj6vEt5HEMyQCVkXgtOCXNgy8QTlYV937vt0zhpZ+lj+haa263FJ
-	M4b9Twid/oNfmeFCpKev9EsDbgkfr5HbNbAW6xsU=
-From: patchtest@automation.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 5/7] bitbake/runqueue: prioritize local stamps over sstate
- signatures in printdiff
-In-Reply-To: 20231218084403.599015-5-alex@linutronix.de
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c7c33043c-9fbbdfa7-effe-42bc-abf8-99095cb1bee8-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Dec 2023 09:12:47 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.18-54.240.27.29
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=HvUHtBe3;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=07166d5ec4=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI4p9Kg021709
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 01:13:35 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PPS06212021; bh=yHsXZ5cJHiX2Tgx460H7WSf9mIzo/hLhP7msN369pKI=; b=
+	HvUHtBe3XI3j1NMW29TtaG7Kw1qnKNA87fvCvom9M1g6lH9UWjMZeJ1wLaZDUqHs
+	gPVdh3dAsKaQEK73h+39xnVeB1tva/CzPLB1Z0k4ZRuuaaX+g2R4aZQ6zRupm41q
+	3oYatSZrOsmjDkRMKT+cGJX0tL5+jcTmuVbsaKFnrrKmDOzMJRvgo0n5wBkFEZT6
+	HNoZqwINulmUVbBbHIdUD31Ji3fnm8tr1P6hLlpN7AD88u5ggy9H8qXYQVJCtCCa
+	U45XJqNUuizZ7zccp/QqzslIsZAG0Z9HWs6kSSbipU8T+dI24VJ89nxihV6OjfcF
+	T+kNrx9oGEldU4Ehtqpy1w==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v1824hj0d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 01:13:34 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 18 Dec 2023 01:13:40 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 18 Dec 2023 01:13:39 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v3] python3-license-expression: Fix the ptest failure
+Date: Mon, 18 Dec 2023 17:13:32 +0800
+Message-ID: <20231218091332.3090320-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CANNYZj_DszK94DujKJ_a52HsAhW92nP0eVtitfuKueKeMNQ3QA@mail.gmail.com>
+References: <CANNYZj_DszK94DujKJ_a52HsAhW92nP0eVtitfuKueKeMNQ3QA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: UoEQeCtZ0rmjB6ApU5eJscR_5NTcFUyZ
+X-Proofpoint-GUID: UoEQeCtZ0rmjB6ApU5eJscR_5NTcFUyZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
+ mlxscore=0 impostorscore=0 mlxlogscore=977 lowpriorityscore=0 bulkscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312180065
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:12:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192621
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:13:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192624
 
---NextPart
-Content-Type: text/plain
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Fix the below ptest failure:
+ self = <test_skeleton_codestyle.BaseTests testMethod=test_skeleton_codestyle>
+ def test_skeleton_codestyle(self):
+ """
+ This test shouldn't run in proliferated repositories.
+ """
+ setup_cfg = configparser.ConfigParser()
+ setup_cfg.read("setup.cfg")
+ > if setup_cfg["metadata"]["name"] != "skeleton":
+ tests/test_skeleton_codestyle.py:22:
+ self = <configparser.ConfigParser object at 0x7fd87cf55110>, key = 'metadata'
+ def _getitem_(self, key):
+ if key != self.default_section and not self.has_section(key):
+ > raise KeyError(key)
+ E KeyError: 'metadata'
 
+After the patch:
+ # ./run-ptest
+ [snip]
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_bad_syntax
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_exception_as_regular_key
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_exception_with_choice
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_exception
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_exception_strict_false
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_key
+ PASS: tests/test_license_expression.py::UtilTest::test_build_licensing
+ PASS: tests/test_license_expression.py::UtilTest::test_build_spdx_licensing
+ PASS: tests/test_license_expression.py::UtilTest::test_get_license_key_info
+ PASS: tests/test_license_expression.py::UtilTest::test_get_license_key_info_vendored
+ PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_duplicated_elements
+ PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_empty_input
+ PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_or_relationship
+ PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_regular
+ PASS: tests/test_skeleton_codestyle.py::BaseTests::test_skeleton_codestyle
+============================================================================
+Testsuite summary
+ # TOTAL: 175
+ # PASS: 175
+ # SKIP: 0
+ # XFAIL: 0
+ # FAIL: 0
+ # XPASS: 0
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/5-7-bitbake-runqueue-prioritize-local-stamps-over-sstate-signatures-in-printdiff.patch
+ .../python/python3-license-expression/run-ptest                 | 2 +-
+ .../python/python3-license-expression_30.1.1.bb                 | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-devtools/python/python3-license-expression/run-ptest b/meta/recipes-devtools/python/python3-license-expression/run-ptest
+index 5cec711696..8d2017d39c 100644
+--- a/meta/recipes-devtools/python/python3-license-expression/run-ptest
++++ b/meta/recipes-devtools/python/python3-license-expression/run-ptest
+@@ -1,3 +1,3 @@
+ #!/bin/sh
+ 
+-pytest
++pytest --automake
+diff --git a/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb b/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
+index 31fb88d6e5..92ca419e4a 100644
+--- a/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
++++ b/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
+@@ -26,6 +26,7 @@ SRC_URI += " \
+ 
+ RDEPENDS:${PN}-ptest += " \
+ 	${PYTHON_PN}-pytest \
++	${PYTHON_PN}-unittest-automake-output \
+ "
+ 
+ do_install_ptest() {
+@@ -33,4 +34,5 @@ do_install_ptest() {
+     install -d ${D}${PTEST_PATH}/src
+     cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+     cp -rf ${S}/src/* ${D}${PTEST_PATH}/src/
++    cp -rf ${S}/setup.cfg ${D}${PTEST_PATH}/
+ }
+-- 
+2.25.1
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
