@@ -1,82 +1,127 @@
-Return-Path: <venkata.pyla@toshiba-tsip.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F590C35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 04:30:42 +0000 (UTC)
-Received: from mo-csw.securemx.jp (mo-csw.securemx.jp [210.130.202.131])
- by mx.groups.io with SMTP id smtpd.web11.35720.1702873838921721252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9A8EC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 04:48:12 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.35541.1702874890962840850
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 20:30:39 -0800
+ Sun, 17 Dec 2023 20:48:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: toshiba-tsip.com, ip: 210.130.202.131, mailfrom: venkata.pyla@toshiba-tsip.com)
-Received: by mo-csw.securemx.jp (mx-mo-csw1120) id 3BI4UZ6s1154653; Mon, 18 Dec 2023 13:30:36 +0900
-X-Iguazu-Qid: 2rWgcmDWfzJa8sL1uu
-X-Iguazu-QSIG: v=2; s=0; t=1702873835; q=2rWgcmDWfzJa8sL1uu; m=Fl2OcBx4AZ/z0LH/Q+Scoa2ooex9TGZC91EHmKLlWvc=
-Received: from imx12-a.toshiba.co.jp ([38.106.60.135])
-	by relay.securemx.jp (mx-mr1121) id 3BI4UXkL1009361
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 18 Dec 2023 13:30:35 +0900
-From: venkata.pyla@toshiba-tsip.com
-To: openembedded-core@lists.openembedded.org, raj.khem@gmail.com
-Cc: venkata pyla <venkata.pyla@toshiba-tsip.com>,
-        dinesh.kumar@toshiba-tsip.com, kazuhiro3.hayashi@toshiba.co.jp,
-        venkatapyla4@gmail.com
-Subject: [PATCH v2] wic: use E2FSPROGS_FAKE_TIME and hash_seed to generate reproducible ext4 images
-Date: Mon, 18 Dec 2023 10:00:30 +0530
-X-TSB-HOP2: ON
-Message-Id: <20231218043030.32027-1-venkata.pyla@toshiba-tsip.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <CAMKF1spHz3zSOnop326y65A_1MPGqeZJJ2AnvTj=87VqFKbh=Q@mail.gmail.com>
-References: <CAMKF1spHz3zSOnop326y65A_1MPGqeZJJ2AnvTj=87VqFKbh=Q@mail.gmail.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=Zk6LqOio;
+ spf=pass (domain: mvista.com, ip: 209.85.210.173, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6d7395ab92cso148974b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 20:48:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1702874889; x=1703479689; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o1wSUkUwAz7pbZSr3Yql6f9XBmobqclBJNEV1gt+Peg=;
+        b=Zk6LqOioRby4FVFueR95oil2fP43vDd0i6ynREH4/+Oca0eJPvLnTGYL3XrwxmogoU
+         ZiDlfiSYgEFk50SZoFSsUmjQe+Mm+NVPNjvt6hPfFkLiEUF14tSGr2b/txJeKlhJjP/e
+         1XphABPvSJj8EiFsu6TPlVADjsz2J5oGA0X4c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702874889; x=1703479689;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o1wSUkUwAz7pbZSr3Yql6f9XBmobqclBJNEV1gt+Peg=;
+        b=eM1HcHBs4Eqgi9dgJtCMeBvseRPc4Z33vsgbTnZ/LcUeKZfOTbgUL0mbc55Qydayit
+         +5FVWrgHjYD6KCv2/VRL7T2ss6AclIK9vaD/IvH0NuZW1ti6bieU+ZhM+EddxponV5ge
+         FFnRUdoAKRQJrUMezyazdEI4VHfWTWaZoEq9zcFgWMi6NGSijgk5q7o2CWrm3GKqeoRV
+         sgy/mWUhr7OX0YtZq6CeKW6wJoQ4ZLR4cWnFSDBzUh0iLWuBWpD4RW61sYLbZEpvFmgc
+         dZxLp7hD2KUpvjYuF5tqVyg75iP+WEKaAZeTrbANgvkisj0xvvQRhjd7K6ZQkWB2LPCg
+         BvHA==
+X-Gm-Message-State: AOJu0YyT6ENHcVBNDHDm9g7mDfJJpWNAxDhCFkNuN3Amh7TMvIqVMk6R
+	BjmN2f6iVpeIlr5IDJyUolawRc2WqIWBOPvXjSU=
+X-Google-Smtp-Source: AGHT+IGYWaTDPuAac1QK34y6QwgrtUw/9LqAA23HjxhJMi9C0rePy16IHFbZ56zQoBB25jJr7c2ogA==
+X-Received: by 2002:a05:6a00:b4d:b0:6cb:b7b7:c04c with SMTP id p13-20020a056a000b4d00b006cbb7b7c04cmr8630182pfo.12.1702874889427;
+        Sun, 17 Dec 2023 20:48:09 -0800 (PST)
+Received: from MVIN00020.mvista.com ([182.65.249.64])
+        by smtp.gmail.com with ESMTPSA id t26-20020a056a00139a00b006d503ee309bsm2029792pfg.121.2023.12.17.20.48.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Dec 2023 20:48:09 -0800 (PST)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] libxml2: Backport fix for CVE-2021-3516
+Date: Mon, 18 Dec 2023 10:15:57 +0530
+Message-Id: <20231218044557.890733-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 18 Dec 2023 04:30:31.0125 (UTC) FILETIME=[EF426050:01DA316A]
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 04:30:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192598
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 04:48:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192599
 
-From: venkata pyla <venkata.pyla@toshiba-tsip.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-E2FSPROGS_FAKE_TIME: sets fixed times for the inodes in the file system.
-hash_seed: creates reproducible directory indexes in the file system.
+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1358d157d0bd83be1dfe356a69213df9fac0b539]
 
-Reference commit in e2fsprogs: e1f7100643a46456be107b33098f6034b0835e6d
-
-Signed-off-by: venkata pyla <venkata.pyla@toshiba-tsip.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- scripts/lib/wic/partition.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .../libxml/libxml2/CVE-2021-3516.patch        | 35 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index b1a2306dd1..795707ec5d 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -284,6 +284,20 @@ class Partition():
- 
-         extraopts = self.mkfs_extraopts or "-F -i 8192"
- 
-+        if os.getenv('SOURCE_DATE_EPOCH'):
-+            sde_time = int(os.getenv('SOURCE_DATE_EPOCH'))
-+            if pseudo:
-+                pseudo = "export E2FSPROGS_FAKE_TIME=%s;%s " % (sde_time, pseudo)
-+            else:
-+                pseudo = "export E2FSPROGS_FAKE_TIME=%s; " % sde_time
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch b/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
+new file mode 100644
+index 0000000000..200f42091e
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2021-3516.patch
+@@ -0,0 +1,35 @@
++From 1358d157d0bd83be1dfe356a69213df9fac0b539 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Wed, 21 Apr 2021 13:23:27 +0200
++Subject: [PATCH] Fix use-after-free with `xmllint --html --push`
 +
-+            # Set hash_seed to generate deterministic directory indexes
-+            namespace = uuid.UUID("e7429877-e7b3-4a68-a5c9-2f2fdf33d460")
-+            if self.fsuuid:
-+                namespace = uuid.UUID(self.fsuuid)
-+            hash_seed = str(uuid.uuid5(namespace, str(sde_time)))
-+            extraopts += " -E hash_seed=%s" % hash_seed
++Call htmlCtxtUseOptions to make sure that names aren't stored in
++dictionaries.
 +
-         label_str = ""
-         if self.label:
-             label_str = "-L %s" % self.label
++Note that this issue only affects xmllint using the HTML push parser.
++
++Fixes #230.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/1358d157d0bd83be1dfe356a69213df9fac0b539]
++CVE: CVE-2021-3516
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ xmllint.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/xmllint.c b/xmllint.c
++index 6ca1bf54d..dbef273a8 100644
++--- a/xmllint.c
+++++ b/xmllint.c
++@@ -2213,7 +2213,7 @@ static void parseAndPrintFile(char *filename, xmlParserCtxtPtr rectxt) {
++             if (res > 0) {
++                 ctxt = htmlCreatePushParserCtxt(NULL, NULL,
++                             chars, res, filename, XML_CHAR_ENCODING_NONE);
++-                xmlCtxtUseOptions(ctxt, options);
+++                htmlCtxtUseOptions(ctxt, options);
++                 while ((res = fread(chars, 1, pushsize, f)) > 0) {
++                     htmlParseChunk(ctxt, chars, res, 0);
++                 }
++-- 
++GitLab
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index 5eac864098..aa17cd8cca 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -41,6 +41,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
+            file://CVE-2023-39615-pre.patch \
+            file://CVE-2023-39615-0001.patch \
+            file://CVE-2023-39615-0002.patch \
++           file://CVE-2021-3516.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "593b7b751dd18c2d6abcd0c4bcb29efc203d0b4373a6df98e3a455ea74ae2813"
 -- 
-2.20.1
-
+2.25.1
 
 
