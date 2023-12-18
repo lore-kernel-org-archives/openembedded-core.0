@@ -1,243 +1,234 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F39E5C46CD7
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 14:47:45 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by mx.groups.io with SMTP id smtpd.web11.45511.1702910852353229137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F11EC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 15:29:56 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.46558.1702913394288632475
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 06:47:38 -0800
+ Mon, 18 Dec 2023 07:29:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=ddUTwxmg;
- spf=pass (domain: intel.com, ip: 198.175.65.11, mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702910858; x=1734446858;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=tWIGExGo2zb3SgG1tzzHqStCHWJk/CBOfALfa2cFi1A=;
-  b=ddUTwxmgl1R7QMhcUOIxT95b755kDroo1WYpTnsB8UEr5VO0iRPDPxXH
-   skWMwD2F4i9ffnt6k4pmAinBvESJPNF07mZjOIP7+mNQmHNxGhwBvC5QZ
-   GWDQdemJMey85OzdZRn0i/xJVeJr7TX6T+0Z7EhVstIAcVZN8U/F+TLdj
-   btRxUVYSR0gCZSxFLFE9tsQtjINfI5o0OKJaSgqr570iofE07htgFhAyv
-   ufY/jlrerOv8LZkEIC/j1n9S7d5jMbibBfCOTaNXafV6ESBSyeIhX1Mxi
-   g5K18fDzbc1a+Evn9AsMMuJOBCSBDhjqqA085/77paENafjaW314CZA74
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="2350882"
-X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
-   d="scan'208";a="2350882"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 06:47:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
-   d="scan'208";a="23802903"
-Received: from jsuah-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com) ([10.215.240.31])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 06:47:38 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gQJ/hTGY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40c2db2ee28so40075775e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 07:29:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1702913392; x=1703518192; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q2I4+3Wc7Z6boFJu4hYKcSOo6p2EdqA4ow6kO7sQ3SI=;
+        b=gQJ/hTGYkUk1zepNGi+O3uNLNWU6/6jJVD6o0XnqoQFgg0WRy1kN1zwXPjoLGOfeRL
+         TE4GQwwWhaVdkpTDMYHfjUNbGn7QBwaNKAzuJnk8EvMLFw7XnAmXjnjKJZ4pCAL44n3/
+         n9DxBzcEnCzR9qSa7tQsvNxrccIGGaoCBfyVI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702913392; x=1703518192;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q2I4+3Wc7Z6boFJu4hYKcSOo6p2EdqA4ow6kO7sQ3SI=;
+        b=mUyBP1H5vwKu9uuqewJeDFNw46kn+pjolwgkTdT3cvp3QkPnRgs5b+HgjEAEPPJWpO
+         0bexm7Y852gae3hKP34brqXGmLXUWhsVM7/RvKeRG2aekhCHjUGAWb+YIM59CUTBjfBR
+         1G86vXtnz7m/q3GrQI2chZUmOkQDNXJmJVoE0K+VuWfXPmHSu7/xpEZG1R1DNe4SLjFh
+         cNg+KwbP5WdJsHsCuo89WOfdCYott5nKpQIQtrnNXFaERnxGPHkrGpC7iPqmb5bdh2F4
+         WncGeZijefMIe9/CGhykkImbs5uq+ZSd/zWvAe7lOPzaOeBHO3Lq6jhXg/qBSxKYIJKz
+         uwfg==
+X-Gm-Message-State: AOJu0YzYa+epo+7lQUUUu6ZNCvx3OdJn22MTGNWDMT6f16Gsad8sCLV9
+	rdF/QdcBxig0FpRVgRtMqTAJPqkkzLCaF3b1QL4=
+X-Google-Smtp-Source: AGHT+IFhZ7ltQEHMAPZxaTe5ifKXUKPefXeSPVpwhdFTR+KLmnCpx8M//0RnK4EUPFapWgHTlxVvwg==
+X-Received: by 2002:a05:600c:21c7:b0:40c:2699:b625 with SMTP id x7-20020a05600c21c700b0040c2699b625mr9192278wmj.138.1702913392201;
+        Mon, 18 Dec 2023 07:29:52 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a720:6e27:acc4:d591])
+        by smtp.gmail.com with ESMTPSA id f5-20020a5d5685000000b0033657376b62sm8921726wrv.105.2023.12.18.07.29.51
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 07:29:51 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/9] glib-networking: upgrade 2.76.1 -> 2.78.0
-Date: Mon, 18 Dec 2023 22:47:20 +0800
-Message-ID: <20231218144724.7794-5-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231218144724.7794-1-anuj.mittal@intel.com>
-References: <20231218144724.7794-1-anuj.mittal@intel.com>
+Subject: [PATCH 1/2] qemurunner: Impove stdout logging handling
+Date: Mon, 18 Dec 2023 15:29:50 +0000
+Message-Id: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 14:47:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192650
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 15:29:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192655
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+We need to ensure we read from and log the output from qemu stdout
+as otherwise the buffers can fill and block, leading qemu to hand.
+Use our existing logging thread to do this.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...sable-PKCS-11-tests-if-not-available.patch | 113 ------------------
- .../glib-networking/eagain.patch              |  20 +++-
- ...ng_2.76.1.bb => glib-networking_2.78.0.bb} |   3 +-
- 3 files changed, 15 insertions(+), 121 deletions(-)
- delete mode 100644 meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
- rename meta/recipes-core/glib-networking/{glib-networking_2.76.1.bb => glib-networking_2.78.0.bb} (92%)
+ meta/lib/oeqa/utils/qemurunner.py | 54 ++++++++++++++++++-------------
+ 1 file changed, 32 insertions(+), 22 deletions(-)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch b/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
-deleted file mode 100644
-index 7b003588c88..00000000000
---- a/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch
-+++ /dev/null
-@@ -1,113 +0,0 @@
--From 04728a5b73e870b4695c5e7ba42fa41c00471944 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@arm.com>
--Date: Fri, 12 May 2023 20:19:35 +0100
--Subject: [PATCH] tls/tests: disable PKCS#11 tests if not available
--
--GnuTLS can be built without PKCS#11, which means the symbols
--gnutls_pkcs11_init and gnutls_pkcs11_add_provider are not part of the
--library.
--
--If these symbols don't exist in GnuTLS then we can't add a mock pkcs#11
--provider for testing, and several tests which need the mock provider
--will fail.
--
--Solve this by checking for the symbols at build time and disabling the
--provider and tests which need it.
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- meson.build             |  4 ++++
-- tls/tests/certificate.c | 11 +++++++----
-- tls/tests/connection.c  |  4 +++-
-- 3 files changed, 14 insertions(+), 5 deletions(-)
--
--diff --git a/meson.build b/meson.build
--index 0fa9027..d2a023a 100644
----- a/meson.build
--+++ b/meson.build
--@@ -84,6 +84,10 @@ gnutls_dep = dependency('gnutls', version: '>= 3.7.4', required: get_option('gnu
-- 
-- if gnutls_dep.found()
--   backends += ['gnutls']
--+  # test-specific, maybe move to tls/tests
--+  if cc.has_function('gnutls_pkcs11_init', prefix: '#include <gnutls/pkcs11.h>', dependencies: gnutls_dep)
--+    config_h.set10('HAVE_GNUTLS_PKCS11', true)
--+  endif
-- endif
-- 
-- # *** Checks for OpenSSL    ***
--diff --git a/tls/tests/certificate.c b/tls/tests/certificate.c
--index e820ba1..dd2412b 100644
----- a/tls/tests/certificate.c
--+++ b/tls/tests/certificate.c
--@@ -24,6 +24,7 @@
--  * Author: Stef Walter <stefw@collabora.co.uk>
--  */
-- 
--+#include "config.h"
-- #include "certificate.h"
-- 
-- #include <gio/gio.h>
--@@ -911,7 +912,7 @@ int
-- main (int   argc,
--       char *argv[])
-- {
---#ifdef BACKEND_IS_GNUTLS
--+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
--   char *module_path;
-- #endif
-- 
--@@ -921,7 +922,7 @@ main (int   argc,
--   g_setenv ("GIO_USE_TLS", BACKEND, TRUE);
--   g_assert_cmpint (g_ascii_strcasecmp (G_OBJECT_TYPE_NAME (g_tls_backend_get_default ()), "GTlsBackend" BACKEND), ==, 0);
-- 
---#ifdef BACKEND_IS_GNUTLS
--+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
--   module_path = g_test_build_filename (G_TEST_BUILT, "mock-pkcs11.so", NULL);
--   g_assert_true (g_file_test (module_path, G_FILE_TEST_EXISTS));
-- 
--@@ -942,12 +943,14 @@ main (int   argc,
--               setup_certificate, test_create_certificate_with_issuer, teardown_certificate);
--   g_test_add ("/tls/" BACKEND "/certificate/create-with-garbage-input", TestCertificate, NULL,
--               setup_certificate, test_create_certificate_with_garbage_input, teardown_certificate);
---  g_test_add ("/tls/" BACKEND "/certificate/pkcs11", TestCertificate, NULL,
---              setup_certificate, test_create_certificate_pkcs11, teardown_certificate);
--   g_test_add ("/tls/" BACKEND "/certificate/private-key", TestCertificate, NULL,
--               setup_certificate, test_private_key, teardown_certificate);
--+#if HAVE_GNUTLS_PKCS11
--+  g_test_add ("/tls/" BACKEND "/certificate/pkcs11", TestCertificate, NULL,
--+              setup_certificate, test_create_certificate_pkcs11, teardown_certificate);
--   g_test_add ("/tls/" BACKEND "/certificate/private-key-pkcs11", TestCertificate, NULL,
--               setup_certificate, test_private_key_pkcs11, teardown_certificate);
--+#endif
-- 
--   g_test_add_func ("/tls/" BACKEND "/certificate/create-chain", test_create_certificate_chain);
--   g_test_add_func ("/tls/" BACKEND "/certificate/create-no-chain", test_create_certificate_no_chain);
--diff --git a/tls/tests/connection.c b/tls/tests/connection.c
--index 17efe1b..62a7fbb 100644
----- a/tls/tests/connection.c
--+++ b/tls/tests/connection.c
--@@ -3376,7 +3376,7 @@ main (int   argc,
-- 
--   g_assert_true (g_ascii_strcasecmp (G_OBJECT_TYPE_NAME (g_tls_backend_get_default ()), "GTlsBackend" BACKEND) == 0);
-- 
---#ifdef BACKEND_IS_GNUTLS
--+#if defined(BACKEND_IS_GNUTLS) && HAVE_GNUTLS_PKCS11
--   module_path = g_test_build_filename (G_TEST_BUILT, "mock-pkcs11.so", NULL);
--   g_assert_true (g_file_test (module_path, G_FILE_TEST_EXISTS));
-- 
--@@ -3438,8 +3438,10 @@ main (int   argc,
--               setup_connection, test_client_auth_request_fail, teardown_connection);
--   g_test_add ("/tls/" BACKEND "/connection/client-auth-request-none", TestConnection, NULL,
--               setup_connection, test_client_auth_request_none, teardown_connection);
--+#if HAVE_GNUTLS_PKCS11
--   g_test_add ("/tls/" BACKEND "/connection/client-auth-pkcs11", TestConnection, NULL,
--               setup_connection, test_client_auth_pkcs11_connection, teardown_connection);
--+#endif
--   g_test_add ("/tls/" BACKEND "/connection/no-database", TestConnection, NULL,
--               setup_connection, test_connection_no_database, teardown_connection);
--   g_test_add ("/tls/" BACKEND "/connection/failed", TestConnection, NULL,
---- 
--2.34.1
--
-diff --git a/meta/recipes-core/glib-networking/glib-networking/eagain.patch b/meta/recipes-core/glib-networking/glib-networking/eagain.patch
-index ee5b6a7beb9..062fc0191bb 100644
---- a/meta/recipes-core/glib-networking/glib-networking/eagain.patch
-+++ b/meta/recipes-core/glib-networking/glib-networking/eagain.patch
-@@ -1,4 +1,8 @@
--In autobuilder testing we regularly see glib-networking ptest fail with:
-+From 025bb39dfdb81dd2852deaefea228b197ef3cd8d Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Sat, 6 May 2023 12:18:50 +0100
-+Subject: [PATCH] In autobuilder testing we regularly see glib-networking ptest
-+ fail with:
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index ee367078000..36bdfb96ae6 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -29,6 +29,15 @@ control_chars = [chr(x) for x in control_range
+                 if chr(x) not in string.printable]
+ re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
  
- GLib-Net:ERROR:/usr/src/debug/glib-networking/2.74.0-r0/tls/tests/connection.c:1944:simul_read_thread: assertion failed (error == NULL): Resource temporarily unavailable (g-io-error-quark, 27)
- Bail out! GLib-Net:ERROR:/usr/src/debug/glib-networking/2.74.0-r0/tls/tests/connection.c:1944:simul_read_thread: assertion failed (error == NULL): Resource temporarily unavailable (g-io-error-quark, 27)
-@@ -12,11 +16,15 @@ Upstream-Status: Pending [testing to see if patch resolves the issue]
- 
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
--Index: glib-networking-2.74.0/tls/tests/connection.c
--===================================================================
----- glib-networking-2.74.0.orig/tls/tests/connection.c
--+++ glib-networking-2.74.0/tls/tests/connection.c
--@@ -1941,6 +1941,10 @@ simul_read_thread (gpointer user_data)
-+---
-+ tls/tests/connection.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
++def getOutput(o):
++    import fcntl
++    fl = fcntl.fcntl(o, fcntl.F_GETFL)
++    fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
++    try:
++        return os.read(o.fileno(), 1000000).decode("utf-8")
++    except BlockingIOError:
++        return ""
 +
-+diff --git a/tls/tests/connection.c b/tls/tests/connection.c
-+index 62a7fbb..3447c80 100644
-+--- a/tls/tests/connection.c
-++++ b/tls/tests/connection.c
-+@@ -2210,6 +2210,10 @@ simul_read_thread (gpointer user_data)
-                                     test->buf + test->nread,
-                                     MIN (TEST_DATA_LENGTH / 2, TEST_DATA_LENGTH - test->nread),
-                                     NULL, &error);
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
-similarity index 92%
-rename from meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
-rename to meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
-index 0f8822e1603..68f9a2ed783 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.76.1.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- SECTION = "libs"
- DEPENDS = "glib-2.0-native glib-2.0"
+ class QemuRunner:
  
--SRC_URI[archive.sha256sum] = "5c698a9994dde51efdfb1026a56698a221d6250e89dc50ebcddda7b81480a42b"
-+SRC_URI[archive.sha256sum] = "52fe4ce93f7dc51334b102894599858d23c8a65ac4a1110b30920565d68d3aba"
+     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, use_kvm, logger, use_slirp=False,
+@@ -55,6 +64,7 @@ class QemuRunner:
+         self.boottime = boottime
+         self.logged = False
+         self.thread = None
++        self.threadsock = None
+         self.use_kvm = use_kvm
+         self.use_ovmf = use_ovmf
+         self.use_slirp = use_slirp
+@@ -119,21 +129,11 @@ class QemuRunner:
+                 f.write(msg)
+         self.msg += self.decode_qemulog(msg)
  
- # Upstream note that for the openssl backend, half the tests where this backend don't return
- # the expected error code or don't work as expected so default to gnutls
-@@ -31,7 +31,6 @@ inherit gnomebase gettext upstream-version-is-even gio-module-cache ptest-gnome
+-    def getOutput(self, o):
+-        import fcntl
+-        fl = fcntl.fcntl(o, fcntl.F_GETFL)
+-        fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+-        try:
+-            return os.read(o.fileno(), 1000000).decode("utf-8")
+-        except BlockingIOError:
+-            return ""
+-
+-
+     def handleSIGCHLD(self, signum, frame):
+         if self.runqemu and self.runqemu.poll():
+             if self.runqemu.returncode:
+                 self.logger.error('runqemu exited with code %d' % self.runqemu.returncode)
+-                self.logger.error('Output from runqemu:\n%s' % self.getOutput(self.runqemu.stdout))
++                self.logger.error('Output from runqemu:\n%s' % getOutput(self.runqemu.stdout))
+                 self.stop()
  
- SRC_URI += "file://run-ptest"
- SRC_URI += "file://eagain.patch"
--SRC_URI += "file://0001-tls-tests-disable-PKCS-11-tests-if-not-available.patch"
+     def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
+@@ -282,7 +282,7 @@ class QemuRunner:
+                 if self.runqemu.returncode:
+                     # No point waiting any longer
+                     self.logger.warning('runqemu exited with code %d' % self.runqemu.returncode)
+-                    self.logger.warning("Output from runqemu:\n%s" % self.getOutput(output))
++                    self.logger.warning("Output from runqemu:\n%s" % getOutput(output))
+                     self.stop()
+                     return False
+             time.sleep(0.5)
+@@ -309,7 +309,7 @@ class QemuRunner:
+             ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command '], stdout=subprocess.PIPE).communicate()[0]
+             processes = ps.decode("utf-8")
+             self.logger.debug("Running processes:\n%s" % processes)
+-            op = self.getOutput(output)
++            op = getOutput(output)
+             self.stop()
+             if op:
+                 self.logger.error("Output from runqemu:\n%s" % op)
+@@ -387,7 +387,7 @@ class QemuRunner:
+                            time.time() - connect_time))
  
- FILES:${PN} += "\
-                 ${libdir}/gio/modules/libgio*.so \
+         # We are alive: qemu is running
+-        out = self.getOutput(output)
++        out = getOutput(output)
+         netconf = False # network configuration is not required by default
+         self.logger.debug("qemu started in %.2f seconds - qemu procces pid is %s (%s)" %
+                           (time.time() - (endtime - self.runqemutime),
+@@ -430,9 +430,10 @@ class QemuRunner:
+         self.logger.debug("Target IP: %s" % self.ip)
+         self.logger.debug("Server IP: %s" % self.server_ip)
+ 
++        self.thread = LoggingThread(self.log, self.threadsock, self.logger, self.runqemu.stdout)
++        self.thread.start()
++
+         if self.serial_ports >= 2:
+-            self.thread = LoggingThread(self.log, self.threadsock, self.logger)
+-            self.thread.start()
+             if not self.thread.connection_established.wait(self.boottime):
+                 self.logger.error("Didn't receive a console connection from qemu. "
+                              "Here is the qemu command line used:\n%s\nand "
+@@ -444,7 +445,7 @@ class QemuRunner:
+         self.logger.debug("Waiting at most %d seconds for login banner (%s)" %
+                           (self.boottime, time.strftime("%D %H:%M:%S")))
+         endtime = time.time() + self.boottime
+-        filelist = [self.server_socket, self.runqemu.stdout]
++        filelist = [self.server_socket]
+         reachedlogin = False
+         stopread = False
+         qemusock = None
+@@ -564,7 +565,7 @@ class QemuRunner:
+                 self.logger.debug("Sending SIGKILL to runqemu")
+                 os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
+             if not self.runqemu.stdout.closed:
+-                self.logger.info("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
++                self.logger.info("Output from runqemu:\n%s" % getOutput(self.runqemu.stdout))
+             self.runqemu.stdin.close()
+             self.runqemu.stdout.close()
+             self.runqemu_exited = True
+@@ -700,9 +701,11 @@ class QemuRunner:
+ # event loop. The mechanism for stopping the thread is a simple pipe which
+ # will wake up the poll and allow for tearing everything down.
+ class LoggingThread(threading.Thread):
+-    def __init__(self, logfunc, sock, logger):
++    def __init__(self, logfunc, sock, logger, qemuoutput):
+         self.connection_established = threading.Event()
++
+         self.serversock = sock
++        self.qemuoutput = qemuoutput
+         self.logfunc = logfunc
+         self.logger = logger
+         self.readsock = None
+@@ -732,7 +735,8 @@ class LoggingThread(threading.Thread):
+ 
+     def teardown(self):
+         self.logger.debug("Tearing down logging thread")
+-        self.close_socket(self.serversock)
++        if self.serversock:
++            self.close_socket(self.serversock)
+ 
+         if self.readsock is not None:
+             self.close_socket(self.readsock)
+@@ -747,7 +751,9 @@ class LoggingThread(threading.Thread):
+     def eventloop(self):
+         poll = select.poll()
+         event_read_mask = self.errorevents | self.readevents
+-        poll.register(self.serversock.fileno())
++        if self.serversock:
++            poll.register(self.serversock.fileno())
++        poll.register(self.qemuoutput.fileno())
+         poll.register(self.readpipe, event_read_mask)
+ 
+         breakout = False
+@@ -767,7 +773,7 @@ class LoggingThread(threading.Thread):
+                     break
+ 
+                 # A connection request was received
+-                elif self.serversock.fileno() == event[0]:
++                elif self.serversock and self.serversock.fileno() == event[0]:
+                     self.logger.debug("Connection request received")
+                     self.readsock, _ = self.serversock.accept()
+                     self.readsock.setblocking(0)
+@@ -781,6 +787,10 @@ class LoggingThread(threading.Thread):
+                 elif self.readsock.fileno() == event[0]:
+                     data = self.recv(1024)
+                     self.logfunc(data)
++                elif self.qemuoutput.fileno() == event[0]:
++                    data = getOutput(self.qemuoutput)
++                    self.logger.debug("Data received on qemu stdout %s" % data)
++                    self.logfunc(data, ".stdout")
+ 
+     # Since the socket is non-blocking make sure to honor EAGAIN
+     # and EWOULDBLOCK.
 -- 
-2.43.0
+2.39.2
 
 
