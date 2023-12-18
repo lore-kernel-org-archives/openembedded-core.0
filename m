@@ -1,210 +1,372 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE99EC35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 11:20:34 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.59])
- by mx.groups.io with SMTP id smtpd.web11.41968.1702898428502173155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E131BC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 11:23:24 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web11.42003.1702898596562796621
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 03:20:28 -0800
+ Mon, 18 Dec 2023 03:23:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector1 header.b=OoJEwsEk;
- spf=pass (domain: infinera.com, ip: 40.107.237.59, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mudpFGoqBk/n1BfuMe8CMWVlSqetZRnCybXhkcf51uUbLvpMhh83Mz+M/c6xK4Tf0CfhG0slutrL9R6GXQLw/24q15gSe2MYpbkHKJHfU0wvHJXScAC6djpLwrJGQdTckROG6o432lvSOXBI6cUBZyyUUQt6AiM0WiSax0nl90ZkPbfz/KPYC6Xd4gRtxbbDGU4ZMwc3ukVjytPa23DwaXZU9g6mPNpS2EijIe3grAJsFgn1J5aPdf2AYoGr2MzAM0hen8m68gngFS6OzbSGaLVwDrJ/5YnTlPY6InuHxHRHSQl9B+/KckFp6cU979deSCBJS4GTwAfBZYujKJpz0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0/IVxmS5AVMIrfmavNq/+h0aTFPBBPEUJXwcqpeGoyc=;
- b=mkZDJoBvkbW0RiwiaOZQ+1X6LnhNXM/S8jKMYAhOE5Y50/vwaDsVTNeYKkayt/4XT5M+cqpl5ZVfasKDof60rao0AnORfRDnE4+E7Sdtk+x/3L8nlCgWQaMMv7IDAIH8JERSiFV+rcy50HfoYOmQ6OvNsv8jo4WApStwPJhf7Xuy2NtyyhFmKQgkT12yr/lc3/5Qa9DodCiLaylEx6Hn2CMFWl2zZ6ZsRESGu4wOnr1kwflIw3YEYJ5qcvNK167ZYqeI0jSEngdiO7ws97kzuFriupk2YOY7SAeGW92DvuULmDZegcE/Eb4NxHrNahQAAZ9wBsatqhZuGZnvOAC5VQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0/IVxmS5AVMIrfmavNq/+h0aTFPBBPEUJXwcqpeGoyc=;
- b=OoJEwsEkbHL6riVPwv3nOuVVgWru0nVcgzrNXxurTE9LLRRDr/GzVpl6Gb2ngR1dtRpDDquxhtRdzEVcM0VDSm2XqINXh6NAgA8Z8nFZ0RpnO/LJL98oxaa1Y417BesdpI54tEMdAo/VPLQeoJQbNIXWKpj1UMu8Yz8NILbrqNKjB7GUnrSdUq8vdPZ/ddhzd8LiEh3cGG0i4yjYuO2WrzAGQTCAMASjx4Sevd0suQ+FNlKYY1IBIFl8A0ycMiVLrgWCUyWinXGI1ZcLyFt7Bobwz1Xg+wQfhtImitvd6PG47pNQp6deyuLxxBZK3VYvpH+RwdpROOkvOkZFDqRHFQ==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by PH0PR10MB4455.namprd10.prod.outlook.com (2603:10b6:510:36::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.37; Mon, 18 Dec
- 2023 11:20:24 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5%7]) with mapi id 15.20.7091.034; Mon, 18 Dec 2023
- 11:20:24 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: kirkstone: oe-selftest -v -r
- reproducible.ReproducibleTests.test_reproducible_builds broken ?
-Thread-Topic: kirkstone: oe-selftest -v -r
- reproducible.ReproducibleTests.test_reproducible_builds broken ?
-Thread-Index: AQHaMaQyiJqshOiCukOwvQQfz8CqBQ==
-Date: Mon, 18 Dec 2023 11:20:24 +0000
-Message-ID: <e2ad5c51a48a8c85bae1c9c7e21912e8fb412c77.camel@infinera.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.1 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|PH0PR10MB4455:EE_
-x-ms-office365-filtering-correlation-id: 02c1ab55-1111-485e-4500-08dbffbb54a2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- gI8P6vTm2lQ6Mmq3fAoGfi0V00L1/76omyTW5ndbO+QAc0jBazCXBdonW4kieesG74huuysTAHL71JpnfJGTYeeXCNjDT7dpvkYPxXJE7a3I5sKBYjb6ZMuC3si0tV7eT5QZag8MC/Q2MEw6k5+atCQhOwjujim2YWZ+WTo7GjNQ2pLFjUfmjix7fPsZJWXHkqNB0vt+FntNy20P81jtDzMeMmfUDaKmsp6q0PeuBgFutkYSasJpTauxS3WgoVQL/xyHDvkl04leD2H1n20YGrF6p6W/6SGolOa4v3Uyyn+JKOqovXVvcIu3kNi0khoRl83VhVSAYKTHQVCI0tRsar919f32egDVryvOJ9iEzDK6udfzzdHmiU1yBrbaUKZUaE6xRifullT5xQqs7tahV+fc0j+e2xFXA0zbvmZGsRSaBjwBIFXvS58V6A9Iy+ampBnMMZTxUADN6jFLy56s+bPfE9DOADWQWpiSIzKmxTPLhYuljnYzLU79pK7mHbhV9eOGmQMH+TGriXV88w1mJGjcEVr969anUWbUCWe4seu8l3HX9AwWrnIBfu2lPDTou38h/s31iXLWg7U73rwvg7jtlUKrHEN+wCh5AFpJVvU=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39850400004)(346002)(136003)(396003)(376002)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(38070700009)(38100700002)(122000001)(2906002)(86362001)(66556008)(4001150100001)(2616005)(83380400001)(71200400001)(6506007)(6512007)(5660300002)(966005)(91956017)(6486002)(36756003)(41300700001)(478600001)(316002)(6916009)(66446008)(66476007)(64756008)(76116006)(66946007)(8676002)(8936002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?T2laR2d3MXVTVzFLZ3AzNDg5dmsrTG90LzNjNGFwOGY3ZS9kOVBwYmtuNVZh?=
- =?utf-8?B?bVdlNVFZRitXSDJMdFg4ZEJkWlErcDRhZW83Zy9zUWNJYVN4N1UvdjVZaEdD?=
- =?utf-8?B?aVRWNXcyWHdYa0dONXRvL2JVa1BSeGZ4TnJ4TDB6bm1YOEYybFRRTmJvMDQ0?=
- =?utf-8?B?WnVaM1ladEltaTBiL1FlUysyQ2lFTFRxVWpJMHNsQmdIRXNjWVIyTDZrRTlL?=
- =?utf-8?B?b2NaV3VLV1RWbUdSUjFNbzVCZXR6TkdUTmsyNFloK2ZTdGE3Ykt3SUllSC96?=
- =?utf-8?B?TU9qcktMVG5lQVl1QjJaaXEzOEk2czNqU0hSZk5nSjh2b3Z1cWFuWmoveGdU?=
- =?utf-8?B?NTlNUGJIYXN2cUFGMFk0dmx4N3QybjRwaTdrWjRuYjNxb2VLOTExUUYwYkNR?=
- =?utf-8?B?eERiOWt1alVsQm11T0huTzU4NXoyZEZlSlVMVG85eGFaQlVETlJwc2FCMk9D?=
- =?utf-8?B?MUs5WVF3bW5qLzJjUHJvb3J3SzZBYXl4U3VDbUYzVzZUeEEwRm8vd0h3b1pQ?=
- =?utf-8?B?dzlLSjlvbW8xTDVLMDl6TDIwNzZLc1hIV1E4cG80RzRVNFkrV1I3V0RHNVE0?=
- =?utf-8?B?OE5xQ3J5T3Z6TmU5TExIUHFrNnE5MW9nU2o3NEJyVnczMUVSeHJzS09XVXFO?=
- =?utf-8?B?NE5HdkhCOWIwVTdMV051N2xkQnpabVkwYXZrcVZrWE02YkJmWTVSZFcvTFRK?=
- =?utf-8?B?N0JaamtITDRqem9hYWNZOGFOZGdTQWUxaEFtM1h5ZENpRkRTTCtGMk1LcFNX?=
- =?utf-8?B?NklPdVJlYThkTVlFV0VnMzAvUHhqQ0wxSFkrN0dmQlRDTWdmU1R1VEwvYS92?=
- =?utf-8?B?OCtRSFJJVllOYTV2c1JEYVlzZ1lLd3BhMStqSklCRXR2MmN0RGRvb2laVk9M?=
- =?utf-8?B?YzN0bGdxQk1ocWFBN2tFQkcxM2ZIditKSU1jVjk2MWdubUdZWFJVdjljRlpX?=
- =?utf-8?B?d0l2U3VHa3V1WHE2VHR4bjY0VVRwMThrTzdMVVdGbkRXWXV3eGxPTUJsbUVW?=
- =?utf-8?B?YU5UTmVEOXltbFR5eUVDR1UzSlMwZ0h6K3FYL2MyS241QmVEVUh2NU15b1RE?=
- =?utf-8?B?c1RxVkc4SnNiZzVwYkt5QmxOckcyaEF3NGxrVXZJeGNEejVvYU5WekV0TG1i?=
- =?utf-8?B?a0VuWHNvRzZGSHFzN3V1a0JIVmVUNDVQSkRCanYxd01qbDd3QnIxZU5RY05K?=
- =?utf-8?B?WXhsVklrMmQ2SUppdzdVYzFTNnRsbFJSSU1JN2pVVFdxTjhUUm5YL1lGYVhH?=
- =?utf-8?B?SGd3V2sxUWI0OFlQdUtJUiszQVJYTHk2MktOR1pqMEw0eWNDRkF6R1FFSU5L?=
- =?utf-8?B?MHNqRkF0SGNHWlFNSTM4T0lCQ28xYkdaUnY0dFBoRXNZb0NRaVBobmNxTFBq?=
- =?utf-8?B?RHlra0h6T1ozTmU3bWQwd2lBWk56MURJbkJrSWJPSmFPSnpKUHBuV2V6cmE3?=
- =?utf-8?B?d2U2OGtSMUcraFBmMnErN3lIS3g2ZEJ5dnBLWFdjZzVxeHVMbTBwK1VwKzBx?=
- =?utf-8?B?Z3VHdUh2S3JLTWNtWVFJc0l1ejNERXpSNlhyL3NEaUdEbHpTeHR0NThYcy9z?=
- =?utf-8?B?OHlpVExMNTZrWFhlbVA5T3MrSWpScHZUVVpMMFQxYmFKVjAxR1cyTThqYU5Y?=
- =?utf-8?B?bU1ocndDejh6eDlEWjNBWHBNK3l6UG1oMVZjYmw3Sk1RR2FybHdtWWZsVUpR?=
- =?utf-8?B?RHlxSG1jODc2YmVqUERjSTY5d0dhdHR2aHA1R0d0RkgwOGp4ZXlPUmFTQTc5?=
- =?utf-8?B?dEJHT2gwUTlIQ3ZVb0QwRjBhQmh2NTFhWndHMkRRanEyWmNSejRPN0RLSnJi?=
- =?utf-8?B?ZnFXWkJ3T0Y0WXRrQk04QjE0RTVwTWtuV0NnaFNkait3L0FDaDFiOUVWdWRs?=
- =?utf-8?B?ZlFjM2RxVVluTUs1RGpMTit6WENhN0JKMUZPekc4MEw5R1pRL0ovTHJmRVc0?=
- =?utf-8?B?QUQxNUNOaGRtWUtkVFRvRlBWRmNDT1BLK2I1L0V0d3dycHg3cHhPclA2TTgr?=
- =?utf-8?B?UmtkaXNJKzVoNmlGNEVabldkc3RobnFsQXN5MGtUQnJVUE4yTGN6eU1wbXFP?=
- =?utf-8?B?eWtpS0tjQjZiWG5xTTNka0tTZVJTZXhiUHpKOFIxTjlLQjhHdStIVXdsQ3Z1?=
- =?utf-8?B?RXllZU5KWlRnWndyaGQxQVh4Z1Uyb0l1MmFyUXc4R3ZIQWVSNTNXelZjU2l2?=
- =?utf-8?Q?j7TtATnrf4voAZh2t44n88kBM7+1wA87ShmdrRkthcSS?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A3A1804AC436AC4497D5FCA75D7684EF@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WxCutXnp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3366827ca79so614270f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 03:23:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1702898595; x=1703503395; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=I4Yqm6RC80JEjMVAGrOLCt5kThWsOAa9EDJfUo269ic=;
+        b=WxCutXnpI6zAPK9ejsjNp0FghPifPCo9WONfOsgb5OoCpqTwUEgqPK8LVtI2V2/I3b
+         LtUBQMFUFSQgaFX9zNTlJCILCADvLrde/7IBfHD+L/LfA7Jzo6EIIz+LY8RDaa23qQIZ
+         z2WOuKxUZye0d+u/k180my39ph3TSicwXqARA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702898595; x=1703503395;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=I4Yqm6RC80JEjMVAGrOLCt5kThWsOAa9EDJfUo269ic=;
+        b=eLK1uKYmzzrp5uhFk8jRUKkpZ8xlPoPjkaLQMZ1ycgJ3EekanNO5M/AoBNlCgcTvgM
+         NJ1qJxY/AwUsGFfrzy0V0BBNboC8wzEXTDD1ouFeLIdRogdr9++MgJv7fI5bm7ume87E
+         /zaTBZIBzqOpSIfAxW+gW9uSb5OeJSIEw5dlHRvhysVUPexVjlfau5lrtzle/1RrChEz
+         C83bSrEymWJBPgbcDPDmzSNWj5Ts1gnPLofAl82VVQabuvG9Tjc/qGgY8IIja1vmUEKr
+         HXkd2PCBq0Byj1IKCDBActsoT0InXkhRYUmRHTVh6TJ7MxwBZrJVyTa2lph4sdvq8sYV
+         W9nA==
+X-Gm-Message-State: AOJu0YxSXPs8mZD+SaWdelAXBqydRIzjaAOwYxU4xZ9OoYIWYArjjL2s
+	yOmXPAd4Hcf9LZU4/xUv8GnVPA==
+X-Google-Smtp-Source: AGHT+IGCD+8xcXK0wLFjnROL9prKcXcQUfT6jZzrKd5FqKW/+eGuddZa/JQFOGVaFRM++6pf4ubflQ==
+X-Received: by 2002:a5d:48c1:0:b0:333:2fd2:4b03 with SMTP id p1-20020a5d48c1000000b003332fd24b03mr7288433wrs.127.1702898594359;
+        Mon, 18 Dec 2023 03:23:14 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a720:6e27:acc4:d591? ([2001:8b0:aba:5f3c:a720:6e27:acc4:d591])
+        by smtp.gmail.com with ESMTPSA id q3-20020a5d5743000000b003365bd008a1sm7575533wrw.71.2023.12.18.03.23.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 03:23:13 -0800 (PST)
+Message-ID: <92dd228ae98cff34a72919576e6c9b0b39136218.camel@linuxfoundation.org>
+Subject: Re: [RFC PATCH v2] qemurunner.py: continue to drain stdout after
+ login:
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, 
+	openembedded-core@lists.openembedded.org
+Cc: alexandre.belloni@bootlin.com, Mikko Rapeli <mikko.rapeli@linaro.org>
+Date: Mon, 18 Dec 2023 11:23:13 +0000
+In-Reply-To: <20231211155729.106010-1-alex.bennee@linaro.org>
+References: <20231211155729.106010-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02c1ab55-1111-485e-4500-08dbffbb54a2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2023 11:20:24.6424
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MamvDeSrIRRQQpv4LZLEB79QXo0BbsQ1IW1wuAdSmH3N4ke3hzlwdzVgu/nhbujpEG7/VnJsU58/suWkPoLUQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB4455
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 11:20:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192631
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 11:23:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192632
 
-SSBzZXR1cCBhYm92ZSB0ZXN0IGZvciByZXByb2R1Y2libGUgYnVpbGRzIGFuZCBidWlsZCBvbmUg
-cGtnKHUtYm9vdCkgYW5kIHRyeSB0byBmb3JjZSBhDQpub24tcmVwcm9kdWNpYmxlIGJ1aWxkIHRv
-IHRlc3QgdGhlIGZyYW1ld29yazoNCi0tLSBhL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9v
-dC5pbmMNCisrKyBiL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC5pbmMNCkBAIC05LDcg
-KzksNyBAQCBpbmhlcml0IHVib290LWNvbmZpZyB1Ym9vdC1leHRsaW51eC1jb25maWcgdWJvb3Qt
-c2lnbiBkZXBsb3kgcHl0aG9uM25hdGl2ZSBrZXJuZQ0KIA0KIERFUEVORFMgKz0gInN3aWctbmF0
-aXZlIg0KIA0KLUVYVFJBX09FTUFLRSA9ICdDUk9TU19DT01QSUxFPSR7VEFSR0VUX1BSRUZJWH0g
-Q0M9IiR7VEFSR0VUX1BSRUZJWH1nY2MgJHtUT09MQ0hBSU5fT1BUSU9OU30iIFY9MScNCitFWFRS
-QV9PRU1BS0UgPSAnQ1JPU1NfQ09NUElMRT0ke1RBUkdFVF9QUkVGSVh9IENDPSIke1RBUkdFVF9Q
-UkVGSVh9Z2NjICR7VE9PTENIQUlOX09QVElPTlN9IiBWPTEgU09VUkNFX0RBVEVfRVBPQ0g9IiQo
-ZGF0ZSArJXMpIicNCiBFWFRSQV9PRU1BS0UgKz0gJ0hPU1RDQz0iJHtCVUlMRF9DQ30gJHtCVUlM
-RF9DRkxBR1N9ICR7QlVJTERfTERGTEFHU30iJw0KIEVYVFJBX09FTUFLRSArPSAnU1RBR0lOR19J
-TkNESVI9JHtTVEFHSU5HX0lOQ0RJUl9OQVRJVkV9IFNUQUdJTkdfTElCRElSPSR7U1RBR0lOR19M
-SUJESVJfTkFUSVZFfScNCg0KZm9yY2luZyBFUE9DSCB0byBjdXJyZW50IGJ1aWxkIGRhdGUgYnV0
-IEkgc3RpbGwgZ2V0IGFuIHN1Y2Nlc3MgcmVwb3J0Og0KDQpvZS1zZWxmdGVzdCAtdiAtciByZXBy
-b2R1Y2libGUuUmVwcm9kdWNpYmxlVGVzdHMudGVzdF9yZXByb2R1Y2libGVfYnVpbGRzDQoyMDIz
-LTEyLTE4IDEyOjA1OjIyLDM1NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIEFkZGluZyBsYXllciBs
-aWJyYXJpZXM6DQoyMDIzLTEyLTE4IDEyOjA1OjIyLDM1NiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
-IAkvaG9tZS9qb2NrZS95b2N0by14ci8zcHAvcG9reS9tZXRhL2xpYg0KMjAyMy0xMi0xOCAxMjow
-NToyMiwzNTYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAJL2hvbWUvam9ja2UveW9jdG8teHIvM3Bw
-L3Bva3kvbWV0YS15b2N0by1ic3AvbGliDQoyMDIzLTEyLTE4IDEyOjA1OjIyLDM1NiAtIG9lLXNl
-bGZ0ZXN0IC0gSU5GTyAtIAkvaG9tZS9qb2NrZS95b2N0by14ci8zcHAvbWV0YS1vcGVuZW1iZWRk
-ZWQvbWV0YS1vZS9saWINCjIwMjMtMTItMTggMTI6MDU6MjIsMzU2IC0gb2Utc2VsZnRlc3QgLSBJ
-TkZPIC0gCS9ob21lL2pvY2tlL3lvY3RvLXhyL21ldGEteHIvbGliDQoyMDIzLTEyLTE4IDEyOjA1
-OjIyLDM1NiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIAkvaG9tZS9qb2NrZS95b2N0by14ci8zcHAv
-cG9reS9tZXRhLXNlbGZ0ZXN0L2xpYg0KMjAyMy0xMi0xOCAxMjowNToyMiwzNTkgLSBvZS1zZWxm
-dGVzdCAtIElORk8gLSBSdW5uaW5nIGJpdGJha2UgLWUgdG8gdGVzdCB0aGUgY29uZmlndXJhdGlv
-biBpcyB2YWxpZC9wYXJzYWJsZQ0KMjAyMy0xMi0xOCAxMjowNToyNywyNDggLSBvZS1zZWxmdGVz
-dCAtIElORk8gLSBBZGRpbmc6ICJpbmNsdWRlIHNlbGZ0ZXN0LmluYyIgaW4gL2hvbWUvam9ja2Uv
-eW9jdG8teHIvYnVpbGQvaW5mbi14ci9nbWN1LXN0L2NvbmYvbG9jYWwuY29uZg0KMjAyMy0xMi0x
-OCAxMjowNToyNywyNDggLSBvZS1zZWxmdGVzdCAtIElORk8gLSBBZGRpbmc6ICJpbmNsdWRlIGJi
-bGF5ZXJzLmluYyIgaW4gYmJsYXllcnMuY29uZg0KMjAyMy0xMi0xOCAxMjowNToyNywyNDggLSBv
-ZS1zZWxmdGVzdCAtIElORk8gLSB0ZXN0X3JlcHJvZHVjaWJsZV9idWlsZHMgKHJlcHJvZHVjaWJs
-ZS5SZXByb2R1Y2libGVUZXN0cykNCjIwMjMtMTItMTggMTI6MDU6MjksNzI0IC0gb2Utc2VsZnRl
-c3QgLSBERUJVRyAtIFdyaXRpbmcgdG86IC9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4t
-eHIvZ21jdS1zdC9jb25mL3NlbGZ0ZXN0LmluYw0KDQoNCjIwMjMtMTItMTggMTI6MDg6MjYsNTM5
-IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQnVpbGRpbmcgcmVwcm9kdWNpYmxlQSAoc3N0YXRlIGFs
-bG93ZWQpLi4uDQoyMDIzLTEyLTE4IDEyOjA4OjI2LDU0NSAtIG9lLXNlbGZ0ZXN0IC0gREVCVUcg
-LSBXcml0aW5nIHRvOiAvaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL2dtY3Utc3Qv
-Y29uZi9zZWxmdGVzdC5pbmMNClBBQ0tBR0VfQ0xBU1NFUyA9ICJwYWNrYWdlX2lwayINCklOSElC
-SVRfUEFDS0FHRV9TVFJJUCA9ICIxIg0KVE1QRElSID0gIi9ob21lL2pvY2tlL3lvY3RvLXhyL2J1
-aWxkL2luZm4teHIvcmVwcm9kdWNpYmxlQS90bXAiDQpMSUNFTlNFX0ZMQUdTX0FDQ0VQVEVEID0g
-ImNvbW1lcmNpYWwiDQpESVNUUk9fRkVBVFVSRVM6YXBwZW5kID0gJyBzeXN0ZW1kIHBhbScNClVT
-RVJBRERFWFRFTlNJT04gPSAidXNlcmFkZC1zdGF0aWNpZHMiDQpVU0VSQUREX0VSUk9SX0RZTkFN
-SUMgPSAic2tpcCINClVTRVJBRERfVUlEX1RBQkxFUyArPSAiZmlsZXMvc3RhdGljLXBhc3N3ZCIN
-ClVTRVJBRERfR0lEX1RBQkxFUyArPSAiZmlsZXMvc3RhdGljLWdyb3VwIg0KDQoNCjIwMjMtMTIt
-MTggMTI6MDk6MDgsOTM2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQnVpbGRpbmcgcmVwcm9kdWNp
-YmxlQiAoc3N0YXRlIE5PVCBhbGxvd2VkKS4uLg0KMjAyMy0xMi0xOCAxMjowOTowOCw5MzcgLSBv
-ZS1zZWxmdGVzdCAtIERFQlVHIC0gV3JpdGluZyB0bzogL2hvbWUvam9ja2UveW9jdG8teHIvYnVp
-bGQvaW5mbi14ci9nbWN1LXN0L2NvbmYvc2VsZnRlc3QuaW5jDQpQQUNLQUdFX0NMQVNTRVMgPSAi
-cGFja2FnZV9pcGsiDQpJTkhJQklUX1BBQ0tBR0VfU1RSSVAgPSAiMSINClRNUERJUiA9ICIvaG9t
-ZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL3JlcHJvZHVjaWJsZUIvdG1wIg0KTElDRU5T
-RV9GTEFHU19BQ0NFUFRFRCA9ICJjb21tZXJjaWFsIg0KRElTVFJPX0ZFQVRVUkVTOmFwcGVuZCA9
-ICcgc3lzdGVtZCBwYW0nDQpVU0VSQURERVhURU5TSU9OID0gInVzZXJhZGQtc3RhdGljaWRzIg0K
-VVNFUkFERF9FUlJPUl9EWU5BTUlDID0gInNraXAiDQpVU0VSQUREX1VJRF9UQUJMRVMgKz0gImZp
-bGVzL3N0YXRpYy1wYXNzd2QiDQpVU0VSQUREX0dJRF9UQUJMRVMgKz0gImZpbGVzL3N0YXRpYy1n
-cm91cCINClNTVEFURV9ESVIgPSAiJHtUTVBESVJ9L3NzdGF0ZSINClNTVEFURV9NSVJST1JTID0g
-ImZpbGU6Ly8uKi8uKi1uYXRpdmUuKiAgaHR0cDovL3NzdGF0ZS55b2N0b3Byb2plY3Qub3JnL2Fs
-bC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9UEFUSCBmaWxlOi8vLiovLiotY3Jvc3MuKiANCmh0dHA6
-Ly9zc3RhdGUueW9jdG9wcm9qZWN0Lm9yZy9hbGwvUEFUSDtkb3dubG9hZGZpbGVuYW1lPVBBVEgi
-DQoNCg0KMjAyMy0xMi0xOCAxMjowOToyNCw3NzIgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBDaGVj
-a2luZyBpcGsgcGFja2FnZXMgZm9yIGRpZmZlcmVuY2VzLi4uDQoyMDIzLTEyLTE4IDEyOjA5OjI0
-LDg0MyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFJlcHJvZHVjaWJpbGl0eSBzdW1tYXJ5IGZvciBp
-cGs6IHNhbWU9NCBkaWZmZXJlbnQ9MCBkaWZmZXJlbnRfZXhjbHVkZWQ9MCBtaXNzaW5nPTAgdG90
-YWw9NA0KdW51c2VkX2V4Y2x1c2lvbnM9W10NCjIwMjMtMTItMTggMTI6MDk6MjQsODQ3IC0gb2Ut
-c2VsZnRlc3QgLSBJTkZPIC0gIC4uLiBvaw0KMjAyMy0xMi0xOCAxMjowOToyNiwwNDQgLSBvZS1z
-ZWxmdGVzdCAtIElORk8gLSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoyMDIzLTEyLTE4IDEyOjA5OjI2LDA0NCAt
-IG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFJhbiAxIHRlc3QgaW4gMjQxLjMzNXMNCjIwMjMtMTItMTgg
-MTI6MDk6MjYsMDQ1IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gT0sNCjIwMjMtMTItMTggMTI6MDk6
-MzIsMzU1IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVTVUxUUzoNCjIwMjMtMTItMTggMTI6MDk6
-MzIsMzU2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVTVUxUUyAtIHJlcHJvZHVjaWJsZS5SZXBy
-b2R1Y2libGVUZXN0cy50ZXN0X3JlcHJvZHVjaWJsZV9idWlsZHM6IFBBU1NFRCAoMjM3LjYwcykN
-CjIwMjMtMTItMTggMTI6MDk6MzIsMzYxIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gU1VNTUFSWToN
-CjIwMjMtMTItMTggMTI6MDk6MzIsMzYyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gb2Utc2VsZnRl
-c3QgKCkgLSBSYW4gMSB0ZXN0IGluIDI0MS4zMzZzDQoyMDIzLTEyLTE4IDEyOjA5OjMyLDM2MiAt
-IG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIG9lLXNlbGZ0ZXN0IC0gT0sgLSBBbGwgcmVxdWlyZWQgdGVz
-dHMgcGFzc2VkIChzdWNjZXNzZXM9MSwgc2tpcHBlZD0wLCBmYWlsdXJlcz0wLCBlcnJvcnM9MCkN
-Cg0KDQpMb29raW5nIGhhcmRlciBJIGRvbid0IHNlZSBvZS1zZWZ0ZXN0IGV2ZXIgY3JlYXRpbmcg
-cmVwcm9kdWNpYmxlQS9yZXByb2R1Y2libGVCIGRpcmVjdG9yaWVzLg0KSSBoYXZlIHRoZXNlIHNl
-dA0KT0VRQV9SRVBST0RVQ0lCTEVfVEVTVF9QQUNLQUdFID0gImlwayINCk9FUUFfUkVQUk9EVUNJ
-QkxFX1RFU1RfVEFSR0VUID0gInhyLXUtYm9vdCINCg0KSSBhbSBtaXNzaW5nIHNvbWV0aGluZz8N
-Cg0KIEpvY2tlDQo=
+On Mon, 2023-12-11 at 15:57 +0000, Alex Benn=C3=A9e wrote:
+> If qemurunner doesn't continuously drain stdout we will eventually
+> cause QEMU to block while trying to write to the pipe. This can
+> manifest itself if the guest has for example configured its serial
+> ports to output via stdio even if the test itself is using a TCP
+> console or SSH to run things.
+>=20
+> To do this:
+>=20
+>   - always create a logging thread regardless of serial_ports
+>   - use a semaphore between main and logging threads
+>   - move the login detection into the logging thread
+>   - wait until the second acquire before continuing
+>=20
+> This doesn't address a potential overflow of stderr although generally
+> stderr from QEMU will be a lot less likely to block due to the volume
+> of data.
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+> ---
+>  meta/lib/oeqa/utils/qemurunner.py | 128 ++++++++++++++++++------------
+>  1 file changed, 78 insertions(+), 50 deletions(-)
+>=20
+> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemu=
+runner.py
+> index 29fe271976..b768c08f04 100644
+> --- a/meta/lib/oeqa/utils/qemurunner.py
+> +++ b/meta/lib/oeqa/utils/qemurunner.py
+> @@ -207,8 +207,7 @@ class QemuRunner:
+>          self.logger.info("QMP Available for connection at %s" % (qmp_por=
+t2))
+> =20
+>          try:
+> -            if self.serial_ports >=3D 2:
+> -                self.threadsock, threadport =3D self.create_socket()
+> +            self.threadsock, threadport =3D self.create_socket()
+>              self.server_socket, self.serverport =3D self.create_socket()
+>          except socket.error as msg:
+>              self.logger.error("Failed to create listening socket: %s" % =
+msg[1])
+> @@ -243,6 +242,7 @@ class QemuRunner:
+>          # to be a proper fix but this will suffice for now.
+>          self.runqemu =3D subprocess.Popen(launch_cmd, shell=3DTrue, stdo=
+ut=3Dsubprocess.PIPE, stderr=3Dsubprocess.STDOUT, stdin=3Dsubprocess.PIPE, =
+preexec_fn=3Dos.setpgrp, env=3Denv, cwd=3Dself.tmpdir)
+>          output =3D self.runqemu.stdout
+> +        output_drain =3D output
+>          launch_time =3D time.time()
+> =20
+>          #
+> @@ -431,21 +431,30 @@ class QemuRunner:
+>          self.logger.debug("Target IP: %s" % self.ip)
+>          self.logger.debug("Server IP: %s" % self.server_ip)
+> =20
+> -        if self.serial_ports >=3D 2:
+> -            self.thread =3D LoggingThread(self.log, self.threadsock, sel=
+f.logger)
+> -            self.thread.start()
+> -            if not self.thread.connection_established.wait(self.boottime=
+):
+> -                self.logger.error("Didn't receive a console connection f=
+rom qemu. "
+> -                             "Here is the qemu command line used:\n%s\na=
+nd "
+> -                             "output from runqemu:\n%s" % (cmdline, out)=
+)
+> -                self.stop_thread()
+> -                return False
+> +        # Create and hold onto the login semaphore, this will block
+> +        # the LoggingThread until we are ready
+> +        login_semaphore =3D threading.Semaphore()
+> +        login_semaphore.acquire()
+> +
+> +        self.thread =3D LoggingThread(self.log, self.threadsock,
+> +                                    self.runqemu.stdout, self.boot_patte=
+rns['search_reached_prompt'],
+> +                                    self.logger, login_semaphore)
+> +
+> +        self.thread.start()
+> +        login_semaphore.release()
+> +
+> +        # if not self.thread.connection_established.wait(self.boottime):
+> +        #     self.logger.error("Didn't receive a console connection fro=
+m qemu. "
+> +        #                       "Here is the qemu command line used:\n%s=
+\nand "
+> +        #                       "output from runqemu:\n%s" % (cmdline, o=
+ut))
+> +        #     self.stop_thread()
+> +        #     return False
+> =20
+>          self.logger.debug("Output from runqemu:\n%s", out)
+>          self.logger.debug("Waiting at most %d seconds for login banner (=
+%s)" %
+>                            (self.boottime, time.strftime("%D %H:%M:%S")))
+>          endtime =3D time.time() + self.boottime
+> -        filelist =3D [self.server_socket, self.runqemu.stdout]
+> +        filelist =3D [self.server_socket]
+>          reachedlogin =3D False
+>          stopread =3D False
+>          qemusock =3D None
+> @@ -464,46 +473,19 @@ class QemuRunner:
+>                      filelist.remove(self.server_socket)
+>                      self.logger.debug("Connection from %s:%s" % addr)
+>                  else:
+> -                    # try to avoid reading only a single character at a =
+time
+> -                    time.sleep(0.1)
+> -                    if hasattr(file, 'read'):
+> -                        read =3D file.read(1024)
+> -                    elif hasattr(file, 'recv'):
+> -                        read =3D file.recv(1024)
+> -                    else:
+> -                        self.logger.error('Invalid file type: %s\n%s' % =
+(file))
+> -                        read =3D b''
+> -
+> -                    self.logger.debug2('Partial boot log:\n%s' % (read.d=
+ecode('utf-8', errors=3D'backslashreplace')))
+> -                    data =3D data + read
+> -                    if data:
+> -                        bootlog +=3D data
+> -                        self.log(data, extension =3D ".2")
+> -                        data =3D b''
+> -
+> -                        if bytes(self.boot_patterns['search_reached_prom=
+pt'], 'utf-8') in bootlog:
+> -                            self.server_socket.close()
+> -                            self.server_socket =3D qemusock
+> -                            stopread =3D True
+> -                            reachedlogin =3D True
+> -                            self.logger.debug("Reached login banner in %=
+.2f seconds (%s)" %
+> -                                              (time.time() - (endtime - =
+self.boottime),
+> -                                              time.strftime("%D %H:%M:%S=
+")))
+> -                    else:
+> -                        # no need to check if reachedlogin unless we sup=
+port multiple connections
+> -                        self.logger.debug("QEMU socket disconnected befo=
+re login banner reached. (%s)" %
+> -                                          time.strftime("%D %H:%M:%S"))
+> -                        filelist.remove(file)
+> -                        file.close()
+> +                    if login_semaphore.acquire(blocking=3DFalse):
+> +                        self.server_socket.close()
+> +                        self.server_socket =3D qemusock
+>                          stopread =3D True
+> +                        reachedlogin =3D True
+> +
+> +        self.logger.debug("continuing on....")
+> =20
+>          if not reachedlogin:
+>              if time.time() >=3D endtime:
+>                  self.logger.warning("Target didn't reach login banner in=
+ %d seconds (%s)" %
+>                                    (self.boottime, time.strftime("%D %H:%=
+M:%S")))
+>              tail =3D lambda l: "\n".join(l.splitlines()[-25:])
+> -            bootlog =3D self.decode_qemulog(bootlog)
+> -            self.logger.warning("Last 25 lines of login console (%d):\n%=
+s" % (len(bootlog), tail(bootlog)))
+>              self.logger.warning("Last 25 lines of all logging (%d):\n%s"=
+ % (len(self.msg), tail(self.msg)))
+>              self.logger.warning("Check full boot log: %s" % self.logfile=
+)
+>              self.stop()
+> @@ -539,6 +521,7 @@ class QemuRunner:
+>                  self.logger.warning("The output:\n%s" % output)
+>          except:
+>              self.logger.warning("Serial console failed while trying to l=
+ogin")
+> +
+>          return True
+> =20
+>      def stop(self):
+> @@ -696,14 +679,16 @@ class QemuRunner:
+>                      status =3D 1
+>          return (status, str(data))
+> =20
+> -# This class is for reading data from a socket and passing it to logfunc
+> -# to be processed. It's completely event driven and has a straightforwar=
+d
+> -# event loop. The mechanism for stopping the thread is a simple pipe whi=
+ch
+> -# will wake up the poll and allow for tearing everything down.
+> +# This class is for reading data from sockets and QEMU's stdio output
+> +# and passing it to logfunc to be processed. It's completely event
+> +# driven and has a straightforward event loop. The mechanism for
+> +# stopping the thread is a simple pipe which will wake up the poll and
+> +# allow for tearing everything down.
+>  class LoggingThread(threading.Thread):
+> -    def __init__(self, logfunc, sock, logger):
+> +    def __init__(self, logfunc, sock, qemu_stdio, prompt, logger, semaph=
+ore):
+>          self.connection_established =3D threading.Event()
+>          self.serversock =3D sock
+> +        self.qemu_stdio =3D qemu_stdio
+>          self.logfunc =3D logfunc
+>          self.logger =3D logger
+>          self.readsock =3D None
+> @@ -713,9 +698,19 @@ class LoggingThread(threading.Thread):
+>          self.errorevents =3D select.POLLERR | select.POLLHUP | select.PO=
+LLNVAL
+>          self.readevents =3D select.POLLIN | select.POLLPRI
+> =20
+> +        # tracking until we see prompt
+> +        self.prompt =3D prompt
+> +        self.prompt_seen =3D False
+> +        self.boot_log =3D b''
+> +        self.semaphore =3D semaphore
+> +        self.boottime =3D time.time()
+> +
+>          threading.Thread.__init__(self, target=3Dself.threadtarget)
+> =20
+>      def threadtarget(self):
+> +        # we acquire until we see the boot prompt
+> +        self.semaphore.acquire()
+> +
+>          try:
+>              self.eventloop()
+>          finally:
+> @@ -750,6 +745,7 @@ class LoggingThread(threading.Thread):
+>          event_read_mask =3D self.errorevents | self.readevents
+>          poll.register(self.serversock.fileno())
+>          poll.register(self.readpipe, event_read_mask)
+> +        poll.register(self.qemu_stdio, event_read_mask)
+> =20
+>          breakout =3D False
+>          self.running =3D True
+> @@ -757,8 +753,12 @@ class LoggingThread(threading.Thread):
+>          while not breakout:
+>              events =3D poll.poll()
+>              for event in events:
+> +
+> +                self.logger.debug(f"event is {event}")
+> +
+>                  # An error occurred, bail out
+>                  if event[1] & self.errorevents:
+> +                    self.logger.debug("error event")
+>                      raise Exception(self.stringify_event(event[1]))
+> =20
+>                  # Event to stop the thread
+> @@ -767,6 +767,10 @@ class LoggingThread(threading.Thread):
+>                      breakout =3D True
+>                      break
+> =20
+> +                # stdio data to be logged
+> +                elif self.qemu_stdio.fileno() =3D=3D event[0]:
+> +                    self.consume_qemu_stdio()
+> +
+>                  # A connection request was received
+>                  elif self.serversock.fileno() =3D=3D event[0]:
+>                      self.logger.debug("Connection request received")
+> @@ -783,6 +787,30 @@ class LoggingThread(threading.Thread):
+>                      data =3D self.recv(1024)
+>                      self.logfunc(data)
+> =20
+> +
+> +    # Consume QEMU's stdio output, checking for login strings
+> +    def consume_qemu_stdio(self):
+> +        # try to avoid reading only a single character at a time
+> +        time.sleep(0.1)
+> +        read =3D self.qemu_stdio.read(1024)
+> +
+> +        # log what we have seen
+> +        decoded_data =3D read.decode('utf-8', errors=3D'backslashreplace=
+')
+> +        if self.prompt_seen:
+> +            self.logger.debug2('Post login log:\n%s' % decoded_data)
+> +        else:
+> +            self.logger.debug2('Pre login log:\n%s' % decoded_data)
+> +
+> +        if not self.prompt_seen and read:
+> +            self.boot_log +=3D read
+> +
+> +            if bytes(self.prompt, 'utf-8') in self.boot_log:
+> +                time_to_login =3D time.time() - self.boottime
+> +                self.logger.debug("Reached login banner in %.2f seconds =
+(%s)" %
+> +                                  (time_to_login,  time.strftime("%D %H:=
+%M:%S")))
+> +                self.semaphore.release()
+> +                self.prompt_seen =3D True
+> +
+>      # Since the socket is non-blocking make sure to honor EAGAIN
+>      # and EWOULDBLOCK.
+>      def recv(self, count):
+
+
+FWIW I tried testing this locally and "bitbake core-image-full-cmdline
+-c testimage" just hangs, it can't work out the login prompt.
+
+This code has been the source of a lot of races issues and intermittent
+failures which we only "just" got to the bottom of and introducing a
+load more isn't something I'm feeling great about. I'll try and find
+some time to see if I can work out any better approach.
+
+Cheers,
+
+Richard
+
+
+
 
