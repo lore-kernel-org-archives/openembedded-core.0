@@ -1,77 +1,97 @@
-Return-Path: <jonathan@joggee.fr>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1DC5C35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 10:53:04 +0000 (UTC)
-Received: from 1.mo576.mail-out.ovh.net (1.mo576.mail-out.ovh.net [178.33.251.173])
- by mx.groups.io with SMTP id smtpd.web11.41653.1702896777519029970
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF0CBC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 11:05:34 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.41399.1702897529404604177
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 02:52:57 -0800
+ Mon, 18 Dec 2023 03:05:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=softfail (domain: joggee.fr, ip: 178.33.251.173, mailfrom: jonathan@joggee.fr)
-Received: from director6.ghost.mail-out.ovh.net (unknown [10.109.176.128])
-	by mo576.mail-out.ovh.net (Postfix) with ESMTP id 53BCA27A8E
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 10:52:55 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-dm76s (unknown [10.110.96.132])
-	by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id BF49F1FEB8
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 10:52:54 +0000 (UTC)
-Received: from joggee.fr ([37.59.142.108])
-	by ghost-submission-6684bf9d7b-dm76s with ESMTPSA
-	id 1LOoFIYkgGWyOwAAixK9/w
-	(envelope-from <jonathan@joggee.fr>)
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 10:52:54 +0000
-Authentication-Results: garm.ovh; auth=pass (GARM-108S002ee74c937-86f9-4e3e-b4c4-895a2b2dee37,
-                    322D4E01743EA40E077468207D8B501B6ACEDD83) smtp.auth=jonathan@joggee.fr
-X-OVh-ClientIp: 209.85.210.44
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6da5d2c3ec7so1492935a34.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 02:52:54 -0800 (PST)
-X-Gm-Message-State: AOJu0YwidkMm8/LxMMSu0ux1pTHEjPex/DZdIP2Qo6U4r/ikYZge4hIY
-	/soElkXVWzdhkeefmG7P1y1DovO8gvJ4jXcSqEA=
-X-Google-Smtp-Source: AGHT+IFAoeFPubz2TdK+r/HxAFFcf6M4pw8dbfmUpuLjmScv4mpwiwUzACU5MmWSc2IrFiOPimGHQGqUofPZF4yudjc=
-X-Received: by 2002:a05:6870:4597:b0:1fb:75a:6d34 with SMTP id
- y23-20020a056870459700b001fb075a6d34mr19359183oao.91.1702896772936; Mon, 18
- Dec 2023 02:52:52 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=lbEz4+Ve;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8E2AAC0007;
+	Mon, 18 Dec 2023 11:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1702897527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8rSAgdSSK6EJU9kZInZ+DaIVsKV/dsS20uDL/lUfbWs=;
+	b=lbEz4+VeiledEUHtOgKrTf/miedurppY7VI/4HGQYXyvEVryZ3T+2TgxC3A9pP/OP/e5lS
+	nODs5ZZrfbFF0pg8Qo1s/xJ8XffJ9ZfqAS8nE4Ia/1NgKx24pKi8aR011YvrszZsoC4k6Z
+	QfYZZ3mP44BGNj+Me9Hxozc/CZ7wbphhOALAYzB5Lo7qczQ8iP1xPWZqmee08B/Tz7leyy
+	ySd/FUZc1eOaks7HperB4D286pboiPwvrgx+clI54SERAp/4448E5hcn/BXIArT7Wly5Rh
+	sr2NhSEiN06s3EEaMQWDqGhxYYH+JXAAbLjK4ktWItZhLuYzZPVjn4aq1zuVHQ==
+Date: Mon, 18 Dec 2023 12:05:26 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Joshua Watt <JPEWhacker@gmail.com>,
+	openembedded-core@lists.openembedded.org, ross.burton@arm.com,
+	raj.khem@gmail.com
+Subject: Re: [OE-core][PATCH] ipk: Switch to using zstd compression
+Message-ID: <20231218110526aa418fee@mail.local>
+References: <20231215205140.2948964-1-JPEWhacker@gmail.com>
+ <7c7052bbd533d3357b9c679736b7c40985a6b227.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <CXNASYPMN4HU.28KB1ZM3347U5@joggee.fr> <CXNASYPMNU9N.2AKRQ4ODCZYTH@joggee.fr>
- <CAMKF1sqUzNwDkevyhYvFdCgTMWOagqzhA=s4P9qXrSn2+_c05w@mail.gmail.com>
- <CAA_hxbTUek_xb8gwJtsd+U6747viKfKkb2Ae6-ATBCv2C3ZmdQ@mail.gmail.com> <CAMKF1sqrvGpKHsbV15XHo59jWhOWkYySvYWi=5JcDdpVW_DF3Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sqrvGpKHsbV15XHo59jWhOWkYySvYWi=5JcDdpVW_DF3Q@mail.gmail.com>
-From: Jonathan GUILLOT <jonathan@joggee.fr>
-Date: Mon, 18 Dec 2023 11:52:22 +0100
-X-Gmail-Original-Message-ID: <CAA_hxbQB0wxeb8Lqb9SUKYi6vDbT+iUTm8kHJwBZ3OR6uxEppA@mail.gmail.com>
-Message-ID: <CAA_hxbQB0wxeb8Lqb9SUKYi6vDbT+iUTm8kHJwBZ3OR6uxEppA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 2/3] lib/oe/package: add LOCALEEXTRADIRS to
- define extra locations for locales
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 2632072511028268155
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrvddtkedgudelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepgghfjgfhfffkuffvvegtgfesthhqredttddtjeenucfhrhhomheplfhonhgrthhhrghnucfifgfknffnqffvuceojhhonhgrthhhrghnsehjohhgghgvvgdrfhhrqeenucggtffrrghtthgvrhhnpeeuleffffehueegteevhefhhfejiefgiedviedvveekgfdtveeikedttdehieekieenucfkphepuddvjedrtddrtddruddpvddtledrkeehrddvuddtrdeggedpfeejrdehledrudegvddruddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhnrghthhgrnhesjhhoghhgvggvrdhfrheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdfovfetjfhoshhtpehmohehjeeipdhmohguvgepshhmthhpohhuth
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7c7052bbd533d3357b9c679736b7c40985a6b227.camel@linuxfoundation.org>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 10:53:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192629
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 11:05:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192630
 
-Hi,
+On 15/12/2023 22:48:51+0000, Richard Purdie wrote:
+> On Fri, 2023-12-15 at 13:51 -0700, Joshua Watt wrote:
+> > 
+> > @@ -337,7 +335,7 @@ CONVERSION_CMD:lz4 = "lz4 -9 -z -l ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.l
+> >  CONVERSION_CMD:lzo = "lzop -9 ${IMAGE_NAME}.${type}"
+> >  CONVERSION_CMD:zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}.${type}.zip ${IMAGE_NAME}.${type}"
+> >  CONVERSION_CMD:7zip = "7za a -mx=${7ZIP_COMPRESSION_LEVEL} -mm=${7ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}.${type}.${7ZIP_EXTENSION} ${IMAGE_NAME}.${type}"
+> > -CONVERSION_CMD:zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.zst"
+> > +CONVERSION_CMD:zst = "zstd -f -k -c ${ZSTD_DEFAULTS} ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.zst"
+> >  CONVERSION_CMD:sum = "sumtool -i ${IMAGE_NAME}.${type} -o ${IMAGE_NAME}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+> >  CONVERSION_CMD:md5sum = "md5sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.md5sum"
+> >  CONVERSION_CMD:sha1sum = "sha1sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.sha1sum"
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index 55166d01784..4b1fe28c85a 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -878,6 +878,10 @@ XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
+> >  ZSTD_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
+> >  ZSTD_THREADS[vardepvalue] = "1"
+> >  
+> > +ZSTD_COMPRESSION_LEVEL ?= "-3"
+> > +ZSTD_DEFAULTS ?= "--threads=${ZSTD_THREADS} ${ZSTD_COMPRESSION_LEVEL}"
+> > +ZSTD_DEFAULTS[vardepsexclude] = "ZSTD_COMPRESSION_LEVEL ZSTD_THREADS"
+> > +
+> 
+> Threads, sure but the compression level does change the output...
 
-I am just looking to existing variables to add documentation for
-LOCALE_EXTRA_PATHS and it makes me think about separator to use.
-FILESEXTRAPATHS use ':' between each path, PACKAGE_FEED_BASE_PATHS
-uses simple space ' ' and PSEUDO_IGNORE_PATHS is comma-separated list.
-What is the best option here?
+Indeed: https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4098/steps/12/logs/stdio
 
-Regards,
-Jonathan GUILLOT
+> 
+> Cheers,
+> 
+> Richard
 
-Le jeu. 14 d=C3=A9c. 2023 =C3=A0 17:45, Khem Raj <raj.khem@gmail.com> a =C3=
-=A9crit :
->
-> We used this convention when we used '_'  as an override separator.
-> That constainst is no more as we use ':' now.
->
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192550): https://lists.openembedded.org/g/openembedded-core/message/192550
+> Mute This Topic: https://lists.openembedded.org/mt/103198693/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
