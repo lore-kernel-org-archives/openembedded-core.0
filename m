@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B54C35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 08:44:23 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.40235.1702889058632475346
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F022C46CD8
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 08:44:24 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.40232.1702889056913233718
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 00:44:18 -0800
+ Mon, 18 Dec 2023 00:44:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YJQqMdhC;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a235eb41251so46350366b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 00:44:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=glRgszOs;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-550dd0e3304so3267963a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 00:44:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702889057; x=1703493857; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702889055; x=1703493855; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H1GVh7bIHF7CLeoOrEXTpECP0j/CvgbnNp+1vHC+XMg=;
-        b=YJQqMdhCVDRZ9CAD0GhRIA7xikVpRG1DR3YTlCuS/5mXccL3LfIY/kUH334H6oUkn5
-         TGcQ1U0jmU0qI+BCWCUw1z+JSog4ZK/sK/qM08rjZFWQAhgYr1vJxiMA8ehLGT8Ix6wi
-         bWxGIknJBj4LUX7OMYPlckFAuX4HQpB83pAb1cprp8ncWj7v5mQSPTCfL/iUr3C1ECqP
-         UaxCCVveGJEVP6wQiXGn7A47svI4sBT4qyoZ2bB9Z6LoGyfvRWOjWepz6cCO7plSSO14
-         ZCBjqZ27M4PoKFSgi7ra1wVgR5dDDVW02UqLMrEKsS1gYSmkc+feWeZxwHOvXqqLx+bQ
-         Y4BA==
+        bh=FcSF4UtUs94nxHswCiwY5ym4j6x6+XsWShzrdjCHf4E=;
+        b=glRgszOs47y5ZI4siXRJtWhLF+74um4TS0e6KRGFPGwfrqaafDtvWEFHPlzGk/mjr6
+         UKGRyWeBLEBJwQ3uTyZlEGSA3EhFA17XL6vyqkpTIRG1gDK4V1rKYZVxrBJm5AHN0wI2
+         b9q1vztBFdwRSEaSpAgnB4p+jvscFXWie+9NP5iqHLaeVLTIQ4p1yAyxIN20UwDqdXw9
+         UNSOm8SKvXj7QCUR8rwwzgCAXZjJCGEv/Np6MqP/KayHAXaeAQfI4+pQgUYacmvXFvgU
+         o7i1cJAKvoqduFRaC/VfE/IT2R3xJNmfeSDtrkOwbRnEOegrxocS72755MZCcGZTLFbk
+         u4lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702889057; x=1703493857;
+        d=1e100.net; s=20230601; t=1702889055; x=1703493855;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=H1GVh7bIHF7CLeoOrEXTpECP0j/CvgbnNp+1vHC+XMg=;
-        b=IdEolkeJvp+rU4qYHO7jNsTZEig4EaPJCbtjh1ufPcE4hTkWWPihIeFtNhwMwxV8tB
-         Sl2JoNgRSe0DTMEuvOe5kw1L7a6oPSvjuLQhhzjufXQ8FIjPy/BCq/XHtpDoc91zxoCY
-         0YCRSLSpZbyKEYkEpAtYS6Xe121tb6GGwvBq8Qr8ri7Z8+QXGTcG/bnKFEFc1Hx6sBXD
-         n/7nYURcRlbJVePQGBZqAGjEssidMZJ1HGC/Oe5fY4+GbXj0gW3rc6xq5eCzuyN45z+j
-         HUs/upYuma4T2MnHINdn/bxcf5PwkVKYuFbyM/u4+nWNuRdhwJ2ceOwhEFWwdLFKjNuH
-         hwgg==
-X-Gm-Message-State: AOJu0Yyv1r7lNrf4h6N9/Vcu6pykUhSBDLRc9kdTVgU8lVd5jTpzgZS1
-	PjtAiOTb8LLDVt2uc+QaRbYwlKmmIeA=
-X-Google-Smtp-Source: AGHT+IEub0SxbomKZIbcWGE0pTPGbFDxDX276YT75TESujoo3B/DwnzW3/vyueE4E+f49jxgCGgFjw==
-X-Received: by 2002:a17:906:1708:b0:a19:a19b:4238 with SMTP id c8-20020a170906170800b00a19a19b4238mr4859378eje.163.1702889057111;
-        Mon, 18 Dec 2023 00:44:17 -0800 (PST)
+        bh=FcSF4UtUs94nxHswCiwY5ym4j6x6+XsWShzrdjCHf4E=;
+        b=L4Agh1mUiJJvjy/0ABHXj9D9tLvX3hZ2VOShn1HNn5OaqePydhyQ0lw87LGHGNB0CJ
+         fxx9wuCwm3RFhN2zyl5CTLQxy766Y+sj5gkXMIKUMt+Ao3CGWc1YjS9NQE0x38M6rh09
+         42xsLlSMNp1Tp9BgCSNbE0/JUQ39fzN7tWMgewxwjcktuAfS7Z38WSZqgoinkJRl6Dry
+         iIMNZI7mOkOrTuCGBvX/NfkoGa/6DaUDlWrm8TiHcMJflnh9bKvdY+FkIAXkFmq6ORW9
+         Upe4HC4os8xjZtT3S4d7ARxIS8GaPdQRZxaMMJwFrMoZjBiy1UMyJO0LJ9fA0zdTGRLZ
+         S7Fg==
+X-Gm-Message-State: AOJu0YxbIu0InfVOEPBeToV1fvvcxyjRT04wMlQC9/HPIs8MT8BcZeLF
+	Xf5rqW5VcFAP9wrs8mKDyAAc7t6z9jE=
+X-Google-Smtp-Source: AGHT+IFyi/JkVk7uoQibtFw3I+cAmDUyMOfMFDOpUIkSYRbkV3NZKhIkhF9gZ/oeMft7DcZyCY8EoA==
+X-Received: by 2002:a17:906:1799:b0:a18:ad93:460d with SMTP id t25-20020a170906179900b00a18ad93460dmr7937216eje.69.1702889054584;
+        Mon, 18 Dec 2023 00:44:14 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id vt6-20020a170907a60600b00a1ce98016b6sm14016299ejc.97.2023.12.18.00.44.16
+        by smtp.gmail.com with ESMTPSA id vt6-20020a170907a60600b00a1ce98016b6sm14016299ejc.97.2023.12.18.00.44.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 00:44:16 -0800 (PST)
+        Mon, 18 Dec 2023 00:44:14 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 7/7] selftest/sstatetest: re-enable gcc printdiff test
-Date: Mon, 18 Dec 2023 09:44:03 +0100
-Message-Id: <20231218084403.599015-7-alex@linutronix.de>
+Subject: [PATCH 2/7] selftest/sstatetests: fix up printdiff test to match rework of printdiff logic
+Date: Mon, 18 Dec 2023 09:43:58 +0100
+Message-Id: <20231218084403.599015-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231218084403.599015-1-alex@linutronix.de>
 References: <20231218084403.599015-1-alex@linutronix.de>
@@ -61,27 +61,91 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 08:44:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192618
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 08:44:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192613
+
+Other than the formatting changes, there are two functional ones:
+
+- use perlcross instead of quilt, as quilt is special in the sense
+of being excluded from task hash calculcations. perlcross is a full
+participant.
+
+- run the full test (local + sstate) for gcc do_preconfiure change
+as the necessary fix has been implemented
+(sstatesig/find_siginfo: special-case gcc-source when looking in sstate caches)
+
+Note that when several tasks are found to have changed (as is the case
+when base do_configure is adjusted), find_siginfo() runs
+glob.glob("*/*/*taskname*") against autobuilder sstate cache for each
+of those tasks (six or seven times). This is an expensive operation
+taking several minutes. I left it in for now, but if it's proven too slow
+the test would have to be reduced to checking a specific base recipe
+(e.g. zstd-native) rather than a distant image target.
+
+[YOCTO #15289]
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oeqa/selftest/cases/sstatetests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../perlcross_%.bbappend}                     |  0
+ meta/lib/oeqa/selftest/cases/sstatetests.py   | 22 +++++++++++--------
+ 2 files changed, 13 insertions(+), 9 deletions(-)
+ rename meta-selftest/recipes-test/{quilt-native/quilt-native_%.bbappend => perlcross/perlcross_%.bbappend} (100%)
 
+diff --git a/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend b/meta-selftest/recipes-test/perlcross/perlcross_%.bbappend
+similarity index 100%
+rename from meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
+rename to meta-selftest/recipes-test/perlcross/perlcross_%.bbappend
 diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 6da3ef3ca77..62b7a79bbb6 100644
+index f827615ba1b..6af3c8f2178 100644
 --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
 +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -842,7 +842,7 @@ do_install:append() {
- expected_sametmp_output, expected_difftmp_output)
+@@ -824,14 +824,16 @@ TMPDIR = "${{TOPDIR}}/tmp-sstateprintdiff-difftmp-{}"
  
-     # Check if changes to gcc-source (which uses tmp/work-shared) are correctly discovered
--    def _test_gcc_runtime_vs_gcc_source(self):
-+    def test_gcc_runtime_vs_gcc_source(self):
-         gcc_source_pn = 'gcc-source-%s' % get_bb_vars(['PV'], 'gcc')['PV']
  
+     # Check if printdiff walks the full dependency chain from the image target to where the change is in a specific recipe
+-    def test_image_minimal_vs_quilt(self):
+-        expected_output = ("Task quilt-native:do_install couldn't be used from the cache because:",
++    def test_image_minimal_vs_perlcross(self):
++        expected_output = ("Task perlcross-native:do_install couldn't be used from the cache because:",
+ "We need hash",
+ "most recent matching task was")
+-        expected_sametmp_output = expected_output + ("Variable do_install value changed",'+    echo "this changes the task signature"')
++        expected_sametmp_output = expected_output + (
++"Variable do_install value changed",
++'+    echo "this changes the task signature"')
+         expected_difftmp_output = expected_output
+ 
+-        self.run_test_printdiff_changerecipe("core-image-minimal", "quilt-native", "-c do_install quilt-native",
++        self.run_test_printdiff_changerecipe("core-image-minimal", "perlcross", "-c do_install perlcross-native",
+ """
+ do_install:append() {
+     echo "this changes the task signature"
+@@ -846,10 +848,10 @@ expected_sametmp_output, expected_difftmp_output)
          expected_output = ("Task {}:do_preconfigure couldn't be used from the cache because:".format(gcc_source_pn),
+ "We need hash",
+ "most recent matching task was")
+-        expected_sametmp_output = expected_output + ("Variable do_preconfigure value changed",'+    print("this changes the task signature")')
+-        #FIXME: printdiff is supposed to find at least one preconfigure task signature in the sstate cache, but isn't able to
+-        #expected_difftmp_output = expected_output
+-        expected_difftmp_output = ()
++        expected_sametmp_output = expected_output + (
++"Variable do_preconfigure value changed",
++'+    print("this changes the task signature")')
++        expected_difftmp_output = expected_output
+ 
+         self.run_test_printdiff_changerecipe("gcc-runtime", "gcc-source", "-c do_preconfigure {}".format(gcc_source_pn),
+ """
+@@ -873,7 +875,9 @@ expected_sametmp_output, expected_difftmp_output)
+ "Task gnu-config-native:do_configure couldn't be used from the cache because:",
+ "We need hash",
+ "most recent matching task was")
+-        expected_sametmp_output = expected_output + ("Variable base_do_configure value changed",'+	echo "this changes base_do_configure() definiton "')
++        expected_sametmp_output = expected_output + (
++"Variable base_do_configure value changed",
++'+	echo "this changes base_do_configure() definiton "')
+         expected_difftmp_output = expected_output
+ 
+         self.run_test_printdiff_changeconfig("core-image-minimal",
 -- 
 2.39.2
 
