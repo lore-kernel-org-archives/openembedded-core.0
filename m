@@ -1,65 +1,80 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE365C35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 17:08:06 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.48783.1702919285033770200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08449C35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 17:30:37 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.49858.1702920627704242762
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 09:08:05 -0800
+ Mon, 18 Dec 2023 09:30:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CC5852F4
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:08:48 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0E6513F5A1
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:08:03 -0800 (PST)
-From: ross.burton@arm.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] tcl: skip async and event tests in run-ptest
-Date: Mon, 18 Dec 2023 17:08:01 +0000
-Message-Id: <20231218170801.1029196-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KwCNFMf1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-336668a5a8dso1735426f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:30:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1702920626; x=1703525426; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Eg05e21iEYytbnTV1OXTr4dmmWWVoUG9aAJRDMhe8Mw=;
+        b=KwCNFMf1Rv3OvleXxHF0mmCE2H9oPkPT+fM9PW/TxEQOSPJTXU/LaOcBPT/TOLjN5a
+         QE0bp0xBea59lelyD6ibAG8sA0C0m0n02J33YB8dkUhuuKE0PJ1AGQsCD2rGBR9ouEkA
+         7aaR8ihyA0muUtMTMHuLCKSsmyp5dmFDUqXvw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702920626; x=1703525426;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Eg05e21iEYytbnTV1OXTr4dmmWWVoUG9aAJRDMhe8Mw=;
+        b=oWnMWCa73apXYPcdW/Y1EO04yMaIFa5bgr6zRL7BNMiMFtAvAMfVyRL4q00niIMUj/
+         ixwPiqiBED4JNXZj1Z9PUrE8f2LAW8/nZ5o3vdf+iEOXme4JZaeXjTpHcNCEAd9ICn4Q
+         c4B75uBW0v7YhjJYZDQXzO3+AQmlPb7DxqZbqBw60LD9VDi4QXfAzVNJTPp+DNfk72CR
+         SF95Mc4Atyva7VIfJMVAXdXUVdkLp3nLAQ3qwtDHbgFzYb7Bd94Pi/9reeMhZk/6J5He
+         lxf7mPCvN/8RI1p7fzkTwrQUAorJQH8xyZQ+LW3F65DR0AboynXU1H1V/7dK5CLB6azF
+         sBlA==
+X-Gm-Message-State: AOJu0YwWf2QwaAl8skFpj5NVTnc2/ebwWpmpD82axEzeUo41Dxkq6l/6
+	nIlz3Sedi2lP3X2OdIb7M0bfpg==
+X-Google-Smtp-Source: AGHT+IEdK1EOd2aCGauXvT26boZBHohCoY+lua2x5WGCwHNeY4+RCONaJII3JQVJLCDZ1BJZxjBUIw==
+X-Received: by 2002:a05:600c:3ca5:b0:40c:4b42:a1fd with SMTP id bg37-20020a05600c3ca500b0040c4b42a1fdmr6536541wmb.34.1702920625800;
+        Mon, 18 Dec 2023 09:30:25 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a720:6e27:acc4:d591? ([2001:8b0:aba:5f3c:a720:6e27:acc4:d591])
+        by smtp.gmail.com with ESMTPSA id j25-20020a05600c1c1900b004076f522058sm45473436wms.0.2023.12.18.09.30.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 09:30:25 -0800 (PST)
+Message-ID: <9e6217677a13c374a5facbf83c2c9eda501927a0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] qemurunner: Impove stdout logging handling
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Dec 2023 17:30:24 +0000
+In-Reply-To: <CAOMZO5CNMvOBtL8Rg0+PKGBsFWoRoiCna7T+NMqe+LE+==8brg@mail.gmail.com>
+References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+	 <CAOMZO5CNMvOBtL8Rg0+PKGBsFWoRoiCna7T+NMqe+LE+==8brg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 17:08:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192667
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 17:30:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192668
 
-From: Ross Burton <ross.burton@arm.com>
+On Mon, 2023-12-18 at 13:04 -0300, Fabio Estevam wrote:
+> On Mon, Dec 18, 2023 at 12:30=E2=80=AFPM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >=20
+> > We need to ensure we read from and log the output from qemu stdout
+> > as otherwise the buffers can fill and block, leading qemu to hand.
+> > Use our existing logging thread to do this.
+>=20
+> s/Impove/Improve on the Subject line of both patches.
 
-These test suites are full of timing-sensitive test cases, so skip
-them too.
+Ah, yes, thanks. I've tweaked it on master-next.
 
-[ YOCTO #15321 ]
+Cheers,
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-devtools/tcltk/tcl/run-ptest | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest b/meta/recipes-dev=
-tools/tcltk/tcl/run-ptest
-index 51e1e4aa7b7..87e025fce12 100644
---- a/meta/recipes-devtools/tcltk/tcl/run-ptest
-+++ b/meta/recipes-devtools/tcltk/tcl/run-ptest
-@@ -5,8 +5,8 @@ export TZ=3D"Europe/London"
- export TCL_LIBRARY=3Dlibrary
-=20
- # Some tests are overly strict with timings and fail on loaded systems.
--# See bugs #14825 #14882 #15081.
--SKIPPED_TESTS=3D'cmdMZ-6.6 exit-1.* socket-* socket_inet-*'
-+# See bugs #14825 #14882 #15081 #15321.
-+SKIPPED_TESTS=3D'async-* cmdMZ-6.6 event-* exit-1.* socket-* socket_inet=
--*'
-=20
- for i in `ls tests/*.test | awk -F/ '{print $2}'`; do
-     ./tcltest tests/all.tcl -file $i -skip "$SKIPPED_TESTS" >$i.log 2>&1
---=20
-2.34.1
-
+Richard
 
