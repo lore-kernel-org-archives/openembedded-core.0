@@ -2,43 +2,43 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E13F2C35274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E73FAC46CD3
 	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 14:47:45 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
  by mx.groups.io with SMTP id smtpd.web11.45511.1702910852353229137
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 06:47:44 -0800
+ Mon, 18 Dec 2023 06:47:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=G5XFeWGo;
+ dkim=pass header.i=@intel.com header.s=Intel header.b=nxavKav/;
  spf=pass (domain: intel.com, ip: 198.175.65.11, mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702910864; x=1734446864;
+  t=1702910857; x=1734446857;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=AG+12Eec9Zqc3hxHE6fIwe+Wr8tEKEGcneYj2PCsfR0=;
-  b=G5XFeWGoPplBOWzfNHDQY8Cj4RQtbF/PAcBzSFBYzbYyVHv8tJabA2c/
-   YELSUA2jcda1qqX/9FVkXrLkG1O/+8PCmnZywuymOPAYIMVcT1SgWkR4O
-   LF70DlTdusP/a986MdLxJwp+jt8D+fVyB43YXnVF/ILrG3JH0FuCi6i+7
-   r2CAfnycQ6pFk4X0UVi0G+sj53IbrlKKXuDPHkYoO28z1GxhHaf5PwmLt
-   JuS/DuYr1ghhyf6tzHWnyhF+ASg+JMp225l3a3IY0yn3cC1ePlOwPtsV8
-   C9Vyl6hjIyWj3UDjRC6SLRBzGTfEl5CrH9sjtPIqotc+Zjyasyt5WWfW/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="2350899"
+  bh=grFCzKVfcRej+vMBKDs31ncrRa4EJAEcgg55GR9H8V4=;
+  b=nxavKav/59mM/P91MLDv8lLd0TVXrhOF7XiSEP95P0e7EpDLqMpP3L19
+   ciJIizVlgx2Bq9xyLB4UU3pic2iZFPQNok0WzUPi6TrZxIcvnZBWhSyCu
+   RULmwl1SSBmWm9Sd+MJW+lFSGr+nn/ytwLtpFKg+MrXXzpWmgSskqwrGa
+   JNp011p7EvFlgqWTvkFJVg/IIY/DAR0rptgkmqRmZBsrMjuCVweabO89o
+   Uh0GWdwvEKibG+FQyGEbxrtqg27Plyudqvic5OgmHGj87z18SozNXOIFN
+   V1gT1nVA/ShV7VvxNydegvHeNzBgB/bK6vZNNUMmynhkO/zqcP6AGr/BX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10928"; a="2350877"
 X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
-   d="scan'208";a="2350899"
+   d="scan'208";a="2350877"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 06:47:44 -0800
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 06:47:37 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
-   d="scan'208";a="23802925"
+   d="scan'208";a="23802898"
 Received: from jsuah-mobl.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com) ([10.215.240.31])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 06:47:43 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 06:47:36 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 9/9] enchant2: upgrade 2.6.2 -> 2.6.4
-Date: Mon, 18 Dec 2023 22:47:24 +0800
-Message-ID: <20231218144724.7794-9-anuj.mittal@intel.com>
+Subject: [PATCH 4/9] glib-2.0: upgrade 2.78.1 -> 2.78.3
+Date: Mon, 18 Dec 2023 22:47:19 +0800
+Message-ID: <20231218144724.7794-4-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231218144724.7794-1-anuj.mittal@intel.com>
 References: <20231218144724.7794-1-anuj.mittal@intel.com>
@@ -48,42 +48,307 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 14:47:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192654
-
-pkgdatadir is a versioned directory by default now so we don't need to
-pass it to EXTRA_OEMAKE.
-
-https://github.com/AbiWord/enchant/commit/6e4a8df5cbf80fd449f1857ac1065d3235f1139f
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192649
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../enchant/{enchant2_2.6.2.bb => enchant2_2.6.4.bb}          | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
- rename meta/recipes-support/enchant/{enchant2_2.6.2.bb => enchant2_2.6.4.bb} (87%)
+ ...ot-write-bindir-into-pkg-config-files.patch |  4 ++--
+ .../0001-Fix-DATADIRNAME-on-uclibc-Linux.patch |  3 +--
+ ...l-gio-querymodules-as-libexec_PROGRAM.patch |  6 +++---
+ ...ing-about-deprecated-paths-in-schemas.patch |  4 ++--
+ ...e-correctly-when-building-with-mingw3.patch | 18 +++++++++---------
+ ...rces.c-comment-out-a-build-host-only-.patch |  6 +++---
+ ...son-Run-atomics-test-on-clang-as-well.patch |  6 +++---
+ ...not-enable-pidfd-features-on-native-g.patch |  8 +++-----
+ ...rdcode-python-path-into-various-tools.patch |  6 +++---
+ .../glib-2.0/glib-2.0/relocate-modules.patch   |  2 +-
+ .../{glib-2.0_2.78.1.bb => glib-2.0_2.78.3.bb} |  2 +-
+ 11 files changed, 31 insertions(+), 34 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.78.1.bb => glib-2.0_2.78.3.bb} (96%)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.6.2.bb b/meta/recipes-support/enchant/enchant2_2.6.4.bb
-similarity index 87%
-rename from meta/recipes-support/enchant/enchant2_2.6.2.bb
-rename to meta/recipes-support/enchant/enchant2_2.6.4.bb
-index 38d3245d203..431d02ea25a 100644
---- a/meta/recipes-support/enchant/enchant2_2.6.2.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.6.4.bb
-@@ -12,14 +12,12 @@ DEPENDS = "glib-2.0 groff-native"
- inherit autotools pkgconfig github-releases
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+index 0d44ddf299a..0e5f371cb58 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Do-not-write-bindir-into-pkg-config-files.patch
+@@ -1,4 +1,4 @@
+-From 9ec4eedeb3f67db0bff09f5d859318d05ff47964 Mon Sep 17 00:00:00 2001
++From cf7df91cc8c3b4811235ef8aec144c5f0cf90bdb Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 15 Feb 2019 11:17:27 +0100
+ Subject: [PATCH] Do not write $bindir into pkg-config files
+@@ -16,7 +16,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  2 files changed, 11 insertions(+), 11 deletions(-)
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[sha256sum] = "6686a728e56e760f8dee09a22f0fb53b46ee9dbe7d64cf9e5bb35a658bff7e1d"
-+SRC_URI[sha256sum] = "833b4d5600dbe9ac867e543aac6a7a40ad145351495ca41223d4499d3ddbbd2c"
+ diff --git a/gio/meson.build b/gio/meson.build
+-index a320c0f..86ce7c4 100644
++index 5f91586..1a95f4f 100644
+ --- a/gio/meson.build
+ +++ b/gio/meson.build
+ @@ -884,14 +884,14 @@ pkg.generate(libgio,
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+index 16f2d314967..1254466063a 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Fix-DATADIRNAME-on-uclibc-Linux.patch
+@@ -1,4 +1,4 @@
+-From c94e669de98a3892c699bd8d0d2b5164b2de747e Mon Sep 17 00:00:00 2001
++From b907a6681c4c24e5d3745538d9fcd471cf1c4c4a Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 15 Mar 2014 22:42:29 -0700
+ Subject: [PATCH] Fix DATADIRNAME on uclibc/Linux
+@@ -9,7 +9,6 @@ based systems therefore lets set DATADIRNAME to "share".
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Upstream-Status: Pending
  
- GITHUB_BASE_URI = "https://github.com/AbiWord/enchant/releases"
- 
- S = "${WORKDIR}/enchant-${PV}"
- 
--EXTRA_OEMAKE = "pkgdatadir=${datadir}/enchant-2"
 -
- PACKAGECONFIG ??= "aspell"
- PACKAGECONFIG[aspell]  = "--with-aspell,--without-aspell,aspell,aspell"
- PACKAGECONFIG[hunspell]  = "--with-hunspell,--without-hunspell,hunspell,hunspell"
+ ---
+  m4macros/glib-gettext.m4 | 4 ++++
+  1 file changed, 4 insertions(+)
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+index 597864d9ac4..50d369c24ef 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Install-gio-querymodules-as-libexec_PROGRAM.patch
+@@ -1,4 +1,4 @@
+-From 0015db45cd1bfefc04959dffab5dabeead93136f Mon Sep 17 00:00:00 2001
++From 6e2ddcb5465d10618345b12e0b4471ead0f14304 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 22 Mar 2016 15:14:58 +0200
+ Subject: [PATCH] Install gio-querymodules as libexec_PROGRAM
+@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate [OE specific]
+  1 file changed, 1 insertion(+)
+ 
+ diff --git a/gio/meson.build b/gio/meson.build
+-index 2ef60ed..532b086 100644
++index f9fdf6e..5f91586 100644
+ --- a/gio/meson.build
+ +++ b/gio/meson.build
+-@@ -936,6 +936,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
++@@ -1005,6 +1005,7 @@ gio_querymodules = executable('gio-querymodules', 'gio-querymodules.c', 'giomodu
+    c_args : gio_c_args,
+    # intl.lib is not compatible with SAFESEH
+    link_args : noseh_link_args,
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+index 6fd93526ced..f810574d973 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+@@ -1,4 +1,4 @@
+-From 4f47b8a8d650d185aa61aec2f56a283522a723c4 Mon Sep 17 00:00:00 2001
++From c8c223045821cac97f798cfa63f19853621a8a2a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 12 Jun 2015 17:08:46 +0300
+ Subject: [PATCH] Remove the warning about deprecated paths in schemas
+@@ -15,7 +15,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 13 deletions(-)
+ 
+ diff --git a/gio/glib-compile-schemas.c b/gio/glib-compile-schemas.c
+-index 7888120..7acbd5b 100644
++index 04ef404..e791ce2 100644
+ --- a/gio/glib-compile-schemas.c
+ +++ b/gio/glib-compile-schemas.c
+ @@ -1232,19 +1232,6 @@ parse_state_start_schema (ParseState  *state,
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+index 2e1e2313e8b..e1d2fb0e54f 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
+@@ -1,4 +1,4 @@
+-From ba1728bc27c88597164957d000b70ec4be6edf28 Mon Sep 17 00:00:00 2001
++From bafde4eedc0a22b45e73ee6183b9a11393a1e400 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 13 Feb 2019 15:32:05 +0100
+ Subject: [PATCH] Set host_machine correctly when building with mingw32
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 8 insertions(+), 5 deletions(-)
+ 
+ diff --git a/gio/tests/meson.build b/gio/tests/meson.build
+-index f644aa2..64a8684 100644
++index 4ef3343..e498e7e 100644
+ --- a/gio/tests/meson.build
+ +++ b/gio/tests/meson.build
+ @@ -29,7 +29,7 @@ endif
+@@ -25,7 +25,7 @@ index f644aa2..64a8684 100644
+    common_gio_tests_deps += [iphlpapi_dep, winsock2, cc.find_library ('secur32')]
+  endif
+  
+-@@ -210,7 +210,7 @@ if have_dbus_daemon
++@@ -230,7 +230,7 @@ if have_dbus_daemon
+  endif
+  
+  #  Test programs buildable on UNIX only
+@@ -34,7 +34,7 @@ index f644aa2..64a8684 100644
+    gio_tests += {
+      'file' : {},
+      'gdbus-peer-object-manager' : {},
+-@@ -462,7 +462,7 @@ if host_machine.system() != 'windows'
++@@ -562,7 +562,7 @@ if host_machine.system() != 'windows'
+  endif # unix
+  
+  #  Test programs buildable on Windows only
+@@ -43,7 +43,7 @@ index f644aa2..64a8684 100644
+    gio_tests += {'win32-streams' : {}}
+  endif
+  
+-@@ -532,7 +532,7 @@ if cc.get_id() != 'msvc' and cc.get_id() != 'clang-cl'
++@@ -632,7 +632,7 @@ if cc.get_id() != 'msvc' and cc.get_id() != 'clang-cl'
+    }
+  endif
+  
+@@ -53,10 +53,10 @@ index f644aa2..64a8684 100644
+      'gdbus-example-unix-fd-client' : {
+        'install' : false,
+ diff --git a/glib/tests/meson.build b/glib/tests/meson.build
+-index db01b54..6950817 100644
++index d80c86e..5329cda 100644
+ --- a/glib/tests/meson.build
+ +++ b/glib/tests/meson.build
+-@@ -188,7 +188,7 @@ if glib_conf.has('HAVE_EVENTFD')
++@@ -216,7 +216,7 @@ if glib_conf.has('HAVE_EVENTFD')
+    }
+  endif
+  
+@@ -66,10 +66,10 @@ index db01b54..6950817 100644
+      glib_tests += {
+        'gpoll' : {
+ diff --git a/meson.build b/meson.build
+-index 43bb468..5f9b59c 100644
++index f7e936e..122f8b5 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -43,6 +43,9 @@ else
++@@ -54,6 +54,9 @@ else
+  endif
+  
+  host_system = host_machine.system()
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
+index d33fdd4d8b7..e4c2f774592 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch
+@@ -1,4 +1,4 @@
+-From 92de6c7eb30b961b24a2dce812d5276487b7d23d Mon Sep 17 00:00:00 2001
++From 3f05b9418c88bbb83c08b57cc5529b006f26fff4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 8 Jan 2020 18:22:46 +0100
+ Subject: [PATCH] gio/tests/resources.c: comment out a build host-only test
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/gio/tests/resources.c b/gio/tests/resources.c
+-index c44d214..e289a01 100644
++index f567914..b21b616 100644
+ --- a/gio/tests/resources.c
+ +++ b/gio/tests/resources.c
+-@@ -993,7 +993,7 @@ main (int   argc,
++@@ -1068,7 +1068,7 @@ main (int   argc,
+    g_test_add_func ("/resource/automatic", test_resource_automatic);
+    /* This only uses automatic resources too, so it tests the constructors and destructors */
+    g_test_add_func ("/resource/module", test_resource_module);
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
+index 44482dd2b7b..071e4a7c4dc 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Run-atomics-test-on-clang-as-well.patch
+@@ -1,4 +1,4 @@
+-From 4b97f457b7b44117e27d2a218c4b68e7fe3fe4ce Mon Sep 17 00:00:00 2001
++From 17d718640ae6f953e5eea714c1bd64eeb6e4799f Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 12 Oct 2019 17:46:26 -0700
+ Subject: [PATCH] meson: Run atomics test on clang as well
+@@ -15,10 +15,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index afb6eaa..6aa70f5 100644
++index 122f8b5..f055079 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -1692,7 +1692,7 @@ atomicdefine = '''
++@@ -1938,7 +1938,7 @@ atomicdefine = '''
+  # We know that we can always use real ("lock free") atomic operations with MSVC
+  if cc.get_id() == 'msvc' or cc.get_id() == 'clang-cl' or cc.links(atomictest, name : 'atomic ops')
+    have_atomic_lock_free = true
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
+index 788f420d118..e03f9a3c843 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch
+@@ -1,4 +1,4 @@
+-From 9aa9574861fad39d0679025e35fe1e188345f685 Mon Sep 17 00:00:00 2001
++From 7865d698b5d392aac3a3d32e9ebd5fea45017d15 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sat, 16 Sep 2023 22:28:27 +0200
+ Subject: [PATCH] meson.build: do not enable pidfd features on native glib
+@@ -9,12 +9,13 @@ where these features are not implemented.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++
+ ---
+  meson.build | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 1c36993..bbf97fc 100644
++index f055079..77d78aa 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -981,7 +981,8 @@ if cc.links('''#include <sys/syscall.h>
+@@ -27,6 +28,3 @@ index 1c36993..bbf97fc 100644
+  endif
+  
+  # Check for __uint128_t (gcc) by checking for 128-bit division
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch b/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
+index 1c645f3a9ab..4b75167da6a 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0010-Do-not-hardcode-python-path-into-various-tools.patch
+@@ -1,4 +1,4 @@
+-From 79ce7e545dd3a93f77d2146d50b6fa061fbceed9 Mon Sep 17 00:00:00 2001
++From 53bcd4b6cd3fe3fe4246914462e6724761eecf51 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 3 Oct 2017 10:45:55 +0300
+ Subject: [PATCH] Do not hardcode python path into various tools
+@@ -23,7 +23,7 @@ index 67d3675..4e92a7a 100755
+  # GDBus - GLib D-Bus Library
+  #
+ diff --git a/gobject/glib-genmarshal.in b/gobject/glib-genmarshal.in
+-index 7380f24..c8abeaa 100755
++index aa5af43..56e8e2e 100755
+ --- a/gobject/glib-genmarshal.in
+ +++ b/gobject/glib-genmarshal.in
+ @@ -1,4 +1,4 @@
+@@ -33,7 +33,7 @@ index 7380f24..c8abeaa 100755
+  # pylint: disable=too-many-lines, missing-docstring, invalid-name
+  
+ diff --git a/gobject/glib-mkenums.in b/gobject/glib-mkenums.in
+-index 91ad779..3ebef62 100755
++index 353e53a..8ed6c39 100755
+ --- a/gobject/glib-mkenums.in
+ +++ b/gobject/glib-mkenums.in
+ @@ -1,4 +1,4 @@
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index 841fedef8af..95a73298d85 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -1,4 +1,4 @@
+-From b90d13900dd2777c2ab90c5b0be1a872c10a17da Mon Sep 17 00:00:00 2001
++From 03a069cb8066d3e8ef72a43f7b1db5c9625e9cc2 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 11 Mar 2016 15:35:55 +0000
+ Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+similarity index 96%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+index a4902621122..13d4b38e22e 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.1.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+@@ -19,7 +19,7 @@ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
+                               "
+ 
+-SRC_URI[sha256sum] = "915bc3d0f8507d650ead3832e2f8fb670fce59aac4d7754a7dab6f1e6fed78b2"
++SRC_URI[sha256sum] = "609801dd373796e515972bf95fc0b2daa44545481ee2f465c4f204d224b2bc21"
+ 
+ # Find any meson cross files in FILESPATH that are relevant for the current
+ # build (using siteinfo) and add them to EXTRA_OEMESON.
 -- 
 2.43.0
 
