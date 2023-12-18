@@ -2,47 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DAF8C35274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4083BC46CD2
 	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 09:12:54 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.40146.1702890769301887486
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.40143.1702890768304404938
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 01:12:49 -0800
+ Mon, 18 Dec 2023 01:12:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Xi1dZ7bz;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=l0rPe0aK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018c7c33060e-66bd2746-87b0-4e6f-94fc-7eed5600eda8-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EgkJQw7T;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gsI2LMQ9;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018c7c33043c-9fbbdfa7-effe-42bc-abf8-99095cb1bee8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702890768; i=@automation.yoctoproject.org;
+	t=1702890767; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=xuXUQWm4Xxmao+RzAB6YCs1ExmkEted56X0cXw7o5lw=;
-	b=Xi1dZ7bzqYnaf14RZutCIBDz8EhQI+TmgSrtpMv749VEO4aXEZPhIxeH6kSwICgN
-	ZYYG9itczTYOy7PhZ5Q5oV+ZM0t2Cc8JJ9BMckqBHWmEm7u4ynxlhyR72BUG9vJ8N/K
-	hNBuM1p+GNb+VipqCMZvzzZQjYal6s1xWNa7Xy5Q=
+	bh=pP7uo+7kYg757YMYdTPuW1qSFMO1PMiC+hg0Cs/FOFI=;
+	b=EgkJQw7TdMa/pM0elks0akMgfGAqOr3/MszB0ftxBbcb2QK7S11S1YRTS0O2dvLp
+	YFanu1Ga7EaM12r8ik5CdBLBiC7UEUHbtWCZmuygs3lRlCUPb7cDFHIlGuARTF47tnN
+	w5To4Pv7O/lchkWI8IZAyRrH/GldOuIpgfIvi2k0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702890768;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702890767;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=xuXUQWm4Xxmao+RzAB6YCs1ExmkEted56X0cXw7o5lw=;
-	b=l0rPe0aKe8J1ogdai0H0mhkurvuaicIHE3l2HxW55jhfM77ABAgFkVrj0O6BSatF
-	tVOHNPh94VFW/pChMMhIlq+UWkfyVvXu2uaMl9DnxCN8KEwF8O5Q1CpaJ16wcOC/9WP
-	4wYLsxzmwVg+giOBQb6q+iJttdBLg35tqnCok28Y=
+	bh=pP7uo+7kYg757YMYdTPuW1qSFMO1PMiC+hg0Cs/FOFI=;
+	b=gsI2LMQ9Vb1JqhZ5rCo/AA9v8xot89cW1KvgzFuAqqNl/d3Pvo1+s8NVSbmUaBIH
+	ptq8jG2h4ArznSwWj6vEt5HEMyQCVkXgtOCXNgy8QTlYV937vt0zhpZ+lj+haa263FJ
+	M4b9Twid/oNfmeFCpKev9EsDbgkfr5HbNbAW6xsU=
 From: patchtest@automation.yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 6/7] bitbake/runqueue: add debugging for find_siginfo() calls
-In-Reply-To: 20231218084403.599015-6-alex@linutronix.de
+Subject: Patchtest results for [PATCH 5/7] bitbake/runqueue: prioritize local stamps over sstate
+ signatures in printdiff
+In-Reply-To: 20231218084403.599015-5-alex@linutronix.de
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c7c33060e-66bd2746-87b0-4e6f-94fc-7eed5600eda8-000000@us-west-2.amazonses.com>
+Message-ID: <0101018c7c33043c-9fbbdfa7-effe-42bc-abf8-99095cb1bee8-000000@us-west-2.amazonses.com>
 Date: Mon, 18 Dec 2023 09:12:47 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.18-54.240.27.31
+X-SES-Outgoing: 2023.12.18-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:12:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192623
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192621
 
 --NextPart
 Content-Type: text/plain
@@ -52,14 +53,14 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/6-7-bitbake-runqueue-add-debugging-for-find_siginfo-calls.patch
+Testing patch /home/patchtest/share/mboxes/5-7-bitbake-runqueue-prioritize-local-stamps-over-sstate-signatures-in-printdiff.patch
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
 PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
