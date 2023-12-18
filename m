@@ -2,171 +2,97 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE9CC46CA2
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 08:44:23 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web10.39800.1702889055833327407
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05F4DC46CD2
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 08:44:24 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.39801.1702889057665910752
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 00:44:16 -0800
+ Mon, 18 Dec 2023 00:44:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IdQUk8Ix;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a2363e4f996so23678166b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 00:44:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PEWO9Es+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a2335d81693so217417166b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 00:44:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702889054; x=1703493854; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nDHmBbAIJvsZgBWNxwA7mhh6S1bqL6N7QUu1IwG3P/I=;
-        b=IdQUk8IxXXl5oMrOzfiYtUda0BvJR3cBO9P+cD8fuvI9Gkt+aEEJAsiaxgTqMqW25d
-         fIY6OOW6ooZSVdkN7q7120GgncXjghgtYw64+mWqYWleoxJBC+uHcuftf49OBb8bFOhR
-         /yA528EmPonM8k32YaC/ekvnB097jXPWVZ0Th87H0PTanmKON68QR5mKMpV0mwwMWa/Z
-         wFqkMzygN2uh8jvmJT2YM6svDPUFqI068lWX3cN4ojDR+286bvJqQTw4TFi4wfMIDYCk
-         6ecUM9v9cVbKXflRwm1SDRmuQ+/peiJaiHfsF6kq1rhwklkwqt84PlgYM2kLBJbgv1/U
-         iwYg==
+        d=gmail.com; s=20230601; t=1702889056; x=1703493856; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+yl0J49Lf+BNpHDbePEAizGhsMRxX2zjOOsRdhQrKtU=;
+        b=PEWO9Es+LQ6mCwk1HtDOFpUU2roZj8X+owUCj93XjkoMFaCqXi0VewG81GxUxpK745
+         w/fw1AcyQkykFxTimaF0MK8Ok0fI8cmz/mMhcxdHPbslvo56omLOnXymXmieEdJTiu7r
+         bllRvmp9iUJKuV4fBZc/a4wvxRWDalmDGuDKs5EbjzpoPm36q4mW8EjNToiuCjIBWdTc
+         llXgcNbznl2/wjpNRQxYxvuNcShCDyhqaQE5l22PX8qF6HxOrsj5yVkrZl9PpEpk1iwf
+         Re3oLdIWNxlyAL1r6MUIVoUzy65E1KAK/U6StAIsaixrScePlVgcFRo+xvRUCzO+abbl
+         KRZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702889054; x=1703493854;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nDHmBbAIJvsZgBWNxwA7mhh6S1bqL6N7QUu1IwG3P/I=;
-        b=IMN3U8PxAlNx4b5Lwj+8NGPQZSQLFd+enzFt8hBIymm114180ljGKAqv/aWghcB0Cb
-         Dkxld31/dX8wu0gDMCqjtDi1iqzS1YI6NC90SADxtYseIk1IrSpu6QxW8xdxHdB42q50
-         Fc9W9QZUoHfIubGqqbkmtyr8Km2TL+5WRfLH8BqvJd0m7VrJ7KIkQqkRYYFP2itmQ1Ej
-         IQuSuzTTjsmPSp6Iu/btUi5q5l0vmIzdE27H4EfSke8lAoixBQ3fgZ8jV0nh8V3IyI8t
-         U5Epmnb0QjvwwOk3tREtC57wBfTagIQenrEk195/PFc2icDug3AhEUblH8W0C7yTfV9Z
-         moZQ==
-X-Gm-Message-State: AOJu0YxPgW1+s9pqLvdu3PtqE2zrK1zAJiOfV2cJZ/eVlIRh5fIK8lac
-	/m5ENHRYYmZhpX0rhXBbgT5eJBL9640=
-X-Google-Smtp-Source: AGHT+IGzoUAKIF2+O2AP9vnyb47RVMb5u77wzeCc0gF8SW9SIzC62R2X+iW5WfyjvJgOSsS78AbY6w==
-X-Received: by 2002:a17:906:73d0:b0:a22:f58e:ed09 with SMTP id n16-20020a17090673d000b00a22f58eed09mr4097919ejl.153.1702889054055;
-        Mon, 18 Dec 2023 00:44:14 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702889056; x=1703493856;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+yl0J49Lf+BNpHDbePEAizGhsMRxX2zjOOsRdhQrKtU=;
+        b=o6smxr3U6ofDaRMTpOKAqmkcGsd01O0MRkgD/rhD8Eakx8EDgfAFXEon3HKX3Kl1Z3
+         I7PqKbc2u5csIwVEbbM9QIPOEhpkoU3jY6HHv+X1eqT3UhMutq/TLMH8QVoSUFLv8pgJ
+         m/PmspyBsMIP2YT3HkKnv6mB9qyrb/NJ9yI3RO/wRytCY4oW/G/w4YMTyLQFngHUXtuc
+         J6UU0fFJy6FeCntQbjOgRRfTwjY1HfuIgtN2YH9iIhj3Q1WGf3soRnqa7edWvrUKoSE7
+         ovV2aWoOuEkvq5R8BrvBzt2Ulw3ADrVXxHzf9z3TaLwwyzVeDKM4C02KejJazAhZH9ym
+         ecyQ==
+X-Gm-Message-State: AOJu0YwddG1OlC1spcYUOQC8xaxpijnrbZgODi3CjSRg1QMBKecOTkoP
+	Yoptv/NqQA7aNNQ8facdh3s1ahl/P3g=
+X-Google-Smtp-Source: AGHT+IHpALCr+oKuc8BsP2qlD4kYCmquLsCUJs2Ym2oXXNpQ10Y0vC93Ivo077yvHQY3tjD/CCbpBg==
+X-Received: by 2002:a17:906:225d:b0:a0f:c538:4612 with SMTP id 29-20020a170906225d00b00a0fc5384612mr14270375ejr.28.1702889056001;
+        Mon, 18 Dec 2023 00:44:16 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id vt6-20020a170907a60600b00a1ce98016b6sm14016299ejc.97.2023.12.18.00.44.13
+        by smtp.gmail.com with ESMTPSA id vt6-20020a170907a60600b00a1ce98016b6sm14016299ejc.97.2023.12.18.00.44.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 00:44:13 -0800 (PST)
+        Mon, 18 Dec 2023 00:44:15 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/7] bitbake/runqueue: rework 'bitbake -S printdiff' logic
-Date: Mon, 18 Dec 2023 09:43:57 +0100
-Message-Id: <20231218084403.599015-1-alex@linutronix.de>
+Subject: [PATCH 5/7] bitbake/runqueue: prioritize local stamps over sstate signatures in printdiff
+Date: Mon, 18 Dec 2023 09:44:01 +0100
+Message-Id: <20231218084403.599015-5-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231218084403.599015-1-alex@linutronix.de>
+References: <20231218084403.599015-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 08:44:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192612
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 08:44:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192616
 
-Previously printdiff code would iterate over tasks that were reported as invalid or absent,
-trying to follow dependency chains that would reach the most basic invalid items in the tree.
+Even with the reworked printdiff code, sstate which is heavily used in parallel
+can throw races at the tests: if a new matching, but otherwise unrelated
+sstate signature appears between writing out local stamps and listing
+matching sstate files, then that signature will be deemed 'the latest'
+and the actual local stamp will be discarded. This change ensures
+the scenario does not happen.
 
-While this works in tightly controlled local builds, it can lead to bizarre reports
-against industrial-sized sstate caches, as the code would not consider whether the
-overall target can be fulfilled from valid sstate objects, and instead report
-missing sstate signature files that perhaps were never even created due to hash
-equivalency providing shortcuts in builds.
-
-This commit reworks the logic in two ways:
-
-- start the iteration over final targets rather than missing objects
-and try to recursively arrive at the root of the invalid object dependency.
-
-A previous version of this patch relied relies on finding the most 'recent'
-signature in stamps or sstate in a different function later, and recursively
-comparing that to the current signature, which is unreliable on real world caches.
-
-- if a given object can be fulfilled from sstate, recurse only into
-its setscene dependencies; bitbake wouldn't care if dependencies
-for the actual task are absent, and neither should printdiff
-
-I wrote a recursive function for following dependencies, as
-doing recursive algorithms non-recursively can result in write-only
-code, as was the case here.
-
-[YOCTO #15289]
+It also makes use of the reworked find_siginfo(), particularly the 'sstate'
+entry in returned results.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- bitbake/lib/bb/runqueue.py | 41 ++++++++++++++++++++++++--------------
- 1 file changed, 26 insertions(+), 15 deletions(-)
+ bitbake/lib/bb/runqueue.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
-index 24497c5c173..f54d9b85541 100644
+index 72d2feab27a..0fc26ccdf88 100644
 --- a/bitbake/lib/bb/runqueue.py
 +++ b/bitbake/lib/bb/runqueue.py
-@@ -1685,6 +1685,17 @@ class RunQueue:
-         return
- 
-     def print_diffscenetasks(self):
-+        def get_root_invalid_tasks(task, taskdepends, valid, noexec, visited_invalid):
-+            invalidtasks = []
-+            for t in taskdepends[task].depends:
-+                if t not in valid and t not in visited_invalid:
-+                    invalidtasks.extend(get_root_invalid_tasks(t, taskdepends, valid, noexec, visited_invalid))
-+                    visited_invalid.add(t)
-+
-+            direct_invalid = [t for t in taskdepends[task].depends if t not in valid]
-+            if not direct_invalid and task not in noexec:
-+                invalidtasks = [task]
-+            return invalidtasks
- 
-         noexec = []
-         tocheck = set()
-@@ -1718,35 +1729,35 @@ class RunQueue:
-                     valid_new.add(dep)
- 
-         invalidtasks = set()
--        for tid in self.rqdata.runtaskentries:
--            if tid not in valid_new and tid not in noexec:
--                invalidtasks.add(tid)
- 
--        found = set()
--        processed = set()
--        for tid in invalidtasks:
-+        toptasks = set(["{}:{}".format(t[3], t[2]) for t in self.rqdata.targets])
-+        for tid in toptasks:
-             toprocess = set([tid])
-             while toprocess:
-                 next = set()
-+                visited_invalid = set()
-                 for t in toprocess:
--                    for dep in self.rqdata.runtaskentries[t].depends:
--                        if dep in invalidtasks:
--                            found.add(tid)
--                        if dep not in processed:
--                            processed.add(dep)
-+                    if t not in valid_new and t not in noexec:
-+                        invalidtasks.update(get_root_invalid_tasks(t, self.rqdata.runtaskentries, valid_new, noexec, visited_invalid))
-+                        continue
-+                    if t in self.rqdata.runq_setscene_tids:
-+                        for dep in self.rqexe.sqdata.sq_deps[t]:
-                             next.add(dep)
-+                        continue
-+
-+                    for dep in self.rqdata.runtaskentries[t].depends:
-+                        next.add(dep)
-+
-                 toprocess = next
--                if tid in found:
--                    toprocess = set()
- 
-         tasklist = []
--        for tid in invalidtasks.difference(found):
-+        for tid in invalidtasks:
-             tasklist.append(tid)
- 
-         if tasklist:
-             bb.plain("The differences between the current build and any cached tasks start at the following tasks:\n" + "\n".join(tasklist))
- 
--        return invalidtasks.difference(found)
-+        return invalidtasks
- 
-     def write_diffscenetasks(self, invalidtasks):
- 
+@@ -1788,6 +1788,9 @@ class RunQueue:
+             if match is None:
+                 bb.fatal("Can't find a task we're supposed to have written out? (hash: %s tid: %s)?" % (h, tid))
+             matches = {k : v for k, v in iter(matches.items()) if h not in k}
++            matches_local = {k : v for k, v in iter(matches.items()) if h not in k and not v['sstate']}
++            if matches_local:
++                matches = matches_local
+             if matches:
+                 latestmatch = matches[sorted(matches.keys(), key=lambda h: matches[h]['time'])[-1]]['path']
+                 prevh = __find_sha256__.search(latestmatch).group(0)
 -- 
 2.39.2
 
