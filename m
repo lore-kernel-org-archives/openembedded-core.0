@@ -1,88 +1,189 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <pazhukov@suse.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F49C35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 09:27:04 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.40757.1702891619201087220
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC753C35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 10:28:14 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by mx.groups.io with SMTP id smtpd.web10.40987.1702895287393024131
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 01:26:59 -0800
+ Mon, 18 Dec 2023 02:28:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NV0o7L2a;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50e3c6f1c10so406501e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 01:26:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702891617; x=1703496417; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jcRiI5La6UGPlK7ARYzDyoS3WIihPhfKtjJOu5xSLd4=;
-        b=NV0o7L2aRnOK8+ITbcwIbHA5WngKZIJ8vwW2w3+i4cVjeMvxfZbCt/TypSV0eaXwP+
-         C8f4oBZoO9IgDJUyvkHi0iZYv3uaQnVbaiE7xHbLNB9fc4J/cQ6k34fE9lVjzQjbCQNV
-         KVhFgP0BAcHVXSpCqr3gdCBF8vm4ksfeOr1frL4eP5wBfBk7jbdZ2OUkRnxJRaVuajbA
-         UlUVIwMvowPDBeb9kyAGI+VJX+ysf2Eg3a0J01XK3vU0h1GcRDNL4RYJOpVrBUO8GHWZ
-         zjeH8XCwV2sZBowHxl4p8uejYNUjSgftBfn9m9MEKoGnncaJCFN/YY9izluTnlyRibc2
-         3o2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702891617; x=1703496417;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jcRiI5La6UGPlK7ARYzDyoS3WIihPhfKtjJOu5xSLd4=;
-        b=RuYTzSQV5x3liXEFDFnR2Q+bZT4j2t0hliE/gIpnCUGHVS3oo7zJKthuAgCvo60Ra4
-         DuvubNzazjIizuYaIpq/W5f1njUMXBlvwJXyHGeZ3dugKAj7tVUfqTVmhsmY+5jhcogF
-         t6MQp3LR0UKR4aSX3oyJI7xnea7KWjQiTqXIjBYtkdhfh3YxADkH//k0FPH8yyW8QVwk
-         qkfQTGHnqez0kUsOmknmX3qFSs6z8fcMgxfJK4qD3fOyMOzee+tawsHX9v7GoJOLKEXG
-         sqD7LKcBVo/S9b8994O24EIvfloq5GZGLt7ClLP8X4pDCshcyWMETYvYvteMMF3Fsm9D
-         539A==
-X-Gm-Message-State: AOJu0YxtqInVveZvkyCqdaf/abkn5xoo65KakiNvgG19lg3wUCfNNls5
-	WH5ls56X3v3iwEbCNGhYzkbIEayX8R18HFVQs/8=
-X-Google-Smtp-Source: AGHT+IF2Z9SKCB7CB5T36k4y0OKEDEK9qTEqFAotwvUy49ASZaeH3S3xbK/i0kXu6K+8wjDVXHE1fQsEaNSAVkiGXYc=
-X-Received: by 2002:a05:6512:3582:b0:50e:3a23:9d05 with SMTP id
- m2-20020a056512358200b0050e3a239d05mr171166lfr.66.1702891617297; Mon, 18 Dec
- 2023 01:26:57 -0800 (PST)
+ dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=VKotku/0;
+ dkim=pass header.i=@suse.de header.s=susede2_ed25519 header.b=7guIXosx;
+ dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=VKotku/0;
+ dkim=pass header.i=@suse.de header.s=susede2_ed25519 header.b=7guIXosx;
+ spf=pass (domain: suse.de, ip: 195.135.223.130, mailfrom: pazhukov@suse.de)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A777B2208C;
+	Mon, 18 Dec 2023 10:28:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702895284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1GF1WdMK5TCGVko4D8y04iWzikvntprbBzMwFr+9NwE=;
+	b=VKotku/0diCwjEGDxQPpzIuAQA/ZQiX9cOv38zWrGKMNbGGMV0xg7xc6CY9T9CUYlIYYR3
+	KMsh7e+4pGWapOn2lzjbo0xjlMLRT+29SchJOC10v4pOPZapKsaRS3R4548ZIuyPjdp8as
+	HfDNoC1V/ud/bdXf3lZCZzF9nnyJkIg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702895284;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1GF1WdMK5TCGVko4D8y04iWzikvntprbBzMwFr+9NwE=;
+	b=7guIXosxZAta6y7DcMeKa+AJl1/nMl9dlmkaqGT+nwNSyLjiBqnXWXL+EoxLGR0sUpW15A
+	G1/G2W64/M317lCA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1702895284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1GF1WdMK5TCGVko4D8y04iWzikvntprbBzMwFr+9NwE=;
+	b=VKotku/0diCwjEGDxQPpzIuAQA/ZQiX9cOv38zWrGKMNbGGMV0xg7xc6CY9T9CUYlIYYR3
+	KMsh7e+4pGWapOn2lzjbo0xjlMLRT+29SchJOC10v4pOPZapKsaRS3R4548ZIuyPjdp8as
+	HfDNoC1V/ud/bdXf3lZCZzF9nnyJkIg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1702895284;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1GF1WdMK5TCGVko4D8y04iWzikvntprbBzMwFr+9NwE=;
+	b=7guIXosxZAta6y7DcMeKa+AJl1/nMl9dlmkaqGT+nwNSyLjiBqnXWXL+EoxLGR0sUpW15A
+	G1/G2W64/M317lCA==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id A005F13927;
+	Mon, 18 Dec 2023 10:28:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id fEXtJrQegGXEIgAAn2gu4w
+	(envelope-from <pazhukov@suse.de>); Mon, 18 Dec 2023 10:28:04 +0000
 MIME-Version: 1.0
-References: <CANNYZj_DszK94DujKJ_a52HsAhW92nP0eVtitfuKueKeMNQ3QA@mail.gmail.com>
- <20231218091332.3090320-1-mingli.yu@windriver.com>
-In-Reply-To: <20231218091332.3090320-1-mingli.yu@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 18 Dec 2023 10:26:45 +0100
-Message-ID: <CANNYZj9aLEa=zCFMxv3cdjmwDdk3ZRyhsn+qtYFeY1LLBDyfPg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] python3-license-expression: Fix the ptest failure
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 18 Dec 2023 11:28:04 +0100
+From: pazhukov <pazhukov@suse.de>
+To: alexandre.belloni@bootlin.com
+Cc: Pavel Zhukov <pavel@zhukoff.net>,
+ openembedded-core@lists.openembedded.org, luca.ceresoli@bootlin.com,
+ richard.purdie@linuxfoundation.org
+Subject: Re: [OE-core] [PATCH v3 1/4] dummy-sdk-package.inc: Filter packages
+ which are marked for installation
+In-Reply-To: <20231012093603.53a79e61@booty>
+References: <20231009144001.21150-1-pavel@zhukoff.net>
+ <20231012093603.53a79e61@booty>
+User-Agent: Roundcube Webmail
+Message-ID: <b65cec4ff5d003bef56f96ffdd7ef52b@suse.de>
+X-Sender: pazhukov@suse.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.13 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	 MIME_GOOD(-0.10)[text/plain];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
+	 BAYES_HAM(-0.83)[85.16%];
+	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
+	 RCPT_COUNT_FIVE(0.00)[5];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:98:from]
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="VKotku/0";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=7guIXosx
+X-Rspamd-Queue-Id: A777B2208C
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:27:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192627
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 10:28:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192628
 
-On Mon, 18 Dec 2023 at 10:13, Yu, Mingli <mingli.yu@eng.windriver.com> wrote:
->
-> From: Mingli Yu <mingli.yu@windriver.com>
->
-> Fix the below ptest failure:
->  self = <test_skeleton_codestyle.BaseTests testMethod=test_skeleton_codestyle>
->  def test_skeleton_codestyle(self):
->  """
->  This test shouldn't run in proliferated repositories.
->  """
->  setup_cfg = configparser.ConfigParser()
->  setup_cfg.read("setup.cfg")
->  > if setup_cfg["metadata"]["name"] != "skeleton":
->  tests/test_skeleton_codestyle.py:22:
->  self = <configparser.ConfigParser object at 0x7fd87cf55110>, key = 'metadata'
->  def _getitem_(self, key):
->  if key != self.default_section and not self.has_section(key):
->  > raise KeyError(key)
->  E KeyError: 'metadata'
+Hi Alex, Luca,
 
-I went and checked why this isn't seen on the autobulder - this ptest
-is actually excluded from testing because it's in PTESTS_PROBLEMS.
-Please add it to PTESTS_FAST (if it's quick enough), and then it's
-good.
+Can you please retest this patchset one more time please?
+Neither myself nor RP could reproduce build failure with recent
+master/sstate so it might be fixed in the meantime.
 
-Alex
+-- 
+Pavel
+
+On 2023-10-12 09:36, Luca Ceresoli via lists.openembedded.org wrote:
+> Hello Pavel,
+> 
+> On Mon,  9 Oct 2023 16:39:58 +0200
+> "Pavel Zhukov" <pavel@zhukoff.net> wrote:
+> 
+>> if packages is provided by dummysdk and in the same time marked for
+>> installation with IMAGE_INSTALL it causes conflict in apt because 
+>> virtual providers are
+>> not taken into account if package is asked to be installed explicitly.
+>> Filter such packages from provides/conflicts to workaround this 
+>> problem.
+>> This workaround brakes RPM usecase because of file conlicts with
+>> DUMMYPROVIDES, use DUMMYPROVIDES_PACKAGES_MULTILIB instead (which
+>> doesn't include file based conflicts).
+>> While this is needed for the case of package_deb only adding it for 
+>> all
+>> package managers to not complicate the code.
+>> 
+>> Fixes: [Yocto #13338] [Yocto #14066]
+>> 
+>> Fixes:
+>> The following information may help to resolve the situation:
+>> 
+>> The following packages have unmet dependencies:
+>>  target-sdk-provides-dummy : Conflicts: bash
+>> E: Unable to correct problems, you have held broken packages.
+>> 
+>> Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+> 
+> Testing with this series applied results in lots of errors like these:
+> 
+> stdio: ERROR: core-image-minimal-1.0-r0 do_rootfs: No SPDX file found
+> for package base-files, False
+> sstate:base-files:qemux86_64-poky-linux:3.0.14:r0:qemux86_64:11:
+> sstate:base-files::3.0.14:r0::11:
+> stdio: ERROR: core-image-minimal-mtdutils-1.0-r0 do_rootfs: No SPDX
+> file found for package base-files, False
+> sstate:base-files:qemux86_64-poky-linux:3.0.14:r0:qemux86_64:11:
+> sstate:base-files::3.0.14:r0::11:
+> 
+> See the full log at:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/5894/steps/14/logs/stdio
+> 
+> Luca
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#188989):
+> https://lists.openembedded.org/g/openembedded-core/message/188989
+> Mute This Topic: https://lists.openembedded.org/mt/101853406/7591736
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> [pazhukov@suse.de]
+> -=-=-=-=-=-=-=-=-=-=-=-
 
