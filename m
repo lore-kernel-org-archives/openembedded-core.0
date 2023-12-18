@@ -1,444 +1,212 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <Joakim.Tjernlund@infinera.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC994C35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 17:39:46 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.50066.1702921180572250310
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1468DC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 17:44:07 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.62])
+ by mx.groups.io with SMTP id smtpd.web10.49699.1702921444392000000
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 09:39:40 -0800
+ Mon, 18 Dec 2023 09:44:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=DsIrQPzj;
- spf=pass (domain: snapchat.com, ip: 209.85.218.48, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a234139b725so221190566b.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:39:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1702921179; x=1703525979; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=at6gNWqA6AIRx6dR5A0jeaOPgIvYgOaIwUwR/f7URks=;
-        b=DsIrQPzjRaotUh7Sfda7Fc1eQr/NoTznlQVkLrVObKjpZXvlC8pDkfdnxXYYOFrym4
-         0p6A6G1eCOZ9oDsAGtc2VYG1Ii1FeHlePYfGT6Ml4hqdxNstQIuPioHIiNOZj7ixPoqh
-         loOMArq11PjWjuyPyH8c/N5Aq1azV9iqVHdv8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702921179; x=1703525979;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=at6gNWqA6AIRx6dR5A0jeaOPgIvYgOaIwUwR/f7URks=;
-        b=g4lb0vsx1BEUsKEBPwa/xda5LLjCUIjJZy5igxLpSKeix8/amaOIPPKkU4PutEZe1F
-         G9bdN6QHnHxQQvHVjFFlc6LvklywOG/Es6Ffm++Xv6hPmUWrUfya1GxuuGjNFBbnpIqo
-         uV+zX16MkMvBIw59/tPrYjNrhHNiq2n5+V0VwK+neseLkTSai/pU1FMN6+NA5z14sZIU
-         62Ie3EgMuNL3tYUAD1mqt7JLIGUbwxGEPZbs1TymcBVcJy9Tw6Y/d1zd7sT13yQ1sKYA
-         86mfA+4Gulmrzm0SLeBOk9vH6gSm61FvoK6SKdH9eOxfW/3B3rPRiXNjhVV7T1TKrn+d
-         LUFw==
-X-Gm-Message-State: AOJu0Yx91HYmdLq7NlXtsqYJ6XCWJSQr0D7yUituGMgNnSIAUp6RA0Ji
-	Mdp91O6Fa5JX9UeyVfRm7piaRBCPbJnaWjUfIrxxJg==
-X-Google-Smtp-Source: AGHT+IFEMJhprFAEithVDv/ZKVtFDLzI0OrHdzJ9GPBsllx8m4WQ7OL/uprmdM2EVqGb7V6K0sBmG6dbEIWEQfMH8DM=
-X-Received: by 2002:a17:906:205:b0:a1c:588a:ffc3 with SMTP id
- 5-20020a170906020500b00a1c588affc3mr3770587ejd.161.1702921178854; Mon, 18 Dec
- 2023 09:39:38 -0800 (PST)
+ dkim=pass header.i=@infinera.com header.s=selector1 header.b=VDg6rAkB;
+ spf=pass (domain: infinera.com, ip: 40.107.220.62, mailfrom: joakim.tjernlund@infinera.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UikVMCS9sFlFSLtQ2Rk/Xo8ueVc9rVS83fRBb8Ysi4pBM7bSn64DLrhLgV4KXpu4dwVbL1GiHxC3Ra7gYdjI7pd8MXF71XuK8TIVkoQUBKH9vcIOeLEC7HaWVyDpvm9NrM2SSSMKNoh1BvlfBWS7J7e3o9tbg0gD4vzJwM6UwZB7anump9YEjOR30jzPn/iBbu3VvmPTgvpvbIkoGR3cK5AmqFBN2Rs46EHVa30bxi75il9gUo3h/d7ovJ6xWbbdf1c2wkEYZeAb7Vns0NP/9CgkgGlwF87SiTQlakFxqqJCt8tGn/LbT9BGoZ1oimGYgW9182FQueKGCTtSK2fREQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TJTZrAr4Bn+TdkG88DuTJoY3M4WKAolCsGSQejsaWeA=;
+ b=AgIUigv2D4ATcCGV9Nn4HNNKDdaGjXUbZHkqUTLOG2MhvSIZdhTnWxn3uCEEd2gM1Hp0qt/W2RVEo3y0lse4pONg+ZqvS1XSMvHI8IZPav20RLvo3B4KdvpFFtKQhVj7Qr8pQyc+W3jtztTX8i2tNFNGof2ztadRcmEp4JZHjD7mmCEqntknkHS9BO8+d3MotHQPbu/lq3GKDZvPQBG4Z0JYjjMJtVrcN9Gl1kBxPDS1pkjDnO7ZoUBotpaSU0N6dtrbpg6AJAJ/Ur8flkak4Oh317mHjmdQLTPThBOthoFJ+VSE/ge8gIGxchmcuzRtGnkXKmDhNpwevSC3ovexzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
+ dkim=pass header.d=infinera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TJTZrAr4Bn+TdkG88DuTJoY3M4WKAolCsGSQejsaWeA=;
+ b=VDg6rAkB5d+CWVHopYhQqWSb/CiHiC5Y2zPeY25slDnhDpw2rvSN0dHVooO+cD8qsb7+zkUqqEo2Vqc1WJoiV80noK1IOfjCkUd5unOgXlaCroAW1GSDyUuJP3ng2mWaAKUWx2py50CMgCfmraWbhypzTJzQeYgPoMldJkegk42TZrAedGro9jrWEK6sv7/p7GhxlcO/t/837G0yGOO8ktCIpDLram4c1ElkJldum2WVO/8laCU8e9vHUkgic8PwQ7RaThT89SN7EH3w5pdufVlC5KXz2UonSsyYEDJijzZmB/OEjQzxQDCOrcwq7UX97fdcgIy6ZqVcFkvjX4mNPg==
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
+ by MN2PR10MB4318.namprd10.prod.outlook.com (2603:10b6:208:1d8::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Mon, 18 Dec
+ 2023 17:43:59 +0000
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::86e6:23e4:41ae:35c5]) by PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::86e6:23e4:41ae:35c5%7]) with mapi id 15.20.7091.034; Mon, 18 Dec 2023
+ 17:43:59 +0000
+From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
+To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] kirkstone: oe-selftest -v -r
+ reproducible.ReproducibleTests.test_reproducible_builds broken ?
+Thread-Topic: [OE-core] kirkstone: oe-selftest -v -r
+ reproducible.ReproducibleTests.test_reproducible_builds broken ?
+Thread-Index: 
+ AQHaMaQyiJqshOiCukOwvQQfz8CqBbCvBAEAgAANQoCAACeqgIAAA4IAgAAC1bmAABEBAA==
+Date: Mon, 18 Dec 2023 17:43:59 +0000
+Message-ID: <25971085ebc5f8a7f5a87ee1a98c98af10e558cc.camel@infinera.com>
+References: <e2ad5c51a48a8c85bae1c9c7e21912e8fb412c77.camel@infinera.com>
+	 <CANNYZj-+T-uXRwVOkF3YmZJzOKaqogBnNKp+WFA9mpNyW2Y=EQ@mail.gmail.com>
+	 <e19a55e23d08d670fedb5f290a225f4ed21f82e9.camel@infinera.com>
+	 <CANNYZj-N0_Jb-J2OE2=R4X4guhhddDEzejxOY_sXT_bTT4NumA@mail.gmail.com>
+	 <437e1ea74b65c88fb81e365ac7008defc2903693.camel@infinera.com>
+	 <17A1FA8FAEEA7726.24236@lists.openembedded.org>
+	 <CANNYZj-71cekZeNSfW2tvHJKg0egvnzDMx4vvREzC+9AFuo-VA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-71cekZeNSfW2tvHJKg0egvnzDMx4vvREzC+9AFuo-VA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.50.1 
+autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
+ keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=infinera.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|MN2PR10MB4318:EE_
+x-ms-office365-filtering-correlation-id: d287ddeb-fc82-4069-6260-08dbfff0ea5c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ U9XVe3maJstXrC338CRpTiPyaXFNoXCRFzFW1TN3DllzQoZ8XH1esml0IeQul0GqO3W7tQVZ+E9xucOtmdaPLMrjYBhkyMw/EALG217Sn1jYRUgGYuaqBW/MSavwX7IiWHNrqDW6eBxm7clswqN5NKwj1fMm/A7y5Fp6UkONWtZW0NX/2mP5TNLS5jNS5V/Zi+SgI6pxJuPT++XfDw87qPmNKOyKWfsyBxykhWsyd4BYxuxkiW6BYANnNrBCe2J2gHejmpeJCQbcvqKlBZpTg7ptTu9nRK1c41pVv7FziggBllDsBweOLYekdv8h/XVTn8lsbmDr4oRtqqDZjg8c+Pue6PaiqULc6lBM97SjuL+o3p3w50/MRTx3OTmMaJuTbB3clGgIgo9YKFJ2OGUviH6F63QLmK2SbrCqgAu0YUGOZVYJs2rA6VzB/WBwDq0TEji4aZghhWIdJ7vBb/uVnK+1vYP7OTTLcn/rEuG8UwWJtHIoObKPnBBMUf54H0Uo617kYliQIP1MFBxfLfnrOyWeweH1y50OuOg6lmcYfOEDZMU0U6aBJsHgdRIytae2etvnH3jt3ep+CZRz5Tm68+1FnHw5RwChGdCV80fpAUa0C1YPCtM8gkARBNRim7K9
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(39860400002)(136003)(396003)(376002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(66899024)(36756003)(38070700009)(66946007)(66556008)(316002)(83380400001)(6916009)(91956017)(76116006)(64756008)(66446008)(66476007)(2906002)(4001150100001)(122000001)(4326008)(8676002)(8936002)(5660300002)(38100700002)(71200400001)(45080400002)(6512007)(6506007)(86362001)(966005)(478600001)(6486002)(2616005)(41300700001)(21314003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?dlU2blljMThycVJveEtVYXU4TlN6NjNTeTNqMW1RUjhTTlpGMmxWY2Nray9l?=
+ =?utf-8?B?WjcrR1JlYW85YU9zL3pHc2p0emtaa0NuL0xzWlZZeXE2ai9wTnlpeXBJRWxr?=
+ =?utf-8?B?ZmtjWVYwOURxZldKM2VmSTYrTkxWUXlEUjd3eEZYUk04ZnhZNlgreHZlb3o1?=
+ =?utf-8?B?MS83MmYxdW5vZDE2VVNpa0xxazFvRWNoa1oyNjZIcFZlMlJtK3MzUXBOM3Bj?=
+ =?utf-8?B?VzEvTlJiYWk3QTBCVnFnWGRnUENjdzNzcmdGVCtuMnlmOHJhYVVVcXFOSXpp?=
+ =?utf-8?B?MlQrcjhuMkVKZlh6U2lwdWtROFBMaGFJUmdDRHl5MTZrZEVzenhtOXl0NWhm?=
+ =?utf-8?B?aE91MWRPd1BJN3lZU1VncmZEaWpnbFVmTHp6TlFpWFFYSWlaa2VFRkljZ1F3?=
+ =?utf-8?B?OTB6ZU85Q0NDWkpPbmFlRUtzMVpMand0VDNMTGtKeTlPYjRqVk04UGZENjJj?=
+ =?utf-8?B?bHJXODBwOEZ5QnN0cjlzdkJNb3pOYWExMnN5b2YzYU9xRkZPMy84TVU5Qm92?=
+ =?utf-8?B?WjR2ZDJQYTc5UGsxZTFBVUp2R010Sk13c2NhcFg4U2t0aXQrS1ZBTlJMb0k5?=
+ =?utf-8?B?RitSVnZGb1U5a3VzMFJ0S2NaTmZHQUZrb0dNOGV3ZThrYi92YnNtQnExcDlU?=
+ =?utf-8?B?ZFY1cVQ4aTdBbzZnUXR3YWpmMGNCSkV5UkZDTVllVUh2VW45eUs1SmJBOU9x?=
+ =?utf-8?B?Q2hXTitsMGhlOUh2SWhiTEs2TnA4MUk2TUhUeTNXY2gwY3J1bnFtZURrcENr?=
+ =?utf-8?B?UTRRWDBwMUE1OHFEYkVmbHA4d05xTmZxOVZCTlN1OUwrckZYUTNwbjVldEFD?=
+ =?utf-8?B?bTdkZEtVaHVNS21nSklHT01Tem84blF6MVhSdk5IdHZONVZzaFNBcnhRbWor?=
+ =?utf-8?B?b2ZGN2N2Nk5QWWkza003NGpHZTM2L09McjBHNFlCUUhXdFhhTFZhUGFPcG8r?=
+ =?utf-8?B?MWxaZVVJVXB1YU5XWDBjczMwSjNEZkMyOHIxTm1WVnZhOGVrbk5ORzZXdS9C?=
+ =?utf-8?B?aVdoRTBNWXJ3ZFpBcU5kUmRLb2lRVktyUmMwaWFQN2srZXpCRXByWUd4Wk1v?=
+ =?utf-8?B?Vlh5Z0gzUktCZGUzeGhIa1JDaml0QzQ0a0M5UVNlaDBUYVVseVN5UGlVNXhq?=
+ =?utf-8?B?NTZvRENaak14MHpMdkFGL3M1R2pqbitacEVhZno0VG5LckZNd0pDend6dXFp?=
+ =?utf-8?B?WWd4aStHOG8rVGVnbG5tSWd6Mk5tOGZBR0lSZitRd2xoWS9XSzhxWTA4aHJQ?=
+ =?utf-8?B?U2g4YXFjaVBHS0k3K0ljVE5YR3JHYVFjRUpETHBNS3dxZGdpRW13N1ZTWStj?=
+ =?utf-8?B?ZzBFbVBMWnRKcnZ4dWpnemZFY0p3eWJaOWpidlh6S3A3bElOVzZDNFRiUDM0?=
+ =?utf-8?B?MUhRT0JnV0RCT3ZnZmxlM1dHc09EcW1pWWdPWnY5aTRWWExhSXZyQld0dGdj?=
+ =?utf-8?B?OHdCdW5uUFJ1UU5kY0hXc2lyWjE0d1NWeGdFYmFoMXZyQ2pQN0dxc2RPbCtZ?=
+ =?utf-8?B?NWdyNjBHTnJLVkpBcVFVaGtZZ1pNSWlGWFJ3SE5CZEJ5cWZoYXpyUzg2VStn?=
+ =?utf-8?B?c01VcWZFVzIrS0pZTENPaFNEclV1WmQrR09tNk9ETnhUK013OWphSjVMNElO?=
+ =?utf-8?B?U2FUK1FhRm9qc29lMHhtTitoaVdBZ0N3eUk4azN2VkRBWTdVS3ZZelVSM2Jl?=
+ =?utf-8?B?cnh3OSthVnloUWtwOHhwdlBYVWFmTzZUYUpNdm5xNzVXYzlvbDh6cFRZdlcx?=
+ =?utf-8?B?U3ZpYkRCTnVjZEM4VDVLcEZoeCtpS2NTeS9CV09OTXBLNWU4UWQ3RXVxN1Jn?=
+ =?utf-8?B?UFRLaHg1Sk14VEVzVWhPY2gyMTNYR0w1WnJmQUlhYk9QdUhZNjFlSkVqZ056?=
+ =?utf-8?B?eG1wSjBmVHNFdjV1NWNJZHBRcGUveEluclpYdUNTWldNOFkyRU45bWZJcmpn?=
+ =?utf-8?B?UjFEUWs0alpMamhlN21majFBMG83ZTB3UlY2ckNDYmZZdkFXU0JmektUYlRt?=
+ =?utf-8?B?dll0dkNuMXgvSld0aWVUVlNQMGRxcXNNS1AzOHlSK1Q4VGtxWXlaZndiNXVv?=
+ =?utf-8?B?NS9TZXViUldBclRMQ21KeFR5NjNmNjRSaGRrNUd2Nk9IcHlKSlBiQm9sSVJp?=
+ =?utf-8?B?WksydHpHUHZiODBrcjVhTkhHUkhGcmVSSkl4Wjl2Z0hlRCs0ZHB6MmNsUkta?=
+ =?utf-8?Q?AApx/6Qd+nyClcKMBcVgH1Mm5AnXdQSsL3oukKB5fkSI?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B41D7CB64394584CBEC670A531CCAD0F@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20231216135306.188070-1-ecordonnier@snap.com> <34bee488217f82e9575f52dff15447474bf63d00.camel@linuxfoundation.org>
- <CAHUKmYY_NE=OEkTQ6qXVxWTs7UuHRK=+2_8FGW4AtJgv77RA9w@mail.gmail.com> <CADkTA4Mtai26k4bnGq=P-Hf9bt7XCzH2PFUqtd3K2WpAHZJCmQ@mail.gmail.com>
-In-Reply-To: <CADkTA4Mtai26k4bnGq=P-Hf9bt7XCzH2PFUqtd3K2WpAHZJCmQ@mail.gmail.com>
-From: Etienne Cordonnier <ecordonnier@snap.com>
-Date: Mon, 18 Dec 2023 18:39:27 +0100
-Message-ID: <CAHUKmYbPGRSiyB0VCyvwhqtQH9maCEtpHCjne-GY_PD+MOENiQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: make do_symlink_kernelsrc reentrant
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f2e0cf060ccc3b0d"
+X-OriginatorOrg: infinera.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d287ddeb-fc82-4069-6260-08dbfff0ea5c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2023 17:43:59.1595
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RCtlzJ80QUmS7zqK76Ttl8BLl4vTBaFJKwuAVj9E6gNVeTzrCzRFP9ZIZ26D0qlP1R7DkgZUKmoptP6bEAa/og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4318
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 17:39:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192670
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 17:44:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192671
 
---000000000000f2e0cf060ccc3b0d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Bruce,
-can you please clarify? Are you saying that you prefer the version of
-the patch which I pasted with shutil.copytree?
-
-The condition to trigger the issue is not that rare, e.g. anybody updating
-from kirkstone 4.0.12 to 4.0.13 and doing an incremental build will get a
-build failure if S doesn't have the default value (in my case the BSP layer
-overrides S). In the same way, if we merge the version with
-shutil.copytree, people will need to perform a manual clean, or they may
-get build failures.
-
-Etienne
-
-On Mon, Dec 18, 2023 at 3:25=E2=80=AFPM Bruce Ashfield <bruce.ashfield@gmai=
-l.com>
-wrote:
-
-> On Mon, Dec 18, 2023 at 6:45=E2=80=AFAM Etienne Cordonnier via
-> lists.openembedded.org <ecordonnier=3Dsnap.com@lists.openembedded.org>
-> wrote:
-> >
-> > My thinking was that in my local build I was updating from a build
-> without
-> https://github.com/yoctoproject/poky/commit/3b8d0acca30c806fb69fc3096d415=
-93cc76ed22c
-> to a build containing this commit, so the behavior of do_symlink_kernsrc
-> got modified, but my incremental build is not executing the new version o=
-f
-> the code since it detects that the symlink already exists and then the re=
-st
-> of the function gets skipped, so I thought this justified a warning.
-> >
-> > I'll lower the warning to info, but then this assumes that we will neve=
-r
-> modify do_symlink_kernsrc in a way which is not backwards-compatible.
-> >
-> > @Richard: the reason I didn't go for the copy to "orig" is that I don't
-> see a way to add this without breaking incremental builds (where s is a
-> symlink to kernsrc which is potentially modified already by do_patch etc.=
-).
-> However I think it would be a cleaner solution than simply skipping the
-> code like I did:
->
-> If the only way to trigger the issue is through really rare pre-<some
-> commit> to post
-> that commit that happens to modify the detection/manipulation/other of S
-> and the
-> symlink, then it is rare enough to just drop an info message breadcrumb
-> and keep
-> moving.
->
-> But if it really is a rare situation like you ran into, or some sort
-> of forced execution
-> of the task, I don't think that a copy would be an unexpected thing to
-> happen.
->
-> Bruce
->
-> >
-> > -        if d.getVar("EXTERNALSRC"):
-> > +        if d.getVar("EXTERNALSRC") and not os.path.islink(s):
-> >              # With EXTERNALSRC S will not be wiped so we can symlink t=
-o
-> it
-> >              os.symlink(s, kernsrc)
-> >          else:
-> >              import shutil
-> > +            s_copy =3D s + ".orig"
-> > +            if not os.path.isdir(s_copy):
-> > +                shutil.copytree(s, s_copy)
-> > +            bb.utils.remove(s, recurse=3DTrue)
-> > +            shutil.copytree(s_copy, s)
-> >
-> > Etienne
-> >
-> >
-> > On Sun, Dec 17, 2023 at 8:52=E2=80=AFPM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> >>
-> >> On Sat, 2023-12-16 at 14:53 +0100, Etienne Cordonnier via
-> >> lists.openembedded.org wrote:
-> >> > From: Etienne Cordonnier <ecordonnier@snap.com>
-> >> >
-> >> > The function do_symlink_kernsrc is not reentrant in the case where S
-> is defined
-> >> > to a non-default value. This causes build-failures e.g. when buildin=
-g
-> linux-yocto, then updating
-> >> > poky to a commit which modifies kernel.bbclass, and then building
-> linux-yocto again.
-> >> >
-> >> > Bugzilla:
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bugzilla.yoctoproj=
-ect.org_show-5Fbug.cgi-3Fid-3D15325&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vC=
-HvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DqcR=
-ut2Wm9dH26YP_YovPl6QVczLOYUxs1xfzA75ZJBiHj4dWwxbAS-2JjGPlyiyS&s=3D_WTBsDroH=
-fmiIIyCOXRV2CAId9PmKZ4sN3bRO3EOcyU&e=3D
-> >> >
-> >> > Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> >> > ---
-> >> >  meta/classes-recipe/kernel.bbclass | 5 +++++
-> >> >  1 file changed, 5 insertions(+)
-> >> >
-> >> > diff --git a/meta/classes-recipe/kernel.bbclass
-> b/meta/classes-recipe/kernel.bbclass
-> >> > index 9ff37f5c38..130bedd901 100644
-> >> > --- a/meta/classes-recipe/kernel.bbclass
-> >> > +++ b/meta/classes-recipe/kernel.bbclass
-> >> > @@ -194,6 +194,11 @@ python do_symlink_kernsrc () {
-> >> >              os.symlink(s, kernsrc)
-> >> >          else:
-> >> >              import shutil
-> >> > +            if os.path.islink(s):
-> >> > +                # this happens for instance when a poky update
-> forces symlink_kernsrc to run again
-> >> > +                # after s was already moved to kernsrc
-> >> > +                bb.warn("%s is already a symlink! Not symlinking
-> kernel sources" % s)
-> >> > +                return 0
-> >> >              shutil.move(s, kernsrc)
-> >> >              os.symlink(kernsrc, s)
-> >> >  }
-> >>
-> >> Usually what we recommend is that the first pass does something if "if
-> >> not exists X.org; cp X X.orig; fi", then you can always copy from
-> >> X.orig.
-> >>
-> >> As Bruce says, it definitely shouldn't be a warning, this can happen
-> >> quite normally.
-> >>
-> >> Cheers,
-> >>
-> >> Richard
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#192635):
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_g_openembedded-2Dcore_message_192635&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0h=
-pF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=
-=3D82QaxN_7mSeykh83DV-qNXJc9JezHaPCHv4jG2rrq55pywmZCA6Nz75KaUoSuFn8&s=3DxGE=
-3OScznEMBXLhPR_DdKU6FPE6dbxsHXhKnfksbT8U&e=3D
-> > Mute This Topic:
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_mt_103208527_1050810&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC=
-2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D82QaxN_7mSeyk=
-h83DV-qNXJc9JezHaPCHv4jG2rrq55pywmZCA6Nz75KaUoSuFn8&s=3DGX9x-WmhPnkZRNBnirD=
-hR76l6Laww76WDH7ZwKCFSKQ&e=3D
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
-bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D82QaxN=
-_7mSeykh83DV-qNXJc9JezHaPCHv4jG2rrq55pywmZCA6Nz75KaUoSuFn8&s=3DroqLGNR0ewax=
-jmAl_ZE8nSZf_6sCh3yj7LXuITei5EA&e=3D
-> [bruce.ashfield@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-
---000000000000f2e0cf060ccc3b0d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Bruce,<br>can you please clarify? Are you saying that y=
-ou prefer the version of the=C2=A0patch which I pasted with shutil.copytree=
-?<br><br>The condition to trigger the issue is not that rare, e.g. anybody =
-updating from kirkstone 4.0.12 to 4.0.13 and doing an incremental build wil=
-l get a build failure if S doesn&#39;t have the default value (in my case t=
-he BSP layer overrides S). In the same way, if we merge the version with sh=
-util.copytree, people will need to perform a manual clean, or they may get =
-build failures.<br><br>Etienne=C2=A0</div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Mon, Dec 18, 2023 at 3:25=E2=80=AFPM=
- Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfi=
-eld@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">On Mon, Dec 18, 2023 at 6:45=E2=80=AFAM Etienne Cordonnier via=
-<br>
-<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
-nk">lists.openembedded.org</a> &lt;ecordonnier=3D<a href=3D"mailto:snap.com=
-@lists.openembedded.org" target=3D"_blank">snap.com@lists.openembedded.org<=
-/a>&gt;<br>
-wrote:<br>
-&gt;<br>
-&gt; My thinking was that in my local build I was updating from a build wit=
-hout <a href=3D"https://github.com/yoctoproject/poky/commit/3b8d0acca30c806=
-fb69fc3096d41593cc76ed22c" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/yoctoproject/poky/commit/3b8d0acca30c806fb69fc3096d41593cc76ed22c</=
-a> to a build containing this commit, so the behavior of do_symlink_kernsrc=
- got modified, but my incremental build is not executing the new version of=
- the code since it detects that the symlink already exists and then the res=
-t of the function gets skipped, so I thought this justified a warning.<br>
-&gt;<br>
-&gt; I&#39;ll lower the warning to info, but then this assumes that we will=
- never modify do_symlink_kernsrc in a way which is not backwards-compatible=
-.<br>
-&gt;<br>
-&gt; @Richard: the reason I didn&#39;t go for the copy to &quot;orig&quot; =
-is that I don&#39;t see a way to add this without breaking incremental buil=
-ds (where s is a symlink to kernsrc which is potentially modified already b=
-y do_patch etc.). However I think it would be a cleaner solution than simpl=
-y skipping the code like I did:<br>
-<br>
-If the only way to trigger the issue is through really rare pre-&lt;some<br=
->
-commit&gt; to post<br>
-that commit that happens to modify the detection/manipulation/other of S an=
-d the<br>
-symlink, then it is rare enough to just drop an info message breadcrumb and=
- keep<br>
-moving.<br>
-<br>
-But if it really is a rare situation like you ran into, or some sort<br>
-of forced execution<br>
-of the task, I don&#39;t think that a copy would be an unexpected thing to =
-happen.<br>
-<br>
-Bruce<br>
-<br>
-&gt;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if d.getVar(&quot;EXTERNALSRC&quot;):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if d.getVar(&quot;EXTERNALSRC&quot;) and =
-not os.path.islink(s):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # With EXTERNALSRC S w=
-ill not be wiped so we can symlink to it<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.symlink(s, kernsrc)=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 import shutil<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s_copy =3D s + &quot;.orig&=
-quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not os.path.isdir(s_copy=
-):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shutil.copytr=
-ee(s, s_copy)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.remove(s, recurse=
-=3DTrue)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shutil.copytree(s_copy, s)<=
-br>
-&gt;<br>
-&gt; Etienne<br>
-&gt;<br>
-&gt;<br>
-&gt; On Sun, Dec 17, 2023 at 8:52=E2=80=AFPM Richard Purdie &lt;<a href=3D"=
-mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie=
-@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Sat, 2023-12-16 at 14:53 +0100, Etienne Cordonnier via<br>
-&gt;&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targe=
-t=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt;&gt; &gt; From: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@sn=
-ap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; The function do_symlink_kernsrc is not reentrant in the case =
-where S is defined<br>
-&gt;&gt; &gt; to a non-default value. This causes build-failures e.g. when =
-building linux-yocto, then updating<br>
-&gt;&gt; &gt; poky to a commit which modifies kernel.bbclass, and then buil=
-ding linux-yocto again.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Bugzilla: <a href=3D"https://urldefense.proofpoint.com/v2/url=
-?u=3Dhttps-3A__bugzilla.yoctoproject.org_show-5Fbug.cgi-3Fid-3D15325&amp;d=
-=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbN=
-onVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DqcRut2Wm9dH26YP_YovPl6QVczLO=
-YUxs1xfzA75ZJBiHj4dWwxbAS-2JjGPlyiyS&amp;s=3D_WTBsDroHfmiIIyCOXRV2CAId9PmKZ=
-4sN3bRO3EOcyU&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldef=
-ense.proofpoint.com/v2/url?u=3Dhttps-3A__bugzilla.yoctoproject.org_show-5Fb=
-ug.cgi-3Fid-3D15325&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkI=
-CC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DqcR=
-ut2Wm9dH26YP_YovPl6QVczLOYUxs1xfzA75ZJBiHj4dWwxbAS-2JjGPlyiyS&amp;s=3D_WTBs=
-DroHfmiIIyCOXRV2CAId9PmKZ4sN3bRO3EOcyU&amp;e=3D</a><br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecord=
-onnier@snap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>
-&gt;&gt; &gt; ---<br>
-&gt;&gt; &gt;=C2=A0 meta/classes-recipe/kernel.bbclass | 5 +++++<br>
-&gt;&gt; &gt;=C2=A0 1 file changed, 5 insertions(+)<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classe=
-s-recipe/kernel.bbclass<br>
-&gt;&gt; &gt; index 9ff37f5c38..130bedd901 100644<br>
-&gt;&gt; &gt; --- a/meta/classes-recipe/kernel.bbclass<br>
-&gt;&gt; &gt; +++ b/meta/classes-recipe/kernel.bbclass<br>
-&gt;&gt; &gt; @@ -194,6 +194,11 @@ python do_symlink_kernsrc () {<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.symlink(s,=
- kernsrc)<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 import shutil=
-<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.islink(=
-s):<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # th=
-is happens for instance when a poky update forces symlink_kernsrc to run ag=
-ain<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # af=
-ter s was already moved to kernsrc<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.w=
-arn(&quot;%s is already a symlink! Not symlinking kernel sources&quot; % s)=
-<br>
-&gt;&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
-rn 0<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shutil.move(s=
-, kernsrc)<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.symlink(ke=
-rnsrc, s)<br>
-&gt;&gt; &gt;=C2=A0 }<br>
-&gt;&gt;<br>
-&gt;&gt; Usually what we recommend is that the first pass does something if=
- &quot;if<br>
-&gt;&gt; not exists X.org; cp X X.orig; fi&quot;, then you can always copy =
-from<br>
-&gt;&gt; X.orig.<br>
-&gt;&gt;<br>
-&gt;&gt; As Bruce says, it definitely shouldn&#39;t be a warning, this can =
-happen<br>
-&gt;&gt; quite normally.<br>
-&gt;&gt;<br>
-&gt;&gt; Cheers,<br>
-&gt;&gt;<br>
-&gt;&gt; Richard<br>
-&gt;<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#192635): <a href=3D"https://urldefense.proofpoint.=
-com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_messa=
-ge_192635&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdi=
-w&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D82QaxN_7mSeyk=
-h83DV-qNXJc9JezHaPCHv4jG2rrq55pywmZCA6Nz75KaUoSuFn8&amp;s=3DxGE3OScznEMBXLh=
-PR_DdKU6FPE6dbxsHXhKnfksbT8U&amp;e=3D" rel=3D"noreferrer" target=3D"_blank"=
->https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded.=
-org_g_openembedded-2Dcore_message_192635&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTv=
-jIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUk=
-SGa66m67E&amp;m=3D82QaxN_7mSeykh83DV-qNXJc9JezHaPCHv4jG2rrq55pywmZCA6Nz75Ka=
-UoSuFn8&amp;s=3DxGE3OScznEMBXLhPR_DdKU6FPE6dbxsHXhKnfksbT8U&amp;e=3D</a> <b=
-r>
-&gt; Mute This Topic: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=
-=3Dhttps-3A__lists.openembedded.org_mt_103208527_1050810&amp;d=3DDwIFaQ&amp=
-;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Q=
-j9TsRih1DULJTKUkSGa66m67E&amp;m=3D82QaxN_7mSeykh83DV-qNXJc9JezHaPCHv4jG2rrq=
-55pywmZCA6Nz75KaUoSuFn8&amp;s=3DGX9x-WmhPnkZRNBnirDhR76l6Laww76WDH7ZwKCFSKQ=
-&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoi=
-nt.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_mt_103208527_1050810&amp=
-;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhk=
-bNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D82QaxN_7mSeykh83DV-qNXJc9J=
-ezHaPCHv4jG2rrq55pywmZCA6Nz75KaUoSuFn8&amp;s=3DGX9x-WmhPnkZRNBnirDhR76l6Law=
-w76WDH7ZwKCFSKQ&amp;e=3D</a> <br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dh=
-ttps-3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&amp;d=3DDwIFaQ&=
-amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfP=
-x_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D82QaxN_7mSeykh83DV-qNXJc9JezHaPCHv4jG2=
-rrq55pywmZCA6Nz75KaUoSuFn8&amp;s=3DroqLGNR0ewaxjmAl_ZE8nSZf_6sCh3yj7LXuITei=
-5EA&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proof=
-point.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore=
-_unsub&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&a=
-mp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D82QaxN_7mSeykh83=
-DV-qNXJc9JezHaPCHv4jG2rrq55pywmZCA6Nz75KaUoSuFn8&amp;s=3DroqLGNR0ewaxjmAl_Z=
-E8nSZf_6sCh3yj7LXuITei5EA&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:bruce.ashfi=
-eld@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-<br>
-<br>
---<br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-</blockquote></div>
-
---000000000000f2e0cf060ccc3b0d--
+WWVzLCB0aGVyZSBpcyBhbiB4eHgtc3Qgd2hlcmUgdGhlIHJlcHJvZHVjaWJsZSBidWlsZCBpcyBw
+ZXJmb3JtZWQgYW5kIHRoZXJlIGlzIG5vIEEvQiBkaWVzIGluIHRoZXJlLg0KSSBhZGRlZCBzb21l
+IGxvZ2dpbmc6DQotLS0gYS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3JlcHJvZHVjaWJs
+ZS5weQ0KKysrIGIvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9yZXByb2R1Y2libGUucHkN
+CkBAIC0yMDUsOCArMjA1LDggQEAgY2xhc3MgUmVwcm9kdWNpYmxlVGVzdHMoT0VTZWxmdGVzdFRl
+c3RDYXNlKToNCiAgICAgICAgIGNhcHR1cmVfdmFycyA9IFsnREVQTE9ZX0RJUl8nICsgYy51cHBl
+cigpIGZvciBjIGluIHNlbGYucGFja2FnZV9jbGFzc2VzXQ0KDQogICAgICAgICB0bXBkaXIgPSBv
+cy5wYXRoLmpvaW4oc2VsZi50b3BkaXIsIG5hbWUsICd0bXAnKQ0KLSAgICAgICAgaWYgb3MucGF0
+aC5leGlzdHModG1wZGlyKToNCi0gICAgICAgICAgICBiYi51dGlscy5yZW1vdmUodG1wZGlyLCBy
+ZWN1cnNlPVRydWUpDQorICAgICAgICAjaWYgb3MucGF0aC5leGlzdHModG1wZGlyKToNCisgICAg
+ICAgICAgICAjYmIudXRpbHMucmVtb3ZlKHRtcGRpciwgcmVjdXJzZT1UcnVlKQ0KDQogICAgICAg
+ICBjb25maWcgPSB0ZXh0d3JhcC5kZWRlbnQoJycnXA0KICAgICAgICAgICAgIFBBQ0tBR0VfQ0xB
+U1NFUyA9ICJ7cGFja2FnZV9jbGFzc2VzfSINCkBAIC0yMjksNiArMjI5LDcgQEAgY2xhc3MgUmVw
+cm9kdWNpYmxlVGVzdHMoT0VTZWxmdGVzdFRlc3RDYXNlKToNCg0KICAgICAgICAgICAgICMgVGhp
+cyBjb25maWcgZnJhZ21lbnQgd2lsbCBkaXNhYmxlIHVzaW5nIHNoYXJlZCBhbmQgdGhlIHNzdGF0
+ZQ0KICAgICAgICAgICAgICMgbWlycm9yLCBmb3JjaW5nIGEgY29tcGxldGUgYnVpbGQgZnJvbSBz
+Y3JhdGNoDQorICAgICAgICAgICAgI1NTVEFURV9NSVJST1JTID0gImh0dHBzOi8vc2UtYXJ0aWYt
+cHJkLmluZmluZXJhLmNvbS9hcnRpZmFjdG9yeS9saXN0L2ljZXgtc3N0YXRlIg0KICAgICAgICAg
+ICAgIGNvbmZpZyArPSB0ZXh0d3JhcC5kZWRlbnQoJycnXA0KICAgICAgICAgICAgICAgICBTU1RB
+VEVfRElSID0gIiR7VE1QRElSfS9zc3RhdGUiDQogICAgICAgICAgICAgICAgIFNTVEFURV9NSVJS
+T1JTID0gImZpbGU6Ly8uKi8uKi1uYXRpdmUuKiAgaHR0cDovL3NzdGF0ZS55b2N0b3Byb2plY3Qu
+b3JnL2FsbC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9UEFUSCBmaWxlOi8vLiovLiotY3Jvc3MuKg0K
+aHR0cDovL3NzdGF0ZS55b2N0b3Byb2plY3Qub3JnL2FsbC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9
+UEFUSCINCkBAIC0yNjksMTMgKzI3MCwxNyBAQCBjbGFzcyBSZXByb2R1Y2libGVUZXN0cyhPRVNl
+bGZ0ZXN0VGVzdENhc2UpOg0KICAgICAgICAgIyBrZXB0IGFmdGVyIHRoZSBidWlsZCBzbyBpdCBj
+YW4gYmUgZGlmZmVkIGZvciBkZWJ1Z2dpbmcuDQoNCiAgICAgICAgIGZhaWxzID0gW10NCi0NCisg
+ICAgICAgIHNlbGYubG9nZ2VyLmluZm8oJ3ZhcnNfQTolcycgJSB2YXJzX0EpDQorICAgICAgICBz
+ZWxmLmxvZ2dlci5pbmZvKCd2YXJzX0I6JXMnICUgdmFyc19CKQ0KICAgICAgICAgZm9yIGMgaW4g
+c2VsZi5wYWNrYWdlX2NsYXNzZXM6DQorICAgICAgICAgICAgc2VsZi5sb2dnZXIuaW5mbygnYyBp
+biBwYWNrYWdlX2NsYXNzZXM6JXMnICUgYykNCiAgICAgICAgICAgICB3aXRoIHNlbGYuc3ViVGVz
+dChwYWNrYWdlX2NsYXNzPWMpOg0KICAgICAgICAgICAgICAgICBwYWNrYWdlX2NsYXNzID0gJ3Bh
+Y2thZ2VfJyArIGMNCg0KICAgICAgICAgICAgICAgICBkZXBsb3lfQSA9IHZhcnNfQVsnREVQTE9Z
+X0RJUl8nICsgYy51cHBlcigpXQ0KICAgICAgICAgICAgICAgICBkZXBsb3lfQiA9IHZhcnNfQlsn
+REVQTE9ZX0RJUl8nICsgYy51cHBlcigpXQ0KKyAgICAgICAgICAgICAgICBzZWxmLmxvZ2dlci5p
+bmZvKCdkZXBsb3lfQTolcycgJSBkZXBsb3lfQSkNCisgICAgICAgICAgICAgICAgc2VsZi5sb2dn
+ZXIuaW5mbygnZGVwbGF5X0I6JXMnICUgZGVwbG95X0IpDQoNCiAgICAgICAgICAgICAgICAgc2Vs
+Zi5sb2dnZXIuaW5mbygnQ2hlY2tpbmcgJXMgcGFja2FnZXMgZm9yIGRpZmZlcmVuY2VzLi4uJyAl
+IGMpDQogICAgICAgICAgICAgICAgIHJlc3VsdCA9IHNlbGYuY29tcGFyZV9wYWNrYWdlcyhkZXBs
+b3lfQSwgZGVwbG95X0IsIGRpZmZ1dGlsc19zeXNyb290KQ0KDQphbmQgZ290IHRoaXMgb3V0cHV0
+Og0KLi4uDQoyMDIzLTEyLTE4IDE4OjM1OjA4LDkxMiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIHZh
+cnNfQTp7J0RFUExPWV9ESVJfSVBLJzogJy9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4t
+eHIvZ21jdS1zdC90bXAvZGVwbG95L2lwayd9DQoyMDIzLTEyLTE4IDE4OjM1OjA4LDkxMyAtIG9l
+LXNlbGZ0ZXN0IC0gSU5GTyAtIHZhcnNfQjp7J0RFUExPWV9ESVJfSVBLJzogJy9ob21lL2pvY2tl
+L3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC90bXAvZGVwbG95L2lwayd9DQoyMDIzLTEy
+LTE4IDE4OjM1OjA4LDkxMyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIGMgaW4gcGFja2FnZV9jbGFz
+c2VzOmlwaw0KMjAyMy0xMi0xOCAxODozNTowOCw5MTMgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBk
+ZXBsb3lfQTovaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL2dtY3Utc3QvdG1wL2Rl
+cGxveS9pcGsNCjIwMjMtMTItMTggMTg6MzU6MDgsOTEzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
+ZGVwbGF5X0I6L2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5mbi14ci9nbWN1LXN0L3RtcC9k
+ZXBsb3kvaXBrDQoNCk5vdGljZSBob3cgYm90aCBBIGFuZCBCIHZhcmlhbnRzIGFyZSB0aGUgc2Ft
+ZS4gSSB3b25kZXIgd2hhdCBzZXR0aW5nIEkgZ290IHRoYXQgZG9lcyB0aGF0ID8NCg0KIEpvY2tl
+DQoNCk9uIE1vbiwgMjAyMy0xMi0xOCBhdCAxNzo0MiArMDEwMCwgQWxleGFuZGVyIEthbmF2aW4g
+d3JvdGU6DQo+IE5vdGUgdGhhdCBzZWxmdGVzdCBtYWtlcyBhIHNlcGFyYXRlIGJ1aWxkIGRpcmVj
+dG9yeSwgdXN1YWxseQ0KPiAuLi97Y3VycmVudF9idWlsZF9kaXJ9LXN0Lg0KPg0KPiBBbGV4DQo+
+DQo+IE9uIE1vbiwgMTggRGVjIDIwMjMgYXQgMTc6NDAsIEFsZXhhbmRlciBLYW5hdmluIHZpYQ0K
+PiBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxhbGV4LmthbmF2aW49Z21haWwuY29tQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmc+DQo+IHdyb3RlOg0KPiA+DQo+ID4gT24gTW9uLCAxOCBEZWMgMjAyMyBh
+dCAxNzozMywgSm9ha2ltIFRqZXJubHVuZA0KPiA+IDxKb2FraW0uVGplcm5sdW5kQGluZmluZXJh
+LmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gSSBoYXZlIHRyaWVkIHRoYXQgYW5kIHRoZXJlIGFy
+ZSBubyBBL0IgZGlycyBpbiB0aGVyZS4gSSBjYW4gZmluZCB1LWJvb3QuLi5pcGsgYW5kIHNvbWUg
+b3RoZXINCj4gPiA+IHN0dWZmIGJ1dCB0aGVyZSBpcyBubyBldmlkZW5jZSB0aGF0IHRoZSBBL0Ig
+ZGlycyBldmVyIGV4aXN0ZWQuDQo+ID4NCj4gPiBZb3UgbmVlZCB0byByZWFkIHRoZSB0ZXN0IGl0
+c2VsZiBhcyB3ZWxsIHRvIHNlZSB3aGVyZSB0aGUgZGlyZWN0b3JpZXMNCj4gPiBhcmUuIElmIHRo
+ZSBjb2RlIHBhdGggaXMgZ29pbmcgdGhyb3VnaCB0aGVpciBjcmVhdGlvbiBhbmQgcnVubmluZyBh
+DQo+ID4gYnVpbGRzIHdpdGggdGhlbSwgdGhlbiB0aGVyZSdzIG5vIHdheSB0aGV5IGNhbid0IGV4
+aXN0Lg0KPiA+DQo+ID4gQWxleA0KPiA+DQo+ID4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4g
+PiBMaW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4g
+PiBWaWV3L1JlcGx5IE9ubGluZSAoIzE5MjY2NCk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTkyNjY0DQo+ID4gTXV0ZSBUaGlzIFRv
+cGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTAzMjQwNjg5LzE2ODY0ODkN
+Cj4gPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZw0KPiA+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
+Zy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbYWxleC5rYW5hdmluQGdtYWlsLmNvbV0NCj4gPiAt
+PS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiA+DQoNCg==
 
