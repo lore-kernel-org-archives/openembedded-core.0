@@ -1,380 +1,236 @@
-Return-Path: <victor.kamensky7@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E1AC35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:16:23 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web10.37654.1702880178637345889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17095C35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:17:13 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.38039.1702880228445861054
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 22:16:18 -0800
+ Sun, 17 Dec 2023 22:17:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OqztQhSN;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: victor.kamensky7@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-28ba18740d6so12083a91.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 22:16:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702880178; x=1703484978; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gWYyNPsjR3KDOi1c+SeDXzxqO+7PF0Vrz/rCT9vlJHE=;
-        b=OqztQhSNO/TWMPMOaUEoVbIRfZiKWQc/eMGcwjV7K+hWUrBkH7wkJQgNtPcavn+DWs
-         6eIz5QYzSfygj8AgrVnbON0EoEjzs95PQd+u6Gomy09ECd2GzRsLMqs/e2TLXsMH104M
-         oJmiRuX1azpLO8spkM5OaywdjuZOmGi94a4ZGGi/9NSKDk3cmfO8xHe7E2QHBu7bXQY5
-         vLocQedsCL8nDJFOlhKUSP+b7zOpKOptsrNaJoaUuo+Wwlg0198XFWXkBxFsDwojrwbT
-         z61qGWUHWO+u80WHY/MeUb76kCflBMo9fhutxjHJ3/5+weK8v4+3HyItsRsqE888Wh2K
-         zA8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702880178; x=1703484978;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gWYyNPsjR3KDOi1c+SeDXzxqO+7PF0Vrz/rCT9vlJHE=;
-        b=Uok6y9pAV6Gh0xK3eeDCpNxXl6oKSdiMS5OoLIjzrvnfFb/zo27PM1Cbf0dSv818iP
-         2VCuCeuYc3CTk0+loQG8zpBYGXljaxYhB+QLeO6m1Y09q4qXpMncrRl54XiM10UTug0O
-         9vJ8/25zw/VlRGdRDv5XSZhYtFe4UDNA8SBYbNfSJsigPodQiy4UuOk6vzd/VrXaDRu1
-         dkmLHgtzvlPmtV0bgtZpoOdHWdcTuWffNd01uh2zExWm0ofx+xeM5qreFqHUodFav5VU
-         mX0/aV0cuwNymjOLDQ1GCJfZAwM+VTUA1b5fdttDf/8j6zWticvwy1dIB7IAyHfv4T4X
-         3kkw==
-X-Gm-Message-State: AOJu0Yyg2+QgpvO8LbTbTFw5m6MiudmlrSnLHiPi3XKMaHywhucfdt8f
-	saHHaWU4o9NaTDox5ET3SnSO6Xa8s+1/77wi22w=
-X-Google-Smtp-Source: AGHT+IG/hfHzv4DQ4+OPhJQnQKouyYY60XhfTz8pcceSLAKVWH99JEEVx06XOtDL1KsMVM517u4XO7lh/+f0BUBCJXM=
-X-Received: by 2002:a17:90a:98c:b0:28b:7c9e:27d0 with SMTP id
- 12-20020a17090a098c00b0028b7c9e27d0mr486546pjo.89.1702880177834; Sun, 17 Dec
- 2023 22:16:17 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=tC5zfaB/;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=07166d5ec4=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI5dEqN030238
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:17:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=message-id:date:subject:to:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=YWAhiw+eUbAaeijc2vzMEWiAeQX3JcXE8aE3H1gR4go=; b=
+	tC5zfaB/wOUftkpmDvtdhUlF9Hofs2ahFHbhWjt/QPRml3kj23u4r684STNFa5m2
+	HpZma4XrwNaI4PvtybW2eJZGQSdBBb1MIf/ms7tl0U8eGpfkWjC/qs0ahHav9nc2
+	2QpeAtft7kYL21pWu04XZBvIPSXcurJ+vgji12qTVwz1o5NcZv8EWxvlj89+08WN
+	hqJduGSDW/fG05F98KX/3pcXR8hXAljbVk6NJGXbfI09gJsgFJTZL7WnCsbufUM+
+	ZmeRs9HWZA9j+0ZrU9HqReAYOPSzaaBktDSgX0o0H1uIAZrDdDLT2z0Lh+fD+UUX
+	GU3vI/RzcXcSL4+QIl5MNw==
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v113x9nfk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:17:07 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YgsjmwnalqvSM9/mMdErstZf/psKMJO+enrjDiZTUGYY9fHdeOxQfWpIHHClrS4MatGhkm5dIuU3ZyqNfRXvrbPf95fLN+FvsD09EWKdxhm/DirSi2Qxwn+aCJnOFHEMtfpx+mE2NJY795PXGrUWyIScv/Ii7XvBcbgmWhGH64iXuNvRcB6ka8gsEoqdqM4/GaGTKRBqti8+W8q3QKL09wGq6N+IHMYRWX42g6mjCTbISsNyNGnBYccHwkqgXp0P/F+d8IqMCL9oq67ygeUrmPXdbYn6GkJ90iEbK767Z2RePMBJBrX/nuY6J+3rlnBBOZZ3CZBt52e2am6p7+sIBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YWAhiw+eUbAaeijc2vzMEWiAeQX3JcXE8aE3H1gR4go=;
+ b=aYQZZXFspmUbbA1Q8QwOHAfrcheHrjRZgyudov1sje5cXiuiDGGLDjc0PGyIVmHhYAnDTOnRaTuXWJlpHkrqOBT6TZo99Gsq2n9ZlpNzS/VcoabFS9UnN8AEpPWdK9QqRhkfpKrDKwhZ4YECG/4Ys9n3LL4zu0JaDFSMTwBIku9YWm1TqbeVsTlKu+/TARarj9ybE2B9Sst0Blr/8H6LeE7Uihj8HasTUvs820zv0yQjoAwP2J5ioKhzMCp4EAwX1JR60Q/meFJWbeXYr/xUwvDuPLfb2v/iJxcGvuk9Curg1oCRgAVHobUjdfhXod9ptVsjiCnARgeam78hVEOAoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5014.namprd11.prod.outlook.com (2603:10b6:510:31::17)
+ by PH0PR11MB5594.namprd11.prod.outlook.com (2603:10b6:510:e4::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Mon, 18 Dec
+ 2023 06:17:01 +0000
+Received: from PH0PR11MB5014.namprd11.prod.outlook.com
+ ([fe80::7261:3384:c5d5:af95]) by PH0PR11MB5014.namprd11.prod.outlook.com
+ ([fe80::7261:3384:c5d5:af95%6]) with mapi id 15.20.7091.034; Mon, 18 Dec 2023
+ 06:17:01 +0000
+Message-ID: <bb40f37b-b9a5-bd34-ccb6-b958611b9c61@windriver.com>
+Date: Mon, 18 Dec 2023 14:16:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [OE-core] [PATCH v4] openssh: Add PACKAGECONFIG option to
+ customize sshd mode
+Content-Language: en-US
+To: "Yu, Mingli" <mingli.yu@eng.windriver.com>,
+        openembedded-core@lists.openembedded.org
+References: <20231205074322881971a5@mail.local>
+ <179E3241B25BBB7C.1352@lists.openembedded.org>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+In-Reply-To: <179E3241B25BBB7C.1352@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYCP286CA0105.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b4::15) To PH0PR11MB5014.namprd11.prod.outlook.com
+ (2603:10b6:510:31::17)
 MIME-Version: 1.0
-References: <20231205063249.3433-1-victor.kamensky7@gmail.com>
- <CA+chaQeUbSV49rXVnbfbQ3f_5z8b2iizZxh1_YVogWWpwL255g@mail.gmail.com>
- <CAHSqoWuSCbwhKKpBCnMxp4TxH4Yi0gyujPYXZpW6FFB-UtDywg@mail.gmail.com>
- <17A0859025DAC108.11381@lists.openembedded.org> <CA+chaQez7yu1qJKjLRKAqT+JRZhfyYr+TnW6Xr7FVj6Rhk06ZA@mail.gmail.com>
-In-Reply-To: <CA+chaQez7yu1qJKjLRKAqT+JRZhfyYr+TnW6Xr7FVj6Rhk06ZA@mail.gmail.com>
-From: Victor Kamensky <victor.kamensky7@gmail.com>
-Date: Sun, 17 Dec 2023 22:16:06 -0800
-Message-ID: <CAHSqoWufTcSYG1wGDDU-NPPGN+sgOA43fxc6UM94tRRjLtExgg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] systemtap: upgrade 4.9 -> 5.0
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5014:EE_|PH0PR11MB5594:EE_
+X-MS-Office365-Filtering-Correlation-Id: da08324c-10da-4dca-3a6f-08dbff90f1d6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	sp5I5vJ/y1UaKkSs/w7k3o5+aU/QKgx2qZqsTHhiBq2FPxugorQN5hR6eI81ooKr90si9/tw1VCGpdNtaNQMAkMM/JwPViSQO2z70euidmPx8uNVZa8SwN5XL9LPMPcJm6jdTar9rA/NCZarFybmTHk0gJ26/nL9lHWj32T8eUqfjvXSU6HKD9lqxwPxQKM05K6fyfM5g96GiVUlOK/5JER4u2eL8905xNoXFi+wcL0bM7gQVsOqwPqNImc9dAIFStcqnUUh5UrPjD2CsHo6Gf7DMpcKKmRWdySYUC/Hf7iX78zPMNOdI+YfX1D7vqc4SNJwmbut5OA3QLvV1CvZthlc55d7ZwmILvjoppDDK9r2VFMBAOOO4X6kxdtRWDVxQj+oUHKFMXHXsH91YEZndKWFTmj0rYy/XMj/C+rf1ef6snh/LkQCPGLsgrYlXi4VDPWQa1h1/GM1wrmETONY9Rzkpzd71fjCqNLmNTD3oDLedSmUTIisHXMyhFRtkK6t+DsFtwPM8xc0q3DzaCuyh9xgCZ5IrI3n2NwGjH1fr+i8WNEIUzIBzSaxnmGNctL57ICXlGdCisqwGQEm8fSMWwOSOAR5G9vhW+iAG8L+lo1hW8Ct/fU3CTuxGNsm+U9PHcUJsfcvhKt6wcptU8hhf5HkWsXETiG5+B+RLeYuL5U=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5014.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(39840400004)(136003)(396003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(31686004)(66899024)(26005)(2616005)(38100700002)(36756003)(31696002)(86362001)(83380400001)(5660300002)(6512007)(53546011)(6506007)(6666004)(8936002)(8676002)(66556008)(66946007)(316002)(6486002)(66476007)(41300700001)(2906002)(966005)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?emRvYTl0S3E2Q0Vycmk2SzVqVHNKYWZoeVdBS2IzckVnTlloSWNYanFObmUz?=
+ =?utf-8?B?Qm1ZVDBCdk12bDY2V3M1dGRtZy80aGxPdklYcnZuNXp2Q01kMWVabmpJS3Mz?=
+ =?utf-8?B?QXFZeU1KT2h3TUQ2V21YMU5Kb2VOclpCU3gyYjRJS3NFMW1EMEJ4MnBBZ0F3?=
+ =?utf-8?B?NjJLVHkrdzdWVldpWFZ0c0RWMS8ybG1mME5RQTZiWWxvTDdTNHNkZk5aWjBu?=
+ =?utf-8?B?SVovOThhTitTS2tXZ2V6TWpQQVlLMmk4a0FZTWY4bzBEd05VblhGRko4RVdP?=
+ =?utf-8?B?VnlLVENXemVJT1ZndXhDL0pQMUJsNHlCcFNMUlpjZmU5NWo1ODdQckNjNW9v?=
+ =?utf-8?B?dU1INllJbHJrVHdTLzdOTmc2TnN5NWxnUGtlNFp1MUpCc1BncE43MlJHZEJX?=
+ =?utf-8?B?bzk1M1J0ZytXVjNWb3BBOEgycGZSMmFNaFRSVDNQeGk2OUJwWWc4K3k4L3gr?=
+ =?utf-8?B?alY3ZWpMdmVFeVYzMU1nVTJYakJ5U0RHZVlIdjd4b05TZ3JJbTREYzNSOGxz?=
+ =?utf-8?B?UGlnd2NhQ1VXcFRRdFlQTnBiQnVZTExNcDI3YlpaVGEwWXBrdlVSeGg0NzBW?=
+ =?utf-8?B?eU9rQit2NXU4aWNManRaak14RHpIWENQcDYxWUVFZzlzcVJ3RnZKWWd4eGsy?=
+ =?utf-8?B?WmJnRkhRNXdLV3YwamtKbEZwQ3dmTDdhMkdhTjRxREZoS2Z1UnJ6TFpvM2hh?=
+ =?utf-8?B?bDhJMkRmU0lTQlBLb284KzkwS0J0T0ZFK1dCRWRzaVUwMXUxM1dDM3R6MTdn?=
+ =?utf-8?B?S0JBK2JWZEw4Y3VSRDFmaGhCL2YreFNKTHFDSkx3Mk1iUHpsT0ZqRXM3L1Jn?=
+ =?utf-8?B?cE1nd3F0VTBrb2hSL1BJeUNHTU5XcXdzZ3Njb1krWlhCZ2VZYnA5NTU2UEZt?=
+ =?utf-8?B?THRNRWZWeDhBOEU3OWIyYXVCTC9LaHVKY01VL2JTQUQ2UytnWm94SHFrOHdV?=
+ =?utf-8?B?RkFQNDRQQWZlYU1XM2NuYTdjazlqR2wyeEFXZFNubFd3K0FGRTZGSUt3L1Ax?=
+ =?utf-8?B?NlFqeW9jNkdlRkpLbjV2Tm14V0YrbkdneVNqZ1Z5OGQ0NnVjcjNjaFYzYUV5?=
+ =?utf-8?B?QWdyZ0xsczJtWFNqaUEybHdPY1A4UkQ0R0IwbGV1d3FtdlBydjRnd0ZGMzl2?=
+ =?utf-8?B?RzIzZmZScFA0T1crRGZGbThxYnRRdTBLYkYyS29ObmZzYW9DMENxZ2R0Z0tn?=
+ =?utf-8?B?OGl0RVowTmNUL1B5VmY1dE1FcHZidWJybWlxZ0QzRmVjeXhaY1BNYmJQWDcy?=
+ =?utf-8?B?RG9rSXpRMmd3MHdnVVk0TVZqaHJhT21KZmtjZGRVNCthVnFHTVFSSURIVU0x?=
+ =?utf-8?B?WkJ0eTcrYndjMzlCa0JjWVRMOThqYzdORUNWdktzc2xMUmpYcmg4ajYzcXYv?=
+ =?utf-8?B?Rk00dlBVSnQ0cHNxWlBXaVBWMExIK0RxU0pzWFZtM1VQTXNobWtIRGNIUXIr?=
+ =?utf-8?B?Wm5uM3lzd21KdnlwUFZWbFl6NmlUd1NQcVNSQWxjejluYjJXTDBreHFVU2tn?=
+ =?utf-8?B?ZW13dDVPNlZmWGU4V29aNkIxdTVYQXRDNm5neU9qcC96QUFmSGk1Uzl2a29K?=
+ =?utf-8?B?S005QUtXcTl6bHY0K0R4TEJLVHhxV0w4UjRFYmdKNXdKR3BPTkViZ01sK2R0?=
+ =?utf-8?B?YllzZ3RvWUhjTjIvY3M5c3pUQlJJY0hZa2o4cytsLzcvTDg0anI4bktzMys3?=
+ =?utf-8?B?RENRdVBzaWsxUGRNVWxQZlhzWkgzZXM3S0hhYjk5RVc0Y1R3UXN4TFU4RldW?=
+ =?utf-8?B?RjRJZ2N4eDVmZ1N3RXFWQWZlSXBRMGFKZlpDVVVrMzdiVmFvbUdpQUkwc0lY?=
+ =?utf-8?B?K25ndXB5WkQwdFU2TTFpc0dlMGFtRWtYNWNHa3p5V2o1TThtRzdjekRnMk5N?=
+ =?utf-8?B?UENpSWdHMElwYzAwenI4TWZLWVBaWE5IcHB1VGVaeTR3MGFkbitEbkIvVnZT?=
+ =?utf-8?B?SVp2SnJnYlhRSnJJbmFOWmNHd3hDSWtIbkpoRkxZaW5xb1VCZ3JyU1UwRkVu?=
+ =?utf-8?B?amhsVUFOU0x6cVkxWVdTTEVWdWpqUEUwOGFWcDNZQnM3RjRZR0h5UFJRQjRr?=
+ =?utf-8?B?L2w2dEF1UytPKzF6bU5WcEVKY1prN3RRVFhUTkRWYUNDVDExQno5ODY4MWZV?=
+ =?utf-8?Q?B9X7MU/KRBzP3b5Gplm+gDWil?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da08324c-10da-4dca-3a6f-08dbff90f1d6
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5014.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2023 06:17:01.1044
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mq/LA3uIuPTdACn9A2behrn+gOCeRbI8BxhWHeBItlY57T4QYXKpHPDIN6PBzQIWPrMAjVbdVnxmX+m2gYj9ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5594
+X-Proofpoint-ORIG-GUID: S8ZD872HmjxzhOlwmJzXyg-UvsQkis0d
+X-Proofpoint-GUID: S8ZD872HmjxzhOlwmJzXyg-UvsQkis0d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxscore=0
+ suspectscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2311290000 definitions=main-2312180043
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:16:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192603
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:17:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192604
 
-On Thu, Dec 14, 2023 at 6:27=E2=80=AFAM Martin Jansa <martin.jansa@gmail.co=
-m> wrote:
->
-> PACKAGECONFIG:remove:pn-elfutils =3D "debuginfod"
-> PACKAGECONFIG:remove:pn-elfutils =3D "libdebuginfod"
-> PACKAGECONFIG:remove:pn-binutils =3D "debuginfod"
->
-> in local.conf is the easiest way to reproduce it.
->
-> The one for binutils isn't strictly needed (but target binutils will fail=
- as well when debuginfod is disabled in elfutils and enabled in binutils).
-
-Thanks, Martin. I was able to reproduce it with removing debuginfod
-from DISTRO_FEATURES_DEFAULT
-
-Submitted patches to systemtap mailing list:
-https://sourceware.org/pipermail/systemtap/2023q4/027914.html
-https://sourceware.org/pipermail/systemtap/2023q4/027915.html
-
-And to oe-core:
-https://lists.openembedded.org/g/openembedded-core/message/192600?p=3D%2C%2=
-C%2C20%2C0%2C0%2C0%3A%3Acreated%2C0%2CVictor+Kamensky%2C20%2C2%2C0%2C103238=
-308
-https://lists.openembedded.org/g/openembedded-core/message/192601?p=3D%2C%2=
-C%2C20%2C0%2C0%2C0%3A%3Acreated%2C0%2CVictor+Kamensky%2C20%2C2%2C0%2C103238=
-309
-
-Appreciate reporting the issue!
+Ping.
 
 Thanks,
-Victor
 
-> On Wed, Dec 13, 2023 at 11:45=E2=80=AFPM Martin Jansa via lists.openembed=
-ded.org <martin.jansa=3Dgmail.com@lists.openembedded.org> wrote:
->>
->> Hi Victor,
->>
->> no problem, at least it forced me to enable debuginfod in our builds as =
-well (where it wasn't intentionally disabled). Just didn't get enabled when=
- it was added to default DISTRO_FEATUREs as we define our own and it wasn't=
- using BACKFILL mechanism to enable it in such setups.
->>
->> Removing debuginfod from DISTRO_FEATURES should be enough to reproduce t=
-he issue (as it will disable both *debuginfod PACKAGECONFIG options from el=
-futils as well).
->>
->> I haven't tried, but removing the PACKAGECONFIG just from elfutils will =
-probably reproduce it as well (with possibly fewer recipes needing to rebui=
-lt). There are 2 PACKAGECONFIGs for this, not sure which one is needed, but=
- you can just disable both.
->>
->> Cheers,
->>
->> On Wed, Dec 13, 2023 at 10:27=E2=80=AFPM Victor Kamensky <victor.kamensk=
-y7@gmail.com> wrote:
->>>
->>> Hi Martin,
->>>
->>> Sorry about that. I am looking at it now.
->>>
->>> Do I understand it correctly to reproduce the issue: I need to remove
->>> debuginfod (as it is currently on
->>> by default) from DISTO_FEATURES and remove debuginfod from elfutils
->>> PACKAGECONFIG defaults?
->>>
->>> Thanks,
->>> Victor
->>>
->>> On Sun, Dec 10, 2023 at 3:16=E2=80=AFAM Martin Jansa <martin.jansa@gmai=
-l.com> wrote:
->>> >
->>> > This seems to be causing:
->>> > ../git/util.cxx:51:10: fatal error: elfutils/debuginfod.h: No such fi=
-le or directory
->>> >    51 | #include <elfutils/debuginfod.h>
->>> >       |          ^~~~~~~~~~~~~~~~~~~~~~~
->>> > compilation terminated.
->>> > make[2]: *** [Makefile:1389: stap-util.o] Error 1
->>> >
->>> > on some systems.
->>> >
->>> > Looks like with https://sourceware.org/git/?p=3Dsystemtap.git;a=3Dcom=
-mit;h=3D2e67b053e3796ee7cf29a39f9698729b52078406 it now enables debuginfod =
-("AC_MSG_RESULT([yes])" _after_ the PKG_CHECK_MODULES now seems wrong).
->>> >
->>> > log.do_configure:
->>> > checking whether to use debuginfod... checking for debuginfod... no
->>> > yes
->>> > checking for debuginfod_find_metadata in -ldebuginfod... no
->>> >
->>> > build $ grep DEBUGINFO config.h
->>> > #define HAVE_LIBDEBUGINFOD 1
->>> >
->>> > config.log (see the strange result yes):
->>> > configure:12213: checking whether to use debuginfod
->>> > configure:12228: checking for debuginfod
->>> > configure:12235: $PKG_CONFIG --exists --print-errors "libdebuginfod >=
-=3D 0.179"
->>> > Package libdebuginfod was not found in the pkg-config search path.
->>> > Perhaps you should add the directory containing `libdebuginfod.pc'
->>> > to the PKG_CONFIG_PATH environment variable
->>> > No package 'libdebuginfod' found
->>> > configure:12238: $? =3D 1
->>> > configure:12252: $PKG_CONFIG --exists --print-errors "libdebuginfod >=
-=3D 0.179"
->>> > Package libdebuginfod was not found in the pkg-config search path.
->>> > Perhaps you should add the directory containing `libdebuginfod.pc'
->>> > to the PKG_CONFIG_PATH environment variable
->>> > No package 'libdebuginfod' found
->>> > configure:12255: $? =3D 1
->>> > configure:12269: result: no
->>> > No package 'libdebuginfod' found
->>> > configure:12304: result: yes
->>> > configure:12315: checking for debuginfod_find_metadata in -ldebuginfo=
-d
->>> > configure:12344: ccache aarch64-webos-linux-gcc  -mcpu=3Dcortex-a72 -=
-march=3Darmv8-a+crc -mbranch-protection=3Dstandard -fstack-protector-strong=
-  -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-sec=
-urity -Werror=3Dreturn-type --sysroot=3D/OE/lge/build/webos/scarthgap/BUILD=
-/work/raspberrypi4_64-webos-linux/systemtap/5.0/recipe-sysroot -o conftest =
- -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-pr=
-efix-map=3D/OE/lge/build/webos/scarthgap/BUILD/work/raspberrypi4_64-webos-l=
-inux/systemtap/5.0/git=3D/usr/src/debug/systemtap/5.0  -fdebug-prefix-map=
-=3D/OE/lge/build/webos/scarthgap/BUILD/work/raspberrypi4_64-webos-linux/sys=
-temtap/5.0/git=3D/usr/src/debug/systemtap/5.0  -fmacro-prefix-map=3D/OE/lge=
-/build/webos/scarthgap/BUILD/work/raspberrypi4_64-webos-linux/systemtap/5.0=
-/build=3D/usr/src/debug/systemtap/5.0  -fdebug-prefix-map=3D/OE/lge/build/w=
-ebos/scarthgap/BUILD/work/raspberrypi4_64-webos-linux/systemtap/5.0/build=
-=3D/usr/src/debug/systemtap/5.0  -fdebug-prefix-map=3D/OE/lge/build/webos/s=
-carthgap/BUILD/work/raspberrypi4_64-webos-linux/systemtap/5.0/recipe-sysroo=
-t=3D  -fmacro-prefix-map=3D/OE/lge/build/webos/scarthgap/BUILD/work/raspber=
-rypi4_64-webos-linux/systemtap/5.0/recipe-sysroot=3D  -fdebug-prefix-map=3D=
-/OE/lge/build/webos/scarthgap/BUILD/work/raspberrypi4_64-webos-linux/system=
-tap/5.0/recipe-sysroot-native=3D    -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as=
--needed -fcanon-prefix-map  -fmacro-prefix-map=3D/OE/lge/build/webos/scarth=
-gap/BUILD/work/raspberrypi4_64-webos-linux/systemtap/5.0/git=3D/usr/src/deb=
-ug/systemtap/5.0  -fdebug-prefix-map=3D/OE/lge/build/webos/scarthgap/BUILD/=
-work/raspberrypi4_64-webos-linux/systemtap/5.0/git=3D/usr/src/debug/systemt=
-ap/5.0  -fmacro-prefix-map=3D/OE/lge/build/webos/scarthgap/BUILD/work/raspb=
-errypi4_64-webos-linux/systemtap/5.0/build=3D/usr/src/debug/systemtap/5.0  =
--fdebug-prefix-map=3D/OE/lge/build/webos/scarthgap/BUILD/work/raspberrypi4_=
-64-webos-linux/systemtap/5.0/build=3D/usr/src/debug/systemtap/5.0  -fdebug-=
-prefix-map=3D/OE/lge/build/webos/scarthgap/BUILD/work/raspberrypi4_64-webos=
--linux/systemtap/5.0/recipe-sysroot=3D  -fmacro-prefix-map=3D/OE/lge/build/=
-webos/scarthgap/BUILD/work/raspberrypi4_64-webos-linux/systemtap/5.0/recipe=
--sysroot=3D  -fdebug-prefix-map=3D/OE/lge/build/webos/scarthgap/BUILD/work/=
-raspberrypi4_64-webos-linux/systemtap/5.0/recipe-sysroot-native=3D  -Wl,-z,=
-relro,-z,now  conftest.c -ldebuginfod   >&5
->>> > /OE/lge/build/webos/scarthgap/BUILD/work/raspberrypi4_64-webos-linux/=
-systemtap/5.0/recipe-sysroot-native/usr/bin/aarch64-webos-linux/../../libex=
-ec/aarch64-webos-linux/gcc/aarch64-webos-linux/13.2.0/ld: cannot find -ldeb=
-uginfod: No such file or directory
->>> > collect2: error: ld returned 1 exit status
->>> >
->>> > With debuginfod in DISTRO_FEATURES (which is included by default) and=
- *debuginfod PACKAGECONFIG enabled in elfutils (also by default based on DI=
-STRO_FEAUTRES) this builds OK.
->>> >
->>> > Regards,
->>> >
->>> >
->>> > On Tue, Dec 5, 2023 at 7:33=E2=80=AFAM Victor Kamensky <victor.kamens=
-ky7@gmail.com> wrote:
->>> >>
->>> >> Similar to 4.9 release, in 5.0 release release-5.0 tag is off any br=
-anch,
->>> >> release-5.0a tag e72dc118e563c645d93a1a2d771e8d90e8fec1ae is on the =
-master
->>> >> branch. Use this value for SRCREV and add catch up patch,
->>> >> 0001-prerelease-datestamp-fixes.patch, to bring source up to release=
--5.0 tag
->>> >> level. Remove 0001-prerelease-datestamp-fixes.patch in next upgrade.
->>> >>
->>> >> Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
->>> >> ---
->>> >>  .../0001-prerelease-datestamp-fixes.patch     | 23 ++++++++++++
->>> >>  .../systemtap/0001-release-date-fix.patch     | 37 ----------------=
----
->>> >>  .../systemtap/systemtap_git.inc               |  6 +--
->>> >>  3 files changed, 26 insertions(+), 40 deletions(-)
->>> >>  create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-pre=
-release-datestamp-fixes.patch
->>> >>  delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-rel=
-ease-date-fix.patch
->>> >>
->>> >> diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-prerelease=
--datestamp-fixes.patch b/meta/recipes-kernel/systemtap/systemtap/0001-prere=
-lease-datestamp-fixes.patch
->>> >> new file mode 100644
->>> >> index 0000000000..afdc10a3fe
->>> >> --- /dev/null
->>> >> +++ b/meta/recipes-kernel/systemtap/systemtap/0001-prerelease-datest=
-amp-fixes.patch
->>> >> @@ -0,0 +1,23 @@
->>> >> +From cfc2c1d53924face11e3fab78ded61c359778eb9 Mon Sep 17 00:00:00 2=
-001
->>> >> +From: "Frank Ch. Eigler" <fche@redhat.com>
->>> >> +Date: Sat, 4 Nov 2023 12:19:59 -0400
->>> >> +Subject: [PATCH] prerelease datestamp fixes
->>> >> +
->>> >> +Upstream-Status: Backport
->>> >> +---
->>> >> + NEWS | 2 +-
->>> >> + 1 file changed, 1 insertion(+), 1 deletion(-)
->>> >> +
->>> >> +diff --git a/NEWS b/NEWS
->>> >> +index c7f31e8b7..f0f9056c4 100644
->>> >> +--- a/NEWS
->>> >> ++++ b/NEWS
->>> >> +@@ -1,4 +1,4 @@
->>> >> +-* What's new in version 5.0, 2023-11-03
->>> >> ++* What's new in version 5.0, 2023-11-04
->>> >> +
->>> >> + - Performance improvements in uprobe registration and module start=
-up.
->>> >> +
->>> >> +--
->>> >> +2.31.1
->>> >> +
->>> >> diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-release-da=
-te-fix.patch b/meta/recipes-kernel/systemtap/systemtap/0001-release-date-fi=
-x.patch
->>> >> deleted file mode 100644
->>> >> index 3dcb369ec3..0000000000
->>> >> --- a/meta/recipes-kernel/systemtap/systemtap/0001-release-date-fix.=
-patch
->>> >> +++ /dev/null
->>> >> @@ -1,37 +0,0 @@
->>> >> -From ebb424eee5599fcc131901c0d82d0bfc0d2f57ab Mon Sep 17 00:00:00 2=
-001
->>> >> -From: "Frank Ch. Eigler" <fche@redhat.com>
->>> >> -Date: Fri, 28 Apr 2023 13:51:27 -0400
->>> >> -Subject: [PATCH] release date fix
->>> >> -
->>> >> -Upstream-Status: Backport
->>> >> ----
->>> >> - NEWS           | 2 +-
->>> >> - systemtap.spec | 2 +-
->>> >> - 2 files changed, 2 insertions(+), 2 deletions(-)
->>> >> -
->>> >> -diff --git a/NEWS b/NEWS
->>> >> -index 695bc990c..46859e304 100644
->>> >> ---- a/NEWS
->>> >> -+++ b/NEWS
->>> >> -@@ -1,4 +1,4 @@
->>> >> --* What's new in version 4.9, 2023-04-27
->>> >> -+* What's new in version 4.9, 2023-04-28
->>> >> -
->>> >> - - ISystemtap: the new interactive systemtap jupyter kernel. This p=
-rovides
->>> >> -   a simple GUI for writing/running Systemtap scripts in an easy, i=
-ncremental
->>> >> -diff --git a/systemtap.spec b/systemtap.spec
->>> >> -index 59814f112..fd8023264 100644
->>> >> ---- a/systemtap.spec
->>> >> -+++ b/systemtap.spec
->>> >> -@@ -1307,7 +1307,7 @@ exit 0
->>> >> -
->>> >> - # PRERELEASE
->>> >> - %changelog
->>> >> --* Thu Apr 27 2023 Frank Ch. Eigler <fche@redhat.com> - 4.9-1
->>> >> -+* Fri Apr 28 2023 Frank Ch. Eigler <fche@redhat.com> - 4.9-1
->>> >> - - Upstream release, see wiki page below for detailed notes.
->>> >> -   https://sourceware.org/systemtap/wiki/SystemTapReleases
->>> >> -
->>> >> ---
->>> >> -2.40.1
->>> >> -
->>> >> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/=
-recipes-kernel/systemtap/systemtap_git.inc
->>> >> index de3750ff04..bc2a9ff434 100644
->>> >> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
->>> >> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
->>> >> @@ -1,13 +1,13 @@
->>> >>  LICENSE =3D "GPL-2.0-only"
->>> >>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fd=
-af4a4263"
->>> >> -SRCREV =3D "418f0a45ca4473491385b5c7eef777607bbdb3b7"
->>> >> -PV =3D "4.9"
->>> >> +SRCREV =3D "e72dc118e563c645d93a1a2d771e8d90e8fec1ae"
->>> >> +PV =3D "5.0"
->>> >>
->>> >>  SRC_URI =3D "git://sourceware.org/git/systemtap.git;branch=3Dmaster=
-;protocol=3Dhttps \
->>> >>             file://0001-Do-not-let-configure-write-a-python-location=
--into-th.patch \
->>> >>             file://0001-Install-python-modules-to-correct-library-di=
-r.patch \
->>> >>             file://0001-staprun-stapbpf-don-t-support-installing-a-n=
-on-root.patch \
->>> >> -           file://0001-release-date-fix.patch \
->>> >> +           file://0001-prerelease-datestamp-fixes.patch \
->>> >>             "
->>> >>
->>> >>  COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|=
-mips|riscv64).*-linux'
->>> >> --
->>> >> 2.31.1
->>> >>
->>> >>
->>> >>
->>> >>
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#192332): https://lists.openembedded.org/g/openembedd=
-ed-core/message/192332
->> Mute This Topic: https://lists.openembedded.org/mt/102987514/3617156
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [m=
-artin.jansa@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+On 12/6/23 16:56, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Add systemd-sshd-socket-mode PACKAGECONFIG option to choose sshd.socket
+> and systemd-sshd-service-mode PACKAGECONFIG option to choose installing
+> sshd.service.
+> 
+> The systemd-sshd-socket-mode PACKAGECONFIG option is enabled by default
+> and user can customize the above two PACKAGECONFIG option to choose the
+> sshd mode.
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+> Changed in v3:
+> rebase based on https://lore.kernel.org/all/20231201140947.792594-1-xiangyu.chen@eng.windriver.com/
+> 
+> Changed in v4:
+> make it possible to install both sshd.socket and sshd.service
+> .../openssh/openssh_9.5p1.bb                  | 25 ++++++++++++++-----
+>   1 file changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> index 2c1c821ea9..58dd030c64 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> @@ -50,16 +50,20 @@ INITSCRIPT_NAME:${PN}-sshd = "sshd"
+>   INITSCRIPT_PARAMS:${PN}-sshd = "defaults 9"
+>   
+>   SYSTEMD_PACKAGES = "${PN}-sshd"
+> -SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket sshd.service"
+> +SYSTEMD_SERVICE:${PN}-sshd = "${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','sshd.socket', '', d)} ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','sshd.service', '', d)}"
+>   
+>   inherit autotools-brokensep ptest pkgconfig
+>   
+> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
+> +# systemd-sshd-socket-mode means sshd.socket and systemd-sshd-service-mode
+> +# corresponding to sshd.service
+> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} systemd-sshd-socket-mode"
+>   PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
+>   PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
+>   PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
+>   PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
+>   PACKAGECONFIG[systemd] = "--with-systemd,--without-systemd,systemd"
+> +PACKAGECONFIG[systemd-sshd-socket-mode] = ""
+> +PACKAGECONFIG[systemd-sshd-service-mode] = ""
+>   
+>   EXTRA_AUTORECONF += "--exclude=aclocal"
+>   
+> @@ -124,15 +128,24 @@ do_install:append () {
+>   	echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+>   
+>   	install -d ${D}${systemd_system_unitdir}
+> -	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
+> -	install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
+> -	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
+> +	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','true','false',d)}; then
+> +	    install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
+> +	    install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
+> +	    sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+> +		    -e 's,@SBINDIR@,${sbindir},g' \
+> +		    -e 's,@BINDIR@,${bindir},g' \
+> +		    -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+> +            ${D}${systemd_system_unitdir}/sshd.socket
+> +	fi
+> +	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','true','false',d)}; then
+> +	    install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
+> +	fi
+>   	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_system_unitdir}
+>   	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
+>   		-e 's,@SBINDIR@,${sbindir},g' \
+>   		-e 's,@BINDIR@,${bindir},g' \
+>   		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+> -		${D}${systemd_system_unitdir}/sshd.socket ${D}${systemd_system_unitdir}/*.service
+> +		${D}${systemd_system_unitdir}/*.service
+>   
+>   	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
+>   		${D}${sysconfdir}/init.d/sshd
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#191874): https://lists.openembedded.org/g/openembedded-core/message/191874
+> Mute This Topic: https://lists.openembedded.org/mt/103009646/3618448
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mingli.yu@eng.windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
