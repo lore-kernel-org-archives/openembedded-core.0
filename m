@@ -1,256 +1,189 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 750B5C46CD2
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 15:29:56 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.46196.1702913394636446535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 771BFC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 15:37:16 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web10.46406.1702913832835356239
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 07:29:55 -0800
+ Mon, 18 Dec 2023 07:37:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fEIn7k2T;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-336607f4d05so945807f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 07:29:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bhZSxMy3;
+ spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3ba4850f65dso1720854b6e.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 07:37:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1702913393; x=1703518193; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1702913831; x=1703518631; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JUl2Noq6bn0Sivdw630UocJm7XqOFYTihNjMtymdvkw=;
-        b=fEIn7k2TTl+eNu9rtBEDqrs7+zpB81wK4Y/Th/vV+Js2n54/ej9jR9ZeM8v/PKKCxZ
-         VAUjTIoPeUHmYXJ69odGc+Cd6wjQiY8VX+8dutgLjTSOR3Y4d0UQRiytnnNKOODy2wCN
-         onGScpybY5e45h1HtMpCBNjYTE7TSCm2Pk16Y=
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YbDp4vphYvXSB+wopW09jBQ60Dmg0RN7EOxtO5ZxzWU=;
+        b=bhZSxMy3nsxfKiDEaVRhb9vVKQ/rrIAPxvs5yttNrlwi9zv4mtTULflMo5UG8sNvem
+         4Cq/GZdQLzByb8ZPqPwFzv72y7AMLo6BjH0ukQfHEJwGSGKPooynPPJA3REt49nIx4qd
+         eE/aAx5sOB9Ve2cFOkbG+SpTEmQKoQ2xGbAbuqJF3x3Zm9CSAC80EaowUy2x0GJOwHUQ
+         Ici1Ull5o/GB02yDo/yC79/mPZPrJsIGBbN4mEKNj2ARX/+BmybiZ+3pyciXE0+qftc3
+         OAo523Y8xr9Y2hX9SgEUk/QQMjqlPp8qU+abuIrsD/WG2rmFsG4AQ+K0XxzXWDJeI+yJ
+         PWlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702913393; x=1703518193;
+        d=1e100.net; s=20230601; t=1702913831; x=1703518631;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JUl2Noq6bn0Sivdw630UocJm7XqOFYTihNjMtymdvkw=;
-        b=gSfIzoZA1phQEPjkR2Vnp9SyxD4FuDn4jn44yHC7ofeZ45r7p3if1CdvAgmcbHaChf
-         rjzP9JRlZaDroQRaREa/SJSkaxGBd4+XeCtBZXZnOue6cxhtS6IH62rY50VyjWo3eXwg
-         BL49fas5uWSGSdV9hPpkrZW3hQoql8Z3eKbqI46kr5RvzIGU5mTj2zJ3fvWTM3s1HnXH
-         CCEZsX/7fQwinKCm6FQuNuutdhpegRdcs9KftPL0bV1BSiM4umMBLcuAuchWpwPZSLRy
-         jzmsZW25Czc0ZnMTadqzlJc5hZa91O29O/g/gFWMKQSNCJ6uRj8erEmoQ7lM4gXChd4n
-         EyjA==
-X-Gm-Message-State: AOJu0YyOeuA65ZZ/shFe42Qc5/PezPMCNRhowHiQM06qRYypDaDCSGFL
-	H6tTQLXum8XCw/W/r+xUh/OGBFCeaQLGh0+xgxo=
-X-Google-Smtp-Source: AGHT+IGGLiwa0OrLNRhWDmlPD1DJgH0RbDl0okGUFBtTEu4NiZJVFcROTYHh25bt00mE3d7H2ZDFig==
-X-Received: by 2002:a5d:6906:0:b0:336:64c0:a1f9 with SMTP id t6-20020a5d6906000000b0033664c0a1f9mr1318509wru.36.1702913392841;
-        Mon, 18 Dec 2023 07:29:52 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a720:6e27:acc4:d591])
-        by smtp.gmail.com with ESMTPSA id f5-20020a5d5685000000b0033657376b62sm8921726wrv.105.2023.12.18.07.29.52
-        for <openembedded-core@lists.openembedded.org>
+        bh=YbDp4vphYvXSB+wopW09jBQ60Dmg0RN7EOxtO5ZxzWU=;
+        b=Xp9D1thXHgItIdHSHQjTdK/UgrnYcTxkZC53wdM4+BUUKiMPe++jbEhzbV0WuSaXWo
+         KdpAJvs53sz14SR3FX5Nnc8R3OZOUFmxzAfuQDBYlkU0t3P8aEuTDIQMNXAu8X9spfVD
+         dY8q0csuS1uhBhjXGb3C48hHtWp19A2k29eFkWC2yXKLIEiv1ZYwUSsJGl0izeXkcHn1
+         UdI1OlTkypqmDViWk9vnrDMSL0CPr3WoEG4VsnEUZoF/lOJlhI0mNlb8p8ynS8YcQm63
+         JrVBmdAASBjTiWPYMHiiQRMI/tMG6Dkm+3eR/sLo9vuiAm4gABYUPcc9dH1g6oeK6vXi
+         LOVw==
+X-Gm-Message-State: AOJu0YxaGGWZ/vEEjQVMGf0QFLlDrn3CoILaWHw9nmbyx4kjgw9CpAju
+	FN5gO4VYj70QSSak8HWcmoV1DkIytys=
+X-Google-Smtp-Source: AGHT+IHBqHHYnDhprMNyI3JMJKqXVacntCROzD3qTY8kqOv0JKgJl9byj1FTkFjSCt5KkcNcrVMu1Q==
+X-Received: by 2002:a05:6808:1924:b0:3b9:e73b:6b with SMTP id bf36-20020a056808192400b003b9e73b006bmr21548659oib.58.1702913831003;
+        Mon, 18 Dec 2023 07:37:11 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::35cb])
+        by smtp.gmail.com with ESMTPSA id q11-20020a056808200b00b003b85dd815bbsm4850852oiw.53.2023.12.18.07.37.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 07:29:52 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Mon, 18 Dec 2023 07:37:10 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemurunner: Impove handling of serial port output blocking
-Date: Mon, 18 Dec 2023 15:29:51 +0000
-Message-Id: <20231218152951.3398964-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
-References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v2] ipk: Switch to using zstd compression
+Date: Mon, 18 Dec 2023 08:37:00 -0700
+Message-Id: <20231218153700.3897302-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231215205140.2948964-1-JPEWhacker@gmail.com>
+References: <20231215205140.2948964-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 15:29:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192656
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 15:37:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192657
 
-Similar to stdout in the previous commit, we need to ensure serial output
-if written is read and put somewhere, else qemu might block on writes to
-the serial port leading to hangs in the kernel. Use our existing logging
-thread to log data when run_serial is not in use.
+Converts IPK package generation to use zstd instead of xz. zstd has a
+much larger compression/speed tradeoff range allowing users to choose
+what suits them best, and fast decompression speeds. It also continues
+to support parallel compression as xz did.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+A new variable called ZSTD_DEFAULTS is provided to set the defaults for
+places that want to use zstd for compression; the zst image conversion
+command is also modified to use this.
+
+Finally, in order for this to function properly, opkg must include zstd
+support, so it is enabled all the time with no PACKAGECONFIG to turn it
+off.
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 97 ++++++++++++++++++++++---------
- 1 file changed, 68 insertions(+), 29 deletions(-)
+ meta/classes-global/package_ipk.bbclass     | 2 +-
+ meta/classes-recipe/image_types.bbclass     | 4 +---
+ meta/conf/bitbake.conf                      | 4 ++++
+ meta/lib/oe/package_manager/ipk/__init__.py | 4 ++--
+ meta/recipes-devtools/opkg/opkg_0.6.2.bb    | 6 +++---
+ 5 files changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 36bdfb96ae6..16aa1c08d3e 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -21,6 +21,7 @@ import threading
- import codecs
- import tempfile
- from collections import defaultdict
-+from contextlib import contextmanager
- import importlib
+diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/package_ipk.bbclass
+index 71ffdd522ac..025dba49313 100644
+--- a/meta/classes-global/package_ipk.bbclass
++++ b/meta/classes-global/package_ipk.bbclass
+@@ -15,7 +15,7 @@ IPKGCONF_SDK_TARGET = "${WORKDIR}/opkg-sdk-target.conf"
+ PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
  
- # Get Unicode non printable control chars
-@@ -517,8 +518,12 @@ class QemuRunner:
-                 except Exception as e:
-                     self.logger.warning('Extra log data exception %s' % repr(e))
-                     data = None
-+            self.thread.serial_lock.release()
-             return False
+ # Program to be used to build opkg packages
+-OPKGBUILDCMD ??= 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
++OPKGBUILDCMD ??= 'opkg-build -Z zstd -a "${ZSTD_DEFAULTS}"'
  
-+        with self.thread.serial_lock:
-+            self.thread.set_serialsock(self.server_socket)
+ OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
+ OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index d615b41ed1e..3733bdfc20c 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -63,8 +63,6 @@ ZIP_COMPRESSION_LEVEL ?= "-9"
+ 7ZIP_COMPRESSION_METHOD ?= "BZip2"
+ 7ZIP_EXTENSION ?= "7z"
+ 
+-ZSTD_COMPRESSION_LEVEL ?= "-3"
+-
+ JFFS2_SUM_EXTRA_ARGS ?= ""
+ IMAGE_CMD:jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}.jffs2 ${EXTRA_IMAGECMD}"
+ 
+@@ -337,7 +335,7 @@ CONVERSION_CMD:lz4 = "lz4 -9 -z -l ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.l
+ CONVERSION_CMD:lzo = "lzop -9 ${IMAGE_NAME}.${type}"
+ CONVERSION_CMD:zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}.${type}.zip ${IMAGE_NAME}.${type}"
+ CONVERSION_CMD:7zip = "7za a -mx=${7ZIP_COMPRESSION_LEVEL} -mm=${7ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}.${type}.${7ZIP_EXTENSION} ${IMAGE_NAME}.${type}"
+-CONVERSION_CMD:zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.zst"
++CONVERSION_CMD:zst = "zstd -f -k -c ${ZSTD_DEFAULTS} ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.zst"
+ CONVERSION_CMD:sum = "sumtool -i ${IMAGE_NAME}.${type} -o ${IMAGE_NAME}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+ CONVERSION_CMD:md5sum = "md5sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.md5sum"
+ CONVERSION_CMD:sha1sum = "sha1sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.sha1sum"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 83b12cbc158..b3f1f18a0d7 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -878,6 +878,10 @@ XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
+ ZSTD_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
+ ZSTD_THREADS[vardepvalue] = "1"
+ 
++ZSTD_COMPRESSION_LEVEL ?= "-3"
++ZSTD_DEFAULTS ?= "--threads=${ZSTD_THREADS} ${ZSTD_COMPRESSION_LEVEL}"
++ZSTD_DEFAULTS[vardepsexclude] = "ZSTD_THREADS"
 +
-         # If we are not able to login the tests can continue
+ # Limit the number of threads that OpenMP libraries will use. Otherwise they
+ # may fallback to using all CPUs
+ export OMP_NUM_THREADS = "${BB_NUMBER_THREADS}"
+diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
+index e6f9c08e2b6..8fcbad56aab 100644
+--- a/meta/lib/oe/package_manager/ipk/__init__.py
++++ b/meta/lib/oe/package_manager/ipk/__init__.py
+@@ -133,7 +133,7 @@ class OpkgDpkgPM(PackageManager):
+         tmp_dir = tempfile.mkdtemp()
+         current_dir = os.getcwd()
+         os.chdir(tmp_dir)
+-        data_tar = 'data.tar.xz'
++        data_tar = 'data.tar.zst'
+ 
          try:
-             (status, output) = self.run_serial(self.boot_patterns['send_login_user'], raw=True, timeout=120)
-@@ -653,31 +658,32 @@ class QemuRunner:
+             cmd = [ar_cmd, 'x', pkg_path]
+@@ -505,6 +505,6 @@ class OpkgPM(OpkgDpkgPM):
+                      "trying to extract the package."  % pkg)
  
-         data = ''
-         status = 0
--        self.server_socket.sendall(command.encode('utf-8'))
--        start = time.time()
--        end = start + timeout
--        while True:
--            now = time.time()
--            if now >= end:
--                data += "<<< run_serial(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
--                break
--            try:
--                sread, _, _ = select.select([self.server_socket],[],[], end - now)
--            except InterruptedError:
--                continue
--            if sread:
--                # try to avoid reading single character at a time
--                time.sleep(0.1)
--                answer = self.server_socket.recv(1024)
--                if answer:
--                    data += answer.decode('utf-8')
--                    # Search the prompt to stop
--                    if re.search(self.boot_patterns['search_cmd_finished'], data):
--                        break
--                else:
--                    if self.canexit:
--                        return (1, "")
--                    raise Exception("No data on serial console socket, connection closed?")
-+        with self.thread.serial_lock:
-+            self.server_socket.sendall(command.encode('utf-8'))
-+            start = time.time()
-+            end = start + timeout
-+            while True:
-+                now = time.time()
-+                if now >= end:
-+                    data += "<<< run_serial(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
-+                    break
-+                try:
-+                    sread, _, _ = select.select([self.server_socket],[],[], end - now)
-+                except InterruptedError:
-+                    continue
-+                if sread:
-+                    # try to avoid reading single character at a time
-+                    time.sleep(0.1)
-+                    answer = self.server_socket.recv(1024)
-+                    if answer:
-+                        data += answer.decode('utf-8')
-+                        # Search the prompt to stop
-+                        if re.search(self.boot_patterns['search_cmd_finished'], data):
-+                            break
-+                    else:
-+                        if self.canexit:
-+                            return (1, "")
-+                        raise Exception("No data on serial console socket, connection closed?")
+         tmp_dir = super(OpkgPM, self).extract(pkg, pkg_info)
+-        bb.utils.remove(os.path.join(tmp_dir, "data.tar.xz"))
++        bb.utils.remove(os.path.join(tmp_dir, "data.tar.zst"))
  
-         if data:
-             if raw:
-@@ -696,6 +702,15 @@ class QemuRunner:
-                     status = 1
-         return (status, str(data))
+         return tmp_dir
+diff --git a/meta/recipes-devtools/opkg/opkg_0.6.2.bb b/meta/recipes-devtools/opkg/opkg_0.6.2.bb
+index b2e675ae48b..71c0b44aed0 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.6.2.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.6.2.bb
+@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://src/opkg.c;beginline=4;endline=18;md5=d6200b0f2b41dee278aa5fad333eecae"
  
-+@contextmanager
-+def nonblocking_lock(lock):
-+    locked = lock.acquire(False)
-+    try:
-+        yield locked
-+    finally:
-+        if locked:
-+            lock.release()
-+
- # This class is for reading data from a socket and passing it to logfunc
- # to be processed. It's completely event driven and has a straightforward
- # event loop. The mechanism for stopping the thread is a simple pipe which
-@@ -703,8 +718,10 @@ class QemuRunner:
- class LoggingThread(threading.Thread):
-     def __init__(self, logfunc, sock, logger, qemuoutput):
-         self.connection_established = threading.Event()
-+        self.serial_lock = threading.Lock()
+-DEPENDS = "libarchive"
++DEPENDS = "libarchive zstd"
  
-         self.serversock = sock
-+        self.serialsock = None
-         self.qemuoutput = qemuoutput
-         self.logfunc = logfunc
-         self.logger = logger
-@@ -717,9 +734,14 @@ class LoggingThread(threading.Thread):
+ PE = "1"
  
-         threading.Thread.__init__(self, target=self.threadtarget)
+@@ -40,10 +40,10 @@ PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,\
+ PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+ PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
+ PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
+-PACKAGECONFIG[zstd] = "--enable-zstd,--disable-zstd,zstd"
+ PACKAGECONFIG[libsolv] = "--with-libsolv,--without-libsolv,libsolv"
  
-+    def set_serialsock(self, serialsock):
-+        self.serialsock = serialsock
-+
-     def threadtarget(self):
-         try:
-             self.eventloop()
-+        except Exception as e:
-+            self.logger.warning("Exception %s in logging thread" % repr(e))
-         finally:
-             self.teardown()
+-EXTRA_OECONF:class-native = "--localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
++EXTRA_OECONF = "--enable-zstd"
++EXTRA_OECONF:append:class-native = " --localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
  
-@@ -753,6 +775,7 @@ class LoggingThread(threading.Thread):
-         event_read_mask = self.errorevents | self.readevents
-         if self.serversock:
-             poll.register(self.serversock.fileno())
-+        serial_registered = False
-         poll.register(self.qemuoutput.fileno())
-         poll.register(self.readpipe, event_read_mask)
- 
-@@ -760,7 +783,7 @@ class LoggingThread(threading.Thread):
-         self.running = True
-         self.logger.debug("Starting thread event loop")
-         while not breakout:
--            events = poll.poll()
-+            events = poll.poll(2)
-             for event in events:
-                 # An error occurred, bail out
-                 if event[1] & self.errorevents:
-@@ -785,18 +808,34 @@ class LoggingThread(threading.Thread):
- 
-                 # Actual data to be logged
-                 elif self.readsock.fileno() == event[0]:
--                    data = self.recv(1024)
-+                    data = self.recv(1024, self.readsock)
-                     self.logfunc(data)
-                 elif self.qemuoutput.fileno() == event[0]:
-                     data = getOutput(self.qemuoutput)
-                     self.logger.debug("Data received on qemu stdout %s" % data)
-                     self.logfunc(data, ".stdout")
-+                elif self.serialsock and self.serialsock.fileno() == event[0]:
-+                    if self.serial_lock.acquire(blocking=False):
-+                        data = self.recv(1024, self.serialsock)
-+                        self.logger.debug("Data received serial thread %s" % data.decode('utf-8', 'replace'))
-+                        self.logfunc(data, ".2")
-+                        self.serial_lock.release()
-+                    else:
-+                        serial_registered = False
-+                        poll.unregister(self.serialsock.fileno())
-+
-+            if not serial_registered and self.serialsock:
-+                with nonblocking_lock(self.serial_lock) as l:
-+                    if l:
-+                        serial_registered = True
-+                        poll.register(self.serialsock.fileno(), event_read_mask)
-+
- 
-     # Since the socket is non-blocking make sure to honor EAGAIN
-     # and EWOULDBLOCK.
--    def recv(self, count):
-+    def recv(self, count, sock):
-         try:
--            data = self.readsock.recv(count)
-+            data = sock.recv(count)
-         except socket.error as e:
-             if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
-                 return b''
+ do_install:append () {
+ 	install -d ${D}${sysconfdir}/opkg
 -- 
-2.39.2
+2.34.1
 
 
