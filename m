@@ -1,153 +1,136 @@
-Return-Path: <victor.kamensky7@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29148C46CA2
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:08:23 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.web10.37564.1702879698953256669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35E79C35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:15:53 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.37649.1702880146345833068
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 22:08:19 -0800
+ Sun, 17 Dec 2023 22:15:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kl+/rpqn;
- spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: victor.kamensky7@gmail.com)
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5cd68a0de49so1991288a12.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 22:08:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702879698; x=1703484498; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e6XTO5CCeVBAT0yOYTNMzfmkUurQKCr6yiPBHdW3iNo=;
-        b=kl+/rpqnxiR+kbtoGd2lLhUmM7rbg6utTf3wHGfa580CbXJByXOGbrVgCFAjljVO4L
-         txqIMZghrf3q+VzQ2q2wWCvUMKIkCgJHr26nuuOe4AGCw5y30YO/wCK31W7RjsN/iHbZ
-         RpRYWVfivOVXTCwJofTZ/IOAiCuwilobeJ55eWI2OX9cIrTUTI7zAiqEVagnH2SBEb4b
-         iWjHvUKUfDBXdFUZxBEfLudTcX0WWg98f7yAyWiInIXn8b729hPee9Z3iUuqbVji7IvB
-         MNy1NntAin4pmr6f5CgT5VgK7HvfQ/EBqiBmPUv4dIrxqixzkhJHsDxE2k1V+VauoKYk
-         ckBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702879698; x=1703484498;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e6XTO5CCeVBAT0yOYTNMzfmkUurQKCr6yiPBHdW3iNo=;
-        b=wCyM4IP+RNJ29XC+auhny5ueNALfip8PV3UUHwDt8TOO0K3pisXuKfbGZa60GaMr/H
-         465UL7iiYfCDIxXEK0dB+k7LEbEFcgTBlsOYgknLujpsBxoEKdrz3g5MkfTDvL44PXhk
-         LAwA8wsfuq1RfTAXh5t0eS6mve1gm96fq6P0j6Zys4fiSXU67NPoFutgNTUW+XdWWerp
-         THVjbh5u+qCIMhyTrLTYYf09sxs/7qERPTnjYa+mMJ0PzitK7P+ojj1yNbMP6wrWy3+F
-         /D2HRXzT7yBUciERSqGZLYnkN5yjMcXMM44GypNtXgjv/QCHAqS8jSZO6rUKcm+Ur46b
-         zXPQ==
-X-Gm-Message-State: AOJu0Ywkvvfg4eZjXGZ59DBHoUkfn9E2NkIs55F8NfpyiMFoTBYWd9Sz
-	z7psok4ljVGdrdqEWZKcS1oXCgDCBcg=
-X-Google-Smtp-Source: AGHT+IGaTLvaZo35AY6krx/kA2smjriU1eZZAqwmqP/hc/RfVcE+1MUZL4DVWgQMqaO8A609iPSgdw==
-X-Received: by 2002:a17:902:868f:b0:1d3:b308:adb8 with SMTP id g15-20020a170902868f00b001d3b308adb8mr1381992plo.17.1702879698104;
-        Sun, 17 Dec 2023 22:08:18 -0800 (PST)
-Received: from kamensky-p15s.cisco.com ([2601:641:8080:1a70::73a5])
-        by smtp.gmail.com with ESMTPSA id t18-20020a170902e85200b001d0675e59f9sm18128716plg.200.2023.12.17.22.08.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Dec 2023 22:08:17 -0800 (PST)
-From: Victor Kamensky <victor.kamensky7@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>,
-	Victor Kamensky <victor.kamensky7@gmail.com>
-Subject: [PATCH 2/2] systemtap: fix libdebuginfod auto detection logic
-Date: Sun, 17 Dec 2023 22:07:57 -0800
-Message-Id: <20231218060757.14170-2-victor.kamensky7@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20231218060757.14170-1-victor.kamensky7@gmail.com>
-References: <20231218060757.14170-1-victor.kamensky7@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=M8ZidL1t;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=07166d5ec4=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI5f3Uu014541;
+	Sun, 17 Dec 2023 22:15:44 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding:content-type; s=
+	PPS06212021; bh=E+6/IQdvAMUmSqz/fIlPxEDPZFiZnSi+wWMRqapCsho=; b=
+	M8ZidL1tjM8CYgJ4bsPDlA5TqIENdNcsPTdYoLB2tCjGqQgoc8gJGdDv6zryWxGz
+	1G9TleMntCnN9wXWtd5gH2aiT/3FV+VzLRmATuEdKhNuVE2Mu2mAEClReoNLzrjm
+	qOVhKitzW2GsFWKYLdAOty6F1CygmKjLa03WDnZn/AxC8xmuDeI1Lrnvziwp8h27
+	SSQtYHI1bQ/Xwtad2zUtDeNwtoKPo8WarNcFELIy8z9T5318UFCTBXIndWfIBofM
+	RsNgrdn6Hz4/dLdMOl/aDJDjParP1/ssykEK431Fj3nz0CguhiCy4Mbr/xGy96Hi
+	KvKzEhR22IWzH7whlj1CaQ==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v1c9kh8d9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 17 Dec 2023 22:15:44 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sun, 17 Dec 2023 22:15:49 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Sun, 17 Dec 2023 22:15:48 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <alex.kanavin@gmail.com>
+Subject: [PATCH v2] python3-license-expression: Fix the ptest failure
+Date: Mon, 18 Dec 2023 14:15:42 +0800
+Message-ID: <20231218061542.1845279-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CANNYZj8Up+UhiQo96T5OMxp+seYj6d8VyAGeF4vCCTj7mt764g@mail.gmail.com>
+References: <CANNYZj8Up+UhiQo96T5OMxp+seYj6d8VyAGeF4vCCTj7mt764g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: uw7mIt5NrXPzDzYwnbtqGHelqHQIxSSp
+X-Proofpoint-ORIG-GUID: uw7mIt5NrXPzDzYwnbtqGHelqHQIxSSp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=993 clxscore=1015 bulkscore=0
+ impostorscore=0 malwarescore=0 suspectscore=0 spamscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312180043
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:08:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192601
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:15:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192602
 
-Addresses an issue when systemtap is built in situation where debuginfod
-is not part of DISTRO_FEATURES and latest SystemTap has problem of
-auto detecting libdebuginfod library as it was reported by Martin
-Jansa in [1].
+From: Mingli Yu <mingli.yu@windriver.com>
 
-[1] https://lists.openembedded.org/g/openembedded-core/message/192109?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3Acreated%2C0%2Csystemtap%2C20%2C2%2C0%2C102987514
+Fix the below ptest failure:
+ self = <test_skeleton_codestyle.BaseTests testMethod=test_skeleton_codestyle>
+ def test_skeleton_codestyle(self):
+ """
+ This test shouldn't run in proliferated repositories.
+ """
+ setup_cfg = configparser.ConfigParser()
+ setup_cfg.read("setup.cfg")
+ > if setup_cfg["metadata"]["name"] != "skeleton":
+ tests/test_skeleton_codestyle.py:22:
+ self = <configparser.ConfigParser object at 0x7fd87cf55110>, key = 'metadata'
+ def _getitem_(self, key):
+ if key != self.default_section and not self.has_section(key):
+ > raise KeyError(key)
+ E KeyError: 'metadata'
 
-Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
+After the patch:
+ # ./run-ptest
+ [snip]
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_bad_syntax
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_exception_as_regular_key
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_exception_with_choice
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_exception
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_exception_strict_false
+ PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_key
+ PASS: tests/test_license_expression.py::UtilTest::test_build_licensing
+ PASS: tests/test_license_expression.py::UtilTest::test_build_spdx_licensing
+ PASS: tests/test_license_expression.py::UtilTest::test_get_license_key_info
+ PASS: tests/test_license_expression.py::UtilTest::test_get_license_key_info_vendored
+ PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_duplicated_elements
+ PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_empty_input
+ PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_or_relationship
+ PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_regular
+ PASS: tests/test_skeleton_codestyle.py::BaseTests::test_skeleton_codestyle
+
+ ============================= 175 passed in 10.36s =============================
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- ...-broken-libdebuginfod-library-auto-d.patch | 51 +++++++++++++++++++
- .../systemtap/systemtap_git.inc               |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
+ .../python/python3-license-expression/run-ptest             | 6 +++++-
+ .../python/python3-license-expression_30.1.1.bb             | 1 +
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch b/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
-new file mode 100644
-index 0000000000..98641826f6
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch
-@@ -0,0 +1,51 @@
-+From 3913ad3e28a19811e1b52338112344a487057e4f Mon Sep 17 00:00:00 2001
-+From: Victor Kamensky <victor.kamensky7@gmail.com>
-+Date: Mon, 18 Dec 2023 03:13:38 +0000
-+Subject: [PATCH 1/2] configure.ac: fix broken libdebuginfod library auto
-+ detection
-+
-+After 2e67b053e3796ee7cf29a39f9698729b52078406 "configury: rework debuginfod searches"
-+commit, libdebuginfod.so library auto detection is broken. It was reported by Martin Jansa
-+on openembedded-core mailing list [1].
-+
-+Currently configure.ac does "AC_DEFINE([HAVE_LIBDEBUGINFOD], [1] ..." as long as
-+no --without-debuginfod option is passed, regardless PKG_CHECK_MODULES check result.
-+It seems to be bad copy/paste. Address the issue by moving the AC_DEFINE back to
-+PKG_CHECK_MODULES action-if-found block.
-+
-+To reproduce the issue on FC system, one can do the following
-+"sudo dnf remove elfutils-debuginfod-client-devel" and then try to build SystemTap
-+util.cxx will fail to compile because of missing elfutils/debuginfod.h because
-+config.h will have "#define HAVE_LIBDEBUGINFOD 1", while config.log and configure
-+output indicates that check for libdebuginfod library failed.
-+
-+[1] https://lists.openembedded.org/g/openembedded-core/message/192109?p=%2C%2C%2C20%2C0%2C0%2C0%3A%3Acreated%2C0%2Csystemtap%2C20%2C2%2C0%2C102987514
-+
-+Upstream-Status: Submitted [https://sourceware.org/pipermail/systemtap/2023q4/027914.html]
-+Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
-+---
-+ configure.ac | 5 ++---
-+ 1 file changed, 2 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index d9559c5c3..18cd7f84a 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -219,12 +219,11 @@ dnl take the user at his or her word
-+ elif test "x$with_debuginfod" != xno; then
-+ dnl check in the system pkgconfig
-+   PKG_CHECK_MODULES([debuginfod], [libdebuginfod >= 0.179],
-+-    [have_debuginfod=1],
-++    [have_debuginfod=1
-++     AC_DEFINE([HAVE_LIBDEBUGINFOD], [1], [Define to 1 if debuginfod is enabled.])],
-+     [if test "x$with_debuginfod" = xyes; then
-+        AC_MSG_ERROR(["--with-debuginfod was given, but libdebuginfod is missing or unusable."])
-+      fi])
-+-  AC_DEFINE([HAVE_LIBDEBUGINFOD], [1], [Define to 1 if debuginfod is enabled.])
-+-  AC_MSG_RESULT([yes])  
-+ else
-+   AC_MSG_RESULT([no])
-+ fi
-+-- 
-+2.31.1
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 9fe85676fc..bebfa7f777 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -9,6 +9,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git;branch=master;protocol=https \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
-            file://0001-Makefile.am-remove-runtime-linux-uprobes-and-runtime.patch \
-            file://0001-prerelease-datestamp-fixes.patch \
-+           file://0001-configure.ac-fix-broken-libdebuginfod-library-auto-d.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-license-expression/run-ptest b/meta/recipes-devtools/python/python3-license-expression/run-ptest
+index 5cec711696..07e2dd17ee 100644
+--- a/meta/recipes-devtools/python/python3-license-expression/run-ptest
++++ b/meta/recipes-devtools/python/python3-license-expression/run-ptest
+@@ -1,3 +1,7 @@
+ #!/bin/sh
  
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64).*-linux'
+-pytest
++rm -rf output.log
++pytest -o log_cli=true -o log_cli_level=INFO > output.log 2>&1
++exitcode=$?
++cat output.log | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
++exit $exitcode
+diff --git a/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb b/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
+index 31fb88d6e5..5d3923d487 100644
+--- a/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
++++ b/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
+@@ -33,4 +33,5 @@ do_install_ptest() {
+     install -d ${D}${PTEST_PATH}/src
+     cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+     cp -rf ${S}/src/* ${D}${PTEST_PATH}/src/
++    cp -rf ${S}/setup.cfg ${D}${PTEST_PATH}/
+ }
 -- 
-2.31.1
+2.25.1
 
 
