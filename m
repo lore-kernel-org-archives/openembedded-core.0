@@ -1,98 +1,83 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <jester@theyoctojester.info>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB91C35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 11:33:34 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.42136.1702899205053467742
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6AEDC46CD4
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 11:34:24 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.42151.1702899254543134227
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 03:33:25 -0800
+ Mon, 18 Dec 2023 03:34:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JmhXbq52;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=htSlcEhi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018c7cb3c009-61a8496c-fe58-4808-b638-72018303f51e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1702899204; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=EZYQlytG1MuE/aEY2KrS24iWCc1OoGI5FuCrM2Me9x0=;
-	b=JmhXbq52Vz3TYhGsAxyTgw5jnRWlF07mbaZ0yjptYC8YxO6FJEFKObGeqCW3sHpp
-	t6s8miinqOehBfeiyLPW+7g/Xlm3hhasQNP51jYcKnzdkKNl7C0EZAC5hOti+uEJE1T
-	ECLXAK7GZ7Wut+M6aTxfOExPGIVUOSPh1/IDclr4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1702899204;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=EZYQlytG1MuE/aEY2KrS24iWCc1OoGI5FuCrM2Me9x0=;
-	b=htSlcEhi83aVtBpoRZBiNVQ05Ev4yA4p7sY2q0vbVO1NHuBmfRnL3XhlMAfCEQOc
-	WTeI/mi4ZH24N0jnDOICBdXG0KxdtkkGUYsVFPKN8v3YGq3OnLCQNfWqEC3dl5Z2Vrq
-	xqQ6mdERlXS7JH/kkRqO7gV+zZow6f1eDgBdQ6Bw=
-From: patchtest@automation.yoctoproject.org
-To: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for kirkstone: oe-selftest -v -r
- reproducible.ReproducibleTests.test_reproducible_builds broken ?
-In-Reply-To: e2ad5c51a48a8c85bae1c9c7e21912e8fb412c77.camel@infinera.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c7cb3c009-61a8496c-fe58-4808-b638-72018303f51e-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Dec 2023 11:33:24 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.18-54.240.27.31
+ dkim=pass header.i=@theyoctojester-info.20230601.gappssmtp.com header.s=20230601 header.b=lDh8BkiY;
+ spf=none, err=permanent DNS error (domain: theyoctojester.info, ip: 209.85.218.48, mailfrom: jester@theyoctojester.info)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a2340c803c6so131636366b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 03:34:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=theyoctojester-info.20230601.gappssmtp.com; s=20230601; t=1702899253; x=1703504053; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6tXSLnJNuclctIY+DmoQr81eQmlqmxOOA0cP+sAtwgo=;
+        b=lDh8BkiYUvFkibpIfM8DmpOhpzpXlTsJ6wOqf+IrJMAqX/qAaPJDirMqCvY9mhJDgO
+         XrKH3IeLasTM0YpI97N0vBIKEtzClI8VSuyxY1x3CZmqzqlRUq+/uvt6y2EuxMqQDZam
+         Smudj8nCiKUa12/4+GIQDYCQavBNOhrGCxPHmWsM+i55BrZxFBLEGXlLLdF6sm0qgR5D
+         mv/A4d+z1MeQngiLNPZPNIV3hPLQ7b2AMT1n3vaEMloEkUdtV6RNrqt0R4juffmJSXRY
+         fnwrdAo7XvMi8h0mZdpKI0+Juu9lddB4GRKM0qMAxjlZQfpuF1Z/LGuHlsKhEHzJlhLN
+         eTqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702899253; x=1703504053;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6tXSLnJNuclctIY+DmoQr81eQmlqmxOOA0cP+sAtwgo=;
+        b=QOzXELGF5gMQ0hUuK7bQN5nw6TGkpxJE/ARBrCslR4fi7fWD3gASzzyFUs4Xxg+Jhw
+         ggnh20LEcu9NkCJIgHHW613O2u+Giqs1BMGkX0TKzD8xfedVcQ7UuFeRGsUiPDGYT+66
+         5wRV++rtCEgWuBQaUUHqO/4GWX0uOcEzJK9MKJ0EUtGO4rQCO1ulY5PlACBc8lAwV4rL
+         UpODVkQQkGQNt4lpVqL5sQMEftYzzjkwg4e991crcfcFhX8CAJ/GxCBi78qVL+yHOYeX
+         9gtNG+IEuge3bw3JxLjEJFS6ozAaXEfYeMI4jP8HkUrcpzjEt7g6AiYAUWUyzlfUATm5
+         048Q==
+X-Gm-Message-State: AOJu0Yz5U/3tF7DquipnfhwrDFmkrc1q9PGLsrwfu/Wd1fS2PFBo6c/I
+	tABqyDIqjQoDAV4UHAgucQfRDBNwvQbRxAKqbBdjNQ==
+X-Google-Smtp-Source: AGHT+IEnyb1BfHo+/CwGIig4Njrkjd0vCCm1MBFKoosEZ6mCghw5fPRQg91JkPLJZl28DO6BWYUVENLia7k1t8TYrvA=
+X-Received: by 2002:a17:906:5345:b0:a23:4f2e:f7b with SMTP id
+ j5-20020a170906534500b00a234f2e0f7bmr701964ejo.56.1702899252311; Mon, 18 Dec
+ 2023 03:34:12 -0800 (PST)
+MIME-Version: 1.0
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Mon, 18 Dec 2023 12:33:46 +0100
+Message-ID: <CAEt6Nwrk4xR6KEPYdtPJCzYHV=zsxnJapGCDPm1h8t30TSxeWg@mail.gmail.com>
+Subject: CFP for OE Workshop extended
+To: openembedded-devel@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-members@lists.openembedded.org, 
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="00000000000005cab0060cc7216b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 11:33:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192633
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 11:34:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192634
 
---NextPart
-Content-Type: text/plain
+--00000000000005cab0060cc7216b
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+We have extended the deadline for the OE Workshop in Brussels, Monday
+February 5th until the upcoming Friday, December 22th.
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-oe-selftest--v--r-reproducible.ReproducibleTests.test_reproducible_builds-broken.patch
+Give the gift of OE and share your knowledge at
+https://pretalx.com/oe-ws-2024/cfp
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 93 characters) (test_mbox.TestMbox.test_shortlog_length)
+Josef,
+Your friendly OE Santa Helper
 
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+--00000000000005cab0060cc7216b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+<div dir=3D"ltr">We have extended the deadline for the OE Workshop in Bruss=
+els, Monday February 5th until the upcoming Friday, December 22th.<br><br>G=
+ive the gift of OE and share your knowledge at <a href=3D"https://pretalx.c=
+om/oe-ws-2024/cfp">https://pretalx.com/oe-ws-2024/cfp</a><br><div><br></div=
+><div>Josef,</div><div>Your friendly OE Santa Helper</div></div>
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+--00000000000005cab0060cc7216b--
 
