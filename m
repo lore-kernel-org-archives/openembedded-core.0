@@ -1,179 +1,259 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Joakim.Tjernlund@infinera.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B19F8C46CD2
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 16:20:46 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.47470.1702916439164310165
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DF3C35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 16:33:06 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.41])
+ by mx.groups.io with SMTP id smtpd.web11.48201.1702917183268411138
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 08:20:39 -0800
+ Mon, 18 Dec 2023 08:33:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gSxx7D5n;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50c04ebe1bbso4308341e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 08:20:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702916437; x=1703521237; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pFWhnrJ+MUmAxVyJemnJK+MTCs7un1mRYDuGuqEFCiU=;
-        b=gSxx7D5no7p+ksX44/eSmCNKzJwAO5cpknRy/mwNHvK7A5M/TC64e07WOS4mGbh1WF
-         8+okKu68OoHBBnxY6dd8Yk6oHoClD5dCMvXc+Vsr12gMH5DUXurxV8g5n6BGeajQZ1D8
-         zrBRS0a+xc0/8ZUZAe54vLHRrvvDB8l4QJmTV3MKfZL6QTN4xqgcJA80K/Y3cObM+hkP
-         X+WYwHsxtcNif0YDApXw2cO6WnfmSTfxjj1A8kOGbhNLbvURKV/5c8DbuyfhaiMRyvQt
-         uab0hqREbC+UwQaxsGZhbjdsp4D4R+X2U/RS3LeI8RHhztNewyLNMNwoolEvYsdP4Qcd
-         sfNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702916437; x=1703521237;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pFWhnrJ+MUmAxVyJemnJK+MTCs7un1mRYDuGuqEFCiU=;
-        b=uTi5aYIHla/LxE0Du0u+QrN2ZulErvzPeaYhfxr1Vjav2YeFOyoo6Cj5LGHLYAXSwa
-         qwgrkF0SzJTsadIcLnK4ALz57yOm+y8oJ35/FieUIAl3cXouFuL5BMhhWAVQshrM0yOL
-         +8LUiF/UzSK8X/U7heQnIe6byMTb+lwNc7FS/bYTXf8wUdvHvJCX6RGKm0eRtI4GlSeA
-         W8TEse+a2uSYePH3rp7HfZA1HiNto0On7tlePL6+arll4+laLE4Xt6saWCzCNTCCKA/y
-         KPovnvf0F/TzIXqEX8ikEZZwlQNV2dWJDX492uehFG/JTxIdzdECHhehQxGL2e35YTS5
-         lFQg==
-X-Gm-Message-State: AOJu0YzVoboGayMfu/RgC8sOwmIG+1pTF4nt3UYacDO2eM91sm8Va1yY
-	F+639LZHl4f6esbZnhW/Hm0Qlk4+3KlBABveQng=
-X-Google-Smtp-Source: AGHT+IEkjEFWV9euU4Kg6i6qjCwNf6WKN/UX3q3IK1zJm/r9J81CE3nCc7ELOXkOUvt8cSfCnXf3FnjM0eeSSVrlv5g=
-X-Received: by 2002:ac2:53ab:0:b0:50e:3e1c:5cad with SMTP id
- j11-20020ac253ab000000b0050e3e1c5cadmr709812lfh.17.1702916437046; Mon, 18 Dec
- 2023 08:20:37 -0800 (PST)
-MIME-Version: 1.0
+ dkim=pass header.i=@infinera.com header.s=selector1 header.b=mkaVfUtT;
+ spf=pass (domain: infinera.com, ip: 40.107.236.41, mailfrom: joakim.tjernlund@infinera.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eCEWAWbOZLiaZh8iTT6KlGq1soe+q7BIYfHdACY/7aLsizdbaviV7k14pvll2ZhgazbVR/ciQyheKBkaoyAJ1TTPHeFdttVYalZiSkQM/y1G2HVByLOV3EAaPRA0FQaaHQiYt1pkGOaYfNN+E8rgSHe+kxLYQDi4pQZfKwGSajgxEI9qdfuMBr8GatOWTJyq59HG7pOOU+Yh8LmTPTPZVRCZdZkjFcB/z+wlV/sdlhm4gqaviNQV4C2ezwx1ZRwu1mgxV7ILoUwQX3YHmlYuC9FcR/Pes6hCXH/awTEMSXQWJuJcDneNn7D7xW0a8cRfkgYytToTpDjfPauTAyoaLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jyvBNBHC4mCGpcovQa7kqElV5QJ4nxRV1Ru2OTXa88E=;
+ b=HIW7U375/wgQ03av+2wpx/MspWLzdNVsi9+hXLPCp1/ZsX/P+JfGFf6DjZLVZUYUtijh0ISHqa9gXB1tfaS3QSkLj07XlGIZ7qNULWIyugrH307R5dvusC+O5v+3GvawIwKbROWzAAwmpP8+nFXrls5dlMqqRM2lI8sf9hTg4hOSkEHOzuI7T+cTMb1dmXCcRoIPhj5zsjU7eHgCBdHBwe+aad1F0R0m/FjGsdGssmL0FHGbRN6qE2avHq9AW0zcuyI/SBOtFi9kqrpNDb4molduXA1/XMtPHIouWIJ5BY2uOpikUmZC3818R1KRdjZP1AJvOKSpIsnM5z17t9EnNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
+ dkim=pass header.d=infinera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jyvBNBHC4mCGpcovQa7kqElV5QJ4nxRV1Ru2OTXa88E=;
+ b=mkaVfUtTXGxH+dVu32Luy5NtlkVyMhKSZh+gvca40PTSwCYoUgqAuA3DFXlS+TNe+qGQOn0+/OEvoYyY2VcVAw3wecCjhqHrioBLTT6NJPLgGCcTPgMSMQ4oNHpdfCYd7WAQ1UYLRxup+s6wKVl8B8aEJgFJxCscr1bij5l0H/WxsI6OIKRcy1Ws/N0HtHJ8OqAtZhFvRoBBw7GMpnRzz3CZVIjLNIANgig+d0Xs0UF8VRmpbdv/WsngC83bbW6cKGOSdIQQIN713YHfWU83MMt+UquQ8JGVgTjo6zq1A1DMIG1gmJjRiPfB2xMQomlMSlU1eG5IyDfvUWEG6Pl6hw==
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
+ by CY5PR10MB5916.namprd10.prod.outlook.com (2603:10b6:930:2c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Mon, 18 Dec
+ 2023 16:32:59 +0000
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::86e6:23e4:41ae:35c5]) by PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::86e6:23e4:41ae:35c5%7]) with mapi id 15.20.7091.034; Mon, 18 Dec 2023
+ 16:32:59 +0000
+From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
+To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] kirkstone: oe-selftest -v -r
+ reproducible.ReproducibleTests.test_reproducible_builds broken ?
+Thread-Topic: [OE-core] kirkstone: oe-selftest -v -r
+ reproducible.ReproducibleTests.test_reproducible_builds broken ?
+Thread-Index: AQHaMaQyiJqshOiCukOwvQQfz8CqBbCvBAEAgAANQoCAACeqgIAAA4IA
+Date: Mon, 18 Dec 2023 16:32:59 +0000
+Message-ID: <437e1ea74b65c88fb81e365ac7008defc2903693.camel@infinera.com>
 References: <e2ad5c51a48a8c85bae1c9c7e21912e8fb412c77.camel@infinera.com>
- <CANNYZj-+T-uXRwVOkF3YmZJzOKaqogBnNKp+WFA9mpNyW2Y=EQ@mail.gmail.com> <e19a55e23d08d670fedb5f290a225f4ed21f82e9.camel@infinera.com>
-In-Reply-To: <e19a55e23d08d670fedb5f290a225f4ed21f82e9.camel@infinera.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 18 Dec 2023 17:20:25 +0100
-Message-ID: <CANNYZj-N0_Jb-J2OE2=R4X4guhhddDEzejxOY_sXT_bTT4NumA@mail.gmail.com>
-Subject: Re: [OE-core] kirkstone: oe-selftest -v -r reproducible.ReproducibleTests.test_reproducible_builds
- broken ?
-To: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+	 <CANNYZj-+T-uXRwVOkF3YmZJzOKaqogBnNKp+WFA9mpNyW2Y=EQ@mail.gmail.com>
+	 <e19a55e23d08d670fedb5f290a225f4ed21f82e9.camel@infinera.com>
+	 <CANNYZj-N0_Jb-J2OE2=R4X4guhhddDEzejxOY_sXT_bTT4NumA@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj-N0_Jb-J2OE2=R4X4guhhddDEzejxOY_sXT_bTT4NumA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.50.1 
+autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
+ keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=infinera.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|CY5PR10MB5916:EE_
+x-ms-office365-filtering-correlation-id: daea1425-57db-47d0-10b2-08dbffe6ff62
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ um4vxQwM0guiF05C1RsK9NCxAFM3LyuObQ2vAN+/J6avIaBjuuDy/mXYTnm4xuZWCL5awPAdoIjRgfe5PQGE/LaLZE5BLpWqJkwMfQOujh0WkkuAGduWBj+bKuoLNbbi9JBOusW/xcQ+qDT7igvNRdFkfLMRd2e8ZwrFUNyIkArGUbqsGgVsJpwsx4z3jBRX7knLm10c0UlXP3fH1IugqXkba+uoIKvi10GgPxYcosNh/N6SGBg8AQtAACEUMq14GT8Lj7VoTccjOjSprf/YZZ+/s+eazSTH2cO5kYF2ftcdTTjf6dyclOvoITqvodhdo4zV+jXGh8yP+VhD5UsNmT05vumul/KrnryDMBprKidrrxBgQ9BXQ+aR8vPiI8b0fmqRVlL9N0l77jZlsku+tIZbgimsVUC7yvcIW5lZ+c6zzBeFF4HQoUhmYfv8fdUQrjk6J/CZ+9zZjdsIQWLPhSuMSU89i127qc6Dk7nGH0dXmG1mTIjyM3SS8++RnzROxxBl5+636Nto4bF01W3yn3rOqqLTQQvMOoXKICgbaiJIAWVH26OfswmNy49UwbehmIlcHDeKZIuGf0OvMgMWN/o7jIrWytBPCWRi139eoSU=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(376002)(39860400002)(136003)(366004)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(83380400001)(6506007)(2616005)(6512007)(4326008)(5660300002)(41300700001)(4001150100001)(2906002)(478600001)(966005)(71200400001)(6486002)(45080400002)(316002)(8936002)(8676002)(66446008)(66556008)(66476007)(66946007)(91956017)(76116006)(64756008)(6916009)(36756003)(86362001)(122000001)(38100700002)(38070700009)(66899024);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?TWR6QzdXd3JLaVNoM0pkS0RoaU5HRlVvODk3UEwrRHNhNFZCWFRsOWg2WlZN?=
+ =?utf-8?B?Mm9xZnJaaUs0dWljNDN6YXd5aSs0ZmMwNUxGM0JuS2NHaC9NcmFwUG9vUDcv?=
+ =?utf-8?B?T29VbFFCUFpUd1lDSEdiT3BmYXBPYWRsc3N4cUlOTm13cVRiOUVnWk96bks4?=
+ =?utf-8?B?aTVYSUw2TlV1Zm1sOWhFWEJYSFRBMHhMVDdub2wwVERySFlmakZETE1sdzdB?=
+ =?utf-8?B?NmNaMTBhOCtkN1R0QkJTWm92M1NseWY2c0lBcldVODFjYzdrbUpoR0JoOElV?=
+ =?utf-8?B?N0crZGpxZGNqMUpIM0dMZTV6YzVoTWZlTHcxc2YwY2NkTmFDYnk2MzlROVlO?=
+ =?utf-8?B?ZFhYZko1QXdwOGRxZWxORlh3Q3hqMUIvRkhqVVducGttREZzMXZranU0a0VN?=
+ =?utf-8?B?NHRkbWk2VEZCSGR1S1JUQ25EVkFYTWxFeE01d3ZRak9KazhFTnJ2NXI2WHFF?=
+ =?utf-8?B?SVVpWlBOaEFmaWo0YWx6RWVIMHA3b1YxY1dLd3lKMXpoQkp2dWpEQXlMeVVT?=
+ =?utf-8?B?YytRUENaWWxFcVNneXlMM2tJZFcvbUY1RTBpeXgwSlBTNWdjQ3k2d29KKzB5?=
+ =?utf-8?B?OWJXdjJranRraWZZWW5pTG9EK2xQbXJqZlZ2WHJjN2xvRzBGV3g1Uml2MlVH?=
+ =?utf-8?B?ZVFuakltNmlBbFFtQUQvRXMvaFJqbEZjcVFMaVJ4eHVzUlNpM1hYazBNV0NP?=
+ =?utf-8?B?Z1NGcEF1YkhUeHZLdjlFc1NvWVVZQm5ITzVjdHF2SlZCczJ0a1piZUhTY2hE?=
+ =?utf-8?B?R1lmTVFSajFaejBxM1lEakoxK2c0MTVCZ016TWprMEFMZTVLR0VGN2Nyczc2?=
+ =?utf-8?B?OTFuSkZmTWdhOVptdEQ2TUFOb0lFbmt0WDBqd21nQVhtS24zRmU4SVZFWVFm?=
+ =?utf-8?B?S0RiVmg0ZEJIeTJ1ZzU4Y0UzL2J5NGNZQXNmS05Uakl3VkxvRlBGOGg4dlQ0?=
+ =?utf-8?B?Y0trZ1VGbFZxcW12Q0lpaTNQdlJ2M1oyenpCd0dpKzNxME1GTEdiSlY5VFZt?=
+ =?utf-8?B?ZC81Q3pPVUFJQmw0eElkS1MrOG51dmFrbnV3TkRqN1ozTGRJMTVkU25HNVVG?=
+ =?utf-8?B?c0lPci8zZmtKZW1WVjJpcTVPbkVpck9mS1F3R3hFMC9OQ0FPNlNaYStuRFpx?=
+ =?utf-8?B?ZDhNS1YySmNRVzUxNk1JUzZubENZUERXZ3E5b2NNb2NPc3JuWGpyUk9kZmIv?=
+ =?utf-8?B?TXVDRHBkMmhpZlBYeWJBWnFWbVl0RUVrM0JibHh3QWdIeldpaDM1NHp6ZzhT?=
+ =?utf-8?B?d2JDWlFGZzdvaUdQK2N3Qlg0OTdLd3YwVnlhVWQrM3VPM1BNMzF4Y1plQXVu?=
+ =?utf-8?B?dEJmT1ErVG9hQVIvUWRFZmEzZHRXR29PQ0pWbXM5aUUvQjFOMzhiTzI2L3lB?=
+ =?utf-8?B?QTRjTGRLcFc3NlJZbWRwZGNEUW1SUEkvWmZucGpMajhTa1NVcTZhZXF4NGtN?=
+ =?utf-8?B?K0l4SWFUNGVPYkZHNWE5eEU5ZnJ4VFo0RFZOcEs5Y2xGTllSNDVnWnVEK2FI?=
+ =?utf-8?B?N2NILzFYbUJHWGZpNVZGUkUwMnM4TG4wcmgreEpuSnpsNDFOY29reTJ6dUhk?=
+ =?utf-8?B?cVovaGEwNHg2NWxPNHEvWHFPbUhXU3VBU0xxMXpNM2o4NUUzQWRwSUxyREVO?=
+ =?utf-8?B?WnlrWFc4K0RvaWg2dGJoOXY0dm9RZ0w0ZkUvWWNVT2VTWW5iSlFVSFFEMFRL?=
+ =?utf-8?B?VWVic3NIdE42TS9zajBDenZvMklvZmsrNEc1ZGs4aHhnZVZQb3puUWRydEpO?=
+ =?utf-8?B?aEc3MHovaXBQWTNUMnBJMEhaT1hNQmRnVHkvSVpubkx1RSs2enhSNkxGOUZJ?=
+ =?utf-8?B?L2thVnJraU9kaGpOQnAyWW9YdFVpUmVUQ3l5NXhxV0o4TFNBTFhkcEx0cklp?=
+ =?utf-8?B?VklEWnNGZG9zZW9acTliVTFKdjM5OFRFVGUxVFdxY1hNdDVMUTRtQmpPOEpD?=
+ =?utf-8?B?eDdZRTIrU2M5THZqclpuRWFnTjZBOU1TOUlsb3l5YTNFOEt4UWVFM2JVQW9U?=
+ =?utf-8?B?UG1ibjI3SGNyd2FGMXp6eGxLSVJRaytuVlhncXhwc1V0d3ZqbU5wb2VldVVj?=
+ =?utf-8?B?eXNLMHAvaWs2cG1Yci9RVDd3NHNBYkFlY2JoM3Fpc3g2Mi9OVVRILzFJVVdj?=
+ =?utf-8?B?bHpxMHI0WWtvQSszUS9mMEhmNHJiVmgwVUtGekdOQ3UzeDg1SGU5RUJVcWM2?=
+ =?utf-8?Q?MaH4598+gNcU/y5i+W6DtX5BxSzlt67N8OpGZKojt/tt?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7EC76F31984B50428D65E70B90CB774E@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: infinera.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: daea1425-57db-47d0-10b2-08dbffe6ff62
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2023 16:32:59.4908
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wi4VqA+eQbyIrGyDnLHEr1BxrAeI1y1Vo7IW38ITOC4pPH3/eRMwqTMXr0mQhrXKF8kYgfcTaqMorhRBVQ3QWA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB5916
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 16:20:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192662
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 16:33:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192663
 
-I suppose you can run oe-selftest again with -K, then its build
-directories (a and b ones) will be preserved and you can inspect them.
-
-Alex
-
-On Mon, 18 Dec 2023 at 14:58, Joakim Tjernlund
-<Joakim.Tjernlund@infinera.com> wrote:
->
-> Sounds plausible but how is that possible? I don't understand what those tweaks are(unless you
-> mean the SOURCE_DATE_EPOCH="$(date +%s)" tweak)
-> Maybe I should try without SSTATE cache at all just to see if that make a difference?
->
->  Jocke
->
-> On Mon, 2023-12-18 at 14:11 +0100, Alexander Kanavin wrote:
-> > The short execution time is suspicious. The test is written so that
-> > build B doesn't reuse the cache from build A, and if it does because
-> > of your local tweaks, then you're probably just comparing the A
-> > package with itself.
-> >
-> > Alex
-> >
-> > On Mon, 18 Dec 2023 at 12:20, Joakim Tjernlund via
-> > lists.openembedded.org
-> > <Joakim.Tjernlund=infinera.com@lists.openembedded.org> wrote:
-> > >
-> > > I setup above test for reproducible builds and build one pkg(u-boot) and try to force a
-> > > non-reproducible build to test the framework:
-> > > --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> > > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> > > @@ -9,7 +9,7 @@ inherit uboot-config uboot-extlinux-config uboot-sign deploy python3native kerne
-> > >
-> > >  DEPENDS += "swig-native"
-> > >
-> > > -EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
-> > > +EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1 SOURCE_DATE_EPOCH="$(date +%s)"'
-> > >  EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
-> > >  EXTRA_OEMAKE += 'STAGING_INCDIR=${STAGING_INCDIR_NATIVE} STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
-> > >
-> > > forcing EPOCH to current build date but I still get an success report:
-> > >
-> > > oe-selftest -v -r reproducible.ReproducibleTests.test_reproducible_builds
-> > > 2023-12-18 12:05:22,355 - oe-selftest - INFO - Adding layer libraries:
-> > > 2023-12-18 12:05:22,356 - oe-selftest - INFO -  /home/jocke/yocto-xr/3pp/poky/meta/lib
-> > > 2023-12-18 12:05:22,356 - oe-selftest - INFO -  /home/jocke/yocto-xr/3pp/poky/meta-yocto-bsp/lib
-> > > 2023-12-18 12:05:22,356 - oe-selftest - INFO -  /home/jocke/yocto-xr/3pp/meta-openembedded/meta-oe/lib
-> > > 2023-12-18 12:05:22,356 - oe-selftest - INFO -  /home/jocke/yocto-xr/meta-xr/lib
-> > > 2023-12-18 12:05:22,356 - oe-selftest - INFO -  /home/jocke/yocto-xr/3pp/poky/meta-selftest/lib
-> > > 2023-12-18 12:05:22,359 - oe-selftest - INFO - Running bitbake -e to test the configuration is valid/parsable
-> > > 2023-12-18 12:05:27,248 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/jocke/yocto-xr/build/infn-xr/gmcu-st/conf/local.conf
-> > > 2023-12-18 12:05:27,248 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
-> > > 2023-12-18 12:05:27,248 - oe-selftest - INFO - test_reproducible_builds (reproducible.ReproducibleTests)
-> > > 2023-12-18 12:05:29,724 - oe-selftest - DEBUG - Writing to: /home/jocke/yocto-xr/build/infn-xr/gmcu-st/conf/selftest.inc
-> > >
-> > >
-> > > 2023-12-18 12:08:26,539 - oe-selftest - INFO - Building reproducibleA (sstate allowed)...
-> > > 2023-12-18 12:08:26,545 - oe-selftest - DEBUG - Writing to: /home/jocke/yocto-xr/build/infn-xr/gmcu-st/conf/selftest.inc
-> > > PACKAGE_CLASSES = "package_ipk"
-> > > INHIBIT_PACKAGE_STRIP = "1"
-> > > TMPDIR = "/home/jocke/yocto-xr/build/infn-xr/reproducibleA/tmp"
-> > > LICENSE_FLAGS_ACCEPTED = "commercial"
-> > > DISTRO_FEATURES:append = ' systemd pam'
-> > > USERADDEXTENSION = "useradd-staticids"
-> > > USERADD_ERROR_DYNAMIC = "skip"
-> > > USERADD_UID_TABLES += "files/static-passwd"
-> > > USERADD_GID_TABLES += "files/static-group"
-> > >
-> > >
-> > > 2023-12-18 12:09:08,936 - oe-selftest - INFO - Building reproducibleB (sstate NOT allowed)...
-> > > 2023-12-18 12:09:08,937 - oe-selftest - DEBUG - Writing to: /home/jocke/yocto-xr/build/infn-xr/gmcu-st/conf/selftest.inc
-> > > PACKAGE_CLASSES = "package_ipk"
-> > > INHIBIT_PACKAGE_STRIP = "1"
-> > > TMPDIR = "/home/jocke/yocto-xr/build/infn-xr/reproducibleB/tmp"
-> > > LICENSE_FLAGS_ACCEPTED = "commercial"
-> > > DISTRO_FEATURES:append = ' systemd pam'
-> > > USERADDEXTENSION = "useradd-staticids"
-> > > USERADD_ERROR_DYNAMIC = "skip"
-> > > USERADD_UID_TABLES += "files/static-passwd"
-> > > USERADD_GID_TABLES += "files/static-group"
-> > > SSTATE_DIR = "${TMPDIR}/sstate"
-> > > SSTATE_MIRRORS = "file://.*/.*-native.*  http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH file://.*/.*-cross.*
-> > > http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
-> > >
-> > >
-> > > 2023-12-18 12:09:24,772 - oe-selftest - INFO - Checking ipk packages for differences...
-> > > 2023-12-18 12:09:24,843 - oe-selftest - INFO - Reproducibility summary for ipk: same=4 different=0 different_excluded=0 missing=0 total=4
-> > > unused_exclusions=[]
-> > > 2023-12-18 12:09:24,847 - oe-selftest - INFO -  ... ok
-> > > 2023-12-18 12:09:26,044 - oe-selftest - INFO - ----------------------------------------------------------------------
-> > > 2023-12-18 12:09:26,044 - oe-selftest - INFO - Ran 1 test in 241.335s
-> > > 2023-12-18 12:09:26,045 - oe-selftest - INFO - OK
-> > > 2023-12-18 12:09:32,355 - oe-selftest - INFO - RESULTS:
-> > > 2023-12-18 12:09:32,356 - oe-selftest - INFO - RESULTS - reproducible.ReproducibleTests.test_reproducible_builds: PASSED (237.60s)
-> > > 2023-12-18 12:09:32,361 - oe-selftest - INFO - SUMMARY:
-> > > 2023-12-18 12:09:32,362 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 241.336s
-> > > 2023-12-18 12:09:32,362 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
-> > >
-> > >
-> > > Looking harder I don't see oe-seftest ever creating reproducibleA/reproducibleB directories.
-> > > I have these set
-> > > OEQA_REPRODUCIBLE_TEST_PACKAGE = "ipk"
-> > > OEQA_REPRODUCIBLE_TEST_TARGET = "xr-u-boot"
-> > >
-> > > I am missing something?
-> > >
-> > >  Jocke
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#192631): https://lists.openembedded.org/g/openembedded-core/message/192631
-> > > Mute This Topic: https://lists.openembedded.org/mt/103240689/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
->
+SSBoYXZlIHRyaWVkIHRoYXQgYW5kIHRoZXJlIGFyZSBubyBBL0IgZGlycyBpbiB0aGVyZS4gSSBj
+YW4gZmluZCB1LWJvb3QuLi5pcGsgYW5kIHNvbWUgb3RoZXINCnN0dWZmIGJ1dCB0aGVyZSBpcyBu
+byBldmlkZW5jZSB0aGF0IHRoZSBBL0IgZGlycyBldmVyIGV4aXN0ZWQuDQoNCiAgSm9ja2UNCk9u
+IE1vbiwgMjAyMy0xMi0xOCBhdCAxNzoyMCArMDEwMCwgQWxleGFuZGVyIEthbmF2aW4gd3JvdGU6
+DQo+IEkgc3VwcG9zZSB5b3UgY2FuIHJ1biBvZS1zZWxmdGVzdCBhZ2FpbiB3aXRoIC1LLCB0aGVu
+IGl0cyBidWlsZA0KPiBkaXJlY3RvcmllcyAoYSBhbmQgYiBvbmVzKSB3aWxsIGJlIHByZXNlcnZl
+ZCBhbmQgeW91IGNhbiBpbnNwZWN0IHRoZW0uDQo+DQo+IEFsZXgNCj4NCj4gT24gTW9uLCAxOCBE
+ZWMgMjAyMyBhdCAxNDo1OCwgSm9ha2ltIFRqZXJubHVuZA0KPiA8Sm9ha2ltLlRqZXJubHVuZEBp
+bmZpbmVyYS5jb20+IHdyb3RlOg0KPiA+DQo+ID4gU291bmRzIHBsYXVzaWJsZSBidXQgaG93IGlz
+IHRoYXQgcG9zc2libGU/IEkgZG9uJ3QgdW5kZXJzdGFuZCB3aGF0IHRob3NlIHR3ZWFrcyBhcmUo
+dW5sZXNzIHlvdQ0KPiA+IG1lYW4gdGhlIFNPVVJDRV9EQVRFX0VQT0NIPSIkKGRhdGUgKyVzKSIg
+dHdlYWspDQo+ID4gTWF5YmUgSSBzaG91bGQgdHJ5IHdpdGhvdXQgU1NUQVRFIGNhY2hlIGF0IGFs
+bCBqdXN0IHRvIHNlZSBpZiB0aGF0IG1ha2UgYSBkaWZmZXJlbmNlPw0KPiA+DQo+ID4gIEpvY2tl
+DQo+ID4NCj4gPiBPbiBNb24sIDIwMjMtMTItMTggYXQgMTQ6MTEgKzAxMDAsIEFsZXhhbmRlciBL
+YW5hdmluIHdyb3RlOg0KPiA+ID4gVGhlIHNob3J0IGV4ZWN1dGlvbiB0aW1lIGlzIHN1c3BpY2lv
+dXMuIFRoZSB0ZXN0IGlzIHdyaXR0ZW4gc28gdGhhdA0KPiA+ID4gYnVpbGQgQiBkb2Vzbid0IHJl
+dXNlIHRoZSBjYWNoZSBmcm9tIGJ1aWxkIEEsIGFuZCBpZiBpdCBkb2VzIGJlY2F1c2UNCj4gPiA+
+IG9mIHlvdXIgbG9jYWwgdHdlYWtzLCB0aGVuIHlvdSdyZSBwcm9iYWJseSBqdXN0IGNvbXBhcmlu
+ZyB0aGUgQQ0KPiA+ID4gcGFja2FnZSB3aXRoIGl0c2VsZi4NCj4gPiA+DQo+ID4gPiBBbGV4DQo+
+ID4gPg0KPiA+ID4gT24gTW9uLCAxOCBEZWMgMjAyMyBhdCAxMjoyMCwgSm9ha2ltIFRqZXJubHVu
+ZCB2aWENCj4gPiA+IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IDxKb2FraW0uVGplcm5s
+dW5kPWluZmluZXJhLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4gPiA+ID4N
+Cj4gPiA+ID4gSSBzZXR1cCBhYm92ZSB0ZXN0IGZvciByZXByb2R1Y2libGUgYnVpbGRzIGFuZCBi
+dWlsZCBvbmUgcGtnKHUtYm9vdCkgYW5kIHRyeSB0byBmb3JjZSBhDQo+ID4gPiA+IG5vbi1yZXBy
+b2R1Y2libGUgYnVpbGQgdG8gdGVzdCB0aGUgZnJhbWV3b3JrOg0KPiA+ID4gPiAtLS0gYS9tZXRh
+L3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jDQo+ID4gPiA+ICsrKyBiL21ldGEvcmVjaXBl
+cy1ic3AvdS1ib290L3UtYm9vdC5pbmMNCj4gPiA+ID4gQEAgLTksNyArOSw3IEBAIGluaGVyaXQg
+dWJvb3QtY29uZmlnIHVib290LWV4dGxpbnV4LWNvbmZpZyB1Ym9vdC1zaWduIGRlcGxveSBweXRo
+b24zbmF0aXZlIGtlcm5lDQo+ID4gPiA+DQo+ID4gPiA+ICBERVBFTkRTICs9ICJzd2lnLW5hdGl2
+ZSINCj4gPiA+ID4NCj4gPiA+ID4gLUVYVFJBX09FTUFLRSA9ICdDUk9TU19DT01QSUxFPSR7VEFS
+R0VUX1BSRUZJWH0gQ0M9IiR7VEFSR0VUX1BSRUZJWH1nY2MgJHtUT09MQ0hBSU5fT1BUSU9OU30i
+IFY9MScNCj4gPiA+ID4gK0VYVFJBX09FTUFLRSA9ICdDUk9TU19DT01QSUxFPSR7VEFSR0VUX1BS
+RUZJWH0gQ0M9IiR7VEFSR0VUX1BSRUZJWH1nY2MgJHtUT09MQ0hBSU5fT1BUSU9OU30iIFY9MSBT
+T1VSQ0VfREFURV9FUE9DSD0iJChkYXRlICslcykiJw0KPiA+ID4gPiAgRVhUUkFfT0VNQUtFICs9
+ICdIT1NUQ0M9IiR7QlVJTERfQ0N9ICR7QlVJTERfQ0ZMQUdTfSAke0JVSUxEX0xERkxBR1N9IicN
+Cj4gPiA+ID4gIEVYVFJBX09FTUFLRSArPSAnU1RBR0lOR19JTkNESVI9JHtTVEFHSU5HX0lOQ0RJ
+Ul9OQVRJVkV9IFNUQUdJTkdfTElCRElSPSR7U1RBR0lOR19MSUJESVJfTkFUSVZFfScNCj4gPiA+
+ID4NCj4gPiA+ID4gZm9yY2luZyBFUE9DSCB0byBjdXJyZW50IGJ1aWxkIGRhdGUgYnV0IEkgc3Rp
+bGwgZ2V0IGFuIHN1Y2Nlc3MgcmVwb3J0Og0KPiA+ID4gPg0KPiA+ID4gPiBvZS1zZWxmdGVzdCAt
+diAtciByZXByb2R1Y2libGUuUmVwcm9kdWNpYmxlVGVzdHMudGVzdF9yZXByb2R1Y2libGVfYnVp
+bGRzDQo+ID4gPiA+IDIwMjMtMTItMTggMTI6MDU6MjIsMzU1IC0gb2Utc2VsZnRlc3QgLSBJTkZP
+IC0gQWRkaW5nIGxheWVyIGxpYnJhcmllczoNCj4gPiA+ID4gMjAyMy0xMi0xOCAxMjowNToyMiwz
+NTYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgL2hvbWUvam9ja2UveW9jdG8teHIvM3BwL3Bva3kv
+bWV0YS9saWINCj4gPiA+ID4gMjAyMy0xMi0xOCAxMjowNToyMiwzNTYgLSBvZS1zZWxmdGVzdCAt
+IElORk8gLSAgL2hvbWUvam9ja2UveW9jdG8teHIvM3BwL3Bva3kvbWV0YS15b2N0by1ic3AvbGli
+DQo+ID4gPiA+IDIwMjMtMTItMTggMTI6MDU6MjIsMzU2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
+IC9ob21lL2pvY2tlL3lvY3RvLXhyLzNwcC9tZXRhLW9wZW5lbWJlZGRlZC9tZXRhLW9lL2xpYg0K
+PiA+ID4gPiAyMDIzLTEyLTE4IDEyOjA1OjIyLDM1NiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtICAv
+aG9tZS9qb2NrZS95b2N0by14ci9tZXRhLXhyL2xpYg0KPiA+ID4gPiAyMDIzLTEyLTE4IDEyOjA1
+OjIyLDM1NiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtICAvaG9tZS9qb2NrZS95b2N0by14ci8zcHAv
+cG9reS9tZXRhLXNlbGZ0ZXN0L2xpYg0KPiA+ID4gPiAyMDIzLTEyLTE4IDEyOjA1OjIyLDM1OSAt
+IG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFJ1bm5pbmcgYml0YmFrZSAtZSB0byB0ZXN0IHRoZSBjb25m
+aWd1cmF0aW9uIGlzIHZhbGlkL3BhcnNhYmxlDQo+ID4gPiA+IDIwMjMtMTItMTggMTI6MDU6Mjcs
+MjQ4IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQWRkaW5nOiAiaW5jbHVkZSBzZWxmdGVzdC5pbmMi
+IGluIC9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC9jb25mL2xvY2Fs
+LmNvbmYNCj4gPiA+ID4gMjAyMy0xMi0xOCAxMjowNToyNywyNDggLSBvZS1zZWxmdGVzdCAtIElO
+Rk8gLSBBZGRpbmc6ICJpbmNsdWRlIGJibGF5ZXJzLmluYyIgaW4gYmJsYXllcnMuY29uZg0KPiA+
+ID4gPiAyMDIzLTEyLTE4IDEyOjA1OjI3LDI0OCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIHRlc3Rf
+cmVwcm9kdWNpYmxlX2J1aWxkcyAocmVwcm9kdWNpYmxlLlJlcHJvZHVjaWJsZVRlc3RzKQ0KPiA+
+ID4gPiAyMDIzLTEyLTE4IDEyOjA1OjI5LDcyNCAtIG9lLXNlbGZ0ZXN0IC0gREVCVUcgLSBXcml0
+aW5nIHRvOiAvaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL2dtY3Utc3QvY29uZi9z
+ZWxmdGVzdC5pbmMNCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gMjAyMy0xMi0xOCAxMjowODoy
+Niw1MzkgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBCdWlsZGluZyByZXByb2R1Y2libGVBIChzc3Rh
+dGUgYWxsb3dlZCkuLi4NCj4gPiA+ID4gMjAyMy0xMi0xOCAxMjowODoyNiw1NDUgLSBvZS1zZWxm
+dGVzdCAtIERFQlVHIC0gV3JpdGluZyB0bzogL2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5m
+bi14ci9nbWN1LXN0L2NvbmYvc2VsZnRlc3QuaW5jDQo+ID4gPiA+IFBBQ0tBR0VfQ0xBU1NFUyA9
+ICJwYWNrYWdlX2lwayINCj4gPiA+ID4gSU5ISUJJVF9QQUNLQUdFX1NUUklQID0gIjEiDQo+ID4g
+PiA+IFRNUERJUiA9ICIvaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL3JlcHJvZHVj
+aWJsZUEvdG1wIg0KPiA+ID4gPiBMSUNFTlNFX0ZMQUdTX0FDQ0VQVEVEID0gImNvbW1lcmNpYWwi
+DQo+ID4gPiA+IERJU1RST19GRUFUVVJFUzphcHBlbmQgPSAnIHN5c3RlbWQgcGFtJw0KPiA+ID4g
+PiBVU0VSQURERVhURU5TSU9OID0gInVzZXJhZGQtc3RhdGljaWRzIg0KPiA+ID4gPiBVU0VSQURE
+X0VSUk9SX0RZTkFNSUMgPSAic2tpcCINCj4gPiA+ID4gVVNFUkFERF9VSURfVEFCTEVTICs9ICJm
+aWxlcy9zdGF0aWMtcGFzc3dkIg0KPiA+ID4gPiBVU0VSQUREX0dJRF9UQUJMRVMgKz0gImZpbGVz
+L3N0YXRpYy1ncm91cCINCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gMjAyMy0xMi0xOCAxMjow
+OTowOCw5MzYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBCdWlsZGluZyByZXByb2R1Y2libGVCIChz
+c3RhdGUgTk9UIGFsbG93ZWQpLi4uDQo+ID4gPiA+IDIwMjMtMTItMTggMTI6MDk6MDgsOTM3IC0g
+b2Utc2VsZnRlc3QgLSBERUJVRyAtIFdyaXRpbmcgdG86IC9ob21lL2pvY2tlL3lvY3RvLXhyL2J1
+aWxkL2luZm4teHIvZ21jdS1zdC9jb25mL3NlbGZ0ZXN0LmluYw0KPiA+ID4gPiBQQUNLQUdFX0NM
+QVNTRVMgPSAicGFja2FnZV9pcGsiDQo+ID4gPiA+IElOSElCSVRfUEFDS0FHRV9TVFJJUCA9ICIx
+Ig0KPiA+ID4gPiBUTVBESVIgPSAiL2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5mbi14ci9y
+ZXByb2R1Y2libGVCL3RtcCINCj4gPiA+ID4gTElDRU5TRV9GTEFHU19BQ0NFUFRFRCA9ICJjb21t
+ZXJjaWFsIg0KPiA+ID4gPiBESVNUUk9fRkVBVFVSRVM6YXBwZW5kID0gJyBzeXN0ZW1kIHBhbScN
+Cj4gPiA+ID4gVVNFUkFEREVYVEVOU0lPTiA9ICJ1c2VyYWRkLXN0YXRpY2lkcyINCj4gPiA+ID4g
+VVNFUkFERF9FUlJPUl9EWU5BTUlDID0gInNraXAiDQo+ID4gPiA+IFVTRVJBRERfVUlEX1RBQkxF
+UyArPSAiZmlsZXMvc3RhdGljLXBhc3N3ZCINCj4gPiA+ID4gVVNFUkFERF9HSURfVEFCTEVTICs9
+ICJmaWxlcy9zdGF0aWMtZ3JvdXAiDQo+ID4gPiA+IFNTVEFURV9ESVIgPSAiJHtUTVBESVJ9L3Nz
+dGF0ZSINCj4gPiA+ID4gU1NUQVRFX01JUlJPUlMgPSAiZmlsZTovLy4qLy4qLW5hdGl2ZS4qICBo
+dHRwOi8vc3N0YXRlLnlvY3RvcHJvamVjdC5vcmcvYWxsL1BBVEg7ZG93bmxvYWRmaWxlbmFtZT1Q
+QVRIIGZpbGU6Ly8uKi8uKi1jcm9zcy4qDQo+ID4gPiA+IGh0dHA6Ly9zc3RhdGUueW9jdG9wcm9q
+ZWN0Lm9yZy9hbGwvUEFUSDtkb3dubG9hZGZpbGVuYW1lPVBBVEgiDQo+ID4gPiA+DQo+ID4gPiA+
+DQo+ID4gPiA+IDIwMjMtMTItMTggMTI6MDk6MjQsNzcyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
+Q2hlY2tpbmcgaXBrIHBhY2thZ2VzIGZvciBkaWZmZXJlbmNlcy4uLg0KPiA+ID4gPiAyMDIzLTEy
+LTE4IDEyOjA5OjI0LDg0MyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFJlcHJvZHVjaWJpbGl0eSBz
+dW1tYXJ5IGZvciBpcGs6IHNhbWU9NCBkaWZmZXJlbnQ9MCBkaWZmZXJlbnRfZXhjbHVkZWQ9MCBt
+aXNzaW5nPTAgdG90YWw9NA0KPiA+ID4gPiB1bnVzZWRfZXhjbHVzaW9ucz1bXQ0KPiA+ID4gPiAy
+MDIzLTEyLTE4IDEyOjA5OjI0LDg0NyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtICAuLi4gb2sNCj4g
+PiA+ID4gMjAyMy0xMi0xOCAxMjowOToyNiwwNDQgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAtLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tDQo+ID4gPiA+IDIwMjMtMTItMTggMTI6MDk6MjYsMDQ0IC0gb2Utc2VsZnRlc3Qg
+LSBJTkZPIC0gUmFuIDEgdGVzdCBpbiAyNDEuMzM1cw0KPiA+ID4gPiAyMDIzLTEyLTE4IDEyOjA5
+OjI2LDA0NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIE9LDQo+ID4gPiA+IDIwMjMtMTItMTggMTI6
+MDk6MzIsMzU1IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUkVTVUxUUzoNCj4gPiA+ID4gMjAyMy0x
+Mi0xOCAxMjowOTozMiwzNTYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBSRVNVTFRTIC0gcmVwcm9k
+dWNpYmxlLlJlcHJvZHVjaWJsZVRlc3RzLnRlc3RfcmVwcm9kdWNpYmxlX2J1aWxkczogUEFTU0VE
+ICgyMzcuNjBzKQ0KPiA+ID4gPiAyMDIzLTEyLTE4IDEyOjA5OjMyLDM2MSAtIG9lLXNlbGZ0ZXN0
+IC0gSU5GTyAtIFNVTU1BUlk6DQo+ID4gPiA+IDIwMjMtMTItMTggMTI6MDk6MzIsMzYyIC0gb2Ut
+c2VsZnRlc3QgLSBJTkZPIC0gb2Utc2VsZnRlc3QgKCkgLSBSYW4gMSB0ZXN0IGluIDI0MS4zMzZz
+DQo+ID4gPiA+IDIwMjMtMTItMTggMTI6MDk6MzIsMzYyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
+b2Utc2VsZnRlc3QgLSBPSyAtIEFsbCByZXF1aXJlZCB0ZXN0cyBwYXNzZWQgKHN1Y2Nlc3Nlcz0x
+LCBza2lwcGVkPTAsIGZhaWx1cmVzPTAsIGVycm9ycz0wKQ0KPiA+ID4gPg0KPiA+ID4gPg0KPiA+
+ID4gPiBMb29raW5nIGhhcmRlciBJIGRvbid0IHNlZSBvZS1zZWZ0ZXN0IGV2ZXIgY3JlYXRpbmcg
+cmVwcm9kdWNpYmxlQS9yZXByb2R1Y2libGVCIGRpcmVjdG9yaWVzLg0KPiA+ID4gPiBJIGhhdmUg
+dGhlc2Ugc2V0DQo+ID4gPiA+IE9FUUFfUkVQUk9EVUNJQkxFX1RFU1RfUEFDS0FHRSA9ICJpcGsi
+DQo+ID4gPiA+IE9FUUFfUkVQUk9EVUNJQkxFX1RFU1RfVEFSR0VUID0gInhyLXUtYm9vdCINCj4g
+PiA+ID4NCj4gPiA+ID4gSSBhbSBtaXNzaW5nIHNvbWV0aGluZz8NCj4gPiA+ID4NCj4gPiA+ID4g
+IEpvY2tlDQo+ID4gPiA+DQo+ID4gPiA+IC09LT0tPS09LT0tPS09LT0tPS09LT0tDQo+ID4gPiA+
+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiA+
+ID4gPiBWaWV3L1JlcGx5IE9ubGluZSAoIzE5MjYzMSk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTkyNjMxDQo+ID4gPiA+IE11dGUg
+VGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL210LzEwMzI0MDY4OS8x
+Njg2NDg5DQo+ID4gPiA+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbYWxleC5rYW5hdmluQGdt
+YWlsLmNvbV0NCj4gPiA+ID4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4gPiA+ID4NCj4gPg0K
+DQo=
 
