@@ -1,282 +1,98 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jpuhlman@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B20EC35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 17:45:47 +0000 (UTC)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web11.50220.1702921541941933932
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A3FC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 17:58:17 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.50532.1702922288242530697
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 09:45:42 -0800
+ Mon, 18 Dec 2023 09:58:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CZUogkj4;
- spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6da5259e3a3so2451671a34.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:45:41 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=DeUOTJ7f;
+ spf=pass (domain: mvista.com, ip: 209.85.214.182, mailfrom: jpuhlman@mvista.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d3d0faf262so4810165ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:58:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702921541; x=1703526341; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xc9/sQLSpiWs8RV6KWnqZ42e4nd2oSaf2lcPYITLQ9s=;
-        b=CZUogkj4WxRgQDscWtF125F+GXgoU7xqs6Hi6pXfaLMMqKpff8YFXDQ5mREfjGdYVG
-         FIK0rsQSoyVjizY42w83PIOzuy7k31pxmfQpu03d5HsYX15g3zJmBCYImQN4II8kJBQP
-         V0oS/jWw6D1JrD7xNJLHKHnD59aky0Wo0H1rzRyBUemoBjFA/OSDShKmpuKELONvIeeW
-         f1SrIrLzuaOVlB7cq2C3tZD5axSs+pC0fer6mp7nVZBnTayw7DqRpxBG0SbwNoSSHPRv
-         lh4cruSXUFT2eegeYL5RTLsUVJLz0RAFUmyTMGAXaipFHUdSttSy8B31sMyrhBJTiAef
-         RQIA==
+        d=mvista.com; s=google; t=1702922287; x=1703527087; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E7cEyKnTNOLremY3PD7PKxuxxo6JYQP3ZFhIdLNsO5I=;
+        b=DeUOTJ7f5q9kTzhCv2HWgDscogH/4Pbjju985AaOocAkt/MSBnob0+tgcdBWUEhgEA
+         yDFA+xO1lOfgJ+Fs7rFMgTX2zcOCGzv20dgzleKtFodOWj8ap8ue+ZyCsPSRFfQ7/GAT
+         58fLoG3kSmZCD/PnMQhy/451551FZRnY3MUwY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702921541; x=1703526341;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xc9/sQLSpiWs8RV6KWnqZ42e4nd2oSaf2lcPYITLQ9s=;
-        b=KowKYxbpQa+eXBznUQyiF4PCoj3+OeMd6UhVC/eWiKv1eE3QJDT9gvIGUFiMmJSwiU
-         jMoMhl6DgSGHPbyRfT2riKwq2gnzEcVNu0HDK/4EY0Ob2HzbXtjeVrIgOOrr+K7k4+il
-         dJRke1dPdrIOZDcRMB+TD9o+0+n2t2+Cb1s/9L0g17Nm0OoKFrra+IrUlIoYV2TimAvy
-         UiC8/1Arh9rVedxKcWs8KMZllqLodCQlK0L0ymyyCHZJA9OmWHBpttzltYRAmoWEuvPj
-         ot9dC3u2fK4RJXmpzWumSRKXpNxxxog7iMi/8jTLr5E9WQ1GC+u4F9qsXRGXE/BcHkzG
-         8Hcw==
-X-Gm-Message-State: AOJu0YxODMCX5Ke/W9DnXm+//XUFYtg89PD3fL+FP4XRV1sHLKJcRDwa
-	ePHv7qfqkCGC4Wqg9Mv4Ld/kMGQKXYdgyW9SaNIpzA6K
-X-Google-Smtp-Source: AGHT+IF5TSXM4nDDL1FoiI/pJQ1YTFMoRAw04FFR08d1u7rY8zXxeTCt8QpgXmD2mo5Y/GTTdQIahwRtA75X3pgNj9M=
-X-Received: by 2002:a05:6870:1711:b0:1fb:75b:99bb with SMTP id
- h17-20020a056870171100b001fb075b99bbmr18933978oae.106.1702921540966; Mon, 18
- Dec 2023 09:45:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702922287; x=1703527087;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E7cEyKnTNOLremY3PD7PKxuxxo6JYQP3ZFhIdLNsO5I=;
+        b=hlP6EudlkYGGwun+ZV0njj71ThgLUW04qFKL2/jSF8z+xgfZiPdtXmGLgD8iuWEzrC
+         V3bgGFbg2naRwCw4BaFiLbzUbpa9mrHop+pZR0CbtTzlURWyMeu/Uu3qoMG6DoDPRMdV
+         ZXbOBC/qmVCItJzi/X1QWBDmhMd4IlJ3nqZaeqhHHMxJ1pcVVx4g7wu1+UQRgiTlNgTb
+         Eni5nTdpXG9GzAMTQdON3rgNgXkDDmqG3hEEDRodE8poh8ZauST62QiieEoUJmMXTblu
+         VM0jldklA1AXftDc7mXCopgs68e98lZxrAiZvkSERAZPnXxHkCNIQjUbpA8X5nHdBJZt
+         J6WQ==
+X-Gm-Message-State: AOJu0YwaI1XS/XKyB02rbr6b4DjWpoAtb3LF8R8RyEniXAiN5ynOePtN
+	rgYKeU7yjTqbzixxaqPB5/Uz5vIreUoxytlvRG4=
+X-Google-Smtp-Source: AGHT+IFG4BoxZXnOE2PSw5zBZF+n794FSkRTs51HzC+9Q8BKgjOBwrmn6+pSPsmDx1itbDThbPqRsQ==
+X-Received: by 2002:a17:902:64c9:b0:1d3:b342:2a4c with SMTP id y9-20020a17090264c900b001d3b3422a4cmr2509610pli.73.1702922286945;
+        Mon, 18 Dec 2023 09:58:06 -0800 (PST)
+Received: from brown (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id r15-20020a170903020f00b001cf5d0e7e05sm19300522plh.109.2023.12.18.09.58.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 09:58:05 -0800 (PST)
+Received: by brown (sSMTP sendmail emulation); Mon, 18 Dec 2023 09:57:58 -0800
+From: jpuhlman@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Subject: [PATCH v2] create-spdx-2.2: combine spdx can try to write before dir creation
+Date: Mon, 18 Dec 2023 09:57:56 -0800
+Message-Id: <20231218175756.3622411-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 18 Dec 2023 09:45:15 -0800
-Message-ID: <CAMKF1sqkizk++vW++TsyiOBSsHhM7euMNWGs8KHBJq_2yB=dFw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] qemurunner: Impove stdout logging handling
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 17:45:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192672
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 17:58:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192673
 
-I tried the two patches in this series. It did improve the situation
-but I am still getting SSH timeouts. But this time its 13 tests
-earlier it used to be 40+
-btw. my images are using systemd. So it might be good to see if we see
-this with poky-altcfg as well or not.
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 
-On Mon, Dec 18, 2023 at 7:29=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> We need to ensure we read from and log the output from qemu stdout
-> as otherwise the buffers can fill and block, leading qemu to hand.
-> Use our existing logging thread to do this.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/lib/oeqa/utils/qemurunner.py | 54 ++++++++++++++++++-------------
->  1 file changed, 32 insertions(+), 22 deletions(-)
->
-> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemu=
-runner.py
-> index ee367078000..36bdfb96ae6 100644
-> --- a/meta/lib/oeqa/utils/qemurunner.py
-> +++ b/meta/lib/oeqa/utils/qemurunner.py
-> @@ -29,6 +29,15 @@ control_chars =3D [chr(x) for x in control_range
->                  if chr(x) not in string.printable]
->  re_control_char =3D re.compile('[%s]' % re.escape("".join(control_chars)=
-))
->
-> +def getOutput(o):
-> +    import fcntl
-> +    fl =3D fcntl.fcntl(o, fcntl.F_GETFL)
-> +    fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-> +    try:
-> +        return os.read(o.fileno(), 1000000).decode("utf-8")
-> +    except BlockingIOError:
-> +        return ""
-> +
->  class QemuRunner:
->
->      def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_imag=
-e, logfile, boottime, dump_dir, use_kvm, logger, use_slirp=3DFalse,
-> @@ -55,6 +64,7 @@ class QemuRunner:
->          self.boottime =3D boottime
->          self.logged =3D False
->          self.thread =3D None
-> +        self.threadsock =3D None
->          self.use_kvm =3D use_kvm
->          self.use_ovmf =3D use_ovmf
->          self.use_slirp =3D use_slirp
-> @@ -119,21 +129,11 @@ class QemuRunner:
->                  f.write(msg)
->          self.msg +=3D self.decode_qemulog(msg)
->
-> -    def getOutput(self, o):
-> -        import fcntl
-> -        fl =3D fcntl.fcntl(o, fcntl.F_GETFL)
-> -        fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-> -        try:
-> -            return os.read(o.fileno(), 1000000).decode("utf-8")
-> -        except BlockingIOError:
-> -            return ""
-> -
-> -
->      def handleSIGCHLD(self, signum, frame):
->          if self.runqemu and self.runqemu.poll():
->              if self.runqemu.returncode:
->                  self.logger.error('runqemu exited with code %d' % self.r=
-unqemu.returncode)
-> -                self.logger.error('Output from runqemu:\n%s' % self.getO=
-utput(self.runqemu.stdout))
-> +                self.logger.error('Output from runqemu:\n%s' % getOutput=
-(self.runqemu.stdout))
->                  self.stop()
->
->      def start(self, qemuparams =3D None, get_ip =3D True, extra_bootpara=
-ms =3D None, runqemuparams=3D'', launch_cmd=3DNone, discard_writes=3DTrue):
-> @@ -282,7 +282,7 @@ class QemuRunner:
->                  if self.runqemu.returncode:
->                      # No point waiting any longer
->                      self.logger.warning('runqemu exited with code %d' % =
-self.runqemu.returncode)
-> -                    self.logger.warning("Output from runqemu:\n%s" % sel=
-f.getOutput(output))
-> +                    self.logger.warning("Output from runqemu:\n%s" % get=
-Output(output))
->                      self.stop()
->                      return False
->              time.sleep(0.5)
-> @@ -309,7 +309,7 @@ class QemuRunner:
->              ps =3D subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,n=
-i,command '], stdout=3Dsubprocess.PIPE).communicate()[0]
->              processes =3D ps.decode("utf-8")
->              self.logger.debug("Running processes:\n%s" % processes)
-> -            op =3D self.getOutput(output)
-> +            op =3D getOutput(output)
->              self.stop()
->              if op:
->                  self.logger.error("Output from runqemu:\n%s" % op)
-> @@ -387,7 +387,7 @@ class QemuRunner:
->                             time.time() - connect_time))
->
->          # We are alive: qemu is running
-> -        out =3D self.getOutput(output)
-> +        out =3D getOutput(output)
->          netconf =3D False # network configuration is not required by def=
-ault
->          self.logger.debug("qemu started in %.2f seconds - qemu procces p=
-id is %s (%s)" %
->                            (time.time() - (endtime - self.runqemutime),
-> @@ -430,9 +430,10 @@ class QemuRunner:
->          self.logger.debug("Target IP: %s" % self.ip)
->          self.logger.debug("Server IP: %s" % self.server_ip)
->
-> +        self.thread =3D LoggingThread(self.log, self.threadsock, self.lo=
-gger, self.runqemu.stdout)
-> +        self.thread.start()
-> +
->          if self.serial_ports >=3D 2:
-> -            self.thread =3D LoggingThread(self.log, self.threadsock, sel=
-f.logger)
-> -            self.thread.start()
->              if not self.thread.connection_established.wait(self.boottime=
-):
->                  self.logger.error("Didn't receive a console connection f=
-rom qemu. "
->                               "Here is the qemu command line used:\n%s\na=
-nd "
-> @@ -444,7 +445,7 @@ class QemuRunner:
->          self.logger.debug("Waiting at most %d seconds for login banner (=
-%s)" %
->                            (self.boottime, time.strftime("%D %H:%M:%S")))
->          endtime =3D time.time() + self.boottime
-> -        filelist =3D [self.server_socket, self.runqemu.stdout]
-> +        filelist =3D [self.server_socket]
->          reachedlogin =3D False
->          stopread =3D False
->          qemusock =3D None
-> @@ -564,7 +565,7 @@ class QemuRunner:
->                  self.logger.debug("Sending SIGKILL to runqemu")
->                  os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
->              if not self.runqemu.stdout.closed:
-> -                self.logger.info("Output from runqemu:\n%s" % self.getOu=
-tput(self.runqemu.stdout))
-> +                self.logger.info("Output from runqemu:\n%s" % getOutput(=
-self.runqemu.stdout))
->              self.runqemu.stdin.close()
->              self.runqemu.stdout.close()
->              self.runqemu_exited =3D True
-> @@ -700,9 +701,11 @@ class QemuRunner:
->  # event loop. The mechanism for stopping the thread is a simple pipe whi=
-ch
->  # will wake up the poll and allow for tearing everything down.
->  class LoggingThread(threading.Thread):
-> -    def __init__(self, logfunc, sock, logger):
-> +    def __init__(self, logfunc, sock, logger, qemuoutput):
->          self.connection_established =3D threading.Event()
-> +
->          self.serversock =3D sock
-> +        self.qemuoutput =3D qemuoutput
->          self.logfunc =3D logfunc
->          self.logger =3D logger
->          self.readsock =3D None
-> @@ -732,7 +735,8 @@ class LoggingThread(threading.Thread):
->
->      def teardown(self):
->          self.logger.debug("Tearing down logging thread")
-> -        self.close_socket(self.serversock)
-> +        if self.serversock:
-> +            self.close_socket(self.serversock)
->
->          if self.readsock is not None:
->              self.close_socket(self.readsock)
-> @@ -747,7 +751,9 @@ class LoggingThread(threading.Thread):
->      def eventloop(self):
->          poll =3D select.poll()
->          event_read_mask =3D self.errorevents | self.readevents
-> -        poll.register(self.serversock.fileno())
-> +        if self.serversock:
-> +            poll.register(self.serversock.fileno())
-> +        poll.register(self.qemuoutput.fileno())
->          poll.register(self.readpipe, event_read_mask)
->
->          breakout =3D False
-> @@ -767,7 +773,7 @@ class LoggingThread(threading.Thread):
->                      break
->
->                  # A connection request was received
-> -                elif self.serversock.fileno() =3D=3D event[0]:
-> +                elif self.serversock and self.serversock.fileno() =3D=3D=
- event[0]:
->                      self.logger.debug("Connection request received")
->                      self.readsock, _ =3D self.serversock.accept()
->                      self.readsock.setblocking(0)
-> @@ -781,6 +787,10 @@ class LoggingThread(threading.Thread):
->                  elif self.readsock.fileno() =3D=3D event[0]:
->                      data =3D self.recv(1024)
->                      self.logfunc(data)
-> +                elif self.qemuoutput.fileno() =3D=3D event[0]:
-> +                    data =3D getOutput(self.qemuoutput)
-> +                    self.logger.debug("Data received on qemu stdout %s" =
-% data)
-> +                    self.logfunc(data, ".stdout")
->
->      # Since the socket is non-blocking make sure to honor EAGAIN
->      # and EWOULDBLOCK.
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192655): https://lists.openembedded.org/g/openembedde=
-d-core/message/192655
-> Mute This Topic: https://lists.openembedded.org/mt/103244414/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+On occasion a file is attmpeded to be opened prior to the
+creation of the spdx_workdir. Create the directory before
+the open, just in case.
+
+File: '/build/layers/poky/meta/classes/create-spdx-2.2.bbclass', lineno: 1081, function: combine_spdx
+     1077:        )
+     1078:
+     1079:    image_spdx_path = spdx_workdir / (rootfs_name + ".spdx.json")
+     1080:
+ *** 1081:    with image_spdx_path.open("wb") as f:
+     1082:        doc.to_json(f, sort_keys=True, indent=get_json_indent(d))
+
+Add stringify of value passed as spdx_workdir
+
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+---
+ meta/classes/create-spdx-2.2.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index b0aef80db1..47c2366c7a 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -1075,7 +1075,7 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
+             "%s:%s" % (runtime_ref.externalDocumentId, runtime_doc.SPDXID),
+             comment="Runtime dependencies for %s" % name
+         )
+-
++    bb.utils.mkdirhier(str(spdx_workdir))
+     image_spdx_path = spdx_workdir / (rootfs_name + ".spdx.json")
+ 
+     with image_spdx_path.open("wb") as f:
+-- 
+2.31.1
+
 
