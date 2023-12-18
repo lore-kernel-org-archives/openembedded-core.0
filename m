@@ -1,236 +1,216 @@
-Return-Path: <mingli.yu@eng.windriver.com>
+Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17095C35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:17:13 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.38039.1702880228445861054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A1EC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 06:39:03 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.38776.1702881537289940048
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Dec 2023 22:17:08 -0800
+ Sun, 17 Dec 2023 22:38:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=tC5zfaB/;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=07166d5ec4=mingli.yu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BI5dEqN030238
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:17:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=message-id:date:subject:to:references:from:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=YWAhiw+eUbAaeijc2vzMEWiAeQX3JcXE8aE3H1gR4go=; b=
-	tC5zfaB/wOUftkpmDvtdhUlF9Hofs2ahFHbhWjt/QPRml3kj23u4r684STNFa5m2
-	HpZma4XrwNaI4PvtybW2eJZGQSdBBb1MIf/ms7tl0U8eGpfkWjC/qs0ahHav9nc2
-	2QpeAtft7kYL21pWu04XZBvIPSXcurJ+vgji12qTVwz1o5NcZv8EWxvlj89+08WN
-	hqJduGSDW/fG05F98KX/3pcXR8hXAljbVk6NJGXbfI09gJsgFJTZL7WnCsbufUM+
-	ZmeRs9HWZA9j+0ZrU9HqReAYOPSzaaBktDSgX0o0H1uIAZrDdDLT2z0Lh+fD+UUX
-	GU3vI/RzcXcSL4+QIl5MNw==
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v113x9nfk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:17:07 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YgsjmwnalqvSM9/mMdErstZf/psKMJO+enrjDiZTUGYY9fHdeOxQfWpIHHClrS4MatGhkm5dIuU3ZyqNfRXvrbPf95fLN+FvsD09EWKdxhm/DirSi2Qxwn+aCJnOFHEMtfpx+mE2NJY795PXGrUWyIScv/Ii7XvBcbgmWhGH64iXuNvRcB6ka8gsEoqdqM4/GaGTKRBqti8+W8q3QKL09wGq6N+IHMYRWX42g6mjCTbISsNyNGnBYccHwkqgXp0P/F+d8IqMCL9oq67ygeUrmPXdbYn6GkJ90iEbK767Z2RePMBJBrX/nuY6J+3rlnBBOZZ3CZBt52e2am6p7+sIBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YWAhiw+eUbAaeijc2vzMEWiAeQX3JcXE8aE3H1gR4go=;
- b=aYQZZXFspmUbbA1Q8QwOHAfrcheHrjRZgyudov1sje5cXiuiDGGLDjc0PGyIVmHhYAnDTOnRaTuXWJlpHkrqOBT6TZo99Gsq2n9ZlpNzS/VcoabFS9UnN8AEpPWdK9QqRhkfpKrDKwhZ4YECG/4Ys9n3LL4zu0JaDFSMTwBIku9YWm1TqbeVsTlKu+/TARarj9ybE2B9Sst0Blr/8H6LeE7Uihj8HasTUvs820zv0yQjoAwP2J5ioKhzMCp4EAwX1JR60Q/meFJWbeXYr/xUwvDuPLfb2v/iJxcGvuk9Curg1oCRgAVHobUjdfhXod9ptVsjiCnARgeam78hVEOAoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5014.namprd11.prod.outlook.com (2603:10b6:510:31::17)
- by PH0PR11MB5594.namprd11.prod.outlook.com (2603:10b6:510:e4::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Mon, 18 Dec
- 2023 06:17:01 +0000
-Received: from PH0PR11MB5014.namprd11.prod.outlook.com
- ([fe80::7261:3384:c5d5:af95]) by PH0PR11MB5014.namprd11.prod.outlook.com
- ([fe80::7261:3384:c5d5:af95%6]) with mapi id 15.20.7091.034; Mon, 18 Dec 2023
- 06:17:01 +0000
-Message-ID: <bb40f37b-b9a5-bd34-ccb6-b958611b9c61@windriver.com>
-Date: Mon, 18 Dec 2023 14:16:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [OE-core] [PATCH v4] openssh: Add PACKAGECONFIG option to
- customize sshd mode
-Content-Language: en-US
-To: "Yu, Mingli" <mingli.yu@eng.windriver.com>,
-        openembedded-core@lists.openembedded.org
-References: <20231205074322881971a5@mail.local>
- <179E3241B25BBB7C.1352@lists.openembedded.org>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-In-Reply-To: <179E3241B25BBB7C.1352@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TYCP286CA0105.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b4::15) To PH0PR11MB5014.namprd11.prod.outlook.com
- (2603:10b6:510:31::17)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I6FPIAEN;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6d532e4f6d6so225754b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Dec 2023 22:38:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702881536; x=1703486336; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=COJYEvJc0rs0HtmZJ5pY8mL66XE0lzCn2zt18abV988=;
+        b=I6FPIAENkRQ0q+KqK0IZ+LIFY+6aUX7+8RkM2+gv5p8WR2jpjb5o+7FU942NFjgLMO
+         xc4vJkfRsyrnsoSXzmG+3SrgzwTf0clhlSlDM215yKE9t1XScMnOkU3tGKPnMqzaKoX5
+         zX6VJS3oWsAfGyC6cSGyPLej04VhAps7zriBKBHWFFpUgOUd6lbeZcVA9l9rgK4oc7td
+         Vo0ZH5NQvqjG1egF80ZE5xeno628EPZUVGVtg/MmEYxEQ/MIhvFMqSKeelXK3IJ+G3mi
+         KgjuL264WL/jtQbvA9dly+pjZllCpKQ5Tdco7IybCMl9u/D2YlQeQMQ0m7Y5Veu44J6+
+         kYjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702881536; x=1703486336;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=COJYEvJc0rs0HtmZJ5pY8mL66XE0lzCn2zt18abV988=;
+        b=ICTinG3IRuv4KtzVAapRM4CEEDRK/gww6SCn4TCU3dYKwmLf0lnkZGYQxDy6og/4Sd
+         u9t1l2JjtH7ZbmIvp5RjXH2sKG3lDatidCLdYB9PGySgZm+6yf5UoK38656Ax8nc0My4
+         0AFjYqFatKBwrio48jaR/a0dzYJXGOsvTyPIQ1DjrxzVbkJmK9mYrSS4tbbpLuyLTlX8
+         IJJwokEcyuepDpYbA92cMVDT4LnuJVnKSwRuXWhgyklaYGp5RSBPAb06hjVvu18tIYSC
+         jVfA/2IVeC6+bjhuyH4R/ZS3TL3f7UuyxcW2fRp3I9Alvb+6MmKU9vEiSz7T7ljOMAeO
+         UZaQ==
+X-Gm-Message-State: AOJu0YywlZhJdepthASk0q9KPtd0naK06cmg9MP7fEhA+AvgL7wZvAHk
+	PTJkG4EN2dqirAMFZaeXFdeGroMYasQ=
+X-Google-Smtp-Source: AGHT+IG5PhlEHF9pS9dl1N3JwR4dXXhv/sIdizMLKgmzxJFpsF6H0xpXNLjTOXWl4xLLgYYvxDSzbQ==
+X-Received: by 2002:a05:6a00:801a:b0:6d5:6a3b:270e with SMTP id eg26-20020a056a00801a00b006d56a3b270emr409429pfb.46.1702881536339;
+        Sun, 17 Dec 2023 22:38:56 -0800 (PST)
+Received: from L-14805.kpit.com ([43.231.237.210])
+        by smtp.gmail.com with ESMTPSA id v34-20020a634662000000b005c259cef481sm16926153pgk.59.2023.12.17.22.38.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Dec 2023 22:38:55 -0800 (PST)
+From: Poonam Jadhav <ppjadhav456@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	sourav.pramanik@kpit.com
+Cc: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+Subject: [OE-core][kirkstone][PATCH] qemu: Fix CVE-2023-5088
+Date: Mon, 18 Dec 2023 12:07:02 +0530
+Message-Id: <20231218063702.24823-1-ppjadhav456@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5014:EE_|PH0PR11MB5594:EE_
-X-MS-Office365-Filtering-Correlation-Id: da08324c-10da-4dca-3a6f-08dbff90f1d6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	sp5I5vJ/y1UaKkSs/w7k3o5+aU/QKgx2qZqsTHhiBq2FPxugorQN5hR6eI81ooKr90si9/tw1VCGpdNtaNQMAkMM/JwPViSQO2z70euidmPx8uNVZa8SwN5XL9LPMPcJm6jdTar9rA/NCZarFybmTHk0gJ26/nL9lHWj32T8eUqfjvXSU6HKD9lqxwPxQKM05K6fyfM5g96GiVUlOK/5JER4u2eL8905xNoXFi+wcL0bM7gQVsOqwPqNImc9dAIFStcqnUUh5UrPjD2CsHo6Gf7DMpcKKmRWdySYUC/Hf7iX78zPMNOdI+YfX1D7vqc4SNJwmbut5OA3QLvV1CvZthlc55d7ZwmILvjoppDDK9r2VFMBAOOO4X6kxdtRWDVxQj+oUHKFMXHXsH91YEZndKWFTmj0rYy/XMj/C+rf1ef6snh/LkQCPGLsgrYlXi4VDPWQa1h1/GM1wrmETONY9Rzkpzd71fjCqNLmNTD3oDLedSmUTIisHXMyhFRtkK6t+DsFtwPM8xc0q3DzaCuyh9xgCZ5IrI3n2NwGjH1fr+i8WNEIUzIBzSaxnmGNctL57ICXlGdCisqwGQEm8fSMWwOSOAR5G9vhW+iAG8L+lo1hW8Ct/fU3CTuxGNsm+U9PHcUJsfcvhKt6wcptU8hhf5HkWsXETiG5+B+RLeYuL5U=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5014.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(39840400004)(136003)(396003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(31686004)(66899024)(26005)(2616005)(38100700002)(36756003)(31696002)(86362001)(83380400001)(5660300002)(6512007)(53546011)(6506007)(6666004)(8936002)(8676002)(66556008)(66946007)(316002)(6486002)(66476007)(41300700001)(2906002)(966005)(478600001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?emRvYTl0S3E2Q0Vycmk2SzVqVHNKYWZoeVdBS2IzckVnTlloSWNYanFObmUz?=
- =?utf-8?B?Qm1ZVDBCdk12bDY2V3M1dGRtZy80aGxPdklYcnZuNXp2Q01kMWVabmpJS3Mz?=
- =?utf-8?B?QXFZeU1KT2h3TUQ2V21YMU5Kb2VOclpCU3gyYjRJS3NFMW1EMEJ4MnBBZ0F3?=
- =?utf-8?B?NjJLVHkrdzdWVldpWFZ0c0RWMS8ybG1mME5RQTZiWWxvTDdTNHNkZk5aWjBu?=
- =?utf-8?B?SVovOThhTitTS2tXZ2V6TWpQQVlLMmk4a0FZTWY4bzBEd05VblhGRko4RVdP?=
- =?utf-8?B?VnlLVENXemVJT1ZndXhDL0pQMUJsNHlCcFNMUlpjZmU5NWo1ODdQckNjNW9v?=
- =?utf-8?B?dU1INllJbHJrVHdTLzdOTmc2TnN5NWxnUGtlNFp1MUpCc1BncE43MlJHZEJX?=
- =?utf-8?B?bzk1M1J0ZytXVjNWb3BBOEgycGZSMmFNaFRSVDNQeGk2OUJwWWc4K3k4L3gr?=
- =?utf-8?B?alY3ZWpMdmVFeVYzMU1nVTJYakJ5U0RHZVlIdjd4b05TZ3JJbTREYzNSOGxz?=
- =?utf-8?B?UGlnd2NhQ1VXcFRRdFlQTnBiQnVZTExNcDI3YlpaVGEwWXBrdlVSeGg0NzBW?=
- =?utf-8?B?eU9rQit2NXU4aWNManRaak14RHpIWENQcDYxWUVFZzlzcVJ3RnZKWWd4eGsy?=
- =?utf-8?B?WmJnRkhRNXdLV3YwamtKbEZwQ3dmTDdhMkdhTjRxREZoS2Z1UnJ6TFpvM2hh?=
- =?utf-8?B?bDhJMkRmU0lTQlBLb284KzkwS0J0T0ZFK1dCRWRzaVUwMXUxM1dDM3R6MTdn?=
- =?utf-8?B?S0JBK2JWZEw4Y3VSRDFmaGhCL2YreFNKTHFDSkx3Mk1iUHpsT0ZqRXM3L1Jn?=
- =?utf-8?B?cE1nd3F0VTBrb2hSL1BJeUNHTU5XcXdzZ3Njb1krWlhCZ2VZYnA5NTU2UEZt?=
- =?utf-8?B?THRNRWZWeDhBOEU3OWIyYXVCTC9LaHVKY01VL2JTQUQ2UytnWm94SHFrOHdV?=
- =?utf-8?B?RkFQNDRQQWZlYU1XM2NuYTdjazlqR2wyeEFXZFNubFd3K0FGRTZGSUt3L1Ax?=
- =?utf-8?B?NlFqeW9jNkdlRkpLbjV2Tm14V0YrbkdneVNqZ1Z5OGQ0NnVjcjNjaFYzYUV5?=
- =?utf-8?B?QWdyZ0xsczJtWFNqaUEybHdPY1A4UkQ0R0IwbGV1d3FtdlBydjRnd0ZGMzl2?=
- =?utf-8?B?RzIzZmZScFA0T1crRGZGbThxYnRRdTBLYkYyS29ObmZzYW9DMENxZ2R0Z0tn?=
- =?utf-8?B?OGl0RVowTmNUL1B5VmY1dE1FcHZidWJybWlxZ0QzRmVjeXhaY1BNYmJQWDcy?=
- =?utf-8?B?RG9rSXpRMmd3MHdnVVk0TVZqaHJhT21KZmtjZGRVNCthVnFHTVFSSURIVU0x?=
- =?utf-8?B?WkJ0eTcrYndjMzlCa0JjWVRMOThqYzdORUNWdktzc2xMUmpYcmg4ajYzcXYv?=
- =?utf-8?B?Rk00dlBVSnQ0cHNxWlBXaVBWMExIK0RxU0pzWFZtM1VQTXNobWtIRGNIUXIr?=
- =?utf-8?B?Wm5uM3lzd21KdnlwUFZWbFl6NmlUd1NQcVNSQWxjejluYjJXTDBreHFVU2tn?=
- =?utf-8?B?ZW13dDVPNlZmWGU4V29aNkIxdTVYQXRDNm5neU9qcC96QUFmSGk1Uzl2a29K?=
- =?utf-8?B?S005QUtXcTl6bHY0K0R4TEJLVHhxV0w4UjRFYmdKNXdKR3BPTkViZ01sK2R0?=
- =?utf-8?B?YllzZ3RvWUhjTjIvY3M5c3pUQlJJY0hZa2o4cytsLzcvTDg0anI4bktzMys3?=
- =?utf-8?B?RENRdVBzaWsxUGRNVWxQZlhzWkgzZXM3S0hhYjk5RVc0Y1R3UXN4TFU4RldW?=
- =?utf-8?B?RjRJZ2N4eDVmZ1N3RXFWQWZlSXBRMGFKZlpDVVVrMzdiVmFvbUdpQUkwc0lY?=
- =?utf-8?B?K25ndXB5WkQwdFU2TTFpc0dlMGFtRWtYNWNHa3p5V2o1TThtRzdjekRnMk5N?=
- =?utf-8?B?UENpSWdHMElwYzAwenI4TWZLWVBaWE5IcHB1VGVaeTR3MGFkbitEbkIvVnZT?=
- =?utf-8?B?SVp2SnJnYlhRSnJJbmFOWmNHd3hDSWtIbkpoRkxZaW5xb1VCZ3JyU1UwRkVu?=
- =?utf-8?B?amhsVUFOU0x6cVkxWVdTTEVWdWpqUEUwOGFWcDNZQnM3RjRZR0h5UFJRQjRr?=
- =?utf-8?B?L2w2dEF1UytPKzF6bU5WcEVKY1prN3RRVFhUTkRWYUNDVDExQno5ODY4MWZV?=
- =?utf-8?Q?B9X7MU/KRBzP3b5Gplm+gDWil?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da08324c-10da-4dca-3a6f-08dbff90f1d6
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5014.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2023 06:17:01.1044
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Mq/LA3uIuPTdACn9A2behrn+gOCeRbI8BxhWHeBItlY57T4QYXKpHPDIN6PBzQIWPrMAjVbdVnxmX+m2gYj9ow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5594
-X-Proofpoint-ORIG-GUID: S8ZD872HmjxzhOlwmJzXyg-UvsQkis0d
-X-Proofpoint-GUID: S8ZD872HmjxzhOlwmJzXyg-UvsQkis0d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 lowpriorityscore=0 mlxscore=0
- suspectscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2311290000 definitions=main-2312180043
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:17:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192604
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 06:39:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192605
 
-Ping.
+From: Sourav Pramanik <sourav.pramanik@kpit.com>
 
-Thanks,
+A bug in QEMU could cause a guest I/O operation otherwise
+addressed to an arbitrary disk offset to be targeted to
+offset 0 instead (potentially overwriting the VM's boot code).
 
-On 12/6/23 16:56, Yu, Mingli wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> Add systemd-sshd-socket-mode PACKAGECONFIG option to choose sshd.socket
-> and systemd-sshd-service-mode PACKAGECONFIG option to choose installing
-> sshd.service.
-> 
-> The systemd-sshd-socket-mode PACKAGECONFIG option is enabled by default
-> and user can customize the above two PACKAGECONFIG option to choose the
-> sshd mode.
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
-> Changed in v3:
-> rebase based on https://lore.kernel.org/all/20231201140947.792594-1-xiangyu.chen@eng.windriver.com/
-> 
-> Changed in v4:
-> make it possible to install both sshd.socket and sshd.service
-> .../openssh/openssh_9.5p1.bb                  | 25 ++++++++++++++-----
->   1 file changed, 19 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-> index 2c1c821ea9..58dd030c64 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-> @@ -50,16 +50,20 @@ INITSCRIPT_NAME:${PN}-sshd = "sshd"
->   INITSCRIPT_PARAMS:${PN}-sshd = "defaults 9"
->   
->   SYSTEMD_PACKAGES = "${PN}-sshd"
-> -SYSTEMD_SERVICE:${PN}-sshd = "sshd.socket sshd.service"
-> +SYSTEMD_SERVICE:${PN}-sshd = "${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','sshd.socket', '', d)} ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','sshd.service', '', d)}"
->   
->   inherit autotools-brokensep ptest pkgconfig
->   
-> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
-> +# systemd-sshd-socket-mode means sshd.socket and systemd-sshd-service-mode
-> +# corresponding to sshd.service
-> +PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} systemd-sshd-socket-mode"
->   PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
->   PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
->   PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
->   PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
->   PACKAGECONFIG[systemd] = "--with-systemd,--without-systemd,systemd"
-> +PACKAGECONFIG[systemd-sshd-socket-mode] = ""
-> +PACKAGECONFIG[systemd-sshd-service-mode] = ""
->   
->   EXTRA_AUTORECONF += "--exclude=aclocal"
->   
-> @@ -124,15 +128,24 @@ do_install:append () {
->   	echo "HostKey /var/run/ssh/ssh_host_ed25519_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
->   
->   	install -d ${D}${systemd_system_unitdir}
-> -	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
-> -	install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
-> -	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
-> +	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-socket-mode','true','false',d)}; then
-> +	    install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_system_unitdir}
-> +	    install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_system_unitdir}
-> +	    sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-> +		    -e 's,@SBINDIR@,${sbindir},g' \
-> +		    -e 's,@BINDIR@,${bindir},g' \
-> +		    -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-> +            ${D}${systemd_system_unitdir}/sshd.socket
-> +	fi
-> +	if ${@bb.utils.contains('PACKAGECONFIG','systemd-sshd-service-mode','true','false',d)}; then
-> +	    install -c -m 0644 ${WORKDIR}/sshd.service ${D}${systemd_system_unitdir}
-> +	fi
->   	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_system_unitdir}
->   	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
->   		-e 's,@SBINDIR@,${sbindir},g' \
->   		-e 's,@BINDIR@,${bindir},g' \
->   		-e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
-> -		${D}${systemd_system_unitdir}/sshd.socket ${D}${systemd_system_unitdir}/*.service
-> +		${D}${systemd_system_unitdir}/*.service
->   
->   	sed -i -e 's,@LIBEXECDIR@,${libexecdir}/${BPN},g' \
->   		${D}${sysconfdir}/init.d/sshd
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#191874): https://lists.openembedded.org/g/openembedded-core/message/191874
-> Mute This Topic: https://lists.openembedded.org/mt/103009646/3618448
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mingli.yu@eng.windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+This change is to fix CVE-2023-5088.
+
+Link: https://gitlab.com/qemu-project/qemu/-/commit/7d7512019fc40c577e2bdd61f114f31a9eb84a8e
+
+Signed-off-by: Sourav Pramanik <sourav.pramanik@kpit.com>
+Signed-off-by: Sourav Kumar Pramanik <pramanik.souravkumar@gmail.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2023-5088.patch             | 112 ++++++++++++++++++
+ 2 files changed, 113 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c8e4e2e6f3..c5fb9b1eab 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -102,6 +102,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://CVE-2023-3180.patch \
+ 	   file://CVE-2021-3638.patch \
+ 	   file://CVE-2023-1544.patch \
++	   file://CVE-2023-5088.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch
+new file mode 100644
+index 0000000000..c5ea9d739a
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch
+@@ -0,0 +1,112 @@
++From 7d7512019fc40c577e2bdd61f114f31a9eb84a8e Mon Sep 17 00:00:00 2001
++From: Fiona Ebner <f.ebner@proxmox.com>
++Date: Wed, 6 Sep 2023 15:09:21 +0200
++Subject: [PATCH] hw/ide: reset: cancel async DMA operation before resetting
++ state
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++If there is a pending DMA operation during ide_bus_reset(), the fact
++that the IDEState is already reset before the operation is canceled
++can be problematic. In particular, ide_dma_cb() might be called and
++then use the reset IDEState which contains the signature after the
++reset. When used to construct the IO operation this leads to
++ide_get_sector() returning 0 and nsector being 1. This is particularly
++bad, because a write command will thus destroy the first sector which
++often contains a partition table or similar.
++
++Traces showing the unsolicited write happening with IDEState
++0x5595af6949d0 being used after reset:
++
++> ahci_port_write ahci(0x5595af6923f0)[0]: port write [reg:PxSCTL] @ 0x2c: 0x00000300
++> ahci_reset_port ahci(0x5595af6923f0)[0]: reset port
++> ide_reset IDEstate 0x5595af6949d0
++> ide_reset IDEstate 0x5595af694da8
++> ide_bus_reset_aio aio_cancel
++> dma_aio_cancel dbs=0x7f64600089a0
++> dma_blk_cb dbs=0x7f64600089a0 ret=0
++> dma_complete dbs=0x7f64600089a0 ret=0 cb=0x5595acd40b30
++> ahci_populate_sglist ahci(0x5595af6923f0)[0]
++> ahci_dma_prepare_buf ahci(0x5595af6923f0)[0]: prepare buf limit=512 prepared=512
++> ide_dma_cb IDEState 0x5595af6949d0; sector_num=0 n=1 cmd=DMA WRITE
++> dma_blk_io dbs=0x7f6420802010 bs=0x5595ae2c6c30 offset=0 to_dev=1
++> dma_blk_cb dbs=0x7f6420802010 ret=0
++
++> (gdb) p *qiov
++> $11 = {iov = 0x7f647c76d840, niov = 1, {{nalloc = 1, local_iov = {iov_base = 0x0,
++>       iov_len = 512}}, {__pad = "\001\000\000\000\000\000\000\000\000\000\000",
++>       size = 512}}}
++> (gdb) bt
++> #0  blk_aio_pwritev (blk=0x5595ae2c6c30, offset=0, qiov=0x7f6420802070, flags=0,
++>     cb=0x5595ace6f0b0 <dma_blk_cb>, opaque=0x7f6420802010)
++>     at ../block/block-backend.c:1682
++> #1  0x00005595ace6f185 in dma_blk_cb (opaque=0x7f6420802010, ret=<optimized out>)
++>     at ../softmmu/dma-helpers.c:179
++> #2  0x00005595ace6f778 in dma_blk_io (ctx=0x5595ae0609f0,
++>     sg=sg@entry=0x5595af694d00, offset=offset@entry=0, align=align@entry=512,
++>     io_func=io_func@entry=0x5595ace6ee30 <dma_blk_write_io_func>,
++>     io_func_opaque=io_func_opaque@entry=0x5595ae2c6c30,
++>     cb=0x5595acd40b30 <ide_dma_cb>, opaque=0x5595af6949d0,
++>     dir=DMA_DIRECTION_TO_DEVICE) at ../softmmu/dma-helpers.c:244
++> #3  0x00005595ace6f90a in dma_blk_write (blk=0x5595ae2c6c30,
++>     sg=sg@entry=0x5595af694d00, offset=offset@entry=0, align=align@entry=512,
++>     cb=cb@entry=0x5595acd40b30 <ide_dma_cb>, opaque=opaque@entry=0x5595af6949d0)
++>     at ../softmmu/dma-helpers.c:280
++> #4  0x00005595acd40e18 in ide_dma_cb (opaque=0x5595af6949d0, ret=<optimized out>)
++>     at ../hw/ide/core.c:953
++> #5  0x00005595ace6f319 in dma_complete (ret=0, dbs=0x7f64600089a0)
++>     at ../softmmu/dma-helpers.c:107
++> #6  dma_blk_cb (opaque=0x7f64600089a0, ret=0) at ../softmmu/dma-helpers.c:127
++> #7  0x00005595ad12227d in blk_aio_complete (acb=0x7f6460005b10)
++>     at ../block/block-backend.c:1527
++> #8  blk_aio_complete (acb=0x7f6460005b10) at ../block/block-backend.c:1524
++> #9  blk_aio_write_entry (opaque=0x7f6460005b10) at ../block/block-backend.c:1594
++> #10 0x00005595ad258cfb in coroutine_trampoline (i0=<optimized out>,
++>     i1=<optimized out>) at ../util/coroutine-ucontext.c:177
++
++CVE: CVE-2023-5088
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/7d7512019fc40c577e2bdd61f114f31a9eb84a8e]
++
++Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
++Reviewed-by: Philippe Mathieu-DaudÃ© <philmd@linaro.org>
++Tested-by: simon.rowe@nutanix.com
++Message-ID: <20230906130922.142845-1-f.ebner@proxmox.com>
++Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@linaro.org>
++Signed-off-by: Sourav Pramanik <sourav.pramanik@kpit.com>
++---
++ hw/ide/core.c | 14 +++++++-------
++ 1 file changed, 7 insertions(+), 7 deletions(-)
++
++diff --git a/hw/ide/core.c b/hw/ide/core.c
++index b5e0dcd29b2..63ba665f3d2 100644
++--- a/hw/ide/core.c
+++++ b/hw/ide/core.c
++@@ -2515,19 +2515,19 @@ static void ide_dummy_transfer_stop(IDEState *s)
++ 
++ void ide_bus_reset(IDEBus *bus)
++ {
++-    bus->unit = 0;
++-    bus->cmd = 0;
++-    ide_reset(&bus->ifs[0]);
++-    ide_reset(&bus->ifs[1]);
++-    ide_clear_hob(bus);
++-
++-    /* pending async DMA */
+++    /* pending async DMA - needs the IDEState before it is reset */
++     if (bus->dma->aiocb) {
++         trace_ide_bus_reset_aio();
++         blk_aio_cancel(bus->dma->aiocb);
++         bus->dma->aiocb = NULL;
++     }
++ 
+++    bus->unit = 0;
+++    bus->cmd = 0;
+++    ide_reset(&bus->ifs[0]);
+++    ide_reset(&bus->ifs[1]);
+++    ide_clear_hob(bus);
+++
++     /* reset dma provider too */
++     if (bus->dma->ops->reset) {
++         bus->dma->ops->reset(bus->dma);
++-- 
+-- 
+2.25.1
+
 
