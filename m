@@ -1,212 +1,282 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1468DC35274
-	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 17:44:07 +0000 (UTC)
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.62])
- by mx.groups.io with SMTP id smtpd.web10.49699.1702921444392000000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B20EC35274
+	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 17:45:47 +0000 (UTC)
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+ by mx.groups.io with SMTP id smtpd.web11.50220.1702921541941933932
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 09:44:04 -0800
+ Mon, 18 Dec 2023 09:45:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector1 header.b=VDg6rAkB;
- spf=pass (domain: infinera.com, ip: 40.107.220.62, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UikVMCS9sFlFSLtQ2Rk/Xo8ueVc9rVS83fRBb8Ysi4pBM7bSn64DLrhLgV4KXpu4dwVbL1GiHxC3Ra7gYdjI7pd8MXF71XuK8TIVkoQUBKH9vcIOeLEC7HaWVyDpvm9NrM2SSSMKNoh1BvlfBWS7J7e3o9tbg0gD4vzJwM6UwZB7anump9YEjOR30jzPn/iBbu3VvmPTgvpvbIkoGR3cK5AmqFBN2Rs46EHVa30bxi75il9gUo3h/d7ovJ6xWbbdf1c2wkEYZeAb7Vns0NP/9CgkgGlwF87SiTQlakFxqqJCt8tGn/LbT9BGoZ1oimGYgW9182FQueKGCTtSK2fREQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TJTZrAr4Bn+TdkG88DuTJoY3M4WKAolCsGSQejsaWeA=;
- b=AgIUigv2D4ATcCGV9Nn4HNNKDdaGjXUbZHkqUTLOG2MhvSIZdhTnWxn3uCEEd2gM1Hp0qt/W2RVEo3y0lse4pONg+ZqvS1XSMvHI8IZPav20RLvo3B4KdvpFFtKQhVj7Qr8pQyc+W3jtztTX8i2tNFNGof2ztadRcmEp4JZHjD7mmCEqntknkHS9BO8+d3MotHQPbu/lq3GKDZvPQBG4Z0JYjjMJtVrcN9Gl1kBxPDS1pkjDnO7ZoUBotpaSU0N6dtrbpg6AJAJ/Ur8flkak4Oh317mHjmdQLTPThBOthoFJ+VSE/ge8gIGxchmcuzRtGnkXKmDhNpwevSC3ovexzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TJTZrAr4Bn+TdkG88DuTJoY3M4WKAolCsGSQejsaWeA=;
- b=VDg6rAkB5d+CWVHopYhQqWSb/CiHiC5Y2zPeY25slDnhDpw2rvSN0dHVooO+cD8qsb7+zkUqqEo2Vqc1WJoiV80noK1IOfjCkUd5unOgXlaCroAW1GSDyUuJP3ng2mWaAKUWx2py50CMgCfmraWbhypzTJzQeYgPoMldJkegk42TZrAedGro9jrWEK6sv7/p7GhxlcO/t/837G0yGOO8ktCIpDLram4c1ElkJldum2WVO/8laCU8e9vHUkgic8PwQ7RaThT89SN7EH3w5pdufVlC5KXz2UonSsyYEDJijzZmB/OEjQzxQDCOrcwq7UX97fdcgIy6ZqVcFkvjX4mNPg==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by MN2PR10MB4318.namprd10.prod.outlook.com (2603:10b6:208:1d8::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Mon, 18 Dec
- 2023 17:43:59 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::86e6:23e4:41ae:35c5%7]) with mapi id 15.20.7091.034; Mon, 18 Dec 2023
- 17:43:59 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] kirkstone: oe-selftest -v -r
- reproducible.ReproducibleTests.test_reproducible_builds broken ?
-Thread-Topic: [OE-core] kirkstone: oe-selftest -v -r
- reproducible.ReproducibleTests.test_reproducible_builds broken ?
-Thread-Index: 
- AQHaMaQyiJqshOiCukOwvQQfz8CqBbCvBAEAgAANQoCAACeqgIAAA4IAgAAC1bmAABEBAA==
-Date: Mon, 18 Dec 2023 17:43:59 +0000
-Message-ID: <25971085ebc5f8a7f5a87ee1a98c98af10e558cc.camel@infinera.com>
-References: <e2ad5c51a48a8c85bae1c9c7e21912e8fb412c77.camel@infinera.com>
-	 <CANNYZj-+T-uXRwVOkF3YmZJzOKaqogBnNKp+WFA9mpNyW2Y=EQ@mail.gmail.com>
-	 <e19a55e23d08d670fedb5f290a225f4ed21f82e9.camel@infinera.com>
-	 <CANNYZj-N0_Jb-J2OE2=R4X4guhhddDEzejxOY_sXT_bTT4NumA@mail.gmail.com>
-	 <437e1ea74b65c88fb81e365ac7008defc2903693.camel@infinera.com>
-	 <17A1FA8FAEEA7726.24236@lists.openembedded.org>
-	 <CANNYZj-71cekZeNSfW2tvHJKg0egvnzDMx4vvREzC+9AFuo-VA@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj-71cekZeNSfW2tvHJKg0egvnzDMx4vvREzC+9AFuo-VA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.1 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|MN2PR10MB4318:EE_
-x-ms-office365-filtering-correlation-id: d287ddeb-fc82-4069-6260-08dbfff0ea5c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- U9XVe3maJstXrC338CRpTiPyaXFNoXCRFzFW1TN3DllzQoZ8XH1esml0IeQul0GqO3W7tQVZ+E9xucOtmdaPLMrjYBhkyMw/EALG217Sn1jYRUgGYuaqBW/MSavwX7IiWHNrqDW6eBxm7clswqN5NKwj1fMm/A7y5Fp6UkONWtZW0NX/2mP5TNLS5jNS5V/Zi+SgI6pxJuPT++XfDw87qPmNKOyKWfsyBxykhWsyd4BYxuxkiW6BYANnNrBCe2J2gHejmpeJCQbcvqKlBZpTg7ptTu9nRK1c41pVv7FziggBllDsBweOLYekdv8h/XVTn8lsbmDr4oRtqqDZjg8c+Pue6PaiqULc6lBM97SjuL+o3p3w50/MRTx3OTmMaJuTbB3clGgIgo9YKFJ2OGUviH6F63QLmK2SbrCqgAu0YUGOZVYJs2rA6VzB/WBwDq0TEji4aZghhWIdJ7vBb/uVnK+1vYP7OTTLcn/rEuG8UwWJtHIoObKPnBBMUf54H0Uo617kYliQIP1MFBxfLfnrOyWeweH1y50OuOg6lmcYfOEDZMU0U6aBJsHgdRIytae2etvnH3jt3ep+CZRz5Tm68+1FnHw5RwChGdCV80fpAUa0C1YPCtM8gkARBNRim7K9
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(39860400002)(136003)(396003)(376002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(66899024)(36756003)(38070700009)(66946007)(66556008)(316002)(83380400001)(6916009)(91956017)(76116006)(64756008)(66446008)(66476007)(2906002)(4001150100001)(122000001)(4326008)(8676002)(8936002)(5660300002)(38100700002)(71200400001)(45080400002)(6512007)(6506007)(86362001)(966005)(478600001)(6486002)(2616005)(41300700001)(21314003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?dlU2blljMThycVJveEtVYXU4TlN6NjNTeTNqMW1RUjhTTlpGMmxWY2Nray9l?=
- =?utf-8?B?WjcrR1JlYW85YU9zL3pHc2p0emtaa0NuL0xzWlZZeXE2ai9wTnlpeXBJRWxr?=
- =?utf-8?B?ZmtjWVYwOURxZldKM2VmSTYrTkxWUXlEUjd3eEZYUk04ZnhZNlgreHZlb3o1?=
- =?utf-8?B?MS83MmYxdW5vZDE2VVNpa0xxazFvRWNoa1oyNjZIcFZlMlJtK3MzUXBOM3Bj?=
- =?utf-8?B?VzEvTlJiYWk3QTBCVnFnWGRnUENjdzNzcmdGVCtuMnlmOHJhYVVVcXFOSXpp?=
- =?utf-8?B?MlQrcjhuMkVKZlh6U2lwdWtROFBMaGFJUmdDRHl5MTZrZEVzenhtOXl0NWhm?=
- =?utf-8?B?aE91MWRPd1BJN3lZU1VncmZEaWpnbFVmTHp6TlFpWFFYSWlaa2VFRkljZ1F3?=
- =?utf-8?B?OTB6ZU85Q0NDWkpPbmFlRUtzMVpMand0VDNMTGtKeTlPYjRqVk04UGZENjJj?=
- =?utf-8?B?bHJXODBwOEZ5QnN0cjlzdkJNb3pOYWExMnN5b2YzYU9xRkZPMy84TVU5Qm92?=
- =?utf-8?B?WjR2ZDJQYTc5UGsxZTFBVUp2R010Sk13c2NhcFg4U2t0aXQrS1ZBTlJMb0k5?=
- =?utf-8?B?RitSVnZGb1U5a3VzMFJ0S2NaTmZHQUZrb0dNOGV3ZThrYi92YnNtQnExcDlU?=
- =?utf-8?B?ZFY1cVQ4aTdBbzZnUXR3YWpmMGNCSkV5UkZDTVllVUh2VW45eUs1SmJBOU9x?=
- =?utf-8?B?Q2hXTitsMGhlOUh2SWhiTEs2TnA4MUk2TUhUeTNXY2gwY3J1bnFtZURrcENr?=
- =?utf-8?B?UTRRWDBwMUE1OHFEYkVmbHA4d05xTmZxOVZCTlN1OUwrckZYUTNwbjVldEFD?=
- =?utf-8?B?bTdkZEtVaHVNS21nSklHT01Tem84blF6MVhSdk5IdHZONVZzaFNBcnhRbWor?=
- =?utf-8?B?b2ZGN2N2Nk5QWWkza003NGpHZTM2L09McjBHNFlCUUhXdFhhTFZhUGFPcG8r?=
- =?utf-8?B?MWxaZVVJVXB1YU5XWDBjczMwSjNEZkMyOHIxTm1WVnZhOGVrbk5ORzZXdS9C?=
- =?utf-8?B?aVdoRTBNWXJ3ZFpBcU5kUmRLb2lRVktyUmMwaWFQN2srZXpCRXByWUd4Wk1v?=
- =?utf-8?B?Vlh5Z0gzUktCZGUzeGhIa1JDaml0QzQ0a0M5UVNlaDBUYVVseVN5UGlVNXhq?=
- =?utf-8?B?NTZvRENaak14MHpMdkFGL3M1R2pqbitacEVhZno0VG5LckZNd0pDend6dXFp?=
- =?utf-8?B?WWd4aStHOG8rVGVnbG5tSWd6Mk5tOGZBR0lSZitRd2xoWS9XSzhxWTA4aHJQ?=
- =?utf-8?B?U2g4YXFjaVBHS0k3K0ljVE5YR3JHYVFjRUpETHBNS3dxZGdpRW13N1ZTWStj?=
- =?utf-8?B?ZzBFbVBMWnRKcnZ4dWpnemZFY0p3eWJaOWpidlh6S3A3bElOVzZDNFRiUDM0?=
- =?utf-8?B?MUhRT0JnV0RCT3ZnZmxlM1dHc09EcW1pWWdPWnY5aTRWWExhSXZyQld0dGdj?=
- =?utf-8?B?OHdCdW5uUFJ1UU5kY0hXc2lyWjE0d1NWeGdFYmFoMXZyQ2pQN0dxc2RPbCtZ?=
- =?utf-8?B?NWdyNjBHTnJLVkpBcVFVaGtZZ1pNSWlGWFJ3SE5CZEJ5cWZoYXpyUzg2VStn?=
- =?utf-8?B?c01VcWZFVzIrS0pZTENPaFNEclV1WmQrR09tNk9ETnhUK013OWphSjVMNElO?=
- =?utf-8?B?U2FUK1FhRm9qc29lMHhtTitoaVdBZ0N3eUk4azN2VkRBWTdVS3ZZelVSM2Jl?=
- =?utf-8?B?cnh3OSthVnloUWtwOHhwdlBYVWFmTzZUYUpNdm5xNzVXYzlvbDh6cFRZdlcx?=
- =?utf-8?B?U3ZpYkRCTnVjZEM4VDVLcEZoeCtpS2NTeS9CV09OTXBLNWU4UWQ3RXVxN1Jn?=
- =?utf-8?B?UFRLaHg1Sk14VEVzVWhPY2gyMTNYR0w1WnJmQUlhYk9QdUhZNjFlSkVqZ056?=
- =?utf-8?B?eG1wSjBmVHNFdjV1NWNJZHBRcGUveEluclpYdUNTWldNOFkyRU45bWZJcmpn?=
- =?utf-8?B?UjFEUWs0alpMamhlN21majFBMG83ZTB3UlY2ckNDYmZZdkFXU0JmektUYlRt?=
- =?utf-8?B?dll0dkNuMXgvSld0aWVUVlNQMGRxcXNNS1AzOHlSK1Q4VGtxWXlaZndiNXVv?=
- =?utf-8?B?NS9TZXViUldBclRMQ21KeFR5NjNmNjRSaGRrNUd2Nk9IcHlKSlBiQm9sSVJp?=
- =?utf-8?B?WksydHpHUHZiODBrcjVhTkhHUkhGcmVSSkl4Wjl2Z0hlRCs0ZHB6MmNsUkta?=
- =?utf-8?Q?AApx/6Qd+nyClcKMBcVgH1Mm5AnXdQSsL3oukKB5fkSI?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B41D7CB64394584CBEC670A531CCAD0F@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CZUogkj4;
+ spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6da5259e3a3so2451671a34.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 09:45:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702921541; x=1703526341; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xc9/sQLSpiWs8RV6KWnqZ42e4nd2oSaf2lcPYITLQ9s=;
+        b=CZUogkj4WxRgQDscWtF125F+GXgoU7xqs6Hi6pXfaLMMqKpff8YFXDQ5mREfjGdYVG
+         FIK0rsQSoyVjizY42w83PIOzuy7k31pxmfQpu03d5HsYX15g3zJmBCYImQN4II8kJBQP
+         V0oS/jWw6D1JrD7xNJLHKHnD59aky0Wo0H1rzRyBUemoBjFA/OSDShKmpuKELONvIeeW
+         f1SrIrLzuaOVlB7cq2C3tZD5axSs+pC0fer6mp7nVZBnTayw7DqRpxBG0SbwNoSSHPRv
+         lh4cruSXUFT2eegeYL5RTLsUVJLz0RAFUmyTMGAXaipFHUdSttSy8B31sMyrhBJTiAef
+         RQIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702921541; x=1703526341;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xc9/sQLSpiWs8RV6KWnqZ42e4nd2oSaf2lcPYITLQ9s=;
+        b=KowKYxbpQa+eXBznUQyiF4PCoj3+OeMd6UhVC/eWiKv1eE3QJDT9gvIGUFiMmJSwiU
+         jMoMhl6DgSGHPbyRfT2riKwq2gnzEcVNu0HDK/4EY0Ob2HzbXtjeVrIgOOrr+K7k4+il
+         dJRke1dPdrIOZDcRMB+TD9o+0+n2t2+Cb1s/9L0g17Nm0OoKFrra+IrUlIoYV2TimAvy
+         UiC8/1Arh9rVedxKcWs8KMZllqLodCQlK0L0ymyyCHZJA9OmWHBpttzltYRAmoWEuvPj
+         ot9dC3u2fK4RJXmpzWumSRKXpNxxxog7iMi/8jTLr5E9WQ1GC+u4F9qsXRGXE/BcHkzG
+         8Hcw==
+X-Gm-Message-State: AOJu0YxODMCX5Ke/W9DnXm+//XUFYtg89PD3fL+FP4XRV1sHLKJcRDwa
+	ePHv7qfqkCGC4Wqg9Mv4Ld/kMGQKXYdgyW9SaNIpzA6K
+X-Google-Smtp-Source: AGHT+IF5TSXM4nDDL1FoiI/pJQ1YTFMoRAw04FFR08d1u7rY8zXxeTCt8QpgXmD2mo5Y/GTTdQIahwRtA75X3pgNj9M=
+X-Received: by 2002:a05:6870:1711:b0:1fb:75b:99bb with SMTP id
+ h17-20020a056870171100b001fb075b99bbmr18933978oae.106.1702921540966; Mon, 18
+ Dec 2023 09:45:40 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d287ddeb-fc82-4069-6260-08dbfff0ea5c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2023 17:43:59.1595
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RCtlzJ80QUmS7zqK76Ttl8BLl4vTBaFJKwuAVj9E6gNVeTzrCzRFP9ZIZ26D0qlP1R7DkgZUKmoptP6bEAa/og==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB4318
+References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 18 Dec 2023 09:45:15 -0800
+Message-ID: <CAMKF1sqkizk++vW++TsyiOBSsHhM7euMNWGs8KHBJq_2yB=dFw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] qemurunner: Impove stdout logging handling
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 17:44:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192671
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 17:45:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192672
 
-WWVzLCB0aGVyZSBpcyBhbiB4eHgtc3Qgd2hlcmUgdGhlIHJlcHJvZHVjaWJsZSBidWlsZCBpcyBw
-ZXJmb3JtZWQgYW5kIHRoZXJlIGlzIG5vIEEvQiBkaWVzIGluIHRoZXJlLg0KSSBhZGRlZCBzb21l
-IGxvZ2dpbmc6DQotLS0gYS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3JlcHJvZHVjaWJs
-ZS5weQ0KKysrIGIvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9yZXByb2R1Y2libGUucHkN
-CkBAIC0yMDUsOCArMjA1LDggQEAgY2xhc3MgUmVwcm9kdWNpYmxlVGVzdHMoT0VTZWxmdGVzdFRl
-c3RDYXNlKToNCiAgICAgICAgIGNhcHR1cmVfdmFycyA9IFsnREVQTE9ZX0RJUl8nICsgYy51cHBl
-cigpIGZvciBjIGluIHNlbGYucGFja2FnZV9jbGFzc2VzXQ0KDQogICAgICAgICB0bXBkaXIgPSBv
-cy5wYXRoLmpvaW4oc2VsZi50b3BkaXIsIG5hbWUsICd0bXAnKQ0KLSAgICAgICAgaWYgb3MucGF0
-aC5leGlzdHModG1wZGlyKToNCi0gICAgICAgICAgICBiYi51dGlscy5yZW1vdmUodG1wZGlyLCBy
-ZWN1cnNlPVRydWUpDQorICAgICAgICAjaWYgb3MucGF0aC5leGlzdHModG1wZGlyKToNCisgICAg
-ICAgICAgICAjYmIudXRpbHMucmVtb3ZlKHRtcGRpciwgcmVjdXJzZT1UcnVlKQ0KDQogICAgICAg
-ICBjb25maWcgPSB0ZXh0d3JhcC5kZWRlbnQoJycnXA0KICAgICAgICAgICAgIFBBQ0tBR0VfQ0xB
-U1NFUyA9ICJ7cGFja2FnZV9jbGFzc2VzfSINCkBAIC0yMjksNiArMjI5LDcgQEAgY2xhc3MgUmVw
-cm9kdWNpYmxlVGVzdHMoT0VTZWxmdGVzdFRlc3RDYXNlKToNCg0KICAgICAgICAgICAgICMgVGhp
-cyBjb25maWcgZnJhZ21lbnQgd2lsbCBkaXNhYmxlIHVzaW5nIHNoYXJlZCBhbmQgdGhlIHNzdGF0
-ZQ0KICAgICAgICAgICAgICMgbWlycm9yLCBmb3JjaW5nIGEgY29tcGxldGUgYnVpbGQgZnJvbSBz
-Y3JhdGNoDQorICAgICAgICAgICAgI1NTVEFURV9NSVJST1JTID0gImh0dHBzOi8vc2UtYXJ0aWYt
-cHJkLmluZmluZXJhLmNvbS9hcnRpZmFjdG9yeS9saXN0L2ljZXgtc3N0YXRlIg0KICAgICAgICAg
-ICAgIGNvbmZpZyArPSB0ZXh0d3JhcC5kZWRlbnQoJycnXA0KICAgICAgICAgICAgICAgICBTU1RB
-VEVfRElSID0gIiR7VE1QRElSfS9zc3RhdGUiDQogICAgICAgICAgICAgICAgIFNTVEFURV9NSVJS
-T1JTID0gImZpbGU6Ly8uKi8uKi1uYXRpdmUuKiAgaHR0cDovL3NzdGF0ZS55b2N0b3Byb2plY3Qu
-b3JnL2FsbC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9UEFUSCBmaWxlOi8vLiovLiotY3Jvc3MuKg0K
-aHR0cDovL3NzdGF0ZS55b2N0b3Byb2plY3Qub3JnL2FsbC9QQVRIO2Rvd25sb2FkZmlsZW5hbWU9
-UEFUSCINCkBAIC0yNjksMTMgKzI3MCwxNyBAQCBjbGFzcyBSZXByb2R1Y2libGVUZXN0cyhPRVNl
-bGZ0ZXN0VGVzdENhc2UpOg0KICAgICAgICAgIyBrZXB0IGFmdGVyIHRoZSBidWlsZCBzbyBpdCBj
-YW4gYmUgZGlmZmVkIGZvciBkZWJ1Z2dpbmcuDQoNCiAgICAgICAgIGZhaWxzID0gW10NCi0NCisg
-ICAgICAgIHNlbGYubG9nZ2VyLmluZm8oJ3ZhcnNfQTolcycgJSB2YXJzX0EpDQorICAgICAgICBz
-ZWxmLmxvZ2dlci5pbmZvKCd2YXJzX0I6JXMnICUgdmFyc19CKQ0KICAgICAgICAgZm9yIGMgaW4g
-c2VsZi5wYWNrYWdlX2NsYXNzZXM6DQorICAgICAgICAgICAgc2VsZi5sb2dnZXIuaW5mbygnYyBp
-biBwYWNrYWdlX2NsYXNzZXM6JXMnICUgYykNCiAgICAgICAgICAgICB3aXRoIHNlbGYuc3ViVGVz
-dChwYWNrYWdlX2NsYXNzPWMpOg0KICAgICAgICAgICAgICAgICBwYWNrYWdlX2NsYXNzID0gJ3Bh
-Y2thZ2VfJyArIGMNCg0KICAgICAgICAgICAgICAgICBkZXBsb3lfQSA9IHZhcnNfQVsnREVQTE9Z
-X0RJUl8nICsgYy51cHBlcigpXQ0KICAgICAgICAgICAgICAgICBkZXBsb3lfQiA9IHZhcnNfQlsn
-REVQTE9ZX0RJUl8nICsgYy51cHBlcigpXQ0KKyAgICAgICAgICAgICAgICBzZWxmLmxvZ2dlci5p
-bmZvKCdkZXBsb3lfQTolcycgJSBkZXBsb3lfQSkNCisgICAgICAgICAgICAgICAgc2VsZi5sb2dn
-ZXIuaW5mbygnZGVwbGF5X0I6JXMnICUgZGVwbG95X0IpDQoNCiAgICAgICAgICAgICAgICAgc2Vs
-Zi5sb2dnZXIuaW5mbygnQ2hlY2tpbmcgJXMgcGFja2FnZXMgZm9yIGRpZmZlcmVuY2VzLi4uJyAl
-IGMpDQogICAgICAgICAgICAgICAgIHJlc3VsdCA9IHNlbGYuY29tcGFyZV9wYWNrYWdlcyhkZXBs
-b3lfQSwgZGVwbG95X0IsIGRpZmZ1dGlsc19zeXNyb290KQ0KDQphbmQgZ290IHRoaXMgb3V0cHV0
-Og0KLi4uDQoyMDIzLTEyLTE4IDE4OjM1OjA4LDkxMiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIHZh
-cnNfQTp7J0RFUExPWV9ESVJfSVBLJzogJy9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4t
-eHIvZ21jdS1zdC90bXAvZGVwbG95L2lwayd9DQoyMDIzLTEyLTE4IDE4OjM1OjA4LDkxMyAtIG9l
-LXNlbGZ0ZXN0IC0gSU5GTyAtIHZhcnNfQjp7J0RFUExPWV9ESVJfSVBLJzogJy9ob21lL2pvY2tl
-L3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC90bXAvZGVwbG95L2lwayd9DQoyMDIzLTEy
-LTE4IDE4OjM1OjA4LDkxMyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIGMgaW4gcGFja2FnZV9jbGFz
-c2VzOmlwaw0KMjAyMy0xMi0xOCAxODozNTowOCw5MTMgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBk
-ZXBsb3lfQTovaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL2dtY3Utc3QvdG1wL2Rl
-cGxveS9pcGsNCjIwMjMtMTItMTggMTg6MzU6MDgsOTEzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
-ZGVwbGF5X0I6L2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5mbi14ci9nbWN1LXN0L3RtcC9k
-ZXBsb3kvaXBrDQoNCk5vdGljZSBob3cgYm90aCBBIGFuZCBCIHZhcmlhbnRzIGFyZSB0aGUgc2Ft
-ZS4gSSB3b25kZXIgd2hhdCBzZXR0aW5nIEkgZ290IHRoYXQgZG9lcyB0aGF0ID8NCg0KIEpvY2tl
-DQoNCk9uIE1vbiwgMjAyMy0xMi0xOCBhdCAxNzo0MiArMDEwMCwgQWxleGFuZGVyIEthbmF2aW4g
-d3JvdGU6DQo+IE5vdGUgdGhhdCBzZWxmdGVzdCBtYWtlcyBhIHNlcGFyYXRlIGJ1aWxkIGRpcmVj
-dG9yeSwgdXN1YWxseQ0KPiAuLi97Y3VycmVudF9idWlsZF9kaXJ9LXN0Lg0KPg0KPiBBbGV4DQo+
-DQo+IE9uIE1vbiwgMTggRGVjIDIwMjMgYXQgMTc6NDAsIEFsZXhhbmRlciBLYW5hdmluIHZpYQ0K
-PiBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxhbGV4LmthbmF2aW49Z21haWwuY29tQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmc+DQo+IHdyb3RlOg0KPiA+DQo+ID4gT24gTW9uLCAxOCBEZWMgMjAyMyBh
-dCAxNzozMywgSm9ha2ltIFRqZXJubHVuZA0KPiA+IDxKb2FraW0uVGplcm5sdW5kQGluZmluZXJh
-LmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gSSBoYXZlIHRyaWVkIHRoYXQgYW5kIHRoZXJlIGFy
-ZSBubyBBL0IgZGlycyBpbiB0aGVyZS4gSSBjYW4gZmluZCB1LWJvb3QuLi5pcGsgYW5kIHNvbWUg
-b3RoZXINCj4gPiA+IHN0dWZmIGJ1dCB0aGVyZSBpcyBubyBldmlkZW5jZSB0aGF0IHRoZSBBL0Ig
-ZGlycyBldmVyIGV4aXN0ZWQuDQo+ID4NCj4gPiBZb3UgbmVlZCB0byByZWFkIHRoZSB0ZXN0IGl0
-c2VsZiBhcyB3ZWxsIHRvIHNlZSB3aGVyZSB0aGUgZGlyZWN0b3JpZXMNCj4gPiBhcmUuIElmIHRo
-ZSBjb2RlIHBhdGggaXMgZ29pbmcgdGhyb3VnaCB0aGVpciBjcmVhdGlvbiBhbmQgcnVubmluZyBh
-DQo+ID4gYnVpbGRzIHdpdGggdGhlbSwgdGhlbiB0aGVyZSdzIG5vIHdheSB0aGV5IGNhbid0IGV4
-aXN0Lg0KPiA+DQo+ID4gQWxleA0KPiA+DQo+ID4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4g
-PiBMaW5rczogWW91IHJlY2VpdmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4g
-PiBWaWV3L1JlcGx5IE9ubGluZSAoIzE5MjY2NCk6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMTkyNjY0DQo+ID4gTXV0ZSBUaGlzIFRv
-cGljOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbXQvMTAzMjQwNjg5LzE2ODY0ODkN
-Cj4gPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZw0KPiA+IFVuc3Vic2NyaWJlOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
-Zy9vcGVuZW1iZWRkZWQtY29yZS91bnN1YiBbYWxleC5rYW5hdmluQGdtYWlsLmNvbV0NCj4gPiAt
-PS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiA+DQoNCg==
+I tried the two patches in this series. It did improve the situation
+but I am still getting SSH timeouts. But this time its 13 tests
+earlier it used to be 40+
+btw. my images are using systemd. So it might be good to see if we see
+this with poky-altcfg as well or not.
+
+On Mon, Dec 18, 2023 at 7:29=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> We need to ensure we read from and log the output from qemu stdout
+> as otherwise the buffers can fill and block, leading qemu to hand.
+> Use our existing logging thread to do this.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oeqa/utils/qemurunner.py | 54 ++++++++++++++++++-------------
+>  1 file changed, 32 insertions(+), 22 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemu=
+runner.py
+> index ee367078000..36bdfb96ae6 100644
+> --- a/meta/lib/oeqa/utils/qemurunner.py
+> +++ b/meta/lib/oeqa/utils/qemurunner.py
+> @@ -29,6 +29,15 @@ control_chars =3D [chr(x) for x in control_range
+>                  if chr(x) not in string.printable]
+>  re_control_char =3D re.compile('[%s]' % re.escape("".join(control_chars)=
+))
+>
+> +def getOutput(o):
+> +    import fcntl
+> +    fl =3D fcntl.fcntl(o, fcntl.F_GETFL)
+> +    fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+> +    try:
+> +        return os.read(o.fileno(), 1000000).decode("utf-8")
+> +    except BlockingIOError:
+> +        return ""
+> +
+>  class QemuRunner:
+>
+>      def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_imag=
+e, logfile, boottime, dump_dir, use_kvm, logger, use_slirp=3DFalse,
+> @@ -55,6 +64,7 @@ class QemuRunner:
+>          self.boottime =3D boottime
+>          self.logged =3D False
+>          self.thread =3D None
+> +        self.threadsock =3D None
+>          self.use_kvm =3D use_kvm
+>          self.use_ovmf =3D use_ovmf
+>          self.use_slirp =3D use_slirp
+> @@ -119,21 +129,11 @@ class QemuRunner:
+>                  f.write(msg)
+>          self.msg +=3D self.decode_qemulog(msg)
+>
+> -    def getOutput(self, o):
+> -        import fcntl
+> -        fl =3D fcntl.fcntl(o, fcntl.F_GETFL)
+> -        fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+> -        try:
+> -            return os.read(o.fileno(), 1000000).decode("utf-8")
+> -        except BlockingIOError:
+> -            return ""
+> -
+> -
+>      def handleSIGCHLD(self, signum, frame):
+>          if self.runqemu and self.runqemu.poll():
+>              if self.runqemu.returncode:
+>                  self.logger.error('runqemu exited with code %d' % self.r=
+unqemu.returncode)
+> -                self.logger.error('Output from runqemu:\n%s' % self.getO=
+utput(self.runqemu.stdout))
+> +                self.logger.error('Output from runqemu:\n%s' % getOutput=
+(self.runqemu.stdout))
+>                  self.stop()
+>
+>      def start(self, qemuparams =3D None, get_ip =3D True, extra_bootpara=
+ms =3D None, runqemuparams=3D'', launch_cmd=3DNone, discard_writes=3DTrue):
+> @@ -282,7 +282,7 @@ class QemuRunner:
+>                  if self.runqemu.returncode:
+>                      # No point waiting any longer
+>                      self.logger.warning('runqemu exited with code %d' % =
+self.runqemu.returncode)
+> -                    self.logger.warning("Output from runqemu:\n%s" % sel=
+f.getOutput(output))
+> +                    self.logger.warning("Output from runqemu:\n%s" % get=
+Output(output))
+>                      self.stop()
+>                      return False
+>              time.sleep(0.5)
+> @@ -309,7 +309,7 @@ class QemuRunner:
+>              ps =3D subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,n=
+i,command '], stdout=3Dsubprocess.PIPE).communicate()[0]
+>              processes =3D ps.decode("utf-8")
+>              self.logger.debug("Running processes:\n%s" % processes)
+> -            op =3D self.getOutput(output)
+> +            op =3D getOutput(output)
+>              self.stop()
+>              if op:
+>                  self.logger.error("Output from runqemu:\n%s" % op)
+> @@ -387,7 +387,7 @@ class QemuRunner:
+>                             time.time() - connect_time))
+>
+>          # We are alive: qemu is running
+> -        out =3D self.getOutput(output)
+> +        out =3D getOutput(output)
+>          netconf =3D False # network configuration is not required by def=
+ault
+>          self.logger.debug("qemu started in %.2f seconds - qemu procces p=
+id is %s (%s)" %
+>                            (time.time() - (endtime - self.runqemutime),
+> @@ -430,9 +430,10 @@ class QemuRunner:
+>          self.logger.debug("Target IP: %s" % self.ip)
+>          self.logger.debug("Server IP: %s" % self.server_ip)
+>
+> +        self.thread =3D LoggingThread(self.log, self.threadsock, self.lo=
+gger, self.runqemu.stdout)
+> +        self.thread.start()
+> +
+>          if self.serial_ports >=3D 2:
+> -            self.thread =3D LoggingThread(self.log, self.threadsock, sel=
+f.logger)
+> -            self.thread.start()
+>              if not self.thread.connection_established.wait(self.boottime=
+):
+>                  self.logger.error("Didn't receive a console connection f=
+rom qemu. "
+>                               "Here is the qemu command line used:\n%s\na=
+nd "
+> @@ -444,7 +445,7 @@ class QemuRunner:
+>          self.logger.debug("Waiting at most %d seconds for login banner (=
+%s)" %
+>                            (self.boottime, time.strftime("%D %H:%M:%S")))
+>          endtime =3D time.time() + self.boottime
+> -        filelist =3D [self.server_socket, self.runqemu.stdout]
+> +        filelist =3D [self.server_socket]
+>          reachedlogin =3D False
+>          stopread =3D False
+>          qemusock =3D None
+> @@ -564,7 +565,7 @@ class QemuRunner:
+>                  self.logger.debug("Sending SIGKILL to runqemu")
+>                  os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
+>              if not self.runqemu.stdout.closed:
+> -                self.logger.info("Output from runqemu:\n%s" % self.getOu=
+tput(self.runqemu.stdout))
+> +                self.logger.info("Output from runqemu:\n%s" % getOutput(=
+self.runqemu.stdout))
+>              self.runqemu.stdin.close()
+>              self.runqemu.stdout.close()
+>              self.runqemu_exited =3D True
+> @@ -700,9 +701,11 @@ class QemuRunner:
+>  # event loop. The mechanism for stopping the thread is a simple pipe whi=
+ch
+>  # will wake up the poll and allow for tearing everything down.
+>  class LoggingThread(threading.Thread):
+> -    def __init__(self, logfunc, sock, logger):
+> +    def __init__(self, logfunc, sock, logger, qemuoutput):
+>          self.connection_established =3D threading.Event()
+> +
+>          self.serversock =3D sock
+> +        self.qemuoutput =3D qemuoutput
+>          self.logfunc =3D logfunc
+>          self.logger =3D logger
+>          self.readsock =3D None
+> @@ -732,7 +735,8 @@ class LoggingThread(threading.Thread):
+>
+>      def teardown(self):
+>          self.logger.debug("Tearing down logging thread")
+> -        self.close_socket(self.serversock)
+> +        if self.serversock:
+> +            self.close_socket(self.serversock)
+>
+>          if self.readsock is not None:
+>              self.close_socket(self.readsock)
+> @@ -747,7 +751,9 @@ class LoggingThread(threading.Thread):
+>      def eventloop(self):
+>          poll =3D select.poll()
+>          event_read_mask =3D self.errorevents | self.readevents
+> -        poll.register(self.serversock.fileno())
+> +        if self.serversock:
+> +            poll.register(self.serversock.fileno())
+> +        poll.register(self.qemuoutput.fileno())
+>          poll.register(self.readpipe, event_read_mask)
+>
+>          breakout =3D False
+> @@ -767,7 +773,7 @@ class LoggingThread(threading.Thread):
+>                      break
+>
+>                  # A connection request was received
+> -                elif self.serversock.fileno() =3D=3D event[0]:
+> +                elif self.serversock and self.serversock.fileno() =3D=3D=
+ event[0]:
+>                      self.logger.debug("Connection request received")
+>                      self.readsock, _ =3D self.serversock.accept()
+>                      self.readsock.setblocking(0)
+> @@ -781,6 +787,10 @@ class LoggingThread(threading.Thread):
+>                  elif self.readsock.fileno() =3D=3D event[0]:
+>                      data =3D self.recv(1024)
+>                      self.logfunc(data)
+> +                elif self.qemuoutput.fileno() =3D=3D event[0]:
+> +                    data =3D getOutput(self.qemuoutput)
+> +                    self.logger.debug("Data received on qemu stdout %s" =
+% data)
+> +                    self.logfunc(data, ".stdout")
+>
+>      # Since the socket is non-blocking make sure to honor EAGAIN
+>      # and EWOULDBLOCK.
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192655): https://lists.openembedded.org/g/openembedde=
+d-core/message/192655
+> Mute This Topic: https://lists.openembedded.org/mt/103244414/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
