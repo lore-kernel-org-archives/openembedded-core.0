@@ -2,232 +2,254 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F11EC35274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 750B5C46CD2
 	for <webhook@archiver.kernel.org>; Mon, 18 Dec 2023 15:29:56 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.46558.1702913394288632475
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web10.46196.1702913394636446535
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 07:29:54 -0800
+ Mon, 18 Dec 2023 07:29:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gQJ/hTGY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40c2db2ee28so40075775e9.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fEIn7k2T;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-336607f4d05so945807f8f.0
         for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 07:29:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1702913392; x=1703518192; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q2I4+3Wc7Z6boFJu4hYKcSOo6p2EdqA4ow6kO7sQ3SI=;
-        b=gQJ/hTGYkUk1zepNGi+O3uNLNWU6/6jJVD6o0XnqoQFgg0WRy1kN1zwXPjoLGOfeRL
-         TE4GQwwWhaVdkpTDMYHfjUNbGn7QBwaNKAzuJnk8EvMLFw7XnAmXjnjKJZ4pCAL44n3/
-         n9DxBzcEnCzR9qSa7tQsvNxrccIGGaoCBfyVI=
+        d=linuxfoundation.org; s=google; t=1702913393; x=1703518193; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JUl2Noq6bn0Sivdw630UocJm7XqOFYTihNjMtymdvkw=;
+        b=fEIn7k2TTl+eNu9rtBEDqrs7+zpB81wK4Y/Th/vV+Js2n54/ej9jR9ZeM8v/PKKCxZ
+         VAUjTIoPeUHmYXJ69odGc+Cd6wjQiY8VX+8dutgLjTSOR3Y4d0UQRiytnnNKOODy2wCN
+         onGScpybY5e45h1HtMpCBNjYTE7TSCm2Pk16Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702913392; x=1703518192;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=q2I4+3Wc7Z6boFJu4hYKcSOo6p2EdqA4ow6kO7sQ3SI=;
-        b=mUyBP1H5vwKu9uuqewJeDFNw46kn+pjolwgkTdT3cvp3QkPnRgs5b+HgjEAEPPJWpO
-         0bexm7Y852gae3hKP34brqXGmLXUWhsVM7/RvKeRG2aekhCHjUGAWb+YIM59CUTBjfBR
-         1G86vXtnz7m/q3GrQI2chZUmOkQDNXJmJVoE0K+VuWfXPmHSu7/xpEZG1R1DNe4SLjFh
-         cNg+KwbP5WdJsHsCuo89WOfdCYott5nKpQIQtrnNXFaERnxGPHkrGpC7iPqmb5bdh2F4
-         WncGeZijefMIe9/CGhykkImbs5uq+ZSd/zWvAe7lOPzaOeBHO3Lq6jhXg/qBSxKYIJKz
-         uwfg==
-X-Gm-Message-State: AOJu0YzYa+epo+7lQUUUu6ZNCvx3OdJn22MTGNWDMT6f16Gsad8sCLV9
-	rdF/QdcBxig0FpRVgRtMqTAJPqkkzLCaF3b1QL4=
-X-Google-Smtp-Source: AGHT+IFhZ7ltQEHMAPZxaTe5ifKXUKPefXeSPVpwhdFTR+KLmnCpx8M//0RnK4EUPFapWgHTlxVvwg==
-X-Received: by 2002:a05:600c:21c7:b0:40c:2699:b625 with SMTP id x7-20020a05600c21c700b0040c2699b625mr9192278wmj.138.1702913392201;
+        d=1e100.net; s=20230601; t=1702913393; x=1703518193;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JUl2Noq6bn0Sivdw630UocJm7XqOFYTihNjMtymdvkw=;
+        b=gSfIzoZA1phQEPjkR2Vnp9SyxD4FuDn4jn44yHC7ofeZ45r7p3if1CdvAgmcbHaChf
+         rjzP9JRlZaDroQRaREa/SJSkaxGBd4+XeCtBZXZnOue6cxhtS6IH62rY50VyjWo3eXwg
+         BL49fas5uWSGSdV9hPpkrZW3hQoql8Z3eKbqI46kr5RvzIGU5mTj2zJ3fvWTM3s1HnXH
+         CCEZsX/7fQwinKCm6FQuNuutdhpegRdcs9KftPL0bV1BSiM4umMBLcuAuchWpwPZSLRy
+         jzmsZW25Czc0ZnMTadqzlJc5hZa91O29O/g/gFWMKQSNCJ6uRj8erEmoQ7lM4gXChd4n
+         EyjA==
+X-Gm-Message-State: AOJu0YyOeuA65ZZ/shFe42Qc5/PezPMCNRhowHiQM06qRYypDaDCSGFL
+	H6tTQLXum8XCw/W/r+xUh/OGBFCeaQLGh0+xgxo=
+X-Google-Smtp-Source: AGHT+IGGLiwa0OrLNRhWDmlPD1DJgH0RbDl0okGUFBtTEu4NiZJVFcROTYHh25bt00mE3d7H2ZDFig==
+X-Received: by 2002:a5d:6906:0:b0:336:64c0:a1f9 with SMTP id t6-20020a5d6906000000b0033664c0a1f9mr1318509wru.36.1702913392841;
         Mon, 18 Dec 2023 07:29:52 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a720:6e27:acc4:d591])
-        by smtp.gmail.com with ESMTPSA id f5-20020a5d5685000000b0033657376b62sm8921726wrv.105.2023.12.18.07.29.51
+        by smtp.gmail.com with ESMTPSA id f5-20020a5d5685000000b0033657376b62sm8921726wrv.105.2023.12.18.07.29.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 07:29:51 -0800 (PST)
+        Mon, 18 Dec 2023 07:29:52 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] qemurunner: Impove stdout logging handling
-Date: Mon, 18 Dec 2023 15:29:50 +0000
-Message-Id: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] qemurunner: Impove handling of serial port output blocking
+Date: Mon, 18 Dec 2023 15:29:51 +0000
+Message-Id: <20231218152951.3398964-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 15:29:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192655
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192656
 
-We need to ensure we read from and log the output from qemu stdout
-as otherwise the buffers can fill and block, leading qemu to hand.
-Use our existing logging thread to do this.
+Similar to stdout in the previous commit, we need to ensure serial output
+if written is read and put somewhere, else qemu might block on writes to
+the serial port leading to hangs in the kernel. Use our existing logging
+thread to log data when run_serial is not in use.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 54 ++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 22 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 97 ++++++++++++++++++++++---------
+ 1 file changed, 68 insertions(+), 29 deletions(-)
 
 diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index ee367078000..36bdfb96ae6 100644
+index 36bdfb96ae6..16aa1c08d3e 100644
 --- a/meta/lib/oeqa/utils/qemurunner.py
 +++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -29,6 +29,15 @@ control_chars = [chr(x) for x in control_range
-                 if chr(x) not in string.printable]
- re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
+@@ -21,6 +21,7 @@ import threading
+ import codecs
+ import tempfile
+ from collections import defaultdict
++from contextlib import contextmanager
+ import importlib
  
-+def getOutput(o):
-+    import fcntl
-+    fl = fcntl.fcntl(o, fcntl.F_GETFL)
-+    fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+ # Get Unicode non printable control chars
+@@ -517,8 +518,12 @@ class QemuRunner:
+                 except Exception as e:
+                     self.logger.warning('Extra log data exception %s' % repr(e))
+                     data = None
++            self.thread.serial_lock.release()
+             return False
+ 
++        with self.thread.serial_lock:
++            self.thread.set_serialsock(self.server_socket)
++
+         # If we are not able to login the tests can continue
+         try:
+             (status, output) = self.run_serial(self.boot_patterns['send_login_user'], raw=True, timeout=120)
+@@ -653,31 +658,32 @@ class QemuRunner:
+ 
+         data = ''
+         status = 0
+-        self.server_socket.sendall(command.encode('utf-8'))
+-        start = time.time()
+-        end = start + timeout
+-        while True:
+-            now = time.time()
+-            if now >= end:
+-                data += "<<< run_serial(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
+-                break
+-            try:
+-                sread, _, _ = select.select([self.server_socket],[],[], end - now)
+-            except InterruptedError:
+-                continue
+-            if sread:
+-                # try to avoid reading single character at a time
+-                time.sleep(0.1)
+-                answer = self.server_socket.recv(1024)
+-                if answer:
+-                    data += answer.decode('utf-8')
+-                    # Search the prompt to stop
+-                    if re.search(self.boot_patterns['search_cmd_finished'], data):
+-                        break
+-                else:
+-                    if self.canexit:
+-                        return (1, "")
+-                    raise Exception("No data on serial console socket, connection closed?")
++        with self.thread.serial_lock:
++            self.server_socket.sendall(command.encode('utf-8'))
++            start = time.time()
++            end = start + timeout
++            while True:
++                now = time.time()
++                if now >= end:
++                    data += "<<< run_serial(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
++                    break
++                try:
++                    sread, _, _ = select.select([self.server_socket],[],[], end - now)
++                except InterruptedError:
++                    continue
++                if sread:
++                    # try to avoid reading single character at a time
++                    time.sleep(0.1)
++                    answer = self.server_socket.recv(1024)
++                    if answer:
++                        data += answer.decode('utf-8')
++                        # Search the prompt to stop
++                        if re.search(self.boot_patterns['search_cmd_finished'], data):
++                            break
++                    else:
++                        if self.canexit:
++                            return (1, "")
++                        raise Exception("No data on serial console socket, connection closed?")
+ 
+         if data:
+             if raw:
+@@ -696,6 +702,15 @@ class QemuRunner:
+                     status = 1
+         return (status, str(data))
+ 
++@contextmanager
++def nonblocking_lock(lock):
++    locked = lock.acquire(False)
 +    try:
-+        return os.read(o.fileno(), 1000000).decode("utf-8")
-+    except BlockingIOError:
-+        return ""
++        yield locked
++    finally:
++        if locked:
++            lock.release()
 +
- class QemuRunner:
- 
-     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, use_kvm, logger, use_slirp=False,
-@@ -55,6 +64,7 @@ class QemuRunner:
-         self.boottime = boottime
-         self.logged = False
-         self.thread = None
-+        self.threadsock = None
-         self.use_kvm = use_kvm
-         self.use_ovmf = use_ovmf
-         self.use_slirp = use_slirp
-@@ -119,21 +129,11 @@ class QemuRunner:
-                 f.write(msg)
-         self.msg += self.decode_qemulog(msg)
- 
--    def getOutput(self, o):
--        import fcntl
--        fl = fcntl.fcntl(o, fcntl.F_GETFL)
--        fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
--        try:
--            return os.read(o.fileno(), 1000000).decode("utf-8")
--        except BlockingIOError:
--            return ""
--
--
-     def handleSIGCHLD(self, signum, frame):
-         if self.runqemu and self.runqemu.poll():
-             if self.runqemu.returncode:
-                 self.logger.error('runqemu exited with code %d' % self.runqemu.returncode)
--                self.logger.error('Output from runqemu:\n%s' % self.getOutput(self.runqemu.stdout))
-+                self.logger.error('Output from runqemu:\n%s' % getOutput(self.runqemu.stdout))
-                 self.stop()
- 
-     def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
-@@ -282,7 +282,7 @@ class QemuRunner:
-                 if self.runqemu.returncode:
-                     # No point waiting any longer
-                     self.logger.warning('runqemu exited with code %d' % self.runqemu.returncode)
--                    self.logger.warning("Output from runqemu:\n%s" % self.getOutput(output))
-+                    self.logger.warning("Output from runqemu:\n%s" % getOutput(output))
-                     self.stop()
-                     return False
-             time.sleep(0.5)
-@@ -309,7 +309,7 @@ class QemuRunner:
-             ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command '], stdout=subprocess.PIPE).communicate()[0]
-             processes = ps.decode("utf-8")
-             self.logger.debug("Running processes:\n%s" % processes)
--            op = self.getOutput(output)
-+            op = getOutput(output)
-             self.stop()
-             if op:
-                 self.logger.error("Output from runqemu:\n%s" % op)
-@@ -387,7 +387,7 @@ class QemuRunner:
-                            time.time() - connect_time))
- 
-         # We are alive: qemu is running
--        out = self.getOutput(output)
-+        out = getOutput(output)
-         netconf = False # network configuration is not required by default
-         self.logger.debug("qemu started in %.2f seconds - qemu procces pid is %s (%s)" %
-                           (time.time() - (endtime - self.runqemutime),
-@@ -430,9 +430,10 @@ class QemuRunner:
-         self.logger.debug("Target IP: %s" % self.ip)
-         self.logger.debug("Server IP: %s" % self.server_ip)
- 
-+        self.thread = LoggingThread(self.log, self.threadsock, self.logger, self.runqemu.stdout)
-+        self.thread.start()
-+
-         if self.serial_ports >= 2:
--            self.thread = LoggingThread(self.log, self.threadsock, self.logger)
--            self.thread.start()
-             if not self.thread.connection_established.wait(self.boottime):
-                 self.logger.error("Didn't receive a console connection from qemu. "
-                              "Here is the qemu command line used:\n%s\nand "
-@@ -444,7 +445,7 @@ class QemuRunner:
-         self.logger.debug("Waiting at most %d seconds for login banner (%s)" %
-                           (self.boottime, time.strftime("%D %H:%M:%S")))
-         endtime = time.time() + self.boottime
--        filelist = [self.server_socket, self.runqemu.stdout]
-+        filelist = [self.server_socket]
-         reachedlogin = False
-         stopread = False
-         qemusock = None
-@@ -564,7 +565,7 @@ class QemuRunner:
-                 self.logger.debug("Sending SIGKILL to runqemu")
-                 os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
-             if not self.runqemu.stdout.closed:
--                self.logger.info("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
-+                self.logger.info("Output from runqemu:\n%s" % getOutput(self.runqemu.stdout))
-             self.runqemu.stdin.close()
-             self.runqemu.stdout.close()
-             self.runqemu_exited = True
-@@ -700,9 +701,11 @@ class QemuRunner:
+ # This class is for reading data from a socket and passing it to logfunc
+ # to be processed. It's completely event driven and has a straightforward
  # event loop. The mechanism for stopping the thread is a simple pipe which
- # will wake up the poll and allow for tearing everything down.
+@@ -703,8 +718,10 @@ class QemuRunner:
  class LoggingThread(threading.Thread):
--    def __init__(self, logfunc, sock, logger):
-+    def __init__(self, logfunc, sock, logger, qemuoutput):
+     def __init__(self, logfunc, sock, logger, qemuoutput):
          self.connection_established = threading.Event()
-+
++        self.serial_lock = threading.Lock()
+ 
          self.serversock = sock
-+        self.qemuoutput = qemuoutput
++        self.serialsock = None
+         self.qemuoutput = qemuoutput
          self.logfunc = logfunc
          self.logger = logger
-         self.readsock = None
-@@ -732,7 +735,8 @@ class LoggingThread(threading.Thread):
+@@ -717,9 +734,14 @@ class LoggingThread(threading.Thread):
  
-     def teardown(self):
-         self.logger.debug("Tearing down logging thread")
--        self.close_socket(self.serversock)
-+        if self.serversock:
-+            self.close_socket(self.serversock)
+         threading.Thread.__init__(self, target=self.threadtarget)
  
-         if self.readsock is not None:
-             self.close_socket(self.readsock)
-@@ -747,7 +751,9 @@ class LoggingThread(threading.Thread):
-     def eventloop(self):
-         poll = select.poll()
++    def set_serialsock(self, serialsock):
++        self.serialsock = serialsock
++
+     def threadtarget(self):
+         try:
+             self.eventloop()
++        except Exception as e:
++            self.logger.warning("Exception %s in logging thread" % repr(e))
+         finally:
+             self.teardown()
+ 
+@@ -753,6 +775,7 @@ class LoggingThread(threading.Thread):
          event_read_mask = self.errorevents | self.readevents
--        poll.register(self.serversock.fileno())
-+        if self.serversock:
-+            poll.register(self.serversock.fileno())
-+        poll.register(self.qemuoutput.fileno())
+         if self.serversock:
+             poll.register(self.serversock.fileno())
++        serial_registered = False
+         poll.register(self.qemuoutput.fileno())
          poll.register(self.readpipe, event_read_mask)
  
-         breakout = False
-@@ -767,7 +773,7 @@ class LoggingThread(threading.Thread):
-                     break
+@@ -760,7 +783,7 @@ class LoggingThread(threading.Thread):
+         self.running = True
+         self.logger.debug("Starting thread event loop")
+         while not breakout:
+-            events = poll.poll()
++            events = poll.poll(2)
+             for event in events:
+                 # An error occurred, bail out
+                 if event[1] & self.errorevents:
+@@ -785,18 +808,34 @@ class LoggingThread(threading.Thread):
  
-                 # A connection request was received
--                elif self.serversock.fileno() == event[0]:
-+                elif self.serversock and self.serversock.fileno() == event[0]:
-                     self.logger.debug("Connection request received")
-                     self.readsock, _ = self.serversock.accept()
-                     self.readsock.setblocking(0)
-@@ -781,6 +787,10 @@ class LoggingThread(threading.Thread):
+                 # Actual data to be logged
                  elif self.readsock.fileno() == event[0]:
-                     data = self.recv(1024)
+-                    data = self.recv(1024)
++                    data = self.recv(1024, self.readsock)
                      self.logfunc(data)
-+                elif self.qemuoutput.fileno() == event[0]:
-+                    data = getOutput(self.qemuoutput)
-+                    self.logger.debug("Data received on qemu stdout %s" % data)
-+                    self.logfunc(data, ".stdout")
+                 elif self.qemuoutput.fileno() == event[0]:
+                     data = getOutput(self.qemuoutput)
+                     self.logger.debug("Data received on qemu stdout %s" % data)
+                     self.logfunc(data, ".stdout")
++                elif self.serialsock and self.serialsock.fileno() == event[0]:
++                    if self.serial_lock.acquire(blocking=False):
++                        data = self.recv(1024, self.serialsock)
++                        self.logger.debug("Data received serial thread %s" % data.decode('utf-8', 'replace'))
++                        self.logfunc(data, ".2")
++                        self.serial_lock.release()
++                    else:
++                        serial_registered = False
++                        poll.unregister(self.serialsock.fileno())
++
++            if not serial_registered and self.serialsock:
++                with nonblocking_lock(self.serial_lock) as l:
++                    if l:
++                        serial_registered = True
++                        poll.register(self.serialsock.fileno(), event_read_mask)
++
  
      # Since the socket is non-blocking make sure to honor EAGAIN
      # and EWOULDBLOCK.
+-    def recv(self, count):
++    def recv(self, count, sock):
+         try:
+-            data = self.readsock.recv(count)
++            data = sock.recv(count)
+         except socket.error as e:
+             if e.errno == errno.EAGAIN or e.errno == errno.EWOULDBLOCK:
+                 return b''
 -- 
 2.39.2
 
