@@ -2,46 +2,39 @@ Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C03D5C41535
-	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 04:07:14 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.5241.1702958832722148478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD4A1C46CD2
+	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 04:08:24 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.5206.1702958902467924393
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Dec 2023 20:07:12 -0800
+ Mon, 18 Dec 2023 20:08:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=O2XXZe3w;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0717b75427=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BJ3WAKH023144
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 04:07:12 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Peqz4pBq;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0717b75427=changqing.li@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BJ2CrvL013868
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 20:08:22 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=message-id:date:subject:to:references:cc:from:in-reply-to
+	 h=message-id:date:subject:to:references:from:in-reply-to
 	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=PhnhFRe6q1B9ucv8moh1bt5V0DUvhM7A2NVeO02dhDA=; b=
-	O2XXZe3wlFg7EvdxR9Zk4rG0Qgjc9hcQhuLlA10SBwkItXNIPr+QKXON6BwrxGlS
-	LxAAqK/gO10cNRk9+D3PLuhhOwk6AqpxUS9O+OfrhLCjGfDxIkigiju0aPqCru4z
-	6Xo+X047XhWqDI1/p5prRENwSgEmWTRDyn4DJ1XucniIKf5LEGZd/kD28IZ7GBni
-	TdhuZeGMz3tr+vjpNwNzG58rOJp026/IUmneSjlswEFeq4d+sc4Ip2a5hpjYNKz2
-	NN74olGLgIyrmO9v1AIhVDpCVW2G8uwjRkmn7tpYfOPS3hUhMHH301ADTSVCSMX8
-	6HB16jtb0eN0ogyOxVEpVw==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v12v5trf5-1
+	PPS06212021; bh=GPCBtEEeKGLvD0UnAA1lFvtfj/QaWKKmeRyFoFtPC2s=; b=
+	Peqz4pBqNcYJ3cohnTKfav6GPslDyhxDhFaZVI9L5oubMevdufc+UwWrDXIiZZ5B
+	L20gXC9WmP5jWtJfS4eX9mQC6O2PA79ucLFSA/aocST/lJ5COc1UHjRfujpcu7QK
+	rbtGnuXOAY2l7hSz4L55tt/gv68cxeUaU5T5cTmUXIoz8fK8Tq136SC3OemlmB7+
+	Dc3TqCeeDVtgdkP7JbmEUETBCz7eEVgWTyfWqROPuIUnkoPFl1apf4t6dt+Ty/ac
+	xr0ZLU0CWeoIuvwGCdMlWMMegglLlK7H+WaTK3KlaQZfbsI3K1Ls81pvWr8V3izj
+	aj67YYDrjRjbwBxKYfoJSQ==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v1c9kjcy4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 04:07:11 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 3BJ47BK3029425
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 04:07:11 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v12v5trf2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 19 Dec 2023 04:07:11 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Dec 2023 20:08:21 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kZ4h63uhl78mDJEsFOiunnTbfjKerXDMlsCNUUgfk1qlVxGF28nEQtBYwbgvH+Ou55s10r5UVmOrAteYCmALDMd9r4SEPUKrcaPoEdCElVxpku+ouG9UFO90sSkfwfZ5FQe7bLkJDznBvm+aqgRo+CVe37IIZQmMgKQ8OSzNwhPS7YZYZWvU1VW37W6TBDdlk1o3lgnMNUoj8u4o38E7091p/dsbcF23wZMYgjfqb9bD+RYUd1mFleKta3Nl1GDxoAXncbTZeooRK4d2ALB6t5DmlqSmumdoQ3nKgrOEdWMsHTmRFE6Jm2uKTsjkHo41p4gbRRqxtMzXMcFe2C6yww==
+ b=ZC+YTcOH3jrPSnAYESTPu2jOGue9jorAgNXpxqrJ59cWeauvi+SOUEFctUnXLItiBYljT/3b0sWUkTdTzuCEe05RzdoxjxjGDVbZtIcDWS/zdSyYArgItp+xwtYVQIhHWDnnF+uIe6YbwkE1b7xd3m7ZYifMKp48MT9oz5NnpRuErJtuPabnsCYDezmx35N6sCBcTG4rU2lik3jnvFy6FaPw6nD+TgbdmbqzcZQl2lZHP+8Yn8b43Yr7bHkkupEejFRdAJjNfIxipvN7MMg6om59GJNQMhHIhyb+bDjBhScTKw/Ft25wgjlYBKtSl3nNq5q/4VPIjdlnY89+LfKnyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PhnhFRe6q1B9ucv8moh1bt5V0DUvhM7A2NVeO02dhDA=;
- b=RrWANXdtAVaHUS6R5u4JKMrs5svTswMwL8hRnTrC6tCY6SvRqqXxXjKI3uwOpHpFOGpd4ysVAzTmtWEE7145XHogsrsYYo2rAkzfHq1xubUujYAYtfo7UGnpdxwvPGvbAB0VvnEgjUD3TI7La+lwTr/w3P19MFfs1sZ7nwilmBKsizDDoxnEaYp+BcTjNh0y4f2WroLzphIzlt5nevf1ut2FtLl4mN7txVpRSRZJMGwxvyztOXOZy2JU12EgbBz17AyYgt+OcperW4PJd4M9xL6M4wc22Wm551DgY682bJxPUwvveoBFjY8qO0TDmGiJv4d0rJSnTFa91qOYfW+JLA==
+ bh=GPCBtEEeKGLvD0UnAA1lFvtfj/QaWKKmeRyFoFtPC2s=;
+ b=N3KX/ZM55+EghlOK9WEPoaENvMfzAekHQEb+cw/1P6PX5pBuyAV1Zb3XiZjLEhYPVa7OCToMzdoAW9pa1XRvMXuegiL7+jQADRqa+RT0McVvevzVkvpReDo7ndqAzIMq4px+0WGG61zVaem7goVkH/YeZUYHqZwYMOScI32yv8u5RjPg3AtJZl4xeAkNEkxkxO9J/XOpNzZuWxAUlgsSFXzSMpzjmIybwCE+um0wy9Xjh8KxTerKzyB9o9CuJUxgz/HBsQFGCsOHChSSwIIBpBITmj1jutYJ5M5Yf6l/jy1eNon1s+gxI9jR8Aw9a8PgNQsnFTTB0A0CahxwS0vG8A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -49,188 +42,420 @@ Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
  by DM4PR11MB5421.namprd11.prod.outlook.com (2603:10b6:5:398::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Tue, 19 Dec
- 2023 04:07:09 +0000
+ 2023 04:08:19 +0000
 Received: from DS0PR11MB7312.namprd11.prod.outlook.com
  ([fe80::4b52:5e25:a620:592]) by DS0PR11MB7312.namprd11.prod.outlook.com
  ([fe80::4b52:5e25:a620:592%7]) with mapi id 15.20.7091.034; Tue, 19 Dec 2023
- 04:07:09 +0000
-Message-ID: <7a8e831d-bb7e-4d3d-bda7-ba225e453bb0@windriver.com>
-Date: Tue, 19 Dec 2023 12:07:04 +0800
+ 04:08:19 +0000
+Message-ID: <3fd7ac0a-37f4-42a0-ab7b-b3d8793fa6b9@windriver.com>
+Date: Tue, 19 Dec 2023 12:08:18 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH V2] libxcrypt.inc: use alternatives to resolve
- crypt.3 conflict
+Subject: Re: [OE-core] [RFC PATCH V2 0/5] Fix persistent tmp
 Content-Language: en-US
 To: openembedded-core@lists.openembedded.org
-References: <179E2737483C0885.1352@lists.openembedded.org>
- <179E27474C306557.1352@lists.openembedded.org>
-Cc: Khem Raj <raj.khem@gmail.com>, Ross Burton <Ross.Burton@arm.com>
+References: <179FA115B6317FAF.20566@lists.openembedded.org>
 From: Changqing Li <changqing.li@windriver.com>
-In-Reply-To: <179E27474C306557.1352@lists.openembedded.org>
+In-Reply-To: <179FA115B6317FAF.20566@lists.openembedded.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: BY3PR04CA0002.namprd04.prod.outlook.com
  (2603:10b6:a03:217::7) To DS0PR11MB7312.namprd11.prod.outlook.com
  (2603:10b6:8:11f::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|DM4PR11MB5421:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35eaf201-f6cd-4848-4f45-08dc0047f858
+X-MS-Office365-Filtering-Correlation-Id: 86ec8149-0bc6-45c0-4949-08dc00482266
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	sO34yapge1y56/a6Q+jk3w913noUecCGNgF0roIA0HstSHVESYUyT8sOUWAwSgeMhGHDu27eTBM0U5wRkNzNa5YE/Ar9qLPeE96Zb2cyk1AgnQ9gEVfjbMqXKO3lnRXqNhMJgdXdFGs5YlDLBaHxNIGONdDIY0Jm+mDFtnIiuU0H0eKngOjJQ+4zUV5TrBPvupGQKzQ57CqFASZ/7uJA84fYb+1krwoTugxqQSh64veDhVctHwnRIONn72uYP2id9eKUggjG9PIaSf8rHPPMEYPrO3GhShHAauXWAExZ/QzvTW2A2YxsQNxS7gRU+nk4N+9+LgfU2CDUnk3DEOHZcSGYlur5JE65V+U0lMxpFMrH05ieNrKNrQ+XA0at1kbkcDuTTkHQjUI3hY4l1DygPWW2JqXlWKORi8lCE1LnlZEXWjwMNQ7wYbNs+4hit98+j6BjLTR/8jgdn2lqIRA/kCYhJ7eblI2oCAQ9bpPOavksEYmrSDd+ixTEEoZpRm4qUK4YUZpqRq0r+PIZIeD+wui+6ehiNdkVh50MiiqoU7B+0634sKBBHr1xURKxErzg2cKumgPfv6w+G74YVQMUx+icGgO+R6n7jvpI7QsQ+HzaCITuLbD41XvR5Ov+kuE3
+	5cvMJYqANJlC1SJ3XeirGBjTAtp+/mwqXhr4Ot62AEaIq1lcs17YkbTWOFUFqnYzNV5WTjcGQSlzuftk3V3JeaKf7lRY4isXJM7JM8TAgGGjmnzHvp6KxAitYDFvAUdzUr7P7UkbdzIQ4M0WBIrCcITX1ud1xfXWhjYsl+Sp0XTig4Wa8KrsdO9RWEiTZQo4WLU2FgF5S+iVrx/Qjv/S5bm0ZWnTWFpFgFyPvCY5mz44aBuxWeiq+dE1OjQWMCLV8EZiaxaIdlJBPLOhiOszGCq1F7W7bHHiUl1WET9QSfWsp0TiWldahh351/q8Cq3GOd3LzQjuNRNdCLcJkEAw2xpAJWB9mJvly/kXf+0U28vf2072JnxxF7ign4qXzEkYnenIWbsTUDacwGsTFY3JiOIdaAeZfR4CtOeHyhI1ezZMpx3vASaIEhvi7aqyuRFYTCdYtnnYhbNDxqFFINaAUKSCmjr/Q1KXIHpQQNi10E6UqxcLOofk/j705N1WAVCg27wUblAl8mvUfvYLHbsC2jDTwOmyq6ioKPYMNlqoztvu8MKxzmQyZnivMGx78A3qjj0kDgh1iZ3G2wb8fGXc/CPLYBSMYfxqE6tysXdXvCwPVxhOLJD7lF0R9gHu/JJ7DJSSCPj9seziWcIS0EsXgigFeyJqyXQZKb6BO31Uz/s=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(39850400004)(366004)(396003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(83380400001)(53546011)(2616005)(26005)(38100700002)(4326008)(8676002)(8936002)(5660300002)(44832011)(41300700001)(2906002)(478600001)(966005)(6486002)(6506007)(6512007)(6666004)(54906003)(66476007)(66556008)(66946007)(316002)(6916009)(36756003)(31696002)(86362001)(31686004)(66899024)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(39850400004)(366004)(396003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(83380400001)(53546011)(2616005)(26005)(38100700002)(8676002)(8936002)(5660300002)(44832011)(41300700001)(30864003)(2906002)(478600001)(966005)(6486002)(6506007)(6512007)(66476007)(66556008)(66946007)(316002)(6916009)(36756003)(31696002)(86362001)(31686004)(66899024)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?eDF5d29PeW9nRUJWcGVzRnV4YXJERjFGMTJacE5TS0gzTXJqTkl1cDg4dkF5?=
- =?utf-8?B?blI3M1lEdS9HNGc3M2lTa1c2NlBYNlZaaVgwS1Z6SFRZdUdCaGpWbXBFbFB2?=
- =?utf-8?B?NUJnaE8vRmo5VVNKNHErSWErbmlwYlhobUhBcnN0WnJxdFNXVytJUDR1czhm?=
- =?utf-8?B?dUtpT0t0UE5qZXlLL3A1UkMwWXMxWDc0UEpNTEl1NkdqRktnUnZjbkJWTXVR?=
- =?utf-8?B?U3hpZXM5Yi9ZQ29MS2wrbHNRUStENzRXQm1QN0JPWHhHcnMycENFS2dCa0xw?=
- =?utf-8?B?cmt4Z2dzb0wwSUpWbFJRMzNnd0dUN3Ewbzh4aDZJM3g1UlRZVHpodnZSaFBz?=
- =?utf-8?B?WnZtdEJzbE5CMnFSMnpLTUYxZ3lHZmJGNThOeVVjUkdiWGIvaWVhZEhhaW9O?=
- =?utf-8?B?ZUlsY0dnejhmYzUxdnYzYVJmVWYxeDhFSjJyeWJ5Q1V3TVBDR3g3ZExGL283?=
- =?utf-8?B?bERZYkJuRzVibmpKQXFwWGgycGpyNXFOR1puSFZRdm5TOEpiNVloZWsrWnpp?=
- =?utf-8?B?Y3orTUJ6cGhtcXp4OUltS2VyUXlpL2drZ0NDZTRreDlRMkdqQk5JTng2Mk1X?=
- =?utf-8?B?a3piOEV4bFdaUTQ3QUFFUktFUjg1VWxUQ3k1TThITUJrTXlMcnJhU3FpT1dF?=
- =?utf-8?B?S2J3UzF1VzJ6czV5OGx1UjdwckRMWWhramxLYU95OTRjZE5lNlpkcGZ0cWpl?=
- =?utf-8?B?djgrM3ZHSUZlK01lUm1LczNuMGcwUGFDdnN3eTVZZGxGN1YveTBKUzNGZEpR?=
- =?utf-8?B?RGN1M24vcmFIcVBwd3NQMFNOSTdiQTZCRHR2SzVVcUxVMGxpWm1VMThLN3g1?=
- =?utf-8?B?aUhkRjN3c0x5WlJGYWdmaXhnSlVmVDBocGdkVndGaTJCT2VZNUd4VzhhVU9B?=
- =?utf-8?B?cUxUamZXR2NMWG5uTDRjUGY5OFVuMmEvN2NVQ3Y4ZmE2SkpEV0xWN00wMElM?=
- =?utf-8?B?YUpZWFJrMytoaVNzczZRbTZrTmQvL1lUVTVZaUphUE5XZllqazVCcmxUR2Nv?=
- =?utf-8?B?b0hNNnhwMnpQVlc4VEZCUTdWTjBDSEFUcXd4clcrSWttMFplYVQvRjQzY1Mx?=
- =?utf-8?B?ODhid3dyUmV4bzJKODhDckQzTnZmUXJPMWJISndBVjVkOEFFeVZEbHlLNWJJ?=
- =?utf-8?B?WVlIa0lCREZ2TjViOVhWSm12VWZBNkJpN090Q1M3dExkOXVDTXJtSUZEWTh5?=
- =?utf-8?B?MjFNK0xSeXlWdCs0TjJTM3JwTCtEeXp4OXoxZnc5SU8xU3JEZlRvVnFpT2NJ?=
- =?utf-8?B?eE1ORmZEZ2ZrVWRoL0hFQWtXSlMvVUhPMEY1d2ZmSXBVTHhtZ21tVFpqYnAz?=
- =?utf-8?B?QUcvZGJZaW1EY1B5WmM4VldYM2tEbU1TQmRYSHdVZC8yaktmWmFiVG5EK3pB?=
- =?utf-8?B?dTVuMTc4a2NZWkJaUVVBcWFTWTFzMFdFbEpqWHhFMS94MkVKRklWZG13T2tE?=
- =?utf-8?B?YzVZbEdFNmdLaXdSOStxYUVqK1htbUhzNG9XU0dzb2kyeUk2MXhWbVYwbWdm?=
- =?utf-8?B?YnZlRGUwUW56NFRkam9HNVQ5SFFEdXJGaENrYThLdTc0RVRZUW9kR0U4R1FN?=
- =?utf-8?B?Vk9kVFoxUGpRd2d5dFV6RTRqcVQyQ1oyUHpSZytXKytlckVnUFN2NGw4YUhJ?=
- =?utf-8?B?cGM2aFpzT3pSaG1uRlB0VEpvazZhdHhWbUlOVFpoYTh0cVRaQ0x2YnJtbmdI?=
- =?utf-8?B?Z0ZrQmRNUE1vWWxNdkJ6Ym95RWtCRHZhcFFtcFBJeHZEbXB6L296YlQ4MExp?=
- =?utf-8?B?ZHhNdktGdjF5bm03dnpkWVVmSWYvQnRqNTJIOHBRQ1ZTWWYvdXk1N3g4MURD?=
- =?utf-8?B?YlFzMVEwc1NRbTlpcEVvUjVOK1BQTkRHajN0OStmQXdha3g5cDRBTlFZRVJM?=
- =?utf-8?B?elNrbXBkbWV2cWx3R3JOL3N6V0FyN2Nyay94dUQ4N0lNams5L0VnUGZlK3Nh?=
- =?utf-8?B?LzRGUHJEdEtGcjhqRHE0dStEcVVQcVFTTG1WYTRETXN3dGhzY1JSdjhDS0ZT?=
- =?utf-8?B?TStlVXk5a2ZxTW1UVHhzNDBXN2ZuWE1TZXhMUTJjZS8yRDF2ZytsdHJMTG9v?=
- =?utf-8?B?SHlXRzlsemIzdlUvRFVQdVNwNkcyMnZIOWJLSmM3dWFIVVh1VnlUMys5US9X?=
- =?utf-8?B?T2lmdGo4bFpYRnZBVm1RT0duSnd2ZzZxYXVFTU9uTmxyVE9tVUg5WWlWcEhB?=
- =?utf-8?B?bHc9PQ==?=
+	=?utf-8?B?S2FNb0x3NzVnZlQ2ZVVEYTNvOHcya1VVUS9GVlRGNEh3TXF2ZVdzS3RaQnlY?=
+ =?utf-8?B?RUlKMlYxd2dJenJEVC95Rm1lQUlLOG1GTmVOZGwvcmU1WTJkc3hRVnV2bGtR?=
+ =?utf-8?B?bG43VVBZSnBQWVVpd2JXZUNURmpqSk9vaUFydUhJckM5Q3pxYjFOWENhTXEx?=
+ =?utf-8?B?Z3QvT0NrOStJMGlYYTFCRDV1TDR2bG5SUlRwREFYQ3h6VjdvdUh4UXdEeW82?=
+ =?utf-8?B?VDRERzArbEdIVmVGYUZFUVVsSmVoeXdxajVsRVpPT0dpSW8rZG5ZMEdaT2Uz?=
+ =?utf-8?B?WkNJOG8vRktlY1BsVlU0S3lTb0tybnZFWGRYNjdmWUh2cWNCWWU0YU5LMG9O?=
+ =?utf-8?B?SExYQytrd2d2QndJVW0zMWQ1Z1EzRGptOE9SWnBTQkV6K1dhbm1GOFU0SHhj?=
+ =?utf-8?B?TDhRc3BWTVNsZUFtUVpkNHJiVFNESlZnVlFRQkdyWWFFL0REYkNIRU1xUHRo?=
+ =?utf-8?B?cGNTZnA1cFg1Wk9HWFJKa0FzU2EzenZLOU5uVE56OTUvOG1UWDNGS3lNZC9T?=
+ =?utf-8?B?WHNYbHpsNzdCL2JlV3V5RDNDc2hDNHlTVFhTMXRFeHo0ZmZVMldDR2Mwb3Ev?=
+ =?utf-8?B?Vmt6bVlqeE5TUTBwZFFKYVQ4VmhZOWwzcGFDSWhPdFBDb1VIKzJLbWRQUzYy?=
+ =?utf-8?B?czJaS0VkUTJaS0NORmRXTHlEQXBjU2VhcmxFNlJOcG5ORU1yVnBpSm43NEdK?=
+ =?utf-8?B?NHZ0clRMOVZJL2lyOUNiajZIRHZuZmNVU2ZFb2xrQksxZTZsdS92SDgveG1Y?=
+ =?utf-8?B?WHBmcmRrUlhkVmM3a1FBd1p2a3hEYWRUOGFzRnVmNnBRSDBYaDVDTzMwbnY4?=
+ =?utf-8?B?TkxZRE0yQWlxQlY0RVVTeXdVUU9rbXEyTW5OalZ2TzhJdU52TlREVlJMeTZh?=
+ =?utf-8?B?elI2T2NpWVloamRlUExYSTVpd1hKR095ck92WHdmRmdFOFVyQjM4WUpQVVdQ?=
+ =?utf-8?B?SkgrTTY2dGpuTUpudEZiNWVtZHhUenNpaVNQUCt2Wnh5OGkwSGluVHpwRWxC?=
+ =?utf-8?B?MDVObGgrQWlYOE11Wm1BVlowaWk3TGtKOUxhK1NWZ0VBMmxaQnlRT0lFOHky?=
+ =?utf-8?B?cVJRUzFtNUduNWswTVdVYkVwQXZGR3VJWkFmTlI0REZXSGdBRVlhbFVYSXp3?=
+ =?utf-8?B?OGc4TWc1UTY2TURUcnYwNEZpK1lxWUhlV1hzSGdzZ3BodmJJTThWUHVxVTl6?=
+ =?utf-8?B?R2RmV0ZicTNwNjc5c24vMnlNQWltVVB4ZUZuWndmbDJXd0FQMDdzUVRBengv?=
+ =?utf-8?B?ZVRuWWowYXRMQWtHcjR5eWEwYUxSOHhla1lNRlpPMjRDTEpqOVQvRGVKU0N3?=
+ =?utf-8?B?RkUwdHc5VExuemU3UXJwT3Q3RFhjamZoSDdESlQrNDF5Z2ZlYmNHVVVZWEJI?=
+ =?utf-8?B?UUYxNzRSZkpGTlM4VVY5T3RWSldCU2tibDdpS1YzamVVYkJ5eFVVZVFicCty?=
+ =?utf-8?B?Z09RS3pkTXBHWjQ4MFhCa052MDJlZ1hQSHh5V05RRzVWdVYxdFFxN2RYVStJ?=
+ =?utf-8?B?M2U3ci9ETERiR1ByYlB1MW5qUXNDN3k4VFNuOTRFQmE3c1ZYcU83RXFlcUdw?=
+ =?utf-8?B?bndSeDB3SUlWb2FkSHNqL0JZeERpeUZDaXRVUzA4OHJoZjIzdHBxZjFUR3Q2?=
+ =?utf-8?B?VzdhenpTRHdCRG5hcjQ1OGppaXlvVmMrRVozbmVIcnFHdjkvV3poblRZQWVu?=
+ =?utf-8?B?bG82aHkvNS9zSTlMQVVIS0tmbTEzZmovSUxJQWVSME9jRjFXa1NxTy80ZGpC?=
+ =?utf-8?B?YjA4ZG9sTEwvblNBUkxjaTNmNGFWOHBvdnBhOStINnN1VnlpdHRSVXZQU1gv?=
+ =?utf-8?B?Yng0NFU2YTdFcWZJNlhaTnVDdWdua2NBM2hLNTdzWFd0ZDdua1gxSkt3YWJx?=
+ =?utf-8?B?YzJEOVQ3UFZMNGR3ZXdpQURtQXkwWXMxbEFUeGIrRE15eCtoRXdrTFdOdVMz?=
+ =?utf-8?B?THhpMFNnbGJLNkNLU0srK2IweG90OGpGN1gyUDFVWSt5TWNKL1dnMmFTd25M?=
+ =?utf-8?B?ODB1WW4zQWhPK3FLRTJwdEQ1WlVWeDAwZDdCanNFbWlKNFpyaVRRZklLZ2dW?=
+ =?utf-8?B?Nm9iSnJ5ZlltT0ptblpRc1RValErN2plY1I1R1VsWURmNWdDVmw5SnVwN1A4?=
+ =?utf-8?B?bWUrclkrNkNDQXZSN25Yc0FBdGhhT1hnNnM4N21CYmZ5MFdKajRoSVk3VDI3?=
+ =?utf-8?B?eGc9PQ==?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35eaf201-f6cd-4848-4f45-08dc0047f858
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86ec8149-0bc6-45c0-4949-08dc00482266
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2023 04:07:09.0401
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2023 04:08:19.5825
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i3d5+moJLJ6Sf2yGI3SZE6kw/gLKALIEtWLQkv80Ze/jJOGyQFbQqzIA8cpaNXtXwZS64xWcizFpUPH8nrlj899lSDapXZzO3rWhIYqcwAg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q8LVNbPnUoCtAt1K9LOg0zNmfeXTO4S1cRhvUe6JaZhihWdHcz7C5mp0xNpQZDxgeglxUcbttIPwqvC5rnKm8fMM6+v1THv0XLhDQ/wgPHk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5421
-X-Proofpoint-ORIG-GUID: nJNRh7vxujo4Y0RiAk1LgU8MmhLBOStU
-X-Proofpoint-GUID: jenflwBDuwrfPhL_rLZmC_TqjGoY-JIW
+X-Proofpoint-GUID: 3SVmEKQD5SpKBC1HqhKvb91YvvzwzD0K
+X-Proofpoint-ORIG-GUID: 3SVmEKQD5SpKBC1HqhKvb91YvvzwzD0K
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- impostorscore=0 suspectscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
- priorityscore=1501 spamscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2311290000 definitions=main-2312190028
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 3BJ3WAKH023144
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=865 clxscore=1015 bulkscore=0
+ impostorscore=0 malwarescore=0 suspectscore=0 spamscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312190028
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 04:07:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192689
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 04:08:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192690
 
-Kindly ping
+kindly ping
 
-
-And why have this change:
-
-In old version of man-pages's README,=C2=A0 it mentioned:
-
-Note that sometimes these pages are duplicates of pages also distributed=20
-in other
-packages. Be careful not to overwrite more up-to-date versions.
-
-So we set man-pages to lower priority,=C2=A0 so the doc in the related=20
-packages are used.
-
-
-And if we delete them from man-pages recipes, it will make man-pages=20
-missing these docs
-
-when eg: libcrypt-doc is not installed.
-
-in man-pages recipe, ALTERNATIVE_PRIORITY set to 100. So I send an V2 to=20
-update
-
-ALTERNATIVE_PRIORITY of libcrypt-doc to 200.
-
-Regards
-
-Changqing
-
-
-
-On 12/6/23 13:34, Changqing Li wrote:
+On 12/11/23 08:58, Changqing Li wrote:
 > From: Changqing Li <changqing.li@windriver.com>
 >
-> To fix:
+> Hi, All
 >
-> Error: Transaction test error:
->    file /usr/share/man/man3/crypt.3 from install of
->    libcrypt-doc-4.4.33-r0.x86_64 conflicts with file from package
->    man-pages-6.04-r0.x86_64
+> Currently, VOLATILE_TMP_DIR not works,
+> set VOLATILE_TMP_DIR="no", VOLATILE_LOG_DIR="no", after boot target,
+> /var/tmp still link to tmpfs /var/volatile/tmp
 >
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->   meta/recipes-core/libxcrypt/libxcrypt.inc | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+> lrwxrwxrwx  1 root root   11 Mar  9  2018 lock -> ../run/lock
+> drwxr-xr-x  4 root root 1024 Dec  4 07:55 log
+> lrwxrwxrwx  1 root root    6 Mar  9  2018 run -> ../run
+> drwxr-xr-x  3 root root 1024 Mar  9  2018 spool
+> lrwxrwxrwx  1 root root   12 Mar  9  2018 tmp -> volatile/tmp
+> drwxrwxrwt  4 root root   80 Dec  4 07:55 volatile
 >
-> diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-c=
-ore/libxcrypt/libxcrypt.inc
-> index ba93d91aef..1a45df2618 100644
-> --- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-> +++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSING;md5=3Dc0a30e2b15=
-02c55a7f37e412cd6c6a4b \
->                       file://COPYING.LIB;md5=3D4fbd65380cdd255951079008=
-b364516c \
->                       "
->  =20
-> -inherit autotools pkgconfig
-> +inherit autotools pkgconfig update-alternatives
->  =20
->   SRC_URI =3D "git://github.com/besser82/libxcrypt.git;branch=3D${SRCBR=
-ANCH};protocol=3Dhttps"
->   SRCREV =3D "f531a36aa916a22ef2ce7d270ba381e264250cbf"
-> @@ -26,4 +26,9 @@ CPPFLAGS:append:class-nativesdk =3D " -Wno-error"
->   API =3D "--disable-obsolete-api"
->   EXTRA_OECONF +=3D "${API}"
->  =20
-> +ALTERNATIVE_PRIORITY =3D "200"
-> +ALTERNATIVE:${PN}-doc =3D "crypt.3 crypt_r.3"
-> +ALTERNATIVE_LINK_NAME[crypt.3] =3D "${mandir}/man3/crypt.3"
-> +ALTERNATIVE_LINK_NAME[crypt_r.3] =3D "${mandir}/man3/crypt_r.3"
-> +
->   BBCLASSEXTEND =3D "native nativesdk"
+> So I do some research, fix this issue and do some other changes accordingly. Please
+> help to review this patch, thanks.
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Targets:
+> 1. Support persistent tmp,  For persistent tmp, only /var/tmp is persistent, /tmp is tmpfs,
+>     For volatile tmp, /tmp link to /var/tmp, /var/tmp link to /var/volatile/tmp
+> 2. make systemd and SysVinit have the same directory structure.
+>
+> Currently, systemd and SysVinit have different directory structure, the difference focus on how to handle /tmp.
+>
+> when volatile is enabled, for sysVinit, /tmp link to /var/tmp, /var/tmp link to /var/volatile/tmp
+> refer [4][5]. but for systemd, /tmp is a directory, it is mounted by systemd as tmpfs. /var/tmp
+> linked to /var/volatile/tmp.  And for systemd, refer [6], set different age for /tmp and /var/tmp.
+>
+> Since volatile disabled not works, ignore the difference when volatile is disabled.
+>
+> With this patch, VOLATILE_TMP_DIR will behavior like this:
+> For both sysvinit and systemd:
+> 1. VOLATILE_TMP_DIR="yes":
+> /tmp link to /var/tmp,  /var/tmp link to /var/volatile/log,  /var/volatile is mounted as tmpfs
+> In this case, for systemd, /tmp and /var/tmp will set to the same age, 10d.
+>
+> Compare to current behavior, there are 2 changes:
+>     1) for systemd,  /tmp changed from a directy to a symlink to /var/tmp
+>     2) age of /tmp and /var/tmp will be same
+>
+> 2. VOLATILE_TMP_DIR="no":
+> /tmp is a directory mounted as tmpfs, /var/tmp is a directory on persistent fs, and keep the age as [6]
+>
+> Change like this in order to meet [1][2], also maybe [3] for systemd.
+>
+> Compare to current behavior, there is one change:
+>     1) for sysVinit, /tmp changed from a symlink to a directory
+>
+> [1] https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s18.html
+> [2] https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch05s15.html
+> [3] https://systemd.io/TEMPORARY_DIRECTORIES/
+> [4] https://git.openembedded.org/openembedded/tree/docs/usermanual/chapters/recipes.xml#n3535
+> [5] https://git.openembedded.org/openembedded-core/commit/?id=12c4acd7ac5a27cf3676065b60f1c8395c96854c
+> [6] https://github.com/systemd/systemd/blob/main/tmpfiles.d/tmp.conf
+> [7] https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html
+>
+>
+> Test Result of following cases:
+> 1.
+> SysVinit
+> VOLATILE_TMP_DIR="yes"
+> VOLATILE_LOG_DIR="yes"
+>
+> root@qemux86-64:~# ls -al /tmp
+> lrwxrwxrwx    1 root     root             8 Dec  8 08:51 /tmp -> /var/tmp
+> root@qemux86-64:~# ls -al /var/log
+> lrwxrwxrwx    1 root     root            17 Dec  8 08:51 /var/log -> /var/volatile/log
+> root@qemux86-64:~# ls -al /var/tmp
+> lrwxrwxrwx    1 root     root            17 Dec  8 08:51 /var/tmp -> /var/volatile/tmp
+> root@qemux86-64:~# mount | grep volatile
+> tmpfs on /var/volatile type tmpfs (rw,relatime)
+> root@qemux86-64:~#
+>
+> 2.
+> SysVinit
+> VOLATILE_TMP_DIR="no"
+> VOLATILE_LOG_DIR="no"
+>
+> root@qemux86-64:/# ls -al
+> drwxr-xr-x   18 root     root          1024 Dec  8 09:22 .
+> drwxr-xr-x   18 root     root          1024 Dec  8 09:22 ..
+> drwxr-xr-x    2 root     root          3072 Mar  9  2018 bin
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 boot
+> drwxr-xr-x   13 root     root          2960 Dec  8 09:24 dev
+> drwxr-xr-x   20 root     root          1024 Dec  8 09:24 etc
+> drwxr-xr-x    3 root     root          1024 Mar  9  2018 home
+> drwxr-xr-x    6 root     root          1024 Mar  9  2018 lib
+> drwx------    2 root     root         12288 Dec  8 09:22 lost+found
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 media
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 mnt
+> dr-xr-xr-x  161 root     root             0 Dec  8 09:24 proc
+> drwxr-xr-x    4 root     root           240 Dec  8 09:24 run
+> drwxr-xr-x    2 root     root          3072 Mar  9  2018 sbin
+> dr-xr-xr-x   12 root     root             0 Dec  8 09:24 sys
+> drwxrwxrwt    2 root     root            40 Dec  8 09:24 tmp
+> drwxr-xr-x    9 root     root          1024 Mar  9  2018 usr
+> drwxr-xr-x   10 root     root          1024 Dec  8 09:24 var
+> root@qemux86-64:/# cd /var/
+> root@qemux86-64:/var# ls -al
+> drwxr-xr-x   10 root     root          1024 Dec  8 09:24 .
+> drwxr-xr-x   18 root     root          1024 Dec  8 09:22 ..
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 backups
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 cache
+> drwxr-xr-x    4 root     root          1024 Mar  9  2018 lib
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 local
+> lrwxrwxrwx    1 root     root             9 Dec  8 09:24 lock -> /run/lock
+> drwxr-xr-x    2 root     root          1024 Dec  8 09:24 log
+> lrwxrwxrwx    1 root     root             4 Dec  8 09:24 run -> /run
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 spool
+> drwxrwxrwt    2 root     root          1024 Mar  9  2018 tmp
+> drwxrwxrwt    4 root     root            80 Dec  8 09:24 volatile
+> root@qemux86-64:/var# mount | grep tmpfs
+> devtmpfs on /dev type devtmpfs (rw,relatime,size=1012164k,nr_inodes=253041,mode=755)
+> tmpfs on /run type tmpfs (rw,nosuid,nodev,mode=755)
+> tmpfs on /var/volatile type tmpfs (rw,relatime)
+> tmpfs on /tmp type tmpfs (rw,nosuid,nodev,nr_inodes=1048576)
+> root@qemux86-64:/var#
+>
+>
+> 3.
+> systemd
+> VOLATILE_TMP_DIR="yes"
+> VOLATILE_LOG_DIR="yes"
+>
+> root@qemux86-64:/# ls -al /tmp
+> lrwxrwxrwx    1 root     root             8 Dec  8 08:49 /tmp -> /var/tmp
+>             8 Dec  8 08:49 /tmp -> /var/tmp
+> root@qemux86-64:/# cd /var/
+> root@qemux86-64:/var# ls -al tmp
+> lrwxrwxrwx    1 root     root            12 Mar  9  2018 tmp -> volatile/tmp
+> root@qemux86-64:/var# ls -al log
+> lrwxrwxrwx    1 root     root            12 Mar  9  2018 log -> volatile/log
+> root@qemux86-64:/var# mount | grep tmp
+> devtmpfs on /dev type devtmpfs (rw,relatime,size=1012160k,nr_inodes=253040,mode=755)
+> tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+> tmpfs on /run type tmpfs (rw,nosuid,nodev,size=405732k,nr_inodes=819200,mode=755)
+> tmpfs on /sys/fs/cgroup type tmpfs (ro,nosuid,nodev,noexec,size=4096k,nr_inodes=1024,mode=755)
+> tmpfs on /var/volatile type tmpfs (rw,relatime)
+> root@qemux86-64:/var#
+>
+> 4.
+> systemd
+> VOLATILE_TMP_DIR="no"
+> VOLATILE_LOG_DIR="no"
+>
+> root@qemux86-64:/# ls -al
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:16 .
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:16 ..
+> lrwxrwxrwx    1 root     root             7 Mar  9  2018 bin -> usr/bin
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 boot
+> drwxr-xr-x   14 root     root          3260 Dec  8 09:16 dev
+> drwxr-xr-x   21 root     root          3072 Dec  8 09:16 etc
+> drwxr-xr-x    3 root     root          1024 Mar  9  2018 home
+> lrwxrwxrwx    1 root     root             7 Mar  9  2018 lib -> usr/lib
+> drwx------    2 root     root         12288 Dec  8 09:16 lost+found
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 media
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 mnt
+> dr-xr-xr-x  173 root     root             0 Dec  8 09:16 proc
+> drwx------    3 root     root          1024 Dec  8 09:16 root
+> drwxr-xr-x   11 root     root           320 Dec  8 09:16 run
+> lrwxrwxrwx    1 root     root             8 Mar  9  2018 sbin -> usr/sbin
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 srv
+> dr-xr-xr-x   12 root     root             0 Dec  8 09:16 sys
+> drwxrwxrwt    9 root     root           180 Dec  8 09:16 tmp
+> drwxr-xr-x   10 root     root          1024 Mar  9  2018 usr
+> drwxr-xr-x   10 root     root          1024 Dec  8 09:16 var
+> root@qemux86-64:/# cd /var/
+> root@qemux86-64:/var# ls -al
+> drwxr-xr-x   10 root     root          1024 Dec  8 09:16 .
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:16 ..
+> -rw-r--r--    1 root     root           208 Mar  9  2018 .updated
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 backups
+> drwxr-xr-x    4 root     root          1024 Dec  8 09:16 cache
+> drwxr-xr-x    6 root     root          1024 Dec  8 09:16 lib
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 local
+> lrwxrwxrwx    1 root     root            11 Mar  9  2018 lock -> ../run/lock
+> drwxr-xr-x    4 root     root          1024 Dec  8 09:16 log
+> lrwxrwxrwx    1 root     root             6 Mar  9  2018 run -> ../run
+> drwxr-xr-x    3 root     root          1024 Mar  9  2018 spool
+> drwxrwxrwt    5 root     root          1024 Dec  8 09:16 tmp
+> drwxrwxrwt    2 root     root            40 Dec  8 09:16 volatile
+> root@qemux86-64:/var# mount | grep tmpfs
+> devtmpfs on /dev type devtmpfs (rw,relatime,size=1012164k,nr_inodes=253041,mode=755)
+> tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+> tmpfs on /run type tmpfs (rw,nosuid,nodev,size=405732k,nr_inodes=819200,mode=755)
+> tmpfs on /sys/fs/cgroup type tmpfs (ro,nosuid,nodev,noexec,size=4096k,nr_inodes=1024,mode=755)
+> tmpfs on /tmp type tmpfs (rw,nosuid,nodev,nr_inodes=1048576)
+> tmpfs on /var/volatile type tmpfs (rw,relatime)
+> root@qemux86-64:/var#
+>
+> 5.
+> SysVinit
+> VOLATILE_TMP_DIR="yes"
+> VOLATILE_LOG_DIR="no"
+>
+> root@qemux86-64:/# ls -al
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:40 .
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:40 ..
+> drwxr-xr-x    2 root     root          3072 Mar  9  2018 bin
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 boot
+> drwxr-xr-x   13 root     root          2960 Dec  8 09:40 dev
+> drwxr-xr-x   20 root     root          1024 Dec  8 09:40 etc
+> drwxr-xr-x    3 root     root          1024 Mar  9  2018 home
+> drwxr-xr-x    6 root     root          1024 Mar  9  2018 lib
+> drwx------    2 root     root         12288 Dec  8 09:40 lost+found
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 media
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 mnt
+> dr-xr-xr-x  159 root     root             0 Dec  8 09:40 proc
+> drwxr-xr-x    4 root     root           240 Dec  8 09:40 run
+> drwxr-xr-x    2 root     root          3072 Mar  9  2018 sbin
+> dr-xr-xr-x   12 root     root             0 Dec  8 09:40 sys
+> lrwxrwxrwx    1 root     root             8 Dec  8 09:40 tmp -> /var/tmp
+> drwxr-xr-x    9 root     root          1024 Mar  9  2018 usr
+> drwxr-xr-x    9 root     root          1024 Dec  8 09:40 var
+> root@qemux86-64:/# cd /var/
+> root@qemux86-64:/var# ls -al
+> drwxr-xr-x    9 root     root          1024 Dec  8 09:40 .
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:40 ..
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 backups
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 cache
+> drwxr-xr-x    4 root     root          1024 Mar  9  2018 lib
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 local
+> lrwxrwxrwx    1 root     root             9 Dec  8 09:40 lock -> /run/lock
+> drwxr-xr-x    2 root     root          1024 Dec  8 09:40 log
+> lrwxrwxrwx    1 root     root             4 Dec  8 09:40 run -> /run
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 spool
+> lrwxrwxrwx    1 root     root            17 Dec  8 09:40 tmp -> /var/volatile/tmp
+> drwxrwxrwt    3 root     root            60 Dec  8 09:40 volatile
+> root@qemux86-64:/var# mount | grep tmp
+> devtmpfs on /dev type devtmpfs (rw,relatime,size=1012164k,nr_inodes=253041,mode=755)
+> tmpfs on /run type tmpfs (rw,nosuid,nodev,mode=755)
+> tmpfs on /var/volatile type tmpfs (rw,relatime)
+> root@qemux86-64:/var#
+>
+>
+> 6.
+> systemd
+> VOLATILE_TMP_DIR="no"
+> VOLATILE_LOG_DIR="yes"
+>
+> root@qemux86-64:/# ls -al
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:46 .
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:46 ..
+> lrwxrwxrwx    1 root     root             7 Mar  9  2018 bin -> usr/bin
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 boot
+> drwxr-xr-x   14 root     root          3260 Dec  8 09:46 dev
+> drwxr-xr-x   21 root     root          3072 Dec  8 09:46 etc
+> drwxr-xr-x    3 root     root          1024 Mar  9  2018 home
+> lrwxrwxrwx    1 root     root             7 Mar  9  2018 lib -> usr/lib
+> drwx------    2 root     root         12288 Dec  8 09:44 lost+found
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 media
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 mnt
+> dr-xr-xr-x  173 root     root             0 Dec  8 09:46 proc
+> drwx------    3 root     root          1024 Dec  8 09:46 root
+> drwxr-xr-x   11 root     root           320 Dec  8 09:46 run
+> lrwxrwxrwx    1 root     root             8 Mar  9  2018 sbin -> usr/sbin
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 srv
+> dr-xr-xr-x   12 root     root             0 Dec  8 09:46 sys
+> drwxrwxrwt    9 root     root           180 Dec  8 09:46 tmp
+> drwxr-xr-x   10 root     root          1024 Mar  9  2018 usr
+> drwxr-xr-x    9 root     root          1024 Dec  8 09:46 var
+> root@qemux86-64:/# cd /var/
+> root@qemux86-64:/var# ls -al
+> drwxr-xr-x    9 root     root          1024 Dec  8 09:46 .
+> drwxr-xr-x   17 root     root          1024 Dec  8 09:46 ..
+> -rw-r--r--    1 root     root           208 Mar  9  2018 .updated
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 backups
+> drwxr-xr-x    4 root     root          1024 Dec  8 09:46 cache
+> drwxr-xr-x    6 root     root          1024 Dec  8 09:46 lib
+> drwxr-xr-x    2 root     root          1024 Mar  9  2018 local
+> lrwxrwxrwx    1 root     root            11 Mar  9  2018 lock -> ../run/lock
+> lrwxrwxrwx    1 root     root            12 Mar  9  2018 log -> volatile/log
+> lrwxrwxrwx    1 root     root             6 Mar  9  2018 run -> ../run
+> drwxr-xr-x    3 root     root          1024 Mar  9  2018 spool
+> drwxrwxrwt    5 root     root          1024 Dec  8 09:46 tmp
+> drwxrwxrwt    3 root     root            60 Dec  8 09:46 volatile
+> root@qemux86-64:/var# mount | grep tmp
+> devtmpfs on /dev type devtmpfs (rw,relatime,size=1012164k,nr_inodes=253041,mode=755)
+> tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+> tmpfs on /run type tmpfs (rw,nosuid,nodev,size=405732k,nr_inodes=819200,mode=755)
+> tmpfs on /sys/fs/cgroup type tmpfs (ro,nosuid,nodev,noexec,size=4096k,nr_inodes=1024,mode=755)
+> tmpfs on /tmp type tmpfs (rw,nosuid,nodev,nr_inodes=1048576)
+> tmpfs on /var/volatile type tmpfs (rw,relatime)
+> root@qemux86-64:/var#
+>
+> Changqing Li (5):
+>    bitbake.conf: set correct FILESYSTEM_PERMS_TABLES
+>    base-files: update dirs1777 and volatiles according to
+>      VOLATILE_TMP_DIR
+>    initscripts: support persistent tmp
+>    systemd: support persistent tmp
+>    eudev: create dir /tmp if persistent tmp is used
+>
+>   meta/conf/bitbake.conf                        |  5 ++-
+>   ...fs-perms.txt => fs-perms-volatile-log.txt} | 32 -------------------
+>   ...tent-log.txt => fs-perms-volatile-tmp.txt} | 27 ----------------
+>   meta/files/fs-perms.txt                       |  3 --
+>   .../base-files/base-files_3.0.14.bb           |  8 +++--
+>   .../initscripts/initscripts-1.0/volatiles     |  1 +
+>   .../initscripts/initscripts_1.0.bb            | 12 ++++---
+>   .../systemd/systemd/00-create-volatile.conf   |  3 +-
+>   meta/recipes-core/systemd/systemd_254.4.bb    | 23 +++++++++----
+>   meta/recipes-core/udev/eudev_3.2.14.bb        |  4 +++
+>   10 files changed, 40 insertions(+), 78 deletions(-)
+>   copy meta/files/{fs-perms.txt => fs-perms-volatile-log.txt} (53%)
+>   rename meta/files/{fs-perms-persistent-log.txt => fs-perms-volatile-tmp.txt} (59%)
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#191868): https://lists.openembedded.org/g/openembed=
-ded-core/message/191868
-> Mute This Topic: https://lists.openembedded.org/mt/103008188/3616873
+> View/Reply Online (#192130): https://lists.openembedded.org/g/openembedded-core/message/192130
+> Mute This Topic: https://lists.openembedded.org/mt/103100474/3616873
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-changqing.li@eng.windriver.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [changqing.li@eng.windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
