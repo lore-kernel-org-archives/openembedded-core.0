@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D10F1C46CD3
-	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 13:48:39 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.13926.1702993716251797289
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7518C46CCD
+	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 13:48:49 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.13806.1702993721272658569
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 05:48:36 -0800
+ Tue, 19 Dec 2023 05:48:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JtZbk7cI;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so3438752a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 05:48:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JPu/tZZ1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6d87eadc43fso1248632b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 05:48:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702993715; x=1703598515; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702993720; x=1703598520; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=p72nxkt1EEQGr1XDww3UCkymo3kJ8gMzba0C0vjbW+k=;
-        b=JtZbk7cIlB++9XNYhZ8pqChPD2vFx3BJsqVMfjNMBDb4CdI7KqwkKC4RLiMR/czJrV
-         y2NUb0x5/p10Rc1B1swtJOurBAsGyC7iYQkYtrR+0JSpCZr6nWxfdXkgZ7PkwOeF6LEv
-         lLG+GWu0UA7MZwG++W5vCnesRvIwhaDyCN0MXRnM8Rg9Oe3032GWzQKLU1nsspAty5Ua
-         R5yKch3TowSxXceoUOIdzG96X0JGfJIA3QTFjMMiteLh72p09+b1Fk9sj1Cz3OUzGRzc
-         IoPmW640Ym+LM6J4/4OnqgN36+oUm5y9kNv4Zagm0vLkC+dI/UNnM5J1FiPseXzPbRjm
-         LXdw==
+        bh=zre2KRfSLfhnrlH2755rNgQzv6uEmqqGo1zbDIQtZCI=;
+        b=JPu/tZZ10EvWxvjeyUyTH5tWZZOsUWsrJu11UG1a4X5CViYQ4KdEqoB2yEqrtYPajq
+         VJNkANzANBvuuisM1Q1GXcGfWor9PQu+9C3dEcwEcU7qFsHdlFB5SiA/VohXk+KnNzcL
+         SYO+SUDtPJ1XvXu/6/vCvc1oifLP6Mg7wkfS/dufAYi7Q9NpX0ZJSBY0w6eH8PWRiprV
+         wWe3Ex5UbSTcHkQL1Uzv45e0BMZ1VipkY4z2W3RE4v5PwM6vOFeucq0EeBkexJHCVetj
+         gfpautR6uKslkoyMSmmyBo57+Wcv8qPaYGTLVWUMOI8GnVkVceiW7nLkUOOLJiHcZ2G2
+         DsZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702993715; x=1703598515;
+        d=1e100.net; s=20230601; t=1702993720; x=1703598520;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p72nxkt1EEQGr1XDww3UCkymo3kJ8gMzba0C0vjbW+k=;
-        b=cmxM42B4qMXnk4oebQgnTPoR+SPFgbSV+RieIFgJd/RtxiwsLtV3G/odZD3HpaiTbl
-         g4iqRqQYWev0xNXZxrtc9cdW2d+QqXUjYkXI30sSWkhKxnV2GZTgoA5e1wB3r+T9uS/Y
-         RtxyZLROhDaqBq4odxHCm5YTAMHlthggJpwGBy4MG3G3fLeDh5l3xDFrPk8cYODEz7+b
-         +j+uchMlgJJa+ecX8IIVwwXV5YvlW2pigOMaL/HwpGcJNuKBl+pwFGfpon9HTAMgaGV2
-         2OfOe6B+3Ng4K6UmylxuKbIBwcEOG/45N9S6XlBK0nNzBASEP8FXLBwU7ermc+HPqded
-         ghCQ==
-X-Gm-Message-State: AOJu0YwyCHqWcxAIR6Wcf/ccLUaSuriP6W7m7zcty0hWhjtP8o2O9Ypq
-	HdwuwGRnP7ihwiBD3Hn7J1gJk10ZXfrtoOQaqi8vYg==
-X-Google-Smtp-Source: AGHT+IFktxwSV76D19gJKOFxTtzh0zhhGzwI26Pdq6DIflT26Us3S4TrT6YZdIYIv/ZRn/XJczs/2A==
-X-Received: by 2002:a05:6a20:1b0a:b0:18f:c339:3fc9 with SMTP id ch10-20020a056a201b0a00b0018fc3393fc9mr19831476pzb.15.1702993714322;
-        Tue, 19 Dec 2023 05:48:34 -0800 (PST)
+        bh=zre2KRfSLfhnrlH2755rNgQzv6uEmqqGo1zbDIQtZCI=;
+        b=vFxERtw1/1MTsr4RJduZwxvarH56ya/bpb91qitEn9QIYngGjd2kzumEMVOLFdajG/
+         b3jKS57qj6r2dkV5yeF1rAoFQ+WVxw9kz9gDroseOSbeK8cgYrUorXu14txw9gSPAaln
+         wi6rrEaud9remBQQ9VQTrxO5bfhsaypjASLpdiuLlICM64vRGzF2plwBPKsCPmiNpt/h
+         9bqdI7BNwFZ1zKjqGiZ83zD4ZGLQyAgm9eRFwufoPZ8C1SZvsBbDWGL7HCvIFXE8gCaF
+         F7eUfw4ZO26czSl3Oc0q+GIcOXRgE2nysZqJ7x3auKVHbD4JdygiYG05sjH7h81HZVJe
+         egAQ==
+X-Gm-Message-State: AOJu0Yy9n4JwXQm7QtoQS2slFe1nAK2vkOw/1M/fzN+V2tbRTgy4abO/
+	Yoz9oHC7HQhL05WX2F/zDGy4nKqNJ7A2qeGAgK33aw==
+X-Google-Smtp-Source: AGHT+IEBGEfxaKVtdRrY6SrBKG4pFetWF6Qu1MYgMthILjO+J9C50YRRvIBqKsWn3c+xdELjMrB4JQ==
+X-Received: by 2002:a05:6a20:728f:b0:190:a06:ddf1 with SMTP id o15-20020a056a20728f00b001900a06ddf1mr10650110pzk.66.1702993720176;
+        Tue, 19 Dec 2023 05:48:40 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id h4-20020a655184000000b0059d6f5196fasm16815398pgq.78.2023.12.19.05.48.33
+        by smtp.gmail.com with ESMTPSA id h4-20020a655184000000b0059d6f5196fasm16815398pgq.78.2023.12.19.05.48.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 05:48:33 -0800 (PST)
+        Tue, 19 Dec 2023 05:48:39 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/5] glibc: Fix CVE-2023-4813
-Date: Tue, 19 Dec 2023 03:48:19 -1000
-Message-Id: <d735b2a94091f9a4a91917c73bd73d9ce4a31e3e.1702993573.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 4/5] libsndfile: fix CVE-2021-4156 heap out-of-bounds read in src/flac.c in flac_buffer_copy
+Date: Tue, 19 Dec 2023 03:48:22 -1000
+Message-Id: <d922a288f79834d8f1120a4454b97803290e5c36.1702993573.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1702993573.git.steve@sakoman.com>
 References: <cover.1702993573.git.steve@sakoman.com>
@@ -60,1028 +60,69 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 13:48:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192733
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 13:48:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192736
 
-From: Bhabu Bindu <bhabu.bindu@kpit.com>
+From: Vivek Kumbhar <vkumbhar@mvista.com>
 
-Add patch to fix CVE-2023-4813
+Upstream-Status: Backport from https://github.com/libsndfile/libsndfile/commit/ced91d7b971be6173b604154c39279ce90ad87cc
 
-Link: https://security-tracker.debian.org/tracker/CVE-2023-4813
-
-Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
-Signed-off-by: Poonam Jadhav <ppjadhav456@gmail.com>
+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../glibc/glibc/CVE-2023-4813.patch           | 986 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
- 2 files changed, 987 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
+ .../libsndfile1/CVE-2021-4156.patch           | 30 +++++++++++++++++++
+ .../libsndfile/libsndfile1_1.0.28.bb          |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch b/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch
 new file mode 100644
-index 0000000000..c7db4038c2
+index 0000000000..f7ae82588f
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
-@@ -0,0 +1,986 @@
-+From 1c37b8022e8763fedbb3f79c02e05c6acfe5a215 Mon Sep 17 00:00:00 2001
-+From: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Date: Thu, 17 Mar 2022 11:44:34 +0530
-+Subject: [PATCH] Simplify allocations and fix merge and continue actions [BZ
-+ #28931]
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2021-4156.patch
+@@ -0,0 +1,30 @@
++From ced91d7b971be6173b604154c39279ce90ad87cc Mon Sep 17 00:00:00 2001
++From: yuan <ssspeed00@gmail.com>
++Date: Tue, 20 Apr 2021 16:16:32 +0800
++Subject: [PATCH] flac: Fix improper buffer reusing (#732)
 +
-+Allocations for address tuples is currently a bit confusing because of
-+the pointer chasing through PAT, making it hard to observe the sequence
-+in which allocations have been made.  Narrow scope of the pointer
-+chasing through PAT so that it is only used where necessary.
-+
-+This also tightens actions behaviour with the hosts database in
-+getaddrinfo to comply with the manual text.  The "continue" action
-+discards previous results and the "merge" action results in an immedate
-+lookup failure.  Consequently, chaining of allocations across modules is
-+no longer necessary, thus opening up cleanup opportunities.
-+
-+A test has been added that checks some combinations to ensure that they
-+work correctly.
-+
-+Resolves: BZ #28931
-+
-+CVE: CVE-2023-4813
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=1c37b8022e8763fedbb3f79c02e05c6acfe5a215]
-+Comments: Hunks refreshed
-+
-+Signed-off-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
-+Reviewed-by: DJ Delorie <dj@redhat.com>
-+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
++Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/ced91d7b971be6173b604154c39279ce90ad87cc]
++CVE: CVE-2021-4156
++Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
 +---
-+ nss/Makefile                               |   1 +
-+ nss/tst-nss-gai-actions.c                  | 149 ++++++
-+ nss/tst-nss-gai-actions.root/etc/host.conf |   1 +
-+ nss/tst-nss-gai-actions.root/etc/hosts     | 508 +++++++++++++++++++++
-+ sysdeps/posix/getaddrinfo.c                | 143 +++---
-+ 5 files changed, 750 insertions(+), 52 deletions(-)
-+ create mode 100644 nss/tst-nss-gai-actions.c
-+ create mode 100644 nss/tst-nss-gai-actions.root/etc/host.conf
-+ create mode 100644 nss/tst-nss-gai-actions.root/etc/hosts
++ src/flac.c | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+diff --git a/nss/Makefile b/nss/Makefile
-+index 42a59535cb..d8b06b44fb 100644
-+--- a/nss/Makefile
-++++ b/nss/Makefile
-+@@ -61,6 +61,7 @@
-+ 
-+ tests-container = \
-+ 			  tst-nss-test3 \
-++			  tst-nss-gai-actions \
-+ 			  tst-nss-files-hosts-long \
-+ 			  tst-nss-db-endpwent \
-+ 			  tst-nss-db-endgrent
-+diff --git a/nss/tst-nss-gai-actions.c b/nss/tst-nss-gai-actions.c
-+new file mode 100644
-+index 0000000000..efca6cd183
-+--- /dev/null
-++++ b/nss/tst-nss-gai-actions.c
-+@@ -0,0 +1,149 @@
-++/* Test continue and merge NSS actions for getaddrinfo.
-++   Copyright The GNU Toolchain Authors.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <dlfcn.h>
-++#include <gnu/lib-names.h>
-++#include <nss.h>
-++#include <stdio.h>
-++#include <stdlib.h>
-++#include <string.h>
-++
-++#include <support/check.h>
-++#include <support/format_nss.h>
-++#include <support/support.h>
-++#include <support/xstdio.h>
-++#include <support/xunistd.h>
-++
-++enum
-++{
-++  ACTION_MERGE = 0,
-++  ACTION_CONTINUE,
-++};
-++
-++static const char *
-++family_str (int family)
-++{
-++  switch (family)
-++    {
-++    case AF_UNSPEC:
-++      return "AF_UNSPEC";
-++    case AF_INET:
-++      return "AF_INET";
-++    default:
-++      __builtin_unreachable ();
-++    }
-++}
-++
-++static const char *
-++action_str (int action)
-++{
-++  switch (action)
-++    {
-++    case ACTION_MERGE:
-++      return "merge";
-++    case ACTION_CONTINUE:
-++      return "continue";
-++    default:
-++      __builtin_unreachable ();
-++    }
-++}
-++
-++static void
-++do_one_test (int action, int family, bool canon)
-++{
-++  struct addrinfo hints =
-++    {
-++      .ai_family = family,
-++    };
-++
-++  struct addrinfo *ai;
-++
-++  if (canon)
-++    hints.ai_flags = AI_CANONNAME;
-++
-++  printf ("***** Testing \"files [SUCCESS=%s] files\" for family %s, %s\n",
-++	  action_str (action), family_str (family),
-++	  canon ? "AI_CANONNAME" : "");
-++
-++  int ret = getaddrinfo ("example.org", "80", &hints, &ai);
-++
-++  switch (action)
-++    {
-++    case ACTION_MERGE:
-++      if (ret == 0)
-++	{
-++	  char *formatted = support_format_addrinfo (ai, ret);
-++
-++	  printf ("merge unexpectedly succeeded:\n %s\n", formatted);
-++	  support_record_failure ();
-++	  free (formatted);
-++	}
-++      else
-++	return;
-++    case ACTION_CONTINUE:
-++	{
-++	  char *formatted = support_format_addrinfo (ai, ret);
-++
-++	  /* Verify that the result appears exactly once.  */
-++	  const char *expected = "address: STREAM/TCP 192.0.0.1 80\n"
-++	    "address: DGRAM/UDP 192.0.0.1 80\n"
-++	    "address: RAW/IP 192.0.0.1 80\n";
-++
-++	  const char *contains = strstr (formatted, expected);
-++	  const char *contains2 = NULL;
-++
-++	  if (contains != NULL)
-++	    contains2 = strstr (contains + strlen (expected), expected);
-++
-++	  if (contains == NULL || contains2 != NULL)
-++	    {
-++	      printf ("continue failed:\n%s\n", formatted);
-++	      support_record_failure ();
-++	    }
-++
-++	  free (formatted);
-++	  break;
-++	}
-++    default:
-++      __builtin_unreachable ();
-++    }
-++}
-++
-++static void
-++do_one_test_set (int action)
-++{
-++  char buf[32];
-++
-++  snprintf (buf, sizeof (buf), "files [SUCCESS=%s] files",
-++	    action_str (action));
-++  __nss_configure_lookup ("hosts", buf);
-++
-++  do_one_test (action, AF_UNSPEC, false);
-++  do_one_test (action, AF_INET, false);
-++  do_one_test (action, AF_INET, true);
-++}
-++
-++static int
-++do_test (void)
-++{
-++  do_one_test_set (ACTION_CONTINUE);
-++  do_one_test_set (ACTION_MERGE);
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/nss/tst-nss-gai-actions.root/etc/host.conf b/nss/tst-nss-gai-actions.root/etc/host.conf
-+new file mode 100644
-+index 0000000000..d1a59f73a9
-+--- /dev/null
-++++ b/nss/tst-nss-gai-actions.root/etc/host.conf
-+@@ -0,0 +1 @@
-++multi on
-+diff --git a/nss/tst-nss-gai-actions.root/etc/hosts b/nss/tst-nss-gai-actions.root/etc/hosts
-+new file mode 100644
-+index 0000000000..50ce9774dc
-+--- /dev/null
-++++ b/nss/tst-nss-gai-actions.root/etc/hosts
-+@@ -0,0 +1,508 @@
-++192.0.0.1	example.org
-++192.0.0.2	example.org
-++192.0.0.3	example.org
-++192.0.0.4	example.org
-++192.0.0.5	example.org
-++192.0.0.6	example.org
-++192.0.0.7	example.org
-++192.0.0.8	example.org
-++192.0.0.9	example.org
-++192.0.0.10	example.org
-++192.0.0.11	example.org
-++192.0.0.12	example.org
-++192.0.0.13	example.org
-++192.0.0.14	example.org
-++192.0.0.15	example.org
-++192.0.0.16	example.org
-++192.0.0.17	example.org
-++192.0.0.18	example.org
-++192.0.0.19	example.org
-++192.0.0.20	example.org
-++192.0.0.21	example.org
-++192.0.0.22	example.org
-++192.0.0.23	example.org
-++192.0.0.24	example.org
-++192.0.0.25	example.org
-++192.0.0.26	example.org
-++192.0.0.27	example.org
-++192.0.0.28	example.org
-++192.0.0.29	example.org
-++192.0.0.30	example.org
-++192.0.0.31	example.org
-++192.0.0.32	example.org
-++192.0.0.33	example.org
-++192.0.0.34	example.org
-++192.0.0.35	example.org
-++192.0.0.36	example.org
-++192.0.0.37	example.org
-++192.0.0.38	example.org
-++192.0.0.39	example.org
-++192.0.0.40	example.org
-++192.0.0.41	example.org
-++192.0.0.42	example.org
-++192.0.0.43	example.org
-++192.0.0.44	example.org
-++192.0.0.45	example.org
-++192.0.0.46	example.org
-++192.0.0.47	example.org
-++192.0.0.48	example.org
-++192.0.0.49	example.org
-++192.0.0.50	example.org
-++192.0.0.51	example.org
-++192.0.0.52	example.org
-++192.0.0.53	example.org
-++192.0.0.54	example.org
-++192.0.0.55	example.org
-++192.0.0.56	example.org
-++192.0.0.57	example.org
-++192.0.0.58	example.org
-++192.0.0.59	example.org
-++192.0.0.60	example.org
-++192.0.0.61	example.org
-++192.0.0.62	example.org
-++192.0.0.63	example.org
-++192.0.0.64	example.org
-++192.0.0.65	example.org
-++192.0.0.66	example.org
-++192.0.0.67	example.org
-++192.0.0.68	example.org
-++192.0.0.69	example.org
-++192.0.0.70	example.org
-++192.0.0.71	example.org
-++192.0.0.72	example.org
-++192.0.0.73	example.org
-++192.0.0.74	example.org
-++192.0.0.75	example.org
-++192.0.0.76	example.org
-++192.0.0.77	example.org
-++192.0.0.78	example.org
-++192.0.0.79	example.org
-++192.0.0.80	example.org
-++192.0.0.81	example.org
-++192.0.0.82	example.org
-++192.0.0.83	example.org
-++192.0.0.84	example.org
-++192.0.0.85	example.org
-++192.0.0.86	example.org
-++192.0.0.87	example.org
-++192.0.0.88	example.org
-++192.0.0.89	example.org
-++192.0.0.90	example.org
-++192.0.0.91	example.org
-++192.0.0.92	example.org
-++192.0.0.93	example.org
-++192.0.0.94	example.org
-++192.0.0.95	example.org
-++192.0.0.96	example.org
-++192.0.0.97	example.org
-++192.0.0.98	example.org
-++192.0.0.99	example.org
-++192.0.0.100	example.org
-++192.0.0.101	example.org
-++192.0.0.102	example.org
-++192.0.0.103	example.org
-++192.0.0.104	example.org
-++192.0.0.105	example.org
-++192.0.0.106	example.org
-++192.0.0.107	example.org
-++192.0.0.108	example.org
-++192.0.0.109	example.org
-++192.0.0.110	example.org
-++192.0.0.111	example.org
-++192.0.0.112	example.org
-++192.0.0.113	example.org
-++192.0.0.114	example.org
-++192.0.0.115	example.org
-++192.0.0.116	example.org
-++192.0.0.117	example.org
-++192.0.0.118	example.org
-++192.0.0.119	example.org
-++192.0.0.120	example.org
-++192.0.0.121	example.org
-++192.0.0.122	example.org
-++192.0.0.123	example.org
-++192.0.0.124	example.org
-++192.0.0.125	example.org
-++192.0.0.126	example.org
-++192.0.0.127	example.org
-++192.0.0.128	example.org
-++192.0.0.129	example.org
-++192.0.0.130	example.org
-++192.0.0.131	example.org
-++192.0.0.132	example.org
-++192.0.0.133	example.org
-++192.0.0.134	example.org
-++192.0.0.135	example.org
-++192.0.0.136	example.org
-++192.0.0.137	example.org
-++192.0.0.138	example.org
-++192.0.0.139	example.org
-++192.0.0.140	example.org
-++192.0.0.141	example.org
-++192.0.0.142	example.org
-++192.0.0.143	example.org
-++192.0.0.144	example.org
-++192.0.0.145	example.org
-++192.0.0.146	example.org
-++192.0.0.147	example.org
-++192.0.0.148	example.org
-++192.0.0.149	example.org
-++192.0.0.150	example.org
-++192.0.0.151	example.org
-++192.0.0.152	example.org
-++192.0.0.153	example.org
-++192.0.0.154	example.org
-++192.0.0.155	example.org
-++192.0.0.156	example.org
-++192.0.0.157	example.org
-++192.0.0.158	example.org
-++192.0.0.159	example.org
-++192.0.0.160	example.org
-++192.0.0.161	example.org
-++192.0.0.162	example.org
-++192.0.0.163	example.org
-++192.0.0.164	example.org
-++192.0.0.165	example.org
-++192.0.0.166	example.org
-++192.0.0.167	example.org
-++192.0.0.168	example.org
-++192.0.0.169	example.org
-++192.0.0.170	example.org
-++192.0.0.171	example.org
-++192.0.0.172	example.org
-++192.0.0.173	example.org
-++192.0.0.174	example.org
-++192.0.0.175	example.org
-++192.0.0.176	example.org
-++192.0.0.177	example.org
-++192.0.0.178	example.org
-++192.0.0.179	example.org
-++192.0.0.180	example.org
-++192.0.0.181	example.org
-++192.0.0.182	example.org
-++192.0.0.183	example.org
-++192.0.0.184	example.org
-++192.0.0.185	example.org
-++192.0.0.186	example.org
-++192.0.0.187	example.org
-++192.0.0.188	example.org
-++192.0.0.189	example.org
-++192.0.0.190	example.org
-++192.0.0.191	example.org
-++192.0.0.192	example.org
-++192.0.0.193	example.org
-++192.0.0.194	example.org
-++192.0.0.195	example.org
-++192.0.0.196	example.org
-++192.0.0.197	example.org
-++192.0.0.198	example.org
-++192.0.0.199	example.org
-++192.0.0.200	example.org
-++192.0.0.201	example.org
-++192.0.0.202	example.org
-++192.0.0.203	example.org
-++192.0.0.204	example.org
-++192.0.0.205	example.org
-++192.0.0.206	example.org
-++192.0.0.207	example.org
-++192.0.0.208	example.org
-++192.0.0.209	example.org
-++192.0.0.210	example.org
-++192.0.0.211	example.org
-++192.0.0.212	example.org
-++192.0.0.213	example.org
-++192.0.0.214	example.org
-++192.0.0.215	example.org
-++192.0.0.216	example.org
-++192.0.0.217	example.org
-++192.0.0.218	example.org
-++192.0.0.219	example.org
-++192.0.0.220	example.org
-++192.0.0.221	example.org
-++192.0.0.222	example.org
-++192.0.0.223	example.org
-++192.0.0.224	example.org
-++192.0.0.225	example.org
-++192.0.0.226	example.org
-++192.0.0.227	example.org
-++192.0.0.228	example.org
-++192.0.0.229	example.org
-++192.0.0.230	example.org
-++192.0.0.231	example.org
-++192.0.0.232	example.org
-++192.0.0.233	example.org
-++192.0.0.234	example.org
-++192.0.0.235	example.org
-++192.0.0.236	example.org
-++192.0.0.237	example.org
-++192.0.0.238	example.org
-++192.0.0.239	example.org
-++192.0.0.240	example.org
-++192.0.0.241	example.org
-++192.0.0.242	example.org
-++192.0.0.243	example.org
-++192.0.0.244	example.org
-++192.0.0.245	example.org
-++192.0.0.246	example.org
-++192.0.0.247	example.org
-++192.0.0.248	example.org
-++192.0.0.249	example.org
-++192.0.0.250	example.org
-++192.0.0.251	example.org
-++192.0.0.252	example.org
-++192.0.0.253	example.org
-++192.0.0.254	example.org
-++192.0.1.1	example.org
-++192.0.1.2	example.org
-++192.0.1.3	example.org
-++192.0.1.4	example.org
-++192.0.1.5	example.org
-++192.0.1.6	example.org
-++192.0.1.7	example.org
-++192.0.1.8	example.org
-++192.0.1.9	example.org
-++192.0.1.10	example.org
-++192.0.1.11	example.org
-++192.0.1.12	example.org
-++192.0.1.13	example.org
-++192.0.1.14	example.org
-++192.0.1.15	example.org
-++192.0.1.16	example.org
-++192.0.1.17	example.org
-++192.0.1.18	example.org
-++192.0.1.19	example.org
-++192.0.1.20	example.org
-++192.0.1.21	example.org
-++192.0.1.22	example.org
-++192.0.1.23	example.org
-++192.0.1.24	example.org
-++192.0.1.25	example.org
-++192.0.1.26	example.org
-++192.0.1.27	example.org
-++192.0.1.28	example.org
-++192.0.1.29	example.org
-++192.0.1.30	example.org
-++192.0.1.31	example.org
-++192.0.1.32	example.org
-++192.0.1.33	example.org
-++192.0.1.34	example.org
-++192.0.1.35	example.org
-++192.0.1.36	example.org
-++192.0.1.37	example.org
-++192.0.1.38	example.org
-++192.0.1.39	example.org
-++192.0.1.40	example.org
-++192.0.1.41	example.org
-++192.0.1.42	example.org
-++192.0.1.43	example.org
-++192.0.1.44	example.org
-++192.0.1.45	example.org
-++192.0.1.46	example.org
-++192.0.1.47	example.org
-++192.0.1.48	example.org
-++192.0.1.49	example.org
-++192.0.1.50	example.org
-++192.0.1.51	example.org
-++192.0.1.52	example.org
-++192.0.1.53	example.org
-++192.0.1.54	example.org
-++192.0.1.55	example.org
-++192.0.1.56	example.org
-++192.0.1.57	example.org
-++192.0.1.58	example.org
-++192.0.1.59	example.org
-++192.0.1.60	example.org
-++192.0.1.61	example.org
-++192.0.1.62	example.org
-++192.0.1.63	example.org
-++192.0.1.64	example.org
-++192.0.1.65	example.org
-++192.0.1.66	example.org
-++192.0.1.67	example.org
-++192.0.1.68	example.org
-++192.0.1.69	example.org
-++192.0.1.70	example.org
-++192.0.1.71	example.org
-++192.0.1.72	example.org
-++192.0.1.73	example.org
-++192.0.1.74	example.org
-++192.0.1.75	example.org
-++192.0.1.76	example.org
-++192.0.1.77	example.org
-++192.0.1.78	example.org
-++192.0.1.79	example.org
-++192.0.1.80	example.org
-++192.0.1.81	example.org
-++192.0.1.82	example.org
-++192.0.1.83	example.org
-++192.0.1.84	example.org
-++192.0.1.85	example.org
-++192.0.1.86	example.org
-++192.0.1.87	example.org
-++192.0.1.88	example.org
-++192.0.1.89	example.org
-++192.0.1.90	example.org
-++192.0.1.91	example.org
-++192.0.1.92	example.org
-++192.0.1.93	example.org
-++192.0.1.94	example.org
-++192.0.1.95	example.org
-++192.0.1.96	example.org
-++192.0.1.97	example.org
-++192.0.1.98	example.org
-++192.0.1.99	example.org
-++192.0.1.100	example.org
-++192.0.1.101	example.org
-++192.0.1.102	example.org
-++192.0.1.103	example.org
-++192.0.1.104	example.org
-++192.0.1.105	example.org
-++192.0.1.106	example.org
-++192.0.1.107	example.org
-++192.0.1.108	example.org
-++192.0.1.109	example.org
-++192.0.1.110	example.org
-++192.0.1.111	example.org
-++192.0.1.112	example.org
-++192.0.1.113	example.org
-++192.0.1.114	example.org
-++192.0.1.115	example.org
-++192.0.1.116	example.org
-++192.0.1.117	example.org
-++192.0.1.118	example.org
-++192.0.1.119	example.org
-++192.0.1.120	example.org
-++192.0.1.121	example.org
-++192.0.1.122	example.org
-++192.0.1.123	example.org
-++192.0.1.124	example.org
-++192.0.1.125	example.org
-++192.0.1.126	example.org
-++192.0.1.127	example.org
-++192.0.1.128	example.org
-++192.0.1.129	example.org
-++192.0.1.130	example.org
-++192.0.1.131	example.org
-++192.0.1.132	example.org
-++192.0.1.133	example.org
-++192.0.1.134	example.org
-++192.0.1.135	example.org
-++192.0.1.136	example.org
-++192.0.1.137	example.org
-++192.0.1.138	example.org
-++192.0.1.139	example.org
-++192.0.1.140	example.org
-++192.0.1.141	example.org
-++192.0.1.142	example.org
-++192.0.1.143	example.org
-++192.0.1.144	example.org
-++192.0.1.145	example.org
-++192.0.1.146	example.org
-++192.0.1.147	example.org
-++192.0.1.148	example.org
-++192.0.1.149	example.org
-++192.0.1.150	example.org
-++192.0.1.151	example.org
-++192.0.1.152	example.org
-++192.0.1.153	example.org
-++192.0.1.154	example.org
-++192.0.1.155	example.org
-++192.0.1.156	example.org
-++192.0.1.157	example.org
-++192.0.1.158	example.org
-++192.0.1.159	example.org
-++192.0.1.160	example.org
-++192.0.1.161	example.org
-++192.0.1.162	example.org
-++192.0.1.163	example.org
-++192.0.1.164	example.org
-++192.0.1.165	example.org
-++192.0.1.166	example.org
-++192.0.1.167	example.org
-++192.0.1.168	example.org
-++192.0.1.169	example.org
-++192.0.1.170	example.org
-++192.0.1.171	example.org
-++192.0.1.172	example.org
-++192.0.1.173	example.org
-++192.0.1.174	example.org
-++192.0.1.175	example.org
-++192.0.1.176	example.org
-++192.0.1.177	example.org
-++192.0.1.178	example.org
-++192.0.1.179	example.org
-++192.0.1.180	example.org
-++192.0.1.181	example.org
-++192.0.1.182	example.org
-++192.0.1.183	example.org
-++192.0.1.184	example.org
-++192.0.1.185	example.org
-++192.0.1.186	example.org
-++192.0.1.187	example.org
-++192.0.1.188	example.org
-++192.0.1.189	example.org
-++192.0.1.190	example.org
-++192.0.1.191	example.org
-++192.0.1.192	example.org
-++192.0.1.193	example.org
-++192.0.1.194	example.org
-++192.0.1.195	example.org
-++192.0.1.196	example.org
-++192.0.1.197	example.org
-++192.0.1.198	example.org
-++192.0.1.199	example.org
-++192.0.1.200	example.org
-++192.0.1.201	example.org
-++192.0.1.202	example.org
-++192.0.1.203	example.org
-++192.0.1.204	example.org
-++192.0.1.205	example.org
-++192.0.1.206	example.org
-++192.0.1.207	example.org
-++192.0.1.208	example.org
-++192.0.1.209	example.org
-++192.0.1.210	example.org
-++192.0.1.211	example.org
-++192.0.1.212	example.org
-++192.0.1.213	example.org
-++192.0.1.214	example.org
-++192.0.1.215	example.org
-++192.0.1.216	example.org
-++192.0.1.217	example.org
-++192.0.1.218	example.org
-++192.0.1.219	example.org
-++192.0.1.220	example.org
-++192.0.1.221	example.org
-++192.0.1.222	example.org
-++192.0.1.223	example.org
-++192.0.1.224	example.org
-++192.0.1.225	example.org
-++192.0.1.226	example.org
-++192.0.1.227	example.org
-++192.0.1.228	example.org
-++192.0.1.229	example.org
-++192.0.1.230	example.org
-++192.0.1.231	example.org
-++192.0.1.232	example.org
-++192.0.1.233	example.org
-++192.0.1.234	example.org
-++192.0.1.235	example.org
-++192.0.1.236	example.org
-++192.0.1.237	example.org
-++192.0.1.238	example.org
-++192.0.1.239	example.org
-++192.0.1.240	example.org
-++192.0.1.241	example.org
-++192.0.1.242	example.org
-++192.0.1.243	example.org
-++192.0.1.244	example.org
-++192.0.1.245	example.org
-++192.0.1.246	example.org
-++192.0.1.247	example.org
-++192.0.1.248	example.org
-++192.0.1.249	example.org
-++192.0.1.250	example.org
-++192.0.1.251	example.org
-++192.0.1.252	example.org
-++192.0.1.253	example.org
-++192.0.1.254	example.org
-+diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
-+index 18dccd5924..3d9bea60c6 100644
-+--- a/sysdeps/posix/getaddrinfo.c
-++++ b/sysdeps/posix/getaddrinfo.c
-+@@ -458,11 +458,6 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 
-+   if (name != NULL)
-+     {
-+-      at = alloca_account (sizeof (struct gaih_addrtuple), alloca_used);
-+-      at->family = AF_UNSPEC;
-+-      at->scopeid = 0;
-+-      at->next = NULL;
-+-
-+       if (req->ai_flags & AI_IDN)
-+ 	{
-+ 	  char *out;
-+@@ -473,13 +468,21 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 	  malloc_name = true;
-+ 	}
-+ 
-+-      if (__inet_aton_exact (name, (struct in_addr *) at->addr) != 0)
-++      uint32_t addr[4];
-++      if (__inet_aton_exact (name, (struct in_addr *) addr) != 0)
-+ 	{
-++	  at = alloca_account (sizeof (struct gaih_addrtuple), alloca_used);
-++	  at->scopeid = 0;
-++	  at->next = NULL;
-++
-+ 	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET)
-+-	    at->family = AF_INET;
-++	    {
-++	      memcpy (at->addr, addr, sizeof (at->addr));
-++	      at->family = AF_INET;
-++	    }
-+ 	  else if (req->ai_family == AF_INET6 && (req->ai_flags & AI_V4MAPPED))
-+ 	    {
-+-	      at->addr[3] = at->addr[0];
-++	      at->addr[3] = addr[0];
-+ 	      at->addr[2] = htonl (0xffff);
-+ 	      at->addr[1] = 0;
-+ 	      at->addr[0] = 0;
-+@@ -505,49 +505,62 @@
-+ 
-+ 	  if (req->ai_flags & AI_CANONNAME)
-+ 	    canon = name;
-++
-++	  goto process_list;
-+ 	}
-+-      else if (at->family == AF_UNSPEC)
-++
-++      char *scope_delim = strchr (name, SCOPE_DELIMITER);
-++      int e;
-++
-++      if (scope_delim == NULL)
-++	e = inet_pton (AF_INET6, name, addr);
-++      else
-++	e = __inet_pton_length (AF_INET6, name, scope_delim - name, addr);
-++
-++      if (e > 0)
-+ 	{
-+-	  char *scope_delim = strchr (name, SCOPE_DELIMITER);
-+-	  int e;
-+-	  if (scope_delim == NULL)
-+-	    e = inet_pton (AF_INET6, name, at->addr);
-++	  at = alloca_account (sizeof (struct gaih_addrtuple),
-++			       alloca_used);
-++	  at->scopeid = 0;
-++	  at->next = NULL;
-++
-++	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
-++	    {
-++	      memcpy (at->addr, addr, sizeof (at->addr));
-++	      at->family = AF_INET6;
-++	    }
-++	  else if (req->ai_family == AF_INET
-++		   && IN6_IS_ADDR_V4MAPPED (addr))
-++	    {
-++	      at->addr[0] = addr[3];
-++	      at->addr[1] = addr[1];
-++	      at->addr[2] = addr[2];
-++	      at->addr[3] = addr[3];
-++	      at->family = AF_INET;
-++	    }
-+ 	  else
-+-	    e = __inet_pton_length (AF_INET6, name, scope_delim - name,
-+-				    at->addr);
-+-	  if (e > 0)
-+ 	    {
-+-	      if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
-+-		at->family = AF_INET6;
-+-	      else if (req->ai_family == AF_INET
-+-		       && IN6_IS_ADDR_V4MAPPED (at->addr))
-+-		{
-+-		  at->addr[0] = at->addr[3];
-+-		  at->family = AF_INET;
-+-		}
-+-	      else
-+-		{
-+-		  result = -EAI_ADDRFAMILY;
-+-		  goto free_and_return;
-+-		}
-+-
-+-	      if (scope_delim != NULL
-+-		  && __inet6_scopeid_pton ((struct in6_addr *) at->addr,
-+-					   scope_delim + 1,
-+-					   &at->scopeid) != 0)
-+-		{
-+-		  result = -EAI_NONAME;
-+-		  goto free_and_return;
-+-		}
-++	      result = -EAI_ADDRFAMILY;
-++	      goto free_and_return;
-++	    }
-+ 
-+-	      if (req->ai_flags & AI_CANONNAME)
-+-		canon = name;
-++	  if (scope_delim != NULL
-++	      && __inet6_scopeid_pton ((struct in6_addr *) at->addr,
-++				       scope_delim + 1,
-++				       &at->scopeid) != 0)
-++	    {
-++	      result = -EAI_NONAME;
-++	      goto free_and_return;
-+ 	    }
-++
-++	  if (req->ai_flags & AI_CANONNAME)
-++	    canon = name;
-++
-++	  goto process_list;
-+ 	}
-+ 
-+-      if (at->family == AF_UNSPEC && (req->ai_flags & AI_NUMERICHOST) == 0)
-++      if ((req->ai_flags & AI_NUMERICHOST) == 0)
-+ 	{
-+-	  struct gaih_addrtuple **pat = &at;
-+ 	  int no_data = 0;
-+ 	  int no_inet6_data = 0;
-+ 	  service_user *nip;
-+@@ -543,6 +559,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 	  enum nss_status status = NSS_STATUS_UNAVAIL;
-+ 	  int no_more;
-+ 	  struct resolv_context *res_ctx = NULL;
-++	  bool do_merge = false;
-+ 
-+ 	  /* If we do not have to look for IPv6 addresses or the canonical
-+ 	     name, use the simple, old functions, which do not support
-+@@ -579,7 +596,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 			  result = -EAI_MEMORY;
-+ 			  goto free_and_return;
-+ 			}
-+-		      *pat = addrmem;
-++		      at = addrmem;
-+ 		    }
-+ 		  else
-+ 		    {
-+@@ -632,6 +649,8 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 		    }
-+ 
-+ 		  struct gaih_addrtuple *addrfree = addrmem;
-++		  struct gaih_addrtuple **pat = &at;
-++
-+ 		  for (int i = 0; i < air->naddrs; ++i)
-+ 		    {
-+ 		      socklen_t size = (air->family[i] == AF_INET
-+@@ -695,12 +714,6 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 
-+ 		  free (air);
-+ 
-+-		  if (at->family == AF_UNSPEC)
-+-		    {
-+-		      result = -EAI_NONAME;
-+-		      goto free_and_return;
-+-		    }
-+-
-+ 		  goto process_list;
-+ 		}
-+ 	      else if (err == 0)
-+@@ -750,6 +763,22 @@
-+ 
-+ 	  while (!no_more)
-+ 	    {
-++	      /* Always start afresh; continue should discard previous results
-++		 and the hosts database does not support merge.  */
-++	      at = NULL;
-++	      free (canonbuf);
-++	      free (addrmem);
-++	      canon = canonbuf = NULL;
-++	      addrmem = NULL;
-++	      got_ipv6 = false;
-++
-++	      if (do_merge)
-++		{
-++		  __set_h_errno (NETDB_INTERNAL);
-++		  __set_errno (EBUSY);
-++		  break;
-++		}
-++
-+ 	      no_data = 0;
-+ 	      nss_gethostbyname4_r fct4 = NULL;
-+ 
-+@@ -744,12 +773,14 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 		{
-+ 		  while (1)
-+ 		    {
-+-		      status = DL_CALL_FCT (fct4, (name, pat,
-++		      status = DL_CALL_FCT (fct4, (name, &at,
-+ 						   tmpbuf->data, tmpbuf->length,
-+ 						   &errno, &h_errno,
-+ 						   NULL));
-+ 		      if (status == NSS_STATUS_SUCCESS)
-+ 			break;
-++		      /* gethostbyname4_r may write into AT, so reset it.  */
-++		      at = NULL;
-+ 		      if (status != NSS_STATUS_TRYAGAIN
-+ 			  || errno != ERANGE || h_errno != NETDB_INTERNAL)
-+ 			{
-+@@ -774,7 +805,9 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 		      no_data = 1;
-+ 
-+ 		      if ((req->ai_flags & AI_CANONNAME) != 0 && canon == NULL)
-+-			canon = (*pat)->name;
-++			canon = at->name;
-++
-++		      struct gaih_addrtuple **pat = &at;
-+ 
-+ 		      while (*pat != NULL)
-+ 			{
-+@@ -826,6 +859,8 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 
-+ 		  if (fct != NULL)
-+ 		    {
-++		      struct gaih_addrtuple **pat = &at;
-++
-+ 		      if (req->ai_family == AF_INET6
-+ 			  || req->ai_family == AF_UNSPEC)
-+ 			{
-+@@ -917,6 +946,10 @@
-+ 	      if (nss_next_action (nip, status) == NSS_ACTION_RETURN)
-+ 		break;
-+ 
-++	      /* The hosts database does not support MERGE.  */
-++	      if (nss_next_action (nip, status) == NSS_ACTION_MERGE)
-++		do_merge = true;
-++
-+ 	      if (nip->next == NULL)
-+ 		no_more = -1;
-+ 	      else
-+@@ -930,7 +969,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 	}
-+ 
-+     process_list:
-+-      if (at->family == AF_UNSPEC)
-++      if (at == NULL)
-+ 	{
-+ 	  result = -EAI_NONAME;
-+ 	  goto free_and_return;
-+-- 
-+2.39.3
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index 8298088323..296c892994 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -88,6 +88,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0037-Avoid-deadlock-between-pthread_create-and-ctors.patch \
-            file://CVE-2023-0687.patch \
-            file://CVE-2023-4911.patch \
-+           file://CVE-2023-4813.patch \
++diff --git a/src/flac.c b/src/flac.c
++index 0be82ac..4fa5cfa 100644
++--- a/src/flac.c
+++++ b/src/flac.c
++@@ -952,7 +952,11 @@ flac_read_loop (SF_PRIVATE *psf, unsigned len)
++	/* Decode some more. */
++	while (pflac->pos < pflac->len)
++	{	if (FLAC__stream_decoder_process_single (pflac->fsd) == 0)
+++		{	psf_log_printf (psf, "FLAC__stream_decoder_process_single returned false\n") ;
+++			/* Current frame is busted, so NULL the pointer. */
+++			pflac->frame = NULL ;
++			break ;
+++			} ;
++		state = FLAC__stream_decoder_get_state (pflac->fsd) ;
++		if (state >= FLAC__STREAM_DECODER_END_OF_STREAM)
++		{	psf_log_printf (psf, "FLAC__stream_decoder_get_state returned %s\n", FLAC__StreamDecoderStateString [state]) ;
++--
++2.40.1
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 32b678ce90..fb7d94ab75 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -23,6 +23,7 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
+            file://CVE-2021-3246_1.patch \
+            file://CVE-2021-3246_2.patch \
+            file://CVE-2022-33065.patch \
++           file://CVE-2021-4156.patch \
             "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+ 
+ SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
 -- 
 2.34.1
 
