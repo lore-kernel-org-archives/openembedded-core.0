@@ -2,29 +2,30 @@ Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95065C46CD3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94422C46CCD
 	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 13:29:19 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.web10.11628.1702991205377842458
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.53])
+ by mx.groups.io with SMTP id smtpd.web11.13506.1702992361231834708
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 05:06:45 -0800
+ Tue, 19 Dec 2023 05:26:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: mark.yang@lge.com)
-Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
-	by 156.147.23.52 with ESMTP; 19 Dec 2023 22:06:43 +0900
-X-Original-SENDERIP: 156.147.1.126
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: mark.yang@lge.com)
+Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
+	by 156.147.23.53 with ESMTP; 19 Dec 2023 22:25:59 +0900
+X-Original-SENDERIP: 156.147.1.127
 X-Original-MAILFROM: mark.yang@lge.com
 Received: from unknown (HELO user3..) (10.177.227.40)
-	by 156.147.1.126 with ESMTP; 19 Dec 2023 22:06:43 +0900
+	by 156.147.1.127 with ESMTP; 19 Dec 2023 22:25:59 +0900
 X-Original-SENDERIP: 10.177.227.40
 X-Original-MAILFROM: mark.yang@lge.com
 From: mark.yang@lge.com
 To: openembedded-core@lists.openembedded.org
-Cc: "mark.yang" <mark.yang@lge.com>,
-	Steve Sakoman <steve@sakoman.com>
+Cc: steve@sakoman.com,
+	martin.jansa@gmail.com,
+	"mark.yang" <mark.yang@lge.com>
 Subject: [kirkstone][PATCH] ffmpeg: fix for CVE-2022-3964
-Date: Tue, 19 Dec 2023 22:06:41 +0900
-Message-Id: <20231219130641.17212-1-mark.yang@lge.com>
+Date: Tue, 19 Dec 2023 22:25:43 +0900
+Message-Id: <20231219132544.73221-1-mark.yang@lge.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -32,13 +33,12 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 13:29:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192726
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192728
 
 From: "mark.yang" <mark.yang@lge.com>
 
 Without a CVE tag, It will be recognised as Unpatched by cve_check task.
 
-CC: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: mark.yang <mark.yang@lge.com>
 ---
  ...001-avcodec-rpzaenc-stop-accessing-out-of-bounds-frame.patch | 2 +-
