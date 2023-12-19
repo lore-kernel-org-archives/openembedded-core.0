@@ -1,159 +1,148 @@
-Return-Path: <johannes.pointner@br-automation.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F49C46CCD
-	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 10:43:28 +0000 (UTC)
-Received: from inet11.abb.com (inet11.abb.com [138.225.1.77])
- by mx.groups.io with SMTP id smtpd.web11.9434.1702982602434989512
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D88DC41535
+	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 12:03:19 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.10368.1702987390480184597
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 02:43:23 -0800
+ Tue, 19 Dec 2023 04:03:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: br-automation.com, ip: 138.225.1.77, mailfrom: johannes.pointner@br-automation.com)
-Received: from brsmtp01.br-automation.co.at ([10.15.2.36])
-	by inet11.abb.com (8.14.7/8.14.7) with ESMTP id 3BJAhG7n030976
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 19 Dec 2023 11:43:17 +0100
-Received: from extmail.br-automation.com ([192.168.112.26])
-          by brsmtp01.br-automation.co.at (HCL Domino Release 12.0.2FP1)
-          with ESMTP id 2023121911431554-197273 ;
-          Tue, 19 Dec 2023 11:43:15 +0100 
-Received: from ategge3723.brdev.net ([192.168.62.72])
-          by extmail.br-automation.com (HCL Domino Build V1202_05192022)
-          with ESMTP id 2023121911431636-8934 ;
-          Tue, 19 Dec 2023 11:43:16 +0100 
-From: johannes.pointner@br-automation.com
-To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-        "Johannes Pointner" <johannes.pointner@br-automation.com>
-Subject: [PATCH v3] ldconfig-native: Add usrmerge support
-Date: Tue, 19 Dec 2023 11:42:19 +0100
-Message-ID: <20231219104301.443343-1-johannes.pointner@br-automation.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FLKHoyC1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-336437ae847so4703760f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 04:03:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1702987389; x=1703592189; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rJQtlaL0tPaUf9GvqjFUK+gEVvg2JQ2ddNbaedz3JVo=;
+        b=FLKHoyC18FfWw0FMB9tUUYEs6rA6BQfHdVzf6sBjUi14DsTCPIWUoQrKeA05djjSqK
+         qHxIvzPLlyzGP/SoZeLU81QHOJp1rnHaCQd+F9UbeEmVNthuxQj4fsTNEUu7V0QVI79o
+         EK+FAKbOT0cv8TwOOsYzrLCHRX8kWmOZT534s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702987389; x=1703592189;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rJQtlaL0tPaUf9GvqjFUK+gEVvg2JQ2ddNbaedz3JVo=;
+        b=hXv3bqWYyLyQAeXQFimjIvTadIwCdczTSbbwm6Mvrd03W91aiVLVth/ZaIvt/pszH7
+         e+nQsb8kQtga7MANiZWbObY0uomfCRR9RrbCbQx+5yv4z+Xa/h0Yssp+WKDbPWtG92JL
+         dM0q64/4pfQ52OyzFcIsxVYGhd3+j5ah/DkyNzcKvPW2/z6jVLjqWxUjmeIOclcDIPTR
+         xLJvZSEVjcdyI5yHHw2ziwrZ0decpeqe/fDHdPyelwzimbIulPkJJ3XkU/ZpD/PA2QdF
+         9cx23xGA8f8FhobNPN6jheBqFlladnnbGNWLdY+l7hyK0yh3CKH6y5LuaJ0/T2Aftjf0
+         Ht4g==
+X-Gm-Message-State: AOJu0Yz7vkcsC8Gh0jWfoJBLvjgE+yVbgOGwyhcpDnBX14fY+RHzo3RP
+	THMUZsNqdPQG4+c4BiiPhas0+g==
+X-Google-Smtp-Source: AGHT+IHbzm/Sur+wP/TuuogkWmbk+a7C7lvxfDSyPU9Aoa7/p2Gn9aFlal9oqjEwPeaWcPloytbd9A==
+X-Received: by 2002:a5d:4ac3:0:b0:336:73e4:33b2 with SMTP id y3-20020a5d4ac3000000b0033673e433b2mr409156wrs.93.1702987388787;
+        Tue, 19 Dec 2023 04:03:08 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:b87d:537f:7c6:e419? ([2001:8b0:aba:5f3c:b87d:537f:7c6:e419])
+        by smtp.gmail.com with ESMTPSA id bl2-20020adfe242000000b0033668ac65ddsm4996229wrb.25.2023.12.19.04.03.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Dec 2023 04:03:08 -0800 (PST)
+Message-ID: <8ba14102f0ea38d9bb691538e3b2171e82aead33.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] qemurunner: Impove stdout logging handling
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Dec 2023 12:03:07 +0000
+In-Reply-To: <17A20F573E606BC3.25349@lists.openembedded.org>
+References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+	 <CAMKF1sqkizk++vW++TsyiOBSsHhM7euMNWGs8KHBJq_2yB=dFw@mail.gmail.com>
+	 <09096b377fb5ac72d118926a861c9d70265b0f6d.camel@linuxfoundation.org>
+	 <CAMKF1srWbpjj7ojaQ-0fdtu5XAW3qA04bbjvqZWekYRqp0s=5A@mail.gmail.com>
+	 <17A20F573E606BC3.25349@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: git-send-email 2.43.0
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on BRSMTPINTERN2/InternSMTP(Build V1202_05192022|May
- 19, 2022) at 12/19/2023 11:43:16 AM,Serialize by Router on BRSMTPINTERN2/InternSMTP(Build V1202_05192022|May 19, 2022) at
- 12/19/2023 11:43:16 AM,Itemize by SMTP Server on BRSMTP01/Eggelsberg/AT/B&R(Release 12.0.2FP1|April
- 06, 2023) at 12/19/2023 11:43:15 AM
-X-TNEFEvaluated: 1
-X-Disclaimed: 64595
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 10:43:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192723
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 12:03:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192724
 
-From: Johannes Pointner <johannes.pointner@br-automation.com>
+On Mon, 2023-12-18 at 23:01 +0000, Richard Purdie via
+lists.openembedded.org wrote:
+> On Mon, 2023-12-18 at 10:07 -0800, Khem Raj wrote:
+> > On Mon, Dec 18, 2023 at 9:58=E2=80=AFAM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >=20
+> > > On Mon, 2023-12-18 at 09:45 -0800, Khem Raj wrote:
+> > > > I tried the two patches in this series. It did improve the situatio=
+n
+> > > > but I am still getting SSH timeouts. But this time its 13 tests
+> > > > earlier it used to be 40+
+> > > > btw. my images are using systemd. So it might be good to see if we =
+see
+> > > > this with poky-altcfg as well or not.
+> > >=20
+> > > Do you have the log.do_testimage and the ${WORKDIR}/testimage/ files?
+> >=20
+> > yes, further I ran the failing tests in loop one after another still
+> > one test gzip fails with ssh timeouts
+> >=20
+> > https://busybox.net/~kraj/log.do_testimage.503
+> > https://busybox.net/~kraj/testimage/
+> >=20
+> > there are two runs in the testimages folder. In one you see the RCU
+> > stall and in second you do not
+> > but it fails with same ssh timeout issue.
+> >=20
+> > >=20
+> > > Did you still see rcu stalls in the logs?
+>=20
+> What is interesting is there is ~3MB of nulls in the .2 serial log. The
+> rcu stall is also:
+>=20
+> [   88.261687]  serial8250_tx_chars+0xea/0x2b0
+> [   88.261689]  serial8250_handle_irq+0x1e9/0x330
+> [   88.261691]  serial8250_default_handle_irq+0x4a/0x90
+> [   88.261693]  serial8250_interrupt+0x66/0xc0
+> [   88.261696]  __handle_irq_event_percpu+0x54/0x1c0
+> [   88.261701]  handle_irq_event+0x3d/0x80
+>=20
+> i.e. it is stalled in the serial TX path.
+>=20
+> The big question is why is there so many nulls on the serial port. I
+> see a few on my local x86 test runs but only ~4kb, not megabytes of
+> them. I hadn't worked out where/what they are from yet.
+>=20
+> I suspect something in the serial/kernel/qemu space isn't interacting
+> correctly.
+>=20
+> Find the cause of the nulls and we might make progress on this.
 
-If DISTRO=5FFEATURE usrmerge is enabled, SLIBDIR is just a symlink to LIBDI=
-R.
-ldconfig-native uses hardcoded paths for SLIBDIR and LIBDIR that are fine f=
-or
-the not usrmerge case. But if usrmerge is enabled ldconfig-native generates=
- a
-ld.so.cache for the target, which is done in rootfs.py, that looks like thi=
-s:
-236 libs found in cache `/etc/ld.so.cache'
-       libzstd.so.1 (libc6) =3D> /lib/libzstd.so.1
-       libz.so.1 (libc6) =3D> /lib/libz.so.1
-       libxtables.so.12 (libc6) =3D> /lib/libxtables.so.12
-       libxslt.so.1 (libc6) =3D> /lib/libxslt.so.1
-       libxml2.so.2 (libc6) =3D> /lib/libxml2.so.2
+I went digging and it is a mess. That 3MB file is actually a wtmp file
+from /var/log. The reason is a failure of the "target_dumper" commands
+and that the simplistic serial command handling doesn't like binary
+files.
 
-But it should look like this, which it does in case of not usrmerge:
-236 libs found in cache `/etc/ld.so.cache'
-        libzstd.so.1 (libc6) =3D> /usr/lib/libzstd.so.1
-        libz.so.1 (libc6) =3D> /usr/lib/libz.so.1
-        libxtables.so.12 (libc6) =3D> /usr/lib/libxtables.so.12
-        libxslt.so.1 (libc6) =3D> /usr/lib/libxslt.so.1
-        libxml2.so.2 (libc6) =3D> /usr/lib/libxml2.so.2
+I've a few patches which should improve the situation but we're clearly
+multiple issues at play here where issues are stacking on top of other
+issues. My rough list of issues:
 
-As this is part of the generated image(target) this breaks for example the
-Qt QLibraryInfo paths if Qt is configured 'relocatable' and leads to the is=
-sue
-that the QtWebEngine can find the QtWebEngineProcess,
-Qt WebEngine resources,...
-In the case of Qt this issue appears because Qt tries to determine the libr=
-ary
-locations using dladdr and uses this as base to access QtWebEngineProcess or
-Qt Webengine resources.
+a) stdout logging from qemu wasn't being read and could overflow
+buffers locking qemu
+b) serial data from commands wasn't being fully read and could overflow
+buffers locking qemu
+c) the dumper log reading command is reading binary files like wtmp
+d) the dumper logs overwrite each other so are useless anyway
+e) the dumper logs run on every failed command
+f) qmp monitor dump command also run on every failed command
 
-Therefore don't let ldconfig-native parse SLIBDIR if it is a symlink.
+I think we'd be much better off if we drop the dumper/monitor stuff and
+qemu runs might be quite a bit faster too.
 
-Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
----
-v3: enhanced explanation
+Cheers,
 
-v2: fixed sendemail.from and enhanced explanation
+Richard
 
- .../ldconfig-add-usrmerge-support.patch       | 37 +++++++++++++++++++
- .../glibc/ldconfig-native=5F2.12.1.bb           |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig=
--add-usrmerge-support.patch
 
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-us=
-rmerge-support.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldcon=
-fig-add-usrmerge-support.patch
-new file mode 100644
-index 0000000000..3041d433fd
---- /dev/null
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-add-usrmerge-=
-support.patch
-@@ -0,0 +1,37 @@
-+From 6e543f39f6bec6eb2e02eea02029c7f4ec533b66 Mon Sep 17 00:00:00 2001
-+From: Johannes Pointner <johannes.pointner@br-automation.com>
-+Date: Fri, 1 Dec 2023 11:02:39 +0100
-+Subject: [PATCH] ldconfig: add usrmerge support
-+
-+Check whether SLIBDIR is a symlink, which is the case if usrmerge
-+is enabled, and if so, ignore it.
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Johannes Pointner <johannes.pointner@br-automation.com>
-+---
-+ ldconfig.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/ldconfig.c b/ldconfig.c
-+index e826410..72ac67b 100644
-+--- a/ldconfig.c
-++++ b/ldconfig.c
-+@@ -1371,10 +1371,16 @@ main (int argc, char **argv)
-+=20
-+   if (!opt=5Fonly=5Fcline)
-+     {
-++      struct stat buf;
-++      int ret;
-+       parse=5Fconf (config=5Ffile, true);
-+=20
-+       /* Always add the standard search paths.  */
-+-      add=5Fsystem=5Fdir (SLIBDIR);
-++      /* Check whether SLIBDIR is a symlink, which is the case if usrmerge
-++       is enabled, and if so, ignore it. */
-++      ret =3D lstat(SLIBDIR ,&buf);
-++      if(ret =3D=3D -1 || !S=5FISLNK(buf.st=5Fmode))
-++        add=5Fsystem=5Fdir (SLIBDIR);
-+       if (strcmp (SLIBDIR, LIBDIR))
-+ 	add=5Fsystem=5Fdir (LIBDIR);
-+       add=5Fsystem=5Fdir (SLIBDIR32);
-diff --git a/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb b/meta/rec=
-ipes-core/glibc/ldconfig-native=5F2.12.1.bb
-index 4db67c3ad4..85fc87257d 100644
---- a/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb
-+++ b/meta/recipes-core/glibc/ldconfig-native=5F2.12.1.bb
-@@ -16,6 +16,7 @@ SRC=5FURI =3D "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://add-64-bit-flag-for-ELF64-entries.patch \
-            file://no-aux-cache.patch \
-            file://add-riscv-support.patch \
-+           file://ldconfig-add-usrmerge-support.patch \
- "
-=20
-=20
---=20
-2.43.0
+
 
 
 
