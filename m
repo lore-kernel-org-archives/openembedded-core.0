@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C28A0C41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D10F1C46CD3
 	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 13:48:39 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.13927.1702993717733806786
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web11.13926.1702993716251797289
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 05:48:37 -0800
+ Tue, 19 Dec 2023 05:48:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=I4L2NgKF;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5cdbc7bebecso220818a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 05:48:37 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JtZbk7cI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-517ab9a4a13so3438752a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 05:48:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702993716; x=1703598516; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1702993715; x=1703598515; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=itVKUY4pYFFYm0bz5gox7EMeXOdrtPx4lWw1hkFSQJE=;
-        b=I4L2NgKFSusN5+gpy91ke7RMHOn+BcjB7tPoNpsVSoOc0uZ0RCbwbCFVUj8d9Ta8D0
-         ZCDEdu6uYbE/ed5QOS7CA53zCM6PH8/wbMoHtGe5Y9xIElNCl+t6/tgRDKU6MDCDEPYz
-         mFR8PifmxFhi9uZvVwZCffHfW74fz+FJrS2VqBs+yrUG8pGsn8GEQe0A1Cj1XWMwF84M
-         u4fpQEWADdFfozHxwuPcpNoMtCw+roy3WwyyFsq6pOUCB/RAOrS9IEE4PlF7sfiRzTse
-         qxZxzRgIUZ76xwXT5TVQbrtasEZlsTO1RwomlpN5qAIYllZifwVeujbj/p9/1rxyJqpg
-         edAA==
+        bh=p72nxkt1EEQGr1XDww3UCkymo3kJ8gMzba0C0vjbW+k=;
+        b=JtZbk7cIlB++9XNYhZ8pqChPD2vFx3BJsqVMfjNMBDb4CdI7KqwkKC4RLiMR/czJrV
+         y2NUb0x5/p10Rc1B1swtJOurBAsGyC7iYQkYtrR+0JSpCZr6nWxfdXkgZ7PkwOeF6LEv
+         lLG+GWu0UA7MZwG++W5vCnesRvIwhaDyCN0MXRnM8Rg9Oe3032GWzQKLU1nsspAty5Ua
+         R5yKch3TowSxXceoUOIdzG96X0JGfJIA3QTFjMMiteLh72p09+b1Fk9sj1Cz3OUzGRzc
+         IoPmW640Ym+LM6J4/4OnqgN36+oUm5y9kNv4Zagm0vLkC+dI/UNnM5J1FiPseXzPbRjm
+         LXdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702993716; x=1703598516;
+        d=1e100.net; s=20230601; t=1702993715; x=1703598515;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=itVKUY4pYFFYm0bz5gox7EMeXOdrtPx4lWw1hkFSQJE=;
-        b=Pd94aCoz5Z73nHQni05zTd4jvETgfOIhI4VGYrjPW/Za+cmNN3Z1fUX6n7cPqbOPuI
-         duKm09kWrKr2R6vWr5TNl2HaQo2DVDL+OUjLyTSIewaCOf7sdaULaL76lYrr9Bxn2Gk9
-         JynHpBjZmTUuCeAUSMHtHgMCnv4IzTlJLu3RRo+cSJgfN8ZuxIjh3JXP3OoApGHVIwM3
-         oLiKiFuwAYwqZq82IkBkZ51O1D3DOh8biQxcBL72VHcoNVSemVnFqGBG1P6TTObC6yPh
-         RCzrHwYNF+XgPiXOPf9EPvXEIdF/fPkOAn94b8jajqsSriYWuPrBsxqxx7+XtVdBxHdI
-         kHPw==
-X-Gm-Message-State: AOJu0YyHfBOhVcIOjB7M90G+EwLHispP2U4ZL3/NHnQmaFaeCHqzG+tY
-	3Ah/WhVC3xT489MdFdgFHhzmVed9c3RcPbrifgH3Hw==
-X-Google-Smtp-Source: AGHT+IGf/hM4W38twZJLf1j5G4AR4OMd1JMibSlEtogaZIYrcuZZDNc7QHMVaH+97gLqceokHDeOdQ==
-X-Received: by 2002:a05:6a20:3ca3:b0:18b:ec94:deed with SMTP id b35-20020a056a203ca300b0018bec94deedmr9418881pzj.45.1702993716281;
-        Tue, 19 Dec 2023 05:48:36 -0800 (PST)
+        bh=p72nxkt1EEQGr1XDww3UCkymo3kJ8gMzba0C0vjbW+k=;
+        b=cmxM42B4qMXnk4oebQgnTPoR+SPFgbSV+RieIFgJd/RtxiwsLtV3G/odZD3HpaiTbl
+         g4iqRqQYWev0xNXZxrtc9cdW2d+QqXUjYkXI30sSWkhKxnV2GZTgoA5e1wB3r+T9uS/Y
+         RtxyZLROhDaqBq4odxHCm5YTAMHlthggJpwGBy4MG3G3fLeDh5l3xDFrPk8cYODEz7+b
+         +j+uchMlgJJa+ecX8IIVwwXV5YvlW2pigOMaL/HwpGcJNuKBl+pwFGfpon9HTAMgaGV2
+         2OfOe6B+3Ng4K6UmylxuKbIBwcEOG/45N9S6XlBK0nNzBASEP8FXLBwU7ermc+HPqded
+         ghCQ==
+X-Gm-Message-State: AOJu0YwyCHqWcxAIR6Wcf/ccLUaSuriP6W7m7zcty0hWhjtP8o2O9Ypq
+	HdwuwGRnP7ihwiBD3Hn7J1gJk10ZXfrtoOQaqi8vYg==
+X-Google-Smtp-Source: AGHT+IFktxwSV76D19gJKOFxTtzh0zhhGzwI26Pdq6DIflT26Us3S4TrT6YZdIYIv/ZRn/XJczs/2A==
+X-Received: by 2002:a05:6a20:1b0a:b0:18f:c339:3fc9 with SMTP id ch10-20020a056a201b0a00b0018fc3393fc9mr19831476pzb.15.1702993714322;
+        Tue, 19 Dec 2023 05:48:34 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id h4-20020a655184000000b0059d6f5196fasm16815398pgq.78.2023.12.19.05.48.35
+        by smtp.gmail.com with ESMTPSA id h4-20020a655184000000b0059d6f5196fasm16815398pgq.78.2023.12.19.05.48.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 05:48:35 -0800 (PST)
+        Tue, 19 Dec 2023 05:48:33 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/5] perl: fix CVE-2023-31484/47038/47100
-Date: Tue, 19 Dec 2023 03:48:20 -1000
-Message-Id: <74861848ba0d3ba920ef54f016240807ba42682a.1702993573.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 1/5] glibc: Fix CVE-2023-4813
+Date: Tue, 19 Dec 2023 03:48:19 -1000
+Message-Id: <d735b2a94091f9a4a91917c73bd73d9ce4a31e3e.1702993573.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1702993573.git.steve@sakoman.com>
 References: <cover.1702993573.git.steve@sakoman.com>
@@ -61,207 +61,1027 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 13:48:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192734
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192733
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Bhabu Bindu <bhabu.bindu@kpit.com>
 
-import patch from ubuntu
-http://archive.ubuntu.com/ubuntu/pool/main/p/perl/perl_5.30.0-9ubuntu0.5.debian.tar.xz
+Add patch to fix CVE-2023-4813
 
-fix:
-CVE-2023-31484
-CVE-2023-47038
-CVE-2023-47100
+Link: https://security-tracker.debian.org/tracker/CVE-2023-4813
 
-as per https://ubuntu.com/security/CVE-2023-47100 ,
-CVE-2023-47100 is duplicate of CVE-2023-47038.
-
-perl import entire CPAN in single commit,
-hence backport fix from their upstream cpan instead.
-
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
+Signed-off-by: Poonam Jadhav <ppjadhav456@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../perl/files/CVE-2023-31484.patch           |  27 ++++
- .../perl/files/CVE-2023-47038.patch           | 121 ++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.30.1.bb     |   2 +
- 3 files changed, 150 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-31484.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2023-47038.patch
+ .../glibc/glibc/CVE-2023-4813.patch           | 986 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
+ 2 files changed, 987 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2023-31484.patch b/meta/recipes-devtools/perl/files/CVE-2023-31484.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch b/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
 new file mode 100644
-index 0000000000..0fea7bf8a8
+index 0000000000..c7db4038c2
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2023-31484.patch
-@@ -0,0 +1,27 @@
-+CVE: CVE-2023-31484
-+Upstream-Status: Backport [  import from Ubuntu  perl_5.30.0-9ubuntu0.5
-+upstream  https://github.com/andk/cpanpm/commit/9c98370287f4e709924aee7c58ef21c85289a7f0 ]
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++++ b/meta/recipes-core/glibc/glibc/CVE-2023-4813.patch
+@@ -0,0 +1,986 @@
++From 1c37b8022e8763fedbb3f79c02e05c6acfe5a215 Mon Sep 17 00:00:00 2001
++From: Siddhesh Poyarekar <siddhesh@sourceware.org>
++Date: Thu, 17 Mar 2022 11:44:34 +0530
++Subject: [PATCH] Simplify allocations and fix merge and continue actions [BZ
++ #28931]
 +
-+From 9c98370287f4e709924aee7c58ef21c85289a7f0 Mon Sep 17 00:00:00 2001
-+From: Stig Palmquist <git@stig.io>
-+Date: Tue, 28 Feb 2023 11:54:06 +0100
-+Subject: [PATCH] Add verify_SSL=>1 to HTTP::Tiny to verify https server
-+ identity
++Allocations for address tuples is currently a bit confusing because of
++the pointer chasing through PAT, making it hard to observe the sequence
++in which allocations have been made.  Narrow scope of the pointer
++chasing through PAT so that it is only used where necessary.
 +
++This also tightens actions behaviour with the hosts database in
++getaddrinfo to comply with the manual text.  The "continue" action
++discards previous results and the "merge" action results in an immedate
++lookup failure.  Consequently, chaining of allocations across modules is
++no longer necessary, thus opening up cleanup opportunities.
++
++A test has been added that checks some combinations to ensure that they
++work correctly.
++
++Resolves: BZ #28931
++
++CVE: CVE-2023-4813
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=1c37b8022e8763fedbb3f79c02e05c6acfe5a215]
++Comments: Hunks refreshed
++
++Signed-off-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
++Reviewed-by: DJ Delorie <dj@redhat.com>
++Signed-off-by: Bhabu Bindu <bhabu.bindu@kpit.com>
 +---
-+ lib/CPAN/HTTP/Client.pm | 1 +
-+ 1 file changed, 1 insertion(+)
++ nss/Makefile                               |   1 +
++ nss/tst-nss-gai-actions.c                  | 149 ++++++
++ nss/tst-nss-gai-actions.root/etc/host.conf |   1 +
++ nss/tst-nss-gai-actions.root/etc/hosts     | 508 +++++++++++++++++++++
++ sysdeps/posix/getaddrinfo.c                | 143 +++---
++ 5 files changed, 750 insertions(+), 52 deletions(-)
++ create mode 100644 nss/tst-nss-gai-actions.c
++ create mode 100644 nss/tst-nss-gai-actions.root/etc/host.conf
++ create mode 100644 nss/tst-nss-gai-actions.root/etc/hosts
 +
-+diff --git a/cpan/CPAN/lib/CPAN/HTTP/Client.pm b/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-+index 4fc792c26..a616fee20 100644
-+--- a/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-++++ b/cpan/CPAN/lib/CPAN/HTTP/Client.pm
-+@@ -32,6 +32,7 @@ sub mirror {
++diff --git a/nss/Makefile b/nss/Makefile
++index 42a59535cb..d8b06b44fb 100644
++--- a/nss/Makefile
+++++ b/nss/Makefile
++@@ -61,6 +61,7 @@
 + 
-+     my $want_proxy = $self->_want_proxy($uri);
-+     my $http = HTTP::Tiny->new(
-++        verify_SSL => 1,
-+         $want_proxy ? (proxy => $self->{proxy}) : ()
-+     );
-+ 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2023-47038.patch b/meta/recipes-devtools/perl/files/CVE-2023-47038.patch
-new file mode 100644
-index 0000000000..59252c560c
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2023-47038.patch
-@@ -0,0 +1,121 @@
-+as per https://ubuntu.com/security/CVE-2023-47100 , CVE-2023-47100 is duplicate of CVE-2023-47038
-+CVE: CVE-2023-47038 CVE-2023-47100
-+Upstream-Status: Backport [ import from ubuntu perl_5.30.0-9ubuntu0.5 
-+upstream https://github.com/Perl/perl5/commit/12c313ce49b36160a7ca2e9b07ad5bd92ee4a010 ]
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+
-+Backport of:
-+
-+From 12c313ce49b36160a7ca2e9b07ad5bd92ee4a010 Mon Sep 17 00:00:00 2001
-+From: Karl Williamson <khw@cpan.org>
-+Date: Sat, 9 Sep 2023 11:59:09 -0600
-+Subject: [PATCH 1/2] Fix read/write past buffer end: perl-security#140
-+
-+A package name may be specified in a \p{...} regular expression
-+construct.  If unspecified, "utf8::" is assumed, which is the package
-+all official Unicode properties are in.  By specifying a different
-+package, one can create a user-defined property with the same
-+unqualified name as a Unicode one.  Such a property is defined by a sub
-+whose name begins with "Is" or "In", and if the sub wishes to refer to
-+an official Unicode property, it must explicitly specify the "utf8::".
-+S_parse_uniprop_string() is used to parse the interior of both \p{} and
-+the user-defined sub lines.
-+
-+In S_parse_uniprop_string(), it parses the input "name" parameter,
-+creating a modified copy, "lookup_name", malloc'ed with the same size as
-+"name".  The modifications are essentially to create a canonicalized
-+version of the input, with such things as extraneous white-space
-+stripped off.  I found it convenient to strip off the package specifier
-+"utf8::".  To to so, the code simply pretends "lookup_name" begins just
-+after the "utf8::", and adjusts various other values to compensate.
-+However, it missed the adjustment of one required one.
-+
-+This is only a problem when the property name begins with "perl" and
-+isn't "perlspace" nor "perlword".  All such ones are undocumented
-+internal properties.
-+
-+What happens in this case is that the input is reparsed with slightly
-+different rules in effect as to what is legal versus illegal.  The
-+problem is that "lookup_name" no longer is pointing to its initial
-+value, but "name" is.  Thus the space allocated for filling "lookup_name"
-+is now shorter than "name", and as this shortened "lookup_name" is
-+filled by copying suitable portions of "name", the write can be to
-+unallocated space.
-+
-+The solution is to skip the "utf8::" when reparsing "name".  Then both
-+"lookup_name" and "name" are effectively shortened by the same amount,
-+and there is no going off the end.
-+
-+This commit also does white-space adjustment so that things align
-+vertically for readability.
-+
-+This can be easily backported to earlier Perl releases.
-+---
-+ regcomp.c           | 17 +++++++++++------
-+ t/re/pat_advanced.t |  8 ++++++++
-+ 2 files changed, 19 insertions(+), 6 deletions(-)
-+
-+--- a/regcomp.c
-++++ b/regcomp.c
-+@@ -22606,7 +22606,7 @@ Perl_parse_uniprop_string(pTHX_
-+      * compile perl to know about them) */
-+     bool is_nv_type = FALSE;
-+ 
-+-    unsigned int i, j = 0;
-++    unsigned int i = 0, i_zero = 0, j = 0;
-+     int equals_pos = -1;    /* Where the '=' is found, or negative if none */
-+     int slash_pos  = -1;    /* Where the '/' is found, or negative if none */
-+     int table_index = 0;    /* The entry number for this property in the table
-+@@ -22717,9 +22717,13 @@ Perl_parse_uniprop_string(pTHX_
-+      * all of them are considered to be for that package.  For the purposes of
-+      * parsing the rest of the property, strip it off */
-+     if (non_pkg_begin == STRLENs("utf8::") && memBEGINPs(name, name_len, "utf8::")) {
-+-        lookup_name +=  STRLENs("utf8::");
-+-        j -=  STRLENs("utf8::");
-+-        equals_pos -=  STRLENs("utf8::");
-++        lookup_name += STRLENs("utf8::");
-++        j           -= STRLENs("utf8::");
-++        equals_pos  -= STRLENs("utf8::");
-++        i_zero       = STRLENs("utf8::");   /* When resetting 'i' to reparse
-++                                               from the beginning, it has to be
-++                                               set past what we're stripping
-++                                               off */
-+     }
-+ 
-+     /* Here, we are either done with the whole property name, if it was simple;
-+@@ -22997,7 +23001,8 @@ Perl_parse_uniprop_string(pTHX_
-+ 
-+             /* We set the inputs back to 0 and the code below will reparse,
-+              * using strict */
-+-            i = j = 0;
-++            i = i_zero;
-++            j = 0;
-+         }
-+     }
-+ 
-+@@ -23018,7 +23023,7 @@ Perl_parse_uniprop_string(pTHX_
-+          * separates two digits */
-+         if (cur == '_') {
-+             if (    stricter
-+-                && (     i == 0 || (int) i == equals_pos || i == name_len- 1
-++                && (   i == i_zero || (int) i == equals_pos || i == name_len- 1
-+                     || ! isDIGIT_A(name[i-1]) || ! isDIGIT_A(name[i+1])))
-+             {
-+                 lookup_name[j++] = '_';
-+--- a/t/re/pat_advanced.t
-++++ b/t/re/pat_advanced.t
-+@@ -2524,6 +2524,14 @@ EOF
-+                       "", {}, "*COMMIT caused positioning beyond EOS");
-+     }
-+ 
-++    {   # perl-security#140, read/write past buffer end
-++        fresh_perl_like('qr/\p{utf8::perl x}/',
-++                        qr/Illegal user-defined property name "utf8::perl x" in regex/,
-++                        {}, "perl-security#140");
-++        fresh_perl_is('qr/\p{utf8::_perl_surrogate}/', "",
-++                        {}, "perl-security#140");
-++    }
++ tests-container = \
++ 			  tst-nss-test3 \
+++			  tst-nss-gai-actions \
++ 			  tst-nss-files-hosts-long \
++ 			  tst-nss-db-endpwent \
++ 			  tst-nss-db-endgrent
++diff --git a/nss/tst-nss-gai-actions.c b/nss/tst-nss-gai-actions.c
++new file mode 100644
++index 0000000000..efca6cd183
++--- /dev/null
+++++ b/nss/tst-nss-gai-actions.c
++@@ -0,0 +1,149 @@
+++/* Test continue and merge NSS actions for getaddrinfo.
+++   Copyright The GNU Toolchain Authors.
+++   This file is part of the GNU C Library.
 ++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <https://www.gnu.org/licenses/>.  */
+++
+++#include <dlfcn.h>
+++#include <gnu/lib-names.h>
+++#include <nss.h>
+++#include <stdio.h>
+++#include <stdlib.h>
+++#include <string.h>
+++
+++#include <support/check.h>
+++#include <support/format_nss.h>
+++#include <support/support.h>
+++#include <support/xstdio.h>
+++#include <support/xunistd.h>
+++
+++enum
+++{
+++  ACTION_MERGE = 0,
+++  ACTION_CONTINUE,
+++};
+++
+++static const char *
+++family_str (int family)
+++{
+++  switch (family)
+++    {
+++    case AF_UNSPEC:
+++      return "AF_UNSPEC";
+++    case AF_INET:
+++      return "AF_INET";
+++    default:
+++      __builtin_unreachable ();
+++    }
+++}
+++
+++static const char *
+++action_str (int action)
+++{
+++  switch (action)
+++    {
+++    case ACTION_MERGE:
+++      return "merge";
+++    case ACTION_CONTINUE:
+++      return "continue";
+++    default:
+++      __builtin_unreachable ();
+++    }
+++}
+++
+++static void
+++do_one_test (int action, int family, bool canon)
+++{
+++  struct addrinfo hints =
+++    {
+++      .ai_family = family,
+++    };
+++
+++  struct addrinfo *ai;
+++
+++  if (canon)
+++    hints.ai_flags = AI_CANONNAME;
+++
+++  printf ("***** Testing \"files [SUCCESS=%s] files\" for family %s, %s\n",
+++	  action_str (action), family_str (family),
+++	  canon ? "AI_CANONNAME" : "");
+++
+++  int ret = getaddrinfo ("example.org", "80", &hints, &ai);
+++
+++  switch (action)
+++    {
+++    case ACTION_MERGE:
+++      if (ret == 0)
+++	{
+++	  char *formatted = support_format_addrinfo (ai, ret);
+++
+++	  printf ("merge unexpectedly succeeded:\n %s\n", formatted);
+++	  support_record_failure ();
+++	  free (formatted);
+++	}
+++      else
+++	return;
+++    case ACTION_CONTINUE:
+++	{
+++	  char *formatted = support_format_addrinfo (ai, ret);
+++
+++	  /* Verify that the result appears exactly once.  */
+++	  const char *expected = "address: STREAM/TCP 192.0.0.1 80\n"
+++	    "address: DGRAM/UDP 192.0.0.1 80\n"
+++	    "address: RAW/IP 192.0.0.1 80\n";
+++
+++	  const char *contains = strstr (formatted, expected);
+++	  const char *contains2 = NULL;
+++
+++	  if (contains != NULL)
+++	    contains2 = strstr (contains + strlen (expected), expected);
+++
+++	  if (contains == NULL || contains2 != NULL)
+++	    {
+++	      printf ("continue failed:\n%s\n", formatted);
+++	      support_record_failure ();
+++	    }
+++
+++	  free (formatted);
+++	  break;
+++	}
+++    default:
+++      __builtin_unreachable ();
+++    }
+++}
+++
+++static void
+++do_one_test_set (int action)
+++{
+++  char buf[32];
+++
+++  snprintf (buf, sizeof (buf), "files [SUCCESS=%s] files",
+++	    action_str (action));
+++  __nss_configure_lookup ("hosts", buf);
+++
+++  do_one_test (action, AF_UNSPEC, false);
+++  do_one_test (action, AF_INET, false);
+++  do_one_test (action, AF_INET, true);
+++}
+++
+++static int
+++do_test (void)
+++{
+++  do_one_test_set (ACTION_CONTINUE);
+++  do_one_test_set (ACTION_MERGE);
+++  return 0;
+++}
+++
+++#include <support/test-driver.c>
++diff --git a/nss/tst-nss-gai-actions.root/etc/host.conf b/nss/tst-nss-gai-actions.root/etc/host.conf
++new file mode 100644
++index 0000000000..d1a59f73a9
++--- /dev/null
+++++ b/nss/tst-nss-gai-actions.root/etc/host.conf
++@@ -0,0 +1 @@
+++multi on
++diff --git a/nss/tst-nss-gai-actions.root/etc/hosts b/nss/tst-nss-gai-actions.root/etc/hosts
++new file mode 100644
++index 0000000000..50ce9774dc
++--- /dev/null
+++++ b/nss/tst-nss-gai-actions.root/etc/hosts
++@@ -0,0 +1,508 @@
+++192.0.0.1	example.org
+++192.0.0.2	example.org
+++192.0.0.3	example.org
+++192.0.0.4	example.org
+++192.0.0.5	example.org
+++192.0.0.6	example.org
+++192.0.0.7	example.org
+++192.0.0.8	example.org
+++192.0.0.9	example.org
+++192.0.0.10	example.org
+++192.0.0.11	example.org
+++192.0.0.12	example.org
+++192.0.0.13	example.org
+++192.0.0.14	example.org
+++192.0.0.15	example.org
+++192.0.0.16	example.org
+++192.0.0.17	example.org
+++192.0.0.18	example.org
+++192.0.0.19	example.org
+++192.0.0.20	example.org
+++192.0.0.21	example.org
+++192.0.0.22	example.org
+++192.0.0.23	example.org
+++192.0.0.24	example.org
+++192.0.0.25	example.org
+++192.0.0.26	example.org
+++192.0.0.27	example.org
+++192.0.0.28	example.org
+++192.0.0.29	example.org
+++192.0.0.30	example.org
+++192.0.0.31	example.org
+++192.0.0.32	example.org
+++192.0.0.33	example.org
+++192.0.0.34	example.org
+++192.0.0.35	example.org
+++192.0.0.36	example.org
+++192.0.0.37	example.org
+++192.0.0.38	example.org
+++192.0.0.39	example.org
+++192.0.0.40	example.org
+++192.0.0.41	example.org
+++192.0.0.42	example.org
+++192.0.0.43	example.org
+++192.0.0.44	example.org
+++192.0.0.45	example.org
+++192.0.0.46	example.org
+++192.0.0.47	example.org
+++192.0.0.48	example.org
+++192.0.0.49	example.org
+++192.0.0.50	example.org
+++192.0.0.51	example.org
+++192.0.0.52	example.org
+++192.0.0.53	example.org
+++192.0.0.54	example.org
+++192.0.0.55	example.org
+++192.0.0.56	example.org
+++192.0.0.57	example.org
+++192.0.0.58	example.org
+++192.0.0.59	example.org
+++192.0.0.60	example.org
+++192.0.0.61	example.org
+++192.0.0.62	example.org
+++192.0.0.63	example.org
+++192.0.0.64	example.org
+++192.0.0.65	example.org
+++192.0.0.66	example.org
+++192.0.0.67	example.org
+++192.0.0.68	example.org
+++192.0.0.69	example.org
+++192.0.0.70	example.org
+++192.0.0.71	example.org
+++192.0.0.72	example.org
+++192.0.0.73	example.org
+++192.0.0.74	example.org
+++192.0.0.75	example.org
+++192.0.0.76	example.org
+++192.0.0.77	example.org
+++192.0.0.78	example.org
+++192.0.0.79	example.org
+++192.0.0.80	example.org
+++192.0.0.81	example.org
+++192.0.0.82	example.org
+++192.0.0.83	example.org
+++192.0.0.84	example.org
+++192.0.0.85	example.org
+++192.0.0.86	example.org
+++192.0.0.87	example.org
+++192.0.0.88	example.org
+++192.0.0.89	example.org
+++192.0.0.90	example.org
+++192.0.0.91	example.org
+++192.0.0.92	example.org
+++192.0.0.93	example.org
+++192.0.0.94	example.org
+++192.0.0.95	example.org
+++192.0.0.96	example.org
+++192.0.0.97	example.org
+++192.0.0.98	example.org
+++192.0.0.99	example.org
+++192.0.0.100	example.org
+++192.0.0.101	example.org
+++192.0.0.102	example.org
+++192.0.0.103	example.org
+++192.0.0.104	example.org
+++192.0.0.105	example.org
+++192.0.0.106	example.org
+++192.0.0.107	example.org
+++192.0.0.108	example.org
+++192.0.0.109	example.org
+++192.0.0.110	example.org
+++192.0.0.111	example.org
+++192.0.0.112	example.org
+++192.0.0.113	example.org
+++192.0.0.114	example.org
+++192.0.0.115	example.org
+++192.0.0.116	example.org
+++192.0.0.117	example.org
+++192.0.0.118	example.org
+++192.0.0.119	example.org
+++192.0.0.120	example.org
+++192.0.0.121	example.org
+++192.0.0.122	example.org
+++192.0.0.123	example.org
+++192.0.0.124	example.org
+++192.0.0.125	example.org
+++192.0.0.126	example.org
+++192.0.0.127	example.org
+++192.0.0.128	example.org
+++192.0.0.129	example.org
+++192.0.0.130	example.org
+++192.0.0.131	example.org
+++192.0.0.132	example.org
+++192.0.0.133	example.org
+++192.0.0.134	example.org
+++192.0.0.135	example.org
+++192.0.0.136	example.org
+++192.0.0.137	example.org
+++192.0.0.138	example.org
+++192.0.0.139	example.org
+++192.0.0.140	example.org
+++192.0.0.141	example.org
+++192.0.0.142	example.org
+++192.0.0.143	example.org
+++192.0.0.144	example.org
+++192.0.0.145	example.org
+++192.0.0.146	example.org
+++192.0.0.147	example.org
+++192.0.0.148	example.org
+++192.0.0.149	example.org
+++192.0.0.150	example.org
+++192.0.0.151	example.org
+++192.0.0.152	example.org
+++192.0.0.153	example.org
+++192.0.0.154	example.org
+++192.0.0.155	example.org
+++192.0.0.156	example.org
+++192.0.0.157	example.org
+++192.0.0.158	example.org
+++192.0.0.159	example.org
+++192.0.0.160	example.org
+++192.0.0.161	example.org
+++192.0.0.162	example.org
+++192.0.0.163	example.org
+++192.0.0.164	example.org
+++192.0.0.165	example.org
+++192.0.0.166	example.org
+++192.0.0.167	example.org
+++192.0.0.168	example.org
+++192.0.0.169	example.org
+++192.0.0.170	example.org
+++192.0.0.171	example.org
+++192.0.0.172	example.org
+++192.0.0.173	example.org
+++192.0.0.174	example.org
+++192.0.0.175	example.org
+++192.0.0.176	example.org
+++192.0.0.177	example.org
+++192.0.0.178	example.org
+++192.0.0.179	example.org
+++192.0.0.180	example.org
+++192.0.0.181	example.org
+++192.0.0.182	example.org
+++192.0.0.183	example.org
+++192.0.0.184	example.org
+++192.0.0.185	example.org
+++192.0.0.186	example.org
+++192.0.0.187	example.org
+++192.0.0.188	example.org
+++192.0.0.189	example.org
+++192.0.0.190	example.org
+++192.0.0.191	example.org
+++192.0.0.192	example.org
+++192.0.0.193	example.org
+++192.0.0.194	example.org
+++192.0.0.195	example.org
+++192.0.0.196	example.org
+++192.0.0.197	example.org
+++192.0.0.198	example.org
+++192.0.0.199	example.org
+++192.0.0.200	example.org
+++192.0.0.201	example.org
+++192.0.0.202	example.org
+++192.0.0.203	example.org
+++192.0.0.204	example.org
+++192.0.0.205	example.org
+++192.0.0.206	example.org
+++192.0.0.207	example.org
+++192.0.0.208	example.org
+++192.0.0.209	example.org
+++192.0.0.210	example.org
+++192.0.0.211	example.org
+++192.0.0.212	example.org
+++192.0.0.213	example.org
+++192.0.0.214	example.org
+++192.0.0.215	example.org
+++192.0.0.216	example.org
+++192.0.0.217	example.org
+++192.0.0.218	example.org
+++192.0.0.219	example.org
+++192.0.0.220	example.org
+++192.0.0.221	example.org
+++192.0.0.222	example.org
+++192.0.0.223	example.org
+++192.0.0.224	example.org
+++192.0.0.225	example.org
+++192.0.0.226	example.org
+++192.0.0.227	example.org
+++192.0.0.228	example.org
+++192.0.0.229	example.org
+++192.0.0.230	example.org
+++192.0.0.231	example.org
+++192.0.0.232	example.org
+++192.0.0.233	example.org
+++192.0.0.234	example.org
+++192.0.0.235	example.org
+++192.0.0.236	example.org
+++192.0.0.237	example.org
+++192.0.0.238	example.org
+++192.0.0.239	example.org
+++192.0.0.240	example.org
+++192.0.0.241	example.org
+++192.0.0.242	example.org
+++192.0.0.243	example.org
+++192.0.0.244	example.org
+++192.0.0.245	example.org
+++192.0.0.246	example.org
+++192.0.0.247	example.org
+++192.0.0.248	example.org
+++192.0.0.249	example.org
+++192.0.0.250	example.org
+++192.0.0.251	example.org
+++192.0.0.252	example.org
+++192.0.0.253	example.org
+++192.0.0.254	example.org
+++192.0.1.1	example.org
+++192.0.1.2	example.org
+++192.0.1.3	example.org
+++192.0.1.4	example.org
+++192.0.1.5	example.org
+++192.0.1.6	example.org
+++192.0.1.7	example.org
+++192.0.1.8	example.org
+++192.0.1.9	example.org
+++192.0.1.10	example.org
+++192.0.1.11	example.org
+++192.0.1.12	example.org
+++192.0.1.13	example.org
+++192.0.1.14	example.org
+++192.0.1.15	example.org
+++192.0.1.16	example.org
+++192.0.1.17	example.org
+++192.0.1.18	example.org
+++192.0.1.19	example.org
+++192.0.1.20	example.org
+++192.0.1.21	example.org
+++192.0.1.22	example.org
+++192.0.1.23	example.org
+++192.0.1.24	example.org
+++192.0.1.25	example.org
+++192.0.1.26	example.org
+++192.0.1.27	example.org
+++192.0.1.28	example.org
+++192.0.1.29	example.org
+++192.0.1.30	example.org
+++192.0.1.31	example.org
+++192.0.1.32	example.org
+++192.0.1.33	example.org
+++192.0.1.34	example.org
+++192.0.1.35	example.org
+++192.0.1.36	example.org
+++192.0.1.37	example.org
+++192.0.1.38	example.org
+++192.0.1.39	example.org
+++192.0.1.40	example.org
+++192.0.1.41	example.org
+++192.0.1.42	example.org
+++192.0.1.43	example.org
+++192.0.1.44	example.org
+++192.0.1.45	example.org
+++192.0.1.46	example.org
+++192.0.1.47	example.org
+++192.0.1.48	example.org
+++192.0.1.49	example.org
+++192.0.1.50	example.org
+++192.0.1.51	example.org
+++192.0.1.52	example.org
+++192.0.1.53	example.org
+++192.0.1.54	example.org
+++192.0.1.55	example.org
+++192.0.1.56	example.org
+++192.0.1.57	example.org
+++192.0.1.58	example.org
+++192.0.1.59	example.org
+++192.0.1.60	example.org
+++192.0.1.61	example.org
+++192.0.1.62	example.org
+++192.0.1.63	example.org
+++192.0.1.64	example.org
+++192.0.1.65	example.org
+++192.0.1.66	example.org
+++192.0.1.67	example.org
+++192.0.1.68	example.org
+++192.0.1.69	example.org
+++192.0.1.70	example.org
+++192.0.1.71	example.org
+++192.0.1.72	example.org
+++192.0.1.73	example.org
+++192.0.1.74	example.org
+++192.0.1.75	example.org
+++192.0.1.76	example.org
+++192.0.1.77	example.org
+++192.0.1.78	example.org
+++192.0.1.79	example.org
+++192.0.1.80	example.org
+++192.0.1.81	example.org
+++192.0.1.82	example.org
+++192.0.1.83	example.org
+++192.0.1.84	example.org
+++192.0.1.85	example.org
+++192.0.1.86	example.org
+++192.0.1.87	example.org
+++192.0.1.88	example.org
+++192.0.1.89	example.org
+++192.0.1.90	example.org
+++192.0.1.91	example.org
+++192.0.1.92	example.org
+++192.0.1.93	example.org
+++192.0.1.94	example.org
+++192.0.1.95	example.org
+++192.0.1.96	example.org
+++192.0.1.97	example.org
+++192.0.1.98	example.org
+++192.0.1.99	example.org
+++192.0.1.100	example.org
+++192.0.1.101	example.org
+++192.0.1.102	example.org
+++192.0.1.103	example.org
+++192.0.1.104	example.org
+++192.0.1.105	example.org
+++192.0.1.106	example.org
+++192.0.1.107	example.org
+++192.0.1.108	example.org
+++192.0.1.109	example.org
+++192.0.1.110	example.org
+++192.0.1.111	example.org
+++192.0.1.112	example.org
+++192.0.1.113	example.org
+++192.0.1.114	example.org
+++192.0.1.115	example.org
+++192.0.1.116	example.org
+++192.0.1.117	example.org
+++192.0.1.118	example.org
+++192.0.1.119	example.org
+++192.0.1.120	example.org
+++192.0.1.121	example.org
+++192.0.1.122	example.org
+++192.0.1.123	example.org
+++192.0.1.124	example.org
+++192.0.1.125	example.org
+++192.0.1.126	example.org
+++192.0.1.127	example.org
+++192.0.1.128	example.org
+++192.0.1.129	example.org
+++192.0.1.130	example.org
+++192.0.1.131	example.org
+++192.0.1.132	example.org
+++192.0.1.133	example.org
+++192.0.1.134	example.org
+++192.0.1.135	example.org
+++192.0.1.136	example.org
+++192.0.1.137	example.org
+++192.0.1.138	example.org
+++192.0.1.139	example.org
+++192.0.1.140	example.org
+++192.0.1.141	example.org
+++192.0.1.142	example.org
+++192.0.1.143	example.org
+++192.0.1.144	example.org
+++192.0.1.145	example.org
+++192.0.1.146	example.org
+++192.0.1.147	example.org
+++192.0.1.148	example.org
+++192.0.1.149	example.org
+++192.0.1.150	example.org
+++192.0.1.151	example.org
+++192.0.1.152	example.org
+++192.0.1.153	example.org
+++192.0.1.154	example.org
+++192.0.1.155	example.org
+++192.0.1.156	example.org
+++192.0.1.157	example.org
+++192.0.1.158	example.org
+++192.0.1.159	example.org
+++192.0.1.160	example.org
+++192.0.1.161	example.org
+++192.0.1.162	example.org
+++192.0.1.163	example.org
+++192.0.1.164	example.org
+++192.0.1.165	example.org
+++192.0.1.166	example.org
+++192.0.1.167	example.org
+++192.0.1.168	example.org
+++192.0.1.169	example.org
+++192.0.1.170	example.org
+++192.0.1.171	example.org
+++192.0.1.172	example.org
+++192.0.1.173	example.org
+++192.0.1.174	example.org
+++192.0.1.175	example.org
+++192.0.1.176	example.org
+++192.0.1.177	example.org
+++192.0.1.178	example.org
+++192.0.1.179	example.org
+++192.0.1.180	example.org
+++192.0.1.181	example.org
+++192.0.1.182	example.org
+++192.0.1.183	example.org
+++192.0.1.184	example.org
+++192.0.1.185	example.org
+++192.0.1.186	example.org
+++192.0.1.187	example.org
+++192.0.1.188	example.org
+++192.0.1.189	example.org
+++192.0.1.190	example.org
+++192.0.1.191	example.org
+++192.0.1.192	example.org
+++192.0.1.193	example.org
+++192.0.1.194	example.org
+++192.0.1.195	example.org
+++192.0.1.196	example.org
+++192.0.1.197	example.org
+++192.0.1.198	example.org
+++192.0.1.199	example.org
+++192.0.1.200	example.org
+++192.0.1.201	example.org
+++192.0.1.202	example.org
+++192.0.1.203	example.org
+++192.0.1.204	example.org
+++192.0.1.205	example.org
+++192.0.1.206	example.org
+++192.0.1.207	example.org
+++192.0.1.208	example.org
+++192.0.1.209	example.org
+++192.0.1.210	example.org
+++192.0.1.211	example.org
+++192.0.1.212	example.org
+++192.0.1.213	example.org
+++192.0.1.214	example.org
+++192.0.1.215	example.org
+++192.0.1.216	example.org
+++192.0.1.217	example.org
+++192.0.1.218	example.org
+++192.0.1.219	example.org
+++192.0.1.220	example.org
+++192.0.1.221	example.org
+++192.0.1.222	example.org
+++192.0.1.223	example.org
+++192.0.1.224	example.org
+++192.0.1.225	example.org
+++192.0.1.226	example.org
+++192.0.1.227	example.org
+++192.0.1.228	example.org
+++192.0.1.229	example.org
+++192.0.1.230	example.org
+++192.0.1.231	example.org
+++192.0.1.232	example.org
+++192.0.1.233	example.org
+++192.0.1.234	example.org
+++192.0.1.235	example.org
+++192.0.1.236	example.org
+++192.0.1.237	example.org
+++192.0.1.238	example.org
+++192.0.1.239	example.org
+++192.0.1.240	example.org
+++192.0.1.241	example.org
+++192.0.1.242	example.org
+++192.0.1.243	example.org
+++192.0.1.244	example.org
+++192.0.1.245	example.org
+++192.0.1.246	example.org
+++192.0.1.247	example.org
+++192.0.1.248	example.org
+++192.0.1.249	example.org
+++192.0.1.250	example.org
+++192.0.1.251	example.org
+++192.0.1.252	example.org
+++192.0.1.253	example.org
+++192.0.1.254	example.org
++diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
++index 18dccd5924..3d9bea60c6 100644
++--- a/sysdeps/posix/getaddrinfo.c
+++++ b/sysdeps/posix/getaddrinfo.c
++@@ -458,11 +458,6 @@ gaih_inet (const char *name, const struct gaih_service *service,
 + 
-+     # !!! NOTE that tests that aren't at all likely to crash perl should go
-+     # a ways above, above these last ones.  There's a comment there that, like
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 9bb94e7caa..4b5a4a5619 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -29,6 +29,8 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://CVE-2020-10878_1.patch \
-            file://CVE-2020-10878_2.patch \
-            file://CVE-2020-12723.patch \
-+           file://CVE-2023-31484.patch \
-+           file://CVE-2023-47038.patch \
++   if (name != NULL)
++     {
++-      at = alloca_account (sizeof (struct gaih_addrtuple), alloca_used);
++-      at->family = AF_UNSPEC;
++-      at->scopeid = 0;
++-      at->next = NULL;
++-
++       if (req->ai_flags & AI_IDN)
++ 	{
++ 	  char *out;
++@@ -473,13 +468,21 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 	  malloc_name = true;
++ 	}
++ 
++-      if (__inet_aton_exact (name, (struct in_addr *) at->addr) != 0)
+++      uint32_t addr[4];
+++      if (__inet_aton_exact (name, (struct in_addr *) addr) != 0)
++ 	{
+++	  at = alloca_account (sizeof (struct gaih_addrtuple), alloca_used);
+++	  at->scopeid = 0;
+++	  at->next = NULL;
+++
++ 	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET)
++-	    at->family = AF_INET;
+++	    {
+++	      memcpy (at->addr, addr, sizeof (at->addr));
+++	      at->family = AF_INET;
+++	    }
++ 	  else if (req->ai_family == AF_INET6 && (req->ai_flags & AI_V4MAPPED))
++ 	    {
++-	      at->addr[3] = at->addr[0];
+++	      at->addr[3] = addr[0];
++ 	      at->addr[2] = htonl (0xffff);
++ 	      at->addr[1] = 0;
++ 	      at->addr[0] = 0;
++@@ -505,49 +505,62 @@
++ 
++ 	  if (req->ai_flags & AI_CANONNAME)
++ 	    canon = name;
+++
+++	  goto process_list;
++ 	}
++-      else if (at->family == AF_UNSPEC)
+++
+++      char *scope_delim = strchr (name, SCOPE_DELIMITER);
+++      int e;
+++
+++      if (scope_delim == NULL)
+++	e = inet_pton (AF_INET6, name, addr);
+++      else
+++	e = __inet_pton_length (AF_INET6, name, scope_delim - name, addr);
+++
+++      if (e > 0)
++ 	{
++-	  char *scope_delim = strchr (name, SCOPE_DELIMITER);
++-	  int e;
++-	  if (scope_delim == NULL)
++-	    e = inet_pton (AF_INET6, name, at->addr);
+++	  at = alloca_account (sizeof (struct gaih_addrtuple),
+++			       alloca_used);
+++	  at->scopeid = 0;
+++	  at->next = NULL;
+++
+++	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
+++	    {
+++	      memcpy (at->addr, addr, sizeof (at->addr));
+++	      at->family = AF_INET6;
+++	    }
+++	  else if (req->ai_family == AF_INET
+++		   && IN6_IS_ADDR_V4MAPPED (addr))
+++	    {
+++	      at->addr[0] = addr[3];
+++	      at->addr[1] = addr[1];
+++	      at->addr[2] = addr[2];
+++	      at->addr[3] = addr[3];
+++	      at->family = AF_INET;
+++	    }
++ 	  else
++-	    e = __inet_pton_length (AF_INET6, name, scope_delim - name,
++-				    at->addr);
++-	  if (e > 0)
++ 	    {
++-	      if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET6)
++-		at->family = AF_INET6;
++-	      else if (req->ai_family == AF_INET
++-		       && IN6_IS_ADDR_V4MAPPED (at->addr))
++-		{
++-		  at->addr[0] = at->addr[3];
++-		  at->family = AF_INET;
++-		}
++-	      else
++-		{
++-		  result = -EAI_ADDRFAMILY;
++-		  goto free_and_return;
++-		}
++-
++-	      if (scope_delim != NULL
++-		  && __inet6_scopeid_pton ((struct in6_addr *) at->addr,
++-					   scope_delim + 1,
++-					   &at->scopeid) != 0)
++-		{
++-		  result = -EAI_NONAME;
++-		  goto free_and_return;
++-		}
+++	      result = -EAI_ADDRFAMILY;
+++	      goto free_and_return;
+++	    }
++ 
++-	      if (req->ai_flags & AI_CANONNAME)
++-		canon = name;
+++	  if (scope_delim != NULL
+++	      && __inet6_scopeid_pton ((struct in6_addr *) at->addr,
+++				       scope_delim + 1,
+++				       &at->scopeid) != 0)
+++	    {
+++	      result = -EAI_NONAME;
+++	      goto free_and_return;
++ 	    }
+++
+++	  if (req->ai_flags & AI_CANONNAME)
+++	    canon = name;
+++
+++	  goto process_list;
++ 	}
++ 
++-      if (at->family == AF_UNSPEC && (req->ai_flags & AI_NUMERICHOST) == 0)
+++      if ((req->ai_flags & AI_NUMERICHOST) == 0)
++ 	{
++-	  struct gaih_addrtuple **pat = &at;
++ 	  int no_data = 0;
++ 	  int no_inet6_data = 0;
++ 	  service_user *nip;
++@@ -543,6 +559,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 	  enum nss_status status = NSS_STATUS_UNAVAIL;
++ 	  int no_more;
++ 	  struct resolv_context *res_ctx = NULL;
+++	  bool do_merge = false;
++ 
++ 	  /* If we do not have to look for IPv6 addresses or the canonical
++ 	     name, use the simple, old functions, which do not support
++@@ -579,7 +596,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 			  result = -EAI_MEMORY;
++ 			  goto free_and_return;
++ 			}
++-		      *pat = addrmem;
+++		      at = addrmem;
++ 		    }
++ 		  else
++ 		    {
++@@ -632,6 +649,8 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 		    }
++ 
++ 		  struct gaih_addrtuple *addrfree = addrmem;
+++		  struct gaih_addrtuple **pat = &at;
+++
++ 		  for (int i = 0; i < air->naddrs; ++i)
++ 		    {
++ 		      socklen_t size = (air->family[i] == AF_INET
++@@ -695,12 +714,6 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 
++ 		  free (air);
++ 
++-		  if (at->family == AF_UNSPEC)
++-		    {
++-		      result = -EAI_NONAME;
++-		      goto free_and_return;
++-		    }
++-
++ 		  goto process_list;
++ 		}
++ 	      else if (err == 0)
++@@ -750,6 +763,22 @@
++ 
++ 	  while (!no_more)
++ 	    {
+++	      /* Always start afresh; continue should discard previous results
+++		 and the hosts database does not support merge.  */
+++	      at = NULL;
+++	      free (canonbuf);
+++	      free (addrmem);
+++	      canon = canonbuf = NULL;
+++	      addrmem = NULL;
+++	      got_ipv6 = false;
+++
+++	      if (do_merge)
+++		{
+++		  __set_h_errno (NETDB_INTERNAL);
+++		  __set_errno (EBUSY);
+++		  break;
+++		}
+++
++ 	      no_data = 0;
++ 	      nss_gethostbyname4_r fct4 = NULL;
++ 
++@@ -744,12 +773,14 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 		{
++ 		  while (1)
++ 		    {
++-		      status = DL_CALL_FCT (fct4, (name, pat,
+++		      status = DL_CALL_FCT (fct4, (name, &at,
++ 						   tmpbuf->data, tmpbuf->length,
++ 						   &errno, &h_errno,
++ 						   NULL));
++ 		      if (status == NSS_STATUS_SUCCESS)
++ 			break;
+++		      /* gethostbyname4_r may write into AT, so reset it.  */
+++		      at = NULL;
++ 		      if (status != NSS_STATUS_TRYAGAIN
++ 			  || errno != ERANGE || h_errno != NETDB_INTERNAL)
++ 			{
++@@ -774,7 +805,9 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 		      no_data = 1;
++ 
++ 		      if ((req->ai_flags & AI_CANONNAME) != 0 && canon == NULL)
++-			canon = (*pat)->name;
+++			canon = at->name;
+++
+++		      struct gaih_addrtuple **pat = &at;
++ 
++ 		      while (*pat != NULL)
++ 			{
++@@ -826,6 +859,8 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 
++ 		  if (fct != NULL)
++ 		    {
+++		      struct gaih_addrtuple **pat = &at;
+++
++ 		      if (req->ai_family == AF_INET6
++ 			  || req->ai_family == AF_UNSPEC)
++ 			{
++@@ -917,6 +946,10 @@
++ 	      if (nss_next_action (nip, status) == NSS_ACTION_RETURN)
++ 		break;
++ 
+++	      /* The hosts database does not support MERGE.  */
+++	      if (nss_next_action (nip, status) == NSS_ACTION_MERGE)
+++		do_merge = true;
+++
++ 	      if (nip->next == NULL)
++ 		no_more = -1;
++ 	      else
++@@ -930,7 +969,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
++ 	}
++ 
++     process_list:
++-      if (at->family == AF_UNSPEC)
+++      if (at == NULL)
++ 	{
++ 	  result = -EAI_NONAME;
++ 	  goto free_and_return;
++-- 
++2.39.3
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index 8298088323..296c892994 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -88,6 +88,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0037-Avoid-deadlock-between-pthread_create-and-ctors.patch \
+            file://CVE-2023-0687.patch \
+            file://CVE-2023-4911.patch \
++           file://CVE-2023-4813.patch \
             "
- SRC_URI_append_class-native = " \
-            file://perl-configpm-switch.patch \
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
 2.34.1
 
