@@ -1,239 +1,207 @@
-Return-Path: <alex.bennee@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BB7C41535
-	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 16:44:51 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.831.1703004280784735874
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D597C41535
+	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 18:09:31 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.3069.1703009363801521238
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 08:44:41 -0800
+ Tue, 19 Dec 2023 10:09:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=mfMWbwco;
- spf=pass (domain: linaro.org, ip: 209.85.128.46, mailfrom: alex.bennee@linaro.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40d2764c0f2so11121555e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 08:44:40 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FJ8pny0U;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40c41b43e1eso61513465e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 10:09:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703004279; x=1703609079; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Rx/PgHlSGJbJHUGnVK8GJm/Xyd7BFAepE5/3XFFQy0=;
-        b=mfMWbwcoJboHuNpI9XJmnKTZ1+dGCnVLTU9OpJ+K32lDNxC9gaUax0fdGVkx2AqY1o
-         ka9yo0UTDrbEH+4mN9C3DpDd5zw9NDa83z2CFZa8saKlFr7BnSRbA12nG7SkbtOk7KD/
-         hYAvNE+TiX9gyHN8DlYytxnSjgKx5Mcac0RbFm89oFzOceTL/nKFvvH2l2ZOObZb2do8
-         hZB+gAk6HdEz0fcRHHcjnd7urpPoJHYTYDePXSDxDAsrih7wsp3cvaaIzB+Wiz1vPuhQ
-         D2TisewEnqzn70JHbK/9dRGOcsq9iNC9jYUXyaPxWL3HBCT2eSeofWlYBwkOhlZjrXzm
-         AHBg==
+        d=linuxfoundation.org; s=google; t=1703009362; x=1703614162; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wzlDqoI+Nnn/inORlTlZ5khk20W26kRtBtEy8X/eWic=;
+        b=FJ8pny0Uu1dDx0TTjcFcGZh0n3Xi3Cbz/+7lcC++3rWbR8t9PzXp3BVE3YzEp+E5Fy
+         tJtzICTAK7Mkac8rRM+CRkdQxSP16NzJsC8OSNtT1OemZwOJQYZF29IHzMT+YRWoYruR
+         +f5SQbDFINqbA44GTzxRgByyfGSF1rRmJXYuY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703004279; x=1703609079;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1Rx/PgHlSGJbJHUGnVK8GJm/Xyd7BFAepE5/3XFFQy0=;
-        b=chWw2hq/Nkl4aj/Ye4G+JZ0vdnn1RZyrocLqf3wqIWbSKGJfqarCvFydM3s51/fRwx
-         kU54+P2/XOWKZ12LyC9Z/3w/ucn7XobPzRCqhHbOlSbn6wtbqN1Tl2zBGk71rpIvKpvE
-         b4R7ZyEdLyOHcxqOGort1gom+BNuLHtszmzSfaaj18JzEfRlqtAOVxosUcRhNu54dVor
-         rOE5Nf0NVolfczs1nzvjHSX/IXVq10SHyCkMIHwDksjKYbdtrKuiOvZsoFtKRbvjqYBi
-         gO1pNjW4bV7zT/a7/4uZEUFsDUXSb3l9n4+h+1vMi0jUFYcvddrCdsbDkb6sO8pLJake
-         dfNg==
-X-Gm-Message-State: AOJu0YyudGFCXIVcvztGZfjSBsEsRGoHcvoKxxAv9NRfD6baI/hJaS/V
-	saZGubS2HD9G8gmpLCDCp86TDg==
-X-Google-Smtp-Source: AGHT+IFOwABN4dqWd634EeY6pvKTNwuyyFt0qUWXRDmHH9yij8DGpo8PwgbkPRN50GlgXwSZw8+QvQ==
-X-Received: by 2002:a05:600c:4d0f:b0:40c:3bb2:ca3e with SMTP id u15-20020a05600c4d0f00b0040c3bb2ca3emr8597104wmp.207.1703004279121;
-        Tue, 19 Dec 2023 08:44:39 -0800 (PST)
-Received: from draig.lan ([85.9.250.243])
-        by smtp.gmail.com with ESMTPSA id je17-20020a05600c1f9100b0040d1450ca7esm3613709wmb.7.2023.12.19.08.44.38
+        d=1e100.net; s=20230601; t=1703009362; x=1703614162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wzlDqoI+Nnn/inORlTlZ5khk20W26kRtBtEy8X/eWic=;
+        b=LLU7mW20JpoOpAnEcAIMyqfRuOpmVpTjylosTsfrNCkzqMaUt5zaak9Vobr41FX9AN
+         ezrLIAQVXEDavyRWU7VTF91c63g/FIoFueHcDovlUtnUKI86LZnXT73YcMCCwjL9Henu
+         GzNxDlGfmvuGMbkaRyoIcAZTvwskJM1qjF2fJALEeHG2gSdH0W736q7tTbtpQ+yqHXYz
+         cmJiQSUDQDMTOBzSZzfdYZIdGS2OYPRvPXaobs55Q0LahtVhxtQ0hCgTqxesGhs3lH17
+         dVjTK0rFZKzm74roXH2JlmJaI5Dv/oZqQF5F2p2YeJeNVO81BsJPW7YS1pjVFeyBVPnq
+         gU+Q==
+X-Gm-Message-State: AOJu0YwDr6b4/2+aamPtFJNMKNmzdVPYmKtY86SqQR5wnlUkPRA+AKV9
+	j4xvsWDndBMcP6ZXyFT51DpCcCfhrecBf6+w0PY=
+X-Google-Smtp-Source: AGHT+IF38WQhNFZveAP0N9LH8eeiiZ8UYiKcAWiZBb6yxsHXx8iIww0LIAvmfTWIU5INS8JTjPoC/g==
+X-Received: by 2002:a7b:ce88:0:b0:408:434c:dae7 with SMTP id q8-20020a7bce88000000b00408434cdae7mr9085720wmj.2.1703009361705;
+        Tue, 19 Dec 2023 10:09:21 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b87d:537f:7c6:e419])
+        by smtp.gmail.com with ESMTPSA id h15-20020a5d504f000000b00336566b885csm12072552wrt.87.2023.12.19.10.09.21
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 08:44:38 -0800 (PST)
-Received: from draig (localhost [IPv6:::1])
-	by draig.lan (Postfix) with ESMTP id 58BC45F8B9;
-	Tue, 19 Dec 2023 16:44:38 +0000 (GMT)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 2/2] qemurunner: Impove handling of serial
- port output blocking
-In-Reply-To: <86be77c51628028eeda996117c5eb02eb8bf5941.camel@linuxfoundation.org>
-	(Richard Purdie's message of "Tue, 19 Dec 2023 15:15:30 +0000")
-References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
-	<20231218152951.3398964-2-richard.purdie@linuxfoundation.org>
-	<87bkam449t.fsf@draig.linaro.org>
-	<86be77c51628028eeda996117c5eb02eb8bf5941.camel@linuxfoundation.org>
-User-Agent: mu4e 1.11.26; emacs 29.1
-Date: Tue, 19 Dec 2023 16:44:38 +0000
-Message-ID: <87r0ji2lc9.fsf@draig.linaro.org>
+        Tue, 19 Dec 2023 10:09:21 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] testimage: Drop target_dumper and most of monitor_dumper
+Date: Tue, 19 Dec 2023 18:09:20 +0000
+Message-Id: <20231219180920.3538613-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 16:44:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192752
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 18:09:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192753
 
-Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+The target_dumper code is basically broken. It has been reading binary files
+over the text base serial communication and runs at every command failure which
+makes no sense. Each run might overwrite files from the previous run and the
+output appears corrupted due to confusion from the binary data.
 
-> On Tue, 2023-12-19 at 15:10 +0000, Alex Benn=C3=A9e wrote:
->> "Richard Purdie" <richard.purdie@linuxfoundation.org> writes:
->>=20
->> > Similar to stdout in the previous commit, we need to ensure serial out=
-put
->> > if written is read and put somewhere, else qemu might block on writes =
-to
->> > the serial port leading to hangs in the kernel. Use our existing loggi=
-ng
->> > thread to log data when run_serial is not in use.
->> >=20
->> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>=20
->> I'm still seeing hanging with my test case:
->>=20
->>   o regression_1010.5 Invalid memory access 5
->>     regression_1010.5 OK
->>   o regression_1010.6 Invalid memory access 6
->>=20
->>   Stdout:
->>   Tried to dump info from target but serial console failed
->>   Failed CMD: top -bn1
->>   Tried to dump info from target but serial console failed
->>   Failed CMD: ps
->>   Tried to dump info from target but serial console failed
->>   Failed CMD: free
->>=20
->>   NOTE: test_soafee (soafeetestsuite.SoafeeTestSuite.test_soafee)
->>   DEBUG: Checking if at least one of soafee-test-suite is installed
->>   DEBUG: Setting up a 400 second(s) timeout
->>   DEBUG: [Running]$ ssh -l root -o ServerAliveCountMax=3D2 -o ServerAliv=
-eInterval=3D30 -o UserKnownHostsFile=3D/dev/null -o StrictHostKeyChecking=
-=3Dno -o LogLevel=3DERROR -p 2222 127.0.0.1 export PATH=3D/usr/sbin:/sbin:/=
-usr/bin:/bin; sudo -i -u trs soafee-test-suite run -r -t -T ; rm -rf /tmp/s=
-oafee-test-suite
->>   DEBUG: Waiting for process output: time: 1702998407.0291, endtime: 170=
-2998707.0285847
->>   DEBUG: Waiting for process output: time: 1702998412.0338314, endtime: =
-1702998707.0285847
->>   DEBUG: Waiting for process output: time: 1702998417.0378022, endtime: =
-1702998707.0285847
->>   DEBUG: Waiting for process output: time: 1702998422.0417945, endtime: =
-1702998707.0285847
->>   <snip>
->>=20
->> The regression tests are hanging because that has triggered output on
->> the serial port as the firmware attempted to service the test and the
->> port isn't being drained. Then when that times out we start spinning
->> waiting for more output.
->
-> I don't really understand where it might be hanging unfortunately as in
-> my local tests it is draining stdout and the serial ports. Does it
-> login to the serial console correctly? Are there any WARNING messages?
->
-> I did use this debug patch:
->
-> https://git.yoctoproject.org/poky-contrib/commit/?h=3Drpurdie/t222&id=3D0=
-d9029bad610736c114e0770d2433b53133fa620
->
-> to prove that it can interleave serial commands with left over output
-> successfully. A similar patch may help work out where your setup may be
-> hanging?
+For now, remove the commands and the target dumper code as the command
+and execution point are problematic. Also remove the same pieces of the monitor
+code but leave the command list since in theory this can be moved to a more
+useful place in the code.
 
-Yeah I'm only seeing A10/A11:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-recipe/testimage.bbclass | 16 ----------------
+ meta/lib/oeqa/core/target/qemu.py     | 10 ----------
+ meta/lib/oeqa/core/target/ssh.py      | 20 +-------------------
+ meta/lib/oeqa/targetcontrol.py        |  2 --
+ 4 files changed, 1 insertion(+), 47 deletions(-)
 
-  o regression_1010.5 Invalid memory access 5
-    regression_1010.5 OK
-  o regression_1010.6 Invalid memory access 6
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index c6b7a1e142f..f36d9418914 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -109,21 +109,6 @@ TESTIMAGE_DUMP_DIR ?= "${LOG_DIR}/runtime-hostdump/"
+ 
+ TESTIMAGE_UPDATE_VARS ?= "DL_DIR WORKDIR DEPLOY_DIR_IMAGE IMAGE_LINK_NAME"
+ 
+-testimage_dump_target () {
+-    top -bn1
+-    ps
+-    free
+-    df
+-    # The next command will export the default gateway IP
+-    export DEFAULT_GATEWAY=$(ip route | awk '/default/ { print $3}')
+-    ping -c3 $DEFAULT_GATEWAY
+-    dmesg
+-    netstat -an
+-    ip address
+-    # Next command will dump logs from /var/log/
+-    find /var/log/ -type f -name !wtmp* 2>/dev/null -exec echo "====================" \; -exec echo {} \; -exec echo "====================" \; -exec cat {} \; -exec echo "" \;
+-}
+-
+ testimage_dump_monitor () {
+     query-status
+     query-block
+@@ -352,7 +337,6 @@ def testimage_main(d):
+     target_kwargs['serialcontrol_cmd'] = d.getVar("TEST_SERIALCONTROL_CMD") or None
+     target_kwargs['serialcontrol_extra_args'] = d.getVar("TEST_SERIALCONTROL_EXTRA_ARGS") or ""
+     target_kwargs['testimage_dump_monitor'] = d.getVar("testimage_dump_monitor") or ""
+-    target_kwargs['testimage_dump_target'] = d.getVar("testimage_dump_target") or ""
+ 
+     def export_ssh_agent(d):
+         import os
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+index 6893d10226c..d93b3ac94a2 100644
+--- a/meta/lib/oeqa/core/target/qemu.py
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -14,8 +14,6 @@ from collections import defaultdict
+ 
+ from .ssh import OESSHTarget
+ from oeqa.utils.qemurunner import QemuRunner
+-from oeqa.utils.dump import MonitorDumper
+-from oeqa.utils.dump import TargetDumper
+ 
+ supported_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
+ 
+@@ -47,14 +45,6 @@ class OEQemuTarget(OESSHTarget):
+                                  use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir, logger=logger,
+                                  serial_ports=serial_ports, boot_patterns = boot_patterns, 
+                                  use_ovmf=ovmf, tmpfsdir=tmpfsdir)
+-        dump_monitor_cmds = kwargs.get("testimage_dump_monitor")
+-        self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
+-        if self.monitor_dumper:
+-            self.monitor_dumper.create_dir("qmp")
+-
+-        dump_target_cmds = kwargs.get("testimage_dump_target")
+-        self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
+-        self.target_dumper.create_dir("qemu")
+ 
+     def start(self, params=None, extra_bootparams=None, runqemuparams=''):
+         if self.use_slirp and not self.server_ip:
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index f4dd0ca417a..09cdd14c759 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -48,8 +48,6 @@ class OESSHTarget(OETarget):
+         if port:
+             self.ssh = self.ssh + [ '-p', port ]
+             self.scp = self.scp + [ '-P', port ]
+-        self._monitor_dumper = None
+-        self.target_dumper = None
+ 
+     def start(self, **kwargs):
+         pass
+@@ -57,15 +55,6 @@ class OESSHTarget(OETarget):
+     def stop(self, **kwargs):
+         pass
+ 
+-    @property
+-    def monitor_dumper(self):
+-        return self._monitor_dumper
+-
+-    @monitor_dumper.setter
+-    def monitor_dumper(self, dumper):
+-        self._monitor_dumper = dumper
+-        self.monitor_dumper.dump_monitor()
+-
+     def _run(self, command, timeout=None, ignore_status=True):
+         """
+             Runs command in target using SSHProcess.
+@@ -104,14 +93,7 @@ class OESSHTarget(OETarget):
+ 
+         status, output = self._run(sshCmd, processTimeout, ignore_status)
+         self.logger.debug('Command: %s\nStatus: %d Output:  %s\n' % (command, status, output))
+-        if (status == 255) and (('No route to host') in output):
+-            if self.monitor_dumper:
+-                self.monitor_dumper.dump_monitor()
+-        if status == 255:
+-            if self.target_dumper:
+-                self.target_dumper.dump_target()
+-            if self.monitor_dumper:
+-                self.monitor_dumper.dump_monitor()
++
+         return (status, output)
+ 
+     def copyTo(self, localSrc, remoteDst):
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index e21655c9797..6e8b7819732 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -103,7 +103,6 @@ class QemuTarget(BaseTarget):
+             self.rootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"),  d.getVar("IMAGE_LINK_NAME") + '.' + self.image_fstype)
+             self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE"), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
+         self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
+-        dump_target_cmds = d.getVar("testimage_dump_target")
+         dump_monitor_cmds = d.getVar("testimage_dump_monitor")
+         dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
+         if not dump_dir:
+@@ -144,7 +143,6 @@ class QemuTarget(BaseTarget):
+                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+                             serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
+ 
+-        self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
+         self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
+         if (self.monitor_dumper):
+             self.monitor_dumper.create_dir("qmp")
+-- 
+2.39.2
 
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  NOTE:  ... FAIL
-  DEBUG: Removed SIGALRM handler
-  Traceback (most recent call last):
-    File "/home/alex/lsrc/tests/trs/build/../poky/meta/lib/oeqa/core/decora=
-tor/__init__.py", line 35, in wrapped_f
-      return func(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^
-    File "/home/alex/lsrc/tests/trs/build/../poky/meta/lib/oeqa/core/decora=
-tor/__init__.py", line 35, in wrapped_f
-      return func(*args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^
-    File "/home/alex/lsrc/tests/trs/meta-trs/lib/oeqa/runtime/cases/opteete=
-st.py", line 27, in test_opteetest_xtest
-      self.assertEqual(status, 0, msg=3D'\n'.join([cmd, output]))
-  AssertionError: 255 !=3D 0 :  xtest=20=20=20=20=20=20=20=20=20=20=20=20=
-=20=20=20
-  Run test suite with level=3D0
-
-Those are the only two bits hit in the logging:
-
-  grep "WARNING: here" build/tmp_trs-qemuarm64/work/trs_qemuarm64-trs-linux=
-/trs-image/1.0/temp/log.do_testimage
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-  WARNING: here A10
-  WARNING: here A11
-
->
-> Cheers,
->
-> Richard=20
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
