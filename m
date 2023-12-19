@@ -1,238 +1,198 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29587C46CD7
-	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 14:35:40 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.15005.1702996535496103182
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 621E9C41535
+	for <webhook@archiver.kernel.org>; Tue, 19 Dec 2023 15:04:20 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web11.15646.1702998251105386697
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 06:35:35 -0800
+ Tue, 19 Dec 2023 07:04:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hhq3LFSt;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3364c9ff8e1so2537681f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 06:35:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kiBlKuKh;
+ spf=pass (domain: gmail.com, ip: 209.85.167.178, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3b9dbbaa9a9so4281720b6e.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 07:04:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1702996533; x=1703601333; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mcUB0zdAvoy0z09thntI4WuPRyb3nadRKCMzxIW/3RM=;
-        b=Hhq3LFStH5HiBgxc5kluosjiPPrSKszjka4bxOE8Y7LUav4KG2zAgKxsT2H6oKagtA
-         iz0KjoXmO1wYXLpEVNBYm2AENkS2R2w//blxSjrICASfGRDwPo8AgDxFsCpIU7g1JUFE
-         fKUfdney+HumixmkRjIh7RIO2BzsUFU3G/Qf8=
+        d=gmail.com; s=20230601; t=1702998250; x=1703603050; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AjbhymxEVB2KK/w05EmuBFuXY0VuCdUQsGVfd55Gezg=;
+        b=kiBlKuKhapGl4YRVEAJKpn8UHi8sGX379NWQ1obR7OfSkCG/yICm/6GKbLNdjAsjDt
+         HmOL8qOrZ3WMdjmjDhxcMYvnOxEM+kN/dJXXYK6sI1vX4gsL5eFKc17BAK5o8N9nEcY+
+         JQEpGi9IixZ6VzWGiIs8iFXRRx+CfEFvaoeoizwc7qFVbQ3RBwZST437OGkCEJrN2+0R
+         8gXiEeVsWuMggOEm/qr/nyxHGhBGnqeBdOnGtY/4PES9PgirmbQFur/Ep3SwGPM6SGHk
+         Thf1o47A22JhGP86hm59Gv1/AWoYTweLPY8SPBsk5Eb212tnuPTQWrm+eLk+eyjpV4+R
+         ufvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702996533; x=1703601333;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mcUB0zdAvoy0z09thntI4WuPRyb3nadRKCMzxIW/3RM=;
-        b=CXnfsOjB5fZ+kDRDoA2uApJZ6bZzYeGw6vhVKp8eMuoxeQN/NM5WSRsT2GA4rcwfih
-         X4PG+h2+LD962/hk/Kc3EtX9kkMgHbPGT2C45W9MrStK8xeF21RoXJY5ilopdbARE0Z6
-         T+km+v1buT1fiWbEOAHKDosSxK0/+d4n7xgTW/LOLdLCxqw1l+9CtZ/Uk4An4unv5s3p
-         4mWuM48Wqf58uV6ERM8MwQv3wD0KR0luEPkTZ1hEMfy/k4KyVvX28+c55Pwwdo+cmj61
-         /zP/sURu6qCE1kKh2R4XqiXVbg73dCfIhZWTI/lFmx80oXSrHkuiV1Tco5WOhMpxY+mu
-         +YWQ==
-X-Gm-Message-State: AOJu0YzFxc4d8peOCIzBiKkrLEiWEXmqXt9n+5Dtfip3monbW54iyHY6
-	YCjuwLzs0y8e+yLqa+0NOUdINjTGQVfzSBLDQWc=
-X-Google-Smtp-Source: AGHT+IEux/mSYWFX9yuyM8XirTNuP5enYHCvTM+OAWvFdBIePSAIF+f/fZwk6b9Yi67cW29ygQUfJA==
-X-Received: by 2002:a1c:7505:0:b0:40c:6555:8faf with SMTP id o5-20020a1c7505000000b0040c65558fafmr613284wmc.180.1702996533574;
-        Tue, 19 Dec 2023 06:35:33 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b87d:537f:7c6:e419])
-        by smtp.gmail.com with ESMTPSA id m5-20020a05600c4f4500b0040c57e4ea28sm3168889wmq.17.2023.12.19.06.35.33
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 06:35:33 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] qemurunner: Improve stdout logging handling
-Date: Tue, 19 Dec 2023 14:35:28 +0000
-Message-Id: <20231219143531.3514266-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231219143531.3514266-1-richard.purdie@linuxfoundation.org>
-References: <20231219143531.3514266-1-richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1702998250; x=1703603050;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AjbhymxEVB2KK/w05EmuBFuXY0VuCdUQsGVfd55Gezg=;
+        b=pdAyMU6X+pzD32/f1nrh2HokM+mUtj7oWQE/NMp9ucVPjtJUqb1qV8Edtzz/CceZ7G
+         uKlSBsIpQChVC1HdgURGmyYaMb8/cz5qYbsA/snUkey8Tp/+92g5v9uE4w3SNhsdcNKd
+         6ZNzhm0w40icE9Xmalw4plL18Y3Xs/B3OTuaZ8Qb8iHwIMjq/2Y76GYYxukvHl86eb8g
+         +bPh/qibhasmx4yQ3c+hNvTZYYN8zQjKbq8etnwqbNWwtxLEfJlmkHt+ttSsiTgKFEaP
+         zdT6BTfEzfOMqA4y1mi+5M8bO1s11xj6PJwRAkkFMPwsIwAN4reP08Ecfp9oVjzpC++q
+         264w==
+X-Gm-Message-State: AOJu0Yx1sF7ndzaj3ftIJ5hA+3dciSJimv7Xoyi2mfUmPhbOpFkE2H2h
+	dVZ0XDlE74uG5vZ6GwA/hB3Rx4N29UXrYrz3hSf/GIxZAeWVEw==
+X-Google-Smtp-Source: AGHT+IHEvzfKGLZnJWlGqPWBpBqOt2YMNynaPqbDKuB1WUSUhOBjGn/JtoiZmtMG+xh4HyaOH0WQEKFXldPmuaN3AU4=
+X-Received: by 2002:a05:6808:1416:b0:3b9:96a1:1f2c with SMTP id
+ w22-20020a056808141600b003b996a11f2cmr24436559oiv.51.1702998250356; Tue, 19
+ Dec 2023 07:04:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231219143531.3514266-1-richard.purdie@linuxfoundation.org> <20231219143531.3514266-5-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20231219143531.3514266-5-richard.purdie@linuxfoundation.org>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Tue, 19 Dec 2023 15:03:59 +0000
+Message-ID: <CANPvuRkcAQPdRKmUekp5K77hrzi6mvEk+kUQt3Fbj0kym-vnNQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 5/5] oeqa/selftest/overlayfs: Don't overwrite DISTRO_FEATURES
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000c408d6060cde2d2b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 14:35:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192741
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 15:04:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192745
 
-We need to ensure we read from and log the output from qemu stdout
-as otherwise the buffers can fill and block, leading qemu to hand.
-Use our existing logging thread to do this.
+--000000000000c408d6060cde2d2b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/utils/qemurunner.py | 54 ++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 22 deletions(-)
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia ter=C3=
+=A7a,
+19/12/2023 =C3=A0(s) 14:35:
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index ee367078000..cdd0db58776 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -29,6 +29,15 @@ control_chars = [chr(x) for x in control_range
-                 if chr(x) not in string.printable]
- re_control_char = re.compile('[%s]' % re.escape("".join(control_chars)))
- 
-+def getOutput(o):
-+    import fcntl
-+    fl = fcntl.fcntl(o, fcntl.F_GETFL)
-+    fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-+    try:
-+        return os.read(o.fileno(), 1000000).decode("utf-8")
-+    except BlockingIOError:
-+        return ""
-+
- class QemuRunner:
- 
-     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, dump_dir, use_kvm, logger, use_slirp=False,
-@@ -55,6 +64,7 @@ class QemuRunner:
-         self.boottime = boottime
-         self.logged = False
-         self.thread = None
-+        self.threadsock = None
-         self.use_kvm = use_kvm
-         self.use_ovmf = use_ovmf
-         self.use_slirp = use_slirp
-@@ -119,21 +129,11 @@ class QemuRunner:
-                 f.write(msg)
-         self.msg += self.decode_qemulog(msg)
- 
--    def getOutput(self, o):
--        import fcntl
--        fl = fcntl.fcntl(o, fcntl.F_GETFL)
--        fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
--        try:
--            return os.read(o.fileno(), 1000000).decode("utf-8")
--        except BlockingIOError:
--            return ""
--
--
-     def handleSIGCHLD(self, signum, frame):
-         if self.runqemu and self.runqemu.poll():
-             if self.runqemu.returncode:
-                 self.logger.error('runqemu exited with code %d' % self.runqemu.returncode)
--                self.logger.error('Output from runqemu:\n%s' % self.getOutput(self.runqemu.stdout))
-+                self.logger.error('Output from runqemu:\n%s' % getOutput(self.runqemu.stdout))
-                 self.stop()
- 
-     def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
-@@ -282,7 +282,7 @@ class QemuRunner:
-                 if self.runqemu.returncode:
-                     # No point waiting any longer
-                     self.logger.warning('runqemu exited with code %d' % self.runqemu.returncode)
--                    self.logger.warning("Output from runqemu:\n%s" % self.getOutput(output))
-+                    self.logger.warning("Output from runqemu:\n%s" % getOutput(output))
-                     self.stop()
-                     return False
-             time.sleep(0.5)
-@@ -309,7 +309,7 @@ class QemuRunner:
-             ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,pri,ni,command '], stdout=subprocess.PIPE).communicate()[0]
-             processes = ps.decode("utf-8")
-             self.logger.debug("Running processes:\n%s" % processes)
--            op = self.getOutput(output)
-+            op = getOutput(output)
-             self.stop()
-             if op:
-                 self.logger.error("Output from runqemu:\n%s" % op)
-@@ -387,7 +387,7 @@ class QemuRunner:
-                            time.time() - connect_time))
- 
-         # We are alive: qemu is running
--        out = self.getOutput(output)
-+        out = getOutput(output)
-         netconf = False # network configuration is not required by default
-         self.logger.debug("qemu started in %.2f seconds - qemu procces pid is %s (%s)" %
-                           (time.time() - (endtime - self.runqemutime),
-@@ -430,9 +430,10 @@ class QemuRunner:
-         self.logger.debug("Target IP: %s" % self.ip)
-         self.logger.debug("Server IP: %s" % self.server_ip)
- 
-+        self.thread = LoggingThread(self.log, self.threadsock, self.logger, self.runqemu.stdout)
-+        self.thread.start()
-+
-         if self.serial_ports >= 2:
--            self.thread = LoggingThread(self.log, self.threadsock, self.logger)
--            self.thread.start()
-             if not self.thread.connection_established.wait(self.boottime):
-                 self.logger.error("Didn't receive a console connection from qemu. "
-                              "Here is the qemu command line used:\n%s\nand "
-@@ -444,7 +445,7 @@ class QemuRunner:
-         self.logger.debug("Waiting at most %d seconds for login banner (%s)" %
-                           (self.boottime, time.strftime("%D %H:%M:%S")))
-         endtime = time.time() + self.boottime
--        filelist = [self.server_socket, self.runqemu.stdout]
-+        filelist = [self.server_socket]
-         reachedlogin = False
-         stopread = False
-         qemusock = None
-@@ -564,7 +565,7 @@ class QemuRunner:
-                 self.logger.debug("Sending SIGKILL to runqemu")
-                 os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
-             if not self.runqemu.stdout.closed:
--                self.logger.info("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
-+                self.logger.info("Output from runqemu:\n%s" % getOutput(self.runqemu.stdout))
-             self.runqemu.stdin.close()
-             self.runqemu.stdout.close()
-             self.runqemu_exited = True
-@@ -700,9 +701,11 @@ class QemuRunner:
- # event loop. The mechanism for stopping the thread is a simple pipe which
- # will wake up the poll and allow for tearing everything down.
- class LoggingThread(threading.Thread):
--    def __init__(self, logfunc, sock, logger):
-+    def __init__(self, logfunc, sock, logger, qemuoutput):
-         self.connection_established = threading.Event()
-+
-         self.serversock = sock
-+        self.qemuoutput = qemuoutput
-         self.logfunc = logfunc
-         self.logger = logger
-         self.readsock = None
-@@ -732,7 +735,8 @@ class LoggingThread(threading.Thread):
- 
-     def teardown(self):
-         self.logger.debug("Tearing down logging thread")
--        self.close_socket(self.serversock)
-+        if self.serversock:
-+            self.close_socket(self.serversock)
- 
-         if self.readsock is not None:
-             self.close_socket(self.readsock)
-@@ -747,7 +751,9 @@ class LoggingThread(threading.Thread):
-     def eventloop(self):
-         poll = select.poll()
-         event_read_mask = self.errorevents | self.readevents
--        poll.register(self.serversock.fileno())
-+        if self.serversock:
-+            poll.register(self.serversock.fileno())
-+        poll.register(self.qemuoutput.fileno())
-         poll.register(self.readpipe, event_read_mask)
- 
-         breakout = False
-@@ -767,7 +773,7 @@ class LoggingThread(threading.Thread):
-                     break
- 
-                 # A connection request was received
--                elif self.serversock.fileno() == event[0]:
-+                elif self.serversock and self.serversock.fileno() == event[0]:
-                     self.logger.debug("Connection request received")
-                     self.readsock, _ = self.serversock.accept()
-                     self.readsock.setblocking(0)
-@@ -781,6 +787,10 @@ class LoggingThread(threading.Thread):
-                 elif self.readsock.fileno() == event[0]:
-                     data = self.recv(1024)
-                     self.logfunc(data)
-+                elif self.qemuoutput.fileno() == event[0]:
-+                    data = self.qemuoutput.read()
-+                    self.logger.debug("Data received on qemu stdout %s" % data)
-+                    self.logfunc(data, ".stdout")
- 
-     # Since the socket is non-blocking make sure to honor EAGAIN
-     # and EWOULDBLOCK.
--- 
-2.39.2
+> Whilst debugging an autobuilder failure, I wondered why it was rebuilding
+> qemu-system-native
+> instead of reusing from sstate. The reason was it was overwriting
+> DISTRO_FEATURES,
+> in this case removing opengl which caused much to rebuild.
+>
+> The test doesn't need that so don't do it.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oeqa/selftest/cases/overlayfs.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py
+> b/meta/lib/oeqa/selftest/cases/overlayfs.py
+> index 4031ded0fe4..a20fa6acc2d 100644
+> --- a/meta/lib/oeqa/selftest/cases/overlayfs.py
+> +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+> @@ -79,7 +79,7 @@ DISTRO_FEATURES:append =3D " systemd overlayfs usrmerge=
+"
+>
+>          config =3D """
+>  IMAGE_INSTALL:append =3D " overlayfs-user"
+> -DISTRO_FEATURES +=3D "systemd overlayfs usrmerge"
+> +DISTRO_FEATURES:append "systemd overlayfs usrmerge"
+>
 
+The equal sign is not there and also the extra space before systemd.
+
+DISTRO_FEATURES:append =3D " systemd overlayfs usrmerge"
+
+Jose
+
+
+>  OVERLAYFS_QA_SKIP[mnt-overlay] =3D "mount-configured"
+>  """
+>
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192744):
+> https://lists.openembedded.org/g/openembedded-core/message/192744
+> Mute This Topic: https://lists.openembedded.org/mt/103263022/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--000000000000c408d6060cde2d2b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:=
+richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&=
+gt; escreveu no dia ter=C3=A7a, 19/12/2023 =C3=A0(s) 14:35:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">Whilst debugging an autobuilder=
+ failure, I wondered why it was rebuilding qemu-system-native<br>
+instead of reusing from sstate. The reason was it was overwriting DISTRO_FE=
+ATURES,<br>
+in this case removing opengl which caused much to rebuild.<br>
+<br>
+The test doesn&#39;t need that so don&#39;t do it.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+---<br>
+=C2=A0meta/lib/oeqa/selftest/cases/overlayfs.py | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/self=
+test/cases/overlayfs.py<br>
+index 4031ded0fe4..a20fa6acc2d 100644<br>
+--- a/meta/lib/oeqa/selftest/cases/overlayfs.py<br>
++++ b/meta/lib/oeqa/selftest/cases/overlayfs.py<br>
+@@ -79,7 +79,7 @@ DISTRO_FEATURES:append =3D &quot; systemd overlayfs usrme=
+rge&quot;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config =3D &quot;&quot;&quot;<br>
+=C2=A0IMAGE_INSTALL:append =3D &quot; overlayfs-user&quot;<br>
+-DISTRO_FEATURES +=3D &quot;systemd overlayfs usrmerge&quot;<br>
++DISTRO_FEATURES:append &quot;systemd overlayfs usrmerge&quot;<br></blockqu=
+ote><div><br></div><div>The equal sign is not there and also the extra spac=
+e before systemd.<br><br>DISTRO_FEATURES:append =3D &quot; systemd overlayf=
+s usrmerge&quot;<div><br></div></div><div>Jose</div><div>=C2=A0</div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0OVERLAYFS_QA_SKIP[mnt-overlay] =3D &quot;mount-configured&quot;<br>
+=C2=A0&quot;&quot;&quot;<br>
+<br>
+-- <br>
+2.39.2<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#192744): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/192744" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/192744</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103263022/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/103263022/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--000000000000c408d6060cde2d2b--
 
