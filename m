@@ -1,144 +1,97 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <rpurdie@rpsys.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79146C46CD3
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 07:41:35 +0000 (UTC)
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
- by mx.groups.io with SMTP id smtpd.web10.17246.1703058088308000443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97105C3DA6E
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 07:43:05 +0000 (UTC)
+Received: from dan.rpsys.net (dan.rpsys.net [217.169.23.60])
+ by mx.groups.io with SMTP id smtpd.web10.17261.1703058176216092909
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 23:41:28 -0800
+ Tue, 19 Dec 2023 23:42:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=TfMnXZ0U;
- spf=pass (domain: mvista.com, ip: 209.85.210.54, mailfrom: vanusuri@mvista.com)
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6da69dd6e9fso2425497a34.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 23:41:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1703058087; x=1703662887; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tAqLrn9bAdOLblt5VoOUCO7yHVKU66w5fKjNMRNKNws=;
-        b=TfMnXZ0UprPkiY4tMAiI2iQyPTVC0kE50ty595xfa2aRKccl2tQMvUb+roSyF/XUUZ
-         y7DJviGkbVfhVW3B6KufDHxwbljMpi4avyW5Fpvj0Cs60fcmoKsQX6zop2dqeWT6SmpT
-         qUlX33BmUHvbkgnMCp59ByplYTZolQ877YQKI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703058087; x=1703662887;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tAqLrn9bAdOLblt5VoOUCO7yHVKU66w5fKjNMRNKNws=;
-        b=J573hZ49sFwShx7MRA3TebWcTqsxo0GEFBCf3irZ1EIiPEjW/2JUKgHKROqy899B/y
-         mkGKfGxiogbPUzSL5vcnNhVs0SAAehmd3XpCh2eO9wj/5yQJ4vHUZGNht3PWsqnfXybu
-         ifv1DPJ/godql7jTh1bRU0XTDrzpwjyEhEzU4+6QwVqoaG24SM054JzOAWI6FeOw28ww
-         v60iKNhmD+01hniamgT/c6HNEXomAwFDlFC8RI8Z1YTDaaPHjAY1FAs9ZrOc/L+0RQ7W
-         vWPg7MxaEsqmkb10FIuCQgTTo9ZnK/CNitY3toSAxpPuvyZG1NX2mAsz1BFmSLL2hbj6
-         MwRQ==
-X-Gm-Message-State: AOJu0YxWFAyYQOEGX0wXcoK3ZeN4aqBLFB9cAWCKrf0DyFp8B2EzXBgI
-	fmTLnfOXWlePgtPfnijDGCSWcYtRUHy7Mlxb9vk=
-X-Google-Smtp-Source: AGHT+IFNt4182PU5YduTzPzv6LGq5TjdcuZPG+hoPfOJCxQk65Cpb6W9279ZIqWptPa1pXHaC8Q+Aw==
-X-Received: by 2002:a9d:6293:0:b0:6d9:f1ba:1f01 with SMTP id x19-20020a9d6293000000b006d9f1ba1f01mr16103680otk.6.1703058086698;
-        Tue, 19 Dec 2023 23:41:26 -0800 (PST)
-Received: from MVIN00020.mvista.com ([223.230.5.216])
-        by smtp.gmail.com with ESMTPSA id g6-20020aa78746000000b006d9632b6195sm200759pfo.43.2023.12.19.23.41.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 23:41:26 -0800 (PST)
-From: vanusuri@mvista.com
+ dkim=pass header.i=@rpsys.net header.s=default header.b=IIKuT3nD;
+ spf=pass (domain: rpsys.net, ip: 217.169.23.60, mailfrom: rpurdie@rpsys.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rpsys.net; s=default;
+	t=1703058172; bh=z6p+0isZtWczveqp7HPPR5guLXd2aRXYg+HOqAzT6Yw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=IIKuT3nDpziyTVGq4yx4FFipiySyWZvT5OaSV4KMpZHu2kX/Hmrgj9X4gqgbPlsdI
+	 fHDpsKwr5RwZ5CYsJcVcmld04in6B0EaN/sFuHtoEBXd9FQBI/CFJ3xbK4/Z0uIrJS
+	 GDphgVCtm7nRC7Nd0/Nv61Vkd60bMYyqbUiUikRiXdK6xfvWM9u5pCJFY0Ad2toIUf
+	 RlCfInHVdO6x1gQMdNbh1MZ1RUJqBOz9Zd6lkyVmnB4Uj98H1xKL94L2GoLb+cLjpl
+	 aWQ742elrmkF7NnzpD+q2MJKeKrNXb52CW20jDsdBbXlgTB9qUF3eO6WGNxafg1DKx
+	 9e67ERImyQYxA==
+Received: from [192.168.1.7] ([192.168.1.7])
+	(authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTPSA id 3BK7gpu8949948
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 20 Dec 2023 07:42:52 GMT
+Message-ID: <d4b7c6abffb2dbd34f57973fb5785931b4df2644.camel@rpsys.net>
+Subject: Re: [OE-core] [PATCH 4/5] sstatesig: Ensure spdx dependencies
+ update when abisafe recipes change
+From: Richard Purdie <rpurdie@rpsys.net>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [OE-core][kirkstone][PATCH 3/4] libssh: Fix build with clang16
-Date: Wed, 20 Dec 2023 13:08:59 +0530
-Message-Id: <20231220073900.96121-3-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231220073900.96121-1-vanusuri@mvista.com>
-References: <20231220073900.96121-1-vanusuri@mvista.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>, Pavel Zhukov <pavel@zhukoff.net>
+Date: Wed, 20 Dec 2023 07:42:51 +0000
+In-Reply-To: <17A24253EC98E7AB.22731@lists.openembedded.org>
+References: <20231219143531.3514266-1-richard.purdie@linuxfoundation.org>
+	 <17A24253EC98E7AB.22731@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.9 at dan
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 07:41:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192775
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 07:43:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192777
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+On Tue, 2023-12-19 at 14:35 +0000, Richard Purdie via
+lists.openembedded.org wrote:
+> If you build openssh, bump the version of base-passwd, then rerun openssh=
+:do_create_spdx,
+> it will fail due to references to the old version of base-passwd. This is=
+ due to
+> base-passwd being listed in SIGGEN_EXCLUDERECIPES_ABISAFE.
+>=20
+> Ignore these recipes for the purposes of create_spdx and force rebuilds w=
+hen things change.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oe/sstatesig.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+> index 0342bcdc87a..1434690f1d1 100644
+> --- a/meta/lib/oe/sstatesig.py
+> +++ b/meta/lib/oe/sstatesig.py
+> @@ -63,7 +63,7 @@ def sstate_rundepfilter(siggen, fn, recipename, task, d=
+ep, depname, dataCaches):
+>          return False
+> =20
+>      # Exclude well defined machine specific configurations which don't c=
+hange ABI
+> -    if depname in siggen.abisaferecipes and not isImage(mc, fn):
+> +    if depname in siggen.abisaferecipes and not isImage(mc, fn) and dept=
+askname !=3D "do_create_spdx":
+>          return False
+> =20
+>      # Kernel modules are well namespaced. We don't want to depend on the=
+ kernel's checksum
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+This fails in testing:
 
-Ref: https://git.openembedded.org/meta-openembedded-contrib/commit/?h=stable/nanbield-nut&id=9323b287ef588f41c13f3520de85eb198f6eaf83
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/6158/step=
+s/14/logs/stdio
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- ...prototype-of-des3_encrypt-des3_decry.patch | 46 +++++++++++++++++++
- .../recipes-support/libssh/libssh_0.10.4.bb   |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta-oe/recipes-support/libssh/libssh/0001-libgcrypt.c-Fix-prototype-of-des3_encrypt-des3_decry.patch
+since the tune sdpx sigs and the allarch sigs are no longer stable :(.
+Not sure what we can do here...
 
-diff --git a/meta-oe/recipes-support/libssh/libssh/0001-libgcrypt.c-Fix-prototype-of-des3_encrypt-des3_decry.patch b/meta-oe/recipes-support/libssh/libssh/0001-libgcrypt.c-Fix-prototype-of-des3_encrypt-des3_decry.patch
-new file mode 100644
-index 000000000..19775fa52
---- /dev/null
-+++ b/meta-oe/recipes-support/libssh/libssh/0001-libgcrypt.c-Fix-prototype-of-des3_encrypt-des3_decry.patch
-@@ -0,0 +1,46 @@
-+From 0cade4573334571055127a2d4fe3641e2397948d Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 20 Mar 2023 21:59:19 -0700
-+Subject: [PATCH] libgcrypt.c: Fix prototype of des3_encrypt/des3_decrypt
-+
-+This is to match the prototype for callback functions which are now emitted as
-+errors by clang16
-+
-+Fixes
-+
-+TOPDIR/build/tmp/work/cortexa15t2hf-neon-yoe-linux-gnueabi/libssh/0.10.4-r0/git/src/libgcrypt.c:903:20: error: incompatible function pointer types initializing 'void (*)(struct ssh_cipher_struct *, void *, void *, size_t)' (aka 'void (*)(struct ssh_cipher_struct *, void *, void *, unsigned int)') with an expression of type 'void (struct ssh_cipher_struct *, void *, void *, unsigned long)' [-Wincompatible-function-pointer-types]
-+    .encrypt     = des3_encrypt,
-+                   ^~~~~~~~~~~~
-+TOPDIR/build/tmp/work/cortexa15t2hf-neon-yoe-linux-gnueabi/libssh/0.10.4-r0/git/src/libgcrypt.c:904:20: error: incompatible function pointer types initializing 'void (*)(struct ssh_cipher_struct *, void *, void *, size_t)' (aka 'void (*)(struct ssh_cipher_struct *, void *, void *, unsigned int)') with an expression of type 'void (struct ssh_cipher_struct *, void *, void *, unsigned long)' [-Wincompatible-function-pointer-types]
-+    .decrypt     = des3_decrypt
-+                   ^~~~~~~~~~~~
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/libgcrypt.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/libgcrypt.c b/src/libgcrypt.c
-+index da5588ad..e482b654 100644
-+--- a/src/libgcrypt.c
-++++ b/src/libgcrypt.c
-+@@ -469,12 +469,12 @@ static int des3_set_key(struct ssh_cipher_struct *cipher, void *key, void *IV) {
-+ }
-+ 
-+ static void des3_encrypt(struct ssh_cipher_struct *cipher, void *in,
-+-    void *out, unsigned long len) {
-++    void *out, size_t len) {
-+   gcry_cipher_encrypt(cipher->key[0], out, len, in, len);
-+ }
-+ 
-+ static void des3_decrypt(struct ssh_cipher_struct *cipher, void *in,
-+-    void *out, unsigned long len) {
-++    void *out, size_t len) {
-+   gcry_cipher_decrypt(cipher->key[0], out, len, in, len);
-+ }
-+ 
-+-- 
-+2.40.0
-+
-diff --git a/meta-oe/recipes-support/libssh/libssh_0.10.4.bb b/meta-oe/recipes-support/libssh/libssh_0.10.4.bb
-index 801644d95..4b2ced5e5 100644
---- a/meta-oe/recipes-support/libssh/libssh_0.10.4.bb
-+++ b/meta-oe/recipes-support/libssh/libssh_0.10.4.bb
-@@ -8,6 +8,7 @@ DEPENDS = "zlib openssl"
- 
- SRC_URI = "git://git.libssh.org/projects/libssh.git;protocol=https;branch=stable-0.10 \
-            file://0001-tests-CMakeLists.txt-do-not-search-ssh-sshd-commands.patch \
-+           file://0001-libgcrypt.c-Fix-prototype-of-des3_encrypt-des3_decry.patch \
-            file://run-ptest \
-           "
- SRCREV = "e8322817a9e5aaef0698d779ddd467a209a85d85"
--- 
-2.25.1
+Cheers,
+
+Richard
+
 
 
