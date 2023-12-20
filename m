@@ -1,97 +1,102 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8EBEC4706C
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 07:53:05 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.17150.1703058783952029653
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0F2CC3DA6E
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 07:59:55 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.17205.1703059189646116294
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 23:53:04 -0800
+ Tue, 19 Dec 2023 23:59:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gAi3FEvu;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=RzRlvyld;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018c8636bb57-93957ca0-f8cc-46dd-9b9b-424776f04442-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1703058783; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=377fqn95WGbY2rNj+mjLwDEhPHYmkXb99+5hW6T1HDo=;
-	b=gAi3FEvutGCDbZFub1wvRbhEExLNgehRO60Iucw17Vua5vYp2vabDOMBxcQkTMHj
-	lq9eyMFsacFEm7uBGlfo837D3W4AfWDM4HVPiPQmJOzCmHABm30FHoRlOfTr3fKF0lX
-	6orpfONzscuNG/9yfZzJQHSzkEqa77cE4BN2AWuc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1703058783;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=377fqn95WGbY2rNj+mjLwDEhPHYmkXb99+5hW6T1HDo=;
-	b=RzRlvyld43vedRkRLmBILbDY51HuyjQlbzPrLQQBJmT3L8J1OEyo3i3njWD32rjx
-	4TTNkc8m0BzsvO3CcgjkBIRuzSHRtx5KU5eG65RrSvrvZAfqszGjYz2303FYtDcKdNB
-	nrm90oaKv1mhc810t5DxuJImXYPZw4TvIEqsI+nQ=
-From: patchtest@automation.yoctoproject.org
-To: vanusuri@mvista.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH 4/4] libssh: upgrade 0.10.4 -> 0.10.5
-In-Reply-To: 20231220073900.96121-4-vanusuri@mvista.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c8636bb57-93957ca0-f8cc-46dd-9b9b-424776f04442-000000@us-west-2.amazonses.com>
-Date: Wed, 20 Dec 2023 07:53:03 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.20-54.240.27.31
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=o4e+dWGe;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DAF88E0008;
+	Wed, 20 Dec 2023 07:59:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1703059187;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l6bumGLu+D8C79TbX0wnHAmmvorpL6kyojVTd+6lFrY=;
+	b=o4e+dWGeujBCEQ+fUqxz7JTBqyTBLJv7NwLLQMDGcz2sdgFlqI0sx5fGeaNDWWV70D83y2
+	FdHrCK0rYjt3KYHtPVIBGZ1le+UvisL0iBInHNIJEw52cRn7VhOTqLa0BCyV+EKNz+FNrJ
+	8csz1CfceLzMV4TRfKcmK8B6mf3vOZBIf4kusva1QsCMpqj6sdEycs7lu4MIQE9HlXMYXV
+	+zwWM4uJ356rvcSw6l7dxx02QFUbWSTNFhpdoUjQUYu3LQ/RK8yK8tO4QDyQGb4lcohRBG
+	MwHdW8GebjwF3Hx1DE90jRarYO42pHJkhOjPUIf3+CDzgW/0bSWBMVfSsVm02w==
+Date: Wed, 20 Dec 2023 08:59:46 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v4] systemd-boot: Add recipe to compile native
+Message-ID: <20231220075946976b1206@mail.local>
+References: <20231216002503.3681891-1-quic_vkraleti@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231216002503.3681891-1-quic_vkraleti@quicinc.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 07:53:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192782
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 07:59:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192783
 
---NextPart
-Content-Type: text/plain
+Hello,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+You didn't fix this one:
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-4-4-libssh-upgrade-0.10.4---0.10.5.patch
+The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
+systemd-boot-native (/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-core/systemd/systemd-boot-native_254.4.bb)
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+On 16/12/2023 05:55:03+0530, Viswanath Kraleti wrote:
+> systemd-boot native recipe provides ukify tool to build
+> UKI images for systemd-boot
+> 
+> Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
+> ---
+>  .../systemd/systemd-boot-native_254.4.bb          | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd-boot-native_254.4.bb
+> 
+> diff --git a/meta/recipes-core/systemd/systemd-boot-native_254.4.bb b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
+> new file mode 100644
+> index 0000000000..73db59b14e
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd-boot-native_254.4.bb
+> @@ -0,0 +1,15 @@
+> +require systemd.inc
+> +
+> +inherit native
+> +
+> +deltask do_configure
+> +deltask do_compile
+> +
+> +do_install () {
+> +       install -Dm 0755 ${S}/src/ukify/ukify.py ${D}${bindir}/ukify
+> +}
+> +addtask install after do_unpack
+> +
+> +PACKAGES = "${PN}"
+> +
+> +FILES:${PN} = "${bindir}/ukify"
+> -- 
+> 2.25.1
+> 
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192554): https://lists.openembedded.org/g/openembedded-core/message/192554
+> Mute This Topic: https://lists.openembedded.org/mt/103202155/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---NextPart--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
