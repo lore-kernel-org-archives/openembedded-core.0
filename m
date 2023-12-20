@@ -1,136 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71AB3C3DA6E
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 16:52:52 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.26669.1703091165029755400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4282C3DA6E
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 18:01:22 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web11.28011.1703095281627679942
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 08:52:45 -0800
+ Wed, 20 Dec 2023 10:01:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R0UviQps;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33666fb9318so3761866f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 08:52:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fs/TqeUH;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2041e117abaso193377fac.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 10:01:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1703091163; x=1703695963; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=chSMzv0pFHcSLmmjE635Q49VYBSVlc44YIzbEo3XqlM=;
-        b=R0UviQpsp5o9pfXQ+QqAjQGD+nZgXsy2YxAbOiLWBWdyLqAB4paTKbSXacdU4y0ywq
-         SsiNjQccoVxON1BJM7RQ8vK+SpeKeQILTlb+G9Wd+84wmrS7RmbKbrEdK0fRHkbhHNiU
-         mYTUIRN7kVJ4X0KydbWLyFYmnQnF9z1NeCmtg=
+        d=gmail.com; s=20230601; t=1703095280; x=1703700080; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GgtO0EYm/sLhMJyHo7AuUwU7yu72EukAYOF7jvqSWKk=;
+        b=Fs/TqeUHq7P9//dHOH32veg209pTCMz1SFkFikpf2Aye0QamWsqJ0nkSztrKow642W
+         jxmpDyJEwRViZekf3/A2NWs2tWFtfhHF4dxztUw4Z3VQ0FB2MMTw3jvxfeGCAEqJnzhz
+         Y/zmyq/tyIynnSoSccAaeWRnfxLrkfPYnC97uZdDyiNlOVx+pesSk2cWHI/bjwET8R1S
+         A1GWggEl5kMbud+wj5W5GgCWu/yOr7Ejkesun6a2tnnyva6EEsCqNluUPHjN2kjPOdel
+         In3dbBtw7skQZm4g83EfZKcwAk0SH0EQkx2UzSyge42tLVJBc+OlIS6YXxPvPAs2J847
+         Pj6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703091163; x=1703695963;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=chSMzv0pFHcSLmmjE635Q49VYBSVlc44YIzbEo3XqlM=;
-        b=kAsKAowKM6UOZ476F2f+c/I2aWCbzQFXS2fLlElyQCVBKyeVjlOp77fJzWuu3siyKb
-         Kq8uEgPJzzcM8I2zFBQhbzEwYvCuysw/KWK93MJ3n4CQyDEdkH6PDyy+lElP9z8YIBrW
-         v0R/bgkwL4I8n2AWv4xiCJoYVhYG4nmvWrRd9UtPt5P6FKH6tzhwz35xNjOUhue3x0G6
-         EhilC71dPNs29daeOhiSQYDRmc9ZRfX8gSGc9wnizjyFUYaZPzMNmnjzX1xPrut+qzuW
-         jSOQH5EthODj0k2DcwLSUFEWjQB5CegDTQWc0BHt3w9Vzz5wiJiAZMcpsXMSFejq4kIf
-         lDsw==
-X-Gm-Message-State: AOJu0YxpovjZxoQGU33pVR6CUj8jerywYSsp7IVS0leag8TanFypp217
-	vNl54WgUf9GtoZKeEDfP98lpnA==
-X-Google-Smtp-Source: AGHT+IGfsf6NZdXa1h9N/WrXxlFnfyIi4k7NJtL9UuDNH45cZJKQqCcW1/RJCnFqbWa6wvNAoBL2dQ==
-X-Received: by 2002:a5d:64c7:0:b0:336:6b15:de03 with SMTP id f7-20020a5d64c7000000b003366b15de03mr4045247wri.120.1703091163394;
-        Wed, 20 Dec 2023 08:52:43 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c? ([2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c])
-        by smtp.gmail.com with ESMTPSA id s7-20020a5d4247000000b003366811fd6bsm17137wrr.14.2023.12.20.08.52.42
+        d=1e100.net; s=20230601; t=1703095280; x=1703700080;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GgtO0EYm/sLhMJyHo7AuUwU7yu72EukAYOF7jvqSWKk=;
+        b=mfa7eT0dqT0LzyJVA9uLCxmA3nhLhkr6wrfhZSDvA6NEYAaqgEHsmgBsSafPlsUcZu
+         bd/z8fT/gR0lv6GMVaKoxh4EOy1ijyvi7iNjVRdFXeO8rZkebsm9guwlAWhquwLHGvtk
+         0xrLeK+R7r5NU9KhV4t9vgdBiwxjDP1zoD47qcEO/u8L5TNnCoDbHRj6/cJGlI1399dq
+         1VyfDLwJKBPjpDZVBBeS71ylLtM0tm/XPx6M/8Ays/6WTDWtOYPrq7qcyWqG6QBiGmBT
+         g90EAxHWqUNbL5msGa7qT90ktSjyJIUjg5QtPagZdUwuxaKcRfa17qAjYCa4TUnCulZ/
+         LTQg==
+X-Gm-Message-State: AOJu0YwumA6/4417meF6sD74mpsgIJB2bkzpsLn6IUg9q3nWLrc6VaX+
+	vDbQ7/Hr+JGADJFfrNTDB2ceU0EoQzg=
+X-Google-Smtp-Source: AGHT+IFm3dPfl/kKELZkhwiYoCT7CKCKrJU73QwVsUv4NT9CVEUaom/R1YZgDV5IB7PEcTRtlgbwbg==
+X-Received: by 2002:a05:6870:3926:b0:1fb:45d:4cf5 with SMTP id b38-20020a056870392600b001fb045d4cf5mr96199oap.12.1703095279728;
+        Wed, 20 Dec 2023 10:01:19 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::d6e0])
+        by smtp.gmail.com with ESMTPSA id de7-20020a05687075c700b00203af6ff47esm39160oab.42.2023.12.20.10.01.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 08:52:43 -0800 (PST)
-Message-ID: <9785c621ad1c2d2ac1c544d88d737029f83857fb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] qemurunner: Impove handling of serial
- port output blocking
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Dec 2023 16:52:42 +0000
-In-Reply-To: <87sf3w25ze.fsf@draig.linaro.org>
-References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
-	 <20231218152951.3398964-2-richard.purdie@linuxfoundation.org>
-	 <87bkam449t.fsf@draig.linaro.org>
-	 <86be77c51628028eeda996117c5eb02eb8bf5941.camel@linuxfoundation.org>
-	 <87r0ji2lc9.fsf@draig.linaro.org>
-	 <8c50fc53a29c4dcaab6316ec5b39b91c0d6bfa94.camel@linuxfoundation.org>
-	 <87a5q52oa0.fsf@draig.linaro.org>
-	 <3a7d3b6a2762163c7ca668c205962cd6cf5d5fd4.camel@linuxfoundation.org>
-	 <87sf3w25ze.fsf@draig.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Wed, 20 Dec 2023 10:01:18 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 1/2] lib/oe/path.py: Add relsymlink()
+Date: Wed, 20 Dec 2023 11:01:01 -0700
+Message-Id: <20231220180102.3501941-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 16:52:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192804
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:01:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192805
 
-On Wed, 2023-12-20 at 16:28 +0000, Alex Benn=C3=A9e wrote:
-> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
->=20
-> > On Wed, 2023-12-20 at 09:53 +0000, Alex Benn=C3=A9e wrote:
-> > > Richard Purdie <richard.purdie@linuxfoundation.org> writes:
-> > >=20
-> > > > On Tue, 2023-12-19 at 16:44 +0000, Alex Benn=C3=A9e wrote:
-> > > > > Richard Purdie <richard.purdie@linuxfoundation.org> writes:
-> > > > > Yeah I'm only seeing A10/A11:
-> > > > >=20
-> > > > >   o regression_1010.5 Invalid memory access 5
-> > > > >     regression_1010.5 OK
-> > > > >   o regression_1010.6 Invalid memory access 6
-> > > > >=20
-> > > > >   WARNING: here A10
-> > > > >   WARNING: here A11
-> <snip>
-> > > >=20
-> > > > How long does it take for the test data to "back up" and timeout? T=
-he
-> > > > logging thread should take a maximum of 2s to notice data not being
-> > > > read/handled on the serial port.
-> > >=20
-> > > I don't think it goes around the logging loop more than once. I only
-> > > see:
-> > >=20
-> > >   grep "got" build/tmp_trs-qemuarm64/work/trs_qemuarm64-trs-linux/trs=
--image/1.0/temp/log.do_testimage
-> > >   DEBUG: got [(12, 1)]
-> > >=20
-> > > from the poll.
-> > >=20
-> <snip>
-> > > I'll keep digging.
-> >=20
-> > I've merged the patches into master since they are helping the stdout
-> > issue and helped a number of issues others were seeing.
-> >=20
-> > In the final version of the patch I did fix an issue where the
-> > exception handling from the thread was not working so well, it does at
-> > least print a, exception/traceback properly now (in threadtarget()).
-> >=20
-> > One of the reasons I asked about the warnings was in case that was
-> > showing an issue, previously it silently failed.
-> >=20
-> > I can believe there are other issues hiding in here :/.
->=20
-> So the failure was due to an exception being thrown at:
->=20
->   elif self.readsock.fileno() =3D=3D event[1]:
->=20
-> when my config hadn't triggered its opening. A bit of defensive coding
-> and it works. See:
->=20
->   Subject: [PATCH] qemurunner: more cleanups for output blocking
->   Date: Wed, 20 Dec 2023 16:14:50 +0000
->   Message-Id: <20231220161450.1422484-1-alex.bennee@linaro.org>
+Adds API to make a relative symbolic link between two directories. The
+arguments are the same as oe.path.symlink()
 
-Glad it was something relatively simple! The fix looks good to me.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oe/path.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Cheers,
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index e2f1913a35c..5d21cdcbdff 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -172,6 +172,9 @@ def symlink(source, destination, force=False):
+         if e.errno != errno.EEXIST or os.readlink(destination) != source:
+             raise
+ 
++def relsymlink(target, name, force=False):
++    symlink(os.path.relpath(target, os.path.dirname(name)), name, force=force)
++
+ def find(dir, **walkoptions):
+     """ Given a directory, recurses into that directory,
+     returning all files as absolute paths. """
+-- 
+2.34.1
 
-Richard
 
