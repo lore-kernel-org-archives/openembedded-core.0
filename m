@@ -1,101 +1,97 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C2D4C46CD3
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 13:18:57 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.21274.1703078332738545149
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC72AC3DA6E
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 14:02:07 +0000 (UTC)
+Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
+ by mx.groups.io with SMTP id smtpd.web10.15663.1703049703399544055
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 05:18:53 -0800
+ Tue, 19 Dec 2023 21:21:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JIyZR4PN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40c3ceded81so57036155e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 05:18:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1703078331; x=1703683131; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PDHjBOgbkDxXuZ02a5072iLAZFRts7r4AtP9Su101WU=;
-        b=JIyZR4PNGyyhpnli2adlkWGyynDfNui0qS9naQlLUxypUZ9/YfYAM/waazvAMSpQqb
-         +Z+5sC+fAPAs27yO0nk8ZD027ZRxgByp4nRBM6YrjNFQ77rqtQCMPbM9TttQwD7xUHzs
-         eBCWFvQI/h56tkpNClfxcS3Vlwl10uKKMO148=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703078331; x=1703683131;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PDHjBOgbkDxXuZ02a5072iLAZFRts7r4AtP9Su101WU=;
-        b=cRM3d1waqbiyRMs40n8Ylz7zaYkU/9N9x7geHQ+Dzzpa5cZpMY8crIzPwqdEolWl1I
-         nPAPk0hqaYzDsLfo9zyf3Yw3WJ7qEv7O25sa0yLAEdiGwL5BKzh6qvJ81+VUJzhV7UnJ
-         Z/PebTNMmU9WkAYgKPmbw9E1vY3qgot5njV68VOxD7eSmrKxWLmpf4SF34vEkvwQ9wIb
-         2n7w4ERm1VgNJWJi5UyJya2mvLVzSacL7a+R+8vHUJ/yt0NlxItmK12KQ6azf3PwQ+zH
-         DQWi9OZj4Gq3L50kCh7gy84dwjHX3CvjosiCD+hrBkN2q5tKekfEFNJmR0Zq19G+xCz4
-         laqg==
-X-Gm-Message-State: AOJu0YzrYrGoPdjgWejVgsNpQOKmJkC1WDr0fGxFCkX2zATJeZfa9NzI
-	bhIxP1qXeya/CtKfQhsNivVlNqKBOKufWrDA4ns=
-X-Google-Smtp-Source: AGHT+IFrafNpxNO3yY/WFPUNBmG2S9AceunujOVniXyLF+sGNuWJTaj4NDI3qngoUSEVFKPpZts09g==
-X-Received: by 2002:a05:600c:600d:b0:40d:2f6f:8f09 with SMTP id az13-20020a05600c600d00b0040d2f6f8f09mr1008921wmb.80.1703078331071;
-        Wed, 20 Dec 2023 05:18:51 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c? ([2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c])
-        by smtp.gmail.com with ESMTPSA id p4-20020a05600c468400b0040c3dcc36e6sm7319617wmo.47.2023.12.20.05.18.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 05:18:50 -0800 (PST)
-Message-ID: <8aa05aac901871cd1fea247670af35ed462f35bf.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [kirkstone][PATCH] nativesdk-sdk-provides-dummy.bb:
- Update host tools for rust-cross-canadian
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Deepthi.Hemraj@windriver.com, "MacLeod, Randy"
- <Randy.MacLeod@windriver.com>,  "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: "Gowda, Naveen" <Naveen.Gowda@windriver.com>, "Moodalappa, Shivaprasad"
-	 <Shivaprasad.Moodalappa@windriver.com>, "Kokkonda, Sundeep"
-	 <Sundeep.Kokkonda@windriver.com>
-Date: Wed, 20 Dec 2023 13:18:49 +0000
-In-Reply-To: <PH7PR11MB644963CE328B3CAE639127BA8D96A@PH7PR11MB6449.namprd11.prod.outlook.com>
-References: <20231211122613.2429111-1-Deepthi.Hemraj@windriver.com>
-	 <cd25a9d6-8422-4539-82a0-1418ffc6b52a@windriver.com>
-	 <PH7PR11MB644963CE328B3CAE639127BA8D96A@PH7PR11MB6449.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+ dkim=pass header.i=@hpe.com header.s=pps0720 header.b=PPNJMGEC;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: hpe.com, ip: 148.163.143.35, mailfrom: clayc@hpe.com)
+Received: from pps.filterd (m0150245.ppops.net [127.0.0.1])
+	by mx0b-002e3701.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BJHa5RS003892
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 05:21:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pps0720;
+ bh=3DtTfIdlcF5OjdYaQo0i5VoGIDWf9YiXKvcCSedy5EY=;
+ b=PPNJMGECLRrHDH2e8WMVY3zxwLq68HGPqaarTl7qOEIlE5+sxfqzx8bUgHbhmVahp0OI
+ zUZm5SdF6SkZXZone8aFiAADJ5IX9woPAMXPRQfKDbFiJuviswaHCJJ9dEq05eV0EH/k
+ Klup3j8XYOxwjE6iztCFViUG8tVhrQbTmYsE9VNFZhwMhUSZCm1FQ/Av2smOgjn3oWP1
+ JaKnCez6v4QyuqzNn9mpK4FEmDoVdV8+yrCXNH9EsuzPiEtEdMBThXwcaKdc1LekC98Y
+ 3MxvWzArquOR15Ip6sTZ9qt0AIRAXJzG32l5e4fp6XxOzm5jEBDU8vWbZiUpE0TiYhpm cg== 
+Received: from p1lg14881.it.hpe.com ([16.230.97.202])
+	by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3v3fqfvcyg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 05:21:42 +0000
+Received: from p1lg14885.dc01.its.hpecorp.net (unknown [10.119.18.236])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by p1lg14881.it.hpe.com (Postfix) with ESMTPS id C1ED2805E22
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 05:21:41 +0000 (UTC)
+Received: from openbmc-builder-cc.amslabs.hpecorp.net (unknown [16.231.227.39])
+	by p1lg14885.dc01.its.hpecorp.net (Postfix) with ESMTP id 1A7898097C7;
+	Wed, 20 Dec 2023 05:21:40 +0000 (UTC)
+From: clayc@hpe.com
+To: openembedded-core@lists.openembedded.org
+Cc: Clay Chang <clayc@hpe.com>
+Subject: [PATCH] devtool: deploy: provide max_process to strip_execs
+Date: Wed, 20 Dec 2023 13:21:39 +0800
+Message-Id: <20231220052139.2201118-1-clayc@hpe.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+X-Proofpoint-GUID: n1612X71oNVP-erYWUsxGwgzsuzijIZR
+X-Proofpoint-ORIG-GUID: n1612X71oNVP-erYWUsxGwgzsuzijIZR
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-20_01,2023-12-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 adultscore=0 priorityscore=1501
+ mlxlogscore=736 spamscore=0 mlxscore=0 bulkscore=0 phishscore=0
+ malwarescore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311290000 definitions=main-2312200033
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 13:18:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192800
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 14:02:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192801
 
-On Wed, 2023-12-20 at 13:13 +0000, Hemraj, Deepthi via lists.openembedded.o=
-rg wrote:
-> I tried adding nativesdk-libstdc++ to DEPENDS:append:class-nativesdk
-> =3D " nativesdk-libstdc++" but the issue is still reproducing.
-> =C2=A0
-> The nativesdk-libstdc++ is not having the GLIBCXX_3.4.30 symbols.
-> Below cmd shows only GLIBCXX_3.4.29.
-> "strings /ala-
-> lpggp31/dhemraj/kirkstone/5082/poky/build/tmp/work/x86_64-nativesdk-
-> pokysdk-linux/rust-cross-canadian-x86-64/1.59.0-r0/recipe-
-> sysroot/usr/lib/libstdc++.so.6 | grep GLIBCXX"
-> =C2=A0
-> So, I added libstdc++.so.6 as dummy in <<meta/recipes-
-> core/meta/nativesdk-sdk-provides-dummy.bb>>
-> =C2=A0
-> Also in the gcc documentation
-> (https://gcc.gnu.org/onlinedocs/libstdc++/manual/abi.html) I see
-> that, libstdc++.so.6.0.30 is provided by GCC 12.1.0 but on kirkstone
-> the gcc version is 11.4. I think libstdc++.so.6.0.30 is not
-> supported.
+From: Clay Chang <clayc@hpe.com>
 
-That suggests that rust-cross-canadian isn't building against our own
-libstdc++ but against the one from the host instead. nativesdk-gcc-
-runtime (which from memory contains libstdc++) should be being used
-rather than any host dependencies.
+Use oe.utils.get_bb_number_threads to get max_process
 
-Cheers,
+Signed-off-by: Clay Chang <clayc@hpe.com>
+---
+ scripts/lib/devtool/deploy.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Richard
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index e14a587417..eadf6e1521 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -140,6 +140,7 @@ def deploy(args, config, basepath, workspace):
+     import math
+     import oe.recipeutils
+     import oe.package
++    import oe.utils
+ 
+     check_workspace_recipe(workspace, args.recipename, checksrc=False)
+ 
+@@ -174,7 +175,7 @@ def deploy(args, config, basepath, workspace):
+             exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
+             os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH') or ''])
+             oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP'), rd.getVar('libdir'),
+-                        rd.getVar('base_libdir'), rd)
++                        rd.getVar('base_libdir'), oe.utils.get_bb_number_threads(rd), rd)
+ 
+         filelist = []
+         inodes = set({})
+-- 
+2.34.1
 
 
