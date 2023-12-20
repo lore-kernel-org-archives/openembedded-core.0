@@ -2,99 +2,126 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA40AC3DA6E
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 18:02:42 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web11.28040.1703095361095199438
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5C4C3DA6E
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 18:02:52 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web10.28467.1703095363595657829
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 10:02:41 -0800
+ Wed, 20 Dec 2023 10:02:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AfmOIkFw;
- spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6da69dd6e9fso2796317a34.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 10:02:41 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gEWnOOLK;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-20403a18a51so757888fac.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 10:02:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703095359; x=1703700159; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pXfzHdU8Doi7ViDwnouKxvWJV3fGsxyYPX5+dHykPpg=;
-        b=AfmOIkFws6debXmVlg+AYQdUx6Six93j4qYQKBVgXb05wUzShiGkZxHOH0m13qemvA
-         L0pxii/Q52aZBbDmpZFtHjL6VeiBNPwZvdO6mFgGuuui0fa4KrZvdZUs2uos921JARf2
-         CPR4Fm4AjPunCBO8hxxwDGiysiJ9eHTZsYz14ORIlZ0SAtnfdE4ZdsjjRsIRZ9UFcWPe
-         npNLM/+JIZVknkp0v/+BJZsVRrsXdHDHKXd7eyJDt0gV1GxY+2AHKURC15VJrOh7kYo8
-         xbK1oGFvVOyDuJY0M/xp31e4P8iCW0c7E56GSITDXQXJEe6G4tp3gJRQavEjdflP2dve
-         Wf8w==
+        d=gmail.com; s=20230601; t=1703095362; x=1703700162; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iGh6fKBHcSKFGUTQ9/sOSaUkczNKza1Sq1squ/vu0N8=;
+        b=gEWnOOLKoitXBaISJc6nUcL364Mpcp+5vk/sys6usmQOhUaaf57d+Rx8lLeERpF5DU
+         aAi3Uo8TghMdhz3rO4/O8Ekl7LVLC85NtQZVy155aUyVHyTuWPJkXciKKlj8bzLR0GMO
+         7m/LdH93in41NRY4Ud+iA7ambU3ActlcWuZHlF3waQw3jIHhF+dEZEiNi9Lpz8QnSZJb
+         jLuX4EZc0LbNV+T7LdN+rCkxANGJpVeabNvjO3K8kiRzG7jNsxQ1744RhLsp/GNptCxZ
+         b4a/B5v9LKIRU28hvjVjLTQfHeDfaeKCemXcO1CYKyWzpdV9iEryIOlEntNolf7r2PHP
+         CqSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703095359; x=1703700159;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pXfzHdU8Doi7ViDwnouKxvWJV3fGsxyYPX5+dHykPpg=;
-        b=owS8CR1XPAgYa6TCB2LhYWpKn3/U3A6mUYESxvnkhmJFARrpJ7RB8ZIeUsR/7tv9XD
-         50p/yt+u+KddD/1DlxCX5KsYpjvoJEJHKUQD8gH0FeSiz8ZXMKAzrH9hBW7zsI92xz6x
-         WhFWiyRRKCzqzX2/FpgkrnWen57nhAhJMJ6/L1CoQO09/qg3VT0hBwulIco82Nqp0Sw4
-         5dGXzobBEGOaMdYrO9X23rDmHQOfe858TW8XCQohfcOayVQRxmNDPe7uV39qkY7gFZQm
-         AHpIFyjfNrdx3T0KKHnd1F5rfviV5bwpNaIr6ayZwhTTLwWPqT00emQqOkHLPxN5Ynq1
-         6RCg==
-X-Gm-Message-State: AOJu0YyMI8Vfpt3wJwSf9Zp2XxfM7QLngw7aSLe3wKBL99FPVgYh7Lvr
-	gwGE+mdk2ruzASkzrGM7xHM+SuLk/20=
-X-Google-Smtp-Source: AGHT+IHQLnvTEOAl/J7h2eZ3XXrrO2wb/+35neRA1BrwHwSkALO15zP8R6NxdCivq+EYOljKTodZbQ==
-X-Received: by 2002:a05:6830:2b2a:b0:6d9:9e1c:491e with SMTP id l42-20020a0568302b2a00b006d99e1c491emr19834605otv.51.1703095359333;
-        Wed, 20 Dec 2023 10:02:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703095362; x=1703700162;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iGh6fKBHcSKFGUTQ9/sOSaUkczNKza1Sq1squ/vu0N8=;
+        b=mF8ZH6ReV3eZfZEfxguBy+40XtB5u+AKSb9fYY1+OlOhspdpurlAR12M76jUu2vM7/
+         /94AIdrvcMvRzZpqvYIoQ/5kqXzsBGrSzznZhegMrVhalGag1D39UsO4V5MCq6klyz6r
+         EITVvAYKoegrxlZEo5QQ95J1rfyYi+/EMxQBdmsRTWiQiZ1yjIn8aLSIsd+Au9xk5myo
+         aRFe0NhmY4Mn6A9rJ/nYcEKIQTFeRLuA4XVi4QjUdMh2D2fhJsQyEdcml1WEXytnVAmF
+         y92UeDqu32th1eqwcTSC6nA4vF8zFmu5U/T3WWJSvDYV83z+9lQQRbqN+9ypyUnKmZl0
+         932g==
+X-Gm-Message-State: AOJu0YwsXsJarnhkCzHh1ySBKidItxROviwJ55ee7FiLtFzTlClLE+u5
+	HzCgdxu06U7990FVZhmw3arycz37R/E=
+X-Google-Smtp-Source: AGHT+IHQ8jHek6Au8SnTYc4+YSHasu3A4HV5agBrKycqq4XFSiZqQQaOu/By1XlTShpIx9n/1EljSQ==
+X-Received: by 2002:a05:6870:224c:b0:204:224a:1cc7 with SMTP id j12-20020a056870224c00b00204224a1cc7mr117864oaf.102.1703095361500;
+        Wed, 20 Dec 2023 10:02:41 -0800 (PST)
 Received: from localhost.localdomain ([2601:282:4300:19e0::d6e0])
-        by smtp.gmail.com with ESMTPSA id k11-20020a9d7dcb000000b006d8786f3510sm43976otn.57.2023.12.20.10.02.37
+        by smtp.gmail.com with ESMTPSA id k11-20020a9d7dcb000000b006d8786f3510sm43976otn.57.2023.12.20.10.02.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 10:02:38 -0800 (PST)
+        Wed, 20 Dec 2023 10:02:40 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][RFC 1/2] lib/packagedata.py: Add API to iterate over rprovides
-Date: Wed, 20 Dec 2023 11:02:34 -0700
-Message-Id: <20231220180235.3502418-1-JPEWhacker@gmail.com>
+Subject: [OE-core][RFC 2/2] classes-global/insane: Look up all runtime providers for file-rdeps
+Date: Wed, 20 Dec 2023 11:02:35 -0700
+Message-Id: <20231220180235.3502418-2-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231220180235.3502418-1-JPEWhacker@gmail.com>
+References: <20231220180235.3502418-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:02:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192807
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:02:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192808
 
-Adds an API that makes it easier to iterate over the package data for a
-all providers of a runtime dependency.
+Uses the new foreach_runtime_provider_pkgdata() API to look up all
+possible runtime providers of a given dependency when resolving
+file-rdeps. This allows the check to correctly handle RPROVIDES for
+non-virtual dependencies
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/packagedata.py | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/classes-global/insane.bbclass | 30 ++++++++++++------------------
+ 1 file changed, 12 insertions(+), 18 deletions(-)
 
-diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-index d59f6f5a569..2d1d6ddeb75 100644
---- a/meta/lib/oe/packagedata.py
-+++ b/meta/lib/oe/packagedata.py
-@@ -116,6 +116,21 @@ def recipename(pkg, d):
+diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
+index 72fcf6b2544..d625fd82f73 100644
+--- a/meta/classes-global/insane.bbclass
++++ b/meta/classes-global/insane.bbclass
+@@ -904,13 +904,7 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                     if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
+                         continue
+                     if not rdep_data or not 'PN' in rdep_data:
+-                        pkgdata_dir = d.getVar("PKGDATA_DIR")
+-                        try:
+-                            possibles = os.listdir("%s/runtime-rprovides/%s/" % (pkgdata_dir, rdepend))
+-                        except OSError:
+-                            possibles = []
+-                        for p in possibles:
+-                            rdep_data = oe.packagedata.read_subpkgdata(p, d)
++                        for _, rdep_data in oe.packagedata.foreach_runtime_provider_pkgdata(d, rdepend):
+                             if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
+                                 break
+                     if rdep_data and 'PN' in rdep_data and rdep_data['PN'] in taskdeps:
+@@ -958,17 +952,17 @@ def package_qa_check_rdepends(pkg, pkgdest, skip, taskdeps, packages, d):
+                     # perl
+                     filerdepends.pop(rdep,None)
  
-     return pkgmap(d).get(pkg)
- 
-+def foreach_runtime_provider_pkgdata(d, rdep, include_rdep=False):
-+    pkgdata_dir = d.getVar("PKGDATA_DIR")
-+    possibles = set()
-+    try:
-+        possibles |= set(os.listdir("%s/runtime-rprovides/%s/" % (pkgdata_dir, rdep)))
-+    except OSError:
-+        pass
+-                    # For Saving the FILERPROVIDES, RPROVIDES and FILES_INFO
+-                    rdep_data = oe.packagedata.read_subpkgdata(rdep, d)
+-                    for key in rdep_data:
+-                        if key.startswith("FILERPROVIDES:") or key.startswith("RPROVIDES:"):
+-                            for subkey in bb.utils.explode_deps(rdep_data[key]):
+-                                filerdepends.pop(subkey,None)
+-                        # Add the files list to the rprovides
+-                        if key.startswith("FILES_INFO:"):
+-                            # Use eval() to make it as a dict
+-                            for subkey in eval(rdep_data[key]):
+-                                filerdepends.pop(subkey,None)
++                    for _, rdep_data in oe.packagedata.foreach_runtime_provider_pkgdata(d, rdep, True):
++                        for key in rdep_data:
++                            if key.startswith("FILERPROVIDES:") or key.startswith("RPROVIDES:"):
++                                for subkey in bb.utils.explode_deps(rdep_data[key]):
++                                    filerdepends.pop(subkey,None)
++                            # Add the files list to the rprovides
++                            if key.startswith("FILES_INFO:"):
++                                # Use eval() to make it as a dict
++                                for subkey in eval(rdep_data[key]):
++                                    filerdepends.pop(subkey,None)
 +
-+    if include_rdep:
-+        possibles.add(rdep)
-+
-+    for p in sorted(list(possibles)):
-+        rdep_data = read_subpkgdata(p, d)
-+        yield p, rdep_data
-+
- def get_package_mapping(pkg, basepkg, d, depversions=None):
-     import oe.packagedata
- 
+                     if not filerdepends:
+                         # Break if all the file rdepends are met
+                         break
 -- 
 2.34.1
 
