@@ -2,128 +2,155 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A05E6C46CD8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F952C46CD3
 	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 10:39:36 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.19058.1703068766439511007
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.19059.1703068767004235449
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 02:39:26 -0800
+ Wed, 20 Dec 2023 02:39:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ec9y2xc7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40c3f68b69aso51433495e9.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N091XSIH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40d2e5e8d1dso12371325e9.0
         for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 02:39:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1703068764; x=1703673564; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y8soP2JmHT04Ia7QjaFf4O7DLL+HCvppZGFjxw8+8e0=;
-        b=ec9y2xc7q6GQBFU+bzfKMC9LhS+iK0YtB/CMLLa3UmShYpR8RSwBE6pYt0lJuwWzHZ
-         KK7r8qSXsE6OQa+eIiRBW+Fqm1UlIRStg7hmEs+GzMe6pGqJq86gayYdmDvDurXO4Kv7
-         6X6nz3qvZ/nSeAaklPOpS6z8rX464mNva++Gg=
+        d=linuxfoundation.org; s=google; t=1703068765; x=1703673565; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uIpZpuqA38IPFZRuiUczrWwrspcnVdMKNM9clwiEp+g=;
+        b=N091XSIHzTBHx9SKI5kRRKevX/2v9MFz9XvHjUbzUrB34PbBZnnxC/AT5/V0LakY/s
+         GfTtjNY3GS4iotpikDJnJIX6fxRxTBlQlP4+sEgPTc0H3KgvaBF0ocbZQiTryUtqjZvz
+         jTi/EqVEHAhaOu7wwpB53lwnx65LHlZMvROP8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703068764; x=1703673564;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y8soP2JmHT04Ia7QjaFf4O7DLL+HCvppZGFjxw8+8e0=;
-        b=q/ayUTelFz4DBWlh28GWspIXLjUPp0i0MG/cD0YF4B2E0BvKX0zuwjrQooOW5SqlB8
-         gR4SIeS6rvSmmKvBOySo3QtLZrocGCt1BH1jaoDAVUAKElyS1H3o880L1yXX7rUF2g4j
-         XsCktShY25Z3p1pnuKp5hhpbx8Xu2ym2Kk1f2gw8mR8HM9fPXDfhkJqml1AMEpXV1r1x
-         ta92wg5VcYy96/V8/OIeYF1MG54r69t97U6qvRC6kABGRuRo5ypGO4AaUZY1akr4Bs+6
-         082vcKzMQBgtkIk/dzaK5G8NMFMHyF1ApmqKn+Q8A0BiiBt74Hb4HlZGs4/Fbur91EbE
-         +T+g==
-X-Gm-Message-State: AOJu0Yxxq6vBd2ox2b2JQbaHyg8cAYvr0S/TQA9yT4IBFgHw5O0cp7TI
-	sM1aVecFeQOUa+RoAh2axOy8IVx74uc2rl6MoHA=
-X-Google-Smtp-Source: AGHT+IH4e1GmFVe8y07Au3NpvnvN9eP3N35OFl9YcuFaVGYUo7srd3BSbSnzsgUOTZEUtuKK396X/A==
-X-Received: by 2002:a05:600c:4ed3:b0:40c:6e31:765d with SMTP id g19-20020a05600c4ed300b0040c6e31765dmr5038556wmq.122.1703068764351;
+        d=1e100.net; s=20230601; t=1703068765; x=1703673565;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uIpZpuqA38IPFZRuiUczrWwrspcnVdMKNM9clwiEp+g=;
+        b=nrGPocHiV5BP92YD+fcJz7EGRJuqDdXZtp2yk+DWGLevYE/clbcNzt76Vm0TfzoeQr
+         ZkBVouqvfr38PDSRX3opc+jgyc2KXCYfbkusJl3g6d01EhkqPatZKXMCsPRMe2+geNHI
+         zapMPMGMrGdaZ6723OHTI8WbtLEVDdCReEBONgyD16Rlgaf3J/fcgLeoH/yI38kSbw/R
+         E7ccHhyNW24ZjTJGBmM6PAjVQbYHJXNxRwXHBij4/+5NdMLo2ZnF1WZmgbf8KE8iMDQ+
+         hXZazcmHsGniTG1FWmtPvZoEL659FXiTYnaPg7twXl3BQwkdgUi+r2lMw4cmW0kr3fMY
+         cN9Q==
+X-Gm-Message-State: AOJu0YwicGKhIOyPf9m705s5a6tHN8sWc5Zx01opdsUOeOgXoPprXhTB
+	PobqAS9ucIUuXuzWQFWaPjtPtxfXfUef4df5Mio=
+X-Google-Smtp-Source: AGHT+IFUJpIw5k+1hGM96kUpdO38Phd/kXVYn+9JbvULi8s7WR+TyS9SfBliAgJbTk1LpaUF4OZcNA==
+X-Received: by 2002:a05:600c:4e86:b0:40c:6d37:8344 with SMTP id f6-20020a05600c4e8600b0040c6d378344mr3048997wmq.279.1703068764972;
         Wed, 20 Dec 2023 02:39:24 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c])
-        by smtp.gmail.com with ESMTPSA id n11-20020a05600c3b8b00b0040b3d8907fesm6054265wms.29.2023.12.20.02.39.23
+        by smtp.gmail.com with ESMTPSA id n11-20020a05600c3b8b00b0040b3d8907fesm6054265wms.29.2023.12.20.02.39.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 20 Dec 2023 02:39:24 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] qemu: Clean up DEPENDS
-Date: Wed, 20 Dec 2023 10:39:22 +0000
-Message-Id: <20231220103923.3624311-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] qemu: Ensure pip and the python venv aren't used for meson
+Date: Wed, 20 Dec 2023 10:39:23 +0000
+Message-Id: <20231220103923.3624311-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231220103923.3624311-1-richard.purdie@linuxfoundation.org>
+References: <20231220103923.3624311-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 10:39:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192787
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192788
 
-Move the common dependencies to qemu.inc for cleaner entries in the
-various recipes. Remove an unneeded inherit.
+Qemu wants to use a supported python verison and a specific meson version
+to "help" users and uses pip and creates a venv to do this. This is a nightmare
+for us. Our versions stay up to date and should be supported so we don't
+really need/want this wrapping. Tweak things to disable it.
+
+There was breakage from the wrapper shown by:
+
+bitbake qemu-system-native
+<add DISTRO_FEATURES:remove = "opengl" to local.conf>
+bitbake qemu-system-native -c configure
+
+which would crash. The issue is the change in configuration removes pieces
+from the sysroot but pyc files remainm as do pieces of pip which causes
+problems.
+
+pip usage is likely accessing the network outside of do_fetch meaning license
+manifest issues too.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/qemu/qemu-native_8.1.2.bb        | 2 +-
- meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb | 4 +---
- meta/recipes-devtools/qemu/qemu.inc                    | 2 ++
- meta/recipes-devtools/qemu/qemu_8.1.2.bb               | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc          |  1 +
+ meta/recipes-devtools/qemu/qemu/no-pip.patch | 48 ++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/no-pip.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb b/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb
-index 73a0f63f2b2..a77953529b1 100644
---- a/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb
-+++ b/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb
-@@ -1,6 +1,6 @@
- BPN = "qemu"
- 
--DEPENDS = "glib-2.0-native zlib-native ninja-native meson-native"
-+DEPENDS += "glib-2.0-native zlib-native"
- 
- require qemu-native.inc
- 
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb b/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb
-index 558a416f7b4..0634b342429 100644
---- a/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb
-+++ b/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb
-@@ -1,13 +1,11 @@
- BPN = "qemu"
- 
--inherit python3-dir
--
- require qemu-native.inc
- 
- # As some of the files installed by qemu-native and qemu-system-native
- # are the same, we depend on qemu-native to get the full installation set
- # and avoid file clashes
--DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native bison-native meson-native ninja-native"
-+DEPENDS += "glib-2.0-native zlib-native pixman-native qemu-native"
- 
- EXTRA_OECONF:append = " --target-list=${@get_qemu_system_target_list(d)}"
- 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 58284ef9937..9e187a09958 100644
+index 9e187a09958..70515d980e7 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -6,6 +6,8 @@ a variety of guest operating systems"
- HOMEPAGE = "http://qemu.org"
- LICENSE = "GPL-2.0-only & LGPL-2.1-only"
- 
-+DEPENDS += "bison-native meson-native ninja-native"
+@@ -34,6 +34,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://fixedmeson.patch \
+            file://fixmips.patch \
+            file://0001-vfio-Include-libgen.h-for-basename-API.patch \
++           file://no-pip.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            "
+diff --git a/meta/recipes-devtools/qemu/qemu/no-pip.patch b/meta/recipes-devtools/qemu/qemu/no-pip.patch
+new file mode 100644
+index 00000000000..4eaa8dc3092
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/no-pip.patch
+@@ -0,0 +1,48 @@
++qemu: Ensure pip and the python venv aren't used for meson
 +
- RDEPENDS:${PN}-ptest = "bash"
- 
- require qemu-targets.inc
-diff --git a/meta/recipes-devtools/qemu/qemu_8.1.2.bb b/meta/recipes-devtools/qemu/qemu_8.1.2.bb
-index 84ee0bcc492..6a264b445b5 100644
---- a/meta/recipes-devtools/qemu/qemu_8.1.2.bb
-+++ b/meta/recipes-devtools/qemu/qemu_8.1.2.bb
-@@ -2,7 +2,7 @@ BBCLASSEXTEND = "nativesdk"
- 
- require qemu.inc
- 
--DEPENDS = "glib-2.0 zlib pixman bison-native ninja-native meson-native"
-+DEPENDS = "glib-2.0 zlib pixman"
- 
- DEPENDS:append:libc-musl = " libucontext"
- 
++Qemu wants to use a supported python verison and a specific meson version
++to "help" users and uses pip and creates a venv to do this. This is a nightmare
++for us. Our versions stay up to date and should be supported so we don't
++really need/want this wrapping. Tweak things to disable it.
++
++There was breakage from the wrapper shown by:
++
++bitbake qemu-system-native
++<add DISTRO_FEATURES:remove = "opengl" to local.conf>
++bitbake qemu-system-native -c configure
++
++which would crash. The issue is the change in configuration removes pieces
++from the sysroot but pyc files remainm as do pieces of pip which causes
++problems.
++
++pip usage is likely accessing the network outside of do_fetch meaning license
++manifest issues too.
++
++Ideally we'd convince upstream to allow some way to disable the venv on
++the understanding that if/when it breaks, we keep the pieces. The patch
++as it stands is a workaround.
++
++Upstream-Status: Inappropriate
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++diff --git a/configure b/configure
++index 133f4e3235..e4c144b4e2 100755
++--- a/configure
+++++ b/configure
++@@ -1009,7 +1009,7 @@ python="$(command -v "$python")"
++ echo "python determined to be '$python'"
++ echo "python version: $($python --version)"
++ 
++-python="$($python -B "${source_path}/python/scripts/mkvenv.py" create pyvenv)"
+++python=python3
++ if test "$?" -ne 0 ; then
++     error_exit "python venv creation failed"
++ fi
++@@ -1017,6 +1017,7 @@ fi
++ # Suppress writing compiled files
++ python="$python -B"
++ mkvenv="$python ${source_path}/python/scripts/mkvenv.py"
+++mkvenv=true
++ 
++ mkvenv_flags=""
++ if test "$download" = "enabled" ; then
 -- 
 2.39.2
 
