@@ -1,203 +1,231 @@
-Return-Path: <changqing.li@eng.windriver.com>
+Return-Path: <alex.bennee@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1412BC3DA6E
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 08:36:46 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.17644.1703061398980969959
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D471C46CCD
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 09:53:36 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.18369.1703066010471944411
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 00:36:39 -0800
+ Wed, 20 Dec 2023 01:53:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Jr0/lVeG;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=07181c88e8=changqing.li@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BK6LLvd009322
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 00:36:38 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=DaRPz
-	OJrYQNXKDCCuqmOOfmVq7wnzxz0WvGRnt6Iz48=; b=Jr0/lVeG4OsY8S3QysFib
-	0RbR9cZvd+LMvtqAZuZzOS38TWivYWU8qKU20QwW/CXTS8J0QC7PwG9XqoL2o4zY
-	tA8ug9riPMZceO6470lju7LnCSkFl116SUw4lWA4LPJqeCq8qK5ODTgILudnehg1
-	szYAamjXdy8HRK0aXSFaKl85n0SvW1AdmLvaGWMT7GDm6D4EyPJwApEi3+Had5Df
-	tctbfBdmupP4bZnCgMhThF1JOzONcpdwRu74kcdmYO7PkvTJWwQDn7Hm9X9ixuCT
-	41BedIZyaiHzxmKisrWzZLZd1zN8AY/xsITk+W9KjZbhuTuW5eivrsEGnwzJo1ub
-	Q==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v1824m0gh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 00:36:38 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 20 Dec 2023 00:36:44 -0800
-Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 20 Dec 2023 00:36:43 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH V3] rxvt-unicode: set correct outdir for tic
-Date: Wed, 20 Dec 2023 16:36:36 +0800
-Message-ID: <20231220083636.3866994-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=e5ptK8hc;
+ spf=pass (domain: linaro.org, ip: 209.85.128.43, mailfrom: alex.bennee@linaro.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40c3f68b69aso51106875e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 01:53:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1703066008; x=1703670808; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8IjeW2aXdVUqYqVWJqh4UHEFSypPU4lTF8CfCYh+5nQ=;
+        b=e5ptK8hciu/CQRzEgtqB3v6m705D0mjn4V3bIMCVEngZ7UeK2RPJPdWJb6iKhyL5J7
+         V1E3uRO8iuXwkTXN0puVPQ6A/trtzvjVP2bu/xPa2Rl2FjNaQeVUZ2e603lAkpvEPnr3
+         q08FRz6F3H9YhemnYKfRfqKOurucwSayJwhfXQro2TYvs/wYs7LvnQRFfb+Oz+0y9vjH
+         ZgOsBXWHgWxrz0myhO1iwNyf2aRkBy31PR3Y8+WpbvAb0c/yL6p7DDblPZqWBL5kHZzz
+         IuYg6GaXQXrx4m7yQd7KsJtVXs59JiWOz80PiKGJnYPJNaMw+Ni9DfcM4AIhK3g0nSTt
+         Cb2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703066008; x=1703670808;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8IjeW2aXdVUqYqVWJqh4UHEFSypPU4lTF8CfCYh+5nQ=;
+        b=OGmy9IW7/pQJ98jPuQY7tlo4OPhWzTcSo3UQz0KfvtfyA9fNaI2DKkYCzvxIIJTbY1
+         gxiExYoAaxcPEwFDyD7sZ8HEh0wVupkFlCcM2185oUTywDBE3yg1avLRaVWCVafwSUyF
+         PwViqjAqYx21UcdCcujrJ3XutWMWx9mi6rCRkdBL7X9BY60bcoRT9M9DKQgnuJSZIaH0
+         WpLru13oiNlSIVBoQkfhp2s06k10H7GnWr5KkExDnNQ4h6SfksRoAD7UAopnRQriWtlS
+         FEaOqJ+4rObinVa4JyVicftp7Xyd1CJBkatT9vwCQmZuvW23Em1jPtLQUrO4fHWaaQ8E
+         A/ew==
+X-Gm-Message-State: AOJu0YzwhTumnZGEHK1ZLBTAROr5T2dWftAQQCm7tU7NfQRzE5uCXKKg
+	J+UdxaYHB096p7S02f3HbTC1kw==
+X-Google-Smtp-Source: AGHT+IHucbh+/9FRmR7tgEVS7LegJz/tTmEJkJ2IeNZGM2UcMGkXtwYEGrE/vMI1jSodb2CCHe6e3A==
+X-Received: by 2002:a05:600c:1149:b0:40c:2348:b92 with SMTP id z9-20020a05600c114900b0040c23480b92mr12425434wmz.68.1703066008393;
+        Wed, 20 Dec 2023 01:53:28 -0800 (PST)
+Received: from draig.lan ([85.9.250.243])
+        by smtp.gmail.com with ESMTPSA id v16-20020adfe4d0000000b0033672cfca96sm3778433wrm.89.2023.12.20.01.53.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 01:53:28 -0800 (PST)
+Received: from draig (localhost [IPv6:::1])
+	by draig.lan (Postfix) with ESMTP id B65945F8BD;
+	Wed, 20 Dec 2023 09:53:27 +0000 (GMT)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 2/2] qemurunner: Impove handling of serial
+ port output blocking
+In-Reply-To: <8c50fc53a29c4dcaab6316ec5b39b91c0d6bfa94.camel@linuxfoundation.org>
+	(Richard Purdie's message of "Tue, 19 Dec 2023 22:57:54 +0000")
+References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
+	<20231218152951.3398964-2-richard.purdie@linuxfoundation.org>
+	<87bkam449t.fsf@draig.linaro.org>
+	<86be77c51628028eeda996117c5eb02eb8bf5941.camel@linuxfoundation.org>
+	<87r0ji2lc9.fsf@draig.linaro.org>
+	<8c50fc53a29c4dcaab6316ec5b39b91c0d6bfa94.camel@linuxfoundation.org>
+User-Agent: mu4e 1.11.26; emacs 29.1
+Date: Wed, 20 Dec 2023 09:53:27 +0000
+Message-ID: <87a5q52oa0.fsf@draig.linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: Va8i89G8ahGe5s09Jq_7ma-siMSF2Kfo
-X-Proofpoint-GUID: Va8i89G8ahGe5s09Jq_7ma-siMSF2Kfo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
- mlxscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
- adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2312200059
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 08:36:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192784
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 09:53:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192785
 
-From: Changqing Li <changqing.li@windriver.com>
+Richard Purdie <richard.purdie@linuxfoundation.org> writes:
 
-* tic is from ncurses-native, and set TERMINFO as
-${RECIPE_SYSROOT_NATIVE}/${datadir}/terminfo of ncurses-native, so the
-rxvt-unicode terminfo will be wrongly installed in there.  set the
-outdir explicitly to install them to correct dir.
+> On Tue, 2023-12-19 at 16:44 +0000, Alex Benn=C3=A9e wrote:
+>> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
+>>=20
+>> > On Tue, 2023-12-19 at 15:10 +0000, Alex Benn=C3=A9e wrote:
+>> > > "Richard Purdie" <richard.purdie@linuxfoundation.org> writes:
+>> > >=20
+>> > > > Similar to stdout in the previous commit, we need to ensure serial=
+ output
+>> > > > if written is read and put somewhere, else qemu might block on wri=
+tes to
+>> > > > the serial port leading to hangs in the kernel. Use our existing l=
+ogging
+>> > > > thread to log data when run_serial is not in use.
+>> > > >=20
+>> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> > >=20
+>> > > I'm still seeing hanging with my test case:
+>> > >=20
+>> > >   o regression_1010.5 Invalid memory access 5
+>> > >     regression_1010.5 OK
+>> > >   o regression_1010.6 Invalid memory access 6
+>> > >=20
+>> > >   Stdout:
+>> > >   Tried to dump info from target but serial console failed
+>> > >   Failed CMD: top -bn1
+>> > >   Tried to dump info from target but serial console failed
+>> > >   Failed CMD: ps
+>> > >   Tried to dump info from target but serial console failed
+>> > >   Failed CMD: free
+>> > >=20
+>> > >   NOTE: test_soafee (soafeetestsuite.SoafeeTestSuite.test_soafee)
+>> > >   DEBUG: Checking if at least one of soafee-test-suite is installed
+>> > >   DEBUG: Setting up a 400 second(s) timeout
+>> > >   DEBUG: [Running]$ ssh -l root -o ServerAliveCountMax=3D2 -o Server=
+AliveInterval=3D30 -o UserKnownHostsFile=3D/dev/null -o StrictHostKeyChecki=
+ng=3Dno -o LogLevel=3DERROR -p 2222 127.0.0.1 export PATH=3D/usr/sbin:/sbin=
+:/usr/bin:/bin; sudo -i -u trs soafee-test-suite run -r -t -T ; rm -rf /tmp=
+/soafee-test-suite
+>> > >   DEBUG: Waiting for process output: time: 1702998407.0291, endtime:=
+ 1702998707.0285847
+>> > >   DEBUG: Waiting for process output: time: 1702998412.0338314, endti=
+me: 1702998707.0285847
+>> > >   DEBUG: Waiting for process output: time: 1702998417.0378022, endti=
+me: 1702998707.0285847
+>> > >   DEBUG: Waiting for process output: time: 1702998422.0417945, endti=
+me: 1702998707.0285847
+>> > >   <snip>
+>> > >=20
+>> > > The regression tests are hanging because that has triggered output on
+>> > > the serial port as the firmware attempted to service the test and the
+>> > > port isn't being drained. Then when that times out we start spinning
+>> > > waiting for more output.
+>> >=20
+>> > I don't really understand where it might be hanging unfortunately as in
+>> > my local tests it is draining stdout and the serial ports. Does it
+>> > login to the serial console correctly? Are there any WARNING messages?
+>> >=20
+>> > I did use this debug patch:
+>> >=20
+>> > https://git.yoctoproject.org/poky-contrib/commit/?h=3Drpurdie/t222&id=
+=3D0d9029bad610736c114e0770d2433b53133fa620
+>> >=20
+>> > to prove that it can interleave serial commands with left over output
+>> > successfully. A similar patch may help work out where your setup may be
+>> > hanging?
+>>=20
+>> Yeah I'm only seeing A10/A11:
+>>=20
+>>   o regression_1010.5 Invalid memory access 5
+>>     regression_1010.5 OK
+>>   o regression_1010.6 Invalid memory access 6
+>>=20
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   WARNING: here A10
+>>   WARNING: here A11
+>>   NOTE:  ... FAIL
+>>   DEBUG: Removed SIGALRM handler
+>>   Traceback (most recent call last):
+>>     File "/home/alex/lsrc/tests/trs/build/../poky/meta/lib/oeqa/core/dec=
+orator/__init__.py", line 35, in wrapped_f
+>>       return func(*args, **kwargs)
+>>              ^^^^^^^^^^^^^^^^^^^^^
+>>     File "/home/alex/lsrc/tests/trs/build/../poky/meta/lib/oeqa/core/dec=
+orator/__init__.py", line 35, in wrapped_f
+>>       return func(*args, **kwargs)
+>>              ^^^^^^^^^^^^^^^^^^^^^
+>>     File "/home/alex/lsrc/tests/trs/meta-trs/lib/oeqa/runtime/cases/opte=
+etest.py", line 27, in test_opteetest_xtest
+>>       self.assertEqual(status, 0, msg=3D'\n'.join([cmd, output]))
+>>   AssertionError: 255 !=3D 0 :  xtest=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20
+>>   Run test suite with level=3D0
+>
+> How long does it take for the test data to "back up" and timeout? The
+> logging thread should take a maximum of 2s to notice data not being
+> read/handled on the serial port.
 
-* Add ncurses-native as DEPENDS to fix reproducible build issue
+I don't think it goes around the logging loop more than once. I only
+see:
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../rxvt-unicode/rxvt-unicode.inc             |  9 ++--
- ...ile.in-set-outdir-for-TIC-explicitly.patch | 44 +++++++++++++++++++
- .../0001-Makefile.in-set-outdir-for-tic.patch | 35 +++++++++++++++
- 3 files changed, 84 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-TIC-explicitly.patch
- create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-tic.patch
+  grep "got" build/tmp_trs-qemuarm64/work/trs_qemuarm64-trs-linux/trs-image=
+/1.0/temp/log.do_testimage
+  DEBUG: got [(12, 1)]
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-index e7d520ebef..b8ef0d75e5 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-@@ -6,13 +6,14 @@ terminal emulator rxvt, modified to store text in Unicode \
- output. It also supports mixing multiple fonts at the \
- same time, including Xft fonts."
- HOMEPAGE = "https://rxvt.org/"
--DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu libptytty"
-+DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu libptytty ncurses-native"
- 
- SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
- 	   file://xwc.patch \
- 	   file://rxvt.desktop \
--	   file://rxvt.png"
--
-+	   file://rxvt.png \
-+	   file://0001-Makefile.in-set-outdir-for-TIC-explicitly.patch \
-+"
- inherit autotools pkgconfig update-alternatives
- 
- PROVIDES = "virtual/x-terminal-emulator"
-@@ -55,4 +56,4 @@ do_install:append () {
- 	install -m 0644 ${WORKDIR}/rxvt.desktop ${D}/${datadir}/applications
- }
- 
--FILES:${PN} += "${datadir}/applications/rxvt.desktop ${datadir}/pixmaps/rxvt.png"
-+FILES:${PN} += "${datadir}/applications/rxvt.desktop ${datadir}/pixmaps/rxvt.png ${datadir}/terminfo"
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-TIC-explicitly.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-TIC-explicitly.patch
-new file mode 100644
-index 0000000000..6c582d288e
---- /dev/null
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-TIC-explicitly.patch
-@@ -0,0 +1,44 @@
-+From c88c94e629b6aad1609d13f355c52e5a3acc8d2a Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Thu, 14 Dec 2023 17:33:15 +0800
-+Subject: [PATCH] Makefile.in: set outdir for TIC explicitly
-+
-+When doing cross-compile, native tic's TERMINFO usually
-+set as a native dir, which could not the target install dir,
-+which will cause rxvt-unicode terminfo will be wrongly installed.
-+set the outdir explicitly to install them to correct dir.
-+
-+Upstream-Status: Submitted [ https://github.com/exg/rxvt-unicode/pull/4 ]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ doc/Makefile.in | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/doc/Makefile.in b/doc/Makefile.in
-+index e3d1fe8b..3477551a 100644
-+--- a/doc/Makefile.in
-++++ b/doc/Makefile.in
-+@@ -69,7 +69,7 @@ all:
-+ 	sed $(SEDREPLACE) <$< | podselect -section "RXVT-UNICODE\/URXVT FREQUENTLY ASKED QUESTIONS" | pod2text >$@
-+ 
-+ $(srcdir)/etc/rxvt-unicode.termcap: $(srcdir)/etc/rxvt-unicode.terminfo
-+-	tic -C $< >$@
-++	@TIC@ -C $< >$@
-+ 
-+ tags allbin:
-+ 
-+@@ -100,8 +100,8 @@ install: all
-+ 	$(INSTALL_DATA) rxvtd.1.man   $(DESTDIR)$(man1dir)/$(RXVTNAME)d.$(man1ext)
-+ 	$(INSTALL_DATA) rxvt.7.man    $(DESTDIR)$(man7dir)/$(RXVTNAME).$(man7ext)
-+ 	$(INSTALL_DATA) rclock.1.man  $(DESTDIR)$(man1dir)/urclock.$(man1ext)
-+-	@TIC@ -x $(srcdir)/etc/rxvt-unicode.terminfo || \
-+-           @TIC@ $(srcdir)/etc/rxvt-unicode.terminfo
-++	@TIC@ -x $(srcdir)/etc/rxvt-unicode.terminfo -o $(DESTDIR)$(datadir)/terminfo || \
-++           @TIC@ $(srcdir)/etc/rxvt-unicode.terminfo -o -o $(DESTDIR)$(datadir)/terminfo
-+ 
-+ distdepend: alldoc
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-tic.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-tic.patch
-new file mode 100644
-index 0000000000..8fd782b503
---- /dev/null
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-set-outdir-for-tic.patch
-@@ -0,0 +1,35 @@
-+From 1b7d547453fc57806ef86f64c86706530a23e62e Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 13 Dec 2023 11:53:18 +0800
-+Subject: [PATCH] Makefile.in: set outdir for tic
-+
-+tic is from ncurses-native, and set TERMINFO as
-+${RECIPE_SYSROOT_NATIVE}/${datadir}/terminfo of ncurses-native, so the
-+rxvt-unicode terminfo will be wrongly installed in there.  set the
-+outdir explicitly to install them to correct dir.
-+
-+Upstream-Status: Submitted [ https://github.com/exg/rxvt-unicode/pull/4 ]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ doc/Makefile.in | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/doc/Makefile.in b/doc/Makefile.in
-+index e3d1fe8..1de56d3 100644
-+--- a/doc/Makefile.in
-++++ b/doc/Makefile.in
-+@@ -100,8 +100,8 @@ install: all
-+ 	$(INSTALL_DATA) rxvtd.1.man   $(DESTDIR)$(man1dir)/$(RXVTNAME)d.$(man1ext)
-+ 	$(INSTALL_DATA) rxvt.7.man    $(DESTDIR)$(man7dir)/$(RXVTNAME).$(man7ext)
-+ 	$(INSTALL_DATA) rclock.1.man  $(DESTDIR)$(man1dir)/urclock.$(man1ext)
-+-	@TIC@ -x $(srcdir)/etc/rxvt-unicode.terminfo || \
-+-           @TIC@ $(srcdir)/etc/rxvt-unicode.terminfo
-++	@TIC@ -x $(srcdir)/etc/rxvt-unicode.terminfo -o $(DESTDIR)$(datadir)/terminfo || \
-++           @TIC@ $(srcdir)/etc/rxvt-unicode.terminfo -o $(DESTDIR)$(datadir)/terminfo
-+ 
-+ distdepend: alldoc
-+ 
-+-- 
-+2.25.1
-+
--- 
-2.25.1
+from the poll.
 
+>
+> What the code should be doing is noticing the run_serial function isn't
+> using the port and if there is data there, reading it in the logging
+> thread. You could put further warnings around the code there to see if
+> it ever detects data to read on that port. A warning when it exits the
+> run_serial command may help too to see if it is waiting for data there
+> or not.
+>
+> I also ended up using:
+>
+> https://git.yoctoproject.org/poky-contrib/commit/?h=3Drpurdie/t222&id=3Df=
+ebb0d892e4c3648cd88b8ecb9c0260edc45b68e
+>
+> to show what was going over the serial interface when I found it wasn't
+> what I expected.
+
+I'll keep digging.
+
+>
+> I suspect/hope my patch is a step in the right direction but it looks
+> like there may be cases it doesn't catch yet :/.
+>
+> Cheers,
+>
+> Richard
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
