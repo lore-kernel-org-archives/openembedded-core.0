@@ -2,87 +2,100 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4282C3DA6E
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 18:01:22 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web11.28011.1703095281627679942
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A44A5C3DA6E
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 18:01:32 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web10.28438.1703095283800853465
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 10:01:21 -0800
+ Wed, 20 Dec 2023 10:01:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fs/TqeUH;
- spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2041e117abaso193377fac.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 10:01:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NwaM4sFB;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1f066fc2a2aso2125126fac.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 10:01:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703095280; x=1703700080; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GgtO0EYm/sLhMJyHo7AuUwU7yu72EukAYOF7jvqSWKk=;
-        b=Fs/TqeUHq7P9//dHOH32veg209pTCMz1SFkFikpf2Aye0QamWsqJ0nkSztrKow642W
-         jxmpDyJEwRViZekf3/A2NWs2tWFtfhHF4dxztUw4Z3VQ0FB2MMTw3jvxfeGCAEqJnzhz
-         Y/zmyq/tyIynnSoSccAaeWRnfxLrkfPYnC97uZdDyiNlOVx+pesSk2cWHI/bjwET8R1S
-         A1GWggEl5kMbud+wj5W5GgCWu/yOr7Ejkesun6a2tnnyva6EEsCqNluUPHjN2kjPOdel
-         In3dbBtw7skQZm4g83EfZKcwAk0SH0EQkx2UzSyge42tLVJBc+OlIS6YXxPvPAs2J847
-         Pj6g==
+        d=gmail.com; s=20230601; t=1703095282; x=1703700082; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=12HCyXsyMmWugwYvVEO9bTvJl50Hf+TeK2vq+c61dpo=;
+        b=NwaM4sFB1qOrs85o1QOpc7zgN19l1xE8yUl2DXABge6G1UAzF7lDMehZtFGX774waJ
+         /aa/ISLBviJUYoDIFWwRmyA9DwGxHBn7BchUQlWh7nR+1erape2gvpP7mdKDxO+hHhjW
+         iZwoPRsdseNZZRM53yQVPf1L25S4a0ZVUsxmDAfVk7nL13JqnAaNX7snDv+zRE9aYACk
+         pQB4B0vt3C4xsMNbZ/yPRscTpYIPu5xm8hNAbsfGcTk+qJu2pMuwaO5LdgTBD8I4gy2C
+         fxEdnV5qvVD4EqG2mGpB37hu68oqUtKnsYCy6DSEpxZsRwgBodHDA1RMAzsoIaE7kbri
+         IpzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703095280; x=1703700080;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GgtO0EYm/sLhMJyHo7AuUwU7yu72EukAYOF7jvqSWKk=;
-        b=mfa7eT0dqT0LzyJVA9uLCxmA3nhLhkr6wrfhZSDvA6NEYAaqgEHsmgBsSafPlsUcZu
-         bd/z8fT/gR0lv6GMVaKoxh4EOy1ijyvi7iNjVRdFXeO8rZkebsm9guwlAWhquwLHGvtk
-         0xrLeK+R7r5NU9KhV4t9vgdBiwxjDP1zoD47qcEO/u8L5TNnCoDbHRj6/cJGlI1399dq
-         1VyfDLwJKBPjpDZVBBeS71ylLtM0tm/XPx6M/8Ays/6WTDWtOYPrq7qcyWqG6QBiGmBT
-         g90EAxHWqUNbL5msGa7qT90ktSjyJIUjg5QtPagZdUwuxaKcRfa17qAjYCa4TUnCulZ/
-         LTQg==
-X-Gm-Message-State: AOJu0YwumA6/4417meF6sD74mpsgIJB2bkzpsLn6IUg9q3nWLrc6VaX+
-	vDbQ7/Hr+JGADJFfrNTDB2ceU0EoQzg=
-X-Google-Smtp-Source: AGHT+IFm3dPfl/kKELZkhwiYoCT7CKCKrJU73QwVsUv4NT9CVEUaom/R1YZgDV5IB7PEcTRtlgbwbg==
-X-Received: by 2002:a05:6870:3926:b0:1fb:45d:4cf5 with SMTP id b38-20020a056870392600b001fb045d4cf5mr96199oap.12.1703095279728;
-        Wed, 20 Dec 2023 10:01:19 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703095282; x=1703700082;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=12HCyXsyMmWugwYvVEO9bTvJl50Hf+TeK2vq+c61dpo=;
+        b=IHzPv9equIRDJ64s+fjEUFN92wDEus2OQ9BVDPlWxu/jQCOWbTje+Q+UnlQeLxx/jS
+         MephlZyxPkco0GNf5cBaPXSPpmi45XFB+fcBrMDWFsamuHkDwPsZkmtC+PizmV/nz5YV
+         bXFhftkQpskKs+MTG/rJilgnCfuuLJ/HhniJ34Lm/d2FGYb5wuq1hYYgmyKEeXyZcv83
+         pRPRg1C8IhOQX+jjyV7fB0qzmps3odwJiKW27ZW4sXYjatrjP4JAnkWAf+gpbIpu6bgU
+         yDSwkaeAPIyLXr+AJ6zJJmYIHFfyZr1uSCcOQ0mgYf8qET829wGDbwPJgldAz0nlnbL4
+         J4fg==
+X-Gm-Message-State: AOJu0Yy0j+AVUFsRRctw4PJcc6xo4jrBp6jgKBRGB3shdPPbTNwr35Ye
+	/AZxOfKoWwqlwTJE4iWSodPADlm4mSs=
+X-Google-Smtp-Source: AGHT+IGM/TXREOkOLqU/+qvMC7Bc7xOzh40ocxjGb2+ddYXyr9BgyqjH8RV1M/bIWznfpeE2iOoTOw==
+X-Received: by 2002:a05:6870:b608:b0:203:7d1b:3f1e with SMTP id cm8-20020a056870b60800b002037d1b3f1emr106540oab.59.1703095281958;
+        Wed, 20 Dec 2023 10:01:21 -0800 (PST)
 Received: from localhost.localdomain ([2601:282:4300:19e0::d6e0])
-        by smtp.gmail.com with ESMTPSA id de7-20020a05687075c700b00203af6ff47esm39160oab.42.2023.12.20.10.01.17
+        by smtp.gmail.com with ESMTPSA id de7-20020a05687075c700b00203af6ff47esm39160oab.42.2023.12.20.10.01.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 10:01:18 -0800 (PST)
+        Wed, 20 Dec 2023 10:01:21 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 1/2] lib/oe/path.py: Add relsymlink()
-Date: Wed, 20 Dec 2023 11:01:01 -0700
-Message-Id: <20231220180102.3501941-1-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 2/2] lib/packagedata.py: Fix broken symlinks for providers with a '/'
+Date: Wed, 20 Dec 2023 11:01:02 -0700
+Message-Id: <20231220180102.3501941-2-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231220180102.3501941-1-JPEWhacker@gmail.com>
+References: <20231220180102.3501941-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:01:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192805
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:01:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192806
 
-Adds API to make a relative symbolic link between two directories. The
-arguments are the same as oe.path.symlink()
+If a package had a provider with a '/' in it (e.g. "/bin/sh",
+"/bin/bash", etc.), the generated symlinks were broken due to being at a
+hard coded depth. Use oe.path.relsymlink() instead to make a correct
+relative symbolic link
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/path.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oe/packagedata.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index e2f1913a35c..5d21cdcbdff 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -172,6 +172,9 @@ def symlink(source, destination, force=False):
-         if e.errno != errno.EEXIST or os.readlink(destination) != source:
-             raise
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index 162ff60d72f..d59f6f5a569 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -317,7 +317,7 @@ fi
+             for p in bb.utils.explode_deps(rprov):
+                 subdata_sym = pkgdatadir + "/runtime-rprovides/%s/%s" % (p, pkg)
+                 bb.utils.mkdirhier(os.path.dirname(subdata_sym))
+-                oe.path.symlink("../../runtime/%s" % pkg, subdata_sym, True)
++                oe.path.relsymlink(subdata_file, subdata_sym, True)
  
-+def relsymlink(target, name, force=False):
-+    symlink(os.path.relpath(target, os.path.dirname(name)), name, force=force)
-+
- def find(dir, **walkoptions):
-     """ Given a directory, recurses into that directory,
-     returning all files as absolute paths. """
+         allow_empty = d.getVar('ALLOW_EMPTY:%s' % pkg)
+         if not allow_empty:
+@@ -328,7 +328,7 @@ fi
+         if g or allow_empty == "1":
+             # Symlinks needed for reverse lookups (from the final package name)
+             subdata_sym = pkgdatadir + "/runtime-reverse/%s" % pkgval
+-            oe.path.symlink("../runtime/%s" % pkg, subdata_sym, True)
++            oe.path.relsymlink(subdata_file, subdata_sym, True)
+ 
+             packagedfile = pkgdatadir + '/runtime/%s.packaged' % pkg
+             open(packagedfile, 'w').close()
 -- 
 2.34.1
 
