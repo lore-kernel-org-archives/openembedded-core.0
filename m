@@ -2,166 +2,129 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7248CC3DA6E
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 10:05:06 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.18481.1703066701065190790
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A05E6C46CD8
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 10:39:36 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.19058.1703068766439511007
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 02:05:01 -0800
+ Wed, 20 Dec 2023 02:39:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=djzU6m9C;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33668163949so3363165f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 02:05:00 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ec9y2xc7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40c3f68b69aso51433495e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 02:39:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1703066699; x=1703671499; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eF+cjn5SQ+OdPZcf6Wy5jfdasgMighuFEJHje+OYrik=;
-        b=djzU6m9CADe2rLXlCpO7OiAG2xSHmJjW5pnrE+J1ZqKTtl2chsa+gDs1DzwqDle/+g
-         14lpNrcXCwRuiZVoQj+CVaKK+c8oxryUpIxFnQVBedu/WptAq5bGcxkdWU1wxdHKKGQF
-         Qp/niwIe0EESfWKV7jZlOJjRwteWXTm3HTnSc=
+        d=linuxfoundation.org; s=google; t=1703068764; x=1703673564; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8soP2JmHT04Ia7QjaFf4O7DLL+HCvppZGFjxw8+8e0=;
+        b=ec9y2xc7q6GQBFU+bzfKMC9LhS+iK0YtB/CMLLa3UmShYpR8RSwBE6pYt0lJuwWzHZ
+         KK7r8qSXsE6OQa+eIiRBW+Fqm1UlIRStg7hmEs+GzMe6pGqJq86gayYdmDvDurXO4Kv7
+         6X6nz3qvZ/nSeAaklPOpS6z8rX464mNva++Gg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703066699; x=1703671499;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eF+cjn5SQ+OdPZcf6Wy5jfdasgMighuFEJHje+OYrik=;
-        b=gEyXChfAlcQoGoFhetd6yM82wGGScULIDKsgnJ6SxHyvzxioVFZM87W6KWpGLMmc84
-         86C291pFle6onF9ixHZpfDTOr4tUsF/9CdGakH18hfMxM8/C7c9+R+2QsB03el/bF6kM
-         C59ekT+F0L8K4o88yerT2V1CNRwcDL6RqnemXsWbphBS+vp+E2+apNslB6FwZ0jgHDJ5
-         oMbk0lMRkdTlJOkkDUYUg1nX/huOhPMzCV9L4gxlzsnDh1UswPuNbvk/OUjTopVu4odb
-         1JCFqMG5lWMICo7a1NlK1wUjHMuNia94opmm97N4Pr/uMhw2x0xYtFlWjZKGt5u+8FI8
-         iRdQ==
-X-Gm-Message-State: AOJu0Yx1NO3WjBcZ4VGRqjD+75ic2xSRbrf6w7yOT7DkpLxAFEX3mH21
-	EyvD8tzoIu6wobg/bjBurIS2+w==
-X-Google-Smtp-Source: AGHT+IGBJvw3oBr5VLn+5InV9N0sEQrunE9avOtl14dLWxSuy3KeWwFMaZlaSioJMF5JopD3ytIXlQ==
-X-Received: by 2002:a05:600c:4711:b0:40c:6ae0:936f with SMTP id v17-20020a05600c471100b0040c6ae0936fmr2507027wmo.275.1703066699103;
-        Wed, 20 Dec 2023 02:04:59 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c? ([2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c])
-        by smtp.gmail.com with ESMTPSA id m15-20020a056000180f00b0033677aae2e2sm2127213wrh.107.2023.12.20.02.04.58
+        d=1e100.net; s=20230601; t=1703068764; x=1703673564;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8soP2JmHT04Ia7QjaFf4O7DLL+HCvppZGFjxw8+8e0=;
+        b=q/ayUTelFz4DBWlh28GWspIXLjUPp0i0MG/cD0YF4B2E0BvKX0zuwjrQooOW5SqlB8
+         gR4SIeS6rvSmmKvBOySo3QtLZrocGCt1BH1jaoDAVUAKElyS1H3o880L1yXX7rUF2g4j
+         XsCktShY25Z3p1pnuKp5hhpbx8Xu2ym2Kk1f2gw8mR8HM9fPXDfhkJqml1AMEpXV1r1x
+         ta92wg5VcYy96/V8/OIeYF1MG54r69t97U6qvRC6kABGRuRo5ypGO4AaUZY1akr4Bs+6
+         082vcKzMQBgtkIk/dzaK5G8NMFMHyF1ApmqKn+Q8A0BiiBt74Hb4HlZGs4/Fbur91EbE
+         +T+g==
+X-Gm-Message-State: AOJu0Yxxq6vBd2ox2b2JQbaHyg8cAYvr0S/TQA9yT4IBFgHw5O0cp7TI
+	sM1aVecFeQOUa+RoAh2axOy8IVx74uc2rl6MoHA=
+X-Google-Smtp-Source: AGHT+IH4e1GmFVe8y07Au3NpvnvN9eP3N35OFl9YcuFaVGYUo7srd3BSbSnzsgUOTZEUtuKK396X/A==
+X-Received: by 2002:a05:600c:4ed3:b0:40c:6e31:765d with SMTP id g19-20020a05600c4ed300b0040c6e31765dmr5038556wmq.122.1703068764351;
+        Wed, 20 Dec 2023 02:39:24 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c])
+        by smtp.gmail.com with ESMTPSA id n11-20020a05600c3b8b00b0040b3d8907fesm6054265wms.29.2023.12.20.02.39.23
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 02:04:58 -0800 (PST)
-Message-ID: <3a7d3b6a2762163c7ca668c205962cd6cf5d5fd4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] qemurunner: Impove handling of serial
- port output blocking
+        Wed, 20 Dec 2023 02:39:24 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Dec 2023 10:04:57 +0000
-In-Reply-To: <87a5q52oa0.fsf@draig.linaro.org>
-References: <20231218152951.3398964-1-richard.purdie@linuxfoundation.org>
-	 <20231218152951.3398964-2-richard.purdie@linuxfoundation.org>
-	 <87bkam449t.fsf@draig.linaro.org>
-	 <86be77c51628028eeda996117c5eb02eb8bf5941.camel@linuxfoundation.org>
-	 <87r0ji2lc9.fsf@draig.linaro.org>
-	 <8c50fc53a29c4dcaab6316ec5b39b91c0d6bfa94.camel@linuxfoundation.org>
-	 <87a5q52oa0.fsf@draig.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] qemu: Clean up DEPENDS
+Date: Wed, 20 Dec 2023 10:39:22 +0000
+Message-Id: <20231220103923.3624311-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 10:05:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192786
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 10:39:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192787
 
-On Wed, 2023-12-20 at 09:53 +0000, Alex Benn=C3=A9e wrote:
-> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
->=20
-> > On Tue, 2023-12-19 at 16:44 +0000, Alex Benn=C3=A9e wrote:
-> > > Richard Purdie <richard.purdie@linuxfoundation.org> writes:
-> > > Yeah I'm only seeing A10/A11:
-> > >=20
-> > >   o regression_1010.5 Invalid memory access 5
-> > >     regression_1010.5 OK
-> > >   o regression_1010.6 Invalid memory access 6
-> > >=20
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   WARNING: here A10
-> > >   WARNING: here A11
-> > >   NOTE:  ... FAIL
-> > >   DEBUG: Removed SIGALRM handler
-> > >   Traceback (most recent call last):
-> > >     File "/home/alex/lsrc/tests/trs/build/../poky/meta/lib/oeqa/core/=
-decorator/__init__.py", line 35, in wrapped_f
-> > >       return func(*args, **kwargs)
-> > >              ^^^^^^^^^^^^^^^^^^^^^
-> > >     File "/home/alex/lsrc/tests/trs/build/../poky/meta/lib/oeqa/core/=
-decorator/__init__.py", line 35, in wrapped_f
-> > >       return func(*args, **kwargs)
-> > >              ^^^^^^^^^^^^^^^^^^^^^
-> > >     File "/home/alex/lsrc/tests/trs/meta-trs/lib/oeqa/runtime/cases/o=
-pteetest.py", line 27, in test_opteetest_xtest
-> > >       self.assertEqual(status, 0, msg=3D'\n'.join([cmd, output]))
-> > >   AssertionError: 255 !=3D 0 :  xtest              =20
-> > >   Run test suite with level=3D0
-> >=20
-> > How long does it take for the test data to "back up" and timeout? The
-> > logging thread should take a maximum of 2s to notice data not being
-> > read/handled on the serial port.
->=20
-> I don't think it goes around the logging loop more than once. I only
-> see:
->=20
->   grep "got" build/tmp_trs-qemuarm64/work/trs_qemuarm64-trs-linux/trs-ima=
-ge/1.0/temp/log.do_testimage
->   DEBUG: got [(12, 1)]
->=20
-> from the poll.
->=20
-> >=20
-> > What the code should be doing is noticing the run_serial function isn't
-> > using the port and if there is data there, reading it in the logging
-> > thread. You could put further warnings around the code there to see if
-> > it ever detects data to read on that port. A warning when it exits the
-> > run_serial command may help too to see if it is waiting for data there
-> > or not.
-> >=20
-> > I also ended up using:
-> >=20
-> > https://git.yoctoproject.org/poky-contrib/commit/?h=3Drpurdie/t222&id=
-=3Dfebb0d892e4c3648cd88b8ecb9c0260edc45b68e
-> >=20
-> > to show what was going over the serial interface when I found it wasn't
-> > what I expected.
->=20
-> I'll keep digging.
+Move the common dependencies to qemu.inc for cleaner entries in the
+various recipes. Remove an unneeded inherit.
 
-I've merged the patches into master since they are helping the stdout
-issue and helped a number of issues others were seeing.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/qemu/qemu-native_8.1.2.bb        | 2 +-
+ meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb | 4 +---
+ meta/recipes-devtools/qemu/qemu.inc                    | 2 ++
+ meta/recipes-devtools/qemu/qemu_8.1.2.bb               | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-In the final version of the patch I did fix an issue where the
-exception handling from the thread was not working so well, it does at
-least print a, exception/traceback properly now (in threadtarget()).
-
-One of the reasons I asked about the warnings was in case that was
-showing an issue, previously it silently failed.
-
-I can believe there are other issues hiding in here :/.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb b/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb
+index 73a0f63f2b2..a77953529b1 100644
+--- a/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb
++++ b/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb
+@@ -1,6 +1,6 @@
+ BPN = "qemu"
+ 
+-DEPENDS = "glib-2.0-native zlib-native ninja-native meson-native"
++DEPENDS += "glib-2.0-native zlib-native"
+ 
+ require qemu-native.inc
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb b/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb
+index 558a416f7b4..0634b342429 100644
+--- a/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb
++++ b/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb
+@@ -1,13 +1,11 @@
+ BPN = "qemu"
+ 
+-inherit python3-dir
+-
+ require qemu-native.inc
+ 
+ # As some of the files installed by qemu-native and qemu-system-native
+ # are the same, we depend on qemu-native to get the full installation set
+ # and avoid file clashes
+-DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native bison-native meson-native ninja-native"
++DEPENDS += "glib-2.0-native zlib-native pixman-native qemu-native"
+ 
+ EXTRA_OECONF:append = " --target-list=${@get_qemu_system_target_list(d)}"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 58284ef9937..9e187a09958 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -6,6 +6,8 @@ a variety of guest operating systems"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPL-2.0-only & LGPL-2.1-only"
+ 
++DEPENDS += "bison-native meson-native ninja-native"
++
+ RDEPENDS:${PN}-ptest = "bash"
+ 
+ require qemu-targets.inc
+diff --git a/meta/recipes-devtools/qemu/qemu_8.1.2.bb b/meta/recipes-devtools/qemu/qemu_8.1.2.bb
+index 84ee0bcc492..6a264b445b5 100644
+--- a/meta/recipes-devtools/qemu/qemu_8.1.2.bb
++++ b/meta/recipes-devtools/qemu/qemu_8.1.2.bb
+@@ -2,7 +2,7 @@ BBCLASSEXTEND = "nativesdk"
+ 
+ require qemu.inc
+ 
+-DEPENDS = "glib-2.0 zlib pixman bison-native ninja-native meson-native"
++DEPENDS = "glib-2.0 zlib pixman"
+ 
+ DEPENDS:append:libc-musl = " libucontext"
+ 
+-- 
+2.39.2
 
 
