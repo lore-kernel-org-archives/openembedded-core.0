@@ -2,47 +2,47 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0A3C3DA6E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAC72C46CD8
 	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 07:53:05 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.17349.1703058783421546885
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.17149.1703058783635173693
  for <openembedded-core@lists.openembedded.org>;
  Tue, 19 Dec 2023 23:53:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Lbfeg5qv;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=G5DaBlX3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018c8636b983-ca057ebd-ce00-4cd6-8148-6c305c77d340-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SOT1WB9p;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gcfgrJWA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018c8636b589-a73eff95-2d18-424c-8773-63c274986532-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1703058782; i=@automation.yoctoproject.org;
+	t=1703058781; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=ZOOHJROaEzNXbrSXsIsWD0PDDRlUq197fvrXpY/etXA=;
-	b=Lbfeg5qv61A29mic/NGudGM1raF61ywFzwjbdafv4phDsF73LWkrSgO2lnEboLZy
-	M+d6T2fcI+0C+GttxWlVL8ozK0+iXkeXm/NrjRfsJnmWxII5Mvz/LjQo+NpAJo9j+Tg
-	O/ec33opEL/7kJZ8GNZ4zDsU8QvjyWPy+ios811E=
+	bh=zFfgwXMvisYgW/0qfywZjyOjfcQBOFgeDyf1TPwCmyk=;
+	b=SOT1WB9pnxZlC4fWCnMY11ZhZtVtIdysoIgKeFASkYJiTornB7PfelXqmWzegLku
+	+57T0FapZJnxYm2PpKXqo5+OqYFeQjGSBUYJmjc8fDT73P60KOx0tf4jgs4vP/B85Ck
+	Qj9IoQlwTKi9gOWHiUD7Nr+zpN9JMkiV1RvUlhvI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1703058782;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1703058781;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ZOOHJROaEzNXbrSXsIsWD0PDDRlUq197fvrXpY/etXA=;
-	b=G5DaBlX3H+fcX22i4P+cApPapZKRDXu3ImO1jVv0dDbZgLT0GZQo1nB+P64zCOIW
-	qnJ2yAntqS0lj7YThRA/ZWGeFwvM4xCxIM82XjiH2yH9g+B6zuROcWwkul0gwzkSvkw
-	PfAxkxnZiL8ajmqSIsYfgwV8PfnwQlntYfD6uEmQ=
+	bh=zFfgwXMvisYgW/0qfywZjyOjfcQBOFgeDyf1TPwCmyk=;
+	b=gcfgrJWAosmeGCOwCKDgc15njZRBdbV7Ru6EJ2TK6VIypDV61KmtH98RU+W7o9QW
+	jJNctHVrMNy1lEOXUqrJe3WL9nXfHeD5lB83p0K3BXkfAm2sU1FJXMqO2psKiR1G5yp
+	FQay39ZXwQBSFtKbJ63TZxj+sNmDwyjiDNkOUyP0=
 From: patchtest@automation.yoctoproject.org
 To: vanusuri@mvista.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH 3/4] libssh: Fix build with clang16
-In-Reply-To: 20231220073900.96121-3-vanusuri@mvista.com
+Subject: Patchtest results for [OE-core][kirkstone][PATCH 1/4] libssh: upgrade 0.8.9 -> 0.10.4
+In-Reply-To: 20231220073900.96121-1-vanusuri@mvista.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c8636b983-ca057ebd-ce00-4cd6-8148-6c305c77d340-000000@us-west-2.amazonses.com>
-Date: Wed, 20 Dec 2023 07:53:02 +0000
+Message-ID: <0101018c8636b589-a73eff95-2d18-424c-8773-63c274986532-000000@us-west-2.amazonses.com>
+Date: Wed, 20 Dec 2023 07:53:01 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.20-54.240.27.45
+X-SES-Outgoing: 2023.12.20-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 07:53:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192780
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192781
 
 --NextPart
 Content-Type: text/plain
@@ -52,14 +52,11 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-3-4-libssh-Fix-build-with-clang16.patch
+Testing patch /home/patchtest/share/mboxes/kirkstone-1-4-libssh-upgrade-0.8.9---0.10.4.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
@@ -70,6 +67,9 @@ PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
 
 SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
 SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
 SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
 SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
