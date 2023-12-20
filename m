@@ -1,151 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 211C0C3DA6E
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 12:28:07 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.20177.1703075283264206213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ABD7C3DA6E
+	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 12:49:27 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.20501.1703076562108684926
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 04:28:03 -0800
+ Wed, 20 Dec 2023 04:49:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GhDD2jn+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3367632ce7bso1146605f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 04:28:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1703075281; x=1703680081; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SDOFynE8RojLtpMb9dLOvsEKUq01O+zx/ZaGNk2miD4=;
-        b=GhDD2jn+T7bAtu3X0NXsGnuOnWQK1b5mnfm1h9Ru0jr+JXZMYmMONdRBU0EKXrWNd7
-         IDJ5PsIWReNJMXMR9ADyW0yByZzDZZ3nvANWYWfWj87qUz1Pog3RqrvvLwrKUp8jjBCZ
-         GHvzyHGXw/UWBQZ/HWdj7068J9wvF7KbVeUkw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703075281; x=1703680081;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SDOFynE8RojLtpMb9dLOvsEKUq01O+zx/ZaGNk2miD4=;
-        b=tiffMeoaKbFVLgS+fWfYraO0coQi7BDuAUaH707n1UdPJbvKFDFLO79aR6pDSkxoIP
-         KYgYnFP9ySGsSOxixzrJyqr6LE/kyXhaKtzHJNO+UBVbu79ixPPIf1TyVBkw8VFqY8Gx
-         WkKr6o7Zp8x9vNdeCVYdlHGTwCxh+aVmNVCjPBDFEZg9DmTc3+AKOJEKmlmN2iLxKPOD
-         /h8lNN5b8MUH0v86jM99NBG48KAW8ZXkfdxJRGwU4M+xZSawVf1C9ioT9wdAUMs3H9vF
-         ww0ZgLBC0vhIzauHy2d+6pYLtQXF3AoBY23Q5FCrf7T9sJhevQwEAyB2KqRQ+RXu5xoE
-         P7Tg==
-X-Gm-Message-State: AOJu0Yznayd6q5Va3hcropjwiCKdw3N+pv/ucO1Iwknc2RWG/IwxnEGB
-	NSeMDdgNxeTTZ0wZ9JPHP/HY36sei08KwTD+3NQ=
-X-Google-Smtp-Source: AGHT+IFND4CUl2CiDSkiDziLk8t4hJqc5ob4Zzxf+6tCgjVBDrFrvQrcs3SpRZG3pZyzsW1M/02nbQ==
-X-Received: by 2002:adf:f4c5:0:b0:336:6102:9c04 with SMTP id h5-20020adff4c5000000b0033661029c04mr3644091wrp.125.1703075281516;
-        Wed, 20 Dec 2023 04:28:01 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c9b9:95cc:382c:f70c])
-        by smtp.gmail.com with ESMTPSA id t4-20020a5d4604000000b0033642a9a1eesm19170000wrq.21.2023.12.20.04.28.01
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 04:28:01 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemu: Ensure pip and the python venv aren't used for meson
-Date: Wed, 20 Dec 2023 12:27:59 +0000
-Message-Id: <20231220122759.3639685-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231220122759.3639685-1-richard.purdie@linuxfoundation.org>
-References: <20231220122759.3639685-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=L/CBVqaa;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ly9boUy1;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018c874600f4-5154e497-c974-458a-91ea-3f844cb68715-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1703076561; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=6Y27zSfwVOm0RjdsUhSl7leythPidYsyqb8n+TA68HM=;
+	b=L/CBVqaa7tdvPJKgfVhw36P/PQmvixL35t5AlUiqpwgbRNNFfWkbhkDwhYV2t61Q
+	VASaiHNQN5GP15zIe6H2iobs3yb1X3usTBfZ7ZyFZRMkBmvXcibzXBZ4vt4ag5KK1+G
+	EsRo+FmfcnmRYC6Tha+R1vKiEwbbfjhEBNAfrRg4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1703076561;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=6Y27zSfwVOm0RjdsUhSl7leythPidYsyqb8n+TA68HM=;
+	b=ly9boUy1vrIughhqAholtKBPhNo7cnk/I3d9stvktWzfx7mWvbauhWpLUG+H/WPw
+	AUhpzGM2KkL2jCuty795YBg4BRNgs1pKtAYNaUknqSxOp4j0YKgbBAU4feKIW2c8Ucd
+	JSEyw56v7jcC9jqxzZSVxiGpgr/0GJu8b4NlB6Ro=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/2] qemu: Ensure pip and the python venv aren't used for
+ meson
+In-Reply-To: 20231220122759.3639685-2-richard.purdie@linuxfoundation.org
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c874600f4-5154e497-c974-458a-91ea-3f844cb68715-000000@us-west-2.amazonses.com>
+Date: Wed, 20 Dec 2023 12:49:21 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.20-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 12:28:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192797
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 12:49:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192798
 
-Qemu wants to use a supported python verison and a specific meson version
-to "help" users and uses pip and creates a venv to do this. This is a nightmare
-for us. Our versions stay up to date and should be supported so we don't
-really need/want this wrapping. Tweak things to disable it.
+--NextPart
+Content-Type: text/plain
 
-There was breakage from the wrapper shown by:
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-bitbake qemu-system-native
-<add DISTRO_FEATURES:remove = "opengl" to local.conf>
-bitbake qemu-system-native -c configure
-
-which would crash. The issue is the change in configuration removes pieces
-from the sysroot but pyc files remainm as do pieces of pip which causes
-problems.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/qemu/qemu.inc          |  1 +
- meta/recipes-devtools/qemu/qemu/no-pip.patch | 45 ++++++++++++++++++++
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/no-pip.patch
+Testing patch /home/patchtest/share/mboxes/2-2-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-meson.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 9e187a09958..70515d980e7 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -34,6 +34,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://fixedmeson.patch \
-            file://fixmips.patch \
-            file://0001-vfio-Include-libgen.h-for-basename-API.patch \
-+           file://no-pip.patch \
-            file://qemu-guest-agent.init \
-            file://qemu-guest-agent.udev \
-            "
-diff --git a/meta/recipes-devtools/qemu/qemu/no-pip.patch b/meta/recipes-devtools/qemu/qemu/no-pip.patch
-new file mode 100644
-index 00000000000..64d6c8a77bd
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/no-pip.patch
-@@ -0,0 +1,45 @@
-+qemu: Ensure pip and the python venv aren't used for meson
-+
-+Qemu wants to use a supported python verison and a specific meson version
-+to "help" users and uses pip and creates a venv to do this. This is a nightmare
-+for us. Our versions stay up to date and should be supported so we don't
-+really need/want this wrapping. Tweak things to disable it.
-+
-+There was breakage from the wrapper shown by:
-+
-+bitbake qemu-system-native
-+<add DISTRO_FEATURES:remove = "opengl" to local.conf>
-+bitbake qemu-system-native -c configure
-+
-+which would crash. The issue is the change in configuration removes pieces
-+from the sysroot but pyc files remainm as do pieces of pip which causes
-+problems.
-+
-+Ideally we'd convince upstream to allow some way to disable the venv on
-+the understanding that if/when it breaks, we keep the pieces. The patch
-+as it stands is a workaround.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+diff --git a/configure b/configure
-+index 133f4e3235..e4c144b4e2 100755
-+--- a/configure
-++++ b/configure
-+@@ -1009,7 +1009,7 @@ python="$(command -v "$python")"
-+ echo "python determined to be '$python'"
-+ echo "python version: $($python --version)"
-+ 
-+-python="$($python -B "${source_path}/python/scripts/mkvenv.py" create pyvenv)"
-++python=python3
-+ if test "$?" -ne 0 ; then
-+     error_exit "python venv creation failed"
-+ fi
-+@@ -1017,6 +1017,7 @@ fi
-+ # Suppress writing compiled files
-+ python="$python -B"
-+ mkvenv="$python ${source_path}/python/scripts/mkvenv.py"
-++mkvenv=true
-+ 
-+ mkvenv_flags=""
-+ if test "$download" = "enabled" ; then
--- 
-2.39.2
+FAIL: test Upstream-Status presence: Upstream-Status is Inappropriate, but no reason was provided (test_patch.TestPatch.test_upstream_status_presence_format)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
