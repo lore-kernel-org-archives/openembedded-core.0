@@ -2,39 +2,39 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CEC1C46CCD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0A3C3DA6E
 	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 07:53:05 +0000 (UTC)
 Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.17348.1703058783044355893
+ by mx.groups.io with SMTP id smtpd.web10.17349.1703058783421546885
  for <openembedded-core@lists.openembedded.org>;
  Tue, 19 Dec 2023 23:53:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=X/TZ2zzx;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kR5NA+5q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018c8636b760-5731214b-2886-44cb-ab90-6557e0a59038-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Lbfeg5qv;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=G5DaBlX3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018c8636b983-ca057ebd-ce00-4cd6-8148-6c305c77d340-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1703058782; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=MGF2W67mbxMn4s2QKrmQG9Np/V/qywv8xYtnYMwF0w4=;
-	b=X/TZ2zzxtQR/TTpPWmmWlY0oBUCsLe7l78Wa2sVSGOnfQzPsU64g5LFqJ6/3DV7O
-	MJZYWdaz+n2CdY1muOjrZwclPFlzxzHkL9cxlg50d1jCsBUE2n+q80EODiJNUkbi0pm
-	IiFtclVTphAP/Z7b/xVOA2O+ASt6HPyKP50ORiqQ=
+	bh=ZOOHJROaEzNXbrSXsIsWD0PDDRlUq197fvrXpY/etXA=;
+	b=Lbfeg5qv61A29mic/NGudGM1raF61ywFzwjbdafv4phDsF73LWkrSgO2lnEboLZy
+	M+d6T2fcI+0C+GttxWlVL8ozK0+iXkeXm/NrjRfsJnmWxII5Mvz/LjQo+NpAJo9j+Tg
+	O/ec33opEL/7kJZ8GNZ4zDsU8QvjyWPy+ios811E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1703058782;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=MGF2W67mbxMn4s2QKrmQG9Np/V/qywv8xYtnYMwF0w4=;
-	b=kR5NA+5qRUr0KufFZYnNLGU9FZ/5Ab7usz0HjOTRCTtV4kM3UGaIMnsjGNoQvkg5
-	mTjjSpilxkHnq/5DumGHmCzNzvAv5/7imah8RfBxAgljVx/lFPNUT5BZqKYGgw10Pvq
-	LRoMq/+JzmCqhpA7lpAK02Qq0lX2KccNNDes2VO0=
+	bh=ZOOHJROaEzNXbrSXsIsWD0PDDRlUq197fvrXpY/etXA=;
+	b=G5DaBlX3H+fcX22i4P+cApPapZKRDXu3ImO1jVv0dDbZgLT0GZQo1nB+P64zCOIW
+	qnJ2yAntqS0lj7YThRA/ZWGeFwvM4xCxIM82XjiH2yH9g+B6zuROcWwkul0gwzkSvkw
+	PfAxkxnZiL8ajmqSIsYfgwV8PfnwQlntYfD6uEmQ=
 From: patchtest@automation.yoctoproject.org
 To: vanusuri@mvista.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH 2/4] libssh: add ptest
-In-Reply-To: 20231220073900.96121-2-vanusuri@mvista.com
+Subject: Patchtest results for [OE-core][kirkstone][PATCH 3/4] libssh: Fix build with clang16
+In-Reply-To: 20231220073900.96121-3-vanusuri@mvista.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018c8636b760-5731214b-2886-44cb-ab90-6557e0a59038-000000@us-west-2.amazonses.com>
+Message-ID: <0101018c8636b983-ca057ebd-ce00-4cd6-8148-6c305c77d340-000000@us-west-2.amazonses.com>
 Date: Wed, 20 Dec 2023 07:53:02 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2023.12.20-54.240.27.45
@@ -42,7 +42,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 07:53:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192779
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192780
 
 --NextPart
 Content-Type: text/plain
@@ -52,7 +52,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-2-4-libssh-add-ptest.patch
+Testing patch /home/patchtest/share/mboxes/kirkstone-3-4-libssh-Fix-build-with-clang16.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
