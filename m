@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D84F9C46CD8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBCA5C4706C
 	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 02:18:23 +0000 (UTC)
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
- by mx.groups.io with SMTP id smtpd.web10.13135.1703038698606833380
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+ by mx.groups.io with SMTP id smtpd.web11.13010.1703038700750815262
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Dec 2023 18:18:18 -0800
+ Tue, 19 Dec 2023 18:18:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vQVF8yYp;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.169, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3ba46a19689so4163204b6e.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 18:18:18 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=t7hjDnRt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.49, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6d855efb920so4140802a34.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Dec 2023 18:18:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703038697; x=1703643497; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703038699; x=1703643499; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=s+dAlJVKflfrRauGc7SJbfqHImgOUt2B/AajciRV4ag=;
-        b=vQVF8yYpRQ60Le3A5M0y9uL3/n9kioxl1PRqkdzor5foNHmFJbgQPAzXxmdVz411qU
-         2x/K57MOOCAOxfvdc0hIe+RO1UyWDdsP418MsUA8rJOgFihwghzMkvEtSxJMTrLRb4rD
-         IkaMsOvejN4wzK+M6ruW5EPVouVmjeZ+2+x3DGYdslAZIuWtlvDZNtRAe6wM9FP/nvuZ
-         A3mgJPel8rPts8qUp7K/bUTHcNBGBKvKZjRt0hmWlmR5aV9Bxe4dmnagQ18BcuJs2//h
-         hLjP1EAa1BjMpVrxHj2CV7RFbFDmSl6oWtgNoxC7G3wLcVXK4dV965qhgnsx/rboMB3W
-         AXWA==
+        bh=2OshZ1sNUuabAQCh9MrIaJrimvpyStRpUWGGi+sZt3A=;
+        b=t7hjDnRtx1kCysfnjXJVi7eWbqgnTuwgRQ1ZJzzJyQ67E7WgUSsJwB2mmd2c59SazT
+         0EfK6YFLzLz9mWKSZQkQPgNVkGk5nmfdm6BMeh7MRjCrosWQF348S0XKNzjqZ7k5ay+K
+         0E7+cJAkig0M0IRrJm9t5Z/t/nNzdLr57dZXmVfMtgkKn8oO35eUst+7ecIzO6yO+5p9
+         3iiYTvJ2TJXsGLx9IPDLD4DMrWyOs/jj/0XwqHaAWHFZ8mgHlP6dNrVA8lflLt8ln24F
+         kBNLlY6KwYcbqxKbvRItQAkrPTSRRit+yHGwOvqMxLjTQ03UiEVlTucds9v0tjxrn/JP
+         dBeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703038697; x=1703643497;
+        d=1e100.net; s=20230601; t=1703038699; x=1703643499;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s+dAlJVKflfrRauGc7SJbfqHImgOUt2B/AajciRV4ag=;
-        b=q6x969UwIEYppSB/Kw1pr3OKuUFNo1RuDwcyTS86fSBmjjxW9VmGG8Bibb9NX/SkEY
-         Zte7CdHkn3G2GtStX7v6LvNxePKpj2SvDKJYbD+UUvKYsEFg4p7aN6k42Jfmm/tZZKgQ
-         OmeMDp9rax5IL3VvzzLmsOL0+jGggNqR1+XUyMxiJ2UGWtnnBjypwN73gpS+Kj0bX+kX
-         yY3BtpF+I6BUbgYl+TwXagVFGVwLW6bSmSZotKGZd0D2ev0P06jevj6Ep/GSfSyZXuqp
-         yw/p+d6hmaGkHb4qGsKJWBLU3vXxkKpvu9szlJ8fdC8/ApNYTG9+sjNGWBOSEM0XUJmp
-         1S6g==
-X-Gm-Message-State: AOJu0YwHBQ3MjFS6ZQDnNhtpvukiRUxJpcCr7oWWvI1Z7Psd3kHYnAbc
-	iGHeLzJx2DjlF5FEQIwHcMLLfDzr7w0aV9T9kQmepw==
-X-Google-Smtp-Source: AGHT+IE/9/pVRcScmBcDbJxbWZejEhJvaQ7/9AQjtdyr+JgoBbl+aCVPJT6eDeEqLr9EvjP3p9HpOQ==
-X-Received: by 2002:a05:6808:1642:b0:3b8:b063:addf with SMTP id az2-20020a056808164200b003b8b063addfmr23625400oib.60.1703038697606;
-        Tue, 19 Dec 2023 18:18:17 -0800 (PST)
+        bh=2OshZ1sNUuabAQCh9MrIaJrimvpyStRpUWGGi+sZt3A=;
+        b=Hm4DmhoVHWk9AdXz85U8LSGNXp8/RP/CqT83NtGoCiktbZOsOsmPJVm6P2GQ5p8z/o
+         59UlL0WVLQU6OFr1u0zdoBIgDSuIlJ41NHNDENPWckpnHpuspbtmaFVB3QBABUF1IngQ
+         R3UYNIQZT5TkEoLpiH03Lj+Wm2VeG94Hcgq6yfLfkCB0TT1KmT5ipptCTTanItgTgVRf
+         eJaCbMtWUiyBxJKPj4oLKZLh1Vxk2Cp56XswlVRfcsEwwMqDY3M8obwq6V7MEjcvNaAb
+         ByFavEqxuWMklZmpPWrOBEMdF/Md1+uXPr4ZjEDYFlZhOXTtCaDa64OkEj4VlRn905Gk
+         8JcQ==
+X-Gm-Message-State: AOJu0YypVqjo6CBKAnD1DIduazTvsbyWi37EuUSy33Dz5ZBbv5f7glc2
+	qDKllvnPBY8d0ZKdSFITJ6H+Huwr3jY8gwbB6BAkKA==
+X-Google-Smtp-Source: AGHT+IGcMrQY/xWt63J8bqJvs51YxX7iapVd4ec9X+VyUV3C2a4zxWf8siPGqoGDN/xQVQ8q/4Nh6A==
+X-Received: by 2002:a05:6830:1b70:b0:6db:a849:c69a with SMTP id d16-20020a0568301b7000b006dba849c69amr1102015ote.68.1703038699357;
+        Tue, 19 Dec 2023 18:18:19 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id d6-20020aa78146000000b006d945660076sm367103pfn.59.2023.12.19.18.18.16
+        by smtp.gmail.com with ESMTPSA id d6-20020aa78146000000b006d945660076sm367103pfn.59.2023.12.19.18.18.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 18:18:17 -0800 (PST)
+        Tue, 19 Dec 2023 18:18:19 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 6/9] ghostscript: upgrade 10.02.0 -> 10.02.1
-Date: Tue, 19 Dec 2023 16:17:56 -1000
-Message-Id: <a26c9acc8a853bfa13f08916c596a52da26088e4.1703038443.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 7/9] glibc: stable 2.38 branch updates
+Date: Tue, 19 Dec 2023 16:17:57 -1000
+Message-Id: <88e95c24c4b7b440e4ab4653fb93bddcb7524a58.1703038443.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703038443.git.steve@sakoman.com>
 References: <cover.1703038443.git.steve@sakoman.com>
@@ -61,39 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 02:18:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192765
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192766
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
 
-upgrade include CVE-2023-46751.
+Below commits on glibc-2.38 stable branch are updated.
+44f757a636 LoongArch: Delete excessively allocated memory.
+bf5aa419cb elf: Fix wrong break removal from 8ee878592c
+63dbbc5c52 sysdeps: sem_open: Clear O_CREAT when semaphore file is expected to exist [BZ #30789]
+1e04dcec49 Revert "elf: Move l_init_called_next to old place of l_text_end in link map"
+719866ab2f Revert "elf: Always call destructors in reverse constructor order (bug 30785)"
+e0b6c9706c Revert "elf: Remove unused l_text_end field from struct link_map"
 
-(cherry pick from Oe-Core rev: 9492c2d51a08fbd4c107540a5a833b1a3fb70504 )
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Sundeep KOKKONDA <sundeep.kokkonda@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{ghostscript_10.02.0.bb => ghostscript_10.02.1.bb}          | 2 +-
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/ghostscript/{ghostscript_10.02.0.bb => ghostscript_10.02.1.bb} (97%)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.02.0.bb b/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-similarity index 97%
-rename from meta/recipes-extended/ghostscript/ghostscript_10.02.0.bb
-rename to meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-index 4bad0f86e1..18c296128a 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.02.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-@@ -28,7 +28,7 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
-            file://configure.ac-add-option-to-explicitly-disable-neon.patch \
-            "
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 19b98bc11a..0ef4289557 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.38/master"
+ PV = "2.38+git"
+-SRCREV_glibc ?= "750a45a783906a19591fb8ff6b7841470f1f5701"
++SRCREV_glibc ?= "44f757a6364a546359809d48c76b3debd26e77d4"
+ SRCREV_localedef ?= "e0eca29583b9e0f62645c4316ced93cf4e4e26e1"
  
--SRC_URI[sha256sum] = "e54062f166708d84ca82de9f8304a04344466080f936118b88082bd55ed6dc97"
-+SRC_URI[sha256sum] = "e429e4f5b01615a4f0f93a4128e8a1a4d932dff983b1774174c79c0630717ad9"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
 -- 
 2.34.1
 
