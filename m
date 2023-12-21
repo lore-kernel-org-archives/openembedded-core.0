@@ -2,137 +2,89 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A08C3DA6E
-	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 02:09:25 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web10.43006.1703124557825940206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AE95C3DA6E
+	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 02:09:36 +0000 (UTC)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+ by mx.groups.io with SMTP id smtpd.web11.42659.1703124567029936423
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 18:09:18 -0800
+ Wed, 20 Dec 2023 18:09:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1EYYpbcR;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso246241a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:09:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PSeWn2NW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.51, mailfrom: steve@sakoman.com)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1f5bd86ceb3so188969fac.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:09:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703124556; x=1703729356; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EhpcK1wSgUI1coxzTnJU0msdvATokUr4ifU2sSAFYYs=;
-        b=1EYYpbcReb85S1b9YSTRpiYvmLVFQUZJTH2qcIygOPbNtwMx3i5tWQ49GfOk5U6xve
-         8o85AeaNjsWu/BjWWhsTaXGmqf1W2Uzy514s0DEzqZaVmJ1tKGEc7wyScGlL/7J9TG0/
-         uaLKudlCfeh43rLwC0zJkp6C3sHrkMmlCv3I8R8s5fwkSSlRpL4RCVuXFTh3MHiSSobe
-         rFP+eVIIdticSkqdDeSLES7IE4SRJitPRqOHe+oX6WnJExnXKa0+qRBSdD8ZBDYMhaSV
-         iYfI/8SEUg6Yot66DvORbPMW4yJz/elOGgYknUDhdYf65zEzQaz/a3zyJdgsj5Ss9LkU
-         wbpQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703124565; x=1703729365; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=flepK1GccOcpR44IQF/8j4HdRv8CjOBzpT8UaBpq5uI=;
+        b=PSeWn2NWe51PIjw0Agg7+Xphfr6Rsr24vSDtzsFoKkrR68qxRY69o8IBavPGMECMq7
+         AvJU2gIUDXoKEevaD0Ws/xVLbrwSAP0RiGMdfL0mFYIrfnu6zxOVaLWuU3bdJVdRXEWs
+         pvLKcO75TtI43OJQmdHDa64qWdfi8Oox7VTyQoccSXOR7ct5qASa9w37gtjCdR4f+dMJ
+         bLr+B0vmgbwVSqiXujuex/H6qYtG4JgjptAfrLNm2JrsROTldlpo/ffsWyetKwkP3QoV
+         4AwcjZHSZcDrTDoms9ER9Zqlw8Sp4b7j6Rsu3CwhcLPpNL4wtKiIR7bsSwgNXoA7+LKl
+         rPcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703124556; x=1703729356;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EhpcK1wSgUI1coxzTnJU0msdvATokUr4ifU2sSAFYYs=;
-        b=UwOeNgaWA8D/aA1AxkIGaWT640HCRhFTeH4sHndwEK9Xm+j1nm/bi0mYDFiqXMrGzQ
-         4GwE2RSvYAcvmBxy3SaDHmtdw88ol4kP4YWcZ8wqoP/lmrxdVwx/xLXgTlXB4w9J8VDD
-         cYmxoTuI2BymEj5/4dHEK7UWYZBpCjyg+JJdU442rT6bYylPdM25R+tFgybUSCwefxw9
-         9AU+phokn622kdoLRJnk5fHPPr00nooeYRr7vkuH0MDCc/7AC+B+CD/IW0S5C1bTckgr
-         zrjIx8fVGVGaeSVN4Z2sTyZXf6KHIjEjxDwttjUvgEOya6gahT1EgX7RHE+k0Hw1biNS
-         LJSw==
-X-Gm-Message-State: AOJu0Yy9w6lJ6+rKRNWd/BELPczGZvwC7ZnN3jUTRE5VHrTXqQlHpy1e
-	ZarFlQnV4lRRKTxAUqHZ0X/m4OE3aACX3krtzlEMwg==
-X-Google-Smtp-Source: AGHT+IE+AfzNuW5bVGnVE2uypBjazTl6//ZeAUO41vOrNisrJCQ3polJcmSXVq9pBou4AwUXCb5iqg==
-X-Received: by 2002:a05:6a20:8f1c:b0:190:5d48:ddcb with SMTP id b28-20020a056a208f1c00b001905d48ddcbmr904334pzk.66.1703124556235;
-        Wed, 20 Dec 2023 18:09:16 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703124565; x=1703729365;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=flepK1GccOcpR44IQF/8j4HdRv8CjOBzpT8UaBpq5uI=;
+        b=MQ7EOfI8LcKA3LH/zEa6e9NsNaNQAr+coKfVQOujul9XH55JSoN2kTEDIBI6uwh9wJ
+         +eUDYFm90g7ARYEVd9usJNgZ32MormyJYweEw27CPMi1xA64Q+6qe4+HSNTJkQ998txW
+         CNqxDzlU+EbCOonF07ZYX7u6WUrIinXaAMZeRFK2d6Q5dbQn5b4ui2kbWtipghvgV7y1
+         4J+qssOq9F75YFtzzDDOUExCO4aw7SfdhKatdE5bIe8sbaXXhsTXEUY3XgqVJLkmEza1
+         UDYw1Ba0Ts34FSOZiktO6HylYNEE8YRbLSWCgby+cEjcRrJrMXxESG3TydQE8u7/+lKv
+         iCYg==
+X-Gm-Message-State: AOJu0YyHAlng2uoiTqAHg+vsnHdb17sOuYPCMlFml7VyJKJOIwiGcYKn
+	6ZZ2NhbAuNI3QJn833Znu0UQV8N5sTTKehW1+RlrUQ==
+X-Google-Smtp-Source: AGHT+IEA+mIfpt3jqsH8JLz8ryw49pNamQ30CAJAdC4w+3FD4kCB5JWNaUgtAceNGyM8Z86DzDxSEQ==
+X-Received: by 2002:a05:6870:71d1:b0:203:7ccc:b6e8 with SMTP id p17-20020a05687071d100b002037cccb6e8mr889966oag.25.1703124565582;
+        Wed, 20 Dec 2023 18:09:25 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id qb4-20020a17090b280400b0028aecd6b29fsm4447297pjb.3.2023.12.20.18.09.15
+        by smtp.gmail.com with ESMTPSA id qb4-20020a17090b280400b0028aecd6b29fsm4447297pjb.3.2023.12.20.18.09.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 18:09:15 -0800 (PST)
+        Wed, 20 Dec 2023 18:09:25 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 00/11] Patch review
-Date: Wed, 20 Dec 2023 16:09:00 -1000
-Message-Id: <cover.1703124430.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/11] ffmpeg: fix for CVE-2022-3965
+Date: Wed, 20 Dec 2023 16:09:05 -1000
+Message-Id: <afc21d7fe86d26bf62e56fc611750f89fe73aa1a.1703124430.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1703124430.git.steve@sakoman.com>
+References: <cover.1703124430.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 02:09:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192812
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 02:09:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192817
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Friday, December 22
+From: "mark.yang" <mark.yang@lge.com>
 
-Passed a-full on autobuilder:
+Without a CVE tag, It will be recognised as Unpatched by cve_check task.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6355
+Signed-off-by: mark.yang <mark.yang@lge.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch | 1 +
+ 1 file changed, 1 insertion(+)
 
-The following changes since commit eea685e1caafd8e8121006d3f8b5d0b8a4f2a933:
-
-  build-appliance-image: Update to kirkstone head revision (2023-12-15 04:01:10 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Poonam Jadhav (1):
-  curl: Fix CVE-2023-46218
-
-Richard Purdie (1):
-  testimage: Exclude wtmp from target-dumper commands
-
-Soumya Sambu (2):
-  go: Fix CVE-2023-39326
-  perl: update 5.34.1 -> 5.34.3
-
-Sourav Pramanik (1):
-  qemu: Fix CVE-2023-5088
-
-Trevor Gamblin (1):
-  python3-ptest: skip test_storlines
-
-Vijay Anusuri (2):
-  ghostscript: Backport fix for CVE-2023-46751
-  openssh: backport Debian patch for CVE-2023-48795
-
-Yoann Congal (1):
-  externalsrc: Ensure SRCREV is processed before accessing SRC_URI
-
-mark.yang (2):
-  ffmpeg: fix for CVE-2022-3964
-  ffmpeg: fix for CVE-2022-3965
-
- meta/classes/externalsrc.bbclass              |   4 +
- meta/classes/testimage.bbclass                |   2 +-
- .../openssh/openssh/CVE-2023-48795.patch      | 476 ++++++++++++++++++
- .../fix-authorized-principals-command.patch   |  30 ++
- .../openssh/openssh_8.9p1.bb                  |   2 +
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.20/CVE-2023-39326.patch           | 182 +++++++
- ...ile-check-the-file-if-patched-or-not.patch |   4 +-
- ...{perlcross_1.3.7.bb => perlcross_1.5.2.bb} |   2 +-
- .../perl/{perl_5.34.1.bb => perl_5.34.3.bb}   |   2 +-
- ...orlines-skip-due-to-load-variability.patch |  32 ++
- .../python/python3_3.10.13.bb                 |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2023-5088.patch             | 112 +++++
- .../ghostscript/CVE-2023-46751.patch          |  41 ++
- .../ghostscript/ghostscript_9.55.0.bb         |   1 +
- ...c-stop-accessing-out-of-bounds-frame.patch |   2 +-
- ...c-stop-accessing-out-of-bounds-frame.patch |   1 +
- .../curl/curl/CVE-2023-46218.patch            |  52 ++
- meta/recipes-support/curl/curl_7.82.0.bb      |   1 +
- 20 files changed, 943 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/fix-authorized-principals-command.patch
- create mode 100644 meta/recipes-devtools/go/go-1.20/CVE-2023-39326.patch
- rename meta/recipes-devtools/perl-cross/{perlcross_1.3.7.bb => perlcross_1.5.2.bb} (92%)
- rename meta/recipes-devtools/perl/{perl_5.34.1.bb => perl_5.34.3.bb} (99%)
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_storlines-skip-due-to-load-variability.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2023-46751.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-46218.patch
-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
+index 6e237fdd52..8ebf1f69c4 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-avcodec-smcenc-stop-accessing-out-of-bounds-frame.patch
+@@ -5,6 +5,7 @@ Subject: [PATCH] avcodec/smcenc: stop accessing out of bounds frame
+ 
+ Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/13c13109759090b7f7182480d075e13b36ed8edd]
+ 
++CVE: CVE-2022-3965
+ Signed-off-by: <narpat.mali@windriver.com>
+ 
+ ---
 -- 
 2.34.1
 
