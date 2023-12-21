@@ -1,197 +1,153 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D183BC3DA6E
-	for <webhook@archiver.kernel.org>; Wed, 20 Dec 2023 21:31:33 +0000 (UTC)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web10.33203.1703107892170608218
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 010FFC46CD3
+	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 02:09:25 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.43010.1703124561444198602
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 13:31:32 -0800
+ Wed, 20 Dec 2023 18:09:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PbExgQ3r;
- spf=pass (domain: gmail.com, ip: 209.85.210.45, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6da2db096bcso520983a34.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 13:31:32 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ejeFnITN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-28bc20cb501so1077662a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:09:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703107891; x=1703712691; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703124560; x=1703729360; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t47JGoNpI0NrL3oHgypA526QUsw5GjWVLvzAJE6e92w=;
-        b=PbExgQ3rIjZfOgNxXP8oY7rpU7nKgCHUGSQyZnFNuayTnEVzpmRXodVXdA2t5JY3wd
-         swFWq44c5iWBKBr2y++3AnefyAs1DXQxXEOy5s/joBYWphDA8gr02EoebeDIaX43PmEE
-         jpYIKskqMeH4RHrufKoIMG8cSC8ftmpGnj374baFWPdg8vUgaWn566glz0/QnINFacEz
-         c5RSqcktq7Y3Dtv8r3VCNlh8sEzT5SrbEi7/OzFkf1leoxZDphlgU+fX442LLF65gOSc
-         gVmqeXlvTUWUHgCaAedJ6Ur21ZypRiqEKJTfYgBxacpPc2lzY1M1Ex7vqs2QRtTDXzQq
-         EYsw==
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YZpzs660G6da1Ukof+0K8YYNQ+/MT9mDfNvC3YMbWLA=;
+        b=ejeFnITNDlNg+1rbVJw9fsKii/aJ6jvdYsfsntvr4kMibaAJTzNWi2OYagh4XDk2K1
+         wp0z+yVgihrNUWREG3WPcaqy8j6hR0J/l24SwVUqBh6HdIxRd6jmWBdGcUjPc50bkjPH
+         pzzfmFR3zTwEf3rUcAtcioGwQeDdaouiNLv/EDmBaPsY6NRGOKmx/sFxzq+oe9CbVvrS
+         vC3J+zkRcnsI3Zp1tVRKGQS4yOMzMNFYV4Kz5ZyiIlGBtT9EWTd+VRhxFGCb6YJFZ7uN
+         xoU8lMEYfGBQnnH5M35vSJHDBe5AatZalYpJ8FIa9CKtO/lsr8Qv5nnFlFmFITGvZDYC
+         viOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703107891; x=1703712691;
+        d=1e100.net; s=20230601; t=1703124560; x=1703729360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t47JGoNpI0NrL3oHgypA526QUsw5GjWVLvzAJE6e92w=;
-        b=R3OOvhF1FGC1Fx0vSwTqWxHfxZzQrcCxaNdVv8fPJfLx7OlH1jfzvSFq5cXDUK8wOO
-         +6cbBqZxiUOq3z9MeLh/J/ARaPtq1Xby3r9T4vha1Ewvf4BVmdU+lLPMS6jR/tVNBZFD
-         v4O08iQAcxmj+cRMDd5nM2g+gzEG8s6vBhNXek7zTjLGeEvgjTwqp1pmqdpKS8KDWHmx
-         qrp91uQ7U5UoaDlWbpXnUpJyJKqcS6UG/8VsbKoDwR5dvclfBcRQca9JQfyzHx98l4/u
-         3akAl+GxtzZWJJw1krrAUYUQQ7dp0+FQJfeTrI/3iu8C6b0MEIPfnJgDdtm97M7fFtx3
-         ZXpA==
-X-Gm-Message-State: AOJu0YzZpa8BYlva+dmjKocmmlq818fBA0D0SSzKJC0ssw4TI6rO8xXM
-	xGaC0UCBhgAtyDBWoxTgz6hJnPTjfD8=
-X-Google-Smtp-Source: AGHT+IFRyv/fRHgywIsBnzP4yaUMYl/k7aUkapfISb4cDDtuPhHK+vQOEo6VjbenVuh6eoAC2qgzBg==
-X-Received: by 2002:a9d:6b03:0:b0:6d9:9e18:1eb6 with SMTP id g3-20020a9d6b03000000b006d99e181eb6mr1568463otp.10.1703107890757;
-        Wed, 20 Dec 2023 13:31:30 -0800 (PST)
-Received: from localhost.localdomain ([2601:282:4300:19e0::d6e0])
-        by smtp.gmail.com with ESMTPSA id q3-20020a9d4b03000000b006dba40457casm103219otf.6.2023.12.20.13.31.29
+        bh=YZpzs660G6da1Ukof+0K8YYNQ+/MT9mDfNvC3YMbWLA=;
+        b=lSimV5NHOwnTSHWCNrXrQapmqvifNSaXboY5dt/Qz1gqWpBwQfgcpta+/54BUe4MRs
+         zPRbeYwn1eaI66t8ldvU/ECBuVAGwPWahUOSBWSRxANLZgyBLrSfMLsDB2gAb4dmi6YG
+         LT36IITXovSPNUSEj9Lu8b+Rjii2FFahBFuLhxT+B8tUVYj+bbtjLQ/qGWNl6j6BMsxs
+         GcZneD30GKAKwN2Kku4zz02eocRGsA7NMYJTYqcWfBrRYw11GBY9RFFvJFuRVbhQX/xb
+         bgeYkDWMtoEnYApljKKb6511CTFkZWjzkP+bdhFSI6ABBbbLhv9IYC1kGjfnH7AU9/r5
+         OArA==
+X-Gm-Message-State: AOJu0YyBxY5Z8OpKnPoy4EOFdmybxlpWqmfe5bCsjhdFPYuIsGAsjBiv
+	Lqyl8DKoZKsumWSdl49OdJRlKyLKt/7+DT8UmS7afEDdBnX+rA==
+X-Google-Smtp-Source: AGHT+IF5Da3dH8xSH47v0La6dgzMm/PirkVSRFFtq9LnRt6K1cguvamhh6gx1aCt2wYWKiR6GNG5FQ==
+X-Received: by 2002:a17:90b:3554:b0:28b:d358:d50c with SMTP id lt20-20020a17090b355400b0028bd358d50cmr2546033pjb.34.1703124560168;
+        Wed, 20 Dec 2023 18:09:20 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id qb4-20020a17090b280400b0028aecd6b29fsm4447297pjb.3.2023.12.20.18.09.19
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 13:31:30 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Wed, 20 Dec 2023 18:09:19 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v3] ipk: Switch to using zstd compression
-Date: Wed, 20 Dec 2023 14:31:19 -0700
-Message-Id: <20231220213119.964517-1-JPEWhacker@gmail.com>
+Subject: [OE-core][kirkstone 02/11] curl: Fix CVE-2023-46218
+Date: Wed, 20 Dec 2023 16:09:02 -1000
+Message-Id: <f27a93299f554e0bde610f70e6a042b4a24abf20.1703124430.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231215205140.2948964-1-JPEWhacker@gmail.com>
-References: <20231215205140.2948964-1-JPEWhacker@gmail.com>
+In-Reply-To: <cover.1703124430.git.steve@sakoman.com>
+References: <cover.1703124430.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 21:31:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192811
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 02:09:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192814
 
-Converts IPK package generation to use zstd instead of xz. zstd has a
-much larger compression/speed tradeoff range allowing users to choose
-what suits them best, and fast decompression speeds. It also continues
-to support parallel compression as xz did.
+From: Poonam Jadhav <ppjadhav456@gmail.com>
 
-A new variable called ZSTD_DEFAULTS is provided to set the defaults for
-places that want to use zstd for compression; the zst image conversion
-command is also modified to use this.
+Add patch to fix CVE-2023-46218
 
-Finally, in order for this to function properly, opkg must include zstd
-support, so it is enabled all the time with no PACKAGECONFIG to turn it
-off.
+Link: https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/curl/7.88.1-8ubuntu2.4/curl_7.88.1-8ubuntu2.4.debian.tar.xz
+      https://github.com/curl/curl/commit/2b0994c29a721c91c57
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/package_ipk.bbclass     | 4 ++--
- meta/classes-recipe/image_types.bbclass     | 4 +---
- meta/conf/bitbake.conf                      | 4 ++++
- meta/lib/oe/package_manager/ipk/__init__.py | 4 ++--
- meta/recipes-devtools/opkg/opkg_0.6.2.bb    | 6 +++---
- 5 files changed, 12 insertions(+), 10 deletions(-)
+ .../curl/curl/CVE-2023-46218.patch            | 52 +++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2023-46218.patch
 
-diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/package_ipk.bbclass
-index 71ffdd522ac..209568ae5f1 100644
---- a/meta/classes-global/package_ipk.bbclass
-+++ b/meta/classes-global/package_ipk.bbclass
-@@ -15,7 +15,7 @@ IPKGCONF_SDK_TARGET = "${WORKDIR}/opkg-sdk-target.conf"
- PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
- 
- # Program to be used to build opkg packages
--OPKGBUILDCMD ??= 'opkg-build -Z xz -a "${XZ_DEFAULTS}"'
-+OPKGBUILDCMD ??= 'opkg-build -Z zstd -a "${ZSTD_DEFAULTS}"'
- 
- OPKG_ARGS += "--force_postinstall --prefer-arch-to-version"
- OPKG_ARGS += "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS") == "1"]}"
-@@ -277,7 +277,7 @@ addtask do_package_write_ipk_setscene
- 
- python () {
-     if d.getVar('PACKAGES') != '':
--        deps = ' opkg-utils-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot xz-native:do_populate_sysroot'
-+        deps = ' opkg-utils-native:do_populate_sysroot virtual/fakeroot-native:do_populate_sysroot zstd-native:do_populate_sysroot'
-         d.appendVarFlag('do_package_write_ipk', 'depends', deps)
-         d.setVarFlag('do_package_write_ipk', 'fakeroot', "1")
- 
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-index d615b41ed1e..3733bdfc20c 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -63,8 +63,6 @@ ZIP_COMPRESSION_LEVEL ?= "-9"
- 7ZIP_COMPRESSION_METHOD ?= "BZip2"
- 7ZIP_EXTENSION ?= "7z"
- 
--ZSTD_COMPRESSION_LEVEL ?= "-3"
--
- JFFS2_SUM_EXTRA_ARGS ?= ""
- IMAGE_CMD:jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}.jffs2 ${EXTRA_IMAGECMD}"
- 
-@@ -337,7 +335,7 @@ CONVERSION_CMD:lz4 = "lz4 -9 -z -l ${IMAGE_NAME}.${type} ${IMAGE_NAME}.${type}.l
- CONVERSION_CMD:lzo = "lzop -9 ${IMAGE_NAME}.${type}"
- CONVERSION_CMD:zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}.${type}.zip ${IMAGE_NAME}.${type}"
- CONVERSION_CMD:7zip = "7za a -mx=${7ZIP_COMPRESSION_LEVEL} -mm=${7ZIP_COMPRESSION_METHOD} ${IMAGE_NAME}.${type}.${7ZIP_EXTENSION} ${IMAGE_NAME}.${type}"
--CONVERSION_CMD:zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.zst"
-+CONVERSION_CMD:zst = "zstd -f -k -c ${ZSTD_DEFAULTS} ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.zst"
- CONVERSION_CMD:sum = "sumtool -i ${IMAGE_NAME}.${type} -o ${IMAGE_NAME}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
- CONVERSION_CMD:md5sum = "md5sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.md5sum"
- CONVERSION_CMD:sha1sum = "sha1sum ${IMAGE_NAME}.${type} > ${IMAGE_NAME}.${type}.sha1sum"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 83b12cbc158..b3f1f18a0d7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -878,6 +878,10 @@ XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
- ZSTD_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
- ZSTD_THREADS[vardepvalue] = "1"
- 
-+ZSTD_COMPRESSION_LEVEL ?= "-3"
-+ZSTD_DEFAULTS ?= "--threads=${ZSTD_THREADS} ${ZSTD_COMPRESSION_LEVEL}"
-+ZSTD_DEFAULTS[vardepsexclude] = "ZSTD_THREADS"
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-46218.patch b/meta/recipes-support/curl/curl/CVE-2023-46218.patch
+new file mode 100644
+index 0000000000..d7d7908ea0
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2023-46218.patch
+@@ -0,0 +1,52 @@
++Backport of:
 +
- # Limit the number of threads that OpenMP libraries will use. Otherwise they
- # may fallback to using all CPUs
- export OMP_NUM_THREADS = "${BB_NUMBER_THREADS}"
-diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
-index e6f9c08e2b6..8fcbad56aab 100644
---- a/meta/lib/oe/package_manager/ipk/__init__.py
-+++ b/meta/lib/oe/package_manager/ipk/__init__.py
-@@ -133,7 +133,7 @@ class OpkgDpkgPM(PackageManager):
-         tmp_dir = tempfile.mkdtemp()
-         current_dir = os.getcwd()
-         os.chdir(tmp_dir)
--        data_tar = 'data.tar.xz'
-+        data_tar = 'data.tar.zst'
++From 2b0994c29a721c91c572cff7808c572a24d251eb Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 23 Nov 2023 08:15:47 +0100
++Subject: [PATCH] cookie: lowercase the domain names before PSL checks
++
++Reported-by: Harry Sintonen
++
++Closes #12387
++
++CVE: CVE-2023-46218
++Upstream-Status: Backport [https://github.com/curl/curl/commit/2b0994c29a721c91c57]
++Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
++---
++ lib/cookie.c | 24 ++++++++++++++++--------
++ 1 file changed, 16 insertions(+), 8 deletions(-)
++
++--- a/lib/cookie.c
+++++ b/lib/cookie.c
++@@ -1044,15 +1044,23 @@ Curl_cookie_add(struct Curl_easy *data,
++    * dereference it.
++    */
++   if(data && (domain && co->domain && !Curl_host_is_ipnum(co->domain))) {
++-    const psl_ctx_t *psl = Curl_psl_use(data);
++-    int acceptable;
++-
++-    if(psl) {
++-      acceptable = psl_is_cookie_domain_acceptable(psl, domain, co->domain);
++-      Curl_psl_release(data);
+++    bool acceptable = FALSE;
+++    char lcase[256];
+++    char lcookie[256];
+++    size_t dlen = strlen(domain);
+++    size_t clen = strlen(co->domain);
+++    if((dlen < sizeof(lcase)) && (clen < sizeof(lcookie))) {
+++      const psl_ctx_t *psl = Curl_psl_use(data);
+++      if(psl) {
+++        /* the PSL check requires lowercase domain name and pattern */
+++        Curl_strntolower(lcase, domain, dlen + 1);
+++        Curl_strntolower(lcookie, co->domain, clen + 1);
+++        acceptable = psl_is_cookie_domain_acceptable(psl, lcase, lcookie);
+++        Curl_psl_release(data);
+++      }
+++      else
+++        acceptable = !bad_domain(domain);
++     }
++-    else
++-      acceptable = !bad_domain(domain);
++ 
++     if(!acceptable) {
++       infof(data, "cookie '%s' dropped, domain '%s' must not "
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index 471bc47f34..a36d03f668 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -54,6 +54,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2023-32001.patch \
+            file://CVE-2023-38545.patch \
+            file://CVE-2023-38546.patch \
++           file://CVE-2023-46218.patch \
+            "
+ SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
  
-         try:
-             cmd = [ar_cmd, 'x', pkg_path]
-@@ -505,6 +505,6 @@ class OpkgPM(OpkgDpkgPM):
-                      "trying to extract the package."  % pkg)
- 
-         tmp_dir = super(OpkgPM, self).extract(pkg, pkg_info)
--        bb.utils.remove(os.path.join(tmp_dir, "data.tar.xz"))
-+        bb.utils.remove(os.path.join(tmp_dir, "data.tar.zst"))
- 
-         return tmp_dir
-diff --git a/meta/recipes-devtools/opkg/opkg_0.6.2.bb b/meta/recipes-devtools/opkg/opkg_0.6.2.bb
-index b2e675ae48b..71c0b44aed0 100644
---- a/meta/recipes-devtools/opkg/opkg_0.6.2.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.6.2.bb
-@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://src/opkg.c;beginline=4;endline=18;md5=d6200b0f2b41dee278aa5fad333eecae"
- 
--DEPENDS = "libarchive"
-+DEPENDS = "libarchive zstd"
- 
- PE = "1"
- 
-@@ -40,10 +40,10 @@ PACKAGECONFIG[gpg] = "--enable-gpg,--disable-gpg,\
- PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
- PACKAGECONFIG[ssl-curl] = "--enable-ssl-curl,--disable-ssl-curl,curl openssl"
- PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
--PACKAGECONFIG[zstd] = "--enable-zstd,--disable-zstd,zstd"
- PACKAGECONFIG[libsolv] = "--with-libsolv,--without-libsolv,libsolv"
- 
--EXTRA_OECONF:class-native = "--localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
-+EXTRA_OECONF = "--enable-zstd"
-+EXTRA_OECONF:append:class-native = " --localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
- 
- do_install:append () {
- 	install -d ${D}${sysconfdir}/opkg
 -- 
 2.34.1
 
