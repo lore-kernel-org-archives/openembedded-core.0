@@ -1,92 +1,98 @@
-Return-Path: <renat_khalikov@trimble.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 500F8C35274
-	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 21:57:51 +0000 (UTC)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web10.5987.1703195868978999684
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549C8C35274
+	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 22:02:41 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.6087.1703196155819922664
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Dec 2023 13:57:49 -0800
+ Thu, 21 Dec 2023 14:02:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@trimble.com header.s=google header.b=R0TNTagf;
- spf=pass (domain: trimble.com, ip: 209.85.167.178, mailfrom: renat_khalikov@trimble.com)
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bb82a52002so583573b6e.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 13:57:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trimble.com; s=google; t=1703195868; x=1703800668; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jlBCzV6iT0Yp+lY/kDYXPA6cXAsIUnrfzUnZ9c36RDc=;
-        b=R0TNTagfoJmUTVgKcPI70PZrkEsRTkcAIZSFFdloC5EhZUYlnEZZS68G/N4upwzO8F
-         p6s6ZZc+JjYpG5xqSWLLdN7I0lmHR8CYvKk/dDOJhTczAgJVj5gdbQRezmqBA7r6YIV6
-         s3VUMajSaGs9RT0WhpfUGA8Awer93yKpjfSuc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703195868; x=1703800668;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jlBCzV6iT0Yp+lY/kDYXPA6cXAsIUnrfzUnZ9c36RDc=;
-        b=NciMAgsAoHKn6C5nkXSZWqm/Gsh3x86P9qtVmqM2F9N+TgMJiotqEvQ91qfAaQh934
-         v5ZZNfFE7C6OqtXQP+IPFAgrV/IKBmXAM2QvAtqcPDlnSy7HtJpOQoahMZ4wC7wXji4q
-         yYWPRkDi3aLoHNRnNu6z+rDRUwbEcMbGQoIcDj7layERabd5M4gsaf9fZmpAeJ3sHf+e
-         79hpiK/SFypADMvWDTE4v8HFZdzo8+l+RgmypIbljudLZCOSw8ocdYHTsEHN5FZbNYpt
-         cNnxJDXemi4vB9Y/203ueFC/HHlKgXQO2ufsxJKl6KrLTsET0fUw6HsSAVBXgc1Vbv3R
-         etGQ==
-X-Gm-Message-State: AOJu0YyWMjsYnuJ6Rtz5X7zTHmfQWI9Ka0LC1c1mjm1FypUDWyXeWI6b
-	QqpE0To8opxhdQUbNOWqvACMHPCnAK4Vk6Z/Urt+lkYzbHsIfh204nVxyh0+08oNOo/ysJhH+gp
-	Njxdul9m9v8WBMqxcvlHFJGhlvfbUlThfrxCu2ILHn2vK5e+ToBE+lRlV8Wpm9moIjm/px8lNGp
-	+m7Iqw0R3u0tjtMR3hwXBgnfeIlcxuXGZzc+4ut34=
-X-Google-Smtp-Source: AGHT+IEg1b2QVsYGTc/NnRxnQu0Ym/vu8EqbAJScwD7Ko8LZveISedL9uVtZkQDrHZijv4UCt/Wj8A==
-X-Received: by 2002:a05:6808:1186:b0:3bb:6cf0:fce0 with SMTP id j6-20020a056808118600b003bb6cf0fce0mr424043oil.34.1703195868145;
-        Thu, 21 Dec 2023 13:57:48 -0800 (PST)
-Received: from beast.am.trimblecorp.net ([155.63.136.49])
-        by smtp.gmail.com with ESMTPSA id bd24-20020ad45698000000b0067f2c373115sm900684qvb.20.2023.12.21.13.57.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 13:57:47 -0800 (PST)
-From: Renat Khalikov <renat_khalikov@trimble.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Renat Khalikov <renat_khalikov@trimble.com>,
-	Tim Orling <tim.orling@konsulko.com>
-Subject: [OE-core][PATCH] python3-maturin: Add missing space appending to CFLAGS
-Date: Thu, 21 Dec 2023 14:57:33 -0700
-Message-Id: <20231221215733.1057373-1-renat_khalikov@trimble.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RCkf1z7W;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=goP/CHWg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018c8e66dbd2-3a37e68d-4e4c-4ca4-b31d-50768751c42d-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1703196154; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=Yt3Pt+jcuSZLrBlI/9AiNKewMsOTnMbiGdRu18AXyeE=;
+	b=RCkf1z7WbyLLriewQ0x/L3Bes+emEQjd+rpYF/XL3BYeheZL1Mz4qC1YOgGEQS2U
+	JdUXSUJ/jMTN7FKQdCWpmEqHS9V25SSP/QTe6O2eNWMI9q/w/ZnqRbpFzBlkElptbJ3
+	dOHrO6AZ+fIKEOZDpofStgRtVizdekFQB8KMRwe0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1703196154;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Yt3Pt+jcuSZLrBlI/9AiNKewMsOTnMbiGdRu18AXyeE=;
+	b=goP/CHWgWHL0EmZd0KtdJtUdokI1IEhdce53qav41THNMWJe/u54RLY5EXSR2brP
+	TeogO/BlXrsRPkDi8TRTk/2LaGxdGnzPtzqzGIJK8raoulcm8XkA9hVOLjzkI4kY5bq
+	sLQZJqTVdI1Lq3cf4PYfvRiMkcfKLAJG9lyiKc70=
+From: patchtest@automation.yoctoproject.org
+To: Etienne Cordonnier <ecordonnier@snap.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH v5] kernel.bbclass: make do_symlink_kernelsrc
+ reentrant
+In-Reply-To: CAHUKmYaFA8_eHrSCqknXqDfPfkwySdjqxWKvo6thuAAmD4guNw@mail.gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018c8e66dbd2-3a37e68d-4e4c-4ca4-b31d-50768751c42d-000000@us-west-2.amazonses.com>
+Date: Thu, 21 Dec 2023 22:02:34 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2023.12.21-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 21:57:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192852
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 22:02:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192853
 
-When the CFLAGS variable is appended to, the missing space causes build
-errors when CFLAGS was set previously.
+--NextPart
+Content-Type: text/plain
 
-For example:
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-  error: unrecognized command-line option '-mno-unaligned-access-fdebug-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home'
-
-Signed-off-by: Renat Khalikov <renat_khalikov@trimble.com>
-CC: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/recipes-devtools/python/python3-maturin_1.4.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/v5-kernel.bbclass-make-do_symlink_kernelsrc-reentrant.patch
 
-diff --git a/meta/recipes-devtools/python/python3-maturin_1.4.0.bb b/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
-index 07ad1201b8..82e65abb24 100644
---- a/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
-+++ b/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
-@@ -9,7 +9,7 @@ SRC_URI[sha256sum] = "ed12e1768094a7adeafc3a74ebdb8dc2201fa64c4e7e31f14cfc70378b
- 
- S = "${WORKDIR}/maturin-${PV}"
- 
--CFLAGS:append = "-fdebug-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home"
-+CFLAGS:append = " -fdebug-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home"
- 
- DEPENDS += "\
-     python3-setuptools-rust-native \
--- 
-2.34.1
+FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: Parse error Hunk diff line expected: use s as
+SKIP: test Signed-off-by presence: Parse error Hunk diff line expected: use s as
+SKIP: test Upstream-Status presence: Parse error Hunk diff line expected: use s as
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
