@@ -1,97 +1,114 @@
-Return-Path: <ludovic.jozeau@smile.fr>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F24FC35274
-	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 14:24:30 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.51746.1703168665911083617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A22C46CCD
+	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 14:25:20 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.web11.51761.1703168711858836929
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Dec 2023 06:24:26 -0800
+ Thu, 21 Dec 2023 06:25:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=EoHBe5Ln;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: ludovic.jozeau@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40d22d3e751so11840715e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 06:24:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Om4ioAwI;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7810917125bso49706285a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 06:25:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1703168664; x=1703773464; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1703168711; x=1703773511; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vnNt0Vyxlgl8kQf3YaVG1tAR7gQGEpDhWYaHiNeN1u8=;
-        b=EoHBe5LnUE4Ljr3YStrcfXctoA9RGA10G6xAZ6tWO392Kjx+djvnJyrikTo8AnkkUr
-         MyIkgUREtejmEq0raGeVWchuFemgMggh2G1sbQPB1Ee7wexsfibC4YrH5VEDNCM9ZIK+
-         tSCc4QyQYpAjG+Sg5TJ8b6sHdWWutDBjjcuz7TRMYtfbk9ZcAihb7sxPzWEJXJLJbzeH
-         nR73SO6777Qe8tflf3RJWESlKZZaT8RbuveaOracz3lS/UIKSvHgbuvi3rSMAWkIbQvS
-         LBYks370C59rBYnK4FmZLGotE6XWJ+ArHxJwwwDuongDRDuJ3dIfFoEmV2mhQJhzcEJx
-         64QQ==
+        bh=BfaFtoA3FJsZhwwbnQQr3XdbjLfxH20EkdAXuWuMJis=;
+        b=Om4ioAwI0NBUXtHdkQ7Ca7f3mHue50epTxX5yj+T2t6uUpoleImAoe/1H9yYONByfk
+         uURzTstAQLA+1ralzC/aum1XEDh0D016gZKvzYVefjv89u/y9ZXmXhaC98s3qd8A0tOb
+         cvb9X3LpkGFLlxtiO/OwUWwTpCeDSleBgvF9LrEEwtKs66Z59kA+kedV+j31Vrif0h0t
+         aJ+UmWNuu+T283XO5qfj0/4bswcznIQkhLbxfEmASc+MYTdiFyxUCAGq0jW7vG9qwnjZ
+         gXcrtjIkuh2VSoMYAwR5xsNq18UKiqlbWrLZ7jydjdiVfVoiy4HYkrpqaYkL5fdUgJ2i
+         hr+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703168664; x=1703773464;
+        d=1e100.net; s=20230601; t=1703168711; x=1703773511;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vnNt0Vyxlgl8kQf3YaVG1tAR7gQGEpDhWYaHiNeN1u8=;
-        b=h54NYxlVgQIUajeA0sduZuZ/ZeVB6xsP2PmYn7ggim0rDzRhRQERo+uQ9JkTOYg7Jz
-         14ZwBSgh9nPY1m4D4d1eOydCRtC4/GplLYOAh7wmfvu5n5MA5+yh87rU2CN1Z+w8ehqQ
-         +Fdcs2n9UIXccz4yq/6wL/baoQgHTIr7bUTCRm91gZX6fuquXFWjneVtgyx+ziSkxo9Q
-         jFQrlC2PaEfu+QQ9EebMJz3QTXEPBoBrxZ+7JHU5yeL7nKNr8D1+ic25BHmI891MSsEz
-         mI77/xYKDnx5W8+xFvyTDq8YT28dAJ99Hugg+SWlPKiQj3/cG/Zk/NNwGDi1jwO/tPZc
-         SFBg==
-X-Gm-Message-State: AOJu0YzRSoYu1DKuVlFy8JD3xMYw9gz/KbSgmzZtzR2XTJPPcPzMlfAM
-	tQe/2CC2U0jvIMoFnNgZBQe9Efrn11BrNi8YFz209w==
-X-Google-Smtp-Source: AGHT+IGt1lKwobWABrzthlNpNtwOCMQoxFgYNtjvCa2/OyLp2Qt07t/InL8SY1XbJ8NR7bRnQjtH7g==
-X-Received: by 2002:a05:600c:2050:b0:40d:39c0:c42b with SMTP id p16-20020a05600c205000b0040d39c0c42bmr582271wmg.94.1703168664318;
-        Thu, 21 Dec 2023 06:24:24 -0800 (PST)
-Received: from localhost.localdomain ([37.166.87.45])
-        by smtp.gmail.com with ESMTPSA id n35-20020a05600c3ba300b004064e3b94afsm11650437wms.4.2023.12.21.06.24.23
+        bh=BfaFtoA3FJsZhwwbnQQr3XdbjLfxH20EkdAXuWuMJis=;
+        b=bmDQ68u3kpZ6MnX6Esx/4DQyOPiVBSICccy13mfXorDOcgoCIgoq6+E9SB+LcDPVQE
+         jSOzCLMTE5VOzj91gv47iK4oGwiqGvxHpTjvtuX/Gd+rNn0lGdhD6gfeetmqKWfAR8Uf
+         uhv3YUNkzrMDzq9b8n4OCsE8vpgHHkOE/nXoFvi6DdluwlAcmYxwdHB4Z90sbz4jC9Yu
+         wZwaNuuAHv2Q84Y9Io71zF1s7bPAILwXoEmYf0D/0XNZeYGcIHWMcvNZpsXnsguMqD0X
+         rGOkc5flcSdO5WWSBe/KJof+SLqGK2k8yWzdK1MigEHO+4aOxOYcLy2kCx9fLm9YSLAK
+         dG6Q==
+X-Gm-Message-State: AOJu0YwPPy8C4S9qzZz9BPVp6VtZspBmTDYHD+i4VwAq9thRTgo369KJ
+	1UZiesjytxSRfwsoFb8Kc2M=
+X-Google-Smtp-Source: AGHT+IHptw4OMVqYbA98gPb2/TBAUVmiIf3EGU7L9WzCIJ5K8sVdqJuxWz6kFus1JJIyNfWAB9+I0g==
+X-Received: by 2002:a05:620a:3915:b0:77d:89c4:1619 with SMTP id qr21-20020a05620a391500b0077d89c41619mr25437959qkn.66.1703168710738;
+        Thu, 21 Dec 2023 06:25:10 -0800 (PST)
+Received: from bruce-XPS-8940.. ([174.112.183.231])
+        by smtp.gmail.com with ESMTPSA id g4-20020a37e204000000b0077eff6eece8sm679490qki.62.2023.12.21.06.25.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 06:24:24 -0800 (PST)
-From: Ludovic Jozeau <ludovic.jozeau@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Ludovic Jozeau <ludovic.jozeau@smile.fr>,
-	Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] image-live.bbclass: LIVE_ROOTFS_TYPE support compression
-Date: Thu, 21 Dec 2023 15:24:21 +0100
-Message-ID: <20231221142421.168190-1-ludovic.jozeau@smile.fr>
-X-Mailer: git-send-email 2.43.0
+        Thu, 21 Dec 2023 06:25:10 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/7] linux-yocto: consolidated pull request
+Date: Thu, 21 Dec 2023 09:25:02 -0500
+Message-Id: <cover.1703168370.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 14:24:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192828
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 14:25:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192829
 
-The task for fstypes with compression is the same as the task for the
-uncompressed fstypes, e.g. when adding tar.xz to `IMAGE_FSTYPES`, it will
-be included into the do_image_tar task and not creating a separate
-do_image_tar.xz task.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-This commit fixes `LIVE_ROOTFS_TYPE` with compressed fstypes by
-depending on the actual task instead of the non-existent
-do_image_<fstype>.<compression> task.
+Richard,
 
-Fixes [YOCTO #15331]
+Here's the -stable and config changes that i've been collecting for
+a bit.
 
-Signed-off-by: Ludovic Jozeau <ludovic.jozeau@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/classes-recipe/image-live.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As discussed on the list/IRC/technical calls, I'll drop 6.5 and
+introduce 6.6 and the matching libc-headers in early January.
 
-diff --git a/meta/classes-recipe/image-live.bbclass b/meta/classes-recipe/image-live.bbclass
-index 95dd44a8c0..da919d52f9 100644
---- a/meta/classes-recipe/image-live.bbclass
-+++ b/meta/classes-recipe/image-live.bbclass
-@@ -31,7 +31,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
-                         virtual/kernel:do_deploy \
-                         ${MLPREFIX}syslinux:do_populate_sysroot \
-                         syslinux-native:do_populate_sysroot \
--                        ${@'%s:do_image_%s' % (d.getVar('PN'), d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')) if d.getVar('ROOTFS') else ''} \
-+                        ${@'%s:do_image_%s' % (d.getVar('PN'), d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_').split('.')[0]) if d.getVar('ROOTFS') else ''} \
-                         "
- 
- 
+I've been testing with 6.6 for some time, and haven't found any
+issues, but I just won't be around enough for the next week and
+we can all use the time off.
+
+If anyone does want the 6.6 changes, I can make them available
+in a contrib branch.
+
+Cheers,
+
+Bruce
+
+The following changes since commit b92406d2313234dccd77b05fe74c09ba9617a738:
+
+  curl: Disable two intermittently failing tests (2023-12-21 13:49:48 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (7):
+  linux-yocto/6.1: drop removed IMA option
+  linux-yocto/6.5: drop removed IMA option
+  linux-yocto-rt/6.1: update to -rt18
+  linux-yocto/6.1: update to v6.1.66
+  linux-yocto/6.1: update to v6.1.67
+  linux-yocto/6.5: fix AB-INT: QEMU kernel panic: No irq handler for
+    vector
+  linux-yocto/6.1: update to v6.1.68
+
+ .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+ .../linux/linux-yocto-rt_6.5.bb               |  4 +--
+ .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+ .../linux/linux-yocto-tiny_6.5.bb             |  4 +--
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_6.5.bb  | 24 ++++++++--------
+ 6 files changed, 36 insertions(+), 36 deletions(-)
+
 -- 
-2.43.0
+2.39.2
 
 
