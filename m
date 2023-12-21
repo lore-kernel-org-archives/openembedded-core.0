@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FF60C4706E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EEEDC46CD8
 	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 02:09:36 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.42660.1703124568380438604
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.42661.1703124570672274216
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Dec 2023 18:09:28 -0800
+ Wed, 20 Dec 2023 18:09:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u9qX88aG;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-28b6218d102so260510a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:09:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pMaGdtGF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6d728c75240so312328b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Dec 2023 18:09:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703124567; x=1703729367; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703124570; x=1703729370; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RRI9Dl7scidx9T2+KxUHxRMpUfHI0H07KV8ZUkJdYEA=;
-        b=u9qX88aGvdG+bq0HYflHjH3/zUxTi4+UiOkDhJSpXHF+Q50mfDBD0HPmrEd1f0t1C6
-         IITpbUujQDy6hyg+aBaoXnXrc6iAIhKzbyJ3HVEh+EHF2ZcFwSXH8A+4r27H/DiLLCrI
-         I2vdLt3b1yikBRkpFZv0UFoVrWShkSQSkRfuv7bc4UtxDJyoAfxFCHbGVErPEnxWZngm
-         Q2uvuz9lhcnMhz4jGX81Tp5LNSYigLs8NzeOdrc7bGbFfaj+JXzcT4pzDrTkaBXk2D+P
-         ABBOC9b+UGu74prjqgcvNH59K7UoIF+tpdr1AQfa6RjparN5pcTlKKphMPPByqzybdHw
-         LBEA==
+        bh=SDZHvMD1nAlvkam/MPLuXSV7X5Ioehr5t0kQJqwM+XM=;
+        b=pMaGdtGFBQB32rvtKO18IiRQez9p6VfPGQKq+yN+vkEBiIbeoYD9tWkvdsfec37/NS
+         JLCyZ7donyE6sxXQ8SukjXWKyI9wu87qWRoQDIwMNeWwvROMrga8HgBut5b55QgfactG
+         m8ibjA1q/kNA84pkxgjumb+AoD56uHGl/FH4YwJ2wrnvAOjqEogX81pWih0pPnkwNQN2
+         eSNHOm/Lje2JfTM1TyJkvbuZK1ryuFQE3Z2nNS231KC+ToTpcCvNWMohuHn8GMmq0jPM
+         UhFhIfnq8J7YSgGBC1z6jDKggFgGnZphewx33e9LBDR/B6p2dtRBjW4pk1FPDColxyrs
+         m8yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703124567; x=1703729367;
+        d=1e100.net; s=20230601; t=1703124570; x=1703729370;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RRI9Dl7scidx9T2+KxUHxRMpUfHI0H07KV8ZUkJdYEA=;
-        b=I1cT5AFitadSp1t0CwDHGFMbhLfLLyUY5Ys8VlIHvDj3aI3dwsoWxblnv1jIw6fASh
-         2oJ9oXe0Utp9CtznPTw0ny7T23bdZFf+E+xocwafPJH2LJI11bKrVFP2UVYbubheiGFL
-         XsMCVHRjZczCmhdGyyEBMJ0s7XQ0hFqmtmdfHNfzfFSyJz09HwFxmxZUQqIK8oWnHzjM
-         LBlZw7DmIRoj0t90yZoh3VJfTLnG9Fds+gI/aa0D4MPpL8IpEXVTipj3oXzQ0k78ErT5
-         3KBNZ3yIqZ9eoWVcpK9H2JyFXgsSTSRyXvURNNh50OL+NNoK1uBMnT/ZBSETu+RgtRuw
-         azVA==
-X-Gm-Message-State: AOJu0YxBfRALjzD4FJvrDZR7unqahr4uXlfTyluYQHzzYHt86gRNHDRX
-	rO2Ebg+nY4spy5nM45fWT3r7JDXoACCLtbGZFBQJkQ==
-X-Google-Smtp-Source: AGHT+IFp2cr6iBt1XMkzzrqAR1Iy0pKyIkrBUwmMHgGMB1vBw0gEQB4vG/l3ndaPwV4JkocyNQAF0w==
-X-Received: by 2002:a17:90b:506:b0:28b:b995:c886 with SMTP id r6-20020a17090b050600b0028bb995c886mr2776600pjz.82.1703124567407;
-        Wed, 20 Dec 2023 18:09:27 -0800 (PST)
+        bh=SDZHvMD1nAlvkam/MPLuXSV7X5Ioehr5t0kQJqwM+XM=;
+        b=k6B88evg+Ijb8AON3nbs47LBLd2rgpMvzGTXdCRCPyk9y7wy9VidmBjiDRQwCgbtwH
+         WkJVfM/8S9XWr17nn1zvuFJ2G8Q/+d7iPHlQxqFXxdXu+pq1ixrBC9sXOnRu0GrXa8vb
+         XTqU01FYbBWHR9OBN5xAb6azUliieiJWxeNTVl2Z5xZty3LXIU/DlbbvZFZ/cmFOEiZL
+         W1rbbvpeCNXldy5oMPGLuqzHRLelbiPW2ZT02Q8Hj1BeQI5TnUlor7I0QRFNnaTLWfJi
+         B2BMiwaY3jiT1NUZ+QJyTKKncm4gX5WLY6qGbGMW8UzW5ZSk0qkrccvd9LAe2aZ/N2il
+         il7A==
+X-Gm-Message-State: AOJu0YxFgwR1C08+SXVSOGhyZe4/W7LFQl+QGGYolSONfFaztisMpbTP
+	TRu3ZmEc5GxPqThpgVp9f0RL5LY5J40rLCcUmHXh2Q==
+X-Google-Smtp-Source: AGHT+IF9QFZoASRCDwWnAXNvVZ6y5oM6iHPDwHJD9VnBnsoV5gmG5Q2eTjL6B1R9ojjmt32+FrfDCA==
+X-Received: by 2002:a05:6a20:4883:b0:194:b6f2:4d4a with SMTP id fo3-20020a056a20488300b00194b6f24d4amr547912pzb.91.1703124569360;
+        Wed, 20 Dec 2023 18:09:29 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id qb4-20020a17090b280400b0028aecd6b29fsm4447297pjb.3.2023.12.20.18.09.26
+        by smtp.gmail.com with ESMTPSA id qb4-20020a17090b280400b0028aecd6b29fsm4447297pjb.3.2023.12.20.18.09.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 18:09:27 -0800 (PST)
+        Wed, 20 Dec 2023 18:09:29 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 06/11] go: Fix CVE-2023-39326
-Date: Wed, 20 Dec 2023 16:09:06 -1000
-Message-Id: <448df3bb9277287dd8586987199223b7314fdd01.1703124430.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/11] openssh: backport Debian patch for CVE-2023-48795
+Date: Wed, 20 Dec 2023 16:09:07 -1000
+Message-Id: <df5dc8d67e67a2aebf1a552c3e22374e305270bf.1703124430.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703124430.git.steve@sakoman.com>
 References: <cover.1703124430.git.steve@sakoman.com>
@@ -61,235 +61,563 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 02:09:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192818
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192819
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-A malicious HTTP sender can use chunk extensions to cause a receiver
-reading from a request or response body to read many more bytes from
-the network than are in the body. A malicious HTTP client can further
-exploit this to cause a server to automatically read a large amount
-of data (up to about 1GiB) when a handler fails to read the entire
-body of a request. Chunk extensions are a little-used HTTP feature
-which permit including additional metadata in a request or response
-body sent using the chunked encoding. The net/http chunked encoding
-reader discards this metadata. A sender can exploit this by inserting
-a large metadata segment with each byte transferred. The chunk reader
-now produces an error if the ratio of real body to encoded bytes grows
-too small.
+import patches from ubuntu to fix
+ fix-authorized-principals-command
+ CVE-2023-48795
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-39326
-https://security-tracker.debian.org/tracker/CVE-2023-39326
+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/openssh/tree/debian/patches?h=ubuntu/jammy-security
+Upstream commit
+https://github.com/openssh/openssh-portable/commit/fcd78e31cdd45a7e69ccfe6d8a3b1037dc1de290
+&
+https://github.com/openssh/openssh-portable/commit/1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5]
 
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Reference: https://ubuntu.com/security/CVE-2023-48795
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |   1 +
- .../go/go-1.20/CVE-2023-39326.patch           | 182 ++++++++++++++++++
- 2 files changed, 183 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.20/CVE-2023-39326.patch
+ .../openssh/openssh/CVE-2023-48795.patch      | 476 ++++++++++++++++++
+ .../fix-authorized-principals-command.patch   |  30 ++
+ .../openssh/openssh_8.9p1.bb                  |   2 +
+ 3 files changed, 508 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/fix-authorized-principals-command.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index 330f571d22..95c4461d3e 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -47,6 +47,7 @@ SRC_URI += "\
-     file://CVE-2023-29409.patch \
-     file://CVE-2023-39319.patch \
-     file://CVE-2023-39318.patch \
-+    file://CVE-2023-39326.patch \
- "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
- 
-diff --git a/meta/recipes-devtools/go/go-1.20/CVE-2023-39326.patch b/meta/recipes-devtools/go/go-1.20/CVE-2023-39326.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
 new file mode 100644
-index 0000000000..ca78e552c2
+index 0000000000..6b2f927779
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.20/CVE-2023-39326.patch
-@@ -0,0 +1,182 @@
-+From 6446af942e2e2b161c4ec1b60d9703a2b55dc4dd Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Tue, 7 Nov 2023 10:47:56 -0800
-+Subject: [PATCH] net/http: limit chunked data overhead
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
+@@ -0,0 +1,476 @@
++(modified to not remove ssh_packet_read_expect() and to add to
++KexAlgorithms in sshd.c and sshconnect2.c as this version pre-dates
++kex_proposal_populate_entries())
 +
-+The chunked transfer encoding adds some overhead to
-+the content transferred. When writing one byte per
-+chunk, for example, there are five bytes of overhead
-+per byte of data transferred: "1\r\nX\r\n" to send "X".
++Backport of:
 +
-+Chunks may include "chunk extensions",
-+which we skip over and do not use.
-+For example: "1;chunk extension here\r\nX\r\n".
++From 1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5 Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Mon, 18 Dec 2023 14:45:17 +0000
++Subject: [PATCH] upstream: implement "strict key exchange" in ssh and sshd
 +
-+A malicious sender can use chunk extensions to add
-+about 4k of overhead per byte of data.
-+(The maximum chunk header line size we will accept.)
++This adds a protocol extension to improve the integrity of the SSH
++transport protocol, particular in and around the initial key exchange
++(KEX) phase.
 +
-+Track the amount of overhead read in chunked data,
-+and produce an error if it seems excessive.
++Full details of the extension are in the PROTOCOL file.
 +
-+Updates #64433
-+Fixes #64434
-+Fixes CVE-2023-39326
++with markus@
 +
-+Change-Id: I40f8d70eb6f9575fb43f506eb19132ccedafcf39
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2076135
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+(cherry picked from commit 3473ae72ee66c60744665a24b2fde143e8964d4f)
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2095407
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+TryBot-Result: Security TryBots <security-trybots@go-security-trybots.iam.gserviceaccount.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/547355
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
++OpenBSD-Commit-ID: 2a66ac962f0a630d7945fee54004ed9e9c439f14
 +
-+CVE: CVE-2023-39326
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/6446af942e2e2b161c4ec1b60d9703a2b55dc4dd]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/openssh/tree/debian/patches/CVE-2023-48795.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/openssh/openssh-portable/commit/1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5]
++CVE: CVE-2023-48795
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/net/http/internal/chunked.go      | 36 +++++++++++++---
-+ src/net/http/internal/chunked_test.go | 59 +++++++++++++++++++++++++++
-+ 2 files changed, 89 insertions(+), 6 deletions(-)
++ PROTOCOL      | 26 +++++++++++++++++
++ kex.c         | 72 +++++++++++++++++++++++++++++++----------------
++ kex.h         |  1 +
++ packet.c      | 78 ++++++++++++++++++++++++++++++++++++++-------------
++ sshconnect2.c | 14 +++------
++ sshd.c        |  7 +++--
++ 6 files changed, 142 insertions(+), 56 deletions(-)
 +
-+diff --git a/src/net/http/internal/chunked.go b/src/net/http/internal/chunked.go
-+index f06e572..ddbaacb 100644
-+--- a/src/net/http/internal/chunked.go
-++++ b/src/net/http/internal/chunked.go
-+@@ -39,7 +39,8 @@ type chunkedReader struct {
-+	n        uint64 // unread bytes in chunk
-+	err      error
-+	buf      [2]byte
-+-	checkEnd bool // whether need to check for \r\n chunk footer
-++	checkEnd bool  // whether need to check for \r\n chunk footer
-++	excess   int64 // "excessive" chunk overhead, for malicious sender detection
-+ }
-+
-+ func (cr *chunkedReader) beginChunk() {
-+@@ -49,10 +50,38 @@ func (cr *chunkedReader) beginChunk() {
-+	if cr.err != nil {
-+		return
-+	}
-++	cr.excess += int64(len(line)) + 2 // header, plus \r\n after the chunk data
-++	line = trimTrailingWhitespace(line)
-++	line, cr.err = removeChunkExtension(line)
-++	if cr.err != nil {
-++		return
-++	}
-+	cr.n, cr.err = parseHexUint(line)
-+	if cr.err != nil {
-+		return
-+	}
-++	// A sender who sends one byte per chunk will send 5 bytes of overhead
-++	// for every byte of data. ("1\r\nX\r\n" to send "X".)
-++	// We want to allow this, since streaming a byte at a time can be legitimate.
-++	//
-++	// A sender can use chunk extensions to add arbitrary amounts of additional
-++	// data per byte read. ("1;very long extension\r\nX\r\n" to send "X".)
-++	// We don't want to disallow extensions (although we discard them),
-++	// but we also don't want to allow a sender to reduce the signal/noise ratio
-++	// arbitrarily.
-++	//
-++	// We track the amount of excess overhead read,
-++	// and produce an error if it grows too large.
-++	//
-++	// Currently, we say that we're willing to accept 16 bytes of overhead per chunk,
-++	// plus twice the amount of real data in the chunk.
-++	cr.excess -= 16 + (2 * int64(cr.n))
-++	if cr.excess < 0 {
-++		cr.excess = 0
-++	}
-++	if cr.excess > 16*1024 {
-++		cr.err = errors.New("chunked encoding contains too much non-data")
-++	}
-+	if cr.n == 0 {
-+		cr.err = io.EOF
-+	}
-+@@ -133,11 +162,6 @@ func readChunkLine(b *bufio.Reader) ([]byte, error) {
-+	if len(p) >= maxLineLength {
-+		return nil, ErrLineTooLong
-+	}
-+-	p = trimTrailingWhitespace(p)
-+-	p, err = removeChunkExtension(p)
-+-	if err != nil {
-+-		return nil, err
-+-	}
-+	return p, nil
-+ }
-+
-+diff --git a/src/net/http/internal/chunked_test.go b/src/net/http/internal/chunked_test.go
-+index 08152ed..5fbeb08 100644
-+--- a/src/net/http/internal/chunked_test.go
-++++ b/src/net/http/internal/chunked_test.go
-+@@ -211,3 +211,62 @@ func TestChunkReadPartial(t *testing.T) {
-+	}
-+
-+ }
++diff --git a/PROTOCOL b/PROTOCOL
++index e6a7d60..971f01e 100644
++--- a/PROTOCOL
+++++ b/PROTOCOL
++@@ -102,6 +102,32 @@ OpenSSH supports the use of ECDH in Curve25519 for key exchange as
++ described at:
++ http://git.libssh.org/users/aris/libssh.git/plain/doc/curve25519-sha256@libssh.org.txt?h=curve25519
++ 
+++1.9 transport: strict key exchange extension
 ++
-++func TestChunkReaderTooMuchOverhead(t *testing.T) {
-++	// If the sender is sending 100x as many chunk header bytes as chunk data,
-++	// we should reject the stream at some point.
-++	chunk := []byte("1;")
-++	for i := 0; i < 100; i++ {
-++		chunk = append(chunk, 'a') // chunk extension
+++OpenSSH supports a number of transport-layer hardening measures under
+++a "strict KEX" feature. This feature is signalled similarly to the
+++RFC8308 ext-info feature: by including a additional algorithm in the
+++initiial SSH2_MSG_KEXINIT kex_algorithms field. The client may append
+++"kex-strict-c-v00@openssh.com" to its kex_algorithms and the server
+++may append "kex-strict-s-v00@openssh.com". These pseudo-algorithms
+++are only valid in the initial SSH2_MSG_KEXINIT and MUST be ignored
+++if they are present in subsequent SSH2_MSG_KEXINIT packets.
+++
+++When an endpoint that supports this extension observes this algorithm
+++name in a peer's KEXINIT packet, it MUST make the following changes to
+++the the protocol:
+++
+++a) During initial KEX, terminate the connection if any unexpected or
+++   out-of-sequence packet is received. This includes terminating the
+++   connection if the first packet received is not SSH2_MSG_KEXINIT.
+++   Unexpected packets for the purpose of strict KEX include messages
+++   that are otherwise valid at any time during the connection such as
+++   SSH2_MSG_DEBUG and SSH2_MSG_IGNORE.
+++b) After sending or receiving a SSH2_MSG_NEWKEYS message, reset the
+++   packet sequence number to zero. This behaviour persists for the
+++   duration of the connection (i.e. not just the first
+++   SSH2_MSG_NEWKEYS).
+++
++ 2. Connection protocol changes
++ 
++ 2.1. connection: Channel write close extension "eow@openssh.com"
++diff --git a/kex.c b/kex.c
++index 0bcd27d..e7b2d4d 100644
++--- a/kex.c
+++++ b/kex.c
++@@ -63,7 +63,7 @@
++ #include "digest.h"
++ 
++ /* prototype */
++-static int kex_choose_conf(struct ssh *);
+++static int kex_choose_conf(struct ssh *, uint32_t seq);
++ static int kex_input_newkeys(int, u_int32_t, struct ssh *);
++ 
++ static const char * const proposal_names[PROPOSAL_MAX] = {
++@@ -175,6 +175,18 @@ kex_names_valid(const char *names)
++ 	return 1;
++ }
++ 
+++/* returns non-zero if proposal contains any algorithm from algs */
+++static int
+++has_any_alg(const char *proposal, const char *algs)
+++{
+++	char *cp;
+++
+++	if ((cp = match_list(proposal, algs, NULL)) == NULL)
+++		return 0;
+++	free(cp);
+++	return 1;
+++}
+++
++ /*
++  * Concatenate algorithm names, avoiding duplicates in the process.
++  * Caller must free returned string.
++@@ -182,7 +194,7 @@ kex_names_valid(const char *names)
++ char *
++ kex_names_cat(const char *a, const char *b)
++ {
++-	char *ret = NULL, *tmp = NULL, *cp, *p, *m;
+++	char *ret = NULL, *tmp = NULL, *cp, *p;
++ 	size_t len;
++ 
++ 	if (a == NULL || *a == '\0')
++@@ -199,10 +211,8 @@ kex_names_cat(const char *a, const char *b)
++ 	}
++ 	strlcpy(ret, a, len);
++ 	for ((p = strsep(&cp, ",")); p && *p != '\0'; (p = strsep(&cp, ","))) {
++-		if ((m = match_list(ret, p, NULL)) != NULL) {
++-			free(m);
+++		if (has_any_alg(ret, p))
++ 			continue; /* Algorithm already present */
++-		}
++ 		if (strlcat(ret, ",", len) >= len ||
++ 		    strlcat(ret, p, len) >= len) {
++ 			free(tmp);
++@@ -410,7 +420,12 @@ kex_protocol_error(int type, u_int32_t seq, struct ssh *ssh)
++ {
++ 	int r;
++ 
++-	error("kex protocol error: type %d seq %u", type, seq);
+++	/* If in strict mode, any unexpected message is an error */
+++	if ((ssh->kex->flags & KEX_INITIAL) && ssh->kex->kex_strict) {
+++		ssh_packet_disconnect(ssh, "strict KEX violation: "
+++		    "unexpected packet type %u (seqnr %u)", type, seq);
 ++	}
-++	chunk = append(chunk, "\r\nX\r\n"...)
-++	const bodylen = 1 << 20
-++	r := NewChunkedReader(&funcReader{f: func(i int) ([]byte, error) {
-++		if i < bodylen {
-++			return chunk, nil
+++	error_f("type %u seq %u", type, seq);
++ 	if ((r = sshpkt_start(ssh, SSH2_MSG_UNIMPLEMENTED)) != 0 ||
++ 	    (r = sshpkt_put_u32(ssh, seq)) != 0 ||
++ 	    (r = sshpkt_send(ssh)) != 0)
++@@ -485,6 +500,11 @@ kex_input_ext_info(int type, u_int32_t seq, struct ssh *ssh)
++ 	ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, &kex_protocol_error);
++ 	if ((r = sshpkt_get_u32(ssh, &ninfo)) != 0)
++ 		return r;
+++	if (ninfo >= 1024) {
+++		error("SSH2_MSG_EXT_INFO with too many entries, expected "
+++		    "<=1024, received %u", ninfo);
+++		return dispatch_protocol_error(type, seq, ssh);
+++	}
++ 	for (i = 0; i < ninfo; i++) {
++ 		if ((r = sshpkt_get_cstring(ssh, &name, NULL)) != 0)
++ 			return r;
++@@ -600,7 +620,7 @@ kex_input_kexinit(int type, u_int32_t seq, struct ssh *ssh)
++ 		error_f("no kex");
++ 		return SSH_ERR_INTERNAL_ERROR;
++ 	}
++-	ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, NULL);
+++	ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, &kex_protocol_error);
++ 	ptr = sshpkt_ptr(ssh, &dlen);
++ 	if ((r = sshbuf_put(kex->peer, ptr, dlen)) != 0)
++ 		return r;
++@@ -636,7 +656,7 @@ kex_input_kexinit(int type, u_int32_t seq, struct ssh *ssh)
++ 	if (!(kex->flags & KEX_INIT_SENT))
++ 		if ((r = kex_send_kexinit(ssh)) != 0)
++ 			return r;
++-	if ((r = kex_choose_conf(ssh)) != 0)
+++	if ((r = kex_choose_conf(ssh, seq)) != 0)
++ 		return r;
++ 
++ 	if (kex->kex_type < KEX_MAX && kex->kex[kex->kex_type] != NULL)
++@@ -900,20 +920,14 @@ proposals_match(char *my[PROPOSAL_MAX], char *peer[PROPOSAL_MAX])
++ 	return (1);
++ }
++ 
++-/* returns non-zero if proposal contains any algorithm from algs */
++ static int
++-has_any_alg(const char *proposal, const char *algs)
+++kexalgs_contains(char **peer, const char *ext)
++ {
++-	char *cp;
++-
++-	if ((cp = match_list(proposal, algs, NULL)) == NULL)
++-		return 0;
++-	free(cp);
++-	return 1;
+++	return has_any_alg(peer[PROPOSAL_KEX_ALGS], ext);
++ }
++ 
++ static int
++-kex_choose_conf(struct ssh *ssh)
+++kex_choose_conf(struct ssh *ssh, uint32_t seq)
++ {
++ 	struct kex *kex = ssh->kex;
++ 	struct newkeys *newkeys;
++@@ -938,13 +952,23 @@ kex_choose_conf(struct ssh *ssh)
++ 		sprop=peer;
++ 	}
++ 
++-	/* Check whether client supports ext_info_c */
++-	if (kex->server && (kex->flags & KEX_INITIAL)) {
++-		char *ext;
++-
++-		ext = match_list("ext-info-c", peer[PROPOSAL_KEX_ALGS], NULL);
++-		kex->ext_info_c = (ext != NULL);
++-		free(ext);
+++	/* Check whether peer supports ext_info/kex_strict */
+++	if ((kex->flags & KEX_INITIAL) != 0) {
+++		if (kex->server) {
+++			kex->ext_info_c = kexalgs_contains(peer, "ext-info-c");
+++			kex->kex_strict = kexalgs_contains(peer,
+++			    "kex-strict-c-v00@openssh.com");
+++		} else {
+++			kex->kex_strict = kexalgs_contains(peer,
+++			    "kex-strict-s-v00@openssh.com");
 ++		}
-++		return []byte("0\r\n"), nil
-++	}})
-++	_, err := io.ReadAll(r)
-++	if err == nil {
-++		t.Fatalf("successfully read body with excessive overhead; want error")
-++	}
-++}
-++
-++func TestChunkReaderByteAtATime(t *testing.T) {
-++	// Sending one byte per chunk should not trip the excess-overhead detection.
-++	const bodylen = 1 << 20
-++	r := NewChunkedReader(&funcReader{f: func(i int) ([]byte, error) {
-++		if i < bodylen {
-++			return []byte("1\r\nX\r\n"), nil
+++		if (kex->kex_strict) {
+++			debug3_f("will use strict KEX ordering");
+++			if (seq != 0)
+++				ssh_packet_disconnect(ssh,
+++				    "strict KEX violation: "
+++				    "KEXINIT was not the first packet");
 ++		}
-++		return []byte("0\r\n"), nil
-++	}})
-++	got, err := io.ReadAll(r)
-++	if err != nil {
-++		t.Errorf("unexpected error: %v", err)
++ 	}
++ 
++ 	/* Check whether client supports rsa-sha2 algorithms */
++diff --git a/kex.h b/kex.h
++index c353295..d97323e 100644
++--- a/kex.h
+++++ b/kex.h
++@@ -148,6 +148,7 @@ struct kex {
++ 	u_int	kex_type;
++ 	char	*server_sig_algs;
++ 	int	ext_info_c;
+++	int	kex_strict;
++ 	struct sshbuf *my;
++ 	struct sshbuf *peer;
++ 	struct sshbuf *client_version;
++diff --git a/packet.c b/packet.c
++index bde6c10..28f3729 100644
++--- a/packet.c
+++++ b/packet.c
++@@ -1205,8 +1205,13 @@ ssh_packet_send2_wrapped(struct ssh *ssh)
++ 	sshbuf_dump(state->output, stderr);
++ #endif
++ 	/* increment sequence number for outgoing packets */
++-	if (++state->p_send.seqnr == 0)
+++	if (++state->p_send.seqnr == 0) {
+++		if ((ssh->kex->flags & KEX_INITIAL) != 0) {
+++			ssh_packet_disconnect(ssh, "outgoing sequence number "
+++			    "wrapped during initial key exchange");
+++		}
++ 		logit("outgoing seqnr wraps around");
 ++	}
-++	if len(got) != bodylen {
-++		t.Errorf("read %v bytes, want %v", len(got), bodylen)
++ 	if (++state->p_send.packets == 0)
++ 		if (!(ssh->compat & SSH_BUG_NOREKEY))
++ 			return SSH_ERR_NEED_REKEY;
++@@ -1214,6 +1219,11 @@ ssh_packet_send2_wrapped(struct ssh *ssh)
++ 	state->p_send.bytes += len;
++ 	sshbuf_reset(state->outgoing_packet);
++ 
+++	if (type == SSH2_MSG_NEWKEYS && ssh->kex->kex_strict) {
+++		debug_f("resetting send seqnr %u", state->p_send.seqnr);
+++		state->p_send.seqnr = 0;
 ++	}
-++}
 ++
-++type funcReader struct {
-++	f   func(iteration int) ([]byte, error)
-++	i   int
-++	b   []byte
-++	err error
-++}
++ 	if (type == SSH2_MSG_NEWKEYS)
++ 		r = ssh_set_newkeys(ssh, MODE_OUT);
++ 	else if (type == SSH2_MSG_USERAUTH_SUCCESS && state->server_side)
++@@ -1342,8 +1352,7 @@ ssh_packet_read_seqnr(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
++ 	/* Stay in the loop until we have received a complete packet. */
++ 	for (;;) {
++ 		/* Try to read a packet from the buffer. */
++-		r = ssh_packet_read_poll_seqnr(ssh, typep, seqnr_p);
++-		if (r != 0)
+++		if ((r = ssh_packet_read_poll_seqnr(ssh, typep, seqnr_p)) != 0)
++ 			break;
++ 		/* If we got a packet, return it. */
++ 		if (*typep != SSH_MSG_NONE)
++@@ -1627,10 +1636,16 @@ ssh_packet_read_poll2(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
++ 		if ((r = sshbuf_consume(state->input, mac->mac_len)) != 0)
++ 			goto out;
++ 	}
 ++
-++func (r *funcReader) Read(p []byte) (n int, err error) {
-++	if len(r.b) == 0 && r.err == nil {
-++		r.b, r.err = r.f(r.i)
-++		r.i++
++ 	if (seqnr_p != NULL)
++ 		*seqnr_p = state->p_read.seqnr;
++-	if (++state->p_read.seqnr == 0)
+++	if (++state->p_read.seqnr == 0) {
+++		if ((ssh->kex->flags & KEX_INITIAL) != 0) {
+++			ssh_packet_disconnect(ssh, "incoming sequence number "
+++			    "wrapped during initial key exchange");
+++		}
++ 		logit("incoming seqnr wraps around");
 ++	}
-++	n = copy(p, r.b)
-++	r.b = r.b[n:]
-++	if len(r.b) > 0 {
-++		return n, nil
++ 	if (++state->p_read.packets == 0)
++ 		if (!(ssh->compat & SSH_BUG_NOREKEY))
++ 			return SSH_ERR_NEED_REKEY;
++@@ -1696,6 +1711,10 @@ ssh_packet_read_poll2(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
++ #endif
++ 	/* reset for next packet */
++ 	state->packlen = 0;
+++	if (*typep == SSH2_MSG_NEWKEYS && ssh->kex->kex_strict) {
+++		debug_f("resetting read seqnr %u", state->p_read.seqnr);
+++		state->p_read.seqnr = 0;
 ++	}
-++	return n, r.err
-++}
-+--
-+2.40.0
++ 
++ 	if ((r = ssh_packet_check_rekey(ssh)) != 0)
++ 		return r;
++@@ -1716,10 +1735,39 @@ ssh_packet_read_poll_seqnr(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
++ 		r = ssh_packet_read_poll2(ssh, typep, seqnr_p);
++ 		if (r != 0)
++ 			return r;
++-		if (*typep) {
++-			state->keep_alive_timeouts = 0;
++-			DBG(debug("received packet type %d", *typep));
+++		if (*typep == 0) {
+++			/* no message ready */
+++			return 0;
+++		}
+++		state->keep_alive_timeouts = 0;
+++		DBG(debug("received packet type %d", *typep));
+++
+++		/* Always process disconnect messages */
+++		if (*typep == SSH2_MSG_DISCONNECT) {
+++			if ((r = sshpkt_get_u32(ssh, &reason)) != 0 ||
+++			    (r = sshpkt_get_string(ssh, &msg, NULL)) != 0)
+++				return r;
+++			/* Ignore normal client exit notifications */
+++			do_log2(ssh->state->server_side &&
+++			    reason == SSH2_DISCONNECT_BY_APPLICATION ?
+++			    SYSLOG_LEVEL_INFO : SYSLOG_LEVEL_ERROR,
+++			    "Received disconnect from %s port %d:"
+++			    "%u: %.400s", ssh_remote_ipaddr(ssh),
+++			    ssh_remote_port(ssh), reason, msg);
+++			free(msg);
+++			return SSH_ERR_DISCONNECTED;
++ 		}
+++
+++		/*
+++		 * Do not implicitly handle any messages here during initial
+++		 * KEX when in strict mode. They will be need to be allowed
+++		 * explicitly by the KEX dispatch table or they will generate
+++		 * protocol errors.
+++		 */
+++		if (ssh->kex != NULL &&
+++		    (ssh->kex->flags & KEX_INITIAL) && ssh->kex->kex_strict)
+++			return 0;
+++		/* Implicitly handle transport-level messages */
++ 		switch (*typep) {
++ 		case SSH2_MSG_IGNORE:
++ 			debug3("Received SSH2_MSG_IGNORE");
++@@ -1734,19 +1782,6 @@ ssh_packet_read_poll_seqnr(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
++ 			debug("Remote: %.900s", msg);
++ 			free(msg);
++ 			break;
++-		case SSH2_MSG_DISCONNECT:
++-			if ((r = sshpkt_get_u32(ssh, &reason)) != 0 ||
++-			    (r = sshpkt_get_string(ssh, &msg, NULL)) != 0)
++-				return r;
++-			/* Ignore normal client exit notifications */
++-			do_log2(ssh->state->server_side &&
++-			    reason == SSH2_DISCONNECT_BY_APPLICATION ?
++-			    SYSLOG_LEVEL_INFO : SYSLOG_LEVEL_ERROR,
++-			    "Received disconnect from %s port %d:"
++-			    "%u: %.400s", ssh_remote_ipaddr(ssh),
++-			    ssh_remote_port(ssh), reason, msg);
++-			free(msg);
++-			return SSH_ERR_DISCONNECTED;
++ 		case SSH2_MSG_UNIMPLEMENTED:
++ 			if ((r = sshpkt_get_u32(ssh, &seqnr)) != 0)
++ 				return r;
++@@ -2211,6 +2246,7 @@ kex_to_blob(struct sshbuf *m, struct kex *kex)
++ 	    (r = sshbuf_put_u32(m, kex->hostkey_type)) != 0 ||
++ 	    (r = sshbuf_put_u32(m, kex->hostkey_nid)) != 0 ||
++ 	    (r = sshbuf_put_u32(m, kex->kex_type)) != 0 ||
+++	    (r = sshbuf_put_u32(m, kex->kex_strict)) != 0 ||
++ 	    (r = sshbuf_put_stringb(m, kex->my)) != 0 ||
++ 	    (r = sshbuf_put_stringb(m, kex->peer)) != 0 ||
++ 	    (r = sshbuf_put_stringb(m, kex->client_version)) != 0 ||
++@@ -2373,6 +2409,7 @@ kex_from_blob(struct sshbuf *m, struct kex **kexp)
++ 	    (r = sshbuf_get_u32(m, (u_int *)&kex->hostkey_type)) != 0 ||
++ 	    (r = sshbuf_get_u32(m, (u_int *)&kex->hostkey_nid)) != 0 ||
++ 	    (r = sshbuf_get_u32(m, &kex->kex_type)) != 0 ||
+++	    (r = sshbuf_get_u32(m, &kex->kex_strict)) != 0 ||
++ 	    (r = sshbuf_get_stringb(m, kex->my)) != 0 ||
++ 	    (r = sshbuf_get_stringb(m, kex->peer)) != 0 ||
++ 	    (r = sshbuf_get_stringb(m, kex->client_version)) != 0 ||
++@@ -2701,6 +2738,7 @@ sshpkt_disconnect(struct ssh *ssh, const char *fmt,...)
++ 	vsnprintf(buf, sizeof(buf), fmt, args);
++ 	va_end(args);
++ 
+++	debug2_f("sending SSH2_MSG_DISCONNECT: %s", buf);
++ 	if ((r = sshpkt_start(ssh, SSH2_MSG_DISCONNECT)) != 0 ||
++ 	    (r = sshpkt_put_u32(ssh, SSH2_DISCONNECT_PROTOCOL_ERROR)) != 0 ||
++ 	    (r = sshpkt_put_cstring(ssh, buf)) != 0 ||
++diff --git a/sshconnect2.c b/sshconnect2.c
++index b25225e..83ae4a4 100644
++--- a/sshconnect2.c
+++++ b/sshconnect2.c
++@@ -241,7 +241,8 @@ ssh_kex2(struct ssh *ssh, char *host, struct sockaddr *hostaddr, u_short port,
++ 		fatal_fr(r, "kex_assemble_namelist");
++ 	free(all_key);
++ 
++-	if ((s = kex_names_cat(options.kex_algorithms, "ext-info-c")) == NULL)
+++	if ((s = kex_names_cat(options.kex_algorithms,
+++	    "ext-info-c,kex-strict-c-v00@openssh.com")) == NULL)
++ 		fatal_f("kex_names_cat");
++ 	myproposal[PROPOSAL_KEX_ALGS] = compat_kex_proposal(ssh, s);
++ 	myproposal[PROPOSAL_ENC_ALGS_CTOS] =
++@@ -363,7 +364,6 @@ struct cauthmethod {
++ };
++ 
++ static int input_userauth_service_accept(int, u_int32_t, struct ssh *);
++-static int input_userauth_ext_info(int, u_int32_t, struct ssh *);
++ static int input_userauth_success(int, u_int32_t, struct ssh *);
++ static int input_userauth_failure(int, u_int32_t, struct ssh *);
++ static int input_userauth_banner(int, u_int32_t, struct ssh *);
++@@ -477,7 +477,7 @@ ssh_userauth2(struct ssh *ssh, const char *local_user,
++ 
++ 	ssh->authctxt = &authctxt;
++ 	ssh_dispatch_init(ssh, &input_userauth_error);
++-	ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, &input_userauth_ext_info);
+++	ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, kex_input_ext_info);
++ 	ssh_dispatch_set(ssh, SSH2_MSG_SERVICE_ACCEPT, &input_userauth_service_accept);
++ 	ssh_dispatch_run_fatal(ssh, DISPATCH_BLOCK, &authctxt.success);	/* loop until success */
++ 	pubkey_cleanup(ssh);
++@@ -529,13 +529,6 @@ input_userauth_service_accept(int type, u_int32_t seq, struct ssh *ssh)
++ 	return r;
++ }
++ 
++-/* ARGSUSED */
++-static int
++-input_userauth_ext_info(int type, u_int32_t seqnr, struct ssh *ssh)
++-{
++-	return kex_input_ext_info(type, seqnr, ssh);
++-}
++-
++ void
++ userauth(struct ssh *ssh, char *authlist)
++ {
++@@ -617,6 +610,7 @@ input_userauth_success(int type, u_int32_t seq, struct ssh *ssh)
++ 	free(authctxt->methoddata);
++ 	authctxt->methoddata = NULL;
++ 	authctxt->success = 1;			/* break out */
+++	ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, dispatch_protocol_error);
++ 	return 0;
++ }
++ 
++diff --git a/sshd.c b/sshd.c
++index ef18ba4..652bdc3 100644
++--- a/sshd.c
+++++ b/sshd.c
++@@ -2354,11 +2354,13 @@ static void
++ do_ssh2_kex(struct ssh *ssh)
++ {
++ 	char *myproposal[PROPOSAL_MAX] = { KEX_SERVER };
+++	char *s;
++ 	struct kex *kex;
++ 	int r;
++ 
++-	myproposal[PROPOSAL_KEX_ALGS] = compat_kex_proposal(ssh,
++-	    options.kex_algorithms);
+++	if ((s = kex_names_cat(options.kex_algorithms, "kex-strict-s-v00@openssh.com")) == NULL)
+++		fatal_f("kex_names_cat");
+++	myproposal[PROPOSAL_KEX_ALGS] = compat_kex_proposal(ssh, s);
++ 	myproposal[PROPOSAL_ENC_ALGS_CTOS] = compat_cipher_proposal(ssh,
++ 	    options.ciphers);
++ 	myproposal[PROPOSAL_ENC_ALGS_STOC] = compat_cipher_proposal(ssh,
++@@ -2411,6 +2413,7 @@ do_ssh2_kex(struct ssh *ssh)
++ 	    (r = ssh_packet_write_wait(ssh)) != 0)
++ 		fatal_fr(r, "send test");
++ #endif
+++	free(s);
++ 	debug("KEX done");
++ }
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/openssh/openssh/fix-authorized-principals-command.patch b/meta/recipes-connectivity/openssh/openssh/fix-authorized-principals-command.patch
+new file mode 100644
+index 0000000000..3790774f15
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/fix-authorized-principals-command.patch
+@@ -0,0 +1,30 @@
++From fcd78e31cdd45a7e69ccfe6d8a3b1037dc1de290 Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Wed, 24 May 2023 23:01:06 +0000
++Subject: [PATCH] upstream: fix AuthorizedPrincipalsCommand when
++ AuthorizedKeysCommand
++Description: Fix the wrong code as the Subject suggests
++ I added that description to mention, that the file header change was
++ incompatible with the proposed code below and failed to apply,
++ therefore I dropped that chunk of the code.
++Origin: backport, https://github.com/openssh/openssh-portable/commit/fcd78e31cdd45a7e69ccfe6d8a3b1037dc1de290
++Bug: https://bugzilla.mindrot.org/show_bug.cgi?id=3574
++Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/openssh/+bug/2031942
++Last-Update: 2023-09-01
++
++Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/openssh/tree/debian/patches/fix-authorized-principals-command.patch?h=ubuntu/jammy-security
++Upstream commit https://github.com/openssh/openssh-portable/commit/fcd78e31cdd45a7e69ccfe6d8a3b1037dc1de290]
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
++--- a/servconf.c
+++++ b/servconf.c
++@@ -2372,7 +2372,7 @@ process_server_config_line_depth(ServerO
++ 			fatal("%.200s line %d: %s must be an absolute path",
++ 			    filename, linenum, keyword);
++ 		}
++-		if (*activep && options->authorized_keys_command == NULL)
+++		if (*activep && *charptr == NULL)
++ 			*charptr = xstrdup(str + len);
++ 		argv_consume(&ac);
++ 		break;
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+index 32761b8bb8..7ad9bced1b 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+@@ -32,6 +32,8 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://CVE-2023-38408-0002.patch \
+            file://CVE-2023-38408-0003.patch \
+            file://CVE-2023-38408-0004.patch \
++           file://fix-authorized-principals-command.patch \
++           file://CVE-2023-48795.patch \
+            "
+ SRC_URI[sha256sum] = "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
+ 
 -- 
 2.34.1
 
