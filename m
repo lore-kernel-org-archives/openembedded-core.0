@@ -1,250 +1,92 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <renat_khalikov@trimble.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46152C35274
-	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 21:51:01 +0000 (UTC)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.5824.1703195452338836884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 500F8C35274
+	for <webhook@archiver.kernel.org>; Thu, 21 Dec 2023 21:57:51 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web10.5987.1703195868978999684
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Dec 2023 13:50:52 -0800
+ Thu, 21 Dec 2023 13:57:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=axWgW228;
- spf=pass (domain: snapchat.com, ip: 209.85.218.54, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a2330a92ae6so161346866b.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 13:50:52 -0800 (PST)
+ dkim=pass header.i=@trimble.com header.s=google header.b=R0TNTagf;
+ spf=pass (domain: trimble.com, ip: 209.85.167.178, mailfrom: renat_khalikov@trimble.com)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bb82a52002so583573b6e.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 13:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1703195451; x=1703800251; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oEUzgv76qYU1NoS7TP1v+s0n5hjpkchu/MNrC2cTeCc=;
-        b=axWgW228rw9I3xqamRGvIhtqNuK3tzskciMWlYDAJK6ZUi/dwK7l9+eihDdWXuDUYP
-         cyeU0z+KQ1Se9NlsOlGuHqx1OX+fwGjYltUQUGhebHa/adWYo/1YNYBr98XA6z0mE6iH
-         XvQ8tz8ECCyovTeExR2iISkbJE86RR/Vb1QrI=
+        d=trimble.com; s=google; t=1703195868; x=1703800668; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jlBCzV6iT0Yp+lY/kDYXPA6cXAsIUnrfzUnZ9c36RDc=;
+        b=R0TNTagfoJmUTVgKcPI70PZrkEsRTkcAIZSFFdloC5EhZUYlnEZZS68G/N4upwzO8F
+         p6s6ZZc+JjYpG5xqSWLLdN7I0lmHR8CYvKk/dDOJhTczAgJVj5gdbQRezmqBA7r6YIV6
+         s3VUMajSaGs9RT0WhpfUGA8Awer93yKpjfSuc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703195451; x=1703800251;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1703195868; x=1703800668;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oEUzgv76qYU1NoS7TP1v+s0n5hjpkchu/MNrC2cTeCc=;
-        b=lFp3b1F8EtH5pAknbHNuch/wkMLJW6R1DBxZHPWdBsIoh7/+2KaWOaucx5BOYSt3Iy
-         wZcu+r8KHI0sS868R+Ts6Hwo+Oc91p+HU4rQRKHlk356BSycVK6oY1IJDbEXkICXqv4C
-         oUGX1ABLV8g/Bdx5youtK3VKQFD6Q+hCYYWeJN3T+1kMOk//jkwKPOGO8gmv1UQpdJWH
-         L0RjGC+hiRnLAx+Y6JskpbcpZoGaT9aMf5bTwztSpRJUo92CjYfIhqql2r0j9iU1wdD7
-         DZCOVvO/v/yKN37P4UsgIWzZkcGzQ6lMPbcASgorMPh0bsPvJNFbOOY/bETCfcDs79I5
-         uTPw==
-X-Gm-Message-State: AOJu0Yz1RFpxvTeBg+8t/Wp2YsVUiWnLUntcUmTceQr7glDrq1ute4w2
-	aJCk+2l61brUh0N7Fd1kDqTC4mMiKBV1cEgq7MNvtbnqZ0xjfQ==
-X-Google-Smtp-Source: AGHT+IGEzDvWpp0Xhc9cXUaEpHEq8j6kDRahzBe25MdlkJ53/r5XmFWPq8SMPlcwCAt3swBVB4vCdoHSPJz5I0HDspo=
-X-Received: by 2002:a17:907:2d8b:b0:a26:a5fe:d67d with SMTP id
- gt11-20020a1709072d8b00b00a26a5fed67dmr329371ejc.136.1703195450586; Thu, 21
- Dec 2023 13:50:50 -0800 (PST)
+        bh=jlBCzV6iT0Yp+lY/kDYXPA6cXAsIUnrfzUnZ9c36RDc=;
+        b=NciMAgsAoHKn6C5nkXSZWqm/Gsh3x86P9qtVmqM2F9N+TgMJiotqEvQ91qfAaQh934
+         v5ZZNfFE7C6OqtXQP+IPFAgrV/IKBmXAM2QvAtqcPDlnSy7HtJpOQoahMZ4wC7wXji4q
+         yYWPRkDi3aLoHNRnNu6z+rDRUwbEcMbGQoIcDj7layERabd5M4gsaf9fZmpAeJ3sHf+e
+         79hpiK/SFypADMvWDTE4v8HFZdzo8+l+RgmypIbljudLZCOSw8ocdYHTsEHN5FZbNYpt
+         cNnxJDXemi4vB9Y/203ueFC/HHlKgXQO2ufsxJKl6KrLTsET0fUw6HsSAVBXgc1Vbv3R
+         etGQ==
+X-Gm-Message-State: AOJu0YyWMjsYnuJ6Rtz5X7zTHmfQWI9Ka0LC1c1mjm1FypUDWyXeWI6b
+	QqpE0To8opxhdQUbNOWqvACMHPCnAK4Vk6Z/Urt+lkYzbHsIfh204nVxyh0+08oNOo/ysJhH+gp
+	Njxdul9m9v8WBMqxcvlHFJGhlvfbUlThfrxCu2ILHn2vK5e+ToBE+lRlV8Wpm9moIjm/px8lNGp
+	+m7Iqw0R3u0tjtMR3hwXBgnfeIlcxuXGZzc+4ut34=
+X-Google-Smtp-Source: AGHT+IEg1b2QVsYGTc/NnRxnQu0Ym/vu8EqbAJScwD7Ko8LZveISedL9uVtZkQDrHZijv4UCt/Wj8A==
+X-Received: by 2002:a05:6808:1186:b0:3bb:6cf0:fce0 with SMTP id j6-20020a056808118600b003bb6cf0fce0mr424043oil.34.1703195868145;
+        Thu, 21 Dec 2023 13:57:48 -0800 (PST)
+Received: from beast.am.trimblecorp.net ([155.63.136.49])
+        by smtp.gmail.com with ESMTPSA id bd24-20020ad45698000000b0067f2c373115sm900684qvb.20.2023.12.21.13.57.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Dec 2023 13:57:47 -0800 (PST)
+From: Renat Khalikov <renat_khalikov@trimble.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Renat Khalikov <renat_khalikov@trimble.com>,
+	Tim Orling <tim.orling@konsulko.com>
+Subject: [OE-core][PATCH] python3-maturin: Add missing space appending to CFLAGS
+Date: Thu, 21 Dec 2023 14:57:33 -0700
+Message-Id: <20231221215733.1057373-1-renat_khalikov@trimble.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <17A2F72F5D272934.28089@lists.openembedded.org>
-In-Reply-To: <17A2F72F5D272934.28089@lists.openembedded.org>
-From: Etienne Cordonnier <ecordonnier@snap.com>
-Date: Thu, 21 Dec 2023 22:50:39 +0100
-Message-ID: <CAHUKmYbFxWSV5X3tvmUrhjA_EqOgmof76Q79p-EiNiCqH08CZw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v5] kernel.bbclass: make do_symlink_kernelsrc reentrant
-To: ecordonnier@snap.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d0d26d060d0c1757"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 21:51:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192851
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 21:57:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192852
 
---000000000000d0d26d060d0c1757
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+When the CFLAGS variable is appended to, the missing space causes build
+errors when CFLAGS was set previously.
 
-patch v5: added ignore_dangling_symlinks to avoid error when linux sources
-contain dangling symlinks
+For example:
 
-On Thu, Dec 21, 2023 at 10:49=E2=80=AFPM Etienne Cordonnier via
-lists.openembedded.org <ecordonnier=3Dsnap.com@lists.openembedded.org> wrot=
-e:
+  error: unrecognized command-line option '-mno-unaligned-access-fdebug-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home'
 
-> From: Etienne Cordonnier <ecordonnier@snap.com>
->
-> The function do_symlink_kernsrc is not reentrant in the case where S is
-> defined
-> to a non-default value. This causes build-failures e.g. when building
-> linux-yocto, then updating
-> poky to a commit which modifies kernel.bbclass, and then building
-> linux-yocto again.
->
-> Bugzilla: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15325
-> <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__bugzilla.yoctopro=
-ject.org_show-5Fbug.cgi-3Fid-3D15325&d=3DDwMFaQ&c=3DncDTmphkJTvjIDPh0hpF_4v=
-CHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3Deo=
-9dzHi2uXPV1dA2f4GoA6Y7QoDiG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&s=3De9FG4cG4=
-GbLjCy8loEN6qVisSUax4Ngvd_Ok8TPonvY&e=3D>
->
-> Tested with a recipe "my-custom-linux" which unpacks sources to a custom
-> ${S} directory
-> and ran symlink_kernsrc several times:
-> $ bitbake -f -c symlink_kernsrc my-custom-linux
->
-> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
-> ---
->  meta/classes-recipe/kernel.bbclass | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/kernel.bbclass
-> b/meta/classes-recipe/kernel.bbclass
-> index 9ff37f5c38..45b63f1fa1 100644
-> --- a/meta/classes-recipe/kernel.bbclass
-> +++ b/meta/classes-recipe/kernel.bbclass
-> @@ -189,11 +189,17 @@ python do_symlink_kernsrc () {
->              # drop trailing slash, so that os.symlink(kernsrc, s) doesn'=
-t
-> use s as
->              # directory name and fail
->              s =3D s[:-1]
-> -        if d.getVar("EXTERNALSRC"):
-> +        if d.getVar("EXTERNALSRC") and not os.path.islink(s):
->              # With EXTERNALSRC S will not be wiped so we can symlink to =
-it
->              os.symlink(s, kernsrc)
->          else:
->              import shutil
-> +            # perform idempotent/reentrant copy
-> +            s_copy =3D s + ".orig"
-> +            if not os.path.isdir(s_copy):
-> +                shutil.copytree(s, s_copy, ignore_dangling_symlinks=3DTr=
-ue)
-> +            bb.utils.remove(s, recurse=3DTrue)
-> +            shutil.copytree(s_copy, s, ignore_dangling_symlinks=3DTrue)
->              shutil.move(s, kernsrc)
->              os.symlink(kernsrc, s)
->  }
-> --
-> 2.34.1
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192850):
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_g_openembedded-2Dcore_message_192850&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0h=
-pF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=
-=3Deo9dzHi2uXPV1dA2f4GoA6Y7QoDiG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&s=3DnSj=
-1eesCBnUi3mKI3TDrQr4rYtnlCUqYquM2YdP3kwc&e=3D
-> Mute This Topic:
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_mt_103308574_7048771&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC=
-2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3Deo9dzHi2uXPV1=
-dA2f4GoA6Y7QoDiG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&s=3Dxqoor0ld3IbCh7N9Dby=
-l9PAlnSZbl2j66iPA0PYKAl0&e=3D
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
-bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3Deo9dzH=
-i2uXPV1dA2f4GoA6Y7QoDiG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&s=3DcvRKeVUNWw1O=
-0f_mV9dU_qkoh5ifOuu8pqC7Wg81hSg&e=3D
-> [ecordonnier@snap.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Signed-off-by: Renat Khalikov <renat_khalikov@trimble.com>
+CC: Tim Orling <tim.orling@konsulko.com>
+---
+ meta/recipes-devtools/python/python3-maturin_1.4.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---000000000000d0d26d060d0c1757
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-devtools/python/python3-maturin_1.4.0.bb b/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
+index 07ad1201b8..82e65abb24 100644
+--- a/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
++++ b/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
+@@ -9,7 +9,7 @@ SRC_URI[sha256sum] = "ed12e1768094a7adeafc3a74ebdb8dc2201fa64c4e7e31f14cfc70378b
+ 
+ S = "${WORKDIR}/maturin-${PV}"
+ 
+-CFLAGS:append = "-fdebug-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home"
++CFLAGS:append = " -fdebug-prefix-map=${CARGO_HOME}=${TARGET_DBGSRC_DIR}/cargo_home"
+ 
+ DEPENDS += "\
+     python3-setuptools-rust-native \
+-- 
+2.34.1
 
-<div dir=3D"ltr">patch v5: added ignore_dangling_symlinks to avoid error wh=
-en linux sources contain dangling symlinks</div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 21, 2023 at 10:49=E2=
-=80=AFPM Etienne Cordonnier via <a href=3D"http://lists.openembedded.org">l=
-ists.openembedded.org</a> &lt;ecordonnier=3D<a href=3D"mailto:snap.com@list=
-s.openembedded.org">snap.com@lists.openembedded.org</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">From: E=
-tienne Cordonnier &lt;<a href=3D"mailto:ecordonnier@snap.com" target=3D"_bl=
-ank">ecordonnier@snap.com</a>&gt;<br><br>The function do_symlink_kernsrc is=
- not reentrant in the case where S is defined<br>to a non-default value. Th=
-is causes build-failures e.g. when building linux-yocto, then updating<br>p=
-oky to a commit which modifies kernel.bbclass, and then building linux-yoct=
-o again.<br><br>Bugzilla: <a href=3D"https://urldefense.proofpoint.com/v2/u=
-rl?u=3Dhttps-3A__bugzilla.yoctoproject.org_show-5Fbug.cgi-3Fid-3D15325&amp;=
-d=3DDwMFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkb=
-NonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Deo9dzHi2uXPV1dA2f4GoA6Y7QoD=
-iG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&amp;s=3De9FG4cG4GbLjCy8loEN6qVisSUax4=
-Ngvd_Ok8TPonvY&amp;e=3D" target=3D"_blank">https://bugzilla.yoctoproject.or=
-g/show_bug.cgi?id=3D15325</a><br><br>Tested with a recipe &quot;my-custom-l=
-inux&quot; which unpacks sources to a custom ${S} directory<br>and ran syml=
-ink_kernsrc several times:<br>$ bitbake -f -c symlink_kernsrc my-custom-lin=
-ux<br><br>Signed-off-by: Etienne Cordonnier &lt;<a href=3D"mailto:ecordonni=
-er@snap.com" target=3D"_blank">ecordonnier@snap.com</a>&gt;<br>---<br>=C2=
-=A0meta/classes-recipe/kernel.bbclass | 8 +++++++-<br>=C2=A01 file changed,=
- 7 insertions(+), 1 deletion(-)<br><br>diff --git a/meta/classes-recipe/ker=
-nel.bbclass b/meta/classes-recipe/kernel.bbclass<br>index 9ff37f5c38..45b63=
-f1fa1 100644<br>--- a/meta/classes-recipe/kernel.bbclass<br>+++ b/meta/clas=
-ses-recipe/kernel.bbclass<br>@@ -189,11 +189,17 @@ python do_symlink_kernsr=
-c () {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# drop trailing s=
-lash, so that os.symlink(kernsrc, s) doesn&#39;t use s as<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# directory name and fail<br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s =3D s[:-1]<br>- =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if d.getVar(&quot;EXTERNALSRC&quot;):<br>+ =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0if d.getVar(&quot;EXTERNALSRC&quot;) and not os.path.islink(s):<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# With EXTERNALSRC S will n=
-ot be wiped so we can symlink to it<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0os.symlink(s, kernsrc)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0el=
-se:<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0import shutil<br>+ =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# perform idempotent/reentrant cop=
-y<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s_copy =3D s + &quot;.orig&=
-quot;<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not os.path.isdir(s_=
-copy):<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0shutil.c=
-opytree(s, s_copy, ignore_dangling_symlinks=3DTrue)<br>+ =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.remove(s, recurse=3DTrue)<br>+ =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0shutil.copytree(s_copy, s, ignore_dangling_s=
-ymlinks=3DTrue)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0shutil.m=
-ove(s, kernsrc)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.symli=
-nk(kernsrc, s)<br>=C2=A0}<br>-- <br>2.34.1<br></div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#192850): <a href=3D"https://urldefense.proofpoint.com/v=
-2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_message_19=
-2850&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp=
-;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Deo9dzHi2uXPV1dA2f4=
-GoA6Y7QoDiG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&amp;s=3DnSj1eesCBnUi3mKI3TDr=
-Qr4rYtnlCUqYquM2YdP3kwc&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">http=
-s://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g=
-_openembedded-2Dcore_message_192850&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh=
-0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66=
-m67E&amp;m=3Deo9dzHi2uXPV1dA2f4GoA6Y7QoDiG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9=
-BN&amp;s=3DnSj1eesCBnUi3mKI3TDrQr4rYtnlCUqYquM2YdP3kwc&amp;e=3D</a> <br>
-Mute This Topic: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dht=
-tps-3A__lists.openembedded.org_mt_103308574_7048771&amp;d=3DDwIFaQ&amp;c=3D=
-ncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsR=
-ih1DULJTKUkSGa66m67E&amp;m=3Deo9dzHi2uXPV1dA2f4GoA6Y7QoDiG2TTF1R2YQ__SwnF1U=
-1d0O2JxX3PprS_T9BN&amp;s=3Dxqoor0ld3IbCh7N9Dbyl9PAlnSZbl2j66iPA0PYKAl0&amp;=
-e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.co=
-m/v2/url?u=3Dhttps-3A__lists.openembedded.org_mt_103308574_7048771&amp;d=3D=
-DwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonV=
-uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Deo9dzHi2uXPV1dA2f4GoA6Y7QoDiG2T=
-TF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&amp;s=3Dxqoor0ld3IbCh7N9Dbyl9PAlnSZbl2j66=
-iPA0PYKAl0&amp;e=3D</a> <br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-=
-3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&amp;d=3DDwIFaQ&amp;c=
-=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9=
-TsRih1DULJTKUkSGa66m67E&amp;m=3Deo9dzHi2uXPV1dA2f4GoA6Y7QoDiG2TTF1R2YQ__Swn=
-F1U1d0O2JxX3PprS_T9BN&amp;s=3DcvRKeVUNWw1O0f_mV9dU_qkoh5ifOuu8pqC7Wg81hSg&a=
-mp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint=
-.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_unsu=
-b&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
-=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3Deo9dzHi2uXPV1dA2f4Go=
-A6Y7QoDiG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&amp;s=3DcvRKeVUNWw1O0f_mV9dU_q=
-koh5ifOuu8pqC7Wg81hSg&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:ecordonnier@sna=
-p.com" target=3D"_blank">ecordonnier@snap.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000d0d26d060d0c1757--
 
