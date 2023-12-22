@@ -1,566 +1,172 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A25C46CD2
-	for <webhook@archiver.kernel.org>; Fri, 22 Dec 2023 14:39:46 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.24216.1703255976954247195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B55C46CD2
+	for <webhook@archiver.kernel.org>; Fri, 22 Dec 2023 14:40:46 +0000 (UTC)
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.45])
+ by mx.groups.io with SMTP id smtpd.web10.24515.1703256038326398077
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Dec 2023 06:39:37 -0800
+ Fri, 22 Dec 2023 06:40:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=DFEHXdJT;
- spf=pass (domain: mvista.com, ip: 209.85.216.49, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-28beb1d946fso1568706a91.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Dec 2023 06:39:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1703255975; x=1703860775; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=En1AAZGNWkl2Hdkq2YcCG1LxQef55P4/E/jRoIhsS4I=;
-        b=DFEHXdJTMU8MQGUKnRU8DHtm4fI+Rkl2ofZ3/SR4fuK+/IcStFwh51LC68b22m2/xk
-         O8VZvSLR+VVcHCG92bxX/kjgNbo0mrmuaUQ7cFzrNe9OqkC6/maKDk+HM4WJCWTOXeRl
-         tlQknDj9hYQvXbDvH79LberxVhGQuW6pUjapQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703255975; x=1703860775;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=En1AAZGNWkl2Hdkq2YcCG1LxQef55P4/E/jRoIhsS4I=;
-        b=qJNrFAwuwDLDZ7ueYp3BZHv/fV7QutsCeWV2sC81EV9VXUmCmPoGFc1W0Mf5u2lNd3
-         OWBQxkws2QbR7ggL4fydmGe0Yarw23fDDJYeeoWeM5yQFg/rAJ09twHjE3Bafl9KYePn
-         u/77n5erX7gSdqrbJZ134A2XR+XDZa/xv7oHqOprpDweO5hneDaqo/FLWFXiL2AHjIdi
-         rhFzlc6DjZAiZY3tz9mQKjQuo37fnD1Q+Y4zTc/IqFrHrEhcgBaq194ck+cBlSf+kR9Q
-         6RqVj/auNMxYnqopSPPOuXCgsnPC90960+A3kyQYYXJEiDm5TzmuCTnirdTle/DUBrPk
-         47qA==
-X-Gm-Message-State: AOJu0Yy+uJXRfp3pEhloxaqw3mvmye1gRyXOSNPgamrd5OB+xEfc1kWJ
-	20X98vTGZRCpSeglQNzo8mKKSc9DABC2PgLvbRy+Qvo/7TU=
-X-Google-Smtp-Source: AGHT+IGQfCsNGPjhQtTFabNkrUBdS1arknPn1AW8hdHAQP2U5NFJ4YpzuTcLl3GTsNNkOcldb98tKw==
-X-Received: by 2002:a17:90a:b107:b0:28b:5cd7:84d0 with SMTP id z7-20020a17090ab10700b0028b5cd784d0mr1136851pjq.80.1703255975231;
-        Fri, 22 Dec 2023 06:39:35 -0800 (PST)
-Received: from MVIN00020.mvista.com ([49.43.218.179])
-        by smtp.gmail.com with ESMTPSA id l10-20020a17090ac58a00b0028bf196fdb7sm3299462pjt.57.2023.12.22.06.39.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 06:39:34 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] openssh: backport Debian patch for CVE-2023-48795
-Date: Fri, 22 Dec 2023 20:07:20 +0530
-Message-Id: <20231222143720.7622-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=paeQRaYF;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=paeQRaYF;
+ spf=pass (domain: arm.com, ip: 40.107.7.45, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=LfwCQ1zty722NGC6wduf5OxwDNTIDljEyMFsSfpv76RBZq332MKe2c70lL/p469utx9Uqz4QDmdTEU1nIiJtSQ88+tx5hS4pZkp+Au6w4B2t43AUOsnq2DjMD+ff0jSo589DP/PZzjioVc/zvepU7WogWyBJuAKIxlHWDwSmXwPBnudjz5LWTaEMfjbGf0OD9afm7EEUYQsiIMWkgY55LsT0gh/FrfRpU5FC9wDl9w7VcrcbjDqH6mdUY2Mp4g9/h4wzoUtSG+54rbZnc+zhQkVpPsSYiymByHMSTSkwP2AOGdpcHHgVB7d/IFb8NO3/w1wDWdJhvXguBdy2iq9lqA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2fIFsiYbq5KoDCyR8gP35fd/Rs+BW9mTJaLXa/SF//g=;
+ b=Fueuq9N4satXDXON5MV/hRO75O0fdW1bGBewwfr5BDZ79gHBa85uuS4b9XBNu0KrMMLUjPkg3wjXPadhJz0ZvwzglsdyTrWCSfq4t4euqzkGk0dc3yjfLrJI/2KUVaj26mEwKeQsyFNQvNWHl8nmYQkINdxRPYPwvvHOBceQAEELaIIY0yVkB7PVxuNopNKEwxWuwqffX6fua2WKRayp7kEwEuJUrOmxrD4p4rHAu+y/VUVbaTk09kuALDkkna1c9z7Foan9+jNEjnEAZBu/cgEANAE5HrT4l06IaPYSNyI6gBNxfgh+ot5ZVDmSSWqeRyRyO2rghRSUvJbfmbICRQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2fIFsiYbq5KoDCyR8gP35fd/Rs+BW9mTJaLXa/SF//g=;
+ b=paeQRaYFQrtBgqz+HOP+pZRJ8bLjMOpIMFeBnjnGtfWmBRILwTa4GRBOWPAn5bXiSxr4KTGFIWUAOzCXxmW+cTmz9hj9OJgNmVjIqHQ4I/MH46Nw2rgtEoqam0h9EguCGM+1oqiEB85mdhDWH+EHoYPmW3zGLS5J4XoQayrZ8Wg=
+Received: from DB9PR01CA0025.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:1d8::30) by AS2PR08MB9667.eurprd08.prod.outlook.com
+ (2603:10a6:20b:605::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.21; Fri, 22 Dec
+ 2023 14:40:31 +0000
+Received: from DB5PEPF00014B93.eurprd02.prod.outlook.com
+ (2603:10a6:10:1d8:cafe::72) by DB9PR01CA0025.outlook.office365.com
+ (2603:10a6:10:1d8::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.20 via Frontend
+ Transport; Fri, 22 Dec 2023 14:40:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5PEPF00014B93.mail.protection.outlook.com (10.167.8.231) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7113.14 via Frontend Transport; Fri, 22 Dec 2023 14:40:29 +0000
+Received: ("Tessian outbound 8289ea11ec17:v228"); Fri, 22 Dec 2023 14:40:29 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: c157125021c3586c
+X-CR-MTA-TID: 64aa7808
+Received: from 82cd02348261.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id B33115BF-E583-48D5-AF59-A21ECC826294.1;
+	Fri, 22 Dec 2023 14:40:22 +0000
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 82cd02348261.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 22 Dec 2023 14:40:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bQ0sYSOJ3ojl6hFpAKgxzuhqqKpvzQTHBpDQYtDfSMsFJy6+vhAfH+XdSw5Pjc6TwXx1JoDoUeFS3R9A7ZPTgJPi68dT62baw2LqCoDmdXc9qkztNmXoJpHSws3g0mUFd06fcCgQ17TZxjuv2HEP/SkSFv/oLj9MdQWebAJJct/Z9NvkKXe+OvIxZWIFgD2bJxUw8VQLO2x14efmPAYWcM8vvX2b1ViLR+zCCvcZqQJGx+TOWy39jM5Zegq51EK3/r4La0kiCgYYM7mXMTl1NsvTicnoboBHlZMJTdlfVVW0cV1G8qdRuTW9GgBE7X88AcgXX1+bYgNVQPTCuLaGMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2fIFsiYbq5KoDCyR8gP35fd/Rs+BW9mTJaLXa/SF//g=;
+ b=Hj2PrwSqqyGKn2qfYyvMvrY4xC9mFYhJkG2tTs8QiVpJ0cf87W0IPRE9a30BGQil84Lt4gjlkn1teVm407pn1DkRZBEGb53lrq67iuO64X3jO9XmcR4fZyA9smMwP5BDmtDd3YvqaA7H/pvKFSbyP454uz1g0qO1dPYV91LFKeppWMgPRzIn1szYpfrVN516ocQwh8/t87l/+/1c7xB598uQWk6m+bbIUsEAuoFepjcpEaR+SpVfFdEYbWQoYtO7bXtJSXfOWnqL8Pbt21fw8PSDJr9HLXxDBne0NDjJxPx2s3zWMHKWQoamHAo0K+cs6nChT/JdlLwbSXcYofc38A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2fIFsiYbq5KoDCyR8gP35fd/Rs+BW9mTJaLXa/SF//g=;
+ b=paeQRaYFQrtBgqz+HOP+pZRJ8bLjMOpIMFeBnjnGtfWmBRILwTa4GRBOWPAn5bXiSxr4KTGFIWUAOzCXxmW+cTmz9hj9OJgNmVjIqHQ4I/MH46Nw2rgtEoqam0h9EguCGM+1oqiEB85mdhDWH+EHoYPmW3zGLS5J4XoQayrZ8Wg=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DU2PR08MB10186.eurprd08.prod.outlook.com (2603:10a6:10:46c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.20; Fri, 22 Dec
+ 2023 14:40:20 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::ef47:2c42:1ef6:fe5c]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::ef47:2c42:1ef6:fe5c%6]) with mapi id 15.20.7113.019; Fri, 22 Dec 2023
+ 14:40:20 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "Deepthi.Hemraj@windriver.com" <Deepthi.Hemraj@windriver.com>
+CC: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	"Randy.MacLeod@windriver.com" <Randy.MacLeod@windriver.com>,
+	"Naveen.Gowda@windriver.com" <Naveen.Gowda@windriver.com>,
+	"Shivaprasad.Moodalappa@windriver.com"
+	<Shivaprasad.Moodalappa@windriver.com>, "Sundeep.Kokkonda@windriver.com"
+	<Sundeep.Kokkonda@windriver.com>
+Subject: Re: [OE-core] [PATCH V3] rust-cross-canadian: Fix file conflicts for
+ arm and aarch64
+Thread-Topic: [OE-core] [PATCH V3] rust-cross-canadian: Fix file conflicts for
+ arm and aarch64
+Thread-Index: AQHaL/3eAftAcPHtJUySrVD4oeUYObC1aZUA
+Date: Fri, 22 Dec 2023 14:40:20 +0000
+Message-ID: <92C1939A-88C7-4540-A81B-54B2D24EBF70@arm.com>
+References: <20231216085644.3202920-1-Deepthi.Hemraj@windriver.com>
+In-Reply-To: <20231216085644.3202920-1-Deepthi.Hemraj@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.300.61.1.2)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DU2PR08MB10186:EE_|DB5PEPF00014B93:EE_|AS2PR08MB9667:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81d0e7a6-fbda-49bc-d8b0-08dc02fbf1ff
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ aL8zk9wwDexdR/ctnxZ+ErtmVKk3BOE/hXEkn9KO3Wom+2WbvT/S3Y8GzdI7pUSdES3kNTaekYzOa9iLZ84Vf74qPq/4V1xaYRCl0ir0YHKVywHJ37JAjPzn1Ak3PtRGmu4V3T0Yk0RnBTrW2MEJbq/olvpCh3jV4+oGhh/46I3P72yfa8P0zpXWzlrJMBzJGJp+A2YVZvLCGrMvnf4mJy/XnGL0/Mh76pWS9dpaUVD1D+nRSRsACvYpgthabIo+hpb+A3TclQ4RKGHFKad2EtJp57NNykAx8Iv18MNRDAGbDBTNe/vouvj2pjn1ANjomM125cZNQ76dOg4iLJqegC8kC2Q/z5yuQHltuVQ3dPYznRMaR5CZKteZ/QX2+TX7ZAzwmZzyoBGUPWDac/icrP9s6FYK6JfBjxIR4+RVwaNPKU2jort0wtK/HlJ7HUvayPWlmXlbNVynM//PoLqCQ3OlWhelx0ETSgUjah1H/1e+30nocEpp8v4TxAh6OCPU+6+zM77AzhuPvjsjwEuv0PvzRIQ5lBW5ZdiQrdfobdq/tRwmSyK1kzOHPgyTAdqDb9oD6GAQxy3SCSAQKJD6VSzTunGUiuzHfYlSrnJAFvpPAChPb9Yq+lInP1vpy2sRkLcoB747pBjcsGtwxkx+Mw==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(136003)(396003)(366004)(39850400004)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(38070700009)(86362001)(122000001)(38100700002)(33656002)(36756003)(54906003)(26005)(2616005)(6506007)(53546011)(6512007)(66556008)(316002)(66476007)(6916009)(478600001)(64756008)(66446008)(6486002)(71200400001)(8676002)(8936002)(76116006)(66946007)(91956017)(2906002)(4744005)(5660300002)(4326008)(41300700001)(45980500001);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <6A5D90D20F393847BDDD52A25DA9E7C2@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR08MB10186
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5PEPF00014B93.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	9116909d-2091-4c83-c933-08dc02fbec5b
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	E6KpoE9ZmIP7lLh4am+2AbNRfHnbmWa3quPkFFrPzDKlDe9CsHaFh1eh1mR8UfdpKmqPe9IeDvX7UL8ddCaFqQcZKuCGP7hzljI0vSt1Km4PLZcLABAd3mTnwd9xifqPczryhyFx2l78XyOzY21S61i9PADofrVnjytFqYg5pat1Kco70IgQvEtXEEF1KbKF4S9jtl70z3aXLmENdtKlTXDid6GaQF15BhbExFmkx5Wdn6s5hEk3vKKRcHwcZy1BnVol/WnGQqjBznNPJm/uhTLZ2MJEpSNRRdSJbgLVZXLVDO//8w8PnPAXHPnYtFZN/typfAhCmXORYEmRK0ywlwKJXDIuBYfuwCTXbaKcV3Z+cugSAwrpnljh3Wj09Ib3riIli5Hgr2DMQF5liKnyZdflA5AjHLezfYkhDFvoM83pm5DjahdFd2GJH7ONUH8GAQLmlhIpB0b13QesnX/Oh/z/0mdqo5WTMmPTFz0Lq/uDHDuGstr4CoukVX8PFz9q0slRpHdqY1qWuFAaYqGfxBL9Yt4MTYWG8QzNbEJTVbfpgB7MmUZk0nYuwgv57Dvqt+q21BFz0cEf3KU4/PZsrZ0c6r1qYi/Wmi3MtsY06bhm5P25mW+oGSJqSn/S4yI+RhrFX0Z4o29LyNOnDo8MyDuQafAPc2MQsAMxavcd++Rqs197NhlOPt6C8WyCcignP3B8VROBykiWFinDVgaHbHS7cCNvH3yJz8ATOBvAqu4=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(136003)(396003)(39860400002)(230922051799003)(1800799012)(451199024)(64100799003)(82310400011)(186009)(36840700001)(46966006)(40470700004)(5660300002)(2906002)(47076005)(36860700001)(4744005)(86362001)(356005)(82740400003)(6512007)(6506007)(81166007)(41300700001)(36756003)(316002)(33656002)(70206006)(70586007)(336012)(54906003)(26005)(8936002)(8676002)(478600001)(107886003)(40460700003)(2616005)(40480700001)(6486002)(4326008)(6862004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2023 14:40:29.9890
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81d0e7a6-fbda-49bc-d8b0-08dc02fbf1ff
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5PEPF00014B93.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9667
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Dec 2023 14:39:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192874
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Dec 2023 14:40:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192875
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+On 16 Dec 2023, at 08:56, Hemraj, Deepthi via lists.openembedded.org <Deept=
+hi.Hemraj=3Dwindriver.com@lists.openembedded.org> wrote:
+> The current patch modifies CARGO_ENV_SETUP_SH and RUST_ENV_SETUP_SH macro=
+s that uses MLPREFIX based on the multilib architecture.
+> Hence, creates different file names for the environment setup scripts and=
+ resolves the issue.
 
-import patches from ubuntu to fix
- CVE-2023-48795
+This solves the file conflicts if you put a 32-bit and 64-bit rust cross-co=
+mpiler into a SDK, but is that actually a usable setup if the environment s=
+cripts are both overwriting the same environment variables?
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/openssh/tree/debian/patches?h=ubuntu%2Ffocal-security
-Upstream commit https://github.com/openssh/openssh-portable/commit/1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5]
-
-Reference: https://ubuntu.com/security/CVE-2023-48795
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../openssh/openssh/CVE-2023-48795.patch      | 468 ++++++++++++++++++
- .../openssh/openssh_8.2p1.bb                  |   1 +
- 2 files changed, 469 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
-
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
-new file mode 100644
-index 0000000000..57c45e3d93
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
-@@ -0,0 +1,468 @@
-+(modified to not remove ssh_packet_read_expect(), to add to
-+KexAlgorithms in sshd.c and sshconnect2.c as this version pre-dates
-+kex_proposal_populate_entries(), replace debug*_f() with debug*(),
-+error*_f() with error*(), and fatal_f() with fatal())
-+
-+Backport of:
-+
-+From 1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5 Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Mon, 18 Dec 2023 14:45:17 +0000
-+Subject: [PATCH] upstream: implement "strict key exchange" in ssh and sshd
-+
-+This adds a protocol extension to improve the integrity of the SSH
-+transport protocol, particular in and around the initial key exchange
-+(KEX) phase.
-+
-+Full details of the extension are in the PROTOCOL file.
-+
-+with markus@
-+
-+OpenBSD-Commit-ID: 2a66ac962f0a630d7945fee54004ed9e9c439f14
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/openssh/tree/debian/patches/CVE-2023-48795.patch?h=ubuntu/focal-security
-+Upstream commit https://github.com/openssh/openssh-portable/commit/1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5]
-+CVE: CVE-2023-48795
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ PROTOCOL      | 26 +++++++++++++++++
-+ kex.c         | 68 +++++++++++++++++++++++++++++++++-----------
-+ kex.h         |  1 +
-+ packet.c      | 78 ++++++++++++++++++++++++++++++++++++++-------------
-+ sshconnect2.c | 14 +++------
-+ sshd.c        |  7 +++--
-+ 6 files changed, 146 insertions(+), 48 deletions(-)
-+
-+diff --git a/PROTOCOL b/PROTOCOL
-+index f75c1c0..89bddfe 100644
-+--- a/PROTOCOL
-++++ b/PROTOCOL
-+@@ -102,6 +102,32 @@ OpenSSH supports the use of ECDH in Curve25519 for key exchange as
-+ described at:
-+ http://git.libssh.org/users/aris/libssh.git/plain/doc/curve25519-sha256@libssh.org.txt?h=curve25519
-+ 
-++1.9 transport: strict key exchange extension
-++
-++OpenSSH supports a number of transport-layer hardening measures under
-++a "strict KEX" feature. This feature is signalled similarly to the
-++RFC8308 ext-info feature: by including a additional algorithm in the
-++initiial SSH2_MSG_KEXINIT kex_algorithms field. The client may append
-++"kex-strict-c-v00@openssh.com" to its kex_algorithms and the server
-++may append "kex-strict-s-v00@openssh.com". These pseudo-algorithms
-++are only valid in the initial SSH2_MSG_KEXINIT and MUST be ignored
-++if they are present in subsequent SSH2_MSG_KEXINIT packets.
-++
-++When an endpoint that supports this extension observes this algorithm
-++name in a peer's KEXINIT packet, it MUST make the following changes to
-++the the protocol:
-++
-++a) During initial KEX, terminate the connection if any unexpected or
-++   out-of-sequence packet is received. This includes terminating the
-++   connection if the first packet received is not SSH2_MSG_KEXINIT.
-++   Unexpected packets for the purpose of strict KEX include messages
-++   that are otherwise valid at any time during the connection such as
-++   SSH2_MSG_DEBUG and SSH2_MSG_IGNORE.
-++b) After sending or receiving a SSH2_MSG_NEWKEYS message, reset the
-++   packet sequence number to zero. This behaviour persists for the
-++   duration of the connection (i.e. not just the first
-++   SSH2_MSG_NEWKEYS).
-++
-+ 2. Connection protocol changes
-+ 
-+ 2.1. connection: Channel write close extension "eow@openssh.com"
-+diff --git a/kex.c b/kex.c
-+index ce85f04..3129a4e 100644
-+--- a/kex.c
-++++ b/kex.c
-+@@ -63,7 +63,7 @@
-+ #include "digest.h"
-+ 
-+ /* prototype */
-+-static int kex_choose_conf(struct ssh *);
-++static int kex_choose_conf(struct ssh *, uint32_t seq);
-+ static int kex_input_newkeys(int, u_int32_t, struct ssh *);
-+ 
-+ static const char *proposal_names[PROPOSAL_MAX] = {
-+@@ -173,6 +173,18 @@ kex_names_valid(const char *names)
-+ 	return 1;
-+ }
-+ 
-++/* returns non-zero if proposal contains any algorithm from algs */
-++static int
-++has_any_alg(const char *proposal, const char *algs)
-++{
-++	char *cp;
-++
-++	if ((cp = match_list(proposal, algs, NULL)) == NULL)
-++		return 0;
-++	free(cp);
-++	return 1;
-++}
-++
-+ /*
-+  * Concatenate algorithm names, avoiding duplicates in the process.
-+  * Caller must free returned string.
-+@@ -180,7 +192,7 @@ kex_names_valid(const char *names)
-+ char *
-+ kex_names_cat(const char *a, const char *b)
-+ {
-+-	char *ret = NULL, *tmp = NULL, *cp, *p, *m;
-++	char *ret = NULL, *tmp = NULL, *cp, *p;
-+ 	size_t len;
-+ 
-+ 	if (a == NULL || *a == '\0')
-+@@ -197,10 +209,8 @@ kex_names_cat(const char *a, const char *b)
-+ 	}
-+ 	strlcpy(ret, a, len);
-+ 	for ((p = strsep(&cp, ",")); p && *p != '\0'; (p = strsep(&cp, ","))) {
-+-		if ((m = match_list(ret, p, NULL)) != NULL) {
-+-			free(m);
-++		if (has_any_alg(ret, p))
-+ 			continue; /* Algorithm already present */
-+-		}
-+ 		if (strlcat(ret, ",", len) >= len ||
-+ 		    strlcat(ret, p, len) >= len) {
-+ 			free(tmp);
-+@@ -409,7 +419,12 @@ kex_protocol_error(int type, u_int32_t seq, struct ssh *ssh)
-+ {
-+ 	int r;
-+ 
-+-	error("kex protocol error: type %d seq %u", type, seq);
-++	/* If in strict mode, any unexpected message is an error */
-++	if ((ssh->kex->flags & KEX_INITIAL) && ssh->kex->kex_strict) {
-++		ssh_packet_disconnect(ssh, "strict KEX violation: "
-++		    "unexpected packet type %u (seqnr %u)", type, seq);
-++	}
-++	error("type %u seq %u", type, seq);
-+ 	if ((r = sshpkt_start(ssh, SSH2_MSG_UNIMPLEMENTED)) != 0 ||
-+ 	    (r = sshpkt_put_u32(ssh, seq)) != 0 ||
-+ 	    (r = sshpkt_send(ssh)) != 0)
-+@@ -481,6 +496,11 @@ kex_input_ext_info(int type, u_int32_t seq, struct ssh *ssh)
-+ 	ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, &kex_protocol_error);
-+ 	if ((r = sshpkt_get_u32(ssh, &ninfo)) != 0)
-+ 		return r;
-++	if (ninfo >= 1024) {
-++		error("SSH2_MSG_EXT_INFO with too many entries, expected "
-++		    "<=1024, received %u", ninfo);
-++		return dispatch_protocol_error(type, seq, ssh);
-++	}
-+ 	for (i = 0; i < ninfo; i++) {
-+ 		if ((r = sshpkt_get_cstring(ssh, &name, NULL)) != 0)
-+ 			return r;
-+@@ -581,7 +601,7 @@ kex_input_kexinit(int type, u_int32_t seq, struct ssh *ssh)
-+ 		error("%s: no hex", __func__);
-+ 		return SSH_ERR_INTERNAL_ERROR;
-+ 	}
-+-	ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, NULL);
-++	ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, &kex_protocol_error);
-+ 	ptr = sshpkt_ptr(ssh, &dlen);
-+ 	if ((r = sshbuf_put(kex->peer, ptr, dlen)) != 0)
-+ 		return r;
-+@@ -617,7 +637,7 @@ kex_input_kexinit(int type, u_int32_t seq, struct ssh *ssh)
-+ 	if (!(kex->flags & KEX_INIT_SENT))
-+ 		if ((r = kex_send_kexinit(ssh)) != 0)
-+ 			return r;
-+-	if ((r = kex_choose_conf(ssh)) != 0)
-++	if ((r = kex_choose_conf(ssh, seq)) != 0)
-+ 		return r;
-+ 
-+ 	if (kex->kex_type < KEX_MAX && kex->kex[kex->kex_type] != NULL)
-+@@ -880,7 +900,13 @@ proposals_match(char *my[PROPOSAL_MAX], char *peer[PROPOSAL_MAX])
-+ }
-+ 
-+ static int
-+-kex_choose_conf(struct ssh *ssh)
-++kexalgs_contains(char **peer, const char *ext)
-++{
-++	return has_any_alg(peer[PROPOSAL_KEX_ALGS], ext);
-++}
-++
-++static int
-++kex_choose_conf(struct ssh *ssh, uint32_t seq)
-+ {
-+ 	struct kex *kex = ssh->kex;
-+ 	struct newkeys *newkeys;
-+@@ -905,13 +931,23 @@ kex_choose_conf(struct ssh *ssh)
-+ 		sprop=peer;
-+ 	}
-+ 
-+-	/* Check whether client supports ext_info_c */
-+-	if (kex->server && (kex->flags & KEX_INITIAL)) {
-+-		char *ext;
-+-
-+-		ext = match_list("ext-info-c", peer[PROPOSAL_KEX_ALGS], NULL);
-+-		kex->ext_info_c = (ext != NULL);
-+-		free(ext);
-++	/* Check whether peer supports ext_info/kex_strict */
-++	if ((kex->flags & KEX_INITIAL) != 0) {
-++		if (kex->server) {
-++			kex->ext_info_c = kexalgs_contains(peer, "ext-info-c");
-++			kex->kex_strict = kexalgs_contains(peer,
-++			    "kex-strict-c-v00@openssh.com");
-++		} else {
-++			kex->kex_strict = kexalgs_contains(peer,
-++			    "kex-strict-s-v00@openssh.com");
-++		}
-++		if (kex->kex_strict) {
-++			debug3("will use strict KEX ordering");
-++			if (seq != 0)
-++				ssh_packet_disconnect(ssh,
-++				    "strict KEX violation: "
-++				    "KEXINIT was not the first packet");
-++		}
-+ 	}
-+ 
-+ 	/* Algorithm Negotiation */
-+diff --git a/kex.h b/kex.h
-+index a5ae6ac..cae38f7 100644
-+--- a/kex.h
-++++ b/kex.h
-+@@ -145,6 +145,7 @@ struct kex {
-+ 	u_int	kex_type;
-+ 	char	*server_sig_algs;
-+ 	int	ext_info_c;
-++	int	kex_strict;
-+ 	struct sshbuf *my;
-+ 	struct sshbuf *peer;
-+ 	struct sshbuf *client_version;
-+diff --git a/packet.c b/packet.c
-+index 6d3e917..43139f9 100644
-+--- a/packet.c
-++++ b/packet.c
-+@@ -1203,8 +1203,13 @@ ssh_packet_send2_wrapped(struct ssh *ssh)
-+ 	sshbuf_dump(state->output, stderr);
-+ #endif
-+ 	/* increment sequence number for outgoing packets */
-+-	if (++state->p_send.seqnr == 0)
-++	if (++state->p_send.seqnr == 0) {
-++		if ((ssh->kex->flags & KEX_INITIAL) != 0) {
-++			ssh_packet_disconnect(ssh, "outgoing sequence number "
-++			    "wrapped during initial key exchange");
-++		}
-+ 		logit("outgoing seqnr wraps around");
-++	}
-+ 	if (++state->p_send.packets == 0)
-+ 		if (!(ssh->compat & SSH_BUG_NOREKEY))
-+ 			return SSH_ERR_NEED_REKEY;
-+@@ -1212,6 +1217,11 @@ ssh_packet_send2_wrapped(struct ssh *ssh)
-+ 	state->p_send.bytes += len;
-+ 	sshbuf_reset(state->outgoing_packet);
-+ 
-++	if (type == SSH2_MSG_NEWKEYS && ssh->kex->kex_strict) {
-++		debug("resetting send seqnr %u", state->p_send.seqnr);
-++		state->p_send.seqnr = 0;
-++	}
-++
-+ 	if (type == SSH2_MSG_NEWKEYS)
-+ 		r = ssh_set_newkeys(ssh, MODE_OUT);
-+ 	else if (type == SSH2_MSG_USERAUTH_SUCCESS && state->server_side)
-+@@ -1345,8 +1355,7 @@ ssh_packet_read_seqnr(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
-+ 	/* Stay in the loop until we have received a complete packet. */
-+ 	for (;;) {
-+ 		/* Try to read a packet from the buffer. */
-+-		r = ssh_packet_read_poll_seqnr(ssh, typep, seqnr_p);
-+-		if (r != 0)
-++		if ((r = ssh_packet_read_poll_seqnr(ssh, typep, seqnr_p)) != 0)
-+ 			break;
-+ 		/* If we got a packet, return it. */
-+ 		if (*typep != SSH_MSG_NONE)
-+@@ -1633,10 +1642,16 @@ ssh_packet_read_poll2(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
-+ 		if ((r = sshbuf_consume(state->input, mac->mac_len)) != 0)
-+ 			goto out;
-+ 	}
-++
-+ 	if (seqnr_p != NULL)
-+ 		*seqnr_p = state->p_read.seqnr;
-+-	if (++state->p_read.seqnr == 0)
-++	if (++state->p_read.seqnr == 0) {
-++		if ((ssh->kex->flags & KEX_INITIAL) != 0) {
-++			ssh_packet_disconnect(ssh, "incoming sequence number "
-++			    "wrapped during initial key exchange");
-++		}
-+ 		logit("incoming seqnr wraps around");
-++	}
-+ 	if (++state->p_read.packets == 0)
-+ 		if (!(ssh->compat & SSH_BUG_NOREKEY))
-+ 			return SSH_ERR_NEED_REKEY;
-+@@ -1702,6 +1717,10 @@ ssh_packet_read_poll2(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
-+ #endif
-+ 	/* reset for next packet */
-+ 	state->packlen = 0;
-++	if (*typep == SSH2_MSG_NEWKEYS && ssh->kex->kex_strict) {
-++		debug("resetting read seqnr %u", state->p_read.seqnr);
-++		state->p_read.seqnr = 0;
-++	}
-+ 
-+ 	/* do we need to rekey? */
-+ 	if (ssh_packet_need_rekeying(ssh, 0)) {
-+@@ -1726,10 +1745,39 @@ ssh_packet_read_poll_seqnr(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
-+ 		r = ssh_packet_read_poll2(ssh, typep, seqnr_p);
-+ 		if (r != 0)
-+ 			return r;
-+-		if (*typep) {
-+-			state->keep_alive_timeouts = 0;
-+-			DBG(debug("received packet type %d", *typep));
-++		if (*typep == 0) {
-++			/* no message ready */
-++			return 0;
-++		}
-++		state->keep_alive_timeouts = 0;
-++		DBG(debug("received packet type %d", *typep));
-++
-++		/* Always process disconnect messages */
-++		if (*typep == SSH2_MSG_DISCONNECT) {
-++			if ((r = sshpkt_get_u32(ssh, &reason)) != 0 ||
-++			    (r = sshpkt_get_string(ssh, &msg, NULL)) != 0)
-++				return r;
-++			/* Ignore normal client exit notifications */
-++			do_log2(ssh->state->server_side &&
-++			    reason == SSH2_DISCONNECT_BY_APPLICATION ?
-++			    SYSLOG_LEVEL_INFO : SYSLOG_LEVEL_ERROR,
-++			    "Received disconnect from %s port %d:"
-++			    "%u: %.400s", ssh_remote_ipaddr(ssh),
-++			    ssh_remote_port(ssh), reason, msg);
-++			free(msg);
-++			return SSH_ERR_DISCONNECTED;
-+ 		}
-++
-++		/*
-++		 * Do not implicitly handle any messages here during initial
-++		 * KEX when in strict mode. They will be need to be allowed
-++		 * explicitly by the KEX dispatch table or they will generate
-++		 * protocol errors.
-++		 */
-++		if (ssh->kex != NULL &&
-++		    (ssh->kex->flags & KEX_INITIAL) && ssh->kex->kex_strict)
-++			return 0;
-++		/* Implicitly handle transport-level messages */
-+ 		switch (*typep) {
-+ 		case SSH2_MSG_IGNORE:
-+ 			debug3("Received SSH2_MSG_IGNORE");
-+@@ -1744,19 +1792,6 @@ ssh_packet_read_poll_seqnr(struct ssh *ssh, u_char *typep, u_int32_t *seqnr_p)
-+ 			debug("Remote: %.900s", msg);
-+ 			free(msg);
-+ 			break;
-+-		case SSH2_MSG_DISCONNECT:
-+-			if ((r = sshpkt_get_u32(ssh, &reason)) != 0 ||
-+-			    (r = sshpkt_get_string(ssh, &msg, NULL)) != 0)
-+-				return r;
-+-			/* Ignore normal client exit notifications */
-+-			do_log2(ssh->state->server_side &&
-+-			    reason == SSH2_DISCONNECT_BY_APPLICATION ?
-+-			    SYSLOG_LEVEL_INFO : SYSLOG_LEVEL_ERROR,
-+-			    "Received disconnect from %s port %d:"
-+-			    "%u: %.400s", ssh_remote_ipaddr(ssh),
-+-			    ssh_remote_port(ssh), reason, msg);
-+-			free(msg);
-+-			return SSH_ERR_DISCONNECTED;
-+ 		case SSH2_MSG_UNIMPLEMENTED:
-+ 			if ((r = sshpkt_get_u32(ssh, &seqnr)) != 0)
-+ 				return r;
-+@@ -2235,6 +2270,7 @@ kex_to_blob(struct sshbuf *m, struct kex *kex)
-+ 	    (r = sshbuf_put_u32(m, kex->hostkey_type)) != 0 ||
-+ 	    (r = sshbuf_put_u32(m, kex->hostkey_nid)) != 0 ||
-+ 	    (r = sshbuf_put_u32(m, kex->kex_type)) != 0 ||
-++	    (r = sshbuf_put_u32(m, kex->kex_strict)) != 0 ||
-+ 	    (r = sshbuf_put_stringb(m, kex->my)) != 0 ||
-+ 	    (r = sshbuf_put_stringb(m, kex->peer)) != 0 ||
-+ 	    (r = sshbuf_put_stringb(m, kex->client_version)) != 0 ||
-+@@ -2397,6 +2433,7 @@ kex_from_blob(struct sshbuf *m, struct kex **kexp)
-+ 	    (r = sshbuf_get_u32(m, (u_int *)&kex->hostkey_type)) != 0 ||
-+ 	    (r = sshbuf_get_u32(m, (u_int *)&kex->hostkey_nid)) != 0 ||
-+ 	    (r = sshbuf_get_u32(m, &kex->kex_type)) != 0 ||
-++	    (r = sshbuf_get_u32(m, &kex->kex_strict)) != 0 ||
-+ 	    (r = sshbuf_get_stringb(m, kex->my)) != 0 ||
-+ 	    (r = sshbuf_get_stringb(m, kex->peer)) != 0 ||
-+ 	    (r = sshbuf_get_stringb(m, kex->client_version)) != 0 ||
-+@@ -2724,6 +2761,7 @@ sshpkt_disconnect(struct ssh *ssh, const char *fmt,...)
-+ 	vsnprintf(buf, sizeof(buf), fmt, args);
-+ 	va_end(args);
-+ 
-++	debug2("sending SSH2_MSG_DISCONNECT: %s", buf);
-+ 	if ((r = sshpkt_start(ssh, SSH2_MSG_DISCONNECT)) != 0 ||
-+ 	    (r = sshpkt_put_u32(ssh, SSH2_DISCONNECT_PROTOCOL_ERROR)) != 0 ||
-+ 	    (r = sshpkt_put_cstring(ssh, buf)) != 0 ||
-+diff --git a/sshconnect2.c b/sshconnect2.c
-+index 5df9477..617ed9f 100644
-+--- a/sshconnect2.c
-++++ b/sshconnect2.c
-+@@ -218,7 +218,8 @@ ssh_kex2(struct ssh *ssh, char *host, struct sockaddr *hostaddr, u_short port)
-+ 		fatal("%s: kex_assemble_namelist", __func__);
-+ 	free(all_key);
-+ 
-+-	if ((s = kex_names_cat(options.kex_algorithms, "ext-info-c")) == NULL)
-++	if ((s = kex_names_cat(options.kex_algorithms,
-++	    "ext-info-c,kex-strict-c-v00@openssh.com")) == NULL)
-+ 		fatal("%s: kex_names_cat", __func__);
-+ 	myproposal[PROPOSAL_KEX_ALGS] = compat_kex_proposal(s);
-+ 	myproposal[PROPOSAL_ENC_ALGS_CTOS] =
-+@@ -343,7 +344,6 @@ struct cauthmethod {
-+ };
-+ 
-+ static int input_userauth_service_accept(int, u_int32_t, struct ssh *);
-+-static int input_userauth_ext_info(int, u_int32_t, struct ssh *);
-+ static int input_userauth_success(int, u_int32_t, struct ssh *);
-+ static int input_userauth_failure(int, u_int32_t, struct ssh *);
-+ static int input_userauth_banner(int, u_int32_t, struct ssh *);
-+@@ -460,7 +460,7 @@ ssh_userauth2(struct ssh *ssh, const char *local_user,
-+ 
-+ 	ssh->authctxt = &authctxt;
-+ 	ssh_dispatch_init(ssh, &input_userauth_error);
-+-	ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, &input_userauth_ext_info);
-++	ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, kex_input_ext_info);
-+ 	ssh_dispatch_set(ssh, SSH2_MSG_SERVICE_ACCEPT, &input_userauth_service_accept);
-+ 	ssh_dispatch_run_fatal(ssh, DISPATCH_BLOCK, &authctxt.success);	/* loop until success */
-+ 	pubkey_cleanup(ssh);
-+@@ -505,13 +505,6 @@ input_userauth_service_accept(int type, u_int32_t seq, struct ssh *ssh)
-+ 	return r;
-+ }
-+ 
-+-/* ARGSUSED */
-+-static int
-+-input_userauth_ext_info(int type, u_int32_t seqnr, struct ssh *ssh)
-+-{
-+-	return kex_input_ext_info(type, seqnr, ssh);
-+-}
-+-
-+ void
-+ userauth(struct ssh *ssh, char *authlist)
-+ {
-+@@ -593,6 +586,7 @@ input_userauth_success(int type, u_int32_t seq, struct ssh *ssh)
-+ 	free(authctxt->methoddata);
-+ 	authctxt->methoddata = NULL;
-+ 	authctxt->success = 1;			/* break out */
-++	ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, dispatch_protocol_error);
-+ 	return 0;
-+ }
-+ 
-+diff --git a/sshd.c b/sshd.c
-+index 60b2aaf..ffea38c 100644
-+--- a/sshd.c
-++++ b/sshd.c
-+@@ -2323,11 +2323,13 @@ static void
-+ do_ssh2_kex(struct ssh *ssh)
-+ {
-+ 	char *myproposal[PROPOSAL_MAX] = { KEX_SERVER };
-++	char *s;
-+ 	struct kex *kex;
-+ 	int r;
-+ 
-+-	myproposal[PROPOSAL_KEX_ALGS] = compat_kex_proposal(
-+-	    options.kex_algorithms);
-++	if ((s = kex_names_cat(options.kex_algorithms, "kex-strict-s-v00@openssh.com")) == NULL)
-++		fatal("kex_names_cat");
-++	myproposal[PROPOSAL_KEX_ALGS] = compat_kex_proposal(s);
-+ 	myproposal[PROPOSAL_ENC_ALGS_CTOS] = compat_cipher_proposal(
-+ 	    options.ciphers);
-+ 	myproposal[PROPOSAL_ENC_ALGS_STOC] = compat_cipher_proposal(
-+@@ -2382,6 +2384,7 @@ do_ssh2_kex(struct ssh *ssh)
-+ 	packet_send();
-+ 	packet_write_wait();
-+ #endif
-++	free(s);
-+ 	debug("KEX done");
-+ }
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-index bc4b922301..eb3089cd8a 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-@@ -39,6 +39,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2023-38408-10.patch \
-            file://CVE-2023-38408-11.patch \
-            file://CVE-2023-38408-12.patch \
-+           file://CVE-2023-48795.patch \
-            "
- SRC_URI[md5sum] = "3076e6413e8dbe56d33848c1054ac091"
- SRC_URI[sha256sum] = "43925151e6cf6cee1450190c0e9af4dc36b41c12737619edff8bcebdff64e671"
--- 
-2.25.1
-
+Ross=
 
