@@ -1,413 +1,153 @@
-Return-Path: <thakur.virendra1810@gmail.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD18C41535
-	for <webhook@archiver.kernel.org>; Fri, 22 Dec 2023 07:15:14 +0000 (UTC)
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
- by mx.groups.io with SMTP id smtpd.web10.18855.1703229307240716961
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E92EC41535
+	for <webhook@archiver.kernel.org>; Fri, 22 Dec 2023 07:32:04 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.18788.1703230320381288940
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Dec 2023 23:15:07 -0800
+ Thu, 21 Dec 2023 23:32:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BcITTsTX;
- spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-594178b3959so1102758eaf.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 23:15:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703229305; x=1703834105; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uLEf6OQpkoXvwzEa519DT8Zgrave9liUECfEn0eAn4w=;
-        b=BcITTsTXySLULZollIZEod9c96ZHkmyMTptkFzAmhhKgjrzp1bfYJhGBryN3/ozU6y
-         dV2CqIJE05vfvghoUoe9Wh153tbDCer35K7ioTf1nlw0/zyFik0vo193CHuhfejUUzVm
-         UOjA83eQt47ApZdyzh3fdDS6jw2uE4poGAZ4PrsHNPJjEjuBFVDhJ9JoxGSo28zwr1Hi
-         ahYN6TrGVitBmo2pOcdMSzNoA6oUMl3SkFRpUcm2PWMKmlTqo9IXYWT2tE0y4WWNOFTp
-         zndt/BLzlpZaSAOvdRCHDIGI2f6RW2mR9aEPoejsBoUW69jnE/CxIHJFfGZDgN0rnb3m
-         txbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703229305; x=1703834105;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uLEf6OQpkoXvwzEa519DT8Zgrave9liUECfEn0eAn4w=;
-        b=dZYVAQJZGdZIRLsgeBDB/rJOn/hPF5JHNsUh9WC3eCTYAPX+AT7bHSoXFkV+Rxa0X/
-         1GyB5XyI4VaH9jbkHzPWH0UAYt8eazIb5H/815+gpzx+sz4gnZuMmxsDcpOtAqUVPUlG
-         rW9qQf3S/RSpdEMGNPRryMM4Qzhq/a5ZGh4s953Z329CMLWYP/pgm3QguwWxDYQr21yE
-         7Vn/S89TP3l/OdcVwy0DdyD11D3mDWUPeTKFtCa91wmO0acnkM+fiepYE1UvU35hAvl2
-         mRrgnvNrmaogVljiun0vu9xzZNFMgVptjwkucSYv4fDwsl7z661+HgVAiEyU9fsYFMOV
-         CMNQ==
-X-Gm-Message-State: AOJu0Yz/p9V6hA14OKTwAgwlr8VwXPiFm1sS/FJGSp6AmLlJTPow4pe+
-	hvWj1qNrQrqFaFHgzUGRm/yfq9EstEA=
-X-Google-Smtp-Source: AGHT+IGiN7KGpm6wnuXUf1uxceSyu3rtdPR0WIxl2c7Ixly+8LhPpoCX54L78bhYWBS2bTN18RhAnw==
-X-Received: by 2002:a05:6358:5110:b0:172:9d70:3441 with SMTP id 16-20020a056358511000b001729d703441mr858068rwi.54.1703229305414;
-        Thu, 21 Dec 2023 23:15:05 -0800 (PST)
-Received: from L-18076.kpit.com ([2401:4900:1c42:9a2:7919:ad63:823a:e702])
-        by smtp.gmail.com with ESMTPSA id z3-20020a170902ee0300b001d3e3a86dccsm2723276plb.84.2023.12.21.23.15.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Dec 2023 23:15:04 -0800 (PST)
-From: virendra thakur <thakur.virendra1810@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: Virendra Thakur <virendrak@kpit.com>
-Subject: [dunfell][PATCH] binutils: fix multiple cve
-Date: Fri, 22 Dec 2023 12:40:41 +0530
-Message-Id: <20231222071041.2925043-1-thakur.virendra1810@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=V1ysy8pE;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0720462997=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BM5vOXi011092
+	for <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 23:32:00 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=aEti9KxmydR71w5V8G
+	IPeXpbGPcZSY+8kmHAw6Mk9oc=; b=V1ysy8pEgb801wvH8lEx0iv2lqcMsmjszm
+	f9aavZbfSZ0ul5k7uY1D36jbirtPpbuszYAmBx8AbnseBdB0lN6bi/CZgduM4CIn
+	4U3YHCrQXYnYwYqaN3p+FGcf5A/VqTM9FmPCTnp8VEHEs/pDZcvYBmeWFeTM0KMl
+	1rUVBs1q1ApCeLuBnn1EYjCY2GmijsL776HPLDFjOrV8T8oK3mDMDn5+1gfWrncR
+	WwlEKvD3BR2cPVJaLltlCs5715jDSRea8TNaBm0Avhs6P64nWFGihIRA6PINr8FA
+	bjoEcIN79OQZRbCfkdZC79m0T1oDiPipp/bxJa6oLOmZbLTO51JQ==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v1c9kq7kc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 21 Dec 2023 23:31:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nnIVRL6iA5vRF18EKSU9oyunyJjfiqEVR1f5SlNEIncdROg4k5Up3R0ZSyxnTZT4yySvgJq+AqQj6avcSTs7a0K83r1588BJblz0Z0d5ZWnkUcXS8fL+hkjrI+ZvX1ObVfqOptsvYh1QEIxjsBbg/CP3nGtonCvkFT7Xx4k6RQAzlD6K4P/zv0zjMzZdO8/b28nj9YjY/0K7r+U+4jb/ocuNnFSJ5m7enDbNL5upC2PlYNE29Q8Zz3xd90KFEzpSHyhc/azLmgbSaW94UvNU1wKut9OUXafX9xDbsysclhzg8kSMnoAzklSVOvQoC/Y2ru8k2hcUClMkNA9D10FvYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aEti9KxmydR71w5V8GIPeXpbGPcZSY+8kmHAw6Mk9oc=;
+ b=djOvunOf/d12WlJRbey8pGT00o6IjjzDyU4gj/ijRMvXBcVflUgX5CMsvTTV8D9iZDOEpgnIUhtgr+qW7dcnqcfXwlBYFT0c1pXAWMnC0WBDvj0AOwWTgIzkBHQSJRHdiWkHfhVa9LRp3B0NRXcrjypyHf8rNXdbt7eVx0OubpvoTRQb/tHP50w7faDV4HGlyQAG8PeM0W6LTKDsVS4nlmQxP+Wj7CSEdJ8n+SQGYrJ4o80B9nfBF85KLPVURsBAQcu4E4BxV7u+9hER2KJEwgRZqaKu63pLO/gw2K7vAIYgyUZKdzQzQMoC2qGxpRU3DF8MBHoyJuFInWWsRf0RHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from BYAPR11MB2789.namprd11.prod.outlook.com (2603:10b6:a02:cc::11)
+ by CH3PR11MB8212.namprd11.prod.outlook.com (2603:10b6:610:164::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.21; Fri, 22 Dec
+ 2023 07:31:58 +0000
+Received: from BYAPR11MB2789.namprd11.prod.outlook.com
+ ([fe80::5d43:ce18:14be:b2f7]) by BYAPR11MB2789.namprd11.prod.outlook.com
+ ([fe80::5d43:ce18:14be:b2f7%7]) with mapi id 15.20.7113.019; Fri, 22 Dec 2023
+ 07:31:57 +0000
+From: liezhi.yang@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 0/1] archiver.bbclass: Drop tarfile module to improve performance
+Date: Thu, 21 Dec 2023 23:31:48 -0800
+Message-ID: <cover.1703230207.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.42.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH8PR07CA0001.namprd07.prod.outlook.com
+ (2603:10b6:510:2cd::26) To BYAPR11MB2789.namprd11.prod.outlook.com
+ (2603:10b6:a02:cc::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2789:EE_|CH3PR11MB8212:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc30c026-e7dd-41a9-94b0-08dc02c01359
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	DRX1inWown0Wk3peauKrpXjPNgBUDNWC0tseTG6uVwOH0PjOemE5tec5gFh9aJ0HtepGH/ETKi8+KfIfgBcdvBlO5tJT0IN8jzWFisn/gidMOUHPsX9qFMzA43zW6Rqh1kmdBi8km5dkvcx2ohhfgzB6MOa0XIWqHJYu+u/0ZnXHPRZ7YNqQZ6hq0i8GsLDOioZIglLYcoZN6iup5+Kfrh3p1pDC0fwu81KD4C9sN/uZsrx6wTtXr7hxjkkYSzA7SmPIgWxYJeoKZ9YsDa0oWZCTzy+o00jwyAQNtd0czmZHzoqC5ooWTHN0JF0PJxIBu4mSXeW2XCth0ZXyoRddt/VZBGl7wNCA+W5zGpPCClYvpdNNk/UO98GJ1Bm1oeM02wPc4iCg5PEJG653XDxJinmAXPpc270KNo3ZudaOS3FBvNblcijEmB5RMPRf1sy6fk8VdfBqyNrvIANyshghNvA4/LvS7wMnBbywUytTqbcWlJeRXvx5eowDw1zvnmIZwlRqV/eZBhIViEE3e8pfcwSUdRerV8+qzQBD/9KgFb+nQ9DgYCkop/pVFNs00FieZ8KZhq+2cJ86zWEgbcmfLBAX/OI7qmJANKa00/IXXiQ=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2789.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(39850400004)(346002)(366004)(396003)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(38100700002)(83380400001)(38350700005)(41300700001)(86362001)(2616005)(26005)(36756003)(6512007)(9686003)(6666004)(6506007)(478600001)(52116002)(316002)(6486002)(66556008)(6916009)(66946007)(66476007)(8676002)(8936002)(4001150100001)(4744005)(2906002)(5660300002)(966005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?hLdiiH4jmPtDeqdMslWMkrnz2+Wpkj40lfHR3u3+AOUjThOOtKcjzu2ijfs0?=
+ =?us-ascii?Q?TOCYQcxxt3+j4dK1Fz3xVaowU2Z4jnW2hIzXMvwiy8YYw13+NSzCDlR+SQko?=
+ =?us-ascii?Q?9NaeMLeLzxcnLd51Dux93EJmBuQolXx44TjcGDAuRFyDa8kC/NCDaV4LiWRC?=
+ =?us-ascii?Q?CK6XtZxr+LHY6EtawdEMcPGp1em8zXqz+m5NQAnHyO6fdnoIyQTgvhp0xeK4?=
+ =?us-ascii?Q?pfxh4Q522PrJjtmeip4uAvwgZtY/RlhnuvzNkXyDY/rfwNfxcXZZkBYDUCtf?=
+ =?us-ascii?Q?44XBGVTOfNNL7xdoEvw+b//Q5DmOcT9aHRKvLselkaj9YIel7W4N75BlBzEH?=
+ =?us-ascii?Q?n4DZBousxxvjBkBjDSDNoIPT29t/vZ4LgwMcmbDGTe5u3bOPWCPQqYlgLLi4?=
+ =?us-ascii?Q?P/Ce88QE6kGEJufB8Pw9zApcViG08lNjXa66Xw/tLKQRWqxaxMqfeVRj4E58?=
+ =?us-ascii?Q?noyMkKC1qMmhetKSF1bkrvo+voc1G6WT6slS3MWY/Cm30JcjmzO+pJN7xvYe?=
+ =?us-ascii?Q?NKKGAI7Y0+znMyv71DRO3nGsfNGDk+vku1wnxQrC9RRdrD37+SKDLq4Wi/wq?=
+ =?us-ascii?Q?XILOtAQdagkRWheegBQnyWoonVkO9afvwsvkpxfN7Z9WHAn8uUQYsmkIzQaa?=
+ =?us-ascii?Q?iTkdAkg8Vg83Aoq/6MN9yzaGJIexmbRUFrwxqp7dLfGCJDjo01S7QZeeKHF2?=
+ =?us-ascii?Q?fLyBrvgHVQZWyFauJ0bT9zq9hSh9O4F1zqbXvS9VrX3rqnQ4Hz+Hw7KDvpQs?=
+ =?us-ascii?Q?cmCin5Me5TYCt0BOUKQ+ILMyF5lnBk0r55On7b+H/OZq3l2nOElx9X6PcFzP?=
+ =?us-ascii?Q?Kc54+yongAsH+7Iti2VCQVn9kOwUbsNn0Axv9CQHzSSf8crBXbm0VoJISLFf?=
+ =?us-ascii?Q?ai6QGGTfNnfC2W80kHTRF/ncHuz34/mm9lzEPv8rbzkg+qRoaw7Rjq2B6p/l?=
+ =?us-ascii?Q?KJpDGq9FOi3foDIJspXuuk6KJavKgRXSbIsbfxUljAJsv105VjwRwoxZToI7?=
+ =?us-ascii?Q?EmMHCSH5hE9rdLApc8BVCuoiGsSJgCTduclTIV7B6L8mhKtIjKUGt06XSQaC?=
+ =?us-ascii?Q?6WTFzLbsVtkBt/w607SNmNjuPRRlW52gKjKjVyf0huKAvVsdhtA94KFNWveI?=
+ =?us-ascii?Q?jqx7ewpIEGKXOZxza40IYRlcnjdPEUpqaM63JMTcVkk3xSb/QQo7SThXzg15?=
+ =?us-ascii?Q?XybuxTWAv1gksi0e8Q33VVqMvp2Zf8iLWvxWD9IOtnvOwlPTBOOsdQLOeGRe?=
+ =?us-ascii?Q?Gkk9zPWfBCHUitdWgrZqEchwut6yWzz2iQZ9zCzdEBiAGEaX3gD01kLIeUEg?=
+ =?us-ascii?Q?4lqY5NuqLBoRA0fD4xzFGd17+l9pW6+p/GSc8g3q8gx5rkK3ZsfsPKje7gKI?=
+ =?us-ascii?Q?NmCMEWOLExbBrhGrIwm28egvkXHHNuB3axKNTmbqC5625+8/vCLWy+5ur1LF?=
+ =?us-ascii?Q?AJVHAYZZCCPdFzoD8bzT0TpsggmZJFcCkVOE0jgcFuC2XJQrYAXr7vtLnrCB?=
+ =?us-ascii?Q?6c1ERs/jVMtsJFOEgYqZKg/iWEeYFCSZ0h7PFw21wM5e5MtRFw67gQFQaihO?=
+ =?us-ascii?Q?zsFQHjo+s5KLqft77K4k5AuJaQr4FsyzSAf3kgWtVppUvYZrTYbEdFkf6kxF?=
+ =?us-ascii?Q?sA=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc30c026-e7dd-41a9-94b0-08dc02c01359
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2789.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2023 07:31:56.8170
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +3lcrCnr2Q/+uQpEgLQeH1U4JHHJ/qujg6ttGU8yYuuHzYal1+kn9xExH8Ga89yaRUlcXjmEtKrueV80D4+cOvOCbqBGs5vQ6VSQdnsM0ec=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8212
+X-Proofpoint-GUID: _xzUkGXNA3nUa7DXcKwbVe7S7ToUbWtB
+X-Proofpoint-ORIG-GUID: _xzUkGXNA3nUa7DXcKwbVe7S7ToUbWtB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=763 clxscore=1015 bulkscore=0
+ impostorscore=0 malwarescore=0 suspectscore=0 spamscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312220052
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Dec 2023 07:15:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192862
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Dec 2023 07:32:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192863
 
-From: Virendra Thakur <virendrak@kpit.com>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Fix below CVE's
-CVE-2022-47007
-CVE-2022-47008
-CVE-2022-47010
-CVE-2022-47011
-CVE-2022-48063
-CVE-2022-47695
+* V2:
+  - Fix for layerindex error:
+    TypeError: argument of type 'NoneType' is not iterable
 
-Signed-off-by: Virendra Thakur <virendrak@kpit.com>
----
- .../binutils/binutils-2.34.inc                |  6 ++
- .../binutils/binutils/CVE-2022-47007.patch    | 32 ++++++++++
- .../binutils/binutils/CVE-2022-47008.patch    | 64 +++++++++++++++++++
- .../binutils/binutils/CVE-2022-47010.patch    | 34 ++++++++++
- .../binutils/binutils/CVE-2022-47011.patch    | 31 +++++++++
- .../binutils/binutils/CVE-2022-47695.patch    | 57 +++++++++++++++++
- .../binutils/binutils/CVE-2022-48063.patch    | 49 ++++++++++++++
- 7 files changed, 273 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-47007.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-47008.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-47010.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-47011.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-47695.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch
+The following changes since commit 1bfa564f1aa8b865f6c3ae3501e6d5f6cc0542eb:
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-index 4824db6dcf..032263fe63 100644
---- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -56,5 +56,11 @@ SRC_URI = "\
-      file://CVE-2023-25588.patch \
-      file://CVE-2021-46174.patch \
-      file://CVE-2023-25584.patch \
-+     file://CVE-2022-47007.patch \
-+     file://CVE-2022-47008.patch \
-+     file://CVE-2022-47010.patch \
-+     file://CVE-2022-47011.patch \
-+     file://CVE-2022-48063.patch \
-+     file://CVE-2022-47695.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-47007.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-47007.patch
-new file mode 100644
-index 0000000000..ddb564bc8c
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-47007.patch
-@@ -0,0 +1,32 @@
-+From 0ebc886149c22aceaf8ed74267821a59ca9d03eb Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Fri, 17 Jun 2022 09:00:41 +0930
-+Subject: [PATCH] PR29254, memory leak in stab_demangle_v3_arg
-+
-+	PR 29254
-+	* stabs.c (stab_demangle_v3_arg): Free dt on failure path.
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=0ebc886149c22aceaf8ed74267821a59ca9d03eb]
-+CVE: CVE-2022-47007
-+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-+Comment: Patch refreshed based on codebase.
-+---
-+ binutils/stabs.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/binutils/stabs.c b/binutils/stabs.c
-+index 2b5241637c1..796ff85b86a 100644
-+--- a/binutils/stabs.c
-++++ b/binutils/stabs.c
-+@@ -5476,7 +5476,10 @@
-+ 					  dc->u.s_binary.right,
-+ 					  &varargs);
-+ 	if (pargs == NULL)
-+-	  return NULL;
-++         {
-++           free (dt);
-++           return NULL;
-++         }
-+ 
-+ 	return debug_make_function_type (dhandle, dt, pargs, varargs);
-+       }
-+
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-47008.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-47008.patch
-new file mode 100644
-index 0000000000..9527390ccf
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-47008.patch
-@@ -0,0 +1,64 @@
-+From d6e1d48c83b165c129cb0aa78905f7ca80a1f682 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Fri, 17 Jun 2022 09:13:38 +0930
-+Subject: [PATCH] PR29255, memory leak in make_tempdir
-+
-+	PR 29255
-+	* bucomm.c (make_tempdir, make_tempname): Free template on all
-+	failure paths.
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=d6e1d48c83b165c129cb0aa78905f7ca80a1f682]
-+CVE: CVE-2022-47008
-+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-+Comment: Patch refreshed based on codebase.
-+---
-+ binutils/bucomm.c | 20 +++++++++++---------
-+ 1 file changed, 11 insertions(+), 9 deletions(-)
-+
-+diff --git a/binutils/bucomm.c b/binutils/bucomm.c
-+index fdc2209df9c..4395cb9f7f5 100644
-+--- a/binutils/bucomm.c
-++++ b/binutils/bucomm.c
-+@@ -542,8 +542,9 @@
-+ #else
-+   tmpname = mktemp (tmpname);
-+   if (tmpname == NULL)
-+-    return NULL;
-+-  fd = open (tmpname, O_RDWR | O_CREAT | O_EXCL, 0600);
-++    fd = -1;
-++  else
-++    fd = open (tmpname, O_RDWR | O_CREAT | O_EXCL, 0600);
-+ #endif
-+   if (fd == -1)
-+     {
-+@@ -561,22 +562,23 @@
-+ make_tempdir (const char *filename)
-+ {
-+   char *tmpname = template_in_dir (filename);
-++  char *ret;
-+ 
-+ #ifdef HAVE_MKDTEMP
-+-  return mkdtemp (tmpname);
-++  ret = mkdtemp (tmpname);
-+ #else
-+-  tmpname = mktemp (tmpname);
-+-  if (tmpname == NULL)
-+-    return NULL;
-++  ret = mktemp (tmpname);
-+ #if defined (_WIN32) && !defined (__CYGWIN32__)
-+   if (mkdir (tmpname) != 0)
-+-    return NULL;
-++    ret = NULL;
-+ #else
-+   if (mkdir (tmpname, 0700) != 0)
-+-    return NULL;
-++    ret = NULL;
-+ #endif
-+-  return tmpname;
-+ #endif
-++  if (ret == NULL)
-++    free (tmpname);
-++  return ret;
-+ }
-+ 
-+ /* Parse a string into a VMA, with a fatal error if it can't be
-+
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-47010.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-47010.patch
-new file mode 100644
-index 0000000000..d831ed4756
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-47010.patch
-@@ -0,0 +1,34 @@
-+From 0d02e70b197c786f26175b9a73f94e01d14abdab Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 20 Jun 2022 10:39:31 +0930
-+Subject: [PATCH] PR29262, memory leak in pr_function_type
-+
-+	PR 29262
-+	* prdbg.c (pr_function_type): Free "s" on failure path.
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=0d02e70b197c786f26175b9a73f94e01d14abdab]
-+CVE: CVE-2022-47010
-+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-+Comment: Patch refreshed based on codebase.
-+---
-+ binutils/prdbg.c | 7 ++-----
-+ 1 file changed, 2 insertions(+), 5 deletions(-)
-+
-+diff --git a/binutils/prdbg.c b/binutils/prdbg.c
-+index c1e41628d26..bb42a5b6c2d 100644
-+--- a/binutils/prdbg.c
-++++ b/binutils/prdbg.c
-+@@ -778,12 +778,9 @@
-+ 
-+   strcat (s, ")");
-+ 
-+-  if (! substitute_type (info, s))
-+-    return FALSE;
-+-
-++  bfd_boolean ret = substitute_type (info, s);
-+   free (s);
-+-
-+-  return TRUE;
-++  return ret;
-+ }
-+ 
-+ /* Turn the top type on the stack into a reference to that type.  */
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-47011.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-47011.patch
-new file mode 100644
-index 0000000000..250756bd38
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-47011.patch
-@@ -0,0 +1,31 @@
-+From 8a24927bc8dbf6beac2000593b21235c3796dc35 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Mon, 20 Jun 2022 10:39:13 +0930
-+Subject: [PATCH] PR29261, memory leak in parse_stab_struct_fields
-+
-+	PR 29261
-+	* stabs.c (parse_stab_struct_fields): Free "fields" on failure path.
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff_plain;h=8a24927bc8dbf6beac2000593b21235c3796dc35]
-+CVE: CVE-2022-47011
-+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-+Comment: Patch refreshed based on codebase.
-+---
-+ binutils/stabs.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/binutils/stabs.c b/binutils/stabs.c
-+index 796ff85b86a..bf3f578cbcc 100644
-+--- a/binutils/stabs.c
-++++ b/binutils/stabs.c
-+@@ -2368,7 +2368,10 @@
-+ 
-+       if (! parse_stab_one_struct_field (dhandle, info, pp, p, fields + c,
-+ 					 staticsp, p_end))
-+-	return FALSE;
-++       {
-++         free (fields);
-++         return FALSE;
-++       }
-+ 
-+       ++c;
-+     }
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-47695.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-47695.patch
-new file mode 100644
-index 0000000000..101a4cdb4e
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-47695.patch
-@@ -0,0 +1,57 @@
-+From 3d3af4ba39e892b1c544d667ca241846bc3df386 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Sun, 4 Dec 2022 22:15:40 +1030
-+Subject: [PATCH] PR29846, segmentation fault in objdump.c compare_symbols
-+
-+Fixes a fuzzed object file problem where plt relocs were manipulated
-+in such a way that two synthetic symbols were generated at the same
-+plt location.  Won't occur in real object files.
-+
-+	PR 29846
-+	PR 20337
-+	* objdump.c (compare_symbols): Test symbol flags to exclude
-+	section and synthetic symbols before attempting to check flavour.
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=3d3af4ba39e892b1c544d667ca241846bc3df386]
-+CVE: CVE-2022-47695
-+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-+Comment: Patch refreshed based on codebase.
-+---
-+ binutils/objdump.c | 23 ++++++++++-------------
-+ 1 file changed, 10 insertions(+), 13 deletions(-)
-+
-+diff --git a/binutils/objdump.c b/binutils/objdump.c
-+index e8481b2d928..d95c8b68bf0 100644
-+--- a/binutils/objdump.c
-++++ b/binutils/objdump.c
-+@@ -935,20 +935,17 @@
-+ 	return 1;
-+     }
-+ 
-+-  if (bfd_get_flavour (bfd_asymbol_bfd (a)) == bfd_target_elf_flavour
-++  /* Sort larger size ELF symbols before smaller.  See PR20337.  */
-++  bfd_vma asz = 0;
-++  if ((a->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0
-++      && bfd_get_flavour (bfd_asymbol_bfd (a)) == bfd_target_elf_flavour)
-++    asz = ((elf_symbol_type *) a)->internal_elf_sym.st_size;
-++  bfd_vma bsz = 0;
-++  if ((b->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0
-+       && bfd_get_flavour (bfd_asymbol_bfd (b)) == bfd_target_elf_flavour)
-+-    {
-+-      bfd_vma asz, bsz;
-+-
-+-      asz = 0;
-+-      if ((a->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
-+-	asz = ((elf_symbol_type *) a)->internal_elf_sym.st_size;
-+-      bsz = 0;
-+-      if ((b->flags & (BSF_SECTION_SYM | BSF_SYNTHETIC)) == 0)
-+-	bsz = ((elf_symbol_type *) b)->internal_elf_sym.st_size;
-+-      if (asz != bsz)
-+-	return asz > bsz ? -1 : 1;
-+-    }
-++    bsz = ((elf_symbol_type *) b)->internal_elf_sym.st_size;
-++  if (asz != bsz)
-++    return asz > bsz ? -1 : 1;
-+ 
-+   /* Symbols that start with '.' might be section names, so sort them
-+      after symbols that don't start with '.'.  */
-+
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch b/meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch
-new file mode 100644
-index 0000000000..f41c02a02b
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2022-48063.patch
-@@ -0,0 +1,49 @@
-+From 75393a2d54bcc40053e5262a3de9d70c5ebfbbfd Mon Sep 17 00:00:00 2001
-+From: Nick Clifton <nickc@redhat.com>
-+Date: Wed, 21 Dec 2022 11:51:23 +0000
-+Subject: [PATCH] Fix an attempt to allocate an unreasonably large amount of
-+ memory when parsing a corrupt ELF file.
-+
-+	PR  29924
-+	* objdump.c (load_specific_debug_section): Check for excessively
-+	large sections.
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=75393a2d54bcc40053e5262a3de9d70c5ebfbbfd]
-+CVE: CVE-2022-48063
-+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
-+Comment: Patch refreshed based on codebase.
-+---
-+ binutils/ChangeLog | 6 ++++++
-+ binutils/objdump.c | 4 +++-
-+ 2 files changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/binutils/ChangeLog b/binutils/ChangeLog
-+index e7f918d3f65..020e09f3700 100644
-+--- a/binutils/ChangeLog
-++++ b/binutils/ChangeLog
-+@@ -1,3 +1,9 @@
-++2022-12-21  Nick Clifton  <nickc@redhat.com>
-++
-++	PR  29924
-++	* objdump.c (load_specific_debug_section): Check for excessively
-++	large sections.
-++
-+ 2021-02-11  Alan Modra  <amodra@gmail.com>
-+ 
-+ 	   PR 27290
-+
-+diff --git a/binutils/objdump.c b/binutils/objdump.c
-+index d51abbe3858..2eb02de0e76 100644
-+--- a/binutils/objdump.c
-++++ b/binutils/objdump.c
-+@@ -3479,7 +3479,9 @@
-+   section->size = bfd_section_size (sec);
-+   /* PR 24360: On 32-bit hosts sizeof (size_t) < sizeof (bfd_size_type). */
-+   alloced = amt = section->size + 1;
-+-  if (alloced != amt || alloced == 0)
-++  if (alloced != amt
-++      || alloced == 0
-++      || (bfd_get_size (abfd) != 0 && alloced >= bfd_get_size (abfd)))
-+     {
-+       section->start = NULL;
-+       free_debug_section (debug);
-+
+  curl: Disable two intermittently failing tests (2023-12-21 13:49:45 +0000)
+
+are available in the Git repository at:
+
+  https://github.com/robertlinux/yocto rbt/archiver
+  https://github.com/robertlinux/yocto/tree/rbt/archiver
+
+Robert Yang (1):
+  archiver.bbclass: Drop tarfile module to improve performance
+
+ meta/classes/archiver.bbclass | 28 ++++++++++++++++------------
+ meta/conf/bitbake.conf        |  3 +++
+ 2 files changed, 19 insertions(+), 12 deletions(-)
+
 -- 
-2.25.1
+2.42.0
 
 
