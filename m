@@ -2,65 +2,66 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68043C3DA6E
-	for <webhook@archiver.kernel.org>; Sat, 23 Dec 2023 14:25:51 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.7192.1703341545505136181
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B28C3DA6E
+	for <webhook@archiver.kernel.org>; Sat, 23 Dec 2023 14:31:31 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.7362.1703341884064348425
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Dec 2023 06:25:45 -0800
+ Sat, 23 Dec 2023 06:31:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z5HkueCH;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40d490a1936so13965115e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 23 Dec 2023 06:25:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cx3ZdXgU;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33697caf9a6so716220f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 23 Dec 2023 06:31:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703341544; x=1703946344; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1703341882; x=1703946682; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A7kb3VjIRLOh9y2cKMTMW+i7SwMHdjE9JRabHLYLXDM=;
-        b=Z5HkueCHnYAq/DXL7qSb7L+sqvl8is8wQ9dtWjSUXWy4xJtGkZjgHnY28BrmpgePOD
-         XRQKQrIXtDKyh2g+0Kuf6xdTT2koLfh5I8tirvWk6Zs2EJiTqa0kCj8cdtcE28jAYk6q
-         VNi1+4l9XoECIDyrgBm4/5cvIDScaKdarVGL9oeBmXissMqqFPblWRGjDUc/DDJhmwqP
-         4lNjHxcgp/r5HjJ/uPcouTNiNnLsy6niJsusVmGCb41eRs2NOgylkSbcXSL1ghH3+oQy
-         vAwROuAHbH16e4MzcRWxdzIUxnbloxjBbeSvwg+/7XZKBHZPa/nXkoDMUgHCS+XnDvf1
-         oEEg==
+        bh=NmdIhk04KbRDf6uqljXBpyx9hpzumtfeFoSeJwIwvCk=;
+        b=Cx3ZdXgU9dCptAshwWTGiecRSS06QtbJOclNn1owroCCINXn/9amCfqb5HGYU+aseO
+         aFSTegI+n8WcsPhGhKiw4qyesEV5NBGPZ0oPC9RqNYalpgGUfgGQgwZwOXP7wIC8t06w
+         /kP0HwF4LdKrwGFi3MgKySlr9Elb2bbNYmI8xRXs/73Jp+k3+65kysBJ6aKjA50OYVOu
+         fgHFJRrmwzfQUL0IV8mpwQT/bdcyQ8AaN1sFZWiNW2pO5W+g82n6qxpNKEEOIodQgcfN
+         ILkAHLYTUrhnynas3yEugxgUB1cOZw3l1x2BjCY5NX6kXO3fqMGgCwXdKUlolR3v5T4F
+         n2tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703341544; x=1703946344;
+        d=1e100.net; s=20230601; t=1703341882; x=1703946682;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=A7kb3VjIRLOh9y2cKMTMW+i7SwMHdjE9JRabHLYLXDM=;
-        b=aeAF9fFwIN7F6jmf/B423k3W55oPpnNLeSWrStxRdReXXqnqtV3+W5syWR1QnnI0IT
-         M7jhr0WXuVv/Y34ORYidYHn477c37vO9nZNeJqRfDhcrIKEFuDdV+oa4vnoj+xG6iJ7B
-         DivRb3hWonx/6Gbdwitjk3jJdP8O1eHiCsuj0MaBPYsHMp7nq4xWbHVxuYcGYMO+b2vz
-         lP8414d2P/t8bdcUCQJmaQ+SWDqcHovtNIdcc66YG8EMZD4bKFZGle5zH8MItpDGFI3d
-         T06F4dj41jeNOrh0JEdCCpZxdenf5BixPI3Fmy9xhUPg4ELmTmbp6rZSJcK2uxiJsEVd
-         LcCQ==
-X-Gm-Message-State: AOJu0YzuvT7cD2AKwct1oZBQC1r6agZyzIBdhzU9kIij4BSNJoN7dFe4
-	2NDsCPOYOxCp3cEtmZ4CsnbB1xJLSmY=
-X-Google-Smtp-Source: AGHT+IEruosMG6UxH7QLdCT40nX7SsKoTUjb/aMAEq3PPwwwEyiTBdHVeaHs/4Dd8AGFxKA0vbrfEA==
-X-Received: by 2002:a05:600c:5197:b0:40d:3b17:2db6 with SMTP id fa23-20020a05600c519700b0040d3b172db6mr803414wmb.273.1703341543260;
-        Sat, 23 Dec 2023 06:25:43 -0800 (PST)
+        bh=NmdIhk04KbRDf6uqljXBpyx9hpzumtfeFoSeJwIwvCk=;
+        b=PWzx1+O7PtqjoTiaVS8nbFlONikPrKepGT81uoVpLg9re69slRfUXBFEQoS8a5dil+
+         TMYNvMagyrrby+yHcjm0r6P0JzzALjmwf9tC8J3odk8kush9bX2w4dM9Osif5H/+WjC1
+         CVepLLDAZ5Ohs81LtGbFoPxgN5kbBpfs8E+fJf9K6sKg0TVKggIwKJoPfDQHQe3jb26R
+         rM9BnOGr55xoiX3uWJYFXpeGGTO5o1uGDhpmE2mMtzVB24b9e6g1TcteTYWeEXTZ4V9i
+         LA8OACXj6oYbgT4XvEdUPtTmJqy+VGbRcKja7S67KC9GErSTzA+hPKFCpGYAHdmVlSbu
+         JauQ==
+X-Gm-Message-State: AOJu0Yyvt1uhEJd/400T5D1nK8hBnyws7WzCkp9Js6vndAxyP6++5NXD
+	m8IaKzYcrM0OgQj6DKp/OYQVzLPLk8I=
+X-Google-Smtp-Source: AGHT+IHq1UYbe3IgSR7c+bh90xOFl18Ji1uOEfrDG6cNMuL98vP4RhGw06pdJ/vujGqiipzVfOKPaA==
+X-Received: by 2002:adf:e403:0:b0:336:4435:724c with SMTP id g3-20020adfe403000000b003364435724cmr1916840wrm.17.1703341881421;
+        Sat, 23 Dec 2023 06:31:21 -0800 (PST)
 Received: from Zuma-000004PC.lan ([2a02:390:9c57:0:d9e2:102b:56b1:9620])
-        by smtp.gmail.com with ESMTPSA id fl25-20020a05600c0b9900b0040b3e26872dsm18658484wmb.8.2023.12.23.06.25.42
+        by smtp.gmail.com with ESMTPSA id e14-20020a5d530e000000b0033668ac65ddsm6574102wrv.25.2023.12.23.06.31.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Dec 2023 06:25:42 -0800 (PST)
+        Sat, 23 Dec 2023 06:31:21 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][RFC PATCH] sstate-cache-management: Rewrite in python
-Date: Sat, 23 Dec 2023 14:25:40 +0000
-Message-Id: <20231223142540.29847-1-alex.kiernan@gmail.com>
+Subject: [OE-Core][RFC PATCH v2] sstate-cache-management: Rewrite in python
+Date: Sat, 23 Dec 2023 14:31:18 +0000
+Message-Id: <20231223143119.30097-1-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Dec 2023 14:25:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192883
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Dec 2023 14:31:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192884
 
 This (should be) a drop in replacement for sstate-cache-management.sh.
+
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 This is hopefully an option compatible drop in for the existing shell
@@ -94,13 +95,16 @@ The couple of TODOs left are all about more parallelisation, I expect
 neither of them is as big a win as parallelising the stat()ing of all
 the paths was (especially when running over NFS).
 
+Changes in v2:
+- Actually send the right version with working unlink() :|
+
  scripts/sstate-cache-management.py | 329 +++++++++++++++++++++++++++++
  1 file changed, 329 insertions(+)
  create mode 100755 scripts/sstate-cache-management.py
 
 diff --git a/scripts/sstate-cache-management.py b/scripts/sstate-cache-management.py
 new file mode 100755
-index 000000000000..3ae3a7fa0515
+index 000000000000..09b7aa2aefd8
 --- /dev/null
 +++ b/scripts/sstate-cache-management.py
 @@ -0,0 +1,329 @@
@@ -427,8 +431,8 @@ index 000000000000..3ae3a7fa0515
 +        confirm = True
 +    if confirm:
 +        # TODO: parallelise remove
-+        for path in remove:
-+            remove.unlink()
++        for p in remove:
++            p.path.unlink()
 +
 +
 +if __name__ == "__main__":
