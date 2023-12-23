@@ -1,88 +1,195 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24AA1C46CD2
-	for <webhook@archiver.kernel.org>; Fri, 22 Dec 2023 22:41:39 +0000 (UTC)
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web10.34718.1703284890422149931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAFA5C3DA6E
+	for <webhook@archiver.kernel.org>; Sat, 23 Dec 2023 04:56:18 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.434.1703307377423036247
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Dec 2023 14:41:30 -0800
+ Fri, 22 Dec 2023 20:56:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BzRzooJS;
- spf=pass (domain: gmail.com, ip: 209.85.210.49, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-6dbb8698312so1075501a34.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Dec 2023 14:41:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703284889; x=1703889689; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cy+kpM/qBX/9iggWia8HsmkhnbNa3ccIGC58ADCx4yc=;
-        b=BzRzooJSITTi6ggEp0OCC6M2UhIrZ8yuymZ2sal2nF0JdsDlfPkokGUIn3FlR7sJ68
-         c1feI8w4zAhLGMIzPrleXcJPOg/zs7ZehqMDRemeOlsHFfFyS4xIaXnMFjzsezYkpHHv
-         IS2G7F6mALvybActzJndjPTUv4eKuf3/KqWdy1DspHPuokmTePtRhbAOAqgDkPl+s7+c
-         79WtTJie00fnBP0AdndK0HHCvin+HFDkTFAs7Rx/t3HHc2gjO/YmHWhN1X7msmsqNsWg
-         aKzgKkNCK8RIyXhBPUSxfpTdWYTCucrFmLWJKcgRg0lD9DTaoGsBBjMfwRWnBtla+Y3V
-         l6rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703284889; x=1703889689;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cy+kpM/qBX/9iggWia8HsmkhnbNa3ccIGC58ADCx4yc=;
-        b=Mc/kB7EXcRbFouuDC75CUfXWBfL7IiGmHK/oAEU9L8rqcL1G5Fg0ZQwbsE+b5FiqqX
-         LDj+3UaL+wrUZZOPzdQbgEfy1YVZ9cFnnwKhpm+H5Yh9xVTOJbrJM6rM+h9KB7Mt6EIn
-         9AGxNfqYzumraxn170fzbAzmmbYzFYOYZMuDowW7CW2g5AQ41Hy7OmNCcPSPRsSl+WE7
-         Q5gW+o1zbbNAj064p9k2e7uOuNch1CacVZnuA287vB5hJQVdioTmDu38QokW91OGsM/1
-         PazBRRejXE0d9R/ZoYSwZImIGyq4F5mwTw8yj+8nRQL15+1468oOFIePWjIZMGOUpZ2z
-         ekiw==
-X-Gm-Message-State: AOJu0YyAutO7dZaOjv5bY6NOgfLaEqGsaGKY5pC+R5JvzKaGp7E7lDcT
-	2suMQtqHgzFLzKlPZemTU/jMUyJtKig=
-X-Google-Smtp-Source: AGHT+IHqKiybK9X+g1dDjQTSq/DPN3NLq0nGEf3tf4qJQ5H+fYvxexS3FCrRl7d7o+a0WE5GrP/1rw==
-X-Received: by 2002:a05:6830:1c8:b0:6d9:ee22:a9eb with SMTP id r8-20020a05683001c800b006d9ee22a9ebmr1431964ota.20.1703284889143;
-        Fri, 22 Dec 2023 14:41:29 -0800 (PST)
-Received: from localhost.localdomain ([2601:282:4300:19e0::d6e0])
-        by smtp.gmail.com with ESMTPSA id r10-20020a056830120a00b006d9b1bbc666sm822167otp.17.2023.12.22.14.41.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 14:41:28 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes-global/sstate: Fix variable typo
-Date: Fri, 22 Dec 2023 15:41:09 -0700
-Message-Id: <20231222224109.1750153-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=KSv9tNPK;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B84DE0002;
+	Sat, 23 Dec 2023 04:56:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1703307375;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wf17a7wZta5LWI3J6B2CbOrABgz8/QPTu49RTCoJqbM=;
+	b=KSv9tNPKL5/YJctxczn3nWAxW1R8XmI45YLa1YHAPGda6fVMDtHh8oereU7kAqEgyVpHkw
+	UKPr/Y9b9+N7JFm4kvL/ztjNmq9mEuWiZ9Fn7oV3WkcSo7EusDR9V+7xYnOVSz2o5Syj1/
+	VeFB1MUESTqKOV5Nl4uQmWryZhAVu5ZoNUnmMiTijXjSJ9k7Ruw08zYLwkW0c6i+BmY/v6
+	PJWQMubuz/xlO6+Bc/cuvDUvImdwKys3H6w5t8zsxwI+jRzY5x52dYewX5x5qYySENeEGC
+	yR1KRNvyNN/3kwjQKI+xu0Go5WcwA4U1Za9RaTcB/iK5R3WFPN+O9VOGcCjzoQ==
+Date: Sat, 23 Dec 2023 05:56:15 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Alexander Kanavin <alex@linutronix.de>
+Subject: Re: [OE-core] [PATCH 2/2] appstream: update 0.16.3 -> 1.0.1
+Message-ID: <2023122304561596a0e7fb@mail.local>
+References: <20231222104631.3810007-1-alex@linutronix.de>
+ <20231222104631.3810007-2-alex@linutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231222104631.3810007-2-alex@linutronix.de>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Dec 2023 22:41:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192879
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Dec 2023 04:56:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192880
 
-The vardepsexclude was subtly wrong in that it referenced STATE_MANMACH
-when the actual variable name is SSTATE_MANMACH.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes-global/sstate.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/5512/steps/12/logs/errors
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 9330433bb2d..efe7f697752 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -336,7 +336,7 @@ def sstate_install(ss, d):
-     for lock in locks:
-         bb.utils.unlockfile(lock)
- 
--sstate_install[vardepsexclude] += "SSTATE_ALLOW_OVERLAP_FILES STATE_MANMACH SSTATE_MANFILEPREFIX"
-+sstate_install[vardepsexclude] += "SSTATE_ALLOW_OVERLAP_FILES SSTATE_MANMACH SSTATE_MANFILEPREFIX"
- sstate_install[vardeps] += "${SSTATEPOSTINSTFUNCS}"
- 
- def sstate_installpkg(ss, d):
+On 22/12/2023 11:46:31+0100, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  ...-meson-do-not-rely-on-an-exe-wrapper.patch | 36 -------------------
+>  .../0001-remove-hardcoded-path.patch          | 28 ++++++++-------
+>  ...appstream_0.16.3.bb => appstream_1.0.1.bb} | 10 +++---
+>  3 files changed, 19 insertions(+), 55 deletions(-)
+>  delete mode 100644 meta/recipes-support/appstream/appstream/0001-meson-do-not-rely-on-an-exe-wrapper.patch
+>  rename meta/recipes-support/appstream/{appstream_0.16.3.bb => appstream_1.0.1.bb} (78%)
+> 
+> diff --git a/meta/recipes-support/appstream/appstream/0001-meson-do-not-rely-on-an-exe-wrapper.patch b/meta/recipes-support/appstream/appstream/0001-meson-do-not-rely-on-an-exe-wrapper.patch
+> deleted file mode 100644
+> index d4f2951e7a9..00000000000
+> --- a/meta/recipes-support/appstream/appstream/0001-meson-do-not-rely-on-an-exe-wrapper.patch
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -From 79bf322768990b28c29a9d907edcca52ff48e0b8 Mon Sep 17 00:00:00 2001
+> -From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+> -Date: Wed, 26 Jul 2023 23:21:10 +0400
+> -Subject: meson: do not rely on an exe wrapper
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=UTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -Signed-off-by: Marc-Andr� Lureau <marcandre.lureau@redhat.com>
+> -
+> -Upstream-Status: Backport [https://github.com/ximion/appstream/commit/79bf322768990b28c29a9d907edcca52ff48e0b8]
+> ----
+> - data/meson.build | 7 +++++++
+> - 1 file changed, 7 insertions(+)
+> -
+> -diff --git a/data/meson.build b/data/meson.build
+> -index aea0cb25..ec0e434f 100644
+> ---- a/data/meson.build
+> -+++ b/data/meson.build
+> -@@ -7,6 +7,13 @@ install_data('its/metainfo.its',
+> - install_data('its/metainfo.loc',
+> -               install_dir: join_paths(get_option('datadir'), 'gettext', 'its'))
+> - 
+> -+# Do not rely on an exe wrapper for rel-info, use the system one in that case
+> -+if meson.is_cross_build()
+> -+    dependency('appstream', version: '>=' + as_version, native: true,
+> -+               not_found_message: 'Native appstream required for cross-building')
+> -+    ascli_exe = find_program('appstreamcli')
+> -+endif
+> -+
+> - # NOTE: We do not translate the release notes on purpose here.
+> - # If you do want to give translators a chance to translate them,
+> - # ascli news-to-metainfo needs to produce a temporary file to translate
+> --- 
+> -2.41.0
+> -
+> diff --git a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+> index 9cbfaca82f1..8f4cf1b82a4 100644
+> --- a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+> +++ b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+> @@ -1,4 +1,4 @@
+> -From 6ab00a4279823829a9b82dc9e4d055da4de88c6e Mon Sep 17 00:00:00 2001
+> +From 93bc5c1b221e5a10c65d4a055181dc818dfe1aa8 Mon Sep 17 00:00:00 2001
+>  From: Markus Volk <f_l_k@t-online.de>
+>  Date: Mon, 12 Dec 2022 15:42:42 +0100
+>  Subject: [PATCH] remove hardcoded path
+> @@ -9,23 +9,25 @@ Dont include hardcoded path. This fixes:
+>  | cc1: error: include location "/usr/include" is unsafe for cross-compilation [-Werror=poison-system-directories]
+>  
+>  Upstream-Status: Inappropriate [oe-specific]
+> +
+>  ---
+> - meson.build       | 2 +-
+> - 1 files changed, 1 insertions(+), 1 deletions(-)
+> + meson.build | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+>  
+>  diff --git a/meson.build b/meson.build
+> -index fd0e3373..2f273ada 100644
+> +index 0556b1e..d66919f 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+> -@@ -124,7 +124,7 @@ if get_option ('gir')
+> -     dependency('gobject-introspection-1.0', version: '>=1.56')
+> - endif
+> - 
+> --stemmer_inc_dirs = include_directories(['/usr/include'])
+> -+stemmer_inc_dirs = include_directories([''])
+> +@@ -185,10 +185,10 @@ endif
+> + stemmer_inc_dirs = include_directories()
+>   if get_option('stemming')
+>       stemmer_lib = cc.find_library('stemmer', required: true)
+> +-    stemmer_inc_dirs = include_directories(['/usr/include'])
+> ++    stemmer_inc_dirs = include_directories()
+>       if not cc.has_header('libstemmer.h')
+> --- 
+> -2.34.1
+> -
+> +         if cc.has_header('libstemmer/libstemmer.h')
+> +-            stemmer_inc_dirs = include_directories('/usr/include/libstemmer')
+> ++            stemmer_inc_dirs = include_directories()
+> +         else
+> +             error('Unable to find Snowball header "libstemmer.h". Please ensure libstemmer/Snowball is installed properly in order to continue.')
+> +         endif
+> diff --git a/meta/recipes-support/appstream/appstream_0.16.3.bb b/meta/recipes-support/appstream/appstream_1.0.1.bb
+> similarity index 78%
+> rename from meta/recipes-support/appstream/appstream_0.16.3.bb
+> rename to meta/recipes-support/appstream/appstream_1.0.1.bb
+> index bde679e256a..7723800bab8 100644
+> --- a/meta/recipes-support/appstream/appstream_0.16.3.bb
+> +++ b/meta/recipes-support/appstream/appstream_1.0.1.bb
+> @@ -24,12 +24,10 @@ inherit meson gobject-introspection gettext gtk-doc pkgconfig vala
+>  GIR_MESON_OPTION = "gir"
+>  GTKDOC_MESON_OPTION = "apidocs"
+>  
+> -SRC_URI = " \
+> -	https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}.tar.xz \
+> -	file://0001-remove-hardcoded-path.patch \
+> -	file://0001-meson-do-not-rely-on-an-exe-wrapper.patch \
+> -"
+> -SRC_URI[sha256sum] = "081c917646e94d7221c9e4aae54dacda95a27c607fa93cd8e6344a2b318b98b1"
+> +SRC_URI = "https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}.tar.xz \
+> +           file://0001-remove-hardcoded-path.patch \
+> +           "
+> +SRC_URI[sha256sum] = "fa4d5994e5c6f22e9b66cb0b52e8b5f5d96e7353ea5528b56436e0150829203b"
+>  
+>  S = "${WORKDIR}/AppStream-${PV}"
+>  
+> -- 
+> 2.39.2
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192869): https://lists.openembedded.org/g/openembedded-core/message/192869
+> Mute This Topic: https://lists.openembedded.org/mt/103316474/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
