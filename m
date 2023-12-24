@@ -1,143 +1,144 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B6E7C46CD2
-	for <webhook@archiver.kernel.org>; Sun, 24 Dec 2023 14:18:38 +0000 (UTC)
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
- by mx.groups.io with SMTP id smtpd.web10.27112.1703427515826213208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6577C46CD3
+	for <webhook@archiver.kernel.org>; Sun, 24 Dec 2023 23:09:40 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.35970.1703459380114422298
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Dec 2023 06:18:36 -0800
+ Sun, 24 Dec 2023 15:09:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZMxPHqtk;
- spf=softfail (domain: sakoman.com, ip: 209.85.222.173, mailfrom: steve@sakoman.com)
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-78104f6f692so248348885a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 Dec 2023 06:18:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CLA7PfBL;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33697e6fc4aso2131230f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 Dec 2023 15:09:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703427514; x=1704032314; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KLgKV/3R640To9tbDTPVc7hyVUkt+ciuUVYbeihSOJc=;
-        b=ZMxPHqtkWH/nzGi3RfPvTWYo2tk8FfR/9Rw05/B7evMSC94xxrIBoxrJOUK1DGM6W5
-         8ntF7qGe4xvZXEzPCtVIxvCiRLPU07swd8zQQcHWl5em/DAnrxWd6kTLHFKeIRSUkz5H
-         dKXJmSkDJpFxguTf4DWA515SsGC9rpET6FIAR6UUDcScns2ukrhfUy6QODI5nFWAxe+s
-         Lo5fchzeGfDenteSZhtJnYoJboGJpxyxIxXR7G7zSqJ60x4S73WEdOqvVcXWYvjuTBQz
-         LcnXmiVPox2S9bvyslfqZRobJ5EDZt/FrQIUWSA247mWeztBAbe0c/62HUGclQRwtGVD
-         diwQ==
+        d=gmail.com; s=20230601; t=1703459378; x=1704064178; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8OckJV4arT1tOKgU2dx46qzQCHwXauuLK6qaJRWhaB4=;
+        b=CLA7PfBLRbokmI0krie0KlcKMSqjX+PwVKCfFijY64I0BuPIo10zPmgUx+UsfAiam8
+         o44jSknF4IIssVwQ2daIKQZencu+mRgeEScs92OYEi6iknpLhbTwH5N2EN6OftMxM0jT
+         qc8ycv+zIbKFf3NEUwWFCPL345yIRfiKU6hE6LAQNygGATAtIe+mCeyZBAu4athpXrmM
+         awVROJ32F+eDkSmxlFBbfMoUoQ6Rrb2Du1hUQK5szDnhY/SM5SSGGn2CTL7hRIfKlf64
+         /oi0IJA/zbBw7zhozkROufWJJTVgvZReGDDxcBA/rJsMub+Ntmn+FgEl9HfzLGdSgf57
+         obpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703427514; x=1704032314;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KLgKV/3R640To9tbDTPVc7hyVUkt+ciuUVYbeihSOJc=;
-        b=Bv8itzWLyFLxJQx9iDK0cFRGTTGz+IPRvNWUkj/TL6gtIKtrvhObQMfdOj4JD9U20h
-         LO6qBf9xFOW64rGpFGFN2WyEbDkonLSsw3BZjldC4r4oyLfonJmeUc6bh1y8bEb3MlrD
-         YMkoaV+CtetgFfNNxGIXLCpGKfEPvaimiltjvc88VLppvhVhl6G4tbTN4J5iDQ1AMMCI
-         0Q6azhG6I2sCL/S4DwIsNEeC7VbYlFw2v00TjvHfB+bhq4+uUmatSdn39/ZZfSadad0Z
-         n0uuCI6D5C6ZKoebLHUzgx/HygIix8rnybsD9Yu+WFRdqf0evHyaFom86tYCXyOHJFSa
-         54UA==
-X-Gm-Message-State: AOJu0Yxa2y6Fwjmk9+QbrRlhCz177ZXnw1bD5TcdJWY26JlqpqerfyzL
-	2qWPdNwSuXf4vGkZJTSrDFPbhgP4QH8+Epyc3OqnNDfQHDFf0A==
-X-Google-Smtp-Source: AGHT+IHtYoXxV/yiNfSSoA0p3fhEfadPV/hXg1W8/os286WObwd3h+cNGe6nETuwb16l6WU7nSa4kQ==
-X-Received: by 2002:a05:620a:1923:b0:77e:fbba:6466 with SMTP id bj35-20020a05620a192300b0077efbba6466mr8851694qkb.69.1703427514043;
-        Sun, 24 Dec 2023 06:18:34 -0800 (PST)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id g27-20020a05620a13db00b007788bb0ab8esm2782358qkl.19.2023.12.24.06.18.33
+        d=1e100.net; s=20230601; t=1703459378; x=1704064178;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8OckJV4arT1tOKgU2dx46qzQCHwXauuLK6qaJRWhaB4=;
+        b=VS9LOjg1MTx605WjhaRSLofCaepVviukRzJcDuN2oUtrKBEcN9AUuRp/b302u2wO2g
+         e/Merl08T8XBxPyUfcZ1Rd2vKBLy1aUigCaKCssMIND+lfmHVve6pSjh1SRb86dc8kjX
+         4P50C7i+Pa3w/csVf0GPRJqTg88Cqe9F1P4x6DYsQvJaoCTyOmjinJKExebRWmfYhJ+3
+         FkD7+zRDHjIsqL5MqI++rEoBYEbBn8go4lj8Q0bY+4BM6+UKQeRvHt6uZ33YWPz7m68t
+         2J5fCiApV08TFG8oPA5mwDD/gH0ZkYMAUR/mnzj6cEBHk6Es3DhQm4640jBVQ6Cjq+DM
+         Em7g==
+X-Gm-Message-State: AOJu0YzxY6KFodOS+GKH4hrqMpQSRqLc33AAiCzLxa8Ay39rOUP/jwP5
+	eyS1O3XrcJorhxp39Ky48m5slgr8p4E=
+X-Google-Smtp-Source: AGHT+IFEUZsXYP7Qv8uBx+VXkRDihDE+dz75y90vzuuTbvdgK87V0LTTH2XSQG8zvEIiPKZgp6R5lg==
+X-Received: by 2002:a5d:5005:0:b0:336:8940:c4e1 with SMTP id e5-20020a5d5005000000b003368940c4e1mr1867701wrt.30.1703459377492;
+        Sun, 24 Dec 2023 15:09:37 -0800 (PST)
+Received: from Zuma-000004PC.lan (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
+        by smtp.gmail.com with ESMTPSA id b6-20020adfee86000000b00336344c3c3fsm9122309wro.90.2023.12.24.15.09.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Dec 2023 06:18:33 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 77EA81069D1; Sun, 24 Dec 2023 04:18:32 -1000 (HST)
-Subject: OE-core CVE metrics for nanbield on Sun 24 Dec 2023 04:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 24 Dec 2023 04:18:32 -1000
-Message-Id: <20231224141832.77EA81069D1@builder.sakoman.com>
+        Sun, 24 Dec 2023 15:09:37 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Frederic Martinsons <frederic.martinsons@gmail.com>,
+	Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH 0/6] Stepwise rust upgrade 1.71.1 -> 1.74.1
+Date: Sun, 24 Dec 2023 23:09:28 +0000
+Message-Id: <20231224230934.831-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Dec 2023 14:18:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192894
+ <openembedded-core@lists.openembedded.org>; Sun, 24 Dec 2023 23:09:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192895
 
-Branch: nanbield
+This is the 1.74.1 rust series rebased to include a revert of
+https://github.com/rust-lang/cc-rs/commit/c4f414f449bb7cffba3bc923f277704d1d08a8ec
+which I'm pretty sure is what's causing our filename churn. I've checked
+1.72.0 and 1.74.1 for the absvdi2.o intrinsic (one of many intrinsics
+which had the issue) and in both cases we're not generating the dirname
+based prefix - hopefully that means that the interim commits are fine
+too, if not we can do the step back through the commits to find the next
+issue.
 
-New this week: 5 CVEs
-CVE-2023-51384 (CVSS3: 5.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51384 *
-CVE-2023-51385 (CVSS3: 9.8 CRITICAL): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51385 *
-CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
-CVE-2023-6377 (CVSS3: 7.8 HIGH): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6377 *
-CVE-2023-6478 (CVSS3: 7.5 HIGH): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6478 *
+I've dropped the zvariant tests as upgrading it isn't useful (since it
+no longer includes git crate dependency) and spurious oe-selftest
+failures aren't helpful. I guess we need to include either something
+synthetic which tests git crates, or pull in
+https://github.com/jthornber/thin-provisioning-tools/ from
+meta-openembedded which includes a live example (though who knows for
+how long!)
 
-Removed this week: 5 CVEs
-CVE-2023-38473 (CVSS3: 5.5 MEDIUM): avahi https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38473 *
-CVE-2023-46218 (CVSS3: 6.5 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46218 *
-CVE-2023-46751 (CVSS3: 7.5 HIGH): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46751 *
-CVE-2023-4692 (CVSS3: 7.8 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4692 *
-CVE-2023-4693 (CVSS3: 4.6 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4693 *
+Assuming this does actually fix the reproducibility issue, I'll look at
+how we fix the issue properly, rather than just reverting the commit
+which I think is our problem, but I'd like to try and get us back on the
+rust release train if we can!
 
-Full list:  Found 63 unpatched CVEs
-CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2023-0687 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0687 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
-CVE-2023-39189 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39189 *
-CVE-2023-39192 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39192 *
-CVE-2023-39193 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39193 *
-CVE-2023-39326 (CVSS3: 5.3 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39326 *
-CVE-2023-39928 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39928 *
-CVE-2023-40030 (CVSS3: 6.1 MEDIUM): rust:rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40030 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
-CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
-CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
-CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
-CVE-2023-42753 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42753 *
-CVE-2023-42754 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42754 *
-CVE-2023-42756 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42756 *
-CVE-2023-45283 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45283 *
-CVE-2023-45284 (CVSS3: 5.3 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45284 *
-CVE-2023-45285 (CVSS3: 7.5 HIGH): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45285 *
-CVE-2023-46219 (CVSS3: 5.3 MEDIUM): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46219 *
-CVE-2023-4623 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4623 *
-CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
-CVE-2023-47470 (CVSS3: 7.8 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47470 *
-CVE-2023-4921 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4921 *
-CVE-2023-49292 (CVSS3: 4.8 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-49292 *
-CVE-2023-50431 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-50431 *
-CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
-CVE-2023-51384 (CVSS3: 5.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51384 *
-CVE-2023-51385 (CVSS3: 9.8 CRITICAL): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51385 *
-CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
-CVE-2023-5178 (CVSS3: 8.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5178 *
-CVE-2023-5197 (CVSS3: 6.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5197 *
-CVE-2023-5345 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5345 *
-CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
-CVE-2023-5633 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5633 *
-CVE-2023-5678 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5678 *
-CVE-2023-5717 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5717 *
-CVE-2023-6238 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6277 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6277 *
-CVE-2023-6377 (CVSS3: 7.8 HIGH): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6377 *
-CVE-2023-6478 (CVSS3: 7.5 HIGH): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6478 *
-CVE-2023-6560 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6560 *
-CVE-2023-6606 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6606 *
-CVE-2023-6610 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6610 *
-CVE-2023-6622 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6622 *
-CVE-2023-6679 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6679 *
-CVE-2023-6817 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6817 *
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+Alex Kiernan (6):
+  meta-selftest: Drop zvariant recipe
+  rust: Upgrade 1.71.1 -> 1.72.0
+  rust: Upgrade 1.72.0 -> 1.72.1
+  rust: Upgrade 1.72.1 -> 1.73.0
+  rust: Upgrade 1.73.0 -> 1.74.0
+  rust: Upgrade 1.74.0 -> 1.74.1
+
+ .../zvariant/zvariant-crates.inc              |  258 ----
+ .../zvariant/zvariant-git-crates.inc          |   14 -
+ .../0001-Tweak-zvariant-crate-config.patch    | 1292 -----------------
+ .../zvariant/zvariant_3.12.0.bb               |   37 -
+ meta/conf/distro/include/tcmode-default.inc   |    2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |   93 --
+ .../rust/{cargo_1.71.1.bb => cargo_1.74.1.bb} |    0
+ ...-Do-not-use-LFS64-on-linux-with-musl.patch |  164 ---
+ ...0001-Don-t-use-LFS64-symbols-on-musl.patch |  163 +++
+ ...e-absolute-paths-to-OUT_DIR-as-relat.patch |   67 +
+ ...Define-SOCK_NONBLOCK-with-O_NONBLOCK.patch |  122 ++
+ ...efine-SOCK_SEQPACKET-in-common-place.patch |  114 --
+ ...ine-F_SETLK-F_SETLKW-and-fix-F_GETLK.patch |   41 +
+ ...GETLK-F_OFD_SETLK-and-F_OFD_SETLKW-t.patch |  205 +++
+ ...-musl-Define-O_LARGEFILE-for-riscv32.patch |   32 +
+ ...efine-SOCK_SEQPACKET-in-common-place.patch |  115 ++
+ .../rust/files/getrandom-open64.patch         |   50 -
+ .../rust/files/hardcodepaths.patch            |   14 +-
+ .../rust/files/zlib-off64_t.patch             |   17 +-
+ ...ibstd-rs_1.71.1.bb => libstd-rs_1.74.1.bb} |    0
+ ....71.1.bb => rust-cross-canadian_1.74.1.bb} |    0
+ ...ust-llvm_1.71.1.bb => rust-llvm_1.74.1.bb} |    0
+ meta/recipes-devtools/rust/rust-snapshot.inc  |   64 +-
+ meta/recipes-devtools/rust/rust-source.inc    |   12 +-
+ .../rust/{rust_1.71.1.bb => rust_1.74.1.bb}   |    1 +
+ 25 files changed, 802 insertions(+), 2075 deletions(-)
+ delete mode 100644 meta-selftest/recipes-extended/zvariant/zvariant-crates.inc
+ delete mode 100644 meta-selftest/recipes-extended/zvariant/zvariant-git-crates.inc
+ delete mode 100644 meta-selftest/recipes-extended/zvariant/zvariant/0001-Tweak-zvariant-crate-config.patch
+ delete mode 100644 meta-selftest/recipes-extended/zvariant/zvariant_3.12.0.bb
+ rename meta/recipes-devtools/rust/{cargo_1.71.1.bb => cargo_1.74.1.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/rust/files/0001-Do-not-use-LFS64-on-linux-with-musl.patch
+ create mode 100644 meta/recipes-devtools/rust/files/0001-Don-t-use-LFS64-symbols-on-musl.patch
+ create mode 100644 meta/recipes-devtools/rust/files/0001-Revert-Map-source-absolute-paths-to-OUT_DIR-as-relat.patch
+ create mode 100644 meta/recipes-devtools/rust/files/0001-musl-Define-SOCK_NONBLOCK-with-O_NONBLOCK.patch
+ delete mode 100644 meta/recipes-devtools/rust/files/0001-musl-Define-SOCK_SEQPACKET-in-common-place.patch
+ create mode 100644 meta/recipes-devtools/rust/files/0002-musl-riscv32-Define-F_SETLK-F_SETLKW-and-fix-F_GETLK.patch
+ create mode 100644 meta/recipes-devtools/rust/files/0003-musl-Move-F_OFD_GETLK-F_OFD_SETLK-and-F_OFD_SETLKW-t.patch
+ create mode 100644 meta/recipes-devtools/rust/files/0004-musl-Define-O_LARGEFILE-for-riscv32.patch
+ create mode 100644 meta/recipes-devtools/rust/files/0005-musl-Define-SOCK_SEQPACKET-in-common-place.patch
+ delete mode 100644 meta/recipes-devtools/rust/files/getrandom-open64.patch
+ rename meta/recipes-devtools/rust/{libstd-rs_1.71.1.bb => libstd-rs_1.74.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-cross-canadian_1.71.1.bb => rust-cross-canadian_1.74.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-llvm_1.71.1.bb => rust-llvm_1.74.1.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust_1.71.1.bb => rust_1.74.1.bb} (99%)
+
+-- 
+2.39.0
+
 
