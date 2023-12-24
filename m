@@ -1,133 +1,96 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <sgw@bigsur.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D705CC3DA6E
-	for <webhook@archiver.kernel.org>; Sat, 23 Dec 2023 22:13:53 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.15690.1703369624350807900
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C4CAC3DA6E
+	for <webhook@archiver.kernel.org>; Sun, 24 Dec 2023 01:12:14 +0000 (UTC)
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+ by mx.groups.io with SMTP id smtpd.web11.18352.1703380333050319000
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Dec 2023 14:13:44 -0800
+ Sat, 23 Dec 2023 17:12:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AZtw2LJu;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e6ee5b7ffso1156935e87.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 23 Dec 2023 14:13:44 -0800 (PST)
+ dkim=pass header.i=@bigsur.com header.s=bigsur.com header.b=HtjIgQRu;
+ spf=pass (domain: bigsur.com, ip: 209.85.166.178, mailfrom: sgw@bigsur.com)
+Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-35d725ac060so13774455ab.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 23 Dec 2023 17:12:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703369622; x=1703974422; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KNSI0C7bGJtbh+K3eJUGSPvDKJlRIoZ1EfT9prrtDyE=;
-        b=AZtw2LJu86CdlKrm3OsZ8l1nLtkBXIFV1j2exqZwts45xciUoGPTpa4txv0D8Lr1tw
-         ZfqpMLfr3XiBmuU0Zwv+D1DCqKofZl+QMLDo+nCoAWM2ktKLZ9wylyN/B2bGtykERzgz
-         TuNIAa0Dtu76ggmmCDwzHAQ6ZtkqZBOztbB5qzEEvmko6s+Qxl3FQVnuX6JkOTLRB8ie
-         QI4hLYc8B2nFP9w7mwf6X4XV+IBatqr7RhIsLszUG+DBs0LLEBjiUYOMYR7MNlPy8m80
-         nzBavAMY/NbPP6/x4qb0kiYLmggpN5AzgcC3Mqh/cZd0E48tJp8FUwqqYyPCJBbfq8sX
-         TxDQ==
+        d=bigsur.com; s=bigsur.com; t=1703380331; x=1703985131; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pyn6lWQoxx26GAt6z1LAEZtcNDVI6N+cexX/ARWim2E=;
+        b=HtjIgQRufsElWEOQKgdKrQxmHKwd8IBvARXikINGDSXc8F8GL4os8q2TAogaBJsodX
+         iLIIa8/CxN6QkfWuljmZzflOzSOWexHZ+BWBL03InWUz3M6ofnpJ3exr5CdcfnEyiwgQ
+         m6CWjhRwAxj8V7TmhO3D+120GzgUVh3woYLTU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703369622; x=1703974422;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KNSI0C7bGJtbh+K3eJUGSPvDKJlRIoZ1EfT9prrtDyE=;
-        b=maGO0RoCcdStqlYnmvIDzOVff/mrZ8RoccsxlhYPkguX1ZxEwYxgtyREHj/Pl2OV6w
-         RaRYzWRIkEv2SWw22HwF8JnpPutKp3+8e6ZNVlHmrySjtw6ybYA+ShnzQImDkR+lmljq
-         fOam99oap7rxSiHJUOs4qConZ1Vf0iBecwBPLxiHgQ2+EzCyS6+qcl+AIeZ51ywnh7aN
-         1aWTj8/biVc0rqrS7rTr5+vqmKtsk0oGpSeWz/fYAypvs8m9MAAE3Uclma6RSCtxCNgY
-         5Yn44PJhGXfQYD0UY8C3OT3nBoQuv3CZ9wIVLSB7XdPLX5O7B2IKQ7js0stH0W6g+mHM
-         d1Rg==
-X-Gm-Message-State: AOJu0Yyjn88G917Q+gwaHQqC4NZ06SOxpWvUw6i4aj80Z38Mx1bB4BHV
-	ckWl4DmHTfhDJnpNMXPSPrbtlz7Uw1jeqkHkd+4=
-X-Google-Smtp-Source: AGHT+IGQVOJa8i8qp+vBd4MApAYJ9MHR1b/cwisLA7rqSjZiqnzDGkqtRXYjoSk5lo4z3IrArMJgEybhFcUPCEtr7zM=
-X-Received: by 2002:ac2:5e33:0:b0:50e:6b48:5407 with SMTP id
- o19-20020ac25e33000000b0050e6b485407mr1220406lfg.82.1703369622195; Sat, 23
- Dec 2023 14:13:42 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703380331; x=1703985131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pyn6lWQoxx26GAt6z1LAEZtcNDVI6N+cexX/ARWim2E=;
+        b=p7MITKfapuP8CKILhqlNm0RlqwXtLn8SbjlpzCnt8JwzNYlqt9JFfDtKFYFtUAyaFT
+         v35725aWRkPHhbszdcfI2eiJMW3orlYRywhbAysMcwJrHnnFtod+x0in//WV/Hsvq249
+         TwYvjozacVqwwAM2OYWa8Kv+/IP/1CjV+5N1P3+SYMgwUiWHWO4dX6A8wOmBaLv7sRbv
+         DaRZVrJ1JwlzG4qCpA3OedsX+cnIzu610a0mFj6xHHpahZpcD9CednN/qN9JpoKCXVC8
+         mSsdavzsOz63r9IXvQu9yPY9MxEMmBxtRytVtnFi9KzPT5FXy073I6pmFNT4JJcpeoLR
+         F1uA==
+X-Gm-Message-State: AOJu0YyMbL94xBfI0BN+uiO1Ny1ngxrGOlr7uVi9EthWXyJviBGxWvSr
+	sSJe3YXuA3CxTE6cxKeYUxLWb/QW1ojupaVDSVumDrLxZ4jt
+X-Google-Smtp-Source: AGHT+IE7Rb53o31dZW1NMhHHNwLSJnannImONgVxZy454Pu1MnRRK83PXD05JWuyAVESDmRDg4VAZg==
+X-Received: by 2002:a05:6e02:1561:b0:35f:ebc9:8229 with SMTP id k1-20020a056e02156100b0035febc98229mr3137795ilu.64.1703380331299;
+        Sat, 23 Dec 2023 17:12:11 -0800 (PST)
+Received: from framework.localdomain ([69.9.134.55])
+        by smtp.gmail.com with ESMTPSA id g12-20020a170902c38c00b001d3985a593esm5649003plg.172.2023.12.23.17.12.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Dec 2023 17:12:10 -0800 (PST)
+From: Saul Wold <sgw@bigsur.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Subject: [PATCH] package.py: OEHasPackage: Add MLPREFIX to packagename
+Date: Sat, 23 Dec 2023 17:12:07 -0800
+Message-Id: <20231224011207.3099245-1-sgw@bigsur.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20231213094113.3981-1-alex.kiernan@gmail.com> <bdd89f1893f33e2d19db0367fb1544b36ee49cf9.camel@linuxfoundation.org>
- <E29D8825-5868-4FB2-A0ED-B01299BBBF4E@arm.com> <CAO5Uq5TZfbe5HaEuV69T94WC0F6gytTkp-RCpaTKwtO1SoHKrg@mail.gmail.com>
- <CAMKF1sqoiM_dTGO2_J7za+OnsCX4F7i=rzUBbnhZQ2rRBFYyKA@mail.gmail.com> <17A38CDC4B87CFC1.18542@lists.openembedded.org>
-In-Reply-To: <17A38CDC4B87CFC1.18542@lists.openembedded.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sat, 23 Dec 2023 22:13:30 +0000
-Message-ID: <CAO5Uq5Tu4dgiYegPofh8n8KJozsjTFc6ipi4X74Rk15mxunG1g@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH] rust: Upgrade 1.71.1 -> 1.74.1
-To: alex.kiernan@gmail.com
-Cc: Khem Raj <raj.khem@gmail.com>, Ross Burton <Ross.Burton@arm.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Dec 2023 22:13:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192888
+ <openembedded-core@lists.openembedded.org>; Sun, 24 Dec 2023 01:12:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192889
 
-On Sat, Dec 23, 2023 at 7:32=E2=80=AFPM Alex Kiernan via
-lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> On Fri, Dec 15, 2023 at 5:24=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wro=
-te:
-> >
-> > On Fri, Dec 15, 2023 at 4:41=E2=80=AFAM Alex Kiernan <alex.kiernan@gmai=
-l.com> wrote:
-> > >
-> > > On Thu, Dec 14, 2023 at 10:28=E2=80=AFAM Ross Burton <Ross.Burton@arm=
-.com> wrote:
-> > > >
-> > > > On 13 Dec 2023, at 14:06, Richard Purdie via lists.openembedded.org=
- <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> > > > > I've run this with this patch included:
-> > > > >
-> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/build=
-s/4082
-> > > >
-> > > > Same failure:
-> > > >
-> > > > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-2023121=
-3-s13b67oz/packages/diff-html/
-> > > >
-> > > > Ross
-> > >
-> > > Thanks both.
-> > >
-> > > It does look like its just filename churn, but I cannot find where
-> > > those names actually get generated :| Suspect this will be a report
-> > > upstream and hope someone helps.
-> > >
-> >
-> > I think its the cmdline options passed to compiler-builtins crate. So
-> > looking closely at this crates build log can reveal the problem. If
-> > somewhere we have builds
-> > done in two different folders I can take a look
-> >
->
-> I think you're right... I've been looking in completely the wrong place :=
-|
->
+FIXES [YOCTO #12342]
 
-I think this is our problem:
+When testing a Multilib image, the package manifest list contains
+the fully qualified package name which includes the Multilib Prefix.
+This patch adds the MLPREFIX to the package names that are passed
+into the @OEHasPackage() decorator to ensure the set isdisjoint()
+matches correctly.
 
-https://github.com/rust-lang/cc-rs/commit/c4f414f449bb7cffba3bc923f277704d1=
-d08a8ec
+Signed-off-by: Saul Wold <sgw@bigsur.com>
+---
+Tested with a lib32 image and without
 
-> --
-> Alex Kiernan
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192886): https://lists.openembedded.org/g/openembedde=
-d-core/message/192886
-> Mute This Topic: https://lists.openembedded.org/mt/103146651/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kiernan@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+ meta/lib/oeqa/runtime/decorator/package.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/meta/lib/oeqa/runtime/decorator/package.py b/meta/lib/oeqa/runtime/decorator/package.py
+index 8aba3f325bc..b78ac9fc388 100644
+--- a/meta/lib/oeqa/runtime/decorator/package.py
++++ b/meta/lib/oeqa/runtime/decorator/package.py
+@@ -38,11 +38,12 @@ class OEHasPackage(OETestDecorator):
+         if isinstance(self.need_pkgs, str):
+             self.need_pkgs = [self.need_pkgs,]
+ 
++        mlprefix = self.case.td.get("MLPREFIX")
+         for pkg in self.need_pkgs:
+             if pkg.startswith('!'):
+-                unneed_pkgs.add(pkg[1:])
++                unneed_pkgs.add(mlprefix + pkg[1:])
+             else:
+-                need_pkgs.add(pkg)
++                need_pkgs.add(mlprefix + pkg)
+ 
+         if unneed_pkgs:
+             msg = 'Checking if %s is not installed' % ', '.join(unneed_pkgs)
+-- 
+2.34.1
 
---=20
-Alex Kiernan
 
