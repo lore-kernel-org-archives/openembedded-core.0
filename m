@@ -1,144 +1,142 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB90C46CD4
-	for <webhook@archiver.kernel.org>; Tue, 26 Dec 2023 05:14:09 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.74931.1703567648353119302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D618CC46CD4
+	for <webhook@archiver.kernel.org>; Tue, 26 Dec 2023 08:59:10 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web10.77444.1703581144135785778
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Dec 2023 21:14:08 -0800
+ Tue, 26 Dec 2023 00:59:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=NllZy851;
- spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d4006b251aso34391355ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Dec 2023 21:14:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KwiNtsIK;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50e5a9bcec9so5006689e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 00:59:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1703567647; x=1704172447; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JPNpLxMcQi7xmT3WKArO+tynL0m9fL1V1j3EnuIg048=;
-        b=NllZy851Xi5As7QwCiqyynlWsBNvD8u9dsowfuUyHcrDFCJwjmxRp+ScNhYmOzzArR
-         be7+FcCdGv7m9Gbzf6LIiyi+EvEgCTd+JLcjYrQveQCoz8a0gjPCZgzcx189gbWnuTD0
-         nA36uQOMEFtMLX/BiQHdwIdP+vft0+9pJnirU=
+        d=gmail.com; s=20230601; t=1703581142; x=1704185942; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sDL9Y2GgmUz4bht84A+6vDGB8HkssvlWMY8utfCWEuQ=;
+        b=KwiNtsIKa2KeCXr2NJij3y5n5CgkhoUivuBBcpu3W8Qbl/q8dc8QkL3FaXOKD6YSUi
+         3DsDJo6o6MAKPZSkT6uJS9C1dkmGprRUxXoS2BtqQFmReL+2Cwn2zTQ4umRh42M7poJl
+         VPNKh4v20GBn9Gs6xHjYwVTFvCmjnSmGJdLU3AzQbXoB8i7g7F6eQgNYZR0BjQWp2oT/
+         L9/Tkf2ulveAoFANuLa01HuhM7QLeIlfZS4kI3Omf2ZwzBRyP2WPFdnGUEzvzjRA/EoD
+         r6Mq0RSL8TCUOVIEYjMpfpHGLqglVnw3n4weyIjU5me05QxTcTYZx3+EHvfhHHU1O7Rb
+         Kw6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703567647; x=1704172447;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JPNpLxMcQi7xmT3WKArO+tynL0m9fL1V1j3EnuIg048=;
-        b=gcxAp0b2Zbuq9q7WMupC00akKn+T5ajMFHE869HnKu8AG6o3yxAR7ipXbpVN5Tm8IL
-         8vTM9l8r561xS+DmPNoYVD55H/wTMCir6iHcDW//kV2pzHH1nZkbeaculIezcwhhJfsO
-         W2+sgtco0sNZ04BTSV8YtuwnTGJdvTk5hZ44/4UtmqpXqyQuukcqr9HAauojIE2KkVDH
-         6NwgHDS3gLN6X7LYaeY4+t7o1fhKEGDYrif2c2Movkk6nnu7MJGXREuYWXwS7+RW/gLd
-         KRcdLxhI8FxGRerEdZkR0sIOwZNEsQbQJ3myQoXGn8MkiqTr8pDesZtGae+aIMRkwmxh
-         iPMw==
-X-Gm-Message-State: AOJu0YzjIJSbude1f14WvoLkKaUNziU/iOPTFLWAvpgta83EDOmj6qHu
-	bPzeeNFlrTRutMcRb/N+hrrM6wasY9T7aVFq12pnG8x6ETM=
-X-Google-Smtp-Source: AGHT+IG4F0gth0nbUTBudl9I0uxkpdnXJvW4fPbN5RxAvdjOViYY7SYFfetn3X522XGF5OwrWj4Igw==
-X-Received: by 2002:a17:902:7ed0:b0:1d4:691e:817f with SMTP id p16-20020a1709027ed000b001d4691e817fmr1043833plb.126.1703567647465;
-        Mon, 25 Dec 2023 21:14:07 -0800 (PST)
-Received: from MVIN00016.mvista.com ([152.58.38.156])
-        by smtp.gmail.com with ESMTPSA id im15-20020a170902bb0f00b001d3c23a6862sm9321144plb.25.2023.12.25.21.14.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Dec 2023 21:14:07 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] bluez5: fix CVE-2023-45866
-Date: Tue, 26 Dec 2023 10:41:58 +0530
-Message-Id: <20231226051158.21936-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1703581142; x=1704185942;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sDL9Y2GgmUz4bht84A+6vDGB8HkssvlWMY8utfCWEuQ=;
+        b=FT3wLXG+LweU9u6CPWlG68iBZB+ybfRCKP8POLUh34Ua43wtq/FiUmTLXs8+/95Fbj
+         5XED30pBQ0E5w7cHT0W4aKTRe0PnYiHI4bQe3DY2wPy3rVuqILCk29u8Ci60susSTQT1
+         WOiDdIRJpT6DBUFXg36WG+N4mlV9HYnkgi584xDBYVcbPS+d1TXiF1HaK6zgL4cBGvqS
+         ClMwENmITpHmnHdXbc9qY+DsMLJD54JqPI4R+JCrLVgWNuzKpVVNlwnubKjUyLNprDA+
+         DRPHzZtUQQD3t5WvYVY8qVb4vyvUR6x1/DxeUF75XLQjXf7lWC0EuRrb/riyxagzERH0
+         JZaw==
+X-Gm-Message-State: AOJu0YxxisAvrdRzb44+brjZOoD9y+wGRZZsA0OrjjQTYXGOhYbuL9Y+
+	HGl/SUu+8TseUW4DBXjSLLutvUfp5pc+C2GcTwg=
+X-Google-Smtp-Source: AGHT+IFvtpYqgHTOrtF1GsVTxzYjFgddecaXGPP8GrzzG23ssVLdF11WIwKM31jEryG82U+MJUC8KIal/IpiDDZ/fLY=
+X-Received: by 2002:ac2:5f88:0:b0:50b:e713:574d with SMTP id
+ r8-20020ac25f88000000b0050be713574dmr2552347lfe.75.1703581141795; Tue, 26 Dec
+ 2023 00:59:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231224230934.831-1-alex.kiernan@gmail.com> <17A406727F961131.18684@lists.openembedded.org>
+ <40a32888473597abf1b65d85e46efde7ce153d54.camel@linuxfoundation.org>
+In-Reply-To: <40a32888473597abf1b65d85e46efde7ce153d54.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 26 Dec 2023 08:58:49 +0000
+Message-ID: <CAO5Uq5Rq4jZrjp8tv3MDcdhXQEUgEOnsev4GZOKFPXB1zO1DJA@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 0/6] Stepwise rust upgrade 1.71.1 -> 1.74.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Frederic Martinsons <frederic.martinsons@gmail.com>, Randy MacLeod <randy.macleod@windriver.com>, 
+	Sundeep KOKKONDA <sundeep.kokkonda@gmail.com>, "Shinde, Yash" <Yash.Shinde@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 05:14:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192907
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 08:59:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192908
 
-Upstream-Status: Backport from https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=25a471a83e02e1effb15d5a488b3f0085eaeb675
+On Mon, Dec 25, 2023 at 10:02=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2023-12-25 at 08:40 +0000, Richard Purdie via
+> lists.openembedded.org wrote:
+> > On Sun, 2023-12-24 at 23:09 +0000, Alex Kiernan wrote:
+> > > This is the 1.74.1 rust series rebased to include a revert of
+> > > https://github.com/rust-lang/cc-rs/commit/c4f414f449bb7cffba3bc923f27=
+7704d1d08a8ec
+> > > which I'm pretty sure is what's causing our filename churn. I've chec=
+ked
+> > > 1.72.0 and 1.74.1 for the absvdi2.o intrinsic (one of many intrinsics
+> > > which had the issue) and in both cases we're not generating the dirna=
+me
+> > > based prefix - hopefully that means that the interim commits are fine
+> > > too, if not we can do the step back through the commits to find the n=
+ext
+> > > issue.
+> > >
+> > > I've dropped the zvariant tests as upgrading it isn't useful (since i=
+t
+> > > no longer includes git crate dependency) and spurious oe-selftest
+> > > failures aren't helpful. I guess we need to include either something
+> > > synthetic which tests git crates, or pull in
+> > > https://github.com/jthornber/thin-provisioning-tools/ from
+> > > meta-openembedded which includes a live example (though who knows for
+> > > how long!)
+> > >
+> > > Assuming this does actually fix the reproducibility issue, I'll look =
+at
+> > > how we fix the issue properly, rather than just reverting the commit
+> > > which I think is our problem, but I'd like to try and get us back on =
+the
+> > > rust release train if we can!
+> > >
+> > >
+> > > Alex Kiernan (6):
+> > >   meta-selftest: Drop zvariant recipe
+> > >   rust: Upgrade 1.71.1 -> 1.72.0
+> > >   rust: Upgrade 1.72.0 -> 1.72.1
+> > >   rust: Upgrade 1.72.1 -> 1.73.0
+> > >   rust: Upgrade 1.73.0 -> 1.74.0
+> > >   rust: Upgrade 1.74.0 -> 1.74.1
+> >
+> > Sounds like a good plan, I've started a reproducibility test:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4142
+> >
+> > With zvariant, we might be better replacing with a synthetic example
+> > for testing purposes?
+>
+> That build went green so I ran an a-full to double check and check
+> everything else:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6374
+>
+> Curl ptest warning was the only issue (unrelated) so it also looks
+> good.
+>
+> Looks like you might have tracked down the issue, nice work! :)
+>
+> Should I merge this as is or is there something we should do first now
+> we know where the issue is?
+>
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- .../bluez5/bluez5/CVE-2023-45866.patch        | 54 +++++++++++++++++++
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
+Obviously we need the upstream pieces sorting, but I don't think
+that's a blocker to merging here. Just ripping out zvariant and all
+the associated infrastructure I guess wants fixing first, though I
+think don't we need anything more complicated than:
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index a71d339928..74fd344170 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -59,6 +59,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://CVE-2022-0204.patch \
-            file://CVE-2022-39176.patch \
-            file://CVE-2022-3637.patch \
-+           file://CVE-2023-45866.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
-new file mode 100644
-index 0000000000..43670ab2b3
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
-@@ -0,0 +1,54 @@
-+From 25a471a83e02e1effb15d5a488b3f0085eaeb675 Mon Sep 17 00:00:00 2001
-+From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-+Date: Tue, 10 Oct 2023 13:03:12 -0700
-+Subject: input.conf: Change default of ClassicBondedOnly
-+
-+This changes the default of ClassicBondedOnly since defaulting to false
-+is not inline with HID specification which mandates the of Security Mode
-+4:
-+
-+BLUETOOTH SPECIFICATION Page 84 of 123
-+Human Interface Device (HID) Profile:
-+
-+5.4.3.4.2 Security Modes
-+Bluetooth HID Hosts shall use Security Mode 4 when interoperating with
-+Bluetooth HID devices that are compliant to the Bluetooth Core
-+Specification v2.1+EDR[6].
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=25a471a83e02e1effb15d5a488b3f0085eaeb675]
-+CVE: CVE-2023-45866
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ profiles/input/device.c   | 2 +-
-+ profiles/input/input.conf | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/profiles/input/device.c b/profiles/input/device.c
-+index 375314e..0236488 100644
-+--- a/profiles/input/device.c
-++++ b/profiles/input/device.c
-+@@ -93,7 +93,7 @@ struct input_device {
-+ 
-+ static int idle_timeout = 0;
-+ static bool uhid_enabled = false;
-+-static bool classic_bonded_only = false;
-++static bool classic_bonded_only = true;
-+ 
-+ void input_set_idle_timeout(int timeout)
-+ {
-+diff --git a/profiles/input/input.conf b/profiles/input/input.conf
-+index 4c70bc5..d8645f3 100644
-+--- a/profiles/input/input.conf
-++++ b/profiles/input/input.conf
-+@@ -17,7 +17,7 @@
-+ # platforms may want to make sure that input connections only come from bonded
-+ # device connections. Several older mice have been known for not supporting
-+ # pairing/encryption.
-+-# Defaults to false to maximize device compatibility.
-++# Defaults to true for security.
-+ #ClassicBondedOnly=true
-+ 
-+ # LE upgrade security
-+-- 
-+2.25.1
-+
--- 
-2.25.1
+https://github.com/akiernan/hello-rs
 
+I'll try and have a look at that later.
+
+--=20
+Alex Kiernan
 
