@@ -1,155 +1,91 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <skulkarni@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 724CBC46CD4
-	for <webhook@archiver.kernel.org>; Tue, 26 Dec 2023 14:24:12 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.82400.1703600642697312918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 277FEC4706F
+	for <webhook@archiver.kernel.org>; Tue, 26 Dec 2023 17:01:33 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.84530.1703610087080707390
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Dec 2023 06:24:03 -0800
+ Tue, 26 Dec 2023 09:01:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZZ3k2uBp;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.53, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40d5a9cb423so5248285e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 06:24:02 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=CNjwo+x2;
+ spf=pass (domain: mvista.com, ip: 209.85.215.172, mailfrom: skulkarni@mvista.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5cdbc4334edso1507845a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 09:01:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703600641; x=1704205441; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cnBX/nqyo5LaLw5J344EAYQW7+bKWiIVfLD4bgsurJA=;
-        b=ZZ3k2uBpC7L0hWKpUIjw3kvR6SNWeaLOZmEYOBZboAF/WDcwYzGOEXfaWv2t+gnm+J
-         RXzDleT7S0+MLFh1JC5J+LbixA2bq8qebFJhF87j2MnV2GIN5i207TLMCjQZN8VOAmll
-         G7c+Dn8kaUYvmW20BaG1zVV39ddn6a93GLq5OxVVYAz0nC1lFZy/kZ5i0+zInNwT3YFw
-         JGnubSlOsfreW1EXTa8Y/AwBPka5dp/h0B+ncd+KAXeh20uLvoKX0gyA9mUG34rPcUBA
-         h9cxLweL6SAWCVOVs/tbho7ZQr7cZQdF09kKa1+4FHNUbR8tS+IudId+NTMzoImFvo1z
-         xpnQ==
+        d=mvista.com; s=google; t=1703610085; x=1704214885; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xnwrFE06E0RiqZudSJ+fvHE1NP+ny0cFVJPc8qh1CRg=;
+        b=CNjwo+x2SWqqggYw7YtobyWxM0beoHblpeKSzy14t5Kdb4rTeksCwojE4yLV63Nxbj
+         P+qPhP946+VnG2F4mgDDxqUKZmS72XJNgqZyzWSIAM/oB4bGFGheREZdE/CiaIIRedQb
+         5a02404pG9WiI7OLQ7XRifquiksds3zCTl4Zo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703600641; x=1704205441;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cnBX/nqyo5LaLw5J344EAYQW7+bKWiIVfLD4bgsurJA=;
-        b=Y9mpVzxOCdFkIITWWWZ4NxhoSofDenxGSPWmXhdnquH+H+khSZ+sWXXySA/K/xffk9
-         /avnVjD7MH0LLNCBVMsKhHCC0y1UbSExE+CIXtiT4DaSz6QjvSzoRFQ10QjogHJWBJtK
-         TNjn//+onYhpVU5HjF8Mc/ES62eiLShHASnOFH50lkDssda07D8DG/Ty2cnhxoULPYFJ
-         9XyeqxBgDdh4Esoxe8+dbb5i/4ithUo9nAYqo16Z7Aaa3QHw56fcXVK34yg8wxD8lUBW
-         G4GV8JXGRwnRpezOT64E6C86TraT546k7yshW3kZEjgGb30sPmAPTfyf3gf9OV/n1Xs0
-         TAwQ==
-X-Gm-Message-State: AOJu0Yzy3mWrELY3suJcjc7of0zXspH8pqr2x+XjQdwhlM4rj+AE65yQ
-	D9pnmPCtz1yiUp+d1H2vIEs0xChnSMG2tm0GQuLP2zlEqGUwKA==
-X-Google-Smtp-Source: AGHT+IFSsjyvTmlOMlzbzU4uk6ZOL9HRNiviP5Cb518OJAPuZIBNswRaTDtPb8Uwffj4tbE41rg9JMhViRys2oiH7n4=
-X-Received: by 2002:a05:600c:3844:b0:40d:58ca:c0a8 with SMTP id
- s4-20020a05600c384400b0040d58cac0a8mr911850wmr.31.1703600640555; Tue, 26 Dec
- 2023 06:24:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703610085; x=1704214885;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xnwrFE06E0RiqZudSJ+fvHE1NP+ny0cFVJPc8qh1CRg=;
+        b=Wt6rE74m8Gl19nwdv85chlL8eTjeKE4dPGX5GFxv0HOXqfENIdwDtT/GiT/kbKm+Hi
+         duBlHDsSIkWjh5aqxLmxqFOqGpUBM1v0TsF38s81219mV+sHE1tyRFtp3CgXM1aBvd4f
+         YmF4WbTsKSt/csS0TjxjvKV0wrvbeSosZauiN3nE3JL8Mq79+eSQafXRdrk0aLXvF2W8
+         ZslPNdhMAuS13TClFLr9yKn+zL+w+jLq2/89eJO9og6vhgLz0+Wj1s01s8jWbSstXn20
+         FaWbuLd+xAcVQ/bqrAP7VPMM10wWwOaNCCGU/bnXBH1bMMmoAOYC0lTkkXXpSfouC56B
+         9Flw==
+X-Gm-Message-State: AOJu0Yzd2dcaz2vYmGGI28uq8TUrXjiaCnA4L6/edlj8e+wKzGtZEJpM
+	gCJmx/hrp4FaouWfu1Zb3JG1jZr4hxJAOK/P+DIGslWJ8Po=
+X-Google-Smtp-Source: AGHT+IE18MnYHbHLuIXde5Z4LXfHsotE+ANWJ+ZxmBeqnuMJHYfK6gY3Psrkw0+iIbKmSJFsYLfeKg==
+X-Received: by 2002:a05:6a20:100a:b0:195:a540:5d1f with SMTP id gs10-20020a056a20100a00b00195a5405d1fmr962849pzc.43.1703610085366;
+        Tue, 26 Dec 2023 09:01:25 -0800 (PST)
+Received: from MVIN00032.mvista.com ([103.134.108.34])
+        by smtp.gmail.com with ESMTPSA id d9-20020a62f809000000b006d9aa51f0a3sm5738168pfh.171.2023.12.26.09.01.23
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Dec 2023 09:01:24 -0800 (PST)
+From: skulkarni@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Shubham Kulkarni <skulkarni@mvista.com>
+Subject: [OE-core][PATCH] tzdata: Upgrade to 2023d
+Date: Tue, 26 Dec 2023 22:30:54 +0530
+Message-ID: <20231226170054.15270-1-skulkarni@mvista.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-References: <20231222060422.10559-1-mail2szahir@gmail.com>
-In-Reply-To: <20231222060422.10559-1-mail2szahir@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 26 Dec 2023 04:23:49 -1000
-Message-ID: <CAOSpxdbkSogKMBWg+jBX7K9w0aXzjWp0cVwnpXPt-UfC7kzKbA@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] alsa-lib: Enabling ptest for alsa-lib component
-To: aszh07 <mail2szahir@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, ranjitsinh.rathod@kpit.com, 
-	Zahir Hussain <zahir.basha@kpit.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 14:24:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192911
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 17:01:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192912
 
-Sorry, this is a feature addition and not suitable for stable releases.
+From: Shubham Kulkarni <skulkarni@mvista.com>
 
-Steve
+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+---
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On Thu, Dec 21, 2023 at 8:08=E2=80=AFPM aszh07 <mail2szahir@gmail.com> wrot=
-e:
->
-> From: Zahir Hussain <zahir.basha@kpit.com>
->
-> This change adds ptest for alsa-lib.
->
-> 1) Adding CFLAGS change for include the header file path for resolving
->  below compilation issue;
->         In file included from ../../../alsa-lib-1.2.1.2/test/lsb/config.c=
-:4:
->         ../../../alsa-lib-1.2.1.2/test/lsb/test.h:5:10: fatal error:
->         alsa/asoundlib.h: No such file or directory
->         5 | #include <alsa/asoundlib.h>
->
-> 2) Removed the test suite execution 'make' call using 'sed' command.
->
-> 3) Compiled the test directory source code using "oe_runmake check" comma=
-nd.
->
-> 4) Copied all the required binaries into PTEST path using do_install_ptes=
-t()
->  function.
->
-> Signed-off-by: aszh07 <mail2szahir@gmail.com>
-> Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
-> ---
->  .../distro/include/ptest-packagelists.inc     |  1 +
->  .../alsa/alsa-lib_1.2.1.2.bb                  | 19 +++++++++++++++++++
->  2 files changed, 20 insertions(+)
->
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc
-> index 3fb7ec2657..b74e18a322 100644
-> --- a/meta/conf/distro/include/ptest-packagelists.inc
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> @@ -5,6 +5,7 @@
->  #
->  PTESTS_FAST =3D "\
->      acl-ptest \
-> +    alsa-lib-ptest \
->      apr-ptest \
->      apr-util-ptest \
->      attr-ptest \
-> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb b/meta/reci=
-pes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> index 4867c798b9..3f772360f4 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> @@ -52,3 +52,22 @@ RREPLACES_alsa-conf =3D "alsa-conf-base"
->  RCONFLICTS_alsa-conf =3D "alsa-conf-base"
->
->  BBCLASSEXTEND =3D "native nativesdk"
-> +
-> +EXTRA_OEMAKE:append =3D " AM_CPPFLAGS=3D-I${S}/include"
-> +
-> +do_compile:append() {
-> +       sed -i 's/^.*$(MAKE) $(AM_MAKEFLAGS) check-TESTS.*$/ /' ${S}/test=
-/lsb/Makefile.in
-> +       oe_runmake check
-> +}
-> +
-> +do_install_ptest:append() {
-> +    for f in control client_event_filter namehint
-> +    do
-> +        install -m 0755 "${B}/test/.libs/$f" "${D}${PTEST_PATH}";
-> +    done
-> +
-> +    for f in config midi_event
-> +    do
-> +        install -m 0755 "${B}/test/lsb/.libs/$f" "${D}${PTEST_PATH}";
-> +    done
-> +}
-> --
-> 2.17.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192858): https://lists.openembedded.org/g/openembedde=
-d-core/message/192858
-> Mute This Topic: https://lists.openembedded.org/mt/103314286/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 14a1ce18f3..2774e5e730 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2023c"
++PV = "2023d"
+ 
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "46d17f2bb19ad73290f03a203006152e0fa0d7b11e5b71467c4a823811b214e7"
+-SRC_URI[tzdata.sha256sum] = "3f510b5d1b4ae9bb38e485aa302a776b317fb3637bdb6404c4adf7b6cadd965c"
++SRC_URI[tzcode.sha256sum] = "e9a5f9e118886d2de92b62bb05510a28cc6c058d791c93bd6b84d3292c3c161e"
++SRC_URI[tzdata.sha256sum] = "dbca21970b0a8b8c0ceceec1d7b91fa903be0f6eca5ae732b5329672232a08f3"
+-- 
+2.42.0
+
 
