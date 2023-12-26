@@ -1,88 +1,155 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16292C46CD3
-	for <webhook@archiver.kernel.org>; Tue, 26 Dec 2023 12:38:22 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.80777.1703594296823071179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 724CBC46CD4
+	for <webhook@archiver.kernel.org>; Tue, 26 Dec 2023 14:24:12 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.82400.1703600642697312918
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Dec 2023 04:38:16 -0800
+ Tue, 26 Dec 2023 06:24:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jzZVWClA;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: festevam@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d410fce119so10344895ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 04:38:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZZ3k2uBp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.53, mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40d5a9cb423so5248285e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 06:24:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703594296; x=1704199096; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9rm4xfvxH8+dvK8CbjLaQ0Co+dfxYHwMaTaejfq6MGM=;
-        b=jzZVWClAYSE/EJnps28J//YdZJfoCMEk6Pa5p5CLWDLp4uELPQIcfugWKI/dqTM3zi
-         xnc0X0K/jDMo0xFoBJ39f2BbEHpvWsJpi/4xmJKOLJln09a0Nh8mno4mLvVxL67aj7tW
-         yg6Z1GOudJr6ADGFJ3/FwUuLXgnJ3hdp+FnC4vPqPLxjKJzI6YmbfWc6A6lojhtT7Ecy
-         gB8pYKo9jWGdpNQ55aiEtq7s/3t+li6H2F+IQDM8Tbxt8hC4srk//Pv+fQciLP7irwiN
-         GQ4OpqO/gVZNYMmnl65pzn0gAZA7LkWLfLrfwftPv9FJT3kMTXuzkBUzTw1XOYhumI8l
-         BifA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703600641; x=1704205441; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cnBX/nqyo5LaLw5J344EAYQW7+bKWiIVfLD4bgsurJA=;
+        b=ZZ3k2uBpC7L0hWKpUIjw3kvR6SNWeaLOZmEYOBZboAF/WDcwYzGOEXfaWv2t+gnm+J
+         RXzDleT7S0+MLFh1JC5J+LbixA2bq8qebFJhF87j2MnV2GIN5i207TLMCjQZN8VOAmll
+         G7c+Dn8kaUYvmW20BaG1zVV39ddn6a93GLq5OxVVYAz0nC1lFZy/kZ5i0+zInNwT3YFw
+         JGnubSlOsfreW1EXTa8Y/AwBPka5dp/h0B+ncd+KAXeh20uLvoKX0gyA9mUG34rPcUBA
+         h9cxLweL6SAWCVOVs/tbho7ZQr7cZQdF09kKa1+4FHNUbR8tS+IudId+NTMzoImFvo1z
+         xpnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703594296; x=1704199096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9rm4xfvxH8+dvK8CbjLaQ0Co+dfxYHwMaTaejfq6MGM=;
-        b=ibSyu4ETS8tvirmP/T5/c3uCY4ieMSD5KtHMIYLY3u7PEwy5E4JxVOeExEBJcSp3Og
-         tsvSJTdlNh+8DWFNSGMu5i4dMeIo6wXfBlTo60kKu3/bSf9p1C1l5sPCcoTl+z1/IwQ8
-         03/itFhuNRk5ZZdQlmsDpUYsfQPaN4/8XTmfmqv8ZJUhUw1UKX75/qhHeCMAzvmQrTnS
-         whN5Z2RMYvd0x/BSYDB6C7R0OzH48c6sDer0yywojVFs1mux2WkP8D0ARG4AJQLkcVY7
-         0sqcmSrRb3dioNgASQjPIUVXshdI3KCPFGdKJ2CwPdDrYtKT4yjX7UleMVdd1OpjNQst
-         U2zA==
-X-Gm-Message-State: AOJu0Yzd8zOPiE71TKKpg0nMbwPfZU3EvHJAoxyYfvnjn2265QGraYVx
-	rrUMb3UpXFr1ASB4L9RgYA/4rwqrMeM=
-X-Google-Smtp-Source: AGHT+IHviVwcTRBPrTL7qqcgGnp2CVqdkKN92iKFS2jxkcBy60z6fY2uD1ytwnERsAc5v3vF2FAwgA==
-X-Received: by 2002:a17:902:ce86:b0:1d3:eecd:b296 with SMTP id f6-20020a170902ce8600b001d3eecdb296mr13547057plg.6.1703594295909;
-        Tue, 26 Dec 2023 04:38:15 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:f0ca:97a7:a1ed:752e])
-        by smtp.gmail.com with ESMTPSA id iy17-20020a170903131100b001d1cda6bdfdsm9936054plb.34.2023.12.26.04.38.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Dec 2023 04:38:15 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] kmscube: Upgrade to latest revision
-Date: Tue, 26 Dec 2023 09:38:10 -0300
-Message-Id: <20231226123810.495126-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1703600641; x=1704205441;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cnBX/nqyo5LaLw5J344EAYQW7+bKWiIVfLD4bgsurJA=;
+        b=Y9mpVzxOCdFkIITWWWZ4NxhoSofDenxGSPWmXhdnquH+H+khSZ+sWXXySA/K/xffk9
+         /avnVjD7MH0LLNCBVMsKhHCC0y1UbSExE+CIXtiT4DaSz6QjvSzoRFQ10QjogHJWBJtK
+         TNjn//+onYhpVU5HjF8Mc/ES62eiLShHASnOFH50lkDssda07D8DG/Ty2cnhxoULPYFJ
+         9XyeqxBgDdh4Esoxe8+dbb5i/4ithUo9nAYqo16Z7Aaa3QHw56fcXVK34yg8wxD8lUBW
+         G4GV8JXGRwnRpezOT64E6C86TraT546k7yshW3kZEjgGb30sPmAPTfyf3gf9OV/n1Xs0
+         TAwQ==
+X-Gm-Message-State: AOJu0Yzy3mWrELY3suJcjc7of0zXspH8pqr2x+XjQdwhlM4rj+AE65yQ
+	D9pnmPCtz1yiUp+d1H2vIEs0xChnSMG2tm0GQuLP2zlEqGUwKA==
+X-Google-Smtp-Source: AGHT+IFSsjyvTmlOMlzbzU4uk6ZOL9HRNiviP5Cb518OJAPuZIBNswRaTDtPb8Uwffj4tbE41rg9JMhViRys2oiH7n4=
+X-Received: by 2002:a05:600c:3844:b0:40d:58ca:c0a8 with SMTP id
+ s4-20020a05600c384400b0040d58cac0a8mr911850wmr.31.1703600640555; Tue, 26 Dec
+ 2023 06:24:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231222060422.10559-1-mail2szahir@gmail.com>
+In-Reply-To: <20231222060422.10559-1-mail2szahir@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 26 Dec 2023 04:23:49 -1000
+Message-ID: <CAOSpxdbkSogKMBWg+jBX7K9w0aXzjWp0cVwnpXPt-UfC7kzKbA@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH] alsa-lib: Enabling ptest for alsa-lib component
+To: aszh07 <mail2szahir@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, ranjitsinh.rathod@kpit.com, 
+	Zahir Hussain <zahir.basha@kpit.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 12:38:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192910
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 14:24:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192911
 
-From: Fabio Estevam <festevam@denx.de>
+Sorry, this is a feature addition and not suitable for stable releases.
 
-Upgrade to the latest kmscube revision.
+Steve
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- meta/recipes-graphics/kmscube/kmscube_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-index 4cdc0f06bb8b..aab582281ac3 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -10,7 +10,7 @@ DEPENDS = "virtual/libgles3 virtual/libgles2 virtual/egl libdrm virtual/libgbm"
- 
- LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
- 
--SRCREV = "ea6c5d1eeefbfb0a1c27ab74a6e4621f1d9adf4c"
-+SRCREV = "96d63eb59e34c647cda1cbb489265f8c536ae055"
- SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https"
- 
- UPSTREAM_CHECK_COMMITS = "1"
--- 
-2.34.1
-
+On Thu, Dec 21, 2023 at 8:08=E2=80=AFPM aszh07 <mail2szahir@gmail.com> wrot=
+e:
+>
+> From: Zahir Hussain <zahir.basha@kpit.com>
+>
+> This change adds ptest for alsa-lib.
+>
+> 1) Adding CFLAGS change for include the header file path for resolving
+>  below compilation issue;
+>         In file included from ../../../alsa-lib-1.2.1.2/test/lsb/config.c=
+:4:
+>         ../../../alsa-lib-1.2.1.2/test/lsb/test.h:5:10: fatal error:
+>         alsa/asoundlib.h: No such file or directory
+>         5 | #include <alsa/asoundlib.h>
+>
+> 2) Removed the test suite execution 'make' call using 'sed' command.
+>
+> 3) Compiled the test directory source code using "oe_runmake check" comma=
+nd.
+>
+> 4) Copied all the required binaries into PTEST path using do_install_ptes=
+t()
+>  function.
+>
+> Signed-off-by: aszh07 <mail2szahir@gmail.com>
+> Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
+> ---
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  .../alsa/alsa-lib_1.2.1.2.bb                  | 19 +++++++++++++++++++
+>  2 files changed, 20 insertions(+)
+>
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+> index 3fb7ec2657..b74e18a322 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -5,6 +5,7 @@
+>  #
+>  PTESTS_FAST =3D "\
+>      acl-ptest \
+> +    alsa-lib-ptest \
+>      apr-ptest \
+>      apr-util-ptest \
+>      attr-ptest \
+> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb b/meta/reci=
+pes-multimedia/alsa/alsa-lib_1.2.1.2.bb
+> index 4867c798b9..3f772360f4 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
+> @@ -52,3 +52,22 @@ RREPLACES_alsa-conf =3D "alsa-conf-base"
+>  RCONFLICTS_alsa-conf =3D "alsa-conf-base"
+>
+>  BBCLASSEXTEND =3D "native nativesdk"
+> +
+> +EXTRA_OEMAKE:append =3D " AM_CPPFLAGS=3D-I${S}/include"
+> +
+> +do_compile:append() {
+> +       sed -i 's/^.*$(MAKE) $(AM_MAKEFLAGS) check-TESTS.*$/ /' ${S}/test=
+/lsb/Makefile.in
+> +       oe_runmake check
+> +}
+> +
+> +do_install_ptest:append() {
+> +    for f in control client_event_filter namehint
+> +    do
+> +        install -m 0755 "${B}/test/.libs/$f" "${D}${PTEST_PATH}";
+> +    done
+> +
+> +    for f in config midi_event
+> +    do
+> +        install -m 0755 "${B}/test/lsb/.libs/$f" "${D}${PTEST_PATH}";
+> +    done
+> +}
+> --
+> 2.17.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192858): https://lists.openembedded.org/g/openembedde=
+d-core/message/192858
+> Mute This Topic: https://lists.openembedded.org/mt/103314286/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
