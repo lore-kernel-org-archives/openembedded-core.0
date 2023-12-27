@@ -1,347 +1,167 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Deepthi.Hemraj@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B00C46CD2
-	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 12:40:21 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.100749.1703680813204864270
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB1AC46CD4
+	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 12:50:51 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.100865.1703681445920889128
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Dec 2023 04:40:13 -0800
+ Wed, 27 Dec 2023 04:50:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bl16s6ur;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50e7e1ddaddso1929607e87.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 04:40:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703680811; x=1704285611; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pmJBf6HuhL5ySnCuZQiOwVxjrIAweRC8ejXOZTZC7jU=;
-        b=bl16s6urtr5P55t+Rxyhzsu3v4jFDao9I5YIZetDQcShKg7AyjlAgRyLbXrBIvYYDT
-         kEhbKsfzbOzU/D4ugybNA17vTNdRH3i/o+Ve7ljFf+MQRHIgYiOO81o8gt56vywmFK74
-         +YhVlcJOsRHwUdp5uSxRsn58f+/izKWa78Or22cPDcwKGnF1vy1qiEE+L5Y+t85LRtdK
-         b8i2Wohrkun655XDLIyht0Px7rr7+Y50PjwDKN9/5OCzUX26EGTgSlmRSXZ7Pais3Uzs
-         dxjpxy7wlpmx0LMG97lbsRrrxFx7FCH3Wbc3IHdAOZl1ZUrJ5wvnnwRSSQ7DflhnXNst
-         2tHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703680811; x=1704285611;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pmJBf6HuhL5ySnCuZQiOwVxjrIAweRC8ejXOZTZC7jU=;
-        b=G06oLDn+CBFSxjOke1XdtCt1soWX+9pvPW53+qUiFVo/1ZyB6qPjYTmhmrGT/LHDK/
-         LV4LTXS3ToePxrgOWvSgZ0wa0mbZXWmEmbZwPZYjmEFHwvTbWN+nubR8pjMH2QfKvOCy
-         zaq9K3gs6/3o3t9IVx1kR3xpY0VuWWGql75ZLLs7gtpY8wLlBJagX4Amhs1ktOFINg4W
-         9Rplix6I6XeENQ7omXsRybadL83xg7f15AMuv4CfddnJaypihcfOk/ZdyfhaIi4IHYFV
-         J2dddUfN37OxLWqiVUlaJjPsPkzkn1kpxjaoHB4b9WsKkxuweeI8JzrfJ9PrzisrLkyn
-         1T5w==
-X-Gm-Message-State: AOJu0YxhL63SKvkfpEc8DE84uQHA4hOpUcfYH9zHL8/m1ZPlQB4Vzhfi
-	WKPS2csik9vdjQWaTst8kYsbyW57yBiyY3rE8TA=
-X-Google-Smtp-Source: AGHT+IF/tImUQf2MB2n1ICGCAnRL7P7Q2qE2WcsxNAdUQBnAKBzfJGDtwRRqC9qbclLvuqyTU6xfatw5kyGwXRYPv1s=
-X-Received: by 2002:a05:6512:2204:b0:50e:7e15:a935 with SMTP id
- h4-20020a056512220400b0050e7e15a935mr1644165lfu.47.1703680810692; Wed, 27 Dec
- 2023 04:40:10 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DoEwTisu;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0725661e42=deepthi.hemraj@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BRCo2Y2008979
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 12:50:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=RUcyC4oPZ4B4p1ft7n
+	OXwjHf1v866q8czOdiPVSC2Rs=; b=DoEwTisuF5QZmoOlLkIyCUKtyQKDZP1nrn
+	+R7Sq+HCxhNPw/7oXQXUWyATJ46LhYgHQOtehOpn6vwNqH1FEgbVD0lsvlxGiV6F
+	Qt7QTsyFAb5OG9CgbK89DNmWGacm2kymaFS21qIuQdG/85IpAuLU63GKch/i6qd0
+	YUBkSQa4pCEGZluG4Drrqo3oFaMHX9c9ytnHkyeV8fHhogF5M6cdKk/hweRIaK+t
+	1l9Oh+CK7mCQi64P77H2CSL5gM4Z6b6KIZFVS/TzVBvgd56IanRmPcriQi6H5gnF
+	O7Hckdn64fbX7mqr3NNcar822vr6XxVMPpJSgKm2t9Aks4o6CAGg==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v5mrxu8xg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 12:50:44 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WYJaDK2OoHm235H3XtAYiRuYNCN1vqkvlk6vp/a1oTGQXDjh7WIV8QJ+DOqwQ1xQcH3tnTAkvOblCl3jI4EPBozz2s+SLBMXzYjgxo/pHQ7K//H8SesUMXLOVlCsKxS1J9awfJgJZDC/zKwgmAtmuUDBFICweq/xEKQy/l/eh9lcCH1Cqd1s7UQJPyP1JZP45B6gopbu08+zu9RC2zMc7O0s8P9Wct7y/xpyBokTEiX3GxtfXIPFRzrjEPlnQpF8xtfyYqT/nLXOyBY5vGXd5hrCFDKAotaapJXNA1zGgrBWq83J1fmUaQof3gs7rH+PrqigNrzw3mVoUWjQOwrkvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RUcyC4oPZ4B4p1ft7nOXwjHf1v866q8czOdiPVSC2Rs=;
+ b=QT+nVImMW05Hb39sPt+jwXxdHNGnudN57VxlcH9oAItsZzNGAuCw1LnId8+UjbR17Kp/TNERrgMpkua44GutNzrQGnGlDfez/yI2SAmSI68VRAiTyVWeZPXwFfjvJqJ7Gg4csdvOTJdZw9KDanpn0X3uSgdFQxGm3FJb+zQrcY7FBOTPnHjuiaRi8Zj+zhROCgCjLda0TZMCUPXglLny6qF89jKJYrfqiBOtF9nzLjTzsqDPdHIdeEgDXyjrzgBNbtXiqTIMVOUNtAXjZ7fH36D3/xyMpIpEypSqVK7TTCdnlhDSC+Z1x2zUbPPiGEDryudRGoayREjBZ8a4BjeNlQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB6449.namprd11.prod.outlook.com (2603:10b6:510:1f7::17)
+ by LV3PR11MB8555.namprd11.prod.outlook.com (2603:10b6:408:1b0::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.27; Wed, 27 Dec
+ 2023 12:50:42 +0000
+Received: from PH7PR11MB6449.namprd11.prod.outlook.com
+ ([fe80::d722:19c4:2468:6024]) by PH7PR11MB6449.namprd11.prod.outlook.com
+ ([fe80::d722:19c4:2468:6024%5]) with mapi id 15.20.7113.027; Wed, 27 Dec 2023
+ 12:50:41 +0000
+From: Deepthi.Hemraj@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
+        Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com,
+        Harish.Sadineni@windriver.com
+Subject: [patch] packagegroups: Add perl modules to rdeps
+Date: Wed, 27 Dec 2023 04:50:25 -0800
+Message-ID: <20231227125025.2531461-1-Deepthi.Hemraj@windriver.com>
+X-Mailer: git-send-email 2.42.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR06CA0019.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::32) To PH7PR11MB6449.namprd11.prod.outlook.com
+ (2603:10b6:510:1f7::17)
 MIME-Version: 1.0
-References: <80fad6f6fdc85ee3b2ad7ab81f1f4c574c42b53c.1703679576.git.joerg.sommer@navimatix.de>
-In-Reply-To: <80fad6f6fdc85ee3b2ad7ab81f1f4c574c42b53c.1703679576.git.joerg.sommer@navimatix.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 27 Dec 2023 14:39:59 +0200
-Message-ID: <CANNYZj8MpYUkXd1NoWoD84G6NuDb_4ywCKgOY4Ja9DmLRGzakQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] i2cdev: New recipe with i2c tools
-To: joerg.sommer@navimatix.de
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000883353060d7d19d6"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6449:EE_|LV3PR11MB8555:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b5e1867-2035-4d9e-d413-08dc06da6f11
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	i6y9jQtMtxzSV9dmr8N2Np+1IBAVIzwffM/Ojo1NJkby3/Gn5m+yK4Igj0j1Tbs9mulozv89yGSIR68HwJfwvM+Cs+CDXhakPbSDDQLwQCAeA4as2I5MuVM5qcaA5CdaXS67GsR2vAjtliifoxZrVlksEiyyjV3g8ftvhHg6ofh2krkw7QocgwGG7SNjjuLkOoFSY5qCHaNUbxVtPDHhnQPwMUzpmhlq9YtkdLuywi7g/BLVlSJvDJGNVMgFVJAqbHqwW0WjvFM9LgSLUjtbdO91QgWwnUEPuvb6Uj+MbDny+cre7bc6/XOIjiKLfrOFD9spiwbhT6OIj4lL3x5zbXckOu3PeqfRIZ4tj6jlPKfBcp3DQENOFaSL61NJ+/vWwzLYnP6LTzfFOsFETc9vEtdhtZcFFsW4dW2OdhyRNZDpc8fQ94v7CIRxRghoneu1nUSo1TOUE+jaEzyIS/X7Z+dmR5ZupFiEQhAjRpKKMCf5pmfK5cC+YWoEAOB+StB8ik/Y1XxQccrt4v8yLXDRcYiPEYjQWeb1RGMp1ovMVyQKh97FnX+SOzpbW7B4Y0COdNYzRkSY3pZOAfHRiuztv9r00pZ35R6fukyhpqyOAvC3q9o2i/f7H8/LkaZcqeR0
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6449.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(376002)(39850400004)(136003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(2906002)(66476007)(6916009)(5660300002)(66946007)(4326008)(66556008)(8676002)(8936002)(316002)(41300700001)(38350700005)(9686003)(36756003)(478600001)(6666004)(107886003)(6512007)(26005)(1076003)(86362001)(6486002)(2616005)(52116002)(6506007)(83380400001)(38100700002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?i0HLWOKZ09Wq8S+m92VKScMY5LUU5jBNB+va7KLY1tTprtY7q5OyqG0D+CZa?=
+ =?us-ascii?Q?E2jEGD8LFfkQDXmFX9MRram0ldOy0iahqbQCb5R5/w3EIW3p/9PSOogUWqCX?=
+ =?us-ascii?Q?KiQL2ggQynRvJm42OfU4bGg6+mEfzuFPlWUDaWIUyuPFuVMKgB6yPasw8/lI?=
+ =?us-ascii?Q?QhUqQPzgjWGHPdNhx/Tw28iCr9XAhtkljBFjkhjq3nD/NtWR3pPqNl1RDnxr?=
+ =?us-ascii?Q?LC9RFsRE6NOAQc4XsniR/egN7/6hFhXIgZb/WDloqQ7xo2X7VJsvBvbXN9ti?=
+ =?us-ascii?Q?MP1lrWgA26GLhqluJ1xuT1Lu7Jbk+TePakU4zbniRk/R4utXq4ny1Nv0nmjE?=
+ =?us-ascii?Q?u2R00gnBvNHnGm+8yyZ41wK2OuUZVfi8r6UKW0UQ4oiLaDh2Ai4rjmflfqGM?=
+ =?us-ascii?Q?lEsDucYG24A57vaOeabp2mpexfl7swMmySrT3dwMv7i20WBSR5DOcmU1c04n?=
+ =?us-ascii?Q?86L19icel5ajdXrJRp2aRefaEyquCpLC6hadmYa4MrTqS9dTsqVoAmVDdulC?=
+ =?us-ascii?Q?5rIJ56nwyEqF3AihtiqxeFuJE4o+jZy2F+fiLujf4guGPuIP72AT3Fh7haSG?=
+ =?us-ascii?Q?Ytzv8R9DblO0NMdBLBH62YAsMkLiVjpS3oOx1Qy7fqvmn9gVwYkCssY+mkij?=
+ =?us-ascii?Q?J7KuhEftLZzXn0X3bezYyIinLN5VcUCqMe9yvC++ot5HwBmYFmDRmgHyrBsE?=
+ =?us-ascii?Q?Kv51yFmRuOuQ8rSQl7fHpXuOPhUTUvFY8IYBOZxdo777EFlojRgmLgX2JNPv?=
+ =?us-ascii?Q?3eOQQYz0BEJh1xHF1sp9lG1UxvQnv2DDvDc3qTEO4suiKgKcPhI+hAtpKkKA?=
+ =?us-ascii?Q?MzWI6xXqeCuOY49DIO33bobuOH6M7Tu3Rpd7SxD7tha6NboozY01lLEF08Qe?=
+ =?us-ascii?Q?TWSLP3mY0k3xQfSayDs0ri3hsT9OgS2o3OgZonKJS03S/UsvUssdFqCI2a8O?=
+ =?us-ascii?Q?xo26if6Gj0ve3gF3Idi1kBA/2iISjYbZnFOgWo3sXkWwKPAM9l6wbyeaFIH6?=
+ =?us-ascii?Q?yOiq2gce2WM9OZ0qnwbPE+VYdssxQlBcB3lBadDJh9J9efvaM7JYUneVHaSc?=
+ =?us-ascii?Q?nNOcEuawDTbqfy4MWnkjFQ7xjebwTr/4jRtBe8rY5yjEND8Olo7xeyEtM501?=
+ =?us-ascii?Q?GWGwNxO/xIDWkb9K6AN6vPD+7+qzLIwnM1cidnNdBpngcK7wo1DoysY38yJn?=
+ =?us-ascii?Q?hompP9nVQSTrlClW44zimab2babicju7EJ1XBQ0fVTgDmEEoqN+o2boSa6Df?=
+ =?us-ascii?Q?GS79UiH2lGx2dJaIciW5a4/TF5jJEzCZMpynkK8xISyTVHWMM3Tz1zX2jMNO?=
+ =?us-ascii?Q?4ecfC6Y6uzyF8VcHYsXvGGALNOJkA/jZUuRl3/I9GzIv5eYazBdD40COTmi/?=
+ =?us-ascii?Q?+5pe4KfzQRP9DY04KlcSQPsGrOTrozHJSl49OyMrcwakKNgJ91L4rw+75sMK?=
+ =?us-ascii?Q?KGbQG4QS2AvWEWlYPjyUmV9H2AbhfA8DusdlQ9zarthqOL7d+OQ7jAmzKvy1?=
+ =?us-ascii?Q?AAyUWVdtWUKAPVA4VF0XBuWDTF6Vz2DUE+cYPI5gqpyo2VRnW/hwVKkjqlq+?=
+ =?us-ascii?Q?lsiOJSkbdf0GsQrfXSTtITKDeLaF8Mq/1BTL41BWSRJEjapUYsymp3gBn23Y?=
+ =?us-ascii?Q?6Q=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b5e1867-2035-4d9e-d413-08dc06da6f11
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6449.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 12:50:41.7547
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qnUwSbcVXjcFwHSadfT4LO8LOPY6AKxgYhnWj0NZJVO7Ymo7D7POEmZo0gELw/2jVJBbhVnzT0OWdMPw3O+uf7zZ1gRy3pjKinmSXLsvgl4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8555
+X-Proofpoint-ORIG-GUID: w-8FK-U8BpS-A7X_mG-n0cHnw2Ryg4D4
+X-Proofpoint-GUID: w-8FK-U8BpS-A7X_mG-n0cHnw2Ryg4D4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 mlxlogscore=923
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312270095
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 12:40:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192941
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 12:50:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192942
 
---000000000000883353060d7d19d6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
-This doesn=E2=80=99t seem core enough, perhaps meta-oe is a better home for=
- the
-recipe?
+In SDK,running "x86_64-poky-linux-gp-display-html --help" fails due to missing perl modules which are required for it to work.
 
-Alex
+Fixes:Can't locate feature.pm in @INC (you may need to install the feature module) and also add all the perl modules to sdk.
 
-On Wed 27. Dec 2023 at 14.20, J=C3=B6rg Sommer via lists.openembedded.org
-<joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+---
+ .../packagegroups/nativesdk-packagegroup-sdk-host.bb          | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
->
-> The main part is the tool lsi2c to scan the i2c bus, like lspci and lsusb
-> do.
->
-> This recipe also ships a static library *libi2cdev.a*. Because this libra=
-ry
-> contains the file *smbus.c* which is *GPL v2+,* and a static library can'=
-t
-> be linked dynamically to satisfy the LGPL, the whole recipe is marked
-> as *GPL-2.0-or-later.*
->
-> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
-> ---
->  .../i2cdev/i2cdev/fix-lsi2c-makefile.patch    | 28 +++++++++++++++++++
->  meta/recipes-bsp/i2cdev/i2cdev_git.bb         | 26 +++++++++++++++++
->  2 files changed, 54 insertions(+)
->  create mode 100644 meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.pat=
-ch
->  create mode 100644 meta/recipes-bsp/i2cdev/i2cdev_git.bb
->
-> diff --git a/meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch
-> b/meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch
-> new file mode 100644
-> index 0000000000..4df7527205
-> --- /dev/null
-> +++ b/meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch
-> @@ -0,0 +1,28 @@
-> +From 57c09727220e00ab961325a2c85f5611bd1770d6 Mon Sep 17 00:00:00 2001
-> +Message-Id: <
-> 57c09727220e00ab961325a2c85f5611bd1770d6.1701984646.git.joerg.sommer@navi=
-matix.de
-> >
-> +From: =3D?UTF-8?q?J=3DC3=3DB6rg=3D20Sommer?=3D <joerg.sommer@navimatix.d=
-e>
-> +Date: Thu, 7 Dec 2023 22:29:40 +0100
-> +Subject: [PATCH] lsi2c/Makefile: Use builddir to refer to libi2cdev.a
-> +
-> +Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
-> +Upstream-Status: Submitted
-> https://github.com/costad2/i2cdev/pull/2/commits/43f15e97d869797dbfeaacaf=
-a13216aaaf353426
-> +---
-> + lsi2c/Makefile.am | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/lsi2c/Makefile.am b/lsi2c/Makefile.am
-> +index 6defc1f..0d81d01 100644
-> +--- a/lsi2c/Makefile.am
-> ++++ b/lsi2c/Makefile.am
-> +@@ -14,7 +14,7 @@ bin_PROGRAMS=3Dlsi2c
-> + lsi2c_SOURCES =3D lsi2c.c
-> +
-> + # Linker options for lsi2c
-> +-lsi2c_LDADD =3D $(top_srcdir)/libi2cdev/libi2cdev.a
-> ++lsi2c_LDADD =3D $(top_builddir)/libi2cdev/libi2cdev.a
-> +
-> + # Compiler options for lsi2c
-> + lsi2c_CFLAGS =3D -I$(top_srcdir)/include -std=3Dc99 -fPIC
-> +--
-> +2.34.1
-> +
-> diff --git a/meta/recipes-bsp/i2cdev/i2cdev_git.bb
-> b/meta/recipes-bsp/i2cdev/i2cdev_git.bb
-> new file mode 100644
-> index 0000000000..b1f8a7f805
-> --- /dev/null
-> +++ b/meta/recipes-bsp/i2cdev/i2cdev_git.bb
-> @@ -0,0 +1,26 @@
-> +SUMMARY =3D "i2c dev tools for Linux"
-> +DESCRIPTION =3D "\
-> +    This package contains an I2C dev library and the i2c bus scanning \
-> +    utility lsi2c. \
-> +"
-> +AUTHOR =3D "Danielle Costantino"
-> +HOMEPAGE =3D "https://github.com/costad2/i2cdev"
-> +LICENSE =3D "GPL-2.0-or-later"
-> +LIC_FILES_CHKSUM =3D "\
-> +    file://COPYING;md5=3D768997ba510a952bef1775c50bc22b00 \
-> +
-> file://include/libi2cdev.h;beginline=3D12;endline=3D25;md5=3D72486a5e192d=
-6ac5c7e55a4a95e380a6
-> \
-> +
-> file://libi2cdev/smbus.c;beginline=3D9;endline=3D22;md5=3Dd9a0de5a611b960=
-fa75912ded6c60096
-> \
-> +
-> file://lsi2c/lsi2c.c;beginline=3D11;endline=3D24;md5=3D72486a5e192d6ac5c7=
-e55a4a95e380a6
-> \
-> +"
-> +
-> +PR =3D "git${SRCPV}"
-> +
-> +SRC_URI =3D "\
-> +    git://github.com/costad2/i2cdev.git;protocol=3Dhttps;branch=3Dmaster=
- \
-> +    file://fix-lsi2c-makefile.patch \
-> +"
-> +SRCREV =3D "ed9ad777d842880e7ac6ca5e0de4bd2d3b4d02dc"
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +inherit autotools
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192939):
-> https://lists.openembedded.org/g/openembedded-core/message/192939
-> Mute This Topic: https://lists.openembedded.org/mt/103383581/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 11e31dcba3..2561d79900 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -8,8 +8,6 @@ inherit packagegroup nativesdk
+ 
+ PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
+ 
+-# autoconf pulls in nativesdk-perl but perl-module-integer is needed to 
+-# build some recent linux kernels (5.14+) for arm
+ RDEPENDS:${PN} = "\
+     nativesdk-pkgconfig \
+     nativesdk-qemu \
+@@ -28,7 +26,7 @@ RDEPENDS:${PN} = "\
+     nativesdk-sdk-provides-dummy \
+     nativesdk-bison \
+     nativesdk-flex \
+-    nativesdk-perl-module-integer \
++    nativesdk-perl-modules \
+     "
+ 
+ RDEPENDS:${PN}:darwin = "\
+-- 
+2.42.0
 
---000000000000883353060d7d19d6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">This doesn=E2=80=99t seem core enough, perhaps meta-oe is=
- a better home for the recipe?</div><div dir=3D"auto"><br></div><div dir=3D=
-"auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed 27. Dec 2023 at 14.20, J=C3=B6rg Sommer via <a href=
-=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;joerg.som=
-mer=3D<a href=3D"mailto:navimatix.de@lists.openembedded.org">navimatix.de@l=
-ists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-st=
-yle:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">From: J=C3=
-=B6rg Sommer &lt;<a href=3D"mailto:joerg.sommer@navimatix.de" target=3D"_bl=
-ank">joerg.sommer@navimatix.de</a>&gt;<br>
-<br>
-The main part is the tool lsi2c to scan the i2c bus, like lspci and lsusb<b=
-r>
-do.<br>
-<br>
-This recipe also ships a static library *libi2cdev.a*. Because this library=
-<br>
-contains the file *smbus.c* which is *GPL=C2=A0v2+,* and a static library c=
-an&#39;t<br>
-be linked dynamically to satisfy the LGPL, the whole recipe is marked<br>
-as *GPL-2.0-or-later.*<br>
-<br>
-Signed-off-by: J=C3=B6rg Sommer &lt;<a href=3D"mailto:joerg.sommer@navimati=
-x.de" target=3D"_blank">joerg.sommer@navimatix.de</a>&gt;<br>
----<br>
-=C2=A0.../i2cdev/i2cdev/fix-lsi2c-makefile.patch=C2=A0 =C2=A0 | 28 ++++++++=
-+++++++++++<br>
-=C2=A0meta/recipes-bsp/i2cdev/<a href=3D"http://i2cdev_git.bb" rel=3D"noref=
-errer" target=3D"_blank">i2cdev_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 26 +++++++++++++++++<br>
-=C2=A02 files changed, 54 insertions(+)<br>
-=C2=A0create mode 100644 meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.=
-patch<br>
-=C2=A0create mode 100644 meta/recipes-bsp/i2cdev/<a href=3D"http://i2cdev_g=
-it.bb" rel=3D"noreferrer" target=3D"_blank">i2cdev_git.bb</a><br>
-<br>
-diff --git a/meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch b/meta=
-/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch<br>
-new file mode 100644<br>
-index 0000000000..4df7527205<br>
---- /dev/null<br>
-+++ b/meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch<br>
-@@ -0,0 +1,28 @@<br>
-+From 57c09727220e00ab961325a2c85f5611bd1770d6 Mon Sep 17 00:00:00 2001<br>
-+Message-Id: &lt;<a href=3D"mailto:57c09727220e00ab961325a2c85f5611bd1770d6=
-.1701984646.git.joerg.sommer@navimatix.de" target=3D"_blank">57c09727220e00=
-ab961325a2c85f5611bd1770d6.1701984646.git.joerg.sommer@navimatix.de</a>&gt;=
-<br>
-+From: =3D?UTF-8?q?J=3DC3=3DB6rg=3D20Sommer?=3D &lt;<a href=3D"mailto:joerg=
-.sommer@navimatix.de" target=3D"_blank">joerg.sommer@navimatix.de</a>&gt;<b=
-r>
-+Date: Thu, 7 Dec 2023 22:29:40 +0100<br>
-+Subject: [PATCH] lsi2c/Makefile: Use builddir to refer to libi2cdev.a<br>
-+<br>
-+Signed-off-by: J=C3=B6rg Sommer &lt;<a href=3D"mailto:joerg.sommer@navimat=
-ix.de" target=3D"_blank">joerg.sommer@navimatix.de</a>&gt;<br>
-+Upstream-Status: Submitted <a href=3D"https://github.com/costad2/i2cdev/pu=
-ll/2/commits/43f15e97d869797dbfeaacafa13216aaaf353426" rel=3D"noreferrer" t=
-arget=3D"_blank">https://github.com/costad2/i2cdev/pull/2/commits/43f15e97d=
-869797dbfeaacafa13216aaaf353426</a><br>
-+---<br>
-+ lsi2c/Makefile.am | 2 +-<br>
-+ 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-+<br>
-+diff --git a/lsi2c/Makefile.am b/lsi2c/Makefile.am<br>
-+index 6defc1f..0d81d01 100644<br>
-+--- a/lsi2c/Makefile.am<br>
-++++ b/lsi2c/Makefile.am<br>
-+@@ -14,7 +14,7 @@ bin_PROGRAMS=3Dlsi2c<br>
-+ lsi2c_SOURCES =3D lsi2c.c<br>
-+ <br>
-+ # Linker options for lsi2c<br>
-+-lsi2c_LDADD =3D $(top_srcdir)/libi2cdev/libi2cdev.a<br>
-++lsi2c_LDADD =3D $(top_builddir)/libi2cdev/libi2cdev.a<br>
-+ <br>
-+ # Compiler options for lsi2c<br>
-+ lsi2c_CFLAGS =3D -I$(top_srcdir)/include -std=3Dc99 -fPIC<br>
-+-- <br>
-+2.34.1<br>
-+<br>
-diff --git a/meta/recipes-bsp/i2cdev/<a href=3D"http://i2cdev_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">i2cdev_git.bb</a> b/meta/recipes-bsp/i2cd=
-ev/<a href=3D"http://i2cdev_git.bb" rel=3D"noreferrer" target=3D"_blank">i2=
-cdev_git.bb</a><br>
-new file mode 100644<br>
-index 0000000000..b1f8a7f805<br>
---- /dev/null<br>
-+++ b/meta/recipes-bsp/i2cdev/<a href=3D"http://i2cdev_git.bb" rel=3D"noref=
-errer" target=3D"_blank">i2cdev_git.bb</a><br>
-@@ -0,0 +1,26 @@<br>
-+SUMMARY =3D &quot;i2c dev tools for Linux&quot;<br>
-+DESCRIPTION =3D &quot;\<br>
-+=C2=A0 =C2=A0 This package contains an I2C dev library and the i2c bus sca=
-nning \<br>
-+=C2=A0 =C2=A0 utility lsi2c. \<br>
-+&quot;<br>
-+AUTHOR =3D &quot;Danielle Costantino&quot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://github.com/costad2/i2cdev" rel=3D"no=
-referrer" target=3D"_blank">https://github.com/costad2/i2cdev</a>&quot;<br>
-+LICENSE =3D &quot;GPL-2.0-or-later&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;\<br>
-+=C2=A0 =C2=A0 file://COPYING;md5=3D768997ba510a952bef1775c50bc22b00 \<br>
-+=C2=A0 =C2=A0 file://include/libi2cdev.h;beginline=3D12;endline=3D25;md5=
-=3D72486a5e192d6ac5c7e55a4a95e380a6 \<br>
-+=C2=A0 =C2=A0 file://libi2cdev/smbus.c;beginline=3D9;endline=3D22;md5=3Dd9=
-a0de5a611b960fa75912ded6c60096 \<br>
-+=C2=A0 =C2=A0 file://lsi2c/lsi2c.c;beginline=3D11;endline=3D24;md5=3D72486=
-a5e192d6ac5c7e55a4a95e380a6 \<br>
-+&quot;<br>
-+<br>
-+PR =3D &quot;git${SRCPV}&quot;<br>
-+<br>
-+SRC_URI =3D &quot;\<br>
-+=C2=A0 =C2=A0 git://<a href=3D"http://github.com/costad2/i2cdev.git;protoc=
-ol=3Dhttps;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">github.com=
-/costad2/i2cdev.git;protocol=3Dhttps;branch=3Dmaster</a> \<br>
-+=C2=A0 =C2=A0 file://fix-lsi2c-makefile.patch \<br>
-+&quot;<br>
-+SRCREV =3D &quot;ed9ad777d842880e7ac6ca5e0de4bd2d3b4d02dc&quot;<br>
-+<br>
-+S =3D &quot;${WORKDIR}/git&quot;<br>
-+<br>
-+inherit autotools<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#192939): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/192939" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/192939</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103383581/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/103383581/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000883353060d7d19d6--
 
