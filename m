@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0110BC46CD4
-	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 02:30:46 +0000 (UTC)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web10.94600.1703644238590419054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED3A0C46CD3
+	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 02:30:45 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.94599.1703644237053260256
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Dec 2023 18:30:38 -0800
+ Tue, 26 Dec 2023 18:30:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fqkTNUDg;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.178, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bbb4806f67so1133400b6e.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 18:30:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AIHVuo8o;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-28bc7155755so1804453a91.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 18:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703644237; x=1704249037; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703644235; x=1704249035; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tUVnDU2rdeKUuFd0IZx68UKQm4URy+JZ74+tMJ76vw8=;
-        b=fqkTNUDgdoDCmTQH5sbsNYUB6kGGUbmvQ+o1TVxIFapeS9hygohtGzElVtsme89ZFc
-         Mro8t/OHxqtf9dWS32GniwtL+U4A2OJYByeb3XUd2Rbq5bxZRf9gJxPtfFKeeOs8/Qnv
-         kQD2WLfW27Lv9O96K48SrgqbKU2eS7u6jtwXxzXftrG7WLS75xp+B7iQ39G40FDkNjA9
-         U140T/VFY3n/DmVauXz/xsx1FiIpyu1FUNmuzHmEcscJ+LVUcYjKeQUA/0dDqzWXX/nc
-         yqbdSv2YTtYZg7wwkNXPt6zk0ga9No+xV2AZeaXBHAJ5joofgZ4uHe9xHy7unOZS3iIt
-         F9fg==
+        bh=1gaP3Az0ZqUTVcZ1oSRqCGDaVHCBzbPWfPCtOseKsEM=;
+        b=AIHVuo8owCAEUdZ3P0yPT0m7cSNw7usbXdGJFPIb10pv+xtjdQ7JNhMkyAsjr5M18t
+         vRh5mWYyGvE41vTSysl3feMcJr3pqC+8pAkSrFRqj1owSwfvoNA24OJ4HAgQycHNoAJs
+         auSbM5CfinDfFgc2500zCHYUUotQVOepAc9NLeiJuqahrE849M6UYHuKRpgT0sTkjY+P
+         HXX92P8e4tzcB8tVLlU5KnrwOL2tzGGkUZ8O9ETbqU0jtLZYr7JqRUQxqxqgOBTduOLV
+         lObJdiuzEEw8boq0XLTLpFf+wSOBzo9vZjXjH0A+ERIslvD81M00B6okqv43vQnQmFdn
+         Dcww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703644237; x=1704249037;
+        d=1e100.net; s=20230601; t=1703644235; x=1704249035;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tUVnDU2rdeKUuFd0IZx68UKQm4URy+JZ74+tMJ76vw8=;
-        b=aLT8vAeFnIzYXOrlZaFKxUT8uE8VVo8jgdzWtCzP5sAAMGTeVwoaMewkjxTP99rbXm
-         Z+h+Mzah2wRkZa2zkgxuC1zibcpi6HF8N4JMBhiAF/4mQAqGEZNbYWebYuDoUBOERpmD
-         60fgfi9pwyz09SFaUpnmGY0e1f6LmPjU43SbaF4kzsQrhXdOyp3Mw/xkQzSMYppxCb9N
-         +lbEEPjsxA1w2eXH0QMbnbNq51cQkUoHUQM4EFszwOAYMpt33N+sfzKB80IDd1mn9nbC
-         yMIn5EgQN+gzoujQMVfaycMyyvmT/QJpzIHSK6MvfVZA5V2zbUFpgmDo/QIO2YRheXBX
-         kj8A==
-X-Gm-Message-State: AOJu0YzG3FME6lsUB5Xsnj7QFPGUfiHe1Li65fIGxBbyKKwzk1vyPYYz
-	mMOV+L8Y7I5rCSMWn5pCFnKC42ehr30x5Yc6vjjM6oSlnPWbAA==
-X-Google-Smtp-Source: AGHT+IEdO23rhTt93wkvw9gkO8dC7BUwHeMkYA4Qmo9mEgLwJE//bbBUU6LmOLzyAUcMqNkyadG/og==
-X-Received: by 2002:a05:6808:11cc:b0:3b9:ef59:42f8 with SMTP id p12-20020a05680811cc00b003b9ef5942f8mr8951556oiv.21.1703644237201;
-        Tue, 26 Dec 2023 18:30:37 -0800 (PST)
+        bh=1gaP3Az0ZqUTVcZ1oSRqCGDaVHCBzbPWfPCtOseKsEM=;
+        b=wKNUPCF0hOrMHM/iFXkKHMC0QCq1BVCmE+Rr+pjdPlwmXV/m+mN+2PEyK3hJN0Felk
+         2lY9SXJsTw0alBjiqgPVqEOjrzXdBDBNqeshwMYFdNL8UwJk6k8645xu4IYDutzL4wrt
+         XJqrRpO9r6rY3thxxEe1OrqAF5FYaOYhWxElSfRMiQTI39tmUGzso7WIxcbD84JpHkrc
+         Y4HKBT1Vdy5SHctd6Cp18ldaVDWZIZcp1n6c14FWh46Mo1vmSZrlfdvVaZPptsECLuNz
+         dVxW54vpBYtRjSJNA0mH8SxR5tLSwnSgxvjMu7+Thg5wqUiLZBJWKGcQj2M3uZYET5QK
+         R1dQ==
+X-Gm-Message-State: AOJu0YwbTd8iRkZhirLeQj6z2MRC5eyGk36QHcyYBLDRPPhGjfAzjWKz
+	n7E7XcVxBFa+618y3ivagZCUAvi4gBTcOInXc6aoCkc0h7wBvg==
+X-Google-Smtp-Source: AGHT+IEQOz1MxwNLcU/mKY9/GQBxaDHHtajFtZjkzLvhZuWqGcvvJjZ9y2uvEXUBFa1vQEp3qGjBng==
+X-Received: by 2002:a05:6a00:ce:b0:6d9:aa18:291c with SMTP id e14-20020a056a0000ce00b006d9aa18291cmr1613999pfj.8.1703644235614;
+        Tue, 26 Dec 2023 18:30:35 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id z188-20020a6265c5000000b006d095553f2asm10982400pfb.81.2023.12.26.18.30.36
+        by smtp.gmail.com with ESMTPSA id z188-20020a6265c5000000b006d095553f2asm10982400pfb.81.2023.12.26.18.30.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Dec 2023 18:30:36 -0800 (PST)
+        Tue, 26 Dec 2023 18:30:35 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 6/6] testimage: drop target_dumper and  host_dumper
-Date: Tue, 26 Dec 2023 16:30:21 -1000
-Message-Id: <94e9019d2f170a26206c2774381a1d183313ecaa.1703644078.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 5/6] bluez5: fix CVE-2023-45866
+Date: Tue, 26 Dec 2023 16:30:20 -1000
+Message-Id: <1df2bdf370346dac70451159adf1ae85d1a2dacd.1703644078.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703644078.git.steve@sakoman.com>
 References: <cover.1703644078.git.steve@sakoman.com>
@@ -60,61 +60,93 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 02:30:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192921
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 02:30:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192920
 
-The target_dumper code is basically broken. It has been reading binary files
-over the text base serial communication and runs at every command failure which
-makes no sense. Each run might overwrite files from the previous run and the
-output appears corrupted due to confusion from the binary data.
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-It isn't possible to cherry-pick "testimage: Drop target_dumper and most of monitor_dumper"
-from master, so just make target_dumper and host_dumper empty functions.
+Upstream-Status: Backport from https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=25a471a83e02e1effb15d5a488b3f0085eaeb675
 
-For further details see:
-
-https://lists.openembedded.org/g/openembedded-architecture/message/1888
-
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/testimage.bbclass | 21 ---------------------
- 1 file changed, 21 deletions(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ .../bluez5/bluez5/CVE-2023-45866.patch        | 54 +++++++++++++++++++
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 97e68d94b0..7c8b2b30a1 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -99,30 +99,9 @@ TESTIMAGE_DUMP_DIR ?= "${LOG_DIR}/runtime-hostdump/"
- TESTIMAGE_UPDATE_VARS ?= "DL_DIR WORKDIR DEPLOY_DIR"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index a71d339928..74fd344170 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -59,6 +59,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://CVE-2022-0204.patch \
+            file://CVE-2022-39176.patch \
+            file://CVE-2022-3637.patch \
++           file://CVE-2023-45866.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
  
- testimage_dump_target () {
--    top -bn1
--    ps
--    free
--    df
--    # The next command will export the default gateway IP
--    export DEFAULT_GATEWAY=$(ip route | awk '/default/ { print $3}')
--    ping -c3 $DEFAULT_GATEWAY
--    dmesg
--    netstat -an
--    ip address
--    # Next command will dump logs from /var/log/
--    find /var/log/ -type f -name !wtmp* 2>/dev/null -exec echo "====================" \; -exec echo {} \; -exec echo "====================" \; -exec cat {} \; -exec echo "" \;
- }
- 
- testimage_dump_host () {
--    top -bn1
--    iostat -x -z -N -d -p ALL 20 2
--    ps -ef
--    free
--    df
--    memstat
--    dmesg
--    ip -s link
--    netstat -an
- }
- 
- python do_testimage() {
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
+new file mode 100644
+index 0000000000..43670ab2b3
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
+@@ -0,0 +1,54 @@
++From 25a471a83e02e1effb15d5a488b3f0085eaeb675 Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Tue, 10 Oct 2023 13:03:12 -0700
++Subject: input.conf: Change default of ClassicBondedOnly
++
++This changes the default of ClassicBondedOnly since defaulting to false
++is not inline with HID specification which mandates the of Security Mode
++4:
++
++BLUETOOTH SPECIFICATION Page 84 of 123
++Human Interface Device (HID) Profile:
++
++5.4.3.4.2 Security Modes
++Bluetooth HID Hosts shall use Security Mode 4 when interoperating with
++Bluetooth HID devices that are compliant to the Bluetooth Core
++Specification v2.1+EDR[6].
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=25a471a83e02e1effb15d5a488b3f0085eaeb675]
++CVE: CVE-2023-45866
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ profiles/input/device.c   | 2 +-
++ profiles/input/input.conf | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/profiles/input/device.c b/profiles/input/device.c
++index 375314e..0236488 100644
++--- a/profiles/input/device.c
+++++ b/profiles/input/device.c
++@@ -93,7 +93,7 @@ struct input_device {
++ 
++ static int idle_timeout = 0;
++ static bool uhid_enabled = false;
++-static bool classic_bonded_only = false;
+++static bool classic_bonded_only = true;
++ 
++ void input_set_idle_timeout(int timeout)
++ {
++diff --git a/profiles/input/input.conf b/profiles/input/input.conf
++index 4c70bc5..d8645f3 100644
++--- a/profiles/input/input.conf
+++++ b/profiles/input/input.conf
++@@ -17,7 +17,7 @@
++ # platforms may want to make sure that input connections only come from bonded
++ # device connections. Several older mice have been known for not supporting
++ # pairing/encryption.
++-# Defaults to false to maximize device compatibility.
+++# Defaults to true for security.
++ #ClassicBondedOnly=true
++ 
++ # LE upgrade security
++-- 
++2.25.1
++
 -- 
 2.34.1
 
