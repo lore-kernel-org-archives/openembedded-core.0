@@ -2,97 +2,89 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D300C46CD2
-	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 09:24:30 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.98728.1703669069364932064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C31DC4706F
+	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 09:24:40 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.98329.1703669069687964223
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Dec 2023 01:24:29 -0800
+ Wed, 27 Dec 2023 01:24:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=fRcSisvu;
- spf=pass (domain: linaro.org, ip: 209.85.208.180, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ccba761783so24173731fa.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=DMHEgtGg;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ccaf5955aeso32456011fa.0
         for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 01:24:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google; t=1703669067; x=1704273867; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GYQASVqxAQBMpaCZYJGTUmuHefZlk9jxgzK78H8dBTg=;
-        b=fRcSisvu3UXlpy//GbBLD9/H7vKmOs9jGaq4VQYak1BYW6kwhv789CKj4cqn4D7d0G
-         gBKyJJjb49G3zIKNcvRp/IU9BmFK4HUirfyIfgKdjxz9VeTUwetbvvPnIfn4vjxNyiB7
-         J5mVhjNSDu3rhEcKvLLJD0CmzFqQhJx1NxwvwOhKVr1HgfNROsgTsACEbZv9f/Tkf7bS
-         JNBDwpoLpbRf+P0K6VH1Vf/eVL4jGX3WsN/4O7uGFVUtNj1WnP0j4Tw/UGAu3lekzKMw
-         Kr1m7Py1t9yaoSsHofdBtaCrxJR7af2ebndlUvz+K/BusK6470t175IxUvb2gk0dZpeM
-         U4pw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oxcy92MxYXpURykacpoQ64DowfJ79jD6rrCLQOmhgV4=;
+        b=DMHEgtGg33AjJPkdrwt9TpuaibBOapF7WFvalrQbR84RMKX3eTB1MeW/G+JZtmbO+Z
+         /HfTZohiL60PxHkptGiNRrK4Hl7o0WznNckZ5R02YVICH+aUhnoBvHcOaZGCKV8jrYF0
+         80aqqsghoPD/N+wUohrTl50w0z9Eq507U+ogsY2rFpAVBcNbIc18yIrLTLXYZZrD8vrY
+         AsdcaHNZyMWkwpf1fGEAutw/z41vmjMPq1yKK9kuiSJ6VSLsBR4huJr41ae/oC1TxykL
+         LZW51fCan/AXSd5tD02dXp8MuKM/HxrELEV6//7szS8ERSPMGNIHL+WHeUpxF2mnr0pt
+         MVUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1703669067; x=1704273867;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GYQASVqxAQBMpaCZYJGTUmuHefZlk9jxgzK78H8dBTg=;
-        b=YvtK0TA8r02dLYPD524z75Qp26v1ytY1mEj2t061ZMbNyOGu6bsHquOnHeMbdME60g
-         IDoMAs5ow84WUwbsPRlRAcyLHZh32w2Rt7eJhm/kNJQy9mySmUqZmGZauFpXJDM8B9LF
-         Ty4yDegO3iS6e1HgXvpoTGqw3qVyLgqiviPszp1D+y+SQtLqW/yO1UPUqAP2bvnQzRI8
-         ZAEkcviQH0Jqp2FXDxfKdi/vOXn6g3ddozx/mRMMW+IhGTpjlOYN5UByOYrgLeCtZDBA
-         5L60US6bjL9XWE/+bQo8TGv4onfZCbIILC2BW6yEhdbmSNRWzcgnv2oUwW6lcppSI5LI
-         ZaEg==
-X-Gm-Message-State: AOJu0YwnfkDU920EHo7sF/NgkkxprDXyxiaxgYM0tOOXSJV9i1ggYvYN
-	LOJMz2OnJ3+TLTTwcuhE+7IaqlrmGzmP/17b6m2RJN9/L9CUVPZe
-X-Google-Smtp-Source: AGHT+IF/r4Ts+R1V6mXv6DTbbz1loGsF5wbOEJdBfBKx3S/E+Q5vBeoS6bJe9TY/rMDIOfsVTdbZzA==
-X-Received: by 2002:a2e:a690:0:b0:2cc:53da:bb89 with SMTP id q16-20020a2ea690000000b002cc53dabb89mr2901626lje.3.1703669066921;
-        Wed, 27 Dec 2023 01:24:26 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oxcy92MxYXpURykacpoQ64DowfJ79jD6rrCLQOmhgV4=;
+        b=Y+sep+UKYdLCeL6AaqU3fCLt1sommmW/YYJqDmYV8of68duRIutNa61sBnBBgjuxaf
+         XMF6Y68sr8DgJT7Rmk5OdAFMzulaWRPjqL2jmSUZ/wNMLOhylUytT6b4BDSwrb4zttrP
+         M2GxETto6tqlNSXBefHWWn4FYufWoSjxZO3+DFNOerE+UVUfrkb5wNYbSyHD8qdBJz8X
+         o52X/brjmWqzJw7ogiZr76VWi8j9Kl7VrD8zRgBRnZ1bItfbkYr8RySiI8p1R9DfldsL
+         NDeGc5gIWOz2GDTRvIS8jk3MdgNiN8BcNXmFqIruC9NVFDFuxqhHUdS3vju/q9elS2rx
+         adPw==
+X-Gm-Message-State: AOJu0YwM7xv+cA+qPaOSOfkg6bqyHs21DGeUPkCNNTJ/hzR+GSc67sCL
+	Csh933RJQA5PJYdupez+EABjvWh+ivnTOeTjd3RpcdyCwiPXkZAe
+X-Google-Smtp-Source: AGHT+IHOK7mV/gXaZcvULlhW/m7VtRyXxoi1FRgTyWrR40upfQjBBaKDkt0VIFweDhLqXrgALoyTbw==
+X-Received: by 2002:a2e:b0c8:0:b0:2cc:db17:64af with SMTP id g8-20020a2eb0c8000000b002ccdb1764afmr323313ljl.93.1703669067470;
+        Wed, 27 Dec 2023 01:24:27 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.91])
         by smtp.gmail.com with ESMTPSA id e18-20020a2e9852000000b002cca6703b13sm2131333ljj.99.2023.12.27.01.24.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Dec 2023 01:24:26 -0800 (PST)
+        Wed, 27 Dec 2023 01:24:27 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH v4 0/3] mesa: RustiCL support
-Date: Wed, 27 Dec 2023 11:24:22 +0200
-Message-Id: <20231227092425.4002461-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 1/3] mesa: drop -Dopencl-native=true
+Date: Wed, 27 Dec 2023 11:24:23 +0200
+Message-Id: <20231227092425.4002461-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231227092425.4002461-1-dmitry.baryshkov@linaro.org>
+References: <20231227092425.4002461-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 09:24:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192928
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 09:24:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192929
 
-RustiCL is a new OpenCL implementation developed within the mesa
-library. It supports more drivers and more features compared to the
-existing Clover implementation. The Clover is supposed to fade away and
-to be removed in the foreseeble feature ([1]), thus it doesn't make
-sense to add separate clover / rusticl options, they are going to be
-removed anyway.
+The flag -Dopencl-native=true was dropped in Mesa 22.3, remove it from
+mesa.inc.
 
-This series is based on previous work by Zoltán ([2]), so it starts its
-versions from v4.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/19385
-[2] https://lore.kernel.org/openembedded-core/20230306091108.3347363-1-zboszor@gmail.com/
-
-Changes since v3:
-- Dropped clover / rusticl separation in PACKAGECONFIG
-- Reworked rust inheritance to allow changing of PACKAGECONFIG from
-  bbappend files
-- Added an upstream fix
-- Dropped removed config option
-
-Dmitry Baryshkov (2):
-  mesa: drop -Dopencl-native=true
-  mesa: fix building of RustiCL + nouveau
-
-Zoltán Böszörményi (1):
-  mesa: add support for RustiCL under PACKAGECONFIG "opencl"
-
- .../mesa/files/fix-nouveau-vl.patch           | 55 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           | 23 ++++++--
- 2 files changed, 72 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/files/fix-nouveau-vl.patch
-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 5f5c8ceb4c84..efbce5caade5 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -140,8 +140,7 @@ PACKAGECONFIG[gles] = "-Dgles1=enabled -Dgles2=enabled, -Dgles1=disabled -Dgles2
+ PACKAGECONFIG[egl] = "-Degl=enabled, -Degl=disabled"
+ 
+ # "opencl" requires libclc from meta-clang and spirv-tools from OE-Core
+-OPENCL_NATIVE = "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', '-Dopencl-native=true', '', d)}"
+-PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true ${OPENCL_NATIVE},-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools python3-ply-native"
++PACKAGECONFIG[opencl] = "-Dgallium-opencl=icd -Dopencl-spirv=true,-Dgallium-opencl=disabled -Dopencl-spirv=false,libclc spirv-tools python3-ply-native"
+ 
+ PACKAGECONFIG[broadcom] = ""
+ PACKAGECONFIG[etnaviv] = ""
 -- 
 2.39.2
 
