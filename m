@@ -1,153 +1,398 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <qiutt@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED3A0C46CD3
-	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 02:30:45 +0000 (UTC)
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.94599.1703644237053260256
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A30DEC46CD4
+	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 04:14:26 +0000 (UTC)
+Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
+ by mx.groups.io with SMTP id smtpd.web10.95879.1703650455719725077
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Dec 2023 18:30:37 -0800
+ Tue, 26 Dec 2023 20:14:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AIHVuo8o;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-28bc7155755so1804453a91.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Dec 2023 18:30:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703644235; x=1704249035; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1gaP3Az0ZqUTVcZ1oSRqCGDaVHCBzbPWfPCtOseKsEM=;
-        b=AIHVuo8owCAEUdZ3P0yPT0m7cSNw7usbXdGJFPIb10pv+xtjdQ7JNhMkyAsjr5M18t
-         vRh5mWYyGvE41vTSysl3feMcJr3pqC+8pAkSrFRqj1owSwfvoNA24OJ4HAgQycHNoAJs
-         auSbM5CfinDfFgc2500zCHYUUotQVOepAc9NLeiJuqahrE849M6UYHuKRpgT0sTkjY+P
-         HXX92P8e4tzcB8tVLlU5KnrwOL2tzGGkUZ8O9ETbqU0jtLZYr7JqRUQxqxqgOBTduOLV
-         lObJdiuzEEw8boq0XLTLpFf+wSOBzo9vZjXjH0A+ERIslvD81M00B6okqv43vQnQmFdn
-         Dcww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703644235; x=1704249035;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1gaP3Az0ZqUTVcZ1oSRqCGDaVHCBzbPWfPCtOseKsEM=;
-        b=wKNUPCF0hOrMHM/iFXkKHMC0QCq1BVCmE+Rr+pjdPlwmXV/m+mN+2PEyK3hJN0Felk
-         2lY9SXJsTw0alBjiqgPVqEOjrzXdBDBNqeshwMYFdNL8UwJk6k8645xu4IYDutzL4wrt
-         XJqrRpO9r6rY3thxxEe1OrqAF5FYaOYhWxElSfRMiQTI39tmUGzso7WIxcbD84JpHkrc
-         Y4HKBT1Vdy5SHctd6Cp18ldaVDWZIZcp1n6c14FWh46Mo1vmSZrlfdvVaZPptsECLuNz
-         dVxW54vpBYtRjSJNA0mH8SxR5tLSwnSgxvjMu7+Thg5wqUiLZBJWKGcQj2M3uZYET5QK
-         R1dQ==
-X-Gm-Message-State: AOJu0YwbTd8iRkZhirLeQj6z2MRC5eyGk36QHcyYBLDRPPhGjfAzjWKz
-	n7E7XcVxBFa+618y3ivagZCUAvi4gBTcOInXc6aoCkc0h7wBvg==
-X-Google-Smtp-Source: AGHT+IEQOz1MxwNLcU/mKY9/GQBxaDHHtajFtZjkzLvhZuWqGcvvJjZ9y2uvEXUBFa1vQEp3qGjBng==
-X-Received: by 2002:a05:6a00:ce:b0:6d9:aa18:291c with SMTP id e14-20020a056a0000ce00b006d9aa18291cmr1613999pfj.8.1703644235614;
-        Tue, 26 Dec 2023 18:30:35 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id z188-20020a6265c5000000b006d095553f2asm10982400pfb.81.2023.12.26.18.30.34
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Dec 2023 18:30:35 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+ dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: qiutt@fujitsu.com)
+X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="146343935"
+X-IronPort-AV: E=Sophos;i="6.04,308,1695654000"; 
+   d="scan'208";a="146343935"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 13:14:13 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 63EAFD4F62
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 13:14:10 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 8D57AD3F37
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 13:14:09 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 0C1B31E9C8D
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 13:14:09 +0900 (JST)
+Received: from ubuntu-Lenovo.g08.fujitsu.local (unknown [10.167.219.81])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 913EB1A0070;
+	Wed, 27 Dec 2023 12:14:08 +0800 (CST)
+From: qiutt@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 5/6] bluez5: fix CVE-2023-45866
-Date: Tue, 26 Dec 2023 16:30:20 -1000
-Message-Id: <1df2bdf370346dac70451159adf1ae85d1a2dacd.1703644078.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1703644078.git.steve@sakoman.com>
-References: <cover.1703644078.git.steve@sakoman.com>
+Cc: fnstml-fujitsuten@fujitsu.com,
+	qiutt <qiutt@fujitsu.com>
+Subject: [PATCH V4] cairo: upgrade 1.16.0 -> 1.18.0
+Date: Wed, 27 Dec 2023 12:09:36 +0800
+Message-Id: <20231227040936.1063726-1-qiutt@fujitsu.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28082.004
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28082.004
+X-TMASE-Result: 10--15.295800-10.000000
+X-TMASE-MatchedRID: lFVmWUbtA2Gjz0nOeth/yUIIxwDaU5mrxqwmEOBVKeqvY1zctlJ9TDBX
+	Xb/qS263sU8ECLuhDYszKUcjfbDidspSC015mx5vHeq/w17M53qZmLDnd2pI3wUMroZlhAl9OcY
+	/jkDGKiKIhghQQiyup3tBxdKLkQVY+gtEW3D/QKa9DPrK2kR8nE3yuY9BGW8rEf56APLDZL1v2Z
+	iuCbVzY1xNy8rltPsIEriUbUlPOKPgp0ltbNse282CuVPkCNzuN5dqZcIK7VgwcMedHxxRAiFLS
+	h+QCTPZIvrftAIhWmLK24Lrk00g7kwYXRRr2ymnydRP56yRRA8v7b6tKWBNQrV5fSMRD1zqsMBr
+	Nxxo1t943BOQCeFVs10cZdCr/5H1pPgGGtEeUXh+IrMF/hh/2E+crEA4+nhZ0/tWY/sOuvqsjtK
+	TB43968GRnF5GlD5EVFmhXoBPCZIZ2btwXmq4YXV7tdtvoibaLfNU/r2ov2emQTCqZT6QS3AO1g
+	laOi0FS6LEnTllhOAgRsnoK4dRNCs/FOpu5r/AlTsGW3DmpUttofdVs4T9OcwHSQ+yXjTDaWcfJ
+	5Gh9f47Tj/Sn5zZ8qCLUWfQMWr64nM8SgEQxQrqcdt4G7kueQv/9UzFeXIT/kWkeuI3AgVexHVW
+	V7Fz705sgAAMg1qFYeiTooF+ThqHFo7dvDc+MDllFsU0CXSP8boZEVitthjIgofMgahPrfgsg71
+	+SEwJwVeG+L4n/T/bkW1XeH1tSLIi1DB4ACmskCThXPqsqivo5/ZLZgoyL/PlAor2K6GjlIOVA+
+	gJRdKxfbhqGxLk+4Ay6p60ZV62Io4ML6qeasEdhRVgauhR0xe9CQaLe2PP9xS3mVzWUuCRTpSQi
+	v9X7bRBGWsEXd5ln4WsfwhgqYQXttcrbtWodi2yR0VL3Nh9trMwvOa166vgQI15xILlmA==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 02:30:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192920
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 04:14:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192922
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: qiutt <qiutt@fujitsu.com>
 
-Upstream-Status: Backport from https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=25a471a83e02e1effb15d5a488b3f0085eaeb675
+Changelog for 1.18.0 [1]:
+  The cairo-sphinx tool has been removed
+  Cairo now implements Type 3 color fonts for PDF
+  The XML surface has been removed
+  The Tee surface is now automatically enabled
+  The Quartz surface is improved
+  Cairo now hides all private symbols by default on every platform
+  Fixed multiple issues
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+As a part of 1.18.0, the following patches should be dropped.
+  CVE-2018-19876.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/90e85c2493fdfa3551f202ff10282463f1e36645
+  CVE-2019-6461.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/09643ee1abdd5daacebfcb564448f29be9a79bac
+  CVE-2019-6462.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/bbeaf08190d3006a80b80a77724801cd477a37b8
+  CVE-2020-35492.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/c986a7310bb06582b7d8a566d5f007ba4e5e75bf
+
+These options are all gone [2]: directfb, valgrind, egl, glesv2, opengl, trace
+
+Build tool is changed : autotools -> meson
+
+Fix cross compile error [3] by adding cairo.cross file.
+
+ [1] https://www.cairographics.org/news/cairo-1.18.0/
+ [2] https://gitlab.freedesktop.org/cairo/cairo/-/blob/master/meson_options.txt
+ [3] https://gitlab.freedesktop.org/cairo/cairo/-/issues/613
+
+Signed-off-by: qiutt <qiutt@fujitsu.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- .../bluez5/bluez5/CVE-2023-45866.patch        | 54 +++++++++++++++++++
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
+ .../cairo/cairo/CVE-2018-19876.patch          | 34 ---------
+ .../cairo/cairo/CVE-2019-6461.patch           | 20 ------
+ .../cairo/cairo/CVE-2019-6462.patch           | 40 -----------
+ .../cairo/cairo/CVE-2020-35492.patch          | 60 ----------------
+ .../{cairo_1.16.0.bb => cairo_1.18.0.bb}      | 72 +++++++------------
+ 5 files changed, 25 insertions(+), 201 deletions(-)
+ delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+ delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+ delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+ delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+ rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.18.0.bb} (51%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index a71d339928..74fd344170 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -59,6 +59,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://CVE-2022-0204.patch \
-            file://CVE-2022-39176.patch \
-            file://CVE-2022-3637.patch \
-+           file://CVE-2023-45866.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+deleted file mode 100644
+index 4252a5663b..0000000000
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-CVE: CVE-2018-19876
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
+-From: Carlos Garcia Campos <cgarcia@igalia.com>
+-Date: Mon, 19 Nov 2018 12:33:07 +0100
+-Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
+- cairo_ft_apply_variations
+-
+-Fixes a crash when using freetype >= 2.9
+----
+- src/cairo-ft-font.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
+-index 325dd61b4..981973f78 100644
+---- a/src/cairo-ft-font.c
+-+++ b/src/cairo-ft-font.c
+-@@ -2393,7 +2393,11 @@ skip:
+- done:
+-         free (coords);
+-         free (current_coords);
+-+#if HAVE_FT_DONE_MM_VAR
+-+        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
+-+#else
+-         free (ft_mm_var);
+-+#endif
+-     }
+- }
+- 
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
+deleted file mode 100644
+index a2dba6cb20..0000000000
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-There is an assertion in function _cairo_arc_in_direction().
+-
+-CVE: CVE-2019-6461
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+-index 390397bae..1bde774a4 100644
+---- a/src/cairo-arc.c
+-+++ b/src/cairo-arc.c
+-@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
+-     if (cairo_status (cr))
+-         return;
+- 
+--    assert (angle_max >= angle_min);
+-+    if (angle_max < angle_min)
+-+       return;
+- 
+-     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
+- 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+deleted file mode 100644
+index 7c3209291b..0000000000
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-CVE: CVE-2019-6462
+-Upstream-Status: Backport
+-Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+-
+-From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
+-From: Heiko Lewin <hlewin@gmx.de>
+-Date: Sun, 1 Aug 2021 11:16:03 +0000
+-Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
+-
+----
+- src/cairo-arc.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/cairo-arc.c b/src/cairo-arc.c
+-index 390397bae..1c891d1a0 100644
+---- a/src/cairo-arc.c
+-+++ b/src/cairo-arc.c
+-@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
+- 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
+-     };
+-     int table_size = ARRAY_LENGTH (table);
+-+    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
+- 
+-     for (i = 0; i < table_size; i++)
+- 	if (table[i].error < tolerance)
+- 	    return table[i].angle;
+- 
+-     ++i;
+-+
+-     do {
+- 	angle = M_PI / i++;
+- 	error = _arc_error_normalized (angle);
+--    } while (error > tolerance);
+-+    } while (error > tolerance && i < max_segments);
+- 
+-     return angle;
+- }
+--- 
+-2.38.1
+-
+diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
+deleted file mode 100644
+index fb6ce5cfdf..0000000000
+--- a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-Fix stack buffer overflow.
+-
+-CVE: CVE-2020-35492
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+-From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
+-From: Heiko Lewin <heiko.lewin@worldiety.de>
+-Date: Tue, 15 Dec 2020 16:48:19 +0100
+-Subject: [PATCH] Fix mask usage in image-compositor
+-
+----
+- src/cairo-image-compositor.c                |   8 ++--
+- test/Makefile.sources                       |   1 +
+- test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
+- test/reference/bug-image-compositor.ref.png | Bin 0 -> 185 bytes
+- 4 files changed, 44 insertions(+), 4 deletions(-)
+- create mode 100644 test/bug-image-compositor.c
+- create mode 100644 test/reference/bug-image-compositor.ref.png
+-
+-diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
+-index 79ad69f68..4f8aaed99 100644
+---- a/src/cairo-image-compositor.c
+-+++ b/src/cairo-image-compositor.c
+-@@ -2601,14 +2601,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+- 		    unsigned num_spans)
+- {
+-     cairo_image_span_renderer_t *r = abstract_renderer;
+--    uint8_t *m;
+-+    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
+-     int x0;
+- 
+-     if (num_spans == 0)
+- 	return CAIRO_STATUS_SUCCESS;
+- 
+-     x0 = spans[0].x;
+--    m = r->_buf;
+-+    m = base;
+-     do {
+- 	int len = spans[1].x - spans[0].x;
+- 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
+-@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+- 				      spans[0].x, y,
+- 				      spans[1].x - spans[0].x, h);
+- 
+--	    m = r->_buf;
+-+	    m = base;
+- 	    x0 = spans[1].x;
+- 	} else if (spans[0].coverage == 0x0) {
+- 	    if (spans[0].x != x0) {
+-@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
+- #endif
+- 	    }
+- 
+--	    m = r->_buf;
+-+	    m = base;
+- 	    x0 = spans[1].x;
+- 	} else {
+- 	    *m++ = spans[0].coverage;
+--- 
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
+similarity index 51%
+rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
+rename to meta/recipes-graphics/cairo/cairo_1.18.0.bb
+index ffb813d290..ffae13b48a 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
+@@ -7,7 +7,7 @@ optional translucence (opacity/alpha) and combined using the \
+ extended Porter/Duff compositing algebra as found in the X Render \
+ Extension."
+ HOMEPAGE = "http://cairographics.org"
+-BUGTRACKER = "http://bugs.freedesktop.org"
++BUGTRACKER = "https://gitlab.freedesktop.org/cairo/cairo/-/issues"
+ SECTION = "libs"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
-new file mode 100644
-index 0000000000..43670ab2b3
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2023-45866.patch
-@@ -0,0 +1,54 @@
-+From 25a471a83e02e1effb15d5a488b3f0085eaeb675 Mon Sep 17 00:00:00 2001
-+From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-+Date: Tue, 10 Oct 2023 13:03:12 -0700
-+Subject: input.conf: Change default of ClassicBondedOnly
+ LICENSE = "(MPL-1.1 | LGPL-2.1-only) & GPL-3.0-or-later"
+@@ -26,62 +26,40 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77 \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504', '', d)}"
+ 
+ 
+-DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
++DEPENDS = "fontconfig freetype glib-2.0 libpng pixman zlib"
+ 
+ SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
+-           file://CVE-2018-19876.patch \
+-           file://CVE-2019-6461.patch \
+-           file://CVE-2019-6462.patch \
+-           file://CVE-2020-35492.patch \
+           "
+ 
+-SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
+-SRC_URI[sha256sum] = "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
++SRC_URI[sha256sum] = "243a0736b978a33dee29f9cca7521733b78a65b5418206fef7bd1c3d4cf10b64"
+ 
+-inherit autotools pkgconfig upstream-version-is-even gtk-doc multilib_script
++inherit meson pkgconfig upstream-version-is-even gtk-doc multilib_script
 +
-+This changes the default of ClassicBondedOnly since defaulting to false
-+is not inline with HID specification which mandates the of Security Mode
-+4:
++# Tell libsoup where the target ntlm_auth is installed
++do_write_config:append:class-target() {
++    cat >${WORKDIR}/cairo.cross <<EOF
++[binaries]
++ipc_rmid_deferred_release = 'true'
++EOF
++}
++EXTRA_OEMESON:append:class-target = " --cross-file ${WORKDIR}/cairo.cross"
 +
-+BLUETOOTH SPECIFICATION Page 84 of 123
-+Human Interface Device (HID) Profile:
-+
-+5.4.3.4.2 Security Modes
-+Bluetooth HID Hosts shall use Security Mode 4 when interoperating with
-+Bluetooth HID devices that are compliant to the Bluetooth Core
-+Specification v2.1+EDR[6].
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=25a471a83e02e1effb15d5a488b3f0085eaeb675]
-+CVE: CVE-2023-45866
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ profiles/input/device.c   | 2 +-
-+ profiles/input/input.conf | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/profiles/input/device.c b/profiles/input/device.c
-+index 375314e..0236488 100644
-+--- a/profiles/input/device.c
-++++ b/profiles/input/device.c
-+@@ -93,7 +93,7 @@ struct input_device {
-+ 
-+ static int idle_timeout = 0;
-+ static bool uhid_enabled = false;
-+-static bool classic_bonded_only = false;
-++static bool classic_bonded_only = true;
-+ 
-+ void input_set_idle_timeout(int timeout)
-+ {
-+diff --git a/profiles/input/input.conf b/profiles/input/input.conf
-+index 4c70bc5..d8645f3 100644
-+--- a/profiles/input/input.conf
-++++ b/profiles/input/input.conf
-+@@ -17,7 +17,7 @@
-+ # platforms may want to make sure that input connections only come from bonded
-+ # device connections. Several older mice have been known for not supporting
-+ # pairing/encryption.
-+-# Defaults to false to maximize device compatibility.
-++# Defaults to true for security.
-+ #ClassicBondedOnly=true
-+ 
-+ # LE upgrade security
-+-- 
-+2.25.1
-+
++GTKDOC_MESON_OPTION = "gtk_doc"
+ 
+ MULTILIB_SCRIPTS = "${PN}-perf-utils:${bindir}/cairo-trace"
+ 
+-X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+-
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
+-                   trace"
+-PACKAGECONFIG:class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+-PACKAGECONFIG:class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+-
+-PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+-PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+-PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
+-PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
+-PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+-PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
+-PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
+-# trace is under GPLv3
+-PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+-
+-EXTRA_OECONF += " \
+-    ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
+-    --enable-tee \
+-"
+-
+-# We don't depend on binutils so we need to disable this
+-export ac_cv_lib_bfd_bfd_openr="no"
+-# Ensure we don't depend on LZO
+-export ac_cv_lib_lzo2_lzo2a_decompress="no"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xlib xcb', '', d)} trace"
++PACKAGECONFIG[xlib] = "-Dxlib=enabled,-Dxlib=disabled,virtual/libx11 libxrender libxext"
++PACKAGECONFIG[xcb] = "-Dxcb=enabled,-Dxcb=disabled,libxcb"
++# cairo-trace is GPLv3 so add an option to remove it
++PACKAGECONFIG[trace] = ""
+ 
+ do_install:append () {
+-	rm -rf ${D}${bindir}/cairo-sphinx
+-	rm -rf ${D}${libdir}/cairo/cairo-fdr*
+-	rm -rf ${D}${libdir}/cairo/cairo-sphinx*
+-	rm -rf ${D}${libdir}/cairo/.debug/cairo-fdr*
+-	rm -rf ${D}${libdir}/cairo/.debug/cairo-sphinx*
+-	[ ! -d ${D}${bindir} ] ||
+-		rmdir -p --ignore-fail-on-non-empty ${D}${bindir}
+-	[ ! -d ${D}${libdir}/cairo ] ||
+-		rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
++    if ! ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'true', 'false', d)}; then
++        rm ${D}${bindir}/cairo-trace ${D}${libdir}/cairo/libcairo-trace.so
++        rmdir --ignore-fail-on-non-empty ${D}${bindir} ${D}${libdir}/cairo
++    fi
+ }
+ 
+ PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
+@@ -99,7 +77,7 @@ DESCRIPTION:cairo-perf-utils = "The Cairo library performance utilities"
+ FILES:${PN} = "${libdir}/libcairo.so.*"
+ FILES:${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
+ FILES:${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
+-FILES:${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so"
++FILES:${PN}-perf-utils = "${bindir}/cairo-* ${libdir}/cairo/libcairo-trace.so ${libdir}/cairo/libcairo-fdr.so"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
-2.34.1
+2.25.1
 
 
