@@ -1,414 +1,205 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06FF4C46CD4
-	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 12:01:51 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web11.99922.1703678504748737387
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161CDC46CD4
+	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 12:20:01 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.71])
+ by mx.groups.io with SMTP id smtpd.web11.100135.1703679597135893670
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Dec 2023 04:01:45 -0800
+ Wed, 27 Dec 2023 04:19:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BhGTob65;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 16E5AC0002;
-	Wed, 27 Dec 2023 12:01:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1703678502;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c1SLOuOxDr0Z25u5aDwEetRG3LGpZN2X1/k1qYhClXM=;
-	b=BhGTob65qiFz1XUsU6vRjEzR+o4KjpSPLQPsnaChrf+m2fdBE1KUNpWEXVBDr4Meexg4mn
-	fg2dU87NMYvOObOZilYS3vkGP35E6yZ4Izcl0ib3T9vd8rXbmxqsNambPSUbmuEFQAXfhy
-	QXZ2mBqNZzeJz9pODoZ4F+XIqub6LSEfiBFeH4VgekIke5wCTUkugvhuOfEyv2+qWNyZSA
-	yLAn5wK3kxAijDJXzFwYtkOgBjKKMmkzTfqtEO+I55hOyGKS6dlRBdG1jhDOBSCG2jCCoA
-	+wEiONDm1Yei1/p1+Jy1QIVk4yPFo0gRSlYUY1ImhmNfvV1LiqQlOOZgUgxh4g==
-Date: Wed, 27 Dec 2023 13:01:41 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: "qiutt@fujitsu.com" <qiutt@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org, fnstml-fujitsuten@fujitsu.com
-Subject: Re: [OE-core] [PATCH V4] cairo: upgrade 1.16.0 -> 1.18.0
-Message-ID: <20231227120141608b1d22@mail.local>
-References: <20231227040936.1063726-1-qiutt@fujitsu.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=sGuPulsG;
+ spf=pass (domain: navimatix.de, ip: 40.107.15.71, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=luCQc4s8HzEzQUM4gsungKHCw/G30a1yl51Qjqhjh0TTS0tZmjIgW7B4huWRmX+BHD9EMJgvOcwoPdUOYXpCE0gwkyOa7UbfWG7GkYH0KF3lYRnbgncwTeIGqtHSGW/+smkPP7UxCkRtZ429slqm/fx71iCiyiXhkpQMR4aNKzXgxjxaM2mTLlUL0lSbwrmZULsvSfgOLDukyPvZd0tOO8iCVBZNL9cySJk7sy2w/hWVoVeQCbzRAifKs+p8Bv808y6x+0H6Ybg36m1KaENe3Kh3P/lYfzgp40jOSycXMayCg4q5bwoLDPFiVX/w2Da5wIkOwGBbqhNCN7yaYkuHgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TegPc7QTlra06L5JW0vbfQ1ezcXLAoVoUTWzQD7uYo4=;
+ b=SKLAlu3AWLFpzwcL+SWRyaT99W5Qw1qFQux5EjmzrY/RTaXwKP+y0TVmjeHzhQb8AKOFvEDtIA7GblfspaaP8+2PDJi1cXamCn6XoKhdhu4arSF6pQ36Xz+n/pJf/mU1fyg4Eq6qywMUiH4u9OZEJZ5rheq6hbCi8LQ981J+WEuoRazPRcITzE67Dyx+oIvQhXOWhiiTr280lRq+F7rzOVFf/zA77AapjtQ+/rMj7jVtPs3p5lSCOvUl+bQFtD/Qy8NX0mXQXdhrvCPNWdWoqdo7M0z54CDzv+OKEdp9Ann46Aybya3eoUQzX8/py1Cg0sWGBQBErMBW1gycCI9I4A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TegPc7QTlra06L5JW0vbfQ1ezcXLAoVoUTWzQD7uYo4=;
+ b=sGuPulsGI19ShcZesdRqSpvgVFikOQXaQWlr5vJ+Ry/5IgDOx8Hi9ETo/2ZRzWSdh7/tnh8LjDH/p7uEjEeZnnDTLbJPCkSRF8JQeTL13AUUaECjSBQ2pnRfCaqKU9eOQ7RUT9ByFOd5NQIWEFCUktmyqkHV60d3CqUg0nA3U40=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from DU2PR01MB8592.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2f7::22) by PR3PR01MB6617.eurprd01.prod.exchangelabs.com
+ (2603:10a6:102:63::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.27; Wed, 27 Dec
+ 2023 12:19:53 +0000
+Received: from DU2PR01MB8592.eurprd01.prod.exchangelabs.com
+ ([fe80::ccd0:21d8:8742:ee1f]) by DU2PR01MB8592.eurprd01.prod.exchangelabs.com
+ ([fe80::ccd0:21d8:8742:ee1f%4]) with mapi id 15.20.7135.019; Wed, 27 Dec 2023
+ 12:19:53 +0000
+From: joerg.sommer@navimatix.de
+To: openembedded-core@lists.openembedded.org
+CC: =?UTF-8?q?J=C3=B6rg=20Sommer?= <joerg.sommer@navimatix.de>
+Subject: [PATCH] i2cdev: New recipe with i2c tools
+Date: Wed, 27 Dec 2023 13:19:36 +0100
+Message-ID: <80fad6f6fdc85ee3b2ad7ab81f1f4c574c42b53c.1703679576.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BE1P281CA0312.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:85::6) To DU2PR01MB8592.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2f7::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231227040936.1063726-1-qiutt@fujitsu.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR01MB8592:EE_|PR3PR01MB6617:EE_
+X-MS-Office365-Filtering-Correlation-Id: 703bf01a-5395-4e4e-484d-08dc06d62179
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	aXgdjJVY1sV+46zfXn5ZPBrF1V3gYmEeUFiSvtSvK9A7+iWbdKhyKrxSnAEWLY2ppOXzaAFsY4OHjEymHC2KSRfpEZ8AILNhgyftq+IheNqjOohw2vHmDvkxmUlllZigbD9wBp+VETZZ4CR4PsHdLeOPEq7ClLeJCdAwUj2ziwZMeDtgM0kyumHf3lybLUKtmYRYdjB8Rcvr2Mo0NQtSbjkEifPRI+CthMdjH5E0kTHoCV8x8aS5vKNr3+rXbjgkSfTORcqSw8pF5aGqREi6Hr40O1tYXk1XKomSdB71+LFNa2bdynB8zeQFJVuNR6jaZ+VXSX3yJhNZ48ZPdXb5dxbWm1bQZdYRa5T8zT5YT2Jqcwy/tSidvU5+rAAAgdCEAQoTXdYIWzB43cRaD0dq8TVgKwf0vdydUCrrZ4BvuV/7tHUlmC8pyvZ3sEdiPoq6IxZbN0VkXvi0fJ7wkPcyWJG8jYUmWAXWQ/2MCni1X/8IDNvdAp8GUnVltmwuau8ePsHzfjd7GP10XuGeo30NrJextrMGkAfqH8JWhANtagMzJ2BrwrBtyQD+fhWoA4cwujo84sruudFIzg+La6MbMLwFwrIUM0W3m3f/6xH/XN0=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR01MB8592.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(376002)(366004)(136003)(346002)(396003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(41300700001)(36756003)(38350700005)(5660300002)(2906002)(6666004)(26005)(2616005)(6512007)(9686003)(107886003)(52116002)(6506007)(83380400001)(6486002)(966005)(66574015)(478600001)(86362001)(8936002)(38100700002)(8676002)(4326008)(316002)(6916009)(66556008)(66476007)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?K6pEjz4ccT3i4w50JUTZItBgV5YylaHS2rFNN6A9eAwhqOOn9+H/0wjBNa7/?=
+ =?us-ascii?Q?huDZ/OE4OB2c66Q3YWl75I7wWahLhY2+tuni8OTood42d/2tK+1/SJ5hUALY?=
+ =?us-ascii?Q?eWoXi3RvjVElTqU4oAGxTIiH2Cjyzp7Qs/emHSTjc5sCuwf9MNra7okL+dzc?=
+ =?us-ascii?Q?5j9LUntRCAs9vjIET+n6hZmr0pBEKj23gGU5ru/KZOdFpu7HPA84sCC26gC0?=
+ =?us-ascii?Q?ZOGBdLM+U/kZuvkUZJa214DA7uKcIMWI5Dv2ZInZJEpocxz/CT2zqimOObZk?=
+ =?us-ascii?Q?HP473LVM8voyg3ie1cMLQKu0ZEy4SqsNMUZWBnaeP46oKm69N+DPDc8JgyKb?=
+ =?us-ascii?Q?HacErfYbIf/jS3vW++3a8Yq5MfmZuXSy2NCPe+TsqXeBy1FVZJyOvLoLyHbb?=
+ =?us-ascii?Q?yN+36HChtMQ2X9SRb1XxDBE2LdrP1/kHBu4yLvA5kIBtx6quy4OoUkpgz80c?=
+ =?us-ascii?Q?fOldU7VU78MoM3a0v59rMe+dQP0zhRHrx0b62rqBUPutYY9YR9JRGf8E5eXS?=
+ =?us-ascii?Q?dLhGKIWkfegRxcS3DRlGOg13VxLRi2YvPf7U5GRieej6+PoNI9YivIy1bjw+?=
+ =?us-ascii?Q?wLCm7blTSqrshPQGs7P0j66I+8GHexhHsdXlG6vdy85j4qsWLhax3VXJWtTp?=
+ =?us-ascii?Q?UtuKN5k9cOXoYRAs+xas/7pecoBtNZd25xrc3K9quX5uh5wauhH4H1/auJD2?=
+ =?us-ascii?Q?OEEu91kEmy2rzabOaHYQGzSXmRq592P67iyOD13cT0LruanGWASGj61ub/GR?=
+ =?us-ascii?Q?M7MkD2hDiXID+c2Eb/I7bn2QiZ6YMW3yaCbXjQujFe6yp6VmQizGyit7ij5Q?=
+ =?us-ascii?Q?9/WqgnThOeoguAh/bXkHb0Kjsrn+hqUWDb1G4SEU/7/zXNwx/XDApALd5xy8?=
+ =?us-ascii?Q?zsYm7eAo2TVBYcEnch5UXP1fajnawQBWILEE3ixsBkMhKhRD0r9sk0obxwyd?=
+ =?us-ascii?Q?NKxJ4vv8xJ18Z8nmrQ8aZuCwuGs8iv76gL7K+9xgXklF7jZmk5EibasG/u1P?=
+ =?us-ascii?Q?29OOzfzeWIayMiAcvseQQLyw+B5Bl34iR+C5KLP5t3dVuK2shAdbQ0ctH/sm?=
+ =?us-ascii?Q?L29D8WQjakL/y/EbWzHQZXeevAdIEerjjCSIHvTfeLgrVELac5INWANBL2Sm?=
+ =?us-ascii?Q?BKfSQqUexzpsXEWD4dh9Or8TAzZfWggR0aZ3QYwbdEkCxRIOH1BGJfEmurwA?=
+ =?us-ascii?Q?lPgt3TZp2OBYc2lAruE1v2HR72Ba/Ak2PcVHVHm8dGNa4qgaM0ctX1rzDB8W?=
+ =?us-ascii?Q?GAaKUYge2beeLlCdwIi3T5KvmchLmY/IyGxPGRwjfTw5SPPhHZV7Sh+dCFNh?=
+ =?us-ascii?Q?i3SYzmmgTRCiqlZgY88UC4jWEMA7CLw5UnLoxCAzSxKeYkaT7Kxsr72EveqI?=
+ =?us-ascii?Q?pVattRLb2icA+bqTHNkYAs4rAlgo5PEgVdFxfvfI2hV+0pI5UvxZ1Ervy8aj?=
+ =?us-ascii?Q?Umwu6awkRQ3X6vuki+I9aTRKUKnVjuZww+kFJprgzP6IMYzaHqGHVsavyNL4?=
+ =?us-ascii?Q?L981DrSmFNtkndlcjm/445SZMsEydLq9CvSdr/fbFWfUO0QUFBmZm12yz2h0?=
+ =?us-ascii?Q?AWTnE+KkyMxBRFAxdjf8sEEYdqD5Jc7GlY9BIMU2UHOe0LTSUfZ8Lt2itezv?=
+ =?us-ascii?Q?uA=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 703bf01a-5395-4e4e-484d-08dc06d62179
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8592.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 12:19:53.5739
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iRjpbq6LaViFvJN5GEAb/Q2vAIFYTTmhnUyLH573QTWD/lkW9W5K+yOQsFD8mE/KizpmhuiVDEGIQIKl1jc4A+3pWTRZhJ5MRmBQdP/F8Dg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR01MB6617
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 12:01:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192938
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 12:20:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192939
 
-Hello,
+From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
 
-This fails on x86-64 x32:
+The main part is the tool lsi2c to scan the i2c bus, like lspci and lsusb
+do.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/8214/steps/12/logs/stdio
+This recipe also ships a static library *libi2cdev.a*. Because this library
+contains the file *smbus.c* which is *GPL=C2=A0v2+,* and a static library c=
+an't
+be linked dynamically to satisfy the LGPL, the whole recipe is marked
+as *GPL-2.0-or-later.*
 
-| ../cairo-1.18.0/meson.build:381:13: ERROR: Can not run test applications in this cross environment.
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.31854:175 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.31854, line 175
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.31854, line 164
-| 	#3: do_configure, /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.31854, line 150
-| 	#4: main, /home/pokybuild/yocto-worker/qemux86-64-x32/build/build/tmp/work/x86_64_x32-poky-linux-gnux32/cairo/1.18.0/temp/run.do_configure.31854, line 188
-NOTE: recipe cairo-1.18.0-r0: task do_configure: Failed
-ERROR: Task (/home/pokybuild/yocto-worker/qemux86-64-x32/build/meta/recipes-graphics/cairo/cairo_1.18.0.bb:do_configure) failed with exit code '1'
+Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
+---
+ .../i2cdev/i2cdev/fix-lsi2c-makefile.patch    | 28 +++++++++++++++++++
+ meta/recipes-bsp/i2cdev/i2cdev_git.bb         | 26 +++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch
+ create mode 100644 meta/recipes-bsp/i2cdev/i2cdev_git.bb
 
-On 27/12/2023 12:09:36+0800, qiutt@fujitsu.com wrote:
-> From: qiutt <qiutt@fujitsu.com>
-> 
-> Changelog for 1.18.0 [1]:
->   The cairo-sphinx tool has been removed
->   Cairo now implements Type 3 color fonts for PDF
->   The XML surface has been removed
->   The Tee surface is now automatically enabled
->   The Quartz surface is improved
->   Cairo now hides all private symbols by default on every platform
->   Fixed multiple issues
-> 
-> As a part of 1.18.0, the following patches should be dropped.
->   CVE-2018-19876.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/90e85c2493fdfa3551f202ff10282463f1e36645
->   CVE-2019-6461.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/09643ee1abdd5daacebfcb564448f29be9a79bac
->   CVE-2019-6462.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/bbeaf08190d3006a80b80a77724801cd477a37b8
->   CVE-2020-35492.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/c986a7310bb06582b7d8a566d5f007ba4e5e75bf
-> 
-> These options are all gone [2]: directfb, valgrind, egl, glesv2, opengl, trace
-> 
-> Build tool is changed : autotools -> meson
-> 
-> Fix cross compile error [3] by adding cairo.cross file.
-> 
->  [1] https://www.cairographics.org/news/cairo-1.18.0/
->  [2] https://gitlab.freedesktop.org/cairo/cairo/-/blob/master/meson_options.txt
->  [3] https://gitlab.freedesktop.org/cairo/cairo/-/issues/613
-> 
-> Signed-off-by: qiutt <qiutt@fujitsu.com>
-> ---
->  .../cairo/cairo/CVE-2018-19876.patch          | 34 ---------
->  .../cairo/cairo/CVE-2019-6461.patch           | 20 ------
->  .../cairo/cairo/CVE-2019-6462.patch           | 40 -----------
->  .../cairo/cairo/CVE-2020-35492.patch          | 60 ----------------
->  .../{cairo_1.16.0.bb => cairo_1.18.0.bb}      | 72 +++++++------------
->  5 files changed, 25 insertions(+), 201 deletions(-)
->  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
->  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
->  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
->  delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
->  rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.18.0.bb} (51%)
-> 
-> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
-> deleted file mode 100644
-> index 4252a5663b..0000000000
-> --- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
-> +++ /dev/null
-> @@ -1,34 +0,0 @@
-> -CVE: CVE-2018-19876
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
-> -From: Carlos Garcia Campos <cgarcia@igalia.com>
-> -Date: Mon, 19 Nov 2018 12:33:07 +0100
-> -Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
-> - cairo_ft_apply_variations
-> -
-> -Fixes a crash when using freetype >= 2.9
-> ----
-> - src/cairo-ft-font.c | 4 ++++
-> - 1 file changed, 4 insertions(+)
-> -
-> -diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
-> -index 325dd61b4..981973f78 100644
-> ---- a/src/cairo-ft-font.c
-> -+++ b/src/cairo-ft-font.c
-> -@@ -2393,7 +2393,11 @@ skip:
-> - done:
-> -         free (coords);
-> -         free (current_coords);
-> -+#if HAVE_FT_DONE_MM_VAR
-> -+        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
-> -+#else
-> -         free (ft_mm_var);
-> -+#endif
-> -     }
-> - }
-> - 
-> --- 
-> -2.11.0
-> -
-> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-> deleted file mode 100644
-> index a2dba6cb20..0000000000
-> --- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-> +++ /dev/null
-> @@ -1,20 +0,0 @@
-> -There is an assertion in function _cairo_arc_in_direction().
-> -
-> -CVE: CVE-2019-6461
-> -Upstream-Status: Pending
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> -
-> -diff --git a/src/cairo-arc.c b/src/cairo-arc.c
-> -index 390397bae..1bde774a4 100644
-> ---- a/src/cairo-arc.c
-> -+++ b/src/cairo-arc.c
-> -@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
-> -     if (cairo_status (cr))
-> -         return;
-> - 
-> --    assert (angle_max >= angle_min);
-> -+    if (angle_max < angle_min)
-> -+       return;
-> - 
-> -     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
-> - 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
-> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-> deleted file mode 100644
-> index 7c3209291b..0000000000
-> --- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-> +++ /dev/null
-> @@ -1,40 +0,0 @@
-> -CVE: CVE-2019-6462
-> -Upstream-Status: Backport
-> -Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> -
-> -From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
-> -From: Heiko Lewin <hlewin@gmx.de>
-> -Date: Sun, 1 Aug 2021 11:16:03 +0000
-> -Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
-> -
-> ----
-> - src/cairo-arc.c | 4 +++-
-> - 1 file changed, 3 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/src/cairo-arc.c b/src/cairo-arc.c
-> -index 390397bae..1c891d1a0 100644
-> ---- a/src/cairo-arc.c
-> -+++ b/src/cairo-arc.c
-> -@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
-> - 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
-> -     };
-> -     int table_size = ARRAY_LENGTH (table);
-> -+    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
-> - 
-> -     for (i = 0; i < table_size; i++)
-> - 	if (table[i].error < tolerance)
-> - 	    return table[i].angle;
-> - 
-> -     ++i;
-> -+
-> -     do {
-> - 	angle = M_PI / i++;
-> - 	error = _arc_error_normalized (angle);
-> --    } while (error > tolerance);
-> -+    } while (error > tolerance && i < max_segments);
-> - 
-> -     return angle;
-> - }
-> --- 
-> -2.38.1
-> -
-> diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
-> deleted file mode 100644
-> index fb6ce5cfdf..0000000000
-> --- a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
-> +++ /dev/null
-> @@ -1,60 +0,0 @@
-> -Fix stack buffer overflow.
-> -
-> -CVE: CVE-2020-35492
-> -Upstream-Status: Backport
-> -Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
-> -From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
-> -From: Heiko Lewin <heiko.lewin@worldiety.de>
-> -Date: Tue, 15 Dec 2020 16:48:19 +0100
-> -Subject: [PATCH] Fix mask usage in image-compositor
-> -
-> ----
-> - src/cairo-image-compositor.c                |   8 ++--
-> - test/Makefile.sources                       |   1 +
-> - test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
-> - test/reference/bug-image-compositor.ref.png | Bin 0 -> 185 bytes
-> - 4 files changed, 44 insertions(+), 4 deletions(-)
-> - create mode 100644 test/bug-image-compositor.c
-> - create mode 100644 test/reference/bug-image-compositor.ref.png
-> -
-> -diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
-> -index 79ad69f68..4f8aaed99 100644
-> ---- a/src/cairo-image-compositor.c
-> -+++ b/src/cairo-image-compositor.c
-> -@@ -2601,14 +2601,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-> - 		    unsigned num_spans)
-> - {
-> -     cairo_image_span_renderer_t *r = abstract_renderer;
-> --    uint8_t *m;
-> -+    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
-> -     int x0;
-> - 
-> -     if (num_spans == 0)
-> - 	return CAIRO_STATUS_SUCCESS;
-> - 
-> -     x0 = spans[0].x;
-> --    m = r->_buf;
-> -+    m = base;
-> -     do {
-> - 	int len = spans[1].x - spans[0].x;
-> - 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
-> -@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-> - 				      spans[0].x, y,
-> - 				      spans[1].x - spans[0].x, h);
-> - 
-> --	    m = r->_buf;
-> -+	    m = base;
-> - 	    x0 = spans[1].x;
-> - 	} else if (spans[0].coverage == 0x0) {
-> - 	    if (spans[0].x != x0) {
-> -@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-> - #endif
-> - 	    }
-> - 
-> --	    m = r->_buf;
-> -+	    m = base;
-> - 	    x0 = spans[1].x;
-> - 	} else {
-> - 	    *m++ = spans[0].coverage;
-> --- 
-> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
-> similarity index 51%
-> rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> rename to meta/recipes-graphics/cairo/cairo_1.18.0.bb
-> index ffb813d290..ffae13b48a 100644
-> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> +++ b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
-> @@ -7,7 +7,7 @@ optional translucence (opacity/alpha) and combined using the \
->  extended Porter/Duff compositing algebra as found in the X Render \
->  Extension."
->  HOMEPAGE = "http://cairographics.org"
-> -BUGTRACKER = "http://bugs.freedesktop.org"
-> +BUGTRACKER = "https://gitlab.freedesktop.org/cairo/cairo/-/issues"
->  SECTION = "libs"
->  
->  LICENSE = "(MPL-1.1 | LGPL-2.1-only) & GPL-3.0-or-later"
-> @@ -26,62 +26,40 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77 \
->                      ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504', '', d)}"
->  
->  
-> -DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
-> +DEPENDS = "fontconfig freetype glib-2.0 libpng pixman zlib"
->  
->  SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
->             file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
-> -           file://CVE-2018-19876.patch \
-> -           file://CVE-2019-6461.patch \
-> -           file://CVE-2019-6462.patch \
-> -           file://CVE-2020-35492.patch \
->            "
->  
-> -SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
-> -SRC_URI[sha256sum] = "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
-> +SRC_URI[sha256sum] = "243a0736b978a33dee29f9cca7521733b78a65b5418206fef7bd1c3d4cf10b64"
->  
-> -inherit autotools pkgconfig upstream-version-is-even gtk-doc multilib_script
-> +inherit meson pkgconfig upstream-version-is-even gtk-doc multilib_script
-> +
-> +# Tell libsoup where the target ntlm_auth is installed
-> +do_write_config:append:class-target() {
-> +    cat >${WORKDIR}/cairo.cross <<EOF
-> +[binaries]
-> +ipc_rmid_deferred_release = 'true'
-> +EOF
-> +}
-> +EXTRA_OEMESON:append:class-target = " --cross-file ${WORKDIR}/cairo.cross"
-> +
-> +GTKDOC_MESON_OPTION = "gtk_doc"
->  
->  MULTILIB_SCRIPTS = "${PN}-perf-utils:${bindir}/cairo-trace"
->  
-> -X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
-> -
-> -PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
-> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
-> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
-> -                   trace"
-> -PACKAGECONFIG:class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
-> -PACKAGECONFIG:class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
-> -
-> -PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
-> -PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-> -PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
-> -PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
-> -PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
-> -PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
-> -PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
-> -# trace is under GPLv3
-> -PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
-> -
-> -EXTRA_OECONF += " \
-> -    ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
-> -    --enable-tee \
-> -"
-> -
-> -# We don't depend on binutils so we need to disable this
-> -export ac_cv_lib_bfd_bfd_openr="no"
-> -# Ensure we don't depend on LZO
-> -export ac_cv_lib_lzo2_lzo2a_decompress="no"
-> +PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xlib xcb', '', d)} trace"
-> +PACKAGECONFIG[xlib] = "-Dxlib=enabled,-Dxlib=disabled,virtual/libx11 libxrender libxext"
-> +PACKAGECONFIG[xcb] = "-Dxcb=enabled,-Dxcb=disabled,libxcb"
-> +# cairo-trace is GPLv3 so add an option to remove it
-> +PACKAGECONFIG[trace] = ""
->  
->  do_install:append () {
-> -	rm -rf ${D}${bindir}/cairo-sphinx
-> -	rm -rf ${D}${libdir}/cairo/cairo-fdr*
-> -	rm -rf ${D}${libdir}/cairo/cairo-sphinx*
-> -	rm -rf ${D}${libdir}/cairo/.debug/cairo-fdr*
-> -	rm -rf ${D}${libdir}/cairo/.debug/cairo-sphinx*
-> -	[ ! -d ${D}${bindir} ] ||
-> -		rmdir -p --ignore-fail-on-non-empty ${D}${bindir}
-> -	[ ! -d ${D}${libdir}/cairo ] ||
-> -		rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
-> +    if ! ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'true', 'false', d)}; then
-> +        rm ${D}${bindir}/cairo-trace ${D}${libdir}/cairo/libcairo-trace.so
-> +        rmdir --ignore-fail-on-non-empty ${D}${bindir} ${D}${libdir}/cairo
-> +    fi
->  }
->  
->  PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
-> @@ -99,7 +77,7 @@ DESCRIPTION:cairo-perf-utils = "The Cairo library performance utilities"
->  FILES:${PN} = "${libdir}/libcairo.so.*"
->  FILES:${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
->  FILES:${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
-> -FILES:${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so"
-> +FILES:${PN}-perf-utils = "${bindir}/cairo-* ${libdir}/cairo/libcairo-trace.so ${libdir}/cairo/libcairo-fdr.so"
->  
->  BBCLASSEXTEND = "native nativesdk"
->  
-> -- 
-> 2.25.1
-> 
+diff --git a/meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch b/meta=
+/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch
+new file mode 100644
+index 0000000000..4df7527205
+--- /dev/null
++++ b/meta/recipes-bsp/i2cdev/i2cdev/fix-lsi2c-makefile.patch
+@@ -0,0 +1,28 @@
++From 57c09727220e00ab961325a2c85f5611bd1770d6 Mon Sep 17 00:00:00 2001
++Message-Id: <57c09727220e00ab961325a2c85f5611bd1770d6.1701984646.git.joerg=
+.sommer@navimatix.de>
++From: =3D?UTF-8?q?J=3DC3=3DB6rg=3D20Sommer?=3D <joerg.sommer@navimatix.de>
++Date: Thu, 7 Dec 2023 22:29:40 +0100
++Subject: [PATCH] lsi2c/Makefile: Use builddir to refer to libi2cdev.a
++
++Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
++Upstream-Status: Submitted https://github.com/costad2/i2cdev/pull/2/commit=
+s/43f15e97d869797dbfeaacafa13216aaaf353426
++---
++ lsi2c/Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lsi2c/Makefile.am b/lsi2c/Makefile.am
++index 6defc1f..0d81d01 100644
++--- a/lsi2c/Makefile.am
+++++ b/lsi2c/Makefile.am
++@@ -14,7 +14,7 @@ bin_PROGRAMS=3Dlsi2c
++ lsi2c_SOURCES =3D lsi2c.c
++=20
++ # Linker options for lsi2c
++-lsi2c_LDADD =3D $(top_srcdir)/libi2cdev/libi2cdev.a
+++lsi2c_LDADD =3D $(top_builddir)/libi2cdev/libi2cdev.a
++=20
++ # Compiler options for lsi2c
++ lsi2c_CFLAGS =3D -I$(top_srcdir)/include -std=3Dc99 -fPIC
++--=20
++2.34.1
++
+diff --git a/meta/recipes-bsp/i2cdev/i2cdev_git.bb b/meta/recipes-bsp/i2cde=
+v/i2cdev_git.bb
+new file mode 100644
+index 0000000000..b1f8a7f805
+--- /dev/null
++++ b/meta/recipes-bsp/i2cdev/i2cdev_git.bb
+@@ -0,0 +1,26 @@
++SUMMARY =3D "i2c dev tools for Linux"
++DESCRIPTION =3D "\
++    This package contains an I2C dev library and the i2c bus scanning \
++    utility lsi2c. \
++"
++AUTHOR =3D "Danielle Costantino"
++HOMEPAGE =3D "https://github.com/costad2/i2cdev"
++LICENSE =3D "GPL-2.0-or-later"
++LIC_FILES_CHKSUM =3D "\
++    file://COPYING;md5=3D768997ba510a952bef1775c50bc22b00 \
++    file://include/libi2cdev.h;beginline=3D12;endline=3D25;md5=3D72486a5e1=
+92d6ac5c7e55a4a95e380a6 \
++    file://libi2cdev/smbus.c;beginline=3D9;endline=3D22;md5=3Dd9a0de5a611b=
+960fa75912ded6c60096 \
++    file://lsi2c/lsi2c.c;beginline=3D11;endline=3D24;md5=3D72486a5e192d6ac=
+5c7e55a4a95e380a6 \
++"
++
++PR =3D "git${SRCPV}"
++
++SRC_URI =3D "\
++    git://github.com/costad2/i2cdev.git;protocol=3Dhttps;branch=3Dmaster \
++    file://fix-lsi2c-makefile.patch \
++"
++SRCREV =3D "ed9ad777d842880e7ac6ca5e0de4bd2d3b4d02dc"
++
++S =3D "${WORKDIR}/git"
++
++inherit autotools
+--=20
+2.34.1
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192922): https://lists.openembedded.org/g/openembedded-core/message/192922
-> Mute This Topic: https://lists.openembedded.org/mt/103380468/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
