@@ -1,398 +1,204 @@
-Return-Path: <qiutt@fujitsu.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A30DEC46CD4
-	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 04:14:26 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.web10.95879.1703650455719725077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7041C47072
+	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 04:21:06 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.95946.1703650857925349333
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Dec 2023 20:14:16 -0800
+ Tue, 26 Dec 2023 20:20:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: qiutt@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10935"; a="146343935"
-X-IronPort-AV: E=Sophos;i="6.04,308,1695654000"; 
-   d="scan'208";a="146343935"
-Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 13:14:13 +0900
-Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 63EAFD4F62
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 13:14:10 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 8D57AD3F37
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 13:14:09 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 0C1B31E9C8D
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 13:14:09 +0900 (JST)
-Received: from ubuntu-Lenovo.g08.fujitsu.local (unknown [10.167.219.81])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 913EB1A0070;
-	Wed, 27 Dec 2023 12:14:08 +0800 (CST)
-From: qiutt@fujitsu.com
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=KuERG+/E;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=0725ab29a4=qi.chen@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BR418j6006540
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 04:20:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:in-reply-to:references
+	:content-transfer-encoding:content-type:mime-version; s=
+	PPS06212021; bh=B+sJS4MQugk0aohe7XyxEd7SoWIYi8Nw8cR7DD1TEwY=; b=
+	KuERG+/Elfmxpu3uEB6NE4JqxGaMMmdH+zWs5JwrpPktm6qmQaL/hKU3XoPep4uV
+	AjQk/nyPLxMEzzzPXvRzz0N2aOKRiMOvOSx829lFO2zqx0IEngpapvgD04cZ8Blw
+	5lURFu2kTfJIYC2JV4UoxhiaPo0JanEfKEFAQcdWkPITzFpirILzO+FxK+/wsZCm
+	IxQoiFCABnP0ALT9Uvwu1AKnW2osyKB6Ds4JYGq4Ub5sl2PencLxal5PVYjzsZEQ
+	PHgpglF7gq2ZZHwqlZE0RoDB+dQG/jpaeShAfLkoEbUcHn5yUfdpOXs076TeHh8U
+	Wvp9G4BqNy7oO8muJThPvA==
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v5ph62u8r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 04:20:56 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=STPVmCATuKZ0PfYJnl26C0PEEerZOaINERm7A7b4LU6Fp7V85JVDEKuTVJ41whJ5zI5bCRi7dj0oQVqDlw03R6MT5XjpaJlmeDfgoP0L14Uguio/pgQ8RgAvsEYNGAUHvdUcVhMJ2DPDKK/WiUIn/5Ot5qINRp7PPCnsV4pLFqU3FVdnTtQF4l+zbZtv3mAh9dvG8HBbSiYpJi5S0O96CJG4sB1UkV0tckDR86ENqw6Nt2VgXH/eD55ueV4UP6zx4vTeitTIYgOecqqgR1oQdqehiBfRZbQza4+zxcpwrNL0oPwqbKwNNAP+JKbtPwbE3XOxSpZJ4jhc6E9JnuhFNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B+sJS4MQugk0aohe7XyxEd7SoWIYi8Nw8cR7DD1TEwY=;
+ b=ivORWz6iPBin6nPnwoLKkPXsoTHdra8w/UGIimLgdVPNCGbFmw1cYZ3jDQSSKKMLlE4JqpKFFoacv5R9AP/Ro4z6YHFnVP4g1xkE4gUJWqK6j2LG8u0mD8di9twRc/Q9qI+7IOR4K0xChsNkBeIV3/ncoHCeDd/pgEr50PVNNy7yhzjCN5RImQdkWOHfSka+xmE2RIcer43IicILemmAab1ses74sz6vvLLv6g4RQVJWzwEX/BkbH454WkxHLBojF9BAYVOrBZQIzl2wwcDhEmkilv/qO7+d8uD8WFQ5YMjre0RJ97sE6BTDFa6XveeKuLEvjqmYQnw5a4wqRPfg6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by DS7PR11MB5966.namprd11.prod.outlook.com (2603:10b6:8:71::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7113.27; Wed, 27 Dec 2023 04:20:54 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315%6]) with mapi id 15.20.7135.017; Wed, 27 Dec 2023
+ 04:20:54 +0000
+From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: fnstml-fujitsuten@fujitsu.com,
-	qiutt <qiutt@fujitsu.com>
-Subject: [PATCH V4] cairo: upgrade 1.16.0 -> 1.18.0
-Date: Wed, 27 Dec 2023 12:09:36 +0800
-Message-Id: <20231227040936.1063726-1-qiutt@fujitsu.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
+Subject: [OE-core][PATCH 2/3] systemd-boot: upgrade to 255.1
+Date: Wed, 27 Dec 2023 12:20:35 +0800
+Message-Id: <20231227042036.2376255-2-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20231227042036.2376255-1-Qi.Chen@windriver.com>
+References: <20231227042036.2376255-1-Qi.Chen@windriver.com>
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28082.004
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28082.004
-X-TMASE-Result: 10--15.295800-10.000000
-X-TMASE-MatchedRID: lFVmWUbtA2Gjz0nOeth/yUIIxwDaU5mrxqwmEOBVKeqvY1zctlJ9TDBX
-	Xb/qS263sU8ECLuhDYszKUcjfbDidspSC015mx5vHeq/w17M53qZmLDnd2pI3wUMroZlhAl9OcY
-	/jkDGKiKIhghQQiyup3tBxdKLkQVY+gtEW3D/QKa9DPrK2kR8nE3yuY9BGW8rEf56APLDZL1v2Z
-	iuCbVzY1xNy8rltPsIEriUbUlPOKPgp0ltbNse282CuVPkCNzuN5dqZcIK7VgwcMedHxxRAiFLS
-	h+QCTPZIvrftAIhWmLK24Lrk00g7kwYXRRr2ymnydRP56yRRA8v7b6tKWBNQrV5fSMRD1zqsMBr
-	Nxxo1t943BOQCeFVs10cZdCr/5H1pPgGGtEeUXh+IrMF/hh/2E+crEA4+nhZ0/tWY/sOuvqsjtK
-	TB43968GRnF5GlD5EVFmhXoBPCZIZ2btwXmq4YXV7tdtvoibaLfNU/r2ov2emQTCqZT6QS3AO1g
-	laOi0FS6LEnTllhOAgRsnoK4dRNCs/FOpu5r/AlTsGW3DmpUttofdVs4T9OcwHSQ+yXjTDaWcfJ
-	5Gh9f47Tj/Sn5zZ8qCLUWfQMWr64nM8SgEQxQrqcdt4G7kueQv/9UzFeXIT/kWkeuI3AgVexHVW
-	V7Fz705sgAAMg1qFYeiTooF+ThqHFo7dvDc+MDllFsU0CXSP8boZEVitthjIgofMgahPrfgsg71
-	+SEwJwVeG+L4n/T/bkW1XeH1tSLIi1DB4ACmskCThXPqsqivo5/ZLZgoyL/PlAor2K6GjlIOVA+
-	gJRdKxfbhqGxLk+4Ay6p60ZV62Io4ML6qeasEdhRVgauhR0xe9CQaLe2PP9xS3mVzWUuCRTpSQi
-	v9X7bRBGWsEXd5ln4WsfwhgqYQXttcrbtWodi2yR0VL3Nh9trMwvOa166vgQI15xILlmA==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0009.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::18) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|DS7PR11MB5966:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6943523-e9c6-49c7-0f65-08dc0693376d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	q+HVsq2hhC9flePo5cKrNlVy6+ruR+ZD04b/Nx3A0FDUl3DHS+lpIIdH9jAwdbxC4Y6i9If6PKdyYZnXPIn/gpKw5W1PfK09C837znkohAz2DJZ0ySNlJimXhVz543MSclLCelGoDKrdZPj7hpmT3xcjg2FM5bDfL9sjSK0gWax8AXeHRcKdcyt5PIvOHjEryYOcz6fJbfaq8uvuvyPfEepMCwR0/iyu2SA1Q1JbDP1BvhnEGzMwgtMPabfYbEsNXO+2XJ8ORrgn71XboPqvucENvu3atfH1hLtK0urnjSfr7ejCSRCwF2q5C1Ruou6hi01ETefLEkMi6B4XT1xuUX7to2PoLriqvQPBdKD1UWDDzoKXhz6UMOGBznnxt5WYftiFayqBCzMYZGk7fdDWvwW+JVWCz9oKSbns55+w9a4VF/uwxGCVbVAcUILaZbicQJo5yfqOrBNn+4A2ss9YNsrFSFjWvXYs45c5gsTRRXDsFByjp+Hj+ixvJn72flHeptbKobZXBCW3vqSPVNVGeN1Y4uzoBUIpCpWNd16uaOc+e9h/OkaY5M7bA+CZsmKaEewBAmM9biQSdxDFMhR0qEwAYarMfWeYeVL2XRsImF5R9TFSLTJ3VBZ6etMdzFxLi7T8KH4RO1iwyHtIHOQUpA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(346002)(136003)(39840400004)(366004)(230273577357003)(230173577357003)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(38100700002)(83380400001)(86362001)(2906002)(478600001)(5660300002)(6916009)(8676002)(316002)(41300700001)(8936002)(6666004)(6512007)(6506007)(52116002)(9686003)(6486002)(66556008)(66476007)(36756003)(66946007)(38350700005)(26005)(2616005)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?dt30ePeEiFhAi3weIICkuugprkPbpCQA+mXRuib6vDFg/P3Vtb/lw1+bJxTj?=
+ =?us-ascii?Q?E7RcQG6VwWE7aFdgj58DBGDc72ZnLKADFJd6u+IdZQ5uyUmoN3i8DJiZ8Hjv?=
+ =?us-ascii?Q?/Ah9nGMYJ+RljSN3E4Xs8ezSd9NMPFqqB8RVGsKz3iGoRcjjMXC9dnYs29pe?=
+ =?us-ascii?Q?Y7oK8sMGNZqQkrhSkgGn0suFEIkCBG8ECSgdKS6PeUnm7T0781lBtHF9+kBp?=
+ =?us-ascii?Q?I33f5xbJqqcFv1FZUfpOqt4rSfBT7aYKBgVhlHr65Di6UVDUyoESAVHpm6y7?=
+ =?us-ascii?Q?PEZAdHWs6n944yMR833rBQKPMRr4M48PXEY0vNuJaDY/qa4mlYgJOVV1uoo+?=
+ =?us-ascii?Q?lxbRZY67HlKqjPaF1sBZfHK6V8GZ3UI5EZjLyXvYPXdfEg8ed/kxS0rwf5ve?=
+ =?us-ascii?Q?WM+IqLlXiuOVOhJt3fvW5xNbCsHO8iFIX21QFai7xLwnTguwP/OgP5iKegER?=
+ =?us-ascii?Q?vxIcaw5xY+MdmJzz7jHiZQS+zNDMp50U29j5l/HIEsGaB4srRUdlxLoBfNCb?=
+ =?us-ascii?Q?LF6FDz8JCTY33LM60X9KcBufNsNSAOnYYiQmTYXQNbLybbOiIX5uUYwlZQMg?=
+ =?us-ascii?Q?4WRtr0rHpI2yxNoTEA7E5NzgPSwu5OhGcU3bkf2S0ujxRp2YYtq4Ab+bQnzp?=
+ =?us-ascii?Q?+j1UaqtJb+QfYsjXfqbVfOjeko2Jmq2KdMhVccmGWlyOMSo5y1+lFuwzDT0A?=
+ =?us-ascii?Q?zwNak1nUrmvBG2NwPiFuhtQTr4K3uRbi0aQLZRXfQZonucbNZFoI5V+zO3XJ?=
+ =?us-ascii?Q?QrAnex35OmvOLrEs017RFuA90QnGkQnk/uHQzQzwSmHTN46GUnHQFYRu0n2N?=
+ =?us-ascii?Q?0opjL+tmmjqyWDz1CVUe0GDu1emBjlMUySXtxzy15qUjPRhLLUM8BkAzX5hP?=
+ =?us-ascii?Q?Tr0iH8BJn/DAo7EvnIFE2TTOhdd2rGz7dTO/B6SLODL3vg3EMrmt4qWmYYue?=
+ =?us-ascii?Q?hoHxg/k6wGWnLZAKsBaygCVGV3cyoLpRo+KUmkOlgkEjxVQrdOkRKRXyc7Ow?=
+ =?us-ascii?Q?+C5temSgG3sdMdRhAFs036rKrTBpFWjdg+UuWDE8R/ACfAkXHctbLotcXELa?=
+ =?us-ascii?Q?PJA/F4nSD+pggiRUGRKVe2b/6BP6TjAvDWWe+q7VCPMb4Yk8OLPJ9f0JT4S1?=
+ =?us-ascii?Q?aqZ6NryKl3GHyE8bjN9/2ZuCjkDDPLtPL63sO7YIyiyzRRhzDH5dJzXLUBjo?=
+ =?us-ascii?Q?MjJMTEoZJTO/w1IFScrdmGxMVWV5ujz/eMyyrDmUNcT5PxYAlF0Iq+PCduGg?=
+ =?us-ascii?Q?dakNqc0SoASjCdD+WGAUvNRY21dycQhJePGU7wCX21EElEp3cYAVtD0LiS74?=
+ =?us-ascii?Q?Wtg6sdJXZI7bYGdX5MkH7d/WUIKzjHU9Xat7IawzzRA/DfGanJBA7jXQ8OCM?=
+ =?us-ascii?Q?sbgXnxUgd+fZFcDrnqwHrKnP4Y/tee+YAeXCHS9iqj5XRdJNuuqDUOPSN7iy?=
+ =?us-ascii?Q?OyBPxVUWzi8GhDuwQ+kbaoSWqdQ2dgCXdMhG6vfHWE+n+j+GIh2o3n2SwGQH?=
+ =?us-ascii?Q?QwnXhOo0g9LRkr77vC+aSP+XrLWkMG9QLq77yKWPuuxm64KSzCPQgoKW2EF8?=
+ =?us-ascii?Q?58Ay+fk+zcmNS+vrnXMz9AvkxNhxMRuhEXTnLVje?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6943523-e9c6-49c7-0f65-08dc0693376d
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Dec 2023 04:20:54.1263
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o5trnnS8zIj1h86k1NuHracg4svCimpKhMBCHjyiusgi3GlXuyQ1gYyLbwwapRwC7Iwt8vXmOBE8QZHvQJ3kSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB5966
+X-Proofpoint-ORIG-GUID: adAo5ZUF_p_PU5p1SxeuoVHcTgfcrMu9
+X-Proofpoint-GUID: adAo5ZUF_p_PU5p1SxeuoVHcTgfcrMu9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 clxscore=1011 malwarescore=0 suspectscore=0 spamscore=0
+ adultscore=0 mlxscore=0 mlxlogscore=943 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312270029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 04:14:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192922
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 04:21:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192924
 
-From: qiutt <qiutt@fujitsu.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Changelog for 1.18.0 [1]:
-  The cairo-sphinx tool has been removed
-  Cairo now implements Type 3 color fonts for PDF
-  The XML surface has been removed
-  The Tee surface is now automatically enabled
-  The Quartz surface is improved
-  Cairo now hides all private symbols by default on every platform
-  Fixed multiple issues
+0030-meson-Pass-all-static-pie-args-to-linker.patch is dropped as
+it's a backported patch and is now in the new 255.1 version.
 
-As a part of 1.18.0, the following patches should be dropped.
-  CVE-2018-19876.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/90e85c2493fdfa3551f202ff10282463f1e36645
-  CVE-2019-6461.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/09643ee1abdd5daacebfcb564448f29be9a79bac
-  CVE-2019-6462.patch  : https://gitlab.freedesktop.org/cairo/cairo/-/commit/bbeaf08190d3006a80b80a77724801cd477a37b8
-  CVE-2020-35492.patch : https://gitlab.freedesktop.org/cairo/cairo/-/commit/c986a7310bb06582b7d8a566d5f007ba4e5e75bf
-
-These options are all gone [2]: directfb, valgrind, egl, glesv2, opengl, trace
-
-Build tool is changed : autotools -> meson
-
-Fix cross compile error [3] by adding cairo.cross file.
-
- [1] https://www.cairographics.org/news/cairo-1.18.0/
- [2] https://gitlab.freedesktop.org/cairo/cairo/-/blob/master/meson_options.txt
- [3] https://gitlab.freedesktop.org/cairo/cairo/-/issues/613
-
-Signed-off-by: qiutt <qiutt@fujitsu.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../cairo/cairo/CVE-2018-19876.patch          | 34 ---------
- .../cairo/cairo/CVE-2019-6461.patch           | 20 ------
- .../cairo/cairo/CVE-2019-6462.patch           | 40 -----------
- .../cairo/cairo/CVE-2020-35492.patch          | 60 ----------------
- .../{cairo_1.16.0.bb => cairo_1.18.0.bb}      | 72 +++++++------------
- 5 files changed, 25 insertions(+), 201 deletions(-)
- delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
- delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
- delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
- delete mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
- rename meta/recipes-graphics/cairo/{cairo_1.16.0.bb => cairo_1.18.0.bb} (51%)
+ ...md-boot_254.4.bb => systemd-boot_255.1.bb} |  4 ---
+ ...n-Pass-all-static-pie-args-to-linker.patch | 35 -------------------
+ 2 files changed, 39 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_254.4.bb => systemd-boot_255.1.bb} (94%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0030-meson-Pass-all-static-pie-args-to-linker.patch
 
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch b/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+diff --git a/meta/recipes-core/systemd/systemd-boot_254.4.bb b/meta/recipes-core/systemd/systemd-boot_255.1.bb
+similarity index 94%
+rename from meta/recipes-core/systemd/systemd-boot_254.4.bb
+rename to meta/recipes-core/systemd/systemd-boot_255.1.bb
+index 2b43ccf243..4ee25ee72f 100644
+--- a/meta/recipes-core/systemd/systemd-boot_254.4.bb
++++ b/meta/recipes-core/systemd/systemd-boot_255.1.bb
+@@ -8,10 +8,6 @@ DEPENDS = "intltool-native libcap util-linux gperf-native python3-jinja2-native
+ inherit meson pkgconfig gettext
+ inherit deploy
+ 
+-SRC_URI += " \
+-           file://0030-meson-Pass-all-static-pie-args-to-linker.patch \
+-           "
+-
+ LDFLAGS:prepend = "${@ " ".join(d.getVar('LD').split()[1:])} "
+ 
+ EFI_LD = "bfd"
+diff --git a/meta/recipes-core/systemd/systemd/0030-meson-Pass-all-static-pie-args-to-linker.patch b/meta/recipes-core/systemd/systemd/0030-meson-Pass-all-static-pie-args-to-linker.patch
 deleted file mode 100644
-index 4252a5663b..0000000000
---- a/meta/recipes-graphics/cairo/cairo/CVE-2018-19876.patch
+index 8e563238ef..0000000000
+--- a/meta/recipes-core/systemd/systemd/0030-meson-Pass-all-static-pie-args-to-linker.patch
 +++ /dev/null
-@@ -1,34 +0,0 @@
--CVE: CVE-2018-19876
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
+@@ -1,35 +0,0 @@
+-From f85a387a67900b02c69abccb88c2ef7191c67277 Mon Sep 17 00:00:00 2001
+-From: Jan Janssen <medhefgo@web.de>
+-Date: Sun, 1 Oct 2023 09:55:48 +0200
+-Subject: [PATCH] meson: Pass all -static-pie args to linker
 -
--From 90e85c2493fdfa3551f202ff10282463f1e36645 Mon Sep 17 00:00:00 2001
--From: Carlos Garcia Campos <cgarcia@igalia.com>
--Date: Mon, 19 Nov 2018 12:33:07 +0100
--Subject: [PATCH] ft: Use FT_Done_MM_Var instead of free when available in
-- cairo_ft_apply_variations
+-Fixes: #29381
 -
--Fixes a crash when using freetype >= 2.9
+-Upstream-Status: Backport [https://github.com/systemd/systemd/commit/cecbb162a3134b43d2ca160e13198c73ff34c3ef]
+-Signed-off-by: Viswanath Kraleti <quic_vkraleti@quicinc.com>
 ----
-- src/cairo-ft-font.c | 4 ++++
-- 1 file changed, 4 insertions(+)
+- src/boot/efi/meson.build | 11 ++++++++---
+- 1 file changed, 8 insertions(+), 3 deletions(-)
 -
--diff --git a/src/cairo-ft-font.c b/src/cairo-ft-font.c
--index 325dd61b4..981973f78 100644
----- a/src/cairo-ft-font.c
--+++ b/src/cairo-ft-font.c
--@@ -2393,7 +2393,11 @@ skip:
-- done:
--         free (coords);
--         free (current_coords);
--+#if HAVE_FT_DONE_MM_VAR
--+        FT_Done_MM_Var (face->glyph->library, ft_mm_var);
--+#else
--         free (ft_mm_var);
--+#endif
--     }
-- }
+-diff --git a/src/boot/efi/meson.build b/src/boot/efi/meson.build
+-index 2773eaf286..9a60a57329 100644
+---- a/src/boot/efi/meson.build
+-+++ b/src/boot/efi/meson.build
+-@@ -161,9 +161,14 @@ efi_c_ld_args = [
+-         '-Wl,--entry=efi_main',
+-         '-Wl,--fatal-warnings',
 - 
---- 
--2.11.0
--
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-deleted file mode 100644
-index a2dba6cb20..0000000000
---- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
--There is an assertion in function _cairo_arc_in_direction().
--
--CVE: CVE-2019-6461
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/src/cairo-arc.c b/src/cairo-arc.c
--index 390397bae..1bde774a4 100644
----- a/src/cairo-arc.c
--+++ b/src/cairo-arc.c
--@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
--     if (cairo_status (cr))
--         return;
+--        # These flags should be passed by -static-pie, but seem to be missing sometimes.
+--        '-Wl,--no-dynamic-linker',
+--        '-z', 'text',
+-+        # These flags should be passed by -static-pie, but for whatever reason the flag translation
+-+        # is not enabled on all architectures. Not passing `-static` would just allow the linker to
+-+        # use dynamic libraries, (which we can't/don't use anyway). But if `-pie` is missing and the
+-+        # gcc build does not default to `-pie` we get a regular (no-pie) binary that will be
+-+        # rightfully rejected by elf2efi. Note that meson also passes `-pie` to the linker driver,
+-+        # but it is overridden by our `-static-pie`. We also need to pass these directly to the
+-+        # linker as `-static`+`-pie` seem to get translated differently.
+-+        '-Wl,-static,-pie,--no-dynamic-linker,-z,text',
 - 
---    assert (angle_max >= angle_min);
--+    if (angle_max < angle_min)
--+       return;
-- 
--     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
-- 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-deleted file mode 100644
-index 7c3209291b..0000000000
---- a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--CVE: CVE-2019-6462
--Upstream-Status: Backport
--Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
--
--From ab2c5ee21e5f3d3ee4b3f67cfcd5811a4f99c3a0 Mon Sep 17 00:00:00 2001
--From: Heiko Lewin <hlewin@gmx.de>
--Date: Sun, 1 Aug 2021 11:16:03 +0000
--Subject: [PATCH] _arc_max_angle_for_tolerance_normalized: fix infinite loop
--
-----
-- src/cairo-arc.c | 4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/src/cairo-arc.c b/src/cairo-arc.c
--index 390397bae..1c891d1a0 100644
----- a/src/cairo-arc.c
--+++ b/src/cairo-arc.c
--@@ -90,16 +90,18 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
-- 	{ M_PI / 11.0,  9.81410988043554039085e-09 },
--     };
--     int table_size = ARRAY_LENGTH (table);
--+    const int max_segments = 1000; /* this value is chosen arbitrarily. this gives an error of about 1.74909e-20 */
-- 
--     for (i = 0; i < table_size; i++)
-- 	if (table[i].error < tolerance)
-- 	    return table[i].angle;
-- 
--     ++i;
--+
--     do {
-- 	angle = M_PI / i++;
-- 	error = _arc_error_normalized (angle);
---    } while (error > tolerance);
--+    } while (error > tolerance && i < max_segments);
-- 
--     return angle;
-- }
---- 
--2.38.1
--
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch b/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
-deleted file mode 100644
-index fb6ce5cfdf..0000000000
---- a/meta/recipes-graphics/cairo/cairo/CVE-2020-35492.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--Fix stack buffer overflow.
--
--CVE: CVE-2020-35492
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
--
--From 03a820b173ed1fdef6ff14b4468f5dbc02ff59be Mon Sep 17 00:00:00 2001
--From: Heiko Lewin <heiko.lewin@worldiety.de>
--Date: Tue, 15 Dec 2020 16:48:19 +0100
--Subject: [PATCH] Fix mask usage in image-compositor
--
-----
-- src/cairo-image-compositor.c                |   8 ++--
-- test/Makefile.sources                       |   1 +
-- test/bug-image-compositor.c                 |  39 ++++++++++++++++++++
-- test/reference/bug-image-compositor.ref.png | Bin 0 -> 185 bytes
-- 4 files changed, 44 insertions(+), 4 deletions(-)
-- create mode 100644 test/bug-image-compositor.c
-- create mode 100644 test/reference/bug-image-compositor.ref.png
--
--diff --git a/src/cairo-image-compositor.c b/src/cairo-image-compositor.c
--index 79ad69f68..4f8aaed99 100644
----- a/src/cairo-image-compositor.c
--+++ b/src/cairo-image-compositor.c
--@@ -2601,14 +2601,14 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-- 		    unsigned num_spans)
-- {
--     cairo_image_span_renderer_t *r = abstract_renderer;
---    uint8_t *m;
--+    uint8_t *m, *base = (uint8_t*)pixman_image_get_data(r->mask);
--     int x0;
-- 
--     if (num_spans == 0)
-- 	return CAIRO_STATUS_SUCCESS;
-- 
--     x0 = spans[0].x;
---    m = r->_buf;
--+    m = base;
--     do {
-- 	int len = spans[1].x - spans[0].x;
-- 	if (len >= r->u.composite.run_length && spans[0].coverage == 0xff) {
--@@ -2655,7 +2655,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-- 				      spans[0].x, y,
-- 				      spans[1].x - spans[0].x, h);
-- 
---	    m = r->_buf;
--+	    m = base;
-- 	    x0 = spans[1].x;
-- 	} else if (spans[0].coverage == 0x0) {
-- 	    if (spans[0].x != x0) {
--@@ -2684,7 +2684,7 @@ _inplace_src_spans (void *abstract_renderer, int y, int h,
-- #endif
-- 	    }
-- 
---	    m = r->_buf;
--+	    m = base;
-- 	    x0 = spans[1].x;
-- 	} else {
-- 	    *m++ = spans[0].coverage;
---- 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
-similarity index 51%
-rename from meta/recipes-graphics/cairo/cairo_1.16.0.bb
-rename to meta/recipes-graphics/cairo/cairo_1.18.0.bb
-index ffb813d290..ffae13b48a 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.18.0.bb
-@@ -7,7 +7,7 @@ optional translucence (opacity/alpha) and combined using the \
- extended Porter/Duff compositing algebra as found in the X Render \
- Extension."
- HOMEPAGE = "http://cairographics.org"
--BUGTRACKER = "http://bugs.freedesktop.org"
-+BUGTRACKER = "https://gitlab.freedesktop.org/cairo/cairo/-/issues"
- SECTION = "libs"
- 
- LICENSE = "(MPL-1.1 | LGPL-2.1-only) & GPL-3.0-or-later"
-@@ -26,62 +26,40 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77 \
-                     ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'file://util/cairo-trace/COPYING-GPL-3;md5=d32239bcb673463ab874e80d47fae504', '', d)}"
- 
- 
--DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
-+DEPENDS = "fontconfig freetype glib-2.0 libpng pixman zlib"
- 
- SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \
--           file://CVE-2018-19876.patch \
--           file://CVE-2019-6461.patch \
--           file://CVE-2019-6462.patch \
--           file://CVE-2020-35492.patch \
-           "
- 
--SRC_URI[md5sum] = "f19e0353828269c22bd72e271243a552"
--SRC_URI[sha256sum] = "5e7b29b3f113ef870d1e3ecf8adf21f923396401604bda16d44be45e66052331"
-+SRC_URI[sha256sum] = "243a0736b978a33dee29f9cca7521733b78a65b5418206fef7bd1c3d4cf10b64"
- 
--inherit autotools pkgconfig upstream-version-is-even gtk-doc multilib_script
-+inherit meson pkgconfig upstream-version-is-even gtk-doc multilib_script
-+
-+# Tell libsoup where the target ntlm_auth is installed
-+do_write_config:append:class-target() {
-+    cat >${WORKDIR}/cairo.cross <<EOF
-+[binaries]
-+ipc_rmid_deferred_release = 'true'
-+EOF
-+}
-+EXTRA_OEMESON:append:class-target = " --cross-file ${WORKDIR}/cairo.cross"
-+
-+GTKDOC_MESON_OPTION = "gtk_doc"
- 
- MULTILIB_SCRIPTS = "${PN}-perf-utils:${bindir}/cairo-trace"
- 
--X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
--
--PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
--                   trace"
--PACKAGECONFIG:class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
--PACKAGECONFIG:class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
--
--PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
--PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
--PACKAGECONFIG[directfb] = "--enable-directfb=yes,,directfb"
--PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
--PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
--PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
--PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
--# trace is under GPLv3
--PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
--
--EXTRA_OECONF += " \
--    ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
--    --enable-tee \
--"
--
--# We don't depend on binutils so we need to disable this
--export ac_cv_lib_bfd_bfd_openr="no"
--# Ensure we don't depend on LZO
--export ac_cv_lib_lzo2_lzo2a_decompress="no"
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xlib xcb', '', d)} trace"
-+PACKAGECONFIG[xlib] = "-Dxlib=enabled,-Dxlib=disabled,virtual/libx11 libxrender libxext"
-+PACKAGECONFIG[xcb] = "-Dxcb=enabled,-Dxcb=disabled,libxcb"
-+# cairo-trace is GPLv3 so add an option to remove it
-+PACKAGECONFIG[trace] = ""
- 
- do_install:append () {
--	rm -rf ${D}${bindir}/cairo-sphinx
--	rm -rf ${D}${libdir}/cairo/cairo-fdr*
--	rm -rf ${D}${libdir}/cairo/cairo-sphinx*
--	rm -rf ${D}${libdir}/cairo/.debug/cairo-fdr*
--	rm -rf ${D}${libdir}/cairo/.debug/cairo-sphinx*
--	[ ! -d ${D}${bindir} ] ||
--		rmdir -p --ignore-fail-on-non-empty ${D}${bindir}
--	[ ! -d ${D}${libdir}/cairo ] ||
--		rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
-+    if ! ${@bb.utils.contains('PACKAGECONFIG', 'trace', 'true', 'false', d)}; then
-+        rm ${D}${bindir}/cairo-trace ${D}${libdir}/cairo/libcairo-trace.so
-+        rmdir --ignore-fail-on-non-empty ${D}${bindir} ${D}${libdir}/cairo
-+    fi
- }
- 
- PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
-@@ -99,7 +77,7 @@ DESCRIPTION:cairo-perf-utils = "The Cairo library performance utilities"
- FILES:${PN} = "${libdir}/libcairo.so.*"
- FILES:${PN}-gobject = "${libdir}/libcairo-gobject.so.*"
- FILES:${PN}-script-interpreter = "${libdir}/libcairo-script-interpreter.so.*"
--FILES:${PN}-perf-utils = "${bindir}/cairo-trace* ${libdir}/cairo/*.la ${libdir}/cairo/libcairo-trace.so"
-+FILES:${PN}-perf-utils = "${bindir}/cairo-* ${libdir}/cairo/libcairo-trace.so ${libdir}/cairo/libcairo-fdr.so"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+-         # EFI has 4KiB pages.
+-         '-z', 'common-page-size=4096',
 -- 
-2.25.1
+2.34.1
 
 
