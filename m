@@ -1,97 +1,99 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1739FC46CD2
-	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 09:03:40 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.98499.1703667812327650591
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D300C46CD2
+	for <webhook@archiver.kernel.org>; Wed, 27 Dec 2023 09:24:30 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.98728.1703669069364932064
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Dec 2023 01:03:32 -0800
+ Wed, 27 Dec 2023 01:24:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Cv7foUYl;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AMMWZgFZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018caa83c34e-80c3a3da-8a94-4ac5-aaf3-c19ab8d5b067-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1703667811; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=Y0w/4jgioKX+xRiFCuhrLYDFisi2QOZ4sa/phcp+kgE=;
-	b=Cv7foUYlxwaEp+dALtVNM0gdabLBVvFS3PVM/3wSEPsMf8F+7Sj/cVC9QN4za5YV
-	EeiSgqi3MMkWnkxk5UNVJihFAR0LI4B6IsEwmKGvOAEeTpHBv7CjAGgIWwAVrBck4J4
-	IZLawy19mPiTYXY+UVaM0HtfbQTtRHTC5DBNhPVc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1703667811;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Y0w/4jgioKX+xRiFCuhrLYDFisi2QOZ4sa/phcp+kgE=;
-	b=AMMWZgFZw1Ov8Y1AxI243L8tspbG/YL+7z51M9K/Iy7lpd2wHEwJnOvGeaU6wSQQ
-	PyIMJPtk2K4qFB6VOmmYUr1BAQj4NplTXjkRFtLwAsOlkZIlUVXkRVEc3QbIdi1FZHw
-	Z1gR5fVZ9a01Ati+6UaAjTVAT7g4rZI+dgu7JhJE=
-From: patchtest@automation.yoctoproject.org
-To: Qi.Chen@windriver.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH] dbus: upgrade to 1.15.8
-In-Reply-To: 20231227084530.732291-1-Qi.Chen@windriver.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018caa83c34e-80c3a3da-8a94-4ac5-aaf3-c19ab8d5b067-000000@us-west-2.amazonses.com>
-Date: Wed, 27 Dec 2023 09:03:31 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2023.12.27-54.240.27.193
+ dkim=pass header.i=@linaro.org header.s=google header.b=fRcSisvu;
+ spf=pass (domain: linaro.org, ip: 209.85.208.180, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ccba761783so24173731fa.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 01:24:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1703669067; x=1704273867; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GYQASVqxAQBMpaCZYJGTUmuHefZlk9jxgzK78H8dBTg=;
+        b=fRcSisvu3UXlpy//GbBLD9/H7vKmOs9jGaq4VQYak1BYW6kwhv789CKj4cqn4D7d0G
+         gBKyJJjb49G3zIKNcvRp/IU9BmFK4HUirfyIfgKdjxz9VeTUwetbvvPnIfn4vjxNyiB7
+         J5mVhjNSDu3rhEcKvLLJD0CmzFqQhJx1NxwvwOhKVr1HgfNROsgTsACEbZv9f/Tkf7bS
+         JNBDwpoLpbRf+P0K6VH1Vf/eVL4jGX3WsN/4O7uGFVUtNj1WnP0j4Tw/UGAu3lekzKMw
+         Kr1m7Py1t9yaoSsHofdBtaCrxJR7af2ebndlUvz+K/BusK6470t175IxUvb2gk0dZpeM
+         U4pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703669067; x=1704273867;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GYQASVqxAQBMpaCZYJGTUmuHefZlk9jxgzK78H8dBTg=;
+        b=YvtK0TA8r02dLYPD524z75Qp26v1ytY1mEj2t061ZMbNyOGu6bsHquOnHeMbdME60g
+         IDoMAs5ow84WUwbsPRlRAcyLHZh32w2Rt7eJhm/kNJQy9mySmUqZmGZauFpXJDM8B9LF
+         Ty4yDegO3iS6e1HgXvpoTGqw3qVyLgqiviPszp1D+y+SQtLqW/yO1UPUqAP2bvnQzRI8
+         ZAEkcviQH0Jqp2FXDxfKdi/vOXn6g3ddozx/mRMMW+IhGTpjlOYN5UByOYrgLeCtZDBA
+         5L60US6bjL9XWE/+bQo8TGv4onfZCbIILC2BW6yEhdbmSNRWzcgnv2oUwW6lcppSI5LI
+         ZaEg==
+X-Gm-Message-State: AOJu0YwnfkDU920EHo7sF/NgkkxprDXyxiaxgYM0tOOXSJV9i1ggYvYN
+	LOJMz2OnJ3+TLTTwcuhE+7IaqlrmGzmP/17b6m2RJN9/L9CUVPZe
+X-Google-Smtp-Source: AGHT+IF/r4Ts+R1V6mXv6DTbbz1loGsF5wbOEJdBfBKx3S/E+Q5vBeoS6bJe9TY/rMDIOfsVTdbZzA==
+X-Received: by 2002:a2e:a690:0:b0:2cc:53da:bb89 with SMTP id q16-20020a2ea690000000b002cc53dabb89mr2901626lje.3.1703669066921;
+        Wed, 27 Dec 2023 01:24:26 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id e18-20020a2e9852000000b002cca6703b13sm2131333ljj.99.2023.12.27.01.24.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Dec 2023 01:24:26 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
+Subject: [PATCH v4 0/3] mesa: RustiCL support
+Date: Wed, 27 Dec 2023 11:24:22 +0200
+Message-Id: <20231227092425.4002461-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 09:03:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192927
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 09:24:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192928
 
---NextPart
-Content-Type: text/plain
+RustiCL is a new OpenCL implementation developed within the mesa
+library. It supports more drivers and more features compared to the
+existing Clover implementation. The Clover is supposed to fade away and
+to be removed in the foreseeble feature ([1]), thus it doesn't make
+sense to add separate clover / rusticl options, they are going to be
+removed anyway.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This series is based on previous work by Zoltán ([2]), so it starts its
+versions from v4.
 
----
-Testing patch /home/patchtest/share/mboxes/dbus-upgrade-to-1.15.8.patch
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/19385
+[2] https://lore.kernel.org/openembedded-core/20230306091108.3347363-1-zboszor@gmail.com/
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+Changes since v3:
+- Dropped clover / rusticl separation in PACKAGECONFIG
+- Reworked rust inheritance to allow changing of PACKAGECONFIG from
+  bbappend files
+- Added an upstream fix
+- Dropped removed config option
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+Dmitry Baryshkov (2):
+  mesa: drop -Dopencl-native=true
+  mesa: fix building of RustiCL + nouveau
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+Zoltán Böszörményi (1):
+  mesa: add support for RustiCL under PACKAGECONFIG "opencl"
 
----
+ .../mesa/files/fix-nouveau-vl.patch           | 55 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           | 23 ++++++--
+ 2 files changed, 72 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/files/fix-nouveau-vl.patch
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+-- 
+2.39.2
 
---NextPart
-
-
---NextPart--
 
