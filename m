@@ -2,57 +2,57 @@ Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 939B3C47077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E333C47074
 	for <webhook@archiver.kernel.org>; Thu, 28 Dec 2023 14:59:49 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.124149.1703775581264436348
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.124152.1703775584961402441
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Dec 2023 06:59:41 -0800
+ Thu, 28 Dec 2023 06:59:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=glhxXH3Z;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40d60ad5f0bso13072255e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 06:59:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=G2U0Ygcn;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40d5aef534eso20599325e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 06:59:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703775578; x=1704380378; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1703775582; x=1704380382; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=62AKEId2woukg8VCdNIMr6sxFEAFB84GqB/Z0iWvPPs=;
-        b=glhxXH3ZxBtCiSBudvFGADRTDaSEuiZBzjdBfH2EqLrqxt8QsbIHw/NFpDjtc8Wu09
-         lA7/SwdyMieCCUH7B3hR1MNCTx0+N0zXOjgoX3OprRnyVu/jhL/HlmRGn5wN05x6v/Au
-         BV5FPKyaFK0wzxsw/daxFIZ3enRglSzB5KTVv9+ukyAMW6gsuBgNf4DiloDBACprYEYD
-         PXWUxkEBlNSq0E0CGWtt+IdaKJ1iFCEVb2ugK/uOyRWkDox5w+ipQ9/XfWQYkYVe5nHd
-         VP7h99GWqnXJ0gnRJdy9NDiil5sAik+N1iTyabUx0c1+9Vq4NqC28q9G6lXuMl9uQbEy
-         /Xfg==
+        bh=7t/bon7ntSaI6UgtKsSTYZApxmnz9G1f0pFSJkTOKCI=;
+        b=G2U0YgcnvAFdJrR1+dsANkspegMSH85CFMMlD+nv5Za3qlFJzctk3+FFmrwQ5hFUHT
+         FixCG7YNgwsSN/V0+wJEvCi5D4ezhBcWd10okh/PHJrXcZ6PyHEHEUhxqZoqZK2/2v2v
+         SbE02jXXD8axiTqfjEhgvb2rMqIGf1zRpFw/AzAlL3BfpexZ0sX6ugU+AqH3+TdPk7WN
+         d4XqQahvGKc/5eREkN63bwvwl2OF2KxZKz4hkYy0wKG6Rfh/iUmpvSS7MfL1X26gxNGx
+         JtPP2ne1K1jkVXm8p0uPctMupP8za1EdEERoPoyMB34CGdvP24D0IwnxbEXZPOmGHInL
+         gGWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703775578; x=1704380378;
+        d=1e100.net; s=20230601; t=1703775582; x=1704380382;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=62AKEId2woukg8VCdNIMr6sxFEAFB84GqB/Z0iWvPPs=;
-        b=qwIho/10OSmXbY/21IMzUT6XPZ1YXWRg0oygfZEv95lWFr0PmMn/v88/8H9JxO94iR
-         Maa2ClUGGSIGCHcT/k6jYUVx/KXRqJmz2G84zdRXIdB0mP/hcMj26OIQQbIAIF6fyzwr
-         j+e6uFq3LQb6SJ7TwaLMBhuFi0ElUg3kF5sd8whvKIFGNVbazdfBk0p7NUX+66h3JZJt
-         LThNIREg5ZjV2n+WyRfYM27nYcUWzefcRid7OG2ZusuTyEMWso5K/LRX3bYSl2Vt+65j
-         rHNI6v6iP8HBZ7PZBBKp8KqiDWzXRL7tx1xB9LCe1i8EKpRI5RYFUs1CUX8YIlc/hkxm
-         55dg==
-X-Gm-Message-State: AOJu0YzZyAiaj7HbH3C31qsggPeKnnHmn0M92VVzzo2MnVTte157yTn/
-	PhULwPkUAuStfDtFkcSvSzzdPzQxhao=
-X-Google-Smtp-Source: AGHT+IFNFxfvoiABa7+T872csScO5bfWUa9oyp8rPHtxWmRgzfVY+JWtY7BZMzPWKSzM/Xzy9uqNWQ==
-X-Received: by 2002:a05:600c:6997:b0:40d:581d:7117 with SMTP id fp23-20020a05600c699700b0040d581d7117mr3047293wmb.82.1703775578441;
-        Thu, 28 Dec 2023 06:59:38 -0800 (PST)
+        bh=7t/bon7ntSaI6UgtKsSTYZApxmnz9G1f0pFSJkTOKCI=;
+        b=u3yFIBNlRmZae0Nw7vWL434fDP4gjZsK7KOBJXIEEEeUPnkA4WDTw0BqVerluue0fL
+         gM75ssn5uEThSkwlgQuQbPelJSCQ8N93figGjDuXYYZkk47movwH7IOWObC4+c+cT+jh
+         OYxWpx+E52queilSYDv2Xi/GBkUDJ8jrVoNi3Z7KTotCSRnuRDgKSn3Ib2B8HjfMHbXm
+         sha0PtbHfcjWyRPiXm+dS1QuKe8S3Ni9ql8dKq5vfefuL0XUN3goAc9ulTm0MSVNe/0w
+         G9pdWzFTeYjNGh6yR0qWIhFGWc+4xxDIXIlI7r9Fm3VRTR3Lb9Q+KDU+wbr38pw6OO01
+         ufUQ==
+X-Gm-Message-State: AOJu0Yxk7nMrNjej76FRtE7PbO+dk/Zu96Ssx24D0IqA9XOOrw7GjwNJ
+	nWBLVw/6MKDcnHJx63CGhvQ1LJEW18g=
+X-Google-Smtp-Source: AGHT+IFDdWYRLeAXgeNWpihOyxZLTK3rgOwTvrrsoIZmx4pC3hXfmx4rDVfbEOl9RpXumHgqMOCDQA==
+X-Received: by 2002:a05:600c:4fd3:b0:40d:5e74:89e8 with SMTP id o19-20020a05600c4fd300b0040d5e7489e8mr1297539wmq.55.1703775582463;
+        Thu, 28 Dec 2023 06:59:42 -0800 (PST)
 Received: from Zuma-000004PC.lan (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
-        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0a4c00b0040d6ffae526sm1461523wmq.39.2023.12.28.06.59.38
+        by smtp.gmail.com with ESMTPSA id c12-20020a05600c0a4c00b0040d6ffae526sm1461523wmq.39.2023.12.28.06.59.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Dec 2023 06:59:38 -0800 (PST)
+        Thu, 28 Dec 2023 06:59:41 -0800 (PST)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Frederic Martinsons <frederic.martinsons@gmail.com>,
 	Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v3 01/10] devtool: selftest: Fix test_devtool_modify_git_crates_subpath inequality
-Date: Thu, 28 Dec 2023 14:59:08 +0000
-Message-Id: <20231228145917.18147-2-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v3 03/10] meta-selftest: hello-rs: Simple rust test recipe
+Date: Thu, 28 Dec 2023 14:59:10 +0000
+Message-Id: <20231228145917.18147-4-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20231228145917.18147-1-alex.kiernan@gmail.com>
 References: <20231228145917.18147-1-alex.kiernan@gmail.com>
@@ -62,32 +62,90 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 14:59:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192982
-
-test_devtool_modify_git_crates_subpath expects 2 or more git URIs,
-change the test from Greater to GreateEqual.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192985
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
 (no changes since v1)
 
- meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../hello-rs/hello-rs-crates.inc              |  8 +++++++
+ .../hello-rs/0001-Greet-OE-Core.patch         | 24 +++++++++++++++++++
+ .../hello-rs/hello-rs_0.1.0.bb                | 19 +++++++++++++++
+ 3 files changed, 51 insertions(+)
+ create mode 100644 meta-selftest/recipes-extended/hello-rs/hello-rs-crates.inc
+ create mode 100644 meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
+ create mode 100644 meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 47353dadff93..d733dd158106 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -940,7 +940,7 @@ class DevtoolModifyTests(DevtoolBase):
-                       'This test expects the %s recipe to have a git uri with subpath' % testrecipe)
-         self.assertTrue(any([uri.startswith('crate://') for uri in src_uri]),
-                         'This test expects the %s recipe to have some crates in its src uris' % testrecipe)
--        self.assertGreater(sum(map(lambda x:x.startswith('git://'), src_uri)), 2,
-+        self.assertGreaterEqual(sum(map(lambda x:x.startswith('git://'), src_uri)), 2,
-                            'This test expects the %s recipe to have several git:// uris' % testrecipe)
-         self.assertTrue(any([uri.startswith('file://') and '.patch' in uri for uri in src_uri]),
-                         'This test expects the %s recipe to have a patch in its src uris' % testrecipe)
+diff --git a/meta-selftest/recipes-extended/hello-rs/hello-rs-crates.inc b/meta-selftest/recipes-extended/hello-rs/hello-rs-crates.inc
+new file mode 100644
+index 000000000000..9646482b2875
+--- /dev/null
++++ b/meta-selftest/recipes-extended/hello-rs/hello-rs-crates.inc
+@@ -0,0 +1,8 @@
++# Autogenerated with 'bitbake -c update_crates hello-rs'
++
++# from Cargo.lock
++SRC_URI += " \
++    crate://crates.io/figlet-rs/0.1.5 \
++"
++
++SRC_URI[figlet-rs-0.1.5.sha256sum] = "4742a071cd9694fc86f9fa1a08fa3e53d40cc899d7ee532295da2d085639fbc5"
+diff --git a/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch b/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
+new file mode 100644
+index 000000000000..7569ccef7bbb
+--- /dev/null
++++ b/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
+@@ -0,0 +1,24 @@
++From 3aea1ece0ca6ac0bf0ffe42736827af22966f767 Mon Sep 17 00:00:00 2001
++From: Alex Kiernan <alexk@zuma.ai>
++Date: Wed, 27 Dec 2023 09:55:48 +0000
++Subject: [PATCH] Greet "OE-Core"
++
++Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
++Upstream-Status: Inappropriate
++---
++ src/main.rs | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/main.rs b/src/main.rs
++index f4a310758b19..224eca65c38d 100644
++--- a/src/main.rs
+++++ b/src/main.rs
++@@ -3,7 +3,7 @@ use hello_lib::greet;
++ 
++ fn main() {
++     let standard_font = FIGfont::standard().unwrap();
++-    let greeting = greet(None);
+++    let greeting = greet(Some("OE-Core"));
++     let figure = standard_font.convert(&greeting);
++     println!("{}", figure.unwrap());
++ }
+diff --git a/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb b/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
+new file mode 100644
+index 000000000000..0046b2ca0356
+--- /dev/null
++++ b/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "Simple hello world example"
++HOMEPAGE = "https://github.com/akiernan/hello-bin"
++LICENSE = "Unlicense"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=7246f848faa4e9c9fc0ea91122d6e680"
++
++SRC_URI = "git://github.com/akiernan/hello-bin.git;protocol=https;branch=main;subpath=rust \
++           file://0001-Greet-OE-Core.patch \
++           git://github.com/akiernan/hello-lib.git;protocol=https;branch=main;name=hello-lib;destsuffix=hello-lib;type=git-dependency \
++	   "
++SRCREV = "d3d096eda182644868f8e7458dcfa538ff637db3"
++
++SRCREV_FORMAT .= "_hello-lib"
++SRCREV_hello-lib = "59c84574e844617043cf337bc8fa537cf87ad8ae"
++
++S = "${WORKDIR}/rust"
++
++inherit cargo cargo-update-recipe-crates ptest-cargo
++
++require ${BPN}-crates.inc
 -- 
 2.39.0
 
