@@ -1,257 +1,574 @@
-Return-Path: <shin.matsunaga@fujitsu.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64546C46CD2
-	for <webhook@archiver.kernel.org>; Thu, 28 Dec 2023 01:59:05 +0000 (UTC)
-Received: from esa5.fujitsucc.c3s2.iphmx.com (esa5.fujitsucc.c3s2.iphmx.com [68.232.159.76])
- by mx.groups.io with SMTP id smtpd.web10.115790.1703728737528522513
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB0EC46CD4
+	for <webhook@archiver.kernel.org>; Thu, 28 Dec 2023 03:00:25 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.116709.1703732416187024118
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Dec 2023 17:58:58 -0800
+ Wed, 27 Dec 2023 19:00:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=g5xti3Nq;
- spf=neutral (domain: fujitsu.com, ip: 68.232.159.76, mailfrom: shin.matsunaga@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1703728736; x=1735264736;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=l/OHxWbcoPJJNm5AoYVWejjwnEZGbNtPEOHJdgj1kyc=;
-  b=g5xti3Nqd64dJY8P2/L5gh8gblFOyG21bZHf3Mt1JQBuPHV4H5VU8NKZ
-   74w8acNB2WurX/kD7AA6xLpzbyApkbeFvQU98ozQ/0yxrnKsrbCisitRR
-   99yX4KuKOsYpg7ThACryMs5gUYHR7o66j2RKGfXtdbc9jRmL0Uy9y0xdl
-   pJT8LiWaHuiXZylf4XxuV2Rj5geonFM89/nx1N8LlLXHPp0zYjXpPU4rr
-   h0WRPieAltekS8TEZJbGpYwMPiIQEWbTieeyQiZpJSXfxHAfCHIQm62iO
-   nhXhDQaTm1Gkqo8kEzYzHjVCan4j9cvddaFMjOzlp1gKeSNxPJ9ggKGis
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="107255494"
-X-IronPort-AV: E=Sophos;i="6.04,310,1695654000"; 
-   d="scan'208";a="107255494"
-Received: from mail-tycjpn01lp2169.outbound.protection.outlook.com (HELO JPN01-TYC-obe.outbound.protection.outlook.com) ([104.47.23.169])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2023 10:58:53 +0900
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JZ/HkoYz;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=072696740c=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BS2p5KD009822
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 19:00:15 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=ggeXivVcgjv6EFAcvKSefxLt2ji1eR9O7k3dXna+CJo=; b=
+	JZ/HkoYzanpi6DZMd3Xlj71QdEbWPaV1zgr2oEJ8TT6XuoXgNJA1qBWPFPLdimnF
+	l4JnWJXvhwPdITERFHfnfKakQ043tm20IvGmfkXbNiY2ICYEJnAfd8cjH90x6sFM
+	MZWAlX58/Z7pI7WgUh8VQGPfHkzTCXZHuLiU/taF3jXYpo6pVKX3iR83S00CEU+D
+	hVrC9WXRpGK4Ro9N9YpElRHxZzmekDTEijRj1U0gRj00Fd6wq2K9/4V4I6wiDgNc
+	eFueseOIowdFn/LQAJogIdkxbGqadLs1zsdHfhMHgWeFeJWv3rp1sYdn6Xc1G0v7
+	3MYgN9cvupK3bTWjlVJAfw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v5yxm3gcs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Dec 2023 19:00:15 -0800 (PST)
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 3BS30ESc019170;
+	Wed, 27 Dec 2023 19:00:14 -0800
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v5yxm3gcq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 27 Dec 2023 19:00:14 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LIH+zlxrLDaQsElQkoG7+fR8XodYaTsQusY/allwgAOE5PaTCvO+8yWZGp+aHFNrZ24QHtARBCIyEw+Or8baEM2Bfp+YEVPtWraYS8YmFaW2yRIpQ7r820yCr1jBidCXCiKw2ujRKU1RR4BZD3hlsUnqXwqcDdWE6SMF+Q7+RrehSZpg4miow29dTS9v7DRhh0WBIkrpzx/j/fjR4ARaeBWHI8ex/K5D1d0DvCCn+ClAEMTNfVxJAJV/9VeFQas5JRbnpQx2rFOv3kIEZlsJY+Zp1ujnPulPoLYkVPonh+yfYkjRasv2kav+I4o+JmXpBHUqxWpio9X+Q4C3yYosnw==
+ b=i1b+0935xz2rluOGIr5QDbn1tW/FJ9NvxAWfouyfkNTw+X/L5QSDIzSBwki+oErhcvVmMAy6GjiHNO6+CjqDZF8tTXr197Y0ZRy19p4LsksLiEzJ1hMZh/mS3ua2dS+Np3xtHbqMqJZZGTzxawhTpplssgSz3BM+IdMtVfZS4iorIrk246uHZDagsXPs7/UlJV2y0ZaC27arrC09XEyt349OlUIjGgHVwGUltuNKXR2CUNmqksLy1amvp6YZ7ipI66NIvdoK3C5wT3DnSbWQkybPmgUWnSFYpxw93XvSBJBF0QYXa95L/HEBY1hvviLkc6H2OlGLbnpkUcnymNghEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8Bka7aBUGA1YR/E9fgyYE/uqyY/yKvMVY60f4E9xOK8=;
- b=nLZo0pnBruU7YdFtnTCvQYe0/FjmSBRJZMEbMqiqfbL1/p271zq4U/PrtS0lh7h0qdXrxqWrwOzFVRNUxfXWVYnQvInpX8d/hfuMXKRs2UalJFHGohQIjfwbhRpJczTIAVWUwFSE2bC3Y4Cq9H36sRR2Qli4hSbxAKiAo6kko+lWzzdQgVMFyHEt5CY4Grk++59fdOCJY20GNpodXbfkV8gDpN5b3T3MyrKUoU3VXH6SEtgv2HEZtt+rCqZNXabZ1L34CmvekqpV6xqM/sy6rIXiO4HOTXd92df+y/qdgecM9KlNhScSHrtGIzxOUJhKUAFL3WdmitzPmtXK+kt6vQ==
+ bh=ggeXivVcgjv6EFAcvKSefxLt2ji1eR9O7k3dXna+CJo=;
+ b=l8BGF8M2Xfb53gwKZR9rWxK8YQeyMXBX+VUEnZQyaJ+AHHnkMn002kSd6cHKmSI8ePGj51lSSJEFKArcCfzqDl74fAR7YKDvarq+Vt8/Q4l/ZvRXeGIktw+cKtCx1FuusvBb22mz2aD292LAce3RHedQiF+nBWve5OO3K2kaRDFhy9fm+xSTjnq/MHxW/7/KThR2+Q9ZhVEB8DhmdhSVoV+zyRYNhPvRDbB2xQkwvnh+PORIjDzev5FeVDFs5dDc6VSzUVXidRQgOekGxJuoOB1RoDVRPuMjtTOTP32UWR4VRX61mI3+GHGOOeC0bQxh2Z9l4K1uYhPVqr7o8F24UA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-Received: from TY2PR01MB3289.jpnprd01.prod.outlook.com (2603:1096:404:75::15)
- by TYYPR01MB8166.jpnprd01.prod.outlook.com (2603:1096:400:118::7) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by PH8PR11MB6729.namprd11.prod.outlook.com (2603:10b6:510:1c5::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.17; Thu, 28 Dec
- 2023 01:58:50 +0000
-Received: from TY2PR01MB3289.jpnprd01.prod.outlook.com
- ([fe80::834c:72c5:3be5:5f75]) by TY2PR01MB3289.jpnprd01.prod.outlook.com
- ([fe80::834c:72c5:3be5:5f75%4]) with mapi id 15.20.7159.006; Thu, 28 Dec 2023
- 01:58:50 +0000
-From: "Shinji Matsunaga (Fujitsu)" <shin.matsunaga@fujitsu.com>
-To: "'ross.burton@arm.com'" <ross.burton@arm.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.24; Thu, 28 Dec
+ 2023 03:00:09 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315%6]) with mapi id 15.20.7135.017; Thu, 28 Dec 2023
+ 03:00:08 +0000
+From: "Chen, Qi" <Qi.Chen@windriver.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
 CC: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: RE: [PATCH] Revert "cve-check: Modify judgment processing using "="
- in version comparison"
-Thread-Topic: [PATCH] Revert "cve-check: Modify judgment processing using "="
- in version comparison"
-Thread-Index: AQHaJ58f8tlOZjRcwUSIZSE/nUGKxLC+En4g
-Date: Thu, 28 Dec 2023 01:58:50 +0000
+Subject: RE: [OE-core][PATCH 1/3] systemd: upgrade to 255.1
+Thread-Topic: [OE-core][PATCH 1/3] systemd: upgrade to 255.1
+Thread-Index: AQHaOHwUZkl3/dEfCUuIElbTG14Wi7C9B0cAgAD6uAA=
+Date: Thu, 28 Dec 2023 03:00:08 +0000
 Message-ID: 
- <TY2PR01MB3289D3B71F809070F9056935929EA@TY2PR01MB3289.jpnprd01.prod.outlook.com>
-References: <20231205171839.1693642-1-ross.burton@arm.com>
-In-Reply-To: <20231205171839.1693642-1-ross.burton@arm.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
+ <CO6PR11MB560279EC2354AEBC89D8E15FED9EA@CO6PR11MB5602.namprd11.prod.outlook.com>
+References: <20231227042036.2376255-1-Qi.Chen@windriver.com>
+ <2023122711592084d34620@mail.local>
+In-Reply-To: <2023122711592084d34620@mail.local>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-msip_labels: 
- =?iso-2022-jp?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZl?=
- =?iso-2022-jp?B?Y2UwNTBfQWN0aW9uSWQ9M2RjYjIwNDQtZDMxMS00NzEyLWI0OTktZDgw?=
- =?iso-2022-jp?B?ZDJhMGNmOTAzO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFi?=
- =?iso-2022-jp?B?NGQtM2IwZjRmZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9h?=
- =?iso-2022-jp?B?NzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxl?=
- =?iso-2022-jp?B?ZD10cnVlO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQt?=
- =?iso-2022-jp?B?M2IwZjRmZWNlMDUwX01ldGhvZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3?=
- =?iso-2022-jp?B?Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9OYW1lPUZV?=
- =?iso-2022-jp?B?SklUU1UtUkVTVFJJQ1RFRBskQiJMJT8lUhsoQjtNU0lQX0xhYmVsX2E3?=
- =?iso-2022-jp?B?Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9TZXREYXRl?=
- =?iso-2022-jp?B?PTIwMjMtMTItMjhUMDE6NTU6MDFaO01TSVBfTGFiZWxfYTcyOTVjYzEt?=
- =?iso-2022-jp?B?ZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX1NpdGVJZD1hMTlmMTIx?=
- =?iso-2022-jp?B?ZC04MWUxLTQ4NTgtYTlkOC03MzZlMjY3ZmQ0Yzc7?=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY2PR01MB3289:EE_|TYYPR01MB8166:EE_
-x-ms-office365-filtering-correlation-id: 9935c9fc-dc2f-4529-bcfc-08dc074889a1
+x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|PH8PR11MB6729:EE_
+x-ms-office365-filtering-correlation-id: cb73e842-e45a-4aff-bd0f-08dc0751197b
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- yhlzLPK7lLcuZAC8g+BzuVCaT9Oax/rWIU3wDpqK+JBRLFhSF0W/lHvUV8vNRaE2AqwxlPjomFY4XbHQoKt6Pon8w8JV+fK1cs89Tf8PAsPI8/XqpJiJ4jLYzhiLguizf1H5xZWz2MkSsqQhoJJ8VgPIYaLQH6S2oIFyHPXTxOX8oY/co3gc3zgMftwUYsgQFB6zPAb04anUg0OZ3S8K2MYPOBKVzfqTIh0ULd7RByP3GCdni/Xj/GEePw/H29aJkRU4BrFCaZKP5KivpCyfLeJmPLbWJcmYhXFA9PZm8m8ynccijxJS/eN6FDPIQpYHaQwIELg87uyw53eAqIafx904W4tTsIaBpvzqCwvfb4OdoNfZkBkDKnXsCQN40Rni4j6dpSdQwz+1Ywk1SDGuuhyp1hMlYW/UnrryA6+PMVOsaqqtI0Pc50xK/+SHu1OdixvBRoMt40Wm7drC3KCVVsb15epQ9ufnSxS+rIRtqW7jxgwICm3Ni7650kSP24jU49/JsrDljSU/kdNxu9IXy9c4lfH9t5ZylRIG9fDTYTgn2E0axkYJblzqV52XFjXwIcJgWN3kikYsr8Eo5XmjI2g4E7mM+WxkAHFAXwz47cHEp8Mbbn8ZWGl2usTyoQvPXgbUxqln4yZ9Sw/uRynIl5CFJoW69BGCIYz9BVa+ZGQkTjz7xQzBnijoxdw0OY5DVrkuoSP9SeL5clUGyyxhuw==
+ asaOEUUYjWIaVElJqwysvjx2CXWJVUzU1oKREHMYf0zjWNC89lxTmaK+e2seWBmPnQkRrPC7Wj2MEPF1Rhvh7d1I6W/MRZEVGqp0e47QfO34L/c9EtSCfYe+ydgXI+7cbixf5lLW6kuVrnjyaWm/xRu1P00QrpB9Fho3SHlBv3ZXw85NXBQ8c9BiimjyKHukWV5EvoFI+jC9Os6zuuGFgy7mqU61FtKjiyaof6a4QYXD0hxtk1973IwGTaomJX2Nku+FI6Wb6ot+h+PbJt8+suHZuswYe12ooD3d6PjfHfPJfoMumEuLM9AUWMXb87Tlc/jM4PxwcKF6kBfttcLueL4NdZYAX8iegZeMdd8STlog4qFixK0GjIAo8QafQ7EUw0P0SPD2E1y0hsoGGl/fkC78vG/SORrHUz0Y2WcaPOlY8822EnvAEgc3XPhkJ6MBL4QIMEkLzeQsmi1B21UctzhbsZYNPqHVp1gBLrEzpCC2UcoXhZspuOG9p2iwDTeJLimQHLAv4Mx17/5IKzGUp58VzbzmtNOHJUBuKB/WP5WHm8ax5DzcqvFDfDxxrKY/aP/xQ5i5GPtWPNBAplD+J0cPa26Wsq7Oph8tw48YPRaZwkiqnijxdH69RVTEmX6k2VXY6dr1RwvuEFZo/CFag704voRMAT16iT4/FZA9uW9ZZD6NWEcovBgzKeOklRX9xBHCU4BPJgZ/BcsWwL6k+w==
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3289.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(396003)(376002)(346002)(39860400002)(230173577357003)(230273577357003)(230922051799003)(186009)(1590799021)(1800799012)(451199024)(64100799003)(9686003)(71200400001)(26005)(4326008)(66556008)(316002)(82960400001)(64756008)(66476007)(66446008)(76116006)(6916009)(66946007)(83380400001)(55016003)(7696005)(53546011)(6506007)(38100700002)(52536014)(8676002)(122000001)(8936002)(478600001)(86362001)(5660300002)(2906002)(33656002)(85182001)(41300700001)(38070700009)(1580799018)(491001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(136003)(366004)(376002)(39850400004)(230273577357003)(230173577357003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(55016003)(38070700009)(66899024)(26005)(9686003)(7696005)(6506007)(53546011)(30864003)(8676002)(8936002)(5660300002)(66446008)(76116006)(66946007)(4326008)(64756008)(316002)(478600001)(66476007)(71200400001)(66556008)(2906002)(6916009)(38100700002)(122000001)(966005)(86362001)(52536014)(33656002)(41300700001)(83380400001)(2004002);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?iso-2022-jp?B?SzBlUVFkLzErd2R6cSt3a0ZFeU83OFQ0MHdaYnF2cWFjWTVUYW1wbWZZ?=
- =?iso-2022-jp?B?Y2dBRURENG5aVXo2SHZqblNkNUpyc2tYR1pyNlhhNHJDNGtQQkRJdXpt?=
- =?iso-2022-jp?B?OGtFczFRRllwSkU3K1VaeVQxRHJQQUx4VnVaMllHa2ZFdlMzVzhiTEkx?=
- =?iso-2022-jp?B?VGhWcC8xczJ1eFJoY2tFbHozQnE1eHYrZzFwN29Qa3hsN2JtTllYNVpT?=
- =?iso-2022-jp?B?b3d4NFp6d2E5ZWRjMEllTmR4QVRhNEZ4Nk8rWmtsUDNJUVA0dDhZRTV5?=
- =?iso-2022-jp?B?eDBaQ1I4TVBKdmd6VHBLUXJkSU5BUW9FOU1QcU9qQ1dXWGxjU0lLc1BN?=
- =?iso-2022-jp?B?cFdIN29EVGI2SUxWOUVHYTRleFo5Y3lEN3JFYWU2WU5sQ1dXQ2MxbXpJ?=
- =?iso-2022-jp?B?UkN2TG1rVHpmWVFrdUgxeGxQYytmY3hFbmZsaEkwQ1VLS3hvQ3prTVBH?=
- =?iso-2022-jp?B?MkFjYUUwYy9XOHFzWGc4cVF0a1NYRThhT0NWemsvdHNlMk43bms1Nnp1?=
- =?iso-2022-jp?B?NkRWa2lER0E5cDdRU0VSMUpnbG5oYk1lamMzS2xMTis2SVZmak1xZk1C?=
- =?iso-2022-jp?B?RXFUaGlNVUsyTnh4MDRjS0x5d3JiRGcxMHY0eW5uS3k4TjBCemc1YklY?=
- =?iso-2022-jp?B?QTlCVDFpOUVHaFZCS2hDU29kbjJlVjB3N0NkUjJZU2s0K0Z3SmQzbFRJ?=
- =?iso-2022-jp?B?RElrVGtMYldkR1JtSEU3L3VMNU16QWMrYm03Q0pvWEFhdjcwODhBUGNT?=
- =?iso-2022-jp?B?WmNKSVFidzNLVnBvZ1hkUnVFc1RWTE04aDMrbnlPOGhsQnFNbHZ2MlhY?=
- =?iso-2022-jp?B?eWZrQnI2K2RYZUFsOGlHR3E2Vmo4bG55dHhQUTBuWCtJdFhJWjR4em5P?=
- =?iso-2022-jp?B?QTh0SlREU0RxWTQ4WkFWaG5aVTA2OG1xakpEVUh4d1dQZzhZY0VCYmJz?=
- =?iso-2022-jp?B?WnlHU1ZMUG9Zb2h6YWkxU2k3TldTQytMN0l3VzdRS1JCWGdUdGZNV0dE?=
- =?iso-2022-jp?B?SnVvTlB3QlYvODlQa3QyaDJhaUdIQnp2YnhWSXcvY2RQT3RGMW9Eb2FW?=
- =?iso-2022-jp?B?cFRXM09WN0JkcFV6SzdlWlcra0dXazFTV1BJdDVQa3VnY0RCVTMzZHJw?=
- =?iso-2022-jp?B?emFvYWt0TkNVellhd2RBKzFCZmZIRHV4YTVVdDZXdTRISE1JN0dKYkR2?=
- =?iso-2022-jp?B?N2pkU0VBTlFKNnprTGVMVkI5Z1FOeUYzSGlabTJUZXBFMERLN0xDYU11?=
- =?iso-2022-jp?B?eWZwdEdPKzNoQUhCN0xhUS9xZy9wTUg0d1V6KzZXMnFEL2VzN3NWME9S?=
- =?iso-2022-jp?B?TWd2WjZxbjBlRFlkMGRwcHZOUzJpQ3BMVTlvbVRFbEF6QkhUVVJqNitR?=
- =?iso-2022-jp?B?WU1EMVFpQ2RVNHhDSHphMVoraVNsZmswbHc4N05hRUx3VUlNQW5VVkxp?=
- =?iso-2022-jp?B?eFd1ekxCQjhHVVZzbVcwZlViQ3JVSnoweDg0MVZuK0VaOUk2blJmeWNT?=
- =?iso-2022-jp?B?ak85TWhRYm83ZzRZdFdnOWE0djArb1FLYjBGVW9RSjlXaG9VSnJTNXNy?=
- =?iso-2022-jp?B?OG5IUlpidW5ZUEJTNGxUcnl4Rml0VDFmNW12QW8yU1FkYVF0c2JRME16?=
- =?iso-2022-jp?B?em9EdVNIMkJWak84cHBSOFZzR0lvRGxHM1NtY2ZyQkNJeWxtU0l1aHdh?=
- =?iso-2022-jp?B?aG5tbEN1bng4UHcrdm42QWIyaXNyNEdiZkNWWmU1bmRZTVNBV3pUb3d3?=
- =?iso-2022-jp?B?K3VHaE9QSHVadVNtZ00xdUdMRzlmckNHUFI3Z09SSkhTNHVaa1ZjUEQ3?=
- =?iso-2022-jp?B?TlRQalloZFZaTzNwVytGV2JHdXR1TXZjK1NIek9MRXQ1ZVlURnVTTGxF?=
- =?iso-2022-jp?B?M3loMGdyTkJaejNTWVlGNFB2TmoyUTFvQU5uS0MyUXFWcGNrNTlYNTlr?=
- =?iso-2022-jp?B?bzJDdDVFQW5QZlB5VkJVeEJKeXR0QWpTek1vWE1FSUtYNDUxTGdPYzR0?=
- =?iso-2022-jp?B?cHhKZE9ZeFdKLzV5djdLbkswci9zcjUwNG5zMHpZRXRVeG1ZKzFwZ0hy?=
- =?iso-2022-jp?B?cFVKNjVwUFlSQlgvR3FVSlMyeDgxenRPYWhOdldReG43bitNWFRoanht?=
- =?iso-2022-jp?B?Q0hwbTFTNkNVVkhlaFE0UUZvbkFKOTBLY2VlVjNGUk93V0xFa1lLT1R1?=
- =?iso-2022-jp?B?eFh3S2hoS2JGYWFMQUZqejlsSk9vald6aUNQbGFuRW5icU5QWjJJSUJQ?=
- =?iso-2022-jp?B?RjVCNEpPRG5IRWJ2L1REbHBIdmNFVUxrdGRuMlJydmExbG1KWVdjbENF?=
- =?iso-2022-jp?B?QWMrZWxCM3VRcDFXSEM2QkVkWjh0WDJCWEE9PQ==?=
-Content-Type: text/plain; charset="iso-2022-jp"
+ =?us-ascii?Q?bfdWmoPgtNI7nBGVMMhQs8zL6FFQQhiHglCCoc0k4H6rMCT4SLhV6Aq/8it9?=
+ =?us-ascii?Q?/LyEdX+HTYLC1zOGqC9+URXVnZ/deQmcyVWW5/4eW/LAUXhzVWt5XflUtwHX?=
+ =?us-ascii?Q?2K/+xCaR1DHoUfHia47eerdvPBqhFtpphAcPekpJh/ooF1fBhH7ScqJpmuq1?=
+ =?us-ascii?Q?/HFi/Pqr2jCHfvqrtPJ7H2YOMCI0P94x75nIewwTajEWuxuMleFA3ObXmIfa?=
+ =?us-ascii?Q?FtKVJiJvWGIBP5StPSBpPTdxlHlImpNIlVk/GTzgLrF5n0kRb6rsdTuDyEQY?=
+ =?us-ascii?Q?Spqb5XgIjMIU/UdrKsviZYSERRHJqvaQOLpfcBbicRoa94njOJqDiYoY8ftA?=
+ =?us-ascii?Q?nhSjFtz1vt3MsZ5tSUuQlBht/VH4ogmAdtelfZysNELaHWylWWmK7iAeZoYa?=
+ =?us-ascii?Q?XdY+v4KrTJIzWaI19q8lb03iNda0OPWqt5wLg3IPBbydKENdY8+8rnsjuGOA?=
+ =?us-ascii?Q?8XQbfB7XScFjsfG5mt9mSisS7NmHm1NAzZICJGcVwf5Danf2mhNcyYrWYpCw?=
+ =?us-ascii?Q?7vAfiqFDjTWeY5OUCwzbCui/AQsm57cKdeKijOZrsm1f9keO1kYKyxVZ6SLS?=
+ =?us-ascii?Q?BjD/v9JKLsQzOdNXj5kiVe1whcAcxRRUx3C4JGuKklEpoXTIPx7+gXDqKYU5?=
+ =?us-ascii?Q?874eALhXJsDdQXmbQs2F9HsYDO8BrzekgVzoJVkwoPekYZOGt2XoKCLfkI6+?=
+ =?us-ascii?Q?5CsChiKYRjkjXtuvkWI5Au+T/jVY4wOFysCxJLBbH071W7QUeZufBpYkruQ/?=
+ =?us-ascii?Q?yBbhx6VWuaUapZ7bR/BIlbqPs4fD8iJl9SBXGb3/pal7Bw4Gxr3qpElVYQEb?=
+ =?us-ascii?Q?3DqIoz2kImGBDNfEB2mLUTIBe+Vto6f9HXt4bcCHZCmiMCWDOe5FAC4jUfqU?=
+ =?us-ascii?Q?Buh/hE0BMib8KxsF8ixCKj6gYlis1cmqmyNIJ9fDGFrcWFBqRfhI/4LVOetv?=
+ =?us-ascii?Q?oaGU+fCZsiUl/X40YqdTkiJQBh+r6kLyNNLBuux/GMyGKME+2+qHs83ZHEv+?=
+ =?us-ascii?Q?tkal/knQ9ZnQYXXTTD+ekK2AgzqC7e0qhDuQ+dhdtRjLq/oElGo6QWPO5LZo?=
+ =?us-ascii?Q?KpR4IzrICZ2Ye6MK1Ibp1ThKAGCHhd0AhggFo/lH9i94lTiJb8hkzSqp/g+B?=
+ =?us-ascii?Q?tvr4+oIaq8S1rgg5hc7nxMMYjAYPA006MW/mr+2MQYFYjbvavANPYE/9GHap?=
+ =?us-ascii?Q?Vo9grnVaI6ovUvpR3npp4ZaOVLl2BNNkVQPqCoUCIWQJLuBilB29+1pHX57n?=
+ =?us-ascii?Q?nWLpqhpb4qrsDFY7Wal7pv3vds16bSoVVX8nkSdJ0FV1LhBvCw/kqDyFXl3B?=
+ =?us-ascii?Q?7uhWAvXi+jrWxgR0QlMVLrgdDL3TGFJ37Z8tfOi2WWO9fylhrfVvEJnjGqsc?=
+ =?us-ascii?Q?ysT1VjsKXYAx9nClPqAiPMCWhh/NfjG72LS0e6MonO5P/1VPxqEED2U7Y0xm?=
+ =?us-ascii?Q?u8fLOT2GVcLmyyLY2y8gQzxoQsfNxgtuMGKwMy6TW1LqPKStVbXaNnTwzQ6F?=
+ =?us-ascii?Q?8SW6TETDw2JaV/5Qob7Ki1t7wxdnlVKV3qqRX/dFsp82y+DQn0vhmGudKZTk?=
+ =?us-ascii?Q?LfN6QCE8Znl6wKkpxCKqYKwPYylCDCaI56t+e4Sa?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	5U4VGxtXfSCpFpopnv9VyAeZemRkQLV8wfFd/WJA3UsyvaVE3Y/ZznVDcgI2Kcg2wu58NSyrEHP6DLAbV6RU/TjCgDH6BjdERZsBUcBeWSnDDAck8faxq/veJwT5/ZNCIr876Pnlcfgad57cWshQiua6XGJLeyoRrZVV6rPFCYl7+frW518CP2nIZELvQug/DXJDmsqd+GtjetaR+Oiugu6fMT2b0l8be6v4FeVehazQJu7oX9NP1FANj7tzkTXgt2fDHUcsVl68HOJkI2Pl8B+u7P90OpyVnYMreovx+/bvBu/Fep7w/oiJmnITIkLJH2L58xAIvdVAk0yHJOKfWsz4IEpVw1lbfaIsa3a4GpjjBg9o1CwXjjFtRLVD/xnyDwO/jRhEMdgaPtBEbpd20nj4T1futuqA/IajnQFOKlohyRYYZlYPTmUYFqUbdTJst6899DkIY0wv9TwhtXMM7Z4edBMA44p771YyQJvW80hk0gEV7Ko4Kmuh1WuXa65OX/3PPfNBvN1pYQ8cTVZttazXROsGDJNpNXpXsxnbBNujwxI/Nyjwf6Ft53b2a+ASY8JXk/P4iDgUKgky/vbjHM5ntZi9pwjibF+NGFWYzyWM1l3NgsiMrcVmD74xky42
-X-OriginatorOrg: fujitsu.com
+X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3289.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9935c9fc-dc2f-4529-bcfc-08dc074889a1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Dec 2023 01:58:50.7619
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb73e842-e45a-4aff-bd0f-08dc0751197b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Dec 2023 03:00:08.0690
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HwYPNiPiJYf1NmNdcC9u4asT+XBFU13XnG2DS8cjPEJBJbXnSNlS2n+u+hXqXQWCzBuLHvRcZ60MMD8FVHR3kDwhAA+Vy2l3vqb37N1EB+M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB8166
+X-MS-Exchange-CrossTenant-userprincipalname: ss9WIGn4aNqiEtk29ONDZ/niaL7/uzeR5lmWlyH03WQnLSyuIAPyETRSXajm1Il+m9SsfH8rse6AYGE5i51dLQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6729
+X-Proofpoint-GUID: yG1wgzmGVE4n3WjFjo_P6c09GlVUvfYm
+X-Proofpoint-ORIG-GUID: Vfon3j2fHlrYEbMNpmlDoUOTcwKJ9rmb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ priorityscore=1501 mlxscore=0 bulkscore=0 impostorscore=0 adultscore=0
+ clxscore=1015 phishscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312280022
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 01:59:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192969
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 03:00:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192970
 
-Hi, Ross,
-
-What does "too common an issue" mean?
-Is it okay to ignore the misjudgment by the following cases?
-
-e.g. PV =3D "1.2.0" and Vulnerabilities Affected Versions (registered with =
-NVD) =3D "1.2"
+I double checked it in my environment, setting INIT_MANAGER to "systemd" an=
+d then 'bitbake systemd' will not generate this warning. In this case ROOT_=
+HOME's value is "/root".
+I checked https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds=
+/8354, but I couldn't find the configuration items that set the init manage=
+r to systemd.
+Does the build use the variable 'INIT_MANAGER'? Does it set ROOT_HOME to "/=
+home/root" somewhere?
 
 Regards,
-Shinji
+Qi
 
 -----Original Message-----
-From: ross.burton@arm.com <ross.burton@arm.com>=20
-Sent: Wednesday, December 6, 2023 2:19 AM
-To: openembedded-core@lists.openembedded.org
-Cc: Matsunaga, Shinji/=1B$B>>1J=1B(B =1B$B?5;J=1B(B <shin.matsunaga@fujitsu=
-.com>
-Subject: [PATCH] Revert "cve-check: Modify judgment processing using "=3D" =
-in version comparison"
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>=20
+Sent: Wednesday, December 27, 2023 7:59 PM
+To: Chen, Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH 1/3] systemd: upgrade to 255.1
 
-From: Ross Burton <ross.burton@arm.com>
+We hit the added warning on the autobuilders:
 
-This change introduced a warning if version comparisons failed, but this is=
- far too common an issue in data that we don't control, so this shouldn't c=
-ause a warning:
+WARNING: systemd-1_255.1-r0 do_install: Using /home/root as root user's hom=
+e directory is not fully supported by systemd
 
-WARNING: automake-native-1.16.5-r0 do_cve_check: automake: Failed to compar=
-e 1.16.5 =3D branch_1-9 for CVE-2009-4029
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m1 for CVE-2010-4539
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m2 for CVE-2010-4539
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m3 for CVE-2010-4539
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m4\/m5 for CVE-2010-4539
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m1 for CVE-2010-4644
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m2 for CVE-2010-4644
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m3 for CVE-2010-4644
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m4\/m5 for CVE-2010-4644
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m1 for CVE-2011-0715
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m2 for CVE-2011-0715
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m3 for CVE-2011-0715
-WARNING: subversion-1.14.2-r0 do_cve_check: subversion: Failed to compare 1=
-.14.2 =3D m4\/m5 for CVE-2011-0715
-WARNING: automake-1.16.5-r0 do_cve_check: automake: Failed to compare 1.16.=
-5 =3D branch_1-9 for CVE-2009-4029
-WARNING: mpg123-1.32.3-r0 do_cve_check: mpg123: Failed to compare 1.32.3 =
-=3D pre0.59s for CVE-2003-0577
-WARNING: mpg123-1.32.3-r0 do_cve_check: mpg123: Failed to compare 1.32.3 =
-=3D pre0.59s for CVE-2004-0982
-WARNING: mpg123-1.32.3-r0 do_cve_check: mpg123: Failed to compare 1.32.3 =
-=3D pre0.59s for CVE-2004-1284
-WARNING: mpg123-1.32.3-r0 do_cve_check: mpg123: Failed to compare 1.32.3 =
-=3D pre0.59s_r11 for CVE-2006-3355
-WARNING: mpg123-1.32.3-r0 do_cve_check: mpg123: Failed to compare 1.32.3 =
-=3D pre0.59s for CVE-2007-0578
-WARNING: mpg123-1.32.3-r0 do_cve_check: mpg123: Failed to compare 1.32.3 =
-=3D pre0.59s_r11 for CVE-2007-0578
-WARNING: mpg123-1.32.3-r0 do_cve_check: mpg123: Failed to compare 1.32.3 =
-=3D pre0.59s for CVE-2009-1301
-WARNING: mpg123-1.32.3-r0 do_cve_check: mpg123: Failed to compare 1.32.3 =
-=3D pre0.59s_r11 for CVE-2009-1301
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/8354/step=
+s/14/logs/warnings
 
-This reverts commit a1989e4197178c2431ceca499e0b4876b233b131.
+On 27/12/2023 12:20:34+0800, Chen Qi via lists.openembedded.org wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>=20
+> 1. Patch changes:
+>=20
+> 0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+> is removed because it has no real effect now. The /lib is now /usr/lib=20
+> because 'usrmerge' is a required distro feature for systemd.
+>=20
+> 0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch is=20
+> refreshed for the new version to avoid patch-fuzz issue.
+>=20
+> 2. root user's home directory now defaults to "/root":
+>=20
+> The sysuers.d/basic.conf is still modified to respect the ROOT_HOME=20
+> value, so if users set ROOT_HOME to "/home/root", the behavior is the=20
+> same as before. However, this is only for backward compatibility. With=20
+> this patch, The ROOT_HOME value is set to "/root" in init-manager-systemd=
+.inc.
+> This is because systemd's source codes are hardcoding "/root", and=20
+> other values are not officially supported. See the list below.
+> $ grep -rl '"/root"' src/ | grep -v 'src/test'
+> src/core/namespace.c
+> src/basic/user-util.c
+> src/nss-systemd/nss-systemd.c
+> src/nspawn/nspawn.c
+> src/firstboot/firstboot.c
+> src/shared/userdb.c
+> src/shared/user-record.c
+> $ grep -rl /root network/ factory/ sysctl.d/ sysusers.d/ rules.d/=20
+> tmpfiles.d/ units/ xorg/ tools/ sysusers.d/basic.conf.in=20
+> tmpfiles.d/provision.conf units/emergency.service.in=20
+> units/rescue.service.in tools/list-discoverable-partitions.py
+> Previously, the recipe was just substituting sysusers.d/basic.conf.in,=20
+> which is not enough to be treated as 'fully support'. I deliberately=20
+> put a warning message in do_install to warn users about non "/root"=20
+> ROOT_HOME value. Don't remove it until all above places are handled.
+>=20
+> 3. cgroupv2 is now the default.
+> cgroupv2 is the default for systemd for many years and it's the=20
+> default for distros such as ubuntu and fedora. Let's also use it as the d=
+efault.
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  .../distro/include/init-manager-systemd.inc   |  2 +
+>  meta/recipes-core/systemd/systemd.inc         |  4 +-
+>  ...tall-dependency-links-at-install-tim.patch | 22 +++--- =20
+> ...sysctl.d-binfmt.d-modules-load.d-to-.patch | 73 -------------------
+>  .../systemd/systemd/basic.conf.in             | 40 ----------
+>  .../{systemd_254.4.bb =3D> systemd_255.1.bb}    | 16 ++--
+>  6 files changed, 25 insertions(+), 132 deletions(-)  delete mode=20
+> 100644=20
+> meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt
+> .d-modules-load.d-to-.patch  delete mode 100644=20
+> meta/recipes-core/systemd/systemd/basic.conf.in
+>  rename meta/recipes-core/systemd/{systemd_254.4.bb =3D>=20
+> systemd_255.1.bb} (98%)
+>=20
+> diff --git a/meta/conf/distro/include/init-manager-systemd.inc=20
+> b/meta/conf/distro/include/init-manager-systemd.inc
+> index 595d1f2644..0a76647459 100644
+> --- a/meta/conf/distro/include/init-manager-systemd.inc
+> +++ b/meta/conf/distro/include/init-manager-systemd.inc
+> @@ -5,3 +5,5 @@ VIRTUAL-RUNTIME_init_manager ??=3D "systemd"
+>  VIRTUAL-RUNTIME_initscripts ??=3D "systemd-compat-units"
+>  VIRTUAL-RUNTIME_login_manager ??=3D "shadow-base"
+>  VIRTUAL-RUNTIME_dev_manager ??=3D "systemd"
+> +# systemd hardcodes /root in its source codes, other values are not=20
+> +offically supported ROOT_HOME ?=3D "/root"
+> diff --git a/meta/recipes-core/systemd/systemd.inc=20
+> b/meta/recipes-core/systemd/systemd.inc
+> index ccc3236457..1417e0150f 100644
+> --- a/meta/recipes-core/systemd/systemd.inc
+> +++ b/meta/recipes-core/systemd/systemd.inc
+> @@ -15,8 +15,8 @@ LICENSE:libsystemd =3D "LGPL-2.1-or-later"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE.GPL2;md5=3D751419260aa954499f7abaab=
+aa882bbe \
+>                      file://LICENSE.LGPL2.1;md5=3D4fbd65380cdd25595107900=
+8b364516c"
+> =20
+> -SRCREV =3D "2e7504449a51fb38db9cd2da391c6434f82def51"
+> -SRCBRANCH =3D "v254-stable"
+> +SRCREV =3D "2018ccef6645ce00c784369a22dc4e98f6d7061d"
+> +SRCBRANCH =3D "v255-stable"
+>  SRC_URI =3D "git://github.com/systemd/systemd-stable.git;protocol=3Dhttp=
+s;branch=3D${SRCBRANCH}"
+> =20
+>  S =3D "${WORKDIR}/git"
+> diff --git=20
+> a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependen
+> cy-links-at-install-tim.patch=20
+> b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependen
+> cy-links-at-install-tim.patch
+> index 085f1e9052..be231cf6b2 100644
+> ---=20
+> a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependen
+> cy-links-at-install-tim.patch
+> +++ b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-depe
+> +++ ndency-links-at-install-tim.patch
+> @@ -1,8 +1,8 @@
+> -From ca7d9a8d9c81702af9c599bb79706f12b1a465cf Mon Sep 17 00:00:00=20
+> 2001
+> +From 29a58009a172e369ad7166e16dab2f4945c6b0d2 Mon Sep 17 00:00:00=20
+> +2001
+>  From: Chen Qi <Qi.Chen@windriver.com>
+>  Date: Thu, 21 Feb 2019 16:23:24 +0800
+> -Subject: [PATCH] binfmt: Don't install dependency links at install=20
+> time for
+> - the binfmt services
+> +Subject: [PATCH 1/2] binfmt: Don't install dependency links at=20
+> +install time  for the binfmt services
+> =20
+>  use [Install] blocks so that they get created when the service is=20
+> enabled  like a traditional service.
+> @@ -25,10 +25,10 @@ Signed-off-by: Scott Murray <scott.murray@konsulko.co=
+m>
+>   3 files changed, 7 insertions(+), 2 deletions(-)
+> =20
+>  diff --git a/units/meson.build b/units/meson.build -index=20
+> c7939a10f8..219570ab19 100644
+> +index e7bfb7f838..1d5ec4b178 100644
+>  --- a/units/meson.build
+>  +++ b/units/meson.build
+> -@@ -149,7 +149,6 @@ units =3D [
+> +@@ -154,7 +154,6 @@ units =3D [
+>           {
+>             'file' : 'proc-sys-fs-binfmt_misc.automount',
+>             'conditions' : ['ENABLE_BINFMT'], @@ -36,7 +36,7 @@ index=20
+> c7939a10f8..219570ab19 100644
+>           },
+>           {
+>             'file' : 'proc-sys-fs-binfmt_misc.mount', -@@ -246,7=20
+> +245,6 @@ units =3D [
+> +@@ -251,7 +250,6 @@ units =3D [
+>           {
+>             'file' : 'systemd-binfmt.service.in',
+>             'conditions' : ['ENABLE_BINFMT'], @@ -45,7 +45,7 @@ index=20
+> c7939a10f8..219570ab19 100644
+>           {
+>             'file' : 'systemd-bless-boot.service.in',  diff --git=20
+> a/units/proc-sys-fs-binfmt_misc.automount=20
+> b/units/proc-sys-fs-binfmt_misc.automount
+> -index 6b1bbdc91e..5ec5b8670a 100644
+> +index 5d212015a5..6c2900ca77 100644
+>  --- a/units/proc-sys-fs-binfmt_misc.automount
+>  +++ b/units/proc-sys-fs-binfmt_misc.automount
+>  @@ -22,3 +22,6 @@ Before=3Dshutdown.target @@ -56,7 +56,7 @@ index=20
+> 6b1bbdc91e..5ec5b8670a 100644  +[Install]  +WantedBy=3Dsysinit.target =20
+> diff --git a/units/systemd-binfmt.service.in=20
+> b/units/systemd-binfmt.service.in -index b04412e037..63f116e4fa 100644
+> +index 6861c76674..531e9fbd90 100644
+>  --- a/units/systemd-binfmt.service.in  +++=20
+> b/units/systemd-binfmt.service.in  @@ -14,6 +14,7 @@=20
+> Documentation=3Dhttps://docs.kernel.org/admin-guide/binfmt-misc.html
+> @@ -68,12 +68,12 @@ index b04412e037..63f116e4fa 100644
+>   After=3Dproc-sys-fs-binfmt_misc.mount
+>   After=3Dlocal-fs.target
+>  @@ -31,3 +32,6 @@ RemainAfterExit=3Dyes
+> - ExecStart=3D{{ROOTLIBEXECDIR}}/systemd-binfmt
+> - ExecStop=3D{{ROOTLIBEXECDIR}}/systemd-binfmt --unregister
+> + ExecStart=3D{{LIBEXECDIR}}/systemd-binfmt
+> + ExecStop=3D{{LIBEXECDIR}}/systemd-binfmt --unregister
+>   TimeoutSec=3D90s
+>  +
+>  +[Install]
+>  +WantedBy=3Dsysinit.target
+>  --
+> -2.39.2
+> +2.34.1
+> =20
+> diff --git=20
+> a/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binf
+> mt.d-modules-load.d-to-.patch=20
+> b/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binf
+> mt.d-modules-load.d-to-.patch
+> deleted file mode 100644
+> index 98914ae154..0000000000
+> ---=20
+> a/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binf
+> mt.d-modules-load.d-to-.patch
+> +++ /dev/null
+> @@ -1,73 +0,0 @@
+> -From f75f03ef6bc3554068e456bed227f333d5cb8c34 Mon Sep 17 00:00:00=20
+> 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Tue, 29 Sep 2020 18:01:41 -0700
+> -Subject: [PATCH] Move sysusers.d/sysctl.d/binfmt.d/modules-load.d to=20
+> /usr
+> -
+> -These directories are moved to /lib since systemd v246, commit=20
+> -4a56315a990b ("path: use ROOTPREFIX properly"), but in oe-core/yocto,=20
+> -the old /usr/lib is still being used.
+> -
+> -Upstream-Status: Inappropriate (OE-specific)
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+> ----
+> - src/core/systemd.pc.in           | 8 ++++----
+> - src/libsystemd/sd-path/sd-path.c | 8 ++++----
+> - 2 files changed, 8 insertions(+), 8 deletions(-)
+> -
+> -diff --git a/src/core/systemd.pc.in b/src/core/systemd.pc.in -index=20
+> 693433b34b..8368a3ff02 100644
+> ---- a/src/core/systemd.pc.in
+> -+++ b/src/core/systemd.pc.in
+> -@@ -67,16 +67,16 @@ tmpfilesdir=3D${tmpfiles_dir}
+> -
+> - user_tmpfiles_dir=3D${prefix}/share/user-tmpfiles.d
+> -
+> --sysusers_dir=3D${rootprefix}/lib/sysusers.d
+> -+sysusers_dir=3D${prefix}/lib/sysusers.d
+> - sysusersdir=3D${sysusers_dir}
+> -
+> --sysctl_dir=3D${rootprefix}/lib/sysctl.d
+> -+sysctl_dir=3D${prefix}/lib/sysctl.d
+> - sysctldir=3D${sysctl_dir}
+> -
+> --binfmt_dir=3D${rootprefix}/lib/binfmt.d
+> -+binfmt_dir=3D${prefix}/lib/binfmt.d
+> - binfmtdir=3D${binfmt_dir}
+> -
+> --modules_load_dir=3D${rootprefix}/lib/modules-load.d
+> -+modules_load_dir=3D${prefix}/lib/modules-load.d
+> - modulesloaddir=3D${modules_load_dir}
+> -
+> - catalog_dir=3D${prefix}/lib/systemd/catalog
+> -diff --git a/src/libsystemd/sd-path/sd-path.c=20
+> b/src/libsystemd/sd-path/sd-path.c
+> -index 1af3a36d1d..def502b717 100644
+> ---- a/src/libsystemd/sd-path/sd-path.c
+> -+++ b/src/libsystemd/sd-path/sd-path.c
+> -@@ -365,19 +365,19 @@ static int get_path(uint64_t type, char **buffer, =
+const char **ret) {
+> -                 return 0;
+> -=20
+> -         case SD_PATH_SYSUSERS:
+> --                *ret =3D ROOTPREFIX_NOSLASH "/lib/sysusers.d";
+> -+                *ret =3D "/usr/lib/sysusers.d";
+> -                 return 0;
+> -=20
+> -         case SD_PATH_SYSCTL:
+> --                *ret =3D ROOTPREFIX_NOSLASH "/lib/sysctl.d";
+> -+                *ret =3D "/usr/lib/sysctl.d";
+> -                 return 0;
+> -=20
+> -         case SD_PATH_BINFMT:
+> --                *ret =3D ROOTPREFIX_NOSLASH "/lib/binfmt.d";
+> -+                *ret =3D "/usr/lib/binfmt.d";
+> -                 return 0;
+> -=20
+> -         case SD_PATH_MODULES_LOAD:
+> --                *ret =3D ROOTPREFIX_NOSLASH "/lib/modules-load.d";
+> -+                *ret =3D "/usr/lib/modules-load.d";
+> -                 return 0;
+> -=20
+> -         case SD_PATH_CATALOG:
+> ---
+> -2.39.2
+> -
+> diff --git a/meta/recipes-core/systemd/systemd/basic.conf.in=20
+> b/meta/recipes-core/systemd/systemd/basic.conf.in
+> deleted file mode 100644
+> index fac288f7fa..0000000000
+> --- a/meta/recipes-core/systemd/systemd/basic.conf.in
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -#  This file is part of systemd.
+> -#
+> -#  systemd is free software; you can redistribute it and/or modify it=20
+> -#  under the terms of the GNU Lesser General Public License as=20
+> published by -#  the Free Software Foundation; either version 2.1 of=20
+> the License, or -#  (at your option) any later version.
+> -
+> -# The superuser
+> -u root    0     "root" :ROOT_HOME:
+> -
+> -# The nobody user/group for NFS file systems
+> -g {{NOBODY_GROUP_NAME}} 65534       -            -
+> -u {{NOBODY_USER_NAME }} 65534:65534 "Nobody"     -
+> -
+> -# Administrator group: can *see* more than normal users
+> -g adm     {{ADM_GID    }}     -            -
+> -
+> -# Administrator group: can *do* more than normal users
+> -g wheel   {{WHEEL_GID  }}     -            -
+> -
+> -# Access to shared database of users on the system
+> -g utmp    {{UTMP_GID   }}     -            -
+> -
+> -# Physical and virtual hardware access groups
+> -g audio   {{AUDIO_GID  }}     -            -
+> -g cdrom   {{CDROM_GID  }}     -            -
+> -g dialout {{DIALOUT_GID}}     -            -
+> -g disk    {{DISK_GID   }}     -            -
+> -g input   {{INPUT_GID  }}     -            -
+> -g kmem    {{KMEM_GID   }}     -            -
+> -g kvm     {{KVM_GID    }}     -            -
+> -g lp      {{LP_GID     }}     -            -
+> -g render  {{RENDER_GID }}     -            -
+> -g sgx     {{SGX_GID    }}     -            -
+> -g tape    {{TAPE_GID   }}     -            -
+> -g tty     {{TTY_GID    }}     -            -
+> -g video   {{VIDEO_GID  }}     -            -
+> -
+> -# Default group for normal users
+> -g users   {{USERS_GID  }}     -            -
+> diff --git a/meta/recipes-core/systemd/systemd_254.4.bb=20
+> b/meta/recipes-core/systemd/systemd_255.1.bb
+> similarity index 98%
+> rename from meta/recipes-core/systemd/systemd_254.4.bb
+> rename to meta/recipes-core/systemd/systemd_255.1.bb
+> index 0c12926bef..daa3a01fef 100644
+> --- a/meta/recipes-core/systemd/systemd_254.4.bb
+> +++ b/meta/recipes-core/systemd/systemd_255.1.bb
+> @@ -21,7 +21,6 @@ REQUIRED_DISTRO_FEATURES +=3D "systemd"
+>  SRC_URI +=3D " \
+>             file://touchscreen.rules \
+>             file://00-create-volatile.conf \
+> -           file://basic.conf.in \
+>             ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallb=
+ack', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
+>             ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallb=
+ack', 'file://00-hostnamed-network-user.conf', '', d)} \
+>             file://init \
+> @@ -29,7 +28,6 @@ SRC_URI +=3D " \
+>             file://systemd-pager.sh \
+>             file://0002-binfmt-Don-t-install-dependency-links-at-install-=
+tim.patch \
+>             file://0008-implment-systemd-sysv-install-for-OE.patch \
+> -           file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-=
+to-.patch \
+>             "
+> =20
+>  # patches needed by musl
+> @@ -73,6 +71,7 @@ PACKAGECONFIG ??=3D " \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', 'link-udev-s=
+hared', d)} \
+>      backlight \
+>      binfmt \
+> +    cgroupv2 \
+>      gshadow \
+>      hibernate \
+>      hostnamed \
+> @@ -266,12 +265,16 @@ EXTRA_OEMESON +=3D "-Dkexec-path=3D${sbindir}/kexec=
+=20
+> \  # The 60 seconds is watchdog's default vaule.
+>  WATCHDOG_TIMEOUT ??=3D "60"
+> =20
+> -do_configure:prepend() {
+> -  sed s@:ROOT_HOME:@${ROOT_HOME}@g ${WORKDIR}/basic.conf.in >=20
+> ${S}/sysusers.d/basic.conf.in -}
+> -
+>  do_install() {
+>  	meson_do_install
+> +	# Change the root user's home directory in /lib/sysusers.d/basic.conf.
+> +	# This is done merely for backward compatibility with previous systemd =
+recipes.
+> +	# systemd hardcodes root user's HOME to be "/root". Changing to use oth=
+er values
+> +	# may have unexpected runtime behaviors.
+> +	if [ "${ROOT_HOME}" !=3D "/root" ]; then
+> +		bbwarn "Using ${ROOT_HOME} as root user's home directory is not fully =
+supported by systemd"
+> +		sed -i -e 's#/root#${ROOT_HOME}#g' ${D}${exec_prefix}/lib/sysusers.d/b=
+asic.conf
+> +	fi
+>  	install -d ${D}/${base_sbindir}
+>  	if ${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', 'fal=
+se', 'true', d)}; then
+>  		# Provided by a separate recipe
+> @@ -754,6 +757,7 @@ FILES:udev +=3D "${base_sbindir}/udevd \
+>                 ${rootlibexecdir}/udev/rules.d/60-persistent-alsa.rules \
+>                 ${rootlibexecdir}/udev/rules.d/60-persistent-input.rules =
+\
+>                =20
+> ${rootlibexecdir}/udev/rules.d/60-persistent-storage.rules \
+> +              =20
+> + ${rootlibexecdir}/udev/rules.d/60-persistent-storage-mtd.rules \
+>                 ${rootlibexecdir}/udev/rules.d/60-persistent-storage-tape=
+.rules \
+>                 ${rootlibexecdir}/udev/rules.d/60-persistent-v4l.rules \
+>                 ${rootlibexecdir}/udev/rules.d/60-sensor.rules \
+> --
+> 2.34.1
+>=20
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes/cve-check.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192923): https://lists.openembedded.org/g/openembedde=
+d-core/message/192923
+> Mute This Topic: https://lists.openembedded.org/mt/103380516/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+exandre.belloni@bootlin.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
-s index 086d87687f4..5191d043030 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -375,7 +375,6 @@ def check_cves(d, patched_cves):
-                         try:
-                             vulnerable_start =3D  (operator_start =3D=3D '=
->=3D' and Version(pv,suffix) >=3D Version(version_start,suffix))
-                             vulnerable_start |=3D (operator_start =3D=3D '=
->' and Version(pv,suffix) > Version(version_start,suffix))
--                            vulnerable_start |=3D (operator_start =3D=3D '=
-=3D' and Version(pv,suffix) =3D=3D Version(version_start,suffix))
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s=
-" %
-                                     (product, pv, operator_start, version_=
-start, cve))
---
-2.34.1
 
+--=20
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
