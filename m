@@ -1,250 +1,157 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <Deepthi.Hemraj@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56C66C3DA6E
-	for <webhook@archiver.kernel.org>; Thu, 28 Dec 2023 11:41:18 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.121518.1703763673139390688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22451C3DA6E
+	for <webhook@archiver.kernel.org>; Thu, 28 Dec 2023 14:08:49 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.123410.1703772524190198861
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Dec 2023 03:41:13 -0800
+ Thu, 28 Dec 2023 06:08:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RkWwTEB2;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ccd4b743e2so20338521fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 03:41:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703763671; x=1704368471; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IHOool5Jkiudc7ZVmAOPWeU98YrOkFtkPp1YpQUftVc=;
-        b=RkWwTEB2w6KHSjwG6kSSefD4PZly7CCSZFbr+QlcQoTT6FgmxoslXBwwqMtQy+2KQQ
-         toHwpQ19mosTOqCw1y9YujXOzgecCq5MfaIrOqC/jTghw+Gx60eQ61Oig6zeHC0jaQEh
-         dXuUv1obyiVcyk7albglVdSfOdcPW3H0pgspx+P5R7qkqyzBLjdBR9lVtah22GU8lfw1
-         wqWvCP48YcDjxx/C0TPmAZcCOE/wdKXmd+Ru02URcbqWitWRAwS4DX2nEVQsdD0Dyj2F
-         a1O/wt1nat/7xsOcLsMWjp74u3nZxPaqm8hhdS0UdEEri67YyUZagiEqTJp+XIJQEEiV
-         bpJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703763671; x=1704368471;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IHOool5Jkiudc7ZVmAOPWeU98YrOkFtkPp1YpQUftVc=;
-        b=S8NVYzvOsKFc6rfDvhs0TS9aQ4khfLIvc6PBXEkmNwOXqY6Kf3reLiWWMy72cleFSA
-         ff9aqxT18f+mpW9MKkBI7jVeiKlspB4biZqlEEphphuM3naUMKimKrQryDc+hIwkDMAA
-         zLrgN5XgOH49CxyEUmNgoabhFvVYmvwYvsfEtjpq9NNUApBS4wDxldB68MU6RQ2btwuX
-         ppsaKTos9oppCmPGv0lewWR4G5D+4dAJDeU4r1gnI1SNtjk1dob9u6u21Ls1uxZ6FvcZ
-         2OSXbSyZ10AlcUkORBFvx3wJACgeghKAuMcsZv6bqCAv/yE8bw+l82CwZt1xWHcVj+PC
-         5XOg==
-X-Gm-Message-State: AOJu0YzAPkcxwaTBTZqNyW3g59SaWaHIprRr/1n5H1buDmiMp9khpKls
-	ZGZddnKcsk6gXLHWEI1lfrK/M9ZDSIckqscTxUk=
-X-Google-Smtp-Source: AGHT+IF6XHC5nSpM02/w+K1AvWfRzTzLWHOTzTtfK1nZ3y3uSFaEXISeG9qBK4JNjpPi2olSxfE/rcYBc9xqe4vfpSQ=
-X-Received: by 2002:a05:6512:3f29:b0:50e:8762:3b7 with SMTP id
- y41-20020a0565123f2900b0050e876203b7mr905616lfa.169.1703763670816; Thu, 28
- Dec 2023 03:41:10 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=E73fm9hs;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1726ddfece=deepthi.hemraj@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BSDVBQL019036
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 14:08:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=nhcP8zXo/sg6qcIa2l
+	oB+rQUwS7ASa/iEq20bALOKec=; b=E73fm9hsn3XuxZuounLpz//Vqb3PkmGW5Y
+	jKgK0m5eyOV2OZRT6B+Hdh4cadMQAo8QgMPkW0Jb5nQTy+L+avCLnSL1FVZt1pe/
+	EkAEKSUvIHrpJxflQ31ygjbx/5tIIUcsMWAAw9zrCzh7166rQ9m2qhz3HZJoXMRZ
+	Sky38dgSa2PlMxiJ6x9pWhmQVXuGedcluLg5sOmjV9mv9RkAk24XRjdfN9jmde7A
+	uS0Clhu8TrrWLGwORdFcpOHWW0bcFrmNLGbC4YE+PgsbudSzEbEUFfN403S81czc
+	wKnbIEeWEFeUoC+infhxjvYKmv7Kc2glH9N4O0PYjErfrbymOYiA==
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3v5ph6495v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 14:08:43 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n13EUcjLVJVPvhkcwY/8kQeRo+q2PNvKmFnBQrvWdtY+TmUE0pu3aypwP4l3RQ52Dp/Mfi4thMrZhiLfcJfMd92SHKM6/qqurKj+4Iw7qoHhiD3v0ny/IRnwJzmDZzhuu2fZWqI13EFAAlIUPsGHb4fb4bNPYztZcu2oX1hhAQpnzVyZXNISkzxpfX1dSf/Gs72ATEK8diPPRufAID+ToCfJjz9BIOlsxQ71mg9s4yIOO0C0GepJnv0/8nRnOsm7Vnc/YGlJWrX/3/MZwoIcPfhPq+jqsc7pHusGasexHTya+tWjg5Ni0Dp55JdD68pIp/E50yVRaKNRVeoYqA3S1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nhcP8zXo/sg6qcIa2loB+rQUwS7ASa/iEq20bALOKec=;
+ b=lBnYVqH0Dr5X9zZPRsWfQF6hHJh6xCW8bk0O6kFiThPlNYE9+VXuYiw6Zh17np22j+Koxze7mnoxPnLg4TJqcCKm9OM+uuQ0a03G3szWrxmLpOB8E4ehbRC55JLvdeiNdNjQEE+0ZnpxJSyA7pFdp41bZnJtvLoeDoZHf92LfdxK7IK4cg4hAjfq/w9Psp7FI5G9ktT37DT1xsqLqWM6hEfr0q1vZQOK6P+3DyfhbhoQvwW6vnI+wv8s4EAM37O2BvevuH7vqA4kbHcVrcT2Al9ZrSh79nOKTXwqmqthO5JYFCP8blzUNDEu50GgzYPGyVqRCP9hlma6o+x1EEWogg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB6449.namprd11.prod.outlook.com (2603:10b6:510:1f7::17)
+ by CY8PR11MB7315.namprd11.prod.outlook.com (2603:10b6:930:9e::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.18; Thu, 28 Dec
+ 2023 14:08:40 +0000
+Received: from PH7PR11MB6449.namprd11.prod.outlook.com
+ ([fe80::d722:19c4:2468:6024]) by PH7PR11MB6449.namprd11.prod.outlook.com
+ ([fe80::d722:19c4:2468:6024%5]) with mapi id 15.20.7113.027; Thu, 28 Dec 2023
+ 14:08:39 +0000
+From: Deepthi.Hemraj@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
+        Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com,
+        Harish.Sadineni@windriver.com
+Subject: [patch] autoconf: Add missing perl modules to RDEPENDS
+Date: Thu, 28 Dec 2023 06:08:00 -0800
+Message-ID: <20231228140800.1673928-1-Deepthi.Hemraj@windriver.com>
+X-Mailer: git-send-email 2.42.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0245.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a0::10) To PH7PR11MB6449.namprd11.prod.outlook.com
+ (2603:10b6:510:1f7::17)
 MIME-Version: 1.0
-References: <1703682337-23924-1-git-send-email-wangmy@fujitsu.com> <202312272101425eb74f55@mail.local>
-In-Reply-To: <202312272101425eb74f55@mail.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Dec 2023 12:41:01 +0100
-Message-ID: <CANNYZj8tjqpUHQBwzJgwNf0_goaGAd7x0OaL5Q7-zgFtCBq5_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] aspell: upgrade 0.60.8 -> 0.60.8.1
-To: alexandre.belloni@bootlin.com
-Cc: wangmy <wangmy@fujitsu.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6449:EE_|CY8PR11MB7315:EE_
+X-MS-Office365-Filtering-Correlation-Id: bce3eef7-4449-4e33-ebd9-08dc07ae7dba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	xH0REWPCGL9DrnHGN+7rvREe2kfnKYZEWiiqwl5us3SENiztaK2HWAizEgsrfQqWK269Vr1A3ARH3u8RjBJKY5vinekrL0h1MfRYbDO0vh0oaZE7IzJF3E1kf/EW6XUJdvk2qkCQ7PIIOX6Epo9g6t699c/KiJoSzYpnfQWRU38KGDo/PMB6fGmlNmAEo1f6LmC/ETknc9EiuxQ6Ne72QsF3mS5qAS0GK6hOhEh/Nhatbarpu9ZocgR6pwlZPR9P9LnarP11hzghGPRbKDaWjfkilYHf+L/SEqI+iO+emsU7AlhW37N4bxeYkQN/gbIXALLK10pCKmPpKaHNytffOlsx10LQ2Kp0rm0oPMa0JxiAJQlVlHe0BSGv1xAxAdB0QHLCLqk74dYQZVsbXX7s9/yyb6xmmwb0NLHlm6jk0JSUz/IdT1C6hAkdVMwdiDG0iYlpdXTiw74movkbyEdsed9MkLK0bP9YggHSIEdHkhBPIeYIk0I+USxELk6YK0fFCDAuKMHwniVbFm97IXX3jcfZjrfwS4sdVEZaZ8fIYa68PR+GVtdPuiirjCbxsLZRSem90KVgZFW9gMqic+9Svq2W4auv/DX5lfh/FcL+4jwP0l7kxHa1wB38v5WWeM98
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6449.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(366004)(376002)(346002)(39850400004)(396003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(6506007)(2616005)(26005)(107886003)(1076003)(6666004)(52116002)(6512007)(5660300002)(4326008)(478600001)(9686003)(8676002)(2906002)(8936002)(41300700001)(6916009)(316002)(6486002)(66556008)(66476007)(4744005)(66946007)(86362001)(36756003)(38100700002)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?kgWAls3NEg/6fcXGCNgsJFHzzmSVYD8XFK1u5fUbwo9HVP3zxJj50fAqAIoi?=
+ =?us-ascii?Q?XshbXHiR9KIQSnxqEhCG3hRxHYHs9b9BVP8nKVMOPk4xR1sIE5o3FVL+hiqA?=
+ =?us-ascii?Q?9djEou24A4X8Jbv8nXif6TEEcUr5BL+FgaY216amc3vEl4SCQr7pcvWhgfxt?=
+ =?us-ascii?Q?JSDm9Z/GVG2KM2bz59hfCgcFrKhe6bvUnQoDiPyMOE3DTqtAv4qbz4gNBL4A?=
+ =?us-ascii?Q?QSZ/ZBPUELDJEq2oplpUJyUCuxpMLj3AaJoAVo3bfHjplG0f+Gp5icvrk8V+?=
+ =?us-ascii?Q?hlH2VhQ1JUM1gvobnM1d87cRur2j5RoHyAcNSwb7pQRAtm7ttjxgIykz6oeO?=
+ =?us-ascii?Q?PiOeQ018+dD8uZ4Noo8pkZ4+cU2KQChO6F7k+l90UsWBE736iRGxGRoFwNkJ?=
+ =?us-ascii?Q?LYP+PmBvMAoMBnNTvrhGkQp/hesFMpQDN9XwbW5Av9jsVkBBzyK9PLZ+ch8w?=
+ =?us-ascii?Q?YNUaCS+tcuGJf8eqyeLcQspPILs1uA9i2zGIYEbNMv3ZwsCp71+cLvwE3QhZ?=
+ =?us-ascii?Q?3MMvHjGZJXcjyMl5yi09gPqM4crqr++NW9YPE0d+qb4cSMLLUzcR6JQb8jl4?=
+ =?us-ascii?Q?DT9vF3ab69UctJBiGQu+fX93nObAe1A2jwT9CQCCXmQuExYV/7hFyH3IYy74?=
+ =?us-ascii?Q?apHaIzIn/01SYP/ZjZwTb5N17k60H3omZ1JuEsERpKBtmqaIBQFQrWk0bbmr?=
+ =?us-ascii?Q?eaQnlgxpPz9Uvn5lI/cN51MJ7Z45FchaovGmEnRvpB6nTTOxwxBf3FehUDHb?=
+ =?us-ascii?Q?13OMOtidHlSTTd37NqP1HZ8t8msiG0YuZL04HWzNBR93ByFjxmXe4y2du3fK?=
+ =?us-ascii?Q?sz3o1PV8DxODxeP7NkwjuwGFi1AOVfrKGWsocIM8J+RPKXiKW/n1gKAkMm1q?=
+ =?us-ascii?Q?HWDWxIhZEE7YTp+GbuZ80SBwGy/kztsOrmlspyj+9llq1r19tBRO+Cj+QZlE?=
+ =?us-ascii?Q?xGXxkQegPhC3LUUY3rMulZDzcAY1whPojp4fwlZTnnm53fBx4R83utOXRh8f?=
+ =?us-ascii?Q?EIpehPDgtS9JsH/Rap0h9r4Yrc6XAfhUt2Lpjq5OCo+gasYL2HJx0Vwlh76U?=
+ =?us-ascii?Q?rMR0lihCfMI9ixf4DxJzPi194DPTD/KA3kaLYaksBfAxXhnIUE0ArfsiWDES?=
+ =?us-ascii?Q?2iK/MRNpuFkJWEbmRp9Y1Rhgpp9XRQkBBy4xkYADzALgeGb+TDil2j++39mH?=
+ =?us-ascii?Q?Izg6xey65e9R1Ikd+3ASZohqJFsCTwbSG53crApKG0GL1pm1EGzJTiyf39/1?=
+ =?us-ascii?Q?CfzOb76QtpVRpKUf6sFy2VXD2tMu1fMGxiETd5ksTIHI7nA9/prbi9uzu+9p?=
+ =?us-ascii?Q?wN9rO4hUZOzuMQCVTGlIMHbc/FdLpUnvsi32Y8lbhDNqRNVr7U00YuJPoLVD?=
+ =?us-ascii?Q?0X3HUX3wNCQpDA8QuTcLUvRyjA6o/lgqmbr9FToZJygWTU5aed5WuzHSEAaZ?=
+ =?us-ascii?Q?0KaKdTrDScrx0qCNU7SYixup4Q6ZI0MdevuMXVQUUgDR/AqSz2azVXlG29t1?=
+ =?us-ascii?Q?G0DSBuYDgrlsbhYw205MuLpiF680HwcX7LzHKx3GJ5kftGyZPMazUtOBhOhV?=
+ =?us-ascii?Q?BYecGo0yv07PUkDQW3YiMtVYWJ41fx0WWVC7esPqnewS2FfFVnaAVGyoSOI2?=
+ =?us-ascii?Q?aw=3D=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bce3eef7-4449-4e33-ebd9-08dc07ae7dba
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6449.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2023 14:08:39.6960
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tMIl7IRLhhYty2u1FcIMqo5LJIB/FZ0cVCRoUvHWJd7m5asJSLt6vz+dXERwZDfs2nogjbCcALbRUdRlaejRxNc9gPuiPcUt8lqZ+Fcrgwo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7315
+X-Proofpoint-ORIG-GUID: OvqfNpiwdGJXhwMtj6dT1VvBgLoy-3qt
+X-Proofpoint-GUID: OvqfNpiwdGJXhwMtj6dT1VvBgLoy-3qt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 clxscore=1031 malwarescore=0 suspectscore=0 spamscore=0
+ adultscore=0 mlxscore=0 mlxlogscore=966 bulkscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312280115
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 11:41:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192978
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Dec 2023 14:08:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192979
 
-This can probably be fixed properly by using % in bbappend filename?
+From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
-Alex
+In SDK,running "x86_64-poky-linux-gp-display-html --help" fails due to missing perl modules which are required for it to work.
 
-On Wed, 27 Dec 2023 at 22:01, Alexandre Belloni via
-lists.openembedded.org
-<alexandre.belloni=bootlin.com@lists.openembedded.org> wrote:
->
->
-> Hello,
->
-> This breaks the selftests:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/145/builds/1080/steps/12/logs/stdio
-> ERROR: No recipes in default available for:
->   /home/pokybuild/yocto-worker/qemux86-tc/build/build-st-3959354/meta-selftest/recipes-test/aspell/aspell_0.60.8.bbappend
->
-> On 27/12/2023 21:05:37+0800, wangmy wrote:
-> > From: Wang Mingyu <wangmy@fujitsu.com>
-> >
-> > CVE-2019-25051.patch
-> > removed since it's included in 0.60.8.1
-> >
-> > Changelog:
-> > ============
-> > -Fix memory leak in suggestion code introduced in 0.60.8.
-> > -Various documentation fixes.
-> > -Fix various warnings when compiling with -Wall.
-> > -Fix two buffer overflows found by Google's OSS-Fuzz.
-> > -Other minor updates.
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> >  .../{aspell_0.60.8.bb => aspell_0.60.8.1.bb}  |   7 +-
-> >  .../aspell/files/CVE-2019-25051.patch         | 101 ------------------
-> >  2 files changed, 2 insertions(+), 106 deletions(-)
-> >  rename meta/recipes-support/aspell/{aspell_0.60.8.bb => aspell_0.60.8.1.bb} (83%)
-> >  delete mode 100644 meta/recipes-support/aspell/files/CVE-2019-25051.patch
-> >
-> > diff --git a/meta/recipes-support/aspell/aspell_0.60.8.bb b/meta/recipes-support/aspell/aspell_0.60.8.1.bb
-> > similarity index 83%
-> > rename from meta/recipes-support/aspell/aspell_0.60.8.bb
-> > rename to meta/recipes-support/aspell/aspell_0.60.8.1.bb
-> > index 39b55f4ff2..0ea9b063e0 100644
-> > --- a/meta/recipes-support/aspell/aspell_0.60.8.bb
-> > +++ b/meta/recipes-support/aspell/aspell_0.60.8.1.bb
-> > @@ -13,11 +13,8 @@ HOMEPAGE = "http://aspell.net/"
-> >  LICENSE = "LGPL-2.0-only | LGPL-2.1-only"
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-> >
-> > -SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz \
-> > -           file://CVE-2019-25051.patch \
-> > -"
-> > -SRC_URI[md5sum] = "012fa9209203ae4e5a61c2a668fd10e3"
-> > -SRC_URI[sha256sum] = "f9b77e515334a751b2e60daab5db23499e26c9209f5e7b7443b05235ad0226f2"
-> > +SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
-> > +SRC_URI[sha256sum] = "d6da12b34d42d457fa604e435ad484a74b2effcd120ff40acd6bb3fb2887d21b"
-> >
-> >  PACKAGECONFIG ??= ""
-> >  PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
-> > diff --git a/meta/recipes-support/aspell/files/CVE-2019-25051.patch b/meta/recipes-support/aspell/files/CVE-2019-25051.patch
-> > deleted file mode 100644
-> > index 8513f6de79..0000000000
-> > --- a/meta/recipes-support/aspell/files/CVE-2019-25051.patch
-> > +++ /dev/null
-> > @@ -1,101 +0,0 @@
-> > -From 0718b375425aad8e54e1150313b862e4c6fd324a Mon Sep 17 00:00:00 2001
-> > -From: Kevin Atkinson <kevina@gnu.org>
-> > -Date: Sat, 21 Dec 2019 20:32:47 +0000
-> > -Subject: [PATCH] objstack: assert that the alloc size will fit within a chunk
-> > - to prevent a buffer overflow
-> > -
-> > -Bug found using OSS-Fuze.
-> > -
-> > -Upstream-Status: Backport
-> > -[https://github.com/gnuaspell/aspell/commit/0718b375425aad8e54e1150313b862e4c6fd324a]
-> > -CVE: CVE-2019-25051
-> > -Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-> > ----
-> > - common/objstack.hpp | 18 ++++++++++++++----
-> > - 1 file changed, 14 insertions(+), 4 deletions(-)
-> > -
-> > -diff --git a/common/objstack.hpp b/common/objstack.hpp
-> > -index 3997bf7..bd97ccd 100644
-> > ---- a/common/objstack.hpp
-> > -+++ b/common/objstack.hpp
-> > -@@ -5,6 +5,7 @@
-> > - #include "parm_string.hpp"
-> > - #include <stdlib.h>
-> > - #include <assert.h>
-> > -+#include <stddef.h>
-> > -
-> > - namespace acommon {
-> > -
-> > -@@ -26,6 +27,12 @@ class ObjStack
-> > -   byte * temp_end;
-> > -   void setup_chunk();
-> > -   void new_chunk();
-> > -+  bool will_overflow(size_t sz) const {
-> > -+    return offsetof(Node,data) + sz > chunk_size;
-> > -+  }
-> > -+  void check_size(size_t sz) {
-> > -+    assert(!will_overflow(sz));
-> > -+  }
-> > -
-> > -   ObjStack(const ObjStack &);
-> > -   void operator=(const ObjStack &);
-> > -@@ -56,7 +63,7 @@ class ObjStack
-> > -   void * alloc_bottom(size_t size)  {
-> > -     byte * tmp = bottom;
-> > -     bottom += size;
-> > --    if (bottom > top) {new_chunk(); tmp = bottom; bottom += size;}
-> > -+    if (bottom > top) {check_size(size); new_chunk(); tmp = bottom; bottom += size;}
-> > -     return tmp;
-> > -   }
-> > -   // This alloc_bottom will insure that the object is aligned based on the
-> > -@@ -66,7 +73,7 @@ class ObjStack
-> > -     align_bottom(align);
-> > -     byte * tmp = bottom;
-> > -     bottom += size;
-> > --    if (bottom > top) {new_chunk(); goto loop;}
-> > -+    if (bottom > top) {check_size(size); new_chunk(); goto loop;}
-> > -     return tmp;
-> > -   }
-> > -   char * dup_bottom(ParmString str) {
-> > -@@ -79,7 +86,7 @@ class ObjStack
-> > -   // always be aligned as such.
-> > -   void * alloc_top(size_t size) {
-> > -     top -= size;
-> > --    if (top < bottom) {new_chunk(); top -= size;}
-> > -+    if (top < bottom) {check_size(size); new_chunk(); top -= size;}
-> > -     return top;
-> > -   }
-> > -   // This alloc_top will insure that the object is aligned based on
-> > -@@ -88,7 +95,7 @@ class ObjStack
-> > -   {loop:
-> > -     top -= size;
-> > -     align_top(align);
-> > --    if (top < bottom) {new_chunk(); goto loop;}
-> > -+    if (top < bottom) {check_size(size); new_chunk(); goto loop;}
-> > -     return top;
-> > -   }
-> > -   char * dup_top(ParmString str) {
-> > -@@ -117,6 +124,7 @@ class ObjStack
-> > -   void * alloc_temp(size_t size) {
-> > -     temp_end = bottom + size;
-> > -     if (temp_end > top) {
-> > -+      check_size(size);
-> > -       new_chunk();
-> > -       temp_end = bottom + size;
-> > -     }
-> > -@@ -131,6 +139,7 @@ class ObjStack
-> > -     } else {
-> > -       size_t s = temp_end - bottom;
-> > -       byte * p = bottom;
-> > -+      check_size(size);
-> > -       new_chunk();
-> > -       memcpy(bottom, p, s);
-> > -       temp_end = bottom + size;
-> > -@@ -150,6 +159,7 @@ class ObjStack
-> > -     } else {
-> > -       size_t s = temp_end - bottom;
-> > -       byte * p = bottom;
-> > -+      check_size(size);
-> > -       new_chunk();
-> > -       memcpy(bottom, p, s);
-> > -       temp_end = bottom + size;
-> > --
-> > 2.34.1
-> >
->
-> >
-> >
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192968): https://lists.openembedded.org/g/openembedded-core/message/192968
-> Mute This Topic: https://lists.openembedded.org/mt/103384053/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Fixes:Can't locate feature.pm in @INC (you may need to install the feature module).
+
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+---
+ meta/recipes-devtools/autoconf/autoconf_2.72d.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/autoconf/autoconf_2.72d.bb b/meta/recipes-devtools/autoconf/autoconf_2.72d.bb
+index 939fc3abd5..d76db28796 100644
+--- a/meta/recipes-devtools/autoconf/autoconf_2.72d.bb
++++ b/meta/recipes-devtools/autoconf/autoconf_2.72d.bb
+@@ -51,6 +51,7 @@ RDEPENDS:${PN} = "m4 gnu-config \
+ 		  perl-module-symbol \
+ 		  perl-module-thread-queue \
+ 		  perl-module-threads \
++                 perl-module-feature \
+ 		 "
+ RDEPENDS:${PN}:class-native = "m4-native gnu-config-native hostperl-runtime-native"
+ 
+-- 
+2.42.0
+
 
