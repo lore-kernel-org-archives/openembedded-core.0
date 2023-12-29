@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD97C47077
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 405FBC47074
 	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:45:48 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.151525.1703864745652064416
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.151014.1703864740546097023
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 07:45:45 -0800
+ Fri, 29 Dec 2023 07:45:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gZj8d3v2;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d426ad4433so24165305ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:45 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=m+Gwww5l;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d3e84fded7so34837985ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864745; x=1704469545; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864740; x=1704469540; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sw8Q9x0wC6lJb7jMwAzAq7kcIqWEftYGUk+eOorTtK4=;
-        b=gZj8d3v2PV2Yacmmvs/WHByi5HFH++sGGCvnu2rjyRQkiCqLlbpQXToJKaCUgQDcDU
-         tkEhsJBb9ZDIUpFnNJp2bejJIi89GKLxFSSXWR2+a6rIVvtt83DWatqwmZY5w8B3XZBf
-         CHslm4NHRZOd85o8Zn4LkrcxV9ibsb05Vm3IkR9i3ZWEZc4Uo6+YomrGfumXPat0ua3e
-         oZkMCwO5Skiw3aFLFIc6zZ0RK+VYCw+8RB7GnmJKsO0/3vcwK0twjgoNmaY8vrKRX4qr
-         LwVq+2uvipzO66i20gGolKDSxS1LEeESHTEISg31kOkrN8bdz0A89JYNwXde9OV1l2Na
-         I46g==
+        bh=oPCes6MByJtstQjDgUyNzJpBiWPQDftKxOVvWbBrJH4=;
+        b=m+Gwww5lLobRi94YRwKrGI3a+q8PLCHGJwtHKKZsZ/K2f6z3C63FC0uyDbSIgF3Ofj
+         LEhtSt95IEyOm54PoTQMqT9RacbWRvu1zlBMaDQqxOXdXEqnfproPmWZHuei3/rHbyjn
+         eI84vrlf44Jag6HqUJVEOZYdGcwCqct+DRkKhduc4FLuh/BiYjYEECeEYHAKm2mKwKDV
+         ZWGYXBBmS+hstVz7sfjGNIQodbudEJ4c8cSdyUY8o+kpndKXiZ+iotkoAAKSCAPJBUJf
+         pSZGtoaEerWSD0k+pNhJ4VSjTDqd1e7bhMFOxXDegPiaWnSaRVEPLdxQ6lVJpiFiSJ0K
+         OxRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703864745; x=1704469545;
+        d=1e100.net; s=20230601; t=1703864740; x=1704469540;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sw8Q9x0wC6lJb7jMwAzAq7kcIqWEftYGUk+eOorTtK4=;
-        b=lRwwg9ieoaTa7XU854YyeaIwA3c1O0KJD5MBb1k3IL/O5MJ8mBdTl6dMeHZ5fEuIqi
-         LVdnF4pIDzcRyW79jmCylaiCCngZZjbla52IUcHv48tapU6ougBjUtSPBXguTf71dAXo
-         oNg4Fjpg1j6yDujOAZawzitwkTZ3xTIVBQPAjfSW358mXJ9s8sqqOWZAoQew5PPp54cj
-         cwa5xJuM+TFUzS7+PGKZIOASw2d2VLkBOctKARA6CfcLeg3YzR1GT0TgvPcMsdS8BVn8
-         zuCsdEIu781tW4JIZIQ5UK2MfKUq9jpkJgj7KpZffhyvjQi4mq0qIi+R+xRS7JD25bJ3
-         lLMA==
-X-Gm-Message-State: AOJu0Yym8vwDmYeJkR0oVcP3zjcD59knx+/3rlsHmjW8carBmveB34DN
-	Uwoxwzafdx09JKszEKsJMpVWIcDFVwn+t+4MS1U3C8Od/sARGA==
-X-Google-Smtp-Source: AGHT+IGyX4LqLu1mgK0fhT756Q2zdBVzUcmD/1SnMEKNL1cupzM8l29+zjF72uu+rY/wl0bQ4szfaA==
-X-Received: by 2002:a17:902:ec92:b0:1d4:94f6:56e0 with SMTP id x18-20020a170902ec9200b001d494f656e0mr1794637plg.41.1703864744793;
-        Fri, 29 Dec 2023 07:45:44 -0800 (PST)
+        bh=oPCes6MByJtstQjDgUyNzJpBiWPQDftKxOVvWbBrJH4=;
+        b=decKcPeUr89jaWgncokN5sDt3A79zKaLLiCT5Fs+6ATS/3iHI4UG53rged7/KjUX0S
+         2yq5rgPcZMeQ4v3FVQpkhkw7q7kNJ+JiAt9oc62Q7K8dQCbICUQy9ahI/Qv36sk2Zwcy
+         YQ67jc3qyxsICMdoG2Ub3NwoC7HidsWLBoTozXmSKpy83qIHkwNdmUTpVJtUIq5mvN90
+         9py/M1F+cc0N54TuCUN87OWNmoz7cCvoIJ6yxMziQpypl22OdAfUbKw7/y2RxNii1/J5
+         Ajv/EgKXCixJ/k5T9FtCZRERmlyfcLY5actOJPE50OXM0tUK7XyaNqUtkS4JJKy7qKNK
+         M8bg==
+X-Gm-Message-State: AOJu0Yzj2VMdqdO6xD+FjQF/9yPusftDDjg8vjm5e2fC9ThhPLKPuiMt
+	fo2IFRg2Rv/YcJ1mExMABaThhQmOqoO4/4MebC7fatr2yxOBVA==
+X-Google-Smtp-Source: AGHT+IE/fCIGlWDcNjOTn23Iovq2WKx32qY/qXtjSQcpD5bmanAFcOGyRtGTur1S9fbVxDucdH8PpQ==
+X-Received: by 2002:a17:902:f68c:b0:1d3:6255:6c9b with SMTP id l12-20020a170902f68c00b001d362556c9bmr6586545plg.3.1703864739718;
+        Fri, 29 Dec 2023 07:45:39 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.43
+        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 07:45:44 -0800 (PST)
+        Fri, 29 Dec 2023 07:45:39 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 22/41] cmake: upgrade 3.27.5 -> 3.27.7
-Date: Fri, 29 Dec 2023 05:44:36 -1000
-Message-Id: <3f3f3118dd6976259e8d971ebf76f2eeaf96f930.1703864512.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 19/41] libgcrypt: upgrade 1.10.2 -> 1.10.3
+Date: Fri, 29 Dec 2023 05:44:33 -1000
+Message-Id: <451480be9e8693d026fb408f5bfd1c6c77ad7182.1703864512.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703864512.git.steve@sakoman.com>
 References: <cover.1703864512.git.steve@sakoman.com>
@@ -61,56 +61,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:45:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193039
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193036
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changes made since CMake 3.27.6:
+Changelog:
+==========
+- Fix public key computation for other EdDSA curves.
+- Remove out of core handler diagnostic in FIPS mode.
+- Check that the digest size is not zero in gcry_pk_sign_md and
+  gcry_pk_verify_md.
+- Make store an s-exp with \0 is considered to be binary.
+- Various constant-time improvements.
+- Use getrandom call only when supported by the platform.
+- Change the default for --with-libtool-modification to never.
 
-Brad King (6):
-  Android: Require Clang 18 for -std=c++23
-  Tests: Clarify RunCMake.CTestTimeout case name
-  ctest: Restore support for --timeout values higher than default test timeout
-  Help: Document CMP0124 behavior on already-set variables
-  FindPostgreSQL: Add support for version 16
-  CMake 3.27.7
-
-Orkun Tokdemir (1):
-  Linting: Fix empty evaluated genex
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 0faec0c8606b31216702252d0db7aa88388df231)
+(cherry picked from commit e21583896116cf37bf6b95aea466854e4fd5e54b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../cmake/{cmake-native_3.27.5.bb => cmake-native_3.27.7.bb}    | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- .../recipes-devtools/cmake/{cmake_3.27.5.bb => cmake_3.27.7.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.27.5.bb => cmake-native_3.27.7.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.27.5.bb => cmake_3.27.7.bb} (100%)
+ .../libgcrypt/{libgcrypt_1.10.2.bb => libgcrypt_1.10.3.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.10.2.bb => libgcrypt_1.10.3.bb} (96%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.27.5.bb b/meta/recipes-devtools/cmake/cmake-native_3.27.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.27.5.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.27.7.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index ef4eec5ab1..ecb0e487df 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
- "
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+similarity index 96%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+index 524b06ca22..1c4f4d6038 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.2.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
+@@ -27,7 +27,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://no-bench-slope.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "3b9c02a004b68c256add99701de00b383accccf37177e0d6c58289664cce0c03"
++SRC_URI[sha256sum] = "8b0870897ac5ac67ded568dcfadf45969cfa8a6beb0fd60af2a9eadc2a3272aa"
  
--SRC_URI[sha256sum] = "5175e8fe1ca9b1dd09090130db7201968bcce1595971ff9e9998c2f0765004c9"
-+SRC_URI[sha256sum] = "08f71a106036bf051f692760ef9558c0577c42ac39e96ba097e7662bd4158d8e"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_3.27.5.bb b/meta/recipes-devtools/cmake/cmake_3.27.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.27.5.bb
-rename to meta/recipes-devtools/cmake/cmake_3.27.7.bb
+ CVE_STATUS[CVE-2018-12433] = "disputed: CVE is disputed and not affecting crypto libraries for any distro."
+ CVE_STATUS[CVE-2018-12438] = "disputed: CVE is disputed and not affecting crypto libraries for any distro."
 -- 
 2.34.1
 
