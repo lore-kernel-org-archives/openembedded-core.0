@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBDCC47073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBA9C47072
 	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:45:58 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.151023.1703864748981171536
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.151534.1703864757733724419
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 07:45:49 -0800
+ Fri, 29 Dec 2023 07:45:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gbe+T6u7;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-28caeaad2d8so422250a91.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:48 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Xl3u30QO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d43df785c2so14937895ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864748; x=1704469548; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864757; x=1704469557; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mhr5KPPB+etvlqj+SgL6ehzUJ+uhE52hSKvRkS+6U1M=;
-        b=gbe+T6u7iuX24DW3iv6pW/qx8rDKo12rKqBkiIURSk1qnfhgQVIJBNaYmgUkaexqd8
-         J5wxEmSaw+ziuJY/pkNl6eCA3bI4o7zNAVKWZcgNEcGVVg9Z3YmuKSrIKvRHmJPBLSLf
-         2ZQAu1/f2pdke7qBDddJISpHn65JPUqbzOIBOw9hPF/ORjBfjxOJ66F4N0fuf4EtFp38
-         mhkktEwrrd3RP9qdB1RvEc7Etqd2ZCx4DvJv0fNmfXcdMGlq2WDWmzzqyFXf6p+NyL6b
-         0D4R9UQbqxGm9ncc+96fUwk/XPOHLSYL1qALkdjssyYseOEnVh8hMXgeBlRNrmEqy2GE
-         YO1Q==
+        bh=RvGdPLj3YvVO/df8DZlzqIqy/ILAOrSdNm4f3vgf6ZY=;
+        b=Xl3u30QOU2kdoyM5iStcKEi9+jVNJjwWH1kF7dyCpXdpCW0bMdnf5F/RWskLv/S2Vh
+         yFQ9KoXbRIEYMOXaKfeHC8PUaXlxhsaEvyxO1rdnj4LM8sJmWXnJ6QQsusZdLtov9zDk
+         agr2/JygIKA47HP1kL9Mivxo7iIo4oD9HTZqBPUdOmUI35VxzLJoMxJZyIs/D4mVplql
+         Hi3koyPDcSS4e/ZAb0uxAFf5AXYYrbttA7FJajFZMS5z2NfDTSchG6uqHbOFLZWQZQh+
+         5zQ/ecS2zx5Fmc+TaKyBaBcOD9Dzqg1bg9O66xcvaQtufB0dyYdVm0Wjwmma4H4+dsEn
+         UoTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703864748; x=1704469548;
+        d=1e100.net; s=20230601; t=1703864757; x=1704469557;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mhr5KPPB+etvlqj+SgL6ehzUJ+uhE52hSKvRkS+6U1M=;
-        b=e1GNbN2vFwlXdS8sQEO4jwG+RyHfD2rMgZ5vSB8GQqAnqLgH7x4zR+D5tADmM3ZpoA
-         dgz2vvFajEeWfi3ZG5SQQpu+j4yqh8eQQK2bk+0HFwnLJvH/VQQWZU8NPwA5HtFvB3o9
-         cQlNsFxJGcKiVPoWBqfkjx0IPPo63OnpccwBulJGBAC+9SMsZRgeR4sPR1rjKx5Gk6pO
-         UnTysjZdm1ZdJ9ewZxzQ+FIbWg5eq0fvKsYPB6IW8PYjqca3uqTcczW9FEBKEwjoauZ3
-         0WjPkYS3aDeLA3caL1McbAu+8W144EALDgdZmmbYIlFTrl441jq10cFaN5mQ5xeX1Pxw
-         Ox+g==
-X-Gm-Message-State: AOJu0YwQ6XwFn+PtGOnN9D3s4xksRRL7pd5JJpkeMqxZcKbCWDeP70YY
-	DJBdhmTWMeBZAp19yXTjts1KBusM6IQLKCxUAGvRTFZ8faimJg==
-X-Google-Smtp-Source: AGHT+IGPpWb/SGg9RZvPGAWzZUHwMe57gGtiG7cXiH2A+EY5OLMbbcBDcpDYE98FBhjoD1Y+/79Zvw==
-X-Received: by 2002:a17:902:bb17:b0:1d3:f5a6:7d4f with SMTP id im23-20020a170902bb1700b001d3f5a67d4fmr5032903plb.110.1703864748183;
-        Fri, 29 Dec 2023 07:45:48 -0800 (PST)
+        bh=RvGdPLj3YvVO/df8DZlzqIqy/ILAOrSdNm4f3vgf6ZY=;
+        b=QAXZAOxzPYsZHk95TuWdgRBWfoV/vLfo1GoF3B4cbrxa/ZoWE18sehT1h1Jt9vxWe3
+         YO46udPpoHzYWdFMkkE15bEzvteLh5ZVBjolKdQC8Ch0mf6pmlc/6kKSuz1LEIMDUBJJ
+         3ay8S933PJ0TluCREsUN9iCFEvoHmjC3hyfRxH4UImV7ZsCSMSJfot0/9tkfpRQ2Stmy
+         C9dQ8N4uAk/4zgsx0b1lowz4dPFTqZJtDrrN3P8F9eCYh2R69JcmSRVrGozimupU15N+
+         jW+w3OCLqfclR+oIrWAkPcCfLM+GrBaOZ0M8Vmmp22+zjigOKEsPmfpSxHOQlA6DBmD+
+         VRwA==
+X-Gm-Message-State: AOJu0YwzLGcYxlL1AXVjTdUb5EMpWmuHytCL+krs1JZfHkWG6+IqRBsk
+	QrjSn6HoTGPHI54Ow81wWoArUVLWy2l5U+jePJXJzYVde+mORQ==
+X-Google-Smtp-Source: AGHT+IEMPS5Sn3warNQbLsetY9IL33se+AYctllJCO39JVd7BpkUdlWDjz1m3WrokNL/QR4G8LKMDg==
+X-Received: by 2002:a17:902:b283:b0:1d3:f345:3c05 with SMTP id u3-20020a170902b28300b001d3f3453c05mr5643193plr.72.1703864756807;
+        Fri, 29 Dec 2023 07:45:56 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.47
+        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 07:45:47 -0800 (PST)
+        Fri, 29 Dec 2023 07:45:56 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 24/41] sed -i destroys symlinks
-Date: Fri, 29 Dec 2023 05:44:38 -1000
-Message-Id: <7b4343a30a02d8f8664ac4c4bc09e5acfb4fa60e.1703864512.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 29/41] package_ipk: Fix Source: field variable dependency
+Date: Fri, 29 Dec 2023 05:44:43 -1000
+Message-Id: <431e6ad7c5b0af3909f5a43599764c529146e6d6.1703864512.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703864512.git.steve@sakoman.com>
 References: <cover.1703864512.git.steve@sakoman.com>
@@ -61,53 +61,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:45:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193041
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193046
 
-From: Joakim Tjernlund <joakim.tjernlund@infinera.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-If /etc/passwd is a symlink, sed -i on same file will replace the
-symlink with a new file. Prevent that by adding --follow-symlinks
-option to sed
+The Source: variable is generated from FILE but this is excluded from checksums
+normally which results in a reproduciubility issue when the filename changes.
 
-Signed-off-by: Joakim Tjernlund <joakim.tjernlund@infinera.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 6ec004b2e7b4342465af8e5e6cc66041834821a0)
+Add in a dependency by reworking the code a little to avoid this.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 3ea7da76c6930031a0071069027b1d71f737fbc9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/rootfs-postcommands.bbclass | 4 ++--
- meta/classes/useradd_base.bbclass               | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/classes-global/package_ipk.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
-index 06388b72fb..29ee74932a 100644
---- a/meta/classes-recipe/rootfs-postcommands.bbclass
-+++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-@@ -241,10 +241,10 @@ read_only_rootfs_hook () {
- #
- zap_empty_root_password () {
- 	if [ -e ${IMAGE_ROOTFS}/etc/shadow ]; then
--		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/shadow
-+		sed --follow-symlinks -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/shadow
-         fi
- 	if [ -e ${IMAGE_ROOTFS}/etc/passwd ]; then
--		sed -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
-+		sed --follow-symlinks -i 's%^root::%root:*:%' ${IMAGE_ROOTFS}/etc/passwd
- 	fi
- }
+diff --git a/meta/classes-global/package_ipk.bbclass b/meta/classes-global/package_ipk.bbclass
+index b4b7bc9ac2..64fa237c00 100644
+--- a/meta/classes-global/package_ipk.bbclass
++++ b/meta/classes-global/package_ipk.bbclass
+@@ -47,6 +47,10 @@ python do_package_ipk () {
+ do_package_ipk[vardeps] += "ipk_write_pkg"
+ do_package_ipk[vardepsexclude] = "BB_NUMBER_THREADS"
  
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
-index 863cb7b76c..f1a7a9695d 100644
---- a/meta/classes/useradd_base.bbclass
-+++ b/meta/classes/useradd_base.bbclass
-@@ -160,7 +160,7 @@ perform_passwd_expire () {
- 	local username=`echo "$opts" | awk '{ print $NF }'`
- 	local user_exists="`grep "^$username:" $rootdir/etc/passwd || true`"
- 	if test "x$user_exists" != "x"; then
--		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO sed -i \''s/^\('$username':[^:]*\):[^:]*:/\1:0:/'\' $rootdir/etc/shadow \" || true
-+		eval flock -x $rootdir${sysconfdir} -c \"$PSEUDO sed -follow-symlinks -i \''s/^\('$username':[^:]*\):[^:]*:/\1:0:/'\' $rootdir/etc/shadow \" || true
- 		local passwd_lastchanged="`grep "^$username:" $rootdir/etc/shadow | cut -d: -f3`"
- 		if test "x$passwd_lastchanged" != "x0"; then
- 			bbfatal "${PN}: passwd --expire operation did not succeed."
++# FILE isn't included by default but we want the recipe to change if basename() changes
++IPK_RECIPE_FILE = "${@os.path.basename(d.getVar('FILE'))}"
++IPK_RECIPE_FILE[vardepvalue] = "${IPK_RECIPE_FILE}"
++
+ def ipk_write_pkg(pkg, d):
+     import re, copy
+     import subprocess
+@@ -62,7 +66,7 @@ def ipk_write_pkg(pkg, d):
+ 
+     outdir = d.getVar('PKGWRITEDIRIPK')
+     pkgdest = d.getVar('PKGDEST')
+-    recipesource = os.path.basename(d.getVar('FILE'))
++    recipesource = d.getVar('IPK_RECIPE_FILE')
+ 
+     localdata = bb.data.createCopy(d)
+     root = "%s/%s" % (pkgdest, pkg)
 -- 
 2.34.1
 
