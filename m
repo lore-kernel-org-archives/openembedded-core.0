@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31A6CC47073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B2C8C47072
 	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:45:48 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.151021.1703864747323059646
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.151524.1703864739112646162
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 07:45:47 -0800
+ Fri, 29 Dec 2023 07:45:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MWku5JBI;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5c6ce4dffb5so2145491a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:47 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=V5clH1qU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1d3ec3db764so19247795ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864746; x=1704469546; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864738; x=1704469538; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=IQAX+AmuNHk8RJ/21ObIDaUxsxq4EKCT96HhI858r4g=;
-        b=MWku5JBIzYJJpTkpOjcaw3L1I66c5kD9aPflq3/3OfdHu1xL94ZkNUUhOEDCUzA3bJ
-         PKvOnbUu5MR0tiQC4ZcHWhpGiLtoEhdj2mnaHVXX2EQdq/Gs+4nbWZ2r1lk9VHkXPS6e
-         Up+LKl/EG7OcyX2m4SV3lzRAkryWokXtQN61O4yp2nfIXjzJGVTkSz84Vi3wvXNopQiT
-         UdEJLbUpPq78c4LCQGf9n2U3W+iYnd1x30fwxR3k7O5S4Z+UFvyyqvR73cf4H7MUrPuF
-         3k5wLHVZK/559v8ZZcdjR7Y9eVkbtmH8A8HhICHVt//u0HWH+b5L3GOXL03VmMncWoP4
-         04wA==
+        bh=cl4SZSvk6tCpz7W4dW6Dmre+e1gVFGMK0xxsGkdqkO8=;
+        b=V5clH1qUDwTSRTAUFePhpoES4Dy0euz2r0K0d0TEpSXNzZVbHGX+HnJx9hO5X5xjVE
+         pF5iFqDuQuC7wQwzfkeDJMDBO/s2UiXR/4xCboaF7jqGTAOfk3uzGXzLslw9Yq1I9wmL
+         sZYcbLqnG0lwOBpEurAEMl7A25fWqiFiw6M1VGL9RvtgkfuPGWZkNHVFhQ0BhbU7OLkV
+         PvkXtYHmwP+a7NWiUv4ksRqVvaTqp8/9GWCwbX3/W4KaKQGSCfImZ+6E7FPqx86oIkKy
+         fdAMczlcUSFe8G8m0xzsEKl6hZGVcEXmRxtps576RqiKb81tHOiL4/Juhk3x76G5O89a
+         4QWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703864746; x=1704469546;
+        d=1e100.net; s=20230601; t=1703864738; x=1704469538;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IQAX+AmuNHk8RJ/21ObIDaUxsxq4EKCT96HhI858r4g=;
-        b=jl/eag0cjpXuUqVrBTrm6obi0JGtZM0sFFrJyWcIxj5ptRLSGJVwmjBx4417oFl6Tt
-         3huQbDpGJNgmUE/v88qwaGBKLCut3oM3QLDPnJpulIfH8OoJZ197yI2OXOAcavlGOU18
-         qYcBVK0pZZlLHyGVAcOC1Mdxzqd7UH7N8TNU42+OiEAp4+ZMjGyrxhiMq4b+dobe3C8/
-         99VBpAZDDfRbRYnkJM+88iZzux+C3umjuCplCMHosQpEoVUKE/t2s650BBT+Na1t4Q7B
-         vCTAsLNeWwlUrbS9RA7bONgpTvQ6jQFhe8x82Sn5zvESgZnnhgJ4AjNx9sWBqVSndZg1
-         rTVg==
-X-Gm-Message-State: AOJu0Yz6KC7Hv4Xfs2EEGLHmoCoi7A4zNheVCgJcWfbJa6SjtyO/C9gV
-	0DZM3bCKFj0vMpnoSBPPGlT4LpBb+Tp9oEP9xkhqAP64ZFo9kw==
-X-Google-Smtp-Source: AGHT+IGbW0KxMmd0YFfppy0oNQydpbfscjTaM6BDuv24dCVdkJTJitsPJUvQedW0dvWvMYTJBUjhdQ==
-X-Received: by 2002:a17:902:fe01:b0:1d4:3132:bf13 with SMTP id g1-20020a170902fe0100b001d43132bf13mr4597280plj.16.1703864746489;
-        Fri, 29 Dec 2023 07:45:46 -0800 (PST)
+        bh=cl4SZSvk6tCpz7W4dW6Dmre+e1gVFGMK0xxsGkdqkO8=;
+        b=wdG0GXZKJ3HDoHr9AE6A31uGeBuBhdf6mBUEXhI4kpdluEp8fbef3EIYnVSNfqtSh8
+         s8iuhX0kHs9b+kJnoxA05a/wDnOkXtNwATOd/qPyCTbAiJR2SP1TFAW6SxDd9s+wtUga
+         2SHtViRmTSm2wxGMF+H1+t9c+Jf9X5xDE4/mTCifCnQl6G/S9OZyBHxZMBy1yzyxkHYb
+         HP57a2SUioTPeC6ALH2jpsvXJg90f9MAm/IV64FVvXdg0DWh1Bb432I8pVgm8Q3vx7XS
+         jSQd9S9OvnN4TmWMnYxY7YHpWk07v/kAEgTXtnOqLAbw5juXz4cBPIYY+tBJKMniOhOE
+         H3qA==
+X-Gm-Message-State: AOJu0YwvFM1Zi5AfwRIB8GArh9g+W+kVLDgRcMNdqaWxpSI+pZq3LFWb
+	Ux9DKXBaOndBvIe2DDF5Plt+ZU+xG6hkC2VUEgUs5DT7zwLv7A==
+X-Google-Smtp-Source: AGHT+IHSFQkPAB/2Y3U8Bqi8V27L6yu7vmmjPWbuaeJCF1slXQStQWWvUCamttJQ7tHDD+PGSLDQWQ==
+X-Received: by 2002:a17:903:a88:b0:1d4:5e24:b90b with SMTP id mo8-20020a1709030a8800b001d45e24b90bmr4155908plb.128.1703864737901;
+        Fri, 29 Dec 2023 07:45:37 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.45
+        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 07:45:46 -0800 (PST)
+        Fri, 29 Dec 2023 07:45:37 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 23/41] systemd: update LICENSE statement
-Date: Fri, 29 Dec 2023 05:44:37 -1000
-Message-Id: <2c65ec32ce3c4a74b7117588151a94a4c6e506a6.1703864512.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 18/41] ell: upgrade 0.59 -> 0.60
+Date: Fri, 29 Dec 2023 05:44:32 -1000
+Message-Id: <2b799f27bb005a314ac87117ab2e9fc34be90fa3.1703864512.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703864512.git.steve@sakoman.com>
 References: <cover.1703864512.git.steve@sakoman.com>
@@ -61,45 +61,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:45:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193040
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193035
 
-From: Massimiliano Minella <massimiliano.minella@se.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-As stated in the LICENSES/README.md "Unless otherwise noted, the systemd
-project sources are licensed under the terms and conditions of the GNU
-Lesser General Public License v2.1 or later", so replace LGPL-2.1-only
-with LGPL-2.1-or-later.
+Changelog:
+==========
+-Fix issue with missing NETLINK_EXT_ACK definition.
+-Fix issue with incorrect derivation of ECC compressed points.
+-Add support for ECC usage from SPAKE2+ key exchange protocol.
 
-With the exception of some udev sources that are licensed under
-GPL-2.0-or-later (but are packaged separately), the project is licensed
-under LGPL, and all the components are LGPL or under LGPL compatible
-licenses. The package libsystemd is currently under the main package
-license, which can cause problems when scanning for GPL software linked
-to CLOSED one.  Add more granularity by setting a license for libsystemd
-to LGPL-2.1-or-later.
-
-Signed-off-by: Massimiliano Minella <massimiliano.minella@se.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 54975f4b2184fe12c4995c289eba8358958e6c21)
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 9b13c1ffadda0893561e804d2ab789bf1c401d3a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/systemd/systemd.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-core/ell/{ell_0.59.bb => ell_0.60.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ell/{ell_0.59.bb => ell_0.60.bb} (89%)
 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 3ba0b5ffc5..ccc3236457 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -10,7 +10,8 @@ state, maintains mount and automount points and implements an \
- elaborate transactional dependency-based service control logic. It can \
- work as a drop-in replacement for sysvinit."
+diff --git a/meta/recipes-core/ell/ell_0.59.bb b/meta/recipes-core/ell/ell_0.60.bb
+similarity index 89%
+rename from meta/recipes-core/ell/ell_0.59.bb
+rename to meta/recipes-core/ell/ell_0.60.bb
+index 0483dbe582..4e414f3b90 100644
+--- a/meta/recipes-core/ell/ell_0.59.bb
++++ b/meta/recipes-core/ell/ell_0.60.bb
+@@ -15,7 +15,7 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
  
--LICENSE = "GPL-2.0-only & LGPL-2.1-only"
-+LICENSE = "GPL-2.0-only & LGPL-2.1-or-later"
-+LICENSE:libsystemd = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "370dc2b7c73cd57856017180a2a70a15ca1b0183bfd453b3cffe2d707c37da3d"
++SRC_URI[sha256sum] = "61cec2df694b548e51afa3e7ffd1e1ad31a9fea7bedb93a3a3cc60894390c70f"
  
+ do_configure:prepend () {
+     mkdir -p ${S}/build-aux
 -- 
 2.34.1
 
