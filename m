@@ -1,85 +1,158 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7950C46CD4
-	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 08:04:04 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.141399.1703837038581404917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C819EC46CD4
+	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 08:07:14 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.141706.1703837225681971752
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 00:03:58 -0800
+ Fri, 29 Dec 2023 00:07:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IS5j9leR;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50e7d6565b5so3602162e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 00:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703837037; x=1704441837; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JZWb88f5hJuPUn62xcq4r15vnKkfiWrzE0T9msNFh4I=;
-        b=IS5j9leRJRX7rVolhapeMwIERjDW0KiQ87v6E4wvvPUaewvasOk/ur33+B9Kf5o0Vo
-         DryLIksg28F9Zit/wskAbaDaTbCy31b8w2S1zJ1XGBOifgFPDzGOXEFL8/cpiDXjq2vw
-         BDq6ZRrjIZKAhZJdPve+97ukDIliLYpBbivUElZJLq7BzGam3Uy9VYV/6H93Q9btlv9U
-         eEWuDexrbTrlfeAyY+a96UJasyoJyU2ivnflOUhkrLrMO0X08xHBluehl6lK7J10pJv4
-         W8NO5V8emcXBTzVQzfyKKrlNU4qQpG4gOZSZVX+38dm8ecPlQ3CYREKneneg+pNyAmjr
-         ZyQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703837037; x=1704441837;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JZWb88f5hJuPUn62xcq4r15vnKkfiWrzE0T9msNFh4I=;
-        b=d7nY9fA+RLm/N09MSV7gLiRoNEw/CT4BirEkI2Q/qTCxt34cMH/qxJkloMQfh8HO42
-         Y/r1ah02aMX8mcWti2ICqO8nLJIx3/Fr5B75CsiQmlE79CTYowxKzyoQ8EKa3hkoZMnJ
-         iqyMxi/PJ89+a6rvj8uTmKx1n+jtn/Y0EjXiP3uXyIdXg/uDVXNcZnLLgW8AyN9VziD2
-         ZninCHvsimYCuElVooTFcP4fM8iUtPCdJP2s1Wzj8qiPIqPSDhjUwY/5zg6pCi8+RTb5
-         P56nlSrrJercR5wqteu0MsP9PEUDdntz3xQHP0eyEnzqtNG9KsnGjiEzI1efaAKrtdpi
-         ENzQ==
-X-Gm-Message-State: AOJu0YxY5BytgaZIsPT4RdB/nWgu8UMnM9tRdlSag8aBGVZ/7liGsxSp
-	tjvTlE/eaC/bapla10LvxTbvpzHc/h6Q/JdM6lA=
-X-Google-Smtp-Source: AGHT+IHCdFOJ/QNcl8F/mivIyjgJJJoU20iTocvYIQzNLcESNY/2bfevC3ypKPfYVdO470OWYN3dcxuqd1R3NAR0MhQ=
-X-Received: by 2002:a05:6512:3b9:b0:50e:7410:e236 with SMTP id
- v25-20020a05651203b900b0050e7410e236mr3069855lfp.64.1703837036497; Fri, 29
- Dec 2023 00:03:56 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XCqvRzG/;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 005B21BF205;
+	Fri, 29 Dec 2023 08:07:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1703837223;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5VP5Zj1/uBfwgFiHkzvlyQE7XxS8WadRrzYOo8ROivA=;
+	b=XCqvRzG/3psTTQqkXPRzC5kcg5Is1cT010tzHG7HYM2wWEjDZT76n8ELZn4RipKSE/EPWF
+	zjRRNVpPS32/bhc5JB6rwXLkY/Fj+/AFWr6GQpLUcHjsJSg64HaIGJ4rPcxC/MhsRzhY6S
+	cFgzrsWYNgi/NbUcI5hhbuEVC8eJK3rNiaoGEdzJfjZi59EzszungWD6eMbsnkkv1vdwc0
+	sA3hTI+C1b3sdhvxy7Rluk5+dk39/z9TYCotc8+7v25N9pFVZt4nGCzKdesTF775Bx2xa8
+	z6B5G6c6tPEMkUcjqCXY3vDPpXRCEHRS7t01rmfuhIHtqYl/IP0HwNo0b8YpWg==
+Date: Fri, 29 Dec 2023 09:07:02 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Frederic Martinsons <frederic.martinsons@gmail.com>
+Subject: Re: [OE-Core][PATCH v3 03/10] meta-selftest: hello-rs: Simple rust
+ test recipe
+Message-ID: <202312290807021ede5c85@mail.local>
+References: <20231228145917.18147-1-alex.kiernan@gmail.com>
+ <20231228145917.18147-4-alex.kiernan@gmail.com>
 MIME-Version: 1.0
-References: <20231227042036.2376255-1-Qi.Chen@windriver.com>
- <2023122711592084d34620@mail.local> <CO6PR11MB560279EC2354AEBC89D8E15FED9EA@CO6PR11MB5602.namprd11.prod.outlook.com>
- <202312282114180d86a09f@mail.local> <339c8673-650a-37ee-dad5-e7cd3ebfedf5@windriver.com>
-In-Reply-To: <339c8673-650a-37ee-dad5-e7cd3ebfedf5@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 29 Dec 2023 09:03:46 +0100
-Message-ID: <CANNYZj9jjnjCXEYfsXC8uG3_UWM+2cijPV8+iioMG-uREcnsbQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/3] systemd: upgrade to 255.1
-To: Qi.Chen@windriver.com
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231228145917.18147-4-alex.kiernan@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 08:04:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/192999
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 08:07:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193000
 
-On Fri, 29 Dec 2023 at 03:38, Chen Qi via lists.openembedded.org
-<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
-> > TEST_SUITES:append = ' systemd'
-> > DISTRO_FEATURES:append = ' pam systemd usrmerge'
-> > VIRTUAL-RUNTIME_init_manager = 'systemd'
-> > DISTRO_FEATURES_BACKFILL_CONSIDERED = 'sysvinit'
->
-> OK, I see.
->
-> I'd suggest replacing the above 4 lines with a single line:
->
-> INIT_MANAGER = "systemd"
->
-> The INIT_MANAGER mechanism was added to make switching init managers easier.
+Hello Alex,
 
-I agree. The 4 lines are defined in two places here:
-https://git.yoctoproject.org/yocto-autobuilder-helper/tree/config.json
+This fails the reproducibility test:
 
-Can you send a patch to replace them with INIT_MANAGER?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4159/steps/13/logs/stdio
 
-Alex
+https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20231228-881dx278/packages/diff-html/
+
+On 28/12/2023 14:59:10+0000, Alex Kiernan wrote:
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
+> 
+> (no changes since v1)
+> 
+>  .../hello-rs/hello-rs-crates.inc              |  8 +++++++
+>  .../hello-rs/0001-Greet-OE-Core.patch         | 24 +++++++++++++++++++
+>  .../hello-rs/hello-rs_0.1.0.bb                | 19 +++++++++++++++
+>  3 files changed, 51 insertions(+)
+>  create mode 100644 meta-selftest/recipes-extended/hello-rs/hello-rs-crates.inc
+>  create mode 100644 meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
+>  create mode 100644 meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
+> 
+> diff --git a/meta-selftest/recipes-extended/hello-rs/hello-rs-crates.inc b/meta-selftest/recipes-extended/hello-rs/hello-rs-crates.inc
+> new file mode 100644
+> index 000000000000..9646482b2875
+> --- /dev/null
+> +++ b/meta-selftest/recipes-extended/hello-rs/hello-rs-crates.inc
+> @@ -0,0 +1,8 @@
+> +# Autogenerated with 'bitbake -c update_crates hello-rs'
+> +
+> +# from Cargo.lock
+> +SRC_URI += " \
+> +    crate://crates.io/figlet-rs/0.1.5 \
+> +"
+> +
+> +SRC_URI[figlet-rs-0.1.5.sha256sum] = "4742a071cd9694fc86f9fa1a08fa3e53d40cc899d7ee532295da2d085639fbc5"
+> diff --git a/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch b/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
+> new file mode 100644
+> index 000000000000..7569ccef7bbb
+> --- /dev/null
+> +++ b/meta-selftest/recipes-extended/hello-rs/hello-rs/0001-Greet-OE-Core.patch
+> @@ -0,0 +1,24 @@
+> +From 3aea1ece0ca6ac0bf0ffe42736827af22966f767 Mon Sep 17 00:00:00 2001
+> +From: Alex Kiernan <alexk@zuma.ai>
+> +Date: Wed, 27 Dec 2023 09:55:48 +0000
+> +Subject: [PATCH] Greet "OE-Core"
+> +
+> +Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> +Upstream-Status: Inappropriate
+> +---
+> + src/main.rs | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/src/main.rs b/src/main.rs
+> +index f4a310758b19..224eca65c38d 100644
+> +--- a/src/main.rs
+> ++++ b/src/main.rs
+> +@@ -3,7 +3,7 @@ use hello_lib::greet;
+> + 
+> + fn main() {
+> +     let standard_font = FIGfont::standard().unwrap();
+> +-    let greeting = greet(None);
+> ++    let greeting = greet(Some("OE-Core"));
+> +     let figure = standard_font.convert(&greeting);
+> +     println!("{}", figure.unwrap());
+> + }
+> diff --git a/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb b/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
+> new file mode 100644
+> index 000000000000..0046b2ca0356
+> --- /dev/null
+> +++ b/meta-selftest/recipes-extended/hello-rs/hello-rs_0.1.0.bb
+> @@ -0,0 +1,19 @@
+> +SUMMARY = "Simple hello world example"
+> +HOMEPAGE = "https://github.com/akiernan/hello-bin"
+> +LICENSE = "Unlicense"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=7246f848faa4e9c9fc0ea91122d6e680"
+> +
+> +SRC_URI = "git://github.com/akiernan/hello-bin.git;protocol=https;branch=main;subpath=rust \
+> +           file://0001-Greet-OE-Core.patch \
+> +           git://github.com/akiernan/hello-lib.git;protocol=https;branch=main;name=hello-lib;destsuffix=hello-lib;type=git-dependency \
+> +	   "
+> +SRCREV = "d3d096eda182644868f8e7458dcfa538ff637db3"
+> +
+> +SRCREV_FORMAT .= "_hello-lib"
+> +SRCREV_hello-lib = "59c84574e844617043cf337bc8fa537cf87ad8ae"
+> +
+> +S = "${WORKDIR}/rust"
+> +
+> +inherit cargo cargo-update-recipe-crates ptest-cargo
+> +
+> +require ${BPN}-crates.inc
+> -- 
+> 2.39.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192985): https://lists.openembedded.org/g/openembedded-core/message/192985
+> Mute This Topic: https://lists.openembedded.org/mt/103401571/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
