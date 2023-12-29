@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A312C47072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A33FC47073
 	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:46:08 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.151541.1703864767193375030
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.151034.1703864759891126675
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 07:46:07 -0800
+ Fri, 29 Dec 2023 07:45:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=CxCI7YIX;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d40eec5e12so48815375ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:46:07 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nxX03LWP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1d2e6e14865so33241065ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864766; x=1704469566; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864758; x=1704469558; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XdS3rjhA7wltURco/4cadY09zcmFFh5wrMwPYOkGZek=;
-        b=CxCI7YIXqE86+3mRFTRUKM6pHhfkEYtCJ/SccF9/CDvaHLcd/NFMH/f0A2JkuUggd8
-         maa4ZuTtwtxP00a9DtxLKu5+oPI0G3pvlagzv9XXLVkuPtDSap1oRZjbpYts5qzurhxD
-         fKi6TrD+u/ztzon8TZusAB2iyDK/+kCzLD6MleAO03cXkP5t0Eummq6DK8q2/dvSmH0I
-         VbgPdcxAEoBuLNIKXeNgwkGlQ5X85cSsah/NaZ/rVcO9nOIroEuRdLLiuVi0Kc5w/Cvv
-         gnPGhTtONEXw//BZltZeWEwjExnZuOG47ycNgAvDQw/DwTWnrthRcOlA3GSsApzy9mGu
-         FatA==
+        bh=+ElcxYNMll73KwBx4ciVCdgJMglO8v//cLRtRxjHhLc=;
+        b=nxX03LWPnYqz9Lg5+b6LtlBSyqk21HxhR/It7DsCFRmn+OqzC2vWo7Y818em/hh4rO
+         lAmqxc7KUlr2o06d5n+AHZ/q+esft3LqpFD/O6mAbw4orLBdO871oaV/X3okEFzBoWC2
+         xcGIo1BvZ8RORNqPpHahbjNDjaKirkCJzAkz6uFx7Gd4lJXD1pdWkLWyisgYUyczs82t
+         +g1aozlcE3z6vlbSfq2scSfw9zAyVXLTYqqInlZUaDWuykEO6Au15rlY8DhDmdVa9Kmq
+         VmBd8gNx8ta+w3aTmyG0ckcF/1sEr8WGqdA/G03OjjxKkWJ1hW//X56z98gj3mhob1dO
+         oUPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703864766; x=1704469566;
+        d=1e100.net; s=20230601; t=1703864758; x=1704469558;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XdS3rjhA7wltURco/4cadY09zcmFFh5wrMwPYOkGZek=;
-        b=X41uEmNj9RCVFxEjd3SSbqZg4r6ViHMaGecSk2sYf4Y9LNj883A78t/eI9TwR7g2st
-         hZAWsV6YwUX0oI1WN164yYnSV60+ziEZfT3n4K5Nm63NmVvKbDA02G1HHhGsZhuR8NFO
-         OWkLkfVPBUcIpozsyAueaiJfhmpuQ1aBnmfFqq5E1w/BGO75CnCTSSVReLKS/ZEMNqZY
-         RBgyE77pCi9V1iutAZ0AeFiTOc8d4DJJ8gKNMgDvqeBGyn8UGg5YCJpDLfuN7mrhj1vt
-         PYeVIYfsBqzXPP5asDavtwiNjD3jU/q6DqLcZy25OSVX+1HyhVnGBqVWK9UCToXeNzLT
-         m7aA==
-X-Gm-Message-State: AOJu0YyO3N/4dxnwhgZObvoex82/o0aEDk3avNJ8ZSqVL4dXmm/mThRO
-	yRh6jbCBUp6+Sv7iB0rO/Sqe4DOfc3PoWuC6g4Z7q1I//jJJlw==
-X-Google-Smtp-Source: AGHT+IELgBxJ/UMpB/aP59oYOoPwrNoFmhu7qWSUXlHqUQj7eaAtSlj7cU4xREh1Ah9WHU6s/877KQ==
-X-Received: by 2002:a17:902:ea02:b0:1d4:32a9:f682 with SMTP id s2-20020a170902ea0200b001d432a9f682mr13099422plg.41.1703864765868;
-        Fri, 29 Dec 2023 07:46:05 -0800 (PST)
+        bh=+ElcxYNMll73KwBx4ciVCdgJMglO8v//cLRtRxjHhLc=;
+        b=MC2X+2fd0z3KLyz5KKwmSOTx3TduC72/T0luumy53PcZ03SzXb3hqrNNFfiGprmE57
+         WihdOPdPtHV670ETPSFLNw1NbHDPNq2ua319u1pU8ZSSJnofzJh3wtYaEORsTSDpIOeg
+         YyyrjOAB1CIyMRFTwXFZ4My2batdaKOll0xDGLKi86Hge4SSd5q0NXDK5Xy4+BoPLUKo
+         wAh6Qsb8JP+csvds//v9Yc//nfOkWsJdig6bGt2Hd8NIwiJaQOxQtDB86RSXz4irbMNr
+         FzpoTu2PtU7SqL3I2A26JR3lW3JBsiaiZzUkNTgdRmxuOfbIt8gBbnTwlj9vVAZfjz1z
+         Hz9Q==
+X-Gm-Message-State: AOJu0YxNXQRSchRtrbHwRusAn8tXVpUDHvecFi0loqTHTvqTx+F4slGG
+	dBYYj8SYnHD7cxdNUfwRgkB2RzwxwiM8s7nccISkYwDB03IwJg==
+X-Google-Smtp-Source: AGHT+IFq/7Y9JUyZBg8ZFgEfHpA6gjDszv5m34wSA89mKKxQ8OwRvTH3l9e286qJ/1juJckky7VhUg==
+X-Received: by 2002:a17:902:d2cb:b0:1d4:2230:7f33 with SMTP id n11-20020a170902d2cb00b001d422307f33mr6554356plc.70.1703864758692;
+        Fri, 29 Dec 2023 07:45:58 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.46.05
+        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 07:46:05 -0800 (PST)
+        Fri, 29 Dec 2023 07:45:58 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 34/41] bluez5: fix connection for ps5/dualshock controllers
-Date: Fri, 29 Dec 2023 05:44:48 -1000
-Message-Id: <a4ba3de4248ee05119ae944a972f88517e4e087b.1703864512.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 30/41] systemd-compat-units.bb: fix postinstall script
+Date: Fri, 29 Dec 2023 05:44:44 -1000
+Message-Id: <d114814fa2628cfea2769d65a26514b76e61a0fa.1703864512.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703864512.git.steve@sakoman.com>
 References: <cover.1703864512.git.steve@sakoman.com>
@@ -61,355 +61,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:46:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193051
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193047
 
-From: Markus Volk <f_l_k@t-online.de>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-Bluez 5.69 added a regression. Bluetooth connection for playstation controllers
-stopped working. This adds a backport patch for the issue
+This fixes an issue running "opkg upgrade" on a system with systemd
+(and when there is an update to "systemd-compat-units",
+for example between yocto 4.2.2 and 4.2.3):
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+//var/lib/opkg/info/systemd-compat-units.postinst: cd: line 3: can't cd to /etc/init.d: No such file or directory
+
+The existence of /etc/init.d is now tested
+without causing an error if doesn't exist.
+
+Fixes [YOCTO #15292]
+
+Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit be05a177f943e9c8ce6c0fdbd157ee6f9103eef9)
+(cherry picked from commit 0330331a1386fd2a34b410a7f62b29bfc8dc23c4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- ...e_probe-failing-if-SDP-record-is-not.patch | 313 ++++++++++++++++++
- 2 files changed, 314 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch
+ meta/recipes-core/systemd/systemd-compat-units.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index e10158a6e5..a23e4e58a6 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -55,6 +55,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-            file://0004-src-shared-util.c-include-linux-limits.h.patch \
-+           file://0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
+index 253bc9fcf1..c03d97f9c9 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units.bb
++++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+@@ -27,7 +27,8 @@ SYSTEMD_DISABLED_SYSV_SERVICES = " \
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch b/meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch
-new file mode 100644
-index 0000000000..d0884338db
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0002-input-Fix-.device_probe-failing-if-SDP-record-is-not.patch
-@@ -0,0 +1,313 @@
-+From 3a9c637010f8dc1ba3e8382abe01065761d4f5bb Mon Sep 17 00:00:00 2001
-+From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-+Date: Tue, 10 Oct 2023 12:38:29 -0700
-+Subject: [PATCH 02/40] input: Fix .device_probe failing if SDP record is not
-+ found
-+
-+Due to changes introduced by 67a26abe53bf
-+("profile: Add probe_on_discover flag") profiles may get probed when
-+their profile UUID are discovered, rather than resolved, which means
-+the SDP record may not be available.
-+
-+Fixes: https://github.com/bluez/bluez/issues/614
-+
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/3a9c637010f8dc1ba3e8382abe01065761d4f5bb]
-+---
-+ profiles/input/device.c | 182 +++++++++++++++++++---------------------
-+ 1 file changed, 84 insertions(+), 98 deletions(-)
-+
-+diff --git a/profiles/input/device.c b/profiles/input/device.c
-+index e2ac6ea60..4a50ea992 100644
-+--- a/profiles/input/device.c
-++++ b/profiles/input/device.c
-+@@ -60,7 +60,7 @@ struct input_device {
-+ 	char			*path;
-+ 	bdaddr_t		src;
-+ 	bdaddr_t		dst;
-+-	uint32_t		handle;
-++	const sdp_record_t	*rec;
-+ 	GIOChannel		*ctrl_io;
-+ 	GIOChannel		*intr_io;
-+ 	guint			ctrl_watch;
-+@@ -754,7 +754,8 @@ static void epox_endian_quirk(unsigned char *data, int size)
-+ 	}
-+ }
-+ 
-+-static int create_hid_dev_name(sdp_record_t *rec, struct hidp_connadd_req *req)
-++static int create_hid_dev_name(const sdp_record_t *rec,
-++					struct hidp_connadd_req *req)
-+ {
-+ 	char sdesc[sizeof(req->name) / 2];
-+ 
-+@@ -776,7 +777,7 @@ static int create_hid_dev_name(sdp_record_t *rec, struct hidp_connadd_req *req)
-+ 
-+ /* See HID profile specification v1.0, "7.11.6 HIDDescriptorList" for details
-+  * on the attribute format. */
-+-static int extract_hid_desc_data(sdp_record_t *rec,
-++static int extract_hid_desc_data(const sdp_record_t *rec,
-+ 						struct hidp_connadd_req *req)
-+ {
-+ 	sdp_data_t *d;
-+@@ -817,36 +818,40 @@ invalid_desc:
-+ 	return -EINVAL;
-+ }
-+ 
-+-static int extract_hid_record(sdp_record_t *rec, struct hidp_connadd_req *req)
-++static int extract_hid_record(struct input_device *idev,
-++					struct hidp_connadd_req *req)
-+ {
-+ 	sdp_data_t *pdlist;
-+ 	uint8_t attr_val;
-+ 	int err;
-+ 
-+-	err = create_hid_dev_name(rec, req);
-++	if (!idev->rec)
-++		return -ENOENT;
-++
-++	err = create_hid_dev_name(idev->rec, req);
-+ 	if (err < 0)
-+ 		DBG("No valid Service Name or Service Description found");
-+ 
-+-	pdlist = sdp_data_get(rec, SDP_ATTR_HID_PARSER_VERSION);
-++	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_PARSER_VERSION);
-+ 	req->parser = pdlist ? pdlist->val.uint16 : 0x0100;
-+ 
-+-	pdlist = sdp_data_get(rec, SDP_ATTR_HID_DEVICE_SUBCLASS);
-++	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_DEVICE_SUBCLASS);
-+ 	req->subclass = pdlist ? pdlist->val.uint8 : 0;
-+ 
-+-	pdlist = sdp_data_get(rec, SDP_ATTR_HID_COUNTRY_CODE);
-++	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_COUNTRY_CODE);
-+ 	req->country = pdlist ? pdlist->val.uint8 : 0;
-+ 
-+-	pdlist = sdp_data_get(rec, SDP_ATTR_HID_VIRTUAL_CABLE);
-++	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_VIRTUAL_CABLE);
-+ 	attr_val = pdlist ? pdlist->val.uint8 : 0;
-+ 	if (attr_val)
-+ 		req->flags |= (1 << HIDP_VIRTUAL_CABLE_UNPLUG);
-+ 
-+-	pdlist = sdp_data_get(rec, SDP_ATTR_HID_BOOT_DEVICE);
-++	pdlist = sdp_data_get(idev->rec, SDP_ATTR_HID_BOOT_DEVICE);
-+ 	attr_val = pdlist ? pdlist->val.uint8 : 0;
-+ 	if (attr_val)
-+ 		req->flags |= (1 << HIDP_BOOT_PROTOCOL_MODE);
-+ 
-+-	err = extract_hid_desc_data(rec, req);
-++	err = extract_hid_desc_data(idev->rec, req);
-+ 	if (err < 0)
-+ 		return err;
-+ 
-+@@ -1035,11 +1040,6 @@ static gboolean encrypt_notify(GIOChannel *io, GIOCondition condition,
-+ static int hidp_add_connection(struct input_device *idev)
-+ {
-+ 	struct hidp_connadd_req *req;
-+-	sdp_record_t *rec;
-+-	char src_addr[18], dst_addr[18];
-+-	char filename[PATH_MAX];
-+-	GKeyFile *key_file;
-+-	char handle[11], *str;
-+ 	GError *gerr = NULL;
-+ 	int err;
-+ 
-+@@ -1049,33 +1049,7 @@ static int hidp_add_connection(struct input_device *idev)
-+ 	req->flags     = 0;
-+ 	req->idle_to   = idle_timeout;
-+ 
-+-	ba2str(&idev->src, src_addr);
-+-	ba2str(&idev->dst, dst_addr);
-+-
-+-	snprintf(filename, PATH_MAX, STORAGEDIR "/%s/cache/%s", src_addr,
-+-								dst_addr);
-+-	sprintf(handle, "0x%8.8X", idev->handle);
-+-
-+-	key_file = g_key_file_new();
-+-	if (!g_key_file_load_from_file(key_file, filename, 0, &gerr)) {
-+-		error("Unable to load key file from %s: (%s)", filename,
-+-								gerr->message);
-+-		g_clear_error(&gerr);
-+-	}
-+-	str = g_key_file_get_string(key_file, "ServiceRecords", handle, NULL);
-+-	g_key_file_free(key_file);
-+-
-+-	if (!str) {
-+-		error("Rejected connection from unknown device %s", dst_addr);
-+-		err = -EPERM;
-+-		goto cleanup;
-+-	}
-+-
-+-	rec = record_from_string(str);
-+-	g_free(str);
-+-
-+-	err = extract_hid_record(rec, req);
-+-	sdp_record_free(rec);
-++	err = extract_hid_record(idev, req);
-+ 	if (err < 0) {
-+ 		error("Could not parse HID SDP record: %s (%d)", strerror(-err),
-+ 									-err);
-+@@ -1091,7 +1065,7 @@ static int hidp_add_connection(struct input_device *idev)
-+ 
-+ 	/* Make sure the device is bonded if required */
-+ 	if (classic_bonded_only && !input_device_bonded(idev)) {
-+-		error("Rejected connection from !bonded device %s", dst_addr);
-++		error("Rejected connection from !bonded device %s", idev->path);
-+ 		goto cleanup;
-+ 	}
-+ 
-+@@ -1161,6 +1135,68 @@ static int connection_disconnect(struct input_device *idev, uint32_t flags)
-+ 		return ioctl_disconnect(idev, flags);
-+ }
-+ 
-++static bool is_device_sdp_disable(const sdp_record_t *rec)
-++{
-++	sdp_data_t *data;
-++
-++	data = sdp_data_get(rec, SDP_ATTR_HID_SDP_DISABLE);
-++
-++	return data && data->val.uint8;
-++}
-++
-++static enum reconnect_mode_t hid_reconnection_mode(bool reconnect_initiate,
-++						bool normally_connectable)
-++{
-++	if (!reconnect_initiate && !normally_connectable)
-++		return RECONNECT_NONE;
-++	else if (!reconnect_initiate && normally_connectable)
-++		return RECONNECT_HOST;
-++	else if (reconnect_initiate && !normally_connectable)
-++		return RECONNECT_DEVICE;
-++	else /* (reconnect_initiate && normally_connectable) */
-++		return RECONNECT_ANY;
-++}
-++
-++static void extract_hid_props(struct input_device *idev,
-++					const sdp_record_t *rec)
-++{
-++	/* Extract HID connectability */
-++	bool reconnect_initiate, normally_connectable;
-++	sdp_data_t *pdlist;
-++
-++	/* HIDNormallyConnectable is optional and assumed FALSE if not
-++	 * present.
-++	 */
-++	pdlist = sdp_data_get(rec, SDP_ATTR_HID_RECONNECT_INITIATE);
-++	reconnect_initiate = pdlist ? pdlist->val.uint8 : TRUE;
-++
-++	pdlist = sdp_data_get(rec, SDP_ATTR_HID_NORMALLY_CONNECTABLE);
-++	normally_connectable = pdlist ? pdlist->val.uint8 : FALSE;
-++
-++	/* Update local values */
-++	idev->reconnect_mode =
-++		hid_reconnection_mode(reconnect_initiate, normally_connectable);
-++}
-++
-++static void input_device_update_rec(struct input_device *idev)
-++{
-++	struct btd_profile *p = btd_service_get_profile(idev->service);
-++	const sdp_record_t *rec;
-++
-++	rec = btd_device_get_record(idev->device, p->remote_uuid);
-++	if (!rec || idev->rec == rec)
-++		return;
-++
-++	idev->rec = rec;
-++	idev->disable_sdp = is_device_sdp_disable(rec);
-++
-++	/* Initialize device properties */
-++	extract_hid_props(idev, rec);
-++
-++	if (idev->disable_sdp)
-++		device_set_refresh_discovery(idev->device, false);
-++}
-++
-+ static int input_device_connected(struct input_device *idev)
-+ {
-+ 	int err;
-+@@ -1168,6 +1204,9 @@ static int input_device_connected(struct input_device *idev)
-+ 	if (idev->intr_io == NULL || idev->ctrl_io == NULL)
-+ 		return -ENOTCONN;
-+ 
-++	/* Attempt to update SDP record if it had changed */
-++	input_device_update_rec(idev);
-++
-+ 	err = hidp_add_connection(idev);
-+ 	if (err < 0)
-+ 		return err;
-+@@ -1411,74 +1450,21 @@ int input_device_disconnect(struct btd_service *service)
-+ 	return 0;
-+ }
-+ 
-+-static bool is_device_sdp_disable(const sdp_record_t *rec)
-+-{
-+-	sdp_data_t *data;
-+-
-+-	data = sdp_data_get(rec, SDP_ATTR_HID_SDP_DISABLE);
-+-
-+-	return data && data->val.uint8;
-+-}
-+-
-+-static enum reconnect_mode_t hid_reconnection_mode(bool reconnect_initiate,
-+-						bool normally_connectable)
-+-{
-+-	if (!reconnect_initiate && !normally_connectable)
-+-		return RECONNECT_NONE;
-+-	else if (!reconnect_initiate && normally_connectable)
-+-		return RECONNECT_HOST;
-+-	else if (reconnect_initiate && !normally_connectable)
-+-		return RECONNECT_DEVICE;
-+-	else /* (reconnect_initiate && normally_connectable) */
-+-		return RECONNECT_ANY;
-+-}
-+-
-+-static void extract_hid_props(struct input_device *idev,
-+-					const sdp_record_t *rec)
-+-{
-+-	/* Extract HID connectability */
-+-	bool reconnect_initiate, normally_connectable;
-+-	sdp_data_t *pdlist;
-+-
-+-	/* HIDNormallyConnectable is optional and assumed FALSE
-+-	* if not present. */
-+-	pdlist = sdp_data_get(rec, SDP_ATTR_HID_RECONNECT_INITIATE);
-+-	reconnect_initiate = pdlist ? pdlist->val.uint8 : TRUE;
-+-
-+-	pdlist = sdp_data_get(rec, SDP_ATTR_HID_NORMALLY_CONNECTABLE);
-+-	normally_connectable = pdlist ? pdlist->val.uint8 : FALSE;
-+-
-+-	/* Update local values */
-+-	idev->reconnect_mode =
-+-		hid_reconnection_mode(reconnect_initiate, normally_connectable);
-+-}
-+-
-+ static struct input_device *input_device_new(struct btd_service *service)
-+ {
-+ 	struct btd_device *device = btd_service_get_device(service);
-+-	struct btd_profile *p = btd_service_get_profile(service);
-+ 	const char *path = device_get_path(device);
-+-	const sdp_record_t *rec = btd_device_get_record(device, p->remote_uuid);
-+ 	struct btd_adapter *adapter = device_get_adapter(device);
-+ 	struct input_device *idev;
-+ 
-+-	if (!rec)
-+-		return NULL;
-+-
-+ 	idev = g_new0(struct input_device, 1);
-+ 	bacpy(&idev->src, btd_adapter_get_address(adapter));
-+ 	bacpy(&idev->dst, device_get_address(device));
-+ 	idev->service = btd_service_ref(service);
-+ 	idev->device = btd_device_ref(device);
-+ 	idev->path = g_strdup(path);
-+-	idev->handle = rec->handle;
-+-	idev->disable_sdp = is_device_sdp_disable(rec);
-+-
-+-	/* Initialize device properties */
-+-	extract_hid_props(idev, rec);
-+ 
-+-	if (idev->disable_sdp)
-+-		device_set_refresh_discovery(device, false);
-++	input_device_update_rec(idev);
-+ 
-+ 	return idev;
-+ }
-+-- 
-+2.42.0
-+
+ pkg_postinst:${PN} () {
+ 
+-	cd $D${sysconfdir}/init.d  ||  exit 0
++	test -d $D${sysconfdir}/init.d  ||  exit 0
++	cd $D${sysconfdir}/init.d
+ 
+ 	echo "Disabling the following sysv scripts: "
+ 
 -- 
 2.34.1
 
