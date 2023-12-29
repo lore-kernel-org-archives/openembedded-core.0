@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70197C4707C
-	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:45:58 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.151532.1703864754665873729
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 752DAC47077
+	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:46:08 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.151036.1703864761340921448
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 07:45:54 -0800
+ Fri, 29 Dec 2023 07:46:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zb7jcjMh;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d3eb299e2eso33039875ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sFlnVypO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6da4a923b1bso199833b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:46:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864753; x=1704469553; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864760; x=1704469560; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=u4+/vtyaluaU0GbvUa7OSACFq3E5sp7wISPLd61ODu4=;
-        b=zb7jcjMh9e2I2KvHqs+6bc6N+QXm/6MVWNrkxzQpn1EpQPgVVjofIcxHwMFXLTxx/d
-         gQSB7AujKjJcUGFIIi20Ozu3zx3ZuMOS9FPAmIfz5nQbpV9jAdxiQEvssCwSywUUPObF
-         4pwEgU5WyocfTZZWUYywcNzRvg+ACUA8kmKgYylZnKaLS9DdiHlEGIqxy4w0aG1ohH16
-         foZkh7grpI5VJPM1D/pBWVp+WKlg4vKdN7mk0+HcTiMOcVI6WrXhfSVd8ZJKj6EDwBC/
-         WrMsfpLk4pqOCoV4VG6Of65rjn0GUKtHF4qG72KIy6nozOR1fzuKPW5UnwT/74U3bjKw
-         g9hw==
+        bh=wsjOXav9clpIUdadPU1Xw5bWzxCYKMRkjioQmJqJxgA=;
+        b=sFlnVypOf9StCC1AlaUWRYR7ywBZv9Bb8jOSzoSPYbf4kXmFIDhIsyz8jJ27p0T2Lq
+         goY4mXuMEUSaeJSa1ahAZLYBQwIIb24I0OveQy2vwuQWm/fQFfriUWcff45IqRey+Qdf
+         2m8AU8vAUvEIUvPYqzWLFkRLS3Egz6ShAoBKYZ08nqkofnnNx9MXsKOZvxOrDVAaXpHT
+         ihEOB60I0hpqb3ad2xwD/nGUffg5OaZ22o/SwWuhsaANaXSd6mHG4A3dIich5i/na9yo
+         zk/PmJ1EioUn/ZBlWiqORhCc8d2lGEAUdkaUZI7qVSVLFwUuSyYjE6ka3V0GEwlHRNMC
+         kR7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703864753; x=1704469553;
+        d=1e100.net; s=20230601; t=1703864760; x=1704469560;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u4+/vtyaluaU0GbvUa7OSACFq3E5sp7wISPLd61ODu4=;
-        b=GI5u3iKKq0rVijAHoRLo/OqgjNyCz0urZcNoxBWx7fZ1qEIEtI7rHxTPGBcozfw+1G
-         iCbRLl9beEi57h6zAZuB0bHpy3M+3rTHwVqzKBILJvRZjLWaIkOxwKZJUl6sl3Giox2j
-         GqARmaFCTMmbgBYCgMh17Vh8hhAPVRtXE8Q4GKvPO75T3xYQXtIUsIsfEq6+SRxC8RnB
-         9YiGY2rEWSQ26Hdjf/+vLhSyhNb8+Rlo1UfW9YiZeMxZiDGn2TMg8ocA6PfraDHi3riY
-         uaHUiAy9Msv7wvY/Lzb++l6C6IzuUOvrPX+44rDg+noaw0r5dkJf0C+OCUQNxdmptGKt
-         /l7g==
-X-Gm-Message-State: AOJu0YwkLOrVsGmFWrWmN8N6LaSKg6NySayjyVmgftb5KcjuoLEZyeUK
-	2tJ7RVCH4OsdJqZmMiscIdDZ2Dg6inrEQnTymTOGWC/f/iYY0A==
-X-Google-Smtp-Source: AGHT+IGseUtvOAux5Qjp9Os5plgX8ezNi/BIOnEJNl89yp19UOlZk6/VMI6qGxBise+0utL9Bvk0PQ==
-X-Received: by 2002:a17:903:2443:b0:1d4:2b4a:5f1b with SMTP id l3-20020a170903244300b001d42b4a5f1bmr6152870pls.132.1703864753465;
-        Fri, 29 Dec 2023 07:45:53 -0800 (PST)
+        bh=wsjOXav9clpIUdadPU1Xw5bWzxCYKMRkjioQmJqJxgA=;
+        b=n3VVjFtfiqmgGtzWt5ywIaLMDRHQulwQtaJQMpjkik4k6IqX11qqcB1hCh7bh6AMK4
+         FdDz9RlDPZX52BLS2Xo/fgvOj/q/NaAZ0KWn9bQhUPHolCNRxOPQgk4U21lrK4b3w/9U
+         51kPGlVp9+MBVV6Ix3V4YW6gc+VSfE6iXFM7Ps4y+6AoI3fv2JKbEwd3XqqIxDZARxwA
+         4O4FU0Jd1erB/5tObfZZUamVYZ/hF4CR8v2m4/yM4rGikKw94E+G2TnCW0qz3CildIsI
+         klx8ZOZCA9M3YRfkfBTznd7635AEQerjq1pKHN8a+7w+yDwY4NG7jafK0CzF6EcpPSjA
+         12mA==
+X-Gm-Message-State: AOJu0Yyt7RnRu0MV/8WsEd5Cg5uVr5ch69qhZBFLsSunsQAunlbbhWAx
+	fZWM6i6Av4jnq4EaNl7vhkdxgZdV54SZGVikli0ui4sm4HcHNQ==
+X-Google-Smtp-Source: AGHT+IEmsZkr/CtoICZzuJuUNZv2H3INB4ytkRl20jVvBdjPOT5twnueJNXilJT0l69skaF1Ddczjw==
+X-Received: by 2002:a05:6a20:8e06:b0:196:3380:484d with SMTP id y6-20020a056a208e0600b001963380484dmr2337772pzj.95.1703864760498;
+        Fri, 29 Dec 2023 07:46:00 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.52
+        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 07:45:53 -0800 (PST)
+        Fri, 29 Dec 2023 07:46:00 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 27/41] lib/oe/patch: ensure os.chdir restoring always happens
-Date: Fri, 29 Dec 2023 05:44:41 -1000
-Message-Id: <1680d1766445b21e35c6b874c4767b385862017f.1703864512.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 31/41] devtool: fix update-recipe dry-run mode
+Date: Fri, 29 Dec 2023 05:44:45 -1000
+Message-Id: <edfa2aac5c39e12e1149134a6241ad4e5b2ebc46.1703864512.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703864512.git.steve@sakoman.com>
 References: <cover.1703864512.git.steve@sakoman.com>
@@ -60,49 +60,48 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:45:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193044
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:46:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193048
 
-From: Ross Burton <ross.burton@arm.com>
+From: Julien Stephan <jstephan@baylibre.com>
 
-If we chdir(), do the chdir back to the original directory in a finally
-block so they always run.
+When running devtool update-recipe with --mode=srcrev AND --append switch
+in dry-run, we get the following error:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cdc40292818683b6df1c814498c7589450a163fa)
+  Traceback (most recent call last):
+  [...]
+  Exception: destpath should be set here
+
+Fix this by removing a misplaced else statement in _update_recipe_srcrev
+
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 85ba125703d5b442133fd7c470b915460ee68ac9)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/patch.py | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ scripts/lib/devtool/standard.py | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index ff9afc9df9..9b480b2b28 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -772,8 +772,9 @@ class NOOPResolver(Resolver):
-             self.patchset.Push()
-         except Exception:
-             import sys
--            os.chdir(olddir)
-             raise
-+        finally:
-+            os.chdir(olddir)
- 
- # Patch resolver which relies on the user doing all the work involved in the
- # resolution, with the exception of refreshing the remote copy of the patch
-@@ -833,9 +834,9 @@ class UserResolver(Resolver):
-                             # User did not fix the problem.  Abort.
-                             raise PatchError("Patch application failed, and user did not fix and refresh the patch.")
-         except Exception:
--            os.chdir(olddir)
-             raise
--        os.chdir(olddir)
-+        finally:
-+            os.chdir(olddir)
- 
- 
- def patch_path(url, fetch, workdir, expand=True):
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index d53fb81007..cd79c7802c 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -1576,11 +1576,10 @@ def _update_recipe_srcrev(recipename, workspace, srctree, rd, appendlayerdir, wi
+                 patchfields['SRC_URI'] = '\\\n    '.join(srcuri)
+             if dry_run_outdir:
+                 logger.info('Creating bbappend (dry-run)')
+-            else:
+-                appendfile, destpath = oe.recipeutils.bbappend_recipe(
+-                        rd, appendlayerdir, files, wildcardver=wildcard_version,
+-                        extralines=patchfields, removevalues=removevalues,
+-                        redirect_output=dry_run_outdir)
++            appendfile, destpath = oe.recipeutils.bbappend_recipe(
++                    rd, appendlayerdir, files, wildcardver=wildcard_version,
++                    extralines=patchfields, removevalues=removevalues,
++                    redirect_output=dry_run_outdir)
+         else:
+             files_dir = _determine_files_dir(rd)
+             for basepath, path in upd_f.items():
 -- 
 2.34.1
 
