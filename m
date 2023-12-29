@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAAA4C47072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4EBC47073
 	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:45:17 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.150990.1703864707989847905
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web10.151504.1703864717023397920
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 07:45:08 -0800
+ Fri, 29 Dec 2023 07:45:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Fvitb9WU;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d3eae5c1d7so30788445ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:07 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=U+5voIhi;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5cd5cdba609so5278943a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864707; x=1704469507; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864716; x=1704469516; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iN6MCj8BtC0v+WxMrTIp3OSbfSMroofxG4vHbiZA/ko=;
-        b=Fvitb9WUETyIzQkLZMfdXYyzj00rmnD9Yg348/kYMnAzJYxaL5PU8Ajfh726iMaJtJ
-         LHfGKIj5/hQJ3dWkMP9g40WFnjIAijcO2BdlMyVFeeSEErz/ktD6xnjXeaKZ/rxXsVMR
-         dquBKmejO+gKBCIPMoWC4gOxcjq7B0hzLBZyqretw5ZaCmbSqWvINYCFo34jDG/PPLu0
-         lD1Cs93e+N7s/Gke+zfR8KHwLGVdMh+jrqYXRqsyfq+brdtzzkO00zztgn3xFNWk07jm
-         zj3mQ+FA0OdeKC5FfoPjZKGXr7WqzzUI1bE9kwyGrYX7F7G88WMCz1T+f91BpFkHLidx
-         K4Cg==
+        bh=tA1SD1+ZpAjVPCn7ms22rqN3LL3ZAWxGRO9RrciSnj8=;
+        b=U+5voIhij1JfBmhCMS4jO/pq6RiPjsSSNKnlPA70l9SBLWkjhyHGpDSZVMZDKk0yF8
+         ddBvTnnwTvCDhu35etHiH4PM1V2tJRWgUrqlV8OrOztype3cuQF1/QSZaHdb++sWAL14
+         3Ld/qQ+QdLyfUHIr4G51V9+aBU2c5TKn16h+jm6wHaLAKb4aLObjNAKS8Oif/o5IMt7d
+         qjdVYMu5EZQ9OSWkUWqOy8E2r27iVwyg2AsXFKlJ3r53waptivI+TcF+N+wYjY0a7DWB
+         TBHFjNw9yPc8PdpsDYH/PbPdjzRZPnrn8zjb1e+7Q++cv20xUdyrAMsSRODW4k4aLz0G
+         EY+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703864707; x=1704469507;
+        d=1e100.net; s=20230601; t=1703864716; x=1704469516;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iN6MCj8BtC0v+WxMrTIp3OSbfSMroofxG4vHbiZA/ko=;
-        b=ITK35b8wOw2qF0FcBOkGBvtBm3F4Rc67ILmHpHer2DvBNCLgb4m4hKNJuE93JW/yl9
-         XedW/AEzGBvqnsEC5fVyHNdaA+aGZrSFXp5SXB5bZd55wTOPYbYAU/HULuhLMRFkB/n4
-         I5Hl8K+09emDC5j72YXoP1wh385K5YQjRZdBWhlJlIBSW/813eF7RhRIYoEhFE/bbwNL
-         XKg8k0eX6WjUDeCYAA5pKzUpO4GndPBw1Ow//qTEtxMxEvyD1JO1EQaON/n2ZtVusrDq
-         iOGYZjTuwyXg5CBSy9H7Z05wrE4WyytnMiFGUAF1Qh+eKp63n8z06Ng83gOUqqvNnAPS
-         JKNg==
-X-Gm-Message-State: AOJu0YwSOg9cB+fzZprXW+s0cN2HIlRCRrwhIAKTmmWWT7oeovFysa5d
-	7oLenaPuu9WISLFcz8h5SwrGnniTk6ZIy8xTJtSnBkeTmbKw2A==
-X-Google-Smtp-Source: AGHT+IHaBFrNrKN0r1jmuj9qxDdmkQ2s1uh/LKJHNsU23UgQX27CChyXNS2rG+FlGv2ccV75WG3Kng==
-X-Received: by 2002:a17:903:2306:b0:1d4:97cb:37ae with SMTP id d6-20020a170903230600b001d497cb37aemr1509831plh.58.1703864706637;
-        Fri, 29 Dec 2023 07:45:06 -0800 (PST)
+        bh=tA1SD1+ZpAjVPCn7ms22rqN3LL3ZAWxGRO9RrciSnj8=;
+        b=i9x/4Q5c6eo2auh2p3rTQJ1Vavpmtvsq+KiCEVBGGMXLbVvUaoHuDyCjt+YkNGY9Vf
+         pm7TrNzU29KAQj5nYEapq+5o/tALAxnmVNEpGLHOGzmt/u3jaWN2FW8a8d+unSC6F65Y
+         JoDNfvE/p1wbTyOkoNbSSGWQb+Ou6ZD3fwAFEPZlAP/PjDgWsH42uFxZWNNf8Q0UMYpb
+         3c7ZF3gKILcmhg0iZe5v9aXglfZiRBwZSPr+kooQ7oq7pBM59aA8+LxZy38xq1qUi1RU
+         Ce3F2cbZ3YMEi1QledUmatoIRFtg+OalG1AG2l0CH+URj5ShssDHOgWqi1ZprUsBtvA1
+         F/3A==
+X-Gm-Message-State: AOJu0YwXFOo/a7+kazAN2c05GIb6FI787+OzVUyM3L+6ZgrCy+P7MgPR
+	IGj2NDlanZoE3T035azrpBJQ3pvjIkGfSjIW2hwUsAXYzB2Tmw==
+X-Google-Smtp-Source: AGHT+IFKAoovBhQWrcgDry5T7Li8rd4eibaV2f12s0VF3RY7vpu6qfSh/6DajdOX2o9N8cLDRf0gDQ==
+X-Received: by 2002:a17:902:f7ce:b0:1d4:7bbf:2de8 with SMTP id h14-20020a170902f7ce00b001d47bbf2de8mr4403692plw.130.1703864715727;
+        Fri, 29 Dec 2023 07:45:15 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.05
+        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 07:45:06 -0800 (PST)
+        Fri, 29 Dec 2023 07:45:15 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 02/41] cve-update-nvd2-native: make number of fetch attemtps configurable
-Date: Fri, 29 Dec 2023 05:44:16 -1000
-Message-Id: <3573b0ab09359f7eca37fd86400dc3945f5fa7c1.1703864512.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 07/41] linux-yocto/6.1: drop removed IMA option
+Date: Fri, 29 Dec 2023 05:44:21 -1000
+Message-Id: <72adeea0757a7de664092cfac6139c28c7f6e999.1703864512.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703864512.git.steve@sakoman.com>
 References: <cover.1703864512.git.steve@sakoman.com>
@@ -61,72 +61,124 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:45:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193019
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193024
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Sometimes NVD servers are unstable and return too many errors.
+Integrating the following commit(s) to linux-yocto/.:
 
-Last time we increased number of attempts from 3 to 5, but
-further increasing is not reasonable as in normal case
-too many retries is just abusive.
+1/1 [
+    Author: Paul Gortmaker
+    Email: paul.gortmaker@windriver.com
+    Subject: features/ima: drop now retired IMA_TRUSTED_KEYRING option
+    Date: Wed, 6 Dec 2023 09:15:38 -0500
 
-Keep retries low as default and allow to increase as needed.
+    Unfortunately linux-stable backported this:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+      Subject: ima: Remove deprecated IMA_TRUSTED_KEYRING Kconfig
+
+      From: Nayna Jain <nayna@linux.ibm.com>
+
+      [ Upstream commit 5087fd9e80e539d2163accd045b73da64de7de95 ]
+
+      Time to remove "IMA_TRUSTED_KEYRING".
+
+    ...to all releases still being maintained.
+
+    stable-queue$git grep -l 5087fd9e80e539
+    releases/5.10.195/ima-remove-deprecated-ima_trusted_keyring-kconfig.patch
+    releases/5.15.132/ima-remove-deprecated-ima_trusted_keyring-kconfig.patch
+    releases/5.4.257/ima-remove-deprecated-ima_trusted_keyring-kconfig.patch
+    releases/6.1.53/ima-remove-deprecated-ima_trusted_keyring-kconfig.patch
+    releases/6.4.16/ima-remove-deprecated-ima_trusted_keyring-kconfig.patch
+    releases/6.5.3/ima-remove-deprecated-ima_trusted_keyring-kconfig.patch
+
+    So now when someone uses the feature, it triggers a do_kernel_configcheck
+    warning when the audit runs.
+
+    We added this file way back in 2019 so this fix will be needed on all
+    active branches that are using an LTS linux-stable kernel listed above.
+
+    Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6b6fd8043d83b99000054ab6ad2c745d07c6bcc1)
+(cherry picked from commit db11dfcd8304ded18fd21d7c4c2db50331402666)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ .../linux/linux-yocto-rt_6.1.bb               |  4 ++--
+ .../linux/linux-yocto-tiny_6.1.bb             |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 24 +++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 08895013cf..9ab8dc6050 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -26,6 +26,9 @@ NVDCVE_API_KEY ?= ""
- # Use a negative value to skip the update
- CVE_DB_UPDATE_INTERVAL ?= "86400"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
+index 3d9a98b506..8d07058b71 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
+@@ -14,8 +14,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
-+# Number of attmepts for each http query to nvd server before giving up
-+CVE_DB_UPDATE_ATTEMPTS ?= "5"
-+
- CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
+-SRCREV_machine ?= "8987c29d0fc5680adf4f3ac89d6c8bd2bc279a53"
+-SRCREV_meta ?= "77f0a9eba731b83da9273d1c0d6bb1c3afd9b129"
++SRCREV_machine ?= "2fc300ad2664d72a382351afaa02208e3bcec857"
++SRCREV_meta ?= "5f331d55d0900030f5bc9b139c815f3f01a8ffd4"
  
- CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
-@@ -111,7 +114,7 @@ def cleanup_db_download(db_file, db_tmp_file):
-     if os.path.exists(db_tmp_file):
-         os.remove(db_tmp_file)
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
+index b966797d0b..c0871532df 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
--def nvd_request_next(url, api_key, args):
-+def nvd_request_next(url, attempts, api_key, args):
-     """
-     Request next part of the NVD dabase
-     """
-@@ -127,7 +130,7 @@ def nvd_request_next(url, api_key, args):
-         request.add_header("apiKey", api_key)
-     bb.note("Requesting %s" % request.full_url)
+-SRCREV_machine ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_meta ?= "77f0a9eba731b83da9273d1c0d6bb1c3afd9b129"
++SRCREV_machine ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_meta ?= "5f331d55d0900030f5bc9b139c815f3f01a8ffd4"
  
--    for attempt in range(5):
-+    for attempt in range(attempts):
-         try:
-             r = urllib.request.urlopen(request)
+ PV = "${LINUX_VERSION}+git"
  
-@@ -183,10 +186,11 @@ def update_db_file(db_tmp_file, d, database_time):
-         index = 0
-         url = d.getVar("NVDCVE_URL")
-         api_key = d.getVar("NVDCVE_API_KEY") or None
-+        attempts = int(d.getVar("CVE_DB_UPDATE_ATTEMPTS"))
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+index cf65afa922..6564731da9 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+@@ -18,18 +18,18 @@ KBRANCH:qemux86-64 ?= "v6.1/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.1/standard/base"
+ KBRANCH:qemumips64 ?= "v6.1/standard/mti-malta64"
  
-         while True:
-             req_args['startIndex'] = index
--            raw_data = nvd_request_next(url, api_key, req_args)
-+            raw_data = nvd_request_next(url, attempts, api_key, req_args)
-             if raw_data is None:
-                 # We haven't managed to download data
-                 return False
+-SRCREV_machine:qemuarm ?= "c7612f5ac940578eac19971dcfa4f52f25753074"
+-SRCREV_machine:qemuarm64 ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_machine:qemuloongarch64 ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_machine:qemumips ?= "61a56646314cdf030994524e9b04a89b79e0cb9b"
+-SRCREV_machine:qemuppc ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_machine:qemuriscv64 ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_machine:qemuriscv32 ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_machine:qemux86 ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_machine:qemux86-64 ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_machine:qemumips64 ?= "8d25ce2c226b61b29e600dc6b4018afa354a6e67"
+-SRCREV_machine ?= "5d4da9e99880f594ca07d0a68d80d6b830728dc8"
+-SRCREV_meta ?= "77f0a9eba731b83da9273d1c0d6bb1c3afd9b129"
++SRCREV_machine:qemuarm ?= "b14dc32b21c8770b4e635ec69611aa32fff230b3"
++SRCREV_machine:qemuarm64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_machine:qemuloongarch64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_machine:qemumips ?= "072df281d6a919a505df072b4741d49145cf3781"
++SRCREV_machine:qemuppc ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_machine:qemuriscv64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_machine:qemuriscv32 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_machine:qemux86 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_machine:qemux86-64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_machine:qemumips64 ?= "a5de8564807b47662da3670c5b358a1494faef77"
++SRCREV_machine ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
++SRCREV_meta ?= "5f331d55d0900030f5bc9b139c815f3f01a8ffd4"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.34.1
 
