@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2DAC47073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F23FCC47072
 	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:45:27 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.150996.1703864720465851114
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web11.150995.1703864718810064168
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 07:45:20 -0800
+ Fri, 29 Dec 2023 07:45:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uOyYCAR8;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d3e416f303so19409765ad.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:20 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=W52odYHD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d2e6e14865so33238735ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864719; x=1704469519; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864717; x=1704469517; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JyzhWbTQ7yr4A+63izey2aw6RXX2tO7H6wFBMdLD2u0=;
-        b=uOyYCAR8dzhsVkVKpbuIpofonL6TZdJtjy+qpsuVc5d4zZxyYWYMPUuApiXjW0LnDG
-         RnGEXTci9YwlLyuH9rBbE8huONLmoXdOVuDeiLbp7EzNNk9gRFS9Fhrar74O+wJGmeSQ
-         CVx7t1V98iVYm4Tx7z7yYqaU9PczQAB5TXBtJjJOm5mY0UrIS/jhk070uGFhjvsH7KUx
-         wwQvqM3C42lp0/8T+R3Ndy7awVs+/EcJugtrw9sS8Gb2XcBeuk7AavGeEe463cXPhDh0
-         Eq+CI99/aTcSoZwXFTkpqDNwaKc2rhaaeFUIxXmgPWlpHPgR8EHAweYotYDvhe4oHqdy
-         VkdQ==
+        bh=yx8eAEMjm2ZvUNUBiXWKRphj4xBB1YDqPpSiAf3t3C8=;
+        b=W52odYHDuNsIX3wVFF/ziMBu+7ljNmSW/3xyWd0/Sasgk8KtKrRPBi08jLV1BX3/WJ
+         /VQLjKRdEh+Dm3v/LwTow/IYa0FtxEMtxEwA2HOurYd3tFlFh27POqj5tiFpuyLdXuoT
+         pqCs4pMCMkfvsJfbGFGEOgVA2WXVqqxGiuUjlAp+fYlKuoCFcobtQB1mO5H4LqoDAAmx
+         MBMn8NW3BCkEREib9BjWyxJzkN2O245Yi+D08FCAKuCKuQId2iBozzukrCZI5YPTCfUi
+         KE7Vb9S4glws1MIkgoT5Uda3FiAK4rcVOShzaDfi/huLzBCvYdOqHc7pm0eGcjNHAPSU
+         oO+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703864719; x=1704469519;
+        d=1e100.net; s=20230601; t=1703864717; x=1704469517;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JyzhWbTQ7yr4A+63izey2aw6RXX2tO7H6wFBMdLD2u0=;
-        b=aOnBDb71ttTClvCa3CSeVhB3iGJswLZdya3/b3VBBqMhp0Qlk2RsZRwKK+V55aSOXg
-         5MKkFe6FsIVbWqlAwfX3uQ7x0te0D5mCE1CG2ek6LjiSWIp5F6+k6OJMEx3ZhChU14ES
-         kp4h597Pwk+aWEOZdbHo914yvElCR++yjowARyvcGDI4Mtt1tLgRhLWDUmxJ+NuhVuxn
-         t6DlvK0ypqEz8i2kRZECaF+2eTCSaktZtPVuegcZrWcddIDMLZKcR83Xnv9MBdsbMafC
-         dvBk7RDY2TlG5hKLixlSVxYwu0ucMEefJ4MZgepq4MxzRuIdE+aul65TU8zVhtF3+hCi
-         gUdQ==
-X-Gm-Message-State: AOJu0YwJmsuO8m8CFkBJA6YOBQBmvDgpjQOYgopoifKnpoAObON7BaUL
-	LNPTtvHqovuRgc3pi2RpJcq/PnxpGGD+otq4gFITuT5Wno27hg==
-X-Google-Smtp-Source: AGHT+IE7FRXhtfPsyF7rBoYgwU8blgZ/SQlzp40ORWfv1pbPKJQhO5yAOkdiBu+uCkkClL47r+quBA==
-X-Received: by 2002:a17:902:be14:b0:1d4:6486:b013 with SMTP id r20-20020a170902be1400b001d46486b013mr3814913pls.8.1703864719140;
-        Fri, 29 Dec 2023 07:45:19 -0800 (PST)
+        bh=yx8eAEMjm2ZvUNUBiXWKRphj4xBB1YDqPpSiAf3t3C8=;
+        b=sgoKhTIvobFROR3As1nABVa8y6r3SZwkA7iV+kXUcz2fLG42muAnn0AfsO9oH0v1W9
+         MOrMDr4vhAueYPe0fbxGGh8h0jEE1ZTdxanxEKdgEfyp+qG3+UDyZyZb4RBAJzaZZKo5
+         P9WlTMjTmtYuH8m3ISGcZb9LlwuWUMDylh/gMu3/QPQBlDMPwwdwV7kTeNj7dbAMN1fa
+         JnbGMNvoLshRusgRNYEXDCBbO4IXI8UY86k2/v5Xxnc3yFh0pv3AyimauqB/LnKukQBt
+         qfRTlNbq13BDIzVUGR1JWPNa5UAhYkrnWuMtJ4JhzSzGJcsAXmFtwIC+KmESvOCWuLDN
+         2YOg==
+X-Gm-Message-State: AOJu0YyOn4y94mzRG6sbaudyU2OiS3d82ENun0X4pdAn1YpiIJS9IIFe
+	vf5rgjKV80ks9wqm+I4Ae+NsAZadENEdBIDHvWu0pCFm/2jjHQ==
+X-Google-Smtp-Source: AGHT+IEPkuoYZnML5UsDwci27Fcr11HZfRuiLRFQnGQ0Z55TrugE6m8HhP602/UW72tSPtW8dtUUTw==
+X-Received: by 2002:a17:902:860c:b0:1d3:3357:22b9 with SMTP id f12-20020a170902860c00b001d3335722b9mr5937487plo.139.1703864717426;
+        Fri, 29 Dec 2023 07:45:17 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.18
+        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 07:45:18 -0800 (PST)
+        Fri, 29 Dec 2023 07:45:17 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 09/41] linux-yocto/6.1: update to v6.1.66
-Date: Fri, 29 Dec 2023 05:44:23 -1000
-Message-Id: <70e1c509c81c5bc9b270076169b836562829ef51.1703864512.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 08/41] linux-yocto-rt/6.1: update to -rt18
+Date: Fri, 29 Dec 2023 05:44:22 -1000
+Message-Id: <3ada2757f8c8987af988dc8cd7525f755571c31f.1703864512.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703864512.git.steve@sakoman.com>
 References: <cover.1703864512.git.steve@sakoman.com>
@@ -61,229 +61,441 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:45:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193026
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193025
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating  to the latest korg -stable release that comprises
-the following commits:
+Integrating the following commit(s) to linux-yocto-rt/6.1:
 
-    6c6a6c7e211c Linux 6.1.66
-    ea574927fc0b iomap: update ki_pos a little later in iomap_dio_complete
-    adf0ecebf00a x86/apic/msi: Fix misconfigured non-maskable MSI quirk
-    b3b839fb636b x86/xen: fix percpu vcpu_info allocation
-    00bc8b2cf44c xen: simplify evtchn_do_upcall() call maze
-    9311a0ff388a xen: Allow platform PCI interrupt to be shared
-    402b8323461c r8169: fix deadlock on RTL8125 in jumbo mtu mode
-    22ee0ddb2af7 r8169: disable ASPM in case of tx timeout
-    10ce6301009f drm/amd/display: Fix MPCC 1DLUT programming
-    8332cb6c6339 drm/amd/display: Fix the delta clamping for shaper LUT
-    442a4d4d0157 drm/amd/display: clean code-style issues in dcn30_set_mpc_shaper_3dlut
-    6cd736272165 drm/amd/display: Expand kernel doc for DC
-    8b01195be4a9 mmc: sdhci-sprd: Fix vqmmc not shutting down after the card was pulled
-    38d3216032c9 mmc: core: add helpers mmc_regulator_enable/disable_vqmmc
-    0e0a95166882 drm/amd/pm: fix a memleak in aldebaran_tables_init
-    59862b869275 iommu/vt-d: Make context clearing consistent with context mapping
-    ee2c2247690c iommu/vt-d: Disable PCI ATS in legacy passthrough mode
-    8f39d297a26a iommu/vt-d: Add device_block_translation() helper
-    3787b3168b6c iommu/vt-d: Allocate pasid table in device probe path
-    681aeeda413d iommu/vt-d: Omit devTLB invalidation requests when TES=0
-    8aaed5b81d26 cpufreq: imx6q: Don't disable 792 Mhz OPP unnecessarily
-    d3788f6e9d5a cpufreq: imx6q: don't warn for disabling a non-existing frequency
-    195514bda626 drm/amd/display: Guard against invalid RPTR/WPTR being set
-    395a63ca1ad2 drm/amd/display: Restore rptr/wptr for DMCUB as workaround
-    4ec4508db975 spi: Fix null dereference on suspend
-    b57eebfb80e8 fbdev: stifb: Make the STI next font pointer a 32-bit signed offset
-    5bc8d96fedce PCI: qcom-ep: Add dedicated callback for writing to DBI2 registers
-    10c3d86fea04 octeontx2-af: Initialize 'cntr_val' to fix uninitialized symbol error
-    1c8f75ee9233 PCI: Lengthen reset delay for VideoPropulsion Torrent QN16e card
-    7545ddda9c98 KVM: x86: Fix lapic timer interrupt lost after loading a snapshot.
-    21feaf558f93 net: ravb: Keep reverse order of operations in ravb_remove()
-    8d04278ff48b net: ravb: Stop DMA in case of failures on ravb_open()
-    52b751686cbf net: ravb: Start TX queues after HW initialization succeeded
-    e2db25d16cdd net: ravb: Make write access to CXR35 first before accessing other EMAC registers
-    f5c649ce7975 net: ravb: Use pm_runtime_resume_and_get()
-    149b2fe12aca net: ravb: Check return value of reset_control_deassert()
-    7ed2e4c2d016 ravb: Fix races between ravb_tx_timeout_work() and net related ops
-    8b1d088be5f1 r8169: prevent potential deadlock in rtl8169_close
-    9c4ac2d98a48 octeontx2-pf: Restore TC ingress police rules when interface is up
-    aef2d5b3e56e octeontx2-af: Install TC filter rules in hardware based on priority
-    662b88708408 octeontx2-pf: Fix adding mbox work queue entry when num_vfs > 64
-    5d5bcfb1ca8d net: stmmac: xgmac: Disable FPE MMC interrupts
-    334e6378c28c octeontx2-af: Fix possible buffer overflow
-    c3e974e9c4bb selftests/net: mptcp: fix uninitialized variable warnings
-    12dd4c1bf3bd selftests/net: unix: fix unused variable compiler warning
-    4e999af7cf8a selftests/net: fix a char signedness issue
-    249ceee95caf selftests/net: ipsec: fix constant out of range
-    e01249a83939 uapi: propagate __struct_group() attributes to the container union
-    fd91b48f108d dpaa2-eth: increase the needed headroom to account for alignment
-    94445d958307 ipv4: igmp: fix refcnt uaf issue when receiving igmp query packet
-    f89fef7710b2 usb: config: fix iteration issue in 'usb_get_bos_descriptor()'
-    9aff7c51b440 USB: core: Change configuration warnings to notices
-    c89b34eef336 USB: xhci-plat: fix legacy PHY double init
-    307a6525c82a wifi: cfg80211: fix CQM for non-range use
-    e8c1105c0ccc serial: sc16is7xx: add missing support for rs485 devicetree properties
-    55061c323075 serial: sc16is7xx: Put IOControl register into regmap_volatile
-    a491c7be35ed auxdisplay: hd44780: move cursor home after clear display command
-    7f2116777541 Input: xpad - add HyperX Clutch Gladiate Support
-    7a105de27538 btrfs: fix 64bit compat send ioctl arguments not initializing version member
-    32912ee86931 btrfs: make error messages more clear when getting a chunk map
-    4fc9c61c02c0 btrfs: send: ensure send_fd is writable
-    86742a963fe6 btrfs: fix off-by-one when checking chunk map includes logical address
-    9fe447c485ed btrfs: ref-verify: fix memory leaks in btrfs_ref_tree_mod()
-    3f26d9b257ad btrfs: add dmesg output for first mount and last unmount of a filesystem
-    0ad7d59e7901 parisc: Mark altinstructions read-only and 32-bit aligned
-    cf2ae6494d1f parisc: Ensure 32-bit alignment on parisc unwind section
-    2acfff573042 parisc: Mark jump_table naturally aligned
-    3793cd2ded7c parisc: Drop the HP-UX ENOSYM and EREMOTERELEASE error codes
-    79a1fdf4c212 parisc: Mark lock_aligned variables 16-byte aligned on SMP
-    41d7852a0a39 parisc: Use natural CPU alignment for bug_table
-    c7c78a4aa60a parisc: Mark ex_table entries 32-bit aligned in uaccess.h
-    645e4b693b5e parisc: Mark ex_table entries 32-bit aligned in assembly.h
-    c23b9eaca80c powerpc: Don't clobber f0/vs0 during fp|altivec register save
-    e6bc42fae6b8 KVM: PPC: Book3S HV: Fix KVM_RUN clobbering FP/VEC user registers
-    59419ebcc0a6 iommu/vt-d: Add MTL to quirk list to skip TE disabling
-    0b48970ce102 bcache: revert replacing IS_ERR_OR_NULL with IS_ERR
-    fc98ea2699c0 dma-buf: fix check in dma_resv_add_fence
-    4da1556996fa cpufreq/amd-pstate: Fix the return value of amd_pstate_fast_switch()
-    9d4c721c1866 powercap: DTPM: Fix unneeded conversions to micro-Watts
-    a62ca58bb3cc nvme: check for valid nvme_identify_ns() before using it
-    82b5e603edd4 dm verity: don't perform FEC for failed readahead IO
-    6f5a9fc94bfc dm verity: initialize fec io before freeing it
-    7cfc3884a8bb drm/amd/display: fix ABM disablement
-    859a3a9f1e6b drm/amd/display: Update min Z8 residency time to 2100 for DCN314
-    6ef7f13c72df drm/amd/display: Use DRAM speed from validation for dummy p-state
-    a67c18704706 drm/amd/display: Remove min_dst_y_next_start check for Z8
-    33ed892f0cde drm/amd/display: Include udelay when waiting for INBOX0 ACK
-    c5cf436c8969 drm/amdgpu: Force order between a read and write to the same address
-    c60884296300 drm/amd: Enable PCIe PME from D3
-    cebccbe80165 scsi: sd: Fix system start for ATA devices
-    181fd67dc5b9 scsi: Change SCSI device boolean fields to single bit flags
-    7d2faae81b57 dm-verity: align struct dm_verity_fec_io properly
-    da9f55393f69 ALSA: hda/realtek: Add supported ALC257 for ChromeOS
-    f4b130213497 ALSA: hda/realtek: Headset Mic VREF to 100%
-    65654af4c8a6 ALSA: hda: Disable power-save on KONTRON SinglePC
-    ba911edc6c0c mmc: block: Be sure to wait while busy in CQE error recovery
-    eab9ec644637 mmc: block: Do not lose cache flush during CQE error recovery
-    e121f6d73d2e mmc: block: Retry commands in CQE error recovery
-    3a9a9c256f02 mmc: cqhci: Fix task clearing in CQE error recovery
-    def67fd8efde mmc: cqhci: Warn of halt or task clear failure
-    2ebc8b758c7d mmc: cqhci: Increase recovery halt timeout
-    d2fc10e262b5 mmc: sdhci-pci-gli: Disable LPM during initialization
-    87ceaa8521fc firewire: core: fix possible memory leak in create_units()
-    db0b69e46da6 pinctrl: avoid reload of p state in list iteration
-    74820f7406a1 smb: client: report correct st_size for SMB and NFS symlinks
-    60fed17ca5b8 cifs: Fix FALLOC_FL_INSERT_RANGE by setting i_size after EOF moved
-    6406cce4b22d cifs: Fix FALLOC_FL_ZERO_RANGE by setting i_size if EOF moved
+1/17 [
+    Author: Tvrtko Ursulin
+    Email: tvrtko.ursulin@intel.com
+    Subject: drm/i915: Do not disable preemption for resets
+    Date: Fri, 18 Aug 2023 22:45:25 -0400
+
+    [commit 40cd2835ced288789a685aa4aa7bc04b492dcd45 in linux-rt-devel]
+
+    Commit ade8a0f59844 ("drm/i915: Make all GPU resets atomic") added a
+    preempt disable section over the hardware reset callback to prepare the
+    driver for being able to reset from atomic contexts.
+
+    In retrospect I can see that the work item at a time was about removing
+    the struct mutex from the reset path. Code base also briefly entertained
+    the idea of doing the reset under stop_machine in order to serialize
+    userspace mmap and temporary glitch in the fence registers (see
+    eb8d0f5af4ec ("drm/i915: Remove GPU reset dependence on struct_mutex"),
+    but that never materialized and was soon removed in 2caffbf11762
+    ("drm/i915: Revoke mmaps and prevent access to fence registers across
+    reset") and replaced with a SRCU based solution.
+
+    As such, as far as I can see, today we still have a requirement that
+    resets must not sleep (invoked from submission tasklets), but no need to
+    support invoking them from a truly atomic context.
+
+    Given that the preemption section is problematic on RT kernels, since the
+    uncore lock becomes a sleeping lock and so is invalid in such section,
+    lets try and remove it. Potential downside is that our short waits on GPU
+    to complete the reset may get extended if CPU scheduling interferes, but
+    in practice that probably isn't a deal breaker.
+
+    In terms of mechanics, since the preemption disabled block is being
+    removed we just need to replace a few of the wait_for_atomic macros into
+    busy looping versions which will work (and not complain) when called from
+    non-atomic sections.
+
+    Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+    Cc: Chris Wilson <chris.p.wilson@intel.com>
+    Cc: Paul Gortmaker <paul.gortmaker@windriver.com>
+    Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    Acked-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    Link: https://lore.kernel.org/r/20230705093025.3689748-1-tvrtko.ursulin@linux.intel.com
+    Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    [PG: backport from v6.4-rt ; minor context fixup caused by b7d70b8b06ed]
+    Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+    Signed-off-by: Clark Williams <williams@redhat.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+2/17 [
+    Author: Clark Williams
+    Email: clrkwllms@kernel.org
+    Subject: 'Linux 6.1.33-rt11'
+    Date: Mon, 12 Jun 2023 10:40:02 -0500
+
+    Signed-off-by: Clark Williams <clrkwllms@kernel.org>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+5/17 [
+    Author: Sebastian Andrzej Siewior
+    Email: bigeasy@linutronix.de
+    Subject: io-mapping: don't disable preempt on RT in io_mapping_map_atomic_wc().
+    Date: Fri, 10 Mar 2023 17:29:05 +0100
+
+    io_mapping_map_atomic_wc() disables preemption and pagefaults for
+    historical reasons.  The conversion to io_mapping_map_local_wc(), which
+    only disables migration, cannot be done wholesale because quite some call
+    sites need to be updated to accommodate with the changed semantics.
+
+    On PREEMPT_RT enabled kernels the io_mapping_map_atomic_wc() semantics are
+    problematic due to the implicit disabling of preemption which makes it
+    impossible to acquire 'sleeping' spinlocks within the mapped atomic
+    sections.
+
+    PREEMPT_RT replaces the preempt_disable() with a migrate_disable() for
+    more than a decade.  It could be argued that this is a justification to do
+    this unconditionally, but PREEMPT_RT covers only a limited number of
+    architectures and it disables some functionality which limits the coverage
+    further.
+
+    Limit the replacement to PREEMPT_RT for now.  This is also done
+    kmap_atomic().
+
+    Link: https://lkml.kernel.org/r/20230310162905.O57Pj7hh@linutronix.de
+    Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    Reported-by: Richard Weinberger <richard.weinberger@gmail.com>
+      Link: https://lore.kernel.org/CAFLxGvw0WMxaMqYqJ5WgvVSbKHq2D2xcXTOgMCpgq9nDC-MWTQ@mail.gmail.com
+    Cc: Thomas Gleixner <tglx@linutronix.de>
+    Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+    (cherry picked from commit 7eb16f23b9a415f062db22739e59bb144e0b24ab)
+    Signed-off-by: Clark Williams <clark.williams@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+6/17 [
+    Author: Sebastian Andrzej Siewior
+    Email: bigeasy@linutronix.de
+    Subject: locking/rwbase: Mitigate indefinite writer starvation
+    Date: Tue, 21 Mar 2023 17:11:40 +0100
+
+    On PREEMPT_RT, rw_semaphore and rwlock_t locks are unfair to writers.
+    Readers can indefinitely acquire the lock unless the writer fully acquired
+    the lock, which might never happen if there is always a reader in the
+    critical section owning the lock.
+
+    Mel Gorman reported that since LTP-20220121 the dio_truncate test case
+    went from having 1 reader to having 16 readers and that number of readers
+    is sufficient to prevent the down_write ever succeeding while readers
+    exist. Eventually the test is killed after 30 minutes as a failure.
+
+    Mel proposed a timeout to limit how long a writer can be blocked until
+    the reader is forced into the slowpath.
+
+    Thomas argued that there is no added value by providing this timeout.  From
+    a PREEMPT_RT point of view, there are no critical rw_semaphore or rwlock_t
+    locks left where the reader must be preferred.
+
+    Mitigate indefinite writer starvation by forcing the READER into the
+    slowpath once the WRITER attempts to acquire the lock.
+
+    Reported-by: Mel Gorman <mgorman@techsingularity.net>
+    Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+    Signed-off-by: Ingo Molnar <mingo@kernel.org>
+    Acked-by: Mel Gorman <mgorman@techsingularity.net>
+    Link: https://lore.kernel.org/877cwbq4cq.ffs@tglx
+    Link: https://lore.kernel.org/r/20230321161140.HMcQEhHb@linutronix.de
+    Cc: Linus Torvalds <torvalds@linux-foundation.org>
+    (cherry picked from commit 286deb7ec03d941664ac3ffaff58814b454adf65)
+    Signed-off-by: Clark Williams <clark.williams@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+7/17 [
+    Author: Paolo Abeni
+    Email: pabeni@redhat.com
+    Subject: revert: "softirq: Let ksoftirqd do its job"
+    Date: Mon, 8 May 2023 08:17:44 +0200
+
+    Due to the mentioned commit, when the ksoftirqd processes take charge
+    of softirq processing, the system can experience high latencies.
+
+    In the past a few workarounds have been implemented for specific
+    side-effects of the above:
+
+    commit 1ff688209e2e ("watchdog: core: make sure the watchdog_worker is not deferred")
+    commit 8d5755b3f77b ("watchdog: softdog: fire watchdog even if softirqs do not get to run")
+    commit 217f69743681 ("net: busy-poll: allow preemption in sk_busy_loop()")
+    commit 3c53776e29f8 ("Mark HI and TASKLET softirq synchronous")
+
+    but the latency problem still exists in real-life workloads, see the
+    link below.
+
+    The reverted commit intended to solve a live-lock scenario that can now
+    be addressed with the NAPI threaded mode, introduced with commit
+    29863d41bb6e ("net: implement threaded-able napi poll loop support"),
+    and nowadays in a pretty stable status.
+
+    While a complete solution to put softirq processing under nice resource
+    control would be preferable, that has proven to be a very hard task. In
+    the short term, remove the main pain point, and also simplify a bit the
+    current softirq implementation.
+
+    Note that this change also reverts commit 3c53776e29f8 ("Mark HI and
+    TASKLET softirq synchronous") and commit 1342d8080f61 ("softirq: Don't
+    skip softirq execution when softirq thread is parking"), which are
+    direct follow-ups of the feature commit. A single change is preferred to
+    avoid known bad intermediate states introduced by a patch series
+    reverting them individually.
+
+    Link: https://lore.kernel.org/netdev/305d7742212cbe98621b16be782b0562f1012cb6.camel@redhat.com/
+    Signed-off-by: Paolo Abeni <pabeni@redhat.com>
+    Tested-by: Jason Xing <kerneljasonxing@gmail.com>
+    Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+    Reviewed-by: Eric Dumazet <edumazet@google.com>
+    Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    Link: https://lore.kernel.org/r/57e66b364f1b6f09c9bc0316742c3b14f4ce83bd.1683526542.git.pabeni@redhat.com
+    Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    (cherry picked from commit b8a04a538ed4755dc97c403ee3b8dd882955c98c)
+    Signed-off-by: Clark Williams <clark.williams@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+8/17 [
+    Author: Peter Zijlstra
+    Email: peterz@infradead.org
+    Subject: debugobjects,locking: Annotate debug_object_fill_pool() wait type violation
+    Date: Tue, 25 Apr 2023 17:03:13 +0200
+
+    There is an explicit wait-type violation in debug_object_fill_pool()
+    for PREEMPT_RT=n kernels which allows them to more easily fill the
+    object pool and reduce the chance of allocation failures.
+
+    Lockdep's wait-type checks are designed to check the PREEMPT_RT
+    locking rules even for PREEMPT_RT=n kernels and object to this, so
+    create a lockdep annotation to allow this to stand.
+
+    Specifically, create a 'lock' type that overrides the inner wait-type
+    while it is held -- allowing one to temporarily raise it, such that
+    the violation is hidden.
+
+    Reported-by: Vlastimil Babka <vbabka@suse.cz>
+    Reported-by: Qi Zheng <zhengqi.arch@bytedance.com>
+    Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+    Tested-by: Qi Zheng <zhengqi.arch@bytedance.com>
+    Link: https://lkml.kernel.org/r/20230429100614.GA1489784@hirez.programming.kicks-ass.net
+    (cherry picked from commit 0cce06ba859a515bd06224085d3addb870608b6d)
+    Signed-off-by: Clark Williams <clark.williams@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+9/17 [
+    Author: Wander Lairson Costa
+    Email: wander@redhat.com
+    Subject: sched: avoid false lockdep splat in put_task_struct()
+    Date: Wed, 14 Jun 2023 09:23:22 -0300
+
+    In put_task_struct(), a spin_lock is indirectly acquired under the kernel
+    stock. When running the kernel in real-time (RT) configuration, the
+    operation is dispatched to a preemptible context call to ensure
+    guaranteed preemption. However, if PROVE_RAW_LOCK_NESTING is enabled
+    and __put_task_struct() is called while holding a raw_spinlock, lockdep
+    incorrectly reports an "Invalid lock context" in the stock kernel.
+
+    This false splat occurs because lockdep is unaware of the different
+    route taken under RT. To address this issue, override the inner wait
+    type to prevent the false lockdep splat.
+
+    Signed-off-by: Wander Lairson Costa <wander@redhat.com>
+    Suggested-by: Oleg Nesterov <oleg@redhat.com>
+    Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    Suggested-by: Peter Zijlstra <peterz@infradead.org>
+    Cc: Steven Rostedt <rostedt@goodmis.org>
+    Cc: Luis Goncalves <lgoncalv@redhat.com>
+    Link: https://lore.kernel.org/r/20230614122323.37957-3-wander@redhat.com
+    Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    (cherry picked from commit a5e446e728e89d5f5c5e427cc919bc7813c64c28)
+    Signed-off-by: Clark Williams <clark.williams@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+10/17 [
+    Author: Sebastian Andrzej Siewior
+    Email: bigeasy@linutronix.de
+    Subject: mm/page_alloc: Use write_seqlock_irqsave() instead write_seqlock() + local_irq_save().
+    Date: Fri, 23 Jun 2023 22:15:17 +0200
+
+    __build_all_zonelists() acquires zonelist_update_seq by first disabling
+    interrupts via local_irq_save() and then acquiring the seqlock with
+    write_seqlock(). This is troublesome and leads to problems on
+    PREEMPT_RT. The problem is that the inner spinlock_t becomes a sleeping
+    lock on PREEMPT_RT and must not be acquired with disabled interrupts.
+
+    The API provides write_seqlock_irqsave() which does the right thing in
+    one step.
+    printk_deferred_enter() has to be invoked in non-migrate-able context to
+    ensure that deferred printing is enabled and disabled on the same CPU.
+    This is the case after zonelist_update_seq has been acquired.
+
+    There was discussion on the first submission that the order should be:
+    	local_irq_disable();
+    	printk_deferred_enter();
+    	write_seqlock();
+
+    to avoid pitfalls like having an unaccounted printk() coming from
+    write_seqlock_irqsave() before printk_deferred_enter() is invoked. The
+    only origin of such a printk() can be a lockdep splat because the
+    lockdep annotation happens after the sequence count is incremented.
+    This is exceptional and subject to change.
+
+    It was also pointed that PREEMPT_RT can be affected by the printk
+    problem since its write_seqlock_irqsave() does not really disable
+    interrupts. This isn't the case because PREEMPT_RT's printk
+    implementation differs from the mainline implementation in two important
+    aspects:
+    - Printing happens in a dedicated threads and not at during the
+      invocation of printk().
+    - In emergency cases where synchronous printing is used, a different
+      driver is used which does not use tty_port::lock.
+
+    Acquire zonelist_update_seq with write_seqlock_irqsave() and then defer
+    printk output.
+
+    Fixes: 1007843a91909 ("mm/page_alloc: fix potential deadlock on zonelist_update_seq seqlock")
+    Acked-by: Michal Hocko <mhocko@suse.com>
+    Reviewed-by: David Hildenbrand <david@redhat.com>
+    Link: https://lore.kernel.org/r/20230623201517.yw286Knb@linutronix.de
+    Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    (cherry picked from commit 4d1139baae8bc4fff3728d1d204bdb04c13dbe10)
+    Signed-off-by: Clark Williams <clark.williams@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+11/17 [
+    Author: Sebastian Andrzej Siewior
+    Email: bigeasy@linutronix.de
+    Subject: bpf: Remove in_atomic() from bpf_link_put().
+    Date: Wed, 14 Jun 2023 10:34:30 +0200
+
+    bpf_free_inode() is invoked as a RCU callback. Usually RCU callbacks are
+    invoked within softirq context. By setting rcutree.use_softirq=0 boot
+    option the RCU callbacks will be invoked in a per-CPU kthread with
+    bottom halves disabled which implies a RCU read section.
+
+    On PREEMPT_RT the context remains fully preemptible. The RCU read
+    section however does not allow schedule() invocation. The latter happens
+    in mutex_lock() performed by bpf_trampoline_unlink_prog() originated
+    from bpf_link_put().
+
+    It was pointed out that the bpf_link_put() invocation should not be
+    delayed if originated from close(). It was also pointed out that other
+    invocations from within a syscall should also avoid the workqueue.
+    Everyone else should use workqueue by default to remain safe in the
+    future (while auditing the code, every caller was preemptible except for
+    the RCU case).
+
+    Let bpf_link_put() use the worker unconditionally. Add
+    bpf_link_put_direct() which will directly free the resources and is used
+    by close() and from within __sys_bpf().
+
+    Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+    Signed-off-by: Andrii Nakryiko <andrii@kernel.org>
+    Link: https://lore.kernel.org/bpf/20230614083430.oENawF8f@linutronix.de
+    (cherry picked from commit ab5d47bd41b1db82c295b0e751e2b822b43a4b5a)
+    Signed-off-by: Clark Williams <clark.williams@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+12/17 [
+    Author: Thomas Gleixner
+    Email: tglx@linutronix.de
+    Subject: posix-timers: Ensure timer ID search-loop limit is valid
+    Date: Thu, 1 Jun 2023 20:58:47 +0200
+
+    posix_timer_add() tries to allocate a posix timer ID by starting from the
+    cached ID which was stored by the last successful allocation.
+
+    This is done in a loop searching the ID space for a free slot one by
+    one. The loop has to terminate when the search wrapped around to the
+    starting point.
+
+    But that's racy vs. establishing the starting point. That is read out
+    lockless, which leads to the following problem:
+
+    CPU0	  	      	     	   CPU1
+    posix_timer_add()
+      start = sig->posix_timer_id;
+      lock(hash_lock);
+      ...				   posix_timer_add()
+      if (++sig->posix_timer_id < 0)
+          			             start = sig->posix_timer_id;
+         sig->posix_timer_id = 0;
+
+    So CPU1 can observe a negative start value, i.e. -1, and the loop break
+    never happens because the condition can never be true:
+
+      if (sig->posix_timer_id == start)
+         break;
+
+    While this is unlikely to ever turn into an endless loop as the ID space is
+    huge (INT_MAX), the racy read of the start value caught the attention of
+    KCSAN and Dmitry unearthed that incorrectness.
+
+    Rewrite it so that all id operations are under the hash lock.
+
+    Reported-by: syzbot+5c54bd3eb218bb595aa9@syzkaller.appspotmail.com
+    Reported-by: Dmitry Vyukov <dvyukov@google.com>
+    Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+    Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+    Link: https://lore.kernel.org/r/87bkhzdn6g.ffs@tglx
+
+    (cherry picked from commit 8ce8849dd1e78dadcee0ec9acbd259d239b7069f)
+    Signed-off-by: Clark Williams <clark.williams@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 83c13368918a69ad63ee957f3d03362e366afe42)
+(cherry picked from commit 53e612c42ce438b100505c93d8bb65e59f49895d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb   | 4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb      | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-index 78e7dd4d13..54f7f4efef 100644
+index 8d07058b71..78e7dd4d13 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-@@ -14,13 +14,13 @@ python () {
+@@ -14,8 +14,8 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "4c0acd6ff800dc4d1630b11640984343bffe7825"
--SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
-+SRCREV_machine ?= "97d59da1d2d5a9ace6b4e7695b1eabbcd6197c4c"
-+SRCREV_meta ?= "211dccdc1a71cd953c83f88a025adfa6b5c58ad4"
+-SRCREV_machine ?= "2fc300ad2664d72a382351afaa02208e3bcec857"
+-SRCREV_meta ?= "5f331d55d0900030f5bc9b139c815f3f01a8ffd4"
++SRCREV_machine ?= "4c0acd6ff800dc4d1630b11640984343bffe7825"
++SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.1.65"
-+LINUX_VERSION ?= "6.1.66"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-index d91ed65999..3e025e6726 100644
+index c0871532df..d91ed65999 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.1.inc
- 
--LINUX_VERSION ?= "6.1.65"
-+LINUX_VERSION ?= "6.1.66"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
-+SRCREV_machine ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_meta ?= "211dccdc1a71cd953c83f88a025adfa6b5c58ad4"
+ SRCREV_machine ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_meta ?= "5f331d55d0900030f5bc9b139c815f3f01a8ffd4"
++SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
  
  PV = "${LINUX_VERSION}+git"
  
 diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-index f431e4a937..18beb3c3a1 100644
+index 6564731da9..f431e4a937 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.1/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.1/standard/base"
- KBRANCH:qemumips64 ?= "v6.1/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "b14dc32b21c8770b4e635ec69611aa32fff230b3"
--SRCREV_machine:qemuarm64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_machine:qemuloongarch64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_machine:qemumips ?= "072df281d6a919a505df072b4741d49145cf3781"
--SRCREV_machine:qemuppc ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_machine:qemuriscv64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_machine:qemuriscv32 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_machine:qemux86 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_machine:qemux86-64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_machine:qemumips64 ?= "a5de8564807b47662da3670c5b358a1494faef77"
--SRCREV_machine ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
--SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
-+SRCREV_machine:qemuarm ?= "7f7eb326b47065b720ad4c760b77d52021336f95"
-+SRCREV_machine:qemuarm64 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_machine:qemuloongarch64 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_machine:qemumips ?= "638a98e4a2146f79a588b125d74addaae42f75a2"
-+SRCREV_machine:qemuppc ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_machine:qemuriscv64 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_machine:qemuriscv32 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_machine:qemux86 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_machine:qemux86-64 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_machine:qemumips64 ?= "d39acda588fe786b00969ade6eef057d86386578"
-+SRCREV_machine ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
-+SRCREV_meta ?= "211dccdc1a71cd953c83f88a025adfa6b5c58ad4"
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+ SRCREV_machine:qemux86-64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+ SRCREV_machine:qemumips64 ?= "a5de8564807b47662da3670c5b358a1494faef77"
+ SRCREV_machine ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_meta ?= "5f331d55d0900030f5bc9b139c815f3f01a8ffd4"
++SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
  
  # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
  # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "c6114c845984144944f1abc07c61de219367a4da"
-+SRCREV_machine:class-devupstream ?= "6c6a6c7e211cc02943dcb8c073919d2105054886"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.1/base"
- 
-@@ -45,7 +45,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
- SRC_URI += "file://0001-perf-cpumap-Make-counter-as-unsigned-ints.patch"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.1.65"
-+LINUX_VERSION ?= "6.1.66"
- 
- PV = "${LINUX_VERSION}+git"
- 
 -- 
 2.34.1
 
