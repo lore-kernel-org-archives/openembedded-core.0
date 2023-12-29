@@ -2,515 +2,287 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00F8FC4707B
-	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:45:18 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.151496.1703864713351766870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF2DAC47073
+	for <webhook@archiver.kernel.org>; Fri, 29 Dec 2023 15:45:27 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.150996.1703864720465851114
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Dec 2023 07:45:13 -0800
+ Fri, 29 Dec 2023 07:45:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LkmfgU+j;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d45f182fa2so27639145ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uOyYCAR8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d3e416f303so19409765ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 07:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864712; x=1704469512; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703864719; x=1704469519; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dT/cAf07XOSsyjpFsJ893wkq+oUM7VbPSIHZ0kQnJ9w=;
-        b=LkmfgU+jbqK1zCHPSZCBnozAQUjTY1lF7XeYEZxXBHC9l1syaU5wsa2hOtL0MSNk4B
-         9QJjnKq9aoce92Om5FXId+K7TSOd//2ILla2gU3zWXr2YlXnWc7bK7rQ1OICaudQ1BfV
-         fmp/oEzpS8mWN6GiBv3PnuwTMSOCRX6JvW7lDmCzrmZBHacKkQSmFfIivXwZUhW8isw+
-         7803P7pGttCSr3zyB+ru/I+zij00Nunmk7oCIdW0sXQZKpFvedYCFVc6dwZDHtgbXi1W
-         wBHnXTxjxLCti5LMCRSWO8Mc3nT4HIk7wb+VHyGD3qfpMlJ75mO5WVi+mFueou1wLa3Y
-         t2/w==
+        bh=JyzhWbTQ7yr4A+63izey2aw6RXX2tO7H6wFBMdLD2u0=;
+        b=uOyYCAR8dzhsVkVKpbuIpofonL6TZdJtjy+qpsuVc5d4zZxyYWYMPUuApiXjW0LnDG
+         RnGEXTci9YwlLyuH9rBbE8huONLmoXdOVuDeiLbp7EzNNk9gRFS9Fhrar74O+wJGmeSQ
+         CVx7t1V98iVYm4Tx7z7yYqaU9PczQAB5TXBtJjJOm5mY0UrIS/jhk070uGFhjvsH7KUx
+         wwQvqM3C42lp0/8T+R3Ndy7awVs+/EcJugtrw9sS8Gb2XcBeuk7AavGeEe463cXPhDh0
+         Eq+CI99/aTcSoZwXFTkpqDNwaKc2rhaaeFUIxXmgPWlpHPgR8EHAweYotYDvhe4oHqdy
+         VkdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703864712; x=1704469512;
+        d=1e100.net; s=20230601; t=1703864719; x=1704469519;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dT/cAf07XOSsyjpFsJ893wkq+oUM7VbPSIHZ0kQnJ9w=;
-        b=t3HMUYhb2vVyZq0RT2INWqQeufAuJt77aq6O66FFK1U5u6Q1fUNVTsjyOleRHMnDtF
-         WDuEpSkqUDTQl84n+Gjkhgx8+nYvrIjXI7WikT2ggKg5pV/duet2i0cp7e11PkXt2rFI
-         ZUVtpV4T7XqSGLgchlrQQqY+clMXzBEKlt2OLhQXn8pjaxM2zF9ewkR340F9TRqeY4og
-         NffKGcio6oMf6zeiiz4gZYzFBlMcoaGxfv1WOf27lsdGc+pVuHcG0lFema6RxCFhMYfN
-         BRrwZDWaY3O6ZgizpVPsxLxVj8lwqw+XazoH59aO1lZYoeiERD1xynEyGMZqHY8l7Q1e
-         DZ4Q==
-X-Gm-Message-State: AOJu0Yxg5WtDgm+H0qtRG+Ucyo/8183w9vo2g0ij1DeRCfcADkADqC24
-	slrzIvqsN7XCcKbcHooJWG+4js4SsM1PbxUFTP5AcapvQrsBzw==
-X-Google-Smtp-Source: AGHT+IEnZzxYpCEcozHiF0CpZqztGTVihhMowdrvNMxzQa+/dDVJkM9f2Ym13ErcZtrcwgH9SsbZkg==
-X-Received: by 2002:a17:903:200b:b0:1d4:42f:d39b with SMTP id s11-20020a170903200b00b001d4042fd39bmr10385455pla.3.1703864712143;
-        Fri, 29 Dec 2023 07:45:12 -0800 (PST)
+        bh=JyzhWbTQ7yr4A+63izey2aw6RXX2tO7H6wFBMdLD2u0=;
+        b=aOnBDb71ttTClvCa3CSeVhB3iGJswLZdya3/b3VBBqMhp0Qlk2RsZRwKK+V55aSOXg
+         5MKkFe6FsIVbWqlAwfX3uQ7x0te0D5mCE1CG2ek6LjiSWIp5F6+k6OJMEx3ZhChU14ES
+         kp4h597Pwk+aWEOZdbHo914yvElCR++yjowARyvcGDI4Mtt1tLgRhLWDUmxJ+NuhVuxn
+         t6DlvK0ypqEz8i2kRZECaF+2eTCSaktZtPVuegcZrWcddIDMLZKcR83Xnv9MBdsbMafC
+         dvBk7RDY2TlG5hKLixlSVxYwu0ucMEefJ4MZgepq4MxzRuIdE+aul65TU8zVhtF3+hCi
+         gUdQ==
+X-Gm-Message-State: AOJu0YwJmsuO8m8CFkBJA6YOBQBmvDgpjQOYgopoifKnpoAObON7BaUL
+	LNPTtvHqovuRgc3pi2RpJcq/PnxpGGD+otq4gFITuT5Wno27hg==
+X-Google-Smtp-Source: AGHT+IE7FRXhtfPsyF7rBoYgwU8blgZ/SQlzp40ORWfv1pbPKJQhO5yAOkdiBu+uCkkClL47r+quBA==
+X-Received: by 2002:a17:902:be14:b0:1d4:6486:b013 with SMTP id r20-20020a170902be1400b001d46486b013mr3814913pls.8.1703864719140;
+        Fri, 29 Dec 2023 07:45:19 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.11
+        by smtp.gmail.com with ESMTPSA id jm7-20020a17090304c700b001d3e6f58e5esm15772705plb.6.2023.12.29.07.45.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Dec 2023 07:45:11 -0800 (PST)
+        Fri, 29 Dec 2023 07:45:18 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 05/41] rust: Fix CVE-2023-40030
-Date: Fri, 29 Dec 2023 05:44:19 -1000
-Message-Id: <c55e8f8b1971cc9f311b6a18a34c4c34f732177a.1703864512.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 09/41] linux-yocto/6.1: update to v6.1.66
+Date: Fri, 29 Dec 2023 05:44:23 -1000
+Message-Id: <70e1c509c81c5bc9b270076169b836562829ef51.1703864512.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1703864512.git.steve@sakoman.com>
 References: <cover.1703864512.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:45:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193022
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Dec 2023 15:45:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193026
 
-From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-CVE:CVE-2023-40030
+Updating  to the latest korg -stable release that comprises
+the following commits:
 
-This converts the feature name validation check from a warning to an error
+    6c6a6c7e211c Linux 6.1.66
+    ea574927fc0b iomap: update ki_pos a little later in iomap_dio_complete
+    adf0ecebf00a x86/apic/msi: Fix misconfigured non-maskable MSI quirk
+    b3b839fb636b x86/xen: fix percpu vcpu_info allocation
+    00bc8b2cf44c xen: simplify evtchn_do_upcall() call maze
+    9311a0ff388a xen: Allow platform PCI interrupt to be shared
+    402b8323461c r8169: fix deadlock on RTL8125 in jumbo mtu mode
+    22ee0ddb2af7 r8169: disable ASPM in case of tx timeout
+    10ce6301009f drm/amd/display: Fix MPCC 1DLUT programming
+    8332cb6c6339 drm/amd/display: Fix the delta clamping for shaper LUT
+    442a4d4d0157 drm/amd/display: clean code-style issues in dcn30_set_mpc_shaper_3dlut
+    6cd736272165 drm/amd/display: Expand kernel doc for DC
+    8b01195be4a9 mmc: sdhci-sprd: Fix vqmmc not shutting down after the card was pulled
+    38d3216032c9 mmc: core: add helpers mmc_regulator_enable/disable_vqmmc
+    0e0a95166882 drm/amd/pm: fix a memleak in aldebaran_tables_init
+    59862b869275 iommu/vt-d: Make context clearing consistent with context mapping
+    ee2c2247690c iommu/vt-d: Disable PCI ATS in legacy passthrough mode
+    8f39d297a26a iommu/vt-d: Add device_block_translation() helper
+    3787b3168b6c iommu/vt-d: Allocate pasid table in device probe path
+    681aeeda413d iommu/vt-d: Omit devTLB invalidation requests when TES=0
+    8aaed5b81d26 cpufreq: imx6q: Don't disable 792 Mhz OPP unnecessarily
+    d3788f6e9d5a cpufreq: imx6q: don't warn for disabling a non-existing frequency
+    195514bda626 drm/amd/display: Guard against invalid RPTR/WPTR being set
+    395a63ca1ad2 drm/amd/display: Restore rptr/wptr for DMCUB as workaround
+    4ec4508db975 spi: Fix null dereference on suspend
+    b57eebfb80e8 fbdev: stifb: Make the STI next font pointer a 32-bit signed offset
+    5bc8d96fedce PCI: qcom-ep: Add dedicated callback for writing to DBI2 registers
+    10c3d86fea04 octeontx2-af: Initialize 'cntr_val' to fix uninitialized symbol error
+    1c8f75ee9233 PCI: Lengthen reset delay for VideoPropulsion Torrent QN16e card
+    7545ddda9c98 KVM: x86: Fix lapic timer interrupt lost after loading a snapshot.
+    21feaf558f93 net: ravb: Keep reverse order of operations in ravb_remove()
+    8d04278ff48b net: ravb: Stop DMA in case of failures on ravb_open()
+    52b751686cbf net: ravb: Start TX queues after HW initialization succeeded
+    e2db25d16cdd net: ravb: Make write access to CXR35 first before accessing other EMAC registers
+    f5c649ce7975 net: ravb: Use pm_runtime_resume_and_get()
+    149b2fe12aca net: ravb: Check return value of reset_control_deassert()
+    7ed2e4c2d016 ravb: Fix races between ravb_tx_timeout_work() and net related ops
+    8b1d088be5f1 r8169: prevent potential deadlock in rtl8169_close
+    9c4ac2d98a48 octeontx2-pf: Restore TC ingress police rules when interface is up
+    aef2d5b3e56e octeontx2-af: Install TC filter rules in hardware based on priority
+    662b88708408 octeontx2-pf: Fix adding mbox work queue entry when num_vfs > 64
+    5d5bcfb1ca8d net: stmmac: xgmac: Disable FPE MMC interrupts
+    334e6378c28c octeontx2-af: Fix possible buffer overflow
+    c3e974e9c4bb selftests/net: mptcp: fix uninitialized variable warnings
+    12dd4c1bf3bd selftests/net: unix: fix unused variable compiler warning
+    4e999af7cf8a selftests/net: fix a char signedness issue
+    249ceee95caf selftests/net: ipsec: fix constant out of range
+    e01249a83939 uapi: propagate __struct_group() attributes to the container union
+    fd91b48f108d dpaa2-eth: increase the needed headroom to account for alignment
+    94445d958307 ipv4: igmp: fix refcnt uaf issue when receiving igmp query packet
+    f89fef7710b2 usb: config: fix iteration issue in 'usb_get_bos_descriptor()'
+    9aff7c51b440 USB: core: Change configuration warnings to notices
+    c89b34eef336 USB: xhci-plat: fix legacy PHY double init
+    307a6525c82a wifi: cfg80211: fix CQM for non-range use
+    e8c1105c0ccc serial: sc16is7xx: add missing support for rs485 devicetree properties
+    55061c323075 serial: sc16is7xx: Put IOControl register into regmap_volatile
+    a491c7be35ed auxdisplay: hd44780: move cursor home after clear display command
+    7f2116777541 Input: xpad - add HyperX Clutch Gladiate Support
+    7a105de27538 btrfs: fix 64bit compat send ioctl arguments not initializing version member
+    32912ee86931 btrfs: make error messages more clear when getting a chunk map
+    4fc9c61c02c0 btrfs: send: ensure send_fd is writable
+    86742a963fe6 btrfs: fix off-by-one when checking chunk map includes logical address
+    9fe447c485ed btrfs: ref-verify: fix memory leaks in btrfs_ref_tree_mod()
+    3f26d9b257ad btrfs: add dmesg output for first mount and last unmount of a filesystem
+    0ad7d59e7901 parisc: Mark altinstructions read-only and 32-bit aligned
+    cf2ae6494d1f parisc: Ensure 32-bit alignment on parisc unwind section
+    2acfff573042 parisc: Mark jump_table naturally aligned
+    3793cd2ded7c parisc: Drop the HP-UX ENOSYM and EREMOTERELEASE error codes
+    79a1fdf4c212 parisc: Mark lock_aligned variables 16-byte aligned on SMP
+    41d7852a0a39 parisc: Use natural CPU alignment for bug_table
+    c7c78a4aa60a parisc: Mark ex_table entries 32-bit aligned in uaccess.h
+    645e4b693b5e parisc: Mark ex_table entries 32-bit aligned in assembly.h
+    c23b9eaca80c powerpc: Don't clobber f0/vs0 during fp|altivec register save
+    e6bc42fae6b8 KVM: PPC: Book3S HV: Fix KVM_RUN clobbering FP/VEC user registers
+    59419ebcc0a6 iommu/vt-d: Add MTL to quirk list to skip TE disabling
+    0b48970ce102 bcache: revert replacing IS_ERR_OR_NULL with IS_ERR
+    fc98ea2699c0 dma-buf: fix check in dma_resv_add_fence
+    4da1556996fa cpufreq/amd-pstate: Fix the return value of amd_pstate_fast_switch()
+    9d4c721c1866 powercap: DTPM: Fix unneeded conversions to micro-Watts
+    a62ca58bb3cc nvme: check for valid nvme_identify_ns() before using it
+    82b5e603edd4 dm verity: don't perform FEC for failed readahead IO
+    6f5a9fc94bfc dm verity: initialize fec io before freeing it
+    7cfc3884a8bb drm/amd/display: fix ABM disablement
+    859a3a9f1e6b drm/amd/display: Update min Z8 residency time to 2100 for DCN314
+    6ef7f13c72df drm/amd/display: Use DRAM speed from validation for dummy p-state
+    a67c18704706 drm/amd/display: Remove min_dst_y_next_start check for Z8
+    33ed892f0cde drm/amd/display: Include udelay when waiting for INBOX0 ACK
+    c5cf436c8969 drm/amdgpu: Force order between a read and write to the same address
+    c60884296300 drm/amd: Enable PCIe PME from D3
+    cebccbe80165 scsi: sd: Fix system start for ATA devices
+    181fd67dc5b9 scsi: Change SCSI device boolean fields to single bit flags
+    7d2faae81b57 dm-verity: align struct dm_verity_fec_io properly
+    da9f55393f69 ALSA: hda/realtek: Add supported ALC257 for ChromeOS
+    f4b130213497 ALSA: hda/realtek: Headset Mic VREF to 100%
+    65654af4c8a6 ALSA: hda: Disable power-save on KONTRON SinglePC
+    ba911edc6c0c mmc: block: Be sure to wait while busy in CQE error recovery
+    eab9ec644637 mmc: block: Do not lose cache flush during CQE error recovery
+    e121f6d73d2e mmc: block: Retry commands in CQE error recovery
+    3a9a9c256f02 mmc: cqhci: Fix task clearing in CQE error recovery
+    def67fd8efde mmc: cqhci: Warn of halt or task clear failure
+    2ebc8b758c7d mmc: cqhci: Increase recovery halt timeout
+    d2fc10e262b5 mmc: sdhci-pci-gli: Disable LPM during initialization
+    87ceaa8521fc firewire: core: fix possible memory leak in create_units()
+    db0b69e46da6 pinctrl: avoid reload of p state in list iteration
+    74820f7406a1 smb: client: report correct st_size for SMB and NFS symlinks
+    60fed17ca5b8 cifs: Fix FALLOC_FL_INSERT_RANGE by setting i_size after EOF moved
+    6406cce4b22d cifs: Fix FALLOC_FL_ZERO_RANGE by setting i_size if EOF moved
 
-Upstream-Status: Backport from https://github.com/rust-lang/cargo/commit/9835622853f08be9a4b58ebe29dcec8f43b64b33
-
-Reference: https://nvd.nist.gov/vuln/detail/CVE-2023-40030
-
-Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 83c13368918a69ad63ee957f3d03362e366afe42)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../rust/files/0002-CVE-2023-40030.patch      | 412 ++++++++++++++++++
- meta/recipes-devtools/rust/rust-source.inc    |   1 +
- 2 files changed, 413 insertions(+)
- create mode 100644 meta/recipes-devtools/rust/files/0002-CVE-2023-40030.patch
+ .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/meta/recipes-devtools/rust/files/0002-CVE-2023-40030.patch b/meta/recipes-devtools/rust/files/0002-CVE-2023-40030.patch
-new file mode 100644
-index 0000000000..bf9b251226
---- /dev/null
-+++ b/meta/recipes-devtools/rust/files/0002-CVE-2023-40030.patch
-@@ -0,0 +1,412 @@
-+Author: Eric Huss <eric@huss.org>
-+Date:   Sun Jun 11 12:52:25 2023 -0700
-+
-+    Convert valid feature name warning to an error.
-+
-+Upstream-Status: Backport [https://github.com/rust-lang/cargo/commit/9835622853f08be9a4b58ebe29dcec8f43b64b33]
-+CVE: CVE-2023-40030
-+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-+
-+diff --git a/src/tools/cargo/crates/resolver-tests/src/lib.rs b/src/tools/cargo/crates/resolver-tests/src/lib.rs
-+index 01d9b5e6d..ab34e8663 100644
-+--- a/src/tools/cargo/crates/resolver-tests/src/lib.rs
-++++ b/src/tools/cargo/crates/resolver-tests/src/lib.rs
-+@@ -179,7 +179,6 @@ pub fn resolve_with_config_raw(
-+         used: HashSet::new(),
-+     };
-+     let summary = Summary::new(
-+-        config,
-+         pkg_id("root"),
-+         deps,
-+         &BTreeMap::new(),
-+@@ -581,7 +580,6 @@ pub fn pkg_dep<T: ToPkgId>(name: T, dep: Vec<Dependency>) -> Summary {
-+         None
-+     };
-+     Summary::new(
-+-        &Config::default().unwrap(),
-+         name.to_pkgid(),
-+         dep,
-+         &BTreeMap::new(),
-+@@ -610,7 +608,6 @@ pub fn pkg_loc(name: &str, loc: &str) -> Summary {
-+         None
-+     };
-+     Summary::new(
-+-        &Config::default().unwrap(),
-+         pkg_id_loc(name, loc),
-+         Vec::new(),
-+         &BTreeMap::new(),
-+@@ -625,7 +622,6 @@ pub fn remove_dep(sum: &Summary, ind: usize) -> Summary {
-+     deps.remove(ind);
-+     // note: more things will need to be copied over in the future, but it works for now.
-+     Summary::new(
-+-        &Config::default().unwrap(),
-+         sum.package_id(),
-+         deps,
-+         &BTreeMap::new(),
-+diff --git a/src/tools/cargo/src/cargo/core/resolver/version_prefs.rs b/src/tools/cargo/src/cargo/core/resolver/version_prefs.rs
-+index 002f11ff8..bf26d0498 100644
-+--- a/src/tools/cargo/src/cargo/core/resolver/version_prefs.rs
-++++ b/src/tools/cargo/src/cargo/core/resolver/version_prefs.rs
-+@@ -73,7 +73,6 @@ impl VersionPreferences {
-+ mod test {
-+     use super::*;
-+     use crate::core::SourceId;
-+-    use crate::util::Config;
-+     use std::collections::BTreeMap;
-+
-+     fn pkgid(name: &str, version: &str) -> PackageId {
-+@@ -90,9 +89,8 @@ mod test {
-+
-+     fn summ(name: &str, version: &str) -> Summary {
-+         let pkg_id = pkgid(name, version);
-+-        let config = Config::default().unwrap();
-+         let features = BTreeMap::new();
-+-        Summary::new(&config, pkg_id, Vec::new(), &features, None::<&String>).unwrap()
-++        Summary::new(pkg_id, Vec::new(), &features, None::<&String>).unwrap()
-+     }
-+
-+     fn describe(summaries: &Vec<Summary>) -> String {
-+
-+diff --git a/src/tools/cargo/src/cargo/core/summary.rs b/src/tools/cargo/src/cargo/core/summary.rs
-+index 2535c4482..1883df33b 100644
-+--- a/src/tools/cargo/src/cargo/core/summary.rs
-++++ b/src/tools/cargo/src/cargo/core/summary.rs
-+@@ -1,6 +1,6 @@
-+ use crate::core::{Dependency, PackageId, SourceId};
-+ use crate::util::interning::InternedString;
-+-use crate::util::{CargoResult, Config};
-++use crate::util::CargoResult;
-+ use anyhow::bail;
-+ use semver::Version;
-+ use std::collections::{BTreeMap, HashMap, HashSet};
-+@@ -30,7 +30,6 @@ struct Inner {
-+ 
-+ impl Summary {
-+     pub fn new(
-+-        config: &Config,
-+         pkg_id: PackageId,
-+         dependencies: Vec<Dependency>,
-+         features: &BTreeMap<InternedString, Vec<InternedString>>,
-+@@ -49,7 +48,7 @@ impl Summary {
-+                 )
-+             }
-+         }
-+-        let feature_map = build_feature_map(config, pkg_id, features, &dependencies)?;
-++        let feature_map = build_feature_map(pkg_id, features, &dependencies)?;
-+         Ok(Summary {
-+             inner: Rc::new(Inner {
-+                 package_id: pkg_id,
-+@@ -140,7 +139,6 @@ impl Hash for Summary {
-+ /// Checks features for errors, bailing out a CargoResult:Err if invalid,
-+ /// and creates FeatureValues for each feature.
-+ fn build_feature_map(
-+-    config: &Config,
-+     pkg_id: PackageId,
-+     features: &BTreeMap<InternedString, Vec<InternedString>>,
-+     dependencies: &[Dependency],
-+@@ -204,7 +202,7 @@ fn build_feature_map(
-+                 feature
-+             );
-+         }
-+-        validate_feature_name(config, pkg_id, feature)?;
-++        validate_feature_name(pkg_id, feature)?;
-+         for fv in fvs {
-+             // Find data for the referenced dependency...
-+             let dep_data = {
-+@@ -431,33 +429,63 @@ impl fmt::Display for FeatureValue {
-+ 
-+ pub type FeatureMap = BTreeMap<InternedString, Vec<FeatureValue>>;
-+ 
-+-fn validate_feature_name(config: &Config, pkg_id: PackageId, name: &str) -> CargoResult<()> {
-++fn validate_feature_name(pkg_id: PackageId, name: &str) -> CargoResult<()> {
-+     let mut chars = name.chars();
-+-    const FUTURE: &str = "This was previously accepted but is being phased out; \
-+-        it will become a hard error in a future release.\n\
-+-        For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, \
-+-        and please leave a comment if this will be a problem for your project.";
-+     if let Some(ch) = chars.next() {
-+         if !(unicode_xid::UnicodeXID::is_xid_start(ch) || ch == '_' || ch.is_digit(10)) {
-+-            config.shell().warn(&format!(
-++            bail!(
-+                 "invalid character `{}` in feature `{}` in package {}, \
-+                 the first character must be a Unicode XID start character or digit \
-+-                (most letters or `_` or `0` to `9`)\n\
-+-                {}",
-+-                ch, name, pkg_id, FUTURE
-+-            ))?;
-++                (most letters or `_` or `0` to `9`)",
-++                ch,
-++                name,
-++                pkg_id
-++            );
-+         }
-+     }
-+     for ch in chars {
-+         if !(unicode_xid::UnicodeXID::is_xid_continue(ch) || ch == '-' || ch == '+' || ch == '.') {
-+-            config.shell().warn(&format!(
-++            bail!(
-+                 "invalid character `{}` in feature `{}` in package {}, \
-+                 characters must be Unicode XID characters, `+`, or `.` \
-+-                (numbers, `+`, `-`, `_`, `.`, or most letters)\n\
-+-                {}",
-+-                ch, name, pkg_id, FUTURE
-+-            ))?;
-++                (numbers, `+`, `-`, `_`, `.`, or most letters)",
-++                ch,
-++                name,
-++                pkg_id
-++            );
-+         }
-+     }
-+     Ok(())
-+ }
-++
-++#[cfg(test)]
-++mod tests {
-++    use super::*;
-++    use crate::sources::CRATES_IO_INDEX;
-++    use crate::util::into_url::IntoUrl;
-++
-++    use crate::core::SourceId;
-++
-++    #[test]
-++    fn valid_feature_names() {
-++        let loc = CRATES_IO_INDEX.into_url().unwrap();
-++        let source_id = SourceId::for_registry(&loc).unwrap();
-++        let pkg_id = PackageId::new("foo", "1.0.0", source_id).unwrap();
-++
-++        assert!(validate_feature_name(pkg_id, "c++17").is_ok());
-++        assert!(validate_feature_name(pkg_id, "128bit").is_ok());
-++        assert!(validate_feature_name(pkg_id, "_foo").is_ok());
-++        assert!(validate_feature_name(pkg_id, "feat-name").is_ok());
-++        assert!(validate_feature_name(pkg_id, "feat_name").is_ok());
-++        assert!(validate_feature_name(pkg_id, "foo.bar").is_ok());
-++
-++        assert!(validate_feature_name(pkg_id, "+foo").is_err());
-++        assert!(validate_feature_name(pkg_id, "-foo").is_err());
-++        assert!(validate_feature_name(pkg_id, ".foo").is_err());
-++        assert!(validate_feature_name(pkg_id, "foo:bar").is_err());
-++        assert!(validate_feature_name(pkg_id, "foo?").is_err());
-++        assert!(validate_feature_name(pkg_id, "?foo").is_err());
-++        assert!(validate_feature_name(pkg_id, "ⒶⒷⒸ").is_err());
-++        assert!(validate_feature_name(pkg_id, "a¼").is_err());
-++    }
-++}
-+diff --git a/src/tools/cargo/src/cargo/sources/registry/index.rs b/src/tools/cargo/src/cargo/sources/registry/index.rs
-+index aa5c2a78c..6d565da8f 100644
-+--- a/src/tools/cargo/src/cargo/sources/registry/index.rs
-++++ b/src/tools/cargo/src/cargo/sources/registry/index.rs
-+@@ -293,7 +293,6 @@ impl<'cfg> RegistryIndex<'cfg>
-+         'a: 'b,
-+     {
-+         let source_id = self.source_id;
-+-        let config = self.config;
-+
-+         // First up actually parse what summaries we have available. If Cargo
-+         // has run previously this will parse a Cargo-specific cache file rather
-+@@ -312,15 +311,13 @@ impl<'cfg> RegistryIndex<'cfg> {
-+             .versions
-+             .iter_mut()
-+             .filter_map(move |(k, v)| if req.matches(k) { Some(v) } else { None })
-+-            .filter_map(
-+-                move |maybe| match maybe.parse(config, raw_data, source_id) {
-++            .filter_map(move |maybe| match maybe.parse(raw_data, source_id) {
-+                     Ok(summary) => Some(summary),
-+                     Err(e) => {
-+                         info!("failed to parse `{}` registry package: {}", name, e);
-+                         None
-+                     }
-+-                },
-+-            )
-++                })
-+             .filter(move |is| {
-+                 if is.v > INDEX_V_MAX {
-+                     debug!(
-+@@ -605,7 +602,7 @@ impl Summaries {
-+                     // allow future cargo implementations to break the
-+                     // interpretation of each line here and older cargo will simply
-+                     // ignore the new lines.
-+-                    let summary = match IndexSummary::parse(config, line, source_id) {
-++                    let summary = match IndexSummary::parse(line, source_id) {
-+                         Ok(summary) => summary,
-+                         Err(e) => {
-+                             // This should only happen when there is an index
-+@@ -793,17 +790,12 @@ impl MaybeIndexSummary {
-+     /// Does nothing if this is already `Parsed`, and otherwise the `raw_data`
-+     /// passed in is sliced with the bounds in `Unparsed` and then actually
-+     /// parsed.
-+-    fn parse(
-+-        &mut self,
-+-        config: &Config,
-+-        raw_data: &[u8],
-+-        source_id: SourceId,
-+-    ) -> CargoResult<&IndexSummary> {
-++    fn parse(&mut self, raw_data: &[u8], source_id: SourceId,) -> CargoResult<&IndexSummary> {
-+         let (start, end) = match self {
-+             MaybeIndexSummary::Unparsed { start, end } => (*start, *end),
-+             MaybeIndexSummary::Parsed(summary) => return Ok(summary),
-+         };
-+-        let summary = IndexSummary::parse(config, &raw_data[start..end], source_id)?;
-++        let summary = IndexSummary::parse(&raw_data[start..end], source_id)?;
-+         *self = MaybeIndexSummary::Parsed(summary);
-+         match self {
-+             MaybeIndexSummary::Unparsed { .. } => unreachable!(),
-+@@ -823,7 +815,7 @@ impl IndexSummary {
-+     /// a package.
-+     ///
-+     /// The `line` provided is expected to be valid JSON.
-+-    fn parse(config: &Config, line: &[u8], source_id: SourceId) -> CargoResult<IndexSummary> {
-++    fn parse(line: &[u8], source_id: SourceId) -> CargoResult<IndexSummary> {
-+         // ****CAUTION**** Please be extremely careful with returning errors
-+         // from this function. Entries that error are not included in the
-+         // index cache, and can cause cargo to get confused when switching
-+@@ -853,7 +845,7 @@ impl IndexSummary {
-+                 features.entry(name).or_default().extend(values);
-+             }
-+         }
-+-        let mut summary = Summary::new(config, pkgid, deps, &features, links)?;
-++        let mut summary = Summary::new(pkgid, deps, &features, links)?;
-+         summary.set_checksum(cksum);
-+         Ok(IndexSummary {
-+             summary,
-+
-+diff --git a/src/tools/cargo/src/cargo/util/toml/mod.rs b/src/tools/cargo/src/cargo/util/toml/mod.rs
-+index 1cc32dee8..a32f0384b 100644
-+--- a/src/tools/cargo/src/cargo/util/toml/mod.rs
-++++ b/src/tools/cargo/src/cargo/util/toml/mod.rs
-+@@ -2432,7 +2432,6 @@ impl TomlManifest {
-+         let empty_features = BTreeMap::new();
-+ 
-+         let summary = Summary::new(
-+-            config,
-+             pkgid,
-+             deps,
-+             me.features.as_ref().unwrap_or(&empty_features),
-+diff --git a/src/tools/cargo/tests/testsuite/features.rs b/src/tools/cargo/tests/testsuite/features.rs
-+index 848e05677..557fab14a 100644
-+--- a/src/tools/cargo/tests/testsuite/features.rs
-++++ b/src/tools/cargo/tests/testsuite/features.rs
-+@@ -1937,8 +1937,8 @@ fn nonexistent_required_features() {
-+ }
-+ 
-+ #[cargo_test]
-+-fn invalid_feature_names_warning() {
-+-    // Warnings for more restricted feature syntax.
-++fn invalid_feature_names_error() {
-++    // Errors for more restricted feature syntax.
-+     let p = project()
-+         .file(
-+             "Cargo.toml",
-+@@ -1948,72 +1948,57 @@ fn invalid_feature_names_warning() {
-+                 version = "0.1.0"
-+ 
-+                 [features]
-+-                # Some valid, but unusual names, shouldn't warn.
-+-                "c++17" = []
-+-                "128bit" = []
-+-                "_foo" = []
-+-                "feat-name" = []
-+-                "feat_name" = []
-+-                "foo.bar" = []
-+-
-+-                # Invalid names.
-++                # Invalid start character.
-+                 "+foo" = []
-+-                "-foo" = []
-+-                ".foo" = []
-+-                "foo:bar" = []
-+-                "foo?" = []
-+-                "?foo" = []
-+-                "ⒶⒷⒸ" = []
-+-                "a¼" = []
-+             "#,
-+         )
-+         .file("src/lib.rs", "")
-+         .build();
-+ 
-+-    // Unfortunately the warnings are duplicated due to the Summary being
-+-    // loaded twice (once in the Workspace, and once in PackageRegistry) and
-+-    // Cargo does not have a de-duplication system. This should probably be
-+-    // OK, since I'm not expecting this to affect anyone.
-+     p.cargo("check")
-+-        .with_stderr("\
-+-[WARNING] invalid character `+` in feature `+foo` in package foo v0.1.0 ([ROOT]/foo), the first character must be a Unicode XID start character or digit (most letters or `_` or `0` to `9`)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `-` in feature `-foo` in package foo v0.1.0 ([ROOT]/foo), the first character must be a Unicode XID start character or digit (most letters or `_` or `0` to `9`)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `.` in feature `.foo` in package foo v0.1.0 ([ROOT]/foo), the first character must be a Unicode XID start character or digit (most letters or `_` or `0` to `9`)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `?` in feature `?foo` in package foo v0.1.0 ([ROOT]/foo), the first character must be a Unicode XID start character or digit (most letters or `_` or `0` to `9`)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `¼` in feature `a¼` in package foo v0.1.0 ([ROOT]/foo), characters must be Unicode XID characters, `+`, or `.` (numbers, `+`, `-`, `_`, `.`, or most letters)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `:` in feature `foo:bar` in package foo v0.1.0 ([ROOT]/foo), characters must be Unicode XID characters, `+`, or `.` (numbers, `+`, `-`, `_`, `.`, or most letters)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `?` in feature `foo?` in package foo v0.1.0 ([ROOT]/foo), characters must be Unicode XID characters, `+`, or `.` (numbers, `+`, `-`, `_`, `.`, or most letters)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `Ⓐ` in feature `ⒶⒷⒸ` in package foo v0.1.0 ([ROOT]/foo), the first character must be a Unicode XID start character or digit (most letters or `_` or `0` to `9`)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `Ⓑ` in feature `ⒶⒷⒸ` in package foo v0.1.0 ([ROOT]/foo), characters must be Unicode XID characters, `+`, or `.` (numbers, `+`, `-`, `_`, `.`, or most letters)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[WARNING] invalid character `Ⓒ` in feature `ⒶⒷⒸ` in package foo v0.1.0 ([ROOT]/foo), characters must be Unicode XID characters, `+`, or `.` (numbers, `+`, `-`, `_`, `.`, or most letters)
-+-This was previously accepted but is being phased out; it will become a hard error in a future release.
-+-For more information, see issue #8813 <https://github.com/rust-lang/cargo/issues/8813>, and please leave a comment if this will be a problem for your project.
-+-[CHECKING] foo v0.1.0 [..]
-+-[FINISHED] [..]
-+-")
-++        .with_status(101)
-++        .with_stderr(
-++            "\
-++error: failed to parse manifest at `[ROOT]/foo/Cargo.toml`
-++
-++Caused by:
-++  invalid character `+` in feature `+foo` in package foo v0.1.0 ([ROOT]/foo), \
-++  the first character must be a Unicode XID start character or digit \
-++  (most letters or `_` or `0` to `9`)
-++",
-++        )
-++        .run();
-++
-++    p.change_file(
-++        "Cargo.toml",
-++        r#"
-++            [package]
-++            name = "foo"
-++            version = "0.1.0"
-++
-++            [features]
-++            # Invalid continue character.
-++            "a&b" = []
-++        "#,
-++    );
-++
-++    p.cargo("check")
-++        .with_status(101)
-++        .with_stderr(
-++            "\
-++error: failed to parse manifest at `[ROOT]/foo/Cargo.toml`
-++
-++Caused by:
-++  invalid character `&` in feature `a&b` in package foo v0.1.0 ([ROOT]/foo), \
-++  characters must be Unicode XID characters, `+`, or `.` \
-++  (numbers, `+`, `-`, `_`, `.`, or most letters)
-++",
-++        )
-+         .run();
-+ }
-+ 
-+ #[cargo_test]
-+-fn invalid_feature_names_error() {
-++fn invalid_feature_name_slash_error() {
-+     // Errors for more restricted feature syntax.
-+     let p = project()
-+         .file(
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 4a720e645b..086375a3c6 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -7,6 +7,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://zlib-off64_t.patch;patchdir=${RUSTSRC} \
-             file://0001-musl-Define-SOCK_SEQPACKET-in-common-place.patch;patchdir=${RUSTSRC} \
-             file://bootstrap_fail.patch;patchdir=${RUSTSRC} \
-+	    file://0002-CVE-2023-40030.patch;patchdir=${RUSTSRC} \
- "
- SRC_URI[rust.sha256sum] = "bb8e9c564566b2d3228d95de9063a9254182446a161353f1d843bfbaf5c34639"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
+index 78e7dd4d13..54f7f4efef 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
+@@ -14,13 +14,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "4c0acd6ff800dc4d1630b11640984343bffe7825"
+-SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
++SRCREV_machine ?= "97d59da1d2d5a9ace6b4e7695b1eabbcd6197c4c"
++SRCREV_meta ?= "211dccdc1a71cd953c83f88a025adfa6b5c58ad4"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
+ 
+-LINUX_VERSION ?= "6.1.65"
++LINUX_VERSION ?= "6.1.66"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
+index d91ed65999..3e025e6726 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
+@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.1.inc
+ 
+-LINUX_VERSION ?= "6.1.65"
++LINUX_VERSION ?= "6.1.66"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
++SRCREV_machine ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_meta ?= "211dccdc1a71cd953c83f88a025adfa6b5c58ad4"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+index f431e4a937..18beb3c3a1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
+@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.1/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.1/standard/base"
+ KBRANCH:qemumips64 ?= "v6.1/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "b14dc32b21c8770b4e635ec69611aa32fff230b3"
+-SRCREV_machine:qemuarm64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_machine:qemuloongarch64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_machine:qemumips ?= "072df281d6a919a505df072b4741d49145cf3781"
+-SRCREV_machine:qemuppc ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_machine:qemuriscv64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_machine:qemuriscv32 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_machine:qemux86 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_machine:qemux86-64 ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_machine:qemumips64 ?= "a5de8564807b47662da3670c5b358a1494faef77"
+-SRCREV_machine ?= "e083231c43f3773e5ca1f6d46411e1fda1081a6e"
+-SRCREV_meta ?= "c5b4dd4dc469548ca1f7129c5c131f8d6cf5ff94"
++SRCREV_machine:qemuarm ?= "7f7eb326b47065b720ad4c760b77d52021336f95"
++SRCREV_machine:qemuarm64 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_machine:qemuloongarch64 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_machine:qemumips ?= "638a98e4a2146f79a588b125d74addaae42f75a2"
++SRCREV_machine:qemuppc ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_machine:qemuriscv64 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_machine:qemuriscv32 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_machine:qemux86 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_machine:qemux86-64 ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_machine:qemumips64 ?= "d39acda588fe786b00969ade6eef057d86386578"
++SRCREV_machine ?= "504b0b3be8465541ffb1c9a896d32841459efa0f"
++SRCREV_meta ?= "211dccdc1a71cd953c83f88a025adfa6b5c58ad4"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "c6114c845984144944f1abc07c61de219367a4da"
++SRCREV_machine:class-devupstream ?= "6c6a6c7e211cc02943dcb8c073919d2105054886"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.1/base"
+ 
+@@ -45,7 +45,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+ SRC_URI += "file://0001-perf-cpumap-Make-counter-as-unsigned-ints.patch"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.1.65"
++LINUX_VERSION ?= "6.1.66"
+ 
+ PV = "${LINUX_VERSION}+git"
  
 -- 
 2.34.1
