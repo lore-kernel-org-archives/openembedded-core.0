@@ -1,175 +1,228 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <skulkarni@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4406C47073
-	for <webhook@archiver.kernel.org>; Sat, 30 Dec 2023 11:31:14 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.182633.1703935872440124888
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC180C46CD2
+	for <webhook@archiver.kernel.org>; Sat, 30 Dec 2023 14:38:05 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.185288.1703947075368223639
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Dec 2023 03:31:12 -0800
+ Sat, 30 Dec 2023 06:37:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=L7RObWYm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40d5b7b8adfso19655075e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 Dec 2023 03:31:12 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=D/1bDc5A;
+ spf=pass (domain: mvista.com, ip: 209.85.167.52, mailfrom: skulkarni@mvista.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50e7e55c0f6so4451955e87.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Dec 2023 06:37:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1703935871; x=1704540671; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=AraUNmLIQDNN9YZbwSgGnEmfPeKi0CJ7sowQomKeroM=;
-        b=L7RObWYm6dYaWMwOo5iQ4qtqUAns3gTRffPinszaWgCC0yM+PaZxOeHF2AaBxU09F/
-         bIj0ahSb+pxdmwxO5tyNrym2hgYo9STec+OsHufaV+zyUpeVc1lthg2KnT/uilFpB3B1
-         xjHEDV28qbfX8s2NXNADgSNKH5CFi7ndfBtr4=
+        d=mvista.com; s=google; t=1703947073; x=1704551873; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4bkS5RwCa6wuOJkj0KJse5cHe/rAfy0cfXp405j/1SA=;
+        b=D/1bDc5ACaszCe37W4WNWM3r6kV0RQMsvOkugrf613QD7yOPGX6vHaJ+UBa5sVhhXm
+         Frmncb0wgFeJfomwVcQTN/mK7QY4bhmrAVgTpaEFYwuJ6VHU0BkzTjIWYWD5V6U5AW8z
+         Xw2y7PepKEum56b8ZbviDOFFaebtM5sBft55c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703935871; x=1704540671;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AraUNmLIQDNN9YZbwSgGnEmfPeKi0CJ7sowQomKeroM=;
-        b=aI0tcxgCvVw7AbhA8ZcfXi1mBwfhCu/9gipjYwv74fjpZVQyinDnF3CYVsSH2HCpHX
-         xxNVGbntxhYlup0TUSjz/3di+AHpfj9KingsMmvcFSS57iDnQhRiNCUVU2f4ehe6brXP
-         jUZ1ZlLnxwiDazJIrgOiysU3afPYMHHsUEcascp52OYLAB6jQDgde/wzYbo0dfmfe3ml
-         +aQ3emKMkqmIdj/VPo4rso2yBUw/KjPENTWFbVXT8eLdNp20TuaGP8kt57uyFcSMI4GT
-         Zv08gh11J4/IVp6Pa5h2yAfnkhzNeboFG0eUPOsKxZJ15FaBxncjz0MWQ2FA6Qyo+D7K
-         QEWQ==
-X-Gm-Message-State: AOJu0YyE1aKl9ZkXPI4RlCCGkTheHZmzZL9+1u/IW6Xv37MmE0m55UrH
-	1XDvbEcKAWgcqJ7GFtAVjFcy/wn2JiU+FQ==
-X-Google-Smtp-Source: AGHT+IETy4urfU+YIYrKDTAMLGBpBGt2/JZeG9XEMl5feF/96tGUOFdWJ6ja+ev1pKgtzot2m6vp6A==
-X-Received: by 2002:a05:600c:3ba4:b0:40d:5ae2:2404 with SMTP id n36-20020a05600c3ba400b0040d5ae22404mr3624206wms.17.1703935870776;
-        Sat, 30 Dec 2023 03:31:10 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a152:ea8e:7a3:4258? ([2001:8b0:aba:5f3c:a152:ea8e:7a3:4258])
-        by smtp.gmail.com with ESMTPSA id h5-20020adff4c5000000b0033668b27f8fsm20069836wrp.4.2023.12.30.03.31.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Dec 2023 03:31:10 -0800 (PST)
-Message-ID: <388ea27fd963ab72dd3506204848979ee0f80904.camel@linuxfoundation.org>
-Subject: Re: [bitbake-devel] pthread_cancel bug on ubuntu2004/debian11
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>, openembedded-core
- <openembedded-core@lists.openembedded.org>, Steve Sakoman
- <steve@sakoman.com>
-Date: Sat, 30 Dec 2023 11:31:09 +0000
-In-Reply-To: <CAJdd5GaP-v8rVuWNakWpkuGNgoaUA+N1tW2BESOmA96fAxabeA@mail.gmail.com>
-References: 
-	<5325820d4f9ca342498422d2427207e7d31270e0.camel@linuxfoundation.org>
-	 <CAJdd5GaP-v8rVuWNakWpkuGNgoaUA+N1tW2BESOmA96fAxabeA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        d=1e100.net; s=20230601; t=1703947073; x=1704551873;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4bkS5RwCa6wuOJkj0KJse5cHe/rAfy0cfXp405j/1SA=;
+        b=I37CpDwFRKOPTuKAmijjBVz/FlnLBvpUweCqXIxohzLoLnrCQZXCAavzHfbTpxhr+c
+         oxYKoQPG0uFHZK/IJ1ejx/uYaTI3jtwBLeDhImVvTbcFDaGvSBeqX6ONRCbqk3yYPVbf
+         FryxSlO0J30ZX8ez3Iu3fZqiWe/zehQM/kML5xjjL5BtffiBPed/dWm34UZevPR2IxYu
+         ifu7URUn+cVvjsO5jN+AfRRJxf9itSFt5s0yCohCURulL9UiZ95AVDPK+3dNdMd2cdxE
+         82nGZjKSVG/60HH9iqRUrXkb5X8gpDlYOEmnSTiD70f+nxU7hfFnwcpt2pxnu9SI24Vr
+         d/Cg==
+X-Gm-Message-State: AOJu0YzUx45ElGApKxeDY5na5wonEVv4qj6dH4++Qnnjd46jKMVQ1DAL
+	Txv2fmHwsvup6UP9FPAzFHkAj67Ar7pjUudVJmcQ3VfBfFGjBA==
+X-Google-Smtp-Source: AGHT+IHri7/4ofZ4qV4CGyXUwi/InzyvUq654x3GqUwLdsB32BMoYlcENnJRCHc9ucG5L4EKMqZkFBXSJGnhU4Bo4bc=
+X-Received: by 2002:ac2:4642:0:b0:50e:4eff:fe9b with SMTP id
+ s2-20020ac24642000000b0050e4efffe9bmr2372755lfo.43.1703947073185; Sat, 30 Dec
+ 2023 06:37:53 -0800 (PST)
 MIME-Version: 1.0
+References: <17A47110AD953EDF.18684@lists.openembedded.org>
+In-Reply-To: <17A47110AD953EDF.18684@lists.openembedded.org>
+From: Shubham Kulkarni <skulkarni@mvista.com>
+Date: Sat, 30 Dec 2023 20:07:21 +0530
+Message-ID: <CAKzga+y7yeFf95cP3qfkDpPTr0QXK+opNpCO0agT5EZu_EtdZA@mail.gmail.com>
+Subject: Re: [OE-core][dunfell][PATCH] tzdata: Upgrade to 2023d
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Armin Kuster <akuster@mvista.com>, Mahesh Mathapati <mmathapati@mvista.com>
+Content-Type: multipart/alternative; boundary="000000000000038309060dbb1892"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Dec 2023 11:31:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193070
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Dec 2023 14:38:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193071
 
-On Wed, 2023-12-27 at 11:30 -0700, Joshua Watt wrote:
-> On Wed, Dec 27, 2023 at 4:28=E2=80=AFAM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > I wanted to write down some thoughts on this which I have all the
-> > pieces handy.
-> >=20
-> > We saw a nightly layer check fail for meta-openembedded:
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/121/builds/1798=
-/steps/21/logs/stdio
-> >=20
-> > INFO: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > INFO: ERROR: test_show_environment (common.CommonCheckLayer)
-> > INFO: -----------------------------------------------------------------=
------
-> > INFO: Traceback (most recent call last):
-> >   File "/home/pokybuild/yocto-worker/check-layer-nightly/build/scripts/=
-lib/checklayer/cases/common.py", line 48, in test_show_environment
-> >     check_command('Layer %s failed to show environment.' % self.tc.laye=
-r['name'],
-> >   File "/home/pokybuild/yocto-worker/check-layer-nightly/build/scripts/=
-lib/checklayer/__init__.py", line 287, in check_command
-> >     raise RuntimeError(msg)
-> > RuntimeError: Layer meta-gnome failed to show environment.
-> > Command: bitbake -e
-> > Output:
-> > libgcc_s.so.1 must be installed for pthread_cancel to work
-> > Aborted (core dumped)
-> >=20
-> > which unsurprisingly is on ubuntn 20.04. We've also seen issues like
-> > this on Debian 11.
-> >=20
-> > I noticed:
-> >=20
-> > https://stackoverflow.com/questions/64797838/libgcc-s-so-1-must-be-inst=
-alled-for-pthread-cancel-to-work
-> >=20
-> > and:
-> >=20
-> > https://bugs.ams1.psf.io/issue42888
-> >=20
-> > which led me to try:
-> > ubuntu2004-ty-1:~$ wget https://bugs.ams1.psf.io/file50112/pthread_canc=
-el_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ echo $?
-> > 0
-> > rpurdie@ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > libgcc_s.so.1 must be installed for pthread_cancel to work
-> > Aborted (core dumped)
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > libgcc_s.so.1 must be installed for pthread_cancel to work
-> > Aborted (core dumped)
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > libgcc_s.so.1 must be installed for pthread_cancel to work
-> > Aborted (core dumped)
-> >=20
-> > (1 in 4 success)
-> >=20
-> > Then adding to the script:
-> > import ctypes
-> > libgcc_s =3D ctypes.CDLL('libgcc_s.so.1')
-> >=20
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 pthread_cancel_bug.py
-> > ubuntu2004-ty-1:~$ python3 --version
-> > Python 3.8.10
-> >=20
-> > I also tried this on debian 11:
-> >=20
-> > debian11-ty-1:~$ python3 pthread_cancel_bug.py
-> > libgcc_s.so.1 must be installed for pthread_cancel to work
-> > Aborted
-> >=20
-> > debian11-ty-1:~$ python3 --version
-> > Python 3.9.2
-> >=20
-> > where the above workaround using ctypes also seems to work.
-> >=20
-> > I'm therefore tempted for python 3.8/3.9 to preload libgcc_s as a
-> > workaround for this...
->=20
-> Seems reasonable to me, as long as we can restrict it to a specific
-> version range of python and have a nice comment explaining why
+--000000000000038309060dbb1892
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Patch tested, sent and I've applied it to older bitbake branches too in
-the hope that it helps some of Steve's autobuilder failures too.
+Hi Steve,
 
-Once we get to 3.10 as a minimum version we can drop it.
+I have sent this patch to upgrade tzdata to the latest version "2023d" for
+dunfell branch.
+The mailing list link for the same:
+https://lists.openembedded.org/g/openembedded-core/message/192913
 
-Cheers,
+Can you please check if this patch can be accepted in the dunfell-nut
+branch of oe-core-contrib.
 
-Richard
+Thanks,
+Shubham Kulkarni
+
+
+
+On Tue, Dec 26, 2023 at 10:44=E2=80=AFPM Shubham Kulkarni via lists.openemb=
+edded.org
+<skulkarni=3Dmvista.com@lists.openembedded.org> wrote:
+
+> From: Shubham Kulkarni <skulkarni@mvista.com>
+>
+> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+> ---
+>  meta/recipes-extended/timezone/timezone.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-extended/timezone/timezone.inc
+> b/meta/recipes-extended/timezone/timezone.inc
+> index 2960bfefe3..75f13cfc94 100644
+> --- a/meta/recipes-extended/timezone/timezone.inc
+> +++ b/meta/recipes-extended/timezone/timezone.inc
+> @@ -6,7 +6,7 @@ SECTION =3D "base"
+>  LICENSE =3D "PD & BSD-3-Clause"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dc679c9d6b02bc2757b3eaf8f53c43=
+fba"
+>
+> -PV =3D "2023c"
+> +PV =3D "2023d"
+>
+>  SRC_URI =3D"
+> http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;nam=
+e=3Dtzcode
+> \
+>
+> http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;nam=
+e=3Dtzdata
+> \
+> @@ -14,5 +14,5 @@ SRC_URI =3D"
+> http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+>
+>  UPSTREAM_CHECK_URI =3D "http://www.iana.org/time-zones"
+>
+> -SRC_URI[tzcode.sha256sum] =3D
+> "46d17f2bb19ad73290f03a203006152e0fa0d7b11e5b71467c4a823811b214e7"
+> -SRC_URI[tzdata.sha256sum] =3D
+> "3f510b5d1b4ae9bb38e485aa302a776b317fb3637bdb6404c4adf7b6cadd965c"
+> +SRC_URI[tzcode.sha256sum] =3D
+> "e9a5f9e118886d2de92b62bb05510a28cc6c058d791c93bd6b84d3292c3c161e"
+> +SRC_URI[tzdata.sha256sum] =3D
+> "dbca21970b0a8b8c0ceceec1d7b91fa903be0f6eca5ae732b5329672232a08f3"
+> --
+> 2.42.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#192913):
+> https://lists.openembedded.org/g/openembedded-core/message/192913
+> Mute This Topic: https://lists.openembedded.org/mt/103372051/7032091
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> skulkarni@mvista.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000038309060dbb1892
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Steve,</div><div><br></div><div>I have sent this p=
+atch to upgrade tzdata to the latest version &quot;2023d&quot; for dunfell =
+branch.=C2=A0</div><div>The mailing list link for the same:=C2=A0<a href=3D=
+"https://lists.openembedded.org/g/openembedded-core/message/192913">https:/=
+/lists.openembedded.org/g/openembedded-core/message/192913</a></div><div><b=
+r></div><div>Can you please check if this patch can be accepted in the dunf=
+ell-nut branch of oe-core-contrib.</div><div><br></div><div>Thanks,</div><d=
+iv>Shubham Kulkarni</div><div><br></div><div><br></div><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 26, 2023 at 10=
+:44=E2=80=AFPM Shubham Kulkarni via <a href=3D"http://lists.openembedded.or=
+g">lists.openembedded.org</a> &lt;skulkarni=3D<a href=3D"mailto:mvista.com@=
+lists.openembedded.org">mvista.com@lists.openembedded.org</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Shubham Kulk=
+arni &lt;<a href=3D"mailto:skulkarni@mvista.com" target=3D"_blank">skulkarn=
+i@mvista.com</a>&gt;<br>
+<br>
+Signed-off-by: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mvista.com"=
+ target=3D"_blank">skulkarni@mvista.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-extended/timezone/timezone.inc | 6 +++---<br>
+=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-ext=
+ended/timezone/timezone.inc<br>
+index 2960bfefe3..75f13cfc94 100644<br>
+--- a/meta/recipes-extended/timezone/timezone.inc<br>
++++ b/meta/recipes-extended/timezone/timezone.inc<br>
+@@ -6,7 +6,7 @@ SECTION =3D &quot;base&quot;<br>
+=C2=A0LICENSE =3D &quot;PD &amp; BSD-3-Clause&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dc679c9d6b02bc2757b3ea=
+f8f53c43fba&quot;<br>
+<br>
+-PV =3D &quot;2023c&quot;<br>
++PV =3D &quot;2023d&quot;<br>
+<br>
+=C2=A0SRC_URI =3D&quot; <a href=3D"http://www.iana.org/time-zones/repositor=
+y/releases/tzcode$%7BPV%7D.tar.gz;name=3Dtzcode" rel=3D"noreferrer" target=
+=3D"_blank">http://www.iana.org/time-zones/repository/releases/tzcode${PV}.=
+tar.gz;name=3Dtzcode</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://www.iana.org/ti=
+me-zones/repository/releases/tzdata$%7BPV%7D.tar.gz;name=3Dtzdata" rel=3D"n=
+oreferrer" target=3D"_blank">http://www.iana.org/time-zones/repository/rele=
+ases/tzdata${PV}.tar.gz;name=3Dtzdata</a> \<br>
+@@ -14,5 +14,5 @@ SRC_URI =3D&quot; <a href=3D"http://www.iana.org/time-zon=
+es/repository/releases/tzcode$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D=
+"_blank">http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar=
+.gz</a><br>
+<br>
+=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://www.iana.org/time-zone=
+s" rel=3D"noreferrer" target=3D"_blank">http://www.iana.org/time-zones</a>&=
+quot;<br>
+<br>
+-SRC_URI[tzcode.sha256sum] =3D &quot;46d17f2bb19ad73290f03a203006152e0fa0d7=
+b11e5b71467c4a823811b214e7&quot;<br>
+-SRC_URI[tzdata.sha256sum] =3D &quot;3f510b5d1b4ae9bb38e485aa302a776b317fb3=
+637bdb6404c4adf7b6cadd965c&quot;<br>
++SRC_URI[tzcode.sha256sum] =3D &quot;e9a5f9e118886d2de92b62bb05510a28cc6c05=
+8d791c93bd6b84d3292c3c161e&quot;<br>
++SRC_URI[tzdata.sha256sum] =3D &quot;dbca21970b0a8b8c0ceceec1d7b91fa903be0f=
+6eca5ae732b5329672232a08f3&quot;<br>
+-- <br>
+2.42.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#192913): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/192913" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/192913</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103372051/703=
+2091" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/103372051/7032091</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:skulkarni@mvista.com" targ=
+et=3D"_blank">skulkarni@mvista.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000038309060dbb1892--
 
