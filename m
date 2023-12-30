@@ -1,136 +1,95 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A43C46CD2
-	for <webhook@archiver.kernel.org>; Sat, 30 Dec 2023 15:33:26 +0000 (UTC)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web11.186387.1703950399525634657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA7BC46CD2
+	for <webhook@archiver.kernel.org>; Sat, 30 Dec 2023 15:50:06 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.186687.1703951402037715215
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Dec 2023 07:33:20 -0800
+ Sat, 30 Dec 2023 07:50:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cr48NxIE;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.45, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a2335d81693so1322340666b.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 Dec 2023 07:33:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=D06qELfZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40d3c4bfe45so81030065e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Dec 2023 07:50:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1703950398; x=1704555198; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1703951399; x=1704556199; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6peNooDeU9LLAm2EX6pF7+mq8/at2tNEOQQksOKS/2M=;
-        b=cr48NxIEwASOJVVKL+0mQjCi+r6/OEo1OveivJGHHRInUuyELay2mR+0PAgv78R7vZ
-         2k6BLyYfU/GnV6N+IiCMzIfDO6Z8F7eEiaFXUHVbAqEm+Xt9jTg+qrWpejDFZVAp9QgV
-         XitihYMpjvnGZsvYi4rsLsCHrVBgIffNu/3fXPt/w70uxzgEDA/8Zc+gVKLwnsIF3gi3
-         cO9mOTHUtXQOWw1V8qvH7vvw/3foNlJnDJnSCUCJtn+LqQYPmMoTsS9bfmrgRROQqNby
-         dO+OS8q0QcQA9G/KfXtGY5puwqnGaOvQr+0XqxoCvnj9Ieoo9jDMmkBmnnJWBrxQIhfK
-         R+ag==
+        bh=IMQMz5RwObxPdaJCX+WLb89yxhUyvNqjK+9Z5RAobEc=;
+        b=D06qELfZzIZHPWoh4/JBLphYNyStFMjkZXRmx6bitGhmGdkWfiZB8KVaxfv2ObDhDj
+         dPfW4nBX8xgh1DAYMRkvv8blC3clV8QWjQ+oAxw0nySF7diDqNQbR9T/gLuD5euMH5G8
+         OwQj0ugN72TF88lzhgJyJPJvXA8w6LOKYQG4QASoZPibNpLodedo15wjECLUBSH0hG2K
+         k1M8Pk2v/FZuP15nlDX5YamMKEtUynZ3lEjOEVmaSLAP0ZpLpbjBsQwbhp1EB5s8KaQI
+         WZIs1TRjvHcSX7oI9Zadfx8omV7xAHfa1mqswCp6/og0xmSGXwtt1znLO3FFfWzEQ8Rz
+         BKnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703950398; x=1704555198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1703951399; x=1704556199;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6peNooDeU9LLAm2EX6pF7+mq8/at2tNEOQQksOKS/2M=;
-        b=KmMJZcip7dp9wGN6pDHOeNsQ00rC712ffW5bO2LKFmojnMeHj5lfZGCJgKbl0wkAW9
-         aq9dhug26WTNOIBoIANkKdI9dSlFqd25rscmv/VlyMvLmkcHNH17bKFBleTgzFNIjBTf
-         ldW3gg7/dZ3Z3gHOVXqha0+u5eKW0efVxTwaA3/ahcDtzQnnET88doNfEQzXTKVN7eZJ
-         ccGrdoiq4VwKK5ydsH9Rw4ro7elloh00uU9V7rAz+KOyRqFOpqmXWMAFdmVWh/1hm/wI
-         Js8qqu2rKvhhx4VOGQjsDIGtvfz48gojqULZQNRHjYJmLbDkpDBOBTSkCAv0cFbrNsoT
-         aCYw==
-X-Gm-Message-State: AOJu0YwwUNSPexXv6/L9+WkVGl2V6N3oR01QBswn9oZciyuvkOsY/+PA
-	Cf+C3+mbVn6aXh8yyTsy3WZWL7c60xcdTlTmSrTC9fCaqxl/6w==
-X-Google-Smtp-Source: AGHT+IGrQnKFMooCImPsKKzBlb6C3E+whV8gkmuxPI4jvBoveyvoOstj1fFQR/JOYcsP1FmFpmu9+68y8TB0LDbrjYQ=
-X-Received: by 2002:a17:906:6894:b0:a27:b67b:6a17 with SMTP id
- n20-20020a170906689400b00a27b67b6a17mr1419079ejr.46.1703950397438; Sat, 30
- Dec 2023 07:33:17 -0800 (PST)
+        bh=IMQMz5RwObxPdaJCX+WLb89yxhUyvNqjK+9Z5RAobEc=;
+        b=sxd0VdXI+mt+PFUiQRfu54MaK6ejEkPtwMw3ttWID/umwvsrxcAbRqJ4FywYdvaW2K
+         75CDwQ0zIPnsc4T1MAfN/aqhSRVcgFirK/u74hi7MF3MR5wBrzEE18dk0nwP/qUskcfM
+         C80b8nsLlwZafUMX73kA1mu9Fv93i7oS9foFvdo7VtjRjBoIwZV2UG7Dd7oYJclaysuj
+         4StW3dW1RCr9YTgXxSvNbtoHFSSKi3GdGhEvCy9mbaq7F4AE5MZ9BRny7UYyxoxFTEgs
+         pDK+hqbpNOl5lf5hIt4MST3A4RMi62JFVPmDddw3UuvXAK9vstutpJJ17coaBjDGat8/
+         7Ofw==
+X-Gm-Message-State: AOJu0YxYxbuzFfR+jWcy70U2LpVP7TFKhVDEDnOPfV7Qxp8vqdNAb8ak
+	xu7bb4/PfB8rvDZKE7L9AVdV7QeGisU=
+X-Google-Smtp-Source: AGHT+IGZwH/8LMfdEmnuCos8zk7r7BzHXIaDVSmZf0OF4/6kE5IhRn8MqsOSya/lotWBagyAJDML9A==
+X-Received: by 2002:a05:600c:3306:b0:40b:5f02:99ba with SMTP id q6-20020a05600c330600b0040b5f0299bamr3325392wmp.121.1703951399426;
+        Sat, 30 Dec 2023 07:49:59 -0800 (PST)
+Received: from Zuma-000004PC.lan (cust18-dsl93-89-130.idnet.net. [93.89.130.18])
+        by smtp.gmail.com with ESMTPSA id w5-20020a5d5445000000b0033660f75d08sm21777428wrv.116.2023.12.30.07.49.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Dec 2023 07:49:59 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH 3/4] cargo: Move vendor directory to registry/src
+Date: Sat, 30 Dec 2023 15:49:52 +0000
+Message-Id: <20231230154953.8135-3-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20231230154953.8135-1-alex.kiernan@gmail.com>
+References: <20231230154953.8135-1-alex.kiernan@gmail.com>
 MIME-Version: 1.0
-References: <17A47110AD953EDF.18684@lists.openembedded.org> <CAKzga+y7yeFf95cP3qfkDpPTr0QXK+opNpCO0agT5EZu_EtdZA@mail.gmail.com>
-In-Reply-To: <CAKzga+y7yeFf95cP3qfkDpPTr0QXK+opNpCO0agT5EZu_EtdZA@mail.gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Sat, 30 Dec 2023 05:33:06 -1000
-Message-ID: <CAOSpxdbCoxXa90ZskAAnJqHzofR7jN=PJ=f4udJRojDoLqimTQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] tzdata: Upgrade to 2023d
-To: Shubham Kulkarni <skulkarni@mvista.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Armin Kuster <akuster@mvista.com>, Mahesh Mathapati <mmathapati@mvista.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 30 Dec 2023 15:33:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193073
+ <openembedded-core@lists.openembedded.org>; Sat, 30 Dec 2023 15:50:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193076
 
-On Sat, Dec 30, 2023 at 4:37=E2=80=AFAM Shubham Kulkarni <skulkarni@mvista.=
-com> wrote:
->
-> Hi Steve,
->
-> I have sent this patch to upgrade tzdata to the latest version "2023d" fo=
-r dunfell branch.
-> The mailing list link for the same: https://lists.openembedded.org/g/open=
-embedded-core/message/192913
->
-> Can you please check if this patch can be accepted in the dunfell-nut bra=
-nch of oe-core-contrib.
+rust 1.75 has an assumption from 85c0ce24cc74 ("remap cargo dependencies
+to /rust/deps") that unpacked crates (vendored or otherwise)
+are found in .../registry/src (usually in ~/.cargo). Moving our vendor
+directory to match is the easiest workaround to avoid the upstream
+assumption causing issues.
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+This requires the concomitant change in bitbake to use
+CARGO_VENDORING_DIRECTORY for unpacking crates into.
 
-I can take it now that it has been merged to the master branch.
+ meta/classes-recipe/cargo_common.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Steve
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-recipe/cargo_common.bbclass
+index e932ada862bd..3cb21cfddcb6 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -31,7 +31,7 @@ export PKG_CONFIG_ALLOW_CROSS = "1"
+ CARGO_DISABLE_BITBAKE_VENDORING ??= "0"
+ 
+ # Used by libstd-rs to point to the vendor dir included in rustc src
+-CARGO_VENDORING_DIRECTORY ??= "${CARGO_HOME}/bitbake"
++CARGO_VENDORING_DIRECTORY ??= "${CARGO_HOME}/registry/src"
+ 
+ # The directory of the Cargo.toml relative to the root directory, per default
+ # assume there's a Cargo.toml directly in the root directory
+-- 
+2.39.0
 
-
-> On Tue, Dec 26, 2023 at 10:44=E2=80=AFPM Shubham Kulkarni via lists.opene=
-mbedded.org <skulkarni=3Dmvista.com@lists.openembedded.org> wrote:
->>
->> From: Shubham Kulkarni <skulkarni@mvista.com>
->>
->> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
->> ---
->>  meta/recipes-extended/timezone/timezone.inc | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-=
-extended/timezone/timezone.inc
->> index 2960bfefe3..75f13cfc94 100644
->> --- a/meta/recipes-extended/timezone/timezone.inc
->> +++ b/meta/recipes-extended/timezone/timezone.inc
->> @@ -6,7 +6,7 @@ SECTION =3D "base"
->>  LICENSE =3D "PD & BSD-3-Clause"
->>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dc679c9d6b02bc2757b3eaf8f53c4=
-3fba"
->>
->> -PV =3D "2023c"
->> +PV =3D "2023d"
->>
->>  SRC_URI =3D" http://www.iana.org/time-zones/repository/releases/tzcode$=
-{PV}.tar.gz;name=3Dtzcode \
->>             http://www.iana.org/time-zones/repository/releases/tzdata${P=
-V}.tar.gz;name=3Dtzdata \
->> @@ -14,5 +14,5 @@ SRC_URI =3D" http://www.iana.org/time-zones/repository=
-/releases/tzcode${PV}.tar.gz
->>
->>  UPSTREAM_CHECK_URI =3D "http://www.iana.org/time-zones"
->>
->> -SRC_URI[tzcode.sha256sum] =3D "46d17f2bb19ad73290f03a203006152e0fa0d7b1=
-1e5b71467c4a823811b214e7"
->> -SRC_URI[tzdata.sha256sum] =3D "3f510b5d1b4ae9bb38e485aa302a776b317fb363=
-7bdb6404c4adf7b6cadd965c"
->> +SRC_URI[tzcode.sha256sum] =3D "e9a5f9e118886d2de92b62bb05510a28cc6c058d=
-791c93bd6b84d3292c3c161e"
->> +SRC_URI[tzdata.sha256sum] =3D "dbca21970b0a8b8c0ceceec1d7b91fa903be0f6e=
-ca5ae732b5329672232a08f3"
->> --
->> 2.42.0
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#192913): https://lists.openembedded.org/g/openembedd=
-ed-core/message/192913
->> Mute This Topic: https://lists.openembedded.org/mt/103372051/7032091
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [s=
-kulkarni@mvista.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
 
