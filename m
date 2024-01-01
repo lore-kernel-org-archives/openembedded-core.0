@@ -1,157 +1,154 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B1EBC4706F
-	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:00:45 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.4383.1704114034687673323
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EE7BC4706F
+	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:05 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.4621.1704114718669803253
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jan 2024 05:00:35 -0800
+ Mon, 01 Jan 2024 05:11:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=K6P42eHI;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 323F91C0004;
-	Mon,  1 Jan 2024 13:00:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1704114032;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1XXzChPC24/x4BQ0z+q4YcPkDOPY0dJoaqG1PxVVdnM=;
-	b=K6P42eHIDIlx3g5Zfv/4iapSx96K49FlimELFOjzNbUQKJwLRbl0uetAry+Q9VpLhQf4/t
-	gxn1/EhiQQuyUbRPOx2xGM2RDwqq3DR58mDGdZrD0UPAgDR2ea1m6ARX0H8FPO5Y69t8Rb
-	aIUlf1BNQc9FMpu+MnHIZ/Yl48KM54pRAParjwwgI1p6JjKna0DyZxMJdPhw8d/Q1NKBJd
-	4BFsBK6hpdBwbE0lYPQf0VWdoMOsMR+fakQ32W3pgiBS2xheY9cQlxwPXi9BpFrlSukbwZ
-	KYGn8h3U6M53+3UuOEypJHYYZV5oLp3GyljSayfj89B40j/7yH4XkBE5zbJbIQ==
-Date: Mon, 1 Jan 2024 14:00:31 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH 2/7] selftest/sstatetests: fix up printdiff
- test to match rework of printdiff logic
-Message-ID: <20240101130031da8cf15c@mail.local>
-References: <20231218084403.599015-1-alex@linutronix.de>
- <20231218084403.599015-2-alex@linutronix.de>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HzUIY09R;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JVf+njo0;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018cc52703dc-b9a56445-b4bb-489c-9447-77fb3ced54d9-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1704114717;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=cl68g64TI8qkQ7ZwjcjjtlAugieVsGGr6U9kFrUX8y4=;
+	b=HzUIY09RQPe80UJckj3xi3Zj1TBM2DYjz9SyC3G71rKV3d+8dtP8kl9OHyh9AkfY
+	pTfvQWdpkMsYSJKeomFK255cHPktN7/S3ECi/n5RV5sUIVB8/SW6uXScysAipIDF5+0
+	C3ab6iKIxly7LUN/OrTVFANlOS2baPxk6uOu1WxA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704114717;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=cl68g64TI8qkQ7ZwjcjjtlAugieVsGGr6U9kFrUX8y4=;
+	b=JVf+njo0umADsAdilvTNkxskXWIFC/p8mOw5vdAyS0gztkgYbFwntxgtTcyIdHxB
+	POpyncf9qW2n2U5j+FLhLdeXCtpisERO/y3tlZ9EUDYwLkD3qnMfc36Irwq3pkXKH1A
+	ks/rL79oTUXlC5PHQeXiZEhlbQDGanrHoF1H+Fsc=
+Content-Type: multipart/mixed; boundary="===============4703601458608168067=="
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231218084403.599015-2-alex@linutronix.de>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+From: auh@yoctoproject.org
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] grub-efi: upgrading to 2.12 FAILED
+Message-ID: <0101018cc52703dc-b9a56445-b4bb-489c-9447-77fb3ced54d9-000000@us-west-2.amazonses.com>
+Date: Mon, 1 Jan 2024 13:11:57 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.01.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:00:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193095
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193096
+
+--===============4703601458608168067==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
 Hello,
 
-I've been carrying the series for a while without any issue but got this
-yesterday:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6262/steps/14/logs/stdio
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *grub-efi* to *2.12* has Failed (devtool error).
+
+Detailed error information:
+
+Running 'devtool upgrade' for recipe grub-efi failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 913 .bb files complete (0 cached, 913 parsed). 1847 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-fe5d2f0b666c83e3336ea9962c8e2e4c39816e21"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:fe5d2f0b666c83e3336ea9962c8e2e4c39816e21"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 22 Local 22 Mirrors 0 Missed 0 Current 8 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1847 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 914 .bb files complete (912 cached, 2 parsed). 1848 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-fe5d2f0b666c83e3336ea9962c8e2e4c39816e21"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:fe5d2f0b666c83e3336ea9962c8e2e4c39816e21"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   8% |###                                 | ETA:  0:00:03
+Adding changed files:  17% |######                              | ETA:  0:00:01
+Adding changed files:  25% |#########                           | ETA:  0:00:01
+Adding changed files:  34% |############                        | ETA:  0:00:00
+Adding changed files:  42% |###############                     | ETA:  0:00:00
+Adding changed files:  51% |##################                  | ETA:  0:00:00
+Adding changed files:  59% |#####################               | ETA:  0:00:00
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:01
+INFO: Creating workspace layer in /home/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/grub/grub-2.12.tar.gz...
+INFO: Rebasing devtool onto 458b895fa27c9fc247e634642b3a01043683ce5a
+WARNING: Command 'git rebase 458b895fa27c9fc247e634642b3a01043683ce5a' failed:
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/grub-efi
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/grub-efi/grub-efi_2.12.bb
 
 
-On 18/12/2023 09:43:58+0100, Alexander Kanavin wrote:
-> Other than the formatting changes, there are two functional ones:
-> 
-> - use perlcross instead of quilt, as quilt is special in the sense
-> of being excluded from task hash calculcations. perlcross is a full
-> participant.
-> 
-> - run the full test (local + sstate) for gcc do_preconfiure change
-> as the necessary fix has been implemented
-> (sstatesig/find_siginfo: special-case gcc-source when looking in sstate caches)
-> 
-> Note that when several tasks are found to have changed (as is the case
-> when base do_configure is adjusted), find_siginfo() runs
-> glob.glob("*/*/*taskname*") against autobuilder sstate cache for each
-> of those tasks (six or seven times). This is an expensive operation
-> taking several minutes. I left it in for now, but if it's proven too slow
-> the test would have to be reduced to checking a specific base recipe
-> (e.g. zstd-native) rather than a distant image target.
-> 
-> [YOCTO #15289]
-> 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  .../perlcross_%.bbappend}                     |  0
->  meta/lib/oeqa/selftest/cases/sstatetests.py   | 22 +++++++++++--------
->  2 files changed, 13 insertions(+), 9 deletions(-)
->  rename meta-selftest/recipes-test/{quilt-native/quilt-native_%.bbappend => perlcross/perlcross_%.bbappend} (100%)
-> 
-> diff --git a/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend b/meta-selftest/recipes-test/perlcross/perlcross_%.bbappend
-> similarity index 100%
-> rename from meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
-> rename to meta-selftest/recipes-test/perlcross/perlcross_%.bbappend
-> diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-> index f827615ba1b..6af3c8f2178 100644
-> --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-> +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-> @@ -824,14 +824,16 @@ TMPDIR = "${{TOPDIR}}/tmp-sstateprintdiff-difftmp-{}"
->  
->  
->      # Check if printdiff walks the full dependency chain from the image target to where the change is in a specific recipe
-> -    def test_image_minimal_vs_quilt(self):
-> -        expected_output = ("Task quilt-native:do_install couldn't be used from the cache because:",
-> +    def test_image_minimal_vs_perlcross(self):
-> +        expected_output = ("Task perlcross-native:do_install couldn't be used from the cache because:",
->  "We need hash",
->  "most recent matching task was")
-> -        expected_sametmp_output = expected_output + ("Variable do_install value changed",'+    echo "this changes the task signature"')
-> +        expected_sametmp_output = expected_output + (
-> +"Variable do_install value changed",
-> +'+    echo "this changes the task signature"')
->          expected_difftmp_output = expected_output
->  
-> -        self.run_test_printdiff_changerecipe("core-image-minimal", "quilt-native", "-c do_install quilt-native",
-> +        self.run_test_printdiff_changerecipe("core-image-minimal", "perlcross", "-c do_install perlcross-native",
->  """
->  do_install:append() {
->      echo "this changes the task signature"
-> @@ -846,10 +848,10 @@ expected_sametmp_output, expected_difftmp_output)
->          expected_output = ("Task {}:do_preconfigure couldn't be used from the cache because:".format(gcc_source_pn),
->  "We need hash",
->  "most recent matching task was")
-> -        expected_sametmp_output = expected_output + ("Variable do_preconfigure value changed",'+    print("this changes the task signature")')
-> -        #FIXME: printdiff is supposed to find at least one preconfigure task signature in the sstate cache, but isn't able to
-> -        #expected_difftmp_output = expected_output
-> -        expected_difftmp_output = ()
-> +        expected_sametmp_output = expected_output + (
-> +"Variable do_preconfigure value changed",
-> +'+    print("this changes the task signature")')
-> +        expected_difftmp_output = expected_output
->  
->          self.run_test_printdiff_changerecipe("gcc-runtime", "gcc-source", "-c do_preconfigure {}".format(gcc_source_pn),
->  """
-> @@ -873,7 +875,9 @@ expected_sametmp_output, expected_difftmp_output)
->  "Task gnu-config-native:do_configure couldn't be used from the cache because:",
->  "We need hash",
->  "most recent matching task was")
-> -        expected_sametmp_output = expected_output + ("Variable base_do_configure value changed",'+	echo "this changes base_do_configure() definiton "')
-> +        expected_sametmp_output = expected_output + (
-> +"Variable base_do_configure value changed",
-> +'+	echo "this changes base_do_configure() definiton "')
->          expected_difftmp_output = expected_output
->  
->          self.run_test_printdiff_changeconfig("core-image-minimal",
-> -- 
-> 2.39.2
-> 
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192613): https://lists.openembedded.org/g/openembedded-core/message/192613
-> Mute This Topic: https://lists.openembedded.org/mt/103239347/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Regards,
+The Upgrade Helper
+--===============4703601458608168067==--
 
