@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4AFEC47DDD
-	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:06 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.4606.1704114721032026718
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0305AC47DDC
+	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:07 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.4623.1704114719064543032
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jan 2024 05:12:01 -0800
+ Mon, 01 Jan 2024 05:12:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gZyKuy0+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=q3U9fquO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018cc5270e5e-a2fde85b-2839-41f3-9f40-1bbf0002f207-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fZMsSegB;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=m/IQe7Ck;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018cc5270d31-e1fa2fc7-48f2-42af-ac42-5ac05897d798-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1704114720;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=CCeyXCH5EabHJtZ31okZx9scH8L67aPzb+SyOL/DxTE=;
-	b=gZyKuy0+6+e+H4jGp974DvXAZkS+5OZv1lAWZgkA7K/2I822ByTYUgBe0+FbBtQG
-	94FnUmkauvTbGPwG/IfAmDmdGyH5/k5D8yY8Dv9iamA846iH1KvCY00a9GMj1+J8nsf
-	EIekapfye+ZdtIi7XYSb7vdDSFevB41gSzQRPo1k=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=yPFXpX5kJ0H8+fTx+Sy3UUCtLWdhuoBfDJ8gsmCZvmo=;
+	b=fZMsSegBb+HoTUWtkkrlAJ22WsmTkLVRBCj06nxdHBk2lOehc2QBsm7npjCuWSah
+	pA0pu2LshQWK80QJlerx94lGJXkeoiZqDEDurP6qv3znzrijfcbjgi7d5l/M8F6FzGw
+	VqeWB3XyI2mqka8doM8UECjTwpRdPJ/+n2sxWhH8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704114720;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=CCeyXCH5EabHJtZ31okZx9scH8L67aPzb+SyOL/DxTE=;
-	b=q3U9fquOD7L23o+oQxoGESN0l1LR4/LZho0aiwqIwDO+7WOGKGSlWP389/cmumAm
-	lzVwvJMkPJgibnM/+Nl9SW6nEJdOOtirxlKWqHkD3Kr9aq9Bk7fBe8FNOxKTlpFKBO2
-	romjVjhlRlW/3tD945FwUYDCxxX0efRQceQkdXIY=
-Content-Type: multipart/mixed; boundary="===============0415351053540681182=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=yPFXpX5kJ0H8+fTx+Sy3UUCtLWdhuoBfDJ8gsmCZvmo=;
+	b=m/IQe7CkNaCoMTMi7EE59QDNm9Es13T9znPUoS/9M+nzsepNef6TR1498bktNyNF
+	aUQVj9U9+10IHR7lKB7SKxYa7QZ0rF+RcelVxDPu/4XVGFGKC+RV7kQJW9cOpPq5bok
+	H+HwxiJG1YBzdtDfTr4SpRyqSHm6LQeINJnaO9K8=
+Content-Type: multipart/mixed; boundary="===============7008529924267906761=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxrandr: upgrading to 1.5.4 SUCCEEDED
-Message-ID: <0101018cc5270e5e-a2fde85b-2839-41f3-9f40-1bbf0002f207-000000@us-west-2.amazonses.com>
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gtk+3: upgrading to 3.24.39 FAILED
+Message-ID: <0101018cc5270d31-e1fa2fc7-48f2-42af-ac42-5ac05897d798-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jan 2024 13:12:00 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.01-54.240.27.31
+X-SES-Outgoing: 2024.01.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193156
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193153
 
---===============0415351053540681182==
+--===============7008529924267906761==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,107 +51,93 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxrandr* to *1.5.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *gtk+3* to *3.24.39* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libxrandr-upgrade-1.5.3-1.5.4.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe gtk+3 failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1847 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-3ec1370db588e9178917cfd9a45a70ed6ccd5c4e"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:3ec1370db588e9178917cfd9a45a70ed6ccd5c4e"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 7 Local 7 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1847 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 914 .bb files complete (912 cached, 2 parsed). 1848 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.6.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-3ec1370db588e9178917cfd9a45a70ed6ccd5c4e"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:3ec1370db588e9178917cfd9a45a70ed6ccd5c4e"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 8 Local 7 Mirrors 0 Missed 1 Current 20 (87% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching http://ftp.gnome.org/pub/gnome/sources/gtk+/3.24/gtk+-3.24.39.tar.xz...
+INFO: Rebasing devtool onto ef8daefdab1b349f13ed46a5552c0570cc5f7986
+WARNING: Command 'git rebase ef8daefdab1b349f13ed46a5552c0570cc5f7986' failed:
+Auto-merging gdk/gdkdisplay.c
+Auto-merging gdk/gdkgl.c
+CONFLICT (content): Merge conflict in gdk/gdkgl.c
+Auto-merging gdk/gdkglcontext.c
+Auto-merging gdk/gdkwindow.c
+Auto-merging meson.build
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/gtk+3
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/gtk+3/gtk+3_3.24.39.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From b213e3cce4b39d4846788ce2a2fda14484420a05 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jan 2024 10:11:18 +0000
-Subject: [PATCH] libxrandr: upgrade 1.5.3 -> 1.5.4
-
----
- .../xorg-lib/{libxrandr_1.5.3.bb => libxrandr_1.5.4.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxrandr_1.5.3.bb => libxrandr_1.5.4.bb} (87%)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb
-similarity index 87%
-rename from meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb
-rename to meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb
-index 98572bd969..3e2825b916 100644
---- a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb
-@@ -19,4 +19,4 @@ XORG_PN = "libXrandr"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[sha256sum] = "897639014a78e1497704d669c5dd5682d721931a4452c89a7ba62676064eb428"
-+SRC_URI[sha256sum] = "1ad5b065375f4a85915aa60611cc6407c060492a214d7f9daf214be752c3b4d3"
--- 
-2.42.0
-
-
---===============0415351053540681182==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxrandr-upgrade-1.5.3-1.5.4.patch"
-
-RnJvbSBiMjEzZTNjY2U0YjM5ZDQ4NDY3ODhjZTJhMmZkYTE0NDg0NDIwYTA1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAxMDoxMToxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnhyYW5kcjogdXBncmFkZSAxLjUuMyAtPiAxLjUuNAoKLS0tCiAuLi4veG9yZy1saWIve2xpYnhy
-YW5kcl8xLjUuMy5iYiA9PiBsaWJ4cmFuZHJfMS41LjQuYmJ9ICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhyYW5kcl8xLjUuMy5iYiA9PiBsaWJ4cmFuZHJf
-MS41LjQuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-bGliL2xpYnhyYW5kcl8xLjUuMy5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9s
-aWJ4cmFuZHJfMS41LjQuYmIKc2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhyYW5kcl8xLjUuMy5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhyYW5kcl8xLjUuNC5iYgppbmRleCA5ODU3
-MmJkOTY5Li4zZTI4MjViOTE2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9y
-Zy1saWIvbGlieHJhbmRyXzEuNS4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LWxpYi9saWJ4cmFuZHJfMS41LjQuYmIKQEAgLTE5LDQgKzE5LDQgQEAgWE9SR19QTiA9ICJsaWJY
-cmFuZHIiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjg5NzYzOTAxNGE3OGUxNDk3NzA0ZDY2OWM1ZGQ1NjgyZDcyMTkzMWE0NDUy
-Yzg5YTdiYTYyNjc2MDY0ZWI0MjgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWFkNWIwNjUzNzVm
-NGE4NTkxNWFhNjA2MTFjYzY0MDdjMDYwNDkyYTIxNGQ3ZjlkYWYyMTRiZTc1MmMzYjRkMyIKLS0g
-CjIuNDIuMAoK
-
---===============0415351053540681182==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/libxrandr: PKGV changed from 1.5.3 [default] to 1.5.4 [default]
-packages/core2-64-poky-linux/libxrandr: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXrandr-1.5.3.tar.xz" to "https://www.x.org/releases//individual/lib/libXrandr-1.5.4.tar.xz"
-packages/core2-64-poky-linux/libxrandr: PV changed from "1.5.3" to "1.5.4"
-packages/core2-64-poky-linux/libxrandr/libxrandr-dbg: PKGV changed from 1.5.3 [default] to 1.5.4 [default]
-packages/core2-64-poky-linux/libxrandr/libxrandr-dbg: PKGSIZE changed from 351152 to 351112 (-0%)
-packages/core2-64-poky-linux/libxrandr/libxrandr-dbg: PV changed from "1.5.3" to "1.5.4"
-packages/core2-64-poky-linux/libxrandr/libxrandr-dev: PKGV changed from 1.5.3 [default] to 1.5.4 [default]
-packages/core2-64-poky-linux/libxrandr/libxrandr-dev: PV changed from "1.5.3" to "1.5.4"
-packages/core2-64-poky-linux/libxrandr/libxrandr-doc: PKGV changed from 1.5.3 [default] to 1.5.4 [default]
-packages/core2-64-poky-linux/libxrandr/libxrandr-doc: PV changed from "1.5.3" to "1.5.4"
-packages/core2-64-poky-linux/libxrandr/libxrandr-locale: PKGV changed from 1.5.3 [default] to 1.5.4 [default]
-packages/core2-64-poky-linux/libxrandr/libxrandr-locale: PV changed from "1.5.3" to "1.5.4"
-packages/core2-64-poky-linux/libxrandr/libxrandr-src: PKGV changed from 1.5.3 [default] to 1.5.4 [default]
-packages/core2-64-poky-linux/libxrandr/libxrandr-src: PKGSIZE changed from 116726 to 116731 (+0%)
-packages/core2-64-poky-linux/libxrandr/libxrandr-src: PV changed from "1.5.3" to "1.5.4"
-packages/core2-64-poky-linux/libxrandr/libxrandr-staticdev: PKGV changed from 1.5.3 [default] to 1.5.4 [default]
-packages/core2-64-poky-linux/libxrandr/libxrandr-staticdev: PV changed from "1.5.3" to "1.5.4"
-packages/core2-64-poky-linux/libxrandr/libxrandr: PKGV changed from 1.5.3 [default] to 1.5.4 [default]
-packages/core2-64-poky-linux/libxrandr/libxrandr: PV changed from "1.5.3" to "1.5.4"
-
---===============0415351053540681182==--
+--===============7008529924267906761==--
 
