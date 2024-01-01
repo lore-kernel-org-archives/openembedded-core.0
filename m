@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C19BC48BF4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1CB1C531B5
 	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:09 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.4584.1704114719302880607
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.4576.1704114718932199790
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jan 2024 05:11:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VTiNV3fq;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NxoKLAZ5;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018cc52706cb-cd64c2a1-723b-437f-896f-7c119e697def-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Yzb28vdi;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ch+IHR8B;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018cc5270576-dde3e7f7-44e1-4b4f-968f-ad61f75e454f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1704114718;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=huZ+5AeRsIN8WS66Xpogd/OYQz6aUi3sX0Sokoq34FY=;
-	b=VTiNV3fqsisEU4xN5gvhNjjwg5OTGTpqYxFugCLEC5iCzx9EsK3ESlycG5bR6FAL
-	oNAaay42A2ocqi3C4SJNj/FWk5ek7iQuICNzvLwbi+IQGmAB1aJ/YGb+q7eiMcdwfdo
-	4BRXSTQnID4WdzDdjVK1r2QjigExb8JqLI4lzKtA=
+	bh=bkYJMbo28w49QdGs2vF1rG4pvkk06mq9uz6Nfo1Tsnk=;
+	b=Yzb28vdinhCTKjJ/yhCcE8td3O0IDI/1PlN6Z4pejbuARtJfjhawBak1wuGHDgAL
+	9TF6gx2S//ECLVT4JGku7D3tEhMAAw2+iTc8qqP/RBYdCdDA1qgpq4Pnpb2V7fA21Ll
+	FiTOyFyVYV9y1KiIPlXtg+fL8rVPHaJlq4loKkC0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704114718;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=huZ+5AeRsIN8WS66Xpogd/OYQz6aUi3sX0Sokoq34FY=;
-	b=NxoKLAZ5n5s5Ph1kCKjobv12u/Goi3UDWT+yxpYQg4JJw/hPEgEc2P3qYJ6iQKms
-	rv30RS7w3qwSqtx1sQP9OOcLFhhbWCdhr8Eb8T885ErH5Z0z54TajeGPwR0P/sKgVUF
-	1tNsgMDZ+o3sX7vyesDpFhoBh0MCnj1VG2CIwlwA=
-Content-Type: multipart/mixed; boundary="===============2664954793634314973=="
+	bh=bkYJMbo28w49QdGs2vF1rG4pvkk06mq9uz6Nfo1Tsnk=;
+	b=ch+IHR8BO/MxEnsl8yxhedDRmYyFBKxsoGSiwyBNx0knEiMYDUo7aBXuw9CPRwoy
+	M1ydodsw3KQdoSTmj9XFFT1HSB//f80FFBOlvCsD9EIgsFmiEItzmeosDP/un75xeqD
+	u7mubN1K+SRhrPINGn0nYBUVYi+lE8+NwuOKVjAI=
+Content-Type: multipart/mixed; boundary="===============5149308174652875156=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxml2: upgrading to 2.12.3 SUCCEEDED
-Message-ID: <0101018cc52706cb-cd64c2a1-723b-437f-896f-7c119e697def-000000@us-west-2.amazonses.com>
+Subject: [AUH] iw: upgrading to 6.7 SUCCEEDED
+Message-ID: <0101018cc5270576-dde3e7f7-44e1-4b4f-968f-ad61f75e454f-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jan 2024 13:11:58 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.01-54.240.27.33
+X-SES-Outgoing: 2024.01.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193111
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193102
 
---===============2664954793634314973==
+--===============5149308174652875156==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxml2* to *2.12.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *iw* to *6.7* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxml2-upgrade-2.11.5-2.12.3.patch
+    - apply the patch: git am 0001-iw-upgrade-5.19-6.7.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,237 +72,126 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From aa0e6ca3348017ff92b6e13f63b0bf26df3e5585 Mon Sep 17 00:00:00 2001
+From ca6cc777c164b435335748c36a52dedf0dd42c51 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jan 2024 05:32:18 +0000
-Subject: [PATCH] libxml2: upgrade 2.11.5 -> 2.12.3
+Date: Mon, 1 Jan 2024 05:15:54 +0000
+Subject: [PATCH] iw: upgrade 5.19 -> 6.7
 
 ---
- .../libxml/libxml2/install-tests.patch        |  8 +--
- .../{libxml2_2.11.5.bb => libxml2_2.12.3.bb}  | 50 +++++++++++++++++--
- 2 files changed, 50 insertions(+), 8 deletions(-)
- rename meta/recipes-core/libxml/{libxml2_2.11.5.bb => libxml2_2.12.3.bb} (69%)
+ ...h-don-t-use-git-describe-for-versioning.patch | 16 ++++++++++++----
+ .../iw/iw/separate-objdir.patch                  | 12 +++++-------
+ .../iw/{iw_5.19.bb => iw_6.7.bb}                 |  2 +-
+ 3 files changed, 18 insertions(+), 12 deletions(-)
+ rename meta/recipes-connectivity/iw/{iw_5.19.bb => iw_6.7.bb} (90%)
 
-diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
-index 14ccce5873..6e0bb617bb 100644
---- a/meta/recipes-core/libxml/libxml2/install-tests.patch
-+++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
-@@ -1,4 +1,4 @@
--From 3fc716357ce1372d9418dc86f24315b34d9808de Mon Sep 17 00:00:00 2001
-+From 903798eabb2afe9ec95ce4faf622f4732c5c6368 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Mon, 5 Dec 2022 17:02:32 +0000
- Subject: [PATCH] add yocto-specific install-ptest target
-@@ -13,11 +13,11 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 10 insertions(+)
+diff --git a/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch b/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+index 715b88d466..81e2de2c7e 100644
+--- a/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
++++ b/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+@@ -1,3 +1,6 @@
++From fe0b973174f5a6c4bc5595c2170220d2faeba361 Mon Sep 17 00:00:00 2001
++From: Koen Kooi <koen@dominion.thruhere.net>
++Date: Fri, 28 Aug 2015 13:22:59 -0700
+ Subject: [PATCH] iw: version.sh: don't use git describe for versioning
  
- diff --git a/Makefile.am b/Makefile.am
--index 5bc4018..57d27af 100644
-+index 0a49d37..1097c63 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -26,6 +26,16 @@ check_PROGRAMS = \
-- 	testlimits \
-+@@ -27,6 +27,16 @@ check_PROGRAMS = \
-+ 	testparser \
-  	testrecurse
-  
- +ptestdir=$(libexecdir)
-diff --git a/meta/recipes-core/libxml/libxml2_2.11.5.bb b/meta/recipes-core/libxml/libxml2_2.12.3.bb
-similarity index 69%
-rename from meta/recipes-core/libxml/libxml2_2.11.5.bb
-rename to meta/recipes-core/libxml/libxml2_2.12.3.bb
-index 319833f053..dc61d5f862 100644
---- a/meta/recipes-core/libxml/libxml2_2.11.5.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.12.3.bb
-@@ -1,13 +1,55 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- Copyright
-+# +++ Copyright
-+# @@ -1,4 +1,4 @@
-+# -Except where otherwise noted in the source code (e.g. the files hash.c,
-+# +Except where otherwise noted in the source code (e.g. the files dict.c,
-+#  list.c and the trio files, which are covered by a similar licence but
-+#  with different Copyright notices) all the files are:
-+#  
-+# --- hash.c
-+# +++ hash.c
-+# @@ -1,10 +1,10 @@
-+# - * Copyright (C) 2000,2012 Bjorn Reese and Daniel Veillard.
-+#   *
-+# - * Permission to use, copy, modify, and distribute this software for any
-+# - * purpose with or without fee is hereby granted, provided that the above
-+# - * copyright notice and this permission notice appear in all copies.
-+# - *
-+# - * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
-+# - * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
-+# - * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE AUTHORS AND
-+# - * CONTRIBUTORS ACCEPT NO RESPONSIBILITY IN ANY CONCEIVABLE MANNER.
-+# + * See Copyright for the status of this software.
-+# + */
-+# +
-+# +#define IN_LIBXML
-+# +#include "libxml.h"
-+# +
-+# +#include <string.h>
-+# +#include <limits.h>
-+# +
-+# 
-+#
+ It will detect top-level git repositories like the Angstrom setup-scripts and break.
+@@ -6,11 +9,16 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
 +
- SUMMARY = "XML C Parser Library and Toolkit"
- DESCRIPTION = "The XML Parser Library allows for manipulation of XML files.  Libxml2 exports Push and Pull type parser interfaces for both XML and HTML.  It can do DTD validation at parse time, on a parsed document instance or with an arbitrary DTD.  Libxml2 includes complete XPath, XPointer and Xinclude implementations.  It also has a SAX like interface, which is designed to be compatible with Expat."
- HOMEPAGE = "https://gitlab.gnome.org/GNOME/libxml2"
- BUGTRACKER = "http://bugzilla.gnome.org/buglist.cgi?product=libxml2"
- SECTION = "libs"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
--                    file://hash.c;beginline=6;endline=15;md5=e77f77b12cb69e203d8b4090a0eee879 \
-+LIC_FILES_CHKSUM = "file://Copyright;md5=fec7ecfe714722b2bb0aaff7d200c701 \
-+                    file://hash.c;beginline=6;endline=15;md5=9af9349d0ead24569dc332f2116ef5f8 \
-                     file://list.c;beginline=4;endline=13;md5=b9c25b021ccaf287e50060602d20f3a7 \
--                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f"
-+                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f \
-+                    "
+ ---
+-diff -Naur iw-4.7-orig/version.sh iw-4.7/version.sh
+---- iw-4.7-orig/version.sh	2016-05-31 12:52:46.000000000 +0300
+-+++ iw-4.7/version.sh	2016-06-01 11:21:58.307409060 +0300
+-@@ -15,27 +15,7 @@
++ version.sh | 22 +---------------------
++ 1 file changed, 1 insertion(+), 21 deletions(-)
++
++diff --git a/version.sh b/version.sh
++index 3091e1e..8d79d58 100755
++--- a/version.sh
+++++ b/version.sh
++@@ -15,27 +15,7 @@ SRC_DIR=$(dirname $0)
+  SRC_DIR=$(cd ${SRC_DIR}; pwd)
+  cd "${SRC_DIR}"
+  
+diff --git a/meta/recipes-connectivity/iw/iw/separate-objdir.patch b/meta/recipes-connectivity/iw/iw/separate-objdir.patch
+index 179fd90124..382b2f7261 100644
+--- a/meta/recipes-connectivity/iw/iw/separate-objdir.patch
++++ b/meta/recipes-connectivity/iw/iw/separate-objdir.patch
+@@ -1,4 +1,4 @@
+-From ff9f0a631c99fb6e2677c02bf572a5e69c70f5cf Mon Sep 17 00:00:00 2001
++From e2b511b08b55a2c7ac1431c020beb9a19ac5b44b Mon Sep 17 00:00:00 2001
+ From: Changhyeok Bae <changhyeok.bae@gmail.com>
+ Date: Mon, 27 Jan 2020 22:48:03 +0100
+ Subject: [PATCH] Support separation of SRCDIR and OBJDIR
+@@ -9,12 +9,13 @@ Upstream-Status: Pending
  
- DEPENDS = "zlib virtual/libiconv"
+ Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
++
+ ---
+  Makefile | 8 ++++++--
+  1 file changed, 6 insertions(+), 2 deletions(-)
  
-@@ -19,7 +61,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
-            "
+ diff --git a/Makefile b/Makefile
+-index 90f2251..714cdb9 100644
++index 17be33f..d9d7fc8 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -1,5 +1,9 @@
+@@ -27,7 +28,7 @@ index 90f2251..714cdb9 100644
+  PREFIX ?= /usr
+  SBINDIR ?= $(PREFIX)/sbin
+  MANDIR ?= $(PREFIX)/share/man
+-@@ -92,7 +96,7 @@ all: $(ALL)
++@@ -94,7 +98,7 @@ all: $(ALL)
+  version.c: version.sh $(patsubst %.o,%.c,$(VERSION_OBJS)) nl80211.h iw.h Makefile \
+  		$(wildcard .git/index .git/refs/tags)
+  	@$(NQ) ' GEN ' $@
+@@ -36,7 +37,7 @@ index 90f2251..714cdb9 100644
+  
+  nl80211-commands.inc: nl80211.h
+  	@$(NQ) ' GEN ' $@
+-@@ -100,7 +104,7 @@ nl80211-commands.inc: nl80211.h
++@@ -102,7 +106,7 @@ nl80211-commands.inc: nl80211.h
+  
+  %.o: %.c iw.h nl80211.h nl80211-commands.inc
+  	@$(NQ) ' CC  ' $@
+@@ -45,6 +46,3 @@ index 90f2251..714cdb9 100644
+  
+  ifeq ($(IW_ANDROID_BUILD),)
+  iw:	$(OBJS)
+--- 
+-2.23.0
+-
+diff --git a/meta/recipes-connectivity/iw/iw_5.19.bb b/meta/recipes-connectivity/iw/iw_6.7.bb
+similarity index 90%
+rename from meta/recipes-connectivity/iw/iw_5.19.bb
+rename to meta/recipes-connectivity/iw/iw_6.7.bb
+index a19ae304d5..b46b54bc93 100644
+--- a/meta/recipes-connectivity/iw/iw_5.19.bb
++++ b/meta/recipes-connectivity/iw/iw_6.7.bb
+@@ -14,7 +14,7 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
+            file://separate-objdir.patch \
+ "
  
--SRC_URI[archive.sha256sum] = "3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6"
-+SRC_URI[archive.sha256sum] = "8c8f1092340a89ff32bc44ad5c9693aff9bc8a7a3e161bb239666e5d15ac9aaa"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
+-SRC_URI[sha256sum] = "2a44676d28a87bbc232903d5d573e7618e4fae0cea3a1aff067a26fa66652b75"
++SRC_URI[sha256sum] = "b3ef3fa85fa1177b11d3e97d6d38cdfe10ee250ca31482b581f3bd0fc79cb015"
  
- # Disputed as a security issue, but fixed in d39f780
+ inherit pkgconfig
+ 
 -- 
 2.42.0
 
 
---===============2664954793634314973==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxml2-upgrade-2.11.5-2.12.3.patch"
-
-RnJvbSBhYTBlNmNhMzM0ODAxN2ZmOTJiNmUxM2Y2M2IwYmYyNmRmM2U1NTg1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAwNTozMjoxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnhtbDI6IHVwZ3JhZGUgMi4xMS41IC0+IDIuMTIuMwoKLS0tCiAuLi4vbGlieG1sL2xpYnhtbDIv
-aW5zdGFsbC10ZXN0cy5wYXRjaCAgICAgICAgfCAgOCArLS0KIC4uLi97bGlieG1sMl8yLjExLjUu
-YmIgPT4gbGlieG1sMl8yLjEyLjMuYmJ9ICB8IDUwICsrKysrKysrKysrKysrKysrLS0KIDIgZmls
-ZXMgY2hhbmdlZCwgNTAgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtY29yZS9saWJ4bWwve2xpYnhtbDJfMi4xMS41LmJiID0+IGxpYnhtbDJfMi4xMi4z
-LmJifSAoNjklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwy
-L2luc3RhbGwtdGVzdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9p
-bnN0YWxsLXRlc3RzLnBhdGNoCmluZGV4IDE0Y2NjZTU4NzMuLjZlMGJiNjE3YmIgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyL2luc3RhbGwtdGVzdHMucGF0Y2gK
-KysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDIvaW5zdGFsbC10ZXN0cy5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2ZjNzE2MzU3Y2UxMzcyZDk0MThkYzg2ZjI0MzE1YjM0
-ZDk4MDhkZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOTAzNzk4ZWFiYjJhZmU5ZWM5
-NWNlNGZhZjYyMmY0NzMyYzVjNjM2OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJv
-c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogRGF0ZTogTW9uLCA1IERlYyAyMDIyIDE3
-OjAyOjMyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGFkZCB5b2N0by1zcGVjaWZpYyBpbnN0YWxs
-LXB0ZXN0IHRhcmdldApAQCAtMTMsMTEgKzEzLDExIEBAIFNpZ25lZC1vZmYtYnk6IFJvc3MgQnVy
-dG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25z
-KCspCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFtCi1pbmRleCA1YmM0
-MDE4Li41N2QyN2FmIDEwMDY0NAoraW5kZXggMGE0OWQzNy4uMTA5N2M2MyAxMDA2NDQKIC0tLSBh
-L01ha2VmaWxlLmFtCiArKysgYi9NYWtlZmlsZS5hbQotQEAgLTI2LDYgKzI2LDE2IEBAIGNoZWNr
-X1BST0dSQU1TID0gXAotIAl0ZXN0bGltaXRzIFwKK0BAIC0yNyw2ICsyNywxNiBAQCBjaGVja19Q
-Uk9HUkFNUyA9IFwKKyAJdGVzdHBhcnNlciBcCiAgCXRlc3RyZWN1cnNlCiAgCiArcHRlc3RkaXI9
-JChsaWJleGVjZGlyKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnht
-bDJfMi4xMS41LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDJfMi4xMi4zLmJi
-CnNpbWlsYXJpdHkgaW5kZXggNjklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnht
-bC9saWJ4bWwyXzIuMTEuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xp
-YnhtbDJfMi4xMi4zLmJiCmluZGV4IDMxOTgzM2YwNTMuLmRjNjFkNWY4NjIgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyXzIuMTEuNS5iYgorKysgYi9tZXRhL3Jl
-Y2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjEyLjMuYmIKQEAgLTEsMTMgKzEsNTUgQEAKKyMg
-RklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAn
-ZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3
-ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRo
-ZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgor
-IyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1w
-bGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhl
-IGNoYW5nZXM6CisjCisjIC0tLSBDb3B5cmlnaHQKKyMgKysrIENvcHlyaWdodAorIyBAQCAtMSw0
-ICsxLDQgQEAKKyMgLUV4Y2VwdCB3aGVyZSBvdGhlcndpc2Ugbm90ZWQgaW4gdGhlIHNvdXJjZSBj
-b2RlIChlLmcuIHRoZSBmaWxlcyBoYXNoLmMsCisjICtFeGNlcHQgd2hlcmUgb3RoZXJ3aXNlIG5v
-dGVkIGluIHRoZSBzb3VyY2UgY29kZSAoZS5nLiB0aGUgZmlsZXMgZGljdC5jLAorIyAgbGlzdC5j
-IGFuZCB0aGUgdHJpbyBmaWxlcywgd2hpY2ggYXJlIGNvdmVyZWQgYnkgYSBzaW1pbGFyIGxpY2Vu
-Y2UgYnV0CisjICB3aXRoIGRpZmZlcmVudCBDb3B5cmlnaHQgbm90aWNlcykgYWxsIHRoZSBmaWxl
-cyBhcmU6CisjICAKKyMgLS0tIGhhc2guYworIyArKysgaGFzaC5jCisjIEBAIC0xLDEwICsxLDEw
-IEBACisjIC0gKiBDb3B5cmlnaHQgKEMpIDIwMDAsMjAxMiBCam9ybiBSZWVzZSBhbmQgRGFuaWVs
-IFZlaWxsYXJkLgorIyAgICoKKyMgLSAqIFBlcm1pc3Npb24gdG8gdXNlLCBjb3B5LCBtb2RpZnks
-IGFuZCBkaXN0cmlidXRlIHRoaXMgc29mdHdhcmUgZm9yIGFueQorIyAtICogcHVycG9zZSB3aXRo
-IG9yIHdpdGhvdXQgZmVlIGlzIGhlcmVieSBncmFudGVkLCBwcm92aWRlZCB0aGF0IHRoZSBhYm92
-ZQorIyAtICogY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBhcHBl
-YXIgaW4gYWxsIGNvcGllcy4KKyMgLSAqCisjIC0gKiBUSElTIFNPRlRXQVJFIElTIFBST1ZJREVE
-IGBgQVMgSVMnJyBBTkQgV0lUSE9VVCBBTlkgRVhQUkVTUyBPUiBJTVBMSUVECisjIC0gKiBXQVJS
-QU5USUVTLCBJTkNMVURJTkcsIFdJVEhPVVQgTElNSVRBVElPTiwgVEhFIElNUExJRUQgV0FSUkFO
-VElFUyBPRgorIyAtICogTUVSQ0hBTlRBQklMSVRZIEFORCBGSVRORVNTIEZPUiBBIFBBUlRJQ1VM
-QVIgUFVSUE9TRS4gVEhFIEFVVEhPUlMgQU5ECisjIC0gKiBDT05UUklCVVRPUlMgQUNDRVBUIE5P
-IFJFU1BPTlNJQklMSVRZIElOIEFOWSBDT05DRUlWQUJMRSBNQU5ORVIuCisjICsgKiBTZWUgQ29w
-eXJpZ2h0IGZvciB0aGUgc3RhdHVzIG9mIHRoaXMgc29mdHdhcmUuCisjICsgKi8KKyMgKworIyAr
-I2RlZmluZSBJTl9MSUJYTUwKKyMgKyNpbmNsdWRlICJsaWJ4bWwuaCIKKyMgKworIyArI2luY2x1
-ZGUgPHN0cmluZy5oPgorIyArI2luY2x1ZGUgPGxpbWl0cy5oPgorIyArCisjIAorIworCiBTVU1N
-QVJZID0gIlhNTCBDIFBhcnNlciBMaWJyYXJ5IGFuZCBUb29sa2l0IgogREVTQ1JJUFRJT04gPSAi
-VGhlIFhNTCBQYXJzZXIgTGlicmFyeSBhbGxvd3MgZm9yIG1hbmlwdWxhdGlvbiBvZiBYTUwgZmls
-ZXMuICBMaWJ4bWwyIGV4cG9ydHMgUHVzaCBhbmQgUHVsbCB0eXBlIHBhcnNlciBpbnRlcmZhY2Vz
-IGZvciBib3RoIFhNTCBhbmQgSFRNTC4gIEl0IGNhbiBkbyBEVEQgdmFsaWRhdGlvbiBhdCBwYXJz
-ZSB0aW1lLCBvbiBhIHBhcnNlZCBkb2N1bWVudCBpbnN0YW5jZSBvciB3aXRoIGFuIGFyYml0cmFy
-eSBEVEQuICBMaWJ4bWwyIGluY2x1ZGVzIGNvbXBsZXRlIFhQYXRoLCBYUG9pbnRlciBhbmQgWGlu
-Y2x1ZGUgaW1wbGVtZW50YXRpb25zLiAgSXQgYWxzbyBoYXMgYSBTQVggbGlrZSBpbnRlcmZhY2Us
-IHdoaWNoIGlzIGRlc2lnbmVkIHRvIGJlIGNvbXBhdGlibGUgd2l0aCBFeHBhdC4iCiBIT01FUEFH
-RSA9ICJodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbGlieG1sMiIKIEJVR1RSQUNLRVIg
-PSAiaHR0cDovL2J1Z3ppbGxhLmdub21lLm9yZy9idWdsaXN0LmNnaT9wcm9kdWN0PWxpYnhtbDIi
-CiBTRUNUSU9OID0gImxpYnMiCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAi
-ZmlsZTovL0NvcHlyaWdodDttZDU9MjA0NDQxN2UyZTUwMDZiNjVhOGI5MDY3YjY4M2ZjZjEgXAot
-ICAgICAgICAgICAgICAgICAgICBmaWxlOi8vaGFzaC5jO2JlZ2lubGluZT02O2VuZGxpbmU9MTU7
-bWQ1PWU3N2Y3N2IxMmNiNjllMjAzZDhiNDA5MGEwZWVlODc5IFwKK0xJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NvcHlyaWdodDttZDU9ZmVjN2VjZmU3MTQ3MjJiMmJiMGFhZmY3ZDIwMGM3MDEg
-XAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8vaGFzaC5jO2JlZ2lubGluZT02O2VuZGxpbmU9
-MTU7bWQ1PTlhZjkzNDlkMGVhZDI0NTY5ZGMzMzJmMjExNmVmNWY4IFwKICAgICAgICAgICAgICAg
-ICAgICAgZmlsZTovL2xpc3QuYztiZWdpbmxpbmU9NDtlbmRsaW5lPTEzO21kNT1iOWMyNWIwMjFj
-Y2FmMjg3ZTUwMDYwNjAyZDIwZjNhNyBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6Ly90cmlv
-LmM7YmVnaW5saW5lPTU7ZW5kbGluZT0xNDttZDU9Y2Q0ZjYxZTI3Zjg4YzFkNDNkZjExMjk2NmIx
-Y2QyOGYiCisgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly90cmlvLmM7YmVnaW5saW5lPTU7ZW5k
-bGluZT0xNDttZDU9Y2Q0ZjYxZTI3Zjg4YzFkNDNkZjExMjk2NmIxY2QyOGYgXAorICAgICAgICAg
-ICAgICAgICAgICAiCiAKIERFUEVORFMgPSAiemxpYiB2aXJ0dWFsL2xpYmljb252IgogCkBAIC0x
-OSw3ICs2MSw3IEBAIFNSQ19VUkkgKz0gImh0dHA6Ly93d3cudzMub3JnL1hNTC9UZXN0L3htbHRz
-MjAxMzA5MjMudGFyO3N1YmRpcj0ke0JQfTtuYW1lPXRlc3R0CiAgICAgICAgICAgIGZpbGU6Ly9p
-bnN0YWxsLXRlc3RzLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW2FyY2hpdmUuc2hh
-MjU2c3VtXSA9ICIzNzI3YjA3OGMzNjBlYzY5ZmE4NjlkZTE0YmQ2Zjc1ZDdlZThkMzY5ODdiMDcx
-ZTY5MjhkNDcyMGEyOGRmM2E2IgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiOGM4ZjEw
-OTIzNDBhODlmZjMyYmM0NGFkNWM5NjkzYWZmOWJjOGE3YTNlMTYxYmIyMzk2NjZlNWQxNWFjOWFh
-YSIKIFNSQ19VUklbdGVzdHRhci5zaGEyNTZzdW1dID0gImM2YjJkNDJlZTUwYjhiMjM2ZTcxMWE5
-N2Q2OGU2YzRiNWM4ZDgzZTY5YTJiZTQ3MjIzNzlmMDg3MDJlYTcyNzMiCiAKICMgRGlzcHV0ZWQg
-YXMgYSBzZWN1cml0eSBpc3N1ZSwgYnV0IGZpeGVkIGluIGQzOWY3ODAKLS0gCjIuNDIuMAoK
-
---===============2664954793634314973==
+--===============5149308174652875156==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libxml2/libxml2-doc: FILELIST: added "/usr/share/doc/libxml2/python/examples/setup_test.py"
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.str /usr/lib/libxml2/ptest/test/errors/trailing-null-2.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.err /usr/lib/libxml2/ptest/test/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/test/valid/huge.xml /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.ent /usr/lib/libxml2/ptest/result/errors/extra-content.xml.str /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.err /usr/lib/libxml2/ptest/test/errors/trailing-null-1.xml /usr/lib/libxml2/ptest/result/errors/attr6.xml.err /usr/lib/libxml2/ptest/testparser /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.err /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.ent /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.str /usr/lib/libxml2/ptest/t
- est/valid/dtds/pe-latin1.ent /usr/lib/libxml2/ptest/result/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.ent /usr/lib/libxml2/ptest/result/errors/attr6.xml.ent /usr/lib/libxml2/ptest/result/errors/empty.xml.err /usr/lib/libxml2/ptest/result/issue626.xml.sax /usr/lib/libxml2/ptest/result/issue643.xml.sax /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.err /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.str /usr/lib/libxml2/ptest/result/errors/extra-content.xml.err /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-2.xml /usr/lib/libxml2/ptest/test/errors/name3.xml /usr/lib/libxml2/ptest/test/errors/attr5.xml /usr/lib/libxml2/ptest/test/errors/attr6.xml /usr/lib/libxml2/ptest/test/errors/empty.xml /usr/lib/libxml2/ptest/result/errors/name3.xml.err /usr/lib/libxml2/ptest/python/tests/setup_test.py /usr/lib/libxml2/ptest/result/
- HTML/xml-declaration-1.html.sax /usr/lib/libxml2/ptest/result/errors/attr6.xml.str /usr/lib/libxml2/ptest/result/noent/issue643.xml /usr/lib/libxml2/ptest/test/errors/extra-content.xml /usr/lib/libxml2/ptest/result/issue626.xml /usr/lib/libxml2/ptest/result/issue643.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/errors/name3.xml.ent /usr/lib/libxml2/ptest/test/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/noent/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/noent/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.str /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/ns-ent.xml.sax /usr/lib/libxml2/ptest/result/ns-ent.xml /usr/lib/libxml2/ptest/test/errors/truncated-utf16.xml /usr/lib/libxml2/ptest/test/ns-ent.xml /usr/lib/libxml2/pte
- st/result/errors/name3.xml.str /usr/lib/libxml2/ptest/test/issue626.xml /usr/lib/libxml2/ptest/result/valid/huge.xml /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.ent /usr/lib/libxml2/ptest/result/errors/attr5.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.str /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.str /usr/lib/libxml2/ptest/result/ns-ent.xml.rde /usr/lib/libxml2/ptest/result/ns-ent.xml.rdr /usr/lib/libxml2/ptest/test/errors/unclosed-element.xml /usr/lib/libxml2/ptest/result/issue626.xml.rde /usr/lib/libxml2/ptest/result/issue643.xml.rde /usr/lib/libxml2/ptest/result/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/test/valid/dtds/huge.ent /usr/lib/libxml2/ptest/result/issue626.xml.rdr /usr/lib/libxml2/ptest/result/issue643.xml.rdr /usr/lib/libxml2/ptest/result/errors/extra-content.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.ent /usr/lib/libxml2/ptest/re
- sult/noent/issue626.xml /usr/lib/libxml2/ptest/result/errors/attr5.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.ent /usr/lib/libxml2/ptest/test/issue643.xml /usr/lib/libxml2/ptest/test/valid/pe-latin1.xml /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.dtd /usr/lib/libxml2/ptest/result/noent/ns-ent.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.str /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.str /usr/lib/libxml2/ptest/test/errors/quadratic-defattr.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.ent /usr/lib/libxml2/ptest/result/errors/attr5.xml.str"
-packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.11.5", added "/usr/lib/libxml2.so.2.12.3"
-Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1939,65 +1828,36 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/libxml2-native (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 
---===============2664954793634314973==
+--===============5149308174652875156==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxml2: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2: SRC_URI changed from "https://download.gnome.org/sources//libxml2/2.11/libxml2-2.11.5.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.11.5;name=testtar file://run-ptest file://install-tests.patch" to "https://download.gnome.org/sources//libxml2/2.12/libxml2-2.12.3.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.12.3;name=testtar file://run-ptest file://install-tests.patch"
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGSIZE changed from 7413008 to 7478128 (+1%)
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: FILELIST: removed "/usr/lib/.debug/libxml2.so.2.11.5", added "/usr/lib/libxml2/ptest/.debug/testparser /usr/lib/.debug/libxml2.so.2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGSIZE changed from 417112 to 415228 (-0%)
-packages/core2-64-poky-linux/libxml2/libxml2-doc: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGSIZE changed from 3132415 to 3119076 (-0%)
-packages/core2-64-poky-linux/libxml2/libxml2-doc: FILELIST: added "/usr/share/doc/libxml2/python/examples/setup_test.py"
-packages/core2-64-poky-linux/libxml2/libxml2-locale: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-locale: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGSIZE changed from 16156913 to 16278948 (+1%)
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/test/errors/invalid-start-tag-1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-2.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.err /usr/lib/libxml2/ptest/result/errors/attr5.xml.str /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.str /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.str /usr/lib/libxml2/ptest/test/errors/unclosed-element.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.sax /usr/lib/libxml2/ptest/test/valid/dtds/pe-latin1.ent /usr/lib/libxml2/ptest/result/errors/name3.xml.ent /usr/lib/libxml2/ptest/test/ns-ent.xml /usr/lib/libxml2/ptest/test/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.err /usr/lib/libxml2/ptest/result/noent/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/issue643.xml.sax2 /usr/li
- b/libxml2/ptest/result/errors/attr6.xml.ent /usr/lib/libxml2/ptest/result/errors/name3.xml.str /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.str /usr/lib/libxml2/ptest/result/errors/attr5.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.ent /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.dtd /usr/lib/libxml2/ptest/testparser /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.err /usr/lib/libxml2/ptest/result/noent/issue643.xml /usr/lib/libxml2/ptest/result/valid/huge.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.str /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.str /usr/lib/libxml2/ptest/result/errors/name3.xml.err /usr/lib/libxml2/ptest/result/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue643.xml.sax2 /usr/lib/libxml2/ptest/test/issue6
- 26.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.ent /usr/lib/libxml2/ptest/result/errors/attr6.xml.str /usr/lib/libxml2/ptest/test/errors/quadratic-defattr.xml /usr/lib/libxml2/ptest/result/errors/empty.xml.str /usr/lib/libxml2/ptest/result/errors/extra-content.xml.ent /usr/lib/libxml2/ptest/result/issue626.xml /usr/lib/libxml2/ptest/result/issue643.xml /usr/lib/libxml2/ptest/result/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.rdr /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.str /usr/lib/libxml2/ptest/result/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.rde /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.err /usr/lib/libxml2/ptest/test/errors/extra-content.xml /usr/lib/libxml2/ptest/test/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/issue626.xml.rdr /usr/lib/libxml2/ptest/result/issue643.xml.rdr /usr/lib/libxml2/ptest/result/errors/quadrati
- c-defattr.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.ent /usr/lib/libxml2/ptest/result/issue626.xml.rde /usr/lib/libxml2/ptest/result/issue643.xml.rde /usr/lib/libxml2/ptest/result/errors/attr5.xml.ent /usr/lib/libxml2/ptest/python/tests/setup_test.py /usr/lib/libxml2/ptest/result/errors/attr6.xml.err /usr/lib/libxml2/ptest/test/valid/dtds/huge.ent /usr/lib/libxml2/ptest/result/noent/ns-ent.xml /usr/lib/libxml2/ptest/test/issue643.xml /usr/lib/libxml2/ptest/test/errors/trailing-null-2.xml /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/issue626.xml.sax /usr/lib/libxml2/ptest/result/issue643.xml.sax /usr/lib/libxml2/ptest/result/ns-ent.xml /usr/lib/libxml2/ptest/test/valid/huge.xml /usr/lib/libxml2/ptest/test/errors/trailing-null-1.xml /usr/lib/libxml2/ptest/result/noent/issue626.xml /usr/lib/libxml2/ptes
- t/result/errors/unclosed-element.xml.ent /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html.sax /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.err /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.err /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.str /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.str /usr/lib/libxml2/ptest/test/errors/truncated-utf16.xml /usr/lib/libxml2/ptest/test/errors/attr5.xml /usr/lib/libxml2/ptest/test/errors/attr6.xml /usr/lib/libxml2/ptest/test/valid/pe-latin1.xml /usr/lib/libxml2/ptest/test/errors/name3.xml /usr/lib/libxml2/ptest/test/errors/empty.xml"
-packages/core2-64-poky-linux/libxml2/libxml2-python: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-python: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-python: PKGSIZE changed from 1748462 to 1747394 (-0%)
-packages/core2-64-poky-linux/libxml2/libxml2-src: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-src: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-src: PKGSIZE changed from 7846177 to 7760859 (-1%)
-packages/core2-64-poky-linux/libxml2/libxml2-src: FILELIST: directory renamed /usr/src/debug/libxml2/2.11.5/include/libxml -> /usr/src/debug/libxml2/2.12.3/include/libxml, directory renamed /usr/src/debug/libxml2/2.11.5/include/private -> /usr/src/debug/libxml2/2.12.3/include/private, directory renamed /usr/src/debug/libxml2/2.11.5/python -> /usr/src/debug/libxml2/2.12.3/python, removed "/usr/src/debug/libxml2/2.11.5/runtest.c /usr/src/debug/libxml2/2.11.5/globals.c /usr/src/debug/libxml2/2.11.5/testModule.c /usr/src/debug/libxml2/2.11.5/testlimits.c /usr/src/debug/libxml2/2.11.5/error.c /usr/src/debug/libxml2/2.11.5/xmlcatalog.c /usr/src/debug/libxml2/2.11.5/xmlschemas.c /usr/src/debug/libxml2/2.11.5/xmlunicode.c /usr/src/debug/libxml2/2.11.5/HTMLtree.c /usr/src/debug/libxml2/2.11.5/xmlIO.c /usr/src/debug/libxml2/2.11.5/xinclude.c /usr/src/debug/libxml2/2.11.5/pattern.c /usr/src/debug/libxml2/2.11.5/xpointer.c /usr/src/debug/libxml2/2.11.5/tree.c /usr/src/debug/libxml2/2.11.5/runxml
- conf.c /usr/src/debug/libxml2/2.11.5/xlink.c /usr/src/debug/libxml2/2.11.5/xmllint.c /usr/src/debug/libxml2/2.11.5/parserInternals.c /usr/src/debug/libxml2/2.11.5/schematron.c /usr/src/debug/libxml2/2.11.5/c14n.c /usr/src/debug/libxml2/2.11.5/buf.c /usr/src/debug/libxml2/2.11.5/encoding.c /usr/src/debug/libxml2/2.11.5/valid.c /usr/src/debug/libxml2/2.11.5/uri.c /usr/src/debug/libxml2/2.11.5/entities.c /usr/src/debug/libxml2/2.11.5/hash.c /usr/src/debug/libxml2/2.11.5/parser.c /usr/src/debug/libxml2/2.11.5/runsuite.c /usr/src/debug/libxml2/2.11.5/HTMLparser.c /usr/src/debug/libxml2/2.11.5/nanohttp.c /usr/src/debug/libxml2/2.11.5/timsort.h /usr/src/debug/libxml2/2.11.5/list.c /usr/src/debug/libxml2/2.11.5/threads.c /usr/src/debug/libxml2/2.11.5/testrecurse.c /usr/src/debug/libxml2/2.11.5/catalog.c /usr/src/debug/libxml2/2.11.5/xpath.c /usr/src/debug/libxml2/2.11.5/xmlmemory.c /usr/src/debug/libxml2/2.11.5/xmlmodule.c /usr/src/debug/libxml2/2.11.5/xmlreader.c /usr/src/debug/libxml2/2.1
- 1.5/xmlregexp.c /usr/src/debug/libxml2/2.11.5/xmlstring.c /usr/src/debug/libxml2/2.11.5/xmlwriter.c /usr/src/debug/libxml2/2.11.5/chvalid.c /usr/src/debug/libxml2/2.11.5/dict.c /usr/src/debug/libxml2/2.11.5/testapi.c /usr/src/debug/libxml2/2.11.5/relaxng.c /usr/src/debug/libxml2/2.11.5/testchar.c /usr/src/debug/libxml2/2.11.5/testThreads.c /usr/src/debug/libxml2/2.11.5/testdict.c /usr/src/debug/libxml2/2.11.5/xmlsave.c /usr/src/debug/libxml2/2.11.5/xmlschemastypes.c /usr/src/debug/libxml2/2.11.5/SAX2.c", added "/usr/src/debug/libxml2/2.12.3/runtest.c /usr/src/debug/libxml2/2.12.3/globals.c /usr/src/debug/libxml2/2.12.3/testModule.c /usr/src/debug/libxml2/2.12.3/testlimits.c /usr/src/debug/libxml2/2.12.3/error.c /usr/src/debug/libxml2/2.12.3/testparser.c /usr/src/debug/libxml2/2.12.3/xmlcatalog.c /usr/src/debug/libxml2/2.12.3/xmlschemas.c /usr/src/debug/libxml2/2.12.3/xmlunicode.c /usr/src/debug/libxml2/2.12.3/HTMLtree.c /usr/src/debug/libxml2/2.12.3/xmlIO.c /usr/src/debug/libxml2/2.
- 12.3/xinclude.c /usr/src/debug/libxml2/2.12.3/pattern.c /usr/src/debug/libxml2/2.12.3/xpointer.c /usr/src/debug/libxml2/2.12.3/tree.c /usr/src/debug/libxml2/2.12.3/runxmlconf.c /usr/src/debug/libxml2/2.12.3/xlink.c /usr/src/debug/libxml2/2.12.3/xmllint.c /usr/src/debug/libxml2/2.12.3/parserInternals.c /usr/src/debug/libxml2/2.12.3/schematron.c /usr/src/debug/libxml2/2.12.3/c14n.c /usr/src/debug/libxml2/2.12.3/buf.c /usr/src/debug/libxml2/2.12.3/encoding.c /usr/src/debug/libxml2/2.12.3/valid.c /usr/src/debug/libxml2/2.12.3/uri.c /usr/src/debug/libxml2/2.12.3/entities.c /usr/src/debug/libxml2/2.12.3/hash.c /usr/src/debug/libxml2/2.12.3/parser.c /usr/src/debug/libxml2/2.12.3/runsuite.c /usr/src/debug/libxml2/2.12.3/HTMLparser.c /usr/src/debug/libxml2/2.12.3/nanohttp.c /usr/src/debug/libxml2/2.12.3/timsort.h /usr/src/debug/libxml2/2.12.3/list.c /usr/src/debug/libxml2/2.12.3/threads.c /usr/src/debug/libxml2/2.12.3/testrecurse.c /usr/src/debug/libxml2/2.12.3/catalog.c /usr/src/debug/libxm
- l2/2.12.3/xpath.c /usr/src/debug/libxml2/2.12.3/xmlmemory.c /usr/src/debug/libxml2/2.12.3/xmlmodule.c /usr/src/debug/libxml2/2.12.3/xmlreader.c /usr/src/debug/libxml2/2.12.3/xmlregexp.c /usr/src/debug/libxml2/2.12.3/xmlstring.c /usr/src/debug/libxml2/2.12.3/xmlwriter.c /usr/src/debug/libxml2/2.12.3/chvalid.c /usr/src/debug/libxml2/2.12.3/dict.c /usr/src/debug/libxml2/2.12.3/testapi.c /usr/src/debug/libxml2/2.12.3/relaxng.c /usr/src/debug/libxml2/2.12.3/testchar.c /usr/src/debug/libxml2/2.12.3/testThreads.c /usr/src/debug/libxml2/2.12.3/testdict.c /usr/src/debug/libxml2/2.12.3/xmlsave.c /usr/src/debug/libxml2/2.12.3/xmlschemastypes.c /usr/src/debug/libxml2/2.12.3/SAX2.c"
-packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-utils: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGSIZE changed from 91040 to 95208 (+5%)
-packages/core2-64-poky-linux/libxml2/libxml2: PV changed from "2.11.5" to "2.12.3"
-packages/core2-64-poky-linux/libxml2/libxml2: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
-packages/core2-64-poky-linux/libxml2/libxml2: PKGSIZE changed from 1383977 to 1379977 (-0%)
-packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.11.5", added "/usr/lib/libxml2.so.2.12.3"
-Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
+packages/core2-64-poky-linux/iw/iw-dbg: PKGSIZE changed from 895032 to 954744 (+7%)
+packages/core2-64-poky-linux/iw/iw-dbg: PKGV changed from 5.19 [default] to 6.7 [default]
+packages/core2-64-poky-linux/iw/iw-dbg: PV changed from "5.19" to "6.7"
+packages/core2-64-poky-linux/iw/iw-dev: PKGV changed from 5.19 [default] to 6.7 [default]
+packages/core2-64-poky-linux/iw/iw-dev: PV changed from "5.19" to "6.7"
+packages/core2-64-poky-linux/iw/iw-doc: PKGV changed from 5.19 [default] to 6.7 [default]
+packages/core2-64-poky-linux/iw/iw-doc: PV changed from "5.19" to "6.7"
+packages/core2-64-poky-linux/iw/iw-locale: PKGV changed from 5.19 [default] to 6.7 [default]
+packages/core2-64-poky-linux/iw/iw-locale: PV changed from "5.19" to "6.7"
+packages/core2-64-poky-linux/iw/iw-src: PKGSIZE changed from 763583 to 803904 (+5%)
+packages/core2-64-poky-linux/iw/iw-src: PKGV changed from 5.19 [default] to 6.7 [default]
+packages/core2-64-poky-linux/iw/iw-src: FILELIST: removed "/usr/src/debug/iw/5.19/cqm.c /usr/src/debug/iw/5.19/nan.c /usr/src/debug/iw/5.19/link.c /usr/src/debug/iw/5.19/version.c /usr/src/debug/iw/5.19/offch.c /usr/src/debug/iw/5.19/interface.c /usr/src/debug/iw/5.19/roc.c /usr/src/debug/iw/5.19/ocb.c /usr/src/debug/iw/5.19/station.c /usr/src/debug/iw/5.19/mpp.c /usr/src/debug/iw/5.19/util.c /usr/src/debug/iw/5.19/event.c /usr/src/debug/iw/5.19/ps.c /usr/src/debug/iw/5.19/wowlan.c /usr/src/debug/iw/5.19/bitrate.c /usr/src/debug/iw/5.19/reason.c /usr/src/debug/iw/5.19/sections.c /usr/src/debug/iw/5.19/vendor.c /usr/src/debug/iw/5.19/mesh.c /usr/src/debug/iw/5.19/genl.c /usr/src/debug/iw/5.19/mgmt.c /usr/src/debug/iw/5.19/measurements.c /usr/src/debug/iw/5.19/survey.c /usr/src/debug/iw/5.19/p2p.c /usr/src/debug/iw/5.19/ftm.c /usr/src/debug/iw/5.19/coalesce.c /usr/src/debug/iw/5.19/status.c /usr/src/debug/iw/5.19/bloom.c /usr/src/debug/iw/5.19/info.c /usr/src/debug/iw/5.19/iw.h /usr/sr
+ c/debug/iw/5.19/nl80211.h /usr/src/debug/iw/5.19/mpath.c /usr/src/debug/iw/5.19/iw.c /usr/src/debug/iw/5.19/phy.c /usr/src/debug/iw/5.19/reg.c /usr/src/debug/iw/5.19/hwsim.c /usr/src/debug/iw/5.19/ap.c /usr/src/debug/iw/5.19/sha256.c /usr/src/debug/iw/5.19/ibss.c /usr/src/debug/iw/5.19/ieee80211.h /usr/src/debug/iw/5.19/sar.c /usr/src/debug/iw/5.19/sha256.h /usr/src/debug/iw/5.19/scan.c /usr/src/debug/iw/5.19/connect.c", added "/usr/src/debug/iw/6.7/cqm.c /usr/src/debug/iw/6.7/offch.c /usr/src/debug/iw/6.7/ftm.c /usr/src/debug/iw/6.7/scan.c /usr/src/debug/iw/6.7/sections.c /usr/src/debug/iw/6.7/mesh.c /usr/src/debug/iw/6.7/connect.c /usr/src/debug/iw/6.7/sar.c /usr/src/debug/iw/6.7/wowlan.c /usr/src/debug/iw/6.7/info.c /usr/src/debug/iw/6.7/iw.h /usr/src/debug/iw/6.7/ocb.c /usr/src/debug/iw/6.7/ieee80211.h /usr/src/debug/iw/6.7/mpath.c /usr/src/debug/iw/6.7/reg.c /usr/src/debug/iw/6.7/status.c /usr/src/debug/iw/6.7/roc.c /usr/src/debug/iw/6.7/bloom.c /usr/src/debug/iw/6.7/vendor.c /
+ usr/src/debug/iw/6.7/nan.c /usr/src/debug/iw/6.7/util.c /usr/src/debug/iw/6.7/measurements.c /usr/src/debug/iw/6.7/genl.c /usr/src/debug/iw/6.7/sha256.h /usr/src/debug/iw/6.7/station.c /usr/src/debug/iw/6.7/sha256.c /usr/src/debug/iw/6.7/link.c /usr/src/debug/iw/6.7/event.c /usr/src/debug/iw/6.7/interface.c /usr/src/debug/iw/6.7/mpp.c /usr/src/debug/iw/6.7/p2p.c /usr/src/debug/iw/6.7/nl80211.h /usr/src/debug/iw/6.7/ibss.c /usr/src/debug/iw/6.7/keys.c /usr/src/debug/iw/6.7/ap.c /usr/src/debug/iw/6.7/iw.c /usr/src/debug/iw/6.7/ps.c /usr/src/debug/iw/6.7/version.c /usr/src/debug/iw/6.7/phy.c /usr/src/debug/iw/6.7/coalesce.c /usr/src/debug/iw/6.7/hwsim.c /usr/src/debug/iw/6.7/mgmt.c /usr/src/debug/iw/6.7/survey.c /usr/src/debug/iw/6.7/reason.c /usr/src/debug/iw/6.7/bitrate.c"
+packages/core2-64-poky-linux/iw/iw-src: PV changed from "5.19" to "6.7"
+packages/core2-64-poky-linux/iw/iw-staticdev: PKGV changed from 5.19 [default] to 6.7 [default]
+packages/core2-64-poky-linux/iw/iw-staticdev: PV changed from "5.19" to "6.7"
+packages/core2-64-poky-linux/iw/iw: PKGSIZE changed from 290024 to 310928 (+7%)
+packages/core2-64-poky-linux/iw/iw: PKGV changed from 5.19 [default] to 6.7 [default]
+packages/core2-64-poky-linux/iw/iw: PV changed from "5.19" to "6.7"
+packages/core2-64-poky-linux/iw: SRC_URI changed from "http://www.kernel.org/pub/software/network/iw/iw-5.19.tar.gz file://0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch file://separate-objdir.patch" to "http://www.kernel.org/pub/software/network/iw/iw-6.7.tar.gz file://0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch file://separate-objdir.patch"
+packages/core2-64-poky-linux/iw: PKGV changed from 5.19 [default] to 6.7 [default]
+packages/core2-64-poky-linux/iw: PV changed from "5.19" to "6.7"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3634,10 +3494,90 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/libxml2-native (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
-  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 
---===============2664954793634314973==--
+--===============5149308174652875156==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-iw-upgrade-5.19-6.7.patch"
+
+RnJvbSBjYTZjYzc3N2MxNjRiNDM1MzM1NzQ4YzM2YTUyZGVkZjBkZDQyYzUxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAwNToxNTo1NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGl3
+OiB1cGdyYWRlIDUuMTkgLT4gNi43CgotLS0KIC4uLmgtZG9uLXQtdXNlLWdpdC1kZXNjcmliZS1m
+b3ItdmVyc2lvbmluZy5wYXRjaCB8IDE2ICsrKysrKysrKysrKy0tLS0KIC4uLi9pdy9pdy9zZXBh
+cmF0ZS1vYmpkaXIucGF0Y2ggICAgICAgICAgICAgICAgICB8IDEyICsrKysrLS0tLS0tLQogLi4u
+L2l3L3tpd181LjE5LmJiID0+IGl3XzYuNy5iYn0gICAgICAgICAgICAgICAgIHwgIDIgKy0KIDMg
+ZmlsZXMgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pdy97aXdfNS4xOS5iYiA9PiBpd182LjcuYmJ9ICg5
+MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pdy9pdy8wMDAxLWl3
+LXZlcnNpb24uc2gtZG9uLXQtdXNlLWdpdC1kZXNjcmliZS1mb3ItdmVyc2lvbmluZy5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvaXcvaXcvMDAwMS1pdy12ZXJzaW9uLnNoLWRvbi10
+LXVzZS1naXQtZGVzY3JpYmUtZm9yLXZlcnNpb25pbmcucGF0Y2gKaW5kZXggNzE1Yjg4ZDQ2Ni4u
+ODFlMmRlMmM3ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pdy9pdy8w
+MDAxLWl3LXZlcnNpb24uc2gtZG9uLXQtdXNlLWdpdC1kZXNjcmliZS1mb3ItdmVyc2lvbmluZy5w
+YXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2l3L2l3LzAwMDEtaXctdmVyc2lv
+bi5zaC1kb24tdC11c2UtZ2l0LWRlc2NyaWJlLWZvci12ZXJzaW9uaW5nLnBhdGNoCkBAIC0xLDMg
+KzEsNiBAQAorRnJvbSBmZTBiOTczMTc0ZjVhNmM0YmM1NTk1YzIxNzAyMjBkMmZhZWJhMzYxIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogS29lbiBLb29pIDxrb2VuQGRvbWluaW9uLnRo
+cnVoZXJlLm5ldD4KK0RhdGU6IEZyaSwgMjggQXVnIDIwMTUgMTM6MjI6NTkgLTA3MDAKIFN1Ympl
+Y3Q6IFtQQVRDSF0gaXc6IHZlcnNpb24uc2g6IGRvbid0IHVzZSBnaXQgZGVzY3JpYmUgZm9yIHZl
+cnNpb25pbmcKIAogSXQgd2lsbCBkZXRlY3QgdG9wLWxldmVsIGdpdCByZXBvc2l0b3JpZXMgbGlr
+ZSB0aGUgQW5nc3Ryb20gc2V0dXAtc2NyaXB0cyBhbmQgYnJlYWsuCkBAIC02LDExICs5LDE2IEBA
+IFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCiBTaWduZWQtb2ZmLWJ5OiBLb2VuIEtvb2kgPGtv
+ZW5AZG9taW5pb24udGhydWhlcmUubmV0PgogU2lnbmVkLW9mZi1ieTogTWF4aW4gQi4gSm9obiA8
+bWF4aW4uam9obkBpbnRlbC5jb20+CisKIC0tLQotZGlmZiAtTmF1ciBpdy00Ljctb3JpZy92ZXJz
+aW9uLnNoIGl3LTQuNy92ZXJzaW9uLnNoCi0tLS0gaXctNC43LW9yaWcvdmVyc2lvbi5zaAkyMDE2
+LTA1LTMxIDEyOjUyOjQ2LjAwMDAwMDAwMCArMDMwMAotKysrIGl3LTQuNy92ZXJzaW9uLnNoCTIw
+MTYtMDYtMDEgMTE6MjE6NTguMzA3NDA5MDYwICswMzAwCi1AQCAtMTUsMjcgKzE1LDcgQEAKKyB2
+ZXJzaW9uLnNoIHwgMjIgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMjEgZGVsZXRpb25zKC0pCisKK2RpZmYgLS1naXQgYS92ZXJzaW9uLnNo
+IGIvdmVyc2lvbi5zaAoraW5kZXggMzA5MWUxZS4uOGQ3OWQ1OCAxMDA3NTUKKy0tLSBhL3ZlcnNp
+b24uc2gKKysrKyBiL3ZlcnNpb24uc2gKK0BAIC0xNSwyNyArMTUsNyBAQCBTUkNfRElSPSQoZGly
+bmFtZSAkMCkKICBTUkNfRElSPSQoY2QgJHtTUkNfRElSfTsgcHdkKQogIGNkICIke1NSQ19ESVJ9
+IgogIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pdy9pdy9zZXBhcmF0
+ZS1vYmpkaXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2l3L2l3L3NlcGFyYXRl
+LW9iamRpci5wYXRjaAppbmRleCAxNzlmZDkwMTI0Li4zODJiMmY3MjYxIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2l3L2l3L3NlcGFyYXRlLW9iamRpci5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2l3L2l3L3NlcGFyYXRlLW9iamRpci5wYXRjaApA
+QCAtMSw0ICsxLDQgQEAKLUZyb20gZmY5ZjBhNjMxYzk5ZmI2ZTI2NzdjMDJiZjU3MmE1ZTY5Yzcw
+ZjVjZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTJiNTExYjA4YjU1YTJjN2FjMTQz
+MWMwMjBiZWI5YTE5YWM1YjQ0YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENoYW5n
+aHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZUBnbWFpbC5jb20+CiBEYXRlOiBNb24sIDI3IEphbiAy
+MDIwIDIyOjQ4OjAzICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIFN1cHBvcnQgc2VwYXJhdGlvbiBv
+ZiBTUkNESVIgYW5kIE9CSkRJUgpAQCAtOSwxMiArOSwxMyBAQCBVcHN0cmVhbS1TdGF0dXM6IFBl
+bmRpbmcKIAogU2lnbmVkLW9mZi1ieTogQ2hyaXN0b3BoZXIgTGFyc29uIDxjaHJpc19sYXJzb25A
+bWVudG9yLmNvbT4KIFNpZ25lZC1vZmYtYnk6IE1heGluIEIuIEpvaG4gPG1heGluLmpvaG5AaW50
+ZWwuY29tPgorCiAtLS0KICBNYWtlZmlsZSB8IDggKysrKysrLS0KICAxIGZpbGUgY2hhbmdlZCwg
+NiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUg
+Yi9NYWtlZmlsZQotaW5kZXggOTBmMjI1MS4uNzE0Y2RiOSAxMDA2NDQKK2luZGV4IDE3YmUzM2Yu
+LmQ5ZDdmYzggMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZQogKysrIGIvTWFrZWZpbGUKIEBAIC0xLDUg
+KzEsOSBAQApAQCAtMjcsNyArMjgsNyBAQCBpbmRleCA5MGYyMjUxLi43MTRjZGI5IDEwMDY0NAog
+IFBSRUZJWCA/PSAvdXNyCiAgU0JJTkRJUiA/PSAkKFBSRUZJWCkvc2JpbgogIE1BTkRJUiA/PSAk
+KFBSRUZJWCkvc2hhcmUvbWFuCi1AQCAtOTIsNyArOTYsNyBAQCBhbGw6ICQoQUxMKQorQEAgLTk0
+LDcgKzk4LDcgQEAgYWxsOiAkKEFMTCkKICB2ZXJzaW9uLmM6IHZlcnNpb24uc2ggJChwYXRzdWJz
+dCAlLm8sJS5jLCQoVkVSU0lPTl9PQkpTKSkgbmw4MDIxMS5oIGl3LmggTWFrZWZpbGUgXAogIAkJ
+JCh3aWxkY2FyZCAuZ2l0L2luZGV4IC5naXQvcmVmcy90YWdzKQogIAlAJChOUSkgJyBHRU4gJyAk
+QApAQCAtMzYsNyArMzcsNyBAQCBpbmRleCA5MGYyMjUxLi43MTRjZGI5IDEwMDY0NAogIAogIG5s
+ODAyMTEtY29tbWFuZHMuaW5jOiBubDgwMjExLmgKICAJQCQoTlEpICcgR0VOICcgJEAKLUBAIC0x
+MDAsNyArMTA0LDcgQEAgbmw4MDIxMS1jb21tYW5kcy5pbmM6IG5sODAyMTEuaAorQEAgLTEwMiw3
+ICsxMDYsNyBAQCBubDgwMjExLWNvbW1hbmRzLmluYzogbmw4MDIxMS5oCiAgCiAgJS5vOiAlLmMg
+aXcuaCBubDgwMjExLmggbmw4MDIxMS1jb21tYW5kcy5pbmMKICAJQCQoTlEpICcgQ0MgICcgJEAK
+QEAgLTQ1LDYgKzQ2LDMgQEAgaW5kZXggOTBmMjI1MS4uNzE0Y2RiOSAxMDA2NDQKICAKICBpZmVx
+ICgkKElXX0FORFJPSURfQlVJTEQpLCkKICBpdzoJJChPQkpTKQotLS0gCi0yLjIzLjAKLQpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pdy9pd181LjE5LmJiIGIvbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9pdy9pd182LjcuYmIKc2ltaWxhcml0eSBpbmRleCA5MCUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pdy9pd181LjE5LmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2l3L2l3XzYuNy5iYgppbmRleCBhMTlhZTMwNGQ1
+Li5iNDZiNTRiYzkzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2l3L2l3
+XzUuMTkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9pdy9pd182LjcuYmIKQEAg
+LTE0LDcgKzE0LDcgQEAgU1JDX1VSSSA9ICJodHRwOi8vd3d3Lmtlcm5lbC5vcmcvcHViL3NvZnR3
+YXJlL25ldHdvcmsvaXcvJHtCUH0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovL3NlcGFyYXRl
+LW9iamRpci5wYXRjaCBcCiAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyYTQ0Njc2ZDI4YTg3
+YmJjMjMyOTAzZDVkNTczZTc2MThlNGZhZTBjZWEzYTFhZmYwNjdhMjZmYTY2NjUyYjc1IgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gImIzZWYzZmE4NWZhMTE3N2IxMWQzZTk3ZDZkMzhjZGZlMTBlZTI1
+MGNhMzE0ODJiNTgxZjNiZDBmYzc5Y2IwMTUiCiAKIGluaGVyaXQgcGtnY29uZmlnCiAKLS0gCjIu
+NDIuMAoK
+
+--===============5149308174652875156==--
 
