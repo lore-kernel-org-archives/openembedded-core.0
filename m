@@ -2,172 +2,249 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F05A7C47DAC
-	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:05 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.4609.1704114721373048448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 305F0C47DB4
+	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:06 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.4620.1704114718636930414
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jan 2024 05:12:01 -0800
+ Mon, 01 Jan 2024 05:12:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Eg8i8ZH+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KCHZ0FQr;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018cc5270fc7-4ceaf3ff-00ef-4641-bd7b-99b59022f53a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RgZE47ob;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TjcNAEGA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018cc5270ddd-bcfdcf66-a003-4b81-abb8-74d9a185a18a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1704114720;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pYwFV7R9WNylNvmhv4xHWxJ0ZfiUXu7SOiLV/Ow41/Y=;
-	b=Eg8i8ZH+TMLzinrNg9RO2shO/sRoeMbsRn6dttiOme0Cy+xoJzfCzsknguMtMJIO
-	IRyLLCLEJL0aS5x/o80rXRGsy3GEcOcBQ7oUKXATkmxt2QBBcdGMvb9fndXBrbIBUgj
-	81YvTKznOvn+EhjX2Qy4FtvEE22PZWaTrF8O+YxU=
+	bh=H0/IbpK+r20Y6wDlErL1qf8+wiZ7By+H7jUUYFqnK6I=;
+	b=RgZE47obNp3hvdXQGf6G1FB8mB/uwiMSNU9WN/Z/9azDn71obYz1jRpZkQGOWDe3
+	DdImLjh7f9aQPf0gF97TDii5gSY5sdl5YUF7TaN7/bqQLMNayMSBHl8rrbSXQ74Bc6A
+	X66DOA5Cmyic8OgCQfFkZXv038m0RAWLWd95ueus=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704114720;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pYwFV7R9WNylNvmhv4xHWxJ0ZfiUXu7SOiLV/Ow41/Y=;
-	b=KCHZ0FQr7dYt946k8hcuHejY0qF2y/ZNxCHR6su738OHICBeFESwvQ4/Tg8vch3U
-	FYH1b2eOhYIQBcpECVdyoqq+xozQz9CgNWcj2miv8qJ7xw9xWMPF+oIRRmLFLucjrTi
-	DhBXoSTTK5EvXfhSC8ALBdQUJ756cistvF+lk33s=
-Content-Type: multipart/mixed; boundary="===============4377082628689770675=="
+	bh=H0/IbpK+r20Y6wDlErL1qf8+wiZ7By+H7jUUYFqnK6I=;
+	b=TjcNAEGAK9Wp90KV+7X9Dovy8IywviP4J+GRw0mr0B4Ry/Vo8+/weAUWrrawci0H
+	IZScOzlqgn6D/duVx77QCBe98Xbr48yjsSqjCVWR1/najoX+Lnz3jlfU6hdGU+LDGIr
+	LpVeMOO5/UZWHli3TLJOqI5KR9xPUox7NobEQ/4U=
+Content-Type: multipart/mixed; boundary="===============8637831714652630952=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nghttp2: upgrading to 1.58.0 SUCCEEDED
-Message-ID: <0101018cc5270fc7-4ceaf3ff-00ef-4641-bd7b-99b59022f53a-000000@us-west-2.amazonses.com>
+Subject: [AUH] mesa: upgrading to 23.3.2 SUCCEEDED
+Message-ID: <0101018cc5270ddd-bcfdcf66-a003-4b81-abb8-74d9a185a18a-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jan 2024 13:12:00 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.01-54.240.27.33
+X-SES-Outgoing: 2024.01.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193173
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193169
 
---===============4377082628689770675==
-Content-Type: text/plain; charset="utf-8"
+--===============8637831714652630952==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-ICpuZ2h0dHAyKiB0byAqMS41OC4wKiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBzdGVwczoKICAgIC0g
-YXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1uZ2h0dHAyLXVwZ3JhZGUtMS41Ny4wLTEuNTgu
-MC5wYXRjaAogICAgLSBjaGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBz
-dW1tYXJpemUgdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1h
-Z2UgdGhhdCBjb250YWlucyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2Fu
-aXR5IHRlc3RzCiAgICAtIGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21t
-aXQgLXMgLS1yZXNldC1hdXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3By
-aWF0ZSBtYWlsaW5nIGxpc3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNp
-cGUgc2hvdWxkIG5vdCBiZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJ
-UEVfTk9fVVBEQVRFX1JFQVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0
-b21hdGljIHVwZ3JhZGVzIHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2
-aWV3IHRoZSBhdHRhY2hlZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQv
-dXBkYXRlIGZhaWx1cmVzLgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczov
-L2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRl
-ZCUyMFVwZGF0ZSUyMEhhbmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjgg
-LS0KRnJvbSA3MzhmZTFiYmZjNTczNTg1ODFkNzljMWRkZGU5ZGFjMzcxOTgyZmE0IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5v
-cmc+CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAxMjo1ODowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hd
-IG5naHR0cDI6IHVwZ3JhZGUgMS41Ny4wIC0+IDEuNTguMAoKLS0tCiAuLi4vbmdodHRwMi8wMDAx
-LWZldGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhvbjMucGF0Y2ggICAgICB8IDYgKystLS0tCiAu
-Li4vbmdodHRwMi97bmdodHRwMl8xLjU3LjAuYmIgPT4gbmdodHRwMl8xLjU4LjAuYmJ9ICAgICAg
-ICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIve25naHR0cDJfMS41Ny4wLmJi
-ID0+IG5naHR0cDJfMS41OC4wLmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L25naHR0cDIvbmdodHRwMi8wMDAxLWZldGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhv
-bjMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDIvMDAwMS1mZXRj
-aC1vY3NwLXJlc3BvbnNlLXVzZS1weXRob24zLnBhdGNoCmluZGV4IGU0ZGIwOTYzOGYuLjQzODY4
-YjI5NzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMi8w
-MDAxLWZldGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhvbjMucGF0Y2gKKysrIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyLzAwMDEtZmV0Y2gtb2NzcC1yZXNwb25zZS11c2Ut
-cHl0aG9uMy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzNlYzc5NDMyZmM1NTdhOGJlNGYx
-NTAwOTgyYjFjMGY1ZmRmMTJhOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTM0M2Y3
-MDE2YWZlMTg1MWU3NzAxNGRlZWIzODI2MWQwMGEwOTA4NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206ID0/VVRGLTg/cT9BbmRyPUMzPUE5PTIwRHJhc3ppaz89IDxhbmRyZS5kcmFzemlr
-QGpjaS5jb20+CiBEYXRlOiBUaHUsIDcgTm92IDIwMTkgMDk6NTg6NTIgKzAwMDAKIFN1YmplY3Q6
-IFtQQVRDSF0gZmV0Y2gtb2NzcC1yZXNwb25zZTogdXNlIHB5dGhvbjMKQEAgLTgsNiArOCw3IEBA
-IENvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFw
-cHJvcHJpYXRlIFtvZSBzcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6IEFuZHLDqSBEcmFzemlrIDxn
-aXRAYW5kcmVkLm5ldD4KKwogLS0tCiAgc2NyaXB0L2ZldGNoLW9jc3AtcmVzcG9uc2UgfCAyICst
-CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCkBAIC0yMiw2
-ICsyMywzIEBAIGluZGV4IDBmZjc0NjEuLjE4NTExNmIgMTAwNzU1CiAgIyAtKi0gY29kaW5nOiB1
-dGYtOCAtKi0KICAKICAjIG5naHR0cDIgLSBIVFRQLzIgQyBMaWJyYXJ5Ci0tLSAKLTIuMjMuMC5y
-YzEKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEu
-NTcuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjU4LjAuYmIK
-c2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdo
-dHRwMi9uZ2h0dHAyXzEuNTcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdo
-dHRwMi9uZ2h0dHAyXzEuNTguMC5iYgppbmRleCAwY2YxZTNlMzRjLi43YjJmZjRiNzc4IDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS41Ny4wLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjU4LjAuYmIKQEAgLTgs
-NyArOCw3IEBAIFNSQ19VUkkgPSAiXAogICAgICR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92
-JHtQVn0vbmdodHRwMi0ke1BWfS50YXIueHogXAogICAgIGZpbGU6Ly8wMDAxLWZldGNoLW9jc3At
-cmVzcG9uc2UtdXNlLXB5dGhvbjMucGF0Y2ggXAogIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjky
-MTBiMDExMzEwOWY0M2JlNTI2YWM1ODM1ZDU4YTcwMTQxMTgyMWE0ZDM5ZTE1NWM0MGQ2N2M0MGY0
-N2E5NTgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNGE2OGEzMDQwZGE5MmZkOTg3MmMwNTZkMGY2
-YjBjZDYwZGU4NDEwZGUxMGI1NzhmOGFkZTllY2MxNGQyOTdlMCIKIAogaW5oZXJpdCBjbWFrZSBt
-YW5wYWdlcyBweXRob24zbmF0aXZlIGdpdGh1Yi1yZWxlYXNlcwogUEFDS0FHRUNPTkZJR1ttYW5w
-YWdlc10gPSAiIgotLSAKMi40Mi4wCgo=
+Hello,
 
---===============4377082628689770675==
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *mesa* to *23.3.2* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-mesa-upgrade-23.3.1-23.3.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 7ceb6b8cd6bae548a0ae9cd4af18eaac9c7935b9 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 1 Jan 2024 09:34:18 +0000
+Subject: [PATCH] mesa: upgrade 23.3.1 -> 23.3.2
+
+---
+ .../mesa/files/0001-gallium-Fix-build-with-llvm-17.patch    | 2 +-
+ .../0001-meson-misdetects-64bit-atomics-on-mips-clang.patch | 2 +-
+ ...son.build-check-for-all-linux-host_os-combinations.patch | 6 +++---
+ meta/recipes-graphics/mesa/mesa.inc                         | 2 +-
+ .../mesa/{mesa_23.3.1.bb => mesa_23.3.2.bb}                 | 0
+ 5 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa_23.3.1.bb => mesa_23.3.2.bb} (100%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+index 237f940f0b..a62ab8d947 100644
+--- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
++++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+@@ -1,4 +1,4 @@
+-From 6d07f6aa7f92f40d78a2db645f16f0f3e7d3c2e8 Mon Sep 17 00:00:00 2001
++From d05737a416bb2aaca3d9c894f98d5ec3fc732611 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 23 Jun 2023 01:20:38 -0700
+ Subject: [PATCH] gallium: Fix build with llvm 17
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+index 9cd9bee2d2..3086e87772 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+@@ -1,4 +1,4 @@
+-From 3ef37c63f03ad6f2af407de350486fdd25e9132a Mon Sep 17 00:00:00 2001
++From c8ffb4f038acd761a96a42df8601bf115b84975f Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Jan 2020 15:23:47 -0800
+ Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+index a555c5f865..4824f95965 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -1,4 +1,4 @@
+-From b251af67df5a6840d2e9cc06edae2c387f8778f1 Mon Sep 17 00:00:00 2001
++From dfd4bd8116ad98692d525c545066449c561f9f87 Mon Sep 17 00:00:00 2001
+ From: Alistair Francis <alistair@alistair23.me>
+ Date: Thu, 14 Nov 2019 13:04:49 -0800
+ Subject: [PATCH] meson.build: check for all linux host_os combinations
+@@ -20,7 +20,7 @@ Signed-off-by: Alistair Francis <alistair@alistair23.me>
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 22385d8..15f48a6 100644
++index 35cc5f1..9a49c0d 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -121,7 +121,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+@@ -32,7 +32,7 @@ index 22385d8..15f48a6 100644
+  
+  gallium_drivers = get_option('gallium-drivers')
+  if gallium_drivers.contains('auto')
+-@@ -909,7 +909,7 @@ if cc.has_function('fmemopen')
++@@ -956,7 +956,7 @@ if cc.has_function('fmemopen')
+  endif
+  
+  # TODO: this is very incomplete
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 5f5c8ceb4c..ddbebccd9b 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -20,7 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-gallium-Fix-build-with-llvm-17.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "6e48126d70fdb3f20ffeb246ca0c2e41ffdc835f0663a03d4526b8bf5db41de6"
++SRC_URI[sha256sum] = "3cfcb81fa16f89c56abe3855d2637d396ee4e03849b659000a6b8e5f57e69adc"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_23.3.1.bb b/meta/recipes-graphics/mesa/mesa_23.3.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_23.3.1.bb
+rename to meta/recipes-graphics/mesa/mesa_23.3.2.bb
+-- 
+2.42.0
+
+
+--===============8637831714652630952==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-nghttp2-upgrade-1.57.0-1.58.0.patch"
+ filename="0001-mesa-upgrade-23.3.1-23.3.2.patch"
 
-RnJvbSA3MzhmZTFiYmZjNTczNTg1ODFkNzljMWRkZGU5ZGFjMzcxOTgyZmE0IE1vbiBTZXAgMTcg
+RnJvbSA3Y2ViNmI4Y2Q2YmFlNTQ4YTBhZTljZDRhZjE4ZWFhYzljNzkzNWI5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAxMjo1ODowMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG5n
-aHR0cDI6IHVwZ3JhZGUgMS41Ny4wIC0+IDEuNTguMAoKLS0tCiAuLi4vbmdodHRwMi8wMDAxLWZl
-dGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhvbjMucGF0Y2ggICAgICB8IDYgKystLS0tCiAuLi4v
-bmdodHRwMi97bmdodHRwMl8xLjU3LjAuYmIgPT4gbmdodHRwMl8xLjU4LjAuYmJ9ICAgICAgICB8
-IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIve25naHR0cDJfMS41Ny4wLmJiID0+
-IG5naHR0cDJfMS41OC4wLmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L25naHR0cDIvbmdodHRwMi8wMDAxLWZldGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhvbjMu
-cGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDIvMDAwMS1mZXRjaC1v
-Y3NwLXJlc3BvbnNlLXVzZS1weXRob24zLnBhdGNoCmluZGV4IGU0ZGIwOTYzOGYuLjQzODY4YjI5
-NzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMi8wMDAx
-LWZldGNoLW9jc3AtcmVzcG9uc2UtdXNlLXB5dGhvbjMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyLzAwMDEtZmV0Y2gtb2NzcC1yZXNwb25zZS11c2UtcHl0
-aG9uMy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzNlYzc5NDMyZmM1NTdhOGJlNGYxNTAw
-OTgyYjFjMGY1ZmRmMTJhOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTM0M2Y3MDE2
-YWZlMTg1MWU3NzAxNGRlZWIzODI2MWQwMGEwOTA4NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-IEZyb206ID0/VVRGLTg/cT9BbmRyPUMzPUE5PTIwRHJhc3ppaz89IDxhbmRyZS5kcmFzemlrQGpj
-aS5jb20+CiBEYXRlOiBUaHUsIDcgTm92IDIwMTkgMDk6NTg6NTIgKzAwMDAKIFN1YmplY3Q6IFtQ
-QVRDSF0gZmV0Y2gtb2NzcC1yZXNwb25zZTogdXNlIHB5dGhvbjMKQEAgLTgsNiArOCw3IEBAIENv
-bnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJv
-cHJpYXRlIFtvZSBzcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6IEFuZHLDqSBEcmFzemlrIDxnaXRA
-YW5kcmVkLm5ldD4KKwogLS0tCiAgc2NyaXB0L2ZldGNoLW9jc3AtcmVzcG9uc2UgfCAyICstCiAg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCkBAIC0yMiw2ICsy
-MywzIEBAIGluZGV4IDBmZjc0NjEuLjE4NTExNmIgMTAwNzU1CiAgIyAtKi0gY29kaW5nOiB1dGYt
-OCAtKi0KICAKICAjIG5naHR0cDIgLSBIVFRQLzIgQyBMaWJyYXJ5Ci0tLSAKLTIuMjMuMC5yYzEK
-LQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNTcu
-MC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjU4LjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRw
-Mi9uZ2h0dHAyXzEuNTcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRw
-Mi9uZ2h0dHAyXzEuNTguMC5iYgppbmRleCAwY2YxZTNlMzRjLi43YjJmZjRiNzc4IDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS41Ny4wLmJiCisrKyBi
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjU4LjAuYmIKQEAgLTgsNyAr
-OCw3IEBAIFNSQ19VUkkgPSAiXAogICAgICR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC92JHtQ
-Vn0vbmdodHRwMi0ke1BWfS50YXIueHogXAogICAgIGZpbGU6Ly8wMDAxLWZldGNoLW9jc3AtcmVz
-cG9uc2UtdXNlLXB5dGhvbjMucGF0Y2ggXAogIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjkyMTBi
-MDExMzEwOWY0M2JlNTI2YWM1ODM1ZDU4YTcwMTQxMTgyMWE0ZDM5ZTE1NWM0MGQ2N2M0MGY0N2E5
-NTgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNGE2OGEzMDQwZGE5MmZkOTg3MmMwNTZkMGY2YjBj
-ZDYwZGU4NDEwZGUxMGI1NzhmOGFkZTllY2MxNGQyOTdlMCIKIAogaW5oZXJpdCBjbWFrZSBtYW5w
-YWdlcyBweXRob24zbmF0aXZlIGdpdGh1Yi1yZWxlYXNlcwogUEFDS0FHRUNPTkZJR1ttYW5wYWdl
-c10gPSAiIgotLSAKMi40Mi4wCgo=
+CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAwOTozNDoxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
+c2E6IHVwZ3JhZGUgMjMuMy4xIC0+IDIzLjMuMgoKLS0tCiAuLi4vbWVzYS9maWxlcy8wMDAxLWdh
+bGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaCAgICB8IDIgKy0KIC4uLi8wMDAxLW1l
+c29uLW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoIHwgMiArLQog
+Li4uc29uLmJ1aWxkLWNoZWNrLWZvci1hbGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0
+Y2ggfCA2ICsrKy0tLQogbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMgICAgICAg
+ICAgICAgICAgICAgICAgICAgfCAyICstCiAuLi4vbWVzYS97bWVzYV8yMy4zLjEuYmIgPT4gbWVz
+YV8yMy4zLjIuYmJ9ICAgICAgICAgICAgICAgICB8IDAKIDUgZmlsZXMgY2hhbmdlZCwgNiBpbnNl
+cnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9t
+ZXNhL3ttZXNhXzIzLjMuMS5iYiA9PiBtZXNhXzIzLjMuMi5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1nYWxsaXVtLUZpeC1idWls
+ZC13aXRoLWxsdm0tMTcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8w
+MDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaAppbmRleCAyMzdmOTQwZjBi
+Li5hNjJhYjhkOTQ3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxl
+cy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaAorKysgYi9tZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2
+bS0xNy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNmQwN2Y2YWE3ZjkyZjQwZDc4YTJkYjY0
+NWYxNmYwZjNlN2QzYzJlOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZDA1NzM3YTQx
+NmJiMmFhY2EzZDljODk0Zjk4ZDVlYzNmYzczMjYxMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDIzIEp1biAy
+MDIzIDAxOjIwOjM4IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdhbGxpdW06IEZpeCBidWlsZCB3
+aXRoIGxsdm0gMTcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVz
+LzAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVjdHMt
+NjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoCmluZGV4IDljZDliZWUyZDIuLjMwODZl
+ODc3NzIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEt
+bWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKKysrIGIv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0
+Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2Vm
+MzdjNjNmMDNhZDZmMmFmNDA3ZGUzNTA0ODZmZGQyNWU5MTMyYSBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKK0Zyb20gYzhmZmI0ZjAzOGFjZDc2MWE5NmE0MmRmODYwMWJmMTE1Yjg0OTc1ZiBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
+CiBEYXRlOiBNb24sIDEzIEphbiAyMDIwIDE1OjIzOjQ3IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hd
+IG1lc29uIG1pc2RldGVjdHMgNjRiaXQgYXRvbWljcyBvbiBtaXBzL2NsYW5nCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNr
+LWZvci1hbGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNrLWZvci1hbGwtbGludXgt
+aG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2gKaW5kZXggYTU1NWM1Zjg2NS4uNDgyNGY5NTk2NSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi5i
+dWlsZC1jaGVjay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29tYmluYXRpb25zLnBhdGNoCisrKyBi
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24uYnVpbGQtY2hlY2st
+Zm9yLWFsbC1saW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5wYXRjaApAQCAtMSw0ICsxLDQgQEAK
+LUZyb20gYjI1MWFmNjdkZjVhNjg0MGQyZTljYzA2ZWRhZTJjMzg3Zjg3NzhmMSBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKK0Zyb20gZGZkNGJkODExNmFkOTg2OTJkNTI1YzU0NTA2NjQ0OWM1NjFm
+OWY4NyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsaXN0YWlyIEZyYW5jaXMgPGFs
+aXN0YWlyQGFsaXN0YWlyMjMubWU+CiBEYXRlOiBUaHUsIDE0IE5vdiAyMDE5IDEzOjA0OjQ5IC0w
+ODAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uLmJ1aWxkOiBjaGVjayBmb3IgYWxsIGxpbnV4IGhv
+c3Rfb3MgY29tYmluYXRpb25zCkBAIC0yMCw3ICsyMCw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsaXN0
+YWlyIEZyYW5jaXMgPGFsaXN0YWlyQGFsaXN0YWlyMjMubWU+CiAgMSBmaWxlIGNoYW5nZWQsIDIg
+aW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL21lc29uLmJ1aWxk
+IGIvbWVzb24uYnVpbGQKLWluZGV4IDIyMzg1ZDguLjE1ZjQ4YTYgMTAwNjQ0CitpbmRleCAzNWNj
+NWYxLi45YTQ5YzBkIDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1aWxk
+CiBAQCAtMTIxLDcgKzEyMSw3IEBAIHdpdGhfYW55X29wZW5nbCA9IHdpdGhfb3BlbmdsIG9yIHdp
+dGhfZ2xlczEgb3Igd2l0aF9nbGVzMgpAQCAtMzIsNyArMzIsNyBAQCBpbmRleCAyMjM4NWQ4Li4x
+NWY0OGE2IDEwMDY0NAogIAogIGdhbGxpdW1fZHJpdmVycyA9IGdldF9vcHRpb24oJ2dhbGxpdW0t
+ZHJpdmVycycpCiAgaWYgZ2FsbGl1bV9kcml2ZXJzLmNvbnRhaW5zKCdhdXRvJykKLUBAIC05MDks
+NyArOTA5LDcgQEAgaWYgY2MuaGFzX2Z1bmN0aW9uKCdmbWVtb3BlbicpCitAQCAtOTU2LDcgKzk1
+Niw3IEBAIGlmIGNjLmhhc19mdW5jdGlvbignZm1lbW9wZW4nKQogIGVuZGlmCiAgCiAgIyBUT0RP
+OiB0aGlzIGlzIHZlcnkgaW5jb21wbGV0ZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL21lc2EvbWVzYS5pbmMgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYwpp
+bmRleCA1ZjVjOGNlYjRjLi5kZGJlYmNjZDliIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvbWVzYS9tZXNhLmluYworKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNh
+LmluYwpAQCAtMjAsNyArMjAsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vbWVzYS5mcmVlZGVza3Rv
+cC5vcmcvYXJjaGl2ZS9tZXNhLSR7UFZ9LnRhci54eiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAx
+LWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaCBcCiAiCiAKLVNSQ19VUklbc2hh
+MjU2c3VtXSA9ICI2ZTQ4MTI2ZDcwZmRiM2YyMGZmZWIyNDZjYTBjMmU0MWZmZGM4MzVmMDY2M2Ew
+M2Q0NTI2YjhiZjVkYjQxZGU2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjNjZmNiODFmYTE2Zjg5
+YzU2YWJlMzg1NWQyNjM3ZDM5NmVlNGUwMzg0OWI2NTkwMDBhNmI4ZTVmNTdlNjlhZGMiCiAKIFVQ
+U1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIm1lc2EtKD9QPHB2ZXI+XGQrKFwuXGQrKSspIgog
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzIzLjMuMS5iYiBi
+L21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2FfMjMuMy4yLmJiCnNpbWlsYXJpdHkgaW5k
+ZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzIzLjMu
+MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yMy4zLjIuYmIK
+LS0gCjIuNDIuMAoK
 
---===============4377082628689770675==
+--===============8637831714652630952==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.25.0", added "/usr/lib/libnghttp2.so.14.25.1"
-Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.25.0 to libnghttp2.so.14.25.1
-  /usr/lib/libnghttp2.so.14.25.0 moved to /usr/lib/libnghttp2.so.14.25.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1552,40 +1629,85 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============4377082628689770675==
+--===============8637831714652630952==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.57.0/nghttp2-1.57.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch" to "https://github.com/nghttp2/nghttp2/releases//download/v1.58.0/nghttp2-1.58.0.tar.xz file://0001-fetch-ocsp-response-use-python3.patch"
-packages/core2-64-poky-linux/nghttp2: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/libnghttp2: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.25.0", added "/usr/lib/libnghttp2.so.14.25.1"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.25.0", added "/usr/lib/.debug/libnghttp2.so.14.25.1"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGSIZE changed from 174430 to 174307 (-0%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1029395 to 1029569 (+0%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2: PV changed from "1.57.0" to "1.58.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2: PKGV changed from 1.57.0 [default] to 1.58.0 [default]
-Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.25.0 to libnghttp2.so.14.25.1
-  /usr/lib/libnghttp2.so.14.25.0 moved to /usr/lib/libnghttp2.so.14.25.1
+packages/core2-64-poky-linux/mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-23.3.1.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch" to "https://mesa.freedesktop.org/archive/mesa-23.3.2.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch"
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgbm: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libglapi: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libosmesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libosmesa: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/libxatracker: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/libxatracker: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 248582880 to 248623248 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 22772937 to 22777590 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 149801602 to 149809180 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGSIZE changed from 25625189 to 25629285 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "23.3.1" to "23.3.2"
+packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 23.3.1 [default] to 23.3.2 [default]
+packages/core2-64-poky-linux/mesa/mesa: PV changed from "23.3.1" to "23.3.2"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -2970,5 +3092,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============4377082628689770675==--
+--===============8637831714652630952==--
 
