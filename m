@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC2EFC48BC0
-	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:08 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.4628.1704114719580143735
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C19BC48BF4
+	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:09 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.4584.1704114719302880607
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jan 2024 05:11:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Px1Y7zZN;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VjTjaeZy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018cc52707bc-0356290f-2e9a-4a38-958c-c1f56b297f81-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VTiNV3fq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NxoKLAZ5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018cc52706cb-cd64c2a1-723b-437f-896f-7c119e697def-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1704114718;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=hwXwijyBILdaMXjcHIgpnxQ+LhTyxiappyFmlotX/JA=;
-	b=Px1Y7zZNelX5cw9+c6otI+K3N9F4hxIBamt2CLBbuhErpyFy4uvFX8a6w2Wi9hEG
-	YVDPugUlnGrCTDu4IpyJRLiDqMxW4xA+AA2qQK0xZ/lTx/VCPfcMDVXcAju+WqcRIZK
-	3gSQO7VeYOs0kuzpKupqrt+RqgRu6dKWEPTrK9I0=
+	bh=huZ+5AeRsIN8WS66Xpogd/OYQz6aUi3sX0Sokoq34FY=;
+	b=VTiNV3fqsisEU4xN5gvhNjjwg5OTGTpqYxFugCLEC5iCzx9EsK3ESlycG5bR6FAL
+	oNAaay42A2ocqi3C4SJNj/FWk5ek7iQuICNzvLwbi+IQGmAB1aJ/YGb+q7eiMcdwfdo
+	4BRXSTQnID4WdzDdjVK1r2QjigExb8JqLI4lzKtA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704114718;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=hwXwijyBILdaMXjcHIgpnxQ+LhTyxiappyFmlotX/JA=;
-	b=VjTjaeZyn321HTwNhZSfvTGncuLXtxauKs4NhWp6EoLeTcdQ+XE1tTWqpKNFMVUL
-	AzuZOEwDM/qohhx8/HNnXRL9uyeDAk7ot5Hq7M4vMybWqXb8tRvrc+FAB3EQaW776nl
-	MeFEmIHCmoNF04eKsChLvNptP35I0Y4MgbVtYVrg=
-Content-Type: multipart/mixed; boundary="===============8959762869416047200=="
+	bh=huZ+5AeRsIN8WS66Xpogd/OYQz6aUi3sX0Sokoq34FY=;
+	b=NxoKLAZ5n5s5Ph1kCKjobv12u/Goi3UDWT+yxpYQg4JJw/hPEgEc2P3qYJ6iQKms
+	rv30RS7w3qwSqtx1sQP9OOcLFhhbWCdhr8Eb8T885ErH5Z0z54TajeGPwR0P/sKgVUF
+	1tNsgMDZ+o3sX7vyesDpFhoBh0MCnj1VG2CIwlwA=
+Content-Type: multipart/mixed; boundary="===============2664954793634314973=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ccache: upgrading to 4.9 SUCCEEDED
-Message-ID: <0101018cc52707bc-0356290f-2e9a-4a38-958c-c1f56b297f81-000000@us-west-2.amazonses.com>
+Subject: [AUH] libxml2: upgrading to 2.12.3 SUCCEEDED
+Message-ID: <0101018cc52706cb-cd64c2a1-723b-437f-896f-7c119e697def-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jan 2024 13:11:58 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.01-54.240.27.45
+X-SES-Outgoing: 2024.01.01-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193119
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193111
 
---===============8959762869416047200==
+--===============2664954793634314973==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ccache* to *4.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxml2* to *2.12.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ccache-upgrade-4.8.3-4.9.patch
+    - apply the patch: git am 0001-libxml2-upgrade-2.11.5-2.12.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,57 +72,50 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From d006a559656f9c88907cb0162703dd74ca677f76 Mon Sep 17 00:00:00 2001
+From aa0e6ca3348017ff92b6e13f63b0bf26df3e5585 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jan 2024 05:56:15 +0000
-Subject: [PATCH] ccache: upgrade 4.8.3 -> 4.9
+Date: Mon, 1 Jan 2024 05:32:18 +0000
+Subject: [PATCH] libxml2: upgrade 2.11.5 -> 2.12.3
 
 ---
- meta/recipes-devtools/ccache/ccache_4.8.3.bb  |  26 --
- meta/recipes-devtools/ccache/ccache_4.9.bb    | 250 ++++++++++++++++++
- .../0001-xxhash.h-Fix-build-with-gcc-12.patch |   6 +-
- 3 files changed, 253 insertions(+), 29 deletions(-)
- delete mode 100644 meta/recipes-devtools/ccache/ccache_4.8.3.bb
- create mode 100644 meta/recipes-devtools/ccache/ccache_4.9.bb
+ .../libxml/libxml2/install-tests.patch        |  8 +--
+ .../{libxml2_2.11.5.bb => libxml2_2.12.3.bb}  | 50 +++++++++++++++++--
+ 2 files changed, 50 insertions(+), 8 deletions(-)
+ rename meta/recipes-core/libxml/{libxml2_2.11.5.bb => libxml2_2.12.3.bb} (69%)
 
-diff --git a/meta/recipes-devtools/ccache/ccache_4.8.3.bb b/meta/recipes-devtools/ccache/ccache_4.8.3.bb
-deleted file mode 100644
-index 03372aa685..0000000000
---- a/meta/recipes-devtools/ccache/ccache_4.8.3.bb
-+++ /dev/null
-@@ -1,26 +0,0 @@
--SUMMARY = "a fast C/C++ compiler cache"
--DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
--by caching the result of previous compilations and detecting when the \
--same compilation is being done again. Supported languages are C, C\+\+, \
--Objective-C and Objective-C++."
--HOMEPAGE = "http://ccache.samba.org"
--SECTION = "devel"
--
--LICENSE = "GPL-3.0-or-later"
--LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=6a6fe0ae4e57592b187ab72fa6d420ec"
--
--DEPENDS = "zstd"
--
--SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
--           file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
--           "
--SRC_URI[sha256sum] = "d59dd569ad2bbc826c0bc335c8ebd73e78ed0f2f40ba6b30069347e63585d9ef"
--
--inherit cmake github-releases
--
--PATCHTOOL = "patch"
--
--BBCLASSEXTEND = "native nativesdk"
--
--PACKAGECONFIG[docs] = "-DENABLE_DOCUMENTATION=ON,-DENABLE_DOCUMENTATION=OFF,asciidoc"
--PACKAGECONFIG[redis] = "-DREDIS_STORAGE_BACKEND=ON,-DREDIS_STORAGE_BACKEND=OFF,hiredis"
-diff --git a/meta/recipes-devtools/ccache/ccache_4.9.bb b/meta/recipes-devtools/ccache/ccache_4.9.bb
-new file mode 100644
-index 0000000000..01af040686
---- /dev/null
-+++ b/meta/recipes-devtools/ccache/ccache_4.9.bb
-@@ -0,0 +1,250 @@
+diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
+index 14ccce5873..6e0bb617bb 100644
+--- a/meta/recipes-core/libxml/libxml2/install-tests.patch
++++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
+@@ -1,4 +1,4 @@
+-From 3fc716357ce1372d9418dc86f24315b34d9808de Mon Sep 17 00:00:00 2001
++From 903798eabb2afe9ec95ce4faf622f4732c5c6368 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 5 Dec 2022 17:02:32 +0000
+ Subject: [PATCH] add yocto-specific install-ptest target
+@@ -13,11 +13,11 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 10 insertions(+)
+ 
+ diff --git a/Makefile.am b/Makefile.am
+-index 5bc4018..57d27af 100644
++index 0a49d37..1097c63 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -26,6 +26,16 @@ check_PROGRAMS = \
+- 	testlimits \
++@@ -27,6 +27,16 @@ check_PROGRAMS = \
++ 	testparser \
+  	testrecurse
+  
+ +ptestdir=$(libexecdir)
+diff --git a/meta/recipes-core/libxml/libxml2_2.11.5.bb b/meta/recipes-core/libxml/libxml2_2.12.3.bb
+similarity index 69%
+rename from meta/recipes-core/libxml/libxml2_2.11.5.bb
+rename to meta/recipes-core/libxml/libxml2_2.12.3.bb
+index 319833f053..dc61d5f862 100644
+--- a/meta/recipes-core/libxml/libxml2_2.11.5.bb
++++ b/meta/recipes-core/libxml/libxml2_2.12.3.bb
+@@ -1,13 +1,55 @@
 +# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
 +# The following is the difference between the old and the new license text.
 +# Please update the LICENSE value if needed, and summarize the changes in
@@ -131,565 +124,185 @@ index 0000000000..01af040686
 +#
 +# The changes:
 +#
-+# --- LICENSE.adoc
-+# +++ LICENSE.adoc
-+# @@ -72,7 +72,7 @@
++# --- Copyright
++# +++ Copyright
++# @@ -1,4 +1,4 @@
++# -Except where otherwise noted in the source code (e.g. the files hash.c,
++# +Except where otherwise noted in the source code (e.g. the files dict.c,
++#  list.c and the trio files, which are covered by a similar licence but
++#  with different Copyright notices) all the files are:
 +#  
-+#  === src/third_party/blake3/blake3_*
-+#  
-+# -This is a subset of https://github.com/BLAKE3-team/BLAKE3[BLAKE3] 1.4.0 with the
-+# +This is a subset of https://github.com/BLAKE3-team/BLAKE3[BLAKE3] 1.5.0 with the
-+#  following license:
-+#  
-+#  ----
-+# @@ -441,7 +441,7 @@
-+#  
-+#  === src/third_party/fmt/*.h and src/third_party/format.cpp
-+#  
-+# -This is a subset of https://fmt.dev[fmt] 8.1.1 with the following license:
-+# +This is a subset of https://fmt.dev[fmt] 10.1.1 with the following license:
-+#  
-+#  ----
-+#  Formatting library for C++
-+# @@ -516,7 +516,7 @@
-+#  === src/third_party/httplib.*
-+#  
-+#  cpp-httplib - A C++11 cross-platform HTTP/HTTPS library. Copied from cpp-httplib
-+# -v0.12.6 downloaded from https://github.com/yhirose/cpp-httplib[cpp-httplib]. The
-+# +v0.14. downloaded from https://github.com/yhirose/cpp-httplib[cpp-httplib]. The
-+#  library has the following license:
-+#  
-+#  ----
-+# @@ -574,14 +574,14 @@
-+#  ----
-+#  
-+#  
-+# -=== src/third_party/nonstd/expected.hpp
-+# +=== src/third_party/nonstd/span.hpp
-+#  
-+#  This is the single header version of
-+# -https://github.com/martinmoene/expected-lite[expected-lite] 0.6.2 with the
-+# +https://github.com/martinmoene/span-lite[expected-lite] 0.10.3 with the
-+#  following license:
-+#  
-+#  ----
-+# -Copyright (c) 2016-2020 Martin Moene
-+# +Copyright (c) 2018-2021 Martin Moene
-+#  
-+#  Boost Software License - Version 1.0 - August 17th, 2003
-+#  
-+# @@ -609,38 +609,133 @@
-+#  ----
-+#  
-+#  
-+# -=== src/third_party/nonstd/span.hpp
-+# -
-+# -This is the single header version of
-+# -https://github.com/martinmoene/span-lite[expected-lite] 0.10.3 with the
-+# -following license:
-+# -
-+# -----
-+# -Copyright (c) 2018-2021 Martin Moene
-+# -
-+# -Boost Software License - Version 1.0 - August 17th, 2003
-+# -
-+# -Permission is hereby granted, free of charge, to any person or organization
-+# -obtaining a copy of the software and accompanying documentation covered by
-+# -this license (the "Software") to use, reproduce, display, distribute,
-+# -execute, and transmit the Software, and to prepare derivative works of the
-+# -Software, and to permit third-parties to whom the Software is furnished to
-+# -do so, all subject to the following:
-+# -
-+# -The copyright notices in the Software and this entire statement, including
-+# -the above license grant, this restriction and the following disclaimer,
-+# -must be included in all copies of the Software, in whole or in part, and
-+# -all derivative works of the Software, unless such copies or derivative
-+# -works are solely in the form of machine-executable object code generated by
-+# -a source language processor.
-+# -
-+# -THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+# -IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+# -FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-+# -SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
-+# -FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
-+# -ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-+# -DEALINGS IN THE SOFTWARE.
-+# +=== src/third_party/tl/expected.hpp
++# --- hash.c
++# +++ hash.c
++# @@ -1,10 +1,10 @@
++# - * Copyright (C) 2000,2012 Bjorn Reese and Daniel Veillard.
++#   *
++# - * Permission to use, copy, modify, and distribute this software for any
++# - * purpose with or without fee is hereby granted, provided that the above
++# - * copyright notice and this permission notice appear in all copies.
++# - *
++# - * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
++# - * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
++# - * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE AUTHORS AND
++# - * CONTRIBUTORS ACCEPT NO RESPONSIBILITY IN ANY CONCEIVABLE MANNER.
++# + * See Copyright for the status of this software.
++# + */
 +# +
-+# +This is https://github.com/TartanLlama/expected[TartanLlama expected] 1.1.0 with
-+# +the following license:
++# +#define IN_LIBXML
++# +#include "libxml.h"
 +# +
-+# +----
-+# +Creative Commons Legal Code
++# +#include <string.h>
++# +#include <limits.h>
 +# +
-+# +CC0 1.0 Universal
-+# +
-+# +    CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE
-+# +    LEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN
-+# +    ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
-+# +    INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
-+# +    REGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS
-+# +    PROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM
-+# +    THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED
-+# +    HEREUNDER.
-+# +
-+# +Statement of Purpose
-+# +
-+# +The laws of most jurisdictions throughout the world automatically confer
-+# +exclusive Copyright and Related Rights (defined below) upon the creator
-+# +and subsequent owner(s) (each and all, an "owner") of an original work of
-+# +authorship and/or a database (each, a "Work").
-+# +
-+# +Certain owners wish to permanently relinquish those rights to a Work for
-+# +the purpose of contributing to a commons of creative, cultural and
-+# +scientific works ("Commons") that the public can reliably and without fear
-+# +of later claims of infringement build upon, modify, incorporate in other
-+# +works, reuse and redistribute as freely as possible in any form whatsoever
-+# +and for any purposes, including without limitation commercial purposes.
-+# +These owners may contribute to the Commons to promote the ideal of a free
-+# +culture and the further production of creative, cultural and scientific
-+# +works, or to gain reputation or greater distribution for their Work in
-+# +part through the use and efforts of others.
-+# +
-+# +For these and/or other purposes and motivations, and without any
-+# +expectation of additional consideration or compensation, the person
-+# +associating CC0 with a Work (the "Affirmer"), to the extent that he or she
-+# +is an owner of Copyright and Related Rights in the Work, voluntarily
-+# +elects to apply CC0 to the Work and publicly distribute the Work under its
-+# +terms, with knowledge of his or her Copyright and Related Rights in the
-+# +Work and the meaning and intended legal effect of CC0 on those rights.
-+# +
-+# +1. Copyright and Related Rights. A Work made available under CC0 may be
-+# +protected by copyright and related or neighboring rights ("Copyright and
-+# +Related Rights"). Copyright and Related Rights include, but are not
-+# +limited to, the following:
-+# +
-+# +  i. the right to reproduce, adapt, distribute, perform, display,
-+# +     communicate, and translate a Work;
-+# + ii. moral rights retained by the original author(s) and/or performer(s);
-+# +iii. publicity and privacy rights pertaining to a person's image or
-+# +     likeness depicted in a Work;
-+# + iv. rights protecting against unfair competition in regards to a Work,
-+# +     subject to the limitations in paragraph 4(a), below;
-+# +  v. rights protecting the extraction, dissemination, use and reuse of data
-+# +     in a Work;
-+# + vi. database rights (such as those arising under Directive 96/9/EC of the
-+# +     European Parliament and of the Council of 11 March 1996 on the legal
-+# +     protection of databases, and under any national implementation
-+# +     thereof, including any amended or successor version of such
-+# +     directive); and
-+# +vii. other similar, equivalent or corresponding rights throughout the
-+# +     world based on applicable law or treaty, and any national
-+# +     implementations thereof.
-+# +
-+# +2. Waiver. To the greatest extent permitted by, but not in contravention
-+# +of, applicable law, Affirmer hereby overtly, fully, permanently,
-+# +irrevocably and unconditionally waives, abandons, and surrenders all of
-+# +Affirmer's Copyright and Related Rights and associated claims and causes
-+# +of action, whether now known or unknown (including existing as well as
-+# +future claims and causes of action), in the Work (i) in all territories
-+# +worldwide, (ii) for the maximum duration provided by applicable law or
-+# +treaty (including future time extensions), (iii) in any current or future
-+# +medium and for any number of copies, and (iv) for any purpose whatsoever,
-+# +including without limitation commercial, advertising or promotional
-+# +purposes (the "Waiver"). Affirmer makes the Waiver for the benefit of each
-+# +member of the public at large and to the detriment of Affirmer's heirs and
-+# +successors, fully intending that such Waiver shall not be subject to
-+# +revocation, rescission, cancellation, termination, or any other legal or
-+# +equitable action to disrupt the quiet enjoyment of the Work by the public
-+# +as contemplated by Affirmer's express Statement of Purpose.
-+# +
-+# +3. Public License Fallback. Should any part of the Waiver for any reason
-+# +be judged legally invalid or ineffective under applicable law, then the
-+# +Waiver shall be preserved to the maximum extent permitted taking into
-+# +account Affirmer's express Statement of Purpose. In addition, to the
-+# +extent the Waiver is so judged Affirmer hereby grants to each affected
-+# +person a royalty-free, non transferable, non sublicensable, non exclusive,
-+# +irrevocable and unconditional license to exercise Affirmer's Copyright and
-+# +Related Rights in the Work (i) in all territories worldwide, (ii) for the
-+# +maximum duration provided by applicable law or treaty (including future
-+# +time extensions), (iii) in any current or future medium and for any number
-+# +of copies, and (iv) for any purpose whatsoever, including without
-+# +limitation commercial, advertising or promotional purposes (the
-+# +"License"). The License shall be deemed effective as of the date CC0 was
-+# +applied by Affirmer to the Work. Should any part of the License for any
-+# +reason be judged legally invalid or ineffective under applicable law, such
-+# +partial invalidity or ineffectiveness shall not invalidate the remainder
-+# +of the License, and in such case Affirmer hereby affirms that he or she
-+# +will not (i) exercise any of his or her remaining Copyright and Related
-+# +Rights in the Work or (ii) assert any associated claims and causes of
-+# +action with respect to the Work, in either case contrary to Affirmer's
-+# +express Statement of Purpose.
-+# +
-+# +4. Limitations and Disclaimers.
-+# +
-+# + a. No trademark or patent rights held by Affirmer are waived, abandoned,
-+# +    surrendered, licensed or otherwise affected by this document.
-+# + b. Affirmer offers the Work as-is and makes no representations or
-+# +    warranties of any kind concerning the Work, express, implied,
-+# +    statutory or otherwise, including without limitation warranties of
-+# +    title, merchantability, fitness for a particular purpose, non
-+# +    infringement, or the absence of latent or other defects, accuracy, or
-+# +    the present or absence of errors, whether or not discoverable, all to
-+# +    the greatest extent permissible under applicable law.
-+# + c. Affirmer disclaims responsibility for clearing rights of other persons
-+# +    that may apply to the Work or any use thereof, including without
-+# +    limitation any person's Copyright and Related Rights in the Work.
-+# +    Further, Affirmer disclaims responsibility for obtaining any necessary
-+# +    consents, permissions or other rights required for any use of the
-+# +    Work.
-+# + d. Affirmer understands and acknowledges that Creative Commons is not a
-+# +    party to this document and has no duty or obligation with respect to
-+# +    this CC0 or use of the Work.
-+#  ----
-+#  
-+#  
 +# 
 +#
 +
-+SUMMARY = "a fast C/C++ compiler cache"
-+DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
-+by caching the result of previous compilations and detecting when the \
-+same compilation is being done again. Supported languages are C, C\+\+, \
-+Objective-C and Objective-C++."
-+HOMEPAGE = "http://ccache.samba.org"
-+SECTION = "devel"
-+
-+LICENSE = "GPL-3.0-or-later"
-+LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=11b0b581dd56bbac4f5de214d47927ca"
-+
-+DEPENDS = "zstd"
-+
-+SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-+           file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
-+           "
-+SRC_URI[sha256sum] = "866b2223d59333640f0e7a003cbb85b32d9ca3c9445bd9e3cf142942e69dd3ec"
-+
-+inherit cmake github-releases
-+
-+PATCHTOOL = "patch"
-+
-+BBCLASSEXTEND = "native nativesdk"
-+
-+PACKAGECONFIG[docs] = "-DENABLE_DOCUMENTATION=ON,-DENABLE_DOCUMENTATION=OFF,asciidoc"
-+PACKAGECONFIG[redis] = "-DREDIS_STORAGE_BACKEND=ON,-DREDIS_STORAGE_BACKEND=OFF,hiredis"
-diff --git a/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch b/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
-index 67c74a1e8e..33372061e5 100644
---- a/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
-+++ b/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
-@@ -1,4 +1,4 @@
--From 550834a3ec2e05e379be63b084e7fa06a1723f84 Mon Sep 17 00:00:00 2001
-+From 648fc462fbfb4bdbdb2ae667382ad2c7aea0a31f Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Mon, 6 Jun 2022 17:53:20 +0800
- Subject: [PATCH] xxhash.h: Fix build with gcc-12
-@@ -23,10 +23,10 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ SUMMARY = "XML C Parser Library and Toolkit"
+ DESCRIPTION = "The XML Parser Library allows for manipulation of XML files.  Libxml2 exports Push and Pull type parser interfaces for both XML and HTML.  It can do DTD validation at parse time, on a parsed document instance or with an arbitrary DTD.  Libxml2 includes complete XPath, XPointer and Xinclude implementations.  It also has a SAX like interface, which is designed to be compatible with Expat."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/libxml2"
+ BUGTRACKER = "http://bugzilla.gnome.org/buglist.cgi?product=libxml2"
+ SECTION = "libs"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
+-                    file://hash.c;beginline=6;endline=15;md5=e77f77b12cb69e203d8b4090a0eee879 \
++LIC_FILES_CHKSUM = "file://Copyright;md5=fec7ecfe714722b2bb0aaff7d200c701 \
++                    file://hash.c;beginline=6;endline=15;md5=9af9349d0ead24569dc332f2116ef5f8 \
+                     file://list.c;beginline=4;endline=13;md5=b9c25b021ccaf287e50060602d20f3a7 \
+-                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f"
++                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f \
++                    "
  
- diff --git a/src/third_party/xxhash.h b/src/third_party/xxhash.h
--index 08ab794..c754e99 100644
-+index a18e8c7..1b72307 100644
- --- a/src/third_party/xxhash.h
- +++ b/src/third_party/xxhash.h
--@@ -1501,7 +1501,7 @@ static void* XXH_memcpy(void* dest, const void* src, size_t size)
-+@@ -2107,7 +2107,7 @@ static void* XXH_memcpy(void* dest, const void* src, size_t size)
-  #  define XXH_NO_INLINE static
-  /* enable inlining hints */
-  #elif defined(__GNUC__) || defined(__clang__)
+ DEPENDS = "zlib virtual/libiconv"
+ 
+@@ -19,7 +61,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://install-tests.patch \
+            "
+ 
+-SRC_URI[archive.sha256sum] = "3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6"
++SRC_URI[archive.sha256sum] = "8c8f1092340a89ff32bc44ad5c9693aff9bc8a7a3e161bb239666e5d15ac9aaa"
+ SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
+ 
+ # Disputed as a security issue, but fixed in d39f780
 -- 
 2.42.0
 
 
---===============8959762869416047200==
+--===============2664954793634314973==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ccache-upgrade-4.8.3-4.9.patch"
+ filename="0001-libxml2-upgrade-2.11.5-2.12.3.patch"
 
-RnJvbSBkMDA2YTU1OTY1NmY5Yzg4OTA3Y2IwMTYyNzAzZGQ3NGNhNjc3Zjc2IE1vbiBTZXAgMTcg
+RnJvbSBhYTBlNmNhMzM0ODAxN2ZmOTJiNmUxM2Y2M2IwYmYyNmRmM2U1NTg1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAwNTo1NjoxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNj
-YWNoZTogdXBncmFkZSA0LjguMyAtPiA0LjkKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Nj
-YWNoZS9jY2FjaGVfNC44LjMuYmIgIHwgIDI2IC0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2Nh
-Y2hlL2NjYWNoZV80LjkuYmIgICAgfCAyNTAgKysrKysrKysrKysrKysrKysrCiAuLi4vMDAwMS14
-eGhhc2guaC1GaXgtYnVpbGQtd2l0aC1nY2MtMTIucGF0Y2ggfCAgIDYgKy0KIDMgZmlsZXMgY2hh
-bmdlZCwgMjUzIGluc2VydGlvbnMoKyksIDI5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAw
-NjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuOC4zLmJiCiBjcmVhdGUg
-bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC45LmJiCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC44LjMuYmIg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjguMy5iYgpkZWxldGVkIGZp
-bGUgbW9kZSAxMDA2NDQKaW5kZXggMDMzNzJhYTY4NS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjguMy5iYgorKysgL2Rldi9udWxsCkBAIC0x
-LDI2ICswLDAgQEAKLVNVTU1BUlkgPSAiYSBmYXN0IEMvQysrIGNvbXBpbGVyIGNhY2hlIgotREVT
-Q1JJUFRJT04gPSAiY2NhY2hlIGlzIGEgY29tcGlsZXIgY2FjaGUuIEl0IHNwZWVkcyB1cCByZWNv
-bXBpbGF0aW9uIFwKLWJ5IGNhY2hpbmcgdGhlIHJlc3VsdCBvZiBwcmV2aW91cyBjb21waWxhdGlv
-bnMgYW5kIGRldGVjdGluZyB3aGVuIHRoZSBcCi1zYW1lIGNvbXBpbGF0aW9uIGlzIGJlaW5nIGRv
-bmUgYWdhaW4uIFN1cHBvcnRlZCBsYW5ndWFnZXMgYXJlIEMsIENcK1wrLCBcCi1PYmplY3RpdmUt
-QyBhbmQgT2JqZWN0aXZlLUMrKy4iCi1IT01FUEFHRSA9ICJodHRwOi8vY2NhY2hlLnNhbWJhLm9y
-ZyIKLVNFQ1RJT04gPSAiZGV2ZWwiCi0KLUxJQ0VOU0UgPSAiR1BMLTMuMC1vci1sYXRlciIKLUxJ
-Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuYWRvYzttZDU9NmE2ZmUwYWU0ZTU3NTky
-YjE4N2FiNzJmYTZkNDIwZWMiCi0KLURFUEVORFMgPSAienN0ZCIKLQotU1JDX1VSSSA9ICIke0dJ
-VEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9LyR7QlB9LnRhci5neiBcCi0gICAgICAgICAg
-IGZpbGU6Ly8wMDAxLXh4aGFzaC5oLUZpeC1idWlsZC13aXRoLWdjYy0xMi5wYXRjaCBcCi0gICAg
-ICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkNTlkZDU2OWFkMmJiYzgyNmMwYmMzMzVj
-OGViZDczZTc4ZWQwZjJmNDBiYTZiMzAwNjkzNDdlNjM1ODVkOWVmIgotCi1pbmhlcml0IGNtYWtl
-IGdpdGh1Yi1yZWxlYXNlcwotCi1QQVRDSFRPT0wgPSAicGF0Y2giCi0KLUJCQ0xBU1NFWFRFTkQg
-PSAibmF0aXZlIG5hdGl2ZXNkayIKLQotUEFDS0FHRUNPTkZJR1tkb2NzXSA9ICItREVOQUJMRV9E
-T0NVTUVOVEFUSU9OPU9OLC1ERU5BQkxFX0RPQ1VNRU5UQVRJT049T0ZGLGFzY2lpZG9jIgotUEFD
-S0FHRUNPTkZJR1tyZWRpc10gPSAiLURSRURJU19TVE9SQUdFX0JBQ0tFTkQ9T04sLURSRURJU19T
-VE9SQUdFX0JBQ0tFTkQ9T0ZGLGhpcmVkaXMiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvY2NhY2hlL2NjYWNoZV80LjkuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hl
-L2NjYWNoZV80LjkuYmIKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMC4uMDFh
-ZjA0MDY4NgotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUv
-Y2NhY2hlXzQuOS5iYgpAQCAtMCwwICsxLDI1MCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19D
-SEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBU
-aGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5l
-dyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVl
-ZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2
-aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBj
-b3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJ
-Q0VOU0UuYWRvYworIyArKysgTElDRU5TRS5hZG9jCisjIEBAIC03Miw3ICs3Miw3IEBACisjICAK
-KyMgID09PSBzcmMvdGhpcmRfcGFydHkvYmxha2UzL2JsYWtlM18qCisjICAKKyMgLVRoaXMgaXMg
-YSBzdWJzZXQgb2YgaHR0cHM6Ly9naXRodWIuY29tL0JMQUtFMy10ZWFtL0JMQUtFM1tCTEFLRTNd
-IDEuNC4wIHdpdGggdGhlCisjICtUaGlzIGlzIGEgc3Vic2V0IG9mIGh0dHBzOi8vZ2l0aHViLmNv
-bS9CTEFLRTMtdGVhbS9CTEFLRTNbQkxBS0UzXSAxLjUuMCB3aXRoIHRoZQorIyAgZm9sbG93aW5n
-IGxpY2Vuc2U6CisjICAKKyMgIC0tLS0KKyMgQEAgLTQ0MSw3ICs0NDEsNyBAQAorIyAgCisjICA9
-PT0gc3JjL3RoaXJkX3BhcnR5L2ZtdC8qLmggYW5kIHNyYy90aGlyZF9wYXJ0eS9mb3JtYXQuY3Bw
-CisjICAKKyMgLVRoaXMgaXMgYSBzdWJzZXQgb2YgaHR0cHM6Ly9mbXQuZGV2W2ZtdF0gOC4xLjEg
-d2l0aCB0aGUgZm9sbG93aW5nIGxpY2Vuc2U6CisjICtUaGlzIGlzIGEgc3Vic2V0IG9mIGh0dHBz
-Oi8vZm10LmRldltmbXRdIDEwLjEuMSB3aXRoIHRoZSBmb2xsb3dpbmcgbGljZW5zZToKKyMgIAor
-IyAgLS0tLQorIyAgRm9ybWF0dGluZyBsaWJyYXJ5IGZvciBDKysKKyMgQEAgLTUxNiw3ICs1MTYs
-NyBAQAorIyAgPT09IHNyYy90aGlyZF9wYXJ0eS9odHRwbGliLioKKyMgIAorIyAgY3BwLWh0dHBs
-aWIgLSBBIEMrKzExIGNyb3NzLXBsYXRmb3JtIEhUVFAvSFRUUFMgbGlicmFyeS4gQ29waWVkIGZy
-b20gY3BwLWh0dHBsaWIKKyMgLXYwLjEyLjYgZG93bmxvYWRlZCBmcm9tIGh0dHBzOi8vZ2l0aHVi
-LmNvbS95aGlyb3NlL2NwcC1odHRwbGliW2NwcC1odHRwbGliXS4gVGhlCisjICt2MC4xNC4gZG93
-bmxvYWRlZCBmcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS95aGlyb3NlL2NwcC1odHRwbGliW2NwcC1o
-dHRwbGliXS4gVGhlCisjICBsaWJyYXJ5IGhhcyB0aGUgZm9sbG93aW5nIGxpY2Vuc2U6CisjICAK
-KyMgIC0tLS0KKyMgQEAgLTU3NCwxNCArNTc0LDE0IEBACisjICAtLS0tCisjICAKKyMgIAorIyAt
-PT09IHNyYy90aGlyZF9wYXJ0eS9ub25zdGQvZXhwZWN0ZWQuaHBwCisjICs9PT0gc3JjL3RoaXJk
-X3BhcnR5L25vbnN0ZC9zcGFuLmhwcAorIyAgCisjICBUaGlzIGlzIHRoZSBzaW5nbGUgaGVhZGVy
-IHZlcnNpb24gb2YKKyMgLWh0dHBzOi8vZ2l0aHViLmNvbS9tYXJ0aW5tb2VuZS9leHBlY3RlZC1s
-aXRlW2V4cGVjdGVkLWxpdGVdIDAuNi4yIHdpdGggdGhlCisjICtodHRwczovL2dpdGh1Yi5jb20v
-bWFydGlubW9lbmUvc3Bhbi1saXRlW2V4cGVjdGVkLWxpdGVdIDAuMTAuMyB3aXRoIHRoZQorIyAg
-Zm9sbG93aW5nIGxpY2Vuc2U6CisjICAKKyMgIC0tLS0KKyMgLUNvcHlyaWdodCAoYykgMjAxNi0y
-MDIwIE1hcnRpbiBNb2VuZQorIyArQ29weXJpZ2h0IChjKSAyMDE4LTIwMjEgTWFydGluIE1vZW5l
-CisjICAKKyMgIEJvb3N0IFNvZnR3YXJlIExpY2Vuc2UgLSBWZXJzaW9uIDEuMCAtIEF1Z3VzdCAx
-N3RoLCAyMDAzCisjICAKKyMgQEAgLTYwOSwzOCArNjA5LDEzMyBAQAorIyAgLS0tLQorIyAgCisj
-ICAKKyMgLT09PSBzcmMvdGhpcmRfcGFydHkvbm9uc3RkL3NwYW4uaHBwCisjIC0KKyMgLVRoaXMg
-aXMgdGhlIHNpbmdsZSBoZWFkZXIgdmVyc2lvbiBvZgorIyAtaHR0cHM6Ly9naXRodWIuY29tL21h
-cnRpbm1vZW5lL3NwYW4tbGl0ZVtleHBlY3RlZC1saXRlXSAwLjEwLjMgd2l0aCB0aGUKKyMgLWZv
-bGxvd2luZyBsaWNlbnNlOgorIyAtCisjIC0tLS0tCisjIC1Db3B5cmlnaHQgKGMpIDIwMTgtMjAy
-MSBNYXJ0aW4gTW9lbmUKKyMgLQorIyAtQm9vc3QgU29mdHdhcmUgTGljZW5zZSAtIFZlcnNpb24g
-MS4wIC0gQXVndXN0IDE3dGgsIDIwMDMKKyMgLQorIyAtUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3Jh
-bnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb3Igb3JnYW5pemF0aW9uCisjIC1v
-YnRhaW5pbmcgYSBjb3B5IG9mIHRoZSBzb2Z0d2FyZSBhbmQgYWNjb21wYW55aW5nIGRvY3VtZW50
-YXRpb24gY292ZXJlZCBieQorIyAtdGhpcyBsaWNlbnNlICh0aGUgIlNvZnR3YXJlIikgdG8gdXNl
-LCByZXByb2R1Y2UsIGRpc3BsYXksIGRpc3RyaWJ1dGUsCisjIC1leGVjdXRlLCBhbmQgdHJhbnNt
-aXQgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcHJlcGFyZSBkZXJpdmF0aXZlIHdvcmtzIG9mIHRoZQor
-IyAtU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgdGhpcmQtcGFydGllcyB0byB3aG9tIHRoZSBTb2Z0
-d2FyZSBpcyBmdXJuaXNoZWQgdG8KKyMgLWRvIHNvLCBhbGwgc3ViamVjdCB0byB0aGUgZm9sbG93
-aW5nOgorIyAtCisjIC1UaGUgY29weXJpZ2h0IG5vdGljZXMgaW4gdGhlIFNvZnR3YXJlIGFuZCB0
-aGlzIGVudGlyZSBzdGF0ZW1lbnQsIGluY2x1ZGluZworIyAtdGhlIGFib3ZlIGxpY2Vuc2UgZ3Jh
-bnQsIHRoaXMgcmVzdHJpY3Rpb24gYW5kIHRoZSBmb2xsb3dpbmcgZGlzY2xhaW1lciwKKyMgLW11
-c3QgYmUgaW5jbHVkZWQgaW4gYWxsIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGluIHdob2xlIG9y
-IGluIHBhcnQsIGFuZAorIyAtYWxsIGRlcml2YXRpdmUgd29ya3Mgb2YgdGhlIFNvZnR3YXJlLCB1
-bmxlc3Mgc3VjaCBjb3BpZXMgb3IgZGVyaXZhdGl2ZQorIyAtd29ya3MgYXJlIHNvbGVseSBpbiB0
-aGUgZm9ybSBvZiBtYWNoaW5lLWV4ZWN1dGFibGUgb2JqZWN0IGNvZGUgZ2VuZXJhdGVkIGJ5Cisj
-IC1hIHNvdXJjZSBsYW5ndWFnZSBwcm9jZXNzb3IuCisjIC0KKyMgLVRIRSBTT0ZUV0FSRSBJUyBQ
-Uk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTIE9S
-CisjIC1JTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVT
-IE9GIE1FUkNIQU5UQUJJTElUWSwKKyMgLUZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NF
-LCBUSVRMRSBBTkQgTk9OLUlORlJJTkdFTUVOVC4gSU4gTk8gRVZFTlQKKyMgLVNIQUxMIFRIRSBD
-T1BZUklHSFQgSE9MREVSUyBPUiBBTllPTkUgRElTVFJJQlVUSU5HIFRIRSBTT0ZUV0FSRSBCRSBM
-SUFCTEUKKyMgLUZPUiBBTlkgREFNQUdFUyBPUiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIgSU4g
-Q09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLAorIyAtQVJJU0lORyBGUk9NLCBPVVQgT0YgT1Ig
-SU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSCisjIC1E
-RUFMSU5HUyBJTiBUSEUgU09GVFdBUkUuCisjICs9PT0gc3JjL3RoaXJkX3BhcnR5L3RsL2V4cGVj
-dGVkLmhwcAorIyArCisjICtUaGlzIGlzIGh0dHBzOi8vZ2l0aHViLmNvbS9UYXJ0YW5MbGFtYS9l
-eHBlY3RlZFtUYXJ0YW5MbGFtYSBleHBlY3RlZF0gMS4xLjAgd2l0aAorIyArdGhlIGZvbGxvd2lu
-ZyBsaWNlbnNlOgorIyArCisjICstLS0tCisjICtDcmVhdGl2ZSBDb21tb25zIExlZ2FsIENvZGUK
-KyMgKworIyArQ0MwIDEuMCBVbml2ZXJzYWwKKyMgKworIyArICAgIENSRUFUSVZFIENPTU1PTlMg
-Q09SUE9SQVRJT04gSVMgTk9UIEEgTEFXIEZJUk0gQU5EIERPRVMgTk9UIFBST1ZJREUKKyMgKyAg
-ICBMRUdBTCBTRVJWSUNFUy4gRElTVFJJQlVUSU9OIE9GIFRISVMgRE9DVU1FTlQgRE9FUyBOT1Qg
-Q1JFQVRFIEFOCisjICsgICAgQVRUT1JORVktQ0xJRU5UIFJFTEFUSU9OU0hJUC4gQ1JFQVRJVkUg
-Q09NTU9OUyBQUk9WSURFUyBUSElTCisjICsgICAgSU5GT1JNQVRJT04gT04gQU4gIkFTLUlTIiBC
-QVNJUy4gQ1JFQVRJVkUgQ09NTU9OUyBNQUtFUyBOTyBXQVJSQU5USUVTCisjICsgICAgUkVHQVJE
-SU5HIFRIRSBVU0UgT0YgVEhJUyBET0NVTUVOVCBPUiBUSEUgSU5GT1JNQVRJT04gT1IgV09SS1MK
-KyMgKyAgICBQUk9WSURFRCBIRVJFVU5ERVIsIEFORCBESVNDTEFJTVMgTElBQklMSVRZIEZPUiBE
-QU1BR0VTIFJFU1VMVElORyBGUk9NCisjICsgICAgVEhFIFVTRSBPRiBUSElTIERPQ1VNRU5UIE9S
-IFRIRSBJTkZPUk1BVElPTiBPUiBXT1JLUyBQUk9WSURFRAorIyArICAgIEhFUkVVTkRFUi4KKyMg
-KworIyArU3RhdGVtZW50IG9mIFB1cnBvc2UKKyMgKworIyArVGhlIGxhd3Mgb2YgbW9zdCBqdXJp
-c2RpY3Rpb25zIHRocm91Z2hvdXQgdGhlIHdvcmxkIGF1dG9tYXRpY2FsbHkgY29uZmVyCisjICtl
-eGNsdXNpdmUgQ29weXJpZ2h0IGFuZCBSZWxhdGVkIFJpZ2h0cyAoZGVmaW5lZCBiZWxvdykgdXBv
-biB0aGUgY3JlYXRvcgorIyArYW5kIHN1YnNlcXVlbnQgb3duZXIocykgKGVhY2ggYW5kIGFsbCwg
-YW4gIm93bmVyIikgb2YgYW4gb3JpZ2luYWwgd29yayBvZgorIyArYXV0aG9yc2hpcCBhbmQvb3Ig
-YSBkYXRhYmFzZSAoZWFjaCwgYSAiV29yayIpLgorIyArCisjICtDZXJ0YWluIG93bmVycyB3aXNo
-IHRvIHBlcm1hbmVudGx5IHJlbGlucXVpc2ggdGhvc2UgcmlnaHRzIHRvIGEgV29yayBmb3IKKyMg
-K3RoZSBwdXJwb3NlIG9mIGNvbnRyaWJ1dGluZyB0byBhIGNvbW1vbnMgb2YgY3JlYXRpdmUsIGN1
-bHR1cmFsIGFuZAorIyArc2NpZW50aWZpYyB3b3JrcyAoIkNvbW1vbnMiKSB0aGF0IHRoZSBwdWJs
-aWMgY2FuIHJlbGlhYmx5IGFuZCB3aXRob3V0IGZlYXIKKyMgK29mIGxhdGVyIGNsYWltcyBvZiBp
-bmZyaW5nZW1lbnQgYnVpbGQgdXBvbiwgbW9kaWZ5LCBpbmNvcnBvcmF0ZSBpbiBvdGhlcgorIyAr
-d29ya3MsIHJldXNlIGFuZCByZWRpc3RyaWJ1dGUgYXMgZnJlZWx5IGFzIHBvc3NpYmxlIGluIGFu
-eSBmb3JtIHdoYXRzb2V2ZXIKKyMgK2FuZCBmb3IgYW55IHB1cnBvc2VzLCBpbmNsdWRpbmcgd2l0
-aG91dCBsaW1pdGF0aW9uIGNvbW1lcmNpYWwgcHVycG9zZXMuCisjICtUaGVzZSBvd25lcnMgbWF5
-IGNvbnRyaWJ1dGUgdG8gdGhlIENvbW1vbnMgdG8gcHJvbW90ZSB0aGUgaWRlYWwgb2YgYSBmcmVl
-CisjICtjdWx0dXJlIGFuZCB0aGUgZnVydGhlciBwcm9kdWN0aW9uIG9mIGNyZWF0aXZlLCBjdWx0
-dXJhbCBhbmQgc2NpZW50aWZpYworIyArd29ya3MsIG9yIHRvIGdhaW4gcmVwdXRhdGlvbiBvciBn
-cmVhdGVyIGRpc3RyaWJ1dGlvbiBmb3IgdGhlaXIgV29yayBpbgorIyArcGFydCB0aHJvdWdoIHRo
-ZSB1c2UgYW5kIGVmZm9ydHMgb2Ygb3RoZXJzLgorIyArCisjICtGb3IgdGhlc2UgYW5kL29yIG90
-aGVyIHB1cnBvc2VzIGFuZCBtb3RpdmF0aW9ucywgYW5kIHdpdGhvdXQgYW55CisjICtleHBlY3Rh
-dGlvbiBvZiBhZGRpdGlvbmFsIGNvbnNpZGVyYXRpb24gb3IgY29tcGVuc2F0aW9uLCB0aGUgcGVy
-c29uCisjICthc3NvY2lhdGluZyBDQzAgd2l0aCBhIFdvcmsgKHRoZSAiQWZmaXJtZXIiKSwgdG8g
-dGhlIGV4dGVudCB0aGF0IGhlIG9yIHNoZQorIyAraXMgYW4gb3duZXIgb2YgQ29weXJpZ2h0IGFu
-ZCBSZWxhdGVkIFJpZ2h0cyBpbiB0aGUgV29yaywgdm9sdW50YXJpbHkKKyMgK2VsZWN0cyB0byBh
-cHBseSBDQzAgdG8gdGhlIFdvcmsgYW5kIHB1YmxpY2x5IGRpc3RyaWJ1dGUgdGhlIFdvcmsgdW5k
-ZXIgaXRzCisjICt0ZXJtcywgd2l0aCBrbm93bGVkZ2Ugb2YgaGlzIG9yIGhlciBDb3B5cmlnaHQg
-YW5kIFJlbGF0ZWQgUmlnaHRzIGluIHRoZQorIyArV29yayBhbmQgdGhlIG1lYW5pbmcgYW5kIGlu
-dGVuZGVkIGxlZ2FsIGVmZmVjdCBvZiBDQzAgb24gdGhvc2UgcmlnaHRzLgorIyArCisjICsxLiBD
-b3B5cmlnaHQgYW5kIFJlbGF0ZWQgUmlnaHRzLiBBIFdvcmsgbWFkZSBhdmFpbGFibGUgdW5kZXIg
-Q0MwIG1heSBiZQorIyArcHJvdGVjdGVkIGJ5IGNvcHlyaWdodCBhbmQgcmVsYXRlZCBvciBuZWln
-aGJvcmluZyByaWdodHMgKCJDb3B5cmlnaHQgYW5kCisjICtSZWxhdGVkIFJpZ2h0cyIpLiBDb3B5
-cmlnaHQgYW5kIFJlbGF0ZWQgUmlnaHRzIGluY2x1ZGUsIGJ1dCBhcmUgbm90CisjICtsaW1pdGVk
-IHRvLCB0aGUgZm9sbG93aW5nOgorIyArCisjICsgIGkuIHRoZSByaWdodCB0byByZXByb2R1Y2Us
-IGFkYXB0LCBkaXN0cmlidXRlLCBwZXJmb3JtLCBkaXNwbGF5LAorIyArICAgICBjb21tdW5pY2F0
-ZSwgYW5kIHRyYW5zbGF0ZSBhIFdvcms7CisjICsgaWkuIG1vcmFsIHJpZ2h0cyByZXRhaW5lZCBi
-eSB0aGUgb3JpZ2luYWwgYXV0aG9yKHMpIGFuZC9vciBwZXJmb3JtZXIocyk7CisjICtpaWkuIHB1
-YmxpY2l0eSBhbmQgcHJpdmFjeSByaWdodHMgcGVydGFpbmluZyB0byBhIHBlcnNvbidzIGltYWdl
-IG9yCisjICsgICAgIGxpa2VuZXNzIGRlcGljdGVkIGluIGEgV29yazsKKyMgKyBpdi4gcmlnaHRz
-IHByb3RlY3RpbmcgYWdhaW5zdCB1bmZhaXIgY29tcGV0aXRpb24gaW4gcmVnYXJkcyB0byBhIFdv
-cmssCisjICsgICAgIHN1YmplY3QgdG8gdGhlIGxpbWl0YXRpb25zIGluIHBhcmFncmFwaCA0KGEp
-LCBiZWxvdzsKKyMgKyAgdi4gcmlnaHRzIHByb3RlY3RpbmcgdGhlIGV4dHJhY3Rpb24sIGRpc3Nl
-bWluYXRpb24sIHVzZSBhbmQgcmV1c2Ugb2YgZGF0YQorIyArICAgICBpbiBhIFdvcms7CisjICsg
-dmkuIGRhdGFiYXNlIHJpZ2h0cyAoc3VjaCBhcyB0aG9zZSBhcmlzaW5nIHVuZGVyIERpcmVjdGl2
-ZSA5Ni85L0VDIG9mIHRoZQorIyArICAgICBFdXJvcGVhbiBQYXJsaWFtZW50IGFuZCBvZiB0aGUg
-Q291bmNpbCBvZiAxMSBNYXJjaCAxOTk2IG9uIHRoZSBsZWdhbAorIyArICAgICBwcm90ZWN0aW9u
-IG9mIGRhdGFiYXNlcywgYW5kIHVuZGVyIGFueSBuYXRpb25hbCBpbXBsZW1lbnRhdGlvbgorIyAr
-ICAgICB0aGVyZW9mLCBpbmNsdWRpbmcgYW55IGFtZW5kZWQgb3Igc3VjY2Vzc29yIHZlcnNpb24g
-b2Ygc3VjaAorIyArICAgICBkaXJlY3RpdmUpOyBhbmQKKyMgK3ZpaS4gb3RoZXIgc2ltaWxhciwg
-ZXF1aXZhbGVudCBvciBjb3JyZXNwb25kaW5nIHJpZ2h0cyB0aHJvdWdob3V0IHRoZQorIyArICAg
-ICB3b3JsZCBiYXNlZCBvbiBhcHBsaWNhYmxlIGxhdyBvciB0cmVhdHksIGFuZCBhbnkgbmF0aW9u
-YWwKKyMgKyAgICAgaW1wbGVtZW50YXRpb25zIHRoZXJlb2YuCisjICsKKyMgKzIuIFdhaXZlci4g
-VG8gdGhlIGdyZWF0ZXN0IGV4dGVudCBwZXJtaXR0ZWQgYnksIGJ1dCBub3QgaW4gY29udHJhdmVu
-dGlvbgorIyArb2YsIGFwcGxpY2FibGUgbGF3LCBBZmZpcm1lciBoZXJlYnkgb3ZlcnRseSwgZnVs
-bHksIHBlcm1hbmVudGx5LAorIyAraXJyZXZvY2FibHkgYW5kIHVuY29uZGl0aW9uYWxseSB3YWl2
-ZXMsIGFiYW5kb25zLCBhbmQgc3VycmVuZGVycyBhbGwgb2YKKyMgK0FmZmlybWVyJ3MgQ29weXJp
-Z2h0IGFuZCBSZWxhdGVkIFJpZ2h0cyBhbmQgYXNzb2NpYXRlZCBjbGFpbXMgYW5kIGNhdXNlcwor
-IyArb2YgYWN0aW9uLCB3aGV0aGVyIG5vdyBrbm93biBvciB1bmtub3duIChpbmNsdWRpbmcgZXhp
-c3RpbmcgYXMgd2VsbCBhcworIyArZnV0dXJlIGNsYWltcyBhbmQgY2F1c2VzIG9mIGFjdGlvbiks
-IGluIHRoZSBXb3JrIChpKSBpbiBhbGwgdGVycml0b3JpZXMKKyMgK3dvcmxkd2lkZSwgKGlpKSBm
-b3IgdGhlIG1heGltdW0gZHVyYXRpb24gcHJvdmlkZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IKKyMg
-K3RyZWF0eSAoaW5jbHVkaW5nIGZ1dHVyZSB0aW1lIGV4dGVuc2lvbnMpLCAoaWlpKSBpbiBhbnkg
-Y3VycmVudCBvciBmdXR1cmUKKyMgK21lZGl1bSBhbmQgZm9yIGFueSBudW1iZXIgb2YgY29waWVz
-LCBhbmQgKGl2KSBmb3IgYW55IHB1cnBvc2Ugd2hhdHNvZXZlciwKKyMgK2luY2x1ZGluZyB3aXRo
-b3V0IGxpbWl0YXRpb24gY29tbWVyY2lhbCwgYWR2ZXJ0aXNpbmcgb3IgcHJvbW90aW9uYWwKKyMg
-K3B1cnBvc2VzICh0aGUgIldhaXZlciIpLiBBZmZpcm1lciBtYWtlcyB0aGUgV2FpdmVyIGZvciB0
-aGUgYmVuZWZpdCBvZiBlYWNoCisjICttZW1iZXIgb2YgdGhlIHB1YmxpYyBhdCBsYXJnZSBhbmQg
-dG8gdGhlIGRldHJpbWVudCBvZiBBZmZpcm1lcidzIGhlaXJzIGFuZAorIyArc3VjY2Vzc29ycywg
-ZnVsbHkgaW50ZW5kaW5nIHRoYXQgc3VjaCBXYWl2ZXIgc2hhbGwgbm90IGJlIHN1YmplY3QgdG8K
-KyMgK3Jldm9jYXRpb24sIHJlc2Npc3Npb24sIGNhbmNlbGxhdGlvbiwgdGVybWluYXRpb24sIG9y
-IGFueSBvdGhlciBsZWdhbCBvcgorIyArZXF1aXRhYmxlIGFjdGlvbiB0byBkaXNydXB0IHRoZSBx
-dWlldCBlbmpveW1lbnQgb2YgdGhlIFdvcmsgYnkgdGhlIHB1YmxpYworIyArYXMgY29udGVtcGxh
-dGVkIGJ5IEFmZmlybWVyJ3MgZXhwcmVzcyBTdGF0ZW1lbnQgb2YgUHVycG9zZS4KKyMgKworIyAr
-My4gUHVibGljIExpY2Vuc2UgRmFsbGJhY2suIFNob3VsZCBhbnkgcGFydCBvZiB0aGUgV2FpdmVy
-IGZvciBhbnkgcmVhc29uCisjICtiZSBqdWRnZWQgbGVnYWxseSBpbnZhbGlkIG9yIGluZWZmZWN0
-aXZlIHVuZGVyIGFwcGxpY2FibGUgbGF3LCB0aGVuIHRoZQorIyArV2FpdmVyIHNoYWxsIGJlIHBy
-ZXNlcnZlZCB0byB0aGUgbWF4aW11bSBleHRlbnQgcGVybWl0dGVkIHRha2luZyBpbnRvCisjICth
-Y2NvdW50IEFmZmlybWVyJ3MgZXhwcmVzcyBTdGF0ZW1lbnQgb2YgUHVycG9zZS4gSW4gYWRkaXRp
-b24sIHRvIHRoZQorIyArZXh0ZW50IHRoZSBXYWl2ZXIgaXMgc28ganVkZ2VkIEFmZmlybWVyIGhl
-cmVieSBncmFudHMgdG8gZWFjaCBhZmZlY3RlZAorIyArcGVyc29uIGEgcm95YWx0eS1mcmVlLCBu
-b24gdHJhbnNmZXJhYmxlLCBub24gc3VibGljZW5zYWJsZSwgbm9uIGV4Y2x1c2l2ZSwKKyMgK2ly
-cmV2b2NhYmxlIGFuZCB1bmNvbmRpdGlvbmFsIGxpY2Vuc2UgdG8gZXhlcmNpc2UgQWZmaXJtZXIn
-cyBDb3B5cmlnaHQgYW5kCisjICtSZWxhdGVkIFJpZ2h0cyBpbiB0aGUgV29yayAoaSkgaW4gYWxs
-IHRlcnJpdG9yaWVzIHdvcmxkd2lkZSwgKGlpKSBmb3IgdGhlCisjICttYXhpbXVtIGR1cmF0aW9u
-IHByb3ZpZGVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIHRyZWF0eSAoaW5jbHVkaW5nIGZ1dHVyZQor
-IyArdGltZSBleHRlbnNpb25zKSwgKGlpaSkgaW4gYW55IGN1cnJlbnQgb3IgZnV0dXJlIG1lZGl1
-bSBhbmQgZm9yIGFueSBudW1iZXIKKyMgK29mIGNvcGllcywgYW5kIChpdikgZm9yIGFueSBwdXJw
-b3NlIHdoYXRzb2V2ZXIsIGluY2x1ZGluZyB3aXRob3V0CisjICtsaW1pdGF0aW9uIGNvbW1lcmNp
-YWwsIGFkdmVydGlzaW5nIG9yIHByb21vdGlvbmFsIHB1cnBvc2VzICh0aGUKKyMgKyJMaWNlbnNl
-IikuIFRoZSBMaWNlbnNlIHNoYWxsIGJlIGRlZW1lZCBlZmZlY3RpdmUgYXMgb2YgdGhlIGRhdGUg
-Q0MwIHdhcworIyArYXBwbGllZCBieSBBZmZpcm1lciB0byB0aGUgV29yay4gU2hvdWxkIGFueSBw
-YXJ0IG9mIHRoZSBMaWNlbnNlIGZvciBhbnkKKyMgK3JlYXNvbiBiZSBqdWRnZWQgbGVnYWxseSBp
-bnZhbGlkIG9yIGluZWZmZWN0aXZlIHVuZGVyIGFwcGxpY2FibGUgbGF3LCBzdWNoCisjICtwYXJ0
-aWFsIGludmFsaWRpdHkgb3IgaW5lZmZlY3RpdmVuZXNzIHNoYWxsIG5vdCBpbnZhbGlkYXRlIHRo
-ZSByZW1haW5kZXIKKyMgK29mIHRoZSBMaWNlbnNlLCBhbmQgaW4gc3VjaCBjYXNlIEFmZmlybWVy
-IGhlcmVieSBhZmZpcm1zIHRoYXQgaGUgb3Igc2hlCisjICt3aWxsIG5vdCAoaSkgZXhlcmNpc2Ug
-YW55IG9mIGhpcyBvciBoZXIgcmVtYWluaW5nIENvcHlyaWdodCBhbmQgUmVsYXRlZAorIyArUmln
-aHRzIGluIHRoZSBXb3JrIG9yIChpaSkgYXNzZXJ0IGFueSBhc3NvY2lhdGVkIGNsYWltcyBhbmQg
-Y2F1c2VzIG9mCisjICthY3Rpb24gd2l0aCByZXNwZWN0IHRvIHRoZSBXb3JrLCBpbiBlaXRoZXIg
-Y2FzZSBjb250cmFyeSB0byBBZmZpcm1lcidzCisjICtleHByZXNzIFN0YXRlbWVudCBvZiBQdXJw
-b3NlLgorIyArCisjICs0LiBMaW1pdGF0aW9ucyBhbmQgRGlzY2xhaW1lcnMuCisjICsKKyMgKyBh
-LiBObyB0cmFkZW1hcmsgb3IgcGF0ZW50IHJpZ2h0cyBoZWxkIGJ5IEFmZmlybWVyIGFyZSB3YWl2
-ZWQsIGFiYW5kb25lZCwKKyMgKyAgICBzdXJyZW5kZXJlZCwgbGljZW5zZWQgb3Igb3RoZXJ3aXNl
-IGFmZmVjdGVkIGJ5IHRoaXMgZG9jdW1lbnQuCisjICsgYi4gQWZmaXJtZXIgb2ZmZXJzIHRoZSBX
-b3JrIGFzLWlzIGFuZCBtYWtlcyBubyByZXByZXNlbnRhdGlvbnMgb3IKKyMgKyAgICB3YXJyYW50
-aWVzIG9mIGFueSBraW5kIGNvbmNlcm5pbmcgdGhlIFdvcmssIGV4cHJlc3MsIGltcGxpZWQsCisj
-ICsgICAgc3RhdHV0b3J5IG9yIG90aGVyd2lzZSwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlv
-biB3YXJyYW50aWVzIG9mCisjICsgICAgdGl0bGUsIG1lcmNoYW50YWJpbGl0eSwgZml0bmVzcyBm
-b3IgYSBwYXJ0aWN1bGFyIHB1cnBvc2UsIG5vbgorIyArICAgIGluZnJpbmdlbWVudCwgb3IgdGhl
-IGFic2VuY2Ugb2YgbGF0ZW50IG9yIG90aGVyIGRlZmVjdHMsIGFjY3VyYWN5LCBvcgorIyArICAg
-IHRoZSBwcmVzZW50IG9yIGFic2VuY2Ugb2YgZXJyb3JzLCB3aGV0aGVyIG9yIG5vdCBkaXNjb3Zl
-cmFibGUsIGFsbCB0bworIyArICAgIHRoZSBncmVhdGVzdCBleHRlbnQgcGVybWlzc2libGUgdW5k
-ZXIgYXBwbGljYWJsZSBsYXcuCisjICsgYy4gQWZmaXJtZXIgZGlzY2xhaW1zIHJlc3BvbnNpYmls
-aXR5IGZvciBjbGVhcmluZyByaWdodHMgb2Ygb3RoZXIgcGVyc29ucworIyArICAgIHRoYXQgbWF5
-IGFwcGx5IHRvIHRoZSBXb3JrIG9yIGFueSB1c2UgdGhlcmVvZiwgaW5jbHVkaW5nIHdpdGhvdXQK
-KyMgKyAgICBsaW1pdGF0aW9uIGFueSBwZXJzb24ncyBDb3B5cmlnaHQgYW5kIFJlbGF0ZWQgUmln
-aHRzIGluIHRoZSBXb3JrLgorIyArICAgIEZ1cnRoZXIsIEFmZmlybWVyIGRpc2NsYWltcyByZXNw
-b25zaWJpbGl0eSBmb3Igb2J0YWluaW5nIGFueSBuZWNlc3NhcnkKKyMgKyAgICBjb25zZW50cywg
-cGVybWlzc2lvbnMgb3Igb3RoZXIgcmlnaHRzIHJlcXVpcmVkIGZvciBhbnkgdXNlIG9mIHRoZQor
-IyArICAgIFdvcmsuCisjICsgZC4gQWZmaXJtZXIgdW5kZXJzdGFuZHMgYW5kIGFja25vd2xlZGdl
-cyB0aGF0IENyZWF0aXZlIENvbW1vbnMgaXMgbm90IGEKKyMgKyAgICBwYXJ0eSB0byB0aGlzIGRv
-Y3VtZW50IGFuZCBoYXMgbm8gZHV0eSBvciBvYmxpZ2F0aW9uIHdpdGggcmVzcGVjdCB0bworIyAr
-ICAgIHRoaXMgQ0MwIG9yIHVzZSBvZiB0aGUgV29yay4KKyMgIC0tLS0KKyMgIAorIyAgCisjIAor
-IworCitTVU1NQVJZID0gImEgZmFzdCBDL0MrKyBjb21waWxlciBjYWNoZSIKK0RFU0NSSVBUSU9O
-ID0gImNjYWNoZSBpcyBhIGNvbXBpbGVyIGNhY2hlLiBJdCBzcGVlZHMgdXAgcmVjb21waWxhdGlv
-biBcCitieSBjYWNoaW5nIHRoZSByZXN1bHQgb2YgcHJldmlvdXMgY29tcGlsYXRpb25zIGFuZCBk
-ZXRlY3Rpbmcgd2hlbiB0aGUgXAorc2FtZSBjb21waWxhdGlvbiBpcyBiZWluZyBkb25lIGFnYWlu
-LiBTdXBwb3J0ZWQgbGFuZ3VhZ2VzIGFyZSBDLCBDXCtcKywgXAorT2JqZWN0aXZlLUMgYW5kIE9i
-amVjdGl2ZS1DKysuIgorSE9NRVBBR0UgPSAiaHR0cDovL2NjYWNoZS5zYW1iYS5vcmciCitTRUNU
-SU9OID0gImRldmVsIgorCitMSUNFTlNFID0gIkdQTC0zLjAtb3ItbGF0ZXIiCitMSUNfRklMRVNf
-Q0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLmFkb2M7bWQ1PTExYjBiNTgxZGQ1NmJiYWM0ZjVkZTIx
-NGQ0NzkyN2NhIgorCitERVBFTkRTID0gInpzdGQiCisKK1NSQ19VUkkgPSAiJHtHSVRIVUJfQkFT
-RV9VUkl9L2Rvd25sb2FkL3Yke1BWfS8ke0JQfS50YXIuZ3ogXAorICAgICAgICAgICBmaWxlOi8v
-MDAwMS14eGhhc2guaC1GaXgtYnVpbGQtd2l0aC1nY2MtMTIucGF0Y2ggXAorICAgICAgICAgICAi
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODY2YjIyMjNkNTkzMzM2NDBmMGU3YTAwM2NiYjg1YjMy
-ZDljYTNjOTQ0NWJkOWUzY2YxNDI5NDJlNjlkZDNlYyIKKworaW5oZXJpdCBjbWFrZSBnaXRodWIt
-cmVsZWFzZXMKKworUEFUQ0hUT09MID0gInBhdGNoIgorCitCQkNMQVNTRVhURU5EID0gIm5hdGl2
-ZSBuYXRpdmVzZGsiCisKK1BBQ0tBR0VDT05GSUdbZG9jc10gPSAiLURFTkFCTEVfRE9DVU1FTlRB
-VElPTj1PTiwtREVOQUJMRV9ET0NVTUVOVEFUSU9OPU9GRixhc2NpaWRvYyIKK1BBQ0tBR0VDT05G
-SUdbcmVkaXNdID0gIi1EUkVESVNfU1RPUkFHRV9CQUNLRU5EPU9OLC1EUkVESVNfU1RPUkFHRV9C
-QUNLRU5EPU9GRixoaXJlZGlzIgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Nj
-YWNoZS9maWxlcy8wMDAxLXh4aGFzaC5oLUZpeC1idWlsZC13aXRoLWdjYy0xMi5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvZmlsZXMvMDAwMS14eGhhc2guaC1GaXgtYnVpbGQt
-d2l0aC1nY2MtMTIucGF0Y2gKaW5kZXggNjdjNzRhMWU4ZS4uMzMzNzIwNjFlNSAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9maWxlcy8wMDAxLXh4aGFzaC5oLUZpeC1i
-dWlsZC13aXRoLWdjYy0xMi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hl
-L2ZpbGVzLzAwMDEteHhoYXNoLmgtRml4LWJ1aWxkLXdpdGgtZ2NjLTEyLnBhdGNoCkBAIC0xLDQg
-KzEsNCBAQAotRnJvbSA1NTA4MzRhM2VjMmUwNWUzNzliZTYzYjA4NGU3ZmEwNmExNzIzZjg0IE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2NDhmYzQ2MmZiZmI0YmRiZGIyYWU2NjczODJh
-ZDJjN2FlYTBhMzFmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWluZ2xpIFl1IDxt
-aW5nbGkueXVAd2luZHJpdmVyLmNvbT4KIERhdGU6IE1vbiwgNiBKdW4gMjAyMiAxNzo1MzoyMCAr
-MDgwMAogU3ViamVjdDogW1BBVENIXSB4eGhhc2guaDogRml4IGJ1aWxkIHdpdGggZ2NjLTEyCkBA
-IC0yMywxMCArMjMsMTAgQEAgU2lnbmVkLW9mZi1ieTogTWluZ2xpIFl1IDxtaW5nbGkueXVAd2lu
-ZHJpdmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIAogZGlmZiAtLWdpdCBhL3NyYy90aGlyZF9wYXJ0eS94eGhhc2guaCBiL3NyYy90aGlyZF9w
-YXJ0eS94eGhhc2guaAotaW5kZXggMDhhYjc5NC4uYzc1NGU5OSAxMDA2NDQKK2luZGV4IGExOGU4
-YzcuLjFiNzIzMDcgMTAwNjQ0CiAtLS0gYS9zcmMvdGhpcmRfcGFydHkveHhoYXNoLmgKICsrKyBi
-L3NyYy90aGlyZF9wYXJ0eS94eGhhc2guaAotQEAgLTE1MDEsNyArMTUwMSw3IEBAIHN0YXRpYyB2
-b2lkKiBYWEhfbWVtY3B5KHZvaWQqIGRlc3QsIGNvbnN0IHZvaWQqIHNyYywgc2l6ZV90IHNpemUp
-CitAQCAtMjEwNyw3ICsyMTA3LDcgQEAgc3RhdGljIHZvaWQqIFhYSF9tZW1jcHkodm9pZCogZGVz
-dCwgY29uc3Qgdm9pZCogc3JjLCBzaXplX3Qgc2l6ZSkKICAjICBkZWZpbmUgWFhIX05PX0lOTElO
-RSBzdGF0aWMKICAvKiBlbmFibGUgaW5saW5pbmcgaGludHMgKi8KICAjZWxpZiBkZWZpbmVkKF9f
-R05VQ19fKSB8fCBkZWZpbmVkKF9fY2xhbmdfXykKLS0gCjIuNDIuMAoK
+CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAwNTozMjoxOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnhtbDI6IHVwZ3JhZGUgMi4xMS41IC0+IDIuMTIuMwoKLS0tCiAuLi4vbGlieG1sL2xpYnhtbDIv
+aW5zdGFsbC10ZXN0cy5wYXRjaCAgICAgICAgfCAgOCArLS0KIC4uLi97bGlieG1sMl8yLjExLjUu
+YmIgPT4gbGlieG1sMl8yLjEyLjMuYmJ9ICB8IDUwICsrKysrKysrKysrKysrKysrLS0KIDIgZmls
+ZXMgY2hhbmdlZCwgNTAgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtY29yZS9saWJ4bWwve2xpYnhtbDJfMi4xMS41LmJiID0+IGxpYnhtbDJfMi4xMi4z
+LmJifSAoNjklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwy
+L2luc3RhbGwtdGVzdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9p
+bnN0YWxsLXRlc3RzLnBhdGNoCmluZGV4IDE0Y2NjZTU4NzMuLjZlMGJiNjE3YmIgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyL2luc3RhbGwtdGVzdHMucGF0Y2gK
+KysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDIvaW5zdGFsbC10ZXN0cy5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2ZjNzE2MzU3Y2UxMzcyZDk0MThkYzg2ZjI0MzE1YjM0
+ZDk4MDhkZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOTAzNzk4ZWFiYjJhZmU5ZWM5
+NWNlNGZhZjYyMmY0NzMyYzVjNjM2OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJv
+c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogRGF0ZTogTW9uLCA1IERlYyAyMDIyIDE3
+OjAyOjMyICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGFkZCB5b2N0by1zcGVjaWZpYyBpbnN0YWxs
+LXB0ZXN0IHRhcmdldApAQCAtMTMsMTEgKzEzLDExIEBAIFNpZ25lZC1vZmYtYnk6IFJvc3MgQnVy
+dG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25z
+KCspCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFtCi1pbmRleCA1YmM0
+MDE4Li41N2QyN2FmIDEwMDY0NAoraW5kZXggMGE0OWQzNy4uMTA5N2M2MyAxMDA2NDQKIC0tLSBh
+L01ha2VmaWxlLmFtCiArKysgYi9NYWtlZmlsZS5hbQotQEAgLTI2LDYgKzI2LDE2IEBAIGNoZWNr
+X1BST0dSQU1TID0gXAotIAl0ZXN0bGltaXRzIFwKK0BAIC0yNyw2ICsyNywxNiBAQCBjaGVja19Q
+Uk9HUkFNUyA9IFwKKyAJdGVzdHBhcnNlciBcCiAgCXRlc3RyZWN1cnNlCiAgCiArcHRlc3RkaXI9
+JChsaWJleGVjZGlyKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnht
+bDJfMi4xMS41LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDJfMi4xMi4zLmJi
+CnNpbWlsYXJpdHkgaW5kZXggNjklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnht
+bC9saWJ4bWwyXzIuMTEuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xp
+YnhtbDJfMi4xMi4zLmJiCmluZGV4IDMxOTgzM2YwNTMuLmRjNjFkNWY4NjIgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyXzIuMTEuNS5iYgorKysgYi9tZXRhL3Jl
+Y2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjEyLjMuYmIKQEAgLTEsMTMgKzEsNTUgQEAKKyMg
+RklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBkYXRlZCBieSAn
+ZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3
+ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRo
+ZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgor
+IyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1w
+bGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhl
+IGNoYW5nZXM6CisjCisjIC0tLSBDb3B5cmlnaHQKKyMgKysrIENvcHlyaWdodAorIyBAQCAtMSw0
+ICsxLDQgQEAKKyMgLUV4Y2VwdCB3aGVyZSBvdGhlcndpc2Ugbm90ZWQgaW4gdGhlIHNvdXJjZSBj
+b2RlIChlLmcuIHRoZSBmaWxlcyBoYXNoLmMsCisjICtFeGNlcHQgd2hlcmUgb3RoZXJ3aXNlIG5v
+dGVkIGluIHRoZSBzb3VyY2UgY29kZSAoZS5nLiB0aGUgZmlsZXMgZGljdC5jLAorIyAgbGlzdC5j
+IGFuZCB0aGUgdHJpbyBmaWxlcywgd2hpY2ggYXJlIGNvdmVyZWQgYnkgYSBzaW1pbGFyIGxpY2Vu
+Y2UgYnV0CisjICB3aXRoIGRpZmZlcmVudCBDb3B5cmlnaHQgbm90aWNlcykgYWxsIHRoZSBmaWxl
+cyBhcmU6CisjICAKKyMgLS0tIGhhc2guYworIyArKysgaGFzaC5jCisjIEBAIC0xLDEwICsxLDEw
+IEBACisjIC0gKiBDb3B5cmlnaHQgKEMpIDIwMDAsMjAxMiBCam9ybiBSZWVzZSBhbmQgRGFuaWVs
+IFZlaWxsYXJkLgorIyAgICoKKyMgLSAqIFBlcm1pc3Npb24gdG8gdXNlLCBjb3B5LCBtb2RpZnks
+IGFuZCBkaXN0cmlidXRlIHRoaXMgc29mdHdhcmUgZm9yIGFueQorIyAtICogcHVycG9zZSB3aXRo
+IG9yIHdpdGhvdXQgZmVlIGlzIGhlcmVieSBncmFudGVkLCBwcm92aWRlZCB0aGF0IHRoZSBhYm92
+ZQorIyAtICogY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBhcHBl
+YXIgaW4gYWxsIGNvcGllcy4KKyMgLSAqCisjIC0gKiBUSElTIFNPRlRXQVJFIElTIFBST1ZJREVE
+IGBgQVMgSVMnJyBBTkQgV0lUSE9VVCBBTlkgRVhQUkVTUyBPUiBJTVBMSUVECisjIC0gKiBXQVJS
+QU5USUVTLCBJTkNMVURJTkcsIFdJVEhPVVQgTElNSVRBVElPTiwgVEhFIElNUExJRUQgV0FSUkFO
+VElFUyBPRgorIyAtICogTUVSQ0hBTlRBQklMSVRZIEFORCBGSVRORVNTIEZPUiBBIFBBUlRJQ1VM
+QVIgUFVSUE9TRS4gVEhFIEFVVEhPUlMgQU5ECisjIC0gKiBDT05UUklCVVRPUlMgQUNDRVBUIE5P
+IFJFU1BPTlNJQklMSVRZIElOIEFOWSBDT05DRUlWQUJMRSBNQU5ORVIuCisjICsgKiBTZWUgQ29w
+eXJpZ2h0IGZvciB0aGUgc3RhdHVzIG9mIHRoaXMgc29mdHdhcmUuCisjICsgKi8KKyMgKworIyAr
+I2RlZmluZSBJTl9MSUJYTUwKKyMgKyNpbmNsdWRlICJsaWJ4bWwuaCIKKyMgKworIyArI2luY2x1
+ZGUgPHN0cmluZy5oPgorIyArI2luY2x1ZGUgPGxpbWl0cy5oPgorIyArCisjIAorIworCiBTVU1N
+QVJZID0gIlhNTCBDIFBhcnNlciBMaWJyYXJ5IGFuZCBUb29sa2l0IgogREVTQ1JJUFRJT04gPSAi
+VGhlIFhNTCBQYXJzZXIgTGlicmFyeSBhbGxvd3MgZm9yIG1hbmlwdWxhdGlvbiBvZiBYTUwgZmls
+ZXMuICBMaWJ4bWwyIGV4cG9ydHMgUHVzaCBhbmQgUHVsbCB0eXBlIHBhcnNlciBpbnRlcmZhY2Vz
+IGZvciBib3RoIFhNTCBhbmQgSFRNTC4gIEl0IGNhbiBkbyBEVEQgdmFsaWRhdGlvbiBhdCBwYXJz
+ZSB0aW1lLCBvbiBhIHBhcnNlZCBkb2N1bWVudCBpbnN0YW5jZSBvciB3aXRoIGFuIGFyYml0cmFy
+eSBEVEQuICBMaWJ4bWwyIGluY2x1ZGVzIGNvbXBsZXRlIFhQYXRoLCBYUG9pbnRlciBhbmQgWGlu
+Y2x1ZGUgaW1wbGVtZW50YXRpb25zLiAgSXQgYWxzbyBoYXMgYSBTQVggbGlrZSBpbnRlcmZhY2Us
+IHdoaWNoIGlzIGRlc2lnbmVkIHRvIGJlIGNvbXBhdGlibGUgd2l0aCBFeHBhdC4iCiBIT01FUEFH
+RSA9ICJodHRwczovL2dpdGxhYi5nbm9tZS5vcmcvR05PTUUvbGlieG1sMiIKIEJVR1RSQUNLRVIg
+PSAiaHR0cDovL2J1Z3ppbGxhLmdub21lLm9yZy9idWdsaXN0LmNnaT9wcm9kdWN0PWxpYnhtbDIi
+CiBTRUNUSU9OID0gImxpYnMiCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0NvcHlyaWdodDttZDU9MjA0NDQxN2UyZTUwMDZiNjVhOGI5MDY3YjY4M2ZjZjEgXAot
+ICAgICAgICAgICAgICAgICAgICBmaWxlOi8vaGFzaC5jO2JlZ2lubGluZT02O2VuZGxpbmU9MTU7
+bWQ1PWU3N2Y3N2IxMmNiNjllMjAzZDhiNDA5MGEwZWVlODc5IFwKK0xJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0NvcHlyaWdodDttZDU9ZmVjN2VjZmU3MTQ3MjJiMmJiMGFhZmY3ZDIwMGM3MDEg
+XAorICAgICAgICAgICAgICAgICAgICBmaWxlOi8vaGFzaC5jO2JlZ2lubGluZT02O2VuZGxpbmU9
+MTU7bWQ1PTlhZjkzNDlkMGVhZDI0NTY5ZGMzMzJmMjExNmVmNWY4IFwKICAgICAgICAgICAgICAg
+ICAgICAgZmlsZTovL2xpc3QuYztiZWdpbmxpbmU9NDtlbmRsaW5lPTEzO21kNT1iOWMyNWIwMjFj
+Y2FmMjg3ZTUwMDYwNjAyZDIwZjNhNyBcCi0gICAgICAgICAgICAgICAgICAgIGZpbGU6Ly90cmlv
+LmM7YmVnaW5saW5lPTU7ZW5kbGluZT0xNDttZDU9Y2Q0ZjYxZTI3Zjg4YzFkNDNkZjExMjk2NmIx
+Y2QyOGYiCisgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly90cmlvLmM7YmVnaW5saW5lPTU7ZW5k
+bGluZT0xNDttZDU9Y2Q0ZjYxZTI3Zjg4YzFkNDNkZjExMjk2NmIxY2QyOGYgXAorICAgICAgICAg
+ICAgICAgICAgICAiCiAKIERFUEVORFMgPSAiemxpYiB2aXJ0dWFsL2xpYmljb252IgogCkBAIC0x
+OSw3ICs2MSw3IEBAIFNSQ19VUkkgKz0gImh0dHA6Ly93d3cudzMub3JnL1hNTC9UZXN0L3htbHRz
+MjAxMzA5MjMudGFyO3N1YmRpcj0ke0JQfTtuYW1lPXRlc3R0CiAgICAgICAgICAgIGZpbGU6Ly9p
+bnN0YWxsLXRlc3RzLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW2FyY2hpdmUuc2hh
+MjU2c3VtXSA9ICIzNzI3YjA3OGMzNjBlYzY5ZmE4NjlkZTE0YmQ2Zjc1ZDdlZThkMzY5ODdiMDcx
+ZTY5MjhkNDcyMGEyOGRmM2E2IgorU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiOGM4ZjEw
+OTIzNDBhODlmZjMyYmM0NGFkNWM5NjkzYWZmOWJjOGE3YTNlMTYxYmIyMzk2NjZlNWQxNWFjOWFh
+YSIKIFNSQ19VUklbdGVzdHRhci5zaGEyNTZzdW1dID0gImM2YjJkNDJlZTUwYjhiMjM2ZTcxMWE5
+N2Q2OGU2YzRiNWM4ZDgzZTY5YTJiZTQ3MjIzNzlmMDg3MDJlYTcyNzMiCiAKICMgRGlzcHV0ZWQg
+YXMgYSBzZWN1cml0eSBpc3N1ZSwgYnV0IGZpeGVkIGluIGQzOWY3ODAKLS0gCjIuNDIuMAoK
 
---===============8959762869416047200==
+--===============2664954793634314973==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 26463768 to 33606472 (+27%)
-packages/core2-64-poky-linux/ccache/ccache: PKGSIZE changed from 1477944 to 1641784 (+11%)
+packages/core2-64-poky-linux/libxml2/libxml2-doc: FILELIST: added "/usr/share/doc/libxml2/python/examples/setup_test.py"
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.str /usr/lib/libxml2/ptest/test/errors/trailing-null-2.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.err /usr/lib/libxml2/ptest/test/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/test/valid/huge.xml /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.ent /usr/lib/libxml2/ptest/result/errors/extra-content.xml.str /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.err /usr/lib/libxml2/ptest/test/errors/trailing-null-1.xml /usr/lib/libxml2/ptest/result/errors/attr6.xml.err /usr/lib/libxml2/ptest/testparser /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.err /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.ent /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.str /usr/lib/libxml2/ptest/t
+ est/valid/dtds/pe-latin1.ent /usr/lib/libxml2/ptest/result/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.ent /usr/lib/libxml2/ptest/result/errors/attr6.xml.ent /usr/lib/libxml2/ptest/result/errors/empty.xml.err /usr/lib/libxml2/ptest/result/issue626.xml.sax /usr/lib/libxml2/ptest/result/issue643.xml.sax /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.err /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.str /usr/lib/libxml2/ptest/result/errors/extra-content.xml.err /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-2.xml /usr/lib/libxml2/ptest/test/errors/name3.xml /usr/lib/libxml2/ptest/test/errors/attr5.xml /usr/lib/libxml2/ptest/test/errors/attr6.xml /usr/lib/libxml2/ptest/test/errors/empty.xml /usr/lib/libxml2/ptest/result/errors/name3.xml.err /usr/lib/libxml2/ptest/python/tests/setup_test.py /usr/lib/libxml2/ptest/result/
+ HTML/xml-declaration-1.html.sax /usr/lib/libxml2/ptest/result/errors/attr6.xml.str /usr/lib/libxml2/ptest/result/noent/issue643.xml /usr/lib/libxml2/ptest/test/errors/extra-content.xml /usr/lib/libxml2/ptest/result/issue626.xml /usr/lib/libxml2/ptest/result/issue643.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/errors/name3.xml.ent /usr/lib/libxml2/ptest/test/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/noent/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/noent/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.str /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/ns-ent.xml.sax /usr/lib/libxml2/ptest/result/ns-ent.xml /usr/lib/libxml2/ptest/test/errors/truncated-utf16.xml /usr/lib/libxml2/ptest/test/ns-ent.xml /usr/lib/libxml2/pte
+ st/result/errors/name3.xml.str /usr/lib/libxml2/ptest/test/issue626.xml /usr/lib/libxml2/ptest/result/valid/huge.xml /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.ent /usr/lib/libxml2/ptest/result/errors/attr5.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.str /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.str /usr/lib/libxml2/ptest/result/ns-ent.xml.rde /usr/lib/libxml2/ptest/result/ns-ent.xml.rdr /usr/lib/libxml2/ptest/test/errors/unclosed-element.xml /usr/lib/libxml2/ptest/result/issue626.xml.rde /usr/lib/libxml2/ptest/result/issue643.xml.rde /usr/lib/libxml2/ptest/result/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/test/valid/dtds/huge.ent /usr/lib/libxml2/ptest/result/issue626.xml.rdr /usr/lib/libxml2/ptest/result/issue643.xml.rdr /usr/lib/libxml2/ptest/result/errors/extra-content.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.ent /usr/lib/libxml2/ptest/re
+ sult/noent/issue626.xml /usr/lib/libxml2/ptest/result/errors/attr5.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.ent /usr/lib/libxml2/ptest/test/issue643.xml /usr/lib/libxml2/ptest/test/valid/pe-latin1.xml /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.dtd /usr/lib/libxml2/ptest/result/noent/ns-ent.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.str /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.str /usr/lib/libxml2/ptest/test/errors/quadratic-defattr.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.ent /usr/lib/libxml2/ptest/result/errors/attr5.xml.str"
+packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.11.5", added "/usr/lib/libxml2.so.2.12.3"
+Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -2326,47 +1939,65 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libxml2-native (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 
---===============8959762869416047200==
+--===============2664954793634314973==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/ccache/ccache-dbg: PV changed from "4.8.3" to "4.9"
-packages/core2-64-poky-linux/ccache/ccache-dbg: PKGV changed from 4.8.3 [default] to 4.9 [default]
-packages/core2-64-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 26463768 to 33606472 (+27%)
-packages/core2-64-poky-linux/ccache/ccache-dev: PV changed from "4.8.3" to "4.9"
-packages/core2-64-poky-linux/ccache/ccache-dev: PKGV changed from 4.8.3 [default] to 4.9 [default]
-packages/core2-64-poky-linux/ccache/ccache-doc: PV changed from "4.8.3" to "4.9"
-packages/core2-64-poky-linux/ccache/ccache-doc: PKGV changed from 4.8.3 [default] to 4.9 [default]
-packages/core2-64-poky-linux/ccache/ccache-locale: PV changed from "4.8.3" to "4.9"
-packages/core2-64-poky-linux/ccache/ccache-locale: PKGV changed from 4.8.3 [default] to 4.9 [default]
-packages/core2-64-poky-linux/ccache/ccache-src: PV changed from "4.8.3" to "4.9"
-packages/core2-64-poky-linux/ccache/ccache-src: FILELIST: directory renamed /usr/src/debug/ccache/4.8.3/src/storage/local -> /usr/src/debug/ccache/4.9/src/storage/local, directory renamed /usr/src/debug/ccache/4.8.3/src/third_party/blake3 -> /usr/src/debug/ccache/4.9/src/third_party/blake3, directory renamed /usr/src/debug/ccache/4.8.3/src/storage -> /usr/src/debug/ccache/4.9/src/storage, directory renamed /usr/src/debug/ccache/4.8.3/src/storage/remote -> /usr/src/debug/ccache/4.9/src/storage/remote, removed "/usr/src/debug/ccache/4.8.3/src/Context.hpp /usr/src/debug/ccache/4.8.3/src/main.cpp /usr/src/debug/ccache/4.8.3/src/util/Bytes.cpp /usr/src/debug/ccache/4.8.3/src/util/TimePoint.cpp /usr/src/debug/ccache/4.8.3/src/util/TimePoint.hpp /usr/src/debug/ccache/4.8.3/src/util/Tokenizer.cpp /usr/src/debug/ccache/4.8.3/src/util/LockFile.cpp /usr/src/debug/ccache/4.8.3/src/util/LockFile.hpp /usr/src/debug/ccache/4.8.3/src/ArgsInfo.hpp /usr/src/debug/ccache/4.8.3/src/util/Tokenizer.hpp /u
- sr/src/debug/ccache/4.8.3/src/util/zstd.cpp /usr/src/debug/ccache/4.8.3/src/TemporaryFile.hpp /usr/src/debug/ccache/4.8.3/src/TemporaryFile.cpp /usr/src/debug/ccache/4.8.3/src/Fd.cpp /usr/src/debug/ccache/4.8.3/src/third_party/xxh_x86dispatch.c /usr/src/debug/ccache/4.8.3/src/util/path.hpp /usr/src/debug/ccache/4.8.3/src/util/Bytes.hpp /usr/src/debug/ccache/4.8.3/src/Depfile.cpp /usr/src/debug/ccache/4.8.3/src/third_party/xxh_x86dispatch.h /usr/src/debug/ccache/4.8.3/src/util/types.hpp /usr/src/debug/ccache/4.8.3/src/core/MsvcShowIncludesOutput.hpp /usr/src/debug/ccache/4.8.3/src/ProgressBar.cpp /usr/src/debug/ccache/4.8.3/src/language.cpp /usr/src/debug/ccache/4.8.3/src/third_party/httplib.cpp /usr/src/debug/ccache/4.8.3/src/SignalHandler.cpp /usr/src/debug/ccache/4.8.3/src/SignalHandler.hpp /usr/src/debug/ccache/4.8.3/src/Depfile.hpp /usr/src/debug/ccache/4.8.3/src/util/XXH3_128.hpp /usr/src/debug/ccache/4.8.3/src/core/MsvcShowIncludesOutput.cpp /usr/src/debug/ccache/4.8.3/src/Uti
- l.cpp /usr/src/debug/ccache/4.8.3/src/core/Manifest.cpp /usr/src/debug/ccache/4.8.3/src/core/Manifest.hpp /usr/src/debug/ccache/4.8.3/src/Hash.cpp /usr/src/debug/ccache/4.8.3/src/assertions.cpp /usr/src/debug/ccache/4.8.3/src/Stat.cpp /usr/src/debug/ccache/4.8.3/src/util/Timer.hpp /usr/src/debug/ccache/4.8.3/src/hashutil.hpp /usr/src/debug/ccache/4.8.3/src/InodeCache.cpp /usr/src/debug/ccache/4.8.3/src/core/CacheEntryDataReader.hpp /usr/src/debug/ccache/4.8.3/src/core/CacheEntryDataWriter.hpp /usr/src/debug/ccache/4.8.3/src/core/Statistics.cpp /usr/src/debug/ccache/4.8.3/src/core/Sloppiness.hpp /usr/src/debug/ccache/4.8.3/src/Finalizer.hpp /usr/src/debug/ccache/4.8.3/src/execute.cpp /usr/src/debug/ccache/4.8.3/src/third_party/format.cpp /usr/src/debug/ccache/4.8.3/src/ThreadPool.cpp /usr/src/debug/ccache/4.8.3/src/compopt.hpp /usr/src/debug/ccache/4.8.3/src/Digest.hpp /usr/src/debug/ccache/4.8.3/src/util/zstd.hpp /usr/src/debug/ccache/4.8.3/src/util/XXH3_64.hpp /usr/src/debug/ccache
- /4.8.3/src/Logging.cpp /usr/src/debug/ccache/4.8.3/src/core/Serializer.hpp /usr/src/debug/ccache/4.8.3/src/argprocessing.cpp /usr/src/debug/ccache/4.8.3/src/argprocessing.hpp /usr/src/debug/ccache/4.8.3/src/Hash.hpp /usr/src/debug/ccache/4.8.3/src/core/StatisticsCounters.hpp /usr/src/debug/ccache/4.8.3/src/assertions.hpp /usr/src/debug/ccache/4.8.3/src/core/mainoptions.cpp /usr/src/debug/ccache/4.8.3/src/core/types.hpp /usr/src/debug/ccache/4.8.3/src/util/LongLivedLockFileManager.cpp /usr/src/debug/ccache/4.8.3/src/util/LongLivedLockFileManager.hpp /usr/src/debug/ccache/4.8.3/src/core/CacheEntry.cpp /usr/src/debug/ccache/4.8.3/src/core/FileRecompressor.cpp /usr/src/debug/ccache/4.8.3/src/core/FileRecompressor.hpp /usr/src/debug/ccache/4.8.3/src/core/ResultRetriever.cpp /usr/src/debug/ccache/4.8.3/src/third_party/fmt/core.h /usr/src/debug/ccache/4.8.3/src/File.hpp /usr/src/debug/ccache/4.8.3/src/AtomicFile.cpp /usr/src/debug/ccache/4.8.3/src/util/string.hpp /usr/src/debug/ccache/4.8.
- 3/src/Config.hpp /usr/src/debug/ccache/4.8.3/src/Config.cpp /usr/src/debug/ccache/4.8.3/src/third_party/nonstd/expected.hpp /usr/src/debug/ccache/4.8.3/src/Args.cpp /usr/src/debug/ccache/4.8.3/src/AtomicFile.hpp /usr/src/debug/ccache/4.8.3/src/third_party/httplib.h /usr/src/debug/ccache/4.8.3/src/Stat.hpp /usr/src/debug/ccache/4.8.3/src/Context.cpp /usr/src/debug/ccache/4.8.3/src/third_party/fmt/format.h /usr/src/debug/ccache/4.8.3/src/util/file.hpp /usr/src/debug/ccache/4.8.3/src/third_party/xxhash.h /usr/src/debug/ccache/4.8.3/src/third_party/url.cpp /usr/src/debug/ccache/4.8.3/src/util/path.cpp /usr/src/debug/ccache/4.8.3/src/core/Result.cpp /usr/src/debug/ccache/4.8.3/src/third_party/url.hpp /usr/src/debug/ccache/4.8.3/src/macroskip.hpp /usr/src/debug/ccache/4.8.3/src/core/Result.hpp /usr/src/debug/ccache/4.8.3/src/Logging.hpp /usr/src/debug/ccache/4.8.3/src/core/Statistic.hpp /usr/src/debug/ccache/4.8.3/src/UmaskScope.hpp /usr/src/debug/ccache/4.8.3/src/core/mainoptions.hpp /us
- r/src/debug/ccache/4.8.3/src/core/CacheEntry.hpp /usr/src/debug/ccache/4.8.3/src/ThreadPool.hpp /usr/src/debug/ccache/4.8.3/src/util/string.cpp /usr/src/debug/ccache/4.8.3/src/InodeCache.hpp /usr/src/debug/ccache/4.8.3/src/core/types.cpp /usr/src/debug/ccache/4.8.3/src/Args.hpp /usr/src/debug/ccache/4.8.3/src/core/Statistics.hpp /usr/src/debug/ccache/4.8.3/src/util/TextTable.cpp /usr/src/debug/ccache/4.8.3/src/util/TextTable.hpp /usr/src/debug/ccache/4.8.3/src/ccache.cpp /usr/src/debug/ccache/4.8.3/src/ccache.hpp /usr/src/debug/ccache/4.8.3/src/version.cpp /usr/src/debug/ccache/4.8.3/src/third_party/base32hex.c /usr/src/debug/ccache/4.8.3/src/core/exceptions.hpp /usr/src/debug/ccache/4.8.3/src/core/ResultExtractor.cpp /usr/src/debug/ccache/4.8.3/src/core/ResultInspector.cpp /usr/src/debug/ccache/4.8.3/src/Util.hpp /usr/src/debug/ccache/4.8.3/src/third_party/base32hex.h /usr/src/debug/ccache/4.8.3/src/core/StatisticsCounters.cpp /usr/src/debug/ccache/4.8.3/src/third_party/nonstd/span
- .hpp /usr/src/debug/ccache/4.8.3/src/util/BitSet.hpp /usr/src/debug/ccache/4.8.3/src/core/StatsLog.cpp /usr/src/debug/ccache/4.8.3/src/compopt.cpp /usr/src/debug/ccache/4.8.3/src/core/StatsLog.hpp /usr/src/debug/ccache/4.8.3/src/hashutil.cpp /usr/src/debug/ccache/4.8.3/src/third_party/fmt/format-inl.h /usr/src/debug/ccache/4.8.3/src/core/ResultRetriever.hpp /usr/src/debug/ccache/4.8.3/src/core/ResultExtractor.hpp /usr/src/debug/ccache/4.8.3/src/core/ResultInspector.hpp /usr/src/debug/ccache/4.8.3/src/Fd.hpp /usr/src/debug/ccache/4.8.3/src/ProgressBar.hpp /usr/src/debug/ccache/4.8.3/src/execute.hpp /usr/src/debug/ccache/4.8.3/src/language.hpp /usr/src/debug/ccache/4.8.3/src/util/Duration.hpp /usr/src/debug/ccache/4.8.3/src/NonCopyable.hpp /usr/src/debug/ccache/4.8.3/src/util/file.cpp /usr/src/debug/ccache/4.8.3/src/util/expected.hpp", added "/usr/src/debug/ccache/4.9/src/core/exceptions.hpp /usr/src/debug/ccache/4.9/src/third_party/tl/expected.hpp /usr/src/debug/ccache/4.9/src/third_
- party/fmt/format-inl.h /usr/src/debug/ccache/4.9/src/core/Serializer.hpp /usr/src/debug/ccache/4.9/src/core/common.cpp /usr/src/debug/ccache/4.9/src/macroskip.hpp /usr/src/debug/ccache/4.9/src/core/Sloppiness.hpp /usr/src/debug/ccache/4.9/src/core/Manifest.hpp /usr/src/debug/ccache/4.9/src/util/Finalizer.hpp /usr/src/debug/ccache/4.9/src/util/Tokenizer.hpp /usr/src/debug/ccache/4.9/src/core/mainoptions.cpp /usr/src/debug/ccache/4.9/src/core/mainoptions.hpp /usr/src/debug/ccache/4.9/src/util/Bytes.cpp /usr/src/debug/ccache/4.9/src/util/LongLivedLockFileManager.cpp /usr/src/debug/ccache/4.9/src/core/ResultRetriever.hpp /usr/src/debug/ccache/4.9/src/util/assertions.hpp /usr/src/debug/ccache/4.9/src/util/assertions.cpp /usr/src/debug/ccache/4.9/src/Util.hpp /usr/src/debug/ccache/4.9/src/core/Statistic.hpp /usr/src/debug/ccache/4.9/src/core/types.hpp /usr/src/debug/ccache/4.9/src/compopt.cpp /usr/src/debug/ccache/4.9/src/compopt.hpp /usr/src/debug/ccache/4.9/src/Hash.hpp /usr/src/debug/c
- cache/4.9/src/argprocessing.hpp /usr/src/debug/ccache/4.9/src/third_party/nonstd/span.hpp /usr/src/debug/ccache/4.9/src/core/ResultInspector.cpp /usr/src/debug/ccache/4.9/src/core/StatsLog.hpp /usr/src/debug/ccache/4.9/src/util/LockFile.cpp /usr/src/debug/ccache/4.9/src/third_party/fmt/std.h /usr/src/debug/ccache/4.9/src/util/string.cpp /usr/src/debug/ccache/4.9/src/core/ResultRetriever.cpp /usr/src/debug/ccache/4.9/src/InodeCache.cpp /usr/src/debug/ccache/4.9/src/argprocessing.cpp /usr/src/debug/ccache/4.9/src/util/DirEntry.hpp /usr/src/debug/ccache/4.9/src/core/StatisticsCounters.cpp /usr/src/debug/ccache/4.9/src/main.cpp /usr/src/debug/ccache/4.9/src/core/StatisticsCounters.hpp /usr/src/debug/ccache/4.9/src/third_party/xxhash.h /usr/src/debug/ccache/4.9/src/core/CacheEntryDataReader.hpp /usr/src/debug/ccache/4.9/src/Util.cpp /usr/src/debug/ccache/4.9/src/util/LongLivedLockFileManager.hpp /usr/src/debug/ccache/4.9/src/util/logging.cpp /usr/src/debug/ccache/4.9/src/core/types.cpp /
- usr/src/debug/ccache/4.9/src/util/process.hpp /usr/src/debug/ccache/4.9/src/util/string.hpp /usr/src/debug/ccache/4.9/src/core/AtomicFile.cpp /usr/src/debug/ccache/4.9/src/core/AtomicFile.hpp /usr/src/debug/ccache/4.9/src/Depfile.cpp /usr/src/debug/ccache/4.9/src/Depfile.hpp /usr/src/debug/ccache/4.9/src/Args.cpp /usr/src/debug/ccache/4.9/src/util/expected.hpp /usr/src/debug/ccache/4.9/src/third_party/fmt/format.h /usr/src/debug/ccache/4.9/src/Hash.cpp /usr/src/debug/ccache/4.9/src/Args.hpp /usr/src/debug/ccache/4.9/src/Config.hpp /usr/src/debug/ccache/4.9/src/third_party/xxh_x86dispatch.c /usr/src/debug/ccache/4.9/src/core/common.hpp /usr/src/debug/ccache/4.9/src/third_party/xxh_x86dispatch.h /usr/src/debug/ccache/4.9/src/core/Result.cpp /usr/src/debug/ccache/4.9/src/core/Manifest.cpp /usr/src/debug/ccache/4.9/src/util/process.cpp /usr/src/debug/ccache/4.9/src/core/StatsLog.cpp /usr/src/debug/ccache/4.9/src/hashutil.cpp /usr/src/debug/ccache/4.9/src/hashutil.hpp /usr/src/debug/ccac
- he/4.9/src/util/LockFile.hpp /usr/src/debug/ccache/4.9/src/util/UmaskScope.cpp /usr/src/debug/ccache/4.9/src/util/UmaskScope.hpp /usr/src/debug/ccache/4.9/src/util/file.hpp /usr/src/debug/ccache/4.9/src/Context.hpp /usr/src/debug/ccache/4.9/src/Context.cpp /usr/src/debug/ccache/4.9/src/util/path.hpp /usr/src/debug/ccache/4.9/src/util/TextTable.cpp /usr/src/debug/ccache/4.9/src/util/time.hpp /usr/src/debug/ccache/4.9/src/util/zstd.hpp /usr/src/debug/ccache/4.9/src/core/FileRecompressor.hpp /usr/src/debug/ccache/4.9/src/InodeCache.hpp /usr/src/debug/ccache/4.9/src/language.cpp /usr/src/debug/ccache/4.9/src/language.hpp /usr/src/debug/ccache/4.9/src/util/file.cpp /usr/src/debug/ccache/4.9/src/util/path.cpp /usr/src/debug/ccache/4.9/src/util/time.cpp /usr/src/debug/ccache/4.9/src/util/zstd.cpp /usr/src/debug/ccache/4.9/src/ProgressBar.cpp /usr/src/debug/ccache/4.9/src/util/FileStream.hpp /usr/src/debug/ccache/4.9/src/util/TemporaryFile.hpp /usr/src/debug/ccache/4.9/src/SignalHandler.hpp
-  /usr/src/debug/ccache/4.9/src/version.cpp /usr/src/debug/ccache/4.9/src/core/Statistics.cpp /usr/src/debug/ccache/4.9/src/core/ResultExtractor.hpp /usr/src/debug/ccache/4.9/src/core/ResultInspector.hpp /usr/src/debug/ccache/4.9/src/core/Statistics.hpp /usr/src/debug/ccache/4.9/src/execute.cpp /usr/src/debug/ccache/4.9/src/execute.hpp /usr/src/debug/ccache/4.9/src/util/environment.cpp /usr/src/debug/ccache/4.9/src/util/environment.hpp /usr/src/debug/ccache/4.9/src/util/Fd.hpp /usr/src/debug/ccache/4.9/src/ProgressBar.hpp /usr/src/debug/ccache/4.9/src/core/CacheEntry.cpp /usr/src/debug/ccache/4.9/src/core/CacheEntry.hpp /usr/src/debug/ccache/4.9/src/util/Tokenizer.cpp /usr/src/debug/ccache/4.9/src/util/TemporaryFile.cpp /usr/src/debug/ccache/4.9/src/third_party/url.cpp /usr/src/debug/ccache/4.9/src/third_party/url.hpp /usr/src/debug/ccache/4.9/src/util/filesystem.cpp /usr/src/debug/ccache/4.9/src/util/filesystem.hpp /usr/src/debug/ccache/4.9/src/SignalHandler.cpp /usr/src/debug/ccach
- e/4.9/src/util/XXH3_64.hpp /usr/src/debug/ccache/4.9/src/util/Duration.hpp /usr/src/debug/ccache/4.9/src/ccache.cpp /usr/src/debug/ccache/4.9/src/third_party/fmt/core.h /usr/src/debug/ccache/4.9/src/core/Result.hpp /usr/src/debug/ccache/4.9/src/core/CacheEntryDataWriter.hpp /usr/src/debug/ccache/4.9/src/util/DirEntry.cpp /usr/src/debug/ccache/4.9/src/util/XXH3_128.hpp /usr/src/debug/ccache/4.9/src/util/Bytes.hpp /usr/src/debug/ccache/4.9/src/util/Timer.hpp /usr/src/debug/ccache/4.9/src/Config.cpp /usr/src/debug/ccache/4.9/src/util/types.hpp /usr/src/debug/ccache/4.9/src/ArgsInfo.hpp /usr/src/debug/ccache/4.9/src/third_party/httplib.h /usr/src/debug/ccache/4.9/src/util/NonCopyable.hpp /usr/src/debug/ccache/4.9/src/util/TimePoint.cpp /usr/src/debug/ccache/4.9/src/util/conversion.hpp /usr/src/debug/ccache/4.9/src/third_party/httplib.cpp /usr/src/debug/ccache/4.9/src/core/FileRecompressor.cpp /usr/src/debug/ccache/4.9/src/util/ThreadPool.cpp /usr/src/debug/ccache/4.9/src/util/ThreadPool
- .hpp /usr/src/debug/ccache/4.9/src/util/TimePoint.hpp /usr/src/debug/ccache/4.9/src/core/MsvcShowIncludesOutput.cpp /usr/src/debug/ccache/4.9/src/util/BitSet.hpp /usr/src/debug/ccache/4.9/src/ccache.hpp /usr/src/debug/ccache/4.9/src/third_party/format.cpp /usr/src/debug/ccache/4.9/src/util/TextTable.hpp /usr/src/debug/ccache/4.9/src/util/logging.hpp /usr/src/debug/ccache/4.9/src/core/ResultExtractor.cpp /usr/src/debug/ccache/4.9/src/core/MsvcShowIncludesOutput.hpp"
-packages/core2-64-poky-linux/ccache/ccache-src: PKGV changed from 4.8.3 [default] to 4.9 [default]
-packages/core2-64-poky-linux/ccache/ccache-src: PKGSIZE changed from 2159884 to 2249863 (+4%)
-packages/core2-64-poky-linux/ccache/ccache-staticdev: PV changed from "4.8.3" to "4.9"
-packages/core2-64-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.8.3 [default] to 4.9 [default]
-packages/core2-64-poky-linux/ccache/ccache: PV changed from "4.8.3" to "4.9"
-packages/core2-64-poky-linux/ccache/ccache: PKGV changed from 4.8.3 [default] to 4.9 [default]
-packages/core2-64-poky-linux/ccache/ccache: PKGSIZE changed from 1477944 to 1641784 (+11%)
-packages/core2-64-poky-linux/ccache: PV changed from "4.8.3" to "4.9"
-packages/core2-64-poky-linux/ccache: PKGV changed from 4.8.3 [default] to 4.9 [default]
-packages/core2-64-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.8.3/ccache-4.8.3.tar.gz file://0001-xxhash.h-Fix-build-with-gcc-12.patch" to "https://github.com/ccache/ccache/releases//download/v4.9/ccache-4.9.tar.gz file://0001-xxhash.h-Fix-build-with-gcc-12.patch"
+packages/core2-64-poky-linux/libxml2: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2: SRC_URI changed from "https://download.gnome.org/sources//libxml2/2.11/libxml2-2.11.5.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.11.5;name=testtar file://run-ptest file://install-tests.patch" to "https://download.gnome.org/sources//libxml2/2.12/libxml2-2.12.3.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.12.3;name=testtar file://run-ptest file://install-tests.patch"
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGSIZE changed from 7413008 to 7478128 (+1%)
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: FILELIST: removed "/usr/lib/.debug/libxml2.so.2.11.5", added "/usr/lib/libxml2/ptest/.debug/testparser /usr/lib/.debug/libxml2.so.2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-dev: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGSIZE changed from 417112 to 415228 (-0%)
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGSIZE changed from 3132415 to 3119076 (-0%)
+packages/core2-64-poky-linux/libxml2/libxml2-doc: FILELIST: added "/usr/share/doc/libxml2/python/examples/setup_test.py"
+packages/core2-64-poky-linux/libxml2/libxml2-locale: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-locale: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGSIZE changed from 16156913 to 16278948 (+1%)
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/test/errors/invalid-start-tag-1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-2.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.err /usr/lib/libxml2/ptest/result/errors/attr5.xml.str /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.str /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.str /usr/lib/libxml2/ptest/test/errors/unclosed-element.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.sax /usr/lib/libxml2/ptest/test/valid/dtds/pe-latin1.ent /usr/lib/libxml2/ptest/result/errors/name3.xml.ent /usr/lib/libxml2/ptest/test/ns-ent.xml /usr/lib/libxml2/ptest/test/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.err /usr/lib/libxml2/ptest/result/noent/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/issue643.xml.sax2 /usr/li
+ b/libxml2/ptest/result/errors/attr6.xml.ent /usr/lib/libxml2/ptest/result/errors/name3.xml.str /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.str /usr/lib/libxml2/ptest/result/errors/attr5.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.ent /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.dtd /usr/lib/libxml2/ptest/testparser /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.err /usr/lib/libxml2/ptest/result/noent/issue643.xml /usr/lib/libxml2/ptest/result/valid/huge.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.str /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.str /usr/lib/libxml2/ptest/result/errors/name3.xml.err /usr/lib/libxml2/ptest/result/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue643.xml.sax2 /usr/lib/libxml2/ptest/test/issue6
+ 26.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.ent /usr/lib/libxml2/ptest/result/errors/attr6.xml.str /usr/lib/libxml2/ptest/test/errors/quadratic-defattr.xml /usr/lib/libxml2/ptest/result/errors/empty.xml.str /usr/lib/libxml2/ptest/result/errors/extra-content.xml.ent /usr/lib/libxml2/ptest/result/issue626.xml /usr/lib/libxml2/ptest/result/issue643.xml /usr/lib/libxml2/ptest/result/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.rdr /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.str /usr/lib/libxml2/ptest/result/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.rde /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.err /usr/lib/libxml2/ptest/test/errors/extra-content.xml /usr/lib/libxml2/ptest/test/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/issue626.xml.rdr /usr/lib/libxml2/ptest/result/issue643.xml.rdr /usr/lib/libxml2/ptest/result/errors/quadrati
+ c-defattr.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.ent /usr/lib/libxml2/ptest/result/issue626.xml.rde /usr/lib/libxml2/ptest/result/issue643.xml.rde /usr/lib/libxml2/ptest/result/errors/attr5.xml.ent /usr/lib/libxml2/ptest/python/tests/setup_test.py /usr/lib/libxml2/ptest/result/errors/attr6.xml.err /usr/lib/libxml2/ptest/test/valid/dtds/huge.ent /usr/lib/libxml2/ptest/result/noent/ns-ent.xml /usr/lib/libxml2/ptest/test/issue643.xml /usr/lib/libxml2/ptest/test/errors/trailing-null-2.xml /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/issue626.xml.sax /usr/lib/libxml2/ptest/result/issue643.xml.sax /usr/lib/libxml2/ptest/result/ns-ent.xml /usr/lib/libxml2/ptest/test/valid/huge.xml /usr/lib/libxml2/ptest/test/errors/trailing-null-1.xml /usr/lib/libxml2/ptest/result/noent/issue626.xml /usr/lib/libxml2/ptes
+ t/result/errors/unclosed-element.xml.ent /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html.sax /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.err /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.err /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.str /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.str /usr/lib/libxml2/ptest/test/errors/truncated-utf16.xml /usr/lib/libxml2/ptest/test/errors/attr5.xml /usr/lib/libxml2/ptest/test/errors/attr6.xml /usr/lib/libxml2/ptest/test/valid/pe-latin1.xml /usr/lib/libxml2/ptest/test/errors/name3.xml /usr/lib/libxml2/ptest/test/errors/empty.xml"
+packages/core2-64-poky-linux/libxml2/libxml2-python: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-python: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-python: PKGSIZE changed from 1748462 to 1747394 (-0%)
+packages/core2-64-poky-linux/libxml2/libxml2-src: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-src: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-src: PKGSIZE changed from 7846177 to 7760859 (-1%)
+packages/core2-64-poky-linux/libxml2/libxml2-src: FILELIST: directory renamed /usr/src/debug/libxml2/2.11.5/include/libxml -> /usr/src/debug/libxml2/2.12.3/include/libxml, directory renamed /usr/src/debug/libxml2/2.11.5/include/private -> /usr/src/debug/libxml2/2.12.3/include/private, directory renamed /usr/src/debug/libxml2/2.11.5/python -> /usr/src/debug/libxml2/2.12.3/python, removed "/usr/src/debug/libxml2/2.11.5/runtest.c /usr/src/debug/libxml2/2.11.5/globals.c /usr/src/debug/libxml2/2.11.5/testModule.c /usr/src/debug/libxml2/2.11.5/testlimits.c /usr/src/debug/libxml2/2.11.5/error.c /usr/src/debug/libxml2/2.11.5/xmlcatalog.c /usr/src/debug/libxml2/2.11.5/xmlschemas.c /usr/src/debug/libxml2/2.11.5/xmlunicode.c /usr/src/debug/libxml2/2.11.5/HTMLtree.c /usr/src/debug/libxml2/2.11.5/xmlIO.c /usr/src/debug/libxml2/2.11.5/xinclude.c /usr/src/debug/libxml2/2.11.5/pattern.c /usr/src/debug/libxml2/2.11.5/xpointer.c /usr/src/debug/libxml2/2.11.5/tree.c /usr/src/debug/libxml2/2.11.5/runxml
+ conf.c /usr/src/debug/libxml2/2.11.5/xlink.c /usr/src/debug/libxml2/2.11.5/xmllint.c /usr/src/debug/libxml2/2.11.5/parserInternals.c /usr/src/debug/libxml2/2.11.5/schematron.c /usr/src/debug/libxml2/2.11.5/c14n.c /usr/src/debug/libxml2/2.11.5/buf.c /usr/src/debug/libxml2/2.11.5/encoding.c /usr/src/debug/libxml2/2.11.5/valid.c /usr/src/debug/libxml2/2.11.5/uri.c /usr/src/debug/libxml2/2.11.5/entities.c /usr/src/debug/libxml2/2.11.5/hash.c /usr/src/debug/libxml2/2.11.5/parser.c /usr/src/debug/libxml2/2.11.5/runsuite.c /usr/src/debug/libxml2/2.11.5/HTMLparser.c /usr/src/debug/libxml2/2.11.5/nanohttp.c /usr/src/debug/libxml2/2.11.5/timsort.h /usr/src/debug/libxml2/2.11.5/list.c /usr/src/debug/libxml2/2.11.5/threads.c /usr/src/debug/libxml2/2.11.5/testrecurse.c /usr/src/debug/libxml2/2.11.5/catalog.c /usr/src/debug/libxml2/2.11.5/xpath.c /usr/src/debug/libxml2/2.11.5/xmlmemory.c /usr/src/debug/libxml2/2.11.5/xmlmodule.c /usr/src/debug/libxml2/2.11.5/xmlreader.c /usr/src/debug/libxml2/2.1
+ 1.5/xmlregexp.c /usr/src/debug/libxml2/2.11.5/xmlstring.c /usr/src/debug/libxml2/2.11.5/xmlwriter.c /usr/src/debug/libxml2/2.11.5/chvalid.c /usr/src/debug/libxml2/2.11.5/dict.c /usr/src/debug/libxml2/2.11.5/testapi.c /usr/src/debug/libxml2/2.11.5/relaxng.c /usr/src/debug/libxml2/2.11.5/testchar.c /usr/src/debug/libxml2/2.11.5/testThreads.c /usr/src/debug/libxml2/2.11.5/testdict.c /usr/src/debug/libxml2/2.11.5/xmlsave.c /usr/src/debug/libxml2/2.11.5/xmlschemastypes.c /usr/src/debug/libxml2/2.11.5/SAX2.c", added "/usr/src/debug/libxml2/2.12.3/runtest.c /usr/src/debug/libxml2/2.12.3/globals.c /usr/src/debug/libxml2/2.12.3/testModule.c /usr/src/debug/libxml2/2.12.3/testlimits.c /usr/src/debug/libxml2/2.12.3/error.c /usr/src/debug/libxml2/2.12.3/testparser.c /usr/src/debug/libxml2/2.12.3/xmlcatalog.c /usr/src/debug/libxml2/2.12.3/xmlschemas.c /usr/src/debug/libxml2/2.12.3/xmlunicode.c /usr/src/debug/libxml2/2.12.3/HTMLtree.c /usr/src/debug/libxml2/2.12.3/xmlIO.c /usr/src/debug/libxml2/2.
+ 12.3/xinclude.c /usr/src/debug/libxml2/2.12.3/pattern.c /usr/src/debug/libxml2/2.12.3/xpointer.c /usr/src/debug/libxml2/2.12.3/tree.c /usr/src/debug/libxml2/2.12.3/runxmlconf.c /usr/src/debug/libxml2/2.12.3/xlink.c /usr/src/debug/libxml2/2.12.3/xmllint.c /usr/src/debug/libxml2/2.12.3/parserInternals.c /usr/src/debug/libxml2/2.12.3/schematron.c /usr/src/debug/libxml2/2.12.3/c14n.c /usr/src/debug/libxml2/2.12.3/buf.c /usr/src/debug/libxml2/2.12.3/encoding.c /usr/src/debug/libxml2/2.12.3/valid.c /usr/src/debug/libxml2/2.12.3/uri.c /usr/src/debug/libxml2/2.12.3/entities.c /usr/src/debug/libxml2/2.12.3/hash.c /usr/src/debug/libxml2/2.12.3/parser.c /usr/src/debug/libxml2/2.12.3/runsuite.c /usr/src/debug/libxml2/2.12.3/HTMLparser.c /usr/src/debug/libxml2/2.12.3/nanohttp.c /usr/src/debug/libxml2/2.12.3/timsort.h /usr/src/debug/libxml2/2.12.3/list.c /usr/src/debug/libxml2/2.12.3/threads.c /usr/src/debug/libxml2/2.12.3/testrecurse.c /usr/src/debug/libxml2/2.12.3/catalog.c /usr/src/debug/libxm
+ l2/2.12.3/xpath.c /usr/src/debug/libxml2/2.12.3/xmlmemory.c /usr/src/debug/libxml2/2.12.3/xmlmodule.c /usr/src/debug/libxml2/2.12.3/xmlreader.c /usr/src/debug/libxml2/2.12.3/xmlregexp.c /usr/src/debug/libxml2/2.12.3/xmlstring.c /usr/src/debug/libxml2/2.12.3/xmlwriter.c /usr/src/debug/libxml2/2.12.3/chvalid.c /usr/src/debug/libxml2/2.12.3/dict.c /usr/src/debug/libxml2/2.12.3/testapi.c /usr/src/debug/libxml2/2.12.3/relaxng.c /usr/src/debug/libxml2/2.12.3/testchar.c /usr/src/debug/libxml2/2.12.3/testThreads.c /usr/src/debug/libxml2/2.12.3/testdict.c /usr/src/debug/libxml2/2.12.3/xmlsave.c /usr/src/debug/libxml2/2.12.3/xmlschemastypes.c /usr/src/debug/libxml2/2.12.3/SAX2.c"
+packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-utils: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGSIZE changed from 91040 to 95208 (+5%)
+packages/core2-64-poky-linux/libxml2/libxml2: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2: PKGSIZE changed from 1383977 to 1379977 (-0%)
+packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.11.5", added "/usr/lib/libxml2.so.2.12.3"
+Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -4003,6 +3634,10 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libxml2-native (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
 
---===============8959762869416047200==--
+--===============2664954793634314973==--
 
