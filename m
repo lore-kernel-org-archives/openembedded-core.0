@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B98A8C48BC1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC2EFC48BC0
 	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 13:12:08 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.4633.1704114719706820348
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.4628.1704114719580143735
  for <openembedded-core@lists.openembedded.org>;
  Mon, 01 Jan 2024 05:11:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=G/ue2GDL;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ndzJOLLt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018cc527087e-0cf3b7ff-5127-40c5-b8fa-cab8d101d12c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Px1Y7zZN;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=VjTjaeZy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018cc52707bc-0356290f-2e9a-4a38-958c-c1f56b297f81-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1704114719;
+	t=1704114718;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UmNOY6nMJHvh+T89OaHZMiaUrbgGABZLZXgtfblYB9o=;
-	b=G/ue2GDLsJfxoGhxnbTVVMSzuQ8LVDpz5BuBEkI24Gg3pOvmm+1B2Muz/zSQEO7W
-	/crT7fq1ABbnS+QFvAYaHE+FZ0TC6Me5CDdvwCdhF4UdFhSVYLukw+LPIF1mNNtOOK+
-	AnFav6KveYq5EknP4EKwR6Vw2a/4whGxuvsgdpqQ=
+	bh=hwXwijyBILdaMXjcHIgpnxQ+LhTyxiappyFmlotX/JA=;
+	b=Px1Y7zZNelX5cw9+c6otI+K3N9F4hxIBamt2CLBbuhErpyFy4uvFX8a6w2Wi9hEG
+	YVDPugUlnGrCTDu4IpyJRLiDqMxW4xA+AA2qQK0xZ/lTx/VCPfcMDVXcAju+WqcRIZK
+	3gSQO7VeYOs0kuzpKupqrt+RqgRu6dKWEPTrK9I0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704114719;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704114718;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UmNOY6nMJHvh+T89OaHZMiaUrbgGABZLZXgtfblYB9o=;
-	b=ndzJOLLtQq7qvFeu29MIiBE+g3ydP+vdZrPDnvQrdCtinU2cyTmbxtaydnYuc4XQ
-	U7oDAGMyH9vyu+56AuAEShKfOImJ0kBhzMvxCQ6rlsAeOABniHO3duGWZr/e+6tv9O8
-	h0X4xyiw7afS/jvJtBd9IUFXmR+2Eglc+IwqH3Us=
-Content-Type: multipart/mixed; boundary="===============5901363395156083210=="
+	bh=hwXwijyBILdaMXjcHIgpnxQ+LhTyxiappyFmlotX/JA=;
+	b=VjTjaeZyn321HTwNhZSfvTGncuLXtxauKs4NhWp6EoLeTcdQ+XE1tTWqpKNFMVUL
+	AzuZOEwDM/qohhx8/HNnXRL9uyeDAk7ot5Hq7M4vMybWqXb8tRvrc+FAB3EQaW776nl
+	MeFEmIHCmoNF04eKsChLvNptP35I0Y4MgbVtYVrg=
+Content-Type: multipart/mixed; boundary="===============8959762869416047200=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] meson: upgrading to 1.3.1 SUCCEEDED
-Message-ID: <0101018cc527087e-0cf3b7ff-5127-40c5-b8fa-cab8d101d12c-000000@us-west-2.amazonses.com>
+Subject: [AUH] ccache: upgrading to 4.9 SUCCEEDED
+Message-ID: <0101018cc52707bc-0356290f-2e9a-4a38-958c-c1f56b297f81-000000@us-west-2.amazonses.com>
 Date: Mon, 1 Jan 2024 13:11:58 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.01-54.240.27.192
+X-SES-Outgoing: 2024.01.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 13:12:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193123
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193119
 
---===============5901363395156083210==
+--===============8959762869416047200==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *meson* to *1.3.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *ccache* to *4.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-meson-upgrade-1.3.0-1.3.1.patch
+    - apply the patch: git am 0001-ccache-upgrade-4.8.3-4.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,277 +72,877 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1a1f39a296a22503135543ecd05027ba8f87590e Mon Sep 17 00:00:00 2001
+From d006a559656f9c88907cb0162703dd74ca677f76 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 1 Jan 2024 06:34:12 +0000
-Subject: [PATCH] meson: upgrade 1.3.0 -> 1.3.1
+Date: Mon, 1 Jan 2024 05:56:15 +0000
+Subject: [PATCH] ccache: upgrade 4.8.3 -> 4.9
 
 ---
- .../meson/0001-Make-CPU-family-warnings-fatal.patch  | 10 +++++-----
- ...dule-do-not-manipulate-the-environment-when.patch |  8 ++++----
- ...0002-Support-building-allarch-recipes-again.patch | 12 +++++-------
- .../meson/{meson_1.3.0.bb => meson_1.3.1.bb}         |  2 +-
- 4 files changed, 15 insertions(+), 17 deletions(-)
- rename meta/recipes-devtools/meson/{meson_1.3.0.bb => meson_1.3.1.bb} (98%)
+ meta/recipes-devtools/ccache/ccache_4.8.3.bb  |  26 --
+ meta/recipes-devtools/ccache/ccache_4.9.bb    | 250 ++++++++++++++++++
+ .../0001-xxhash.h-Fix-build-with-gcc-12.patch |   6 +-
+ 3 files changed, 253 insertions(+), 29 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ccache/ccache_4.8.3.bb
+ create mode 100644 meta/recipes-devtools/ccache/ccache_4.9.bb
 
-diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-index 8fbcb5a0a2..0c1ff5bf3c 100644
---- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-@@ -1,4 +1,4 @@
--From fcd3260c03f313676720e6219c5953d412fb0a2c Mon Sep 17 00:00:00 2001
-+From 5c5737f40b8b7971d1108501831a2072d96d097b Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Tue, 3 Jul 2018 13:59:09 +0100
- Subject: [PATCH] Make CPU family warnings fatal
-@@ -12,10 +12,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  2 files changed, 4 insertions(+), 6 deletions(-)
- 
- diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
--index 7e0c567..a180065 100644
-+index 07f1229..a35c356 100644
- --- a/mesonbuild/envconfig.py
- +++ b/mesonbuild/envconfig.py
--@@ -284,8 +284,8 @@ class MachineInfo(HoldableObject):
-+@@ -285,8 +285,8 @@ class MachineInfo(HoldableObject):
-                  'but is missing {}.'.format(minimum_literal - set(literal)))
-  
-          cpu_family = literal['cpu_family']
-@@ -27,10 +27,10 @@ index 7e0c567..a180065 100644
-          endian = literal['endian']
-          if endian not in ('little', 'big'):
- diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
--index e212c7a..9d2bff3 100644
-+index 2ba2054..d798e3b 100644
- --- a/mesonbuild/environment.py
- +++ b/mesonbuild/environment.py
--@@ -345,10 +345,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
-+@@ -359,10 +359,8 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
-          if compilers and not any_compiler_has_define(compilers, '__mips64'):
-              trial = 'mips'
-  
-diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
-index 19502fa9cd..07dddac30e 100644
---- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
-@@ -1,4 +1,4 @@
--From a97dba12cff6c4c9181909141a1a9f38d7c900bf Mon Sep 17 00:00:00 2001
-+From ba65fd219047eb4c2c39221ef45926caffb073a4 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 19 Nov 2018 14:24:26 +0100
- Subject: [PATCH] python module: do not manipulate the environment when calling
-@@ -12,10 +12,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 5 deletions(-)
- 
- diff --git a/mesonbuild/dependencies/python.py b/mesonbuild/dependencies/python.py
--index 14386f9..118a15f 100644
-+index 9aea6bd..8c13ede 100644
- --- a/mesonbuild/dependencies/python.py
- +++ b/mesonbuild/dependencies/python.py
--@@ -354,9 +354,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
-+@@ -380,9 +380,6 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
-                      empty.name = 'python'
-                      return empty
-  
-@@ -25,7 +25,7 @@ index 14386f9..118a15f 100644
-                  try:
-                      return PythonPkgConfigDependency(name, env, kwargs, installation, True)
-                  finally:
--@@ -365,8 +362,7 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
-+@@ -391,8 +388,7 @@ def python_factory(env: 'Environment', for_machine: 'MachineChoice',
-                              os.environ[name] = value
-                          elif name in os.environ:
-                              del os.environ[name]
-diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-index dcc1ce9c27..0962f407a3 100644
---- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-+++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-@@ -1,21 +1,22 @@
--From 656bf55fed01df2d2e2ad6d9d9887173cb16b85c Mon Sep 17 00:00:00 2001
-+From ea6bfbfe2257eba50d9e0f142c7993ddc285654e Mon Sep 17 00:00:00 2001
- From: Peter Kjellerstedt <pkj@axis.com>
- Date: Thu, 26 Jul 2018 16:32:49 +0200
--Subject: [PATCH 2/2] Support building allarch recipes again
-+Subject: [PATCH] Support building allarch recipes again
- 
- This registers "allarch" as a known CPU family.
- 
- Upstream-Status: Inappropriate [OE specific]
- Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-+
- ---
-  mesonbuild/envconfig.py | 1 +
-  1 file changed, 1 insertion(+)
- 
- diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
--index 4d58c91..ff01ad1 100644
-+index a35c356..436355f 100644
- --- a/mesonbuild/envconfig.py
- +++ b/mesonbuild/envconfig.py
--@@ -36,6 +36,7 @@ from pathlib import Path
-+@@ -38,6 +38,7 @@ from pathlib import Path
-  
-  
-  known_cpu_families = (
-@@ -23,6 +24,3 @@ index 4d58c91..ff01ad1 100644
-      'aarch64',
-      'alpha',
-      'arc',
---- 
--2.24.0
+diff --git a/meta/recipes-devtools/ccache/ccache_4.8.3.bb b/meta/recipes-devtools/ccache/ccache_4.8.3.bb
+deleted file mode 100644
+index 03372aa685..0000000000
+--- a/meta/recipes-devtools/ccache/ccache_4.8.3.bb
++++ /dev/null
+@@ -1,26 +0,0 @@
+-SUMMARY = "a fast C/C++ compiler cache"
+-DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
+-by caching the result of previous compilations and detecting when the \
+-same compilation is being done again. Supported languages are C, C\+\+, \
+-Objective-C and Objective-C++."
+-HOMEPAGE = "http://ccache.samba.org"
+-SECTION = "devel"
 -
-diff --git a/meta/recipes-devtools/meson/meson_1.3.0.bb b/meta/recipes-devtools/meson/meson_1.3.1.bb
-similarity index 98%
-rename from meta/recipes-devtools/meson/meson_1.3.0.bb
-rename to meta/recipes-devtools/meson/meson_1.3.1.bb
-index e794bb28a5..3a4bb14f09 100644
---- a/meta/recipes-devtools/meson/meson_1.3.0.bb
-+++ b/meta/recipes-devtools/meson/meson_1.3.1.bb
-@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/meson-${PV}.tar.gz \
-            file://0001-Make-CPU-family-warnings-fatal.patch \
-            file://0002-Support-building-allarch-recipes-again.patch \
-            "
--SRC_URI[sha256sum] = "4ba253ef60e454e23234696119cbafa082a0aead0bd3bbf6991295054795f5dc"
-+SRC_URI[sha256sum] = "6020568bdede1643d4fb41e28215be38eff5d52da28ac7d125457c59e0032ad7"
+-LICENSE = "GPL-3.0-or-later"
+-LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=6a6fe0ae4e57592b187ab72fa6d420ec"
+-
+-DEPENDS = "zstd"
+-
+-SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+-           file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
+-           "
+-SRC_URI[sha256sum] = "d59dd569ad2bbc826c0bc335c8ebd73e78ed0f2f40ba6b30069347e63585d9ef"
+-
+-inherit cmake github-releases
+-
+-PATCHTOOL = "patch"
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
+-PACKAGECONFIG[docs] = "-DENABLE_DOCUMENTATION=ON,-DENABLE_DOCUMENTATION=OFF,asciidoc"
+-PACKAGECONFIG[redis] = "-DREDIS_STORAGE_BACKEND=ON,-DREDIS_STORAGE_BACKEND=OFF,hiredis"
+diff --git a/meta/recipes-devtools/ccache/ccache_4.9.bb b/meta/recipes-devtools/ccache/ccache_4.9.bb
+new file mode 100644
+index 0000000000..01af040686
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache_4.9.bb
+@@ -0,0 +1,250 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENSE.adoc
++# +++ LICENSE.adoc
++# @@ -72,7 +72,7 @@
++#  
++#  === src/third_party/blake3/blake3_*
++#  
++# -This is a subset of https://github.com/BLAKE3-team/BLAKE3[BLAKE3] 1.4.0 with the
++# +This is a subset of https://github.com/BLAKE3-team/BLAKE3[BLAKE3] 1.5.0 with the
++#  following license:
++#  
++#  ----
++# @@ -441,7 +441,7 @@
++#  
++#  === src/third_party/fmt/*.h and src/third_party/format.cpp
++#  
++# -This is a subset of https://fmt.dev[fmt] 8.1.1 with the following license:
++# +This is a subset of https://fmt.dev[fmt] 10.1.1 with the following license:
++#  
++#  ----
++#  Formatting library for C++
++# @@ -516,7 +516,7 @@
++#  === src/third_party/httplib.*
++#  
++#  cpp-httplib - A C++11 cross-platform HTTP/HTTPS library. Copied from cpp-httplib
++# -v0.12.6 downloaded from https://github.com/yhirose/cpp-httplib[cpp-httplib]. The
++# +v0.14. downloaded from https://github.com/yhirose/cpp-httplib[cpp-httplib]. The
++#  library has the following license:
++#  
++#  ----
++# @@ -574,14 +574,14 @@
++#  ----
++#  
++#  
++# -=== src/third_party/nonstd/expected.hpp
++# +=== src/third_party/nonstd/span.hpp
++#  
++#  This is the single header version of
++# -https://github.com/martinmoene/expected-lite[expected-lite] 0.6.2 with the
++# +https://github.com/martinmoene/span-lite[expected-lite] 0.10.3 with the
++#  following license:
++#  
++#  ----
++# -Copyright (c) 2016-2020 Martin Moene
++# +Copyright (c) 2018-2021 Martin Moene
++#  
++#  Boost Software License - Version 1.0 - August 17th, 2003
++#  
++# @@ -609,38 +609,133 @@
++#  ----
++#  
++#  
++# -=== src/third_party/nonstd/span.hpp
++# -
++# -This is the single header version of
++# -https://github.com/martinmoene/span-lite[expected-lite] 0.10.3 with the
++# -following license:
++# -
++# -----
++# -Copyright (c) 2018-2021 Martin Moene
++# -
++# -Boost Software License - Version 1.0 - August 17th, 2003
++# -
++# -Permission is hereby granted, free of charge, to any person or organization
++# -obtaining a copy of the software and accompanying documentation covered by
++# -this license (the "Software") to use, reproduce, display, distribute,
++# -execute, and transmit the Software, and to prepare derivative works of the
++# -Software, and to permit third-parties to whom the Software is furnished to
++# -do so, all subject to the following:
++# -
++# -The copyright notices in the Software and this entire statement, including
++# -the above license grant, this restriction and the following disclaimer,
++# -must be included in all copies of the Software, in whole or in part, and
++# -all derivative works of the Software, unless such copies or derivative
++# -works are solely in the form of machine-executable object code generated by
++# -a source language processor.
++# -
++# -THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# -IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# -FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
++# -SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
++# -FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
++# -ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++# -DEALINGS IN THE SOFTWARE.
++# +=== src/third_party/tl/expected.hpp
++# +
++# +This is https://github.com/TartanLlama/expected[TartanLlama expected] 1.1.0 with
++# +the following license:
++# +
++# +----
++# +Creative Commons Legal Code
++# +
++# +CC0 1.0 Universal
++# +
++# +    CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE
++# +    LEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN
++# +    ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
++# +    INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
++# +    REGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS
++# +    PROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM
++# +    THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED
++# +    HEREUNDER.
++# +
++# +Statement of Purpose
++# +
++# +The laws of most jurisdictions throughout the world automatically confer
++# +exclusive Copyright and Related Rights (defined below) upon the creator
++# +and subsequent owner(s) (each and all, an "owner") of an original work of
++# +authorship and/or a database (each, a "Work").
++# +
++# +Certain owners wish to permanently relinquish those rights to a Work for
++# +the purpose of contributing to a commons of creative, cultural and
++# +scientific works ("Commons") that the public can reliably and without fear
++# +of later claims of infringement build upon, modify, incorporate in other
++# +works, reuse and redistribute as freely as possible in any form whatsoever
++# +and for any purposes, including without limitation commercial purposes.
++# +These owners may contribute to the Commons to promote the ideal of a free
++# +culture and the further production of creative, cultural and scientific
++# +works, or to gain reputation or greater distribution for their Work in
++# +part through the use and efforts of others.
++# +
++# +For these and/or other purposes and motivations, and without any
++# +expectation of additional consideration or compensation, the person
++# +associating CC0 with a Work (the "Affirmer"), to the extent that he or she
++# +is an owner of Copyright and Related Rights in the Work, voluntarily
++# +elects to apply CC0 to the Work and publicly distribute the Work under its
++# +terms, with knowledge of his or her Copyright and Related Rights in the
++# +Work and the meaning and intended legal effect of CC0 on those rights.
++# +
++# +1. Copyright and Related Rights. A Work made available under CC0 may be
++# +protected by copyright and related or neighboring rights ("Copyright and
++# +Related Rights"). Copyright and Related Rights include, but are not
++# +limited to, the following:
++# +
++# +  i. the right to reproduce, adapt, distribute, perform, display,
++# +     communicate, and translate a Work;
++# + ii. moral rights retained by the original author(s) and/or performer(s);
++# +iii. publicity and privacy rights pertaining to a person's image or
++# +     likeness depicted in a Work;
++# + iv. rights protecting against unfair competition in regards to a Work,
++# +     subject to the limitations in paragraph 4(a), below;
++# +  v. rights protecting the extraction, dissemination, use and reuse of data
++# +     in a Work;
++# + vi. database rights (such as those arising under Directive 96/9/EC of the
++# +     European Parliament and of the Council of 11 March 1996 on the legal
++# +     protection of databases, and under any national implementation
++# +     thereof, including any amended or successor version of such
++# +     directive); and
++# +vii. other similar, equivalent or corresponding rights throughout the
++# +     world based on applicable law or treaty, and any national
++# +     implementations thereof.
++# +
++# +2. Waiver. To the greatest extent permitted by, but not in contravention
++# +of, applicable law, Affirmer hereby overtly, fully, permanently,
++# +irrevocably and unconditionally waives, abandons, and surrenders all of
++# +Affirmer's Copyright and Related Rights and associated claims and causes
++# +of action, whether now known or unknown (including existing as well as
++# +future claims and causes of action), in the Work (i) in all territories
++# +worldwide, (ii) for the maximum duration provided by applicable law or
++# +treaty (including future time extensions), (iii) in any current or future
++# +medium and for any number of copies, and (iv) for any purpose whatsoever,
++# +including without limitation commercial, advertising or promotional
++# +purposes (the "Waiver"). Affirmer makes the Waiver for the benefit of each
++# +member of the public at large and to the detriment of Affirmer's heirs and
++# +successors, fully intending that such Waiver shall not be subject to
++# +revocation, rescission, cancellation, termination, or any other legal or
++# +equitable action to disrupt the quiet enjoyment of the Work by the public
++# +as contemplated by Affirmer's express Statement of Purpose.
++# +
++# +3. Public License Fallback. Should any part of the Waiver for any reason
++# +be judged legally invalid or ineffective under applicable law, then the
++# +Waiver shall be preserved to the maximum extent permitted taking into
++# +account Affirmer's express Statement of Purpose. In addition, to the
++# +extent the Waiver is so judged Affirmer hereby grants to each affected
++# +person a royalty-free, non transferable, non sublicensable, non exclusive,
++# +irrevocable and unconditional license to exercise Affirmer's Copyright and
++# +Related Rights in the Work (i) in all territories worldwide, (ii) for the
++# +maximum duration provided by applicable law or treaty (including future
++# +time extensions), (iii) in any current or future medium and for any number
++# +of copies, and (iv) for any purpose whatsoever, including without
++# +limitation commercial, advertising or promotional purposes (the
++# +"License"). The License shall be deemed effective as of the date CC0 was
++# +applied by Affirmer to the Work. Should any part of the License for any
++# +reason be judged legally invalid or ineffective under applicable law, such
++# +partial invalidity or ineffectiveness shall not invalidate the remainder
++# +of the License, and in such case Affirmer hereby affirms that he or she
++# +will not (i) exercise any of his or her remaining Copyright and Related
++# +Rights in the Work or (ii) assert any associated claims and causes of
++# +action with respect to the Work, in either case contrary to Affirmer's
++# +express Statement of Purpose.
++# +
++# +4. Limitations and Disclaimers.
++# +
++# + a. No trademark or patent rights held by Affirmer are waived, abandoned,
++# +    surrendered, licensed or otherwise affected by this document.
++# + b. Affirmer offers the Work as-is and makes no representations or
++# +    warranties of any kind concerning the Work, express, implied,
++# +    statutory or otherwise, including without limitation warranties of
++# +    title, merchantability, fitness for a particular purpose, non
++# +    infringement, or the absence of latent or other defects, accuracy, or
++# +    the present or absence of errors, whether or not discoverable, all to
++# +    the greatest extent permissible under applicable law.
++# + c. Affirmer disclaims responsibility for clearing rights of other persons
++# +    that may apply to the Work or any use thereof, including without
++# +    limitation any person's Copyright and Related Rights in the Work.
++# +    Further, Affirmer disclaims responsibility for obtaining any necessary
++# +    consents, permissions or other rights required for any use of the
++# +    Work.
++# + d. Affirmer understands and acknowledges that Creative Commons is not a
++# +    party to this document and has no duty or obligation with respect to
++# +    this CC0 or use of the Work.
++#  ----
++#  
++#  
++# 
++#
++
++SUMMARY = "a fast C/C++ compiler cache"
++DESCRIPTION = "ccache is a compiler cache. It speeds up recompilation \
++by caching the result of previous compilations and detecting when the \
++same compilation is being done again. Supported languages are C, C\+\+, \
++Objective-C and Objective-C++."
++HOMEPAGE = "http://ccache.samba.org"
++SECTION = "devel"
++
++LICENSE = "GPL-3.0-or-later"
++LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=11b0b581dd56bbac4f5de214d47927ca"
++
++DEPENDS = "zstd"
++
++SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
++           file://0001-xxhash.h-Fix-build-with-gcc-12.patch \
++           "
++SRC_URI[sha256sum] = "866b2223d59333640f0e7a003cbb85b32d9ca3c9445bd9e3cf142942e69dd3ec"
++
++inherit cmake github-releases
++
++PATCHTOOL = "patch"
++
++BBCLASSEXTEND = "native nativesdk"
++
++PACKAGECONFIG[docs] = "-DENABLE_DOCUMENTATION=ON,-DENABLE_DOCUMENTATION=OFF,asciidoc"
++PACKAGECONFIG[redis] = "-DREDIS_STORAGE_BACKEND=ON,-DREDIS_STORAGE_BACKEND=OFF,hiredis"
+diff --git a/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch b/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
+index 67c74a1e8e..33372061e5 100644
+--- a/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
++++ b/meta/recipes-devtools/ccache/files/0001-xxhash.h-Fix-build-with-gcc-12.patch
+@@ -1,4 +1,4 @@
+-From 550834a3ec2e05e379be63b084e7fa06a1723f84 Mon Sep 17 00:00:00 2001
++From 648fc462fbfb4bdbdb2ae667382ad2c7aea0a31f Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Mon, 6 Jun 2022 17:53:20 +0800
+ Subject: [PATCH] xxhash.h: Fix build with gcc-12
+@@ -23,10 +23,10 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- inherit python_setuptools_build_meta github-releases
- 
+ diff --git a/src/third_party/xxhash.h b/src/third_party/xxhash.h
+-index 08ab794..c754e99 100644
++index a18e8c7..1b72307 100644
+ --- a/src/third_party/xxhash.h
+ +++ b/src/third_party/xxhash.h
+-@@ -1501,7 +1501,7 @@ static void* XXH_memcpy(void* dest, const void* src, size_t size)
++@@ -2107,7 +2107,7 @@ static void* XXH_memcpy(void* dest, const void* src, size_t size)
+  #  define XXH_NO_INLINE static
+  /* enable inlining hints */
+  #elif defined(__GNUC__) || defined(__clang__)
 -- 
 2.42.0
 
 
---===============5901363395156083210==
+--===============8959762869416047200==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-meson-upgrade-1.3.0-1.3.1.patch"
+ filename="0001-ccache-upgrade-4.8.3-4.9.patch"
 
-RnJvbSAxYTFmMzlhMjk2YTIyNTAzMTM1NTQzZWNkMDUwMjdiYThmODc1OTBlIE1vbiBTZXAgMTcg
+RnJvbSBkMDA2YTU1OTY1NmY5Yzg4OTA3Y2IwMTYyNzAzZGQ3NGNhNjc3Zjc2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAwNjozNDoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
-c29uOiB1cGdyYWRlIDEuMy4wIC0+IDEuMy4xCgotLS0KIC4uLi9tZXNvbi8wMDAxLU1ha2UtQ1BV
-LWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaCAgfCAxMCArKysrKy0tLS0tCiAuLi5kdWxlLWRv
-LW5vdC1tYW5pcHVsYXRlLXRoZS1lbnZpcm9ubWVudC13aGVuLnBhdGNoIHwgIDggKysrKy0tLS0K
-IC4uLjAwMDItU3VwcG9ydC1idWlsZGluZy1hbGxhcmNoLXJlY2lwZXMtYWdhaW4ucGF0Y2ggfCAx
-MiArKysrKy0tLS0tLS0KIC4uLi9tZXNvbi97bWVzb25fMS4zLjAuYmIgPT4gbWVzb25fMS4zLjEu
-YmJ9ICAgICAgICAgfCAgMiArLQogNCBmaWxlcyBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAx
-NyBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24ve21lc29u
-XzEuMy4wLmJiID0+IG1lc29uXzEuMy4xLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1m
-YXRhbC5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAxLU1ha2Ut
-Q1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaAppbmRleCA4ZmJjYjVhMGEyLi4wYzFmZjVi
-ZjNjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24vMDAwMS1N
-YWtlLUNQVS1mYW1pbHktd2FybmluZ3MtZmF0YWwucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL21lc29uL21lc29uLzAwMDEtTWFrZS1DUFUtZmFtaWx5LXdhcm5pbmdzLWZhdGFsLnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmY2QzMjYwYzAzZjMxMzY3NjcyMGU2MjE5YzU5NTNk
-NDEyZmIwYTJjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1YzU3MzdmNDBiOGI3OTcx
-ZDExMDg1MDE4MzFhMjA3MmQ5NmQwOTdiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-Um9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IFR1ZSwgMyBKdWwgMjAx
-OCAxMzo1OTowOSArMDEwMAogU3ViamVjdDogW1BBVENIXSBNYWtlIENQVSBmYW1pbHkgd2Fybmlu
-Z3MgZmF0YWwKQEAgLTEyLDEwICsxMiwxMCBAQCBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8
-cm9zcy5idXJ0b25AaW50ZWwuY29tPgogIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCsp
-LCA2IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvbWVzb25idWlsZC9lbnZjb25maWcucHkg
-Yi9tZXNvbmJ1aWxkL2VudmNvbmZpZy5weQotaW5kZXggN2UwYzU2Ny4uYTE4MDA2NSAxMDA2NDQK
-K2luZGV4IDA3ZjEyMjkuLmEzNWMzNTYgMTAwNjQ0CiAtLS0gYS9tZXNvbmJ1aWxkL2VudmNvbmZp
-Zy5weQogKysrIGIvbWVzb25idWlsZC9lbnZjb25maWcucHkKLUBAIC0yODQsOCArMjg0LDggQEAg
-Y2xhc3MgTWFjaGluZUluZm8oSG9sZGFibGVPYmplY3QpOgorQEAgLTI4NSw4ICsyODUsOCBAQCBj
-bGFzcyBNYWNoaW5lSW5mbyhIb2xkYWJsZU9iamVjdCk6CiAgICAgICAgICAgICAgICAgICdidXQg
-aXMgbWlzc2luZyB7fS4nLmZvcm1hdChtaW5pbXVtX2xpdGVyYWwgLSBzZXQobGl0ZXJhbCkpKQog
-IAogICAgICAgICAgY3B1X2ZhbWlseSA9IGxpdGVyYWxbJ2NwdV9mYW1pbHknXQpAQCAtMjcsMTAg
-KzI3LDEwIEBAIGluZGV4IDdlMGM1NjcuLmExODAwNjUgMTAwNjQ0CiAgICAgICAgICBlbmRpYW4g
-PSBsaXRlcmFsWydlbmRpYW4nXQogICAgICAgICAgaWYgZW5kaWFuIG5vdCBpbiAoJ2xpdHRsZScs
-ICdiaWcnKToKIGRpZmYgLS1naXQgYS9tZXNvbmJ1aWxkL2Vudmlyb25tZW50LnB5IGIvbWVzb25i
-dWlsZC9lbnZpcm9ubWVudC5weQotaW5kZXggZTIxMmM3YS4uOWQyYmZmMyAxMDA2NDQKK2luZGV4
-IDJiYTIwNTQuLmQ3OThlM2IgMTAwNjQ0CiAtLS0gYS9tZXNvbmJ1aWxkL2Vudmlyb25tZW50LnB5
-CiArKysgYi9tZXNvbmJ1aWxkL2Vudmlyb25tZW50LnB5Ci1AQCAtMzQ1LDEwICszNDUsOCBAQCBk
-ZWYgZGV0ZWN0X2NwdV9mYW1pbHkoY29tcGlsZXJzOiBDb21waWxlcnNEaWN0KSAtPiBzdHI6CitA
-QCAtMzU5LDEwICszNTksOCBAQCBkZWYgZGV0ZWN0X2NwdV9mYW1pbHkoY29tcGlsZXJzOiBDb21w
-aWxlcnNEaWN0KSAtPiBzdHI6CiAgICAgICAgICBpZiBjb21waWxlcnMgYW5kIG5vdCBhbnlfY29t
-cGlsZXJfaGFzX2RlZmluZShjb21waWxlcnMsICdfX21pcHM2NCcpOgogICAgICAgICAgICAgIHRy
-aWFsID0gJ21pcHMnCiAgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24v
-bWVzb24vMDAwMS1weXRob24tbW9kdWxlLWRvLW5vdC1tYW5pcHVsYXRlLXRoZS1lbnZpcm9ubWVu
-dC13aGVuLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21lc29uL21lc29uLzAwMDEtcHl0
-aG9uLW1vZHVsZS1kby1ub3QtbWFuaXB1bGF0ZS10aGUtZW52aXJvbm1lbnQtd2hlbi5wYXRjaApp
-bmRleCAxOTUwMmZhOWNkLi4wN2RkZGFjMzBlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvbWVzb24vbWVzb24vMDAwMS1weXRob24tbW9kdWxlLWRvLW5vdC1tYW5pcHVsYXRlLXRo
-ZS1lbnZpcm9ubWVudC13aGVuLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNv
-bi9tZXNvbi8wMDAxLXB5dGhvbi1tb2R1bGUtZG8tbm90LW1hbmlwdWxhdGUtdGhlLWVudmlyb25t
-ZW50LXdoZW4ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGE5N2RiYTEyY2ZmNmM0YzkxODE5
-MDkxNDFhMWE5ZjM4ZDdjOTAwYmYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGJhNjVm
-ZDIxOTA0N2ViNGMyYzM5MjIxZWY0NTkyNmNhZmZiMDczYTQgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERh
-dGU6IE1vbiwgMTkgTm92IDIwMTggMTQ6MjQ6MjYgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gcHl0
-aG9uIG1vZHVsZTogZG8gbm90IG1hbmlwdWxhdGUgdGhlIGVudmlyb25tZW50IHdoZW4gY2FsbGlu
-ZwpAQCAtMTIsMTAgKzEyLDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxh
-bGV4LmthbmF2aW5AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
-NSBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL21lc29uYnVpbGQvZGVwZW5kZW5jaWVzL3B5
-dGhvbi5weSBiL21lc29uYnVpbGQvZGVwZW5kZW5jaWVzL3B5dGhvbi5weQotaW5kZXggMTQzODZm
-OS4uMTE4YTE1ZiAxMDA2NDQKK2luZGV4IDlhZWE2YmQuLjhjMTNlZGUgMTAwNjQ0CiAtLS0gYS9t
-ZXNvbmJ1aWxkL2RlcGVuZGVuY2llcy9weXRob24ucHkKICsrKyBiL21lc29uYnVpbGQvZGVwZW5k
-ZW5jaWVzL3B5dGhvbi5weQotQEAgLTM1NCw5ICszNTQsNiBAQCBkZWYgcHl0aG9uX2ZhY3Rvcnko
-ZW52OiAnRW52aXJvbm1lbnQnLCBmb3JfbWFjaGluZTogJ01hY2hpbmVDaG9pY2UnLAorQEAgLTM4
-MCw5ICszODAsNiBAQCBkZWYgcHl0aG9uX2ZhY3RvcnkoZW52OiAnRW52aXJvbm1lbnQnLCBmb3Jf
-bWFjaGluZTogJ01hY2hpbmVDaG9pY2UnLAogICAgICAgICAgICAgICAgICAgICAgZW1wdHkubmFt
-ZSA9ICdweXRob24nCiAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gZW1wdHkKICAKQEAgLTI1
-LDcgKzI1LDcgQEAgaW5kZXggMTQzODZmOS4uMTE4YTE1ZiAxMDA2NDQKICAgICAgICAgICAgICAg
-ICAgdHJ5OgogICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIFB5dGhvblBrZ0NvbmZpZ0RlcGVu
-ZGVuY3kobmFtZSwgZW52LCBrd2FyZ3MsIGluc3RhbGxhdGlvbiwgVHJ1ZSkKICAgICAgICAgICAg
-ICAgICAgZmluYWxseToKLUBAIC0zNjUsOCArMzYyLDcgQEAgZGVmIHB5dGhvbl9mYWN0b3J5KGVu
-djogJ0Vudmlyb25tZW50JywgZm9yX21hY2hpbmU6ICdNYWNoaW5lQ2hvaWNlJywKK0BAIC0zOTEs
-OCArMzg4LDcgQEAgZGVmIHB5dGhvbl9mYWN0b3J5KGVudjogJ0Vudmlyb25tZW50JywgZm9yX21h
-Y2hpbmU6ICdNYWNoaW5lQ2hvaWNlJywKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgb3Mu
-ZW52aXJvbltuYW1lXSA9IHZhbHVlCiAgICAgICAgICAgICAgICAgICAgICAgICAgZWxpZiBuYW1l
-IGluIG9zLmVudmlyb246CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGRlbCBvcy5lbnZp
-cm9uW25hbWVdCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb24v
-MDAwMi1TdXBwb3J0LWJ1aWxkaW5nLWFsbGFyY2gtcmVjaXBlcy1hZ2Fpbi5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAyLVN1cHBvcnQtYnVpbGRpbmctYWxsYXJj
-aC1yZWNpcGVzLWFnYWluLnBhdGNoCmluZGV4IGRjYzFjZTljMjcuLjA5NjJmNDA3YTMgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbi8wMDAyLVN1cHBvcnQtYnVp
-bGRpbmctYWxsYXJjaC1yZWNpcGVzLWFnYWluLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9tZXNvbi9tZXNvbi8wMDAyLVN1cHBvcnQtYnVpbGRpbmctYWxsYXJjaC1yZWNpcGVzLWFn
-YWluLnBhdGNoCkBAIC0xLDIxICsxLDIyIEBACi1Gcm9tIDY1NmJmNTVmZWQwMWRmMmQyZTJhZDZk
-OWQ5ODg3MTczY2IxNmI4NWMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGVhNmJmYmZl
-MjI1N2ViYTUwZDllMGYxNDJjNzk5M2RkYzI4NTY1NGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CiBGcm9tOiBQZXRlciBLamVsbGVyc3RlZHQgPHBrakBheGlzLmNvbT4KIERhdGU6IFRodSwgMjYg
-SnVsIDIwMTggMTY6MzI6NDkgKzAyMDAKLVN1YmplY3Q6IFtQQVRDSCAyLzJdIFN1cHBvcnQgYnVp
-bGRpbmcgYWxsYXJjaCByZWNpcGVzIGFnYWluCitTdWJqZWN0OiBbUEFUQ0hdIFN1cHBvcnQgYnVp
-bGRpbmcgYWxsYXJjaCByZWNpcGVzIGFnYWluCiAKIFRoaXMgcmVnaXN0ZXJzICJhbGxhcmNoIiBh
-cyBhIGtub3duIENQVSBmYW1pbHkuCiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBb
-T0Ugc3BlY2lmaWNdCiBTaWduZWQtb2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtq
-ZWxsZXJzdGVkdEBheGlzLmNvbT4KKwogLS0tCiAgbWVzb25idWlsZC9lbnZjb25maWcucHkgfCAx
-ICsKICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKIAogZGlmZiAtLWdpdCBhL21lc29u
-YnVpbGQvZW52Y29uZmlnLnB5IGIvbWVzb25idWlsZC9lbnZjb25maWcucHkKLWluZGV4IDRkNThj
-OTEuLmZmMDFhZDEgMTAwNjQ0CitpbmRleCBhMzVjMzU2Li40MzYzNTVmIDEwMDY0NAogLS0tIGEv
-bWVzb25idWlsZC9lbnZjb25maWcucHkKICsrKyBiL21lc29uYnVpbGQvZW52Y29uZmlnLnB5Ci1A
-QCAtMzYsNiArMzYsNyBAQCBmcm9tIHBhdGhsaWIgaW1wb3J0IFBhdGgKK0BAIC0zOCw2ICszOCw3
-IEBAIGZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aAogIAogIAogIGtub3duX2NwdV9mYW1pbGllcyA9
-ICgKQEAgLTIzLDYgKzI0LDMgQEAgaW5kZXggNGQ1OGM5MS4uZmYwMWFkMSAxMDA2NDQKICAgICAg
-J2FhcmNoNjQnLAogICAgICAnYWxwaGEnLAogICAgICAnYXJjJywKLS0tIAotMi4yNC4wCi0KZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjMuMC5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjMuMS5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbWVzb24vbWVzb25fMS4zLjAu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9tZXNvbi9tZXNvbl8xLjMuMS5iYgpp
-bmRleCBlNzk0YmIyOGE1Li4zYTRiYjE0ZjA5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvbWVzb24vbWVzb25fMS4zLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL21l
-c29uL21lc29uXzEuMy4xLmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJf
-QkFTRV9VUkl9L2Rvd25sb2FkLyR7UFZ9L21lc29uLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAg
-IGZpbGU6Ly8wMDAxLU1ha2UtQ1BVLWZhbWlseS13YXJuaW5ncy1mYXRhbC5wYXRjaCBcCiAgICAg
-ICAgICAgIGZpbGU6Ly8wMDAyLVN1cHBvcnQtYnVpbGRpbmctYWxsYXJjaC1yZWNpcGVzLWFnYWlu
-LnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjRiYTI1M2VmNjBl
-NDU0ZTIzMjM0Njk2MTE5Y2JhZmEwODJhMGFlYWQwYmQzYmJmNjk5MTI5NTA1NDc5NWY1ZGMiCitT
-UkNfVVJJW3NoYTI1NnN1bV0gPSAiNjAyMDU2OGJkZWRlMTY0M2Q0ZmI0MWUyODIxNWJlMzhlZmY1
-ZDUyZGEyOGFjN2QxMjU0NTdjNTllMDAzMmFkNyIKIAogaW5oZXJpdCBweXRob25fc2V0dXB0b29s
-c19idWlsZF9tZXRhIGdpdGh1Yi1yZWxlYXNlcwogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IE1vbiwgMSBKYW4gMjAyNCAwNTo1NjoxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNj
+YWNoZTogdXBncmFkZSA0LjguMyAtPiA0LjkKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Nj
+YWNoZS9jY2FjaGVfNC44LjMuYmIgIHwgIDI2IC0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2Nh
+Y2hlL2NjYWNoZV80LjkuYmIgICAgfCAyNTAgKysrKysrKysrKysrKysrKysrCiAuLi4vMDAwMS14
+eGhhc2guaC1GaXgtYnVpbGQtd2l0aC1nY2MtMTIucGF0Y2ggfCAgIDYgKy0KIDMgZmlsZXMgY2hh
+bmdlZCwgMjUzIGluc2VydGlvbnMoKyksIDI5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAw
+NjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuOC4zLmJiCiBjcmVhdGUg
+bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC45LmJiCgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfNC44LjMuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjguMy5iYgpkZWxldGVkIGZp
+bGUgbW9kZSAxMDA2NDQKaW5kZXggMDMzNzJhYTY4NS4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjguMy5iYgorKysgL2Rldi9udWxsCkBAIC0x
+LDI2ICswLDAgQEAKLVNVTU1BUlkgPSAiYSBmYXN0IEMvQysrIGNvbXBpbGVyIGNhY2hlIgotREVT
+Q1JJUFRJT04gPSAiY2NhY2hlIGlzIGEgY29tcGlsZXIgY2FjaGUuIEl0IHNwZWVkcyB1cCByZWNv
+bXBpbGF0aW9uIFwKLWJ5IGNhY2hpbmcgdGhlIHJlc3VsdCBvZiBwcmV2aW91cyBjb21waWxhdGlv
+bnMgYW5kIGRldGVjdGluZyB3aGVuIHRoZSBcCi1zYW1lIGNvbXBpbGF0aW9uIGlzIGJlaW5nIGRv
+bmUgYWdhaW4uIFN1cHBvcnRlZCBsYW5ndWFnZXMgYXJlIEMsIENcK1wrLCBcCi1PYmplY3RpdmUt
+QyBhbmQgT2JqZWN0aXZlLUMrKy4iCi1IT01FUEFHRSA9ICJodHRwOi8vY2NhY2hlLnNhbWJhLm9y
+ZyIKLVNFQ1RJT04gPSAiZGV2ZWwiCi0KLUxJQ0VOU0UgPSAiR1BMLTMuMC1vci1sYXRlciIKLUxJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UuYWRvYzttZDU9NmE2ZmUwYWU0ZTU3NTky
+YjE4N2FiNzJmYTZkNDIwZWMiCi0KLURFUEVORFMgPSAienN0ZCIKLQotU1JDX1VSSSA9ICIke0dJ
+VEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9LyR7QlB9LnRhci5neiBcCi0gICAgICAgICAg
+IGZpbGU6Ly8wMDAxLXh4aGFzaC5oLUZpeC1idWlsZC13aXRoLWdjYy0xMi5wYXRjaCBcCi0gICAg
+ICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkNTlkZDU2OWFkMmJiYzgyNmMwYmMzMzVj
+OGViZDczZTc4ZWQwZjJmNDBiYTZiMzAwNjkzNDdlNjM1ODVkOWVmIgotCi1pbmhlcml0IGNtYWtl
+IGdpdGh1Yi1yZWxlYXNlcwotCi1QQVRDSFRPT0wgPSAicGF0Y2giCi0KLUJCQ0xBU1NFWFRFTkQg
+PSAibmF0aXZlIG5hdGl2ZXNkayIKLQotUEFDS0FHRUNPTkZJR1tkb2NzXSA9ICItREVOQUJMRV9E
+T0NVTUVOVEFUSU9OPU9OLC1ERU5BQkxFX0RPQ1VNRU5UQVRJT049T0ZGLGFzY2lpZG9jIgotUEFD
+S0FHRUNPTkZJR1tyZWRpc10gPSAiLURSRURJU19TVE9SQUdFX0JBQ0tFTkQ9T04sLURSRURJU19T
+VE9SQUdFX0JBQ0tFTkQ9T0ZGLGhpcmVkaXMiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvY2NhY2hlL2NjYWNoZV80LjkuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hl
+L2NjYWNoZV80LjkuYmIKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMC4uMDFh
+ZjA0MDY4NgotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUv
+Y2NhY2hlXzQuOS5iYgpAQCAtMCwwICsxLDI1MCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19D
+SEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBU
+aGUgZm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5l
+dyBsaWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVl
+ZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2
+aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBj
+b3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJ
+Q0VOU0UuYWRvYworIyArKysgTElDRU5TRS5hZG9jCisjIEBAIC03Miw3ICs3Miw3IEBACisjICAK
+KyMgID09PSBzcmMvdGhpcmRfcGFydHkvYmxha2UzL2JsYWtlM18qCisjICAKKyMgLVRoaXMgaXMg
+YSBzdWJzZXQgb2YgaHR0cHM6Ly9naXRodWIuY29tL0JMQUtFMy10ZWFtL0JMQUtFM1tCTEFLRTNd
+IDEuNC4wIHdpdGggdGhlCisjICtUaGlzIGlzIGEgc3Vic2V0IG9mIGh0dHBzOi8vZ2l0aHViLmNv
+bS9CTEFLRTMtdGVhbS9CTEFLRTNbQkxBS0UzXSAxLjUuMCB3aXRoIHRoZQorIyAgZm9sbG93aW5n
+IGxpY2Vuc2U6CisjICAKKyMgIC0tLS0KKyMgQEAgLTQ0MSw3ICs0NDEsNyBAQAorIyAgCisjICA9
+PT0gc3JjL3RoaXJkX3BhcnR5L2ZtdC8qLmggYW5kIHNyYy90aGlyZF9wYXJ0eS9mb3JtYXQuY3Bw
+CisjICAKKyMgLVRoaXMgaXMgYSBzdWJzZXQgb2YgaHR0cHM6Ly9mbXQuZGV2W2ZtdF0gOC4xLjEg
+d2l0aCB0aGUgZm9sbG93aW5nIGxpY2Vuc2U6CisjICtUaGlzIGlzIGEgc3Vic2V0IG9mIGh0dHBz
+Oi8vZm10LmRldltmbXRdIDEwLjEuMSB3aXRoIHRoZSBmb2xsb3dpbmcgbGljZW5zZToKKyMgIAor
+IyAgLS0tLQorIyAgRm9ybWF0dGluZyBsaWJyYXJ5IGZvciBDKysKKyMgQEAgLTUxNiw3ICs1MTYs
+NyBAQAorIyAgPT09IHNyYy90aGlyZF9wYXJ0eS9odHRwbGliLioKKyMgIAorIyAgY3BwLWh0dHBs
+aWIgLSBBIEMrKzExIGNyb3NzLXBsYXRmb3JtIEhUVFAvSFRUUFMgbGlicmFyeS4gQ29waWVkIGZy
+b20gY3BwLWh0dHBsaWIKKyMgLXYwLjEyLjYgZG93bmxvYWRlZCBmcm9tIGh0dHBzOi8vZ2l0aHVi
+LmNvbS95aGlyb3NlL2NwcC1odHRwbGliW2NwcC1odHRwbGliXS4gVGhlCisjICt2MC4xNC4gZG93
+bmxvYWRlZCBmcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS95aGlyb3NlL2NwcC1odHRwbGliW2NwcC1o
+dHRwbGliXS4gVGhlCisjICBsaWJyYXJ5IGhhcyB0aGUgZm9sbG93aW5nIGxpY2Vuc2U6CisjICAK
+KyMgIC0tLS0KKyMgQEAgLTU3NCwxNCArNTc0LDE0IEBACisjICAtLS0tCisjICAKKyMgIAorIyAt
+PT09IHNyYy90aGlyZF9wYXJ0eS9ub25zdGQvZXhwZWN0ZWQuaHBwCisjICs9PT0gc3JjL3RoaXJk
+X3BhcnR5L25vbnN0ZC9zcGFuLmhwcAorIyAgCisjICBUaGlzIGlzIHRoZSBzaW5nbGUgaGVhZGVy
+IHZlcnNpb24gb2YKKyMgLWh0dHBzOi8vZ2l0aHViLmNvbS9tYXJ0aW5tb2VuZS9leHBlY3RlZC1s
+aXRlW2V4cGVjdGVkLWxpdGVdIDAuNi4yIHdpdGggdGhlCisjICtodHRwczovL2dpdGh1Yi5jb20v
+bWFydGlubW9lbmUvc3Bhbi1saXRlW2V4cGVjdGVkLWxpdGVdIDAuMTAuMyB3aXRoIHRoZQorIyAg
+Zm9sbG93aW5nIGxpY2Vuc2U6CisjICAKKyMgIC0tLS0KKyMgLUNvcHlyaWdodCAoYykgMjAxNi0y
+MDIwIE1hcnRpbiBNb2VuZQorIyArQ29weXJpZ2h0IChjKSAyMDE4LTIwMjEgTWFydGluIE1vZW5l
+CisjICAKKyMgIEJvb3N0IFNvZnR3YXJlIExpY2Vuc2UgLSBWZXJzaW9uIDEuMCAtIEF1Z3VzdCAx
+N3RoLCAyMDAzCisjICAKKyMgQEAgLTYwOSwzOCArNjA5LDEzMyBAQAorIyAgLS0tLQorIyAgCisj
+ICAKKyMgLT09PSBzcmMvdGhpcmRfcGFydHkvbm9uc3RkL3NwYW4uaHBwCisjIC0KKyMgLVRoaXMg
+aXMgdGhlIHNpbmdsZSBoZWFkZXIgdmVyc2lvbiBvZgorIyAtaHR0cHM6Ly9naXRodWIuY29tL21h
+cnRpbm1vZW5lL3NwYW4tbGl0ZVtleHBlY3RlZC1saXRlXSAwLjEwLjMgd2l0aCB0aGUKKyMgLWZv
+bGxvd2luZyBsaWNlbnNlOgorIyAtCisjIC0tLS0tCisjIC1Db3B5cmlnaHQgKGMpIDIwMTgtMjAy
+MSBNYXJ0aW4gTW9lbmUKKyMgLQorIyAtQm9vc3QgU29mdHdhcmUgTGljZW5zZSAtIFZlcnNpb24g
+MS4wIC0gQXVndXN0IDE3dGgsIDIwMDMKKyMgLQorIyAtUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3Jh
+bnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb3Igb3JnYW5pemF0aW9uCisjIC1v
+YnRhaW5pbmcgYSBjb3B5IG9mIHRoZSBzb2Z0d2FyZSBhbmQgYWNjb21wYW55aW5nIGRvY3VtZW50
+YXRpb24gY292ZXJlZCBieQorIyAtdGhpcyBsaWNlbnNlICh0aGUgIlNvZnR3YXJlIikgdG8gdXNl
+LCByZXByb2R1Y2UsIGRpc3BsYXksIGRpc3RyaWJ1dGUsCisjIC1leGVjdXRlLCBhbmQgdHJhbnNt
+aXQgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcHJlcGFyZSBkZXJpdmF0aXZlIHdvcmtzIG9mIHRoZQor
+IyAtU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgdGhpcmQtcGFydGllcyB0byB3aG9tIHRoZSBTb2Z0
+d2FyZSBpcyBmdXJuaXNoZWQgdG8KKyMgLWRvIHNvLCBhbGwgc3ViamVjdCB0byB0aGUgZm9sbG93
+aW5nOgorIyAtCisjIC1UaGUgY29weXJpZ2h0IG5vdGljZXMgaW4gdGhlIFNvZnR3YXJlIGFuZCB0
+aGlzIGVudGlyZSBzdGF0ZW1lbnQsIGluY2x1ZGluZworIyAtdGhlIGFib3ZlIGxpY2Vuc2UgZ3Jh
+bnQsIHRoaXMgcmVzdHJpY3Rpb24gYW5kIHRoZSBmb2xsb3dpbmcgZGlzY2xhaW1lciwKKyMgLW11
+c3QgYmUgaW5jbHVkZWQgaW4gYWxsIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGluIHdob2xlIG9y
+IGluIHBhcnQsIGFuZAorIyAtYWxsIGRlcml2YXRpdmUgd29ya3Mgb2YgdGhlIFNvZnR3YXJlLCB1
+bmxlc3Mgc3VjaCBjb3BpZXMgb3IgZGVyaXZhdGl2ZQorIyAtd29ya3MgYXJlIHNvbGVseSBpbiB0
+aGUgZm9ybSBvZiBtYWNoaW5lLWV4ZWN1dGFibGUgb2JqZWN0IGNvZGUgZ2VuZXJhdGVkIGJ5Cisj
+IC1hIHNvdXJjZSBsYW5ndWFnZSBwcm9jZXNzb3IuCisjIC0KKyMgLVRIRSBTT0ZUV0FSRSBJUyBQ
+Uk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTIE9S
+CisjIC1JTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVT
+IE9GIE1FUkNIQU5UQUJJTElUWSwKKyMgLUZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NF
+LCBUSVRMRSBBTkQgTk9OLUlORlJJTkdFTUVOVC4gSU4gTk8gRVZFTlQKKyMgLVNIQUxMIFRIRSBD
+T1BZUklHSFQgSE9MREVSUyBPUiBBTllPTkUgRElTVFJJQlVUSU5HIFRIRSBTT0ZUV0FSRSBCRSBM
+SUFCTEUKKyMgLUZPUiBBTlkgREFNQUdFUyBPUiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIgSU4g
+Q09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLAorIyAtQVJJU0lORyBGUk9NLCBPVVQgT0YgT1Ig
+SU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSCisjIC1E
+RUFMSU5HUyBJTiBUSEUgU09GVFdBUkUuCisjICs9PT0gc3JjL3RoaXJkX3BhcnR5L3RsL2V4cGVj
+dGVkLmhwcAorIyArCisjICtUaGlzIGlzIGh0dHBzOi8vZ2l0aHViLmNvbS9UYXJ0YW5MbGFtYS9l
+eHBlY3RlZFtUYXJ0YW5MbGFtYSBleHBlY3RlZF0gMS4xLjAgd2l0aAorIyArdGhlIGZvbGxvd2lu
+ZyBsaWNlbnNlOgorIyArCisjICstLS0tCisjICtDcmVhdGl2ZSBDb21tb25zIExlZ2FsIENvZGUK
+KyMgKworIyArQ0MwIDEuMCBVbml2ZXJzYWwKKyMgKworIyArICAgIENSRUFUSVZFIENPTU1PTlMg
+Q09SUE9SQVRJT04gSVMgTk9UIEEgTEFXIEZJUk0gQU5EIERPRVMgTk9UIFBST1ZJREUKKyMgKyAg
+ICBMRUdBTCBTRVJWSUNFUy4gRElTVFJJQlVUSU9OIE9GIFRISVMgRE9DVU1FTlQgRE9FUyBOT1Qg
+Q1JFQVRFIEFOCisjICsgICAgQVRUT1JORVktQ0xJRU5UIFJFTEFUSU9OU0hJUC4gQ1JFQVRJVkUg
+Q09NTU9OUyBQUk9WSURFUyBUSElTCisjICsgICAgSU5GT1JNQVRJT04gT04gQU4gIkFTLUlTIiBC
+QVNJUy4gQ1JFQVRJVkUgQ09NTU9OUyBNQUtFUyBOTyBXQVJSQU5USUVTCisjICsgICAgUkVHQVJE
+SU5HIFRIRSBVU0UgT0YgVEhJUyBET0NVTUVOVCBPUiBUSEUgSU5GT1JNQVRJT04gT1IgV09SS1MK
+KyMgKyAgICBQUk9WSURFRCBIRVJFVU5ERVIsIEFORCBESVNDTEFJTVMgTElBQklMSVRZIEZPUiBE
+QU1BR0VTIFJFU1VMVElORyBGUk9NCisjICsgICAgVEhFIFVTRSBPRiBUSElTIERPQ1VNRU5UIE9S
+IFRIRSBJTkZPUk1BVElPTiBPUiBXT1JLUyBQUk9WSURFRAorIyArICAgIEhFUkVVTkRFUi4KKyMg
+KworIyArU3RhdGVtZW50IG9mIFB1cnBvc2UKKyMgKworIyArVGhlIGxhd3Mgb2YgbW9zdCBqdXJp
+c2RpY3Rpb25zIHRocm91Z2hvdXQgdGhlIHdvcmxkIGF1dG9tYXRpY2FsbHkgY29uZmVyCisjICtl
+eGNsdXNpdmUgQ29weXJpZ2h0IGFuZCBSZWxhdGVkIFJpZ2h0cyAoZGVmaW5lZCBiZWxvdykgdXBv
+biB0aGUgY3JlYXRvcgorIyArYW5kIHN1YnNlcXVlbnQgb3duZXIocykgKGVhY2ggYW5kIGFsbCwg
+YW4gIm93bmVyIikgb2YgYW4gb3JpZ2luYWwgd29yayBvZgorIyArYXV0aG9yc2hpcCBhbmQvb3Ig
+YSBkYXRhYmFzZSAoZWFjaCwgYSAiV29yayIpLgorIyArCisjICtDZXJ0YWluIG93bmVycyB3aXNo
+IHRvIHBlcm1hbmVudGx5IHJlbGlucXVpc2ggdGhvc2UgcmlnaHRzIHRvIGEgV29yayBmb3IKKyMg
+K3RoZSBwdXJwb3NlIG9mIGNvbnRyaWJ1dGluZyB0byBhIGNvbW1vbnMgb2YgY3JlYXRpdmUsIGN1
+bHR1cmFsIGFuZAorIyArc2NpZW50aWZpYyB3b3JrcyAoIkNvbW1vbnMiKSB0aGF0IHRoZSBwdWJs
+aWMgY2FuIHJlbGlhYmx5IGFuZCB3aXRob3V0IGZlYXIKKyMgK29mIGxhdGVyIGNsYWltcyBvZiBp
+bmZyaW5nZW1lbnQgYnVpbGQgdXBvbiwgbW9kaWZ5LCBpbmNvcnBvcmF0ZSBpbiBvdGhlcgorIyAr
+d29ya3MsIHJldXNlIGFuZCByZWRpc3RyaWJ1dGUgYXMgZnJlZWx5IGFzIHBvc3NpYmxlIGluIGFu
+eSBmb3JtIHdoYXRzb2V2ZXIKKyMgK2FuZCBmb3IgYW55IHB1cnBvc2VzLCBpbmNsdWRpbmcgd2l0
+aG91dCBsaW1pdGF0aW9uIGNvbW1lcmNpYWwgcHVycG9zZXMuCisjICtUaGVzZSBvd25lcnMgbWF5
+IGNvbnRyaWJ1dGUgdG8gdGhlIENvbW1vbnMgdG8gcHJvbW90ZSB0aGUgaWRlYWwgb2YgYSBmcmVl
+CisjICtjdWx0dXJlIGFuZCB0aGUgZnVydGhlciBwcm9kdWN0aW9uIG9mIGNyZWF0aXZlLCBjdWx0
+dXJhbCBhbmQgc2NpZW50aWZpYworIyArd29ya3MsIG9yIHRvIGdhaW4gcmVwdXRhdGlvbiBvciBn
+cmVhdGVyIGRpc3RyaWJ1dGlvbiBmb3IgdGhlaXIgV29yayBpbgorIyArcGFydCB0aHJvdWdoIHRo
+ZSB1c2UgYW5kIGVmZm9ydHMgb2Ygb3RoZXJzLgorIyArCisjICtGb3IgdGhlc2UgYW5kL29yIG90
+aGVyIHB1cnBvc2VzIGFuZCBtb3RpdmF0aW9ucywgYW5kIHdpdGhvdXQgYW55CisjICtleHBlY3Rh
+dGlvbiBvZiBhZGRpdGlvbmFsIGNvbnNpZGVyYXRpb24gb3IgY29tcGVuc2F0aW9uLCB0aGUgcGVy
+c29uCisjICthc3NvY2lhdGluZyBDQzAgd2l0aCBhIFdvcmsgKHRoZSAiQWZmaXJtZXIiKSwgdG8g
+dGhlIGV4dGVudCB0aGF0IGhlIG9yIHNoZQorIyAraXMgYW4gb3duZXIgb2YgQ29weXJpZ2h0IGFu
+ZCBSZWxhdGVkIFJpZ2h0cyBpbiB0aGUgV29yaywgdm9sdW50YXJpbHkKKyMgK2VsZWN0cyB0byBh
+cHBseSBDQzAgdG8gdGhlIFdvcmsgYW5kIHB1YmxpY2x5IGRpc3RyaWJ1dGUgdGhlIFdvcmsgdW5k
+ZXIgaXRzCisjICt0ZXJtcywgd2l0aCBrbm93bGVkZ2Ugb2YgaGlzIG9yIGhlciBDb3B5cmlnaHQg
+YW5kIFJlbGF0ZWQgUmlnaHRzIGluIHRoZQorIyArV29yayBhbmQgdGhlIG1lYW5pbmcgYW5kIGlu
+dGVuZGVkIGxlZ2FsIGVmZmVjdCBvZiBDQzAgb24gdGhvc2UgcmlnaHRzLgorIyArCisjICsxLiBD
+b3B5cmlnaHQgYW5kIFJlbGF0ZWQgUmlnaHRzLiBBIFdvcmsgbWFkZSBhdmFpbGFibGUgdW5kZXIg
+Q0MwIG1heSBiZQorIyArcHJvdGVjdGVkIGJ5IGNvcHlyaWdodCBhbmQgcmVsYXRlZCBvciBuZWln
+aGJvcmluZyByaWdodHMgKCJDb3B5cmlnaHQgYW5kCisjICtSZWxhdGVkIFJpZ2h0cyIpLiBDb3B5
+cmlnaHQgYW5kIFJlbGF0ZWQgUmlnaHRzIGluY2x1ZGUsIGJ1dCBhcmUgbm90CisjICtsaW1pdGVk
+IHRvLCB0aGUgZm9sbG93aW5nOgorIyArCisjICsgIGkuIHRoZSByaWdodCB0byByZXByb2R1Y2Us
+IGFkYXB0LCBkaXN0cmlidXRlLCBwZXJmb3JtLCBkaXNwbGF5LAorIyArICAgICBjb21tdW5pY2F0
+ZSwgYW5kIHRyYW5zbGF0ZSBhIFdvcms7CisjICsgaWkuIG1vcmFsIHJpZ2h0cyByZXRhaW5lZCBi
+eSB0aGUgb3JpZ2luYWwgYXV0aG9yKHMpIGFuZC9vciBwZXJmb3JtZXIocyk7CisjICtpaWkuIHB1
+YmxpY2l0eSBhbmQgcHJpdmFjeSByaWdodHMgcGVydGFpbmluZyB0byBhIHBlcnNvbidzIGltYWdl
+IG9yCisjICsgICAgIGxpa2VuZXNzIGRlcGljdGVkIGluIGEgV29yazsKKyMgKyBpdi4gcmlnaHRz
+IHByb3RlY3RpbmcgYWdhaW5zdCB1bmZhaXIgY29tcGV0aXRpb24gaW4gcmVnYXJkcyB0byBhIFdv
+cmssCisjICsgICAgIHN1YmplY3QgdG8gdGhlIGxpbWl0YXRpb25zIGluIHBhcmFncmFwaCA0KGEp
+LCBiZWxvdzsKKyMgKyAgdi4gcmlnaHRzIHByb3RlY3RpbmcgdGhlIGV4dHJhY3Rpb24sIGRpc3Nl
+bWluYXRpb24sIHVzZSBhbmQgcmV1c2Ugb2YgZGF0YQorIyArICAgICBpbiBhIFdvcms7CisjICsg
+dmkuIGRhdGFiYXNlIHJpZ2h0cyAoc3VjaCBhcyB0aG9zZSBhcmlzaW5nIHVuZGVyIERpcmVjdGl2
+ZSA5Ni85L0VDIG9mIHRoZQorIyArICAgICBFdXJvcGVhbiBQYXJsaWFtZW50IGFuZCBvZiB0aGUg
+Q291bmNpbCBvZiAxMSBNYXJjaCAxOTk2IG9uIHRoZSBsZWdhbAorIyArICAgICBwcm90ZWN0aW9u
+IG9mIGRhdGFiYXNlcywgYW5kIHVuZGVyIGFueSBuYXRpb25hbCBpbXBsZW1lbnRhdGlvbgorIyAr
+ICAgICB0aGVyZW9mLCBpbmNsdWRpbmcgYW55IGFtZW5kZWQgb3Igc3VjY2Vzc29yIHZlcnNpb24g
+b2Ygc3VjaAorIyArICAgICBkaXJlY3RpdmUpOyBhbmQKKyMgK3ZpaS4gb3RoZXIgc2ltaWxhciwg
+ZXF1aXZhbGVudCBvciBjb3JyZXNwb25kaW5nIHJpZ2h0cyB0aHJvdWdob3V0IHRoZQorIyArICAg
+ICB3b3JsZCBiYXNlZCBvbiBhcHBsaWNhYmxlIGxhdyBvciB0cmVhdHksIGFuZCBhbnkgbmF0aW9u
+YWwKKyMgKyAgICAgaW1wbGVtZW50YXRpb25zIHRoZXJlb2YuCisjICsKKyMgKzIuIFdhaXZlci4g
+VG8gdGhlIGdyZWF0ZXN0IGV4dGVudCBwZXJtaXR0ZWQgYnksIGJ1dCBub3QgaW4gY29udHJhdmVu
+dGlvbgorIyArb2YsIGFwcGxpY2FibGUgbGF3LCBBZmZpcm1lciBoZXJlYnkgb3ZlcnRseSwgZnVs
+bHksIHBlcm1hbmVudGx5LAorIyAraXJyZXZvY2FibHkgYW5kIHVuY29uZGl0aW9uYWxseSB3YWl2
+ZXMsIGFiYW5kb25zLCBhbmQgc3VycmVuZGVycyBhbGwgb2YKKyMgK0FmZmlybWVyJ3MgQ29weXJp
+Z2h0IGFuZCBSZWxhdGVkIFJpZ2h0cyBhbmQgYXNzb2NpYXRlZCBjbGFpbXMgYW5kIGNhdXNlcwor
+IyArb2YgYWN0aW9uLCB3aGV0aGVyIG5vdyBrbm93biBvciB1bmtub3duIChpbmNsdWRpbmcgZXhp
+c3RpbmcgYXMgd2VsbCBhcworIyArZnV0dXJlIGNsYWltcyBhbmQgY2F1c2VzIG9mIGFjdGlvbiks
+IGluIHRoZSBXb3JrIChpKSBpbiBhbGwgdGVycml0b3JpZXMKKyMgK3dvcmxkd2lkZSwgKGlpKSBm
+b3IgdGhlIG1heGltdW0gZHVyYXRpb24gcHJvdmlkZWQgYnkgYXBwbGljYWJsZSBsYXcgb3IKKyMg
+K3RyZWF0eSAoaW5jbHVkaW5nIGZ1dHVyZSB0aW1lIGV4dGVuc2lvbnMpLCAoaWlpKSBpbiBhbnkg
+Y3VycmVudCBvciBmdXR1cmUKKyMgK21lZGl1bSBhbmQgZm9yIGFueSBudW1iZXIgb2YgY29waWVz
+LCBhbmQgKGl2KSBmb3IgYW55IHB1cnBvc2Ugd2hhdHNvZXZlciwKKyMgK2luY2x1ZGluZyB3aXRo
+b3V0IGxpbWl0YXRpb24gY29tbWVyY2lhbCwgYWR2ZXJ0aXNpbmcgb3IgcHJvbW90aW9uYWwKKyMg
+K3B1cnBvc2VzICh0aGUgIldhaXZlciIpLiBBZmZpcm1lciBtYWtlcyB0aGUgV2FpdmVyIGZvciB0
+aGUgYmVuZWZpdCBvZiBlYWNoCisjICttZW1iZXIgb2YgdGhlIHB1YmxpYyBhdCBsYXJnZSBhbmQg
+dG8gdGhlIGRldHJpbWVudCBvZiBBZmZpcm1lcidzIGhlaXJzIGFuZAorIyArc3VjY2Vzc29ycywg
+ZnVsbHkgaW50ZW5kaW5nIHRoYXQgc3VjaCBXYWl2ZXIgc2hhbGwgbm90IGJlIHN1YmplY3QgdG8K
+KyMgK3Jldm9jYXRpb24sIHJlc2Npc3Npb24sIGNhbmNlbGxhdGlvbiwgdGVybWluYXRpb24sIG9y
+IGFueSBvdGhlciBsZWdhbCBvcgorIyArZXF1aXRhYmxlIGFjdGlvbiB0byBkaXNydXB0IHRoZSBx
+dWlldCBlbmpveW1lbnQgb2YgdGhlIFdvcmsgYnkgdGhlIHB1YmxpYworIyArYXMgY29udGVtcGxh
+dGVkIGJ5IEFmZmlybWVyJ3MgZXhwcmVzcyBTdGF0ZW1lbnQgb2YgUHVycG9zZS4KKyMgKworIyAr
+My4gUHVibGljIExpY2Vuc2UgRmFsbGJhY2suIFNob3VsZCBhbnkgcGFydCBvZiB0aGUgV2FpdmVy
+IGZvciBhbnkgcmVhc29uCisjICtiZSBqdWRnZWQgbGVnYWxseSBpbnZhbGlkIG9yIGluZWZmZWN0
+aXZlIHVuZGVyIGFwcGxpY2FibGUgbGF3LCB0aGVuIHRoZQorIyArV2FpdmVyIHNoYWxsIGJlIHBy
+ZXNlcnZlZCB0byB0aGUgbWF4aW11bSBleHRlbnQgcGVybWl0dGVkIHRha2luZyBpbnRvCisjICth
+Y2NvdW50IEFmZmlybWVyJ3MgZXhwcmVzcyBTdGF0ZW1lbnQgb2YgUHVycG9zZS4gSW4gYWRkaXRp
+b24sIHRvIHRoZQorIyArZXh0ZW50IHRoZSBXYWl2ZXIgaXMgc28ganVkZ2VkIEFmZmlybWVyIGhl
+cmVieSBncmFudHMgdG8gZWFjaCBhZmZlY3RlZAorIyArcGVyc29uIGEgcm95YWx0eS1mcmVlLCBu
+b24gdHJhbnNmZXJhYmxlLCBub24gc3VibGljZW5zYWJsZSwgbm9uIGV4Y2x1c2l2ZSwKKyMgK2ly
+cmV2b2NhYmxlIGFuZCB1bmNvbmRpdGlvbmFsIGxpY2Vuc2UgdG8gZXhlcmNpc2UgQWZmaXJtZXIn
+cyBDb3B5cmlnaHQgYW5kCisjICtSZWxhdGVkIFJpZ2h0cyBpbiB0aGUgV29yayAoaSkgaW4gYWxs
+IHRlcnJpdG9yaWVzIHdvcmxkd2lkZSwgKGlpKSBmb3IgdGhlCisjICttYXhpbXVtIGR1cmF0aW9u
+IHByb3ZpZGVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIHRyZWF0eSAoaW5jbHVkaW5nIGZ1dHVyZQor
+IyArdGltZSBleHRlbnNpb25zKSwgKGlpaSkgaW4gYW55IGN1cnJlbnQgb3IgZnV0dXJlIG1lZGl1
+bSBhbmQgZm9yIGFueSBudW1iZXIKKyMgK29mIGNvcGllcywgYW5kIChpdikgZm9yIGFueSBwdXJw
+b3NlIHdoYXRzb2V2ZXIsIGluY2x1ZGluZyB3aXRob3V0CisjICtsaW1pdGF0aW9uIGNvbW1lcmNp
+YWwsIGFkdmVydGlzaW5nIG9yIHByb21vdGlvbmFsIHB1cnBvc2VzICh0aGUKKyMgKyJMaWNlbnNl
+IikuIFRoZSBMaWNlbnNlIHNoYWxsIGJlIGRlZW1lZCBlZmZlY3RpdmUgYXMgb2YgdGhlIGRhdGUg
+Q0MwIHdhcworIyArYXBwbGllZCBieSBBZmZpcm1lciB0byB0aGUgV29yay4gU2hvdWxkIGFueSBw
+YXJ0IG9mIHRoZSBMaWNlbnNlIGZvciBhbnkKKyMgK3JlYXNvbiBiZSBqdWRnZWQgbGVnYWxseSBp
+bnZhbGlkIG9yIGluZWZmZWN0aXZlIHVuZGVyIGFwcGxpY2FibGUgbGF3LCBzdWNoCisjICtwYXJ0
+aWFsIGludmFsaWRpdHkgb3IgaW5lZmZlY3RpdmVuZXNzIHNoYWxsIG5vdCBpbnZhbGlkYXRlIHRo
+ZSByZW1haW5kZXIKKyMgK29mIHRoZSBMaWNlbnNlLCBhbmQgaW4gc3VjaCBjYXNlIEFmZmlybWVy
+IGhlcmVieSBhZmZpcm1zIHRoYXQgaGUgb3Igc2hlCisjICt3aWxsIG5vdCAoaSkgZXhlcmNpc2Ug
+YW55IG9mIGhpcyBvciBoZXIgcmVtYWluaW5nIENvcHlyaWdodCBhbmQgUmVsYXRlZAorIyArUmln
+aHRzIGluIHRoZSBXb3JrIG9yIChpaSkgYXNzZXJ0IGFueSBhc3NvY2lhdGVkIGNsYWltcyBhbmQg
+Y2F1c2VzIG9mCisjICthY3Rpb24gd2l0aCByZXNwZWN0IHRvIHRoZSBXb3JrLCBpbiBlaXRoZXIg
+Y2FzZSBjb250cmFyeSB0byBBZmZpcm1lcidzCisjICtleHByZXNzIFN0YXRlbWVudCBvZiBQdXJw
+b3NlLgorIyArCisjICs0LiBMaW1pdGF0aW9ucyBhbmQgRGlzY2xhaW1lcnMuCisjICsKKyMgKyBh
+LiBObyB0cmFkZW1hcmsgb3IgcGF0ZW50IHJpZ2h0cyBoZWxkIGJ5IEFmZmlybWVyIGFyZSB3YWl2
+ZWQsIGFiYW5kb25lZCwKKyMgKyAgICBzdXJyZW5kZXJlZCwgbGljZW5zZWQgb3Igb3RoZXJ3aXNl
+IGFmZmVjdGVkIGJ5IHRoaXMgZG9jdW1lbnQuCisjICsgYi4gQWZmaXJtZXIgb2ZmZXJzIHRoZSBX
+b3JrIGFzLWlzIGFuZCBtYWtlcyBubyByZXByZXNlbnRhdGlvbnMgb3IKKyMgKyAgICB3YXJyYW50
+aWVzIG9mIGFueSBraW5kIGNvbmNlcm5pbmcgdGhlIFdvcmssIGV4cHJlc3MsIGltcGxpZWQsCisj
+ICsgICAgc3RhdHV0b3J5IG9yIG90aGVyd2lzZSwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlv
+biB3YXJyYW50aWVzIG9mCisjICsgICAgdGl0bGUsIG1lcmNoYW50YWJpbGl0eSwgZml0bmVzcyBm
+b3IgYSBwYXJ0aWN1bGFyIHB1cnBvc2UsIG5vbgorIyArICAgIGluZnJpbmdlbWVudCwgb3IgdGhl
+IGFic2VuY2Ugb2YgbGF0ZW50IG9yIG90aGVyIGRlZmVjdHMsIGFjY3VyYWN5LCBvcgorIyArICAg
+IHRoZSBwcmVzZW50IG9yIGFic2VuY2Ugb2YgZXJyb3JzLCB3aGV0aGVyIG9yIG5vdCBkaXNjb3Zl
+cmFibGUsIGFsbCB0bworIyArICAgIHRoZSBncmVhdGVzdCBleHRlbnQgcGVybWlzc2libGUgdW5k
+ZXIgYXBwbGljYWJsZSBsYXcuCisjICsgYy4gQWZmaXJtZXIgZGlzY2xhaW1zIHJlc3BvbnNpYmls
+aXR5IGZvciBjbGVhcmluZyByaWdodHMgb2Ygb3RoZXIgcGVyc29ucworIyArICAgIHRoYXQgbWF5
+IGFwcGx5IHRvIHRoZSBXb3JrIG9yIGFueSB1c2UgdGhlcmVvZiwgaW5jbHVkaW5nIHdpdGhvdXQK
+KyMgKyAgICBsaW1pdGF0aW9uIGFueSBwZXJzb24ncyBDb3B5cmlnaHQgYW5kIFJlbGF0ZWQgUmln
+aHRzIGluIHRoZSBXb3JrLgorIyArICAgIEZ1cnRoZXIsIEFmZmlybWVyIGRpc2NsYWltcyByZXNw
+b25zaWJpbGl0eSBmb3Igb2J0YWluaW5nIGFueSBuZWNlc3NhcnkKKyMgKyAgICBjb25zZW50cywg
+cGVybWlzc2lvbnMgb3Igb3RoZXIgcmlnaHRzIHJlcXVpcmVkIGZvciBhbnkgdXNlIG9mIHRoZQor
+IyArICAgIFdvcmsuCisjICsgZC4gQWZmaXJtZXIgdW5kZXJzdGFuZHMgYW5kIGFja25vd2xlZGdl
+cyB0aGF0IENyZWF0aXZlIENvbW1vbnMgaXMgbm90IGEKKyMgKyAgICBwYXJ0eSB0byB0aGlzIGRv
+Y3VtZW50IGFuZCBoYXMgbm8gZHV0eSBvciBvYmxpZ2F0aW9uIHdpdGggcmVzcGVjdCB0bworIyAr
+ICAgIHRoaXMgQ0MwIG9yIHVzZSBvZiB0aGUgV29yay4KKyMgIC0tLS0KKyMgIAorIyAgCisjIAor
+IworCitTVU1NQVJZID0gImEgZmFzdCBDL0MrKyBjb21waWxlciBjYWNoZSIKK0RFU0NSSVBUSU9O
+ID0gImNjYWNoZSBpcyBhIGNvbXBpbGVyIGNhY2hlLiBJdCBzcGVlZHMgdXAgcmVjb21waWxhdGlv
+biBcCitieSBjYWNoaW5nIHRoZSByZXN1bHQgb2YgcHJldmlvdXMgY29tcGlsYXRpb25zIGFuZCBk
+ZXRlY3Rpbmcgd2hlbiB0aGUgXAorc2FtZSBjb21waWxhdGlvbiBpcyBiZWluZyBkb25lIGFnYWlu
+LiBTdXBwb3J0ZWQgbGFuZ3VhZ2VzIGFyZSBDLCBDXCtcKywgXAorT2JqZWN0aXZlLUMgYW5kIE9i
+amVjdGl2ZS1DKysuIgorSE9NRVBBR0UgPSAiaHR0cDovL2NjYWNoZS5zYW1iYS5vcmciCitTRUNU
+SU9OID0gImRldmVsIgorCitMSUNFTlNFID0gIkdQTC0zLjAtb3ItbGF0ZXIiCitMSUNfRklMRVNf
+Q0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLmFkb2M7bWQ1PTExYjBiNTgxZGQ1NmJiYWM0ZjVkZTIx
+NGQ0NzkyN2NhIgorCitERVBFTkRTID0gInpzdGQiCisKK1NSQ19VUkkgPSAiJHtHSVRIVUJfQkFT
+RV9VUkl9L2Rvd25sb2FkL3Yke1BWfS8ke0JQfS50YXIuZ3ogXAorICAgICAgICAgICBmaWxlOi8v
+MDAwMS14eGhhc2guaC1GaXgtYnVpbGQtd2l0aC1nY2MtMTIucGF0Y2ggXAorICAgICAgICAgICAi
+CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiODY2YjIyMjNkNTkzMzM2NDBmMGU3YTAwM2NiYjg1YjMy
+ZDljYTNjOTQ0NWJkOWUzY2YxNDI5NDJlNjlkZDNlYyIKKworaW5oZXJpdCBjbWFrZSBnaXRodWIt
+cmVsZWFzZXMKKworUEFUQ0hUT09MID0gInBhdGNoIgorCitCQkNMQVNTRVhURU5EID0gIm5hdGl2
+ZSBuYXRpdmVzZGsiCisKK1BBQ0tBR0VDT05GSUdbZG9jc10gPSAiLURFTkFCTEVfRE9DVU1FTlRB
+VElPTj1PTiwtREVOQUJMRV9ET0NVTUVOVEFUSU9OPU9GRixhc2NpaWRvYyIKK1BBQ0tBR0VDT05G
+SUdbcmVkaXNdID0gIi1EUkVESVNfU1RPUkFHRV9CQUNLRU5EPU9OLC1EUkVESVNfU1RPUkFHRV9C
+QUNLRU5EPU9GRixoaXJlZGlzIgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Nj
+YWNoZS9maWxlcy8wMDAxLXh4aGFzaC5oLUZpeC1idWlsZC13aXRoLWdjYy0xMi5wYXRjaCBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvZmlsZXMvMDAwMS14eGhhc2guaC1GaXgtYnVpbGQt
+d2l0aC1nY2MtMTIucGF0Y2gKaW5kZXggNjdjNzRhMWU4ZS4uMzMzNzIwNjFlNSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9maWxlcy8wMDAxLXh4aGFzaC5oLUZpeC1i
+dWlsZC13aXRoLWdjYy0xMi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hl
+L2ZpbGVzLzAwMDEteHhoYXNoLmgtRml4LWJ1aWxkLXdpdGgtZ2NjLTEyLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSA1NTA4MzRhM2VjMmUwNWUzNzliZTYzYjA4NGU3ZmEwNmExNzIzZjg0IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2NDhmYzQ2MmZiZmI0YmRiZGIyYWU2NjczODJh
+ZDJjN2FlYTBhMzFmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWluZ2xpIFl1IDxt
+aW5nbGkueXVAd2luZHJpdmVyLmNvbT4KIERhdGU6IE1vbiwgNiBKdW4gMjAyMiAxNzo1MzoyMCAr
+MDgwMAogU3ViamVjdDogW1BBVENIXSB4eGhhc2guaDogRml4IGJ1aWxkIHdpdGggZ2NjLTEyCkBA
+IC0yMywxMCArMjMsMTAgQEAgU2lnbmVkLW9mZi1ieTogTWluZ2xpIFl1IDxtaW5nbGkueXVAd2lu
+ZHJpdmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIAogZGlmZiAtLWdpdCBhL3NyYy90aGlyZF9wYXJ0eS94eGhhc2guaCBiL3NyYy90aGlyZF9w
+YXJ0eS94eGhhc2guaAotaW5kZXggMDhhYjc5NC4uYzc1NGU5OSAxMDA2NDQKK2luZGV4IGExOGU4
+YzcuLjFiNzIzMDcgMTAwNjQ0CiAtLS0gYS9zcmMvdGhpcmRfcGFydHkveHhoYXNoLmgKICsrKyBi
+L3NyYy90aGlyZF9wYXJ0eS94eGhhc2guaAotQEAgLTE1MDEsNyArMTUwMSw3IEBAIHN0YXRpYyB2
+b2lkKiBYWEhfbWVtY3B5KHZvaWQqIGRlc3QsIGNvbnN0IHZvaWQqIHNyYywgc2l6ZV90IHNpemUp
+CitAQCAtMjEwNyw3ICsyMTA3LDcgQEAgc3RhdGljIHZvaWQqIFhYSF9tZW1jcHkodm9pZCogZGVz
+dCwgY29uc3Qgdm9pZCogc3JjLCBzaXplX3Qgc2l6ZSkKICAjICBkZWZpbmUgWFhIX05PX0lOTElO
+RSBzdGF0aWMKICAvKiBlbmFibGUgaW5saW5pbmcgaGludHMgKi8KICAjZWxpZiBkZWZpbmVkKF9f
+R05VQ19fKSB8fCBkZWZpbmVkKF9fY2xhbmdfXykKLS0gCjIuNDIuMAoK
 
---===============5901363395156083210==
+--===============8959762869416047200==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/meson (sysroot):
-  /usr/lib/python3.11/site-packages/meson-1.3.0.dist-info moved to /usr/lib/python3.11/site-packages/meson-1.3.1.dist-info
+packages/core2-64-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 26463768 to 33606472 (+27%)
+packages/core2-64-poky-linux/ccache/ccache: PKGSIZE changed from 1477944 to 1641784 (+11%)
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1727,32 +2327,299 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5901363395156083210==
+--===============8959762869416047200==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/meson: PV changed from "1.3.0" to "1.3.1"
-packages/core2-64-poky-linux/meson: SRC_URI changed from "https://github.com/mesonbuild/meson/releases//download/1.3.0/meson-1.3.0.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch" to "https://github.com/mesonbuild/meson/releases//download/1.3.1/meson-1.3.1.tar.gz file://meson-setup.py file://meson-wrapper file://0001-python-module-do-not-manipulate-the-environment-when.patch file://0001-Make-CPU-family-warnings-fatal.patch file://0002-Support-building-allarch-recipes-again.patch"
-packages/core2-64-poky-linux/meson: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-64-poky-linux/meson/meson-dbg: PV changed from "1.3.0" to "1.3.1"
-packages/core2-64-poky-linux/meson/meson-dbg: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-64-poky-linux/meson/meson-dev: PV changed from "1.3.0" to "1.3.1"
-packages/core2-64-poky-linux/meson/meson-dev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-64-poky-linux/meson/meson-doc: PV changed from "1.3.0" to "1.3.1"
-packages/core2-64-poky-linux/meson/meson-doc: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-64-poky-linux/meson/meson-locale: PV changed from "1.3.0" to "1.3.1"
-packages/core2-64-poky-linux/meson/meson-locale: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-64-poky-linux/meson/meson-src: PV changed from "1.3.0" to "1.3.1"
-packages/core2-64-poky-linux/meson/meson-src: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-64-poky-linux/meson/meson-staticdev: PV changed from "1.3.0" to "1.3.1"
-packages/core2-64-poky-linux/meson/meson-staticdev: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-packages/core2-64-poky-linux/meson/meson: PKGSIZE changed from 8503183 to 8505588 (+0%)
-packages/core2-64-poky-linux/meson/meson: PV changed from "1.3.0" to "1.3.1"
-packages/core2-64-poky-linux/meson/meson: PKGV changed from 1.3.0 [default] to 1.3.1 [default]
-Changes to packages/core2-64-poky-linux/meson (sysroot):
-  /usr/lib/python3.11/site-packages/meson-1.3.0.dist-info moved to /usr/lib/python3.11/site-packages/meson-1.3.1.dist-info
+packages/core2-64-poky-linux/ccache/ccache-dbg: PV changed from "4.8.3" to "4.9"
+packages/core2-64-poky-linux/ccache/ccache-dbg: PKGV changed from 4.8.3 [default] to 4.9 [default]
+packages/core2-64-poky-linux/ccache/ccache-dbg: PKGSIZE changed from 26463768 to 33606472 (+27%)
+packages/core2-64-poky-linux/ccache/ccache-dev: PV changed from "4.8.3" to "4.9"
+packages/core2-64-poky-linux/ccache/ccache-dev: PKGV changed from 4.8.3 [default] to 4.9 [default]
+packages/core2-64-poky-linux/ccache/ccache-doc: PV changed from "4.8.3" to "4.9"
+packages/core2-64-poky-linux/ccache/ccache-doc: PKGV changed from 4.8.3 [default] to 4.9 [default]
+packages/core2-64-poky-linux/ccache/ccache-locale: PV changed from "4.8.3" to "4.9"
+packages/core2-64-poky-linux/ccache/ccache-locale: PKGV changed from 4.8.3 [default] to 4.9 [default]
+packages/core2-64-poky-linux/ccache/ccache-src: PV changed from "4.8.3" to "4.9"
+packages/core2-64-poky-linux/ccache/ccache-src: FILELIST: directory renamed /usr/src/debug/ccache/4.8.3/src/storage/local -> /usr/src/debug/ccache/4.9/src/storage/local, directory renamed /usr/src/debug/ccache/4.8.3/src/third_party/blake3 -> /usr/src/debug/ccache/4.9/src/third_party/blake3, directory renamed /usr/src/debug/ccache/4.8.3/src/storage -> /usr/src/debug/ccache/4.9/src/storage, directory renamed /usr/src/debug/ccache/4.8.3/src/storage/remote -> /usr/src/debug/ccache/4.9/src/storage/remote, removed "/usr/src/debug/ccache/4.8.3/src/Context.hpp /usr/src/debug/ccache/4.8.3/src/main.cpp /usr/src/debug/ccache/4.8.3/src/util/Bytes.cpp /usr/src/debug/ccache/4.8.3/src/util/TimePoint.cpp /usr/src/debug/ccache/4.8.3/src/util/TimePoint.hpp /usr/src/debug/ccache/4.8.3/src/util/Tokenizer.cpp /usr/src/debug/ccache/4.8.3/src/util/LockFile.cpp /usr/src/debug/ccache/4.8.3/src/util/LockFile.hpp /usr/src/debug/ccache/4.8.3/src/ArgsInfo.hpp /usr/src/debug/ccache/4.8.3/src/util/Tokenizer.hpp /u
+ sr/src/debug/ccache/4.8.3/src/util/zstd.cpp /usr/src/debug/ccache/4.8.3/src/TemporaryFile.hpp /usr/src/debug/ccache/4.8.3/src/TemporaryFile.cpp /usr/src/debug/ccache/4.8.3/src/Fd.cpp /usr/src/debug/ccache/4.8.3/src/third_party/xxh_x86dispatch.c /usr/src/debug/ccache/4.8.3/src/util/path.hpp /usr/src/debug/ccache/4.8.3/src/util/Bytes.hpp /usr/src/debug/ccache/4.8.3/src/Depfile.cpp /usr/src/debug/ccache/4.8.3/src/third_party/xxh_x86dispatch.h /usr/src/debug/ccache/4.8.3/src/util/types.hpp /usr/src/debug/ccache/4.8.3/src/core/MsvcShowIncludesOutput.hpp /usr/src/debug/ccache/4.8.3/src/ProgressBar.cpp /usr/src/debug/ccache/4.8.3/src/language.cpp /usr/src/debug/ccache/4.8.3/src/third_party/httplib.cpp /usr/src/debug/ccache/4.8.3/src/SignalHandler.cpp /usr/src/debug/ccache/4.8.3/src/SignalHandler.hpp /usr/src/debug/ccache/4.8.3/src/Depfile.hpp /usr/src/debug/ccache/4.8.3/src/util/XXH3_128.hpp /usr/src/debug/ccache/4.8.3/src/core/MsvcShowIncludesOutput.cpp /usr/src/debug/ccache/4.8.3/src/Uti
+ l.cpp /usr/src/debug/ccache/4.8.3/src/core/Manifest.cpp /usr/src/debug/ccache/4.8.3/src/core/Manifest.hpp /usr/src/debug/ccache/4.8.3/src/Hash.cpp /usr/src/debug/ccache/4.8.3/src/assertions.cpp /usr/src/debug/ccache/4.8.3/src/Stat.cpp /usr/src/debug/ccache/4.8.3/src/util/Timer.hpp /usr/src/debug/ccache/4.8.3/src/hashutil.hpp /usr/src/debug/ccache/4.8.3/src/InodeCache.cpp /usr/src/debug/ccache/4.8.3/src/core/CacheEntryDataReader.hpp /usr/src/debug/ccache/4.8.3/src/core/CacheEntryDataWriter.hpp /usr/src/debug/ccache/4.8.3/src/core/Statistics.cpp /usr/src/debug/ccache/4.8.3/src/core/Sloppiness.hpp /usr/src/debug/ccache/4.8.3/src/Finalizer.hpp /usr/src/debug/ccache/4.8.3/src/execute.cpp /usr/src/debug/ccache/4.8.3/src/third_party/format.cpp /usr/src/debug/ccache/4.8.3/src/ThreadPool.cpp /usr/src/debug/ccache/4.8.3/src/compopt.hpp /usr/src/debug/ccache/4.8.3/src/Digest.hpp /usr/src/debug/ccache/4.8.3/src/util/zstd.hpp /usr/src/debug/ccache/4.8.3/src/util/XXH3_64.hpp /usr/src/debug/ccache
+ /4.8.3/src/Logging.cpp /usr/src/debug/ccache/4.8.3/src/core/Serializer.hpp /usr/src/debug/ccache/4.8.3/src/argprocessing.cpp /usr/src/debug/ccache/4.8.3/src/argprocessing.hpp /usr/src/debug/ccache/4.8.3/src/Hash.hpp /usr/src/debug/ccache/4.8.3/src/core/StatisticsCounters.hpp /usr/src/debug/ccache/4.8.3/src/assertions.hpp /usr/src/debug/ccache/4.8.3/src/core/mainoptions.cpp /usr/src/debug/ccache/4.8.3/src/core/types.hpp /usr/src/debug/ccache/4.8.3/src/util/LongLivedLockFileManager.cpp /usr/src/debug/ccache/4.8.3/src/util/LongLivedLockFileManager.hpp /usr/src/debug/ccache/4.8.3/src/core/CacheEntry.cpp /usr/src/debug/ccache/4.8.3/src/core/FileRecompressor.cpp /usr/src/debug/ccache/4.8.3/src/core/FileRecompressor.hpp /usr/src/debug/ccache/4.8.3/src/core/ResultRetriever.cpp /usr/src/debug/ccache/4.8.3/src/third_party/fmt/core.h /usr/src/debug/ccache/4.8.3/src/File.hpp /usr/src/debug/ccache/4.8.3/src/AtomicFile.cpp /usr/src/debug/ccache/4.8.3/src/util/string.hpp /usr/src/debug/ccache/4.8.
+ 3/src/Config.hpp /usr/src/debug/ccache/4.8.3/src/Config.cpp /usr/src/debug/ccache/4.8.3/src/third_party/nonstd/expected.hpp /usr/src/debug/ccache/4.8.3/src/Args.cpp /usr/src/debug/ccache/4.8.3/src/AtomicFile.hpp /usr/src/debug/ccache/4.8.3/src/third_party/httplib.h /usr/src/debug/ccache/4.8.3/src/Stat.hpp /usr/src/debug/ccache/4.8.3/src/Context.cpp /usr/src/debug/ccache/4.8.3/src/third_party/fmt/format.h /usr/src/debug/ccache/4.8.3/src/util/file.hpp /usr/src/debug/ccache/4.8.3/src/third_party/xxhash.h /usr/src/debug/ccache/4.8.3/src/third_party/url.cpp /usr/src/debug/ccache/4.8.3/src/util/path.cpp /usr/src/debug/ccache/4.8.3/src/core/Result.cpp /usr/src/debug/ccache/4.8.3/src/third_party/url.hpp /usr/src/debug/ccache/4.8.3/src/macroskip.hpp /usr/src/debug/ccache/4.8.3/src/core/Result.hpp /usr/src/debug/ccache/4.8.3/src/Logging.hpp /usr/src/debug/ccache/4.8.3/src/core/Statistic.hpp /usr/src/debug/ccache/4.8.3/src/UmaskScope.hpp /usr/src/debug/ccache/4.8.3/src/core/mainoptions.hpp /us
+ r/src/debug/ccache/4.8.3/src/core/CacheEntry.hpp /usr/src/debug/ccache/4.8.3/src/ThreadPool.hpp /usr/src/debug/ccache/4.8.3/src/util/string.cpp /usr/src/debug/ccache/4.8.3/src/InodeCache.hpp /usr/src/debug/ccache/4.8.3/src/core/types.cpp /usr/src/debug/ccache/4.8.3/src/Args.hpp /usr/src/debug/ccache/4.8.3/src/core/Statistics.hpp /usr/src/debug/ccache/4.8.3/src/util/TextTable.cpp /usr/src/debug/ccache/4.8.3/src/util/TextTable.hpp /usr/src/debug/ccache/4.8.3/src/ccache.cpp /usr/src/debug/ccache/4.8.3/src/ccache.hpp /usr/src/debug/ccache/4.8.3/src/version.cpp /usr/src/debug/ccache/4.8.3/src/third_party/base32hex.c /usr/src/debug/ccache/4.8.3/src/core/exceptions.hpp /usr/src/debug/ccache/4.8.3/src/core/ResultExtractor.cpp /usr/src/debug/ccache/4.8.3/src/core/ResultInspector.cpp /usr/src/debug/ccache/4.8.3/src/Util.hpp /usr/src/debug/ccache/4.8.3/src/third_party/base32hex.h /usr/src/debug/ccache/4.8.3/src/core/StatisticsCounters.cpp /usr/src/debug/ccache/4.8.3/src/third_party/nonstd/span
+ .hpp /usr/src/debug/ccache/4.8.3/src/util/BitSet.hpp /usr/src/debug/ccache/4.8.3/src/core/StatsLog.cpp /usr/src/debug/ccache/4.8.3/src/compopt.cpp /usr/src/debug/ccache/4.8.3/src/core/StatsLog.hpp /usr/src/debug/ccache/4.8.3/src/hashutil.cpp /usr/src/debug/ccache/4.8.3/src/third_party/fmt/format-inl.h /usr/src/debug/ccache/4.8.3/src/core/ResultRetriever.hpp /usr/src/debug/ccache/4.8.3/src/core/ResultExtractor.hpp /usr/src/debug/ccache/4.8.3/src/core/ResultInspector.hpp /usr/src/debug/ccache/4.8.3/src/Fd.hpp /usr/src/debug/ccache/4.8.3/src/ProgressBar.hpp /usr/src/debug/ccache/4.8.3/src/execute.hpp /usr/src/debug/ccache/4.8.3/src/language.hpp /usr/src/debug/ccache/4.8.3/src/util/Duration.hpp /usr/src/debug/ccache/4.8.3/src/NonCopyable.hpp /usr/src/debug/ccache/4.8.3/src/util/file.cpp /usr/src/debug/ccache/4.8.3/src/util/expected.hpp", added "/usr/src/debug/ccache/4.9/src/core/exceptions.hpp /usr/src/debug/ccache/4.9/src/third_party/tl/expected.hpp /usr/src/debug/ccache/4.9/src/third_
+ party/fmt/format-inl.h /usr/src/debug/ccache/4.9/src/core/Serializer.hpp /usr/src/debug/ccache/4.9/src/core/common.cpp /usr/src/debug/ccache/4.9/src/macroskip.hpp /usr/src/debug/ccache/4.9/src/core/Sloppiness.hpp /usr/src/debug/ccache/4.9/src/core/Manifest.hpp /usr/src/debug/ccache/4.9/src/util/Finalizer.hpp /usr/src/debug/ccache/4.9/src/util/Tokenizer.hpp /usr/src/debug/ccache/4.9/src/core/mainoptions.cpp /usr/src/debug/ccache/4.9/src/core/mainoptions.hpp /usr/src/debug/ccache/4.9/src/util/Bytes.cpp /usr/src/debug/ccache/4.9/src/util/LongLivedLockFileManager.cpp /usr/src/debug/ccache/4.9/src/core/ResultRetriever.hpp /usr/src/debug/ccache/4.9/src/util/assertions.hpp /usr/src/debug/ccache/4.9/src/util/assertions.cpp /usr/src/debug/ccache/4.9/src/Util.hpp /usr/src/debug/ccache/4.9/src/core/Statistic.hpp /usr/src/debug/ccache/4.9/src/core/types.hpp /usr/src/debug/ccache/4.9/src/compopt.cpp /usr/src/debug/ccache/4.9/src/compopt.hpp /usr/src/debug/ccache/4.9/src/Hash.hpp /usr/src/debug/c
+ cache/4.9/src/argprocessing.hpp /usr/src/debug/ccache/4.9/src/third_party/nonstd/span.hpp /usr/src/debug/ccache/4.9/src/core/ResultInspector.cpp /usr/src/debug/ccache/4.9/src/core/StatsLog.hpp /usr/src/debug/ccache/4.9/src/util/LockFile.cpp /usr/src/debug/ccache/4.9/src/third_party/fmt/std.h /usr/src/debug/ccache/4.9/src/util/string.cpp /usr/src/debug/ccache/4.9/src/core/ResultRetriever.cpp /usr/src/debug/ccache/4.9/src/InodeCache.cpp /usr/src/debug/ccache/4.9/src/argprocessing.cpp /usr/src/debug/ccache/4.9/src/util/DirEntry.hpp /usr/src/debug/ccache/4.9/src/core/StatisticsCounters.cpp /usr/src/debug/ccache/4.9/src/main.cpp /usr/src/debug/ccache/4.9/src/core/StatisticsCounters.hpp /usr/src/debug/ccache/4.9/src/third_party/xxhash.h /usr/src/debug/ccache/4.9/src/core/CacheEntryDataReader.hpp /usr/src/debug/ccache/4.9/src/Util.cpp /usr/src/debug/ccache/4.9/src/util/LongLivedLockFileManager.hpp /usr/src/debug/ccache/4.9/src/util/logging.cpp /usr/src/debug/ccache/4.9/src/core/types.cpp /
+ usr/src/debug/ccache/4.9/src/util/process.hpp /usr/src/debug/ccache/4.9/src/util/string.hpp /usr/src/debug/ccache/4.9/src/core/AtomicFile.cpp /usr/src/debug/ccache/4.9/src/core/AtomicFile.hpp /usr/src/debug/ccache/4.9/src/Depfile.cpp /usr/src/debug/ccache/4.9/src/Depfile.hpp /usr/src/debug/ccache/4.9/src/Args.cpp /usr/src/debug/ccache/4.9/src/util/expected.hpp /usr/src/debug/ccache/4.9/src/third_party/fmt/format.h /usr/src/debug/ccache/4.9/src/Hash.cpp /usr/src/debug/ccache/4.9/src/Args.hpp /usr/src/debug/ccache/4.9/src/Config.hpp /usr/src/debug/ccache/4.9/src/third_party/xxh_x86dispatch.c /usr/src/debug/ccache/4.9/src/core/common.hpp /usr/src/debug/ccache/4.9/src/third_party/xxh_x86dispatch.h /usr/src/debug/ccache/4.9/src/core/Result.cpp /usr/src/debug/ccache/4.9/src/core/Manifest.cpp /usr/src/debug/ccache/4.9/src/util/process.cpp /usr/src/debug/ccache/4.9/src/core/StatsLog.cpp /usr/src/debug/ccache/4.9/src/hashutil.cpp /usr/src/debug/ccache/4.9/src/hashutil.hpp /usr/src/debug/ccac
+ he/4.9/src/util/LockFile.hpp /usr/src/debug/ccache/4.9/src/util/UmaskScope.cpp /usr/src/debug/ccache/4.9/src/util/UmaskScope.hpp /usr/src/debug/ccache/4.9/src/util/file.hpp /usr/src/debug/ccache/4.9/src/Context.hpp /usr/src/debug/ccache/4.9/src/Context.cpp /usr/src/debug/ccache/4.9/src/util/path.hpp /usr/src/debug/ccache/4.9/src/util/TextTable.cpp /usr/src/debug/ccache/4.9/src/util/time.hpp /usr/src/debug/ccache/4.9/src/util/zstd.hpp /usr/src/debug/ccache/4.9/src/core/FileRecompressor.hpp /usr/src/debug/ccache/4.9/src/InodeCache.hpp /usr/src/debug/ccache/4.9/src/language.cpp /usr/src/debug/ccache/4.9/src/language.hpp /usr/src/debug/ccache/4.9/src/util/file.cpp /usr/src/debug/ccache/4.9/src/util/path.cpp /usr/src/debug/ccache/4.9/src/util/time.cpp /usr/src/debug/ccache/4.9/src/util/zstd.cpp /usr/src/debug/ccache/4.9/src/ProgressBar.cpp /usr/src/debug/ccache/4.9/src/util/FileStream.hpp /usr/src/debug/ccache/4.9/src/util/TemporaryFile.hpp /usr/src/debug/ccache/4.9/src/SignalHandler.hpp
+  /usr/src/debug/ccache/4.9/src/version.cpp /usr/src/debug/ccache/4.9/src/core/Statistics.cpp /usr/src/debug/ccache/4.9/src/core/ResultExtractor.hpp /usr/src/debug/ccache/4.9/src/core/ResultInspector.hpp /usr/src/debug/ccache/4.9/src/core/Statistics.hpp /usr/src/debug/ccache/4.9/src/execute.cpp /usr/src/debug/ccache/4.9/src/execute.hpp /usr/src/debug/ccache/4.9/src/util/environment.cpp /usr/src/debug/ccache/4.9/src/util/environment.hpp /usr/src/debug/ccache/4.9/src/util/Fd.hpp /usr/src/debug/ccache/4.9/src/ProgressBar.hpp /usr/src/debug/ccache/4.9/src/core/CacheEntry.cpp /usr/src/debug/ccache/4.9/src/core/CacheEntry.hpp /usr/src/debug/ccache/4.9/src/util/Tokenizer.cpp /usr/src/debug/ccache/4.9/src/util/TemporaryFile.cpp /usr/src/debug/ccache/4.9/src/third_party/url.cpp /usr/src/debug/ccache/4.9/src/third_party/url.hpp /usr/src/debug/ccache/4.9/src/util/filesystem.cpp /usr/src/debug/ccache/4.9/src/util/filesystem.hpp /usr/src/debug/ccache/4.9/src/SignalHandler.cpp /usr/src/debug/ccach
+ e/4.9/src/util/XXH3_64.hpp /usr/src/debug/ccache/4.9/src/util/Duration.hpp /usr/src/debug/ccache/4.9/src/ccache.cpp /usr/src/debug/ccache/4.9/src/third_party/fmt/core.h /usr/src/debug/ccache/4.9/src/core/Result.hpp /usr/src/debug/ccache/4.9/src/core/CacheEntryDataWriter.hpp /usr/src/debug/ccache/4.9/src/util/DirEntry.cpp /usr/src/debug/ccache/4.9/src/util/XXH3_128.hpp /usr/src/debug/ccache/4.9/src/util/Bytes.hpp /usr/src/debug/ccache/4.9/src/util/Timer.hpp /usr/src/debug/ccache/4.9/src/Config.cpp /usr/src/debug/ccache/4.9/src/util/types.hpp /usr/src/debug/ccache/4.9/src/ArgsInfo.hpp /usr/src/debug/ccache/4.9/src/third_party/httplib.h /usr/src/debug/ccache/4.9/src/util/NonCopyable.hpp /usr/src/debug/ccache/4.9/src/util/TimePoint.cpp /usr/src/debug/ccache/4.9/src/util/conversion.hpp /usr/src/debug/ccache/4.9/src/third_party/httplib.cpp /usr/src/debug/ccache/4.9/src/core/FileRecompressor.cpp /usr/src/debug/ccache/4.9/src/util/ThreadPool.cpp /usr/src/debug/ccache/4.9/src/util/ThreadPool
+ .hpp /usr/src/debug/ccache/4.9/src/util/TimePoint.hpp /usr/src/debug/ccache/4.9/src/core/MsvcShowIncludesOutput.cpp /usr/src/debug/ccache/4.9/src/util/BitSet.hpp /usr/src/debug/ccache/4.9/src/ccache.hpp /usr/src/debug/ccache/4.9/src/third_party/format.cpp /usr/src/debug/ccache/4.9/src/util/TextTable.hpp /usr/src/debug/ccache/4.9/src/util/logging.hpp /usr/src/debug/ccache/4.9/src/core/ResultExtractor.cpp /usr/src/debug/ccache/4.9/src/core/MsvcShowIncludesOutput.hpp"
+packages/core2-64-poky-linux/ccache/ccache-src: PKGV changed from 4.8.3 [default] to 4.9 [default]
+packages/core2-64-poky-linux/ccache/ccache-src: PKGSIZE changed from 2159884 to 2249863 (+4%)
+packages/core2-64-poky-linux/ccache/ccache-staticdev: PV changed from "4.8.3" to "4.9"
+packages/core2-64-poky-linux/ccache/ccache-staticdev: PKGV changed from 4.8.3 [default] to 4.9 [default]
+packages/core2-64-poky-linux/ccache/ccache: PV changed from "4.8.3" to "4.9"
+packages/core2-64-poky-linux/ccache/ccache: PKGV changed from 4.8.3 [default] to 4.9 [default]
+packages/core2-64-poky-linux/ccache/ccache: PKGSIZE changed from 1477944 to 1641784 (+11%)
+packages/core2-64-poky-linux/ccache: PV changed from "4.8.3" to "4.9"
+packages/core2-64-poky-linux/ccache: PKGV changed from 4.8.3 [default] to 4.9 [default]
+packages/core2-64-poky-linux/ccache: SRC_URI changed from "https://github.com/ccache/ccache/releases//download/v4.8.3/ccache-4.8.3.tar.gz file://0001-xxhash.h-Fix-build-with-gcc-12.patch" to "https://github.com/ccache/ccache/releases//download/v4.9/ccache-4.9.tar.gz file://0001-xxhash.h-Fix-build-with-gcc-12.patch"
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3137,539 +4004,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5901363395156083210==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 913 .bb files complete (0 cached, 913 parsed). 1848 targets, 49 skipped, 0 masked, 0 errors.
-Removing 42 recipes from the core2-64 sysroot...done.
-Removing 67 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.6.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-76915d596234ce40d182e30049d737a6dfea653b"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:76915d596234ce40d182e30049d737a6dfea653b"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 435 Local 420 Mirrors 0 Missed 15 Current 223 (96% match, 97% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
-Removing 2 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 240 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 241 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 242 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 243 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 244 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.0.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 245 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.0.3.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 246 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.0.3.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 247 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.0.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 248 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 249 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 250 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_package_write_rpm_setscene)
-NOTE: recipe ninja-1.11.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ninja-1.11.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe ninja-1.11.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe ninja-1.11.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-3.11.5-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-3.11.5-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-3.11.5-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe ninja-1.11.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 314 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_create_spdx_setscene)
-NOTE: recipe ninja-1.11.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running task 736 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_recipe_qa)
-NOTE: recipe ninja-1.11.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe ninja-1.11.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 315 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 316 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_69.0.3.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.11.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe meson-1.3.1-r0: task do_recipe_qa: Started
-NOTE: recipe ninja-1.11.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 333 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.11.5-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-3.11.5-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe ninja-1.11.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.11.5-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running task 879 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_fetch)
-NOTE: Running setscene task 337 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 338 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 339 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils_2.41.bb:do_packagedata_setscene)
-NOTE: Running setscene task 340 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc_13.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 341 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_packagedata_setscene)
-NOTE: Running setscene task 342 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 343 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
-NOTE: Running setscene task 344 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 345 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
-NOTE: Running setscene task 346 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
-NOTE: recipe python3-setuptools-69.0.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 350 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 351 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe tzdata-2023d-r0: task do_packagedata_setscene: Started
-NOTE: recipe meson-1.3.1-r0: task do_fetch: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe binutils-2.41-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe meson-1.3.1-r0: task do_fetch: Succeeded
-NOTE: Running task 903 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_unpack)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 353 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe python3-3.11.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.11.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe tzdata-2023d-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.2+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 370 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 371 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 375 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.13.bb:do_packagedata_setscene)
-NOTE: recipe meson-1.3.1-r0: task do_unpack: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe binutils-2.41-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 385 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 390 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 394 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 399 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe coreutils-9.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe elfutils-0.189-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_unpack: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1002 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_patch)
-NOTE: Running task 1004 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 416 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.11.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 419 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 420 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 421 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 422 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 423 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: Running setscene task 424 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: recipe shadow-4.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.11.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 428 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 429 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 430 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 432 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.11.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 433 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 434 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/elfutils/0.189/temp/log.do_packagedata_setscene.36254
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 435 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_package_setscene)
-NOTE: recipe meson-1.3.1-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
-NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 436 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.11.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.11.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 439 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.5.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 442 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 444 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 445 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 447 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 450 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 451 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 452 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 455 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_recipe_qa_setscene)
-NOTE: Running task 1025 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: Running task 1026 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe meson-1.3.1-r0: task do_patch: Succeeded
-NOTE: Running task 1027 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1028 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_lic)
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe meson-1.3.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe meson-1.3.1-r0: task do_populate_lic: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
-NOTE: Running task 1055 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 462 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 464 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_recipe_qa_setscene)
-NOTE: recipe meson-1.3.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_lic unihash changed to 7dba1da9256910d1776d30f5a98267ad549ca1fedd717ac603aa431f326b4a30
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: recipe meson-1.3.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 467 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_recipe_qa_setscene)
-NOTE: Running task 1057 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe elfutils-0.189-r0: task do_package_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
-NOTE: Running task 1068 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
-NOTE: Running task 1074 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: Running task 1075 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: recipe elfutils-0.189-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 468 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 470 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
-NOTE: Running setscene task 472 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
-NOTE: Running setscene task 475 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 476 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 478 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 480 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb:do_packagedata_setscene)
-NOTE: Running setscene task 482 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.44.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 483 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.44.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmicrohttpd-0.9.77-r0: task do_packagedata_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libarchive-3.7.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe elfutils-0.189-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe elfutils-0.189-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmicrohttpd-0.9.77-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 498 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.45.bb:do_packagedata_setscene)
-NOTE: Running setscene task 500 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 502 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 504 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb:do_packagedata_setscene)
-NOTE: recipe libarchive-3.7.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 511 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 513 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 516 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.44.2.bb:do_recipe_qa_setscene)
-NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe curl-8.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 521 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 522 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 523 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 524 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 528 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
-NOTE: Running setscene task 532 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.47.bb:do_packagedata_setscene)
-NOTE: recipe curl-8.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 535 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 536 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 542 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 545 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 549 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 551 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 553 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.9.1.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.47-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libidn2-2.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 556 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xz-5.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 562 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1157 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe xz-5.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 565 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.4.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgpg-error-1.47-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 571 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 573 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 574 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 584 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: recipe xz-5.4.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libidn2-2.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 591 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata_setscene)
-NOTE: recipe openssl-3.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 595 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_recipe_qa_setscene)
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to e644ec3722734ea60494db1182afab8d0334f493c3dc1fb845b731f7ca727b46
-NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 603 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 608 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 609 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 616 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 618 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 619 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 621 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 623 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 624 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 626 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 627 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 629 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 631 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 632 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 633 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 636 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 637 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 639 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe linux-libc-headers-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 645 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 646 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 648 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 651 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 653 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 654 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 656 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.5.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 658 of 658 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.41.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.41-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1655 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1792 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_packagedata)
-NOTE: Running task 1815 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_collect_spdx_deps)
-NOTE: recipe meson-1.3.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe elfutils-0.189-r0: task do_packagedata: Started
-NOTE: recipe meson-1.3.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe elfutils-0.189-r0: task do_packagedata: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1831 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_configure)
-NOTE: recipe meson-1.3.1-r0: task do_configure: Started
-NOTE: recipe meson-1.3.1-r0: task do_configure: Succeeded
-NOTE: Running task 1832 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_compile)
-NOTE: recipe meson-1.3.1-r0: task do_compile: Started
-NOTE: recipe meson-1.3.1-r0: task do_compile: Succeeded
-NOTE: Running task 1833 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_install)
-NOTE: recipe meson-1.3.1-r0: task do_install: Started
-NOTE: recipe meson-1.3.1-r0: task do_install: Succeeded
-NOTE: Running task 1834 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_package)
-NOTE: Running task 1835 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot)
-NOTE: recipe meson-1.3.1-r0: task do_package: Started
-NOTE: recipe meson-1.3.1-r0: task do_populate_sysroot: Started
-NOTE: recipe meson-1.3.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_package: Succeeded
-NOTE: Running task 1836 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_packagedata)
-NOTE: recipe meson-1.3.1-r0: task do_packagedata: Started
-NOTE: recipe meson-1.3.1-r0: task do_packagedata: Succeeded
-NOTE: Running task 1837 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_create_spdx)
-NOTE: Running task 1838 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_package_write_ipk)
-NOTE: Running task 1839 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_package_write_deb)
-NOTE: Running task 1840 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_package_write_rpm)
-NOTE: Running task 1841 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_package_qa)
-NOTE: recipe meson-1.3.1-r0: task do_create_spdx: Started
-NOTE: recipe meson-1.3.1-r0: task do_package_write_ipk: Started
-NOTE: recipe meson-1.3.1-r0: task do_package_write_deb: Started
-NOTE: recipe meson-1.3.1-r0: task do_package_write_rpm: Started
-NOTE: recipe meson-1.3.1-r0: task do_package_qa: Started
-NOTE: recipe meson-1.3.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1842 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_create_runtime_spdx)
-NOTE: recipe meson-1.3.1-r0: task do_create_runtime_spdx: Started
-NOTE: recipe meson-1.3.1-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_package_qa: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_package_write_deb: Succeeded
-NOTE: recipe meson-1.3.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1843 of 1843 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_build)
-NOTE: Tasks Summary: Attempted 1843 tasks of which 1812 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: There were 20 ERROR messages, returning a non-zero exit code.
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-src went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-dbg went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-binutils went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package libelf went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package libasm went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package libdw went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package libdebuginfod went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-ptest went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-staticdev went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-dev went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-doc went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-locale-de went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-locale-en+boldquot went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-locale-en+quot went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-locale-es went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-locale-ja went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-locale-pl went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: QA Issue: Package version for package elfutils-locale-uk went backwards which would break package feeds (from 0:0.190-r0 to 0:0.189-r0) [version-going-backwards]
-ERROR: elfutils-0.189-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============5901363395156083210==--
+--===============8959762869416047200==--
 
