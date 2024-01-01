@@ -1,267 +1,203 @@
-Return-Path: <skulkarni@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99ABEC4706F
-	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 18:26:31 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.11523.1704133581552913000
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84E79C4706F
+	for <webhook@archiver.kernel.org>; Mon,  1 Jan 2024 18:27:51 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.11554.1704133661123101538
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jan 2024 10:26:21 -0800
+ Mon, 01 Jan 2024 10:27:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=HEEZ/Up8;
- spf=pass (domain: mvista.com, ip: 209.85.167.44, mailfrom: skulkarni@mvista.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50e741123acso6648663e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 10:26:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hBzNgaLe;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50e7c6f0487so5442943e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 10:27:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1704133580; x=1704738380; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1704133659; x=1704738459; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3ugh6SRavvipPc8tPJEf2jpIIiYXbC0vPhbXBO1hLb4=;
-        b=HEEZ/Up809hW+D+VQVKsICX7K/onSYVPcp0wC6dIpJfUGch1Gt93Lp57dcVYO38t5D
-         KR8i5SExmdX9CxRKQw8ZIvfcoQuN5d2M3RIKJ6yYrjyp3GLJAJ+D/cK6WlxBKDuinmR/
-         EIBNSUGaH1bKnBnVe5ogFBhONtjudCXOS1RXg=
+        bh=GX5QaT6m8chw8TOjNxocJu+CcW3QfDwn3Bc1fHuyyA8=;
+        b=hBzNgaLekpJsHlT6L8ET98xNQcI3Rp3qE/vRE2fPSGc6dUItj3G945Wjz8lFZgDZKx
+         ZL3sWy9y5Nz0exzkxRxJqdrctOrbSOjktAxHV5J6kQhlf7Po8zSAgSy33cUGK0FqKKIV
+         VvGBcsS3Y4ew5SpDrgMSV/fYEoLmVFC6vYggY8s/tMLTrCTakmb/iwNhcZN9g/IwJyvt
+         J4NaGhYyrB9ZZKxOKP+ycBrHVoXJfBcrmdyoUwMvpWq7+ABtJZH8u2Cn625fAU5AmiyP
+         pv2S0fvKCf0y4t7DtQxOHdpZp0C3g99Luv3lXyO89VqEIkH4BHZDPMoA3n2A8bIFRWTx
+         033A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704133580; x=1704738380;
+        d=1e100.net; s=20230601; t=1704133659; x=1704738459;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3ugh6SRavvipPc8tPJEf2jpIIiYXbC0vPhbXBO1hLb4=;
-        b=l1BOI02i3NvLejEe40uPgrJS7tXq/iUiR+BTkpf2Cm6vm9z7lDo3/SjGNc1b8dN+qk
-         mx47NAtK2VRgW74PqRLdvS1E6Ktruc/t3U+ofrSwzQJ6g9lc/Nquz5NGqxXJhhC7z/Pm
-         yNPKafMl3UD7YEjVsXur8uiSFH/mloJTGvMAdlLHnErvBzeqqR3wuvbd3iPf1bjw5Xk+
-         em+QVFI3xpR7+D35RQfeVJ13c341PVNHJ0mmiAiVd5p2GmYbU60XkuBevcTDUhCotgve
-         C15KsamN8EdVaDHVr3k6N1tLUKNX84FHdEHPkOBgT5UuvY6eS7NSEL5+RahnJvjsJMCw
-         0qfg==
-X-Gm-Message-State: AOJu0YyfO6VSXtTcOQnPf9qlZfzWLjhYYfU+znkhmRhtyEJB+mEqZpMI
-	Ik4xnr6izcgUfbmoLTyI9+/shd/cByl6VAvj23ZwCAH7njmdJg==
-X-Google-Smtp-Source: AGHT+IFkvrqsJdknnh52eZZFqtS9vnMJw6pfTp5rNp3RrUS7qcGkkOMrqT0i/kGNJs7m/v+6U/sz4qObV5LyhBymjxQ=
-X-Received: by 2002:a05:6512:2316:b0:50e:7cbf:7777 with SMTP id
- o22-20020a056512231600b0050e7cbf7777mr6248799lfu.79.1704133579384; Mon, 01
- Jan 2024 10:26:19 -0800 (PST)
+        bh=GX5QaT6m8chw8TOjNxocJu+CcW3QfDwn3Bc1fHuyyA8=;
+        b=V6PbJJAIrzk5dLKpm5hCXinVJ+Otc+5G+LdyaS/4GptWddQcI6l5MX/k7Ja9Fl66al
+         Rl8gdfpcx+RhCYGx2wiMuXL7dZs6fDPx3Gkv/juS2FVdlTkZT7seDUiKfVnbdhjcGPPx
+         FCz5C2OeKXcqsZutoU/cVw7k7e+SsnJqwvK6GXEqE+YZ0m9T25i3aNt2qhg4ImhMGDGY
+         1QjM96IeJLBZwdvvIQfYQbz96WO+UHigFp+QYVOYBi5claM5p3wVGu7LF8H/gggv7iqJ
+         ObR35hWG7kS3zvH4WR22pHP9X0mZscQE9bQ5dTJsATxkzLTdBEWHqbN1VzocfuTGis7F
+         FGzQ==
+X-Gm-Message-State: AOJu0Yy+/Ar5JteepeLlW5nla2rPUgRunVObFtNWyCwv6AHZEfYcmMkR
+	PO0KBlA/PgXYZRiaHq3lObnsvwkEJ7eywb1ZMSJ2j+ngnfw=
+X-Google-Smtp-Source: AGHT+IE8KK5egmTZhcG8ptFhlHXQirskrqVwzbji5/XIcbKR308BeTvl6sbZW8veXZglKFBu8v0LvzmtUOnvU5yynJ8=
+X-Received: by 2002:ac2:4882:0:b0:50e:4448:75aa with SMTP id
+ x2-20020ac24882000000b0050e444875aamr4360178lfc.104.1704133658984; Mon, 01
+ Jan 2024 10:27:38 -0800 (PST)
 MIME-Version: 1.0
-References: <17A47110AD953EDF.18684@lists.openembedded.org>
- <CAKzga+y7yeFf95cP3qfkDpPTr0QXK+opNpCO0agT5EZu_EtdZA@mail.gmail.com> <CAOSpxdbCoxXa90ZskAAnJqHzofR7jN=PJ=f4udJRojDoLqimTQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdbCoxXa90ZskAAnJqHzofR7jN=PJ=f4udJRojDoLqimTQ@mail.gmail.com>
-From: Shubham Kulkarni <skulkarni@mvista.com>
-Date: Mon, 1 Jan 2024 23:56:01 +0530
-Message-ID: <CAKzga+xx87rpLbCnAU4yaxfHr9DAOUBGQ75W8yEScxDxaQJ9RQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] tzdata: Upgrade to 2023d
-To: Steve Sakoman <steve@sakoman.com>
+References: <20231218084403.599015-1-alex@linutronix.de> <20231218084403.599015-2-alex@linutronix.de>
+ <20240101130031da8cf15c@mail.local>
+In-Reply-To: <20240101130031da8cf15c@mail.local>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 1 Jan 2024 19:27:27 +0100
+Message-ID: <CANNYZj_zFK0iRoh9oFmqm7oKoQLq=Mmi5NXYvtDUHb27dZMyTA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/7] selftest/sstatetests: fix up printdiff test
+ to match rework of printdiff logic
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Cc: openembedded-core@lists.openembedded.org, 
-	Armin Kuster <akuster@mvista.com>, Mahesh Mathapati <mmathapati@mvista.com>, 
-	Jeremy Puhlman <jpuhlman@mvista.com>, Sam Kappen <skappen@mvista.com>
-Content-Type: multipart/alternative; boundary="000000000000a63e3b060de684ce"
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 18:26:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193188
+ <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 18:27:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193189
 
---000000000000a63e3b060de684ce
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+RP has reported the same issue elsewhere:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6254/steps/14/logs/stdio
 
-Hi Steve,
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/bitbake/lib/bb/runqueue.py",
+line 1799, in RunQueue.write_diffscenetasks(invalidtasks={'/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-core/gettext/gettext-minimal-native_0.22.4.bb:do_configure',
+'virtual:native:/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-devtools/gnu-config/gnu-config_git.bb:do_configure',
+'virtual:native:/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-extended/zstd/zstd_1.5.5.bb:do_configure',
+'/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb:do_configure',
+'virtual:native:/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_configure',
+'/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb:do_configure',
+'virtual:native:/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_configure',
+'virtual:native:/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-extended/pigz/pigz_2.8.bb:do_configure',
+'virtual:native:/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-devtools/makedevs/makedevs_1.0.1.bb:do_configure',
+'/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-extended/timezone/tzcode-native.bb:do_configure'}):
+                 if matches:
+    >                latestmatch = matches[sorted(matches.keys(),
+key=lambda h: matches[h]['time'])[-1]]['path']
+                     prevh = __find_sha256__.search(latestmatch).group(0)
+TypeError: '<' not supported between instances of 'NoneType' and 'float'
 
-Thanks for your response. Will it be possible to merge this patch in
-dunfell-nut till Jan 02, if there are no issues with the patch.
+It seems as though some of the entries lack timestamp information,
+probably because obtaining it from the filesystem had failed and the
+code placed 'None' into the data structure instead. I'll take a look
+at why that isn't reported sooner.
 
-Thanks,
-Shubham Kulkarni
+Alex
 
-On Sat, Dec 30, 2023 at 9:03=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
-rote:
-
-> On Sat, Dec 30, 2023 at 4:37=E2=80=AFAM Shubham Kulkarni <skulkarni@mvist=
-a.com>
-> wrote:
+On Mon, 1 Jan 2024 at 14:00, Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+>
+> Hello,
+>
+> I've been carrying the series for a while without any issue but got this
+> yesterday:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6262/steps/14/logs/stdio
+>
+>
+> On 18/12/2023 09:43:58+0100, Alexander Kanavin wrote:
+> > Other than the formatting changes, there are two functional ones:
 > >
-> > Hi Steve,
+> > - use perlcross instead of quilt, as quilt is special in the sense
+> > of being excluded from task hash calculcations. perlcross is a full
+> > participant.
 > >
-> > I have sent this patch to upgrade tzdata to the latest version "2023d"
-> for dunfell branch.
-> > The mailing list link for the same:
-> https://lists.openembedded.org/g/openembedded-core/message/192913
+> > - run the full test (local + sstate) for gcc do_preconfiure change
+> > as the necessary fix has been implemented
+> > (sstatesig/find_siginfo: special-case gcc-source when looking in sstate caches)
 > >
-> > Can you please check if this patch can be accepted in the dunfell-nut
-> branch of oe-core-contrib.
+> > Note that when several tasks are found to have changed (as is the case
+> > when base do_configure is adjusted), find_siginfo() runs
+> > glob.glob("*/*/*taskname*") against autobuilder sstate cache for each
+> > of those tasks (six or seven times). This is an expensive operation
+> > taking several minutes. I left it in for now, but if it's proven too slow
+> > the test would have to be reduced to checking a specific base recipe
+> > (e.g. zstd-native) rather than a distant image target.
+> >
+> > [YOCTO #15289]
+> >
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > ---
+> >  .../perlcross_%.bbappend}                     |  0
+> >  meta/lib/oeqa/selftest/cases/sstatetests.py   | 22 +++++++++++--------
+> >  2 files changed, 13 insertions(+), 9 deletions(-)
+> >  rename meta-selftest/recipes-test/{quilt-native/quilt-native_%.bbappend => perlcross/perlcross_%.bbappend} (100%)
+> >
+> > diff --git a/meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend b/meta-selftest/recipes-test/perlcross/perlcross_%.bbappend
+> > similarity index 100%
+> > rename from meta-selftest/recipes-test/quilt-native/quilt-native_%.bbappend
+> > rename to meta-selftest/recipes-test/perlcross/perlcross_%.bbappend
+> > diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> > index f827615ba1b..6af3c8f2178 100644
+> > --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
+> > +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+> > @@ -824,14 +824,16 @@ TMPDIR = "${{TOPDIR}}/tmp-sstateprintdiff-difftmp-{}"
+> >
+> >
+> >      # Check if printdiff walks the full dependency chain from the image target to where the change is in a specific recipe
+> > -    def test_image_minimal_vs_quilt(self):
+> > -        expected_output = ("Task quilt-native:do_install couldn't be used from the cache because:",
+> > +    def test_image_minimal_vs_perlcross(self):
+> > +        expected_output = ("Task perlcross-native:do_install couldn't be used from the cache because:",
+> >  "We need hash",
+> >  "most recent matching task was")
+> > -        expected_sametmp_output = expected_output + ("Variable do_install value changed",'+    echo "this changes the task signature"')
+> > +        expected_sametmp_output = expected_output + (
+> > +"Variable do_install value changed",
+> > +'+    echo "this changes the task signature"')
+> >          expected_difftmp_output = expected_output
+> >
+> > -        self.run_test_printdiff_changerecipe("core-image-minimal", "quilt-native", "-c do_install quilt-native",
+> > +        self.run_test_printdiff_changerecipe("core-image-minimal", "perlcross", "-c do_install perlcross-native",
+> >  """
+> >  do_install:append() {
+> >      echo "this changes the task signature"
+> > @@ -846,10 +848,10 @@ expected_sametmp_output, expected_difftmp_output)
+> >          expected_output = ("Task {}:do_preconfigure couldn't be used from the cache because:".format(gcc_source_pn),
+> >  "We need hash",
+> >  "most recent matching task was")
+> > -        expected_sametmp_output = expected_output + ("Variable do_preconfigure value changed",'+    print("this changes the task signature")')
+> > -        #FIXME: printdiff is supposed to find at least one preconfigure task signature in the sstate cache, but isn't able to
+> > -        #expected_difftmp_output = expected_output
+> > -        expected_difftmp_output = ()
+> > +        expected_sametmp_output = expected_output + (
+> > +"Variable do_preconfigure value changed",
+> > +'+    print("this changes the task signature")')
+> > +        expected_difftmp_output = expected_output
+> >
+> >          self.run_test_printdiff_changerecipe("gcc-runtime", "gcc-source", "-c do_preconfigure {}".format(gcc_source_pn),
+> >  """
+> > @@ -873,7 +875,9 @@ expected_sametmp_output, expected_difftmp_output)
+> >  "Task gnu-config-native:do_configure couldn't be used from the cache because:",
+> >  "We need hash",
+> >  "most recent matching task was")
+> > -        expected_sametmp_output = expected_output + ("Variable base_do_configure value changed",'+   echo "this changes base_do_configure() definiton "')
+> > +        expected_sametmp_output = expected_output + (
+> > +"Variable base_do_configure value changed",
+> > +'+   echo "this changes base_do_configure() definiton "')
+> >          expected_difftmp_output = expected_output
+> >
+> >          self.run_test_printdiff_changeconfig("core-image-minimal",
+> > --
+> > 2.39.2
+> >
 >
-> I can take it now that it has been merged to the master branch.
+> >
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#192613): https://lists.openembedded.org/g/openembedded-core/message/192613
+> > Mute This Topic: https://lists.openembedded.org/mt/103239347/3617179
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> > -=-=-=-=-=-=-=-=-=-=-=-
+> >
 >
-> Steve
 >
->
-> > On Tue, Dec 26, 2023 at 10:44=E2=80=AFPM Shubham Kulkarni via
-> lists.openembedded.org <skulkarni=3Dmvista.com@lists.openembedded.org>
-> wrote:
-> >>
-> >> From: Shubham Kulkarni <skulkarni@mvista.com>
-> >>
-> >> Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
-> >> ---
-> >>  meta/recipes-extended/timezone/timezone.inc | 6 +++---
-> >>  1 file changed, 3 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-extended/timezone/timezone.inc
-> b/meta/recipes-extended/timezone/timezone.inc
-> >> index 2960bfefe3..75f13cfc94 100644
-> >> --- a/meta/recipes-extended/timezone/timezone.inc
-> >> +++ b/meta/recipes-extended/timezone/timezone.inc
-> >> @@ -6,7 +6,7 @@ SECTION =3D "base"
-> >>  LICENSE =3D "PD & BSD-3-Clause"
-> >>  LIC_FILES_CHKSUM =3D
-> "file://LICENSE;md5=3Dc679c9d6b02bc2757b3eaf8f53c43fba"
-> >>
-> >> -PV =3D "2023c"
-> >> +PV =3D "2023d"
-> >>
-> >>  SRC_URI =3D"
-> http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;nam=
-e=3Dtzcode
-> \
-> >>
-> http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;nam=
-e=3Dtzdata
-> \
-> >> @@ -14,5 +14,5 @@ SRC_URI =3D"
-> http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
-> >>
-> >>  UPSTREAM_CHECK_URI =3D "http://www.iana.org/time-zones"
-> >>
-> >> -SRC_URI[tzcode.sha256sum] =3D
-> "46d17f2bb19ad73290f03a203006152e0fa0d7b11e5b71467c4a823811b214e7"
-> >> -SRC_URI[tzdata.sha256sum] =3D
-> "3f510b5d1b4ae9bb38e485aa302a776b317fb3637bdb6404c4adf7b6cadd965c"
-> >> +SRC_URI[tzcode.sha256sum] =3D
-> "e9a5f9e118886d2de92b62bb05510a28cc6c058d791c93bd6b84d3292c3c161e"
-> >> +SRC_URI[tzdata.sha256sum] =3D
-> "dbca21970b0a8b8c0ceceec1d7b91fa903be0f6eca5ae732b5329672232a08f3"
-> >> --
-> >> 2.42.0
-> >>
-> >>
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#192913):
-> https://lists.openembedded.org/g/openembedded-core/message/192913
-> >> Mute This Topic: https://lists.openembedded.org/mt/103372051/7032091
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[
-> skulkarni@mvista.com]
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>
->
-
---000000000000a63e3b060de684ce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Steve,<div><br></div><div>Thanks for your response. Wil=
-l it be possible to merge this patch in dunfell-nut till Jan 02, if there a=
-re no issues with the patch.</div><div><br></div><div>Thanks,</div><div>Shu=
-bham Kulkarni</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Sat, Dec 30, 2023 at 9:03=E2=80=AFPM Steve Sakoman &l=
-t;<a href=3D"mailto:steve@sakoman.com">steve@sakoman.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">On Sat, Dec 30, 202=
-3 at 4:37=E2=80=AFAM Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mvist=
-a.com" target=3D"_blank">skulkarni@mvista.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi Steve,<br>
-&gt;<br>
-&gt; I have sent this patch to upgrade tzdata to the latest version &quot;2=
-023d&quot; for dunfell branch.<br>
-&gt; The mailing list link for the same: <a href=3D"https://lists.openembed=
-ded.org/g/openembedded-core/message/192913" rel=3D"noreferrer" target=3D"_b=
-lank">https://lists.openembedded.org/g/openembedded-core/message/192913</a>=
-<br>
-&gt;<br>
-&gt; Can you please check if this patch can be accepted in the dunfell-nut =
-branch of oe-core-contrib.<br>
-<br>
-I can take it now that it has been merged to the master branch.<br>
-<br>
-Steve<br>
-<br>
-<br>
-&gt; On Tue, Dec 26, 2023 at 10:44=E2=80=AFPM Shubham Kulkarni via <a href=
-=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lis=
-ts.openembedded.org</a> &lt;skulkarni=3D<a href=3D"mailto:mvista.com@lists.=
-openembedded.org" target=3D"_blank">mvista.com@lists.openembedded.org</a>&g=
-t; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; From: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mvista.com"=
- target=3D"_blank">skulkarni@mvista.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Shubham Kulkarni &lt;<a href=3D"mailto:skulkarni@mv=
-ista.com" target=3D"_blank">skulkarni@mvista.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/recipes-extended/timezone/timezone.inc | 6 +++---<br>
-&gt;&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/re=
-cipes-extended/timezone/timezone.inc<br>
-&gt;&gt; index 2960bfefe3..75f13cfc94 100644<br>
-&gt;&gt; --- a/meta/recipes-extended/timezone/timezone.inc<br>
-&gt;&gt; +++ b/meta/recipes-extended/timezone/timezone.inc<br>
-&gt;&gt; @@ -6,7 +6,7 @@ SECTION =3D &quot;base&quot;<br>
-&gt;&gt;=C2=A0 LICENSE =3D &quot;PD &amp; BSD-3-Clause&quot;<br>
-&gt;&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dc679c9d6b02b=
-c2757b3eaf8f53c43fba&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; -PV =3D &quot;2023c&quot;<br>
-&gt;&gt; +PV =3D &quot;2023d&quot;<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 SRC_URI =3D&quot; <a href=3D"http://www.iana.org/time-zones/=
-repository/releases/tzcode$%7BPV%7D.tar.gz;name=3Dtzcode" rel=3D"noreferrer=
-" target=3D"_blank">http://www.iana.org/time-zones/repository/releases/tzco=
-de${PV}.tar.gz;name=3Dtzcode</a> \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://w=
-ww.iana.org/time-zones/repository/releases/tzdata$%7BPV%7D.tar.gz;name=3Dtz=
-data" rel=3D"noreferrer" target=3D"_blank">http://www.iana.org/time-zones/r=
-epository/releases/tzdata${PV}.tar.gz;name=3Dtzdata</a> \<br>
-&gt;&gt; @@ -14,5 +14,5 @@ SRC_URI =3D&quot; <a href=3D"http://www.iana.org=
-/time-zones/repository/releases/tzcode$%7BPV%7D.tar.gz" rel=3D"noreferrer" =
-target=3D"_blank">http://www.iana.org/time-zones/repository/releases/tzcode=
-${PV}.tar.gz</a><br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://www.iana.org/=
-time-zones" rel=3D"noreferrer" target=3D"_blank">http://www.iana.org/time-z=
-ones</a>&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; -SRC_URI[tzcode.sha256sum] =3D &quot;46d17f2bb19ad73290f03a2030061=
-52e0fa0d7b11e5b71467c4a823811b214e7&quot;<br>
-&gt;&gt; -SRC_URI[tzdata.sha256sum] =3D &quot;3f510b5d1b4ae9bb38e485aa302a7=
-76b317fb3637bdb6404c4adf7b6cadd965c&quot;<br>
-&gt;&gt; +SRC_URI[tzcode.sha256sum] =3D &quot;e9a5f9e118886d2de92b62bb05510=
-a28cc6c058d791c93bd6b84d3292c3c161e&quot;<br>
-&gt;&gt; +SRC_URI[tzdata.sha256sum] =3D &quot;dbca21970b0a8b8c0ceceec1d7b91=
-fa903be0f6eca5ae732b5329672232a08f3&quot;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.42.0<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;&gt; Links: You receive all messages sent to this group.<br>
-&gt;&gt; View/Reply Online (#192913): <a href=3D"https://lists.openembedded=
-.org/g/openembedded-core/message/192913" rel=3D"noreferrer" target=3D"_blan=
-k">https://lists.openembedded.org/g/openembedded-core/message/192913</a><br=
->
-&gt;&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/1033=
-72051/7032091" rel=3D"noreferrer" target=3D"_blank">https://lists.openembed=
-ded.org/mt/103372051/7032091</a><br>
-&gt;&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.ope=
-nembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded=
-.org</a><br>
-&gt;&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembed=
-ded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:skulkarni@mvista.=
-com" target=3D"_blank">skulkarni@mvista.com</a>]<br>
-&gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;&gt;<br>
-</blockquote></div>
-
---000000000000a63e3b060de684ce--
+> --
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
