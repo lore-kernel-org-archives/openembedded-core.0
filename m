@@ -1,97 +1,102 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C09C47073
-	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 08:53:56 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.25282.1704185636103482272
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7D31C46CD2
+	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 09:24:36 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.25564.1704187474808400086
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jan 2024 00:53:56 -0800
+ Tue, 02 Jan 2024 01:24:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=czWRaduD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=btxnodID;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018cc9612058-bd4ce7b7-2f27-4e48-b4de-36ce3e4493c9-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1704185635; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=8hxRiYV1JUg4amNmG3AMRlzOUdMC6TF7XpckJ3xzbek=;
-	b=czWRaduDK2sG4huiKmbXvo6jQToh9qpJ48HVSgxEpVF9ABAmpBfNcg+Bed9+OvJV
-	AJAPCPZbIv6WK+YpQr8M0DmwKzTJYtsUQjyE3JNPaWdYZhTg6L7cefsVsJG9MYfOnjR
-	Ya3ntQEphl5jztDhV1UQydA3TAtvL1Mpq+D5EtZ4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704185635;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=8hxRiYV1JUg4amNmG3AMRlzOUdMC6TF7XpckJ3xzbek=;
-	b=btxnodIDG9g/K5HqzZ6cuDsPFucTrkMWe2CnLPJVG4ZVVxtrqWLoC1ui9+qhxD1Z
-	zwqkXkzX0wBssDOtAFtmhXZjObU7PX6mXIBZpSMmzR3POJdpVaSzV7MFtQYB3Hf71as
-	zDJ91wROvbY4kpD7stQxcXqwuRT0KO0FV5sUkWJ8=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/2] rpm: Fix build with musl
-In-Reply-To: 20240102082942.799830-2-raj.khem@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018cc9612058-bd4ce7b7-2f27-4e48-b4de-36ce3e4493c9-000000@us-west-2.amazonses.com>
-Date: Tue, 2 Jan 2024 08:53:54 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.02-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hn/BMyjW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50e78f1f41fso6052143e87.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 01:24:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704187473; x=1704792273; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VKozbUuJY1/HVlBpAfnj5DKTWobn1GSRroWU9TmlHdI=;
+        b=Hn/BMyjWlUypjZxz35+Wy1Q/n/ZAahLNQm6PaLmY/gb1sMWYB8hOD0ez5SQ1SCcv5j
+         3G0xkRr99M0PKa9gKiUXNGYs8QsGRdKA/Y4VWWDaudhphof7N2qJf3Kb/nV0hanniW+G
+         UYE/NU7YIQOD3ussLujVaFYRK6vIuJqL2bW/LK1k5EabXMPslwqd0389zs2uxUa3iMrw
+         mBe0vTUr/JDRzFWKqa7JhCjQOdHnwvkI8Z+rf+hW6Kq94DoYDOLuPKdMIobOlyPgseDV
+         TQwhHTjvLLRJ9E372w9R4LWwi6dOLTCbjsBUyWZ2HsYgFLwzHIHx5SAvC/00b7GfHJVV
+         JntA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704187473; x=1704792273;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VKozbUuJY1/HVlBpAfnj5DKTWobn1GSRroWU9TmlHdI=;
+        b=gULHz1F2fFI+rcsGL5/EKuDxOtqm9UHe54fYT6UynIPB7XHfsAl36oJZ/u1QEZHo5u
+         U93m42YnXNNNVQQlQCTaX88ghE+eqU7m56Zwp1oUm0Cxym4enE3tgaMqmkxH8eelHPKt
+         EQVE9/tmbXDr/aSBxQYyVHIQE4e8aZnqWmudLHgA5ncLrrO2RvRJaAj24i4peFiiiYSH
+         ahXaIPCMNgwAINEIuCO93nHXUm/d5IKglYF8+9W3epap0cBsw9UqIWjAKU3SVOaquI7N
+         8ob0A8ZVJiqbBXs6N9N3zeiELcS79DpWofZzIreeEV/Oq2ZRA9S0h4yLLTKAkUyiJGSE
+         UuXA==
+X-Gm-Message-State: AOJu0YwfxccB2C8gi37q5jomfaTUUIofinVi/3CUkjccuxyWCuQGaUQT
+	j31mubQUJX55ziAMYks/ocU/GjmDdmicfaifg3I=
+X-Google-Smtp-Source: AGHT+IFe1X1yaB/ULsNlc2AbVL5VYMaF77wbH/Sr86ro0QsruqzX2GiUpFyzdzVvIJWdjEanWkH/L89IFuxvx15j8Z4=
+X-Received: by 2002:a05:6512:23a8:b0:50e:9c17:24c8 with SMTP id
+ c40-20020a05651223a800b0050e9c1724c8mr967942lfv.7.1704187472699; Tue, 02 Jan
+ 2024 01:24:32 -0800 (PST)
+MIME-Version: 1.0
+References: <20231230154953.8135-1-alex.kiernan@gmail.com> <20231230154953.8135-4-alex.kiernan@gmail.com>
+ <0b857242f53a4350e85029306d308f570641fca8.camel@linuxfoundation.org> <17A5F1406166801F.18542@lists.openembedded.org>
+In-Reply-To: <17A5F1406166801F.18542@lists.openembedded.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 2 Jan 2024 09:24:20 +0000
+Message-ID: <CAO5Uq5TfNcuKkYX2krym5uN5t+ThbQ29Y8gfhq9kmLwYyHXfjQ@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 4/4] rust: Upgrade 1.74.1 -> 1.75.0
+To: alex.kiernan@gmail.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 08:53:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193223
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 09:24:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193224
 
---NextPart
-Content-Type: text/plain
+On Sun, Dec 31, 2023 at 2:34=E2=80=AFPM Alex Kiernan via
+lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org>
+wrote:
+>
+> On Sun, Dec 31, 2023 at 2:23=E2=80=AFPM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Sat, 2023-12-30 at 15:49 +0000, Alex Kiernan wrote:
+> > > Drop backported musl fixes. Set `change-id` rather than `changelog-se=
+en`
+> > > to fix build warning. Add fixes for 85c0ce24cc74 ("remap cargo
+> > > dependencies to /rust/deps") which otherwise cause build failures:
+> > >
+> > > > thread 'main' panicked at src/core/builder.rs:1795:26:
+> > > > std::fs::read_dir(registry_src) failed with No such file or directo=
+ry (os error 2)
+> > >
+> > > https://blog.rust-lang.org/2023/12/28/Rust-1.75.0.html
+> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> >
+> > Unfortunately there were rust reproducibility failures too:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4170=
+/steps/12/logs/stdio
+> >
+>
+> Thanks, that's useful.
+>
+> Not sure why I didn't see that locally as on the face of it, it's
+> (mostly?) the build path embedded in one of the output files
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Closing this off - for whatever reason the buildpaths check wasn't
+getting run when I was testing stuff, so what I thought was a fix,
+wasn't.
 
----
-Testing patch /home/patchtest/share/mboxes/2-2-rpm-Fix-build-with-musl.patch
-
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+--=20
+Alex Kiernan
 
