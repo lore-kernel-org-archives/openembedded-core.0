@@ -2,124 +2,204 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A3A2C4707B
-	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 04:31:14 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web10.22853.1704169872583152451
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68303C47077
+	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 04:31:24 +0000 (UTC)
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web11.22782.1704169875377975124
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jan 2024 20:31:12 -0800
+ Mon, 01 Jan 2024 20:31:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I2d0X9/Q;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7816e463b8aso386439985a.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 20:31:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MJoXH02A;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-781048954d9so779083085a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jan 2024 20:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704169871; x=1704774671; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=w8P2uj+CPuCR4KkA+PGoj9zoVN34aKsE79iRpIgCOoY=;
-        b=I2d0X9/QCzeaGZBgLzBc/y4am4utGGQpkEgPulkhS178f2LHZg5Z5gk88Z3XFf1azA
-         SOtypQ1iOqfdF12XDo0raHZYKr8arD0CZHS112VDKr4UFsSJ+JH11RLJb+naPsXHDlzv
-         eGT+4ItxHBT21aEs68D3JXEERl05dndmAbJsMNimRnHNTy1EMCgmamqUHC+Mxex0e9s7
-         7rYd9SOPf4S0cWkflbT1D/GKbEV+SpXUpBWFWO7xUngz3d992Hnm5FZlYQ1cTnoTGBbf
-         dtqFLaIAeCG7Dl9Wb5/iQ3at9/annvLDKXlXJnNci13PXFK8LDgRCtosS0HdrP4jz704
-         eH6w==
+        d=gmail.com; s=20230601; t=1704169874; x=1704774674; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q/gIjBFCA6lZy5dqnsXa+ny4PzQXMtnK/hxMy4nqdHQ=;
+        b=MJoXH02A96YsJFR6PmlmRJy2UJYfbyMFf1isu+qy+PpUDscZzD6sj/zZUz4xb7j/Gb
+         QoZOj8cs13/vu93Uk8ZlSH5ZqgjVBjPI7KBRAwjGIq9bvMXuOX4q1+03X9AYh+yT1yN5
+         tJAemKk10F+NxN6mzb9j1/wQ8mTwTfLdICaTpjlDEYBXUQWQIW1lpe2faWzuXHdhNTOq
+         DGyj/ZJ5n/PImocRl2D5ab3cEFDuQwU9yX3+jce5AsX0wyhh8aQx751nB2ecOtLhYB63
+         cBtoQlaM90MPmeQ4XE2OdxV+Vgg4hd92tWCNzQyyToudAzz88naImMaH29dHInFDkAnR
+         hozA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704169871; x=1704774671;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w8P2uj+CPuCR4KkA+PGoj9zoVN34aKsE79iRpIgCOoY=;
-        b=HCEVF85lzWakBiIT5DtLLcCJv6lRWQgRyadUOhq/itqIlm1N0xiDOzbseLQXNDjPwF
-         wXzjyPnaoHH1IrW+jJCFjTGE/LKHwbxYegGZnNGhVvjkl59tk7Owi/1UPT0jtEVUYK3W
-         UhF6Zsbt6WwbUgxCbsz40Gxm3Qf8qzacHVYJF8eFPlziLXXzs0KbGYZkDIS9R2ijjPet
-         DVVqHQtIZgEULd9h62/s9znsPHPrHu/kth/IYv1Bbm3NCYWmXDYpwtchgTH2KjJJ+r3q
-         jEDy8r95mBvJoPXOvgVCIje4jM+ZGa2B0pqsJYVZyGpyjfDXnAoGpRFo4OkjuvjwqOdM
-         Xx+g==
-X-Gm-Message-State: AOJu0YxZ2ATkDwYTZuuN64YTLPosNcYm4q4a9VqiDXaH1n98RFxeKePH
-	8x1m5Cy+EJMnKh6BrMiMY9U=
-X-Google-Smtp-Source: AGHT+IHWrdAKjCajkHvgDm3xizbuC7bCZJjjRN6HCjr3y6LVirBjuYqNicIXbKo3N3jMONGOceqQUw==
-X-Received: by 2002:a05:620a:2691:b0:781:375a:6dc5 with SMTP id c17-20020a05620a269100b00781375a6dc5mr19382185qkp.104.1704169871523;
-        Mon, 01 Jan 2024 20:31:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704169874; x=1704774674;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q/gIjBFCA6lZy5dqnsXa+ny4PzQXMtnK/hxMy4nqdHQ=;
+        b=pptu3N51OGP5RxVZmOpozQ2H8Nez9XNTBXGobQ6bXDqisQM/BvTM0Nyq1fiai4t6l6
+         R+/Gtz7LPeEv0gGfACb4knsaspzfk0lmzit+SL/TI40kq0OsXGnRIReNcSVqRf7agV5I
+         OGwOImRBVhvzohmkfvZIwRoGbNZdyPwGE0/a7GPgh3Wqzc05Z28VYwx4GGQCIh9/SpsR
+         PAHlrcq5ITeZGDLIhZBdQPE8isbI3EKEYfKtccxCTIQtoIHMYyxgfyOFqbHNmNP+kgbc
+         U3rYKWCFrOLXDei2zmHC8orxzNrKWKJFS122TyUp0jUu1Z6sJH4NdBlXf4Hi8AbZz0IC
+         g1sg==
+X-Gm-Message-State: AOJu0YyHOouNrRDlVRXF32VbT5iAJuXAC8V2DS1LpAvnWAJCLUpq9DOK
+	vfwfW9il4Eq7cpFywmz9gzyYGpugVG1dK+TvKfw=
+X-Google-Smtp-Source: AGHT+IF7fTyebgcnOJZPSoH0kG3x8x6DdTGLZy4pIldu8+HmgdtHOo5uVdh3jkpI3IpLpm+d12KRmg==
+X-Received: by 2002:a05:620a:22a4:b0:781:578b:3b7b with SMTP id p4-20020a05620a22a400b00781578b3b7bmr13395074qkh.23.1704169874332;
+        Mon, 01 Jan 2024 20:31:14 -0800 (PST)
 Received: from bruce-XPS-8940.. ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id t1-20020a05620a004100b00781df3924f3sm39045qkt.129.2024.01.01.20.31.10
+        by smtp.gmail.com with ESMTPSA id t1-20020a05620a004100b00781df3924f3sm39045qkt.129.2024.01.01.20.31.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jan 2024 20:31:11 -0800 (PST)
+        Mon, 01 Jan 2024 20:31:13 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/7] kernel: consolidated pull request
-Date: Mon,  1 Jan 2024 23:31:02 -0500
-Message-Id: <cover.1704169585.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 3/7] linux-yocto/6.6: fix AB-INT: QEMU kernel panic: No irq handler for vector
+Date: Mon,  1 Jan 2024 23:31:05 -0500
+Message-Id: <f3642126dfbcc65b04fe28affdeb0cc8f6fe3703.1704169585.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1704169585.git.bruce.ashfield@gmail.com>
+References: <cover.1704169585.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 04:31:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193196
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 04:31:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193199
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+Integrating the following commit(s) to linux-yocto/6.6:
 
-As promised, I waited until the new year to send this update
-to introduce the 6.6 kernel and libc-headers.
+1/2 [
+    Author: Thomas Gleixner
+    Email: tglx@linutronix.de
+    Subject: x86/alternatives: Sync core before enabling interrupts
+    Date: Thu, 7 Dec 2023 20:49:24 +0100
 
-I'll be sending patches to the appropriate lists to remove
-6.5 shortly and make 6.6 the default. Once we have the reference
-boards updated to 6.6, the 6.1 kernel will also be removed.
+    text_poke_early() does:
 
-I've built 6.6 for all supported arches, core-image-* and have
-also tested against musl.
+       local_irq_save(flags);
+       memcpy(addr, opcode, len);
+       local_irq_restore(flags);
+       sync_core();
 
-Patches to meta-oe have been sent, and the work done with
-6.6 as the -dev kernel means that the tightly coupled packages
-already build against 6.6.
+    That's not really correct because the synchronization should happen before
+    interrupts are reenabled to ensure that a pending interrupt observes the
+    complete update of the opcodes.
 
-I'm sure there will be issues .. as there always are, but at
-this point, I need more eyes and test cycles to find those
-issues.
+    It's not entirely clear whether the interrupt entry provides enough
+    serialization already, but moving the sync_core() invocation into interrupt
+    disabled region does no harm and is obviously correct.
 
-Bruce
+    Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
 
+2/2 [
+    Author: Thomas Gleixner
+    Email: tglx@linutronix.de
+    Subject: x86/alternatives: Disable interrupts and sync when optimizing NOPs in place
+    Date: Thu, 7 Dec 2023 20:49:26 +0100
 
-The following changes since commit fe5d2f0b666c83e3336ea9962c8e2e4c39816e21:
+    apply_alternatives() treats alternatives with the ALT_FLAG_NOT flag set
+    special as it optimizes the existing NOPs in place.
 
-  bitbake: lib/bb: Add workaround for libgcc issues with python 3.8 and 3.9 (2023-12-30 11:03:25 +0000)
+    Unfortunately this happens with interrupts enabled and does not provide any
+    form of core synchronization.
 
-are available in the Git repository at:
+    So an interrupt hitting in the middle of the update and using the affected
+    code path will observe a half updated NOP and crash and burn. The following
+    3 NOP sequence was observed to expose this crash halfways reliably under
+    QEMU 32bit:
 
-  https://git.yoctoproject.org/poky-contrib zedd/kernel
-  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+       0x90 0x90 0x90
 
-Bruce Ashfield (7):
-  linux-libc-headers: update to v6.6-lts
-  linux-yocto: introduce 6.6 reference kernel
-  linux-yocto/6.6: fix AB-INT: QEMU kernel panic: No irq handler for
-    vector
-  linux-yocto-rt/6.6: fix CVE exclusion include
-  linux-yocto/6.6: update CVE exclusions
-  linux-yocto/6.6: update to v6.6.8
-  linux-yocto/6.1: update to v6.1.69
+    which is replaced by the optimized 3 byte NOP:
 
- meta/conf/distro/include/tcmode-default.inc   |    2 +-
- ...aders_6.5.bb => linux-libc-headers_6.6.bb} |    2 +-
- .../linux/cve-exclusion_6.6.inc               | 5172 +++++++++++++++++
- .../linux/linux-yocto-rt_6.1.bb               |    6 +-
- .../linux/linux-yocto-rt_6.6.bb               |   48 +
- .../linux/linux-yocto-tiny_6.1.bb             |    6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   33 +
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  |   28 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |   72 +
- 9 files changed, 5347 insertions(+), 22 deletions(-)
- rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_6.5.bb => linux-libc-headers_6.6.bb} (83%)
- create mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.6.inc
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_6.6.bb
+       0x8d 0x76 0x00
 
+    So an interrupt can observe:
+
+       1) 0x90 0x90 0x90		nop nop nop
+       2) 0x8d 0x90 0x90		undefined
+       3) 0x8d 0x76 0x90		lea    -0x70(%esi),%esi
+       4) 0x8d 0x76 0x00		lea     0x0(%esi),%esi
+
+    Where only #1 and #4 are true NOPs. The same problem exists for 64bit obviously.
+
+    Disable interrupts around this NOP optimization and invoke sync_core()
+    before reenabling them.
+
+    Fixes: 270a69c4485d ("x86/alternative: Support relocations in alternatives")
+    Reported-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+    Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+    Cc: stable@vger.kernel.org
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_6.6.bb               |  2 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 22 +++++++++----------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index 0c0ce6afea..9a9d1ab33a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -14,7 +14,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "bce0cb6bbe24682d839c3e212270e3744e32aabe"
++SRCREV_machine ?= "3364e561d527a5dcca1803dcf5a7e2a7aa3a398e"
+ SRCREV_meta ?= "8ab17895c185426442d80a60829619270f9ac51d"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index edb8001069..547b5ee922 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -17,7 +17,7 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
++SRCREV_machine ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
+ SRCREV_meta ?= "8ab17895c185426442d80a60829619270f9ac51d"
+ 
+ PV = "${LINUX_VERSION}+git"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index 4fa6c505f5..57a394d171 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -18,17 +18,17 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
+ KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "8a23d09163eedc42ed63f2741ae2fa7d8aa926aa"
+-SRCREV_machine:qemuarm64 ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
+-SRCREV_machine:qemuloongarch64 ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
+-SRCREV_machine:qemumips ?= "a0a00df5c1cd3cdd346f410f71998a120e284f78"
+-SRCREV_machine:qemuppc ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
+-SRCREV_machine:qemuriscv64 ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
+-SRCREV_machine:qemuriscv32 ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
+-SRCREV_machine:qemux86 ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
+-SRCREV_machine:qemux86-64 ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
+-SRCREV_machine:qemumips64 ?= "971214747a173452ae3ab4c6dcf1d91451b6e9be"
+-SRCREV_machine ?= "09118b4441395fadf233eec03e2b68e7d6d63cdd"
++SRCREV_machine:qemuarm ?= "ff8331e10427c145659bf6a5f87b9109011159cf"
++SRCREV_machine:qemuarm64 ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
++SRCREV_machine:qemuloongarch64 ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
++SRCREV_machine:qemumips ?= "afa3730deded0bc56f1470b59f65d86f20dfb256"
++SRCREV_machine:qemuppc ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
++SRCREV_machine:qemuriscv64 ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
++SRCREV_machine:qemuriscv32 ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
++SRCREV_machine:qemux86 ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
++SRCREV_machine:qemux86-64 ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
++SRCREV_machine:qemumips64 ?= "a93ff794461d9ba7ec5b02d482b60d9ca582e97f"
++SRCREV_machine ?= "58e5c91d6701f62e0f72b1f10c2e9f14b2eb4480"
+ SRCREV_meta ?= "8ab17895c185426442d80a60829619270f9ac51d"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
 -- 
 2.39.2
 
