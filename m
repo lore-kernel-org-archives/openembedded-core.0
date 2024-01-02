@@ -1,102 +1,197 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CB08C46CD2
-	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 13:01:17 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web11.28236.1704200468694567809
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E766C46CD2
+	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 13:01:57 +0000 (UTC)
+Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
+ by mx.groups.io with SMTP id smtpd.web11.28252.1704200509299562662
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jan 2024 05:01:09 -0800
+ Tue, 02 Jan 2024 05:01:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@posteo.com header.s=2017 header.b=Bf6uW7er;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 7DC59240027
-	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jan 2024 14:01:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1704200466; bh=99HFE33fcCg0ZC+vimtfJe5isZY0Cp7h1KkxM2UXQUs=;
-	h=Message-ID:Subject:From:To:Date:Content-Transfer-Encoding:
-	 MIME-Version:From;
-	b=Bf6uW7ere7GWsOVfaG9fgM2ji3oRkXLf2EOULhNCggR3xN1XRJaQDlsuiAUyyGkOJ
-	 f+Np8M4Tyk6X3qO+bwGUtvcXBgdzXAC60xZcZ2gdAHkYt6OyqYCooIAIbCLEFRj2t9
-	 0j8nwAlHtBH/gMsExWWNgFrspShISmsqzHsdUv1U/sTr9j9BBulFLrPFhBdvtDp/R7
-	 WB6xSv19zKhDY15bjDqB6970/ckfIZSFEeXx3UNkDO7MhdIbDGSmZ8rufLWMaBSuc8
-	 fMWpYEHF6CFLdizzl+8Wgst6sLvzU7g3/H5YxjFyFFu5cRgF7wf6ZDOIPT++YEIAEC
-	 RLGCqMIXH6k3w==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4T4Cds0KLHz6ty7;
-	Tue,  2 Jan 2024 14:01:05 +0100 (CET)
-Message-ID: <0d02d2b75606238c8355a6a19e23c70ab0bb8d31.camel@posteo.net>
-Subject: Re: [OE-core] [PATCH] patchtest: Add test for deprecated
- CVE_CHECK_IGNORE
-From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>
-To: simone.p.weiss@posteo.com, openembedded-core@lists.openembedded.org
-Date: Tue, 02 Jan 2024 13:01:04 +0000
-In-Reply-To: <4872.1702932173537517107@lists.openembedded.org>
-References: <878d9666-9b33-4058-853e-081181f46c74@baylibre.com>
-	 <4872.1702932173537517107@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
+Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
+	by mailout04.t-online.de (Postfix) with SMTP id 70A9F14281
+	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jan 2024 14:01:47 +0100 (CET)
+Received: from [192.168.178.67] ([84.163.41.12]) by fwd85.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1rKeOu-1foEj20; Tue, 2 Jan 2024 14:01:44 +0100
+Date: Tue, 02 Jan 2024 14:01:38 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [RFC][oe-core][PATCH] utfcpp: add recipe
+To: openembedded-core@lists.openembedded.org
+Message-Id: <QIXM6S.ZGI08VQ09CW21@t-online.de>
+In-Reply-To: <17A68917D46BD8C6.19767@lists.openembedded.org>
+References: <17A68917D46BD8C6.19767@lists.openembedded.org>
+X-Mailer: geary/44.1
 MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-C0rFmA+Y2v6bDHplrdrJ"
+X-TOI-EXPURGATEID: 150726::1704200504-C1AEC9F9-DB577DEB/0/0 CLEAN NORMAL
+X-TOI-MSGID: c8751cf5-572a-42a0-852c-d26d3c962274
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 13:01:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193231
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 13:01:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193232
 
-On Mon, 2023-12-18 at 12:42 -0800, simone.p.weiss@posteo.com wrote:
-> > I agree,=C2=A0 this would be a good change to make for long-term
-> > maintainability. LGTM otherwise.
-> I have tried to implement such a check as well, and while this check
-> is fine
-> and works, the test of a patch with patchtest containing a variable
-> from
-> BB_RENAMED_VARIABLES that is not a pretest, i.e. the patch is already
-> merged,
-> the tinfoil setup and the subsequent parsing of the recipes while
-> raise an issue for this test.
->=20
-> e.g.=20
->=20
-> ERROR: Variable SDK_LOCAL_CONF_BLACKLIST has been renamed to=20
-> ESDK_LOCALCONF_REMOVE
-> ...
->=20
-> So on the one hand the issues is already cached by other parts of the
-> buildsystem and on the other hand this will cause tests not related
-> to
-> renamed variables to fail.
->=20
-> It was suggested on bugzilla by Trevor to merge this original test
-> and open
-> an issue in bugzilla to address the question of
-> BB_RENAMED_VARIABLES separately. See [1]
->=20
-> If you do agree, please tell me if a rebased version of the patch
-> would be
-> needed or not.
->=20
-> - Cheers,
-> Simone
->=20
-> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15311#c5
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+--=-C0rFmA+Y2v6bDHplrdrJ
+Content-Type: text/plain; charset=us-ascii; format=flowed
+
+The documentation states:
+This is a header-only library and the supported way of deploying it is:
+
+Download a release from <https://github.com/nemtrif/utfcpp/releases> 
+into a temporary directory Unzip the release Copy the content of 
+utfcpp/source file into the directory where you keep include files for 
+your project
+The CMakeList.txt file was originally made for testing purposes only, 
+but unfortunately over time I accepted contributions that added install 
+target. /This is not a supported way of installing the utfcpp library/ 
+and I am considering removing the CMakeList.txt in a future release.
+
+This statement doesn't make a lot of sense to me but maybe it would be 
+a good idea to install the files manually instead of using cmake?
+
+
+On Tue, Jan 2 2024 at 01:52:14 PM +01:00:00, Markus Volk 
+<f_l_k@t-online.de> wrote:
+> utfcpp will be a required dependency for the upcoming taglib-2.0 
+> update.
+> 
+> Signed-off-by: Markus Volk <f_l_k@t-online.de 
+> <mailto:f_l_k@t-online.de>>
+> ---
+>  meta/conf/distro/include/maintainers.inc     |  1 +
+>  meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb | 13 +++++++++++++
+>  2 files changed, 14 insertions(+)
+>  create mode 100644 meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
+> 
+> diff --git a/meta/conf/distro/include/maintainers.inc 
+> b/meta/conf/distro/include/maintainers.inc
+> index 8dc63b138e..f0a39beffd 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -824,6 +824,7 @@ RECIPE_MAINTAINER:pn-unzip = "Denys Dmytriyenko 
+> <denis@denix.org>"
+>  RECIPE_MAINTAINER:pn-update-rc.d = "Ross Burton <ross.burton@arm.com 
+> <mailto:ross.burton@arm.com>>"
+>  RECIPE_MAINTAINER:pn-usbinit = "Alexander Kanavin 
+> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>"
+>  RECIPE_MAINTAINER:pn-usbutils = "Alexander Kanavin 
+> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>"
+> +RECIPE_MAINTAINER:pn-utfcpp = "Markus Volk <f_l_k@t-online.de 
+> <mailto:f_l_k@t-online.de>>"
+>  RECIPE_MAINTAINER:pn-util-linux = "Chen Qi <Qi.Chen@windriver.com 
+> <mailto:Qi.Chen@windriver.com>>"
+>  RECIPE_MAINTAINER:pn-util-linux-libuuid = "Chen Qi 
+> <Qi.Chen@windriver.com <mailto:Qi.Chen@windriver.com>>"
+>  RECIPE_MAINTAINER:pn-util-macros = "Unassigned 
+> <unassigned@yoctoproject.org <mailto:unassigned@yoctoproject.org>>"
+> diff --git a/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb 
+> b/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
+> new file mode 100644
+> index 0000000000..9cbea94c63
+> --- /dev/null
+> +++ b/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
+> @@ -0,0 +1,13 @@
+> +SUMMARY = "UTF-8 with C++ in a Portable Way."
+> +HOMEPAGE = "<https://github.com/nemtrif/utfcpp>"
+> +LICENSE = "BSL-1.0"
+> +LIC_FILES_CHKSUM = 
+> "file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c" 
+> <file://license;md5=e4224ccaecb14d942c71d31bef20d78c/>
+> +
+> +SRC_URI = 
+> "git://github.com/nemtrif/utfcpp.git;protocol=https;branch=master"
+> +
+> +SRCREV = "aed58281cf45838bdb7296e3109bd5a633d677ed"
+> +S = "${WORKDIR}/git"
+> +
+> +inherit cmake
+> +
+> +FILES:${PN}-dev += "${datadir}/utf8cpp/cmake"
+> --
+> 2.43.0
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#192677):
-> https://lists.openembedded.org/g/openembedded-core/message/192677
-> Mute This Topic: https://lists.openembedded.org/mt/103112424/8052774
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-
-> core/unsub=C2=A0[simone.p.weiss@posteo.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-Hi,
+> View/Reply Online (#193230): 
+> <https://lists.openembedded.org/g/openembedded-core/message/193230>
+> Mute This Topic: <https://lists.openembedded.org/mt/103480458/3618223>
+> Group Owner: openembedded-core+owner@lists.openembedded.org 
+> <mailto:openembedded-core+owner@lists.openembedded.org>
+> Unsubscribe: 
+> <https://lists.openembedded.org/g/openembedded-core/unsub> 
+> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-any thoughts on this?
 
-Cheers,
-Simone
+--=-C0rFmA+Y2v6bDHplrdrJ
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto"><div>The documentation states:</div><div><p dir="auto">This is a header-only library and the supported way of deploying it is:</p>
+<ul dir="auto">
+<li>Download a release from <a href="https://github.com/nemtrif/utfcpp/releases">https://github.com/nemtrif/utfcpp/releases</a> into a temporary directory</li>
+<li>Unzip the release</li>
+<li>Copy the content of utfcpp/source file into the directory where you keep include files for your project</li>
+</ul>
+<p dir="auto">The CMakeList.txt file was originally made for testing 
+purposes only, but unfortunately over time I accepted contributions that
+ added install target. <em>This is not a supported way of installing the utfcpp library</em> and I am considering removing the CMakeList.txt in a future release.</p><p dir="auto">This statement doesn't make a lot of sense to me but maybe it would be a good idea to install the files manually instead of using cmake?</p></div></div><div id="geary-quote" dir="auto"><br>On Tue, Jan 2 2024 at 01:52:14 PM +01:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">utfcpp will be a required dependency for the upcoming taglib-2.0 update.
+
+Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
+---
+ meta/conf/distro/include/maintainers.inc     |  1 +
+ meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 8dc63b138e..f0a39beffd 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -824,6 +824,7 @@ RECIPE_MAINTAINER:pn-unzip = "Denys Dmytriyenko &lt;denis@denix.org&gt;"
+ RECIPE_MAINTAINER:pn-update-rc.d = "Ross Burton &lt;<a href="mailto:ross.burton@arm.com">ross.burton@arm.com</a>&gt;"
+ RECIPE_MAINTAINER:pn-usbinit = "Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;"
+ RECIPE_MAINTAINER:pn-usbutils = "Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;"
++RECIPE_MAINTAINER:pn-utfcpp = "Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;"
+ RECIPE_MAINTAINER:pn-util-linux = "Chen Qi &lt;<a href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;"
+ RECIPE_MAINTAINER:pn-util-linux-libuuid = "Chen Qi &lt;<a href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;"
+ RECIPE_MAINTAINER:pn-util-macros = "Unassigned &lt;<a href="mailto:unassigned@yoctoproject.org">unassigned@yoctoproject.org</a>&gt;"
+diff --git a/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb b/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
+new file mode 100644
+index 0000000000..9cbea94c63
+--- /dev/null
++++ b/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "UTF-8 with C++ in a Portable Way."
++HOMEPAGE = "<a href="https://github.com/nemtrif/utfcpp">https://github.com/nemtrif/utfcpp</a>"
++LICENSE = "BSL-1.0"
++LIC_FILES_CHKSUM = "<a href="file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c" "="">file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c"</a>
++
++SRC_URI = "git://github.com/nemtrif/utfcpp.git;protocol=https;branch=master"
++
++SRCREV = "aed58281cf45838bdb7296e3109bd5a633d677ed"
++S = "${WORKDIR}/git"
++
++inherit cmake
++
++FILES:${PN}-dev += "${datadir}/utf8cpp/cmake"
+<div>-- 
+</div>2.43.0
+
+</div><div class="plaintext" style="white-space: break-spaces;">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#193230): <a href="https://lists.openembedded.org/g/openembedded-core/message/193230">https://lists.openembedded.org/g/openembedded-core/message/193230</a>
+Mute This Topic: <a href="https://lists.openembedded.org/mt/103480458/3618223">https://lists.openembedded.org/mt/103480458/3618223</a>
+Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</div></blockquote></div>
+--=-C0rFmA+Y2v6bDHplrdrJ--
 
 
