@@ -2,63 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C413C46CD2
-	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 15:30:08 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.31323.1704209402025563382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81970C47074
+	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 15:34:28 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.31454.1704209664318679475
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jan 2024 07:30:02 -0800
+ Tue, 02 Jan 2024 07:34:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aEp4Sysa;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40d89446895so7690535e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 07:30:01 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IXDIDYIb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50e77a2805fso6518423e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 07:34:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704209400; x=1704814200; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1704209662; x=1704814462; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZP0MI1R7OInv5QOcDcnE9f9gUhxngEPSkK1rJWYLXeU=;
-        b=aEp4Sysatyce+1HT2HaE3GeybdkLfoRYjTruGTPfrbo52LExVF7jR9DN69EtsltGFl
-         Mg3cafLYYK6MDuTuBvNSPFi+CSoc4rtbCeZ6v3fSryFmDf8KIfGIJJjZaNls/REY/hDw
-         +nSNsvq0C3i07cZo4ytA7wWOEEqlBzjhg27mA=
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5IrXhqIpexH08U0GMT9iXz9ihGeKppptRsoR2gq8cMs=;
+        b=IXDIDYIbhE+S2SXOnLPmQlAtF4McxY7yALUEegOe2OcrfDAw1lnbnquOPTO0hV0vRp
+         X4xo45KAn5TIvvIXoigiSNzp8GJ6djqVPXixcrwAHFAAFv+b7wMJGYPonMFNH8Vo8yy4
+         xFS1epkePJh/7g5SRdVParYmtiqV0sGF97/eI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704209400; x=1704814200;
+        d=1e100.net; s=20230601; t=1704209662; x=1704814462;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZP0MI1R7OInv5QOcDcnE9f9gUhxngEPSkK1rJWYLXeU=;
-        b=HFNdiSNsZ7he4SZXN7/hUkCwLNuR1plxmgwc0D8V7U6lQqKmXfHw54gwpxPcZFJKrr
-         97lvwlHp+tHLsBLzBI4YBxRdPL912JToNsKT5U2Nfj5fAj7Z66ve/eXCYHfIqK0PrdVB
-         0M21Q/3N4gyzu6sEYrTOJO0DmL+sAF9H+0inLaXBXXnf+bjxE/HWkSrxnnjMIj9YWB3T
-         4FzYimCsd9SImEuSzrO8cO+q2/TKHTjqt/qSSlbRBH5YdK9nsROazpUSwsD9Y34DzGxB
-         M90uyOYKaBkSA8YjSKMpu2HPsV6/P5AgJIQi2Fxte1CuimgV79n+odjvYBE6dnUtFf9K
-         l/Nw==
-X-Gm-Message-State: AOJu0Yz9Lcoov2ixySwvyYJncefPNwT3ypERpzhFoufm06YXZZSrw7ja
-	Yqo+HloTfrsfTYZlgYuzw670fH0QQ5nzwednpfWnfZWsoow=
-X-Google-Smtp-Source: AGHT+IFpUsBnDCWUIjuqwkjueI0GEqA6Ikq7kuzyhjLi1+1qMUlLDNp+p4J9lYIFNyvKxr8YVNh33A==
-X-Received: by 2002:a05:600c:4713:b0:40d:734e:665d with SMTP id v19-20020a05600c471300b0040d734e665dmr3113314wmo.41.1704209400448;
-        Tue, 02 Jan 2024 07:30:00 -0800 (PST)
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5IrXhqIpexH08U0GMT9iXz9ihGeKppptRsoR2gq8cMs=;
+        b=WkrfQVzI0xtEpjHYKNGVAzMURFqSfxegxQkr3NFFkjWV58A/FL0QIl+Fj9ZKpjkaue
+         hJtTkV7NuYJpZZY6M5QUxwZC3+LTpgc/hKoasdU3aAicXtYyePb9aYQcX1+R9CUl11dZ
+         lfxZWiNEO1m+jUrxYrTH03VRqzSSaiB/uGnts3YszbVnP7868U7WT2cEz9hNO58fFg4M
+         Kg7UF1i9PQ77d18UzQokdUJn7YGff3Z2ktWPetVzHECbYMIKc3zNi7COpZhSXTf8csAB
+         J/WeYnOF/Drp/EizxBIC15h3EE5ug9IBPwSM7P0fH60OsqcDlYh6BH08PJL5rFUiRy9x
+         byYg==
+X-Gm-Message-State: AOJu0Ywbxb9NhkX68RuzqfcV6W/98Ngir1AVvuLQ4aXC0iD+PoUOg2mg
+	kpkp6x1HszhSow2ufqawBFbtTPM8Ul2y0jSkP65I+goNMn0=
+X-Google-Smtp-Source: AGHT+IEHX4Lbs2L4P6ubyNk8Y1gKn5o7mupkTZk0o9DPMp0kcgenEHTTZoq2bTzagNtGLLUDJ3xuWg==
+X-Received: by 2002:ac2:5dd5:0:b0:50e:532a:2c0d with SMTP id x21-20020ac25dd5000000b0050e532a2c0dmr4566298lfq.177.1704209662323;
+        Tue, 02 Jan 2024 07:34:22 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:fbfd:7888:db42:b332? ([2001:8b0:aba:5f3c:fbfd:7888:db42:b332])
-        by smtp.gmail.com with ESMTPSA id m13-20020a05600c3b0d00b0040d87d7a253sm8781183wms.27.2024.01.02.07.29.58
+        by smtp.gmail.com with ESMTPSA id r11-20020a056512102b00b0050e3ef5fdffsm3686217lfr.118.2024.01.02.07.34.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jan 2024 07:29:58 -0800 (PST)
-Message-ID: <67deee116e78f2d0695e3cb25b284380465d780c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5 2/3] mesa: add support for RustiCL under
- PACKAGECONFIG "opencl"
+        Tue, 02 Jan 2024 07:34:21 -0800 (PST)
+Message-ID: <cb8e91d0ac9ad995d5e54529c7aa986d0ef346f8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] sanity.bbclass: CHeck for additional native
+ perl modules.
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	=?ISO-8859-1?Q?Zolt=E1n_B=F6sz=F6rm=E9nyi?=
-	 <zboszor@gmail.com>
-Date: Tue, 02 Jan 2024 15:29:57 +0000
-In-Reply-To: <CALT56yPGZjpz0agYzDmmSQeaHXC8g0O=dwLPqcU+kDdJ3WCk+g@mail.gmail.com>
-References: <20231230191444.1204808-1-dmitry.baryshkov@linaro.org>
-	 <20231230191444.1204808-3-dmitry.baryshkov@linaro.org>
-	 <cee73ff2f2260660bd9138d13921a5425dbbb333.camel@linuxfoundation.org>
-	 <CALT56yPPkLbxQbMtu1o4K5gAoN4MY2uaHPdxJBLgia4Ynw9AUA@mail.gmail.com>
-	 <a46cf5c2b2afd5f73f247c9aefd9b3103201db8d.camel@linuxfoundation.org>
-	 <CALT56yPGZjpz0agYzDmmSQeaHXC8g0O=dwLPqcU+kDdJ3WCk+g@mail.gmail.com>
+To: Philip Balister <philip@balister.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 02 Jan 2024 15:34:20 +0000
+In-Reply-To: <20240102112135.3594972-1-philip@balister.org>
+References: <20240102112135.3594972-1-philip@balister.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
@@ -66,84 +59,40 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 15:30:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193241
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 15:34:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193242
 
-On Tue, 2024-01-02 at 17:25 +0200, Dmitry Baryshkov wrote:
-> On Tue, 2 Jan 2024 at 13:40, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Tue, 2024-01-02 at 12:32 +0200, Dmitry Baryshkov wrote:
-> > > On Sat, 30 Dec 2023 at 23:02, Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >=20
-> > > > On Sat, 2023-12-30 at 21:14 +0200, Dmitry Baryshkov wrote:
-> > > > > From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> > > > >=20
-> > > > > Mesa now has two OpenCL implementations: Clover (older one) and R=
-ustiCL
-> > > > > (newer one). Extend the "opencl" package config to include both
-> > > > > implementations into the libopencl-mesa (-dev) packages. As the C=
-lover
-> > > > > implementation is in maintenance mode and is expected to be remov=
-ed at
-> > > > > some point, it doesn't make sense to split the packages or to pro=
-vide
-> > > > > two config options.
-> > > > >=20
-> > > > > Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gm=
-ail.com>
-> > > > > [DB: reworked rust class inheritance]
-> > > > > [DB: merged "rusticl" and "clover" back to "opencl"]
-> > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > ---
-> > > > >  meta/recipes-graphics/mesa/mesa.inc | 21 ++++++++++++++++-----
-> > > > >  1 file changed, 16 insertions(+), 5 deletions(-)
-> > > > >=20
-> > > > > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-g=
-raphics/mesa/mesa.inc
-> > > > > index efbce5caade5..a192562a7935 100644
-> > > > > --- a/meta/recipes-graphics/mesa/mesa.inc
-> > > > > +++ b/meta/recipes-graphics/mesa/mesa.inc
-> > > > > @@ -48,6 +48,12 @@ PROVIDES =3D " \
-> > > > >=20
-> > > > >  inherit meson pkgconfig python3native gettext features_check
-> > > > >=20
-> > > > > +# We can not include rust conditionally, otherwise it can not be=
- overriden by
-> > > > > +# the bbappends.  Instead always include it, but remove the depe=
-ndencies by
-> > > > > +# default.
-> > > > > +inherit rust
-> > > > > +INHIBIT_DEFAULT_RUST_DEPS =3D "${@bb.utils.contains('PACKAGECONF=
-IG', 'opencl', '', '1', d)}"
-> > > > > +
-> > > >=20
-> > > > I'd really prefer not to have the rust inherit unconditionally. I h=
-ave
-> > > > some ideas about how we could fix this in bitbake so we may need to
-> > > > wait for that if we can't avoid the PACKAGECONFIG issue from append=
-s...
-> > >=20
-> > > Well, it's not just appends. Extending PACKAGECONFIG from local.conf
-> > > also doesn't work. In fact even adding "opencl" to the default
-> > > PACKAGECONFIG doesn't work unless I move `inherit
-> > > @{bb.utils.contains....` after the PACKAGECONFIG definition. Using
-> > > `INHIBIT_DEFAULT_RUST_DEPS` works around that issue, but yes, it has =
-a
-> > > drawback of including rust unconditionally.
-> >=20
-> > PACKAGECONFIG:append:pn-mesa =3D " opencl"
+On Tue, 2024-01-02 at 06:21 -0500, Philip Balister wrote:
+> Since we use the build systems native perl, we need to check that all
+> perl modules required for a build are installed. For a default Fedora 39
+> install, autoconf-native and libxcrypt both fail to build due to missing
+> perl modules. After taking careful notes, this commits adds checks for
+> File::Compare, File::Copy, open, and FindBin.
 >=20
-> Yes, I tried that. I got an error about rust tools not being defined.
-> I think the :append: and overrides are handled after the inherit
-> argument is handled. So it is either PACKAGECONFIG being fully defined
-> before inherit (literally before), or inherit ends up with an empty
-> argument.
+> [YOCTO #14691]
+>=20
+> Signed-off-by: Philip Balister <philip@balister.org>
+> ---
+>  meta/classes-global/sanity.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/san=
+ity.bbclass
+> index 9b824915f2..57353b9478 100644
+> --- a/meta/classes-global/sanity.bbclass
+> +++ b/meta/classes-global/sanity.bbclass
+> @@ -532,7 +532,7 @@ def check_git_version(sanity_data):
+>  def check_perl_modules(sanity_data):
+>      import subprocess
+>      ret =3D ""
+> -    modules =3D ( "Text::ParseWords", "Thread::Queue", "Data::Dumper" )
+> +    modules =3D ( "Text::ParseWords", "Thread::Queue", "Data::Dumper", "=
+File::Compare", "File::Copy", "open", "FindBin" )
+>      errresult =3D ''
+>      for m in modules:
+>          try:
 
-The append and overrides would be expanded at the time the expression
-in the inherit statement is evaluated so if that didn't work there is
-something else at play...
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/8418
 
 Cheers,
 
