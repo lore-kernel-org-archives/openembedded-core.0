@@ -1,114 +1,120 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF2B6C47074
-	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 16:54:28 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.33499.1704214463412469426
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAD3BC46CD2
+	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 16:56:18 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.web10.33555.1704214575183233976
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jan 2024 08:54:23 -0800
+ Tue, 02 Jan 2024 08:56:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UdNfCvOD;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50e766937ddso7543253e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 08:54:23 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Ar7nEbFJ;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-781b9922f44so178548485a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 08:56:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704214461; x=1704819261; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=F5yXyTPQrATLpeeKIGufZpaOMTXU1AzM8krlfbYlzlw=;
-        b=UdNfCvODBs9sYWXGNYQ5h+cvz0KAqPLI7hUmT4oGZuz6mlbMttPb2nHwIXHUP7gV6a
-         P/jNUJc7oQiQnAqJ7vUD+lN6r8c8QrP3UhHHDl+T6dFsdGyfwTnrTotyM2a62kl5Cvqx
-         wOLPxmnK9pb1xE4P8GT5f7xP1wQ92dU95w7aW1A5Cuaxinw+wak/IiiJm8zy+cRH9LiP
-         FyBg3l8Lh/4rqMONIXa0Ftb+AlKJGquTe1mJBET2C1fYD0ylL0leTJPAFUaB2wEFahzU
-         OGuyCF3H5tL7pehsx2UgzqDFEXPxebn339HiJfQo20s4cvfNuti4TyRbpdjcpHrCFU/r
-         yHrg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1704214574; x=1704819374; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W30Cw8QG5fGl2ruMCgPc6DP34bpF07t0eYdoVEXb4oo=;
+        b=Ar7nEbFJsHRS1LPTNeK87A6FI9QfkNlLDVN72wMKk4ZYLG1Yl2CAJqvxYppU3bgXIX
+         UjG5aJCqHnjGJ+uPIfwYByJ57SOSn+E/CRNBxilxONqnnA0ID8FVeBA25jSXmRZGpYgP
+         O9VEL1zoCFD+2KZP4z6WJDS9wHUzSRVsf2qwoIgR2lqSI63fqzGIqZvXgyLzPN65Hw+H
+         +FEGDZUWPQMRaHm8ivxSaLdQhybBwtQ1rVs+2nL65rQK6ATFPuUzt2g6LcedleTGho0l
+         /az4esOVT7VN4JHqV9pH0M4C9SXN1w5q2n9lk/i7lCxavLI+1g0HKhOE/IEcoJ2Tf4st
+         fDCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704214461; x=1704819261;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F5yXyTPQrATLpeeKIGufZpaOMTXU1AzM8krlfbYlzlw=;
-        b=uZFNyMzdLegjQ1UY4KNJFDT6mcHbNlUFcqdFns0BNluYaj6SH+kmLY7L+RH8OuehPT
-         pia0vZ/6i3WWlUJDcDoUEwJ9fGuDqIo5ZYu6noHHLAt8CejdzTEyFqu+n/YoG6w/oZZ+
-         R3UF3NVBbGB92Cj0hHdclw2NqL4UGLAN2Dix77mtoTg7Hc34FIJV59MEP5uRvbgUJEui
-         qhIKZaN1JbNj2GPCC8FQ1koyj3HS2WQA03FUGi24m0NRRkxGHiX3F405TKr9AZQ4phpK
-         3Zk8G5PRMU+QryF3wE16Yc3LOTItZifjnPt0UDZOMdJsNFDFag9lG8YAxtogQg+QEYpn
-         zw4w==
-X-Gm-Message-State: AOJu0YygZxDCHk+MBF4/VDhzvTaiSvVKJhncQrZsPhdxWA4WwdTmm0PZ
-	TAmQ/Pm8vyEn+a7RNg6SGKf52yRMc0jTxKjn8a1fDZObvOc=
-X-Google-Smtp-Source: AGHT+IGN7EAHpNaxcUXGSmXt4n0/2IMIbNaOP27a6gG677yJ+uo9pIyk3Ib0/aOBzevSyYaSmVnU/21jDeOPYyHFBck=
-X-Received: by 2002:a05:6512:2805:b0:50e:7f5c:521d with SMTP id
- cf5-20020a056512280500b0050e7f5c521dmr6401289lfb.104.1704214461347; Tue, 02
- Jan 2024 08:54:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704214574; x=1704819374;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W30Cw8QG5fGl2ruMCgPc6DP34bpF07t0eYdoVEXb4oo=;
+        b=uqjOgTwCdYPGTsujzlq34+fDHObaiDStUWq/Ddnl3tw/bu5nuagwA8JlprQESdTZnU
+         qOs+ikNacOQRun3/sKg7zCUzk9d4kmNsvPJUU3dKhxFx/CWacUoAOcLkCWg9QVP/88Xu
+         8Y2Sjr5hQHPFlRaE6tGDqsz8gSH52cpLH0nkumNotMSrTq0VdG4j/04YEkH5a/WEY0uV
+         ayaeYY7bl0hlxn2JiJxp6H19AawboG9u0xZMVzJ8URbhUhAwdazHcQzR+pmDNsQRBivY
+         yjs/FvUxGT5FXSRfJcamYqb2QvZUS0uBRI1ZEAAsQyvtA5Inpct+eTMso/7sh5C6TOIW
+         5nwQ==
+X-Gm-Message-State: AOJu0Yzp4IEVGrPQ/B594GGqTvRy759HX6qzYG2fxB2rvtt79gMAVmoN
+	iBM6wM+6eM64+2sTrcuF+JSjHCLlitwMOnr6p1kao9eVrNc=
+X-Google-Smtp-Source: AGHT+IHsJrh+v6K0nZdoBwn0yIWW/rST8P+tdq1DtSpVthRPjylIo8XnPqmyOTbp77qjmZzA0O2WNw==
+X-Received: by 2002:a05:620a:3948:b0:781:e4b2:9d61 with SMTP id qs8-20020a05620a394800b00781e4b29d61mr3488qkn.60.1704214573709;
+        Tue, 02 Jan 2024 08:56:13 -0800 (PST)
+Received: from megalith.. (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id ou30-20020a05620a621e00b0078172403677sm4249918qkn.72.2024.01.02.08.56.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jan 2024 08:56:13 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH v2] scripts/runqemu: fix regex escape sequences
+Date: Tue,  2 Jan 2024 11:56:12 -0500
+Message-ID: <20240102165612.2706280-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240102083755.316126-1-Qi.Chen@windriver.com>
-In-Reply-To: <20240102083755.316126-1-Qi.Chen@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 2 Jan 2024 17:54:09 +0100
-Message-ID: <CANNYZj97wWSw-uyEUEppnkXQZ6XROr3BWoCz0KanmMknUTcF4w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] debugedit: add UPSTREAM_CHECK settings
-To: Qi.Chen@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 16:54:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193248
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 16:56:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193249
 
-The check already works, at least for me it correctly checks both the
-top level directory and the 'latest' directory:
-...
---2024-01-02 16:51:30--  https://sourceware.org/ftp/debugedit/
-...
---2024-01-02 16:51:30--  https://sourceware.org/ftp/debugedit/5.0/
-...
-INFO: debugedit                 5.0             MATCH           Chen
-Qi <Qi.Chen@windriver.com>
+When invoking runqemu with Python 3.12, the following warning is
+encountered:
 
-What does devtool output for you, without the patch?
+|SyntaxWarning: invalid escape sequence '\.'
 
-Alex
+This is because the interpreter scans the string before it is processed
+by the regex module, and it interprets the backslash as part of an
+escape sequence, but not a standard one. This will be registered as an
+error rather than a warning in future Python versions. To avoid it,
+simply add an extra backslash so that Python doesn't misinterpret the
+string, while the regex parser still sees an escaped '.' character.
 
-On Tue, 2 Jan 2024 at 09:38, Chen Qi via lists.openembedded.org
-<Qi.Chen=windriver.com@lists.openembedded.org> wrote:
->
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Add UPSTREAM_CHECK_URI(REGEX) to allow for checking new releases
-> for debugedit recipe.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/recipes-devtools/debugedit/debugedit_5.0.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/debugedit/debugedit_5.0.bb b/meta/recipes-devtools/debugedit/debugedit_5.0.bb
-> index 63ad7babd9..3a596f5fea 100644
-> --- a/meta/recipes-devtools/debugedit/debugedit_5.0.bb
-> +++ b/meta/recipes-devtools/debugedit/debugedit_5.0.bb
-> @@ -9,6 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
->                      file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->                      file://COPYING3;md5=d32239bcb673463ab874e80d47fae504"
->
-> +UPSTREAM_CHECK_URI = "https://sourceware.org/ftp/debugedit/"
-> +UPSTREAM_CHECK_REGEX = "(?P<pver>(\d\.\d))/"
-> +
->  SRC_URI = "https://sourceware.org/ftp/debugedit/${PV}/debugedit-${PV}.tar.xz"
->
->  SRC_URI:append:libc-musl = "\
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193220): https://lists.openembedded.org/g/openembedded-core/message/193220
-> Mute This Topic: https://lists.openembedded.org/mt/103478272/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+v2 fixes a typo in the patch description. 
+
+ scripts/runqemu | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 6a5a6451daf..f4d04201092 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -371,7 +371,7 @@ class BaseConfig(object):
+         if p.endswith('.qemuboot.conf'):
+             self.qemuboot = p
+             self.qbconfload = True
+-        elif re.search('\.bin$', p) or re.search('bzImage', p) or \
++        elif re.search('\\.bin$', p) or re.search('bzImage', p) or \
+              re.search('zImage', p) or re.search('vmlinux', p) or \
+              re.search('fitImage', p) or re.search('uImage', p):
+             self.kernel =  p
+@@ -385,19 +385,19 @@ class BaseConfig(object):
+                     fst = t
+                     break
+             if not fst:
+-                m = re.search('.*\.(.*)$', self.rootfs)
++                m = re.search('.*\\.(.*)$', self.rootfs)
+                 if m:
+                     fst =  m.group(1)
+             if fst:
+                 self.check_arg_fstype(fst)
+-                qb = re.sub('\.' + fst + "$", '.qemuboot.conf', self.rootfs)
++                qb = re.sub('\\.' + fst + "$", '.qemuboot.conf', self.rootfs)
+                 if os.path.exists(qb):
+                     self.qemuboot = qb
+                     self.qbconfload = True
+                 else:
+                     logger.warning("%s doesn't exist, will try to remove '.rootfs' from filename" % qb)
+                     # They to remove .rootfs (IMAGE_NAME_SUFFIX) as well
+-                    qb = re.sub('\.rootfs.qemuboot.conf$', '.qemuboot.conf', qb)
++                    qb = re.sub('\\.rootfs.qemuboot.conf$', '.qemuboot.conf', qb)
+                     if os.path.exists(qb):
+                         self.qemuboot = qb
+                         self.qbconfload = True
+-- 
+2.43.0
+
 
