@@ -1,169 +1,154 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB41C47073
-	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 08:29:56 +0000 (UTC)
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
- by mx.groups.io with SMTP id smtpd.web10.25111.1704184187891465390
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73AD8C46CD2
+	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 08:38:16 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.25164.1704184694852875888
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jan 2024 00:29:47 -0800
+ Tue, 02 Jan 2024 00:38:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LtO83cmG;
- spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3bc0fe6e60fso633175b6e.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 00:29:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704184187; x=1704788987; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FJc5Jluh6b2nFW/z4npDUdoRc0M/lyU/cTcNzjxTAy8=;
-        b=LtO83cmGb+G9D2AUsdo3KpNvLUaIgBiwUXCOzN0lSiPdwBkURnca76HPNzX5SqPEEK
-         tZjjEFw7Tfp5tQNqtCF8/t/uFmEqSU1I5YR5z3FGBJ2tXexVS399otxbRYC1wYII5V+t
-         j0XUw6kjaLOoeA4PdhxovL8iXzoKCGKOuSWSOL95YCcQJL/+WSmNU6fv2uUbVjCt3EGt
-         K9gcjLOkUm0oP/gNTc+/n87dhweWHyiFDHW7j96EiOtGbMmjSBDY5HdIII1h/PIhzU2v
-         Uen+DyCildiqkZ83WMPGhliEd13EKS5NrjPrlfi/Q1Rjcf6a/Ib81sqwG6XNsTa+ThsP
-         QoFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704184187; x=1704788987;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FJc5Jluh6b2nFW/z4npDUdoRc0M/lyU/cTcNzjxTAy8=;
-        b=MZQWC2OlfQmQvMVLuZ1tXCmIfHdktFBEeVlCvFbv42gWYqSHhFfdNvK4UHuesa+d03
-         vu7mChQDjPxedHXre3m7QI7SRKGVMGhIH1GDRxbAnz7N5d0wjIwGA45g2uUuQOmDzDUe
-         RjSTt80YIOZj+4XyP4KLeOTmnslp5vfPqsBPZ6zNa73m9dpm6jLr4jQHwFKaauYTxYRg
-         i4sAUnh/saOiazEp/61naVAragYOwU97tjsv8pjDSb9TWzZRWFN+UBjJ/c+vXqRm67fi
-         tubTiSmYXu0RTP3Y2Eb/tzLEdK2yVdbbnUVjbv8QJJZf56mAwT9Cku7nFimwTJd93Cs4
-         /qzw==
-X-Gm-Message-State: AOJu0YzK9B4ctWazqzCmkdq8/c0iWqLWmHrG+nRtC6LMfmJ+E6fVXV0k
-	OABlzd3HPILdeTHv5TxJdGq+dW+b6qc=
-X-Google-Smtp-Source: AGHT+IHZhd0RVK25MemwBi0hgfy046oameV/cLhBRiK4At5fNg4z/Ua1FxJN+rZmLByQuekGHFQKyA==
-X-Received: by 2002:a05:6358:3a0e:b0:175:4048:c590 with SMTP id g14-20020a0563583a0e00b001754048c590mr2599417rwe.58.1704184186599;
-        Tue, 02 Jan 2024 00:29:46 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::4b6f])
-        by smtp.gmail.com with ESMTPSA id f30-20020aa79d9e000000b006d9ae6fe867sm15572202pfq.110.2024.01.02.00.29.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jan 2024 00:29:45 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=dD06zhlu;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=173143555b=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40287lHA025367
+	for <openembedded-core@lists.openembedded.org>; Tue, 2 Jan 2024 00:38:14 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=LLkODUe8Mq0gP3tzfK
+	2hRVa3j3tyy+oIMjRuGrwE5/Q=; b=dD06zhlubSeCLn1HhYwqhe6HeyoKCE5ssA
+	Hju2Au4pa3IkH6/OzSFclFu/wps1Demlaei1HUcDe7ucLLqBBwVEF/IZAd387zZq
+	uiXOMHTFP/Amoy81K83SAfH/Sy/WLFqkWIkQFkSx8ZaNqqXzIAEGzoTXA8ysnrMI
+	J/6wGIOFAa4wexIIn3QwIm46OGnkv0tW2wIxwaZnFg91TkkiH8YzNNDIsHW0yVDV
+	PGGW2kz20MJIXvP7am6Qar3TNfCc+osk/TywmYuuFYwwUZc9G01W2ans0nMSGkOD
+	GRGJgYDEjZhgDzoOaUaxVuZvRZiThXrGXwq4qWKOHUnGDHHj7P9A==
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vafc4adw6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 00:38:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oQvNYVUpBrVEXIMtrCZB8ixIDadgn/NBrcT2iCiH2LDV+Z2tGPCn0lX2FygTQxO0HlvI92pT/K1pi9ub8w2f/j+jQTgZK2U/sHMElY/wW1IAjF8o9ef1VmbOhv2qNLHquLW7J2dJ+ICooGGEksKUzB/A9XVET16ehK3kfZy7IxfMhrGIUDCWTHOt6DSnW+OtbcBB5qkhzevyORjCldc6lBdV6GqSVtkMNWpYMfkOeOOX4mRJEdnsj3uA5XjpU/+C0B5g3JXljo6ibtmRo1eptqxZPHPzywpQ+LKmDzsO5sObFE/A+3vZpmjcKj0QWYUspmHErsSp6qNnCcl/0Kux7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LLkODUe8Mq0gP3tzfK2hRVa3j3tyy+oIMjRuGrwE5/Q=;
+ b=QEnQeHWmFMC9zljOWvd0v+ZMxQSKQEAV39kzleKZjXefQjt9nYzUSyay5Zb6f+ZUy2ON3JsZ5KWgHE/O8xoJ+S6DIvGx0RzfQ4RX/sLCAwZWQvxNpR+OAUPk3ScEkkcRldTXldOX8itEVBJHEIejkv930OeYb/KugRRNfb7CJiSQ1KBRysfAjGYK+YwLOSle1vS/CWSzYNVjH2oYFgs8KjTBUgFm1hnmsN77Jku+Yv4Nrlg5cZgfRK7lhex+lJShNZEQhzmzDlX4VVrqD6g9/n/TIh1YhtxpauzMmPLfKalz2TEtBdXtfwGKsdY8umU3XFirXB7vhzHF6QGF2pxgOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by DS0PR11MB7651.namprd11.prod.outlook.com (2603:10b6:8:149::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7135.25; Tue, 2 Jan
+ 2024 08:38:10 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315%6]) with mapi id 15.20.7135.023; Tue, 2 Jan 2024
+ 08:38:09 +0000
+From: Qi.Chen@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] rpm: Fix build with musl
-Date: Tue,  2 Jan 2024 00:29:42 -0800
-Message-ID: <20240102082942.799830-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240102082942.799830-1-raj.khem@gmail.com>
-References: <20240102082942.799830-1-raj.khem@gmail.com>
-MIME-Version: 1.0
+Subject: [OE-core][PATCH] debugedit: add UPSTREAM_CHECK settings
+Date: Tue,  2 Jan 2024 16:37:55 +0800
+Message-Id: <20240102083755.316126-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SL2P216CA0160.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:1b::22) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|DS0PR11MB7651:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5480e2c0-1d2b-4cb9-3172-08dc0b6e263d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	rwYbKjPsbY8bseUr6/nZMPfF+SrwNTDMeza7lyeDgms+pEQAguMcElvN8iJTgMVRtT106e8k0phsWd78VcENzbfRssAzdRygR1axQN+7ol8O07q0nLeRD5HfDkvWFRjxrD3Mtw3PYKOzXpiq22gCJszYTDcJrIvgMOqezjJmltBO6Le9hb97QdTOsuH9foT7JOTL+dZc1VSf11mUeBcVxZ8dEJvLj7bRAv+TGUWELm8UlJf4qA9O9IvOdyhrolyG0AJuWjkVe3CDq4Xe/hPimxr9fgsxpeLH249Z9eYAi13yVEO3hw+PL6BtgA0HHK7RUNYa2s82KrrvRFy/R57E4opizCzq8FwHr8U5Dr4Y4tYUQjoX64Utc+42PX1KPu3aD3dLcnjFclpi2dQG0ZFFajnoQOeAf66k15xbMFfSPafRKXu96lBWziDG/EzyiVVToqDxiYbwZ0A+XN9311zUY7jbXtvgLOGXI57vts1+eCAWtUPJ11/fV3idPmmhfRafw2lJl09vj8TnON6zNFRtk3xkO7J2PNAZMmbaDUru1BNAcj+bvcESgVtDamgc1LRpcfp6kjsDp+S2+ntVRot9X1RNwtWziHAkjUasd6tWnGo=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(39850400004)(366004)(376002)(136003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(38100700002)(86362001)(38350700005)(36756003)(6512007)(9686003)(1076003)(26005)(2616005)(52116002)(6486002)(478600001)(6666004)(4744005)(2906002)(6916009)(66556008)(316002)(66946007)(66476007)(6506007)(5660300002)(8676002)(8936002)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?7y2CL+0iptTdy5jrQTvLcYqfrlqM5x3+QNo88Cb/O1jqQmYZttLTmLBsM30+?=
+ =?us-ascii?Q?GJ/aH2cxW8FxFqV2mXzSldNiLDCSOGAOTZ1azqonurQZA4FFpDaT/BtfMkJo?=
+ =?us-ascii?Q?vu/h7Q0tapRDxxOmIvy+RlnQrUjyXD+fAZHewvXlv749ZjlDXxIFgXhbJDxt?=
+ =?us-ascii?Q?W+ocQAPy7k5qjfc75PAyNubkVKSwoRrsKdlCWBzwPAkED8h6H8+EkPHJh9Cg?=
+ =?us-ascii?Q?cmQlP62aWlAgLykCoFe+qj8e2CVUPzcxF9oC5mT3RWTrtAvS4gNiEoWF2YtH?=
+ =?us-ascii?Q?wPv9UMeQnO5l551TtF6v16wy1MKt22hjw02m+1hs4S6JYaEtpLHqQh6TmRTB?=
+ =?us-ascii?Q?v8qN3XLOaiJr6npfGcP4II35cVT5ttc689EXkJ8E12qBxofLuE2oPGMgDn14?=
+ =?us-ascii?Q?DB9Fu8uXJ032BnTfubSeu3wU3Oxb4gwWVH2a2R6/7rcE4L0uu7E0Zg5FlLOe?=
+ =?us-ascii?Q?Bwf+BykVnXuK8Q/fNpChNnWY6zR2M5j85UNrYdNJXUDrtghrneTGS+AUTFCx?=
+ =?us-ascii?Q?Q/KJ30FGwjgggPT7BOQLksXR+74tPfOxG5GyelGsrvj2ewTLqx+7B7v0Hrkv?=
+ =?us-ascii?Q?kEfAhf3lGD5No3uTAkViZe0D5uny27dZp/gMcYVkIDHL9LHUGOOEOGYkUrHA?=
+ =?us-ascii?Q?5+6qkES1OFoCX4+TGI7ZpqC6uMyYNFl4n2V4MR2L2pKWKDMn4AET3vUBRZn4?=
+ =?us-ascii?Q?YdpslvS2cxua+nuVER+FpGEF50B8NEaLN7HfV/leMev9qXM3IKq1WNkiPuUY?=
+ =?us-ascii?Q?zgnjxU6gZRtCOAOyVoJBptf5fkUSYiVC2oJsOi4w9vzMOvasxYG+7If3i4JM?=
+ =?us-ascii?Q?Ud1d4/86E93iyDWY6F/fWHRItBaOepTJKYeOGpRE1SJvEdx26oZ0qHRkniQV?=
+ =?us-ascii?Q?36e+HUNETz6No3pHhbkaE1UMhBi+4moRv41x2efftBOGz39swbiFFZqDe6FI?=
+ =?us-ascii?Q?7DV8UrGDPUITlhNfPnuf8BDGu3S59KXLpyWxokQa+N4LPaJBg8HGfHhDgARF?=
+ =?us-ascii?Q?aui/Ob3O45oCy00CaCm1PFDOBnt/PnnwNLaadIqhzLExKBkOfYlqmgMUEwv9?=
+ =?us-ascii?Q?DTHedsylcN5mCE/24y7flZtLFZWx2pMJykSZTHwzRSCjtFPIiWDAkXzsiZJq?=
+ =?us-ascii?Q?dFTEQ71zUthxqN5ZBTvRApcV+G/Y2fIc9KPQaObpB0puo3zk+4Az5ujeH+ly?=
+ =?us-ascii?Q?QcPtLVCbtg9uTRaCkDS5EO1/gG/sj0RtSYJXx7vsa7gRWqm84Y8NoGodmvgN?=
+ =?us-ascii?Q?SUOdbkgLwGW7O69BKxNr2hV0Eyy2QzKRFDykcGAqCccq2TWTRTSGoHOjrUv0?=
+ =?us-ascii?Q?0buqq2nzqylnEJTQ+125TFOQSxDPh32vpkd6L4nIH+dI2Dl1WQrUTvk4TZSt?=
+ =?us-ascii?Q?2ME2+YTiJY6xakdwb79vgXFX5cmeQWk5hx7f6k2R8RS5J2kifVGiG9YbK758?=
+ =?us-ascii?Q?t8487FMrgNS18G2JvLTEXkqRSC1QsUI0L7NggBpeP/rFn9dmlZdFblw+nev6?=
+ =?us-ascii?Q?tcu9rR2eEfgDTqyZlzSth0jGVNqyvtWMeI7qjuM3h+fPcQ7LLBXKMSEMXeap?=
+ =?us-ascii?Q?fuAm+6lMS0mN4hUTy8DsWuQzJW73LDKsXUog3zKF?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5480e2c0-1d2b-4cb9-3172-08dc0b6e263d
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2024 08:38:09.8618
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZInDQ7qTTNA3dNsJqsILHKUOuFMN2hl6PfeHYlMbuJQ60JDEciUuDln2JheIyEOhp+twKS0dKJroLrdJ4PLSxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7651
+X-Proofpoint-GUID: X3dKNI-J2CE1lW0hf4rVY4IluYrG59ud
+X-Proofpoint-ORIG-GUID: X3dKNI-J2CE1lW0hf4rVY4IluYrG59ud
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=839
+ mlxscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401020065
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 08:29:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193219
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 08:38:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193220
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+From: Chen Qi <Qi.Chen@windriver.com>
+
+Add UPSTREAM_CHECK_URI(REGEX) to allow for checking new releases
+for debugedit recipe.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...lename-before-passing-it-to-basename.patch | 40 +++++++++++++++++++
- ...ix-missing-basename-include-on-macOS.patch | 26 ++++++++++++
- meta/recipes-devtools/rpm/rpm_4.18.1.bb       |  2 +
- 3 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-Duplicate-filename-before-passing-it-to-basename.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-Fix-missing-basename-include-on-macOS.patch
+ meta/recipes-devtools/debugedit/debugedit_5.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Duplicate-filename-before-passing-it-to-basename.patch b/meta/recipes-devtools/rpm/files/0001-Duplicate-filename-before-passing-it-to-basename.patch
-new file mode 100644
-index 00000000000..f9b809d1676
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-Duplicate-filename-before-passing-it-to-basename.patch
-@@ -0,0 +1,40 @@
-+From 3fa2ae78db9b31edb4c22f3b5cd36c6c972947f1 Mon Sep 17 00:00:00 2001
-+From: Florian Festi <ffesti@redhat.com>
-+Date: Wed, 26 Jul 2023 15:01:35 +0200
-+Subject: [PATCH] Duplicate filename before passing it to basename
-+
-+basename is allowed change the string passed to it. While we don't need
-+the filename after that just casting away the const seems a bit too
-+hacky.
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/3fa2ae78db9b31edb4c22f3b5cd36c6c972947f1]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tools/rpmuncompress.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/rpmuncompress.c b/tools/rpmuncompress.c
-+index 58ddf5683..e13cc6a66 100644
-+--- a/tools/rpmuncompress.c
-++++ b/tools/rpmuncompress.c
-+@@ -98,7 +98,8 @@ static char *doUntar(const char *fn)
-+ 	if (needtar) {
-+ 	    rasprintf(&buf, "%s '%s' | %s %s -", zipper, fn, tar, taropts);
-+ 	} else if (at->compressed == COMPRESSED_GEM) {
-+-	    const char *bn = basename(fn);
-++	    char *tmp = xstrdup(fn);
-++	    const char *bn = basename(tmp);
-+ 	    size_t nvlen = strlen(bn) - 3;
-+ 	    char *gem = rpmGetPath("%{__gem}", NULL);
-+ 	    char *gemspec = NULL;
-+@@ -112,6 +113,7 @@ static char *doUntar(const char *fn)
-+ 
-+ 	    free(gemspec);
-+ 	    free(gem);
-++	    free(tmp);
-+ 	} else {
-+ 	    rasprintf(&buf, "%s '%s'", zipper, fn);
-+ 	}
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/rpm/files/0001-Fix-missing-basename-include-on-macOS.patch b/meta/recipes-devtools/rpm/files/0001-Fix-missing-basename-include-on-macOS.patch
-new file mode 100644
-index 00000000000..a93597a8352
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-Fix-missing-basename-include-on-macOS.patch
-@@ -0,0 +1,26 @@
-+From b2e67642fd8cb64d8cb1cca9e759396c1c10807d Mon Sep 17 00:00:00 2001
-+From: Calvin Buckley <calvin@cmpct.info>
-+Date: Tue, 11 Jul 2023 19:22:41 -0300
-+Subject: [PATCH] Fix missing basename include on macOS
-+
-+Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/b2e67642fd8cb64d8cb1cca9e759396c1c10807d]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tools/rpmuncompress.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/tools/rpmuncompress.c b/tools/rpmuncompress.c
-+index bd4146d54..58ddf5683 100644
-+--- a/tools/rpmuncompress.c
-++++ b/tools/rpmuncompress.c
-+@@ -1,6 +1,7 @@
-+ #include "system.h"
-+ 
-+ #include <popt.h>
-++#include <libgen.h>
-+ #include <errno.h>
-+ #include <stdio.h>
-+ #include <string.h>
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_4.18.1.bb b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-index 95a9e92f96b..3e85cbb8efe 100644
---- a/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.18.1.bb
-@@ -40,6 +40,8 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.18.x;protoc
-            file://0001-python-Use-Py_hash_t-instead-of-long-in-hdr_hash.patch \
-            file://fix-declaration.patch \
-            file://ea3187cfcf9cac87e5bc5e7db79b0338da9e355e.patch \
-+           file://0001-Duplicate-filename-before-passing-it-to-basename.patch \
-+           file://0001-Fix-missing-basename-include-on-macOS.patch \
-            "
+diff --git a/meta/recipes-devtools/debugedit/debugedit_5.0.bb b/meta/recipes-devtools/debugedit/debugedit_5.0.bb
+index 63ad7babd9..3a596f5fea 100644
+--- a/meta/recipes-devtools/debugedit/debugedit_5.0.bb
++++ b/meta/recipes-devtools/debugedit/debugedit_5.0.bb
+@@ -9,6 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://COPYING3;md5=d32239bcb673463ab874e80d47fae504"
  
- PE = "1"
++UPSTREAM_CHECK_URI = "https://sourceware.org/ftp/debugedit/"
++UPSTREAM_CHECK_REGEX = "(?P<pver>(\d\.\d))/"
++
+ SRC_URI = "https://sourceware.org/ftp/debugedit/${PV}/debugedit-${PV}.tar.xz"
+ 
+ SRC_URI:append:libc-musl = "\
 -- 
-2.43.0
+2.34.1
 
 
