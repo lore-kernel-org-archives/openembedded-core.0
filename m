@@ -1,197 +1,161 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E766C46CD2
-	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 13:01:57 +0000 (UTC)
-Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
- by mx.groups.io with SMTP id smtpd.web11.28252.1704200509299562662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22F69C46CD2
+	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 14:24:48 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.29788.1704205483274859282
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jan 2024 05:01:49 -0800
+ Tue, 02 Jan 2024 06:24:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
-Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
-	by mailout04.t-online.de (Postfix) with SMTP id 70A9F14281
-	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jan 2024 14:01:47 +0100 (CET)
-Received: from [192.168.178.67] ([84.163.41.12]) by fwd85.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rKeOu-1foEj20; Tue, 2 Jan 2024 14:01:44 +0100
-Date: Tue, 02 Jan 2024 14:01:38 +0100
-From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [RFC][oe-core][PATCH] utfcpp: add recipe
-To: openembedded-core@lists.openembedded.org
-Message-Id: <QIXM6S.ZGI08VQ09CW21@t-online.de>
-In-Reply-To: <17A68917D46BD8C6.19767@lists.openembedded.org>
-References: <17A68917D46BD8C6.19767@lists.openembedded.org>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=JlWQ0fgp;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 663A9240006;
+	Tue,  2 Jan 2024 14:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1704205480;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TPFMKZ5cb6UownOONt6dkmk7J7X3p4jBQQEZGTiXa9c=;
+	b=JlWQ0fgp7aB/ynX0rOC94wemtutJgvXuxRspK904sFB0yAhmZlU4Q2QtLlsE4jztv3/5bE
+	xWsvTm+Rf49vJnocxKTpRSD7vKzmSINv6BSPe0cfcjQLtvVSCLxdtkE+EKm8n/HkKwXx12
+	O7d0zL5tvUNQ0Dsp7LIlm4tOnjXYl/4T+iFfgU16jOha7qA4dtwZpdTOp+W4ZCQUj1tsTX
+	2tpPDc6n6JwgcBcdm+s7ISvFeXKbKmFu8uWE9MrEiZ/HAwmFJ8ak5yIj4K7Cy3URO2D16v
+	gW0ReTHZLF3tU+s/59jXPwu5tMVpYguo5itf1DLvu17tK97d7tYJL1pd4y31zA==
+Date: Tue, 2 Jan 2024 15:24:40 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 0/7] kernel: consolidated pull request
+Message-ID: <20240102142440c632ce21@mail.local>
+References: <cover.1704169585.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-C0rFmA+Y2v6bDHplrdrJ"
-X-TOI-EXPURGATEID: 150726::1704200504-C1AEC9F9-DB577DEB/0/0 CLEAN NORMAL
-X-TOI-MSGID: c8751cf5-572a-42a0-852c-d26d3c962274
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1704169585.git.bruce.ashfield@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 13:01:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193232
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 14:24:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193233
 
---=-C0rFmA+Y2v6bDHplrdrJ
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Hello,
 
-The documentation states:
-This is a header-only library and the supported way of deploying it is:
+This breaks meta-virt:
 
-Download a release from <https://github.com/nemtrif/utfcpp/releases> 
-into a temporary directory Unzip the release Copy the content of 
-utfcpp/source file into the directory where you keep include files for 
-your project
-The CMakeList.txt file was originally made for testing purposes only, 
-but unfortunately over time I accepted contributions that added install 
-target. /This is not a supported way of installing the utfcpp library/ 
-and I am considering removing the CMakeList.txt in a future release.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/2705/steps/12/logs/stdio
 
-This statement doesn't make a lot of sense to me but maybe it would be 
-a good idea to install the files manually instead of using cmake?
+and I believe this also causes:
+
+AssertionError: 2 != 0 : Log: /home/pokybuild/yocto-worker/qa-extras2/build/build/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/target_logs/dmesg
+-----------------------
+Central error: [    0.455917] ACPI: _OSC evaluation for CPUs failed, trying _PDC
+***********************
+[    0.413863] raid6: sse2x2   gen() 14704 MB/s
+[    0.430863] raid6: sse2x1   gen() 11500 MB/s
+[    0.431830] raid6: using algorithm sse2x4 gen() 15109 MB/s
+[    0.448863] raid6: .... xor() 8116 MB/s, rmw enabled
+[    0.449864] raid6: using ssse3x2 recovery algorithm
+[    0.450948] ACPI: Added _OSI(Module Device)
+[    0.451846] ACPI: Added _OSI(Processor Device)
+[    0.451865] ACPI: Added _OSI(3.0 _SCP Extensions)
+[    0.452865] ACPI: Added _OSI(Processor Aggregator Device)
+[    0.454666] ACPI: 1 ACPI AML tables successfully acquired and loaded
+[    0.455917] ACPI: _OSC evaluation for CPUs failed, trying _PDC
+[    0.457035] ACPI: Interpreter enabled
+[    0.457889] ACPI: PM: (supports S0 S3 S5)
+[    0.458874] ACPI: Using IOAPIC for interrupt routing
+[    0.459924] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[    0.460865] PCI: Using E820 reservations for host bridge windows
+[    0.461998] ACPI: Enabled 2 GPEs in block 00 to 3F
+[    0.465281] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[    0.465869] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI HPX-Type3]
+[    0.466904] acpi PNP0A08:00: _OSC: platform does not support [LTR]
+[    0.467913] acpi PNP0A08:00: _OSC: OS now controls [PME PCIeCapability]
 
 
-On Tue, Jan 2 2024 at 01:52:14 PM +01:00:00, Markus Volk 
-<f_l_k@t-online.de> wrote:
-> utfcpp will be a required dependency for the upcoming taglib-2.0 
-> update.
+On 01/01/2024 23:31:02-0500, Bruce Ashfield wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
 > 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
-> ---
->  meta/conf/distro/include/maintainers.inc     |  1 +
->  meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb | 13 +++++++++++++
->  2 files changed, 14 insertions(+)
->  create mode 100644 meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
+> Richard,
 > 
-> diff --git a/meta/conf/distro/include/maintainers.inc 
-> b/meta/conf/distro/include/maintainers.inc
-> index 8dc63b138e..f0a39beffd 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -824,6 +824,7 @@ RECIPE_MAINTAINER:pn-unzip = "Denys Dmytriyenko 
-> <denis@denix.org>"
->  RECIPE_MAINTAINER:pn-update-rc.d = "Ross Burton <ross.burton@arm.com 
-> <mailto:ross.burton@arm.com>>"
->  RECIPE_MAINTAINER:pn-usbinit = "Alexander Kanavin 
-> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>"
->  RECIPE_MAINTAINER:pn-usbutils = "Alexander Kanavin 
-> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>>"
-> +RECIPE_MAINTAINER:pn-utfcpp = "Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>"
->  RECIPE_MAINTAINER:pn-util-linux = "Chen Qi <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>>"
->  RECIPE_MAINTAINER:pn-util-linux-libuuid = "Chen Qi 
-> <Qi.Chen@windriver.com <mailto:Qi.Chen@windriver.com>>"
->  RECIPE_MAINTAINER:pn-util-macros = "Unassigned 
-> <unassigned@yoctoproject.org <mailto:unassigned@yoctoproject.org>>"
-> diff --git a/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb 
-> b/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
-> new file mode 100644
-> index 0000000000..9cbea94c63
-> --- /dev/null
-> +++ b/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
-> @@ -0,0 +1,13 @@
-> +SUMMARY = "UTF-8 with C++ in a Portable Way."
-> +HOMEPAGE = "<https://github.com/nemtrif/utfcpp>"
-> +LICENSE = "BSL-1.0"
-> +LIC_FILES_CHKSUM = 
-> "file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c" 
-> <file://license;md5=e4224ccaecb14d942c71d31bef20d78c/>
-> +
-> +SRC_URI = 
-> "git://github.com/nemtrif/utfcpp.git;protocol=https;branch=master"
-> +
-> +SRCREV = "aed58281cf45838bdb7296e3109bd5a633d677ed"
-> +S = "${WORKDIR}/git"
-> +
-> +inherit cmake
-> +
-> +FILES:${PN}-dev += "${datadir}/utf8cpp/cmake"
-> --
-> 2.43.0
+> As promised, I waited until the new year to send this update
+> to introduce the 6.6 kernel and libc-headers.
 > 
+> I'll be sending patches to the appropriate lists to remove
+> 6.5 shortly and make 6.6 the default. Once we have the reference
+> boards updated to 6.6, the 6.1 kernel will also be removed.
+> 
+> I've built 6.6 for all supported arches, core-image-* and have
+> also tested against musl.
+> 
+> Patches to meta-oe have been sent, and the work done with
+> 6.6 as the -dev kernel means that the tightly coupled packages
+> already build against 6.6.
+> 
+> I'm sure there will be issues .. as there always are, but at
+> this point, I need more eyes and test cycles to find those
+> issues.
+> 
+> Bruce
+> 
+> 
+> The following changes since commit fe5d2f0b666c83e3336ea9962c8e2e4c39816e21:
+> 
+>   bitbake: lib/bb: Add workaround for libgcc issues with python 3.8 and 3.9 (2023-12-30 11:03:25 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.yoctoproject.org/poky-contrib zedd/kernel
+>   https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+> 
+> Bruce Ashfield (7):
+>   linux-libc-headers: update to v6.6-lts
+>   linux-yocto: introduce 6.6 reference kernel
+>   linux-yocto/6.6: fix AB-INT: QEMU kernel panic: No irq handler for
+>     vector
+>   linux-yocto-rt/6.6: fix CVE exclusion include
+>   linux-yocto/6.6: update CVE exclusions
+>   linux-yocto/6.6: update to v6.6.8
+>   linux-yocto/6.1: update to v6.1.69
+> 
+>  meta/conf/distro/include/tcmode-default.inc   |    2 +-
+>  ...aders_6.5.bb => linux-libc-headers_6.6.bb} |    2 +-
+>  .../linux/cve-exclusion_6.6.inc               | 5172 +++++++++++++++++
+>  .../linux/linux-yocto-rt_6.1.bb               |    6 +-
+>  .../linux/linux-yocto-rt_6.6.bb               |   48 +
+>  .../linux/linux-yocto-tiny_6.1.bb             |    6 +-
+>  .../linux/linux-yocto-tiny_6.6.bb             |   33 +
+>  meta/recipes-kernel/linux/linux-yocto_6.1.bb  |   28 +-
+>  meta/recipes-kernel/linux/linux-yocto_6.6.bb  |   72 +
+>  9 files changed, 5347 insertions(+), 22 deletions(-)
+>  rename meta/recipes-kernel/linux-libc-headers/{linux-libc-headers_6.5.bb => linux-libc-headers_6.6.bb} (83%)
+>  create mode 100644 meta/recipes-kernel/linux/cve-exclusion_6.6.inc
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto_6.6.bb
+> 
+> -- 
+> 2.39.2
+> 
+
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#193230): 
-> <https://lists.openembedded.org/g/openembedded-core/message/193230>
-> Mute This Topic: <https://lists.openembedded.org/mt/103480458/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org 
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe: 
-> <https://lists.openembedded.org/g/openembedded-core/unsub> 
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
+> View/Reply Online (#193196): https://lists.openembedded.org/g/openembedded-core/message/193196
+> Mute This Topic: https://lists.openembedded.org/mt/103476582/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
 > 
 
 
---=-C0rFmA+Y2v6bDHplrdrJ
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto"><div>The documentation states:</div><div><p dir="auto">This is a header-only library and the supported way of deploying it is:</p>
-<ul dir="auto">
-<li>Download a release from <a href="https://github.com/nemtrif/utfcpp/releases">https://github.com/nemtrif/utfcpp/releases</a> into a temporary directory</li>
-<li>Unzip the release</li>
-<li>Copy the content of utfcpp/source file into the directory where you keep include files for your project</li>
-</ul>
-<p dir="auto">The CMakeList.txt file was originally made for testing 
-purposes only, but unfortunately over time I accepted contributions that
- added install target. <em>This is not a supported way of installing the utfcpp library</em> and I am considering removing the CMakeList.txt in a future release.</p><p dir="auto">This statement doesn't make a lot of sense to me but maybe it would be a good idea to install the files manually instead of using cmake?</p></div></div><div id="geary-quote" dir="auto"><br>On Tue, Jan 2 2024 at 01:52:14 PM +01:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">utfcpp will be a required dependency for the upcoming taglib-2.0 update.
-
-Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
----
- meta/conf/distro/include/maintainers.inc     |  1 +
- meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb | 13 +++++++++++++
- 2 files changed, 14 insertions(+)
- create mode 100644 meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 8dc63b138e..f0a39beffd 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -824,6 +824,7 @@ RECIPE_MAINTAINER:pn-unzip = "Denys Dmytriyenko &lt;denis@denix.org&gt;"
- RECIPE_MAINTAINER:pn-update-rc.d = "Ross Burton &lt;<a href="mailto:ross.burton@arm.com">ross.burton@arm.com</a>&gt;"
- RECIPE_MAINTAINER:pn-usbinit = "Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;"
- RECIPE_MAINTAINER:pn-usbutils = "Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;"
-+RECIPE_MAINTAINER:pn-utfcpp = "Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;"
- RECIPE_MAINTAINER:pn-util-linux = "Chen Qi &lt;<a href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;"
- RECIPE_MAINTAINER:pn-util-linux-libuuid = "Chen Qi &lt;<a href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;"
- RECIPE_MAINTAINER:pn-util-macros = "Unassigned &lt;<a href="mailto:unassigned@yoctoproject.org">unassigned@yoctoproject.org</a>&gt;"
-diff --git a/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb b/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
-new file mode 100644
-index 0000000000..9cbea94c63
---- /dev/null
-+++ b/meta/recipes-devtools/utfcpp/utfcpp_4.0.4.bb
-@@ -0,0 +1,13 @@
-+SUMMARY = "UTF-8 with C++ in a Portable Way."
-+HOMEPAGE = "<a href="https://github.com/nemtrif/utfcpp">https://github.com/nemtrif/utfcpp</a>"
-+LICENSE = "BSL-1.0"
-+LIC_FILES_CHKSUM = "<a href="file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c" "="">file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c"</a>
-+
-+SRC_URI = "git://github.com/nemtrif/utfcpp.git;protocol=https;branch=master"
-+
-+SRCREV = "aed58281cf45838bdb7296e3109bd5a633d677ed"
-+S = "${WORKDIR}/git"
-+
-+inherit cmake
-+
-+FILES:${PN}-dev += "${datadir}/utf8cpp/cmake"
-<div>-- 
-</div>2.43.0
-
-</div><div class="plaintext" style="white-space: break-spaces;">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#193230): <a href="https://lists.openembedded.org/g/openembedded-core/message/193230">https://lists.openembedded.org/g/openembedded-core/message/193230</a>
-Mute This Topic: <a href="https://lists.openembedded.org/mt/103480458/3618223">https://lists.openembedded.org/mt/103480458/3618223</a>
-Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</div></blockquote></div>
---=-C0rFmA+Y2v6bDHplrdrJ--
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
