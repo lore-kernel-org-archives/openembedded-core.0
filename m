@@ -1,194 +1,122 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2F06C46CD2
-	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 09:47:06 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.25765.1704188820578233382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E973C47073
+	for <webhook@archiver.kernel.org>; Tue,  2 Jan 2024 10:32:47 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.26204.1704191563893754917
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jan 2024 01:47:01 -0800
+ Tue, 02 Jan 2024 02:32:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MCzpDHMq;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50e759ece35so6928904e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 01:47:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C91jAK15;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a27e824d65aso237226966b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 02:32:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704188819; x=1704793619; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NlL+5D3Z4VyaSreRG2M3G7egnXK0gbzpvn5FTGOiiK0=;
-        b=MCzpDHMqMPaauj39A9YCEyAAqDpzdn3avDCywPTlpOy403wapIPYWKqIhzU6H0OcS4
-         cTL+D4N69Gq94VdhZcTecFKl+qZjV8zJORqBTnqU5ys6O6N4k5VdHWXocxQJqF+dF8bn
-         Sd0SS/KI6ntW/xPftz6fv+aoEw3rFi2BkUk0eidElKhR73CINl+RskJ+OB54/br2ALdV
-         xBS+v+R8YdLt7PBK4TpMaE7Cy/G/MJysF9d2jiRRG66V1XxwxczzCwoiFYZKPxI245AF
-         LMbbmf3CwLc0ZQoW0oKHBvelF7Tgacl7gjr0unU7TRBNUH7ccqnKJqUCerNxz9UM6l/0
-         bsOg==
+        d=gmail.com; s=20230601; t=1704191562; x=1704796362; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cCcgHz+DkhI5b4Jf2cqJi83ZYgvHJ4szdCM6T4tQAVs=;
+        b=C91jAK15c9NK6DCaFd9x/DoWkyG3RBj/cNfRGXfIDlvwack0C3RQyitRlDVaBaUJm+
+         DtWRHZUaOUQ82UGGYGK5MBt62FSWlgkFBm3SMM2oO96/hSAQ1Ovrkp6NZ+kp3IS8syK0
+         OnZTnVMVrqvcqcuQRwxriHAC1erxItTKg4/ZkuQ3MvdIN3nMZ1A2nfl8HwlXhlJy+EMX
+         NEU9WNNxPgMnTbnEIuH8LUCwP0fJJ2l3SE5uv2Diu4TE7yoTnhXGBLnMFTurWGtEZXyc
+         esl5OVxv4FXw2Zn/xCSV7AnO1oabe2m+3h3mzZcIUdOcJDWkTmY09XxCJ4MhOnjiwNUl
+         EADA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704188819; x=1704793619;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NlL+5D3Z4VyaSreRG2M3G7egnXK0gbzpvn5FTGOiiK0=;
-        b=oFpoNFNn1CbXJaGzjGzKiYfgb60BK2BwL7BhaYZPnkOeeWTbyI6gynEomILjOJFaYE
-         qM04cNtKXZIxHNUF1dz1/T016faJXMhJArqbRkGMv3ouBH2Ej1TkZZJhesL5YBy+dKL9
-         PLCMRtzSmmFgjva20RYMPZEKchjXDQmjPNZO0FwbuODVM9hVoQJzOfSVMWWXyWZXKkMx
-         yvSJ4eKEV680s5/Fq2kQfNmw6lHYKMO6equrLyQ5/YBDgQ1ntMGNu5m2q2j3GS0cecjQ
-         ry7lfbrNgtZbetggpVgi3NuwD6/M/hzPFYgzjTg4SKS4n5j/Tre5OYQf4oAjwq24F8AK
-         cgAQ==
-X-Gm-Message-State: AOJu0Yzh48DP0U8P2/l/hQTAQ7Lu7kiInciE9qXexzsP6nGK+jwkkDel
-	g1gDWTJsdz6zxv2cfYyfM5we8g2csR9VaGjGyhU=
-X-Google-Smtp-Source: AGHT+IF0Oh5ED2F8760eD0PYdC1nQFDDbPn2n70UvR5M5YuULplEw4IWDFFwR+NEsMU1UWmee5vhqlVb594eOtXB/F4=
-X-Received: by 2002:ac2:5934:0:b0:50e:7673:54d4 with SMTP id
- v20-20020ac25934000000b0050e767354d4mr4660039lfi.29.1704188818338; Tue, 02
- Jan 2024 01:46:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704191562; x=1704796362;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cCcgHz+DkhI5b4Jf2cqJi83ZYgvHJ4szdCM6T4tQAVs=;
+        b=S46S9uQcZL00tzhuDADLyooP6DTNkrMKNocudM8NTO9x72Ho4J2FcC+T1IEdTFwIJA
+         i2O1s89ai6xcGk7PUQq4c069StUEm2yJibQt3pVxkBX7DbyA6Cv6fh9xRShcZfDGSlX1
+         QF0fJ47OKY+Zx8MrViZqrVYRQaMyCHkI/4T9GbdRs05gtm0yOeCQYLNUomf+6iiQbaUS
+         78mP1a16BQih8y3WUHaK8xEhafRHJT7kQVtt7b6D1+p7QwIM8tBpIzCslmX1V4XnC8UQ
+         eivA1QLd96AfLLcwhrBr+NC/LbQmn8okomsg3hgvAVo6u0ixYQVDUf4GKp5/Y4wFXA8A
+         oVug==
+X-Gm-Message-State: AOJu0YxRw5jQa8wRZhCVEXQ9IuVU3LQqpbUs2LSOimato9VW+3NDofdw
+	G5B4r/Iq+LRt3sMb7ml15j4Zgy/GB9/DpiX7QpE=
+X-Google-Smtp-Source: AGHT+IHPfZJEqUuVniBjKfSQMxZ1LZ1xTl5YDUmIahLb+Pjz3Szen39tmhkEM8bmJISORiNMRhf7i2FCqxJDeab8TRw=
+X-Received: by 2002:a17:907:1a51:b0:a23:3753:4d3 with SMTP id
+ mf17-20020a1709071a5100b00a23375304d3mr12220789ejc.14.1704191561996; Tue, 02
+ Jan 2024 02:32:41 -0800 (PST)
 MIME-Version: 1.0
-References: <CANNYZj-0DEz5b=P3+qO+ei-hwD4Fb_gL3fXh9uS_NwSpw-OwhQ@mail.gmail.com>
- <25812.1704152544903871733@lists.openembedded.org>
-In-Reply-To: <25812.1704152544903871733@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 2 Jan 2024 10:46:47 +0100
-Message-ID: <CANNYZj9nM2eKQoxi+=ecJ3K4LmL0rPaduayjFKHv+NsD44uaCg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] packagegroup-core-x11-xserver: use
- RRECOMMENDS for mesa-driver-swrast
-To: Vincent Davis Jr <vince@underview.tech>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000025b879060df3616d"
+References: <20231230191444.1204808-1-dmitry.baryshkov@linaro.org>
+ <20231230191444.1204808-3-dmitry.baryshkov@linaro.org> <cee73ff2f2260660bd9138d13921a5425dbbb333.camel@linuxfoundation.org>
+In-Reply-To: <cee73ff2f2260660bd9138d13921a5425dbbb333.camel@linuxfoundation.org>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Tue, 2 Jan 2024 12:32:30 +0200
+Message-ID: <CALT56yPPkLbxQbMtu1o4K5gAoN4MY2uaHPdxJBLgia4Ynw9AUA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 2/3] mesa: add support for RustiCL under
+ PACKAGECONFIG "opencl"
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	=?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 09:47:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193225
+ <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 10:32:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193226
 
---00000000000025b879060df3616d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Sat, 30 Dec 2023 at 23:02, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sat, 2023-12-30 at 21:14 +0200, Dmitry Baryshkov wrote:
+> > From: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+> >
+> > Mesa now has two OpenCL implementations: Clover (older one) and RustiCL
+> > (newer one). Extend the "opencl" package config to include both
+> > implementations into the libopencl-mesa (-dev) packages. As the Clover
+> > implementation is in maintenance mode and is expected to be removed at
+> > some point, it doesn't make sense to split the packages or to provide
+> > two config options.
+> >
+> > Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.co=
+m>
+> > [DB: reworked rust class inheritance]
+> > [DB: merged "rusticl" and "clover" back to "opencl"]
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  meta/recipes-graphics/mesa/mesa.inc | 21 ++++++++++++++++-----
+> >  1 file changed, 16 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphic=
+s/mesa/mesa.inc
+> > index efbce5caade5..a192562a7935 100644
+> > --- a/meta/recipes-graphics/mesa/mesa.inc
+> > +++ b/meta/recipes-graphics/mesa/mesa.inc
+> > @@ -48,6 +48,12 @@ PROVIDES =3D " \
+> >
+> >  inherit meson pkgconfig python3native gettext features_check
+> >
+> > +# We can not include rust conditionally, otherwise it can not be overr=
+iden by
+> > +# the bbappends.  Instead always include it, but remove the dependenci=
+es by
+> > +# default.
+> > +inherit rust
+> > +INHIBIT_DEFAULT_RUST_DEPS =3D "${@bb.utils.contains('PACKAGECONFIG', '=
+opencl', '', '1', d)}"
+> > +
+>
+> I'd really prefer not to have the rust inherit unconditionally. I have
+> some ideas about how we could fix this in bitbake so we may need to
+> wait for that if we can't avoid the PACKAGECONFIG issue from appends...
 
-Perhaps you can set up plain poky, and compare Mesa builds with that? No
-one else is reporting the issue, and the changes are invasive, so I=E2=80=
-=99d want
-to get to the bottom of it first.
+Well, it's not just appends. Extending PACKAGECONFIG from local.conf
+also doesn't work. In fact even adding "opencl" to the default
+PACKAGECONFIG doesn't work unless I move `inherit
+@{bb.utils.contains....` after the PACKAGECONFIG definition. Using
+`INHIBIT_DEFAULT_RUST_DEPS` works around that issue, but yes, it has a
+drawback of including rust unconditionally.
 
-Alex
 
-On Tue 2. Jan 2024 at 0.42, Vincent Davis Jr <vince@underview.tech> wrote:
-
-> Yea, I can try to find root cause. May just be my setup.
->
-> In my setup mesa-driver-swrast package doesn't exists or rather doesn't
-> get generated
-> which is why during rootfs creation the package manager opkg fails on me.
->
-> *Exact error:*
->
->   Solver encountered 1 problem(s):
->   Problem 1/1:
->     - package packagegroup-core-x11-1.0-r0.all requires
-> packagegroup-core-x11-xserver, but none of the providers can be installed
->     - conflicting requests
->     - nothing provides mesa-driver-swrast needed by
-> packagegroup-core-x11-xserver-1.0-r0.qemux86_64
->
->   Solution 1:
->     - do not ask to install a package providing packagegroup-core-x11
->
-> Can see that it doesn't exists with
->
-> *ls
-> tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-rootfs-repo/**=
-/mesa**
->
->
-> tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-rootfs-repo/co=
-re2-64/mesa-dbg_23.3.1-r0_core2-64.ipk
->
-> tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-rootfs-repo/co=
-re2-64/mesa-dev_23.3.1-r0_core2-64.ipk
->
-> tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-rootfs-repo/co=
-re2-64/mesa-megadriver_23.3.1-r0_core2-64.ipk
->
-> tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-rootfs-repo/co=
-re2-64/mesa-src_23.3.1-r0_core2-64.ipk
->
-> tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-rootfs-repo/co=
-re2-64/mesa-tools_23.3.1-r0_core2-64.ipk
->
-> tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-rootfs-repo/co=
-re2-64/mesa-vulkan-drivers_23.3.1-r0_core2-64.ipk
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193193):
-> https://lists.openembedded.org/g/openembedded-core/message/193193
-> Mute This Topic: https://lists.openembedded.org/mt/103471043/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---00000000000025b879060df3616d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Perhaps you can set up plain poky, and compare Mesa build=
-s with that? No one else is reporting the issue, and the changes are invasi=
-ve, so I=E2=80=99d want to get to the bottom of it first.</div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue 2. Jan 2024 at 0.42, Vinc=
-ent Davis Jr &lt;vince@underview.tech&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">=
-<p>Yea, I can try to find root cause. May just be my setup.<br><br>In my se=
-tup mesa-driver-swrast package doesn&#39;t exists or rather doesn&#39;t get=
- generated<br>which is why during rootfs creation the package manager opkg =
-fails on me.</p>
-<p><strong>Exact error:</strong></p>
-<blockquote>
-<p>=C2=A0 Solver encountered 1 problem(s):<br>=C2=A0 Problem 1/1:<br>=C2=A0=
-=C2=A0=C2=A0 - package packagegroup-core-x11-1.0-r0.all requires packagegro=
-up-core-x11-xserver, but none of the providers can be installed<br>=C2=A0=
-=C2=A0=C2=A0 - conflicting requests<br>=C2=A0=C2=A0=C2=A0 - nothing provide=
-s mesa-driver-swrast needed by packagegroup-core-x11-xserver-1.0-r0.qemux86=
-_64<br>=C2=A0 <br>=C2=A0 Solution 1:<br>=C2=A0=C2=A0=C2=A0 - do not ask to =
-install a package providing packagegroup-core-x11</p>
-</blockquote>
-<p>Can see that it doesn&#39;t exists with</p>
-<blockquote>
-<p><strong>ls tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-ro=
-otfs-repo/**/mesa*</strong><br><br>tmp/work/qemux86_64-underview-linux/core=
--image-base/1.0/oe-rootfs-repo/core2-64/mesa-dbg_23.3.1-r0_core2-64.ipk<br>=
-tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-rootfs-repo/core=
-2-64/mesa-dev_23.3.1-r0_core2-64.ipk<br>tmp/work/qemux86_64-underview-linux=
-/core-image-base/1.0/oe-rootfs-repo/core2-64/mesa-megadriver_23.3.1-r0_core=
-2-64.ipk<br>tmp/work/qemux86_64-underview-linux/core-image-base/1.0/oe-root=
-fs-repo/core2-64/mesa-src_23.3.1-r0_core2-64.ipk<br>tmp/work/qemux86_64-und=
-erview-linux/core-image-base/1.0/oe-rootfs-repo/core2-64/mesa-tools_23.3.1-=
-r0_core2-64.ipk<br>tmp/work/qemux86_64-underview-linux/core-image-base/1.0/=
-oe-rootfs-repo/core2-64/mesa-vulkan-drivers_23.3.1-r0_core2-64.ipk</p>
-</blockquote>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#193193): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/193193" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/193193</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103471043/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/103471043/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---00000000000025b879060df3616d--
+--=20
+With best wishes
+Dmitry
 
