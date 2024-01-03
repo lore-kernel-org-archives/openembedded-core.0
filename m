@@ -2,292 +2,217 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EE2CC4707B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D776C47077
 	for <webhook@archiver.kernel.org>; Wed,  3 Jan 2024 03:14:12 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.6180.1704251648578136967
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+ by mx.groups.io with SMTP id smtpd.web11.6132.1704251650577498055
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jan 2024 19:14:08 -0800
+ Tue, 02 Jan 2024 19:14:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2WdQBbb9;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d3e05abcaeso47258975ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 19:14:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=XdQ9o70l;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.54, mailfrom: steve@sakoman.com)
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-7b7fb34265fso502264339f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jan 2024 19:14:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704251648; x=1704856448; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704251649; x=1704856449; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ut0XCOoysVmJwUsGW4JC/jt3J/lm7RsVbt0fbpQ2Hpo=;
-        b=2WdQBbb9yUg3VQ5X09iNPMxQKFhzEjjdcAFVugy303xjGdyoImkhHY8lqm/OEhxH7p
-         5BXLLjRzyUT7bK9c5bk/soCPy5bjCzYdAgm7uJ2A/KLZEkpZ066NbjBMpZyL+faj5qzP
-         vawEP2PmSKXIvLcnvYI+0uohTYi6inDSKn2gAFnCq8vXP/X0YbjQ84dIoolRl267U8oz
-         RQJzf0ARwN5uzcHExc6coDfZFA7dtUpr+AYBPaRVbrpMV++JLUHhn6uMCrl6vk9W378d
-         p5CaMG9VKzjzbxG39cB+0p/Q2kdXJqgeDv2V4LVA0149or8DJU8JHQxc2/IyAx7KcJZU
-         PX4A==
+        bh=UJUa+CD+pJRt+ohJcx+yHqm8AMUfoi7k46iJLXim3os=;
+        b=XdQ9o70lye7Cwc6+UAjnxYpQ6yaTLWcnV2WOjCWOWu0jPhYKEhWbU1LhTt1AlZqfIH
+         cGH7KCKSqZfV7Sxsb4z2jBxytyZocvpRwNGvaMMGcDkPqnm4B3Bept7LcZ5OhYkE2pt7
+         sHDofLMUO6ShegjBay+FX3NPtCr4DVD8b8KEsmy88R+tWQayUtXLYuroT3Eno3fpU0so
+         8qpn4kSoliuTWFhiNAmEFpT4b0x4d0lxBi04Qhl9z5LrAsfa4BUQNWzAWjT34nDZNm7D
+         Xue1GlR/I4Rb687MHvYUNnT8pVqKtSklcq3hfYym4wpoiwG9ZpAPFxPc6StSbdqdY/0U
+         sn8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704251648; x=1704856448;
+        d=1e100.net; s=20230601; t=1704251649; x=1704856449;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ut0XCOoysVmJwUsGW4JC/jt3J/lm7RsVbt0fbpQ2Hpo=;
-        b=fkK7BQqGazuSl/lcgKHnYeFtAHX7a/nREkQ67fO6Hh07oke9HQtl3N82bnxZhLkdxQ
-         Z+/ehlRcl18FEwjAaRZSl9mWzLlIwoPUli6+vjI0Laa9eZ0rHKagvkfOQmCeqKrbLtjq
-         xhnisOnGRaBIqFwO7gcWIYWJPcCDzFKc58StoX8uRdSZGJ48PvM7mLMHi0OjUBCFVYm+
-         0zejp+Y1r53PUxeYDffGowR/ey1rKIf5rBj7vtQDdc2yIUdRZu4kDYo6K6ni1+FSveWo
-         zLVSTpcJvTs/ySgtzPt4GJLTGCWoK6QOF0fJPmUPscpynMFrxWFBkYExdgd3IWwxxRhy
-         312w==
-X-Gm-Message-State: AOJu0Yyef0rWcfnZmG9neQgq+ZQCKdcyofJZpW1JX03cJS5Dd+XctyMo
-	8xevzjr6x93QXaDn0QdWH1zOXzOWopq0sfyodJXpAwoOapIk5A==
-X-Google-Smtp-Source: AGHT+IEmXA1R12sL99Us46wwap9cwSs0fujnUljQE2w8detSsqBDZfdlRecOKSsWfwtriiLqODfCtA==
-X-Received: by 2002:a17:902:c952:b0:1d3:1be6:78dc with SMTP id i18-20020a170902c95200b001d31be678dcmr10961770pla.26.1704251647304;
-        Tue, 02 Jan 2024 19:14:07 -0800 (PST)
+        bh=UJUa+CD+pJRt+ohJcx+yHqm8AMUfoi7k46iJLXim3os=;
+        b=XsNyk+3+bniB+KOVPiuTIiQKAtx2Jgg0JLRdbz0PgQ9Z8GWDl/xDE2thxpcm7u2M5e
+         DPpTIGAVA0MMJzgEccgFvpX0BDzYs2MZKYI/rAovO1j7/SqW7k2UEu9CaybXVUC6YdtL
+         ZjrZ+Nwdkhl5/NERMcEHJczCvc3L7gshxCWc/BeC0jgMO52ih+rnydInRPTJ/QmMxwzE
+         AcHLpVWQEYIqE0kgASfXZmrrk5zDWVrj0h4XRAX71B88lAdl+Wo56/n8MRnikf9F2ANI
+         Hn6qj2RcpJgPeSwwVvCMwwLOHNHk1/k4OnM8SB02D9IgYSGJfs2JaOh4OPyqoDkaw03J
+         d05Q==
+X-Gm-Message-State: AOJu0YzS+xqio6dCLPocOxjAiSQv7d44e95kAXyTFT+T8+gaYH5Ggvgf
+	/qpjh/8S53tjj+q+wpGlmWoTcHdz3kRKIumqnjDKr2E9cWw9VQ==
+X-Google-Smtp-Source: AGHT+IE15N8g04OvNlMnUMKycYwu1Gvcb2WUB00qq/CRBjKN4TIKGThYEshQhfvJphFU7YrZegpPFQ==
+X-Received: by 2002:a05:6e02:310d:b0:35f:fdd9:5cb3 with SMTP id bg13-20020a056e02310d00b0035ffdd95cb3mr20918101ilb.43.1704251649161;
+        Tue, 02 Jan 2024 19:14:09 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id ay5-20020a1709028b8500b001d4ac8ac969sm5868681plb.275.2024.01.02.19.14.06
+        by smtp.gmail.com with ESMTPSA id ay5-20020a1709028b8500b001d4ac8ac969sm5868681plb.275.2024.01.02.19.14.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jan 2024 19:14:07 -0800 (PST)
+        Tue, 02 Jan 2024 19:14:08 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 1/3] go: Fix CVE-2023-39326
-Date: Tue,  2 Jan 2024 17:13:55 -1000
-Message-Id: <5b55648f3142762c9563289c1b19aa3b7de27164.1704251506.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 2/3] qemu: Fix CVE-2023-5088
+Date: Tue,  2 Jan 2024 17:13:56 -1000
+Message-Id: <df9e2d40c52b752940de61388997e485da56de0c.1704251506.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1704251506.git.steve@sakoman.com>
 References: <cover.1704251506.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 03:14:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193266
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 03:14:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193267
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-A malicious HTTP sender can use chunk extensions to cause a receiver
-reading from a request or response body to read many more bytes from
-the network than are in the body. A malicious HTTP client can further
-exploit this to cause a server to automatically read a large amount
-of data (up to about 1GiB) when a handler fails to read the entire
-body of a request. Chunk extensions are a little-used HTTP feature
-which permit including additional metadata in a request or response
-body sent using the chunked encoding. The net/http chunked encoding
-reader discards this metadata. A sender can exploit this by inserting
-a large metadata segment with each byte transferred. The chunk reader
-now produces an error if the ratio of real body to encoded bytes grows
-too small.
+A bug in QEMU could cause a guest I/O operation otherwise
+addressed to an arbitrary disk offset to be targeted to
+offset 0 instead (potentially overwriting the VM's boot code).
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-39326
-https://security-tracker.debian.org/tracker/CVE-2023-39326
+This change is to fix CVE-2023-5088.
+
+Link: https://gitlab.com/qemu-project/qemu/-/commit/7d7512019fc40c577e2bdd61f114f31a9eb84a8e
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc          |   1 +
- .../go/go-1.14/CVE-2023-39326.patch           | 181 ++++++++++++++++++
- 2 files changed, 182 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-39326.patch
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2023-5088.patch             | 114 ++++++++++++++++++
+ 2 files changed, 115 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index 091b778de8..b827a3606d 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -82,6 +82,7 @@ SRC_URI += "\
-     file://CVE-2023-24536_3.patch \
-     file://CVE-2023-39318.patch \
-     file://CVE-2023-39319.patch \
-+    file://CVE-2023-39326.patch \
- "
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 9dd90e8789..4f856c749e 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -141,6 +141,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2023-3354.patch \
+ 	   file://CVE-2023-3180.patch \
+            file://CVE-2020-24165.patch \
++           file://CVE-2023-5088.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-39326.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-39326.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch
 new file mode 100644
-index 0000000000..998af361e8
+index 0000000000..db02210fa4
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-39326.patch
-@@ -0,0 +1,181 @@
-+From 6446af942e2e2b161c4ec1b60d9703a2b55dc4dd Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Tue, 7 Nov 2023 10:47:56 -0800
-+Subject: [PATCH] [release-branch.go1.20] net/http: limit chunked data overhead
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-5088.patch
+@@ -0,0 +1,114 @@
++From 7d7512019fc40c577e2bdd61f114f31a9eb84a8e Mon Sep 17 00:00:00 2001
++From: Fiona Ebner <f.ebner@proxmox.com>
++Date: Wed, 6 Sep 2023 15:09:21 +0200
++Subject: [PATCH] hw/ide: reset: cancel async DMA operation before resetting
++ state
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+The chunked transfer encoding adds some overhead to
-+the content transferred. When writing one byte per
-+chunk, for example, there are five bytes of overhead
-+per byte of data transferred: "1\r\nX\r\n" to send "X".
++If there is a pending DMA operation during ide_bus_reset(), the fact
++that the IDEState is already reset before the operation is canceled
++can be problematic. In particular, ide_dma_cb() might be called and
++then use the reset IDEState which contains the signature after the
++reset. When used to construct the IO operation this leads to
++ide_get_sector() returning 0 and nsector being 1. This is particularly
++bad, because a write command will thus destroy the first sector which
++often contains a partition table or similar.
 +
-+Chunks may include "chunk extensions",
-+which we skip over and do not use.
-+For example: "1;chunk extension here\r\nX\r\n".
++Traces showing the unsolicited write happening with IDEState
++0x5595af6949d0 being used after reset:
 +
-+A malicious sender can use chunk extensions to add
-+about 4k of overhead per byte of data.
-+(The maximum chunk header line size we will accept.)
++> ahci_port_write ahci(0x5595af6923f0)[0]: port write [reg:PxSCTL] @ 0x2c: 0x00000300
++> ahci_reset_port ahci(0x5595af6923f0)[0]: reset port
++> ide_reset IDEstate 0x5595af6949d0
++> ide_reset IDEstate 0x5595af694da8
++> ide_bus_reset_aio aio_cancel
++> dma_aio_cancel dbs=0x7f64600089a0
++> dma_blk_cb dbs=0x7f64600089a0 ret=0
++> dma_complete dbs=0x7f64600089a0 ret=0 cb=0x5595acd40b30
++> ahci_populate_sglist ahci(0x5595af6923f0)[0]
++> ahci_dma_prepare_buf ahci(0x5595af6923f0)[0]: prepare buf limit=512 prepared=512
++> ide_dma_cb IDEState 0x5595af6949d0; sector_num=0 n=1 cmd=DMA WRITE
++> dma_blk_io dbs=0x7f6420802010 bs=0x5595ae2c6c30 offset=0 to_dev=1
++> dma_blk_cb dbs=0x7f6420802010 ret=0
 +
-+Track the amount of overhead read in chunked data,
-+and produce an error if it seems excessive.
++> (gdb) p *qiov
++> $11 = {iov = 0x7f647c76d840, niov = 1, {{nalloc = 1, local_iov = {iov_base = 0x0,
++>       iov_len = 512}}, {__pad = "\001\000\000\000\000\000\000\000\000\000\000",
++>       size = 512}}}
++> (gdb) bt
++> #0  blk_aio_pwritev (blk=0x5595ae2c6c30, offset=0, qiov=0x7f6420802070, flags=0,
++>     cb=0x5595ace6f0b0 <dma_blk_cb>, opaque=0x7f6420802010)
++>     at ../block/block-backend.c:1682
++> #1  0x00005595ace6f185 in dma_blk_cb (opaque=0x7f6420802010, ret=<optimized out>)
++>     at ../softmmu/dma-helpers.c:179
++> #2  0x00005595ace6f778 in dma_blk_io (ctx=0x5595ae0609f0,
++>     sg=sg@entry=0x5595af694d00, offset=offset@entry=0, align=align@entry=512,
++>     io_func=io_func@entry=0x5595ace6ee30 <dma_blk_write_io_func>,
++>     io_func_opaque=io_func_opaque@entry=0x5595ae2c6c30,
++>     cb=0x5595acd40b30 <ide_dma_cb>, opaque=0x5595af6949d0,
++>     dir=DMA_DIRECTION_TO_DEVICE) at ../softmmu/dma-helpers.c:244
++> #3  0x00005595ace6f90a in dma_blk_write (blk=0x5595ae2c6c30,
++>     sg=sg@entry=0x5595af694d00, offset=offset@entry=0, align=align@entry=512,
++>     cb=cb@entry=0x5595acd40b30 <ide_dma_cb>, opaque=opaque@entry=0x5595af6949d0)
++>     at ../softmmu/dma-helpers.c:280
++> #4  0x00005595acd40e18 in ide_dma_cb (opaque=0x5595af6949d0, ret=<optimized out>)
++>     at ../hw/ide/core.c:953
++> #5  0x00005595ace6f319 in dma_complete (ret=0, dbs=0x7f64600089a0)
++>     at ../softmmu/dma-helpers.c:107
++> #6  dma_blk_cb (opaque=0x7f64600089a0, ret=0) at ../softmmu/dma-helpers.c:127
++> #7  0x00005595ad12227d in blk_aio_complete (acb=0x7f6460005b10)
++>     at ../block/block-backend.c:1527
++> #8  blk_aio_complete (acb=0x7f6460005b10) at ../block/block-backend.c:1524
++> #9  blk_aio_write_entry (opaque=0x7f6460005b10) at ../block/block-backend.c:1594
++> #10 0x00005595ad258cfb in coroutine_trampoline (i0=<optimized out>,
++>     i1=<optimized out>) at ../util/coroutine-ucontext.c:177
 +
-+Updates #64433
-+Fixes #64434
-+Fixes CVE-2023-39326
++Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
++Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
++Tested-by: simon.rowe@nutanix.com
++Message-ID: <20230906130922.142845-1-f.ebner@proxmox.com>
++Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 +
-+Change-Id: I40f8d70eb6f9575fb43f506eb19132ccedafcf39
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2076135
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+(cherry picked from commit 3473ae72ee66c60744665a24b2fde143e8964d4f)
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2095407
-+Run-TryBot: Roland Shoemaker <bracewell@google.com>
-+TryBot-Result: Security TryBots <security-trybots@go-security-trybots.iam.gserviceaccount.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/547355
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/6446af942e2e2b161c4ec1b60d9703a2b55dc4dd]
-+CVE: CVE-2023-39326
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/7d7512019fc40c577e2bdd61f114f31a9eb84a8e]
++CVE: CVE-2023-5088
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/net/http/internal/chunked.go      | 36 +++++++++++++---
-+ src/net/http/internal/chunked_test.go | 59 +++++++++++++++++++++++++++
-+ 2 files changed, 89 insertions(+), 6 deletions(-)
++ hw/ide/core.c | 14 +++++++-------
++ 1 file changed, 7 insertions(+), 7 deletions(-)
 +
-+diff --git a/src/net/http/internal/chunked.go b/src/net/http/internal/chunked.go
-+index f06e572..ddbaacb 100644
-+--- a/src/net/http/internal/chunked.go
-++++ b/src/net/http/internal/chunked.go
-+@@ -39,7 +39,8 @@ type chunkedReader struct {
-+ 	n        uint64 // unread bytes in chunk
-+ 	err      error
-+ 	buf      [2]byte
-+-	checkEnd bool // whether need to check for \r\n chunk footer
-++	checkEnd bool  // whether need to check for \r\n chunk footer
-++	excess   int64 // "excessive" chunk overhead, for malicious sender detection
-+ }
++diff --git a/hw/ide/core.c b/hw/ide/core.c
++index b5e0dcd29b2..63ba665f3d2 100644
++--- a/hw/ide/core.c
+++++ b/hw/ide/core.c
++@@ -2515,19 +2515,19 @@ static void ide_dummy_transfer_stop(IDEState *s)
 + 
-+ func (cr *chunkedReader) beginChunk() {
-+@@ -49,10 +50,38 @@ func (cr *chunkedReader) beginChunk() {
-+ 	if cr.err != nil {
-+ 		return
-+ 	}
-++	cr.excess += int64(len(line)) + 2 // header, plus \r\n after the chunk data
-++	line = trimTrailingWhitespace(line)
-++	line, cr.err = removeChunkExtension(line)
-++	if cr.err != nil {
-++		return
-++	}
-+ 	cr.n, cr.err = parseHexUint(line)
-+ 	if cr.err != nil {
-+ 		return
-+ 	}
-++	// A sender who sends one byte per chunk will send 5 bytes of overhead
-++	// for every byte of data. ("1\r\nX\r\n" to send "X".)
-++	// We want to allow this, since streaming a byte at a time can be legitimate.
-++	//
-++	// A sender can use chunk extensions to add arbitrary amounts of additional
-++	// data per byte read. ("1;very long extension\r\nX\r\n" to send "X".)
-++	// We don't want to disallow extensions (although we discard them),
-++	// but we also don't want to allow a sender to reduce the signal/noise ratio
-++	// arbitrarily.
-++	//
-++	// We track the amount of excess overhead read,
-++	// and produce an error if it grows too large.
-++	//
-++	// Currently, we say that we're willing to accept 16 bytes of overhead per chunk,
-++	// plus twice the amount of real data in the chunk.
-++	cr.excess -= 16 + (2 * int64(cr.n))
-++	if cr.excess < 0 {
-++		cr.excess = 0
-++	}
-++	if cr.excess > 16*1024 {
-++		cr.err = errors.New("chunked encoding contains too much non-data")
-++	}
-+ 	if cr.n == 0 {
-+ 		cr.err = io.EOF
-+ 	}
-+@@ -133,11 +162,6 @@ func readChunkLine(b *bufio.Reader) ([]byte, error) {
-+ 	if len(p) >= maxLineLength {
-+ 		return nil, ErrLineTooLong
-+ 	}
-+-	p = trimTrailingWhitespace(p)
-+-	p, err = removeChunkExtension(p)
-+-	if err != nil {
-+-		return nil, err
-+-	}
-+ 	return p, nil
-+ }
++ void ide_bus_reset(IDEBus *bus)
++ {
++-    bus->unit = 0;
++-    bus->cmd = 0;
++-    ide_reset(&bus->ifs[0]);
++-    ide_reset(&bus->ifs[1]);
++-    ide_clear_hob(bus);
++-
++-    /* pending async DMA */
+++    /* pending async DMA - needs the IDEState before it is reset */
++     if (bus->dma->aiocb) {
++         trace_ide_bus_reset_aio();
++         blk_aio_cancel(bus->dma->aiocb);
++         bus->dma->aiocb = NULL;
++     }
 + 
-+diff --git a/src/net/http/internal/chunked_test.go b/src/net/http/internal/chunked_test.go
-+index d067165..b20747d 100644
-+--- a/src/net/http/internal/chunked_test.go
-++++ b/src/net/http/internal/chunked_test.go
-+@@ -212,3 +212,62 @@ func TestChunkReadPartial(t *testing.T) {
-+ 	}
-+ 
-+ }
+++    bus->unit = 0;
+++    bus->cmd = 0;
+++    ide_reset(&bus->ifs[0]);
+++    ide_reset(&bus->ifs[1]);
+++    ide_clear_hob(bus);
 ++
-++func TestChunkReaderTooMuchOverhead(t *testing.T) {
-++	// If the sender is sending 100x as many chunk header bytes as chunk data,
-++	// we should reject the stream at some point.
-++	chunk := []byte("1;")
-++	for i := 0; i < 100; i++ {
-++		chunk = append(chunk, 'a') // chunk extension
-++	}
-++	chunk = append(chunk, "\r\nX\r\n"...)
-++	const bodylen = 1 << 20
-++	r := NewChunkedReader(&funcReader{f: func(i int) ([]byte, error) {
-++		if i < bodylen {
-++			return chunk, nil
-++		}
-++		return []byte("0\r\n"), nil
-++	}})
-++	_, err := io.ReadAll(r)
-++	if err == nil {
-++		t.Fatalf("successfully read body with excessive overhead; want error")
-++	}
-++}
-++
-++func TestChunkReaderByteAtATime(t *testing.T) {
-++	// Sending one byte per chunk should not trip the excess-overhead detection.
-++	const bodylen = 1 << 20
-++	r := NewChunkedReader(&funcReader{f: func(i int) ([]byte, error) {
-++		if i < bodylen {
-++			return []byte("1\r\nX\r\n"), nil
-++		}
-++		return []byte("0\r\n"), nil
-++	}})
-++	got, err := io.ReadAll(r)
-++	if err != nil {
-++		t.Errorf("unexpected error: %v", err)
-++	}
-++	if len(got) != bodylen {
-++		t.Errorf("read %v bytes, want %v", len(got), bodylen)
-++	}
-++}
-++
-++type funcReader struct {
-++	f   func(iteration int) ([]byte, error)
-++	i   int
-++	b   []byte
-++	err error
-++}
-++
-++func (r *funcReader) Read(p []byte) (n int, err error) {
-++	if len(r.b) == 0 && r.err == nil {
-++		r.b, r.err = r.f(r.i)
-++		r.i++
-++	}
-++	n = copy(p, r.b)
-++	r.b = r.b[n:]
-++	if len(r.b) > 0 {
-++		return n, nil
-++	}
-++	return n, r.err
-++}
++     /* reset dma provider too */
++     if (bus->dma->ops->reset) {
++         bus->dma->ops->reset(bus->dma);
 +-- 
-+2.25.1
++GitLab
 +
 -- 
 2.34.1
