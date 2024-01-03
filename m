@@ -1,93 +1,111 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10054C3DA6E
-	for <webhook@archiver.kernel.org>; Wed,  3 Jan 2024 10:16:34 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.14695.1704276986468791639
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF3CC3DA6E
+	for <webhook@archiver.kernel.org>; Wed,  3 Jan 2024 11:16:24 +0000 (UTC)
+Received: from smtp3.emailarray.com (smtp3.emailarray.com [65.39.216.17])
+ by mx.groups.io with SMTP id smtpd.web10.15448.1704280574318506129
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jan 2024 02:16:27 -0800
+ Wed, 03 Jan 2024 03:16:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1rKyIR-000P25-1P;
-	Wed, 03 Jan 2024 12:16:23 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1rKyIR-007rrg-6Q; Wed, 03 Jan 2024 12:16:23 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] runqemu: match .rootfs. in image names instead of -image-
-Date: Wed,  3 Jan 2024 12:16:15 +0200
-Message-Id: <20240103101615.1874481-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ dkim=none (message not signed); spf=pass (domain: balister.org, ip: 65.39.216.17, mailfrom: philip@balister.org)
+Received: (qmail 79164 invoked by uid 89); 3 Jan 2024 11:16:13 -0000
+X-Orig-Sender: philip@balister.org
+Received: from unknown (HELO ?192.168.11.155?) (cGhpbGlwQGJhbGlzdGVyLm9yZ0A3My4xNTIuMTM0LjE1Mg==) (POLARISLOCAL)  
+  by smtp3.emailarray.com with SMTP; 3 Jan 2024 11:16:13 -0000
+Message-ID: <c7612d5a-7851-4912-8d56-a6e3a6d91fdb@balister.org>
+Date: Wed, 3 Jan 2024 06:16:12 -0500
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.4 (-)
-X-Rspam-Report: Action: no action
- Symbol: FROM_HAS_DN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: MIME_GOOD(-0.10)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: R_DKIM_NA(0.00)
- Symbol: NEURAL_HAM(0.00)
- Symbol: R_SPF_ALLOW(-0.20)
- Symbol: ARC_NA(0.00)
- Symbol: ASN(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_MISSING_CHARSET(0.50)
- Message-ID: 20240103101615.1874481-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] sanity.bbclass: CHeck for additional native
+ perl modules.
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20240102112135.3594972-1-philip@balister.org>
+ <cb8e91d0ac9ad995d5e54529c7aa986d0ef346f8.camel@linuxfoundation.org>
+ <5e4c5bc7-937a-4161-a6ac-79969e3842e6@balister.org>
+ <3355eb0d17a4dc6f4b8ffa63c097da4e8b81b9eb.camel@linuxfoundation.org>
+ <f0af4f52-8d7b-41aa-ae30-b082f1a348cb@balister.org>
+ <b5a6aa8721be8f493162546cd742615e0fd0145c.camel@linuxfoundation.org>
+From: Philip Balister <philip@balister.org>
+In-Reply-To: <b5a6aa8721be8f493162546cd742615e0fd0145c.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 10:16:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193280
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 11:16:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193281
 
-Don't expect image file names to include "-image-" but
-expect them to have the ".rootfs." postfix which is the
-default.
+On 1/2/24 17:47, Richard Purdie wrote:
+> On Tue, 2024-01-02 at 16:14 -0500, Philip Balister wrote:
+>> On 1/2/24 11:45, Richard Purdie wrote:
+>>> On Tue, 2024-01-02 at 11:40 -0500, Philip Balister wrote:
+>>>> On 1/2/24 10:34, Richard Purdie wrote:
+>>>>> On Tue, 2024-01-02 at 06:21 -0500, Philip Balister wrote:
+>>>>>> Since we use the build systems native perl, we need to check that all
+>>>>>> perl modules required for a build are installed. For a default Fedora 39
+>>>>>> install, autoconf-native and libxcrypt both fail to build due to missing
+>>>>>> perl modules. After taking careful notes, this commits adds checks for
+>>>>>> File::Compare, File::Copy, open, and FindBin.
+>>>>>>
+>>>>>> [YOCTO #14691]
+>>>>>>
+>>>>>> Signed-off-by: Philip Balister <philip@balister.org>
+>>>>>> ---
+>>>>>>     meta/classes-global/sanity.bbclass | 2 +-
+>>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
+>>>>>> index 9b824915f2..57353b9478 100644
+>>>>>> --- a/meta/classes-global/sanity.bbclass
+>>>>>> +++ b/meta/classes-global/sanity.bbclass
+>>>>>> @@ -532,7 +532,7 @@ def check_git_version(sanity_data):
+>>>>>>     def check_perl_modules(sanity_data):
+>>>>>>         import subprocess
+>>>>>>         ret = ""
+>>>>>> -    modules = ( "Text::ParseWords", "Thread::Queue", "Data::Dumper" )
+>>>>>> +    modules = ( "Text::ParseWords", "Thread::Queue", "Data::Dumper", "File::Compare", "File::Copy", "open", "FindBin" )
+>>>>>>         errresult = ''
+>>>>>>         for m in modules:
+>>>>>>             try:
+>>>>>
+>>>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/8418
+>>>>
+>>>> Curious, so the Ubuntu autobuilder doesn't have the perl open module?
+>>>> Can you build libxcrypt on that builder?
+>>>>
+>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14691#c7 shows the
+>>>> build failing until I install the perl-open package.
+>>>
+>>> $ perl -e "use open"
+>>> open: needs explicit list of PerlIO layers at -e line 1.
+>>> BEGIN failed--compilation aborted at -e line 1.
+>>
+>> Why isn't anything easy!
+>>
+>> $ perl -e "use open ':std'"
+>>
+>> does complete on Fedora 39. What is confusing me is why the check seems
+>> to go through on my Fedora 39 , but and not the AB machine. I suppose it
+>> is time to add typos to confirm the code attempts to execute.
+> 
+> The system caches the host checks. I suspect for testing you need a
+> clean tmpdir or "rm cache/sanity_info".
 
-Enables running tests against image recipes which are not called
-"bla-image" but plain "bla". Currently they fail with do_testimage/runqemu
-error:
+clean tmpdir didn't work, "rm cache/sanity_info" did force it to rerun 
+the checks. V2 inbound. I'll be off grid mostly until Friday.
 
-runqemu - ERROR - Unknown path arg /home/builder/src/base/build/tmp_qemuarm64/deploy/images/qemuarm64/img-qemuarm64.rootfs.wic
+Philip
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 18aeb7f5f0..1575677c45 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -373,7 +373,7 @@ class BaseConfig(object):
-              re.search('zImage', p) or re.search('vmlinux', p) or \
-              re.search('fitImage', p) or re.search('uImage', p):
-             self.kernel =  p
--        elif os.path.exists(p) and (not os.path.isdir(p)) and '-image-' in os.path.basename(p):
-+        elif os.path.exists(p) and (not os.path.isdir(p)) and '.rootfs.' in os.path.basename(p):
-             self.rootfs = p
-             # Check filename against self.fstypes can handle <file>.cpio.gz,
-             # otherwise, its type would be "gz", which is incorrect.
--- 
-2.34.1
-
+> 
+>> I am guessing I could tell bitbake the module is "open ':std'".
+> 
+> I suspect that would work.
+> 
+> Cheers,
+> 
+> Richard
 
