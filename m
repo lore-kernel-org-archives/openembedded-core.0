@@ -1,109 +1,129 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E319C3DA6E
-	for <webhook@archiver.kernel.org>; Wed,  3 Jan 2024 14:54:25 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.19052.1704293657626765716
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91EC1C47073
+	for <webhook@archiver.kernel.org>; Wed,  3 Jan 2024 14:59:15 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.19136.1704293947533254123
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jan 2024 06:54:17 -0800
+ Wed, 03 Jan 2024 06:59:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KjBuokHP;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-336755f1688so9899526f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 06:54:17 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cv3Z5HVv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40d3352b525so115219065e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 06:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704293656; x=1704898456; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eS+yXfletB96oYWNw6cMaidcudGN467EaBwgAsYawpc=;
-        b=KjBuokHP/qWq3NxUOZWdzYXlOpZO2hS5wp689RVrWlJbV2Yk433uFPC9YvJxNbDqjX
-         ulbG6r5Gogn164wVkYHDD71zuJuR8mitj6+e32jj7PS+yXmwOrB+8howqavdtMBRYvR9
-         GCOsWAjV1BdaXOkaK9CK7q1+XxSH86cuzugS0ulr7DdovW8dxqTgQPiP1+v9ZgryJUPs
-         o7hHQ2klBYwMWZ4fQnrH5ycxwE0ZU1+czJVchoqEF89iB7OtATVMVT03ex0HpeyIm3V9
-         YRbQkbGVCCq+4Vh6qe6Bs4i44P+du+PEOMeOXAP6rl7hqqIxuEZz2OzaaHHzPp5P768v
-         Yk+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704293656; x=1704898456;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linuxfoundation.org; s=google; t=1704293946; x=1704898746; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eS+yXfletB96oYWNw6cMaidcudGN467EaBwgAsYawpc=;
-        b=h/LHzcUSmL3JWYXqU6Q7wEzynwxg6dCIvGs6fyNvhLezh/+kw349uPgaIyauUgF95e
-         cqVH7cWAMw7W+DxJCRLiE9sIq+Yl4ErKhwNdgg25X+hW80XLHQ11Qeq/Cf2J8QE8+2kR
-         Q4rWgFBv9OImOdppTOuGuDF8jhGvZ9OqsUX18AsS/83ZOlfw6UONAWoJ6k1/4oTTUBpq
-         btBo66NWeHO7Jq3+gUFmBIpWff+JNZwunnXQoHTKksuWaFwq/tYIa5iSkVY0PhsIgPo2
-         fYQH3Hfmyezx0W464yrt0/T5URLRkLbglDXdewWsLRCUPNTFXchgXviGKc/xKz2bcnqI
-         bEAQ==
-X-Gm-Message-State: AOJu0YxML8rYisE5MYP9/8U+AMGccnyZ9XY6JyFx94s6qBPewScjKxyG
-	rTvs2NL29dFAuF4PkZ9d4ULcZAhoy9kjhf40XLE=
-X-Google-Smtp-Source: AGHT+IE5hMZ83RG+j/h7STSLUdrV7zFWD7cbKf+su7QQKPWPDJa/1GV3rSIqBpLFwee09kw3XnXvodUIhgQxFNKw+cc=
-X-Received: by 2002:a05:6000:1ac5:b0:337:400c:e0b8 with SMTP id
- i5-20020a0560001ac500b00337400ce0b8mr3176732wry.98.1704293655880; Wed, 03 Jan
- 2024 06:54:15 -0800 (PST)
+        bh=bCw1wEoC/sfK3+Dtl5SFHGTFTTMSUmiz6eair/qQqJI=;
+        b=cv3Z5HVvG0tsHyB5p+0+Ji68AznNlSt/8fiTB4Hk5P8kwzKj5lG+fix7ujqXIJe8br
+         sm2fTG7xchWzogwcaNnbxLxOwkgNe+/KmG6myBP8imarjOWEUw1RwposBPF/lX4VSEQZ
+         C5pnk1sLSFVbnVMUCkRygm0bqWPeB9TihajaA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704293946; x=1704898746;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bCw1wEoC/sfK3+Dtl5SFHGTFTTMSUmiz6eair/qQqJI=;
+        b=Tczy6yOVp3LYc8cJhJs+kPfxtq9RO8oKA+YMR8n0pYUzdscIw8z3GR3rA9qxkAJmb9
+         czi5bLLNDR5p2xJsMLH5S3FrrnMSfeePwOz6qdID3fby+3YJ78Tx+yss9tU6uZlWPh29
+         C2vjJHoQvGi/EkKs57MkGAFvXDyIMSnO1OngxTu1YGAFhIsojQ0s1XLWopoo6Q5xt8aB
+         6LCjnKj6M6e5+AsKj1M2iXHr/r1gERIpb9neFU2PXeal3/Js5s8E4NDLIaiwgUfwB8Zx
+         nMZsqh5g2IUoIJizHx3+z4pdEBrxRjjWz6KG1lF6UG97hjPbBZy9bw1HZbSa9kYt1mGu
+         /EaA==
+X-Gm-Message-State: AOJu0YzLhgGamSMQ1dDse1XBIpz2Y1k7wWf1J1vrsiMlblf2cgPxkt1V
+	au+PGuQJEtcEpQhHpbFX6TCMxJ8VADfENo7j5qkNY/vABbA=
+X-Google-Smtp-Source: AGHT+IGhN0dAIyekOBA9NeJJ2WbqEwYpDH/wpwZz/j07kpvFoB5nJtD6tE22td5UpwDFGMX0hlFQTQ==
+X-Received: by 2002:a05:600c:cc4:b0:40d:8d12:25fb with SMTP id fk4-20020a05600c0cc400b0040d8d1225fbmr1103783wmb.5.1704293945586;
+        Wed, 03 Jan 2024 06:59:05 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a0e2:8719:e940:13c9])
+        by smtp.gmail.com with ESMTPSA id t18-20020a5d4612000000b003367bb8898dsm30992081wrq.66.2024.01.03.06.59.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jan 2024 06:59:05 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/4] rootfs-postcommands: Try and improve ordering constraints
+Date: Wed,  3 Jan 2024 14:59:01 +0000
+Message-Id: <20240103145902.2124110-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240103145902.2124110-1-richard.purdie@linuxfoundation.org>
+References: <20240103145902.2124110-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20240103101615.1874481-1-mikko.rapeli@linaro.org>
-In-Reply-To: <20240103101615.1874481-1-mikko.rapeli@linaro.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 3 Jan 2024 15:54:02 +0100
-Message-ID: <CA+chaQcd4MKK_KMdmpEqCtMLZVGx_MCP3y5sVhteKdzDQnNPKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] runqemu: match .rootfs. in image names instead
- of -image-
-To: Mikko Rapeli <mikko.rapeli@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f3a933060e0bc995"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 14:54:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193287
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 14:59:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193290
 
---000000000000f3a933060e0bc995
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The current code is in race to see who can set things last. This isn't scalable or
+sustainable and problemtic in the face of inherit ordering changes.
 
-On Wed, Jan 3, 2024 at 11:16=E2=80=AFAM Mikko Rapeli <mikko.rapeli@linaro.o=
-rg>
-wrote:
+Move the ordering issue into the actual code execution, which isn't ideal but
+the best of several bad options and at least lets us drop the anonymous python.
 
-> Don't expect image file names to include "-image-" but
-> expect them to have the ".rootfs." postfix which is the
-> default.
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-recipe/rootfs-postcommands.bbclass | 13 ++++---------
+ meta/lib/oe/rootfs.py                           | 12 ++++++++++++
+ 2 files changed, 16 insertions(+), 9 deletions(-)
 
-It's the current default, but whole runqemu won't work when someone changes=
-:
+diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/classes-recipe/rootfs-postcommands.bbclass
+index 29ee74932a3..163c7f41b11 100644
+--- a/meta/classes-recipe/rootfs-postcommands.bbclass
++++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+@@ -55,19 +55,14 @@ inherit image-artifact-names
+ # deterministic. Package installs are not deterministic, causing the ordering
+ # of entries to change between builds. In case that this isn't desired,
+ # the command can be overridden.
++SORT_PASSWD_POSTPROCESS_COMMAND ??= "tidy_shadowutils_files"
++ROOTFS_POSTPROCESS_COMMAND += '${SORT_PASSWD_POSTPROCESS_COMMAND}'
++
+ #
+ # Note that useradd-staticids.bbclass has to be used to ensure that
+ # the numeric IDs of dynamically created entries remain stable.
+ #
+-# We want this to run as late as possible, in particular after
+-# systemd_sysusers_create and set_user_group. Using :append is not
+-# enough for that, set_user_group is added that way and would end
+-# up running after us.
+-SORT_PASSWD_POSTPROCESS_COMMAND ??= "tidy_shadowutils_files"
+-python () {
+-    d.appendVar('ROOTFS_POSTPROCESS_COMMAND', ' ${SORT_PASSWD_POSTPROCESS_COMMAND}')
+-    d.appendVar('ROOTFS_POSTPROCESS_COMMAND', ' rootfs_reproducible')
+-}
++ROOTFS_POSTPROCESS_COMMAND += 'rootfs_reproducible'
+ 
+ # Resolve the ID as described in the sysusers.d(5) manual: ID can be a numeric
+ # uid, a couple uid:gid or uid:groupname or it is '-' meaning leaving it
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 1a48ed10b3f..fb73318ca61 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -194,6 +194,18 @@ class Rootfs(object, metaclass=ABCMeta):
+         post_process_cmds = self.d.getVar("ROOTFS_POSTPROCESS_COMMAND")
+         rootfs_post_install_cmds = self.d.getVar('ROOTFS_POSTINSTALL_COMMAND')
+ 
++        def make_last(command, commands):
++            commands = commands.split()
++            if command in commands:
++                commands.remove(command)
++                commands.append(command)
++            return "".join(commands)
++
++        # We want this to run as late as possible, in particular after
++        # systemd_sysusers_create and set_user_group. Using :append is not enough
++        make_last("tidy_shadowutils_files", post_process_cmds)
++        make_last("rootfs_reproducible", post_process_cmds)
++
+         execute_pre_post_process(self.d, pre_process_cmds)
+ 
+         if self.progress_reporter:
+-- 
+2.39.2
 
-meta/classes-recipe/image-artifact-names.bbclass:IMAGE_NAME_SUFFIX ??=3D
-".rootfs"
-
-So you should probably read IMAGE_NAME_SUFFIX variable first, but the most
-likely change someone will have in local.conf would be to drop this suffix
-and set this to empty and then the check for empty string in basename won't
-be very useful as well.
-
-Regards,
-
---000000000000f3a933060e0bc995
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, Jan 3, 2024 at 11:16=E2=80=AFAM M=
-ikko Rapeli &lt;<a href=3D"mailto:mikko.rapeli@linaro.org">mikko.rapeli@lin=
-aro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">Don&#39;t expect image file names to incl=
-ude &quot;-image-&quot; but<br>
-expect them to have the &quot;.rootfs.&quot; postfix which is the<br>
-default.<br></blockquote><div><br></div><div>It&#39;s the current default, =
-but whole runqemu won&#39;t work when someone changes:</div><div><br></div>=
-<div>meta/classes-recipe/image-artifact-names.bbclass:IMAGE_NAME_SUFFIX ??=
-=3D &quot;.rootfs&quot;</div><div><br></div><div>So you should probably rea=
-d IMAGE_NAME_SUFFIX variable first, but the most likely change someone will=
- have in local.conf would be to drop this suffix and set this to empty and =
-then the check for empty string in basename won&#39;t be very useful as wel=
-l.</div><div><br></div><div>Regards,</div></div></div>
-
---000000000000f3a933060e0bc995--
 
