@@ -1,84 +1,95 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D212C3DA6E
-	for <webhook@archiver.kernel.org>; Wed,  3 Jan 2024 16:21:56 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web11.21345.1704298912636638644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C22FC3DA6E
+	for <webhook@archiver.kernel.org>; Wed,  3 Jan 2024 23:17:48 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.42199.1704323862469433751
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jan 2024 08:21:53 -0800
+ Wed, 03 Jan 2024 15:17:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=ptwMPxS6;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Byeop0DXTmsDx7/I2lDNbM4nPdMV2iNDWUvFxsLzE3E=; b=ptwMPxS6NmG5TkKWCXsiBsyD1T
-	SaB+7/5+uNzz8NyLcaQKKfblCJFY1sKGei0+8gfEorGRp7oG5IT/X+vJ0A4Evbpbf5QZcff4Cz3oI
-	W+tlMU0xMxU4xj1Y5GvZqCp+xUTsfC3ieaPflzuaeqL1uv5JsMFo1dZXG4Ffxi46PI60EkUEIWHGd
-	b/OOJWx9k0o7M2mYbZad/OlG1hobuQPOtBJQvPJoUJSYf6+Y6dkzu4xavUcutXummoTKvBrIyCjUU
-	MlnV3d7YkuVALDpeDCkQHBsN4H/3OjjWCO45U58dPcV3Ug/lFx8hrchO03USH3128hRuAeKdqMLZ0
-	4dobKPtw==;
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:41936 helo=fedora)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1rL404-001bBf-0p
-	for openembedded-core@lists.openembedded.org;
-	Wed, 03 Jan 2024 11:21:50 -0500
-Date: Wed, 3 Jan 2024 11:21:33 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: how to sneak a function into the *middle* of "prefuncs"?
-Message-ID: <76b8b03d-dcaa-8dd7-6fe8-32c7bc9baf20@crashcourse.ca>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=H1/Enf2I;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40d5336986cso108698845e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 15:17:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1704323861; x=1704928661; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+0wchKKnmflc7GNpccH26vxlOCkl0veApEt+++iAUVQ=;
+        b=H1/Enf2ICRWhMZy1cIK6r1JHMWiAByfZG+Pm27BZQbbG90gjpy9edi/uGad+t08YkV
+         u5uBPl3mBPxS09Ry+vdGzAsqOXWpnkgo9IL3t53ogsd8/0F11C/wVMnhbOxTzGd3ZJzl
+         90u2BL9Pmo8jWwncwou/jjDYIwrU2bw6cxVpA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704323861; x=1704928661;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+0wchKKnmflc7GNpccH26vxlOCkl0veApEt+++iAUVQ=;
+        b=uDWO12jmtgPe67ybXka1BGGR7mEn5nKCUJCa6sEP2swIm3Uxs0Vd1t0XTdzheBV48s
+         x5ljHC6D5flm8Yfuwv+ZYHAHxhgNnbhvwWx+9+ipyp7kCnYP2tSF2/ESoDQqo/XrDdUw
+         5WvzboGvRycBRJk3XtXnOy20wzlm6KCsVBSW65Jh1DblUctQ19xPEDeVdL39coEsA9dB
+         ceJc/jYrFKoh6xSvj3nCPNUWdLSLdUpyG6EAkEkVpTIpjqLiR5nPH4mzEVxd90zWNn/Y
+         8KqRUlrkNwwHdnNdAfBQ0tyceIUd7BYWvT6LfO9mhKk1jCf8UvIi85ZoN9tRuw/ozk97
+         XJAw==
+X-Gm-Message-State: AOJu0YzxRrrCTOe3XzPto6f75C/z5Srt198w2w56+iQNY2mACmeX/jLv
+	jlny0HSu/yoHNHx98PtOyjqqo+gmbCO5HA==
+X-Google-Smtp-Source: AGHT+IFuUl27bXy6hkdb403V9vo3+C9P/KSHpAA4LrN2o5wF/iLbZGPirrQi4ctV8Hti4GywJIjRvw==
+X-Received: by 2002:a05:600c:3f8b:b0:40d:88e8:6b7d with SMTP id fs11-20020a05600c3f8b00b0040d88e86b7dmr2312683wmb.194.1704323860584;
+        Wed, 03 Jan 2024 15:17:40 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:7c49:db55:5c5b:1a5b? ([2001:8b0:aba:5f3c:7c49:db55:5c5b:1a5b])
+        by smtp.gmail.com with ESMTPSA id p16-20020a05600c359000b0040d5a5c523csm3775401wmq.1.2024.01.03.15.17.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jan 2024 15:17:40 -0800 (PST)
+Message-ID: <d711ae4178f5e1144e34f1f8157ea41c165a3500.camel@linuxfoundation.org>
+Subject: Re: [OE-core] how to sneak a function into the *middle* of
+ "prefuncs"?
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 03 Jan 2024 23:17:39 +0000
+In-Reply-To: <76b8b03d-dcaa-8dd7-6fe8-32c7bc9baf20@crashcourse.ca>
+References: <76b8b03d-dcaa-8dd7-6fe8-32c7bc9baf20@crashcourse.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 16:21:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193293
+ <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 23:17:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193294
 
+On Wed, 2024-01-03 at 11:21 -0500, Robert P. J. Day wrote:
+>   no, no, hear me out ... colleague has a vendor's YP build system and
+> needs to -- in the middle of a bunch of a task's [prefuncs] -- sneak
+> in a signing step. can't be at the beginning (what to be signed not
+> created yet), and can't be at the end cuz by then it's too late as the
+> artifact has been bundled.
+>=20
+>   first, as i read it, for a given task, all of the prefuncs are
+> invoked in exact L-to-R order, then the task is run, then all of the
+> postfuncs are done in L-to-R order. then (and only the) does the
+> processing move on to the next task.
+>=20
+>   given limited freedom to change the vendor's recipes, my first
+> thought was to define an "intermediate" task whose only purpose was to
+> babysit the signing step, make the signing function either a prefunc
+> or postfunc of that task (should not matter which), then redefine the
+> preceding and subsequent tasks to split up all those functions
+> properly so that the signing step sits in the middle where it belongs.
+>=20
+>   am i overthinking this? and even if the code processes a single
+> task's prefuncs and postfuncs in order, that's not the thing i really
+> want to count on.
+>=20
+>   thoughts?
 
-  no, no, hear me out ... colleague has a vendor's YP build system and
-needs to -- in the middle of a bunch of a task's [prefuncs] -- sneak
-in a signing step. can't be at the beginning (what to be signed not
-created yet), and can't be at the end cuz by then it's too late as the
-artifact has been bundled.
+append or prepend one of the prefunc functions?
 
-  first, as i read it, for a given task, all of the prefuncs are
-invoked in exact L-to-R order, then the task is run, then all of the
-postfuncs are done in L-to-R order. then (and only the) does the
-processing move on to the next task.
+Cheers,
 
-  given limited freedom to change the vendor's recipes, my first
-thought was to define an "intermediate" task whose only purpose was to
-babysit the signing step, make the signing function either a prefunc
-or postfunc of that task (should not matter which), then redefine the
-preceding and subsequent tasks to split up all those functions
-properly so that the signing step sits in the middle where it belongs.
-
-  am i overthinking this? and even if the code processes a single
-task's prefuncs and postfuncs in order, that's not the thing i really
-want to count on.
-
-  thoughts?
-
-rday
-
-
+Richard
 
