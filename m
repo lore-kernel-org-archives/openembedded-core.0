@@ -2,177 +2,141 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46038C47074
-	for <webhook@archiver.kernel.org>; Thu,  4 Jan 2024 09:50:01 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.50623.1704361795177175064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29ACAC47073
+	for <webhook@archiver.kernel.org>; Thu,  4 Jan 2024 09:50:51 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web10.50785.1704361844872661673
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jan 2024 01:49:55 -0800
+ Thu, 04 Jan 2024 01:50:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=nF3jI4S4;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E14E71C0009;
-	Thu,  4 Jan 2024 09:49:52 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=hp7uhI+t;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 41A96FF817;
+	Thu,  4 Jan 2024 09:50:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1704361793;
+	t=1704361842;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=02pubr/w98r3OImqvFs8InB0GxX2C5rUavXKL1Q1FSc=;
-	b=nF3jI4S4u+6dce33IVgyQavJTNJct6hsVV06kRw8okrx3lsQv5yOT1Gq1bx4xl6FDa8P1K
-	boZSw36xVM1TdwWBO6rl+lVkLYm2bn4pVn0TGdbH/CO6+AY8jvSSkFw0R8PzXgWBM5RsjV
-	qEDcld2Sc1zqrr/LO3iujm2N87d2wnLREot3TMrRjcvQQa9xm6TPEYODnDEz845TlFcSNR
-	9mdbySZIPDcs2FMPXpW7Z8QGc9+BkcvNhJAtUQXPUYxRh6LoWJ8X3ndCdPCojFuM443pRs
-	onwDd+7lz8gOy/NtQfFsELq2XQ+pmIcVDJu/8KHhnWRkGkpdbq7QLt6rjfPQpA==
-Date: Thu, 4 Jan 2024 10:49:52 +0100
+	bh=D3Zm+UOb3Aq5XMKA6T+ElyJj0DuIjJGIghOwJo/Hl5M=;
+	b=hp7uhI+tuhQgoO9c8g+FTH1+DB4/WRyly0VfZJO6G+Jx9P/11XaDcZRxEdjSRdCh7tU/8U
+	lYZZne4gSYPunmOwxVrODixfDOgnVvjYzGjZxVfUZ9fNzJyhbn9w925/mk6WWBVzPG+9N5
+	xm/noJTa7gX3sQRZaRu7VuOU6f8YXeoa3qWuHFBRnLDQqr4n3VqtMyF03s1ICdiHkb6fJ0
+	TKzvanQb85AgshC1pbddG17DQmPQ+NZEFbe7Vwu7AQ6zhpCaKFyBUMKtao3edw3l49c5rR
+	odVsZSsTv4h1sNoM9vGy7UAkUV5epfMORkAcXM5rX7hASNZxBzZ2EwHa0RvUQQ==
+Date: Thu, 4 Jan 2024 10:50:41 +0100
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] grub: fs/fat: Don't error when mtime is 0
-Message-ID: <20240104094952d0f43a9f@mail.local>
-References: <20240103123052.711083-1-liu.ming50@gmail.com>
+To: enrico.scholz@sigma-chemnitz.de,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] tcp-wrappers: drop libnsl2 build dependency
+Message-ID: <20240104095041045d1e5f@mail.local>
+References: <20240103115944.446914-1-enrico.scholz@sigma-chemnitz.de>
+ <17A71BE8B9FB3913.10454@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240103123052.711083-1-liu.ming50@gmail.com>
+In-Reply-To: <17A71BE8B9FB3913.10454@lists.openembedded.org>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 09:50:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193310
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 09:50:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193311
 
-Hello,
+Please disregard this, I meant to reply to another one ;)
 
-Your patch has a declared charset of 'y' which is not a thing and git am
-fails with:
-
-error: cannot convert from y to UTF-8
-fatal: could not parse patch
-
-You got the following prompt:
-
-The following files are 8bit, but do not declare a Content-Transfer-Encoding.
-something.patch
-Which 8bit encoding should I declare [UTF-8]?
-
-At that point, you pressed y but you should simply press enter. Please
-resend.
-
-
-On 03/01/2024 13:30:52+0100, Ming Liu wrote:
-> From: Ming Liu <liu.ming50@gmail.com>
+On 04/01/2024 10:47:47+0100, Alexandre Belloni via lists.openembedded.org wrote:
+> Hello,
 > 
-> A issue was found when I run "runqemu genericx86-64 ovmf", grub failed
-> to boot, it's a known issue has been fixed in grub upstream, backport
-> the fix.
+> Your patch has a declared charset of 'y' which is not a thing and git am
+> fails with:
 > 
-> Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> ---
->  ...1-fs-fat-Don-t-error-when-mtime-is-0.patch | 70 +++++++++++++++++++
->  meta/recipes-bsp/grub/grub2.inc               |  1 +
->  2 files changed, 71 insertions(+)
->  create mode 100644 meta/recipes-bsp/grub/files/0001-fs-fat-Don-t-error-when-mtime-is-0.patch
+> error: cannot convert from y to UTF-8
+> fatal: could not parse patch
 > 
-> diff --git a/meta/recipes-bsp/grub/files/0001-fs-fat-Don-t-error-when-mtime-is-0.patch b/meta/recipes-bsp/grub/files/0001-fs-fat-Don-t-error-when-mtime-is-0.patch
-> new file mode 100644
-> index 0000000000..a5fbd58f46
-> --- /dev/null
-> +++ b/meta/recipes-bsp/grub/files/0001-fs-fat-Don-t-error-when-mtime-is-0.patch
-> @@ -0,0 +1,70 @@
-> +From e43f3d93b28cce852c110c7a8e40d8311bcd8bb1 Mon Sep 17 00:00:00 2001
-> +From: Robbie Harwood <rharwood@redhat.com>
-> +Date: Fri, 15 Jul 2022 16:13:02 -0400
-> +Subject: [PATCH] fs/fat: Don't error when mtime is 0
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +In the wild, we occasionally see valid ESPs where some file modification
-> +times are 0. For instance:
-> +
-> +    ├── [Dec 31  1979]  EFI
-> +    │   ├── [Dec 31  1979]  BOOT
-> +    │   │   ├── [Dec 31  1979]  BOOTX64.EFI
-> +    │   │   └── [Dec 31  1979]  fbx64.efi
-> +    │   └── [Jun 27 02:41]  fedora
-> +    │       ├── [Dec 31  1979]  BOOTX64.CSV
-> +    │       ├── [Dec 31  1979]  fonts
-> +    │       ├── [Mar 14 03:35]  fw
-> +    │       │   ├── [Mar 14 03:35]  fwupd-359c1169-abd6-4a0d-8bce-e4d4713335c1.cap
-> +    │       │   ├── [Mar 14 03:34]  fwupd-9d255c4b-2d88-4861-860d-7ee52ade9463.cap
-> +    │       │   └── [Mar 14 03:34]  fwupd-b36438d8-9128-49d2-b280-487be02d948b.cap
-> +    │       ├── [Dec 31  1979]  fwupdx64.efi
-> +    │       ├── [May 10 10:47]  grub.cfg
-> +    │       ├── [Jun  3 12:38]  grub.cfg.new.new
-> +    │       ├── [May 10 10:41]  grub.cfg.old
-> +    │       ├── [Jun 27 02:41]  grubenv
-> +    │       ├── [Dec 31  1979]  grubx64.efi
-> +    │       ├── [Dec 31  1979]  mmx64.efi
-> +    │       ├── [Dec 31  1979]  shim.efi
-> +    │       ├── [Dec 31  1979]  shimx64.efi
-> +    │       └── [Dec 31  1979]  shimx64-fedora.efi
-> +    └── [Dec 31  1979]  FSCK0000.REC
-> +
-> +    5 directories, 17 files
-> +
-> +This causes grub-probe failure, which in turn causes grub-mkconfig
-> +failure. They are valid filesystems that appear intact, and the Linux
-> +FAT stack is able to mount and manipulate them without complaint.
-> +
-> +The check for mtime of 0 has been present since
-> +20def1a3c3952982395cd7c3ea7e78638527962b (fat: support file
-> +modification times).
-> +
-> +Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/grub.git/commit/?id=e43f3d93b28cce852c110c7a8e40d8311bcd8bb1]
-> +
-> +Signed-off-by: Robbie Harwood <rharwood@redhat.com>
-> +Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-> +Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> +---
-> + grub-core/fs/fat.c | 3 ---
-> + 1 file changed, 3 deletions(-)
-> +
-> +diff --git a/grub-core/fs/fat.c b/grub-core/fs/fat.c
-> +index 0951b2e63..c5efed724 100644
-> +--- a/grub-core/fs/fat.c
-> ++++ b/grub-core/fs/fat.c
-> +@@ -1027,9 +1027,6 @@ grub_fat_dir (grub_device_t device, const char *path, grub_fs_dir_hook_t hook,
-> + 					  grub_le_to_cpu16 (ctxt.dir.w_date),
-> + 					  &info.mtime);
-> + #endif
-> +-      if (info.mtimeset == 0)
-> +-	grub_error (GRUB_ERR_OUT_OF_RANGE,
-> +-		    "invalid modification timestamp for %s", path);
-> + 
-> +       if (hook (ctxt.filename, &info, hook_data))
-> + 	break;
-> +-- 
-> +2.34.1
-> +
-> diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-> index f594e7d3a4..1215b24668 100644
-> --- a/meta/recipes-bsp/grub/grub2.inc
-> +++ b/meta/recipes-bsp/grub/grub2.inc
-> @@ -44,6 +44,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
->             file://0001-fs-ext2-Ignore-checksum-seed-incompat-feature.patch \
->             file://CVE-2023-4692.patch \
->             file://CVE-2023-4693.patch \
-> +           file://0001-fs-fat-Don-t-error-when-mtime-is-0.patch \
->  "
->  
->  SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae803f5f"
+> You got the following prompt:
+> 
+> The following files are 8bit, but do not declare a Content-Transfer-Encoding.
+> something.patch
+> Which 8bit encoding should I declare [UTF-8]?
+> 
+> At that point, you pressed y but you should simply press enter. Please
+> resend.
+> 
+> 
+> On 03/01/2024 12:59:44+0100, Enrico Scholz via lists.openembedded.org wrote:
+> > From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> > 
+> > The only libnsl2 function which is used by tcp-wrappers is
+> > 'yp_get_default_domain()'.  When USE_GETDOMAIN is set, this is
+> > implemented as a simple wrapper around getdomainname() so that libnsl2
+> > is not used at all.
+> > 
+> > We added a patch which does '#include <rpcsvc/ypclnt.h>' to avoid
+> > implicit forward declaration.  By conditionalizing this, the libnsl2
+> > dependency can be dropped completely.
+> > 
+> > Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> > ---
+> >  ...0001-Fix-implicit-function-declaration-warnings.patch | 9 +++++++--
+> >  meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb   | 2 --
+> >  2 files changed, 7 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
+> > index ec793ac8ffed..474703885d9b 100644
+> > --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
+> > +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Fix-implicit-function-declaration-warnings.patch
+> > @@ -20,11 +20,16 @@ diff --git a/hosts_access.c b/hosts_access.c
+> >  index 0133e5e..58697ea 100644
+> >  --- a/hosts_access.c
+> >  +++ b/hosts_access.c
+> > -@@ -33,6 +33,7 @@ static char sccsid[] = "@(#) hosts_access.c 1.21 97/02/12 02:13:22";
+> > +@@ -33,6 +33,12 @@ static char sccsid[] = "@(#) hosts_access.c 1.21 97/02/12 02:13:22";
+> >   #endif
+> >   #include <netinet/in.h>
+> >   #include <arpa/inet.h>
+> > -+#include <rpcsvc/ypclnt.h>
+> > ++#ifdef USE_GETDOMAIN
+> > ++/* defined in workarounds.c */
+> > ++extern int     yp_get_default_domain(char **ptr);
+> > ++#else
+> > ++#  include <rpcsvc/ypclnt.h>
+> > ++#endif	/* USE_GETDOMAIN */
+> >   #include <stdio.h>
+> >   #include <stdlib.h>
+> >   #include <syslog.h>
+> > diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+> > index c655da1199e7..bcd1d6f7929e 100644
+> > --- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+> > +++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+> > @@ -7,8 +7,6 @@ SECTION = "console/network"
+> >  LICENSE = "BSD-1-Clause"
+> >  LIC_FILES_CHKSUM = "file://DISCLAIMER;md5=071bd69cb78b18888ea5e3da5c3127fa"
+> >  
+> > -DEPENDS += "libnsl2"
+> > -
+> >  PACKAGES = "${PN}-dbg libwrap libwrap-doc libwrap-dev libwrap-staticdev ${PN} ${PN}-doc"
+> >  FILES:libwrap = "${base_libdir}/lib*${SOLIBS}"
+> >  FILES:libwrap-doc = "${mandir}/man3 ${mandir}/man5"
+> > -- 
+> > 2.43.0
+> > 
+> 
+> > 
+> > 
+> > 
+> 
+> 
 > -- 
-> 2.34.1
-> 
+> Alexandre Belloni, co-owner and COO, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#193286): https://lists.openembedded.org/g/openembedded-core/message/193286
-> Mute This Topic: https://lists.openembedded.org/mt/103500707/3617179
+> View/Reply Online (#193309): https://lists.openembedded.org/g/openembedded-core/message/193309
+> Mute This Topic: https://lists.openembedded.org/mt/103500355/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
