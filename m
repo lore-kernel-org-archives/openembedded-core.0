@@ -2,92 +2,131 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2812C47073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1628C3DA6E
 	for <webhook@archiver.kernel.org>; Thu,  4 Jan 2024 02:10:58 +0000 (UTC)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
- by mx.groups.io with SMTP id smtpd.web10.45609.1704334255543536746
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+ by mx.groups.io with SMTP id smtpd.web11.45493.1704334256584639127
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jan 2024 18:10:55 -0800
+ Wed, 03 Jan 2024 18:10:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dB6DNkRK;
- spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2045bedb806so39286fac.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 18:10:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nfDfrety;
+ spf=pass (domain: gmail.com, ip: 209.85.210.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6dbfe24c91dso50073a34.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jan 2024 18:10:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704334254; x=1704939054; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kJC0mUc9LCmOz91eQ+suPxc5uBHXDgMg7H7m/Cn0DSM=;
-        b=dB6DNkRK0qys0cpn2a6Cn5s4KHT0rMJBSm50QFQJS1xZREMBMP5b43Tmfar/D7gFck
-         4ZduRcern908ozydRf/vlQg2qQfLDX5wJIYpo0aTRpXye9OpCzhgsb0/MfbDY7y4mx8k
-         aGHGAlgJU9iWyHmdjDBW2J9j+3h9UqB9RIShNawDuGi6C6QY4WTezM8LifbJc8EUSI9b
-         I9YRWLtWMjxMkk4Bn3l/x7WS/quFCqn2Jnf+SL1FHEhRCaiQ7qSwRA1nRZ4Gx48XswLD
-         TSFEZTIcFfkEMUhT15RBP3vuR3I6qDV8xiiPL0RA44+o5hHzi5D/+v7RQfz5sCSiryLK
-         ny+A==
+        d=gmail.com; s=20230601; t=1704334255; x=1704939055; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/D/NF1RsqoRVQ0fgGIGmx11DyR/sJ5vpT2dDP0e7LS4=;
+        b=nfDfretyJJ1hrPJNVVzpHNeilosIWfgtGuPkqxoALfCoSYN/GcbELJfAxrzrGymwUx
+         5tcvNPJchfgE8V7CMJPP+Qx0RANskV+dS8WAv0CDDV4aCR5RbJDby3RTpibh/+jXFHFE
+         oqk9CKDxVDpHKW4Y17v4zhGFlPTGotV8Wkbp4RbPraNycKzh374B6D7EwOd75hk9rOLx
+         Zvc09aE3UUrMCNrODu72LYhY2d9mYXvDP4qdemFqBCkdEQG02/wMj1Z93XrO7cofX+p7
+         d5J5qGp/DF6q0/9UQXhTB/hR5XsNFzrXs8PYqVxjuano61D5kEmHAp1XZpYgP+tjCvtl
+         8TyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704334254; x=1704939054;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kJC0mUc9LCmOz91eQ+suPxc5uBHXDgMg7H7m/Cn0DSM=;
-        b=Qrvjq6Im3WKi2UZv4QDQ95O/5ZpCBOQe0vZiXlMaTq+ld8sIQb+Ko94fkfrfDVEnjH
-         XteTCb+nHvEETlCSW2TVClOx9a60us8oh1yrhodhFxrzSBrTz9KzcVaKJ2anUJmBKjBG
-         HZ2kx2+PrVamIDw/Wr0NoRV+XCWmvwmqQUMyqSucXumCHx3PAl9KDknvIZ/MieNgKvTM
-         Akatruen0fnK4ZKb+Vxzi1pALUdOp61wpEVc6qlgZpKqeq69sZgKP6FpdNGNo4+AXwnY
-         5ZKDu3XgizrRQB9jA/DmCTRg12PNLYl/EjAi7rXlwuFVS0/qJ3Ikijz2QnIlgwr7sIxG
-         MSBA==
-X-Gm-Message-State: AOJu0YwUjX8HvWsdJIdltNok2sojW5LC4lBLF8XaFERS6MeJJ850coTE
-	ff860pLGL2hjoPL6y69iujzhegqdYvE=
-X-Google-Smtp-Source: AGHT+IHTn6F6RCwaSMY+GYv0Ock+JlFlBQaTthGHAmx9PapwKur051Wd7bEMR9oOaneQN1UeO/u60A==
-X-Received: by 2002:a05:6870:9726:b0:203:64c3:7b86 with SMTP id n38-20020a056870972600b0020364c37b86mr25821626oaq.44.1704334254519;
-        Wed, 03 Jan 2024 18:10:54 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704334255; x=1704939055;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/D/NF1RsqoRVQ0fgGIGmx11DyR/sJ5vpT2dDP0e7LS4=;
+        b=oAg3/NZUitwiPnaRDYqe+yRZ71ajzTnpViS03KEB6iIox1nsMLDDjAlCjYGuGka7hX
+         Mnqslxe8EVXj3fC1hXrqz6znr2YEXycAYo0PFRW5OwrR2pf9FflyEKCvyYUuXdmWBymw
+         3V212RU6OWerP8saMUOEFmc2YF2VgONZHjdD6PjouKrBsNBW97S/FMXDluON5M5gbNK0
+         UOBSHwjJJNzM2mA74hjITd44HPPOvt+zFkuHkG6xjjU/WgKr/f11yXgucdErrOcgC2kn
+         IqgJ6Zu+4yxkyeDMRtK/WWHSdHmooR23wiU0yN9SWSDhhwok2g039tsx9iURP3sD/uNE
+         RUNA==
+X-Gm-Message-State: AOJu0YzgyvikQo3EmNlE1DFYzSDGezi9/5BB40KOMHwc0GCe6Mrc3S7/
+	sece7078eucMbvTmvYetibnBef0GHEc=
+X-Google-Smtp-Source: AGHT+IGYoS3KARQiRdB3+KPB4+2h+pVb0RzhHdcjzzu4BtHe3T6lUOlJJPwVOnhfZIzGn5jtWUfLFQ==
+X-Received: by 2002:a9d:67da:0:b0:6dc:3d2:3bf with SMTP id c26-20020a9d67da000000b006dc03d203bfmr9518153otn.40.1704334255393;
+        Wed, 03 Jan 2024 18:10:55 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::4b6f])
-        by smtp.gmail.com with ESMTPSA id x62-20020a636341000000b005ce53bf5a82sm12374905pgb.77.2024.01.03.18.10.53
+        by smtp.gmail.com with ESMTPSA id x62-20020a636341000000b005ce53bf5a82sm12374905pgb.77.2024.01.03.18.10.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 18:10:54 -0800 (PST)
+        Wed, 03 Jan 2024 18:10:55 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] Revert "opkg-utils: upgrade 0.6.2 -> 0.6.3"
-Date: Wed,  3 Jan 2024 18:10:51 -0800
-Message-ID: <20240104021052.754030-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] quilt,cpio: Create ptest user when ptest is enabled in distro features
+Date: Wed,  3 Jan 2024 18:10:52 -0800
+Message-ID: <20240104021052.754030-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240104021052.754030-1-raj.khem@gmail.com>
+References: <20240104021052.754030-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 02:10:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193299
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193300
 
-This reverts commit a856192be5dd78c621478ed29871191c580686c4.
+Fixes warnings
 
-It causes a regression in creating different GIDs in image and ipk as
-reported in [1]
-
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=15334
+run.do_install_ptest_base.107960:175 exit 1 from 'chgrp -R ptest /mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux-musl/cpio/2.14/image/usr/lib/cpio/ptest/'
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../opkg-utils/{opkg-utils_0.6.3.bb => opkg-utils_0.6.2.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.6.3.bb => opkg-utils_0.6.2.bb} (97%)
+ meta/recipes-devtools/quilt/quilt.inc   |  8 ++++----
+ meta/recipes-extended/cpio/cpio_2.14.bb | 11 +++++------
+ 2 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb
-similarity index 97%
-rename from meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb
-index b509227e1a6..eb88b9b734c 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb
-@@ -10,7 +10,7 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
- SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master \
-            file://0001-update-alternatives-correctly-match-priority.patch \
-            "
--SRCREV = "589880d01969eb9af1e66120e731d43193504718"
-+SRCREV = "67994e62dc598282830385da75ba9b1abbbda941"
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index 3374f4dfbf3..89572d70d7c 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -20,7 +20,7 @@ SRC_URI:append:class-target = " file://gnu_patch_test_fix_target.patch"
  
- S = "${WORKDIR}/git"
+ SRC_URI[sha256sum] = "3be3be0987e72a6c364678bb827e3e1fcc10322b56bc5f02b576698f55013cc2"
+ 
+-inherit autotools-brokensep ptest
++inherit autotools-brokensep ptest useradd
+ 
+ INHIBIT_AUTOTOOLS_DEPS:class-native = "1"
+ PATCHTOOL:class-native = "patch"
+@@ -62,9 +62,9 @@ do_install:append:class-native () {
+     touch ${D}${sysconfdir}/quiltrc
+ }
+ 
+-# The tests need to run as a non-root user, so pull in the ptest user
+-DEPENDS:append:class-target = "${@bb.utils.contains('PTEST_ENABLED', '1', ' ptest-runner', '', d)}"
+-PACKAGE_WRITE_DEPS += "ptest-runner"
++# The tests need to run as a non-root user
++USERADD_PACKAGES = "${PN}-ptest"
++USERADD_PARAM:${PN}-ptest = "--system --home /nonexistent --no-create-home --user-group ptest"
+ 
+ do_install_ptest() {
+ 	install ${WORKDIR}/test.sh ${D}${PTEST_PATH}
+diff --git a/meta/recipes-extended/cpio/cpio_2.14.bb b/meta/recipes-extended/cpio/cpio_2.14.bb
+index 560038d2a67..c6ab0054994 100644
+--- a/meta/recipes-extended/cpio/cpio_2.14.bb
++++ b/meta/recipes-extended/cpio/cpio_2.14.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+ 
+ SRC_URI[sha256sum] = "145a340fd9d55f0b84779a44a12d5f79d77c99663967f8cfa168d7905ca52454"
+ 
+-inherit autotools gettext texinfo ptest
++inherit autotools gettext texinfo ptest useradd
+ 
+ CVE_STATUS[CVE-2010-4226] = "not-applicable-platform: Issue applies to use of cpio in SUSE/OBS"
+ 
+@@ -63,11 +63,10 @@ do_install_ptest_base:append() {
+     chmod -R g+w ${D}${PTEST_PATH}/
+ }
+ 
+-# The tests need to run as a non-root user, so pull in the ptest user
+-DEPENDS:append:class-target = "${@bb.utils.contains('PTEST_ENABLED', '1', ' ptest-runner', '', d)}"
+-PACKAGE_WRITE_DEPS:append:class-target = " ${MLPREFIX}ptest-runner"
+-
+-RDEPENDS:${PN}-ptest += "ptest-runner"
++# The tests need to run as a non-root user
++USERADD_PACKAGES = "${PN}-ptest"
++USERADD_PARAM:${PN}-ptest = "--system --home /nonexistent --no-create-home \
++                       --user-group ptest"
+ 
+ PACKAGES =+ "${PN}-rmt"
  
 -- 
 2.43.0
